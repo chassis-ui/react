@@ -1,20 +1,17 @@
 {
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
   "scripts": {
     "postinstall": "node scripts/postinstall.js",
-    "docs:api": "lerna run --scope \"@chassis-ui/react-docs\" api --stream",
-    "docs:dev": "lerna run --scope \"@chassis-ui/react-docs\" develop --stream",
-    "docs:build": "lerna run --scope \"@chassis-ui/react-docs\" build --stream",
-    "docs:clean": "lerna run --scope \"@chassis-ui/react-docs\" clean",
-    "lib:build": "lerna run --scope \"@chassis-ui/react\" build --stream",
+    "docs:dev": "pnpm --filter @chassis-ui/react-site dev",
+    "docs:build": "pnpm --filter @chassis-ui/react-site build",
+    "docs:preview": "pnpm --filter @chassis-ui/react-site preview",
+    "lib:build": "pnpm --filter @chassis-ui/react build",
     "lint": "eslint \"packages/**/src/**/*.{js,ts,tsx}\"",
-    "test": "node node_modules/.bin/jest --coverage",
-    "test:update": "node node_modules/.bin/jest --coverage --updateSnapshot"
+    "test": "jest --coverage",
+    "test:update": "jest --coverage --updateSnapshot"
   },
   "devDependencies": {
+    "@testing-library/dom": "^10.0.0",
     "@types/jest": "^29.0.0",
     "@typescript-eslint/eslint-plugin": "^5.7.0",
     "@typescript-eslint/parser": "^5.7.0",
@@ -26,7 +23,6 @@
     "jest": "^29.0.0",
     "jest-canvas-mock": "^2.3.1",
     "jest-environment-jsdom": "^29.0.0",
-    "lerna": "^4.0.0",
     "prettier": "^2.5.1",
     "ts-jest": "^29.0.0"
   },

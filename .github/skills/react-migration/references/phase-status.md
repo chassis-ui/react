@@ -12,7 +12,7 @@ Last updated: 2026-05-12
 | # | Phase | Status | Notes |
 |---|-------|--------|-------|
 | 1 | React 18 upgrade (`packages/react`) | `[x]` | Complete — all 242 tests pass, build succeeds |
-| 2 | Monorepo: Lerna/Yarn → pnpm workspaces | `[ ]` | |
+| 2 | Monorepo: Lerna/Yarn → pnpm workspaces | `[x]` | Complete — pnpm install, build, and 242 tests pass |
 | 3 | Scaffold `packages/site`, delete `packages/docs` | `[ ]` | |
 | 4 | `<ReactExample>` island component | `[ ]` | |
 | 5 | MDX content migration (25 files) | `[ ]` | |
