@@ -1,0 +1,46 @@
+---
+import { Code } from 'astro:components'
+import { ReactExamplePreview } from './ReactExamplePreview.tsx'
+
+interface Props {
+  /**
+   * The JSX source code to display in the code block.
+   * If omitted, only the live preview is rendered (no code block).
+   */
+  code?: string
+  /**
+   * CSS class(es) added to the outer wrapper element.
+   */
+  class?: string
+  /**
+   * Defines if the live preview should be visible.
+   * @default true
+   */
+  showPreview?: boolean
+  /**
+   * Defines if the code block should be visible (requires `code` prop).
+   * @default true
+   */
+  showMarkup?: boolean
+}
+
+const {
+  code,
+  class: className,
+  showPreview = true,
+  showMarkup = true
+} = Astro.props
+---
+
+<div class:list={['cxd-example-snippet cxd-code-snippet', className]}>
+  {showPreview && (
+    <ReactExamplePreview client:visible>
+      <slot />
+    </ReactExamplePreview>
+  )}
+  {showMarkup && code && (
+    <div class="highlight">
+      <Code code={code} lang="tsx" />
+    </div>
+  )}
+</div>
