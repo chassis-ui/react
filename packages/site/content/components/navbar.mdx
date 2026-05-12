@@ -1,0 +1,1061 @@
+---
+title: Navbar
+description: Documentation and examples for the Bootstrap React Navbar powerful, responsive navigation header component. Includes support for branding, links, dropdowns, and more.
+
+
+toc: true
+---
+
+import { BasicUsageExample } from '../../src/examples/navbar/BasicUsageExample.tsx'
+import { NavExample } from '../../src/examples/navbar/NavExample.tsx'
+import { NavExample2 } from '../../src/examples/navbar/NavExample2.tsx'
+import { NavDropdownExample } from '../../src/examples/navbar/NavDropdownExample.tsx'
+import { ColorSchemesExample } from '../../src/examples/navbar/ColorSchemesExample.tsx'
+import { ResponsiveBehaviorsExample } from '../../src/examples/navbar/ResponsiveBehaviorsExample.tsx'
+import { ResponsiveBehaviorsExample2 } from '../../src/examples/navbar/ResponsiveBehaviorsExample2.tsx'
+import { ResponsiveBehaviorsExample3 } from '../../src/examples/navbar/ResponsiveBehaviorsExample3.tsx'
+import { ExternalContentExample } from '../../src/examples/navbar/ExternalContentExample.tsx'
+import { OffcanvasExample } from '../../src/examples/navbar/OffcanvasExample.tsx'
+import { OffcanvasExample2 } from '../../src/examples/navbar/OffcanvasExample2.tsx'
+
+
+import { useState } from 'react'
+import {
+  CxButton,
+  CxContainer,
+  CxCollapse,
+  CxDropdown,
+  CxDropdownDivider,
+  CxDropdownHeader,
+  CxDropdownItem,
+  CxDropdownItemPlain,
+  CxDropdownMenu,
+  CxDropdownToggle,
+  CxForm,
+  CxFormInput,
+  CxInputGroup,
+  CxInputGroupText,
+  CxNav,
+  CxNavItem,
+  CxNavLink,
+  CxNavbar,
+  CxNavbarBrand,
+  CxNavbarNav,
+  CxNavbarText,
+  CxNavbarToggler,
+  CxOffcanvas,
+  CxOffcanvasBody,
+  CxOffcanvasHeader,
+  CxOffcanvasTitle,
+} from '@chassis-ui/react'
+
+
+## Supported content
+
+`<CxNavbar>` come with built-in support for a handful of sub-components. Choose from the following as needed:
+
+- `<CxNavbarBrand>` for your company, product, or project name.
+- `<CxNavbarNav>` for a full-height and lightweight navigation (including support for dropdowns).
+- `<CxNavbarToggler>` for use with our collapse plugin and other [navigation toggling](#responsive-behaviors) behaviors.
+- Flex and spacing utilities for any form controls and actions.
+- `<CxNavbarText>` for adding vertically centered strings of text.
+- `<CxCollapse>` for grouping and hiding navbar contents by a parent breakpoint.
+
+Here's an example of all the sub-components included in a responsive light-themed navbar that automatically collapses at the `lg` (large) breakpoint.
+
+## Basic usage
+
+
+<Example>
+  <BasicUsageExample client:load />
+</Example>
+
+```jsx
+const [visible, setVisible] = useState(false)
+return (
+  <>
+    <CxNavbar expand="large" colorScheme="light" className="bg-light">
+      <CxContainer fluid>
+        <CxNavbarBrand href="#">Navbar</CxNavbarBrand>
+        <CxNavbarToggler onClick={() => setVisible(!visible)} />
+        <CxCollapse className="navbar-collapse" visible={visible}>
+          <CxNavbarNav>
+            <CxNavItem>
+              <CxNavLink href="#" active>
+                Home
+              </CxNavLink>
+            </CxNavItem>
+            <CxNavItem>
+              <CxNavLink href="#">Link</CxNavLink>
+            </CxNavItem>
+            <CxDropdown variant="nav-item" popper={false}>
+              <CxDropdownToggle context="secondary">Dropdown button</CxDropdownToggle>
+              <CxDropdownMenu>
+                <CxDropdownItem href="#">Action</CxDropdownItem>
+                <CxDropdownItem href="#">Another action</CxDropdownItem>
+                <CxDropdownDivider />
+                <CxDropdownItem href="#">Something else here</CxDropdownItem>
+              </CxDropdownMenu>
+            </CxDropdown>
+            <CxNavItem>
+              <CxNavLink href="#" disabled>
+                Disabled
+              </CxNavLink>
+            </CxNavItem>
+          </CxNavbarNav>
+          <CxForm className="d-flex">
+            <CxFormInput type="search" className="me-2" placeholder="Search" />
+            <CxButton type="submit" context="success" variant="outline">
+              Search
+            </CxButton>
+          </CxForm>
+        </CxCollapse>
+      </CxContainer>
+    </CxNavbar>
+  </>
+)
+```
+
+### Brand
+
+The `<CxNavbarBrand>` can be applied to most elements, but an anchor works best, as some elements might require utility classes or custom styles.
+
+<Example>
+  {/* As a link */}
+  <CxNavbar colorScheme="light" className="bg-light">
+    <CxContainer fluid>
+      <CxNavbarBrand href="#">Navbar</CxNavbarBrand>
+    </CxContainer>
+  </CxNavbar>
+  <br />
+  {/* As a heading */}
+  <CxNavbar colorScheme="light" className="bg-light">
+    <CxContainer fluid>
+      <CxNavbarBrand className="mb-0 h1">Navbar</CxNavbarBrand>
+    </CxContainer>
+  </CxNavbar>
+</Example>
+
+```jsx
+{/* As a link */}
+<CxNavbar colorScheme="light" className="bg-light">
+  <CxContainer fluid>
+    <CxNavbarBrand href="#">Navbar</CxNavbarBrand>
+  </CxContainer>
+</CxNavbar>
+<br/>
+{/* As a heading */}
+<CxNavbar colorScheme="light" className="bg-light">
+  <CxContainer fluid>
+    <CxNavbarBrand className="mb-0 h1">Navbar</CxNavbarBrand>
+  </CxContainer>
+</CxNavbar>
+```
+
+Adding images to the `<CxNavbarBrand>` will likely always require custom styles or utilities to properly size. Here are some examples to demonstrate.
+
+<Example>
+  {/* Just an image */}
+  <CxNavbar colorScheme="light" className="bg-light">
+    <CxContainer fluid>
+      <CxNavbarBrand href="#">
+        <img src="https://placehold.co/800x400" alt="" width="22" height="24" />
+      </CxNavbarBrand>
+    </CxContainer>
+  </CxNavbar>
+</Example>
+
+```jsx
+{ /* Just an image */ }
+<CxNavbar colorScheme="light" className="bg-light">
+  <CxContainer fluid>
+    <CxNavbarBrand href="#">
+      <img src="/images/brand/coreui-signet.svg" alt="" width="22" height="24" />
+    </CxNavbarBrand>
+  </CxContainer>
+</CxNavbar>
+```
+
+<Example>
+  {/* Image and text */}
+  <CxNavbar colorScheme="light" className="bg-light">
+    <CxContainer fluid>
+      <CxNavbarBrand href="#">
+        <img
+          src="https://placehold.co/800x400"
+          alt=""
+          width="22"
+          height="24"
+          className="d-inline-block align-top"
+        />{' '}
+        Bootstrap React
+      </CxNavbarBrand>
+    </CxContainer>
+  </CxNavbar>
+</Example>
+
+```jsx
+{/* Image and text */}
+<CxNavbar colorScheme="light" className="bg-light">
+  <CxContainer fluid>
+    <CxNavbarBrand href="#">
+      <img
+        src="/images/brand/coreui-signet.svg"
+        alt=""
+        width="22"
+        height="24"
+        className="d-inline-block align-top"
+      />{' '}
+      Bootstrap React
+    </CxNavbarBrand>
+  </CxContainer>
+</CxNavbar>
+```
+
+### Nav
+
+`<CxNavbar>` navigation is based on `<CxNavbarNav>`. **Navigation in navbars will also grow to occupy as much horizontal space as possible** to keep your navbar contents securely aligned.
+
+
+<Example>
+  <NavExample client:load />
+</Example>
+
+```jsx
+const [visible, setVisible] = useState(false)
+return (
+  <>
+    <CxNavbar expand="large" colorScheme="light" className="bg-light">
+      <CxContainer fluid>
+        <CxNavbarBrand href="#">Navbar</CxNavbarBrand>
+        <CxNavbarToggler
+          aria-label="Toggle navigation"
+          aria-expanded={visible}
+          onClick={() => setVisible(!visible)}
+        />
+        <CxCollapse className="navbar-collapse" visible={visible}>
+          <CxNavbarNav>
+            <CxNavItem>
+              <CxNavLink href="#" active>
+                Home
+              </CxNavLink>
+            </CxNavItem>
+            <CxNavItem>
+              <CxNavLink href="#">Features</CxNavLink>
+            </CxNavItem>
+            <CxNavItem>
+              <CxNavLink href="#">Pricing</CxNavLink>
+            </CxNavItem>
+            <CxNavItem>
+              <CxNavLink href="#" disabled>
+                Disabled
+              </CxNavLink>
+            </CxNavItem>
+          </CxNavbarNav>
+        </CxCollapse>
+      </CxContainer>
+    </CxNavbar>
+  </>
+)
+```
+
+And because we use classes for our navs, you can avoid the list-based approach entirely if you like.
+
+
+<Example>{() => {}}</Example>
+
+```jsx
+const [visible, setVisible] = useState(false)
+return (
+  <>
+    <CxNavbar expand="large" colorScheme="light" className="bg-light">
+      <CxContainer fluid>
+        <CxNavbarBrand href="#">Navbar</CxNavbarBrand>
+        <CxNavbarToggler
+          aria-label="Toggle navigation"
+          aria-expanded={visible}
+          onClick={() => setVisible(!visible)}
+        />
+        <CxCollapse className="navbar-collapse" visible={visible}>
+          <CxNavbarNav component="nav">
+            <CxNavLink href="#" active>
+              Home
+            </CxNavLink>
+            <CxNavLink href="#">Features</CxNavLink>
+            <CxNavLink href="#">Pricing</CxNavLink>
+            <CxNavLink href="#" disabled>
+              Disabled
+            </CxNavLink>
+          </CxNavbarNav>
+        </CxCollapse>
+      </CxContainer>
+    </CxNavbar>
+  </>
+)
+```
+
+You can also use dropdowns in your navbar. Please note that `<CxDropdown>` component requires `variant="nav-item"`.
+
+
+<Example>
+  <NavDropdownExample client:load />
+</Example>
+
+```jsx
+const [visible, setVisible] = useState(false)
+return (
+  <>
+    <CxNavbar expand="large" colorScheme="light" className="bg-light">
+      <CxContainer fluid>
+        <CxNavbarBrand href="#">Navbar</CxNavbarBrand>
+        <CxNavbarToggler
+          aria-label="Toggle navigation"
+          aria-expanded={visible}
+          onClick={() => setVisible(!visible)}
+        />
+        <CxCollapse className="navbar-collapse" visible={visible}>
+          <CxNavbarNav>
+            <CxNavItem>
+              <CxNavLink href="#" active>
+                Home
+              </CxNavLink>
+            </CxNavItem>
+            <CxNavItem>
+              <CxNavLink href="#">Features</CxNavLink>
+            </CxNavItem>
+            <CxNavItem>
+              <CxNavLink href="#">Pricing</CxNavLink>
+            </CxNavItem>
+            <CxDropdown variant="nav-item" popper={false}>
+              <CxDropdownToggle>Dropdown link</CxDropdownToggle>
+              <CxDropdownMenu>
+                <CxDropdownItem href="#">Action</CxDropdownItem>
+                <CxDropdownItem href="#">Another action</CxDropdownItem>
+                <CxDropdownDivider />
+                <CxDropdownItem href="#">Something else here</CxDropdownItem>
+              </CxDropdownMenu>
+            </CxDropdown>
+          </CxNavbarNav>
+        </CxCollapse>
+      </CxContainer>
+    </CxNavbar>
+  </>
+)
+```
+
+### Forms
+
+Place various form controls and components within a navbar:
+
+<Example>
+  <CxNavbar colorScheme="light" className="bg-light">
+    <CxContainer fluid>
+      <CxForm className="d-flex">
+        <CxFormInput type="search" className="me-2" placeholder="Search" />
+        <CxButton type="submit" context="success" variant="outline">
+          Search
+        </CxButton>
+      </CxForm>
+    </CxContainer>
+  </CxNavbar>
+</Example>
+
+```jsx
+<CxNavbar colorScheme="light" className="bg-light">
+  <CxContainer fluid>
+    <CxForm className="d-flex">
+      <CxFormInput type="search" className="me-2" placeholder="Search" />
+      <CxButton type="submit" context="success" variant="outline">
+        Search
+      </CxButton>
+    </CxForm>
+  </CxContainer>
+</CxNavbar>
+```
+
+Immediate child elements of `<CxNavbar>` use flex layout and will default to `justify-content: space-between`. Use additional [flex utilities](https://getbootstrap.com/docs/5.1/utilities/flex/) as needed to adjust this behavior.
+
+<Example>
+  <CxNavbar colorScheme="light" className="bg-light">
+    <CxContainer fluid>
+      <CxNavbarBrand href="#">Navbar</CxNavbarBrand>
+      <CxForm className="d-flex">
+        <CxFormInput type="search" className="me-2" placeholder="Search" />
+        <CxButton type="submit" context="success" variant="outline">
+          Search
+        </CxButton>
+      </CxForm>
+    </CxContainer>
+  </CxNavbar>
+</Example>
+
+```jsx
+<CxNavbar colorScheme="light" className="bg-light">
+  <CxContainer fluid>
+    <CxNavbarBrand href="#">Navbar</CxNavbarBrand>
+    <CxForm className="d-flex">
+      <CxFormInput type="search" className="me-2" placeholder="Search" />
+      <CxButton type="submit" context="success" variant="outline">
+        Search
+      </CxButton>
+    </CxForm>
+  </CxContainer>
+</CxNavbar>
+```
+
+Input groups work, too. If your navbar is an entire form, or mostly a form, you can use the `<CxForm>` element as the container and save some HTML.
+
+<Example>
+  <CxNavbar colorScheme="light" className="bg-light">
+    <CxForm className="container-fluid">
+      <CxInputGroup>
+        <CxInputGroupText id="basic-addon1">@</CxInputGroupText>
+        <CxFormInput placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" />
+      </CxInputGroup>
+    </CxForm>
+  </CxNavbar>
+</Example>
+
+```jsx
+<CxNavbar colorScheme="light" className="bg-light">
+  <CxForm className="container-fluid">
+    <CxInputGroup>
+      <CxInputGroupText id="basic-addon1">@</CxInputGroupText>
+      <CxFormInput placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" />
+    </CxInputGroup>
+  </CxForm>
+</CxNavbar>
+```
+
+Various buttons are supported as part of these navbar forms, too. This is also a great reminder that vertical alignment utilities can be used to align different sized elements.
+
+<Example>
+  <CxNavbar colorScheme="light" className="bg-light">
+    <CxForm className="container-fluid justify-content-start">
+      <CxButton type="button" context="success" variant="outline" className="me-2">
+        Main button
+      </CxButton>
+      <CxButton type="button" context="secondary" variant="outline" size="small">
+        Smaller button
+      </CxButton>
+    </CxForm>
+  </CxNavbar>
+</Example>
+
+```jsx
+<CxNavbar colorScheme="light" className="bg-light">
+  <CxForm className="container-fluid justify-content-start">
+    <CxButton type="button" context="success" variant="outline" className="me-2">
+      Main button
+    </CxButton>
+    <CxButton type="button" context="secondary" variant="outline" size="small">
+      Smaller button
+    </CxButton>
+  </CxForm>
+</CxNavbar>
+```
+
+### Text
+
+Navbars may contain bits of text with the help of `<CxNavbarText>`. This class adjusts vertical alignment and horizontal spacing for strings of text.
+
+<Example>
+  <CxNavbar colorScheme="light" className="bg-light">
+    <CxContainer fluid>
+      <CxNavbarText>Navbar text with an inline element</CxNavbarText>
+    </CxContainer>
+  </CxNavbar>
+</Example>
+
+```jsx
+<CxNavbar colorScheme="light" className="bg-light">
+  <CxContainer fluid>
+    <CxNavbarText>Navbar text with an inline element</CxNavbarText>
+  </CxContainer>
+</CxNavbar>
+```
+
+## Color schemes
+
+Theming the navbar has never been easier thanks to the combination of theming classes and `background-context` utilities. Set `colorScheme="light"` for use with light background colors, or `colorScheme="dark"` for dark background colors. Then, customize with `.bg-*` utilities.
+
+
+<Example>
+  <ColorSchemesExample client:load />
+</Example>
+
+```jsx
+const [visible, setVisible] = useState(false)
+return (
+  <>
+    <CxNavbar expand="large" colorScheme="dark" className="bg-dark">
+      <CxContainer fluid>
+        <CxNavbarBrand href="#">Navbar</CxNavbarBrand>
+        <CxNavbarToggler
+          aria-label="Toggle navigation"
+          aria-expanded={visible}
+          onClick={() => setVisible(!visible)}
+        />
+        <CxCollapse className="navbar-collapse" visible={visible}>
+          <CxNavbarNav>
+            <CxNavItem>
+              <CxNavLink href="#" active>
+                Home
+              </CxNavLink>
+            </CxNavItem>
+            <CxNavItem>
+              <CxNavLink href="#">Link</CxNavLink>
+            </CxNavItem>
+            <CxDropdown variant="nav-item" popper={false}>
+              <CxDropdownToggle context="secondary">Dropdown button</CxDropdownToggle>
+              <CxDropdownMenu>
+                <CxDropdownItem href="#">Action</CxDropdownItem>
+                <CxDropdownItem href="#">Another action</CxDropdownItem>
+                <CxDropdownDivider />
+                <CxDropdownItem href="#">Something else here</CxDropdownItem>
+              </CxDropdownMenu>
+            </CxDropdown>
+            <CxNavItem>
+              <CxNavLink href="#" disabled>
+                Disabled
+              </CxNavLink>
+            </CxNavItem>
+          </CxNavbarNav>
+          <CxForm className="d-flex">
+            <CxFormInput type="search" className="me-2" placeholder="Search" />
+            <CxButton type="submit" context="light" variant="outline">
+              Search
+            </CxButton>
+          </CxForm>
+        </CxCollapse>
+      </CxContainer>
+    </CxNavbar>
+    <br />
+    <CxNavbar expand="large" colorScheme="dark" className="bg-primary">
+      <CxContainer fluid>
+        <CxNavbarBrand href="#">Navbar</CxNavbarBrand>
+        <CxNavbarToggler
+          aria-label="Toggle navigation"
+          aria-expanded={visible}
+          onClick={() => setVisible(!visible)}
+        />
+        <CxCollapse className="navbar-collapse" visible={visible}>
+          <CxNavbarNav>
+            <CxNavItem>
+              <CxNavLink href="#" active>
+                Home
+              </CxNavLink>
+            </CxNavItem>
+            <CxNavItem>
+              <CxNavLink href="#">Link</CxNavLink>
+            </CxNavItem>
+            <CxDropdown variant="nav-item" popper={false}>
+              <CxDropdownToggle context="secondary">Dropdown button</CxDropdownToggle>
+              <CxDropdownMenu>
+                <CxDropdownItem href="#">Action</CxDropdownItem>
+                <CxDropdownItem href="#">Another action</CxDropdownItem>
+                <CxDropdownDivider />
+                <CxDropdownItem href="#">Something else here</CxDropdownItem>
+              </CxDropdownMenu>
+            </CxDropdown>
+            <CxNavItem>
+              <CxNavLink href="#" disabled>
+                Disabled
+              </CxNavLink>
+            </CxNavItem>
+          </CxNavbarNav>
+          <CxForm className="d-flex">
+            <CxFormInput type="search" className="me-2" placeholder="Search" />
+            <CxButton type="submit" context="light" variant="outline">
+              Search
+            </CxButton>
+          </CxForm>
+        </CxCollapse>
+      </CxContainer>
+    </CxNavbar>
+    <br />
+    <CxNavbar expand="large" colorScheme="light" style={{ backgroundColor: '#e3f2fd' }}>
+      <CxContainer fluid>
+        <CxNavbarBrand href="#">Navbar</CxNavbarBrand>
+        <CxNavbarToggler
+          aria-label="Toggle navigation"
+          aria-expanded={visible}
+          onClick={() => setVisible(!visible)}
+        />
+        <CxCollapse className="navbar-collapse" visible={visible}>
+          <CxNavbarNav>
+            <CxNavItem>
+              <CxNavLink href="#" active>
+                Home
+              </CxNavLink>
+            </CxNavItem>
+            <CxNavItem>
+              <CxNavLink href="#">Link</CxNavLink>
+            </CxNavItem>
+            <CxDropdown variant="nav-item" popper={false}>
+              <CxDropdownToggle context="secondary">Dropdown button</CxDropdownToggle>
+              <CxDropdownMenu>
+                <CxDropdownItem href="#">Action</CxDropdownItem>
+                <CxDropdownItem href="#">Another action</CxDropdownItem>
+                <CxDropdownDivider />
+                <CxDropdownItem href="#">Something else here</CxDropdownItem>
+              </CxDropdownMenu>
+            </CxDropdown>
+            <CxNavItem>
+              <CxNavLink href="#" disabled>
+                Disabled
+              </CxNavLink>
+            </CxNavItem>
+          </CxNavbarNav>
+          <CxForm className="d-flex">
+            <CxFormInput type="search" className="me-2" placeholder="Search" />
+            <CxButton type="submit" context="primary" variant="outline">
+              Search
+            </CxButton>
+          </CxForm>
+        </CxCollapse>
+      </CxContainer>
+    </CxNavbar>
+  </>
+)
+```
+
+## Containers
+
+Although it's not required, you can wrap a `<CxNavbar>` in a `<CxContainer>` to center it on a page–though note that an inner container is still required. Or you can add a container inside the `<CxNavbar>` to only center the contents of a [fixed or static top navbar](#placement).
+
+<Example>
+  <CxContainer>
+    <CxNavbar colorScheme="light" className="bg-light">
+      <CxContainer fluid>
+        <CxNavbarBrand href="#">Navbar</CxNavbarBrand>
+      </CxContainer>
+    </CxNavbar>
+  </CxContainer>
+</Example>
+
+```jsx
+<CxContainer>
+  <CxNavbar colorScheme="light" className="bg-light">
+    <CxContainer fluid>
+      <CxNavbarBrand href="#">Navbar</CxNavbarBrand>
+    </CxContainer>
+  </CxNavbar>
+</CxContainer>
+```
+
+Use any of the responsive containers to change how wide the content in your navbar is presented.
+
+<Example>
+  <CxNavbar colorScheme="light" className="bg-light">
+    <CxContainer breakpoint="md">
+      <CxNavbarBrand href="#">Navbar</CxNavbarBrand>
+    </CxContainer>
+  </CxNavbar>
+</Example>
+
+```jsx
+<CxNavbar colorScheme="light" className="bg-light">
+  <CxContainer breakpoint="md">
+    <CxNavbarBrand href="#">Navbar</CxNavbarBrand>
+  </CxContainer>
+</CxNavbar>
+```
+
+## Placement
+
+Use our `placement` properly to place navbars in non-static positions. Choose from fixed to the top, fixed to the bottom, or stickied to the top (scrolls with the page until it reaches the top, then stays there). Fixed navbars use `position: fixed`, meaning they're pulled from the normal flow of the DOM and may require custom CSS (e.g., `padding-top` on the `<body>`) to prevent overlap with other elements.
+
+Also note that **`.sticky-top` uses `position: sticky`, which [isn't fully supported in every browser](https://caniuse.com/css-sticky)**.
+
+<Example>
+  <CxNavbar colorScheme="light" className="bg-light">
+    <CxContainer fluid>
+      <CxNavbarBrand href="#">Default</CxNavbarBrand>
+    </CxContainer>
+  </CxNavbar>
+</Example>
+
+```jsx
+<CxNavbar colorScheme="light" className="bg-light">
+  <CxContainer fluid>
+    <CxNavbarBrand href="#">Default</CxNavbarBrand>
+  </CxContainer>
+</CxNavbar>
+```
+
+<Example>
+  <CxNavbar colorScheme="light" className="bg-light" placement="fixed-top">
+    <CxContainer fluid>
+      <CxNavbarBrand href="#">Fixed top</CxNavbarBrand>
+    </CxContainer>
+  </CxNavbar>
+</Example>
+
+```jsx
+<CxNavbar colorScheme="light" className="bg-light" placement="fixed-top">
+  <CxContainer fluid>
+    <CxNavbarBrand href="#">Fixed top</CxNavbarBrand>
+  </CxContainer>
+</CxNavbar>
+```
+
+<Example>
+  <CxNavbar colorScheme="light" className="bg-light" placement="fixed-bottom">
+    <CxContainer fluid>
+      <CxNavbarBrand href="#">Fixed bottom</CxNavbarBrand>
+    </CxContainer>
+  </CxNavbar>
+</Example>
+
+```jsx
+<CxNavbar colorScheme="light" className="bg-light" placement="fixed-bottom">
+  <CxContainer fluid>
+    <CxNavbarBrand href="#">Fixed bottom</CxNavbarBrand>
+  </CxContainer>
+</CxNavbar>
+```
+
+<Example>
+  <CxNavbar colorScheme="light" className="bg-light" placement="sticky-top">
+    <CxContainer fluid>
+      <CxNavbarBrand href="#">Sticky top</CxNavbarBrand>
+    </CxContainer>
+  </CxNavbar>
+</Example>
+
+```jsx
+<CxNavbar colorScheme="light" className="bg-light" placement="sticky-top">
+  <CxContainer fluid>
+    <CxNavbarBrand href="#">Sticky top</CxNavbarBrand>
+  </CxContainer>
+</CxNavbar>
+```
+
+## Responsive behaviors
+
+Navbars can use `<CxNavbarToggler>`, `<CxCollapse>`, and `expand="{sm|md|lg|xl|xxl}"` property to determine when their content collapses behind a button. In combination with other utilities, you can easily choose when to show or hide particular elements.
+
+For navbars that never collapse, add the `expand` boolean property on the `<CxNavbar>`. For navbars that always collapse, don't add any property.
+
+### Toggler
+
+Navbar togglers are left-aligned by default, but should they follow a sibling element like a `<CxNavbarBrand>`, they'll automatically be aligned to the far right. Reversing your markup will reverse the placement of the toggler. Below are examples of different toggle styles.
+
+With no `<CxNavbarBrand>` shown at the smallest breakpoint:
+
+
+<Example>
+  <ResponsiveBehaviorsExample client:load />
+</Example>
+
+```jsx
+const [visible, setVisible] = useState(false)
+return (
+  <>
+    <CxNavbar expand="large" colorScheme="light" className="bg-light">
+      <CxContainer fluid>
+        <CxNavbarToggler
+          aria-label="Toggle navigation"
+          aria-expanded={visible}
+          onClick={() => setVisible(!visible)}
+        />
+        <CxCollapse className="navbar-collapse" visible={visible}>
+          <CxNavbarBrand href="#">Hidden brand</CxNavbarBrand>
+          <CxNavbarNav className="me-auto mb-2 large:mb-0">
+            <CxNavItem>
+              <CxNavLink href="#" active>
+                Home
+              </CxNavLink>
+            </CxNavItem>
+            <CxNavItem>
+              <CxNavLink href="#">Link</CxNavLink>
+            </CxNavItem>
+            <CxNavItem>
+              <CxNavLink href="#" disabled>
+                Disabled
+              </CxNavLink>
+            </CxNavItem>
+          </CxNavbarNav>
+          <CxForm className="d-flex">
+            <CxFormInput type="search" className="me-2" placeholder="Search" />
+            <CxButton type="submit" context="success" variant="outline">
+              Search
+            </CxButton>
+          </CxForm>
+        </CxCollapse>
+      </CxContainer>
+    </CxNavbar>
+  </>
+)
+```
+
+With a brand name shown on the left and toggler on the right:
+
+
+<Example>
+  <ResponsiveBehaviorsExample2 client:load />
+</Example>
+
+```jsx
+const [visible, setVisible] = useState(false)
+return (
+  <>
+    <CxNavbar expand="large" colorScheme="light" className="bg-light">
+      <CxContainer fluid>
+        <CxNavbarBrand href="#">Navbar</CxNavbarBrand>
+        <CxNavbarToggler
+          aria-label="Toggle navigation"
+          aria-expanded={visible}
+          onClick={() => setVisible(!visible)}
+        />
+        <CxCollapse className="navbar-collapse" visible={visible}>
+          <CxNavbarNav className="me-auto mb-2 large:mb-0">
+            <CxNavItem>
+              <CxNavLink href="#" active>
+                Home
+              </CxNavLink>
+            </CxNavItem>
+            <CxNavItem>
+              <CxNavLink href="#">Link</CxNavLink>
+            </CxNavItem>
+            <CxNavItem>
+              <CxNavLink href="#" disabled>
+                Disabled
+              </CxNavLink>
+            </CxNavItem>
+          </CxNavbarNav>
+          <CxForm className="d-flex">
+            <CxFormInput type="search" className="me-2" placeholder="Search" />
+            <CxButton type="submit" context="success" variant="outline">
+              Search
+            </CxButton>
+          </CxForm>
+        </CxCollapse>
+      </CxContainer>
+    </CxNavbar>
+  </>
+)
+```
+
+With a toggler on the left and brand name on the right:
+
+
+<Example>
+  <ResponsiveBehaviorsExample3 client:load />
+</Example>
+
+```jsx
+const [visible, setVisible] = useState(false)
+return (
+  <>
+    <CxNavbar expand="large" colorScheme="light" className="bg-light">
+      <CxContainer fluid>
+        <CxNavbarToggler
+          aria-label="Toggle navigation"
+          aria-expanded={visible}
+          onClick={() => setVisible(!visible)}
+        />
+        <CxNavbarBrand href="#">Navbar</CxNavbarBrand>
+        <CxCollapse className="navbar-collapse" visible={visible}>
+          <CxNavbarNav className="me-auto mb-2 large:mb-0">
+            <CxNavItem>
+              <CxNavLink href="#" active>
+                Home
+              </CxNavLink>
+            </CxNavItem>
+            <CxNavItem>
+              <CxNavLink href="#">Link</CxNavLink>
+            </CxNavItem>
+            <CxNavItem>
+              <CxNavLink href="#" disabled>
+                Disabled
+              </CxNavLink>
+            </CxNavItem>
+          </CxNavbarNav>
+          <CxForm className="d-flex">
+            <CxFormInput type="search" className="me-2" placeholder="Search" />
+            <CxButton type="submit" context="success" variant="outline">
+              Search
+            </CxButton>
+          </CxForm>
+        </CxCollapse>
+      </CxContainer>
+    </CxNavbar>
+  </>
+)
+```
+
+### External content
+
+Sometimes you want to use the collapse plugin to trigger a container element for content that structurally sits outside of the `<CxNavbar>`.
+
+
+<Example>
+  <ExternalContentExample client:load />
+</Example>
+
+```jsx
+const [visible, setVisible] = useState(false)
+return (
+  <>
+    <CxCollapse id="navbarToggleExternalContent" visible={visible}>
+      <div className="bg-dark p-4">
+        <h5 className="text-white h4">Collapsed content</h5>
+        <span className="medium:text-emphasis-inverse">Toggleable via the navbar brand.</span>
+      </div>
+    </CxCollapse>
+    <CxNavbar colorScheme="dark" className="bg-dark">
+      <CxContainer fluid>
+        <CxNavbarToggler
+          aria-controls="navbarToggleExternalContent"
+          aria-label="Toggle navigation"
+          onClick={() => setVisible(!visible)}
+        />
+      </CxContainer>
+    </CxNavbar>
+  </>
+)
+```
+
+### Offcanvas
+
+Transform your expanding and collapsing navbar into an offcanvas drawer with the offcanvas plugin. We extend both the offcanvas default styles and use our `expand="*"` prop to create a dynamic and flexible navigation sidebar.
+
+In the example below, to create an offcanvas navbar that is always collapsed across all breakpoints, omit the `expand="*"` prop entirely.
+
+
+<Example>
+  <OffcanvasExample client:load />
+</Example>
+
+```jsx
+const [visible, setVisible] = useState(false)
+return (
+  <CxNavbar colorScheme="light" className="bg-light">
+    <CxContainer fluid>
+      <CxNavbarToggler
+        aria-controls="offcanvasNavbar"
+        aria-label="Toggle navigation"
+        onClick={() => setVisible(!visible)}
+      />
+      <CxOffcanvas id="offcanvasNavbar" placement="end" portal={false} visible={visible} onHide={() => setVisible(false)}>
+        <CxOffcanvasHeader>
+          <CxOffcanvasTitle>Offcanvas</CxOffcanvasTitle>
+          <CxCloseButton className="text-reset" onClick={() => setVisible(false)} />
+        </CxOffcanvasHeader>
+        <CxOffcanvasBody>
+          <CxNavbarNav>
+            <CxNavItem>
+              <CxNavLink href="#" active>
+                Home
+              </CxNavLink>
+            </CxNavItem>
+            <CxNavItem>
+              <CxNavLink href="#">Link</CxNavLink>
+            </CxNavItem>
+            <CxDropdown variant="nav-item" popper={false}>
+              <CxDropdownToggle context="secondary">Dropdown button</CxDropdownToggle>
+              <CxDropdownMenu>
+                <CxDropdownItem href="#">Action</CxDropdownItem>
+                <CxDropdownItem href="#">Another action</CxDropdownItem>
+                <CxDropdownDivider />
+                <CxDropdownItem href="#">Something else here</CxDropdownItem>
+              </CxDropdownMenu>
+            </CxDropdown>
+            <CxNavItem>
+              <CxNavLink href="#" disabled>
+                Disabled
+              </CxNavLink>
+            </CxNavItem>
+          </CxNavbarNav>
+          <CxForm className="d-flex">
+            <CxFormInput type="search" className="me-2" placeholder="Search" />
+            <CxButton type="submit" context="success" variant="outline">
+              Search
+            </CxButton>
+          </CxForm>
+        </CxOffcanvasBody>
+      </CxOffcanvas>
+    </CxContainer>
+  </CxNavbar>
+)
+```
+
+To create an offcanvas navbar that expands into a normal navbar at a specific breakpoint like `xxl`, use `expand="2xlarge"` property.
+
+
+<Example>
+  <OffcanvasExample2 client:load />
+</Example>
+
+```jsx
+const [visible, setVisible] = useState(false)
+return (
+  <CxNavbar colorScheme="light" className="bg-light" expand="2xlarge">
+    <CxContainer fluid>
+      <CxNavbarToggler
+        aria-controls="offcanvasNavbar2"
+        aria-label="Toggle navigation"
+        onClick={() => setVisible(!visible)}
+      />
+      <CxOffcanvas id="offcanvasNavbar2" placement="end" portal={false} visible={visible} onHide={() => setVisible(false)}>
+        <CxOffcanvasHeader>
+          <CxOffcanvasTitle>Offcanvas</CxOffcanvasTitle>
+          <CxCloseButton className="text-reset" onClick={() => setVisible(false)} />
+        </CxOffcanvasHeader>
+        <CxOffcanvasBody>
+          <CxNavbarNav>
+            <CxNavItem>
+              <CxNavLink href="#" active>
+                Home
+              </CxNavLink>
+            </CxNavItem>
+            <CxNavItem>
+              <CxNavLink href="#">Link</CxNavLink>
+            </CxNavItem>
+            <CxDropdown variant="nav-item" popper={false}>
+              <CxDropdownToggle context="secondary">Dropdown button</CxDropdownToggle>
+              <CxDropdownMenu>
+                <CxDropdownItem href="#">Action</CxDropdownItem>
+                <CxDropdownItem href="#">Another action</CxDropdownItem>
+                <CxDropdownDivider />
+                <CxDropdownItem href="#">Something else here</CxDropdownItem>
+              </CxDropdownMenu>
+            </CxDropdown>
+            <CxNavItem>
+              <CxNavLink href="#" disabled>
+                Disabled
+              </CxNavLink>
+            </CxNavItem>
+          </CxNavbarNav>
+          <CxForm className="d-flex">
+            <CxFormInput type="search" className="me-2" placeholder="Search" />
+            <CxButton type="submit" context="success" variant="outline">
+              Search
+            </CxButton>
+          </CxForm>
+        </CxOffcanvasBody>
+      </CxOffcanvas>
+    </CxContainer>
+  </CxNavbar>
+)
+```
+
+## API
+
+### CxNavbar
+
+<PropTable component="CxNavbar" />
+### CxNavbarBrand
+
+<PropTable component="CxNavbarBrand" />
+### CxNavbarNav
+
+<PropTable component="CxNavbarNav" />
+### CxNavbarText
+
+<PropTable component="CxNavbarText" />
+### CxNavbarToggler
+
+<PropTable component="CxNavbarToggler" />

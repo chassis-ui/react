@@ -1,0 +1,184 @@
+---
+title: Accordion
+description: Build vertically collapsing accordions using the native HTML details and summary elements.
+
+toc: true
+---
+
+
+import {
+  CxAccordion,
+  CxAccordionBody,
+  CxAccordionHeader,
+  CxAccordionItem,
+} from '@chassis-ui/react'
+
+
+## Examples
+
+Click the accordions below to expand/collapse the accordion content.
+
+<Example>
+  <CxAccordion>
+    <CxAccordionItem>
+      <CxAccordionHeader>
+        Accordion Item #1
+      </CxAccordionHeader>
+      <CxAccordionBody>
+        <strong>This is the first item's accordion body.</strong> It is hidden by default.
+        Just about any HTML can go within the <code>.accordion-body</code>.
+      </CxAccordionBody>
+    </CxAccordionItem>
+    <CxAccordionItem open>
+      <CxAccordionHeader>
+        Accordion Item #2
+      </CxAccordionHeader>
+      <CxAccordionBody>
+        <strong>This is the second item's accordion body.</strong> It is shown by default
+        via the <code>open</code> prop.
+      </CxAccordionBody>
+    </CxAccordionItem>
+    <CxAccordionItem>
+      <CxAccordionHeader>
+        Accordion Item #3
+      </CxAccordionHeader>
+      <CxAccordionBody>
+        <strong>This is the third item's accordion body.</strong> It is hidden by default.
+      </CxAccordionBody>
+    </CxAccordionItem>
+  </CxAccordion>
+</Example>
+
+```jsx
+<CxAccordion>
+  <CxAccordionItem>
+    <CxAccordionHeader>Accordion Item #1</CxAccordionHeader>
+    <CxAccordionBody>
+      <strong>This is the first item's accordion body.</strong>
+    </CxAccordionBody>
+  </CxAccordionItem>
+  <CxAccordionItem open>
+    <CxAccordionHeader>Accordion Item #2</CxAccordionHeader>
+    <CxAccordionBody>
+      <strong>This is the second item's accordion body.</strong> Shown by default via the open prop.
+    </CxAccordionBody>
+  </CxAccordionItem>
+  <CxAccordionItem>
+    <CxAccordionHeader>Accordion Item #3</CxAccordionHeader>
+    <CxAccordionBody>
+      <strong>This is the third item's accordion body.</strong>
+    </CxAccordionBody>
+  </CxAccordionItem>
+</CxAccordion>
+```
+
+### Flush
+
+Add `flush` to render accordions edge-to-edge with their parent container.
+
+<Example>
+  <CxAccordion flush>
+    <CxAccordionItem>
+      <CxAccordionHeader>
+        Accordion Item #1
+      </CxAccordionHeader>
+      <CxAccordionBody>
+        <strong>This is the first item's accordion body.</strong>
+      </CxAccordionBody>
+    </CxAccordionItem>
+    <CxAccordionItem>
+      <CxAccordionHeader>
+        Accordion Item #2
+      </CxAccordionHeader>
+      <CxAccordionBody>
+        <strong>This is the second item's accordion body.</strong>
+      </CxAccordionBody>
+    </CxAccordionItem>
+    <CxAccordionItem>
+      <CxAccordionHeader>
+        Accordion Item #3
+      </CxAccordionHeader>
+      <CxAccordionBody>
+        <strong>This is the third item's accordion body.</strong>
+      </CxAccordionBody>
+    </CxAccordionItem>
+  </CxAccordion>
+</Example>
+
+```jsx
+<CxAccordion flush>
+  <CxAccordionItem>
+    <CxAccordionHeader>Accordion Item #1</CxAccordionHeader>
+    <CxAccordionBody>...</CxAccordionBody>
+  </CxAccordionItem>
+  <CxAccordionItem>
+    <CxAccordionHeader>Accordion Item #2</CxAccordionHeader>
+    <CxAccordionBody>...</CxAccordionBody>
+  </CxAccordionItem>
+  <CxAccordionItem>
+    <CxAccordionHeader>Accordion Item #3</CxAccordionHeader>
+    <CxAccordionBody>...</CxAccordionBody>
+  </CxAccordionItem>
+</CxAccordion>
+```
+
+### Always open
+
+Add `alwaysOpen` to let multiple items stay open at the same time.
+
+<Example>
+  <CxAccordion alwaysOpen>
+    <CxAccordionItem open>
+      <CxAccordionHeader>
+        Accordion Item #1
+      </CxAccordionHeader>
+      <CxAccordionBody>
+        <strong>This is the first item's accordion body.</strong>
+      </CxAccordionBody>
+    </CxAccordionItem>
+    <CxAccordionItem open>
+      <CxAccordionHeader>
+        Accordion Item #2
+      </CxAccordionHeader>
+      <CxAccordionBody>
+        <strong>This is the second item's accordion body.</strong>
+      </CxAccordionBody>
+    </CxAccordionItem>
+    <CxAccordionItem>
+      <CxAccordionHeader>
+        Accordion Item #3
+      </CxAccordionHeader>
+      <CxAccordionBody>
+        <strong>This is the third item's accordion body.</strong>
+      </CxAccordionBody>
+    </CxAccordionItem>
+  </CxAccordion>
+</Example>
+
+```jsx
+<CxAccordion alwaysOpen>
+  <CxAccordionItem open>
+    <CxAccordionHeader>Accordion Item #1</CxAccordionHeader>
+    <CxAccordionBody>...</CxAccordionBody>
+  </CxAccordionItem>
+  <CxAccordionItem open>
+    <CxAccordionHeader>Accordion Item #2</CxAccordionHeader>
+    <CxAccordionBody>...</CxAccordionBody>
+  </CxAccordionItem>
+  <CxAccordionItem>
+    <CxAccordionHeader>Accordion Item #3</CxAccordionHeader>
+    <CxAccordionBody>...</CxAccordionBody>
+  </CxAccordionItem>
+</CxAccordion>
+```
+
+## API
+
+### CxAccordion
+<PropTable component="CxAccordion" />
+### CxAccordionBody
+<PropTable component="CxAccordionBody" />
+### CxAccordionHeader
+<PropTable component="CxAccordionHeader" />
+### CxAccordionItem
+<PropTable component="CxAccordionItem" />

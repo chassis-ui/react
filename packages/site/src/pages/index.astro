@@ -1,4 +1,5 @@
 ---
-// Redirect to getting-started/introduction
-return Astro.redirect(new URL('getting-started/introduction/', Astro.site).pathname)
+import RedirectLayout from '@chassis-ui/docs/layouts/RedirectLayout.astro'
 ---
+
+<RedirectLayout path={'/react'} />

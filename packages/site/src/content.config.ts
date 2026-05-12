@@ -43,6 +43,11 @@ const apiSchema = z.object({
   }))
 })
 
+const calloutsCollection = defineCollection({
+  loader: glob({ pattern: '*.md', base: './content/callouts' }),
+  schema: z.object({}).passthrough()
+})
+
 const apiCollection = defineCollection({
   loader: glob({ pattern: '*.json', base: './content/api' }),
   schema: apiSchema
@@ -54,6 +59,7 @@ const docsCollection = defineCollection({
 })
 
 export const collections = {
+  callouts: calloutsCollection,
   docs: docsCollection,
   api: apiCollection
 }

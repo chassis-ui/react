@@ -1,0 +1,59 @@
+# This file holds all sidebar menu's entries for Chassis React.
+
+- title: Getting Started
+  pages:
+    - title: Introduction
+
+- title: Layout
+  pages:
+    - title: Breakpoints
+    - title: Containers
+    - title: Grid
+    - title: Columns
+    - title: Gutters
+
+- title: Components
+  pages:
+    - title: Accordion
+    - title: Badge
+    - title: Breadcrumb
+    - title: Button
+    - title: Button Group
+    - title: Card
+    - title: Carousel
+    - title: Close Button
+    - title: Collapse
+    - title: Dropdown
+    - title: Image
+    - title: List Group
+    - title: Modal
+    - title: Navbar
+    - title: Navs & Tabs
+    - title: Notification
+    - title: Offcanvas
+    - title: Pagination
+    - title: Placeholder
+    - title: Popover
+    - title: Progress
+    - title: Spinner
+    - title: Table
+    - title: Toast
+    - title: Tooltip
+
+- title: Forms
+  pages:
+    - title: Overview
+    - title: Form Control
+    - title: Select
+    - title: Checks & Radios
+    - title: Range
+    - title: Input Group
+    - title: Floating Labels
+    - title: Layout
+    - title: Validation
+
+- title: Patterns
+  pages:
+    - title: Dashboard Widgets
+    - title: Form Processing
+    - title: Paginated Table

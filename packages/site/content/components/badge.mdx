@@ -1,0 +1,199 @@
+---
+title: Badge
+description: Bootstrap React badge component is small count and labeling component.
+
+
+toc: true
+---
+
+
+import { CxBadge, CxButton } from '@chassis-ui/react'
+
+## Example
+
+Badge component scales to suit the size of the parent element by using relative font sizing and `em` units.
+
+### Basic usage
+
+<Example>
+  <h1>Example heading <CxBadge context="secondary">New</CxBadge></h1>
+  <h2>Example heading <CxBadge context="secondary">New</CxBadge></h2>
+  <h3>Example heading <CxBadge context="secondary">New</CxBadge></h3>
+  <h4>Example heading <CxBadge context="secondary">New</CxBadge></h4>
+  <h5>Example heading <CxBadge context="secondary">New</CxBadge></h5>
+  <h6>Example heading <CxBadge context="secondary">New</CxBadge></h6>
+</Example>
+
+```jsx
+<h1>Example heading <CxBadge context="secondary">New</CxBadge></h1>
+<h2>Example heading <CxBadge context="secondary">New</CxBadge></h2>
+<h3>Example heading <CxBadge context="secondary">New</CxBadge></h3>
+<h4>Example heading <CxBadge context="secondary">New</CxBadge></h4>
+<h5>Example heading <CxBadge context="secondary">New</CxBadge></h5>
+<h6>Example heading <CxBadge context="secondary">New</CxBadge></h6>
+```
+
+Badges can be used as part of links or buttons to provide a counter.
+
+<Example>
+  <CxButton context="primary">
+    Notifications <CxBadge context="secondary">4</CxBadge>
+  </CxButton>
+</Example>
+
+```jsx
+<CxButton context="primary">
+  Notifications <CxBadge context="secondary">4</CxBadge>
+</CxButton>
+```
+
+Remark that depending on how you use them, badges may be complicated for users of screen readers and related assistive technologies.
+
+Unless the context is clear, consider including additional context with a visually hidden piece of additional text.
+
+<Example>
+  <CxButton context="primary">
+    Profile <CxBadge context="secondary">9</CxBadge>
+    <span className="visually-hidden">unread messages</span>
+  </CxButton>
+</Example>
+
+```jsx
+<CxButton context="primary">
+  Profile <CxBadge context="secondary">9</CxBadge>
+  <span className="visually-hidden">unread messages</span>
+</CxButton>
+```
+
+### Positioned
+
+Use `position` prop to modify a component and position it in the corner of a link or button.
+
+<Example>
+  <CxButton context="primary" className="position-relative">
+    Profile
+    <CxBadge context="danger" position="top-start" shape="rounded-pill">
+      99+ <span className="visually-hidden">unread messages</span>
+    </CxBadge>
+  </CxButton>
+  <CxButton context="primary" className="position-relative ms-1">
+    Profile
+    <CxBadge context="danger" position="top-end" shape="rounded-pill">
+      99+ <span className="visually-hidden">unread messages</span>
+    </CxBadge>
+  </CxButton>
+  <br/>
+  <CxButton context="primary" className="position-relative ">
+    Profile
+    <CxBadge context="danger" position="bottom-start" shape="rounded-pill">
+      99+ <span className="visually-hidden">unread messages</span>
+    </CxBadge>
+  </CxButton>
+  <CxButton context="primary" className="position-relative ms-1">
+    Profile
+    <CxBadge context="danger" position="bottom-end" shape="rounded-pill">
+      99+ <span className="visually-hidden">unread messages</span>
+    </CxBadge>
+  </CxButton>
+</Example>
+
+```jsx
+<CxButton context="primary" className="position-relative">
+  Profile
+  <CxBadge context="danger" position="top-start" shape="rounded-pill">
+    99+ <span className="visually-hidden">unread messages</span>
+  </CxBadge>
+</CxButton>
+<CxButton context="primary" className="position-relative">
+  Profile
+  <CxBadge context="danger" position="top-end" shape="rounded-pill">
+    99+ <span className="visually-hidden">unread messages</span>
+  </CxBadge>
+</CxButton>
+<CxButton context="primary" className="position-relative">
+  Profile
+  <CxBadge context="danger" position="bottom-start" shape="rounded-pill">
+    99+ <span className="visually-hidden">unread messages</span>
+  </CxBadge>
+</CxButton>
+<CxButton context="primary" className="position-relative">
+  Profile
+  <CxBadge context="danger" position="bottom-end" shape="rounded-pill">
+    99+ <span className="visually-hidden">unread messages</span>
+  </CxBadge>
+</CxButton>
+```
+
+You can also create more generic indicators without a counter using a few more utilities.
+
+<Example>
+  <CxButton context="primary" className="position-relative">
+    Profile
+    <CxBadge className="border border-light p-2" context="danger" position="top-end" shape="rounded-circle">
+      <span className="visually-hidden">New alerts</span>
+    </CxBadge>
+  </CxButton>
+</Example>
+
+```jsx
+<CxButton context="primary" className="position-relative">
+  Profile
+  <CxBadge className="border border-light p-2" context="danger" position="top-end" shape="rounded-circle">
+    <span className="visually-hidden">New alerts</span>
+  </CxBadge>
+</CxButton>
+```
+
+## Contextual variations
+
+Add any of the below-mentioned `context` props to modify the presentation of a badge.
+
+<Example>
+  <CxBadge context="primary">primary</CxBadge>
+  <CxBadge context="success">success</CxBadge>
+  <CxBadge context="danger">danger</CxBadge>
+  <CxBadge context="warning">warning</CxBadge>
+  <CxBadge context="info">info</CxBadge>
+  <CxBadge context="light">light</CxBadge>
+  <CxBadge context="dark">dark</CxBadge>
+</Example>
+
+```jsx
+<CxBadge context="primary">primary</CxBadge>
+<CxBadge context="success">success</CxBadge>
+<CxBadge context="danger">danger</CxBadge>
+<CxBadge context="warning">warning</CxBadge>
+<CxBadge context="info">info</CxBadge>
+<CxBadge context="light">light</CxBadge>
+<CxBadge context="dark">dark</CxBadge>
+```
+
+## Pill badges
+
+Apply the `shape="rounded-pill"` prop to make badges rounded.
+
+<Example>
+  <CxBadge context="primary" shape="rounded-pill">primary</CxBadge>
+  <CxBadge context="success" shape="rounded-pill">success</CxBadge>
+  <CxBadge context="danger" shape="rounded-pill">danger</CxBadge>
+  <CxBadge context="warning" shape="rounded-pill">warning</CxBadge>
+  <CxBadge context="info" shape="rounded-pill">info</CxBadge>
+  <CxBadge context="light" shape="rounded-pill">light</CxBadge>
+  <CxBadge context="dark" shape="rounded-pill">dark</CxBadge>
+</Example>
+
+```jsx
+<CxBadge context="primary" shape="rounded-pill">primary</CxBadge>
+<CxBadge context="success" shape="rounded-pill">success</CxBadge>
+<CxBadge context="danger" shape="rounded-pill">danger</CxBadge>
+<CxBadge context="warning" shape="rounded-pill">warning</CxBadge>
+<CxBadge context="info" shape="rounded-pill">info</CxBadge>
+<CxBadge context="light" shape="rounded-pill">light</CxBadge>
+<CxBadge context="dark" shape="rounded-pill">dark</CxBadge>
+```
+
+## API
+
+### CxBadge
+
+<PropTable component="CxBadge" />

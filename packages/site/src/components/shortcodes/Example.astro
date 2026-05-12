@@ -1,0 +1,18 @@
+---
+/**
+ * Example — wraps React component examples in the standard docs example container.
+ * Used in MDX files as <Example> and auto-imported by the Chassis integration.
+ */
+interface Props {
+  /** CSS class(es) added to the preview wrapper div. */
+  class?: string
+  /** Element ID for the preview wrapper div. */
+  id?: string
+}
+
+const { class: className, id } = Astro.props
+---
+
+<div id={id} class:list={['cxd-example m-0 border-0 context', className]}>
+  <slot />
+</div>

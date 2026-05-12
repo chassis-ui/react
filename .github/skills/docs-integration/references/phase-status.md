@@ -11,7 +11,7 @@ Last updated: 2026-05-12
 
 | # | Phase | Status | Notes |
 |---|-------|--------|-------|
-| 1 | Repo infrastructure (submodule + build scripts + root package.json) | `[ ]` | |
+| 1 | Repo infrastructure (submodule + build scripts + root package.json) | `[x]` | vendor/assets submodule added (app/docs branch), build/sync-submodules.js, change-version.js, vnu-jar.js created, root package.json updated with version+type+scripts, vercel.json updated |
 | 2 | Site package (package.json deps + config.yml + data/sidebar.yml + tsconfig) | `[ ]` | |
 | 3 | Site libs (`src/libs/*` — config, path, astro, content, data, shortcode, etc.) | `[ ]` | |
 | 4 | SCSS + astro.config (docs.scss import chain + chassis() integration) | `[ ]` | |

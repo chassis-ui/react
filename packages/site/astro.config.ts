@@ -1,54 +1,39 @@
 import { defineConfig } from 'astro/config'
 import react from '@astrojs/react'
-import mdx from '@astrojs/mdx'
-import sitemap from '@astrojs/sitemap'
-import type { Root } from 'hast'
-import type { Plugin } from 'unified'
-import { visit } from 'unist-util-visit'
+import path from 'node:path'
+import { chassis } from './src/libs/astro'
+import { getConfig } from './src/libs/config'
+import { getSiteUrl } from '@chassis-ui/docs'
 
-const rehypeStripIsRaw: Plugin<[], Root> = function () {
-  return function (tree) {
-    visit(tree, 'element', (node) => {
-      if (node.properties && 'is:raw' in node.properties) {
-        delete node.properties['is:raw']
-      }
-    })
-  }
-}
+const site = getSiteUrl(getConfig())
 
+// https://astro.build/config
 export default defineConfig({
-  base: '/react/',
   outDir: '../../_site',
-  build: {
-    assets: 'static'
-  },
-  integrations: [react(), mdx(), sitemap()],
+  integrations: [...chassis(), react()],
   markdown: {
     smartypants: false,
-    syntaxHighlight: 'prism',
-    rehypePlugins: [rehypeStripIsRaw]
+    syntaxHighlight: 'prism'
   },
-  site: 'https://chassis-ui.com',
+  site,
   vite: {
     css: {
       preprocessorOptions: {
         scss: {
+          loadPaths: [path.resolve('./node_modules')],
           silenceDeprecations: ['import', 'global-builtin', 'color-functions', 'if-function']
         }
       }
     },
     build: {
       rollupOptions: {
-        external: ['@chassis-ui/css'],
         output: {
-          paths: {
-            '@chassis-ui/css': '/react/static/js/chassis.bundle.min.js'
-          },
+          entryFileNames: `static/js/docs.[hash].js`,
           assetFileNames: (assetInfo) => {
             if (assetInfo.name?.endsWith('.css')) {
-              return 'static/css/docs-[hash].css'
+              return 'static/css/docs.[hash].css'
             }
-            return 'static/docs-[hash][extname]'
+            return 'static/[name].[hash][extname]'
           }
         }
       }

@@ -1,15 +1,25 @@
 {
   "private": true,
+  "version": "0.1.0",
+  "type": "module",
   "scripts": {
-    "postinstall": "node scripts/postinstall.js",
-    "docs:dev": "pnpm --filter @chassis-ui/react-site dev",
-    "docs:build": "pnpm api:generate && pnpm --filter @chassis-ui/react-site build",
-    "docs:preview": "pnpm --filter @chassis-ui/react-site preview",
+    "build": "pnpm site:build",
+    "clean": "pnpm site:clean",
+    "dev": "pnpm sync-submodules && pnpm astro:dev",
+    "preview": "pnpm astro:preview",
+    "site": "pnpm site:build && pnpm site:lint",
+    "site:build": "pnpm api:generate && pnpm sync-submodules && pnpm astro:build",
+    "site:clean": "rm -rf _site packages/site/node_modules packages/site/.astro packages/site/public",
+    "astro:dev": "pnpm --filter chassis-react-site dev --port 4327",
+    "astro:build": "pnpm --filter chassis-react-site build",
+    "astro:preview": "pnpm --filter chassis-react-site preview",
     "api:generate": "ts-node --project build/tsconfig.json build/generate-api.ts",
     "lib:build": "pnpm --filter @chassis-ui/react build",
     "lint": "eslint \"packages/**/src/**/*.{js,ts,tsx}\"",
     "test": "jest --coverage",
-    "test:update": "jest --coverage --updateSnapshot"
+    "test:update": "jest --coverage --updateSnapshot",
+    "change-version": "node build/change-version.js",
+    "sync-submodules": "node build/sync-submodules.js"
   },
   "devDependencies": {
     "@testing-library/dom": "^10.0.0",
@@ -24,6 +34,7 @@
     "jest": "^29.0.0",
     "jest-canvas-mock": "^2.3.1",
     "jest-environment-jsdom": "^29.0.0",
+    "picocolors": "^1.1.1",
     "prettier": "^2.5.1",
     "react-docgen-typescript": "^2.4.0",
     "ts-jest": "^29.0.0",

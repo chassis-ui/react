@@ -1,0 +1,210 @@
+---
+title: Placeholder
+description: Use loading Bootstrap React Placeholders for your components or pages to indicate something may still be loading. 
+
+toc: true
+---
+
+
+import { useState } from 'react'
+import {
+  CxButton,
+  CxCard,
+  CxCardBody,
+  CxCardImage,
+  CxCardText,
+  CxCardTitle,
+  CxPlaceholder,
+} from '@chassis-ui/react'
+
+
+## About
+
+Placeholders can be used to enhance the experience of your application. They're built only with HTML and CSS, meaning you don't need any JavaScript to create them. You will, however, need some custom JavaScript to toggle their visibility. Their appearance, context, and sizing can be easily customized with our utility classes.
+
+
+## Example
+
+In the example below, we take a typical card component and recreate it with placeholders applied to create a "loading card". Size and proportions are the same between the two.
+
+<Example className="d-flex justify-content-around">
+  <CxCard style={{ width: '18rem' }}>
+    <CxCardImage orientation="top" src="https://placehold.co/800x400" />
+    <CxCardBody>
+      <CxCardTitle>Card title</CxCardTitle>
+      <CxCardText>
+        Some quick example text to build on the card title and make up the bulk of the card's
+        content.
+      </CxCardText>
+      <CxButton href="#">Go somewhere</CxButton>
+    </CxCardBody>
+  </CxCard>
+  <CxCard style={{ width: '18rem' }}>
+    <CxCardImage component="svg" orientation="top" width="100%" height="162" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false">
+      <title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect>
+    </CxCardImage>  
+    <CxCardBody>
+      <CxPlaceholder component={CxCardTitle} animation="glow" xs={7}>
+        <CxPlaceholder xs={6} />
+      </CxPlaceholder>
+      <CxPlaceholder component={CxCardText} animation="glow">
+        <CxPlaceholder xs={7} />
+        <CxPlaceholder xs={4} />
+        <CxPlaceholder xs={4} />
+        <CxPlaceholder xs={6} />
+        <CxPlaceholder xs={8} />
+      </CxPlaceholder>
+      <CxPlaceholder component={CxButton} disabled href="#" tabIndex={-1} xs={6}></CxPlaceholder>
+    </CxCardBody>
+  </CxCard>
+</Example>
+
+```jsx
+<CxCard style={{ width: '18rem' }}>
+  <CxCardImage orientation="top" src="https://placehold.co/800x400" />
+  <CxCardBody>
+    <CxCardTitle>Card title</CxCardTitle>
+    <CxCardText>
+      Some quick example text to build on the card title and make up the bulk of the card's
+      content.
+    </CxCardText>
+    <CxButton href="#">Go somewhere</CxButton>
+  </CxCardBody>
+</CxCard>
+<CxCard style={{ width: '18rem' }}>
+  <CxCardImage component="svg" orientation="top" width="100%" height="162" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false">
+    <title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect>
+  </CxCardImage>  
+  <CxCardBody>
+    <CxPlaceholder component={CxCardTitle} animation="glow" xs={7}>
+      <CxPlaceholder xs={6} />
+    </CxPlaceholder>
+    <CxPlaceholder component={CxCardText} animation="glow">
+      <CxPlaceholder xs={7} />
+      <CxPlaceholder xs={4} />
+      <CxPlaceholder xs={4} />
+      <CxPlaceholder xs={6} />
+      <CxPlaceholder xs={8} />
+    </CxPlaceholder>
+    <CxPlaceholder component={CxButton} disabled href="#" tabIndex={-1} xs={6}></CxPlaceholder>
+  </CxCardBody>
+</CxCard>
+```
+
+## How it works
+
+Create placeholders with the `<CxPlaceholder>` component and a grid column propx (e.g., `xs={6}`) to set the `width`. They can replace the text inside an element or be added as a modifier class to an existing component.
+
+We apply additional styling to `CxButton`s via `::before` to ensure the `height` is respected. You may extend this pattern for other situations as needed, or add a `&nbsp;` within the element to reflect the height when actual text is rendered in its place.
+
+<Example>
+  <p aria-hidden="true">
+    <CxPlaceholder xs={6} />
+  </p>
+  <CxPlaceholder component={CxButton} aria-hidden="true" disabled href="#" tabIndex={-1} xs={4}></CxPlaceholder>
+</Example>
+
+```jsx
+<p aria-hidden="true">
+  <CxPlaceholder xs={6} />
+</p>
+<CxPlaceholder component={CxButton} aria-hidden="true" disabled href="#" tabIndex={-1} xs={4}></CxPlaceholder>
+```
+
+<Callout className="mb-4" context="info">
+  The use of <code>aria-hidden="true"</code> only indicates that the element should be hidden to screen readers. The <strong>loading</strong> behavior of the placeholder depends on how authors will actually use the placeholder styles, how they plan to update things, etc. Some JavaScript code may be needed to *swap* the state of the placeholder and inform AT users of the update.
+</Callout>
+
+### Width
+
+You can change the `width` through grid column classes, width utilities, or inline styles.
+
+<Example>
+  <CxPlaceholder xs={6} />
+  <CxPlaceholder className="w-75" />
+  <CxPlaceholder style={{ width: '30%'}} />
+</Example>
+
+```jsx
+<CxPlaceholder xs={6} />
+<CxPlaceholder className="w-75" />
+<CxPlaceholder style={{ width: '30%'}} />
+```
+
+### Color
+
+By default, the `<CxPlaceholder>` uses `currentColor`. This can be overridden with a custom context or utility class.
+
+<Example>
+  <CxPlaceholder xs={12} />
+
+  <CxPlaceholder context="primary" xs={12} />
+  <CxPlaceholder context="secondary" xs={12} />
+  <CxPlaceholder context="success" xs={12} />
+  <CxPlaceholder context="danger" xs={12} />
+  <CxPlaceholder context="warning" xs={12} />
+  <CxPlaceholder context="info" xs={12} />
+  <CxPlaceholder context="light" xs={12} />
+  <CxPlaceholder context="dark" xs={12} />
+</Example>
+
+```jsx
+<CxPlaceholder xs={12} />
+
+<CxPlaceholder context="primary" xs={12} />
+<CxPlaceholder context="secondary" xs={12} />
+<CxPlaceholder context="success" xs={12} />
+<CxPlaceholder context="danger" xs={12} />
+<CxPlaceholder context="warning" xs={12} />
+<CxPlaceholder context="info" xs={12} />
+<CxPlaceholder context="light" xs={12} />
+<CxPlaceholder context="dark" xs={12} />
+```
+
+### Sizing
+
+The size of `<CxPlaceholder>`s are based on the typographic style of the parent element. Customize them with `size` prop: `lg`, `sm`, or `xs`.
+
+<Example>
+  <CxPlaceholder xs={12} size="large"/>
+  <CxPlaceholder xs={12}/>
+  <CxPlaceholder xs={12} size="small"/>
+  <CxPlaceholder xs={12} size="xsmall"/>
+</Example>
+
+```jsx
+<CxPlaceholder xs={12} size="large"/>
+<CxPlaceholder xs={12}/>
+<CxPlaceholder xs={12} size="small"/>
+<CxPlaceholder xs={12} size="xsmall"/>
+```
+
+### Animation
+
+Animate placeholders with `animation="glow"` or `animation="wave"` to better convey the perception of something being _actively_ loaded.
+
+<Example>
+  <CxPlaceholder component="p" animation="glow">
+    <CxPlaceholder xs={12} />
+  </CxPlaceholder>  
+  <CxPlaceholder component="p" animation="wave">
+    <CxPlaceholder xs={12} />
+  </CxPlaceholder> 
+</Example>
+
+```jsx
+<CxPlaceholder component="p" animation="glow">
+  <CxPlaceholder xs={12} />
+</CxPlaceholder>  
+
+<CxPlaceholder component="p" animation="wave">
+  <CxPlaceholder xs={12} />
+</CxPlaceholder> 
+```
+
+
+## API
+
+### CxPlaceholder
+
+<PropTable component="CxPlaceholder" />
