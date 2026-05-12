@@ -17,7 +17,15 @@ Last updated: 2026-05-12
 | 4 | `<ReactExample>` island component | `[x]` | Complete — ReactExample.astro + ReactExamplePreview.tsx island; Button, Dropdown, Tooltip all build |
 | 5 | MDX content migration (25 files) | `[x]` | Complete — 43 MDX files migrated, 44 pages build. Export blocks extracted to tsx files in `src/examples/`. Inline Example blocks in table.mdx extracted too. |
 | 6 | API docs generation pipeline | `[x]` | Complete — `build/generate-api.ts` generates 102 JSON files; `PropTable.astro` renders in all 35 component pages |
-| 7 | Nav, search, deploy config, integration | `[ ]` | |
+| 7 | Nav, search, deploy config, integration | `[x]` | Complete — Sidebar.astro, Toc.astro, DocsLayout.astro, [...slug].astro, vercel.json, robots.txt, README. 44 pages build. |
+
+## Successor Project
+
+React migration is complete. Full docs-site integration (consuming @chassis-ui/docs, proper SCSS chain, vendor/assets submodule, Algolia, auto-import shortcodes) is tracked in a separate skill:
+
+- **Skill**: `.github/skills/docs-integration/SKILL.md`
+- **Phase status**: `.github/skills/docs-integration/references/phase-status.md`
+- **Prompts**: `.github/prompts/docs-integration-phase-*.prompt.md`
 
 ## Phase 1 Checklist — React 18 Upgrade
 
