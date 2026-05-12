@@ -1,10 +1,9 @@
-import React, { FC, ReactElement, ReactNode, useState } from 'react'
+import React, { FC, ReactElement, ReactNode, useId, useState } from 'react'
 import { createPortal } from 'react-dom'
 import classNames from 'classnames'
 import { Manager, Popper, Reference } from 'react-popper'
 import { Transition } from 'react-transition-group'
 
-// import { CTooltipContent } from './CTooltipContent'
 import { Triggers } from '../Types'
 
 export interface CTooltipProps {
@@ -48,6 +47,7 @@ export const CxTooltip: FC<CTooltipProps> = ({
   ...rest
 }) => {
   const [_visible, setVisible] = useState(visible)
+  const tooltipId = useId()
 
   const getTransitionClass = (state: string) => {
     return state === 'entering'
@@ -65,6 +65,7 @@ export const CxTooltip: FC<CTooltipProps> = ({
         {({ ref }) =>
           React.cloneElement(children, {
             ref: ref,
+            'aria-describedby': _visible ? tooltipId : undefined,
             ...((trigger === 'click' || trigger.includes('click')) && {
               onClick: () => setVisible(!_visible),
             }),
@@ -98,6 +99,7 @@ export const CxTooltip: FC<CTooltipProps> = ({
                 <Popper placement={placement}>
                   {({ arrowProps, style, ref }) => (
                     <div
+                      id={tooltipId}
                       className={classNames(
                         `tooltip bs-tooltip-${
                           placement === 'left' ? 'start' : placement === 'right' ? 'end' : placement

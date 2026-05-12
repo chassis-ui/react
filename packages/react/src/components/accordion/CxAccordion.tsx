@@ -1,4 +1,4 @@
-import React, { createContext, forwardRef, HTMLAttributes, useRef } from 'react'
+import React, { createContext, forwardRef, HTMLAttributes, useId } from 'react'
 import classNames from 'classnames'
 
 export interface CAccordionProps extends HTMLAttributes<HTMLDivElement> {
@@ -25,11 +25,11 @@ export const CAccordionContext = createContext({} as CAccordionContextProps)
 
 export const CxAccordion = forwardRef<HTMLDivElement, CAccordionProps>(
   ({ children, alwaysOpen = false, className, flush, ...rest }, ref) => {
-    const name = useRef(Math.random().toString(36).substr(2, 9))
+    const name = useId()
     const _className = classNames('accordion', { 'accordion-flush': flush }, className)
     return (
       <div className={_className} {...rest} ref={ref}>
-        <CAccordionContext.Provider value={{ alwaysOpen, name: name.current }}>
+        <CAccordionContext.Provider value={{ alwaysOpen, name }}>
           {children}
         </CAccordionContext.Provider>
       </div>

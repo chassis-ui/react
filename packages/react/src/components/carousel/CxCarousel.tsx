@@ -111,7 +111,7 @@ export const CxCarousel = forwardRef<HTMLDivElement, CCarouselProps>(
 
     useEffect(() => {
       setItemsNumber(Children.toArray(children).length)
-    })
+    }, [children])
 
     useEffect(() => {
       visible && cycle()
@@ -129,7 +129,7 @@ export const CxCarousel = forwardRef<HTMLDivElement, CCarouselProps>(
       return () => {
         window.removeEventListener('scroll', handleScroll)
       }
-    })
+    }, [])
 
     const _className = classNames(
       'carousel slide',
@@ -218,15 +218,23 @@ export const CxCarousel = forwardRef<HTMLDivElement, CCarouselProps>(
           {indicators && (
             <ol className="carousel-indicators">
               {Array.from({ length: itemsNumber }, (_, i) => i).map((index) => {
+                const isActive = active === index
                 return (
                   <li
                     key={`indicator${index}`}
-                    onClick={() => {
-                      !animating && handleIndicatorClick(index)
-                    }}
-                    className={active === index ? 'active' : ''}
-                    data-coreui-target=""
-                  />
+                    className={isActive ? 'active' : ''}
+                    data-cx-target=""
+                  >
+                    <button
+                      type="button"
+                      className="carousel-indicator-button"
+                      aria-label={`Slide ${index + 1}`}
+                      aria-current={isActive ? 'true' : undefined}
+                      onClick={() => {
+                        !animating && handleIndicatorClick(index)
+                      }}
+                    />
+                  </li>
                 )
               })}
             </ol>
@@ -245,11 +253,21 @@ export const CxCarousel = forwardRef<HTMLDivElement, CCarouselProps>(
           </div>
           {controls && (
             <>
-              <button className="carousel-control-prev" onClick={() => handleControlClick('prev')}>
-                <span className={`carousel-control-prev-icon`} aria-label="prev" />
+              <button
+                type="button"
+                className="carousel-control-prev"
+                aria-label="Previous slide"
+                onClick={() => handleControlClick('prev')}
+              >
+                <span className="carousel-control-prev-icon" aria-hidden="true" />
               </button>
-              <button className="carousel-control-next" onClick={() => handleControlClick('next')}>
-                <span className={`carousel-control-next-icon`} aria-label="next" />
+              <button
+                type="button"
+                className="carousel-control-next"
+                aria-label="Next slide"
+                onClick={() => handleControlClick('next')}
+              >
+                <span className="carousel-control-next-icon" aria-hidden="true" />
               </button>
             </>
           )}

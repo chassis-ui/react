@@ -3,6 +3,7 @@
 exports[`CxTooltip customize 1`] = `
 <div>
   <a
+    aria-describedby=":r1:"
     class="link"
   >
     Test

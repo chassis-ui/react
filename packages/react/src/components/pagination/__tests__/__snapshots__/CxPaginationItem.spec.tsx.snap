@@ -20,11 +20,11 @@ exports[`loads and displays CxPaginationItem component 1`] = `
   <li
     class="page-item"
   >
-    <a
+    <button
       class="page-link"
     >
       Test
-    </a>
+    </button>
   </li>
 </div>
 `;

@@ -11,9 +11,9 @@ import { CxCol, CxContainer, CxRow } from '@chassis-ui/react'
 
 - **Columns build on the grid's flexbox architecture.** Flexbox means we have options for changing individual columns and [modifying groups of columns at the row level](./../grid#row-columns). You choose how columns grow, shrink, or otherwise change.
 
-- **When building grid layouts, all content goes in columns.** The hierarchy of Bootstrap React's grid goes from [container](./../containers) to row to column to your content. On rare occasions, you may combine content and column, but be aware there can be unintended consequences.
+- **When building grid layouts, all content goes in columns.** The hierarchy of Chassis grid goes from [container](./../containers) to row to column to your content. On rare occasions, you may combine content and column, but be aware there can be unintended consequences.
 
-- **Bootstrap React includes predefined components for creating fast, responsive layouts.** With [six breakpoints](./../breakpoints) and a dozen columns at each grid tier, we have dozens of components already built for you to create your desired layouts. This can be disabled via Sass if you wish.
+- **Chassis includes predefined components for creating fast, responsive layouts.** With [six breakpoints](./../breakpoints) and a dozen columns at each grid tier, we have dozens of components already built for you to create your desired layouts. This can be disabled via Sass if you wish.
 
 ## Alignment
 
@@ -227,7 +227,7 @@ Breaking columns to a new line in flexbox requires a small hack: add an element 
 </CxContainer>
 ```
 
-You may also apply this break at specific breakpoints with our [responsive display utilities](https://coreui.io/docs/utilities/display).
+You may also apply this break at specific breakpoints with our responsive display utilities.
 
 <Example className="docs-example-row">
   <CxContainer>
@@ -319,7 +319,7 @@ There are also responsive `xs|sm|md|lg|xl|xxl={{ order: 'first' }}` and `xs|sm|m
 
 ### Offsetting columns
 
-You can offset grid columns in two ways: our responsive `xs|sm|md|lg|xl|xxl={{ offset: 0-12 }}` grid props and our [margin utilities](https://coreui.io/docs/utilities/spacing). Grid props are sized to match columns while margins are more useful for quick layouts where the width of the offset is variable.
+You can offset grid columns in two ways: our responsive `xs|sm|md|lg|xl|xxl={{ offset: 0-12 }}` grid props and our margin utilities. Grid props are sized to match columns while margins are more useful for quick layouts where the width of the offset is variable.
 
 #### Offset prop
 

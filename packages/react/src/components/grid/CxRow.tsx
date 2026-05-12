@@ -99,7 +99,7 @@ export const CxRow = forwardRef<HTMLDivElement, CRowProps>(
     const _className = classNames('row', repsonsiveClassNames, className)
 
     return (
-      <div className={_className} ref={ref}>
+      <div className={_className} {...rest} ref={ref}>
         {children}
       </div>
     )

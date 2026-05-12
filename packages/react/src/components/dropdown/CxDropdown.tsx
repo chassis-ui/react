@@ -109,17 +109,15 @@ export const CxDropdown = forwardRef<HTMLDivElement | HTMLLIElement, CDropdownPr
 
     const Component = variant === 'nav-item' ? 'li' : component
 
-    // Disable popper if responsive aligment is set.
-    if (typeof alignment === 'object') {
-      popper = false
-    }
+    // Disable popper when a responsive alignment object is supplied.
+    const effectivePopper = typeof alignment === 'object' ? false : popper
 
     const contextValues = {
       alignment,
       dark,
       direction: direction,
       placement: placement,
-      popper,
+      popper: effectivePopper,
       variant,
       visible: _visible,
       setVisible,
@@ -135,15 +133,24 @@ export const CxDropdown = forwardRef<HTMLDivElement | HTMLLIElement, CDropdownPr
     )
 
     useEffect(() => {
-      _visible &&
-        setTimeout(() => {
-          window.addEventListener('click', handleClickOutside)
-          window.addEventListener('keyup', handleKeyup)
-        })
+      if (!_visible) return
+
+      const handleDismiss = (event: Event) => {
+        if (!dropdownRef.current?.contains(event.target as HTMLElement)) {
+          setVisible(false)
+        }
+      }
+
+      // Defer attaching listeners so the toggle's own click doesn't immediately close the menu.
+      const id = setTimeout(() => {
+        window.addEventListener('click', handleDismiss)
+        window.addEventListener('keyup', handleDismiss)
+      })
 
       return () => {
-        window.removeEventListener('click', handleClickOutside)
-        window.removeEventListener('keyup', handleKeyup)
+        clearTimeout(id)
+        window.removeEventListener('click', handleDismiss)
+        window.removeEventListener('keyup', handleDismiss)
       }
     }, [_visible])
 
@@ -152,20 +159,12 @@ export const CxDropdown = forwardRef<HTMLDivElement | HTMLLIElement, CDropdownPr
     }, [visible])
 
     useEffect(() => {
-      _visible && onShow && onShow()
-      !_visible && onHide && onHide()
+      if (_visible) {
+        onShow && onShow()
+      } else {
+        onHide && onHide()
+      }
     }, [_visible])
-
-    const handleKeyup = (event: Event) => {
-      if (!dropdownRef.current?.contains(event.target as HTMLElement)) {
-        setVisible(false)
-      }
-    }
-    const handleClickOutside = (event: Event) => {
-      if (!dropdownRef.current?.contains(event.target as HTMLElement)) {
-        setVisible(false)
-      }
-    }
 
     const dropdownContent = () => {
       return variant === 'input-group' ? (
@@ -177,7 +176,7 @@ export const CxDropdown = forwardRef<HTMLDivElement | HTMLLIElement, CDropdownPr
       )
     }
 
-    return popper ? (
+    return effectivePopper ? (
       <CDropdownContext.Provider value={contextValues}>
         <Manager>{dropdownContent()}</Manager>
       </CDropdownContext.Provider>

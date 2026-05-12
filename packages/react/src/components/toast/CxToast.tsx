@@ -25,7 +25,7 @@ export interface CToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title
    */
   className?: string
   /**
-   * Sets the context context of the component to one of Bootstrap React’s themed colors.
+   * Sets the context context of the component to one of Chassis themed colors.
    *
    * @type 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light' | string
    */
@@ -147,7 +147,7 @@ export const CxToast = forwardRef<HTMLDivElement, CToastProps>(
                 aria-atomic="true"
                 role="alert"
                 onMouseEnter={() => clearTimeout(timeout.current)}
-                onMouseLeave={() => _autohide}
+                onMouseLeave={_autohide}
                 {...rest}
                 key={key}
                 ref={ref}

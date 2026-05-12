@@ -22,7 +22,7 @@ exports[`loads and displays CxDropdownMenu component 1`] = `
   <ul
     aria-hidden="true"
     class="dropdown-menu"
-    data-coreui-popper="static"
+    data-cx-popper="static"
     role="menu"
   />
 </div>

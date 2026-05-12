@@ -89,19 +89,21 @@ The documentation for the Chassis React is hosted at our website [Chassis React]
 ### Running documentation locally
 
 1. Run `pnpm install` to install all dependencies.
-2. From the root directory, run `pnpm docs:dev` to start the Astro dev server.
-3. Open `http://localhost:4321/react/` in your browser.
+2. From the root directory, run `pnpm start` to build the library, start the library in watch mode, and start the Astro dev server.
+3. Open `http://localhost:4327/react/` in your browser.
 
 ### Available scripts
 
 | Script | Description |
 |---|---|
-| `pnpm docs:dev` | Start the Astro docs dev server |
-| `pnpm docs:build` | Generate API data then build the static docs site |
-| `pnpm docs:preview` | Preview the built docs site locally |
+| `pnpm start` | Sync submodules, build the library, then watch the library and Astro site together |
+| `pnpm dev` | Watch the library and Astro site without rebuilding submodules |
+| `pnpm astro:dev` | Start only the Astro dev server |
+| `pnpm site:build` | Generate API data, sync submodules, and build the static docs site |
+| `pnpm astro:preview` | Preview the built docs site locally |
 | `pnpm api:generate` | Re-generate prop table JSON from TypeScript source |
-| `pnpm --filter @chassis-ui/react test` | Run component tests |
-| `pnpm --filter @chassis-ui/react build` | Build the component library |
+| `pnpm test` | Run component tests with coverage |
+| `pnpm lib:build` | Build the component library |
 
 ## Contributing
 

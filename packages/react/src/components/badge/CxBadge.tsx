@@ -9,7 +9,7 @@ export interface CBadgeProps extends HTMLAttributes<HTMLDivElement | HTMLSpanEle
    */
   className?: string
   /**
-   * Sets the context context of the component to one of Bootstrap React’s themed colors.
+   * Sets the context context of the component to one of Chassis themed colors.
    *
    * @type 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light' | string
    */
@@ -33,7 +33,7 @@ export interface CBadgeProps extends HTMLAttributes<HTMLDivElement | HTMLSpanEle
    */
   size?: 'small'
   /**
-   * Sets the text context of the component to one of Bootstrap React’s themed colors.
+   * Sets the text context of the component to one of Chassis themed colors.
    *
    * @type 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light' | 'white' | 'white-50' | 'muted' | 'black-50' | 'body' | string
    */

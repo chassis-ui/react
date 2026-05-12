@@ -1,6 +1,6 @@
 ---
 title: Navs & Tabs Components
-description: Documentation and examples for how to use Bootstrap React's included navigation components.
+description: Documentation and examples for how to use Chassis included navigation components.
 
 toc: true
 ---
@@ -82,7 +82,7 @@ With tabs or pills variant:
 
 ## Base nav
 
-Navigation available in Bootstrap React share general markup and styles, from the base `.nav` class to the active and disabled states. Swap modifier classes to switch between each style.
+Navigation available in Chassis share general markup and styles, from the base `.nav` class to the active and disabled states. Swap modifier classes to switch between each style.
 
 The base `<CxNav>` component is built with flexbox and provide a strong foundation for building all types of navigation components. It includes some style overrides (for working with lists), some link padding for larger hit areas, and basic disabled styling.
 
@@ -162,7 +162,7 @@ Change the style of `<CxNav>`'s component with modifiers and utilities. Mix and 
 
 ### Horizontal alignment
 
-Change the horizontal alignment of your nav with [flexbox utilities](https://coreui.io/docs/layout/grid/#horizontal-alignment). By default, navs are left-aligned, but you can easily change them to center or right aligned.
+Change the horizontal alignment of your nav with flexbox utilities. By default, navs are left-aligned, but you can easily change them to center or right aligned.
 
 Centered with `.justify-content-center`:
 
@@ -482,7 +482,7 @@ For equal-width elements, use `layout="justified"`. All horizontal space will be
 
 ## Working with flex utilities
 
-If you need responsive nav variations, consider using a series of [flexbox utilities](https://coreui.io/docs/utilities/flex). While more verbose, these utilities offer greater customization across responsive breakpoints. In the example below, our nav will be stacked on the lowest breakpoint, then adapt to a horizontal layout that fills the available width starting from the small breakpoint.
+If you need responsive nav variations, consider using a series of flexbox utilities. While more verbose, these utilities offer greater customization across responsive breakpoints. In the example below, our nav will be stacked on the lowest breakpoint, then adapt to a horizontal layout that fills the available width starting from the small breakpoint.
 
 <Example>
   <CxNav component="nav" variant="pills" className="flex-column small:flex-row">

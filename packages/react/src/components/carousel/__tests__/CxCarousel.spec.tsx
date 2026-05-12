@@ -86,8 +86,8 @@ test('CxCarousel click on indicator', async () => {
   expect(item2).toHaveClass('carousel-item')
 
   // click
-  const ci = document.querySelector('.carousel-indicators')
-  ci && fireEvent.click(ci.children[1])
+  const buttons = document.querySelectorAll('.carousel-indicator-button')
+  buttons[1] && fireEvent.click(buttons[1])
   fireEvent.transitionEnd(item1)
   fireEvent.transitionEnd(item2)
 
@@ -95,7 +95,7 @@ test('CxCarousel click on indicator', async () => {
   expect(item2).toHaveClass('active')
 
   // goback-click
-  ci && fireEvent.click(ci.children[0])
+  buttons[0] && fireEvent.click(buttons[0])
   fireEvent.transitionEnd(item1)
   fireEvent.transitionEnd(item2)
 

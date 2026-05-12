@@ -23,29 +23,29 @@ exports[`CxPagination example 1`] = `
       <li
         class="page-item"
       >
-        <a
+        <button
           class="page-link"
         >
           A
-        </a>
+        </button>
       </li>
       <li
         class="page-item"
       >
-        <a
+        <button
           class="page-link"
         >
           B
-        </a>
+        </button>
       </li>
       <li
         class="page-item"
       >
-        <a
+        <button
           class="page-link"
         >
           C
-        </a>
+        </button>
       </li>
     </ul>
   </nav>

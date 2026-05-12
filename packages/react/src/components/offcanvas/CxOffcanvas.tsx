@@ -120,6 +120,7 @@ export const CxOffcanvas = forwardRef<HTMLDivElement, COffcanvasProps>(
           <div
             className={_className}
             role="dialog"
+            aria-modal="true"
             style={{ ...(transitionStyles as Record<string, React.CSSProperties>)[state] }}
             tabIndex={-1}
             onKeyDown={handleKeyDown}

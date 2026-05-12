@@ -1,133 +1,65 @@
 <p align="center">
-  <a href="https://coreui.io/bootstrap-react">
+  <a href="https://chassis-ui.com/react">
     <img
-      src="https://coreui.io/images/brand/bootstrap-react.svg"
-      alt="Bootstrap React Logo"
+      src="https://chassis-ui.com/static/images/site-logo.svg"
+      alt="Chassis UI Logo"
       width="300"
     />
   </a>
 </p>
 
 <p align="center">
-  React.js Components Library built on top of Bootstrap 5 and TypeScript backed by the professional team.
+  React.js component library built on Chassis CSS and TypeScript.
   <br>
-  <a href="https://coreui.io/bootstrap-react/getting-started/introduction"><strong>Explore Bootstrap React docs »</strong></a>
+  <a href="https://chassis-ui.com/react/getting-started/introduction"><strong>Explore the Chassis React docs »</strong></a>
   <br>
   <br>
-  <a href="https://github.com/coreui/bootstrap-react/issues/new?template=bug_report.md">Report bug</a>
+  <a href="https://github.com/chassis-ui/react/issues/new?template=bug_report.md">Report bug</a>
   ·
-  <a href="https://github.com/coreui/bootstrap-react/issues/new?template=feature_request.md">Request feature</a>
-  ·
-  <a href="https://blog.coreui.io/">Blog</a>
+  <a href="https://github.com/chassis-ui/react/issues/new?template=feature_request.md">Request feature</a>
 </p>
 
-
-## Table of contents
-
-- [Quick start](#quick-start)
-- [Status](#status)
-- [What's included](#whats-included)
-- [Bugs and feature requests](#bugs-and-feature-requests)
-- [Documentation](#documentation)
-- [Contributing](#contributing)
-- [Community](#community)
-- [Versioning](#versioning)
-- [Creators](#creators)
-- [Copyright and license](#copyright-and-license)
-
-## Quick start
-
-### Instalation
-
-Several quick start options are available:
-
-- [Download the latest release](https://github.com/coreui/bootstrap-react/archive/v4.1.0.zip)
-- Clone the repo: `git clone https://github.com/coreui/bootstrap-react.git`
-- Install with [npm](https://www.npmjs.com/): `npm install @coreui/bootstrap-react`
-- Install with [yarn](https://yarnpkg.com/): `yarn add @coreui/bootstrap-react`
-
-Read the [Getting started page](https://coreui.io/bootstrap-react/getting-started/introduction/) for information on the framework contents, templates and examples, and more.
-
-### Stylesheets
-
-React components are styled using `bootstrap` CSS library.
-
-#### Installation
+## Installation
 
 ```bash
-yarn add bootstrap
+npm install @chassis-ui/react
 ```
 
 or
 
 ```bash
-npm install bootstrap
+yarn add @chassis-ui/react
 ```
 
-##### Basic usage
+## Stylesheets
+
+React components are styled with the `@chassis-ui/css` library.
+
+```bash
+npm install @chassis-ui/css
+```
 
 ```js
-import "bootstrap/dist/css/bootstrap.min.css";
+import '@chassis-ui/css/dist/css/chassis.min.css'
 ```
 
-## Status
+## Usage
 
-[![Build Status](https://github.com/coreui/bootstrap-react/workflows/JS%20Tests/badge.svg?branch=main)](https://github.com/coreui/bootstrap-react/actions?query=workflow%3AJS+Tests+branch%3Amain)
-[![npm version](https://img.shields.io/npm/v/@coreui/bootstrap-react)](https://www.npmjs.com/package/@coreui/bootstrap-react)
-[![peerDependencies Status](https://img.shields.io/david/peer/coreui/coreui)](https://david-dm.org/coreui/coreui?type=peer)
-[![devDependency Status](https://img.shields.io/david/dev/coreui/coreui)](https://david-dm.org/coreui/coreui?type=dev)
-[![Coverage Status](https://img.shields.io/coveralls/github/coreui/coreui-react/main)](https://coveralls.io/github/coreui/coreui-react?branch=main)
+```jsx
+import { CxButton } from '@chassis-ui/react'
 
-## Bugs and feature requests
+export function Example() {
+  return <CxButton context="primary">Click me</CxButton>
+}
+```
 
-Have a bug or a feature request? Please first read the [issue guidelines](https://github.com/coreui/bootstrap-react/blob/main/.github/CONTRIBUTING.md#using-the-issue-tracker) and search for existing and closed issues. If your problem or idea is not addressed yet, [please open a new issue](https://github.com/coreui/bootstrap-react/issues/new).
+See the [Getting started page](https://chassis-ui.com/react/getting-started/introduction/) for the full component catalog, props, and examples.
 
-## Documentation
+## Peer dependencies
 
-The documentation for the Bootstrap React is hosted at our website [Bootstrap React](https://coreui.io/bootstrap-react/)
+- `react` ≥ 18
+- `react-dom` ≥ 18
 
-### Running documentation locally
+## License
 
-1. Run `yarn install` or `npm install` to install the Node.js dependencies.
-2. Run `yarn bootstrap` or `npm run bootstrap` to link local packages together and install remaining package dependencies.
-3. From the root directory, run `yarn docs:dev` or `npm run docs:dev` (or a specific npm script) to rebuild distributed CSS and JavaScript files, as well as our docs assets.
-4. Open `http://localhost:8000/` in your browser, and voilà.
-
-## Contributing
-
-Please read through our [contributing guidelines](https://github.com/coreui/bootstrap-react/blob/main/.github/CONTRIBUTING.md). Included are directions for opening issues, coding standards, and notes on development.
-
-Editor preferences are available in the [editor config](https://github.com/coreui/bootstrap-react/blob/main/.editorconfig) for easy use in common text editors. Read more and download plugins at <https://editorconfig.org/>.
-
-## Community
-
-Stay up to date on the development of Bootstrap React and reach out to the community with these helpful resources.
-
-- Read and subscribe to [The Official CoreUI Blog](https://blog.coreui.io/).
-
-You can also follow [@core_ui on Twitter](https://twitter.com/core_ui).
-
-## Versioning
-
-For transparency into our release cycle and in striving to maintain backward compatibility, Bootstrap React is maintained under [the Semantic Versioning guidelines](http://semver.org/).
-
-See [the Releases section of our project](https://github.com/coreui/bootstrap-react/releases) for changelogs for each release version.
-
-## Creators
-
-**Łukasz Holeczek**
-
-- <https://twitter.com/lukaszholeczek>
-- <https://github.com/mrholek>
-
-**Andrzej Kopański**
-
-- <https://github.com/xidedix>
-
-**The CoreUI Team**
-
-- <https://github.com/orgs/coreui/people>
-
-## Copyright and license
-
-Copyright 2021 creativeLabs Łukasz Holeczek. Code released under the [MIT License](https://github.com/coreui/bootstrap-react/blob/main/LICENSE). Docs released under [Creative Commons](https://creativecommons.org/licenses/by/3.0/).
+Code released under the [MIT License](./LICENSE).

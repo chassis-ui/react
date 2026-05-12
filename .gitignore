@@ -14,7 +14,12 @@ site/public
 # OS
 ._*
 .DS_Store
+**/.DS_Store
 Thumbs.db
+
+# Test artifacts
+test_output.log
+test_output.txt
 
 # IDE
 # .vscode

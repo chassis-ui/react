@@ -128,9 +128,11 @@ export const CxModal = forwardRef<HTMLDivElement, CModalProps>(
     }
 
     useLayoutEffect(() => {
+      if (!staticBackdrop) return
       onClosePrevented && onClosePrevented()
-      setTimeout(() => setStaticBackdrop(false), duration)
-    }, [staticBackdrop])
+      const id = setTimeout(() => setStaticBackdrop(false), duration)
+      return () => clearTimeout(id)
+    }, [staticBackdrop, duration, onClosePrevented])
 
     const getTransitionClass = (state: string) => {
       return state === 'entering'
@@ -182,6 +184,9 @@ export const CxModal = forwardRef<HTMLDivElement, CModalProps>(
             className={classNames(_className, transitionClass)}
             tabIndex={-1}
             role="dialog"
+            aria-modal="true"
+            onClick={handleDismiss}
+            onKeyDown={handleKeyDown}
             ref={ref}
           >
             <CxModalDialog
@@ -200,23 +205,21 @@ export const CxModal = forwardRef<HTMLDivElement, CModalProps>(
 
     return (
       <>
-        <div onClick={handleDismiss} onKeyDown={handleKeyDown}>
-          <Transition
-            in={_visible}
-            mountOnEnter
-            onEnter={onShow}
-            onExit={onClose}
-            unmountOnExit
-            timeout={!transition ? 0 : duration}
-          >
-            {(state) => {
-              const transitionClass = getTransitionClass(state)
-              return typeof window !== 'undefined' && portal
-                ? createPortal(modal(forkedRef, transitionClass), document.body)
-                : modal(forkedRef, transitionClass)
-            }}
-          </Transition>
-        </div>
+        <Transition
+          in={_visible}
+          mountOnEnter
+          onEnter={onShow}
+          onExit={onClose}
+          unmountOnExit
+          timeout={!transition ? 0 : duration}
+        >
+          {(state) => {
+            const transitionClass = getTransitionClass(state)
+            return typeof window !== 'undefined' && portal
+              ? createPortal(modal(forkedRef, transitionClass), document.body)
+              : modal(forkedRef, transitionClass)
+          }}
+        </Transition>
         {typeof window !== 'undefined' && portal
           ? backdrop && createPortal(<CxBackdrop visible={_visible} />, document.body)
           : backdrop && <CxBackdrop visible={_visible} />}

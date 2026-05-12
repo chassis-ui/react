@@ -1,10 +1,9 @@
-import React, { FC, ReactElement, ReactNode, useState } from 'react'
+import React, { FC, ReactElement, ReactNode, useId, useState } from 'react'
 import { createPortal } from 'react-dom'
 import classNames from 'classnames'
 import { Manager, Popper, Reference } from 'react-popper'
 import { Transition } from 'react-transition-group'
 
-// import { CPopoverContent } from './CPopoverContent'
 import { Triggers } from '../Types'
 
 export interface CPopoverProps {
@@ -58,6 +57,7 @@ export const CxPopover: FC<CPopoverProps> = ({
   ...rest
 }) => {
   const [_visible, setVisible] = useState(visible)
+  const popoverId = useId()
 
   const getTransitionClass = (state: string) => {
     return state === 'entering'
@@ -75,6 +75,7 @@ export const CxPopover: FC<CPopoverProps> = ({
         {({ ref }) =>
           React.cloneElement(children, {
             ref: ref,
+            'aria-describedby': _visible ? popoverId : undefined,
             ...((trigger === 'click' || trigger.includes('click')) && {
               onClick: () => setVisible(!_visible),
             }),
@@ -118,6 +119,7 @@ export const CxPopover: FC<CPopoverProps> = ({
                 >
                   {({ arrowProps, style, ref }) => (
                     <div
+                      id={popoverId}
                       className={classNames(
                         `popover bs-popover-${
                           placement === 'left' ? 'start' : placement === 'right' ? 'end' : placement

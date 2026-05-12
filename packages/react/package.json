@@ -1,6 +1,6 @@
 {
   "name": "@chassis-ui/react",
-  "version": "1.0.0-beta.0",
+  "version": "0.1.0",
   "description": "Chassis UI Components Library for React.js",
   "keywords": [
     "react",
@@ -13,7 +13,7 @@
     "component library",
     "components"
   ],
-  "homepage": "https://chassis-ui.io/react/",
+  "homepage": "https://chassis-ui.com/react/",
   "bugs": {
     "url": "https://github.com/chassis-ui/react/issues"
   },
@@ -27,6 +27,15 @@
   "module": "dist/index.es.js",
   "jsnext:main": "dist/index.es.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "sideEffects": false,
   "files": [
     "dist/",
     "src/"
@@ -55,7 +64,7 @@
     "typescript": "^5.0.0"
   },
   "peerDependencies": {
-    "react": ">=17",
-    "react-dom": ">=17"
+    "react": ">=18",
+    "react-dom": ">=18"
   }
 }

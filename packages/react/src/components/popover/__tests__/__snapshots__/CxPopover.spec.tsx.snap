@@ -3,6 +3,7 @@
 exports[`CxPopover customize 1`] = `
 <body>
   <button
+    aria-describedby=":r1:"
     class="button primary"
     type="button"
   >
@@ -10,6 +11,7 @@ exports[`CxPopover customize 1`] = `
   </button>
   <div
     class="popover bs-popover-end fade"
+    id=":r1:"
     role="tooltip"
     style="position: absolute; left: 0px; top: 0px;"
   >

@@ -56,7 +56,7 @@ test('CxToast click on dismiss button', async () => {
         >
           <rect width="100%" height="100%" fill="#007aff"></rect>
         </svg>
-        <strong className="me-auto">Bootstrap React</strong>
+        <strong className="me-auto">Chassis</strong>
         <small>7 min ago</small>
       </CxToastHeader>
       <CxToastBody>Hello, world! This is a toast message.</CxToastBody>

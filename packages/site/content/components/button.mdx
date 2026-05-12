@@ -1,6 +1,6 @@
 ---
 title: Buttons
-description: Bootstrap React button component for actions in tables, forms, cards, and more. Bootstrap React provides various styles, states, and size. Ready to use and easy to customize.
+description: Chassis button component for actions in tables, forms, cards, and more. Chassis provides various styles, states, and size. Ready to use and easy to customize.
 
 toc: true
 ---
@@ -10,7 +10,7 @@ import { CxButton } from '@chassis-ui/react'
 
 ## Examples
 
-Bootstrap React includes a bunch of predefined buttons components, each serving its own semantic purpose. Buttons show what action will happen when the user clicks or touches it. Bootstrap React buttons are used to initialize operations, both in the background or foreground of an experience.
+Chassis includes a bunch of predefined buttons components, each serving its own semantic purpose. Buttons show what action will happen when the user clicks or touches it. Chassis buttons are used to initialize operations, both in the background or foreground of an experience.
 
 <Example>
   <CxButton context="primary">Primary</CxButton>
@@ -175,7 +175,7 @@ Add the `disabled` boolean prop to any `<CxButton>` component to make buttons lo
 
 Disabled buttons using the `<a>` component act a little different:
 
-`<a>`s don't support the `disabled` attribute, so Bootstrap React has to add `.disabled` className to make buttons look inactive. Bootstrap React also has to add to the disabled button component `aria-disabled="true"` attribute to show the state of the component to assistive technologies.
+`<a>`s don't support the `disabled` attribute, so Chassis has to add `.disabled` className to make buttons look inactive. Chassis also has to add to the disabled button component `aria-disabled="true"` attribute to show the state of the component to assistive technologies.
 
 <Example>
   <CxButton component="a" href="#" context="primary" size="large" disabled>

@@ -10,16 +10,35 @@ exports[`loads and displays CxCarousel component 1`] = `
     >
       <li
         class="active"
-        data-coreui-target=""
-      />
+        data-cx-target=""
+      >
+        <button
+          aria-current="true"
+          aria-label="Slide 1"
+          class="carousel-indicator-button"
+          type="button"
+        />
+      </li>
       <li
         class=""
-        data-coreui-target=""
-      />
+        data-cx-target=""
+      >
+        <button
+          aria-label="Slide 2"
+          class="carousel-indicator-button"
+          type="button"
+        />
+      </li>
       <li
         class=""
-        data-coreui-target=""
-      />
+        data-cx-target=""
+      >
+        <button
+          aria-label="Slide 3"
+          class="carousel-indicator-button"
+          type="button"
+        />
+      </li>
     </ol>
     <div
       class="carousel-inner"
@@ -56,18 +75,22 @@ exports[`loads and displays CxCarousel component 1`] = `
       </div>
     </div>
     <button
+      aria-label="Previous slide"
       class="carousel-control-prev"
+      type="button"
     >
       <span
-        aria-label="prev"
+        aria-hidden="true"
         class="carousel-control-prev-icon"
       />
     </button>
     <button
+      aria-label="Next slide"
       class="carousel-control-next"
+      type="button"
     >
       <span
-        aria-label="next"
+        aria-hidden="true"
         class="carousel-control-next-icon"
       />
     </button>

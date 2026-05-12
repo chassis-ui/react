@@ -1,6 +1,5 @@
 import React, { ChangeEventHandler, forwardRef, InputHTMLAttributes } from 'react'
 import classNames from 'classnames'
-// import { CxFormLabel } from './CxFormLabel'
 
 export interface CFormInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
   /**
@@ -48,7 +47,7 @@ export interface CFormInputProps extends Omit<InputHTMLAttributes<HTMLInputEleme
 }
 
 export const CxFormInput = forwardRef<HTMLInputElement, CFormInputProps>(
-  ({ children, className, invalid, plainText, size, type = 'text', valid, ...rest }, ref) => {
+  ({ className, invalid, plainText, size, type = 'text', valid, ...rest }, ref) => {
     const _className = classNames(
       plainText ? 'form-control-plaintext' : 'form-input',
       size,
@@ -59,11 +58,7 @@ export const CxFormInput = forwardRef<HTMLInputElement, CFormInputProps>(
       },
       className,
     )
-    return (
-      <input type={type} className={_className} {...rest} ref={ref}>
-        {children}
-      </input>
-    )
+    return <input type={type} className={_className} {...rest} ref={ref} />
   },
 )
 

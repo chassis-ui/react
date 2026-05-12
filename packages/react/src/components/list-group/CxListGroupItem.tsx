@@ -15,7 +15,7 @@ export interface CListGroupItemProps
    */
   className?: string
   /**
-   * Sets the context context of the component to one of Bootstrap React’s themed colors.
+   * Sets the context context of the component to one of Chassis themed colors.
    *
    * @type 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light' | string
    */

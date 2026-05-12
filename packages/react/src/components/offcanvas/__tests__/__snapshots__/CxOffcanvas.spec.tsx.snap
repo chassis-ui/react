@@ -3,6 +3,7 @@
 exports[`CxOffcanvas customize and event on click backdrop 1`] = `
 <div>
   <div
+    aria-modal="true"
     class="offcanvas offcanvas-end show bazinga"
     role="dialog"
     style="visibility: visible;"
@@ -19,6 +20,7 @@ exports[`CxOffcanvas customize and event on click backdrop 1`] = `
 exports[`CxOffcanvas customize and event on keypress 1`] = `
 <div>
   <div
+    aria-modal="true"
     class="offcanvas offcanvas-end show bazinga"
     role="dialog"
     style="visibility: visible;"
@@ -35,6 +37,7 @@ exports[`CxOffcanvas customize and event on keypress 1`] = `
 exports[`CxOffcanvas customize one 1`] = `
 <div>
   <div
+    aria-modal="true"
     class="offcanvas offcanvas-start bazinga"
     role="dialog"
     style="visibility: hidden;"

@@ -147,7 +147,19 @@
       "Bash(xargs rm -f)",
       "Bash(pnpm --filter @chassis-ui/react test --passWithNoTests)",
       "Bash(node node_modules/.bin/jest --testPathPattern=\"accordion|notification|CxCardBody|CxCardText|CxBadge\")",
-      "Bash(kill 90058)"
+      "Bash(kill 90058)",
+      "Bash(awk 'NR==251' packages/site/content/components/toast.mdx)",
+      "Bash(grep -E \"\\\\.DS_Store$|^test_output|^coverage/|^packages/site/content\\\\.gatsby/\")",
+      "Bash(grep -cE \"\\\\.DS_Store$\")",
+      "Bash(grep -E \"\\\\.DS_Store$|^test_output\\\\.\")",
+      "Bash(git rm *)",
+      "Bash(xargs -n1 sh -c 'case \"$0\" in *.DS_Store\\) echo \"$0\";; esac')",
+      "Bash(pnpm lint *)",
+      "Bash(pnpm exec *)",
+      "Bash(pnpm test *)",
+      "Bash(git mv *)",
+      "Bash(pnpm lib:build)",
+      "Bash(echo \"exit=$?\")"
     ]
   }
 }

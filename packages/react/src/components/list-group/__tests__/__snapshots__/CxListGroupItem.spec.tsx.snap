@@ -3,7 +3,7 @@
 exports[`CxListGroupItem customize 1`] = `
 <div>
   <button
-    aria-current="true"
+    aria-current="page"
     aria-disabled="true"
     class="list-item warning action active disabled bazinga active disabled"
     disabled=""

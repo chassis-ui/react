@@ -30,6 +30,9 @@ import { promisify } from 'node:util'
 // These files contain hardcoded version numbers that need to be kept in sync
 const FILES = ['README.md', 'packages/site/config.yml']
 
+// Workspace package.json files that should track the root version.
+const WORKSPACE_PACKAGE_FILES = ['packages/react/package.json']
+
 const SEMVER_RE = /^\d+\.\d+\.\d+$/
 const KNOWN_FLAGS = new Set(['--dry', '--dry-run', '--patch', '--minor', '--major', '--help', '-h'])
 
@@ -142,6 +145,42 @@ async function bumpNpmVersion(newVersion) {
   }
 }
 
+/**
+ * Updates the `version` field of a workspace package.json file.
+ * @param {string} file - Path to the workspace package.json
+ * @param {string} newVersion - The new version to set
+ * @returns {Promise<boolean>} True if file was updated
+ */
+async function bumpWorkspacePackage(file, newVersion) {
+  try {
+    const raw = await fs.readFile(file, 'utf8')
+    const pkg = JSON.parse(raw)
+
+    if (pkg.version === newVersion) {
+      return false
+    }
+
+    if (DRY_RUN) {
+      console.log(`🔍 Would set "version": "${newVersion}" in ${file}`)
+      return true
+    }
+
+    pkg.version = newVersion
+    // Preserve trailing newline if the original file had one.
+    const trailingNewline = raw.endsWith('\n') ? '\n' : ''
+    await fs.writeFile(file, `${JSON.stringify(pkg, null, 2)}${trailingNewline}`, 'utf8')
+    console.log(`📄 Updated version in ${file} to v${newVersion}`)
+    return true
+  } catch (error) {
+    if (error.code === 'ENOENT') {
+      console.warn(`⚠️ Skipped missing workspace package: ${file}`)
+      return false
+    }
+    console.error(`❌ Error updating ${file}: ${error.message}`)
+    throw error
+  }
+}
+
 function showUsage() {
   console.log('USAGE: change-version <old_version> <new_version> [--dry-run]')
   console.log('       change-version --patch | --minor | --major [--dry-run]')
@@ -227,12 +266,16 @@ async function main() {
   await bumpNpmVersion(newVersion)
 
   try {
+    const workspaceResults = await Promise.all(
+      WORKSPACE_PACKAGE_FILES.map((file) => bumpWorkspacePackage(file, newVersion))
+    )
+
     const results = await Promise.all(
       FILES.map((file) => replaceInFile(file, oldVersion, newVersion))
     )
 
-    const updatedCount = results.filter(Boolean).length
-    const totalCount = updatedCount + 1 // +1 for package.json
+    const updatedCount = results.filter(Boolean).length + workspaceResults.filter(Boolean).length
+    const totalCount = updatedCount + 1 // +1 for root package.json
 
     console.log('')
 

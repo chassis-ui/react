@@ -26,7 +26,7 @@
     },
     "context": {
       "defaultValue": null,
-      "description": "Sets the context context of the component to one of Bootstrap React’s themed colors.",
+      "description": "Sets the context context of the component to one of Chassis themed colors.",
       "name": "context",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/table/CxTableBody.tsx",

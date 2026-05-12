@@ -56,7 +56,11 @@ export const CxDropdownMenu: FC<CDropdownMenuProps> = ({
     if (typeof alignment === 'object') {
       Object.keys(alignment).map((key) => {
         const breakpointMap = alignment as Record<string, string>
-        classNames.push(key === 'xs' ? `dropdown-menu-${breakpointMap[key]}` : `${key}:dropdown-menu-${breakpointMap[key]}`)
+        classNames.push(
+          key === 'xs'
+            ? `dropdown-menu-${breakpointMap[key]}`
+            : `${key}:dropdown-menu-${breakpointMap[key]}`,
+        )
       })
     }
 
@@ -85,7 +89,7 @@ export const CxDropdownMenu: FC<CDropdownMenuProps> = ({
         style={style}
         role="menu"
         aria-hidden={!visible}
-        {...(!popper && { 'data-coreui-popper': 'static' })}
+        {...(!popper && { 'data-cx-popper': 'static' })}
         {...rest}
       >
         {Component === 'ul'

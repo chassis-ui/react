@@ -25,23 +25,31 @@ export interface CLinkProps extends AllHTMLAttributes<HTMLElement> {
 }
 
 export const CxLink = forwardRef<HTMLButtonElement | HTMLAnchorElement, CLinkProps>(
-  ({ children, active, className, component: Component = 'a', disabled, ...rest }, ref) => {
-    // TODO: remove duplicated classes ex. `active active` in `<CxListGroupItem>`
+  (
+    { children, active, className, component: Component = 'a', disabled, onClick, ...rest },
+    ref,
+  ) => {
     const _className = classNames(className, { active, disabled })
+
+    const isInteractive = Component === 'a' || Component === 'button'
+    const handleClick = isInteractive
+      ? (event: MouseEvent<HTMLElement>) => {
+          if (disabled) {
+            event.preventDefault()
+            return
+          }
+          onClick && onClick(event)
+        }
+      : onClick
 
     return (
       <Component
+        {...rest}
         className={_className}
         {...(active && { 'aria-current': 'page' })}
         {...(Component === 'a' && disabled && { 'aria-disabled': true, tabIndex: -1 })}
-        {...((Component === 'a' || Component === 'button') && {
-          onClick: (event: MouseEvent<HTMLElement>) => {
-            event.preventDefault
-            !disabled && rest.onClick && rest.onClick(event)
-          },
-        })}
+        onClick={handleClick}
         disabled={disabled}
-        {...rest}
         ref={ref}
       >
         {children}
