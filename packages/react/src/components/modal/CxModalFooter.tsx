@@ -1,5 +1,4 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 export interface CModalFooterProps extends HTMLAttributes<HTMLDivElement> {
@@ -20,10 +19,5 @@ export const CxModalFooter = forwardRef<HTMLDivElement, CModalFooterProps>(
     )
   },
 )
-
-CxModalFooter.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-}
 
 CxModalFooter.displayName = 'CxModalFooter'

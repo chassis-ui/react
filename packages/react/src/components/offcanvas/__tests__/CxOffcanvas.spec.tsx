@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { render, fireEvent } from '@testing-library/react'
-import '@testing-library/jest-dom/extend-expect'
+
 import { CxOffcanvas } from '../../../index'
 
 test('loads and displays CxOffcanvas component', async () => {

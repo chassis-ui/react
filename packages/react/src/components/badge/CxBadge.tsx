@@ -1,15 +1,7 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-import {
-  Colors,
-  Shapes,
-  TextColors,
-  contextPropType,
-  shapePropType,
-  textColorsPropType,
-} from '../Types'
+import { Colors, Shapes, TextColors } from '../Types'
 
 export interface CBadgeProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElement> {
   /**
@@ -85,16 +77,5 @@ export const CxBadge = forwardRef<HTMLDivElement | HTMLSpanElement, CBadgeProps>
     )
   },
 )
-
-CxBadge.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  context: contextPropType,
-  component: PropTypes.string,
-  position: PropTypes.oneOf(['top-start', 'top-end', 'bottom-end', 'bottom-start']),
-  shape: shapePropType,
-  size: PropTypes.oneOf(['small']),
-  textColor: textColorsPropType,
-}
 
 CxBadge.displayName = 'CxBadge'

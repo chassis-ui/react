@@ -1,5 +1,4 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 type Span = 'auto' | number | string | boolean | null
@@ -124,32 +123,5 @@ export const CxCol = forwardRef<HTMLDivElement, CColProps>(
     )
   },
 )
-
-const span = PropTypes.oneOfType([
-  PropTypes.bool,
-  PropTypes.number,
-  PropTypes.string,
-  PropTypes.oneOf(['auto']),
-])
-
-const col = PropTypes.oneOfType([
-  span,
-  PropTypes.shape({
-    span: span,
-    offset: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    order: PropTypes.oneOfType([
-      PropTypes.oneOf(['first', 'last']),
-      PropTypes.number,
-      PropTypes.string,
-    ]),
-  }),
-])
-
-CxCol.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  xs: col,
-  sm: col,
-}
 
 CxCol.displayName = 'CxCol'

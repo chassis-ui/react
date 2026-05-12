@@ -1,5 +1,4 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 export interface CCardBodyProps extends HTMLAttributes<HTMLDivElement> {
@@ -20,10 +19,5 @@ export const CxCardBody = forwardRef<HTMLDivElement, CCardBodyProps>(
     )
   },
 )
-
-CxCardBody.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-}
 
 CxCardBody.displayName = 'CxCardBody'

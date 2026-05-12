@@ -1,8 +1,7 @@
 import React, { forwardRef, TdHTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-import { Colors, contextPropType } from '../Types'
+import { Colors } from '../Types'
 
 export interface CTableDataCellProps
   extends Omit<TdHTMLAttributes<HTMLTableDataCellElement>, 'align'> {
@@ -44,13 +43,5 @@ export const CxTableDataCell = forwardRef<HTMLTableDataCellElement, CTableDataCe
     )
   },
 )
-
-CxTableDataCell.propTypes = {
-  active: PropTypes.bool,
-  align: PropTypes.oneOf(['bottom', 'middle', 'top']),
-  children: PropTypes.node,
-  className: PropTypes.string,
-  context: contextPropType,
-}
 
 CxTableDataCell.displayName = 'CxTableDataCell'

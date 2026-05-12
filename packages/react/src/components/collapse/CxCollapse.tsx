@@ -1,5 +1,4 @@
 import React, { forwardRef, HTMLAttributes, useRef, useState } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { CSSTransition } from 'react-transition-group'
 
@@ -124,14 +123,5 @@ export const CxCollapse = forwardRef<HTMLDivElement, CCollapseProps>(
     )
   },
 )
-
-CxCollapse.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  horizontal: PropTypes.bool,
-  onHide: PropTypes.func,
-  onShow: PropTypes.func,
-  visible: PropTypes.bool,
-}
 
 CxCollapse.displayName = 'CxCollapse'

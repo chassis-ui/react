@@ -1,6 +1,7 @@
 import * as React from 'react'
+import { act } from 'react'
 import { render, screen } from '@testing-library/react'
-import '@testing-library/jest-dom/extend-expect'
+
 import { CxTabPane, CxTabContent } from '../../../index'
 
 test('loads and displays CxTabPane component', async () => {
@@ -33,7 +34,7 @@ test('CxTabContent use case test', async () => {
   )
   expect(screen.getByText('Test')).not.toHaveClass('show')
   expect(screen.getByText('Test')).toHaveClass('active')
-  jest.runAllTimers()
+  act(() => jest.runAllTimers())
   expect(screen.getByText('Test')).toHaveClass('show')
   expect(screen.getByText('Test')).toHaveClass('active')
   rerender(
@@ -43,9 +44,9 @@ test('CxTabContent use case test', async () => {
   )
   expect(screen.getByText('Test')).not.toHaveClass('show')
   expect(screen.getByText('Test')).not.toHaveClass('active')
-  jest.runAllTimers()
+  act(() => jest.runAllTimers())
   expect(screen.getByText('Test')).not.toHaveClass('show')
   expect(screen.getByText('Test')).not.toHaveClass('active')
-  jest.runAllTimers()
+  act(() => jest.runAllTimers())
   jest.useRealTimers()
 })

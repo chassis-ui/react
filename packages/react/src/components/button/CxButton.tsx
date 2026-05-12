@@ -1,8 +1,7 @@
 import React, { ButtonHTMLAttributes, ElementType, forwardRef } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-import { Colors, Shapes, contextPropType } from '../Types'
+import { Colors, Shapes } from '../Types'
 import { CxLink } from '../link/CxLink'
 
 export interface CButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -94,16 +93,5 @@ export const CxButton = forwardRef<HTMLButtonElement | HTMLAnchorElement, CButto
     )
   },
 )
-
-CxButton.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  context: contextPropType,
-  component: PropTypes.elementType,
-  shape: PropTypes.string,
-  size: PropTypes.oneOf(['small', 'large']),
-  type: PropTypes.oneOf(['button', 'submit', 'reset']),
-  variant: PropTypes.oneOf(['outline', 'smooth']),
-}
 
 CxButton.displayName = 'CxButton'

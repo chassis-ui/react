@@ -1,5 +1,4 @@
 import React, { forwardRef } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { CxNavLink, CNavLinkProps } from './CxNavLink'
 
@@ -20,10 +19,5 @@ export const CxNavItem = forwardRef<HTMLLIElement, CNavLinkProps>(
     )
   },
 )
-
-CxNavItem.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-}
 
 CxNavItem.displayName = 'CxNavItem'

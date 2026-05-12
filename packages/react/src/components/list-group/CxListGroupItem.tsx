@@ -1,8 +1,7 @@
 import React, { ElementType, HTMLAttributes, forwardRef } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-import { Colors, contextPropType } from '../Types'
+import { Colors } from '../Types'
 import { CxLink } from '../link/CxLink'
 
 export interface CListGroupItemProps
@@ -66,14 +65,5 @@ export const CxListGroupItem = forwardRef<
     </Component>
   )
 })
-
-CxListGroupItem.propTypes = {
-  active: PropTypes.bool,
-  children: PropTypes.node,
-  className: PropTypes.string,
-  context: contextPropType,
-  component: PropTypes.elementType,
-  disabled: PropTypes.bool,
-}
 
 CxListGroupItem.displayName = 'CxListGroupItem'

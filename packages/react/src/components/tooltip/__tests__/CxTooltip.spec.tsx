@@ -1,39 +1,45 @@
 import * as React from 'react'
-import ReactDOM from 'react-dom'
-import { act } from 'react-dom/test-utils'
+import { createRoot } from 'react-dom/client'
+import { act } from 'react'
 import { fireEvent } from '@testing-library/react'
-import '@testing-library/jest-dom/extend-expect'
+import '@testing-library/jest-dom'
 import { CxTooltip, CxLink } from '../../../index'
 
 let container: HTMLDivElement | null
+let root: ReturnType<typeof createRoot> | null
 
 beforeEach(() => {
   container = document.createElement('div')
   document.body.appendChild(container)
+  root = createRoot(container)
 })
 
 afterEach(() => {
+  act(() => {
+    root?.unmount()
+  })
   container && document.body.removeChild(container)
   container = null
+  root = null
 })
 
 test('loads and displays CxTooltip component', async () => {
-  ReactDOM.render(
-    <CxTooltip content="content">
-      <CxLink>Test</CxLink>
-    </CxTooltip>,
-    container,
-  )
+  act(() => {
+    root!.render(
+      <CxTooltip content="content">
+        <CxLink>Test</CxLink>
+      </CxTooltip>,
+    )
+  })
   expect(container).toMatchSnapshot()
 })
 
 test('CxTooltip customize', async () => {
   act(() => {
-    ReactDOM.render(
+    root!.render(
       <CxTooltip trigger="hover" placement="right" content="content">
         <CxLink className="link">Test</CxLink>
       </CxTooltip>,
-      container,
     )
   })
   const link = document.querySelector('.link')

@@ -1,5 +1,4 @@
 import React, { forwardRef, HTMLAttributes, useContext } from 'react'
-import PropTypes from 'prop-types'
 import { CModalContext } from './CxModal'
 import { CxCloseButton } from '../close-button/CxCloseButton'
 import classNames from 'classnames'
@@ -28,11 +27,5 @@ export const CxModalHeader = forwardRef<HTMLDivElement, CModalHeaderProps>(
     )
   },
 )
-
-CxModalHeader.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  closeButton: PropTypes.bool,
-}
 
 CxModalHeader.displayName = 'CxModalHeader'

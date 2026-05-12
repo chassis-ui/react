@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CxFormCheck customize button=false 1`] = `
+<div>
+  <div
+    class="form-check form-check-inline bazinga"
+  >
+    <input
+      class="check-input"
+      id="id"
+      type="radio"
+    />
+    <label
+      class="check-label"
+      for="id"
+    >
+      label
+    </label>
+  </div>
+</div>
+`;
+
+exports[`CxFormCheck customize button=true 1`] = `
+<div>
+  <input
+    class="button-check"
+    id="id"
+    type="radio"
+  />
+  <label
+    class="button primary ghost large rounded"
+    for="id"
+  >
+    label
+  </label>
+</div>
+`;
+
+exports[`loads and displays CxFormCheck component 1`] = `
+<div>
+  <input
+    class="check-input"
+    type="checkbox"
+  />
+</div>
+`;

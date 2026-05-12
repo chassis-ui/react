@@ -1,5 +1,4 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { CxProgressBar, CProgressBarProps } from './CxProgressBar'
 
@@ -52,14 +51,5 @@ export const CxProgress = forwardRef<HTMLDivElement, CProgressProps>(
     )
   },
 )
-
-CxProgress.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  height: PropTypes.number,
-  thin: PropTypes.bool,
-  value: PropTypes.number,
-  white: PropTypes.bool,
-}
 
 CxProgress.displayName = 'CxProgress'

@@ -7,11 +7,10 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { Manager } from 'react-popper'
 
-import { Placements, placementPropType } from '../Types'
+import { Placements } from '../Types'
 import { useForkedRef } from '../../utils/hooks'
 
 export type Directions = 'start' | 'end'
@@ -189,31 +188,5 @@ export const CxDropdown = forwardRef<HTMLDivElement | HTMLLIElement, CDropdownPr
     )
   },
 )
-
-const alignmentDirection = PropTypes.oneOf<Directions>(['start', 'end'])
-
-CxDropdown.propTypes = {
-  // @ts-expect-error TODO: we have to find a solution
-  alignment: PropTypes.oneOfType([
-    alignmentDirection,
-    PropTypes.shape({ xs: alignmentDirection }),
-    PropTypes.shape({ small: alignmentDirection }),
-    PropTypes.shape({ medium: alignmentDirection }),
-    PropTypes.shape({ large: alignmentDirection }),
-    PropTypes.shape({ xlarge: alignmentDirection }),
-    PropTypes.shape({ '2xlarge': alignmentDirection }),
-  ]),
-  children: PropTypes.node,
-  className: PropTypes.string,
-  component: PropTypes.elementType,
-  dark: PropTypes.bool,
-  direction: PropTypes.oneOf(['dropup', 'dropend', 'dropstart']),
-  onHide: PropTypes.func,
-  onShow: PropTypes.func,
-  placement: placementPropType,
-  popper: PropTypes.bool,
-  variant: PropTypes.oneOf(['btn-group', 'dropdown', 'input-group', 'nav-item']),
-  visible: PropTypes.bool,
-}
 
 CxDropdown.displayName = 'CxDropdown'

@@ -1,8 +1,7 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-import { Colors, contextPropType } from '../Types'
+import { Colors } from '../Types'
 
 export interface CSpinnerProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElement> {
   /**
@@ -60,14 +59,5 @@ export const CxSpinner = forwardRef<HTMLDivElement | HTMLSpanElement, CSpinnerPr
     )
   },
 )
-
-CxSpinner.propTypes = {
-  className: PropTypes.string,
-  context: contextPropType,
-  component: PropTypes.string,
-  size: PropTypes.oneOf(['small']),
-  variant: PropTypes.oneOf(['border', 'grow']),
-  visuallyHiddenLabel: PropTypes.string,
-}
 
 CxSpinner.displayName = 'CxSpinner'

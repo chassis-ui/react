@@ -1,5 +1,4 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 export interface CCloseButtonProps extends HTMLAttributes<HTMLButtonElement> {
@@ -29,11 +28,5 @@ export const CxCloseButton = forwardRef<HTMLButtonElement, CCloseButtonProps>(
     )
   },
 )
-
-CxCloseButton.propTypes = {
-  className: PropTypes.string,
-  disabled: PropTypes.bool,
-  white: PropTypes.bool,
-}
 
 CxCloseButton.displayName = 'CxCloseButton'

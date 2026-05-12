@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CxInputGroup customize 1`] = `
+<div>
+  <div
+    class="input-group input-group-large bazinga"
+  >
+    Test
+  </div>
+</div>
+`;
+
+exports[`loads and displays CxInputGroup component 1`] = `
+<div>
+  <div
+    class="input-group"
+  >
+    Test
+  </div>
+</div>
+`;

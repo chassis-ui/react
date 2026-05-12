@@ -1,5 +1,4 @@
 import React, { forwardRef, HTMLAttributes, useEffect, useState, useRef, ReactElement } from 'react'
-import PropTypes from 'prop-types'
 import { createPortal } from 'react-dom'
 import classNames from 'classnames'
 export interface CToasterProps extends HTMLAttributes<HTMLDivElement> {
@@ -79,25 +78,5 @@ export const CxToaster = forwardRef<HTMLDivElement, CToasterProps>(
       : toaster(ref)
   },
 )
-
-CxToaster.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  placement: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.oneOf([
-      'top-start',
-      'top-center',
-      'top-end',
-      'middle-start',
-      'middle-center',
-      'middle-end',
-      'bottom-start',
-      'bottom-center',
-      'bottom-end',
-    ]),
-  ]),
-  push: PropTypes.any,
-}
 
 CxToaster.displayName = 'CxToaster'

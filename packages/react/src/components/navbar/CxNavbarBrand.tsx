@@ -1,5 +1,4 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 export interface CNavbarBrandProps extends HTMLAttributes<HTMLAnchorElement | HTMLSpanElement> {
@@ -30,11 +29,5 @@ export const CxNavbarBrand = forwardRef<HTMLAnchorElement | HTMLSpanElement, CNa
     )
   },
 )
-
-CxNavbarBrand.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  component: PropTypes.elementType,
-}
 
 CxNavbarBrand.displayName = 'CxNavbarBrand'

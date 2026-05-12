@@ -1,5 +1,4 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 
 export const CxTableCaption = forwardRef<
   HTMLTableCaptionElement,
@@ -11,9 +10,5 @@ export const CxTableCaption = forwardRef<
     </caption>
   )
 })
-
-CxTableCaption.propTypes = {
-  children: PropTypes.node,
-}
 
 CxTableCaption.displayName = 'CxTableCaption'

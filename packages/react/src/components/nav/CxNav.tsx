@@ -1,5 +1,4 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 export interface CNavItemDef {
@@ -78,21 +77,5 @@ export const CxNav = forwardRef<HTMLDivElement | HTMLUListElement | HTMLOListEle
     )
   },
 )
-
-CxNav.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  component: PropTypes.elementType,
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.node.isRequired,
-      href: PropTypes.string,
-      active: PropTypes.bool,
-      disabled: PropTypes.bool,
-    }) as PropTypes.Validator<CNavItemDef>,
-  ),
-  layout: PropTypes.oneOf(['fill', 'justified']),
-  variant: PropTypes.oneOf(['tabs', 'pills']),
-}
 
 CxNav.displayName = 'CxNav'

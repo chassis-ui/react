@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CxPagination customize 1`] = `
+<div>
+  <nav
+    aria-label="ariaLabel"
+  >
+    <ul
+      class="pagination pagination-large bazinga"
+    >
+      Test
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`CxPagination example 1`] = `
+<div>
+  <nav>
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item"
+      >
+        <a
+          class="page-link"
+        >
+          A
+        </a>
+      </li>
+      <li
+        class="page-item"
+      >
+        <a
+          class="page-link"
+        >
+          B
+        </a>
+      </li>
+      <li
+        class="page-item"
+      >
+        <a
+          class="page-link"
+        >
+          C
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`loads and displays CxPagination component 1`] = `
+<div>
+  <nav>
+    <ul
+      class="pagination"
+    >
+      Test
+    </ul>
+  </nav>
+</div>
+`;

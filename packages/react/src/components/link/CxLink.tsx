@@ -1,5 +1,4 @@
 import React, { AllHTMLAttributes, ElementType, forwardRef, MouseEvent } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 export interface CLinkProps extends AllHTMLAttributes<HTMLElement> {
@@ -50,13 +49,5 @@ export const CxLink = forwardRef<HTMLButtonElement | HTMLAnchorElement, CLinkPro
     )
   },
 )
-
-CxLink.propTypes = {
-  active: PropTypes.bool,
-  children: PropTypes.node,
-  className: PropTypes.string,
-  component: PropTypes.elementType,
-  disabled: PropTypes.bool,
-}
 
 CxLink.displayName = 'CxLink'

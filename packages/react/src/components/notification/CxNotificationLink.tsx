@@ -1,5 +1,4 @@
 import React, { AnchorHTMLAttributes, forwardRef } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 import { CxLink } from '../link/CxLink'
@@ -22,10 +21,5 @@ export const CxNotificationLink = forwardRef<HTMLAnchorElement, CNotificationLin
     )
   },
 )
-
-CxNotificationLink.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-}
 
 CxNotificationLink.displayName = 'CxNotificationLink'

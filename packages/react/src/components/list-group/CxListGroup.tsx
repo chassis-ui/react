@@ -1,8 +1,7 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-import { Colors, contextPropType } from '../Types'
+import { Colors } from '../Types'
 
 export interface CListGroupItemDef {
   /**
@@ -100,29 +99,5 @@ export const CxListGroup = forwardRef<HTMLDivElement | HTMLUListElement, CListGr
     )
   },
 )
-
-CxListGroup.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  component: PropTypes.elementType,
-  flush: PropTypes.bool,
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.node.isRequired,
-      href: PropTypes.string,
-      context: contextPropType,
-      active: PropTypes.bool,
-      disabled: PropTypes.bool,
-    }) as PropTypes.Validator<CListGroupItemDef>,
-  ),
-  layout: PropTypes.oneOf([
-    'horizontal',
-    'horizontal-small',
-    'horizontal-medium',
-    'horizontal-large',
-    'horizontal-xlarge',
-    'horizontal-2xlarge',
-  ]),
-}
 
 CxListGroup.displayName = 'CxListGroup'

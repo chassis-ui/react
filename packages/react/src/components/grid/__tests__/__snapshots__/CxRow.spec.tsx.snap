@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CxRow customize cols 1`] = `
+<div>
+  <div
+    class="row 2xlarge:row-cols-6 xlarge:row-cols-5 large:row-cols-4 medium:row-cols-3 small:row-cols-2 row-cols-1 bazinga"
+  >
+    Test
+  </div>
+</div>
+`;
+
+exports[`CxRow customize gutter 1`] = `
+<div>
+  <div
+    class="row 2xlarge:g-6 xlarge:g-5 large:g-4 medium:g-3 small:g-2 g-1 bazinga"
+  >
+    Test
+  </div>
+</div>
+`;
+
+exports[`CxRow customize gutter single gutter 1`] = `
+<div>
+  <div
+    class="row g-7 bazinga"
+  >
+    Test
+  </div>
+</div>
+`;
+
+exports[`CxRow customize gutterX 1`] = `
+<div>
+  <div
+    class="row 2xlarge:gx-6 xlarge:gx-5 large:gx-4 medium:gx-3 small:gx-2 gx-1 bazinga"
+  >
+    Test
+  </div>
+</div>
+`;
+
+exports[`CxRow customize gutterY 1`] = `
+<div>
+  <div
+    class="row 2xlarge:gy-6 xlarge:gy-5 large:gy-4 medium:gy-3 small:gy-2 gy-1 bazinga"
+  >
+    Test
+  </div>
+</div>
+`;
+
+exports[`CxRow not-customize 1`] = `
+<div>
+  <div
+    class="row"
+  >
+    Test
+  </div>
+</div>
+`;

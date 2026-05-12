@@ -1,8 +1,7 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-import { Colors, contextPropType } from '../Types'
+import { Colors } from '../Types'
 export interface CProgressBarProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * Use to animate the stripes right to left via CSS3 animations.
@@ -56,13 +55,4 @@ export const CxProgressBar = forwardRef<HTMLDivElement, CProgressBarProps>(
     )
   },
 )
-CxProgressBar.propTypes = {
-  animated: PropTypes.bool,
-  children: PropTypes.node,
-  className: PropTypes.string,
-  context: contextPropType,
-  value: PropTypes.number,
-  variant: PropTypes.oneOf(['striped']),
-}
-
 CxProgressBar.displayName = 'CxProgressBar'

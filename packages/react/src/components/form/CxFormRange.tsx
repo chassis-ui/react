@@ -1,5 +1,4 @@
 import React, { ChangeEventHandler, forwardRef, InputHTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 export interface CFormRangeProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -45,9 +44,5 @@ export const CxFormRange = forwardRef<HTMLInputElement, CFormRangeProps>(
     return <input type="range" className={_className} {...rest} ref={ref} />
   },
 )
-
-CxFormRange.propTypes = {
-  className: PropTypes.string,
-}
 
 CxFormRange.displayName = 'CxFormRange'

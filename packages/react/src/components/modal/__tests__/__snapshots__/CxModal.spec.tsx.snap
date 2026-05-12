@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CxModal customize 1`] = `
+<div>
+  <div />
+</div>
+`;
+
+exports[`loads and displays CxModal component 1`] = `
+<div>
+  <div />
+</div>
+`;

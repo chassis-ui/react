@@ -1,5 +1,4 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 export interface CCardImageOverlayProps extends HTMLAttributes<HTMLDivElement> {
@@ -20,10 +19,5 @@ export const CxCardImageOverlay = forwardRef<HTMLDivElement, CCardImageOverlayPr
     )
   },
 )
-
-CxCardImageOverlay.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-}
 
 CxCardImageOverlay.displayName = 'CxCardImageOverlay'

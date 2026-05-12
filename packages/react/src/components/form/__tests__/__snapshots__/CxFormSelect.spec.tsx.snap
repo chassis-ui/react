@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CxFormSelect customize 1`] = `
+<div>
+  <select
+    class="form-select form-select-large bazinga"
+  >
+    <option
+      value="A"
+    >
+      B
+    </option>
+    <option>
+      C
+    </option>
+  </select>
+</div>
+`;
+
+exports[`loads and displays CxFormSelect component 1`] = `
+<div>
+  <select
+    class="form-select"
+  />
+</div>
+`;

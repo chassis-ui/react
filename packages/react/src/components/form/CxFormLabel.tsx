@@ -1,5 +1,4 @@
 import React, { forwardRef, AllHTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 export interface CFormLabelProps extends AllHTMLAttributes<HTMLLabelElement> {
@@ -23,11 +22,5 @@ export const CxFormLabel = forwardRef<HTMLLabelElement, CFormLabelProps>(
     )
   },
 )
-
-CxFormLabel.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  customClassName: PropTypes.string,
-}
 
 CxFormLabel.displayName = 'CxFormLabel'

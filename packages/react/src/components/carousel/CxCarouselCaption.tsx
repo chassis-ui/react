@@ -1,5 +1,4 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 export interface CCarouselCaptionProps extends HTMLAttributes<HTMLDivElement> {
@@ -16,9 +15,5 @@ export const CxCarouselCaption = forwardRef<HTMLDivElement, CCarouselCaptionProp
     return <div className={_className} {...rest} ref={ref} />
   },
 )
-
-CxCarouselCaption.propTypes = {
-  className: PropTypes.string,
-}
 
 CxCarouselCaption.displayName = 'CxCarouselCaption'

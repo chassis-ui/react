@@ -9,7 +9,6 @@ import React, {
   useState,
 } from 'react'
 import { createPortal } from 'react-dom'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { Transition } from 'react-transition-group'
 
@@ -168,7 +167,7 @@ export const CxModal = forwardRef<HTMLDivElement, CModalProps>(
     }, [_visible])
 
     const handleKeyDown = useCallback(
-      (event) => {
+      (event: React.KeyboardEvent) => {
         if (event.key === 'Escape' && keyboard) {
           return handleDismiss()
         }
@@ -225,26 +224,5 @@ export const CxModal = forwardRef<HTMLDivElement, CModalProps>(
     )
   },
 )
-
-CxModal.propTypes = {
-  alignment: PropTypes.oneOf(['top', 'center']),
-  backdrop: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf<'static'>(['static'])]),
-  children: PropTypes.node,
-  className: PropTypes.string,
-  duration: PropTypes.number,
-  fullscreen: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.oneOf<'small' | 'medium' | 'large' | 'xlarge' | '2xlarge'>(['small', 'medium', 'large', 'xlarge', '2xlarge']),
-  ]),
-  keyboard: PropTypes.bool,
-  onClose: PropTypes.func,
-  onClosePrevented: PropTypes.func,
-  onShow: PropTypes.func,
-  portal: PropTypes.bool,
-  scrollable: PropTypes.bool,
-  size: PropTypes.oneOf(['small', 'large', 'xlarge']),
-  transition: PropTypes.bool,
-  visible: PropTypes.bool,
-}
 
 CxModal.displayName = 'CxModal'

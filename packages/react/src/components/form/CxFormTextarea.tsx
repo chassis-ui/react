@@ -1,5 +1,4 @@
 import React, { ChangeEventHandler, forwardRef, InputHTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 export interface CFormTextareaProps extends InputHTMLAttributes<HTMLTextAreaElement> {
@@ -56,13 +55,5 @@ export const CxFormTextarea = forwardRef<HTMLTextAreaElement, CFormTextareaProps
     )
   },
 )
-
-CxFormTextarea.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  invalid: PropTypes.bool,
-  plainText: PropTypes.bool,
-  valid: PropTypes.bool,
-}
 
 CxFormTextarea.displayName = 'CxFormTextarea'

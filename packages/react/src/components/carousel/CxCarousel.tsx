@@ -7,7 +7,6 @@ import React, {
   useEffect,
   useRef,
 } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 import { useForkedRef } from '../../utils/hooks'
@@ -259,20 +258,5 @@ export const CxCarousel = forwardRef<HTMLDivElement, CCarouselProps>(
     )
   },
 )
-
-CxCarousel.propTypes = {
-  activeIndex: PropTypes.number,
-  children: PropTypes.node,
-  className: PropTypes.string,
-  controls: PropTypes.bool,
-  dark: PropTypes.bool,
-  indicators: PropTypes.bool,
-  interval: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
-  onSlid: PropTypes.func,
-  onSlide: PropTypes.func,
-  pause: PropTypes.oneOf([false, 'hover']),
-  transition: PropTypes.oneOf(['slide', 'crossfade']),
-  wrap: PropTypes.bool,
-}
 
 CxCarousel.displayName = 'CxCarousel'

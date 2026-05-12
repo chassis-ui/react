@@ -1,5 +1,4 @@
 import React, { ElementType, forwardRef, useContext } from 'react'
-import PropTypes from 'prop-types'
 import { CToastContext } from './CxToast'
 import { CxCloseButton, CCloseButtonProps } from '../close-button/CxCloseButton'
 
@@ -22,10 +21,5 @@ export const CxToastClose = forwardRef<HTMLButtonElement, CToastCloseProps>(
     )
   },
 )
-
-CxToastClose.propTypes = {
-  ...CxCloseButton.propTypes,
-  component: PropTypes.elementType,
-}
 
 CxToastClose.displayName = 'CxToastClose'

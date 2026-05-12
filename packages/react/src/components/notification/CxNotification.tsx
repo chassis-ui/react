@@ -1,9 +1,8 @@
 import React, { forwardRef, HTMLAttributes, useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { Transition } from 'react-transition-group'
 
-import { Colors, contextPropType } from '../Types'
+import { Colors } from '../Types'
 import { CxCloseButton } from '../close-button/CxCloseButton'
 
 export interface CNotificationProps extends HTMLAttributes<HTMLDivElement> {
@@ -80,15 +79,5 @@ export const CxNotification = forwardRef<HTMLDivElement, CNotificationProps>(
     )
   },
 )
-
-CxNotification.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  context: contextPropType.isRequired,
-  dismissible: PropTypes.bool,
-  variant: PropTypes.oneOf(['solid']),
-  onClose: PropTypes.func,
-  visible: PropTypes.bool,
-}
 
 CxNotification.displayName = 'CxNotification'

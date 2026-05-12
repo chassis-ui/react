@@ -1,5 +1,4 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 export interface CModalDialogProps extends HTMLAttributes<HTMLDivElement> {
@@ -47,17 +46,5 @@ export const CxModalDialog = forwardRef<HTMLDivElement, CModalDialogProps>(
     )
   },
 )
-
-CxModalDialog.propTypes = {
-  alignment: PropTypes.oneOf(['top', 'center']),
-  children: PropTypes.node,
-  className: PropTypes.string,
-  fullscreen: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.oneOf<'small' | 'medium' | 'large' | 'xlarge' | '2xlarge'>(['small', 'medium', 'large', 'xlarge', '2xlarge']),
-  ]),
-  scrollable: PropTypes.bool,
-  size: PropTypes.oneOf(['small', 'large', 'xlarge']),
-}
 
 CxModalDialog.displayName = 'CxModalDialog'

@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CxToast customize 1`] = `
+<div>
+  <div
+    aria-atomic="true"
+    aria-live="assertive"
+    class="toast fade bg-warning border-0 bazinga showing"
+    role="alert"
+  >
+    Test
+  </div>
+</div>
+`;
+
+exports[`CxToast customize 2`] = `
+<div>
+  <div
+    aria-atomic="true"
+    aria-live="assertive"
+    class="toast fade bg-warning border-0 bazinga showing"
+    role="alert"
+  >
+    Test
+  </div>
+</div>
+`;
+
+exports[`CxToast customize 3`] = `
+<div>
+  <div
+    aria-atomic="true"
+    aria-live="assertive"
+    class="toast fade bg-warning border-0 bazinga showing"
+    role="alert"
+  >
+    Test
+  </div>
+</div>
+`;
+
+exports[`CxToast customize 4`] = `
+<div>
+  <div
+    aria-atomic="true"
+    aria-live="assertive"
+    class="toast fade bg-warning border-0 bazinga showing"
+    role="alert"
+  >
+    Test
+  </div>
+</div>
+`;
+
+exports[`CxToast customize 5`] = `
+<div>
+  <div
+    aria-atomic="true"
+    aria-live="assertive"
+    class="toast fade bg-warning border-0 bazinga showing"
+    role="alert"
+  >
+    Test
+  </div>
+</div>
+`;
+
+exports[`CxToast customize 6`] = `
+<div>
+  <div
+    aria-atomic="true"
+    aria-live="assertive"
+    class="toast fade bg-warning border-0 bazinga show"
+    role="alert"
+  >
+    Test
+  </div>
+</div>
+`;
+
+exports[`loads and displays CxToast component 1`] = `<div />`;

@@ -1,5 +1,4 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 export interface CContainerProps extends HTMLAttributes<HTMLDivElement> {
@@ -74,16 +73,5 @@ export const CxContainer = forwardRef<HTMLDivElement, CContainerProps>(
     )
   },
 )
-
-CxContainer.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  sm: PropTypes.bool,
-  md: PropTypes.bool,
-  lg: PropTypes.bool,
-  xl: PropTypes.bool,
-  xxl: PropTypes.bool,
-  fluid: PropTypes.bool,
-}
 
 CxContainer.displayName = 'CxContainer'

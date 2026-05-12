@@ -1,5 +1,4 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 import { CxPaginationItem } from './CxPaginationItem'
@@ -137,16 +136,5 @@ export const CxPagination = forwardRef<HTMLUListElement, CPaginationProps>(
     )
   },
 )
-
-CxPagination.propTypes = {
-  activePage: PropTypes.number,
-  align: PropTypes.oneOf(['start', 'center', 'end']),
-  children: PropTypes.node,
-  className: PropTypes.string,
-  maxVisiblePages: PropTypes.number,
-  onActivePageChange: PropTypes.func,
-  pages: PropTypes.number,
-  size: PropTypes.oneOf(['small', 'large']),
-}
 
 CxPagination.displayName = 'CxPagination'

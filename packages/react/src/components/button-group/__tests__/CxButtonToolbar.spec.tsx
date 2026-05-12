@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { render } from '@testing-library/react'
-import '@testing-library/jest-dom/extend-expect'
+
 import { CxButtonToolbar, CxButtonGroup, CxButton } from '../../../index'
 
 test('loads and displays CxButtonToolbar component', async () => {

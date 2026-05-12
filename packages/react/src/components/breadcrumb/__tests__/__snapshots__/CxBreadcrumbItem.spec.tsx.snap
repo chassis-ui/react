@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CxBreadcrumbItem customize 1`] = `
+<div>
+  <li
+    aria-current="page"
+    class="breadcrumb-item active bazinga"
+  >
+    Test
+  </li>
+</div>
+`;
+
+exports[`loads and displays CxBreadcrumbItem component 1`] = `
+<div>
+  <li
+    class="breadcrumb-item"
+  >
+    Test
+  </li>
+</div>
+`;

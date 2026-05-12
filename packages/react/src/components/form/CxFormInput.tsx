@@ -1,5 +1,4 @@
 import React, { ChangeEventHandler, forwardRef, InputHTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 // import { CxFormLabel } from './CxFormLabel'
 
@@ -67,15 +66,5 @@ export const CxFormInput = forwardRef<HTMLInputElement, CFormInputProps>(
     )
   },
 )
-
-CxFormInput.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  invalid: PropTypes.bool,
-  plainText: PropTypes.bool,
-  size: PropTypes.oneOf(['small', 'large']),
-  type: PropTypes.oneOfType([PropTypes.oneOf(['color', 'file', 'text']), PropTypes.string]),
-  valid: PropTypes.bool,
-}
 
 CxFormInput.displayName = 'CxFormInput'

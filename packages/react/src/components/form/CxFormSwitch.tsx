@@ -1,5 +1,4 @@
 import React, { forwardRef, InputHTMLAttributes, ReactNode } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 import { CxFormLabel } from './CxFormLabel'
@@ -65,15 +64,5 @@ export const CxFormSwitch = forwardRef<HTMLInputElement, CFormSwitchProps>(
     )
   },
 )
-
-CxFormSwitch.propTypes = {
-  className: PropTypes.string,
-  id: PropTypes.string,
-  invalid: PropTypes.bool,
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  size: PropTypes.oneOf(['large', 'xlarge']),
-  type: PropTypes.oneOf(['checkbox', 'radio']),
-  valid: PropTypes.bool,
-}
 
 CxFormSwitch.displayName = 'CxFormSwitch'

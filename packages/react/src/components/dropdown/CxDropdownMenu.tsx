@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import React, { ElementType, FC, HTMLAttributes, useContext } from 'react'
 import classNames from 'classnames'
 import { Popper, PopperChildrenProps } from 'react-popper'
@@ -56,7 +55,8 @@ export const CxDropdownMenu: FC<CDropdownMenuProps> = ({
     const classNames: string[] = []
     if (typeof alignment === 'object') {
       Object.keys(alignment).map((key) => {
-        classNames.push(key === 'xs' ? `dropdown-menu-${alignment[key]}` : `${key}:dropdown-menu-${alignment[key]}`)
+        const breakpointMap = alignment as Record<string, string>
+        classNames.push(key === 'xs' ? `dropdown-menu-${breakpointMap[key]}` : `${key}:dropdown-menu-${breakpointMap[key]}`)
       })
     }
 
@@ -105,12 +105,6 @@ export const CxDropdownMenu: FC<CDropdownMenuProps> = ({
   ) : (
     dropdownMenuComponent()
   )
-}
-
-CxDropdownMenu.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  component: PropTypes.elementType,
 }
 
 CxDropdownMenu.displayName = 'CxDropdownMenu'

@@ -1,5 +1,4 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 import { CxToastClose } from './CxToastClose'
@@ -26,11 +25,5 @@ export const CxToastHeader = forwardRef<HTMLDivElement, CToastHeaderProps>(
     )
   },
 )
-
-CxToastHeader.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  closeButton: PropTypes.bool,
-}
 
 CxToastHeader.displayName = 'CxToastHeader'

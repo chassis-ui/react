@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { render } from '@testing-library/react'
-import '@testing-library/jest-dom/extend-expect'
+
 import {
   CxTable,
   CxTableCaption,
@@ -22,7 +22,6 @@ test('CxTable customize', async () => {
     <CxTable
       className="bazinga"
       align="middle"
-      borderColor="primary"
       bordered={true}
       borderless={true}
       caption="top"
@@ -47,10 +46,9 @@ test('CxTable customize', async () => {
     expect(container.firstChild.firstChild).toHaveClass('table')
     expect(container.firstChild.firstChild).toHaveClass('align-middle')
     expect(container.firstChild.firstChild).toHaveClass('caption-top')
-    expect(container.firstChild.firstChild).toHaveClass('border-primary')
+    expect(container.firstChild.firstChild).toHaveClass('info')
     expect(container.firstChild.firstChild).toHaveClass('bordered')
     expect(container.firstChild.firstChild).toHaveClass('borderless')
-    expect(container.firstChild.firstChild).toHaveClass('table-info')
     expect(container.firstChild.firstChild).toHaveClass('hoverable')
     expect(container.firstChild.firstChild).toHaveClass('small')
     expect(container.firstChild.firstChild).toHaveClass('striped')

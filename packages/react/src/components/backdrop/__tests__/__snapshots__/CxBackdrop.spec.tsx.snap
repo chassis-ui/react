@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CxBackdrop customize 1`] = `
+<div>
+  <div
+    class="modal-backdrop fade show"
+  >
+    Test
+  </div>
+</div>
+`;
+
+exports[`CxBackdrop customize 2 1`] = `
+<div>
+  <div
+    class="bazinga fade show"
+  >
+    Test
+  </div>
+</div>
+`;
+
+exports[`loads and displays CxBackdrop component 1`] = `<div />`;

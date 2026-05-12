@@ -1,5 +1,4 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 export interface CButtonGroupProps extends HTMLAttributes<HTMLDivElement> {
@@ -32,12 +31,5 @@ export const CxButtonGroup = forwardRef<HTMLDivElement, CButtonGroupProps>(
     )
   },
 )
-
-CxButtonGroup.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  size: PropTypes.oneOf(['small', 'large']),
-  vertical: PropTypes.bool,
-}
 
 CxButtonGroup.displayName = 'CxButtonGroup'

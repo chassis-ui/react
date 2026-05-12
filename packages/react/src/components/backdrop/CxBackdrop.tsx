@@ -1,6 +1,5 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
 import { Transition } from 'react-transition-group'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 export interface CBackdropProps extends HTMLAttributes<HTMLDivElement> {
@@ -32,10 +31,5 @@ export const CxBackdrop = forwardRef<HTMLDivElement, CBackdropProps>(
     )
   },
 )
-
-CxBackdrop.propTypes = {
-  className: PropTypes.string,
-  visible: PropTypes.bool,
-}
 
 CxBackdrop.displayName = 'CxBackdrop'

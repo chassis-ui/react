@@ -1,5 +1,4 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 export interface CFormFloatingProps extends HTMLAttributes<HTMLDivElement> {
@@ -19,10 +18,5 @@ export const CxFormFloating = forwardRef<HTMLDivElement, CFormFloatingProps>(
     )
   },
 )
-
-CxFormFloating.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-}
 
 CxFormFloating.displayName = 'CxFormFloating'

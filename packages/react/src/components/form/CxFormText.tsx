@@ -1,5 +1,4 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 export interface CFormTextProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElement> {
@@ -23,11 +22,5 @@ export const CxFormText = forwardRef<HTMLDivElement | HTMLSpanElement, CFormText
     )
   },
 )
-
-CxFormText.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  component: PropTypes.elementType,
-}
 
 CxFormText.displayName = 'CxFormText'

@@ -1,6 +1,7 @@
 import * as React from 'react'
+import { act } from 'react'
 import { render, fireEvent, waitFor } from '@testing-library/react'
-import '@testing-library/jest-dom/extend-expect'
+
 import { CxToast, CxToastBody, CxToastHeader } from '../../../index'
 
 test('loads and displays CxToast component', async () => {
@@ -70,7 +71,7 @@ test('CxToast click on dismiss button', async () => {
   if (btn !== null) {
     fireEvent.click(btn)
   }
-  jest.runAllTimers()
+  act(() => jest.runAllTimers())
   expect(onClose).toHaveBeenCalledTimes(1)
   expect(container.firstChild).toBeNull()
   jest.useRealTimers()

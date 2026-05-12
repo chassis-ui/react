@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { render } from '@testing-library/react'
-import '@testing-library/jest-dom/extend-expect'
+
 import { CxTableDataCell } from '../../../index'
 import { CxTableBody } from '../CxTableBody'
 import { CxTableRow } from '../CxTableRow'
@@ -36,8 +36,8 @@ test('CxTableDataCell customize', async () => {
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild?.firstChild?.firstChild).toHaveClass('align-middle')
-  expect(container.firstChild?.firstChild?.firstChild).toHaveClass('table-active')
-  expect(container.firstChild?.firstChild?.firstChild).toHaveClass('table-info')
+  expect(container.firstChild?.firstChild?.firstChild).toHaveClass('active')
+  expect(container.firstChild?.firstChild?.firstChild).toHaveClass('info')
   expect(container.firstChild?.firstChild?.firstChild).toHaveClass('bazinga')
   expect(container.firstChild?.firstChild?.firstChild).toHaveTextContent('Test')
 })

@@ -1,5 +1,4 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 export interface CDropdownItemPlainProps extends HTMLAttributes<HTMLSpanElement> {
@@ -24,11 +23,5 @@ export const CxDropdownItemPlain = forwardRef<HTMLSpanElement, CDropdownItemPlai
     )
   },
 )
-
-CxDropdownItemPlain.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  component: PropTypes.elementType,
-}
 
 CxDropdownItemPlain.displayName = 'CxDropdownItemPlain'

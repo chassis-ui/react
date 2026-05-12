@@ -1,5 +1,4 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 import { CxLink } from '../link/CxLink'
@@ -47,11 +46,5 @@ export const CxPaginationItem = forwardRef<HTMLAnchorElement, CPaginationItemPro
     )
   },
 )
-
-CxPaginationItem.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  component: PropTypes.elementType,
-}
 
 CxPaginationItem.displayName = 'CxPaginationItem'

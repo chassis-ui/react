@@ -1,5 +1,4 @@
 import React, { forwardRef, InputHTMLAttributes, ReactNode, useEffect, useRef } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 import { useForkedRef } from '../../utils/hooks'
@@ -154,18 +153,5 @@ export const CxFormCheck = forwardRef<HTMLInputElement, CFormCheckProps>(
     )
   },
 )
-
-CxFormCheck.propTypes = {
-  button: PropTypes.object,
-  className: PropTypes.string,
-  hitArea: PropTypes.oneOf(['full']),
-  id: PropTypes.string,
-  indeterminate: PropTypes.bool,
-  inline: PropTypes.bool,
-  invalid: PropTypes.bool,
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  type: PropTypes.oneOf(['checkbox', 'radio']),
-  valid: PropTypes.bool,
-}
 
 CxFormCheck.displayName = 'CxFormCheck'

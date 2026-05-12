@@ -1,5 +1,4 @@
 import React, { forwardRef, HTMLAttributes, useContext, useEffect, useState, useRef } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 import { useForkedRef } from '../../utils/hooks'
@@ -109,13 +108,5 @@ export const CxCarouselItem = forwardRef<HTMLDivElement, CCarouselItemProps>(
     )
   },
 )
-
-CxCarouselItem.propTypes = {
-  active: PropTypes.bool,
-  children: PropTypes.node,
-  className: PropTypes.string,
-  direction: PropTypes.string,
-  interval: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
-}
 
 CxCarouselItem.displayName = 'CxCarouselItem'

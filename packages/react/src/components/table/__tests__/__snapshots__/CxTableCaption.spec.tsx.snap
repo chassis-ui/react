@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CxTableCaption customize 1`] = `
+<table>
+  <caption>
+    Test
+  </caption>
+</table>
+`;
+
+exports[`loads and displays CxTableCaption component 1`] = `
+<table>
+  <caption />
+</table>
+`;

@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CxForm customize 1`] = `
+<div>
+  <form
+    class="was-validated bazinga"
+  >
+    Test
+  </form>
+</div>
+`;
+
+exports[`CxForm example 1`] = `
+<div>
+  <form
+    class=""
+  >
+    <label
+      class="form-label"
+    >
+      A
+    </label>
+    <input
+      aria-describedby="B"
+      class="form-input"
+      type="email"
+    />
+    <div
+      class="form-help"
+    >
+      C
+    </div>
+    <div
+      class="form-check"
+    >
+      <input
+        class="check-input"
+        type="checkbox"
+      />
+      <label
+        class="check-label"
+      >
+        D
+      </label>
+    </div>
+    <button
+      class="button primary"
+      type="submit"
+    >
+      E
+    </button>
+  </form>
+</div>
+`;
+
+exports[`loads and displays CxForm component 1`] = `
+<div>
+  <form
+    class=""
+  >
+    Test
+  </form>
+</div>
+`;

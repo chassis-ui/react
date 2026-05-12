@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { render } from '@testing-library/react'
-import '@testing-library/jest-dom/extend-expect'
+
 import { CxTableHead, CxTableHeaderCell, CxTableRow } from '../../../index'
 
 test('loads and displays CxTableHead component', async () => {

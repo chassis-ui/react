@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 
 export type Breakpoints = 'xs' | 'small' | 'medium' | 'large' | 'xlarge' | '2xlarge'
 
@@ -14,22 +13,6 @@ export type Colors =
   | 'black'
   | 'white'
   | string
-
-export const contextPropType = PropTypes.oneOfType([
-  PropTypes.oneOf([
-    'primary',
-    'secondary',
-    'success',
-    'danger',
-    'warning',
-    'info',
-    'alternate',
-    'neutral',
-    'black',
-    'white',
-  ]),
-  PropTypes.string,
-])
 
 export type Placements =
   | 'auto'
@@ -49,24 +32,6 @@ export type Placements =
   | 'left-end'
   | undefined
 
-export const placementPropType = PropTypes.oneOf<Placements>([
-  'auto',
-  'auto-start',
-  'auto-end',
-  'top-end',
-  'top',
-  'top-start',
-  'bottom-end',
-  'bottom',
-  'bottom-start',
-  'right-start',
-  'right',
-  'right-end',
-  'left-start',
-  'left',
-  'left-end',
-])
-
 export type Shapes =
   | 'rounded'
   | 'rounded-top'
@@ -81,31 +46,7 @@ export type Shapes =
   | 'rounded-3'
   | string
 
-export const shapePropType = PropTypes.oneOfType([
-  PropTypes.oneOf([
-    'rounded',
-    'rounded-top',
-    'rounded-end',
-    'rounded-bottom',
-    'rounded-start',
-    'rounded-circle',
-    'rounded-pill',
-    'rounded-0',
-    'rounded-1',
-    'rounded-2',
-    'rounded-3',
-  ]),
-  PropTypes.string,
-])
-
 export type TextColors = Colors | 'white' | 'white-50' | 'muted' | 'black-50' | 'body' | string
-
-export const textColorsPropType = PropTypes.oneOfType([
-  contextPropType,
-  PropTypes.oneOf(['white', 'white-50', 'black-50', 'muted', 'body']),
-  PropTypes.string,
-])
 
 export type Triggers = 'hover' | 'focus' | 'click'
 
-export const triggerPropType = PropTypes.oneOf<Triggers>(['hover', 'focus', 'click'])

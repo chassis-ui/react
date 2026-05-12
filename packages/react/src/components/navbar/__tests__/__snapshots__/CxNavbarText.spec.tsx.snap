@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CxNavbarText customize 1`] = `
+<div>
+  <span
+    class="navbar-text bazinga"
+  >
+    Test
+  </span>
+</div>
+`;
+
+exports[`loads and displays CxNavbarText component 1`] = `
+<div>
+  <span
+    class="navbar-text"
+  >
+    Test
+  </span>
+</div>
+`;

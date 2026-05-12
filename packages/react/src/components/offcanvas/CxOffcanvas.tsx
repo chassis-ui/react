@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import React, { forwardRef, HTMLAttributes, useCallback, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Transition } from 'react-transition-group'
@@ -107,7 +106,7 @@ export const CxOffcanvas = forwardRef<HTMLDivElement, COffcanvasProps>(
     }
 
     const handleKeyDown = useCallback(
-      (event) => {
+      (event: React.KeyboardEvent) => {
         if (event.key === 'Escape' && keyboard) {
           return handleDismiss()
         }
@@ -121,7 +120,7 @@ export const CxOffcanvas = forwardRef<HTMLDivElement, COffcanvasProps>(
           <div
             className={_className}
             role="dialog"
-            style={{ ...transitionStyles[state] }}
+            style={{ ...(transitionStyles as Record<string, React.CSSProperties>)[state] }}
             tabIndex={-1}
             onKeyDown={handleKeyDown}
             {...rest}
@@ -169,19 +168,5 @@ export const CxOffcanvas = forwardRef<HTMLDivElement, COffcanvasProps>(
     )
   },
 )
-
-CxOffcanvas.propTypes = {
-  backdrop: PropTypes.bool,
-  children: PropTypes.node,
-  className: PropTypes.string,
-  keyboard: PropTypes.bool,
-  onHide: PropTypes.func,
-  onShow: PropTypes.func,
-  placement: PropTypes.oneOf<'start' | 'end' | 'top' | 'bottom'>(['start', 'end', 'top', 'bottom'])
-    .isRequired,
-  portal: PropTypes.bool,
-  scroll: PropTypes.bool,
-  visible: PropTypes.bool,
-}
 
 CxOffcanvas.displayName = 'CxOffcanvas'

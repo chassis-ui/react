@@ -1,8 +1,7 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-import { Colors, contextPropType } from '../Types'
+import { Colors } from '../Types'
 
 export interface CNavbarProps extends HTMLAttributes<HTMLDivElement> {
   /**
@@ -79,29 +78,5 @@ export const CxNavbar = forwardRef<HTMLDivElement, CNavbarProps>(
     )
   },
 )
-
-CxNavbar.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  context: contextPropType,
-  colorScheme: PropTypes.oneOf(['dark', 'light']),
-  component: PropTypes.elementType,
-  container: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.oneOf<'small' | 'medium' | 'large' | 'xlarge' | '2xlarge' | 'fluid'>([
-      'small',
-      'medium',
-      'large',
-      'xlarge',
-      '2xlarge',
-      'fluid',
-    ]),
-  ]),
-  expand: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.oneOf<'small' | 'medium' | 'large' | 'xlarge' | '2xlarge'>(['small', 'medium', 'large', 'xlarge', '2xlarge']),
-  ]),
-  placement: PropTypes.oneOf(['fixed-top', 'fixed-bottom', 'sticky-top']),
-}
 
 CxNavbar.displayName = 'CxNavbar'

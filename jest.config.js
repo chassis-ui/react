@@ -13,9 +13,10 @@ module.exports = {
   },
   preset: 'ts-jest',
   transform: {
-    '^.+\\.tsx?$': 'ts-jest',
+    '^.+\.tsx?$': ['ts-jest', { tsconfig: 'packages/react/tsconfig.json' }],
   },
   setupFiles: ['jest-canvas-mock'],
+  setupFilesAfterEnv: ['@testing-library/jest-dom'],
   testEnvironment: 'jsdom',
   testPathIgnorePatterns: ['dist/'],
 }

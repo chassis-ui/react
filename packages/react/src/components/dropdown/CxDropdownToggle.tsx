@@ -1,9 +1,8 @@
 import React, { FC, useContext } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { Reference } from 'react-popper'
 
-import { Triggers, triggerPropType } from '../Types'
+import { Triggers } from '../Types'
 
 import { CxButton, CButtonProps } from '../button/CxButton'
 import { CDropdownContext } from './CxDropdown'
@@ -78,14 +77,6 @@ export const CxDropdownToggle: FC<CDropdownToggleProps> = ({
   }
 
   return popper ? <Reference>{({ ref }) => Toggler(ref)}</Reference> : Toggler()
-}
-
-CxDropdownToggle.propTypes = {
-  caret: PropTypes.bool,
-  children: PropTypes.node,
-  className: PropTypes.string,
-  split: PropTypes.bool,
-  trigger: triggerPropType,
 }
 
 CxDropdownToggle.displayName = 'CxDropdownToggle'

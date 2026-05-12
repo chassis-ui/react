@@ -1,5 +1,4 @@
 import React, { forwardRef, HTMLAttributes, useContext } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 import { CAccordionContext } from './CxAccordion'
@@ -38,12 +37,5 @@ export const CxAccordionItem = forwardRef<HTMLDetailsElement, CAccordionItemProp
     )
   },
 )
-
-CxAccordionItem.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  open: PropTypes.bool,
-  itemKey: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-}
 
 CxAccordionItem.displayName = 'CxAccordionItem'

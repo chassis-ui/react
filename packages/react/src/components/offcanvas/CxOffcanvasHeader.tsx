@@ -1,5 +1,4 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 export interface COffcanvasHeaderProps extends HTMLAttributes<HTMLDivElement> {
@@ -20,10 +19,5 @@ export const CxOffcanvasHeader = forwardRef<HTMLDivElement, COffcanvasHeaderProp
     )
   },
 )
-
-CxOffcanvasHeader.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-}
 
 CxOffcanvasHeader.displayName = 'CxOffcanvasHeader'

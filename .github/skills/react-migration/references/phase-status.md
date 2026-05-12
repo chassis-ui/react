@@ -11,7 +11,7 @@ Last updated: 2026-05-12
 
 | # | Phase | Status | Notes |
 |---|-------|--------|-------|
-| 1 | React 18 upgrade (`packages/react`) | `[ ]` | |
+| 1 | React 18 upgrade (`packages/react`) | `[x]` | Complete — all 242 tests pass, build succeeds |
 | 2 | Monorepo: Lerna/Yarn → pnpm workspaces | `[ ]` | |
 | 3 | Scaffold `packages/site`, delete `packages/docs` | `[ ]` | |
 | 4 | `<ReactExample>` island component | `[ ]` | |
@@ -21,19 +21,19 @@ Last updated: 2026-05-12
 
 ## Phase 1 Checklist — React 18 Upgrade
 
-- [ ] Bump `react`, `react-dom` deps to `^18` in `packages/react/package.json`
-- [ ] Update `peerDependencies` to `react: ">=17"` (support both 17+18 consumers)
-- [ ] Bump `@types/react`, `@types/react-dom` to `^18`
-- [ ] Bump `@testing-library/react` to `^14`
-- [ ] Bump `@testing-library/jest-dom` to `^6`
-- [ ] Bump TypeScript to `^5`
-- [ ] Bump Rollup to `^4` + update rollup plugins
-- [ ] Remove `prop-types` from all ~90 source files
-- [ ] Remove `prop-types` package from `devDependencies`
-- [ ] Migrate `CxTooltip.spec.tsx`: replace `ReactDOM.render` with `createRoot`
-- [ ] Update `jest.config.js` + `ts-jest` for TS 5 / React 18 compat
-- [ ] Run `yarn test` — all tests pass
-- [ ] Run `yarn lib:build` — build succeeds
+- [x] Bump `react`, `react-dom` deps to `^18` in `packages/react/package.json`
+- [x] Update `peerDependencies` to `react: ">=17"` (support both 17+18 consumers)
+- [x] Bump `@types/react`, `@types/react-dom` to `^18`
+- [x] Bump `@testing-library/react` to `^14`
+- [x] Bump `@testing-library/jest-dom` to `^6`
+- [x] Bump TypeScript to `^5`
+- [x] Bump Rollup to `^4` + update rollup plugins
+- [x] Remove `prop-types` from all ~90 source files
+- [x] Remove `prop-types` package from `devDependencies`
+- [x] Migrate `CxTooltip.spec.tsx`: replace `ReactDOM.render` with `createRoot`
+- [x] Update `jest.config.js` + `ts-jest` for TS 5 / React 18 compat
+- [x] Run `yarn test` — all tests pass (242/242)
+- [x] Run `yarn lib:build` — build succeeds (`dist/index.js`, `dist/index.es.js`, `dist/index.d.ts`)
 
 ## Phase 2 Checklist — pnpm Migration
 

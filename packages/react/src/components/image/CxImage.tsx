@@ -1,5 +1,4 @@
 import React, { forwardRef, ImgHTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 export interface CImageProps extends ImgHTMLAttributes<HTMLOrSVGImageElement> {
@@ -40,13 +39,5 @@ export const CxImage = forwardRef<HTMLImageElement, CImageProps>(
     return <img className={_className} {...rest} ref={ref} />
   },
 )
-
-CxImage.propTypes = {
-  align: PropTypes.oneOf(['start', 'center', 'end']),
-  className: PropTypes.string,
-  fluid: PropTypes.bool,
-  rounded: PropTypes.bool,
-  thumbnail: PropTypes.bool,
-}
 
 CxImage.displayName = 'CxImage'

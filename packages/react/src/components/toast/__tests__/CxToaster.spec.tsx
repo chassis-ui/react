@@ -1,6 +1,6 @@
 import React from 'react' //  useState,
 import { render, fireEvent } from '@testing-library/react'
-import '@testing-library/jest-dom/extend-expect'
+
 import { CxToast, CxToaster, CxToastBody, CxToastHeader, CxButton } from '../../../index'
 
 test('loads and displays CxToaster component', async () => {

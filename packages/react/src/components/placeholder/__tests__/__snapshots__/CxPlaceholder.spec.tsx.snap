@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CxPlaceholder customize 1`] = `
+<div>
+  <span
+    class="placeholder-glow bg-secondary placeholder-large small:col-7 bazinga"
+  />
+</div>
+`;
+
+exports[`loads and displays CxPlaceholder component 1`] = `
+<div>
+  <span
+    class="placeholder bg-primary"
+  />
+</div>
+`;

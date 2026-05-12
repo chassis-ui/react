@@ -1,5 +1,4 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 export interface CButtonToolbarProps extends HTMLAttributes<HTMLDivElement> {
@@ -20,10 +19,5 @@ export const CxButtonToolbar = forwardRef<HTMLDivElement, CButtonToolbarProps>(
     )
   },
 )
-
-CxButtonToolbar.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-}
 
 CxButtonToolbar.displayName = 'CxButtonToolbar'

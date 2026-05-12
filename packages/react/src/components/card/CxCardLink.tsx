@@ -1,5 +1,4 @@
 import React, { AnchorHTMLAttributes, forwardRef } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 import { CxLink } from '../link/CxLink'
@@ -26,10 +25,5 @@ export const CxCardLink = forwardRef<HTMLAnchorElement, CCardLinkProps>(
     )
   },
 )
-
-CxCardLink.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-}
 
 CxCardLink.displayName = 'CxCardLink'

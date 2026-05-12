@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CxFormText customize 1`] = `
+<div>
+  <h3
+    class="form-help bazinga"
+  >
+    Test
+  </h3>
+</div>
+`;
+
+exports[`loads and displays CxFormText component 1`] = `
+<div>
+  <div
+    class="form-help"
+  >
+    Test
+  </div>
+</div>
+`;

@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import React, { forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
@@ -20,10 +19,5 @@ export const CxCardFooter = forwardRef<HTMLDivElement, CCardFooterProps>(
     )
   },
 )
-
-CxCardFooter.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-}
 
 CxCardFooter.displayName = 'CxCardFooter'

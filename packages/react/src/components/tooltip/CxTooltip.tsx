@@ -1,12 +1,11 @@
 import React, { FC, ReactElement, ReactNode, useState } from 'react'
 import { createPortal } from 'react-dom'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { Manager, Popper, Reference } from 'react-popper'
 import { Transition } from 'react-transition-group'
 
 // import { CTooltipContent } from './CTooltipContent'
-import { Triggers, triggerPropType } from '../Types'
+import { Triggers } from '../Types'
 
 export interface CTooltipProps {
   children: ReactElement
@@ -122,16 +121,6 @@ export const CxTooltip: FC<CTooltipProps> = ({
         )}
     </Manager>
   )
-}
-
-CxTooltip.propTypes = {
-  children: PropTypes.any,
-  content: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  placement: PropTypes.oneOf(['auto', 'top', 'right', 'bottom', 'left']),
-  onHide: PropTypes.func,
-  onShow: PropTypes.func,
-  trigger: triggerPropType,
-  visible: PropTypes.bool,
 }
 
 CxTooltip.displayName = 'CxTooltip'

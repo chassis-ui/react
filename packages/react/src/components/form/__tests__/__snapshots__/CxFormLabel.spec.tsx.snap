@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CxFormLabel customize className 1`] = `
+<div>
+  <label
+    class="form-label bazinga"
+  >
+    Test
+  </label>
+</div>
+`;
+
+exports[`CxFormLabel customize htmlFor 1`] = `
+<div>
+  <label
+    class="form-label"
+    for="bazinga"
+  >
+    Test
+  </label>
+</div>
+`;
+
+exports[`loads and displays CxFormLabel component 1`] = `
+<div>
+  <label
+    class="form-label"
+  >
+    Test
+  </label>
+</div>
+`;

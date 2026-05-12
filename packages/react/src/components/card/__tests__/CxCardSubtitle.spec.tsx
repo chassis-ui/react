@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { render } from '@testing-library/react'
-import '@testing-library/jest-dom/extend-expect'
+
 import { CxCardSubtitle } from '../../../index'
 
 test('loads and displays CxCardSubtitle component', async () => {

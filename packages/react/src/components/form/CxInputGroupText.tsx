@@ -1,5 +1,4 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 export interface CInputGroupTextProps extends HTMLAttributes<HTMLLabelElement | HTMLSpanElement> {
@@ -23,11 +22,5 @@ export const CxInputGroupText = forwardRef<HTMLLabelElement | HTMLSpanElement, C
     )
   },
 )
-
-CxInputGroupText.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  component: PropTypes.elementType,
-}
 
 CxInputGroupText.displayName = 'CxInputGroupText'

@@ -1,8 +1,7 @@
-import PropTypes from 'prop-types'
 import React, { forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-import { Colors, contextPropType } from '../Types'
+import { Colors } from '../Types'
 
 export interface CTableFootProps extends HTMLAttributes<HTMLTableSectionElement> {
   /**
@@ -33,11 +32,5 @@ export const CxTableFoot = forwardRef<HTMLTableSectionElement, CTableFootProps>(
     )
   },
 )
-
-CxTableFoot.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  context: contextPropType,
-}
 
 CxTableFoot.displayName = 'CxTableFoot'

@@ -1,12 +1,11 @@
 import React, { FC, ReactElement, ReactNode, useState } from 'react'
 import { createPortal } from 'react-dom'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { Manager, Popper, Reference } from 'react-popper'
 import { Transition } from 'react-transition-group'
 
 // import { CPopoverContent } from './CPopoverContent'
-import { Triggers, triggerPropType } from '../Types'
+import { Triggers } from '../Types'
 
 export interface CPopoverProps {
   children: ReactElement
@@ -143,18 +142,6 @@ export const CxPopover: FC<CPopoverProps> = ({
         )}
     </Manager>
   )
-}
-
-CxPopover.propTypes = {
-  children: PropTypes.any,
-  content: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  placement: PropTypes.oneOf(['auto', 'top', 'right', 'bottom', 'left']),
-  offset: PropTypes.any, // TODO: find good proptype
-  onHide: PropTypes.func,
-  onShow: PropTypes.func,
-  title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  trigger: triggerPropType,
-  visible: PropTypes.bool,
 }
 
 CxPopover.displayName = 'CxPopover'

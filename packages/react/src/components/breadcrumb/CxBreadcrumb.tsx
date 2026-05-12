@@ -1,5 +1,4 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 import { CxLink } from '../link/CxLink'
@@ -55,16 +54,5 @@ export const CxBreadcrumb = forwardRef<HTMLOListElement, CBreadcrumbProps>(
     )
   },
 )
-
-CxBreadcrumb.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.node.isRequired,
-      href: PropTypes.string,
-    }) as PropTypes.Validator<CBreadcrumbItemDef>,
-  ),
-}
 
 CxBreadcrumb.displayName = 'CxBreadcrumb'

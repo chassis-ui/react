@@ -7,10 +7,9 @@ import React, {
   useState,
 } from 'react'
 import { Transition } from 'react-transition-group'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-import { Colors, contextPropType } from '../Types'
+import { Colors } from '../Types'
 
 export interface CToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
   /**
@@ -162,19 +161,5 @@ export const CxToast = forwardRef<HTMLDivElement, CToastProps>(
     )
   },
 )
-
-CxToast.propTypes = {
-  animation: PropTypes.bool,
-  autohide: PropTypes.bool,
-  children: PropTypes.node,
-  className: PropTypes.string,
-  context: contextPropType,
-  delay: PropTypes.number,
-  index: PropTypes.number,
-  key: PropTypes.number,
-  onClose: PropTypes.func,
-  onShow: PropTypes.func,
-  visible: PropTypes.bool,
-}
 
 CxToast.displayName = 'CxToast'

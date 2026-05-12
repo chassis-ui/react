@@ -1,5 +1,4 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 export interface CCardSubtitleProps extends HTMLAttributes<HTMLHeadingElement> {
@@ -23,11 +22,5 @@ export const CxCardSubtitle = forwardRef<HTMLHeadingElement, CCardSubtitleProps>
     )
   },
 )
-
-CxCardSubtitle.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  component: PropTypes.elementType,
-}
 
 CxCardSubtitle.displayName = 'CxCardSubtitle'

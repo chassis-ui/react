@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { act, render, fireEvent } from '@testing-library/react'
-import '@testing-library/jest-dom/extend-expect'
+
 import { CxPopover, CxButton } from '../../../index'
 
 test('loads and displays CxPopover component', async () => {

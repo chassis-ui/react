@@ -1,5 +1,4 @@
 import React, { ChangeEventHandler, forwardRef, InputHTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 type Option = {
@@ -88,16 +87,5 @@ export const CxFormSelect = forwardRef<HTMLSelectElement, CFormSelectProps>(
     )
   },
 )
-
-CxFormSelect.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  htmlSize: PropTypes.number,
-  invalid: PropTypes.bool,
-  options: PropTypes.array,
-  placeholder: PropTypes.string,
-  size: PropTypes.oneOf(['small', 'large']),
-  valid: PropTypes.bool,
-}
 
 CxFormSelect.displayName = 'CxFormSelect'

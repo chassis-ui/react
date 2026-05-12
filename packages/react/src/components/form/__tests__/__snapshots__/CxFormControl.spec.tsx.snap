@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CxFormInput customize 1`] = `
+<div>
+  <input
+    class="form-control-plaintext large form-input-color bazinga"
+    disabled=""
+    readonly=""
+    type="color"
+    value="value"
+  />
+</div>
+`;
+
+exports[`loads and displays CxFormInput component 1`] = `
+<div>
+  <input
+    class="form-input"
+    type="text"
+  />
+</div>
+`;

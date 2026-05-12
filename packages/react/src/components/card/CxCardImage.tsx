@@ -1,5 +1,4 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 export interface CCardImageProps
@@ -30,12 +29,5 @@ export const CxCardImage = forwardRef<
     </Component>
   )
 })
-
-CxCardImage.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  component: PropTypes.elementType,
-  orientation: PropTypes.oneOf(['top', 'bottom']),
-}
 
 CxCardImage.displayName = 'CxCardImage'

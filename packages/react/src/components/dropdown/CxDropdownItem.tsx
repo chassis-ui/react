@@ -1,5 +1,4 @@
 import React, { ElementType, forwardRef } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 import { CLinkProps } from '../link/CxLink'
@@ -27,11 +26,5 @@ export const CxDropdownItem = forwardRef<HTMLButtonElement | HTMLAnchorElement, 
     )
   },
 )
-
-CxDropdownItem.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  component: PropTypes.elementType,
-}
 
 CxDropdownItem.displayName = 'CxDropdownItem'

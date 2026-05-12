@@ -1,5 +1,4 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 export type BPObject = {
@@ -106,23 +105,5 @@ export const CxRow = forwardRef<HTMLDivElement, CRowProps>(
     )
   },
 )
-
-const bp = PropTypes.shape({
-  cols: PropTypes.oneOfType([PropTypes.oneOf(['auto']), PropTypes.number, PropTypes.string]),
-  gutter: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  gutterX: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  gutterY: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-})
-
-CxRow.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  xs: bp,
-  sm: bp,
-  md: bp,
-  lg: bp,
-  xl: bp,
-  xxl: bp,
-}
 
 CxRow.displayName = 'CxRow'

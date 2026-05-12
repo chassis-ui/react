@@ -1,5 +1,4 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 export interface CAccordionBodyProps extends HTMLAttributes<HTMLDivElement> {
@@ -18,10 +17,5 @@ export const CxAccordionBody = forwardRef<HTMLDivElement, CAccordionBodyProps>(
     )
   },
 )
-
-CxAccordionBody.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-}
 
 CxAccordionBody.displayName = 'CxAccordionBody'

@@ -1,8 +1,7 @@
 import React, { forwardRef, TableHTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-import { Colors, contextPropType } from '../Types'
+import { Colors } from '../Types'
 
 export interface CTableColumn<T extends Record<string, unknown> = Record<string, unknown>> {
   /**
@@ -19,7 +18,7 @@ export interface CTableColumn<T extends Record<string, unknown> = Record<string,
   render?: (value: T[keyof T], item: T) => React.ReactNode
 }
 
-export interface CTableProps extends TableHTMLAttributes<HTMLTableElement> {
+export interface CTableProps extends Omit<TableHTMLAttributes<HTMLTableElement>, 'align'> {
   /**
    * Set the vertical alignment.
    */
@@ -166,36 +165,5 @@ export const CxTable = forwardRef<HTMLTableElement, CTableProps>(
     )
   },
 )
-
-CxTable.propTypes = {
-  align: PropTypes.oneOf(['bottom', 'middle', 'top']),
-  bordered: PropTypes.bool,
-  borderless: PropTypes.bool,
-  caption: PropTypes.oneOf(['top']),
-  children: PropTypes.node,
-  className: PropTypes.string,
-  columns: PropTypes.arrayOf(
-    PropTypes.shape({
-      key: PropTypes.string.isRequired,
-      label: PropTypes.string,
-      render: PropTypes.func,
-    }) as PropTypes.Validator<CTableColumn>,
-  ),
-  context: contextPropType,
-  hover: PropTypes.bool,
-  items: PropTypes.arrayOf(PropTypes.object),
-  responsive: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.oneOf<'small' | 'medium' | 'large' | 'xlarge' | '2xlarge'>([
-      'small',
-      'medium',
-      'large',
-      'xlarge',
-      '2xlarge',
-    ]),
-  ]),
-  small: PropTypes.bool,
-  striped: PropTypes.bool,
-}
 
 CxTable.displayName = 'CxTable'

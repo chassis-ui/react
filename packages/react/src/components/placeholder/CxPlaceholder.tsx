@@ -1,8 +1,7 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-import { Colors, contextPropType } from '../Types'
+import { Colors } from '../Types'
 
 export interface CPlaceholderProps extends HTMLAttributes<HTMLSpanElement> {
   /**
@@ -113,14 +112,5 @@ export const CxPlaceholder = forwardRef<HTMLSpanElement, CPlaceholderProps>(
     )
   },
 )
-
-CxPlaceholder.propTypes = {
-  animation: PropTypes.oneOf(['glow', 'wave']),
-  children: PropTypes.node,
-  className: PropTypes.string,
-  context: contextPropType,
-  component: PropTypes.elementType,
-  size: PropTypes.oneOf(['xsmall', 'small', 'large']),
-}
 
 CxPlaceholder.displayName = 'CxPlaceholder'

@@ -1,5 +1,4 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 export interface CFormFeedbackProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElement> {
@@ -44,14 +43,5 @@ export const CxFormFeedback = forwardRef<HTMLDivElement | HTMLSpanElement, CForm
     )
   },
 )
-
-CxFormFeedback.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  component: PropTypes.elementType,
-  invalid: PropTypes.bool,
-  tooltip: PropTypes.bool,
-  valid: PropTypes.bool,
-}
 
 CxFormFeedback.displayName = 'CxFormFeedback'

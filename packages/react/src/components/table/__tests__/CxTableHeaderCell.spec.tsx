@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { render } from '@testing-library/react'
-import '@testing-library/jest-dom/extend-expect'
+
 import { CxTableHead, CxTableHeaderCell, CxTableRow } from '../../../index'
 
 test('loads and displays CxTableHeaderCell component', async () => {
@@ -33,7 +33,7 @@ test('CxTableHeaderCell customize', async () => {
     },
   )
   expect(container).toMatchSnapshot()
-  expect(container.firstChild?.firstChild?.firstChild).toHaveClass('table-info')
+  expect(container.firstChild?.firstChild?.firstChild).toHaveClass('info')
   expect(container.firstChild?.firstChild?.firstChild).toHaveClass('bazinga')
   expect(container.firstChild?.firstChild?.firstChild).toHaveTextContent('Test')
 })

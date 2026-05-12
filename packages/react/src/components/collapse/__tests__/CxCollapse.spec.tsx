@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { act } from 'react'
 import { render, screen } from '@testing-library/react'
-import '@testing-library/jest-dom/extend-expect'
+
 import { CxCollapse } from '../../../index'
 
 test('loads and displays CxCollapse component', async () => {
@@ -24,7 +24,7 @@ test('CxCollapse use case test', async () => {
   expect(screen.getByText('Test')).not.toHaveClass('collapse')
   expect(screen.getByText('Test')).not.toHaveClass('show')
   expect(screen.getByText('Test')).toHaveClass('collapsing')
-  jest.runAllTimers()
+  act(() => jest.runAllTimers())
   expect(screen.getByText('Test')).toHaveClass('collapse')
   expect(screen.getByText('Test')).toHaveClass('show')
   expect(screen.getByText('Test')).not.toHaveClass('collapsing')
@@ -32,10 +32,10 @@ test('CxCollapse use case test', async () => {
   expect(screen.getByText('Test')).not.toHaveClass('collapse')
   expect(screen.getByText('Test')).not.toHaveClass('show')
   expect(screen.getByText('Test')).toHaveClass('collapsing')
-  jest.runAllTimers()
+  act(() => jest.runAllTimers())
   expect(screen.getByText('Test')).toHaveClass('collapse')
   expect(screen.getByText('Test')).not.toHaveClass('show')
   expect(screen.getByText('Test')).not.toHaveClass('collapsing')
-  jest.runAllTimers()
+  act(() => jest.runAllTimers())
   jest.useRealTimers()
 })
