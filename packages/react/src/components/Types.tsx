@@ -2,14 +2,15 @@
 export type Breakpoints = 'xs' | 'small' | 'medium' | 'large' | 'xlarge' | '2xlarge'
 
 export type Colors =
+  | 'default'
+  | 'alternate'
   | 'primary'
   | 'secondary'
+  | 'neutral'
   | 'success'
   | 'danger'
   | 'warning'
   | 'info'
-  | 'alternate'
-  | 'neutral'
   | 'black'
   | 'white'
   | string

@@ -1,18 +1,34 @@
 ---
-/**
- * Example — wraps React component examples in the standard docs example container.
- * Used in MDX files as <Example> and auto-imported by the Chassis integration.
- */
 interface Props {
-  /** CSS class(es) added to the preview wrapper div. */
   class?: string
-  /** Element ID for the preview wrapper div. */
   id?: string
 }
 
 const { class: className, id } = Astro.props
 ---
 
-<div id={id} class:list={['cxd-example m-0 border-0 context', className]}>
-  <slot />
+<div class="cxd-example-snippet cxd-code-snippet">
+  <div id={id} class:list={['cxd-example m-0 border-0 context', className]}>
+    <slot />
+  </div>
+  <div class="d-flex align-items-center highlight-toolbar ps-medium pe-xsmall py-2xsmall border-0 border-top border-bottom border-subtle">
+    <small class="font-monospace fg-subtle text-uppercase">jsx</small>
+    <div class="d-flex ms-auto">
+      <button
+        type="button"
+        class="button-mode mt-0 me-0 text-nowrap"
+        title="Toggle color mode"
+        onclick="toggleTheme(this)"
+      >
+        <svg class="icon" aria-hidden="true"><use xlink:href="#swatchbook-solid" /></svg>
+      </button>
+      <span class="vr mx-xsmall" />
+      <button type="button" class="button-edit text-nowrap" title="Try it on StackBlitz">
+        <svg class="icon" aria-hidden="true"><use xlink:href="#lightning-solid" /></svg>
+      </button>
+      <button type="button" class="button-clipboard mt-0 me-0" title="Copy to clipboard">
+        <svg class="icon" aria-hidden="true"><use xlink:href="#clipboard-outline" /></svg>
+      </button>
+    </div>
+  </div>
 </div>

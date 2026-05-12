@@ -52,6 +52,11 @@ export function chassis(): AstroIntegration[] {
           // Reload the config when the integration is modified.
           addWatchFile(path.join(getDocsFsPath(), 'src/libs/astro.ts'))
 
+          // Watch static/ files and re-copy them on change in dev mode.
+          if (command === 'dev') {
+            addWatchFile(path.join(getDocsStaticFsPath()))
+          }
+
           // Add the remark and rehype plugins.
           updateConfig({
             markdown: {
@@ -123,18 +128,26 @@ function copyChassisCSS() {
   fs.cpSync(source, destination, { recursive: true })
 }
 
-// Copy the `font` folder from chassis-icons to make it available from `/icons`.
+// Copy icon assets from chassis-icons to make them available from `/static/icons`.
 function copyChassisIcons() {
-  const fontSource = path.join(getChassisIconsFsPath(), 'font')
+  const iconsBase = getChassisIconsFsPath()
   const destination = path.join(getDocsPublicFsPath(), 'static', 'icons')
 
-  if (!fs.existsSync(fontSource)) {
-    console.warn(`[chassis] Skipping icons copy — font dir not found: ${fontSource}`)
-    return
+  fs.mkdirSync(destination, { recursive: true })
+
+  // Copy font/ subdirectory (web fonts) if present
+  const fontSource = path.join(iconsBase, 'font')
+  if (fs.existsSync(fontSource)) {
+    fs.cpSync(fontSource, destination, { recursive: true })
   }
 
-  fs.mkdirSync(destination, { recursive: true })
-  fs.cpSync(fontSource, destination, { recursive: true })
+  // Copy SVG sprite
+  const spriteSource = path.join(iconsBase, 'icons', 'chassis-icons.svg')
+  if (fs.existsSync(spriteSource)) {
+    fs.cpSync(spriteSource, path.join(destination, 'chassis-icons.svg'))
+  } else {
+    console.warn(`[chassis] Skipping icon sprite copy — not found: ${spriteSource}`)
+  }
 }
 
 // Copy the content of the `static` folder to make it available from the `/` URL.
