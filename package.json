@@ -3,8 +3,9 @@
   "scripts": {
     "postinstall": "node scripts/postinstall.js",
     "docs:dev": "pnpm --filter @chassis-ui/react-site dev",
-    "docs:build": "pnpm --filter @chassis-ui/react-site build",
+    "docs:build": "pnpm api:generate && pnpm --filter @chassis-ui/react-site build",
     "docs:preview": "pnpm --filter @chassis-ui/react-site preview",
+    "api:generate": "ts-node build/generate-api.ts",
     "lib:build": "pnpm --filter @chassis-ui/react build",
     "lint": "eslint \"packages/**/src/**/*.{js,ts,tsx}\"",
     "test": "jest --coverage",
@@ -24,7 +25,9 @@
     "jest-canvas-mock": "^2.3.1",
     "jest-environment-jsdom": "^29.0.0",
     "prettier": "^2.5.1",
-    "ts-jest": "^29.0.0"
+    "react-docgen-typescript": "^2.4.0",
+    "ts-jest": "^29.0.0",
+    "ts-node": "^10.9.2"
   },
   "dependencies": {
     "@chassis-ui/tokens": "link:../chassis-tokens"

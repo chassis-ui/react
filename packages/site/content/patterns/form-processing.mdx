@@ -1,0 +1,90 @@
+---
+title: Form Processing
+description: A complete example of building a validated, accessible form with submit handling, inline feedback, and a success notification.
+
+toc: true
+---
+import { RegistrationForm } from '../../src/examples/form-processing/RegistrationForm.tsx'
+
+
+import { useState } from 'react'
+import {
+  CxButton,
+  CxForm,
+  CxFormInput,
+  CxFormLabel,
+  CxFormSelect,
+  CxFormFeedback,
+  CxNotification,
+  CxRow,
+  CxCol,
+} from '@chassis-ui/react'
+
+This pattern shows a registration form with controlled inputs, real-time validation feedback, and a success notification on submit.
+
+
+<Example>
+  <RegistrationForm />
+</Example>
+
+```jsx
+import { useState } from 'react'
+import {
+  CxButton, CxForm, CxFormInput, CxFormLabel, CxFormSelect,
+  CxFormFeedback, CxNotification, CxRow, CxCol,
+} from '@chassis-ui/react'
+
+export const RegistrationForm = () => {
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [role, setRole] = useState('')
+  const [password, setPassword] = useState('')
+  const [submitted, setSubmitted] = useState(false)
+  const [success, setSuccess] = useState(false)
+
+  const validName = name.trim().length >= 2
+  const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+  const validRole = role !== ''
+  const validPassword = password.length >= 8
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    setSubmitted(true)
+    if (validName && validEmail && validRole && validPassword) setSuccess(true)
+  }
+
+  return (
+    <div>
+      {success && (
+        <CxNotification context="success" dismissible onClose={() => setSuccess(false)}>
+          <strong>Account created!</strong> Welcome, {name}.
+        </CxNotification>
+      )}
+      <CxForm onSubmit={handleSubmit} noValidate>
+        <CxRow className="mb-3">
+          <CxCol>
+            <CxFormLabel htmlFor="name">Full name</CxFormLabel>
+            <CxFormInput
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              valid={submitted && validName}
+              invalid={submitted && !validName}
+            />
+            <CxFormFeedback invalid>Please enter your full name.</CxFormFeedback>
+          </CxCol>
+          {/* email, role, password follow the same pattern */}
+        </CxRow>
+        <CxButton type="submit" context="primary">Create account</CxButton>
+      </CxForm>
+    </div>
+  )
+}
+```
+
+## Key points
+
+- Validation runs on every render but feedback only shows after the first submit attempt (`submitted` flag).
+- `valid` and `invalid` props on inputs add visual state and expose `<CxFormFeedback>` messages.
+- The success `<CxNotification>` is dismissible — closing it calls `handleReset` which clears all state.
+- `noValidate` on `<CxForm>` disables the browser's built-in validation UI so custom feedback is shown instead.

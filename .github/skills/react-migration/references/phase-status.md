@@ -15,7 +15,7 @@ Last updated: 2026-05-12
 | 2 | Monorepo: Lerna/Yarn → pnpm workspaces | `[x]` | Complete — pnpm install, build, and 242 tests pass |
 | 3 | Scaffold `packages/site`, delete `packages/docs` | `[x]` | Complete — Astro 5 scaffold builds, 2 pages generated, old content stashed in `content.gatsby/` for Phase 5 |
 | 4 | `<ReactExample>` island component | `[x]` | Complete — ReactExample.astro + ReactExamplePreview.tsx island; Button, Dropdown, Tooltip all build |
-| 5 | MDX content migration (25 files) | `[ ]` | |
+| 5 | MDX content migration (25 files) | `[x]` | Complete — 43 MDX files migrated, 44 pages build. Export blocks extracted to tsx files in `src/examples/`. Inline Example blocks in table.mdx extracted too. |
 | 6 | API docs generation pipeline | `[ ]` | |
 | 7 | Nav, search, deploy config, integration | `[ ]` | |
 

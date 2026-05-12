@@ -1,0 +1,89 @@
+---
+title: Dashboard Widgets
+description: A real-world dashboard layout combining stat cards, a data table with badges, a list group for recent activity, and progress bars — all from JSON data.
+
+toc: true
+---
+import { Dashboard } from '../../src/examples/dashboard-widgets/Dashboard.tsx'
+
+
+import {
+  CxCard,
+  CxCardBody,
+  CxCardTitle,
+  CxBadge,
+  CxListGroup,
+  CxProgress,
+  CxProgressBar,
+  CxTable,
+  CxRow,
+  CxCol,
+} from '@chassis-ui/react'
+
+A dashboard assembles several data-driven components side-by-side. All data below is static for illustration — in practice each array would come from an API response.
+
+
+<Example>
+  <Dashboard />
+</Example>
+
+```jsx
+import {
+  CxCard, CxCardBody, CxBadge, CxListGroup,
+  CxProgress, CxProgressBar, CxTable, CxRow, CxCol,
+} from '@chassis-ui/react'
+
+export const Dashboard = () => {
+  const stats = [
+    { label: 'Total Users', value: '12,540', delta: '+8%', context: 'primary' },
+    // ...
+  ]
+  const orders = [ /* ... */ ]
+  const orderStatusCtx = { Paid: 'success', Pending: 'warning', Failed: 'danger' }
+  const orderColumns = [
+    { key: 'id' }, { key: 'customer' }, { key: 'amount' },
+    { key: 'status', render: (v) => <CxBadge context={orderStatusCtx[v]}>{v}</CxBadge> },
+  ]
+
+  return (
+    <div>
+      {/* Stat cards */}
+      <CxRow className="mb-4">
+        {stats.map((stat) => (
+          <CxCol key={stat.label}>
+            <CxCard>
+              <CxCardBody>
+                <div className="d-flex justify-content-between">
+                  <div>{stat.label}<div className="h4">{stat.value}</div></div>
+                  <CxBadge context={stat.context}>{stat.delta}</CxBadge>
+                </div>
+              </CxCardBody>
+            </CxCard>
+          </CxCol>
+        ))}
+      </CxRow>
+
+      {/* Orders table with badge-rendered status */}
+      <CxTable hover columns={orderColumns} items={orders} />
+
+      {/* Activity feed */}
+      <CxListGroup flush items={activity} />
+
+      {/* Progress breakdown */}
+      {traffic.map((src) => (
+        <div key={src.label}>
+          <small>{src.label}</small>
+          <CxProgress><CxProgressBar context={src.context} value={src.value} max={100} /></CxProgress>
+        </div>
+      ))}
+    </div>
+  )
+}
+```
+
+## Key points
+
+- Stat cards use `<CxBadge>` for delta indicators — the `context` prop drives the color semantically.
+- The orders table uses a `render` function to replace raw status strings with `<CxBadge>` components.
+- `<CxListGroup flush items={...} />` renders a borderless activity feed from a plain array.
+- Progress bars take `context` directly; `value` and `max` work like the native `<progress>` element.

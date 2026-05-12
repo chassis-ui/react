@@ -1,0 +1,64 @@
+---
+title: Paginated Table
+description: A complete example of CxTable and CxPagination working together to display and navigate a large data set.
+
+toc: true
+---
+import { PaginatedTable } from '../../src/examples/paginated-table/PaginatedTable.tsx'
+
+
+import { useState } from 'react'
+import { CxTable, CxPagination, CxFormSelect, CxBadge } from '@chassis-ui/react'
+
+A common UI pattern: fetch a data array, slice it for the current page, render the table, and show a pagination control beneath it.
+
+
+<Example>
+  <PaginatedTable />
+</Example>
+
+```jsx
+import { useState } from 'react'
+import { CxTable, CxPagination, CxFormSelect, CxBadge } from '@chassis-ui/react'
+
+export const PaginatedTable = () => {
+  const allUsers = [ /* ... your data */ ]
+  const statusContext = { Active: 'success', Inactive: 'secondary' }
+
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(5)
+  const totalPages = Math.ceil(allUsers.length / pageSize)
+  const offset = (page - 1) * pageSize
+  const rows = allUsers.slice(offset, offset + pageSize)
+
+  const columns = [
+    { key: 'id', label: '#' },
+    { key: 'name' },
+    { key: 'role' },
+    {
+      key: 'status',
+      render: (v) => <CxBadge context={statusContext[v]}>{v}</CxBadge>,
+    },
+  ]
+
+  return (
+    <div>
+      <CxTable columns={columns} items={rows} hover />
+      <div className="d-flex justify-content-end mt-3">
+        <CxPagination
+          pages={totalPages}
+          activePage={page}
+          onActivePageChange={setPage}
+        />
+      </div>
+    </div>
+  )
+}
+```
+
+## Key points
+
+- `allUsers.slice(offset, offset + pageSize)` computes the visible rows. Replace with an API call that accepts `page` and `pageSize` query params.
+- The `render` function in `columns` lets you replace raw values with components like `<CxBadge>`.
+- Changing `pageSize` resets the page to `1` to avoid a non-existent page.
+- `<CxPagination>` automatically shows ellipsis when pages exceed `maxVisiblePages` (default 5).

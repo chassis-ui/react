@@ -1,0 +1,9 @@
+---
+interface Props {
+  context?: 'info' | 'warning' | 'danger' | 'tip'
+}
+const { context = 'info' } = Astro.props
+---
+<div class={`cxd-callout cxd-callout-${context}`}>
+  <slot />
+</div>
