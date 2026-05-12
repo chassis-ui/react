@@ -1,0 +1,30 @@
+---
+import type { MarkdownHeading } from 'astro'
+
+interface Props {
+  frontmatter: {
+    title?: string
+    description?: string
+  }
+  headings?: MarkdownHeading[]
+  id?: string
+}
+
+const { frontmatter } = Astro.props
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{frontmatter.title ? `${frontmatter.title} · Chassis React` : 'Chassis React'}</title>
+    {frontmatter.description && <meta name="description" content={frontmatter.description} />}
+  </head>
+  <body>
+    <main>
+      <slot />
+    </main>
+    <slot name="scripts" />
+  </body>
+</html>

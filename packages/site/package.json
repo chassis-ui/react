@@ -1,0 +1,35 @@
+{
+  "name": "@chassis-ui/react-site",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Chassis React documentation site",
+  "homepage": "https://chassis-ui.com/react/",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "clean": "rimraf ../../_site .astro"
+  },
+  "dependencies": {
+    "@chassis-ui/react": "workspace:*",
+    "@chassis-ui/css": "link:../../../chassis-css",
+    "@chassis-ui/tokens": "link:../../../chassis-tokens"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "@astrojs/mdx": "^4.3.14",
+    "@astrojs/react": "^4.0.0",
+    "@astrojs/sitemap": "^3.7.2",
+    "@types/hast": "^3.0.4",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "astro": "^5.18.1",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "rimraf": "^6.0.1",
+    "sass": "1.99.0",
+    "typescript": "^5.0.0",
+    "unist-util-visit": "^5.0.0"
+  }
+}

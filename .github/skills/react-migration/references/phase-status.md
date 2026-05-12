@@ -13,7 +13,7 @@ Last updated: 2026-05-12
 |---|-------|--------|-------|
 | 1 | React 18 upgrade (`packages/react`) | `[x]` | Complete — all 242 tests pass, build succeeds |
 | 2 | Monorepo: Lerna/Yarn → pnpm workspaces | `[x]` | Complete — pnpm install, build, and 242 tests pass |
-| 3 | Scaffold `packages/site`, delete `packages/docs` | `[ ]` | |
+| 3 | Scaffold `packages/site`, delete `packages/docs` | `[x]` | Complete — Astro 5 scaffold builds, 2 pages generated, old content stashed in `content.gatsby/` for Phase 5 |
 | 4 | `<ReactExample>` island component | `[ ]` | |
 | 5 | MDX content migration (25 files) | `[ ]` | |
 | 6 | API docs generation pipeline | `[ ]` | |
@@ -49,17 +49,18 @@ Last updated: 2026-05-12
 
 ## Phase 3 Checklist — Astro Site Scaffold
 
-- [ ] Delete `packages/docs` entirely
-- [ ] Create `packages/site` directory
-- [ ] Scaffold Astro project following chassis-website pattern
-- [ ] Add `@astrojs/react` integration
-- [ ] Configure `base: '/react/'` in astro.config.ts
-- [ ] Set up SCSS with `@chassis-ui/css` dependency
-- [ ] Configure `@chassis-ui/docs` shared package
-- [ ] Set `outDir: '../../_site'`
-- [ ] Add content collection schema for React docs (extends docsSchema)
-- [ ] Add to root `pnpm-workspace.yaml`
-- [ ] Verify `pnpm --filter @chassis-ui/react-site dev` launches
+- [x] Delete `packages/docs` entirely
+- [x] Create `packages/site` directory
+- [x] Scaffold Astro project following chassis-website pattern
+- [x] Add `@astrojs/react` integration
+- [x] Configure `base: '/react/'` in astro.config.ts
+- [x] Set up SCSS with `@chassis-ui/css` dependency
+- [~] Configure `@chassis-ui/docs` shared package (inlined `rehypeStripIsRaw`; full integration deferred to Phase 7)
+- [x] Set `outDir: '../../_site'`
+- [x] Add content collection schema for React docs (extends docsSchema)
+- [x] Add to root `pnpm-workspace.yaml`
+- [x] Verify `pnpm --filter @chassis-ui/react-site build` succeeds (2 pages built)
+- [x] Stash Gatsby MDX source in `content.gatsby/` for Phase 5 migration
 
 ## Phase 4 Checklist — ReactExample Island
 
