@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CxNotificationHeading customize 1`] = `
+<div>
+  <h3
+    class="notification-heading bazinga"
+  >
+    Test
+  </h3>
+</div>
+`;
+
+exports[`loads and displays CxNotificationHeading component 1`] = `
+<div>
+  <h4
+    class="notification-heading"
+  >
+    Test
+  </h4>
+</div>
+`;

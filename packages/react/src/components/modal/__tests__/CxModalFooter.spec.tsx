@@ -1,0 +1,16 @@
+import * as React from 'react'
+import { render } from '@testing-library/react'
+import '@testing-library/jest-dom/extend-expect'
+import { CxModalFooter } from '../../../index'
+
+test('loads and displays CxModalFooter component', async () => {
+  const { container } = render(<CxModalFooter>Test</CxModalFooter>)
+  expect(container).toMatchSnapshot()
+})
+
+test('CxModalFooter customize', async () => {
+  const { container } = render(<CxModalFooter className="bazinga">Test</CxModalFooter>)
+  expect(container).toMatchSnapshot()
+  expect(container.firstChild).toHaveClass('bazinga')
+  expect(container.firstChild).toHaveClass('modal-footer')
+})

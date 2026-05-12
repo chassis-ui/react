@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CxNotificationLink customize 1`] = `
+<div>
+  <a
+    class="notification-link bazinga"
+    href="/bazinga"
+  >
+    Test
+  </a>
+</div>
+`;
+
+exports[`loads and displays CxNotificationLink component 1`] = `
+<div>
+  <a
+    class="notification-link"
+  >
+    Test
+  </a>
+</div>
+`;

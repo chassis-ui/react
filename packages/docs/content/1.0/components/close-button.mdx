@@ -1,0 +1,53 @@
+---
+title:  Close Button Component
+name: Bootstrap React Close Button
+description: A generic Bootstrap React Close Button component for dismissing content like modals and alerts.
+menu: Components
+route: /components/close-button
+---
+
+import { CxCloseButton } from '@chassis-ui/react/src/index'
+
+## Example
+
+Provide an option to dismiss or close a component with `<CxCloseButton>`. Default styling is limited, but highly customizable. Modify the Sass variables to replace the default `background-image`.
+
+<Example>
+  <CxCloseButton />
+</Example>
+
+```jsx
+<CxCloseButton />
+```
+
+## Disabled state
+
+Disabled close buttons change their `opacity`. We've also applied `pointer-events: none` and `user-select: none` to preventing hover and active states from triggering.
+
+<Example>
+  <CxCloseButton disabled />
+</Example>
+
+```jsx
+<CxCloseButton disabled />
+```
+
+## White variant
+
+Change the default `<CxCloseButton>` to be white with the `white` boolean property.
+
+<Example className="bg-dark border-0">
+  <CxCloseButton white />
+  <CxCloseButton white disabled />
+</Example>
+
+```jsx
+<CxCloseButton white />
+<CxCloseButton white disabled />
+```
+
+## API
+
+### CxCloseButton
+
+`markdown:CxCloseButton.api.mdx`

@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CxBadge customize 1`] = `
+<div>
+  <div
+    class="badge warning fg-white rounded bazinga"
+  >
+    Test
+  </div>
+</div>
+`;
+
+exports[`loads and displays CxBadge component 1`] = `
+<div>
+  <span
+    class="badge primary"
+  >
+    Test
+  </span>
+</div>
+`;

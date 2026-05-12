@@ -1,0 +1,182 @@
+---
+title: Select Component
+name: Chassis React Select
+description: Chassis React Select component. Supports data-driven options arrays with placeholder, disabled options, and sizing variants.
+menu: Forms
+route: /forms/select
+---
+
+import {
+  CxButton,
+  CxForm,
+  CxFormCheck,
+  CxFormLabel,
+  CxFormSelect,
+  CxFormText,
+  CxCol,
+  CxRow,
+} from '@chassis-ui/react/src/index'
+
+## Default
+
+Pass an `options` array for data-driven rendering. Options can be plain strings or objects with `value`, `label`, and `disabled` keys.
+
+<Example>
+  <CxFormSelect
+    aria-label="Default select example"
+    options={[
+      { label: 'One', value: '1' },
+      { label: 'Two', value: '2' },
+      { label: 'Three (disabled)', value: '3', disabled: true },
+    ]}
+  />
+</Example>
+
+```jsx
+<CxFormSelect
+  aria-label="Default select example"
+  options={[
+    { label: 'One', value: '1' },
+    { label: 'Two', value: '2' },
+    { label: 'Three (disabled)', value: '3', disabled: true },
+  ]}
+/>
+
+// Manual children work too
+<CxFormSelect aria-label="Default select example">
+  <option value="1">One</option>
+  <option value="2">Two</option>
+  <option value="3" disabled>Three</option>
+</CxFormSelect>
+```
+
+## Placeholder
+
+Use the `placeholder` prop to add a non-selectable first option that prompts the user to make a choice.
+
+<Example>
+  <CxFormSelect
+    placeholder="Select a country…"
+    aria-label="Country select"
+    options={[
+      { label: 'Australia', value: 'au' },
+      { label: 'Canada', value: 'ca' },
+      { label: 'United Kingdom', value: 'gb' },
+      { label: 'United States', value: 'us' },
+    ]}
+  />
+</Example>
+
+```jsx
+<CxFormSelect
+  placeholder="Select a country…"
+  options={[
+    { label: 'Australia', value: 'au' },
+    { label: 'Canada', value: 'ca' },
+    { label: 'United Kingdom', value: 'gb' },
+    { label: 'United States', value: 'us' },
+  ]}
+/>
+```
+
+## Sizing
+
+You may also choose from small and large custom selects to match our similarly sized text inputs.
+
+<Example>
+  <CxFormSelect size="large" className="mb-3" aria-label="Large select example">
+    <option>Open this select menu</option>
+    <option value="1">One</option>
+    <option value="2">Two</option>
+    <option value="3">Three</option>
+  </CxFormSelect>
+  <CxFormSelect size="small" className="mb-3" aria-label="Small select example">
+    <option>Open this select menu</option>
+    <option value="1">One</option>
+    <option value="2">Two</option>
+    <option value="3">Three</option>
+  </CxFormSelect>
+</Example>
+
+```jsx
+<CxFormSelect size="large" className="mb-3" aria-label="Large select example">
+  <option>Open this select menu</option>
+  <option value="1">One</option>
+  <option value="2">Two</option>
+  <option value="3">Three</option>
+</CxFormSelect>
+<CxFormSelect size="small" className="mb-3" aria-label="Small select example">
+  <option>Open this select menu</option>
+  <option value="1">One</option>
+  <option value="2">Two</option>
+  <option value="3">Three</option>
+</CxFormSelect>
+```
+
+The `multiple` attribute is also supported:
+
+<Example>
+  <CxFormSelect size="large" multiple aria-label="Multiple select example">
+    <option>Open this select menu</option>
+    <option value="1">One</option>
+    <option value="2">Two</option>
+    <option value="3">Three</option>
+  </CxFormSelect>
+</Example>
+
+```jsx
+<CxFormSelect size="large" multiple aria-label="Multiple select example">
+  <option>Open this select menu</option>
+  <option value="1">One</option>
+  <option value="2">Two</option>
+  <option value="3">Three</option>
+</CxFormSelect>
+```
+
+As is the `htmlSize`{p}operty:
+
+<Example>
+  <CxFormSelect htmlSize={3} multiple aria-label="size 3 select example">
+    <option>Open this select menu</option>
+    <option value="1">One</option>
+    <option value="2">Two</option>
+    <option value="3">Three</option>
+  </CxFormSelect>
+</Example>
+
+```jsx
+<CxFormSelect htmlSize={3} multiple aria-label="size 3 select example">
+  <option>Open this select menu</option>
+  <option value="1">One</option>
+  <option value="2">Two</option>
+  <option value="3">Three</option>
+</CxFormSelect>
+```
+
+## Disabled
+
+Add the `disabled` boolean attribute on a select to give it a grayed out appearance and remove pointer events.
+
+<Example>
+  <CxFormSelect aria-label="Disabled select example" disabled>
+    <option>Open this select menu</option>
+    <option value="1">One</option>
+    <option value="2">Two</option>
+    <option value="3">Three</option>
+  </CxFormSelect>
+</Example>
+
+```jsx
+<CxFormSelect aria-label="Disabled select example" disabled>
+  <option>Open this select menu</option>
+  <option value="1">One</option>
+  <option value="2">Two</option>
+  <option value="3">Three</option>
+</CxFormSelect>
+```
+
+## API
+
+### CxFormSelect
+
+`markdown:CxFormSelect.api.mdx`

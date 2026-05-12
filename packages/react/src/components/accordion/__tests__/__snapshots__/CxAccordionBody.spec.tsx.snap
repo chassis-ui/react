@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CxAccordionBody customize 1`] = `
+<div>
+  <div
+    class="accordion-body"
+  >
+    Test
+  </div>
+</div>
+`;
+
+exports[`loads and displays CxAccordionBody component 1`] = `
+<div>
+  <div
+    class="accordion-body"
+  >
+    Test
+  </div>
+</div>
+`;

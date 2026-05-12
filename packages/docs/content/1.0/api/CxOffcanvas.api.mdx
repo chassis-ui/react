@@ -1,0 +1,18 @@
+
+```jsx
+import { CxOffcanvas } from '@chassis-ui/react'
+// or
+import CxOffcanvas from '@chassis-ui/react/src/react/src/components/offcanvas/CxOffcanvas'
+```
+
+| Property | Description | Type | Default |
+| --- | --- | --- | --- |
+| **backdrop** | Apply a backdrop on body while offcanvas is open. | `boolean` \| `undefined` | true |
+| **className** | A string of all className you want applied to the base component. | `string` \| `undefined` | - |
+| **keyboard** | Closes the offcanvas when escape key is pressed | `boolean` \| `undefined` | true |
+| **onHide** | Callback fired when the component requests to be hidden. | `(() => void)` \| `undefined` | - |
+| **onShow** | Callback fired when the component requests to be shown. | `(() => void)` \| `undefined` | - |
+| **placement** | Components placement, there’s no default placement. | `'start'` \| `'end'` \| `'top'` \| `'bottom'` | - |
+| **portal** | Generates modal using createPortal. | `boolean` \| `undefined` | true |
+| **scroll** | Allow body scrolling while offcanvas is open | `boolean` \| `undefined` | false |
+| **visible** | Toggle the visibility of offcanvas component. | `boolean` \| `undefined` | false |

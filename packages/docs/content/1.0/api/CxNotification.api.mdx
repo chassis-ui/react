@@ -1,0 +1,15 @@
+
+```jsx
+import { CxNotification } from '@chassis-ui/react'
+// or
+import CxNotification from '@chassis-ui/react/src/react/src/components/notification/CxNotification'
+```
+
+| Property | Description | Type | Default |
+| --- | --- | --- | --- |
+| **className** | A string of all className you want applied to the component. | `string` \| `undefined` | - |
+| **context** | Sets the context context of the component to one of Bootstrap React’s themed colors. | `'primary'` \| `'secondary'` \| `'success'` \| `'danger'` \| `'warning'` \| `'info'` \| `'dark'` \| `'light'` \| `string` | primary |
+| **dismissible** | Optionally add a close button to the notification and allow it to self dismiss. | `boolean` \| `undefined` | - |
+| **onClose** | Callback fired when the component requests to be closed. | `(() => void)` \| `undefined` | - |
+| **variant** | Style variant for the notification. | `'solid'` \| `undefined` | - |
+| **visible** | Toggle the visibility of component. | `boolean` \| `undefined` | true |

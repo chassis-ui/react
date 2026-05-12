@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CxAccordionItem customize 1`] = `
+<div>
+  <details
+    class="accordion-item bazinga"
+  >
+    Test
+  </details>
+</div>
+`;
+
+exports[`loads and displays CxAccordionItem component 1`] = `
+<div>
+  <details
+    class="accordion-item"
+  >
+    Test
+  </details>
+</div>
+`;

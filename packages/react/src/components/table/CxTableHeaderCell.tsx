@@ -1,0 +1,38 @@
+import React, { forwardRef, ThHTMLAttributes } from 'react'
+import PropTypes from 'prop-types'
+import classNames from 'classnames'
+
+import { Colors, contextPropType } from '../Types'
+
+export interface CTableHeaderCellProps extends ThHTMLAttributes<HTMLTableHeaderCellElement> {
+  /**
+   * A string of all className you want applied to the component.
+   */
+  className?: string
+  /**
+   * Sets the context context of the component to one of Bootstrap React’s themed colors.
+   *
+   * @type 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light' | string
+   */
+  context?: Colors
+}
+
+export const CxTableHeaderCell = forwardRef<HTMLTableHeaderCellElement, CTableHeaderCellProps>(
+  ({ children, className, context, ...rest }, ref) => {
+    const _className = classNames(context, className)
+
+    return (
+      <th className={_className ? _className : undefined} {...rest} ref={ref}>
+        {children}
+      </th>
+    )
+  },
+)
+
+CxTableHeaderCell.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string,
+  context: contextPropType,
+}
+
+CxTableHeaderCell.displayName = 'CxTableHeaderCell'

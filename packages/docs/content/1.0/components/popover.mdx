@@ -1,0 +1,88 @@
+---
+title:  Popover Component
+name: Bootstrap React Popover
+description: Documentation and examples for adding Bootstrap React Popovers, like those found in iOS, to any element on your site.
+
+menu: Components
+route: /components/popover
+---
+
+import { CxPopover, CxButton } from '@chassis-ui/react/src/index'
+
+## Example
+
+<Example>
+  <CxPopover
+    title="Popover title"
+    content="And here’s some amazing content. It’s very engaging. Right?"
+    placement="right"
+  >
+    <CxButton context="danger" size="large">
+      Click to toggle popover
+    </CxButton>
+  </CxPopover>
+</Example>
+
+```jsx
+<CxPopover
+  title="Popover title"
+  content="And here’s some amazing content. It’s very engaging. Right?"
+  placement="right"
+>
+  <CxButton context="danger" size="large">
+    Click to toggle popover
+  </CxButton>
+</CxPopover>
+```
+
+### Four directions
+
+Four options are available: top, right, bottom, and left aligned. Directions are mirrored when using Bootstrap React in RTL.
+
+<Example>
+  <CxPopover content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." placement="top">
+    <CxButton context="secondary">Popover on top</CxButton>
+  </CxPopover>
+  <CxPopover content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." placement="right">
+    <CxButton context="secondary">Popover on right</CxButton>
+  </CxPopover>
+  <CxPopover content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." placement="bottom">
+    <CxButton context="secondary">Popover on bottom</CxButton>
+  </CxPopover>
+  <CxPopover content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." placement="left">
+    <CxButton context="secondary">Popover on left</CxButton>
+  </CxPopover>
+</Example>
+
+```jsx
+  <CxPopover
+    content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
+    placement="top"
+  >
+    <CxButton context="secondary">Popover on top</CxButton>
+  </CxPopover>
+  <CxPopover
+    content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
+    placement="right"
+  >
+    <CxButton context="secondary">Popover on right</CxButton>
+  </CxPopover>
+  <CxPopover
+    content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
+    placement="bottom"
+  >
+    <CxButton context="secondary">Popover on bottom</CxButton>
+  </CxPopover>
+  <CxPopover
+    content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
+    placement="left"
+  >
+    <CxButton context="secondary">Popover on left</CxButton>
+  </CxPopover>
+```
+
+## API
+
+### CxPopover
+
+`markdown:CxPopover.api.mdx`

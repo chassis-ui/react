@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CxAccordionHeader customize 1`] = `
+<div>
+  <summary
+    class="bazinga"
+  >
+    <span
+      class="accordion-title"
+    >
+      Test
+    </span>
+  </summary>
+</div>
+`;
+
+exports[`loads and displays CxAccordionHeader component 1`] = `
+<div>
+  <summary>
+    <span
+      class="accordion-title"
+    >
+      Test
+    </span>
+  </summary>
+</div>
+`;

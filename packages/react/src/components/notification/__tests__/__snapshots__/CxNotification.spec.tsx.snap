@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CxNotification customize 1`] = `
+<div>
+  <div
+    class="notification bg-secondary fg-white bazinga show"
+    role="alert"
+  >
+    Test
+    <button
+      aria-label="Close"
+      class="close-button"
+    />
+  </div>
+</div>
+`;
+
+exports[`loads and displays CxNotification component 1`] = `
+<div>
+  <div
+    class="notification primary show"
+    role="alert"
+  >
+    Test
+  </div>
+</div>
+`;

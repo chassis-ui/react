@@ -1,0 +1,29 @@
+import React, { forwardRef } from 'react'
+import PropTypes from 'prop-types'
+import classNames from 'classnames'
+import { CxNavLink, CNavLinkProps } from './CxNavLink'
+
+export const CxNavItem = forwardRef<HTMLLIElement, CNavLinkProps>(
+  ({ children, className, ...rest }, ref) => {
+    const _className = classNames('nav-item', className)
+    if (rest.href || rest.to) {
+      children = (
+        <CxNavLink className={className} {...rest}>
+          {children}
+        </CxNavLink>
+      )
+    }
+    return (
+      <li className={_className} ref={ref}>
+        {children}
+      </li>
+    )
+  },
+)
+
+CxNavItem.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string,
+}
+
+CxNavItem.displayName = 'CxNavItem'

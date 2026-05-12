@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CxButtonGroup customize 1`] = `
+<div>
+  <div
+    class="btn-group btn-group-large bazinga"
+  >
+    <button
+      class="button primary"
+      type="button"
+    >
+      Test A
+    </button>
+    <button
+      class="button primary"
+      type="button"
+    >
+      Test B
+    </button>
+    <button
+      class="button primary"
+      type="button"
+    >
+      Test C
+    </button>
+  </div>
+</div>
+`;
+
+exports[`CxButtonGroup customize vertical 1`] = `
+<div>
+  <div
+    class="btn-group-vertical btn-group-large bazinga"
+  >
+    <button
+      class="button primary"
+      type="button"
+    >
+      Test A
+    </button>
+    <button
+      class="button primary"
+      type="button"
+    >
+      Test B
+    </button>
+    <button
+      class="button primary"
+      type="button"
+    >
+      Test C
+    </button>
+  </div>
+</div>
+`;
+
+exports[`loads and displays CxButtonGroup component 1`] = `
+<div>
+  <div
+    class="btn-group"
+  />
+</div>
+`;

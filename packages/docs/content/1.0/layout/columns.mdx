@@ -1,0 +1,482 @@
+---
+name: Columns
+description: Learn how to modify columns with a handful of options for alignment, ordering, and offsetting thanks to our flexbox grid system.
+menu: Layout
+route: '/layout/columns'
+---
+
+import { CxCol, CxContainer, CxRow } from '@chassis-ui/react/src/index'
+
+## How they work
+
+- **Columns build on the grid's flexbox architecture.** Flexbox means we have options for changing individual columns and [modifying groups of columns at the row level](./../grid#row-columns). You choose how columns grow, shrink, or otherwise change.
+
+- **When building grid layouts, all content goes in columns.** The hierarchy of Bootstrap React's grid goes from [container](./../containers) to row to column to your content. On rare occasions, you may combine content and column, but be aware there can be unintended consequences.
+
+- **Bootstrap React includes predefined components for creating fast, responsive layouts.** With [six breakpoints](./../breakpoints) and a dozen columns at each grid tier, we have dozens of components already built for you to create your desired layouts. This can be disabled via Sass if you wish.
+
+## Alignment
+
+Use flexbox alignment utilities to vertically and horizontally align columns.
+
+### Vertical alignment
+
+<Example className="docs-example-row docs-example-row-flex-cols">
+  <CxContainer>
+    <CxRow className="align-items-start">
+      <CxCol>One of three columns</CxCol>
+      <CxCol>One of three columns</CxCol>
+      <CxCol>One of three columns</CxCol>
+    </CxRow>
+    <CxRow className="align-items-center">
+      <CxCol>One of three columns</CxCol>
+      <CxCol>One of three columns</CxCol>
+      <CxCol>One of three columns</CxCol>
+    </CxRow>
+    <CxRow className="align-items-end">
+      <CxCol>One of three columns</CxCol>
+      <CxCol>One of three columns</CxCol>
+      <CxCol>One of three columns</CxCol>
+    </CxRow>
+  </CxContainer>
+</Example>
+
+```jsx
+<CxContainer>
+  <CxRow className="align-items-start">
+    <CxCol>One of three columns</CxCol>
+    <CxCol>One of three columns</CxCol>
+    <CxCol>One of three columns</CxCol>
+  </CxRow>
+  <CxRow className="align-items-center">
+    <CxCol>One of three columns</CxCol>
+    <CxCol>One of three columns</CxCol>
+    <CxCol>One of three columns</CxCol>
+  </CxRow>
+  <CxRow className="align-items-end">
+    <CxCol>One of three columns</CxCol>
+    <CxCol>One of three columns</CxCol>
+    <CxCol>One of three columns</CxCol>
+  </CxRow>
+</CxContainer>
+```
+
+<Example className="docs-example-row docs-example-row-flex-cols">
+  <CxContainer>
+    <CxRow>
+      <CxCol className="align-self-start">One of three columns</CxCol>
+      <CxCol className="align-self-center">One of three columns</CxCol>
+      <CxCol className="align-self-end">One of three columns</CxCol>
+    </CxRow>
+  </CxContainer>
+</Example>
+
+```jsx
+<CxContainer>
+  <CxRow>
+    <CxCol className="align-self-start">One of three columns</CxCol>
+    <CxCol className="align-self-center">One of three columns</CxCol>
+    <CxCol className="align-self-end">One of three columns</CxCol>
+  </CxRow>
+</CxContainer>
+```
+
+### Horizontal alignment
+
+<Example className="docs-example-row">
+  <CxContainer>
+    <CxRow className="justify-content-start">
+      <CxCol xs={4}>One of two columns</CxCol>
+      <CxCol xs={4}>One of two columns</CxCol>
+    </CxRow>
+    <CxRow className="justify-content-center">
+      <CxCol xs={4}>One of two columns</CxCol>
+      <CxCol xs={4}>One of two columns</CxCol>
+    </CxRow>
+    <CxRow className="justify-content-end">
+      <CxCol xs={4}>One of two columns</CxCol>
+      <CxCol xs={4}>One of two columns</CxCol>
+    </CxRow>
+    <CxRow className="justify-content-around">
+      <CxCol xs={4}>One of two columns</CxCol>
+      <CxCol xs={4}>One of two columns</CxCol>
+    </CxRow>
+    <CxRow className="justify-content-between">
+      <CxCol xs={4}>One of two columns</CxCol>
+      <CxCol xs={4}>One of two columns</CxCol>
+    </CxRow>
+    <CxRow className="justify-content-evenly">
+      <CxCol xs={4}>One of two columns</CxCol>
+      <CxCol xs={4}>One of two columns</CxCol>
+    </CxRow>
+  </CxContainer>
+</Example>
+
+```jsx
+<CxContainer>
+  <CxRow className="justify-content-start">
+    <CxCol xs={4}>One of two columns</CxCol>
+    <CxCol xs={4}>One of two columns</CxCol>
+  </CxRow>
+  <CxRow className="justify-content-center">
+    <CxCol xs={4}>One of two columns</CxCol>
+    <CxCol xs={4}>One of two columns</CxCol>
+  </CxRow>
+  <CxRow className="justify-content-end">
+    <CxCol xs={4}>One of two columns</CxCol>
+    <CxCol xs={4}>One of two columns</CxCol>
+  </CxRow>
+  <CxRow className="justify-content-around">
+    <CxCol xs={4}>One of two columns</CxCol>
+    <CxCol xs={4}>One of two columns</CxCol>
+  </CxRow>
+  <CxRow className="justify-content-between">
+    <CxCol xs={4}>One of two columns</CxCol>
+    <CxCol xs={4}>One of two columns</CxCol>
+  </CxRow>
+  <CxRow className="justify-content-evenly">
+    <CxCol xs={4}>One of two columns</CxCol>
+    <CxCol xs={4}>One of two columns</CxCol>
+  </CxRow>
+</CxContainer>
+```
+
+### Column wrapping
+
+If more than 12 columns are placed within a single row, each group of extra columns will, as one unit, wrap onto a new line.
+
+<Example className="docs-example-row">
+  <CxContainer>
+    <CxRow>
+      <CxCol xs={9}>.col-9</CxCol>
+      <CxCol xs={4}>
+        .col-4
+        <br />
+        Since 9 + 4 = 13 &gt; 12, this 4-column-wide div gets wrapped onto a new line as one
+        contiguous unit.
+      </CxCol>
+      <CxCol xs={6}>
+        .col-6
+        <br />
+        Subsequent columns continue along the new line.
+      </CxCol>
+    </CxRow>
+  </CxContainer>
+</Example>
+
+```jsx
+<CxContainer>
+  <CxRow>
+    <CxCol xs={9}>.col-9</CxCol>
+    <CxCol xs={4}>
+      .col-4
+      <br />
+      Since 9 + 4 = 13 &gt; 12, this 4-column-wide div gets wrapped onto a new line as one
+      contiguous unit.
+    </CxCol>
+    <CxCol xs={6}>
+      .col-6
+      <br />
+      Subsequent columns continue along the new line.
+    </CxCol>
+  </CxRow>
+</CxContainer>
+```
+
+### Column breaks
+
+Breaking columns to a new line in flexbox requires a small hack: add an element with `width: 100%` wherever you want to wrap your columns to a new line. Normally this is accomplished with multiple `<CxRow>`s, but not every implementation method can account for this.
+
+<Example className="docs-example-row">
+  <CxContainer>
+    <CxRow>
+      <CxCol xs={6} sm={3}>
+        .col-6 .small:col-3
+      </CxCol>
+      <CxCol xs={6} sm={3}>
+        .col-6 .small:col-3
+      </CxCol>
+      <div className="w-100"></div>
+      <CxCol xs={6} sm={3}>
+        .col-6 .small:col-3
+      </CxCol>
+      <CxCol xs={6} sm={3}>
+        .col-6 .small:col-3
+      </CxCol>
+    </CxRow>
+  </CxContainer>
+</Example>
+
+```jsx
+<CxContainer>
+  <CxRow>
+    <CxCol xs={6} sm={3}>
+      .col-6 .small:col-3
+    </CxCol>
+    <CxCol xs={6} sm={3}>
+      .col-6 .small:col-3
+    </CxCol>
+    <div className="w-100"></div>
+    <CxCol xs={6} sm={3}>
+      .col-6 .small:col-3
+    </CxCol>
+    <CxCol xs={6} sm={3}>
+      .col-6 .small:col-3
+    </CxCol>
+  </CxRow>
+</CxContainer>
+```
+
+You may also apply this break at specific breakpoints with our [responsive display utilities](https://coreui.io/docs/utilities/display).
+
+<Example className="docs-example-row">
+  <CxContainer>
+    <CxRow>
+      <CxCol xs={6} sm={4}>
+        .col-6 .small:col-4
+      </CxCol>
+      <CxCol xs={6} sm={4}>
+        .col-6 .small:col-4
+      </CxCol>
+      <div className="w-100 d-none medium:d-block"></div>
+      <CxCol xs={6} sm={4}>
+        .col-6 .small:col-4
+      </CxCol>
+      <CxCol xs={6} sm={4}>
+        .col-6 .small:col-4
+      </CxCol>
+    </CxRow>
+  </CxContainer>
+</Example>
+
+```jsx
+<CxContainer>
+  <CxRow>
+    <CxCol xs={6} sm={4}>
+      .col-6 .small:col-4
+    </CxCol>
+    <CxCol xs={6} sm={4}>
+      .col-6 .small:col-4
+    </CxCol>
+    <div className="w-100 d-none medium:d-block"></div>
+    <CxCol xs={6} sm={4}>
+      .col-6 .small:col-4
+    </CxCol>
+    <CxCol xs={6} sm={4}>
+      .col-6 .small:col-4
+    </CxCol>
+  </CxRow>
+</CxContainer>
+```
+
+## Reordering
+
+### Order props
+
+Use `xs|sm|md|lg|xl|xxl={{ order: 1-5 }}` props for controlling the **visual order** of your content. These props are responsive, so you can set the `order` by breakpoint (e.g., `xs={{ order: 1}} md={{ order: 2}}`). Includes support for `1` through `5` across all six grid tiers.
+
+<Example className="docs-example-row">
+  <CxContainer>
+    <CxRow>
+      <CxCol>First in DOM, no order applied</CxCol>
+      <CxCol xs={{ span: true, order: 5 }}>Second in DOM, with a larger order</CxCol>
+      <CxCol xs={{ span: true, order: 1 }}>Third in DOM, with an order of 1</CxCol>
+    </CxRow>
+  </CxContainer>
+</Example>
+
+```jsx
+<CxContainer>
+  <CxRow>
+    <CxCol>First in DOM, no order applied</CxCol>
+    <CxCol xs={{ span: true, order: 5 }}>Second in DOM, with a larger order</CxCol>
+    <CxCol xs={{ span: true, order: 1 }}>Third in DOM, with an order of 1</CxCol>
+  </CxRow>
+</CxContainer>
+```
+
+There are also responsive `xs|sm|md|lg|xl|xxl={{ order: 'first' }}` and `xs|sm|md|lg|xl|xxl={{ order: 'last' }}` props that change the `order` of an element by applying `order: -1` and `order: 6`, respectively. These values can also be intermixed with the numbered `xs|sm|md|lg|xl|xxl={{ order: 1-5 }}` values as needed.
+
+<Example className="docs-example-row">
+  <CxContainer>
+    <CxRow>
+      <CxCol xs={{ span: true, order: 'last' }}>First in DOM, ordered last</CxCol>
+      <CxCol>Second in DOM, unordered</CxCol>
+      <CxCol xs={{ span: true, order: 'first' }}>Third in DOM, ordered first</CxCol>
+    </CxRow>
+  </CxContainer>
+</Example>
+
+```jsx
+<CxContainer>
+  <CxRow>
+    <CxCol xs={{ span: true, order: 'last' }}>First in DOM, ordered last</CxCol>
+    <CxCol>Second in DOM, unordered</CxCol>
+    <CxCol xs={{ span: true, order: 'first' }}>Third in DOM, ordered first</CxCol>
+  </CxRow>
+</CxContainer>
+```
+
+### Offsetting columns
+
+You can offset grid columns in two ways: our responsive `xs|sm|md|lg|xl|xxl={{ offset: 0-12 }}` grid props and our [margin utilities](https://coreui.io/docs/utilities/spacing). Grid props are sized to match columns while margins are more useful for quick layouts where the width of the offset is variable.
+
+#### Offset prop
+
+Move columns to the right using `md={{ offset: * }}` props. These props increase the left margin of a column by `*` columns. For example, `md={{ offset: 4 }}` moves `.medium:col-4` over four columns.
+
+<Example className="docs-example-row">
+  <CxContainer>
+    <CxRow>
+      <CxCol md={4}>.medium:col-4</CxCol>
+      <CxCol md={{ span: 4, offset: 4 }}>.medium:col-4 .medium:offset-4</CxCol>
+    </CxRow>
+    <CxRow>
+      <CxCol md={{ span: 3, offset: 3 }}>.medium:col-3 .medium:offset-3</CxCol>
+      <CxCol md={{ span: 3, offset: 3 }}>.medium:col-3 .medium:offset-3</CxCol>
+    </CxRow>
+    <CxRow>
+      <CxCol md={{ span: 6, offset: 3 }}>.medium:col-6 .medium:offset-3</CxCol>
+    </CxRow>
+  </CxContainer>
+</Example>
+
+```jsx
+<CxContainer>
+  <CxRow>
+    <CxCol md={4}>.medium:col-4</CxCol>
+    <CxCol md={{ span: 4, offset: 4 }}>.medium:col-4 .medium:offset-4</CxCol>
+  </CxRow>
+  <CxRow>
+    <CxCol md={{ span: 3, offset: 3 }}>.medium:col-3 .medium:offset-3</CxCol>
+    <CxCol md={{ span: 3, offset: 3 }}>.medium:col-3 .medium:offset-3</CxCol>
+  </CxRow>
+  <CxRow>
+    <CxCol md={{ span: 6, offset: 3 }}>.medium:col-6 .medium:offset-3</CxCol>
+  </CxRow>
+</CxContainer>
+```
+
+<Example className="docs-example-row">
+  <CxContainer>
+    <CxRow>
+      <CxCol sm={5} md={6}>
+        .small:col-5 .medium:col-6
+      </CxCol>
+      <CxCol sm={{ span: 5, offset: 2 }} md={{ span: 6, offset: 0 }}>
+        .small:col-5 .small:offset-2 .medium:col-6 .medium:offset-0
+      </CxCol>
+    </CxRow>
+    <CxRow>
+      <CxCol sm={6} md={5} lg={6}>
+        .small:col-6 .medium:col-5 .large:col-6
+      </CxCol>
+      <CxCol sm={6} md={{ span: 5, offset: 2 }} lg={{ span: 6, offset: 0 }}>
+        .small:col-6 .medium:col-5 .medium:offset-2 .large:col-6 .large:offset-0
+      </CxCol>
+    </CxRow>
+  </CxContainer>
+</Example>
+
+```jsx
+<CxContainer>
+  <CxRow>
+    <CxCol sm={5} md={6}>
+      .small:col-5 .medium:col-6
+    </CxCol>
+    <CxCol sm={{ span: 5, offset: 2 }} md={{ span: 6, offset: 0 }}>
+      .small:col-5 .small:offset-2 .medium:col-6 .medium:offset-0
+    </CxCol>
+  </CxRow>
+  <CxRow>
+    <CxCol sm={6} md={5} lg={6}>
+      .small:col-6 .medium:col-5 .large:col-6
+    </CxCol>
+    <CxCol sm={6} md={{ span: 5, offset: 2 }} lg={{ span: 6, offset: 0 }}>
+      .small:col-6 .medium:col-5 .medium:offset-2 .large:col-6 .large:offset-0
+    </CxCol>
+  </CxRow>
+</CxContainer>
+```
+
+#### Margin utilities
+
+You can use margin utilities like `.me-auto` to force sibling columns away from one another.
+
+<Example className="docs-example-row">
+  <CxContainer>
+    <CxRow>
+      <CxCol md={4}>.medium:col-4</CxCol>
+      <CxCol md={4} className="ms-auto">
+        .medium:col-4 .ms-auto
+      </CxCol>
+    </CxRow>
+    <CxRow>
+      <CxCol md={3} className="medium:ms-auto">
+        .medium:col-3 .medium:ms-auto
+      </CxCol>
+      <CxCol md={3} className="medium:ms-auto">
+        .medium:col-3 .medium:ms-auto
+      </CxCol>
+    </CxRow>
+    <CxRow>
+      <CxCol xs="auto" className="me-auto">
+        .col-auto .me-auto
+      </CxCol>
+      <CxCol xs="auto">.col-auto</CxCol>
+    </CxRow>
+  </CxContainer>
+</Example>
+
+```jsx
+<CxContainer>
+  <CxRow>
+    <CxCol md={4}>.medium:col-4</CxCol>
+    <CxCol md={4} className="ms-auto">
+      .medium:col-4 .ms-auto
+    </CxCol>
+  </CxRow>
+  <CxRow>
+    <CxCol md={3} className="medium:ms-auto">
+      .medium:col-3 .medium:ms-auto
+    </CxCol>
+    <CxCol md={3} className="medium:ms-auto">
+      .medium:col-3 .medium:ms-auto
+    </CxCol>
+  </CxRow>
+  <CxRow>
+    <CxCol xs="auto" className="me-auto">
+      .col-auto .me-auto
+    </CxCol>
+    <CxCol xs="auto">.col-auto</CxCol>
+  </CxRow>
+</CxContainer>
+```
+
+## Standalone column component
+
+The `<CxCol>` component can also be used outside a `<CxRow>` to give an element a specific width. Whenever column component are used as non direct children of a row, the paddings are omitted.
+
+<Example>
+  <CxCol xs={3} className="bg-light p-3 border">
+    .col-3: width of 25%
+  </CxCol>
+  <CxCol sm={9} className="bg-light p-3 border">
+    .small:col-9: width of 75% above sm breakpoint
+  </CxCol>
+</Example>
+
+```jsx
+<CxCol xs={3} className="bg-light p-3 border">
+  .col-3: width of 25%
+</CxCol>
+<CxCol sm={9} className="bg-light p-3 border">
+  .small:col-9: width of 75% above sm breakpoint
+</CxCol>
+```
+
+## API
+
+### CxCol
+
+`markdown:CxCol.api.mdx`

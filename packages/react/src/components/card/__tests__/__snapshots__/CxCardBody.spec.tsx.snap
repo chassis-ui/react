@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CxCardBody customize 1`] = `
+<div>
+  <div
+    class="card-content bazinga"
+  >
+    Test
+  </div>
+</div>
+`;
+
+exports[`loads and displays CxCardBody component 1`] = `
+<div>
+  <div
+    class="card-content"
+  >
+    Test
+  </div>
+</div>
+`;

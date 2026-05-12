@@ -1,0 +1,223 @@
+---
+title:  Collapse Component
+name: Bootstrap React Collapse
+description: Bootstrap React Collapse component toggles the visibility of content across your project with a few classes and some scripts. Useful for a large amount of content.
+menu: Components
+route: /components/collapse
+---
+
+import { useState } from 'react'
+
+import {
+  CxButton,
+  CxCard,
+  CxCardBody,
+  CxCol,
+  CxCollapse,
+  CxContainer,
+  CxRow,
+} from '@chassis-ui/react/src/index'
+
+## How it works
+
+The collapse component is used to show and hide content. Buttons or anchors are used as triggers that are mapped to specific elements you toggle. Collapsing an element will animate the `height` from its current value to `0`. Given how CSS handles animations, you cannot use `padding` on a `.collapse` element. Instead, use the class as an independent wrapping element.
+
+## Example
+
+You can use a link or a button component.
+
+export const BasicExample = () => {
+  const [visible, setVisible] = useState(false)
+  return (
+    <>
+      <CxButton href="#" onClick={(event) => {
+        event.preventDefault()
+        setVisible(!visible)
+      }}>
+        Link
+      </CxButton>
+      <CxButton onClick={() => setVisible(!visible)}>Button</CxButton>
+      <CxCollapse visible={visible}>
+        <CxCard className="mt-3">
+          <CxCardBody>
+            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
+            squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
+            sapiente ea proident.
+          </CxCardBody>
+        </CxCard>
+      </CxCollapse>
+    </>
+  )
+}
+
+<Example>
+  <BasicExample />
+</Example>
+
+```jsx
+const [visible, setVisible] = useState(false)
+return (
+  <>
+    <CxButton href="#" onClick={(event) => {
+      event.preventDefault()
+      setVisible(!visible)
+    }}>
+      Link
+    </CxButton>
+    <CxButton onClick={() => setVisible(!visible)}>Button</CxButton>
+    <CxCollapse visible={visible}>
+      <CxCard className="mt-3">
+        <CxCardBody>
+          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
+          squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
+          sapiente ea proident.
+        </CxCardBody>
+      </CxCard>
+    </CxCollapse>
+  </>
+)
+```
+
+## Horizontal
+
+The collapse plugin also supports horizontal collapsing. Add the `horizontal` property to transition the `width` instead of `height` and set a `width` on the immediate child element.
+
+export const HorizontalExample = () => {
+  const [visible, setVisible] = useState(false)
+  return (
+    <>
+      <CxButton className="mb-3" onClick={() => setVisible(!visible)} aria-expanded={visible} aria-controls="collapseWidthExample">Button</CxButton>
+      <div style={{ minHeight: '120px'}}>
+        <CxCollapse id="collapseWidthExample" horizontal visible={visible}>
+          <CxCard style={{width: '300px'}}>
+            <CxCardBody>
+              This is some placeholder content for a horizontal collapse. It's hidden by default and shown when triggered.
+            </CxCardBody>
+          </CxCard>
+        </CxCollapse>
+      </div>
+    </>
+  )
+}
+
+<Example>
+  <HorizontalExample />
+</Example>
+
+```jsx
+const [visible, setVisible] = useState(false)
+return (
+  <>
+    <CxButton className="mb-3" onClick={() => setVisible(!visible)} aria-expanded={visible} aria-controls="collapseWidthExample">Button</CxButton>
+    <div style={{ minHeight: '120px'}}>
+      <CxCollapse id="collapseWidthExample" horizontal visible={visible}>
+        <CxCard style={{width: '300px'}}>
+          <CxCardBody>
+            This is some placeholder content for a horizontal collapse. It's hidden by default and shown when triggered.
+          </CxCardBody>
+        </CxCard>
+      </CxCollapse>
+    </div>
+  </>
+)
+```
+
+## Multiple targets
+
+A `<CxButton>` can show and hide multiple elements.
+
+export const MultipleTargetsExample = () => {
+  const [visibleA, setVisibleA] = useState(false)
+  const [visibleB, setVisibleB] = useState(false)
+  return (
+    <>
+      <CxButton onClick={() => setVisibleA(!visibleA)}>Toggle first element</CxButton>
+      <CxButton onClick={() => setVisibleB(!visibleB)}>Toggle second element</CxButton>
+      <CxButton
+        onClick={() => {
+          setVisibleA(!visibleA)
+          setVisibleB(!visibleB)
+        }}
+      >
+        Toggle both elements
+      </CxButton>
+      <CxRow>
+        <CxCol xs={6}>
+          <CxCollapse visible={visibleA}>
+            <CxCard className="mt-3">
+              <CxCardBody>
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
+                richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson
+                cred nesciunt sapiente ea proident.
+              </CxCardBody>
+            </CxCard>
+          </CxCollapse>
+        </CxCol>
+        <CxCol xs={6}>
+          <CxCollapse visible={visibleB}>
+            <CxCard className="mt-3">
+              <CxCardBody>
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
+                richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson
+                cred nesciunt sapiente ea proident.
+              </CxCardBody>
+            </CxCard>
+          </CxCollapse>
+        </CxCol>
+      </CxRow>
+    </>
+  )
+}
+
+<Example>
+  <MultipleTargetsExample />
+</Example>
+
+```jsx
+const [visibleA, setVisibleA] = useState(false)
+const [visibleB, setVisibleB] = useState(false)
+return (
+  <>
+    <CxButton onClick={() => setVisibleA(!visibleA)}>Toggle first element</CxButton>
+    <CxButton onClick={() => setVisibleB(!visibleB)}>Toggle second element</CxButton>
+    <CxButton
+      onClick={() => {
+        setVisibleA(!visibleA)
+        setVisibleB(!visibleB)
+      }}
+    >
+      Toggle both elements
+    </CxButton>
+    <CxRow>
+      <CxCol xs={6}>
+        <CxCollapse visible={visibleA}>
+          <CxCard className="mt-3">
+            <CxCardBody>
+              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+              ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
+              sapiente ea proident.
+            </CxCardBody>
+          </CxCard>
+        </CxCollapse>
+      </CxCol>
+      <CxCol xs={6}>
+        <CxCollapse visible={visibleB}>
+          <CxCard className="mt-3">
+            <CxCardBody>
+              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
+              ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
+              sapiente ea proident.
+            </CxCardBody>
+          </CxCard>
+        </CxCollapse>
+      </CxCol>
+    </CxRow>
+  </>
+)
+```
+
+## API
+
+### CxCollapse
+
+`markdown:CxCollapse.api.mdx`
