@@ -1,0 +1,145 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/tooltip/CxTooltip.tsx",
+  "description": "",
+  "displayName": "CxTooltip",
+  "methods": [],
+  "props": {
+    "content": {
+      "defaultValue": null,
+      "description": "Content node for your component.",
+      "name": "content",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/tooltip/CxTooltip.tsx",
+        "name": "CTooltipProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/tooltip/CxTooltip.tsx",
+          "name": "CTooltipProps"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "onHide": {
+      "defaultValue": null,
+      "description": "Callback fired when the component requests to be hidden.",
+      "name": "onHide",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/tooltip/CxTooltip.tsx",
+        "name": "CTooltipProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/tooltip/CxTooltip.tsx",
+          "name": "CTooltipProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "onShow": {
+      "defaultValue": null,
+      "description": "Callback fired when the component requests to be shown.",
+      "name": "onShow",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/tooltip/CxTooltip.tsx",
+        "name": "CTooltipProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/tooltip/CxTooltip.tsx",
+          "name": "CTooltipProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "trigger": {
+      "defaultValue": {
+        "value": "hover"
+      },
+      "description": "Sets which event handlers you’d like provided to your toggle prop. You can specify one trigger or an array of them.",
+      "name": "trigger",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/tooltip/CxTooltip.tsx",
+        "name": "CTooltipProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/tooltip/CxTooltip.tsx",
+          "name": "CTooltipProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "'hover' | 'focus' | 'click'"
+      }
+    },
+    "placement": {
+      "defaultValue": {
+        "value": "top"
+      },
+      "description": "Describes the placement of your component after Popper.js has applied all the modifiers that may have flipped or altered the originally provided placement property.",
+      "name": "placement",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/tooltip/CxTooltip.tsx",
+        "name": "CTooltipProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/tooltip/CxTooltip.tsx",
+          "name": "CTooltipProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"auto\" | \"top\" | \"right\" | \"bottom\" | \"left\"",
+        "value": [
+          {
+            "value": "\"auto\""
+          },
+          {
+            "value": "\"top\""
+          },
+          {
+            "value": "\"right\""
+          },
+          {
+            "value": "\"bottom\""
+          },
+          {
+            "value": "\"left\""
+          }
+        ]
+      }
+    },
+    "visible": {
+      "defaultValue": null,
+      "description": "Toggle the visibility of popover component.",
+      "name": "visible",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/tooltip/CxTooltip.tsx",
+        "name": "CTooltipProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/tooltip/CxTooltip.tsx",
+          "name": "CTooltipProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    }
+  }
+}

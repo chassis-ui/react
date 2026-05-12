@@ -1,0 +1,66 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/toast/CxToaster.tsx",
+  "description": "",
+  "displayName": "CxToaster",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/CxToaster.tsx",
+        "name": "CToasterProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/CxToaster.tsx",
+          "name": "CToasterProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "placement": {
+      "defaultValue": null,
+      "description": "Describes the placement of your component.",
+      "name": "placement",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/CxToaster.tsx",
+        "name": "CToasterProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/CxToaster.tsx",
+          "name": "CToasterProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "'top-start' | 'top' | 'top-end' | 'middle-start' | 'middle' | 'middle-end' | 'bottom-start' | 'bottom' | 'bottom-end' | string"
+      }
+    },
+    "push": {
+      "defaultValue": null,
+      "description": "Adds new `CxToast` to `CxToaster`.",
+      "name": "push",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/CxToaster.tsx",
+        "name": "CToasterProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/CxToaster.tsx",
+          "name": "CToasterProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactElement<any, string | JSXElementConstructor<any>>"
+      }
+    }
+  }
+}

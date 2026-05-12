@@ -1,0 +1,47 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/table/CxTableHead.tsx",
+  "description": "",
+  "displayName": "CxTableHead",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/CxTableHead.tsx",
+        "name": "CTableHeadProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/CxTableHead.tsx",
+          "name": "CTableHeadProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "context": {
+      "defaultValue": null,
+      "description": "Sets the context context of the component to one of Bootstrap React’s themed colors.",
+      "name": "context",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/CxTableHead.tsx",
+        "name": "CTableHeadProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/CxTableHead.tsx",
+          "name": "CTableHeadProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light' | string"
+      }
+    }
+  }
+}

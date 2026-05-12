@@ -1,0 +1,210 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/form/CxFormInput.tsx",
+  "description": "",
+  "displayName": "CxFormInput",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
+        "name": "CFormInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
+          "name": "CFormInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "disabled": {
+      "defaultValue": null,
+      "description": "Toggle the disabled state for the component.",
+      "name": "disabled",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
+        "name": "CFormInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
+          "name": "CFormInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "invalid": {
+      "defaultValue": null,
+      "description": "Set component validation state to invalid.",
+      "name": "invalid",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
+        "name": "CFormInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
+          "name": "CFormInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "onChange": {
+      "defaultValue": null,
+      "description": "Method called immediately after the `value` prop changes.",
+      "name": "onChange",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
+        "name": "CFormInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
+          "name": "CFormInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ChangeEventHandler<HTMLInputElement>"
+      }
+    },
+    "plainText": {
+      "defaultValue": null,
+      "description": "Render the component styled as plain text. Removes the default form field styling and preserve the correct margin and padding. Recommend to use only along side `readonly` [docs]",
+      "name": "plainText",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
+        "name": "CFormInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
+          "name": "CFormInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "readOnly": {
+      "defaultValue": null,
+      "description": "Toggle the readonly state for the component.",
+      "name": "readOnly",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
+        "name": "CFormInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
+          "name": "CFormInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "size": {
+      "defaultValue": null,
+      "description": "Size the component small or large.",
+      "name": "size",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
+        "name": "CFormInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
+          "name": "CFormInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"small\" | \"large\"",
+        "value": [
+          {
+            "value": "\"small\""
+          },
+          {
+            "value": "\"large\""
+          }
+        ]
+      }
+    },
+    "type": {
+      "defaultValue": {
+        "value": "text"
+      },
+      "description": "Specifies the type of component.",
+      "name": "type",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
+        "name": "CFormInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
+          "name": "CFormInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "valid": {
+      "defaultValue": null,
+      "description": "Set component validation state to valid.",
+      "name": "valid",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
+        "name": "CFormInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
+          "name": "CFormInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "value": {
+      "defaultValue": null,
+      "description": "The `value` attribute of component.\n@controllable onChange",
+      "name": "value",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
+        "name": "CFormInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
+          "name": "CFormInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | number | string[]"
+      }
+    }
+  }
+}

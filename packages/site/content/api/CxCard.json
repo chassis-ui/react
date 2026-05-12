@@ -1,0 +1,66 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/card/CxCard.tsx",
+  "description": "",
+  "displayName": "CxCard",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/card/CxCard.tsx",
+        "name": "CCardProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/card/CxCard.tsx",
+          "name": "CCardProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "context": {
+      "defaultValue": null,
+      "description": "Sets the context context of the component to one of Bootstrap React’s themed colors.",
+      "name": "context",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/card/CxCard.tsx",
+        "name": "CCardProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/card/CxCard.tsx",
+          "name": "CCardProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light' | string"
+      }
+    },
+    "textColor": {
+      "defaultValue": null,
+      "description": "Sets the text context context of the component to one of Bootstrap React’s themed colors.",
+      "name": "textColor",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/card/CxCard.tsx",
+        "name": "CCardProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/card/CxCard.tsx",
+          "name": "CCardProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light' | 'white' | 'white-50' | 'muted' | 'black-50' | 'body' | string"
+      }
+    }
+  }
+}

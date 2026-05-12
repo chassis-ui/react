@@ -1,0 +1,189 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/form/CxFormSelect.tsx",
+  "description": "",
+  "displayName": "CxFormSelect",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormSelect.tsx",
+        "name": "CFormSelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormSelect.tsx",
+          "name": "CFormSelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "htmlSize": {
+      "defaultValue": null,
+      "description": "Specifies the number of visible options in a drop-down list.",
+      "name": "htmlSize",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormSelect.tsx",
+        "name": "CFormSelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormSelect.tsx",
+          "name": "CFormSelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number"
+      }
+    },
+    "invalid": {
+      "defaultValue": null,
+      "description": "Set component validation state to invalid.",
+      "name": "invalid",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormSelect.tsx",
+        "name": "CFormSelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormSelect.tsx",
+          "name": "CFormSelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "onChange": {
+      "defaultValue": null,
+      "description": "Method called immediately after the `value` prop changes.",
+      "name": "onChange",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormSelect.tsx",
+        "name": "CFormSelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormSelect.tsx",
+          "name": "CFormSelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ChangeEventHandler<HTMLSelectElement>"
+      }
+    },
+    "options": {
+      "defaultValue": null,
+      "description": "Options list of the select component. Available keys: `label`, `value`, `disabled`.\nExamples:\n- `options={[{ value: 'js', label: 'JavaScript' }, { value: 'html', label: 'HTML', disabled: true }]}`\n- `options={['js', 'html']}`",
+      "name": "options",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormSelect.tsx",
+        "name": "CFormSelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormSelect.tsx",
+          "name": "CFormSelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Option[] | string[]"
+      }
+    },
+    "placeholder": {
+      "defaultValue": null,
+      "description": "Renders a disabled placeholder option as the first item (e.g. `\"Select a country…\"`).\nThe option has an empty value so it is not selectable once another option is chosen.",
+      "name": "placeholder",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormSelect.tsx",
+        "name": "CFormSelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormSelect.tsx",
+          "name": "CFormSelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "size": {
+      "defaultValue": null,
+      "description": "Size the component small or large.",
+      "name": "size",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormSelect.tsx",
+        "name": "CFormSelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormSelect.tsx",
+          "name": "CFormSelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"small\" | \"large\"",
+        "value": [
+          {
+            "value": "\"small\""
+          },
+          {
+            "value": "\"large\""
+          }
+        ]
+      }
+    },
+    "valid": {
+      "defaultValue": null,
+      "description": "Set component validation state to valid.",
+      "name": "valid",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormSelect.tsx",
+        "name": "CFormSelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormSelect.tsx",
+          "name": "CFormSelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "value": {
+      "defaultValue": null,
+      "description": "The `value` attribute of component.\n@controllable onChange",
+      "name": "value",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormSelect.tsx",
+        "name": "CFormSelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormSelect.tsx",
+          "name": "CFormSelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | number | string[]"
+      }
+    }
+  }
+}

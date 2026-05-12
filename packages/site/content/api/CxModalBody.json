@@ -1,0 +1,28 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/modal/CxModalBody.tsx",
+  "description": "",
+  "displayName": "CxModalBody",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/modal/CxModalBody.tsx",
+        "name": "CModalBodyProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/modal/CxModalBody.tsx",
+          "name": "CModalBodyProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    }
+  }
+}

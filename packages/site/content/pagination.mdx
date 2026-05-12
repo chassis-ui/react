@@ -4,6 +4,8 @@ description: Chassis React Pagination supports both a smart data-driven mode (pa
 
 toc: true
 ---
+import PropTable from '../src/components/PropTable.astro'
+
 import { SmartExample } from '../src/examples/pagination/SmartExample.tsx'
 import { MaxVisibleExample } from '../src/examples/pagination/MaxVisibleExample.tsx'
 
@@ -142,8 +144,7 @@ For full control, compose the pagination using `<CxPaginationItem>` directly.
 
 ### CxPagination
 
-`markdown:CxPagination.api.mdx`
-
+<PropTable component="CxPagination" />
 ### CxPaginationItem
 
-`markdown:CxPaginationItem.api.mdx`
+<PropTable component="CxPaginationItem" />

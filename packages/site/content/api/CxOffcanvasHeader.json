@@ -1,0 +1,28 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/offcanvas/CxOffcanvasHeader.tsx",
+  "description": "",
+  "displayName": "CxOffcanvasHeader",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/offcanvas/CxOffcanvasHeader.tsx",
+        "name": "COffcanvasHeaderProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/offcanvas/CxOffcanvasHeader.tsx",
+          "name": "COffcanvasHeaderProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    }
+  }
+}

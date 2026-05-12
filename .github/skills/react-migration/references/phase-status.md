@@ -16,7 +16,7 @@ Last updated: 2026-05-12
 | 3 | Scaffold `packages/site`, delete `packages/docs` | `[x]` | Complete — Astro 5 scaffold builds, 2 pages generated, old content stashed in `content.gatsby/` for Phase 5 |
 | 4 | `<ReactExample>` island component | `[x]` | Complete — ReactExample.astro + ReactExamplePreview.tsx island; Button, Dropdown, Tooltip all build |
 | 5 | MDX content migration (25 files) | `[x]` | Complete — 43 MDX files migrated, 44 pages build. Export blocks extracted to tsx files in `src/examples/`. Inline Example blocks in table.mdx extracted too. |
-| 6 | API docs generation pipeline | `[ ]` | |
+| 6 | API docs generation pipeline | `[x]` | Complete — `build/generate-api.ts` generates 102 JSON files; `PropTable.astro` renders in all 35 component pages |
 | 7 | Nav, search, deploy config, integration | `[ ]` | |
 
 ## Phase 1 Checklist — React 18 Upgrade
@@ -78,30 +78,33 @@ Last updated: 2026-05-12
 
 ## Phase 5 Checklist — MDX Content Migration
 
-- [ ] Audit all 25 component MDX files for MDX v1 patterns
-- [ ] Add explicit `import` statements for `ReactExample` and `Callout`
-- [ ] Fix any `export default` usage (not valid in MDX v3 body)
-- [ ] Update frontmatter to match new `docsSchema`
-- [ ] Rename `<Example>` → `<ReactExample>` throughout
-- [ ] Handle `getting-started/`, `forms/`, `layout/`, `patterns/` sections
-- [ ] Verify all MDX files parse without errors in Astro
+- [x] Audit all 25 component MDX files for MDX v1 patterns
+- [x] Add explicit `import` statements for `ReactExample` and `Callout`
+- [x] Fix any `export default` usage (not valid in MDX v3 body)
+- [x] Update frontmatter to match new `docsSchema`
+- [x] Rename `<Example>` → `<ReactExample>` throughout
+- [x] Handle `getting-started/`, `forms/`, `layout/`, `patterns/` sections
+- [x] Verify all MDX files parse without errors in Astro
 
 ## Phase 6 Checklist — API Docs Generation
 
-- [ ] Create `build/generate-api.ts` script using `react-docgen-typescript`
-- [ ] Output one JSON file per component to `packages/site/src/data/api/`
-- [ ] Create Astro content collection for API data
-- [ ] Create `<PropTable>` Astro component consuming collection
-- [ ] Wire `generate-api` into `pnpm --filter @chassis-ui/react-site build` pre-step
-- [ ] Test with `CxButton` (simple props)
-- [ ] Test with `CxModal` (complex props, union types)
+- [x] Create `build/generate-api.ts` script using `react-docgen-typescript`
+- [x] Output one JSON file per component to `packages/site/src/data/api/`
+- [x] Create Astro content collection for API data
+- [x] Create `<PropTable>` Astro component consuming collection
+- [x] Wire `generate-api` into `pnpm --filter @chassis-ui/react-site build` pre-step
+- [x] Test with `CxButton` (simple props)
+- [x] Test with `CxModal` (complex props, union types)
 
 ## Phase 7 Checklist — Nav, Search, Deploy
 
-- [ ] Implement sidebar nav data structure (mirrors content sections)
-- [ ] Create sidebar nav Astro component
-- [ ] Configure Algolia integration (following chassis-website pattern)
-- [ ] Create `vercel.json` for `packages/site` (base path rewrites)
-- [ ] Test full build: `pnpm --filter @chassis-ui/react-site build`
-- [ ] Verify `_site/` output is correct
-- [ ] Confirm chassis-ui.com/react/ routing works
+- [x] Implement sidebar nav data structure (mirrors content sections)
+- [x] Create sidebar nav Astro component (`Sidebar.astro`)
+- [x] Create `Toc.astro` (right-hand table of contents)
+- [x] Complete `DocsLayout.astro` (3-column layout with topbar, sidebar, TOC)
+- [x] Update `[...slug].astro` to use completed layout
+- [x] Update `index.astro` to redirect to getting-started/introduction
+- [x] Create `vercel.json` at repo root (`buildCommand: pnpm docs:build`, `outputDirectory: _site`)
+- [x] Create `packages/site/public/robots.txt`
+- [x] Update root `README.md` with `docs:dev`, `docs:build`, `api:generate` commands
+- [x] Full build verified: `pnpm docs:build` — 44 pages built successfully

@@ -1,0 +1,44 @@
+---
+import { getEntry } from 'astro:content'
+
+interface Props {
+  component: string
+}
+
+const { component } = Astro.props
+const entry = await getEntry('api', component.toLowerCase())
+
+if (!entry) {
+  console.warn(`No API data found for component: ${component}`)
+}
+
+const props = entry ? Object.values(entry.data.props) : []
+const sortedProps = props.sort((a, b) => a.name.localeCompare(b.name))
+---
+
+{entry ? (
+  <div class="cxd-prop-table-wrapper">
+    <table class="cxd-prop-table table">
+      <thead>
+        <tr>
+          <th>Prop</th>
+          <th>Type</th>
+          <th>Default</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        {sortedProps.map((prop) => (
+          <tr>
+            <td><code>{prop.name}{prop.required ? '' : '?'}</code></td>
+            <td><code>{prop.type.name}</code></td>
+            <td>{prop.defaultValue ? <code>{prop.defaultValue.value}</code> : <span>—</span>}</td>
+            <td set:html={prop.description} />
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+) : (
+  <p class="text-muted">API documentation not available for {component}.</p>
+)}

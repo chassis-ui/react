@@ -1,0 +1,56 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/form/CxInputGroup.tsx",
+  "description": "",
+  "displayName": "CxInputGroup",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxInputGroup.tsx",
+        "name": "CInputGroupProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxInputGroup.tsx",
+          "name": "CInputGroupProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "size": {
+      "defaultValue": null,
+      "description": "Size the component small or large.",
+      "name": "size",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxInputGroup.tsx",
+        "name": "CInputGroupProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxInputGroup.tsx",
+          "name": "CInputGroupProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"small\" | \"large\"",
+        "value": [
+          {
+            "value": "\"small\""
+          },
+          {
+            "value": "\"large\""
+          }
+        ]
+      }
+    }
+  }
+}

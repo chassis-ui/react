@@ -1,0 +1,49 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/modal/CxModalHeader.tsx",
+  "description": "",
+  "displayName": "CxModalHeader",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/modal/CxModalHeader.tsx",
+        "name": "CModalHeaderProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/modal/CxModalHeader.tsx",
+          "name": "CModalHeaderProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "closeButton": {
+      "defaultValue": {
+        "value": true
+      },
+      "description": "Add a close button component to the header.",
+      "name": "closeButton",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/modal/CxModalHeader.tsx",
+        "name": "CModalHeaderProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/modal/CxModalHeader.tsx",
+          "name": "CModalHeaderProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    }
+  }
+}

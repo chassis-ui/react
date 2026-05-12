@@ -1,0 +1,66 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/accordion/CxAccordionItem.tsx",
+  "description": "",
+  "displayName": "CxAccordionItem",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/accordion/CxAccordionItem.tsx",
+        "name": "CAccordionItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/accordion/CxAccordionItem.tsx",
+          "name": "CAccordionItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "open": {
+      "defaultValue": null,
+      "description": "Start the item in the open state.",
+      "name": "open",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/accordion/CxAccordionItem.tsx",
+        "name": "CAccordionItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/accordion/CxAccordionItem.tsx",
+          "name": "CAccordionItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "itemKey": {
+      "defaultValue": null,
+      "description": "@deprecated No longer used. The native details element manages its own state.",
+      "name": "itemKey",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/accordion/CxAccordionItem.tsx",
+        "name": "CAccordionItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/accordion/CxAccordionItem.tsx",
+          "name": "CAccordionItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | number"
+      }
+    }
+  }
+}

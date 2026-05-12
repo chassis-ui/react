@@ -1,0 +1,255 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/table/CxTable.tsx",
+  "description": "",
+  "displayName": "CxTable",
+  "methods": [],
+  "props": {
+    "align": {
+      "defaultValue": null,
+      "description": "Set the vertical alignment.",
+      "name": "align",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+        "name": "CTableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+          "name": "CTableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"bottom\" | \"middle\" | \"top\"",
+        "value": [
+          {
+            "value": "\"bottom\""
+          },
+          {
+            "value": "\"middle\""
+          },
+          {
+            "value": "\"top\""
+          }
+        ]
+      }
+    },
+    "bordered": {
+      "defaultValue": null,
+      "description": "Add borders on all sides of the table and cells.",
+      "name": "bordered",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+        "name": "CTableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+          "name": "CTableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "borderless": {
+      "defaultValue": null,
+      "description": "Remove borders on all sides of the table and cells.",
+      "name": "borderless",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+        "name": "CTableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+          "name": "CTableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "caption": {
+      "defaultValue": null,
+      "description": "Put the `<caption>` on the top of the table.",
+      "name": "caption",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+        "name": "CTableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+          "name": "CTableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"top\"",
+        "value": [
+          {
+            "value": "\"top\""
+          }
+        ]
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+        "name": "CTableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+          "name": "CTableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "columns": {
+      "defaultValue": null,
+      "description": "Column definitions for data-driven rendering. When omitted, columns are inferred from\nthe keys of the first item in `items`.",
+      "name": "columns",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+        "name": "CTableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+          "name": "CTableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "CTableColumn<Record<string, unknown>>[]"
+      }
+    },
+    "context": {
+      "defaultValue": null,
+      "description": "Sets the context of the component.",
+      "name": "context",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+        "name": "CTableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+          "name": "CTableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | string"
+      }
+    },
+    "hover": {
+      "defaultValue": null,
+      "description": "Enable a hover state on table rows.",
+      "name": "hover",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+        "name": "CTableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+          "name": "CTableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "items": {
+      "defaultValue": null,
+      "description": "Array of data objects to render as rows. Accepts typical REST API array responses.\nWhen provided, the table head and body are auto-generated from the data.",
+      "name": "items",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+        "name": "CTableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+          "name": "CTableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Record<string, unknown>[]"
+      }
+    },
+    "responsive": {
+      "defaultValue": null,
+      "description": "Make any table responsive across all viewports or pick a maximum breakpoint.",
+      "name": "responsive",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+        "name": "CTableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+          "name": "CTableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean | \"small\" | \"medium\" | \"large\" | \"xlarge\" | \"2xlarge\""
+      }
+    },
+    "small": {
+      "defaultValue": null,
+      "description": "Make table more compact by cutting all cell padding.",
+      "name": "small",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+        "name": "CTableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+          "name": "CTableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "striped": {
+      "defaultValue": null,
+      "description": "Add zebra-striping to table rows.",
+      "name": "striped",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+        "name": "CTableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+          "name": "CTableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    }
+  }
+}

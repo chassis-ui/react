@@ -1,0 +1,205 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/offcanvas/CxOffcanvas.tsx",
+  "description": "",
+  "displayName": "CxOffcanvas",
+  "methods": [],
+  "props": {
+    "backdrop": {
+      "defaultValue": {
+        "value": true
+      },
+      "description": "Apply a backdrop on body while offcanvas is open.",
+      "name": "backdrop",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/offcanvas/CxOffcanvas.tsx",
+        "name": "COffcanvasProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/offcanvas/CxOffcanvas.tsx",
+          "name": "COffcanvasProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/offcanvas/CxOffcanvas.tsx",
+        "name": "COffcanvasProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/offcanvas/CxOffcanvas.tsx",
+          "name": "COffcanvasProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "keyboard": {
+      "defaultValue": {
+        "value": true
+      },
+      "description": "Closes the offcanvas when escape key is pressed [docs]",
+      "name": "keyboard",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/offcanvas/CxOffcanvas.tsx",
+        "name": "COffcanvasProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/offcanvas/CxOffcanvas.tsx",
+          "name": "COffcanvasProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "onHide": {
+      "defaultValue": null,
+      "description": "Callback fired when the component requests to be hidden.",
+      "name": "onHide",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/offcanvas/CxOffcanvas.tsx",
+        "name": "COffcanvasProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/offcanvas/CxOffcanvas.tsx",
+          "name": "COffcanvasProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "onShow": {
+      "defaultValue": null,
+      "description": "Callback fired when the component requests to be shown.",
+      "name": "onShow",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/offcanvas/CxOffcanvas.tsx",
+        "name": "COffcanvasProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/offcanvas/CxOffcanvas.tsx",
+          "name": "COffcanvasProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "placement": {
+      "defaultValue": null,
+      "description": "Components placement, there’s no default placement.",
+      "name": "placement",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/offcanvas/CxOffcanvas.tsx",
+        "name": "COffcanvasProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/offcanvas/CxOffcanvas.tsx",
+          "name": "COffcanvasProps"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "enum",
+        "raw": "\"start\" | \"end\" | \"top\" | \"bottom\"",
+        "value": [
+          {
+            "value": "\"start\""
+          },
+          {
+            "value": "\"end\""
+          },
+          {
+            "value": "\"top\""
+          },
+          {
+            "value": "\"bottom\""
+          }
+        ]
+      }
+    },
+    "portal": {
+      "defaultValue": {
+        "value": true
+      },
+      "description": "Generates modal using createPortal.",
+      "name": "portal",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/offcanvas/CxOffcanvas.tsx",
+        "name": "COffcanvasProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/offcanvas/CxOffcanvas.tsx",
+          "name": "COffcanvasProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "scroll": {
+      "defaultValue": {
+        "value": false
+      },
+      "description": "Allow body scrolling while offcanvas is open",
+      "name": "scroll",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/offcanvas/CxOffcanvas.tsx",
+        "name": "COffcanvasProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/offcanvas/CxOffcanvas.tsx",
+          "name": "COffcanvasProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "visible": {
+      "defaultValue": {
+        "value": false
+      },
+      "description": "Toggle the visibility of offcanvas component.",
+      "name": "visible",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/offcanvas/CxOffcanvas.tsx",
+        "name": "COffcanvasProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/offcanvas/CxOffcanvas.tsx",
+          "name": "COffcanvasProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    }
+  }
+}

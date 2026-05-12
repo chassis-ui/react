@@ -1,0 +1,75 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/button-group/CxButtonGroup.tsx",
+  "description": "",
+  "displayName": "CxButtonGroup",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/button-group/CxButtonGroup.tsx",
+        "name": "CButtonGroupProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/button-group/CxButtonGroup.tsx",
+          "name": "CButtonGroupProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "size": {
+      "defaultValue": null,
+      "description": "Size the component small or large.",
+      "name": "size",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/button-group/CxButtonGroup.tsx",
+        "name": "CButtonGroupProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/button-group/CxButtonGroup.tsx",
+          "name": "CButtonGroupProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"small\" | \"large\"",
+        "value": [
+          {
+            "value": "\"small\""
+          },
+          {
+            "value": "\"large\""
+          }
+        ]
+      }
+    },
+    "vertical": {
+      "defaultValue": null,
+      "description": "Create a set of buttons that appear vertically stacked rather than horizontally. Split button dropdowns are not supported here.",
+      "name": "vertical",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/button-group/CxButtonGroup.tsx",
+        "name": "CButtonGroupProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/button-group/CxButtonGroup.tsx",
+          "name": "CButtonGroupProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    }
+  }
+}

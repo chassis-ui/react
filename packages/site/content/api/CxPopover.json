@@ -1,0 +1,185 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/popover/CxPopover.tsx",
+  "description": "",
+  "displayName": "CxPopover",
+  "methods": [],
+  "props": {
+    "content": {
+      "defaultValue": null,
+      "description": "Content node for your component.",
+      "name": "content",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/popover/CxPopover.tsx",
+        "name": "CPopoverProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/popover/CxPopover.tsx",
+          "name": "CPopoverProps"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "offset": {
+      "defaultValue": {
+        "value": "[0, 8]"
+      },
+      "description": "Offset of the popover relative to its target.",
+      "name": "offset",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/popover/CxPopover.tsx",
+        "name": "CPopoverProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/popover/CxPopover.tsx",
+          "name": "CPopoverProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "[number, number]"
+      }
+    },
+    "onHide": {
+      "defaultValue": null,
+      "description": "Callback fired when the component requests to be hidden.",
+      "name": "onHide",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/popover/CxPopover.tsx",
+        "name": "CPopoverProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/popover/CxPopover.tsx",
+          "name": "CPopoverProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "onShow": {
+      "defaultValue": null,
+      "description": "Callback fired when the component requests to be shown.",
+      "name": "onShow",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/popover/CxPopover.tsx",
+        "name": "CPopoverProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/popover/CxPopover.tsx",
+          "name": "CPopoverProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "title": {
+      "defaultValue": null,
+      "description": "Title node for your component.",
+      "name": "title",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/popover/CxPopover.tsx",
+        "name": "CPopoverProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/popover/CxPopover.tsx",
+          "name": "CPopoverProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "trigger": {
+      "defaultValue": {
+        "value": "click"
+      },
+      "description": "Sets which event handlers you’d like provided to your toggle prop. You can specify one trigger or an array of them.",
+      "name": "trigger",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/popover/CxPopover.tsx",
+        "name": "CPopoverProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/popover/CxPopover.tsx",
+          "name": "CPopoverProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "'hover' | 'focus' | 'click'"
+      }
+    },
+    "placement": {
+      "defaultValue": {
+        "value": "top"
+      },
+      "description": "Describes the placement of your component after Popper.js has applied all the modifiers that may have flipped or altered the originally provided placement property.",
+      "name": "placement",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/popover/CxPopover.tsx",
+        "name": "CPopoverProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/popover/CxPopover.tsx",
+          "name": "CPopoverProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"auto\" | \"top\" | \"right\" | \"bottom\" | \"left\"",
+        "value": [
+          {
+            "value": "\"auto\""
+          },
+          {
+            "value": "\"top\""
+          },
+          {
+            "value": "\"right\""
+          },
+          {
+            "value": "\"bottom\""
+          },
+          {
+            "value": "\"left\""
+          }
+        ]
+      }
+    },
+    "visible": {
+      "defaultValue": null,
+      "description": "Toggle the visibility of popover component.",
+      "name": "visible",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/popover/CxPopover.tsx",
+        "name": "CPopoverProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/popover/CxPopover.tsx",
+          "name": "CPopoverProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    }
+  }
+}

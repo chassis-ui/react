@@ -5,7 +5,7 @@
     "docs:dev": "pnpm --filter @chassis-ui/react-site dev",
     "docs:build": "pnpm api:generate && pnpm --filter @chassis-ui/react-site build",
     "docs:preview": "pnpm --filter @chassis-ui/react-site preview",
-    "api:generate": "ts-node build/generate-api.ts",
+    "api:generate": "ts-node --project build/tsconfig.json build/generate-api.ts",
     "lib:build": "pnpm --filter @chassis-ui/react build",
     "lint": "eslint \"packages/**/src/**/*.{js,ts,tsx}\"",
     "test": "jest --coverage",

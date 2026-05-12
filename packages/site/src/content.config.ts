@@ -1,5 +1,5 @@
 import { z, defineCollection } from 'astro:content'
-import { glob } from 'astro/loaders'
+import { glob, file } from 'astro/loaders'
 
 const docsSchema = z.object({
   added: z
@@ -31,11 +31,29 @@ const docsSchema = z.object({
   toc: z.boolean().optional()
 })
 
+const apiSchema = z.object({
+  displayName: z.string(),
+  description: z.string().optional(),
+  props: z.record(z.object({
+    name: z.string(),
+    description: z.string(),
+    type: z.object({ name: z.string() }),
+    defaultValue: z.object({ value: z.union([z.string(), z.boolean(), z.number()]).transform(v => String(v)) }).nullable().optional(),
+    required: z.boolean()
+  }))
+})
+
+const apiCollection = defineCollection({
+  loader: glob({ pattern: '*.json', base: './content/api' }),
+  schema: apiSchema
+})
+
 const docsCollection = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './content' }),
   schema: docsSchema.partial()
 })
 
 export const collections = {
-  docs: docsCollection
+  docs: docsCollection,
+  api: apiCollection
 }

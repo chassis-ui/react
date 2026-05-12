@@ -1,0 +1,278 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/dropdown/CxDropdownToggle.tsx",
+  "description": "",
+  "displayName": "CxDropdownToggle",
+  "methods": [],
+  "props": {
+    "caret": {
+      "defaultValue": {
+        "value": true
+      },
+      "description": "Enables pseudo element caret on toggler.",
+      "name": "caret",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/dropdown/CxDropdownToggle.tsx",
+        "name": "CDropdownToggleProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/dropdown/CxDropdownToggle.tsx",
+          "name": "CDropdownToggleProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "split": {
+      "defaultValue": null,
+      "description": "Similarly, create split button dropdowns with virtually the same markup as single button dropdowns, but with the addition of `.dropdown-toggle-split` className for proper spacing around the dropdown caret.",
+      "name": "split",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/dropdown/CxDropdownToggle.tsx",
+        "name": "CDropdownToggleProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/dropdown/CxDropdownToggle.tsx",
+          "name": "CDropdownToggleProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "trigger": {
+      "defaultValue": {
+        "value": "click"
+      },
+      "description": "Sets which event handlers you’d like provided to your toggle prop. You can specify one trigger or an array of them.",
+      "name": "trigger",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/dropdown/CxDropdownToggle.tsx",
+        "name": "CDropdownToggleProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/dropdown/CxDropdownToggle.tsx",
+          "name": "CDropdownToggleProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "'hover' | 'focus' | 'click'"
+      }
+    },
+    "active": {
+      "defaultValue": null,
+      "description": "Toggle the active state for the component.",
+      "name": "active",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
+        "name": "CButtonProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
+          "name": "CButtonProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
+        "name": "CButtonProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
+          "name": "CButtonProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "context": {
+      "defaultValue": null,
+      "description": "Sets the context context of the component to one of Bootstrap React’s themed colors.",
+      "name": "context",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
+        "name": "CButtonProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
+          "name": "CButtonProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light' | string"
+      }
+    },
+    "component": {
+      "defaultValue": null,
+      "description": "Component used for the root node. Either a string to use a HTML element or a component.",
+      "name": "component",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
+        "name": "CButtonProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
+          "name": "CButtonProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | ComponentClass<any, any> | FunctionComponent<any>"
+      }
+    },
+    "disabled": {
+      "defaultValue": null,
+      "description": "Toggle the disabled state for the component.",
+      "name": "disabled",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
+        "name": "CButtonProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
+          "name": "CButtonProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "href": {
+      "defaultValue": null,
+      "description": "The href attribute specifies the URL of the page the link goes to.",
+      "name": "href",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
+        "name": "CButtonProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
+          "name": "CButtonProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "role": {
+      "defaultValue": null,
+      "description": "The role attribute describes the role of an element in programs that can make use of it, such as screen readers or magnifiers.",
+      "name": "role",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
+        "name": "CButtonProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
+          "name": "CButtonProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "shape": {
+      "defaultValue": null,
+      "description": "Select the shape of the component.",
+      "name": "shape",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
+        "name": "CButtonProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
+          "name": "CButtonProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "'rounded' | 'rounded-top' | 'rounded-end' | 'rounded-bottom' | 'rounded-start' | 'rounded-circle' | 'rounded-pill' | 'rounded-0' | 'rounded-1' | 'rounded-2' | 'rounded-3' | string"
+      }
+    },
+    "size": {
+      "defaultValue": null,
+      "description": "Size the component small or large.",
+      "name": "size",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
+        "name": "CButtonProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
+          "name": "CButtonProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"small\" | \"large\"",
+        "value": [
+          {
+            "value": "\"small\""
+          },
+          {
+            "value": "\"large\""
+          }
+        ]
+      }
+    },
+    "variant": {
+      "defaultValue": null,
+      "description": "Set the button style variant.",
+      "name": "variant",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
+        "name": "CButtonProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
+          "name": "CButtonProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"outline\" | \"smooth\"",
+        "value": [
+          {
+            "value": "\"outline\""
+          },
+          {
+            "value": "\"smooth\""
+          }
+        ]
+      }
+    }
+  }
+}

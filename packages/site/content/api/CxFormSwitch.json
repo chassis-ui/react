@@ -1,0 +1,162 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
+  "description": "",
+  "displayName": "CxFormSwitch",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
+        "name": "CFormSwitchProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
+          "name": "CFormSwitchProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "id": {
+      "defaultValue": null,
+      "description": "The id global attribute defines an identifier (ID) that must be unique in the whole document.",
+      "name": "id",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
+        "name": "CFormSwitchProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
+          "name": "CFormSwitchProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "invalid": {
+      "defaultValue": null,
+      "description": "Set component validation state to invalid.",
+      "name": "invalid",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
+        "name": "CFormSwitchProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
+          "name": "CFormSwitchProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "label": {
+      "defaultValue": null,
+      "description": "The element represents a caption for a component.",
+      "name": "label",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
+        "name": "CFormSwitchProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
+          "name": "CFormSwitchProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "size": {
+      "defaultValue": null,
+      "description": "Size the component large or extra large. Works only with `switch` [docs]",
+      "name": "size",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
+        "name": "CFormSwitchProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
+          "name": "CFormSwitchProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"large\" | \"xlarge\"",
+        "value": [
+          {
+            "value": "\"large\""
+          },
+          {
+            "value": "\"xlarge\""
+          }
+        ]
+      }
+    },
+    "type": {
+      "defaultValue": {
+        "value": "checkbox"
+      },
+      "description": "Specifies the type of component.",
+      "name": "type",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
+        "name": "CFormSwitchProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
+          "name": "CFormSwitchProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"checkbox\" | \"radio\"",
+        "value": [
+          {
+            "value": "\"checkbox\""
+          },
+          {
+            "value": "\"radio\""
+          }
+        ]
+      }
+    },
+    "valid": {
+      "defaultValue": null,
+      "description": "Set component validation state to valid.",
+      "name": "valid",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
+        "name": "CFormSwitchProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
+          "name": "CFormSwitchProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    }
+  }
+}

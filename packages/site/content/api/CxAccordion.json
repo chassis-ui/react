@@ -1,0 +1,68 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/accordion/CxAccordion.tsx",
+  "description": "",
+  "displayName": "CxAccordion",
+  "methods": [],
+  "props": {
+    "alwaysOpen": {
+      "defaultValue": {
+        "value": false
+      },
+      "description": "Make accordion items stay open when another item is opened.",
+      "name": "alwaysOpen",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/accordion/CxAccordion.tsx",
+        "name": "CAccordionProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/accordion/CxAccordion.tsx",
+          "name": "CAccordionProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/accordion/CxAccordion.tsx",
+        "name": "CAccordionProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/accordion/CxAccordion.tsx",
+          "name": "CAccordionProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "flush": {
+      "defaultValue": null,
+      "description": "Removes the default background-context, some borders, and some rounded corners to render accordions edge-to-edge with their parent container.",
+      "name": "flush",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/accordion/CxAccordion.tsx",
+        "name": "CAccordionProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/accordion/CxAccordion.tsx",
+          "name": "CAccordionProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    }
+  }
+}

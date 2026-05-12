@@ -1,0 +1,127 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/list-group/CxListGroup.tsx",
+  "description": "",
+  "displayName": "CxListGroup",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/list-group/CxListGroup.tsx",
+        "name": "CListGroupProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/list-group/CxListGroup.tsx",
+          "name": "CListGroupProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "component": {
+      "defaultValue": {
+        "value": "ul"
+      },
+      "description": "Component used for the root node. Either a string to use a HTML element or a component.",
+      "name": "component",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/list-group/CxListGroup.tsx",
+        "name": "CListGroupProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/list-group/CxListGroup.tsx",
+          "name": "CListGroupProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | ComponentClass<any, any> | FunctionComponent<any>"
+      }
+    },
+    "flush": {
+      "defaultValue": null,
+      "description": "Remove some borders and rounded corners to render list group items edge-to-edge in a parent component (e.g., `<CxCard>`).",
+      "name": "flush",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/list-group/CxListGroup.tsx",
+        "name": "CListGroupProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/list-group/CxListGroup.tsx",
+          "name": "CListGroupProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "items": {
+      "defaultValue": null,
+      "description": "Array of item definitions for data-driven rendering. When provided, children are ignored.",
+      "name": "items",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/list-group/CxListGroup.tsx",
+        "name": "CListGroupProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/list-group/CxListGroup.tsx",
+          "name": "CListGroupProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "CListGroupItemDef[]"
+      }
+    },
+    "layout": {
+      "defaultValue": null,
+      "description": "Specify a layout type.",
+      "name": "layout",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/list-group/CxListGroup.tsx",
+        "name": "CListGroupProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/list-group/CxListGroup.tsx",
+          "name": "CListGroupProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"horizontal\" | \"horizontal-small\" | \"horizontal-medium\" | \"horizontal-large\" | \"horizontal-xlarge\" | \"horizontal-2xlarge\"",
+        "value": [
+          {
+            "value": "\"horizontal\""
+          },
+          {
+            "value": "\"horizontal-small\""
+          },
+          {
+            "value": "\"horizontal-medium\""
+          },
+          {
+            "value": "\"horizontal-large\""
+          },
+          {
+            "value": "\"horizontal-xlarge\""
+          },
+          {
+            "value": "\"horizontal-2xlarge\""
+          }
+        ]
+      }
+    }
+  }
+}

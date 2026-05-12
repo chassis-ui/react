@@ -1,24 +1,4 @@
 ---
+// Redirect to getting-started/introduction
+return Astro.redirect(new URL('getting-started/introduction/', Astro.site).pathname)
 ---
-
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chassis React</title>
-    <meta name="description" content="Chassis React UI component library documentation" />
-  </head>
-  <body>
-    <main>
-      <h1>Chassis React</h1>
-      <p>UI component library documentation.</p>
-      <nav>
-        <ul>
-          <li><a href="/react/getting-started/introduction/">Getting Started</a></li>
-          <li><a href="/react/components/button/">Components</a></li>
-        </ul>
-      </nav>
-    </main>
-  </body>
-</html>

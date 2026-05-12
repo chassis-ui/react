@@ -1,0 +1,133 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/notification/CxNotification.tsx",
+  "description": "",
+  "displayName": "CxNotification",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/notification/CxNotification.tsx",
+        "name": "CNotificationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/notification/CxNotification.tsx",
+          "name": "CNotificationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "context": {
+      "defaultValue": {
+        "value": "primary"
+      },
+      "description": "Sets the context context of the component to one of Bootstrap React’s themed colors.",
+      "name": "context",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/notification/CxNotification.tsx",
+        "name": "CNotificationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/notification/CxNotification.tsx",
+          "name": "CNotificationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light' | string"
+      }
+    },
+    "dismissible": {
+      "defaultValue": null,
+      "description": "Optionally add a close button to the notification and allow it to self dismiss.",
+      "name": "dismissible",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/notification/CxNotification.tsx",
+        "name": "CNotificationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/notification/CxNotification.tsx",
+          "name": "CNotificationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "variant": {
+      "defaultValue": null,
+      "description": "Style variant for the notification.",
+      "name": "variant",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/notification/CxNotification.tsx",
+        "name": "CNotificationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/notification/CxNotification.tsx",
+          "name": "CNotificationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"solid\"",
+        "value": [
+          {
+            "value": "\"solid\""
+          }
+        ]
+      }
+    },
+    "onClose": {
+      "defaultValue": null,
+      "description": "Callback fired when the component requests to be closed.",
+      "name": "onClose",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/notification/CxNotification.tsx",
+        "name": "CNotificationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/notification/CxNotification.tsx",
+          "name": "CNotificationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "visible": {
+      "defaultValue": {
+        "value": true
+      },
+      "description": "Toggle the visibility of component.",
+      "name": "visible",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/notification/CxNotification.tsx",
+        "name": "CNotificationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/notification/CxNotification.tsx",
+          "name": "CNotificationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    }
+  }
+}

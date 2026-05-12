@@ -1,0 +1,216 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
+  "description": "",
+  "displayName": "CxFormCheck",
+  "methods": [],
+  "props": {
+    "button": {
+      "defaultValue": null,
+      "description": "Create button-like checkboxes and radio buttons.",
+      "name": "button",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
+        "name": "CFormCheckProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
+          "name": "CFormCheckProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ButtonObject"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
+        "name": "CFormCheckProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
+          "name": "CFormCheckProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "hitArea": {
+      "defaultValue": null,
+      "description": "Sets hit area to the full area of the component.",
+      "name": "hitArea",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
+        "name": "CFormCheckProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
+          "name": "CFormCheckProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"full\"",
+        "value": [
+          {
+            "value": "\"full\""
+          }
+        ]
+      }
+    },
+    "id": {
+      "defaultValue": null,
+      "description": "The id global attribute defines an identifier (ID) that must be unique in the whole document.",
+      "name": "id",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
+        "name": "CFormCheckProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
+          "name": "CFormCheckProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "indeterminate": {
+      "defaultValue": null,
+      "description": "Input Checkbox indeterminate Property.",
+      "name": "indeterminate",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
+        "name": "CFormCheckProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
+          "name": "CFormCheckProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "inline": {
+      "defaultValue": null,
+      "description": "Group checkboxes or radios on the same horizontal row by adding.",
+      "name": "inline",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
+        "name": "CFormCheckProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
+          "name": "CFormCheckProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "invalid": {
+      "defaultValue": null,
+      "description": "Set component validation state to invalid.",
+      "name": "invalid",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
+        "name": "CFormCheckProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
+          "name": "CFormCheckProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "label": {
+      "defaultValue": null,
+      "description": "The element represents a caption for a component.",
+      "name": "label",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
+        "name": "CFormCheckProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
+          "name": "CFormCheckProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "type": {
+      "defaultValue": {
+        "value": "checkbox"
+      },
+      "description": "Specifies the type of component.",
+      "name": "type",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
+        "name": "CFormCheckProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
+          "name": "CFormCheckProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"checkbox\" | \"radio\"",
+        "value": [
+          {
+            "value": "\"checkbox\""
+          },
+          {
+            "value": "\"radio\""
+          }
+        ]
+      }
+    },
+    "valid": {
+      "defaultValue": null,
+      "description": "Set component validation state to valid.",
+      "name": "valid",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
+        "name": "CFormCheckProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
+          "name": "CFormCheckProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    }
+  }
+}

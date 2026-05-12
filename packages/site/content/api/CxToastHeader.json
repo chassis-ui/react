@@ -1,0 +1,47 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/toast/CxToastHeader.tsx",
+  "description": "",
+  "displayName": "CxToastHeader",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/CxToastHeader.tsx",
+        "name": "CToastHeaderProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/CxToastHeader.tsx",
+          "name": "CToastHeaderProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "closeButton": {
+      "defaultValue": null,
+      "description": "Automatically add a close button to the header.",
+      "name": "closeButton",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/CxToastHeader.tsx",
+        "name": "CToastHeaderProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/CxToastHeader.tsx",
+          "name": "CToastHeaderProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    }
+  }
+}

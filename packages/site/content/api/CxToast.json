@@ -1,0 +1,211 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/toast/CxToast.tsx",
+  "description": "",
+  "displayName": "CxToast",
+  "methods": [],
+  "props": {
+    "animation": {
+      "defaultValue": {
+        "value": true
+      },
+      "description": "Apply a CSS fade transition to the toast.",
+      "name": "animation",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
+        "name": "CToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
+          "name": "CToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "autohide": {
+      "defaultValue": {
+        "value": true
+      },
+      "description": "Auto hide the toast.",
+      "name": "autohide",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
+        "name": "CToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
+          "name": "CToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
+        "name": "CToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
+          "name": "CToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "context": {
+      "defaultValue": null,
+      "description": "Sets the context context of the component to one of Bootstrap React’s themed colors.",
+      "name": "context",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
+        "name": "CToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
+          "name": "CToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light' | string"
+      }
+    },
+    "delay": {
+      "defaultValue": {
+        "value": 5000
+      },
+      "description": "Delay hiding the toast (ms).",
+      "name": "delay",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
+        "name": "CToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
+          "name": "CToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number"
+      }
+    },
+    "index": {
+      "defaultValue": null,
+      "description": "@ignore",
+      "name": "index",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
+        "name": "CToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
+          "name": "CToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number"
+      }
+    },
+    "key": {
+      "defaultValue": null,
+      "description": "@ignore",
+      "name": "key",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
+        "name": "CToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
+          "name": "CToastProps"
+        },
+        {
+          "fileName": "chassis-react/node_modules/.pnpm/@types+react@18.3.28/node_modules/@types/react/index.d.ts",
+          "name": "Attributes"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number"
+      }
+    },
+    "onClose": {
+      "defaultValue": null,
+      "description": "Callback fired when the component requests to be closed.",
+      "name": "onClose",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
+        "name": "CToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
+          "name": "CToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((index: number | null) => void)"
+      }
+    },
+    "onShow": {
+      "defaultValue": null,
+      "description": "Callback fired when the component requests to be shown.",
+      "name": "onShow",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
+        "name": "CToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
+          "name": "CToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((index: number | null) => void)"
+      }
+    },
+    "visible": {
+      "defaultValue": {
+        "value": false
+      },
+      "description": "Toggle the visibility of component.",
+      "name": "visible",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
+        "name": "CToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
+          "name": "CToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    }
+  }
+}

@@ -1,0 +1,306 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/modal/CxModal.tsx",
+  "description": "",
+  "displayName": "CxModal",
+  "methods": [],
+  "props": {
+    "alignment": {
+      "defaultValue": null,
+      "description": "Align the modal in the center or top of the screen.",
+      "name": "alignment",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/modal/CxModal.tsx",
+        "name": "CModalProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/modal/CxModal.tsx",
+          "name": "CModalProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"top\" | \"center\"",
+        "value": [
+          {
+            "value": "\"top\""
+          },
+          {
+            "value": "\"center\""
+          }
+        ]
+      }
+    },
+    "backdrop": {
+      "defaultValue": {
+        "value": true
+      },
+      "description": "Apply a backdrop on body while modal is open.",
+      "name": "backdrop",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/modal/CxModal.tsx",
+        "name": "CModalProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/modal/CxModal.tsx",
+          "name": "CModalProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean | \"static\""
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/modal/CxModal.tsx",
+        "name": "CModalProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/modal/CxModal.tsx",
+          "name": "CModalProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "duration": {
+      "defaultValue": {
+        "value": 150
+      },
+      "description": "@ignore",
+      "name": "duration",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/modal/CxModal.tsx",
+        "name": "CModalProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/modal/CxModal.tsx",
+          "name": "CModalProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number"
+      }
+    },
+    "fullscreen": {
+      "defaultValue": null,
+      "description": "Set modal to covers the entire user viewport.",
+      "name": "fullscreen",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/modal/CxModal.tsx",
+        "name": "CModalProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/modal/CxModal.tsx",
+          "name": "CModalProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean | \"small\" | \"medium\" | \"large\" | \"xlarge\" | \"2xlarge\""
+      }
+    },
+    "keyboard": {
+      "defaultValue": {
+        "value": true
+      },
+      "description": "Closes the modal when escape key is pressed.",
+      "name": "keyboard",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/modal/CxModal.tsx",
+        "name": "CModalProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/modal/CxModal.tsx",
+          "name": "CModalProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "onClose": {
+      "defaultValue": null,
+      "description": "Callback fired when the component requests to be closed.",
+      "name": "onClose",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/modal/CxModal.tsx",
+        "name": "CModalProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/modal/CxModal.tsx",
+          "name": "CModalProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "onClosePrevented": {
+      "defaultValue": null,
+      "description": "Callback fired when the component requests to be closed.",
+      "name": "onClosePrevented",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/modal/CxModal.tsx",
+        "name": "CModalProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/modal/CxModal.tsx",
+          "name": "CModalProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "onShow": {
+      "defaultValue": null,
+      "description": "Callback fired when the modal is shown, its backdrop is static and a click outside the modal or an escape key press is performed with the keyboard option set to false.",
+      "name": "onShow",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/modal/CxModal.tsx",
+        "name": "CModalProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/modal/CxModal.tsx",
+          "name": "CModalProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "portal": {
+      "defaultValue": {
+        "value": true
+      },
+      "description": "Generates modal using createPortal.",
+      "name": "portal",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/modal/CxModal.tsx",
+        "name": "CModalProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/modal/CxModal.tsx",
+          "name": "CModalProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "scrollable": {
+      "defaultValue": null,
+      "description": "Create a scrollable modal that allows scrolling the modal body.",
+      "name": "scrollable",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/modal/CxModal.tsx",
+        "name": "CModalProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/modal/CxModal.tsx",
+          "name": "CModalProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "size": {
+      "defaultValue": null,
+      "description": "Size the component small, large, or extra large.",
+      "name": "size",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/modal/CxModal.tsx",
+        "name": "CModalProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/modal/CxModal.tsx",
+          "name": "CModalProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"small\" | \"large\" | \"xlarge\"",
+        "value": [
+          {
+            "value": "\"small\""
+          },
+          {
+            "value": "\"large\""
+          },
+          {
+            "value": "\"xlarge\""
+          }
+        ]
+      }
+    },
+    "transition": {
+      "defaultValue": {
+        "value": true
+      },
+      "description": "Remove animation to create modal that simply appear rather than fade in to view.",
+      "name": "transition",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/modal/CxModal.tsx",
+        "name": "CModalProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/modal/CxModal.tsx",
+          "name": "CModalProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "visible": {
+      "defaultValue": null,
+      "description": "Toggle the visibility of modal component.",
+      "name": "visible",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/modal/CxModal.tsx",
+        "name": "CModalProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/modal/CxModal.tsx",
+          "name": "CModalProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    }
+  }
+}

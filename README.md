@@ -88,10 +88,20 @@ The documentation for the Chassis React is hosted at our website [Chassis React]
 
 ### Running documentation locally
 
-1. Run `yarn install` or `npm install` to install the Node.js dependencies.
-2. Run `yarn @chassis-ui/css` or `npm run @chassis-ui/css` to link local packages together and install remaining package dependencies.
-3. From the root directory, run `yarn docs:dev` or `npm run docs:dev` (or a specific npm script) to rebuild distributed CSS and JavaScript files, as well as our docs assets.
-4. Open `http://localhost:8000/` in your browser, and voilà.
+1. Run `pnpm install` to install all dependencies.
+2. From the root directory, run `pnpm docs:dev` to start the Astro dev server.
+3. Open `http://localhost:4321/react/` in your browser.
+
+### Available scripts
+
+| Script | Description |
+|---|---|
+| `pnpm docs:dev` | Start the Astro docs dev server |
+| `pnpm docs:build` | Generate API data then build the static docs site |
+| `pnpm docs:preview` | Preview the built docs site locally |
+| `pnpm api:generate` | Re-generate prop table JSON from TypeScript source |
+| `pnpm --filter @chassis-ui/react test` | Run component tests |
+| `pnpm --filter @chassis-ui/react build` | Build the component library |
 
 ## Contributing
 

@@ -1,0 +1,28 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/toast/CxToastBody.tsx",
+  "description": "",
+  "displayName": "CxToastBody",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/CxToastBody.tsx",
+        "name": "CToastBodyProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/CxToastBody.tsx",
+          "name": "CToastBodyProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    }
+  }
+}
