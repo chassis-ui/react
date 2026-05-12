@@ -5,7 +5,9 @@
   "scripts": {
     "build": "pnpm site:build",
     "clean": "pnpm site:clean",
-    "dev": "pnpm sync-submodules && pnpm astro:dev",
+    "start": "pnpm sync-submodules && pnpm lib:build && pnpm lib:dev & pnpm astro:dev",
+    "dev": "pnpm lib:dev & pnpm astro:dev",
+    "lib:dev": "pnpm --filter @chassis-ui/react dev",
     "preview": "pnpm astro:preview",
     "site": "pnpm site:build && pnpm site:lint",
     "site:build": "pnpm api:generate && pnpm sync-submodules && pnpm astro:build",

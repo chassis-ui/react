@@ -16,6 +16,10 @@ export interface CPaginationItemProps extends HTMLAttributes<HTMLAnchorElement> 
    * Toggle the disabled state for the component.
    */
   disabled?: boolean
+  /**
+   * The href attribute. When provided the item renders as an `<a>` tag; otherwise as a `<button>`.
+   */
+  href?: string
 }
 
 export const CxPaginationItem = forwardRef<HTMLAnchorElement, CPaginationItemProps>(
@@ -29,11 +33,11 @@ export const CxPaginationItem = forwardRef<HTMLAnchorElement, CPaginationItemPro
       className,
     )
 
-    const Component = component ? component : rest.active ? 'span' : 'a'
+    const Component = component ? component : rest.active ? 'span' : rest.href ? 'a' : 'button'
 
     return (
       <li className={_className} {...(rest.active && { 'aria-current': 'page' })}>
-        {Component === 'a' ? (
+        {Component === 'a' || Component === 'button' ? (
           <CxLink className="page-link" component={Component} {...rest} ref={ref}>
             {children}
           </CxLink>

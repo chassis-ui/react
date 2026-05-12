@@ -89,6 +89,18 @@ export function chassis(): AstroIntegration[] {
           copyChassisIcons()
           aliasStatic()
         },
+        'astro:server:setup': ({ server }) => {
+          // In dev, watch the @chassis-ui/react dist so a lib rebuild triggers a page reload.
+          const reactDist = path.resolve('../../packages/react/dist')
+          if (fs.existsSync(reactDist)) {
+            server.watcher.add(reactDist)
+            server.watcher.on('change', (changed) => {
+              if (changed.startsWith(reactDist)) {
+                server.ws.send({ type: 'full-reload' })
+              }
+            })
+          }
+        },
         'astro:build:done': ({ dir }) => {
           validateChassisDocsPaths(dir)
         }
@@ -128,26 +140,13 @@ function copyChassisCSS() {
   fs.cpSync(source, destination, { recursive: true })
 }
 
-// Copy icon assets from chassis-icons to make them available from `/static/icons`.
+// Copy the `icons` folder from chassis-icons to make it available from `/static/icons`.
 function copyChassisIcons() {
-  const iconsBase = getChassisIconsFsPath()
+  const source = path.join(getChassisIconsFsPath(), 'icons')
   const destination = path.join(getDocsPublicFsPath(), 'static', 'icons')
 
   fs.mkdirSync(destination, { recursive: true })
-
-  // Copy font/ subdirectory (web fonts) if present
-  const fontSource = path.join(iconsBase, 'font')
-  if (fs.existsSync(fontSource)) {
-    fs.cpSync(fontSource, destination, { recursive: true })
-  }
-
-  // Copy SVG sprite
-  const spriteSource = path.join(iconsBase, 'icons', 'chassis-icons.svg')
-  if (fs.existsSync(spriteSource)) {
-    fs.cpSync(spriteSource, path.join(destination, 'chassis-icons.svg'))
-  } else {
-    console.warn(`[chassis] Skipping icon sprite copy — not found: ${spriteSource}`)
-  }
+  fs.cpSync(source, destination, { recursive: true })
 }
 
 // Copy the content of the `static` folder to make it available from the `/` URL.

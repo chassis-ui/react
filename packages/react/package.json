@@ -32,7 +32,8 @@
     "src/"
   ],
   "scripts": {
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "dev": "rollup -c --watch"
   },
   "devDependencies": {
     "@popperjs/core": "^2.11.0",
