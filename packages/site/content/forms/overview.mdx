@@ -49,30 +49,6 @@ Here's a quick example to demonstrate Chassis form styles. Keep reading for docu
   </CxForm>
 </Example>
 
-```jsx
-<CxForm>
-  <div className="mb-3">
-    <CxFormLabel htmlFor="exampleInputEmail1">Email address</CxFormLabel>
-    <CxFormInput type="email" id="exampleInputEmail1" aria-describedby="emailHelp" />
-    <CxFormText id="emailHelp">We'll never share your email with anyone else.</CxFormText>
-  </div>
-  <div className="mb-3">
-    <CxFormLabel htmlFor="exampleInputPassword1">Email Password</CxFormLabel>
-    <CxFormInput type="password" id="exampleInputPassword1" />
-  </div>
-  <CxFormCheck
-    className="mb-3"
-    label="Check me out"
-    onChange={(e) => {
-      console.log(e.target)
-    }}
-  />
-  <CxButton type="submit" context="primary">
-    Submit
-  </CxButton>
-</CxForm>
-```
-
 ## Form text
 
 Block-level or inline-level form text can be created using `<CxFormText>`.
@@ -95,19 +71,6 @@ Form text below inputs can be styled with `<CxFormText>`. If a block-level eleme
   </CxForm>
 </Example>
 
-```jsx
-<CxForm>
-  <div className="mb-3">
-    <CxFormLabel htmlFor="inputPassword5">Password</CxFormLabel>
-    <CxFormInput type="password" id="inputPassword5" aria-describedby="passwordHelpBlock" />
-    <CxFormText id="passwordHelpBlock">
-      Your password must be 8-20 characters long, contain letters and numbers, and must not
-      contain spaces, special characters, or emoji.
-    </CxFormText>
-  </div>
-</CxForm>
-```
-
 Inline text can use any typical inline HTML element (be it a `<span>`, `<small>`, or something else) with nothing more than the `.form-text` class.
 
 <Example>
@@ -127,24 +90,6 @@ Inline text can use any typical inline HTML element (be it a `<span>`, `<small>`
     </CxCol>
   </CxRow>
 </Example>
-
-```jsx
-<CxRow className="g-3 align-items-center">
-  <CxCol xs="auto">
-    <CxFormLabel htmlFor="inputPassword6" className="col-form-label">
-      Password
-    </CxFormLabel>
-  </CxCol>
-  <CxCol xs="auto">
-    <CxFormInput type="password" id="inputPassword6" aria-describedby="passwordHelpInline" />
-  </CxCol>
-  <CxCol xs="auto">
-    <CxFormText component="span" id="passwordHelpInline">
-      Must be 8-20 characters long.
-    </CxFormText>
-  </CxCol>
-</CxRow>
-```
 
 ## Disabled forms
 
@@ -180,24 +125,3 @@ However, if your form also includes custom button-like elements such as `<CxButt
   </CxForm>
 </Example>
 
-```jsx
-<CxForm>
-  <fieldset disabled>
-    <legend>Disabled fieldset example</legend>
-    <div className="mb-3">
-      <CxFormLabel htmlFor="disabledTextInput">Disabled input</CxFormLabel>
-      <CxFormInput id="disabledTextInput" placeholder="Disabled input" />
-    </div>
-    <div className="mb-3">
-      <CxFormLabel htmlFor="disabledSelect">Disabled select menu</CxFormLabel>
-      <CxFormSelect id="disabledSelect">
-        <option>Disabled select</option>
-      </CxFormSelect>
-    </div>
-    <div className="mb-3">
-      <CxFormCheck id="disabledFieldsetCheck" label="Can't check this" disabled />
-    </div>
-    <CxButton type="submit">Submit</CxButton>
-  </fieldset>
-</CxForm>
-```

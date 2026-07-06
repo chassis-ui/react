@@ -41,17 +41,6 @@ Pass an `items` array to `<CxNav>` to render navigation from data. Each item acc
   />
 </Example>
 
-```jsx
-<CxNav
-  items={[
-    { label: 'Home', href: '#', active: true },
-    { label: 'Features', href: '#' },
-    { label: 'Pricing', href: '#' },
-    { label: 'Disabled', href: '#', disabled: true },
-  ]}
-/>
-```
-
 With tabs or pills variant:
 
 <Example>
@@ -66,19 +55,17 @@ With tabs or pills variant:
   />
 </Example>
 
-```jsx
-<CxNav
-  variant="tabs"
-  items={[
-    { label: 'Active', href: '#', active: true },
-    { label: 'Link', href: '#' },
-    { label: 'Another Link', href: '#' },
-    { label: 'Disabled', disabled: true },
-  ]}
-/>
-
-<CxNav variant="pills" items={[...]} />
-```
+<Example>
+  <CxNav
+    variant="pills"
+    items={[
+      { label: 'Active', href: '#', active: true },
+      { label: 'Link', href: '#' },
+      { label: 'Another Link', href: '#' },
+      { label: 'Disabled', disabled: true },
+    ]}
+  />
+</Example>
 
 ## Base nav
 
@@ -107,27 +94,6 @@ The base `<CxNav>` component is built with flexbox and provide a strong foundati
   </CxNav>
 </Example>
 
-```jsx
-<CxNav>
-  <CxNavItem>
-    <CxNavLink href="#" active>
-      Active
-    </CxNavLink>
-  </CxNavItem>
-  <CxNavItem>
-    <CxNavLink href="#">Link</CxNavLink>
-  </CxNavItem>
-  <CxNavItem>
-    <CxNavLink href="#">Link</CxNavLink>
-  </CxNavItem>
-  <CxNavItem>
-    <CxNavLink href="#" disabled>
-      Disabled
-    </CxNavLink>
-  </CxNavItem>
-</CxNav>
-```
-
 Classes are used throughout, so your markup can be super flexible. Use `<ul>`s like above, `<ol>` if the order of your items is important, or roll your own with a `<nav>` element. Because the .nav uses display: flex, the nav links behave the same as nav items would, but without the extra markup.
 
 <Example>
@@ -142,19 +108,6 @@ Classes are used throughout, so your markup can be super flexible. Use `<ul>`s l
     </CxNavLink>
   </CxNav>
 </Example>
-
-```jsx
-<CxNav component="nav">
-  <CxNavLink href="#" active>
-    Active
-  </CxNavLink>
-  <CxNavLink href="#">Link</CxNavLink>
-  <CxNavLink href="#">Link</CxNavLink>
-  <CxNavLink href="#" disabled>
-    Disabled
-  </CxNavLink>
-</CxNav>
-```
 
 ## Available styles
 
@@ -187,27 +140,6 @@ Centered with `.justify-content-center`:
   </CxNav>
 </Example>
 
-```jsx
-<CxNav className="justify-content-center">
-  <CxNavItem>
-    <CxNavLink href="#" active>
-      Active
-    </CxNavLink>
-  </CxNavItem>
-  <CxNavItem>
-    <CxNavLink href="#">Link</CxNavLink>
-  </CxNavItem>
-  <CxNavItem>
-    <CxNavLink href="#">Link</CxNavLink>
-  </CxNavItem>
-  <CxNavItem>
-    <CxNavLink href="#" disabled>
-      Disabled
-    </CxNavLink>
-  </CxNavItem>
-</CxNav>
-```
-
 Right-aligned with `.justify-content-end`:
 
 <Example>
@@ -230,27 +162,6 @@ Right-aligned with `.justify-content-end`:
     </CxNavItem>
   </CxNav>
 </Example>
-
-```jsx
-<CxNav className="justify-content-end">
-  <CxNavItem>
-    <CxNavLink href="#" active>
-      Active
-    </CxNavLink>
-  </CxNavItem>
-  <CxNavItem>
-    <CxNavLink href="#">Link</CxNavLink>
-  </CxNavItem>
-  <CxNavItem>
-    <CxNavLink href="#">Link</CxNavLink>
-  </CxNavItem>
-  <CxNavItem>
-    <CxNavLink href="#" disabled>
-      Disabled
-    </CxNavLink>
-  </CxNavItem>
-</CxNav>
-```
 
 ### Vertical
 
@@ -277,27 +188,6 @@ Stack your navigation by changing the flex item direction with the `.flex-column
   </CxNav>
 </Example>
 
-```jsx
-<CxNav className="flex-column">
-  <CxNavItem>
-    <CxNavLink href="#" active>
-      Active
-    </CxNavLink>
-  </CxNavItem>
-  <CxNavItem>
-    <CxNavLink href="#">Link</CxNavLink>
-  </CxNavItem>
-  <CxNavItem>
-    <CxNavLink href="#">Link</CxNavLink>
-  </CxNavItem>
-  <CxNavItem>
-    <CxNavLink href="#" disabled>
-      Disabled
-    </CxNavLink>
-  </CxNavItem>
-</CxNav>
-```
-
 ### Tabs
 
 Takes the basic nav from above and adds the `variant="tabs"` class to generate a tabbed interface
@@ -322,27 +212,6 @@ Takes the basic nav from above and adds the `variant="tabs"` class to generate a
     </CxNavItem>
   </CxNav>
 </Example>
-
-```jsx
-<CxNav variant="tabs">
-  <CxNavItem>
-    <CxNavLink href="#" active>
-      Active
-    </CxNavLink>
-  </CxNavItem>
-  <CxNavItem>
-    <CxNavLink href="#">Link</CxNavLink>
-  </CxNavItem>
-  <CxNavItem>
-    <CxNavLink href="#">Link</CxNavLink>
-  </CxNavItem>
-  <CxNavItem>
-    <CxNavLink href="#" disabled>
-      Disabled
-    </CxNavLink>
-  </CxNavItem>
-</CxNav>
-```
 
 ### Pills
 
@@ -369,27 +238,6 @@ Take that same HTML, but use `variant="pills"` instead:
   </CxNav>
 </Example>
 
-```jsx
-<CxNav variant="pills">
-  <CxNavItem>
-    <CxNavLink href="#" active>
-      Active
-    </CxNavLink>
-  </CxNavItem>
-  <CxNavItem>
-    <CxNavLink href="#">Link</CxNavLink>
-  </CxNavItem>
-  <CxNavItem>
-    <CxNavLink href="#">Link</CxNavLink>
-  </CxNavItem>
-  <CxNavItem>
-    <CxNavLink href="#" disabled>
-      Disabled
-    </CxNavLink>
-  </CxNavItem>
-</CxNav>
-```
-
 ### Fill and justify
 
 Force your `<CxNav>`'s contents to extend the full available width one of two modifier classes. To proportionately fill all available space with your `.nav-item`s, use `layout="fill"`. Notice that all horizontal space is occupied, but not every nav item has the same width.
@@ -415,27 +263,6 @@ Force your `<CxNav>`'s contents to extend the full available width one of two mo
   </CxNav>
 </Example>
 
-```jsx
-<CxNav variant="pills" layout="fill">
-  <CxNavItem>
-    <CxNavLink href="#" active>
-      Active
-    </CxNavLink>
-  </CxNavItem>
-  <CxNavItem>
-    <CxNavLink href="#">Link</CxNavLink>
-  </CxNavItem>
-  <CxNavItem>
-    <CxNavLink href="#">Link</CxNavLink>
-  </CxNavItem>
-  <CxNavItem>
-    <CxNavLink href="#" disabled>
-      Disabled
-    </CxNavLink>
-  </CxNavItem>
-</CxNav>
-```
-
 For equal-width elements, use `layout="justified"`. All horizontal space will be occupied by nav links, but unlike the .nav-fill above, every nav item will be the same width.
 
 <Example>
@@ -459,27 +286,6 @@ For equal-width elements, use `layout="justified"`. All horizontal space will be
   </CxNav>
 </Example>
 
-```jsx
-<CxNav variant="pills" layout="justified">
-  <CxNavItem>
-    <CxNavLink href="#" active>
-      Active
-    </CxNavLink>
-  </CxNavItem>
-  <CxNavItem>
-    <CxNavLink href="#">Link</CxNavLink>
-  </CxNavItem>
-  <CxNavItem>
-    <CxNavLink href="#">Link</CxNavLink>
-  </CxNavItem>
-  <CxNavItem>
-    <CxNavLink href="#" disabled>
-      Disabled
-    </CxNavLink>
-  </CxNavItem>
-</CxNav>
-```
-
 ## Working with flex utilities
 
 If you need responsive nav variations, consider using a series of flexbox utilities. While more verbose, these utilities offer greater customization across responsive breakpoints. In the example below, our nav will be stacked on the lowest breakpoint, then adapt to a horizontal layout that fills the available width starting from the small breakpoint.
@@ -496,19 +302,6 @@ If you need responsive nav variations, consider using a series of flexbox utilit
     </CxNavLink>
   </CxNav>
 </Example>
-
-```jsx
-<CxNav component="nav" variant="pills" className="flex-column small:flex-row">
-  <CxNavLink href="#" active>
-    Active
-  </CxNavLink>
-  <CxNavLink href="#">Link</CxNavLink>
-  <CxNavLink href="#">Link</CxNavLink>
-  <CxNavLink href="#" disabled>
-    Disabled
-  </CxNavLink>
-</CxNav>
-```
 
 ## Regarding accessibility
 
@@ -548,32 +341,6 @@ Add dropdown menus with a little extra HTML.
   </CxNav>
 </Example>
 
-```jsx
-<CxNav>
-  <CxNavItem>
-    <CxNavLink href="#" active>
-      Active
-    </CxNavLink>
-  </CxNavItem>
-  <CxDropdown variant="nav-item">
-    <CxDropdownToggle context="secondary">Dropdown button</CxDropdownToggle>
-    <CxDropdownMenu>
-      <CxDropdownItem href="#">Action</CxDropdownItem>
-      <CxDropdownItem href="#">Another action</CxDropdownItem>
-      <CxDropdownItem href="#">Something else here</CxDropdownItem>
-    </CxDropdownMenu>
-  </CxDropdown>
-  <CxNavItem>
-    <CxNavLink href="#">Link</CxNavLink>
-  </CxNavItem>
-  <CxNavItem>
-    <CxNavLink href="#" disabled>
-      Disabled
-    </CxNavLink>
-  </CxNavItem>
-</CxNav>
-```
-
 ### Pills with dropdowns
 
 <Example>
@@ -602,32 +369,6 @@ Add dropdown menus with a little extra HTML.
   </CxNav>
 </Example>
 
-```jsx
-<CxNav variant="pills">
-  <CxNavItem>
-    <CxNavLink href="#" active>
-      Active
-    </CxNavLink>
-  </CxNavItem>
-  <CxDropdown variant="nav-item">
-    <CxDropdownToggle context="secondary">Dropdown button</CxDropdownToggle>
-    <CxDropdownMenu>
-      <CxDropdownItem href="#">Action</CxDropdownItem>
-      <CxDropdownItem href="#">Another action</CxDropdownItem>
-      <CxDropdownItem href="#">Something else here</CxDropdownItem>
-    </CxDropdownMenu>
-  </CxDropdown>
-  <CxNavItem>
-    <CxNavLink href="#">Link</CxNavLink>
-  </CxNavItem>
-  <CxNavItem>
-    <CxNavLink href="#" disabled>
-      Disabled
-    </CxNavLink>
-  </CxNavItem>
-</CxNav>
-```
-
 ## Tab panes
 
 Dynamic tabbed interfaces, as described in the [<abbr title="Web Accessibility Initiative">WAI</abbr> <abbr title="Accessible Rich Internet Applications">ARIA</abbr> Authoring Practices](https://www.w3.org/TR/wai-aria-practices/#tabpanel), require `role="tablist"`, `role="tab"`, `role="tabpanel"`, and additional `aria-` attributes in order to convey their structure, functionality and current state to users of assistive technologies (such as screen readers).
@@ -639,142 +380,12 @@ Note that dynamic tabbed interfaces should not contain dropdown menus, as this c
   <TabPanesExample client:load />
 </Example>
 
-```jsx
-const [activeKey, setActiveKey] = useState(1)
-return (
-  <>
-    <CxNav variant="tabs" role="tablist">
-      <CxNavItem>
-        <CxNavLink
-          href="javascript:void(0);"
-          active={activeKey === 1}
-          onClick={() => setActiveKey(1)}
-        >
-          Home
-        </CxNavLink>
-      </CxNavItem>
-      <CxNavItem>
-        <CxNavLink
-          href="javascript:void(0);"
-          active={activeKey === 2}
-          onClick={() => setActiveKey(2)}
-        >
-          Profile
-        </CxNavLink>
-      </CxNavItem>
-      <CxNavItem>
-        <CxNavLink
-          href="javascript:void(0);"
-          active={activeKey === 3}
-          onClick={() => setActiveKey(3)}
-        >
-          Contact
-        </CxNavLink>
-      </CxNavItem>
-    </CxNav>
-    <CxTabContent>
-      <CxTabPane role="tabpanel" aria-labelledby="home-tab" visible={activeKey === 1}>
-        Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown
-        aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan
-        helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh
-        mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan
-        aliquip quis cardigan american apparel, butcher voluptate nisi qui.
-      </CxTabPane>
-      <CxTabPane role="tabpanel" aria-labelledby="profile-tab" visible={activeKey === 2}>
-        Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid.
-        Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan
-        four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft
-        beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda
-        labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit
-        sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean
-        shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown,
-        tumblr butcher vero sint qui sapiente accusamus tattooed echo park.
-      </CxTabPane>
-      <CxTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 3}>
-        Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic
-        lomo retro fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork
-        tattooed craft beer, iphone skateboard locavore carles etsy salvia banksy hoodie helvetica.
-        DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork. Williamsburg banh
-        mi whatever gluten-free, carles pitchfork biodiesel fixie etsy retro mlkshk vice blog.
-        Scenester cred you probably haven't heard of them, vinyl craft beer blog stumptown.
-        Pitchfork sustainable tofu synth chambray yr.
-      </CxTabPane>
-    </CxTabContent>
-  </>
-)
-```
-
 The tabs also works with pills.
 
 
 <Example>
   <TabPanesPillsExample client:load />
 </Example>
-
-```jsx
-const [activeKey, setActiveKey] = useState(1)
-return (
-  <>
-    <CxNav variant="pills" role="tablist">
-      <CxNavItem>
-        <CxNavLink
-          href="javascript:void(0);"
-          active={activeKey === 1}
-          onClick={() => setActiveKey(1)}
-        >
-          Home
-        </CxNavLink>
-      </CxNavItem>
-      <CxNavItem>
-        <CxNavLink
-          href="javascript:void(0);"
-          active={activeKey === 2}
-          onClick={() => setActiveKey(2)}
-        >
-          Profile
-        </CxNavLink>
-      </CxNavItem>
-      <CxNavItem>
-        <CxNavLink
-          href="javascript:void(0);"
-          active={activeKey === 3}
-          onClick={() => setActiveKey(3)}
-        >
-          Contact
-        </CxNavLink>
-      </CxNavItem>
-    </CxNav>
-    <CxTabContent>
-      <CxTabPane role="tabpanel" aria-labelledby="home-tab" visible={activeKey === 1}>
-        Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown
-        aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan
-        helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh
-        mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan
-        aliquip quis cardigan american apparel, butcher voluptate nisi qui.
-      </CxTabPane>
-      <CxTabPane role="tabpanel" aria-labelledby="profile-tab" visible={activeKey === 2}>
-        Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid.
-        Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan
-        four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft
-        beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda
-        labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit
-        sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean
-        shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown,
-        tumblr butcher vero sint qui sapiente accusamus tattooed echo park.
-      </CxTabPane>
-      <CxTabPane role="tabpanel" aria-labelledby="contact-tab" visible={activeKey === 3}>
-        Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic
-        lomo retro fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork
-        tattooed craft beer, iphone skateboard locavore carles etsy salvia banksy hoodie helvetica.
-        DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork. Williamsburg banh
-        mi whatever gluten-free, carles pitchfork biodiesel fixie etsy retro mlkshk vice blog.
-        Scenester cred you probably haven't heard of them, vinyl craft beer blog stumptown.
-        Pitchfork sustainable tofu synth chambray yr.
-      </CxTabPane>
-    </CxTabContent>
-  </>
-)
-```
 
 ## API
 

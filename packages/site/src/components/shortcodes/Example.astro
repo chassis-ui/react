@@ -1,77 +1,33 @@
 ---
-import Icon from '@chassis-ui/docs/shortcodes/Icon.astro'
+import Code from '@chassis-ui/docs/shortcodes/Code.astro'
 
 interface Props {
   class?: string
   id?: string
+  /**
+   * The source code to display below the live preview.
+   * Auto-derived at build time by the `remarkCxExample` remark plugin unless `customMarkup` is set.
+   */
+  code?: string
+  /**
+   * Overrides the displayed source code (e.g. to abbreviate large data literals) while the
+   * actual children still render live in the preview above.
+   */
+  customMarkup?: string
+  /**
+   * Language used to highlight the displayed source.
+   * @default 'jsx'
+   */
+  lang?: string
 }
 
-const { class: className, id } = Astro.props
+const { class: className, id, code, customMarkup, lang = 'jsx' } = Astro.props
+const sourceMarkup = customMarkup ?? code
 ---
 
 <div class="cxd-example-snippet cxd-code-snippet" data-pagefind-ignore>
   <div id={id} class:list={['cxd-example m-0 border-0 context', className]}>
     <slot />
   </div>
-  <div class="cxd-snippet-toolbar">
-    <small class="font-code fg-subtle text-uppercase">jsx</small>
-    <div class="d-flex ms-auto gap-2xsmall">
-      <button
-        type="button"
-        class="button-mode"
-        title="Toggle color mode"
-        aria-label="Toggle color mode"
-        onclick="toggleTheme(this)"
-      >
-        <Icon name="swatchbook-solid" />
-      </button>
-      <span class="vr mx-2xsmall" />
-      <button
-        type="button"
-        class="button-edit"
-        title="Try it on StackBlitz"
-        aria-label="Try it on StackBlitz"
-      >
-        <Icon name="lightning-solid" />
-      </button>
-      <button
-        type="button"
-        class="button-clipboard-example"
-        title="Copy to clipboard"
-        aria-label="Copy to clipboard"
-      >
-        <Icon name="clipboard-outline" />
-      </button>
-    </div>
-  </div>
+  {sourceMarkup && <Code code={sourceMarkup} lang={lang} nestedInExample hasPreview />}
 </div>
-
-<script>
-  import { Tooltip } from '@chassis-ui/css'
-  import { initCopyButtons } from '@libs/clipboard'
-
-  document.querySelectorAll('.button-edit').forEach((button) => {
-    Tooltip.getOrCreateInstance(button, { title: 'Edit on StackBlitz' })
-  })
-
-  // Named separately from `.button-clipboard` (used by the shared `Code` component's own
-  // clipboard binding) to avoid double-registering ClipboardJS on the same selector: the
-  // JSX source displayed below an `<Example>` is a sibling markdown code fence rendered by
-  // `Code`, not a descendant of this component, so it needs its own lookup.
-  initCopyButtons('.button-clipboard-example', (trigger) => {
-    const snippet = trigger.closest('.cxd-example-snippet')
-
-    // Skip past this component's own inline `<script>` tags (rendered as DOM
-    // siblings at the point of use) to find the actual adjacent code block.
-    let codeBlock = snippet?.nextElementSibling
-    while (codeBlock && codeBlock.tagName === 'SCRIPT') {
-      codeBlock = codeBlock.nextElementSibling
-    }
-
-    if (!codeBlock?.matches('.cxd-code-snippet')) {
-      return ''
-    }
-
-    return codeBlock.querySelector('.astro-code')?.textContent?.trim() ?? ''
-  })
-</script>

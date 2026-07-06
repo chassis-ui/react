@@ -38,41 +38,11 @@ Pass an `items` array (e.g. a REST API response) to `<CxTable>` and it will auto
 
 <Example><TableExample1 /></Example>
 
-```jsx
-<CxTable
-  items={[
-    { id: 1, first_name: 'Mark', last_name: 'Otto', handle: '@mdo' },
-    { id: 2, first_name: 'Jacob', last_name: 'Thornton', handle: '@fat' },
-    { id: 3, first_name: 'Larry', last_name: 'Bird', handle: '@twitter' },
-  ]}
-/>
-```
-
 ### Custom columns
 
 Use the `columns` prop to control which columns appear, set custom labels, and provide a `render` function for custom cell content.
 
 <Example><TableExample2 /></Example>
-
-```jsx
-<CxTable
-  columns={[
-    { key: 'id', label: '#' },
-    { key: 'first_name', label: 'First Name' },
-    { key: 'last_name', label: 'Last Name' },
-    {
-      key: 'handle',
-      label: 'Username',
-      render: (value) => <strong>{value}</strong>,
-    },
-  ]}
-  items={[
-    { id: 1, first_name: 'Mark', last_name: 'Otto', handle: '@mdo' },
-    { id: 2, first_name: 'Jacob', last_name: 'Thornton', handle: '@fat' },
-    { id: 3, first_name: 'Larry', last_name: 'Bird', handle: '@twitter' },
-  ]}
-/>
-```
 
 ### Responsive data table
 
@@ -80,39 +50,11 @@ Wrap in a responsive container with the `responsive` prop.
 
 <Example><TableExample3 /></Example>
 
-```jsx
-<CxTable
-  responsive
-  items={[...]}
-/>
-```
-
 ## Manual markup
 
 For full control over the table structure, use the sub-components directly.
 
 <Example><TableExample4 /></Example>
-
-```jsx
-<CxTable>
-  <CxTableHead>
-    <CxTableRow>
-      <CxTableHeaderCell scope="col">#</CxTableHeaderCell>
-      <CxTableHeaderCell scope="col">First</CxTableHeaderCell>
-      <CxTableHeaderCell scope="col">Last</CxTableHeaderCell>
-      <CxTableHeaderCell scope="col">Handle</CxTableHeaderCell>
-    </CxTableRow>
-  </CxTableHead>
-  <CxTableBody>
-    <CxTableRow>
-      <CxTableHeaderCell scope="row">1</CxTableHeaderCell>
-      <CxTableDataCell>Mark</CxTableDataCell>
-      <CxTableDataCell>Otto</CxTableDataCell>
-      <CxTableDataCell>@mdo</CxTableDataCell>
-    </CxTableRow>
-  </CxTableBody>
-</CxTable>
-```
 
 ## Variants
 
@@ -122,19 +64,11 @@ Add the `striped` prop to add zebra-striping to table rows.
 
 <Example><TableExample5 /></Example>
 
-```jsx
-<CxTable striped items={[...]} />
-```
-
 ### Bordered
 
 Add `bordered` to put borders on all sides of the table and cells.
 
 <Example><TableExample6 /></Example>
-
-```jsx
-<CxTable bordered items={[...]} />
-```
 
 ### Borderless
 
@@ -142,19 +76,11 @@ Add `borderless` for a table with no borders.
 
 <Example><TableExample7 /></Example>
 
-```jsx
-<CxTable borderless items={[...]} />
-```
-
 ### Hoverable rows
 
 Add `hover` to enable a hover state on table rows.
 
 <Example><TableExample8 /></Example>
-
-```jsx
-<CxTable hover items={[...]} />
-```
 
 ### Small
 
@@ -162,19 +88,11 @@ Use `small` to make any table more compact by cutting cell padding in half.
 
 <Example><TableExample9 /></Example>
 
-```jsx
-<CxTable small items={[...]} />
-```
-
 ### Table context
 
 Use the `context` prop to color the entire table.
 
 <Example><TableExample10 /></Example>
-
-```jsx
-<CxTable context="primary" items={[...]} />
-```
 
 ### Row and cell context
 
@@ -182,26 +100,11 @@ Apply context directly to rows or cells using the manual markup approach.
 
 <Example><TableExample11 /></Example>
 
-```jsx
-<CxTable>
-  <CxTableBody>
-    <CxTableRow context="primary">...</CxTableRow>
-    <CxTableRow context="success">...</CxTableRow>
-    <CxTableRow context="danger">...</CxTableRow>
-  </CxTableBody>
-</CxTable>
-```
-
 ### Active rows and cells
 
 Highlight a row or cell with the `active` prop.
 
 <Example><TableExample12 /></Example>
-
-```jsx
-<CxTableRow active>...</CxTableRow>
-<CxTableDataCell active>...</CxTableDataCell>
-```
 
 ## Captions
 
@@ -209,23 +112,11 @@ A `<CxTableCaption>` functions like a heading for a table. Use `caption="top"` t
 
 <Example><TableExample13 /></Example>
 
-```jsx
-<CxTable caption="top">
-  <CxTableCaption>List of users</CxTableCaption>
-  ...
-</CxTable>
-```
-
 ## Responsive tables
 
 Responsive tables allow tables to be scrolled horizontally with ease. Use `responsive` for across all viewports, or pick a breakpoint: `"small"`, `"medium"`, `"large"`, `"xlarge"`, `"2xlarge"`.
 
 <Example><TableExample14 /></Example>
-
-```jsx
-<CxTable responsive>...</CxTable>
-<CxTable responsive="medium">...</CxTable>
-```
 
 ## API
 

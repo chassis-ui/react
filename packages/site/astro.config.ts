@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config'
 import react from '@astrojs/react'
 import { chassis } from './src/libs/astro'
 import { getConfig } from './src/libs/config'
-import { remarkCxConfig, remarkCxDocsref } from './src/libs/remark'
+import { remarkCxConfig, remarkCxDocsref, remarkCxExample } from './src/libs/remark'
 import { chassisAutoImportPlugin } from './src/libs/shortcode'
 import { getSiteUrl, getDocsMarkdownConfig } from '@chassis-ui/docs'
 
@@ -13,7 +13,7 @@ export default defineConfig({
   integrations: [...chassis(), react()],
   markdown: getDocsMarkdownConfig({
     anchors: getConfig().anchors,
-    remarkPlugins: [chassisAutoImportPlugin(), remarkCxConfig, remarkCxDocsref]
+    remarkPlugins: [chassisAutoImportPlugin(), remarkCxConfig, remarkCxDocsref, remarkCxExample]
   }),
   site: getSiteUrl(getConfig()),
   vite: {

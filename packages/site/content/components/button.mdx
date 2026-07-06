@@ -24,18 +24,6 @@ Chassis includes a bunch of predefined buttons components, each serving its own 
   <CxButton context="link">Link</CxButton>
 </Example>
 
-```jsx
-<CxButton context="primary">Primary</CxButton>
-<CxButton context="secondary">Secondary</CxButton>
-<CxButton context="success">Success</CxButton>
-<CxButton context="danger">Danger</CxButton>
-<CxButton context="warning">Warning</CxButton>
-<CxButton context="info">Info</CxButton>
-<CxButton context="light">Light</CxButton>
-<CxButton context="dark">Dark</CxButton>
-<CxButton context="link">Link</CxButton>
-```
-
 <Callout context="info">
   <h5>Conveying meaning to assistive technologies</h5>
   <p>
@@ -68,14 +56,6 @@ If you're using `<CxButton>` component as `<a>` elements that are used to trigge
   <CxButton component="input" type="reset" context="primary" value="Reset" />
 </Example>
 
-```jsx
-<CxButton component="a" context="primary" href="#" role="button">Link</CxButton>
-<CxButton type="submit" context="primary">Button</CxButton>
-<CxButton component="input" type="button" context="primary" value="Input"/>
-<CxButton component="input" type="submit" context="primary" value="Submit"/>
-<CxButton component="input" type="reset" context="primary" value="Reset"/>
-```
-
 ## Outline buttons
 
 If you need a button, but without the strong background colors. Set `variant="outline"` prop to remove all background colors.
@@ -107,17 +87,6 @@ If you need a button, but without the strong background colors. Set `variant="ou
   </CxButton>
 </Example>
 
-```jsx
-<CxButton context="primary" variant="outline">Primary</CxButton>
-<CxButton context="secondary" variant="outline">Secondary</CxButton>
-<CxButton context="success" variant="outline">Success</CxButton>
-<CxButton context="danger" variant="outline">Danger</CxButton>
-<CxButton context="warning" variant="outline">Warning</CxButton>
-<CxButton context="info" variant="outline">Info</CxButton>
-<CxButton context="light" variant="outline">Light</CxButton>
-<CxButton context="dark" variant="outline">Dark</CxButton>
-```
-
 <Callout context="info">
   Some of the button styles use a relatively light foreground context, and should only be used on a
   dark background in order to have sufficient contrast.
@@ -136,11 +105,6 @@ Larger or smaller buttons? Add `size="large"` or `size="small"` for additional s
   </CxButton>
 </Example>
 
-```jsx
-<CxButton context="primary" size="large">Large button</CxButton>
-<CxButton context="secondary" size="large">Large button</CxButton>
-```
-
 <Example>
   <CxButton context="primary" size="small">
     Small button
@@ -149,11 +113,6 @@ Larger or smaller buttons? Add `size="large"` or `size="small"` for additional s
     Small button
   </CxButton>
 </Example>
-
-```jsx
-<CxButton context="primary" size="small">Small button</CxButton>
-<CxButton context="secondary" size="small">Small button</CxButton>
-```
 
 ## Disabled state
 
@@ -168,11 +127,6 @@ Add the `disabled` boolean prop to any `<CxButton>` component to make buttons lo
   </CxButton>
 </Example>
 
-```jsx
-<CxButton context="primary" size="large" disabled>Primary button</CxButton>
-<CxButton context="secondary" size="large" disabled>Button</CxButton>
-```
-
 Disabled buttons using the `<a>` component act a little different:
 
 `<a>`s don't support the `disabled` attribute, so Chassis has to add `.disabled` className to make buttons look inactive. Chassis also has to add to the disabled button component `aria-disabled="true"` attribute to show the state of the component to assistive technologies.
@@ -185,11 +139,6 @@ Disabled buttons using the `<a>` component act a little different:
     Link
   </CxButton>
 </Example>
-
-```jsx
-<CxButton component="a" href="#" context="primary" size="large" disabled>Primary link</CxButton>
-<CxButton component="a" href="#" context="secondary" size="large" disabled>Link</CxButton>
-```
 
 The `.disabled` class uses `pointer-events: none` to try to disable the link functionality of `<a>`s, but that CSS property is not yet standardized. Besides, even in browsers that do support `pointer-events: none`, keyboard navigation remains unaffected, meaning that sighted keyboard users and users of assistive technologies will still be able to activate these links. So to be safe, we automatically add a `tabindex="-1"` attribute on disabled links (to prevent them from receiving keyboard focus) and use custom JavaScript to disable their functionality.
 
@@ -204,13 +153,6 @@ Create buttons that span the full width of a parent—by using utilities.
   </div>
 </Example>
 
-```jsx
-<div className="d-grid gap-2">
-  <CxButton context="primary">Button</CxButton>
-  <CxButton context="primary">Button</CxButton>
-</div>
-```
-
 Here we create a responsive variation, starting with vertically stacked buttons until the `md` breakpoint, where `.medium:d-block` replaces the `.d-grid` class, thus nullifying the `gap-2` utility. Resize your browser to see them change.
 
 <Example>
@@ -220,13 +162,6 @@ Here we create a responsive variation, starting with vertically stacked buttons 
   </div>
 </Example>
 
-```jsx
-<div className="d-grid gap-2 medium:d-block">
-  <CxButton context="primary">Button</CxButton>
-  <CxButton context="primary">Button</CxButton>
-</div>
-```
-
 You can adjust the width of your block buttons with grid column width classes. For example, for a half-width "block button", use `.col-6`. Center it horizontally with `.mx-auto`, too.
 
 <Example>
@@ -235,13 +170,6 @@ You can adjust the width of your block buttons with grid column width classes. F
     <CxButton context="primary">Button</CxButton>
   </div>
 </Example>
-
-```jsx
-<div className="d-grid gap-2 col-6 mx-auto">
-  <CxButton context="primary">Button</CxButton>
-  <CxButton context="primary">Button</CxButton>
-</div>
-```
 
 Additional utilities can be used to adjust the alignment of buttons when horizontal. Here we've taken our previous responsive example and added some flex utilities and a margin utility on the button to right align the buttons when they're no longer stacked.
 
@@ -253,15 +181,6 @@ Additional utilities can be used to adjust the alignment of buttons when horizon
     <CxButton context="primary">Button</CxButton>
   </div>
 </Example>
-
-```jsx
-<div className="d-grid gap-2 medium:d-flex medium:justify-content-end">
-  <CxButton context="primary" className="medium:me-2">
-    Button
-  </CxButton>
-  <CxButton context="primary">Button</CxButton>
-</div>
-```
 
 ## API
 

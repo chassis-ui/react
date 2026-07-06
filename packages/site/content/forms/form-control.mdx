@@ -31,19 +31,6 @@ import {
   </CxForm>
 </Example>
 
-```jsx
-<CxForm>
-  <div className="mb-3">
-    <CxFormLabel htmlFor="exampleFormControlInput1">Email address</CxFormLabel>
-    <CxFormInput type="email" id="exampleFormControlInput1" placeholder="name@example.com"/>
-  </div>
-  <div className="mb-3">
-    <CxFormLabel htmlFor="exampleFormControlTextarea1">Example textarea</CxFormLabel>
-    <CxFormTextarea id="exampleFormControlTextarea1" rows="3"></CxFormTextarea>
-  </div>
-</CxForm>
-```
-
 ## Sizing
 
 Set heights using `size` property like `size="large"` and `size="small"`.
@@ -56,12 +43,6 @@ Set heights using `size` property like `size="large"` and `size="small"`.
   <CxFormInput type="text" size="small" placeholder="Small input" aria-label="sm input example"/>
 </Example>
 
-```jsx
-<CxFormInput type="text" size="large" placeholder="Large input" aria-label="lg input example"/>
-<CxFormInput type="text" placeholder="Default input" aria-label="default input example"/>
-<CxFormInput type="text" size="small" placeholder="Small input" aria-label="sm input example"/>
-```
-
 ## Disabled
 
 Add the `disabled` boolean attribute on an input to give it a grayed out appearance and remove pointer events.
@@ -73,11 +54,6 @@ Add the `disabled` boolean attribute on an input to give it a grayed out appeara
   <br/>
 </Example>
 
-```jsx
-<CxFormInput type="text" placeholder="Disabled input" aria-label="Disabled input example" disabled/>
-<CxFormInput type="text" placeholder="Disabled readonly input" aria-label="Disabled input example" disabled readOnly/>
-```
-
 ## Readonly
 
 Add the `readOnly` boolean attribute on an input to prevent modification of the input's value. Read-only inputs appear lighter (just like disabled inputs), but retain the standard cursor.
@@ -85,10 +61,6 @@ Add the `readOnly` boolean attribute on an input to prevent modification of the 
 <Example>
   <CxFormInput type="text" placeholder="Readonly input here..." aria-label="readonly input example" readOnly/>
 </Example>
-
-```jsx
-<CxFormInput type="text" placeholder="Readonly input here..." aria-label="readonly input example" readOnly/>
-```
 
 ## Readonly plain text
 
@@ -109,21 +81,6 @@ If you want to have `<input readonly>` elements in your form styled as plain tex
   </CxRow>
 </Example>
 
-```jsx
-<CxRow className="mb-3">
-  <CxFormLabel htmlFor="staticEmail" className="small:col-2 col-form-label">Email</CxFormLabel>
-  <CxCol sm={10}>
-    <CxFormInput type="text" id="staticEmail" defaultValue="email@example.com" readOnly plainText/>
-  </CxCol>
-</CxRow>
-<CxRow className="mb-3">
-  <CxFormLabel htmlFor="inputPassword" className="small:col-2 col-form-label">Password</CxFormLabel>
-  <CxCol sm={10}>
-    <CxFormInput type="password" id="inputPassword"/>
-  </CxCol>
-</CxRow>
-```
-
 <Example>
   <CxForm className="row g-3">
     <CxCol xs="auto">
@@ -139,22 +96,6 @@ If you want to have `<input readonly>` elements in your form styled as plain tex
     </CxCol>
   </CxForm>
 </Example>
-
-```jsx
-<CxForm className="row g-3">
-  <CxCol xs="auto">
-    <CxFormLabel htmlFor="staticEmail2" className="visually-hidden">Email</CxFormLabel>
-    <CxFormInput type="text" id="staticEmail2" defaultValue="email@example.com" readOnly plainText/>
-  </CxCol>
-  <CxCol xs="auto">
-    <CxFormLabel htmlFor="inputPassword2" className="visually-hidden">Password</CxFormLabel>
-    <CxFormInput type="password" id="inputPassword2" placeholder="Password"/>
-  </CxCol>
-  <CxCol xs="auto">
-    <CxButton type="submit" className="mb-3">Confirm identity</CxButton>
-  </CxCol>
-</CxForm>
-```
 
 ## File input
 
@@ -181,40 +122,12 @@ If you want to have `<input readonly>` elements in your form styled as plain tex
   </div>
 </Example>
 
-```jsx
-<div className="mb-3">
-  <CxFormLabel htmlFor="formFile">Default file input example</CxFormLabel>
-  <CxFormInput type="file" id="formFile"/>
-</div>
-<div className="mb-3">
-  <CxFormLabel htmlFor="formFileMultiple">Multiple files input example</CxFormLabel>
-  <CxFormInput type="file" id="formFileMultiple" multiple/>
-</div>
-<div className="mb-3">
-  <CxFormLabel htmlFor="formFileDisabled">Disabled file input example</CxFormLabel>
-  <CxFormInput type="file" id="formFileDisabled" disabled/>
-</div>
-<div className="mb-3">
-  <CxFormLabel htmlFor="formFileSm">Small file input example</CxFormLabel>
-  <CxFormInput type="file" size="small" id="formFileSm"/>
-</div>
-<div>
-  <CxFormLabel htmlFor="formFileLg">Large file input example</CxFormLabel>
-  <CxFormInput type="file" size="large" id="formFileLg"/>
-</div>
-```
-
 ## Color
 
 <Example>
   <CxFormLabel htmlFor="exampleColorInput">Color picker</CxFormLabel>
   <CxFormInput type="color" id="exampleColorInput" defaultValue="#563d7c" title="Choose your color" />
 </Example>
-
-```jsx
-<CxFormLabel htmlFor="exampleColorInput">Color picker</CxFormLabel>
-<CxFormInput type="color" id="exampleColorInput" defaultValue="#563d7c" title="Choose your color" />
-```
 
 ## API
 

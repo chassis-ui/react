@@ -33,17 +33,6 @@ Wrap a pair of `<CxFormInput>` and `<CxFormLabel>` elements in `CxFormFloating` 
   </CxFormFloating>
 </Example>
 
-```jsx
-<CxFormFloating className="mb-3">
-  <CxFormInput type="email" id="floatingInput" placeholder="name@example.com" />
-  <CxFormLabel htmlFor="floatingInput">Email address</CxFormLabel>
-</CxFormFloating>
-<CxFormFloating>
-  <CxFormInput type="password" id="floatingPassword" placeholder="Password" />
-  <CxFormLabel htmlFor="exampleFormControlTextarea1">Password</CxFormLabel>
-</CxFormFloating>
-```
-
 When there's a `value` already defined, `<CxFormLabel>`s will automatically adjust to their floated position.
 
 <Example>
@@ -57,18 +46,6 @@ When there's a `value` already defined, `<CxFormLabel>`s will automatically adju
     <CxFormLabel htmlFor="floatingInputValue">Input with value</CxFormLabel>
   </CxFormFloating>
 </Example>
-
-```jsx
-<CxFormFloating>
-  <CxFormInput
-    type="email"
-    id="floatingInputValue"
-    placeholder="name@example.com"
-    defaultValue="test@example.com"
-  />
-  <CxFormLabel htmlFor="floatingInputValue">Input with value</CxFormLabel>
-</CxFormFloating>
-```
 
 ## Textareas
 
@@ -84,16 +61,6 @@ By default, `<CxFormTextarea>`s will be the same height as `<CxFormInput>`s.
   </CxFormFloating>
 </Example>
 
-```jsx
-<CxFormFloating>
-  <CxFormTextarea
-    id="floatingTextarea"
-    placeholder="Leave a comment here"
-  ></CxFormTextarea>
-  <CxFormLabel htmlFor="floatingTextarea">Comments</CxFormLabel>
-</CxFormFloating>
-```
-
 To set a custom height on your `<CxFormTextarea>`, do not use the `rows` attribute. Instead, set an explicit `height` (either inline or via custom CSS).
 
 <Example>
@@ -106,17 +73,6 @@ To set a custom height on your `<CxFormTextarea>`, do not use the `rows` attribu
     <CxFormLabel htmlFor="floatingTextarea2">Comments</CxFormLabel>
   </CxFormFloating>
 </Example>
-
-```jsx
-<CxFormFloating>
-  <CxFormTextarea
-    placeholder="Leave a comment here"
-    id="floatingTextarea2"
-    style={{ height: '100px' }}
-  ></CxFormTextarea>
-  <CxFormLabel htmlFor="floatingTextarea2">Comments</CxFormLabel>
-</CxFormFloating>
-```
 
 ## Selects
 
@@ -133,18 +89,6 @@ Other than `<CxFormInput>`, floating labels are only available on `<CxFormSelect
     <CxFormLabel htmlFor="floatingSelect">Works with selects</CxFormLabel>
   </CxFormFloating>
 </Example>
-
-```jsx
-<CxFormFloating>
-  <CxFormSelect id="floatingSelect" aria-label="Floating label select example">
-    <option>Open this select menu</option>
-    <option value="1">One</option>
-    <option value="2">Two</option>
-    <option value="3">Three</option>
-  </CxFormSelect>
-  <CxFormLabel htmlFor="floatingSelect">Works with selects</CxFormLabel>
-</CxFormFloating>
-```
 
 ## Layout
 
@@ -171,28 +115,6 @@ When working with the Chassis grid system, be sure to place form elements within
     </CxCol>
   </CxRow>
 </Example>
-
-```jsx
-<CxRow xs={{gutter: 2}}>
-  <CxCol md>
-    <CxFormFloating>
-      <CxFormInput type="email" id="floatingInputGrid" placeholder="name@example.com" defaultValue="email@example.com" />
-      <CxFormLabel htmlFor="floatingInputGrid">Email address</CxFormLabel>
-    </CxFormFloating>
-  </CxCol>
-  <CxCol md>
-    <CxFormFloating>
-      <CxFormSelect id="floatingSelectGrid" aria-label="Floating label select example">
-        <option>Open this select menu</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-      </CxFormSelect>
-      <CxFormLabel htmlFor="floatingSelectGrid">Works with selects</CxFormLabel>
-    </CxFormFloating>
-  </CxCol>
-</CxRow>
-```
 
 ## API
 

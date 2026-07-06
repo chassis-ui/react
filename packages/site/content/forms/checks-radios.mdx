@@ -27,11 +27,6 @@ Browser default checkboxes and radios are replaced with the help of `<CxFormChec
   <CxFormCheck id="flexCheckChecked" label="Checked checkbox" defaultChecked />
 </Example>
 
-```jsx
-<CxFormCheck id="flexCheckDefault" label="Default checkbox"/>
-<CxFormCheck id="flexCheckChecked" label="Checked checkbox" defaultChecked />
-```
-
 ## Indeterminate
 
 Checkboxes can utilize the `:indeterminate` pseudo-class when manually set via `indeterminate` property.
@@ -39,10 +34,6 @@ Checkboxes can utilize the `:indeterminate` pseudo-class when manually set via `
 <Example>
   <CxFormCheck id="flexCheckIndeterminate" label="Indeterminate checkbox" indeterminate />
 </Example>
-
-```jsx
-<CxFormCheck id="flexCheckIndeterminate" label="Indeterminate checkbox" indeterminate />
-```
 
 ### Disabled
 
@@ -52,11 +43,6 @@ Add the `disabled` attribute and the associated `<label>`s are automatically sty
   <CxFormCheck label="Disabled checkbox" disabled />
   <CxFormCheck label="Disabled checked checkbox" defaultChecked disabled />
 </Example>
-
-```jsx
-<CxFormCheck label="Disabled checkbox" disabled/>
-<CxFormCheck label="Disabled checked checkbox" defaultChecked disabled/>
-```
 
 ## Radios
 
@@ -72,11 +58,6 @@ Add the `disabled` attribute and the associated `<label>`s are automatically sty
     defaultChecked
   />
 </Example>
-
-```jsx
-<CxFormCheck type="radio" name="flexRadioDefault" id="flexRadioDefault1" label="Default radio"/>
-<CxFormCheck type="radio" name="flexRadioDefault" id="flexRadioDefault2" label="Checked radio" defaultChecked/>
-```
 
 ### Disabled
 
@@ -98,11 +79,6 @@ Add the `disabled` attribute and the associated `<label>`s are automatically sty
   />
 </Example>
 
-```jsx
-<CxFormCheck type="radio" name="flexRadioDisabled" id="flexRadioDisabled" label="Disabled radio" disabled/>
-<CxFormCheck type="radio" name="flexRadioDisabled" id="flexRadioCheckedDisabled" label="Disabled checked radio" defaultChecked disabled/>
-```
-
 ## Switches
 
 A switch has the markup of a custom checkbox but uses the `switch` boolean properly to render a toggle switch. Switches also support the `disabled` attribute.
@@ -119,13 +95,6 @@ A switch has the markup of a custom checkbox but uses the `switch` boolean prope
   />
 </Example>
 
-```jsx
-<CxFormSwitch label="Default switch checkbox input" id="formSwitchCheckDefault"/>
-<CxFormSwitch label="Checked switch checkbox input" id="formSwitchCheckChecked" defaultChecked/>
-<CxFormSwitch label="Disabled switch checkbox input" id="formSwitchCheckDisabled" disabled/>
-<CxFormSwitch label="Disabled checked switch checkbox input" id="formSwitchCheckCheckedDisabled" defaultChecked disabled/>
-```
-
 ### Sizes
 
 <Example>
@@ -133,12 +102,6 @@ A switch has the markup of a custom checkbox but uses the `switch` boolean prope
   <CxFormSwitch size="large" label="Large switch checkbox input" id="formSwitchCheckDefaultLg" />
   <CxFormSwitch size="xlarge" label="Extra large switch checkbox input" id="formSwitchCheckDefaultXL" />
 </Example>
-
-```jsx
-<CxFormSwitch label="Default switch checkbox input" id="formSwitchCheckDefault"/>
-<CxFormSwitch size="large" label="Large switch checkbox input" id="formSwitchCheckDefaultLg"/>
-<CxFormSwitch size="xlarge" label="Extra large switch checkbox input" id="formSwitchCheckDefaultXL"/>
-```
 
 ## Default (stacked)
 
@@ -148,11 +111,6 @@ By default, any number of checkboxes and radios that are immediate sibling will 
   <CxFormCheck id="defaultCheck1" label="Default checkbox" />
   <CxFormCheck id="defaultCheck2" label="Disabled checkbox" disabled />
 </Example>
-
-```jsx
-<CxFormCheck id="defaultCheck1" label="Default checkbox"/>
-<CxFormCheck id="defaultCheck2" label="Disabled checkbox" disabled/>
-```
 
 <Example>
   <CxFormCheck
@@ -180,12 +138,6 @@ By default, any number of checkboxes and radios that are immediate sibling will 
   />
 </Example>
 
-```jsx
-<CxFormCheck type="radio" name="exampleRadios" id="exampleRadios1" value="option1" label="Default radio" defaultChecked/>
-<CxFormCheck type="radio" name="exampleRadios" id="exampleRadios2" value="option2" label="Second default radio"/>
-<CxFormCheck type="radio" name="exampleRadios" id="exampleRadios3" value="option3" label="Disabled radio" disabled/>
-```
-
 ## Inline
 
 Group checkboxes or radios on the same horizontal row by adding `inline` boolean property to any `<CxFormCheck>`.
@@ -195,12 +147,6 @@ Group checkboxes or radios on the same horizontal row by adding `inline` boolean
   <CxFormCheck inline id="inlineCheckbox2" value="option2" label="2" />
   <CxFormCheck inline id="inlineCheckbox3" value="option3" label="3 (disabled)" disabled />
 </Example>
-
-```jsx
-<CxFormCheck inline id="inlineCheckbox1" value="option1" label="1"/>
-<CxFormCheck inline id="inlineCheckbox2" value="option2" label="2"/>
-<CxFormCheck inline id="inlineCheckbox3" value="option3" label="3 (disabled)" disabled/>
-```
 
 <Example>
   <CxFormCheck
@@ -230,12 +176,6 @@ Group checkboxes or radios on the same horizontal row by adding `inline` boolean
   />
 </Example>
 
-```jsx
-<CxFormCheck inline type="radio" name="inlineRadioOptions" id="inlineCheckbox1" value="option1" label="1"/>
-<CxFormCheck inline type="radio" name="inlineRadioOptions" id="inlineCheckbox2" value="option2" label="2"/>
-<CxFormCheck inline type="radio" name="inlineRadioOptions" id="inlineCheckbox3" value="option3" label="3 (disabled)" disabled/>
-```
-
 ## Without labels
 
 Remember to still provide some form of accessible name for assistive technologies (for instance, using `aria-label`).
@@ -248,15 +188,6 @@ Remember to still provide some form of accessible name for assistive technologie
     <CxFormCheck type="radio" name="radioNoLabel" id="radioNoLabel" value="" aria-label="..." />
   </div>
 </Example>
-
-```jsx
-<div>
-  <CxFormCheck id="checkboxNoLabel" value="" aria-label="..."/>
-</div>
-<div>
-  <CxFormCheck type="radio" name="radioNoLabel" id="radioNoLabel" value="" aria-label="..."/>
-</div>
-```
 
 ## Toggle buttons
 
@@ -273,10 +204,6 @@ Create button-like checkboxes and radio buttons by using `button` boolean proper
   />
 </Example>
 
-```jsx
-<CxFormCheck button={{ context: 'primary' }} id="btn-check" autoComplete="off" label="Single toggle" />
-```
-
 <Example>
   <CxFormCheck
     button={{ context: 'primary' }}
@@ -287,16 +214,6 @@ Create button-like checkboxes and radio buttons by using `button` boolean proper
   />
 </Example>
 
-```jsx
-<CxFormCheck
-  button={{ context: 'primary' }}
-  id="btn-check-2"
-  autoComplete="off"
-  label="Checked"
-  defaultChecked
-/>
-```
-
 <Example>
   <CxFormCheck
     button={{ context: 'primary' }}
@@ -306,16 +223,6 @@ Create button-like checkboxes and radio buttons by using `button` boolean proper
     disabled
   />
 </Example>
-
-```jsx
-<CxFormCheck
-  button={{ context: 'primary' }}
-  id="btn-check-3"
-  autoComplete="off"
-  label="Disabled"
-  disabled
-/>
-```
 
 ### Radio toggle buttons
 
@@ -355,13 +262,6 @@ Create button-like checkboxes and radio buttons by using `button` boolean proper
     label="Radio"
   />
 </Example>
-
-```jsx
-<CxFormCheck button={{ context: 'secondary' }} type="radio" name="options" id="option1" autoComplete="off" label="Checked" defaultChecked/>
-<CxFormCheck button={{ context: 'secondary' }} type="radio" name="options" id="option2" autoComplete="off" label="Radio"/>
-<CxFormCheck button={{ context: 'secondary' }} type="radio" name="options" id="option3" autoComplete="off" label="Radio" disabled/>
-<CxFormCheck button={{ context: 'secondary' }} type="radio" name="options" id="option4" autoComplete="off" label="Radio"/>
-```
 
 ### Outlined styles
 
@@ -405,19 +305,6 @@ Different variants of button, such at the various outlined styles, are supported
     />
   </div>
 </Example>
-
-```jsx
-<div>
-  <CxFormCheck button={{ context: 'primary', variant: 'outline' }} id="btn-check-outlined" autoComplete="off" label="Single toggle"/>
-</div>
-<div>
-  <CxFormCheck button={{ context: 'secondary', variant: 'outline' }} id="btn-check-2-outlined" autoComplete="off" label="Checked" defaultChecked/>
-</div>
-<div>
-  <CxFormCheck button={{ context: 'success', variant: 'outline' }} type="radio" name="options-outlined" id="success-outlined" autoComplete="off" label="Radio" defaultChecked/>
-  <CxFormCheck button={{ context: 'danger', variant: 'outline' }} type="radio" name="options-outlined" id="danger-outlined" autoComplete="off" label="Radio"/>
-</div>
-```
 
 ## API
 

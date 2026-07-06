@@ -17,11 +17,6 @@ Create custom `<input type="range">` controls with `<CxFormRange>`. The track (t
   <CxFormRange id="customRange1" />
 </Example>
 
-```jsx
-<CxFormLabel htmlFor="customRange1">Example range</CxFormLabel>
-<CxFormRange id="customRange1"/>
-```
-
 ## Disabled
 
 Add the `disabled` boolean attribute on an input to give it a grayed out appearance and remove pointer events.
@@ -30,11 +25,6 @@ Add the `disabled` boolean attribute on an input to give it a grayed out appeara
   <CxFormLabel htmlFor="disabledRange">Disabled range</CxFormLabel>
   <CxFormRange id="disabledRange" disabled />
 </Example>
-
-```jsx
-<CxFormLabel htmlFor="disabledRange">Disabled range</CxFormLabel>
-<CxFormRange id="disabledRange" disabled/>
-```
 
 ## Min and max
 
@@ -45,11 +35,6 @@ Range inputs have implicit values for `min` and `max`—`0` and `100`, respectiv
   <CxFormRange min="0" max="5" defaultValue="3" id="customRange2" />
 </Example>
 
-```jsx
-<CxFormLabel htmlFor="customRange2">Example range</CxFormLabel>
-<CxFormRange min="0" max="5" defaultValue="3" id="customRange2"/>
-```
-
 ## Steps
 
 By default, range inputs "snap" to integer values. To change this, you can specify a `step` value. In the example below, we double the number of steps by using `step="0.5"`.
@@ -58,11 +43,6 @@ By default, range inputs "snap" to integer values. To change this, you can speci
   <CxFormLabel htmlFor="customRange3">Example range</CxFormLabel>
   <CxFormRange min="0" max="5" step="0.5" defaultValue="3" id="customRange3" />
 </Example>
-
-```jsx
-<CxFormLabel htmlFor="customRange3">Example range</CxFormLabel>
-<CxFormRange min="0" max="5" step="0.5" defaultValue="3" id="customRange3"/>
-```
 
 ## API
 

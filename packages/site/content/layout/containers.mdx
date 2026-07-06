@@ -127,12 +127,6 @@ Our default `<CxContainer>` class is a responsive, fixed-width container, meanin
   </CxContainer>
 </Example>
 
-```jsx
-<CxContainer>
-  Content here
-</CxContainer>
-```
-
 ## Responsive containers
 
 Responsive containers allow you to specify a class that is 100% wide until the specified breakpoint is reached, after which we apply `max-width`s for each of the higher breakpoints. For example, `<CxContainer sm>` is 100% wide to start until the `sm` breakpoint is reached, where it will scale up with `md`, `lg`, `xl`, and `xxl`.
@@ -145,14 +139,6 @@ Responsive containers allow you to specify a class that is 100% wide until the s
   <CxContainer xxl>100% wide until extra extra large breakpoint</CxContainer>
 </Example>
 
-```jsx
-<CxContainer sm>100% wide until small breakpoint</CxContainer>
-<CxContainer md>100% wide until medium breakpoint</CxContainer>
-<CxContainer lg>100% wide until large breakpoint</CxContainer>
-<CxContainer xl>100% wide until extra large breakpoint</CxContainer>
-<CxContainer xxl>100% wide until extra extra large breakpoint</CxContainer>
-```
-
 ## Fluid containers
 
 Use `<CxContainer fluid>` for a full width container, spanning the entire width of the viewport.
@@ -162,12 +148,6 @@ Use `<CxContainer fluid>` for a full width container, spanning the entire width 
     Content here
   </CxContainer>
 </Example>
-
-```jsx
-<CxContainer fluid>
-  Content here
-</CxContainer>
-```
 
 ## API
 

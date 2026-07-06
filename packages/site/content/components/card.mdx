@@ -53,19 +53,6 @@ Below is an example of a basic card with mixed content and a fixed width. Cards 
   </CxCard>
 </Example>
 
-```jsx
-<CxCard style={{ width: '18rem' }}>
-  <CxCardImage orientation="top" src="/images/react.jpg" />
-  <CxCardBody>
-    <CxCardTitle>Card title</CxCardTitle>
-    <CxCardText>
-      Some quick example text to build on the card title and make up the bulk of the card's content.
-    </CxCardText>
-    <CxButton href="#">Go somewhere</CxButton>
-  </CxCardBody>
-</CxCard>
-```
-
 ## Content types
 
 Chassis card supports a wide variety of content, including images, text, list groups, links, and more. Below are examples of those elements.
@@ -79,12 +66,6 @@ The main block of a card is the `<CxCardBody>`. Use it whenever you need a padde
     <CxCardBody>This is some text within a card body.</CxCardBody>
   </CxCard>
 </Example>
-
-```jsx
-<CxCard>
-  <CxCardBody>This is some text within a card body.</CxCardBody>
-</CxCard>
-```
 
 ### Titles, text, and links
 
@@ -107,20 +88,6 @@ Subtitles are managed by `<CxCardSubtitle>` component. If the `<CxCardTitle>` al
   </CxCard>
 </Example>
 
-```jsx
-<CxCard style={{ width: '18rem' }}>
-  <CxCardBody>
-    <CxCardTitle>Card title</CxCardTitle>
-    <CxCardSubtitle className="mb-2 medium:text-emphasis">Card subtitle</CxCardSubtitle>
-    <CxCardText>
-      Some quick example text to build on the card title and make up the bulk of the card's content.
-    </CxCardText>
-    <CxCardLink href="#">Card link</CxCardLink>
-    <CxCardLink href="#">Another link</CxCardLink>
-  </CxCardBody>
-</CxCard>
-```
-
 ### Images
 
 `orientation="top"` places a picture to the top of the card. With `<CxCardText>`, text can be added to the card. Text within `<CxCardText>` can additionally be styled with the regular HTML tags.
@@ -137,17 +104,6 @@ Subtitles are managed by `<CxCardSubtitle>` component. If the `<CxCardTitle>` al
   </CxCard>
 </Example>
 
-```jsx
-<CxCard style={{ width: '18rem' }}>
-  <CxCardImage orientation="top" src="/images/react.jpg" />
-  <CxCardBody>
-    <CxCardText>
-      Some quick example text to build on the card title and make up the bulk of the card's content.
-    </CxCardText>
-  </CxCardBody>
-</CxCard>
-```
-
 ### List groups
 
 Create lists of content in a card with a flush list group.
@@ -162,16 +118,6 @@ Create lists of content in a card with a flush list group.
   </CxCard>
 </Example>
 
-```jsx
-<CxCard style={{ width: '18rem' }}>
-  <CxListGroup flush>
-    <CxListGroupItem>Cras justo odio</CxListGroupItem>
-    <CxListGroupItem>Dapibus ac facilisis in</CxListGroupItem>
-    <CxListGroupItem>Vestibulum at eros</CxListGroupItem>
-  </CxListGroup>
-</CxCard>
-```
-
 <Example>
   <CxCard style={{ width: '18rem' }}>
     <CxCardHeader>Header</CxCardHeader>
@@ -183,17 +129,6 @@ Create lists of content in a card with a flush list group.
   </CxCard>
 </Example>
 
-```jsx
-<CxCard style={{ width: '18rem' }}>
-  <CxCardHeader>Header</CxCardHeader>
-  <CxListGroup flush>
-    <CxListGroupItem>Cras justo odio</CxListGroupItem>
-    <CxListGroupItem>Dapibus ac facilisis in</CxListGroupItem>
-    <CxListGroupItem>Vestibulum at eros</CxListGroupItem>
-  </CxListGroup>
-</CxCard>
-```
-
 <Example>
   <CxCard style={{ width: '18rem' }}>
     <CxListGroup flush>
@@ -204,17 +139,6 @@ Create lists of content in a card with a flush list group.
     <CxCardFooter>Footer</CxCardFooter>
   </CxCard>
 </Example>
-
-```jsx
-<CxCard style={{ width: '18rem' }}>
-  <CxListGroup flush>
-    <CxListGroupItem>Cras justo odio</CxListGroupItem>
-    <CxListGroupItem>Dapibus ac facilisis in</CxListGroupItem>
-    <CxListGroupItem>Vestibulum at eros</CxListGroupItem>
-  </CxListGroup>
-  <CxCardFooter>Footer</CxCardFooter>
-</CxCard>
-```
 
 ### Kitchen sink
 
@@ -242,27 +166,6 @@ Combine and match many content types to build the card you need, or throw everyt
   </CxCard>
 </Example>
 
-```jsx
-<CxCard style={{ width: '18rem' }}>
-  <CxCardImage orientation="top" src="/images/react.jpg" />
-  <CxCardBody>
-    <CxCardTitle>Card title</CxCardTitle>
-    <CxCardText>
-      Some quick example text to build on the card title and make up the bulk of the card's content.
-    </CxCardText>
-  </CxCardBody>
-  <CxListGroup flush>
-    <CxListGroupItem>Cras justo odio</CxListGroupItem>
-    <CxListGroupItem>Dapibus ac facilisis in</CxListGroupItem>
-    <CxListGroupItem>Vestibulum at eros</CxListGroupItem>
-  </CxListGroup>
-  <CxCardBody>
-    <CxCardLink href="#">Card link</CxCardLink>
-    <CxCardLink href="#">Another link</CxCardLink>
-  </CxCardBody>
-</CxCard>
-```
-
 ### Header and footer
 
 Add an optional header and/or footer within a card.
@@ -278,17 +181,6 @@ Add an optional header and/or footer within a card.
   </CxCard>
 </Example>
 
-```jsx
-<CxCard>
-  <CxCardHeader>Header</CxCardHeader>
-  <CxCardBody>
-    <CxCardTitle>Special title treatment</CxCardTitle>
-    <CxCardText>With supporting text below as a natural lead-in to additional content.</CxCardText>
-    <CxButton href="#">Go somewhere</CxButton>
-  </CxCardBody>
-</CxCard>
-```
-
 Card headers can be styled by adding ex. `component="h5"`.
 
 <Example>
@@ -301,17 +193,6 @@ Card headers can be styled by adding ex. `component="h5"`.
     </CxCardBody>
   </CxCard>
 </Example>
-
-```jsx
-<CxCard>
-  <CxCardHeader component="h5">Header</CxCardHeader>
-  <CxCardBody>
-    <CxCardTitle>Special title treatment</CxCardTitle>
-    <CxCardText>With supporting text below as a natural lead-in to additional content.</CxCardText>
-    <CxButton href="#">Go somewhere</CxButton>
-  </CxCardBody>
-</CxCard>
-```
 
 <Example>
   <CxCard>
@@ -327,20 +208,6 @@ Card headers can be styled by adding ex. `component="h5"`.
   </CxCard>
 </Example>
 
-```jsx
-<CxCard>
-  <CxCardHeader>Quote</CxCardHeader>
-  <CxCardBody>
-    <blockquote className="blockquote mb-0">
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-      <footer className="blockquote-footer">
-        Someone famous in <cite title="Source Title">Source Title</cite>
-      </footer>
-    </blockquote>
-  </CxCardBody>
-</CxCard>
-```
-
 <Example>
   <CxCard className="text-center">
     <CxCardHeader>Header</CxCardHeader>
@@ -352,18 +219,6 @@ Card headers can be styled by adding ex. `component="h5"`.
     <CxCardFooter className="medium:text-emphasis">2 days ago</CxCardFooter>
   </CxCard>
 </Example>
-
-```jsx
-<CxCard className="text-center">
-  <CxCardHeader>Header</CxCardHeader>
-  <CxCardBody>
-    <CxCardTitle>Special title treatment</CxCardTitle>
-    <CxCardText>With supporting text below as a natural lead-in to additional content.</CxCardText>
-    <CxButton href="#">Go somewhere</CxButton>
-  </CxCardBody>
-  <CxCardFooter className="medium:text-emphasis">2 days ago</CxCardFooter>
-</CxCard>
-```
 
 ## Sizing
 
@@ -400,33 +255,6 @@ Using the grid, wrap cards in columns and rows as needed.
   </CxRow>
 </Example>
 
-```jsx
-<CxRow>
-  <CxCol sm={6}>
-    <CxCard>
-      <CxCardBody>
-        <CxCardTitle>Special title treatment</CxCardTitle>
-        <CxCardText>
-          With supporting text below as a natural lead-in to additional content.
-        </CxCardText>
-        <CxButton href="#">Go somewhere</CxButton>
-      </CxCardBody>
-    </CxCard>
-  </CxCol>
-  <CxCol sm={6}>
-    <CxCard>
-      <CxCardBody>
-        <CxCardTitle>Special title treatment</CxCardTitle>
-        <CxCardText>
-          With supporting text below as a natural lead-in to additional content.
-        </CxCardText>
-        <CxButton href="#">Go somewhere</CxButton>
-      </CxCardBody>
-    </CxCard>
-  </CxCol>
-</CxRow>
-```
-
 ### Using utilities
 
 Use some of available sizing utilities to rapidly set a card's width.
@@ -448,23 +276,6 @@ Use some of available sizing utilities to rapidly set a card's width.
   </CxCard>
 </Example>
 
-```jsx
-  <CxCard className="w-75">
-    <CxCardBody>
-      <CxCardTitle>Card title</CxCardTitle>
-      <CxCardText>With supporting text below as a natural lead-in to additional content.</CxCardText>
-      <CxButton href="#">Go somewhere</CxButton>
-    </CxCardBody>
-  </CxCard>
-  <CxCard className="w-50">
-    <CxCardBody>
-      <CxCardTitle>Card title</CxCardTitle>
-      <CxCardText>With supporting text below as a natural lead-in to additional content.</CxCardText>
-      <CxButton href="#">Go somewhere</CxButton>
-    </CxCardBody>
-  </CxCard>
-```
-
 ### Using custom CSS
 
 Use custom CSS in your stylesheets or as inline styles to set a width.
@@ -478,16 +289,6 @@ Use custom CSS in your stylesheets or as inline styles to set a width.
     </CxCardBody>
   </CxCard>
 </Example>
-
-```jsx
-<CxCard style={{ width: '18rem' }}>
-  <CxCardBody>
-    <CxCardTitle>Special title treatment</CxCardTitle>
-    <CxCardText>With supporting text below as a natural lead-in to additional content.</CxCardText>
-    <CxButton href="#">Go somewhere</CxButton>
-  </CxCardBody>
-</CxCard>
-```
 
 ## Text alignment
 
@@ -516,30 +317,6 @@ You can instantly change the text arrangement of any card—in its whole or spec
     </CxCardBody>
   </CxCard>
 </Example>
-
-```jsx
-  <CxCard style={{width: '18rem'}}>
-    <CxCardBody>
-      <CxCardTitle>Special title treatment</CxCardTitle>
-      <CxCardText>With supporting text below as a natural lead-in to additional content.</CxCardText>
-      <CxButton href="#">Go somewhere</CxButton>
-    </CxCardBody>
-  </CxCard>
-  <CxCard className="text-center" style={{width: '18rem'}}>
-    <CxCardBody>
-      <CxCardTitle>Special title treatment</CxCardTitle>
-      <CxCardText>With supporting text below as a natural lead-in to additional content.</CxCardText>
-      <CxButton href="#">Go somewhere</CxButton>
-    </CxCardBody>
-  </CxCard>
-  <CxCard className="text-end" style={{width: '18rem'}}>
-    <CxCardBody>
-      <CxCardTitle>Special title treatment</CxCardTitle>
-      <CxCardText>With supporting text below as a natural lead-in to additional content.</CxCardText>
-      <CxButton href="#">Go somewhere</CxButton>
-    </CxCardBody>
-  </CxCard>
-```
 
 ## Navigation
 
@@ -572,33 +349,6 @@ Add some navigation to a `<CxCardHeader>` with our `<CxNav>` component.
   </CxCard>
 </Example>
 
-```jsx
-<CxCard className="text-center">
-  <CxCardHeader>
-    <CxNav variant="tabs" className="card-header-tabs">
-      <CxNavItem>
-        <CxNavLink href="#" active>
-          Active
-        </CxNavLink>
-      </CxNavItem>
-      <CxNavItem>
-        <CxNavLink href="#">Link</CxNavLink>
-      </CxNavItem>
-      <CxNavItem>
-        <CxNavLink href="#" disabled>
-          Disabled
-        </CxNavLink>
-      </CxNavItem>
-    </CxNav>
-  </CxCardHeader>
-  <CxCardBody>
-    <CxCardTitle>Special title treatment</CxCardTitle>
-    <CxCardText>With supporting text below as a natural lead-in to additional content.</CxCardText>
-    <CxButton href="#">Go somewhere</CxButton>
-  </CxCardBody>
-</CxCard>
-```
-
 <Example>
   <CxCard className="text-center">
     <CxCardHeader>
@@ -625,33 +375,6 @@ Add some navigation to a `<CxCardHeader>` with our `<CxNav>` component.
     </CxCardBody>
   </CxCard>
 </Example>
-
-```jsx
-<CxCard className="text-center">
-  <CxCardHeader>
-    <CxNav variant="pills" className="card-header-pills">
-      <CxNavItem>
-        <CxNavLink href="#" active>
-          Active
-        </CxNavLink>
-      </CxNavItem>
-      <CxNavItem>
-        <CxNavLink href="#">Link</CxNavLink>
-      </CxNavItem>
-      <CxNavItem>
-        <CxNavLink href="#" disabled>
-          Disabled
-        </CxNavLink>
-      </CxNavItem>
-    </CxNav>
-  </CxCardHeader>
-  <CxCardBody>
-    <CxCardTitle>Special title treatment</CxCardTitle>
-    <CxCardText>With supporting text below as a natural lead-in to additional content.</CxCardText>
-    <CxButton href="#">Go somewhere</CxButton>
-  </CxCardBody>
-</CxCard>
-```
 
 ## Images
 
@@ -690,25 +413,6 @@ Similar to headers and footers, cards can include top and bottom "image caps"—
   </CxCard>
 </Example>
 
-```jsx
-  <CxCard className="mb-3">
-    <CxCardImage orientation="top" src="/images/react.jpg" />
-    <CxCardBody>
-      <CxCardTitle>Card title</CxCardTitle>
-      <CxCardText>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</CxCardText>
-      <CxCardText><small className="medium:text-emphasis">Last updated 3 mins ago</small></CxCardText>
-    </CxCardBody>
-  </CxCard>
-  <CxCard className="mb-3">
-    <CxCardBody>
-      <CxCardTitle>Card title</CxCardTitle>
-      <CxCardText>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</CxCardText>
-      <CxCardText><small className="medium:text-emphasis">Last updated 3 mins ago</small></CxCardText>
-    </CxCardBody>
-    <CxCardImage orientation="bottom" src="/images/react.jpg" />
-  </CxCard>
-```
-
 ### Image overlays
 
 Adapt an image into a background and overlay your text. Depending on the image, you may need additional styles or utilities.
@@ -726,20 +430,6 @@ Adapt an image into a background and overlay your text. Depending on the image, 
     </CxCardImageOverlay>
   </CxCard>
 </Example>
-
-```jsx
-<CxCard className="mb-3 bg-dark text-white">
-  <CxCardImage src="/images/react.jpg" />
-  <CxCardImageOverlay>
-    <CxCardTitle>Card title</CxCardTitle>
-    <CxCardText>
-      This is a wider card with supporting text below as a natural lead-in to additional content.
-      This content is a little bit longer.
-    </CxCardText>
-    <CxCardText>Last updated 3 mins ago</CxCardText>
-  </CxCardImageOverlay>
-</CxCard>
-```
 
 ## Horizontal
 
@@ -766,28 +456,6 @@ Using a combination of grid and utility classes, cards can be made horizontal in
     </CxRow>
   </CxCard>
 </Example>
-
-```jsx
-<CxCard className="mb-3" style={{ maxWidth: '540px' }}>
-  <CxRow className="g-0">
-    <CxCol md={4}>
-      <CxCardImage src="/images/react400.jpg" />
-    </CxCol>
-    <CxCol md={8}>
-      <CxCardBody>
-        <CxCardTitle>Card title</CxCardTitle>
-        <CxCardText>
-          This is a wider card with supporting text below as a natural lead-in to additional
-          content. This content is a little bit longer.
-        </CxCardText>
-        <CxCardText>
-          <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </CxCardText>
-      </CxCardBody>
-    </CxCol>
-  </CxRow>
-</CxCard>
-```
 
 ## Card styles
 
@@ -828,38 +496,6 @@ Use `context` property to change the appearance of a card.
     ))}
   </>
 </Example>
-
-```jsx
-<>
-  {[
-    { context: 'primary', textColor: 'white' },
-    { context: 'secondary', textColor: 'white' },
-    { context: 'success', textColor: 'white' },
-    { context: 'danger', textColor: 'white' },
-    { context: 'warning' },
-    { context: 'info', textColor: 'white' },
-    { context: 'light' },
-    { context: 'dark', textColor: 'white' },
-  ].map((item, index) => (
-    <CxCard
-      context={item.context}
-      textColor={item.textColor}
-      className="mb-3"
-      style={{ maxWidth: '18rem' }}
-      key={index}
-    >
-      <CxCardHeader>Header</CxCardHeader>
-      <CxCardBody>
-        <CxCardTitle>{item.context} card title</CxCardTitle>
-        <CxCardText>
-          Some quick example text to build on the card title and make up the bulk of the card's
-          content.
-        </CxCardText>
-      </CxCardBody>
-    </CxCard>
-  ))}
-</>
-```
 
 <Callout context="info">
   <h5>Conveying meaning to assistive technologies</h5>
@@ -906,37 +542,6 @@ Use border utilities to change just the `border-context` of a card. Note that yo
   </>
 </Example>
 
-```jsx
-<>
-  {[
-    { context: 'primary', textColor: 'primary' },
-    { context: 'secondary', textColor: 'secondary' },
-    { context: 'success', textColor: 'success' },
-    { context: 'danger', textColor: 'danger' },
-    { context: 'warning', textColor: 'warning' },
-    { context: 'info', textColor: 'info' },
-    { context: 'light' },
-    { context: 'dark' },
-  ].map((item, index) => (
-    <CxCard
-      textColor={item.textColor}
-      className={`mb-3 border-${item.context}`}
-      style={{ maxWidth: '18rem' }}
-      key={index}
-    >
-      <CxCardHeader>Header</CxCardHeader>
-      <CxCardBody>
-        <CxCardTitle>{item.context} card title</CxCardTitle>
-        <CxCardText>
-          Some quick example text to build on the card title and make up the bulk of the card's
-          content.
-        </CxCardText>
-      </CxCardBody>
-    </CxCard>
-  ))}
-</>
-```
-
 ### Top border
 
 <Example>
@@ -969,37 +574,6 @@ Use border utilities to change just the `border-context` of a card. Note that yo
     ))}
   </>
 </Example>
-
-```jsx
-<>
-  {[
-    { context: 'primary', textColor: 'primary' },
-    { context: 'secondary', textColor: 'secondary' },
-    { context: 'success', textColor: 'success' },
-    { context: 'danger', textColor: 'danger' },
-    { context: 'warning', textColor: 'warning' },
-    { context: 'info', textColor: 'info' },
-    { context: 'light' },
-    { context: 'dark' },
-  ].map((item, index) => (
-    <CxCard
-      textColor={item.textColor}
-      className={`mb-3 border-top-${item.context} border-top-3`}
-      style={{ maxWidth: '18rem' }}
-      key={index}
-    >
-      <CxCardHeader>Header</CxCardHeader>
-      <CxCardBody>
-        <CxCardTitle>{item.context} card title</CxCardTitle>
-        <CxCardText>
-          Some quick example text to build on the card title and make up the bulk of the card's
-          content.
-        </CxCardText>
-      </CxCardBody>
-    </CxCard>
-  ))}
-</>
-```
 
 ## Card layout
 
@@ -1053,49 +627,6 @@ Use card groups to render cards as a single, attached element with equal width a
   </CxCardGroup>
 </Example>
 
-```jsx
-<CxCardGroup>
-  <CxCard>
-    <CxCardImage orientation="top" src="/images/react.jpg" />
-    <CxCardBody>
-      <CxCardTitle>Card title</CxCardTitle>
-      <CxCardText>
-        This is a wider card with supporting text below as a natural lead-in to additional content.
-        This content is a little bit longer.
-      </CxCardText>
-      <CxCardText>
-        <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-      </CxCardText>
-    </CxCardBody>
-  </CxCard>
-  <CxCard>
-    <CxCardImage orientation="top" src="/images/react.jpg" />
-    <CxCardBody>
-      <CxCardTitle>Card title</CxCardTitle>
-      <CxCardText>
-        This card has supporting text below as a natural lead-in to additional content.
-      </CxCardText>
-      <CxCardText>
-        <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-      </CxCardText>
-    </CxCardBody>
-  </CxCard>
-  <CxCard>
-    <CxCardImage orientation="top" src="/images/react.jpg" />
-    <CxCardBody>
-      <CxCardTitle>Card title</CxCardTitle>
-      <CxCardText>
-        This is a wider card with supporting text below as a natural lead-in to additional content.
-        This card has even longer content than the first to show that equal height action.
-      </CxCardText>
-      <CxCardText>
-        <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-      </CxCardText>
-    </CxCardBody>
-  </CxCard>
-</CxCardGroup>
-```
-
 When using card groups with footers, their content will automatically line up.
 
 <Example>
@@ -1141,49 +672,6 @@ When using card groups with footers, their content will automatically line up.
     </CxCard>
   </CxCardGroup>
 </Example>
-
-```jsx
-<CxCardGroup>
-  <CxCard>
-    <CxCardImage orientation="top" src="/images/react.jpg" />
-    <CxCardBody>
-      <CxCardTitle>Card title</CxCardTitle>
-      <CxCardText>
-        This is a wider card with supporting text below as a natural lead-in to additional content.
-        This content is a little bit longer.
-      </CxCardText>
-    </CxCardBody>
-    <CxCardFooter>
-      <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-    </CxCardFooter>
-  </CxCard>
-  <CxCard>
-    <CxCardImage orientation="top" src="/images/react.jpg" />
-    <CxCardBody>
-      <CxCardTitle>Card title</CxCardTitle>
-      <CxCardText>
-        This card has supporting text below as a natural lead-in to additional content.
-      </CxCardText>
-    </CxCardBody>
-    <CxCardFooter>
-      <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-    </CxCardFooter>
-  </CxCard>
-  <CxCard>
-    <CxCardImage orientation="top" src="/images/react.jpg" />
-    <CxCardBody>
-      <CxCardTitle>Card title</CxCardTitle>
-      <CxCardText>
-        This is a wider card with supporting text below as a natural lead-in to additional content.
-        This card has even longer content than the first to show that equal height action.
-      </CxCardText>
-    </CxCardBody>
-    <CxCardFooter>
-      <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-    </CxCardFooter>
-  </CxCard>
-</CxCardGroup>
-```
 
 ### Grid cards
 
@@ -1254,71 +742,6 @@ Use the `CxRow` component and set `xs|sm|md|lg|xl|xxl}={{ cols: * }}` property t
   </CxRow>
 </Example>
 
-```jsx
-<CxRow xs={{ cols: 1, gutter: 4 }} md={{ cols: 2 }}>
-  <CxCol xs>
-    <CxCard>
-      <CxCardImage orientation="top" src="/images/react.jpg" />
-      <CxCardBody>
-        <CxCardTitle>Card title</CxCardTitle>
-        <CxCardText>
-          This is a wider card with supporting text below as a natural lead-in to additional
-          content. This content is a little bit longer.
-        </CxCardText>
-      </CxCardBody>
-      <CxCardFooter>
-        <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-      </CxCardFooter>
-    </CxCard>
-  </CxCol>
-  <CxCol xs>
-    <CxCard>
-      <CxCardImage orientation="top" src="/images/react.jpg" />
-      <CxCardBody>
-        <CxCardTitle>Card title</CxCardTitle>
-        <CxCardText>
-          This is a wider card with supporting text below as a natural lead-in to additional
-          content. This content is a little bit longer.
-        </CxCardText>
-      </CxCardBody>
-      <CxCardFooter>
-        <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-      </CxCardFooter>
-    </CxCard>
-  </CxCol>
-  <CxCol xs>
-    <CxCard>
-      <CxCardImage orientation="top" src="/images/react.jpg" />
-      <CxCardBody>
-        <CxCardTitle>Card title</CxCardTitle>
-        <CxCardText>
-          This is a wider card with supporting text below as a natural lead-in to additional
-          content. This content is a little bit longer.
-        </CxCardText>
-      </CxCardBody>
-      <CxCardFooter>
-        <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-      </CxCardFooter>
-    </CxCard>
-  </CxCol>
-  <CxCol xs>
-    <CxCard>
-      <CxCardImage orientation="top" src="/images/react.jpg" />
-      <CxCardBody>
-        <CxCardTitle>Card title</CxCardTitle>
-        <CxCardText>
-          This is a wider card with supporting text below as a natural lead-in to additional
-          content. This content is a little bit longer.
-        </CxCardText>
-      </CxCardBody>
-      <CxCardFooter>
-        <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-      </CxCardFooter>
-    </CxCard>
-  </CxCol>
-</CxRow>
-```
-
 Change it to `md={{ cols: 3}}` and you'll see the fourth card wrap.
 
 <Example>
@@ -1386,71 +809,6 @@ Change it to `md={{ cols: 3}}` and you'll see the fourth card wrap.
   </CxRow>
 </Example>
 
-```jsx
-<CxRow xs={{ cols: 1, gutter: 4 }} md={{ cols: 3 }}>
-  <CxCol xs>
-    <CxCard>
-      <CxCardImage orientation="top" src="/images/react.jpg" />
-      <CxCardBody>
-        <CxCardTitle>Card title</CxCardTitle>
-        <CxCardText>
-          This is a wider card with supporting text below as a natural lead-in to additional
-          content. This content is a little bit longer.
-        </CxCardText>
-      </CxCardBody>
-      <CxCardFooter>
-        <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-      </CxCardFooter>
-    </CxCard>
-  </CxCol>
-  <CxCol xs>
-    <CxCard>
-      <CxCardImage orientation="top" src="/images/react.jpg" />
-      <CxCardBody>
-        <CxCardTitle>Card title</CxCardTitle>
-        <CxCardText>
-          This is a wider card with supporting text below as a natural lead-in to additional
-          content. This content is a little bit longer.
-        </CxCardText>
-      </CxCardBody>
-      <CxCardFooter>
-        <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-      </CxCardFooter>
-    </CxCard>
-  </CxCol>
-  <CxCol xs>
-    <CxCard>
-      <CxCardImage orientation="top" src="/images/react.jpg" />
-      <CxCardBody>
-        <CxCardTitle>Card title</CxCardTitle>
-        <CxCardText>
-          This is a wider card with supporting text below as a natural lead-in to additional
-          content. This content is a little bit longer.
-        </CxCardText>
-      </CxCardBody>
-      <CxCardFooter>
-        <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-      </CxCardFooter>
-    </CxCard>
-  </CxCol>
-  <CxCol xs>
-    <CxCard>
-      <CxCardImage orientation="top" src="/images/react.jpg" />
-      <CxCardBody>
-        <CxCardTitle>Card title</CxCardTitle>
-        <CxCardText>
-          This is a wider card with supporting text below as a natural lead-in to additional
-          content. This content is a little bit longer.
-        </CxCardText>
-      </CxCardBody>
-      <CxCardFooter>
-        <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-      </CxCardFooter>
-    </CxCard>
-  </CxCol>
-</CxRow>
-```
-
 When you need equal height, add `.h-100` to the cards. If you want equal heights by default, you can set `$card-height: 100%` in Sass.
 
 <Example>
@@ -1506,59 +864,6 @@ When you need equal height, add `.h-100` to the cards. If you want equal heights
   </CxRow>
 </Example>
 
-```jsx
-<CxRow xs={{ cols: 1 }} md={{ cols: 3 }} className="g-4">
-  <CxCol xs>
-    <CxCard className="h-100">
-      <CxCardImage orientation="top" src="/images/react.jpg" />
-      <CxCardBody>
-        <CxCardTitle>Card title</CxCardTitle>
-        <CxCardText>
-          This is a wider card with supporting text below as a natural lead-in to additional
-          content. This content is a little bit longer.
-        </CxCardText>
-      </CxCardBody>
-    </CxCard>
-  </CxCol>
-  <CxCol xs>
-    <CxCard className="h-100">
-      <CxCardImage orientation="top" src="/images/react.jpg" />
-      <CxCardBody>
-        <CxCardTitle>Card title</CxCardTitle>
-        <CxCardText>
-          This card has supporting text below as a natural lead-in to additional content.
-        </CxCardText>
-      </CxCardBody>
-    </CxCard>
-  </CxCol>
-  <CxCol xs>
-    <CxCard className="h-100">
-      <CxCardImage orientation="top" src="/images/react.jpg" />
-      <CxCardBody>
-        <CxCardTitle>Card title</CxCardTitle>
-        <CxCardText>
-          This is a wider card with supporting text below as a natural lead-in to additional
-          content. This card has even longer content than the first to show that equal height
-          action.
-        </CxCardText>
-      </CxCardBody>
-    </CxCard>
-  </CxCol>
-  <CxCol xs>
-    <CxCard className="h-100">
-      <CxCardImage orientation="top" src="/images/react.jpg" />
-      <CxCardBody>
-        <CxCardTitle>Card title</CxCardTitle>
-        <CxCardText>
-          This is a wider card with supporting text below as a natural lead-in to additional
-          content. This content is a little bit longer.
-        </CxCardText>
-      </CxCardBody>
-    </CxCard>
-  </CxCol>
-</CxRow>
-```
-
 Just like with card groups, card footers will automatically line up.
 
 <Example>
@@ -1610,56 +915,6 @@ Just like with card groups, card footers will automatically line up.
     </CxCol>
   </CxRow>
 </Example>
-
-```jsx
-<CxRow xs={{ cols: 1 }} md={{ cols: 3 }} className="g-4">
-  <CxCol xs>
-    <CxCard className="h-100">
-      <CxCardImage orientation="top" src="/images/react.jpg" />
-      <CxCardBody>
-        <CxCardTitle>Card title</CxCardTitle>
-        <CxCardText>
-          This is a wider card with supporting text below as a natural lead-in to additional
-          content. This content is a little bit longer.
-        </CxCardText>
-      </CxCardBody>
-      <CxCardFooter>
-        <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-      </CxCardFooter>
-    </CxCard>
-  </CxCol>
-  <CxCol xs>
-    <CxCard className="h-100">
-      <CxCardImage orientation="top" src="/images/react.jpg" />
-      <CxCardBody>
-        <CxCardTitle>Card title</CxCardTitle>
-        <CxCardText>
-          This card has supporting text below as a natural lead-in to additional content.
-        </CxCardText>
-      </CxCardBody>
-      <CxCardFooter>
-        <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-      </CxCardFooter>
-    </CxCard>
-  </CxCol>
-  <CxCol xs>
-    <CxCard className="h-100">
-      <CxCardImage orientation="top" src="/images/react.jpg" />
-      <CxCardBody>
-        <CxCardTitle>Card title</CxCardTitle>
-        <CxCardText>
-          This is a wider card with supporting text below as a natural lead-in to additional
-          content. This card has even longer content than the first to show that equal height
-          action.
-        </CxCardText>
-      </CxCardBody>
-      <CxCardFooter>
-        <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-      </CxCardFooter>
-    </CxCard>
-  </CxCol>
-</CxRow>
-```
 
 ## API
 

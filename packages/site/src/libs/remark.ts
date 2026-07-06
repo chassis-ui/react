@@ -1,5 +1,11 @@
+import fs from 'node:fs'
+import path from 'node:path'
 import type { Root } from 'mdast'
-import type { MdxJsxAttribute, MdxJsxExpressionAttribute } from 'mdast-util-mdx-jsx'
+import type {
+  MdxJsxAttribute,
+  MdxJsxExpressionAttribute,
+  MdxJsxFlowElement
+} from 'mdast-util-mdx-jsx'
 import type { Plugin } from 'unified'
 import { visit } from 'unist-util-visit'
 import { getConfig } from './config'
@@ -93,6 +99,232 @@ export const remarkCxDocsref: Plugin<[], Root> = function () {
       }
     )
   }
+}
+
+interface ExampleImportBinding {
+  localName: string
+  source: string
+}
+
+// A remark plugin that auto-derives the source code shown by each `<Example>` shortcode, so
+// docs authors never hand-transcribe a second copy of the JSX. The derived source is injected
+// as a `code` prop directly on the `<Example>` element (rather than as a sibling markdown code
+// fence) so `Example.astro` can render the preview and the code together in a single box with
+// one shared toolbar, matching `@chassis-ui/docs`'s `<Example>`.
+//
+// - If `<Example>`'s only child is a bare reference to a `src/examples/**/*.tsx` component
+//   (e.g. `<BasicUsageExample client:load />`), the derived source is that component's
+//   function body (imports and the `export const Name = () => { ... }` wrapper stripped).
+// - Otherwise, the derived source is the literal JSX written between `<Example>` and
+//   `</Example>`, sliced directly from the MDX source so it can never drift from what's
+//   actually rendered.
+// - A `customMarkup` prop, handled entirely by `Example.astro`, overrides the displayed
+//   source (e.g. to abbreviate large data literals) while the real children still render live.
+export const remarkCxExample: Plugin<[], Root> = function () {
+  return function remarkCxExamplePlugin(ast, file) {
+    const raw = String(file.value)
+    const imports = collectExampleImportBindings(ast)
+    const dirname = typeof file.dirname === 'string' ? file.dirname : undefined
+
+    visit(ast, 'mdxJsxFlowElement', (node) => {
+      if (node.name !== 'Example') return
+
+      const hasCodeAttribute = node.attributes.some(
+        (attribute) => attribute.type === 'mdxJsxAttribute' && attribute.name === 'code'
+      )
+      if (hasCodeAttribute) return
+
+      const source = extractExampleSource(node, raw, imports, dirname)
+      if (source == null) return
+
+      node.attributes.push({ type: 'mdxJsxAttribute', name: 'code', value: source })
+    })
+  }
+}
+
+function collectExampleImportBindings(ast: Root): ExampleImportBinding[] {
+  const bindings: ExampleImportBinding[] = []
+
+  for (const node of ast.children) {
+    if (node.type !== 'mdxjsEsm') continue
+
+    const program = (node.data as { estree?: { body: unknown[] } } | undefined)?.estree
+    if (!program) continue
+
+    for (const statement of program.body as Array<{
+      type: string
+      specifiers?: Array<{ type: string; local: { name: string } }>
+      source?: { value: string }
+    }>) {
+      if (statement.type !== 'ImportDeclaration' || !statement.source) continue
+
+      for (const specifier of statement.specifiers ?? []) {
+        if (specifier.type !== 'ImportSpecifier' && specifier.type !== 'ImportDefaultSpecifier') {
+          continue
+        }
+        bindings.push({ localName: specifier.local.name, source: statement.source.value })
+      }
+    }
+  }
+
+  return bindings
+}
+
+function extractExampleSource(
+  node: MdxJsxFlowElement,
+  raw: string,
+  imports: ExampleImportBinding[],
+  dirname: string | undefined
+): string | undefined {
+  if (node.children.length === 1) {
+    const child = node.children[0]
+
+    if (
+      (child.type === 'mdxJsxFlowElement' || child.type === 'mdxJsxTextElement') &&
+      child.children.length === 0 &&
+      child.name
+    ) {
+      const binding = imports.find((importBinding) => importBinding.localName === child.name)
+
+      if (binding && dirname && (binding.source.startsWith('.') || binding.source.startsWith('/'))) {
+        const resolved = resolveExampleComponentSource(binding.source, dirname, child.name)
+        if (resolved != null) return resolved
+      }
+    }
+  }
+
+  return sliceExampleChildrenSource(node, raw)
+}
+
+function sliceExampleChildrenSource(node: MdxJsxFlowElement, raw: string): string | undefined {
+  const first = node.children[0]
+  const last = node.children[node.children.length - 1]
+
+  if (!first?.position || !last?.position) return undefined
+
+  return dedentInlineSlice(raw.slice(first.position.start.offset, last.position.end.offset))
+}
+
+function resolveExampleComponentSource(
+  importPath: string,
+  dirname: string,
+  name: string
+): string | undefined {
+  const filePath = path.resolve(dirname, importPath)
+  if (!fs.existsSync(filePath)) return undefined
+
+  const withoutImports = stripLeadingImportStatements(fs.readFileSync(filePath, 'utf8'))
+  return extractExportedFunctionBody(withoutImports, name)
+}
+
+function stripLeadingImportStatements(content: string): string {
+  return content
+    .replace(/^import\s+[\s\S]*?from\s+['"][^'"]+['"]\s*\n+/gm, '')
+    .replace(/^\s+/, '')
+}
+
+function extractExportedFunctionBody(content: string, name: string): string | undefined {
+  const declarationIndex = content.indexOf(`export const ${name} =`)
+  if (declarationIndex === -1) return undefined
+
+  const arrowIndex = content.indexOf('=>', declarationIndex)
+  if (arrowIndex === -1) return undefined
+
+  let cursor = arrowIndex + 2
+  while (cursor < content.length && /\s/.test(content[cursor])) cursor++
+
+  const openChar = content[cursor]
+  if (openChar !== '{' && openChar !== '(') return undefined
+
+  const closeChar = openChar === '{' ? '}' : ')'
+  const closeIndex = findMatchingBracket(content, cursor, openChar, closeChar)
+  if (closeIndex === -1) return undefined
+
+  return dedent(content.slice(cursor + 1, closeIndex))
+}
+
+// Scans forward from `openIndex` counting bracket depth, skipping over string/template
+// literals and comments so stray bracket-like characters inside them can't miscount.
+function findMatchingBracket(
+  text: string,
+  openIndex: number,
+  openChar: string,
+  closeChar: string
+): number {
+  let depth = 0
+
+  for (let i = openIndex; i < text.length; i++) {
+    const char = text[i]
+
+    if (char === '"' || char === "'" || char === '`') {
+      i = skipStringLiteral(text, i, char)
+      continue
+    }
+    if (char === '/' && text[i + 1] === '/') {
+      const newlineIndex = text.indexOf('\n', i)
+      if (newlineIndex === -1) break
+      i = newlineIndex
+      continue
+    }
+    if (char === '/' && text[i + 1] === '*') {
+      const endIndex = text.indexOf('*/', i + 2)
+      i = endIndex === -1 ? text.length : endIndex + 1
+      continue
+    }
+
+    if (char === openChar) {
+      depth++
+    } else if (char === closeChar) {
+      depth--
+      if (depth === 0) return i
+    }
+  }
+
+  return -1
+}
+
+function skipStringLiteral(text: string, start: number, quote: string): number {
+  for (let i = start + 1; i < text.length; i++) {
+    if (text[i] === '\\') {
+      i++
+      continue
+    }
+    if (text[i] === quote) return i
+  }
+  return text.length - 1
+}
+
+// Dedents a block of text extracted from inside a JS/TS function body, where every line
+// (including the first) shares the same base indentation.
+function dedent(text: string): string {
+  const lines = text.split('\n')
+
+  while (lines.length && lines[0].trim() === '') lines.shift()
+  while (lines.length && lines[lines.length - 1].trim() === '') lines.pop()
+
+  const minIndent = minimumIndent(lines)
+
+  return lines.map((line) => line.slice(minIndent)).join('\n')
+}
+
+// Dedents a slice taken from MDX source, where the first line has already had its
+// indentation consumed by the slice's start offset and so is excluded from the calculation.
+function dedentInlineSlice(text: string): string {
+  const lines = text.split('\n')
+  if (lines.length <= 1) return text.trim()
+
+  const [firstLine, ...rest] = lines
+  const minIndent = minimumIndent(rest)
+
+  return [firstLine, ...rest.map((line) => line.slice(minIndent))].join('\n').replace(/\s+$/, '')
+}
+
+function minimumIndent(lines: string[]) {
+  const indents = lines
+    .filter((line) => line.trim() !== '')
+    .map((line) => line.match(/^\s*/)?.[0].length ?? 0)
+
+  return indents.length ? Math.min(...indents) : 0
 }
 
 export function replaceConfigInText(text: string) {

@@ -35,30 +35,6 @@ You can use a link or a button component.
   <BasicExample client:load />
 </Example>
 
-```jsx
-const [visible, setVisible] = useState(false)
-return (
-  <>
-    <CxButton href="#" onClick={(event) => {
-      event.preventDefault()
-      setVisible(!visible)
-    }}>
-      Link
-    </CxButton>
-    <CxButton onClick={() => setVisible(!visible)}>Button</CxButton>
-    <CxCollapse visible={visible}>
-      <CxCard className="mt-3">
-        <CxCardBody>
-          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
-          squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
-          sapiente ea proident.
-        </CxCardBody>
-      </CxCard>
-    </CxCollapse>
-  </>
-)
-```
-
 ## Horizontal
 
 The collapse plugin also supports horizontal collapsing. Add the `horizontal` property to transition the `width` instead of `height` and set a `width` on the immediate child element.
@@ -68,24 +44,6 @@ The collapse plugin also supports horizontal collapsing. Add the `horizontal` pr
   <HorizontalExample client:load />
 </Example>
 
-```jsx
-const [visible, setVisible] = useState(false)
-return (
-  <>
-    <CxButton className="mb-3" onClick={() => setVisible(!visible)} aria-expanded={visible} aria-controls="collapseWidthExample">Button</CxButton>
-    <div style={{ minHeight: '120px'}}>
-      <CxCollapse id="collapseWidthExample" horizontal visible={visible}>
-        <CxCard style={{width: '300px'}}>
-          <CxCardBody>
-            This is some placeholder content for a horizontal collapse. It's hidden by default and shown when triggered.
-          </CxCardBody>
-        </CxCard>
-      </CxCollapse>
-    </div>
-  </>
-)
-```
-
 ## Multiple targets
 
 A `<CxButton>` can show and hide multiple elements.
@@ -94,49 +52,6 @@ A `<CxButton>` can show and hide multiple elements.
 <Example>
   <MultipleTargetsExample client:load />
 </Example>
-
-```jsx
-const [visibleA, setVisibleA] = useState(false)
-const [visibleB, setVisibleB] = useState(false)
-return (
-  <>
-    <CxButton onClick={() => setVisibleA(!visibleA)}>Toggle first element</CxButton>
-    <CxButton onClick={() => setVisibleB(!visibleB)}>Toggle second element</CxButton>
-    <CxButton
-      onClick={() => {
-        setVisibleA(!visibleA)
-        setVisibleB(!visibleB)
-      }}
-    >
-      Toggle both elements
-    </CxButton>
-    <CxRow>
-      <CxCol xs={6}>
-        <CxCollapse visible={visibleA}>
-          <CxCard className="mt-3">
-            <CxCardBody>
-              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-              ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
-              sapiente ea proident.
-            </CxCardBody>
-          </CxCard>
-        </CxCollapse>
-      </CxCol>
-      <CxCol xs={6}>
-        <CxCollapse visible={visibleB}>
-          <CxCard className="mt-3">
-            <CxCardBody>
-              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson
-              ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
-              sapiente ea proident.
-            </CxCardBody>
-          </CxCard>
-        </CxCollapse>
-      </CxCol>
-    </CxRow>
-  </>
-)
-```
 
 ## API
 

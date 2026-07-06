@@ -33,24 +33,6 @@ Progress components are built with two HTML elements, some CSS to set the width,
   </CxProgress>
 </Example>
 
-```jsx
-  <CxProgress className="mb-3">
-    <CxProgressBar value={0}/>
-  </CxProgress>
-  <CxProgress className="mb-3">
-    <CxProgressBar value={25}/>
-  </CxProgress>
-  <CxProgress className="mb-3">
-    <CxProgressBar value={50}/>
-  </CxProgress>
-  <CxProgress className="mb-3">
-    <CxProgressBar value={75}/>
-  </CxProgress>
-  <CxProgress className="mb-3">
-    <CxProgressBar value={100}/>
-  </CxProgress>
-```
-
 ## Labels
 
 Add labels to your progress bars by placing text within the `<CxProgressBar>`.
@@ -60,12 +42,6 @@ Add labels to your progress bars by placing text within the `<CxProgressBar>`.
     <CxProgressBar value={25}>25%</CxProgressBar>
   </CxProgress>
 </Example>
-
-```jsx
-<CxProgress className="mb-3">
-  <CxProgressBar value={25}>25%</CxProgressBar>
-</CxProgress>
-```
 
 ## Height
 
@@ -79,15 +55,6 @@ We only set a `height` value on the `<CxProgress>`, so if you change that value 
     <CxProgressBar value={25}></CxProgressBar>
   </CxProgress>
 </Example>
-
-```jsx
-  <CxProgress height={1} className="mb-3">
-    <CxProgressBar value={25}></CxProgressBar>
-  </CxProgress>
-  <CxProgress height={20} className="mb-3">
-    <CxProgressBar value={25}></CxProgressBar>
-  </CxProgress>
-```
 
 ## Backgrounds
 
@@ -108,21 +75,6 @@ Use `context` prop to change the appearance of individual progress bars.
   </CxProgress>
 </Example>
 
-```jsx
-  <CxProgress className="mb-3">
-    <CxProgressBar context="success" value={25}/>
-  </CxProgress>
-  <CxProgress className="mb-3">
-    <CxProgressBar context="info" value={50}/>
-  </CxProgress>
-  <CxProgress className="mb-3">
-    <CxProgressBar context="warning" value={75}/>
-  </CxProgress>
-  <CxProgress className="mb-3">
-    <CxProgressBar context="danger" value={100}/>
-  </CxProgress>
-```
-
 ## Multiple bars
 
 Include multiple progress bars in a progress component if you need.
@@ -134,14 +86,6 @@ Include multiple progress bars in a progress component if you need.
     <CxProgressBar context="info" value={20} />
   </CxProgress>
 </Example>
-
-```jsx
-<CxProgress className="mb-3">
-  <CxProgressBar value={15} />
-  <CxProgressBar context="success" value={30} />
-  <CxProgressBar context="info" value={20} />
-</CxProgress>
-```
 
 ## Striped
 
@@ -162,21 +106,6 @@ Add `variant="striped"` to any `<CxProgressBar>` to apply a stripe via CSS gradi
   </CxProgress>
 </Example>
 
-```jsx
-  <CxProgress className="mb-3">
-    <CxProgressBar context="success" variant="striped" value={25}/>
-  </CxProgress>
-  <CxProgress className="mb-3">
-    <CxProgressBar context="info" variant="striped" value={50}/>
-  </CxProgress>
-  <CxProgress className="mb-3">
-    <CxProgressBar context="warning" variant="striped" value={75}/>
-  </CxProgress>
-  <CxProgress className="mb-3">
-    <CxProgressBar context="danger" variant="striped" value={100}/>
-  </CxProgress>
-```
-
 ## Animated stripes
 
 The striped gradient can also be animated. Add `animated` property to `<CxProgressBar>` to animate the stripes right to left via CSS3 animations.
@@ -195,21 +124,6 @@ The striped gradient can also be animated. Add `animated` property to `<CxProgre
     <CxProgressBar context="danger" variant="striped" animated value={100} />
   </CxProgress>
 </Example>
-
-```jsx
-  <CxProgress className="mb-3">
-    <CxProgressBar context="success" variant="striped" animated value={25}/>
-  </CxProgress>
-  <CxProgress className="mb-3">
-    <CxProgressBar context="info" variant="striped" animated value={50}/>
-  </CxProgress>
-  <CxProgress className="mb-3">
-    <CxProgressBar context="warning" variant="striped" animated value={75}/>
-  </CxProgress>
-  <CxProgress className="mb-3">
-    <CxProgressBar context="danger" variant="striped" animated value={100}/>
-  </CxProgress>
-```
 
 ## API
 

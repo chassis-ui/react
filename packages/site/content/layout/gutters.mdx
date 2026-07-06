@@ -33,19 +33,6 @@ import { CxCol, CxContainer, CxRow } from '@chassis-ui/react'
   </CxContainer>
 </Example>
 
-```jsx
-<CxContainer className="px-4">
-  <CxRow xs={{ gutterX: 5 }}>
-    <CxCol>
-      <div className="p-3 border bg-light">Custom column padding</div>
-    </CxCol>
-    <CxCol>
-      <div className="p-3 border bg-light">Custom column padding</div>
-    </CxCol>
-  </CxRow>
-</CxContainer>
-```
-
 An alternative solution is to add a wrapper around the `<CxRow>` with the `.overflow-hidden` class:
 
 <Example>
@@ -60,19 +47,6 @@ An alternative solution is to add a wrapper around the `<CxRow>` with the `.over
     </CxRow>
   </CxContainer>
 </Example>
-
-```jsx
-<CxContainer className="overflow-hidden">
-  <CxRow xs={{ gutterX: 5 }}>
-    <CxCol>
-      <div className="p-3 border bg-light">Custom column padding</div>
-    </CxCol>
-    <CxCol>
-      <div className="p-3 border bg-light">Custom column padding</div>
-    </CxCol>
-  </CxRow>
-</CxContainer>
-```
 
 ## Vertical gutters
 
@@ -97,25 +71,6 @@ An alternative solution is to add a wrapper around the `<CxRow>` with the `.over
   </CxContainer>
 </Example>
 
-```jsx
-<CxContainer className="overflow-hidden">
-  <CxRow xs={{ gutterY: 5 }}>
-    <CxCol xs={{ span: 6 }}>
-      <div className="p-3 border bg-light">Custom column padding</div>
-    </CxCol>
-    <CxCol xs={{ span: 6 }}>
-      <div className="p-3 border bg-light">Custom column padding</div>
-    </CxCol>
-    <CxCol xs={{ span: 6 }}>
-      <div className="p-3 border bg-light">Custom column padding</div>
-    </CxCol>
-    <CxCol xs={{ span: 6 }}>
-      <div className="p-3 border bg-light">Custom column padding</div>
-    </CxCol>
-  </CxRow>
-</CxContainer>
-```
-
 ## Horizontal & vertical gutters
 
 `{breakpoint}={{ gutter: * }}` props can be used to control the horizontal gutter widths, for the following example we use a smaller gutter width, so there won't be a need to add the `.overflow-hidden` wrapper class.
@@ -138,25 +93,6 @@ An alternative solution is to add a wrapper around the `<CxRow>` with the `.over
     </CxRow>
   </CxContainer>
 </Example>
-
-```jsx
-<CxContainer>
-  <CxRow xs={{ gutter: 2 }}>
-    <CxCol xs={{ span: 6 }}>
-      <div className="p-3 border bg-light">Custom column padding</div>
-    </CxCol>
-    <CxCol xs={{ span: 6 }}>
-      <div className="p-3 border bg-light">Custom column padding</div>
-    </CxCol>
-    <CxCol xs={{ span: 6 }}>
-      <div className="p-3 border bg-light">Custom column padding</div>
-    </CxCol>
-    <CxCol xs={{ span: 6 }}>
-      <div className="p-3 border bg-light">Custom column padding</div>
-    </CxCol>
-  </CxRow>
-</CxContainer>
-```
 
 ## Row columns gutters
 
@@ -199,43 +135,6 @@ Gutter props can also be added to [row columns](../layout/grid#row-columns). In 
   </CxContainer>
 </Example>
 
-```jsx
-<CxContainer>
-  <CxRow xs={{ cols:2, gutter: 2 }} lg={{ cols: 5, gutter: 3}}>
-    <CxCol>
-      <div className="p-3 border bg-light">Row column</div>
-    </CxCol>
-    <CxCol>
-      <div className="p-3 border bg-light">Row column</div>
-    </CxCol>
-    <CxCol>
-      <div className="p-3 border bg-light">Row column</div>
-    </CxCol>
-    <CxCol>
-      <div className="p-3 border bg-light">Row column</div>
-    </CxCol>
-    <CxCol>
-      <div className="p-3 border bg-light">Row column</div>
-    </CxCol>
-    <CxCol>
-      <div className="p-3 border bg-light">Row column</div>
-    </CxCol>
-    <CxCol>
-      <div className="p-3 border bg-light">Row column</div>
-    </CxCol>
-    <CxCol>
-      <div className="p-3 border bg-light">Row column</div>
-    </CxCol>
-    <CxCol>
-      <div className="p-3 border bg-light">Row column</div>
-    </CxCol>
-    <CxCol>
-      <div className="p-3 border bg-light">Row column</div>
-    </CxCol>
-  </CxRow>
-</CxContainer>
-```
-
 ## No gutters
 
 The gutters between columns in our predefined grid props can be removed with `{breakpoint}={{ gutter: 0 }}`. This removes the negative `margin`s from `<CxRow>` and the horizontal `padding` from all immediate children columns.
@@ -252,15 +151,6 @@ In practice, here's how it looks. Note you can continue to use this with all oth
     </CxRow>
   </div>
 </Example>
-
-```jsx
-<div className="docs-example-row">
-  <CxRow xs={{ gutter: 0 }}>
-    <CxCol sm={6} md={8}>.small:col-6 .medium:col-8</CxCol>
-    <CxCol xs={6} md={4}>.col-6 .medium:col-4</CxCol>
-  </CxRow>
-</div>
-```
 
 ## API
 

@@ -20,7 +20,7 @@ export const PlacementBottomExample = () => {
           <CxCloseButton className="text-reset" onClick={() => setVisible(false)} />
         </CxOffcanvasHeader>
         <CxOffcanvasBody>
-          Content for the offcanvas goes here. You can place just about any Bootstrap React component or
+          Content for the offcanvas goes here. You can place just about any Chassis component or
           custom elements here.
         </CxOffcanvasBody>
       </CxOffcanvas>

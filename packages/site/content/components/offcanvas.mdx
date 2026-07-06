@@ -42,19 +42,6 @@ Below is an offcanvas example that is shown by default (via `visible={true}`). O
   </CxOffcanvas>
 </Example>
 
-```jsx
-<CxOffcanvas backdrop={false} placement="start" portal={false} visible={true}>
-  <CxOffcanvasHeader>
-    <CxOffcanvasTitle>Offcanvas</CxOffcanvasTitle>
-    <CxCloseButton className="text-reset" />
-  </CxOffcanvasHeader>
-  <CxOffcanvasBody>
-    Content for the offcanvas goes here. You can place just about any Chassis component or custom
-    elements here.
-  </CxOffcanvasBody>
-</CxOffcanvas>
-```
-
 ### Live demo
 
 Use the buttons below to show and hide an offcanvas component.
@@ -66,25 +53,6 @@ Use the buttons below to show and hide an offcanvas component.
 <Example>
   <LiveDemoExample client:load />
 </Example>
-
-```jsx
-const [visible, setVisible] = useState(false)
-return (
-  <>
-    <CxButton onClick={() => setVisible(true)}>Toggle offcanvas</CxButton>
-    <CxOffcanvas placement="start" visible={visible} onHide={() => setVisible(false)}>
-      <CxOffcanvasHeader>
-        <CxOffcanvasTitle>Offcanvas</CxOffcanvasTitle>
-        <CxCloseButton className="text-reset" onClick={() => setVisible(false)} />
-      </CxOffcanvasHeader>
-      <CxOffcanvasBody>
-        Content for the offcanvas goes here. You can place just about any Chassis component or
-        custom elements here.
-      </CxOffcanvasBody>
-    </CxOffcanvas>
-  </>
-)
-```
 
 ## Placement
 
@@ -102,72 +70,15 @@ Try the top, right, and bottom examples out below.
   <PlacementTopExample client:load />
 </Example>
 
-```jsx
-const [visible, setVisible] = useState(false)
-return (
-  <>
-    <CxButton onClick={() => setVisible(true)}>Toggle top offcanvas</CxButton>
-    <CxOffcanvas placement="top" visible={visible} onHide={() => setVisible(false)}>
-      <CxOffcanvasHeader>
-        <CxOffcanvasTitle>Offcanvas</CxOffcanvasTitle>
-        <CxCloseButton className="text-reset" onClick={() => setVisible(false)} />
-      </CxOffcanvasHeader>
-      <CxOffcanvasBody>
-        Content for the offcanvas goes here. You can place just about any Chassis component or
-        custom elements here.
-      </CxOffcanvasBody>
-    </CxOffcanvas>
-  </>
-)
-```
-
 
 <Example>
   <PlacementRightExample client:load />
 </Example>
 
-```jsx
-const [visible, setVisible] = useState(false)
-return (
-  <>
-    <CxButton onClick={() => setVisible(true)}>Toggle right offcanvas</CxButton>
-    <CxOffcanvas placement="right" visible={visible} onHide={() => setVisible(false)}>
-      <CxOffcanvasHeader>
-        <CxOffcanvasTitle>Offcanvas</CxOffcanvasTitle>
-        <CxCloseButton className="text-reset" onClick={() => setVisible(false)} />
-      </CxOffcanvasHeader>
-      <CxOffcanvasBody>
-        Content for the offcanvas goes here. You can place just about any Chassis component or
-        custom elements here.
-      </CxOffcanvasBody>
-    </CxOffcanvas>
-  </>
-)
-```
-
 
 <Example>
   <PlacementBottomExample client:load />
 </Example>
-
-```jsx
-const [visible, setVisible] = useState(false)
-return (
-  <>
-    <CxButton onClick={() => setVisible(true)}>Toggle bottom offcanvas</CxButton>
-    <CxOffcanvas placement="bottom" visible={visible} onHide={() => setVisible(false)}>
-      <CxOffcanvasHeader>
-        <CxOffcanvasTitle>Offcanvas</CxOffcanvasTitle>
-        <CxCloseButton className="text-reset" onClick={() => setVisible(false)} />
-      </CxOffcanvasHeader>
-      <CxOffcanvasBody>
-        Content for the offcanvas goes here. You can place just about any Chassis component or
-        custom elements here.
-      </CxOffcanvasBody>
-    </CxOffcanvas>
-  </>
-)
-```
 
 
 ## Backdrop 
@@ -177,46 +88,6 @@ Scrolling the `<body>` element is disabled when an offcanvas and its backdrop ar
 <Example>
   <BackdropExample client:load />
 </Example>
-
-```jsx
-const [visibleScrolling, setVisibleScrolling] = useState(false)
-const [visibleWithBackdrop, setVisibleWithBackdrop] = useState(false)
-const [visibleWithBothOptions, setVisibleWithBothOptions] = useState(false)
-return (
-  <>
-    <CxButton context="primary" onClick={() => setVisibleScrolling(true)}>Enable body scrolling</CxButton>
-    <CxButton context="primary" onClick={() => setVisibleWithBackdrop(true)}>Enable backdrop (default)</CxButton>
-    <CxButton context="primary" onClick={() => setVisibleWithBothOptions(true)}>Enable both scrolling &amp; backdrop</CxButton>
-    <CxOffcanvas backdrop={false} placement="start" scroll visible={visibleScrolling} onHide={() => setVisibleScrolling(false)}>
-      <CxOffcanvasHeader>
-        <CxOffcanvasTitle>Offcanvas</CxOffcanvasTitle>
-        <CxCloseButton className="text-reset" onClick={() => setVisibleScrolling(false)}/>
-      </CxOffcanvasHeader>
-      <CxOffcanvasBody>
-        <p>Try scrolling the rest of the page to see this option in action.</p>
-      </CxOffcanvasBody>
-    </CxOffcanvas>
-    <CxOffcanvas placement="start" visible={visibleWithBackdrop} onHide={() => setVisibleWithBackdrop(false)}>
-      <CxOffcanvasHeader>
-        <CxOffcanvasTitle>Offcanvas</CxOffcanvasTitle>
-        <CxCloseButton className="text-reset" onClick={() => setVisibleWithBackdrop(false)}/>
-      </CxOffcanvasHeader>
-      <CxOffcanvasBody>
-        <p>.....</p>
-      </CxOffcanvasBody>
-    </CxOffcanvas>
-    <CxOffcanvas placement="start" scroll visible={visibleWithBothOptions} onHide={() => setVisibleWithBothOptions(false)}>
-      <CxOffcanvasHeader>
-        <CxOffcanvasTitle>Offcanvas</CxOffcanvasTitle>
-        <CxCloseButton className="text-reset" onClick={() => setVisibleWithBothOptions(false)}/>
-      </CxOffcanvasHeader>
-      <CxOffcanvasBody>
-        <p>Try scrolling the rest of the page to see this option in action.</p>
-      </CxOffcanvasBody>
-    </CxOffcanvas>
-  </>
-)
-```
 
 ## Accessibility
 
