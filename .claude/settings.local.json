@@ -1,14 +1,18 @@
 {
   "permissions": {
     "allow": [
+      "Edit(*)",
+      "Write(*)",
+      "Bash(npm *)",
+      "Bash(pnpm *)",
+      "Bash(git *)",
+      "WebFetch(domain:*)",
+      "Bash(yarn add *)",
       "Bash(perl -pi -e 's|coreui\\\\.io/bootstrap-react|chassis-ui.io/react|g; s|pathPrefix: `bootstrap-react/`|pathPrefix: `react/`|g' /Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/docs/gatsby-config.js)",
       "Bash(cat /tmp/gatsby_dev.log | tr -d '\\\\r' | sed 's/\\\\x1b\\\\[[0-9;]*m//g' | grep \"Invalid fragment\" | head -5)",
       "Bash(yarn docs:dev)",
       "Bash(echo \"Started PID $!\")",
       "Bash(kill %1)",
-      "Bash(npm show *)",
-      "Bash(npm pack *)",
-      "Bash(yarn add *)",
       "Bash(grep -n 'color-contrast-dark\\\\|color-contrast-light\\\\|$black\\\\|$white' /Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/docs/src/scss/_colors.scss)",
       "Bash(ln -sf ../../../../@chassis-ui/tokens /Volumes/Ozgur/Dropbox/Sites/chassis-react/node_modules/@chassis-ui/css/node_modules/@chassis-ui/tokens)",
       "Bash(ln -sf ../chassis-docs /Volumes/Ozgur/Dropbox/Sites/chassis-react/node_modules/@chassis-ui/tokens/dist/web/docs/chassis)",
@@ -154,12 +158,9 @@
       "Bash(grep -E \"\\\\.DS_Store$|^test_output\\\\.\")",
       "Bash(git rm *)",
       "Bash(xargs -n1 sh -c 'case \"$0\" in *.DS_Store\\) echo \"$0\";; esac')",
-      "Bash(pnpm lint *)",
-      "Bash(pnpm exec *)",
-      "Bash(pnpm test *)",
-      "Bash(git mv *)",
       "Bash(pnpm lib:build)",
-      "Bash(echo \"exit=$?\")"
+      "Bash(echo \"exit=$?\")",
+      "Bash(ls -la /Volumes/Ozgur/Dropbox/Sites/ | grep -i chassis; echo \"---\"; ls /Volumes/Ozgur/Dropbox/Sites/chassis-css 2>/dev/null | head -30; echo \"---website---\"; ls /Volumes/Ozgur/Dropbox/Sites/chassis-website 2>/dev/null | head -30)"
     ]
   }
 }

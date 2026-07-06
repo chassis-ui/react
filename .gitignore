@@ -6,9 +6,9 @@ public/
 
 # Site
 _site
+.astro
 site/dist
 site/node_modules
-site/.astro
 site/public
 
 # OS
@@ -27,6 +27,7 @@ test_output.txt
 .project
 .settings
 .tmproj
+.claude
 
 # Test coverage
 coverage/

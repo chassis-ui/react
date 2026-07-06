@@ -3,9 +3,16 @@
   "configurations": [
     {
       "name": "docs",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "docs:dev"],
-      "port": 8000
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["run", "astro:dev"],
+      "port": 4327
+    },
+    {
+      "name": "chassis-website-dev",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "cd /Volumes/Ozgur/Dropbox/Sites/chassis-website && pnpm astro:dev"],
+      "port": 4321,
+      "autoPort": false
     }
   ]
 }

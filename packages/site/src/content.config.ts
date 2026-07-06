@@ -9,6 +9,13 @@ const docsSchema = z.object({
     })
     .optional(),
   aliases: z.string().or(z.string().array()).optional(),
+  deps: z
+    .object({
+      title: z.string(),
+      url: z.string().optional()
+    })
+    .array()
+    .optional(),
   description: z.string(),
   direction: z.literal('rtl').optional(),
   extra_js: z
@@ -18,6 +25,7 @@ const docsSchema = z.object({
     })
     .array()
     .optional(),
+  mdn: z.string().optional(),
   sections: z
     .object({
       description: z.string(),
