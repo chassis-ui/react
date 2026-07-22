@@ -61,6 +61,7 @@
     "react-transition-group": "^4.4.2",
     "rollup": "^4.0.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
+    "tslib": "^2.6.0",
     "typescript": "^5.0.0"
   },
   "peerDependencies": {

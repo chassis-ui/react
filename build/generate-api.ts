@@ -1,6 +1,9 @@
 import * as path from 'path'
 import * as fs from 'fs'
+import { fileURLToPath } from 'url'
 import { withCustomConfig } from 'react-docgen-typescript'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const COMPONENTS_DIR = path.resolve(__dirname, '../packages/react/src/components')
 const OUTPUT_DIR = path.resolve(__dirname, '../packages/site/content/api')

@@ -61,6 +61,25 @@
       "type": {
         "name": "boolean"
       }
+    },
+    "href": {
+      "defaultValue": null,
+      "description": "The href attribute. When provided the item renders as an `<a>` tag; otherwise as a `<button>`.",
+      "name": "href",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/pagination/CxPaginationItem.tsx",
+        "name": "CPaginationItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/pagination/CxPaginationItem.tsx",
+          "name": "CPaginationItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
     }
   }
 }
