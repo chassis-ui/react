@@ -23,10 +23,6 @@ import {
   CxNavbarNav,
   CxNavbarText,
   CxNavbarToggler,
-  CxOffcanvas,
-  CxOffcanvasBody,
-  CxOffcanvasHeader,
-  CxOffcanvasTitle,
 } from '@chassis-ui/react'
 
 export const ExternalContentExample = () => {

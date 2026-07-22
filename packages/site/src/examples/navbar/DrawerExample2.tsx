@@ -11,6 +11,10 @@ import {
   CxDropdownItemPlain,
   CxDropdownMenu,
   CxDropdownToggle,
+  CxDrawer,
+  CxDrawerBody,
+  CxDrawerHeader,
+  CxDrawerTitle,
   CxForm,
   CxFormInput,
   CxInputGroup,
@@ -25,15 +29,21 @@ import {
   CxNavbarToggler,
 } from '@chassis-ui/react'
 
-export const BasicUsageExample = () => {
+export const DrawerExample2 = () => {
   const [visible, setVisible] = useState(false)
   return (
-    <>
-      <CxNavbar expand="large" colorScheme="light" className="bg-light">
-        <CxContainer fluid>
-          <CxNavbarBrand href="#">Navbar</CxNavbarBrand>
-          <CxNavbarToggler onClick={() => setVisible(!visible)} />
-          <CxCollapse className="navbar-collapse" visible={visible}>
+    <CxNavbar colorScheme="light" className="bg-light" expand="2xlarge">
+      <CxContainer fluid>
+        <CxNavbarToggler
+          aria-controls="drawerNavbar2"
+          aria-label="Toggle navigation"
+          onClick={() => setVisible(!visible)}
+        />
+        <CxDrawer id="drawerNavbar2" placement="end" visible={visible} onClose={() => setVisible(false)}>
+          <CxDrawerHeader>
+            <CxDrawerTitle>Drawer</CxDrawerTitle>
+          </CxDrawerHeader>
+          <CxDrawerBody>
             <CxNavbarNav>
               <CxNavItem>
                 <CxNavLink href="#" active>
@@ -64,9 +74,9 @@ export const BasicUsageExample = () => {
                 Search
               </CxButton>
             </CxForm>
-          </CxCollapse>
-        </CxContainer>
-      </CxNavbar>
-    </>
+          </CxDrawerBody>
+        </CxDrawer>
+      </CxContainer>
+    </CxNavbar>
   )
 }

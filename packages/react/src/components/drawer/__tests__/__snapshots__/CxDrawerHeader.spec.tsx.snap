@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CxDrawerHeader customize 1`] = `
+<div>
+  <div
+    class="drawer-header bazinga"
+  >
+    Test
+    <button
+      aria-label="Close"
+      class="close-button"
+    />
+  </div>
+</div>
+`;
+
+exports[`loads and displays CxDrawerHeader component 1`] = `
+<div>
+  <div
+    class="drawer-header"
+  >
+    Test
+    <button
+      aria-label="Close"
+      class="close-button"
+    />
+  </div>
+</div>
+`;

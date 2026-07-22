@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CxDrawer customize 1`] = `
+<div>
+  <dialog
+    class="max-large:drawer drawer-bottom fullscreen sheet translucent drawer-fit-content bazinga"
+    open=""
+    tabindex="-1"
+  >
+    Test
+  </dialog>
+</div>
+`;
+
+exports[`loads and displays CxDrawer component 1`] = `
+<div>
+  <dialog
+    class="drawer drawer-start"
+  >
+    Test
+  </dialog>
+</div>
+`;

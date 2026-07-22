@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CxDrawerFooter customize 1`] = `
+<div>
+  <div
+    class="drawer-footer bazinga"
+  >
+    Test
+  </div>
+</div>
+`;
+
+exports[`loads and displays CxDrawerFooter component 1`] = `
+<div>
+  <div
+    class="drawer-footer"
+  >
+    Test
+  </div>
+</div>
+`;

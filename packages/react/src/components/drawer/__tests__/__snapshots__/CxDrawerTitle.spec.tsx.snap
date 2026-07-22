@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CxDrawerTitle customize 1`] = `
+<div>
+  <h3
+    class="drawer-title bazinga"
+  >
+    Test
+  </h3>
+</div>
+`;
+
+exports[`loads and displays CxDrawerTitle component 1`] = `
+<div>
+  <h2
+    class="drawer-title"
+  >
+    Test
+  </h2>
+</div>
+`;

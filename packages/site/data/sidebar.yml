@@ -23,6 +23,7 @@
     - title: Carousel
     - title: Close Button
     - title: Collapse
+    - title: Drawer
     - title: Dropdown
     - title: Image
     - title: List Group
@@ -30,7 +31,6 @@
     - title: Navbar
     - title: Navs & Tabs
     - title: Notification
-    - title: Offcanvas
     - title: Pagination
     - title: Placeholder
     - title: Popover

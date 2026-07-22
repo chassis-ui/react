@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CxDrawerBody customize 1`] = `
+<div>
+  <div
+    class="drawer-body bazinga"
+  >
+    Test
+  </div>
+</div>
+`;
+
+exports[`loads and displays CxDrawerBody component 1`] = `
+<div>
+  <div
+    class="drawer-body"
+  >
+    Test
+  </div>
+</div>
+`;

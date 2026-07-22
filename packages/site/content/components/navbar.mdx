@@ -15,8 +15,8 @@ import { ResponsiveBehaviorsExample } from '../../src/examples/navbar/Responsive
 import { ResponsiveBehaviorsExample2 } from '../../src/examples/navbar/ResponsiveBehaviorsExample2.tsx'
 import { ResponsiveBehaviorsExample3 } from '../../src/examples/navbar/ResponsiveBehaviorsExample3.tsx'
 import { ExternalContentExample } from '../../src/examples/navbar/ExternalContentExample.tsx'
-import { OffcanvasExample } from '../../src/examples/navbar/OffcanvasExample.tsx'
-import { OffcanvasExample2 } from '../../src/examples/navbar/OffcanvasExample2.tsx'
+import { DrawerExample } from '../../src/examples/navbar/DrawerExample.tsx'
+import { DrawerExample2 } from '../../src/examples/navbar/DrawerExample2.tsx'
 
 
 import { useState } from 'react'
@@ -43,10 +43,10 @@ import {
   CxNavbarNav,
   CxNavbarText,
   CxNavbarToggler,
-  CxOffcanvas,
-  CxOffcanvasBody,
-  CxOffcanvasHeader,
-  CxOffcanvasTitle,
+  CxDrawer,
+  CxDrawerBody,
+  CxDrawerHeader,
+  CxDrawerTitle,
 } from '@chassis-ui/react'
 
 
@@ -328,22 +328,22 @@ Sometimes you want to use the collapse plugin to trigger a container element for
   <ExternalContentExample client:load />
 </Example>
 
-### Offcanvas
+### Drawer
 
-Transform your expanding and collapsing navbar into an offcanvas drawer with the offcanvas plugin. We extend both the offcanvas default styles and use our `expand="*"` prop to create a dynamic and flexible navigation sidebar.
+Transform your expanding and collapsing navbar into a drawer with the Drawer component. We extend both the drawer default styles and use our `expand="*"` prop to create a dynamic and flexible navigation sidebar.
 
-In the example below, to create an offcanvas navbar that is always collapsed across all breakpoints, omit the `expand="*"` prop entirely.
+In the example below, to create a drawer navbar that is always collapsed across all breakpoints, omit the `expand="*"` prop entirely.
 
 
 <Example>
-  <OffcanvasExample client:load />
+  <DrawerExample client:load />
 </Example>
 
-To create an offcanvas navbar that expands into a normal navbar at a specific breakpoint like `xxl`, use `expand="2xlarge"` property.
+To create a drawer navbar that expands into a normal navbar at a specific breakpoint like `2xlarge`, use the `expand="2xlarge"` property.
 
 
 <Example>
-  <OffcanvasExample2 client:load />
+  <DrawerExample2 client:load />
 </Example>
 
 ## API

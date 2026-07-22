@@ -12,11 +12,11 @@ import classNames from 'classnames'
 import { useForkedRef } from '../../utils/hooks'
 import { dialogScrollLock, executeAfterTransition } from '../../utils/dialogTransition'
 
-export interface CModalProps
+export interface CDrawerProps
   extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'onCancel' | 'onClose'> {
   /**
-   * Show a backdrop while the modal is open. `'static'` blocks closing on backdrop click
-   * (the modal bounces instead).
+   * Show a backdrop while the drawer is open. `'static'` blocks closing on backdrop click
+   * (the drawer nudges instead).
    */
   backdrop?: boolean | 'static'
   /**
@@ -24,25 +24,25 @@ export interface CModalProps
    */
   className?: string
   /**
-   * Set modal to cover the entire user viewport. A breakpoint value goes fullscreen only
-   * below that breakpoint.
+   * Size the height to the drawer's content instead of `--drawer-height`. Meaningful for
+   * `placement="bottom"`.
    */
-  fullscreen?: boolean | 'small' | 'medium' | 'large' | 'xlarge' | '2xlarge'
+  fitContent?: boolean
+  /**
+   * Expand the panel to fill the viewport, animating in from the direction of `placement`.
+   */
+  fullscreen?: boolean
   /**
    * Disable the open/close transition entirely.
    */
   instant?: boolean
   /**
-   * Closes the modal when the escape key is pressed.
+   * Closes the drawer when the escape key is pressed.
    */
   keyboard?: boolean
   /**
-   * Open with `showModal()` (top-layer, native backdrop). Set `false` to open with `show()`
-   * instead — no backdrop, and the page behind the modal stays interactive.
-   */
-  modal?: boolean
-  /**
-   * Callback fired when the modal requests to be closed (escape, backdrop click, or close button).
+   * Callback fired when the drawer requests to be closed (escape, backdrop click, close button,
+   * or another drawer opening).
    */
   onClose?: () => void
   /**
@@ -50,54 +50,75 @@ export interface CModalProps
    */
   onClosePrevented?: () => void
   /**
-   * Callback fired after the exit transition completes and the modal is fully hidden.
+   * Callback fired after the exit transition completes and the drawer is fully hidden.
    */
   onHidden?: () => void
   /**
-   * Callback fired when the modal starts to open.
+   * Callback fired when the drawer starts to open.
    */
   onShow?: () => void
   /**
-   * Callback fired after the entry transition completes and the modal is fully visible.
+   * Callback fired after the entry transition completes and the drawer is fully visible.
    */
   onShown?: () => void
   /**
-   * Create a scrollable modal — the header and footer stay fixed while the body scrolls.
+   * Which viewport edge the panel slides in from. Always required — there is no default
+   * off-screen transform without one.
    */
-  scrollable?: boolean
+  placement: 'start' | 'end' | 'top' | 'bottom'
   /**
-   * Size the component small, large, or extra large.
+   * Renders as a drawer only below this breakpoint — inline as a flex container above it.
    */
-  size?: 'small' | 'large' | 'xlarge'
+  responsive?: 'small' | 'medium' | 'large' | 'xlarge' | '2xlarge'
   /**
-   * Toggle the visibility of modal component.
+   * Allow the page behind the drawer to scroll while it's open.
+   */
+  scroll?: boolean
+  /**
+   * Remove the inset gap, border radius, and border so the panel sits flush against the
+   * viewport edge.
+   */
+  sheet?: boolean
+  /**
+   * Apply a frosted-glass background to the panel.
+   */
+  translucent?: boolean
+  /**
+   * Toggle the visibility of the drawer component.
    */
   visible?: boolean
 }
 
-interface ModalContextProps {
+interface DrawerContextProps {
   requestClose?: () => void
 }
 
-export const CModalContext = createContext<ModalContextProps>({})
+export const CDrawerContext = createContext<DrawerContextProps>({})
 
-export const CxModal = forwardRef<HTMLDialogElement, CModalProps>(
+// Currently-open drawers, so opening one can auto-close any other open drawer
+// ("When a second drawer opens while one is already open, the first closes automatically").
+const openDrawers = new Set<{ dialog: HTMLDialogElement; requestClose: () => void }>()
+
+export const CxDrawer = forwardRef<HTMLDialogElement, CDrawerProps>(
   (
     {
       children,
       backdrop = true,
       className,
+      fitContent,
       fullscreen,
       instant,
       keyboard = true,
-      modal = true,
       onClose,
       onClosePrevented,
       onHidden,
       onShow,
       onShown,
-      scrollable,
-      size,
+      placement,
+      responsive,
+      scroll = false,
+      sheet,
+      translucent,
       visible,
       ...rest
     },
@@ -107,27 +128,39 @@ export const CxModal = forwardRef<HTMLDialogElement, CModalProps>(
     const forkedRef = useForkedRef(ref, dialogRef)
 
     const [_visible, setVisible] = useState(visible)
-    const [hiding, setHiding] = useState(false)
     const [staticBounce, setStaticBounce] = useState(false)
     const openedAsModalRef = useRef(false)
+    const triggerRef = useRef<HTMLElement | null>(null)
 
     useEffect(() => {
       setVisible(visible)
     }, [visible])
 
-    // Release the body-scroll lock if the component unmounts while still open
-    // (e.g. a parent stops rendering it without waiting for a close transition).
+    const requestClose = () => {
+      onClose?.()
+    }
+
+    const requestCloseRef = useRef(requestClose)
+    requestCloseRef.current = requestClose
+
+    // Register in the cross-instance registry so other drawers can auto-close this one.
+    useEffect(() => {
+      const dialog = dialogRef.current
+      if (!dialog) return undefined
+      const entry = { dialog, requestClose: () => requestCloseRef.current() }
+      openDrawers.add(entry)
+      return () => {
+        openDrawers.delete(entry)
+      }
+    }, [])
+
+    // Release the body-scroll lock if the component unmounts while still open.
     useEffect(() => {
       const dialog = dialogRef.current
       return () => {
         if (dialog) dialogScrollLock.unlock(dialog)
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-
-    const requestClose = () => {
-      onClose?.()
-    }
 
     const triggerStaticBounce = () => {
       onClosePrevented?.()
@@ -137,16 +170,22 @@ export const CxModal = forwardRef<HTMLDialogElement, CModalProps>(
       executeAfterTransition(dialog, () => setStaticBounce(false), !instant)
     }
 
-    // Show / begin-hide
     useLayoutEffect(() => {
       const dialog = dialogRef.current
-      if (!dialog) return
+      if (!dialog) return undefined
 
       if (_visible) {
         if (dialog.open) return undefined
 
-        openedAsModalRef.current = modal
-        if (modal) {
+        for (const entry of openDrawers) {
+          if (entry.dialog !== dialog) entry.requestClose()
+        }
+
+        triggerRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null
+
+        const isModal = Boolean(backdrop) || !scroll
+        openedAsModalRef.current = isModal
+        if (isModal) {
           dialog.showModal()
           dialogScrollLock.lock(dialog)
         } else {
@@ -162,40 +201,35 @@ export const CxModal = forwardRef<HTMLDialogElement, CModalProps>(
         }
 
         onShow?.()
-        setHiding(false)
 
         return executeAfterTransition(dialog, () => onShown?.(), !instant)
       }
 
       if (!dialog.open) return undefined
-      setHiding(true)
-      return undefined
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [_visible])
 
-    // Finish hide once the exit transition (or lack thereof) completes
-    useEffect(() => {
-      const dialog = dialogRef.current
-      if (!hiding || !dialog) return undefined
+      // Closing a drawer is safe to do immediately (unlike Modal) — the CSS keeps the
+      // element rendered (display: flex) and animates the exit purely via transform /
+      // delayed visibility, regardless of the native `open` attribute.
+      dialog.close()
+      if (openedAsModalRef.current) {
+        dialogScrollLock.unlock(dialog)
+      }
 
       return executeAfterTransition(
         dialog,
         () => {
-          if (dialog.open) {
-            dialog.close()
-          }
-          if (openedAsModalRef.current) {
-            dialogScrollLock.unlock(dialog)
-          }
-          setHiding(false)
           onHidden?.()
+          const trigger = triggerRef.current
+          if (trigger && document.contains(trigger)) {
+            trigger.focus()
+          }
         },
         !instant,
       )
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [hiding])
+    }, [_visible])
 
-    // Escape key for non-modal (show()) dialogs — the native `cancel` event below only
+    // Escape key for non-modal (show()) drawers — the native `cancel` event below only
     // fires for dialogs opened with showModal().
     useEffect(() => {
       const dialog = dialogRef.current
@@ -232,22 +266,22 @@ export const CxModal = forwardRef<HTMLDialogElement, CModalProps>(
     }
 
     const _className = classNames(
-      'modal',
-      'dialog',
+      responsive ? `max-${responsive}:drawer` : 'drawer',
+      `drawer-${placement}`,
       {
-        [typeof fullscreen === 'boolean' ? 'fullscreen' : `max-${fullscreen}:fullscreen`]: fullscreen,
-        [`${size}`]: size,
+        fullscreen,
+        sheet,
+        translucent,
         instant,
-        nonmodal: !modal,
-        scrollable,
-        hiding,
-        'dialog-static': staticBounce,
+        'drawer-fit-content': fitContent,
+        nonmodal: !(Boolean(backdrop) || !scroll),
+        static: staticBounce,
       },
       className,
     )
 
     return (
-      <CModalContext.Provider value={{ requestClose }}>
+      <CDrawerContext.Provider value={{ requestClose }}>
         <dialog
           {...rest}
           className={_className}
@@ -257,9 +291,9 @@ export const CxModal = forwardRef<HTMLDialogElement, CModalProps>(
         >
           {children}
         </dialog>
-      </CModalContext.Provider>
+      </CDrawerContext.Provider>
     )
   },
 )
 
-CxModal.displayName = 'CxModal'
+CxDrawer.displayName = 'CxDrawer'

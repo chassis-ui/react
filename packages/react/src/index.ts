@@ -77,10 +77,11 @@ import { CxPlaceholder } from './components/placeholder/CxPlaceholder'
 import { CxPopover } from './components/popover/CxPopover'
 import { CxProgress } from './components/progress/CxProgress'
 import { CxProgressBar } from './components/progress/CxProgressBar'
-import { CxOffcanvas } from './components/offcanvas/CxOffcanvas'
-import { CxOffcanvasBody } from './components/offcanvas/CxOffcanvasBody'
-import { CxOffcanvasHeader } from './components/offcanvas/CxOffcanvasHeader'
-import { CxOffcanvasTitle } from './components/offcanvas/CxOffcanvasTitle'
+import { CxDrawer } from './components/drawer/CxDrawer'
+import { CxDrawerBody } from './components/drawer/CxDrawerBody'
+import { CxDrawerFooter } from './components/drawer/CxDrawerFooter'
+import { CxDrawerHeader } from './components/drawer/CxDrawerHeader'
+import { CxDrawerTitle } from './components/drawer/CxDrawerTitle'
 import { CxSpinner } from './components/spinner/CxSpinner'
 import { CxTable } from './components/table/CxTable'
 import { CxTableBody } from './components/table/CxTableBody'
@@ -179,10 +180,11 @@ export {
   CxPopover,
   CxProgress,
   CxProgressBar,
-  CxOffcanvas,
-  CxOffcanvasBody,
-  CxOffcanvasHeader,
-  CxOffcanvasTitle,
+  CxDrawer,
+  CxDrawerBody,
+  CxDrawerFooter,
+  CxDrawerHeader,
+  CxDrawerTitle,
   CxSpinner,
   CxTable,
   CxTableBody,
