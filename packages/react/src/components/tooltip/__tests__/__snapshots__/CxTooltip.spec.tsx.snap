@@ -1,14 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`CxTooltip customize 1`] = `
-<div>
+<body>
   <a
     aria-describedby=":r1:"
     class="link"
   >
     Test
   </a>
-</div>
+  <div
+    class="tooltip cx-tooltip-auto fade"
+    data-cx-placement="right"
+    id=":r1:"
+    role="tooltip"
+    style="position: absolute; left: 0px; top: 0px; transform: translate(0px, 0px);"
+  >
+    <div
+      class="tooltip-arrow"
+      style="position: absolute;"
+    />
+    <div
+      class="tooltip-inner"
+    >
+      content
+    </div>
+  </div>
+</body>
 `;
 
 exports[`loads and displays CxTooltip component 1`] = `

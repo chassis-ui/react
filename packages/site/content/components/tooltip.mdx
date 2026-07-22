@@ -7,52 +7,21 @@ toc: true
 ---
 
 
-import { CxTooltip, CxButton, CxLink } from '@chassis-ui/react'
+import { BasicExample } from '../../src/examples/tooltip/BasicExample.tsx'
+import { DirectionsExample } from '../../src/examples/tooltip/DirectionsExample.tsx'
 
 ## Examples
 
 Hover over the links below to see tooltips:
 
 <Example>
-  <p className="medium:text-emphasis">
-    Tight pants next level keffiyeh
-    <CxTooltip content="Tooltip text">
-      <CxLink> you probably </CxLink>
-    </CxTooltip>
-    haven't heard of them. Photo booth beard raw denim letterpress vegan messenger bag stumptown.
-    Farm-to-table seitan, mcsweeney's fixie sustainable quinoa 8-bit american apparel
-    <CxTooltip content="Tooltip text">
-      <CxLink> have a </CxLink>
-    </CxTooltip>
-    terry richardson vinyl chambray. Beard stumptown, cardigans banh mi lomo thundercats. Tofu
-    biodiesel williamsburg marfa, four loko mcsweeney''s cleanse vegan chambray. A really ironic
-    artisan
-    <CxTooltip content="Tooltip text">
-      <CxLink> whatever keytar </CxLink>
-    </CxTooltip>
-    scenester farm-to-table banksy Austin
-    <CxTooltip content="Tooltip text">
-      <CxLink> twitter handle </CxLink>
-    </CxTooltip>
-    freegan cred raw denim single-origin coffee viral.
-  </p>
+  <BasicExample client:load />
 </Example>
 
 Hover over the buttons below to see the four tooltips directions: top, right, bottom, and left. Directions are mirrored when using Chassis in RTL.
 
 <Example>
-  <CxTooltip content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." placement="top">
-    <CxButton context="secondary">Tooltip on top</CxButton>
-  </CxTooltip>
-  <CxTooltip content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." placement="right">
-    <CxButton context="secondary">Tooltip on right</CxButton>
-  </CxTooltip>
-  <CxTooltip content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." placement="bottom">
-    <CxButton context="secondary">Tooltip on bottom</CxButton>
-  </CxTooltip>
-  <CxTooltip content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." placement="left">
-    <CxButton context="secondary">Tooltip on left</CxButton>
-  </CxTooltip>
+  <DirectionsExample client:load />
 </Example>
 
 ## API

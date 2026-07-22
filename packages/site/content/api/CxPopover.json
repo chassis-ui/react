@@ -28,7 +28,7 @@
       "defaultValue": {
         "value": "[0, 8]"
       },
-      "description": "Offset of the popover relative to its target.",
+      "description": "Offset of the popover relative to its target, as `[crossAxis, mainAxis]`.",
       "name": "offset",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/popover/CxPopover.tsx",
@@ -125,9 +125,9 @@
     },
     "placement": {
       "defaultValue": {
-        "value": "top"
+        "value": "right"
       },
-      "description": "Describes the placement of your component after Popper.js has applied all the modifiers that may have flipped or altered the originally provided placement property.",
+      "description": "Describes the preferred placement of your component. Chassis will flip and shift it to keep it in view.",
       "name": "placement",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/popover/CxPopover.tsx",
@@ -142,11 +142,8 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"auto\" | \"top\" | \"right\" | \"bottom\" | \"left\"",
+        "raw": "Placement",
         "value": [
-          {
-            "value": "\"auto\""
-          },
           {
             "value": "\"top\""
           },

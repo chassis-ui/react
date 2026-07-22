@@ -10,10 +10,11 @@ exports[`CxPopover customize 1`] = `
     Test
   </button>
   <div
-    class="popover bs-popover-end fade"
+    class="popover cx-popover-auto fade"
+    data-cx-placement="right"
     id=":r1:"
     role="tooltip"
-    style="position: absolute; left: 0px; top: 0px;"
+    style="position: absolute; left: 0px; top: 0px; transform: translate(0px, 0px);"
   >
     <div
       class="popover-arrow"

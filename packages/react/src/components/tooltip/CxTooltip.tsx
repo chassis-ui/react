@@ -1,10 +1,14 @@
-import React, { FC, ReactElement, ReactNode, useId, useState } from 'react'
+import React, { FC, ReactElement, ReactNode, useEffect, useId, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import classNames from 'classnames'
-import { Manager, Popper, Reference } from 'react-popper'
+import { arrow, autoUpdate, flip, offset, shift, useFloating } from '@floating-ui/react-dom'
 import { Transition } from 'react-transition-group'
 
 import { Triggers } from '../Types'
+
+const FALLBACK_PLACEMENTS: Placement[] = ['top', 'right', 'bottom', 'left']
+
+export type Placement = 'top' | 'right' | 'bottom' | 'left'
 
 export interface CTooltipProps {
   children: ReactElement
@@ -12,6 +16,10 @@ export interface CTooltipProps {
    * Content node for your component.
    */
   content: ReactNode | string
+  /**
+   * Offset of the tooltip relative to its target, as `[crossAxis, mainAxis]`.
+   */
+  offset?: [number, number]
   /**
    * Callback fired when the component requests to be hidden.
    */
@@ -27,9 +35,9 @@ export interface CTooltipProps {
    */
   trigger?: Triggers | Triggers[]
   /**
-   * Describes the placement of your component after Popper.js has applied all the modifiers that may have flipped or altered the originally provided placement property.
+   * Describes the preferred placement of your component. Chassis will flip and shift it to keep it in view.
    */
-  placement?: 'auto' | 'top' | 'right' | 'bottom' | 'left'
+  placement?: Placement
   /**
    * Toggle the visibility of popover component.
    */
@@ -40,6 +48,7 @@ export const CxTooltip: FC<CTooltipProps> = ({
   children,
   content,
   placement = 'top',
+  offset: offsetProp = [0, 6],
   onHide,
   onShow,
   trigger = 'hover',
@@ -47,7 +56,55 @@ export const CxTooltip: FC<CTooltipProps> = ({
   ...rest
 }) => {
   const [_visible, setVisible] = useState(visible)
+  const [portalContainer, setPortalContainer] = useState<Element | null>(null)
   const tooltipId = useId()
+  const arrowRef = useRef<HTMLDivElement>(null)
+  const triggerRef = useRef<HTMLElement | null>(null)
+
+  // Tooltips inside an open `<dialog>` are appended to that dialog instead of
+  // `document.body`, so they render in its top layer and close with it automatically.
+  const resolvePortalContainer = () =>
+    triggerRef.current?.closest('dialog[open]') ?? document.body
+
+  const show = () => {
+    setPortalContainer(resolvePortalContainer())
+    setVisible(true)
+  }
+  const hide = () => setVisible(false)
+  const toggle = () => {
+    setPortalContainer(resolvePortalContainer())
+    setVisible(!_visible)
+  }
+
+  // A dialog fires a native `close` event on ESC, backdrop click, or `.close()`, so
+  // resetting on it keeps a reopened dialog from showing a stale, already-open tooltip.
+  useEffect(() => {
+    const dialog = portalContainer?.closest('dialog')
+    if (!_visible || !dialog) return
+
+    dialog.addEventListener('close', hide)
+    return () => dialog.removeEventListener('close', hide)
+  }, [_visible, portalContainer])
+
+  const {
+    refs,
+    floatingStyles,
+    placement: resolvedPlacement,
+    middlewareData,
+  } = useFloating({
+    placement,
+    whileElementsMounted: autoUpdate,
+    middleware: [
+      offset({ crossAxis: offsetProp[0], mainAxis: offsetProp[1] }),
+      flip({ fallbackPlacements: FALLBACK_PLACEMENTS }),
+      shift({ boundary: 'clippingAncestors' }),
+      arrow({ element: arrowRef }),
+    ],
+  })
+
+  const side = resolvedPlacement.split('-')[0]
+  const isVertical = side === 'top' || side === 'bottom'
+  const { x: arrowX, y: arrowY } = middlewareData.arrow ?? {}
 
   const getTransitionClass = (state: string) => {
     return state === 'entering'
@@ -60,26 +117,25 @@ export const CxTooltip: FC<CTooltipProps> = ({
   }
 
   return (
-    <Manager>
-      <Reference>
-        {({ ref }) =>
-          React.cloneElement(children, {
-            ref: ref,
-            'aria-describedby': _visible ? tooltipId : undefined,
-            ...((trigger === 'click' || trigger.includes('click')) && {
-              onClick: () => setVisible(!_visible),
-            }),
-            ...((trigger === 'focus' || trigger.includes('focus')) && {
-              onFocus: () => setVisible(true),
-              onBlur: () => setVisible(false),
-            }),
-            ...((trigger === 'hover' || trigger.includes('hover')) && {
-              onMouseEnter: () => setVisible(true),
-              onMouseLeave: () => setVisible(false),
-            }),
-          })
-        }
-      </Reference>
+    <>
+      {React.cloneElement(children, {
+        ref: (node: HTMLElement | null) => {
+          refs.setReference(node)
+          triggerRef.current = node
+        },
+        'aria-describedby': _visible ? tooltipId : undefined,
+        ...((trigger === 'click' || trigger.includes('click')) && {
+          onClick: toggle,
+        }),
+        ...((trigger === 'focus' || trigger.includes('focus')) && {
+          onFocus: show,
+          onBlur: hide,
+        }),
+        ...((trigger === 'hover' || trigger.includes('hover')) && {
+          onMouseEnter: show,
+          onMouseLeave: hide,
+        }),
+      })}
       {typeof window !== 'undefined' &&
         createPortal(
           <Transition
@@ -96,32 +152,32 @@ export const CxTooltip: FC<CTooltipProps> = ({
             {(state) => {
               const transitionClass = getTransitionClass(state)
               return (
-                <Popper placement={placement}>
-                  {({ arrowProps, style, ref }) => (
-                    <div
-                      id={tooltipId}
-                      className={classNames(
-                        `tooltip bs-tooltip-${
-                          placement === 'left' ? 'start' : placement === 'right' ? 'end' : placement
-                        }`,
-                        transitionClass,
-                      )}
-                      ref={ref}
-                      role="tooltip"
-                      style={style}
-                      {...rest}
-                    >
-                      <div className="tooltip-arrow" {...arrowProps}></div>
-                      <div className="tooltip-inner">{content}</div>
-                    </div>
-                  )}
-                </Popper>
+                <div
+                  id={tooltipId}
+                  className={classNames('tooltip cx-tooltip-auto', transitionClass)}
+                  data-cx-placement={resolvedPlacement}
+                  ref={refs.setFloating}
+                  role="tooltip"
+                  style={floatingStyles}
+                  {...rest}
+                >
+                  <div
+                    className="tooltip-arrow"
+                    ref={arrowRef}
+                    style={{
+                      position: 'absolute',
+                      left: isVertical && arrowX != null ? `${arrowX}px` : undefined,
+                      top: !isVertical && arrowY != null ? `${arrowY}px` : undefined,
+                    }}
+                  ></div>
+                  <div className="tooltip-inner">{content}</div>
+                </div>
               )
             }}
           </Transition>,
-          document.body,
+          portalContainer ?? document.body,
         )}
-    </Manager>
+    </>
   )
 }
 

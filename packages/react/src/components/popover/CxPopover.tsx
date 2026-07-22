@@ -1,10 +1,13 @@
-import React, { FC, ReactElement, ReactNode, useId, useState } from 'react'
+import React, { FC, ReactElement, ReactNode, useEffect, useId, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import classNames from 'classnames'
-import { Manager, Popper, Reference } from 'react-popper'
+import { arrow, autoUpdate, flip, offset, shift, useFloating } from '@floating-ui/react-dom'
 import { Transition } from 'react-transition-group'
 
 import { Triggers } from '../Types'
+import { Placement } from '../tooltip/CxTooltip'
+
+const FALLBACK_PLACEMENTS: Placement[] = ['top', 'right', 'bottom', 'left']
 
 export interface CPopoverProps {
   children: ReactElement
@@ -13,7 +16,7 @@ export interface CPopoverProps {
    */
   content: ReactNode | string
   /**
-   * Offset of the popover relative to its target.
+   * Offset of the popover relative to its target, as `[crossAxis, mainAxis]`.
    */
   offset?: [number, number]
   /**
@@ -35,9 +38,9 @@ export interface CPopoverProps {
    */
   trigger?: Triggers | Triggers[]
   /**
-   * Describes the placement of your component after Popper.js has applied all the modifiers that may have flipped or altered the originally provided placement property.
+   * Describes the preferred placement of your component. Chassis will flip and shift it to keep it in view.
    */
-  placement?: 'auto' | 'top' | 'right' | 'bottom' | 'left'
+  placement?: Placement
   /**
    * Toggle the visibility of popover component.
    */
@@ -47,8 +50,8 @@ export interface CPopoverProps {
 export const CxPopover: FC<CPopoverProps> = ({
   children,
   content,
-  placement = 'top',
-  offset = [0, 8],
+  placement = 'right',
+  offset: offsetProp = [0, 8],
   onHide,
   onShow,
   title,
@@ -57,7 +60,55 @@ export const CxPopover: FC<CPopoverProps> = ({
   ...rest
 }) => {
   const [_visible, setVisible] = useState(visible)
+  const [portalContainer, setPortalContainer] = useState<Element | null>(null)
   const popoverId = useId()
+  const arrowRef = useRef<HTMLDivElement>(null)
+  const triggerRef = useRef<HTMLElement | null>(null)
+
+  // Popovers inside an open `<dialog>` are appended to that dialog instead of
+  // `document.body`, so they render in its top layer and close with it automatically.
+  const resolvePortalContainer = () =>
+    triggerRef.current?.closest('dialog[open]') ?? document.body
+
+  const show = () => {
+    setPortalContainer(resolvePortalContainer())
+    setVisible(true)
+  }
+  const hide = () => setVisible(false)
+  const toggle = () => {
+    setPortalContainer(resolvePortalContainer())
+    setVisible(!_visible)
+  }
+
+  // A dialog fires a native `close` event on ESC, backdrop click, or `.close()`, so
+  // resetting on it keeps a reopened dialog from showing a stale, already-open popover.
+  useEffect(() => {
+    const dialog = portalContainer?.closest('dialog')
+    if (!_visible || !dialog) return
+
+    dialog.addEventListener('close', hide)
+    return () => dialog.removeEventListener('close', hide)
+  }, [_visible, portalContainer])
+
+  const {
+    refs,
+    floatingStyles,
+    placement: resolvedPlacement,
+    middlewareData,
+  } = useFloating({
+    placement,
+    whileElementsMounted: autoUpdate,
+    middleware: [
+      offset({ crossAxis: offsetProp[0], mainAxis: offsetProp[1] }),
+      flip({ fallbackPlacements: FALLBACK_PLACEMENTS }),
+      shift({ boundary: 'clippingAncestors' }),
+      arrow({ element: arrowRef }),
+    ],
+  })
+
+  const side = resolvedPlacement.split('-')[0]
+  const isVertical = side === 'top' || side === 'bottom'
+  const { x: arrowX, y: arrowY } = middlewareData.arrow ?? {}
 
   const getTransitionClass = (state: string) => {
     return state === 'entering'
@@ -70,26 +121,25 @@ export const CxPopover: FC<CPopoverProps> = ({
   }
 
   return (
-    <Manager>
-      <Reference>
-        {({ ref }) =>
-          React.cloneElement(children, {
-            ref: ref,
-            'aria-describedby': _visible ? popoverId : undefined,
-            ...((trigger === 'click' || trigger.includes('click')) && {
-              onClick: () => setVisible(!_visible),
-            }),
-            ...((trigger === 'focus' || trigger.includes('focus')) && {
-              onFocus: () => setVisible(true),
-              onBlur: () => setVisible(false),
-            }),
-            ...((trigger === 'hover' || trigger.includes('hover')) && {
-              onMouseEnter: () => setVisible(true),
-              onMouseLeave: () => setVisible(false),
-            }),
-          })
-        }
-      </Reference>
+    <>
+      {React.cloneElement(children, {
+        ref: (node: HTMLElement | null) => {
+          refs.setReference(node)
+          triggerRef.current = node
+        },
+        'aria-describedby': _visible ? popoverId : undefined,
+        ...((trigger === 'click' || trigger.includes('click')) && {
+          onClick: toggle,
+        }),
+        ...((trigger === 'focus' || trigger.includes('focus')) && {
+          onFocus: show,
+          onBlur: hide,
+        }),
+        ...((trigger === 'hover' || trigger.includes('hover')) && {
+          onMouseEnter: show,
+          onMouseLeave: hide,
+        }),
+      })}
       {typeof window !== 'undefined' &&
         createPortal(
           <Transition
@@ -106,43 +156,33 @@ export const CxPopover: FC<CPopoverProps> = ({
             {(state) => {
               const transitionClass = getTransitionClass(state)
               return (
-                <Popper
-                  placement={placement}
-                  modifiers={[
-                    {
-                      name: 'offset',
-                      options: {
-                        offset: offset,
-                      },
-                    },
-                  ]}
+                <div
+                  id={popoverId}
+                  className={classNames('popover cx-popover-auto', transitionClass)}
+                  data-cx-placement={resolvedPlacement}
+                  ref={refs.setFloating}
+                  role="tooltip"
+                  style={floatingStyles}
+                  {...rest}
                 >
-                  {({ arrowProps, style, ref }) => (
-                    <div
-                      id={popoverId}
-                      className={classNames(
-                        `popover bs-popover-${
-                          placement === 'left' ? 'start' : placement === 'right' ? 'end' : placement
-                        }`,
-                        transitionClass,
-                      )}
-                      ref={ref}
-                      role="tooltip"
-                      style={style}
-                      {...rest}
-                    >
-                      <div className="popover-arrow" {...arrowProps}></div>
-                      <div className="popover-header">{title}</div>
-                      <div className="popover-body">{content}</div>
-                    </div>
-                  )}
-                </Popper>
+                  <div
+                    className="popover-arrow"
+                    ref={arrowRef}
+                    style={{
+                      position: 'absolute',
+                      left: isVertical && arrowX != null ? `${arrowX}px` : undefined,
+                      top: !isVertical && arrowY != null ? `${arrowY}px` : undefined,
+                    }}
+                  ></div>
+                  <div className="popover-header">{title}</div>
+                  <div className="popover-body">{content}</div>
+                </div>
               )
             }}
           </Transition>,
-          document.body,
+          portalContainer ?? document.body,
         )}
-    </Manager>
+    </>
   )
 }
 

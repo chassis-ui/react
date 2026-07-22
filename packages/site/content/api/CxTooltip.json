@@ -24,6 +24,27 @@
         "name": "ReactNode"
       }
     },
+    "offset": {
+      "defaultValue": {
+        "value": "[0, 6]"
+      },
+      "description": "Offset of the tooltip relative to its target, as `[crossAxis, mainAxis]`.",
+      "name": "offset",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/tooltip/CxTooltip.tsx",
+        "name": "CTooltipProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/tooltip/CxTooltip.tsx",
+          "name": "CTooltipProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "[number, number]"
+      }
+    },
     "onHide": {
       "defaultValue": null,
       "description": "Callback fired when the component requests to be hidden.",
@@ -87,7 +108,7 @@
       "defaultValue": {
         "value": "top"
       },
-      "description": "Describes the placement of your component after Popper.js has applied all the modifiers that may have flipped or altered the originally provided placement property.",
+      "description": "Describes the preferred placement of your component. Chassis will flip and shift it to keep it in view.",
       "name": "placement",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/tooltip/CxTooltip.tsx",
@@ -102,11 +123,8 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"auto\" | \"top\" | \"right\" | \"bottom\" | \"left\"",
+        "raw": "Placement",
         "value": [
-          {
-            "value": "\"auto\""
-          },
           {
             "value": "\"top\""
           },

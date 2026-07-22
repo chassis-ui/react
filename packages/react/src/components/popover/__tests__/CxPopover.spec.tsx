@@ -31,7 +31,7 @@ test('CxPopover customize', async () => {
   expect(container).toMatchSnapshot()
   let arrLength = container.getElementsByClassName('popover').length
   expect(arrLength).toBe(1)
-  arrLength = container.getElementsByClassName('bs-popover-end').length
+  arrLength = container.getElementsByClassName('cx-popover-auto').length
   expect(arrLength).toBe(1)
   arrLength = container.getElementsByClassName('popover-arrow').length
   expect(arrLength).toBe(1)
@@ -53,6 +53,30 @@ test('CxPopover customize', async () => {
   } else {
     expect(true).toBe(false)
   }
+  jest.useRealTimers()
+})
+
+test('CxPopover scopes itself to an open dialog ancestor', async () => {
+  jest.useFakeTimers()
+  const { container } = render(
+    <dialog open>
+      <CxPopover content="content" trigger="click">
+        <CxButton>Test</CxButton>
+      </CxPopover>
+    </dialog>,
+    { container: document.body },
+  )
+  const btn = document.querySelector('.button')
+  act(() => {
+    if (btn !== null) {
+      fireEvent.click(btn)
+    }
+  })
+  jest.runAllTimers()
+  const dialog = container.querySelector('dialog')
+  const popover = container.querySelector('.popover')
+  expect(popover).not.toBeNull()
+  expect(dialog?.contains(popover)).toBe(true)
   jest.useRealTimers()
 })
 
