@@ -59,8 +59,6 @@ import { CxListGroup } from './components/list-group/CxListGroup'
 import { CxListGroupItem } from './components/list-group/CxListGroupItem'
 import { CxModal } from './components/modal/CxModal'
 import { CxModalBody } from './components/modal/CxModalBody'
-import { CxModalContent } from './components/modal/CxModalContent'
-import { CxModalDialog } from './components/modal/CxModalDialog'
 import { CxModalFooter } from './components/modal/CxModalFooter'
 import { CxModalHeader } from './components/modal/CxModalHeader'
 import { CxModalTitle } from './components/modal/CxModalTitle'
@@ -163,8 +161,6 @@ export {
   CxListGroupItem,
   CxModal,
   CxModalBody,
-  CxModalContent,
-  CxModalDialog,
   CxModalFooter,
   CxModalHeader,
   CxModalTitle,

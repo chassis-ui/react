@@ -23,6 +23,25 @@
       "type": {
         "name": "string"
       }
+    },
+    "stacked": {
+      "defaultValue": null,
+      "description": "Stack the footer actions as full-width columns instead of a right-aligned row.",
+      "name": "stacked",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/modal/CxModalFooter.tsx",
+        "name": "CModalFooterProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/modal/CxModalFooter.tsx",
+          "name": "CModalFooterProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
     }
   }
 }

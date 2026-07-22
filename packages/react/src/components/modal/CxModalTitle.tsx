@@ -13,7 +13,7 @@ export interface CModalTitleProps extends HTMLAttributes<HTMLHeadingElement> {
 }
 
 export const CxModalTitle = forwardRef<HTMLHeadElement, CModalTitleProps>(
-  ({ children, component: Component = 'h5', className, ...rest }, ref) => {
+  ({ children, component: Component = 'h2', className, ...rest }, ref) => {
     const _className = classNames('modal-title', className)
 
     return (

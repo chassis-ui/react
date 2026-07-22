@@ -16,13 +16,13 @@ export interface CModalHeaderProps extends HTMLAttributes<HTMLDivElement> {
 
 export const CxModalHeader = forwardRef<HTMLDivElement, CModalHeaderProps>(
   ({ children, className, closeButton = true, ...rest }, ref) => {
-    const { setVisible } = useContext(CModalContext)
+    const { requestClose } = useContext(CModalContext)
     const _className = classNames('modal-header', className)
 
     return (
       <div className={_className} {...rest} ref={ref}>
         {children}
-        {closeButton && <CxCloseButton onClick={() => setVisible(false)} />}
+        {closeButton && <CxCloseButton onClick={() => requestClose?.()} />}
       </div>
     )
   },

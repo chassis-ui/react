@@ -12,10 +12,10 @@ exports[`CxModalTitle customize 1`] = `
 
 exports[`loads and displays CxModalTitle component 1`] = `
 <div>
-  <h5
+  <h2
     class="modal-title"
   >
     Test
-  </h5>
+  </h2>
 </div>
 `;

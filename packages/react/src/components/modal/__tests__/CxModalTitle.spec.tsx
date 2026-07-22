@@ -6,6 +6,7 @@ import { CxModalTitle } from '../../../index'
 test('loads and displays CxModalTitle component', async () => {
   const { container } = render(<CxModalTitle>Test</CxModalTitle>)
   expect(container).toMatchSnapshot()
+  expect(container.firstChild?.nodeName).toBe('H2')
 })
 
 test('CxModalTitle customize', async () => {

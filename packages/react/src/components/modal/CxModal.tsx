@@ -1,30 +1,21 @@
 import React, {
   createContext,
+  DialogHTMLAttributes,
   forwardRef,
-  HTMLAttributes,
-  useCallback,
   useEffect,
   useLayoutEffect,
   useRef,
   useState,
 } from 'react'
-import { createPortal } from 'react-dom'
 import classNames from 'classnames'
-import { Transition } from 'react-transition-group'
 
 import { useForkedRef } from '../../utils/hooks'
 
-import { CxBackdrop } from '../backdrop/CxBackdrop'
-import { CxModalContent } from './CxModalContent'
-import { CxModalDialog } from './CxModalDialog'
-
-export interface CModalProps extends HTMLAttributes<HTMLDivElement> {
+export interface CModalProps
+  extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'onCancel' | 'onClose'> {
   /**
-   * Align the modal in the center or top of the screen.
-   */
-  alignment?: 'top' | 'center'
-  /**
-   * Apply a backdrop on body while modal is open.
+   * Show a backdrop while the modal is open. `'static'` blocks closing on backdrop click
+   * (the modal bounces instead).
    */
   backdrop?: boolean | 'static'
   /**
@@ -32,35 +23,45 @@ export interface CModalProps extends HTMLAttributes<HTMLDivElement> {
    */
   className?: string
   /**
-   * @ignore
-   */
-  duration?: number
-  /**
-   * Set modal to covers the entire user viewport.
+   * Set modal to cover the entire user viewport. A breakpoint value goes fullscreen only
+   * below that breakpoint.
    */
   fullscreen?: boolean | 'small' | 'medium' | 'large' | 'xlarge' | '2xlarge'
   /**
-   * Closes the modal when escape key is pressed.
+   * Disable the open/close transition entirely.
+   */
+  instant?: boolean
+  /**
+   * Closes the modal when the escape key is pressed.
    */
   keyboard?: boolean
   /**
-   * Callback fired when the component requests to be closed.
+   * Open with `showModal()` (top-layer, native backdrop). Set `false` to open with `show()`
+   * instead — no backdrop, and the page behind the modal stays interactive.
+   */
+  modal?: boolean
+  /**
+   * Callback fired when the modal requests to be closed (escape, backdrop click, or close button).
    */
   onClose?: () => void
   /**
-   * Callback fired when the component requests to be closed.
+   * Callback fired when a close attempt is blocked (static backdrop click, or escape with `keyboard=false`).
    */
   onClosePrevented?: () => void
   /**
-   * Callback fired when the modal is shown, its backdrop is static and a click outside the modal or an escape key press is performed with the keyboard option set to false.
+   * Callback fired after the exit transition completes and the modal is fully hidden.
+   */
+  onHidden?: () => void
+  /**
+   * Callback fired when the modal starts to open.
    */
   onShow?: () => void
   /**
-   * Generates modal using createPortal.
+   * Callback fired after the entry transition completes and the modal is fully visible.
    */
-  portal?: boolean
+  onShown?: () => void
   /**
-   * Create a scrollable modal that allows scrolling the modal body.
+   * Create a scrollable modal — the header and footer stay fixed while the body scrolls.
    */
   scrollable?: boolean
   /**
@@ -68,162 +69,237 @@ export interface CModalProps extends HTMLAttributes<HTMLDivElement> {
    */
   size?: 'small' | 'large' | 'xlarge'
   /**
-   * Remove animation to create modal that simply appear rather than fade in to view.
-   */
-  transition?: boolean
-  /**
    * Toggle the visibility of modal component.
    */
   visible?: boolean
 }
 
 interface ModalContextProps {
-  visible?: boolean
-  setVisible: React.Dispatch<React.SetStateAction<boolean | undefined>>
+  requestClose?: () => void
 }
 
-export const CModalContext = createContext({} as ModalContextProps)
+export const CModalContext = createContext<ModalContextProps>({})
 
-export const CxModal = forwardRef<HTMLDivElement, CModalProps>(
+// Dialogs opened as top-layer modals, tracked so the body-scroll lock is only
+// released once every open modal dialog has closed.
+const openModalDialogs = new Set<HTMLDialogElement>()
+
+const getTransitionDuration = (element: HTMLElement) => {
+  const { transitionDuration, transitionDelay } = window.getComputedStyle(element)
+  const duration = Number.parseFloat(transitionDuration) || 0
+  const delay = Number.parseFloat(transitionDelay) || 0
+  if (!duration && !delay) return 0
+  return (duration + delay) * 1000
+}
+
+const executeAfterTransition = (element: HTMLElement, callback: () => void, animated: boolean) => {
+  if (!animated) {
+    callback()
+    return () => undefined
+  }
+
+  let called = false
+  const done = () => {
+    if (called) return
+    called = true
+    element.removeEventListener('transitionend', handleEnd)
+    clearTimeout(timer)
+    callback()
+  }
+  const handleEnd = (event: Event) => {
+    if (event.target === element) done()
+  }
+  element.addEventListener('transitionend', handleEnd)
+  const timer = setTimeout(done, getTransitionDuration(element) + 50)
+  return () => {
+    element.removeEventListener('transitionend', handleEnd)
+    clearTimeout(timer)
+  }
+}
+
+export const CxModal = forwardRef<HTMLDialogElement, CModalProps>(
   (
     {
       children,
-      alignment,
       backdrop = true,
       className,
-      duration = 150,
       fullscreen,
+      instant,
       keyboard = true,
+      modal = true,
       onClose,
       onClosePrevented,
+      onHidden,
       onShow,
-      portal = true,
+      onShown,
       scrollable,
       size,
-      transition = true,
       visible,
+      ...rest
     },
     ref,
   ) => {
-    const modalRef = useRef<HTMLDivElement>(null)
-    const forkedRef = useForkedRef(ref, modalRef)
+    const dialogRef = useRef<HTMLDialogElement>(null)
+    const forkedRef = useForkedRef(ref, dialogRef)
 
     const [_visible, setVisible] = useState(visible)
-    const [staticBackdrop, setStaticBackdrop] = useState(false)
+    const [hiding, setHiding] = useState(false)
+    const [staticBounce, setStaticBounce] = useState(false)
+    const openedAsModalRef = useRef(false)
 
     useEffect(() => {
       setVisible(visible)
     }, [visible])
 
-    const contextValues = {
-      visible: _visible,
-      setVisible,
-    }
-
-    const handleDismiss = () => {
-      if (backdrop === 'static') {
-        return setStaticBackdrop(true)
+    // Release the body-scroll lock if the component unmounts while still open
+    // (e.g. a parent stops rendering it without waiting for a close transition).
+    useEffect(() => {
+      const dialog = dialogRef.current
+      return () => {
+        if (dialog && openModalDialogs.delete(dialog) && openModalDialogs.size === 0) {
+          document.body.classList.remove('dialog-open')
+        }
       }
-      return onClose && onClose()
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    const requestClose = () => {
+      onClose?.()
     }
 
+    const triggerStaticBounce = () => {
+      onClosePrevented?.()
+      const dialog = dialogRef.current
+      if (!dialog) return
+      setStaticBounce(true)
+      executeAfterTransition(dialog, () => setStaticBounce(false), !instant)
+    }
+
+    // Show / begin-hide
     useLayoutEffect(() => {
-      if (!staticBackdrop) return
-      onClosePrevented && onClosePrevented()
-      const id = setTimeout(() => setStaticBackdrop(false), duration)
-      return () => clearTimeout(id)
-    }, [staticBackdrop, duration, onClosePrevented])
+      const dialog = dialogRef.current
+      if (!dialog) return
 
-    const getTransitionClass = (state: string) => {
-      return state === 'entering'
-        ? 'd-block'
-        : state === 'entered'
-        ? 'show d-block'
-        : state === 'exiting'
-        ? 'd-block'
-        : ''
+      if (_visible) {
+        if (dialog.open) return undefined
+
+        openedAsModalRef.current = modal
+        if (modal) {
+          dialog.showModal()
+          openModalDialogs.add(dialog)
+          document.body.classList.add('dialog-open')
+        } else {
+          dialog.show()
+        }
+
+        const autofocusEl = dialog.querySelector<HTMLElement>('[autofocus]')
+        if (autofocusEl) {
+          autofocusEl.focus()
+        } else {
+          dialog.setAttribute('tabindex', '-1')
+          dialog.focus()
+        }
+
+        onShow?.()
+        setHiding(false)
+
+        return executeAfterTransition(dialog, () => onShown?.(), !instant)
+      }
+
+      if (!dialog.open) return undefined
+      setHiding(true)
+      return undefined
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [_visible])
+
+    // Finish hide once the exit transition (or lack thereof) completes
+    useEffect(() => {
+      const dialog = dialogRef.current
+      if (!hiding || !dialog) return undefined
+
+      return executeAfterTransition(
+        dialog,
+        () => {
+          if (dialog.open) {
+            dialog.close()
+          }
+          if (openedAsModalRef.current) {
+            openModalDialogs.delete(dialog)
+            if (openModalDialogs.size === 0) {
+              document.body.classList.remove('dialog-open')
+            }
+          }
+          setHiding(false)
+          onHidden?.()
+        },
+        !instant,
+      )
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [hiding])
+
+    // Escape key for non-modal (show()) dialogs — the native `cancel` event below only
+    // fires for dialogs opened with showModal().
+    useEffect(() => {
+      const dialog = dialogRef.current
+      if (!dialog) return undefined
+
+      const handleKeyDown = (event: KeyboardEvent) => {
+        if (event.key !== 'Escape' || openedAsModalRef.current) return
+        event.preventDefault()
+        if (!keyboard) return
+        requestClose()
+      }
+
+      dialog.addEventListener('keydown', handleKeyDown)
+      return () => dialog.removeEventListener('keydown', handleKeyDown)
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [keyboard])
+
+    const handleCancel = (event: React.SyntheticEvent<HTMLDialogElement>) => {
+      event.preventDefault()
+      if (!keyboard) {
+        triggerStaticBounce()
+        return
+      }
+      requestClose()
     }
+
+    const handleBackdropClick = (event: React.MouseEvent<HTMLDialogElement>) => {
+      if (event.target !== dialogRef.current || !openedAsModalRef.current) return
+      if (backdrop === 'static') {
+        triggerStaticBounce()
+        return
+      }
+      requestClose()
+    }
+
     const _className = classNames(
       'modal',
+      'dialog',
       {
-        'modal-static': staticBackdrop,
-        fade: transition,
+        [typeof fullscreen === 'boolean' ? 'fullscreen' : `max-${fullscreen}:fullscreen`]: fullscreen,
+        [`${size}`]: size,
+        instant,
+        nonmodal: !modal,
+        scrollable,
+        hiding,
+        'dialog-static': staticBounce,
       },
       className,
     )
 
-    // Set focus to modal after open
-    useLayoutEffect(() => {
-      if (_visible) {
-        document.body.classList.add('modal-open')
-        setTimeout(
-          () => {
-            modalRef.current?.focus()
-          },
-          !transition ? 0 : duration,
-        )
-      } else {
-        document.body.classList.remove('modal-open')
-      }
-      return () => document.body.classList.remove('modal-open')
-    }, [_visible])
-
-    const handleKeyDown = useCallback(
-      (event: React.KeyboardEvent) => {
-        if (event.key === 'Escape' && keyboard) {
-          return handleDismiss()
-        }
-      },
-      [modalRef, handleDismiss],
-    )
-
-    const modal = (ref?: React.Ref<HTMLDivElement>, transitionClass?: string) => {
-      return (
-        <CModalContext.Provider value={contextValues}>
-          <div
-            className={classNames(_className, transitionClass)}
-            tabIndex={-1}
-            role="dialog"
-            aria-modal="true"
-            onClick={handleDismiss}
-            onKeyDown={handleKeyDown}
-            ref={ref}
-          >
-            <CxModalDialog
-              alignment={alignment}
-              fullscreen={fullscreen}
-              scrollable={scrollable}
-              size={size}
-              onClick={(event) => event.stopPropagation()}
-            >
-              <CxModalContent>{children}</CxModalContent>
-            </CxModalDialog>
-          </div>
-        </CModalContext.Provider>
-      )
-    }
-
     return (
-      <>
-        <Transition
-          in={_visible}
-          mountOnEnter
-          onEnter={onShow}
-          onExit={onClose}
-          unmountOnExit
-          timeout={!transition ? 0 : duration}
+      <CModalContext.Provider value={{ requestClose }}>
+        <dialog
+          {...rest}
+          className={_className}
+          onCancel={handleCancel}
+          onClick={handleBackdropClick}
+          ref={forkedRef}
         >
-          {(state) => {
-            const transitionClass = getTransitionClass(state)
-            return typeof window !== 'undefined' && portal
-              ? createPortal(modal(forkedRef, transitionClass), document.body)
-              : modal(forkedRef, transitionClass)
-          }}
-        </Transition>
-        {typeof window !== 'undefined' && portal
-          ? backdrop && createPortal(<CxBackdrop visible={_visible} />, document.body)
-          : backdrop && <CxBackdrop visible={_visible} />}
-      </>
+          {children}
+        </dialog>
+      </CModalContext.Provider>
     )
   },
 )

@@ -9,8 +9,6 @@ import { LiveDemoExample } from '../../src/examples/modal/LiveDemoExample.tsx'
 import { StaticBackdropExample } from '../../src/examples/modal/StaticBackdropExample.tsx'
 import { ScrollingLongContentExample } from '../../src/examples/modal/ScrollingLongContentExample.tsx'
 import { ScrollingLongContentExample2 } from '../../src/examples/modal/ScrollingLongContentExample2.tsx'
-import { VerticallyCenteredExample } from '../../src/examples/modal/VerticallyCenteredExample.tsx'
-import { VerticallyCenteredScrollableExample } from '../../src/examples/modal/VerticallyCenteredScrollableExample.tsx'
 import { TooltipsAndPopoversExample } from '../../src/examples/modal/TooltipsAndPopoversExample.tsx'
 import { OptionalSizesExample } from '../../src/examples/modal/OptionalSizesExample.tsx'
 import { FullscreenExample } from '../../src/examples/modal/FullscreenExample.tsx'
@@ -33,16 +31,10 @@ import {
 
 ### Modal components
 
-Below is a static modal example (meaning its `position` and `display` have been overridden). Included are the modal header, modal body (required for `padding`), and modal footer (optional). We ask that you include modal headers with dismiss actions whenever possible, or provide another explicit dismiss action.
+Below is a static modal example, with the backdrop and keyboard dismissal disabled so it stays open for illustration. Included are the modal header, modal body (required for `padding`), and modal footer (optional). We ask that you include modal headers with dismiss actions whenever possible, or provide another explicit dismiss action.
 
 <Example>
-  <CxModal
-    className="show d-block position-static"
-    backdrop={false}
-    keyboard={false}
-    portal={false}
-    visible
-  >
+  <CxModal backdrop={false} keyboard={false} open>
     <CxModalHeader>
       <CxModalTitle>Modal title</CxModalTitle>
     </CxModalHeader>
@@ -88,20 +80,6 @@ You can also create a scrollable modal that allows scroll the modal body by addi
   <ScrollingLongContentExample2 client:load />
 </Example>
 
-### Vertically centered
-
-Add `alignment="center` to `<CxModal>` to vertically center the modal.
-
-
-<Example>
-  <VerticallyCenteredExample client:load />
-</Example>
-
-
-<Example>
-  <VerticallyCenteredScrollableExample client:load />
-</Example>
-
 ### Tooltips and popovers
 
 `<CTooltips>` and `<CPopovers>` can be placed within modals as needed. When modals are closed, any tooltips and popovers within are also automatically dismissed.
@@ -127,23 +105,23 @@ Modals have three optional sizes, available via modifier classes to be placed on
     <tr>
       <td>Small</td>
       <td>
-        <code>'sm'</code>
+        <code>'small'</code>
       </td>
       <td>
-        <code>300px</code>
+        <code>360px</code>
       </td>
     </tr>
     <tr>
       <td>Default</td>
       <td className="medium:text-emphasis">None</td>
       <td>
-        <code>500px</code>
+        <code>560px</code>
       </td>
     </tr>
     <tr>
       <td>Large</td>
       <td>
-        <code>'lg'</code>
+        <code>'large'</code>
       </td>
       <td>
         <code>800px</code>
@@ -152,7 +130,7 @@ Modals have three optional sizes, available via modifier classes to be placed on
     <tr>
       <td>Extra large</td>
       <td>
-        <code>'xl'</code>
+        <code>'xlarge'</code>
       </td>
       <td>
         <code>1140px</code>
@@ -168,12 +146,12 @@ Modals have three optional sizes, available via modifier classes to be placed on
 
 ## Fullscreen Modal
 
-Another override is the option to pop up a modal that covers the user viewport, available via property `fullscrean`.
+Another override is the option to pop up a modal that covers the user viewport, available via the `fullscreen` property.
 
 <table className="table">
   <thead>
     <tr>
-      <th>Property fullscrean</th>
+      <th>Property fullscreen</th>
       <th>Availability</th>
     </tr>
   </thead>
@@ -186,7 +164,7 @@ Another override is the option to pop up a modal that covers the user viewport, 
     </tr>
     <tr>
       <td>
-        <code>'sm'</code>
+        <code>'small'</code>
       </td>
       <td>
         Below <code>576px</code>
@@ -194,7 +172,7 @@ Another override is the option to pop up a modal that covers the user viewport, 
     </tr>
     <tr>
       <td>
-        <code>'md'</code>
+        <code>'medium'</code>
       </td>
       <td>
         Below <code>768px</code>
@@ -202,26 +180,26 @@ Another override is the option to pop up a modal that covers the user viewport, 
     </tr>
     <tr>
       <td>
-        <code>'lg'</code>
+        <code>'large'</code>
       </td>
       <td>
-        Below <code>992px</code>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <code>'xl'</code>
-      </td>
-      <td>
-        Below <code>1200px</code>
+        Below <code>1024px</code>
       </td>
     </tr>
     <tr>
       <td>
-        <code>'xxl'</code>
+        <code>'xlarge'</code>
       </td>
       <td>
-        Below <code>1400px</code>
+        Below <code>1280px</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>'2xlarge'</code>
+      </td>
+      <td>
+        Below <code>1536px</code>
       </td>
     </tr>
   </tbody>

@@ -17,7 +17,7 @@ export const TooltipsAndPopoversExample = () => {
   return (
     <>
       <CxButton onClick={() => setVisible(!visible)}>Launch demo modal</CxButton>
-      <CxModal alignment="center" visible={visible} onClose={() => setVisible(false)}>
+      <CxModal visible={visible} onClose={() => setVisible(false)}>
         <CxModalHeader>
           <CxModalTitle>Modal title</CxModalTitle>
         </CxModalHeader>

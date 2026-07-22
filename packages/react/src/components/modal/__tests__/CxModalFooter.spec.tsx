@@ -14,3 +14,9 @@ test('CxModalFooter customize', async () => {
   expect(container.firstChild).toHaveClass('bazinga')
   expect(container.firstChild).toHaveClass('modal-footer')
 })
+
+test('CxModalFooter stacked', async () => {
+  const { container } = render(<CxModalFooter stacked>Test</CxModalFooter>)
+  expect(container.firstChild).toHaveClass('modal-footer')
+  expect(container.firstChild).toHaveClass('stacked')
+})
