@@ -6,17 +6,13 @@ toc: true
 ---
 
 
+import { NestedMenuExample } from '../../src/examples/button-group/NestedMenuExample.tsx'
+import { VerticalMenuExample } from '../../src/examples/button-group/VerticalMenuExample.tsx'
+
 import {
   CxButtonGroup,
   CxButtonToolbar,
   CxButton,
-  CxDropdown,
-  CxDropdownDivider,
-  CxDropdownHeader,
-  CxDropdownItem,
-  CxDropdownItemPlain,
-  CxDropdownMenu,
-  CxDropdownToggle,
   CxFormCheck,
   CxFormInput,
   CxInputGroup,
@@ -263,28 +259,15 @@ Alternatively, of implementing button sizing classes to each button in a group, 
 
 ## Nesting
 
-Put a `<CxButtonGroup>` inside another `<CxButtonGroup>` when you need dropdown menus combined with a series of buttons.
+Put a `<CxButtonGroup>` inside another `<CxButtonGroup>` when you need menus combined with a series of buttons.
 
 <Example>
-  <CxButtonGroup role="group" aria-label="Button group with nested dropdown">
-    <CxButton context="primary">1</CxButton>
-    <CxButton context="primary">2</CxButton>
-    <CxDropdown variant="btn-group">
-      <CxDropdownToggle context="primary">Dropdown</CxDropdownToggle>
-      <CxDropdownMenu>
-        <CxDropdownItem href="#">Action</CxDropdownItem>
-        <CxDropdownItem href="#">Another action</CxDropdownItem>
-        <CxDropdownItem href="#">Something else here</CxDropdownItem>
-        <CxDropdownDivider />
-        <CxDropdownItem href="#">Separated link</CxDropdownItem>
-      </CxDropdownMenu>
-    </CxDropdown>
-  </CxButtonGroup>
+  <NestedMenuExample client:load />
 </Example>
 
 ## Vertical variation
 
-Create a set of buttons that appear vertically stacked rather than horizontally. **Split button dropdowns are not supported here.**
+Create a set of buttons that appear vertically stacked rather than horizontally.
 
 <Example>
   <CxButtonGroup vertical role="group" aria-label="Vertical button group">
@@ -299,52 +282,7 @@ Create a set of buttons that appear vertically stacked rather than horizontally.
 </Example>
 
 <Example>
-  <CxButtonGroup vertical role="group" aria-label="Vertical button group">
-    <CxButton context="primary">Button</CxButton>
-    <CxButton context="primary">Button</CxButton>
-    <CxDropdown variant="btn-group">
-      <CxDropdownToggle context="primary">Dropdown</CxDropdownToggle>
-      <CxDropdownMenu>
-        <CxDropdownItem href="#">Action</CxDropdownItem>
-        <CxDropdownItem href="#">Another action</CxDropdownItem>
-        <CxDropdownItem href="#">Something else here</CxDropdownItem>
-        <CxDropdownDivider />
-        <CxDropdownItem href="#">Separated link</CxDropdownItem>
-      </CxDropdownMenu>
-    </CxDropdown>
-    <CxButton context="primary">Button</CxButton>
-    <CxButton context="primary">Button</CxButton>
-    <CxDropdown variant="btn-group">
-      <CxDropdownToggle context="primary">Dropdown</CxDropdownToggle>
-      <CxDropdownMenu>
-        <CxDropdownItem href="#">Action</CxDropdownItem>
-        <CxDropdownItem href="#">Another action</CxDropdownItem>
-        <CxDropdownItem href="#">Something else here</CxDropdownItem>
-        <CxDropdownDivider />
-        <CxDropdownItem href="#">Separated link</CxDropdownItem>
-      </CxDropdownMenu>
-    </CxDropdown>
-    <CxDropdown variant="btn-group">
-      <CxDropdownToggle context="primary">Dropdown</CxDropdownToggle>
-      <CxDropdownMenu>
-        <CxDropdownItem href="#">Action</CxDropdownItem>
-        <CxDropdownItem href="#">Another action</CxDropdownItem>
-        <CxDropdownItem href="#">Something else here</CxDropdownItem>
-        <CxDropdownDivider />
-        <CxDropdownItem href="#">Separated link</CxDropdownItem>
-      </CxDropdownMenu>
-    </CxDropdown>
-    <CxDropdown variant="btn-group">
-      <CxDropdownToggle context="primary">Dropdown</CxDropdownToggle>
-      <CxDropdownMenu>
-        <CxDropdownItem href="#">Action</CxDropdownItem>
-        <CxDropdownItem href="#">Another action</CxDropdownItem>
-        <CxDropdownItem href="#">Something else here</CxDropdownItem>
-        <CxDropdownDivider />
-        <CxDropdownItem href="#">Separated link</CxDropdownItem>
-      </CxDropdownMenu>
-    </CxDropdown>
-  </CxButtonGroup>
+  <VerticalMenuExample client:load />
 </Example>
 
 <Example>

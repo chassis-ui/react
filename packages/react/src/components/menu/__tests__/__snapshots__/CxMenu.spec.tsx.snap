@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CxMenu customize 1`] = `
+<div>
+  <h3
+    class="bazinga"
+  >
+    Test
+  </h3>
+</div>
+`;
+
+exports[`CxMenu example 1`] = `
+<div>
+  <div
+    class=""
+  >
+    <button
+      aria-expanded="true"
+      class="button primary caret"
+      type="button"
+    >
+      Test
+    </button>
+    <div
+      aria-hidden="false"
+      class="menu show"
+      style="position: absolute; top: 0px; left: 0px;"
+    >
+      <a
+        class="menu-item"
+      >
+        A
+      </a>
+      <a
+        class="menu-item"
+      >
+        B
+      </a>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`loads and displays CxMenu component 1`] = `
+<div>
+  <div
+    class=""
+  >
+    Test
+  </div>
+</div>
+`;

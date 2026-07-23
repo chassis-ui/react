@@ -30,13 +30,15 @@ import { CxCarouselCaption } from './components/carousel/CxCarouselCaption'
 import { CxCarouselItem } from './components/carousel/CxCarouselItem'
 import { CxCollapse } from './components/collapse/CxCollapse'
 import { CxCloseButton } from './components/close-button/CxCloseButton'
-import { CxDropdown } from './components/dropdown/CxDropdown'
-import { CxDropdownDivider } from './components/dropdown/CxDropdownDivider'
-import { CxDropdownHeader } from './components/dropdown/CxDropdownHeader'
-import { CxDropdownItem } from './components/dropdown/CxDropdownItem'
-import { CxDropdownItemPlain } from './components/dropdown/CxDropdownItemPlain'
-import { CxDropdownMenu } from './components/dropdown/CxDropdownMenu'
-import { CxDropdownToggle } from './components/dropdown/CxDropdownToggle'
+import { CxMenu } from './components/menu/CxMenu'
+import { CxMenuDivider } from './components/menu/CxMenuDivider'
+import { CxMenuHeader } from './components/menu/CxMenuHeader'
+import { CxMenuItem } from './components/menu/CxMenuItem'
+import { CxMenuList } from './components/menu/CxMenuList'
+import { CxMenuText } from './components/menu/CxMenuText'
+import { CxMenuToggle } from './components/menu/CxMenuToggle'
+import { CxSubmenu } from './components/menu/CxSubmenu'
+import { CxSubmenuBack } from './components/menu/CxSubmenuBack'
 import { CxCol } from './components/grid/CxCol'
 import { CxContainer } from './components/grid/CxContainer'
 import { CxRow } from './components/grid/CxRow'
@@ -132,13 +134,15 @@ export {
   CxCarouselItem,
   CxCloseButton,
   CxCollapse,
-  CxDropdown,
-  CxDropdownDivider,
-  CxDropdownHeader,
-  CxDropdownItem,
-  CxDropdownItemPlain,
-  CxDropdownMenu,
-  CxDropdownToggle,
+  CxMenu,
+  CxMenuDivider,
+  CxMenuHeader,
+  CxMenuItem,
+  CxMenuList,
+  CxMenuText,
+  CxMenuToggle,
+  CxSubmenu,
+  CxSubmenuBack,
   CxCol,
   CxContainer,
   CxRow,

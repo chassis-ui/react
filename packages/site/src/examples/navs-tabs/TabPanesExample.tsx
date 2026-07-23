@@ -1,19 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
-import {
-  CxDropdown,
-  CxDropdownDivider,
-  CxDropdownHeader,
-  CxDropdownItem,
-  CxDropdownItemPlain,
-  CxDropdownMenu,
-  CxDropdownToggle,
-  CxNav,
-  CxNavItem,
-  CxNavLink,
-  CxTabContent,
-  CxTabPane,
-} from '@chassis-ui/react'
+import { CxNav, CxNavItem, CxNavLink, CxTabContent, CxTabPane } from '@chassis-ui/react'
 
 export const TabPanesExample = () => {
   const [activeKey, setActiveKey] = useState(1)

@@ -4,17 +4,15 @@ import {
   CxButton,
   CxContainer,
   CxCollapse,
-  CxDropdown,
-  CxDropdownDivider,
-  CxDropdownHeader,
-  CxDropdownItem,
-  CxDropdownItemPlain,
-  CxDropdownMenu,
-  CxDropdownToggle,
   CxForm,
   CxFormInput,
   CxInputGroup,
   CxInputGroupText,
+  CxMenu,
+  CxMenuDivider,
+  CxMenuItem,
+  CxMenuList,
+  CxMenuToggle,
   CxNav,
   CxNavItem,
   CxNavLink,
@@ -47,15 +45,15 @@ export const ColorSchemesExample = () => {
               <CxNavItem>
                 <CxNavLink href="#">Link</CxNavLink>
               </CxNavItem>
-              <CxDropdown variant="nav-item" popper={false}>
-                <CxDropdownToggle context="secondary">Dropdown button</CxDropdownToggle>
-                <CxDropdownMenu>
-                  <CxDropdownItem href="#">Action</CxDropdownItem>
-                  <CxDropdownItem href="#">Another action</CxDropdownItem>
-                  <CxDropdownDivider />
-                  <CxDropdownItem href="#">Something else here</CxDropdownItem>
-                </CxDropdownMenu>
-              </CxDropdown>
+              <CxMenu component="li" className="nav-item">
+                <CxMenuToggle context="secondary">Menu button</CxMenuToggle>
+                <CxMenuList>
+                  <CxMenuItem href="#">Action</CxMenuItem>
+                  <CxMenuItem href="#">Another action</CxMenuItem>
+                  <CxMenuDivider />
+                  <CxMenuItem href="#">Something else here</CxMenuItem>
+                </CxMenuList>
+              </CxMenu>
               <CxNavItem>
                 <CxNavLink href="#" disabled>
                   Disabled
@@ -90,15 +88,15 @@ export const ColorSchemesExample = () => {
               <CxNavItem>
                 <CxNavLink href="#">Link</CxNavLink>
               </CxNavItem>
-              <CxDropdown variant="nav-item" popper={false}>
-                <CxDropdownToggle context="secondary">Dropdown button</CxDropdownToggle>
-                <CxDropdownMenu>
-                  <CxDropdownItem href="#">Action</CxDropdownItem>
-                  <CxDropdownItem href="#">Another action</CxDropdownItem>
-                  <CxDropdownDivider />
-                  <CxDropdownItem href="#">Something else here</CxDropdownItem>
-                </CxDropdownMenu>
-              </CxDropdown>
+              <CxMenu component="li" className="nav-item">
+                <CxMenuToggle context="secondary">Menu button</CxMenuToggle>
+                <CxMenuList>
+                  <CxMenuItem href="#">Action</CxMenuItem>
+                  <CxMenuItem href="#">Another action</CxMenuItem>
+                  <CxMenuDivider />
+                  <CxMenuItem href="#">Something else here</CxMenuItem>
+                </CxMenuList>
+              </CxMenu>
               <CxNavItem>
                 <CxNavLink href="#" disabled>
                   Disabled
@@ -133,15 +131,15 @@ export const ColorSchemesExample = () => {
               <CxNavItem>
                 <CxNavLink href="#">Link</CxNavLink>
               </CxNavItem>
-              <CxDropdown variant="nav-item" popper={false}>
-                <CxDropdownToggle context="secondary">Dropdown button</CxDropdownToggle>
-                <CxDropdownMenu>
-                  <CxDropdownItem href="#">Action</CxDropdownItem>
-                  <CxDropdownItem href="#">Another action</CxDropdownItem>
-                  <CxDropdownDivider />
-                  <CxDropdownItem href="#">Something else here</CxDropdownItem>
-                </CxDropdownMenu>
-              </CxDropdown>
+              <CxMenu component="li" className="nav-item">
+                <CxMenuToggle context="secondary">Menu button</CxMenuToggle>
+                <CxMenuList>
+                  <CxMenuItem href="#">Action</CxMenuItem>
+                  <CxMenuItem href="#">Another action</CxMenuItem>
+                  <CxMenuDivider />
+                  <CxMenuItem href="#">Something else here</CxMenuItem>
+                </CxMenuList>
+              </CxMenu>
               <CxNavItem>
                 <CxNavLink href="#" disabled>
                   Disabled

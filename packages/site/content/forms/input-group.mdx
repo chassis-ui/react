@@ -6,15 +6,11 @@ toc: true
 ---
 
 
+import { ButtonsWithMenusExample } from '../../src/examples/input-group/ButtonsWithMenusExample.tsx'
+import { SegmentedButtonsExample } from '../../src/examples/input-group/SegmentedButtonsExample.tsx'
+
 import {
   CxButton,
-  CxDropdown,
-  CxDropdownDivider,
-  CxDropdownHeader,
-  CxDropdownItem,
-  CxDropdownItemPlain,
-  CxDropdownMenu,
-  CxDropdownToggle,
   CxForm,
   CxFormInput,
   CxFormCheck,
@@ -190,96 +186,16 @@ Multiple add-ons are supported and can be mixed with checkbox and radio input ve
   </CxInputGroup>
 </Example>
 
-## Buttons with dropdowns
+## Buttons with menus
 
 <Example>
-  <CxInputGroup className="mb-3">
-    <CxDropdown variant="input-group"> 
-      <CxDropdownToggle context="secondary" variant="outline">Dropdown</CxDropdownToggle>
-      <CxDropdownMenu>
-        <CxDropdownItem href="#">Action</CxDropdownItem>
-        <CxDropdownItem href="#">Another action</CxDropdownItem>
-        <CxDropdownItem href="#">Something else here</CxDropdownItem>
-        <CxDropdownDivider/>
-        <CxDropdownItem href="#">Separated link</CxDropdownItem>
-      </CxDropdownMenu>
-    </CxDropdown>
-    <CxFormInput aria-label="Text input with dropdown button"/>
-  </CxInputGroup>
-
-  <CxInputGroup className="mb-3">
-    <CxFormInput aria-label="Text input with dropdown button" />
-    <CxDropdown alignment="end" variant="input-group">
-      <CxDropdownToggle context="secondary" variant="outline">
-        Dropdown
-      </CxDropdownToggle>
-      <CxDropdownMenu>
-        <CxDropdownItem href="#">Action</CxDropdownItem>
-        <CxDropdownItem href="#">Another action</CxDropdownItem>
-        <CxDropdownItem href="#">Something else here</CxDropdownItem>
-        <CxDropdownDivider />
-        <CxDropdownItem href="#">Separated link</CxDropdownItem>
-      </CxDropdownMenu>
-    </CxDropdown>
-  </CxInputGroup>
-
-  <CxInputGroup>
-    <CxDropdown variant="input-group">
-      <CxDropdownToggle context="secondary" variant="outline">Dropdown</CxDropdownToggle>
-      <CxDropdownMenu>
-        <CxDropdownItem href="#">Action</CxDropdownItem>
-        <CxDropdownItem href="#">Another action</CxDropdownItem>
-        <CxDropdownItem href="#">Something else here</CxDropdownItem>
-        <CxDropdownDivider/>
-        <CxDropdownItem href="#">Separated link</CxDropdownItem>
-      </CxDropdownMenu>
-    </CxDropdown>
-    <CxFormInput aria-label="Text input with 2 dropdown buttons"/>
-    <CxDropdown alignment="end" variant="input-group">
-      <CxDropdownToggle context="secondary" variant="outline">Dropdown</CxDropdownToggle>
-      <CxDropdownMenu>
-        <CxDropdownItem href="#">Action</CxDropdownItem>
-        <CxDropdownItem href="#">Another action</CxDropdownItem>
-        <CxDropdownItem href="#">Something else here</CxDropdownItem>
-        <CxDropdownDivider/>
-        <CxDropdownItem href="#">Separated link</CxDropdownItem>
-      </CxDropdownMenu>
-    </CxDropdown>
-  </CxInputGroup>
+  <ButtonsWithMenusExample client:load />
 </Example>
 
 ## Segmented buttons
 
 <Example>
-  <CxInputGroup className="mb-3">
-    <CxDropdown variant="input-group">
-      <CxButton type="button" context="secondary" variant="outline">Action</CxButton>
-      <CxDropdownToggle context="secondary" variant="outline" split/>
-      <CxDropdownMenu>
-        <CxDropdownItem href="#">Action</CxDropdownItem>
-        <CxDropdownItem href="#">Another action</CxDropdownItem>
-        <CxDropdownItem href="#">Something else here</CxDropdownItem>
-        <CxDropdownDivider/>
-        <CxDropdownItem href="#">Separated link</CxDropdownItem>
-      </CxDropdownMenu>
-    </CxDropdown>
-    <CxFormInput aria-label="Text input with segmented dropdown button"/>
-  </CxInputGroup>
-
-  <CxInputGroup>
-    <CxFormInput aria-label="Text input with segmented dropdown button"/>
-    <CxDropdown alignment="end" variant="input-group">
-      <CxButton type="button" context="secondary" variant="outline">Action</CxButton>
-      <CxDropdownToggle context="secondary" variant="outline" split/>
-      <CxDropdownMenu>
-        <CxDropdownItem href="#">Action</CxDropdownItem>
-        <CxDropdownItem href="#">Another action</CxDropdownItem>
-        <CxDropdownItem href="#">Something else here</CxDropdownItem>
-        <CxDropdownDivider/>
-        <CxDropdownItem href="#">Separated link</CxDropdownItem>
-      </CxDropdownMenu>
-    </CxDropdown>
-  </CxInputGroup>
+  <SegmentedButtonsExample client:load />
 </Example>
 
 ## Custom forms

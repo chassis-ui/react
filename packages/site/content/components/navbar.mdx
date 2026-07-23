@@ -1,6 +1,6 @@
 ---
 title: Navbar
-description: Documentation and examples for the Chassis Navbar powerful, responsive navigation header component. Includes support for branding, links, dropdowns, and more.
+description: Documentation and examples for the Chassis Navbar powerful, responsive navigation header component. Includes support for branding, links, menus, and more.
 
 
 toc: true
@@ -9,7 +9,7 @@ toc: true
 import { BasicUsageExample } from '../../src/examples/navbar/BasicUsageExample.tsx'
 import { NavExample } from '../../src/examples/navbar/NavExample.tsx'
 import { NavExample2 } from '../../src/examples/navbar/NavExample2.tsx'
-import { NavDropdownExample } from '../../src/examples/navbar/NavDropdownExample.tsx'
+import { NavMenuExample } from '../../src/examples/navbar/NavMenuExample.tsx'
 import { ColorSchemesExample } from '../../src/examples/navbar/ColorSchemesExample.tsx'
 import { ResponsiveBehaviorsExample } from '../../src/examples/navbar/ResponsiveBehaviorsExample.tsx'
 import { ResponsiveBehaviorsExample2 } from '../../src/examples/navbar/ResponsiveBehaviorsExample2.tsx'
@@ -24,13 +24,6 @@ import {
   CxButton,
   CxContainer,
   CxCollapse,
-  CxDropdown,
-  CxDropdownDivider,
-  CxDropdownHeader,
-  CxDropdownItem,
-  CxDropdownItemPlain,
-  CxDropdownMenu,
-  CxDropdownToggle,
   CxForm,
   CxFormInput,
   CxInputGroup,
@@ -55,7 +48,7 @@ import {
 `<CxNavbar>` come with built-in support for a handful of sub-components. Choose from the following as needed:
 
 - `<CxNavbarBrand>` for your company, product, or project name.
-- `<CxNavbarNav>` for a full-height and lightweight navigation (including support for dropdowns).
+- `<CxNavbarNav>` for a full-height and lightweight navigation (including support for menus).
 - `<CxNavbarToggler>` for use with our collapse plugin and other [navigation toggling](#responsive-behaviors) behaviors.
 - Flex and spacing utilities for any form controls and actions.
 - `<CxNavbarText>` for adding vertically centered strings of text.
@@ -137,11 +130,11 @@ And because we use classes for our navs, you can avoid the list-based approach e
   <NavExample2 client:load />
 </Example>
 
-You can also use dropdowns in your navbar. Please note that `<CxDropdown>` component requires `variant="nav-item"`.
+You can also use menus in your navbar. Render `<CxMenu>` with `component="li"` and `className="nav-item"` so the toggle and menu share the same nav item wrapper.
 
 
 <Example>
-  <NavDropdownExample client:load />
+  <NavMenuExample client:load />
 </Example>
 
 ### Forms

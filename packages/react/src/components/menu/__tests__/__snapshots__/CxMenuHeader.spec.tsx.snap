@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`loads and displays CxMenuHeader component 1`] = `
+<div>
+  <h4
+    class="menu-header"
+  >
+    Test
+  </h4>
+</div>
+`;

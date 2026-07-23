@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`loads and displays CxMenuText component 1`] = `
+<div>
+  <span
+    class="menu-text"
+  >
+    Test
+  </span>
+</div>
+`;

@@ -5,10 +5,10 @@ import {
   CxNav,
   CxNavItem,
   CxNavLink,
-  CxDropdown,
-  CxDropdownToggle,
-  CxDropdownMenu,
-  CxDropdownItem,
+  CxMenu,
+  CxMenuToggle,
+  CxMenuList,
+  CxMenuItem,
 } from '../../../index'
 
 test('loads and displays CxNav component', async () => {
@@ -40,14 +40,14 @@ test('CxNav example', async () => {
       <CxNavItem>
         <CxNavLink href="#">Link</CxNavLink>
       </CxNavItem>
-      <CxDropdown variant="nav-item">
-        <CxDropdownToggle>A</CxDropdownToggle>
-        <CxDropdownMenu>
-          <CxDropdownItem href="#">B</CxDropdownItem>
-          <CxDropdownItem href="#">C</CxDropdownItem>
-          <CxDropdownItem href="#">D</CxDropdownItem>
-        </CxDropdownMenu>
-      </CxDropdown>
+      <CxMenu component="li" className="nav-item">
+        <CxMenuToggle>A</CxMenuToggle>
+        <CxMenuList>
+          <CxMenuItem href="#">B</CxMenuItem>
+          <CxMenuItem href="#">C</CxMenuItem>
+          <CxMenuItem href="#">D</CxMenuItem>
+        </CxMenuList>
+      </CxMenu>
       <CxNavItem>
         <CxNavLink href="#">Link</CxNavLink>
       </CxNavItem>

@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`loads and displays CxMenuItem component 1`] = `
+<div>
+  <a
+    class="menu-item"
+    href="#"
+  >
+    Test
+  </a>
+</div>
+`;

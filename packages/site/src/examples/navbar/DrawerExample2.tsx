@@ -4,13 +4,6 @@ import {
   CxButton,
   CxContainer,
   CxCollapse,
-  CxDropdown,
-  CxDropdownDivider,
-  CxDropdownHeader,
-  CxDropdownItem,
-  CxDropdownItemPlain,
-  CxDropdownMenu,
-  CxDropdownToggle,
   CxDrawer,
   CxDrawerBody,
   CxDrawerHeader,
@@ -19,6 +12,11 @@ import {
   CxFormInput,
   CxInputGroup,
   CxInputGroupText,
+  CxMenu,
+  CxMenuDivider,
+  CxMenuItem,
+  CxMenuList,
+  CxMenuToggle,
   CxNav,
   CxNavItem,
   CxNavLink,
@@ -39,7 +37,12 @@ export const DrawerExample2 = () => {
           aria-label="Toggle navigation"
           onClick={() => setVisible(!visible)}
         />
-        <CxDrawer id="drawerNavbar2" placement="end" visible={visible} onClose={() => setVisible(false)}>
+        <CxDrawer
+          id="drawerNavbar2"
+          placement="end"
+          visible={visible}
+          onClose={() => setVisible(false)}
+        >
           <CxDrawerHeader>
             <CxDrawerTitle>Drawer</CxDrawerTitle>
           </CxDrawerHeader>
@@ -53,15 +56,15 @@ export const DrawerExample2 = () => {
               <CxNavItem>
                 <CxNavLink href="#">Link</CxNavLink>
               </CxNavItem>
-              <CxDropdown variant="nav-item" popper={false}>
-                <CxDropdownToggle context="secondary">Dropdown button</CxDropdownToggle>
-                <CxDropdownMenu>
-                  <CxDropdownItem href="#">Action</CxDropdownItem>
-                  <CxDropdownItem href="#">Another action</CxDropdownItem>
-                  <CxDropdownDivider />
-                  <CxDropdownItem href="#">Something else here</CxDropdownItem>
-                </CxDropdownMenu>
-              </CxDropdown>
+              <CxMenu component="li" className="nav-item">
+                <CxMenuToggle context="secondary">Menu button</CxMenuToggle>
+                <CxMenuList>
+                  <CxMenuItem href="#">Action</CxMenuItem>
+                  <CxMenuItem href="#">Another action</CxMenuItem>
+                  <CxMenuDivider />
+                  <CxMenuItem href="#">Something else here</CxMenuItem>
+                </CxMenuList>
+              </CxMenu>
               <CxNavItem>
                 <CxNavLink href="#" disabled>
                   Disabled

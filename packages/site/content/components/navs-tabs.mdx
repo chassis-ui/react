@@ -7,18 +7,13 @@ toc: true
 
 import { TabPanesExample } from '../../src/examples/navs-tabs/TabPanesExample.tsx'
 import { TabPanesPillsExample } from '../../src/examples/navs-tabs/TabPanesPillsExample.tsx'
+import { TabsWithMenuExample } from '../../src/examples/navs-tabs/TabsWithMenuExample.tsx'
+import { PillsWithMenuExample } from '../../src/examples/navs-tabs/PillsWithMenuExample.tsx'
 
 
 import { useState } from 'react'
 
 import {
-  CxDropdown,
-  CxDropdownDivider,
-  CxDropdownHeader,
-  CxDropdownItem,
-  CxDropdownItemPlain,
-  CxDropdownMenu,
-  CxDropdownToggle,
   CxNav,
   CxNavItem,
   CxNavLink,
@@ -309,71 +304,27 @@ If you're using navs to provide a navigation bar, be sure to add a `role="naviga
 
 Note that navigation bars, even if visually styled as tabs with the `.nav-tabs` class, should **not** be given `role="tablist"`, `role="tab"` or `role="tabpanel"` attributes. These are only appropriate for dynamic tabbed interfaces, as described in the [<abbr title="Web Accessibility Initiative">WAI</abbr> <abbr title="Accessible Rich Internet Applications">ARIA</abbr> Authoring Practices](https://www.w3.org/TR/wai-aria-practices/#tabpanel). See [JavaScript behavior](#javascript-behavior) for dynamic tabbed interfaces in this section for an example. The `aria-current` attribute is not necessary on dynamic tabbed interfaces since our JavaScript handles the selected state by adding `aria-selected="true"` on the active tab.
 
-## Using dropdowns
+## Using menus
 
-Add dropdown menus with a little extra HTML.
+Add menus with a little extra HTML.
 
-### Tabs with dropdowns
+### Tabs with menus
 
 <Example>
-  <CxNav>
-    <CxNavItem>
-      <CxNavLink href="#" active>
-        Active
-      </CxNavLink>
-    </CxNavItem>
-    <CxDropdown variant="nav-item">
-      <CxDropdownToggle context="secondary">Dropdown button</CxDropdownToggle>
-      <CxDropdownMenu>
-        <CxDropdownItem href="#">Action</CxDropdownItem>
-        <CxDropdownItem href="#">Another action</CxDropdownItem>
-        <CxDropdownItem href="#">Something else here</CxDropdownItem>
-      </CxDropdownMenu>
-    </CxDropdown>
-    <CxNavItem>
-      <CxNavLink href="#">Link</CxNavLink>
-    </CxNavItem>
-    <CxNavItem>
-      <CxNavLink href="#" disabled>
-        Disabled
-      </CxNavLink>
-    </CxNavItem>
-  </CxNav>
+  <TabsWithMenuExample client:load />
 </Example>
 
-### Pills with dropdowns
+### Pills with menus
 
 <Example>
-  <CxNav variant="pills">
-    <CxNavItem>
-      <CxNavLink href="#" active>
-        Active
-      </CxNavLink>
-    </CxNavItem>
-    <CxDropdown variant="nav-item">
-      <CxDropdownToggle context="secondary">Dropdown button</CxDropdownToggle>
-      <CxDropdownMenu>
-        <CxDropdownItem href="#">Action</CxDropdownItem>
-        <CxDropdownItem href="#">Another action</CxDropdownItem>
-        <CxDropdownItem href="#">Something else here</CxDropdownItem>
-      </CxDropdownMenu>
-    </CxDropdown>
-    <CxNavItem>
-      <CxNavLink href="#">Link</CxNavLink>
-    </CxNavItem>
-    <CxNavItem>
-      <CxNavLink href="#" disabled>
-        Disabled
-      </CxNavLink>
-    </CxNavItem>
-  </CxNav>
+  <PillsWithMenuExample client:load />
 </Example>
 
 ## Tab panes
 
 Dynamic tabbed interfaces, as described in the [<abbr title="Web Accessibility Initiative">WAI</abbr> <abbr title="Accessible Rich Internet Applications">ARIA</abbr> Authoring Practices](https://www.w3.org/TR/wai-aria-practices/#tabpanel), require `role="tablist"`, `role="tab"`, `role="tabpanel"`, and additional `aria-` attributes in order to convey their structure, functionality and current state to users of assistive technologies (such as screen readers).
 
-Note that dynamic tabbed interfaces should not contain dropdown menus, as this causes both usability and accessibility issues. From a usability perspective, the fact that the currently displayed tab's trigger element is not immediately visible (as it's inside the closed dropdown menu) can cause confusion. From an accessibility point of view, there is currently no sensible way to map this sort of construct to a standard WAI ARIA pattern, meaning that it cannot be easily made understandable to users of assistive technologies.
+Note that dynamic tabbed interfaces should not contain menus, as this causes both usability and accessibility issues. From a usability perspective, the fact that the currently displayed tab's trigger element is not immediately visible (as it's inside the closed menu) can cause confusion. From an accessibility point of view, there is currently no sensible way to map this sort of construct to a standard WAI ARIA pattern, meaning that it cannot be easily made understandable to users of assistive technologies.
 
 
 <Example>

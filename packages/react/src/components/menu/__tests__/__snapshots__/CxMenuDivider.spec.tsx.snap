@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`loads and displays CxMenuDivider component 1`] = `
+<div>
+  <hr
+    class="menu-divider"
+  />
+</div>
+`;

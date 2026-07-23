@@ -1,0 +1,286 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/menu/CxMenu.tsx",
+  "description": "",
+  "displayName": "CxMenu",
+  "methods": [],
+  "props": {
+    "autoClose": {
+      "defaultValue": {
+        "value": true
+      },
+      "description": "Controls which clicks close the menu. `true` closes on any click inside or outside.\n`false` requires a programmatic `visible` change. `'inside'` closes only on click inside\nthe menu. `'outside'` closes only on click outside the menu.",
+      "name": "autoClose",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
+        "name": "CMenuProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
+          "name": "CMenuProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "MenuAutoClose"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
+        "name": "CMenuProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
+          "name": "CMenuProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "component": {
+      "defaultValue": {
+        "value": "div"
+      },
+      "description": "Component used for the root node. Either a string to use a HTML element or a component.",
+      "name": "component",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
+        "name": "CMenuProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
+          "name": "CMenuProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | ComponentClass<any, any> | FunctionComponent<any>"
+      }
+    },
+    "container": {
+      "defaultValue": null,
+      "description": "Teleports the menu panel to a container element on open. Accepts an element reference, or\n`true` to append to `document.body`.",
+      "name": "container",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
+        "name": "CMenuProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
+          "name": "CMenuProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean | Element"
+      }
+    },
+    "offset": {
+      "defaultValue": {
+        "value": "[0, 2]"
+      },
+      "description": "Distance between the menu and its reference element, as `[skidding, distance]` in pixels.",
+      "name": "offset",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
+        "name": "CMenuProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
+          "name": "CMenuProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "[number, number]"
+      }
+    },
+    "onHide": {
+      "defaultValue": null,
+      "description": "Callback fired when the menu requests to be hidden.",
+      "name": "onHide",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
+        "name": "CMenuProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
+          "name": "CMenuProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "onHidden": {
+      "defaultValue": null,
+      "description": "Callback fired after the menu finishes hiding.",
+      "name": "onHidden",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
+        "name": "CMenuProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
+          "name": "CMenuProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "onShow": {
+      "defaultValue": null,
+      "description": "Callback fired when the menu requests to be shown.",
+      "name": "onShow",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
+        "name": "CMenuProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
+          "name": "CMenuProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "onShown": {
+      "defaultValue": null,
+      "description": "Callback fired after the menu finishes showing.",
+      "name": "onShown",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
+        "name": "CMenuProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
+          "name": "CMenuProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "placement": {
+      "defaultValue": {
+        "value": "bottom-start"
+      },
+      "description": "Initial placement. Chassis will flip and shift it to keep the menu in view.",
+      "name": "placement",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
+        "name": "CMenuProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
+          "name": "CMenuProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end' | 'right' | 'right-start' | 'right-end'"
+      }
+    },
+    "reference": {
+      "defaultValue": {
+        "value": "toggle"
+      },
+      "description": "Reference element used for positioning. `'toggle'` uses the trigger. `'parent'` uses this\ncomponent's own rendered element, useful for split buttons and button groups.",
+      "name": "reference",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
+        "name": "CMenuProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
+          "name": "CMenuProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"toggle\" | \"parent\"",
+        "value": [
+          {
+            "value": "\"toggle\""
+          },
+          {
+            "value": "\"parent\""
+          }
+        ]
+      }
+    },
+    "strategy": {
+      "defaultValue": {
+        "value": "absolute"
+      },
+      "description": "CSS positioning strategy. `'fixed'` escapes `overflow: hidden` ancestors.",
+      "name": "strategy",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
+        "name": "CMenuProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
+          "name": "CMenuProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"absolute\" | \"fixed\"",
+        "value": [
+          {
+            "value": "\"absolute\""
+          },
+          {
+            "value": "\"fixed\""
+          }
+        ]
+      }
+    },
+    "visible": {
+      "defaultValue": null,
+      "description": "Toggle the visibility of the menu component.",
+      "name": "visible",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
+        "name": "CMenuProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
+          "name": "CMenuProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    }
+  }
+}

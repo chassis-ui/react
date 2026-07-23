@@ -1,0 +1,125 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/menu/CxMenuItem.tsx",
+  "description": "",
+  "displayName": "CxMenuItem",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/menu/CxMenuItem.tsx",
+        "name": "CMenuItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/CxMenuItem.tsx",
+          "name": "CMenuItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "component": {
+      "defaultValue": {
+        "value": "a"
+      },
+      "description": "Component used for the root node. Either a string to use a HTML element or a component.",
+      "name": "component",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/menu/CxMenuItem.tsx",
+        "name": "CMenuItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/CxMenuItem.tsx",
+          "name": "CMenuItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | ComponentClass<any, any> | FunctionComponent<any>"
+      }
+    },
+    "selected": {
+      "defaultValue": null,
+      "description": "Marks the item as the current selection in a choice list. Renders in a heavier font\nweight. Combine with a `.menu-item-check` icon to show a checkmark on the selected item.",
+      "name": "selected",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/menu/CxMenuItem.tsx",
+        "name": "CMenuItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/CxMenuItem.tsx",
+          "name": "CMenuItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "active": {
+      "defaultValue": null,
+      "description": "Toggle the active state for the component.",
+      "name": "active",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/link/CxLink.tsx",
+        "name": "CLinkProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/link/CxLink.tsx",
+          "name": "CLinkProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "disabled": {
+      "defaultValue": null,
+      "description": "Toggle the disabled state for the component.",
+      "name": "disabled",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/link/CxLink.tsx",
+        "name": "CLinkProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/link/CxLink.tsx",
+          "name": "CLinkProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "href": {
+      "defaultValue": null,
+      "description": "The href attribute specifies the URL of the page the link goes to.",
+      "name": "href",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/link/CxLink.tsx",
+        "name": "CLinkProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/link/CxLink.tsx",
+          "name": "CLinkProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    }
+  }
+}
