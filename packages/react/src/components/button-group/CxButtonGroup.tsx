@@ -19,8 +19,9 @@ export interface CButtonGroupProps extends HTMLAttributes<HTMLDivElement> {
 export const CxButtonGroup = forwardRef<HTMLDivElement, CButtonGroupProps>(
   ({ children, className, size, vertical, ...rest }, ref) => {
     const _className = classNames(
-      vertical ? 'btn-group-vertical' : 'btn-group',
-      { [`btn-group-${size}`]: size },
+      'button-group',
+      vertical,
+      size,
       className,
     )
 

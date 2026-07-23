@@ -18,8 +18,8 @@ test('CxButtonGroup customize', async () => {
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')
-  expect(container.firstChild).toHaveClass('btn-group')
-  expect(container.firstChild).toHaveClass('btn-group-large')
+  expect(container.firstChild).toHaveClass('button-group')
+  expect(container.firstChild).toHaveClass('large')
 })
 
 test('CxButtonGroup customize vertical', async () => {
@@ -32,6 +32,7 @@ test('CxButtonGroup customize vertical', async () => {
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')
-  expect(container.firstChild).toHaveClass('btn-group-vertical')
-  expect(container.firstChild).toHaveClass('btn-group-large')
+  expect(container.firstChild).toHaveClass('button-group')
+  expect(container.firstChild).toHaveClass('vertical')
+  expect(container.firstChild).toHaveClass('large')
 })

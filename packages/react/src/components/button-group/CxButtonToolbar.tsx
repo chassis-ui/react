@@ -10,7 +10,7 @@ export interface CButtonToolbarProps extends HTMLAttributes<HTMLDivElement> {
 
 export const CxButtonToolbar = forwardRef<HTMLDivElement, CButtonToolbarProps>(
   ({ children, className, ...rest }, ref) => {
-    const _className = classNames('btn-toolbar', className)
+    const _className = classNames('button-toolbar', className)
 
     return (
       <div className={_className} {...rest} ref={ref}>

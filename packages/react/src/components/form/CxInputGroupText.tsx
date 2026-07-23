@@ -14,7 +14,7 @@ export interface CInputGroupTextProps extends HTMLAttributes<HTMLLabelElement | 
 
 export const CxInputGroupText = forwardRef<HTMLLabelElement | HTMLSpanElement, CInputGroupTextProps>(
   ({ children, className, component: Component = 'span', ...rest }, ref) => {
-    const _className = classNames('input-group-text', className)
+    const _className = classNames('input-addon', className)
     return (
       <Component className={_className} {...rest} ref={ref}>
         {children}

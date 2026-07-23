@@ -33,8 +33,17 @@ import {
 
 Below is a static modal example, with the backdrop and keyboard dismissal disabled so it stays open for illustration. Included are the modal header, modal body (required for `padding`), and modal footer (optional). We ask that you include modal headers with dismiss actions whenever possible, or provide another explicit dismiss action.
 
-<Example>
-  <CxModal backdrop={false} keyboard={false} open>
+<Example customMarkup={`<CxModal backdrop={false} keyboard={false} open>
+    <CxModalHeader>
+      <CxModalTitle>Modal title</CxModalTitle>
+    </CxModalHeader>
+    <CxModalBody>Modal body text goes here.</CxModalBody>
+    <CxModalFooter>
+      <CxButton context="secondary">Close</CxButton>
+      <CxButton context="primary">Save changes</CxButton>
+    </CxModalFooter>
+  </CxModal>`}>
+  <CxModal backdrop={false} keyboard={false} style={{ position: 'relative' }} open>
     <CxModalHeader>
       <CxModalTitle>Modal title</CxModalTitle>
     </CxModalHeader>

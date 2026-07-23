@@ -16,9 +16,7 @@ export const CxInputGroup = forwardRef<HTMLDivElement, CInputGroupProps>(
   ({ children, className, size, ...rest }, ref) => {
     const _className = classNames(
       'input-group',
-      {
-        [`input-group-${size}`]: size,
-      },
+      size,
       className,
     )
     return (
