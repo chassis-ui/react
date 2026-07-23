@@ -17,7 +17,8 @@ export interface CToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title
    */
   animation?: boolean
   /**
-   * Auto hide the toast.
+   * Auto hide the toast. The timer starts once the show transition completes and pauses
+   * while the pointer is over the toast or focus is within it.
    */
   autohide?: boolean
   /**
@@ -27,7 +28,7 @@ export interface CToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title
   /**
    * Sets the context context of the component to one of Chassis themed colors.
    *
-   * @type 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light' | string
+   * @type 'default' | 'alternate' | 'primary' | 'secondary' | 'neutral' | 'success' | 'danger' | 'warning' | 'info' | 'black' | 'white' | string
    */
   context?: Colors
   /**
@@ -51,6 +52,14 @@ export interface CToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title
    */
   onShow?: (index: number | null) => void
   /**
+   * Apply a full-color background with inverted text. Only meaningful alongside `context`.
+   */
+  solid?: boolean
+  /**
+   * Apply a semi-transparent background.
+   */
+  translucent?: boolean
+  /**
    * Toggle the visibility of component.
    */
   visible?: boolean
@@ -58,7 +67,7 @@ export interface CToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title
 
 interface ContextProps extends CToastProps {
   visible?: boolean
-  setVisible: React.Dispatch<React.SetStateAction<boolean | undefined>>
+  setVisible: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const CToastContext = createContext({} as ContextProps)
@@ -74,6 +83,9 @@ export const CxToast = forwardRef<HTMLDivElement, CToastProps>(
       delay = 5000,
       index,
       key,
+      role = 'status',
+      solid,
+      translucent,
       visible = false,
       onClose,
       onShow,
@@ -83,6 +95,8 @@ export const CxToast = forwardRef<HTMLDivElement, CToastProps>(
   ) => {
     const [_visible, setVisible] = useState(false)
     const timeout = useRef<number>()
+    const hasMouseInteraction = useRef(false)
+    const hasKeyboardInteraction = useRef(false)
 
     useEffect(() => {
       setVisible(visible)
@@ -94,28 +108,59 @@ export const CxToast = forwardRef<HTMLDivElement, CToastProps>(
     }
 
     // triggered on mount and destroy
-    useEffect(() => () => clearTimeout(timeout.current), [])
+    useEffect(() => () => _clearAutohideTimeout(), [])
 
     useEffect(() => {
-      _autohide()
+      _maybeScheduleHide()
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [_visible])
 
-    const _autohide = () => {
-      if (autohide) {
-        clearTimeout(timeout.current)
-        timeout.current = window.setTimeout(() => {
-          setVisible(false)
-        }, delay)
+    const _clearAutohideTimeout = () => {
+      clearTimeout(timeout.current)
+      timeout.current = undefined
+    }
+
+    // The autohide timer only starts once neither the pointer nor focus is
+    // interacting with the toast, mirroring Chassis CSS's toast.js behavior.
+    const _maybeScheduleHide = () => {
+      if (!autohide || hasMouseInteraction.current || hasKeyboardInteraction.current) {
+        return
       }
+      _clearAutohideTimeout()
+      timeout.current = window.setTimeout(() => {
+        setVisible(false)
+      }, delay)
+    }
+
+    const _onMouseEnter = () => {
+      hasMouseInteraction.current = true
+      _clearAutohideTimeout()
+    }
+
+    const _onMouseLeave = () => {
+      hasMouseInteraction.current = false
+      _maybeScheduleHide()
+    }
+
+    const _onFocus = () => {
+      hasKeyboardInteraction.current = true
+      _clearAutohideTimeout()
+    }
+
+    const _onBlur = () => {
+      hasKeyboardInteraction.current = false
+      _maybeScheduleHide()
     }
 
     const _className = classNames(
       'toast',
       {
         fade: animation,
-        [`bg-${context}`]: context,
-        'border-0': context,
+        context: !!context,
+        solid: Boolean(solid && context),
+        translucent,
       },
+      context,
       className,
     )
 
@@ -143,11 +188,11 @@ export const CxToast = forwardRef<HTMLDivElement, CToastProps>(
             <CToastContext.Provider value={contextValues}>
               <div
                 className={classNames(_className, transitionClass)}
-                aria-live="assertive"
-                aria-atomic="true"
-                role="alert"
-                onMouseEnter={() => clearTimeout(timeout.current)}
-                onMouseLeave={_autohide}
+                role={role}
+                onMouseEnter={_onMouseEnter}
+                onMouseLeave={_onMouseLeave}
+                onFocus={_onFocus}
+                onBlur={_onBlur}
                 {...rest}
                 key={key}
                 ref={ref}

@@ -98,6 +98,7 @@ import { CxTabPane } from './components/tabs/CxTabPane'
 import { CxToast } from './components/toast/CxToast'
 import { CxToastBody } from './components/toast/CxToastBody'
 import { CxToastClose } from './components/toast/CxToastClose'
+import { CxToastFooter } from './components/toast/CxToastFooter'
 import { CxToastHeader } from './components/toast/CxToastHeader'
 import { CxToaster } from './components/toast/CxToaster'
 import { CxTooltip } from './components/tooltip/CxTooltip'
@@ -203,6 +204,7 @@ export {
   CxToast,
   CxToastBody,
   CxToastClose,
+  CxToastFooter,
   CxToastHeader,
   CxToaster,
   CxTooltip,

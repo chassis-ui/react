@@ -3,10 +3,8 @@
 exports[`CxToast customize 1`] = `
 <div>
   <div
-    aria-atomic="true"
-    aria-live="assertive"
-    class="toast fade bg-warning border-0 bazinga showing"
-    role="alert"
+    class="toast fade context warning bazinga showing"
+    role="status"
   >
     Test
   </div>
@@ -16,10 +14,8 @@ exports[`CxToast customize 1`] = `
 exports[`CxToast customize 2`] = `
 <div>
   <div
-    aria-atomic="true"
-    aria-live="assertive"
-    class="toast fade bg-warning border-0 bazinga showing"
-    role="alert"
+    class="toast fade context warning bazinga showing"
+    role="status"
   >
     Test
   </div>
@@ -29,10 +25,8 @@ exports[`CxToast customize 2`] = `
 exports[`CxToast customize 3`] = `
 <div>
   <div
-    aria-atomic="true"
-    aria-live="assertive"
-    class="toast fade bg-warning border-0 bazinga showing"
-    role="alert"
+    class="toast fade context warning bazinga showing"
+    role="status"
   >
     Test
   </div>
@@ -42,10 +36,8 @@ exports[`CxToast customize 3`] = `
 exports[`CxToast customize 4`] = `
 <div>
   <div
-    aria-atomic="true"
-    aria-live="assertive"
-    class="toast fade bg-warning border-0 bazinga showing"
-    role="alert"
+    class="toast fade context warning bazinga showing"
+    role="status"
   >
     Test
   </div>
@@ -55,10 +47,8 @@ exports[`CxToast customize 4`] = `
 exports[`CxToast customize 5`] = `
 <div>
   <div
-    aria-atomic="true"
-    aria-live="assertive"
-    class="toast fade bg-warning border-0 bazinga showing"
-    role="alert"
+    class="toast fade context warning bazinga showing"
+    role="status"
   >
     Test
   </div>
@@ -68,10 +58,8 @@ exports[`CxToast customize 5`] = `
 exports[`CxToast customize 6`] = `
 <div>
   <div
-    aria-atomic="true"
-    aria-live="assertive"
-    class="toast fade bg-warning border-0 bazinga show"
-    role="alert"
+    class="toast fade context warning bazinga show"
+    role="status"
   >
     Test
   </div>

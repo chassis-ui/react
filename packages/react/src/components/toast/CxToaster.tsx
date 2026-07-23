@@ -51,9 +51,10 @@ export const CxToaster = forwardRef<HTMLDivElement, CToasterProps>(
     }
 
     const _className = classNames(
-      'toaster toast-container p-3',
+      'toaster toast-container p-medium',
       {
         'position-fixed': placement,
+        'position-static': !placement,
         'top-0': placement && placement.includes('top'),
         'top-50 translate-middle-y': placement && placement.includes('middle'),
         'bottom-0': placement && placement.includes('bottom'),

@@ -27,8 +27,25 @@ test('CxToast customize', async () => {
     expect(container.firstChild).toHaveClass('bazinga')
     expect(container.firstChild).toHaveClass('toast')
     expect(container.firstChild).toHaveClass('fade')
-    expect(container.firstChild).toHaveClass('bg-warning')
+    expect(container.firstChild).toHaveClass('context')
+    expect(container.firstChild).toHaveClass('warning')
     expect(container.firstChild).toHaveClass('show')
+    expect(container.firstChild).toHaveAttribute('role', 'status')
+  })
+})
+
+test('CxToast solid and translucent', async () => {
+  const { container } = render(
+    <CxToast context="warning" solid translucent visible={true} autohide={false} role="alert">
+      Test
+    </CxToast>,
+  )
+  await waitFor(() => {
+    expect(container.firstChild).toHaveClass('context')
+    expect(container.firstChild).toHaveClass('warning')
+    expect(container.firstChild).toHaveClass('solid')
+    expect(container.firstChild).toHaveClass('translucent')
+    expect(container.firstChild).toHaveAttribute('role', 'alert')
   })
 })
 
@@ -87,6 +104,35 @@ test('CxToast test autohide', async () => {
   await waitFor(() => {
     expect(container.firstChild).toHaveClass('show')
   })
+
+  await waitFor(
+    () => {
+      expect(container.firstChild).toBeNull()
+    },
+    {
+      timeout: 5000,
+    },
+  )
+})
+
+test('CxToast pauses autohide while focused', async () => {
+  const { container } = render(
+    <CxToast autohide={true} delay={300} visible={true}>
+      <button type="button">Action</button>
+    </CxToast>,
+  )
+
+  await waitFor(() => {
+    expect(container.firstChild).toHaveClass('show')
+  })
+
+  const toast = container.firstChild as HTMLElement
+  fireEvent.focus(toast)
+
+  await new Promise((resolve) => setTimeout(resolve, 400))
+  expect(container.firstChild).not.toBeNull()
+
+  fireEvent.blur(toast)
 
   await waitFor(
     () => {

@@ -30,7 +30,7 @@
       "defaultValue": {
         "value": true
       },
-      "description": "Auto hide the toast.",
+      "description": "Auto hide the toast. The timer starts once the show transition completes and pauses\nwhile the pointer is over the toast or focus is within it.",
       "name": "autohide",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
@@ -82,7 +82,7 @@
       ],
       "required": false,
       "type": {
-        "name": "'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light' | string"
+        "name": "'default' | 'alternate' | 'primary' | 'secondary' | 'neutral' | 'success' | 'danger' | 'warning' | 'info' | 'black' | 'white' | string"
       }
     },
     "delay": {
@@ -184,6 +184,44 @@
       "required": false,
       "type": {
         "name": "((index: number | null) => void)"
+      }
+    },
+    "solid": {
+      "defaultValue": null,
+      "description": "Apply a full-color background with inverted text. Only meaningful alongside `context`.",
+      "name": "solid",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
+        "name": "CToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
+          "name": "CToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "translucent": {
+      "defaultValue": null,
+      "description": "Apply a semi-transparent background.",
+      "name": "translucent",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
+        "name": "CToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
+          "name": "CToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
       }
     },
     "visible": {

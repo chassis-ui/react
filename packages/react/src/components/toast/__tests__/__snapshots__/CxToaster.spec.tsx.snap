@@ -3,7 +3,7 @@
 exports[`CxToaster customize 1`] = `
 <div>
   <div
-    class="toaster toast-container p-3 bazinga"
+    class="toaster toast-container p-medium position-static bazinga"
   />
   <button
     class="button primary"
@@ -17,7 +17,7 @@ exports[`CxToaster customize 1`] = `
 exports[`loads and displays CxToaster component 1`] = `
 <div>
   <div
-    class="toaster toast-container p-3"
+    class="toaster toast-container p-medium position-static"
   >
     Test
   </div>

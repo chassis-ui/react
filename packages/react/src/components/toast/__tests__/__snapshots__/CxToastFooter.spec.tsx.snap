@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CxToastFooter customize 1`] = `
+<div>
+  <div
+    class="toast-footer bazinga"
+  >
+    Test
+  </div>
+</div>
+`;
+
+exports[`loads and displays CxToastFooter component 1`] = `
+<div>
+  <div
+    class="toast-footer"
+  >
+    Test
+  </div>
+</div>
+`;
