@@ -3,25 +3,21 @@
 exports[`loads and displays CxSubmenu component 1`] = `
 <div>
   <div
-    class=""
+    aria-hidden="false"
+    class="menu show"
+    style="position: absolute; top: 0px; left: 0px;"
   >
     <div
-      aria-hidden="false"
-      class="menu show"
-      style="position: absolute; top: 0px; left: 0px;"
+      class="submenu"
     >
-      <div
-        class="submenu"
+      <button
+        aria-expanded="false"
+        aria-haspopup="true"
+        class="menu-item"
+        type="button"
       >
-        <button
-          aria-expanded="false"
-          aria-haspopup="true"
-          class="menu-item"
-          type="button"
-        >
-          File
-        </button>
-      </div>
+        File
+      </button>
     </div>
   </div>
 </div>

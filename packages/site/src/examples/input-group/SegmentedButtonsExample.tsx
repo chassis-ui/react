@@ -17,7 +17,7 @@ export const SegmentedButtonsExample = () => {
         <CxButton type="button" context="secondary" variant="outline">
           Action
         </CxButton>
-        <CxMenu style={{ display: 'contents' }}>
+        <CxMenu>
           <CxMenuToggle context="secondary" variant="outline">
             <span className="visually-hidden">Toggle menu</span>
           </CxMenuToggle>
@@ -37,7 +37,7 @@ export const SegmentedButtonsExample = () => {
         <CxButton type="button" context="secondary" variant="outline">
           Action
         </CxButton>
-        <CxMenu placement="bottom-end" style={{ display: 'contents' }}>
+        <CxMenu placement="bottom-end">
           <CxMenuToggle context="secondary" variant="outline">
             <span className="visually-hidden">Toggle menu</span>
           </CxMenuToggle>

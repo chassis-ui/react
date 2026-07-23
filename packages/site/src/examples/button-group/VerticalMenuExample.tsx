@@ -14,7 +14,7 @@ export const VerticalMenuExample = () => {
     <CxButtonGroup vertical role="group" aria-label="Vertical button group">
       <CxButton context="primary">Button</CxButton>
       <CxButton context="primary">Button</CxButton>
-      <CxMenu style={{ display: 'contents' }}>
+      <CxMenu>
         <CxMenuToggle context="primary">Menu</CxMenuToggle>
         <CxMenuList>
           <CxMenuItem href="#">Action</CxMenuItem>
@@ -26,7 +26,7 @@ export const VerticalMenuExample = () => {
       </CxMenu>
       <CxButton context="primary">Button</CxButton>
       <CxButton context="primary">Button</CxButton>
-      <CxMenu style={{ display: 'contents' }}>
+      <CxMenu>
         <CxMenuToggle context="primary">Menu</CxMenuToggle>
         <CxMenuList>
           <CxMenuItem href="#">Action</CxMenuItem>
@@ -36,7 +36,7 @@ export const VerticalMenuExample = () => {
           <CxMenuItem href="#">Separated link</CxMenuItem>
         </CxMenuList>
       </CxMenu>
-      <CxMenu style={{ display: 'contents' }}>
+      <CxMenu>
         <CxMenuToggle context="primary">Menu</CxMenuToggle>
         <CxMenuList>
           <CxMenuItem href="#">Action</CxMenuItem>
@@ -46,7 +46,7 @@ export const VerticalMenuExample = () => {
           <CxMenuItem href="#">Separated link</CxMenuItem>
         </CxMenuList>
       </CxMenu>
-      <CxMenu style={{ display: 'contents' }}>
+      <CxMenu>
         <CxMenuToggle context="primary">Menu</CxMenuToggle>
         <CxMenuList>
           <CxMenuItem href="#">Action</CxMenuItem>

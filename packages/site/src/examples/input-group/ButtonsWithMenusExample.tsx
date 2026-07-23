@@ -13,7 +13,7 @@ export const ButtonsWithMenusExample = () => {
   return (
     <>
       <CxInputGroup className="mb-3">
-        <CxMenu style={{ display: 'contents' }}>
+        <CxMenu>
           <CxMenuToggle context="secondary" variant="outline">
             Menu
           </CxMenuToggle>
@@ -30,7 +30,7 @@ export const ButtonsWithMenusExample = () => {
 
       <CxInputGroup className="mb-3">
         <CxFormInput aria-label="Text input with menu button" />
-        <CxMenu placement="bottom-end" style={{ display: 'contents' }}>
+        <CxMenu placement="bottom-end">
           <CxMenuToggle context="secondary" variant="outline">
             Menu
           </CxMenuToggle>
@@ -45,7 +45,7 @@ export const ButtonsWithMenusExample = () => {
       </CxInputGroup>
 
       <CxInputGroup>
-        <CxMenu style={{ display: 'contents' }}>
+        <CxMenu>
           <CxMenuToggle context="secondary" variant="outline">
             Menu
           </CxMenuToggle>
@@ -58,7 +58,7 @@ export const ButtonsWithMenusExample = () => {
           </CxMenuList>
         </CxMenu>
         <CxFormInput aria-label="Text input with 2 menu buttons" />
-        <CxMenu placement="bottom-end" style={{ display: 'contents' }}>
+        <CxMenu placement="bottom-end">
           <CxMenuToggle context="secondary" variant="outline">
             Menu
           </CxMenuToggle>

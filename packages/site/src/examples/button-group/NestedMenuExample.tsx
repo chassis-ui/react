@@ -14,7 +14,7 @@ export const NestedMenuExample = () => {
     <CxButtonGroup role="group" aria-label="Button group with nested menu">
       <CxButton context="primary">1</CxButton>
       <CxButton context="primary">2</CxButton>
-      <CxMenu style={{ display: 'contents' }}>
+      <CxMenu>
         <CxMenuToggle context="primary">Menu</CxMenuToggle>
         <CxMenuList>
           <CxMenuItem href="#">Action</CxMenuItem>

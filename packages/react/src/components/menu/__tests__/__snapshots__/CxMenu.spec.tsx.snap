@@ -12,42 +12,34 @@ exports[`CxMenu customize 1`] = `
 
 exports[`CxMenu example 1`] = `
 <div>
-  <div
-    class=""
+  <button
+    aria-expanded="true"
+    class="button primary caret"
+    type="button"
   >
-    <button
-      aria-expanded="true"
-      class="button primary caret"
-      type="button"
+    Test
+  </button>
+  <div
+    aria-hidden="false"
+    class="menu show"
+    style="position: absolute; top: 0px; left: 0px;"
+  >
+    <a
+      class="menu-item"
     >
-      Test
-    </button>
-    <div
-      aria-hidden="false"
-      class="menu show"
-      style="position: absolute; top: 0px; left: 0px;"
+      A
+    </a>
+    <a
+      class="menu-item"
     >
-      <a
-        class="menu-item"
-      >
-        A
-      </a>
-      <a
-        class="menu-item"
-      >
-        B
-      </a>
-    </div>
+      B
+    </a>
   </div>
 </div>
 `;
 
 exports[`loads and displays CxMenu component 1`] = `
 <div>
-  <div
-    class=""
-  >
-    Test
-  </div>
+  Test
 </div>
 `;

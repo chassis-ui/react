@@ -2,6 +2,7 @@ import React, {
   createContext,
   ElementType,
   forwardRef,
+  Fragment,
   HTMLAttributes,
   useEffect,
   useLayoutEffect,
@@ -37,6 +38,15 @@ export interface CMenuProps extends HTMLAttributes<HTMLElement> {
   className?: string
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
+   * Defaults to `Fragment` — `CxMenuToggle`/`CxMenuList` render with no wrapping element, so
+   * they land as direct children of whatever contains the `CxMenu`. This matters inside
+   * `CxButtonGroup`/`CxInputGroup`, whose CSS expects the toggle button and menu panel as direct
+   * children rather than nested inside an intermediate node.
+   *
+   * Pass an actual element (e.g. `"div"`, or `"li"` for a navbar item) to opt back into a
+   * wrapper — needed if you want to apply `className`/`style`/other rest props to a container
+   * around the whole menu, for semantic wrapping like a nav `<li>`, or for `reference="parent"`,
+   * which positions off this wrapper and has nothing to measure against without one.
    */
   component?: string | ElementType
   /**
@@ -132,7 +142,7 @@ export const CxMenu = forwardRef<HTMLElement, CMenuProps>(
       children,
       autoClose = true,
       className,
-      component: Component = 'div',
+      component: Component = Fragment as ElementType,
       container,
       offset: offsetProp = [0, 2],
       onHide,
@@ -272,9 +282,13 @@ export const CxMenu = forwardRef<HTMLElement, CMenuProps>(
 
     return (
       <CMenuContext.Provider value={contextValue}>
-        <Component className={classNames(className)} {...rest} ref={forkedRef}>
-          {children}
-        </Component>
+        {Component === Fragment ? (
+          children
+        ) : (
+          <Component className={classNames(className)} {...rest} ref={forkedRef}>
+            {children}
+          </Component>
+        )}
       </CMenuContext.Provider>
     )
   },
