@@ -101,6 +101,30 @@ export const remarkCxDocsref: Plugin<[], Root> = function () {
   }
 }
 
+// When JSX inside an `<Example>` is written across multiple lines (the label text starts
+// on its own line rather than sharing the opening tag's line), remark parses that text as
+// block content and wraps it in a paragraph: `<CxButton>\n  Save\n</CxButton>` becomes
+// `<CxButton><p>Save</p></CxButton>`. Single-line usage (`<CxButton>Save</CxButton>`) parses
+// as inline text and is unaffected. `<Example>` only ever holds live component markup, never
+// markdown prose, so it's safe to unwrap that spurious paragraph for every element inside it
+// (at any nesting depth) rather than special-casing individual components.
+export const remarkCxExampleInlineChildren: Plugin<[], Root> = function () {
+  return function remarkCxExampleInlineChildrenPlugin(ast) {
+    visit(ast, 'mdxJsxFlowElement', (exampleNode) => {
+      if (exampleNode.name !== 'Example') return
+
+      visit(exampleNode, ['mdxJsxFlowElement', 'mdxJsxTextElement'], (node) => {
+        if (node === exampleNode || node.children.length !== 1) return
+
+        const [child] = node.children
+        if (child.type === 'paragraph') {
+          node.children = child.children as typeof node.children
+        }
+      })
+    })
+  }
+}
+
 interface ExampleImportBinding {
   localName: string
   source: string
