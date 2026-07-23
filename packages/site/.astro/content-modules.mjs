@@ -25,6 +25,7 @@ export default new Map([
 ["content/components/table.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=content%2Fcomponents%2Ftable.mdx&astroContentModuleFlag=true")],
 ["content/components/toast.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=content%2Fcomponents%2Ftoast.mdx&astroContentModuleFlag=true")],
 ["content/components/tooltip.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=content%2Fcomponents%2Ftooltip.mdx&astroContentModuleFlag=true")],
+["content/components/zzz-markdown-disable-test.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=content%2Fcomponents%2Fzzz-markdown-disable-test.mdx&astroContentModuleFlag=true")],
 ["content/forms/checks-radios.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=content%2Fforms%2Fchecks-radios.mdx&astroContentModuleFlag=true")],
 ["content/forms/floating-labels.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=content%2Fforms%2Ffloating-labels.mdx&astroContentModuleFlag=true")],
 ["content/forms/form-control.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=content%2Fforms%2Fform-control.mdx&astroContentModuleFlag=true")],

@@ -101,25 +101,91 @@ export const remarkCxDocsref: Plugin<[], Root> = function () {
   }
 }
 
-// When JSX inside an `<Example>` is written across multiple lines (the label text starts
-// on its own line rather than sharing the opening tag's line), remark parses that text as
-// block content and wraps it in a paragraph: `<CxButton>\n  Save\n</CxButton>` becomes
-// `<CxButton><p>Save</p></CxButton>`. Single-line usage (`<CxButton>Save</CxButton>`) parses
-// as inline text and is unaffected. `<Example>` only ever holds live component markup, never
-// markdown prose, so it's safe to unwrap that spurious paragraph for every element inside it
-// (at any nesting depth) rather than special-casing individual components.
+// `<Example>` exists to render a component's JSX exactly as authored, alongside that same JSX
+// as a source snippet (see `remarkCxExample` below) — it never holds prose, so nothing inside it
+// should be reinterpreted as markdown. But remark still tokenizes its contents as CommonMark, so
+// any line inside a JSX element's children is subject to full markdown parsing: a label on its
+// own line gets paragraph-wrapped, a line starting with `#`/`-`/`>` becomes a heading/list/
+// blockquote, and inline runs of `*text*`, `` `code` ``, `[text](url)`, entities, etc. get
+// converted to emphasis/inlineCode/link/decoded-text nodes.
+//
+// Block wrappers (paragraph, heading, blockquote, list, listItem) are purely additive — their
+// inner content is unaffected, so `flattenBlockNodes` just recurses into their children and
+// splices them into place. That alone also surfaces any JSX element nested inside one of them
+// (e.g. `<CxButton>Profile <CxBadge>4</CxBadge></CxButton>` parses as a single `paragraph`
+// wrapping `[text, CxBadge]` — flattening exposes that `CxBadge` as a sibling again instead of
+// leaving it buried inside the paragraph).
+//
+// Inline constructs are different: they actually *consume* their markdown syntax characters
+// during tokenization (an `emphasis` node's children hold "text", not "*text*"), so there's no
+// wrapper to remove — the original characters are simply gone from the parsed tree. The only way
+// to fully undo this is to stop trusting the parsed prose nodes and substitute the literal raw
+// source text instead, which is possible because `mdxJsxFlowElement`/`mdxJsxTextElement`/
+// `mdxFlowExpression`/`mdxTextExpression` nodes (actual JSX tags and `{expressions}`) keep an
+// accurate `position` (offset into the file) regardless of what markdown did around them. So once
+// block wrappers are flattened away, any run of consecutive non-JSX/expression nodes is collapsed
+// into a single text node sliced verbatim from the raw source between that run's start and end
+// offsets — reproducing the author's literal text, asterisks/backticks/entities and all — while
+// actual JSX/expression children are left untouched (and recursed into on their own turn, since
+// `visit` below descends into every element at every depth).
+const BLOCK_WRAPPER_TYPES = new Set(['paragraph', 'heading', 'blockquote', 'list', 'listItem'])
+const STRUCTURAL_MDX_TYPES = new Set([
+  'mdxJsxFlowElement',
+  'mdxJsxTextElement',
+  'mdxFlowExpression',
+  'mdxTextExpression',
+])
+
+interface PositionedNode {
+  type: string
+  children?: PositionedNode[]
+  position?: { start: { offset?: number }; end: { offset?: number } }
+}
+
+function flattenBlockNodes<T extends PositionedNode>(nodes: T[]): T[] {
+  return nodes.flatMap((node) =>
+    BLOCK_WRAPPER_TYPES.has(node.type) ? flattenBlockNodes((node.children ?? []) as T[]) : [node],
+  )
+}
+
+function toLiteralChildren<T extends PositionedNode>(nodes: T[], raw: string): T[] {
+  const flat = flattenBlockNodes(nodes)
+  const result: T[] = []
+  let run: T[] = []
+
+  const flushRun = () => {
+    if (run.length === 0) return
+    const start = run[0].position?.start.offset
+    const end = run[run.length - 1].position?.end.offset
+    if (start != null && end != null) {
+      result.push({ type: 'text', value: raw.slice(start, end) } as unknown as T)
+    }
+    run = []
+  }
+
+  for (const node of flat) {
+    if (STRUCTURAL_MDX_TYPES.has(node.type)) {
+      flushRun()
+      result.push(node)
+    } else {
+      run.push(node)
+    }
+  }
+  flushRun()
+
+  return result
+}
+
 export const remarkCxExampleInlineChildren: Plugin<[], Root> = function () {
-  return function remarkCxExampleInlineChildrenPlugin(ast) {
+  return function remarkCxExampleInlineChildrenPlugin(ast, file) {
+    const raw = String(file.value)
+
     visit(ast, 'mdxJsxFlowElement', (exampleNode) => {
       if (exampleNode.name !== 'Example') return
 
       visit(exampleNode, ['mdxJsxFlowElement', 'mdxJsxTextElement'], (node) => {
-        if (node === exampleNode || node.children.length !== 1) return
-
-        const [child] = node.children
-        if (child.type === 'paragraph') {
-          node.children = child.children as typeof node.children
-        }
+        if (node === exampleNode) return
+        node.children = toLiteralChildren(node.children as PositionedNode[], raw) as typeof node.children
       })
     })
   }
