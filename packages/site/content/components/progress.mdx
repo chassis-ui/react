@@ -16,19 +16,19 @@ Progress components are built with two HTML elements, some CSS to set the width,
 ## Basic usage
 
 <Example>
-  <CxProgress className="mb-3">
+  <CxProgress className="mb-medium">
     <CxProgressBar value={0} />
   </CxProgress>
-  <CxProgress className="mb-3">
+  <CxProgress className="mb-medium">
     <CxProgressBar value={25} />
   </CxProgress>
-  <CxProgress className="mb-3">
+  <CxProgress className="mb-medium">
     <CxProgressBar value={50} />
   </CxProgress>
-  <CxProgress className="mb-3">
+  <CxProgress className="mb-medium">
     <CxProgressBar value={75} />
   </CxProgress>
-  <CxProgress className="mb-3">
+  <CxProgress className="mb-medium">
     <CxProgressBar value={100} />
   </CxProgress>
 </Example>
@@ -38,7 +38,7 @@ Progress components are built with two HTML elements, some CSS to set the width,
 Add labels to your progress bars by placing text within the `<CxProgressBar>`.
 
 <Example>
-  <CxProgress className="mb-3">
+  <CxProgress className="mb-medium">
     <CxProgressBar value={25}>25%</CxProgressBar>
   </CxProgress>
 </Example>
@@ -48,10 +48,10 @@ Add labels to your progress bars by placing text within the `<CxProgressBar>`.
 We only set a `height` value on the `<CxProgress>`, so if you change that value the inner `<CxProgressBar>` will automatically resize accordingly.
 
 <Example>
-  <CxProgress height={1} className="mb-3">
+  <CxProgress height={1} className="mb-medium">
     <CxProgressBar value={25}></CxProgressBar>
   </CxProgress>
-  <CxProgress height={20} className="mb-3">
+  <CxProgress height={20} className="mb-medium">
     <CxProgressBar value={25}></CxProgressBar>
   </CxProgress>
 </Example>
@@ -61,16 +61,16 @@ We only set a `height` value on the `<CxProgress>`, so if you change that value 
 Use `context` prop to change the appearance of individual progress bars.
 
 <Example>
-  <CxProgress className="mb-3">
+  <CxProgress className="mb-medium">
     <CxProgressBar context="success" value={25} />
   </CxProgress>
-  <CxProgress className="mb-3">
+  <CxProgress className="mb-medium">
     <CxProgressBar context="info" value={50} />
   </CxProgress>
-  <CxProgress className="mb-3">
+  <CxProgress className="mb-medium">
     <CxProgressBar context="warning" value={75} />
   </CxProgress>
-  <CxProgress className="mb-3">
+  <CxProgress className="mb-medium">
     <CxProgressBar context="danger" value={100} />
   </CxProgress>
 </Example>
@@ -80,7 +80,7 @@ Use `context` prop to change the appearance of individual progress bars.
 Include multiple progress bars in a progress component if you need.
 
 <Example>
-  <CxProgress className="mb-3">
+  <CxProgress className="mb-medium">
     <CxProgressBar value={15} />
     <CxProgressBar context="success" value={30} />
     <CxProgressBar context="info" value={20} />
@@ -92,16 +92,16 @@ Include multiple progress bars in a progress component if you need.
 Add `variant="striped"` to any `<CxProgressBar>` to apply a stripe via CSS gradient over the progress bar's background context.
 
 <Example>
-  <CxProgress className="mb-3">
+  <CxProgress className="mb-medium">
     <CxProgressBar context="success" variant="striped" value={25} />
   </CxProgress>
-  <CxProgress className="mb-3">
+  <CxProgress className="mb-medium">
     <CxProgressBar context="info" variant="striped" value={50} />
   </CxProgress>
-  <CxProgress className="mb-3">
+  <CxProgress className="mb-medium">
     <CxProgressBar context="warning" variant="striped" value={75} />
   </CxProgress>
-  <CxProgress className="mb-3">
+  <CxProgress className="mb-medium">
     <CxProgressBar context="danger" variant="striped" value={100} />
   </CxProgress>
 </Example>
@@ -111,16 +111,16 @@ Add `variant="striped"` to any `<CxProgressBar>` to apply a stripe via CSS gradi
 The striped gradient can also be animated. Add `animated` property to `<CxProgressBar>` to animate the stripes right to left via CSS3 animations.
 
 <Example>
-  <CxProgress className="mb-3">
+  <CxProgress className="mb-medium">
     <CxProgressBar context="success" variant="striped" animated value={25} />
   </CxProgress>
-  <CxProgress className="mb-3">
+  <CxProgress className="mb-medium">
     <CxProgressBar context="info" variant="striped" animated value={50} />
   </CxProgress>
-  <CxProgress className="mb-3">
+  <CxProgress className="mb-medium">
     <CxProgressBar context="warning" variant="striped" animated value={75} />
   </CxProgress>
-  <CxProgress className="mb-3">
+  <CxProgress className="mb-medium">
     <CxProgressBar context="danger" variant="striped" animated value={100} />
   </CxProgress>
 </Example>

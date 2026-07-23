@@ -40,7 +40,7 @@ Toasts are as flexible as you need and have very little required markup. At a mi
   <CxToast title="Chassis" animation={false} autohide={false} visible={true}>
     <CxToastHeader close>
       <svg
-        className="rounded me-2"
+        className="rounded me-small"
         width="20"
         height="20"
         xmlns="http://www.w3.org/2000/svg"
@@ -70,7 +70,7 @@ Toasts are slightly translucent to blend in with what's below them.
   <CxToast title="Chassis" autohide={false} visible={true}>
     <CxToastHeader close>
       <svg
-        className="rounded me-2"
+        className="rounded me-small"
         width="20"
         height="20"
         xmlns="http://www.w3.org/2000/svg"
@@ -96,7 +96,7 @@ You can stack toasts by wrapping them in a toast container, which will verticall
     <CxToast title="Chassis" autohide={false} visible={true}>
       <CxToastHeader close>
         <svg
-          className="rounded me-2"
+          className="rounded me-small"
           width="20"
           height="20"
           xmlns="http://www.w3.org/2000/svg"
@@ -114,7 +114,7 @@ You can stack toasts by wrapping them in a toast container, which will verticall
     <CxToast title="Chassis" autohide={false} visible={true}>
       <CxToastHeader close>
         <svg
-          className="rounded me-2"
+          className="rounded me-small"
           width="20"
           height="20"
           xmlns="http://www.w3.org/2000/svg"
@@ -140,7 +140,7 @@ Customize your toasts by removing sub-components, tweaking them with utilities, 
   <CxToast autohide={false} visible={true} className="align-items-center">
     <div className="d-flex">
       <CxToastBody>Hello, world! This is a toast message.</CxToastBody>
-      <CxToastClose className="me-2 m-auto" />
+      <CxToastClose className="me-small m-auto" />
     </div>
   </CxToast>
 </Example>
@@ -155,7 +155,7 @@ Alternatively, you can also add additional controls and components to toasts.
         <CxButton type="button" context="primary" size="small">
           Take action
         </CxButton>
-        <CxToastClose component={CxButton} context="secondary" size="small" className="ms-1">
+        <CxToastClose component={CxButton} context="secondary" size="small" className="ms-xsmall">
           Close
         </CxToastClose>
       </div>
@@ -171,7 +171,7 @@ Building on the above example, you can create different toast context schemes wi
   <CxToast autohide={false} visible={true} context="primary" className="text-white align-items-center">
     <div className="d-flex">
       <CxToastBody>Hello, world! This is a toast message.</CxToastBody>
-      <CxToastClose className="me-2 m-auto" white />
+      <CxToastClose className="me-small m-auto" white />
     </div>
   </CxToast>
 </Example>

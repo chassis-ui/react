@@ -28,12 +28,12 @@ import {
 Place one add-on or button on either side of an input. You may also place one on both sides of an input. Remember to place `<CxFormLabel>`s outside the input group.
 
 <Example class="vstack gap-medium">
-  <CxInputGroup className="mb-3">
+  <CxInputGroup className="mb-medium">
     <CxInputGroupText id="basic-addon1">@</CxInputGroupText>
     <CxFormInput placeholder="Username" aria-label="Username" aria-describedby="basic-addon1"/>
   </CxInputGroup>
 
-  <CxInputGroup className="mb-3">
+  <CxInputGroup className="mb-medium">
     <CxFormInput
       placeholder="Recipient's username"
       aria-label="Recipient's username"
@@ -43,18 +43,18 @@ Place one add-on or button on either side of an input. You may also place one on
   </CxInputGroup>
 
   <CxFormLabel htmlFor="basic-url">Your vanity URL</CxFormLabel>
-  <CxInputGroup className="mb-3">
+  <CxInputGroup className="mb-medium">
     <CxInputGroupText id="basic-addon3">https://example.com/users/</CxInputGroupText>
     <CxFormInput id="basic-url" aria-describedby="basic-addon3" />
   </CxInputGroup>
 
-  <CxInputGroup className="mb-3">
+  <CxInputGroup className="mb-medium">
     <CxInputGroupText>$</CxInputGroupText>
     <CxFormInput aria-label="Amount (to the nearest dollar)" />
     <CxInputGroupText>.00</CxInputGroupText>
   </CxInputGroup>
 
-  <CxInputGroup className="mb-3">
+  <CxInputGroup className="mb-medium">
     <CxFormInput placeholder="Username" aria-label="Username" />
     <CxInputGroupText>@</CxInputGroupText>
     <CxFormInput placeholder="Server" aria-label="Server" />
@@ -84,12 +84,12 @@ Add the relative form sizing classes to the `<CxInputGroup>` itself and contents
 **Sizing on the individual input group elements isn't supported.**
 
 <Example>
-  <CxInputGroup size="small" className="mb-3">
+  <CxInputGroup size="small" className="mb-medium">
     <CxInputGroupText id="inputGroup-sizing-small">Small</CxInputGroupText>
     <CxFormInput aria-label="Sizing example input" aria-describedby="inputGroup-sizing-small"/>
   </CxInputGroup>
 
-  <CxInputGroup className="mb-3">
+  <CxInputGroup className="mb-medium">
     <CxInputGroupText id="inputGroup-sizing-default">Default</CxInputGroupText>
     <CxFormInput aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
   </CxInputGroup>
@@ -105,7 +105,7 @@ Add the relative form sizing classes to the `<CxInputGroup>` itself and contents
 Place any checkbox or radio option within an input group's addon instead of text.
 
 <Example>
-  <CxInputGroup className="mb-3">
+  <CxInputGroup className="mb-medium">
     <CxInputGroupText>
       <CxFormCheck type="checkbox" value="" aria-label="Checkbox for following text input"/>
     </CxInputGroupText>
@@ -137,7 +137,7 @@ While multiple `<CxFormInput>`s are supported visually, validation styles are on
 Multiple add-ons are supported and can be mixed with checkbox and radio input versions.
 
 <Example>
-  <CxInputGroup className="mb-3">
+  <CxInputGroup className="mb-medium">
     <CxInputGroupText>$</CxInputGroupText>
     <CxInputGroupText>0.00</CxInputGroupText>
     <CxFormInput aria-label="Dollar amount (with dot and two decimal places)"/>
@@ -153,12 +153,12 @@ Multiple add-ons are supported and can be mixed with checkbox and radio input ve
 ## Button addons
 
 <Example>
-  <CxInputGroup className="mb-3">
+  <CxInputGroup className="mb-medium">
     <CxButton type="button" context="secondary" variant="outline" id="button-addon1">Button</CxButton>
     <CxFormInput placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1"/>
   </CxInputGroup>
 
-  <CxInputGroup className="mb-3">
+  <CxInputGroup className="mb-medium">
     <CxFormInput
       placeholder="Recipient's username"
       aria-label="Recipient's username"
@@ -169,7 +169,7 @@ Multiple add-ons are supported and can be mixed with checkbox and radio input ve
     </CxButton>
   </CxInputGroup>
 
-  <CxInputGroup className="mb-3">
+  <CxInputGroup className="mb-medium">
     <CxButton type="button" context="secondary" variant="outline">
       Button
     </CxButton>
@@ -205,7 +205,7 @@ Input groups include support for custom selects and custom file inputs. Browser 
 ### Custom select
 
 <Example>
-  <CxInputGroup className="mb-3">
+  <CxInputGroup className="mb-medium">
     <CxInputGroupText component="label" htmlFor="inputGroupSelect01">Options</CxInputGroupText>
     <CxFormSelect id="inputGroupSelect01">
       <option>Choose...</option>
@@ -215,7 +215,7 @@ Input groups include support for custom selects and custom file inputs. Browser 
     </CxFormSelect>
   </CxInputGroup>
 
-  <CxInputGroup className="mb-3">
+  <CxInputGroup className="mb-medium">
     <CxFormSelect id="inputGroupSelect02">
       <option>Choose...</option>
       <option value="1">One</option>
@@ -227,7 +227,7 @@ Input groups include support for custom selects and custom file inputs. Browser 
     </CxInputGroupText>
   </CxInputGroup>
 
-  <CxInputGroup className="mb-3">
+  <CxInputGroup className="mb-medium">
     <CxButton type="button" context="secondary" variant="outline">
       Button
     </CxButton>
@@ -253,19 +253,19 @@ Input groups include support for custom selects and custom file inputs. Browser 
 ### Custom file input
 
 <Example>
-  <CxInputGroup className="mb-3">
+  <CxInputGroup className="mb-medium">
     <CxInputGroupText component="label" htmlFor="inputGroupFile01">Upload</CxInputGroupText>
     <CxFormInput type="file" id="inputGroupFile01"/>
   </CxInputGroup>
 
-  <CxInputGroup className="mb-3">
+  <CxInputGroup className="mb-medium">
     <CxFormInput type="file" id="inputGroupFile02" />
     <CxInputGroupText component="label" htmlFor="inputGroupFile02">
       Upload
     </CxInputGroupText>
   </CxInputGroup>
 
-  <CxInputGroup className="mb-3">
+  <CxInputGroup className="mb-medium">
     <CxButton type="button" context="secondary" variant="outline" id="inputGroupFileAddon03">
       Button
     </CxButton>

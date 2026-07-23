@@ -20,11 +20,11 @@ import {
 
 <Example>
   <CxForm>
-    <div className="mb-3">
+    <div className="mb-medium">
       <CxFormLabel htmlFor="exampleFormControlInput1">Email address</CxFormLabel>
       <CxFormInput type="email" id="exampleFormControlInput1" placeholder="name@example.com"/>
     </div>
-    <div className="mb-3">
+    <div className="mb-medium">
       <CxFormLabel htmlFor="exampleFormControlTextarea1">Example textarea</CxFormLabel>
       <CxFormTextarea id="exampleFormControlTextarea1" rows="3"></CxFormTextarea>
     </div>
@@ -67,13 +67,13 @@ Add the `readOnly` boolean attribute on an input to prevent modification of the 
 If you want to have `<input readonly>` elements in your form styled as plain text, use the `plainText` boolean property to remove the default form field styling and preserve the correct margin and padding.
 
 <Example>
-  <CxRow className="mb-3">
+  <CxRow className="mb-medium">
     <CxFormLabel htmlFor="staticEmail" className="small:col-2 col-form-label">Email</CxFormLabel>
     <CxCol sm={10}>
       <CxFormInput type="text" id="staticEmail" defaultValue="email@example.com" readOnly plainText/>
     </CxCol>
   </CxRow>
-  <CxRow className="mb-3">
+  <CxRow className="mb-medium">
     <CxFormLabel htmlFor="inputPassword" className="small:col-2 col-form-label">Password</CxFormLabel>
     <CxCol sm={10}>
       <CxFormInput type="password" id="inputPassword"/>
@@ -92,7 +92,7 @@ If you want to have `<input readonly>` elements in your form styled as plain tex
       <CxFormInput type="password" id="inputPassword2" placeholder="Password"/>
     </CxCol>
     <CxCol xs="auto">
-      <CxButton type="submit" className="mb-3">Confirm identity</CxButton>
+      <CxButton type="submit" className="mb-medium">Confirm identity</CxButton>
     </CxCol>
   </CxForm>
 </Example>
@@ -100,19 +100,19 @@ If you want to have `<input readonly>` elements in your form styled as plain tex
 ## File input
 
 <Example>
-  <div className="mb-3">
+  <div className="mb-medium">
     <CxFormLabel htmlFor="formFile">Default file input example</CxFormLabel>
     <CxFormInput type="file" id="formFile"/>
   </div>
-  <div className="mb-3">
+  <div className="mb-medium">
     <CxFormLabel htmlFor="formFileMultiple">Multiple files input example</CxFormLabel>
     <CxFormInput type="file" id="formFileMultiple" multiple/>
   </div>
-  <div className="mb-3">
+  <div className="mb-medium">
     <CxFormLabel htmlFor="formFileDisabled">Disabled file input example</CxFormLabel>
     <CxFormInput type="file" id="formFileDisabled" disabled/>
   </div>
-  <div className="mb-3">
+  <div className="mb-medium">
     <CxFormLabel htmlFor="formFileSm">Small file input example</CxFormLabel>
     <CxFormInput type="file" size="small" id="formFileSm"/>
   </div>
