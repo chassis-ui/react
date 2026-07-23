@@ -46,14 +46,14 @@ export const Dashboard = () => {
   ]
   return (
     <div>
-      <CxRow className="mb-4">
+      <CxRow className="mb-xlarge">
         {stats.map((stat) => (
           <CxCol key={stat.label}>
             <CxCard>
               <CxCardBody>
                 <div className="d-flex justify-content-between align-items-start">
                   <div>
-                    <div className="small fg-neutral mb-1">{stat.label}</div>
+                    <div className="small fg-neutral mb-xsmall">{stat.label}</div>
                     <div className="h4 mb-0">{stat.value}</div>
                   </div>
                   <CxBadge context={stat.context}>{stat.delta}</CxBadge>
@@ -63,11 +63,11 @@ export const Dashboard = () => {
           </CxCol>
         ))}
       </CxRow>
-      <CxRow className="mb-4">
+      <CxRow className="mb-xlarge">
         <CxCol>
           <CxCard>
             <CxCardBody>
-              <h5 className="mb-3">Recent Orders</h5>
+              <h5 className="mb-medium">Recent Orders</h5>
               <CxTable hover columns={orderColumns} items={orders} />
             </CxCardBody>
           </CxCard>
@@ -77,7 +77,7 @@ export const Dashboard = () => {
         <CxCol>
           <CxCard>
             <CxCardBody>
-              <h5 className="mb-3">Recent Activity</h5>
+              <h5 className="mb-medium">Recent Activity</h5>
               <CxListGroup flush items={activity} />
             </CxCardBody>
           </CxCard>
@@ -85,10 +85,10 @@ export const Dashboard = () => {
         <CxCol>
           <CxCard>
             <CxCardBody>
-              <h5 className="mb-3">Traffic Sources</h5>
+              <h5 className="mb-medium">Traffic Sources</h5>
               {traffic.map((src) => (
-                <div key={src.label} className="mb-3">
-                  <div className="d-flex justify-content-between mb-1">
+                <div key={src.label} className="mb-medium">
+                  <div className="d-flex justify-content-between mb-xsmall">
                     <small>{src.label}</small>
                     <small>{src.value}%</small>
                   </div>

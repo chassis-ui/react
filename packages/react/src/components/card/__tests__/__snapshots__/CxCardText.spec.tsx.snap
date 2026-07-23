@@ -3,7 +3,7 @@
 exports[`CxCardText customize 1`] = `
 <div>
   <h3
-    class="card-body bazinga"
+    class="card-text bazinga"
   >
     Test
   </h3>
@@ -13,7 +13,7 @@ exports[`CxCardText customize 1`] = `
 exports[`loads and displays CxCardText component 1`] = `
 <div>
   <p
-    class="card-body"
+    class="card-text"
   >
     Test
   </p>

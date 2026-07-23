@@ -19,7 +19,7 @@ exports[`CxCardGroup full example 1`] = `
       class="card"
     >
       <svg
-        class="card-img"
+        class="card-image"
       >
         Image
       </svg>
@@ -29,7 +29,7 @@ exports[`CxCardGroup full example 1`] = `
         Header
       </div>
       <div
-        class="card-content"
+        class="card-body"
       >
         <h5
           class="card-title"
@@ -42,7 +42,7 @@ exports[`CxCardGroup full example 1`] = `
           Subtitle
         </h6>
         <p
-          class="card-body"
+          class="card-text"
         >
           Text
         </p>
@@ -62,7 +62,7 @@ exports[`CxCardGroup full example 1`] = `
       class="card"
     >
       <div
-        class="card-content"
+        class="card-body"
       >
         <h5
           class="card-title"

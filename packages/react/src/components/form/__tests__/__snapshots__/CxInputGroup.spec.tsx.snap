@@ -3,7 +3,7 @@
 exports[`CxInputGroup customize 1`] = `
 <div>
   <div
-    class="input-group input-group-large bazinga"
+    class="input-group large bazinga"
   >
     Test
   </div>

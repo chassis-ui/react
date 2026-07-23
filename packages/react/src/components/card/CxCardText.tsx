@@ -14,7 +14,7 @@ export interface CCardTextProps extends HTMLAttributes<HTMLParagraphElement> {
 
 export const CxCardText = forwardRef<HTMLParagraphElement, CCardTextProps>(
   ({ children, component: Component = 'p', className, ...rest }, ref) => {
-    const _className = classNames('card-body', className)
+    const _className = classNames('card-text', className)
 
     return (
       <Component className={_className} {...rest} ref={ref}>

@@ -23,7 +23,6 @@ test('CxToast customize', async () => {
     </CxToast>,
   )
   await waitFor(() => {
-    expect(container).toMatchSnapshot()
     expect(container.firstChild).toHaveClass('bazinga')
     expect(container.firstChild).toHaveClass('toast')
     expect(container.firstChild).toHaveClass('fade')
@@ -32,6 +31,7 @@ test('CxToast customize', async () => {
     expect(container.firstChild).toHaveClass('show')
     expect(container.firstChild).toHaveAttribute('role', 'status')
   })
+  expect(container).toMatchSnapshot()
 })
 
 test('CxToast solid and translucent', async () => {
@@ -117,7 +117,7 @@ test('CxToast test autohide', async () => {
 
 test('CxToast pauses autohide while focused', async () => {
   const { container } = render(
-    <CxToast autohide={true} delay={300} visible={true}>
+    <CxToast autohide={true} delay={1000} visible={true}>
       <button type="button">Action</button>
     </CxToast>,
   )
@@ -129,7 +129,8 @@ test('CxToast pauses autohide while focused', async () => {
   const toast = container.firstChild as HTMLElement
   fireEvent.focus(toast)
 
-  await new Promise((resolve) => setTimeout(resolve, 400))
+  // Would have autohidden by now (delay is 1000ms) if focus didn't pause the timer.
+  await new Promise((resolve) => setTimeout(resolve, 1200))
   expect(container.firstChild).not.toBeNull()
 
   fireEvent.blur(toast)

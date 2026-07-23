@@ -20,7 +20,7 @@ export const CxButtonGroup = forwardRef<HTMLDivElement, CButtonGroupProps>(
   ({ children, className, size, vertical, ...rest }, ref) => {
     const _className = classNames(
       'button-group',
-      vertical,
+      { vertical },
       size,
       className,
     )

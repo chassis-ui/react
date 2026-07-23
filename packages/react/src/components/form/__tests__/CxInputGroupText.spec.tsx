@@ -12,5 +12,5 @@ test('CxInputGroupText customize', async () => {
   const { container } = render(<CxInputGroupText className="bazinga">Test</CxInputGroupText>)
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')
-  expect(container.firstChild).toHaveClass('input-group-text')
+  expect(container.firstChild).toHaveClass('input-addon')
 })

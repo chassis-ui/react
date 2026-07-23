@@ -16,5 +16,5 @@ test('CxCardText customize', async () => {
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')
-  expect(container.firstChild).toHaveClass('card-body')
+  expect(container.firstChild).toHaveClass('card-text')
 })

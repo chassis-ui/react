@@ -12,5 +12,5 @@ test('CxCardBody customize', async () => {
   const { container } = render(<CxCardBody className="bazinga">Test</CxCardBody>)
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')
-  expect(container.firstChild).toHaveClass('card-content')
+  expect(container.firstChild).toHaveClass('card-body')
 })

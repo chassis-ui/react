@@ -1,5 +1,6 @@
 ---
 import Code from '@chassis-ui/docs/shortcodes/Code.astro'
+import { replacePlaceholdersInHtml } from '@chassis-ui/docs'
 
 interface Props {
   class?: string
@@ -8,7 +9,7 @@ interface Props {
    * The source code to display below the live preview.
    * Auto-derived at build time by the `remarkCxExample` remark plugin unless `customMarkup` is set.
    */
-  code?: string
+  code: string
   /**
    * Overrides the displayed source code (e.g. to abbreviate large data literals) while the
    * actual children still render live in the preview above.
@@ -22,12 +23,25 @@ interface Props {
 }
 
 const { class: className, id, code, customMarkup, lang = 'jsx' } = Astro.props
-const sourceMarkup = customMarkup ?? code
+const markup = customMarkup ?? code
+
+const sourceMarkup = replacePlaceholdersInHtml(markup).replace(' client:load', '')
+const simplifiedMarkup = sourceMarkup
+  .replace(
+    /<svg.*class="cxd-placeholder-image(?:-large)?(?: *?cxd-placeholder-image-large)? ?(.*?)".*?<\/svg>/g,
+    (_match, classes) => `<img src="..."${classes ? ` class="${classes}"` : ''} alt="...">`
+  )
+  .replace(
+    /<img.*class="cxd-placeholder-image(?:-large)?(?: *?cxd-placeholder-image-large)? ?(.*?)".*?>/g,
+    (_match, classes) => `<img src="..."${classes ? ` class="${classes}"` : ''} alt="...">`
+  )
+  .replace(/(<svg class="icon\b[^"]*")\s+width="\d+"\s+height="\d+"/g, '$1')
+  .replace(/href="\/static\/icons\/chassis-icons\.svg#/g, 'href="#')
 ---
 
 <div class="cxd-example-snippet cxd-code-snippet" data-pagefind-ignore>
   <div id={id} class:list={['cxd-example m-0 border-0 context', className]}>
     <slot />
   </div>
-  {sourceMarkup && <Code code={sourceMarkup} lang={lang} nestedInExample hasPreview />}
+  {simplifiedMarkup && <Code code={simplifiedMarkup} lang={lang} nestedInExample hasPreview />}
 </div>

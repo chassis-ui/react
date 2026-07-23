@@ -3,7 +3,7 @@
 exports[`CxInputGroupText customize 1`] = `
 <div>
   <span
-    class="input-group-text bazinga"
+    class="input-addon bazinga"
   >
     Test
   </span>
@@ -13,7 +13,7 @@ exports[`CxInputGroupText customize 1`] = `
 exports[`loads and displays CxInputGroupText component 1`] = `
 <div>
   <span
-    class="input-group-text"
+    class="input-addon"
   >
     Test
   </span>

@@ -3,7 +3,7 @@
 exports[`CxButtonGroup customize 1`] = `
 <div>
   <div
-    class="btn-group btn-group-large bazinga"
+    class="button-group large bazinga"
   >
     <button
       class="button primary"
@@ -30,7 +30,7 @@ exports[`CxButtonGroup customize 1`] = `
 exports[`CxButtonGroup customize vertical 1`] = `
 <div>
   <div
-    class="btn-group-vertical btn-group-large bazinga"
+    class="button-group vertical large bazinga"
   >
     <button
       class="button primary"
@@ -57,7 +57,7 @@ exports[`CxButtonGroup customize vertical 1`] = `
 exports[`loads and displays CxButtonGroup component 1`] = `
 <div>
   <div
-    class="btn-group"
+    class="button-group"
   />
 </div>
 `;

@@ -14,5 +14,5 @@ test('CxCardImage customize', async () => {
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')
-  expect(container.firstChild).toHaveClass('card-img-bottom')
+  expect(container.firstChild).toHaveClass('card-image-bottom')
 })

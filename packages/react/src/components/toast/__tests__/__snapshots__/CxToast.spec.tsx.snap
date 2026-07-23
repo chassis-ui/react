@@ -3,61 +3,6 @@
 exports[`CxToast customize 1`] = `
 <div>
   <div
-    class="toast fade context warning bazinga showing"
-    role="status"
-  >
-    Test
-  </div>
-</div>
-`;
-
-exports[`CxToast customize 2`] = `
-<div>
-  <div
-    class="toast fade context warning bazinga showing"
-    role="status"
-  >
-    Test
-  </div>
-</div>
-`;
-
-exports[`CxToast customize 3`] = `
-<div>
-  <div
-    class="toast fade context warning bazinga showing"
-    role="status"
-  >
-    Test
-  </div>
-</div>
-`;
-
-exports[`CxToast customize 4`] = `
-<div>
-  <div
-    class="toast fade context warning bazinga showing"
-    role="status"
-  >
-    Test
-  </div>
-</div>
-`;
-
-exports[`CxToast customize 5`] = `
-<div>
-  <div
-    class="toast fade context warning bazinga showing"
-    role="status"
-  >
-    Test
-  </div>
-</div>
-`;
-
-exports[`CxToast customize 6`] = `
-<div>
-  <div
     class="toast fade context warning bazinga show"
     role="status"
   >

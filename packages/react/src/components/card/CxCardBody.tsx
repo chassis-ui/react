@@ -10,7 +10,7 @@ export interface CCardBodyProps extends HTMLAttributes<HTMLDivElement> {
 
 export const CxCardBody = forwardRef<HTMLDivElement, CCardBodyProps>(
   ({ children, className, ...rest }, ref) => {
-    const _className = classNames('card-content', className)
+    const _className = classNames('card-body', className)
 
     return (
       <div className={_className} {...rest} ref={ref}>

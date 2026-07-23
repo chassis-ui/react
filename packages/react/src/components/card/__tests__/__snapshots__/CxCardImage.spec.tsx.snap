@@ -3,7 +3,7 @@
 exports[`CxCardImage customize 1`] = `
 <div>
   <div
-    class="card-img-bottom bazinga"
+    class="card-image-bottom bazinga"
   />
 </div>
 `;
@@ -11,7 +11,7 @@ exports[`CxCardImage customize 1`] = `
 exports[`loads and displays CxCardImage component 1`] = `
 <div>
   <img
-    class="card-img"
+    class="card-image"
   />
 </div>
 `;

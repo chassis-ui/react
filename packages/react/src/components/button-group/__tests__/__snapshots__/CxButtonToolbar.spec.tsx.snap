@@ -4,11 +4,11 @@ exports[`CxButtonToolbar customize 1`] = `
 <div>
   <div
     aria-label="Bazinga"
-    class="btn-toolbar bazinga"
+    class="button-toolbar bazinga"
     role="group"
   >
     <div
-      class="btn-group"
+      class="button-group"
       role="group"
     >
       <button
@@ -31,7 +31,7 @@ exports[`CxButtonToolbar customize 1`] = `
       </button>
     </div>
     <div
-      class="btn-group"
+      class="button-group"
       role="group"
     >
       <button
@@ -60,7 +60,7 @@ exports[`CxButtonToolbar customize 1`] = `
 exports[`loads and displays CxButtonToolbar component 1`] = `
 <div>
   <div
-    class="btn-toolbar"
+    class="button-toolbar"
   />
 </div>
 `;

@@ -47,9 +47,9 @@
     },
     "component": {
       "defaultValue": {
-        "value": "div"
+        "value": "Fragment as ElementType"
       },
-      "description": "Component used for the root node. Either a string to use a HTML element or a component.",
+      "description": "Component used for the root node. Either a string to use a HTML element or a component.\nDefaults to `Fragment` — `CxMenuToggle`/`CxMenuList` render with no wrapping element, so\nthey land as direct children of whatever contains the `CxMenu`. This matters inside\n`CxButtonGroup`/`CxInputGroup`, whose CSS expects the toggle button and menu panel as direct\nchildren rather than nested inside an intermediate node.\n\nPass an actual element (e.g. `\"div\"`, or `\"li\"` for a navbar item) to opt back into a\nwrapper — needed if you want to apply `className`/`style`/other rest props to a container\naround the whole menu, for semantic wrapping like a nav `<li>`, or for `reference=\"parent\"`,\nwhich positions off this wrapper and has nothing to measure against without one.",
       "name": "component",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",

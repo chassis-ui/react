@@ -3,7 +3,7 @@
 exports[`CxCardImageOverlay customize 1`] = `
 <div>
   <div
-    class="card-img-overlay bazinga"
+    class="card-overlay bazinga"
   >
     Test
   </div>
@@ -13,7 +13,7 @@ exports[`CxCardImageOverlay customize 1`] = `
 exports[`loads and displays CxCardImageOverlay component 1`] = `
 <div>
   <div
-    class="card-img-overlay"
+    class="card-overlay"
   />
 </div>
 `;

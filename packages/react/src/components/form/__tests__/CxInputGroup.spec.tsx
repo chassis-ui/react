@@ -17,5 +17,5 @@ test('CxInputGroup customize', async () => {
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')
   expect(container.firstChild).toHaveClass('input-group')
-  expect(container.firstChild).toHaveClass('input-group-large')
+  expect(container.firstChild).toHaveClass('large')
 })

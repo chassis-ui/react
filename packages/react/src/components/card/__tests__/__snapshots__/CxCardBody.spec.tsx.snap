@@ -3,7 +3,7 @@
 exports[`CxCardBody customize 1`] = `
 <div>
   <div
-    class="card-content bazinga"
+    class="card-body bazinga"
   >
     Test
   </div>
@@ -13,7 +13,7 @@ exports[`CxCardBody customize 1`] = `
 exports[`loads and displays CxCardBody component 1`] = `
 <div>
   <div
-    class="card-content"
+    class="card-body"
   >
     Test
   </div>
