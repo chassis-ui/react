@@ -14,11 +14,10 @@ test('loads and displays CxTooltip component', async () => {
 
 test('CxTooltip customize', async () => {
   jest.useFakeTimers()
-  const { container } = render(
+  render(
     <CxTooltip trigger="hover" placement="right" content="content">
       <CxLink className="link">Test</CxLink>
     </CxTooltip>,
-    { container: document.body },
   )
   const link = document.querySelector('.link')
   act(() => {
@@ -26,28 +25,27 @@ test('CxTooltip customize', async () => {
       fireEvent.mouseOver(link)
     }
   })
-  jest.runAllTimers()
-  expect(container).toMatchSnapshot()
-  expect(container.getElementsByClassName('tooltip').length).toBe(1)
-  expect(container.getElementsByClassName('cx-tooltip-auto').length).toBe(1)
-  expect(container.getElementsByClassName('tooltip-arrow').length).toBe(1)
-  const inner = container.getElementsByClassName('tooltip-inner')
+  act(() => jest.runAllTimers())
+  expect(document.body).toMatchSnapshot()
+  expect(document.body.getElementsByClassName('tooltip').length).toBe(1)
+  expect(document.body.getElementsByClassName('cx-tooltip-auto').length).toBe(1)
+  expect(document.body.getElementsByClassName('tooltip-arrow').length).toBe(1)
+  const inner = document.body.getElementsByClassName('tooltip-inner')
   expect(inner.length).toBe(1)
   expect(inner[0].innerHTML).toBe('content')
-  const tooltip = container.getElementsByClassName('tooltip')[0]
+  const tooltip = document.body.getElementsByClassName('tooltip')[0]
   expect(tooltip.getAttribute('data-cx-placement')).toBeTruthy()
   jest.useRealTimers()
 })
 
 test('CxTooltip scopes itself to an open dialog ancestor', async () => {
   jest.useFakeTimers()
-  const { container } = render(
+  render(
     <dialog open>
       <CxTooltip trigger="hover" content="content">
         <CxLink className="link">Test</CxLink>
       </CxTooltip>
     </dialog>,
-    { container: document.body },
   )
   const link = document.querySelector('.link')
   act(() => {
@@ -55,9 +53,9 @@ test('CxTooltip scopes itself to an open dialog ancestor', async () => {
       fireEvent.mouseOver(link)
     }
   })
-  jest.runAllTimers()
-  const dialog = container.querySelector('dialog')
-  const tooltip = container.querySelector('.tooltip')
+  act(() => jest.runAllTimers())
+  const dialog = document.body.querySelector('dialog')
+  const tooltip = document.body.querySelector('.tooltip')
   expect(tooltip).not.toBeNull()
   expect(dialog?.contains(tooltip)).toBe(true)
   jest.useRealTimers()

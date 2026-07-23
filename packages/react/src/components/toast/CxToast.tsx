@@ -10,6 +10,7 @@ import { Transition } from 'react-transition-group'
 import classNames from 'classnames'
 
 import { Colors } from '../Types'
+import { useForkedRef } from '../../utils/hooks'
 
 export interface CToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
   /**
@@ -97,6 +98,8 @@ export const CxToast = forwardRef<HTMLDivElement, CToastProps>(
     const timeout = useRef<number>()
     const hasMouseInteraction = useRef(false)
     const hasKeyboardInteraction = useRef(false)
+    const nodeRef = useRef<HTMLDivElement>(null)
+    const forkedRef = useForkedRef(ref, nodeRef)
 
     useEffect(() => {
       setVisible(visible)
@@ -177,6 +180,7 @@ export const CxToast = forwardRef<HTMLDivElement, CToastProps>(
     return (
       <Transition
         in={_visible}
+        nodeRef={nodeRef}
         onEnter={() => onShow && onShow(index ? index : null)}
         onExited={() => onClose && onClose(index ? index : null)}
         timeout={250}
@@ -195,7 +199,7 @@ export const CxToast = forwardRef<HTMLDivElement, CToastProps>(
                 onBlur={_onBlur}
                 {...rest}
                 key={key}
-                ref={ref}
+                ref={forkedRef}
               >
                 {children}
               </div>

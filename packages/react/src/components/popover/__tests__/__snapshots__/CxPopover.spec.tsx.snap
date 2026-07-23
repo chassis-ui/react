@@ -2,15 +2,17 @@
 
 exports[`CxPopover customize 1`] = `
 <body>
-  <button
-    aria-describedby=":r1:"
-    class="button primary"
-    type="button"
-  >
-    Test
-  </button>
+  <div>
+    <button
+      aria-describedby=":r1:"
+      class="button primary"
+      type="button"
+    >
+      Test
+    </button>
+  </div>
   <div
-    class="popover cx-popover-auto fade"
+    class="popover cx-popover-auto fade show"
     data-cx-placement="right"
     id=":r1:"
     role="tooltip"

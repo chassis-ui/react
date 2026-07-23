@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { act } from 'react'
 import { render, fireEvent } from '@testing-library/react'
 
 import { CxNotification } from '../../../index'
@@ -34,7 +35,7 @@ test('CxNotification click close button', async () => {
     fireEvent.click(btn)
   }
   expect(onClose).toHaveBeenCalledTimes(1)
-  jest.runAllTimers()
+  act(() => jest.runAllTimers())
   expect(onClose).toHaveBeenCalledTimes(1)
   jest.useRealTimers()
 })

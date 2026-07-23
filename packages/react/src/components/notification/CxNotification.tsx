@@ -1,9 +1,10 @@
-import React, { forwardRef, HTMLAttributes, useEffect, useState } from 'react'
+import React, { forwardRef, HTMLAttributes, useEffect, useRef, useState } from 'react'
 import classNames from 'classnames'
 import { Transition } from 'react-transition-group'
 
 import { Colors } from '../Types'
 import { CxCloseButton } from '../close-button/CxCloseButton'
+import { useForkedRef } from '../../utils/hooks'
 
 export interface CNotificationProps extends HTMLAttributes<HTMLDivElement> {
   /**
@@ -40,6 +41,8 @@ export const CxNotification = forwardRef<HTMLDivElement, CNotificationProps>(
     ref,
   ) => {
     const [_visible, setVisible] = useState(visible)
+    const nodeRef = useRef<HTMLDivElement>(null)
+    const forkedRef = useForkedRef(ref, nodeRef)
 
     useEffect(() => {
       setVisible(visible)
@@ -60,7 +63,7 @@ export const CxNotification = forwardRef<HTMLDivElement, CNotificationProps>(
     }
 
     return (
-      <Transition in={_visible} mountOnEnter onExit={onClose} timeout={150} unmountOnExit>
+      <Transition in={_visible} mountOnEnter nodeRef={nodeRef} onExit={onClose} timeout={150} unmountOnExit>
         {(state) => {
           const transitionClass = getTransitionClass(state)
           return (
@@ -68,7 +71,7 @@ export const CxNotification = forwardRef<HTMLDivElement, CNotificationProps>(
               className={classNames(_className, transitionClass)}
               role="alert"
               {...rest}
-              ref={ref}
+              ref={forkedRef}
             >
               {children}
               {dismissible && <CxCloseButton onClick={() => setVisible(false)} />}

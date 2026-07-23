@@ -97,6 +97,7 @@ export const CxCollapse = forwardRef<HTMLDivElement, CCollapseProps>(
     return (
       <CSSTransition
         in={visible}
+        nodeRef={collapseRef}
         onEntering={onEntering}
         onEntered={onEntered}
         onExit={onExit}

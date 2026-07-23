@@ -6,6 +6,7 @@ import { Transition } from 'react-transition-group'
 
 import { Triggers } from '../Types'
 import { Placement } from '../tooltip/CxTooltip'
+import { useForkedRef } from '../../utils/hooks'
 
 const FALLBACK_PLACEMENTS: Placement[] = ['top', 'right', 'bottom', 'left']
 
@@ -64,6 +65,7 @@ export const CxPopover: FC<CPopoverProps> = ({
   const popoverId = useId()
   const arrowRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLElement | null>(null)
+  const floatingRef = useRef<HTMLDivElement>(null)
 
   // Popovers inside an open `<dialog>` are appended to that dialog instead of
   // `document.body`, so they render in its top layer and close with it automatically.
@@ -109,6 +111,7 @@ export const CxPopover: FC<CPopoverProps> = ({
   const side = resolvedPlacement.split('-')[0]
   const isVertical = side === 'top' || side === 'bottom'
   const { x: arrowX, y: arrowY } = middlewareData.arrow ?? {}
+  const forkedFloatingRef = useForkedRef(refs.setFloating, floatingRef)
 
   const getTransitionClass = (state: string) => {
     return state === 'entering'
@@ -147,6 +150,7 @@ export const CxPopover: FC<CPopoverProps> = ({
             onEnter={onShow}
             onExit={onHide}
             mountOnEnter
+            nodeRef={floatingRef}
             timeout={{
               enter: 0,
               exit: 200,
@@ -160,7 +164,7 @@ export const CxPopover: FC<CPopoverProps> = ({
                   id={popoverId}
                   className={classNames('popover cx-popover-auto', transitionClass)}
                   data-cx-placement={resolvedPlacement}
-                  ref={refs.setFloating}
+                  ref={forkedFloatingRef}
                   role="tooltip"
                   style={floatingStyles}
                   {...rest}

@@ -5,6 +5,7 @@ import { arrow, autoUpdate, flip, offset, shift, useFloating } from '@floating-u
 import { Transition } from 'react-transition-group'
 
 import { Triggers } from '../Types'
+import { useForkedRef } from '../../utils/hooks'
 
 const FALLBACK_PLACEMENTS: Placement[] = ['top', 'right', 'bottom', 'left']
 
@@ -60,6 +61,7 @@ export const CxTooltip: FC<CTooltipProps> = ({
   const tooltipId = useId()
   const arrowRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLElement | null>(null)
+  const floatingRef = useRef<HTMLDivElement>(null)
 
   // Tooltips inside an open `<dialog>` are appended to that dialog instead of
   // `document.body`, so they render in its top layer and close with it automatically.
@@ -105,6 +107,7 @@ export const CxTooltip: FC<CTooltipProps> = ({
   const side = resolvedPlacement.split('-')[0]
   const isVertical = side === 'top' || side === 'bottom'
   const { x: arrowX, y: arrowY } = middlewareData.arrow ?? {}
+  const forkedFloatingRef = useForkedRef(refs.setFloating, floatingRef)
 
   const getTransitionClass = (state: string) => {
     return state === 'entering'
@@ -141,6 +144,7 @@ export const CxTooltip: FC<CTooltipProps> = ({
           <Transition
             in={_visible}
             mountOnEnter
+            nodeRef={floatingRef}
             onEnter={onShow}
             onExit={onHide}
             timeout={{
@@ -156,7 +160,7 @@ export const CxTooltip: FC<CTooltipProps> = ({
                   id={tooltipId}
                   className={classNames('tooltip cx-tooltip-auto', transitionClass)}
                   data-cx-placement={resolvedPlacement}
-                  ref={refs.setFloating}
+                  ref={forkedFloatingRef}
                   role="tooltip"
                   style={floatingStyles}
                   {...rest}
