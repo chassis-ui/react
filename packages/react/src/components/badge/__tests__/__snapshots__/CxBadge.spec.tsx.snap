@@ -3,10 +3,30 @@
 exports[`CxBadge customize 1`] = `
 <div>
   <div
-    class="badge warning fg-white rounded bazinga"
+    class="badge warning small circle bazinga"
   >
     Test
   </div>
+</div>
+`;
+
+exports[`CxBadge position 1`] = `
+<div>
+  <span
+    class="badge danger position-absolute translate-middle top-0 start-100"
+  >
+    Test
+  </span>
+</div>
+`;
+
+exports[`CxBadge variant 1`] = `
+<div>
+  <span
+    class="badge primary outline"
+  >
+    Test
+  </span>
 </div>
 `;
 

@@ -1,7 +1,7 @@
 import React, { ButtonHTMLAttributes, ElementType, forwardRef } from 'react'
 import classNames from 'classnames'
 
-import { Colors, Shapes } from '../Types'
+import { ContextColor, Shapes } from '../Types'
 import { CxLink } from '../link/CxLink'
 
 export interface CButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -18,7 +18,7 @@ export interface CButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
    *
    * @type 'default' | 'alternate' | 'primary' | 'secondary' | 'neutral' | 'success' | 'danger' | 'warning' | 'info' | 'black' | 'white' | string
    */
-  context?: Colors
+  context?: ContextColor
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */

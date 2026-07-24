@@ -1,7 +1,7 @@
 import React, { ElementType, HTMLAttributes, forwardRef } from 'react'
 import classNames from 'classnames'
 
-import { Colors } from '../Types'
+import { ContextColor } from '../Types'
 import { CxLink } from '../link/CxLink'
 
 export interface CListItemProps
@@ -19,7 +19,7 @@ export interface CListItemProps
    *
    * @type 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light' | string
    */
-  context?: Colors
+  context?: ContextColor
   /**
    * Toggle the disabled state for the component.
    */

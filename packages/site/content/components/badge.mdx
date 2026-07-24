@@ -1,7 +1,6 @@
 ---
 title: Badge
-description: Chassis badge component is small count and labeling component.
-
+description: Chassis Badge component is a compact labeling element for counters, indicators, and status markers with multiple styles and sizes.
 
 toc: true
 ---
@@ -9,11 +8,13 @@ toc: true
 
 import { CxBadge, CxButton } from '@chassis-ui/react'
 
-## Example
+## About
 
-Badge component scales to suit the size of the parent element by using relative font sizing and `em` units.
+Badges are lightweight components used to add counts, labels, or status indicators to content. They highlight new items, display notification counts, and provide supplementary information. Badges work with any content or component and are available in multiple styles and colors.
 
-### Basic usage
+## Basic usage
+
+A `<CxBadge>` scales to suit the size of the parent element by using relative font sizing and `em` units.
 
 <Example>
   <h1>Example heading <CxBadge context="secondary">New</CxBadge></h1>
@@ -32,86 +33,136 @@ Badges can be used as part of links or buttons to provide a counter.
   </CxButton>
 </Example>
 
-Remark that depending on how you use them, badges may be complicated for users of screen readers and related assistive technologies.
-
-Unless the context is clear, consider including additional context with a visually hidden piece of additional text.
+<Callout context="info">
+  <p>
+    Badge content can be confusing for screen reader users without proper context. Use semantic roles by adding <code>role="status"</code> for counters or <code>role="presentation"</code> for decorative badges, and provide descriptions with <code>aria-label</code> to explain the badge's meaning.
+  </p>
+</Callout>
 
 <Example>
   <CxButton context="primary">
-    Profile <CxBadge context="secondary">9</CxBadge>
-    <span className="visually-hidden">unread messages</span>
+    Profile <CxBadge context="secondary" role="status" aria-label="unread messages">9</CxBadge>
   </CxButton>
 </Example>
 
-### Positioned
+## Color variants
 
-Use `position` prop to modify a component and position it in the corner of a link or button.
+Set the `context` prop to one of the Chassis themed colors to apply the appropriate background and text colors.
+
+<Example>
+  <CxBadge context="default">Default</CxBadge>
+  <CxBadge context="alternate">Alternate</CxBadge>
+  <CxBadge context="primary">Primary</CxBadge>
+  <CxBadge context="secondary">Secondary</CxBadge>
+  <CxBadge context="neutral">Neutral</CxBadge>
+  <CxBadge context="danger">Danger</CxBadge>
+  <CxBadge context="success">Success</CxBadge>
+  <CxBadge context="warning">Warning</CxBadge>
+  <CxBadge context="info">Info</CxBadge>
+  <CxBadge context="black">Black</CxBadge>
+  <CxBadge context="white">White</CxBadge>
+</Example>
+
+<Callout context="info">
+  <p>
+    Color alone shouldn't convey meaning as it's not perceived by assistive technology users. Ensure clarity through text with adequate contrast, ARIA attributes where needed, and consider using the <code>.visually-hidden</code> class for screen reader content.
+  </p>
+</Callout>
+
+### Outline style
+
+Set `variant="outline"` to create badges with a transparent background, colored border and text.
+
+<Example>
+  <CxBadge context="default" variant="outline">Default</CxBadge>
+  <CxBadge context="primary" variant="outline">Primary</CxBadge>
+  <CxBadge context="secondary" variant="outline">Secondary</CxBadge>
+  <CxBadge context="danger" variant="outline">Danger</CxBadge>
+  <CxBadge context="success" variant="outline">Success</CxBadge>
+  <CxBadge context="warning" variant="outline">Warning</CxBadge>
+  <CxBadge context="info" variant="outline">Info</CxBadge>
+</Example>
+
+### Smooth style
+
+Set `variant="smooth"` to create badges with a subdued background color and matching text color, for a softer, more subtle appearance.
+
+<Example>
+  <CxBadge context="default" variant="smooth">Default</CxBadge>
+  <CxBadge context="primary" variant="smooth">Primary</CxBadge>
+  <CxBadge context="secondary" variant="smooth">Secondary</CxBadge>
+  <CxBadge context="danger" variant="smooth">Danger</CxBadge>
+  <CxBadge context="success" variant="smooth">Success</CxBadge>
+  <CxBadge context="warning" variant="smooth">Warning</CxBadge>
+  <CxBadge context="info" variant="smooth">Info</CxBadge>
+</Example>
+
+## Size variants
+
+Set `size="small"` or `size="large"` to adjust the size of the badge for compact spaces or greater emphasis. Combine with `circle` for round counters.
+
+<Example>
+  <CxBadge context="primary" size="small">Small</CxBadge>
+  <CxBadge context="primary">Medium</CxBadge>
+  <CxBadge context="primary" size="large">Large</CxBadge>
+  <CxBadge context="primary" size="small" circle>2</CxBadge>
+  <CxBadge context="primary" circle>2</CxBadge>
+  <CxBadge context="primary" size="large" circle>2</CxBadge>
+</Example>
+
+## Use cases
+
+### With components
+
+Badges work well inside buttons and other components to indicate counts, status, or other supplementary information.
+
+<Example>
+  <CxButton context="primary">
+    Notifications <CxBadge context="secondary" circle role="status" aria-label="new notifications">2</CxBadge>
+  </CxButton>
+</Example>
+
+### Positioned badges
+
+Set the `position` prop to place a badge in one of the corners of a link or button. The parent needs `position-relative` (or another positioning context) for this to work.
 
 <Example>
   <CxButton context="primary" className="position-relative">
     Profile
-    <CxBadge context="danger" position="top-start" shape="rounded-pill">
+    <CxBadge context="danger" position="top-start" circle>
       99+ <span className="visually-hidden">unread messages</span>
     </CxBadge>
   </CxButton>
   <CxButton context="primary" className="position-relative ms-xsmall">
     Profile
-    <CxBadge context="danger" position="top-end" shape="rounded-pill">
+    <CxBadge context="danger" position="top-end" circle>
       99+ <span className="visually-hidden">unread messages</span>
     </CxBadge>
   </CxButton>
   <br/>
-  <CxButton context="primary" className="position-relative ">
+  <CxButton context="primary" className="position-relative">
     Profile
-    <CxBadge context="danger" position="bottom-start" shape="rounded-pill">
+    <CxBadge context="danger" position="bottom-start" circle>
       99+ <span className="visually-hidden">unread messages</span>
     </CxBadge>
   </CxButton>
   <CxButton context="primary" className="position-relative ms-xsmall">
     Profile
-    <CxBadge context="danger" position="bottom-end" shape="rounded-pill">
+    <CxBadge context="danger" position="bottom-end" circle>
       99+ <span className="visually-hidden">unread messages</span>
     </CxBadge>
   </CxButton>
 </Example>
 
-You can also create more generic indicators without a counter using a few more utilities.
+### Custom corners
+
+Beyond the default rounded appearance and the `circle` prop, apply border-radius utility classes through `className` for precise control over corners.
 
 <Example>
-  <CxButton context="primary" className="position-relative">
-    Profile
-    <CxBadge className="border border-light p-xsmall" context="danger" position="top-end" shape="rounded-circle">
-      <span className="visually-hidden">New alerts</span>
-    </CxBadge>
-  </CxButton>
-</Example>
-
-## Contextual variations
-
-Add any of the below-mentioned `context` props to modify the presentation of a badge.
-
-<Example>
-  <CxBadge context="primary">primary</CxBadge>
-  <CxBadge context="success">success</CxBadge>
-  <CxBadge context="danger">danger</CxBadge>
-  <CxBadge context="warning">warning</CxBadge>
-  <CxBadge context="info">info</CxBadge>
-  <CxBadge context="light">light</CxBadge>
-  <CxBadge context="dark">dark</CxBadge>
-</Example>
-
-## Pill badges
-
-Apply the `shape="rounded-pill"` prop to make badges rounded.
-
-<Example>
-  <CxBadge context="primary" shape="rounded-pill">primary</CxBadge>
-  <CxBadge context="success" shape="rounded-pill">success</CxBadge>
-  <CxBadge context="danger" shape="rounded-pill">danger</CxBadge>
-  <CxBadge context="warning" shape="rounded-pill">warning</CxBadge>
-  <CxBadge context="info" shape="rounded-pill">info</CxBadge>
-  <CxBadge context="light" shape="rounded-pill">light</CxBadge>
-  <CxBadge context="dark" shape="rounded-pill">dark</CxBadge>
+  <CxBadge context="primary" className="rounded-zero">Sharp</CxBadge>
+  <CxBadge context="primary" className="rounded-small">Blunt</CxBadge>
+  <CxBadge context="primary" className="rounded-medium">Soft</CxBadge>
+  <CxBadge context="primary" className="rounded-full">Pill</CxBadge>
 </Example>
 
 ## API

@@ -2,7 +2,7 @@ import React, { forwardRef, HTMLAttributes, useEffect, useRef, useState } from '
 import classNames from 'classnames'
 import { Transition } from 'react-transition-group'
 
-import { Colors } from '../Types'
+import { ContextColor } from '../Types'
 import { CxCloseButton } from '../close-button/CxCloseButton'
 import { useForkedRef } from '../../utils/hooks'
 
@@ -16,7 +16,7 @@ export interface CNotificationProps extends HTMLAttributes<HTMLDivElement> {
    *
    * @type 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light' | string
    */
-  context: Colors
+  context: ContextColor
   /**
    * Optionally add a close button to the notification and allow it to self dismiss.
    */

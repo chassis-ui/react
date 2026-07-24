@@ -2,7 +2,7 @@ import React, { forwardRef, InputHTMLAttributes, ReactNode, useEffect, useRef } 
 import classNames from 'classnames'
 
 import { useForkedRef } from '../../utils/hooks'
-import { Colors, Shapes } from '../Types'
+import { ContextColor, Shapes } from '../Types'
 
 import { CxFormLabel } from './CxFormLabel'
 
@@ -12,7 +12,7 @@ export type ButtonObject = {
    *
    * @type 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light' | string
    */
-  context?: Colors
+  context?: ContextColor
   /**
    * Select the shape of the component.
    *

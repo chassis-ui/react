@@ -9,7 +9,7 @@ import React, {
 import { Transition } from 'react-transition-group'
 import classNames from 'classnames'
 
-import { Colors } from '../Types'
+import { ContextColor } from '../Types'
 import { useForkedRef } from '../../utils/hooks'
 
 export interface CToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
@@ -31,7 +31,7 @@ export interface CToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title
    *
    * @type 'default' | 'alternate' | 'primary' | 'secondary' | 'neutral' | 'success' | 'danger' | 'warning' | 'info' | 'black' | 'white' | string
    */
-  context?: Colors
+  context?: ContextColor
   /**
    * Delay hiding the toast (ms).
    */

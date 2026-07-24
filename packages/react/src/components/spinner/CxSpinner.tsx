@@ -1,7 +1,7 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-import { Colors } from '../Types'
+import { ContextColor } from '../Types'
 
 export interface CSpinnerProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElement> {
   /**
@@ -13,7 +13,7 @@ export interface CSpinnerProps extends HTMLAttributes<HTMLDivElement | HTMLSpanE
    *
    * @type 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light' | string
    */
-  context?: Colors
+  context?: ContextColor
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */

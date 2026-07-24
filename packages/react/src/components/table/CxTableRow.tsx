@@ -1,7 +1,7 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-import { Colors } from '../Types'
+import { ContextColor } from '../Types'
 
 export interface CTableRowProps extends HTMLAttributes<HTMLTableRowElement> {
   /**
@@ -21,7 +21,7 @@ export interface CTableRowProps extends HTMLAttributes<HTMLTableRowElement> {
    *
    * @type 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light' | string
    */
-  context?: Colors
+  context?: ContextColor
 }
 
 export const CxTableRow = forwardRef<HTMLTableRowElement, CTableRowProps>(

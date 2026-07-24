@@ -1,7 +1,7 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-import { Colors } from '../Types'
+import { ContextColor } from '../Types'
 
 export interface CListItemDef {
   /**
@@ -15,7 +15,7 @@ export interface CListItemDef {
   /**
    * Sets the context color of the item.
    */
-  context?: Colors
+  context?: ContextColor
   /**
    * Marks the item as active.
    */
@@ -40,7 +40,7 @@ export interface CListProps extends HTMLAttributes<HTMLDivElement | HTMLUListEle
    *
    * @type 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light' | string
    */
-  context?: Colors
+  context?: ContextColor
   /**
    * Remove outer borders and rounded corners to render list items edge-to-edge in a parent component (e.g., `<CxCard>`).
    */

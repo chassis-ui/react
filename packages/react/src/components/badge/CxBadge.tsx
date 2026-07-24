@@ -1,7 +1,7 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-import { Colors, Shapes, TextColors } from '../Types'
+import { ContextColor, ContextStyle, Sizing } from '../Types'
 
 export interface CBadgeProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElement> {
   /**
@@ -10,10 +10,12 @@ export interface CBadgeProps extends HTMLAttributes<HTMLDivElement | HTMLSpanEle
   className?: string
   /**
    * Sets the context context of the component to one of Chassis themed colors.
-   *
-   * @type 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light' | string
    */
-  context?: Colors
+  context?: ContextColor
+  /**
+   * Sets the context style of the component. `solid`/`basic` render the default look with no extra class.
+   */
+  variant?: ContextStyle
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
@@ -24,20 +26,12 @@ export interface CBadgeProps extends HTMLAttributes<HTMLDivElement | HTMLSpanEle
   position?: 'top-start' | 'top-end' | 'bottom-end' | 'bottom-start'
   /**
    * Select the shape of the component.
-   *
-   * @type 'rounded' | 'rounded-top' | 'rounded-end' | 'rounded-bottom' | 'rounded-start' | 'rounded-circle' | 'rounded-pill' | 'rounded-0' | 'rounded-1' | 'rounded-2' | 'rounded-3' | string
    */
-  shape?: Shapes
+  circle?: boolean
   /**
-   * Size the component small.
+   * Sets the size of the component to one of Chassis component sizes.
    */
-  size?: 'small'
-  /**
-   * Sets the text context of the component to one of Chassis themed colors.
-   *
-   * @type 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light' | 'white' | 'white-50' | 'muted' | 'black-50' | 'body' | string
-   */
-  textColor?: TextColors
+  size?: Sizing
 }
 export const CxBadge = forwardRef<HTMLDivElement | HTMLSpanElement, CBadgeProps>(
   (
@@ -45,11 +39,11 @@ export const CxBadge = forwardRef<HTMLDivElement | HTMLSpanElement, CBadgeProps>
       children,
       className,
       context,
+      variant,
       component: Component = 'span',
       position,
-      shape,
+      circle,
       size,
-      textColor,
       ...rest
     },
     ref,
@@ -59,14 +53,15 @@ export const CxBadge = forwardRef<HTMLDivElement | HTMLSpanElement, CBadgeProps>
       context,
       size,
       {
+        outline: variant === 'outline',
+        smooth: variant === 'smooth',
         'position-absolute translate-middle': position,
         'top-0': position?.includes('top'),
         'top-100': position?.includes('bottom'),
         'start-100': position?.includes('end'),
         'start-0': position?.includes('start'),
-        [`fg-${textColor}`]: textColor,
       },
-      shape,
+      { circle },
       className,
     )
 

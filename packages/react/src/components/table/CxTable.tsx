@@ -1,7 +1,7 @@
 import React, { forwardRef, TableHTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-import { Colors } from '../Types'
+import { ContextColor } from '../Types'
 
 export interface CTableColumn<T extends Record<string, unknown> = Record<string, unknown>> {
   /**
@@ -49,7 +49,7 @@ export interface CTableProps extends Omit<TableHTMLAttributes<HTMLTableElement>,
    *
    * @type 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | string
    */
-  context?: Colors
+  context?: ContextColor
   /**
    * Enable a hover state on table rows.
    */

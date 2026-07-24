@@ -1,7 +1,7 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-import { Colors } from '../Types'
+import { ContextColor } from '../Types'
 
 export interface CCardProps extends HTMLAttributes<HTMLDivElement> {
   /**
@@ -13,7 +13,7 @@ export interface CCardProps extends HTMLAttributes<HTMLDivElement> {
    *
    * @type 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light' | string
    */
-  context?: Colors
+  context?: ContextColor
   /**
    * Sets the text context context of the component to one of Chassis themed colors.
    *

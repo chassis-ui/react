@@ -1,7 +1,7 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-import { Colors } from '../Types'
+import { ContextColor } from '../Types'
 export interface CProgressBarProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * Use to animate the stripes right to left via CSS3 animations.
@@ -16,7 +16,7 @@ export interface CProgressBarProps extends HTMLAttributes<HTMLDivElement> {
    *
    * @type 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light' | string
    */
-  context?: Colors
+  context?: ContextColor
   /**
    * The percent to progress the ProgressBar.
    */

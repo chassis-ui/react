@@ -1,7 +1,7 @@
 import React, { forwardRef, ThHTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-import { Colors } from '../Types'
+import { ContextColor } from '../Types'
 
 export interface CTableHeaderCellProps extends ThHTMLAttributes<HTMLTableHeaderCellElement> {
   /**
@@ -13,7 +13,7 @@ export interface CTableHeaderCellProps extends ThHTMLAttributes<HTMLTableHeaderC
    *
    * @type 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light' | string
    */
-  context?: Colors
+  context?: ContextColor
 }
 
 export const CxTableHeaderCell = forwardRef<HTMLTableHeaderCellElement, CTableHeaderCellProps>(
