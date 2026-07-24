@@ -59,7 +59,43 @@
       ],
       "required": false,
       "type": {
-        "name": "'default' | 'alternate' | 'primary' | 'secondary' | 'neutral' | 'success' | 'danger' | 'warning' | 'info' | 'black' | 'white' | string"
+        "name": "enum",
+        "raw": "ContextColor",
+        "value": [
+          {
+            "value": "\"default\""
+          },
+          {
+            "value": "\"alternate\""
+          },
+          {
+            "value": "\"primary\""
+          },
+          {
+            "value": "\"secondary\""
+          },
+          {
+            "value": "\"neutral\""
+          },
+          {
+            "value": "\"success\""
+          },
+          {
+            "value": "\"danger\""
+          },
+          {
+            "value": "\"warning\""
+          },
+          {
+            "value": "\"info\""
+          },
+          {
+            "value": "\"black\""
+          },
+          {
+            "value": "\"white\""
+          }
+        ]
       }
     },
     "component": {
@@ -154,7 +190,43 @@
       ],
       "required": false,
       "type": {
-        "name": "'rounded' | 'rounded-top' | 'rounded-end' | 'rounded-bottom' | 'rounded-start' | 'rounded-circle' | 'rounded-pill' | 'rounded-0' | 'rounded-1' | 'rounded-2' | 'rounded-3' | string"
+        "name": "enum",
+        "raw": "Shapes",
+        "value": [
+          {
+            "value": "\"rounded\""
+          },
+          {
+            "value": "\"rounded-top\""
+          },
+          {
+            "value": "\"rounded-end\""
+          },
+          {
+            "value": "\"rounded-bottom\""
+          },
+          {
+            "value": "\"rounded-start\""
+          },
+          {
+            "value": "\"rounded-circle\""
+          },
+          {
+            "value": "\"rounded-pill\""
+          },
+          {
+            "value": "\"rounded-0\""
+          },
+          {
+            "value": "\"rounded-1\""
+          },
+          {
+            "value": "\"rounded-2\""
+          },
+          {
+            "value": "\"rounded-3\""
+          }
+        ]
       }
     },
     "size": {

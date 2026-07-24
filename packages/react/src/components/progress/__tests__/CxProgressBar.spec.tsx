@@ -10,7 +10,13 @@ test('loads and displays CxProgressBar component', async () => {
 
 test('CxProgressBar customize', async () => {
   const { container } = render(
-    <CxProgressBar context="warning" className="bazinga" animated={true} value={50} variant="striped">
+    <CxProgressBar
+      context="warning"
+      className="bazinga"
+      animated={true}
+      value={50}
+      variant="striped"
+    >
       Test
     </CxProgressBar>,
   )

@@ -68,7 +68,6 @@ const BP_NAME: Record<string, string> = {
   xs: '',
 }
 
-
 export const CxPlaceholder = forwardRef<HTMLSpanElement, CPlaceholderProps>(
   (
     { children, animation, className, context, component: Component = 'span', size, ...rest },

@@ -67,14 +67,7 @@ export const CxButton = forwardRef<HTMLButtonElement | HTMLAnchorElement, CButto
     },
     ref,
   ) => {
-    const _className = classNames(
-      'button',
-      context,
-      variant,
-      size,
-      shape,
-      className,
-    )
+    const _className = classNames('button', context, variant, size, shape, className)
 
     return (
       <CxLink

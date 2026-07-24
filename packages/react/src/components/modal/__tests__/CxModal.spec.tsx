@@ -122,6 +122,37 @@ test('CxModal closes on backdrop click', async () => {
   jest.useRealTimers()
 })
 
+test('CxModal restores focus to the trigger element after closing', async () => {
+  jest.useFakeTimers()
+  function Wrapper() {
+    const [visible, setVisible] = React.useState(false)
+    return (
+      <>
+        <button type="button" onClick={() => setVisible(true)}>
+          open
+        </button>
+        <CxModal onClose={() => setVisible(false)} visible={visible}>
+          Test
+        </CxModal>
+      </>
+    )
+  }
+  const { getByText } = render(<Wrapper />)
+  const trigger = getByText('open')
+  trigger.focus()
+  expect(document.activeElement).toBe(trigger)
+
+  fireEvent.click(trigger)
+
+  const dialog = document.querySelector('dialog.modal') as HTMLDialogElement
+  fireEvent(dialog, new Event('cancel', { cancelable: true }))
+  act(() => {
+    jest.runAllTimers()
+  })
+  expect(document.activeElement).toBe(trigger)
+  jest.useRealTimers()
+})
+
 test('CxModal backdrop="static" bounces instead of closing on backdrop click', async () => {
   jest.useFakeTimers()
   const onClose = jest.fn()

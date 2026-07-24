@@ -10,14 +10,18 @@ export interface CToastCloseProps extends CCloseButtonProps {
 }
 
 export const CxToastClose = forwardRef<HTMLButtonElement, CToastCloseProps>(
-  ({ children, component: Component, ...rest }, ref) => {
+  ({ children, component: Component, onClick, ...rest }, ref) => {
     const { setVisible } = useContext(CToastContext)
+    const handleClick: typeof onClick = (event) => {
+      onClick?.(event)
+      setVisible(false)
+    }
     return Component ? (
-      <Component onClick={() => setVisible(false)} {...rest} ref={ref}>
+      <Component onClick={handleClick} {...rest} ref={ref}>
         {children}
       </Component>
     ) : (
-      <CxCloseButton onClick={() => setVisible(false)} {...rest} ref={ref} />
+      <CxCloseButton onClick={handleClick} {...rest} ref={ref} />
     )
   },
 )

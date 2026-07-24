@@ -18,6 +18,21 @@ test('loads and displays CxSubmenu component', async () => {
   expect(document.querySelector('.submenu')).not.toBeNull()
 })
 
+test('CxSubmenu forwards ref to the outer wrapper element', async () => {
+  const ref = React.createRef<HTMLDivElement>()
+  render(
+    <CxMenu visible>
+      <CxMenuList>
+        <CxSubmenu ref={ref} trigger="File">
+          <CxMenuItem>New</CxMenuItem>
+        </CxSubmenu>
+      </CxMenuList>
+    </CxMenu>,
+  )
+  expect(ref.current).toBeInstanceOf(HTMLDivElement)
+  expect(ref.current).toHaveClass('submenu')
+})
+
 test('CxSubmenu opens and closes on trigger click', async () => {
   render(
     <CxMenu visible>

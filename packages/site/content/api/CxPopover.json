@@ -120,7 +120,7 @@
       ],
       "required": false,
       "type": {
-        "name": "'hover' | 'focus' | 'click'"
+        "name": "Triggers | Triggers[]"
       }
     },
     "placement": {

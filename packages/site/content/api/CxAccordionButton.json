@@ -1,5 +1,7 @@
 {
-  "tags": {},
+  "tags": {
+    "deprecated": "CxAccordionHeader already renders its own `.accordion-title` wrapper around its\nchildren, so nesting this component inside it produces a duplicate wrapper. Kept for API\ncompatibility; pass content directly to CxAccordionHeader instead."
+  },
   "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/accordion/CxAccordionButton.tsx",
   "description": "",
   "displayName": "CxAccordionButton",

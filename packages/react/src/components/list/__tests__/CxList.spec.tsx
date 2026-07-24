@@ -55,6 +55,18 @@ test('CxList example', async () => {
   expect(container).toMatchSnapshot()
 })
 
+test('CxList forwards arbitrary HTML attributes and ref', async () => {
+  const ref = React.createRef<HTMLUListElement>()
+  const { container } = render(
+    <CxList ref={ref} id="nav-list" data-testid="my-list">
+      Test
+    </CxList>,
+  )
+  expect(ref.current).toBeInstanceOf(HTMLUListElement)
+  expect(container.firstChild).toHaveAttribute('id', 'nav-list')
+  expect(container.firstChild).toHaveAttribute('data-testid', 'my-list')
+})
+
 test('CxList data-driven items', async () => {
   const { container } = render(
     <CxList

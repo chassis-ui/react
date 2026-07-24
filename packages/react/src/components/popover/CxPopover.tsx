@@ -65,10 +65,13 @@ export const CxPopover: FC<CPopoverProps> = ({
   const triggerRef = useRef<HTMLElement | null>(null)
   const floatingRef = useRef<HTMLDivElement>(null)
 
+  useEffect(() => {
+    setVisible(visible)
+  }, [visible])
+
   // Popovers inside an open `<dialog>` are appended to that dialog instead of
   // `document.body`, so they render in its top layer and close with it automatically.
-  const resolvePortalContainer = () =>
-    triggerRef.current?.closest('dialog[open]') ?? document.body
+  const resolvePortalContainer = () => triggerRef.current?.closest('dialog[open]') ?? document.body
 
   const show = () => {
     setPortalContainer(resolvePortalContainer())

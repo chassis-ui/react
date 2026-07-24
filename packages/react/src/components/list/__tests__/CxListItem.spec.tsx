@@ -29,3 +29,9 @@ test('CxListItem customize', async () => {
   expect(container.firstChild).toHaveClass('active')
   expect(container.firstChild).toHaveClass('disabled')
 })
+
+test('CxListItem forwards ref for default li element', async () => {
+  const ref = React.createRef<HTMLLIElement>()
+  render(<CxListItem ref={ref}>Test</CxListItem>)
+  expect(ref.current).toBeInstanceOf(HTMLLIElement)
+})

@@ -170,7 +170,13 @@ test('CxDrawer backdrop="static" bounces instead of closing on backdrop click', 
   const onClose = jest.fn()
   const onClosePrevented = jest.fn()
   const { container } = render(
-    <CxDrawer backdrop="static" onClose={onClose} onClosePrevented={onClosePrevented} placement="start" visible>
+    <CxDrawer
+      backdrop="static"
+      onClose={onClose}
+      onClosePrevented={onClosePrevented}
+      placement="start"
+      visible
+    >
       Test
     </CxDrawer>,
   )

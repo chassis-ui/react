@@ -119,10 +119,10 @@
         "name": "boolean"
       }
     },
-    "steps": {
+    "step": {
       "defaultValue": null,
       "description": "Specifies the interval between legal numbers in the component.",
-      "name": "steps",
+      "name": "step",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormRange.tsx",
         "name": "CFormRangeProps"
@@ -133,7 +133,7 @@
           "name": "CFormRangeProps"
         }
       ],
-      "required": true,
+      "required": false,
       "type": {
         "name": "number"
       }

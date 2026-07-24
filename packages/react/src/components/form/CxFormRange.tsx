@@ -29,7 +29,7 @@ export interface CFormRangeProps extends InputHTMLAttributes<HTMLInputElement> {
   /**
    * Specifies the interval between legal numbers in the component.
    */
-  steps: number
+  step?: number
   /**
    * The `value` attribute of component.
    *

@@ -11,7 +11,13 @@ test('loads and displays CxNotification component', async () => {
 
 test('CxNotification customize', async () => {
   const { container } = render(
-    <CxNotification context="secondary" className="bazinga" dismissible={true} variant="solid" visible={true}>
+    <CxNotification
+      context="secondary"
+      className="bazinga"
+      dismissible={true}
+      variant="solid"
+      visible={true}
+    >
       Test
     </CxNotification>,
   )

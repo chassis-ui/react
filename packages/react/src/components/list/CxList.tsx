@@ -73,7 +73,19 @@ export interface CListProps extends HTMLAttributes<HTMLDivElement | HTMLUListEle
 
 export const CxList = forwardRef<HTMLDivElement | HTMLUListElement, CListProps>(
   (
-    { children, className, component: Component = 'ul', context, variant, flush, items, layout, numbered, plain },
+    {
+      children,
+      className,
+      component: Component = 'ul',
+      context,
+      variant,
+      flush,
+      items,
+      layout,
+      numbered,
+      plain,
+      ...rest
+    },
     ref,
   ) => {
     const _className = classNames(
@@ -92,16 +104,11 @@ export const CxList = forwardRef<HTMLDivElement | HTMLUListElement, CListProps>(
 
     const autoContent = items
       ? items.map((item, idx) => {
-          const itemClass = classNames(
-            'list-item',
-            item.context && 'context',
-            item.context,
-            {
-              'list-action': !!item.href,
-              active: item.active,
-              disabled: item.disabled,
-            },
-          )
+          const itemClass = classNames('list-item', item.context && 'context', item.context, {
+            'list-action': !!item.href,
+            active: item.active,
+            disabled: item.disabled,
+          })
           const Tag = item.href ? 'a' : 'li'
           return (
             <Tag
@@ -118,7 +125,7 @@ export const CxList = forwardRef<HTMLDivElement | HTMLUListElement, CListProps>(
       : null
 
     return (
-      <Component className={_className} ref={ref}>
+      <Component className={_className} {...rest} ref={ref}>
         {autoContent ?? children}
       </Component>
     )

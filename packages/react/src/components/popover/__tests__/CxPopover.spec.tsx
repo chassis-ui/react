@@ -78,6 +78,34 @@ test('CxPopover scopes itself to an open dialog ancestor', async () => {
   jest.useRealTimers()
 })
 
+test('CxPopover responds to the visible prop changing after mount', async () => {
+  jest.useFakeTimers()
+  const { rerender } = render(
+    <CxPopover content="content" visible={false}>
+      <CxButton>Test</CxButton>
+    </CxPopover>,
+  )
+  act(() => jest.runAllTimers())
+  expect(document.body.getElementsByClassName('popover').length).toBe(0)
+
+  rerender(
+    <CxPopover content="content" visible={true}>
+      <CxButton>Test</CxButton>
+    </CxPopover>,
+  )
+  act(() => jest.runAllTimers())
+  expect(document.body.getElementsByClassName('popover').length).toBe(1)
+
+  rerender(
+    <CxPopover content="content" visible={false}>
+      <CxButton>Test</CxButton>
+    </CxPopover>,
+  )
+  act(() => jest.runAllTimers())
+  expect(document.body.getElementsByClassName('popover').length).toBe(0)
+  jest.useRealTimers()
+})
+
 // test('CxPopover onToggle', async () => {
 //   let btn
 //   jest.useFakeTimers()

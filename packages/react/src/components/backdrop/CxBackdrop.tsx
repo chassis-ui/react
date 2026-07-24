@@ -29,7 +29,9 @@ export const CxBackdrop = forwardRef<HTMLDivElement, CBackdropProps>(
       <Transition in={visible} mountOnEnter nodeRef={nodeRef} timeout={150} unmountOnExit>
         {(state) => {
           const transitionClass = getTransitionClass(state)
-          return <div className={classNames(_className, transitionClass)} {...rest} ref={forkedRef} />
+          return (
+            <div className={classNames(_className, transitionClass)} {...rest} ref={forkedRef} />
+          )
         }}
       </Transition>
     )

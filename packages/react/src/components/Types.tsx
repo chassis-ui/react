@@ -1,12 +1,7 @@
 /**
  * Breakpoints
  */
-export type Breakpoint = 
-  | 'small' 
-  | 'medium' 
-  | 'large' 
-  | 'xlarge' 
-  | '2xlarge'
+export type Breakpoint = 'small' | 'medium' | 'large' | 'xlarge' | '2xlarge'
 
 /**
  * Context colors
@@ -27,30 +22,17 @@ export type ContextColor =
 /**
  * Context styles
  */
-export type ContextStyle =
-  | 'basic'
-  | 'solid'
-  | 'outline'
-  | 'smooth'
+export type ContextStyle = 'basic' | 'solid' | 'outline' | 'smooth'
 
 /**
  * Component sizes
  */
-export type Sizing =
-  | 'small'
-  | 'medium'
-  | 'large';
+export type Sizing = 'small' | 'medium' | 'large'
 
 /**
  * Extended sizes
  */
-export type ExtendedSizing =
-  | '2xsmall'
-  | 'xsmall'
-  | Sizing
-  | 'xlarge'
-  | '2xlarge';
-
+export type ExtendedSizing = '2xsmall' | 'xsmall' | Sizing | 'xlarge' | '2xlarge'
 
 /**
  * Spacing values
@@ -69,25 +51,17 @@ export type Spacing =
   | '3xlarge'
   | '4xlarge'
   | '5xlarge'
-  | '6xlarge';
+  | '6xlarge'
 
 /**
  * Font families
  */
-export type FontFamily =
-  | 'text'
-  | 'display'
-  | 'code'
-  | 'html';
+export type FontFamily = 'text' | 'display' | 'code' | 'html'
 
 /**
  * Font weights
  */
-export type FontWeight =
-  | 'elegant'
-  | 'normal'
-  | 'strong'
-  | 'mass';
+export type FontWeight = 'elegant' | 'normal' | 'strong' | 'mass'
 
 /**
  * Font sizes
@@ -102,7 +76,7 @@ export type FontSize =
   | '2xlarge'
   | '3xlarge'
   | '4xlarge'
-  | '5xlarge';
+  | '5xlarge'
 
 /**
  * Component placements
@@ -140,7 +114,7 @@ export type Shapes =
   | 'rounded-2'
   | 'rounded-3'
 
-export type TextColor = 
+export type TextColor =
   | ContextColor
   | 'main'
   | 'subtle'
@@ -152,4 +126,3 @@ export type TextColor =
   | 'contrast'
 
 export type Triggers = 'hover' | 'focus' | 'click'
-

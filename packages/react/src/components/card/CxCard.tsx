@@ -15,7 +15,7 @@ export interface CCardProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * Sets the text context context of the component to one of Chassis themed colors.
    *
-   * @type 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light' | 'white' | 'white-50' | 'muted' | 'black-50' | 'body' | string
+   * @type ContextColor | 'main' | 'subtle' | 'slight' | 'inverse' | 'solid' | 'highlight' | 'idle' | 'disabled' | 'hover' | 'press' | string
    */
   textColor?: string
 }

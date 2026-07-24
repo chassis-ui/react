@@ -181,7 +181,8 @@ export const CxDrawer = forwardRef<HTMLDialogElement, CDrawerProps>(
           if (entry.dialog !== dialog) entry.requestClose()
         }
 
-        triggerRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null
+        triggerRef.current =
+          document.activeElement instanceof HTMLElement ? document.activeElement : null
 
         const isModal = Boolean(backdrop) || !scroll
         openedAsModalRef.current = isModal

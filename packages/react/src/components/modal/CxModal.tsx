@@ -110,6 +110,7 @@ export const CxModal = forwardRef<HTMLDialogElement, CModalProps>(
     const [hiding, setHiding] = useState(false)
     const [staticBounce, setStaticBounce] = useState(false)
     const openedAsModalRef = useRef(false)
+    const triggerRef = useRef<HTMLElement | null>(null)
 
     useEffect(() => {
       setVisible(visible)
@@ -144,6 +145,9 @@ export const CxModal = forwardRef<HTMLDialogElement, CModalProps>(
 
       if (_visible) {
         if (dialog.open) return undefined
+
+        triggerRef.current =
+          document.activeElement instanceof HTMLElement ? document.activeElement : null
 
         openedAsModalRef.current = modal
         if (modal) {
@@ -189,6 +193,10 @@ export const CxModal = forwardRef<HTMLDialogElement, CModalProps>(
           }
           setHiding(false)
           onHidden?.()
+          const trigger = triggerRef.current
+          if (trigger && document.contains(trigger)) {
+            trigger.focus()
+          }
         },
         !instant,
       )
@@ -235,7 +243,8 @@ export const CxModal = forwardRef<HTMLDialogElement, CModalProps>(
       'modal',
       'dialog',
       {
-        [typeof fullscreen === 'boolean' ? 'fullscreen' : `max-${fullscreen}:fullscreen`]: fullscreen,
+        [typeof fullscreen === 'boolean' ? 'fullscreen' : `max-${fullscreen}:fullscreen`]:
+          fullscreen,
         [`${size}`]: size,
         instant,
         nonmodal: !modal,

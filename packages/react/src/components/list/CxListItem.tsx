@@ -44,14 +44,15 @@ export const CxListItem = forwardRef<
     className,
   )
 
-  const Component = component === 'a' || component === 'button' ? CxLink : component
+  const Component = (
+    component === 'a' || component === 'button' ? CxLink : component
+  ) as ElementType
 
   rest = {
     ...((component === 'a' || component === 'button') && {
       active,
       disabled,
       component,
-      ref: ref,
     }),
     ...(active && { 'aria-current': true }),
     ...(disabled && { 'aria-disabled': true }),
@@ -59,7 +60,7 @@ export const CxListItem = forwardRef<
   }
 
   return (
-    <Component className={_className} {...rest}>
+    <Component className={_className} {...rest} ref={ref}>
       {children}
     </Component>
   )

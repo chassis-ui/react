@@ -71,8 +71,7 @@ export interface CTableProps extends Omit<TableHTMLAttributes<HTMLTableElement>,
   striped?: boolean
 }
 
-const toLabel = (key: string) =>
-  key.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
+const toLabel = (key: string) => key.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
 
 export const CxTable = forwardRef<HTMLTableElement, CTableProps>(
   (
@@ -110,10 +109,7 @@ export const CxTable = forwardRef<HTMLTableElement, CTableProps>(
     )
 
     const cols: CTableColumn[] =
-      columns ??
-      (items && items.length > 0
-        ? Object.keys(items[0]).map((k) => ({ key: k }))
-        : [])
+      columns ?? (items && items.length > 0 ? Object.keys(items[0]).map((k) => ({ key: k })) : [])
 
     const autoContent = items ? (
       <>

@@ -8,6 +8,11 @@ export interface CAccordionButtonProps extends HTMLAttributes<HTMLSpanElement> {
   className?: string
 }
 
+/**
+ * @deprecated CxAccordionHeader already renders its own `.accordion-title` wrapper around its
+ * children, so nesting this component inside it produces a duplicate wrapper. Kept for API
+ * compatibility; pass content directly to CxAccordionHeader instead.
+ */
 export const CxAccordionButton = forwardRef<HTMLSpanElement, CAccordionButtonProps>(
   ({ children, className, ...rest }, ref) => {
     return (

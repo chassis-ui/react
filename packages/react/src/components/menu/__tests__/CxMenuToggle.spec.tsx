@@ -18,6 +18,20 @@ test('loads and displays CxMenuToggle component', async () => {
   expect(toggle).toHaveAttribute('aria-expanded', 'false')
 })
 
+test('CxMenuToggle forwards ref to the underlying button', async () => {
+  const ref = React.createRef<HTMLButtonElement>()
+  render(
+    <CxMenu>
+      <CxMenuToggle ref={ref}>Test</CxMenuToggle>
+      <CxMenuList>
+        <CxMenuItem>A</CxMenuItem>
+      </CxMenuList>
+    </CxMenu>,
+  )
+  expect(ref.current).toBeInstanceOf(HTMLButtonElement)
+  expect(ref.current).toBe(screen.getByText('Test'))
+})
+
 test('CxMenuToggle forwards custom props to the underlying button', async () => {
   render(
     <CxMenu>

@@ -35,18 +35,14 @@ export interface CPaginationProps extends HTMLAttributes<HTMLUListElement> {
   size?: 'small' | 'large'
 }
 
-function getPageRange(
-  activePage: number,
-  pages: number,
-  maxVisible: number,
-): (number | '...')[] {
+function getPageRange(activePage: number, pages: number, maxVisible: number): (number | '...')[] {
   if (pages <= maxVisible) {
     return Array.from({ length: pages }, (_, i) => i + 1)
   }
 
   const half = Math.floor(maxVisible / 2)
   let start = Math.max(1, activePage - half)
-  let end = Math.min(pages, start + maxVisible - 1)
+  const end = Math.min(pages, start + maxVisible - 1)
 
   if (end - start < maxVisible - 1) {
     start = Math.max(1, end - maxVisible + 1)

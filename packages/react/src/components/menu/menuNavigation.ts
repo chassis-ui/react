@@ -24,7 +24,6 @@ export const focusMenuItem = (items: HTMLElement[], target: 'first' | 'last') =>
 
 export interface MenuKeyDownOptions {
   onArrowLeft?: () => void
-  onArrowRight?: (trigger: HTMLElement) => void
   onEscape?: () => void
 }
 
@@ -32,7 +31,7 @@ export interface MenuKeyDownOptions {
 // function drives keyboard navigation for both the top-level menu and any nested submenu list.
 export const handleMenuKeyDown = (
   event: React.KeyboardEvent<HTMLElement>,
-  { onArrowLeft, onArrowRight, onEscape }: MenuKeyDownOptions,
+  { onArrowLeft, onEscape }: MenuKeyDownOptions,
 ): void => {
   const menu = event.currentTarget
   const target = event.target as HTMLElement
@@ -73,13 +72,6 @@ export const handleMenuKeyDown = (
       event.preventDefault()
       event.stopPropagation()
       onArrowLeft()
-      return
-    }
-    case 'ArrowRight': {
-      if (!onArrowRight || !target.matches('.submenu > .menu-item')) return
-      event.preventDefault()
-      event.stopPropagation()
-      onArrowRight(target)
       return
     }
     default:

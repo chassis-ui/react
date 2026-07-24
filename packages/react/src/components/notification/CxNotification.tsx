@@ -14,7 +14,7 @@ export interface CNotificationProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * Sets the context context of the component to one of Chassis themed colors.
    */
-  context: ContextColor
+  context?: ContextColor
   /**
    * Optionally add a close button to the notification and allow it to self dismiss.
    */
@@ -35,7 +35,16 @@ export interface CNotificationProps extends HTMLAttributes<HTMLDivElement> {
 
 export const CxNotification = forwardRef<HTMLDivElement, CNotificationProps>(
   (
-    { children, className, context = 'primary', dismissible, variant, visible = true, onClose, ...rest },
+    {
+      children,
+      className,
+      context = 'primary',
+      dismissible,
+      variant,
+      visible = true,
+      onClose,
+      ...rest
+    },
     ref,
   ) => {
     const [_visible, setVisible] = useState(visible)
@@ -61,7 +70,14 @@ export const CxNotification = forwardRef<HTMLDivElement, CNotificationProps>(
     }
 
     return (
-      <Transition in={_visible} mountOnEnter nodeRef={nodeRef} onExit={onClose} timeout={150} unmountOnExit>
+      <Transition
+        in={_visible}
+        mountOnEnter
+        nodeRef={nodeRef}
+        onExit={onClose}
+        timeout={150}
+        unmountOnExit
+      >
         {(state) => {
           const transitionClass = getTransitionClass(state)
           return (

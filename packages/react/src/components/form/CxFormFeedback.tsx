@@ -11,7 +11,7 @@ export interface CFormFeedbackProps extends HTMLAttributes<HTMLDivElement | HTML
    */
   component?: string | ElementType
   /**
-   * Method called immediately after the `value` prop changes.
+   * Set component validation state to invalid.
    */
   invalid?: boolean
   /**

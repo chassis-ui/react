@@ -61,6 +61,34 @@ test('CxTooltip scopes itself to an open dialog ancestor', async () => {
   jest.useRealTimers()
 })
 
+test('CxTooltip responds to the visible prop changing after mount', async () => {
+  jest.useFakeTimers()
+  const { rerender } = render(
+    <CxTooltip content="content" visible={false}>
+      <CxLink className="link">Test</CxLink>
+    </CxTooltip>,
+  )
+  act(() => jest.runAllTimers())
+  expect(document.body.getElementsByClassName('tooltip').length).toBe(0)
+
+  rerender(
+    <CxTooltip content="content" visible={true}>
+      <CxLink className="link">Test</CxLink>
+    </CxTooltip>,
+  )
+  act(() => jest.runAllTimers())
+  expect(document.body.getElementsByClassName('tooltip').length).toBe(1)
+
+  rerender(
+    <CxTooltip content="content" visible={false}>
+      <CxLink className="link">Test</CxLink>
+    </CxTooltip>,
+  )
+  act(() => jest.runAllTimers())
+  expect(document.body.getElementsByClassName('tooltip').length).toBe(0)
+  jest.useRealTimers()
+})
+
 // test('CxTooltip on toggle', async () => {
 //   jest.useFakeTimers()
 //   const onToggle = jest.fn()

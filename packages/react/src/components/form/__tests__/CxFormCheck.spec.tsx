@@ -21,7 +21,7 @@ test('CxFormCheck customize button=false', async () => {
 test('CxFormCheck customize button=true', async () => {
   const { container } = render(
     <CxFormCheck
-      button={{ context: 'primary', size: "large", shape: 'rounded', variant: 'ghost' }}
+      button={{ context: 'primary', size: 'large', shape: 'rounded', variant: 'ghost' }}
       className="bazinga"
       id="id"
       inline={true}

@@ -47,7 +47,7 @@
     },
     "invalid": {
       "defaultValue": null,
-      "description": "Method called immediately after the `value` prop changes.",
+      "description": "Set component validation state to invalid.",
       "name": "invalid",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormFeedback.tsx",
