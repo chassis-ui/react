@@ -1,0 +1,60 @@
+---
+title: Tabs
+description: Chassis Tabs organize content into multiple sections and let users navigate between them with full keyboard support.
+
+toc: true
+---
+
+import { BasicExample } from '../../src/examples/tabs/BasicExample.tsx'
+import { PillsExample } from '../../src/examples/tabs/PillsExample.tsx'
+import { DisabledExample } from '../../src/examples/tabs/DisabledExample.tsx'
+
+import { CxTab, CxTabList, CxTabPanel, CxTabs } from '@chassis-ui/react'
+
+## Overview
+
+`CxTabs` organizes content into sections, showing one at a time. Unlike hand-wiring a `CxNav` to a set of manually-toggled panels, `CxTabs` handles keyboard navigation (arrow keys, Home/End), roving tab focus, and the `role="tablist"`/`role="tab"`/`role="tabpanel"` + `aria-selected`/`aria-controls`/`aria-labelledby` wiring between them for you.
+
+Compose a `CxTabList` of `CxTab`s, followed by one `CxTabPanel` per tab. A tab and its panel are paired by a matching `id` — not by position, and not by React's own `key` (though you should still give each a `key`, as with any list).
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## Pills
+
+Pass `variant="pills"` to `CxTabList` for a pill-styled tab list instead of the default underlined tabs.
+
+<Example>
+  <PillsExample client:load />
+</Example>
+
+## Disabled tabs
+
+Add `disabled` to a `CxTab` to remove it from keyboard navigation and prevent it from being selected.
+
+<Example>
+  <DisabledExample client:load />
+</Example>
+
+## Controlled selection
+
+Pass `selectedKey`/`onSelectionChange` to `CxTabs` to control which tab is selected yourself, e.g. to sync it with the URL. Omit them (use `defaultSelectedKey` instead) to let `CxTabs` manage selection internally.
+
+## API
+
+### CxTabs
+
+<PropTable component="CxTabs" />
+
+### CxTabList
+
+<PropTable component="CxTabList" />
+
+### CxTab
+
+<PropTable component="CxTab" />
+
+### CxTabPanel
+
+<PropTable component="CxTabPanel" />

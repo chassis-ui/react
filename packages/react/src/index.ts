@@ -93,8 +93,12 @@ import { CxTableFoot } from './components/table/CxTableFoot'
 import { CxTableHead } from './components/table/CxTableHead'
 import { CxTableHeaderCell } from './components/table/CxTableHeaderCell'
 import { CxTableRow } from './components/table/CxTableRow'
+import { CxTab } from './components/tabs/CxTab'
 import { CxTabContent } from './components/tabs/CxTabContent'
+import { CxTabList } from './components/tabs/CxTabList'
 import { CxTabPane } from './components/tabs/CxTabPane'
+import { CxTabPanel } from './components/tabs/CxTabPanel'
+import { CxTabs } from './components/tabs/CxTabs'
 import { CxToast } from './components/toast/CxToast'
 import { CxToastBody } from './components/toast/CxToastBody'
 import { CxToastClose } from './components/toast/CxToastClose'
@@ -200,8 +204,12 @@ export {
   CxTableHead,
   CxTableHeaderCell,
   CxTableRow,
+  CxTab,
   CxTabContent,
+  CxTabList,
   CxTabPane,
+  CxTabPanel,
+  CxTabs,
   CxToast,
   CxToastBody,
   CxToastClose,
