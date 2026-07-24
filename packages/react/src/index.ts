@@ -91,11 +91,9 @@ import { CxDrawerTitle } from './components/drawer/CxDrawerTitle'
 import { CxSpinner } from './components/spinner/CxSpinner'
 import { CxTable } from './components/table/CxTable'
 import { CxTableBody } from './components/table/CxTableBody'
-import { CxTableCaption } from './components/table/CxTableCaption'
-import { CxTableDataCell } from './components/table/CxTableDataCell'
-import { CxTableFoot } from './components/table/CxTableFoot'
-import { CxTableHead } from './components/table/CxTableHead'
-import { CxTableHeaderCell } from './components/table/CxTableHeaderCell'
+import { CxTableCell } from './components/table/CxTableCell'
+import { CxTableColumn } from './components/table/CxTableColumn'
+import { CxTableHeader } from './components/table/CxTableHeader'
 import { CxTableRow } from './components/table/CxTableRow'
 import { CxTab } from './components/tabs/CxTab'
 import { CxTabContent } from './components/tabs/CxTabContent'
@@ -212,11 +210,9 @@ export {
   CxSpinner,
   CxTable,
   CxTableBody,
-  CxTableCaption,
-  CxTableDataCell,
-  CxTableFoot,
-  CxTableHead,
-  CxTableHeaderCell,
+  CxTableCell,
+  CxTableColumn,
+  CxTableHeader,
   CxTableRow,
   CxTab,
   CxTabContent,

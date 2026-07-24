@@ -1,0 +1,39 @@
+/*
+ * CxTable's `<table>`/`<thead>`/`<tbody>`/`<tr>`/`<th>`/`<td>` chrome reuses chassis-css's
+ * existing `.table` class as-is (colors, borders, striping, hover, the `.active` row highlight —
+ * now driven by real selection state instead of a manual prop). Only the pieces with no
+ * chassis-css equivalent are new here: the sort indicator and the selection-checkbox column,
+ * both built on `@chassis-ui/tokens`' public `--cx-*` tokens for the same reason as
+ * CxDatePicker's calendar grid.
+ */
+
+.table-sort-icon {
+  display: inline-block;
+  margin-inline-start: var(--cx-space-2xsmall);
+  font-size: 0.75em;
+  opacity: 0.6;
+}
+
+[aria-sort="ascending"] .table-sort-icon,
+[aria-sort="descending"] .table-sort-icon {
+  opacity: 1;
+}
+
+[role="columnheader"][aria-sort] {
+  cursor: pointer;
+  user-select: none;
+}
+
+.table-selection-cell {
+  width: 1%;
+  padding-inline-end: 0;
+  text-align: center;
+}
+
+[role="row"]:focus-visible,
+[role="gridcell"]:focus-visible,
+[role="columnheader"]:focus-visible,
+[role="rowheader"]:focus-visible {
+  outline: var(--cx-border-width-xlarge) solid var(--cx-primary);
+  outline-offset: -2px;
+}

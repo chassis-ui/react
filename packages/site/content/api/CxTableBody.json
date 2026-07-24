@@ -1,14 +1,14 @@
 {
   "tags": {},
   "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/table/CxTableBody.tsx",
-  "description": "",
+  "description": "Collection node, data-only — read by `CxTable` to build the table's row collection. Never\nrendered directly.",
   "displayName": "CxTableBody",
   "methods": [],
   "props": {
-    "className": {
+    "children": {
       "defaultValue": null,
-      "description": "A string of all className you want applied to the component.",
-      "name": "className",
+      "description": "`CxTableRow` elements, or a render function paired with `items` for dynamic row generation.",
+      "name": "children",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/table/CxTableBody.tsx",
         "name": "CTableBodyProps"
@@ -19,15 +19,15 @@
           "name": "CTableBodyProps"
         }
       ],
-      "required": false,
+      "required": true,
       "type": {
-        "name": "string"
+        "name": "ReactElement<any, string | JSXElementConstructor<any>> | ReactElement<any, string | JSXElementConstructor<any>>[] | ((item: T) => ReactElement<...>)"
       }
     },
-    "context": {
+    "items": {
       "defaultValue": null,
-      "description": "Sets the context context of the component to one of Chassis themed colors.",
-      "name": "context",
+      "description": "A list of row data objects, rendered via the function form of `children`.",
+      "name": "items",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/table/CxTableBody.tsx",
         "name": "CTableBodyProps"
@@ -40,43 +40,7 @@
       ],
       "required": false,
       "type": {
-        "name": "enum",
-        "raw": "ContextColor",
-        "value": [
-          {
-            "value": "\"default\""
-          },
-          {
-            "value": "\"alternate\""
-          },
-          {
-            "value": "\"primary\""
-          },
-          {
-            "value": "\"secondary\""
-          },
-          {
-            "value": "\"neutral\""
-          },
-          {
-            "value": "\"success\""
-          },
-          {
-            "value": "\"danger\""
-          },
-          {
-            "value": "\"warning\""
-          },
-          {
-            "value": "\"info\""
-          },
-          {
-            "value": "\"black\""
-          },
-          {
-            "value": "\"white\""
-          }
-        ]
+        "name": "Iterable<T>"
       }
     }
   }
