@@ -35,21 +35,13 @@ export interface CToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title
    */
   delay?: number
   /**
-   * @ignore
-   */
-  index?: number
-  /**
-   * @ignore
-   */
-  key?: number
-  /**
    * Callback fired when the component requests to be closed.
    */
-  onClose?: (index: number | null) => void
+  onClose?: () => void
   /**
    * Callback fired when the component requests to be shown.
    */
-  onShow?: (index: number | null) => void
+  onShow?: () => void
   /**
    * Apply a full-color background with inverted text. Only meaningful alongside `context`.
    */
@@ -80,8 +72,6 @@ export const CxToast = forwardRef<HTMLDivElement, CToastProps>(
       className,
       context,
       delay = 5000,
-      index,
-      key,
       role = 'status',
       solid,
       translucent,
@@ -179,8 +169,8 @@ export const CxToast = forwardRef<HTMLDivElement, CToastProps>(
       <Transition
         in={_visible}
         nodeRef={nodeRef}
-        onEnter={() => onShow && onShow(index ? index : null)}
-        onExited={() => onClose && onClose(index ? index : null)}
+        onEnter={() => onShow?.()}
+        onExited={() => onClose?.()}
         timeout={250}
         unmountOnExit
       >
@@ -196,7 +186,6 @@ export const CxToast = forwardRef<HTMLDivElement, CToastProps>(
                 onFocus={_onFocus}
                 onBlur={_onBlur}
                 {...rest}
-                key={key}
                 ref={forkedRef}
               >
                 {children}

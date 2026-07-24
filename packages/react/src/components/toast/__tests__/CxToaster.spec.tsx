@@ -1,32 +1,35 @@
-import React from 'react' //  useState,
-import { render, fireEvent } from '@testing-library/react'
+import React from 'react'
+import { act, render, fireEvent } from '@testing-library/react'
 
-import { CxToast, CxToaster, CxToastBody, CxToastHeader, CxButton } from '../../../index'
+import { CxToaster, CxToastBody, CxToastHeader, CxButton, addToast, toastQueue } from '../../../index'
+
+afterEach(() => {
+  act(() => toastQueue.clear())
+})
 
 test('loads and displays CxToaster component', async () => {
   const { container } = render(<CxToaster>Test</CxToaster>)
   expect(container).toMatchSnapshot()
 })
 
+test('renders nothing when the queue is empty and there are no children', async () => {
+  const { container } = render(<CxToaster />)
+  expect(container.firstChild).toBeNull()
+})
+
 test('CxToaster customize', async () => {
   jest.useFakeTimers()
-  let toast = <></>
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const addToast = function (t: any) {
-    toast = t
-  }
   const { container } = render(
     <>
-      <CxToaster push={toast} className="bazinga" />
+      <CxToaster className="bazinga" />
       <CxButton
         onClick={() =>
           addToast(
             <>
-              <CxToast autohide={false}>
-                <CxToastHeader closeButton>Lorem ipsum</CxToastHeader>
-                <CxToastBody>Hello, world! This is a toast message.</CxToastBody>
-              </CxToast>
+              <CxToastHeader closeButton>Lorem ipsum</CxToastHeader>
+              <CxToastBody>Hello, world! This is a toast message.</CxToastBody>
             </>,
+            { autohide: false },
           )
         }
       >
@@ -34,14 +37,46 @@ test('CxToaster customize', async () => {
       </CxButton>
     </>,
   )
-  expect(container).toMatchSnapshot()
   const btn = document.querySelector('.button')
-  if (btn !== null) {
-    fireEvent.click(btn)
-  }
-  jest.runAllTimers()
+  act(() => {
+    if (btn !== null) {
+      fireEvent.click(btn)
+    }
+  })
+  act(() => jest.runAllTimers())
   expect(container.firstChild).toHaveClass('bazinga')
   expect(container.firstChild).toHaveClass('toaster')
   expect(container.firstChild).toHaveClass('toast-container')
+  expect(document.body.getElementsByClassName('toast').length).toBe(1)
+  jest.useRealTimers()
+})
+
+test('addToast is callable from outside render (an event handler, not a push prop)', async () => {
+  jest.useFakeTimers()
+  render(<CxToaster />)
+  act(() => {
+    addToast('Saved!', { autohide: false })
+  })
+  act(() => jest.runAllTimers())
+  expect(document.body.getElementsByClassName('toast').length).toBe(1)
+  expect(document.body.textContent).toContain('Saved!')
+  jest.useRealTimers()
+})
+
+test('closing a queued toast removes it from the toaster', async () => {
+  jest.useFakeTimers()
+  render(<CxToaster />)
+  act(() => {
+    addToast(<CxToastHeader closeButton>Dismiss me</CxToastHeader>, { autohide: false })
+  })
+  act(() => jest.runAllTimers())
+  expect(document.body.getElementsByClassName('toast').length).toBe(1)
+
+  const closeBtn = document.querySelector('.close-button')
+  act(() => {
+    if (closeBtn !== null) fireEvent.click(closeBtn)
+  })
+  act(() => jest.runAllTimers())
+  expect(document.body.getElementsByClassName('toast').length).toBe(0)
   jest.useRealTimers()
 })

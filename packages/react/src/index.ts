@@ -101,6 +101,7 @@ import { CxToastClose } from './components/toast/CxToastClose'
 import { CxToastFooter } from './components/toast/CxToastFooter'
 import { CxToastHeader } from './components/toast/CxToastHeader'
 import { CxToaster } from './components/toast/CxToaster'
+import { addToast, closeToast, toastQueue } from './components/toast/toastQueue'
 import { CxTooltip } from './components/tooltip/CxTooltip'
 
 export {
@@ -207,5 +208,8 @@ export {
   CxToastFooter,
   CxToastHeader,
   CxToaster,
+  addToast,
+  closeToast,
+  toastQueue,
   CxTooltip,
 }

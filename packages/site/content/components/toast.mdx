@@ -26,7 +26,7 @@ React toasts are lightweight notifications designed to mimic the push notificati
 
 Things to know when using the toast plugin:
 
-- Toasts are opt-in — nothing renders until you flip `visible` to `true` (directly, or via `CxToaster`'s `push` prop).
+- Toasts are opt-in — nothing renders until you flip `visible` to `true` directly, or call `addToast()` to push one into a `CxToaster`'s queue.
 - Toasts will automatically hide after `delay` milliseconds unless you set `autohide={false}`. The countdown pauses while the pointer is over the toast or focus is within it, and only resumes once both leave.
 - Use `role="status"` (the default) for routine confirmations and informational updates. Reserve `role="alert"` for errors and messages requiring immediate attention. Both roles carry implicit live-region semantics, so no separate `aria-live` prop is needed.
 
@@ -49,6 +49,8 @@ Toasts are as flexible as you need and have very little required markup. At a mi
   </CxToast>
 </Example>
 
+
+For dynamic notifications, call `addToast()` from anywhere — an event handler, an async callback — to push a toast into a `CxToaster`'s queue. `CxToaster` renders whatever's currently queued; nothing else needs to know about it.
 
 <Example>
   <BasicExample client:load />

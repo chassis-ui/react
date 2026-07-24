@@ -1,23 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CxToaster customize 1`] = `
-<div>
-  <div
-    class="toaster toast-container p-medium position-static bazinga"
-  />
-  <button
-    class="button primary"
-    type="button"
-  >
-    Send a toast
-  </button>
-</div>
-`;
-
 exports[`loads and displays CxToaster component 1`] = `
 <div>
   <div
+    aria-label="0 notifications."
     class="toaster toast-container p-medium position-static"
+    data-react-aria-top-layer="true"
+    role="region"
+    tabindex="-1"
   >
     Test
   </div>
