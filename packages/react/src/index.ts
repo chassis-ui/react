@@ -29,6 +29,7 @@ import { CxCarousel } from './components/carousel/CxCarousel'
 import { CxCarouselCaption } from './components/carousel/CxCarouselCaption'
 import { CxCarouselItem } from './components/carousel/CxCarouselItem'
 import { CxCollapse } from './components/collapse/CxCollapse'
+import { CxChipInput } from './components/chip-input/CxChipInput'
 import { CxCloseButton } from './components/close-button/CxCloseButton'
 import { CxCombobox } from './components/combobox/CxCombobox'
 import { CxComboboxItem } from './components/combobox/CxComboboxItem'
@@ -140,6 +141,7 @@ export {
   CxCarousel,
   CxCarouselCaption,
   CxCarouselItem,
+  CxChipInput,
   CxCloseButton,
   CxCollapse,
   CxCombobox,
