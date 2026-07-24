@@ -1,7 +1,7 @@
 import React, { ButtonHTMLAttributes, ElementType, forwardRef } from 'react'
 import classNames from 'classnames'
 
-import { ContextColor, Shapes } from '../Types'
+import { ContextColor, ContextStyle, Shapes } from '../Types'
 import { CxLink } from '../link/CxLink'
 
 export interface CButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -15,8 +15,6 @@ export interface CButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string
   /**
    * Sets the context context of the component to one of Chassis themed colors.
-   *
-   * @type 'default' | 'alternate' | 'primary' | 'secondary' | 'neutral' | 'success' | 'danger' | 'warning' | 'info' | 'black' | 'white' | string
    */
   context?: ContextColor
   /**
@@ -37,8 +35,6 @@ export interface CButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   role?: string
   /**
    * Select the shape of the component.
-   *
-   * @type 'rounded' | 'rounded-top' | 'rounded-end' | 'rounded-bottom' | 'rounded-start' | 'rounded-circle' | 'rounded-pill' | 'rounded-0' | 'rounded-1' | 'rounded-2' | 'rounded-3' | string
    */
   shape?: Shapes
   /**
@@ -53,7 +49,7 @@ export interface CButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /**
    * Set the button style variant.
    */
-  variant?: 'outline' | 'smooth'
+  variant?: ContextStyle
 }
 
 export const CxButton = forwardRef<HTMLButtonElement | HTMLAnchorElement, CButtonProps>(

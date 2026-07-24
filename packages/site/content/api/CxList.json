@@ -180,10 +180,10 @@
         "name": "boolean"
       }
     },
-    "contextStyle": {
+    "variant": {
       "defaultValue": null,
       "description": "Applies a `.solid`, `.outline`, or `.smooth` context style. Only meaningful together with `context`.",
-      "name": "contextStyle",
+      "name": "variant",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/list/CxList.tsx",
         "name": "CListProps"
@@ -197,8 +197,11 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"solid\" | \"outline\" | \"smooth\"",
+        "raw": "ContextStyle",
         "value": [
+          {
+            "value": "\"basic\""
+          },
           {
             "value": "\"solid\""
           },

@@ -34,7 +34,7 @@ test('CxList plain and numbered', async () => {
 
 test('CxList context and style', async () => {
   const { container } = render(
-    <CxList context="primary" contextStyle="solid">
+    <CxList context="primary" variant="solid">
       Test
     </CxList>,
   )

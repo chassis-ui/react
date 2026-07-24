@@ -275,7 +275,7 @@ Contextual classes also work with `<a>`s or `<button>`s. Note the addition of th
 
 ### Context styles
 
-`<CxList>` also accepts `context` together with a `contextStyle` of `solid`, `outline`, or `smooth` to color the whole list container based on your design system's color palette.
+`<CxList>` also accepts `context` together with a `variant` of `solid`, `outline`, or `smooth` to color the whole list container based on your design system's color palette.
 
 <Example>
   <CxRow className="medium:row-cols-2 g-large">
@@ -287,21 +287,21 @@ Contextual classes also work with `<a>`s or `<button>`s. Note the addition of th
       </CxList>
     </CxCol>
     <CxCol>
-      <CxList context="primary" contextStyle="solid" flush className="rounded">
+      <CxList context="primary" variant="solid" flush className="rounded">
         <CxListItem>Cras justo odio</CxListItem>
         <CxListItem>Dapibus ac facilisis in</CxListItem>
         <CxListItem>Vestibulum at eros</CxListItem>
       </CxList>
     </CxCol>
     <CxCol>
-      <CxList context="primary" contextStyle="smooth" flush className="rounded">
+      <CxList context="primary" variant="smooth" flush className="rounded">
         <CxListItem>Cras justo odio</CxListItem>
         <CxListItem>Dapibus ac facilisis in</CxListItem>
         <CxListItem>Vestibulum at eros</CxListItem>
       </CxList>
     </CxCol>
     <CxCol>
-      <CxList context="primary" contextStyle="outline">
+      <CxList context="primary" variant="outline">
         <CxListItem>Cras justo odio</CxListItem>
         <CxListItem>Dapibus ac facilisis in</CxListItem>
         <CxListItem>Vestibulum at eros</CxListItem>

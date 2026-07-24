@@ -1,7 +1,7 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-import { ContextColor } from '../Types'
+import { ContextColor, ContextStyle } from '../Types'
 
 export interface CListItemDef {
   /**
@@ -37,8 +37,6 @@ export interface CListProps extends HTMLAttributes<HTMLDivElement | HTMLUListEle
   component?: string | ElementType
   /**
    * Sets the context color of the component to one of Chassis themed colors.
-   *
-   * @type 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light' | string
    */
   context?: ContextColor
   /**
@@ -70,19 +68,19 @@ export interface CListProps extends HTMLAttributes<HTMLDivElement | HTMLUListEle
   /**
    * Applies a `.solid`, `.outline`, or `.smooth` context style. Only meaningful together with `context`.
    */
-  contextStyle?: 'solid' | 'outline' | 'smooth'
+  variant?: ContextStyle
 }
 
 export const CxList = forwardRef<HTMLDivElement | HTMLUListElement, CListProps>(
   (
-    { children, className, component: Component = 'ul', context, contextStyle, flush, items, layout, numbered, plain },
+    { children, className, component: Component = 'ul', context, variant, flush, items, layout, numbered, plain },
     ref,
   ) => {
     const _className = classNames(
       'list',
       context && 'context',
       context,
-      contextStyle,
+      variant,
       layout,
       {
         flush,

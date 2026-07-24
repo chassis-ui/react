@@ -202,8 +202,14 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"outline\" | \"smooth\"",
+        "raw": "ContextStyle",
         "value": [
+          {
+            "value": "\"basic\""
+          },
+          {
+            "value": "\"solid\""
+          },
           {
             "value": "\"outline\""
           },

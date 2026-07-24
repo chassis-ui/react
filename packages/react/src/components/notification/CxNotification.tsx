@@ -13,8 +13,6 @@ export interface CNotificationProps extends HTMLAttributes<HTMLDivElement> {
   className?: string
   /**
    * Sets the context context of the component to one of Chassis themed colors.
-   *
-   * @type 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light' | string
    */
   context: ContextColor
   /**

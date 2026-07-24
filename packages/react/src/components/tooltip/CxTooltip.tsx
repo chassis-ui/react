@@ -31,8 +31,6 @@ export interface CTooltipProps {
   onShow?: () => void
   /**
    * Sets which event handlers you’d like provided to your toggle prop. You can specify one trigger or an array of them.
-   *
-   * @type 'hover' | 'focus' | 'click'
    */
   trigger?: Triggers | Triggers[]
   /**

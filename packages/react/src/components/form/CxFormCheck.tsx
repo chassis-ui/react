@@ -9,14 +9,10 @@ import { CxFormLabel } from './CxFormLabel'
 export type ButtonObject = {
   /**
    * Sets the context context of the component to one of Chassis themed colors.
-   *
-   * @type 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light' | string
    */
   context?: ContextColor
   /**
    * Select the shape of the component.
-   *
-   * @type 'rounded' | 'rounded-top' | 'rounded-end' | 'rounded-bottom' | 'rounded-start' | 'rounded-circle' | 'rounded-pill' | 'rounded-0' | 'rounded-1' | 'rounded-2' | 'rounded-3' | string
    */
   shape?: Shapes
   /**

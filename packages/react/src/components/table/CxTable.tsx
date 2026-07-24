@@ -46,8 +46,6 @@ export interface CTableProps extends Omit<TableHTMLAttributes<HTMLTableElement>,
   columns?: CTableColumn[]
   /**
    * Sets the context of the component.
-   *
-   * @type 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | string
    */
   context?: ContextColor
   /**
