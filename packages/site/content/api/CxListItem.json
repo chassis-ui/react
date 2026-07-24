@@ -1,8 +1,8 @@
 {
   "tags": {},
-  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/list-group/CxListGroupItem.tsx",
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/list/CxListItem.tsx",
   "description": "",
-  "displayName": "CxListGroupItem",
+  "displayName": "CxListItem",
   "methods": [],
   "props": {
     "active": {
@@ -10,13 +10,13 @@
       "description": "Toggle the active state for the component.",
       "name": "active",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/list-group/CxListGroupItem.tsx",
-        "name": "CListGroupItemProps"
+        "fileName": "chassis-react/packages/react/src/components/list/CxListItem.tsx",
+        "name": "CListItemProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/list-group/CxListGroupItem.tsx",
-          "name": "CListGroupItemProps"
+          "fileName": "chassis-react/packages/react/src/components/list/CxListItem.tsx",
+          "name": "CListItemProps"
         }
       ],
       "required": false,
@@ -29,13 +29,13 @@
       "description": "A string of all className you want applied to the component.",
       "name": "className",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/list-group/CxListGroupItem.tsx",
-        "name": "CListGroupItemProps"
+        "fileName": "chassis-react/packages/react/src/components/list/CxListItem.tsx",
+        "name": "CListItemProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/list-group/CxListGroupItem.tsx",
-          "name": "CListGroupItemProps"
+          "fileName": "chassis-react/packages/react/src/components/list/CxListItem.tsx",
+          "name": "CListItemProps"
         }
       ],
       "required": false,
@@ -48,13 +48,13 @@
       "description": "Sets the context context of the component to one of Chassis themed colors.",
       "name": "context",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/list-group/CxListGroupItem.tsx",
-        "name": "CListGroupItemProps"
+        "fileName": "chassis-react/packages/react/src/components/list/CxListItem.tsx",
+        "name": "CListItemProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/list-group/CxListGroupItem.tsx",
-          "name": "CListGroupItemProps"
+          "fileName": "chassis-react/packages/react/src/components/list/CxListItem.tsx",
+          "name": "CListItemProps"
         }
       ],
       "required": false,
@@ -67,13 +67,13 @@
       "description": "Toggle the disabled state for the component.",
       "name": "disabled",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/list-group/CxListGroupItem.tsx",
-        "name": "CListGroupItemProps"
+        "fileName": "chassis-react/packages/react/src/components/list/CxListItem.tsx",
+        "name": "CListItemProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/list-group/CxListGroupItem.tsx",
-          "name": "CListGroupItemProps"
+          "fileName": "chassis-react/packages/react/src/components/list/CxListItem.tsx",
+          "name": "CListItemProps"
         }
       ],
       "required": false,
@@ -88,13 +88,13 @@
       "description": "Component used for the root node. Either a string to use a HTML element or a component.",
       "name": "component",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/list-group/CxListGroupItem.tsx",
-        "name": "CListGroupItemProps"
+        "fileName": "chassis-react/packages/react/src/components/list/CxListItem.tsx",
+        "name": "CListItemProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/list-group/CxListGroupItem.tsx",
-          "name": "CListGroupItemProps"
+          "fileName": "chassis-react/packages/react/src/components/list/CxListItem.tsx",
+          "name": "CListItemProps"
         }
       ],
       "required": false,

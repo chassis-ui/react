@@ -4,7 +4,7 @@ import {
   CxCardBody,
   CxCardTitle,
   CxBadge,
-  CxListGroup,
+  CxList,
   CxProgress,
   CxProgressBar,
   CxTable,
@@ -78,7 +78,7 @@ export const Dashboard = () => {
           <CxCard>
             <CxCardBody>
               <h5 className="mb-medium">Recent Activity</h5>
-              <CxListGroup flush items={activity} />
+              <CxList flush items={activity} />
             </CxCardBody>
           </CxCard>
         </CxCol>

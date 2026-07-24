@@ -19,8 +19,8 @@ import {
   CxCardSubtitle,
   CxCardTitle,
   CxCardText,
-  CxListGroup,
-  CxListGroupItem,
+  CxList,
+  CxListItem,
   CxCol,
   CxNav,
   CxNavItem,
@@ -55,7 +55,7 @@ Below is an example of a basic card with mixed content and a fixed width. Cards 
 
 ## Content types
 
-Chassis card supports a wide variety of content, including images, text, list groups, links, and more. Below are examples of those elements.
+Chassis card supports a wide variety of content, including images, text, lists, links, and more. Below are examples of those elements.
 
 ### Body
 
@@ -106,45 +106,45 @@ Subtitles are managed by `<CxCardSubtitle>` component. If the `<CxCardTitle>` al
   </CxCard>
 </Example>
 
-### List groups
+### Lists
 
-Create lists of content in a card with a flush list group.
+Create lists of content in a card with a flush list.
 
 <Example>
   <CxCard style={{ width: '18rem' }}>
-    <CxListGroup flush>
-      <CxListGroupItem>Cras justo odio</CxListGroupItem>
-      <CxListGroupItem>Dapibus ac facilisis in</CxListGroupItem>
-      <CxListGroupItem>Vestibulum at eros</CxListGroupItem>
-    </CxListGroup>
+    <CxList flush>
+      <CxListItem>Cras justo odio</CxListItem>
+      <CxListItem>Dapibus ac facilisis in</CxListItem>
+      <CxListItem>Vestibulum at eros</CxListItem>
+    </CxList>
   </CxCard>
 </Example>
 
 <Example>
   <CxCard style={{ width: '18rem' }}>
     <CxCardHeader>Header</CxCardHeader>
-    <CxListGroup flush>
-      <CxListGroupItem>Cras justo odio</CxListGroupItem>
-      <CxListGroupItem>Dapibus ac facilisis in</CxListGroupItem>
-      <CxListGroupItem>Vestibulum at eros</CxListGroupItem>
-    </CxListGroup>
+    <CxList flush>
+      <CxListItem>Cras justo odio</CxListItem>
+      <CxListItem>Dapibus ac facilisis in</CxListItem>
+      <CxListItem>Vestibulum at eros</CxListItem>
+    </CxList>
   </CxCard>
 </Example>
 
 <Example>
   <CxCard style={{ width: '18rem' }}>
-    <CxListGroup flush>
-      <CxListGroupItem>Cras justo odio</CxListGroupItem>
-      <CxListGroupItem>Dapibus ac facilisis in</CxListGroupItem>
-      <CxListGroupItem>Vestibulum at eros</CxListGroupItem>
-    </CxListGroup>
+    <CxList flush>
+      <CxListItem>Cras justo odio</CxListItem>
+      <CxListItem>Dapibus ac facilisis in</CxListItem>
+      <CxListItem>Vestibulum at eros</CxListItem>
+    </CxList>
     <CxCardFooter>Footer</CxCardFooter>
   </CxCard>
 </Example>
 
 ### Kitchen sink
 
-Combine and match many content types to build the card you need, or throw everything in there. Shown below are image styles, blocks, text styles, and a list group—all wrapped in a fixed-width card.
+Combine and match many content types to build the card you need, or throw everything in there. Shown below are image styles, blocks, text styles, and a list—all wrapped in a fixed-width card.
 
 <Example>
   <CxCard style={{ width: '18rem' }}>
@@ -156,11 +156,11 @@ Combine and match many content types to build the card you need, or throw everyt
         content.
       </CxCardText>
     </CxCardBody>
-    <CxListGroup flush>
-      <CxListGroupItem>Cras justo odio</CxListGroupItem>
-      <CxListGroupItem>Dapibus ac facilisis in</CxListGroupItem>
-      <CxListGroupItem>Vestibulum at eros</CxListGroupItem>
-    </CxListGroup>
+    <CxList flush>
+      <CxListItem>Cras justo odio</CxListItem>
+      <CxListItem>Dapibus ac facilisis in</CxListItem>
+      <CxListItem>Vestibulum at eros</CxListItem>
+    </CxList>
     <CxCardBody>
       <CxCardLink href="#">Card link</CxCardLink>
       <CxCardLink href="#">Another link</CxCardLink>

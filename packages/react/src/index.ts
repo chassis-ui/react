@@ -57,8 +57,8 @@ import { CxInputGroup } from './components/form/CxInputGroup'
 import { CxInputGroupText } from './components/form/CxInputGroupText'
 import { CxImage } from './components/image/CxImage'
 import { CxLink } from './components/link/CxLink'
-import { CxListGroup } from './components/list-group/CxListGroup'
-import { CxListGroupItem } from './components/list-group/CxListGroupItem'
+import { CxList } from './components/list/CxList'
+import { CxListItem } from './components/list/CxListItem'
 import { CxModal } from './components/modal/CxModal'
 import { CxModalBody } from './components/modal/CxModalBody'
 import { CxModalFooter } from './components/modal/CxModalFooter'
@@ -163,8 +163,8 @@ export {
   CxInputGroup,
   CxInputGroupText,
   CxLink,
-  CxListGroup,
-  CxListGroupItem,
+  CxList,
+  CxListItem,
   CxModal,
   CxModalBody,
   CxModalFooter,

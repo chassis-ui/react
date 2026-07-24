@@ -1,0 +1,430 @@
+---
+title: List
+description: Chassis List component provides structured containers for related content with consistent styling and behavior. Learn how to use react list to build complex list structures on your website.
+
+toc: true
+---
+
+
+import {
+  CxBadge,
+  CxCol,
+  CxFormCheck,
+  CxList,
+  CxListItem,
+  CxRow,
+} from '@chassis-ui/react'
+
+## About
+
+Lists in Chassis CSS provide structured containers for related content with consistent styling and behavior. Beyond simple lists, they support interactive elements, custom content, and integration with other components—all while maintaining design token consistency with your broader interface.
+
+## Data-driven usage
+
+Pass an `items` array to render the list from data. Each item accepts `label`, `href`, `context`, `active`, and `disabled`.
+
+<Example>
+  <CxList
+    items={[
+      { label: 'Dashboard', href: '#', active: true },
+      { label: 'Profile', href: '#' },
+      { label: 'Settings', href: '#' },
+      { label: 'Billing', href: '#', disabled: true },
+    ]}
+  />
+</Example>
+
+With context colors:
+
+<Example>
+  <CxList
+    items={[
+      { label: 'Default item' },
+      { label: 'Primary item', context: 'primary' },
+      { label: 'Success item', context: 'success' },
+      { label: 'Danger item', context: 'danger' },
+      { label: 'Warning item', context: 'warning' },
+    ]}
+  />
+</Example>
+
+## Basic example
+
+The foundation of the list component is an unordered list built with `<CxList>` and `<CxListItem>`. This structure establishes consistent spacing, borders, and typography through Chassis's design token system.
+
+<Example>
+  <CxList>
+    <CxListItem>Cras justo odio</CxListItem>
+    <CxListItem>Dapibus ac facilisis in</CxListItem>
+    <CxListItem>Morbi leo risus</CxListItem>
+    <CxListItem>Porta ac consectetur ac</CxListItem>
+    <CxListItem>Vestibulum at eros</CxListItem>
+  </CxList>
+</Example>
+
+## Active items
+
+Add `active` boolean property to a `<CxListItem>` to show the current active selection. For better accessibility, active items automatically get an `aria-current="true"` attribute.
+
+<Example>
+  <CxList>
+    <CxListItem active>Cras justo odio</CxListItem>
+    <CxListItem>Dapibus ac facilisis in</CxListItem>
+    <CxListItem>Morbi leo risus</CxListItem>
+    <CxListItem>Porta ac consectetur ac</CxListItem>
+    <CxListItem>Vestibulum at eros</CxListItem>
+  </CxList>
+</Example>
+
+## Disabled items
+
+Add `disabled` boolean property to a `<CxListItem>` to make it appear disabled. Disabled items automatically get an `aria-disabled="true"` attribute.
+
+<Callout context="info">
+  <p>
+    The disabled state only changes the visual appearance. For interactive elements like links, additional JavaScript is needed to fully disable interaction behavior.
+  </p>
+</Callout>
+
+<Example>
+  <CxList>
+    <CxListItem disabled>Cras justo odio</CxListItem>
+    <CxListItem>Dapibus ac facilisis in</CxListItem>
+    <CxListItem>Morbi leo risus</CxListItem>
+    <CxListItem>Porta ac consectetur ac</CxListItem>
+    <CxListItem>Vestibulum at eros</CxListItem>
+  </CxList>
+</Example>
+
+## Links and buttons
+
+Use `<a>`s or `<button>`s to create _actionable_ list items with hover, disabled, and active states by adding `component="a|button"`. This applies the `.list-action` modifier class, which separates interactive states from standard read-only items, ensuring users receive the appropriate visual affordances.
+
+Use `component="a"` when the action navigates to a new location, and `component="button"` when the action triggers an in-page behavior. Native `<button>`s support the `disabled` attribute, which both visually styles the element and prevents interaction; `<a>`s only get the visual `.disabled` styling and require additional JavaScript to fully prevent interaction.
+
+<Example>
+  <CxList>
+    <CxListItem component="a" href="#" active>
+      Cras justo odio
+    </CxListItem>
+    <CxListItem component="a" href="#">
+      Dapibus ac facilisis in
+    </CxListItem>
+    <CxListItem component="a" href="#">
+      Morbi leo risus
+    </CxListItem>
+    <CxListItem component="a" href="#">
+      Porta ac consectetur ac
+    </CxListItem>
+    <CxListItem component="a" href="#" disabled>
+      Vestibulum at eros
+    </CxListItem>
+  </CxList>
+</Example>
+
+<Example>
+  <CxList>
+    <CxListItem component="button" active>
+      Cras justo odio
+    </CxListItem>
+    <CxListItem component="button">Dapibus ac facilisis in</CxListItem>
+    <CxListItem component="button">Morbi leo risus</CxListItem>
+    <CxListItem component="button">Porta ac consectetur ac</CxListItem>
+    <CxListItem component="button" disabled>
+      Vestibulum at eros
+    </CxListItem>
+  </CxList>
+</Example>
+
+## Layout variations
+
+### Flush list
+
+Add `flush` boolean property to remove outer borders and rounded corners, rendering list items edge-to-edge in a parent container (e.g., cards).
+
+<Example>
+  <CxList flush>
+    <CxListItem>Cras justo odio</CxListItem>
+    <CxListItem>Dapibus ac facilisis in</CxListItem>
+    <CxListItem>Morbi leo risus</CxListItem>
+    <CxListItem>Porta ac consectetur ac</CxListItem>
+    <CxListItem>Vestibulum at eros</CxListItem>
+  </CxList>
+</Example>
+
+### Plain layout
+
+Add `plain` boolean property for a minimal list that removes outer borders, rounded corners, and horizontal padding. Creates a sleek appearance suitable for main content areas like search results or content feeds.
+
+<Example>
+  <CxList plain>
+    <CxListItem>Cras justo odio</CxListItem>
+    <CxListItem>Dapibus ac facilisis in</CxListItem>
+    <CxListItem>Morbi leo risus</CxListItem>
+    <CxListItem>Porta ac consectetur ac</CxListItem>
+    <CxListItem>Vestibulum at eros</CxListItem>
+  </CxList>
+</Example>
+
+<Callout context="info">
+  <p>
+    Both `flush` and `plain` remove outer borders and rounded corners. The key difference is that `plain` also removes horizontal padding for a more compact appearance.
+  </p>
+</Callout>
+
+### Numbered lists
+
+Add `numbered` boolean property to sequentially number list items. For semantic correctness, pair this with `component="ol"`, though the numbering is generated through CSS counters rather than browser defaults.
+
+<Example>
+  <CxList component="ol" numbered>
+    <CxListItem>A list item</CxListItem>
+    <CxListItem>A list item</CxListItem>
+    <CxListItem>A list item</CxListItem>
+  </CxList>
+</Example>
+
+### Horizontal layout
+
+Add `layout="horizontal"` to switch a list from column to row layout across all breakpoints. Adjacent items share a single border edge, and outer corners remain rounded while inner corners are squared off.
+
+Responsive variants use [container queries](/react/docs/layout/breakpoints#container-queries) — each `layout="{breakpoint}:horizontal"` value activates at or above the specified container width. Wrap the list in a `.contains-inline` container to establish the container context.
+
+<Callout context="warning">
+  <p>`layout="horizontal"` cannot be combined with `flush` — the flush variant removes inline borders that separate items in the horizontal layout.</p>
+</Callout>
+
+<Example>
+  <div className="contains-inline">
+    <CxList className="mb-medium" layout="horizontal">
+      <CxListItem>Cras justo odio</CxListItem>
+      <CxListItem>Dapibus ac facilisis in</CxListItem>
+      <CxListItem>Morbi leo risus</CxListItem>
+    </CxList>
+    <CxList className="mb-medium" layout="small:horizontal">
+      <CxListItem>Cras justo odio</CxListItem>
+      <CxListItem>Dapibus ac facilisis in</CxListItem>
+      <CxListItem>Morbi leo risus</CxListItem>
+    </CxList>
+    <CxList className="mb-medium" layout="medium:horizontal">
+      <CxListItem>Cras justo odio</CxListItem>
+      <CxListItem>Dapibus ac facilisis in</CxListItem>
+      <CxListItem>Morbi leo risus</CxListItem>
+    </CxList>
+    <CxList layout="large:horizontal">
+      <CxListItem>Cras justo odio</CxListItem>
+      <CxListItem>Dapibus ac facilisis in</CxListItem>
+      <CxListItem>Morbi leo risus</CxListItem>
+    </CxList>
+  </div>
+</Example>
+
+Apply `.flex-fill` or `.flex-grow-1` utility classes to list items to stretch them across the full list width — `.flex-fill` shares the available width equally, while `.flex-grow-1` grows from each item's natural content width.
+
+<Example>
+  <CxList layout="horizontal">
+    <CxListItem className="flex-fill">Cras justo odio</CxListItem>
+    <CxListItem className="flex-fill">Dapibus ac facilisis in</CxListItem>
+    <CxListItem className="flex-fill">Vestibulum at eros</CxListItem>
+  </CxList>
+</Example>
+
+## Contextual classes
+
+Use the `context` property to style list items with a stateful background and color.
+
+<Example>
+  <CxList>
+    <CxListItem>Dapibus ac facilisis in</CxListItem>
+    {['primary', 'secondary', 'success', 'danger', 'warning', 'info'].map(
+      (context, index) => (
+        <CxListItem context={context} key={index}>
+          A simple {context} list item
+        </CxListItem>
+      ),
+    )}
+  </CxList>
+</Example>
+
+Contextual classes also work with `<a>`s or `<button>`s. Note the addition of the hover styles here not present in the previous example. Also supported is the `active` state; apply it to indicate an active selection on a contextual interactive item.
+
+<Example>
+  <CxList>
+    <CxListItem component="a" href="#">
+      Dapibus ac facilisis in
+    </CxListItem>
+    {['primary', 'secondary', 'success', 'danger', 'warning', 'info'].map(
+      (context, index) => (
+        <CxListItem component="a" href="#" context={context} key={index}>
+          A simple {context} list action
+        </CxListItem>
+      ),
+    )}
+  </CxList>
+</Example>
+
+<Callout context="info">
+  <h5>Conveying meaning to assistive technologies</h5>
+  <p>
+    Using context to add meaning only provides a visual indication, which will not be conveyed to
+    users of assistive technologies – such as screen readers. Ensure that information denoted by the
+    context is either obvious from the content itself (e.g. the visible text), or is included through
+    alternative means, such as additional text hidden with the `.visually-hidden` class.
+  </p>
+</Callout>
+
+### Context styles
+
+`<CxList>` also accepts `context` together with a `contextStyle` of `solid`, `outline`, or `smooth` to color the whole list container based on your design system's color palette.
+
+<Example>
+  <CxRow className="medium:row-cols-2 g-large">
+    <CxCol>
+      <CxList context="primary">
+        <CxListItem>Cras justo odio</CxListItem>
+        <CxListItem>Dapibus ac facilisis in</CxListItem>
+        <CxListItem>Vestibulum at eros</CxListItem>
+      </CxList>
+    </CxCol>
+    <CxCol>
+      <CxList context="primary" contextStyle="solid" flush className="rounded">
+        <CxListItem>Cras justo odio</CxListItem>
+        <CxListItem>Dapibus ac facilisis in</CxListItem>
+        <CxListItem>Vestibulum at eros</CxListItem>
+      </CxList>
+    </CxCol>
+    <CxCol>
+      <CxList context="primary" contextStyle="smooth" flush className="rounded">
+        <CxListItem>Cras justo odio</CxListItem>
+        <CxListItem>Dapibus ac facilisis in</CxListItem>
+        <CxListItem>Vestibulum at eros</CxListItem>
+      </CxList>
+    </CxCol>
+    <CxCol>
+      <CxList context="primary" contextStyle="outline">
+        <CxListItem>Cras justo odio</CxListItem>
+        <CxListItem>Dapibus ac facilisis in</CxListItem>
+        <CxListItem>Vestibulum at eros</CxListItem>
+      </CxList>
+    </CxCol>
+  </CxRow>
+</Example>
+
+## With badges
+
+Add badges to any list item to show unread counts, activity, and more.
+
+<Example>
+  <CxList>
+    <CxListItem className="d-flex justify-content-between align-items-center">
+      Cras justo odio
+      <CxBadge context="primary" shape="rounded-pill">
+        14
+      </CxBadge>
+    </CxListItem>
+    <CxListItem className="d-flex justify-content-between align-items-center">
+      Dapibus ac facilisis in
+      <CxBadge context="primary" shape="rounded-pill">
+        2
+      </CxBadge>
+    </CxListItem>
+    <CxListItem className="d-flex justify-content-between align-items-center">
+      Morbi leo risus
+      <CxBadge context="primary" shape="rounded-pill">
+        1
+      </CxBadge>
+    </CxListItem>
+  </CxList>
+</Example>
+
+## Custom content
+
+Add nearly any HTML within, even for linked list items like the one below, with the help of flexbox utilities.
+
+<Example>
+  <CxList>
+    <CxListItem component="a" href="#" active>
+      <div className="d-flex w-100 justify-content-between">
+        <h5 className="mb-1">List item heading</h5>
+        <small>3 days ago</small>
+      </div>
+      <p className="mb-1">
+        Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius
+        blandit.
+      </p>
+      <small>Donec id elit non mi porta.</small>
+    </CxListItem>
+    <CxListItem component="a" href="#">
+      <div className="d-flex w-100 justify-content-between">
+        <h5 className="mb-1">List item heading</h5>
+        <small className="medium:text-emphasis">3 days ago</small>
+      </div>
+      <p className="mb-1">
+        Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius
+        blandit.
+      </p>
+      <small className="medium:text-emphasis">Donec id elit non mi porta.</small>
+    </CxListItem>
+    <CxListItem component="a" href="#">
+      <div className="d-flex w-100 justify-content-between">
+        <h5 className="mb-1">List item heading</h5>
+        <small className="medium:text-emphasis">3 days ago</small>
+      </div>
+      <p className="mb-1">
+        Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius
+        blandit.
+      </p>
+      <small className="medium:text-emphasis">Donec id elit non mi porta.</small>
+    </CxListItem>
+  </CxList>
+</Example>
+
+## Checkboxes and radios
+
+Place Chassis checkboxes and radios within list items and customize as needed.
+
+<Example>
+  <CxList>
+    <CxListItem>
+      <CxFormCheck label="Cras justo odio" />
+    </CxListItem>
+    <CxListItem>
+      <CxFormCheck label="Dapibus ac facilisis in" defaultChecked />
+    </CxListItem>
+    <CxListItem>
+      <CxFormCheck label="Morbi leo risus" defaultChecked />
+    </CxListItem>
+    <CxListItem>
+      <CxFormCheck label="orta ac consectetur ac" />
+    </CxListItem>
+    <CxListItem>
+      <CxFormCheck label="Vestibulum at eros" />
+    </CxListItem>
+  </CxList>
+</Example>
+
+And if you want `<label>`s as the `.list-item` for large hit areas, you can do that, too.
+
+<Example>
+  <CxList>
+    <CxFormCheck className="list-item" hitArea="full" label="Cras justo odio" />
+    <CxFormCheck
+      className="list-item"
+      hitArea="full"
+      label="Dapibus ac facilisis in"
+      defaultChecked
+    />
+    <CxFormCheck className="list-item" hitArea="full" label="Morbi leo risus" defaultChecked />
+    <CxFormCheck className="list-item" hitArea="full" label="orta ac consectetur ac" />
+    <CxFormCheck className="list-item" hitArea="full" label="Vestibulum at eros" />
+  </CxList>
+</Example>
+
+## API
+
+### CxList
+
+<PropTable component="CxList" />
+### CxListItem
+
+<PropTable component="CxListItem" />
