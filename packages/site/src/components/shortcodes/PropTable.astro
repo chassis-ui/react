@@ -14,6 +14,15 @@ if (!entry) {
 
 const props = entry ? Object.values(entry.data.props) : []
 const sortedProps = props.sort((a, b) => a.name.localeCompare(b.name))
+
+// Prop descriptions are raw JSDoc text, not markdown-rendered HTML — escape it before
+// injecting via set:html so literal tag examples like `<button>` render as text instead of
+// being parsed as real elements, then turn backtick spans into <code> for the inline-code
+// convention docstrings actually use.
+function renderDescription(description: string): string {
+  const escaped = description.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+  return escaped.replace(/`([^`]+)`/g, '<code>$1</code>')
+}
 ---
 
 {entry ? (
@@ -33,7 +42,7 @@ const sortedProps = props.sort((a, b) => a.name.localeCompare(b.name))
             <td><code>{prop.name}{prop.required ? '' : '?'}</code></td>
             <td><code>{prop.type.name}</code></td>
             <td>{prop.defaultValue ? <code>{prop.defaultValue.value}</code> : <span>—</span>}</td>
-            <td set:html={prop.description} />
+            <td set:html={renderDescription(prop.description)} />
           </tr>
         ))}
       </tbody>
