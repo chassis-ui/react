@@ -1,16 +1,16 @@
 import * as React from 'react'
 import { render } from '@testing-library/react'
 
-import { CxListGroupItem } from '../../../index'
+import { CxListItem } from '../../../index'
 
-test('loads and displays CxListGroupItem component', async () => {
-  const { container } = render(<CxListGroupItem>Test</CxListGroupItem>)
+test('loads and displays CxListItem component', async () => {
+  const { container } = render(<CxListItem>Test</CxListItem>)
   expect(container).toMatchSnapshot()
 })
 
-test('CxListGroupItem customize', async () => {
+test('CxListItem customize', async () => {
   const { container } = render(
-    <CxListGroupItem
+    <CxListItem
       className="bazinga"
       active={true}
       context="warning"
@@ -18,12 +18,14 @@ test('CxListGroupItem customize', async () => {
       component="button"
     >
       Test
-    </CxListGroupItem>,
+    </CxListItem>,
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')
   expect(container.firstChild).toHaveClass('list-item')
-  expect(container.firstChild).toHaveClass('action')
+  expect(container.firstChild).toHaveClass('list-action')
+  expect(container.firstChild).toHaveClass('context')
+  expect(container.firstChild).toHaveClass('warning')
   expect(container.firstChild).toHaveClass('active')
   expect(container.firstChild).toHaveClass('disabled')
 })

@@ -59,7 +59,7 @@
       ],
       "required": false,
       "type": {
-        "name": "'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light' | string"
+        "name": "'default' | 'alternate' | 'primary' | 'secondary' | 'neutral' | 'success' | 'danger' | 'warning' | 'info' | 'black' | 'white' | string"
       }
     },
     "component": {

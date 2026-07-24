@@ -1,0 +1,94 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CxList context and style 1`] = `
+<div>
+  <ul
+    class="list context primary solid"
+  >
+    Test
+  </ul>
+</div>
+`;
+
+exports[`CxList customize 1`] = `
+<div>
+  <h3
+    class="list xlarge:horizontal flush bazinga"
+  >
+    Test
+  </h3>
+</div>
+`;
+
+exports[`CxList data-driven items 1`] = `
+<div>
+  <ul
+    class="list"
+  >
+    <a
+      aria-current="true"
+      class="list-item list-action active"
+      href="#"
+    >
+      Dashboard
+    </a>
+    <a
+      class="list-item list-action"
+      href="#"
+    >
+      Profile
+    </a>
+    <a
+      aria-disabled="true"
+      class="list-item context warning list-action disabled"
+      href="#"
+    >
+      Billing
+    </a>
+  </ul>
+</div>
+`;
+
+exports[`CxList example 1`] = `
+<div>
+  <ul
+    class="list"
+  >
+    <li
+      class="list-item"
+    >
+      A
+    </li>
+    <li
+      class="list-item"
+    >
+      B
+    </li>
+    <li
+      class="list-item"
+    >
+      C
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`CxList plain and numbered 1`] = `
+<div>
+  <ol
+    class="list plain numbered"
+  >
+    Test
+  </ol>
+</div>
+`;
+
+exports[`loads and displays CxList component 1`] = `
+<div>
+  <ul
+    class="list"
+  >
+    Test
+  </ul>
+</div>
+`;

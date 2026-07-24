@@ -16,7 +16,7 @@ export interface CButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /**
    * Sets the context context of the component to one of Chassis themed colors.
    *
-   * @type 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light' | string
+   * @type 'default' | 'alternate' | 'primary' | 'secondary' | 'neutral' | 'success' | 'danger' | 'warning' | 'info' | 'black' | 'white' | string
    */
   context?: Colors
   /**

@@ -1,5 +1,5 @@
 
-export type Breakpoints = 'xs' | 'small' | 'medium' | 'large' | 'xlarge' | '2xlarge'
+export type Breakpoints = 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge' | '2xlarge'
 
 export type Colors =
   | 'default'
@@ -47,7 +47,7 @@ export type Shapes =
   | 'rounded-3'
   | string
 
-export type TextColors = Colors | 'white' | 'white-50' | 'muted' | 'black-50' | 'body' | string
+export type TextColors = Colors | 'main' | 'subtle' | 'slight' | 'solid' | 'inverse' | 'highlight' | 'active' | 'contrast' | string
 
 export type Triggers = 'hover' | 'focus' | 'click'
 

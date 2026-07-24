@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import { Colors } from '../Types'
 import { CxLink } from '../link/CxLink'
 
-export interface CListGroupItemProps
+export interface CListItemProps
   extends HTMLAttributes<HTMLLIElement | HTMLAnchorElement | HTMLButtonElement> {
   /**
    * Toggle the active state for the component.
@@ -30,15 +30,16 @@ export interface CListGroupItemProps
   component?: string | ElementType
 }
 
-export const CxListGroupItem = forwardRef<
+export const CxListItem = forwardRef<
   HTMLLIElement | HTMLAnchorElement | HTMLButtonElement,
-  CListGroupItemProps
+  CListItemProps
 >(({ children, active, className, disabled, context, component = 'li', ...rest }, ref) => {
   const _className = classNames(
     'list-item',
+    context && 'context',
     context,
     {
-      action: component === 'a' || component === 'button',
+      'list-action': component === 'a' || component === 'button',
       active,
       disabled,
     },
@@ -66,4 +67,4 @@ export const CxListGroupItem = forwardRef<
   )
 })
 
-CxListGroupItem.displayName = 'CxListGroupItem'
+CxListItem.displayName = 'CxListItem'

@@ -3,7 +3,7 @@ import classNames from 'classnames'
 
 import { Colors } from '../Types'
 
-export interface CListGroupItemDef {
+export interface CListItemDef {
   /**
    * Item label content.
    */
@@ -26,7 +26,7 @@ export interface CListGroupItemDef {
   disabled?: boolean
 }
 
-export interface CListGroupProps extends HTMLAttributes<HTMLDivElement | HTMLUListElement> {
+export interface CListProps extends HTMLAttributes<HTMLDivElement | HTMLUListElement> {
   /**
    * A string of all className you want applied to the component.
    */
@@ -36,32 +36,58 @@ export interface CListGroupProps extends HTMLAttributes<HTMLDivElement | HTMLULi
    */
   component?: string | ElementType
   /**
-   * Remove some borders and rounded corners to render list group items edge-to-edge in a parent component (e.g., `<CxCard>`).
+   * Sets the context color of the component to one of Chassis themed colors.
+   *
+   * @type 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light' | string
+   */
+  context?: Colors
+  /**
+   * Remove outer borders and rounded corners to render list items edge-to-edge in a parent component (e.g., `<CxCard>`).
    */
   flush?: boolean
   /**
    * Array of item definitions for data-driven rendering. When provided, children are ignored.
    */
-  items?: CListGroupItemDef[]
+  items?: CListItemDef[]
   /**
    * Specify a layout type.
    */
   layout?:
     | 'horizontal'
-    | 'horizontal-small'
-    | 'horizontal-medium'
-    | 'horizontal-large'
-    | 'horizontal-xlarge'
-    | 'horizontal-2xlarge'
+    | 'small:horizontal'
+    | 'medium:horizontal'
+    | 'large:horizontal'
+    | 'xlarge:horizontal'
+    | '2xlarge:horizontal'
+  /**
+   * Number list items sequentially using CSS counters. Pair with `component="ol"` for semantic correctness.
+   */
+  numbered?: boolean
+  /**
+   * Remove outer borders, rounded corners, and horizontal padding for a minimal, edge-to-edge appearance.
+   */
+  plain?: boolean
+  /**
+   * Applies a `.solid`, `.outline`, or `.smooth` context style. Only meaningful together with `context`.
+   */
+  contextStyle?: 'solid' | 'outline' | 'smooth'
 }
 
-export const CxListGroup = forwardRef<HTMLDivElement | HTMLUListElement, CListGroupProps>(
-  ({ children, className, component: Component = 'ul', flush, items, layout }, ref) => {
+export const CxList = forwardRef<HTMLDivElement | HTMLUListElement, CListProps>(
+  (
+    { children, className, component: Component = 'ul', context, contextStyle, flush, items, layout, numbered, plain },
+    ref,
+  ) => {
     const _className = classNames(
-      'list-group',
+      'list',
+      context && 'context',
+      context,
+      contextStyle,
+      layout,
       {
-        'list-group-flush': flush,
-        [`list-group-${layout}`]: layout,
+        flush,
+        plain,
+        numbered,
       },
       className,
     )
@@ -70,9 +96,10 @@ export const CxListGroup = forwardRef<HTMLDivElement | HTMLUListElement, CListGr
       ? items.map((item, idx) => {
           const itemClass = classNames(
             'list-item',
+            item.context && 'context',
             item.context,
             {
-              action: !!item.href,
+              'list-action': !!item.href,
               active: item.active,
               disabled: item.disabled,
             },
@@ -100,4 +127,4 @@ export const CxListGroup = forwardRef<HTMLDivElement | HTMLUListElement, CListGr
   },
 )
 
-CxListGroup.displayName = 'CxListGroup'
+CxList.displayName = 'CxList'
