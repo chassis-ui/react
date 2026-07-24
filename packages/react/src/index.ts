@@ -32,6 +32,8 @@ import { CxCollapse } from './components/collapse/CxCollapse'
 import { CxCloseButton } from './components/close-button/CxCloseButton'
 import { CxCombobox } from './components/combobox/CxCombobox'
 import { CxComboboxItem } from './components/combobox/CxComboboxItem'
+import { CxDatePicker } from './components/datepicker/CxDatePicker'
+import { I18nProvider } from 'react-aria'
 import { CxMenu } from './components/menu/CxMenu'
 import { CxMenuDivider } from './components/menu/CxMenuDivider'
 import { CxMenuHeader } from './components/menu/CxMenuHeader'
@@ -144,6 +146,14 @@ export {
   CxCollapse,
   CxCombobox,
   CxComboboxItem,
+  CxDatePicker,
+  // Re-exported (not a `Cx*` component): react-aria is a bundled dependency, not a peer, so its
+  // module — including the `I18nProvider` context `CxDatePicker` reads locale from via
+  // `useLocale()` — is inlined into this package's own build output, distinct from any react-aria
+  // copy a consumer might separately install. A consumer's own `<I18nProvider>` would set a
+  // *different* context instance and silently have no effect on `CxDatePicker`; this re-export is
+  // the one that actually reaches it.
+  I18nProvider,
   CxMenu,
   CxMenuDivider,
   CxMenuHeader,

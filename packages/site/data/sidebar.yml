@@ -23,6 +23,8 @@
     - title: Carousel
     - title: Close Button
     - title: Collapse
+    - title: Combobox
+    - title: Datepicker
     - title: Drawer
     - title: Image
     - title: List
@@ -37,6 +39,7 @@
     - title: Progress
     - title: Spinner
     - title: Table
+    - title: Tabs
     - title: Toast
     - title: Tooltip
 

@@ -16,7 +16,8 @@
     "@chassis-ui/docs": "link:../../../chassis-website/packages/docs",
     "@chassis-ui/icons": "link:../../../chassis-icons",
     "@chassis-ui/react": "workspace:*",
-    "@chassis-ui/tokens": "link:../../../chassis-tokens"
+    "@chassis-ui/tokens": "link:../../../chassis-tokens",
+    "@internationalized/date": "^3.12.2"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
