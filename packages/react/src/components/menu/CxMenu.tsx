@@ -7,21 +7,16 @@ import React, {
   useEffect,
   useLayoutEffect,
   useRef,
-  useState,
 } from 'react'
 import classNames from 'classnames'
-import {
-  autoUpdate,
-  flip,
-  offset as offsetMiddleware,
-  shift,
-  useFloating,
-} from '@floating-ui/react-dom'
-import type { Placement } from '@floating-ui/react-dom'
+import { AriaButtonProps, useMenuTrigger, useOverlayPosition } from 'react-aria'
+import { useMenuTriggerState } from 'react-stately'
 
 import { useForkedRef } from '../../utils/hooks'
+import { Placement, resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
 
 export type { Placement }
+export type MenuFocusStrategy = 'first' | 'last'
 
 export type MenuAutoClose = boolean | 'inside' | 'outside'
 
@@ -75,7 +70,7 @@ export interface CMenuProps extends HTMLAttributes<HTMLElement> {
    */
   onShown?: () => void
   /**
-   * Initial placement. Chassis will flip and shift it to keep the menu in view.
+   * Initial placement. Chassis will flip it to keep the menu in view.
    *
    * @type 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end' | 'right' | 'right-start' | 'right-end'
    */
@@ -86,10 +81,6 @@ export interface CMenuProps extends HTMLAttributes<HTMLElement> {
    */
   reference?: 'toggle' | 'parent'
   /**
-   * CSS positioning strategy. `'fixed'` escapes `overflow: hidden` ancestors.
-   */
-  strategy?: 'absolute' | 'fixed'
-  /**
    * Toggle the visibility of the menu component.
    */
   visible?: boolean
@@ -99,14 +90,19 @@ export interface CMenuContextProps {
   autoClose: MenuAutoClose
   close: () => void
   container?: boolean | Element
-  floatingStyles: React.CSSProperties
+  focusStrategy: MenuFocusStrategy | null
   hide: () => void
-  placement: Placement
+  menuId: string
+  menuStyle: React.CSSProperties
+  menuTriggerProps: AriaButtonProps
+  overlayRef: React.MutableRefObject<HTMLElement | null>
+  placementAttr: string
   reference: 'toggle' | 'parent'
-  refs: ReturnType<typeof useFloating>['refs']
-  show: () => void
-  toggle: () => void
+  show: (focusStrategy?: MenuFocusStrategy | null) => void
+  targetRef: React.MutableRefObject<HTMLElement | null>
+  toggle: (focusStrategy?: MenuFocusStrategy | null) => void
   toggleNodeRef: React.MutableRefObject<HTMLElement | null>
+  triggerId: string
   visible: boolean
 }
 
@@ -118,19 +114,19 @@ const noop = () => undefined
 const defaultMenuContext: CMenuContextProps = {
   autoClose: true,
   close: noop,
-  floatingStyles: {},
+  focusStrategy: null,
   hide: noop,
-  placement: 'bottom-start',
+  menuId: '',
+  menuStyle: {},
+  menuTriggerProps: {},
+  overlayRef: { current: null },
+  placementAttr: 'bottom-start',
   reference: 'toggle',
-  refs: {
-    reference: { current: null },
-    floating: { current: null },
-    setReference: noop,
-    setFloating: noop,
-  },
   show: noop,
+  targetRef: { current: null },
   toggle: noop,
   toggleNodeRef: { current: null },
+  triggerId: '',
   visible: false,
 }
 
@@ -151,59 +147,40 @@ export const CxMenu = forwardRef<HTMLElement, CMenuProps>(
       onShown,
       placement = 'bottom-start',
       reference = 'toggle',
-      strategy = 'absolute',
       visible,
       ...rest
     },
     ref,
   ) => {
-    const [_visible, setVisible] = useState(!!visible)
     const wrapperRef = useRef<HTMLElement>(null)
     const forkedRef = useForkedRef(ref, wrapperRef)
     const toggleNodeRef = useRef<HTMLElement | null>(null)
+    const targetRef = useRef<HTMLElement | null>(null)
+    const overlayRef = useRef<HTMLElement | null>(null)
 
+    const state = useMenuTriggerState({ defaultOpen: !!visible })
+    const { menuTriggerProps, menuProps } = useMenuTrigger<unknown>({}, state, toggleNodeRef)
+
+    // Sync-on-change, not strictly controlled — matches `CxModal`'s `visible` semantics.
+    // Internal `show`/`hide`/`toggle` calls (from `CxMenuToggle`, autoClose dismissal, etc.)
+    // still work freely between prop changes; `visible` only re-asserts the open state when
+    // its own value actually changes.
     useEffect(() => {
-      setVisible(!!visible)
+      if (visible === undefined) return
+      if (visible) state.open()
+      else state.close()
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [visible])
-
-    const {
-      refs,
-      x,
-      y,
-      strategy: resolvedStrategy,
-      placement: resolvedPlacement,
-    } = useFloating({
-      placement,
-      strategy,
-      whileElementsMounted: _visible ? autoUpdate : undefined,
-      middleware: [
-        offsetMiddleware({ crossAxis: offsetProp[0], mainAxis: offsetProp[1] }),
-        flip(),
-        shift({ padding: 8 }),
-      ],
-    })
-
-    // Built from raw `x`/`y`/`strategy` (matching menu.js's own `left`/`top` assignment) rather
-    // than the hook's `floatingStyles` convenience, which positions via `transform: translate()`
-    // assuming the floating element's offset parent sits at the viewport origin. That assumption
-    // only holds when the panel is portaled straight to `document.body` (as Tooltip/Popover do);
-    // since a menu panel stays in normal flow by default, `transform` positioning can be off by
-    // however far its actual offset parent is from the origin.
-    const floatingStyles: React.CSSProperties = {
-      position: resolvedStrategy,
-      top: y ?? 0,
-      left: x ?? 0,
-    }
 
     useLayoutEffect(() => {
       if (reference === 'parent') {
-        refs.setReference(wrapperRef.current)
+        targetRef.current = wrapperRef.current
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [reference])
 
     useEffect(() => {
-      if (_visible) {
+      if (state.isOpen) {
         onShow?.()
         onShown?.()
       } else {
@@ -211,13 +188,34 @@ export const CxMenu = forwardRef<HTMLElement, CMenuProps>(
         onHidden?.()
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [_visible])
+    }, [state.isOpen])
 
-    const show = () => setVisible(true)
-    const hide = () => setVisible(false)
-    const toggleVisible = () => setVisible((current) => !current)
+    const { overlayProps, placement: resolvedPlacement } = useOverlayPosition({
+      targetRef,
+      overlayRef,
+      placement: toAriaPlacement(placement),
+      offset: offsetProp[1],
+      crossOffset: offsetProp[0],
+      containerPadding: 8,
+      isOpen: state.isOpen,
+    })
+
+    // Only `position`/`top`/`left` are taken from the hook's computed style — `zIndex` and
+    // `maxHeight` stay owned by chassis-css's own `--zindex`/`--max-height` tokens (see
+    // `_menu.scss`), the same reasoning the old `@floating-ui/react-dom`-based implementation
+    // already followed for `top`/`left` over its `floatingStyles` convenience.
+    const menuStyle: React.CSSProperties = {
+      position: overlayProps.style?.position as React.CSSProperties['position'],
+      top: overlayProps.style?.top,
+      left: overlayProps.style?.left,
+    }
+    const placementAttr = resolveDataPlacement(placement, resolvedPlacement)
+
+    const show = (focusStrategy?: MenuFocusStrategy | null) => state.open(focusStrategy)
+    const hide = () => state.close()
+    const toggleVisible = (focusStrategy?: MenuFocusStrategy | null) => state.toggle(focusStrategy)
     const close = () => {
-      setVisible(false)
+      state.close()
       toggleNodeRef.current?.focus()
     }
 
@@ -225,14 +223,14 @@ export const CxMenu = forwardRef<HTMLElement, CMenuProps>(
     // to match menu.js's `clearMenus`: skip the toggle itself, honor `inside`/`outside`
     // modes, and let Tab or clicks on form controls inside the menu pass through untouched.
     useEffect(() => {
-      if (!_visible || autoClose === false) return undefined
+      if (!state.isOpen || autoClose === false) return undefined
 
       const handleDismiss = (event: MouseEvent | KeyboardEvent) => {
         if (event instanceof KeyboardEvent && event.key !== 'Tab') return
 
         const target = event.target as Node
         const toggleNode = toggleNodeRef.current
-        const menuNode = refs.floating.current
+        const menuNode = overlayRef.current
 
         if (toggleNode?.contains(target)) return
 
@@ -263,21 +261,26 @@ export const CxMenu = forwardRef<HTMLElement, CMenuProps>(
         window.removeEventListener('keyup', handleDismiss)
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [_visible, autoClose])
+    }, [state.isOpen, autoClose])
 
     const contextValue: CMenuContextProps = {
       autoClose,
       close,
       container,
-      floatingStyles,
+      focusStrategy: state.focusStrategy as MenuFocusStrategy | null,
       hide,
-      placement: resolvedPlacement,
+      menuId: menuProps.id ?? '',
+      menuStyle,
+      menuTriggerProps,
+      overlayRef,
+      placementAttr,
       reference,
-      refs,
       show,
+      targetRef,
       toggle: toggleVisible,
       toggleNodeRef,
-      visible: _visible,
+      triggerId: menuTriggerProps.id ?? '',
+      visible: state.isOpen,
     }
 
     return (

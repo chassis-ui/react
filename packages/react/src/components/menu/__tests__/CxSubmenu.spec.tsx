@@ -3,6 +3,33 @@ import { render, screen, fireEvent } from '@testing-library/react'
 
 import { CxMenu, CxMenuList, CxMenuItem, CxSubmenu, CxSubmenuBack } from '../../../index'
 
+test('CxSubmenu closes when its ancestor CxMenu closes', async () => {
+  const { rerender } = render(
+    <CxMenu visible>
+      <CxMenuList>
+        <CxSubmenu trigger="File">
+          <CxMenuItem>New</CxMenuItem>
+        </CxSubmenu>
+      </CxMenuList>
+    </CxMenu>,
+  )
+  const nestedMenu = screen.getByText('New').closest('.menu') as HTMLElement
+
+  fireEvent.click(screen.getByText('File'))
+  expect(nestedMenu).toHaveClass('show')
+
+  rerender(
+    <CxMenu visible={false}>
+      <CxMenuList>
+        <CxSubmenu trigger="File">
+          <CxMenuItem>New</CxMenuItem>
+        </CxSubmenu>
+      </CxMenuList>
+    </CxMenu>,
+  )
+  expect(nestedMenu).not.toHaveClass('show')
+})
+
 test('loads and displays CxSubmenu component', async () => {
   const { container } = render(
     <CxMenu visible>

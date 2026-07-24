@@ -10,15 +10,10 @@ import React, {
 } from 'react'
 import { createPortal } from 'react-dom'
 import classNames from 'classnames'
-import {
-  autoUpdate,
-  flip,
-  offset as offsetMiddleware,
-  shift,
-  useFloating,
-} from '@floating-ui/react-dom'
-import type { Placement } from '@floating-ui/react-dom'
+import { useOverlayPosition } from 'react-aria'
 
+import { CMenuContext } from './CxMenu'
+import { Placement, resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
 import { focusMenuItem, getMenuItems, handleMenuKeyDown } from './menuNavigation'
 import { SubmenuActionsContext, SubmenuGroupContext, useSubmenuGroupProvider } from './submenuGroup'
 
@@ -77,6 +72,8 @@ export const CxSubmenu = forwardRef<HTMLDivElement, CSubmenuProps>(
     ref,
   ) => {
     const id = useId()
+    const triggerId = `${id}-trigger`
+    const menuId = `${id}-menu`
     const [visible, setVisible] = useState(false)
     // Portaling is only safe once mounted on the client: during SSR (and the initial client
     // hydration pass, which must match the server-rendered markup) the panel renders inline next
@@ -84,34 +81,31 @@ export const CxSubmenu = forwardRef<HTMLDivElement, CSubmenuProps>(
     const [mounted, setMounted] = useState(false)
     const closeTimeoutRef = useRef<number | undefined>(undefined)
     const triggerRef = useRef<HTMLButtonElement | null>(null)
+    const overlayRef = useRef<HTMLElement | null>(null)
     const parentGroup = useContext(SubmenuGroupContext)
     const ownGroup = useSubmenuGroupProvider()
+    const { visible: parentMenuVisible } = useContext(CMenuContext)
 
-    const {
-      refs,
-      x,
-      y,
-      strategy: resolvedStrategy,
-    } = useFloating({
-      placement,
-      // 'fixed' (viewport-relative), matching the portal below: the trigger lives inside the
-      // parent menu's own floated panel, and a containing-block-establishing ancestor anywhere in
-      // that chain (a CSS transform, filter, or container-type) would throw off 'absolute' math —
-      // or even 'fixed' math if it isn't escaped via a portal.
-      strategy: 'fixed',
-      whileElementsMounted: visible ? autoUpdate : undefined,
-      middleware: [
-        offsetMiddleware({ crossAxis: offsetProp[0], mainAxis: offsetProp[1] }),
-        flip(),
-        shift({ padding: 8 }),
-      ],
+    const { overlayProps, placement: resolvedPlacement } = useOverlayPosition({
+      targetRef: triggerRef,
+      overlayRef,
+      // Viewport-relative (matching the portal below): the trigger lives inside the parent
+      // menu's own floated panel, and `useOverlayPosition` measures against the overlay's real
+      // containing block — since the panel portals straight to `document.body`, that resolves
+      // the same way a `fixed`-strategy engine would.
+      placement: toAriaPlacement(placement),
+      offset: offsetProp[1],
+      crossOffset: offsetProp[0],
+      containerPadding: 8,
+      isOpen: visible,
     })
 
-    const floatingStyles: React.CSSProperties = {
-      position: resolvedStrategy,
-      top: y ?? 0,
-      left: x ?? 0,
+    const menuStyle: React.CSSProperties = {
+      position: overlayProps.style?.position as React.CSSProperties['position'],
+      top: overlayProps.style?.top,
+      left: overlayProps.style?.left,
     }
+    const placementAttr = resolveDataPlacement(placement, resolvedPlacement)
 
     const clearCloseTimeout = () => {
       if (closeTimeoutRef.current !== undefined) {
@@ -142,6 +136,15 @@ export const CxSubmenu = forwardRef<HTMLDivElement, CSubmenuProps>(
     useEffect(() => () => clearCloseTimeout(), [])
     useEffect(() => setMounted(true), [])
 
+    // The submenu's own open state is local and doesn't otherwise hear about its ancestor
+    // `CxMenu` closing (via Escape, outside click, etc.) — without this it's left open and
+    // fully visible (it's portaled to `document.body`, so nothing hides it for free) even
+    // after the menu it belongs to has disappeared.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => {
+      if (!parentMenuVisible) close()
+    }, [parentMenuVisible])
+
     const supportsHover =
       typeof window !== 'undefined' &&
       !!window.matchMedia &&
@@ -151,7 +154,7 @@ export const CxSubmenu = forwardRef<HTMLDivElement, CSubmenuProps>(
 
     const openAndFocusFirst = () => {
       open()
-      requestAnimationFrame(() => focusMenuItem(getMenuItems(refs.floating.current), 'first'))
+      requestAnimationFrame(() => focusMenuItem(getMenuItems(overlayRef.current), 'first'))
     }
 
     const closeAndRefocusTrigger = () => {
@@ -181,9 +184,12 @@ export const CxSubmenu = forwardRef<HTMLDivElement, CSubmenuProps>(
       <div className={classNames('submenu', { show: visible }, className)} {...rest} ref={ref}>
         <button
           type="button"
+          id={triggerId}
+          role="menuitem"
           className="menu-item"
           aria-expanded={visible}
           aria-haspopup="true"
+          aria-controls={visible ? menuId : undefined}
           disabled={disabled}
           onClick={handleTriggerClick}
           onKeyDown={handleTriggerKeyDown}
@@ -191,7 +197,6 @@ export const CxSubmenu = forwardRef<HTMLDivElement, CSubmenuProps>(
           onMouseLeave={hoverEnabled ? scheduleClose : undefined}
           ref={(node) => {
             triggerRef.current = node
-            refs.setReference(node)
           }}
         >
           {trigger}
@@ -199,8 +204,12 @@ export const CxSubmenu = forwardRef<HTMLDivElement, CSubmenuProps>(
         {(() => {
           const panel = (
             <div
+              role="menu"
+              id={menuId}
+              aria-labelledby={triggerId}
               className={classNames('menu', { show: visible, 'submenu-stacked': stacked })}
-              style={floatingStyles}
+              style={menuStyle}
+              data-cx-placement={placementAttr}
               aria-hidden={!visible}
               onKeyDown={(event) =>
                 handleMenuKeyDown(event, {
@@ -210,7 +219,9 @@ export const CxSubmenu = forwardRef<HTMLDivElement, CSubmenuProps>(
               }
               onMouseEnter={hoverEnabled ? clearCloseTimeout : undefined}
               onMouseLeave={hoverEnabled ? scheduleClose : undefined}
-              ref={refs.setFloating}
+              ref={(node) => {
+                overlayRef.current = node
+              }}
             >
               <SubmenuActionsContext.Provider value={actionsValue}>
                 <SubmenuGroupContext.Provider value={ownGroup}>

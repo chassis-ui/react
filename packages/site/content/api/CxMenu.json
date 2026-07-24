@@ -186,7 +186,7 @@
       "defaultValue": {
         "value": "bottom-start"
       },
-      "description": "Initial placement. Chassis will flip and shift it to keep the menu in view.",
+      "description": "Initial placement. Chassis will flip it to keep the menu in view.",
       "name": "placement",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
@@ -229,36 +229,6 @@
           },
           {
             "value": "\"parent\""
-          }
-        ]
-      }
-    },
-    "strategy": {
-      "defaultValue": {
-        "value": "absolute"
-      },
-      "description": "CSS positioning strategy. `'fixed'` escapes `overflow: hidden` ancestors.",
-      "name": "strategy",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
-        "name": "CMenuProps"
-      },
-      "declarations": [
-        {
-          "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
-          "name": "CMenuProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"absolute\" | \"fixed\"",
-        "value": [
-          {
-            "value": "\"absolute\""
-          },
-          {
-            "value": "\"fixed\""
           }
         ]
       }

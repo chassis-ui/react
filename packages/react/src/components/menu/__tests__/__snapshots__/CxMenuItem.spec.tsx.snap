@@ -5,6 +5,7 @@ exports[`loads and displays CxMenuItem component 1`] = `
   <a
     class="menu-item"
     href="#"
+    role="menuitem"
   >
     Test
   </a>

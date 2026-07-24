@@ -24,6 +24,7 @@ export const CxSubmenuBack = forwardRef<HTMLButtonElement, CSubmenuBackProps>(
     return (
       <button
         type={type}
+        role="menuitem"
         className={classNames('submenu-back', 'menu-item', className)}
         {...rest}
         onClick={handleClick}

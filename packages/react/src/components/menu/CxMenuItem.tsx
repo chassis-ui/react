@@ -24,7 +24,7 @@ export const CxMenuItem = forwardRef<HTMLButtonElement | HTMLAnchorElement, CMen
     const _className = classNames('menu-item', { selected }, className)
 
     return (
-      <CxLink component={component} {...rest} className={_className} ref={ref}>
+      <CxLink role="menuitem" component={component} {...rest} className={_className} ref={ref}>
         {children}
       </CxLink>
     )

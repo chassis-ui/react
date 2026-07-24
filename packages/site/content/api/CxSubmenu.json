@@ -122,25 +122,13 @@
             "value": "\"top\""
           },
           {
-            "value": "\"right\""
-          },
-          {
-            "value": "\"bottom\""
-          },
-          {
-            "value": "\"left\""
-          },
-          {
             "value": "\"top-start\""
           },
           {
             "value": "\"top-end\""
           },
           {
-            "value": "\"right-start\""
-          },
-          {
-            "value": "\"right-end\""
+            "value": "\"bottom\""
           },
           {
             "value": "\"bottom-start\""
@@ -149,10 +137,22 @@
             "value": "\"bottom-end\""
           },
           {
+            "value": "\"left\""
+          },
+          {
             "value": "\"left-start\""
           },
           {
             "value": "\"left-end\""
+          },
+          {
+            "value": "\"right\""
+          },
+          {
+            "value": "\"right-start\""
+          },
+          {
+            "value": "\"right-end\""
           }
         ]
       }

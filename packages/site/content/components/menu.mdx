@@ -21,7 +21,7 @@ import { ContextVariantsExample } from '../../src/examples/menu/ContextVariantsE
 
 ## Overview
 
-`CxMenu` is a toggleable contextual overlay for links, buttons, and inline forms. It replaces the old `CxDropdown` family, is positioned using [Floating UI](https://floating-ui.com/), and handles keyboard navigation and multi-level submenus. Menus open on click by default.
+`CxMenu` is a toggleable contextual overlay for links, buttons, and inline forms. It replaces the old `CxDropdown` family, is positioned using [React Aria](https://react-spectrum.adobe.com/react-aria/)'s `useOverlayPosition`, and handles keyboard navigation and multi-level submenus. Menus open on click by default.
 
 ## Examples
 
@@ -83,7 +83,7 @@ A menu list can contain any form content.
 
 ## Placement
 
-Pass a `placement` prop to control which side of the toggle the menu opens on. Floating UI flips and shifts it automatically when viewport space is limited.
+Pass a `placement` prop to control which side of the toggle the menu opens on. It flips automatically when viewport space is limited.
 
 <Example>
   <PlacementExample client:load />
@@ -99,7 +99,7 @@ The `autoClose` prop controls which clicks close the menu. The default (`true`) 
 
 ## Submenus
 
-Wrap a trigger and nested items in `CxSubmenu` to create a flyout. Submenus are positioned by Floating UI and close sibling submenus automatically when a new one opens.
+Wrap a trigger and nested items in `CxSubmenu` to create a flyout. Submenus close sibling submenus automatically when a new one opens, and close along with their ancestor menu.
 
 <Example>
   <SubmenuExample client:load />
