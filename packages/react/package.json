@@ -45,7 +45,6 @@
     "dev": "rollup -c --watch"
   },
   "devDependencies": {
-    "@floating-ui/react-dom": "^2.1.9",
     "@rollup/plugin-commonjs": "^28.0.0",
     "@rollup/plugin-node-resolve": "^15.0.0",
     "@rollup/plugin-typescript": "^12.0.0",

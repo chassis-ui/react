@@ -1,15 +1,13 @@
-import React, { FC, ReactElement, ReactNode, useEffect, useId, useRef, useState } from 'react'
+import React, { FC, ReactElement, ReactNode, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import classNames from 'classnames'
-import { arrow, autoUpdate, flip, offset, shift, useFloating } from '@floating-ui/react-dom'
+import { mergeProps, useOverlayPosition, useTooltip, useTooltipTrigger } from 'react-aria'
+import { useTooltipTriggerState } from 'react-stately'
 import { Transition } from 'react-transition-group'
 
-import { Triggers } from '../Types'
-import { useForkedRef } from '../../utils/hooks'
+import { Placement, resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
 
-const FALLBACK_PLACEMENTS: Placement[] = ['top', 'right', 'bottom', 'left']
-
-export type Placement = 'top' | 'right' | 'bottom' | 'left'
+export type { Placement }
 
 export interface CTooltipProps {
   children: ReactElement
@@ -30,15 +28,17 @@ export interface CTooltipProps {
    */
   onShow?: () => void
   /**
-   * Sets which event handlers you’d like provided to your toggle prop. You can specify one trigger or an array of them.
-   */
-  trigger?: Triggers | Triggers[]
-  /**
-   * Describes the preferred placement of your component. Chassis will flip and shift it to keep it in view.
+   * Describes the preferred placement of your component. Chassis will flip it to keep it in
+   * view.
    */
   placement?: Placement
   /**
-   * Toggle the visibility of popover component.
+   * Tooltips always show on focus, since keyboard/screen-reader users need them too. Set to
+   * `'focus'` to disable the hover trigger and show on focus only.
+   */
+  trigger?: 'hover' | 'focus'
+  /**
+   * Toggle the visibility of the tooltip component.
    */
   visible?: boolean
 }
@@ -50,72 +50,83 @@ export const CxTooltip: FC<CTooltipProps> = ({
   offset: offsetProp = [0, 6],
   onHide,
   onShow,
-  trigger = 'hover',
+  trigger,
   visible,
   ...rest
 }) => {
-  const [_visible, setVisible] = useState(visible)
   const [portalContainer, setPortalContainer] = useState<Element | null>(null)
-  const tooltipId = useId()
   const arrowRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLElement | null>(null)
   const floatingRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    setVisible(visible)
-  }, [visible])
+  const state = useTooltipTriggerState({ trigger })
+  const { triggerProps, tooltipProps: tooltipTriggerProps } = useTooltipTrigger(
+    { trigger },
+    state,
+    triggerRef,
+  )
+  const { tooltipProps } = useTooltip({}, state)
 
   // Tooltips inside an open `<dialog>` are appended to that dialog instead of
   // `document.body`, so they render in its top layer and close with it automatically.
   const resolvePortalContainer = () => triggerRef.current?.closest('dialog[open]') ?? document.body
 
-  const show = () => {
+  // Sync-on-change, not strictly controlled — matches `CxMenu`/`CxModal`'s `visible` semantics.
+  // Bypasses the hook's hover-warmup delay (`open`/`close`'s `immediate` argument) since a
+  // programmatic `visible` change should apply right away, same as before.
+  useEffect(() => {
+    if (visible === undefined) return
     setPortalContainer(resolvePortalContainer())
-    setVisible(true)
-  }
-  const hide = () => setVisible(false)
-  const toggle = () => {
-    setPortalContainer(resolvePortalContainer())
-    setVisible(!_visible)
-  }
+    if (visible) state.open(true)
+    else state.close(true)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [visible])
+
+  useEffect(() => {
+    if (state.isOpen) {
+      setPortalContainer(resolvePortalContainer())
+      onShow?.()
+    } else {
+      onHide?.()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.isOpen])
 
   // A dialog fires a native `close` event on ESC, backdrop click, or `.close()`, so
   // resetting on it keeps a reopened dialog from showing a stale, already-open tooltip.
   useEffect(() => {
     const dialog = portalContainer?.closest('dialog')
-    if (!_visible || !dialog) return
+    if (!state.isOpen || !dialog) return
 
+    const hide = () => state.close(true)
     dialog.addEventListener('close', hide)
     return () => dialog.removeEventListener('close', hide)
-  }, [_visible, portalContainer])
+  }, [state.isOpen, portalContainer])
 
-  const {
-    refs,
-    floatingStyles,
-    placement: resolvedPlacement,
-    middlewareData,
-  } = useFloating({
-    placement,
-    whileElementsMounted: autoUpdate,
-    middleware: [
-      offset({ crossAxis: offsetProp[0], mainAxis: offsetProp[1] }),
-      flip({ fallbackPlacements: FALLBACK_PLACEMENTS }),
-      shift({ boundary: 'clippingAncestors' }),
-      arrow({ element: arrowRef }),
-    ],
+  const { overlayProps, arrowProps, placement: resolvedPlacement } = useOverlayPosition({
+    targetRef: triggerRef,
+    overlayRef: floatingRef,
+    placement: toAriaPlacement(placement),
+    offset: offsetProp[1],
+    crossOffset: offsetProp[0],
+    arrowSize: 8,
+    arrowRef,
+    isOpen: state.isOpen,
   })
 
-  const side = resolvedPlacement.split('-')[0]
-  const isVertical = side === 'top' || side === 'bottom'
-  const { x: arrowX, y: arrowY } = middlewareData.arrow ?? {}
-  const forkedFloatingRef = useForkedRef(refs.setFloating, floatingRef)
+  const floatingStyle: React.CSSProperties = {
+    position: overlayProps.style?.position as React.CSSProperties['position'],
+    top: overlayProps.style?.top,
+    left: overlayProps.style?.left,
+  }
+  const placementAttr = resolveDataPlacement(placement, resolvedPlacement)
 
-  const getTransitionClass = (state: string) => {
-    return state === 'entering'
+  const getTransitionClass = (transitionState: string) => {
+    return transitionState === 'entering'
       ? 'fade'
-      : state === 'entered'
+      : transitionState === 'entered'
       ? 'fade show'
-      : state === 'exiting'
+      : transitionState === 'exiting'
       ? 'fade'
       : 'fade'
   }
@@ -124,57 +135,34 @@ export const CxTooltip: FC<CTooltipProps> = ({
     <>
       {React.cloneElement(children, {
         ref: (node: HTMLElement | null) => {
-          refs.setReference(node)
           triggerRef.current = node
         },
-        'aria-describedby': _visible ? tooltipId : undefined,
-        ...((trigger === 'click' || trigger.includes('click')) && {
-          onClick: toggle,
-        }),
-        ...((trigger === 'focus' || trigger.includes('focus')) && {
-          onFocus: show,
-          onBlur: hide,
-        }),
-        ...((trigger === 'hover' || trigger.includes('hover')) && {
-          onMouseEnter: show,
-          onMouseLeave: hide,
-        }),
+        ...triggerProps,
       })}
       {typeof window !== 'undefined' &&
         createPortal(
           <Transition
-            in={_visible}
+            in={state.isOpen}
             mountOnEnter
             nodeRef={floatingRef}
-            onEnter={onShow}
-            onExit={onHide}
             timeout={{
               enter: 0,
               exit: 200,
             }}
             unmountOnExit
           >
-            {(state) => {
-              const transitionClass = getTransitionClass(state)
+            {(transitionState) => {
+              const transitionClass = getTransitionClass(transitionState)
               return (
                 <div
-                  id={tooltipId}
                   className={classNames('tooltip cx-tooltip-auto', transitionClass)}
-                  data-cx-placement={resolvedPlacement}
-                  ref={forkedFloatingRef}
-                  role="tooltip"
-                  style={floatingStyles}
+                  data-cx-placement={placementAttr}
+                  ref={floatingRef}
+                  style={floatingStyle}
+                  {...mergeProps(tooltipTriggerProps, tooltipProps)}
                   {...rest}
                 >
-                  <div
-                    className="tooltip-arrow"
-                    ref={arrowRef}
-                    style={{
-                      position: 'absolute',
-                      left: isVertical && arrowX != null ? `${arrowX}px` : undefined,
-                      top: !isVertical && arrowY != null ? `${arrowY}px` : undefined,
-                    }}
-                  ></div>
+                  <div className="tooltip-arrow" {...arrowProps}></div>
                   <div className="tooltip-inner">{content}</div>
                 </div>
               )

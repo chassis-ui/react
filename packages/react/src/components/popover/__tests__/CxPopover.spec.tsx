@@ -16,7 +16,7 @@ test('CxPopover customize', async () => {
   jest.useFakeTimers()
   let arr, element
   render(
-    <CxPopover content="content" title="title" trigger="click" placement="right">
+    <CxPopover content="content" title="title" placement="right">
       <CxButton>Test</CxButton>
     </CxPopover>,
   )
@@ -59,7 +59,7 @@ test('CxPopover scopes itself to an open dialog ancestor', async () => {
   jest.useFakeTimers()
   render(
     <dialog open>
-      <CxPopover content="content" trigger="click">
+      <CxPopover content="content">
         <CxButton>Test</CxButton>
       </CxPopover>
     </dialog>,
@@ -106,29 +106,37 @@ test('CxPopover responds to the visible prop changing after mount', async () => 
   jest.useRealTimers()
 })
 
-// test('CxPopover onToggle', async () => {
-//   let btn
-//   jest.useFakeTimers()
-//   const onToggle = jest.fn()
-//   render(
-//     <CxPopover onToggle={onToggle} content="content" trigger="click">
-//       <CxButton>Test</CxButton>
-//     </CxPopover>,
-//   )
-//   expect(onToggle).toHaveBeenCalledTimes(0)
-//   btn = document.querySelector('.btn')
-//   if (btn !== null) {
-//     fireEvent.click(btn)
-//   }
-//   jest.runAllTimers()
-//   expect(onToggle).toHaveBeenCalledTimes(1)
-//   btn = document.querySelector('.btn')
-//   if (btn !== null) {
-//     fireEvent.click(btn)
-//   }
-//   jest.runAllTimers()
-//   expect(onToggle).toHaveBeenCalledTimes(2)
-//   jest.useRealTimers()
-// })
+test('CxPopover preserves the trigger child\'s own onClick handler', async () => {
+  jest.useFakeTimers()
+  const onClick = jest.fn()
+  render(
+    <CxPopover content="content">
+      <CxButton onClick={onClick}>Test</CxButton>
+    </CxPopover>,
+  )
+  const btn = document.querySelector('.button') as HTMLElement
+  act(() => {
+    fireEvent.click(btn)
+  })
+  act(() => jest.runAllTimers())
+  expect(onClick).toHaveBeenCalledTimes(1)
+  expect(document.body.getElementsByClassName('popover').length).toBe(1)
+  jest.useRealTimers()
+})
 
-//TODO: test visible on focus, click and mouseEnter
+test('CxPopover moves focus into the dialog on open', async () => {
+  jest.useFakeTimers()
+  render(
+    <CxPopover content="content" title="title">
+      <CxButton>Test</CxButton>
+    </CxPopover>,
+  )
+  const btn = document.querySelector('.button') as HTMLElement
+  act(() => {
+    fireEvent.click(btn)
+  })
+  act(() => jest.runAllTimers())
+  const popover = document.body.querySelector('.popover')
+  expect(document.activeElement).toBe(popover)
+  jest.useRealTimers()
+})

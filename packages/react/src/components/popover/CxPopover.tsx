@@ -1,14 +1,57 @@
-import React, { FC, ReactElement, ReactNode, useEffect, useId, useRef, useState } from 'react'
+import React, {
+  FC,
+  HTMLAttributes,
+  ReactElement,
+  ReactNode,
+  RefObject,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import { createPortal } from 'react-dom'
 import classNames from 'classnames'
-import { arrow, autoUpdate, flip, offset, shift, useFloating } from '@floating-ui/react-dom'
+import { mergeProps, useDialog, useOverlayPosition, useOverlayTrigger } from 'react-aria'
+import { useOverlayTriggerState } from 'react-stately'
 import { Transition } from 'react-transition-group'
 
-import { Triggers } from '../Types'
 import { Placement } from '../tooltip/CxTooltip'
-import { useForkedRef } from '../../utils/hooks'
+import { resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
 
-const FALLBACK_PLACEMENTS: Placement[] = ['top', 'right', 'bottom', 'left']
+interface PopoverPanelProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'content'> {
+  arrowProps: HTMLAttributes<HTMLDivElement>
+  content: ReactNode | string
+  overlayRef: RefObject<HTMLDivElement>
+  overlayTriggerProps: HTMLAttributes<HTMLDivElement>
+  title?: ReactNode | string
+}
+
+// A distinct component (rather than inline JSX from the `Transition` render prop) so
+// `useDialog`'s own mount-focus effect — which only fires on this component's mount, not on
+// `overlayRef.current` merely becoming non-null — actually runs each time the popover opens.
+// `Transition`'s `unmountOnExit` genuinely unmounts and remounts this component on every
+// open, giving `useDialog` a fresh mount each time.
+const PopoverPanel = ({
+  arrowProps,
+  content,
+  overlayRef,
+  overlayTriggerProps,
+  title,
+  ...rest
+}: PopoverPanelProps) => {
+  const { dialogProps, titleProps } = useDialog({}, overlayRef)
+
+  return (
+    <div {...mergeProps(overlayTriggerProps, dialogProps, rest)} ref={overlayRef}>
+      <div className="popover-arrow" {...arrowProps}></div>
+      {title && (
+        <div className="popover-header" {...titleProps}>
+          {title}
+        </div>
+      )}
+      <div className="popover-body">{content}</div>
+    </div>
+  )
+}
 
 export interface CPopoverProps {
   children: ReactElement
@@ -33,11 +76,8 @@ export interface CPopoverProps {
    */
   title?: ReactNode | string
   /**
-   * Sets which event handlers you’d like provided to your toggle prop. You can specify one trigger or an array of them.
-   */
-  trigger?: Triggers | Triggers[]
-  /**
-   * Describes the preferred placement of your component. Chassis will flip and shift it to keep it in view.
+   * Describes the preferred placement of your component. Chassis will flip it to keep it in
+   * view.
    */
   placement?: Placement
   /**
@@ -54,72 +94,78 @@ export const CxPopover: FC<CPopoverProps> = ({
   onHide,
   onShow,
   title,
-  trigger = 'click',
   visible,
   ...rest
 }) => {
-  const [_visible, setVisible] = useState(visible)
   const [portalContainer, setPortalContainer] = useState<Element | null>(null)
-  const popoverId = useId()
   const arrowRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLElement | null>(null)
   const floatingRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    setVisible(visible)
-  }, [visible])
+  const state = useOverlayTriggerState({ defaultOpen: !!visible })
+  const {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    triggerProps: { onPress: _onPress, ...triggerProps },
+    overlayProps: overlayTriggerProps,
+  } = useOverlayTrigger({ type: 'dialog' }, state, triggerRef)
 
   // Popovers inside an open `<dialog>` are appended to that dialog instead of
   // `document.body`, so they render in its top layer and close with it automatically.
   const resolvePortalContainer = () => triggerRef.current?.closest('dialog[open]') ?? document.body
 
-  const show = () => {
+  // Sync-on-change, not strictly controlled — matches `CxMenu`/`CxTooltip`'s `visible` semantics.
+  useEffect(() => {
+    if (visible === undefined) return
     setPortalContainer(resolvePortalContainer())
-    setVisible(true)
-  }
-  const hide = () => setVisible(false)
-  const toggle = () => {
-    setPortalContainer(resolvePortalContainer())
-    setVisible(!_visible)
-  }
+    if (visible) state.open()
+    else state.close()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [visible])
+
+  useEffect(() => {
+    if (state.isOpen) {
+      setPortalContainer(resolvePortalContainer())
+      onShow?.()
+    } else {
+      onHide?.()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.isOpen])
 
   // A dialog fires a native `close` event on ESC, backdrop click, or `.close()`, so
   // resetting on it keeps a reopened dialog from showing a stale, already-open popover.
   useEffect(() => {
     const dialog = portalContainer?.closest('dialog')
-    if (!_visible || !dialog) return
+    if (!state.isOpen || !dialog) return
 
-    dialog.addEventListener('close', hide)
-    return () => dialog.removeEventListener('close', hide)
-  }, [_visible, portalContainer])
+    dialog.addEventListener('close', state.close)
+    return () => dialog.removeEventListener('close', state.close)
+  }, [state.isOpen, portalContainer, state.close])
 
-  const {
-    refs,
-    floatingStyles,
-    placement: resolvedPlacement,
-    middlewareData,
-  } = useFloating({
-    placement,
-    whileElementsMounted: autoUpdate,
-    middleware: [
-      offset({ crossAxis: offsetProp[0], mainAxis: offsetProp[1] }),
-      flip({ fallbackPlacements: FALLBACK_PLACEMENTS }),
-      shift({ boundary: 'clippingAncestors' }),
-      arrow({ element: arrowRef }),
-    ],
+  const { overlayProps, arrowProps, placement: resolvedPlacement } = useOverlayPosition({
+    targetRef: triggerRef,
+    overlayRef: floatingRef,
+    placement: toAriaPlacement(placement),
+    offset: offsetProp[1],
+    crossOffset: offsetProp[0],
+    arrowSize: 8,
+    arrowRef,
+    isOpen: state.isOpen,
   })
 
-  const side = resolvedPlacement.split('-')[0]
-  const isVertical = side === 'top' || side === 'bottom'
-  const { x: arrowX, y: arrowY } = middlewareData.arrow ?? {}
-  const forkedFloatingRef = useForkedRef(refs.setFloating, floatingRef)
+  const floatingStyle: React.CSSProperties = {
+    position: overlayProps.style?.position as React.CSSProperties['position'],
+    top: overlayProps.style?.top,
+    left: overlayProps.style?.left,
+  }
+  const placementAttr = resolveDataPlacement(placement, resolvedPlacement)
 
-  const getTransitionClass = (state: string) => {
-    return state === 'entering'
+  const getTransitionClass = (transitionState: string) => {
+    return transitionState === 'entering'
       ? 'fade'
-      : state === 'entered'
+      : transitionState === 'entered'
       ? 'fade show'
-      : state === 'exiting'
+      : transitionState === 'exiting'
       ? 'fade'
       : 'fade'
   }
@@ -128,28 +174,18 @@ export const CxPopover: FC<CPopoverProps> = ({
     <>
       {React.cloneElement(children, {
         ref: (node: HTMLElement | null) => {
-          refs.setReference(node)
           triggerRef.current = node
         },
-        'aria-describedby': _visible ? popoverId : undefined,
-        ...((trigger === 'click' || trigger.includes('click')) && {
-          onClick: toggle,
-        }),
-        ...((trigger === 'focus' || trigger.includes('focus')) && {
-          onFocus: show,
-          onBlur: hide,
-        }),
-        ...((trigger === 'hover' || trigger.includes('hover')) && {
-          onMouseEnter: show,
-          onMouseLeave: hide,
-        }),
+        ...triggerProps,
+        onClick: (event: React.MouseEvent) => {
+          children.props.onClick?.(event)
+          state.toggle()
+        },
       })}
       {typeof window !== 'undefined' &&
         createPortal(
           <Transition
-            in={_visible}
-            onEnter={onShow}
-            onExit={onHide}
+            in={state.isOpen}
             mountOnEnter
             nodeRef={floatingRef}
             timeout={{
@@ -158,30 +194,20 @@ export const CxPopover: FC<CPopoverProps> = ({
             }}
             unmountOnExit
           >
-            {(state) => {
-              const transitionClass = getTransitionClass(state)
+            {(transitionState) => {
+              const transitionClass = getTransitionClass(transitionState)
               return (
-                <div
-                  id={popoverId}
+                <PopoverPanel
                   className={classNames('popover cx-popover-auto', transitionClass)}
-                  data-cx-placement={resolvedPlacement}
-                  ref={forkedFloatingRef}
-                  role="tooltip"
-                  style={floatingStyles}
+                  data-cx-placement={placementAttr}
+                  style={floatingStyle}
+                  overlayTriggerProps={overlayTriggerProps}
+                  overlayRef={floatingRef}
+                  arrowProps={arrowProps}
+                  title={title}
+                  content={content}
                   {...rest}
-                >
-                  <div
-                    className="popover-arrow"
-                    ref={arrowRef}
-                    style={{
-                      position: 'absolute',
-                      left: isVertical && arrowX != null ? `${arrowX}px` : undefined,
-                      top: !isVertical && arrowY != null ? `${arrowY}px` : undefined,
-                    }}
-                  ></div>
-                  <div className="popover-header">{title}</div>
-                  <div className="popover-body">{content}</div>
-                </div>
+                />
               )
             }}
           </Transition>,

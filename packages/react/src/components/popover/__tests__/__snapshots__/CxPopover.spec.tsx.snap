@@ -4,7 +4,8 @@ exports[`CxPopover customize 1`] = `
 <body>
   <div>
     <button
-      aria-describedby=":r1:"
+      aria-controls="react-aria-:r1:"
+      aria-expanded="true"
       class="button primary"
       type="button"
     >
@@ -12,18 +13,23 @@ exports[`CxPopover customize 1`] = `
     </button>
   </div>
   <div
+    aria-labelledby="react-aria-:r2:"
     class="popover cx-popover-auto fade show"
     data-cx-placement="right"
-    id=":r1:"
-    role="tooltip"
-    style="position: absolute; left: 0px; top: 0px; transform: translate(0px, 0px);"
+    id="react-aria-:r1:"
+    role="dialog"
+    style="position: absolute; max-height: 0px; top: 12px; left: 8px;"
+    tabindex="-1"
   >
     <div
+      aria-hidden="true"
       class="popover-arrow"
-      style="position: absolute;"
+      role="presentation"
+      style="top: -4px;"
     />
     <div
       class="popover-header"
+      id="react-aria-:r2:"
     >
       title
     </div>
@@ -39,6 +45,7 @@ exports[`CxPopover customize 1`] = `
 exports[`loads and displays CxPopover component 1`] = `
 <div>
   <button
+    aria-expanded="false"
     class="button primary"
     type="button"
   >
