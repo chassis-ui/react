@@ -1,0 +1,59 @@
+---
+title: Combobox
+description: Chassis Combobox combines a text input with a filterable listbox, letting users search and select from a list of options.
+
+toc: true
+---
+
+import { BasicExample } from '../../src/examples/combobox/BasicExample.tsx'
+import { FormFieldExample } from '../../src/examples/combobox/FormFieldExample.tsx'
+import { DisabledExample } from '../../src/examples/combobox/DisabledExample.tsx'
+
+import { CxCombobox, CxComboboxItem } from '@chassis-ui/react'
+
+## Overview
+
+`CxCombobox` combines a text input with a filterable list of options — type to narrow the list, arrow keys to move through it, Enter to select. It replaces hand-wiring a `CxMenu` to a text input with real combobox semantics: `role="combobox"` on the input, `role="listbox"`/`role="option"` on the list, and `aria-expanded`/`aria-controls`/`aria-activedescendant` kept in sync automatically.
+
+Compose a `CxComboboxItem` per option, each identified by an `id`.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## Disabled options
+
+Add `disabled` to a `CxComboboxItem` to remove it from keyboard navigation and prevent it from being selected. The combobox itself stays usable.
+
+<Example>
+  <DisabledExample client:load />
+</Example>
+
+## In a form field
+
+Pair a `CxFormLabel` with the combobox's `id`, and pass `name` to have `CxCombobox` create and manage a hidden `<input>` for native form submission — its value stays in sync with the selection.
+
+<Example>
+  <FormFieldExample client:load />
+</Example>
+
+## Controlled selection
+
+Pass `value`/`onChange` to `CxCombobox` to control the selected option yourself. Omit them (use `defaultValue` instead) to let `CxCombobox` manage selection internally.
+
+## Scope
+
+This is the single-select, type-to-filter combobox — the strong-fit case for React Aria's combobox hooks, and the most common combobox pattern. Two variants chassis-css's vanilla JS supports aren't covered here:
+
+- **Button-trigger comboboxes** (a display-only toggle with a separate search field inside the dropdown, like a searchable `<select>`) — a different, more custom composition than React Aria's text-input-driven combobox hook is designed around.
+- **Multiple selection** — not built on top of the single-select hooks here. A dedicated multi-select/chip-input component is a better fit and may ship separately.
+
+## API
+
+### CxCombobox
+
+<PropTable component="CxCombobox" />
+
+### CxComboboxItem
+
+<PropTable component="CxComboboxItem" />

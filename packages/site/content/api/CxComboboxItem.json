@@ -1,0 +1,66 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/combobox/CxComboboxItem.tsx",
+  "description": "",
+  "displayName": "CxComboboxItem",
+  "methods": [],
+  "props": {
+    "children": {
+      "defaultValue": null,
+      "description": "Content of the option. Must be a plain string for the option to participate in filtering\nand typeahead.",
+      "name": "children",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/combobox/CxComboboxItem.tsx",
+        "name": "CComboboxItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/combobox/CxComboboxItem.tsx",
+          "name": "CComboboxItemProps"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "disabled": {
+      "defaultValue": null,
+      "description": "Prevents the option from being selected, focused, or otherwise interacted with.",
+      "name": "disabled",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/combobox/CxComboboxItem.tsx",
+        "name": "CComboboxItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/combobox/CxComboboxItem.tsx",
+          "name": "CComboboxItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "id": {
+      "defaultValue": null,
+      "description": "Identifies this option. Submitted as the value when this option is selected.",
+      "name": "id",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/combobox/CxComboboxItem.tsx",
+        "name": "CComboboxItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/combobox/CxComboboxItem.tsx",
+          "name": "CComboboxItemProps"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "Key"
+      }
+    }
+  }
+}

@@ -30,6 +30,8 @@ import { CxCarouselCaption } from './components/carousel/CxCarouselCaption'
 import { CxCarouselItem } from './components/carousel/CxCarouselItem'
 import { CxCollapse } from './components/collapse/CxCollapse'
 import { CxCloseButton } from './components/close-button/CxCloseButton'
+import { CxCombobox } from './components/combobox/CxCombobox'
+import { CxComboboxItem } from './components/combobox/CxComboboxItem'
 import { CxMenu } from './components/menu/CxMenu'
 import { CxMenuDivider } from './components/menu/CxMenuDivider'
 import { CxMenuHeader } from './components/menu/CxMenuHeader'
@@ -140,6 +142,8 @@ export {
   CxCarouselItem,
   CxCloseButton,
   CxCollapse,
+  CxCombobox,
+  CxComboboxItem,
   CxMenu,
   CxMenuDivider,
   CxMenuHeader,
