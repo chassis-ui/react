@@ -10,8 +10,10 @@ exports[`CxFormCheck customize button=false 1`] = `
     >
       <input
         class=""
+        data-react-aria-pressable="true"
         id="id"
-        type="radio"
+        tabindex="0"
+        type="checkbox"
       />
     </span>
     label
@@ -26,8 +28,10 @@ exports[`CxFormCheck customize button=true 1`] = `
   >
     <input
       class=""
+      data-react-aria-pressable="true"
       id="id"
-      type="radio"
+      tabindex="0"
+      type="checkbox"
     />
     label
   </label>

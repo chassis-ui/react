@@ -7,7 +7,7 @@
   "props": {
     "button": {
       "defaultValue": null,
-      "description": "Create button-like checkboxes and radio buttons.",
+      "description": "Create button-like checkboxes.",
       "name": "button",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
@@ -100,7 +100,7 @@
     },
     "defaultSelected": {
       "defaultValue": null,
-      "description": "Whether the input is selected, uncontrolled.",
+      "description": "Whether the checkbox is selected, uncontrolled. Ignored when rendered inside a `<CxFormCheckGroup>` —\nthe group's `value`/`defaultValue` owns selection there.",
       "name": "defaultSelected",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
@@ -138,7 +138,7 @@
     },
     "indeterminate": {
       "defaultValue": null,
-      "description": "Input Checkbox indeterminate Property. Only applies to `type=\"checkbox\"`.",
+      "description": "Checkbox indeterminate property.",
       "name": "indeterminate",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
@@ -176,7 +176,7 @@
     },
     "isSelected": {
       "defaultValue": null,
-      "description": "Whether the input is selected, controlled.",
+      "description": "Whether the checkbox is selected, controlled. Ignored when rendered inside a `<CxFormCheckGroup>` —\nthe group's `value`/`defaultValue` owns selection there.",
       "name": "isSelected",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
@@ -214,7 +214,7 @@
     },
     "onChange": {
       "defaultValue": null,
-      "description": "Callback fired when the selected state changes.",
+      "description": "Callback fired when the selected state changes. Ignored when rendered inside a `<CxFormCheckGroup>` —\nuse the group's `onChange` instead.",
       "name": "onChange",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
@@ -259,36 +259,6 @@
         ]
       }
     },
-    "type": {
-      "defaultValue": {
-        "value": "checkbox"
-      },
-      "description": "Specifies the type of component.",
-      "name": "type",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
-        "name": "CxFormCheckProps"
-      },
-      "declarations": [
-        {
-          "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
-          "name": "CxFormCheckProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"checkbox\" | \"radio\"",
-        "value": [
-          {
-            "value": "\"checkbox\""
-          },
-          {
-            "value": "\"radio\""
-          }
-        ]
-      }
-    },
     "valid": {
       "defaultValue": null,
       "description": "Set component validation state to valid.",
@@ -306,6 +276,25 @@
       "required": false,
       "type": {
         "name": "boolean"
+      }
+    },
+    "value": {
+      "defaultValue": null,
+      "description": "The value of the checkbox, used when submitting an HTML form. Required when rendered inside a\n`<CxFormCheckGroup>` — it identifies this item within the group's selected values.",
+      "name": "value",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
+        "name": "CxFormCheckProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
+          "name": "CxFormCheckProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
       }
     }
   }

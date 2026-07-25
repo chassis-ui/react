@@ -5,6 +5,8 @@ description: Give your forms some structure—from inline to horizontal to custo
 toc: true
 ---
 
+import { HorizontalFormExample } from '../../src/examples/layout/HorizontalFormExample.tsx'
+
 import { 
   CxButton,
   CxForm,
@@ -98,7 +100,7 @@ More complex layouts can also be created with the grid system.
       <CxFormInput id="inputZip"/>
     </CxCol>
     <CxCol xs={12}>
-      <CxFormCheck type="checkbox" id="gridCheck" label="Check me out"/>
+      <CxFormCheck id="gridCheck" label="Check me out"/>
     </CxCol>
     <CxCol xs={12}>
       <CxButton type="submit">Sign in</CxButton>
@@ -110,37 +112,10 @@ More complex layouts can also be created with the grid system.
 
 Create horizontal forms with the grid by adding the `.row` class to form groups and using the `.col-*-*` classes to specify the width of your labels and controls. Be sure to add `.col-form-label` to your `<CxFormLabel>`s as well so they're vertically centered with their associated form controls.
 
-At times, you maybe need to use margin or padding utilities to create that perfect alignment you need. For example, we've removed the `padding-top` on our stacked radio inputs label to better align the text baseline.
+At times, you maybe need to use margin or padding utilities to create that perfect alignment you need.
 
 <Example>
-  <CxForm>
-    <CxRow className="mb-medium">
-      <CxFormLabel htmlFor="inputEmail3" className="small:col-2 col-form-label">Email</CxFormLabel>
-      <CxCol sm={10} >
-        <CxFormInput type="email" id="inputEmail3"/>
-      </CxCol>
-    </CxRow>
-    <CxRow className="mb-medium">
-      <CxFormLabel htmlFor="inputPassword3" className="small:col-2 col-form-label">Password</CxFormLabel>
-      <CxCol sm={10} >
-        <CxFormInput type="password" id="inputPassword3"/>
-      </CxCol>
-    </CxRow>
-    <fieldset className="row mb-medium">
-      <legend className="col-form-label small:col-2 pt-0">Radios</legend>
-      <CxCol sm={10} >
-        <CxFormCheck type="radio" name="gridRadios" id="gridRadios1" value="option1" label="First radio" defaultSelected/>
-        <CxFormCheck type="radio" name="gridRadios" id="gridRadios2" value="option2" label="Second radio"/>
-        <CxFormCheck type="radio" name="gridRadios" id="gridRadios3" value="option3" label="Third disabled radio" disabled/>
-      </CxCol>
-    </fieldset>
-    <CxRow className="mb-medium">
-      <div className="small:col-10 small:offset-2">
-        <CxFormCheck type="checkbox" id="gridCheck1" label="Example checkbox"/>
-      </div>
-    </CxRow>
-    <CxButton type="submit">Sign in</CxButton>
-  </CxForm>
+  <HorizontalFormExample client:load />
 </Example>
 
 ### Horizontal form label sizing
@@ -213,7 +188,7 @@ The example below uses a flexbox utility to vertically center the contents and c
       </CxFormSelect>
     </CxCol>
     <CxCol xs="auto">
-      <CxFormCheck type="checkbox" id="autoSizingCheck" label="Remember me"/>
+      <CxFormCheck id="autoSizingCheck" label="Remember me"/>
     </CxCol>
     <CxCol xs="auto">
       <CxButton type="submit">Submit</CxButton>
@@ -246,7 +221,7 @@ You can then remix that once again with size-specific column classes.
       </CxFormSelect>
     </CxCol>
     <CxCol xs="auto">
-      <CxFormCheck type="checkbox" id="autoSizingCheck2" label="Remember me"/>
+      <CxFormCheck id="autoSizingCheck2" label="Remember me"/>
     </CxCol>
     <CxCol xs="auto">
       <CxButton type="submit">Submit</CxButton>
@@ -277,7 +252,7 @@ Use the `<CxCol xs="auto">` class to create horizontal layouts. By adding gutter
       </CxFormSelect>
     </CxCol>
     <CxCol xs={12}>
-      <CxFormCheck type="checkbox" id="inlineFormCheck" label="Remember me"/>
+      <CxFormCheck id="inlineFormCheck" label="Remember me"/>
     </CxCol>
     <CxCol xs={12}>
       <CxButton type="submit">Submit</CxButton>

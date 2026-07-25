@@ -7,6 +7,7 @@ toc: true
 import { CustomStylesExample } from '../../src/examples/validation/CustomStylesExample.tsx'
 import { BrowserDefaultsExample } from '../../src/examples/validation/BrowserDefaultsExample.tsx'
 import { TooltipsExample } from '../../src/examples/validation/TooltipsExample.tsx'
+import { SupportedElementsExample } from '../../src/examples/validation/SupportedElementsExample.tsx'
 
 
 import { useState } from 'react'
@@ -126,57 +127,7 @@ Validation styles are available for the following form controls and components:
 - `<CxFormTextarea>`s
 
 <Example>
-  <CxForm validated={true}>
-    <div className="mb-medium">
-      <CxFormLabel htmlFor="validationTextarea" className="form-label">
-        Textarea
-      </CxFormLabel>
-      <CxFormInput
-        component="textarea"
-        id="validationTextarea"
-        placeholder="Required example textarea"
-        invalid
-        required
-      ></CxFormInput>
-      <CxFormFeedback invalid>Please enter a message in the textarea.</CxFormFeedback>
-    </div>
-    <CxFormCheck className="mb-medium" id="validationFormCheck1" label="Check this checkbox" required />
-    <CxFormFeedback invalid>Example invalid feedback text</CxFormFeedback>
-    <CxFormCheck
-      type="radio"
-      name="radio-stacked"
-      id="validationFormCheck2"
-      label="Check this checkbox"
-      required
-    />
-    <CxFormCheck
-      className="mb-medium"
-      type="radio"
-      name="radio-stacked"
-      id="validationFormCheck3"
-      label="Or toggle this other radio"
-      required
-    />
-    <CxFormFeedback invalid>More example invalid feedback text</CxFormFeedback>
-    <div className="mb-medium">
-      <CxFormSelect required aria-label="select example">
-        <option>Open this select menu</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-      </CxFormSelect>
-      <CxFormFeedback invalid>Example invalid select feedback</CxFormFeedback>
-    </div>
-    <div className="mb-medium">
-      <CxFormInput type="file" id="validationTextarea" aria-label="file example" required />
-      <CxFormFeedback invalid>Example invalid form file feedback</CxFormFeedback>
-    </div>
-    <div className="mb-medium">
-      <CxButton type="submit" context="primary" disabled>
-        Submit form
-      </CxButton>
-    </div>
-  </CxForm>
+  <SupportedElementsExample client:load />
 </Example>
 
 ## Tooltips

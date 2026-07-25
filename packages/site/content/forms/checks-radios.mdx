@@ -7,18 +7,23 @@ toc: true
 
 
 import { useEffect, useRef } from 'react'
-import {
-  CxButton,
-  CxForm,
-  CxFormCheck,
-  CxFormLabel,
-  CxFormSwitch,
-  CxFormText,
-} from '@chassis-ui/react'
+import { RadiosExample } from '../../src/examples/checks-radios/RadiosExample.tsx'
+import { RadiosDisabledExample } from '../../src/examples/checks-radios/RadiosDisabledExample.tsx'
+import { RadiosStackedExample } from '../../src/examples/checks-radios/RadiosStackedExample.tsx'
+import { RadiosInlineExample } from '../../src/examples/checks-radios/RadiosInlineExample.tsx'
+import { ContextColorsExample } from '../../src/examples/checks-radios/ContextColorsExample.tsx'
+import { WithoutLabelsExample } from '../../src/examples/checks-radios/WithoutLabelsExample.tsx'
+import { RadioToggleButtonsExample } from '../../src/examples/checks-radios/RadioToggleButtonsExample.tsx'
+import { OutlinedTogglesExample } from '../../src/examples/checks-radios/OutlinedTogglesExample.tsx'
+import { CheckGroupExample } from '../../src/examples/checks-radios/CheckGroupExample.tsx'
+import { RadioGroupValidationExample } from '../../src/examples/checks-radios/RadioGroupValidationExample.tsx'
+import { CxFormCheck, CxFormSwitch } from '@chassis-ui/react'
 
 ## Approach
 
-Browser default checkboxes and radios are replaced with the help of `<CxFormCheck>`. Checkboxes are for selecting one or several options in a list, while radios are for selecting one option from many. Both `<CxFormCheck>` and `<CxFormSwitch>` render the modern, wrapper-based `.check-input` markup nested inside a single `<label>` — passing `label` gives you an accessible, fully-clickable control with no extra markup required.
+Browser default checkboxes and radios are replaced with the help of `<CxFormCheck>` and `<CxFormRadio>`. Checkboxes are for selecting one or several options in a list, while radios are for selecting one option from many. Both render the modern, wrapper-based `.check-input` markup nested inside a single `<label>` — passing `label` gives you an accessible, fully-clickable control with no extra markup required.
+
+Checkboxes and radios are built on [React Aria](https://react-spectrum.adobe.com/react-aria/) for full keyboard and screen-reader support. Radios have no meaningful standalone state — a radio only makes sense as part of a mutually-exclusive set — so `<CxFormRadio>` must always be rendered inside a `<CxFormRadioGroup>`, which manages selection and arrow-key navigation between options. `<CxFormCheck>` works standalone, or inside a `<CxFormCheckGroup>` when you want to manage a set of related checkboxes as a single array of selected values.
 
 ## Checks
 
@@ -46,37 +51,18 @@ Add the `disabled` attribute and the associated `<label>`s are automatically sty
 
 ## Radios
 
-Add the `disabled` attribute and the associated `<label>`s are automatically styled to match with a lighter context to help indicate the input's state.
+Radios are always rendered inside a `<CxFormRadioGroup>`, which owns selection and gives the group a `<fieldset>`/`<legend>` so assistive technology announces the group's purpose alongside each option.
 
 <Example>
-  <CxFormCheck type="radio" name="flexRadioDefault" id="flexRadioDefault1" label="Default radio" />
-  <CxFormCheck
-    type="radio"
-    name="flexRadioDefault"
-    id="flexRadioDefault2"
-    label="Checked radio"
-    defaultSelected
-  />
+  <RadiosExample client:load />
 </Example>
 
 ### Disabled
 
+Disable a single option by adding `disabled` to that `<CxFormRadio>`, or disable the whole group by adding `disabled` to `<CxFormRadioGroup>`.
+
 <Example>
-  <CxFormCheck
-    type="radio"
-    name="flexRadioDisabled"
-    id="flexRadioDisabled"
-    label="Disabled radio"
-    disabled
-  />
-  <CxFormCheck
-    type="radio"
-    name="flexRadioDisabled"
-    id="flexRadioCheckedDisabled"
-    label="Disabled checked radio"
-    defaultSelected
-    disabled
-  />
+  <RadiosDisabledExample client:load />
 </Example>
 
 ## Switches
@@ -113,34 +99,12 @@ By default, any number of checkboxes and radios that are immediate sibling will 
 </Example>
 
 <Example>
-  <CxFormCheck
-    type="radio"
-    name="exampleRadios"
-    id="exampleRadios1"
-    value="option1"
-    label="Default radio"
-    defaultSelected
-  />
-  <CxFormCheck
-    type="radio"
-    name="exampleRadios"
-    id="exampleRadios2"
-    value="option2"
-    label="Second default radio"
-  />
-  <CxFormCheck
-    type="radio"
-    name="exampleRadios"
-    id="exampleRadios3"
-    value="option3"
-    label="Disabled radio"
-    disabled
-  />
+  <RadiosStackedExample client:load />
 </Example>
 
 ## Inline
 
-Group checkboxes or radios on the same horizontal row by wrapping them with the `d-flex` and `gap-medium` flex utilities.
+Group checkboxes on the same horizontal row by wrapping them with the `d-flex` and `gap-medium` flex utilities. Radio groups have a built-in `orientation` property that does the same, and also switches arrow-key navigation from vertical to horizontal.
 
 <Example>
   <div className="d-flex gap-medium">
@@ -151,30 +115,7 @@ Group checkboxes or radios on the same horizontal row by wrapping them with the 
 </Example>
 
 <Example>
-  <div className="d-flex gap-medium">
-    <CxFormCheck
-      type="radio"
-      name="inlineRadioOptions"
-      id="inlineCheckbox1"
-      value="option1"
-      label="1"
-    />
-    <CxFormCheck
-      type="radio"
-      name="inlineRadioOptions"
-      id="inlineCheckbox2"
-      value="option2"
-      label="2"
-    />
-    <CxFormCheck
-      type="radio"
-      name="inlineRadioOptions"
-      id="inlineCheckbox3"
-      value="option3"
-      label="3 (disabled)"
-      disabled
-    />
-  </div>
+  <RadiosInlineExample client:load />
 </Example>
 
 ## Sizing
@@ -192,16 +133,7 @@ Apply the `size` property (`small` or `large`) to change the size of a checkbox,
 Checkboxes, radios, and switches accept a `context` property to color the check indicator with any of the Chassis contextual colors.
 
 <Example>
-  <CxFormCheck context="secondary" id="checkSecondary" label="Secondary checkbox" defaultSelected />
-  <CxFormCheck
-    context="success"
-    type="radio"
-    name="contextRadios"
-    id="checkSuccess"
-    label="Success radio"
-    defaultSelected
-  />
-  <CxFormSwitch context="danger" id="switchDanger" label="Danger switch" defaultSelected />
+  <ContextColorsExample client:load />
 </Example>
 
 ## Without labels
@@ -209,17 +141,12 @@ Checkboxes, radios, and switches accept a `context` property to color the check 
 Remember to still provide some form of accessible name for assistive technologies (for instance, using `aria-label`).
 
 <Example>
-  <div>
-    <CxFormCheck id="checkboxNoLabel" value="" aria-label="..." />
-  </div>
-  <div>
-    <CxFormCheck type="radio" name="radioNoLabel" id="radioNoLabel" value="" aria-label="..." />
-  </div>
+  <WithoutLabelsExample client:load />
 </Example>
 
 ## Toggle buttons
 
-Create button-like checkboxes and radio buttons by using `button` boolean property on the `<CxFormCheck>` component. These toggle buttons can further be grouped in a button group if needed.
+Create button-like checkboxes and radio buttons by using the `button` property on `<CxFormCheck>`/`<CxFormRadio>`. These toggle buttons can further be grouped in a button group if needed.
 
 ### Checkbox toggle buttons
 
@@ -255,40 +182,7 @@ Create button-like checkboxes and radio buttons by using `button` boolean proper
 ### Radio toggle buttons
 
 <Example>
-  <CxFormCheck
-    button={{ context: 'secondary' }}
-    type="radio"
-    name="options"
-    id="option1"
-    autoComplete="off"
-    label="Checked"
-    defaultSelected
-  />
-  <CxFormCheck
-    button={{ context: 'secondary' }}
-    type="radio"
-    name="options"
-    id="option2"
-    autoComplete="off"
-    label="Radio"
-  />
-  <CxFormCheck
-    button={{ context: 'secondary' }}
-    type="radio"
-    name="options"
-    id="option3"
-    autoComplete="off"
-    label="Radio"
-    disabled
-  />
-  <CxFormCheck
-    button={{ context: 'secondary' }}
-    type="radio"
-    name="options"
-    id="option4"
-    autoComplete="off"
-    label="Radio"
-  />
+  <RadioToggleButtonsExample client:load />
 </Example>
 
 ### Outlined styles
@@ -296,42 +190,23 @@ Create button-like checkboxes and radio buttons by using `button` boolean proper
 Different variants of button, such at the various outlined styles, are supported.
 
 <Example>
-  <div>
-    <CxFormCheck
-      button={{ context: 'primary', variant: 'outline' }}
-      id="button-check-outlined"
-      autoComplete="off"
-      label="Single toggle"
-    />
-  </div>
-  <div>
-    <CxFormCheck
-      button={{ context: 'secondary', variant: 'outline' }}
-      id="button-check-2-outlined"
-      autoComplete="off"
-      label="Checked"
-      defaultSelected
-    />
-  </div>
-  <div>
-    <CxFormCheck
-      button={{ context: 'success', variant: 'outline' }}
-      type="radio"
-      name="options-outlined"
-      id="success-outlined"
-      autoComplete="off"
-      label="Radio"
-      defaultSelected
-    />
-    <CxFormCheck
-      button={{ context: 'danger', variant: 'outline' }}
-      type="radio"
-      name="options-outlined"
-      id="danger-outlined"
-      autoComplete="off"
-      label="Radio"
-    />
-  </div>
+  <OutlinedTogglesExample client:load />
+</Example>
+
+## Groups
+
+`<CxFormCheckGroup>` manages a set of related checkboxes as a single array of selected values, with an optional shared description and validation feedback.
+
+<Example>
+  <CheckGroupExample client:load />
+</Example>
+
+### Validation
+
+Both group components accept `invalid`/`valid` and an `errorMessage`, rendered below the options and linked via `aria-describedby`.
+
+<Example>
+  <RadioGroupValidationExample client:load />
 </Example>
 
 ## API
@@ -339,6 +214,19 @@ Different variants of button, such at the various outlined styles, are supported
 ### CxFormCheck
 
 <PropTable component="CxFormCheck" />
+
+### CxFormCheckGroup
+
+<PropTable component="CxFormCheckGroup" />
+
+### CxFormRadio
+
+<PropTable component="CxFormRadio" />
+
+### CxFormRadioGroup
+
+<PropTable component="CxFormRadioGroup" />
+
 ### CxFormSwitch
 
 <PropTable component="CxFormSwitch" />

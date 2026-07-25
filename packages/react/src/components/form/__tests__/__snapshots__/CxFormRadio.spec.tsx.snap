@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`loads and displays CxFormRadio inside a CxFormRadioGroup 1`] = `
+<div>
+  <fieldset
+    aria-label="Options"
+    aria-orientation="vertical"
+    class="form-field"
+    id="react-aria-:r0:"
+    role="radiogroup"
+  >
+    <label
+      class="form-check"
+    >
+      <span
+        class="check-input"
+      >
+        <input
+          checked=""
+          data-react-aria-pressable="true"
+          name="react-aria-:r5:"
+          tabindex="0"
+          type="radio"
+          value="a"
+        />
+      </span>
+      Option A
+    </label>
+    <label
+      class="form-check"
+    >
+      <span
+        class="check-input"
+      >
+        <input
+          data-react-aria-pressable="true"
+          name="react-aria-:r5:"
+          tabindex="-1"
+          type="radio"
+          value="b"
+        />
+      </span>
+      Option B
+    </label>
+  </fieldset>
+</div>
+`;

@@ -1,0 +1,62 @@
+import React from 'react'
+import {
+  CxButton,
+  CxForm,
+  CxFormCheck,
+  CxFormFeedback,
+  CxFormInput,
+  CxFormLabel,
+  CxFormRadio,
+  CxFormRadioGroup,
+  CxFormSelect,
+} from '@chassis-ui/react'
+
+export const SupportedElementsExample = () => {
+  return (
+    <CxForm validated={true}>
+      <div className="mb-medium">
+        <CxFormLabel htmlFor="validationTextarea" className="form-label">
+          Textarea
+        </CxFormLabel>
+        <CxFormInput
+          component="textarea"
+          id="validationTextarea"
+          placeholder="Required example textarea"
+          invalid
+          required
+        ></CxFormInput>
+        <CxFormFeedback invalid>Please enter a message in the textarea.</CxFormFeedback>
+      </div>
+      <CxFormCheck
+        className="mb-medium"
+        id="validationFormCheck1"
+        label="Check this checkbox"
+        required
+      />
+      <CxFormFeedback invalid>Example invalid feedback text</CxFormFeedback>
+      <CxFormRadioGroup className="mb-medium" name="radio-stacked" required>
+        <CxFormRadio value="radio1" label="Check this checkbox" />
+        <CxFormRadio value="radio2" label="Or toggle this other radio" />
+      </CxFormRadioGroup>
+      <CxFormFeedback invalid>More example invalid feedback text</CxFormFeedback>
+      <div className="mb-medium">
+        <CxFormSelect required aria-label="select example">
+          <option>Open this select menu</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+        </CxFormSelect>
+        <CxFormFeedback invalid>Example invalid select feedback</CxFormFeedback>
+      </div>
+      <div className="mb-medium">
+        <CxFormInput type="file" id="validationTextarea" aria-label="file example" required />
+        <CxFormFeedback invalid>Example invalid form file feedback</CxFormFeedback>
+      </div>
+      <div className="mb-medium">
+        <CxButton type="submit" context="primary" disabled>
+          Submit form
+        </CxButton>
+      </div>
+    </CxForm>
+  )
+}

@@ -51,10 +51,13 @@ import { CxContainer } from './components/grid/CxContainer'
 import { CxRow } from './components/grid/CxRow'
 import { CxForm } from './components/form/CxForm'
 import { CxFormCheck } from './components/form/CxFormCheck'
+import { CxFormCheckGroup } from './components/form/CxFormCheckGroup'
 import { CxFormFeedback } from './components/form/CxFormFeedback'
 import { CxFormFloating } from './components/form/CxFormFloating'
 import { CxFormInput } from './components/form/CxFormInput'
 import { CxFormLabel } from './components/form/CxFormLabel'
+import { CxFormRadio } from './components/form/CxFormRadio'
+import { CxFormRadioGroup } from './components/form/CxFormRadioGroup'
 import { CxFormRange } from './components/form/CxFormRange'
 import { CxFormSelect } from './components/form/CxFormSelect'
 import { CxFormSwitch } from './components/form/CxFormSwitch'
@@ -173,10 +176,13 @@ export {
   CxCardGroup,
   CxForm,
   CxFormCheck,
+  CxFormCheckGroup,
   CxFormFeedback,
   CxFormFloating,
   CxFormInput,
   CxFormLabel,
+  CxFormRadio,
+  CxFormRadioGroup,
   CxFormRange,
   CxFormSelect,
   CxFormSwitch,

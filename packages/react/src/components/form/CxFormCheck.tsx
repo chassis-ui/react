@@ -1,31 +1,20 @@
-import React, { forwardRef, InputHTMLAttributes, ReactNode, useRef } from 'react'
+import React, { forwardRef, InputHTMLAttributes, ReactNode, useContext, useRef } from 'react'
 import classNames from 'classnames'
-import { AriaCheckboxProps, useCheckbox } from 'react-aria'
-import { useToggleState } from 'react-stately'
+import {
+  AriaCheckboxGroupItemProps,
+  AriaCheckboxProps,
+  useCheckbox,
+  useCheckboxGroupItem,
+} from 'react-aria'
+import { CheckboxGroupState, useToggleState } from 'react-stately'
 
 import { useForkedRef } from '../../utils/hooks'
-import { ContextColor, Shapes } from '../Types'
+import { ContextColor } from '../Types'
 
-import { CxFormLabel } from './CxFormLabel'
+import { CxCheckboxGroupContext } from './context'
+import { ButtonObject, renderFormCheckControl } from './formCheckRender'
 
-export type ButtonObject = {
-  /**
-   * Sets the context context of the component to one of Chassis themed colors.
-   */
-  context?: ContextColor
-  /**
-   * Select the shape of the component.
-   */
-  shape?: Shapes
-  /**
-   * Size the component small or large.
-   */
-  size?: 'small' | 'large'
-  /**
-   * Set the button variant to an outlined button or a ghost button.
-   */
-  variant?: 'outline' | 'ghost'
-}
+export type { ButtonObject } from './formCheckRender'
 
 export interface CxFormCheckProps
   extends Omit<
@@ -33,7 +22,7 @@ export interface CxFormCheckProps
     'checked' | 'defaultChecked' | 'onChange' | 'size'
   > {
   /**
-   * Create button-like checkboxes and radio buttons.
+   * Create button-like checkboxes.
    */
   button?: ButtonObject
   /**
@@ -45,7 +34,8 @@ export interface CxFormCheckProps
    */
   context?: ContextColor
   /**
-   * Whether the input is selected, uncontrolled.
+   * Whether the checkbox is selected, uncontrolled. Ignored when rendered inside a `<CxFormCheckGroup>` —
+   * the group's `value`/`defaultValue` owns selection there.
    */
   defaultSelected?: boolean
   /**
@@ -53,7 +43,7 @@ export interface CxFormCheckProps
    */
   id?: string
   /**
-   * Input Checkbox indeterminate Property. Only applies to `type="checkbox"`.
+   * Checkbox indeterminate property.
    */
   indeterminate?: boolean
   /**
@@ -61,7 +51,8 @@ export interface CxFormCheckProps
    */
   invalid?: boolean
   /**
-   * Whether the input is selected, controlled.
+   * Whether the checkbox is selected, controlled. Ignored when rendered inside a `<CxFormCheckGroup>` —
+   * the group's `value`/`defaultValue` owns selection there.
    */
   isSelected?: boolean
   /**
@@ -69,7 +60,8 @@ export interface CxFormCheckProps
    */
   label?: string | ReactNode
   /**
-   * Callback fired when the selected state changes.
+   * Callback fired when the selected state changes. Ignored when rendered inside a `<CxFormCheckGroup>` —
+   * use the group's `onChange` instead.
    */
   onChange?: (isSelected: boolean) => void
   /**
@@ -77,20 +69,21 @@ export interface CxFormCheckProps
    */
   size?: 'small' | 'large'
   /**
-   * Specifies the type of component.
-   */
-  type?: 'checkbox' | 'radio'
-  /**
    * Set component validation state to valid.
    */
   valid?: boolean
+  /**
+   * The value of the checkbox, used when submitting an HTML form. Required when rendered inside a
+   * `<CxFormCheckGroup>` — it identifies this item within the group's selected values.
+   */
+  value?: string
 }
 
-export const CxFormCheck = forwardRef<HTMLInputElement, CxFormCheckProps>(
+const CxFormCheckStandalone = forwardRef<HTMLInputElement, CxFormCheckProps>(
   (
     {
-      className,
       button,
+      className,
       context,
       defaultSelected,
       disabled,
@@ -101,7 +94,6 @@ export const CxFormCheck = forwardRef<HTMLInputElement, CxFormCheckProps>(
       label,
       onChange,
       size,
-      type = 'checkbox',
       valid,
       ...rest
     },
@@ -109,21 +101,15 @@ export const CxFormCheck = forwardRef<HTMLInputElement, CxFormCheckProps>(
   ) => {
     const inputRef = useRef<HTMLInputElement>(null)
     const forkedRef = useForkedRef(ref, inputRef)
-    const isCheckbox = type === 'checkbox'
 
-    // Radios stay on native semantics — react-aria's radio hooks (useRadioGroupState/useRadio)
-    // require a grouped API that doesn't fit CxFormCheck's flat, ungrouped design (no
-    // CxFormRadioGroup wrapper exists). They still share the same
-    // isSelected/defaultSelected/onChange(boolean) shape as checkboxes, translated from the
-    // native change event, so both types have one consistent public API.
     const toggleState = useToggleState({
       defaultSelected,
       isDisabled: disabled,
       isSelected,
-      onChange: isCheckbox ? onChange : undefined,
+      onChange,
     })
 
-    const { inputProps: checkboxProps } = useCheckbox(
+    const { inputProps } = useCheckbox(
       {
         ...rest,
         children: label,
@@ -135,72 +121,99 @@ export const CxFormCheck = forwardRef<HTMLInputElement, CxFormCheckProps>(
       inputRef,
     )
 
-    const radioProps = {
-      ...rest,
-      checked: isSelected,
-      defaultChecked: defaultSelected,
-      disabled,
-      onChange: onChange
-        ? (event: React.ChangeEvent<HTMLInputElement>) => onChange(event.target.checked)
-        : undefined,
-      type: 'radio' as const,
-    }
+    const inputClassName = classNames({ 'is-invalid': invalid, 'is-valid': valid })
 
-    const inputClassName = classNames({
-      'is-invalid': invalid,
-      'is-valid': valid,
-    })
-
-    const input = isCheckbox ? (
-      <input {...checkboxProps} className={inputClassName} id={id} ref={forkedRef} />
-    ) : (
-      <input {...radioProps} className={inputClassName} id={id} ref={forkedRef} />
-    )
-
-    if (button) {
-      const _className = classNames(
-        'button',
-        'button-check',
-        button.context,
-        button.variant,
-        button.size,
-        button.shape,
-        className,
-      )
-      return (
-        <CxFormLabel customClassName={_className}>
-          {input}
-          {label}
-        </CxFormLabel>
-      )
-    }
-
-    const checkInputClassName = classNames('check-input', context, {
-      'is-invalid': invalid,
-      'is-valid': valid,
-    })
-
-    if (!label) {
-      return <span className={checkInputClassName}>{input}</span>
-    }
-
-    const _className = classNames(
-      'form-check',
-      size,
-      {
-        'is-invalid': invalid,
-        'is-valid': valid,
-      },
+    return renderFormCheckControl({
+      button,
       className,
-    )
-
-    return (
-      <CxFormLabel customClassName={_className}>
-        <span className={checkInputClassName}>{input}</span>
-        {label}
-      </CxFormLabel>
-    )
+      context,
+      input: <input {...inputProps} className={inputClassName} id={id} ref={forkedRef} />,
+      invalid,
+      label,
+      size,
+      valid,
+    })
   },
 )
+CxFormCheckStandalone.displayName = 'CxFormCheckStandalone'
+
+interface CxFormCheckGroupItemProps extends CxFormCheckProps {
+  groupState: CheckboxGroupState
+}
+
+const CxFormCheckGroupItem = forwardRef<HTMLInputElement, CxFormCheckGroupItemProps>(
+  (
+    {
+      button,
+      className,
+      context,
+      defaultSelected: _defaultSelected,
+      disabled,
+      groupState,
+      id,
+      indeterminate,
+      invalid,
+      isSelected: _isSelected,
+      label,
+      onChange: _onChange,
+      size,
+      valid,
+      ...rest
+    },
+    ref,
+  ) => {
+    const inputRef = useRef<HTMLInputElement>(null)
+    const forkedRef = useForkedRef(ref, inputRef)
+
+    if (!rest.value) {
+      // eslint-disable-next-line no-console
+      console.error(
+        'CxFormCheck: a `value` prop is required when rendered inside a CxFormCheckGroup.',
+      )
+    }
+    if (_defaultSelected !== undefined || _isSelected !== undefined || _onChange !== undefined) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        'CxFormCheck: `defaultSelected`, `isSelected`, and `onChange` are ignored inside a ' +
+          "CxFormCheckGroup — selection is owned by the group's `value`/`defaultValue`/`onChange`.",
+      )
+    }
+
+    const { inputProps } = useCheckboxGroupItem(
+      {
+        ...rest,
+        children: label,
+        isDisabled: disabled,
+        isIndeterminate: indeterminate,
+        value: rest.value as string,
+      } as AriaCheckboxGroupItemProps,
+      groupState,
+      inputRef,
+    )
+
+    const inputClassName = classNames({ 'is-invalid': invalid, 'is-valid': valid })
+
+    return renderFormCheckControl({
+      button,
+      className,
+      context,
+      input: <input {...inputProps} className={inputClassName} id={id} ref={forkedRef} />,
+      invalid,
+      label,
+      size,
+      valid,
+    })
+  },
+)
+CxFormCheckGroupItem.displayName = 'CxFormCheckGroupItem'
+
+export const CxFormCheck = forwardRef<HTMLInputElement, CxFormCheckProps>((props, ref) => {
+  const groupState = useContext(CxCheckboxGroupContext)
+  return groupState ? (
+    <CxFormCheckGroupItem {...props} groupState={groupState} ref={ref} />
+  ) : (
+    <CxFormCheckStandalone {...props} ref={ref} />
+  )
+})
 
 CxFormCheck.displayName = 'CxFormCheck'

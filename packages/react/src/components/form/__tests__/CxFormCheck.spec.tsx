@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 
-import { CxFormCheck } from '../../../index'
+import { CxFormCheck, CxFormCheckGroup } from '../../../index'
 
 test('loads and displays CxFormCheck component', async () => {
   const { container } = render(<CxFormCheck />)
@@ -10,12 +10,12 @@ test('loads and displays CxFormCheck component', async () => {
 
 test('CxFormCheck customize button=false', async () => {
   const { container } = render(
-    <CxFormCheck className="bazinga" context="secondary" id="id" label="label" type="radio" />,
+    <CxFormCheck className="bazinga" context="secondary" id="id" label="label" />,
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')
   expect(container.firstChild).toHaveClass('form-check')
-  const checkInput = screen.getByRole('radio').parentElement
+  const checkInput = screen.getByRole('checkbox').parentElement
   expect(checkInput).toHaveClass('check-input')
   expect(checkInput).toHaveClass('secondary')
 })
@@ -27,7 +27,6 @@ test('CxFormCheck customize button=true', async () => {
       className="bazinga"
       id="id"
       label="label"
-      type="radio"
     />,
   )
   expect(container).toMatchSnapshot()
@@ -62,20 +61,20 @@ test('indeterminate is synced onto the native input by the checkbox hook', () =>
   expect(input.indeterminate).toBe(true)
 })
 
-test('a radio shares the same isSelected/defaultSelected/onChange(boolean) shape, translated from the native event', () => {
+test('inside a CxFormCheckGroup, selection is owned by the group and reported via its onChange', () => {
   const onChange = jest.fn()
   render(
-    <CxFormCheck
-      aria-label="Option A"
-      defaultSelected={false}
-      name="options"
-      onChange={onChange}
-      type="radio"
-    />,
+    <CxFormCheckGroup aria-label="Notifications" defaultValue={['email']} onChange={onChange}>
+      <CxFormCheck value="email" label="Email" />
+      <CxFormCheck value="sms" label="SMS" />
+    </CxFormCheckGroup>,
   )
-  const input = screen.getByRole('radio')
-  expect(input).not.toBeChecked()
-  fireEvent.click(input)
-  expect(input).toBeChecked()
-  expect(onChange).toHaveBeenCalledWith(true)
+  const email = screen.getByRole('checkbox', { name: 'Email' })
+  const sms = screen.getByRole('checkbox', { name: 'SMS' })
+  expect(email).toBeChecked()
+  expect(sms).not.toBeChecked()
+
+  fireEvent.click(sms)
+  expect(onChange).toHaveBeenCalledWith(['email', 'sms'])
+  expect(sms).toBeChecked()
 })

@@ -1,0 +1,40 @@
+import * as React from 'react'
+import { render, screen } from '@testing-library/react'
+
+import { CxFormCheck, CxFormCheckGroup } from '../../../index'
+
+test('loads and displays CxFormCheckGroup component', async () => {
+  const { container } = render(
+    <CxFormCheckGroup label="Notifications" defaultValue={['email']}>
+      <CxFormCheck value="email" label="Email" />
+      <CxFormCheck value="sms" label="SMS" />
+    </CxFormCheckGroup>,
+  )
+  expect(container).toMatchSnapshot()
+})
+
+test('renders a fieldset/legend wired up with the group role and description', () => {
+  render(
+    <CxFormCheckGroup
+      label="Notifications"
+      description="Choose as many as you like."
+      defaultValue={[]}
+    >
+      <CxFormCheck value="email" label="Email" />
+    </CxFormCheckGroup>,
+  )
+  const group = screen.getByRole('group', { name: 'Notifications' })
+  expect(group.tagName).toBe('FIELDSET')
+  expect(screen.getByText('Notifications').tagName).toBe('LEGEND')
+  expect(group).toHaveAccessibleDescription('Choose as many as you like.')
+})
+
+test('invalid group renders the error message and is-invalid class', () => {
+  render(
+    <CxFormCheckGroup label="Notifications" invalid errorMessage="Choose at least one.">
+      <CxFormCheck value="email" label="Email" />
+    </CxFormCheckGroup>,
+  )
+  expect(screen.getByText('Choose at least one.')).toHaveClass('invalid-feedback')
+  expect(screen.getByRole('group')).toHaveClass('is-invalid')
+})

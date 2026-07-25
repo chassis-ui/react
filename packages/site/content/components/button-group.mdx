@@ -8,6 +8,8 @@ toc: true
 
 import { NestedMenuExample } from '../../src/examples/button-group/NestedMenuExample.tsx'
 import { VerticalMenuExample } from '../../src/examples/button-group/VerticalMenuExample.tsx'
+import { RadioToggleButtonGroupExample } from '../../src/examples/button-group/RadioToggleButtonGroupExample.tsx'
+import { VerticalRadioToggleButtonGroupExample } from '../../src/examples/button-group/VerticalRadioToggleButtonGroupExample.tsx'
 
 import {
   CxButtonGroup,
@@ -107,32 +109,7 @@ Combine button-like checkbox and radio toggle buttons into a seamless looking bu
 </Example>
 
 <Example>
-  <CxButtonGroup role="group" aria-label="Basic checkbox toggle button group">
-    <CxFormCheck
-      type="radio"
-      button={{ context: 'primary', variant: 'outline' }}
-      name="btnradio"
-      id="btnradio1"
-      autoComplete="off"
-      label="Radio 1"
-    />
-    <CxFormCheck
-      type="radio"
-      button={{ context: 'primary', variant: 'outline' }}
-      name="btnradio"
-      id="btnradio2"
-      autoComplete="off"
-      label="Radio 2"
-    />
-    <CxFormCheck
-      type="radio"
-      button={{ context: 'primary', variant: 'outline' }}
-      name="btnradio"
-      id="btnradio3"
-      autoComplete="off"
-      label="Radio 3"
-    />
-  </CxButtonGroup>
+  <RadioToggleButtonGroupExample client:load />
 </Example>
 
 ## Button toolbar
@@ -286,33 +263,7 @@ Create a set of buttons that appear vertically stacked rather than horizontally.
 </Example>
 
 <Example>
-  <CxButtonGroup vertical role="group" aria-label="Vertical button group">
-    <CxFormCheck
-      type="radio"
-      button={{ context: 'danger', variant: 'outline' }}
-      name="vbtnradio"
-      id="vbtnradio1"
-      autoComplete="off"
-      label="Radio 1"
-      defaultSelected
-    />
-    <CxFormCheck
-      type="radio"
-      button={{ context: 'danger', variant: 'outline' }}
-      name="vbtnradio"
-      id="vbtnradio2"
-      autoComplete="off"
-      label="Radio 2"
-    />
-    <CxFormCheck
-      type="radio"
-      button={{ context: 'danger', variant: 'outline' }}
-      name="vbtnradio"
-      id="vbtnradio3"
-      autoComplete="off"
-      label="Radio 3"
-    />
-  </CxButtonGroup>
+  <VerticalRadioToggleButtonGroupExample client:load />
 </Example>
 
 ## API
