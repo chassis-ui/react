@@ -1,7 +1,7 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-export interface CDrawerTitleProps extends HTMLAttributes<HTMLHeadingElement> {
+export interface CxDrawerTitleProps extends HTMLAttributes<HTMLHeadingElement> {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -12,7 +12,7 @@ export interface CDrawerTitleProps extends HTMLAttributes<HTMLHeadingElement> {
   component?: string | ElementType
 }
 
-export const CxDrawerTitle = forwardRef<HTMLHeadElement, CDrawerTitleProps>(
+export const CxDrawerTitle = forwardRef<HTMLHeadElement, CxDrawerTitleProps>(
   ({ children, component: Component = 'h2', className, ...rest }, ref) => {
     const _className = classNames('drawer-title', className)
 

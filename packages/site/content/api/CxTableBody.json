@@ -11,12 +11,12 @@
       "name": "children",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/table/CxTableBody.tsx",
-        "name": "CTableBodyProps"
+        "name": "CxTableBodyProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/table/CxTableBody.tsx",
-          "name": "CTableBodyProps"
+          "name": "CxTableBodyProps"
         }
       ],
       "required": true,
@@ -30,12 +30,12 @@
       "name": "items",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/table/CxTableBody.tsx",
-        "name": "CTableBodyProps"
+        "name": "CxTableBodyProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/table/CxTableBody.tsx",
-          "name": "CTableBodyProps"
+          "name": "CxTableBodyProps"
         }
       ],
       "required": false,

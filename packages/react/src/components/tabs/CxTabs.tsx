@@ -8,10 +8,10 @@ import React, {
 } from 'react'
 import { Item, Key, TabListState, useTabListState } from 'react-stately'
 
-import { CTabProps } from './CxTab'
+import { CxTabProps } from './CxTab'
 import { CxTabList } from './CxTabList'
 
-export interface CTabsProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onSelect'> {
+export interface CxTabsProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onSelect'> {
   /**
    * A `CxTabList` (containing `CxTab` children) followed by one `CxTabPanel` per tab.
    */
@@ -47,15 +47,15 @@ export interface CTabsProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onSele
   selectedKey?: Key
 }
 
-export interface CTabsContextValue {
+export interface CxTabsContextValue {
   keyboardActivation?: 'automatic' | 'manual'
   orientation?: 'horizontal' | 'vertical'
-  state: TabListState<ReactElement<CTabProps>>
+  state: TabListState<ReactElement<CxTabProps>>
 }
 
-export const CTabsContext = createContext<CTabsContextValue | null>(null)
+export const CTabsContext = createContext<CxTabsContextValue | null>(null)
 
-export const useCxTabsContext = (): CTabsContextValue => {
+export const useCxTabsContext = (): CxTabsContextValue => {
   const context = useContext(CTabsContext)
   if (!context) {
     throw new Error('CxTabList and CxTabPanel must be rendered inside a CxTabs')
@@ -63,7 +63,7 @@ export const useCxTabsContext = (): CTabsContextValue => {
   return context
 }
 
-export const CxTabs = forwardRef<HTMLDivElement, CTabsProps>(
+export const CxTabs = forwardRef<HTMLDivElement, CxTabsProps>(
   (
     {
       children,
@@ -91,14 +91,14 @@ export const CxTabs = forwardRef<HTMLDivElement, CTabsProps>(
     const panelChildren = childArray.filter((child) => child !== tabListChild)
     const tabs = (
       tabListChild ? React.Children.toArray(tabListChild.props.children) : []
-    ).filter((child): child is ReactElement<CTabProps> => React.isValidElement(child))
+    ).filter((child): child is ReactElement<CxTabProps> => React.isValidElement(child))
 
     const tabDisabledKeys = tabs.filter((tab) => tab.props.disabled).map((tab) => tab.props.id)
     const allDisabledKeys = disabledKeys
       ? [...disabledKeys, ...tabDisabledKeys]
       : tabDisabledKeys
 
-    const state = useTabListState<ReactElement<CTabProps>>({
+    const state = useTabListState<ReactElement<CxTabProps>>({
       children: (tab) => (
         <Item
           key={tab.props.id}

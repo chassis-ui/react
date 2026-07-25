@@ -3,7 +3,7 @@ import classNames from 'classnames'
 
 import { ContextColor } from '../Types'
 
-export interface CPlaceholderProps extends HTMLAttributes<HTMLSpanElement> {
+export interface CxPlaceholderProps extends HTMLAttributes<HTMLSpanElement> {
   /**
    * Set animation type to better convey the perception of something being actively loaded.
    */
@@ -68,7 +68,7 @@ const BP_NAME: Record<string, string> = {
   xs: '',
 }
 
-export const CxPlaceholder = forwardRef<HTMLSpanElement, CPlaceholderProps>(
+export const CxPlaceholder = forwardRef<HTMLSpanElement, CxPlaceholderProps>(
   (
     { children, animation, className, context, component: Component = 'span', size, ...rest },
     ref,

@@ -5,7 +5,7 @@ import { Key } from 'react-stately'
 
 import { useCxTabsContext } from './CxTabs'
 
-export interface CTabPanelProps extends Omit<HTMLAttributes<HTMLDivElement>, 'id'> {
+export interface CxTabPanelProps extends Omit<HTMLAttributes<HTMLDivElement>, 'id'> {
   /**
    * Content of the panel, shown while the `CxTab` of the same `id` is selected.
    */
@@ -22,7 +22,7 @@ export interface CTabPanelProps extends Omit<HTMLAttributes<HTMLDivElement>, 'id
 
 // The counterpart to `CxTab` — unlike `CxTab`, `CxTabPanel` renders for real, but only while its
 // `id` matches the currently selected tab.
-export const CxTabPanel = ({ children, className, id, ...rest }: CTabPanelProps) => {
+export const CxTabPanel = ({ children, className, id, ...rest }: CxTabPanelProps) => {
   const { state } = useCxTabsContext()
   const ref = useRef<HTMLDivElement>(null)
   const { tabPanelProps } = useTabPanel({ id }, state, ref)

@@ -3,7 +3,7 @@ import classNames from 'classnames'
 
 import { CxToastClose } from './CxToastClose'
 
-export interface CToastHeaderProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
+export interface CxToastHeaderProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -14,7 +14,7 @@ export interface CToastHeaderProps extends Omit<HTMLAttributes<HTMLDivElement>, 
   closeButton?: boolean
 }
 
-export const CxToastHeader = forwardRef<HTMLDivElement, CToastHeaderProps>(
+export const CxToastHeader = forwardRef<HTMLDivElement, CxToastHeaderProps>(
   ({ children, className, closeButton, ...rest }, ref) => {
     const _className = classNames('toast-header', className)
     return (

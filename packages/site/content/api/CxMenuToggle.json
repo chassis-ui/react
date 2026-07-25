@@ -11,12 +11,12 @@
       "name": "active",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
-        "name": "CButtonProps"
+        "name": "CxButtonProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
-          "name": "CButtonProps"
+          "name": "CxButtonProps"
         }
       ],
       "required": false,
@@ -30,12 +30,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
-        "name": "CButtonProps"
+        "name": "CxButtonProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
-          "name": "CButtonProps"
+          "name": "CxButtonProps"
         }
       ],
       "required": false,
@@ -49,12 +49,12 @@
       "name": "context",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
-        "name": "CButtonProps"
+        "name": "CxButtonProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
-          "name": "CButtonProps"
+          "name": "CxButtonProps"
         }
       ],
       "required": false,
@@ -104,12 +104,12 @@
       "name": "component",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
-        "name": "CButtonProps"
+        "name": "CxButtonProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
-          "name": "CButtonProps"
+          "name": "CxButtonProps"
         }
       ],
       "required": false,
@@ -123,12 +123,12 @@
       "name": "disabled",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
-        "name": "CButtonProps"
+        "name": "CxButtonProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
-          "name": "CButtonProps"
+          "name": "CxButtonProps"
         }
       ],
       "required": false,
@@ -142,12 +142,12 @@
       "name": "href",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
-        "name": "CButtonProps"
+        "name": "CxButtonProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
-          "name": "CButtonProps"
+          "name": "CxButtonProps"
         }
       ],
       "required": false,
@@ -161,12 +161,12 @@
       "name": "role",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
-        "name": "CButtonProps"
+        "name": "CxButtonProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
-          "name": "CButtonProps"
+          "name": "CxButtonProps"
         }
       ],
       "required": false,
@@ -180,12 +180,12 @@
       "name": "shape",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
-        "name": "CButtonProps"
+        "name": "CxButtonProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
-          "name": "CButtonProps"
+          "name": "CxButtonProps"
         }
       ],
       "required": false,
@@ -235,12 +235,12 @@
       "name": "size",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
-        "name": "CButtonProps"
+        "name": "CxButtonProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
-          "name": "CButtonProps"
+          "name": "CxButtonProps"
         }
       ],
       "required": false,
@@ -263,12 +263,12 @@
       "name": "variant",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
-        "name": "CButtonProps"
+        "name": "CxButtonProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/button/CxButton.tsx",
-          "name": "CButtonProps"
+          "name": "CxButtonProps"
         }
       ],
       "required": false,

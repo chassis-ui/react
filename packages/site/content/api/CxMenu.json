@@ -13,12 +13,12 @@
       "name": "autoClose",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
-        "name": "CMenuProps"
+        "name": "CxMenuProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
-          "name": "CMenuProps"
+          "name": "CxMenuProps"
         }
       ],
       "required": false,
@@ -32,12 +32,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
-        "name": "CMenuProps"
+        "name": "CxMenuProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
-          "name": "CMenuProps"
+          "name": "CxMenuProps"
         }
       ],
       "required": false,
@@ -53,12 +53,12 @@
       "name": "component",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
-        "name": "CMenuProps"
+        "name": "CxMenuProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
-          "name": "CMenuProps"
+          "name": "CxMenuProps"
         }
       ],
       "required": false,
@@ -72,12 +72,12 @@
       "name": "container",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
-        "name": "CMenuProps"
+        "name": "CxMenuProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
-          "name": "CMenuProps"
+          "name": "CxMenuProps"
         }
       ],
       "required": false,
@@ -93,12 +93,12 @@
       "name": "offset",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
-        "name": "CMenuProps"
+        "name": "CxMenuProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
-          "name": "CMenuProps"
+          "name": "CxMenuProps"
         }
       ],
       "required": false,
@@ -112,12 +112,12 @@
       "name": "onHide",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
-        "name": "CMenuProps"
+        "name": "CxMenuProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
-          "name": "CMenuProps"
+          "name": "CxMenuProps"
         }
       ],
       "required": false,
@@ -131,12 +131,12 @@
       "name": "onHidden",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
-        "name": "CMenuProps"
+        "name": "CxMenuProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
-          "name": "CMenuProps"
+          "name": "CxMenuProps"
         }
       ],
       "required": false,
@@ -150,12 +150,12 @@
       "name": "onShow",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
-        "name": "CMenuProps"
+        "name": "CxMenuProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
-          "name": "CMenuProps"
+          "name": "CxMenuProps"
         }
       ],
       "required": false,
@@ -169,12 +169,12 @@
       "name": "onShown",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
-        "name": "CMenuProps"
+        "name": "CxMenuProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
-          "name": "CMenuProps"
+          "name": "CxMenuProps"
         }
       ],
       "required": false,
@@ -190,12 +190,12 @@
       "name": "placement",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
-        "name": "CMenuProps"
+        "name": "CxMenuProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
-          "name": "CMenuProps"
+          "name": "CxMenuProps"
         }
       ],
       "required": false,
@@ -211,12 +211,12 @@
       "name": "reference",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
-        "name": "CMenuProps"
+        "name": "CxMenuProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
-          "name": "CMenuProps"
+          "name": "CxMenuProps"
         }
       ],
       "required": false,
@@ -239,12 +239,12 @@
       "name": "visible",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
-        "name": "CMenuProps"
+        "name": "CxMenuProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/menu/CxMenu.tsx",
-          "name": "CMenuProps"
+          "name": "CxMenuProps"
         }
       ],
       "required": false,

@@ -7,7 +7,7 @@ import { CMenuContext } from './CxMenu'
 import { focusMenuItem, getMenuItems, handleMenuKeyDown } from './menuNavigation'
 import { SubmenuGroupContext, useSubmenuGroupProvider } from './submenuGroup'
 
-export interface CMenuListProps extends HTMLAttributes<HTMLElement> {
+export interface CxMenuListProps extends HTMLAttributes<HTMLElement> {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -18,7 +18,7 @@ export interface CMenuListProps extends HTMLAttributes<HTMLElement> {
   component?: string | ElementType
 }
 
-export const CxMenuList = forwardRef<HTMLElement, CMenuListProps>(
+export const CxMenuList = forwardRef<HTMLElement, CxMenuListProps>(
   ({ children, className, component: Component = 'div', onKeyDown, ...rest }, ref) => {
     const {
       close,

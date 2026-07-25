@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/card/CxCardBody.tsx",
-        "name": "CCardBodyProps"
+        "name": "CxCardBodyProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/card/CxCardBody.tsx",
-          "name": "CCardBodyProps"
+          "name": "CxCardBodyProps"
         }
       ],
       "required": false,

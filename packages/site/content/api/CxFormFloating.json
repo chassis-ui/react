@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormFloating.tsx",
-        "name": "CFormFloatingProps"
+        "name": "CxFormFloatingProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormFloating.tsx",
-          "name": "CFormFloatingProps"
+          "name": "CxFormFloatingProps"
         }
       ],
       "required": false,

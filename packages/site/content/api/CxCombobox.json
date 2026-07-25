@@ -11,12 +11,12 @@
       "name": "aria-label",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
-        "name": "CComboboxProps"
+        "name": "CxComboboxProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
-          "name": "CComboboxProps"
+          "name": "CxComboboxProps"
         }
       ],
       "required": false,
@@ -30,12 +30,12 @@
       "name": "aria-labelledby",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
-        "name": "CComboboxProps"
+        "name": "CxComboboxProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
-          "name": "CComboboxProps"
+          "name": "CxComboboxProps"
         }
       ],
       "required": false,
@@ -49,12 +49,12 @@
       "name": "children",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
-        "name": "CComboboxProps"
+        "name": "CxComboboxProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
-          "name": "CComboboxProps"
+          "name": "CxComboboxProps"
         }
       ],
       "required": true,
@@ -68,12 +68,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
-        "name": "CComboboxProps"
+        "name": "CxComboboxProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
-          "name": "CComboboxProps"
+          "name": "CxComboboxProps"
         }
       ],
       "required": false,
@@ -87,12 +87,12 @@
       "name": "defaultValue",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
-        "name": "CComboboxProps"
+        "name": "CxComboboxProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
-          "name": "CComboboxProps"
+          "name": "CxComboboxProps"
         }
       ],
       "required": false,
@@ -106,12 +106,12 @@
       "name": "disabled",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
-        "name": "CComboboxProps"
+        "name": "CxComboboxProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
-          "name": "CComboboxProps"
+          "name": "CxComboboxProps"
         }
       ],
       "required": false,
@@ -125,12 +125,12 @@
       "name": "id",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
-        "name": "CComboboxProps"
+        "name": "CxComboboxProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
-          "name": "CComboboxProps"
+          "name": "CxComboboxProps"
         }
       ],
       "required": false,
@@ -144,12 +144,12 @@
       "name": "name",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
-        "name": "CComboboxProps"
+        "name": "CxComboboxProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
-          "name": "CComboboxProps"
+          "name": "CxComboboxProps"
         }
       ],
       "required": false,
@@ -165,12 +165,12 @@
       "name": "noResultsText",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
-        "name": "CComboboxProps"
+        "name": "CxComboboxProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
-          "name": "CComboboxProps"
+          "name": "CxComboboxProps"
         }
       ],
       "required": false,
@@ -184,12 +184,12 @@
       "name": "onChange",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
-        "name": "CComboboxProps"
+        "name": "CxComboboxProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
-          "name": "CComboboxProps"
+          "name": "CxComboboxProps"
         }
       ],
       "required": false,
@@ -203,12 +203,12 @@
       "name": "placeholder",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
-        "name": "CComboboxProps"
+        "name": "CxComboboxProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
-          "name": "CComboboxProps"
+          "name": "CxComboboxProps"
         }
       ],
       "required": false,
@@ -222,12 +222,12 @@
       "name": "size",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
-        "name": "CComboboxProps"
+        "name": "CxComboboxProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
-          "name": "CComboboxProps"
+          "name": "CxComboboxProps"
         }
       ],
       "required": false,
@@ -250,12 +250,12 @@
       "name": "value",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
-        "name": "CComboboxProps"
+        "name": "CxComboboxProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
-          "name": "CComboboxProps"
+          "name": "CxComboboxProps"
         }
       ],
       "required": false,

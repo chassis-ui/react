@@ -3,7 +3,7 @@ import classNames from 'classnames'
 
 import { ContextColor, ContextStyle, Sizing } from '../Types'
 
-export interface CBadgeProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElement> {
+export interface CxBadgeProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElement> {
   /**
    * A string of all className you want applied to the component.
    */
@@ -33,7 +33,7 @@ export interface CBadgeProps extends HTMLAttributes<HTMLDivElement | HTMLSpanEle
    */
   size?: Sizing
 }
-export const CxBadge = forwardRef<HTMLDivElement | HTMLSpanElement, CBadgeProps>(
+export const CxBadge = forwardRef<HTMLDivElement | HTMLSpanElement, CxBadgeProps>(
   (
     {
       children,

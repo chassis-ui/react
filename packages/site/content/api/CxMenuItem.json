@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/menu/CxMenuItem.tsx",
-        "name": "CMenuItemProps"
+        "name": "CxMenuItemProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/menu/CxMenuItem.tsx",
-          "name": "CMenuItemProps"
+          "name": "CxMenuItemProps"
         }
       ],
       "required": false,
@@ -32,12 +32,12 @@
       "name": "component",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/menu/CxMenuItem.tsx",
-        "name": "CMenuItemProps"
+        "name": "CxMenuItemProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/menu/CxMenuItem.tsx",
-          "name": "CMenuItemProps"
+          "name": "CxMenuItemProps"
         }
       ],
       "required": false,
@@ -51,12 +51,12 @@
       "name": "selected",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/menu/CxMenuItem.tsx",
-        "name": "CMenuItemProps"
+        "name": "CxMenuItemProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/menu/CxMenuItem.tsx",
-          "name": "CMenuItemProps"
+          "name": "CxMenuItemProps"
         }
       ],
       "required": false,
@@ -70,12 +70,12 @@
       "name": "active",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/link/CxLink.tsx",
-        "name": "CLinkProps"
+        "name": "CxLinkProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/link/CxLink.tsx",
-          "name": "CLinkProps"
+          "name": "CxLinkProps"
         }
       ],
       "required": false,
@@ -89,12 +89,12 @@
       "name": "disabled",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/link/CxLink.tsx",
-        "name": "CLinkProps"
+        "name": "CxLinkProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/link/CxLink.tsx",
-          "name": "CLinkProps"
+          "name": "CxLinkProps"
         }
       ],
       "required": false,
@@ -108,12 +108,12 @@
       "name": "href",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/link/CxLink.tsx",
-        "name": "CLinkProps"
+        "name": "CxLinkProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/link/CxLink.tsx",
-          "name": "CLinkProps"
+          "name": "CxLinkProps"
         }
       ],
       "required": false,

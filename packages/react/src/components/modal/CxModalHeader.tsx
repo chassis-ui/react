@@ -3,7 +3,7 @@ import { CModalContext } from './CxModal'
 import { CxCloseButton } from '../close-button/CxCloseButton'
 import classNames from 'classnames'
 
-export interface CModalHeaderProps extends HTMLAttributes<HTMLDivElement> {
+export interface CxModalHeaderProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -14,7 +14,7 @@ export interface CModalHeaderProps extends HTMLAttributes<HTMLDivElement> {
   closeButton?: boolean
 }
 
-export const CxModalHeader = forwardRef<HTMLDivElement, CModalHeaderProps>(
+export const CxModalHeader = forwardRef<HTMLDivElement, CxModalHeaderProps>(
   ({ children, className, closeButton = true, ...rest }, ref) => {
     const { requestClose } = useContext(CModalContext)
     const _className = classNames('modal-header', className)

@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 import { Key } from 'react-stately'
 
-export interface CTabProps {
+export interface CxTabProps {
   /**
    * Label content for the tab. Must be a plain string for the tab to participate in typeahead.
    */
@@ -30,6 +30,6 @@ export interface CTabProps {
 //
 // `id` (not React's own `key`) is what pairs a tab with its panel — still give each `CxTab`/
 // `CxTabPanel` a React `key` too, as you would for any list.
-export const CxTab = (_props: CTabProps): null => null
+export const CxTab = (_props: CxTabProps): null => null
 
 CxTab.displayName = 'CxTab'

@@ -1,7 +1,7 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-export interface CCardTextProps extends HTMLAttributes<HTMLParagraphElement> {
+export interface CxCardTextProps extends HTMLAttributes<HTMLParagraphElement> {
   /**
    * A string of all className you want applied to the component.
    */
@@ -12,7 +12,7 @@ export interface CCardTextProps extends HTMLAttributes<HTMLParagraphElement> {
   component?: string | ElementType
 }
 
-export const CxCardText = forwardRef<HTMLParagraphElement, CCardTextProps>(
+export const CxCardText = forwardRef<HTMLParagraphElement, CxCardTextProps>(
   ({ children, component: Component = 'p', className, ...rest }, ref) => {
     const _className = classNames('card-text', className)
 

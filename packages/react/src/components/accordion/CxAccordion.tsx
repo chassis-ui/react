@@ -1,7 +1,7 @@
 import React, { createContext, forwardRef, HTMLAttributes, useId } from 'react'
 import classNames from 'classnames'
 
-export interface CAccordionProps extends HTMLAttributes<HTMLDivElement> {
+export interface CxAccordionProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * Make accordion items stay open when another item is opened.
    */
@@ -16,14 +16,14 @@ export interface CAccordionProps extends HTMLAttributes<HTMLDivElement> {
   flush?: boolean
 }
 
-export interface CAccordionContextProps {
+export interface CxAccordionContextProps {
   alwaysOpen?: boolean
   name: string
 }
 
-export const CAccordionContext = createContext({} as CAccordionContextProps)
+export const CAccordionContext = createContext({} as CxAccordionContextProps)
 
-export const CxAccordion = forwardRef<HTMLDivElement, CAccordionProps>(
+export const CxAccordion = forwardRef<HTMLDivElement, CxAccordionProps>(
   ({ children, alwaysOpen = false, className, flush, ...rest }, ref) => {
     const name = useId()
     const _className = classNames('accordion', { 'accordion-flush': flush }, className)

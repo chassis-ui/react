@@ -3,7 +3,7 @@ import classNames from 'classnames'
 
 import { ContextColor } from '../Types'
 
-export interface CCardProps extends HTMLAttributes<HTMLDivElement> {
+export interface CxCardProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -20,7 +20,7 @@ export interface CCardProps extends HTMLAttributes<HTMLDivElement> {
   textColor?: string
 }
 
-export const CxCard = forwardRef<HTMLDivElement, CCardProps>(
+export const CxCard = forwardRef<HTMLDivElement, CxCardProps>(
   ({ children, className, context, textColor, ...rest }, ref) => {
     const _className = classNames(
       'card',

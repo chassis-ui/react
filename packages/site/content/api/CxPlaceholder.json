@@ -11,12 +11,12 @@
       "name": "animation",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/placeholder/CxPlaceholder.tsx",
-        "name": "CPlaceholderProps"
+        "name": "CxPlaceholderProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/placeholder/CxPlaceholder.tsx",
-          "name": "CPlaceholderProps"
+          "name": "CxPlaceholderProps"
         }
       ],
       "required": false,
@@ -39,12 +39,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/placeholder/CxPlaceholder.tsx",
-        "name": "CPlaceholderProps"
+        "name": "CxPlaceholderProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/placeholder/CxPlaceholder.tsx",
-          "name": "CPlaceholderProps"
+          "name": "CxPlaceholderProps"
         }
       ],
       "required": false,
@@ -58,12 +58,12 @@
       "name": "context",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/placeholder/CxPlaceholder.tsx",
-        "name": "CPlaceholderProps"
+        "name": "CxPlaceholderProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/placeholder/CxPlaceholder.tsx",
-          "name": "CPlaceholderProps"
+          "name": "CxPlaceholderProps"
         }
       ],
       "required": false,
@@ -115,12 +115,12 @@
       "name": "component",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/placeholder/CxPlaceholder.tsx",
-        "name": "CPlaceholderProps"
+        "name": "CxPlaceholderProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/placeholder/CxPlaceholder.tsx",
-          "name": "CPlaceholderProps"
+          "name": "CxPlaceholderProps"
         }
       ],
       "required": false,
@@ -134,12 +134,12 @@
       "name": "size",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/placeholder/CxPlaceholder.tsx",
-        "name": "CPlaceholderProps"
+        "name": "CxPlaceholderProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/placeholder/CxPlaceholder.tsx",
-          "name": "CPlaceholderProps"
+          "name": "CxPlaceholderProps"
         }
       ],
       "required": false,
@@ -165,12 +165,12 @@
       "name": "xs",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/placeholder/CxPlaceholder.tsx",
-        "name": "CPlaceholderProps"
+        "name": "CxPlaceholderProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/placeholder/CxPlaceholder.tsx",
-          "name": "CPlaceholderProps"
+          "name": "CxPlaceholderProps"
         }
       ],
       "required": false,
@@ -184,12 +184,12 @@
       "name": "sm",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/placeholder/CxPlaceholder.tsx",
-        "name": "CPlaceholderProps"
+        "name": "CxPlaceholderProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/placeholder/CxPlaceholder.tsx",
-          "name": "CPlaceholderProps"
+          "name": "CxPlaceholderProps"
         }
       ],
       "required": false,
@@ -203,12 +203,12 @@
       "name": "md",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/placeholder/CxPlaceholder.tsx",
-        "name": "CPlaceholderProps"
+        "name": "CxPlaceholderProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/placeholder/CxPlaceholder.tsx",
-          "name": "CPlaceholderProps"
+          "name": "CxPlaceholderProps"
         }
       ],
       "required": false,
@@ -222,12 +222,12 @@
       "name": "lg",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/placeholder/CxPlaceholder.tsx",
-        "name": "CPlaceholderProps"
+        "name": "CxPlaceholderProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/placeholder/CxPlaceholder.tsx",
-          "name": "CPlaceholderProps"
+          "name": "CxPlaceholderProps"
         }
       ],
       "required": false,
@@ -241,12 +241,12 @@
       "name": "xl",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/placeholder/CxPlaceholder.tsx",
-        "name": "CPlaceholderProps"
+        "name": "CxPlaceholderProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/placeholder/CxPlaceholder.tsx",
-          "name": "CPlaceholderProps"
+          "name": "CxPlaceholderProps"
         }
       ],
       "required": false,
@@ -260,12 +260,12 @@
       "name": "xxl",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/placeholder/CxPlaceholder.tsx",
-        "name": "CPlaceholderProps"
+        "name": "CxPlaceholderProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/placeholder/CxPlaceholder.tsx",
-          "name": "CPlaceholderProps"
+          "name": "CxPlaceholderProps"
         }
       ],
       "required": false,

@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawerTitle.tsx",
-        "name": "CDrawerTitleProps"
+        "name": "CxDrawerTitleProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawerTitle.tsx",
-          "name": "CDrawerTitleProps"
+          "name": "CxDrawerTitleProps"
         }
       ],
       "required": false,
@@ -32,12 +32,12 @@
       "name": "component",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawerTitle.tsx",
-        "name": "CDrawerTitleProps"
+        "name": "CxDrawerTitleProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawerTitle.tsx",
-          "name": "CDrawerTitleProps"
+          "name": "CxDrawerTitleProps"
         }
       ],
       "required": false,

@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/badge/CxBadge.tsx",
-        "name": "CBadgeProps"
+        "name": "CxBadgeProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/badge/CxBadge.tsx",
-          "name": "CBadgeProps"
+          "name": "CxBadgeProps"
         }
       ],
       "required": false,
@@ -30,12 +30,12 @@
       "name": "context",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/badge/CxBadge.tsx",
-        "name": "CBadgeProps"
+        "name": "CxBadgeProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/badge/CxBadge.tsx",
-          "name": "CBadgeProps"
+          "name": "CxBadgeProps"
         }
       ],
       "required": false,
@@ -85,12 +85,12 @@
       "name": "variant",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/badge/CxBadge.tsx",
-        "name": "CBadgeProps"
+        "name": "CxBadgeProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/badge/CxBadge.tsx",
-          "name": "CBadgeProps"
+          "name": "CxBadgeProps"
         }
       ],
       "required": false,
@@ -121,12 +121,12 @@
       "name": "component",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/badge/CxBadge.tsx",
-        "name": "CBadgeProps"
+        "name": "CxBadgeProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/badge/CxBadge.tsx",
-          "name": "CBadgeProps"
+          "name": "CxBadgeProps"
         }
       ],
       "required": false,
@@ -140,12 +140,12 @@
       "name": "position",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/badge/CxBadge.tsx",
-        "name": "CBadgeProps"
+        "name": "CxBadgeProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/badge/CxBadge.tsx",
-          "name": "CBadgeProps"
+          "name": "CxBadgeProps"
         }
       ],
       "required": false,
@@ -174,12 +174,12 @@
       "name": "circle",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/badge/CxBadge.tsx",
-        "name": "CBadgeProps"
+        "name": "CxBadgeProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/badge/CxBadge.tsx",
-          "name": "CBadgeProps"
+          "name": "CxBadgeProps"
         }
       ],
       "required": false,
@@ -193,12 +193,12 @@
       "name": "size",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/badge/CxBadge.tsx",
-        "name": "CBadgeProps"
+        "name": "CxBadgeProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/badge/CxBadge.tsx",
-          "name": "CBadgeProps"
+          "name": "CxBadgeProps"
         }
       ],
       "required": false,

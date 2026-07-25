@@ -1,7 +1,7 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-export interface CMenuHeaderProps extends HTMLAttributes<HTMLHeadingElement> {
+export interface CxMenuHeaderProps extends HTMLAttributes<HTMLHeadingElement> {
   /**
    * A string of all className you want applied to the component.
    */
@@ -12,7 +12,7 @@ export interface CMenuHeaderProps extends HTMLAttributes<HTMLHeadingElement> {
   component?: string | ElementType
 }
 
-export const CxMenuHeader = forwardRef<HTMLHeadingElement, CMenuHeaderProps>(
+export const CxMenuHeader = forwardRef<HTMLHeadingElement, CxMenuHeaderProps>(
   ({ children, className, component: Component = 'h4', ...rest }, ref) => {
     const _className = classNames('menu-header', className)
 

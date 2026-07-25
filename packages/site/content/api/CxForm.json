@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxForm.tsx",
-        "name": "CFormProps"
+        "name": "CxFormProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxForm.tsx",
-          "name": "CFormProps"
+          "name": "CxFormProps"
         }
       ],
       "required": false,
@@ -30,12 +30,12 @@
       "name": "validated",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxForm.tsx",
-        "name": "CFormProps"
+        "name": "CxFormProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxForm.tsx",
-          "name": "CFormProps"
+          "name": "CxFormProps"
         }
       ],
       "required": false,

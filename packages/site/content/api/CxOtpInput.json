@@ -11,12 +11,12 @@
       "name": "aria-describedby",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
-        "name": "COtpInputProps"
+        "name": "CxOtpInputProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
-          "name": "COtpInputProps"
+          "name": "CxOtpInputProps"
         }
       ],
       "required": false,
@@ -30,12 +30,12 @@
       "name": "aria-label",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
-        "name": "COtpInputProps"
+        "name": "CxOtpInputProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
-          "name": "COtpInputProps"
+          "name": "CxOtpInputProps"
         }
       ],
       "required": false,
@@ -49,12 +49,12 @@
       "name": "aria-labelledby",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
-        "name": "COtpInputProps"
+        "name": "CxOtpInputProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
-          "name": "COtpInputProps"
+          "name": "CxOtpInputProps"
         }
       ],
       "required": false,
@@ -68,12 +68,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
-        "name": "COtpInputProps"
+        "name": "CxOtpInputProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
-          "name": "COtpInputProps"
+          "name": "CxOtpInputProps"
         }
       ],
       "required": false,
@@ -87,12 +87,12 @@
       "name": "defaultValue",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
-        "name": "COtpInputProps"
+        "name": "CxOtpInputProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
-          "name": "COtpInputProps"
+          "name": "CxOtpInputProps"
         }
       ],
       "required": false,
@@ -106,12 +106,12 @@
       "name": "disabled",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
-        "name": "COtpInputProps"
+        "name": "CxOtpInputProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
-          "name": "COtpInputProps"
+          "name": "CxOtpInputProps"
         }
       ],
       "required": false,
@@ -125,12 +125,12 @@
       "name": "groupSizes",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
-        "name": "COtpInputProps"
+        "name": "CxOtpInputProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
-          "name": "COtpInputProps"
+          "name": "CxOtpInputProps"
         }
       ],
       "required": false,
@@ -144,12 +144,12 @@
       "name": "id",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
-        "name": "COtpInputProps"
+        "name": "CxOtpInputProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
-          "name": "COtpInputProps"
+          "name": "CxOtpInputProps"
         }
       ],
       "required": false,
@@ -163,12 +163,12 @@
       "name": "inputGroup",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
-        "name": "COtpInputProps"
+        "name": "CxOtpInputProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
-          "name": "COtpInputProps"
+          "name": "CxOtpInputProps"
         }
       ],
       "required": false,
@@ -182,12 +182,12 @@
       "name": "invalid",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
-        "name": "COtpInputProps"
+        "name": "CxOtpInputProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
-          "name": "COtpInputProps"
+          "name": "CxOtpInputProps"
         }
       ],
       "required": false,
@@ -203,12 +203,12 @@
       "name": "length",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
-        "name": "COtpInputProps"
+        "name": "CxOtpInputProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
-          "name": "COtpInputProps"
+          "name": "CxOtpInputProps"
         }
       ],
       "required": false,
@@ -222,12 +222,12 @@
       "name": "mask",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
-        "name": "COtpInputProps"
+        "name": "CxOtpInputProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
-          "name": "COtpInputProps"
+          "name": "CxOtpInputProps"
         }
       ],
       "required": false,
@@ -241,12 +241,12 @@
       "name": "name",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
-        "name": "COtpInputProps"
+        "name": "CxOtpInputProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
-          "name": "COtpInputProps"
+          "name": "CxOtpInputProps"
         }
       ],
       "required": false,
@@ -260,12 +260,12 @@
       "name": "onChange",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
-        "name": "COtpInputProps"
+        "name": "CxOtpInputProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
-          "name": "COtpInputProps"
+          "name": "CxOtpInputProps"
         }
       ],
       "required": false,
@@ -279,12 +279,12 @@
       "name": "onComplete",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
-        "name": "COtpInputProps"
+        "name": "CxOtpInputProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
-          "name": "COtpInputProps"
+          "name": "CxOtpInputProps"
         }
       ],
       "required": false,
@@ -300,12 +300,12 @@
       "name": "separator",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
-        "name": "COtpInputProps"
+        "name": "CxOtpInputProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
-          "name": "COtpInputProps"
+          "name": "CxOtpInputProps"
         }
       ],
       "required": false,
@@ -319,12 +319,12 @@
       "name": "size",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
-        "name": "COtpInputProps"
+        "name": "CxOtpInputProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
-          "name": "COtpInputProps"
+          "name": "CxOtpInputProps"
         }
       ],
       "required": false,
@@ -347,12 +347,12 @@
       "name": "valid",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
-        "name": "COtpInputProps"
+        "name": "CxOtpInputProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
-          "name": "COtpInputProps"
+          "name": "CxOtpInputProps"
         }
       ],
       "required": false,
@@ -366,12 +366,12 @@
       "name": "value",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
-        "name": "COtpInputProps"
+        "name": "CxOtpInputProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
-          "name": "COtpInputProps"
+          "name": "CxOtpInputProps"
         }
       ],
       "required": false,

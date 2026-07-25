@@ -4,7 +4,7 @@ import classNames from 'classnames'
 
 import { useForkedRef } from '../../utils/hooks'
 
-export interface CBackdropProps extends HTMLAttributes<HTMLDivElement> {
+export interface CxBackdropProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -15,7 +15,7 @@ export interface CBackdropProps extends HTMLAttributes<HTMLDivElement> {
   visible?: boolean
 }
 
-export const CxBackdrop = forwardRef<HTMLDivElement, CBackdropProps>(
+export const CxBackdrop = forwardRef<HTMLDivElement, CxBackdropProps>(
   ({ className = 'modal-backdrop', visible, ...rest }, ref) => {
     const nodeRef = useRef<HTMLDivElement>(null)
     const forkedRef = useForkedRef(ref, nodeRef)

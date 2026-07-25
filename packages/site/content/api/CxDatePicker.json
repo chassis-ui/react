@@ -11,12 +11,12 @@
       "name": "aria-label",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
-        "name": "CDatePickerProps"
+        "name": "CxDatePickerProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
-          "name": "CDatePickerProps"
+          "name": "CxDatePickerProps"
         }
       ],
       "required": false,
@@ -30,12 +30,12 @@
       "name": "aria-labelledby",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
-        "name": "CDatePickerProps"
+        "name": "CxDatePickerProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
-          "name": "CDatePickerProps"
+          "name": "CxDatePickerProps"
         }
       ],
       "required": false,
@@ -49,12 +49,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
-        "name": "CDatePickerProps"
+        "name": "CxDatePickerProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
-          "name": "CDatePickerProps"
+          "name": "CxDatePickerProps"
         }
       ],
       "required": false,
@@ -68,12 +68,12 @@
       "name": "defaultValue",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
-        "name": "CDatePickerProps"
+        "name": "CxDatePickerProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
-          "name": "CDatePickerProps"
+          "name": "CxDatePickerProps"
         }
       ],
       "required": false,
@@ -87,12 +87,12 @@
       "name": "disabled",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
-        "name": "CDatePickerProps"
+        "name": "CxDatePickerProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
-          "name": "CDatePickerProps"
+          "name": "CxDatePickerProps"
         }
       ],
       "required": false,
@@ -106,12 +106,12 @@
       "name": "id",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
-        "name": "CDatePickerProps"
+        "name": "CxDatePickerProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
-          "name": "CDatePickerProps"
+          "name": "CxDatePickerProps"
         }
       ],
       "required": false,
@@ -125,12 +125,12 @@
       "name": "isDateUnavailable",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
-        "name": "CDatePickerProps"
+        "name": "CxDatePickerProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
-          "name": "CDatePickerProps"
+          "name": "CxDatePickerProps"
         }
       ],
       "required": false,
@@ -144,12 +144,12 @@
       "name": "maxValue",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
-        "name": "CDatePickerProps"
+        "name": "CxDatePickerProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
-          "name": "CDatePickerProps"
+          "name": "CxDatePickerProps"
         }
       ],
       "required": false,
@@ -163,12 +163,12 @@
       "name": "minValue",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
-        "name": "CDatePickerProps"
+        "name": "CxDatePickerProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
-          "name": "CDatePickerProps"
+          "name": "CxDatePickerProps"
         }
       ],
       "required": false,
@@ -182,12 +182,12 @@
       "name": "name",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
-        "name": "CDatePickerProps"
+        "name": "CxDatePickerProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
-          "name": "CDatePickerProps"
+          "name": "CxDatePickerProps"
         }
       ],
       "required": false,
@@ -201,12 +201,12 @@
       "name": "onChange",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
-        "name": "CDatePickerProps"
+        "name": "CxDatePickerProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
-          "name": "CDatePickerProps"
+          "name": "CxDatePickerProps"
         }
       ],
       "required": false,
@@ -220,12 +220,12 @@
       "name": "size",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
-        "name": "CDatePickerProps"
+        "name": "CxDatePickerProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
-          "name": "CDatePickerProps"
+          "name": "CxDatePickerProps"
         }
       ],
       "required": false,
@@ -248,12 +248,12 @@
       "name": "value",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
-        "name": "CDatePickerProps"
+        "name": "CxDatePickerProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
-          "name": "CDatePickerProps"
+          "name": "CxDatePickerProps"
         }
       ],
       "required": false,

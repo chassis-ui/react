@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/menu/CxMenuHeader.tsx",
-        "name": "CMenuHeaderProps"
+        "name": "CxMenuHeaderProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/menu/CxMenuHeader.tsx",
-          "name": "CMenuHeaderProps"
+          "name": "CxMenuHeaderProps"
         }
       ],
       "required": false,
@@ -32,12 +32,12 @@
       "name": "component",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/menu/CxMenuHeader.tsx",
-        "name": "CMenuHeaderProps"
+        "name": "CxMenuHeaderProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/menu/CxMenuHeader.tsx",
-          "name": "CMenuHeaderProps"
+          "name": "CxMenuHeaderProps"
         }
       ],
       "required": false,

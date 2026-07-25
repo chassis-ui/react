@@ -3,7 +3,7 @@ import classNames from 'classnames'
 
 import { CxLink } from '../link/CxLink'
 
-export interface CBreadcrumbItemProps extends HTMLAttributes<HTMLLIElement> {
+export interface CxBreadcrumbItemProps extends HTMLAttributes<HTMLLIElement> {
   /**
    * Toggle the active state for the component.
    */
@@ -18,7 +18,7 @@ export interface CBreadcrumbItemProps extends HTMLAttributes<HTMLLIElement> {
   href?: string
 }
 
-export const CxBreadcrumbItem = forwardRef<HTMLLIElement, CBreadcrumbItemProps>(
+export const CxBreadcrumbItem = forwardRef<HTMLLIElement, CxBreadcrumbItemProps>(
   ({ children, active, className, href, ...rest }, ref) => {
     const _className = classNames(
       'breadcrumb-item',

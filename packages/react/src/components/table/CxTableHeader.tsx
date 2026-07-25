@@ -1,7 +1,7 @@
 import { ReactElement } from 'react'
 import { TableHeader } from 'react-stately'
 
-export interface CTableHeaderProps<T> {
+export interface CxTableHeaderProps<T> {
   /**
    * `CxTableColumn` elements, or a render function paired with `columns` for dynamic column
    * generation.
@@ -18,5 +18,5 @@ export interface CTableHeaderProps<T> {
  * rendered directly.
  */
 export const CxTableHeader = TableHeader as unknown as <T>(
-  props: CTableHeaderProps<T>,
+  props: CxTableHeaderProps<T>,
 ) => ReactElement

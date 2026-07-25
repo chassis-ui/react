@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/close-button/CxCloseButton.tsx",
-        "name": "CCloseButtonProps"
+        "name": "CxCloseButtonProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/close-button/CxCloseButton.tsx",
-          "name": "CCloseButtonProps"
+          "name": "CxCloseButtonProps"
         }
       ],
       "required": false,
@@ -30,12 +30,12 @@
       "name": "disabled",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/close-button/CxCloseButton.tsx",
-        "name": "CCloseButtonProps"
+        "name": "CxCloseButtonProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/close-button/CxCloseButton.tsx",
-          "name": "CCloseButtonProps"
+          "name": "CxCloseButtonProps"
         }
       ],
       "required": false,
@@ -49,12 +49,12 @@
       "name": "white",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/close-button/CxCloseButton.tsx",
-        "name": "CCloseButtonProps"
+        "name": "CxCloseButtonProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/close-button/CxCloseButton.tsx",
-          "name": "CCloseButtonProps"
+          "name": "CxCloseButtonProps"
         }
       ],
       "required": false,

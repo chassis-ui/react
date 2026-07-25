@@ -1,7 +1,7 @@
 import { ReactElement } from 'react'
 import { TableBody } from 'react-stately'
 
-export interface CTableBodyProps<T> {
+export interface CxTableBodyProps<T> {
   /**
    * `CxTableRow` elements, or a render function paired with `items` for dynamic row generation.
    */
@@ -16,4 +16,4 @@ export interface CTableBodyProps<T> {
  * Collection node, data-only — read by `CxTable` to build the table's row collection. Never
  * rendered directly.
  */
-export const CxTableBody = TableBody as unknown as <T>(props: CTableBodyProps<T>) => ReactElement
+export const CxTableBody = TableBody as unknown as <T>(props: CxTableBodyProps<T>) => ReactElement

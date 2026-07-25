@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/navbar/CxNavbarBrand.tsx",
-        "name": "CNavbarBrandProps"
+        "name": "CxNavbarBrandProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/navbar/CxNavbarBrand.tsx",
-          "name": "CNavbarBrandProps"
+          "name": "CxNavbarBrandProps"
         }
       ],
       "required": false,
@@ -30,12 +30,12 @@
       "name": "component",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/navbar/CxNavbarBrand.tsx",
-        "name": "CNavbarBrandProps"
+        "name": "CxNavbarBrandProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/navbar/CxNavbarBrand.tsx",
-          "name": "CNavbarBrandProps"
+          "name": "CxNavbarBrandProps"
         }
       ],
       "required": false,
@@ -49,12 +49,12 @@
       "name": "href",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/navbar/CxNavbarBrand.tsx",
-        "name": "CNavbarBrandProps"
+        "name": "CxNavbarBrandProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/navbar/CxNavbarBrand.tsx",
-          "name": "CNavbarBrandProps"
+          "name": "CxNavbarBrandProps"
         }
       ],
       "required": false,

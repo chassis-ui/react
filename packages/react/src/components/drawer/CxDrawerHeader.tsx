@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import { CDrawerContext } from './CxDrawer'
 import { CxCloseButton } from '../close-button/CxCloseButton'
 
-export interface CDrawerHeaderProps extends HTMLAttributes<HTMLDivElement> {
+export interface CxDrawerHeaderProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -15,7 +15,7 @@ export interface CDrawerHeaderProps extends HTMLAttributes<HTMLDivElement> {
   closeButton?: boolean
 }
 
-export const CxDrawerHeader = forwardRef<HTMLDivElement, CDrawerHeaderProps>(
+export const CxDrawerHeader = forwardRef<HTMLDivElement, CxDrawerHeaderProps>(
   ({ children, className, closeButton = true, ...rest }, ref) => {
     const { requestClose } = useContext(CDrawerContext)
     const _className = classNames('drawer-header', className)

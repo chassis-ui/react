@@ -3,7 +3,7 @@ import classNames from 'classnames'
 
 import { CxLink } from '../link/CxLink'
 
-export interface CBreadcrumbItemDef {
+export interface CxBreadcrumbItemDef {
   /**
    * Label for the breadcrumb item.
    */
@@ -14,7 +14,7 @@ export interface CBreadcrumbItemDef {
   href?: string
 }
 
-export interface CBreadcrumbProps extends HTMLAttributes<HTMLOListElement> {
+export interface CxBreadcrumbProps extends HTMLAttributes<HTMLOListElement> {
   /**
    * A string of all className you want applied to the component.
    */
@@ -23,10 +23,10 @@ export interface CBreadcrumbProps extends HTMLAttributes<HTMLOListElement> {
    * Array of breadcrumb items for data-driven rendering. The last item is automatically marked active.
    * When provided, children are ignored.
    */
-  items?: CBreadcrumbItemDef[]
+  items?: CxBreadcrumbItemDef[]
 }
 
-export const CxBreadcrumb = forwardRef<HTMLOListElement, CBreadcrumbProps>(
+export const CxBreadcrumb = forwardRef<HTMLOListElement, CxBreadcrumbProps>(
   ({ children, className, items, ...rest }, ref) => {
     const _className = classNames('breadcrumb', className)
 

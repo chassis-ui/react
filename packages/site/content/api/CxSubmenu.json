@@ -13,12 +13,12 @@
       "name": "activation",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/menu/CxSubmenu.tsx",
-        "name": "CSubmenuProps"
+        "name": "CxSubmenuProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/menu/CxSubmenu.tsx",
-          "name": "CSubmenuProps"
+          "name": "CxSubmenuProps"
         }
       ],
       "required": false,
@@ -44,12 +44,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/menu/CxSubmenu.tsx",
-        "name": "CSubmenuProps"
+        "name": "CxSubmenuProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/menu/CxSubmenu.tsx",
-          "name": "CSubmenuProps"
+          "name": "CxSubmenuProps"
         }
       ],
       "required": false,
@@ -63,12 +63,12 @@
       "name": "disabled",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/menu/CxSubmenu.tsx",
-        "name": "CSubmenuProps"
+        "name": "CxSubmenuProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/menu/CxSubmenu.tsx",
-          "name": "CSubmenuProps"
+          "name": "CxSubmenuProps"
         }
       ],
       "required": false,
@@ -84,12 +84,12 @@
       "name": "offset",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/menu/CxSubmenu.tsx",
-        "name": "CSubmenuProps"
+        "name": "CxSubmenuProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/menu/CxSubmenu.tsx",
-          "name": "CSubmenuProps"
+          "name": "CxSubmenuProps"
         }
       ],
       "required": false,
@@ -105,12 +105,12 @@
       "name": "placement",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/menu/CxSubmenu.tsx",
-        "name": "CSubmenuProps"
+        "name": "CxSubmenuProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/menu/CxSubmenu.tsx",
-          "name": "CSubmenuProps"
+          "name": "CxSubmenuProps"
         }
       ],
       "required": false,
@@ -163,12 +163,12 @@
       "name": "stacked",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/menu/CxSubmenu.tsx",
-        "name": "CSubmenuProps"
+        "name": "CxSubmenuProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/menu/CxSubmenu.tsx",
-          "name": "CSubmenuProps"
+          "name": "CxSubmenuProps"
         }
       ],
       "required": false,
@@ -184,12 +184,12 @@
       "name": "submenuDelay",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/menu/CxSubmenu.tsx",
-        "name": "CSubmenuProps"
+        "name": "CxSubmenuProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/menu/CxSubmenu.tsx",
-          "name": "CSubmenuProps"
+          "name": "CxSubmenuProps"
         }
       ],
       "required": false,
@@ -203,12 +203,12 @@
       "name": "trigger",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/menu/CxSubmenu.tsx",
-        "name": "CSubmenuProps"
+        "name": "CxSubmenuProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/menu/CxSubmenu.tsx",
-          "name": "CSubmenuProps"
+          "name": "CxSubmenuProps"
         }
       ],
       "required": true,

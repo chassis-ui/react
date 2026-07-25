@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/grid/CxContainer.tsx",
-        "name": "CContainerProps"
+        "name": "CxContainerProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/grid/CxContainer.tsx",
-          "name": "CContainerProps"
+          "name": "CxContainerProps"
         }
       ],
       "required": false,
@@ -30,12 +30,12 @@
       "name": "sm",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/grid/CxContainer.tsx",
-        "name": "CContainerProps"
+        "name": "CxContainerProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/grid/CxContainer.tsx",
-          "name": "CContainerProps"
+          "name": "CxContainerProps"
         }
       ],
       "required": false,
@@ -49,12 +49,12 @@
       "name": "md",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/grid/CxContainer.tsx",
-        "name": "CContainerProps"
+        "name": "CxContainerProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/grid/CxContainer.tsx",
-          "name": "CContainerProps"
+          "name": "CxContainerProps"
         }
       ],
       "required": false,
@@ -68,12 +68,12 @@
       "name": "lg",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/grid/CxContainer.tsx",
-        "name": "CContainerProps"
+        "name": "CxContainerProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/grid/CxContainer.tsx",
-          "name": "CContainerProps"
+          "name": "CxContainerProps"
         }
       ],
       "required": false,
@@ -87,12 +87,12 @@
       "name": "xl",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/grid/CxContainer.tsx",
-        "name": "CContainerProps"
+        "name": "CxContainerProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/grid/CxContainer.tsx",
-          "name": "CContainerProps"
+          "name": "CxContainerProps"
         }
       ],
       "required": false,
@@ -106,12 +106,12 @@
       "name": "xxl",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/grid/CxContainer.tsx",
-        "name": "CContainerProps"
+        "name": "CxContainerProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/grid/CxContainer.tsx",
-          "name": "CContainerProps"
+          "name": "CxContainerProps"
         }
       ],
       "required": false,
@@ -125,12 +125,12 @@
       "name": "fluid",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/grid/CxContainer.tsx",
-        "name": "CContainerProps"
+        "name": "CxContainerProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/grid/CxContainer.tsx",
-          "name": "CContainerProps"
+          "name": "CxContainerProps"
         }
       ],
       "required": false,

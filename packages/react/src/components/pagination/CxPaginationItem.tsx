@@ -3,7 +3,7 @@ import classNames from 'classnames'
 
 import { CxLink } from '../link/CxLink'
 
-export interface CPaginationItemProps extends HTMLAttributes<HTMLAnchorElement> {
+export interface CxPaginationItemProps extends HTMLAttributes<HTMLAnchorElement> {
   /**
    * Toggle the active state for the component.
    */
@@ -22,7 +22,7 @@ export interface CPaginationItemProps extends HTMLAttributes<HTMLAnchorElement> 
   href?: string
 }
 
-export const CxPaginationItem = forwardRef<HTMLAnchorElement, CPaginationItemProps>(
+export const CxPaginationItem = forwardRef<HTMLAnchorElement, CxPaginationItemProps>(
   ({ children, className, component, ...rest }, ref) => {
     const _className = classNames(
       'page-item',

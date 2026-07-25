@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/modal/CxModalHeader.tsx",
-        "name": "CModalHeaderProps"
+        "name": "CxModalHeaderProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/modal/CxModalHeader.tsx",
-          "name": "CModalHeaderProps"
+          "name": "CxModalHeaderProps"
         }
       ],
       "required": false,
@@ -32,12 +32,12 @@
       "name": "closeButton",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/modal/CxModalHeader.tsx",
-        "name": "CModalHeaderProps"
+        "name": "CxModalHeaderProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/modal/CxModalHeader.tsx",
-          "name": "CModalHeaderProps"
+          "name": "CxModalHeaderProps"
         }
       ],
       "required": false,

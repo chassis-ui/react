@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/nav/CxNav.tsx",
-        "name": "CNavProps"
+        "name": "CxNavProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/nav/CxNav.tsx",
-          "name": "CNavProps"
+          "name": "CxNavProps"
         }
       ],
       "required": false,
@@ -32,12 +32,12 @@
       "name": "component",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/nav/CxNav.tsx",
-        "name": "CNavProps"
+        "name": "CxNavProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/nav/CxNav.tsx",
-          "name": "CNavProps"
+          "name": "CxNavProps"
         }
       ],
       "required": false,
@@ -51,17 +51,17 @@
       "name": "items",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/nav/CxNav.tsx",
-        "name": "CNavProps"
+        "name": "CxNavProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/nav/CxNav.tsx",
-          "name": "CNavProps"
+          "name": "CxNavProps"
         }
       ],
       "required": false,
       "type": {
-        "name": "CNavItemDef[]"
+        "name": "CxNavItemDef[]"
       }
     },
     "layout": {
@@ -70,12 +70,12 @@
       "name": "layout",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/nav/CxNav.tsx",
-        "name": "CNavProps"
+        "name": "CxNavProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/nav/CxNav.tsx",
-          "name": "CNavProps"
+          "name": "CxNavProps"
         }
       ],
       "required": false,
@@ -98,12 +98,12 @@
       "name": "variant",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/nav/CxNav.tsx",
-        "name": "CNavProps"
+        "name": "CxNavProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/nav/CxNav.tsx",
-          "name": "CNavProps"
+          "name": "CxNavProps"
         }
       ],
       "required": false,

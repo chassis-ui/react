@@ -12,7 +12,7 @@ import classNames from 'classnames'
 
 import { OtpBox } from './OtpBox'
 
-export interface COtpInputProps
+export interface CxOtpInputProps
   extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue'> {
   /**
    * Identifies the element that describes the group, e.g. a `CxFormText` help element.
@@ -121,7 +121,7 @@ export const CxOtpInput = ({
   valid,
   value,
   ...rest
-}: COtpInputProps) => {
+}: CxOtpInputProps) => {
   const total = groupSizes && groupSizes.length > 0 ? groupSizes.reduce((a, b) => a + b, 0) : length
 
   const isControlled = value !== undefined

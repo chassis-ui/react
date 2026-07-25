@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 import { Key } from 'react-stately'
 
-export interface CComboboxItemProps {
+export interface CxComboboxItemProps {
   /**
    * Content of the option. Must be a plain string for the option to participate in filtering
    * and typeahead.
@@ -25,6 +25,6 @@ export interface CComboboxItemProps {
 //     <CxComboboxItem id="apple">Apple</CxComboboxItem>
 //     <CxComboboxItem id="banana">Banana</CxComboboxItem>
 //   </CxCombobox>
-export const CxComboboxItem = (_props: CComboboxItemProps): null => null
+export const CxComboboxItem = (_props: CxComboboxItemProps): null => null
 
 CxComboboxItem.displayName = 'CxComboboxItem'

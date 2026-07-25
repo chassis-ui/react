@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormFeedback.tsx",
-        "name": "CFormFeedbackProps"
+        "name": "CxFormFeedbackProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormFeedback.tsx",
-          "name": "CFormFeedbackProps"
+          "name": "CxFormFeedbackProps"
         }
       ],
       "required": false,
@@ -32,12 +32,12 @@
       "name": "component",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormFeedback.tsx",
-        "name": "CFormFeedbackProps"
+        "name": "CxFormFeedbackProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormFeedback.tsx",
-          "name": "CFormFeedbackProps"
+          "name": "CxFormFeedbackProps"
         }
       ],
       "required": false,
@@ -51,12 +51,12 @@
       "name": "invalid",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormFeedback.tsx",
-        "name": "CFormFeedbackProps"
+        "name": "CxFormFeedbackProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormFeedback.tsx",
-          "name": "CFormFeedbackProps"
+          "name": "CxFormFeedbackProps"
         }
       ],
       "required": false,
@@ -70,12 +70,12 @@
       "name": "tooltip",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormFeedback.tsx",
-        "name": "CFormFeedbackProps"
+        "name": "CxFormFeedbackProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormFeedback.tsx",
-          "name": "CFormFeedbackProps"
+          "name": "CxFormFeedbackProps"
         }
       ],
       "required": false,
@@ -89,12 +89,12 @@
       "name": "valid",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormFeedback.tsx",
-        "name": "CFormFeedbackProps"
+        "name": "CxFormFeedbackProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormFeedback.tsx",
-          "name": "CFormFeedbackProps"
+          "name": "CxFormFeedbackProps"
         }
       ],
       "required": false,

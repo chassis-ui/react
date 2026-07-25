@@ -4,7 +4,7 @@ import { Transition } from 'react-transition-group'
 
 import { useForkedRef } from '../../utils/hooks'
 
-export interface CTabPaneProps extends HTMLAttributes<HTMLDivElement> {
+export interface CxTabPaneProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -23,7 +23,7 @@ export interface CTabPaneProps extends HTMLAttributes<HTMLDivElement> {
   visible?: boolean
 }
 
-export const CxTabPane = forwardRef<HTMLDivElement, CTabPaneProps>(
+export const CxTabPane = forwardRef<HTMLDivElement, CxTabPaneProps>(
   ({ children, className, onHide, onShow, visible, ...rest }, ref) => {
     const nodeRef = useRef<HTMLDivElement>(null)
     const forkedRef = useForkedRef(ref, nodeRef)

@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/menu/CxMenuList.tsx",
-        "name": "CMenuListProps"
+        "name": "CxMenuListProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/menu/CxMenuList.tsx",
-          "name": "CMenuListProps"
+          "name": "CxMenuListProps"
         }
       ],
       "required": false,
@@ -32,12 +32,12 @@
       "name": "component",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/menu/CxMenuList.tsx",
-        "name": "CMenuListProps"
+        "name": "CxMenuListProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/menu/CxMenuList.tsx",
-          "name": "CMenuListProps"
+          "name": "CxMenuListProps"
         }
       ],
       "required": false,

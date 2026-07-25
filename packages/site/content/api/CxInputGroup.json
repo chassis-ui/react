@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxInputGroup.tsx",
-        "name": "CInputGroupProps"
+        "name": "CxInputGroupProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxInputGroup.tsx",
-          "name": "CInputGroupProps"
+          "name": "CxInputGroupProps"
         }
       ],
       "required": false,
@@ -30,12 +30,12 @@
       "name": "size",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxInputGroup.tsx",
-        "name": "CInputGroupProps"
+        "name": "CxInputGroupProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxInputGroup.tsx",
-          "name": "CInputGroupProps"
+          "name": "CxInputGroupProps"
         }
       ],
       "required": false,

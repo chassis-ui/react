@@ -33,7 +33,7 @@ type ColumnNode<T> = Parameters<typeof useTableColumnHeader<T>>[0]['node']
 type RowNode<T> = Parameters<typeof useTableRow<T>>[0]['node']
 type CellNode<T> = Parameters<typeof useTableCell<T>>[0]['node']
 
-export interface CTableProps<T extends object> {
+export interface CxTableProps<T extends object> {
   /**
    * An accessible label for the table, used when there's no visible heading.
    */
@@ -143,7 +143,7 @@ export const CxTable = <T extends object>({
   sortDescriptor,
   striped,
   ...rest
-}: CTableProps<T>) => {
+}: CxTableProps<T>) => {
   const state = useTableState<T>({
     children,
     disabledKeys,

@@ -1,7 +1,7 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-export interface CModalTitleProps extends HTMLAttributes<HTMLHeadingElement> {
+export interface CxModalTitleProps extends HTMLAttributes<HTMLHeadingElement> {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -12,7 +12,7 @@ export interface CModalTitleProps extends HTMLAttributes<HTMLHeadingElement> {
   component?: string | ElementType
 }
 
-export const CxModalTitle = forwardRef<HTMLHeadElement, CModalTitleProps>(
+export const CxModalTitle = forwardRef<HTMLHeadElement, CxModalTitleProps>(
   ({ children, component: Component = 'h2', className, ...rest }, ref) => {
     const _className = classNames('modal-title', className)
 

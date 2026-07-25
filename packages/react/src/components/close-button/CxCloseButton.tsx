@@ -1,7 +1,7 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-export interface CCloseButtonProps extends HTMLAttributes<HTMLButtonElement> {
+export interface CxCloseButtonProps extends HTMLAttributes<HTMLButtonElement> {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -16,7 +16,7 @@ export interface CCloseButtonProps extends HTMLAttributes<HTMLButtonElement> {
   white?: boolean
 }
 
-export const CxCloseButton = forwardRef<HTMLButtonElement, CCloseButtonProps>(
+export const CxCloseButton = forwardRef<HTMLButtonElement, CxCloseButtonProps>(
   ({ className, disabled, white, ...rest }, ref) => {
     const _className = classNames('close-button', { white }, className)
     return (

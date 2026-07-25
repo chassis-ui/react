@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/tabs/CxTabContent.tsx",
-        "name": "CTabContentProps"
+        "name": "CxTabContentProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/tabs/CxTabContent.tsx",
-          "name": "CTabContentProps"
+          "name": "CxTabContentProps"
         }
       ],
       "required": false,

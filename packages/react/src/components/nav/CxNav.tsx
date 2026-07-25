@@ -1,7 +1,7 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-export interface CNavItemDef {
+export interface CxNavItemDef {
   /**
    * Label content for the nav item.
    */
@@ -20,7 +20,7 @@ export interface CNavItemDef {
   disabled?: boolean
 }
 
-export interface CNavProps
+export interface CxNavProps
   extends HTMLAttributes<HTMLDivElement | HTMLUListElement | HTMLOListElement> {
   /**
    * A string of all className you want applied to the base component.
@@ -33,7 +33,7 @@ export interface CNavProps
   /**
    * Array of nav item definitions for data-driven rendering. When provided, children are ignored.
    */
-  items?: CNavItemDef[]
+  items?: CxNavItemDef[]
   /**
    * Specify a layout type for component.
    */
@@ -44,7 +44,7 @@ export interface CNavProps
   variant?: 'tabs' | 'pills'
 }
 
-export const CxNav = forwardRef<HTMLDivElement | HTMLUListElement | HTMLOListElement, CNavProps>(
+export const CxNav = forwardRef<HTMLDivElement | HTMLUListElement | HTMLOListElement, CxNavProps>(
   ({ children, className, component: Component = 'ul', items, layout, variant, ...rest }, ref) => {
     const _className = classNames(
       'nav',

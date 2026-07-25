@@ -1,7 +1,7 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-export interface CCardHeaderProps extends HTMLAttributes<HTMLDivElement> {
+export interface CxCardHeaderProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -12,7 +12,7 @@ export interface CCardHeaderProps extends HTMLAttributes<HTMLDivElement> {
   component?: string | ElementType
 }
 
-export const CxCardHeader = forwardRef<HTMLDivElement, CCardHeaderProps>(
+export const CxCardHeader = forwardRef<HTMLDivElement, CxCardHeaderProps>(
   ({ children, component: Component = 'div', className, ...rest }, ref) => {
     const _className = classNames('card-header', className)
 

@@ -2,13 +2,13 @@ import React, { forwardRef, useContext, useRef } from 'react'
 import classNames from 'classnames'
 import { mergeProps, useButton } from 'react-aria'
 
-import { CxButton, CButtonProps } from '../button/CxButton'
+import { CxButton, CxButtonProps } from '../button/CxButton'
 import { CMenuContext } from './CxMenu'
 import { useForkedRef } from '../../utils/hooks'
 
-export type CMenuToggleProps = Omit<CButtonProps, 'type'>
+export type CxMenuToggleProps = Omit<CxButtonProps, 'type'>
 
-export const CxMenuToggle = forwardRef<HTMLButtonElement | HTMLAnchorElement, CMenuToggleProps>(
+export const CxMenuToggle = forwardRef<HTMLButtonElement | HTMLAnchorElement, CxMenuToggleProps>(
   ({ children, className, onClick, onKeyDown, ...rest }, ref) => {
     const { menuTriggerProps, reference, targetRef, toggleNodeRef } = useContext(CMenuContext)
     const buttonRef = useRef<HTMLButtonElement | null>(null)

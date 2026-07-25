@@ -12,7 +12,7 @@ import classNames from 'classnames'
 import { ContextColor } from '../Types'
 import { useForkedRef } from '../../utils/hooks'
 
-export interface CToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
+export interface CxToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
   /**
    * Apply a CSS fade transition to the toast.
    */
@@ -56,14 +56,14 @@ export interface CToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title
   visible?: boolean
 }
 
-interface ContextProps extends CToastProps {
+interface ContextProps extends CxToastProps {
   visible?: boolean
   setVisible: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const CToastContext = createContext({} as ContextProps)
 
-export const CxToast = forwardRef<HTMLDivElement, CToastProps>(
+export const CxToast = forwardRef<HTMLDivElement, CxToastProps>(
   (
     {
       children,

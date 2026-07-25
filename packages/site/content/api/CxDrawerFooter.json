@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawerFooter.tsx",
-        "name": "CDrawerFooterProps"
+        "name": "CxDrawerFooterProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawerFooter.tsx",
-          "name": "CDrawerFooterProps"
+          "name": "CxDrawerFooterProps"
         }
       ],
       "required": false,
@@ -30,12 +30,12 @@
       "name": "stacked",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawerFooter.tsx",
-        "name": "CDrawerFooterProps"
+        "name": "CxDrawerFooterProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawerFooter.tsx",
-          "name": "CDrawerFooterProps"
+          "name": "CxDrawerFooterProps"
         }
       ],
       "required": false,

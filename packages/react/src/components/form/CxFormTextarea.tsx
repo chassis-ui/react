@@ -1,7 +1,7 @@
 import React, { ChangeEventHandler, forwardRef, InputHTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-export interface CFormTextareaProps extends InputHTMLAttributes<HTMLTextAreaElement> {
+export interface CxFormTextareaProps extends InputHTMLAttributes<HTMLTextAreaElement> {
   /**
    * A string of all className you want applied to the component.
    */
@@ -38,7 +38,7 @@ export interface CFormTextareaProps extends InputHTMLAttributes<HTMLTextAreaElem
   value?: string | string[] | number
 }
 
-export const CxFormTextarea = forwardRef<HTMLTextAreaElement, CFormTextareaProps>(
+export const CxFormTextarea = forwardRef<HTMLTextAreaElement, CxFormTextareaProps>(
   ({ children, className, invalid, plainText, valid, ...rest }, ref) => {
     const _className = classNames(
       plainText ? 'form-control-plaintext' : 'form-input',

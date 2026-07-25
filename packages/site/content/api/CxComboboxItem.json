@@ -11,12 +11,12 @@
       "name": "children",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/combobox/CxComboboxItem.tsx",
-        "name": "CComboboxItemProps"
+        "name": "CxComboboxItemProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/combobox/CxComboboxItem.tsx",
-          "name": "CComboboxItemProps"
+          "name": "CxComboboxItemProps"
         }
       ],
       "required": true,
@@ -30,12 +30,12 @@
       "name": "disabled",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/combobox/CxComboboxItem.tsx",
-        "name": "CComboboxItemProps"
+        "name": "CxComboboxItemProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/combobox/CxComboboxItem.tsx",
-          "name": "CComboboxItemProps"
+          "name": "CxComboboxItemProps"
         }
       ],
       "required": false,
@@ -49,12 +49,12 @@
       "name": "id",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/combobox/CxComboboxItem.tsx",
-        "name": "CComboboxItemProps"
+        "name": "CxComboboxItemProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/combobox/CxComboboxItem.tsx",
-          "name": "CComboboxItemProps"
+          "name": "CxComboboxItemProps"
         }
       ],
       "required": true,

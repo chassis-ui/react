@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/list/CxList.tsx",
-        "name": "CListProps"
+        "name": "CxListProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/list/CxList.tsx",
-          "name": "CListProps"
+          "name": "CxListProps"
         }
       ],
       "required": false,
@@ -32,12 +32,12 @@
       "name": "component",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/list/CxList.tsx",
-        "name": "CListProps"
+        "name": "CxListProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/list/CxList.tsx",
-          "name": "CListProps"
+          "name": "CxListProps"
         }
       ],
       "required": false,
@@ -51,12 +51,12 @@
       "name": "context",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/list/CxList.tsx",
-        "name": "CListProps"
+        "name": "CxListProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/list/CxList.tsx",
-          "name": "CListProps"
+          "name": "CxListProps"
         }
       ],
       "required": false,
@@ -106,12 +106,12 @@
       "name": "flush",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/list/CxList.tsx",
-        "name": "CListProps"
+        "name": "CxListProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/list/CxList.tsx",
-          "name": "CListProps"
+          "name": "CxListProps"
         }
       ],
       "required": false,
@@ -125,17 +125,17 @@
       "name": "items",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/list/CxList.tsx",
-        "name": "CListProps"
+        "name": "CxListProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/list/CxList.tsx",
-          "name": "CListProps"
+          "name": "CxListProps"
         }
       ],
       "required": false,
       "type": {
-        "name": "CListItemDef[]"
+        "name": "CxListItemDef[]"
       }
     },
     "layout": {
@@ -144,12 +144,12 @@
       "name": "layout",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/list/CxList.tsx",
-        "name": "CListProps"
+        "name": "CxListProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/list/CxList.tsx",
-          "name": "CListProps"
+          "name": "CxListProps"
         }
       ],
       "required": false,
@@ -184,12 +184,12 @@
       "name": "numbered",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/list/CxList.tsx",
-        "name": "CListProps"
+        "name": "CxListProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/list/CxList.tsx",
-          "name": "CListProps"
+          "name": "CxListProps"
         }
       ],
       "required": false,
@@ -203,12 +203,12 @@
       "name": "plain",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/list/CxList.tsx",
-        "name": "CListProps"
+        "name": "CxListProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/list/CxList.tsx",
-          "name": "CListProps"
+          "name": "CxListProps"
         }
       ],
       "required": false,
@@ -222,12 +222,12 @@
       "name": "variant",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/list/CxList.tsx",
-        "name": "CListProps"
+        "name": "CxListProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/list/CxList.tsx",
-          "name": "CListProps"
+          "name": "CxListProps"
         }
       ],
       "required": false,

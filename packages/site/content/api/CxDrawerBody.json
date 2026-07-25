@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawerBody.tsx",
-        "name": "CDrawerBodyProps"
+        "name": "CxDrawerBodyProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawerBody.tsx",
-          "name": "CDrawerBodyProps"
+          "name": "CxDrawerBodyProps"
         }
       ],
       "required": false,

@@ -1,10 +1,10 @@
 import React, { forwardRef } from 'react'
-import { CCollapseProps } from '../collapse/CxCollapse'
+import { CxCollapseProps } from '../collapse/CxCollapse'
 
 /**
  * @deprecated Native <details>/<summary> handles collapse. This component is a no-op passthrough kept for API compatibility.
  */
-export const CxAccordionCollapse = forwardRef<HTMLDivElement, Omit<CCollapseProps, 'horizontal'>>(
+export const CxAccordionCollapse = forwardRef<HTMLDivElement, Omit<CxCollapseProps, 'horizontal'>>(
   ({ children }, _ref) => <>{children}</>,
 )
 

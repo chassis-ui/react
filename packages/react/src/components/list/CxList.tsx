@@ -3,7 +3,7 @@ import classNames from 'classnames'
 
 import { ContextColor, ContextStyle } from '../Types'
 
-export interface CListItemDef {
+export interface CxListItemDef {
   /**
    * Item label content.
    */
@@ -26,7 +26,7 @@ export interface CListItemDef {
   disabled?: boolean
 }
 
-export interface CListProps extends HTMLAttributes<HTMLDivElement | HTMLUListElement> {
+export interface CxListProps extends HTMLAttributes<HTMLDivElement | HTMLUListElement> {
   /**
    * A string of all className you want applied to the component.
    */
@@ -46,7 +46,7 @@ export interface CListProps extends HTMLAttributes<HTMLDivElement | HTMLUListEle
   /**
    * Array of item definitions for data-driven rendering. When provided, children are ignored.
    */
-  items?: CListItemDef[]
+  items?: CxListItemDef[]
   /**
    * Specify a layout type.
    */
@@ -71,7 +71,7 @@ export interface CListProps extends HTMLAttributes<HTMLDivElement | HTMLUListEle
   variant?: ContextStyle
 }
 
-export const CxList = forwardRef<HTMLDivElement | HTMLUListElement, CListProps>(
+export const CxList = forwardRef<HTMLDivElement | HTMLUListElement, CxListProps>(
   (
     {
       children,

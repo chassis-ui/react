@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/card/CxCardGroup.tsx",
-        "name": "CCardGroupProps"
+        "name": "CxCardGroupProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/card/CxCardGroup.tsx",
-          "name": "CCardGroupProps"
+          "name": "CxCardGroupProps"
         }
       ],
       "required": false,

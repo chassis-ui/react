@@ -11,12 +11,12 @@
       "name": "children",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/tabs/CxTabList.tsx",
-        "name": "CTabListProps"
+        "name": "CxTabListProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/tabs/CxTabList.tsx",
-          "name": "CTabListProps"
+          "name": "CxTabListProps"
         }
       ],
       "required": true,
@@ -30,12 +30,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/tabs/CxTabList.tsx",
-        "name": "CTabListProps"
+        "name": "CxTabListProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/tabs/CxTabList.tsx",
-          "name": "CTabListProps"
+          "name": "CxTabListProps"
         }
       ],
       "required": false,
@@ -51,12 +51,12 @@
       "name": "variant",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/tabs/CxTabList.tsx",
-        "name": "CTabListProps"
+        "name": "CxTabListProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/tabs/CxTabList.tsx",
-          "name": "CTabListProps"
+          "name": "CxTabListProps"
         }
       ],
       "required": false,

@@ -1,7 +1,7 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-export interface CFormTextProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElement> {
+export interface CxFormTextProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElement> {
   /**
    * A string of all className you want applied to the component.
    */
@@ -12,7 +12,7 @@ export interface CFormTextProps extends HTMLAttributes<HTMLDivElement | HTMLSpan
   component?: string | ElementType
 }
 
-export const CxFormText = forwardRef<HTMLDivElement | HTMLSpanElement, CFormTextProps>(
+export const CxFormText = forwardRef<HTMLDivElement | HTMLSpanElement, CxFormTextProps>(
   ({ children, className, component: Component = 'div', ...rest }, ref) => {
     const _className = classNames('form-help', className)
     return (

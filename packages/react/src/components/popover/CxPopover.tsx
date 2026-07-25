@@ -53,7 +53,7 @@ const PopoverPanel = ({
   )
 }
 
-export interface CPopoverProps {
+export interface CxPopoverProps {
   children: ReactElement
   /**
    * Content node for your component.
@@ -86,7 +86,7 @@ export interface CPopoverProps {
   visible?: boolean
 }
 
-export const CxPopover: FC<CPopoverProps> = ({
+export const CxPopover: FC<CxPopoverProps> = ({
   children,
   content,
   placement = 'right',

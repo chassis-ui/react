@@ -1,14 +1,14 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-export interface CToastFooterProps extends HTMLAttributes<HTMLDivElement> {
+export interface CxToastFooterProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * A string of all className you want applied to the base component.
    */
   className?: string
 }
 
-export const CxToastFooter = forwardRef<HTMLDivElement, CToastFooterProps>(
+export const CxToastFooter = forwardRef<HTMLDivElement, CxToastFooterProps>(
   ({ children, className, ...rest }, ref) => {
     const _className = classNames('toast-footer', className)
     return (

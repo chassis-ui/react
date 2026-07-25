@@ -6,7 +6,7 @@ import { ContextColor } from '../Types'
 import { CxCloseButton } from '../close-button/CxCloseButton'
 import { useForkedRef } from '../../utils/hooks'
 
-export interface CNotificationProps extends HTMLAttributes<HTMLDivElement> {
+export interface CxNotificationProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * A string of all className you want applied to the component.
    */
@@ -33,7 +33,7 @@ export interface CNotificationProps extends HTMLAttributes<HTMLDivElement> {
   visible?: boolean
 }
 
-export const CxNotification = forwardRef<HTMLDivElement, CNotificationProps>(
+export const CxNotification = forwardRef<HTMLDivElement, CxNotificationProps>(
   (
     {
       children,

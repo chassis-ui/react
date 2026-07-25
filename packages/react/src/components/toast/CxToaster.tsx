@@ -8,7 +8,7 @@ import { useForkedRef } from '../../utils/hooks'
 import { CxToast } from './CxToast'
 import { toastQueue } from './toastQueue'
 
-export interface CToasterProps extends HTMLAttributes<HTMLDivElement> {
+export interface CxToasterProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -34,7 +34,7 @@ export interface CToasterProps extends HTMLAttributes<HTMLDivElement> {
 // Renders the shared `toastQueue` (see `toastQueue.ts` — `addToast()` is how toasts get added
 // to it from anywhere in the app) plus any statically-passed `children`, e.g. a permanently
 // pinned toast alongside dynamic ones.
-export const CxToaster = forwardRef<HTMLDivElement, CToasterProps>(
+export const CxToaster = forwardRef<HTMLDivElement, CxToasterProps>(
   ({ children, className, placement, ...rest }, ref) => {
     const state = useToastQueue(toastQueue)
     const regionRef = useRef<HTMLDivElement>(null)

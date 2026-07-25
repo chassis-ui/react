@@ -11,12 +11,12 @@
       "name": "align",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/image/CxImage.tsx",
-        "name": "CImageProps"
+        "name": "CxImageProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/image/CxImage.tsx",
-          "name": "CImageProps"
+          "name": "CxImageProps"
         }
       ],
       "required": false,
@@ -42,12 +42,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/image/CxImage.tsx",
-        "name": "CImageProps"
+        "name": "CxImageProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/image/CxImage.tsx",
-          "name": "CImageProps"
+          "name": "CxImageProps"
         }
       ],
       "required": false,
@@ -61,12 +61,12 @@
       "name": "fluid",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/image/CxImage.tsx",
-        "name": "CImageProps"
+        "name": "CxImageProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/image/CxImage.tsx",
-          "name": "CImageProps"
+          "name": "CxImageProps"
         }
       ],
       "required": false,
@@ -80,12 +80,12 @@
       "name": "rounded",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/image/CxImage.tsx",
-        "name": "CImageProps"
+        "name": "CxImageProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/image/CxImage.tsx",
-          "name": "CImageProps"
+          "name": "CxImageProps"
         }
       ],
       "required": false,
@@ -99,12 +99,12 @@
       "name": "thumbnail",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/image/CxImage.tsx",
-        "name": "CImageProps"
+        "name": "CxImageProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/image/CxImage.tsx",
-          "name": "CImageProps"
+          "name": "CxImageProps"
         }
       ],
       "required": false,

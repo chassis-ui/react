@@ -3,14 +3,14 @@ import classNames from 'classnames'
 
 import { CxLink } from '../link/CxLink'
 
-export interface CNotificationLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
+export interface CxNotificationLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   /**
    * A string of all className you want applied to the base component.
    */
   className?: string
 }
 
-export const CxNotificationLink = forwardRef<HTMLAnchorElement, CNotificationLinkProps>(
+export const CxNotificationLink = forwardRef<HTMLAnchorElement, CxNotificationLinkProps>(
   ({ children, className, ...rest }, ref) => {
     const _className = classNames('notification-link', className)
 

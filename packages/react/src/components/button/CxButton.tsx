@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import { ContextColor, ContextStyle, Shapes } from '../Types'
 import { CxLink } from '../link/CxLink'
 
-export interface CButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface CxButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /**
    * Toggle the active state for the component.
    */
@@ -52,7 +52,7 @@ export interface CButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ContextStyle
 }
 
-export const CxButton = forwardRef<HTMLButtonElement | HTMLAnchorElement, CButtonProps>(
+export const CxButton = forwardRef<HTMLButtonElement | HTMLAnchorElement, CxButtonProps>(
   (
     {
       children,

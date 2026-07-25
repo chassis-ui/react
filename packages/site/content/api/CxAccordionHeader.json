@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/accordion/CxAccordionHeader.tsx",
-        "name": "CAccordionHeaderProps"
+        "name": "CxAccordionHeaderProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/accordion/CxAccordionHeader.tsx",
-          "name": "CAccordionHeaderProps"
+          "name": "CxAccordionHeaderProps"
         }
       ],
       "required": false,

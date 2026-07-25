@@ -13,12 +13,12 @@
       "name": "animation",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
-        "name": "CToastProps"
+        "name": "CxToastProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
-          "name": "CToastProps"
+          "name": "CxToastProps"
         }
       ],
       "required": false,
@@ -34,12 +34,12 @@
       "name": "autohide",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
-        "name": "CToastProps"
+        "name": "CxToastProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
-          "name": "CToastProps"
+          "name": "CxToastProps"
         }
       ],
       "required": false,
@@ -53,12 +53,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
-        "name": "CToastProps"
+        "name": "CxToastProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
-          "name": "CToastProps"
+          "name": "CxToastProps"
         }
       ],
       "required": false,
@@ -72,12 +72,12 @@
       "name": "context",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
-        "name": "CToastProps"
+        "name": "CxToastProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
-          "name": "CToastProps"
+          "name": "CxToastProps"
         }
       ],
       "required": false,
@@ -129,12 +129,12 @@
       "name": "delay",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
-        "name": "CToastProps"
+        "name": "CxToastProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
-          "name": "CToastProps"
+          "name": "CxToastProps"
         }
       ],
       "required": false,
@@ -148,12 +148,12 @@
       "name": "onClose",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
-        "name": "CToastProps"
+        "name": "CxToastProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
-          "name": "CToastProps"
+          "name": "CxToastProps"
         }
       ],
       "required": false,
@@ -167,12 +167,12 @@
       "name": "onShow",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
-        "name": "CToastProps"
+        "name": "CxToastProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
-          "name": "CToastProps"
+          "name": "CxToastProps"
         }
       ],
       "required": false,
@@ -186,12 +186,12 @@
       "name": "solid",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
-        "name": "CToastProps"
+        "name": "CxToastProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
-          "name": "CToastProps"
+          "name": "CxToastProps"
         }
       ],
       "required": false,
@@ -205,12 +205,12 @@
       "name": "translucent",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
-        "name": "CToastProps"
+        "name": "CxToastProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
-          "name": "CToastProps"
+          "name": "CxToastProps"
         }
       ],
       "required": false,
@@ -226,12 +226,12 @@
       "name": "visible",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
-        "name": "CToastProps"
+        "name": "CxToastProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
-          "name": "CToastProps"
+          "name": "CxToastProps"
         }
       ],
       "required": false,

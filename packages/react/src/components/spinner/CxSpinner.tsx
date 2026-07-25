@@ -3,7 +3,7 @@ import classNames from 'classnames'
 
 import { ContextColor } from '../Types'
 
-export interface CSpinnerProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElement> {
+export interface CxSpinnerProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElement> {
   /**
    * A string of all className you want applied to the component.
    */
@@ -30,7 +30,7 @@ export interface CSpinnerProps extends HTMLAttributes<HTMLDivElement | HTMLSpanE
   visuallyHiddenLabel?: string
 }
 
-export const CxSpinner = forwardRef<HTMLDivElement | HTMLSpanElement, CSpinnerProps>(
+export const CxSpinner = forwardRef<HTMLDivElement | HTMLSpanElement, CxSpinnerProps>(
   (
     {
       className,

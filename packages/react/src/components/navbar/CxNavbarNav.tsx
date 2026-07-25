@@ -1,7 +1,7 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-export interface CNavbarNavProps extends HTMLAttributes<HTMLDivElement | HTMLUListElement> {
+export interface CxNavbarNavProps extends HTMLAttributes<HTMLDivElement | HTMLUListElement> {
   /**
    * A string of all className you want applied to the component.
    */
@@ -12,7 +12,7 @@ export interface CNavbarNavProps extends HTMLAttributes<HTMLDivElement | HTMLULi
   component?: string | ElementType
 }
 
-export const CxNavbarNav = forwardRef<HTMLDivElement | HTMLUListElement, CNavbarNavProps>(
+export const CxNavbarNav = forwardRef<HTMLDivElement | HTMLUListElement, CxNavbarNavProps>(
   ({ children, component: Component = 'ul', className, ...rest }, ref) => {
     const _className = classNames('navbar-nav', className)
 

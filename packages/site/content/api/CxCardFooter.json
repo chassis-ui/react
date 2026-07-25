@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/card/CxCardFooter.tsx",
-        "name": "CCardFooterProps"
+        "name": "CxCardFooterProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/card/CxCardFooter.tsx",
-          "name": "CCardFooterProps"
+          "name": "CxCardFooterProps"
         }
       ],
       "required": false,

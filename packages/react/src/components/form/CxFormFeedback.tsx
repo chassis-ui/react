@@ -1,7 +1,7 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-export interface CFormFeedbackProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElement> {
+export interface CxFormFeedbackProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElement> {
   /**
    * A string of all className you want applied to the component.
    */
@@ -24,7 +24,7 @@ export interface CFormFeedbackProps extends HTMLAttributes<HTMLDivElement | HTML
   valid?: boolean
 }
 
-export const CxFormFeedback = forwardRef<HTMLDivElement | HTMLSpanElement, CFormFeedbackProps>(
+export const CxFormFeedback = forwardRef<HTMLDivElement | HTMLSpanElement, CxFormFeedbackProps>(
   (
     { children, className, component: Component = 'div', invalid, tooltip, valid, ...rest },
     ref,

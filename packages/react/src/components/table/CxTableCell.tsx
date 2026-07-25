@@ -1,7 +1,7 @@
 import { ReactElement, ReactNode } from 'react'
 import { Cell } from 'react-stately'
 
-export interface CTableCellProps {
+export interface CxTableCellProps {
   /**
    * The contents of the cell.
    */
@@ -20,4 +20,4 @@ export interface CTableCellProps {
  * Collection node, data-only — see `CxTableHeader`. Read by `CxTable` to build a cell in the
  * table's collection; never rendered directly.
  */
-export const CxTableCell = Cell as unknown as (props: CTableCellProps) => ReactElement
+export const CxTableCell = Cell as unknown as (props: CxTableCellProps) => ReactElement

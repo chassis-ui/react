@@ -1,7 +1,7 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-export interface CCardSubtitleProps extends HTMLAttributes<HTMLHeadingElement> {
+export interface CxCardSubtitleProps extends HTMLAttributes<HTMLHeadingElement> {
   /**
    * A string of all className you want applied to the component.
    */
@@ -11,7 +11,7 @@ export interface CCardSubtitleProps extends HTMLAttributes<HTMLHeadingElement> {
    */
   component?: string | ElementType
 }
-export const CxCardSubtitle = forwardRef<HTMLHeadingElement, CCardSubtitleProps>(
+export const CxCardSubtitle = forwardRef<HTMLHeadingElement, CxCardSubtitleProps>(
   ({ children, component: Component = 'h6', className, ...rest }, ref) => {
     const _className = classNames('card-subtitle', className)
 

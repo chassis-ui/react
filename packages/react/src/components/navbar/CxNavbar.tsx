@@ -3,7 +3,7 @@ import classNames from 'classnames'
 
 import { ContextColor } from '../Types'
 
-export interface CNavbarProps extends HTMLAttributes<HTMLDivElement> {
+export interface CxNavbarProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * A string of all className you want applied to the component.
    */
@@ -34,7 +34,7 @@ export interface CNavbarProps extends HTMLAttributes<HTMLDivElement> {
   placement?: 'fixed-top' | 'fixed-bottom' | 'sticky-top'
 }
 
-export const CxNavbar = forwardRef<HTMLDivElement, CNavbarProps>(
+export const CxNavbar = forwardRef<HTMLDivElement, CxNavbarProps>(
   (
     {
       children,

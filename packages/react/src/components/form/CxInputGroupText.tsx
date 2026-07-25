@@ -1,7 +1,7 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-export interface CInputGroupTextProps extends HTMLAttributes<HTMLLabelElement | HTMLSpanElement> {
+export interface CxInputGroupTextProps extends HTMLAttributes<HTMLLabelElement | HTMLSpanElement> {
   /**
    * A string of all className you want applied to the component.
    */
@@ -14,7 +14,7 @@ export interface CInputGroupTextProps extends HTMLAttributes<HTMLLabelElement | 
 
 export const CxInputGroupText = forwardRef<
   HTMLLabelElement | HTMLSpanElement,
-  CInputGroupTextProps
+  CxInputGroupTextProps
 >(({ children, className, component: Component = 'span', ...rest }, ref) => {
   const _className = classNames('input-addon', className)
   return (

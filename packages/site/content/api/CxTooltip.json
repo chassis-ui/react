@@ -11,12 +11,12 @@
       "name": "content",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/tooltip/CxTooltip.tsx",
-        "name": "CTooltipProps"
+        "name": "CxTooltipProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/tooltip/CxTooltip.tsx",
-          "name": "CTooltipProps"
+          "name": "CxTooltipProps"
         }
       ],
       "required": true,
@@ -32,12 +32,12 @@
       "name": "offset",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/tooltip/CxTooltip.tsx",
-        "name": "CTooltipProps"
+        "name": "CxTooltipProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/tooltip/CxTooltip.tsx",
-          "name": "CTooltipProps"
+          "name": "CxTooltipProps"
         }
       ],
       "required": false,
@@ -51,12 +51,12 @@
       "name": "onHide",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/tooltip/CxTooltip.tsx",
-        "name": "CTooltipProps"
+        "name": "CxTooltipProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/tooltip/CxTooltip.tsx",
-          "name": "CTooltipProps"
+          "name": "CxTooltipProps"
         }
       ],
       "required": false,
@@ -70,12 +70,12 @@
       "name": "onShow",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/tooltip/CxTooltip.tsx",
-        "name": "CTooltipProps"
+        "name": "CxTooltipProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/tooltip/CxTooltip.tsx",
-          "name": "CTooltipProps"
+          "name": "CxTooltipProps"
         }
       ],
       "required": false,
@@ -91,12 +91,12 @@
       "name": "placement",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/tooltip/CxTooltip.tsx",
-        "name": "CTooltipProps"
+        "name": "CxTooltipProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/tooltip/CxTooltip.tsx",
-          "name": "CTooltipProps"
+          "name": "CxTooltipProps"
         }
       ],
       "required": false,
@@ -149,12 +149,12 @@
       "name": "trigger",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/tooltip/CxTooltip.tsx",
-        "name": "CTooltipProps"
+        "name": "CxTooltipProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/tooltip/CxTooltip.tsx",
-          "name": "CTooltipProps"
+          "name": "CxTooltipProps"
         }
       ],
       "required": false,
@@ -177,12 +177,12 @@
       "name": "visible",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/tooltip/CxTooltip.tsx",
-        "name": "CTooltipProps"
+        "name": "CxTooltipProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/tooltip/CxTooltip.tsx",
-          "name": "CTooltipProps"
+          "name": "CxTooltipProps"
         }
       ],
       "required": false,

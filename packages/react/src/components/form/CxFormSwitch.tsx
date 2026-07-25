@@ -7,7 +7,7 @@ import { useForkedRef } from '../../utils/hooks'
 
 import { CxFormLabel } from './CxFormLabel'
 
-export interface CFormSwitchProps
+export interface CxFormSwitchProps
   extends Omit<
     InputHTMLAttributes<HTMLInputElement>,
     'checked' | 'defaultChecked' | 'onChange' | 'size'
@@ -54,7 +54,7 @@ export interface CFormSwitchProps
   valid?: boolean
 }
 
-export const CxFormSwitch = forwardRef<HTMLInputElement, CFormSwitchProps>(
+export const CxFormSwitch = forwardRef<HTMLInputElement, CxFormSwitchProps>(
   (
     {
       className,

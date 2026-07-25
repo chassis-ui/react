@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/navbar/CxNavbarText.tsx",
-        "name": "CNavbarTextProps"
+        "name": "CxNavbarTextProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/navbar/CxNavbarText.tsx",
-          "name": "CNavbarTextProps"
+          "name": "CxNavbarTextProps"
         }
       ],
       "required": false,

@@ -13,12 +13,12 @@
       "name": "activePage",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/pagination/CxPagination.tsx",
-        "name": "CPaginationProps"
+        "name": "CxPaginationProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/pagination/CxPagination.tsx",
-          "name": "CPaginationProps"
+          "name": "CxPaginationProps"
         }
       ],
       "required": false,
@@ -32,12 +32,12 @@
       "name": "align",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/pagination/CxPagination.tsx",
-        "name": "CPaginationProps"
+        "name": "CxPaginationProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/pagination/CxPagination.tsx",
-          "name": "CPaginationProps"
+          "name": "CxPaginationProps"
         }
       ],
       "required": false,
@@ -63,12 +63,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/pagination/CxPagination.tsx",
-        "name": "CPaginationProps"
+        "name": "CxPaginationProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/pagination/CxPagination.tsx",
-          "name": "CPaginationProps"
+          "name": "CxPaginationProps"
         }
       ],
       "required": false,
@@ -84,12 +84,12 @@
       "name": "maxVisiblePages",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/pagination/CxPagination.tsx",
-        "name": "CPaginationProps"
+        "name": "CxPaginationProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/pagination/CxPagination.tsx",
-          "name": "CPaginationProps"
+          "name": "CxPaginationProps"
         }
       ],
       "required": false,
@@ -103,12 +103,12 @@
       "name": "onActivePageChange",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/pagination/CxPagination.tsx",
-        "name": "CPaginationProps"
+        "name": "CxPaginationProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/pagination/CxPagination.tsx",
-          "name": "CPaginationProps"
+          "name": "CxPaginationProps"
         }
       ],
       "required": false,
@@ -122,12 +122,12 @@
       "name": "pages",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/pagination/CxPagination.tsx",
-        "name": "CPaginationProps"
+        "name": "CxPaginationProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/pagination/CxPagination.tsx",
-          "name": "CPaginationProps"
+          "name": "CxPaginationProps"
         }
       ],
       "required": false,
@@ -141,12 +141,12 @@
       "name": "size",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/pagination/CxPagination.tsx",
-        "name": "CPaginationProps"
+        "name": "CxPaginationProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/pagination/CxPagination.tsx",
-          "name": "CPaginationProps"
+          "name": "CxPaginationProps"
         }
       ],
       "required": false,

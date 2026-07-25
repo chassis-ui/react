@@ -13,7 +13,7 @@ import {
   StrengthWeights,
 } from './strengthScore'
 
-export interface CPasswordStrengthProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
+export interface CxPasswordStrengthProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
   /**
    * An accessible label for the meter. Defaults to `"Password strength"`.
    */
@@ -82,7 +82,7 @@ export const CxPasswordStrength = ({
   variant = 'segmented',
   weights,
   ...rest
-}: CPasswordStrengthProps) => {
+}: CxPasswordStrengthProps) => {
   const mergedWeights = useMemo(() => ({ ...defaultWeights, ...weights }), [weights])
   const mergedMessages = useMemo(() => ({ ...defaultMessages, ...messages }), [messages])
 

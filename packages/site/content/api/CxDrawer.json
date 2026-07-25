@@ -13,12 +13,12 @@
       "name": "backdrop",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawer.tsx",
-        "name": "CDrawerProps"
+        "name": "CxDrawerProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawer.tsx",
-          "name": "CDrawerProps"
+          "name": "CxDrawerProps"
         }
       ],
       "required": false,
@@ -32,12 +32,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawer.tsx",
-        "name": "CDrawerProps"
+        "name": "CxDrawerProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawer.tsx",
-          "name": "CDrawerProps"
+          "name": "CxDrawerProps"
         }
       ],
       "required": false,
@@ -51,12 +51,12 @@
       "name": "fitContent",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawer.tsx",
-        "name": "CDrawerProps"
+        "name": "CxDrawerProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawer.tsx",
-          "name": "CDrawerProps"
+          "name": "CxDrawerProps"
         }
       ],
       "required": false,
@@ -70,12 +70,12 @@
       "name": "fullscreen",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawer.tsx",
-        "name": "CDrawerProps"
+        "name": "CxDrawerProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawer.tsx",
-          "name": "CDrawerProps"
+          "name": "CxDrawerProps"
         }
       ],
       "required": false,
@@ -89,12 +89,12 @@
       "name": "instant",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawer.tsx",
-        "name": "CDrawerProps"
+        "name": "CxDrawerProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawer.tsx",
-          "name": "CDrawerProps"
+          "name": "CxDrawerProps"
         }
       ],
       "required": false,
@@ -110,12 +110,12 @@
       "name": "keyboard",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawer.tsx",
-        "name": "CDrawerProps"
+        "name": "CxDrawerProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawer.tsx",
-          "name": "CDrawerProps"
+          "name": "CxDrawerProps"
         }
       ],
       "required": false,
@@ -129,12 +129,12 @@
       "name": "onClose",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawer.tsx",
-        "name": "CDrawerProps"
+        "name": "CxDrawerProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawer.tsx",
-          "name": "CDrawerProps"
+          "name": "CxDrawerProps"
         }
       ],
       "required": false,
@@ -148,12 +148,12 @@
       "name": "onClosePrevented",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawer.tsx",
-        "name": "CDrawerProps"
+        "name": "CxDrawerProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawer.tsx",
-          "name": "CDrawerProps"
+          "name": "CxDrawerProps"
         }
       ],
       "required": false,
@@ -167,12 +167,12 @@
       "name": "onHidden",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawer.tsx",
-        "name": "CDrawerProps"
+        "name": "CxDrawerProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawer.tsx",
-          "name": "CDrawerProps"
+          "name": "CxDrawerProps"
         }
       ],
       "required": false,
@@ -186,12 +186,12 @@
       "name": "onShow",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawer.tsx",
-        "name": "CDrawerProps"
+        "name": "CxDrawerProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawer.tsx",
-          "name": "CDrawerProps"
+          "name": "CxDrawerProps"
         }
       ],
       "required": false,
@@ -205,12 +205,12 @@
       "name": "onShown",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawer.tsx",
-        "name": "CDrawerProps"
+        "name": "CxDrawerProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawer.tsx",
-          "name": "CDrawerProps"
+          "name": "CxDrawerProps"
         }
       ],
       "required": false,
@@ -224,12 +224,12 @@
       "name": "placement",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawer.tsx",
-        "name": "CDrawerProps"
+        "name": "CxDrawerProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawer.tsx",
-          "name": "CDrawerProps"
+          "name": "CxDrawerProps"
         }
       ],
       "required": true,
@@ -258,12 +258,12 @@
       "name": "responsive",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawer.tsx",
-        "name": "CDrawerProps"
+        "name": "CxDrawerProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawer.tsx",
-          "name": "CDrawerProps"
+          "name": "CxDrawerProps"
         }
       ],
       "required": false,
@@ -297,12 +297,12 @@
       "name": "scroll",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawer.tsx",
-        "name": "CDrawerProps"
+        "name": "CxDrawerProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawer.tsx",
-          "name": "CDrawerProps"
+          "name": "CxDrawerProps"
         }
       ],
       "required": false,
@@ -316,12 +316,12 @@
       "name": "sheet",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawer.tsx",
-        "name": "CDrawerProps"
+        "name": "CxDrawerProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawer.tsx",
-          "name": "CDrawerProps"
+          "name": "CxDrawerProps"
         }
       ],
       "required": false,
@@ -335,12 +335,12 @@
       "name": "translucent",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawer.tsx",
-        "name": "CDrawerProps"
+        "name": "CxDrawerProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawer.tsx",
-          "name": "CDrawerProps"
+          "name": "CxDrawerProps"
         }
       ],
       "required": false,
@@ -354,12 +354,12 @@
       "name": "visible",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawer.tsx",
-        "name": "CDrawerProps"
+        "name": "CxDrawerProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/drawer/CxDrawer.tsx",
-          "name": "CDrawerProps"
+          "name": "CxDrawerProps"
         }
       ],
       "required": false,

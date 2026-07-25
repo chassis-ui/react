@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
-        "name": "CFormInputProps"
+        "name": "CxFormInputProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
-          "name": "CFormInputProps"
+          "name": "CxFormInputProps"
         }
       ],
       "required": false,
@@ -30,12 +30,12 @@
       "name": "disabled",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
-        "name": "CFormInputProps"
+        "name": "CxFormInputProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
-          "name": "CFormInputProps"
+          "name": "CxFormInputProps"
         }
       ],
       "required": false,
@@ -49,12 +49,12 @@
       "name": "invalid",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
-        "name": "CFormInputProps"
+        "name": "CxFormInputProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
-          "name": "CFormInputProps"
+          "name": "CxFormInputProps"
         }
       ],
       "required": false,
@@ -68,12 +68,12 @@
       "name": "onChange",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
-        "name": "CFormInputProps"
+        "name": "CxFormInputProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
-          "name": "CFormInputProps"
+          "name": "CxFormInputProps"
         }
       ],
       "required": false,
@@ -87,12 +87,12 @@
       "name": "plainText",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
-        "name": "CFormInputProps"
+        "name": "CxFormInputProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
-          "name": "CFormInputProps"
+          "name": "CxFormInputProps"
         }
       ],
       "required": false,
@@ -106,12 +106,12 @@
       "name": "readOnly",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
-        "name": "CFormInputProps"
+        "name": "CxFormInputProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
-          "name": "CFormInputProps"
+          "name": "CxFormInputProps"
         }
       ],
       "required": false,
@@ -125,12 +125,12 @@
       "name": "size",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
-        "name": "CFormInputProps"
+        "name": "CxFormInputProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
-          "name": "CFormInputProps"
+          "name": "CxFormInputProps"
         }
       ],
       "required": false,
@@ -155,12 +155,12 @@
       "name": "type",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
-        "name": "CFormInputProps"
+        "name": "CxFormInputProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
-          "name": "CFormInputProps"
+          "name": "CxFormInputProps"
         }
       ],
       "required": false,
@@ -174,12 +174,12 @@
       "name": "valid",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
-        "name": "CFormInputProps"
+        "name": "CxFormInputProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
-          "name": "CFormInputProps"
+          "name": "CxFormInputProps"
         }
       ],
       "required": false,
@@ -193,12 +193,12 @@
       "name": "value",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
-        "name": "CFormInputProps"
+        "name": "CxFormInputProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormInput.tsx",
-          "name": "CFormInputProps"
+          "name": "CxFormInputProps"
         }
       ],
       "required": false,

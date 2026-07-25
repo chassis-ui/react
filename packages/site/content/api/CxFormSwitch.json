@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-        "name": "CFormSwitchProps"
+        "name": "CxFormSwitchProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-          "name": "CFormSwitchProps"
+          "name": "CxFormSwitchProps"
         }
       ],
       "required": false,
@@ -30,12 +30,12 @@
       "name": "defaultSelected",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-        "name": "CFormSwitchProps"
+        "name": "CxFormSwitchProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-          "name": "CFormSwitchProps"
+          "name": "CxFormSwitchProps"
         }
       ],
       "required": false,
@@ -49,12 +49,12 @@
       "name": "id",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-        "name": "CFormSwitchProps"
+        "name": "CxFormSwitchProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-          "name": "CFormSwitchProps"
+          "name": "CxFormSwitchProps"
         }
       ],
       "required": false,
@@ -68,12 +68,12 @@
       "name": "invalid",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-        "name": "CFormSwitchProps"
+        "name": "CxFormSwitchProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-          "name": "CFormSwitchProps"
+          "name": "CxFormSwitchProps"
         }
       ],
       "required": false,
@@ -87,12 +87,12 @@
       "name": "isSelected",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-        "name": "CFormSwitchProps"
+        "name": "CxFormSwitchProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-          "name": "CFormSwitchProps"
+          "name": "CxFormSwitchProps"
         }
       ],
       "required": false,
@@ -106,12 +106,12 @@
       "name": "label",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-        "name": "CFormSwitchProps"
+        "name": "CxFormSwitchProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-          "name": "CFormSwitchProps"
+          "name": "CxFormSwitchProps"
         }
       ],
       "required": false,
@@ -125,12 +125,12 @@
       "name": "onChange",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-        "name": "CFormSwitchProps"
+        "name": "CxFormSwitchProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-          "name": "CFormSwitchProps"
+          "name": "CxFormSwitchProps"
         }
       ],
       "required": false,
@@ -144,12 +144,12 @@
       "name": "size",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-        "name": "CFormSwitchProps"
+        "name": "CxFormSwitchProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-          "name": "CFormSwitchProps"
+          "name": "CxFormSwitchProps"
         }
       ],
       "required": false,
@@ -174,12 +174,12 @@
       "name": "type",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-        "name": "CFormSwitchProps"
+        "name": "CxFormSwitchProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-          "name": "CFormSwitchProps"
+          "name": "CxFormSwitchProps"
         }
       ],
       "required": false,
@@ -202,12 +202,12 @@
       "name": "valid",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-        "name": "CFormSwitchProps"
+        "name": "CxFormSwitchProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-          "name": "CFormSwitchProps"
+          "name": "CxFormSwitchProps"
         }
       ],
       "required": false,

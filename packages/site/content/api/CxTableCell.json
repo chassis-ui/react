@@ -11,12 +11,12 @@
       "name": "children",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/table/CxTableCell.tsx",
-        "name": "CTableCellProps"
+        "name": "CxTableCellProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/table/CxTableCell.tsx",
-          "name": "CTableCellProps"
+          "name": "CxTableCellProps"
         }
       ],
       "required": true,
@@ -30,12 +30,12 @@
       "name": "colSpan",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/table/CxTableCell.tsx",
-        "name": "CTableCellProps"
+        "name": "CxTableCellProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/table/CxTableCell.tsx",
-          "name": "CTableCellProps"
+          "name": "CxTableCellProps"
         }
       ],
       "required": false,
@@ -49,12 +49,12 @@
       "name": "textValue",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/table/CxTableCell.tsx",
-        "name": "CTableCellProps"
+        "name": "CxTableCellProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/table/CxTableCell.tsx",
-          "name": "CTableCellProps"
+          "name": "CxTableCellProps"
         }
       ],
       "required": false,

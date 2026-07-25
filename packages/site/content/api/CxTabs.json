@@ -11,12 +11,12 @@
       "name": "children",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/tabs/CxTabs.tsx",
-        "name": "CTabsProps"
+        "name": "CxTabsProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/tabs/CxTabs.tsx",
-          "name": "CTabsProps"
+          "name": "CxTabsProps"
         }
       ],
       "required": true,
@@ -30,12 +30,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/tabs/CxTabs.tsx",
-        "name": "CTabsProps"
+        "name": "CxTabsProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/tabs/CxTabs.tsx",
-          "name": "CTabsProps"
+          "name": "CxTabsProps"
         }
       ],
       "required": false,
@@ -49,12 +49,12 @@
       "name": "defaultSelectedKey",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/tabs/CxTabs.tsx",
-        "name": "CTabsProps"
+        "name": "CxTabsProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/tabs/CxTabs.tsx",
-          "name": "CTabsProps"
+          "name": "CxTabsProps"
         }
       ],
       "required": false,
@@ -68,12 +68,12 @@
       "name": "disabledKeys",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/tabs/CxTabs.tsx",
-        "name": "CTabsProps"
+        "name": "CxTabsProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/tabs/CxTabs.tsx",
-          "name": "CTabsProps"
+          "name": "CxTabsProps"
         }
       ],
       "required": false,
@@ -87,12 +87,12 @@
       "name": "keyboardActivation",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/tabs/CxTabs.tsx",
-        "name": "CTabsProps"
+        "name": "CxTabsProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/tabs/CxTabs.tsx",
-          "name": "CTabsProps"
+          "name": "CxTabsProps"
         }
       ],
       "required": false,
@@ -115,12 +115,12 @@
       "name": "onSelectionChange",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/tabs/CxTabs.tsx",
-        "name": "CTabsProps"
+        "name": "CxTabsProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/tabs/CxTabs.tsx",
-          "name": "CTabsProps"
+          "name": "CxTabsProps"
         }
       ],
       "required": false,
@@ -134,12 +134,12 @@
       "name": "orientation",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/tabs/CxTabs.tsx",
-        "name": "CTabsProps"
+        "name": "CxTabsProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/tabs/CxTabs.tsx",
-          "name": "CTabsProps"
+          "name": "CxTabsProps"
         }
       ],
       "required": false,
@@ -162,12 +162,12 @@
       "name": "selectedKey",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/tabs/CxTabs.tsx",
-        "name": "CTabsProps"
+        "name": "CxTabsProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/tabs/CxTabs.tsx",
-          "name": "CTabsProps"
+          "name": "CxTabsProps"
         }
       ],
       "required": false,

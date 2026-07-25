@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/modal/CxModalTitle.tsx",
-        "name": "CModalTitleProps"
+        "name": "CxModalTitleProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/modal/CxModalTitle.tsx",
-          "name": "CModalTitleProps"
+          "name": "CxModalTitleProps"
         }
       ],
       "required": false,
@@ -32,12 +32,12 @@
       "name": "component",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/modal/CxModalTitle.tsx",
-        "name": "CModalTitleProps"
+        "name": "CxModalTitleProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/modal/CxModalTitle.tsx",
-          "name": "CModalTitleProps"
+          "name": "CxModalTitleProps"
         }
       ],
       "required": false,

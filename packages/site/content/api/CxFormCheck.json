@@ -11,12 +11,12 @@
       "name": "button",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
-        "name": "CFormCheckProps"
+        "name": "CxFormCheckProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
-          "name": "CFormCheckProps"
+          "name": "CxFormCheckProps"
         }
       ],
       "required": false,
@@ -30,12 +30,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
-        "name": "CFormCheckProps"
+        "name": "CxFormCheckProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
-          "name": "CFormCheckProps"
+          "name": "CxFormCheckProps"
         }
       ],
       "required": false,
@@ -49,12 +49,12 @@
       "name": "defaultSelected",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
-        "name": "CFormCheckProps"
+        "name": "CxFormCheckProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
-          "name": "CFormCheckProps"
+          "name": "CxFormCheckProps"
         }
       ],
       "required": false,
@@ -68,12 +68,12 @@
       "name": "hitArea",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
-        "name": "CFormCheckProps"
+        "name": "CxFormCheckProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
-          "name": "CFormCheckProps"
+          "name": "CxFormCheckProps"
         }
       ],
       "required": false,
@@ -93,12 +93,12 @@
       "name": "id",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
-        "name": "CFormCheckProps"
+        "name": "CxFormCheckProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
-          "name": "CFormCheckProps"
+          "name": "CxFormCheckProps"
         }
       ],
       "required": false,
@@ -112,12 +112,12 @@
       "name": "indeterminate",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
-        "name": "CFormCheckProps"
+        "name": "CxFormCheckProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
-          "name": "CFormCheckProps"
+          "name": "CxFormCheckProps"
         }
       ],
       "required": false,
@@ -131,12 +131,12 @@
       "name": "inline",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
-        "name": "CFormCheckProps"
+        "name": "CxFormCheckProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
-          "name": "CFormCheckProps"
+          "name": "CxFormCheckProps"
         }
       ],
       "required": false,
@@ -150,12 +150,12 @@
       "name": "invalid",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
-        "name": "CFormCheckProps"
+        "name": "CxFormCheckProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
-          "name": "CFormCheckProps"
+          "name": "CxFormCheckProps"
         }
       ],
       "required": false,
@@ -169,12 +169,12 @@
       "name": "isSelected",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
-        "name": "CFormCheckProps"
+        "name": "CxFormCheckProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
-          "name": "CFormCheckProps"
+          "name": "CxFormCheckProps"
         }
       ],
       "required": false,
@@ -188,12 +188,12 @@
       "name": "label",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
-        "name": "CFormCheckProps"
+        "name": "CxFormCheckProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
-          "name": "CFormCheckProps"
+          "name": "CxFormCheckProps"
         }
       ],
       "required": false,
@@ -207,12 +207,12 @@
       "name": "onChange",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
-        "name": "CFormCheckProps"
+        "name": "CxFormCheckProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
-          "name": "CFormCheckProps"
+          "name": "CxFormCheckProps"
         }
       ],
       "required": false,
@@ -228,12 +228,12 @@
       "name": "type",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
-        "name": "CFormCheckProps"
+        "name": "CxFormCheckProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
-          "name": "CFormCheckProps"
+          "name": "CxFormCheckProps"
         }
       ],
       "required": false,
@@ -256,12 +256,12 @@
       "name": "valid",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
-        "name": "CFormCheckProps"
+        "name": "CxFormCheckProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
-          "name": "CFormCheckProps"
+          "name": "CxFormCheckProps"
         }
       ],
       "required": false,

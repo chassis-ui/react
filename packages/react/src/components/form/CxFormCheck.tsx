@@ -27,7 +27,7 @@ export type ButtonObject = {
   variant?: 'outline' | 'ghost'
 }
 
-export interface CFormCheckProps
+export interface CxFormCheckProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, 'checked' | 'defaultChecked' | 'onChange'> {
   /**
    * Create button-like checkboxes and radio buttons.
@@ -83,7 +83,7 @@ export interface CFormCheckProps
   valid?: boolean
 }
 
-export const CxFormCheck = forwardRef<HTMLInputElement, CFormCheckProps>(
+export const CxFormCheck = forwardRef<HTMLInputElement, CxFormCheckProps>(
   (
     {
       className,

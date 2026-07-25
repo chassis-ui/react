@@ -1,7 +1,7 @@
 import React, { forwardRef, ImgHTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-export interface CImageProps extends ImgHTMLAttributes<HTMLOrSVGImageElement> {
+export interface CxImageProps extends ImgHTMLAttributes<HTMLOrSVGImageElement> {
   /**
    * Set the horizontal aligment.
    */
@@ -24,7 +24,7 @@ export interface CImageProps extends ImgHTMLAttributes<HTMLOrSVGImageElement> {
   thumbnail?: boolean
 }
 
-export const CxImage = forwardRef<HTMLImageElement, CImageProps>(
+export const CxImage = forwardRef<HTMLImageElement, CxImageProps>(
   ({ align, className, fluid, rounded, thumbnail, ...rest }, ref) => {
     const _className = classNames(
       {

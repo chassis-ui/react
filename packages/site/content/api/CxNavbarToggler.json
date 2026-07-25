@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/navbar/CxNavbarToggler.tsx",
-        "name": "CNavbarTogglerProps"
+        "name": "CxNavbarTogglerProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/navbar/CxNavbarToggler.tsx",
-          "name": "CNavbarTogglerProps"
+          "name": "CxNavbarTogglerProps"
         }
       ],
       "required": false,

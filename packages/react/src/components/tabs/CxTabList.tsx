@@ -3,10 +3,10 @@ import classNames from 'classnames'
 import { useTab, useTabList } from 'react-aria'
 import { Node } from 'react-stately'
 
-import { CTabProps } from './CxTab'
+import { CxTabProps } from './CxTab'
 import { useCxTabsContext } from './CxTabs'
 
-export interface CTabListProps extends AriaAttributes {
+export interface CxTabListProps extends AriaAttributes {
   /**
    * `CxTab` elements — read as data by `CxTabs` to build the tab collection (see `CxTabs.tsx`).
    * Not rendered directly.
@@ -25,7 +25,7 @@ export interface CTabListProps extends AriaAttributes {
 // Renders the actual, focusable tabs from `state.collection` — built by the ancestor `CxTabs`
 // from this component's own `children` (see the comment there). This component's own `children`
 // prop is intentionally unused for rendering.
-export const CxTabList = ({ className, variant = 'tabs', ...rest }: CTabListProps) => {
+export const CxTabList = ({ className, variant = 'tabs', ...rest }: CxTabListProps) => {
   const { keyboardActivation, orientation, state } = useCxTabsContext()
   const ref = useRef<HTMLUListElement>(null)
   const { tabListProps } = useTabList({ keyboardActivation, orientation, ...rest }, state, ref)
@@ -44,7 +44,7 @@ export const CxTabList = ({ className, variant = 'tabs', ...rest }: CTabListProp
 CxTabList.displayName = 'CxTabList'
 
 interface TabItemProps {
-  item: Node<ReactElement<CTabProps>>
+  item: Node<ReactElement<CxTabProps>>
 }
 
 const TabItem = ({ item }: TabItemProps) => {

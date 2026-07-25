@@ -13,12 +13,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/collapse/CxCollapse.tsx",
-        "name": "CCollapseProps"
+        "name": "CxCollapseProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/collapse/CxCollapse.tsx",
-          "name": "CCollapseProps"
+          "name": "CxCollapseProps"
         }
       ],
       "required": false,
@@ -32,12 +32,12 @@
       "name": "onHide",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/collapse/CxCollapse.tsx",
-        "name": "CCollapseProps"
+        "name": "CxCollapseProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/collapse/CxCollapse.tsx",
-          "name": "CCollapseProps"
+          "name": "CxCollapseProps"
         }
       ],
       "required": false,
@@ -51,12 +51,12 @@
       "name": "onShow",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/collapse/CxCollapse.tsx",
-        "name": "CCollapseProps"
+        "name": "CxCollapseProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/collapse/CxCollapse.tsx",
-          "name": "CCollapseProps"
+          "name": "CxCollapseProps"
         }
       ],
       "required": false,
@@ -70,12 +70,12 @@
       "name": "visible",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/collapse/CxCollapse.tsx",
-        "name": "CCollapseProps"
+        "name": "CxCollapseProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/collapse/CxCollapse.tsx",
-          "name": "CCollapseProps"
+          "name": "CxCollapseProps"
         }
       ],
       "required": false,

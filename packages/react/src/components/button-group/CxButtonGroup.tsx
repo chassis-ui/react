@@ -1,7 +1,7 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-export interface CButtonGroupProps extends HTMLAttributes<HTMLDivElement> {
+export interface CxButtonGroupProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -16,7 +16,7 @@ export interface CButtonGroupProps extends HTMLAttributes<HTMLDivElement> {
   vertical?: boolean
 }
 
-export const CxButtonGroup = forwardRef<HTMLDivElement, CButtonGroupProps>(
+export const CxButtonGroup = forwardRef<HTMLDivElement, CxButtonGroupProps>(
   ({ children, className, size, vertical, ...rest }, ref) => {
     const _className = classNames('button-group', { vertical }, size, className)
 

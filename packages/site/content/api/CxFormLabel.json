@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormLabel.tsx",
-        "name": "CFormLabelProps"
+        "name": "CxFormLabelProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormLabel.tsx",
-          "name": "CFormLabelProps"
+          "name": "CxFormLabelProps"
         }
       ],
       "required": false,
@@ -30,12 +30,12 @@
       "name": "customClassName",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormLabel.tsx",
-        "name": "CFormLabelProps"
+        "name": "CxFormLabelProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormLabel.tsx",
-          "name": "CFormLabelProps"
+          "name": "CxFormLabelProps"
         }
       ],
       "required": false,

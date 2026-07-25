@@ -1,7 +1,7 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-export interface CDrawerFooterProps extends HTMLAttributes<HTMLDivElement> {
+export interface CxDrawerFooterProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -12,7 +12,7 @@ export interface CDrawerFooterProps extends HTMLAttributes<HTMLDivElement> {
   stacked?: boolean
 }
 
-export const CxDrawerFooter = forwardRef<HTMLDivElement, CDrawerFooterProps>(
+export const CxDrawerFooter = forwardRef<HTMLDivElement, CxDrawerFooterProps>(
   ({ children, className, stacked, ...rest }, ref) => {
     const _className = classNames('drawer-footer', { stacked }, className)
 

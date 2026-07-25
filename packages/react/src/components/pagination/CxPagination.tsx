@@ -3,7 +3,7 @@ import classNames from 'classnames'
 
 import { CxPaginationItem } from './CxPaginationItem'
 
-export interface CPaginationProps extends HTMLAttributes<HTMLUListElement> {
+export interface CxPaginationProps extends HTMLAttributes<HTMLUListElement> {
   /**
    * Current active page (1-indexed). Used with `pages` for data-driven mode.
    */
@@ -67,7 +67,7 @@ function getPageRange(activePage: number, pages: number, maxVisible: number): (n
   return result
 }
 
-export const CxPagination = forwardRef<HTMLUListElement, CPaginationProps>(
+export const CxPagination = forwardRef<HTMLUListElement, CxPaginationProps>(
   (
     {
       activePage = 1,

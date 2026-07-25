@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/progress/CxProgress.tsx",
-        "name": "CProgressProps"
+        "name": "CxProgressProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/progress/CxProgress.tsx",
-          "name": "CProgressProps"
+          "name": "CxProgressProps"
         }
       ],
       "required": false,
@@ -30,12 +30,12 @@
       "name": "height",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/progress/CxProgress.tsx",
-        "name": "CProgressProps"
+        "name": "CxProgressProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/progress/CxProgress.tsx",
-          "name": "CProgressProps"
+          "name": "CxProgressProps"
         }
       ],
       "required": false,
@@ -49,12 +49,12 @@
       "name": "thin",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/progress/CxProgress.tsx",
-        "name": "CProgressProps"
+        "name": "CxProgressProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/progress/CxProgress.tsx",
-          "name": "CProgressProps"
+          "name": "CxProgressProps"
         }
       ],
       "required": false,
@@ -70,12 +70,12 @@
       "name": "value",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/progress/CxProgress.tsx",
-        "name": "CProgressProps"
+        "name": "CxProgressProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/progress/CxProgress.tsx",
-          "name": "CProgressProps"
+          "name": "CxProgressProps"
         }
       ],
       "required": false,
@@ -89,12 +89,12 @@
       "name": "white",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/progress/CxProgress.tsx",
-        "name": "CProgressProps"
+        "name": "CxProgressProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/progress/CxProgress.tsx",
-          "name": "CProgressProps"
+          "name": "CxProgressProps"
         }
       ],
       "required": false,
@@ -108,12 +108,12 @@
       "name": "animated",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/progress/CxProgressBar.tsx",
-        "name": "CProgressBarProps"
+        "name": "CxProgressBarProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/progress/CxProgressBar.tsx",
-          "name": "CProgressBarProps"
+          "name": "CxProgressBarProps"
         }
       ],
       "required": false,
@@ -127,12 +127,12 @@
       "name": "context",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/progress/CxProgressBar.tsx",
-        "name": "CProgressBarProps"
+        "name": "CxProgressBarProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/progress/CxProgressBar.tsx",
-          "name": "CProgressBarProps"
+          "name": "CxProgressBarProps"
         }
       ],
       "required": false,
@@ -182,12 +182,12 @@
       "name": "variant",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/progress/CxProgressBar.tsx",
-        "name": "CProgressBarProps"
+        "name": "CxProgressBarProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/progress/CxProgressBar.tsx",
-          "name": "CProgressBarProps"
+          "name": "CxProgressBarProps"
         }
       ],
       "required": false,

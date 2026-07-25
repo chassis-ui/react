@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/modal/CxModalFooter.tsx",
-        "name": "CModalFooterProps"
+        "name": "CxModalFooterProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/modal/CxModalFooter.tsx",
-          "name": "CModalFooterProps"
+          "name": "CxModalFooterProps"
         }
       ],
       "required": false,
@@ -30,12 +30,12 @@
       "name": "stacked",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/modal/CxModalFooter.tsx",
-        "name": "CModalFooterProps"
+        "name": "CxModalFooterProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/modal/CxModalFooter.tsx",
-          "name": "CModalFooterProps"
+          "name": "CxModalFooterProps"
         }
       ],
       "required": false,

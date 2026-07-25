@@ -1,7 +1,7 @@
 import { ReactElement, ReactNode } from 'react'
 import { Column } from 'react-stately'
 
-export interface CTableColumnProps {
+export interface CxTableColumnProps {
   /**
    * Whether the column allows sorting. Adds a sort indicator and makes the header
    * clickable/keyboard-activatable.
@@ -17,4 +17,4 @@ export interface CTableColumnProps {
  * Collection node, data-only — see `CxTableHeader`. Read by `CxTable` to build a column in the
  * table's collection; never rendered directly.
  */
-export const CxTableColumn = Column as unknown as (props: CTableColumnProps) => ReactElement
+export const CxTableColumn = Column as unknown as (props: CxTableColumnProps) => ReactElement

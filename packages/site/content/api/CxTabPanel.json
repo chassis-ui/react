@@ -11,12 +11,12 @@
       "name": "children",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/tabs/CxTabPanel.tsx",
-        "name": "CTabPanelProps"
+        "name": "CxTabPanelProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/tabs/CxTabPanel.tsx",
-          "name": "CTabPanelProps"
+          "name": "CxTabPanelProps"
         }
       ],
       "required": true,
@@ -30,12 +30,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/tabs/CxTabPanel.tsx",
-        "name": "CTabPanelProps"
+        "name": "CxTabPanelProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/tabs/CxTabPanel.tsx",
-          "name": "CTabPanelProps"
+          "name": "CxTabPanelProps"
         }
       ],
       "required": false,
@@ -49,12 +49,12 @@
       "name": "id",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/tabs/CxTabPanel.tsx",
-        "name": "CTabPanelProps"
+        "name": "CxTabPanelProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/tabs/CxTabPanel.tsx",
-          "name": "CTabPanelProps"
+          "name": "CxTabPanelProps"
         }
       ],
       "required": true,

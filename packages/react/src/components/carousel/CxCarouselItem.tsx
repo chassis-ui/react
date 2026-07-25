@@ -3,7 +3,7 @@ import classNames from 'classnames'
 
 import { useForkedRef } from '../../utils/hooks'
 import { CCarouselContext } from './CxCarousel'
-export interface CCarouselItemProps extends HTMLAttributes<HTMLDivElement> {
+export interface CxCarouselItemProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * @ignore
    */
@@ -22,7 +22,7 @@ export interface CCarouselItemProps extends HTMLAttributes<HTMLDivElement> {
   interval?: boolean | number
 }
 
-export const CxCarouselItem = forwardRef<HTMLDivElement, CCarouselItemProps>(
+export const CxCarouselItem = forwardRef<HTMLDivElement, CxCarouselItemProps>(
   ({ children, className, active, direction, interval = false, ...rest }, ref) => {
     const { setAnimating, setCustomInterval } = useContext(CCarouselContext)
     const carouselItemRef = useRef<HTMLDivElement>(null)

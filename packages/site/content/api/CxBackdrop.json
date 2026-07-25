@@ -13,12 +13,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/backdrop/CxBackdrop.tsx",
-        "name": "CBackdropProps"
+        "name": "CxBackdropProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/backdrop/CxBackdrop.tsx",
-          "name": "CBackdropProps"
+          "name": "CxBackdropProps"
         }
       ],
       "required": false,
@@ -32,12 +32,12 @@
       "name": "visible",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/backdrop/CxBackdrop.tsx",
-        "name": "CBackdropProps"
+        "name": "CxBackdropProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/backdrop/CxBackdrop.tsx",
-          "name": "CBackdropProps"
+          "name": "CxBackdropProps"
         }
       ],
       "required": false,

@@ -3,12 +3,12 @@ import classNames from 'classnames'
 import { AriaListBoxOptions, useListBox, useOption } from 'react-aria'
 import { ComboBoxState, Node } from 'react-stately'
 
-import { CComboboxItemProps } from './CxComboboxItem'
+import { CxComboboxItemProps } from './CxComboboxItem'
 
 interface ComboboxListBoxProps {
-  listBoxProps: AriaListBoxOptions<ReactElement<CComboboxItemProps>>
+  listBoxProps: AriaListBoxOptions<ReactElement<CxComboboxItemProps>>
   listBoxRef: RefObject<HTMLElement | null>
-  state: ComboBoxState<ReactElement<CComboboxItemProps>>
+  state: ComboBoxState<ReactElement<CxComboboxItemProps>>
 }
 
 export const ComboboxListBox = ({ listBoxProps, listBoxRef, state }: ComboboxListBoxProps) => {
@@ -24,8 +24,8 @@ export const ComboboxListBox = ({ listBoxProps, listBoxRef, state }: ComboboxLis
 }
 
 interface ComboboxOptionProps {
-  item: Node<ReactElement<CComboboxItemProps>>
-  state: ComboBoxState<ReactElement<CComboboxItemProps>>
+  item: Node<ReactElement<CxComboboxItemProps>>
+  state: ComboBoxState<ReactElement<CxComboboxItemProps>>
 }
 
 const ComboboxOption = ({ item, state }: ComboboxOptionProps) => {

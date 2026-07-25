@@ -13,12 +13,12 @@
       "name": "alwaysOpen",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/accordion/CxAccordion.tsx",
-        "name": "CAccordionProps"
+        "name": "CxAccordionProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/accordion/CxAccordion.tsx",
-          "name": "CAccordionProps"
+          "name": "CxAccordionProps"
         }
       ],
       "required": false,
@@ -32,12 +32,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/accordion/CxAccordion.tsx",
-        "name": "CAccordionProps"
+        "name": "CxAccordionProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/accordion/CxAccordion.tsx",
-          "name": "CAccordionProps"
+          "name": "CxAccordionProps"
         }
       ],
       "required": false,
@@ -51,12 +51,12 @@
       "name": "flush",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/accordion/CxAccordion.tsx",
-        "name": "CAccordionProps"
+        "name": "CxAccordionProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/accordion/CxAccordion.tsx",
-          "name": "CAccordionProps"
+          "name": "CxAccordionProps"
         }
       ],
       "required": false,

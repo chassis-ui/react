@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/button-group/CxButtonToolbar.tsx",
-        "name": "CButtonToolbarProps"
+        "name": "CxButtonToolbarProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/button-group/CxButtonToolbar.tsx",
-          "name": "CButtonToolbarProps"
+          "name": "CxButtonToolbarProps"
         }
       ],
       "required": false,

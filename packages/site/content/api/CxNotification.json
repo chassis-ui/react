@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/notification/CxNotification.tsx",
-        "name": "CNotificationProps"
+        "name": "CxNotificationProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/notification/CxNotification.tsx",
-          "name": "CNotificationProps"
+          "name": "CxNotificationProps"
         }
       ],
       "required": false,
@@ -32,12 +32,12 @@
       "name": "context",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/notification/CxNotification.tsx",
-        "name": "CNotificationProps"
+        "name": "CxNotificationProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/notification/CxNotification.tsx",
-          "name": "CNotificationProps"
+          "name": "CxNotificationProps"
         }
       ],
       "required": false,
@@ -87,12 +87,12 @@
       "name": "dismissible",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/notification/CxNotification.tsx",
-        "name": "CNotificationProps"
+        "name": "CxNotificationProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/notification/CxNotification.tsx",
-          "name": "CNotificationProps"
+          "name": "CxNotificationProps"
         }
       ],
       "required": false,
@@ -106,12 +106,12 @@
       "name": "variant",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/notification/CxNotification.tsx",
-        "name": "CNotificationProps"
+        "name": "CxNotificationProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/notification/CxNotification.tsx",
-          "name": "CNotificationProps"
+          "name": "CxNotificationProps"
         }
       ],
       "required": false,
@@ -131,12 +131,12 @@
       "name": "onClose",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/notification/CxNotification.tsx",
-        "name": "CNotificationProps"
+        "name": "CxNotificationProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/notification/CxNotification.tsx",
-          "name": "CNotificationProps"
+          "name": "CxNotificationProps"
         }
       ],
       "required": false,
@@ -152,12 +152,12 @@
       "name": "visible",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/notification/CxNotification.tsx",
-        "name": "CNotificationProps"
+        "name": "CxNotificationProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/notification/CxNotification.tsx",
-          "name": "CNotificationProps"
+          "name": "CxNotificationProps"
         }
       ],
       "required": false,

@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/button-group/CxButtonGroup.tsx",
-        "name": "CButtonGroupProps"
+        "name": "CxButtonGroupProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/button-group/CxButtonGroup.tsx",
-          "name": "CButtonGroupProps"
+          "name": "CxButtonGroupProps"
         }
       ],
       "required": false,
@@ -30,12 +30,12 @@
       "name": "size",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/button-group/CxButtonGroup.tsx",
-        "name": "CButtonGroupProps"
+        "name": "CxButtonGroupProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/button-group/CxButtonGroup.tsx",
-          "name": "CButtonGroupProps"
+          "name": "CxButtonGroupProps"
         }
       ],
       "required": false,
@@ -58,12 +58,12 @@
       "name": "vertical",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/button-group/CxButtonGroup.tsx",
-        "name": "CButtonGroupProps"
+        "name": "CxButtonGroupProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/button-group/CxButtonGroup.tsx",
-          "name": "CButtonGroupProps"
+          "name": "CxButtonGroupProps"
         }
       ],
       "required": false,

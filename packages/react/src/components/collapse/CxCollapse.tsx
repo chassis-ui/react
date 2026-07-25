@@ -4,7 +4,7 @@ import { CSSTransition } from 'react-transition-group'
 
 import { useForkedRef } from '../../utils/hooks'
 
-export interface CCollapseProps extends HTMLAttributes<HTMLDivElement> {
+export interface CxCollapseProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -27,7 +27,7 @@ export interface CCollapseProps extends HTMLAttributes<HTMLDivElement> {
   visible?: boolean
 }
 
-export const CxCollapse = forwardRef<HTMLDivElement, CCollapseProps>(
+export const CxCollapse = forwardRef<HTMLDivElement, CxCollapseProps>(
   ({ children, className, horizontal, onHide, onShow, visible, ...rest }, ref) => {
     const [height, setHeight] = useState<number>()
     const [width, setWidth] = useState<number>()

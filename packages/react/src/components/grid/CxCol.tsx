@@ -11,7 +11,7 @@ type BPObject = {
 
 type Col = Span | BPObject
 
-export interface CColProps extends HTMLAttributes<HTMLDivElement> {
+export interface CxColProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -72,7 +72,7 @@ const BP_NAME: Record<string, string> = {
   xs: '',
 }
 
-export const CxCol = forwardRef<HTMLDivElement, CColProps>(
+export const CxCol = forwardRef<HTMLDivElement, CxColProps>(
   ({ children, className, ...rest }, ref) => {
     const repsonsiveClassNames: string[] = []
 

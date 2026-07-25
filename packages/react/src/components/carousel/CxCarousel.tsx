@@ -21,7 +21,7 @@ const isVisible = (element: HTMLDivElement) => {
   )
 }
 
-export interface CCarouselProps extends HTMLAttributes<HTMLDivElement> {
+export interface CxCarouselProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * index of the active item.
    */
@@ -79,7 +79,7 @@ export interface ContextProps {
 
 export const CCarouselContext = createContext({} as ContextProps)
 
-export const CxCarousel = forwardRef<HTMLDivElement, CCarouselProps>(
+export const CxCarousel = forwardRef<HTMLDivElement, CxCarouselProps>(
   (
     {
       children,

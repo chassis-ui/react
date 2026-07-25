@@ -13,7 +13,7 @@ import { usePreventScroll } from 'react-aria'
 import { useForkedRef } from '../../utils/hooks'
 import { executeAfterTransition } from '../../utils/dialogTransition'
 
-export interface CModalProps
+export interface CxModalProps
   extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'onCancel' | 'onClose'> {
   /**
    * Show a backdrop while the modal is open. `'static'` blocks closing on backdrop click
@@ -82,7 +82,7 @@ interface ModalContextProps {
 
 export const CModalContext = createContext<ModalContextProps>({})
 
-export const CxModal = forwardRef<HTMLDialogElement, CModalProps>(
+export const CxModal = forwardRef<HTMLDialogElement, CxModalProps>(
   (
     {
       children,

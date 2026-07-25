@@ -1,7 +1,7 @@
 import React, { AllHTMLAttributes, ElementType, forwardRef, MouseEvent } from 'react'
 import classNames from 'classnames'
 
-export interface CLinkProps extends AllHTMLAttributes<HTMLElement> {
+export interface CxLinkProps extends AllHTMLAttributes<HTMLElement> {
   /**
    * Toggle the active state for the component.
    */
@@ -24,7 +24,7 @@ export interface CLinkProps extends AllHTMLAttributes<HTMLElement> {
   href?: string
 }
 
-export const CxLink = forwardRef<HTMLButtonElement | HTMLAnchorElement, CLinkProps>(
+export const CxLink = forwardRef<HTMLButtonElement | HTMLAnchorElement, CxLinkProps>(
   (
     { children, active, className, component: Component = 'a', disabled, onClick, ...rest },
     ref,

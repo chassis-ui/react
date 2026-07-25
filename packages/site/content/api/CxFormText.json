@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormText.tsx",
-        "name": "CFormTextProps"
+        "name": "CxFormTextProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormText.tsx",
-          "name": "CFormTextProps"
+          "name": "CxFormTextProps"
         }
       ],
       "required": false,
@@ -32,12 +32,12 @@
       "name": "component",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormText.tsx",
-        "name": "CFormTextProps"
+        "name": "CxFormTextProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormText.tsx",
-          "name": "CFormTextProps"
+          "name": "CxFormTextProps"
         }
       ],
       "required": false,

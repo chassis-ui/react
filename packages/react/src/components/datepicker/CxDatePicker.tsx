@@ -9,7 +9,7 @@ import { DateField } from './DateField'
 import { Calendar } from './Calendar'
 import './CxDatePicker.css'
 
-export interface CDatePickerProps
+export interface CxDatePickerProps
   extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue'> {
   /**
    * An accessible label for the date picker, used when there's no visible `<label>`.
@@ -80,7 +80,7 @@ export const CxDatePicker = ({
   size,
   value,
   ...rest
-}: CDatePickerProps) => {
+}: CxDatePickerProps) => {
   const { locale } = useLocale()
 
   const state = useDatePickerState({

@@ -1,7 +1,7 @@
 import React, { forwardRef, AllHTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-export interface CFormLabelProps extends AllHTMLAttributes<HTMLLabelElement> {
+export interface CxFormLabelProps extends AllHTMLAttributes<HTMLLabelElement> {
   /**
    * A string of all className you want applied to the component.
    */
@@ -12,7 +12,7 @@ export interface CFormLabelProps extends AllHTMLAttributes<HTMLLabelElement> {
   customClassName?: string
 }
 
-export const CxFormLabel = forwardRef<HTMLLabelElement, CFormLabelProps>(
+export const CxFormLabel = forwardRef<HTMLLabelElement, CxFormLabelProps>(
   ({ children, className, customClassName, ...rest }, ref) => {
     const _className = customClassName ? customClassName : classNames('form-label', className)
     return (

@@ -1,8 +1,8 @@
 import React, { ElementType, forwardRef } from 'react'
 import classNames from 'classnames'
 
-import { CLinkProps, CxLink } from '../link/CxLink'
-export interface CNavLinkProps extends CLinkProps {
+import { CxLinkProps, CxLink } from '../link/CxLink'
+export interface CxNavLinkProps extends CxLinkProps {
   /**
    * Toggle the active state for the component.
    */
@@ -25,7 +25,7 @@ export interface CNavLinkProps extends CLinkProps {
   to?: string
 }
 
-export const CxNavLink = forwardRef<HTMLButtonElement | HTMLAnchorElement, CNavLinkProps>(
+export const CxNavLink = forwardRef<HTMLButtonElement | HTMLAnchorElement, CxNavLinkProps>(
   ({ children, className, ...rest }, ref) => {
     const _className = classNames('nav-link', className)
 

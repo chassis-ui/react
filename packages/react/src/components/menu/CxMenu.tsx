@@ -20,7 +20,7 @@ export type MenuFocusStrategy = 'first' | 'last'
 
 export type MenuAutoClose = boolean | 'inside' | 'outside'
 
-export interface CMenuProps extends HTMLAttributes<HTMLElement> {
+export interface CxMenuProps extends HTMLAttributes<HTMLElement> {
   /**
    * Controls which clicks close the menu. `true` closes on any click inside or outside.
    * `false` requires a programmatic `visible` change. `'inside'` closes only on click inside
@@ -86,7 +86,7 @@ export interface CMenuProps extends HTMLAttributes<HTMLElement> {
   visible?: boolean
 }
 
-export interface CMenuContextProps {
+export interface CxMenuContextProps {
   autoClose: MenuAutoClose
   close: () => void
   container?: boolean | Element
@@ -111,7 +111,7 @@ export interface CMenuContextProps {
 // some static-site prerenderers) degrades to an inert, always-closed menu instead of throwing.
 const noop = () => undefined
 
-const defaultMenuContext: CMenuContextProps = {
+const defaultMenuContext: CxMenuContextProps = {
   autoClose: true,
   close: noop,
   focusStrategy: null,
@@ -132,7 +132,7 @@ const defaultMenuContext: CMenuContextProps = {
 
 export const CMenuContext = createContext(defaultMenuContext)
 
-export const CxMenu = forwardRef<HTMLElement, CMenuProps>(
+export const CxMenu = forwardRef<HTMLElement, CxMenuProps>(
   (
     {
       children,
@@ -263,7 +263,7 @@ export const CxMenu = forwardRef<HTMLElement, CMenuProps>(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [state.isOpen, autoClose])
 
-    const contextValue: CMenuContextProps = {
+    const contextValue: CxMenuContextProps = {
       autoClose,
       close,
       container,

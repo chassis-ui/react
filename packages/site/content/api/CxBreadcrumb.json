@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/breadcrumb/CxBreadcrumb.tsx",
-        "name": "CBreadcrumbProps"
+        "name": "CxBreadcrumbProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/breadcrumb/CxBreadcrumb.tsx",
-          "name": "CBreadcrumbProps"
+          "name": "CxBreadcrumbProps"
         }
       ],
       "required": false,
@@ -30,17 +30,17 @@
       "name": "items",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/breadcrumb/CxBreadcrumb.tsx",
-        "name": "CBreadcrumbProps"
+        "name": "CxBreadcrumbProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/breadcrumb/CxBreadcrumb.tsx",
-          "name": "CBreadcrumbProps"
+          "name": "CxBreadcrumbProps"
         }
       ],
       "required": false,
       "type": {
-        "name": "CBreadcrumbItemDef[]"
+        "name": "CxBreadcrumbItemDef[]"
       }
     }
   }

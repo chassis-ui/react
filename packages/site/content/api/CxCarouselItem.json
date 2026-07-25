@@ -11,12 +11,12 @@
       "name": "active",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/carousel/CxCarouselItem.tsx",
-        "name": "CCarouselItemProps"
+        "name": "CxCarouselItemProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/carousel/CxCarouselItem.tsx",
-          "name": "CCarouselItemProps"
+          "name": "CxCarouselItemProps"
         }
       ],
       "required": false,
@@ -30,12 +30,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/carousel/CxCarouselItem.tsx",
-        "name": "CCarouselItemProps"
+        "name": "CxCarouselItemProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/carousel/CxCarouselItem.tsx",
-          "name": "CCarouselItemProps"
+          "name": "CxCarouselItemProps"
         }
       ],
       "required": false,
@@ -49,12 +49,12 @@
       "name": "direction",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/carousel/CxCarouselItem.tsx",
-        "name": "CCarouselItemProps"
+        "name": "CxCarouselItemProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/carousel/CxCarouselItem.tsx",
-          "name": "CCarouselItemProps"
+          "name": "CxCarouselItemProps"
         }
       ],
       "required": false,
@@ -70,12 +70,12 @@
       "name": "interval",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/carousel/CxCarouselItem.tsx",
-        "name": "CCarouselItemProps"
+        "name": "CxCarouselItemProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/carousel/CxCarouselItem.tsx",
-          "name": "CCarouselItemProps"
+          "name": "CxCarouselItemProps"
         }
       ],
       "required": false,

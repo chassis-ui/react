@@ -1,7 +1,7 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-export interface CInputGroupProps extends HTMLAttributes<HTMLDivElement> {
+export interface CxInputGroupProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * A string of all className you want applied to the component.
    */
@@ -12,7 +12,7 @@ export interface CInputGroupProps extends HTMLAttributes<HTMLDivElement> {
   size?: 'small' | 'large'
 }
 
-export const CxInputGroup = forwardRef<HTMLDivElement, CInputGroupProps>(
+export const CxInputGroup = forwardRef<HTMLDivElement, CxInputGroupProps>(
   ({ children, className, size, ...rest }, ref) => {
     const _className = classNames('input-group', size, className)
     return (

@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/toast/CxToastBody.tsx",
-        "name": "CToastBodyProps"
+        "name": "CxToastBodyProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/toast/CxToastBody.tsx",
-          "name": "CToastBodyProps"
+          "name": "CxToastBodyProps"
         }
       ],
       "required": false,

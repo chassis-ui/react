@@ -3,7 +3,7 @@ import classNames from 'classnames'
 
 import { CxLink } from '../link/CxLink'
 
-export interface CCardLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
+export interface CxCardLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -14,7 +14,7 @@ export interface CCardLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> 
   href?: string
 }
 
-export const CxCardLink = forwardRef<HTMLAnchorElement, CCardLinkProps>(
+export const CxCardLink = forwardRef<HTMLAnchorElement, CxCardLinkProps>(
   ({ children, className, ...rest }, ref) => {
     const _className = classNames('card-link', className)
 

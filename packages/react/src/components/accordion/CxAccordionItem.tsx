@@ -3,7 +3,7 @@ import classNames from 'classnames'
 
 import { CAccordionContext } from './CxAccordion'
 
-export interface CAccordionItemProps extends HTMLAttributes<HTMLDetailsElement> {
+export interface CxAccordionItemProps extends HTMLAttributes<HTMLDetailsElement> {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -18,7 +18,7 @@ export interface CAccordionItemProps extends HTMLAttributes<HTMLDetailsElement> 
   itemKey?: number | string
 }
 
-export const CxAccordionItem = forwardRef<HTMLDetailsElement, CAccordionItemProps>(
+export const CxAccordionItem = forwardRef<HTMLDetailsElement, CxAccordionItemProps>(
   ({ children, className, open, itemKey: _itemKey, ...rest }, ref) => {
     const { alwaysOpen, name } = useContext(CAccordionContext)
 

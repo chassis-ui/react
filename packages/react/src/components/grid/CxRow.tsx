@@ -8,7 +8,7 @@ export type BPObject = {
   gutterY?: number | string | null
 }
 
-export interface CRowProps extends HTMLAttributes<HTMLDivElement> {
+export interface CxRowProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -69,7 +69,7 @@ const BP_NAME: Record<string, string> = {
   xs: '',
 }
 
-export const CxRow = forwardRef<HTMLDivElement, CRowProps>(
+export const CxRow = forwardRef<HTMLDivElement, CxRowProps>(
   ({ children, className, ...rest }, ref) => {
     const repsonsiveClassNames: string[] = []
 

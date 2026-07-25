@@ -11,12 +11,12 @@
       "name": "active",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/breadcrumb/CxBreadcrumbItem.tsx",
-        "name": "CBreadcrumbItemProps"
+        "name": "CxBreadcrumbItemProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/breadcrumb/CxBreadcrumbItem.tsx",
-          "name": "CBreadcrumbItemProps"
+          "name": "CxBreadcrumbItemProps"
         }
       ],
       "required": false,
@@ -30,12 +30,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/breadcrumb/CxBreadcrumbItem.tsx",
-        "name": "CBreadcrumbItemProps"
+        "name": "CxBreadcrumbItemProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/breadcrumb/CxBreadcrumbItem.tsx",
-          "name": "CBreadcrumbItemProps"
+          "name": "CxBreadcrumbItemProps"
         }
       ],
       "required": false,
@@ -49,12 +49,12 @@
       "name": "href",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/breadcrumb/CxBreadcrumbItem.tsx",
-        "name": "CBreadcrumbItemProps"
+        "name": "CxBreadcrumbItemProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/breadcrumb/CxBreadcrumbItem.tsx",
-          "name": "CBreadcrumbItemProps"
+          "name": "CxBreadcrumbItemProps"
         }
       ],
       "required": false,

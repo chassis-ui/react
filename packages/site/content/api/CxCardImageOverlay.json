@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/card/CxCardImageOverlay.tsx",
-        "name": "CCardImageOverlayProps"
+        "name": "CxCardImageOverlayProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/card/CxCardImageOverlay.tsx",
-          "name": "CCardImageOverlayProps"
+          "name": "CxCardImageOverlayProps"
         }
       ],
       "required": false,

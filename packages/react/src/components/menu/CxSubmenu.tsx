@@ -17,7 +17,7 @@ import { Placement, resolveDataPlacement, toAriaPlacement } from '../../utils/ov
 import { focusMenuItem, getMenuItems, handleMenuKeyDown } from './menuNavigation'
 import { SubmenuActionsContext, SubmenuGroupContext, useSubmenuGroupProvider } from './submenuGroup'
 
-export interface CSubmenuProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onSelect'> {
+export interface CxSubmenuProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onSelect'> {
   /**
    * Submenu activation mode on hover-capable devices. `'click'` activates on click only.
    * `'hover'` activates on hover only. `'both'` (the default) activates on both. Touch
@@ -55,7 +55,7 @@ export interface CSubmenuProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onS
   trigger: ReactNode
 }
 
-export const CxSubmenu = forwardRef<HTMLDivElement, CSubmenuProps>(
+export const CxSubmenu = forwardRef<HTMLDivElement, CxSubmenuProps>(
   (
     {
       children,

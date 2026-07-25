@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/toast/CxToastHeader.tsx",
-        "name": "CToastHeaderProps"
+        "name": "CxToastHeaderProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/toast/CxToastHeader.tsx",
-          "name": "CToastHeaderProps"
+          "name": "CxToastHeaderProps"
         }
       ],
       "required": false,
@@ -30,12 +30,12 @@
       "name": "closeButton",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/toast/CxToastHeader.tsx",
-        "name": "CToastHeaderProps"
+        "name": "CxToastHeaderProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/toast/CxToastHeader.tsx",
-          "name": "CToastHeaderProps"
+          "name": "CxToastHeaderProps"
         }
       ],
       "required": false,

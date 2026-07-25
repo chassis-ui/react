@@ -3,7 +3,7 @@ import classNames from 'classnames'
 
 import { SubmenuActionsContext } from './submenuGroup'
 
-export interface CSubmenuBackProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface CxSubmenuBackProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /**
    * A string of all className you want applied to the component.
    */
@@ -12,7 +12,7 @@ export interface CSubmenuBackProps extends ButtonHTMLAttributes<HTMLButtonElemen
 
 // First item of a stacked submenu's nested menu (see `CxSubmenu`'s `stacked` prop). Closes
 // the submenu and returns focus to its trigger — visible only below the `small` breakpoint.
-export const CxSubmenuBack = forwardRef<HTMLButtonElement, CSubmenuBackProps>(
+export const CxSubmenuBack = forwardRef<HTMLButtonElement, CxSubmenuBackProps>(
   ({ children, className, onClick, type = 'button', ...rest }, ref) => {
     const actions = useContext(SubmenuActionsContext)
 

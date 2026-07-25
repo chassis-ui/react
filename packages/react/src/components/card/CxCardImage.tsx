@@ -1,7 +1,7 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-export interface CCardImageProps
+export interface CxCardImageProps
   extends HTMLAttributes<HTMLImageElement | HTMLOrSVGElement | HTMLOrSVGImageElement> {
   /**
    * A string of all className you want applied to the base component.
@@ -19,7 +19,7 @@ export interface CCardImageProps
 
 export const CxCardImage = forwardRef<
   HTMLImageElement | HTMLOrSVGElement | HTMLOrSVGImageElement,
-  CCardImageProps
+  CxCardImageProps
 >(({ children, className, component: Component = 'img', orientation, ...rest }, ref) => {
   const _className = classNames(orientation ? `card-image-${orientation}` : 'card-image', className)
 

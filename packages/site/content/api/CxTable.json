@@ -11,12 +11,12 @@
       "name": "aria-label",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-        "name": "CTableProps"
+        "name": "CxTableProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-          "name": "CTableProps"
+          "name": "CxTableProps"
         }
       ],
       "required": false,
@@ -30,12 +30,12 @@
       "name": "aria-labelledby",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-        "name": "CTableProps"
+        "name": "CxTableProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-          "name": "CTableProps"
+          "name": "CxTableProps"
         }
       ],
       "required": false,
@@ -49,12 +49,12 @@
       "name": "align",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-        "name": "CTableProps"
+        "name": "CxTableProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-          "name": "CTableProps"
+          "name": "CxTableProps"
         }
       ],
       "required": false,
@@ -80,12 +80,12 @@
       "name": "bordered",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-        "name": "CTableProps"
+        "name": "CxTableProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-          "name": "CTableProps"
+          "name": "CxTableProps"
         }
       ],
       "required": false,
@@ -99,12 +99,12 @@
       "name": "borderless",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-        "name": "CTableProps"
+        "name": "CxTableProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-          "name": "CTableProps"
+          "name": "CxTableProps"
         }
       ],
       "required": false,
@@ -118,12 +118,12 @@
       "name": "caption",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-        "name": "CTableProps"
+        "name": "CxTableProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-          "name": "CTableProps"
+          "name": "CxTableProps"
         }
       ],
       "required": false,
@@ -137,12 +137,12 @@
       "name": "children",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-        "name": "CTableProps"
+        "name": "CxTableProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-          "name": "CTableProps"
+          "name": "CxTableProps"
         }
       ],
       "required": true,
@@ -156,12 +156,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-        "name": "CTableProps"
+        "name": "CxTableProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-          "name": "CTableProps"
+          "name": "CxTableProps"
         }
       ],
       "required": false,
@@ -175,12 +175,12 @@
       "name": "context",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-        "name": "CTableProps"
+        "name": "CxTableProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-          "name": "CTableProps"
+          "name": "CxTableProps"
         }
       ],
       "required": false,
@@ -230,12 +230,12 @@
       "name": "disabledKeys",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-        "name": "CTableProps"
+        "name": "CxTableProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-          "name": "CTableProps"
+          "name": "CxTableProps"
         }
       ],
       "required": false,
@@ -249,12 +249,12 @@
       "name": "footer",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-        "name": "CTableProps"
+        "name": "CxTableProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-          "name": "CTableProps"
+          "name": "CxTableProps"
         }
       ],
       "required": false,
@@ -268,12 +268,12 @@
       "name": "hover",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-        "name": "CTableProps"
+        "name": "CxTableProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-          "name": "CTableProps"
+          "name": "CxTableProps"
         }
       ],
       "required": false,
@@ -287,12 +287,12 @@
       "name": "id",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-        "name": "CTableProps"
+        "name": "CxTableProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-          "name": "CTableProps"
+          "name": "CxTableProps"
         }
       ],
       "required": false,
@@ -306,12 +306,12 @@
       "name": "onSelectionChange",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-        "name": "CTableProps"
+        "name": "CxTableProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-          "name": "CTableProps"
+          "name": "CxTableProps"
         }
       ],
       "required": false,
@@ -325,12 +325,12 @@
       "name": "onSortChange",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-        "name": "CTableProps"
+        "name": "CxTableProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-          "name": "CTableProps"
+          "name": "CxTableProps"
         }
       ],
       "required": false,
@@ -344,12 +344,12 @@
       "name": "responsive",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-        "name": "CTableProps"
+        "name": "CxTableProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-          "name": "CTableProps"
+          "name": "CxTableProps"
         }
       ],
       "required": false,
@@ -363,12 +363,12 @@
       "name": "selectedKeys",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-        "name": "CTableProps"
+        "name": "CxTableProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-          "name": "CTableProps"
+          "name": "CxTableProps"
         }
       ],
       "required": false,
@@ -384,12 +384,12 @@
       "name": "selectionMode",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-        "name": "CTableProps"
+        "name": "CxTableProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-          "name": "CTableProps"
+          "name": "CxTableProps"
         }
       ],
       "required": false,
@@ -415,12 +415,12 @@
       "name": "small",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-        "name": "CTableProps"
+        "name": "CxTableProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-          "name": "CTableProps"
+          "name": "CxTableProps"
         }
       ],
       "required": false,
@@ -434,12 +434,12 @@
       "name": "sortDescriptor",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-        "name": "CTableProps"
+        "name": "CxTableProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-          "name": "CTableProps"
+          "name": "CxTableProps"
         }
       ],
       "required": false,
@@ -453,12 +453,12 @@
       "name": "striped",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-        "name": "CTableProps"
+        "name": "CxTableProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-          "name": "CTableProps"
+          "name": "CxTableProps"
         }
       ],
       "required": false,

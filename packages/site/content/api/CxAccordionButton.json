@@ -13,12 +13,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/accordion/CxAccordionButton.tsx",
-        "name": "CAccordionButtonProps"
+        "name": "CxAccordionButtonProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/accordion/CxAccordionButton.tsx",
-          "name": "CAccordionButtonProps"
+          "name": "CxAccordionButtonProps"
         }
       ],
       "required": false,

@@ -1,8 +1,8 @@
 import React, { forwardRef } from 'react'
 import classNames from 'classnames'
-import { CxNavLink, CNavLinkProps } from './CxNavLink'
+import { CxNavLink, CxNavLinkProps } from './CxNavLink'
 
-export const CxNavItem = forwardRef<HTMLLIElement, CNavLinkProps>(
+export const CxNavItem = forwardRef<HTMLLIElement, CxNavLinkProps>(
   ({ children, className, ...rest }, ref) => {
     const _className = classNames('nav-item', className)
     if (rest.href || rest.to) {

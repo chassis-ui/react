@@ -1,7 +1,7 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-export interface CFormProps extends HTMLAttributes<HTMLFormElement> {
+export interface CxFormProps extends HTMLAttributes<HTMLFormElement> {
   /**
    * A string of all className you want applied to the component.
    */
@@ -12,7 +12,7 @@ export interface CFormProps extends HTMLAttributes<HTMLFormElement> {
   validated?: boolean
 }
 
-export const CxForm = forwardRef<HTMLFormElement, CFormProps>(
+export const CxForm = forwardRef<HTMLFormElement, CxFormProps>(
   ({ children, className, validated, ...rest }, ref) => {
     const _className = classNames({ 'was-validated': validated }, className)
     return (

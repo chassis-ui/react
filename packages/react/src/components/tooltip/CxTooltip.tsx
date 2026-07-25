@@ -9,7 +9,7 @@ import { Placement, resolveDataPlacement, toAriaPlacement } from '../../utils/ov
 
 export type { Placement }
 
-export interface CTooltipProps {
+export interface CxTooltipProps {
   children: ReactElement
   /**
    * Content node for your component.
@@ -43,7 +43,7 @@ export interface CTooltipProps {
   visible?: boolean
 }
 
-export const CxTooltip: FC<CTooltipProps> = ({
+export const CxTooltip: FC<CxTooltipProps> = ({
   children,
   content,
   placement = 'top',

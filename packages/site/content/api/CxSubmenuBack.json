@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/menu/CxSubmenuBack.tsx",
-        "name": "CSubmenuBackProps"
+        "name": "CxSubmenuBackProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/menu/CxSubmenuBack.tsx",
-          "name": "CSubmenuBackProps"
+          "name": "CxSubmenuBackProps"
         }
       ],
       "required": false,

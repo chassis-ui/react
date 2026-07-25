@@ -5,7 +5,7 @@ import { Item, Key, useListState } from 'react-stately'
 
 import { ChipList, ChipItem } from './ChipList'
 
-export interface CChipInputProps
+export interface CxChipInputProps
   extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue'> {
   /**
    * An accessible label for the chip group, used when there's no visible `<label>`.
@@ -87,7 +87,7 @@ export const CxChipInput = ({
   size,
   value,
   ...rest
-}: CChipInputProps) => {
+}: CxChipInputProps) => {
   const isControlled = value !== undefined
   const [uncontrolledTags, setUncontrolledTags] = useState<string[]>(defaultValue ?? [])
   const tags = isControlled ? (value as string[]) : uncontrolledTags

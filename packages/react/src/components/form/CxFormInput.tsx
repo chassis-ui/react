@@ -1,7 +1,7 @@
 import React, { ChangeEventHandler, forwardRef, InputHTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-export interface CFormInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
+export interface CxFormInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
   /**
    * A string of all className you want applied to the component.
    */
@@ -46,7 +46,7 @@ export interface CFormInputProps extends Omit<InputHTMLAttributes<HTMLInputEleme
   value?: string | string[] | number
 }
 
-export const CxFormInput = forwardRef<HTMLInputElement, CFormInputProps>(
+export const CxFormInput = forwardRef<HTMLInputElement, CxFormInputProps>(
   ({ className, invalid, plainText, size, type = 'text', valid, ...rest }, ref) => {
     const _className = classNames(
       plainText ? 'form-control-plaintext' : 'form-input',

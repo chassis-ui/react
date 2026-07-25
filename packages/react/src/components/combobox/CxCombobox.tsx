@@ -4,10 +4,10 @@ import { useComboBox, useFilter, useOverlayPosition } from 'react-aria'
 import { Item, Key, useComboBoxState } from 'react-stately'
 
 import { resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
-import { CComboboxItemProps } from './CxComboboxItem'
+import { CxComboboxItemProps } from './CxComboboxItem'
 import { ComboboxListBox } from './ComboboxListBox'
 
-export interface CComboboxProps
+export interface CxComboboxProps
   extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue'> {
   /**
    * An accessible label for the combobox, used when there's no visible `<label>`.
@@ -78,16 +78,16 @@ export const CxCombobox = ({
   size,
   value,
   ...rest
-}: CComboboxProps) => {
+}: CxComboboxProps) => {
   const items = React.Children.toArray(children).filter(
-    (child): child is ReactElement<CComboboxItemProps> => React.isValidElement(child),
+    (child): child is ReactElement<CxComboboxItemProps> => React.isValidElement(child),
   )
 
   // Case- and accent-insensitive substring matching, mirroring chassis-css's own
   // always-case-insensitive combobox.js filtering.
   const { contains } = useFilter({ sensitivity: 'base' })
 
-  const state = useComboBoxState<ReactElement<CComboboxItemProps>>({
+  const state = useComboBoxState<ReactElement<CxComboboxItemProps>>({
     children: (item) => (
       <Item
         key={item.props.id}
@@ -113,7 +113,7 @@ export const CxCombobox = ({
   const listBoxRef = useRef<HTMLElement>(null)
   const popoverRef = useRef<HTMLDivElement>(null)
 
-  const { inputProps, listBoxProps } = useComboBox<ReactElement<CComboboxItemProps>>(
+  const { inputProps, listBoxProps } = useComboBox<ReactElement<CxComboboxItemProps>>(
     {
       'aria-label': rest['aria-label'],
       'aria-labelledby': rest['aria-labelledby'],

@@ -1,7 +1,7 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-export interface CNavbarBrandProps extends HTMLAttributes<HTMLAnchorElement | HTMLSpanElement> {
+export interface CxNavbarBrandProps extends HTMLAttributes<HTMLAnchorElement | HTMLSpanElement> {
   /**
    * A string of all className you want applied to the component.
    */
@@ -17,7 +17,7 @@ export interface CNavbarBrandProps extends HTMLAttributes<HTMLAnchorElement | HT
   href?: string
 }
 
-export const CxNavbarBrand = forwardRef<HTMLAnchorElement | HTMLSpanElement, CNavbarBrandProps>(
+export const CxNavbarBrand = forwardRef<HTMLAnchorElement | HTMLSpanElement, CxNavbarBrandProps>(
   ({ children, component, className, ...rest }, ref) => {
     const Component = component ? component : rest.href ? 'a' : 'span'
     const _className = classNames('navbar-brand', className)

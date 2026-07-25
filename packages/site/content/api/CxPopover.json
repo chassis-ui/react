@@ -11,12 +11,12 @@
       "name": "content",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/popover/CxPopover.tsx",
-        "name": "CPopoverProps"
+        "name": "CxPopoverProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/popover/CxPopover.tsx",
-          "name": "CPopoverProps"
+          "name": "CxPopoverProps"
         }
       ],
       "required": true,
@@ -32,12 +32,12 @@
       "name": "offset",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/popover/CxPopover.tsx",
-        "name": "CPopoverProps"
+        "name": "CxPopoverProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/popover/CxPopover.tsx",
-          "name": "CPopoverProps"
+          "name": "CxPopoverProps"
         }
       ],
       "required": false,
@@ -51,12 +51,12 @@
       "name": "onHide",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/popover/CxPopover.tsx",
-        "name": "CPopoverProps"
+        "name": "CxPopoverProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/popover/CxPopover.tsx",
-          "name": "CPopoverProps"
+          "name": "CxPopoverProps"
         }
       ],
       "required": false,
@@ -70,12 +70,12 @@
       "name": "onShow",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/popover/CxPopover.tsx",
-        "name": "CPopoverProps"
+        "name": "CxPopoverProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/popover/CxPopover.tsx",
-          "name": "CPopoverProps"
+          "name": "CxPopoverProps"
         }
       ],
       "required": false,
@@ -89,12 +89,12 @@
       "name": "title",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/popover/CxPopover.tsx",
-        "name": "CPopoverProps"
+        "name": "CxPopoverProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/popover/CxPopover.tsx",
-          "name": "CPopoverProps"
+          "name": "CxPopoverProps"
         }
       ],
       "required": false,
@@ -110,12 +110,12 @@
       "name": "placement",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/popover/CxPopover.tsx",
-        "name": "CPopoverProps"
+        "name": "CxPopoverProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/popover/CxPopover.tsx",
-          "name": "CPopoverProps"
+          "name": "CxPopoverProps"
         }
       ],
       "required": false,
@@ -168,12 +168,12 @@
       "name": "visible",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/popover/CxPopover.tsx",
-        "name": "CPopoverProps"
+        "name": "CxPopoverProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/popover/CxPopover.tsx",
-          "name": "CPopoverProps"
+          "name": "CxPopoverProps"
         }
       ],
       "required": false,

@@ -1,9 +1,9 @@
 import React, { ElementType, forwardRef } from 'react'
 import classNames from 'classnames'
 
-import { CLinkProps, CxLink } from '../link/CxLink'
+import { CxLinkProps, CxLink } from '../link/CxLink'
 
-export interface CMenuItemProps extends CLinkProps {
+export interface CxMenuItemProps extends CxLinkProps {
   /**
    * A string of all className you want applied to the component.
    */
@@ -19,7 +19,7 @@ export interface CMenuItemProps extends CLinkProps {
   selected?: boolean
 }
 
-export const CxMenuItem = forwardRef<HTMLButtonElement | HTMLAnchorElement, CMenuItemProps>(
+export const CxMenuItem = forwardRef<HTMLButtonElement | HTMLAnchorElement, CxMenuItemProps>(
   ({ children, className, component = 'a', selected, ...rest }, ref) => {
     const _className = classNames('menu-item', { selected }, className)
 

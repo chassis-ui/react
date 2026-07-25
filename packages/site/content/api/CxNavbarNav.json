@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/navbar/CxNavbarNav.tsx",
-        "name": "CNavbarNavProps"
+        "name": "CxNavbarNavProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/navbar/CxNavbarNav.tsx",
-          "name": "CNavbarNavProps"
+          "name": "CxNavbarNavProps"
         }
       ],
       "required": false,
@@ -32,12 +32,12 @@
       "name": "component",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/navbar/CxNavbarNav.tsx",
-        "name": "CNavbarNavProps"
+        "name": "CxNavbarNavProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/navbar/CxNavbarNav.tsx",
-          "name": "CNavbarNavProps"
+          "name": "CxNavbarNavProps"
         }
       ],
       "required": false,

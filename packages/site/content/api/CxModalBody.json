@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/modal/CxModalBody.tsx",
-        "name": "CModalBodyProps"
+        "name": "CxModalBodyProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/modal/CxModalBody.tsx",
-          "name": "CModalBodyProps"
+          "name": "CxModalBodyProps"
         }
       ],
       "required": false,

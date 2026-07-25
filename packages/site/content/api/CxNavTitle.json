@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/nav/CxNavTitle.tsx",
-        "name": "CNavTitleProps"
+        "name": "CxNavTitleProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/nav/CxNavTitle.tsx",
-          "name": "CNavTitleProps"
+          "name": "CxNavTitleProps"
         }
       ],
       "required": false,

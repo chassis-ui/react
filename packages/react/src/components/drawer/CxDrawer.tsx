@@ -13,7 +13,7 @@ import { usePreventScroll } from 'react-aria'
 import { useForkedRef } from '../../utils/hooks'
 import { executeAfterTransition } from '../../utils/dialogTransition'
 
-export interface CDrawerProps
+export interface CxDrawerProps
   extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'onCancel' | 'onClose'> {
   /**
    * Show a backdrop while the drawer is open. `'static'` blocks closing on backdrop click
@@ -100,7 +100,7 @@ export const CDrawerContext = createContext<DrawerContextProps>({})
 // ("When a second drawer opens while one is already open, the first closes automatically").
 const openDrawers = new Set<{ dialog: HTMLDialogElement; requestClose: () => void }>()
 
-export const CxDrawer = forwardRef<HTMLDialogElement, CDrawerProps>(
+export const CxDrawer = forwardRef<HTMLDialogElement, CxDrawerProps>(
   (
     {
       children,

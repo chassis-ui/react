@@ -1,10 +1,10 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
-import { CxProgressBar, CProgressBarProps } from './CxProgressBar'
+import { CxProgressBar, CxProgressBarProps } from './CxProgressBar'
 
-export interface CProgressProps
+export interface CxProgressProps
   extends Omit<HTMLAttributes<HTMLDivElement>, 'color'>,
-    CProgressBarProps {
+    CxProgressBarProps {
   /**
    * A string of all className you want applied to the component.
    */
@@ -27,7 +27,7 @@ export interface CProgressProps
   white?: boolean
 }
 
-export const CxProgress = forwardRef<HTMLDivElement, CProgressProps>(
+export const CxProgress = forwardRef<HTMLDivElement, CxProgressProps>(
   ({ children, className, height, thin, value = 0, white, ...rest }, ref) => {
     const _className = classNames(
       'progress',

@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormSelect.tsx",
-        "name": "CFormSelectProps"
+        "name": "CxFormSelectProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormSelect.tsx",
-          "name": "CFormSelectProps"
+          "name": "CxFormSelectProps"
         }
       ],
       "required": false,
@@ -30,12 +30,12 @@
       "name": "htmlSize",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormSelect.tsx",
-        "name": "CFormSelectProps"
+        "name": "CxFormSelectProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormSelect.tsx",
-          "name": "CFormSelectProps"
+          "name": "CxFormSelectProps"
         }
       ],
       "required": false,
@@ -49,12 +49,12 @@
       "name": "invalid",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormSelect.tsx",
-        "name": "CFormSelectProps"
+        "name": "CxFormSelectProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormSelect.tsx",
-          "name": "CFormSelectProps"
+          "name": "CxFormSelectProps"
         }
       ],
       "required": false,
@@ -68,12 +68,12 @@
       "name": "onChange",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormSelect.tsx",
-        "name": "CFormSelectProps"
+        "name": "CxFormSelectProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormSelect.tsx",
-          "name": "CFormSelectProps"
+          "name": "CxFormSelectProps"
         }
       ],
       "required": false,
@@ -87,12 +87,12 @@
       "name": "options",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormSelect.tsx",
-        "name": "CFormSelectProps"
+        "name": "CxFormSelectProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormSelect.tsx",
-          "name": "CFormSelectProps"
+          "name": "CxFormSelectProps"
         }
       ],
       "required": false,
@@ -106,12 +106,12 @@
       "name": "placeholder",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormSelect.tsx",
-        "name": "CFormSelectProps"
+        "name": "CxFormSelectProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormSelect.tsx",
-          "name": "CFormSelectProps"
+          "name": "CxFormSelectProps"
         }
       ],
       "required": false,
@@ -125,12 +125,12 @@
       "name": "size",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormSelect.tsx",
-        "name": "CFormSelectProps"
+        "name": "CxFormSelectProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormSelect.tsx",
-          "name": "CFormSelectProps"
+          "name": "CxFormSelectProps"
         }
       ],
       "required": false,
@@ -153,12 +153,12 @@
       "name": "valid",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormSelect.tsx",
-        "name": "CFormSelectProps"
+        "name": "CxFormSelectProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormSelect.tsx",
-          "name": "CFormSelectProps"
+          "name": "CxFormSelectProps"
         }
       ],
       "required": false,
@@ -172,12 +172,12 @@
       "name": "value",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormSelect.tsx",
-        "name": "CFormSelectProps"
+        "name": "CxFormSelectProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/form/CxFormSelect.tsx",
-          "name": "CFormSelectProps"
+          "name": "CxFormSelectProps"
         }
       ],
       "required": false,

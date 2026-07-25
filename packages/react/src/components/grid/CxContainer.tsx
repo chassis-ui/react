@@ -1,7 +1,7 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-export interface CContainerProps extends HTMLAttributes<HTMLDivElement> {
+export interface CxContainerProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -50,7 +50,7 @@ const BP_NAME: Record<string, string> = {
   fluid: 'fluid',
 }
 
-export const CxContainer = forwardRef<HTMLDivElement, CContainerProps>(
+export const CxContainer = forwardRef<HTMLDivElement, CxContainerProps>(
   ({ children, className, ...rest }, ref) => {
     const repsonsiveClassNames: string[] = []
 

@@ -6,7 +6,7 @@ type Option = {
   label?: string
   value?: string
 }
-export interface CFormSelectProps extends Omit<InputHTMLAttributes<HTMLSelectElement>, 'size'> {
+export interface CxFormSelectProps extends Omit<InputHTMLAttributes<HTMLSelectElement>, 'size'> {
   /**
    * A string of all className you want applied to the component.
    */
@@ -51,7 +51,7 @@ export interface CFormSelectProps extends Omit<InputHTMLAttributes<HTMLSelectEle
   value?: string | string[] | number
 }
 
-export const CxFormSelect = forwardRef<HTMLSelectElement, CFormSelectProps>(
+export const CxFormSelect = forwardRef<HTMLSelectElement, CxFormSelectProps>(
   ({ children, className, htmlSize, invalid, options, placeholder, size, valid, ...rest }, ref) => {
     const _className = classNames(
       'form-select',

@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/carousel/CxCarouselCaption.tsx",
-        "name": "CCarouselCaptionProps"
+        "name": "CxCarouselCaptionProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/carousel/CxCarouselCaption.tsx",
-          "name": "CCarouselCaptionProps"
+          "name": "CxCarouselCaptionProps"
         }
       ],
       "required": false,

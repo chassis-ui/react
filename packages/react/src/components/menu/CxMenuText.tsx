@@ -1,7 +1,7 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-export interface CMenuTextProps extends HTMLAttributes<HTMLSpanElement> {
+export interface CxMenuTextProps extends HTMLAttributes<HTMLSpanElement> {
   /**
    * A string of all className you want applied to the component.
    */
@@ -12,7 +12,7 @@ export interface CMenuTextProps extends HTMLAttributes<HTMLSpanElement> {
   component?: string | ElementType
 }
 
-export const CxMenuText = forwardRef<HTMLSpanElement, CMenuTextProps>(
+export const CxMenuText = forwardRef<HTMLSpanElement, CxMenuTextProps>(
   ({ children, className, component: Component = 'span', ...rest }, ref) => {
     const _className = classNames('menu-text', className)
 

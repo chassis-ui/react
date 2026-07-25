@@ -11,12 +11,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/notification/CxNotificationLink.tsx",
-        "name": "CNotificationLinkProps"
+        "name": "CxNotificationLinkProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/notification/CxNotificationLink.tsx",
-          "name": "CNotificationLinkProps"
+          "name": "CxNotificationLinkProps"
         }
       ],
       "required": false,
