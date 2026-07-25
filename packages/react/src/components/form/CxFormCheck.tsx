@@ -1,6 +1,6 @@
 import React, { forwardRef, InputHTMLAttributes, ReactNode, useRef } from 'react'
 import classNames from 'classnames'
-import { useCheckbox } from 'react-aria'
+import { AriaCheckboxProps, useCheckbox } from 'react-aria'
 import { useToggleState } from 'react-stately'
 
 import { useForkedRef } from '../../utils/hooks'
@@ -28,7 +28,10 @@ export type ButtonObject = {
 }
 
 export interface CxFormCheckProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'checked' | 'defaultChecked' | 'onChange'> {
+  extends Omit<
+    InputHTMLAttributes<HTMLInputElement>,
+    'checked' | 'defaultChecked' | 'onChange' | 'size'
+  > {
   /**
    * Create button-like checkboxes and radio buttons.
    */
@@ -38,13 +41,13 @@ export interface CxFormCheckProps
    */
   className?: string
   /**
+   * Sets the context of the check indicator to one of Chassis themed colors. Ignored when `button` is set.
+   */
+  context?: ContextColor
+  /**
    * Whether the input is selected, uncontrolled.
    */
   defaultSelected?: boolean
-  /**
-   * Sets hit area to the full area of the component.
-   */
-  hitArea?: 'full'
   /**
    * The id global attribute defines an identifier (ID) that must be unique in the whole document.
    */
@@ -53,10 +56,6 @@ export interface CxFormCheckProps
    * Input Checkbox indeterminate Property. Only applies to `type="checkbox"`.
    */
   indeterminate?: boolean
-  /**
-   * Group checkboxes or radios on the same horizontal row by adding.
-   */
-  inline?: boolean
   /**
    * Set component validation state to invalid.
    */
@@ -74,6 +73,10 @@ export interface CxFormCheckProps
    */
   onChange?: (isSelected: boolean) => void
   /**
+   * Size the component small or large.
+   */
+  size?: 'small' | 'large'
+  /**
    * Specifies the type of component.
    */
   type?: 'checkbox' | 'radio'
@@ -88,16 +91,16 @@ export const CxFormCheck = forwardRef<HTMLInputElement, CxFormCheckProps>(
     {
       className,
       button,
+      context,
       defaultSelected,
       disabled,
-      hitArea,
       id,
       indeterminate,
-      inline,
       invalid,
       isSelected,
       label,
       onChange,
+      size,
       type = 'checkbox',
       valid,
       ...rest
@@ -127,7 +130,7 @@ export const CxFormCheck = forwardRef<HTMLInputElement, CxFormCheckProps>(
         isDisabled: disabled,
         isIndeterminate: indeterminate,
         value: rest.value as string | undefined,
-      },
+      } as AriaCheckboxProps,
       toggleState,
       inputRef,
     )
@@ -143,61 +146,59 @@ export const CxFormCheck = forwardRef<HTMLInputElement, CxFormCheckProps>(
       type: 'radio' as const,
     }
 
+    const inputClassName = classNames({
+      'is-invalid': invalid,
+      'is-valid': valid,
+    })
+
+    const input = isCheckbox ? (
+      <input {...checkboxProps} className={inputClassName} id={id} ref={forkedRef} />
+    ) : (
+      <input {...radioProps} className={inputClassName} id={id} ref={forkedRef} />
+    )
+
+    if (button) {
+      const _className = classNames(
+        'button',
+        'button-check',
+        button.context,
+        button.variant,
+        button.size,
+        button.shape,
+        className,
+      )
+      return (
+        <CxFormLabel customClassName={_className}>
+          {input}
+          {label}
+        </CxFormLabel>
+      )
+    }
+
+    const checkInputClassName = classNames('check-input', context, {
+      'is-invalid': invalid,
+      'is-valid': valid,
+    })
+
+    if (!label) {
+      return <span className={checkInputClassName}>{input}</span>
+    }
+
     const _className = classNames(
       'form-check',
+      size,
       {
-        'form-check-inline': inline,
         'is-invalid': invalid,
         'is-valid': valid,
       },
       className,
     )
 
-    const inputClassName = classNames(button ? 'button-check' : 'check-input', {
-      'is-invalid': invalid,
-      'is-valid': valid,
-      'me-2': hitArea,
-    })
-    const labelClassName = classNames(
-      button
-        ? classNames('button', button.context, button.variant, button.size, button.shape)
-        : 'check-label',
-    )
-
-    const formControl = () =>
-      isCheckbox ? (
-        <input {...checkboxProps} className={inputClassName} id={id} ref={forkedRef} />
-      ) : (
-        <input {...radioProps} className={inputClassName} id={id} ref={forkedRef} />
-      )
-
-    const formLabel = () => {
-      return (
-        <CxFormLabel customClassName={labelClassName} {...(id && { htmlFor: id })}>
-          {label}
-        </CxFormLabel>
-      )
-    }
-
-    return button ? (
-      <>
-        {formControl()}
-        {label && formLabel()}
-      </>
-    ) : label ? (
-      hitArea ? (
-        <CxFormLabel customClassName={className} {...(id && { htmlFor: id })}>
-          {formControl()}
-          {label}
-        </CxFormLabel>
-      ) : (
-        <div className={_className}>
-          {formControl()}
-          {formLabel()}
-        </div>
-      )
-    ) : (
-      formControl()
+    return (
+      <CxFormLabel customClassName={_className}>
+        <span className={checkInputClassName}>{input}</span>
+        {label}
+      </CxFormLabel>
     )
   },
 )

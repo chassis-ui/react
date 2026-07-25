@@ -30,21 +30,21 @@ exports[`CxForm example 1`] = `
     >
       C
     </div>
-    <div
+    <label
       class="form-check"
     >
-      <input
+      <span
         class="check-input"
-        data-react-aria-pressable="true"
-        tabindex="0"
-        type="checkbox"
-      />
-      <label
-        class="check-label"
       >
-        D
-      </label>
-    </div>
+        <input
+          class=""
+          data-react-aria-pressable="true"
+          tabindex="0"
+          type="checkbox"
+        />
+      </span>
+      D
+    </label>
     <button
       class="button primary"
       type="submit"

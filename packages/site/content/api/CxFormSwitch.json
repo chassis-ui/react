@@ -24,6 +24,61 @@
         "name": "string"
       }
     },
+    "context": {
+      "defaultValue": null,
+      "description": "Sets the context of the switch indicator to one of Chassis themed colors.",
+      "name": "context",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
+        "name": "CxFormSwitchProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
+          "name": "CxFormSwitchProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "ContextColor",
+        "value": [
+          {
+            "value": "\"default\""
+          },
+          {
+            "value": "\"alternate\""
+          },
+          {
+            "value": "\"primary\""
+          },
+          {
+            "value": "\"secondary\""
+          },
+          {
+            "value": "\"neutral\""
+          },
+          {
+            "value": "\"success\""
+          },
+          {
+            "value": "\"danger\""
+          },
+          {
+            "value": "\"warning\""
+          },
+          {
+            "value": "\"info\""
+          },
+          {
+            "value": "\"black\""
+          },
+          {
+            "value": "\"white\""
+          }
+        ]
+      }
+    },
     "defaultSelected": {
       "defaultValue": null,
       "description": "Whether the switch is selected, uncontrolled.",
@@ -140,7 +195,7 @@
     },
     "size": {
       "defaultValue": null,
-      "description": "Size the component large or extra large. Works only with `switch` [docs]",
+      "description": "Size the component small or large.",
       "name": "size",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
@@ -155,13 +210,13 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"large\" | \"xlarge\"",
+        "raw": "\"small\" | \"large\"",
         "value": [
           {
-            "value": "\"large\""
+            "value": "\"small\""
           },
           {
-            "value": "\"xlarge\""
+            "value": "\"large\""
           }
         ]
       }

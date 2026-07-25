@@ -10,12 +10,14 @@ test('loads and displays CxFormCheck component', async () => {
 
 test('CxFormCheck customize button=false', async () => {
   const { container } = render(
-    <CxFormCheck className="bazinga" id="id" inline={true} label="label" type="radio" />,
+    <CxFormCheck className="bazinga" context="secondary" id="id" label="label" type="radio" />,
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')
   expect(container.firstChild).toHaveClass('form-check')
-  expect(container.firstChild).toHaveClass('form-check-inline')
+  const checkInput = screen.getByRole('radio').parentElement
+  expect(checkInput).toHaveClass('check-input')
+  expect(checkInput).toHaveClass('secondary')
 })
 
 test('CxFormCheck customize button=true', async () => {
@@ -24,12 +26,14 @@ test('CxFormCheck customize button=true', async () => {
       button={{ context: 'primary', size: 'large', shape: 'rounded', variant: 'ghost' }}
       className="bazinga"
       id="id"
-      inline={true}
       label="label"
       type="radio"
     />,
   )
   expect(container).toMatchSnapshot()
+  expect(container.firstChild).toHaveClass('button')
+  expect(container.firstChild).toHaveClass('button-check')
+  expect(container.firstChild).toHaveClass('primary')
 })
 
 test('an uncontrolled checkbox toggles on click and fires onChange(isSelected)', () => {

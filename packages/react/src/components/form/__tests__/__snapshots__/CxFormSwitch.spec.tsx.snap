@@ -2,36 +2,40 @@
 
 exports[`CxFormSwitch customize 1`] = `
 <div>
-  <div
-    class="form-check form-switch form-switch-xlarge is-invalid is-valid bazinga"
+  <label
+    class="form-check form-switch large is-invalid is-valid bazinga"
   >
-    <input
-      class="form-check-input is-invalid is-valid"
-      id="2"
-      type="radio"
-    />
-    <label
-      class="form-check-label"
-      for="2"
+    <span
+      class="check-input secondary is-invalid is-valid"
     >
-      Some label
-    </label>
-  </div>
+      <input
+        class="is-invalid is-valid"
+        id="2"
+        role="switch"
+        type="radio"
+      />
+    </span>
+    Some label
+  </label>
 </div>
 `;
 
 exports[`loads and displays CxFormSwitch component 1`] = `
 <div>
-  <div
+  <label
     class="form-check form-switch"
   >
-    <input
-      class="form-check-input"
-      data-react-aria-pressable="true"
-      role="switch"
-      tabindex="0"
-      type="checkbox"
-    />
-  </div>
+    <span
+      class="check-input"
+    >
+      <input
+        class=""
+        data-react-aria-pressable="true"
+        role="switch"
+        tabindex="0"
+        type="checkbox"
+      />
+    </span>
+  </label>
 </div>
 `;

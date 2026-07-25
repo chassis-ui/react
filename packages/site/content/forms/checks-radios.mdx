@@ -18,7 +18,7 @@ import {
 
 ## Approach
 
-Browser default checkboxes and radios are replaced with the help of `<CxFormCheck>`. Checkboxes are for selecting one or several options in a list, while radios are for selecting one option from many.
+Browser default checkboxes and radios are replaced with the help of `<CxFormCheck>`. Checkboxes are for selecting one or several options in a list, while radios are for selecting one option from many. Both `<CxFormCheck>` and `<CxFormSwitch>` render the modern, wrapper-based `.check-input` markup nested inside a single `<label>` — passing `label` gives you an accessible, fully-clickable control with no extra markup required.
 
 ## Checks
 
@@ -81,7 +81,7 @@ Add the `disabled` attribute and the associated `<label>`s are automatically sty
 
 ## Switches
 
-A switch has the markup of a custom checkbox but uses the `switch` boolean properly to render a toggle switch. Switches also support the `disabled` attribute.
+A switch has the markup of a custom checkbox but renders as a toggle switch via `<CxFormSwitch>`. Switches also support the `disabled` attribute.
 
 <Example>
   <CxFormSwitch label="Default switch checkbox input" id="formSwitchCheckDefault" />
@@ -98,9 +98,9 @@ A switch has the markup of a custom checkbox but uses the `switch` boolean prope
 ### Sizes
 
 <Example>
+  <CxFormSwitch size="small" label="Small switch checkbox input" id="formSwitchCheckDefaultSm" />
   <CxFormSwitch label="Default switch checkbox input" id="formSwitchCheckDefault" />
   <CxFormSwitch size="large" label="Large switch checkbox input" id="formSwitchCheckDefaultLg" />
-  <CxFormSwitch size="xlarge" label="Extra large switch checkbox input" id="formSwitchCheckDefaultXL" />
 </Example>
 
 ## Default (stacked)
@@ -140,40 +140,68 @@ By default, any number of checkboxes and radios that are immediate sibling will 
 
 ## Inline
 
-Group checkboxes or radios on the same horizontal row by adding `inline` boolean property to any `<CxFormCheck>`.
+Group checkboxes or radios on the same horizontal row by wrapping them with the `d-flex` and `gap-medium` flex utilities.
 
 <Example>
-  <CxFormCheck inline id="inlineCheckbox1" value="option1" label="1" />
-  <CxFormCheck inline id="inlineCheckbox2" value="option2" label="2" />
-  <CxFormCheck inline id="inlineCheckbox3" value="option3" label="3 (disabled)" disabled />
+  <div className="d-flex gap-medium">
+    <CxFormCheck id="inlineCheckbox1" value="option1" label="1" />
+    <CxFormCheck id="inlineCheckbox2" value="option2" label="2" />
+    <CxFormCheck id="inlineCheckbox3" value="option3" label="3 (disabled)" disabled />
+  </div>
 </Example>
 
 <Example>
+  <div className="d-flex gap-medium">
+    <CxFormCheck
+      type="radio"
+      name="inlineRadioOptions"
+      id="inlineCheckbox1"
+      value="option1"
+      label="1"
+    />
+    <CxFormCheck
+      type="radio"
+      name="inlineRadioOptions"
+      id="inlineCheckbox2"
+      value="option2"
+      label="2"
+    />
+    <CxFormCheck
+      type="radio"
+      name="inlineRadioOptions"
+      id="inlineCheckbox3"
+      value="option3"
+      label="3 (disabled)"
+      disabled
+    />
+  </div>
+</Example>
+
+## Sizing
+
+Apply the `size` property (`small` or `large`) to change the size of a checkbox, radio, or switch.
+
+<Example>
+  <CxFormCheck size="large" id="checkLarge" label="Large checkbox" />
+  <CxFormCheck id="checkMedium" label="Default checkbox" />
+  <CxFormCheck size="small" id="checkSmall" label="Small checkbox" />
+</Example>
+
+## Context colors
+
+Checkboxes, radios, and switches accept a `context` property to color the check indicator with any of the Chassis contextual colors.
+
+<Example>
+  <CxFormCheck context="secondary" id="checkSecondary" label="Secondary checkbox" defaultSelected />
   <CxFormCheck
-    inline
+    context="success"
     type="radio"
-    name="inlineRadioOptions"
-    id="inlineCheckbox1"
-    value="option1"
-    label="1"
+    name="contextRadios"
+    id="checkSuccess"
+    label="Success radio"
+    defaultSelected
   />
-  <CxFormCheck
-    inline
-    type="radio"
-    name="inlineRadioOptions"
-    id="inlineCheckbox2"
-    value="option2"
-    label="2"
-  />
-  <CxFormCheck
-    inline
-    type="radio"
-    name="inlineRadioOptions"
-    id="inlineCheckbox3"
-    value="option3"
-    label="3 (disabled)"
-    disabled
-  />
+  <CxFormSwitch context="danger" id="switchDanger" label="Danger switch" defaultSelected />
 </Example>
 
 ## Without labels

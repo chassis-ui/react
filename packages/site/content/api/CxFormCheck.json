@@ -43,6 +43,61 @@
         "name": "string"
       }
     },
+    "context": {
+      "defaultValue": null,
+      "description": "Sets the context of the check indicator to one of Chassis themed colors. Ignored when `button` is set.",
+      "name": "context",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
+        "name": "CxFormCheckProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
+          "name": "CxFormCheckProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "ContextColor",
+        "value": [
+          {
+            "value": "\"default\""
+          },
+          {
+            "value": "\"alternate\""
+          },
+          {
+            "value": "\"primary\""
+          },
+          {
+            "value": "\"secondary\""
+          },
+          {
+            "value": "\"neutral\""
+          },
+          {
+            "value": "\"success\""
+          },
+          {
+            "value": "\"danger\""
+          },
+          {
+            "value": "\"warning\""
+          },
+          {
+            "value": "\"info\""
+          },
+          {
+            "value": "\"black\""
+          },
+          {
+            "value": "\"white\""
+          }
+        ]
+      }
+    },
     "defaultSelected": {
       "defaultValue": null,
       "description": "Whether the input is selected, uncontrolled.",
@@ -60,31 +115,6 @@
       "required": false,
       "type": {
         "name": "boolean"
-      }
-    },
-    "hitArea": {
-      "defaultValue": null,
-      "description": "Sets hit area to the full area of the component.",
-      "name": "hitArea",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
-        "name": "CxFormCheckProps"
-      },
-      "declarations": [
-        {
-          "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
-          "name": "CxFormCheckProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"full\"",
-        "value": [
-          {
-            "value": "\"full\""
-          }
-        ]
       }
     },
     "id": {
@@ -110,25 +140,6 @@
       "defaultValue": null,
       "description": "Input Checkbox indeterminate Property. Only applies to `type=\"checkbox\"`.",
       "name": "indeterminate",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
-        "name": "CxFormCheckProps"
-      },
-      "declarations": [
-        {
-          "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
-          "name": "CxFormCheckProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "boolean"
-      }
-    },
-    "inline": {
-      "defaultValue": null,
-      "description": "Group checkboxes or radios on the same horizontal row by adding.",
-      "name": "inline",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
         "name": "CxFormCheckProps"
@@ -218,6 +229,34 @@
       "required": false,
       "type": {
         "name": "((isSelected: boolean) => void)"
+      }
+    },
+    "size": {
+      "defaultValue": null,
+      "description": "Size the component small or large.",
+      "name": "size",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
+        "name": "CxFormCheckProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
+          "name": "CxFormCheckProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"small\" | \"large\"",
+        "value": [
+          {
+            "value": "\"small\""
+          },
+          {
+            "value": "\"large\""
+          }
+        ]
       }
     },
     "type": {

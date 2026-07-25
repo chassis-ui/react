@@ -403,20 +403,15 @@ Place Chassis checkboxes and radios within list items and customize as needed.
   </CxList>
 </Example>
 
-And if you want `<label>`s as the `.list-item` for large hit areas, you can do that, too.
+And since `<CxFormCheck>` always renders a `<label>` as its root element, you can apply `.list-item` directly to it for large hit areas, too.
 
 <Example>
   <CxList>
-    <CxFormCheck className="list-item" hitArea="full" label="Cras justo odio" />
-    <CxFormCheck
-      className="list-item"
-      hitArea="full"
-      label="Dapibus ac facilisis in"
-      defaultSelected
-    />
-    <CxFormCheck className="list-item" hitArea="full" label="Morbi leo risus" defaultSelected />
-    <CxFormCheck className="list-item" hitArea="full" label="orta ac consectetur ac" />
-    <CxFormCheck className="list-item" hitArea="full" label="Vestibulum at eros" />
+    <CxFormCheck className="list-item" label="Cras justo odio" />
+    <CxFormCheck className="list-item" label="Dapibus ac facilisis in" defaultSelected />
+    <CxFormCheck className="list-item" label="Morbi leo risus" defaultSelected />
+    <CxFormCheck className="list-item" label="orta ac consectetur ac" />
+    <CxFormCheck className="list-item" label="Vestibulum at eros" />
   </CxList>
 </Example>
 

@@ -12,10 +12,11 @@ test('CxFormSwitch customize', async () => {
   const { container } = render(
     <CxFormSwitch
       className="bazinga"
+      context="secondary"
       id="2"
       invalid={true}
       label="Some label"
-      size="xlarge"
+      size="large"
       type="radio"
       valid={true}
     />,
@@ -23,21 +24,26 @@ test('CxFormSwitch customize', async () => {
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('form-check')
   expect(container.firstChild).toHaveClass('form-switch')
-  expect(container.firstChild).toHaveClass('form-switch-xlarge')
+  expect(container.firstChild).toHaveClass('large')
   expect(container.firstChild).toHaveClass('is-invalid')
   expect(container.firstChild).toHaveClass('is-valid')
   expect(container.firstChild).toHaveClass('bazinga')
+  expect(container.firstChild).toHaveTextContent('Some label')
   if (container.firstChild === null) {
     expect(true).toBe(false)
   } else {
-    expect(container.firstChild.firstChild).toHaveClass('form-check-input')
-    expect(container.firstChild.firstChild).toHaveClass('is-invalid')
-    expect(container.firstChild.firstChild).toHaveClass('is-valid')
-    expect(container.firstChild.firstChild).toHaveAttribute('id', '2')
-    expect(container.firstChild.firstChild).toHaveAttribute('type', 'radio')
-    expect(container.firstChild.lastChild).toHaveClass('form-check-label')
-    expect(container.firstChild.lastChild).toHaveTextContent('Some label')
-    expect(container.firstChild.lastChild).toHaveAttribute('for', '2')
+    const checkInput = container.firstChild.firstChild
+    expect(checkInput).toHaveClass('check-input')
+    expect(checkInput).toHaveClass('secondary')
+    expect(checkInput).toHaveClass('is-invalid')
+    expect(checkInput).toHaveClass('is-valid')
+
+    const input = checkInput?.firstChild
+    expect(input).toHaveClass('is-invalid')
+    expect(input).toHaveClass('is-valid')
+    expect(input).toHaveAttribute('id', '2')
+    expect(input).toHaveAttribute('type', 'radio')
+    expect(input).toHaveAttribute('role', 'switch')
   }
 })
 

@@ -2,35 +2,33 @@
 
 exports[`CxFormCheck customize button=false 1`] = `
 <div>
-  <div
-    class="form-check form-check-inline bazinga"
+  <label
+    class="form-check bazinga"
   >
-    <input
-      class="check-input"
-      id="id"
-      type="radio"
-    />
-    <label
-      class="check-label"
-      for="id"
+    <span
+      class="check-input secondary"
     >
-      label
-    </label>
-  </div>
+      <input
+        class=""
+        id="id"
+        type="radio"
+      />
+    </span>
+    label
+  </label>
 </div>
 `;
 
 exports[`CxFormCheck customize button=true 1`] = `
 <div>
-  <input
-    class="button-check"
-    id="id"
-    type="radio"
-  />
   <label
-    class="button primary ghost large rounded"
-    for="id"
+    class="button button-check primary ghost large rounded bazinga"
   >
+    <input
+      class=""
+      id="id"
+      type="radio"
+    />
     label
   </label>
 </div>
@@ -38,11 +36,15 @@ exports[`CxFormCheck customize button=true 1`] = `
 
 exports[`loads and displays CxFormCheck component 1`] = `
 <div>
-  <input
+  <span
     class="check-input"
-    data-react-aria-pressable="true"
-    tabindex="0"
-    type="checkbox"
-  />
+  >
+    <input
+      class=""
+      data-react-aria-pressable="true"
+      tabindex="0"
+      type="checkbox"
+    />
+  </span>
 </div>
 `;
