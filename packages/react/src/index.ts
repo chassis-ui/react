@@ -34,6 +34,7 @@ import { CxCloseButton } from './components/close-button/CxCloseButton'
 import { CxCombobox } from './components/combobox/CxCombobox'
 import { CxComboboxItem } from './components/combobox/CxComboboxItem'
 import { CxDatePicker } from './components/datepicker/CxDatePicker'
+import { CxOtpInput } from './components/otp-input/CxOtpInput'
 import { I18nProvider } from 'react-aria'
 import { CxMenu } from './components/menu/CxMenu'
 import { CxMenuDivider } from './components/menu/CxMenuDivider'
@@ -154,6 +155,7 @@ export {
   // *different* context instance and silently have no effect on `CxDatePicker`; this re-export is
   // the one that actually reaches it.
   I18nProvider,
+  CxOtpInput,
   CxMenu,
   CxMenuDivider,
   CxMenuHeader,
