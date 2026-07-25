@@ -36,6 +36,7 @@
     - title: Notification
     - title: OTP Input
     - title: Pagination
+    - title: Password Strength
     - title: Placeholder
     - title: Popover
     - title: Progress

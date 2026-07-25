@@ -35,6 +35,7 @@ import { CxCombobox } from './components/combobox/CxCombobox'
 import { CxComboboxItem } from './components/combobox/CxComboboxItem'
 import { CxDatePicker } from './components/datepicker/CxDatePicker'
 import { CxOtpInput } from './components/otp-input/CxOtpInput'
+import { CxPasswordStrength } from './components/password-strength/CxPasswordStrength'
 import { I18nProvider } from 'react-aria'
 import { CxMenu } from './components/menu/CxMenu'
 import { CxMenuDivider } from './components/menu/CxMenuDivider'
@@ -156,6 +157,7 @@ export {
   // the one that actually reaches it.
   I18nProvider,
   CxOtpInput,
+  CxPasswordStrength,
   CxMenu,
   CxMenuDivider,
   CxMenuHeader,
