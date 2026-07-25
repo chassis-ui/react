@@ -1,5 +1,5 @@
 import React, { forwardRef, HTMLAttributes, useContext } from 'react'
-import { CModalContext } from './CxModal'
+import { CxModalContext } from './CxModal'
 import { CxCloseButton } from '../close-button/CxCloseButton'
 import classNames from 'classnames'
 
@@ -16,7 +16,7 @@ export interface CxModalHeaderProps extends HTMLAttributes<HTMLDivElement> {
 
 export const CxModalHeader = forwardRef<HTMLDivElement, CxModalHeaderProps>(
   ({ children, className, closeButton = true, ...rest }, ref) => {
-    const { requestClose } = useContext(CModalContext)
+    const { requestClose } = useContext(CxModalContext)
     const _className = classNames('modal-header', className)
 
     return (

@@ -21,7 +21,7 @@ export interface CxAccordionContextProps {
   name: string
 }
 
-export const CAccordionContext = createContext({} as CxAccordionContextProps)
+export const CxAccordionContext = createContext({} as CxAccordionContextProps)
 
 export const CxAccordion = forwardRef<HTMLDivElement, CxAccordionProps>(
   ({ children, alwaysOpen = false, className, flush, ...rest }, ref) => {
@@ -29,9 +29,9 @@ export const CxAccordion = forwardRef<HTMLDivElement, CxAccordionProps>(
     const _className = classNames('accordion', { 'accordion-flush': flush }, className)
     return (
       <div className={_className} {...rest} ref={ref}>
-        <CAccordionContext.Provider value={{ alwaysOpen, name }}>
+        <CxAccordionContext.Provider value={{ alwaysOpen, name }}>
           {children}
-        </CAccordionContext.Provider>
+        </CxAccordionContext.Provider>
       </div>
     )
   },

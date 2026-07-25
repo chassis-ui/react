@@ -80,7 +80,7 @@ interface ModalContextProps {
   requestClose?: () => void
 }
 
-export const CModalContext = createContext<ModalContextProps>({})
+export const CxModalContext = createContext<ModalContextProps>({})
 
 export const CxModal = forwardRef<HTMLDialogElement, CxModalProps>(
   (
@@ -252,7 +252,7 @@ export const CxModal = forwardRef<HTMLDialogElement, CxModalProps>(
     )
 
     return (
-      <CModalContext.Provider value={{ requestClose }}>
+      <CxModalContext.Provider value={{ requestClose }}>
         <dialog
           {...rest}
           className={_className}
@@ -262,7 +262,7 @@ export const CxModal = forwardRef<HTMLDialogElement, CxModalProps>(
         >
           {children}
         </dialog>
-      </CModalContext.Provider>
+      </CxModalContext.Provider>
     )
   },
 )

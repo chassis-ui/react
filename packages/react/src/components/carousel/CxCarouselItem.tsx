@@ -2,7 +2,7 @@ import React, { forwardRef, HTMLAttributes, useContext, useEffect, useState, use
 import classNames from 'classnames'
 
 import { useForkedRef } from '../../utils/hooks'
-import { CCarouselContext } from './CxCarousel'
+import { CxCarouselContext } from './CxCarousel'
 export interface CxCarouselItemProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * @ignore
@@ -24,7 +24,7 @@ export interface CxCarouselItemProps extends HTMLAttributes<HTMLDivElement> {
 
 export const CxCarouselItem = forwardRef<HTMLDivElement, CxCarouselItemProps>(
   ({ children, className, active, direction, interval = false, ...rest }, ref) => {
-    const { setAnimating, setCustomInterval } = useContext(CCarouselContext)
+    const { setAnimating, setCustomInterval } = useContext(CxCarouselContext)
     const carouselItemRef = useRef<HTMLDivElement>(null)
     const forkedRef = useForkedRef(ref, carouselItemRef)
 

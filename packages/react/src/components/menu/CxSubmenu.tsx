@@ -12,7 +12,7 @@ import { createPortal } from 'react-dom'
 import classNames from 'classnames'
 import { useOverlayPosition } from 'react-aria'
 
-import { CMenuContext } from './CxMenu'
+import { CxMenuContext } from './CxMenu'
 import { Placement, resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
 import { focusMenuItem, getMenuItems, handleMenuKeyDown } from './menuNavigation'
 import { SubmenuActionsContext, SubmenuGroupContext, useSubmenuGroupProvider } from './submenuGroup'
@@ -84,7 +84,7 @@ export const CxSubmenu = forwardRef<HTMLDivElement, CxSubmenuProps>(
     const overlayRef = useRef<HTMLElement | null>(null)
     const parentGroup = useContext(SubmenuGroupContext)
     const ownGroup = useSubmenuGroupProvider()
-    const { visible: parentMenuVisible } = useContext(CMenuContext)
+    const { visible: parentMenuVisible } = useContext(CxMenuContext)
 
     const { overlayProps, placement: resolvedPlacement } = useOverlayPosition({
       targetRef: triggerRef,

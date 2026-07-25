@@ -53,10 +53,10 @@ export interface CxTabsContextValue {
   state: TabListState<ReactElement<CxTabProps>>
 }
 
-export const CTabsContext = createContext<CxTabsContextValue | null>(null)
+export const CxTabsContext = createContext<CxTabsContextValue | null>(null)
 
 export const useCxTabsContext = (): CxTabsContextValue => {
-  const context = useContext(CTabsContext)
+  const context = useContext(CxTabsContext)
   if (!context) {
     throw new Error('CxTabList and CxTabPanel must be rendered inside a CxTabs')
   }
@@ -115,12 +115,12 @@ export const CxTabs = forwardRef<HTMLDivElement, CxTabsProps>(
     })
 
     return (
-      <CTabsContext.Provider value={{ keyboardActivation, orientation, state }}>
+      <CxTabsContext.Provider value={{ keyboardActivation, orientation, state }}>
         <div className={className} {...rest} ref={ref}>
           {tabListChild}
           <div className="tab-content">{panelChildren}</div>
         </div>
-      </CTabsContext.Provider>
+      </CxTabsContext.Provider>
     )
   },
 )

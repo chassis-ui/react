@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom'
 import classNames from 'classnames'
 
 import { useForkedRef } from '../../utils/hooks'
-import { CMenuContext } from './CxMenu'
+import { CxMenuContext } from './CxMenu'
 import { focusMenuItem, getMenuItems, handleMenuKeyDown } from './menuNavigation'
 import { SubmenuGroupContext, useSubmenuGroupProvider } from './submenuGroup'
 
@@ -30,7 +30,7 @@ export const CxMenuList = forwardRef<HTMLElement, CxMenuListProps>(
       placementAttr,
       triggerId,
       visible,
-    } = useContext(CMenuContext)
+    } = useContext(CxMenuContext)
     const forkedRef = useForkedRef(ref, overlayRef)
     const submenuGroup = useSubmenuGroupProvider()
 

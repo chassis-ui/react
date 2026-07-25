@@ -1,7 +1,7 @@
 import React, { forwardRef, HTMLAttributes, useContext } from 'react'
 import classNames from 'classnames'
 
-import { CDrawerContext } from './CxDrawer'
+import { CxDrawerContext } from './CxDrawer'
 import { CxCloseButton } from '../close-button/CxCloseButton'
 
 export interface CxDrawerHeaderProps extends HTMLAttributes<HTMLDivElement> {
@@ -17,7 +17,7 @@ export interface CxDrawerHeaderProps extends HTMLAttributes<HTMLDivElement> {
 
 export const CxDrawerHeader = forwardRef<HTMLDivElement, CxDrawerHeaderProps>(
   ({ children, className, closeButton = true, ...rest }, ref) => {
-    const { requestClose } = useContext(CDrawerContext)
+    const { requestClose } = useContext(CxDrawerContext)
     const _className = classNames('drawer-header', className)
 
     return (

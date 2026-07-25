@@ -77,7 +77,7 @@ export interface ContextProps {
   setCustomInterval: (a: boolean | number) => void
 }
 
-export const CCarouselContext = createContext({} as ContextProps)
+export const CxCarouselContext = createContext({} as ContextProps)
 
 export const CxCarousel = forwardRef<HTMLDivElement, CxCarouselProps>(
   (
@@ -209,7 +209,7 @@ export const CxCarousel = forwardRef<HTMLDivElement, CxCarouselProps>(
         {...rest}
         ref={forkedRef}
       >
-        <CCarouselContext.Provider
+        <CxCarouselContext.Provider
           value={{
             setAnimating,
             setCustomInterval,
@@ -271,7 +271,7 @@ export const CxCarousel = forwardRef<HTMLDivElement, CxCarouselProps>(
               </button>
             </>
           )}
-        </CCarouselContext.Provider>
+        </CxCarouselContext.Provider>
       </div>
     )
   },

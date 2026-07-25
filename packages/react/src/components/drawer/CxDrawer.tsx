@@ -94,7 +94,7 @@ interface DrawerContextProps {
   requestClose?: () => void
 }
 
-export const CDrawerContext = createContext<DrawerContextProps>({})
+export const CxDrawerContext = createContext<DrawerContextProps>({})
 
 // Currently-open drawers, so opening one can auto-close any other open drawer
 // ("When a second drawer opens while one is already open, the first closes automatically").
@@ -279,7 +279,7 @@ export const CxDrawer = forwardRef<HTMLDialogElement, CxDrawerProps>(
     )
 
     return (
-      <CDrawerContext.Provider value={{ requestClose }}>
+      <CxDrawerContext.Provider value={{ requestClose }}>
         <dialog
           {...rest}
           className={_className}
@@ -289,7 +289,7 @@ export const CxDrawer = forwardRef<HTMLDialogElement, CxDrawerProps>(
         >
           {children}
         </dialog>
-      </CDrawerContext.Provider>
+      </CxDrawerContext.Provider>
     )
   },
 )

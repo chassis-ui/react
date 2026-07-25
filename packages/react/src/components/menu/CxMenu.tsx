@@ -130,7 +130,7 @@ const defaultMenuContext: CxMenuContextProps = {
   visible: false,
 }
 
-export const CMenuContext = createContext(defaultMenuContext)
+export const CxMenuContext = createContext(defaultMenuContext)
 
 export const CxMenu = forwardRef<HTMLElement, CxMenuProps>(
   (
@@ -284,7 +284,7 @@ export const CxMenu = forwardRef<HTMLElement, CxMenuProps>(
     }
 
     return (
-      <CMenuContext.Provider value={contextValue}>
+      <CxMenuContext.Provider value={contextValue}>
         {Component === Fragment ? (
           children
         ) : (
@@ -292,7 +292,7 @@ export const CxMenu = forwardRef<HTMLElement, CxMenuProps>(
             {children}
           </Component>
         )}
-      </CMenuContext.Provider>
+      </CxMenuContext.Provider>
     )
   },
 )

@@ -1,7 +1,7 @@
 import React, { forwardRef, HTMLAttributes, useContext } from 'react'
 import classNames from 'classnames'
 
-import { CAccordionContext } from './CxAccordion'
+import { CxAccordionContext } from './CxAccordion'
 
 export interface CxAccordionItemProps extends HTMLAttributes<HTMLDetailsElement> {
   /**
@@ -20,7 +20,7 @@ export interface CxAccordionItemProps extends HTMLAttributes<HTMLDetailsElement>
 
 export const CxAccordionItem = forwardRef<HTMLDetailsElement, CxAccordionItemProps>(
   ({ children, className, open, itemKey: _itemKey, ...rest }, ref) => {
-    const { alwaysOpen, name } = useContext(CAccordionContext)
+    const { alwaysOpen, name } = useContext(CxAccordionContext)
 
     const groupProps = alwaysOpen ? {} : { name }
 

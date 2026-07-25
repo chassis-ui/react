@@ -1,5 +1,5 @@
 import React, { ElementType, forwardRef, useContext } from 'react'
-import { CToastContext } from './CxToast'
+import { CxToastContext } from './CxToast'
 import { CxCloseButton, CxCloseButtonProps } from '../close-button/CxCloseButton'
 
 export interface CxToastCloseProps extends CxCloseButtonProps {
@@ -11,7 +11,7 @@ export interface CxToastCloseProps extends CxCloseButtonProps {
 
 export const CxToastClose = forwardRef<HTMLButtonElement, CxToastCloseProps>(
   ({ children, component: Component, onClick, ...rest }, ref) => {
-    const { setVisible } = useContext(CToastContext)
+    const { setVisible } = useContext(CxToastContext)
     const handleClick: typeof onClick = (event) => {
       onClick?.(event)
       setVisible(false)

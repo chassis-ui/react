@@ -61,7 +61,7 @@ interface ContextProps extends CxToastProps {
   setVisible: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const CToastContext = createContext({} as ContextProps)
+export const CxToastContext = createContext({} as ContextProps)
 
 export const CxToast = forwardRef<HTMLDivElement, CxToastProps>(
   (
@@ -177,7 +177,7 @@ export const CxToast = forwardRef<HTMLDivElement, CxToastProps>(
         {(state) => {
           const transitionClass = getTransitionClass(state)
           return (
-            <CToastContext.Provider value={contextValues}>
+            <CxToastContext.Provider value={contextValues}>
               <div
                 className={classNames(_className, transitionClass)}
                 role={role}
@@ -190,7 +190,7 @@ export const CxToast = forwardRef<HTMLDivElement, CxToastProps>(
               >
                 {children}
               </div>
-            </CToastContext.Provider>
+            </CxToastContext.Provider>
           )
         }}
       </Transition>
