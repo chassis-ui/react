@@ -12,11 +12,11 @@
     "clean": "rimraf ../../_site .astro"
   },
   "dependencies": {
-    "@chassis-ui/css": "link:../../../chassis-css",
-    "@chassis-ui/docs": "link:../../../chassis-website/packages/docs",
-    "@chassis-ui/icons": "link:../../../chassis-icons",
+    "@chassis-ui/css": "^0.3.5",
+    "@chassis-ui/docs": "^0.3.10",
+    "@chassis-ui/icons": "^0.3.1",
     "@chassis-ui/react": "workspace:*",
-    "@chassis-ui/tokens": "link:../../../chassis-tokens",
+    "@chassis-ui/tokens": "^0.3.0",
     "@internationalized/date": "^3.12.2"
   },
   "devDependencies": {

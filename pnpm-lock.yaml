@@ -4,13 +4,15 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  '@chassis-ui/docs': link:../chassis-website/packages/docs
+  '@chassis-ui/icons': link:../chassis-icons
+  '@chassis-ui/tokens': link:../chassis-tokens
+  '@chassis-ui/css': link:../chassis-css
+
 importers:
 
   .:
-    dependencies:
-      '@chassis-ui/tokens':
-        specifier: link:../chassis-tokens
-        version: link:../chassis-tokens
     devDependencies:
       '@testing-library/dom':
         specifier: ^10.0.0
