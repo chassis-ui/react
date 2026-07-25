@@ -1,44 +1,20 @@
-import React, { forwardRef, HTMLAttributes } from 'react'
-import classNames from 'classnames'
+import { Key, ReactElement } from 'react'
+import { Row } from 'react-stately'
 
-import { ContextColor } from '../Types'
-
-export interface CTableRowProps extends HTMLAttributes<HTMLTableRowElement> {
+export interface CTableRowProps {
   /**
-   * Highlight a table row or cell..
+   * `CxTableCell` elements, or a render function called once per column with that column's key —
+   * required when the row's parent `CxTableBody` uses the `items`/render-function form.
    */
-  active?: boolean
+  children: ReactElement | ReactElement[] | ((columnKey: Key) => ReactElement)
   /**
-   * Set the vertical aligment.
+   * A string representation of the row's contents, used for typeahead.
    */
-  align?: 'bottom' | 'middle' | 'top'
-  /**
-   * A string of all className you want applied to the component.
-   */
-  className?: string
-  /**
-   * Sets the context context of the component to one of Chassis themed colors.
-   */
-  context?: ContextColor
+  textValue?: string
 }
 
-export const CxTableRow = forwardRef<HTMLTableRowElement, CTableRowProps>(
-  ({ children, active, align, className, context, ...rest }, ref) => {
-    const _className = classNames(
-      context,
-      {
-        [`align-${align}`]: align,
-        active,
-      },
-      className,
-    )
-
-    return (
-      <tr className={_className ? _className : undefined} {...rest} ref={ref}>
-        {children}
-      </tr>
-    )
-  },
-)
-
-CxTableRow.displayName = 'CxTableRow'
+/**
+ * Collection node, data-only — see `CxTableHeader`. Read by `CxTable` to build a row in the
+ * table's collection; never rendered directly.
+ */
+export const CxTableRow = Row as unknown as (props: CTableRowProps) => ReactElement

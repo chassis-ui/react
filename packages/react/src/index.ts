@@ -29,7 +29,14 @@ import { CxCarousel } from './components/carousel/CxCarousel'
 import { CxCarouselCaption } from './components/carousel/CxCarouselCaption'
 import { CxCarouselItem } from './components/carousel/CxCarouselItem'
 import { CxCollapse } from './components/collapse/CxCollapse'
+import { CxChipInput } from './components/chip-input/CxChipInput'
 import { CxCloseButton } from './components/close-button/CxCloseButton'
+import { CxCombobox } from './components/combobox/CxCombobox'
+import { CxComboboxItem } from './components/combobox/CxComboboxItem'
+import { CxDatePicker } from './components/datepicker/CxDatePicker'
+import { CxOtpInput } from './components/otp-input/CxOtpInput'
+import { CxPasswordStrength } from './components/password-strength/CxPasswordStrength'
+import { I18nProvider } from 'react-aria'
 import { CxMenu } from './components/menu/CxMenu'
 import { CxMenuDivider } from './components/menu/CxMenuDivider'
 import { CxMenuHeader } from './components/menu/CxMenuHeader'
@@ -87,20 +94,23 @@ import { CxDrawerTitle } from './components/drawer/CxDrawerTitle'
 import { CxSpinner } from './components/spinner/CxSpinner'
 import { CxTable } from './components/table/CxTable'
 import { CxTableBody } from './components/table/CxTableBody'
-import { CxTableCaption } from './components/table/CxTableCaption'
-import { CxTableDataCell } from './components/table/CxTableDataCell'
-import { CxTableFoot } from './components/table/CxTableFoot'
-import { CxTableHead } from './components/table/CxTableHead'
-import { CxTableHeaderCell } from './components/table/CxTableHeaderCell'
+import { CxTableCell } from './components/table/CxTableCell'
+import { CxTableColumn } from './components/table/CxTableColumn'
+import { CxTableHeader } from './components/table/CxTableHeader'
 import { CxTableRow } from './components/table/CxTableRow'
+import { CxTab } from './components/tabs/CxTab'
 import { CxTabContent } from './components/tabs/CxTabContent'
+import { CxTabList } from './components/tabs/CxTabList'
 import { CxTabPane } from './components/tabs/CxTabPane'
+import { CxTabPanel } from './components/tabs/CxTabPanel'
+import { CxTabs } from './components/tabs/CxTabs'
 import { CxToast } from './components/toast/CxToast'
 import { CxToastBody } from './components/toast/CxToastBody'
 import { CxToastClose } from './components/toast/CxToastClose'
 import { CxToastFooter } from './components/toast/CxToastFooter'
 import { CxToastHeader } from './components/toast/CxToastHeader'
 import { CxToaster } from './components/toast/CxToaster'
+import { addToast, closeToast, toastQueue } from './components/toast/toastQueue'
 import { CxTooltip } from './components/tooltip/CxTooltip'
 
 export {
@@ -133,8 +143,21 @@ export {
   CxCarousel,
   CxCarouselCaption,
   CxCarouselItem,
+  CxChipInput,
   CxCloseButton,
   CxCollapse,
+  CxCombobox,
+  CxComboboxItem,
+  CxDatePicker,
+  // Re-exported (not a `Cx*` component): react-aria is a bundled dependency, not a peer, so its
+  // module — including the `I18nProvider` context `CxDatePicker` reads locale from via
+  // `useLocale()` — is inlined into this package's own build output, distinct from any react-aria
+  // copy a consumer might separately install. A consumer's own `<I18nProvider>` would set a
+  // *different* context instance and silently have no effect on `CxDatePicker`; this re-export is
+  // the one that actually reaches it.
+  I18nProvider,
+  CxOtpInput,
+  CxPasswordStrength,
   CxMenu,
   CxMenuDivider,
   CxMenuHeader,
@@ -193,19 +216,24 @@ export {
   CxSpinner,
   CxTable,
   CxTableBody,
-  CxTableCaption,
-  CxTableDataCell,
-  CxTableFoot,
-  CxTableHead,
-  CxTableHeaderCell,
+  CxTableCell,
+  CxTableColumn,
+  CxTableHeader,
   CxTableRow,
+  CxTab,
   CxTabContent,
+  CxTabList,
   CxTabPane,
+  CxTabPanel,
+  CxTabs,
   CxToast,
   CxToastBody,
   CxToastClose,
   CxToastFooter,
   CxToastHeader,
   CxToaster,
+  addToast,
+  closeToast,
+  toastQueue,
   CxTooltip,
 }

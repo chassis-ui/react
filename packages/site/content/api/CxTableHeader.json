@@ -1,0 +1,47 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/table/CxTableHeader.tsx",
+  "description": "Collection node, data-only — read by `CxTable` to build the table's column collection. Never\nrendered directly.",
+  "displayName": "CxTableHeader",
+  "methods": [],
+  "props": {
+    "children": {
+      "defaultValue": null,
+      "description": "`CxTableColumn` elements, or a render function paired with `columns` for dynamic column\ngeneration.",
+      "name": "children",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/CxTableHeader.tsx",
+        "name": "CTableHeaderProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/CxTableHeader.tsx",
+          "name": "CTableHeaderProps"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "ReactElement<any, string | JSXElementConstructor<any>> | ReactElement<any, string | JSXElementConstructor<any>>[] | ((column: T) => ReactElement<...>)"
+      }
+    },
+    "columns": {
+      "defaultValue": null,
+      "description": "A list of column data objects, rendered via the function form of `children`.",
+      "name": "columns",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/CxTableHeader.tsx",
+        "name": "CTableHeaderProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/CxTableHeader.tsx",
+          "name": "CTableHeaderProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "readonly T[]"
+      }
+    }
+  }
+}

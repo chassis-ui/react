@@ -1,14 +1,14 @@
 {
   "tags": {},
   "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/table/CxTableRow.tsx",
-  "description": "",
+  "description": "Collection node, data-only — see `CxTableHeader`. Read by `CxTable` to build a row in the\ntable's collection; never rendered directly.",
   "displayName": "CxTableRow",
   "methods": [],
   "props": {
-    "active": {
+    "children": {
       "defaultValue": null,
-      "description": "Highlight a table row or cell..",
-      "name": "active",
+      "description": "`CxTableCell` elements, or a render function called once per column with that column's key —\nrequired when the row's parent `CxTableBody` uses the `items`/render-function form.",
+      "name": "children",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/table/CxTableRow.tsx",
         "name": "CTableRowProps"
@@ -19,46 +19,15 @@
           "name": "CTableRowProps"
         }
       ],
-      "required": false,
+      "required": true,
       "type": {
-        "name": "boolean"
+        "name": "ReactElement<any, string | JSXElementConstructor<any>> | ReactElement<any, string | JSXElementConstructor<any>>[] | ((columnKey: Key) => ReactElement<...>)"
       }
     },
-    "align": {
+    "textValue": {
       "defaultValue": null,
-      "description": "Set the vertical aligment.",
-      "name": "align",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/table/CxTableRow.tsx",
-        "name": "CTableRowProps"
-      },
-      "declarations": [
-        {
-          "fileName": "chassis-react/packages/react/src/components/table/CxTableRow.tsx",
-          "name": "CTableRowProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"bottom\" | \"middle\" | \"top\"",
-        "value": [
-          {
-            "value": "\"bottom\""
-          },
-          {
-            "value": "\"middle\""
-          },
-          {
-            "value": "\"top\""
-          }
-        ]
-      }
-    },
-    "className": {
-      "defaultValue": null,
-      "description": "A string of all className you want applied to the component.",
-      "name": "className",
+      "description": "A string representation of the row's contents, used for typeahead.",
+      "name": "textValue",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/table/CxTableRow.tsx",
         "name": "CTableRowProps"
@@ -72,61 +41,6 @@
       "required": false,
       "type": {
         "name": "string"
-      }
-    },
-    "context": {
-      "defaultValue": null,
-      "description": "Sets the context context of the component to one of Chassis themed colors.",
-      "name": "context",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/table/CxTableRow.tsx",
-        "name": "CTableRowProps"
-      },
-      "declarations": [
-        {
-          "fileName": "chassis-react/packages/react/src/components/table/CxTableRow.tsx",
-          "name": "CTableRowProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "ContextColor",
-        "value": [
-          {
-            "value": "\"default\""
-          },
-          {
-            "value": "\"alternate\""
-          },
-          {
-            "value": "\"primary\""
-          },
-          {
-            "value": "\"secondary\""
-          },
-          {
-            "value": "\"neutral\""
-          },
-          {
-            "value": "\"success\""
-          },
-          {
-            "value": "\"danger\""
-          },
-          {
-            "value": "\"warning\""
-          },
-          {
-            "value": "\"info\""
-          },
-          {
-            "value": "\"black\""
-          },
-          {
-            "value": "\"white\""
-          }
-        ]
       }
     }
   }

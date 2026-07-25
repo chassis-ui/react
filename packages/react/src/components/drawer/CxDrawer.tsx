@@ -8,9 +8,10 @@ import React, {
   useState,
 } from 'react'
 import classNames from 'classnames'
+import { usePreventScroll } from 'react-aria'
 
 import { useForkedRef } from '../../utils/hooks'
-import { dialogScrollLock, executeAfterTransition } from '../../utils/dialogTransition'
+import { executeAfterTransition } from '../../utils/dialogTransition'
 
 export interface CDrawerProps
   extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'onCancel' | 'onClose'> {
@@ -129,8 +130,12 @@ export const CxDrawer = forwardRef<HTMLDialogElement, CDrawerProps>(
 
     const [_visible, setVisible] = useState(visible)
     const [staticBounce, setStaticBounce] = useState(false)
+    const [scrollLocked, setScrollLocked] = useState(false)
     const openedAsModalRef = useRef(false)
     const triggerRef = useRef<HTMLElement | null>(null)
+
+    // usePreventScroll releases the lock automatically on unmount too, even while still open.
+    usePreventScroll({ isDisabled: !scrollLocked })
 
     useEffect(() => {
       setVisible(visible)
@@ -151,14 +156,6 @@ export const CxDrawer = forwardRef<HTMLDialogElement, CDrawerProps>(
       openDrawers.add(entry)
       return () => {
         openDrawers.delete(entry)
-      }
-    }, [])
-
-    // Release the body-scroll lock if the component unmounts while still open.
-    useEffect(() => {
-      const dialog = dialogRef.current
-      return () => {
-        if (dialog) dialogScrollLock.unlock(dialog)
       }
     }, [])
 
@@ -188,7 +185,7 @@ export const CxDrawer = forwardRef<HTMLDialogElement, CDrawerProps>(
         openedAsModalRef.current = isModal
         if (isModal) {
           dialog.showModal()
-          dialogScrollLock.lock(dialog)
+          setScrollLocked(true)
         } else {
           dialog.show()
         }
@@ -213,7 +210,7 @@ export const CxDrawer = forwardRef<HTMLDialogElement, CDrawerProps>(
       // delayed visibility, regardless of the native `open` attribute.
       dialog.close()
       if (openedAsModalRef.current) {
-        dialogScrollLock.unlock(dialog)
+        setScrollLocked(false)
       }
 
       return executeAfterTransition(

@@ -39,8 +39,8 @@ Here's a quick example to demonstrate Chassis form styles. Keep reading for docu
     <CxFormCheck
       className="mb-medium"
       label="Check me out"
-      onChange={(e) => {
-        console.log(e.target)
+      onChange={(isSelected) => {
+        console.log(isSelected)
       }}
     />
     <CxButton type="submit" context="primary">

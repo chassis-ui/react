@@ -1,50 +1,33 @@
-import React, { forwardRef, useContext } from 'react'
+import React, { forwardRef, useContext, useRef } from 'react'
 import classNames from 'classnames'
+import { mergeProps, useButton } from 'react-aria'
 
 import { CxButton, CButtonProps } from '../button/CxButton'
 import { CMenuContext } from './CxMenu'
-import { focusMenuItem, getMenuItems } from './menuNavigation'
 import { useForkedRef } from '../../utils/hooks'
 
 export type CMenuToggleProps = Omit<CButtonProps, 'type'>
 
 export const CxMenuToggle = forwardRef<HTMLButtonElement | HTMLAnchorElement, CMenuToggleProps>(
   ({ children, className, onClick, onKeyDown, ...rest }, ref) => {
-    const { refs, reference, toggle, show, toggleNodeRef, visible } = useContext(CMenuContext)
+    const { menuTriggerProps, reference, targetRef, toggleNodeRef } = useContext(CMenuContext)
+    const buttonRef = useRef<HTMLButtonElement | null>(null)
+    const { buttonProps } = useButton(menuTriggerProps, buttonRef)
 
-    const setRefs = (node: HTMLElement | null) => {
+    const setRefs = (node: HTMLButtonElement | null) => {
+      buttonRef.current = node
       toggleNodeRef.current = node
       if (reference !== 'parent') {
-        refs.setReference(node)
+        targetRef.current = node
       }
     }
 
     const forkedRef = useForkedRef(ref, setRefs)
 
-    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
       event.preventDefault()
       event.stopPropagation()
-      toggle()
-      onClick?.(event as React.MouseEvent<HTMLButtonElement>)
-    }
-
-    const handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
-      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
-        event.preventDefault()
-        event.stopPropagation()
-        const wasVisible = visible
-        show()
-        requestAnimationFrame(() => {
-          const items = getMenuItems(refs.floating.current)
-          focusMenuItem(items, event.key === 'ArrowDown' ? 'first' : 'last')
-        })
-        if (!wasVisible) {
-          onKeyDown?.(event as React.KeyboardEvent<HTMLButtonElement>)
-          return
-        }
-      }
-
-      onKeyDown?.(event as React.KeyboardEvent<HTMLButtonElement>)
+      onClick?.(event)
     }
 
     return (
@@ -55,10 +38,8 @@ export const CxMenuToggle = forwardRef<HTMLButtonElement | HTMLAnchorElement, CM
         // selectors on a page that happens to load both — this component reimplements all of that
         // behavior itself, so there's nothing for the vanilla plugin to usefully do with it anyway.
         className={classNames('caret', className)}
-        aria-expanded={visible}
         {...rest}
-        onClick={handleClick}
-        onKeyDown={handleKeyDown}
+        {...mergeProps(buttonProps, { onClick: handleClick, onKeyDown })}
         ref={forkedRef}
       >
         {children}

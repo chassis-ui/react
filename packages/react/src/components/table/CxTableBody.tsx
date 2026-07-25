@@ -1,34 +1,19 @@
-import React, { forwardRef, HTMLAttributes } from 'react'
-import classNames from 'classnames'
+import { ReactElement } from 'react'
+import { TableBody } from 'react-stately'
 
-import { ContextColor } from '../Types'
-
-export interface CTableBodyProps extends HTMLAttributes<HTMLTableSectionElement> {
+export interface CTableBodyProps<T> {
   /**
-   * A string of all className you want applied to the component.
+   * `CxTableRow` elements, or a render function paired with `items` for dynamic row generation.
    */
-  className?: string
+  children: ReactElement | ReactElement[] | ((item: T) => ReactElement)
   /**
-   * Sets the context context of the component to one of Chassis themed colors.
+   * A list of row data objects, rendered via the function form of `children`.
    */
-  context?: ContextColor
+  items?: Iterable<T>
 }
 
-export const CxTableBody = forwardRef<HTMLTableSectionElement, CTableBodyProps>(
-  ({ children, className, context, ...rest }, ref) => {
-    const _className = classNames(
-      {
-        [`table-${context}`]: context,
-      },
-      className,
-    )
-
-    return (
-      <tbody className={_className ? _className : undefined} {...rest} ref={ref}>
-        {children}
-      </tbody>
-    )
-  },
-)
-
-CxTableBody.displayName = 'CxTableBody'
+/**
+ * Collection node, data-only — read by `CxTable` to build the table's row collection. Never
+ * rendered directly.
+ */
+export const CxTableBody = TableBody as unknown as <T>(props: CTableBodyProps<T>) => ReactElement

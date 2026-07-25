@@ -13,24 +13,35 @@ exports[`CxMenu customize 1`] = `
 exports[`CxMenu example 1`] = `
 <div>
   <button
+    aria-controls="react-aria-:rd:"
     aria-expanded="true"
+    aria-haspopup="true"
     class="button primary caret"
+    data-react-aria-pressable="true"
+    id="react-aria-:rc:"
+    tabindex="0"
     type="button"
   >
     Test
   </button>
   <div
     aria-hidden="false"
+    aria-labelledby="react-aria-:rc:"
     class="menu show"
-    style="position: absolute; top: 0px; left: 0px;"
+    data-cx-placement="bottom-start"
+    id="react-aria-:rd:"
+    role="menu"
+    style="position: absolute; max-height: 0px; left: 8px; top: 2px;"
   >
     <a
       class="menu-item"
+      role="menuitem"
     >
       A
     </a>
     <a
       class="menu-item"
+      role="menuitem"
     >
       B
     </a>

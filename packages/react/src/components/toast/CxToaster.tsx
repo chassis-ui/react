@@ -1,6 +1,13 @@
-import React, { forwardRef, HTMLAttributes, useEffect, useState, useRef, ReactElement } from 'react'
+import React, { forwardRef, HTMLAttributes, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import classNames from 'classnames'
+import { useToastRegion } from 'react-aria'
+import { useToastQueue } from 'react-stately'
+
+import { useForkedRef } from '../../utils/hooks'
+import { CxToast } from './CxToast'
+import { toastQueue } from './toastQueue'
+
 export interface CToasterProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * A string of all className you want applied to the base component.
@@ -22,33 +29,17 @@ export interface CToasterProps extends HTMLAttributes<HTMLDivElement> {
     | 'bottom-center'
     | 'bottom-end'
     | string
-  /**
-   * Adds new `CxToast` to `CxToaster`.
-   */
-  push?: ReactElement
 }
 
+// Renders the shared `toastQueue` (see `toastQueue.ts` — `addToast()` is how toasts get added
+// to it from anywhere in the app) plus any statically-passed `children`, e.g. a permanently
+// pinned toast alongside dynamic ones.
 export const CxToaster = forwardRef<HTMLDivElement, CToasterProps>(
-  ({ children, className, placement, push, ...rest }, ref) => {
-    const [toasts, setToasts] = useState<ReactElement[]>([])
-    const index = useRef<number>(0)
-
-    useEffect(() => {
-      index.current++
-      push && addToast(push)
-    }, [push])
-
-    const addToast = (push: ReactElement) => {
-      setToasts((state) => [
-        ...state,
-        React.cloneElement(push, {
-          index: index.current,
-          key: index.current,
-          onClose: (index: number) =>
-            setToasts((state) => state.filter((i) => i.props.index !== index)),
-        }),
-      ])
-    }
+  ({ children, className, placement, ...rest }, ref) => {
+    const state = useToastQueue(toastQueue)
+    const regionRef = useRef<HTMLDivElement>(null)
+    const { regionProps } = useToastRegion({}, state, regionRef)
+    const forkedRef = useForkedRef(ref, regionRef)
 
     const _className = classNames(
       'toaster toast-container p-medium',
@@ -65,18 +56,30 @@ export const CxToaster = forwardRef<HTMLDivElement, CToasterProps>(
       className,
     )
 
-    const toaster = (ref?: React.Ref<HTMLDivElement>) => {
-      return toasts.length > 0 || children ? (
-        <div className={_className} {...rest} ref={ref}>
+    const toaster = (toasterRef?: React.Ref<HTMLDivElement>) => {
+      return state.visibleToasts.length > 0 || children ? (
+        <div className={_className} {...regionProps} {...rest} ref={toasterRef}>
           {children}
-          {toasts.map((toast) => React.cloneElement(toast, { visible: true }))}
+          {state.visibleToasts.map((queued) => {
+            const { children: toastChildren, ...toastProps } = queued.content
+            return (
+              <CxToast
+                key={queued.key}
+                visible
+                {...toastProps}
+                onClose={() => state.close(queued.key)}
+              >
+                {toastChildren}
+              </CxToast>
+            )
+          })}
         </div>
       ) : null
     }
 
     return typeof window !== 'undefined' && placement
-      ? createPortal(toaster(ref), document.body)
-      : toaster(ref)
+      ? createPortal(toaster(forkedRef), document.body)
+      : toaster(forkedRef)
   },
 )
 

@@ -2,6 +2,7 @@ import commonjs from '@rollup/plugin-commonjs'
 import external from 'rollup-plugin-peer-deps-external'
 import resolve from '@rollup/plugin-node-resolve'
 import typescript from '@rollup/plugin-typescript'
+import postcss from 'rollup-plugin-postcss'
 import { createRequire } from 'module'
 const require = createRequire(import.meta.url)
 const pkg = require('./package.json')
@@ -40,6 +41,12 @@ export default {
     }),
     commonjs({
       include: ['../../node_modules/**'],
+    }),
+    // Components with no chassis-css visual equivalent (CxDatePicker's calendar grid) ship
+    // their own scoped CSS, injected as a <style> tag on import — no separate stylesheet for
+    // consumers to remember to include.
+    postcss({
+      inject: true,
     }),
   ],
 }

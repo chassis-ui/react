@@ -102,32 +102,11 @@
         "name": "ReactNode"
       }
     },
-    "trigger": {
-      "defaultValue": {
-        "value": "click"
-      },
-      "description": "Sets which event handlers you’d like provided to your toggle prop. You can specify one trigger or an array of them.",
-      "name": "trigger",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/popover/CxPopover.tsx",
-        "name": "CPopoverProps"
-      },
-      "declarations": [
-        {
-          "fileName": "chassis-react/packages/react/src/components/popover/CxPopover.tsx",
-          "name": "CPopoverProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "Triggers | Triggers[]"
-      }
-    },
     "placement": {
       "defaultValue": {
         "value": "right"
       },
-      "description": "Describes the preferred placement of your component. Chassis will flip and shift it to keep it in view.",
+      "description": "Describes the preferred placement of your component. Chassis will flip it to keep it in\nview.",
       "name": "placement",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/popover/CxPopover.tsx",
@@ -148,13 +127,37 @@
             "value": "\"top\""
           },
           {
-            "value": "\"right\""
+            "value": "\"top-start\""
+          },
+          {
+            "value": "\"top-end\""
           },
           {
             "value": "\"bottom\""
           },
           {
+            "value": "\"bottom-start\""
+          },
+          {
+            "value": "\"bottom-end\""
+          },
+          {
             "value": "\"left\""
+          },
+          {
+            "value": "\"left-start\""
+          },
+          {
+            "value": "\"left-end\""
+          },
+          {
+            "value": "\"right\""
+          },
+          {
+            "value": "\"right-start\""
+          },
+          {
+            "value": "\"right-end\""
           }
         ]
       }

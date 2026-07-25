@@ -15,6 +15,7 @@ const parser = withCustomConfig(
     shouldRemoveUndefinedFromOptional: true,
     propFilter: (prop) => {
       if (prop.parent) {
+        if (/node_modules\/(react-aria|react-stately|@react-aria|@react-stately|@react-types|@internationalized)\//.test(prop.parent.fileName)) return true
         return !prop.parent.fileName.includes('node_modules')
       }
       return true

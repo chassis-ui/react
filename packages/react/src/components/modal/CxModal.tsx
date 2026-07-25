@@ -8,9 +8,10 @@ import React, {
   useState,
 } from 'react'
 import classNames from 'classnames'
+import { usePreventScroll } from 'react-aria'
 
 import { useForkedRef } from '../../utils/hooks'
-import { dialogScrollLock, executeAfterTransition } from '../../utils/dialogTransition'
+import { executeAfterTransition } from '../../utils/dialogTransition'
 
 export interface CModalProps
   extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'onCancel' | 'onClose'> {
@@ -109,22 +110,17 @@ export const CxModal = forwardRef<HTMLDialogElement, CModalProps>(
     const [_visible, setVisible] = useState(visible)
     const [hiding, setHiding] = useState(false)
     const [staticBounce, setStaticBounce] = useState(false)
+    const [scrollLocked, setScrollLocked] = useState(false)
     const openedAsModalRef = useRef(false)
     const triggerRef = useRef<HTMLElement | null>(null)
+
+    // Locked from showModal() until the exit transition finishes (see the show/hide effect
+    // below) — usePreventScroll releases it automatically on unmount too, even mid-transition.
+    usePreventScroll({ isDisabled: !scrollLocked })
 
     useEffect(() => {
       setVisible(visible)
     }, [visible])
-
-    // Release the body-scroll lock if the component unmounts while still open
-    // (e.g. a parent stops rendering it without waiting for a close transition).
-    useEffect(() => {
-      const dialog = dialogRef.current
-      return () => {
-        if (dialog) dialogScrollLock.unlock(dialog)
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
 
     const requestClose = () => {
       onClose?.()
@@ -152,7 +148,7 @@ export const CxModal = forwardRef<HTMLDialogElement, CModalProps>(
         openedAsModalRef.current = modal
         if (modal) {
           dialog.showModal()
-          dialogScrollLock.lock(dialog)
+          setScrollLocked(true)
         } else {
           dialog.show()
         }
@@ -189,7 +185,7 @@ export const CxModal = forwardRef<HTMLDialogElement, CModalProps>(
             dialog.close()
           }
           if (openedAsModalRef.current) {
-            dialogScrollLock.unlock(dialog)
+            setScrollLocked(false)
           }
           setHiding(false)
           onHidden?.()

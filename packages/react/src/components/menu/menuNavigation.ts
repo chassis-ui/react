@@ -3,18 +3,31 @@ import React from 'react'
 // Mirrors Chassis CSS's menu.js SELECTOR_VISIBLE_ITEMS / SELECTOR_KB_NAV_ITEMS: direct-child
 // menu items and submenu-back buttons, plus submenu trigger items nested one level inside a
 // `.submenu` wrapper (which aren't direct children of the `.menu`).
+//
+// Walks `children` directly rather than a `:scope`-based `querySelectorAll` — jsdom's selector
+// engine (nwsapi) mis-parses `:scope` queries against an element whose `id` contains a colon,
+// which is exactly the shape of React 18's default `useId()` output now that `CxMenuList`/
+// `CxSubmenu` set a real `id` for `aria-controls`/`aria-labelledby` linking. Real browsers don't
+// have this bug, but walking children is just as correct and sidesteps it either way.
 const VISIBLE_ITEMS_SELECTOR = ':is(.menu-item, .submenu-back):not(.disabled):not(:disabled)'
-const NAV_ITEMS_SELECTOR = [
-  `:scope > ${VISIBLE_ITEMS_SELECTOR}`,
-  ':scope > .submenu > .menu-item:not(.disabled):not(:disabled)',
-].join(', ')
 
 const isVisible = (element: HTMLElement) =>
   Boolean(element.offsetWidth || element.offsetHeight || element.getClientRects().length)
 
 export const getMenuItems = (menu: HTMLElement | null): HTMLElement[] => {
   if (!menu) return []
-  return Array.from(menu.querySelectorAll<HTMLElement>(NAV_ITEMS_SELECTOR)).filter(isVisible)
+  const items: HTMLElement[] = []
+  for (const child of Array.from(menu.children)) {
+    if (child.matches(VISIBLE_ITEMS_SELECTOR)) {
+      items.push(child as HTMLElement)
+    } else if (child.classList.contains('submenu')) {
+      const trigger = Array.from(child.children).find((grandchild) =>
+        grandchild.matches(VISIBLE_ITEMS_SELECTOR),
+      )
+      if (trigger) items.push(trigger as HTMLElement)
+    }
+  }
+  return items.filter(isVisible)
 }
 
 export const focusMenuItem = (items: HTMLElement[], target: 'first' | 'last') => {

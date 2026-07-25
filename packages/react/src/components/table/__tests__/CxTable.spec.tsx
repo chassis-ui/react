@@ -1,103 +1,205 @@
 import * as React from 'react'
-import { render } from '@testing-library/react'
+import { act, render, screen, fireEvent, within } from '@testing-library/react'
 
 import {
   CxTable,
-  CxTableCaption,
-  CxTableHead,
-  CxTableRow,
-  CxTableHeaderCell,
   CxTableBody,
-  CxTableDataCell,
-  CxTableFoot,
+  CxTableCell,
+  CxTableColumn,
+  CxTableHeader,
+  CxTableRow,
 } from '../../../index'
 
-test('loads and displays CxTable component', async () => {
-  const { container } = render(<CxTable />)
-  expect(container).toMatchSnapshot()
+const rows = [
+  { id: '1', name: 'Mark', username: '@mdo' },
+  { id: '2', name: 'Jacob', username: '@fat' },
+  { id: '3', name: 'Larry', username: '@twitter' },
+]
+
+interface BasicTableProps {
+  disabledKeys?: React.ComponentProps<typeof CxTable>['disabledKeys']
+  onSelectionChange?: React.ComponentProps<typeof CxTable>['onSelectionChange']
+  onSortChange?: React.ComponentProps<typeof CxTable>['onSortChange']
+  selectedKeys?: React.ComponentProps<typeof CxTable>['selectedKeys']
+  selectionMode?: React.ComponentProps<typeof CxTable>['selectionMode']
+  sortDescriptor?: React.ComponentProps<typeof CxTable>['sortDescriptor']
+}
+
+// react-stately's first column becomes the row header (`role="rowheader"`, not `"gridcell"`) by
+// default — standard ARIA grid semantics, not something CxTable opts into. "Name" is that first
+// column below, so its cells are queried as rowheaders throughout.
+const BasicTable = ({
+  disabledKeys,
+  onSelectionChange,
+  onSortChange,
+  selectedKeys,
+  selectionMode,
+  sortDescriptor,
+}: BasicTableProps = {}) => (
+  <CxTable
+    aria-label="Users"
+    disabledKeys={disabledKeys}
+    onSelectionChange={onSelectionChange}
+    onSortChange={onSortChange}
+    selectedKeys={selectedKeys}
+    selectionMode={selectionMode}
+    sortDescriptor={sortDescriptor}
+  >
+    <CxTableHeader>
+      <CxTableColumn key="name" allowsSorting>
+        Name
+      </CxTableColumn>
+      <CxTableColumn key="username">Username</CxTableColumn>
+    </CxTableHeader>
+    <CxTableBody items={rows}>
+      {(row) => (
+        <CxTableRow key={row.id}>
+          {(columnKey) => <CxTableCell>{row[columnKey as keyof typeof row]}</CxTableCell>}
+        </CxTableRow>
+      )}
+    </CxTableBody>
+  </CxTable>
+)
+
+test('renders an accessible grid with column headers, rows, and cells', () => {
+  render(<BasicTable />)
+  expect(screen.getByRole('grid', { name: 'Users' })).toBeInTheDocument()
+  expect(screen.getByRole('columnheader', { name: 'Name' })).toBeInTheDocument()
+  expect(screen.getAllByRole('row')).toHaveLength(4) // 1 header row + 3 body rows
+  expect(screen.getByRole('rowheader', { name: 'Mark' })).toBeInTheDocument()
+  expect(screen.getByRole('gridcell', { name: '@mdo' })).toBeInTheDocument()
 })
 
-test('CxTable customize', async () => {
+test('clicking a sortable column header fires onSortChange', () => {
+  const onSortChange = jest.fn()
+  render(<BasicTable onSortChange={onSortChange} />)
+  fireEvent.click(screen.getByRole('columnheader', { name: 'Name' }))
+  expect(onSortChange).toHaveBeenCalledWith({ column: 'name', direction: 'ascending' })
+})
+
+test('the active sort column reflects aria-sort', () => {
+  render(<BasicTable sortDescriptor={{ column: 'name', direction: 'descending' }} />)
+  expect(screen.getByRole('columnheader', { name: /Name/ })).toHaveAttribute(
+    'aria-sort',
+    'descending',
+  )
+})
+
+test('multiple selection mode renders checkboxes and reports selection changes', () => {
+  const onSelectionChange = jest.fn()
+  render(<BasicTable onSelectionChange={onSelectionChange} selectionMode="multiple" />)
+  const row = screen.getByRole('row', { name: /Mark/ })
+  const checkbox = within(row).getByRole('checkbox')
+  act(() => {
+    fireEvent.click(checkbox)
+  })
+  expect(onSelectionChange).toHaveBeenCalled()
+  const selected = onSelectionChange.mock.calls[0][0] as Set<React.Key>
+  expect(selected.has('1')).toBe(true)
+})
+
+test('select-all checkbox selects every row', () => {
+  const onSelectionChange = jest.fn()
+  render(<BasicTable onSelectionChange={onSelectionChange} selectionMode="multiple" />)
+  const selectAll = screen.getByRole('checkbox', { name: /select all/i })
+  act(() => {
+    fireEvent.click(selectAll)
+  })
+  const selected = onSelectionChange.mock.calls[0][0]
+  expect(selected).toBe('all')
+})
+
+test('a selected row is highlighted with the active class', () => {
+  render(<BasicTable selectedKeys={new Set(['1'])} selectionMode="multiple" />)
+  expect(screen.getByRole('row', { name: /Mark/ })).toHaveClass('active')
+  expect(screen.getByRole('row', { name: /Jacob/ })).not.toHaveClass('active')
+})
+
+test('single selection mode selects a row on click, with no checkboxes', () => {
+  const onSelectionChange = jest.fn()
+  render(<BasicTable onSelectionChange={onSelectionChange} selectionMode="single" />)
+  expect(screen.queryByRole('checkbox')).not.toBeInTheDocument()
+  fireEvent.click(screen.getByRole('rowheader', { name: 'Mark' }))
+  const selected = onSelectionChange.mock.calls[0][0] as Set<React.Key>
+  expect(selected.has('1')).toBe(true)
+})
+
+test('disabled rows cannot be selected', () => {
+  const onSelectionChange = jest.fn()
+  render(
+    <BasicTable
+      disabledKeys={['1']}
+      onSelectionChange={onSelectionChange}
+      selectionMode="single"
+    />,
+  )
+  fireEvent.click(screen.getByRole('rowheader', { name: 'Mark' }))
+  expect(onSelectionChange).not.toHaveBeenCalled()
+})
+
+test('arrow keys move focus between cells for keyboard grid navigation', () => {
+  render(<BasicTable />)
+  const firstCell = screen.getByRole('columnheader', { name: /Name/ })
+  act(() => {
+    firstCell.focus()
+  })
+  expect(firstCell).toHaveFocus()
+
+  fireEvent.keyDown(firstCell, { key: 'ArrowRight' })
+  expect(screen.getByRole('columnheader', { name: 'Username' })).toHaveFocus()
+
+  fireEvent.keyDown(document.activeElement as HTMLElement, { key: 'ArrowDown' })
+  expect(screen.getByRole('gridcell', { name: '@mdo' })).toHaveFocus()
+})
+
+test('renders bordered, striped, hoverable, and context variants', () => {
   const { container } = render(
     <CxTable
+      aria-label="Styled"
+      bordered
       className="bazinga"
-      align="middle"
-      bordered={true}
-      borderless={true}
-      caption="top"
       context="info"
-      hover={true}
+      hover
       responsive="xlarge"
-      small={true}
-      striped={true}
+      small
+      striped
     >
-      <CxTableBody>
-        <CxTableRow>
-          <CxTableDataCell>Test</CxTableDataCell>
-        </CxTableRow>
+      <CxTableHeader>
+        <CxTableColumn key="name">Name</CxTableColumn>
+      </CxTableHeader>
+      <CxTableBody items={rows}>
+        {(row) => (
+          <CxTableRow key={row.id}>{() => <CxTableCell>{row.name}</CxTableCell>}</CxTableRow>
+        )}
       </CxTableBody>
     </CxTable>,
   )
-  expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('table-responsive-xlarge')
-  if (container.firstChild === null) {
-    expect(true).toBe(false)
-  } else {
-    expect(container.firstChild.firstChild).toHaveClass('table')
-    expect(container.firstChild.firstChild).toHaveClass('align-middle')
-    expect(container.firstChild.firstChild).toHaveClass('caption-top')
-    expect(container.firstChild.firstChild).toHaveClass('info')
-    expect(container.firstChild.firstChild).toHaveClass('bordered')
-    expect(container.firstChild.firstChild).toHaveClass('borderless')
-    expect(container.firstChild.firstChild).toHaveClass('hoverable')
-    expect(container.firstChild.firstChild).toHaveClass('small')
-    expect(container.firstChild.firstChild).toHaveClass('striped')
-    expect(container.firstChild.firstChild).toHaveClass('bazinga')
-    expect(container.firstChild.firstChild).toHaveTextContent('Test')
-  }
+  const table = screen.getByRole('grid')
+  expect(table).toHaveClass('table', 'info', 'bordered', 'hoverable', 'small', 'striped', 'bazinga')
 })
 
-test('CxTable full example test', async () => {
-  const { container } = render(
-    <CxTable caption="top">
-      <CxTableCaption>List of users</CxTableCaption>
-      <CxTableHead>
-        <CxTableRow>
-          <CxTableHeaderCell>#</CxTableHeaderCell>
-          <CxTableHeaderCell>Class</CxTableHeaderCell>
-          <CxTableHeaderCell>Heading</CxTableHeaderCell>
-          <CxTableHeaderCell>Heading</CxTableHeaderCell>
-        </CxTableRow>
-      </CxTableHead>
-      <CxTableBody>
-        <CxTableRow>
-          <CxTableHeaderCell>1</CxTableHeaderCell>
-          <CxTableDataCell>Mark</CxTableDataCell>
-          <CxTableDataCell>Otto</CxTableDataCell>
-          <CxTableDataCell>@mdo</CxTableDataCell>
-        </CxTableRow>
-        <CxTableRow>
-          <CxTableHeaderCell>2</CxTableHeaderCell>
-          <CxTableDataCell>Jacob</CxTableDataCell>
-          <CxTableDataCell>Thornton</CxTableDataCell>
-          <CxTableDataCell>@fat</CxTableDataCell>
-        </CxTableRow>
-        <CxTableRow>
-          <CxTableHeaderCell>3</CxTableHeaderCell>
-          <CxTableDataCell>Larry</CxTableDataCell>
-          <CxTableDataCell>the Bird</CxTableDataCell>
-          <CxTableDataCell>@twitter</CxTableDataCell>
-        </CxTableRow>
+test('renders a caption and a plain footer', () => {
+  render(
+    <CxTable
+      aria-label="With caption"
+      caption="List of users"
+      footer={
+        <tr>
+          <td>Total: 3</td>
+        </tr>
+      }
+    >
+      <CxTableHeader>
+        <CxTableColumn key="name">Name</CxTableColumn>
+      </CxTableHeader>
+      <CxTableBody items={rows}>
+        {(row) => (
+          <CxTableRow key={row.id}>{() => <CxTableCell>{row.name}</CxTableCell>}</CxTableRow>
+        )}
       </CxTableBody>
-      <CxTableFoot>
-        <CxTableRow>
-          <CxTableHeaderCell>#</CxTableHeaderCell>
-          <CxTableHeaderCell>Class</CxTableHeaderCell>
-          <CxTableHeaderCell>Heading</CxTableHeaderCell>
-          <CxTableHeaderCell>Heading</CxTableHeaderCell>
-        </CxTableRow>
-      </CxTableFoot>
     </CxTable>,
   )
-  expect(container).toMatchSnapshot()
+  expect(screen.getByText('List of users')).toBeInTheDocument()
+  expect(screen.getByText('Total: 3')).toBeInTheDocument()
 })

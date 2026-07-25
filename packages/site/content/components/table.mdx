@@ -1,146 +1,109 @@
 ---
 title: Table
-description: Chassis React Table component supports both data-driven rendering from JSON arrays and manual markup. Includes striped, bordered, hoverable variants, row/cell contexts, and responsive wrapping.
+description: Chassis Table is a full interactive data grid with sorting, row selection, and arrow-key grid navigation, built on React Aria's table collection hooks.
 
 toc: true
 ---
 
+import { CxTable, CxTableBody, CxTableCell, CxTableColumn, CxTableHeader, CxTableRow } from '@chassis-ui/react'
 
-import {
-  CxTable,
-  CxTableBody,
-  CxTableCaption,
-  CxTableDataCell,
-  CxTableFoot,
-  CxTableHead,
-  CxTableHeaderCell,
-  CxTableRow,
-} from '@chassis-ui/react'
+import { BasicExample } from '../../src/examples/table/BasicExample.tsx'
+import { DynamicExample } from '../../src/examples/table/DynamicExample.tsx'
+import { SortingExample } from '../../src/examples/table/SortingExample.tsx'
+import { SelectionExample } from '../../src/examples/table/SelectionExample.tsx'
+import { VariantsExample } from '../../src/examples/table/VariantsExample.tsx'
+import { CaptionFooterExample } from '../../src/examples/table/CaptionFooterExample.tsx'
+import { ResponsiveExample } from '../../src/examples/table/ResponsiveExample.tsx'
 
-import { TableExample1 } from '../../src/examples/table/TableExample1.tsx'
-import { TableExample2 } from '../../src/examples/table/TableExample2.tsx'
-import { TableExample3 } from '../../src/examples/table/TableExample3.tsx'
-import { TableExample4 } from '../../src/examples/table/TableExample4.tsx'
-import { TableExample5 } from '../../src/examples/table/TableExample5.tsx'
-import { TableExample6 } from '../../src/examples/table/TableExample6.tsx'
-import { TableExample7 } from '../../src/examples/table/TableExample7.tsx'
-import { TableExample8 } from '../../src/examples/table/TableExample8.tsx'
-import { TableExample9 } from '../../src/examples/table/TableExample9.tsx'
-import { TableExample10 } from '../../src/examples/table/TableExample10.tsx'
-import { TableExample11 } from '../../src/examples/table/TableExample11.tsx'
-import { TableExample12 } from '../../src/examples/table/TableExample12.tsx'
-import { TableExample13 } from '../../src/examples/table/TableExample13.tsx'
-import { TableExample14 } from '../../src/examples/table/TableExample14.tsx'
+## Overview
 
-## Data-driven usage
+`CxTable` is a real ARIA grid (`role="grid"`) — arrow keys move focus between cells, columns can be sortable, and rows can be selectable, all handled by React Aria's table hooks. Composing it uses `CxTableHeader`/`CxTableColumn`/`CxTableBody`/`CxTableRow`/`CxTableCell` as data — read to build the table's collection — rather than plain `<thead>`/`<tbody>` JSX. `CxTable` renders the real `<table>` markup itself from that collection.
 
-Pass an `items` array (e.g. a REST API response) to `<CxTable>` and it will auto-generate the `<thead>` and `<tbody>`. Column headers are inferred from the object keys, converted to title case.
+This is a deliberate trade: the authoring model is less "just markup" than most of the rest of Chassis React, in exchange for real sorting, selection, and keyboard grid navigation you'd otherwise have to hand-roll.
 
-<Example><TableExample1 /></Example>
+<Example>
+  <BasicExample client:load />
+</Example>
 
-### Custom columns
+## Dynamic columns and rows
 
-Use the `columns` prop to control which columns appear, set custom labels, and provide a `render` function for custom cell content.
+Both `CxTableHeader` and `CxTableBody` also accept a `columns`/`items` array plus a render function, for columns and rows built from data rather than written out by hand.
 
-<Example><TableExample2 /></Example>
+<Example>
+  <DynamicExample client:load />
+</Example>
 
-### Responsive data table
+## Sorting
 
-Wrap in a responsive container with the `responsive` prop.
+Add `allowsSorting` to a `CxTableColumn` to make it clickable (and keyboard-activatable). `CxTable` doesn't sort your data itself — it reports the requested column/direction via `onSortChange`, so pair it with `sortDescriptor` and sort the array yourself, as in the example below.
 
-<Example><TableExample3 /></Example>
+<Example>
+  <SortingExample client:load />
+</Example>
 
-## Manual markup
+## Selection
 
-For full control over the table structure, use the sub-components directly.
+Set `selectionMode="multiple"` for checkbox-based row selection (including a select-all checkbox in the header), or `selectionMode="single"` to select a row by clicking anywhere in it. Control the selection with `selectedKeys`/`onSelectionChange` — a selected row gets the same `.active` highlight the table's `active` variant has always used.
 
-<Example><TableExample4 /></Example>
+<Example>
+  <SelectionExample client:load />
+</Example>
+
+## Keyboard navigation
+
+Once a cell has focus, arrow keys move focus across the grid — no extra setup required. Typeahead, Home/End, and Page Up/Down navigation come from the same hooks.
 
 ## Variants
 
-### Striped rows
+`bordered`, `borderless`, `hover`, `small`, `striped`, and `context` all work the same as before — they're applied to the `<table>` element itself.
 
-Add the `striped` prop to add zebra-striping to table rows.
+<Example>
+  <VariantsExample client:load />
+</Example>
 
-<Example><TableExample5 /></Example>
+## Caption and footer
 
-### Bordered
+Pass `caption` for a `<caption>` above the table. Pass `footer` for a `<tfoot>` below it — footer content is rendered as plain markup, not part of the keyboard-navigable grid, since totals/summary rows don't need to participate in cell-by-cell navigation.
 
-Add `bordered` to put borders on all sides of the table and cells.
-
-<Example><TableExample6 /></Example>
-
-### Borderless
-
-Add `borderless` for a table with no borders.
-
-<Example><TableExample7 /></Example>
-
-### Hoverable rows
-
-Add `hover` to enable a hover state on table rows.
-
-<Example><TableExample8 /></Example>
-
-### Small
-
-Use `small` to make any table more compact by cutting cell padding in half.
-
-<Example><TableExample9 /></Example>
-
-### Table context
-
-Use the `context` prop to color the entire table.
-
-<Example><TableExample10 /></Example>
-
-### Row and cell context
-
-Apply context directly to rows or cells using the manual markup approach.
-
-<Example><TableExample11 /></Example>
-
-### Active rows and cells
-
-Highlight a row or cell with the `active` prop.
-
-<Example><TableExample12 /></Example>
-
-## Captions
-
-A `<CxTableCaption>` functions like a heading for a table. Use `caption="top"` to place it above the table.
-
-<Example><TableExample13 /></Example>
+<Example>
+  <CaptionFooterExample client:load />
+</Example>
 
 ## Responsive tables
 
-Responsive tables allow tables to be scrolled horizontally with ease. Use `responsive` for across all viewports, or pick a breakpoint: `"small"`, `"medium"`, `"large"`, `"xlarge"`, `"2xlarge"`.
+Wrap in a responsive container with the `responsive` prop — `true` for all viewports, or a breakpoint name to scroll only below it.
 
-<Example><TableExample14 /></Example>
+<Example>
+  <ResponsiveExample client:load />
+</Example>
+
+## Scope
+
+- **No virtualization.** Every row renders directly — there's no windowing for very large datasets. React Aria doesn't ship a public general-purpose virtualizer for Table (its internal one isn't meant for outside use), and layering in a separate library (e.g. `@tanstack/react-virtual`) is a substantial enough change — fixed/measured row heights, a scroll container, and interaction with React Aria's own keyboard navigation and focus management — that it's deferred rather than bundled into this first pass. Most large datasets are better served by server-side pagination anyway.
+- **No column resizing or reordering, no nested/expandable rows.** React Aria's table hooks support these, but they're not wired up here — flag if you need them.
 
 ## API
 
 ### CxTable
 
 <PropTable component="CxTable" />
+
+### CxTableHeader
+
+<PropTable component="CxTableHeader" />
+
+### CxTableColumn
+
+<PropTable component="CxTableColumn" />
+
 ### CxTableBody
 
 <PropTable component="CxTableBody" />
-### CxTableCaption
 
-<PropTable component="CxTableCaption" />
-### CxTableDataCell
-
-<PropTable component="CxTableDataCell" />
-### CxTableFoot
-
-<PropTable component="CxTableFoot" />
-### CxTableHead
-
-<PropTable component="CxTableHead" />
-### CxTableHeaderCell
-
-<PropTable component="CxTableHeaderCell" />
 ### CxTableRow
 
 <PropTable component="CxTableRow" />
+
+### CxTableCell
+
+<PropTable component="CxTableCell" />

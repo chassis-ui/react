@@ -40,6 +40,8 @@ exports[`loads and displays CxFormCheck component 1`] = `
 <div>
   <input
     class="check-input"
+    data-react-aria-pressable="true"
+    tabindex="0"
     type="checkbox"
   />
 </div>

@@ -43,6 +43,25 @@
         "name": "string"
       }
     },
+    "defaultSelected": {
+      "defaultValue": null,
+      "description": "Whether the input is selected, uncontrolled.",
+      "name": "defaultSelected",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
+        "name": "CFormCheckProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
+          "name": "CFormCheckProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
     "hitArea": {
       "defaultValue": null,
       "description": "Sets hit area to the full area of the component.",
@@ -89,7 +108,7 @@
     },
     "indeterminate": {
       "defaultValue": null,
-      "description": "Input Checkbox indeterminate Property.",
+      "description": "Input Checkbox indeterminate Property. Only applies to `type=\"checkbox\"`.",
       "name": "indeterminate",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
@@ -144,6 +163,25 @@
         "name": "boolean"
       }
     },
+    "isSelected": {
+      "defaultValue": null,
+      "description": "Whether the input is selected, controlled.",
+      "name": "isSelected",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
+        "name": "CFormCheckProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
+          "name": "CFormCheckProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
     "label": {
       "defaultValue": null,
       "description": "The element represents a caption for a component.",
@@ -161,6 +199,25 @@
       "required": false,
       "type": {
         "name": "ReactNode"
+      }
+    },
+    "onChange": {
+      "defaultValue": null,
+      "description": "Callback fired when the selected state changes.",
+      "name": "onChange",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
+        "name": "CFormCheckProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormCheck.tsx",
+          "name": "CFormCheckProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((isSelected: boolean) => void)"
       }
     },
     "type": {

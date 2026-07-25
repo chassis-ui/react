@@ -24,6 +24,25 @@
         "name": "string"
       }
     },
+    "defaultSelected": {
+      "defaultValue": null,
+      "description": "Whether the switch is selected, uncontrolled.",
+      "name": "defaultSelected",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
+        "name": "CFormSwitchProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
+          "name": "CFormSwitchProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
     "id": {
       "defaultValue": null,
       "description": "The id global attribute defines an identifier (ID) that must be unique in the whole document.",
@@ -62,6 +81,25 @@
         "name": "boolean"
       }
     },
+    "isSelected": {
+      "defaultValue": null,
+      "description": "Whether the switch is selected, controlled.",
+      "name": "isSelected",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
+        "name": "CFormSwitchProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
+          "name": "CFormSwitchProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
     "label": {
       "defaultValue": null,
       "description": "The element represents a caption for a component.",
@@ -79,6 +117,25 @@
       "required": false,
       "type": {
         "name": "ReactNode"
+      }
+    },
+    "onChange": {
+      "defaultValue": null,
+      "description": "Callback fired when the selected state changes.",
+      "name": "onChange",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
+        "name": "CFormSwitchProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
+          "name": "CFormSwitchProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((isSelected: boolean) => void)"
       }
     },
     "size": {

@@ -5,9 +5,47 @@
   "displayName": "CxTable",
   "methods": [],
   "props": {
+    "aria-label": {
+      "defaultValue": null,
+      "description": "An accessible label for the table, used when there's no visible heading.",
+      "name": "aria-label",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+        "name": "CTableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+          "name": "CTableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "aria-labelledby": {
+      "defaultValue": null,
+      "description": "Identifies a visible heading element for the table.",
+      "name": "aria-labelledby",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+        "name": "CTableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+          "name": "CTableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
     "align": {
       "defaultValue": null,
-      "description": "Set the vertical alignment.",
+      "description": "Set the vertical alignment of cell content.",
       "name": "align",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
@@ -76,7 +114,7 @@
     },
     "caption": {
       "defaultValue": null,
-      "description": "Put the `<caption>` on the top of the table.",
+      "description": "Content shown above the table, functioning as a heading for it.",
       "name": "caption",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
@@ -90,13 +128,26 @@
       ],
       "required": false,
       "type": {
-        "name": "enum",
-        "raw": "\"top\"",
-        "value": [
-          {
-            "value": "\"top\""
-          }
-        ]
+        "name": "ReactNode"
+      }
+    },
+    "children": {
+      "defaultValue": null,
+      "description": "A `CxTableHeader` and a `CxTableBody`, each built from `CxTableColumn`/`CxTableRow`/\n`CxTableCell` — read as data to build the table's collection. Not rendered directly.",
+      "name": "children",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+        "name": "CTableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+          "name": "CTableProps"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "[ReactElement<TableHeaderProps<T>, string | JSXElementConstructor<any>>, ReactElement<TableBodyProps<T>, string | JSXElementConstructor<...>>]"
       }
     },
     "className": {
@@ -116,25 +167,6 @@
       "required": false,
       "type": {
         "name": "string"
-      }
-    },
-    "columns": {
-      "defaultValue": null,
-      "description": "Column definitions for data-driven rendering. When omitted, columns are inferred from\nthe keys of the first item in `items`.",
-      "name": "columns",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-        "name": "CTableProps"
-      },
-      "declarations": [
-        {
-          "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
-          "name": "CTableProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "CTableColumn<Record<string, unknown>>[]"
       }
     },
     "context": {
@@ -192,6 +224,44 @@
         ]
       }
     },
+    "disabledKeys": {
+      "defaultValue": null,
+      "description": "A list of row keys to disable. Disabled rows cannot be selected, focused, or interacted with.",
+      "name": "disabledKeys",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+        "name": "CTableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+          "name": "CTableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Iterable<Key>"
+      }
+    },
+    "footer": {
+      "defaultValue": null,
+      "description": "Content shown below the table in a `<tfoot>`, e.g. a totals row. Rendered as plain markup —\nnot part of the keyboard-navigable grid.",
+      "name": "footer",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+        "name": "CTableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+          "name": "CTableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
     "hover": {
       "defaultValue": null,
       "description": "Enable a hover state on table rows.",
@@ -211,10 +281,10 @@
         "name": "boolean"
       }
     },
-    "items": {
+    "id": {
       "defaultValue": null,
-      "description": "Array of data objects to render as rows. Accepts typical REST API array responses.\nWhen provided, the table head and body are auto-generated from the data.",
-      "name": "items",
+      "description": "`id` forwarded to the table element.",
+      "name": "id",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
         "name": "CTableProps"
@@ -227,7 +297,45 @@
       ],
       "required": false,
       "type": {
-        "name": "Record<string, unknown>[]"
+        "name": "string"
+      }
+    },
+    "onSelectionChange": {
+      "defaultValue": null,
+      "description": "Handler that is called when the selection changes.",
+      "name": "onSelectionChange",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+        "name": "CTableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+          "name": "CTableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((keys: Selection) => void)"
+      }
+    },
+    "onSortChange": {
+      "defaultValue": null,
+      "description": "Handler that is called when a column is sorted.",
+      "name": "onSortChange",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+        "name": "CTableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+          "name": "CTableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((descriptor: SortDescriptor) => void)"
       }
     },
     "responsive": {
@@ -249,6 +357,58 @@
         "name": "boolean | \"small\" | \"medium\" | \"large\" | \"xlarge\" | \"2xlarge\""
       }
     },
+    "selectedKeys": {
+      "defaultValue": null,
+      "description": "The currently selected row keys (controlled).",
+      "name": "selectedKeys",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+        "name": "CTableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+          "name": "CTableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Selection"
+      }
+    },
+    "selectionMode": {
+      "defaultValue": {
+        "value": "none"
+      },
+      "description": "The type of selection that is allowed.",
+      "name": "selectionMode",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+        "name": "CTableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+          "name": "CTableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"none\" | \"single\" | \"multiple\"",
+        "value": [
+          {
+            "value": "\"none\""
+          },
+          {
+            "value": "\"single\""
+          },
+          {
+            "value": "\"multiple\""
+          }
+        ]
+      }
+    },
     "small": {
       "defaultValue": null,
       "description": "Make table more compact by cutting all cell padding.",
@@ -266,6 +426,25 @@
       "required": false,
       "type": {
         "name": "boolean"
+      }
+    },
+    "sortDescriptor": {
+      "defaultValue": null,
+      "description": "The current sort column and direction.",
+      "name": "sortDescriptor",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+        "name": "CTableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
+          "name": "CTableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "SortDescriptor"
       }
     },
     "striped": {

@@ -1,0 +1,66 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/tabs/CxTab.tsx",
+  "description": "",
+  "displayName": "CxTab",
+  "methods": [],
+  "props": {
+    "children": {
+      "defaultValue": null,
+      "description": "Label content for the tab. Must be a plain string for the tab to participate in typeahead.",
+      "name": "children",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/tabs/CxTab.tsx",
+        "name": "CTabProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/tabs/CxTab.tsx",
+          "name": "CTabProps"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "disabled": {
+      "defaultValue": null,
+      "description": "Prevents the tab from being selected, focused, or otherwise interacted with.",
+      "name": "disabled",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/tabs/CxTab.tsx",
+        "name": "CTabProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/tabs/CxTab.tsx",
+          "name": "CTabProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "id": {
+      "defaultValue": null,
+      "description": "Identifies this tab and pairs it with the `CxTabPanel` of the same `id`.",
+      "name": "id",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/tabs/CxTab.tsx",
+        "name": "CTabProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/tabs/CxTab.tsx",
+          "name": "CTabProps"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "Key"
+      }
+    }
+  }
+}

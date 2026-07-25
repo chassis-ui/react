@@ -1,0 +1,67 @@
+---
+title: Datepicker
+description: Chassis DatePicker combines a segmented text field with a calendar popover for entering or picking a date.
+
+toc: true
+---
+
+import { BasicExample } from '../../src/examples/datepicker/BasicExample.tsx'
+import { FormFieldExample } from '../../src/examples/datepicker/FormFieldExample.tsx'
+import { MinMaxExample } from '../../src/examples/datepicker/MinMaxExample.tsx'
+import { LocaleExample } from '../../src/examples/datepicker/LocaleExample.tsx'
+
+import { CxDatePicker } from '@chassis-ui/react'
+
+## Overview
+
+`CxDatePicker` combines an individually-editable segmented date field (day/month/year, each a separate keyboard-navigable unit) with a calendar popover — type a date directly or pick one from the grid. Both stay in sync with a single selected value.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## In a form field
+
+Pair a `CxFormLabel` with the date picker's `id`, and pass `name` to have `CxDatePicker` create and manage a hidden `<input>` for native form submission — its value stays in sync with the selection, formatted as an ISO 8601 date string (`2026-07-24`).
+
+<Example>
+  <FormFieldExample client:load />
+</Example>
+
+## Min & max dates
+
+Restrict the selectable range with `minValue`/`maxValue`. Dates outside the range are shown but disabled in the calendar grid, and typing an out-of-range value into the field is rejected.
+
+<Example>
+  <MinMaxExample client:load />
+</Example>
+
+## Locale & calendar system
+
+`CxDatePicker` reads locale from React Aria's `I18nProvider` (or the browser's locale if none is set). Segment order, weekday names, and the calendar system itself all follow the active locale — this example uses `ar-SA`, which renders right-to-left and uses the Umm al-Qura calendar instead of Gregorian.
+
+<Example>
+  <LocaleExample client:load />
+</Example>
+
+## Unavailable dates
+
+Pass `isDateUnavailable` to mark specific dates as unselectable without excluding them from the grid — useful for booked dates or holidays. Unavailable dates remain focusable (so screen reader users can discover why they can't be picked) but can't be selected.
+
+## Scope
+
+This is a single-date picker — the strong-fit case for React Aria's date picker hooks. A few things are deliberately out of scope for this pass:
+
+- **Date ranges** — `useDateRangePickerState`/`useDateRangePicker` are a separate hook pair with their own two-value field/calendar composition. A dedicated `CxDateRangePicker` may ship separately.
+- **Time selection** — the field is date-only (`granularity="day"`); no time segments are rendered.
+- **Multiple visible months** — the calendar grid always shows one month at a time.
+
+## Styling
+
+Unlike most Chassis React components, `CxDatePicker`'s calendar grid isn't styled by `@chassis-ui/css` — chassis-css's own datepicker styling is built entirely around [Vanilla Calendar Pro](https://vanilla-calendar.pro/)'s specific DOM output, which React Aria's calendar hooks don't produce. `CxDatePicker` instead ships its own scoped CSS (built on `@chassis-ui/tokens`' public design tokens, so it still matches the current theme and light/dark mode) that's automatically injected the first time the component is imported — no separate stylesheet to add. The field and toggle button, on the other hand, reuse chassis-css's existing `.form-input`/`.input-help`/`.ghost-input` classes as-is.
+
+## API
+
+### CxDatePicker
+
+<PropTable component="CxDatePicker" />

@@ -4,8 +4,12 @@ exports[`loads and displays CxSubmenu component 1`] = `
 <div>
   <div
     aria-hidden="false"
+    aria-labelledby="react-aria-:r3:"
     class="menu show"
-    style="position: absolute; top: 0px; left: 0px;"
+    data-cx-placement="bottom-start"
+    id="react-aria-:r4:"
+    role="menu"
+    style="position: fixed; top: 0px; left: 0px;"
   >
     <div
       class="submenu"
@@ -14,6 +18,8 @@ exports[`loads and displays CxSubmenu component 1`] = `
         aria-expanded="false"
         aria-haspopup="true"
         class="menu-item"
+        id=":r5:-trigger"
+        role="menuitem"
         type="button"
       >
         File

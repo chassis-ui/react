@@ -1,0 +1,69 @@
+---
+title: Chip Input
+description: Chassis ChipInput is a multi-value text field that wraps typed entries into removable, keyboard-navigable chips.
+
+toc: true
+---
+
+import { CxChipInput } from '@chassis-ui/react'
+
+import { BasicExample } from '../../src/examples/chip-input/BasicExample.tsx'
+import { FormFieldExample } from '../../src/examples/chip-input/FormFieldExample.tsx'
+import { VariantExample } from '../../src/examples/chip-input/VariantExample.tsx'
+import { ControlledExample } from '../../src/examples/chip-input/ControlledExample.tsx'
+import { DisabledExample } from '../../src/examples/chip-input/DisabledExample.tsx'
+
+## Overview
+
+`CxChipInput` combines a text field with a focusable, removable list of chips — type a value and press <kbd>Enter</kbd> or the separator character (`,` by default) to turn it into a chip. Arrow keys move focus between chips, and <kbd>Backspace</kbd>/<kbd>Delete</kbd> removes a focused (or selected) chip.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## In a form field
+
+Pair a `CxFormLabel` with the input's `id`, and pass `name` to have `CxChipInput` create a hidden `<input type="hidden">` per chip — all sharing that `name`, so a native form submission collects them together (`FormData.getAll('skills')`).
+
+<Example>
+  <FormFieldExample client:load />
+</Example>
+
+## Chip styles
+
+Pass `chipVariant` with any combination of chassis-css chip modifier classes (e.g. `"primary smooth"`, `"danger"`) to style every chip this input creates.
+
+<Example>
+  <VariantExample client:load />
+</Example>
+
+## Controlled values
+
+Pass `value`/`onChange` to control the set of chip values yourself. Omit them (use `defaultValue` instead) to let `CxChipInput` manage its own state.
+
+<Example>
+  <ControlledExample client:load />
+</Example>
+
+## Disabled
+
+<Example>
+  <DisabledExample client:load />
+</Example>
+
+## Keyboard interaction
+
+- **Input focused** — <kbd>Enter</kbd> or the separator character creates a chip from the current value. <kbd>Backspace</kbd>/<kbd>Delete</kbd> on an empty input, or <kbd>←</kbd> with the cursor at the start, selects and focuses the last chip. <kbd>Escape</kbd> clears the input and blurs.
+- **Chip focused** — <kbd>←</kbd>/<kbd>→</kbd> move between chips. <kbd>Shift</kbd>+<kbd>←</kbd>/<kbd>→</kbd> extends the selection. <kbd>Cmd</kbd>/<kbd>Ctrl</kbd>+<kbd>A</kbd> selects all chips. <kbd>Backspace</kbd>/<kbd>Delete</kbd> removes the selected chip(s). <kbd>Escape</kbd> clears selection.
+
+## Scope
+
+Built on React Aria's `useTagGroup`/`useTag` for the chip collection (arrow-key navigation, multi-select, removal) plus `useTextField` for entry — there's no single dedicated "chip input" hook, so the two are composed together with hand-written logic for separator/paste-splitting, matching the plan's own framing of this as the most bespoke of the newer form widgets.
+
+A few Mail.app-style affordances from chassis-css's vanilla `chip-input.js` aren't wired up here: shift+click range selection and cmd/ctrl+click toggle selection with the mouse, and automatically moving focus back to the input when <kbd>→</kbd> or <kbd>End</kbd> is pressed on the last chip. Keyboard chip-to-chip navigation, selection, and removal all work; only these secondary mouse/edge-of-list conveniences are out of scope for this pass.
+
+## API
+
+### CxChipInput
+
+<PropTable component="CxChipInput" />

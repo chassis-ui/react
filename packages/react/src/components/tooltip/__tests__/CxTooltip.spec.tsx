@@ -22,9 +22,13 @@ test('CxTooltip customize', async () => {
   const link = document.querySelector('.link')
   act(() => {
     if (link !== null) {
-      fireEvent.mouseOver(link)
+      // react-aria only treats a hover as pointer-triggered (as opposed to touch/virtual) once
+      // it's seen a real pointer-ish event on the page — establish that modality first.
+      fireEvent.mouseMove(document.body)
+      fireEvent.mouseEnter(link)
     }
   })
+  act(() => jest.runAllTimers())
   act(() => jest.runAllTimers())
   expect(document.body).toMatchSnapshot()
   expect(document.body.getElementsByClassName('tooltip').length).toBe(1)
@@ -50,7 +54,8 @@ test('CxTooltip scopes itself to an open dialog ancestor', async () => {
   const link = document.querySelector('.link')
   act(() => {
     if (link !== null) {
-      fireEvent.mouseOver(link)
+      fireEvent.mouseMove(document.body)
+      fireEvent.mouseEnter(link)
     }
   })
   act(() => jest.runAllTimers())
@@ -89,24 +94,19 @@ test('CxTooltip responds to the visible prop changing after mount', async () => 
   jest.useRealTimers()
 })
 
-// test('CxTooltip on toggle', async () => {
-//   jest.useFakeTimers()
-//   const onToggle = jest.fn()
-//   render(
-//     <CxTooltip
-//       trigger="click"
-//       placement="right-end"
-//       content="content"
-//       visible={true}
-//       onToggle={onToggle}
-//     >
-//       <CxButton>Test</CxButton>
-//     </CxTooltip>,
-//   )
-//   expect(onToggle).toHaveBeenCalledTimes(0)
-//   const btn = document.querySelector('.btn')
-//   if (btn !== null) {
-//     fireEvent.click(btn)
-//   }
-//   expect(onToggle).toHaveBeenCalledTimes(1)
-// })
+test('CxTooltip with trigger="focus" ignores hover', async () => {
+  jest.useFakeTimers()
+  render(
+    <CxTooltip trigger="focus" content="content">
+      <CxLink className="link">Test</CxLink>
+    </CxTooltip>,
+  )
+  const link = document.querySelector('.link') as HTMLElement
+  act(() => {
+    fireEvent.mouseMove(document.body)
+    fireEvent.mouseEnter(link)
+  })
+  act(() => jest.runAllTimers())
+  expect(document.body.getElementsByClassName('tooltip').length).toBe(0)
+  jest.useRealTimers()
+})
