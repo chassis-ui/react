@@ -1,5 +1,5 @@
-// Shared timing + body-scroll-lock plumbing for native <dialog>-based components
-// (CxModal, CxDrawer) built on the same Chassis CSS `dialog-open` body-lock contract.
+// Shared transition timing for native <dialog>-based components (CxModal, CxDrawer). Body-scroll
+// locking is handled by react-aria's usePreventScroll directly in each component.
 
 export const getTransitionDuration = (element: HTMLElement) => {
   const { transitionDuration, transitionDelay } = window.getComputedStyle(element)
@@ -36,20 +36,4 @@ export const executeAfterTransition = (
     element.removeEventListener('transitionend', handleEnd)
     clearTimeout(timer)
   }
-}
-
-// Dialogs (Modal, Drawer, …) currently locking body scroll, tracked so the lock
-// is only released once every open modal dialog across every component has closed.
-const openModalDialogs = new Set<HTMLDialogElement>()
-
-export const dialogScrollLock = {
-  lock(dialog: HTMLDialogElement) {
-    openModalDialogs.add(dialog)
-    document.body.classList.add('dialog-open')
-  },
-  unlock(dialog: HTMLDialogElement) {
-    if (openModalDialogs.delete(dialog) && openModalDialogs.size === 0) {
-      document.body.classList.remove('dialog-open')
-    }
-  },
 }

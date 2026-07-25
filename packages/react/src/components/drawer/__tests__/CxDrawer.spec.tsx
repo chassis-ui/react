@@ -3,10 +3,6 @@ import { act, render, fireEvent } from '@testing-library/react'
 
 import { CxDrawer } from '../../../index'
 
-afterEach(() => {
-  document.body.classList.remove('dialog-open')
-})
-
 test('loads and displays CxDrawer component', async () => {
   const { container } = render(<CxDrawer placement="start">Test</CxDrawer>)
   expect(container).toMatchSnapshot()
@@ -57,7 +53,7 @@ test('CxDrawer shows via showModal() and locks body scroll, hides and unlocks on
     </CxDrawer>,
   )
   expect(showModalSpy).toHaveBeenCalledTimes(1)
-  expect(document.body).toHaveClass('dialog-open')
+  expect(document.documentElement).toHaveStyle({ overflow: 'hidden' })
 
   rerender(
     <CxDrawer placement="start" visible={false}>
@@ -66,7 +62,7 @@ test('CxDrawer shows via showModal() and locks body scroll, hides and unlocks on
   )
   // Drawer closes immediately (no deferred/.hiding step, unlike Modal)
   expect(closeSpy).toHaveBeenCalledTimes(1)
-  expect(document.body).not.toHaveClass('dialog-open')
+  expect(document.documentElement).not.toHaveStyle({ overflow: 'hidden' })
   act(() => {
     jest.runAllTimers()
   })
@@ -81,7 +77,7 @@ test('CxDrawer with scroll and no backdrop opens non-modally via show()', async 
   )
   const dialog = container.querySelector('dialog') as HTMLDialogElement
   expect(dialog).toHaveClass('nonmodal')
-  expect(document.body).not.toHaveClass('dialog-open')
+  expect(document.documentElement).not.toHaveStyle({ overflow: 'hidden' })
 })
 
 test('CxDrawer closes on Escape (modal, native cancel event)', async () => {

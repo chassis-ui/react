@@ -3,10 +3,6 @@ import { act, render, fireEvent } from '@testing-library/react'
 
 import { CxModal } from '../../../index'
 
-afterEach(() => {
-  document.body.classList.remove('dialog-open')
-})
-
 test('loads and displays CxModal component', async () => {
   const { container } = render(<CxModal>Test</CxModal>)
   expect(container).toMatchSnapshot()
@@ -36,14 +32,14 @@ test('CxModal shows via showModal() and locks body scroll, hides and unlocks on 
 
   rerender(<CxModal visible>Test</CxModal>)
   expect(showModalSpy).toHaveBeenCalledTimes(1)
-  expect(document.body).toHaveClass('dialog-open')
+  expect(document.documentElement).toHaveStyle({ overflow: 'hidden' })
 
   rerender(<CxModal visible={false}>Test</CxModal>)
   act(() => {
     jest.runAllTimers()
   })
   expect(closeSpy).toHaveBeenCalledTimes(1)
-  expect(document.body).not.toHaveClass('dialog-open')
+  expect(document.documentElement).not.toHaveStyle({ overflow: 'hidden' })
   jest.useRealTimers()
 })
 
