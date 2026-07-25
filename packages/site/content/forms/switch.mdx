@@ -1,0 +1,49 @@
+---
+title: Switch Component
+description: Create consistent cross-browser and cross-device toggle switches with our Chassis Switch component.
+
+toc: true
+---
+
+
+import { CxFormSwitch } from '@chassis-ui/react'
+
+## Approach
+
+A switch has the markup of a custom checkbox but renders as a toggle switch via `<CxFormSwitch>`. Switches also support the `disabled` attribute.
+
+<Example>
+  <CxFormSwitch label="Default switch checkbox input" id="formSwitchCheckDefault" />
+  <CxFormSwitch label="Checked switch checkbox input" id="formSwitchCheckChecked" defaultSelected />
+  <CxFormSwitch label="Disabled switch checkbox input" id="formSwitchCheckDisabled" disabled />
+  <CxFormSwitch
+    label="Disabled checked switch checkbox input"
+    id="formSwitchCheckCheckedDisabled"
+    defaultSelected
+    disabled
+  />
+</Example>
+
+## Sizes
+
+Apply the `size` property (`small` or `large`) to change the size of a switch.
+
+<Example>
+  <CxFormSwitch size="small" label="Small switch checkbox input" id="formSwitchCheckDefaultSm" />
+  <CxFormSwitch label="Default switch checkbox input" id="formSwitchCheckDefault" />
+  <CxFormSwitch size="large" label="Large switch checkbox input" id="formSwitchCheckDefaultLg" />
+</Example>
+
+## Context colors
+
+Switches accept a `context` property to color the switch indicator with any of the Chassis contextual colors.
+
+<Example>
+  <CxFormSwitch context="danger" id="switchDanger" label="Danger switch" defaultSelected />
+</Example>
+
+## API
+
+### CxFormSwitch
+
+<PropTable component="CxFormSwitch" />

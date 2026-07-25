@@ -1,0 +1,107 @@
+---
+title: Radio Component
+description: Create consistent cross-browser and cross-device radio buttons with our Chassis Radio component.
+
+toc: true
+---
+
+
+import { RadiosExample } from '../../src/examples/radio/RadiosExample.tsx'
+import { RadiosDisabledExample } from '../../src/examples/radio/RadiosDisabledExample.tsx'
+import { RadiosStackedExample } from '../../src/examples/radio/RadiosStackedExample.tsx'
+import { RadiosInlineExample } from '../../src/examples/radio/RadiosInlineExample.tsx'
+import { ContextColorExample } from '../../src/examples/radio/ContextColorExample.tsx'
+import { WithoutLabelExample } from '../../src/examples/radio/WithoutLabelExample.tsx'
+import { RadioToggleButtonsExample } from '../../src/examples/radio/RadioToggleButtonsExample.tsx'
+import { OutlinedTogglesExample } from '../../src/examples/radio/OutlinedTogglesExample.tsx'
+import { RadioGroupValidationExample } from '../../src/examples/radio/RadioGroupValidationExample.tsx'
+
+## Approach
+
+Browser default radios are replaced with the help of `<CxFormRadio>`, for selecting one option from many. It renders the modern, wrapper-based `.check-input` markup nested inside a single `<label>` — passing `label` gives you an accessible, fully-clickable control with no extra markup required.
+
+`<CxFormRadio>` is built on [React Aria](https://react-spectrum.adobe.com/react-aria/) for full keyboard and screen-reader support. Radios have no meaningful standalone state — a radio only makes sense as part of a mutually-exclusive set — so `<CxFormRadio>` must always be rendered inside a `<CxFormRadioGroup>`, which manages selection and arrow-key navigation between options.
+
+## Radios
+
+Radios are always rendered inside a `<CxFormRadioGroup>`, which owns selection and gives the group a `<fieldset>`/`<legend>` so assistive technology announces the group's purpose alongside each option.
+
+<Example>
+  <RadiosExample client:load />
+</Example>
+
+### Disabled
+
+Disable a single option by adding `disabled` to that `<CxFormRadio>`, or disable the whole group by adding `disabled` to `<CxFormRadioGroup>`.
+
+<Example>
+  <RadiosDisabledExample client:load />
+</Example>
+
+## Default (stacked)
+
+By default, any number of radios that are immediate siblings will be vertically stacked and appropriately spaced.
+
+<Example>
+  <RadiosStackedExample client:load />
+</Example>
+
+## Inline
+
+Radio groups have a built-in `orientation` property to lay options out on the same horizontal row, which also switches arrow-key navigation from vertical to horizontal.
+
+<Example>
+  <RadiosInlineExample client:load />
+</Example>
+
+## Context colors
+
+Radios accept a `context` property to color the check indicator with any of the Chassis contextual colors.
+
+<Example>
+  <ContextColorExample client:load />
+</Example>
+
+## Without labels
+
+Remember to still provide some form of accessible name for assistive technologies (for instance, using `aria-label`).
+
+<Example>
+  <WithoutLabelExample client:load />
+</Example>
+
+## Toggle buttons
+
+Create button-like radios by using the `button` property on `<CxFormRadio>`. These toggle buttons can further be grouped in a button group if needed.
+
+<Example>
+  <RadioToggleButtonsExample client:load />
+</Example>
+
+### Outlined styles
+
+Different variants of button, such at the various outlined styles, are supported.
+
+<Example>
+  <OutlinedTogglesExample client:load />
+</Example>
+
+## Groups
+
+### Validation
+
+`<CxFormRadioGroup>` accepts `invalid`/`valid` and an `errorMessage`, rendered below the options and linked via `aria-describedby`.
+
+<Example>
+  <RadioGroupValidationExample client:load />
+</Example>
+
+## API
+
+### CxFormRadio
+
+<PropTable component="CxFormRadio" />
+
+### CxFormRadioGroup
+
+<PropTable component="CxFormRadioGroup" />

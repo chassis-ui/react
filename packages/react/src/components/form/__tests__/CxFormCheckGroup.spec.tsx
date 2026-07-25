@@ -38,3 +38,14 @@ test('invalid group renders the error message and is-invalid class', () => {
   expect(screen.getByText('Choose at least one.')).toHaveClass('invalid-feedback')
   expect(screen.getByRole('group')).toHaveClass('is-invalid')
 })
+
+test('orientation="horizontal" wraps items in a flex row', () => {
+  render(
+    <CxFormCheckGroup label="Notifications" defaultValue={[]} orientation="horizontal">
+      <CxFormCheck value="email" label="Email" />
+      <CxFormCheck value="sms" label="SMS" />
+    </CxFormCheckGroup>,
+  )
+  const email = screen.getByRole('checkbox', { name: 'Email' })
+  expect(email.closest('.d-flex')).not.toBeNull()
+})

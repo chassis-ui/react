@@ -51,7 +51,9 @@
     - title: Overview
     - title: Form Control
     - title: Select
-    - title: Checks & Radios
+    - title: Checkbox
+    - title: Radio
+    - title: Switch
     - title: Range
     - title: Input Group
     - title: Floating Labels
