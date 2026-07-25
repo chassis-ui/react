@@ -27,6 +27,9 @@ exports[`loads and displays CxFormSwitch component 1`] = `
   >
     <input
       class="form-check-input"
+      data-react-aria-pressable="true"
+      role="switch"
+      tabindex="0"
       type="checkbox"
     />
   </div>

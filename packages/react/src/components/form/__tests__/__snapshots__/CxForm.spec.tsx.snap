@@ -35,6 +35,8 @@ exports[`CxForm example 1`] = `
     >
       <input
         class="check-input"
+        data-react-aria-pressable="true"
+        tabindex="0"
         type="checkbox"
       />
       <label

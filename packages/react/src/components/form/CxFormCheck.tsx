@@ -1,5 +1,7 @@
-import React, { forwardRef, InputHTMLAttributes, ReactNode, useEffect, useRef } from 'react'
+import React, { forwardRef, InputHTMLAttributes, ReactNode, useRef } from 'react'
 import classNames from 'classnames'
+import { useCheckbox } from 'react-aria'
+import { useToggleState } from 'react-stately'
 
 import { useForkedRef } from '../../utils/hooks'
 import { ContextColor, Shapes } from '../Types'
@@ -25,7 +27,8 @@ export type ButtonObject = {
   variant?: 'outline' | 'ghost'
 }
 
-export interface CFormCheckProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface CFormCheckProps
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'checked' | 'defaultChecked' | 'onChange'> {
   /**
    * Create button-like checkboxes and radio buttons.
    */
@@ -35,6 +38,10 @@ export interface CFormCheckProps extends InputHTMLAttributes<HTMLInputElement> {
    */
   className?: string
   /**
+   * Whether the input is selected, uncontrolled.
+   */
+  defaultSelected?: boolean
+  /**
    * Sets hit area to the full area of the component.
    */
   hitArea?: 'full'
@@ -43,7 +50,7 @@ export interface CFormCheckProps extends InputHTMLAttributes<HTMLInputElement> {
    */
   id?: string
   /**
-   * Input Checkbox indeterminate Property.
+   * Input Checkbox indeterminate Property. Only applies to `type="checkbox"`.
    */
   indeterminate?: boolean
   /**
@@ -55,9 +62,17 @@ export interface CFormCheckProps extends InputHTMLAttributes<HTMLInputElement> {
    */
   invalid?: boolean
   /**
+   * Whether the input is selected, controlled.
+   */
+  isSelected?: boolean
+  /**
    * The element represents a caption for a component.
    */
   label?: string | ReactNode
+  /**
+   * Callback fired when the selected state changes.
+   */
+  onChange?: (isSelected: boolean) => void
   /**
    * Specifies the type of component.
    */
@@ -73,12 +88,16 @@ export const CxFormCheck = forwardRef<HTMLInputElement, CFormCheckProps>(
     {
       className,
       button,
+      defaultSelected,
+      disabled,
       hitArea,
       id,
       indeterminate,
       inline,
       invalid,
+      isSelected,
       label,
+      onChange,
       type = 'checkbox',
       valid,
       ...rest
@@ -87,12 +106,42 @@ export const CxFormCheck = forwardRef<HTMLInputElement, CFormCheckProps>(
   ) => {
     const inputRef = useRef<HTMLInputElement>(null)
     const forkedRef = useForkedRef(ref, inputRef)
+    const isCheckbox = type === 'checkbox'
 
-    useEffect(() => {
-      if (inputRef.current && indeterminate) {
-        inputRef.current.indeterminate = indeterminate
-      }
-    }, [indeterminate])
+    // Radios stay on native semantics — react-aria's radio hooks (useRadioGroupState/useRadio)
+    // require a grouped API that doesn't fit CxFormCheck's flat, ungrouped design (no
+    // CxFormRadioGroup wrapper exists). They still share the same
+    // isSelected/defaultSelected/onChange(boolean) shape as checkboxes, translated from the
+    // native change event, so both types have one consistent public API.
+    const toggleState = useToggleState({
+      defaultSelected,
+      isDisabled: disabled,
+      isSelected,
+      onChange: isCheckbox ? onChange : undefined,
+    })
+
+    const { inputProps: checkboxProps } = useCheckbox(
+      {
+        ...rest,
+        children: label,
+        isDisabled: disabled,
+        isIndeterminate: indeterminate,
+        value: rest.value as string | undefined,
+      },
+      toggleState,
+      inputRef,
+    )
+
+    const radioProps = {
+      ...rest,
+      checked: isSelected,
+      defaultChecked: defaultSelected,
+      disabled,
+      onChange: onChange
+        ? (event: React.ChangeEvent<HTMLInputElement>) => onChange(event.target.checked)
+        : undefined,
+      type: 'radio' as const,
+    }
 
     const _className = classNames(
       'form-check',
@@ -115,9 +164,12 @@ export const CxFormCheck = forwardRef<HTMLInputElement, CFormCheckProps>(
         : 'check-label',
     )
 
-    const formControl = () => {
-      return <input type={type} className={inputClassName} id={id} {...rest} ref={forkedRef} />
-    }
+    const formControl = () =>
+      isCheckbox ? (
+        <input {...checkboxProps} className={inputClassName} id={id} ref={forkedRef} />
+      ) : (
+        <input {...radioProps} className={inputClassName} id={id} ref={forkedRef} />
+      )
 
     const formLabel = () => {
       return (

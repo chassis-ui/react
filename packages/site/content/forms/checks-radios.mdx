@@ -24,7 +24,7 @@ Browser default checkboxes and radios are replaced with the help of `<CxFormChec
 
 <Example>
   <CxFormCheck id="flexCheckDefault" label="Default checkbox" />
-  <CxFormCheck id="flexCheckChecked" label="Checked checkbox" defaultChecked />
+  <CxFormCheck id="flexCheckChecked" label="Checked checkbox" defaultSelected />
 </Example>
 
 ## Indeterminate
@@ -41,7 +41,7 @@ Add the `disabled` attribute and the associated `<label>`s are automatically sty
 
 <Example>
   <CxFormCheck label="Disabled checkbox" disabled />
-  <CxFormCheck label="Disabled checked checkbox" defaultChecked disabled />
+  <CxFormCheck label="Disabled checked checkbox" defaultSelected disabled />
 </Example>
 
 ## Radios
@@ -55,7 +55,7 @@ Add the `disabled` attribute and the associated `<label>`s are automatically sty
     name="flexRadioDefault"
     id="flexRadioDefault2"
     label="Checked radio"
-    defaultChecked
+    defaultSelected
   />
 </Example>
 
@@ -74,7 +74,7 @@ Add the `disabled` attribute and the associated `<label>`s are automatically sty
     name="flexRadioDisabled"
     id="flexRadioCheckedDisabled"
     label="Disabled checked radio"
-    defaultChecked
+    defaultSelected
     disabled
   />
 </Example>
@@ -85,12 +85,12 @@ A switch has the markup of a custom checkbox but uses the `switch` boolean prope
 
 <Example>
   <CxFormSwitch label="Default switch checkbox input" id="formSwitchCheckDefault" />
-  <CxFormSwitch label="Checked switch checkbox input" id="formSwitchCheckChecked" defaultChecked />
+  <CxFormSwitch label="Checked switch checkbox input" id="formSwitchCheckChecked" defaultSelected />
   <CxFormSwitch label="Disabled switch checkbox input" id="formSwitchCheckDisabled" disabled />
   <CxFormSwitch
     label="Disabled checked switch checkbox input"
     id="formSwitchCheckCheckedDisabled"
-    defaultChecked
+    defaultSelected
     disabled
   />
 </Example>
@@ -119,7 +119,7 @@ By default, any number of checkboxes and radios that are immediate sibling will 
     id="exampleRadios1"
     value="option1"
     label="Default radio"
-    defaultChecked
+    defaultSelected
   />
   <CxFormCheck
     type="radio"
@@ -210,7 +210,7 @@ Create button-like checkboxes and radio buttons by using `button` boolean proper
     id="button-check-2"
     autoComplete="off"
     label="Checked"
-    defaultChecked
+    defaultSelected
   />
 </Example>
 
@@ -234,7 +234,7 @@ Create button-like checkboxes and radio buttons by using `button` boolean proper
     id="option1"
     autoComplete="off"
     label="Checked"
-    defaultChecked
+    defaultSelected
   />
   <CxFormCheck
     button={{ context: 'secondary' }}
@@ -282,7 +282,7 @@ Different variants of button, such at the various outlined styles, are supported
       id="button-check-2-outlined"
       autoComplete="off"
       label="Checked"
-      defaultChecked
+      defaultSelected
     />
   </div>
   <div>
@@ -293,7 +293,7 @@ Different variants of button, such at the various outlined styles, are supported
       id="success-outlined"
       autoComplete="off"
       label="Radio"
-      defaultChecked
+      defaultSelected
     />
     <CxFormCheck
       button={{ context: 'danger', variant: 'outline' }}
