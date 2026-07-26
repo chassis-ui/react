@@ -7,7 +7,7 @@ import {
   CxCol,
   CxCollapse,
   CxContainer,
-  CxRow,
+  CxRow
 } from '@chassis-ui/react'
 
 export const MultipleTargetsExample = () => {

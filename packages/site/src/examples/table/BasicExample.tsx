@@ -5,7 +5,7 @@ import {
   CxTableCell,
   CxTableColumn,
   CxTableHeader,
-  CxTableRow,
+  CxTableRow
 } from '@chassis-ui/react'
 
 export const BasicExample = () => (

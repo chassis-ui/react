@@ -8,7 +8,7 @@ import {
   CxFormLabel,
   CxFormRadio,
   CxFormRadioGroup,
-  CxFormSelect,
+  CxFormSelect
 } from '@chassis-ui/react'
 
 export const SupportedElementsExample = () => {

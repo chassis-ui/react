@@ -1,1 +1,5 @@
-dist/
+*.css
+*.scss
+packages/site/config.yml
+packages/site/src/assets
+/source

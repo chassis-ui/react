@@ -5,7 +5,7 @@ import {
   CxMenuList,
   CxMenuItem,
   CxMenuDivider,
-  CxSubmenu,
+  CxSubmenu
 } from '@chassis-ui/react'
 
 export const SubmenuExample = () => {

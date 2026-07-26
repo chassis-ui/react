@@ -5,7 +5,7 @@ import {
   CxMenuList,
   CxMenuItem,
   CxSubmenu,
-  CxSubmenuBack,
+  CxSubmenuBack
 } from '@chassis-ui/react'
 
 export const StackedSubmenuExample = () => {

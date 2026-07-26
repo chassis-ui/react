@@ -6,7 +6,7 @@ import {
   CxMenu,
   CxMenuToggle,
   CxMenuList,
-  CxMenuItem,
+  CxMenuItem
 } from '@chassis-ui/react'
 
 export const PillsWithMenuExample = () => {

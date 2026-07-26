@@ -5,14 +5,14 @@ import {
   CxTableCell,
   CxTableColumn,
   CxTableHeader,
-  CxTableRow,
+  CxTableRow
 } from '@chassis-ui/react'
 import type { Selection } from 'react-stately'
 
 const rows = [
   { id: 1, name: 'Mark Otto', role: 'Engineer' },
   { id: 2, name: 'Jacob Thornton', role: 'Designer' },
-  { id: 3, name: 'Larry Bird', role: 'Engineer' },
+  { id: 3, name: 'Larry Bird', role: 'Engineer' }
 ]
 
 export const SelectionExample = () => {

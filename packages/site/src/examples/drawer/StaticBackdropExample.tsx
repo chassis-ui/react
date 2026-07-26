@@ -7,7 +7,12 @@ export const StaticBackdropExample = () => {
   return (
     <>
       <CxButton onClick={() => setVisible(true)}>Static backdrop</CxButton>
-      <CxDrawer backdrop="static" placement="start" visible={visible} onClose={() => setVisible(false)}>
+      <CxDrawer
+        backdrop="static"
+        placement="start"
+        visible={visible}
+        onClose={() => setVisible(false)}
+      >
         <CxDrawerHeader>
           <CxDrawerTitle>Static backdrop</CxDrawerTitle>
         </CxDrawerHeader>

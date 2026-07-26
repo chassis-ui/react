@@ -5,7 +5,7 @@ const samples: { label: string; password: string }[] = [
   { label: 'Weak', password: 'abc' },
   { label: 'Fair', password: 'abcdefgh1' },
   { label: 'Good', password: 'Abcdefgh1234' },
-  { label: 'Strong', password: 'Sup3r!Secret!Passphrase99' },
+  { label: 'Strong', password: 'Sup3r!Secret!Passphrase99' }
 ]
 
 export const LevelsExample = () => {

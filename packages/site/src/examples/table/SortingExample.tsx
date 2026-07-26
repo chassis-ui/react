@@ -5,7 +5,7 @@ import {
   CxTableCell,
   CxTableColumn,
   CxTableHeader,
-  CxTableRow,
+  CxTableRow
 } from '@chassis-ui/react'
 import type { SortDescriptor } from 'react-stately'
 
@@ -13,13 +13,13 @@ const rows = [
   { id: 1, name: 'Mark Otto', role: 'Engineer' },
   { id: 2, name: 'Jacob Thornton', role: 'Designer' },
   { id: 3, name: 'Larry Bird', role: 'Engineer' },
-  { id: 4, name: 'Ashley Grant', role: 'Product' },
+  { id: 4, name: 'Ashley Grant', role: 'Product' }
 ]
 
 export const SortingExample = () => {
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
     column: 'name',
-    direction: 'ascending',
+    direction: 'ascending'
   })
 
   const sortedRows = useMemo(() => {

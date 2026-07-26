@@ -5,13 +5,13 @@ import {
   CxTableCell,
   CxTableColumn,
   CxTableHeader,
-  CxTableRow,
+  CxTableRow
 } from '@chassis-ui/react'
 
 const rows = [
   { id: 1, name: 'Mark Otto', role: 'Engineer' },
   { id: 2, name: 'Jacob Thornton', role: 'Designer' },
-  { id: 3, name: 'Larry Bird', role: 'Engineer' },
+  { id: 3, name: 'Larry Bird', role: 'Engineer' }
 ]
 
 export const VariantsExample = () => (

@@ -1,11 +1,5 @@
 import React, { useState } from 'react'
-import {
-  CxButton,
-  CxModal,
-  CxModalBody,
-  CxModalHeader,
-  CxModalTitle,
-} from '@chassis-ui/react'
+import { CxButton, CxModal, CxModalBody, CxModalHeader, CxModalTitle } from '@chassis-ui/react'
 
 export const Example = () => {
   const [visibleXL, setVisibleXL] = useState(false)

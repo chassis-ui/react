@@ -7,7 +7,7 @@ import {
   CxFormLabel,
   CxMenu,
   CxMenuToggle,
-  CxMenuList,
+  CxMenuList
 } from '@chassis-ui/react'
 
 export const FormsExample = () => {

@@ -6,7 +6,7 @@ import {
   CxDrawerBody,
   CxDrawerFooter,
   CxDrawerHeader,
-  CxDrawerTitle,
+  CxDrawerTitle
 } from '@chassis-ui/react'
 
 export const AppearanceExample = () => {
@@ -16,7 +16,12 @@ export const AppearanceExample = () => {
     <>
       <CxButton onClick={() => setVisibleSheet(true)}>Sheet</CxButton>
       <CxButton onClick={() => setVisibleTranslucent(true)}>Translucent</CxButton>
-      <CxDrawer sheet placement="start" visible={visibleSheet} onClose={() => setVisibleSheet(false)}>
+      <CxDrawer
+        sheet
+        placement="start"
+        visible={visibleSheet}
+        onClose={() => setVisibleSheet(false)}
+      >
         <CxDrawerHeader>
           <CxDrawerTitle>Sheet drawer</CxDrawerTitle>
         </CxDrawerHeader>

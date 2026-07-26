@@ -6,7 +6,7 @@ import {
   CxDrawerBody,
   CxDrawerFooter,
   CxDrawerHeader,
-  CxDrawerTitle,
+  CxDrawerTitle
 } from '@chassis-ui/react'
 
 export const FooterExample = () => {

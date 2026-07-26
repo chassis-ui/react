@@ -7,7 +7,7 @@ import {
   CxMenuDivider,
   CxMenuItem,
   CxMenuList,
-  CxMenuToggle,
+  CxMenuToggle
 } from '@chassis-ui/react'
 
 export const SegmentedButtonsExample = () => {

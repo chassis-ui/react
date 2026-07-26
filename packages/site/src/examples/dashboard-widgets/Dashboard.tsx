@@ -9,7 +9,7 @@ import {
   CxProgressBar,
   CxTable,
   CxRow,
-  CxCol,
+  CxCol
 } from '@chassis-ui/react'
 
 export const Dashboard = () => {
@@ -17,32 +17,36 @@ export const Dashboard = () => {
     { label: 'Total Users', value: '12,540', delta: '+8%', context: 'primary' },
     { label: 'Active Sessions', value: '342', delta: '+12%', context: 'success' },
     { label: 'Open Issues', value: '27', delta: '-3%', context: 'warning' },
-    { label: 'Server Errors', value: '4', delta: '+1', context: 'danger' },
+    { label: 'Server Errors', value: '4', delta: '+1', context: 'danger' }
   ]
   const orders = [
     { id: '#1042', customer: 'Alice Martin', amount: '$120.00', status: 'Paid' },
     { id: '#1043', customer: 'Bob Chen', amount: '$85.50', status: 'Pending' },
     { id: '#1044', customer: 'Carol White', amount: '$240.00', status: 'Paid' },
-    { id: '#1045', customer: 'David Kim', amount: '$59.99', status: 'Failed' },
+    { id: '#1045', customer: 'David Kim', amount: '$59.99', status: 'Failed' }
   ]
   const orderStatusCtx = { Paid: 'success', Pending: 'warning', Failed: 'danger' }
   const activity = [
     { label: 'New user registered — Alice Martin', href: '#' },
     { label: 'Order #1045 failed payment', href: '#' },
     { label: 'Server backup completed', href: '#' },
-    { label: 'Password reset requested', href: '#' },
+    { label: 'Password reset requested', href: '#' }
   ]
   const traffic = [
     { label: 'Organic Search', value: 52, context: 'primary' },
     { label: 'Direct', value: 24, context: 'success' },
     { label: 'Referral', value: 14, context: 'info' },
-    { label: 'Social', value: 10, context: 'warning' },
+    { label: 'Social', value: 10, context: 'warning' }
   ]
   const orderColumns = [
     { key: 'id', label: 'Order' },
     { key: 'customer', label: 'Customer' },
     { key: 'amount', label: 'Amount' },
-    { key: 'status', label: 'Status', render: (v) => <CxBadge context={orderStatusCtx[v]}>{v}</CxBadge> },
+    {
+      key: 'status',
+      label: 'Status',
+      render: (v) => <CxBadge context={orderStatusCtx[v]}>{v}</CxBadge>
+    }
   ]
   return (
     <div>

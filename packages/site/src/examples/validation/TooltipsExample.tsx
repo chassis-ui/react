@@ -11,7 +11,7 @@ import {
   CxInputGroup,
   CxInputGroupText,
   CxCol,
-  CxRow,
+  CxRow
 } from '@chassis-ui/react'
 
 export const TooltipsExample = () => {

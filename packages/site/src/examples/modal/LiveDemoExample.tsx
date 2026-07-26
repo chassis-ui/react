@@ -5,7 +5,7 @@ import {
   CxModalBody,
   CxModalFooter,
   CxModalHeader,
-  CxModalTitle,
+  CxModalTitle
 } from '@chassis-ui/react'
 
 export const Example = () => {

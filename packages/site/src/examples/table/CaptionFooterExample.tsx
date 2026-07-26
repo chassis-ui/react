@@ -5,12 +5,12 @@ import {
   CxTableCell,
   CxTableColumn,
   CxTableHeader,
-  CxTableRow,
+  CxTableRow
 } from '@chassis-ui/react'
 
 const rows = [
   { id: 1, name: 'Mark Otto', amount: '$120' },
-  { id: 2, name: 'Jacob Thornton', amount: '$80' },
+  { id: 2, name: 'Jacob Thornton', amount: '$80' }
 ]
 
 export const CaptionFooterExample = () => (

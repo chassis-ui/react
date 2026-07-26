@@ -9,7 +9,7 @@ import {
   CxFormFeedback,
   CxNotification,
   CxRow,
-  CxCol,
+  CxCol
 } from '@chassis-ui/react'
 
 export const RegistrationForm = () => {
@@ -40,7 +40,7 @@ export const RegistrationForm = () => {
   const roleOptions = [
     { label: 'Administrator', value: 'admin' },
     { label: 'Editor', value: 'editor' },
-    { label: 'Viewer', value: 'viewer' },
+    { label: 'Viewer', value: 'viewer' }
   ]
   return (
     <div>
@@ -53,30 +53,67 @@ export const RegistrationForm = () => {
         <CxRow className="mb-3">
           <CxCol>
             <CxFormLabel htmlFor="reg-name">Full name</CxFormLabel>
-            <CxFormInput id="reg-name" placeholder="Jane Smith" value={name} onChange={(e) => setName(e.target.value)} valid={submitted && validName} invalid={submitted && !validName} />
-            <CxFormFeedback invalid>Please enter your full name (at least 2 characters).</CxFormFeedback>
+            <CxFormInput
+              id="reg-name"
+              placeholder="Jane Smith"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              valid={submitted && validName}
+              invalid={submitted && !validName}
+            />
+            <CxFormFeedback invalid>
+              Please enter your full name (at least 2 characters).
+            </CxFormFeedback>
           </CxCol>
           <CxCol>
             <CxFormLabel htmlFor="reg-email">Email address</CxFormLabel>
-            <CxFormInput id="reg-email" type="email" placeholder="jane@example.com" value={email} onChange={(e) => setEmail(e.target.value)} valid={submitted && validEmail} invalid={submitted && !validEmail} />
+            <CxFormInput
+              id="reg-email"
+              type="email"
+              placeholder="jane@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              valid={submitted && validEmail}
+              invalid={submitted && !validEmail}
+            />
             <CxFormFeedback invalid>Please enter a valid email address.</CxFormFeedback>
           </CxCol>
         </CxRow>
         <CxRow className="mb-3">
           <CxCol>
             <CxFormLabel htmlFor="reg-role">Role</CxFormLabel>
-            <CxFormSelect id="reg-role" placeholder="Select a role…" value={role} onChange={(e) => setRole(e.target.value)} valid={submitted && validRole} invalid={submitted && !validRole} options={roleOptions} />
+            <CxFormSelect
+              id="reg-role"
+              placeholder="Select a role…"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              valid={submitted && validRole}
+              invalid={submitted && !validRole}
+              options={roleOptions}
+            />
             <CxFormFeedback invalid>Please select a role.</CxFormFeedback>
           </CxCol>
           <CxCol>
             <CxFormLabel htmlFor="reg-pw">Password</CxFormLabel>
-            <CxFormInput id="reg-pw" type="password" placeholder="Min. 8 characters" value={password} onChange={(e) => setPassword(e.target.value)} valid={submitted && validPassword} invalid={submitted && !validPassword} />
+            <CxFormInput
+              id="reg-pw"
+              type="password"
+              placeholder="Min. 8 characters"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              valid={submitted && validPassword}
+              invalid={submitted && !validPassword}
+            />
             <CxFormFeedback invalid>Password must be at least 8 characters.</CxFormFeedback>
           </CxCol>
         </CxRow>
         <div className="d-flex gap-2">
-          <CxButton type="submit" context="primary">Create account</CxButton>
-          <CxButton type="reset" context="secondary" variant="outline">Reset</CxButton>
+          <CxButton type="submit" context="primary">
+            Create account
+          </CxButton>
+          <CxButton type="reset" context="secondary" variant="outline">
+            Reset
+          </CxButton>
         </div>
       </CxForm>
     </div>

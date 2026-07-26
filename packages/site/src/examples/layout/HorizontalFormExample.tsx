@@ -8,7 +8,7 @@ import {
   CxFormLabel,
   CxFormRadio,
   CxFormRadioGroup,
-  CxRow,
+  CxRow
 } from '@chassis-ui/react'
 
 export const HorizontalFormExample = () => {

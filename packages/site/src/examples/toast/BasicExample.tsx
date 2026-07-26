@@ -21,7 +21,7 @@ export const BasicExample = () => {
           <small>7 min ago</small>
         </CxToastHeader>
         <CxToastBody>Hello, world! This is a toast message.</CxToastBody>
-      </>,
+      </>
     )
   }
   return (

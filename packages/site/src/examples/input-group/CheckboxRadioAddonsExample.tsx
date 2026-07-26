@@ -5,7 +5,7 @@ import {
   CxFormRadio,
   CxFormRadioGroup,
   CxInputGroup,
-  CxInputGroupText,
+  CxInputGroupText
 } from '@chassis-ui/react'
 
 export const CheckboxRadioAddonsExample = () => {

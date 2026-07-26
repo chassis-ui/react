@@ -20,7 +20,7 @@ import {
   CxNavbarBrand,
   CxNavbarNav,
   CxNavbarText,
-  CxNavbarToggler,
+  CxNavbarToggler
 } from '@chassis-ui/react'
 
 export const ColorSchemesExample = () => {

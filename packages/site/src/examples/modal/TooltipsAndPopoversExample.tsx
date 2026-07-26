@@ -8,7 +8,7 @@ import {
   CxModalHeader,
   CxModalTitle,
   CxPopover,
-  CxTooltip,
+  CxTooltip
 } from '@chassis-ui/react'
 
 export const Example = () => {
@@ -24,9 +24,13 @@ export const Example = () => {
           <h5>Popover in a modal</h5>
           <p>
             This
-            <CxPopover title="Popover title" content="Popover body content is set in this property.">
+            <CxPopover
+              title="Popover title"
+              content="Popover body content is set in this property."
+            >
               <CxButton>button</CxButton>
-            </CxPopover> triggers a popover on click.
+            </CxPopover>{' '}
+            triggers a popover on click.
           </p>
           <hr />
           <h5>Tooltips in a modal</h5>
@@ -37,7 +41,8 @@ export const Example = () => {
             and
             <CxTooltip content="Tooltip">
               <CxLink>that link</CxLink>
-            </CxTooltip> have tooltips on hover.
+            </CxTooltip>{' '}
+            have tooltips on hover.
           </p>
         </CxModalBody>
         <CxModalFooter>
