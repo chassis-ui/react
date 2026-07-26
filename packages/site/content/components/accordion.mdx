@@ -4,14 +4,9 @@ description: Build vertically collapsing accordions using the native HTML detail
 
 toc: true
 ---
-
-
-import {
-  CxAccordion,
-  CxAccordionBody,
-  CxAccordionHeader,
-  CxAccordionItem,
-} from '@chassis-ui/react'
+import { Example as BasicExample } from '../../src/examples/accordion/BasicExample.tsx'
+import { Example as FlushExample } from '../../src/examples/accordion/FlushExample.tsx'
+import { Example as AlwaysOpenExample } from '../../src/examples/accordion/AlwaysOpenExample.tsx'
 
 
 ## Examples
@@ -19,34 +14,7 @@ import {
 Click the accordions below to expand/collapse the accordion content.
 
 <Example>
-  <CxAccordion>
-    <CxAccordionItem>
-      <CxAccordionHeader>
-        Accordion Item #1
-      </CxAccordionHeader>
-      <CxAccordionBody>
-        <strong>This is the first item's accordion body.</strong> It is hidden by default.
-        Just about any HTML can go within the <code>.accordion-body</code>.
-      </CxAccordionBody>
-    </CxAccordionItem>
-    <CxAccordionItem open>
-      <CxAccordionHeader>
-        Accordion Item #2
-      </CxAccordionHeader>
-      <CxAccordionBody>
-        <strong>This is the second item's accordion body.</strong> It is shown by default
-        via the <code>open</code> prop.
-      </CxAccordionBody>
-    </CxAccordionItem>
-    <CxAccordionItem>
-      <CxAccordionHeader>
-        Accordion Item #3
-      </CxAccordionHeader>
-      <CxAccordionBody>
-        <strong>This is the third item's accordion body.</strong> It is hidden by default.
-      </CxAccordionBody>
-    </CxAccordionItem>
-  </CxAccordion>
+ <BasicExample client:load />
 </Example>
 
 ### Flush
@@ -54,32 +22,7 @@ Click the accordions below to expand/collapse the accordion content.
 Add `flush` to render accordions edge-to-edge with their parent container.
 
 <Example>
-  <CxAccordion flush>
-    <CxAccordionItem>
-      <CxAccordionHeader>
-        Accordion Item #1
-      </CxAccordionHeader>
-      <CxAccordionBody>
-        <strong>This is the first item's accordion body.</strong>
-      </CxAccordionBody>
-    </CxAccordionItem>
-    <CxAccordionItem>
-      <CxAccordionHeader>
-        Accordion Item #2
-      </CxAccordionHeader>
-      <CxAccordionBody>
-        <strong>This is the second item's accordion body.</strong>
-      </CxAccordionBody>
-    </CxAccordionItem>
-    <CxAccordionItem>
-      <CxAccordionHeader>
-        Accordion Item #3
-      </CxAccordionHeader>
-      <CxAccordionBody>
-        <strong>This is the third item's accordion body.</strong>
-      </CxAccordionBody>
-    </CxAccordionItem>
-  </CxAccordion>
+ <FlushExample client:load />
 </Example>
 
 ### Always open
@@ -87,32 +30,7 @@ Add `flush` to render accordions edge-to-edge with their parent container.
 Add `alwaysOpen` to let multiple items stay open at the same time.
 
 <Example>
-  <CxAccordion alwaysOpen>
-    <CxAccordionItem open>
-      <CxAccordionHeader>
-        Accordion Item #1
-      </CxAccordionHeader>
-      <CxAccordionBody>
-        <strong>This is the first item's accordion body.</strong>
-      </CxAccordionBody>
-    </CxAccordionItem>
-    <CxAccordionItem open>
-      <CxAccordionHeader>
-        Accordion Item #2
-      </CxAccordionHeader>
-      <CxAccordionBody>
-        <strong>This is the second item's accordion body.</strong>
-      </CxAccordionBody>
-    </CxAccordionItem>
-    <CxAccordionItem>
-      <CxAccordionHeader>
-        Accordion Item #3
-      </CxAccordionHeader>
-      <CxAccordionBody>
-        <strong>This is the third item's accordion body.</strong>
-      </CxAccordionBody>
-    </CxAccordionItem>
-  </CxAccordion>
+ <AlwaysOpenExample client:load />
 </Example>
 
 ## API
