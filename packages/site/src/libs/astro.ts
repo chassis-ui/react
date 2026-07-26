@@ -99,6 +99,24 @@ export function chassis(): AstroIntegration[] {
               }
             })
           }
+
+          // `remarkCxExample` reads `src/examples/**/*.tsx` files directly off disk to derive
+          // each `<Example>`'s displayed source. Astro's content-collection loader only
+          // reprocesses an `.mdx` file when that file's own content changes, so it has no way
+          // to know an example file it read via `fs.readFileSync` changed too. Rewriting every
+          // `.mdx` file with its own (unchanged) content forces a genuine reload of each entry,
+          // re-running the remark plugins against the now-current example source.
+          const examplesDir = path.join(getDocsFsPath(), 'src/examples')
+          const contentDir = path.join(getDocsFsPath(), 'content')
+          server.watcher.add(examplesDir)
+
+          server.watcher.on('change', (changed) => {
+            if (!changed.startsWith(examplesDir)) return
+            for (const mdxFile of listFilesRecursive(contentDir, '.mdx')) {
+              fs.writeFileSync(mdxFile, fs.readFileSync(mdxFile))
+            }
+            server.ws.send({ type: 'full-reload' })
+          })
         },
         'astro:build:done': ({ dir }) => {
           validateChassisDocsPaths(dir)
@@ -111,6 +129,17 @@ export function chassis(): AstroIntegration[] {
       filter: (page) => !sitemapExcludedUrls.includes(page)
     })
   ]
+}
+
+/**
+ * Recursively lists files under `dir` whose name ends with `extension`.
+ */
+function listFilesRecursive(dir: string, extension: string): string[] {
+  return fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    const entryPath = path.join(dir, entry.name)
+    if (entry.isDirectory()) return listFilesRecursive(entryPath, extension)
+    return entry.name.endsWith(extension) ? [entryPath] : []
+  })
 }
 
 /**
