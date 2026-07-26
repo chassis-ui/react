@@ -5,9 +5,18 @@ import { CxAccordionContext } from './CxAccordion'
 
 export interface CxAccordionItemProps extends HTMLAttributes<HTMLDetailsElement> {
   /**
+   * Let this item stay open when another item opens, overriding the accordion's `alwaysOpen` setting.
+   */
+  alwaysOpen?: boolean
+  /**
    * A string of all className you want applied to the base component.
    */
   className?: string
+  /**
+   * The group this item shares with other items so only one can be open at a time, overriding the
+   * accordion's shared `name`.
+   */
+  name?: string
   /**
    * Start the item in the open state.
    */
@@ -19,10 +28,12 @@ export interface CxAccordionItemProps extends HTMLAttributes<HTMLDetailsElement>
 }
 
 export const CxAccordionItem = forwardRef<HTMLDetailsElement, CxAccordionItemProps>(
-  ({ children, className, open, itemKey: _itemKey, ...rest }, ref) => {
-    const { alwaysOpen, name } = useContext(CxAccordionContext)
+  ({ children, alwaysOpen, className, name, open, itemKey: _itemKey, ...rest }, ref) => {
+    const context = useContext(CxAccordionContext)
+    const isAlwaysOpen = alwaysOpen ?? context.alwaysOpen
+    const groupName = name ?? context.name
 
-    const groupProps = alwaysOpen ? {} : { name }
+    const groupProps = isAlwaysOpen ? {} : { name: groupName }
 
     return (
       <details
@@ -35,7 +46,7 @@ export const CxAccordionItem = forwardRef<HTMLDetailsElement, CxAccordionItemPro
         {children}
       </details>
     )
-  },
+  }
 )
 
 CxAccordionItem.displayName = 'CxAccordionItem'

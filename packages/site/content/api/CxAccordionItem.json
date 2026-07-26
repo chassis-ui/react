@@ -5,10 +5,48 @@
   "displayName": "CxAccordionItem",
   "methods": [],
   "props": {
+    "alwaysOpen": {
+      "defaultValue": null,
+      "description": "Let this item stay open when another item opens, overriding the accordion's `alwaysOpen` setting.",
+      "name": "alwaysOpen",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/accordion/CxAccordionItem.tsx",
+        "name": "CxAccordionItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/accordion/CxAccordionItem.tsx",
+          "name": "CxAccordionItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
     "className": {
       "defaultValue": null,
       "description": "A string of all className you want applied to the base component.",
       "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/accordion/CxAccordionItem.tsx",
+        "name": "CxAccordionItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/accordion/CxAccordionItem.tsx",
+          "name": "CxAccordionItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "name": {
+      "defaultValue": null,
+      "description": "The group this item shares with other items so only one can be open at a time, overriding the\naccordion's shared `name`.",
+      "name": "name",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/accordion/CxAccordionItem.tsx",
         "name": "CxAccordionItemProps"
