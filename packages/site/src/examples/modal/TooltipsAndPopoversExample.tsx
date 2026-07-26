@@ -1,5 +1,4 @@
-import React from 'react'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import {
   CxButton,
   CxLink,
@@ -12,7 +11,7 @@ import {
   CxTooltip,
 } from '@chassis-ui/react'
 
-export const TooltipsAndPopoversExample = () => {
+export const Example = () => {
   const [visible, setVisible] = useState(false)
   return (
     <>

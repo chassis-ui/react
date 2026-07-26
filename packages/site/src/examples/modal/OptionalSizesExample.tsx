@@ -1,18 +1,13 @@
-import React from 'react'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import {
   CxButton,
-  CxLink,
   CxModal,
   CxModalBody,
-  CxModalFooter,
   CxModalHeader,
   CxModalTitle,
-  CxPopover,
-  CxTooltip,
 } from '@chassis-ui/react'
 
-export const OptionalSizesExample = () => {
+export const Example = () => {
   const [visibleXL, setVisibleXL] = useState(false)
   const [visibleLg, setVisibleLg] = useState(false)
   const [visibleSm, setVisibleSm] = useState(false)

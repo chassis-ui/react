@@ -1,7 +1,7 @@
 import React from 'react'
 import { CxTab, CxTabList, CxTabPanel, CxTabs } from '@chassis-ui/react'
 
-export const DisabledExample = () => {
+export const Example = () => {
   return (
     <CxTabs defaultSelectedKey="home">
       <CxTabList aria-label="Example tabs with a disabled tab">

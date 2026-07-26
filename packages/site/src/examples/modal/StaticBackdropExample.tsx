@@ -1,18 +1,14 @@
-import React from 'react'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import {
   CxButton,
-  CxLink,
   CxModal,
   CxModalBody,
   CxModalFooter,
   CxModalHeader,
   CxModalTitle,
-  CxPopover,
-  CxTooltip,
 } from '@chassis-ui/react'
 
-export const StaticBackdropExample = () => {
+export const Example = () => {
   const [visible, setVisible] = useState(false)
   return (
     <>
