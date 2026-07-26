@@ -8,6 +8,11 @@ import {
   CxProgress,
   CxProgressBar,
   CxTable,
+  CxTableHeader,
+  CxTableBody,
+  CxTableColumn,
+  CxTableRow,
+  CxTableCell,
   CxRow,
   CxCol
 } from '@chassis-ui/react'
@@ -72,7 +77,22 @@ export const Dashboard = () => {
           <CxCard>
             <CxCardBody>
               <h5 className="mb-medium">Recent Orders</h5>
-              <CxTable hover columns={orderColumns} items={orders} />
+              <CxTable aria-label="Recent orders" hover>
+                <CxTableHeader columns={orderColumns}>
+                  {(column) => <CxTableColumn key={column.key}>{column.label}</CxTableColumn>}
+                </CxTableHeader>
+                <CxTableBody items={orders}>
+                  {(row) => (
+                    <CxTableRow key={row.id}>
+                      {(columnKey) => {
+                        const column = orderColumns.find((c) => c.key === columnKey)
+                        const value = row[columnKey as keyof typeof row]
+                        return <CxTableCell>{column?.render ? column.render(value) : value}</CxTableCell>
+                      }}
+                    </CxTableRow>
+                  )}
+                </CxTableBody>
+              </CxTable>
             </CxCardBody>
           </CxCard>
         </CxCol>

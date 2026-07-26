@@ -1,6 +1,16 @@
 import React from 'react'
 import { useState } from 'react'
-import { CxTable, CxPagination, CxFormSelect, CxBadge } from '@chassis-ui/react'
+import {
+  CxTable,
+  CxTableHeader,
+  CxTableBody,
+  CxTableColumn,
+  CxTableRow,
+  CxTableCell,
+  CxPagination,
+  CxFormSelect,
+  CxBadge
+} from '@chassis-ui/react'
 
 export const PaginatedTable = () => {
   const allUsers = [
@@ -58,7 +68,22 @@ export const PaginatedTable = () => {
           />
         </div>
       </div>
-      <CxTable columns={columns} items={rows} hover />
+      <CxTable aria-label="Users" hover>
+        <CxTableHeader columns={columns}>
+          {(column) => <CxTableColumn key={column.key}>{column.label}</CxTableColumn>}
+        </CxTableHeader>
+        <CxTableBody items={rows}>
+          {(row) => (
+            <CxTableRow key={row.id}>
+              {(columnKey) => {
+                const column = columns.find((c) => c.key === columnKey)
+                const value = row[columnKey as keyof typeof row]
+                return <CxTableCell>{column?.render ? column.render(value) : value}</CxTableCell>
+              }}
+            </CxTableRow>
+          )}
+        </CxTableBody>
+      </CxTable>
       <div className="d-flex justify-content-end mt-3">
         <CxPagination
           pages={totalPages}
