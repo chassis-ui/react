@@ -4,7 +4,7 @@ import type { Root } from 'mdast'
 import type {
   MdxJsxAttribute,
   MdxJsxExpressionAttribute,
-  MdxJsxFlowElement
+  MdxJsxFlowElement,
 } from 'mdast-util-mdx-jsx'
 import type { Plugin } from 'unified'
 import { visit } from 'unist-util-visit'
@@ -53,7 +53,7 @@ export const remarkCxConfig: Plugin<[], Root> = function () {
             break
           }
         }
-      }
+      },
     )
   }
 }
@@ -75,7 +75,7 @@ export const remarkCxDocsref: Plugin<[], Root> = function () {
         'link',
         'mdxJsxFlowElement',
         'mdxJsxTextElement',
-        'text'
+        'text',
       ],
       (node) => {
         switch (node.type) {
@@ -96,7 +96,7 @@ export const remarkCxDocsref: Plugin<[], Root> = function () {
             break
           }
         }
-      }
+      },
     )
   }
 }
@@ -183,9 +183,12 @@ export const remarkCxExampleInlineChildren: Plugin<[], Root> = function () {
     visit(ast, 'mdxJsxFlowElement', (exampleNode) => {
       if (exampleNode.name !== 'Example') return
 
-      visit(exampleNode, ['mdxJsxFlowElement', 'mdxJsxTextElement'], (node) => {
+      visit(exampleNode, ['mdxJsxFlowElement', 'mdxJsxTextElement'] as const, (node) => {
         if (node === exampleNode) return
-        node.children = toLiteralChildren(node.children as PositionedNode[], raw) as typeof node.children
+        node.children = toLiteralChildren(
+          node.children as PositionedNode[],
+          raw,
+        ) as typeof node.children
       })
     })
   }
@@ -203,8 +206,8 @@ interface ExampleImportBinding {
 // one shared toolbar, matching `@chassis-ui/docs`'s `<Example>`.
 //
 // - If `<Example>`'s only child is a bare reference to a `src/examples/**/*.tsx` component
-//   (e.g. `<BasicUsageExample client:load />`), the derived source is that component's
-//   function body (imports and the `export const Name = () => { ... }` wrapper stripped).
+//   (e.g. `<BasicUsageExample client:load />`), the derived source is that component file's
+//   content, verbatim (imports, exports, everything — nothing is stripped).
 // - Otherwise, the derived source is the literal JSX written between `<Example>` and
 //   `</Example>`, sliced directly from the MDX source so it can never drift from what's
 //   actually rendered.
@@ -220,7 +223,7 @@ export const remarkCxExample: Plugin<[], Root> = function () {
       if (node.name !== 'Example') return
 
       const hasCodeAttribute = node.attributes.some(
-        (attribute) => attribute.type === 'mdxJsxAttribute' && attribute.name === 'code'
+        (attribute) => attribute.type === 'mdxJsxAttribute' && attribute.name === 'code',
       )
       if (hasCodeAttribute) return
 
@@ -235,7 +238,8 @@ export const remarkCxExample: Plugin<[], Root> = function () {
 function collectExampleImportBindings(ast: Root): ExampleImportBinding[] {
   const bindings: ExampleImportBinding[] = []
 
-  for (const node of ast.children) {
+  for (const child of ast.children) {
+    const node = child as { type: string; data?: unknown }
     if (node.type !== 'mdxjsEsm') continue
 
     const program = (node.data as { estree?: { body: unknown[] } } | undefined)?.estree
@@ -264,20 +268,20 @@ function extractExampleSource(
   node: MdxJsxFlowElement,
   raw: string,
   imports: ExampleImportBinding[],
-  dirname: string | undefined
+  dirname: string | undefined,
 ): string | undefined {
   if (node.children.length === 1) {
     const child = node.children[0]
 
-    if (
-      (child.type === 'mdxJsxFlowElement' || child.type === 'mdxJsxTextElement') &&
-      child.children.length === 0 &&
-      child.name
-    ) {
+    if (child.type === 'mdxJsxFlowElement' && child.children.length === 0 && child.name) {
       const binding = imports.find((importBinding) => importBinding.localName === child.name)
 
-      if (binding && dirname && (binding.source.startsWith('.') || binding.source.startsWith('/'))) {
-        const resolved = resolveExampleComponentSource(binding.source, dirname, child.name)
+      if (
+        binding &&
+        dirname &&
+        (binding.source.startsWith('.') || binding.source.startsWith('/'))
+      ) {
+        const resolved = resolveExampleComponentSource(binding.source, dirname)
         if (resolved != null) return resolved
       }
     }
@@ -295,106 +299,13 @@ function sliceExampleChildrenSource(node: MdxJsxFlowElement, raw: string): strin
   return dedentInlineSlice(raw.slice(first.position.start.offset, last.position.end.offset))
 }
 
-function resolveExampleComponentSource(
-  importPath: string,
-  dirname: string,
-  name: string
-): string | undefined {
+// Reads a `src/examples/**/*.tsx` component file and returns its content verbatim — imports,
+// exports, and all — so the docs always show exactly what's on disk.
+function resolveExampleComponentSource(importPath: string, dirname: string): string | undefined {
   const filePath = path.resolve(dirname, importPath)
   if (!fs.existsSync(filePath)) return undefined
 
-  const withoutImports = stripLeadingImportStatements(fs.readFileSync(filePath, 'utf8'))
-  return extractExportedFunctionBody(withoutImports, name)
-}
-
-function stripLeadingImportStatements(content: string): string {
-  return content
-    .replace(/^import\s+[\s\S]*?from\s+['"][^'"]+['"]\s*\n+/gm, '')
-    .replace(/^\s+/, '')
-}
-
-function extractExportedFunctionBody(content: string, name: string): string | undefined {
-  const declarationIndex = content.indexOf(`export const ${name} =`)
-  if (declarationIndex === -1) return undefined
-
-  const arrowIndex = content.indexOf('=>', declarationIndex)
-  if (arrowIndex === -1) return undefined
-
-  let cursor = arrowIndex + 2
-  while (cursor < content.length && /\s/.test(content[cursor])) cursor++
-
-  const openChar = content[cursor]
-  if (openChar !== '{' && openChar !== '(') return undefined
-
-  const closeChar = openChar === '{' ? '}' : ')'
-  const closeIndex = findMatchingBracket(content, cursor, openChar, closeChar)
-  if (closeIndex === -1) return undefined
-
-  return dedent(content.slice(cursor + 1, closeIndex))
-}
-
-// Scans forward from `openIndex` counting bracket depth, skipping over string/template
-// literals and comments so stray bracket-like characters inside them can't miscount.
-function findMatchingBracket(
-  text: string,
-  openIndex: number,
-  openChar: string,
-  closeChar: string
-): number {
-  let depth = 0
-
-  for (let i = openIndex; i < text.length; i++) {
-    const char = text[i]
-
-    if (char === '"' || char === "'" || char === '`') {
-      i = skipStringLiteral(text, i, char)
-      continue
-    }
-    if (char === '/' && text[i + 1] === '/') {
-      const newlineIndex = text.indexOf('\n', i)
-      if (newlineIndex === -1) break
-      i = newlineIndex
-      continue
-    }
-    if (char === '/' && text[i + 1] === '*') {
-      const endIndex = text.indexOf('*/', i + 2)
-      i = endIndex === -1 ? text.length : endIndex + 1
-      continue
-    }
-
-    if (char === openChar) {
-      depth++
-    } else if (char === closeChar) {
-      depth--
-      if (depth === 0) return i
-    }
-  }
-
-  return -1
-}
-
-function skipStringLiteral(text: string, start: number, quote: string): number {
-  for (let i = start + 1; i < text.length; i++) {
-    if (text[i] === '\\') {
-      i++
-      continue
-    }
-    if (text[i] === quote) return i
-  }
-  return text.length - 1
-}
-
-// Dedents a block of text extracted from inside a JS/TS function body, where every line
-// (including the first) shares the same base indentation.
-function dedent(text: string): string {
-  const lines = text.split('\n')
-
-  while (lines.length && lines[0].trim() === '') lines.shift()
-  while (lines.length && lines[lines.length - 1].trim() === '') lines.pop()
-
-  const minIndent = minimumIndent(lines)
-
-  return lines.map((line) => line.slice(minIndent)).join('\n')
+  return fs.readFileSync(filePath, 'utf8').trim()
 }
 
 // Dedents a slice taken from MDX source, where the first line has already had its
@@ -468,7 +379,7 @@ function getConfigValueAtPath(path: string) {
 
 function replaceInFrontmatter(
   record: Record<string, unknown>,
-  replacer: (value: string) => string
+  replacer: (value: string) => string,
 ) {
   for (const [key, value] of Object.entries(record)) {
     if (typeof value === 'string') {
@@ -478,8 +389,8 @@ function replaceInFrontmatter(
         return typeof arrayValue === 'string'
           ? replacer(arrayValue)
           : typeof arrayValue === 'object'
-            ? replaceInFrontmatter(arrayValue, replacer)
-            : arrayValue
+          ? replaceInFrontmatter(arrayValue, replacer)
+          : arrayValue
       })
     }
   }
