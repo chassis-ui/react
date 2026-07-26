@@ -1,11 +1,5 @@
-import React from 'react'
 import { useState } from 'react'
-import {
-  CxNotification,
-  CxNotificationHeading,
-  CxNotificationLink,
-  CxButton
-} from '@chassis-ui/react'
+import { CxNotification, CxButton } from '@chassis-ui/react'
 
 export const LiveExample = () => {
   const [visible, setVisible] = useState(false)

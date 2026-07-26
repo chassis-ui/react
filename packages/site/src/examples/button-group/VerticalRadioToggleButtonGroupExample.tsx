@@ -1,4 +1,3 @@
-import React from 'react'
 import { CxButtonGroup, CxFormRadio, CxFormRadioGroup } from '@chassis-ui/react'
 
 export const VerticalRadioToggleButtonGroupExample = () => {

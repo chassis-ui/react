@@ -1,4 +1,3 @@
-import React from 'react'
 import { CxMenu, CxMenuToggle, CxMenuList, CxMenuItem } from '@chassis-ui/react'
 
 const placements = ['top', 'bottom', 'left', 'right'] as const

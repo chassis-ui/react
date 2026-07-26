@@ -1,4 +1,3 @@
-import React from 'react'
 import { CxToast, CxToastBody, CxToastHeader, CxToaster } from '@chassis-ui/react'
 
 export const StackingExample = () => {

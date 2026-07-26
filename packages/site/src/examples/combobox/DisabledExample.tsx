@@ -1,4 +1,3 @@
-import React from 'react'
 import { CxCombobox, CxComboboxItem } from '@chassis-ui/react'
 
 export const DisabledExample = () => {

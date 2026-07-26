@@ -1,4 +1,3 @@
-import React from 'react'
 import { CxDatePicker, I18nProvider } from '@chassis-ui/react'
 
 // `ar-SA` uses the Umm al-Qura calendar (non-Gregorian) and reads right-to-left — both the

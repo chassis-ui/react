@@ -1,4 +1,3 @@
-import React from 'react'
 import { CxTooltip, CxButton } from '@chassis-ui/react'
 
 export const DirectionsExample = () => {

@@ -1,4 +1,3 @@
-import React from 'react'
 import { useState } from 'react'
 import {
   CxButton,
@@ -6,20 +5,16 @@ import {
   CxCollapse,
   CxForm,
   CxFormInput,
-  CxInputGroup,
-  CxInputGroupText,
   CxMenu,
   CxMenuDivider,
   CxMenuItem,
   CxMenuList,
   CxMenuToggle,
-  CxNav,
   CxNavItem,
   CxNavLink,
   CxNavbar,
   CxNavbarBrand,
   CxNavbarNav,
-  CxNavbarText,
   CxNavbarToggler
 } from '@chassis-ui/react'
 
@@ -62,7 +57,7 @@ export const ColorSchemesExample = () => {
             </CxNavbarNav>
             <CxForm className="d-flex">
               <CxFormInput type="search" className="me-2" placeholder="Search" />
-              <CxButton type="submit" context="light" variant="outline">
+              <CxButton type="submit" context="default" variant="outline">
                 Search
               </CxButton>
             </CxForm>
@@ -105,7 +100,7 @@ export const ColorSchemesExample = () => {
             </CxNavbarNav>
             <CxForm className="d-flex">
               <CxFormInput type="search" className="me-2" placeholder="Search" />
-              <CxButton type="submit" context="light" variant="outline">
+              <CxButton type="submit" context="default" variant="outline">
                 Search
               </CxButton>
             </CxForm>

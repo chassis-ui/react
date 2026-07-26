@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { CxFormInput, CxFormLabel, CxFormText, CxPasswordStrength } from '@chassis-ui/react'
 
 export const FormFieldExample = () => {

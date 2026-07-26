@@ -1,4 +1,3 @@
-import React from 'react'
 import { CxChipInput } from '@chassis-ui/react'
 
 export const DisabledExample = () => {

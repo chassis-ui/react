@@ -1,4 +1,3 @@
-import React from 'react'
 import { CxButton, CxToastBody, CxToastHeader, CxToaster, addToast } from '@chassis-ui/react'
 
 export const BasicExample = () => {

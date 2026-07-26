@@ -1,4 +1,3 @@
-import React from 'react'
 import { CxFormCheck, CxFormCheckGroup } from '@chassis-ui/react'
 
 export const CheckGroupExample = () => {

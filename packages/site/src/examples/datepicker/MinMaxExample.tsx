@@ -1,4 +1,3 @@
-import React from 'react'
 import { CxDatePicker } from '@chassis-ui/react'
 import { today, getLocalTimeZone } from '@internationalized/date'
 

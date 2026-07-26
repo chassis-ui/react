@@ -1,4 +1,3 @@
-import React from 'react'
 import { CxPasswordStrength } from '@chassis-ui/react'
 
 const samples: { label: string; password: string }[] = [

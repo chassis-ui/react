@@ -1,4 +1,3 @@
-import React from 'react'
 import { useState } from 'react'
 import {
   CxButton,
@@ -24,7 +23,7 @@ export const RegistrationForm = () => {
   const validRole = role !== ''
   const validPassword = password.length >= 8
   const allValid = validName && validEmail && validRole && validPassword
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setSubmitted(true)
     if (allValid) setSuccess(true)
@@ -49,7 +48,7 @@ export const RegistrationForm = () => {
           <strong>Account created!</strong> Welcome aboard, {name}.
         </CxNotification>
       )}
-      <CxForm onSubmit={handleSubmit} onReset={handleReset} noValidate>
+      <CxForm onSubmit={handleSubmit} onReset={handleReset} validated={false}>
         <CxRow className="mb-3">
           <CxCol>
             <CxFormLabel htmlFor="reg-name">Full name</CxFormLabel>

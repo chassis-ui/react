@@ -1,22 +1,5 @@
-import React from 'react'
 import { useState } from 'react'
-import {
-  CxButton,
-  CxContainer,
-  CxCollapse,
-  CxForm,
-  CxFormInput,
-  CxInputGroup,
-  CxInputGroupText,
-  CxNav,
-  CxNavItem,
-  CxNavLink,
-  CxNavbar,
-  CxNavbarBrand,
-  CxNavbarNav,
-  CxNavbarText,
-  CxNavbarToggler
-} from '@chassis-ui/react'
+import { CxContainer, CxCollapse, CxNavbar, CxNavbarToggler } from '@chassis-ui/react'
 
 export const ExternalContentExample = () => {
   const [visible, setVisible] = useState(false)

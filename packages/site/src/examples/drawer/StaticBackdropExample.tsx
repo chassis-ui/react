@@ -1,4 +1,3 @@
-import React from 'react'
 import { useState } from 'react'
 import { CxButton, CxDrawer, CxDrawerBody, CxDrawerHeader, CxDrawerTitle } from '@chassis-ui/react'
 

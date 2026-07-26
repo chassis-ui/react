@@ -1,4 +1,3 @@
-import React from 'react'
 import { useState } from 'react'
 import { CxNav, CxNavItem, CxNavLink, CxTabContent, CxTabPane } from '@chassis-ui/react'
 

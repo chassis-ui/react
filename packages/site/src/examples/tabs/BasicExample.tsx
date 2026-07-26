@@ -1,4 +1,3 @@
-import React from 'react'
 import { CxTab, CxTabList, CxTabPanel, CxTabs } from '@chassis-ui/react'
 
 export const Example = () => {

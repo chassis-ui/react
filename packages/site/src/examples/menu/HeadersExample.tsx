@@ -1,4 +1,3 @@
-import React from 'react'
 import { CxMenu, CxMenuToggle, CxMenuList, CxMenuItem, CxMenuHeader } from '@chassis-ui/react'
 
 export const HeadersExample = () => {

@@ -1,4 +1,5 @@
-import React, { useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
+import type { SortDescriptor } from 'react-stately'
 import {
   CxTable,
   CxTableBody,
@@ -7,7 +8,6 @@ import {
   CxTableHeader,
   CxTableRow
 } from '@chassis-ui/react'
-import type { SortDescriptor } from 'react-stately'
 
 const rows = [
   { id: 1, name: 'Mark Otto', role: 'Engineer' },

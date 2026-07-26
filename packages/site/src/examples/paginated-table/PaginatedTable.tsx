@@ -1,5 +1,4 @@
-import React from 'react'
-import { useState } from 'react'
+import { useState, type ChangeEvent } from 'react'
 import {
   CxTable,
   CxTableHeader,
@@ -27,7 +26,7 @@ export const PaginatedTable = () => {
     { id: 11, name: 'Karen Scott', role: 'Admin', status: 'Active' },
     { id: 12, name: 'Leo Adams', role: 'Editor', status: 'Active' }
   ]
-  const statusContext = { Active: 'success', Inactive: 'secondary' }
+  const statusContext = { Active: 'success', Inactive: 'secondary' } as const
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(5)
   const totalPages = Math.ceil(allUsers.length / pageSize)
@@ -40,10 +39,12 @@ export const PaginatedTable = () => {
     {
       key: 'status',
       label: 'Status',
-      render: (v) => <CxBadge context={statusContext[v]}>{v}</CxBadge>
+      render: (v: string) => (
+        <CxBadge context={statusContext[v as keyof typeof statusContext]}>{v}</CxBadge>
+      )
     }
   ]
-  const handleSizeChange = (e) => {
+  const handleSizeChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setPageSize(Number(e.target.value))
     setPage(1)
   }
@@ -78,7 +79,9 @@ export const PaginatedTable = () => {
               {(columnKey) => {
                 const column = columns.find((c) => c.key === columnKey)
                 const value = row[columnKey as keyof typeof row]
-                return <CxTableCell>{column?.render ? column.render(value) : value}</CxTableCell>
+                return (
+                  <CxTableCell>{column?.render ? column.render(String(value)) : value}</CxTableCell>
+                )
               }}
             </CxTableRow>
           )}

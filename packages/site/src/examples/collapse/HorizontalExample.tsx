@@ -1,14 +1,5 @@
-import React from 'react'
 import { useState } from 'react'
-import {
-  CxButton,
-  CxCard,
-  CxCardBody,
-  CxCol,
-  CxCollapse,
-  CxContainer,
-  CxRow
-} from '@chassis-ui/react'
+import { CxButton, CxCard, CxCardBody, CxCollapse } from '@chassis-ui/react'
 
 export const HorizontalExample = () => {
   const [visible, setVisible] = useState(false)

@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
+import type { Selection } from 'react-stately'
 import {
   CxTable,
   CxTableBody,
@@ -7,7 +8,6 @@ import {
   CxTableHeader,
   CxTableRow
 } from '@chassis-ui/react'
-import type { Selection } from 'react-stately'
 
 const rows = [
   { id: 1, name: 'Mark Otto', role: 'Engineer' },

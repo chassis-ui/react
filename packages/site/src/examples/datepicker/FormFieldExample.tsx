@@ -1,4 +1,3 @@
-import React from 'react'
 import { CxDatePicker, CxFormLabel, CxFormText } from '@chassis-ui/react'
 
 export const FormFieldExample = () => {
