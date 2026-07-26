@@ -12,8 +12,8 @@ if (!entry) {
   console.warn(`No API data found for component: ${component}`)
 }
 
-const props = entry ? Object.values(entry.data.props) : []
-const sortedProps = props.sort((a, b) => a.name.localeCompare(b.name))
+const props: any[] = entry ? Object.values(entry.data.props) : []
+const sortedProps = props.sort((a: any, b: any) => a.name.localeCompare(b.name))
 
 // Prop descriptions are raw JSDoc text, not markdown-rendered HTML — escape it before
 // injecting via set:html so literal tag examples like `<button>` render as text instead of
@@ -25,29 +25,39 @@ function renderDescription(description: string): string {
 }
 ---
 
-{entry ? (
-  <div class="cxd-prop-table-wrapper">
-    <table class="cxd-prop-table table">
-      <thead>
-        <tr>
-          <th>Prop</th>
-          <th>Type</th>
-          <th>Default</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-        {sortedProps.map((prop) => (
+{
+  entry ? (
+    <div class="cxd-prop-table-wrapper">
+      <table class="cxd-prop-table table">
+        <thead>
           <tr>
-            <td><code>{prop.name}{prop.required ? '' : '?'}</code></td>
-            <td><code>{prop.type.name}</code></td>
-            <td>{prop.defaultValue ? <code>{prop.defaultValue.value}</code> : <span>—</span>}</td>
-            <td set:html={renderDescription(prop.description)} />
+            <th class="w-25">Prop</th>
+            <th>Type</th>
+            <th class="w-25">Default</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
-) : (
-  <p class="text-muted">API documentation not available for {component}.</p>
-)}
+        </thead>
+        <tbody>
+          {sortedProps.map((prop) => (
+            <tr>
+              <td class="border-0 pb-0">
+                <code>
+                  {prop.name}
+                  {prop.required ? '' : '?'}
+                </code>
+              </td>
+              <td class="border-0 pb-0">
+                <code>{prop.type.name}</code>
+              </td>
+              <td class="border-0 pb-0">{prop.defaultValue ? <code>{prop.defaultValue.value}</code> : <span>—</span>}</td>
+            </tr>
+            <tr>
+              <td colspan="3" set:html={renderDescription(prop.description)} />
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  ) : (
+    <p class="text-muted">API documentation not available for {component}.</p>
+  )
+}
