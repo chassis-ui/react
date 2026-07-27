@@ -9,7 +9,7 @@ export interface CxSpinnerProps extends HTMLAttributes<HTMLDivElement | HTMLSpan
    */
   className?: string
   /**
-   * Sets the context context of the component to one of Chassis themed colors.
+   * Sets the context color of the component to one of Chassis themed colors.
    */
   context?: ContextColor
   /**

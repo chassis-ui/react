@@ -8,20 +8,22 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const COMPONENTS_DIR = path.resolve(__dirname, '../packages/react/src/components')
 const OUTPUT_DIR = path.resolve(__dirname, '../packages/site/content/api')
 
-const parser = withCustomConfig(
-  path.resolve(__dirname, '../packages/react/tsconfig.json'),
-  {
-    shouldExtractLiteralValuesFromEnum: true,
-    shouldRemoveUndefinedFromOptional: true,
-    propFilter: (prop) => {
-      if (prop.parent) {
-        if (/node_modules\/(react-aria|react-stately|@react-aria|@react-stately|@react-types|@internationalized)\//.test(prop.parent.fileName)) return true
-        return !prop.parent.fileName.includes('node_modules')
-      }
-      return true
+const parser = withCustomConfig(path.resolve(__dirname, '../packages/react/tsconfig.json'), {
+  shouldExtractLiteralValuesFromEnum: true,
+  shouldRemoveUndefinedFromOptional: true,
+  propFilter: (prop) => {
+    if (prop.parent) {
+      if (
+        /node_modules\/(react-aria|react-stately|@react-aria|@react-stately|@react-types|@internationalized)\//.test(
+          prop.parent.fileName
+        )
+      )
+        return true
+      return !prop.parent.fileName.includes('node_modules')
     }
+    return true
   }
-)
+})
 
 function findComponentFiles(dir: string): string[] {
   const results: string[] = []

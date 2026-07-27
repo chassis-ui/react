@@ -40,6 +40,7 @@
     "mdast-util-mdx-jsx": "^3.2.0",
     "pagefind": "^1.5.2",
     "postcss": "^8.5.0",
+    "postcss-prefix-custom-properties": "^0.1.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-stately": "^3.0.0",

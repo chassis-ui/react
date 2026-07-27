@@ -9,11 +9,11 @@ export interface CxCardProps extends HTMLAttributes<HTMLDivElement> {
    */
   className?: string
   /**
-   * Sets the context context of the component to one of Chassis themed colors.
+   * Sets the context color of the component to one of Chassis themed colors.
    */
   context?: ContextColor
   /**
-   * Sets the text context context of the component to one of Chassis themed colors.
+   * Sets the text context color of the component to one of Chassis themed colors.
    *
    * @type ContextColor | 'main' | 'subtle' | 'slight' | 'inverse' | 'solid' | 'highlight' | 'idle' | 'disabled' | 'hover' | 'press' | string
    */

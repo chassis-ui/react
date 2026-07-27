@@ -27,7 +27,7 @@ export interface CxToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'titl
    */
   className?: string
   /**
-   * Sets the context context of the component to one of Chassis themed colors.
+   * Sets the context color of the component to one of Chassis themed colors.
    */
   context?: ContextColor
   /**
