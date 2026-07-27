@@ -1,69 +1,84 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
+import { axe } from 'jest-axe'
 
 import { CxAccordion, CxAccordionItem } from '../../../index'
 
-test('loads and displays CxAccordion component', async () => {
-  const { container } = render(<CxAccordion>Test</CxAccordion>)
-  expect(container).toMatchSnapshot()
-})
+describe('CxAccordion', () => {
+  describe('rendering', () => {
+    test('renders a div with the base class', () => {
+      render(<CxAccordion>Test</CxAccordion>)
+      expect(screen.getByText('Test')).toHaveClass('accordion')
+    })
 
-test('CxAccordion customize', async () => {
-  const { container } = render(<CxAccordion className="bazinga">Test</CxAccordion>)
-  expect(container.firstChild).toHaveClass('bazinga')
-  expect(container).toMatchSnapshot()
-})
+    test('matches the baseline markup snapshot', () => {
+      const { container } = render(<CxAccordion>Test</CxAccordion>)
+      expect(container).toMatchSnapshot()
+    })
 
-test('CxAccordion use case test', async () => {
-  vi.useFakeTimers()
-  const { rerender } = render(<CxAccordion flush={false}>Test</CxAccordion>)
-  expect(screen.getByText('Test')).toHaveClass('accordion')
-  expect(screen.getByText('Test')).not.toHaveClass('flush')
-  rerender(<CxAccordion flush={true}>Test</CxAccordion>)
-  expect(screen.getByText('Test')).toHaveClass('accordion')
-  expect(screen.getByText('Test')).toHaveClass('flush')
-  vi.runAllTimers()
-  expect(screen.getByText('Test')).toHaveClass('accordion')
-  expect(screen.getByText('Test')).toHaveClass('flush')
-  rerender(<CxAccordion flush={false}>Test</CxAccordion>)
-  expect(screen.getByText('Test')).toHaveClass('accordion')
-  expect(screen.getByText('Test')).not.toHaveClass('flush')
-  vi.runAllTimers()
-  expect(screen.getByText('Test')).toHaveClass('accordion')
-  expect(screen.getByText('Test')).not.toHaveClass('flush')
-  vi.runAllTimers()
-  vi.useRealTimers()
-})
+    test('applies flush, size and caretEnd classes with className', () => {
+      const { container } = render(
+        <CxAccordion className="bazinga" flush size="large" caretEnd>
+          Test
+        </CxAccordion>
+      )
+      expect(container.firstChild).toHaveClass(
+        'accordion',
+        'flush',
+        'caret-end',
+        'large',
+        'bazinga'
+      )
+    })
+  })
 
-test('CxAccordion applies size and caretEnd classes', async () => {
-  const { rerender } = render(<CxAccordion size="large">Test</CxAccordion>)
-  expect(screen.getByText('Test')).toHaveClass('large')
-  rerender(<CxAccordion size="small">Test</CxAccordion>)
-  expect(screen.getByText('Test')).toHaveClass('small')
-  rerender(<CxAccordion caretEnd>Test</CxAccordion>)
-  expect(screen.getByText('Test')).toHaveClass('caret-end')
-})
+  describe('data-driven items', () => {
+    test('renders items from the items prop, ignoring children', () => {
+      render(
+        <CxAccordion
+          items={[
+            { id: 'a', header: 'Header A', body: 'Body A', open: true },
+            { id: 'b', header: 'Header B', body: 'Body B' }
+          ]}
+        />
+      )
+      expect(screen.getByText('Header A')).toBeInTheDocument()
+      expect(screen.getByText('Body A')).toBeInTheDocument()
+      expect(screen.getByText('Header B')).toBeInTheDocument()
+      expect(screen.getByText('Body B')).toBeInTheDocument()
+    })
+  })
 
-test('CxAccordion renders items from JSON content', async () => {
-  render(
-    <CxAccordion
-      items={[
-        { id: 'a', header: 'Header A', body: 'Body A', open: true },
-        { id: 'b', header: 'Header B', body: 'Body B' }
-      ]}
-    />
-  )
-  expect(screen.getByText('Header A')).toBeInTheDocument()
-  expect(screen.getByText('Body A')).toBeInTheDocument()
-  expect(screen.getByText('Header B')).toBeInTheDocument()
-  expect(screen.getByText('Body B')).toBeInTheDocument()
-})
+  describe('shared group name', () => {
+    test('sets the shared group name for items that do not set their own', () => {
+      const { container } = render(
+        <CxAccordion name="shared-name">
+          <CxAccordionItem>Item</CxAccordionItem>
+        </CxAccordion>
+      )
+      expect(container.querySelector('details')).toHaveAttribute('name', 'shared-name')
+    })
+  })
 
-test('CxAccordion name sets the shared group name for items', async () => {
-  const { container } = render(
-    <CxAccordion name="shared-name">
-      <CxAccordionItem>Item</CxAccordionItem>
-    </CxAccordion>
-  )
-  expect(container.querySelector('details')).toHaveAttribute('name', 'shared-name')
+  describe('ref forwarding', () => {
+    test('forwards a ref to the underlying div', () => {
+      const ref = React.createRef<HTMLDivElement>()
+      render(<CxAccordion ref={ref}>Test</CxAccordion>)
+      expect(ref.current).toBeInstanceOf(HTMLDivElement)
+    })
+  })
+
+  describe('accessibility', () => {
+    test('has no axe violations', async () => {
+      const { container } = render(
+        <CxAccordion
+          items={[
+            { id: 'a', header: 'Header A', body: 'Body A', open: true },
+            { id: 'b', header: 'Header B', body: 'Body B' }
+          ]}
+        />
+      )
+      expect(await axe(container)).toHaveNoViolations()
+    })
+  })
 })

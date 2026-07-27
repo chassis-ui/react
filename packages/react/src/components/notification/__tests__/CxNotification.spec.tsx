@@ -1,47 +1,78 @@
 import * as React from 'react'
 import { act } from 'react'
-import { render, fireEvent } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { axe } from 'jest-axe'
 
 import { CxNotification } from '../../../index'
 
-test('loads and displays CxNotification component', async () => {
-  const { container } = render(<CxNotification context="primary">Test</CxNotification>)
-  expect(container).toMatchSnapshot()
-})
+describe('CxNotification', () => {
+  describe('rendering', () => {
+    test('renders a div with the base class and an alert role', () => {
+      render(<CxNotification context="primary">Test</CxNotification>)
+      const notification = screen.getByRole('alert')
+      expect(notification).toHaveClass('notification', 'primary')
+    })
 
-test('CxNotification customize', async () => {
-  const { container } = render(
-    <CxNotification
-      context="secondary"
-      className="bazinga"
-      dismissible={true}
-      variant="solid"
-      visible={true}
-    >
-      Test
-    </CxNotification>
-  )
-  expect(container).toMatchSnapshot()
-  expect(container.firstChild).toHaveClass('bazinga')
-  expect(container.firstChild).toHaveClass('bg-secondary')
-  expect(container.firstChild).toHaveClass('fg-white')
-})
+    test('matches the baseline markup snapshot', () => {
+      const { container } = render(<CxNotification context="primary">Test</CxNotification>)
+      expect(container).toMatchSnapshot()
+    })
 
-test('CxNotification click close button', async () => {
-  vi.useFakeTimers()
-  const onClose = vi.fn()
-  render(
-    <CxNotification context="primary" dismissible onClose={onClose}>
-      Test
-    </CxNotification>
-  )
-  expect(onClose).toHaveBeenCalledTimes(0)
-  const btn = document.querySelector('.close-button')
-  if (btn !== null) {
-    fireEvent.click(btn)
-  }
-  expect(onClose).toHaveBeenCalledTimes(1)
-  act(() => vi.runAllTimers())
-  expect(onClose).toHaveBeenCalledTimes(1)
-  vi.useRealTimers()
+    test('applies the solid variant background/foreground classes with className', () => {
+      render(
+        <CxNotification context="secondary" className="bazinga" variant="solid">
+          Test
+        </CxNotification>
+      )
+      const notification = screen.getByRole('alert')
+      expect(notification).toHaveClass('bg-secondary', 'fg-white', 'bazinga')
+    })
+  })
+
+  describe('dismiss behavior', () => {
+    test('renders a close button when dismissible and calls onClose on click', async () => {
+      vi.useFakeTimers()
+      const user = userEvent.setup({
+        advanceTimers: (ms) => {
+          vi.advanceTimersByTime(ms)
+        }
+      })
+      const onClose = vi.fn()
+      render(
+        <CxNotification context="primary" dismissible onClose={onClose}>
+          Test
+        </CxNotification>
+      )
+      expect(onClose).toHaveBeenCalledTimes(0)
+      await user.click(screen.getByRole('button', { name: 'Close' }))
+      act(() => vi.runAllTimers())
+      expect(onClose).toHaveBeenCalledTimes(1)
+      vi.useRealTimers()
+    })
+
+    test('does not render a close button by default', () => {
+      render(<CxNotification context="primary">Test</CxNotification>)
+      expect(screen.queryByRole('button', { name: 'Close' })).not.toBeInTheDocument()
+    })
+  })
+
+  describe('ref forwarding', () => {
+    test('forwards a ref to the underlying div', () => {
+      const ref = React.createRef<HTMLDivElement>()
+      render(<CxNotification ref={ref}>Test</CxNotification>)
+      expect(ref.current).toBeInstanceOf(HTMLDivElement)
+    })
+  })
+
+  describe('accessibility', () => {
+    test('has no axe violations', async () => {
+      const { container } = render(
+        <CxNotification context="primary" dismissible>
+          Test
+        </CxNotification>
+      )
+      expect(await axe(container)).toHaveNoViolations()
+    })
+  })
 })

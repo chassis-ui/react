@@ -1,31 +1,14 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxProgressBar customize 1`] = `
+exports[`CxProgressBar > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <div
     aria-valuemax="100"
     aria-valuemin="0"
     aria-valuenow="50"
-    class="progress-bar warning progress-bar-striped progress-bar-animated bazinga"
-    role="progressbar"
-    style="width: 50%;"
-  >
-    Test
-  </div>
-</div>
-`;
-
-exports[`loads and displays CxProgressBar component 1`] = `
-<div>
-  <div
-    aria-valuemax="100"
-    aria-valuemin="0"
-    aria-valuenow="0"
     class="progress-bar warning"
     role="progressbar"
-    style="width: 0%;"
-  >
-    Test
-  </div>
+    style="width: 50%;"
+  />
 </div>
 `;

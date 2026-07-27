@@ -1,21 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxNotification customize 1`] = `
-<div>
-  <div
-    class="notification bg-secondary fg-white bazinga show"
-    role="alert"
-  >
-    Test
-    <button
-      aria-label="Close"
-      class="close-button"
-    />
-  </div>
-</div>
-`;
-
-exports[`loads and displays CxNotification component 1`] = `
+exports[`CxNotification > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <div
     class="notification primary show"

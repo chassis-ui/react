@@ -1,21 +1,22 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxAccordionItem customize 1`] = `
-<div>
-  <details
-    class="accordion-item bazinga"
-  >
-    Test
-  </details>
-</div>
-`;
-
-exports[`loads and displays CxAccordionItem component 1`] = `
+exports[`CxAccordionItem > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <details
     class="accordion-item"
   >
-    Test
+    <summary>
+      <span
+        class="accordion-title"
+      >
+        Header
+      </span>
+    </summary>
+    <div
+      class="accordion-body"
+    >
+      Body
+    </div>
   </details>
 </div>
 `;

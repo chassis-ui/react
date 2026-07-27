@@ -1,16 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxAccordionButton customize 1`] = `
-<div>
-  <span
-    class="accordion-title bazinga"
-  >
-    Test
-  </span>
-</div>
-`;
-
-exports[`loads and displays CxAccordionButton component 1`] = `
+exports[`CxAccordionButton > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <span
     class="accordion-title"

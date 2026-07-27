@@ -1,38 +1,55 @@
 import * as React from 'react'
 import { render } from '@testing-library/react'
+import { axe } from 'jest-axe'
 
 import { CxButtonGroup, CxButton } from '../../../index'
 
-test('loads and displays CxButtonGroup component', async () => {
-  const { container } = render(<CxButtonGroup></CxButtonGroup>)
-  expect(container).toMatchSnapshot()
-})
+describe('CxButtonGroup', () => {
+  describe('rendering', () => {
+    test('renders a div with the base class', () => {
+      const { container } = render(<CxButtonGroup>Test</CxButtonGroup>)
+      expect(container.firstChild).toHaveClass('button-group')
+      expect(container.firstChild?.nodeName).toBe('DIV')
+    })
 
-test('CxButtonGroup customize', async () => {
-  const { container } = render(
-    <CxButtonGroup className="bazinga" size="large" vertical={false}>
-      <CxButton>Test A</CxButton>
-      <CxButton>Test B</CxButton>
-      <CxButton>Test C</CxButton>
-    </CxButtonGroup>
-  )
-  expect(container).toMatchSnapshot()
-  expect(container.firstChild).toHaveClass('bazinga')
-  expect(container.firstChild).toHaveClass('button-group')
-  expect(container.firstChild).toHaveClass('large')
-})
+    test('matches the baseline markup snapshot', () => {
+      const { container } = render(
+        <CxButtonGroup>
+          <CxButton>A</CxButton>
+          <CxButton>B</CxButton>
+          <CxButton>C</CxButton>
+        </CxButtonGroup>
+      )
+      expect(container).toMatchSnapshot()
+    })
 
-test('CxButtonGroup customize vertical', async () => {
-  const { container } = render(
-    <CxButtonGroup className="bazinga" size="large" vertical={true}>
-      <CxButton>Test A</CxButton>
-      <CxButton>Test B</CxButton>
-      <CxButton>Test C</CxButton>
-    </CxButtonGroup>
-  )
-  expect(container).toMatchSnapshot()
-  expect(container.firstChild).toHaveClass('bazinga')
-  expect(container.firstChild).toHaveClass('button-group')
-  expect(container.firstChild).toHaveClass('vertical')
-  expect(container.firstChild).toHaveClass('large')
+    test('applies size and vertical classes with className', () => {
+      const { container } = render(
+        <CxButtonGroup className="bazinga" size="large" vertical>
+          <CxButton>A</CxButton>
+        </CxButtonGroup>
+      )
+      expect(container.firstChild).toHaveClass('button-group', 'large', 'vertical', 'bazinga')
+    })
+  })
+
+  describe('ref forwarding', () => {
+    test('forwards a ref to the underlying div', () => {
+      const ref = React.createRef<HTMLDivElement>()
+      render(<CxButtonGroup ref={ref}>Test</CxButtonGroup>)
+      expect(ref.current).toBeInstanceOf(HTMLDivElement)
+    })
+  })
+
+  describe('accessibility', () => {
+    test('has no axe violations', async () => {
+      const { container } = render(
+        <CxButtonGroup role="group" aria-label="Actions">
+          <CxButton>A</CxButton>
+          <CxButton>B</CxButton>
+        </CxButtonGroup>
+      )
+      expect(await axe(container)).toHaveNoViolations()
+    })
+  })
 })

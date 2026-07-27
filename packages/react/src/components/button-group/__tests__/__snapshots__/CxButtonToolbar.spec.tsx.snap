@@ -1,10 +1,10 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxButtonToolbar customize 1`] = `
+exports[`CxButtonToolbar > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <div
     aria-label="Bazinga"
-    class="button-toolbar bazinga"
+    class="button-toolbar"
     role="group"
   >
     <div
@@ -23,12 +23,6 @@ exports[`CxButtonToolbar customize 1`] = `
       >
         2
       </button>
-      <button
-        class="button primary"
-        type="button"
-      >
-        3
-      </button>
     </div>
     <div
       class="button-group"
@@ -46,21 +40,7 @@ exports[`CxButtonToolbar customize 1`] = `
       >
         B
       </button>
-      <button
-        class="button primary"
-        type="button"
-      >
-        C
-      </button>
     </div>
   </div>
-</div>
-`;
-
-exports[`loads and displays CxButtonToolbar component 1`] = `
-<div>
-  <div
-    class="button-toolbar"
-  />
 </div>
 `;

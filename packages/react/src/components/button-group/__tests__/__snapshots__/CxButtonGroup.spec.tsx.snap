@@ -1,63 +1,28 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxButtonGroup customize 1`] = `
-<div>
-  <div
-    class="button-group large bazinga"
-  >
-    <button
-      class="button primary"
-      type="button"
-    >
-      Test A
-    </button>
-    <button
-      class="button primary"
-      type="button"
-    >
-      Test B
-    </button>
-    <button
-      class="button primary"
-      type="button"
-    >
-      Test C
-    </button>
-  </div>
-</div>
-`;
-
-exports[`CxButtonGroup customize vertical 1`] = `
-<div>
-  <div
-    class="button-group vertical large bazinga"
-  >
-    <button
-      class="button primary"
-      type="button"
-    >
-      Test A
-    </button>
-    <button
-      class="button primary"
-      type="button"
-    >
-      Test B
-    </button>
-    <button
-      class="button primary"
-      type="button"
-    >
-      Test C
-    </button>
-  </div>
-</div>
-`;
-
-exports[`loads and displays CxButtonGroup component 1`] = `
+exports[`CxButtonGroup > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <div
     class="button-group"
-  />
+  >
+    <button
+      class="button primary"
+      type="button"
+    >
+      A
+    </button>
+    <button
+      class="button primary"
+      type="button"
+    >
+      B
+    </button>
+    <button
+      class="button primary"
+      type="button"
+    >
+      C
+    </button>
+  </div>
 </div>
 `;

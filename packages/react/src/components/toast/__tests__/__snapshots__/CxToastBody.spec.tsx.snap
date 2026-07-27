@@ -1,16 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxToastBody customize 1`] = `
-<div>
-  <div
-    class="toast-body bazinga"
-  >
-    Test
-  </div>
-</div>
-`;
-
-exports[`loads and displays CxToastBody component 1`] = `
+exports[`CxToastBody > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <div
     class="toast-body"

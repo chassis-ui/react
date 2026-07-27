@@ -1,16 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxNotificationHeading customize 1`] = `
-<div>
-  <h3
-    class="notification-heading bazinga"
-  >
-    Test
-  </h3>
-</div>
-`;
-
-exports[`loads and displays CxNotificationHeading component 1`] = `
+exports[`CxNotificationHeading > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <h4
     class="notification-heading"

@@ -1,16 +1,54 @@
 import * as React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
+import { axe } from 'jest-axe'
 
 import { CxToastHeader } from '../../../index'
+import { CxToastContext } from '../CxToast'
 
-test('loads and displays CxToastHeader component', async () => {
-  const { container } = render(<CxToastHeader>Test</CxToastHeader>)
-  expect(container).toMatchSnapshot()
-})
+describe('CxToastHeader', () => {
+  describe('rendering', () => {
+    test('renders a div with the base class and className merged', () => {
+      const { container } = render(<CxToastHeader className="bazinga">Test</CxToastHeader>)
+      expect(container.firstChild).toHaveClass('toast-header', 'bazinga')
+      expect(container.firstChild?.nodeName).toBe('DIV')
+    })
 
-test('CxToastHeader customize', async () => {
-  const { container } = render(<CxToastHeader className="bazinga">Test</CxToastHeader>)
-  expect(container).toMatchSnapshot()
-  expect(container.firstChild).toHaveClass('bazinga')
-  expect(container.firstChild).toHaveClass('toast-header')
+    test('matches the baseline markup snapshot', () => {
+      const { container } = render(<CxToastHeader>Test</CxToastHeader>)
+      expect(container).toMatchSnapshot()
+    })
+
+    test('does not render a close button by default', () => {
+      render(<CxToastHeader>Test</CxToastHeader>)
+      expect(screen.queryByRole('button', { name: 'Close' })).not.toBeInTheDocument()
+    })
+
+    test('renders a close button when closeButton is set', () => {
+      render(
+        <CxToastContext.Provider value={{ setVisible: vi.fn() }}>
+          <CxToastHeader closeButton>Test</CxToastHeader>
+        </CxToastContext.Provider>
+      )
+      expect(screen.getByRole('button', { name: 'Close' })).toBeInTheDocument()
+    })
+  })
+
+  describe('ref forwarding', () => {
+    test('forwards a ref to the underlying div', () => {
+      const ref = React.createRef<HTMLDivElement>()
+      render(<CxToastHeader ref={ref}>Test</CxToastHeader>)
+      expect(ref.current).toBeInstanceOf(HTMLDivElement)
+    })
+  })
+
+  describe('accessibility', () => {
+    test('has no axe violations', async () => {
+      const { container } = render(
+        <CxToastContext.Provider value={{ setVisible: vi.fn() }}>
+          <CxToastHeader closeButton>Test</CxToastHeader>
+        </CxToastContext.Provider>
+      )
+      expect(await axe(container)).toHaveNoViolations()
+    })
+  })
 })
