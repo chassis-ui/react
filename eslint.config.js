@@ -10,9 +10,13 @@ import testingLibraryPlugin from 'eslint-plugin-testing-library'
 import reactPlugin from 'eslint-plugin-react'
 import reactHooksPlugin from 'eslint-plugin-react-hooks'
 
-// The recommended preset is all error-level, which would fail the ~620 pre-existing
-// violations in the current (mostly snapshot-only) spec suite. Downgrade to warnings so it
-// nudges new/touched tests toward better patterns without blocking on the existing backlog.
+// The recommended preset is all error-level. It originally would have failed ~620 pre-existing
+// violations across a then-mostly-snapshot-only spec suite; a subsequent test-modernization pass
+// (see .claude/plans/abstract-snacking-tome.md) brought that down to ~20, concentrated in a
+// handful of Group F components whose existing behavioral tests were deliberately left untouched,
+// plus one not-yet-modernized component (carousel). Kept at warn rather than flipping back to
+// error until that remainder clears, so it nudges new/touched tests toward better patterns
+// without blocking on the tail of the backlog.
 const testingLibraryWarnRules = Object.fromEntries(
   Object.entries(testingLibraryPlugin.configs['flat/react'].rules).map(([rule, config]) =>
     Array.isArray(config) ? [rule, ['warn', ...config.slice(1)]] : [rule, 'warn']

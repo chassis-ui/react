@@ -30,15 +30,16 @@ export default defineConfig({
       provider: 'istanbul',
       include: ['src/**/*.ts', 'src/**/*.tsx'],
       exclude: ['src/**/*.spec.tsx'],
-      // Re-baselined for istanbul-via-Vite instrumentation, which counts statement/line
-      // boundaries slightly differently than ts-jest's TS-compiler-driven transform did (same
-      // source, same tests — no coverage was actually lost). Actual measured coverage on this
-      // commit: statements 89.49%, branches 74.74%, functions 90.52%, lines 91.6%.
+      // Re-baselined after the CxButton-pattern test modernization pass (see the plan at
+      // .claude/plans/abstract-snacking-tome.md): behavioral coverage across the suite pushed
+      // real numbers up from the ts-jest-era baseline (statements 89.49%, branches 74.74%,
+      // functions 90.52%, lines 91.6%) to the current statements 91.53%, branches 79.37%,
+      // functions 93.15%, lines 93.56%.
       thresholds: {
-        statements: 89,
-        branches: 74,
-        functions: 90,
-        lines: 91
+        statements: 91,
+        branches: 79,
+        functions: 93,
+        lines: 93
       }
     }
   }
