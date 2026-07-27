@@ -1,24 +1,9 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxImage customize one 1`] = `
+exports[`CxImage > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <img
-    class="float-end"
-  />
-</div>
-`;
-
-exports[`CxImage customize two 1`] = `
-<div>
-  <img
-    class="d-block mx-auto img-fluid rounded img-thumbnail bazinga"
-  />
-</div>
-`;
-
-exports[`loads and displays CxImage component 1`] = `
-<div>
-  <img
+    alt=""
     class=""
   />
 </div>

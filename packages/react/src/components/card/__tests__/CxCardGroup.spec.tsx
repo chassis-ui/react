@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { render } from '@testing-library/react'
+import { axe } from 'jest-axe'
 
 import {
   CxCard,
@@ -14,38 +15,51 @@ import {
   CxCardGroup
 } from '../../../index'
 
-test('loads and displays CxCardGroup component', async () => {
-  const { container } = render(<CxCardGroup>Test</CxCardGroup>)
-  expect(container).toMatchSnapshot()
-})
+describe('CxCardGroup', () => {
+  describe('rendering', () => {
+    test('renders a div with the base class and className merged', () => {
+      const { container } = render(<CxCardGroup className="bazinga">Test</CxCardGroup>)
+      expect(container.firstChild).toHaveClass('card-group', 'bazinga')
+      expect(container.firstChild?.nodeName).toBe('DIV')
+    })
 
-test('CxCardGroup customize', async () => {
-  const { container } = render(<CxCardGroup className="bazinga">Test</CxCardGroup>)
-  expect(container).toMatchSnapshot()
-  expect(container.firstChild).toHaveClass('bazinga')
-  expect(container.firstChild).toHaveClass('card-group')
-})
+    test('matches the baseline markup snapshot with nested cards', () => {
+      const { container } = render(
+        <CxCardGroup>
+          <CxCard>
+            <CxCardImage component="svg">Image</CxCardImage>
+            <CxCardHeader>Header</CxCardHeader>
+            <CxCardBody>
+              <CxCardTitle>Title</CxCardTitle>
+              <CxCardSubtitle>Subtitle</CxCardSubtitle>
+              <CxCardText>Text</CxCardText>
+              <CxCardLink href="/bazinga">Link</CxCardLink>
+            </CxCardBody>
+            <CxCardFooter>Footer</CxCardFooter>
+          </CxCard>
+          <CxCard>
+            <CxCardBody>
+              <CxCardTitle>Card Title</CxCardTitle>
+            </CxCardBody>
+          </CxCard>
+        </CxCardGroup>
+      )
+      expect(container).toMatchSnapshot()
+    })
+  })
 
-test('CxCardGroup full example', async () => {
-  const { container } = render(
-    <CxCardGroup className="bazinga">
-      <CxCard>
-        <CxCardImage component="svg">Image</CxCardImage>
-        <CxCardHeader>Header</CxCardHeader>
-        <CxCardBody>
-          <CxCardTitle>Title</CxCardTitle>
-          <CxCardSubtitle>Subtitle</CxCardSubtitle>
-          <CxCardText>Text</CxCardText>
-          <CxCardLink>Link</CxCardLink>
-        </CxCardBody>
-        <CxCardFooter>Footer</CxCardFooter>
-      </CxCard>
-      <CxCard>
-        <CxCardBody>
-          <CxCardTitle>Card Title</CxCardTitle>
-        </CxCardBody>
-      </CxCard>
-    </CxCardGroup>
-  )
-  expect(container).toMatchSnapshot()
+  describe('ref forwarding', () => {
+    test('forwards a ref to the underlying div', () => {
+      const ref = React.createRef<HTMLDivElement>()
+      render(<CxCardGroup ref={ref}>Test</CxCardGroup>)
+      expect(ref.current).toBeInstanceOf(HTMLDivElement)
+    })
+  })
+
+  describe('accessibility', () => {
+    test('has no axe violations', async () => {
+      const { container } = render(<CxCardGroup>Test</CxCardGroup>)
+      expect(await axe(container)).toHaveNoViolations()
+    })
+  })
 })

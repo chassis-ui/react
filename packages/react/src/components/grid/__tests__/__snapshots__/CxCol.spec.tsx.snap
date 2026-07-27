@@ -1,26 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxCol customize breakpoints are boolean 1`] = `
-<div>
-  <div
-    class="col-2xlarge col-xlarge col-large col-medium col-small col bazinga"
-  >
-    Test
-  </div>
-</div>
-`;
-
-exports[`CxCol customize breakpoints are numbers 1`] = `
-<div>
-  <div
-    class="2xlarge:col-6 xlarge:col-5 large:col-4 medium:col-3 small:col-2 col-1 bazinga"
-  >
-    Test
-  </div>
-</div>
-`;
-
-exports[`CxCol no-breakpoints 1`] = `
+exports[`CxCol > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <div
     class="col"

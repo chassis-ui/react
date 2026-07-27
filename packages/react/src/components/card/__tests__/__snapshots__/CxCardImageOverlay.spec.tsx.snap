@@ -1,19 +1,11 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxCardImageOverlay customize 1`] = `
-<div>
-  <div
-    class="card-overlay bazinga"
-  >
-    Test
-  </div>
-</div>
-`;
-
-exports[`loads and displays CxCardImageOverlay component 1`] = `
+exports[`CxCardImageOverlay > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <div
     class="card-overlay"
-  />
+  >
+    Test
+  </div>
 </div>
 `;

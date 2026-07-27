@@ -1,19 +1,9 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxCardGroup customize 1`] = `
+exports[`CxCardGroup > rendering > matches the baseline markup snapshot with nested cards 1`] = `
 <div>
   <div
-    class="card-group bazinga"
-  >
-    Test
-  </div>
-</div>
-`;
-
-exports[`CxCardGroup full example 1`] = `
-<div>
-  <div
-    class="card-group bazinga"
+    class="card-group"
   >
     <div
       class="card"
@@ -48,6 +38,7 @@ exports[`CxCardGroup full example 1`] = `
         </p>
         <a
           class="card-link"
+          href="/bazinga"
         >
           Link
         </a>
@@ -71,16 +62,6 @@ exports[`CxCardGroup full example 1`] = `
         </h5>
       </div>
     </div>
-  </div>
-</div>
-`;
-
-exports[`loads and displays CxCardGroup component 1`] = `
-<div>
-  <div
-    class="card-group"
-  >
-    Test
   </div>
 </div>
 `;

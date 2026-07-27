@@ -1,26 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxList context and style 1`] = `
-<div>
-  <ul
-    class="list context primary solid"
-  >
-    Test
-  </ul>
-</div>
-`;
-
-exports[`CxList customize 1`] = `
-<div>
-  <h3
-    class="list xlarge:horizontal flush bazinga"
-  >
-    Test
-  </h3>
-</div>
-`;
-
-exports[`CxList data-driven items 1`] = `
+exports[`CxList > data-driven items > matches the baseline markup snapshot for data-driven items 1`] = `
 <div>
   <ul
     class="list"
@@ -38,18 +18,11 @@ exports[`CxList data-driven items 1`] = `
     >
       Profile
     </a>
-    <a
-      aria-disabled="true"
-      class="list-item context warning list-action disabled"
-      href="#"
-    >
-      Billing
-    </a>
   </ul>
 </div>
 `;
 
-exports[`CxList example 1`] = `
+exports[`CxList > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <ul
     class="list"
@@ -69,26 +42,6 @@ exports[`CxList example 1`] = `
     >
       C
     </li>
-  </ul>
-</div>
-`;
-
-exports[`CxList plain and numbered 1`] = `
-<div>
-  <ol
-    class="list plain numbered"
-  >
-    Test
-  </ol>
-</div>
-`;
-
-exports[`loads and displays CxList component 1`] = `
-<div>
-  <ul
-    class="list"
-  >
-    Test
   </ul>
 </div>
 `;

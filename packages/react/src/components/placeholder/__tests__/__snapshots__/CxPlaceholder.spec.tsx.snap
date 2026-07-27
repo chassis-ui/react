@@ -1,14 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxPlaceholder customize 1`] = `
-<div>
-  <span
-    class="placeholder-glow bg-secondary placeholder-large small:col-7 bazinga"
-  />
-</div>
-`;
-
-exports[`loads and displays CxPlaceholder component 1`] = `
+exports[`CxPlaceholder > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <span
     class="placeholder bg-primary"

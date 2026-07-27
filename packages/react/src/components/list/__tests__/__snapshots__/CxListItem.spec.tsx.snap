@@ -1,19 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxListItem customize 1`] = `
-<div>
-  <button
-    aria-current="page"
-    aria-disabled="true"
-    class="list-item context warning list-action active disabled bazinga active disabled"
-    disabled=""
-  >
-    Test
-  </button>
-</div>
-`;
-
-exports[`loads and displays CxListItem component 1`] = `
+exports[`CxListItem > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <li
     class="list-item"
