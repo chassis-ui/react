@@ -25,7 +25,7 @@ test('renders nothing when the queue is empty and there are no children', async 
 })
 
 test('CxToaster customize', async () => {
-  jest.useFakeTimers()
+  vi.useFakeTimers()
   const { container } = render(
     <>
       <CxToaster className="bazinga" />
@@ -50,40 +50,40 @@ test('CxToaster customize', async () => {
       fireEvent.click(btn)
     }
   })
-  act(() => jest.runAllTimers())
+  act(() => vi.runAllTimers())
   expect(container.firstChild).toHaveClass('bazinga')
   expect(container.firstChild).toHaveClass('toaster')
   expect(container.firstChild).toHaveClass('toast-container')
   expect(document.body.getElementsByClassName('toast').length).toBe(1)
-  jest.useRealTimers()
+  vi.useRealTimers()
 })
 
 test('addToast is callable from outside render (an event handler, not a push prop)', async () => {
-  jest.useFakeTimers()
+  vi.useFakeTimers()
   render(<CxToaster />)
   act(() => {
     addToast('Saved!', { autohide: false })
   })
-  act(() => jest.runAllTimers())
+  act(() => vi.runAllTimers())
   expect(document.body.getElementsByClassName('toast').length).toBe(1)
   expect(document.body.textContent).toContain('Saved!')
-  jest.useRealTimers()
+  vi.useRealTimers()
 })
 
 test('closing a queued toast removes it from the toaster', async () => {
-  jest.useFakeTimers()
+  vi.useFakeTimers()
   render(<CxToaster />)
   act(() => {
     addToast(<CxToastHeader closeButton>Dismiss me</CxToastHeader>, { autohide: false })
   })
-  act(() => jest.runAllTimers())
+  act(() => vi.runAllTimers())
   expect(document.body.getElementsByClassName('toast').length).toBe(1)
 
   const closeBtn = document.querySelector('.close-button')
   act(() => {
     if (closeBtn !== null) fireEvent.click(closeBtn)
   })
-  act(() => jest.runAllTimers())
+  act(() => vi.runAllTimers())
   expect(document.body.getElementsByClassName('toast').length).toBe(0)
-  jest.useRealTimers()
+  vi.useRealTimers()
 })

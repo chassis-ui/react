@@ -71,7 +71,7 @@ test('renders an accessible grid with column headers, rows, and cells', () => {
 })
 
 test('clicking a sortable column header fires onSortChange', () => {
-  const onSortChange = jest.fn()
+  const onSortChange = vi.fn()
   render(<BasicTable onSortChange={onSortChange} />)
   fireEvent.click(screen.getByRole('columnheader', { name: 'Name' }))
   expect(onSortChange).toHaveBeenCalledWith({ column: 'name', direction: 'ascending' })
@@ -86,7 +86,7 @@ test('the active sort column reflects aria-sort', () => {
 })
 
 test('multiple selection mode renders checkboxes and reports selection changes', () => {
-  const onSelectionChange = jest.fn()
+  const onSelectionChange = vi.fn()
   render(<BasicTable onSelectionChange={onSelectionChange} selectionMode="multiple" />)
   const row = screen.getByRole('row', { name: /Mark/ })
   const checkbox = within(row).getByRole('checkbox')
@@ -99,7 +99,7 @@ test('multiple selection mode renders checkboxes and reports selection changes',
 })
 
 test('select-all checkbox selects every row', () => {
-  const onSelectionChange = jest.fn()
+  const onSelectionChange = vi.fn()
   render(<BasicTable onSelectionChange={onSelectionChange} selectionMode="multiple" />)
   const selectAll = screen.getByRole('checkbox', { name: /select all/i })
   act(() => {
@@ -116,7 +116,7 @@ test('a selected row is highlighted with the active class', () => {
 })
 
 test('single selection mode selects a row on click, with no checkboxes', () => {
-  const onSelectionChange = jest.fn()
+  const onSelectionChange = vi.fn()
   render(<BasicTable onSelectionChange={onSelectionChange} selectionMode="single" />)
   expect(screen.queryByRole('checkbox')).not.toBeInTheDocument()
   fireEvent.click(screen.getByRole('rowheader', { name: 'Mark' }))
@@ -125,7 +125,7 @@ test('single selection mode selects a row on click, with no checkboxes', () => {
 })
 
 test('disabled rows cannot be selected', () => {
-  const onSelectionChange = jest.fn()
+  const onSelectionChange = vi.fn()
   render(
     <BasicTable disabledKeys={['1']} onSelectionChange={onSelectionChange} selectionMode="single" />
   )

@@ -13,7 +13,7 @@ test('loads and displays CxPopover component', async () => {
 })
 
 test('CxPopover customize', async () => {
-  jest.useFakeTimers()
+  vi.useFakeTimers()
   let arr, element
   render(
     <CxPopover content="content" title="title" placement="right">
@@ -26,7 +26,7 @@ test('CxPopover customize', async () => {
       fireEvent.click(btn)
     }
   })
-  act(() => jest.runAllTimers())
+  act(() => vi.runAllTimers())
   expect(document.body).toMatchSnapshot()
   let arrLength = document.body.getElementsByClassName('popover').length
   expect(arrLength).toBe(1)
@@ -52,11 +52,11 @@ test('CxPopover customize', async () => {
   } else {
     expect(true).toBe(false)
   }
-  jest.useRealTimers()
+  vi.useRealTimers()
 })
 
 test('CxPopover scopes itself to an open dialog ancestor', async () => {
-  jest.useFakeTimers()
+  vi.useFakeTimers()
   render(
     <dialog open>
       <CxPopover content="content">
@@ -70,22 +70,22 @@ test('CxPopover scopes itself to an open dialog ancestor', async () => {
       fireEvent.click(btn)
     }
   })
-  act(() => jest.runAllTimers())
+  act(() => vi.runAllTimers())
   const dialog = document.body.querySelector('dialog')
   const popover = document.body.querySelector('.popover')
   expect(popover).not.toBeNull()
   expect(dialog?.contains(popover)).toBe(true)
-  jest.useRealTimers()
+  vi.useRealTimers()
 })
 
 test('CxPopover responds to the visible prop changing after mount', async () => {
-  jest.useFakeTimers()
+  vi.useFakeTimers()
   const { rerender } = render(
     <CxPopover content="content" visible={false}>
       <CxButton>Test</CxButton>
     </CxPopover>
   )
-  act(() => jest.runAllTimers())
+  act(() => vi.runAllTimers())
   expect(document.body.getElementsByClassName('popover').length).toBe(0)
 
   rerender(
@@ -93,7 +93,7 @@ test('CxPopover responds to the visible prop changing after mount', async () => 
       <CxButton>Test</CxButton>
     </CxPopover>
   )
-  act(() => jest.runAllTimers())
+  act(() => vi.runAllTimers())
   expect(document.body.getElementsByClassName('popover').length).toBe(1)
 
   rerender(
@@ -101,14 +101,14 @@ test('CxPopover responds to the visible prop changing after mount', async () => 
       <CxButton>Test</CxButton>
     </CxPopover>
   )
-  act(() => jest.runAllTimers())
+  act(() => vi.runAllTimers())
   expect(document.body.getElementsByClassName('popover').length).toBe(0)
-  jest.useRealTimers()
+  vi.useRealTimers()
 })
 
 test("CxPopover preserves the trigger child's own onClick handler", async () => {
-  jest.useFakeTimers()
-  const onClick = jest.fn()
+  vi.useFakeTimers()
+  const onClick = vi.fn()
   render(
     <CxPopover content="content">
       <CxButton onClick={onClick}>Test</CxButton>
@@ -118,14 +118,14 @@ test("CxPopover preserves the trigger child's own onClick handler", async () => 
   act(() => {
     fireEvent.click(btn)
   })
-  act(() => jest.runAllTimers())
+  act(() => vi.runAllTimers())
   expect(onClick).toHaveBeenCalledTimes(1)
   expect(document.body.getElementsByClassName('popover').length).toBe(1)
-  jest.useRealTimers()
+  vi.useRealTimers()
 })
 
 test('CxPopover moves focus into the dialog on open', async () => {
-  jest.useFakeTimers()
+  vi.useFakeTimers()
   render(
     <CxPopover content="content" title="title">
       <CxButton>Test</CxButton>
@@ -135,8 +135,8 @@ test('CxPopover moves focus into the dialog on open', async () => {
   act(() => {
     fireEvent.click(btn)
   })
-  act(() => jest.runAllTimers())
+  act(() => vi.runAllTimers())
   const popover = document.body.querySelector('.popover')
   expect(document.activeElement).toBe(popover)
-  jest.useRealTimers()
+  vi.useRealTimers()
 })

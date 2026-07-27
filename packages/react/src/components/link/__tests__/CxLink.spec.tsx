@@ -21,7 +21,7 @@ test('CxLink customize', async () => {
 })
 
 test('CxLink click on button', async () => {
-  const onClick = jest.fn()
+  const onClick = vi.fn()
   render(
     <CxLink onClick={onClick} className="bazinga">
       Test
@@ -36,7 +36,7 @@ test('CxLink click on button', async () => {
 })
 
 test('CxLink click on disabled button', async () => {
-  const click = jest.fn()
+  const click = vi.fn()
   render(
     <CxLink onClick={click} className="bazinga" component="button" disabled>
       Test

@@ -55,7 +55,7 @@ test('shows the no-results message when nothing matches', async () => {
 })
 
 test('clicking an option selects it, sets the input value, and closes the listbox', async () => {
-  const onChange = jest.fn()
+  const onChange = vi.fn()
   render(<BasicCombobox onChange={onChange} />)
   const input = screen.getByRole('combobox') as HTMLInputElement
   focusInput(input)
@@ -67,7 +67,7 @@ test('clicking an option selects it, sets the input value, and closes the listbo
 })
 
 test('disabled options cannot be selected', async () => {
-  const onChange = jest.fn()
+  const onChange = vi.fn()
   render(<BasicCombobox onChange={onChange} />)
   const input = screen.getByRole('combobox')
   focusInput(input)
@@ -88,7 +88,7 @@ test('creates a hidden input for form submission when name is provided', async (
 })
 
 test('supports controlled value', async () => {
-  const onChange = jest.fn()
+  const onChange = vi.fn()
   const { rerender } = render(<BasicCombobox value="apple" onChange={onChange} />)
   const input = screen.getByRole('combobox') as HTMLInputElement
   expect(input.value).toBe('Apple')

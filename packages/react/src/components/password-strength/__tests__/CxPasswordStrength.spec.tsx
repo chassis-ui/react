@@ -52,7 +52,7 @@ test('custom messages override the defaults', () => {
 })
 
 test('onStrengthChange fires only when the strength level changes', () => {
-  const onStrengthChange = jest.fn()
+  const onStrengthChange = vi.fn()
   const { rerender } = render(<CxPasswordStrength onStrengthChange={onStrengthChange} value="" />)
   expect(onStrengthChange).not.toHaveBeenCalled()
 
@@ -81,7 +81,7 @@ test('custom thresholds shift the level boundaries', () => {
 })
 
 test('disabling a weight via the weights prop excludes that criterion from scoring', () => {
-  const onStrengthChange = jest.fn()
+  const onStrengthChange = vi.fn()
   render(
     <CxPasswordStrength
       onStrengthChange={onStrengthChange}

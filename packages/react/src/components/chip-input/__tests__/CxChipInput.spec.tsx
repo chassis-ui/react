@@ -17,7 +17,7 @@ test('the group becomes a grid once it has tags', () => {
 })
 
 test('typing a value and pressing Enter creates a chip', () => {
-  const onChange = jest.fn()
+  const onChange = vi.fn()
   render(<CxChipInput aria-label="Skills" onChange={onChange} />)
   const input = screen.getByRole('textbox')
   fireEvent.change(input, { target: { value: 'React' } })
@@ -28,7 +28,7 @@ test('typing a value and pressing Enter creates a chip', () => {
 })
 
 test('typing the separator character creates a chip', () => {
-  const onChange = jest.fn()
+  const onChange = vi.fn()
   render(<CxChipInput aria-label="Skills" onChange={onChange} />)
   const input = screen.getByRole('textbox')
   fireEvent.change(input, { target: { value: 'React' } })
@@ -37,7 +37,7 @@ test('typing the separator character creates a chip', () => {
 })
 
 test('pasting separator-delimited text creates multiple chips', () => {
-  const onChange = jest.fn()
+  const onChange = vi.fn()
   render(<CxChipInput aria-label="Skills" onChange={onChange} />)
   const input = screen.getByRole('textbox') as HTMLInputElement
   fireEvent.paste(input, {
@@ -49,7 +49,7 @@ test('pasting separator-delimited text creates multiple chips', () => {
 })
 
 test('duplicate values are rejected unless allowDuplicates is set', () => {
-  const onChange = jest.fn()
+  const onChange = vi.fn()
   render(<CxChipInput aria-label="Skills" defaultValue={['React']} onChange={onChange} />)
   const input = screen.getByRole('textbox')
   fireEvent.change(input, { target: { value: 'React' } })
@@ -58,7 +58,7 @@ test('duplicate values are rejected unless allowDuplicates is set', () => {
 })
 
 test('maxChips prevents adding beyond the limit', () => {
-  const onChange = jest.fn()
+  const onChange = vi.fn()
   render(
     <CxChipInput aria-label="Skills" defaultValue={['React']} maxChips={1} onChange={onChange} />
   )
@@ -69,7 +69,7 @@ test('maxChips prevents adding beyond the limit', () => {
 })
 
 test('clicking a chip close button removes it', () => {
-  const onChange = jest.fn()
+  const onChange = vi.fn()
   render(
     <CxChipInput aria-label="Skills" defaultValue={['React', 'TypeScript']} onChange={onChange} />
   )
@@ -88,7 +88,7 @@ test('backspace on an empty input focuses and selects the last chip', () => {
 })
 
 test('pressing Backspace with a chip focused removes it', () => {
-  const onChange = jest.fn()
+  const onChange = vi.fn()
   render(
     <CxChipInput aria-label="Skills" defaultValue={['React', 'TypeScript']} onChange={onChange} />
   )
@@ -110,7 +110,7 @@ test('creates a hidden input per chip for form submission when name is provided'
 })
 
 test('supports controlled value', () => {
-  const onChange = jest.fn()
+  const onChange = vi.fn()
   const { rerender } = render(
     <CxChipInput aria-label="Skills" onChange={onChange} value={['React']} />
   )

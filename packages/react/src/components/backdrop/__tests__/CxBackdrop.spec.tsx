@@ -9,23 +9,23 @@ test('loads and displays CxBackdrop component', async () => {
 })
 
 test('CxBackdrop customize', async () => {
-  jest.useFakeTimers()
+  vi.useFakeTimers()
   const { container } = render(<CxBackdrop visible={true}>Test</CxBackdrop>)
-  jest.runAllTimers()
+  vi.runAllTimers()
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('modal-backdrop')
-  jest.useRealTimers()
+  vi.useRealTimers()
 })
 
 test('CxBackdrop customize 2', async () => {
-  jest.useFakeTimers()
+  vi.useFakeTimers()
   const { container } = render(
     <CxBackdrop className="bazinga" visible={true}>
       Test
     </CxBackdrop>
   )
-  jest.runAllTimers()
+  vi.runAllTimers()
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')
-  jest.useRealTimers()
+  vi.useRealTimers()
 })

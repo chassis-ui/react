@@ -14,7 +14,7 @@ test('loads and displays CxFormRadio inside a CxFormRadioGroup', async () => {
 })
 
 test('CxFormRadio throws when rendered outside a CxFormRadioGroup', () => {
-  const consoleError = jest.spyOn(console, 'error').mockImplementation(() => undefined)
+  const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined)
   expect(() => render(<CxFormRadio value="a" label="Option A" />)).toThrow(
     'CxFormRadio must be rendered inside a CxFormRadioGroup.'
   )
@@ -52,7 +52,7 @@ test('CxFormRadio button variant', async () => {
 })
 
 test('an uncontrolled radio group toggles selection on click and fires onChange(value)', () => {
-  const onChange = jest.fn()
+  const onChange = vi.fn()
   render(
     <CxFormRadioGroup aria-label="Options" defaultValue="a" onChange={onChange}>
       <CxFormRadio value="a" label="Option A" />
@@ -71,7 +71,7 @@ test('an uncontrolled radio group toggles selection on click and fires onChange(
 })
 
 test('a controlled radio group reflects value and fires onChange(value) without changing itself', () => {
-  const onChange = jest.fn()
+  const onChange = vi.fn()
   render(
     <CxFormRadioGroup aria-label="Options" value="a" onChange={onChange}>
       <CxFormRadio value="a" label="Option A" />

@@ -16,7 +16,7 @@ test('CxModalHeader customize', async () => {
 })
 
 test('CxModalHeader has a close button', async () => {
-  const onDismiss = jest.fn()
+  const onDismiss = vi.fn()
   render(<CxModalHeader className="bazinga">Test</CxModalHeader>)
   expect(onDismiss).toHaveBeenCalledTimes(0)
   const btn = document.querySelector('.close-button')

@@ -24,11 +24,11 @@ test('CxModal customize', async () => {
 })
 
 test('CxModal shows via showModal() and locks body scroll, hides and unlocks on close', async () => {
-  jest.useFakeTimers()
+  vi.useFakeTimers()
   const { container, rerender } = render(<CxModal>Test</CxModal>)
   const dialog = container.querySelector('dialog') as HTMLDialogElement
-  const showModalSpy = jest.spyOn(dialog, 'showModal')
-  const closeSpy = jest.spyOn(dialog, 'close')
+  const showModalSpy = vi.spyOn(dialog, 'showModal')
+  const closeSpy = vi.spyOn(dialog, 'close')
 
   rerender(<CxModal visible>Test</CxModal>)
   expect(showModalSpy).toHaveBeenCalledTimes(1)
@@ -36,16 +36,16 @@ test('CxModal shows via showModal() and locks body scroll, hides and unlocks on 
 
   rerender(<CxModal visible={false}>Test</CxModal>)
   act(() => {
-    jest.runAllTimers()
+    vi.runAllTimers()
   })
   expect(closeSpy).toHaveBeenCalledTimes(1)
   expect(document.documentElement).not.toHaveStyle({ overflow: 'hidden' })
-  jest.useRealTimers()
+  vi.useRealTimers()
 })
 
 test('CxModal closes on Escape (modal, native cancel event)', async () => {
-  jest.useFakeTimers()
-  const onClose = jest.fn()
+  vi.useFakeTimers()
+  const onClose = vi.fn()
   const { container } = render(
     <CxModal onClose={onClose} visible>
       Test
@@ -55,15 +55,15 @@ test('CxModal closes on Escape (modal, native cancel event)', async () => {
   expect(onClose).toHaveBeenCalledTimes(0)
   fireEvent(dialog, new Event('cancel', { cancelable: true }))
   act(() => {
-    jest.runAllTimers()
+    vi.runAllTimers()
   })
   expect(onClose).toHaveBeenCalledTimes(1)
-  jest.useRealTimers()
+  vi.useRealTimers()
 })
 
 test('CxModal closes on Escape (non-modal, keydown fallback)', async () => {
-  jest.useFakeTimers()
-  const onClose = jest.fn()
+  vi.useFakeTimers()
+  const onClose = vi.fn()
   const { container } = render(
     <CxModal modal={false} onClose={onClose} visible>
       Test
@@ -72,16 +72,16 @@ test('CxModal closes on Escape (non-modal, keydown fallback)', async () => {
   const dialog = container.querySelector('dialog') as HTMLDialogElement
   fireEvent.keyDown(dialog, { key: 'Escape', code: 'Escape', keyCode: 27, charCode: 27 })
   act(() => {
-    jest.runAllTimers()
+    vi.runAllTimers()
   })
   expect(onClose).toHaveBeenCalledTimes(1)
-  jest.useRealTimers()
+  vi.useRealTimers()
 })
 
 test('CxModal keyboard=false blocks Escape and bounces instead', async () => {
-  jest.useFakeTimers()
-  const onClose = jest.fn()
-  const onClosePrevented = jest.fn()
+  vi.useFakeTimers()
+  const onClose = vi.fn()
+  const onClosePrevented = vi.fn()
   const { container } = render(
     <CxModal keyboard={false} onClose={onClose} onClosePrevented={onClosePrevented} visible>
       Test
@@ -92,16 +92,16 @@ test('CxModal keyboard=false blocks Escape and bounces instead', async () => {
   expect(onClosePrevented).toHaveBeenCalledTimes(1)
   expect(dialog).toHaveClass('dialog-static')
   act(() => {
-    jest.runAllTimers()
+    vi.runAllTimers()
   })
   expect(onClose).toHaveBeenCalledTimes(0)
   expect(dialog).not.toHaveClass('dialog-static')
-  jest.useRealTimers()
+  vi.useRealTimers()
 })
 
 test('CxModal closes on backdrop click', async () => {
-  jest.useFakeTimers()
-  const onClose = jest.fn()
+  vi.useFakeTimers()
+  const onClose = vi.fn()
   const { container } = render(
     <CxModal onClose={onClose} visible>
       <div>Content</div>
@@ -112,14 +112,14 @@ test('CxModal closes on backdrop click', async () => {
   expect(onClose).toHaveBeenCalledTimes(0)
   fireEvent.click(dialog)
   act(() => {
-    jest.runAllTimers()
+    vi.runAllTimers()
   })
   expect(onClose).toHaveBeenCalledTimes(1)
-  jest.useRealTimers()
+  vi.useRealTimers()
 })
 
 test('CxModal restores focus to the trigger element after closing', async () => {
-  jest.useFakeTimers()
+  vi.useFakeTimers()
   function Wrapper() {
     const [visible, setVisible] = React.useState(false)
     return (
@@ -143,16 +143,16 @@ test('CxModal restores focus to the trigger element after closing', async () => 
   const dialog = document.querySelector('dialog.modal') as HTMLDialogElement
   fireEvent(dialog, new Event('cancel', { cancelable: true }))
   act(() => {
-    jest.runAllTimers()
+    vi.runAllTimers()
   })
   expect(document.activeElement).toBe(trigger)
-  jest.useRealTimers()
+  vi.useRealTimers()
 })
 
 test('CxModal backdrop="static" bounces instead of closing on backdrop click', async () => {
-  jest.useFakeTimers()
-  const onClose = jest.fn()
-  const onClosePrevented = jest.fn()
+  vi.useFakeTimers()
+  const onClose = vi.fn()
+  const onClosePrevented = vi.fn()
   const { container } = render(
     <CxModal backdrop="static" onClose={onClose} onClosePrevented={onClosePrevented} visible>
       Test
@@ -163,8 +163,8 @@ test('CxModal backdrop="static" bounces instead of closing on backdrop click', a
   expect(onClosePrevented).toHaveBeenCalledTimes(1)
   expect(dialog).toHaveClass('dialog-static')
   act(() => {
-    jest.runAllTimers()
+    vi.runAllTimers()
   })
   expect(onClose).toHaveBeenCalledTimes(0)
-  jest.useRealTimers()
+  vi.useRealTimers()
 })

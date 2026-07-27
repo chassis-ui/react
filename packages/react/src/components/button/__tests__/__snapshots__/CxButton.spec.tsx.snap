@@ -1,39 +1,12 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxButton customize 1`] = `
-<div>
-  <span
-    aria-current="page"
-    aria-disabled="true"
-    class="button warning outline large rounded bazinga active disabled"
-    data-react-aria-pressable="true"
-    disabled=""
-    role="button"
-  >
-    Test
-  </span>
-</div>
-`;
-
-exports[`CxButton customize witch href 1`] = `
-<div>
-  <a
-    class="button primary"
-    href="/bazinga"
-    type="button"
-  >
-    Test
-  </a>
-</div>
-`;
-
-exports[`loads and displays CxButton component 1`] = `
+exports[`CxButton > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <button
     class="button primary"
     type="button"
   >
-    Test
+    Save
   </button>
 </div>
 `;

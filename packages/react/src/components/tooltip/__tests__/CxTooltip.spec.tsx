@@ -13,7 +13,7 @@ test('loads and displays CxTooltip component', async () => {
 })
 
 test('CxTooltip customize', async () => {
-  jest.useFakeTimers()
+  vi.useFakeTimers()
   render(
     <CxTooltip trigger="hover" placement="right" content="content">
       <CxLink className="link">Test</CxLink>
@@ -23,13 +23,15 @@ test('CxTooltip customize', async () => {
   act(() => {
     if (link !== null) {
       // react-aria only treats a hover as pointer-triggered (as opposed to touch/virtual) once
-      // it's seen a real pointer-ish event on the page — establish that modality first.
-      fireEvent.mouseMove(document.body)
-      fireEvent.mouseEnter(link)
+      // it's seen a real pointer-ish event on the page — establish that modality first. Needs
+      // actual PointerEvents (not mouse events) for react-aria to recognize the modality under
+      // this jsdom version.
+      fireEvent.pointerMove(document.body)
+      fireEvent.pointerEnter(link)
     }
   })
-  act(() => jest.runAllTimers())
-  act(() => jest.runAllTimers())
+  act(() => vi.runAllTimers())
+  act(() => vi.runAllTimers())
   expect(document.body).toMatchSnapshot()
   expect(document.body.getElementsByClassName('tooltip').length).toBe(1)
   expect(document.body.getElementsByClassName('cx-tooltip-auto').length).toBe(1)
@@ -39,11 +41,11 @@ test('CxTooltip customize', async () => {
   expect(inner[0].innerHTML).toBe('content')
   const tooltip = document.body.getElementsByClassName('tooltip')[0]
   expect(tooltip.getAttribute('data-cx-placement')).toBeTruthy()
-  jest.useRealTimers()
+  vi.useRealTimers()
 })
 
 test('CxTooltip scopes itself to an open dialog ancestor', async () => {
-  jest.useFakeTimers()
+  vi.useFakeTimers()
   render(
     <dialog open>
       <CxTooltip trigger="hover" content="content">
@@ -54,26 +56,26 @@ test('CxTooltip scopes itself to an open dialog ancestor', async () => {
   const link = document.querySelector('.link')
   act(() => {
     if (link !== null) {
-      fireEvent.mouseMove(document.body)
-      fireEvent.mouseEnter(link)
+      fireEvent.pointerMove(document.body)
+      fireEvent.pointerEnter(link)
     }
   })
-  act(() => jest.runAllTimers())
+  act(() => vi.runAllTimers())
   const dialog = document.body.querySelector('dialog')
   const tooltip = document.body.querySelector('.tooltip')
   expect(tooltip).not.toBeNull()
   expect(dialog?.contains(tooltip)).toBe(true)
-  jest.useRealTimers()
+  vi.useRealTimers()
 })
 
 test('CxTooltip responds to the visible prop changing after mount', async () => {
-  jest.useFakeTimers()
+  vi.useFakeTimers()
   const { rerender } = render(
     <CxTooltip content="content" visible={false}>
       <CxLink className="link">Test</CxLink>
     </CxTooltip>
   )
-  act(() => jest.runAllTimers())
+  act(() => vi.runAllTimers())
   expect(document.body.getElementsByClassName('tooltip').length).toBe(0)
 
   rerender(
@@ -81,7 +83,7 @@ test('CxTooltip responds to the visible prop changing after mount', async () => 
       <CxLink className="link">Test</CxLink>
     </CxTooltip>
   )
-  act(() => jest.runAllTimers())
+  act(() => vi.runAllTimers())
   expect(document.body.getElementsByClassName('tooltip').length).toBe(1)
 
   rerender(
@@ -89,13 +91,13 @@ test('CxTooltip responds to the visible prop changing after mount', async () => 
       <CxLink className="link">Test</CxLink>
     </CxTooltip>
   )
-  act(() => jest.runAllTimers())
+  act(() => vi.runAllTimers())
   expect(document.body.getElementsByClassName('tooltip').length).toBe(0)
-  jest.useRealTimers()
+  vi.useRealTimers()
 })
 
 test('CxTooltip with trigger="focus" ignores hover', async () => {
-  jest.useFakeTimers()
+  vi.useFakeTimers()
   render(
     <CxTooltip trigger="focus" content="content">
       <CxLink className="link">Test</CxLink>
@@ -106,7 +108,7 @@ test('CxTooltip with trigger="focus" ignores hover', async () => {
     fireEvent.mouseMove(document.body)
     fireEvent.mouseEnter(link)
   })
-  act(() => jest.runAllTimers())
+  act(() => vi.runAllTimers())
   expect(document.body.getElementsByClassName('tooltip').length).toBe(0)
-  jest.useRealTimers()
+  vi.useRealTimers()
 })

@@ -26,7 +26,7 @@ test('the calendar dialog is hidden until the toggle button is pressed', () => {
 })
 
 test('clicking a day cell selects it, fires onChange, and closes the calendar', () => {
-  const onChange = jest.fn()
+  const onChange = vi.fn()
   render(
     <CxDatePicker
       aria-label="Event date"
@@ -45,7 +45,7 @@ test('clicking a day cell selects it, fires onChange, and closes the calendar', 
 })
 
 test('dates outside minValue/maxValue are disabled and cannot be selected', () => {
-  const onChange = jest.fn()
+  const onChange = vi.fn()
   render(
     <CxDatePicker
       aria-label="Event date"
@@ -81,7 +81,7 @@ test('creates a hidden input for form submission when name is provided', () => {
 })
 
 test('supports controlled value reflected in the field segments', () => {
-  const onChange = jest.fn()
+  const onChange = vi.fn()
   const { rerender } = render(
     <CxDatePicker
       aria-label="Event date"

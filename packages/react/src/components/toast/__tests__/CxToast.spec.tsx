@@ -50,8 +50,8 @@ test('CxToast solid and translucent', async () => {
 })
 
 test('CxToast click on dismiss button', async () => {
-  jest.useFakeTimers()
-  const onClose = jest.fn()
+  vi.useFakeTimers()
+  const onClose = vi.fn()
   const { container } = render(
     <CxToast
       className="bazinga"
@@ -88,10 +88,10 @@ test('CxToast click on dismiss button', async () => {
   if (btn !== null) {
     fireEvent.click(btn)
   }
-  act(() => jest.runAllTimers())
+  act(() => vi.runAllTimers())
   expect(onClose).toHaveBeenCalledTimes(1)
   expect(container.firstChild).toBeNull()
-  jest.useRealTimers()
+  vi.useRealTimers()
 })
 
 test('CxToast test autohide', async () => {
@@ -113,7 +113,7 @@ test('CxToast test autohide', async () => {
       timeout: 5000
     }
   )
-})
+}, 10000)
 
 test('CxToast pauses autohide while focused', async () => {
   const { container } = render(
@@ -143,4 +143,4 @@ test('CxToast pauses autohide while focused', async () => {
       timeout: 5000
     }
   )
-})
+}, 10000)

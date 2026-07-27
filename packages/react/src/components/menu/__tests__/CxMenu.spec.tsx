@@ -32,7 +32,7 @@ test('CxMenu change visible prop', async () => {
 })
 
 test('CxMenu click toggles the menu and closes on outside click', async () => {
-  jest.useFakeTimers()
+  vi.useFakeTimers()
   render(
     <CxMenu>
       <CxMenuToggle>Toggle</CxMenuToggle>
@@ -50,14 +50,14 @@ test('CxMenu click toggles the menu and closes on outside click', async () => {
   expect(menu).toHaveClass('show')
   expect(toggle).toHaveAttribute('aria-expanded', 'true')
 
-  jest.runAllTimers()
+  vi.runAllTimers()
   fireEvent.click(document)
   expect(menu).not.toHaveClass('show')
-  jest.useRealTimers()
+  vi.useRealTimers()
 })
 
 test('CxMenu autoClose="inside" only closes on clicks inside the menu', async () => {
-  jest.useFakeTimers()
+  vi.useFakeTimers()
   render(
     <CxMenu autoClose="inside">
       <CxMenuToggle>Toggle</CxMenuToggle>
@@ -68,18 +68,18 @@ test('CxMenu autoClose="inside" only closes on clicks inside the menu', async ()
   )
   fireEvent.click(screen.getByText('Toggle'))
   const menu = document.querySelector('.menu') as HTMLElement
-  jest.runAllTimers()
+  vi.runAllTimers()
 
   fireEvent.click(document.body)
   expect(menu).toHaveClass('show')
 
   fireEvent.click(screen.getByText('A'))
   expect(menu).not.toHaveClass('show')
-  jest.useRealTimers()
+  vi.useRealTimers()
 })
 
 test('CxMenu autoClose={false} never closes automatically', async () => {
-  jest.useFakeTimers()
+  vi.useFakeTimers()
   render(
     <CxMenu autoClose={false}>
       <CxMenuToggle>Toggle</CxMenuToggle>
@@ -90,10 +90,10 @@ test('CxMenu autoClose={false} never closes automatically', async () => {
   )
   fireEvent.click(screen.getByText('Toggle'))
   const menu = document.querySelector('.menu') as HTMLElement
-  jest.runAllTimers()
+  vi.runAllTimers()
   fireEvent.click(document.body)
   expect(menu).toHaveClass('show')
-  jest.useRealTimers()
+  vi.useRealTimers()
 })
 
 test('CxMenu example', async () => {

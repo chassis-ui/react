@@ -19,8 +19,8 @@ test('typing a digit advances focus to the next box', () => {
 })
 
 test('calls onChange with the combined value and onComplete once every box is filled', () => {
-  const onChange = jest.fn()
-  const onComplete = jest.fn()
+  const onChange = vi.fn()
+  const onComplete = vi.fn()
   render(<CxOtpInput aria-label="Code" length={3} onChange={onChange} onComplete={onComplete} />)
   fireEvent.change(screen.getByRole('textbox', { name: 'Digit 1' }), { target: { value: '1' } })
   fireEvent.change(screen.getByRole('textbox', { name: 'Digit 2' }), { target: { value: '2' } })
@@ -31,7 +31,7 @@ test('calls onChange with the combined value and onComplete once every box is fi
 })
 
 test('non-digit characters are stripped', () => {
-  const onChange = jest.fn()
+  const onChange = vi.fn()
   render(<CxOtpInput aria-label="Code" length={3} onChange={onChange} />)
   fireEvent.change(screen.getByRole('textbox', { name: 'Digit 1' }), { target: { value: 'a' } })
   expect(screen.getByRole('textbox', { name: 'Digit 1' })).toHaveValue('')
@@ -39,7 +39,7 @@ test('non-digit characters are stripped', () => {
 })
 
 test('a multi-character value (autofill) distributes across subsequent boxes', () => {
-  const onChange = jest.fn()
+  const onChange = vi.fn()
   render(<CxOtpInput aria-label="Code" length={4} onChange={onChange} />)
   fireEvent.change(screen.getByRole('textbox', { name: 'Digit 1' }), { target: { value: '1234' } })
   expect(onChange).toHaveBeenLastCalledWith('1234')
@@ -47,7 +47,7 @@ test('a multi-character value (autofill) distributes across subsequent boxes', (
 })
 
 test('Backspace on an empty box clears and focuses the previous box', () => {
-  const onChange = jest.fn()
+  const onChange = vi.fn()
   render(<CxOtpInput aria-label="Code" defaultValue="12" length={3} onChange={onChange} />)
   const third = screen.getByRole('textbox', { name: 'Digit 3' })
   fireEvent.keyDown(third, { key: 'Backspace' })
@@ -57,7 +57,7 @@ test('Backspace on an empty box clears and focuses the previous box', () => {
 })
 
 test('Delete shifts remaining values left', () => {
-  const onChange = jest.fn()
+  const onChange = vi.fn()
   render(<CxOtpInput aria-label="Code" defaultValue="123" length={3} onChange={onChange} />)
   fireEvent.keyDown(screen.getByRole('textbox', { name: 'Digit 1' }), { key: 'Delete' })
   expect(onChange).toHaveBeenCalledWith('23')
@@ -73,7 +73,7 @@ test('arrow keys move focus between boxes', () => {
 })
 
 test('pasting a full code distributes digits and focuses the last filled box', () => {
-  const onChange = jest.fn()
+  const onChange = vi.fn()
   render(<CxOtpInput aria-label="Code" length={4} onChange={onChange} />)
   fireEvent.paste(screen.getByRole('textbox', { name: 'Digit 1' }), {
     clipboardData: { getData: () => '12-34' }

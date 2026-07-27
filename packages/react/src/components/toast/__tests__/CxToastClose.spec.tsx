@@ -5,7 +5,7 @@ import { CxToastClose } from '../../../index'
 import { CxToastContext } from '../CxToast'
 
 test('CxToastClose closes the toast on click', async () => {
-  const setVisible = jest.fn()
+  const setVisible = vi.fn()
   const { container } = render(
     <CxToastContext.Provider value={{ setVisible }}>
       <CxToastClose />
@@ -16,8 +16,8 @@ test('CxToastClose closes the toast on click', async () => {
 })
 
 test('CxToastClose still closes the toast when a custom onClick is provided', async () => {
-  const setVisible = jest.fn()
-  const onClick = jest.fn()
+  const setVisible = vi.fn()
+  const onClick = vi.fn()
   const { container } = render(
     <CxToastContext.Provider value={{ setVisible }}>
       <CxToastClose onClick={onClick} />

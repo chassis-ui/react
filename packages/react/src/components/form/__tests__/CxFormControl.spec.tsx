@@ -28,8 +28,8 @@ test('CxFormInput customize', async () => {
 })
 
 test('CxFormInput change input', async () => {
-  jest.useFakeTimers()
-  const onChange = jest.fn()
+  vi.useFakeTimers()
+  const onChange = vi.fn()
   render(<CxFormInput onChange={onChange} />)
   expect(onChange).toHaveBeenCalledTimes(0)
   const input = document.querySelector('input')

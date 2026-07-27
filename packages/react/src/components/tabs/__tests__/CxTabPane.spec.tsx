@@ -19,7 +19,7 @@ test('CxTabPane customize', async () => {
 })
 
 test('CxTabContent use case test', async () => {
-  jest.useFakeTimers()
+  vi.useFakeTimers()
   const { rerender } = render(
     <CxTabContent>
       <CxTabPane visible={false}>Test</CxTabPane>
@@ -34,7 +34,7 @@ test('CxTabContent use case test', async () => {
   )
   expect(screen.getByText('Test')).not.toHaveClass('show')
   expect(screen.getByText('Test')).toHaveClass('active')
-  act(() => jest.runAllTimers())
+  act(() => vi.runAllTimers())
   expect(screen.getByText('Test')).toHaveClass('show')
   expect(screen.getByText('Test')).toHaveClass('active')
   rerender(
@@ -44,9 +44,9 @@ test('CxTabContent use case test', async () => {
   )
   expect(screen.getByText('Test')).not.toHaveClass('show')
   expect(screen.getByText('Test')).not.toHaveClass('active')
-  act(() => jest.runAllTimers())
+  act(() => vi.runAllTimers())
   expect(screen.getByText('Test')).not.toHaveClass('show')
   expect(screen.getByText('Test')).not.toHaveClass('active')
-  act(() => jest.runAllTimers())
-  jest.useRealTimers()
+  act(() => vi.runAllTimers())
+  vi.useRealTimers()
 })

@@ -60,7 +60,7 @@ test('disabled tabs are skipped and not selectable', async () => {
 })
 
 test('supports controlled selectedKey', async () => {
-  const onSelectionChange = jest.fn()
+  const onSelectionChange = vi.fn()
   const { rerender } = render(
     <BasicTabs selectedKey="home" onSelectionChange={onSelectionChange} />
   )

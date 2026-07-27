@@ -36,7 +36,7 @@ test('CxFormCheck customize button=true', async () => {
 })
 
 test('an uncontrolled checkbox toggles on click and fires onChange(isSelected)', () => {
-  const onChange = jest.fn()
+  const onChange = vi.fn()
   render(<CxFormCheck aria-label="Terms" defaultSelected={false} onChange={onChange} />)
   const input = screen.getByRole('checkbox')
   expect(input).not.toBeChecked()
@@ -46,7 +46,7 @@ test('an uncontrolled checkbox toggles on click and fires onChange(isSelected)',
 })
 
 test('a controlled checkbox reflects isSelected and fires onChange(isSelected) without changing itself', () => {
-  const onChange = jest.fn()
+  const onChange = vi.fn()
   render(<CxFormCheck aria-label="Terms" isSelected={false} onChange={onChange} />)
   const input = screen.getByRole('checkbox')
   fireEvent.click(input)
@@ -62,7 +62,7 @@ test('indeterminate is synced onto the native input by the checkbox hook', () =>
 })
 
 test('inside a CxFormCheckGroup, selection is owned by the group and reported via its onChange', () => {
-  const onChange = jest.fn()
+  const onChange = vi.fn()
   render(
     <CxFormCheckGroup aria-label="Notifications" defaultValue={['email']} onChange={onChange}>
       <CxFormCheck value="email" label="Email" />

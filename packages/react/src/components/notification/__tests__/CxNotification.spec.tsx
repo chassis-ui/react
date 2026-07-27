@@ -28,8 +28,8 @@ test('CxNotification customize', async () => {
 })
 
 test('CxNotification click close button', async () => {
-  jest.useFakeTimers()
-  const onClose = jest.fn()
+  vi.useFakeTimers()
+  const onClose = vi.fn()
   render(
     <CxNotification context="primary" dismissible onClose={onClose}>
       Test
@@ -41,7 +41,7 @@ test('CxNotification click close button', async () => {
     fireEvent.click(btn)
   }
   expect(onClose).toHaveBeenCalledTimes(1)
-  act(() => jest.runAllTimers())
+  act(() => vi.runAllTimers())
   expect(onClose).toHaveBeenCalledTimes(1)
-  jest.useRealTimers()
+  vi.useRealTimers()
 })

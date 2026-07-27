@@ -104,7 +104,7 @@ test('CxCarousel click on indicator', async () => {
 })
 
 test('CxCarousel click on button', async () => {
-  jest.useFakeTimers()
+  vi.useFakeTimers()
   const { container } = render(
     <CxCarousel controls indicators>
       <CxCarouselItem>

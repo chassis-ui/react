@@ -41,11 +41,11 @@ test('CxDrawer customize', async () => {
 })
 
 test('CxDrawer shows via showModal() and locks body scroll, hides and unlocks on close', async () => {
-  jest.useFakeTimers()
+  vi.useFakeTimers()
   const { container, rerender } = render(<CxDrawer placement="start">Test</CxDrawer>)
   const dialog = container.querySelector('dialog') as HTMLDialogElement
-  const showModalSpy = jest.spyOn(dialog, 'showModal')
-  const closeSpy = jest.spyOn(dialog, 'close')
+  const showModalSpy = vi.spyOn(dialog, 'showModal')
+  const closeSpy = vi.spyOn(dialog, 'close')
 
   rerender(
     <CxDrawer placement="start" visible>
@@ -64,9 +64,9 @@ test('CxDrawer shows via showModal() and locks body scroll, hides and unlocks on
   expect(closeSpy).toHaveBeenCalledTimes(1)
   expect(document.documentElement).not.toHaveStyle({ overflow: 'hidden' })
   act(() => {
-    jest.runAllTimers()
+    vi.runAllTimers()
   })
-  jest.useRealTimers()
+  vi.useRealTimers()
 })
 
 test('CxDrawer with scroll and no backdrop opens non-modally via show()', async () => {
@@ -81,8 +81,8 @@ test('CxDrawer with scroll and no backdrop opens non-modally via show()', async 
 })
 
 test('CxDrawer closes on Escape (modal, native cancel event)', async () => {
-  jest.useFakeTimers()
-  const onClose = jest.fn()
+  vi.useFakeTimers()
+  const onClose = vi.fn()
   const { container } = render(
     <CxDrawer onClose={onClose} placement="start" visible>
       Test
@@ -93,14 +93,14 @@ test('CxDrawer closes on Escape (modal, native cancel event)', async () => {
   fireEvent(dialog, new Event('cancel', { cancelable: true }))
   expect(onClose).toHaveBeenCalledTimes(1)
   act(() => {
-    jest.runAllTimers()
+    vi.runAllTimers()
   })
-  jest.useRealTimers()
+  vi.useRealTimers()
 })
 
 test('CxDrawer closes on Escape (non-modal, keydown fallback)', async () => {
-  jest.useFakeTimers()
-  const onClose = jest.fn()
+  vi.useFakeTimers()
+  const onClose = vi.fn()
   const { container } = render(
     <CxDrawer backdrop={false} onClose={onClose} placement="start" scroll visible>
       Test
@@ -110,15 +110,15 @@ test('CxDrawer closes on Escape (non-modal, keydown fallback)', async () => {
   fireEvent.keyDown(dialog, { key: 'Escape', code: 'Escape', keyCode: 27, charCode: 27 })
   expect(onClose).toHaveBeenCalledTimes(1)
   act(() => {
-    jest.runAllTimers()
+    vi.runAllTimers()
   })
-  jest.useRealTimers()
+  vi.useRealTimers()
 })
 
 test('CxDrawer keyboard=false blocks Escape and bounces instead', async () => {
-  jest.useFakeTimers()
-  const onClose = jest.fn()
-  const onClosePrevented = jest.fn()
+  vi.useFakeTimers()
+  const onClose = vi.fn()
+  const onClosePrevented = vi.fn()
   const { container } = render(
     <CxDrawer
       keyboard={false}
@@ -135,16 +135,16 @@ test('CxDrawer keyboard=false blocks Escape and bounces instead', async () => {
   expect(onClosePrevented).toHaveBeenCalledTimes(1)
   expect(dialog).toHaveClass('static')
   act(() => {
-    jest.runAllTimers()
+    vi.runAllTimers()
   })
   expect(onClose).toHaveBeenCalledTimes(0)
   expect(dialog).not.toHaveClass('static')
-  jest.useRealTimers()
+  vi.useRealTimers()
 })
 
 test('CxDrawer closes on backdrop click', async () => {
-  jest.useFakeTimers()
-  const onClose = jest.fn()
+  vi.useFakeTimers()
+  const onClose = vi.fn()
   const { container } = render(
     <CxDrawer onClose={onClose} placement="start" visible>
       <div>Content</div>
@@ -156,15 +156,15 @@ test('CxDrawer closes on backdrop click', async () => {
   fireEvent.click(dialog)
   expect(onClose).toHaveBeenCalledTimes(1)
   act(() => {
-    jest.runAllTimers()
+    vi.runAllTimers()
   })
-  jest.useRealTimers()
+  vi.useRealTimers()
 })
 
 test('CxDrawer backdrop="static" bounces instead of closing on backdrop click', async () => {
-  jest.useFakeTimers()
-  const onClose = jest.fn()
-  const onClosePrevented = jest.fn()
+  vi.useFakeTimers()
+  const onClose = vi.fn()
+  const onClosePrevented = vi.fn()
   const { container } = render(
     <CxDrawer
       backdrop="static"
@@ -181,15 +181,15 @@ test('CxDrawer backdrop="static" bounces instead of closing on backdrop click', 
   expect(onClosePrevented).toHaveBeenCalledTimes(1)
   expect(dialog).toHaveClass('static')
   act(() => {
-    jest.runAllTimers()
+    vi.runAllTimers()
   })
   expect(onClose).toHaveBeenCalledTimes(0)
-  jest.useRealTimers()
+  vi.useRealTimers()
 })
 
 test('CxDrawer auto-closes another open drawer', async () => {
-  jest.useFakeTimers()
-  const onCloseA = jest.fn()
+  vi.useFakeTimers()
+  const onCloseA = vi.fn()
   function Wrapper() {
     const [visibleA, setVisibleA] = React.useState(true)
     const [visibleB, setVisibleB] = React.useState(false)
@@ -220,13 +220,13 @@ test('CxDrawer auto-closes another open drawer', async () => {
   fireEvent.click(getByText('open b'))
   expect(onCloseA).toHaveBeenCalledTimes(1)
   act(() => {
-    jest.runAllTimers()
+    vi.runAllTimers()
   })
-  jest.useRealTimers()
+  vi.useRealTimers()
 })
 
 test('CxDrawer restores focus to the trigger element after closing', async () => {
-  jest.useFakeTimers()
+  vi.useFakeTimers()
   function Wrapper() {
     const [visible, setVisible] = React.useState(false)
     return (
@@ -257,8 +257,8 @@ test('CxDrawer restores focus to the trigger element after closing', async () =>
   const dialog = document.querySelector('dialog.drawer') as HTMLDialogElement
   fireEvent(dialog, new Event('cancel', { cancelable: true }))
   act(() => {
-    jest.runAllTimers()
+    vi.runAllTimers()
   })
   expect(document.activeElement).toBe(trigger)
-  jest.useRealTimers()
+  vi.useRealTimers()
 })
