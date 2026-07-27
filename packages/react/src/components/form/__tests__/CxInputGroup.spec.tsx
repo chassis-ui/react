@@ -1,21 +1,44 @@
 import * as React from 'react'
 import { render } from '@testing-library/react'
+import { axe } from 'jest-axe'
 
 import { CxInputGroup } from '../../../index'
 
-test('loads and displays CxInputGroup component', async () => {
-  const { container } = render(<CxInputGroup>Test</CxInputGroup>)
-  expect(container).toMatchSnapshot()
-})
+describe('CxInputGroup', () => {
+  describe('rendering', () => {
+    test('renders a div with the base class by default', () => {
+      const { container } = render(<CxInputGroup>Test</CxInputGroup>)
+      expect(container.firstChild).toHaveClass('input-group')
+      expect(container.firstChild?.nodeName).toBe('DIV')
+    })
 
-test('CxInputGroup customize', async () => {
-  const { container } = render(
-    <CxInputGroup className="bazinga" size="large">
-      Test
-    </CxInputGroup>
-  )
-  expect(container).toMatchSnapshot()
-  expect(container.firstChild).toHaveClass('bazinga')
-  expect(container.firstChild).toHaveClass('input-group')
-  expect(container.firstChild).toHaveClass('large')
+    test('matches the baseline markup snapshot', () => {
+      const { container } = render(<CxInputGroup>Test</CxInputGroup>)
+      expect(container).toMatchSnapshot()
+    })
+
+    test('applies size class and className together', () => {
+      const { container } = render(
+        <CxInputGroup className="bazinga" size="large">
+          Test
+        </CxInputGroup>
+      )
+      expect(container.firstChild).toHaveClass('input-group', 'large', 'bazinga')
+    })
+  })
+
+  describe('ref forwarding', () => {
+    test('forwards a ref to the underlying div', () => {
+      const ref = React.createRef<HTMLDivElement>()
+      render(<CxInputGroup ref={ref}>Test</CxInputGroup>)
+      expect(ref.current).toBeInstanceOf(HTMLDivElement)
+    })
+  })
+
+  describe('accessibility', () => {
+    test('has no axe violations', async () => {
+      const { container } = render(<CxInputGroup>Test</CxInputGroup>)
+      expect(await axe(container)).toHaveNoViolations()
+    })
+  })
 })

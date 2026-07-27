@@ -1,16 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxInputGroupText customize 1`] = `
-<div>
-  <span
-    class="input-addon bazinga"
-  >
-    Test
-  </span>
-</div>
-`;
-
-exports[`loads and displays CxInputGroupText component 1`] = `
+exports[`CxInputGroupText > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <span
     class="input-addon"

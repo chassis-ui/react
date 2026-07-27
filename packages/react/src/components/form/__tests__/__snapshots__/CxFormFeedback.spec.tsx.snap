@@ -1,25 +1,11 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxFormFeedback customize one 1`] = `
+exports[`CxFormFeedback > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <div
-    class="invalid-tooltip valid-tooltip bazinga"
-  />
-</div>
-`;
-
-exports[`CxFormFeedback customize two 1`] = `
-<div>
-  <div
-    class="invalid-feedback valid-feedback bazinga"
-  />
-</div>
-`;
-
-exports[`loads and displays CxFormFeedback component 1`] = `
-<div>
-  <div
-    class=""
-  />
+    class="invalid-feedback"
+  >
+    Test
+  </div>
 </div>
 `;

@@ -1,27 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxFormInput customize one 1`] = `
-<div>
-  <input
-    class="form-input"
-    type="text"
-  />
-</div>
-`;
-
-exports[`CxFormInput customize two 1`] = `
-<div>
-  <input
-    class="form-control-plaintext large form-input-color is-invalid is-valid bazinga"
-    disabled=""
-    readonly=""
-    type="color"
-    value="#888888"
-  />
-</div>
-`;
-
-exports[`loads and displays CxFormInput component 1`] = `
+exports[`CxFormInput > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <input
     class="form-input"

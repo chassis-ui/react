@@ -1,35 +1,59 @@
 import * as React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
+import { axe } from 'jest-axe'
 
 import { CxForm, CxFormLabel, CxFormInput, CxFormText, CxFormCheck, CxButton } from '../../../index'
 
-test('loads and displays CxForm component', async () => {
-  const { container } = render(<CxForm>Test</CxForm>)
-  expect(container).toMatchSnapshot()
-})
+describe('CxForm', () => {
+  describe('rendering', () => {
+    test('renders a form element', () => {
+      render(<CxForm aria-label="Sign up">Test</CxForm>)
+      const form = screen.getByRole('form', { name: 'Sign up' })
+      expect(form.tagName).toBe('FORM')
+    })
 
-test('CxForm customize', async () => {
-  const { container } = render(
-    <CxForm className="bazinga" validated={true}>
-      Test
-    </CxForm>
-  )
-  expect(container).toMatchSnapshot()
-  expect(container.firstChild).toHaveClass('bazinga')
-  expect(container.firstChild).toHaveClass('was-validated')
-})
+    test('matches the baseline markup snapshot', () => {
+      const { container } = render(
+        <CxForm>
+          <CxFormLabel>A</CxFormLabel>
+          <CxFormInput type="email" aria-describedby="B" />
+          <CxFormText>C</CxFormText>
+          <CxFormCheck label="D" />
+          <CxButton type="submit" context="primary">
+            E
+          </CxButton>
+        </CxForm>
+      )
+      expect(container).toMatchSnapshot()
+    })
 
-test('CxForm example', async () => {
-  const { container } = render(
-    <CxForm>
-      <CxFormLabel>A</CxFormLabel>
-      <CxFormInput type="email" aria-describedby="B" />
-      <CxFormText>C</CxFormText>
-      <CxFormCheck label="D" />
-      <CxButton type="submit" context="primary">
-        E
-      </CxButton>
-    </CxForm>
-  )
-  expect(container).toMatchSnapshot()
+    test('applies the was-validated class and className together', () => {
+      const { container } = render(
+        <CxForm className="bazinga" validated={true}>
+          Test
+        </CxForm>
+      )
+      expect(container.firstChild).toHaveClass('was-validated', 'bazinga')
+    })
+  })
+
+  describe('ref forwarding', () => {
+    test('forwards a ref to the underlying form', () => {
+      const ref = React.createRef<HTMLFormElement>()
+      render(<CxForm ref={ref}>Test</CxForm>)
+      expect(ref.current).toBeInstanceOf(HTMLFormElement)
+    })
+  })
+
+  describe('accessibility', () => {
+    test('has no axe violations', async () => {
+      const { container } = render(
+        <CxForm aria-label="Sign up">
+          <CxFormLabel htmlFor="email">Email</CxFormLabel>
+          <CxFormInput id="email" type="email" />
+        </CxForm>
+      )
+      expect(await axe(container)).toHaveNoViolations()
+    })
+  })
 })

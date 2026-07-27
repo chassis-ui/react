@@ -1,9 +1,9 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxFormSelect customize 1`] = `
+exports[`CxFormSelect > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <select
-    class="form-select form-select-large bazinga"
+    class="form-select"
   >
     <option
       value="A"
@@ -14,13 +14,5 @@ exports[`CxFormSelect customize 1`] = `
       C
     </option>
   </select>
-</div>
-`;
-
-exports[`loads and displays CxFormSelect component 1`] = `
-<div>
-  <select
-    class="form-select"
-  />
 </div>
 `;

@@ -1,25 +1,59 @@
 import * as React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
+import { axe } from 'jest-axe'
 
-import { CxFormLabel } from '../../../index'
+import { CxFormInput, CxFormLabel } from '../../../index'
 
-test('loads and displays CxFormLabel component', async () => {
-  const { container } = render(<CxFormLabel>Test</CxFormLabel>)
-  expect(container).toMatchSnapshot()
-})
+describe('CxFormLabel', () => {
+  describe('rendering', () => {
+    test('renders a label with the base class and className merged', () => {
+      const { container } = render(<CxFormLabel className="bazinga">Test</CxFormLabel>)
+      expect(container.firstChild).toHaveClass('form-label', 'bazinga')
+      expect(container.firstChild?.nodeName).toBe('LABEL')
+    })
 
-test('CxFormLabel customize className', async () => {
-  const { container } = render(<CxFormLabel className="bazinga">Test</CxFormLabel>)
-  expect(container).toMatchSnapshot()
-  expect(container.firstChild).toHaveClass('bazinga')
-  expect(container.firstChild).toHaveClass('form-label')
-  expect(container.firstChild).toHaveTextContent('Test')
-})
+    test('matches the baseline markup snapshot', () => {
+      const { container } = render(<CxFormLabel>Test</CxFormLabel>)
+      expect(container).toMatchSnapshot()
+    })
 
-test('CxFormLabel customize htmlFor', async () => {
-  const { container } = render(<CxFormLabel htmlFor="bazinga">Test</CxFormLabel>)
-  expect(container).toMatchSnapshot()
-  expect(container.firstChild).toHaveAttribute('for', 'bazinga')
-  expect(container.firstChild).toHaveClass('form-label')
-  expect(container.firstChild).toHaveTextContent('Test')
+    test('customClassName overrides the base and passed className entirely', () => {
+      const { container } = render(
+        <CxFormLabel className="bazinga" customClassName="only-this">
+          Test
+        </CxFormLabel>
+      )
+      expect(container.firstChild).toHaveAttribute('class', 'only-this')
+    })
+
+    test('associates with a control via htmlFor', () => {
+      render(
+        <>
+          <CxFormLabel htmlFor="email">Email</CxFormLabel>
+          <CxFormInput id="email" />
+        </>
+      )
+      expect(screen.getByLabelText('Email')).toBeInTheDocument()
+    })
+  })
+
+  describe('ref forwarding', () => {
+    test('forwards a ref to the underlying label', () => {
+      const ref = React.createRef<HTMLLabelElement>()
+      render(<CxFormLabel ref={ref}>Test</CxFormLabel>)
+      expect(ref.current).toBeInstanceOf(HTMLLabelElement)
+    })
+  })
+
+  describe('accessibility', () => {
+    test('has no axe violations', async () => {
+      const { container } = render(
+        <>
+          <CxFormLabel htmlFor="email">Email</CxFormLabel>
+          <CxFormInput id="email" />
+        </>
+      )
+      expect(await axe(container)).toHaveNoViolations()
+    })
+  })
 })

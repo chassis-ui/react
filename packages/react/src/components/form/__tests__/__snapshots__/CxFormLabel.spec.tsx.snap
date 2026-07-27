@@ -1,27 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxFormLabel customize className 1`] = `
-<div>
-  <label
-    class="form-label bazinga"
-  >
-    Test
-  </label>
-</div>
-`;
-
-exports[`CxFormLabel customize htmlFor 1`] = `
-<div>
-  <label
-    class="form-label"
-    for="bazinga"
-  >
-    Test
-  </label>
-</div>
-`;
-
-exports[`loads and displays CxFormLabel component 1`] = `
+exports[`CxFormLabel > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <label
     class="form-label"
