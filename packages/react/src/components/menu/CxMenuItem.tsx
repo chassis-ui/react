@@ -28,7 +28,7 @@ export const CxMenuItem = forwardRef<HTMLButtonElement | HTMLAnchorElement, CxMe
         {children}
       </CxLink>
     )
-  },
+  }
 )
 
 CxMenuItem.displayName = 'CxMenuItem'

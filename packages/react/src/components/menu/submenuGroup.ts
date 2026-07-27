@@ -27,7 +27,7 @@ export const useSubmenuGroupProvider = (): SubmenuGroupContextValue => {
         closers.forEach((close, key) => {
           if (key !== id) close()
         })
-      },
+      }
     }
   }
 

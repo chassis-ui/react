@@ -20,7 +20,7 @@ export const CxForm = forwardRef<HTMLFormElement, CxFormProps>(
         {children}
       </form>
     )
-  },
+  }
 )
 
 CxForm.displayName = 'CxForm'

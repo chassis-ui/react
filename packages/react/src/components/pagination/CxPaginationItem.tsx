@@ -28,9 +28,9 @@ export const CxPaginationItem = forwardRef<HTMLAnchorElement, CxPaginationItemPr
       'page-item',
       {
         active: rest.active,
-        disabled: rest.disabled,
+        disabled: rest.disabled
       },
-      className,
+      className
     )
 
     const Component = component ? component : rest.active ? 'span' : rest.href ? 'a' : 'button'
@@ -48,7 +48,7 @@ export const CxPaginationItem = forwardRef<HTMLAnchorElement, CxPaginationItemPr
         )}
       </li>
     )
-  },
+  }
 )
 
 CxPaginationItem.displayName = 'CxPaginationItem'

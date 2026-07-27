@@ -6,7 +6,7 @@ import React, {
   RefObject,
   useEffect,
   useRef,
-  useState,
+  useState
 } from 'react'
 import { createPortal } from 'react-dom'
 import classNames from 'classnames'
@@ -106,7 +106,7 @@ export const CxPopover: FC<CxPopoverProps> = ({
   const {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     triggerProps: { onPress: _onPress, ...triggerProps },
-    overlayProps: overlayTriggerProps,
+    overlayProps: overlayTriggerProps
   } = useOverlayTrigger({ type: 'dialog' }, state, triggerRef)
 
   // Popovers inside an open `<dialog>` are appended to that dialog instead of
@@ -142,7 +142,11 @@ export const CxPopover: FC<CxPopoverProps> = ({
     return () => dialog.removeEventListener('close', state.close)
   }, [state.isOpen, portalContainer, state.close])
 
-  const { overlayProps, arrowProps, placement: resolvedPlacement } = useOverlayPosition({
+  const {
+    overlayProps,
+    arrowProps,
+    placement: resolvedPlacement
+  } = useOverlayPosition({
     targetRef: triggerRef,
     overlayRef: floatingRef,
     placement: toAriaPlacement(placement),
@@ -150,13 +154,13 @@ export const CxPopover: FC<CxPopoverProps> = ({
     crossOffset: offsetProp[0],
     arrowSize: 8,
     arrowRef,
-    isOpen: state.isOpen,
+    isOpen: state.isOpen
   })
 
   const floatingStyle: React.CSSProperties = {
     position: overlayProps.style?.position as React.CSSProperties['position'],
     top: overlayProps.style?.top,
-    left: overlayProps.style?.left,
+    left: overlayProps.style?.left
   }
   const placementAttr = resolveDataPlacement(placement, resolvedPlacement)
 
@@ -164,10 +168,10 @@ export const CxPopover: FC<CxPopoverProps> = ({
     return transitionState === 'entering'
       ? 'fade'
       : transitionState === 'entered'
-      ? 'fade show'
-      : transitionState === 'exiting'
-      ? 'fade'
-      : 'fade'
+        ? 'fade show'
+        : transitionState === 'exiting'
+          ? 'fade'
+          : 'fade'
   }
 
   return (
@@ -180,7 +184,7 @@ export const CxPopover: FC<CxPopoverProps> = ({
         onClick: (event: React.MouseEvent) => {
           children.props.onClick?.(event)
           state.toggle()
-        },
+        }
       })}
       {typeof window !== 'undefined' &&
         createPortal(
@@ -190,7 +194,7 @@ export const CxPopover: FC<CxPopoverProps> = ({
             nodeRef={floatingRef}
             timeout={{
               enter: 0,
-              exit: 200,
+              exit: 200
             }}
             unmountOnExit
           >
@@ -211,7 +215,7 @@ export const CxPopover: FC<CxPopoverProps> = ({
               )
             }}
           </Transition>,
-          portalContainer ?? document.body,
+          portalContainer ?? document.body
         )}
     </>
   )

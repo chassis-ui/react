@@ -9,8 +9,10 @@ import { DateField } from './DateField'
 import { Calendar } from './Calendar'
 import './CxDatePicker.css'
 
-export interface CxDatePickerProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue'> {
+export interface CxDatePickerProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  'onChange' | 'defaultValue'
+> {
   /**
    * An accessible label for the date picker, used when there's no visible `<label>`.
    */
@@ -90,7 +92,7 @@ export const CxDatePicker = ({
     maxValue,
     minValue,
     onChange,
-    value,
+    value
   })
 
   const groupRef = useRef<HTMLDivElement>(null)
@@ -109,10 +111,10 @@ export const CxDatePicker = ({
       maxValue,
       minValue,
       onChange,
-      value,
+      value
     },
     state,
-    groupRef,
+    groupRef
   )
 
   const { buttonProps: toggleProps } = useButton(buttonProps, buttonRef)
@@ -122,13 +124,13 @@ export const CxDatePicker = ({
     overlayRef: popoverRef,
     placement: toAriaPlacement('bottom-start'),
     offset: 2,
-    isOpen: state.isOpen,
+    isOpen: state.isOpen
   })
 
   const overlayStyle: React.CSSProperties = {
     position: overlayProps.style?.position as React.CSSProperties['position'],
     top: overlayProps.style?.top,
-    left: overlayProps.style?.left,
+    left: overlayProps.style?.left
   }
   const placementAttr = resolveDataPlacement('bottom-start', resolvedPlacement)
 
@@ -136,7 +138,7 @@ export const CxDatePicker = ({
     ...calendarProps,
     createCalendar,
     locale,
-    visibleDuration: { months: 1 },
+    visibleDuration: { months: 1 }
   })
 
   return (
@@ -145,7 +147,7 @@ export const CxDatePicker = ({
         className={classNames(
           'form-input',
           { small: size === 'small', large: size === 'large', disabled },
-          className,
+          className
         )}
         {...mergeProps(groupProps, rest)}
         ref={groupRef}

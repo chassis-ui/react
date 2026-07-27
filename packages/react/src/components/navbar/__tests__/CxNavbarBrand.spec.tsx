@@ -17,7 +17,7 @@ test('CxNavbarBrand customize', async () => {
   const { container } = render(
     <CxNavbarBrand className="bazinga" component="h3" href="/bazinga">
       Test
-    </CxNavbarBrand>,
+    </CxNavbarBrand>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('navbar-brand')

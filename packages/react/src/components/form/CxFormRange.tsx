@@ -42,7 +42,7 @@ export const CxFormRange = forwardRef<HTMLInputElement, CxFormRangeProps>(
   ({ className, ...rest }, ref) => {
     const _className = classNames('form-range', className)
     return <input type="range" className={_className} {...rest} ref={ref} />
-  },
+  }
 )
 
 CxFormRange.displayName = 'CxFormRange'

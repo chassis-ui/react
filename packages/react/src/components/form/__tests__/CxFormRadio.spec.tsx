@@ -8,7 +8,7 @@ test('loads and displays CxFormRadio inside a CxFormRadioGroup', async () => {
     <CxFormRadioGroup aria-label="Options" defaultValue="a">
       <CxFormRadio value="a" label="Option A" />
       <CxFormRadio value="b" label="Option B" />
-    </CxFormRadioGroup>,
+    </CxFormRadioGroup>
   )
   expect(container).toMatchSnapshot()
 })
@@ -16,7 +16,7 @@ test('loads and displays CxFormRadio inside a CxFormRadioGroup', async () => {
 test('CxFormRadio throws when rendered outside a CxFormRadioGroup', () => {
   const consoleError = jest.spyOn(console, 'error').mockImplementation(() => undefined)
   expect(() => render(<CxFormRadio value="a" label="Option A" />)).toThrow(
-    'CxFormRadio must be rendered inside a CxFormRadioGroup.',
+    'CxFormRadio must be rendered inside a CxFormRadioGroup.'
   )
   consoleError.mockRestore()
 })
@@ -25,7 +25,7 @@ test('CxFormRadio customize', async () => {
   render(
     <CxFormRadioGroup aria-label="Options" defaultValue="a">
       <CxFormRadio className="bazinga" context="secondary" id="id" label="label" value="a" />
-    </CxFormRadioGroup>,
+    </CxFormRadioGroup>
   )
   const radio = screen.getByRole('radio')
   expect(radio).toHaveAttribute('id', 'id')
@@ -43,7 +43,7 @@ test('CxFormRadio button variant', async () => {
         label="label"
         value="a"
       />
-    </CxFormRadioGroup>,
+    </CxFormRadioGroup>
   )
   const radio = screen.getByRole('radio')
   expect(radio.parentElement).toHaveClass('button')
@@ -57,7 +57,7 @@ test('an uncontrolled radio group toggles selection on click and fires onChange(
     <CxFormRadioGroup aria-label="Options" defaultValue="a" onChange={onChange}>
       <CxFormRadio value="a" label="Option A" />
       <CxFormRadio value="b" label="Option B" />
-    </CxFormRadioGroup>,
+    </CxFormRadioGroup>
   )
   const a = screen.getByRole('radio', { name: 'Option A' })
   const b = screen.getByRole('radio', { name: 'Option B' })
@@ -76,7 +76,7 @@ test('a controlled radio group reflects value and fires onChange(value) without 
     <CxFormRadioGroup aria-label="Options" value="a" onChange={onChange}>
       <CxFormRadio value="a" label="Option A" />
       <CxFormRadio value="b" label="Option B" />
-    </CxFormRadioGroup>,
+    </CxFormRadioGroup>
   )
   const b = screen.getByRole('radio', { name: 'Option B' })
   fireEvent.click(b)
@@ -90,7 +90,7 @@ test('disabling a single radio only disables that option', () => {
     <CxFormRadioGroup aria-label="Options" defaultValue="a">
       <CxFormRadio value="a" label="Option A" />
       <CxFormRadio value="b" label="Option B" disabled />
-    </CxFormRadioGroup>,
+    </CxFormRadioGroup>
   )
   expect(screen.getByRole('radio', { name: 'Option A' })).toBeEnabled()
   expect(screen.getByRole('radio', { name: 'Option B' })).toBeDisabled()
@@ -101,7 +101,7 @@ test('disabling the group disables every radio', () => {
     <CxFormRadioGroup aria-label="Options" defaultValue="a" disabled>
       <CxFormRadio value="a" label="Option A" />
       <CxFormRadio value="b" label="Option B" />
-    </CxFormRadioGroup>,
+    </CxFormRadioGroup>
   )
   expect(screen.getByRole('radio', { name: 'Option A' })).toBeDisabled()
   expect(screen.getByRole('radio', { name: 'Option B' })).toBeDisabled()

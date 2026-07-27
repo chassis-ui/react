@@ -7,7 +7,7 @@ test('loads and displays CxPopover component', async () => {
   const { container } = render(
     <CxPopover content="A">
       <CxButton>Test</CxButton>
-    </CxPopover>,
+    </CxPopover>
   )
   expect(container).toMatchSnapshot()
 })
@@ -18,7 +18,7 @@ test('CxPopover customize', async () => {
   render(
     <CxPopover content="content" title="title" placement="right">
       <CxButton>Test</CxButton>
-    </CxPopover>,
+    </CxPopover>
   )
   const btn = document.querySelector('.button')
   act(() => {
@@ -62,7 +62,7 @@ test('CxPopover scopes itself to an open dialog ancestor', async () => {
       <CxPopover content="content">
         <CxButton>Test</CxButton>
       </CxPopover>
-    </dialog>,
+    </dialog>
   )
   const btn = document.querySelector('.button')
   act(() => {
@@ -83,7 +83,7 @@ test('CxPopover responds to the visible prop changing after mount', async () => 
   const { rerender } = render(
     <CxPopover content="content" visible={false}>
       <CxButton>Test</CxButton>
-    </CxPopover>,
+    </CxPopover>
   )
   act(() => jest.runAllTimers())
   expect(document.body.getElementsByClassName('popover').length).toBe(0)
@@ -91,7 +91,7 @@ test('CxPopover responds to the visible prop changing after mount', async () => 
   rerender(
     <CxPopover content="content" visible={true}>
       <CxButton>Test</CxButton>
-    </CxPopover>,
+    </CxPopover>
   )
   act(() => jest.runAllTimers())
   expect(document.body.getElementsByClassName('popover').length).toBe(1)
@@ -99,20 +99,20 @@ test('CxPopover responds to the visible prop changing after mount', async () => 
   rerender(
     <CxPopover content="content" visible={false}>
       <CxButton>Test</CxButton>
-    </CxPopover>,
+    </CxPopover>
   )
   act(() => jest.runAllTimers())
   expect(document.body.getElementsByClassName('popover').length).toBe(0)
   jest.useRealTimers()
 })
 
-test('CxPopover preserves the trigger child\'s own onClick handler', async () => {
+test("CxPopover preserves the trigger child's own onClick handler", async () => {
   jest.useFakeTimers()
   const onClick = jest.fn()
   render(
     <CxPopover content="content">
       <CxButton onClick={onClick}>Test</CxButton>
-    </CxPopover>,
+    </CxPopover>
   )
   const btn = document.querySelector('.button') as HTMLElement
   act(() => {
@@ -129,7 +129,7 @@ test('CxPopover moves focus into the dialog on open', async () => {
   render(
     <CxPopover content="content" title="title">
       <CxButton>Test</CxButton>
-    </CxPopover>,
+    </CxPopover>
   )
   const btn = document.querySelector('.button') as HTMLElement
   act(() => {

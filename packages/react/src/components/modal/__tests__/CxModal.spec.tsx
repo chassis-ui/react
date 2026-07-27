@@ -15,7 +15,7 @@ test('CxModal customize', async () => {
   const { container } = render(
     <CxModal className="bazinga" fullscreen="xlarge" scrollable size="xlarge" visible>
       Test
-    </CxModal>,
+    </CxModal>
   )
   expect(container).toMatchSnapshot()
   const dialog = container.querySelector('dialog')
@@ -49,7 +49,7 @@ test('CxModal closes on Escape (modal, native cancel event)', async () => {
   const { container } = render(
     <CxModal onClose={onClose} visible>
       Test
-    </CxModal>,
+    </CxModal>
   )
   const dialog = container.querySelector('dialog') as HTMLDialogElement
   expect(onClose).toHaveBeenCalledTimes(0)
@@ -67,7 +67,7 @@ test('CxModal closes on Escape (non-modal, keydown fallback)', async () => {
   const { container } = render(
     <CxModal modal={false} onClose={onClose} visible>
       Test
-    </CxModal>,
+    </CxModal>
   )
   const dialog = container.querySelector('dialog') as HTMLDialogElement
   fireEvent.keyDown(dialog, { key: 'Escape', code: 'Escape', keyCode: 27, charCode: 27 })
@@ -85,7 +85,7 @@ test('CxModal keyboard=false blocks Escape and bounces instead', async () => {
   const { container } = render(
     <CxModal keyboard={false} onClose={onClose} onClosePrevented={onClosePrevented} visible>
       Test
-    </CxModal>,
+    </CxModal>
   )
   const dialog = container.querySelector('dialog') as HTMLDialogElement
   fireEvent(dialog, new Event('cancel', { cancelable: true }))
@@ -105,7 +105,7 @@ test('CxModal closes on backdrop click', async () => {
   const { container } = render(
     <CxModal onClose={onClose} visible>
       <div>Content</div>
-    </CxModal>,
+    </CxModal>
   )
   const dialog = container.querySelector('dialog') as HTMLDialogElement
   fireEvent.click(container.querySelector('div') as HTMLDivElement)
@@ -156,7 +156,7 @@ test('CxModal backdrop="static" bounces instead of closing on backdrop click', a
   const { container } = render(
     <CxModal backdrop="static" onClose={onClose} onClosePrevented={onClosePrevented} visible>
       Test
-    </CxModal>,
+    </CxModal>
   )
   const dialog = container.querySelector('dialog') as HTMLDialogElement
   fireEvent.click(dialog)

@@ -21,7 +21,7 @@ export const CxNavbarNav = forwardRef<HTMLDivElement | HTMLUListElement, CxNavba
         {children}
       </Component>
     )
-  },
+  }
 )
 
 CxNavbarNav.displayName = 'CxNavbarNav'

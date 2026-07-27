@@ -22,7 +22,7 @@ export const CxCloseButton = forwardRef<HTMLButtonElement, CxCloseButtonProps>(
     return (
       <button className={_className} aria-label="Close" disabled={disabled} {...rest} ref={ref} />
     )
-  },
+  }
 )
 
 CxCloseButton.displayName = 'CxCloseButton'

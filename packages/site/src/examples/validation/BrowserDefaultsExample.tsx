@@ -10,8 +10,7 @@ import {
   CxFormSelect,
   CxInputGroup,
   CxInputGroupText,
-  CxCol,
-  CxRow
+  CxCol
 } from '@chassis-ui/react'
 
 export const BrowserDefaultsExample = () => {

@@ -1,7 +1,14 @@
 import React from 'react'
 import { act, render, fireEvent } from '@testing-library/react'
 
-import { CxToaster, CxToastBody, CxToastHeader, CxButton, addToast, toastQueue } from '../../../index'
+import {
+  CxToaster,
+  CxToastBody,
+  CxToastHeader,
+  CxButton,
+  addToast,
+  toastQueue
+} from '../../../index'
 
 afterEach(() => {
   act(() => toastQueue.clear())
@@ -29,13 +36,13 @@ test('CxToaster customize', async () => {
               <CxToastHeader closeButton>Lorem ipsum</CxToastHeader>
               <CxToastBody>Hello, world! This is a toast message.</CxToastBody>
             </>,
-            { autohide: false },
+            { autohide: false }
           )
         }
       >
         Send a toast
       </CxButton>
-    </>,
+    </>
   )
   const btn = document.querySelector('.button')
   act(() => {

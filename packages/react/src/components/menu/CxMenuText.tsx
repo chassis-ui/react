@@ -21,7 +21,7 @@ export const CxMenuText = forwardRef<HTMLSpanElement, CxMenuTextProps>(
         {children}
       </Component>
     )
-  },
+  }
 )
 
 CxMenuText.displayName = 'CxMenuText'

@@ -18,7 +18,7 @@ test('CxFormInput customize', async () => {
       size="large"
       type="color"
       value="value"
-    />,
+    />
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')

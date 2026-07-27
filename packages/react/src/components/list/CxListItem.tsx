@@ -4,8 +4,9 @@ import classNames from 'classnames'
 import { ContextColor } from '../Types'
 import { CxLink } from '../link/CxLink'
 
-export interface CxListItemProps
-  extends HTMLAttributes<HTMLLIElement | HTMLAnchorElement | HTMLButtonElement> {
+export interface CxListItemProps extends HTMLAttributes<
+  HTMLLIElement | HTMLAnchorElement | HTMLButtonElement
+> {
   /**
    * Toggle the active state for the component.
    */
@@ -39,9 +40,9 @@ export const CxListItem = forwardRef<
     {
       'list-action': component === 'a' || component === 'button',
       active,
-      disabled,
+      disabled
     },
-    className,
+    className
   )
 
   const Component = (
@@ -52,11 +53,11 @@ export const CxListItem = forwardRef<
     ...((component === 'a' || component === 'button') && {
       active,
       disabled,
-      component,
+      component
     }),
     ...(active && { 'aria-current': true }),
     ...(disabled && { 'aria-disabled': true }),
-    ...rest,
+    ...rest
   }
 
   return (

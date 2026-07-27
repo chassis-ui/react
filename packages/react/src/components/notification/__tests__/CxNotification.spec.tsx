@@ -19,7 +19,7 @@ test('CxNotification customize', async () => {
       visible={true}
     >
       Test
-    </CxNotification>,
+    </CxNotification>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')
@@ -33,7 +33,7 @@ test('CxNotification click close button', async () => {
   render(
     <CxNotification context="primary" dismissible onClose={onClose}>
       Test
-    </CxNotification>,
+    </CxNotification>
   )
   expect(onClose).toHaveBeenCalledTimes(0)
   const btn = document.querySelector('.close-button')

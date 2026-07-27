@@ -3,8 +3,7 @@ import classNames from 'classnames'
 import { CxProgressBar, CxProgressBarProps } from './CxProgressBar'
 
 export interface CxProgressProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'color'>,
-    CxProgressBarProps {
+  extends Omit<HTMLAttributes<HTMLDivElement>, 'color'>, CxProgressBarProps {
   /**
    * A string of all className you want applied to the component.
    */
@@ -33,9 +32,9 @@ export const CxProgress = forwardRef<HTMLDivElement, CxProgressProps>(
       'progress',
       {
         'progress-thin': thin,
-        'progress-white': white,
+        'progress-white': white
       },
-      className,
+      className
     )
 
     return (
@@ -49,7 +48,7 @@ export const CxProgress = forwardRef<HTMLDivElement, CxProgressProps>(
         )}
       </div>
     )
-  },
+  }
 )
 
 CxProgress.displayName = 'CxProgress'

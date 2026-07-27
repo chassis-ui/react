@@ -21,7 +21,7 @@ export const CxModalFooter = forwardRef<HTMLDivElement, CxModalFooterProps>(
         {children}
       </div>
     )
-  },
+  }
 )
 
 CxModalFooter.displayName = 'CxModalFooter'

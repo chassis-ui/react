@@ -13,7 +13,7 @@ test('CxFormSelect customize', async () => {
     <CxFormSelect className="bazinga" size="large">
       <option value="A">B</option>
       <option>C</option>
-    </CxFormSelect>,
+    </CxFormSelect>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')

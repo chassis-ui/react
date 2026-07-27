@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useLayoutEffect,
   useRef,
-  useState,
+  useState
 } from 'react'
 import classNames from 'classnames'
 import { usePreventScroll } from 'react-aria'
@@ -13,8 +13,10 @@ import { usePreventScroll } from 'react-aria'
 import { useForkedRef } from '../../utils/hooks'
 import { executeAfterTransition } from '../../utils/dialogTransition'
 
-export interface CxDrawerProps
-  extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'onCancel' | 'onClose'> {
+export interface CxDrawerProps extends Omit<
+  DialogHTMLAttributes<HTMLDialogElement>,
+  'onCancel' | 'onClose'
+> {
   /**
    * Show a backdrop while the drawer is open. `'static'` blocks closing on backdrop click
    * (the drawer nudges instead).
@@ -123,7 +125,7 @@ export const CxDrawer = forwardRef<HTMLDialogElement, CxDrawerProps>(
       visible,
       ...rest
     },
-    ref,
+    ref
   ) => {
     const dialogRef = useRef<HTMLDialogElement>(null)
     const forkedRef = useForkedRef(ref, dialogRef)
@@ -222,7 +224,7 @@ export const CxDrawer = forwardRef<HTMLDialogElement, CxDrawerProps>(
             trigger.focus()
           }
         },
-        !instant,
+        !instant
       )
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [_visible])
@@ -273,9 +275,9 @@ export const CxDrawer = forwardRef<HTMLDialogElement, CxDrawerProps>(
         instant,
         'drawer-fit-content': fitContent,
         nonmodal: !(Boolean(backdrop) || !scroll),
-        static: staticBounce,
+        static: staticBounce
       },
-      className,
+      className
     )
 
     return (
@@ -291,7 +293,7 @@ export const CxDrawer = forwardRef<HTMLDialogElement, CxDrawerProps>(
         </dialog>
       </CxDrawerContext.Provider>
     )
-  },
+  }
 )
 
 CxDrawer.displayName = 'CxDrawer'

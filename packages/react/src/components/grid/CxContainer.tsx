@@ -38,7 +38,7 @@ const BREAKPOINTS = [
   'lg' as const,
   'md' as const,
   'sm' as const,
-  'fluid' as const,
+  'fluid' as const
 ]
 
 const BP_NAME: Record<string, string> = {
@@ -47,7 +47,7 @@ const BP_NAME: Record<string, string> = {
   lg: 'large',
   md: 'medium',
   sm: 'small',
-  fluid: 'fluid',
+  fluid: 'fluid'
 }
 
 export const CxContainer = forwardRef<HTMLDivElement, CxContainerProps>(
@@ -63,7 +63,7 @@ export const CxContainer = forwardRef<HTMLDivElement, CxContainerProps>(
 
     const _className = classNames(
       repsonsiveClassNames.length ? repsonsiveClassNames : 'container',
-      className,
+      className
     )
 
     return (
@@ -71,7 +71,7 @@ export const CxContainer = forwardRef<HTMLDivElement, CxContainerProps>(
         {children}
       </div>
     )
-  },
+  }
 )
 
 CxContainer.displayName = 'CxContainer'

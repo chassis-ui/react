@@ -13,7 +13,7 @@ test('CxTabPane customize', async () => {
   const { container } = render(
     <CxTabPane className="bazinga" visible={true}>
       Test
-    </CxTabPane>,
+    </CxTabPane>
   )
   expect(container).toMatchSnapshot()
 })
@@ -23,14 +23,14 @@ test('CxTabContent use case test', async () => {
   const { rerender } = render(
     <CxTabContent>
       <CxTabPane visible={false}>Test</CxTabPane>
-    </CxTabContent>,
+    </CxTabContent>
   )
   expect(screen.getByText('Test')).not.toHaveClass('show')
   expect(screen.getByText('Test')).not.toHaveClass('active')
   rerender(
     <CxTabContent>
       <CxTabPane visible={true}>Test</CxTabPane>
-    </CxTabContent>,
+    </CxTabContent>
   )
   expect(screen.getByText('Test')).not.toHaveClass('show')
   expect(screen.getByText('Test')).toHaveClass('active')
@@ -40,7 +40,7 @@ test('CxTabContent use case test', async () => {
   rerender(
     <CxTabContent>
       <CxTabPane visible={false}>Test</CxTabPane>
-    </CxTabContent>,
+    </CxTabContent>
   )
   expect(screen.getByText('Test')).not.toHaveClass('show')
   expect(screen.getByText('Test')).not.toHaveClass('active')

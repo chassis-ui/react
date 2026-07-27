@@ -12,7 +12,7 @@ test('CxNotificationHeading customize', async () => {
   const { container } = render(
     <CxNotificationHeading component="h3" className="bazinga">
       Test
-    </CxNotificationHeading>,
+    </CxNotificationHeading>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')

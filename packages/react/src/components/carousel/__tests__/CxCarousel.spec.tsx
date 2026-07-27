@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
-import { getByText } from '@testing-library/dom'
+import { getByText } from '@testing-library/react'
 
 import { CxCarousel, CxCarouselCaption, CxCarouselItem } from '../../../index'
 
@@ -19,7 +19,7 @@ test('loads and displays CxCarousel component', async () => {
         Item-3
         <CxCarouselCaption>Caption-3</CxCarouselCaption>
       </CxCarouselItem>
-    </CxCarousel>,
+    </CxCarousel>
   )
 
   const carousel = document.querySelector('.carousel')
@@ -75,7 +75,7 @@ test('CxCarousel click on indicator', async () => {
         Item-3
         <CxCarouselCaption>Caption-3</CxCarouselCaption>
       </CxCarouselItem>
-    </CxCarousel>,
+    </CxCarousel>
   )
   const item1 = getByText(container, 'Item-1')
   const item2 = getByText(container, 'Item-2')
@@ -119,7 +119,7 @@ test('CxCarousel click on button', async () => {
         Item-3
         <CxCarouselCaption>Caption-3</CxCarouselCaption>
       </CxCarouselItem>
-    </CxCarousel>,
+    </CxCarousel>
   )
   const item1 = getByText(container, 'Item-1')
   const item2 = getByText(container, 'Item-2')

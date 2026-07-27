@@ -13,7 +13,7 @@ test('CxMenuItem selected', async () => {
   render(
     <CxMenuItem component="button" selected>
       Test
-    </CxMenuItem>,
+    </CxMenuItem>
   )
   expect(screen.getByText('Test')).toHaveClass('selected')
 })
@@ -22,7 +22,7 @@ test('CxMenuItem disabled', async () => {
   render(
     <CxMenuItem href="#" disabled>
       Test
-    </CxMenuItem>,
+    </CxMenuItem>
   )
   const item = screen.getByText('Test')
   expect(item).toHaveClass('disabled')

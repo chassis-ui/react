@@ -8,7 +8,7 @@ import {
   CxMenu,
   CxMenuToggle,
   CxMenuList,
-  CxMenuItem,
+  CxMenuItem
 } from '../../../index'
 
 test('loads and displays CxNav component', async () => {
@@ -20,7 +20,7 @@ test('CxNav customize', async () => {
   const { container } = render(
     <CxNav className="bazinga" component="h3" layout="justified" variant="pills">
       Test
-    </CxNav>,
+    </CxNav>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('nav')
@@ -56,7 +56,7 @@ test('CxNav example', async () => {
           Disabled
         </CxNavLink>
       </CxNavItem>
-    </CxNav>,
+    </CxNav>
   )
   expect(container).toMatchSnapshot()
 })

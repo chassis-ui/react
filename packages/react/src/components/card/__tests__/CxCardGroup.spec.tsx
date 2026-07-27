@@ -11,7 +11,7 @@ import {
   CxCardSubtitle,
   CxCardTitle,
   CxCardText,
-  CxCardGroup,
+  CxCardGroup
 } from '../../../index'
 
 test('loads and displays CxCardGroup component', async () => {
@@ -45,7 +45,7 @@ test('CxCardGroup full example', async () => {
           <CxCardTitle>Card Title</CxCardTitle>
         </CxCardBody>
       </CxCard>
-    </CxCardGroup>,
+    </CxCardGroup>
   )
   expect(container).toMatchSnapshot()
 })

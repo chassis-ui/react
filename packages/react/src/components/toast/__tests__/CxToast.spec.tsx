@@ -20,17 +20,17 @@ test('CxToast customize', async () => {
       //onClose
     >
       Test
-    </CxToast>,
+    </CxToast>
   )
   await waitFor(() => {
-    expect(container.firstChild).toHaveClass('bazinga')
-    expect(container.firstChild).toHaveClass('toast')
-    expect(container.firstChild).toHaveClass('fade')
-    expect(container.firstChild).toHaveClass('context')
-    expect(container.firstChild).toHaveClass('warning')
     expect(container.firstChild).toHaveClass('show')
-    expect(container.firstChild).toHaveAttribute('role', 'status')
   })
+  expect(container.firstChild).toHaveClass('bazinga')
+  expect(container.firstChild).toHaveAttribute('role', 'status')
+  expect(container.firstChild).toHaveClass('warning')
+  expect(container.firstChild).toHaveClass('context')
+  expect(container.firstChild).toHaveClass('fade')
+  expect(container.firstChild).toHaveClass('toast')
   expect(container).toMatchSnapshot()
 })
 
@@ -38,15 +38,15 @@ test('CxToast solid and translucent', async () => {
   const { container } = render(
     <CxToast context="warning" solid translucent visible={true} autohide={false} role="alert">
       Test
-    </CxToast>,
+    </CxToast>
   )
   await waitFor(() => {
     expect(container.firstChild).toHaveClass('context')
-    expect(container.firstChild).toHaveClass('warning')
-    expect(container.firstChild).toHaveClass('solid')
-    expect(container.firstChild).toHaveClass('translucent')
-    expect(container.firstChild).toHaveAttribute('role', 'alert')
   })
+  expect(container.firstChild).toHaveAttribute('role', 'alert')
+  expect(container.firstChild).toHaveClass('translucent')
+  expect(container.firstChild).toHaveClass('solid')
+  expect(container.firstChild).toHaveClass('warning')
 })
 
 test('CxToast click on dismiss button', async () => {
@@ -77,7 +77,7 @@ test('CxToast click on dismiss button', async () => {
         <small>7 min ago</small>
       </CxToastHeader>
       <CxToastBody>Hello, world! This is a toast message.</CxToastBody>
-    </CxToast>,
+    </CxToast>
   )
   await waitFor(() => {
     expect(container.firstChild).toHaveClass('show')
@@ -98,7 +98,7 @@ test('CxToast test autohide', async () => {
   const { container } = render(
     <CxToast autohide={true} delay={1000} visible={true}>
       Test
-    </CxToast>,
+    </CxToast>
   )
 
   await waitFor(() => {
@@ -110,8 +110,8 @@ test('CxToast test autohide', async () => {
       expect(container.firstChild).toBeNull()
     },
     {
-      timeout: 5000,
-    },
+      timeout: 5000
+    }
   )
 })
 
@@ -119,7 +119,7 @@ test('CxToast pauses autohide while focused', async () => {
   const { container } = render(
     <CxToast autohide={true} delay={1000} visible={true}>
       <button type="button">Action</button>
-    </CxToast>,
+    </CxToast>
   )
 
   await waitFor(() => {
@@ -140,7 +140,7 @@ test('CxToast pauses autohide while focused', async () => {
       expect(container.firstChild).toBeNull()
     },
     {
-      timeout: 5000,
-    },
+      timeout: 5000
+    }
   )
 })

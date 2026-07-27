@@ -13,7 +13,7 @@ test('CxDrawerTitle customize', async () => {
   const { container } = render(
     <CxDrawerTitle className="bazinga" component="h3">
       Test
-    </CxDrawerTitle>,
+    </CxDrawerTitle>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')

@@ -60,7 +60,7 @@ const BREAKPOINTS = [
   'lg' as const,
   'md' as const,
   'sm' as const,
-  'xs' as const,
+  'xs' as const
 ]
 
 const BP_NAME: Record<string, string> = {
@@ -69,7 +69,7 @@ const BP_NAME: Record<string, string> = {
   lg: 'large',
   md: 'medium',
   sm: 'small',
-  xs: '',
+  xs: ''
 }
 
 export const CxCol = forwardRef<HTMLDivElement, CxColProps>(
@@ -113,7 +113,7 @@ export const CxCol = forwardRef<HTMLDivElement, CxColProps>(
 
     const _className = classNames(
       repsonsiveClassNames.length ? repsonsiveClassNames : 'col',
-      className,
+      className
     )
 
     return (
@@ -121,7 +121,7 @@ export const CxCol = forwardRef<HTMLDivElement, CxColProps>(
         {children}
       </div>
     )
-  },
+  }
 )
 
 CxCol.displayName = 'CxCol'

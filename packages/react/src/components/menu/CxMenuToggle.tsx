@@ -45,7 +45,7 @@ export const CxMenuToggle = forwardRef<HTMLButtonElement | HTMLAnchorElement, Cx
         {children}
       </CxButton>
     )
-  },
+  }
 )
 
 CxMenuToggle.displayName = 'CxMenuToggle'

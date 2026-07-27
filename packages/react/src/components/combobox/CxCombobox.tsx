@@ -7,8 +7,10 @@ import { resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacem
 import { CxComboboxItemProps } from './CxComboboxItem'
 import { ComboboxListBox } from './ComboboxListBox'
 
-export interface CxComboboxProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue'> {
+export interface CxComboboxProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  'onChange' | 'defaultValue'
+> {
   /**
    * An accessible label for the combobox, used when there's no visible `<label>`.
    */
@@ -80,7 +82,7 @@ export const CxCombobox = ({
   ...rest
 }: CxComboboxProps) => {
   const items = React.Children.toArray(children).filter(
-    (child): child is ReactElement<CxComboboxItemProps> => React.isValidElement(child),
+    (child): child is ReactElement<CxComboboxItemProps> => React.isValidElement(child)
   )
 
   // Case- and accent-insensitive substring matching, mirroring chassis-css's own
@@ -105,7 +107,7 @@ export const CxCombobox = ({
     allowsEmptyCollection: true,
     // Matches chassis-css's vanilla combobox.js: the menu opens on focus, not only once the
     // user starts typing.
-    menuTrigger: 'focus',
+    menuTrigger: 'focus'
   })
 
   const wrapperRef = useRef<HTMLDivElement>(null)
@@ -122,9 +124,9 @@ export const CxCombobox = ({
       listBoxRef,
       popoverRef,
       isDisabled: disabled,
-      placeholder,
+      placeholder
     },
-    state,
+    state
   )
 
   const { overlayProps, placement: resolvedPlacement } = useOverlayPosition({
@@ -132,13 +134,13 @@ export const CxCombobox = ({
     overlayRef: popoverRef,
     placement: toAriaPlacement('bottom-start'),
     offset: 2,
-    isOpen: state.isOpen,
+    isOpen: state.isOpen
   })
 
   const overlayStyle: React.CSSProperties = {
     position: overlayProps.style?.position as React.CSSProperties['position'],
     top: overlayProps.style?.top,
-    left: overlayProps.style?.left,
+    left: overlayProps.style?.left
   }
   const placementAttr = resolveDataPlacement('bottom-start', resolvedPlacement)
 
@@ -151,7 +153,7 @@ export const CxCombobox = ({
           'form-input',
           'combobox',
           { small: size === 'small', large: size === 'large', disabled },
-          className,
+          className
         )}
         ref={wrapperRef}
         {...rest}

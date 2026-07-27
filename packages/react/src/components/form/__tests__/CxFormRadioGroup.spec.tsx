@@ -8,7 +8,7 @@ test('loads and displays CxFormRadioGroup component', async () => {
     <CxFormRadioGroup label="Choose an option" defaultValue="a">
       <CxFormRadio value="a" label="Option A" />
       <CxFormRadio value="b" label="Option B" />
-    </CxFormRadioGroup>,
+    </CxFormRadioGroup>
   )
   expect(container).toMatchSnapshot()
 })
@@ -17,7 +17,7 @@ test('renders a fieldset/legend wired up with the group role and description', (
   render(
     <CxFormRadioGroup label="Choose an option" description="Pick one." defaultValue="a">
       <CxFormRadio value="a" label="Option A" />
-    </CxFormRadioGroup>,
+    </CxFormRadioGroup>
   )
   const group = screen.getByRole('radiogroup', { name: 'Choose an option' })
   expect(group.tagName).toBe('FIELDSET')
@@ -29,7 +29,7 @@ test('invalid group renders the error message and is-invalid class', () => {
   render(
     <CxFormRadioGroup label="Choose an option" invalid errorMessage="Pick one to continue.">
       <CxFormRadio value="a" label="Option A" />
-    </CxFormRadioGroup>,
+    </CxFormRadioGroup>
   )
   expect(screen.getByText('Pick one to continue.')).toHaveClass('invalid-feedback')
   expect(screen.getByRole('radiogroup')).toHaveClass('is-invalid')
@@ -40,7 +40,7 @@ test('orientation="horizontal" wraps items in a flex row', () => {
     <CxFormRadioGroup label="Choose an option" defaultValue="a" orientation="horizontal">
       <CxFormRadio value="a" label="Option A" />
       <CxFormRadio value="b" label="Option B" />
-    </CxFormRadioGroup>,
+    </CxFormRadioGroup>
   )
   const radioA = screen.getByRole('radio', { name: 'Option A' })
   expect(radioA.closest('.d-flex')).not.toBeNull()

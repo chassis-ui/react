@@ -4,7 +4,7 @@ import type { Root } from 'mdast'
 import type {
   MdxJsxAttribute,
   MdxJsxExpressionAttribute,
-  MdxJsxFlowElement,
+  MdxJsxFlowElement
 } from 'mdast-util-mdx-jsx'
 import type { Plugin } from 'unified'
 import { visit } from 'unist-util-visit'
@@ -53,7 +53,7 @@ export const remarkCxConfig: Plugin<[], Root> = function () {
             break
           }
         }
-      },
+      }
     )
   }
 }
@@ -75,7 +75,7 @@ export const remarkCxDocsref: Plugin<[], Root> = function () {
         'link',
         'mdxJsxFlowElement',
         'mdxJsxTextElement',
-        'text',
+        'text'
       ],
       (node) => {
         switch (node.type) {
@@ -96,7 +96,7 @@ export const remarkCxDocsref: Plugin<[], Root> = function () {
             break
           }
         }
-      },
+      }
     )
   }
 }
@@ -133,7 +133,7 @@ const STRUCTURAL_MDX_TYPES = new Set([
   'mdxJsxFlowElement',
   'mdxJsxTextElement',
   'mdxFlowExpression',
-  'mdxTextExpression',
+  'mdxTextExpression'
 ])
 
 interface PositionedNode {
@@ -144,7 +144,7 @@ interface PositionedNode {
 
 function flattenBlockNodes<T extends PositionedNode>(nodes: T[]): T[] {
   return nodes.flatMap((node) =>
-    BLOCK_WRAPPER_TYPES.has(node.type) ? flattenBlockNodes((node.children ?? []) as T[]) : [node],
+    BLOCK_WRAPPER_TYPES.has(node.type) ? flattenBlockNodes((node.children ?? []) as T[]) : [node]
   )
 }
 
@@ -187,7 +187,7 @@ export const remarkCxExampleInlineChildren: Plugin<[], Root> = function () {
         if (node === exampleNode) return
         node.children = toLiteralChildren(
           node.children as PositionedNode[],
-          raw,
+          raw
         ) as typeof node.children
       })
     })
@@ -223,7 +223,7 @@ export const remarkCxExample: Plugin<[], Root> = function () {
       if (node.name !== 'Example') return
 
       const hasCodeAttribute = node.attributes.some(
-        (attribute) => attribute.type === 'mdxJsxAttribute' && attribute.name === 'code',
+        (attribute) => attribute.type === 'mdxJsxAttribute' && attribute.name === 'code'
       )
       if (hasCodeAttribute) return
 
@@ -268,7 +268,7 @@ function extractExampleSource(
   node: MdxJsxFlowElement,
   raw: string,
   imports: ExampleImportBinding[],
-  dirname: string | undefined,
+  dirname: string | undefined
 ): string | undefined {
   if (node.children.length === 1) {
     const child = node.children[0]
@@ -379,7 +379,7 @@ function getConfigValueAtPath(path: string) {
 
 function replaceInFrontmatter(
   record: Record<string, unknown>,
-  replacer: (value: string) => string,
+  replacer: (value: string) => string
 ) {
   for (const [key, value] of Object.entries(record)) {
     if (typeof value === 'string') {
@@ -389,8 +389,8 @@ function replaceInFrontmatter(
         return typeof arrayValue === 'string'
           ? replacer(arrayValue)
           : typeof arrayValue === 'object'
-          ? replaceInFrontmatter(arrayValue, replacer)
-          : arrayValue
+            ? replaceInFrontmatter(arrayValue, replacer)
+            : arrayValue
       })
     }
   }

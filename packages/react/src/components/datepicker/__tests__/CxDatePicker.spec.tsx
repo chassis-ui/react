@@ -32,7 +32,7 @@ test('clicking a day cell selects it, fires onChange, and closes the calendar', 
       aria-label="Event date"
       onChange={onChange}
       value={new CalendarDate(2026, 7, 24)}
-    />,
+    />
   )
   openCalendar()
 
@@ -53,7 +53,7 @@ test('dates outside minValue/maxValue are disabled and cannot be selected', () =
       minValue={new CalendarDate(2026, 7, 10)}
       onChange={onChange}
       value={new CalendarDate(2026, 7, 15)}
-    />,
+    />
   )
   openCalendar()
 
@@ -66,16 +66,16 @@ test('dates outside minValue/maxValue are disabled and cannot be selected', () =
 
 test('creates a hidden input for form submission when name is provided', () => {
   const { container, rerender } = render(
-    <CxDatePicker aria-label="Event date" name="eventDate" value={new CalendarDate(2026, 7, 24)} />,
+    <CxDatePicker aria-label="Event date" name="eventDate" value={new CalendarDate(2026, 7, 24)} />
   )
   const hidden = container.querySelector(
-    'input[type="hidden"][name="eventDate"]',
+    'input[type="hidden"][name="eventDate"]'
   ) as HTMLInputElement
   expect(hidden).toBeInTheDocument()
   expect(hidden.value).toBe('2026-07-24')
 
   rerender(
-    <CxDatePicker aria-label="Event date" name="eventDate" value={new CalendarDate(2026, 8, 1)} />,
+    <CxDatePicker aria-label="Event date" name="eventDate" value={new CalendarDate(2026, 8, 1)} />
   )
   expect(hidden.value).toBe('2026-08-01')
 })
@@ -87,7 +87,7 @@ test('supports controlled value reflected in the field segments', () => {
       aria-label="Event date"
       onChange={onChange}
       value={new CalendarDate(2026, 7, 24)}
-    />,
+    />
   )
   expect(screen.getByText('24')).toBeInTheDocument()
 
@@ -96,7 +96,7 @@ test('supports controlled value reflected in the field segments', () => {
       aria-label="Event date"
       onChange={onChange}
       value={new CalendarDate(2026, 7, 25)}
-    />,
+    />
   )
   expect(screen.getByText('25')).toBeInTheDocument()
 })

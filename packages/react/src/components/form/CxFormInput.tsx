@@ -54,12 +54,12 @@ export const CxFormInput = forwardRef<HTMLInputElement, CxFormInputProps>(
       {
         'form-input-color': type === 'color',
         'is-invalid': invalid,
-        'is-valid': valid,
+        'is-valid': valid
       },
-      className,
+      className
     )
     return <input type={type} className={_className} {...rest} ref={ref} />
-  },
+  }
 )
 
 CxFormInput.displayName = 'CxFormInput'

@@ -18,5 +18,5 @@ export interface CxTableHeaderProps<T> {
  * rendered directly.
  */
 export const CxTableHeader = TableHeader as unknown as <T>(
-  props: CxTableHeaderProps<T>,
+  props: CxTableHeaderProps<T>
 ) => ReactElement

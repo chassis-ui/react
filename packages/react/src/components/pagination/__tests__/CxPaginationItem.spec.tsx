@@ -12,7 +12,7 @@ test('CxPaginationItem customize', async () => {
   const { container } = render(
     <CxPaginationItem className="bazinga" active={true} component="h3" disabled={true}>
       Test
-    </CxPaginationItem>,
+    </CxPaginationItem>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')

@@ -12,7 +12,7 @@ test('CxList customize', async () => {
   const { container } = render(
     <CxList className="bazinga" component="h3" flush={true} layout="xlarge:horizontal">
       Test
-    </CxList>,
+    </CxList>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')
@@ -25,7 +25,7 @@ test('CxList plain and numbered', async () => {
   const { container } = render(
     <CxList component="ol" plain={true} numbered={true}>
       Test
-    </CxList>,
+    </CxList>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('plain')
@@ -36,7 +36,7 @@ test('CxList context and style', async () => {
   const { container } = render(
     <CxList context="primary" variant="solid">
       Test
-    </CxList>,
+    </CxList>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('context')
@@ -50,7 +50,7 @@ test('CxList example', async () => {
       <CxListItem>A</CxListItem>
       <CxListItem>B</CxListItem>
       <CxListItem>C</CxListItem>
-    </CxList>,
+    </CxList>
   )
   expect(container).toMatchSnapshot()
 })
@@ -60,7 +60,7 @@ test('CxList forwards arbitrary HTML attributes and ref', async () => {
   const { container } = render(
     <CxList ref={ref} id="nav-list" data-testid="my-list">
       Test
-    </CxList>,
+    </CxList>
   )
   expect(ref.current).toBeInstanceOf(HTMLUListElement)
   expect(container.firstChild).toHaveAttribute('id', 'nav-list')
@@ -73,9 +73,9 @@ test('CxList data-driven items', async () => {
       items={[
         { label: 'Dashboard', href: '#', active: true },
         { label: 'Profile', href: '#' },
-        { label: 'Billing', href: '#', disabled: true, context: 'warning' },
+        { label: 'Billing', href: '#', disabled: true, context: 'warning' }
       ]}
-    />,
+    />
   )
   expect(container).toMatchSnapshot()
 })

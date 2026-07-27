@@ -42,7 +42,7 @@ const Chip = ({ chipVariant, item, state }: ChipProps) => {
   const { rowProps, gridCellProps, removeButtonProps, allowsRemoving } = useTag(
     { item },
     state,
-    ref,
+    ref
   )
   const buttonRef = useRef<HTMLButtonElement>(null)
   const { buttonProps } = useButton(removeButtonProps, buttonRef)
@@ -51,7 +51,7 @@ const Chip = ({ chipVariant, item, state }: ChipProps) => {
     <div
       {...rowProps}
       className={classNames('chip', chipVariant, {
-        active: state.selectionManager.isSelected(item.key),
+        active: state.selectionManager.isSelected(item.key)
       })}
       ref={ref}
     >

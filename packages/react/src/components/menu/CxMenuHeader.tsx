@@ -21,7 +21,7 @@ export const CxMenuHeader = forwardRef<HTMLHeadingElement, CxMenuHeaderProps>(
         {children}
       </Component>
     )
-  },
+  }
 )
 
 CxMenuHeader.displayName = 'CxMenuHeader'

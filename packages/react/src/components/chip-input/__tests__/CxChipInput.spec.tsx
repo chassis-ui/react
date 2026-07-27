@@ -41,7 +41,7 @@ test('pasting separator-delimited text creates multiple chips', () => {
   render(<CxChipInput aria-label="Skills" onChange={onChange} />)
   const input = screen.getByRole('textbox') as HTMLInputElement
   fireEvent.paste(input, {
-    clipboardData: { getData: () => 'React,TypeScript,CSS' },
+    clipboardData: { getData: () => 'React,TypeScript,CSS' }
   })
   expect(onChange).toHaveBeenCalledTimes(1)
   expect(onChange).toHaveBeenCalledWith(['React', 'TypeScript'])
@@ -60,7 +60,7 @@ test('duplicate values are rejected unless allowDuplicates is set', () => {
 test('maxChips prevents adding beyond the limit', () => {
   const onChange = jest.fn()
   render(
-    <CxChipInput aria-label="Skills" defaultValue={['React']} maxChips={1} onChange={onChange} />,
+    <CxChipInput aria-label="Skills" defaultValue={['React']} maxChips={1} onChange={onChange} />
   )
   const input = screen.getByRole('textbox')
   fireEvent.change(input, { target: { value: 'CSS' } })
@@ -71,7 +71,7 @@ test('maxChips prevents adding beyond the limit', () => {
 test('clicking a chip close button removes it', () => {
   const onChange = jest.fn()
   render(
-    <CxChipInput aria-label="Skills" defaultValue={['React', 'TypeScript']} onChange={onChange} />,
+    <CxChipInput aria-label="Skills" defaultValue={['React', 'TypeScript']} onChange={onChange} />
   )
   const row = screen.getByRole('row', { name: /React/ })
   const removeButton = within(row).getByRole('button')
@@ -90,7 +90,7 @@ test('backspace on an empty input focuses and selects the last chip', () => {
 test('pressing Backspace with a chip focused removes it', () => {
   const onChange = jest.fn()
   render(
-    <CxChipInput aria-label="Skills" defaultValue={['React', 'TypeScript']} onChange={onChange} />,
+    <CxChipInput aria-label="Skills" defaultValue={['React', 'TypeScript']} onChange={onChange} />
   )
   const input = screen.getByRole('textbox')
   fireEvent.keyDown(input, { key: 'Backspace' })
@@ -101,7 +101,7 @@ test('pressing Backspace with a chip focused removes it', () => {
 
 test('creates a hidden input per chip for form submission when name is provided', () => {
   const { container } = render(
-    <CxChipInput aria-label="Skills" defaultValue={['React', 'TypeScript']} name="skills" />,
+    <CxChipInput aria-label="Skills" defaultValue={['React', 'TypeScript']} name="skills" />
   )
   const hiddenInputs = container.querySelectorAll('input[type="hidden"][name="skills"]')
   expect(hiddenInputs).toHaveLength(2)
@@ -112,7 +112,7 @@ test('creates a hidden input per chip for form submission when name is provided'
 test('supports controlled value', () => {
   const onChange = jest.fn()
   const { rerender } = render(
-    <CxChipInput aria-label="Skills" onChange={onChange} value={['React']} />,
+    <CxChipInput aria-label="Skills" onChange={onChange} value={['React']} />
   )
   expect(screen.getByRole('row', { name: /React/ })).toBeInTheDocument()
 

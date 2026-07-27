@@ -13,7 +13,7 @@ test('CxMenuText customize', async () => {
   render(
     <CxMenuText component="p" className="bazinga">
       Test
-    </CxMenuText>,
+    </CxMenuText>
   )
   const text = screen.getByText('Test')
   expect(text).toHaveClass('bazinga')

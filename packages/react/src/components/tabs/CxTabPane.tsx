@@ -36,9 +36,9 @@ export const CxTabPane = forwardRef<HTMLDivElement, CxTabPaneProps>(
       'tab-pane',
       'fade',
       {
-        active: visible,
+        active: visible
       },
-      className,
+      className
     )
     return (
       <Transition in={visible} nodeRef={nodeRef} onEnter={onShow} onExit={onHide} timeout={150}>
@@ -52,7 +52,7 @@ export const CxTabPane = forwardRef<HTMLDivElement, CxTabPaneProps>(
         }}
       </Transition>
     )
-  },
+  }
 )
 
 CxTabPane.displayName = 'CxTabPane'

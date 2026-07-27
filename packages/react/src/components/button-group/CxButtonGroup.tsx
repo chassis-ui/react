@@ -25,7 +25,7 @@ export const CxButtonGroup = forwardRef<HTMLDivElement, CxButtonGroupProps>(
         {children}
       </div>
     )
-  },
+  }
 )
 
 CxButtonGroup.displayName = 'CxButtonGroup'

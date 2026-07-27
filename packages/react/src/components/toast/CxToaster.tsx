@@ -51,9 +51,9 @@ export const CxToaster = forwardRef<HTMLDivElement, CxToasterProps>(
         'bottom-0': placement && placement.includes('bottom'),
         'start-0': placement && placement.includes('start'),
         'start-50 translate-middle-x': placement && placement.includes('center'),
-        'end-0': placement && placement.includes('end'),
+        'end-0': placement && placement.includes('end')
       },
-      className,
+      className
     )
 
     const toaster = (toasterRef?: React.Ref<HTMLDivElement>) => {
@@ -80,7 +80,7 @@ export const CxToaster = forwardRef<HTMLDivElement, CxToasterProps>(
     return typeof window !== 'undefined' && placement
       ? createPortal(toaster(forkedRef), document.body)
       : toaster(forkedRef)
-  },
+  }
 )
 
 CxToaster.displayName = 'CxToaster'

@@ -5,7 +5,7 @@ import React, {
   HTMLAttributes,
   useState,
   useEffect,
-  useRef,
+  useRef
 } from 'react'
 import classNames from 'classnames'
 
@@ -96,7 +96,7 @@ export const CxCarousel = forwardRef<HTMLDivElement, CxCarouselProps>(
       wrap = true,
       ...rest
     },
-    ref,
+    ref
   ) => {
     const carouselRef = useRef<HTMLDivElement>(null)
     const forkedRef = useForkedRef(ref, carouselRef)
@@ -113,14 +113,18 @@ export const CxCarousel = forwardRef<HTMLDivElement, CxCarouselProps>(
       setItemsNumber(Children.toArray(children).length)
     }, [children])
 
+    // Intentionally re-runs only on `visible`/`animating` transitions, not on every render —
+    // it closes over whatever `cycle`/`active`/`direction`/callbacks are current at that moment.
     useEffect(() => {
       visible && cycle()
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [visible])
 
     useEffect(() => {
       !animating && cycle()
       !animating && onSlid && onSlid(active, direction)
       animating && onSlide && onSlide(active, direction)
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [animating])
 
     useEffect(() => {
@@ -135,7 +139,7 @@ export const CxCarousel = forwardRef<HTMLDivElement, CxCarouselProps>(
       'carousel slide',
       transition === 'crossfade' && 'carousel-fade',
       dark && 'carousel-dark',
-      className,
+      className
     )
 
     const cycle = () => {
@@ -147,7 +151,7 @@ export const CxCarousel = forwardRef<HTMLDivElement, CxCarouselProps>(
       if (typeof interval === 'number') {
         data.timeout = setTimeout(
           () => nextItemWhenVisible(),
-          typeof customInterval === 'number' ? customInterval : interval,
+          typeof customInterval === 'number' ? customInterval : interval
         )
       }
     }
@@ -212,7 +216,7 @@ export const CxCarousel = forwardRef<HTMLDivElement, CxCarouselProps>(
         <CxCarouselContext.Provider
           value={{
             setAnimating,
-            setCustomInterval,
+            setCustomInterval
           }}
         >
           {indicators && (
@@ -245,7 +249,8 @@ export const CxCarousel = forwardRef<HTMLDivElement, CxCarouselProps>(
                 return React.cloneElement(child, {
                   active: active === index ? true : false,
                   direction: direction,
-                  key: index,
+                  // eslint-disable-next-line react/no-array-index-key
+                  key: index
                 })
               }
               return
@@ -274,7 +279,7 @@ export const CxCarousel = forwardRef<HTMLDivElement, CxCarouselProps>(
         </CxCarouselContext.Provider>
       </div>
     )
-  },
+  }
 )
 
 CxCarousel.displayName = 'CxCarousel'

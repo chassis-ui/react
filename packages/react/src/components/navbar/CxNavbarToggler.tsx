@@ -17,7 +17,7 @@ export const CxNavbarToggler = forwardRef<HTMLButtonElement, CxNavbarTogglerProp
         {children ? children : <span className="navbar-toggler-icon"></span>}
       </button>
     )
-  },
+  }
 )
 
 CxNavbarToggler.displayName = 'CxNavbarToggler'

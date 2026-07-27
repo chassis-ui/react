@@ -30,7 +30,12 @@ export const CxTabPanel = ({ children, className, id, ...rest }: CxTabPanelProps
   if (state.selectedKey !== id) return null
 
   return (
-    <div className={classNames('tab-pane', 'fade', 'show', 'active', className)} {...tabPanelProps} {...rest} ref={ref}>
+    <div
+      className={classNames('tab-pane', 'fade', 'show', 'active', className)}
+      {...tabPanelProps}
+      {...rest}
+      ref={ref}
+    >
       {children}
     </div>
   )

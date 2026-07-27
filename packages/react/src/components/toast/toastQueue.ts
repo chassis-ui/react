@@ -43,7 +43,10 @@ export const toastQueue = new ToastQueue<CxToastContent>()
 
 // Adds a toast to the queue. Returns the toast's key, which can be passed to `closeToast` to
 // dismiss it programmatically.
-export function addToast(children: ReactNode, options: Omit<CxToastContent, 'children'> = {}): string {
+export function addToast(
+  children: ReactNode,
+  options: Omit<CxToastContent, 'children'> = {}
+): string {
   return toastQueue.add({ children, ...options })
 }
 

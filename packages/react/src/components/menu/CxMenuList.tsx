@@ -29,7 +29,7 @@ export const CxMenuList = forwardRef<HTMLElement, CxMenuListProps>(
       overlayRef,
       placementAttr,
       triggerId,
-      visible,
+      visible
     } = useContext(CxMenuContext)
     const forkedRef = useForkedRef(ref, overlayRef)
     const submenuGroup = useSubmenuGroupProvider()
@@ -71,7 +71,7 @@ export const CxMenuList = forwardRef<HTMLElement, CxMenuListProps>(
     }
 
     return content
-  },
+  }
 )
 
 CxMenuList.displayName = 'CxMenuList'

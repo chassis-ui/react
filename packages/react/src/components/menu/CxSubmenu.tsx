@@ -2,11 +2,12 @@ import React, {
   forwardRef,
   HTMLAttributes,
   ReactNode,
+  useCallback,
   useContext,
   useEffect,
   useId,
   useRef,
-  useState,
+  useState
 } from 'react'
 import { createPortal } from 'react-dom'
 import classNames from 'classnames'
@@ -69,7 +70,7 @@ export const CxSubmenu = forwardRef<HTMLDivElement, CxSubmenuProps>(
       trigger,
       ...rest
     },
-    ref,
+    ref
   ) => {
     const id = useId()
     const triggerId = `${id}-trigger`
@@ -97,27 +98,27 @@ export const CxSubmenu = forwardRef<HTMLDivElement, CxSubmenuProps>(
       offset: offsetProp[1],
       crossOffset: offsetProp[0],
       containerPadding: 8,
-      isOpen: visible,
+      isOpen: visible
     })
 
     const menuStyle: React.CSSProperties = {
       position: overlayProps.style?.position as React.CSSProperties['position'],
       top: overlayProps.style?.top,
-      left: overlayProps.style?.left,
+      left: overlayProps.style?.left
     }
     const placementAttr = resolveDataPlacement(placement, resolvedPlacement)
 
-    const clearCloseTimeout = () => {
+    const clearCloseTimeout = useCallback(() => {
       if (closeTimeoutRef.current !== undefined) {
         window.clearTimeout(closeTimeoutRef.current)
         closeTimeoutRef.current = undefined
       }
-    }
+    }, [])
 
-    const close = () => {
+    const close = useCallback(() => {
       clearCloseTimeout()
       setVisible(false)
-    }
+    }, [clearCloseTimeout])
 
     const open = () => {
       if (disabled || visible) return
@@ -131,19 +132,17 @@ export const CxSubmenu = forwardRef<HTMLDivElement, CxSubmenuProps>(
       closeTimeoutRef.current = window.setTimeout(close, submenuDelay)
     }
 
-    useEffect(() => parentGroup?.register(id, close), [parentGroup, id])
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => () => clearCloseTimeout(), [])
+    useEffect(() => parentGroup?.register(id, close), [parentGroup, id, close])
+    useEffect(() => clearCloseTimeout, [clearCloseTimeout])
     useEffect(() => setMounted(true), [])
 
     // The submenu's own open state is local and doesn't otherwise hear about its ancestor
     // `CxMenu` closing (via Escape, outside click, etc.) — without this it's left open and
     // fully visible (it's portaled to `document.body`, so nothing hides it for free) even
     // after the menu it belongs to has disappeared.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
       if (!parentMenuVisible) close()
-    }, [parentMenuVisible])
+    }, [parentMenuVisible, close])
 
     const supportsHover =
       typeof window !== 'undefined' &&
@@ -214,7 +213,7 @@ export const CxSubmenu = forwardRef<HTMLDivElement, CxSubmenuProps>(
               onKeyDown={(event) =>
                 handleMenuKeyDown(event, {
                   onEscape: closeAndRefocusTrigger,
-                  onArrowLeft: closeAndRefocusTrigger,
+                  onArrowLeft: closeAndRefocusTrigger
                 })
               }
               onMouseEnter={hoverEnabled ? clearCloseTimeout : undefined}
@@ -235,7 +234,7 @@ export const CxSubmenu = forwardRef<HTMLDivElement, CxSubmenuProps>(
         })()}
       </div>
     )
-  },
+  }
 )
 
 CxSubmenu.displayName = 'CxSubmenu'

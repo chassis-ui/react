@@ -9,7 +9,7 @@ import {
   useCalendar,
   useCalendarCell,
   useCalendarGrid,
-  useDialog,
+  useDialog
 } from 'react-aria'
 import { CalendarState } from 'react-stately'
 import { CalendarDate, getLocalTimeZone, getWeeksInMonth, isToday } from '@internationalized/date'
@@ -82,7 +82,7 @@ const CalendarGrid = ({ locale, state }: CalendarGridProps) => {
               ) : (
                 // eslint-disable-next-line react/no-array-index-key
                 <td key={i} />
-              ),
+              )
             )}
           </tr>
         ))}
@@ -106,7 +106,7 @@ const CalendarCell = ({ date, state }: CalendarCellProps) => {
     isDisabled,
     isUnavailable,
     isFocused,
-    formattedDate,
+    formattedDate
   } = useCalendarCell({ date }, state, ref)
 
   return (
@@ -119,7 +119,7 @@ const CalendarCell = ({ date, state }: CalendarCellProps) => {
           outside: isOutsideVisibleRange,
           disabled: isDisabled,
           unavailable: isUnavailable,
-          focused: isFocused,
+          focused: isFocused
         })}
         ref={ref}
       >

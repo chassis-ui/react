@@ -18,7 +18,7 @@ test('CxProgressBar customize', async () => {
       variant="striped"
     >
       Test
-    </CxProgressBar>,
+    </CxProgressBar>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')

@@ -12,7 +12,7 @@ test('CxProgress customize', async () => {
   const { container } = render(
     <CxProgress className="bazinga" height={100} context="warning" value={50}>
       Test
-    </CxProgress>,
+    </CxProgress>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')

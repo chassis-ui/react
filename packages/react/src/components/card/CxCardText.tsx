@@ -21,7 +21,7 @@ export const CxCardText = forwardRef<HTMLParagraphElement, CxCardTextProps>(
         {children}
       </Component>
     )
-  },
+  }
 )
 
 CxCardText.displayName = 'CxCardText'

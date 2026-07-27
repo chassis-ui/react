@@ -17,7 +17,7 @@ export const DateField = ({ fieldProps }: DateFieldProps) => {
   const state = useDateFieldState({
     ...fieldProps,
     createCalendar,
-    locale,
+    locale
   })
 
   const ref = useRef<HTMLDivElement>(null)

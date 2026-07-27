@@ -17,7 +17,7 @@ export const CxButtonToolbar = forwardRef<HTMLDivElement, CxButtonToolbarProps>(
         {children}
       </div>
     )
-  },
+  }
 )
 
 CxButtonToolbar.displayName = 'CxButtonToolbar'

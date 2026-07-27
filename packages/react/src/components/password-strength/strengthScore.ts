@@ -21,14 +21,14 @@ export const defaultWeights: StrengthWeights = {
   multipleSpecial: 1,
   numbers: 1,
   special: 1,
-  uppercase: 1,
+  uppercase: 1
 }
 
 export const defaultMessages: Record<StrengthLevel, string> = {
   fair: 'Fair',
   good: 'Good',
   strong: 'Strong',
-  weak: 'Weak',
+  weak: 'Weak'
 }
 
 export const defaultThresholds: [number, number, number] = [2, 4, 6]
@@ -46,7 +46,7 @@ interface CalculateScoreOptions {
 // a password scores identically whether evaluated by the vanilla JS or this component.
 export const calculateScore = (
   password: string,
-  { minLength, scorer, weights }: CalculateScoreOptions,
+  { minLength, scorer, weights }: CalculateScoreOptions
 ): number => {
   if (!password) return 0
   if (scorer) return scorer(password)
@@ -67,7 +67,7 @@ export const calculateScore = (
 
 export const scoreToStrength = (
   score: number,
-  thresholds: [number, number, number],
+  thresholds: [number, number, number]
 ): StrengthLevel | null => {
   if (score === 0) return null
 

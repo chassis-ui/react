@@ -17,7 +17,7 @@ export const CxCardBody = forwardRef<HTMLDivElement, CxCardBodyProps>(
         {children}
       </div>
     )
-  },
+  }
 )
 
 CxCardBody.displayName = 'CxCardBody'

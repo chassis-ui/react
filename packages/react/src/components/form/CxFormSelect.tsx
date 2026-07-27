@@ -58,9 +58,9 @@ export const CxFormSelect = forwardRef<HTMLSelectElement, CxFormSelectProps>(
       {
         [`form-select-${size}`]: size,
         'is-invalid': invalid,
-        'is-valid': valid,
+        'is-valid': valid
       },
-      className,
+      className
     )
     return (
       <select className={_className} size={htmlSize} {...rest} ref={ref}>
@@ -76,6 +76,7 @@ export const CxFormSelect = forwardRef<HTMLSelectElement, CxFormSelectProps>(
                   {...(typeof option === 'object' &&
                     option.disabled && { disabled: option.disabled })}
                   {...(typeof option === 'object' && option.value && { value: option.value })}
+                  // eslint-disable-next-line react/no-array-index-key
                   key={index}
                 >
                   {typeof option === 'string' ? option : option.label}
@@ -85,7 +86,7 @@ export const CxFormSelect = forwardRef<HTMLSelectElement, CxFormSelectProps>(
           : children}
       </select>
     )
-  },
+  }
 )
 
 CxFormSelect.displayName = 'CxFormSelect'

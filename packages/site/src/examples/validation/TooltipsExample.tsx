@@ -3,15 +3,13 @@ import { useState } from 'react'
 import {
   CxButton,
   CxForm,
-  CxFormCheck,
   CxFormInput,
   CxFormFeedback,
   CxFormLabel,
   CxFormSelect,
   CxInputGroup,
   CxInputGroupText,
-  CxCol,
-  CxRow
+  CxCol
 } from '@chassis-ui/react'
 
 export const TooltipsExample = () => {

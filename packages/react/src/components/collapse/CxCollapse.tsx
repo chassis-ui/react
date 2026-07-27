@@ -38,10 +38,10 @@ export const CxCollapse = forwardRef<HTMLDivElement, CxCollapseProps>(
       return state === 'entering'
         ? 'collapsing'
         : state === 'entered'
-        ? 'collapse show'
-        : state === 'exiting'
-        ? 'collapsing'
-        : 'collapse'
+          ? 'collapse show'
+          : state === 'exiting'
+            ? 'collapsing'
+            : 'collapse'
     }
 
     const onEntering = () => {
@@ -89,9 +89,9 @@ export const CxCollapse = forwardRef<HTMLDivElement, CxCollapseProps>(
 
     const _className = classNames(
       {
-        'collapse-horizontal': horizontal,
+        'collapse-horizontal': horizontal
       },
-      className,
+      className
     )
 
     return (
@@ -122,7 +122,7 @@ export const CxCollapse = forwardRef<HTMLDivElement, CxCollapseProps>(
         }}
       </CSSTransition>
     )
-  },
+  }
 )
 
 CxCollapse.displayName = 'CxCollapse'

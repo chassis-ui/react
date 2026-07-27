@@ -9,7 +9,7 @@ test('loads and displays CxMenuList component', async () => {
       <CxMenuList className="bazinga">
         <CxMenuItem>A</CxMenuItem>
       </CxMenuList>
-    </CxMenu>,
+    </CxMenu>
   )
   const menu = document.querySelector('.menu')
   expect(menu).toHaveClass('bazinga')
@@ -22,7 +22,7 @@ test('CxMenuList reflects the menu visibility', async () => {
       <CxMenuList>
         <CxMenuItem>A</CxMenuItem>
       </CxMenuList>
-    </CxMenu>,
+    </CxMenu>
   )
   const menu = document.querySelector('.menu')
   expect(menu).toHaveClass('show')
@@ -35,7 +35,7 @@ test('CxMenuList portals to a container when requested', async () => {
       <CxMenuList>
         <CxMenuItem>A</CxMenuItem>
       </CxMenuList>
-    </CxMenu>,
+    </CxMenu>
   )
   const menu = document.body.querySelector(':scope > .menu')
   expect(menu).not.toBeNull()

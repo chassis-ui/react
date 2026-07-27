@@ -10,7 +10,7 @@ test('loads and displays CxMenuToggle component', async () => {
       <CxMenuList>
         <CxMenuItem>A</CxMenuItem>
       </CxMenuList>
-    </CxMenu>,
+    </CxMenu>
   )
   const toggle = screen.getByText('Test')
   expect(toggle).toHaveClass('button')
@@ -26,7 +26,7 @@ test('CxMenuToggle forwards ref to the underlying button', async () => {
       <CxMenuList>
         <CxMenuItem>A</CxMenuItem>
       </CxMenuList>
-    </CxMenu>,
+    </CxMenu>
   )
   expect(ref.current).toBeInstanceOf(HTMLButtonElement)
   expect(ref.current).toBe(screen.getByText('Test'))
@@ -41,7 +41,7 @@ test('CxMenuToggle forwards custom props to the underlying button', async () => 
       <CxMenuList>
         <CxMenuItem>A</CxMenuItem>
       </CxMenuList>
-    </CxMenu>,
+    </CxMenu>
   )
   const toggle = screen.getByText('Test')
   expect(toggle).toHaveClass('secondary')

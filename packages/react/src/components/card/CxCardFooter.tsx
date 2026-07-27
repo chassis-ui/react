@@ -17,7 +17,7 @@ export const CxCardFooter = forwardRef<HTMLDivElement, CxCardFooterProps>(
         {children}
       </div>
     )
-  },
+  }
 )
 
 CxCardFooter.displayName = 'CxCardFooter'

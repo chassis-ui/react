@@ -17,7 +17,7 @@ export const CxDrawerBody = forwardRef<HTMLDivElement, CxDrawerBodyProps>(
         {children}
       </div>
     )
-  },
+  }
 )
 
 CxDrawerBody.displayName = 'CxDrawerBody'

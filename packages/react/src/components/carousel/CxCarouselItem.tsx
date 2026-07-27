@@ -58,47 +58,37 @@ export const CxCarouselItem = forwardRef<HTMLDivElement, CxCarouselItemProps>(
       prevActive.current = active
 
       if (count === 0) setCount(count + 1)
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [active])
 
     useEffect(() => {
-      carouselItemRef.current?.addEventListener('transitionstart', () => {
+      const node = carouselItemRef.current
+      if (!node) return
+
+      const handleTransitionStart = () => {
         active && setAnimating(true)
-      })
-      carouselItemRef.current?.addEventListener('transitionend', () => {
+      }
+      const handleTransitionEnd = () => {
         active && setAnimating(false)
         setDirectionClassName('')
         setOrderClassName('')
-        if (active) {
-          setActiveClassName('active')
-        }
-        if (!active) {
-          setActiveClassName('')
-        }
-      })
-      return () => {
-        carouselItemRef.current?.removeEventListener('transitionstart', () => {
-          active && setAnimating(true)
-        })
-        carouselItemRef.current?.removeEventListener('transitionend', () => {
-          active && setAnimating(false)
-          setDirectionClassName('')
-          setOrderClassName('')
-          if (active) {
-            setActiveClassName('active')
-          }
-          if (!active) {
-            setActiveClassName('')
-          }
-        })
+        setActiveClassName(active ? 'active' : '')
       }
-    })
+
+      node.addEventListener('transitionstart', handleTransitionStart)
+      node.addEventListener('transitionend', handleTransitionEnd)
+      return () => {
+        node.removeEventListener('transitionstart', handleTransitionStart)
+        node.removeEventListener('transitionend', handleTransitionEnd)
+      }
+    }, [active, setAnimating])
 
     const _className = classNames(
       'carousel-item',
       activeClassName,
       directionClassName,
       orderClassName,
-      className,
+      className
     )
 
     return (
@@ -106,7 +96,7 @@ export const CxCarouselItem = forwardRef<HTMLDivElement, CxCarouselItemProps>(
         {children}
       </div>
     )
-  },
+  }
 )
 
 CxCarouselItem.displayName = 'CxCarouselItem'

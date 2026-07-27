@@ -76,7 +76,7 @@ test('pasting a full code distributes digits and focuses the last filled box', (
   const onChange = jest.fn()
   render(<CxOtpInput aria-label="Code" length={4} onChange={onChange} />)
   fireEvent.paste(screen.getByRole('textbox', { name: 'Digit 1' }), {
-    clipboardData: { getData: () => '12-34' },
+    clipboardData: { getData: () => '12-34' }
   })
   expect(onChange).toHaveBeenCalledWith('1234')
   expect(screen.getByRole('textbox', { name: 'Digit 4' })).toHaveFocus()
@@ -84,7 +84,7 @@ test('pasting a full code distributes digits and focuses the last filled box', (
 
 test('creates a hidden input for form submission when name is provided', () => {
   const { container } = render(
-    <CxOtpInput aria-label="Code" defaultValue="123" length={3} name="code" />,
+    <CxOtpInput aria-label="Code" defaultValue="123" length={3} name="code" />
   )
   const hidden = container.querySelector('input[type="hidden"][name="code"]') as HTMLInputElement
   expect(hidden.value).toBe('123')

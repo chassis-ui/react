@@ -4,7 +4,7 @@ import React, {
   HTMLAttributes,
   ReactElement,
   ReactNode,
-  useContext,
+  useContext
 } from 'react'
 import { Item, Key, TabListState, useTabListState } from 'react-stately'
 
@@ -76,7 +76,7 @@ export const CxTabs = forwardRef<HTMLDivElement, CxTabsProps>(
       selectedKey,
       ...rest
     },
-    ref,
+    ref
   ) => {
     // `CxTabList`'s own children (the `CxTab`s) are the source of truth for the collection —
     // `CxTabList` never renders them directly (see its own comment), it only reads them here,
@@ -86,17 +86,15 @@ export const CxTabs = forwardRef<HTMLDivElement, CxTabsProps>(
     const childArray = React.Children.toArray(children)
     const tabListChild = childArray.find(
       (child): child is ReactElement<{ children?: ReactNode }> =>
-        React.isValidElement(child) && child.type === CxTabList,
+        React.isValidElement(child) && child.type === CxTabList
     )
     const panelChildren = childArray.filter((child) => child !== tabListChild)
-    const tabs = (
-      tabListChild ? React.Children.toArray(tabListChild.props.children) : []
-    ).filter((child): child is ReactElement<CxTabProps> => React.isValidElement(child))
+    const tabs = (tabListChild ? React.Children.toArray(tabListChild.props.children) : []).filter(
+      (child): child is ReactElement<CxTabProps> => React.isValidElement(child)
+    )
 
     const tabDisabledKeys = tabs.filter((tab) => tab.props.disabled).map((tab) => tab.props.id)
-    const allDisabledKeys = disabledKeys
-      ? [...disabledKeys, ...tabDisabledKeys]
-      : tabDisabledKeys
+    const allDisabledKeys = disabledKeys ? [...disabledKeys, ...tabDisabledKeys] : tabDisabledKeys
 
     const state = useTabListState<ReactElement<CxTabProps>>({
       children: (tab) => (
@@ -111,7 +109,7 @@ export const CxTabs = forwardRef<HTMLDivElement, CxTabsProps>(
       defaultSelectedKey,
       disabledKeys: allDisabledKeys,
       selectedKey,
-      onSelectionChange,
+      onSelectionChange
     })
 
     return (
@@ -122,7 +120,7 @@ export const CxTabs = forwardRef<HTMLDivElement, CxTabsProps>(
         </div>
       </CxTabsContext.Provider>
     )
-  },
+  }
 )
 
 CxTabs.displayName = 'CxTabs'

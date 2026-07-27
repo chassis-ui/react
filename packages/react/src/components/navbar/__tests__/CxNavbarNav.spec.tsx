@@ -12,7 +12,7 @@ test('CxNavbarNav customize', async () => {
   const { container } = render(
     <CxNavbarNav className="bazinga" component="h3">
       Test
-    </CxNavbarNav>,
+    </CxNavbarNav>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')

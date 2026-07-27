@@ -12,7 +12,7 @@ test('CxBadge customize', async () => {
   const { container } = render(
     <CxBadge className="bazinga" context="warning" component="div" circle size="small">
       Test
-    </CxBadge>,
+    </CxBadge>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')
@@ -26,7 +26,7 @@ test('CxBadge variant', async () => {
   const { container } = render(
     <CxBadge context="primary" variant="outline">
       Test
-    </CxBadge>,
+    </CxBadge>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('outline')
@@ -36,7 +36,7 @@ test('CxBadge position', async () => {
   const { container } = render(
     <CxBadge context="danger" position="top-end">
       Test
-    </CxBadge>,
+    </CxBadge>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('position-absolute')

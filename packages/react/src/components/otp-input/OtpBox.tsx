@@ -25,9 +25,9 @@ export const OtpBox = forwardRef(
       onKeyDownBox,
       onPasteBox,
       size,
-      value,
+      value
     }: OtpBoxProps,
-    forwardedRef: ForwardedRef<HTMLInputElement>,
+    forwardedRef: ForwardedRef<HTMLInputElement>
   ) => {
     const ref = useObjectRef(forwardedRef)
     const { focusProps, isFocusVisible } = useFocusRing()
@@ -42,9 +42,9 @@ export const OtpBox = forwardRef(
         onFocus: (event) => (event.target as HTMLInputElement).select(),
         onKeyDown: onKeyDownBox,
         type: mask ? 'password' : 'text',
-        value,
+        value
       },
-      ref,
+      ref
     )
 
     return (
@@ -58,7 +58,7 @@ export const OtpBox = forwardRef(
         ref={ref}
       />
     )
-  },
+  }
 )
 
 OtpBox.displayName = 'OtpBox'

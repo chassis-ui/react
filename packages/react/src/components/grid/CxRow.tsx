@@ -57,7 +57,7 @@ const BREAKPOINTS = [
   'lg' as const,
   'md' as const,
   'sm' as const,
-  'xs' as const,
+  'xs' as const
 ]
 
 const BP_NAME: Record<string, string> = {
@@ -66,7 +66,7 @@ const BP_NAME: Record<string, string> = {
   lg: 'large',
   md: 'medium',
   sm: 'small',
-  xs: '',
+  xs: ''
 }
 
 export const CxRow = forwardRef<HTMLDivElement, CxRowProps>(
@@ -103,7 +103,7 @@ export const CxRow = forwardRef<HTMLDivElement, CxRowProps>(
         {children}
       </div>
     )
-  },
+  }
 )
 
 CxRow.displayName = 'CxRow'

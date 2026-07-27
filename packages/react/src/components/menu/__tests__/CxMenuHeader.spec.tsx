@@ -13,7 +13,7 @@ test('CxMenuHeader customize', async () => {
   render(
     <CxMenuHeader component="h5" className="bazinga">
       Test
-    </CxMenuHeader>,
+    </CxMenuHeader>
   )
   const header = screen.getByText('Test')
   expect(header).toHaveClass('bazinga')

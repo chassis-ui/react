@@ -12,7 +12,7 @@ test('CxForm customize', async () => {
   const { container } = render(
     <CxForm className="bazinga" validated={true}>
       Test
-    </CxForm>,
+    </CxForm>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')
@@ -29,7 +29,7 @@ test('CxForm example', async () => {
       <CxButton type="submit" context="primary">
         E
       </CxButton>
-    </CxForm>,
+    </CxForm>
   )
   expect(container).toMatchSnapshot()
 })

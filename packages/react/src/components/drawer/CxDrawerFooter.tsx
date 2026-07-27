@@ -21,7 +21,7 @@ export const CxDrawerFooter = forwardRef<HTMLDivElement, CxDrawerFooterProps>(
         {children}
       </div>
     )
-  },
+  }
 )
 
 CxDrawerFooter.displayName = 'CxDrawerFooter'

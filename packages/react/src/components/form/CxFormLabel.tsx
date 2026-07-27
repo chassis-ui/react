@@ -20,7 +20,7 @@ export const CxFormLabel = forwardRef<HTMLLabelElement, CxFormLabelProps>(
         {children}
       </label>
     )
-  },
+  }
 )
 
 CxFormLabel.displayName = 'CxFormLabel'

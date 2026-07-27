@@ -12,7 +12,7 @@ test('CxPagination customize', async () => {
   const { container } = render(
     <CxPagination className="bazinga" aria-label="ariaLabel" size="large">
       Test
-    </CxPagination>,
+    </CxPagination>
   )
   expect(container).toMatchSnapshot()
   let element = container.firstChild
@@ -32,7 +32,7 @@ test('CxPagination example', async () => {
       <CxPaginationItem>A</CxPaginationItem>
       <CxPaginationItem>B</CxPaginationItem>
       <CxPaginationItem>C</CxPaginationItem>
-    </CxPagination>,
+    </CxPagination>
   )
   expect(container).toMatchSnapshot()
 })

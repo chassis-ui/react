@@ -21,7 +21,7 @@ export const CxDrawerTitle = forwardRef<HTMLHeadElement, CxDrawerTitleProps>(
         {children}
       </Component>
     )
-  },
+  }
 )
 
 CxDrawerTitle.displayName = 'CxDrawerTitle'

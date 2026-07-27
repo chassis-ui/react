@@ -20,7 +20,7 @@ export const CxFormText = forwardRef<HTMLDivElement | HTMLSpanElement, CxFormTex
         {children}
       </Component>
     )
-  },
+  }
 )
 
 CxFormText.displayName = 'CxFormText'

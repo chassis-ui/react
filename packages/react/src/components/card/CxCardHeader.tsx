@@ -21,7 +21,7 @@ export const CxCardHeader = forwardRef<HTMLDivElement, CxCardHeaderProps>(
         {children}
       </Component>
     )
-  },
+  }
 )
 
 CxCardHeader.displayName = 'CxCardHeader'

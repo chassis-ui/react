@@ -31,7 +31,7 @@ const ARIA_PLACEMENT: Record<Placement, AriaPlacement> = {
   'left-end': 'left bottom',
   right: 'right',
   'right-start': 'right top',
-  'right-end': 'right bottom',
+  'right-end': 'right bottom'
 }
 
 // Translates chassis-react's public `placement` prop values into the strings
@@ -44,7 +44,7 @@ export const toAriaPlacement = (placement: Placement): AriaPlacement => ARIA_PLA
 // `useOverlayPosition` reports back.
 export const resolveDataPlacement = (
   requested: Placement,
-  resolvedMain: PlacementAxis | null,
+  resolvedMain: PlacementAxis | null
 ): string => {
   if (!resolvedMain || resolvedMain === 'center') return requested
   const cross = requested.split('-')[1]

@@ -12,7 +12,7 @@ test('CxCloseButton customize', async () => {
   const { container } = render(
     <CxCloseButton white={true} disabled={true} className="bazinga">
       Test
-    </CxCloseButton>,
+    </CxCloseButton>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')

@@ -41,13 +41,13 @@ export const CxSpinner = forwardRef<HTMLDivElement | HTMLSpanElement, CxSpinnerP
       visuallyHiddenLabel = 'Loading...',
       ...rest
     },
-    ref,
+    ref
   ) => {
     const _className = classNames(
       `spinner-${variant}`,
       context ? `fg-${context}` : null,
       size && `spinner-${variant}-${size}`,
-      className,
+      className
     )
 
     return (
@@ -55,7 +55,7 @@ export const CxSpinner = forwardRef<HTMLDivElement | HTMLSpanElement, CxSpinnerP
         <span className="visually-hidden">{visuallyHiddenLabel}</span>
       </Component>
     )
-  },
+  }
 )
 
 CxSpinner.displayName = 'CxSpinner'

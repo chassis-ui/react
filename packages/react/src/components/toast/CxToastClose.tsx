@@ -23,7 +23,7 @@ export const CxToastClose = forwardRef<HTMLButtonElement, CxToastCloseProps>(
     ) : (
       <CxCloseButton onClick={handleClick} {...rest} ref={ref} />
     )
-  },
+  }
 )
 
 CxToastClose.displayName = 'CxToastClose'

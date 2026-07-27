@@ -45,7 +45,7 @@ export const CxNotification = forwardRef<HTMLDivElement, CxNotificationProps>(
       onClose,
       ...rest
     },
-    ref,
+    ref
   ) => {
     const [_visible, setVisible] = useState(visible)
     const nodeRef = useRef<HTMLDivElement>(null)
@@ -60,9 +60,9 @@ export const CxNotification = forwardRef<HTMLDivElement, CxNotificationProps>(
       context && !variant ? context : null,
       {
         [`bg-${context}`]: context && variant === 'solid',
-        'fg-white': variant === 'solid',
+        'fg-white': variant === 'solid'
       },
-      className,
+      className
     )
 
     const getTransitionClass = (state: string) => {
@@ -94,7 +94,7 @@ export const CxNotification = forwardRef<HTMLDivElement, CxNotificationProps>(
         }}
       </Transition>
     )
-  },
+  }
 )
 
 CxNotification.displayName = 'CxNotification'

@@ -16,7 +16,7 @@ export const CxTabContent = forwardRef<HTMLDivElement, CxTabContentProps>(
         {children}
       </div>
     )
-  },
+  }
 )
 
 CxTabContent.displayName = 'CxTabContent'

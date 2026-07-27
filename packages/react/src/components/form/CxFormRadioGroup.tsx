@@ -7,8 +7,10 @@ import { CxRadioGroupContext } from './context'
 import { CxFormFeedback } from './CxFormFeedback'
 import { CxFormText } from './CxFormText'
 
-export interface CxFormRadioGroupProps
-  extends Omit<HTMLAttributes<HTMLFieldSetElement>, 'defaultValue' | 'onChange'> {
+export interface CxFormRadioGroupProps extends Omit<
+  HTMLAttributes<HTMLFieldSetElement>,
+  'defaultValue' | 'onChange'
+> {
   /**
    * One or more `<CxFormRadio>` elements.
    */
@@ -86,7 +88,7 @@ export const CxFormRadioGroup = forwardRef<HTMLFieldSetElement, CxFormRadioGroup
       value,
       ...rest
     },
-    ref,
+    ref
   ) => {
     const groupProps = {
       ...rest,
@@ -100,22 +102,22 @@ export const CxFormRadioGroup = forwardRef<HTMLFieldSetElement, CxFormRadioGroup
       name,
       onChange,
       orientation,
-      value,
+      value
     }
 
     const state = useRadioGroupState(groupProps as RadioGroupProps)
     const { radioGroupProps, labelProps, descriptionProps, errorMessageProps } = useRadioGroup(
       groupProps as AriaRadioGroupProps,
-      state,
+      state
     )
 
     const _className = classNames(
       'form-field',
       {
         'is-invalid': invalid,
-        'is-valid': valid,
+        'is-valid': valid
       },
-      className,
+      className
     )
 
     const items = (
@@ -138,7 +140,7 @@ export const CxFormRadioGroup = forwardRef<HTMLFieldSetElement, CxFormRadioGroup
         )}
       </fieldset>
     )
-  },
+  }
 )
 
 CxFormRadioGroup.displayName = 'CxFormRadioGroup'

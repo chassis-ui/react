@@ -8,11 +8,10 @@ import { ContextColor } from '../Types'
 
 import { CxFormLabel } from './CxFormLabel'
 
-export interface CxFormSwitchProps
-  extends Omit<
-    InputHTMLAttributes<HTMLInputElement>,
-    'checked' | 'defaultChecked' | 'onChange' | 'size'
-  > {
+export interface CxFormSwitchProps extends Omit<
+  InputHTMLAttributes<HTMLInputElement>,
+  'checked' | 'defaultChecked' | 'onChange' | 'size'
+> {
   /**
    * A string of all className you want applied to the component.
    */
@@ -76,7 +75,7 @@ export const CxFormSwitch = forwardRef<HTMLInputElement, CxFormSwitchProps>(
       valid,
       ...rest
     },
-    ref,
+    ref
   ) => {
     const inputRef = useRef<HTMLInputElement>(null)
     const forkedRef = useForkedRef(ref, inputRef)
@@ -89,7 +88,7 @@ export const CxFormSwitch = forwardRef<HTMLInputElement, CxFormSwitchProps>(
       defaultSelected,
       isDisabled: disabled,
       isSelected,
-      onChange: isCheckbox ? onChange : undefined,
+      onChange: isCheckbox ? onChange : undefined
     })
 
     const { inputProps: switchProps } = useSwitch(
@@ -97,10 +96,10 @@ export const CxFormSwitch = forwardRef<HTMLInputElement, CxFormSwitchProps>(
         ...rest,
         children: label,
         isDisabled: disabled,
-        value: rest.value as string | undefined,
+        value: rest.value as string | undefined
       } as AriaSwitchProps,
       toggleState,
-      inputRef,
+      inputRef
     )
 
     const radioProps = {
@@ -112,12 +111,12 @@ export const CxFormSwitch = forwardRef<HTMLInputElement, CxFormSwitchProps>(
         ? (event: React.ChangeEvent<HTMLInputElement>) => onChange(event.target.checked)
         : undefined,
       role: 'switch' as const,
-      type: 'radio' as const,
+      type: 'radio' as const
     }
 
     const inputClassName = classNames({
       'is-invalid': invalid,
-      'is-valid': valid,
+      'is-valid': valid
     })
 
     const _className = classNames(
@@ -125,14 +124,14 @@ export const CxFormSwitch = forwardRef<HTMLInputElement, CxFormSwitchProps>(
       size,
       {
         'is-invalid': invalid,
-        'is-valid': valid,
+        'is-valid': valid
       },
-      className,
+      className
     )
 
     const checkInputClassName = classNames('check-input', context, {
       'is-invalid': invalid,
-      'is-valid': valid,
+      'is-valid': valid
     })
 
     return (
@@ -147,7 +146,7 @@ export const CxFormSwitch = forwardRef<HTMLInputElement, CxFormSwitchProps>(
         {label}
       </CxFormLabel>
     )
-  },
+  }
 )
 
 CxFormSwitch.displayName = 'CxFormSwitch'

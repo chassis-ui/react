@@ -21,7 +21,7 @@ export const CxModalTitle = forwardRef<HTMLHeadElement, CxModalTitleProps>(
         {children}
       </Component>
     )
-  },
+  }
 )
 
 CxModalTitle.displayName = 'CxModalTitle'

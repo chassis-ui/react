@@ -1,5 +1,5 @@
 import { z, defineCollection } from 'astro:content'
-import { glob, file } from 'astro/loaders'
+import { glob } from 'astro/loaders'
 
 const docsSchema = z.object({
   added: z
@@ -42,13 +42,20 @@ const docsSchema = z.object({
 const apiSchema = z.object({
   displayName: z.string(),
   description: z.string().optional(),
-  props: z.record(z.object({
-    name: z.string(),
-    description: z.string(),
-    type: z.object({ name: z.string() }),
-    defaultValue: z.object({ value: z.union([z.string(), z.boolean(), z.number()]).transform(v => String(v)) }).nullable().optional(),
-    required: z.boolean()
-  }))
+  props: z.record(
+    z.object({
+      name: z.string(),
+      description: z.string(),
+      type: z.object({ name: z.string() }),
+      defaultValue: z
+        .object({
+          value: z.union([z.string(), z.boolean(), z.number()]).transform((v) => String(v))
+        })
+        .nullable()
+        .optional(),
+      required: z.boolean()
+    })
+  )
 })
 
 const calloutsCollection = defineCollection({

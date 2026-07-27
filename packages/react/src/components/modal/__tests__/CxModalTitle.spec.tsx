@@ -13,7 +13,7 @@ test('CxModalTitle customize', async () => {
   const { container } = render(
     <CxModalTitle className="bazinga" component="h3">
       Test
-    </CxModalTitle>,
+    </CxModalTitle>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')

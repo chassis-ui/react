@@ -1,8 +1,9 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-export interface CxCardImageProps
-  extends HTMLAttributes<HTMLImageElement | HTMLOrSVGElement | HTMLOrSVGImageElement> {
+export interface CxCardImageProps extends HTMLAttributes<
+  HTMLImageElement | HTMLOrSVGElement | HTMLOrSVGImageElement
+> {
   /**
    * A string of all className you want applied to the base component.
    */

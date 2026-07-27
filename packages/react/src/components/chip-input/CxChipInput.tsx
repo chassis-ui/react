@@ -5,8 +5,10 @@ import { Item, Key, useListState } from 'react-stately'
 
 import { ChipList, ChipItem } from './ChipList'
 
-export interface CxChipInputProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue'> {
+export interface CxChipInputProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  'onChange' | 'defaultValue'
+> {
   /**
    * An accessible label for the chip group, used when there's no visible `<label>`.
    */
@@ -120,7 +122,7 @@ export const CxChipInput = ({
     ),
     disabledKeys: disabled ? tags : undefined,
     items,
-    selectionMode: 'multiple',
+    selectionMode: 'multiple'
   })
 
   const groupRef = useRef<HTMLDivElement>(null)
@@ -216,9 +218,9 @@ export const CxChipInput = ({
       onFocus: () => listState.selectionManager.clearSelection(),
       onKeyDown: handleKeyDown,
       placeholder,
-      value: inputValue,
+      value: inputValue
     },
-    inputRef,
+    inputRef
   )
 
   return (
@@ -227,7 +229,7 @@ export const CxChipInput = ({
         'form-input',
         'chip-input',
         { small: size === 'small', large: size === 'large', disabled },
-        className,
+        className
       )}
       {...rest}
     >
@@ -237,7 +239,7 @@ export const CxChipInput = ({
         props={{
           'aria-label': rest['aria-label'],
           'aria-labelledby': rest['aria-labelledby'],
-          onRemove: disabled ? undefined : removeTags,
+          onRemove: disabled ? undefined : removeTags
         }}
         state={listState}
       />

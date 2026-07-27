@@ -22,7 +22,7 @@ export const getMenuItems = (menu: HTMLElement | null): HTMLElement[] => {
       items.push(child as HTMLElement)
     } else if (child.classList.contains('submenu')) {
       const trigger = Array.from(child.children).find((grandchild) =>
-        grandchild.matches(VISIBLE_ITEMS_SELECTOR),
+        grandchild.matches(VISIBLE_ITEMS_SELECTOR)
       )
       if (trigger) items.push(trigger as HTMLElement)
     }
@@ -44,7 +44,7 @@ export interface MenuKeyDownOptions {
 // function drives keyboard navigation for both the top-level menu and any nested submenu list.
 export const handleMenuKeyDown = (
   event: React.KeyboardEvent<HTMLElement>,
-  { onArrowLeft, onEscape }: MenuKeyDownOptions,
+  { onArrowLeft, onEscape }: MenuKeyDownOptions
 ): void => {
   const menu = event.currentTarget
   const target = event.target as HTMLElement

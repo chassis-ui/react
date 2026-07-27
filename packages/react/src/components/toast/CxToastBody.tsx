@@ -16,7 +16,7 @@ export const CxToastBody = forwardRef<HTMLDivElement, CxToastBodyProps>(
         {children}
       </div>
     )
-  },
+  }
 )
 
 CxToastBody.displayName = 'CxToastBody'

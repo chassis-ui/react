@@ -27,7 +27,7 @@ export interface CxLinkProps extends AllHTMLAttributes<HTMLElement> {
 export const CxLink = forwardRef<HTMLButtonElement | HTMLAnchorElement, CxLinkProps>(
   (
     { children, active, className, component: Component = 'a', disabled, onClick, ...rest },
-    ref,
+    ref
   ) => {
     const _className = classNames(className, { active, disabled })
 
@@ -55,7 +55,7 @@ export const CxLink = forwardRef<HTMLButtonElement | HTMLAnchorElement, CxLinkPr
         {children}
       </Component>
     )
-  },
+  }
 )
 
 CxLink.displayName = 'CxLink'

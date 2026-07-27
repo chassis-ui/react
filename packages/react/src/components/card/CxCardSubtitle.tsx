@@ -20,7 +20,7 @@ export const CxCardSubtitle = forwardRef<HTMLHeadingElement, CxCardSubtitleProps
         {children}
       </Component>
     )
-  },
+  }
 )
 
 CxCardSubtitle.displayName = 'CxCardSubtitle'

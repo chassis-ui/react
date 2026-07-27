@@ -7,7 +7,7 @@ test('loads and displays CxTooltip component', async () => {
   const { container } = render(
     <CxTooltip content="content">
       <CxLink>Test</CxLink>
-    </CxTooltip>,
+    </CxTooltip>
   )
   expect(container).toMatchSnapshot()
 })
@@ -17,7 +17,7 @@ test('CxTooltip customize', async () => {
   render(
     <CxTooltip trigger="hover" placement="right" content="content">
       <CxLink className="link">Test</CxLink>
-    </CxTooltip>,
+    </CxTooltip>
   )
   const link = document.querySelector('.link')
   act(() => {
@@ -49,7 +49,7 @@ test('CxTooltip scopes itself to an open dialog ancestor', async () => {
       <CxTooltip trigger="hover" content="content">
         <CxLink className="link">Test</CxLink>
       </CxTooltip>
-    </dialog>,
+    </dialog>
   )
   const link = document.querySelector('.link')
   act(() => {
@@ -71,7 +71,7 @@ test('CxTooltip responds to the visible prop changing after mount', async () => 
   const { rerender } = render(
     <CxTooltip content="content" visible={false}>
       <CxLink className="link">Test</CxLink>
-    </CxTooltip>,
+    </CxTooltip>
   )
   act(() => jest.runAllTimers())
   expect(document.body.getElementsByClassName('tooltip').length).toBe(0)
@@ -79,7 +79,7 @@ test('CxTooltip responds to the visible prop changing after mount', async () => 
   rerender(
     <CxTooltip content="content" visible={true}>
       <CxLink className="link">Test</CxLink>
-    </CxTooltip>,
+    </CxTooltip>
   )
   act(() => jest.runAllTimers())
   expect(document.body.getElementsByClassName('tooltip').length).toBe(1)
@@ -87,7 +87,7 @@ test('CxTooltip responds to the visible prop changing after mount', async () => 
   rerender(
     <CxTooltip content="content" visible={false}>
       <CxLink className="link">Test</CxLink>
-    </CxTooltip>,
+    </CxTooltip>
   )
   act(() => jest.runAllTimers())
   expect(document.body.getElementsByClassName('tooltip').length).toBe(0)
@@ -99,7 +99,7 @@ test('CxTooltip with trigger="focus" ignores hover', async () => {
   render(
     <CxTooltip trigger="focus" content="content">
       <CxLink className="link">Test</CxLink>
-    </CxTooltip>,
+    </CxTooltip>
   )
   const link = document.querySelector('.link') as HTMLElement
   act(() => {

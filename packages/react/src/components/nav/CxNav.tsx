@@ -20,8 +20,9 @@ export interface CxNavItemDef {
   disabled?: boolean
 }
 
-export interface CxNavProps
-  extends HTMLAttributes<HTMLDivElement | HTMLUListElement | HTMLOListElement> {
+export interface CxNavProps extends HTMLAttributes<
+  HTMLDivElement | HTMLUListElement | HTMLOListElement
+> {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -50,13 +51,14 @@ export const CxNav = forwardRef<HTMLDivElement | HTMLUListElement | HTMLOListEle
       'nav',
       {
         [`nav-${layout}`]: layout,
-        [`nav-${variant}`]: variant,
+        [`nav-${variant}`]: variant
       },
-      className,
+      className
     )
 
     const autoContent = items
       ? items.map((item, idx) => (
+          // eslint-disable-next-line react/no-array-index-key
           <li key={idx} className="nav-item">
             <a
               className={classNames('nav-link', { active: item.active, disabled: item.disabled })}
@@ -75,7 +77,7 @@ export const CxNav = forwardRef<HTMLDivElement | HTMLUListElement | HTMLOListEle
         {autoContent ?? children}
       </Component>
     )
-  },
+  }
 )
 
 CxNav.displayName = 'CxNav'

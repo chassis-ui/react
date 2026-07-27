@@ -24,7 +24,7 @@ test('CxDrawer customize', async () => {
       visible
     >
       Test
-    </CxDrawer>,
+    </CxDrawer>
   )
   expect(container).toMatchSnapshot()
   const dialog = container.querySelector('dialog')
@@ -35,7 +35,7 @@ test('CxDrawer customize', async () => {
     'fullscreen',
     'sheet',
     'translucent',
-    'drawer-fit-content',
+    'drawer-fit-content'
   )
   expect(dialog).not.toHaveClass('drawer')
 })
@@ -50,7 +50,7 @@ test('CxDrawer shows via showModal() and locks body scroll, hides and unlocks on
   rerender(
     <CxDrawer placement="start" visible>
       Test
-    </CxDrawer>,
+    </CxDrawer>
   )
   expect(showModalSpy).toHaveBeenCalledTimes(1)
   expect(document.documentElement).toHaveStyle({ overflow: 'hidden' })
@@ -58,7 +58,7 @@ test('CxDrawer shows via showModal() and locks body scroll, hides and unlocks on
   rerender(
     <CxDrawer placement="start" visible={false}>
       Test
-    </CxDrawer>,
+    </CxDrawer>
   )
   // Drawer closes immediately (no deferred/.hiding step, unlike Modal)
   expect(closeSpy).toHaveBeenCalledTimes(1)
@@ -73,7 +73,7 @@ test('CxDrawer with scroll and no backdrop opens non-modally via show()', async 
   const { container } = render(
     <CxDrawer backdrop={false} placement="start" scroll visible>
       Test
-    </CxDrawer>,
+    </CxDrawer>
   )
   const dialog = container.querySelector('dialog') as HTMLDialogElement
   expect(dialog).toHaveClass('nonmodal')
@@ -86,7 +86,7 @@ test('CxDrawer closes on Escape (modal, native cancel event)', async () => {
   const { container } = render(
     <CxDrawer onClose={onClose} placement="start" visible>
       Test
-    </CxDrawer>,
+    </CxDrawer>
   )
   const dialog = container.querySelector('dialog') as HTMLDialogElement
   expect(onClose).toHaveBeenCalledTimes(0)
@@ -104,7 +104,7 @@ test('CxDrawer closes on Escape (non-modal, keydown fallback)', async () => {
   const { container } = render(
     <CxDrawer backdrop={false} onClose={onClose} placement="start" scroll visible>
       Test
-    </CxDrawer>,
+    </CxDrawer>
   )
   const dialog = container.querySelector('dialog') as HTMLDialogElement
   fireEvent.keyDown(dialog, { key: 'Escape', code: 'Escape', keyCode: 27, charCode: 27 })
@@ -128,7 +128,7 @@ test('CxDrawer keyboard=false blocks Escape and bounces instead', async () => {
       visible
     >
       Test
-    </CxDrawer>,
+    </CxDrawer>
   )
   const dialog = container.querySelector('dialog') as HTMLDialogElement
   fireEvent(dialog, new Event('cancel', { cancelable: true }))
@@ -148,7 +148,7 @@ test('CxDrawer closes on backdrop click', async () => {
   const { container } = render(
     <CxDrawer onClose={onClose} placement="start" visible>
       <div>Content</div>
-    </CxDrawer>,
+    </CxDrawer>
   )
   const dialog = container.querySelector('dialog') as HTMLDialogElement
   fireEvent.click(container.querySelector('div') as HTMLDivElement)
@@ -174,7 +174,7 @@ test('CxDrawer backdrop="static" bounces instead of closing on backdrop click', 
       visible
     >
       Test
-    </CxDrawer>,
+    </CxDrawer>
   )
   const dialog = container.querySelector('dialog') as HTMLDialogElement
   fireEvent.click(dialog)
@@ -252,7 +252,7 @@ test('CxDrawer restores focus to the trigger element after closing', async () =>
     key: 'Escape',
     code: 'Escape',
     keyCode: 27,
-    charCode: 27,
+    charCode: 27
   })
   const dialog = document.querySelector('dialog.drawer') as HTMLDialogElement
   fireEvent(dialog, new Event('cancel', { cancelable: true }))

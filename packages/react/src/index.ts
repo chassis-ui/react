@@ -241,5 +241,5 @@ export {
   addToast,
   closeToast,
   toastQueue,
-  CxTooltip,
+  CxTooltip
 }

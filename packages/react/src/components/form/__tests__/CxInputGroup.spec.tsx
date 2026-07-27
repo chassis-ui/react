@@ -12,7 +12,7 @@ test('CxInputGroup customize', async () => {
   const { container } = render(
     <CxInputGroup className="bazinga" size="large">
       Test
-    </CxInputGroup>,
+    </CxInputGroup>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')

@@ -4,7 +4,7 @@ import {
   AriaCheckboxGroupItemProps,
   AriaCheckboxProps,
   useCheckbox,
-  useCheckboxGroupItem,
+  useCheckboxGroupItem
 } from 'react-aria'
 import { CheckboxGroupState, useToggleState } from 'react-stately'
 
@@ -16,11 +16,10 @@ import { ButtonObject, renderFormCheckControl } from './formCheckRender'
 
 export type { ButtonObject } from './formCheckRender'
 
-export interface CxFormCheckProps
-  extends Omit<
-    InputHTMLAttributes<HTMLInputElement>,
-    'checked' | 'defaultChecked' | 'onChange' | 'size'
-  > {
+export interface CxFormCheckProps extends Omit<
+  InputHTMLAttributes<HTMLInputElement>,
+  'checked' | 'defaultChecked' | 'onChange' | 'size'
+> {
   /**
    * Create button-like checkboxes.
    */
@@ -97,7 +96,7 @@ const CxFormCheckStandalone = forwardRef<HTMLInputElement, CxFormCheckProps>(
       valid,
       ...rest
     },
-    ref,
+    ref
   ) => {
     const inputRef = useRef<HTMLInputElement>(null)
     const forkedRef = useForkedRef(ref, inputRef)
@@ -106,7 +105,7 @@ const CxFormCheckStandalone = forwardRef<HTMLInputElement, CxFormCheckProps>(
       defaultSelected,
       isDisabled: disabled,
       isSelected,
-      onChange,
+      onChange
     })
 
     const { inputProps } = useCheckbox(
@@ -115,10 +114,10 @@ const CxFormCheckStandalone = forwardRef<HTMLInputElement, CxFormCheckProps>(
         children: label,
         isDisabled: disabled,
         isIndeterminate: indeterminate,
-        value: rest.value as string | undefined,
+        value: rest.value as string | undefined
       } as AriaCheckboxProps,
       toggleState,
-      inputRef,
+      inputRef
     )
 
     const inputClassName = classNames({ 'is-invalid': invalid, 'is-valid': valid })
@@ -131,9 +130,9 @@ const CxFormCheckStandalone = forwardRef<HTMLInputElement, CxFormCheckProps>(
       invalid,
       label,
       size,
-      valid,
+      valid
     })
-  },
+  }
 )
 CxFormCheckStandalone.displayName = 'CxFormCheckStandalone'
 
@@ -160,22 +159,20 @@ const CxFormCheckGroupItem = forwardRef<HTMLInputElement, CxFormCheckGroupItemPr
       valid,
       ...rest
     },
-    ref,
+    ref
   ) => {
     const inputRef = useRef<HTMLInputElement>(null)
     const forkedRef = useForkedRef(ref, inputRef)
 
     if (!rest.value) {
-      // eslint-disable-next-line no-console
       console.error(
-        'CxFormCheck: a `value` prop is required when rendered inside a CxFormCheckGroup.',
+        'CxFormCheck: a `value` prop is required when rendered inside a CxFormCheckGroup.'
       )
     }
     if (_defaultSelected !== undefined || _isSelected !== undefined || _onChange !== undefined) {
-      // eslint-disable-next-line no-console
       console.warn(
         'CxFormCheck: `defaultSelected`, `isSelected`, and `onChange` are ignored inside a ' +
-          "CxFormCheckGroup — selection is owned by the group's `value`/`defaultValue`/`onChange`.",
+          "CxFormCheckGroup — selection is owned by the group's `value`/`defaultValue`/`onChange`."
       )
     }
 
@@ -185,10 +182,10 @@ const CxFormCheckGroupItem = forwardRef<HTMLInputElement, CxFormCheckGroupItemPr
         children: label,
         isDisabled: disabled,
         isIndeterminate: indeterminate,
-        value: rest.value as string,
+        value: rest.value as string
       } as AriaCheckboxGroupItemProps,
       groupState,
-      inputRef,
+      inputRef
     )
 
     const inputClassName = classNames({ 'is-invalid': invalid, 'is-valid': valid })
@@ -201,9 +198,9 @@ const CxFormCheckGroupItem = forwardRef<HTMLInputElement, CxFormCheckGroupItemPr
       invalid,
       label,
       size,
-      valid,
+      valid
     })
-  },
+  }
 )
 CxFormCheckGroupItem.displayName = 'CxFormCheckGroupItem'
 

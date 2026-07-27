@@ -34,7 +34,7 @@ export const CxNavLink = forwardRef<HTMLButtonElement | HTMLAnchorElement, CxNav
         {children}
       </CxLink>
     )
-  },
+  }
 )
 
 CxNavLink.displayName = 'CxNavLink'

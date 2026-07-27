@@ -10,7 +10,7 @@ import {
   scoreToStrength,
   STRENGTH_LEVELS,
   StrengthLevel,
-  StrengthWeights,
+  StrengthWeights
 } from './strengthScore'
 
 export interface CxPasswordStrengthProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
@@ -88,12 +88,12 @@ export const CxPasswordStrength = ({
 
   const score = useMemo(
     () => calculateScore(value, { minLength, scorer, weights: mergedWeights }),
-    [value, minLength, scorer, mergedWeights],
+    [value, minLength, scorer, mergedWeights]
   )
   const strength = useMemo(() => scoreToStrength(score, thresholds), [score, thresholds])
   const maxScore = useMemo(
     () => Object.values(mergedWeights).reduce((total, weight) => total + weight, 0),
-    [mergedWeights],
+    [mergedWeights]
   )
 
   const previousStrength = useRef(strength)
@@ -109,7 +109,7 @@ export const CxPasswordStrength = ({
     maxValue: maxScore,
     minValue: 0,
     value: score,
-    valueLabel: strength ? mergedMessages[strength] : undefined,
+    valueLabel: strength ? mergedMessages[strength] : undefined
   })
 
   const strengthIndex = strength ? STRENGTH_LEVELS.indexOf(strength) : -1

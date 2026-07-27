@@ -47,7 +47,7 @@ export const renderFormCheckControl = ({
   invalid,
   label,
   size,
-  valid,
+  valid
 }: RenderFormCheckControlOptions) => {
   if (button) {
     const _className = classNames(
@@ -57,7 +57,7 @@ export const renderFormCheckControl = ({
       button.variant,
       button.size,
       button.shape,
-      className,
+      className
     )
     return (
       <CxFormLabel customClassName={_className}>
@@ -69,7 +69,7 @@ export const renderFormCheckControl = ({
 
   const checkInputClassName = classNames('check-input', context, {
     'is-invalid': invalid,
-    'is-valid': valid,
+    'is-valid': valid
   })
 
   if (!label) {
@@ -81,9 +81,9 @@ export const renderFormCheckControl = ({
     size,
     {
       'is-invalid': invalid,
-      'is-valid': valid,
+      'is-valid': valid
     },
-    className,
+    className
   )
 
   return (

@@ -10,7 +10,7 @@ test('loads and displays CxPlaceholder component', async () => {
 
 test('CxPlaceholder customize', async () => {
   const { container } = render(
-    <CxPlaceholder animation="glow" className="bazinga" context="secondary" size="large" sm={7} />,
+    <CxPlaceholder animation="glow" className="bazinga" context="secondary" size="large" sm={7} />
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')

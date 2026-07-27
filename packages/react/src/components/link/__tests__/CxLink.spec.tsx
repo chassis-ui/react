@@ -12,7 +12,7 @@ test('CxLink customize', async () => {
   const { container } = render(
     <CxLink className="bazinga" active={true} component="button" disabled type="submit">
       Test
-    </CxLink>,
+    </CxLink>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')
@@ -25,7 +25,7 @@ test('CxLink click on button', async () => {
   render(
     <CxLink onClick={onClick} className="bazinga">
       Test
-    </CxLink>,
+    </CxLink>
   )
   expect(onClick).toHaveBeenCalledTimes(0)
   const link = document.querySelector('.bazinga')
@@ -40,7 +40,7 @@ test('CxLink click on disabled button', async () => {
   render(
     <CxLink onClick={click} className="bazinga" component="button" disabled>
       Test
-    </CxLink>,
+    </CxLink>
   )
   expect(click).toHaveBeenCalledTimes(0)
   const link = document.querySelector('.bazinga')

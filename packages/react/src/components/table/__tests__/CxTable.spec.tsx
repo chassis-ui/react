@@ -7,13 +7,13 @@ import {
   CxTableCell,
   CxTableColumn,
   CxTableHeader,
-  CxTableRow,
+  CxTableRow
 } from '../../../index'
 
 const rows = [
   { id: '1', name: 'Mark', username: '@mdo' },
   { id: '2', name: 'Jacob', username: '@fat' },
-  { id: '3', name: 'Larry', username: '@twitter' },
+  { id: '3', name: 'Larry', username: '@twitter' }
 ]
 
 interface BasicTableProps {
@@ -34,7 +34,7 @@ const BasicTable = ({
   onSortChange,
   selectedKeys,
   selectionMode,
-  sortDescriptor,
+  sortDescriptor
 }: BasicTableProps = {}) => (
   <CxTable
     aria-label="Users"
@@ -81,7 +81,7 @@ test('the active sort column reflects aria-sort', () => {
   render(<BasicTable sortDescriptor={{ column: 'name', direction: 'descending' }} />)
   expect(screen.getByRole('columnheader', { name: /Name/ })).toHaveAttribute(
     'aria-sort',
-    'descending',
+    'descending'
   )
 })
 
@@ -127,11 +127,7 @@ test('single selection mode selects a row on click, with no checkboxes', () => {
 test('disabled rows cannot be selected', () => {
   const onSelectionChange = jest.fn()
   render(
-    <BasicTable
-      disabledKeys={['1']}
-      onSelectionChange={onSelectionChange}
-      selectionMode="single"
-    />,
+    <BasicTable disabledKeys={['1']} onSelectionChange={onSelectionChange} selectionMode="single" />
   )
   fireEvent.click(screen.getByRole('rowheader', { name: 'Mark' }))
   expect(onSelectionChange).not.toHaveBeenCalled()
@@ -172,7 +168,7 @@ test('renders bordered, striped, hoverable, and context variants', () => {
           <CxTableRow key={row.id}>{() => <CxTableCell>{row.name}</CxTableCell>}</CxTableRow>
         )}
       </CxTableBody>
-    </CxTable>,
+    </CxTable>
   )
   expect(container.firstChild).toHaveClass('table-responsive-xlarge')
   const table = screen.getByRole('grid')
@@ -198,7 +194,7 @@ test('renders a caption and a plain footer', () => {
           <CxTableRow key={row.id}>{() => <CxTableCell>{row.name}</CxTableCell>}</CxTableRow>
         )}
       </CxTableBody>
-    </CxTable>,
+    </CxTable>
   )
   expect(screen.getByText('List of users')).toBeInTheDocument()
   expect(screen.getByText('Total: 3')).toBeInTheDocument()

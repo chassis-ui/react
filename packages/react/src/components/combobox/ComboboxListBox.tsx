@@ -33,7 +33,7 @@ const ComboboxOption = ({ item, state }: ComboboxOptionProps) => {
   const { optionProps, isSelected, isDisabled, isFocused } = useOption(
     { key: item.key },
     state,
-    ref,
+    ref
   )
 
   return (
@@ -41,7 +41,7 @@ const ComboboxOption = ({ item, state }: ComboboxOptionProps) => {
       className={classNames('menu-item', {
         selected: isSelected,
         active: isFocused,
-        disabled: isDisabled,
+        disabled: isDisabled
       })}
       {...optionProps}
       ref={ref}

@@ -20,7 +20,7 @@ export const CxInputGroup = forwardRef<HTMLDivElement, CxInputGroupProps>(
         {children}
       </div>
     )
-  },
+  }
 )
 
 CxInputGroup.displayName = 'CxInputGroup'

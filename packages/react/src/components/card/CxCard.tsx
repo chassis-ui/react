@@ -26,9 +26,9 @@ export const CxCard = forwardRef<HTMLDivElement, CxCardProps>(
       'card',
       {
         [`bg-${context}`]: context,
-        [`fg-${textColor}`]: textColor,
+        [`fg-${textColor}`]: textColor
       },
-      className,
+      className
     )
 
     return (
@@ -36,7 +36,7 @@ export const CxCard = forwardRef<HTMLDivElement, CxCardProps>(
         {children}
       </div>
     )
-  },
+  }
 )
 
 CxCard.displayName = 'CxCard'

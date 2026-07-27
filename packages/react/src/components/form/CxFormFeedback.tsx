@@ -27,21 +27,21 @@ export interface CxFormFeedbackProps extends HTMLAttributes<HTMLDivElement | HTM
 export const CxFormFeedback = forwardRef<HTMLDivElement | HTMLSpanElement, CxFormFeedbackProps>(
   (
     { children, className, component: Component = 'div', invalid, tooltip, valid, ...rest },
-    ref,
+    ref
   ) => {
     const _className = classNames(
       {
         [`invalid-${tooltip ? 'tooltip' : 'feedback'}`]: invalid,
-        [`valid-${tooltip ? 'tooltip' : 'feedback'}`]: valid,
+        [`valid-${tooltip ? 'tooltip' : 'feedback'}`]: valid
       },
-      className,
+      className
     )
     return (
       <Component className={_className} {...rest} ref={ref}>
         {children}
       </Component>
     )
-  },
+  }
 )
 
 CxFormFeedback.displayName = 'CxFormFeedback'

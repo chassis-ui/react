@@ -56,7 +56,7 @@ const BREAKPOINTS = [
   'lg' as const,
   'md' as const,
   'sm' as const,
-  'xs' as const,
+  'xs' as const
 ]
 
 const BP_NAME: Record<string, string> = {
@@ -65,13 +65,13 @@ const BP_NAME: Record<string, string> = {
   lg: 'large',
   md: 'medium',
   sm: 'small',
-  xs: '',
+  xs: ''
 }
 
 export const CxPlaceholder = forwardRef<HTMLSpanElement, CxPlaceholderProps>(
   (
     { children, animation, className, context, component: Component = 'span', size, ...rest },
-    ref,
+    ref
   ) => {
     const repsonsiveClassNames: string[] = []
 
@@ -96,10 +96,10 @@ export const CxPlaceholder = forwardRef<HTMLSpanElement, CxPlaceholderProps>(
       animation ? `placeholder-${animation}` : 'placeholder',
       {
         [`bg-${context}`]: context,
-        [`placeholder-${size}`]: size,
+        [`placeholder-${size}`]: size
       },
       repsonsiveClassNames,
-      className,
+      className
     )
 
     return (
@@ -107,7 +107,7 @@ export const CxPlaceholder = forwardRef<HTMLSpanElement, CxPlaceholderProps>(
         {children}
       </Component>
     )
-  },
+  }
 )
 
 CxPlaceholder.displayName = 'CxPlaceholder'

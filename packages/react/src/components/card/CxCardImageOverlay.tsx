@@ -17,7 +17,7 @@ export const CxCardImageOverlay = forwardRef<HTMLDivElement, CxCardImageOverlayP
         {children}
       </div>
     )
-  },
+  }
 )
 
 CxCardImageOverlay.displayName = 'CxCardImageOverlay'

@@ -27,7 +27,7 @@ export const CxNavbarBrand = forwardRef<HTMLAnchorElement | HTMLSpanElement, CxN
         {children}
       </Component>
     )
-  },
+  }
 )
 
 CxNavbarBrand.displayName = 'CxNavbarBrand'

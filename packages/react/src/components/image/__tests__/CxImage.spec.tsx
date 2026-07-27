@@ -16,7 +16,7 @@ test('CxImage customize one', async () => {
 
 test('CxImage customize two', async () => {
   const { container } = render(
-    <CxImage className="bazinga" align="center" fluid={true} rounded={true} thumbnail={true} />,
+    <CxImage className="bazinga" align="center" fluid={true} rounded={true} thumbnail={true} />
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('d-block')

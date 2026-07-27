@@ -25,7 +25,7 @@ export const CxModalHeader = forwardRef<HTMLDivElement, CxModalHeaderProps>(
         {closeButton && <CxCloseButton onClick={() => requestClose?.()} />}
       </div>
     )
-  },
+  }
 )
 
 CxModalHeader.displayName = 'CxModalHeader'

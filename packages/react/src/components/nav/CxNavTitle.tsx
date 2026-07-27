@@ -16,7 +16,7 @@ export const CxNavTitle = forwardRef<HTMLLIElement, CxNavTitleProps>(
         {children}
       </li>
     )
-  },
+  }
 )
 
 CxNavTitle.displayName = 'CxNavTitle'

@@ -12,7 +12,7 @@ test('CxCard customize', async () => {
   const { container } = render(
     <CxCard className="bazinga" context="primary" textColor="warning">
       Test
-    </CxCard>,
+    </CxCard>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')

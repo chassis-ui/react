@@ -17,7 +17,7 @@ export const CxNavbarText = forwardRef<HTMLSpanElement, CxNavbarTextProps>(
         {children}
       </span>
     )
-  },
+  }
 )
 
 CxNavbarText.displayName = 'CxNavbarText'

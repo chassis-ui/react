@@ -20,7 +20,7 @@ export const CxAccordionButton = forwardRef<HTMLSpanElement, CxAccordionButtonPr
         {children}
       </span>
     )
-  },
+  }
 )
 
 CxAccordionButton.displayName = 'CxAccordionButton'

@@ -12,7 +12,7 @@ test('CxNotificationLink customize', async () => {
   const { container } = render(
     <CxNotificationLink className="bazinga" href="/bazinga">
       Test
-    </CxNotificationLink>,
+    </CxNotificationLink>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')

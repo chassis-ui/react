@@ -7,6 +7,8 @@ import unicornPlugin from 'eslint-plugin-unicorn'
 import prettierPlugin from 'eslint-plugin-prettier/recommended'
 import astroPlugin from 'eslint-plugin-astro'
 import testingLibraryPlugin from 'eslint-plugin-testing-library'
+import reactPlugin from 'eslint-plugin-react'
+import reactHooksPlugin from 'eslint-plugin-react-hooks'
 
 // The recommended preset is all error-level, which would fail the ~620 pre-existing
 // violations in the current (mostly snapshot-only) spec suite. Downgrade to warnings so it
@@ -43,15 +45,30 @@ export default defineConfig([
   },
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.astro/*.js'],
+    plugins: { '@typescript-eslint': tseslint.plugin },
     languageOptions: {
       globals: { ...globals.node, ...globals.browser },
       parser: tseslint.parser
+    },
+    rules: {
+      // Superseded by the TS-aware version below, which understands type-only bindings.
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-unsafe-function-type': 'warn'
     }
   },
   {
     files: ['**/*.tsx', '**/*.jsx'],
+    plugins: { react: reactPlugin, 'react-hooks': reactHooksPlugin },
     rules: {
-      'no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^React$' }]
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^(_|React)$' }
+      ],
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
+      'react/no-array-index-key': 'warn'
     }
   },
   {

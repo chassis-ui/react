@@ -35,7 +35,7 @@ export const CxBackdrop = forwardRef<HTMLDivElement, CxBackdropProps>(
         }}
       </Transition>
     )
-  },
+  }
 )
 
 CxBackdrop.displayName = 'CxBackdrop'

@@ -13,7 +13,7 @@ test('CxCol customize breakpoints are numbers', async () => {
   const { container } = render(
     <CxCol className="bazinga" xs={1} sm={2} md={3} lg={4} xl={5} xxl={6}>
       Test
-    </CxCol>,
+    </CxCol>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')
@@ -29,7 +29,7 @@ test('CxCol customize breakpoints are boolean', async () => {
   const { container } = render(
     <CxCol className="bazinga" xs={true} sm={true} md={true} lg={true} xl={true} xxl={true}>
       Test
-    </CxCol>,
+    </CxCol>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')

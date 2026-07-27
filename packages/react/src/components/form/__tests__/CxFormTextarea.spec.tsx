@@ -19,7 +19,7 @@ test('CxFormTextarea customize', async () => {
       readOnly={true}
       valid={true}
       defaultValue="Some value"
-    />,
+    />
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('form-control-plaintext')

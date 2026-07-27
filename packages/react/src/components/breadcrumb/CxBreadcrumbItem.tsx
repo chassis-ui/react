@@ -23,16 +23,16 @@ export const CxBreadcrumbItem = forwardRef<HTMLLIElement, CxBreadcrumbItemProps>
     const _className = classNames(
       'breadcrumb-item',
       {
-        active: active,
+        active: active
       },
-      className,
+      className
     )
     return (
       <li className={_className} {...(active && { 'aria-current': 'page' })} {...rest} ref={ref}>
         {href ? <CxLink href={href}>{children}</CxLink> : children}
       </li>
     )
-  },
+  }
 )
 
 CxBreadcrumbItem.displayName = 'CxBreadcrumbItem'

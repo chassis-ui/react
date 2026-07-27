@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useLayoutEffect,
   useRef,
-  useState,
+  useState
 } from 'react'
 import classNames from 'classnames'
 import { usePreventScroll } from 'react-aria'
@@ -13,8 +13,10 @@ import { usePreventScroll } from 'react-aria'
 import { useForkedRef } from '../../utils/hooks'
 import { executeAfterTransition } from '../../utils/dialogTransition'
 
-export interface CxModalProps
-  extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'onCancel' | 'onClose'> {
+export interface CxModalProps extends Omit<
+  DialogHTMLAttributes<HTMLDialogElement>,
+  'onCancel' | 'onClose'
+> {
   /**
    * Show a backdrop while the modal is open. `'static'` blocks closing on backdrop click
    * (the modal bounces instead).
@@ -102,7 +104,7 @@ export const CxModal = forwardRef<HTMLDialogElement, CxModalProps>(
       visible,
       ...rest
     },
-    ref,
+    ref
   ) => {
     const dialogRef = useRef<HTMLDialogElement>(null)
     const forkedRef = useForkedRef(ref, dialogRef)
@@ -194,7 +196,7 @@ export const CxModal = forwardRef<HTMLDialogElement, CxModalProps>(
             trigger.focus()
           }
         },
-        !instant,
+        !instant
       )
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [hiding])
@@ -246,9 +248,9 @@ export const CxModal = forwardRef<HTMLDialogElement, CxModalProps>(
         nonmodal: !modal,
         scrollable,
         hiding,
-        'dialog-static': staticBounce,
+        'dialog-static': staticBounce
       },
-      className,
+      className
     )
 
     return (
@@ -264,7 +266,7 @@ export const CxModal = forwardRef<HTMLDialogElement, CxModalProps>(
         </dialog>
       </CxModalContext.Provider>
     )
-  },
+  }
 )
 
 CxModal.displayName = 'CxModal'

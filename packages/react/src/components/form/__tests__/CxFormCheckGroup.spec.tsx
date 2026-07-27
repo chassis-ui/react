@@ -8,7 +8,7 @@ test('loads and displays CxFormCheckGroup component', async () => {
     <CxFormCheckGroup label="Notifications" defaultValue={['email']}>
       <CxFormCheck value="email" label="Email" />
       <CxFormCheck value="sms" label="SMS" />
-    </CxFormCheckGroup>,
+    </CxFormCheckGroup>
   )
   expect(container).toMatchSnapshot()
 })
@@ -21,7 +21,7 @@ test('renders a fieldset/legend wired up with the group role and description', (
       defaultValue={[]}
     >
       <CxFormCheck value="email" label="Email" />
-    </CxFormCheckGroup>,
+    </CxFormCheckGroup>
   )
   const group = screen.getByRole('group', { name: 'Notifications' })
   expect(group.tagName).toBe('FIELDSET')
@@ -33,7 +33,7 @@ test('invalid group renders the error message and is-invalid class', () => {
   render(
     <CxFormCheckGroup label="Notifications" invalid errorMessage="Choose at least one.">
       <CxFormCheck value="email" label="Email" />
-    </CxFormCheckGroup>,
+    </CxFormCheckGroup>
   )
   expect(screen.getByText('Choose at least one.')).toHaveClass('invalid-feedback')
   expect(screen.getByRole('group')).toHaveClass('is-invalid')
@@ -44,7 +44,7 @@ test('orientation="horizontal" wraps items in a flex row', () => {
     <CxFormCheckGroup label="Notifications" defaultValue={[]} orientation="horizontal">
       <CxFormCheck value="email" label="Email" />
       <CxFormCheck value="sms" label="SMS" />
-    </CxFormCheckGroup>,
+    </CxFormCheckGroup>
   )
   const email = screen.getByRole('checkbox', { name: 'Email' })
   expect(email.closest('.d-flex')).not.toBeNull()

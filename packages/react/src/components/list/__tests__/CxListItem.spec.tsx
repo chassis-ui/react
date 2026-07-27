@@ -18,7 +18,7 @@ test('CxListItem customize', async () => {
       component="button"
     >
       Test
-    </CxListItem>,
+    </CxListItem>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')

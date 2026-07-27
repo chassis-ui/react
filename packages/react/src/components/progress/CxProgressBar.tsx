@@ -32,9 +32,9 @@ export const CxProgressBar = forwardRef<HTMLDivElement, CxProgressBarProps>(
       context,
       {
         [`progress-bar-${variant}`]: variant,
-        'progress-bar-animated': animated,
+        'progress-bar-animated': animated
       },
-      className,
+      className
     )
 
     return (
@@ -51,6 +51,6 @@ export const CxProgressBar = forwardRef<HTMLDivElement, CxProgressBarProps>(
         {children}
       </div>
     )
-  },
+  }
 )
 CxProgressBar.displayName = 'CxProgressBar'

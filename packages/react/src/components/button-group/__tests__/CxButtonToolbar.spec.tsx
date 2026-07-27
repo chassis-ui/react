@@ -21,7 +21,7 @@ test('CxButtonToolbar customize', async () => {
         <CxButton>B</CxButton>
         <CxButton>C</CxButton>
       </CxButtonGroup>
-    </CxButtonToolbar>,
+    </CxButtonToolbar>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')

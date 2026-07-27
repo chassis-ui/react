@@ -33,7 +33,7 @@ export const CxSubmenuBack = forwardRef<HTMLButtonElement, CxSubmenuBackProps>(
         {children}
       </button>
     )
-  },
+  }
 )
 
 CxSubmenuBack.displayName = 'CxSubmenuBack'

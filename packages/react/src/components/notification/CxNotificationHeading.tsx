@@ -21,7 +21,7 @@ export const CxNotificationHeading = forwardRef<HTMLHeadingElement, CxNotificati
         {children}
       </Component>
     )
-  },
+  }
 )
 
 CxNotificationHeading.displayName = 'CxNotificationHeading'

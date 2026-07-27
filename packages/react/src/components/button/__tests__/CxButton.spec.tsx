@@ -12,7 +12,7 @@ test('CxButton customize witch href', async () => {
   const { container } = render(
     <CxButton context="primary" component="span" href="/bazinga">
       Test
-    </CxButton>,
+    </CxButton>
   )
   expect(container).toMatchSnapshot()
 })
@@ -32,7 +32,7 @@ test('CxButton customize', async () => {
       variant="outline"
     >
       Test
-    </CxButton>,
+    </CxButton>
   )
   expect(container).toMatchSnapshot()
 

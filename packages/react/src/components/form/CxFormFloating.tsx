@@ -16,7 +16,7 @@ export const CxFormFloating = forwardRef<HTMLDivElement, CxFormFloatingProps>(
         {children}
       </div>
     )
-  },
+  }
 )
 
 CxFormFloating.displayName = 'CxFormFloating'

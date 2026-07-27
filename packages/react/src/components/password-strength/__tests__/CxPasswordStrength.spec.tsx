@@ -87,7 +87,7 @@ test('disabling a weight via the weights prop excludes that criterion from scori
       onStrengthChange={onStrengthChange}
       value="ABC"
       weights={{ uppercase: 0 }}
-    />,
+    />
   )
   // "ABC" would normally score minLength(0, too short) + uppercase(1) = 1; with uppercase
   // disabled it scores 0, so no strength/meter value.

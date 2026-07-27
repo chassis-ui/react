@@ -63,7 +63,7 @@ export const CxTooltip: FC<CxTooltipProps> = ({
   const { triggerProps, tooltipProps: tooltipTriggerProps } = useTooltipTrigger(
     { trigger },
     state,
-    triggerRef,
+    triggerRef
   )
   const { tooltipProps } = useTooltip({}, state)
 
@@ -101,9 +101,14 @@ export const CxTooltip: FC<CxTooltipProps> = ({
     const hide = () => state.close(true)
     dialog.addEventListener('close', hide)
     return () => dialog.removeEventListener('close', hide)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.isOpen, portalContainer])
 
-  const { overlayProps, arrowProps, placement: resolvedPlacement } = useOverlayPosition({
+  const {
+    overlayProps,
+    arrowProps,
+    placement: resolvedPlacement
+  } = useOverlayPosition({
     targetRef: triggerRef,
     overlayRef: floatingRef,
     placement: toAriaPlacement(placement),
@@ -111,13 +116,13 @@ export const CxTooltip: FC<CxTooltipProps> = ({
     crossOffset: offsetProp[0],
     arrowSize: 8,
     arrowRef,
-    isOpen: state.isOpen,
+    isOpen: state.isOpen
   })
 
   const floatingStyle: React.CSSProperties = {
     position: overlayProps.style?.position as React.CSSProperties['position'],
     top: overlayProps.style?.top,
-    left: overlayProps.style?.left,
+    left: overlayProps.style?.left
   }
   const placementAttr = resolveDataPlacement(placement, resolvedPlacement)
 
@@ -125,10 +130,10 @@ export const CxTooltip: FC<CxTooltipProps> = ({
     return transitionState === 'entering'
       ? 'fade'
       : transitionState === 'entered'
-      ? 'fade show'
-      : transitionState === 'exiting'
-      ? 'fade'
-      : 'fade'
+        ? 'fade show'
+        : transitionState === 'exiting'
+          ? 'fade'
+          : 'fade'
   }
 
   return (
@@ -137,7 +142,7 @@ export const CxTooltip: FC<CxTooltipProps> = ({
         ref: (node: HTMLElement | null) => {
           triggerRef.current = node
         },
-        ...triggerProps,
+        ...triggerProps
       })}
       {typeof window !== 'undefined' &&
         createPortal(
@@ -147,7 +152,7 @@ export const CxTooltip: FC<CxTooltipProps> = ({
             nodeRef={floatingRef}
             timeout={{
               enter: 0,
-              exit: 200,
+              exit: 200
             }}
             unmountOnExit
           >
@@ -168,7 +173,7 @@ export const CxTooltip: FC<CxTooltipProps> = ({
               )
             }}
           </Transition>,
-          portalContainer ?? document.body,
+          portalContainer ?? document.body
         )}
     </>
   )

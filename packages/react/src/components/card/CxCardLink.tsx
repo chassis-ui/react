@@ -23,7 +23,7 @@ export const CxCardLink = forwardRef<HTMLAnchorElement, CxCardLinkProps>(
         {children}
       </CxLink>
     )
-  },
+  }
 )
 
 CxCardLink.displayName = 'CxCardLink'

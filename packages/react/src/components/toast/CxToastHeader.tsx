@@ -23,7 +23,7 @@ export const CxToastHeader = forwardRef<HTMLDivElement, CxToastHeaderProps>(
         {closeButton && <CxToastClose />}
       </div>
     )
-  },
+  }
 )
 
 CxToastHeader.displayName = 'CxToastHeader'

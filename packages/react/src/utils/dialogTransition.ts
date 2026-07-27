@@ -12,7 +12,7 @@ export const getTransitionDuration = (element: HTMLElement) => {
 export const executeAfterTransition = (
   element: HTMLElement,
   callback: () => void,
-  animated: boolean,
+  animated: boolean
 ) => {
   if (!animated) {
     callback()

@@ -13,7 +13,7 @@ export const CxCarouselCaption = forwardRef<HTMLDivElement, CxCarouselCaptionPro
     const _className = classNames('carousel-caption', className)
 
     return <div className={_className} {...rest} ref={ref} />
-  },
+  }
 )
 
 CxCarouselCaption.displayName = 'CxCarouselCaption'

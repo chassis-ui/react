@@ -12,7 +12,7 @@ test('CxFormText customize', async () => {
   const { container } = render(
     <CxFormText className="bazinga" component="h3">
       Test
-    </CxFormText>,
+    </CxFormText>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')

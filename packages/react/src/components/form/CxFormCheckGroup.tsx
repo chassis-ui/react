@@ -7,8 +7,10 @@ import { CxCheckboxGroupContext } from './context'
 import { CxFormFeedback } from './CxFormFeedback'
 import { CxFormText } from './CxFormText'
 
-export interface CxFormCheckGroupProps
-  extends Omit<HTMLAttributes<HTMLFieldSetElement>, 'defaultValue' | 'onChange'> {
+export interface CxFormCheckGroupProps extends Omit<
+  HTMLAttributes<HTMLFieldSetElement>,
+  'defaultValue' | 'onChange'
+> {
   /**
    * One or more `<CxFormCheck>` elements.
    */
@@ -86,7 +88,7 @@ export const CxFormCheckGroup = forwardRef<HTMLFieldSetElement, CxFormCheckGroup
       value,
       ...rest
     },
-    ref,
+    ref
   ) => {
     const groupProps = {
       ...rest,
@@ -99,7 +101,7 @@ export const CxFormCheckGroup = forwardRef<HTMLFieldSetElement, CxFormCheckGroup
       label,
       name,
       onChange,
-      value,
+      value
     }
 
     const state = useCheckboxGroupState(groupProps)
@@ -107,16 +109,16 @@ export const CxFormCheckGroup = forwardRef<HTMLFieldSetElement, CxFormCheckGroup
       groupProps: ariaGroupProps,
       labelProps,
       descriptionProps,
-      errorMessageProps,
+      errorMessageProps
     } = useCheckboxGroup(groupProps as AriaCheckboxGroupProps, state)
 
     const _className = classNames(
       'form-field',
       {
         'is-invalid': invalid,
-        'is-valid': valid,
+        'is-valid': valid
       },
-      className,
+      className
     )
 
     const items = (
@@ -139,7 +141,7 @@ export const CxFormCheckGroup = forwardRef<HTMLFieldSetElement, CxFormCheckGroup
         )}
       </fieldset>
     )
-  },
+  }
 )
 
 CxFormCheckGroup.displayName = 'CxFormCheckGroup'

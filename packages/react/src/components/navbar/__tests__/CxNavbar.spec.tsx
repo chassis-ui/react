@@ -20,7 +20,7 @@ test('CxNavbar customize', async () => {
       placement="fixed-bottom"
     >
       Test
-    </CxNavbar>,
+    </CxNavbar>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')
@@ -37,7 +37,7 @@ test('CxNavbar customize - container and expand are boolean', async () => {
   const { container } = render(
     <CxNavbar container={true} expand={true}>
       Test
-    </CxNavbar>,
+    </CxNavbar>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('navbar-expand')

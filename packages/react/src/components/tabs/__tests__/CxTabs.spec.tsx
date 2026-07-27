@@ -62,7 +62,7 @@ test('disabled tabs are skipped and not selectable', async () => {
 test('supports controlled selectedKey', async () => {
   const onSelectionChange = jest.fn()
   const { rerender } = render(
-    <BasicTabs selectedKey="home" onSelectionChange={onSelectionChange} />,
+    <BasicTabs selectedKey="home" onSelectionChange={onSelectionChange} />
   )
   fireEvent.click(screen.getByRole('tab', { name: 'Profile' }))
   expect(onSelectionChange).toHaveBeenCalledWith('profile')
@@ -83,7 +83,7 @@ test('renders nav-tabs classes by default and nav-pills when requested', async (
         <CxTab id="home">Home</CxTab>
       </CxTabList>
       <CxTabPanel id="home">Home content</CxTabPanel>
-    </CxTabs>,
+    </CxTabs>
   )
   expect(screen.getByRole('tablist')).toHaveClass('nav', 'nav-pills')
 })

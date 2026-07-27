@@ -19,7 +19,7 @@ export const CxNotificationLink = forwardRef<HTMLAnchorElement, CxNotificationLi
         {children}
       </CxLink>
     )
-  },
+  }
 )
 
 CxNotificationLink.displayName = 'CxNotificationLink'

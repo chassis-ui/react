@@ -32,12 +32,12 @@ export const CxImage = forwardRef<HTMLImageElement, CxImageProps>(
         'd-block mx-auto': align && align === 'center',
         'img-fluid': fluid,
         rounded: rounded,
-        'img-thumbnail': thumbnail,
+        'img-thumbnail': thumbnail
       },
-      className,
+      className
     )
     return <img className={_className} {...rest} ref={ref} />
-  },
+  }
 )
 
 CxImage.displayName = 'CxImage'

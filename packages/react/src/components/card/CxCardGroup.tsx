@@ -17,7 +17,7 @@ export const CxCardGroup = forwardRef<HTMLDivElement, CxCardGroupProps>(
         {children}
       </div>
     )
-  },
+  }
 )
 
 CxCardGroup.displayName = 'CxCardGroup'

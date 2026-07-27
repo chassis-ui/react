@@ -35,6 +35,7 @@ export const CxBreadcrumb = forwardRef<HTMLOListElement, CxBreadcrumbProps>(
           const isLast = idx === items.length - 1
           return (
             <li
+              // eslint-disable-next-line react/no-array-index-key
               key={idx}
               className={classNames('breadcrumb-item', { active: isLast })}
               {...(isLast ? { 'aria-current': 'page' } : {})}
@@ -52,7 +53,7 @@ export const CxBreadcrumb = forwardRef<HTMLOListElement, CxBreadcrumbProps>(
         </ol>
       </nav>
     )
-  },
+  }
 )
 
 CxBreadcrumb.displayName = 'CxBreadcrumb'

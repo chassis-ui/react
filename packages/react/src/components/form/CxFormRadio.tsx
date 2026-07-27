@@ -7,11 +7,10 @@ import { ContextColor } from '../Types'
 import { CxRadioGroupContext } from './context'
 import { ButtonObject, renderFormCheckControl } from './formCheckRender'
 
-export interface CxFormRadioProps
-  extends Omit<
-    InputHTMLAttributes<HTMLInputElement>,
-    'checked' | 'defaultChecked' | 'onChange' | 'size'
-  > {
+export interface CxFormRadioProps extends Omit<
+  InputHTMLAttributes<HTMLInputElement>,
+  'checked' | 'defaultChecked' | 'onChange' | 'size'
+> {
   /**
    * Create button-like radios. Combine with `<CxFormRadioGroup>` to build radio toggle-button groups.
    */
@@ -60,10 +59,10 @@ export const CxFormRadio = forwardRef<HTMLInputElement, CxFormRadioProps>(
       {
         ...rest,
         children: label,
-        isDisabled: disabled,
+        isDisabled: disabled
       } as AriaRadioProps,
       groupState,
-      inputRef,
+      inputRef
     )
 
     return renderFormCheckControl({
@@ -72,9 +71,9 @@ export const CxFormRadio = forwardRef<HTMLInputElement, CxFormRadioProps>(
       context,
       input: <input {...inputProps} id={id} ref={forkedRef} />,
       label,
-      size,
+      size
     })
-  },
+  }
 )
 
 CxFormRadio.displayName = 'CxFormRadio'

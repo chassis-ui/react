@@ -20,7 +20,7 @@ test('CxRow customize cols', async () => {
       xxl={{ cols: 6 }}
     >
       Test
-    </CxRow>,
+    </CxRow>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')
@@ -36,7 +36,7 @@ test('CxRow customize gutter single gutter', async () => {
   const { container } = render(
     <CxRow className="bazinga" xs={{ gutter: 7 }}>
       Test
-    </CxRow>,
+    </CxRow>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')
@@ -55,7 +55,7 @@ test('CxRow customize gutter', async () => {
       xxl={{ gutter: 6 }}
     >
       Test
-    </CxRow>,
+    </CxRow>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')
@@ -79,7 +79,7 @@ test('CxRow customize gutterX', async () => {
       xxl={{ gutterX: 6 }}
     >
       Test
-    </CxRow>,
+    </CxRow>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')
@@ -103,7 +103,7 @@ test('CxRow customize gutterY', async () => {
       xxl={{ gutterY: 6 }}
     >
       Test
-    </CxRow>,
+    </CxRow>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')

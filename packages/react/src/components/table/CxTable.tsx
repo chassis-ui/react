@@ -11,7 +11,7 @@ import {
   useTableRow,
   useTableRowGroup,
   useTableSelectAllCheckbox,
-  useTableSelectionCheckbox,
+  useTableSelectionCheckbox
 } from 'react-aria'
 import {
   Selection,
@@ -20,7 +20,7 @@ import {
   TableHeaderProps,
   TableState,
   useTableState,
-  useToggleState,
+  useToggleState
 } from 'react-stately'
 
 import { ContextColor } from '../Types'
@@ -152,14 +152,14 @@ export const CxTable = <T extends object>({
     selectedKeys,
     selectionMode,
     showSelectionCheckboxes: selectionMode === 'multiple',
-    sortDescriptor,
+    sortDescriptor
   })
 
   const ref = useRef<HTMLTableElement>(null)
   const { gridProps } = useTable(
     { 'aria-label': rest['aria-label'], 'aria-labelledby': rest['aria-labelledby'], id },
     state,
-    ref,
+    ref
   )
 
   const _className = classNames(
@@ -171,9 +171,9 @@ export const CxTable = <T extends object>({
       borderless,
       hoverable: hover,
       small,
-      striped,
+      striped
     },
-    className,
+    className
   )
 
   const tableEl = (
@@ -187,7 +187,7 @@ export const CxTable = <T extends object>({
                 <TableSelectAllCell key={column.key} column={column} state={state} />
               ) : (
                 <TableColumnHeader key={column.key} column={column} state={state} />
-              ),
+              )
             )}
           </TableHeaderRow>
         ))}
@@ -200,7 +200,7 @@ export const CxTable = <T extends object>({
                 <TableSelectionCell key={cell.key} cell={cell} state={state} />
               ) : (
                 <TableCell key={cell.key} cell={cell} state={state} />
-              ),
+              )
             )}
           </TableRow>
         ))}
@@ -226,7 +226,7 @@ CxTable.displayName = 'CxTable'
 
 const TableRowGroup = ({
   type: Element,
-  children,
+  children
 }: {
   children: ReactNode
   type: 'thead' | 'tbody'

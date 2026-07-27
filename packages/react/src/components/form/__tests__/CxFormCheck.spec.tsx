@@ -10,7 +10,7 @@ test('loads and displays CxFormCheck component', async () => {
 
 test('CxFormCheck customize button=false', async () => {
   const { container } = render(
-    <CxFormCheck className="bazinga" context="secondary" id="id" label="label" />,
+    <CxFormCheck className="bazinga" context="secondary" id="id" label="label" />
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')
@@ -27,7 +27,7 @@ test('CxFormCheck customize button=true', async () => {
       className="bazinga"
       id="id"
       label="label"
-    />,
+    />
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('button')
@@ -67,7 +67,7 @@ test('inside a CxFormCheckGroup, selection is owned by the group and reported vi
     <CxFormCheckGroup aria-label="Notifications" defaultValue={['email']} onChange={onChange}>
       <CxFormCheck value="email" label="Email" />
       <CxFormCheck value="sms" label="SMS" />
-    </CxFormCheckGroup>,
+    </CxFormCheckGroup>
   )
   const email = screen.getByRole('checkbox', { name: 'Email' })
   const sms = screen.getByRole('checkbox', { name: 'SMS' })

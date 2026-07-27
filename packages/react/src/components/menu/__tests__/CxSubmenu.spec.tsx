@@ -11,7 +11,7 @@ test('CxSubmenu closes when its ancestor CxMenu closes', async () => {
           <CxMenuItem>New</CxMenuItem>
         </CxSubmenu>
       </CxMenuList>
-    </CxMenu>,
+    </CxMenu>
   )
   const nestedMenu = screen.getByText('New').closest('.menu') as HTMLElement
 
@@ -25,7 +25,7 @@ test('CxSubmenu closes when its ancestor CxMenu closes', async () => {
           <CxMenuItem>New</CxMenuItem>
         </CxSubmenu>
       </CxMenuList>
-    </CxMenu>,
+    </CxMenu>
   )
   expect(nestedMenu).not.toHaveClass('show')
 })
@@ -39,7 +39,7 @@ test('loads and displays CxSubmenu component', async () => {
           <CxMenuItem>Open</CxMenuItem>
         </CxSubmenu>
       </CxMenuList>
-    </CxMenu>,
+    </CxMenu>
   )
   expect(container).toMatchSnapshot()
   expect(document.querySelector('.submenu')).not.toBeNull()
@@ -54,7 +54,7 @@ test('CxSubmenu forwards ref to the outer wrapper element', async () => {
           <CxMenuItem>New</CxMenuItem>
         </CxSubmenu>
       </CxMenuList>
-    </CxMenu>,
+    </CxMenu>
   )
   expect(ref.current).toBeInstanceOf(HTMLDivElement)
   expect(ref.current).toHaveClass('submenu')
@@ -68,7 +68,7 @@ test('CxSubmenu opens and closes on trigger click', async () => {
           <CxMenuItem>New</CxMenuItem>
         </CxSubmenu>
       </CxMenuList>
-    </CxMenu>,
+    </CxMenu>
   )
   const trigger = screen.getByText('File')
   const nestedMenu = screen.getByText('New').closest('.menu') as HTMLElement
@@ -93,7 +93,7 @@ test('CxSubmenu closes sibling submenus when a new one opens', async () => {
           <CxMenuItem>Cut</CxMenuItem>
         </CxSubmenu>
       </CxMenuList>
-    </CxMenu>,
+    </CxMenu>
   )
   const fileMenu = screen.getByText('New').closest('.menu') as HTMLElement
   const editMenu = screen.getByText('Cut').closest('.menu') as HTMLElement
@@ -115,7 +115,7 @@ test('CxSubmenuBack closes the submenu and refocuses its trigger', async () => {
           <CxMenuItem>New</CxMenuItem>
         </CxSubmenu>
       </CxMenuList>
-    </CxMenu>,
+    </CxMenu>
   )
   const trigger = screen.getByText('File')
   const nestedMenu = screen.getByText('New').closest('.menu') as HTMLElement

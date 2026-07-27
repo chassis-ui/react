@@ -86,7 +86,7 @@ export const CxList = forwardRef<HTMLDivElement | HTMLUListElement, CxListProps>
       plain,
       ...rest
     },
-    ref,
+    ref
   ) => {
     const _className = classNames(
       'list',
@@ -97,9 +97,9 @@ export const CxList = forwardRef<HTMLDivElement | HTMLUListElement, CxListProps>
       {
         flush,
         plain,
-        numbered,
+        numbered
       },
-      className,
+      className
     )
 
     const autoContent = items
@@ -107,11 +107,12 @@ export const CxList = forwardRef<HTMLDivElement | HTMLUListElement, CxListProps>
           const itemClass = classNames('list-item', item.context && 'context', item.context, {
             'list-action': !!item.href,
             active: item.active,
-            disabled: item.disabled,
+            disabled: item.disabled
           })
           const Tag = item.href ? 'a' : 'li'
           return (
             <Tag
+              // eslint-disable-next-line react/no-array-index-key
               key={idx}
               className={itemClass}
               {...(item.href ? { href: item.href } : {})}
@@ -129,7 +130,7 @@ export const CxList = forwardRef<HTMLDivElement | HTMLUListElement, CxListProps>
         {autoContent ?? children}
       </Component>
     )
-  },
+  }
 )
 
 CxList.displayName = 'CxList'

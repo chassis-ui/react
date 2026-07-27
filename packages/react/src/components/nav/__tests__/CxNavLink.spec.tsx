@@ -12,7 +12,7 @@ test('CxNavLink customize', async () => {
   const { container } = render(
     <CxNavLink active={true} className="bazinga" component="h3" disabled={true} href="/bazinga">
       Test
-    </CxNavLink>,
+    </CxNavLink>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('nav-link')

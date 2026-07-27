@@ -15,7 +15,7 @@ export const CxAccordionBody = forwardRef<HTMLDivElement, CxAccordionBodyProps>(
         {children}
       </div>
     )
-  },
+  }
 )
 
 CxAccordionBody.displayName = 'CxAccordionBody'

@@ -17,7 +17,7 @@ export const CxModalBody = forwardRef<HTMLDivElement, CxModalBodyProps>(
         {children}
       </div>
     )
-  },
+  }
 )
 
 CxModalBody.displayName = 'CxModalBody'

@@ -6,14 +6,16 @@ import React, {
   ReactNode,
   useMemo,
   useRef,
-  useState,
+  useState
 } from 'react'
 import classNames from 'classnames'
 
 import { OtpBox } from './OtpBox'
 
-export interface CxOtpInputProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue'> {
+export interface CxOtpInputProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  'onChange' | 'defaultValue'
+> {
   /**
    * Identifies the element that describes the group, e.g. a `CxFormText` help element.
    */
@@ -262,7 +264,7 @@ export const CxOtpInput = ({
         'form-otp',
         { 'input-group': inputGroup && !(groupSizes && groupSizes.length > 0) },
         { 'is-invalid': invalid, 'is-valid': valid },
-        className,
+        className
       )}
       id={id}
       role="group"

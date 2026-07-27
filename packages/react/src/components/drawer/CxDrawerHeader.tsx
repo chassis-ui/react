@@ -26,7 +26,7 @@ export const CxDrawerHeader = forwardRef<HTMLDivElement, CxDrawerHeaderProps>(
         {closeButton && <CxCloseButton onClick={() => requestClose?.()} />}
       </div>
     )
-  },
+  }
 )
 
 CxDrawerHeader.displayName = 'CxDrawerHeader'

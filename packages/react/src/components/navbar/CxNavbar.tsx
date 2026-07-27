@@ -47,17 +47,17 @@ export const CxNavbar = forwardRef<HTMLDivElement, CxNavbarProps>(
       placement,
       ...rest
     },
-    ref,
+    ref
   ) => {
     const _className = classNames(
       'navbar',
       {
         [`bg-${context}`]: context,
         [`navbar-${colorScheme}`]: colorScheme,
-        [typeof expand === 'boolean' ? 'navbar-expand' : `navbar-expand-${expand}`]: expand,
+        [typeof expand === 'boolean' ? 'navbar-expand' : `navbar-expand-${expand}`]: expand
       },
       placement,
-      className,
+      className
     )
 
     let content
@@ -74,7 +74,7 @@ export const CxNavbar = forwardRef<HTMLDivElement, CxNavbarProps>(
         {content}
       </Component>
     )
-  },
+  }
 )
 
 CxNavbar.displayName = 'CxNavbar'

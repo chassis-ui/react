@@ -13,7 +13,7 @@ export const CxMenuDivider = forwardRef<HTMLHRElement, CxMenuDividerProps>(
     const _className = classNames('menu-divider', className)
 
     return <hr className={_className} {...rest} ref={ref} />
-  },
+  }
 )
 
 CxMenuDivider.displayName = 'CxMenuDivider'

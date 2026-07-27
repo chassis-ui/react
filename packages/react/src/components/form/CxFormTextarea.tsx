@@ -44,16 +44,16 @@ export const CxFormTextarea = forwardRef<HTMLTextAreaElement, CxFormTextareaProp
       plainText ? 'form-control-plaintext' : 'form-input',
       {
         'is-invalid': invalid,
-        'is-valid': valid,
+        'is-valid': valid
       },
-      className,
+      className
     )
     return (
       <textarea className={_className} {...rest} ref={ref}>
         {children}
       </textarea>
     )
-  },
+  }
 )
 
 CxFormTextarea.displayName = 'CxFormTextarea'

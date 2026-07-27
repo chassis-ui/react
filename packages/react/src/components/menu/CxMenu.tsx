@@ -6,7 +6,7 @@ import React, {
   HTMLAttributes,
   useEffect,
   useLayoutEffect,
-  useRef,
+  useRef
 } from 'react'
 import classNames from 'classnames'
 import { AriaButtonProps, useMenuTrigger, useOverlayPosition } from 'react-aria'
@@ -127,7 +127,7 @@ const defaultMenuContext: CxMenuContextProps = {
   toggle: noop,
   toggleNodeRef: { current: null },
   triggerId: '',
-  visible: false,
+  visible: false
 }
 
 export const CxMenuContext = createContext(defaultMenuContext)
@@ -150,7 +150,7 @@ export const CxMenu = forwardRef<HTMLElement, CxMenuProps>(
       visible,
       ...rest
     },
-    ref,
+    ref
   ) => {
     const wrapperRef = useRef<HTMLElement>(null)
     const forkedRef = useForkedRef(ref, wrapperRef)
@@ -176,7 +176,6 @@ export const CxMenu = forwardRef<HTMLElement, CxMenuProps>(
       if (reference === 'parent') {
         targetRef.current = wrapperRef.current
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [reference])
 
     useEffect(() => {
@@ -197,7 +196,7 @@ export const CxMenu = forwardRef<HTMLElement, CxMenuProps>(
       offset: offsetProp[1],
       crossOffset: offsetProp[0],
       containerPadding: 8,
-      isOpen: state.isOpen,
+      isOpen: state.isOpen
     })
 
     // Only `position`/`top`/`left` are taken from the hook's computed style — `zIndex` and
@@ -207,7 +206,7 @@ export const CxMenu = forwardRef<HTMLElement, CxMenuProps>(
     const menuStyle: React.CSSProperties = {
       position: overlayProps.style?.position as React.CSSProperties['position'],
       top: overlayProps.style?.top,
-      left: overlayProps.style?.left,
+      left: overlayProps.style?.left
     }
     const placementAttr = resolveDataPlacement(placement, resolvedPlacement)
 
@@ -280,7 +279,7 @@ export const CxMenu = forwardRef<HTMLElement, CxMenuProps>(
       toggle: toggleVisible,
       toggleNodeRef,
       triggerId: menuTriggerProps.id ?? '',
-      visible: state.isOpen,
+      visible: state.isOpen
     }
 
     return (
@@ -294,7 +293,7 @@ export const CxMenu = forwardRef<HTMLElement, CxMenuProps>(
         )}
       </CxMenuContext.Provider>
     )
-  },
+  }
 )
 
 CxMenu.displayName = 'CxMenu'

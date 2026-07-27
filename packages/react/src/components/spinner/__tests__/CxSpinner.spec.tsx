@@ -12,7 +12,7 @@ test('CxSpinner customize', async () => {
   const { container } = render(
     <CxSpinner className="bazinga" context="warning" component="h3" size="small" variant="grow">
       Test
-    </CxSpinner>,
+    </CxSpinner>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')

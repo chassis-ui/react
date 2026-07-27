@@ -80,15 +80,15 @@ export const CxPagination = forwardRef<HTMLUListElement, CxPaginationProps>(
       size,
       ...rest
     },
-    ref,
+    ref
   ) => {
     const _className = classNames(
       'pagination',
       {
         [`justify-content-${align}`]: align,
-        [`pagination-${size}`]: size,
+        [`pagination-${size}`]: size
       },
-      className,
+      className
     )
 
     const smartContent = pages ? (
@@ -102,6 +102,7 @@ export const CxPagination = forwardRef<HTMLUListElement, CxPaginationProps>(
         </CxPaginationItem>
         {getPageRange(activePage, pages, maxVisiblePages).map((page, idx) =>
           page === '...' ? (
+            // eslint-disable-next-line react/no-array-index-key
             <CxPaginationItem key={`ellipsis-${idx}`} disabled>
               &hellip;
             </CxPaginationItem>
@@ -113,7 +114,7 @@ export const CxPagination = forwardRef<HTMLUListElement, CxPaginationProps>(
             >
               {page}
             </CxPaginationItem>
-          ),
+          )
         )}
         <CxPaginationItem
           disabled={activePage >= pages}
@@ -130,7 +131,7 @@ export const CxPagination = forwardRef<HTMLUListElement, CxPaginationProps>(
         <ul className={_className}>{smartContent ?? children}</ul>
       </nav>
     )
-  },
+  }
 )
 
 CxPagination.displayName = 'CxPagination'

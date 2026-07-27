@@ -30,7 +30,7 @@ export function useForkedRef<RefValueType = any>(
 export function assignRef<RefValueType = any>(
   ref: AssignableRef<RefValueType> | null | undefined,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  value: any,
+  value: any
 ) {
   if (ref == null) return
   if (isFunction(ref)) {
@@ -39,12 +39,12 @@ export function assignRef<RefValueType = any>(
     try {
       ref.current = value
     } catch (error) {
-      throw new Error(`Cannot assign value "${value}" to ref "${ref}"`)
+      throw new Error(`Cannot assign value "${value}" to ref "${ref}"`, { cause: error })
     }
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-function-type
 export function isFunction(value: any): value is Function {
   return !!(value && {}.toString.call(value) == '[object Function]')
 }

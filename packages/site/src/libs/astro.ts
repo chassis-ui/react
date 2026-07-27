@@ -39,10 +39,6 @@ export function chassis(): AstroIntegration[] {
   // Track the command so the config:done hook can skip expensive file copies.
   let cmd = 'dev'
 
-  // `astro check` doesn't need static assets copied into _site. Skip the copy
-  // hooks so type-checking works without a built vendor/assets submodule.
-  let isCheck = false
-
   return [
     chassisAutoImportIntegration(),
     {

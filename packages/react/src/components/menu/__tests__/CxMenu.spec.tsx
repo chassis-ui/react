@@ -12,7 +12,7 @@ test('CxMenu customize', async () => {
   const { container } = render(
     <CxMenu className="bazinga" component="h3" placement="right-end" visible={true}>
       Test
-    </CxMenu>,
+    </CxMenu>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')
@@ -25,7 +25,7 @@ test('CxMenu change visible prop', async () => {
       <CxMenuList>
         <CxMenuItem>A</CxMenuItem>
       </CxMenuList>
-    </CxMenu>,
+    </CxMenu>
   )
   const menu = document.querySelector('.menu')
   expect(menu).not.toHaveClass('show')
@@ -40,7 +40,7 @@ test('CxMenu click toggles the menu and closes on outside click', async () => {
         <CxMenuItem>A</CxMenuItem>
         <CxMenuItem>B</CxMenuItem>
       </CxMenuList>
-    </CxMenu>,
+    </CxMenu>
   )
   const toggle = screen.getByText('Toggle')
   const menu = document.querySelector('.menu')
@@ -64,7 +64,7 @@ test('CxMenu autoClose="inside" only closes on clicks inside the menu', async ()
       <CxMenuList>
         <CxMenuItem>A</CxMenuItem>
       </CxMenuList>
-    </CxMenu>,
+    </CxMenu>
   )
   fireEvent.click(screen.getByText('Toggle'))
   const menu = document.querySelector('.menu') as HTMLElement
@@ -86,7 +86,7 @@ test('CxMenu autoClose={false} never closes automatically', async () => {
       <CxMenuList>
         <CxMenuItem>A</CxMenuItem>
       </CxMenuList>
-    </CxMenu>,
+    </CxMenu>
   )
   fireEvent.click(screen.getByText('Toggle'))
   const menu = document.querySelector('.menu') as HTMLElement
@@ -104,7 +104,7 @@ test('CxMenu example', async () => {
         <CxMenuItem>A</CxMenuItem>
         <CxMenuItem>B</CxMenuItem>
       </CxMenuList>
-    </CxMenu>,
+    </CxMenu>
   )
   expect(container).toMatchSnapshot()
 })

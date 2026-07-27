@@ -9,7 +9,7 @@ test('CxToastClose closes the toast on click', async () => {
   const { container } = render(
     <CxToastContext.Provider value={{ setVisible }}>
       <CxToastClose />
-    </CxToastContext.Provider>,
+    </CxToastContext.Provider>
   )
   fireEvent.click(container.firstChild as HTMLElement)
   expect(setVisible).toHaveBeenCalledWith(false)
@@ -21,7 +21,7 @@ test('CxToastClose still closes the toast when a custom onClick is provided', as
   const { container } = render(
     <CxToastContext.Provider value={{ setVisible }}>
       <CxToastClose onClick={onClick} />
-    </CxToastContext.Provider>,
+    </CxToastContext.Provider>
   )
   fireEvent.click(container.firstChild as HTMLElement)
   expect(onClick).toHaveBeenCalledTimes(1)

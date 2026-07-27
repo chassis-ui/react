@@ -12,7 +12,7 @@ test('CxContainer customize fluid', async () => {
   const { container } = render(
     <CxContainer className="bazinga" fluid>
       Test
-    </CxContainer>,
+    </CxContainer>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')
@@ -23,7 +23,7 @@ test('CxContainer customize', async () => {
   const { container } = render(
     <CxContainer md className="bazinga">
       Test
-    </CxContainer>,
+    </CxContainer>
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')

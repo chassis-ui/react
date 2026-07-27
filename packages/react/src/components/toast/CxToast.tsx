@@ -4,7 +4,7 @@ import React, {
   HTMLAttributes,
   useEffect,
   useRef,
-  useState,
+  useState
 } from 'react'
 import { Transition } from 'react-transition-group'
 import classNames from 'classnames'
@@ -80,7 +80,7 @@ export const CxToast = forwardRef<HTMLDivElement, CxToastProps>(
       onShow,
       ...rest
     },
-    ref,
+    ref
   ) => {
     const [_visible, setVisible] = useState(false)
     const timeout = useRef<number>()
@@ -95,7 +95,7 @@ export const CxToast = forwardRef<HTMLDivElement, CxToastProps>(
 
     const contextValues = {
       visible: _visible,
-      setVisible,
+      setVisible
     }
 
     // triggered on mount and destroy
@@ -149,20 +149,20 @@ export const CxToast = forwardRef<HTMLDivElement, CxToastProps>(
         fade: animation,
         context: !!context,
         solid: Boolean(solid && context),
-        translucent,
+        translucent
       },
       context,
-      className,
+      className
     )
 
     const getTransitionClass = (state: string) => {
       return state === 'entering'
         ? 'showing'
         : state === 'entered'
-        ? 'show'
-        : state === 'exiting'
-        ? 'showing'
-        : 'fade'
+          ? 'show'
+          : state === 'exiting'
+            ? 'showing'
+            : 'fade'
     }
 
     return (
@@ -195,7 +195,7 @@ export const CxToast = forwardRef<HTMLDivElement, CxToastProps>(
         }}
       </Transition>
     )
-  },
+  }
 )
 
 CxToast.displayName = 'CxToast'

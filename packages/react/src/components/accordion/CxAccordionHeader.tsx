@@ -15,7 +15,7 @@ export const CxAccordionHeader = forwardRef<HTMLElement, CxAccordionHeaderProps>
         <span className="accordion-title">{children}</span>
       </summary>
     )
-  },
+  }
 )
 
 CxAccordionHeader.displayName = 'CxAccordionHeader'
