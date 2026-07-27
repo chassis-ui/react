@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
+import { axe } from 'jest-axe'
 
 import { CxOtpInput } from '../../../index'
 
@@ -106,4 +107,9 @@ test('groupSizes renders a separator between groups', () => {
   const { container } = render(<CxOtpInput aria-label="Code" groupSizes={[3, 3]} />)
   expect(container.querySelectorAll('.form-input')).toHaveLength(6)
   expect(container.querySelector('.form-otp-separator')).toBeInTheDocument()
+})
+
+test('has no axe violations', async () => {
+  const { container } = render(<CxOtpInput aria-label="Verification code" length={4} />)
+  expect(await axe(container)).toHaveNoViolations()
 })

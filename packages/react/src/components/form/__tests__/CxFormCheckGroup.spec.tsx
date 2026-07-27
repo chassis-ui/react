@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { render, screen } from '@testing-library/react'
+import { axe } from 'jest-axe'
 
 import { CxFormCheck, CxFormCheckGroup } from '../../../index'
 
@@ -48,4 +49,28 @@ test('orientation="horizontal" wraps items in a flex row', () => {
   )
   const email = screen.getByRole('checkbox', { name: 'Email' })
   expect(email.closest('.d-flex')).not.toBeNull()
+})
+
+test('forwards a ref to the underlying fieldset', () => {
+  const ref = React.createRef<HTMLFieldSetElement>()
+  render(
+    <CxFormCheckGroup ref={ref} label="Notifications" defaultValue={[]}>
+      <CxFormCheck value="email" label="Email" />
+    </CxFormCheckGroup>
+  )
+  expect(ref.current).toBeInstanceOf(HTMLFieldSetElement)
+})
+
+test('has no axe violations', async () => {
+  const { container } = render(
+    <CxFormCheckGroup
+      label="Notifications"
+      description="Choose as many as you like."
+      defaultValue={[]}
+    >
+      <CxFormCheck value="email" label="Email" />
+      <CxFormCheck value="sms" label="SMS" />
+    </CxFormCheckGroup>
+  )
+  expect(await axe(container)).toHaveNoViolations()
 })

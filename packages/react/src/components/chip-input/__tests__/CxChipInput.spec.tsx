@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { render, screen, fireEvent, within } from '@testing-library/react'
+import { axe } from 'jest-axe'
 
 import { CxChipInput } from '../../../index'
 
@@ -118,4 +119,9 @@ test('supports controlled value', () => {
 
   rerender(<CxChipInput aria-label="Skills" onChange={onChange} value={['React', 'CSS']} />)
   expect(screen.getByRole('row', { name: /CSS/ })).toBeInTheDocument()
+})
+
+test('has no axe violations with chips present', async () => {
+  const { container } = render(<CxChipInput aria-label="Skills" defaultValue={['React']} />)
+  expect(await axe(container)).toHaveNoViolations()
 })

@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { act, render, screen, fireEvent, within } from '@testing-library/react'
+import { axe } from 'jest-axe'
 
 import {
   CxTable,
@@ -198,4 +199,9 @@ test('renders a caption and a plain footer', () => {
   )
   expect(screen.getByText('List of users')).toBeInTheDocument()
   expect(screen.getByText('Total: 3')).toBeInTheDocument()
+})
+
+test('has no axe violations', async () => {
+  const { container } = render(<BasicTable />)
+  expect(await axe(container)).toHaveNoViolations()
 })

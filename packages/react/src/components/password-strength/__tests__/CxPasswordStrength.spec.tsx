@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { render, screen } from '@testing-library/react'
+import { axe } from 'jest-axe'
 
 import { CxPasswordStrength } from '../../../index'
 
@@ -93,4 +94,16 @@ test('disabling a weight via the weights prop excludes that criterion from scori
   // disabled it scores 0, so no strength/meter value.
   const meter = screen.getByRole('meter')
   expect(meter).toHaveAttribute('aria-valuenow', '0')
+})
+
+test('has no axe violations', async () => {
+  const { container } = render(<CxPasswordStrength value="abcdefgh" />)
+  // react-aria's useMeter sets role="meter progressbar" — a deliberate, spec-valid
+  // space-separated ARIA role fallback list (meter is the primary role; progressbar is the
+  // fallback for older AT). This axe-core version doesn't parse the compound role token list
+  // when checking allowed attributes, so it flags the (perfectly valid) aria-value* attributes
+  // as disallowed. A tooling limitation, not a CxPasswordStrength bug.
+  expect(
+    await axe(container, { rules: { 'aria-allowed-attr': { enabled: false } } })
+  ).toHaveNoViolations()
 })

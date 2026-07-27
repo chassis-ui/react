@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { render, screen } from '@testing-library/react'
+import { axe } from 'jest-axe'
 
 import { CxFormRadio, CxFormRadioGroup } from '../../../index'
 
@@ -44,4 +45,24 @@ test('orientation="horizontal" wraps items in a flex row', () => {
   )
   const radioA = screen.getByRole('radio', { name: 'Option A' })
   expect(radioA.closest('.d-flex')).not.toBeNull()
+})
+
+test('forwards a ref to the underlying fieldset', () => {
+  const ref = React.createRef<HTMLFieldSetElement>()
+  render(
+    <CxFormRadioGroup ref={ref} label="Choose an option" defaultValue="a">
+      <CxFormRadio value="a" label="Option A" />
+    </CxFormRadioGroup>
+  )
+  expect(ref.current).toBeInstanceOf(HTMLFieldSetElement)
+})
+
+test('has no axe violations', async () => {
+  const { container } = render(
+    <CxFormRadioGroup label="Choose an option" description="Pick one." defaultValue="a">
+      <CxFormRadio value="a" label="Option A" />
+      <CxFormRadio value="b" label="Option B" />
+    </CxFormRadioGroup>
+  )
+  expect(await axe(container)).toHaveNoViolations()
 })

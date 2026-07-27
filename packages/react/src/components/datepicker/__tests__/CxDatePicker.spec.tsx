@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { act, render, screen, fireEvent, within } from '@testing-library/react'
 import { CalendarDate } from '@internationalized/date'
+import { axe } from 'jest-axe'
 
 import { CxDatePicker } from '../../../index'
 
@@ -99,4 +100,13 @@ test('supports controlled value reflected in the field segments', () => {
     />
   )
   expect(screen.getByText('25')).toBeInTheDocument()
+})
+
+test('has no axe violations with the calendar open', async () => {
+  render(<CxDatePicker aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
+  openCalendar()
+  // The calendar dialog portals to document.body, sibling to the field itself — neither sits
+  // inside a page landmark in this isolated fixture, which trips axe's "region" best-practice
+  // rule. That rule is about overall page structure, not anything CxDatePicker controls.
+  expect(await axe(document.body, { rules: { region: { enabled: false } } })).toHaveNoViolations()
 })
