@@ -4,10 +4,11 @@ exports[`CxButton customize 1`] = `
 <div>
   <span
     aria-current="page"
+    aria-disabled="true"
     class="button warning outline large rounded bazinga active disabled"
+    data-react-aria-pressable="true"
     disabled=""
-    role="bazinga"
-    type="submit"
+    role="button"
   >
     Test
   </span>

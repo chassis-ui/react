@@ -1,8 +1,10 @@
-import React, { ButtonHTMLAttributes, ElementType, forwardRef } from 'react'
+import React, { ButtonHTMLAttributes, ElementType, forwardRef, RefObject, useRef } from 'react'
 import classNames from 'classnames'
+import { AriaButtonProps, mergeProps, useButton } from 'react-aria'
 
 import { ContextColor, ContextStyle, Shapes } from '../Types'
 import { CxLink } from '../link/CxLink'
+import { useForkedRef } from '../../utils/hooks'
 
 export interface CxButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /**
@@ -59,28 +61,48 @@ export const CxButton = forwardRef<HTMLButtonElement | HTMLAnchorElement, CxButt
       className,
       context = 'primary',
       component = 'button',
+      disabled,
+      onClick,
       shape,
       size,
       type = 'button',
       variant,
       ...rest
     },
-    ref,
+    ref
   ) => {
     const _className = classNames('button', context, variant, size, shape, className)
+    const resolvedComponent = rest.href ? 'a' : component
+    const isCustomComponent = resolvedComponent !== 'button' && resolvedComponent !== 'a'
+
+    // Native `button`/`a` elements get keyboard activation, focus and disabled handling for
+    // free from the browser. A custom `component` doesn't, so useButton fills in role, tabIndex
+    // and Enter/Space activation for it, matching native button behavior.
+    const buttonRef = useRef<HTMLButtonElement | HTMLAnchorElement | null>(null)
+    const forkedRef = useForkedRef(ref, buttonRef)
+    const buttonAriaProps: AriaButtonProps<'div'> = {
+      elementType: 'div',
+      isDisabled: disabled,
+      onClick: onClick as unknown as AriaButtonProps<'div'>['onClick']
+    }
+    const { buttonProps } = useButton(
+      buttonAriaProps,
+      buttonRef as RefObject<HTMLDivElement | null>
+    )
 
     return (
       <CxLink
-        component={rest.href ? 'a' : component}
+        component={resolvedComponent}
         type={type}
         className={_className}
-        {...rest}
-        ref={ref}
+        {...(isCustomComponent ? mergeProps(rest, buttonProps) : { onClick, ...rest })}
+        disabled={disabled}
+        ref={isCustomComponent ? forkedRef : ref}
       >
         {children}
       </CxLink>
     )
-  },
+  }
 )
 
 CxButton.displayName = 'CxButton'
