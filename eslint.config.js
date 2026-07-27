@@ -18,6 +18,11 @@ const testingLibraryWarnRules = Object.fromEntries(
     Array.isArray(config) ? [rule, ['warn', ...config.slice(1)]] : [rule, 'warn']
   )
 )
+// no-node-access and no-container assume every element under test has an accessible role/name
+// to query by. Much of this component library is plain presentational wrappers (divs, spans)
+// with none, so `container.firstChild` is the only option — these two don't fit this codebase.
+testingLibraryWarnRules['testing-library/no-node-access'] = 'off'
+testingLibraryWarnRules['testing-library/no-container'] = 'off'
 
 export default defineConfig([
   // Global ignores
@@ -53,7 +58,10 @@ export default defineConfig([
     rules: {
       // Superseded by the TS-aware version below, which understands type-only bindings.
       'no-unused-vars': 'off',
-      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }
+      ],
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-unsafe-function-type': 'warn'
     }
