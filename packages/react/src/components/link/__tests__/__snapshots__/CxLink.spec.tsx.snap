@@ -1,22 +1,10 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxLink customize 1`] = `
-<div>
-  <button
-    aria-current="page"
-    class="bazinga active disabled"
-    disabled=""
-    type="submit"
-  >
-    Test
-  </button>
-</div>
-`;
-
-exports[`loads and displays CxLink component 1`] = `
+exports[`CxLink > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <a
     class=""
+    href="/bazinga"
   >
     Test
   </a>

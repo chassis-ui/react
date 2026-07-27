@@ -1,21 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxPaginationItem customize 1`] = `
-<div>
-  <li
-    aria-current="page"
-    class="page-item active disabled bazinga"
-  >
-    <h3
-      class="page-link"
-    >
-      Test
-    </h3>
-  </li>
-</div>
-`;
-
-exports[`loads and displays CxPaginationItem component 1`] = `
+exports[`CxPaginationItem > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <li
     class="page-item"

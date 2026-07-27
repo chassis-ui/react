@@ -1,34 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxNavbar customize - container and expand are boolean 1`] = `
-<div>
-  <nav
-    class="navbar navbar-expand"
-  >
-    <div
-      class="container"
-    >
-      Test
-    </div>
-  </nav>
-</div>
-`;
-
-exports[`CxNavbar customize 1`] = `
-<div>
-  <h3
-    class="navbar bg-warning navbar-dark navbar-expand-large fixed-bottom bazinga"
-  >
-    <div
-      class="container-xlarge"
-    >
-      Test
-    </div>
-  </h3>
-</div>
-`;
-
-exports[`loads and displays CxNavbar component 1`] = `
+exports[`CxNavbar > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <nav
     class="navbar"

@@ -1,16 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxNavbarText customize 1`] = `
-<div>
-  <span
-    class="navbar-text bazinga"
-  >
-    Test
-  </span>
-</div>
-`;
-
-exports[`loads and displays CxNavbarText component 1`] = `
+exports[`CxNavbarText > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <span
     class="navbar-text"

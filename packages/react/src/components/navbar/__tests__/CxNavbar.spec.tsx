@@ -1,46 +1,74 @@
 import * as React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
+import { axe } from 'jest-axe'
 
 import { CxNavbar } from '../../../index'
 
-test('loads and displays CxNavbar component', async () => {
-  const { container } = render(<CxNavbar>Test</CxNavbar>)
-  expect(container).toMatchSnapshot()
-})
+describe('CxNavbar', () => {
+  describe('rendering', () => {
+    test('renders a nav with the base class by default', () => {
+      render(<CxNavbar>Test</CxNavbar>)
+      const nav = screen.getByRole('navigation')
+      expect(nav).toHaveClass('navbar')
+      expect(nav.tagName).toBe('NAV')
+    })
 
-test('CxNavbar customize', async () => {
-  const { container } = render(
-    <CxNavbar
-      className="bazinga"
-      context="warning"
-      colorScheme="dark"
-      component="h3"
-      container="xlarge"
-      expand="large"
-      placement="fixed-bottom"
-    >
-      Test
-    </CxNavbar>
-  )
-  expect(container).toMatchSnapshot()
-  expect(container.firstChild).toHaveClass('bazinga')
-  expect(container.firstChild).toHaveClass('navbar')
-  expect(container.firstChild).toHaveClass('bg-warning')
-  expect(container.firstChild).toHaveClass('navbar-dark')
-  expect(container.firstChild).toHaveClass('navbar-expand-large')
-  expect(container.firstChild).toHaveClass('fixed-bottom')
-  const arrLength = container.getElementsByClassName('container-xlarge').length
-  expect(arrLength).toBe(1)
-})
+    test('matches the baseline markup snapshot', () => {
+      const { container } = render(<CxNavbar>Test</CxNavbar>)
+      expect(container).toMatchSnapshot()
+    })
 
-test('CxNavbar customize - container and expand are boolean', async () => {
-  const { container } = render(
-    <CxNavbar container={true} expand={true}>
-      Test
-    </CxNavbar>
-  )
-  expect(container).toMatchSnapshot()
-  expect(container.firstChild).toHaveClass('navbar-expand')
-  const arrLength = container.getElementsByClassName('container').length
-  expect(arrLength).toBe(1)
+    test('renders as a custom component with context, colorScheme, container and placement', () => {
+      render(
+        <CxNavbar
+          className="bazinga"
+          context="warning"
+          colorScheme="dark"
+          component="h3"
+          container="xlarge"
+          expand="large"
+          placement="fixed-bottom"
+        >
+          Test
+        </CxNavbar>
+      )
+      const navbar = screen.getByText('Test').closest('h3')
+      expect(navbar).toHaveClass(
+        'bazinga',
+        'navbar',
+        'bg-warning',
+        'navbar-dark',
+        'navbar-expand-large',
+        'fixed-bottom'
+      )
+      expect(navbar?.querySelector('.container-xlarge')).not.toBeNull()
+    })
+
+    test('applies boolean container and expand classes', () => {
+      render(
+        <CxNavbar container={true} expand={true}>
+          Test
+        </CxNavbar>
+      )
+      const nav = screen.getByRole('navigation')
+      expect(nav).toHaveClass('navbar-expand')
+      expect(nav.querySelector('.container')).not.toBeNull()
+    })
+  })
+
+  describe('ref forwarding', () => {
+    test('forwards a ref to the underlying nav', () => {
+      const ref = React.createRef<HTMLDivElement>()
+      render(<CxNavbar ref={ref}>Test</CxNavbar>)
+      expect(ref.current).toBeInstanceOf(HTMLElement)
+      expect(ref.current?.tagName).toBe('NAV')
+    })
+  })
+
+  describe('accessibility', () => {
+    test('has no axe violations', async () => {
+      const { container } = render(<CxNavbar>Test</CxNavbar>)
+      expect(await axe(container)).toHaveNoViolations()
+    })
+  })
 })

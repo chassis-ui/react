@@ -1,20 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxPagination customize 1`] = `
-<div>
-  <nav
-    aria-label="ariaLabel"
-  >
-    <ul
-      class="pagination pagination-large bazinga"
-    >
-      Test
-    </ul>
-  </nav>
-</div>
-`;
-
-exports[`CxPagination example 1`] = `
+exports[`CxPagination > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <nav>
     <ul
@@ -47,18 +33,6 @@ exports[`CxPagination example 1`] = `
           C
         </button>
       </li>
-    </ul>
-  </nav>
-</div>
-`;
-
-exports[`loads and displays CxPagination component 1`] = `
-<div>
-  <nav>
-    <ul
-      class="pagination"
-    >
-      Test
     </ul>
   </nav>
 </div>

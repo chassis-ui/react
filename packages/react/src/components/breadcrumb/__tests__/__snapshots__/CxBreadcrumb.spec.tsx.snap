@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxBreadcrumb customize 1`] = `
+exports[`CxBreadcrumb > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <nav
     aria-label="breadcrumb"
@@ -25,18 +25,6 @@ exports[`CxBreadcrumb customize 1`] = `
         Test C
       </li>
     </ol>
-  </nav>
-</div>
-`;
-
-exports[`loads and displays CxBreadcrumb component 1`] = `
-<div>
-  <nav
-    aria-label="breadcrumb"
-  >
-    <ol
-      class="breadcrumb"
-    />
   </nav>
 </div>
 `;

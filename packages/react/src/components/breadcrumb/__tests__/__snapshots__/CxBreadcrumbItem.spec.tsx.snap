@@ -1,17 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxBreadcrumbItem customize 1`] = `
-<div>
-  <li
-    aria-current="page"
-    class="breadcrumb-item active bazinga"
-  >
-    Test
-  </li>
-</div>
-`;
-
-exports[`loads and displays CxBreadcrumbItem component 1`] = `
+exports[`CxBreadcrumbItem > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <li
     class="breadcrumb-item"

@@ -1,30 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxNavbarToggler customize 1`] = `
-<div>
-  <button
-    class="navbar-toggler bazinga"
-    type="button"
-  >
-    <span
-      class="navbar-toggler-icon"
-    />
-  </button>
-</div>
-`;
-
-exports[`CxNavbarToggler witch children 1`] = `
-<div>
-  <button
-    class="navbar-toggler"
-    type="button"
-  >
-    Test
-  </button>
-</div>
-`;
-
-exports[`CxNavbarToggler witch no children 1`] = `
+exports[`CxNavbarToggler > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <button
     class="navbar-toggler"

@@ -1,16 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxNavTitle customize 1`] = `
-<div>
-  <li
-    class="nav-title bazinga"
-  >
-    Test
-  </li>
-</div>
-`;
-
-exports[`loads and displays CxNavTitle component 1`] = `
+exports[`CxNavTitle > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <li
     class="nav-title"
