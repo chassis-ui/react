@@ -1,6 +1,6 @@
 import React, { forwardRef, HTMLAttributes, ReactNode } from 'react'
 import classNames from 'classnames'
-import { useCheckboxGroup } from 'react-aria'
+import { AriaCheckboxGroupProps, useCheckboxGroup } from 'react-aria'
 import { useCheckboxGroupState } from 'react-stately'
 
 import { CxCheckboxGroupContext } from './context'
@@ -108,7 +108,7 @@ export const CxFormCheckGroup = forwardRef<HTMLFieldSetElement, CxFormCheckGroup
       labelProps,
       descriptionProps,
       errorMessageProps,
-    } = useCheckboxGroup(groupProps, state)
+    } = useCheckboxGroup(groupProps as AriaCheckboxGroupProps, state)
 
     const _className = classNames(
       'form-field',

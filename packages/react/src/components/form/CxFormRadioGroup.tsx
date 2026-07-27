@@ -1,7 +1,7 @@
 import React, { forwardRef, HTMLAttributes, ReactNode } from 'react'
 import classNames from 'classnames'
-import { useRadioGroup } from 'react-aria'
-import { useRadioGroupState } from 'react-stately'
+import { AriaRadioGroupProps, useRadioGroup } from 'react-aria'
+import { RadioGroupProps, useRadioGroupState } from 'react-stately'
 
 import { CxRadioGroupContext } from './context'
 import { CxFormFeedback } from './CxFormFeedback'
@@ -103,9 +103,9 @@ export const CxFormRadioGroup = forwardRef<HTMLFieldSetElement, CxFormRadioGroup
       value,
     }
 
-    const state = useRadioGroupState(groupProps)
+    const state = useRadioGroupState(groupProps as RadioGroupProps)
     const { radioGroupProps, labelProps, descriptionProps, errorMessageProps } = useRadioGroup(
-      groupProps,
+      groupProps as AriaRadioGroupProps,
       state,
     )
 
