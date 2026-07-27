@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { act, render, fireEvent } from '@testing-library/react'
+import { axe } from 'jest-axe'
 
 import { CxPopover, CxButton } from '../../../index'
 
@@ -139,4 +140,20 @@ test('CxPopover moves focus into the dialog on open', async () => {
   const popover = document.body.querySelector('.popover')
   expect(document.activeElement).toBe(popover)
   vi.useRealTimers()
+})
+
+test('CxPopover has no axe violations when open', async () => {
+  vi.useFakeTimers()
+  render(
+    <CxPopover content="content" title="title">
+      <CxButton>Test</CxButton>
+    </CxPopover>
+  )
+  const btn = document.querySelector('.button') as HTMLElement
+  act(() => {
+    fireEvent.click(btn)
+  })
+  act(() => vi.runAllTimers())
+  vi.useRealTimers()
+  expect(await axe(document.body)).toHaveNoViolations()
 })

@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { act, render, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
+import { axe } from 'jest-axe'
 import { CxTooltip, CxLink } from '../../../index'
 
 test('loads and displays CxTooltip component', async () => {
@@ -94,6 +95,22 @@ test('CxTooltip responds to the visible prop changing after mount', async () => 
   act(() => vi.runAllTimers())
   expect(document.body.getElementsByClassName('tooltip').length).toBe(0)
   vi.useRealTimers()
+})
+
+test('CxTooltip has no axe violations when visible', async () => {
+  vi.useFakeTimers()
+  render(
+    <CxTooltip content="content" visible>
+      <CxLink href="#">Test</CxLink>
+    </CxTooltip>
+  )
+  act(() => vi.runAllTimers())
+  vi.useRealTimers()
+  // The tooltip portals to document.body directly, sibling to the trigger's own render
+  // container — neither sits inside a page landmark in this isolated fixture, which trips
+  // axe's "region" best-practice rule. That rule is about overall page structure, not
+  // anything CxTooltip itself controls, so it's disabled for this check.
+  expect(await axe(document.body, { rules: { region: { enabled: false } } })).toHaveNoViolations()
 })
 
 test('CxTooltip with trigger="focus" ignores hover', async () => {

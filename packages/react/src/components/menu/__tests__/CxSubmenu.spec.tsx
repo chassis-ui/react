@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
+import { axe } from 'jest-axe'
 
 import { CxMenu, CxMenuList, CxMenuItem, CxSubmenu, CxSubmenuBack } from '../../../index'
 
@@ -126,4 +127,19 @@ test('CxSubmenuBack closes the submenu and refocuses its trigger', async () => {
   fireEvent.click(screen.getByText('Back'))
   expect(nestedMenu).not.toHaveClass('show')
   expect(trigger).toHaveFocus()
+})
+
+test('CxSubmenu has no axe violations when open', async () => {
+  const { container } = render(
+    <CxMenu visible>
+      <CxMenuList>
+        <CxSubmenu trigger="File">
+          <CxMenuItem href="#">New</CxMenuItem>
+          <CxMenuItem href="#">Open</CxMenuItem>
+        </CxSubmenu>
+      </CxMenuList>
+    </CxMenu>
+  )
+  fireEvent.click(screen.getByText('File'))
+  expect(await axe(container)).toHaveNoViolations()
 })

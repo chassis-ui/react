@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
+import { axe } from 'jest-axe'
 
 import { CxMenu, CxMenuToggle, CxMenuList, CxMenuItem } from '../../../index'
 
@@ -107,4 +108,17 @@ test('CxMenu example', async () => {
     </CxMenu>
   )
   expect(container).toMatchSnapshot()
+})
+
+test('CxMenu has no axe violations when open', async () => {
+  const { container } = render(
+    <CxMenu visible>
+      <CxMenuToggle>Test</CxMenuToggle>
+      <CxMenuList>
+        <CxMenuItem href="#">A</CxMenuItem>
+        <CxMenuItem href="#">B</CxMenuItem>
+      </CxMenuList>
+    </CxMenu>
+  )
+  expect(await axe(container)).toHaveNoViolations()
 })

@@ -1,7 +1,8 @@
 import * as React from 'react'
 import { act, render, fireEvent } from '@testing-library/react'
+import { axe } from 'jest-axe'
 
-import { CxDrawer } from '../../../index'
+import { CxDrawer, CxDrawerBody, CxDrawerHeader, CxDrawerTitle } from '../../../index'
 
 test('loads and displays CxDrawer component', async () => {
   const { container } = render(<CxDrawer placement="start">Test</CxDrawer>)
@@ -261,4 +262,16 @@ test('CxDrawer restores focus to the trigger element after closing', async () =>
   })
   expect(document.activeElement).toBe(trigger)
   vi.useRealTimers()
+})
+
+test('CxDrawer has no axe violations when visible', async () => {
+  const { container } = render(
+    <CxDrawer placement="start" visible>
+      <CxDrawerHeader>
+        <CxDrawerTitle>Title</CxDrawerTitle>
+      </CxDrawerHeader>
+      <CxDrawerBody>Body</CxDrawerBody>
+    </CxDrawer>
+  )
+  expect(await axe(container)).toHaveNoViolations()
 })

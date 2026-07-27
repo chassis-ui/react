@@ -1,5 +1,6 @@
 import React from 'react'
 import { act, render, fireEvent } from '@testing-library/react'
+import { axe } from 'jest-axe'
 
 import {
   CxToaster,
@@ -86,4 +87,21 @@ test('closing a queued toast removes it from the toaster', async () => {
   act(() => vi.runAllTimers())
   expect(document.body.getElementsByClassName('toast').length).toBe(0)
   vi.useRealTimers()
+})
+
+test('CxToaster has no axe violations with a toast showing', async () => {
+  vi.useFakeTimers()
+  render(<CxToaster />)
+  act(() => {
+    addToast(
+      <>
+        <CxToastHeader closeButton>Lorem ipsum</CxToastHeader>
+        <CxToastBody>Hello, world! This is a toast message.</CxToastBody>
+      </>,
+      { autohide: false }
+    )
+  })
+  act(() => vi.runAllTimers())
+  vi.useRealTimers()
+  expect(await axe(document.body)).toHaveNoViolations()
 })

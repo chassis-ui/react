@@ -1,7 +1,8 @@
 import * as React from 'react'
 import { act, render, fireEvent } from '@testing-library/react'
+import { axe } from 'jest-axe'
 
-import { CxModal } from '../../../index'
+import { CxModal, CxModalBody, CxModalHeader, CxModalTitle } from '../../../index'
 
 test('loads and displays CxModal component', async () => {
   const { container } = render(<CxModal>Test</CxModal>)
@@ -167,4 +168,16 @@ test('CxModal backdrop="static" bounces instead of closing on backdrop click', a
   })
   expect(onClose).toHaveBeenCalledTimes(0)
   vi.useRealTimers()
+})
+
+test('CxModal has no axe violations when visible', async () => {
+  const { container } = render(
+    <CxModal visible>
+      <CxModalHeader>
+        <CxModalTitle>Title</CxModalTitle>
+      </CxModalHeader>
+      <CxModalBody>Body</CxModalBody>
+    </CxModal>
+  )
+  expect(await axe(container)).toHaveNoViolations()
 })
