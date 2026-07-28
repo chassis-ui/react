@@ -53,6 +53,7 @@ import { CxCheckbox } from './components/checkbox/CxCheckbox'
 import { CxCheckboxGroup } from './components/checkbox/CxCheckboxGroup'
 import { CxForm } from './components/form/CxForm'
 import { CxFloatingInput } from './components/floating-input/CxFloatingInput'
+import { CxFormField } from './components/form-field/CxFormField'
 import { CxFormFeedback } from './components/form/CxFormFeedback'
 import { CxFormHelp } from './components/form/CxFormHelp'
 import { CxFormLabel } from './components/form/CxFormLabel'
@@ -178,6 +179,7 @@ export {
   CxCheckboxGroup,
   CxFloatingInput,
   CxForm,
+  CxFormField,
   CxFormFeedback,
   CxFormHelp,
   CxFormLabel,

@@ -4,6 +4,7 @@ exports[`CxSelect > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <select
     class="form-input"
+    id=":r1:"
   >
     <option
       value="A"

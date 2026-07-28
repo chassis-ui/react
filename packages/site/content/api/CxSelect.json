@@ -24,6 +24,25 @@
         "name": "string"
       }
     },
+    "help": {
+      "defaultValue": null,
+      "description": "A description for the field, rendered below the select.",
+      "name": "help",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/select/CxSelect.tsx",
+        "name": "CxSelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/select/CxSelect.tsx",
+          "name": "CxSelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
     "htmlSize": {
       "defaultValue": null,
       "description": "Specifies the number of visible options in a drop-down list.",
@@ -60,6 +79,44 @@
       "required": false,
       "type": {
         "name": "boolean"
+      }
+    },
+    "invalidFeedback": {
+      "defaultValue": null,
+      "description": "An error message for the field, rendered below the select when `invalid` is set.",
+      "name": "invalidFeedback",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/select/CxSelect.tsx",
+        "name": "CxSelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/select/CxSelect.tsx",
+          "name": "CxSelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "label": {
+      "defaultValue": null,
+      "description": "The field's caption, rendered as a `CxFormLabel` associated with this select.",
+      "name": "label",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/select/CxSelect.tsx",
+        "name": "CxSelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/select/CxSelect.tsx",
+          "name": "CxSelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
       }
     },
     "onChange": {
@@ -164,6 +221,25 @@
       "required": false,
       "type": {
         "name": "boolean"
+      }
+    },
+    "validFeedback": {
+      "defaultValue": null,
+      "description": "A success message for the field, rendered below the select when `valid` is set.",
+      "name": "validFeedback",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/select/CxSelect.tsx",
+        "name": "CxSelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/select/CxSelect.tsx",
+          "name": "CxSelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
       }
     },
     "value": {

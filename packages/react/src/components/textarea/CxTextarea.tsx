@@ -1,8 +1,9 @@
-import React, { forwardRef, TextareaHTMLAttributes, useRef } from 'react'
+import React, { forwardRef, ReactNode, TextareaHTMLAttributes, useId, useRef } from 'react'
 import classNames from 'classnames'
 import { AriaTextFieldOptions, useTextField } from 'react-aria'
 
 import { useForkedRef } from '../../utils/hooks'
+import { renderFormField } from '../form-field/renderFormField'
 
 export interface CxTextareaProps extends Omit<
   TextareaHTMLAttributes<HTMLTextAreaElement>,
@@ -21,9 +22,21 @@ export interface CxTextareaProps extends Omit<
    */
   disabled?: boolean
   /**
+   * A description for the field, rendered below the textarea.
+   */
+  help?: ReactNode
+  /**
    * Set component validation state to invalid.
    */
   invalid?: boolean
+  /**
+   * An error message for the field, rendered below the textarea when `invalid` is set.
+   */
+  invalidFeedback?: ReactNode
+  /**
+   * The field's caption, rendered as a `CxFormLabel` associated with this textarea.
+   */
+  label?: ReactNode
   /**
    * Handler that is called when the value changes.
    */
@@ -41,19 +54,56 @@ export interface CxTextareaProps extends Omit<
    */
   valid?: boolean
   /**
+   * A success message for the field, rendered below the textarea when `valid` is set.
+   */
+  validFeedback?: ReactNode
+  /**
    * The value of the textarea, controlled.
    */
   value?: string
 }
 
 export const CxTextarea = forwardRef<HTMLTextAreaElement, CxTextareaProps>(
-  ({ className, disabled, invalid, plainText, readOnly, valid, ...rest }, ref) => {
+  (
+    {
+      className,
+      disabled,
+      help,
+      id,
+      invalid,
+      invalidFeedback,
+      label,
+      plainText,
+      readOnly,
+      valid,
+      validFeedback,
+      ...rest
+    },
+    ref
+  ) => {
     const textareaRef = useRef<HTMLTextAreaElement>(null)
     const forkedRef = useForkedRef(ref, textareaRef)
+
+    const generatedId = useId()
+    const inputId = id ?? generatedId
+    const helpId = `${generatedId}-help`
+    const feedbackId = `${generatedId}-feedback`
+
+    const showInvalidFeedback = invalid && invalidFeedback
+    const showValidFeedback = valid && validFeedback
+    const describedBy = [
+      help && helpId,
+      (showInvalidFeedback || showValidFeedback) && feedbackId,
+      rest['aria-describedby']
+    ]
+      .filter(Boolean)
+      .join(' ')
 
     const { inputProps } = useTextField<'textarea'>(
       {
         ...rest,
+        'aria-describedby': describedBy || undefined,
+        id: inputId,
         inputElementType: 'textarea',
         isDisabled: disabled,
         isInvalid: invalid,
@@ -72,7 +122,16 @@ export const CxTextarea = forwardRef<HTMLTextAreaElement, CxTextareaProps>(
       className
     )
 
-    return <textarea {...inputProps} className={_className} ref={forkedRef} />
+    return renderFormField({
+      children: <textarea {...inputProps} className={_className} ref={forkedRef} />,
+      help,
+      ids: { feedback: feedbackId, help: helpId, input: inputId },
+      invalid,
+      invalidFeedback,
+      label,
+      valid,
+      validFeedback
+    })
   }
 )
 

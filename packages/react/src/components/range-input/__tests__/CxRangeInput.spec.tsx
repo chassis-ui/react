@@ -73,6 +73,45 @@ describe('CxRangeInput', () => {
     })
   })
 
+  describe('field wrapping', () => {
+    test('renders no wrapper when label/help/feedback are all unset', () => {
+      const { container } = render(<CxRangeInput aria-label="Volume" />)
+      expect(container.querySelector('.form-field')).toBeNull()
+    })
+
+    test('wraps in .form-field and associates the label via htmlFor when label is set', () => {
+      render(<CxRangeInput label="Volume" />)
+      const range = screen.getByRole('slider', { name: 'Volume' })
+      expect(range.closest('.form-field')).not.toBeNull()
+      expect(screen.getByText('Volume').tagName).toBe('LABEL')
+    })
+
+    test('renders help text and wires it into aria-describedby', () => {
+      render(<CxRangeInput aria-label="Volume" help="Some help" />)
+      const range = screen.getByRole('slider', { name: 'Volume' })
+      const help = screen.getByText('Some help')
+      expect(help).toHaveClass('form-help')
+      expect(range.getAttribute('aria-describedby')).toContain(help.id)
+    })
+
+    test('renders invalid feedback and wires it into aria-describedby, and sets aria-invalid, only when invalid', () => {
+      const { rerender } = render(<CxRangeInput aria-label="Volume" invalidFeedback="Required" />)
+      expect(screen.queryByText('Required')).toBeNull()
+
+      rerender(<CxRangeInput aria-label="Volume" invalid invalidFeedback="Required" />)
+      const range = screen.getByRole('slider', { name: 'Volume' })
+      const feedback = screen.getByText('Required')
+      expect(feedback).toHaveClass('invalid-feedback')
+      expect(range).toHaveAttribute('aria-invalid', 'true')
+      expect(range.getAttribute('aria-describedby')).toContain(feedback.id)
+    })
+
+    test('renders valid feedback only when valid is set', () => {
+      render(<CxRangeInput aria-label="Volume" valid validFeedback="Looks good" />)
+      expect(screen.getByText('Looks good')).toHaveClass('valid-feedback')
+    })
+  })
+
   describe('accessibility', () => {
     test('has no axe violations', async () => {
       const { container } = render(<CxRangeInput aria-label="Volume" />)

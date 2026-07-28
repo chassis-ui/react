@@ -81,6 +81,44 @@ describe('CxTextInput', () => {
     })
   })
 
+  describe('field wrapping', () => {
+    test('renders no wrapper when label/help/feedback are all unset', () => {
+      const { container } = render(<CxTextInput aria-label="Name" />)
+      expect(container.querySelector('.form-field')).toBeNull()
+    })
+
+    test('wraps in .form-field and associates the label via htmlFor when label is set', () => {
+      render(<CxTextInput label="Name" />)
+      const input = screen.getByRole('textbox', { name: 'Name' })
+      expect(input.closest('.form-field')).not.toBeNull()
+      expect(screen.getByText('Name').tagName).toBe('LABEL')
+    })
+
+    test('renders help text and wires it into aria-describedby', () => {
+      render(<CxTextInput aria-label="Name" help="Some help" />)
+      const input = screen.getByRole('textbox', { name: 'Name' })
+      const help = screen.getByText('Some help')
+      expect(help).toHaveClass('form-help')
+      expect(input.getAttribute('aria-describedby')).toContain(help.id)
+    })
+
+    test('renders invalid feedback and wires it into aria-describedby only when invalid', () => {
+      const { rerender } = render(<CxTextInput aria-label="Name" invalidFeedback="Required" />)
+      expect(screen.queryByText('Required')).toBeNull()
+
+      rerender(<CxTextInput aria-label="Name" invalid invalidFeedback="Required" />)
+      const input = screen.getByRole('textbox', { name: 'Name' })
+      const feedback = screen.getByText('Required')
+      expect(feedback).toHaveClass('invalid-feedback')
+      expect(input.getAttribute('aria-describedby')).toContain(feedback.id)
+    })
+
+    test('renders valid feedback only when valid is set', () => {
+      render(<CxTextInput aria-label="Name" valid validFeedback="Looks good" />)
+      expect(screen.getByText('Looks good')).toHaveClass('valid-feedback')
+    })
+  })
+
   describe('accessibility', () => {
     test('has no axe violations', async () => {
       const { container } = render(<CxTextInput aria-label="Name" />)

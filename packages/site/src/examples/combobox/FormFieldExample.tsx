@@ -1,9 +1,8 @@
-import { CxCombobox, CxComboboxItem, CxFormLabel, CxFormHelp } from '@chassis-ui/react'
+import { CxCombobox, CxComboboxItem, CxFormField } from '@chassis-ui/react'
 
 export const FormFieldExample = () => {
   return (
-    <div className="form-field">
-      <CxFormLabel htmlFor="comboFormField">Country</CxFormLabel>
+    <CxFormField label="Country" help="The billing region." ids={{ input: 'comboFormField' }}>
       <CxCombobox id="comboFormField" name="country" placeholder="Pick a country…">
         <CxComboboxItem id="us">United States</CxComboboxItem>
         <CxComboboxItem id="uk">United Kingdom</CxComboboxItem>
@@ -11,7 +10,6 @@ export const FormFieldExample = () => {
         <CxComboboxItem id="au">Australia</CxComboboxItem>
         <CxComboboxItem id="de">Germany</CxComboboxItem>
       </CxCombobox>
-      <CxFormHelp>The billing region.</CxFormHelp>
-    </div>
+    </CxFormField>
   )
 }

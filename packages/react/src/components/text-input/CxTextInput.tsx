@@ -1,8 +1,9 @@
-import React, { forwardRef, InputHTMLAttributes, useRef } from 'react'
+import React, { forwardRef, InputHTMLAttributes, ReactNode, useId, useRef } from 'react'
 import classNames from 'classnames'
 import { AriaTextFieldProps, useTextField } from 'react-aria'
 
 import { useForkedRef } from '../../utils/hooks'
+import { renderFormField } from '../form-field/renderFormField'
 
 export interface CxTextInputProps extends Omit<
   InputHTMLAttributes<HTMLInputElement>,
@@ -21,9 +22,21 @@ export interface CxTextInputProps extends Omit<
    */
   disabled?: boolean
   /**
+   * A description for the field, rendered below the input.
+   */
+  help?: ReactNode
+  /**
    * Set component validation state to invalid.
    */
   invalid?: boolean
+  /**
+   * An error message for the field, rendered below the input when `invalid` is set.
+   */
+  invalidFeedback?: ReactNode
+  /**
+   * The field's caption, rendered as a `CxFormLabel` associated with this input.
+   */
+  label?: ReactNode
   /**
    * Handler that is called when the value changes.
    */
@@ -49,6 +62,10 @@ export interface CxTextInputProps extends Omit<
    */
   valid?: boolean
   /**
+   * A success message for the field, rendered below the input when `valid` is set.
+   */
+  validFeedback?: ReactNode
+  /**
    * The value of the input, controlled.
    */
   value?: string
@@ -56,15 +73,47 @@ export interface CxTextInputProps extends Omit<
 
 export const CxTextInput = forwardRef<HTMLInputElement, CxTextInputProps>(
   (
-    { className, disabled, invalid, plainText, readOnly, size, type = 'text', valid, ...rest },
+    {
+      className,
+      disabled,
+      help,
+      id,
+      invalid,
+      invalidFeedback,
+      label,
+      plainText,
+      readOnly,
+      size,
+      type = 'text',
+      valid,
+      validFeedback,
+      ...rest
+    },
     ref
   ) => {
     const inputRef = useRef<HTMLInputElement>(null)
     const forkedRef = useForkedRef(ref, inputRef)
 
+    const generatedId = useId()
+    const inputId = id ?? generatedId
+    const helpId = `${generatedId}-help`
+    const feedbackId = `${generatedId}-feedback`
+
+    const showInvalidFeedback = invalid && invalidFeedback
+    const showValidFeedback = valid && validFeedback
+    const describedBy = [
+      help && helpId,
+      (showInvalidFeedback || showValidFeedback) && feedbackId,
+      rest['aria-describedby']
+    ]
+      .filter(Boolean)
+      .join(' ')
+
     const { inputProps } = useTextField(
       {
         ...rest,
+        'aria-describedby': describedBy || undefined,
+        id: inputId,
         isDisabled: disabled,
         isInvalid: invalid,
         isReadOnly: readOnly,
@@ -84,7 +133,16 @@ export const CxTextInput = forwardRef<HTMLInputElement, CxTextInputProps>(
       className
     )
 
-    return <input {...inputProps} className={_className} ref={forkedRef} />
+    return renderFormField({
+      children: <input {...inputProps} className={_className} ref={forkedRef} />,
+      help,
+      ids: { feedback: feedbackId, help: helpId, input: inputId },
+      invalid,
+      invalidFeedback,
+      label,
+      valid,
+      validFeedback
+    })
   }
 )
 

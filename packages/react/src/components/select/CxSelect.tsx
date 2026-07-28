@@ -1,5 +1,7 @@
-import React, { ChangeEventHandler, forwardRef, InputHTMLAttributes } from 'react'
+import React, { ChangeEventHandler, forwardRef, InputHTMLAttributes, ReactNode, useId } from 'react'
 import classNames from 'classnames'
+
+import { renderFormField } from '../form-field/renderFormField'
 
 type Option = {
   disabled?: boolean
@@ -12,6 +14,10 @@ export interface CxSelectProps extends Omit<InputHTMLAttributes<HTMLSelectElemen
    */
   className?: string
   /**
+   * A description for the field, rendered below the select.
+   */
+  help?: ReactNode
+  /**
    * Specifies the number of visible options in a drop-down list.
    */
   htmlSize?: number
@@ -19,6 +25,14 @@ export interface CxSelectProps extends Omit<InputHTMLAttributes<HTMLSelectElemen
    * Set component validation state to invalid.
    */
   invalid?: boolean
+  /**
+   * An error message for the field, rendered below the select when `invalid` is set.
+   */
+  invalidFeedback?: ReactNode
+  /**
+   * The field's caption, rendered as a `CxFormLabel` associated with this select.
+   */
+  label?: ReactNode
   /**
    * Method called immediately after the `value` prop changes.
    */
@@ -44,6 +58,10 @@ export interface CxSelectProps extends Omit<InputHTMLAttributes<HTMLSelectElemen
    */
   valid?: boolean
   /**
+   * A success message for the field, rendered below the select when `valid` is set.
+   */
+  validFeedback?: ReactNode
+  /**
    * The `value` attribute of component.
    *
    * @controllable onChange
@@ -52,7 +70,40 @@ export interface CxSelectProps extends Omit<InputHTMLAttributes<HTMLSelectElemen
 }
 
 export const CxSelect = forwardRef<HTMLSelectElement, CxSelectProps>(
-  ({ children, className, htmlSize, invalid, options, placeholder, size, valid, ...rest }, ref) => {
+  (
+    {
+      children,
+      className,
+      help,
+      htmlSize,
+      id,
+      invalid,
+      invalidFeedback,
+      label,
+      options,
+      placeholder,
+      size,
+      valid,
+      validFeedback,
+      ...rest
+    },
+    ref
+  ) => {
+    const generatedId = useId()
+    const inputId = id ?? generatedId
+    const helpId = `${generatedId}-help`
+    const feedbackId = `${generatedId}-feedback`
+
+    const showInvalidFeedback = invalid && invalidFeedback
+    const showValidFeedback = valid && validFeedback
+    const describedBy = [
+      help && helpId,
+      (showInvalidFeedback || showValidFeedback) && feedbackId,
+      rest['aria-describedby']
+    ]
+      .filter(Boolean)
+      .join(' ')
+
     const _className = classNames(
       'form-input',
       size,
@@ -62,30 +113,48 @@ export const CxSelect = forwardRef<HTMLSelectElement, CxSelectProps>(
       },
       className
     )
-    return (
-      <select className={_className} size={htmlSize} {...rest} ref={ref}>
-        {placeholder && (
-          <option value="" disabled>
-            {placeholder}
-          </option>
-        )}
-        {options
-          ? options.map((option, index) => {
-              return (
-                <option
-                  {...(typeof option === 'object' &&
-                    option.disabled && { disabled: option.disabled })}
-                  {...(typeof option === 'object' && option.value && { value: option.value })}
-                  // eslint-disable-next-line react/no-array-index-key
-                  key={index}
-                >
-                  {typeof option === 'string' ? option : option.label}
-                </option>
-              )
-            })
-          : children}
-      </select>
-    )
+
+    return renderFormField({
+      children: (
+        <select
+          {...rest}
+          aria-describedby={describedBy || undefined}
+          aria-invalid={invalid || undefined}
+          className={_className}
+          id={inputId}
+          ref={ref}
+          size={htmlSize}
+        >
+          {placeholder && (
+            <option value="" disabled>
+              {placeholder}
+            </option>
+          )}
+          {options
+            ? options.map((option, index) => {
+                return (
+                  <option
+                    {...(typeof option === 'object' &&
+                      option.disabled && { disabled: option.disabled })}
+                    {...(typeof option === 'object' && option.value && { value: option.value })}
+                    // eslint-disable-next-line react/no-array-index-key
+                    key={index}
+                  >
+                    {typeof option === 'string' ? option : option.label}
+                  </option>
+                )
+              })
+            : children}
+        </select>
+      ),
+      help,
+      ids: { feedback: feedbackId, help: helpId, input: inputId },
+      invalid,
+      invalidFeedback,
+      label,
+      valid,
+      validFeedback
+    })
   }
 )
 

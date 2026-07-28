@@ -56,7 +56,7 @@ export const RegistrationForm = () => {
               id="reg-name"
               placeholder="Jane Smith"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={setName}
               valid={submitted && validName}
               invalid={submitted && !validName}
             />
@@ -71,7 +71,7 @@ export const RegistrationForm = () => {
               type="email"
               placeholder="jane@example.com"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={setEmail}
               valid={submitted && validEmail}
               invalid={submitted && !validEmail}
             />
@@ -99,7 +99,7 @@ export const RegistrationForm = () => {
               type="password"
               placeholder="Min. 8 characters"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={setPassword}
               valid={submitted && validPassword}
               invalid={submitted && !validPassword}
             />

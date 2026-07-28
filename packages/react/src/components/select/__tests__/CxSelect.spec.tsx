@@ -94,6 +94,49 @@ describe('CxSelect', () => {
     })
   })
 
+  describe('field wrapping', () => {
+    test('renders no wrapper when label/help/feedback are all unset', () => {
+      const { container } = render(<CxSelect aria-label="Language" options={['js']} />)
+      expect(container.querySelector('.form-field')).toBeNull()
+    })
+
+    test('wraps in .form-field and associates the label via htmlFor when label is set', () => {
+      render(<CxSelect label="Language" options={['js']} />)
+      const select = screen.getByRole('combobox', { name: 'Language' })
+      expect(select.closest('.form-field')).not.toBeNull()
+      expect(screen.getByText('Language').tagName).toBe('LABEL')
+    })
+
+    test('renders help text and wires it into aria-describedby', () => {
+      render(<CxSelect aria-label="Language" help="Some help" options={['js']} />)
+      const select = screen.getByRole('combobox', { name: 'Language' })
+      const help = screen.getByText('Some help')
+      expect(help).toHaveClass('form-help')
+      expect(select.getAttribute('aria-describedby')).toContain(help.id)
+    })
+
+    test('renders invalid feedback and wires it into aria-describedby, and sets aria-invalid, only when invalid', () => {
+      const { rerender } = render(
+        <CxSelect aria-label="Language" invalidFeedback="Required" options={['js']} />
+      )
+      expect(screen.queryByText('Required')).toBeNull()
+
+      rerender(
+        <CxSelect aria-label="Language" invalid invalidFeedback="Required" options={['js']} />
+      )
+      const select = screen.getByRole('combobox', { name: 'Language' })
+      const feedback = screen.getByText('Required')
+      expect(feedback).toHaveClass('invalid-feedback')
+      expect(select).toHaveAttribute('aria-invalid', 'true')
+      expect(select.getAttribute('aria-describedby')).toContain(feedback.id)
+    })
+
+    test('renders valid feedback only when valid is set', () => {
+      render(<CxSelect aria-label="Language" valid validFeedback="Looks good" options={['js']} />)
+      expect(screen.getByText('Looks good')).toHaveClass('valid-feedback')
+    })
+  })
+
   describe('accessibility', () => {
     test('has no axe violations', async () => {
       const { container } = render(<CxSelect aria-label="Language" options={['js', 'html']} />)

@@ -43,6 +43,82 @@
         "name": "boolean"
       }
     },
+    "help": {
+      "defaultValue": null,
+      "description": "A description for the field, rendered below the range input.",
+      "name": "help",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/range-input/CxRangeInput.tsx",
+        "name": "CxRangeInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/range-input/CxRangeInput.tsx",
+          "name": "CxRangeInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "invalid": {
+      "defaultValue": null,
+      "description": "Set component validation state to invalid.",
+      "name": "invalid",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/range-input/CxRangeInput.tsx",
+        "name": "CxRangeInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/range-input/CxRangeInput.tsx",
+          "name": "CxRangeInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "invalidFeedback": {
+      "defaultValue": null,
+      "description": "An error message for the field, rendered below the range input when `invalid` is set.",
+      "name": "invalidFeedback",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/range-input/CxRangeInput.tsx",
+        "name": "CxRangeInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/range-input/CxRangeInput.tsx",
+          "name": "CxRangeInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "label": {
+      "defaultValue": null,
+      "description": "The field's caption, rendered as a `CxFormLabel` associated with this range input.",
+      "name": "label",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/range-input/CxRangeInput.tsx",
+        "name": "CxRangeInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/range-input/CxRangeInput.tsx",
+          "name": "CxRangeInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
     "max": {
       "defaultValue": null,
       "description": "Specifies the maximum value for the component.",
@@ -136,6 +212,44 @@
       "required": false,
       "type": {
         "name": "number"
+      }
+    },
+    "valid": {
+      "defaultValue": null,
+      "description": "Set component validation state to valid.",
+      "name": "valid",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/range-input/CxRangeInput.tsx",
+        "name": "CxRangeInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/range-input/CxRangeInput.tsx",
+          "name": "CxRangeInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "validFeedback": {
+      "defaultValue": null,
+      "description": "A success message for the field, rendered below the range input when `valid` is set.",
+      "name": "validFeedback",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/range-input/CxRangeInput.tsx",
+        "name": "CxRangeInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/range-input/CxRangeInput.tsx",
+          "name": "CxRangeInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
       }
     },
     "value": {

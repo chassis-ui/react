@@ -4,7 +4,7 @@ exports[`CxTextarea > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <textarea
     class="form-input"
-    id="react-aria-:r5:"
+    id=":r6:"
     tabindex="0"
   >
     Some value

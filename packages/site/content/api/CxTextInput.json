@@ -62,6 +62,25 @@
         "name": "boolean"
       }
     },
+    "help": {
+      "defaultValue": null,
+      "description": "A description for the field, rendered below the input.",
+      "name": "help",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/text-input/CxTextInput.tsx",
+        "name": "CxTextInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/text-input/CxTextInput.tsx",
+          "name": "CxTextInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
     "invalid": {
       "defaultValue": null,
       "description": "Set component validation state to invalid.",
@@ -79,6 +98,44 @@
       "required": false,
       "type": {
         "name": "boolean"
+      }
+    },
+    "invalidFeedback": {
+      "defaultValue": null,
+      "description": "An error message for the field, rendered below the input when `invalid` is set.",
+      "name": "invalidFeedback",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/text-input/CxTextInput.tsx",
+        "name": "CxTextInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/text-input/CxTextInput.tsx",
+          "name": "CxTextInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "label": {
+      "defaultValue": null,
+      "description": "The field's caption, rendered as a `CxFormLabel` associated with this input.",
+      "name": "label",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/text-input/CxTextInput.tsx",
+        "name": "CxTextInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/text-input/CxTextInput.tsx",
+          "name": "CxTextInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
       }
     },
     "onChange": {
@@ -204,6 +261,25 @@
       "required": false,
       "type": {
         "name": "boolean"
+      }
+    },
+    "validFeedback": {
+      "defaultValue": null,
+      "description": "A success message for the field, rendered below the input when `valid` is set.",
+      "name": "validFeedback",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/text-input/CxTextInput.tsx",
+        "name": "CxTextInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/text-input/CxTextInput.tsx",
+          "name": "CxTextInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
       }
     },
     "value": {

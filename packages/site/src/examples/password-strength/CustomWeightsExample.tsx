@@ -1,16 +1,15 @@
 import { useState } from 'react'
-import { CxTextInput, CxFormLabel, CxPasswordStrength } from '@chassis-ui/react'
+import { CxTextInput, CxFormField, CxPasswordStrength } from '@chassis-ui/react'
 
 export const CustomWeightsExample = () => {
   const [password, setPassword] = useState('')
 
   return (
-    <div className="form-field">
-      <CxFormLabel htmlFor="password4">Password</CxFormLabel>
+    <CxFormField label="Password" ids={{ input: 'password4' }}>
       <CxTextInput
         autoComplete="new-password"
         id="password4"
-        onChange={(event) => setPassword(event.target.value)}
+        onChange={setPassword}
         placeholder="No uppercase required, symbols count double"
         type="password"
         value={password}
@@ -21,6 +20,6 @@ export const CustomWeightsExample = () => {
         value={password}
         weights={{ special: 2, uppercase: 0 }}
       />
-    </div>
+    </CxFormField>
   )
 }
