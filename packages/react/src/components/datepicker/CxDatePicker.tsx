@@ -202,6 +202,7 @@ export const CxDatePicker = ({
           )}
           {...mergeProps(groupProps, rest)}
           aria-describedby={describedBy || undefined}
+          aria-labelledby={labelledBy || undefined}
           ref={groupRef}
         >
           <DateField fieldProps={fieldProps} />

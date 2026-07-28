@@ -123,6 +123,16 @@ test('wraps in .form-field and associates the label via htmlFor when label is se
   expect(screen.getByText('Event date').tagName).toBe('LABEL')
 })
 
+test('merges label association with a consumer-supplied aria-labelledby instead of dropping it', () => {
+  render(
+    <div>
+      <span id="extra-label">Extra</span>
+      <CxDatePicker aria-labelledby="extra-label" label="Event date" />
+    </div>
+  )
+  expect(screen.getByRole('group', { name: 'Event date Extra' })).toBeInTheDocument()
+})
+
 test('renders help text and wires it into aria-describedby', () => {
   render(<CxDatePicker aria-label="Event date" help="Some help" />)
   const group = screen.getByRole('group', { name: 'Event date' })
