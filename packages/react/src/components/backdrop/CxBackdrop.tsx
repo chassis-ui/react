@@ -2,7 +2,7 @@ import React, { forwardRef, HTMLAttributes, useRef } from 'react'
 import { Transition } from 'react-transition-group'
 import classNames from 'classnames'
 
-import { useForkedRef } from '../../utils/hooks'
+import { useForkedRef } from '../../hooks'
 
 export interface CxBackdropProps extends HTMLAttributes<HTMLDivElement> {
   /**

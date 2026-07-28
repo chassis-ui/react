@@ -4,13 +4,13 @@ import React, {
   HTMLAttributes,
   KeyboardEvent,
   ReactNode,
-  useId,
   useMemo,
   useRef,
   useState
 } from 'react'
 import classNames from 'classnames'
 
+import { useFormField } from '../../hooks'
 import { renderFormField } from '../form-field/renderFormField'
 import { OtpBox } from './OtpBox'
 
@@ -280,29 +280,31 @@ export const CxOtpInput = ({
     content = renderBoxes(0, total)
   }
 
-  const generatedId = useId()
-  const groupId = id ?? generatedId
-  const labelId = `${generatedId}-label`
-  const helpId = `${generatedId}-help`
-  const feedbackId = `${generatedId}-feedback`
-
-  const showInvalidFeedback = invalid && invalidFeedback
-  const showValidFeedback = valid && validFeedback
-  const describedBy = [
-    help && helpId,
-    (showInvalidFeedback || showValidFeedback) && feedbackId,
-    rest['aria-describedby']
-  ]
-    .filter(Boolean)
-    .join(' ')
-  const labelledBy = [label && labelId, rest['aria-labelledby']].filter(Boolean).join(' ')
+  const {
+    describedBy,
+    feedbackId,
+    helpId,
+    inputId: groupId,
+    labelId,
+    labelledBy
+  } = useFormField({
+    ariaDescribedBy: rest['aria-describedby'],
+    ariaLabelledBy: rest['aria-labelledby'],
+    help,
+    id,
+    invalid,
+    invalidFeedback,
+    label,
+    valid,
+    validFeedback
+  })
 
   return renderFormField({
     children: (
       <div
         {...rest}
-        aria-describedby={describedBy || undefined}
-        aria-labelledby={labelledBy || undefined}
+        aria-describedby={describedBy}
+        aria-labelledby={labelledBy}
         className={classNames(
           'form-otp',
           { 'input-group': inputGroup && !(groupSizes && groupSizes.length > 0) },

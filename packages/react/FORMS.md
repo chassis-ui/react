@@ -26,26 +26,19 @@ Used by: `text-input/CxTextInput.tsx`, `textarea/CxTextarea.tsx`, `select/CxSele
 
 Renders the **sibling** `.form-field` grid layout: `CxFormLabel`, then `children` (your control), then `CxFormHelp`, then `CxFormFeedback` — see [chassis-css's Form Field docs](https://chassis-ui.com/css/docs/forms/form-field). Unlike `renderFormCheck`, this returns **children bare** (no wrapper at all) when none of `label`/`help`/`validFeedback`/`invalidFeedback` are set, so every leaf stays a drop-in native-looking element until a consumer opts into the wrapping.
 
-Every one of the 10 components above follows the exact same internal shape:
+Every one of the 10 components above follows the exact same internal shape, via the shared `useFormField` hook (`hooks/useFormField.ts`):
 
 ```tsx
 export const CxWhatever = forwardRef<HTMLElement, CxWhateverProps>(
   ({ /* destructure label, help, invalid, invalidFeedback, valid, validFeedback, id, ...rest */ }, ref) => {
-    const generatedId = useId()
-    const inputId = id ?? generatedId          // or omit `input` entirely for group widgets, see below
-    const helpId = `${generatedId}-help`
-    const feedbackId = `${generatedId}-feedback`
+    const { describedBy, feedbackId, helpId, inputId } = useFormField({
+      ariaDescribedBy: rest['aria-describedby'],  // preserve anything the consumer passed directly
+      help, id, invalid, invalidFeedback, valid, validFeedback
+    })
+    // omit `inputId` (or alias it, e.g. `inputId: groupId`) for group widgets — see below
 
-    const showInvalidFeedback = invalid && invalidFeedback
-    const showValidFeedback = valid && validFeedback
-    const describedBy = [
-      help && helpId,
-      (showInvalidFeedback || showValidFeedback) && feedbackId,
-      rest['aria-describedby']              // preserve anything the consumer passed directly
-    ].filter(Boolean).join(' ')
-
-    // ... build the actual control, wiring `aria-describedby={describedBy || undefined}`
-    // and `aria-invalid={invalid || undefined}` onto the real focusable element ...
+    // ... build the actual control, wiring `aria-describedby={describedBy}` and
+    // `aria-invalid={invalid || undefined}` onto the real focusable element ...
 
     return renderFormField({
       children: <the real control>,
@@ -56,7 +49,9 @@ export const CxWhatever = forwardRef<HTMLElement, CxWhateverProps>(
 )
 ```
 
-Every id is generated with React's own `useId()`, not react-aria's — even for the react-aria-backed leaves (`CxTextInput`/`CxTextarea` via `useTextField`). This is deliberate: it's the one thing that's identical across all 10 components regardless of whether react-aria is involved, so the pattern above can be copy-pasted verbatim into a brand-new component.
+`useFormField` generates every id with React's own `useId()`, not react-aria's — even for the react-aria-backed leaves (`CxTextInput`/`CxTextarea` via `useTextField`). This is deliberate: it's the one thing that's identical across all 10 components regardless of whether react-aria is involved. The hook returns `describedBy`/`labelledBy` already as `string | undefined` (never `''`), so call sites apply them directly (`aria-describedby={describedBy}`) with no `|| undefined` needed.
+
+For the `role="group"` shape (`CxDatePicker`/`CxOtpInput`, see below), also pass `label` and `ariaLabelledBy: rest['aria-labelledby']` to get `labelId`/`labelledBy` back — see gotcha #4 for the one thing you still have to do by hand even with the hook.
 
 ### `htmlFor` vs `aria-labelledby` — pick based on what you're wrapping
 
@@ -96,13 +91,13 @@ These are real bugs hit while building this system — re-reading them before wi
 1. **A hook's own returned props can silently clobber your explicit override if spread after it.** `useComboBox`/`useTextField`'s returned `inputProps` objects unconditionally include keys like `aria-describedby: undefined` even when you never asked for one. If you spread that object *after* your own `aria-describedby={describedBy}`, the hook's `undefined` wins and your override vanishes — with no error, just a missing attribute. Always spread the hook's props **first**, then your manual overrides last: `<input {...hookProps} aria-describedby={...} aria-invalid={...} />`.
 2. **A hardcoded fallback `aria-label` beats a real `<label>`.** `aria-label` always wins over label-association (`for`/`aria-labelledby`) when computing an accessible name. If a component has an internal fallback label (`CxChipInput`'s `'Add value'` when neither `aria-label` nor `aria-labelledby` is set), it must also stop applying that fallback once the new `label` prop is present — otherwise the rendered `<CxFormLabel>` is visually there but the control's accessible name silently stays the fallback text.
 3. **Not every react-aria hook here supports `isInvalid`/`description`/`errorMessage`.** `useTextField` and `useDatePicker` do (they extend `Validation`/`HelpTextProps`); `useComboBox` does not. Check the hook's own TypeScript options before assuming you can pass validation props straight through — if it's not accepted, wire `aria-describedby`/`aria-invalid` onto the real DOM node yourself (see gotcha #1 for the spread-order trap that comes with doing this manually).
-4. **A hook-computed `aria-labelledby`/`aria-describedby` can get silently reverted to the caller's raw prop if it's only inside a `mergeProps(hookProps, rest)` spread with no explicit override after it.** react-aria's own `mergeProps` lets the *later* argument win per key (`result[key] = b !== undefined ? b : a`), so spreading `rest` after `hookProps` means the caller's raw, un-merged `aria-labelledby` (still sitting in `rest` because it wasn't destructured out) overwrites the hook's version — even though the hook's version was deliberately built to combine `ids.label` with that same raw value. `CxDatePicker` hit exactly this: it computes `labelledBy = [label && labelId, rest['aria-labelledby']].filter(Boolean).join(' ')` and feeds it into `useDatePicker`, but only re-applied `aria-describedby` (not `aria-labelledby`) as an explicit prop after `{...mergeProps(groupProps, rest)}` — so a consumer passing `label` *and* `aria-labelledby` together got a group whose accessible name silently dropped the visible label entirely. Fixed by re-applying `aria-labelledby={labelledBy || undefined}` after the spread, same as `aria-describedby` already was. Any new group-shaped component that both (a) computes a merged `aria-labelledby`/`aria-describedby` and (b) spreads a react-aria hook's props via `mergeProps(hookProps, rest)`, must re-apply every merged aria-* value as an explicit prop after that spread — not just the one you happened to test.
+4. **A hook-computed `aria-labelledby`/`aria-describedby` can get silently reverted to the caller's raw prop if it's only inside a `mergeProps(hookProps, rest)` spread with no explicit override after it.** react-aria's own `mergeProps` lets the *later* argument win per key (`result[key] = b !== undefined ? b : a`), so spreading `rest` after `hookProps` means the caller's raw, un-merged `aria-labelledby` (still sitting in `rest` because it wasn't destructured out) overwrites the merged version — even though `useFormField`'s `labelledBy` was deliberately built to combine `ids.label` with that same raw value. `CxDatePicker` hit exactly this: it feeds `useFormField`'s `labelledBy` into `useDatePicker`, but only re-applied `aria-describedby` (not `aria-labelledby`) as an explicit prop after `{...mergeProps(groupProps, rest)}` — so a consumer passing `label` *and* `aria-labelledby` together got a group whose accessible name silently dropped the visible label entirely. Fixed by re-applying `aria-labelledby={labelledBy}` after the spread, same as `aria-describedby` already was. Any new group-shaped component that both (a) uses `useFormField`'s merged `labelledBy`/`describedBy` and (b) spreads a react-aria hook's props via `mergeProps(hookProps, rest)`, must re-apply every merged aria-* value as an explicit prop after that spread — not just the one you happened to test.
 
 ## Adding a new form component
 
 1. Decide which of the two engines it needs (a toggle control → `renderFormCheck`; anything else with a label/help/validation → `renderFormField`). If it's neither (a fieldset-style group), model it on `CxCheckboxGroup`/`CxRadioGroup` instead of inventing a fourth pattern.
 2. New folder: `components/<kebab-name>/Cx<PascalName>.tsx`, plus `__tests__/Cx<PascalName>.spec.tsx` (+ snapshot).
-3. If it wraps a native element with a real react-aria hook (text-like input) — check whether that hook already supports `isInvalid`/`description`/`errorMessage` before writing your own `aria-describedby` plumbing; if it does, prefer it, but keep the `ids`/`useId()` shape identical to the rest of the family for consistency (see gotcha #3).
-4. If it's a native element with no applicable hook (`CxSelect`/`CxRangeInput`/`CxFileInput`/`CxColorInput` are the precedent), use the manual `useId()` + `renderFormField` template above verbatim.
+3. If it wraps a native element with a real react-aria hook (text-like input) — check whether that hook already supports `isInvalid`/`description`/`errorMessage` before writing your own `aria-describedby` plumbing; if it does, prefer it, but keep using `useFormField` for the `ids`/describedBy shape, identical to the rest of the family for consistency (see gotcha #3).
+4. If it's a native element with no applicable hook (`CxSelect`/`CxRangeInput`/`CxFileInput`/`CxColorInput` are the precedent), use the `useFormField` + `renderFormField` template above verbatim.
 5. Export from `packages/react/src/index.ts` (both the import and the `export { }` block — see existing entries for placement).
 6. Regenerate API docs (`pnpm api:generate` from repo root) and add a `packages/site/content/forms/<kebab-name>.mdx` page + a `packages/site/data/sidebar.yml` entry under the `Forms` group.

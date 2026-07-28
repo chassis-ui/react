@@ -10,7 +10,7 @@ import React, {
 import classNames from 'classnames'
 import { usePreventScroll } from 'react-aria'
 
-import { useForkedRef } from '../../utils/hooks'
+import { useForkedRef } from '../../hooks'
 import { executeAfterTransition } from '../../utils/dialogTransition'
 
 export interface CxModalProps extends Omit<

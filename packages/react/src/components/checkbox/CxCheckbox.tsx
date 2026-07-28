@@ -8,7 +8,7 @@ import {
 } from 'react-aria'
 import { CheckboxGroupState, useToggleState } from 'react-stately'
 
-import { useForkedRef } from '../../utils/hooks'
+import { useForkedRef } from '../../hooks'
 import { ContextColor } from '../Types'
 
 import { CxCheckboxGroupContext } from './context'

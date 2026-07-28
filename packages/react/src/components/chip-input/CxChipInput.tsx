@@ -1,16 +1,9 @@
-import React, {
-  HTMLAttributes,
-  KeyboardEvent,
-  ReactNode,
-  useId,
-  useMemo,
-  useRef,
-  useState
-} from 'react'
+import React, { HTMLAttributes, KeyboardEvent, ReactNode, useMemo, useRef, useState } from 'react'
 import classNames from 'classnames'
 import { useTextField } from 'react-aria'
 import { Item, Key, useListState } from 'react-stately'
 
+import { useFormField } from '../../hooks'
 import { renderFormField } from '../form-field/renderFormField'
 import { ChipList, ChipItem } from './ChipList'
 
@@ -247,24 +240,19 @@ export const CxChipInput = ({
     setInputValue(parts[parts.length - 1] ?? '')
   }
 
-  const generatedId = useId()
-  const inputId = id ?? generatedId
-  const helpId = `${generatedId}-help`
-  const feedbackId = `${generatedId}-feedback`
-
-  const showInvalidFeedback = invalid && invalidFeedback
-  const showValidFeedback = valid && validFeedback
-  const describedBy = [
-    help && helpId,
-    (showInvalidFeedback || showValidFeedback) && feedbackId,
-    rest['aria-describedby']
-  ]
-    .filter(Boolean)
-    .join(' ')
+  const { describedBy, feedbackId, helpId, inputId } = useFormField({
+    ariaDescribedBy: rest['aria-describedby'],
+    help,
+    id,
+    invalid,
+    invalidFeedback,
+    valid,
+    validFeedback
+  })
 
   const { inputProps } = useTextField(
     {
-      'aria-describedby': describedBy || undefined,
+      'aria-describedby': describedBy,
       'aria-label':
         rest['aria-label'] ?? (rest['aria-labelledby'] || label ? undefined : 'Add value'),
       'aria-labelledby': rest['aria-labelledby'],

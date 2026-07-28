@@ -1,8 +1,8 @@
-import React, { forwardRef, ReactNode, TextareaHTMLAttributes, useId, useRef } from 'react'
+import React, { forwardRef, ReactNode, TextareaHTMLAttributes, useRef } from 'react'
 import classNames from 'classnames'
 import { AriaTextFieldOptions, useTextField } from 'react-aria'
 
-import { useForkedRef } from '../../utils/hooks'
+import { useForkedRef, useFormField } from '../../hooks'
 import { renderFormField } from '../form-field/renderFormField'
 
 export interface CxTextareaProps extends Omit<
@@ -84,25 +84,20 @@ export const CxTextarea = forwardRef<HTMLTextAreaElement, CxTextareaProps>(
     const textareaRef = useRef<HTMLTextAreaElement>(null)
     const forkedRef = useForkedRef(ref, textareaRef)
 
-    const generatedId = useId()
-    const inputId = id ?? generatedId
-    const helpId = `${generatedId}-help`
-    const feedbackId = `${generatedId}-feedback`
-
-    const showInvalidFeedback = invalid && invalidFeedback
-    const showValidFeedback = valid && validFeedback
-    const describedBy = [
-      help && helpId,
-      (showInvalidFeedback || showValidFeedback) && feedbackId,
-      rest['aria-describedby']
-    ]
-      .filter(Boolean)
-      .join(' ')
+    const { describedBy, feedbackId, helpId, inputId } = useFormField({
+      ariaDescribedBy: rest['aria-describedby'],
+      help,
+      id,
+      invalid,
+      invalidFeedback,
+      valid,
+      validFeedback
+    })
 
     const { inputProps } = useTextField<'textarea'>(
       {
         ...rest,
-        'aria-describedby': describedBy || undefined,
+        'aria-describedby': describedBy,
         id: inputId,
         inputElementType: 'textarea',
         isDisabled: disabled,

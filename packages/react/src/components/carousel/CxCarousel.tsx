@@ -9,7 +9,7 @@ import React, {
 } from 'react'
 import classNames from 'classnames'
 
-import { useForkedRef } from '../../utils/hooks'
+import { useForkedRef } from '../../hooks'
 
 const isVisible = (element: HTMLDivElement) => {
   const rect = element.getBoundingClientRect()

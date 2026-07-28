@@ -4,7 +4,7 @@ import { mergeProps, useButton } from 'react-aria'
 
 import { CxButton, CxButtonProps } from '../button/CxButton'
 import { CxMenuContext } from './CxMenu'
-import { useForkedRef } from '../../utils/hooks'
+import { useForkedRef } from '../../hooks'
 
 export type CxMenuToggleProps = Omit<CxButtonProps, 'type'>
 

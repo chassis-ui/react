@@ -12,7 +12,7 @@ import classNames from 'classnames'
 import { AriaButtonProps, useMenuTrigger, useOverlayPosition } from 'react-aria'
 import { useMenuTriggerState } from 'react-stately'
 
-import { useForkedRef } from '../../utils/hooks'
+import { useForkedRef } from '../../hooks'
 import { Placement, resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
 
 export type { Placement }

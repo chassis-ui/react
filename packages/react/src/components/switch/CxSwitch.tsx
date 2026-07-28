@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { AriaSwitchProps, useSwitch } from 'react-aria'
 import { useToggleState } from 'react-stately'
 
-import { useForkedRef } from '../../utils/hooks'
+import { useForkedRef } from '../../hooks'
 import { ContextColor } from '../Types'
 
 import { CxFormLabel } from '../form/CxFormLabel'

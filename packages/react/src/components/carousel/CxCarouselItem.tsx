@@ -1,7 +1,7 @@
 import React, { forwardRef, HTMLAttributes, useContext, useEffect, useState, useRef } from 'react'
 import classNames from 'classnames'
 
-import { useForkedRef } from '../../utils/hooks'
+import { useForkedRef } from '../../hooks'
 import { CxCarouselContext } from './CxCarousel'
 export interface CxCarouselItemProps extends HTMLAttributes<HTMLDivElement> {
   /**

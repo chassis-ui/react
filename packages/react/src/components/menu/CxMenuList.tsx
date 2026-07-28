@@ -2,7 +2,7 @@ import React, { ElementType, forwardRef, HTMLAttributes, useContext, useEffect }
 import { createPortal } from 'react-dom'
 import classNames from 'classnames'
 
-import { useForkedRef } from '../../utils/hooks'
+import { useForkedRef } from '../../hooks'
 import { CxMenuContext } from './CxMenu'
 import { focusMenuItem, getMenuItems, handleMenuKeyDown } from './menuNavigation'
 import { SubmenuGroupContext, useSubmenuGroupProvider } from './submenuGroup'

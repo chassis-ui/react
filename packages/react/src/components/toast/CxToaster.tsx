@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import { useToastRegion } from 'react-aria'
 import { useToastQueue } from 'react-stately'
 
-import { useForkedRef } from '../../utils/hooks'
+import { useForkedRef } from '../../hooks'
 import { CxToast } from './CxToast'
 import { toastQueue } from './toastQueue'
 

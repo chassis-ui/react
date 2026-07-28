@@ -1,15 +1,9 @@
-import React, {
-  HTMLAttributes,
-  InputHTMLAttributes,
-  ReactElement,
-  ReactNode,
-  useId,
-  useRef
-} from 'react'
+import React, { HTMLAttributes, InputHTMLAttributes, ReactElement, ReactNode, useRef } from 'react'
 import classNames from 'classnames'
 import { useComboBox, useFilter, useOverlayPosition } from 'react-aria'
 import { Item, Key, useComboBoxState } from 'react-stately'
 
+import { useFormField } from '../../hooks'
 import { resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
 import { renderFormField } from '../form-field/renderFormField'
 import { CxComboboxItemProps } from './CxComboboxItem'
@@ -153,20 +147,15 @@ export const CxCombobox = ({
   const listBoxRef = useRef<HTMLElement>(null)
   const popoverRef = useRef<HTMLDivElement>(null)
 
-  const generatedId = useId()
-  const inputId = id ?? generatedId
-  const helpId = `${generatedId}-help`
-  const feedbackId = `${generatedId}-feedback`
-
-  const showInvalidFeedback = invalid && invalidFeedback
-  const showValidFeedback = valid && validFeedback
-  const describedBy = [
-    help && helpId,
-    (showInvalidFeedback || showValidFeedback) && feedbackId,
-    rest['aria-describedby']
-  ]
-    .filter(Boolean)
-    .join(' ')
+  const { describedBy, feedbackId, helpId, inputId } = useFormField({
+    ariaDescribedBy: rest['aria-describedby'],
+    help,
+    id,
+    invalid,
+    invalidFeedback,
+    valid,
+    validFeedback
+  })
 
   const { inputProps, listBoxProps } = useComboBox<ReactElement<CxComboboxItemProps>>(
     {
@@ -217,7 +206,7 @@ export const CxCombobox = ({
             autoComplete="off"
             className="combobox-value"
             {...inputHtmlProps}
-            aria-describedby={describedBy || undefined}
+            aria-describedby={describedBy}
             aria-invalid={invalid || undefined}
             ref={inputRef}
           />

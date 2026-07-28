@@ -2,7 +2,7 @@ import React, { HTMLAttributes, forwardRef, useRef } from 'react'
 import classNames from 'classnames'
 import { Transition } from 'react-transition-group'
 
-import { useForkedRef } from '../../utils/hooks'
+import { useForkedRef } from '../../hooks'
 
 export interface CxTabPaneProps extends HTMLAttributes<HTMLDivElement> {
   /**

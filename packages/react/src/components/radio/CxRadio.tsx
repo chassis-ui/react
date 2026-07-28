@@ -1,7 +1,7 @@
 import React, { forwardRef, InputHTMLAttributes, ReactNode, useContext, useRef } from 'react'
 import { AriaRadioProps, useRadio } from 'react-aria'
 
-import { useForkedRef } from '../../utils/hooks'
+import { useForkedRef } from '../../hooks'
 import { ContextColor } from '../Types'
 
 import { CxRadioGroupContext } from './context'

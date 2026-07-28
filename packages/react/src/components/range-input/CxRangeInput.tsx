@@ -1,6 +1,7 @@
-import React, { ChangeEventHandler, forwardRef, InputHTMLAttributes, ReactNode, useId } from 'react'
+import React, { ChangeEventHandler, forwardRef, InputHTMLAttributes, ReactNode } from 'react'
 import classNames from 'classnames'
 
+import { useFormField } from '../../hooks'
 import { renderFormField } from '../form-field/renderFormField'
 
 export interface CxRangeInputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -69,20 +70,15 @@ export const CxRangeInput = forwardRef<HTMLInputElement, CxRangeInputProps>(
     { className, help, id, invalid, invalidFeedback, label, valid, validFeedback, ...rest },
     ref
   ) => {
-    const generatedId = useId()
-    const inputId = id ?? generatedId
-    const helpId = `${generatedId}-help`
-    const feedbackId = `${generatedId}-feedback`
-
-    const showInvalidFeedback = invalid && invalidFeedback
-    const showValidFeedback = valid && validFeedback
-    const describedBy = [
-      help && helpId,
-      (showInvalidFeedback || showValidFeedback) && feedbackId,
-      rest['aria-describedby']
-    ]
-      .filter(Boolean)
-      .join(' ')
+    const { describedBy, feedbackId, helpId, inputId } = useFormField({
+      ariaDescribedBy: rest['aria-describedby'],
+      help,
+      id,
+      invalid,
+      invalidFeedback,
+      valid,
+      validFeedback
+    })
 
     const _className = classNames('form-range', className)
 
@@ -90,7 +86,7 @@ export const CxRangeInput = forwardRef<HTMLInputElement, CxRangeInputProps>(
       children: (
         <input
           {...rest}
-          aria-describedby={describedBy || undefined}
+          aria-describedby={describedBy}
           aria-invalid={invalid || undefined}
           className={_className}
           id={inputId}

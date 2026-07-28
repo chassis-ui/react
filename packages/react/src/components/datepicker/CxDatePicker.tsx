@@ -1,9 +1,10 @@
-import React, { HTMLAttributes, ReactNode, useId, useRef } from 'react'
+import React, { HTMLAttributes, ReactNode, useRef } from 'react'
 import classNames from 'classnames'
 import { mergeProps, useButton, useDatePicker, useLocale, useOverlayPosition } from 'react-aria'
 import { DateValue, useCalendarState, useDatePickerState } from 'react-stately'
 import { createCalendar } from '@internationalized/date'
 
+import { useFormField } from '../../hooks'
 import { resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
 import { renderFormField } from '../form-field/renderFormField'
 import { DateField } from './DateField'
@@ -131,27 +132,29 @@ export const CxDatePicker = ({
   const calendarRef = useRef<HTMLDivElement>(null)
   const popoverRef = useRef<HTMLDivElement>(null)
 
-  const generatedId = useId()
-  const groupId = id ?? generatedId
-  const labelId = `${generatedId}-label`
-  const helpId = `${generatedId}-help`
-  const feedbackId = `${generatedId}-feedback`
-
-  const showInvalidFeedback = invalid && invalidFeedback
-  const showValidFeedback = valid && validFeedback
-  const describedBy = [
-    help && helpId,
-    (showInvalidFeedback || showValidFeedback) && feedbackId,
-    rest['aria-describedby']
-  ]
-    .filter(Boolean)
-    .join(' ')
-  const labelledBy = [label && labelId, rest['aria-labelledby']].filter(Boolean).join(' ')
+  const {
+    describedBy,
+    feedbackId,
+    helpId,
+    inputId: groupId,
+    labelId,
+    labelledBy
+  } = useFormField({
+    ariaDescribedBy: rest['aria-describedby'],
+    ariaLabelledBy: rest['aria-labelledby'],
+    help,
+    id,
+    invalid,
+    invalidFeedback,
+    label,
+    valid,
+    validFeedback
+  })
 
   const { groupProps, fieldProps, buttonProps, calendarProps, dialogProps } = useDatePicker(
     {
       'aria-label': rest['aria-label'],
-      'aria-labelledby': labelledBy || undefined,
+      'aria-labelledby': labelledBy,
       defaultValue,
       id: groupId,
       isDateUnavailable,
@@ -201,8 +204,8 @@ export const CxDatePicker = ({
             className
           )}
           {...mergeProps(groupProps, rest)}
-          aria-describedby={describedBy || undefined}
-          aria-labelledby={labelledBy || undefined}
+          aria-describedby={describedBy}
+          aria-labelledby={labelledBy}
           ref={groupRef}
         >
           <DateField fieldProps={fieldProps} />

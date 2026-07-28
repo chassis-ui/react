@@ -4,7 +4,7 @@ import { Transition } from 'react-transition-group'
 
 import { ContextColor } from '../Types'
 import { CxCloseButton } from '../close-button/CxCloseButton'
-import { useForkedRef } from '../../utils/hooks'
+import { useForkedRef } from '../../hooks'
 
 export interface CxNotificationProps extends HTMLAttributes<HTMLDivElement> {
   /**
