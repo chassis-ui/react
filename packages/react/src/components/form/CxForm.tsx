@@ -1,7 +1,7 @@
-import React, { forwardRef, HTMLAttributes } from 'react'
+import React, { forwardRef, FormHTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-export interface CxFormProps extends HTMLAttributes<HTMLFormElement> {
+export interface CxFormProps extends FormHTMLAttributes<HTMLFormElement> {
   /**
    * A string of all className you want applied to the component.
    */
