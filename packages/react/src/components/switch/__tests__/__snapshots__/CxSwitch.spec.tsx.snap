@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxFormSwitch customize 1`] = `
+exports[`CxSwitch customize 1`] = `
 <div>
   <label
     class="form-check form-switch large is-invalid is-valid bazinga"
@@ -20,7 +20,7 @@ exports[`CxFormSwitch customize 1`] = `
 </div>
 `;
 
-exports[`loads and displays CxFormSwitch component 1`] = `
+exports[`loads and displays CxSwitch component 1`] = `
 <div>
   <label
     class="form-check form-switch"

@@ -4,15 +4,15 @@ import { AriaRadioGroupProps, useRadioGroup } from 'react-aria'
 import { RadioGroupProps, useRadioGroupState } from 'react-stately'
 
 import { CxRadioGroupContext } from './context'
-import { CxFormFeedback } from './CxFormFeedback'
-import { CxFormText } from './CxFormText'
+import { CxFormFeedback } from '../form/CxFormFeedback'
+import { CxFormText } from '../form/CxFormText'
 
-export interface CxFormRadioGroupProps extends Omit<
+export interface CxRadioGroupProps extends Omit<
   HTMLAttributes<HTMLFieldSetElement>,
   'defaultValue' | 'onChange'
 > {
   /**
-   * One or more `<CxFormRadio>` elements.
+   * One or more `<CxRadio>` elements.
    */
   children: ReactNode
   /**
@@ -69,7 +69,7 @@ export interface CxFormRadioGroupProps extends Omit<
   value?: string
 }
 
-export const CxFormRadioGroup = forwardRef<HTMLFieldSetElement, CxFormRadioGroupProps>(
+export const CxRadioGroup = forwardRef<HTMLFieldSetElement, CxRadioGroupProps>(
   (
     {
       children,
@@ -143,4 +143,4 @@ export const CxFormRadioGroup = forwardRef<HTMLFieldSetElement, CxFormRadioGroup
   }
 )
 
-CxFormRadioGroup.displayName = 'CxFormRadioGroup'
+CxRadioGroup.displayName = 'CxRadioGroup'

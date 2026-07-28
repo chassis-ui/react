@@ -6,9 +6,9 @@ import { useToggleState } from 'react-stately'
 import { useForkedRef } from '../../utils/hooks'
 import { ContextColor } from '../Types'
 
-import { CxFormLabel } from './CxFormLabel'
+import { CxFormLabel } from '../form/CxFormLabel'
 
-export interface CxFormSwitchProps extends Omit<
+export interface CxSwitchProps extends Omit<
   InputHTMLAttributes<HTMLInputElement>,
   'checked' | 'defaultChecked' | 'onChange' | 'size'
 > {
@@ -58,7 +58,7 @@ export interface CxFormSwitchProps extends Omit<
   valid?: boolean
 }
 
-export const CxFormSwitch = forwardRef<HTMLInputElement, CxFormSwitchProps>(
+export const CxSwitch = forwardRef<HTMLInputElement, CxSwitchProps>(
   (
     {
       className,
@@ -81,7 +81,7 @@ export const CxFormSwitch = forwardRef<HTMLInputElement, CxFormSwitchProps>(
     const forkedRef = useForkedRef(ref, inputRef)
     const isCheckbox = type === 'checkbox'
 
-    // Same split as CxFormCheck: react-aria's radio hooks need a grouped API this flat component
+    // Same split as CxCheckbox: react-aria's radio hooks need a grouped API this flat component
     // doesn't have, so radio-type switches stay native, translated to the same
     // isSelected/defaultSelected/onChange(boolean) shape as the checkbox path.
     const toggleState = useToggleState({
@@ -149,4 +149,4 @@ export const CxFormSwitch = forwardRef<HTMLInputElement, CxFormSwitchProps>(
   }
 )
 
-CxFormSwitch.displayName = 'CxFormSwitch'
+CxSwitch.displayName = 'CxSwitch'

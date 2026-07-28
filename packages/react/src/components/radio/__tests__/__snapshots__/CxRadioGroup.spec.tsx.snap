@@ -1,18 +1,19 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`loads and displays CxFormCheckGroup component 1`] = `
+exports[`loads and displays CxRadioGroup component 1`] = `
 <div>
   <fieldset
     aria-labelledby="react-aria-:r1:"
+    aria-orientation="vertical"
     class="form-field"
     id="react-aria-:r0:"
-    role="group"
+    role="radiogroup"
   >
     <legend
       class="form-label"
       id="react-aria-:r1:"
     >
-      Notifications
+      Choose an option
     </legend>
     <label
       class="form-check"
@@ -22,14 +23,14 @@ exports[`loads and displays CxFormCheckGroup component 1`] = `
       >
         <input
           checked=""
-          class=""
           data-react-aria-pressable="true"
+          name="react-aria-:r5:"
           tabindex="0"
-          type="checkbox"
-          value="email"
+          type="radio"
+          value="a"
         />
       </span>
-      Email
+      Option A
     </label>
     <label
       class="form-check"
@@ -38,14 +39,14 @@ exports[`loads and displays CxFormCheckGroup component 1`] = `
         class="check-input"
       >
         <input
-          class=""
           data-react-aria-pressable="true"
-          tabindex="0"
-          type="checkbox"
-          value="sms"
+          name="react-aria-:r5:"
+          tabindex="-1"
+          type="radio"
+          value="b"
         />
       </span>
-      SMS
+      Option B
     </label>
   </fieldset>
 </div>

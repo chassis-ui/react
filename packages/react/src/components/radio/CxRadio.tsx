@@ -5,14 +5,14 @@ import { useForkedRef } from '../../utils/hooks'
 import { ContextColor } from '../Types'
 
 import { CxRadioGroupContext } from './context'
-import { ButtonObject, renderFormCheckControl } from './formCheckRender'
+import { ButtonObject, renderFormCheckControl } from '../formCheckRender'
 
-export interface CxFormRadioProps extends Omit<
+export interface CxRadioProps extends Omit<
   InputHTMLAttributes<HTMLInputElement>,
   'checked' | 'defaultChecked' | 'onChange' | 'size'
 > {
   /**
-   * Create button-like radios. Combine with `<CxFormRadioGroup>` to build radio toggle-button groups.
+   * Create button-like radios. Combine with `<CxRadioGroup>` to build radio toggle-button groups.
    */
   button?: ButtonObject
   /**
@@ -36,20 +36,20 @@ export interface CxFormRadioProps extends Omit<
    */
   size?: 'small' | 'large'
   /**
-   * The value of the radio button, used to identify it within its `<CxFormRadioGroup>`.
+   * The value of the radio button, used to identify it within its `<CxRadioGroup>`.
    */
   value: string
 }
 
-// `<CxFormRadio>` must be rendered inside a `<CxFormRadioGroup>` — react-aria has no standalone
+// `<CxRadio>` must be rendered inside a `<CxRadioGroup>` — react-aria has no standalone
 // radio hook, only useRadio(props, RadioGroupState, ref), because a lone radio with no group is
 // not a meaningful accessible control (see https://chassis-ui.com/css/docs/forms/checkbox-radio).
-export const CxFormRadio = forwardRef<HTMLInputElement, CxFormRadioProps>(
+export const CxRadio = forwardRef<HTMLInputElement, CxRadioProps>(
   ({ button, className, context, disabled, id, label, size, ...rest }, ref) => {
     const groupState = useContext(CxRadioGroupContext)
 
     if (!groupState) {
-      throw new Error('CxFormRadio must be rendered inside a CxFormRadioGroup.')
+      throw new Error('CxRadio must be rendered inside a CxRadioGroup.')
     }
 
     const inputRef = useRef<HTMLInputElement>(null)
@@ -76,4 +76,4 @@ export const CxFormRadio = forwardRef<HTMLInputElement, CxFormRadioProps>(
   }
 )
 
-CxFormRadio.displayName = 'CxFormRadio'
+CxRadio.displayName = 'CxRadio'

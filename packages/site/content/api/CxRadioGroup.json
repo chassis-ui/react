@@ -1,22 +1,22 @@
 {
   "tags": {},
-  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/form/CxFormRadioGroup.tsx",
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/radio/CxRadioGroup.tsx",
   "description": "",
-  "displayName": "CxFormRadioGroup",
+  "displayName": "CxRadioGroup",
   "methods": [],
   "props": {
     "children": {
       "defaultValue": null,
-      "description": "One or more `<CxFormRadio>` elements.",
+      "description": "One or more `<CxRadio>` elements.",
       "name": "children",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/CxFormRadioGroup.tsx",
-        "name": "CxFormRadioGroupProps"
+        "fileName": "chassis-react/packages/react/src/components/radio/CxRadioGroup.tsx",
+        "name": "CxRadioGroupProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/form/CxFormRadioGroup.tsx",
-          "name": "CxFormRadioGroupProps"
+          "fileName": "chassis-react/packages/react/src/components/radio/CxRadioGroup.tsx",
+          "name": "CxRadioGroupProps"
         }
       ],
       "required": true,
@@ -29,13 +29,13 @@
       "description": "A string of all className you want applied to the component.",
       "name": "className",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/CxFormRadioGroup.tsx",
-        "name": "CxFormRadioGroupProps"
+        "fileName": "chassis-react/packages/react/src/components/radio/CxRadioGroup.tsx",
+        "name": "CxRadioGroupProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/form/CxFormRadioGroup.tsx",
-          "name": "CxFormRadioGroupProps"
+          "fileName": "chassis-react/packages/react/src/components/radio/CxRadioGroup.tsx",
+          "name": "CxRadioGroupProps"
         }
       ],
       "required": false,
@@ -48,13 +48,13 @@
       "description": "The selected value, uncontrolled.",
       "name": "defaultValue",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/CxFormRadioGroup.tsx",
-        "name": "CxFormRadioGroupProps"
+        "fileName": "chassis-react/packages/react/src/components/radio/CxRadioGroup.tsx",
+        "name": "CxRadioGroupProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/form/CxFormRadioGroup.tsx",
-          "name": "CxFormRadioGroupProps"
+          "fileName": "chassis-react/packages/react/src/components/radio/CxRadioGroup.tsx",
+          "name": "CxRadioGroupProps"
         }
       ],
       "required": false,
@@ -67,13 +67,13 @@
       "description": "A description for the group, rendered below the options.",
       "name": "description",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/CxFormRadioGroup.tsx",
-        "name": "CxFormRadioGroupProps"
+        "fileName": "chassis-react/packages/react/src/components/radio/CxRadioGroup.tsx",
+        "name": "CxRadioGroupProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/form/CxFormRadioGroup.tsx",
-          "name": "CxFormRadioGroupProps"
+          "fileName": "chassis-react/packages/react/src/components/radio/CxRadioGroup.tsx",
+          "name": "CxRadioGroupProps"
         }
       ],
       "required": false,
@@ -86,13 +86,13 @@
       "description": "Disables every radio in the group.",
       "name": "disabled",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/CxFormRadioGroup.tsx",
-        "name": "CxFormRadioGroupProps"
+        "fileName": "chassis-react/packages/react/src/components/radio/CxRadioGroup.tsx",
+        "name": "CxRadioGroupProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/form/CxFormRadioGroup.tsx",
-          "name": "CxFormRadioGroupProps"
+          "fileName": "chassis-react/packages/react/src/components/radio/CxRadioGroup.tsx",
+          "name": "CxRadioGroupProps"
         }
       ],
       "required": false,
@@ -105,13 +105,13 @@
       "description": "An error message for the group, rendered below the options when `invalid` is set.",
       "name": "errorMessage",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/CxFormRadioGroup.tsx",
-        "name": "CxFormRadioGroupProps"
+        "fileName": "chassis-react/packages/react/src/components/radio/CxRadioGroup.tsx",
+        "name": "CxRadioGroupProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/form/CxFormRadioGroup.tsx",
-          "name": "CxFormRadioGroupProps"
+          "fileName": "chassis-react/packages/react/src/components/radio/CxRadioGroup.tsx",
+          "name": "CxRadioGroupProps"
         }
       ],
       "required": false,
@@ -124,13 +124,13 @@
       "description": "Set group validation state to invalid.",
       "name": "invalid",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/CxFormRadioGroup.tsx",
-        "name": "CxFormRadioGroupProps"
+        "fileName": "chassis-react/packages/react/src/components/radio/CxRadioGroup.tsx",
+        "name": "CxRadioGroupProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/form/CxFormRadioGroup.tsx",
-          "name": "CxFormRadioGroupProps"
+          "fileName": "chassis-react/packages/react/src/components/radio/CxRadioGroup.tsx",
+          "name": "CxRadioGroupProps"
         }
       ],
       "required": false,
@@ -143,13 +143,13 @@
       "description": "The group's caption, rendered as a `<legend>`.",
       "name": "label",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/CxFormRadioGroup.tsx",
-        "name": "CxFormRadioGroupProps"
+        "fileName": "chassis-react/packages/react/src/components/radio/CxRadioGroup.tsx",
+        "name": "CxRadioGroupProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/form/CxFormRadioGroup.tsx",
-          "name": "CxFormRadioGroupProps"
+          "fileName": "chassis-react/packages/react/src/components/radio/CxRadioGroup.tsx",
+          "name": "CxRadioGroupProps"
         }
       ],
       "required": false,
@@ -162,13 +162,13 @@
       "description": "The name for the group, used for native form submission.",
       "name": "name",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/CxFormRadioGroup.tsx",
-        "name": "CxFormRadioGroupProps"
+        "fileName": "chassis-react/packages/react/src/components/radio/CxRadioGroup.tsx",
+        "name": "CxRadioGroupProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/form/CxFormRadioGroup.tsx",
-          "name": "CxFormRadioGroupProps"
+          "fileName": "chassis-react/packages/react/src/components/radio/CxRadioGroup.tsx",
+          "name": "CxRadioGroupProps"
         }
       ],
       "required": false,
@@ -181,13 +181,13 @@
       "description": "Callback fired when the selected value changes.",
       "name": "onChange",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/CxFormRadioGroup.tsx",
-        "name": "CxFormRadioGroupProps"
+        "fileName": "chassis-react/packages/react/src/components/radio/CxRadioGroup.tsx",
+        "name": "CxRadioGroupProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/form/CxFormRadioGroup.tsx",
-          "name": "CxFormRadioGroupProps"
+          "fileName": "chassis-react/packages/react/src/components/radio/CxRadioGroup.tsx",
+          "name": "CxRadioGroupProps"
         }
       ],
       "required": false,
@@ -200,13 +200,13 @@
       "description": "Lay the group's radios out on the same horizontal row instead of stacking them.",
       "name": "orientation",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/CxFormRadioGroup.tsx",
-        "name": "CxFormRadioGroupProps"
+        "fileName": "chassis-react/packages/react/src/components/radio/CxRadioGroup.tsx",
+        "name": "CxRadioGroupProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/form/CxFormRadioGroup.tsx",
-          "name": "CxFormRadioGroupProps"
+          "fileName": "chassis-react/packages/react/src/components/radio/CxRadioGroup.tsx",
+          "name": "CxRadioGroupProps"
         }
       ],
       "required": false,
@@ -228,13 +228,13 @@
       "description": "Marks the group as required.",
       "name": "required",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/CxFormRadioGroup.tsx",
-        "name": "CxFormRadioGroupProps"
+        "fileName": "chassis-react/packages/react/src/components/radio/CxRadioGroup.tsx",
+        "name": "CxRadioGroupProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/form/CxFormRadioGroup.tsx",
-          "name": "CxFormRadioGroupProps"
+          "fileName": "chassis-react/packages/react/src/components/radio/CxRadioGroup.tsx",
+          "name": "CxRadioGroupProps"
         }
       ],
       "required": false,
@@ -247,13 +247,13 @@
       "description": "Set group validation state to valid.",
       "name": "valid",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/CxFormRadioGroup.tsx",
-        "name": "CxFormRadioGroupProps"
+        "fileName": "chassis-react/packages/react/src/components/radio/CxRadioGroup.tsx",
+        "name": "CxRadioGroupProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/form/CxFormRadioGroup.tsx",
-          "name": "CxFormRadioGroupProps"
+          "fileName": "chassis-react/packages/react/src/components/radio/CxRadioGroup.tsx",
+          "name": "CxRadioGroupProps"
         }
       ],
       "required": false,
@@ -266,13 +266,13 @@
       "description": "The selected value, controlled.",
       "name": "value",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/CxFormRadioGroup.tsx",
-        "name": "CxFormRadioGroupProps"
+        "fileName": "chassis-react/packages/react/src/components/radio/CxRadioGroup.tsx",
+        "name": "CxRadioGroupProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/form/CxFormRadioGroup.tsx",
-          "name": "CxFormRadioGroupProps"
+          "fileName": "chassis-react/packages/react/src/components/radio/CxRadioGroup.tsx",
+          "name": "CxRadioGroupProps"
         }
       ],
       "required": false,

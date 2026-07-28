@@ -1,11 +1,11 @@
-import { CxFormCheck, CxFormCheckGroup } from '@chassis-ui/react'
+import { CxCheckbox, CxCheckboxGroup } from '@chassis-ui/react'
 
 export const CheckGroupOrientationExample = () => {
   return (
-    <CxFormCheckGroup label="Notifications" defaultValue={['email']} orientation="horizontal">
-      <CxFormCheck value="email" label="Email" />
-      <CxFormCheck value="sms" label="SMS" />
-      <CxFormCheck value="push" label="Push" />
-    </CxFormCheckGroup>
+    <CxCheckboxGroup label="Notifications" defaultValue={['email']} orientation="horizontal">
+      <CxCheckbox value="email" label="Email" />
+      <CxCheckbox value="sms" label="SMS" />
+      <CxCheckbox value="push" label="Push" />
+    </CxCheckboxGroup>
   )
 }

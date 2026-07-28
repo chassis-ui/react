@@ -1,16 +1,16 @@
 import * as React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 
-import { CxFormCheck, CxFormCheckGroup } from '../../../index'
+import { CxCheckbox, CxCheckboxGroup } from '../../../index'
 
-test('loads and displays CxFormCheck component', async () => {
-  const { container } = render(<CxFormCheck />)
+test('loads and displays CxCheckbox component', async () => {
+  const { container } = render(<CxCheckbox />)
   expect(container).toMatchSnapshot()
 })
 
-test('CxFormCheck customize button=false', async () => {
+test('CxCheckbox customize button=false', async () => {
   const { container } = render(
-    <CxFormCheck className="bazinga" context="secondary" id="id" label="label" />
+    <CxCheckbox className="bazinga" context="secondary" id="id" label="label" />
   )
   expect(container).toMatchSnapshot()
   expect(container.firstChild).toHaveClass('bazinga')
@@ -20,9 +20,9 @@ test('CxFormCheck customize button=false', async () => {
   expect(checkInput).toHaveClass('secondary')
 })
 
-test('CxFormCheck customize button=true', async () => {
+test('CxCheckbox customize button=true', async () => {
   const { container } = render(
-    <CxFormCheck
+    <CxCheckbox
       button={{ context: 'primary', size: 'large', shape: 'rounded', variant: 'ghost' }}
       className="bazinga"
       id="id"
@@ -37,7 +37,7 @@ test('CxFormCheck customize button=true', async () => {
 
 test('an uncontrolled checkbox toggles on click and fires onChange(isSelected)', () => {
   const onChange = vi.fn()
-  render(<CxFormCheck aria-label="Terms" defaultSelected={false} onChange={onChange} />)
+  render(<CxCheckbox aria-label="Terms" defaultSelected={false} onChange={onChange} />)
   const input = screen.getByRole('checkbox')
   expect(input).not.toBeChecked()
   fireEvent.click(input)
@@ -47,7 +47,7 @@ test('an uncontrolled checkbox toggles on click and fires onChange(isSelected)',
 
 test('a controlled checkbox reflects isSelected and fires onChange(isSelected) without changing itself', () => {
   const onChange = vi.fn()
-  render(<CxFormCheck aria-label="Terms" isSelected={false} onChange={onChange} />)
+  render(<CxCheckbox aria-label="Terms" isSelected={false} onChange={onChange} />)
   const input = screen.getByRole('checkbox')
   fireEvent.click(input)
   expect(onChange).toHaveBeenCalledWith(true)
@@ -56,18 +56,18 @@ test('a controlled checkbox reflects isSelected and fires onChange(isSelected) w
 })
 
 test('indeterminate is synced onto the native input by the checkbox hook', () => {
-  render(<CxFormCheck aria-label="Select all" indeterminate />)
+  render(<CxCheckbox aria-label="Select all" indeterminate />)
   const input = screen.getByRole('checkbox') as HTMLInputElement
   expect(input.indeterminate).toBe(true)
 })
 
-test('inside a CxFormCheckGroup, selection is owned by the group and reported via its onChange', () => {
+test('inside a CxCheckboxGroup, selection is owned by the group and reported via its onChange', () => {
   const onChange = vi.fn()
   render(
-    <CxFormCheckGroup aria-label="Notifications" defaultValue={['email']} onChange={onChange}>
-      <CxFormCheck value="email" label="Email" />
-      <CxFormCheck value="sms" label="SMS" />
-    </CxFormCheckGroup>
+    <CxCheckboxGroup aria-label="Notifications" defaultValue={['email']} onChange={onChange}>
+      <CxCheckbox value="email" label="Email" />
+      <CxCheckbox value="sms" label="SMS" />
+    </CxCheckboxGroup>
   )
   const email = screen.getByRole('checkbox', { name: 'Email' })
   const sms = screen.getByRole('checkbox', { name: 'SMS' })

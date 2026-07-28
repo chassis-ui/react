@@ -12,11 +12,11 @@ import { useForkedRef } from '../../utils/hooks'
 import { ContextColor } from '../Types'
 
 import { CxCheckboxGroupContext } from './context'
-import { ButtonObject, renderFormCheckControl } from './formCheckRender'
+import { ButtonObject, renderFormCheckControl } from '../formCheckRender'
 
-export type { ButtonObject } from './formCheckRender'
+export type { ButtonObject } from '../formCheckRender'
 
-export interface CxFormCheckProps extends Omit<
+export interface CxCheckboxProps extends Omit<
   InputHTMLAttributes<HTMLInputElement>,
   'checked' | 'defaultChecked' | 'onChange' | 'size'
 > {
@@ -33,7 +33,7 @@ export interface CxFormCheckProps extends Omit<
    */
   context?: ContextColor
   /**
-   * Whether the checkbox is selected, uncontrolled. Ignored when rendered inside a `<CxFormCheckGroup>` —
+   * Whether the checkbox is selected, uncontrolled. Ignored when rendered inside a `<CxCheckboxGroup>` —
    * the group's `value`/`defaultValue` owns selection there.
    */
   defaultSelected?: boolean
@@ -50,7 +50,7 @@ export interface CxFormCheckProps extends Omit<
    */
   invalid?: boolean
   /**
-   * Whether the checkbox is selected, controlled. Ignored when rendered inside a `<CxFormCheckGroup>` —
+   * Whether the checkbox is selected, controlled. Ignored when rendered inside a `<CxCheckboxGroup>` —
    * the group's `value`/`defaultValue` owns selection there.
    */
   isSelected?: boolean
@@ -59,7 +59,7 @@ export interface CxFormCheckProps extends Omit<
    */
   label?: string | ReactNode
   /**
-   * Callback fired when the selected state changes. Ignored when rendered inside a `<CxFormCheckGroup>` —
+   * Callback fired when the selected state changes. Ignored when rendered inside a `<CxCheckboxGroup>` —
    * use the group's `onChange` instead.
    */
   onChange?: (isSelected: boolean) => void
@@ -73,12 +73,12 @@ export interface CxFormCheckProps extends Omit<
   valid?: boolean
   /**
    * The value of the checkbox, used when submitting an HTML form. Required when rendered inside a
-   * `<CxFormCheckGroup>` — it identifies this item within the group's selected values.
+   * `<CxCheckboxGroup>` — it identifies this item within the group's selected values.
    */
   value?: string
 }
 
-const CxFormCheckStandalone = forwardRef<HTMLInputElement, CxFormCheckProps>(
+const CxCheckboxStandalone = forwardRef<HTMLInputElement, CxCheckboxProps>(
   (
     {
       button,
@@ -134,13 +134,13 @@ const CxFormCheckStandalone = forwardRef<HTMLInputElement, CxFormCheckProps>(
     })
   }
 )
-CxFormCheckStandalone.displayName = 'CxFormCheckStandalone'
+CxCheckboxStandalone.displayName = 'CxCheckboxStandalone'
 
-interface CxFormCheckGroupItemProps extends CxFormCheckProps {
+interface CxCheckboxGroupItemProps extends CxCheckboxProps {
   groupState: CheckboxGroupState
 }
 
-const CxFormCheckGroupItem = forwardRef<HTMLInputElement, CxFormCheckGroupItemProps>(
+const CxCheckboxGroupItem = forwardRef<HTMLInputElement, CxCheckboxGroupItemProps>(
   (
     {
       button,
@@ -166,13 +166,13 @@ const CxFormCheckGroupItem = forwardRef<HTMLInputElement, CxFormCheckGroupItemPr
 
     if (!rest.value) {
       console.error(
-        'CxFormCheck: a `value` prop is required when rendered inside a CxFormCheckGroup.'
+        'CxCheckbox: a `value` prop is required when rendered inside a CxCheckboxGroup.'
       )
     }
     if (_defaultSelected !== undefined || _isSelected !== undefined || _onChange !== undefined) {
       console.warn(
-        'CxFormCheck: `defaultSelected`, `isSelected`, and `onChange` are ignored inside a ' +
-          "CxFormCheckGroup — selection is owned by the group's `value`/`defaultValue`/`onChange`."
+        'CxCheckbox: `defaultSelected`, `isSelected`, and `onChange` are ignored inside a ' +
+          "CxCheckboxGroup — selection is owned by the group's `value`/`defaultValue`/`onChange`."
       )
     }
 
@@ -202,15 +202,15 @@ const CxFormCheckGroupItem = forwardRef<HTMLInputElement, CxFormCheckGroupItemPr
     })
   }
 )
-CxFormCheckGroupItem.displayName = 'CxFormCheckGroupItem'
+CxCheckboxGroupItem.displayName = 'CxCheckboxGroupItem'
 
-export const CxFormCheck = forwardRef<HTMLInputElement, CxFormCheckProps>((props, ref) => {
+export const CxCheckbox = forwardRef<HTMLInputElement, CxCheckboxProps>((props, ref) => {
   const groupState = useContext(CxCheckboxGroupContext)
   return groupState ? (
-    <CxFormCheckGroupItem {...props} groupState={groupState} ref={ref} />
+    <CxCheckboxGroupItem {...props} groupState={groupState} ref={ref} />
   ) : (
-    <CxFormCheckStandalone {...props} ref={ref} />
+    <CxCheckboxStandalone {...props} ref={ref} />
   )
 })
 
-CxFormCheck.displayName = 'CxFormCheck'
+CxCheckbox.displayName = 'CxCheckbox'

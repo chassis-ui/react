@@ -1,10 +1,10 @@
-import { CxFormRadio, CxFormRadioGroup } from '@chassis-ui/react'
+import { CxRadio, CxRadioGroup } from '@chassis-ui/react'
 
 export const RadiosDisabledExample = () => {
   return (
-    <CxFormRadioGroup label="Choose an option" defaultValue="checked">
-      <CxFormRadio value="default" label="Disabled radio" disabled />
-      <CxFormRadio value="checked" label="Disabled checked radio" disabled />
-    </CxFormRadioGroup>
+    <CxRadioGroup label="Choose an option" defaultValue="checked">
+      <CxRadio value="default" label="Disabled radio" disabled />
+      <CxRadio value="checked" label="Disabled checked radio" disabled />
+    </CxRadioGroup>
   )
 }

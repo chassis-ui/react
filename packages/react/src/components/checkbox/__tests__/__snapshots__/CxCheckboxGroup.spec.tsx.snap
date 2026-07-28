@@ -1,14 +1,19 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`loads and displays CxFormRadio inside a CxFormRadioGroup 1`] = `
+exports[`loads and displays CxCheckboxGroup component 1`] = `
 <div>
   <fieldset
-    aria-label="Options"
-    aria-orientation="vertical"
+    aria-labelledby="react-aria-:r1:"
     class="form-field"
     id="react-aria-:r0:"
-    role="radiogroup"
+    role="group"
   >
+    <legend
+      class="form-label"
+      id="react-aria-:r1:"
+    >
+      Notifications
+    </legend>
     <label
       class="form-check"
     >
@@ -17,14 +22,14 @@ exports[`loads and displays CxFormRadio inside a CxFormRadioGroup 1`] = `
       >
         <input
           checked=""
+          class=""
           data-react-aria-pressable="true"
-          name="react-aria-:r5:"
           tabindex="0"
-          type="radio"
-          value="a"
+          type="checkbox"
+          value="email"
         />
       </span>
-      Option A
+      Email
     </label>
     <label
       class="form-check"
@@ -33,14 +38,14 @@ exports[`loads and displays CxFormRadio inside a CxFormRadioGroup 1`] = `
         class="check-input"
       >
         <input
+          class=""
           data-react-aria-pressable="true"
-          name="react-aria-:r5:"
-          tabindex="-1"
-          type="radio"
-          value="b"
+          tabindex="0"
+          type="checkbox"
+          value="sms"
         />
       </span>
-      Option B
+      SMS
     </label>
   </fieldset>
 </div>

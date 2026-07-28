@@ -1,20 +1,14 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`loads and displays CxFormRadioGroup component 1`] = `
+exports[`loads and displays CxRadio inside a CxRadioGroup 1`] = `
 <div>
   <fieldset
-    aria-labelledby="react-aria-:r1:"
+    aria-label="Options"
     aria-orientation="vertical"
     class="form-field"
     id="react-aria-:r0:"
     role="radiogroup"
   >
-    <legend
-      class="form-label"
-      id="react-aria-:r1:"
-    >
-      Choose an option
-    </legend>
     <label
       class="form-check"
     >

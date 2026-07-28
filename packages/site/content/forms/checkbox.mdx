@@ -8,19 +8,19 @@ toc: true
 
 import { CheckGroupExample } from '../../src/examples/checkbox/CheckGroupExample.tsx'
 import { CheckGroupOrientationExample } from '../../src/examples/checkbox/CheckGroupOrientationExample.tsx'
-import { CxFormCheck } from '@chassis-ui/react'
+import { CxCheckbox } from '@chassis-ui/react'
 
 ## Approach
 
-Browser default checkboxes are replaced with the help of `<CxFormCheck>`, for selecting one or several options in a list. It renders the modern, wrapper-based `.check-input` markup nested inside a single `<label>` — passing `label` gives you an accessible, fully-clickable control with no extra markup required.
+Browser default checkboxes are replaced with the help of `<CxCheckbox>`, for selecting one or several options in a list. It renders the modern, wrapper-based `.check-input` markup nested inside a single `<label>` — passing `label` gives you an accessible, fully-clickable control with no extra markup required.
 
-`<CxFormCheck>` is built on [React Aria](https://react-spectrum.adobe.com/react-aria/) for full keyboard and screen-reader support. It works standalone, or inside a `<CxFormCheckGroup>` when you want to manage a set of related checkboxes as a single array of selected values.
+`<CxCheckbox>` is built on [React Aria](https://react-spectrum.adobe.com/react-aria/) for full keyboard and screen-reader support. It works standalone, or inside a `<CxCheckboxGroup>` when you want to manage a set of related checkboxes as a single array of selected values.
 
 ## Checks
 
 <Example>
-  <CxFormCheck id="flexCheckDefault" label="Default checkbox" />
-  <CxFormCheck id="flexCheckChecked" label="Checked checkbox" defaultSelected />
+  <CxCheckbox id="flexCheckDefault" label="Default checkbox" />
+  <CxCheckbox id="flexCheckChecked" label="Checked checkbox" defaultSelected />
 </Example>
 
 ## Indeterminate
@@ -28,7 +28,7 @@ Browser default checkboxes are replaced with the help of `<CxFormCheck>`, for se
 Checkboxes can utilize the `:indeterminate` pseudo-class when manually set via `indeterminate` property.
 
 <Example>
-  <CxFormCheck id="flexCheckIndeterminate" label="Indeterminate checkbox" indeterminate />
+  <CxCheckbox id="flexCheckIndeterminate" label="Indeterminate checkbox" indeterminate />
 </Example>
 
 ### Disabled
@@ -36,8 +36,8 @@ Checkboxes can utilize the `:indeterminate` pseudo-class when manually set via `
 Add the `disabled` attribute and the associated `<label>`s are automatically styled to match with a lighter context to help indicate the input's state.
 
 <Example>
-  <CxFormCheck label="Disabled checkbox" disabled />
-  <CxFormCheck label="Disabled checked checkbox" defaultSelected disabled />
+  <CxCheckbox label="Disabled checkbox" disabled />
+  <CxCheckbox label="Disabled checked checkbox" defaultSelected disabled />
 </Example>
 
 ## Default (stacked)
@@ -45,8 +45,8 @@ Add the `disabled` attribute and the associated `<label>`s are automatically sty
 By default, any number of checkboxes that are immediate siblings will be vertically stacked and appropriately spaced.
 
 <Example>
-  <CxFormCheck id="defaultCheck1" label="Default checkbox" />
-  <CxFormCheck id="defaultCheck2" label="Disabled checkbox" disabled />
+  <CxCheckbox id="defaultCheck1" label="Default checkbox" />
+  <CxCheckbox id="defaultCheck2" label="Disabled checkbox" disabled />
 </Example>
 
 ## Inline
@@ -55,9 +55,9 @@ Group checkboxes on the same horizontal row by wrapping them with the `d-flex` a
 
 <Example>
   <div className="d-flex gap-medium">
-    <CxFormCheck id="inlineCheckbox1" value="option1" label="1" />
-    <CxFormCheck id="inlineCheckbox2" value="option2" label="2" />
-    <CxFormCheck id="inlineCheckbox3" value="option3" label="3 (disabled)" disabled />
+    <CxCheckbox id="inlineCheckbox1" value="option1" label="1" />
+    <CxCheckbox id="inlineCheckbox2" value="option2" label="2" />
+    <CxCheckbox id="inlineCheckbox3" value="option3" label="3 (disabled)" disabled />
   </div>
 </Example>
 
@@ -66,9 +66,9 @@ Group checkboxes on the same horizontal row by wrapping them with the `d-flex` a
 Apply the `size` property (`small` or `large`) to change the size of a checkbox.
 
 <Example>
-  <CxFormCheck size="large" id="checkLarge" label="Large checkbox" />
-  <CxFormCheck id="checkMedium" label="Default checkbox" />
-  <CxFormCheck size="small" id="checkSmall" label="Small checkbox" />
+  <CxCheckbox size="large" id="checkLarge" label="Large checkbox" />
+  <CxCheckbox id="checkMedium" label="Default checkbox" />
+  <CxCheckbox size="small" id="checkSmall" label="Small checkbox" />
 </Example>
 
 ## Context colors
@@ -76,7 +76,7 @@ Apply the `size` property (`small` or `large`) to change the size of a checkbox.
 Checkboxes accept a `context` property to color the check indicator with any of the Chassis contextual colors.
 
 <Example>
-  <CxFormCheck context="secondary" id="checkSecondary" label="Secondary checkbox" defaultSelected />
+  <CxCheckbox context="secondary" id="checkSecondary" label="Secondary checkbox" defaultSelected />
 </Example>
 
 ## Without labels
@@ -84,15 +84,15 @@ Checkboxes accept a `context` property to color the check indicator with any of 
 Remember to still provide some form of accessible name for assistive technologies (for instance, using `aria-label`).
 
 <Example>
-  <CxFormCheck id="checkboxNoLabel" value="" aria-label="..." />
+  <CxCheckbox id="checkboxNoLabel" value="" aria-label="..." />
 </Example>
 
 ## Toggle buttons
 
-Create button-like checkboxes by using the `button` property on `<CxFormCheck>`. These toggle buttons can further be grouped in a button group if needed.
+Create button-like checkboxes by using the `button` property on `<CxCheckbox>`. These toggle buttons can further be grouped in a button group if needed.
 
 <Example>
-  <CxFormCheck
+  <CxCheckbox
     button={{ context: 'primary' }}
     id="button-check"
     autoComplete="off"
@@ -101,7 +101,7 @@ Create button-like checkboxes by using the `button` property on `<CxFormCheck>`.
 </Example>
 
 <Example>
-  <CxFormCheck
+  <CxCheckbox
     button={{ context: 'primary' }}
     id="button-check-2"
     autoComplete="off"
@@ -111,7 +111,7 @@ Create button-like checkboxes by using the `button` property on `<CxFormCheck>`.
 </Example>
 
 <Example>
-  <CxFormCheck
+  <CxCheckbox
     button={{ context: 'primary' }}
     id="button-check-3"
     autoComplete="off"
@@ -126,7 +126,7 @@ Different variants of button, such at the various outlined styles, are supported
 
 <Example>
   <div>
-    <CxFormCheck
+    <CxCheckbox
       button={{ context: 'primary', variant: 'outline' }}
       id="button-check-outlined"
       autoComplete="off"
@@ -134,7 +134,7 @@ Different variants of button, such at the various outlined styles, are supported
     />
   </div>
   <div>
-    <CxFormCheck
+    <CxCheckbox
       button={{ context: 'secondary', variant: 'outline' }}
       id="button-check-2-outlined"
       autoComplete="off"
@@ -146,7 +146,7 @@ Different variants of button, such at the various outlined styles, are supported
 
 ## Groups
 
-`<CxFormCheckGroup>` manages a set of related checkboxes as a single array of selected values, with an optional shared description and validation feedback.
+`<CxCheckboxGroup>` manages a set of related checkboxes as a single array of selected values, with an optional shared description and validation feedback.
 
 <Example>
   <CheckGroupExample client:load />
@@ -154,7 +154,7 @@ Different variants of button, such at the various outlined styles, are supported
 
 ### Orientation
 
-Like `<CxFormRadioGroup>`, `<CxFormCheckGroup>` accepts an `orientation` property to lay its checkboxes out on the same horizontal row instead of stacking them.
+Like `<CxRadioGroup>`, `<CxCheckboxGroup>` accepts an `orientation` property to lay its checkboxes out on the same horizontal row instead of stacking them.
 
 <Example>
   <CheckGroupOrientationExample client:load />
@@ -162,10 +162,10 @@ Like `<CxFormRadioGroup>`, `<CxFormCheckGroup>` accepts an `orientation` propert
 
 ## API
 
-### CxFormCheck
+### CxCheckbox
 
-<PropTable component="CxFormCheck" />
+<PropTable component="CxCheckbox" />
 
-### CxFormCheckGroup
+### CxCheckboxGroup
 
-<PropTable component="CxFormCheckGroup" />
+<PropTable component="CxCheckboxGroup" />

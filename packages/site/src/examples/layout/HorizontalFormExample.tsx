@@ -2,11 +2,11 @@ import {
   CxButton,
   CxCol,
   CxForm,
-  CxFormCheck,
+  CxCheckbox,
   CxFormInput,
   CxFormLabel,
-  CxFormRadio,
-  CxFormRadioGroup,
+  CxRadio,
+  CxRadioGroup,
   CxRow
 } from '@chassis-ui/react'
 
@@ -29,16 +29,16 @@ export const HorizontalFormExample = () => {
           <CxFormInput type="password" id="inputPassword3" />
         </CxCol>
       </CxRow>
-      <CxFormRadioGroup className="row mb-medium" label="Radios" defaultValue="option1">
+      <CxRadioGroup className="row mb-medium" label="Radios" defaultValue="option1">
         <CxCol sm={10}>
-          <CxFormRadio value="option1" label="First radio" />
-          <CxFormRadio value="option2" label="Second radio" />
-          <CxFormRadio value="option3" label="Third disabled radio" disabled />
+          <CxRadio value="option1" label="First radio" />
+          <CxRadio value="option2" label="Second radio" />
+          <CxRadio value="option3" label="Third disabled radio" disabled />
         </CxCol>
-      </CxFormRadioGroup>
+      </CxRadioGroup>
       <CxRow className="mb-medium">
         <div className="small:col-10 small:offset-2">
-          <CxFormCheck id="gridCheck1" label="Example checkbox" />
+          <CxCheckbox id="gridCheck1" label="Example checkbox" />
         </div>
       </CxRow>
       <CxButton type="submit">Sign in</CxButton>

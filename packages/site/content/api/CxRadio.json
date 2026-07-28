@@ -1,22 +1,22 @@
 {
   "tags": {},
-  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/form/CxFormRadio.tsx",
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/radio/CxRadio.tsx",
   "description": "",
-  "displayName": "CxFormRadio",
+  "displayName": "CxRadio",
   "methods": [],
   "props": {
     "button": {
       "defaultValue": null,
-      "description": "Create button-like radios. Combine with `<CxFormRadioGroup>` to build radio toggle-button groups.",
+      "description": "Create button-like radios. Combine with `<CxRadioGroup>` to build radio toggle-button groups.",
       "name": "button",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/CxFormRadio.tsx",
-        "name": "CxFormRadioProps"
+        "fileName": "chassis-react/packages/react/src/components/radio/CxRadio.tsx",
+        "name": "CxRadioProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/form/CxFormRadio.tsx",
-          "name": "CxFormRadioProps"
+          "fileName": "chassis-react/packages/react/src/components/radio/CxRadio.tsx",
+          "name": "CxRadioProps"
         }
       ],
       "required": false,
@@ -29,13 +29,13 @@
       "description": "A string of all className you want applied to the component.",
       "name": "className",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/CxFormRadio.tsx",
-        "name": "CxFormRadioProps"
+        "fileName": "chassis-react/packages/react/src/components/radio/CxRadio.tsx",
+        "name": "CxRadioProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/form/CxFormRadio.tsx",
-          "name": "CxFormRadioProps"
+          "fileName": "chassis-react/packages/react/src/components/radio/CxRadio.tsx",
+          "name": "CxRadioProps"
         }
       ],
       "required": false,
@@ -48,13 +48,13 @@
       "description": "Sets the context of the radio indicator to one of Chassis themed colors. Ignored when `button` is set.",
       "name": "context",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/CxFormRadio.tsx",
-        "name": "CxFormRadioProps"
+        "fileName": "chassis-react/packages/react/src/components/radio/CxRadio.tsx",
+        "name": "CxRadioProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/form/CxFormRadio.tsx",
-          "name": "CxFormRadioProps"
+          "fileName": "chassis-react/packages/react/src/components/radio/CxRadio.tsx",
+          "name": "CxRadioProps"
         }
       ],
       "required": false,
@@ -103,13 +103,13 @@
       "description": "The id global attribute defines an identifier (ID) that must be unique in the whole document.",
       "name": "id",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/CxFormRadio.tsx",
-        "name": "CxFormRadioProps"
+        "fileName": "chassis-react/packages/react/src/components/radio/CxRadio.tsx",
+        "name": "CxRadioProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/form/CxFormRadio.tsx",
-          "name": "CxFormRadioProps"
+          "fileName": "chassis-react/packages/react/src/components/radio/CxRadio.tsx",
+          "name": "CxRadioProps"
         }
       ],
       "required": false,
@@ -122,13 +122,13 @@
       "description": "The element represents a caption for a component.",
       "name": "label",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/CxFormRadio.tsx",
-        "name": "CxFormRadioProps"
+        "fileName": "chassis-react/packages/react/src/components/radio/CxRadio.tsx",
+        "name": "CxRadioProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/form/CxFormRadio.tsx",
-          "name": "CxFormRadioProps"
+          "fileName": "chassis-react/packages/react/src/components/radio/CxRadio.tsx",
+          "name": "CxRadioProps"
         }
       ],
       "required": false,
@@ -141,13 +141,13 @@
       "description": "Size the component small or large.",
       "name": "size",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/CxFormRadio.tsx",
-        "name": "CxFormRadioProps"
+        "fileName": "chassis-react/packages/react/src/components/radio/CxRadio.tsx",
+        "name": "CxRadioProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/form/CxFormRadio.tsx",
-          "name": "CxFormRadioProps"
+          "fileName": "chassis-react/packages/react/src/components/radio/CxRadio.tsx",
+          "name": "CxRadioProps"
         }
       ],
       "required": false,
@@ -166,16 +166,16 @@
     },
     "value": {
       "defaultValue": null,
-      "description": "The value of the radio button, used to identify it within its `<CxFormRadioGroup>`.",
+      "description": "The value of the radio button, used to identify it within its `<CxRadioGroup>`.",
       "name": "value",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/CxFormRadio.tsx",
-        "name": "CxFormRadioProps"
+        "fileName": "chassis-react/packages/react/src/components/radio/CxRadio.tsx",
+        "name": "CxRadioProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/form/CxFormRadio.tsx",
-          "name": "CxFormRadioProps"
+          "fileName": "chassis-react/packages/react/src/components/radio/CxRadio.tsx",
+          "name": "CxRadioProps"
         }
       ],
       "required": true,

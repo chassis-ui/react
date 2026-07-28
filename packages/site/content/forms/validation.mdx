@@ -15,7 +15,7 @@ import { useState } from 'react'
 import {
   CxButton,
   CxForm,
-  CxFormCheck,
+  CxCheckbox,
   CxFormInput,
   CxFormFeedback,
   CxFormLabel,
@@ -100,7 +100,7 @@ For invalid fields, ensure that the invalid feedback/error message is associated
       <CxFormFeedback invalid>Please provide a valid zip.</CxFormFeedback>
     </CxCol>
     <CxCol xs={12}>
-      <CxFormCheck
+      <CxCheckbox
         type="checkbox"
         id="invalidCheck"
         label="Agree to terms and conditions"
@@ -121,7 +121,7 @@ For invalid fields, ensure that the invalid feedback/error message is associated
 
 Validation styles are available for the following form controls and components:
 
-- `<CxFormCheck>`s
+- `<CxCheckbox>`s
 - `<CxFormInput>`s
 - `<CxFormSelect>`s
 - `<CxFormTextarea>`s

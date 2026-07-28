@@ -3,7 +3,7 @@ import { useState } from 'react'
 import {
   CxButton,
   CxForm,
-  CxFormCheck,
+  CxCheckbox,
   CxFormInput,
   CxFormFeedback,
   CxFormLabel,
@@ -73,7 +73,7 @@ export const CustomStylesExample = () => {
         <CxFormFeedback invalid>Please provide a valid zip.</CxFormFeedback>
       </CxCol>
       <CxCol xs={12}>
-        <CxFormCheck
+        <CxCheckbox
           type="checkbox"
           id="invalidCheck"
           label="Agree to terms and conditions"

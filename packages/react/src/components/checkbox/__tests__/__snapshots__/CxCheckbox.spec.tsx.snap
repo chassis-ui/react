@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxFormCheck customize button=false 1`] = `
+exports[`CxCheckbox customize button=false 1`] = `
 <div>
   <label
     class="form-check bazinga"
@@ -21,7 +21,7 @@ exports[`CxFormCheck customize button=false 1`] = `
 </div>
 `;
 
-exports[`CxFormCheck customize button=true 1`] = `
+exports[`CxCheckbox customize button=true 1`] = `
 <div>
   <label
     class="button button-check primary ghost large rounded bazinga"
@@ -38,7 +38,7 @@ exports[`CxFormCheck customize button=true 1`] = `
 </div>
 `;
 
-exports[`loads and displays CxFormCheck component 1`] = `
+exports[`loads and displays CxCheckbox component 1`] = `
 <div>
   <span
     class="check-input"

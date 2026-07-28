@@ -1,16 +1,16 @@
 import * as React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 
-import { CxFormSwitch } from '../../../index'
+import { CxSwitch } from '../../../index'
 
-test('loads and displays CxFormSwitch component', async () => {
-  const { container } = render(<CxFormSwitch />)
+test('loads and displays CxSwitch component', async () => {
+  const { container } = render(<CxSwitch />)
   expect(container).toMatchSnapshot()
 })
 
-test('CxFormSwitch customize', async () => {
+test('CxSwitch customize', async () => {
   const { container } = render(
-    <CxFormSwitch
+    <CxSwitch
       className="bazinga"
       context="secondary"
       id="2"
@@ -48,13 +48,13 @@ test('CxFormSwitch customize', async () => {
 })
 
 test('renders role="switch" for the checkbox-backed default type', () => {
-  render(<CxFormSwitch aria-label="Notifications" />)
+  render(<CxSwitch aria-label="Notifications" />)
   expect(screen.getByRole('switch')).toBeInTheDocument()
 })
 
 test('an uncontrolled switch toggles on click and fires onChange(isSelected)', () => {
   const onChange = vi.fn()
-  render(<CxFormSwitch aria-label="Notifications" defaultSelected={false} onChange={onChange} />)
+  render(<CxSwitch aria-label="Notifications" defaultSelected={false} onChange={onChange} />)
   const input = screen.getByRole('switch')
   expect(input).not.toBeChecked()
   fireEvent.click(input)
@@ -64,7 +64,7 @@ test('an uncontrolled switch toggles on click and fires onChange(isSelected)', (
 
 test('a controlled switch reflects isSelected and fires onChange(isSelected) without changing itself', () => {
   const onChange = vi.fn()
-  render(<CxFormSwitch aria-label="Notifications" isSelected={false} onChange={onChange} />)
+  render(<CxSwitch aria-label="Notifications" isSelected={false} onChange={onChange} />)
   const input = screen.getByRole('switch')
   fireEvent.click(input)
   expect(onChange).toHaveBeenCalledWith(true)

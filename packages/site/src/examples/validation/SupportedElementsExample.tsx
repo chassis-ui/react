@@ -2,12 +2,12 @@ import React from 'react'
 import {
   CxButton,
   CxForm,
-  CxFormCheck,
+  CxCheckbox,
   CxFormFeedback,
   CxFormInput,
   CxFormLabel,
-  CxFormRadio,
-  CxFormRadioGroup,
+  CxRadio,
+  CxRadioGroup,
   CxFormSelect
 } from '@chassis-ui/react'
 
@@ -27,17 +27,17 @@ export const SupportedElementsExample = () => {
         ></CxFormInput>
         <CxFormFeedback invalid>Please enter a message in the textarea.</CxFormFeedback>
       </div>
-      <CxFormCheck
+      <CxCheckbox
         className="mb-medium"
         id="validationFormCheck1"
         label="Check this checkbox"
         required
       />
       <CxFormFeedback invalid>Example invalid feedback text</CxFormFeedback>
-      <CxFormRadioGroup className="mb-medium" name="radio-stacked" required>
-        <CxFormRadio value="radio1" label="Check this checkbox" />
-        <CxFormRadio value="radio2" label="Or toggle this other radio" />
-      </CxFormRadioGroup>
+      <CxRadioGroup className="mb-medium" name="radio-stacked" required>
+        <CxRadio value="radio1" label="Check this checkbox" />
+        <CxRadio value="radio2" label="Or toggle this other radio" />
+      </CxRadioGroup>
       <CxFormFeedback invalid>More example invalid feedback text</CxFormFeedback>
       <div className="mb-medium">
         <CxFormSelect required aria-label="select example">

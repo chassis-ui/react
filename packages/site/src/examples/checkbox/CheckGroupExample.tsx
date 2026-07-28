@@ -1,15 +1,15 @@
-import { CxFormCheck, CxFormCheckGroup } from '@chassis-ui/react'
+import { CxCheckbox, CxCheckboxGroup } from '@chassis-ui/react'
 
 export const CheckGroupExample = () => {
   return (
-    <CxFormCheckGroup
+    <CxCheckboxGroup
       label="Notifications"
       description="Choose which notifications you'd like to receive."
       defaultValue={['email']}
     >
-      <CxFormCheck value="email" label="Email" />
-      <CxFormCheck value="sms" label="SMS" />
-      <CxFormCheck value="push" label="Push" />
-    </CxFormCheckGroup>
+      <CxCheckbox value="email" label="Email" />
+      <CxCheckbox value="sms" label="SMS" />
+      <CxCheckbox value="push" label="Push" />
+    </CxCheckboxGroup>
   )
 }

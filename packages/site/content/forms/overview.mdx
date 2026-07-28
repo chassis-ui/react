@@ -8,7 +8,7 @@ toc: true
 import {
   CxButton,
   CxForm,
-  CxFormCheck,
+  CxCheckbox,
   CxFormInput,
   CxFormLabel,
   CxFormSelect,
@@ -36,7 +36,7 @@ Here's a quick example to demonstrate Chassis form styles. Keep reading for docu
       <CxFormLabel htmlFor="exampleInputPassword1">Email Password</CxFormLabel>
       <CxFormInput type="password" id="exampleInputPassword1" />
     </div>
-    <CxFormCheck
+    <CxCheckbox
       className="mb-medium"
       label="Check me out"
       onChange={(isSelected) => {
@@ -118,7 +118,7 @@ However, if your form also includes custom button-like elements such as `<CxButt
         </CxFormSelect>
       </div>
       <div className="mb-medium">
-        <CxFormCheck id="disabledFieldsetCheck" label="Can't check this" disabled />
+        <CxCheckbox id="disabledFieldsetCheck" label="Can't check this" disabled />
       </div>
       <CxButton type="submit">Submit</CxButton>
     </fieldset>

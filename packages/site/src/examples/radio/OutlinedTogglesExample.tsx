@@ -1,24 +1,24 @@
-import { CxFormRadio, CxFormRadioGroup } from '@chassis-ui/react'
+import { CxRadio, CxRadioGroup } from '@chassis-ui/react'
 
 export const OutlinedTogglesExample = () => {
   return (
-    <CxFormRadioGroup
+    <CxRadioGroup
       aria-label="Outlined radio toggle buttons"
       defaultValue="success-outlined"
       orientation="horizontal"
     >
-      <CxFormRadio
+      <CxRadio
         button={{ context: 'success', variant: 'outline' }}
         value="success-outlined"
         autoComplete="off"
         label="Radio"
       />
-      <CxFormRadio
+      <CxRadio
         button={{ context: 'danger', variant: 'outline' }}
         value="danger-outlined"
         autoComplete="off"
         label="Radio"
       />
-    </CxFormRadioGroup>
+    </CxRadioGroup>
   )
 }

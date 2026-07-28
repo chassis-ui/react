@@ -49,22 +49,22 @@ import { CxSubmenuBack } from './components/menu/CxSubmenuBack'
 import { CxCol } from './components/grid/CxCol'
 import { CxContainer } from './components/grid/CxContainer'
 import { CxRow } from './components/grid/CxRow'
+import { CxCheckbox } from './components/checkbox/CxCheckbox'
+import { CxCheckboxGroup } from './components/checkbox/CxCheckboxGroup'
 import { CxForm } from './components/form/CxForm'
-import { CxFormCheck } from './components/form/CxFormCheck'
-import { CxFormCheckGroup } from './components/form/CxFormCheckGroup'
 import { CxFormFeedback } from './components/form/CxFormFeedback'
 import { CxFormFloating } from './components/form/CxFormFloating'
 import { CxFormInput } from './components/form/CxFormInput'
 import { CxFormLabel } from './components/form/CxFormLabel'
-import { CxFormRadio } from './components/form/CxFormRadio'
-import { CxFormRadioGroup } from './components/form/CxFormRadioGroup'
 import { CxFormRange } from './components/form/CxFormRange'
 import { CxFormSelect } from './components/form/CxFormSelect'
-import { CxFormSwitch } from './components/form/CxFormSwitch'
 import { CxFormText } from './components/form/CxFormText'
 import { CxFormTextarea } from './components/form/CxFormTextarea'
 import { CxInputGroup } from './components/form/CxInputGroup'
 import { CxInputGroupText } from './components/form/CxInputGroupText'
+import { CxRadio } from './components/radio/CxRadio'
+import { CxRadioGroup } from './components/radio/CxRadioGroup'
+import { CxSwitch } from './components/switch/CxSwitch'
 import { CxImage } from './components/image/CxImage'
 import { CxLink } from './components/link/CxLink'
 import { CxList } from './components/list/CxList'
@@ -174,18 +174,15 @@ export {
   CxContainer,
   CxRow,
   CxCardGroup,
+  CxCheckbox,
+  CxCheckboxGroup,
   CxForm,
-  CxFormCheck,
-  CxFormCheckGroup,
   CxFormFeedback,
   CxFormFloating,
   CxFormInput,
   CxFormLabel,
-  CxFormRadio,
-  CxFormRadioGroup,
   CxFormRange,
   CxFormSelect,
-  CxFormSwitch,
   CxFormText,
   CxFormTextarea,
   CxImage,
@@ -214,12 +211,15 @@ export {
   CxPopover,
   CxProgress,
   CxProgressBar,
+  CxRadio,
+  CxRadioGroup,
   CxDrawer,
   CxDrawerBody,
   CxDrawerFooter,
   CxDrawerHeader,
   CxDrawerTitle,
   CxSpinner,
+  CxSwitch,
   CxTable,
   CxTableBody,
   CxTableCell,

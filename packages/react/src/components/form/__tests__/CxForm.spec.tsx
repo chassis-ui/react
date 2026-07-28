@@ -2,7 +2,7 @@ import * as React from 'react'
 import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { CxForm, CxFormLabel, CxFormInput, CxFormText, CxFormCheck, CxButton } from '../../../index'
+import { CxForm, CxFormLabel, CxFormInput, CxFormText, CxCheckbox, CxButton } from '../../../index'
 
 describe('CxForm', () => {
   describe('rendering', () => {
@@ -18,7 +18,7 @@ describe('CxForm', () => {
           <CxFormLabel>A</CxFormLabel>
           <CxFormInput type="email" aria-describedby="B" />
           <CxFormText>C</CxFormText>
-          <CxFormCheck label="D" />
+          <CxCheckbox label="D" />
           <CxButton type="submit" context="primary">
             E
           </CxButton>

@@ -1,9 +1,9 @@
 import React, { ReactNode } from 'react'
 import classNames from 'classnames'
 
-import { ContextColor, Shapes } from '../Types'
+import { ContextColor, Shapes } from './Types'
 
-import { CxFormLabel } from './CxFormLabel'
+import { CxFormLabel } from './form/CxFormLabel'
 
 export type ButtonObject = {
   /**
@@ -35,7 +35,7 @@ export interface RenderFormCheckControlOptions {
   valid?: boolean
 }
 
-// Shared nested, modern `.form-check`/`.check-input` markup for CxFormCheck and CxFormRadio —
+// Shared nested, modern `.form-check`/`.check-input` markup for CxCheckbox and CxRadio —
 // see https://chassis-ui.com/css/docs/forms/checkbox-radio/#modern-inputs. Everything renders
 // nested inside a single <label> (or a bare <span class="check-input"> when there's no label);
 // there is no sibling/`for`-linked layout.

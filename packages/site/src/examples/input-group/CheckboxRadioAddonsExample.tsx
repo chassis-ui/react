@@ -1,8 +1,8 @@
 import {
-  CxFormCheck,
+  CxCheckbox,
   CxFormInput,
-  CxFormRadio,
-  CxFormRadioGroup,
+  CxRadio,
+  CxRadioGroup,
   CxInputGroup,
   CxInputGroupText
 } from '@chassis-ui/react'
@@ -12,16 +12,16 @@ export const CheckboxRadioAddonsExample = () => {
     <>
       <CxInputGroup className="mb-medium">
         <CxInputGroupText>
-          <CxFormCheck value="" aria-label="Checkbox for following text input" />
+          <CxCheckbox value="" aria-label="Checkbox for following text input" />
         </CxInputGroupText>
         <CxFormInput aria-label="Text input with checkbox" />
       </CxInputGroup>
 
       <CxInputGroup>
         <CxInputGroupText>
-          <CxFormRadioGroup aria-label="Radio button for following text input" defaultValue="">
-            <CxFormRadio value="" aria-label="Radio button for following text input" />
-          </CxFormRadioGroup>
+          <CxRadioGroup aria-label="Radio button for following text input" defaultValue="">
+            <CxRadio value="" aria-label="Radio button for following text input" />
+          </CxRadioGroup>
         </CxInputGroupText>
         <CxFormInput aria-label="Text input with radio button" />
       </CxInputGroup>

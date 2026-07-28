@@ -18,13 +18,13 @@ import { RadioGroupValidationExample } from '../../src/examples/radio/RadioGroup
 
 ## Approach
 
-Browser default radios are replaced with the help of `<CxFormRadio>`, for selecting one option from many. It renders the modern, wrapper-based `.check-input` markup nested inside a single `<label>` — passing `label` gives you an accessible, fully-clickable control with no extra markup required.
+Browser default radios are replaced with the help of `<CxRadio>`, for selecting one option from many. It renders the modern, wrapper-based `.check-input` markup nested inside a single `<label>` — passing `label` gives you an accessible, fully-clickable control with no extra markup required.
 
-`<CxFormRadio>` is built on [React Aria](https://react-spectrum.adobe.com/react-aria/) for full keyboard and screen-reader support. Radios have no meaningful standalone state — a radio only makes sense as part of a mutually-exclusive set — so `<CxFormRadio>` must always be rendered inside a `<CxFormRadioGroup>`, which manages selection and arrow-key navigation between options.
+`<CxRadio>` is built on [React Aria](https://react-spectrum.adobe.com/react-aria/) for full keyboard and screen-reader support. Radios have no meaningful standalone state — a radio only makes sense as part of a mutually-exclusive set — so `<CxRadio>` must always be rendered inside a `<CxRadioGroup>`, which manages selection and arrow-key navigation between options.
 
 ## Radios
 
-Radios are always rendered inside a `<CxFormRadioGroup>`, which owns selection and gives the group a `<fieldset>`/`<legend>` so assistive technology announces the group's purpose alongside each option.
+Radios are always rendered inside a `<CxRadioGroup>`, which owns selection and gives the group a `<fieldset>`/`<legend>` so assistive technology announces the group's purpose alongside each option.
 
 <Example>
   <RadiosExample client:load />
@@ -32,7 +32,7 @@ Radios are always rendered inside a `<CxFormRadioGroup>`, which owns selection a
 
 ### Disabled
 
-Disable a single option by adding `disabled` to that `<CxFormRadio>`, or disable the whole group by adding `disabled` to `<CxFormRadioGroup>`.
+Disable a single option by adding `disabled` to that `<CxRadio>`, or disable the whole group by adding `disabled` to `<CxRadioGroup>`.
 
 <Example>
   <RadiosDisabledExample client:load />
@@ -72,7 +72,7 @@ Remember to still provide some form of accessible name for assistive technologie
 
 ## Toggle buttons
 
-Create button-like radios by using the `button` property on `<CxFormRadio>`. These toggle buttons can further be grouped in a button group if needed.
+Create button-like radios by using the `button` property on `<CxRadio>`. These toggle buttons can further be grouped in a button group if needed.
 
 <Example>
   <RadioToggleButtonsExample client:load />
@@ -90,7 +90,7 @@ Different variants of button, such at the various outlined styles, are supported
 
 ### Validation
 
-`<CxFormRadioGroup>` accepts `invalid`/`valid` and an `errorMessage`, rendered below the options and linked via `aria-describedby`.
+`<CxRadioGroup>` accepts `invalid`/`valid` and an `errorMessage`, rendered below the options and linked via `aria-describedby`.
 
 <Example>
   <RadioGroupValidationExample client:load />
@@ -98,10 +98,10 @@ Different variants of button, such at the various outlined styles, are supported
 
 ## API
 
-### CxFormRadio
+### CxRadio
 
-<PropTable component="CxFormRadio" />
+<PropTable component="CxRadio" />
 
-### CxFormRadioGroup
+### CxRadioGroup
 
-<PropTable component="CxFormRadioGroup" />
+<PropTable component="CxRadioGroup" />

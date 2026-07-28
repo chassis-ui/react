@@ -1,8 +1,8 @@
 {
   "tags": {},
-  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/switch/CxSwitch.tsx",
   "description": "",
-  "displayName": "CxFormSwitch",
+  "displayName": "CxSwitch",
   "methods": [],
   "props": {
     "className": {
@@ -10,13 +10,13 @@
       "description": "A string of all className you want applied to the component.",
       "name": "className",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-        "name": "CxFormSwitchProps"
+        "fileName": "chassis-react/packages/react/src/components/switch/CxSwitch.tsx",
+        "name": "CxSwitchProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-          "name": "CxFormSwitchProps"
+          "fileName": "chassis-react/packages/react/src/components/switch/CxSwitch.tsx",
+          "name": "CxSwitchProps"
         }
       ],
       "required": false,
@@ -29,13 +29,13 @@
       "description": "Sets the context of the switch indicator to one of Chassis themed colors.",
       "name": "context",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-        "name": "CxFormSwitchProps"
+        "fileName": "chassis-react/packages/react/src/components/switch/CxSwitch.tsx",
+        "name": "CxSwitchProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-          "name": "CxFormSwitchProps"
+          "fileName": "chassis-react/packages/react/src/components/switch/CxSwitch.tsx",
+          "name": "CxSwitchProps"
         }
       ],
       "required": false,
@@ -84,13 +84,13 @@
       "description": "Whether the switch is selected, uncontrolled.",
       "name": "defaultSelected",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-        "name": "CxFormSwitchProps"
+        "fileName": "chassis-react/packages/react/src/components/switch/CxSwitch.tsx",
+        "name": "CxSwitchProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-          "name": "CxFormSwitchProps"
+          "fileName": "chassis-react/packages/react/src/components/switch/CxSwitch.tsx",
+          "name": "CxSwitchProps"
         }
       ],
       "required": false,
@@ -103,13 +103,13 @@
       "description": "The id global attribute defines an identifier (ID) that must be unique in the whole document.",
       "name": "id",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-        "name": "CxFormSwitchProps"
+        "fileName": "chassis-react/packages/react/src/components/switch/CxSwitch.tsx",
+        "name": "CxSwitchProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-          "name": "CxFormSwitchProps"
+          "fileName": "chassis-react/packages/react/src/components/switch/CxSwitch.tsx",
+          "name": "CxSwitchProps"
         }
       ],
       "required": false,
@@ -122,13 +122,13 @@
       "description": "Set component validation state to invalid.",
       "name": "invalid",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-        "name": "CxFormSwitchProps"
+        "fileName": "chassis-react/packages/react/src/components/switch/CxSwitch.tsx",
+        "name": "CxSwitchProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-          "name": "CxFormSwitchProps"
+          "fileName": "chassis-react/packages/react/src/components/switch/CxSwitch.tsx",
+          "name": "CxSwitchProps"
         }
       ],
       "required": false,
@@ -141,13 +141,13 @@
       "description": "Whether the switch is selected, controlled.",
       "name": "isSelected",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-        "name": "CxFormSwitchProps"
+        "fileName": "chassis-react/packages/react/src/components/switch/CxSwitch.tsx",
+        "name": "CxSwitchProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-          "name": "CxFormSwitchProps"
+          "fileName": "chassis-react/packages/react/src/components/switch/CxSwitch.tsx",
+          "name": "CxSwitchProps"
         }
       ],
       "required": false,
@@ -160,13 +160,13 @@
       "description": "The element represents a caption for a component.",
       "name": "label",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-        "name": "CxFormSwitchProps"
+        "fileName": "chassis-react/packages/react/src/components/switch/CxSwitch.tsx",
+        "name": "CxSwitchProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-          "name": "CxFormSwitchProps"
+          "fileName": "chassis-react/packages/react/src/components/switch/CxSwitch.tsx",
+          "name": "CxSwitchProps"
         }
       ],
       "required": false,
@@ -179,13 +179,13 @@
       "description": "Callback fired when the selected state changes.",
       "name": "onChange",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-        "name": "CxFormSwitchProps"
+        "fileName": "chassis-react/packages/react/src/components/switch/CxSwitch.tsx",
+        "name": "CxSwitchProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-          "name": "CxFormSwitchProps"
+          "fileName": "chassis-react/packages/react/src/components/switch/CxSwitch.tsx",
+          "name": "CxSwitchProps"
         }
       ],
       "required": false,
@@ -198,13 +198,13 @@
       "description": "Size the component small or large.",
       "name": "size",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-        "name": "CxFormSwitchProps"
+        "fileName": "chassis-react/packages/react/src/components/switch/CxSwitch.tsx",
+        "name": "CxSwitchProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-          "name": "CxFormSwitchProps"
+          "fileName": "chassis-react/packages/react/src/components/switch/CxSwitch.tsx",
+          "name": "CxSwitchProps"
         }
       ],
       "required": false,
@@ -228,13 +228,13 @@
       "description": "Specifies the type of component.",
       "name": "type",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-        "name": "CxFormSwitchProps"
+        "fileName": "chassis-react/packages/react/src/components/switch/CxSwitch.tsx",
+        "name": "CxSwitchProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-          "name": "CxFormSwitchProps"
+          "fileName": "chassis-react/packages/react/src/components/switch/CxSwitch.tsx",
+          "name": "CxSwitchProps"
         }
       ],
       "required": false,
@@ -256,13 +256,13 @@
       "description": "Set component validation state to valid.",
       "name": "valid",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-        "name": "CxFormSwitchProps"
+        "fileName": "chassis-react/packages/react/src/components/switch/CxSwitch.tsx",
+        "name": "CxSwitchProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/form/CxFormSwitch.tsx",
-          "name": "CxFormSwitchProps"
+          "fileName": "chassis-react/packages/react/src/components/switch/CxSwitch.tsx",
+          "name": "CxSwitchProps"
         }
       ],
       "required": false,

@@ -9,7 +9,7 @@ toc: true
 import {
   CxBadge,
   CxCol,
-  CxFormCheck,
+  CxCheckbox,
   CxList,
   CxListItem,
   CxRow,
@@ -386,32 +386,32 @@ Place Chassis checkboxes and radios within list items and customize as needed.
 <Example>
   <CxList>
     <CxListItem>
-      <CxFormCheck label="Cras justo odio" />
+      <CxCheckbox label="Cras justo odio" />
     </CxListItem>
     <CxListItem>
-      <CxFormCheck label="Dapibus ac facilisis in" defaultSelected />
+      <CxCheckbox label="Dapibus ac facilisis in" defaultSelected />
     </CxListItem>
     <CxListItem>
-      <CxFormCheck label="Morbi leo risus" defaultSelected />
+      <CxCheckbox label="Morbi leo risus" defaultSelected />
     </CxListItem>
     <CxListItem>
-      <CxFormCheck label="orta ac consectetur ac" />
+      <CxCheckbox label="orta ac consectetur ac" />
     </CxListItem>
     <CxListItem>
-      <CxFormCheck label="Vestibulum at eros" />
+      <CxCheckbox label="Vestibulum at eros" />
     </CxListItem>
   </CxList>
 </Example>
 
-And since `<CxFormCheck>` always renders a `<label>` as its root element, you can apply `.list-item` directly to it for large hit areas, too.
+And since `<CxCheckbox>` always renders a `<label>` as its root element, you can apply `.list-item` directly to it for large hit areas, too.
 
 <Example>
   <CxList>
-    <CxFormCheck className="list-item" label="Cras justo odio" />
-    <CxFormCheck className="list-item" label="Dapibus ac facilisis in" defaultSelected />
-    <CxFormCheck className="list-item" label="Morbi leo risus" defaultSelected />
-    <CxFormCheck className="list-item" label="orta ac consectetur ac" />
-    <CxFormCheck className="list-item" label="Vestibulum at eros" />
+    <CxCheckbox className="list-item" label="Cras justo odio" />
+    <CxCheckbox className="list-item" label="Dapibus ac facilisis in" defaultSelected />
+    <CxCheckbox className="list-item" label="Morbi leo risus" defaultSelected />
+    <CxCheckbox className="list-item" label="orta ac consectetur ac" />
+    <CxCheckbox className="list-item" label="Vestibulum at eros" />
   </CxList>
 </Example>
 

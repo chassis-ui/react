@@ -4,15 +4,15 @@ import { AriaCheckboxGroupProps, useCheckboxGroup } from 'react-aria'
 import { useCheckboxGroupState } from 'react-stately'
 
 import { CxCheckboxGroupContext } from './context'
-import { CxFormFeedback } from './CxFormFeedback'
-import { CxFormText } from './CxFormText'
+import { CxFormFeedback } from '../form/CxFormFeedback'
+import { CxFormText } from '../form/CxFormText'
 
-export interface CxFormCheckGroupProps extends Omit<
+export interface CxCheckboxGroupProps extends Omit<
   HTMLAttributes<HTMLFieldSetElement>,
   'defaultValue' | 'onChange'
 > {
   /**
-   * One or more `<CxFormCheck>` elements.
+   * One or more `<CxCheckbox>` elements.
    */
   children: ReactNode
   /**
@@ -69,7 +69,7 @@ export interface CxFormCheckGroupProps extends Omit<
   value?: string[]
 }
 
-export const CxFormCheckGroup = forwardRef<HTMLFieldSetElement, CxFormCheckGroupProps>(
+export const CxCheckboxGroup = forwardRef<HTMLFieldSetElement, CxCheckboxGroupProps>(
   (
     {
       children,
@@ -144,4 +144,4 @@ export const CxFormCheckGroup = forwardRef<HTMLFieldSetElement, CxFormCheckGroup
   }
 )
 
-CxFormCheckGroup.displayName = 'CxFormCheckGroup'
+CxCheckboxGroup.displayName = 'CxCheckboxGroup'

@@ -1,7 +1,7 @@
 import {
   CxButton,
   CxForm,
-  CxFormCheck,
+  CxCheckbox,
   CxFormInput,
   CxFormLabel,
   CxMenu,
@@ -23,7 +23,7 @@ export const FormsExample = () => {
             <CxFormLabel htmlFor="menuFormPassword">Password</CxFormLabel>
             <CxFormInput type="password" id="menuFormPassword" placeholder="Password" />
           </div>
-          <CxFormCheck id="menuRemember" label="Remember me" />
+          <CxCheckbox id="menuRemember" label="Remember me" />
           <CxButton type="submit" context="primary">
             Sign in
           </CxButton>
