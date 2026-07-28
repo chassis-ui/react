@@ -68,6 +68,7 @@ import { CxSelect } from './components/select/CxSelect'
 import { CxSwitch } from './components/switch/CxSwitch'
 import { CxTextInput } from './components/text-input/CxTextInput'
 import { CxTextarea } from './components/textarea/CxTextarea'
+import { CxIcon } from './components/icon/CxIcon'
 import { CxImage } from './components/image/CxImage'
 import { CxLink } from './components/link/CxLink'
 import { CxList } from './components/list/CxList'
@@ -187,6 +188,7 @@ export {
   CxFormFeedback,
   CxFormHelp,
   CxFormLabel,
+  CxIcon,
   CxImage,
   CxInputAddon,
   CxInputGroup,
