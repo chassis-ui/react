@@ -4,6 +4,9 @@ import { CxAccordionButton } from './components/accordion/CxAccordionButton'
 import { CxAccordionCollapse } from './components/accordion/CxAccordionCollapse'
 import { CxAccordionHeader } from './components/accordion/CxAccordionHeader'
 import { CxAccordionItem } from './components/accordion/CxAccordionItem'
+import { CxAvatar } from './components/avatar/CxAvatar'
+import { CxAvatarImage } from './components/avatar/CxAvatarImage'
+import { CxAvatarStack } from './components/avatar/CxAvatarStack'
 import { CxNotification } from './components/notification/CxNotification'
 import { CxNotificationHeading } from './components/notification/CxNotificationHeading'
 import { CxNotificationLink } from './components/notification/CxNotificationLink'
@@ -127,6 +130,9 @@ export {
   CxAccordionCollapse,
   CxAccordionHeader,
   CxAccordionItem,
+  CxAvatar,
+  CxAvatarImage,
+  CxAvatarStack,
   CxNotification,
   CxNotificationHeading,
   CxNotificationLink,

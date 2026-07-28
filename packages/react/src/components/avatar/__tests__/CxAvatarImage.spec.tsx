@@ -1,0 +1,49 @@
+import * as React from 'react'
+import { render } from '@testing-library/react'
+import { axe } from 'jest-axe'
+
+import { CxAvatarImage } from '../../../index'
+
+describe('CxAvatarImage', () => {
+  describe('rendering', () => {
+    test('renders an img with the base class', () => {
+      const { container } = render(
+        <CxAvatarImage src="https://i.pravatar.cc/256" alt="Profile picture" />
+      )
+      expect(container.firstChild).toHaveClass('avatar-image')
+      expect(container.firstChild?.nodeName).toBe('IMG')
+      expect(container.firstChild).toHaveAttribute('src', 'https://i.pravatar.cc/256')
+    })
+
+    test('matches the baseline markup snapshot', () => {
+      const { container } = render(
+        <CxAvatarImage src="https://i.pravatar.cc/256" alt="Profile picture" />
+      )
+      expect(container).toMatchSnapshot()
+    })
+
+    test('applies the caller className alongside the base class', () => {
+      const { container } = render(
+        <CxAvatarImage className="bazinga" src="https://i.pravatar.cc/256" alt="Profile picture" />
+      )
+      expect(container.firstChild).toHaveClass('avatar-image', 'bazinga')
+    })
+  })
+
+  describe('ref forwarding', () => {
+    test('forwards a ref to the underlying img', () => {
+      const ref = React.createRef<HTMLImageElement>()
+      render(<CxAvatarImage ref={ref} src="https://i.pravatar.cc/256" alt="Profile picture" />)
+      expect(ref.current).toBeInstanceOf(HTMLImageElement)
+    })
+  })
+
+  describe('accessibility', () => {
+    test('has no axe violations', async () => {
+      const { container } = render(
+        <CxAvatarImage src="https://i.pravatar.cc/256" alt="Profile picture" />
+      )
+      expect(await axe(container)).toHaveNoViolations()
+    })
+  })
+})
