@@ -113,3 +113,41 @@ test('has no axe violations', async () => {
   const { container } = render(<CxOtpInput aria-label="Verification code" length={4} />)
   expect(await axe(container)).toHaveNoViolations()
 })
+
+test('renders no wrapper when label/help/feedback are all unset', () => {
+  const { container } = render(<CxOtpInput aria-label="Code" length={3} />)
+  expect(container.querySelector('.form-field')).toBeNull()
+})
+
+test('wraps in .form-field and associates the label via aria-labelledby when label is set', () => {
+  render(<CxOtpInput label="Verification code" length={3} />)
+  const group = screen.getByRole('group', { name: 'Verification code' })
+  expect(group.closest('.form-field')).not.toBeNull()
+  expect(screen.getByText('Verification code').tagName).toBe('LABEL')
+})
+
+test('renders help text and wires it into aria-describedby', () => {
+  render(<CxOtpInput aria-label="Code" help="Some help" length={3} />)
+  const group = screen.getByRole('group', { name: 'Code' })
+  const help = screen.getByText('Some help')
+  expect(help).toHaveClass('form-help')
+  expect(group.getAttribute('aria-describedby')).toContain(help.id)
+})
+
+test('renders invalid feedback and wires it into aria-describedby only when invalid', () => {
+  const { rerender } = render(
+    <CxOtpInput aria-label="Code" invalidFeedback="Required" length={3} />
+  )
+  expect(screen.queryByText('Required')).toBeNull()
+
+  rerender(<CxOtpInput aria-label="Code" invalid invalidFeedback="Required" length={3} />)
+  const group = screen.getByRole('group', { name: 'Code' })
+  const feedback = screen.getByText('Required')
+  expect(feedback).toHaveClass('invalid-feedback')
+  expect(group.getAttribute('aria-describedby')).toContain(feedback.id)
+})
+
+test('renders valid feedback only when valid is set', () => {
+  render(<CxOtpInput aria-label="Code" length={3} valid validFeedback="Looks good" />)
+  expect(screen.getByText('Looks good')).toHaveClass('valid-feedback')
+})

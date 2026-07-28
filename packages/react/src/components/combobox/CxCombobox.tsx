@@ -1,9 +1,17 @@
-import React, { HTMLAttributes, InputHTMLAttributes, ReactElement, ReactNode, useRef } from 'react'
+import React, {
+  HTMLAttributes,
+  InputHTMLAttributes,
+  ReactElement,
+  ReactNode,
+  useId,
+  useRef
+} from 'react'
 import classNames from 'classnames'
 import { useComboBox, useFilter, useOverlayPosition } from 'react-aria'
 import { Item, Key, useComboBoxState } from 'react-stately'
 
 import { resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
+import { renderFormField } from '../form-field/renderFormField'
 import { CxComboboxItemProps } from './CxComboboxItem'
 import { ComboboxListBox } from './ComboboxListBox'
 
@@ -37,9 +45,25 @@ export interface CxComboboxProps extends Omit<
    */
   disabled?: boolean
   /**
+   * A description for the field, rendered below the combobox.
+   */
+  help?: ReactNode
+  /**
    * `id` forwarded to the input element — useful for pairing with a `<label for>`.
    */
   id?: string
+  /**
+   * Set component validation state to invalid.
+   */
+  invalid?: boolean
+  /**
+   * An error message for the field, rendered below the combobox when `invalid` is set.
+   */
+  invalidFeedback?: ReactNode
+  /**
+   * The field's caption, rendered as a `CxFormLabel` associated with the input.
+   */
+  label?: ReactNode
   /**
    * `name` of an auto-created hidden input, kept in sync with the selection, for native form
    * submission. Omit to skip creating one.
@@ -62,6 +86,14 @@ export interface CxComboboxProps extends Omit<
    */
   size?: 'small' | 'large'
   /**
+   * Set component validation state to valid.
+   */
+  valid?: boolean
+  /**
+   * A success message for the field, rendered below the combobox when `valid` is set.
+   */
+  validFeedback?: ReactNode
+  /**
    * The selected option's id (controlled).
    */
   value?: Key | null
@@ -72,12 +104,18 @@ export const CxCombobox = ({
   className,
   defaultValue,
   disabled,
+  help,
   id,
+  invalid,
+  invalidFeedback,
+  label,
   name,
   noResultsText = 'No results found',
   onChange,
   placeholder,
   size,
+  valid,
+  validFeedback,
   value,
   ...rest
 }: CxComboboxProps) => {
@@ -115,11 +153,26 @@ export const CxCombobox = ({
   const listBoxRef = useRef<HTMLElement>(null)
   const popoverRef = useRef<HTMLDivElement>(null)
 
+  const generatedId = useId()
+  const inputId = id ?? generatedId
+  const helpId = `${generatedId}-help`
+  const feedbackId = `${generatedId}-feedback`
+
+  const showInvalidFeedback = invalid && invalidFeedback
+  const showValidFeedback = valid && validFeedback
+  const describedBy = [
+    help && helpId,
+    (showInvalidFeedback || showValidFeedback) && feedbackId,
+    rest['aria-describedby']
+  ]
+    .filter(Boolean)
+    .join(' ')
+
   const { inputProps, listBoxProps } = useComboBox<ReactElement<CxComboboxItemProps>>(
     {
       'aria-label': rest['aria-label'],
       'aria-labelledby': rest['aria-labelledby'],
-      id,
+      id: inputId,
       inputRef,
       listBoxRef,
       popoverRef,
@@ -146,36 +199,55 @@ export const CxCombobox = ({
 
   const inputHtmlProps = inputProps as InputHTMLAttributes<HTMLInputElement>
 
-  return (
-    <>
-      <div
-        className={classNames(
-          'form-input',
-          'combobox',
-          { small: size === 'small', large: size === 'large', disabled },
-          className
+  return renderFormField({
+    children: (
+      <>
+        <div
+          className={classNames(
+            'form-input',
+            'combobox',
+            { small: size === 'small', large: size === 'large', disabled },
+            { 'is-invalid': invalid, 'is-valid': valid },
+            className
+          )}
+          ref={wrapperRef}
+          {...rest}
+        >
+          <input
+            autoComplete="off"
+            className="combobox-value"
+            {...inputHtmlProps}
+            aria-describedby={describedBy || undefined}
+            aria-invalid={invalid || undefined}
+            ref={inputRef}
+          />
+        </div>
+        <div
+          className={classNames('menu', { show: state.isOpen })}
+          role="listbox"
+          data-cx-placement={placementAttr}
+          style={overlayStyle}
+          hidden={!state.isOpen}
+          ref={popoverRef}
+        >
+          <ComboboxListBox state={state} listBoxProps={listBoxProps} listBoxRef={listBoxRef} />
+          {state.collection.size === 0 && (
+            <div className="combobox-no-results">{noResultsText}</div>
+          )}
+        </div>
+        {name && (
+          <input type="hidden" name={name} value={state.selectedKey ?? ''} disabled={disabled} />
         )}
-        ref={wrapperRef}
-        {...rest}
-      >
-        <input className="combobox-value" autoComplete="off" {...inputHtmlProps} ref={inputRef} />
-      </div>
-      <div
-        className={classNames('menu', { show: state.isOpen })}
-        role="listbox"
-        data-cx-placement={placementAttr}
-        style={overlayStyle}
-        hidden={!state.isOpen}
-        ref={popoverRef}
-      >
-        <ComboboxListBox state={state} listBoxProps={listBoxProps} listBoxRef={listBoxRef} />
-        {state.collection.size === 0 && <div className="combobox-no-results">{noResultsText}</div>}
-      </div>
-      {name && (
-        <input type="hidden" name={name} value={state.selectedKey ?? ''} disabled={disabled} />
-      )}
-    </>
-  )
+      </>
+    ),
+    help,
+    ids: { feedback: feedbackId, help: helpId, input: inputId },
+    invalid,
+    invalidFeedback,
+    label,
+    valid,
+    validFeedback
+  })
 }
 
 CxCombobox.displayName = 'CxCombobox'

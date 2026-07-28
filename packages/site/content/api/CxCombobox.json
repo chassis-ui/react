@@ -119,6 +119,25 @@
         "name": "boolean"
       }
     },
+    "help": {
+      "defaultValue": null,
+      "description": "A description for the field, rendered below the combobox.",
+      "name": "help",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
+        "name": "CxComboboxProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
+          "name": "CxComboboxProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
     "id": {
       "defaultValue": null,
       "description": "`id` forwarded to the input element — useful for pairing with a `<label for>`.",
@@ -136,6 +155,63 @@
       "required": false,
       "type": {
         "name": "string"
+      }
+    },
+    "invalid": {
+      "defaultValue": null,
+      "description": "Set component validation state to invalid.",
+      "name": "invalid",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
+        "name": "CxComboboxProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
+          "name": "CxComboboxProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "invalidFeedback": {
+      "defaultValue": null,
+      "description": "An error message for the field, rendered below the combobox when `invalid` is set.",
+      "name": "invalidFeedback",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
+        "name": "CxComboboxProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
+          "name": "CxComboboxProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "label": {
+      "defaultValue": null,
+      "description": "The field's caption, rendered as a `CxFormLabel` associated with the input.",
+      "name": "label",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
+        "name": "CxComboboxProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
+          "name": "CxComboboxProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
       }
     },
     "name": {
@@ -242,6 +318,44 @@
             "value": "\"large\""
           }
         ]
+      }
+    },
+    "valid": {
+      "defaultValue": null,
+      "description": "Set component validation state to valid.",
+      "name": "valid",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
+        "name": "CxComboboxProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
+          "name": "CxComboboxProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "validFeedback": {
+      "defaultValue": null,
+      "description": "A success message for the field, rendered below the combobox when `valid` is set.",
+      "name": "validFeedback",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
+        "name": "CxComboboxProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
+          "name": "CxComboboxProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
       }
     },
     "value": {

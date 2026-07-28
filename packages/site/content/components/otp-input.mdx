@@ -42,7 +42,7 @@ Pass `groupSizes` (e.g. `[3, 3]`) to split the boxes into groups with a `–` se
 
 ## In a form field
 
-Pair a `CxFormLabel` with the group via `aria-labelledby`, and pass `name` to have `CxOtpInput` create a hidden `<input type="hidden">` kept in sync with the code, for native form submission.
+Pass `label`/`help` to wrap the group in a `.form-field` with an associated `CxFormLabel` (linked via `aria-labelledby`, since there's no single input to target with `htmlFor`) and `CxFormHelp`. Pass `name` to have `CxOtpInput` create a hidden `<input type="hidden">` kept in sync with the code, for native form submission.
 
 <Example>
   <FormFieldExample client:load />

@@ -31,7 +31,7 @@ Add `disabled` to a `CxComboboxItem` to remove it from keyboard navigation and p
 
 ## In a form field
 
-Pair a `CxFormLabel` with the combobox's `id`, and pass `name` to have `CxCombobox` create and manage a hidden `<input>` for native form submission — its value stays in sync with the selection.
+Pass `label`/`help` to wrap the combobox in a `.form-field` with an associated `CxFormLabel` and `CxFormHelp`. Pass `name` to have `CxCombobox` create and manage a hidden `<input>` for native form submission — its value stays in sync with the selection.
 
 <Example>
   <FormFieldExample client:load />

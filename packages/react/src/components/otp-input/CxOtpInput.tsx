@@ -4,12 +4,14 @@ import React, {
   HTMLAttributes,
   KeyboardEvent,
   ReactNode,
+  useId,
   useMemo,
   useRef,
   useState
 } from 'react'
 import classNames from 'classnames'
 
+import { renderFormField } from '../form-field/renderFormField'
 import { OtpBox } from './OtpBox'
 
 export interface CxOtpInputProps extends Omit<
@@ -47,6 +49,10 @@ export interface CxOtpInputProps extends Omit<
    */
   groupSizes?: number[]
   /**
+   * A description for the field, rendered below the boxes.
+   */
+  help?: ReactNode
+  /**
    * `id` forwarded to the group container.
    */
   id?: string
@@ -59,6 +65,15 @@ export interface CxOtpInputProps extends Omit<
    * Set component validation state to invalid.
    */
   invalid?: boolean
+  /**
+   * An error message for the field, rendered below the boxes when `invalid` is set.
+   */
+  invalidFeedback?: ReactNode
+  /**
+   * The field's caption, rendered as a `CxFormLabel` associated with the group via
+   * `aria-labelledby` (there's no single input to target with `htmlFor`).
+   */
+  label?: ReactNode
   /**
    * Number of digit boxes. Ignored when `groupSizes` is set. Defaults to `6`.
    */
@@ -93,6 +108,10 @@ export interface CxOtpInputProps extends Omit<
    */
   valid?: boolean
   /**
+   * A success message for the field, rendered below the boxes when `valid` is set.
+   */
+  validFeedback?: ReactNode
+  /**
    * The code (controlled), digits only, e.g. `"123456"`.
    */
   value?: string
@@ -110,9 +129,12 @@ export const CxOtpInput = ({
   defaultValue,
   disabled,
   groupSizes,
+  help,
   id,
   inputGroup,
   invalid,
+  invalidFeedback,
+  label,
   length = 6,
   mask,
   name,
@@ -121,6 +143,7 @@ export const CxOtpInput = ({
   separator = '–',
   size,
   valid,
+  validFeedback,
   value,
   ...rest
 }: CxOtpInputProps) => {
@@ -257,22 +280,50 @@ export const CxOtpInput = ({
     content = renderBoxes(0, total)
   }
 
-  return (
-    <div
-      {...rest}
-      className={classNames(
-        'form-otp',
-        { 'input-group': inputGroup && !(groupSizes && groupSizes.length > 0) },
-        { 'is-invalid': invalid, 'is-valid': valid },
-        className
-      )}
-      id={id}
-      role="group"
-    >
-      {content}
-      {name && <input name={name} type="hidden" value={boxes.join('')} />}
-    </div>
-  )
+  const generatedId = useId()
+  const groupId = id ?? generatedId
+  const labelId = `${generatedId}-label`
+  const helpId = `${generatedId}-help`
+  const feedbackId = `${generatedId}-feedback`
+
+  const showInvalidFeedback = invalid && invalidFeedback
+  const showValidFeedback = valid && validFeedback
+  const describedBy = [
+    help && helpId,
+    (showInvalidFeedback || showValidFeedback) && feedbackId,
+    rest['aria-describedby']
+  ]
+    .filter(Boolean)
+    .join(' ')
+  const labelledBy = [label && labelId, rest['aria-labelledby']].filter(Boolean).join(' ')
+
+  return renderFormField({
+    children: (
+      <div
+        {...rest}
+        aria-describedby={describedBy || undefined}
+        aria-labelledby={labelledBy || undefined}
+        className={classNames(
+          'form-otp',
+          { 'input-group': inputGroup && !(groupSizes && groupSizes.length > 0) },
+          { 'is-invalid': invalid, 'is-valid': valid },
+          className
+        )}
+        id={groupId}
+        role="group"
+      >
+        {content}
+        {name && <input name={name} type="hidden" value={boxes.join('')} />}
+      </div>
+    ),
+    help,
+    ids: { feedback: feedbackId, help: helpId, label: labelId },
+    invalid,
+    invalidFeedback,
+    label,
+    valid,
+    validFeedback
+  })
 }
 
 CxOtpInput.displayName = 'CxOtpInput'

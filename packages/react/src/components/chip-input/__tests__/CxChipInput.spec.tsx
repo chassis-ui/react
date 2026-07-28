@@ -125,3 +125,43 @@ test('has no axe violations with chips present', async () => {
   const { container } = render(<CxChipInput aria-label="Skills" defaultValue={['React']} />)
   expect(await axe(container)).toHaveNoViolations()
 })
+
+test('renders no wrapper when label/help/feedback are all unset', () => {
+  const { container } = render(<CxChipInput aria-label="Skills" />)
+  expect(container.querySelector('.form-field')).toBeNull()
+})
+
+test('wraps in .form-field and associates the label via htmlFor when label is set', () => {
+  render(<CxChipInput label="Skills" />)
+  const input = screen.getByRole('textbox', { name: 'Skills' })
+  expect(input.closest('.form-field')).not.toBeNull()
+  expect(screen.getByText('Skills').tagName).toBe('LABEL')
+})
+
+test('renders help text and wires it into aria-describedby', () => {
+  render(<CxChipInput aria-label="Skills" help="Some help" />)
+  const input = screen.getByRole('textbox', { name: 'Skills' })
+  const help = screen.getByText('Some help')
+  expect(help).toHaveClass('form-help')
+  expect(input.getAttribute('aria-describedby')).toContain(help.id)
+})
+
+test('renders invalid feedback and wires it into aria-describedby, and sets aria-invalid and the is-invalid class, only when invalid', () => {
+  const { rerender } = render(<CxChipInput aria-label="Skills" invalidFeedback="Required" />)
+  expect(screen.queryByText('Required')).toBeNull()
+
+  rerender(<CxChipInput aria-label="Skills" invalid invalidFeedback="Required" />)
+  const input = screen.getByRole('textbox', { name: 'Skills' })
+  const feedback = screen.getByText('Required')
+  expect(feedback).toHaveClass('invalid-feedback')
+  expect(input).toHaveAttribute('aria-invalid', 'true')
+  expect(input.getAttribute('aria-describedby')).toContain(feedback.id)
+  expect(input.closest('.chip-input')).toHaveClass('is-invalid')
+})
+
+test('renders valid feedback and applies the is-valid class only when valid', () => {
+  render(<CxChipInput aria-label="Skills" valid validFeedback="Looks good" />)
+  const input = screen.getByRole('textbox', { name: 'Skills' })
+  expect(screen.getByText('Looks good')).toHaveClass('valid-feedback')
+  expect(input.closest('.chip-input')).toHaveClass('is-valid')
+})

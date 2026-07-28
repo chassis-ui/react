@@ -1,8 +1,17 @@
-import React, { HTMLAttributes, KeyboardEvent, useMemo, useRef, useState } from 'react'
+import React, {
+  HTMLAttributes,
+  KeyboardEvent,
+  ReactNode,
+  useId,
+  useMemo,
+  useRef,
+  useState
+} from 'react'
 import classNames from 'classnames'
 import { useTextField } from 'react-aria'
 import { Item, Key, useListState } from 'react-stately'
 
+import { renderFormField } from '../form-field/renderFormField'
 import { ChipList, ChipItem } from './ChipList'
 
 export interface CxChipInputProps extends Omit<
@@ -39,9 +48,25 @@ export interface CxChipInputProps extends Omit<
    */
   disabled?: boolean
   /**
+   * A description for the field, rendered below the chips.
+   */
+  help?: ReactNode
+  /**
    * `id` forwarded to the text input — useful for pairing with a `<label for>`.
    */
   id?: string
+  /**
+   * Set component validation state to invalid.
+   */
+  invalid?: boolean
+  /**
+   * An error message for the field, rendered below the chips when `invalid` is set.
+   */
+  invalidFeedback?: ReactNode
+  /**
+   * The field's caption, rendered as a `CxFormLabel` associated with the text input.
+   */
+  label?: ReactNode
   /**
    * Maximum number of chips allowed. Omit for no limit.
    */
@@ -69,6 +94,14 @@ export interface CxChipInputProps extends Omit<
    */
   size?: 'small' | 'large'
   /**
+   * Set component validation state to valid.
+   */
+  valid?: boolean
+  /**
+   * A success message for the field, rendered below the chips when `valid` is set.
+   */
+  validFeedback?: ReactNode
+  /**
    * The set of chip values (controlled).
    */
   value?: string[]
@@ -80,13 +113,19 @@ export const CxChipInput = ({
   className,
   defaultValue,
   disabled,
+  help,
   id,
+  invalid,
+  invalidFeedback,
+  label,
   maxChips,
   name,
   onChange,
   placeholder,
   separator = ',',
   size,
+  valid,
+  validFeedback,
   value,
   ...rest
 }: CxChipInputProps) => {
@@ -208,12 +247,30 @@ export const CxChipInput = ({
     setInputValue(parts[parts.length - 1] ?? '')
   }
 
+  const generatedId = useId()
+  const inputId = id ?? generatedId
+  const helpId = `${generatedId}-help`
+  const feedbackId = `${generatedId}-feedback`
+
+  const showInvalidFeedback = invalid && invalidFeedback
+  const showValidFeedback = valid && validFeedback
+  const describedBy = [
+    help && helpId,
+    (showInvalidFeedback || showValidFeedback) && feedbackId,
+    rest['aria-describedby']
+  ]
+    .filter(Boolean)
+    .join(' ')
+
   const { inputProps } = useTextField(
     {
-      'aria-label': rest['aria-label'] ?? (rest['aria-labelledby'] ? undefined : 'Add value'),
+      'aria-describedby': describedBy || undefined,
+      'aria-label':
+        rest['aria-label'] ?? (rest['aria-labelledby'] || label ? undefined : 'Add value'),
       'aria-labelledby': rest['aria-labelledby'],
-      id,
+      id: inputId,
       isDisabled: disabled,
+      isInvalid: invalid,
       onChange: setInputValue,
       onFocus: () => listState.selectionManager.clearSelection(),
       onKeyDown: handleKeyDown,
@@ -223,30 +280,40 @@ export const CxChipInput = ({
     inputRef
   )
 
-  return (
-    <div
-      className={classNames(
-        'form-input',
-        'chip-input',
-        { small: size === 'small', large: size === 'large', disabled },
-        className
-      )}
-      {...rest}
-    >
-      <ChipList
-        chipVariant={chipVariant}
-        groupRef={groupRef}
-        props={{
-          'aria-label': rest['aria-label'],
-          'aria-labelledby': rest['aria-labelledby'],
-          onRemove: disabled ? undefined : removeTags
-        }}
-        state={listState}
-      />
-      <input {...inputProps} className="ghost-input" onPaste={handlePaste} ref={inputRef} />
-      {name && tags.map((tag) => <input key={tag} name={name} type="hidden" value={tag} />)}
-    </div>
-  )
+  return renderFormField({
+    children: (
+      <div
+        className={classNames(
+          'form-input',
+          'chip-input',
+          { small: size === 'small', large: size === 'large', disabled },
+          { 'is-invalid': invalid, 'is-valid': valid },
+          className
+        )}
+        {...rest}
+      >
+        <ChipList
+          chipVariant={chipVariant}
+          groupRef={groupRef}
+          props={{
+            'aria-label': rest['aria-label'],
+            'aria-labelledby': rest['aria-labelledby'],
+            onRemove: disabled ? undefined : removeTags
+          }}
+          state={listState}
+        />
+        <input {...inputProps} className="ghost-input" onPaste={handlePaste} ref={inputRef} />
+        {name && tags.map((tag) => <input key={tag} name={name} type="hidden" value={tag} />)}
+      </div>
+    ),
+    help,
+    ids: { feedback: feedbackId, help: helpId, input: inputId },
+    invalid,
+    invalidFeedback,
+    label,
+    valid,
+    validFeedback
+  })
 }
 
 CxChipInput.displayName = 'CxChipInput'

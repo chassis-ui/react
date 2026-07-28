@@ -1,10 +1,11 @@
-import React, { HTMLAttributes, useRef } from 'react'
+import React, { HTMLAttributes, ReactNode, useId, useRef } from 'react'
 import classNames from 'classnames'
 import { mergeProps, useButton, useDatePicker, useLocale, useOverlayPosition } from 'react-aria'
 import { DateValue, useCalendarState, useDatePickerState } from 'react-stately'
 import { createCalendar } from '@internationalized/date'
 
 import { resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
+import { renderFormField } from '../form-field/renderFormField'
 import { DateField } from './DateField'
 import { Calendar } from './Calendar'
 import './CxDatePicker.css'
@@ -34,14 +35,30 @@ export interface CxDatePickerProps extends Omit<
    */
   disabled?: boolean
   /**
+   * A description for the field, rendered below the date picker.
+   */
+  help?: ReactNode
+  /**
    * `id` forwarded to the field's grouping element — useful for pairing with a `<label for>`.
    */
   id?: string
+  /**
+   * Set component validation state to invalid.
+   */
+  invalid?: boolean
+  /**
+   * An error message for the field, rendered below the date picker when `invalid` is set.
+   */
+  invalidFeedback?: ReactNode
   /**
    * Callback that is called for each date in the calendar. If it returns `true`, that date is
    * shown but cannot be selected.
    */
   isDateUnavailable?: (date: DateValue) => boolean
+  /**
+   * The field's caption, rendered as a `CxFormLabel` associated with the field group.
+   */
+  label?: ReactNode
   /**
    * The maximum allowed date that a user may select.
    */
@@ -64,6 +81,14 @@ export interface CxDatePickerProps extends Omit<
    */
   size?: 'small' | 'large'
   /**
+   * Set component validation state to valid.
+   */
+  valid?: boolean
+  /**
+   * A success message for the field, rendered below the date picker when `valid` is set.
+   */
+  validFeedback?: ReactNode
+  /**
    * The selected date (controlled).
    */
   value?: DateValue | null
@@ -73,13 +98,19 @@ export const CxDatePicker = ({
   className,
   defaultValue,
   disabled,
+  help,
   id,
+  invalid,
+  invalidFeedback,
   isDateUnavailable,
+  label,
   maxValue,
   minValue,
   name,
   onChange,
   size,
+  valid,
+  validFeedback,
   value,
   ...rest
 }: CxDatePickerProps) => {
@@ -100,14 +131,32 @@ export const CxDatePicker = ({
   const calendarRef = useRef<HTMLDivElement>(null)
   const popoverRef = useRef<HTMLDivElement>(null)
 
+  const generatedId = useId()
+  const groupId = id ?? generatedId
+  const labelId = `${generatedId}-label`
+  const helpId = `${generatedId}-help`
+  const feedbackId = `${generatedId}-feedback`
+
+  const showInvalidFeedback = invalid && invalidFeedback
+  const showValidFeedback = valid && validFeedback
+  const describedBy = [
+    help && helpId,
+    (showInvalidFeedback || showValidFeedback) && feedbackId,
+    rest['aria-describedby']
+  ]
+    .filter(Boolean)
+    .join(' ')
+  const labelledBy = [label && labelId, rest['aria-labelledby']].filter(Boolean).join(' ')
+
   const { groupProps, fieldProps, buttonProps, calendarProps, dialogProps } = useDatePicker(
     {
       'aria-label': rest['aria-label'],
-      'aria-labelledby': rest['aria-labelledby'],
+      'aria-labelledby': labelledBy || undefined,
       defaultValue,
-      id,
+      id: groupId,
       isDateUnavailable,
       isDisabled: disabled,
+      isInvalid: invalid,
       maxValue,
       minValue,
       onChange,
@@ -141,72 +190,83 @@ export const CxDatePicker = ({
     visibleDuration: { months: 1 }
   })
 
-  return (
-    <>
-      <div
-        className={classNames(
-          'form-input',
-          { small: size === 'small', large: size === 'large', disabled },
-          className
-        )}
-        {...mergeProps(groupProps, rest)}
-        ref={groupRef}
-      >
-        <DateField fieldProps={fieldProps} />
-        <button {...toggleProps} className="input-help" ref={buttonRef} type="button">
-          <svg
-            fill="none"
-            height="16"
-            viewBox="0 0 16 16"
-            width="16"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <rect
-              height="12"
-              rx="1.5"
-              stroke="currentColor"
-              strokeWidth="1.25"
-              width="13"
-              x="1.5"
-              y="3"
+  return renderFormField({
+    children: (
+      <>
+        <div
+          className={classNames(
+            'form-input',
+            { small: size === 'small', large: size === 'large', disabled },
+            { 'is-invalid': invalid, 'is-valid': valid },
+            className
+          )}
+          {...mergeProps(groupProps, rest)}
+          aria-describedby={describedBy || undefined}
+          ref={groupRef}
+        >
+          <DateField fieldProps={fieldProps} />
+          <button {...toggleProps} className="input-help" ref={buttonRef} type="button">
+            <svg
+              fill="none"
+              height="16"
+              viewBox="0 0 16 16"
+              width="16"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                height="12"
+                rx="1.5"
+                stroke="currentColor"
+                strokeWidth="1.25"
+                width="13"
+                x="1.5"
+                y="3"
+              />
+              <path d="M1.5 6.5h13" stroke="currentColor" strokeWidth="1.25" />
+              <path
+                d="M4.5 1.5v3M11.5 1.5v3"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeWidth="1.25"
+              />
+            </svg>
+          </button>
+        </div>
+        <div
+          className="cx-datepicker-calendar"
+          data-cx-placement={placementAttr}
+          hidden={!state.isOpen}
+          ref={popoverRef}
+          style={overlayStyle}
+        >
+          {state.isOpen && (
+            <Calendar
+              calendarRef={calendarRef}
+              dialogProps={dialogProps}
+              locale={locale}
+              props={{}}
+              state={calendarState}
             />
-            <path d="M1.5 6.5h13" stroke="currentColor" strokeWidth="1.25" />
-            <path
-              d="M4.5 1.5v3M11.5 1.5v3"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeWidth="1.25"
-            />
-          </svg>
-        </button>
-      </div>
-      <div
-        className="cx-datepicker-calendar"
-        data-cx-placement={placementAttr}
-        hidden={!state.isOpen}
-        ref={popoverRef}
-        style={overlayStyle}
-      >
-        {state.isOpen && (
-          <Calendar
-            calendarRef={calendarRef}
-            dialogProps={dialogProps}
-            locale={locale}
-            props={{}}
-            state={calendarState}
+          )}
+        </div>
+        {name && (
+          <input
+            disabled={disabled}
+            name={name}
+            type="hidden"
+            value={state.value ? state.value.toString() : ''}
           />
         )}
-      </div>
-      {name && (
-        <input
-          disabled={disabled}
-          name={name}
-          type="hidden"
-          value={state.value ? state.value.toString() : ''}
-        />
-      )}
-    </>
-  )
+      </>
+    ),
+    help,
+    ids: { feedback: feedbackId, help: helpId, label: labelId },
+    invalid,
+    invalidFeedback,
+    label,
+    valid,
+    validFeedback
+  })
 }
 
 CxDatePicker.displayName = 'CxDatePicker'

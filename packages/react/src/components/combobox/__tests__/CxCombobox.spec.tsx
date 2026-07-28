@@ -117,3 +117,43 @@ test('has no axe violations with the listbox open', async () => {
     })
   ).toHaveNoViolations()
 })
+
+test('renders no wrapper when label/help/feedback are all unset', () => {
+  const { container } = render(<BasicCombobox />)
+  expect(container.querySelector('.form-field')).toBeNull()
+})
+
+test('wraps in .form-field and associates the label via htmlFor when label is set', () => {
+  render(<BasicCombobox aria-label={undefined} label="Fruit" />)
+  const input = screen.getByRole('combobox', { name: 'Fruit' })
+  expect(input.closest('.form-field')).not.toBeNull()
+  expect(screen.getByText('Fruit').tagName).toBe('LABEL')
+})
+
+test('renders help text and wires it into aria-describedby', () => {
+  render(<BasicCombobox help="Some help" />)
+  const input = screen.getByRole('combobox', { name: 'Fruit' })
+  const help = screen.getByText('Some help')
+  expect(help).toHaveClass('form-help')
+  expect(input.getAttribute('aria-describedby')).toContain(help.id)
+})
+
+test('renders invalid feedback and wires it into aria-describedby, and sets aria-invalid and the is-invalid class, only when invalid', () => {
+  const { rerender } = render(<BasicCombobox invalidFeedback="Required" />)
+  expect(screen.queryByText('Required')).toBeNull()
+
+  rerender(<BasicCombobox invalid invalidFeedback="Required" />)
+  const input = screen.getByRole('combobox', { name: 'Fruit' })
+  const feedback = screen.getByText('Required')
+  expect(feedback).toHaveClass('invalid-feedback')
+  expect(input).toHaveAttribute('aria-invalid', 'true')
+  expect(input.getAttribute('aria-describedby')).toContain(feedback.id)
+  expect(input.closest('.combobox')).toHaveClass('is-invalid')
+})
+
+test('renders valid feedback and applies the is-valid class only when valid', () => {
+  render(<BasicCombobox valid validFeedback="Looks good" />)
+  const input = screen.getByRole('combobox', { name: 'Fruit' })
+  expect(screen.getByText('Looks good')).toHaveClass('valid-feedback')
+  expect(input.closest('.combobox')).toHaveClass('is-valid')
+})

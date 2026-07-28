@@ -138,6 +138,25 @@
         "name": "number[]"
       }
     },
+    "help": {
+      "defaultValue": null,
+      "description": "A description for the field, rendered below the boxes.",
+      "name": "help",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
+        "name": "CxOtpInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
+          "name": "CxOtpInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
     "id": {
       "defaultValue": null,
       "description": "`id` forwarded to the group container.",
@@ -193,6 +212,44 @@
       "required": false,
       "type": {
         "name": "boolean"
+      }
+    },
+    "invalidFeedback": {
+      "defaultValue": null,
+      "description": "An error message for the field, rendered below the boxes when `invalid` is set.",
+      "name": "invalidFeedback",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
+        "name": "CxOtpInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
+          "name": "CxOtpInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "label": {
+      "defaultValue": null,
+      "description": "The field's caption, rendered as a `CxFormLabel` associated with the group via\n`aria-labelledby` (there's no single input to target with `htmlFor`).",
+      "name": "label",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
+        "name": "CxOtpInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
+          "name": "CxOtpInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
       }
     },
     "length": {
@@ -358,6 +415,25 @@
       "required": false,
       "type": {
         "name": "boolean"
+      }
+    },
+    "validFeedback": {
+      "defaultValue": null,
+      "description": "A success message for the field, rendered below the boxes when `valid` is set.",
+      "name": "validFeedback",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
+        "name": "CxOtpInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
+          "name": "CxOtpInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
       }
     },
     "value": {

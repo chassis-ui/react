@@ -110,3 +110,42 @@ test('has no axe violations with the calendar open', async () => {
   // rule. That rule is about overall page structure, not anything CxDatePicker controls.
   expect(await axe(document.body, { rules: { region: { enabled: false } } })).toHaveNoViolations()
 })
+
+test('renders no wrapper when label/help/feedback are all unset', () => {
+  const { container } = render(<CxDatePicker aria-label="Event date" />)
+  expect(container.querySelector('.form-field')).toBeNull()
+})
+
+test('wraps in .form-field and associates the label via htmlFor when label is set', () => {
+  render(<CxDatePicker label="Event date" />)
+  const group = screen.getByRole('group', { name: 'Event date' })
+  expect(group.closest('.form-field')).not.toBeNull()
+  expect(screen.getByText('Event date').tagName).toBe('LABEL')
+})
+
+test('renders help text and wires it into aria-describedby', () => {
+  render(<CxDatePicker aria-label="Event date" help="Some help" />)
+  const group = screen.getByRole('group', { name: 'Event date' })
+  const help = screen.getByText('Some help')
+  expect(help).toHaveClass('form-help')
+  expect(group.getAttribute('aria-describedby')).toContain(help.id)
+})
+
+test('renders invalid feedback and wires it into aria-describedby and the is-invalid class only when invalid', () => {
+  const { rerender } = render(<CxDatePicker aria-label="Event date" invalidFeedback="Required" />)
+  expect(screen.queryByText('Required')).toBeNull()
+
+  rerender(<CxDatePicker aria-label="Event date" invalid invalidFeedback="Required" />)
+  const group = screen.getByRole('group', { name: 'Event date' })
+  const feedback = screen.getByText('Required')
+  expect(feedback).toHaveClass('invalid-feedback')
+  expect(group.getAttribute('aria-describedby')).toContain(feedback.id)
+  expect(group).toHaveClass('is-invalid')
+})
+
+test('renders valid feedback and applies the is-valid class only when valid', () => {
+  render(<CxDatePicker aria-label="Event date" valid validFeedback="Looks good" />)
+  const group = screen.getByRole('group', { name: 'Event date' })
+  expect(screen.getByText('Looks good')).toHaveClass('valid-feedback')
+  expect(group).toHaveClass('is-valid')
+})
