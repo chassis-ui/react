@@ -1,6 +1,8 @@
 # Form component system
 
-This directory holds every `Cx*` component, one folder per component (`components/<kebab-name>/Cx<PascalName>.tsx` + `__tests__/`). Most folders here are unrelated to forms (accordion, card, modal, ...) and need no special knowledge beyond that convention. This doc is scoped to the **form component family** — the folders listed in the inventory below — because they share two internal render-helper engines and a handful of non-obvious rules that are easy to violate by copy-pasting from the wrong sibling.
+`src/components/` holds every `Cx*` component, one folder per component (`components/<kebab-name>/Cx<PascalName>.tsx` + `__tests__/`). Most folders there are unrelated to forms (accordion, card, modal, ...) and need no special knowledge beyond that convention. This doc is scoped to the **form component family**: `checkbox/`, `radio/`, `switch/`, `text-input/`, `textarea/`, `select/`, `range-input/`, `file-input/`, `color-input/`, `combobox/`, `datepicker/`, `chip-input/`, `otp-input/`, `form/`, `form-field/` — because they share two internal render-helper engines and a handful of non-obvious rules that are easy to violate by copy-pasting from the wrong sibling.
+
+It lives here, at the package root, rather than inside `src/components/`, so it isn't picked up just by proximity when editing an unrelated component (accordion, card, modal, ...) — [`AGENTS.md`](AGENTS.md) points here explicitly for anyone touching the form family instead, the same way `README.md`/`LICENSE` already sit at this level.
 
 If you're touching a form-related component and haven't read this file yet, read it first. If you're adding a brand-new form component, read [Adding a new form component](#adding-a-new-form-component) before writing any code.
 
