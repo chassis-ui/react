@@ -21,11 +21,8 @@
     - title: Button Group
     - title: Card
     - title: Carousel
-    - title: Chip Input
     - title: Close Button
     - title: Collapse
-    - title: Combobox
-    - title: Datepicker
     - title: Drawer
     - title: Image
     - title: List
@@ -34,7 +31,6 @@
     - title: Navbar
     - title: Navs & Tabs
     - title: Notification
-    - title: OTP Input
     - title: Pagination
     - title: Password Strength
     - title: Placeholder
@@ -55,6 +51,13 @@
     - title: Radio
     - title: Switch
     - title: Range
+    - title: File Input
+    - title: Color Input
+    - title: Combobox
+    - title: Datepicker
+    - title: Chip Input
+    - title: OTP Input
+    - title: Form Field
     - title: Input Group
     - title: Floating Labels
     - title: Layout
