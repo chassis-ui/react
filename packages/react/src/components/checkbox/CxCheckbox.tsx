@@ -12,9 +12,9 @@ import { useForkedRef } from '../../utils/hooks'
 import { ContextColor } from '../Types'
 
 import { CxCheckboxGroupContext } from './context'
-import { ButtonObject, renderFormCheckControl } from '../formCheckRender'
+import { ButtonObject, renderFormCheck } from '../form/renderFormCheck'
 
-export type { ButtonObject } from '../formCheckRender'
+export type { ButtonObject } from '../form/renderFormCheck'
 
 export interface CxCheckboxProps extends Omit<
   InputHTMLAttributes<HTMLInputElement>,
@@ -122,7 +122,7 @@ const CxCheckboxStandalone = forwardRef<HTMLInputElement, CxCheckboxProps>(
 
     const inputClassName = classNames({ 'is-invalid': invalid, 'is-valid': valid })
 
-    return renderFormCheckControl({
+    return renderFormCheck({
       button,
       className,
       context,
@@ -190,7 +190,7 @@ const CxCheckboxGroupItem = forwardRef<HTMLInputElement, CxCheckboxGroupItemProp
 
     const inputClassName = classNames({ 'is-invalid': invalid, 'is-valid': valid })
 
-    return renderFormCheckControl({
+    return renderFormCheck({
       button,
       className,
       context,

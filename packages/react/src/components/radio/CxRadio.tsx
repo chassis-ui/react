@@ -5,7 +5,7 @@ import { useForkedRef } from '../../utils/hooks'
 import { ContextColor } from '../Types'
 
 import { CxRadioGroupContext } from './context'
-import { ButtonObject, renderFormCheckControl } from '../formCheckRender'
+import { ButtonObject, renderFormCheck } from '../form/renderFormCheck'
 
 export interface CxRadioProps extends Omit<
   InputHTMLAttributes<HTMLInputElement>,
@@ -65,7 +65,7 @@ export const CxRadio = forwardRef<HTMLInputElement, CxRadioProps>(
       inputRef
     )
 
-    return renderFormCheckControl({
+    return renderFormCheck({
       button,
       className,
       context,

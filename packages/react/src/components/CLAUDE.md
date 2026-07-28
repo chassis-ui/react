@@ -8,13 +8,13 @@ If you're touching a form-related component and haven't read this file yet, read
 
 There are **two** shared render helpers in this family. They look similar (both take an `input`/`children`, both know about `label`/`invalid`/`valid`) but they are not interchangeable, and neither is a generic "any form thing" abstraction — pick the one that matches what you're building.
 
-### 1. `renderFormCheckControl` (`components/formCheckRender.tsx`)
+### 1. `renderFormCheck` (`form/renderFormCheck.tsx`)
 
 Used by: `checkbox/CxCheckbox.tsx`, `radio/CxRadio.tsx`.
 
 Renders the **nested** `.form-check`/`.check-input` markup — everything lives inside a single `<label>` (or a bare `<span class="check-input">` when there's no label). This is the toggle-control shape: a checkbox/radio/switch always has its label *beside* it, never a separate wrapper with the label *above* the control. It also handles the `button` prop (button-style toggle variant) — nothing else in this family has that concept.
 
-`CxSwitch` does **not** use this helper — it inlines the same nested-label shape itself because a switch's `role="switch"` attribute placement didn't fit the shared function cleanly. If you touch `CxSwitch`, keep its markup shape in sync with `renderFormCheckControl` by eye; there's no shared code to keep them honest.
+`CxSwitch` does **not** use this helper — it inlines the same nested-label shape itself because a switch's `role="switch"` attribute placement didn't fit the shared function cleanly. If you touch `CxSwitch`, keep its markup shape in sync with `renderFormCheck` by eye; there's no shared code to keep them honest.
 
 `CxCheckboxGroup`/`CxRadioGroup` don't use this helper either. They render their own `<fieldset>`/`<legend>` directly and call `CxFormHelp`/`CxFormFeedback` themselves, wired through react-aria's own `useCheckboxGroup`/`useRadioGroup` — see [Group components are a third pattern](#group-components-are-a-third-pattern) below.
 
@@ -22,7 +22,7 @@ Renders the **nested** `.form-check`/`.check-input` markup — everything lives 
 
 Used by: `text-input/CxTextInput.tsx`, `textarea/CxTextarea.tsx`, `select/CxSelect.tsx`, `range-input/CxRangeInput.tsx`, `file-input/CxFileInput.tsx`, `color-input/CxColorInput.tsx`, `combobox/CxCombobox.tsx`, `datepicker/CxDatePicker.tsx`, `chip-input/CxChipInput.tsx`, `otp-input/CxOtpInput.tsx`.
 
-Renders the **sibling** `.form-field` grid layout: `CxFormLabel`, then `children` (your control), then `CxFormHelp`, then `CxFormFeedback` — see [chassis-css's Form Field docs](https://chassis-ui.com/css/docs/forms/form-field). Unlike `renderFormCheckControl`, this returns **children bare** (no wrapper at all) when none of `label`/`help`/`validFeedback`/`invalidFeedback` are set, so every leaf stays a drop-in native-looking element until a consumer opts into the wrapping.
+Renders the **sibling** `.form-field` grid layout: `CxFormLabel`, then `children` (your control), then `CxFormHelp`, then `CxFormFeedback` — see [chassis-css's Form Field docs](https://chassis-ui.com/css/docs/forms/form-field). Unlike `renderFormCheck`, this returns **children bare** (no wrapper at all) when none of `label`/`help`/`validFeedback`/`invalidFeedback` are set, so every leaf stays a drop-in native-looking element until a consumer opts into the wrapping.
 
 Every one of the 10 components above follows the exact same internal shape:
 
@@ -83,7 +83,7 @@ Don't try to unify these with the `renderFormField` family — the props are nam
 ## Naming and folder conventions
 
 - One component (or a tightly-coupled family like a group + its item) per folder, named after the folder in kebab-case: `text-input/CxTextInput.tsx`, `range-input/CxRangeInput.tsx`.
-- No `CxForm*` prefix except the handful of genuinely shared, generic pieces that live in `form/`: `CxForm`, `CxFormLabel`, `CxFormHelp`, `CxFormFeedback`. Everything else is named after what it *is* (`CxSelect`, not `CxFormSelect`; `CxCheckbox`, not `CxFormCheck`).
+- No `CxForm*` prefix except the handful of genuinely shared, generic pieces that live in `form/`: `CxForm`, `CxFormLabel`, `CxFormHelp`, `CxFormFeedback`, plus the `renderFormCheck` helper itself (not a component, but colocated there since it's `CxFormLabel`'s only non-leaf consumer). Everything else is named after what it *is* (`CxSelect`, not `CxFormSelect`; `CxCheckbox`, not `CxFormCheck`).
 - `className` builders always list the chassis-css base class first, then size, then `is-invalid`/`is-valid`, then the caller's `className` last (so caller overrides win). Match this order in any new component — chassis-css and existing snapshot tests both assume it.
 - Every native-input leaf keeps the underlying element genuinely native (`<input>`, `<select>`, `<textarea>`) — no custom widget replaces a form control chassis-css itself only ever targets via a native attribute selector (`select.form-input`, `.form-input[type="file"]`, `.form-input[type="color"]`). Don't introduce a react-aria hook for `CxSelect`/`CxRangeInput`/`CxFileInput`/`CxColorInput`; there isn't one that preserves the native element (`useSelect`/`useSlider` render fully custom markup chassis-css doesn't style).
 
@@ -97,7 +97,7 @@ These are real bugs hit while building this system — re-reading them before wi
 
 ## Adding a new form component
 
-1. Decide which of the two engines it needs (a toggle control → `renderFormCheckControl`; anything else with a label/help/validation → `renderFormField`). If it's neither (a fieldset-style group), model it on `CxCheckboxGroup`/`CxRadioGroup` instead of inventing a fourth pattern.
+1. Decide which of the two engines it needs (a toggle control → `renderFormCheck`; anything else with a label/help/validation → `renderFormField`). If it's neither (a fieldset-style group), model it on `CxCheckboxGroup`/`CxRadioGroup` instead of inventing a fourth pattern.
 2. New folder: `components/<kebab-name>/Cx<PascalName>.tsx`, plus `__tests__/Cx<PascalName>.spec.tsx` (+ snapshot).
 3. If it wraps a native element with a real react-aria hook (text-like input) — check whether that hook already supports `isInvalid`/`description`/`errorMessage` before writing your own `aria-describedby` plumbing; if it does, prefer it, but keep the `ids`/`useId()` shape identical to the rest of the family for consistency (see gotcha #3).
 4. If it's a native element with no applicable hook (`CxSelect`/`CxRangeInput`/`CxFileInput`/`CxColorInput` are the precedent), use the manual `useId()` + `renderFormField` template above verbatim.
