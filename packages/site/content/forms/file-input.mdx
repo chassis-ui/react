@@ -1,0 +1,52 @@
+---
+title: File Input
+description: Chassis File Input component. Use our custom file inputs for consistent cross-browser styling.
+
+toc: true
+---
+
+import { CxFileInput, CxFormLabel } from '@chassis-ui/react'
+
+## Overview
+
+`<CxFileInput>` wraps `<input type="file">` with the same `.form-input` styling as `<CxTextInput>`, including a themed file-selector button.
+
+<Example>
+  <CxFormLabel htmlFor="formFile">Default file input</CxFormLabel>
+  <CxFileInput id="formFile" />
+</Example>
+
+## Multiple files
+
+Add the `multiple` boolean attribute to allow selecting more than one file.
+
+<Example>
+  <CxFormLabel htmlFor="formFileMultiple">Multiple files input</CxFormLabel>
+  <CxFileInput id="formFileMultiple" multiple />
+</Example>
+
+## Disabled
+
+Add the `disabled` boolean attribute to give the input a grayed-out appearance and remove pointer events.
+
+<Example>
+  <CxFormLabel htmlFor="formFileDisabled">Disabled file input</CxFormLabel>
+  <CxFileInput id="formFileDisabled" disabled />
+</Example>
+
+## Sizing
+
+Apply the `size` property (`small` or `large`) to change the size of the input and its file-selector button.
+
+<Example>
+  <CxFormLabel htmlFor="formFileSm">Small file input</CxFormLabel>
+  <CxFileInput id="formFileSm" size="small" className="mb-medium" />
+  <CxFormLabel htmlFor="formFileLg">Large file input</CxFormLabel>
+  <CxFileInput id="formFileLg" size="large" />
+</Example>
+
+## API
+
+### CxFileInput
+
+<PropTable component="CxFileInput" />

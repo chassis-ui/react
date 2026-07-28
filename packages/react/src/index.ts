@@ -31,6 +31,8 @@ import { CxCarouselItem } from './components/carousel/CxCarouselItem'
 import { CxCollapse } from './components/collapse/CxCollapse'
 import { CxChipInput } from './components/chip-input/CxChipInput'
 import { CxCloseButton } from './components/close-button/CxCloseButton'
+import { CxColorInput } from './components/color-input/CxColorInput'
+import { CxFileInput } from './components/file-input/CxFileInput'
 import { CxCombobox } from './components/combobox/CxCombobox'
 import { CxComboboxItem } from './components/combobox/CxComboboxItem'
 import { CxDatePicker } from './components/datepicker/CxDatePicker'
@@ -150,9 +152,11 @@ export {
   CxChipInput,
   CxCloseButton,
   CxCollapse,
+  CxColorInput,
   CxCombobox,
   CxComboboxItem,
   CxDatePicker,
+  CxFileInput,
   // Re-exported (not a `Cx*` component): react-aria is a bundled dependency, not a peer, so its
   // module — including the `I18nProvider` context `CxDatePicker` reads locale from via
   // `useLocale()` — is inlined into this package's own build output, distinct from any react-aria
