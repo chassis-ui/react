@@ -71,10 +71,16 @@
   background-color: transparent;
   border: 0;
   border-radius: var(--cx-border-radius-medium);
+  outline: none;
 }
 
 .cx-datepicker-nav:hover:not(:disabled) {
   background-color: var(--cx-bg-hover);
+}
+
+.cx-datepicker-nav:focus {
+  outline: var(--cx-border-width-xlarge) solid var(--cx-primary);
+  outline-offset: -1px;
 }
 
 .cx-datepicker-nav:disabled {

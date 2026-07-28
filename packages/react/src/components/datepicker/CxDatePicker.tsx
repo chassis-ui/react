@@ -1,6 +1,6 @@
 import React, { HTMLAttributes, ReactNode, useRef } from 'react'
 import classNames from 'classnames'
-import { mergeProps, useButton, useDatePicker, useLocale, useOverlayPosition } from 'react-aria'
+import { FocusScope, mergeProps, useButton, useDatePicker, useLocale, usePopover } from 'react-aria'
 import { DateValue, useCalendarState, useDatePickerState } from 'react-stately'
 import { createCalendar } from '@internationalized/date'
 
@@ -169,20 +169,36 @@ export const CxDatePicker = ({
     groupRef
   )
 
-  const { buttonProps: toggleProps } = useButton(buttonProps, buttonRef)
+  // `useDatePicker`'s `buttonProps.onPress` only ever opens the calendar (matches upstream
+  // react-aria), so re-clicking the toggle button while open would otherwise do nothing —
+  // override it to actually toggle.
+  const { buttonProps: toggleProps } = useButton(
+    { ...buttonProps, onPress: () => state.toggle() },
+    buttonRef
+  )
 
-  const { overlayProps, placement: resolvedPlacement } = useOverlayPosition({
-    targetRef: groupRef,
-    overlayRef: popoverRef,
-    placement: toAriaPlacement('bottom-start'),
-    offset: 2,
-    isOpen: state.isOpen
-  })
+  const { popoverProps, placement: resolvedPlacement } = usePopover(
+    {
+      triggerRef: groupRef,
+      popoverRef,
+      placement: toAriaPlacement('bottom-start'),
+      offset: 2,
+      // The toggle button lives inside `groupRef`, not `popoverRef` — without this it would
+      // count as an "outside" interaction and `usePopover` would close the calendar on
+      // pointerdown, which `toggleProps.onPress` above then immediately reopens on click.
+      shouldCloseOnInteractOutside: (element) => !groupRef.current?.contains(element)
+    },
+    state
+  )
 
+  // `usePopover` merges positioning styles (`top`/`left`/`position`) with escape/outside-click
+  // dismissal props (`onKeyDown`, focus-within handlers) — split them back apart since we only
+  // want a subset of the computed style (no `zIndex`/`maxHeight` overrides; chassis-css owns those).
+  const { style: popoverPositionStyle, ...popoverDismissProps } = popoverProps
   const overlayStyle: React.CSSProperties = {
-    position: overlayProps.style?.position as React.CSSProperties['position'],
-    top: overlayProps.style?.top,
-    left: overlayProps.style?.left
+    position: popoverPositionStyle?.position as React.CSSProperties['position'],
+    top: popoverPositionStyle?.top,
+    left: popoverPositionStyle?.left
   }
   const placementAttr = resolveDataPlacement('bottom-start', resolvedPlacement)
 
@@ -241,16 +257,19 @@ export const CxDatePicker = ({
           data-cx-placement={placementAttr}
           hidden={!state.isOpen}
           ref={popoverRef}
+          {...popoverDismissProps}
           style={overlayStyle}
         >
           {state.isOpen && (
-            <Calendar
-              calendarRef={calendarRef}
-              dialogProps={dialogProps}
-              locale={locale}
-              props={{}}
-              state={calendarState}
-            />
+            <FocusScope contain restoreFocus>
+              <Calendar
+                calendarRef={calendarRef}
+                dialogProps={dialogProps}
+                locale={locale}
+                props={{}}
+                state={calendarState}
+              />
+            </FocusScope>
           )}
         </div>
         {name && (

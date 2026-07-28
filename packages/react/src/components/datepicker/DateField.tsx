@@ -43,12 +43,12 @@ const DateSegment = ({ segment, state }: DateSegmentProps) => {
   const { segmentProps } = useDateSegment(segment, state, ref)
 
   return (
-    <div
+    <span
       {...segmentProps}
       className={classNames('cx-datepicker-segment', { placeholder: segment.isPlaceholder })}
       ref={ref}
     >
       {segment.text}
-    </div>
+    </span>
   )
 }

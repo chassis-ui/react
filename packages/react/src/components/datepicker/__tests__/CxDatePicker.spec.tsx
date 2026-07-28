@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { act, render, screen, fireEvent, within } from '@testing-library/react'
+import { act, render, screen, fireEvent, waitFor, within } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { CalendarDate } from '@internationalized/date'
 import { axe } from 'jest-axe'
 
@@ -24,6 +25,61 @@ test('the calendar dialog is hidden until the toggle button is pressed', () => {
   openCalendar()
   expect(dialog).not.toHaveAttribute('hidden')
   expect(screen.getByRole('grid')).toBeInTheDocument()
+})
+
+test('re-clicking the toggle button closes an open calendar', () => {
+  render(<CxDatePicker aria-label="Event date" />)
+  const toggle = screen.getByRole('button')
+  const dialog = document.querySelector('.cx-datepicker-calendar') as HTMLElement
+  act(() => {
+    fireEvent.click(toggle)
+  })
+  expect(dialog).not.toHaveAttribute('hidden')
+  act(() => {
+    fireEvent.click(toggle)
+  })
+  expect(dialog).toHaveAttribute('hidden')
+})
+
+test('pressing Escape while the calendar is open closes it', () => {
+  render(<CxDatePicker aria-label="Event date" />)
+  const dialog = document.querySelector('.cx-datepicker-calendar') as HTMLElement
+  openCalendar()
+  expect(dialog).not.toHaveAttribute('hidden')
+  fireEvent.keyDown(dialog, { key: 'Escape' })
+  expect(dialog).toHaveAttribute('hidden')
+})
+
+test('focus moves into the calendar on open and is trapped there until it closes', async () => {
+  const user = userEvent.setup()
+  render(<CxDatePicker aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
+  const dialog = document.querySelector('.cx-datepicker-calendar') as HTMLElement
+  openCalendar()
+
+  expect(dialog.contains(document.activeElement)).toBe(true)
+
+  // Shift+Tabbing past the first focusable element should wrap back inside the calendar
+  // instead of escaping to the toggle button or the page behind it.
+  for (let i = 0; i < 6; i += 1) {
+    await user.tab({ shift: true })
+    expect(dialog.contains(document.activeElement)).toBe(true)
+  }
+})
+
+test('closing the calendar restores focus to the toggle button', async () => {
+  const user = userEvent.setup()
+  render(<CxDatePicker aria-label="Event date" />)
+  const toggle = screen.getByRole('button')
+
+  // `userEvent.click` (unlike `fireEvent.click`) focuses the element first, matching a real
+  // click — required for `FocusScope`'s `restoreFocus` to have a toggle button to return to.
+  await user.click(toggle)
+  await user.keyboard('{Escape}')
+
+  // `FocusScope` only restores focus once it observes focus having fallen back to `<body>`
+  // (the browser's default when the focused element unmounts), which it checks for on the next
+  // animation frame rather than synchronously.
+  await waitFor(() => expect(document.activeElement).toBe(toggle))
 })
 
 test('clicking a day cell selects it, fires onChange, and closes the calendar', () => {
