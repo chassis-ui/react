@@ -12,6 +12,7 @@ import { CheckboxRadioAddonsExample } from '../../src/examples/input-group/Check
 
 import {
   CxButton,
+  CxFileInput,
   CxForm,
   CxTextInput,
   CxFormLabel,
@@ -243,11 +244,11 @@ Input groups include support for custom selects and custom file inputs. Browser 
 <Example>
   <CxInputGroup className="mb-medium">
     <CxInputAddon component="label" htmlFor="inputGroupFile01">Upload</CxInputAddon>
-    <CxTextInput type="file" id="inputGroupFile01"/>
+    <CxFileInput id="inputGroupFile01"/>
   </CxInputGroup>
 
   <CxInputGroup className="mb-medium">
-    <CxTextInput type="file" id="inputGroupFile02" />
+    <CxFileInput id="inputGroupFile02" />
     <CxInputAddon component="label" htmlFor="inputGroupFile02">
       Upload
     </CxInputAddon>
@@ -257,8 +258,7 @@ Input groups include support for custom selects and custom file inputs. Browser 
     <CxButton type="button" context="secondary" variant="outline" id="inputGroupFileAddon03">
       Button
     </CxButton>
-    <CxTextInput
-      type="file"
+    <CxFileInput
       id="inputGroupFile03"
       aria-describedby="inputGroupFileAddon03"
       aria-label="Upload"
@@ -266,7 +266,7 @@ Input groups include support for custom selects and custom file inputs. Browser 
   </CxInputGroup>
 
   <CxInputGroup>
-    <CxTextInput type="file" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload"/>
+    <CxFileInput id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload"/>
     <CxButton type="button" context="secondary" variant="outline" id="inputGroupFileAddon04">Button</CxButton>
   </CxInputGroup>
 </Example>

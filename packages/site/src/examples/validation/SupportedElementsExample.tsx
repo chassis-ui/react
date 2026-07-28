@@ -1,14 +1,15 @@
 import React from 'react'
 import {
   CxButton,
+  CxFileInput,
   CxForm,
   CxCheckbox,
   CxFormFeedback,
-  CxTextInput,
   CxFormLabel,
   CxRadio,
   CxRadioGroup,
-  CxSelect
+  CxSelect,
+  CxTextarea
 } from '@chassis-ui/react'
 
 export const SupportedElementsExample = () => {
@@ -18,13 +19,12 @@ export const SupportedElementsExample = () => {
         <CxFormLabel htmlFor="validationTextarea" className="form-label">
           Textarea
         </CxFormLabel>
-        <CxTextInput
-          component="textarea"
+        <CxTextarea
           id="validationTextarea"
           placeholder="Required example textarea"
           invalid
           required
-        ></CxTextInput>
+        />
         <CxFormFeedback invalid>Please enter a message in the textarea.</CxFormFeedback>
       </div>
       <CxCheckbox
@@ -49,7 +49,7 @@ export const SupportedElementsExample = () => {
         <CxFormFeedback invalid>Example invalid select feedback</CxFormFeedback>
       </div>
       <div className="mb-medium">
-        <CxTextInput type="file" id="validationTextarea" aria-label="file example" required />
+        <CxFileInput id="validationFile" aria-label="file example" required />
         <CxFormFeedback invalid>Example invalid form file feedback</CxFormFeedback>
       </div>
       <div className="mb-medium">
