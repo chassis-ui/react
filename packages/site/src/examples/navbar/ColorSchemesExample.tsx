@@ -4,7 +4,7 @@ import {
   CxContainer,
   CxCollapse,
   CxForm,
-  CxFormInput,
+  CxTextInput,
   CxMenu,
   CxMenuDivider,
   CxMenuItem,
@@ -56,7 +56,7 @@ export const ColorSchemesExample = () => {
               </CxNavItem>
             </CxNavbarNav>
             <CxForm className="d-flex">
-              <CxFormInput type="search" className="me-2" placeholder="Search" />
+              <CxTextInput type="search" className="me-2" placeholder="Search" />
               <CxButton type="submit" context="default" variant="outline">
                 Search
               </CxButton>
@@ -99,7 +99,7 @@ export const ColorSchemesExample = () => {
               </CxNavItem>
             </CxNavbarNav>
             <CxForm className="d-flex">
-              <CxFormInput type="search" className="me-2" placeholder="Search" />
+              <CxTextInput type="search" className="me-2" placeholder="Search" />
               <CxButton type="submit" context="default" variant="outline">
                 Search
               </CxButton>
@@ -142,7 +142,7 @@ export const ColorSchemesExample = () => {
               </CxNavItem>
             </CxNavbarNav>
             <CxForm className="d-flex">
-              <CxFormInput type="search" className="me-2" placeholder="Search" />
+              <CxTextInput type="search" className="me-2" placeholder="Search" />
               <CxButton type="submit" context="primary" variant="outline">
                 Search
               </CxButton>

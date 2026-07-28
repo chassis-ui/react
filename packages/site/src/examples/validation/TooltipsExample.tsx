@@ -3,12 +3,12 @@ import { useState } from 'react'
 import {
   CxButton,
   CxForm,
-  CxFormInput,
+  CxTextInput,
   CxFormFeedback,
   CxFormLabel,
-  CxFormSelect,
+  CxSelect,
   CxInputGroup,
-  CxInputGroupText,
+  CxInputAddon,
   CxCol
 } from '@chassis-ui/react'
 
@@ -31,14 +31,14 @@ export const TooltipsExample = () => {
     >
       <CxCol md={4} className="position-relative">
         <CxFormLabel htmlFor="validationTooltip01">Email</CxFormLabel>
-        <CxFormInput type="text" id="validationTooltip01" defaultValue="Mark" required />
+        <CxTextInput type="text" id="validationTooltip01" defaultValue="Mark" required />
         <CxFormFeedback tooltip valid>
           Looks good!
         </CxFormFeedback>
       </CxCol>
       <CxCol md={4} className="position-relative">
         <CxFormLabel htmlFor="validationTooltip02">Email</CxFormLabel>
-        <CxFormInput type="text" id="validationTooltip02" defaultValue="Otto" required />
+        <CxTextInput type="text" id="validationTooltip02" defaultValue="Otto" required />
         <CxFormFeedback tooltip valid>
           Looks good!
         </CxFormFeedback>
@@ -46,8 +46,8 @@ export const TooltipsExample = () => {
       <CxCol md={4} className="position-relative">
         <CxFormLabel htmlFor="validationTooltipUsername">Username</CxFormLabel>
         <CxInputGroup className="has-validation">
-          <CxInputGroupText id="inputGroupPrepend">@</CxInputGroupText>
-          <CxFormInput
+          <CxInputAddon id="inputGroupPrepend">@</CxInputAddon>
+          <CxTextInput
             type="text"
             id="validationTooltipUsername"
             defaultValue=""
@@ -61,26 +61,26 @@ export const TooltipsExample = () => {
       </CxCol>
       <CxCol md={6} className="position-relative">
         <CxFormLabel htmlFor="validationTooltip03">City</CxFormLabel>
-        <CxFormInput type="text" id="validationTooltip03" required />
+        <CxTextInput type="text" id="validationTooltip03" required />
         <CxFormFeedback tooltip invalid>
           Please provide a valid city.
         </CxFormFeedback>
       </CxCol>
       <CxCol md={3} className="position-relative">
         <CxFormLabel htmlFor="validationTooltip04">City</CxFormLabel>
-        <CxFormSelect id="validationTooltip04" required>
+        <CxSelect id="validationTooltip04" required>
           <option disabled value="">
             Choose...
           </option>
           <option>...</option>
-        </CxFormSelect>
+        </CxSelect>
         <CxFormFeedback tooltip invalid>
           Please provide a valid city.
         </CxFormFeedback>
       </CxCol>
       <CxCol md={3} className="position-relative">
         <CxFormLabel htmlFor="validationTooltip05">City</CxFormLabel>
-        <CxFormInput type="text" id="validationTooltip05" required />
+        <CxTextInput type="text" id="validationTooltip05" required />
         <CxFormFeedback tooltip invalid>
           Please provide a valid zip.
         </CxFormFeedback>

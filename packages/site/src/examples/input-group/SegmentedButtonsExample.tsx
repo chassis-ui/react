@@ -1,6 +1,6 @@
 import {
   CxButton,
-  CxFormInput,
+  CxTextInput,
   CxInputGroup,
   CxMenu,
   CxMenuDivider,
@@ -28,11 +28,11 @@ export const SegmentedButtonsExample = () => {
             <CxMenuItem href="#">Separated link</CxMenuItem>
           </CxMenuList>
         </CxMenu>
-        <CxFormInput aria-label="Text input with segmented menu button" />
+        <CxTextInput aria-label="Text input with segmented menu button" />
       </CxInputGroup>
 
       <CxInputGroup>
-        <CxFormInput aria-label="Text input with segmented menu button" />
+        <CxTextInput aria-label="Text input with segmented menu button" />
         <CxButton type="button" context="secondary" variant="outline">
           Action
         </CxButton>

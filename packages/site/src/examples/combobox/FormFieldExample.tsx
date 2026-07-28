@@ -1,4 +1,4 @@
-import { CxCombobox, CxComboboxItem, CxFormLabel, CxFormText } from '@chassis-ui/react'
+import { CxCombobox, CxComboboxItem, CxFormLabel, CxFormHelp } from '@chassis-ui/react'
 
 export const FormFieldExample = () => {
   return (
@@ -11,7 +11,7 @@ export const FormFieldExample = () => {
         <CxComboboxItem id="au">Australia</CxComboboxItem>
         <CxComboboxItem id="de">Germany</CxComboboxItem>
       </CxCombobox>
-      <CxFormText>The billing region.</CxFormText>
+      <CxFormHelp>The billing region.</CxFormHelp>
     </div>
   )
 }

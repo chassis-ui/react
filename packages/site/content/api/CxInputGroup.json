@@ -1,6 +1,6 @@
 {
   "tags": {},
-  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/form/CxInputGroup.tsx",
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/input-group/CxInputGroup.tsx",
   "description": "",
   "displayName": "CxInputGroup",
   "methods": [],
@@ -10,12 +10,12 @@
       "description": "A string of all className you want applied to the component.",
       "name": "className",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/CxInputGroup.tsx",
+        "fileName": "chassis-react/packages/react/src/components/input-group/CxInputGroup.tsx",
         "name": "CxInputGroupProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/form/CxInputGroup.tsx",
+          "fileName": "chassis-react/packages/react/src/components/input-group/CxInputGroup.tsx",
           "name": "CxInputGroupProps"
         }
       ],
@@ -29,12 +29,12 @@
       "description": "Size the component small or large.",
       "name": "size",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/CxInputGroup.tsx",
+        "fileName": "chassis-react/packages/react/src/components/input-group/CxInputGroup.tsx",
         "name": "CxInputGroupProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/form/CxInputGroup.tsx",
+          "fileName": "chassis-react/packages/react/src/components/input-group/CxInputGroup.tsx",
           "name": "CxInputGroupProps"
         }
       ],

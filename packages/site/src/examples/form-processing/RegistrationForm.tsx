@@ -2,9 +2,9 @@ import { useState } from 'react'
 import {
   CxButton,
   CxForm,
-  CxFormInput,
+  CxTextInput,
   CxFormLabel,
-  CxFormSelect,
+  CxSelect,
   CxFormFeedback,
   CxNotification,
   CxRow,
@@ -52,7 +52,7 @@ export const RegistrationForm = () => {
         <CxRow className="mb-3">
           <CxCol>
             <CxFormLabel htmlFor="reg-name">Full name</CxFormLabel>
-            <CxFormInput
+            <CxTextInput
               id="reg-name"
               placeholder="Jane Smith"
               value={name}
@@ -66,7 +66,7 @@ export const RegistrationForm = () => {
           </CxCol>
           <CxCol>
             <CxFormLabel htmlFor="reg-email">Email address</CxFormLabel>
-            <CxFormInput
+            <CxTextInput
               id="reg-email"
               type="email"
               placeholder="jane@example.com"
@@ -81,7 +81,7 @@ export const RegistrationForm = () => {
         <CxRow className="mb-3">
           <CxCol>
             <CxFormLabel htmlFor="reg-role">Role</CxFormLabel>
-            <CxFormSelect
+            <CxSelect
               id="reg-role"
               placeholder="Select a role…"
               value={role}
@@ -94,7 +94,7 @@ export const RegistrationForm = () => {
           </CxCol>
           <CxCol>
             <CxFormLabel htmlFor="reg-pw">Password</CxFormLabel>
-            <CxFormInput
+            <CxTextInput
               id="reg-pw"
               type="password"
               placeholder="Min. 8 characters"

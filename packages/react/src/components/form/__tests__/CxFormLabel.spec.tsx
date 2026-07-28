@@ -2,7 +2,7 @@ import * as React from 'react'
 import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { CxFormInput, CxFormLabel } from '../../../index'
+import { CxTextInput, CxFormLabel } from '../../../index'
 
 describe('CxFormLabel', () => {
   describe('rendering', () => {
@@ -30,7 +30,7 @@ describe('CxFormLabel', () => {
       render(
         <>
           <CxFormLabel htmlFor="email">Email</CxFormLabel>
-          <CxFormInput id="email" />
+          <CxTextInput id="email" />
         </>
       )
       expect(screen.getByLabelText('Email')).toBeInTheDocument()
@@ -50,7 +50,7 @@ describe('CxFormLabel', () => {
       const { container } = render(
         <>
           <CxFormLabel htmlFor="email">Email</CxFormLabel>
-          <CxFormInput id="email" />
+          <CxTextInput id="email" />
         </>
       )
       expect(await axe(container)).toHaveNoViolations()

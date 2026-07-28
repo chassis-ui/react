@@ -4,7 +4,7 @@ import {
   CxContainer,
   CxCollapse,
   CxForm,
-  CxFormInput,
+  CxTextInput,
   CxNavItem,
   CxNavLink,
   CxNavbar,
@@ -42,7 +42,7 @@ export const ResponsiveBehaviorsExample2 = () => {
               </CxNavItem>
             </CxNavbarNav>
             <CxForm className="d-flex">
-              <CxFormInput type="search" className="me-2" placeholder="Search" />
+              <CxTextInput type="search" className="me-2" placeholder="Search" />
               <CxButton type="submit" context="success" variant="outline">
                 Search
               </CxButton>

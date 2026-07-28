@@ -9,9 +9,9 @@ toc: true
 import { 
   CxButton,
   CxForm,
-  CxFormInput,
+  CxTextInput,
   CxFormLabel,
-  CxFormTextarea,
+  CxTextarea,
   CxCol,
   CxRow
 } from '@chassis-ui/react'
@@ -22,11 +22,11 @@ import {
   <CxForm>
     <div className="mb-medium">
       <CxFormLabel htmlFor="exampleFormControlInput1">Email address</CxFormLabel>
-      <CxFormInput type="email" id="exampleFormControlInput1" placeholder="name@example.com"/>
+      <CxTextInput type="email" id="exampleFormControlInput1" placeholder="name@example.com"/>
     </div>
     <div className="mb-medium">
       <CxFormLabel htmlFor="exampleFormControlTextarea1">Example textarea</CxFormLabel>
-      <CxFormTextarea id="exampleFormControlTextarea1" rows="3"></CxFormTextarea>
+      <CxTextarea id="exampleFormControlTextarea1" rows="3"></CxTextarea>
     </div>
   </CxForm>
 </Example>
@@ -36,11 +36,11 @@ import {
 Set heights using `size` property like `size="large"` and `size="small"`.
 
 <Example>
-  <CxFormInput type="text" size="large" placeholder="Large input" aria-label="lg input example"/>
+  <CxTextInput type="text" size="large" placeholder="Large input" aria-label="lg input example"/>
   <br/>
-  <CxFormInput type="text" placeholder="Default input" aria-label="default input example"/>
+  <CxTextInput type="text" placeholder="Default input" aria-label="default input example"/>
   <br/>
-  <CxFormInput type="text" size="small" placeholder="Small input" aria-label="sm input example"/>
+  <CxTextInput type="text" size="small" placeholder="Small input" aria-label="sm input example"/>
 </Example>
 
 ## Disabled
@@ -48,9 +48,9 @@ Set heights using `size` property like `size="large"` and `size="small"`.
 Add the `disabled` boolean attribute on an input to give it a grayed out appearance and remove pointer events.
 
 <Example>
-  <CxFormInput type="text" placeholder="Disabled input" aria-label="Disabled input example" disabled/>
+  <CxTextInput type="text" placeholder="Disabled input" aria-label="Disabled input example" disabled/>
   <br/>
-  <CxFormInput type="text" placeholder="Disabled readonly input" aria-label="Disabled input example" disabled readOnly/>
+  <CxTextInput type="text" placeholder="Disabled readonly input" aria-label="Disabled input example" disabled readOnly/>
   <br/>
 </Example>
 
@@ -59,7 +59,7 @@ Add the `disabled` boolean attribute on an input to give it a grayed out appeara
 Add the `readOnly` boolean attribute on an input to prevent modification of the input's value. Read-only inputs appear lighter (just like disabled inputs), but retain the standard cursor.
 
 <Example>
-  <CxFormInput type="text" placeholder="Readonly input here..." aria-label="readonly input example" readOnly/>
+  <CxTextInput type="text" placeholder="Readonly input here..." aria-label="readonly input example" readOnly/>
 </Example>
 
 ## Readonly plain text
@@ -70,13 +70,13 @@ If you want to have `<input readonly>` elements in your form styled as plain tex
   <CxRow className="mb-medium">
     <CxFormLabel htmlFor="staticEmail" className="small:col-2 col-form-label">Email</CxFormLabel>
     <CxCol sm={10}>
-      <CxFormInput type="text" id="staticEmail" defaultValue="email@example.com" readOnly plainText/>
+      <CxTextInput type="text" id="staticEmail" defaultValue="email@example.com" readOnly plainText/>
     </CxCol>
   </CxRow>
   <CxRow className="mb-medium">
     <CxFormLabel htmlFor="inputPassword" className="small:col-2 col-form-label">Password</CxFormLabel>
     <CxCol sm={10}>
-      <CxFormInput type="password" id="inputPassword"/>
+      <CxTextInput type="password" id="inputPassword"/>
     </CxCol>
   </CxRow>
 </Example>
@@ -85,11 +85,11 @@ If you want to have `<input readonly>` elements in your form styled as plain tex
   <CxForm className="row g-3">
     <CxCol xs="auto">
       <CxFormLabel htmlFor="staticEmail2" className="visually-hidden">Email</CxFormLabel>
-      <CxFormInput type="text" id="staticEmail2" defaultValue="email@example.com" readOnly plainText/>
+      <CxTextInput type="text" id="staticEmail2" defaultValue="email@example.com" readOnly plainText/>
     </CxCol>
     <CxCol xs="auto">
       <CxFormLabel htmlFor="inputPassword2" className="visually-hidden">Password</CxFormLabel>
-      <CxFormInput type="password" id="inputPassword2" placeholder="Password"/>
+      <CxTextInput type="password" id="inputPassword2" placeholder="Password"/>
     </CxCol>
     <CxCol xs="auto">
       <CxButton type="submit" className="mb-medium">Confirm identity</CxButton>
@@ -102,23 +102,23 @@ If you want to have `<input readonly>` elements in your form styled as plain tex
 <Example>
   <div className="mb-medium">
     <CxFormLabel htmlFor="formFile">Default file input example</CxFormLabel>
-    <CxFormInput type="file" id="formFile"/>
+    <CxTextInput type="file" id="formFile"/>
   </div>
   <div className="mb-medium">
     <CxFormLabel htmlFor="formFileMultiple">Multiple files input example</CxFormLabel>
-    <CxFormInput type="file" id="formFileMultiple" multiple/>
+    <CxTextInput type="file" id="formFileMultiple" multiple/>
   </div>
   <div className="mb-medium">
     <CxFormLabel htmlFor="formFileDisabled">Disabled file input example</CxFormLabel>
-    <CxFormInput type="file" id="formFileDisabled" disabled/>
+    <CxTextInput type="file" id="formFileDisabled" disabled/>
   </div>
   <div className="mb-medium">
     <CxFormLabel htmlFor="formFileSm">Small file input example</CxFormLabel>
-    <CxFormInput type="file" size="small" id="formFileSm"/>
+    <CxTextInput type="file" size="small" id="formFileSm"/>
   </div>
   <div>
     <CxFormLabel htmlFor="formFileLg">Large file input example</CxFormLabel>
-    <CxFormInput type="file" size="large" id="formFileLg"/>
+    <CxTextInput type="file" size="large" id="formFileLg"/>
   </div>
 </Example>
 
@@ -126,14 +126,14 @@ If you want to have `<input readonly>` elements in your form styled as plain tex
 
 <Example>
   <CxFormLabel htmlFor="exampleColorInput">Color picker</CxFormLabel>
-  <CxFormInput type="color" id="exampleColorInput" defaultValue="#563d7c" title="Choose your color" />
+  <CxTextInput type="color" id="exampleColorInput" defaultValue="#563d7c" title="Choose your color" />
 </Example>
 
 ## API
 
-### CxFormInput
+### CxTextInput
 
-<PropTable component="CxFormInput" />
-### CxFormTextarea
+<PropTable component="CxTextInput" />
+### CxTextarea
 
-<PropTable component="CxFormTextarea" />
+<PropTable component="CxTextarea" />

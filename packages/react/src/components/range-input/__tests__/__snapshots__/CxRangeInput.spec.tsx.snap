@@ -1,0 +1,11 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CxRangeInput > rendering > matches the baseline markup snapshot 1`] = `
+<div>
+  <input
+    class="form-range"
+    step="3"
+    type="range"
+  />
+</div>
+`;

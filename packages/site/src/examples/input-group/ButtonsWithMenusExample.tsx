@@ -1,5 +1,5 @@
 import {
-  CxFormInput,
+  CxTextInput,
   CxInputGroup,
   CxMenu,
   CxMenuDivider,
@@ -24,11 +24,11 @@ export const ButtonsWithMenusExample = () => {
             <CxMenuItem href="#">Separated link</CxMenuItem>
           </CxMenuList>
         </CxMenu>
-        <CxFormInput aria-label="Text input with menu button" />
+        <CxTextInput aria-label="Text input with menu button" />
       </CxInputGroup>
 
       <CxInputGroup className="mb-3">
-        <CxFormInput aria-label="Text input with menu button" />
+        <CxTextInput aria-label="Text input with menu button" />
         <CxMenu placement="bottom-end">
           <CxMenuToggle context="secondary" variant="outline">
             Menu
@@ -56,7 +56,7 @@ export const ButtonsWithMenusExample = () => {
             <CxMenuItem href="#">Separated link</CxMenuItem>
           </CxMenuList>
         </CxMenu>
-        <CxFormInput aria-label="Text input with 2 menu buttons" />
+        <CxTextInput aria-label="Text input with 2 menu buttons" />
         <CxMenu placement="bottom-end">
           <CxMenuToggle context="secondary" variant="outline">
             Menu

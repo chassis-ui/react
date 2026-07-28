@@ -52,19 +52,19 @@ import { CxRow } from './components/grid/CxRow'
 import { CxCheckbox } from './components/checkbox/CxCheckbox'
 import { CxCheckboxGroup } from './components/checkbox/CxCheckboxGroup'
 import { CxForm } from './components/form/CxForm'
+import { CxFloatingInput } from './components/floating-input/CxFloatingInput'
 import { CxFormFeedback } from './components/form/CxFormFeedback'
-import { CxFormFloating } from './components/form/CxFormFloating'
-import { CxFormInput } from './components/form/CxFormInput'
+import { CxFormHelp } from './components/form/CxFormHelp'
 import { CxFormLabel } from './components/form/CxFormLabel'
-import { CxFormRange } from './components/form/CxFormRange'
-import { CxFormSelect } from './components/form/CxFormSelect'
-import { CxFormText } from './components/form/CxFormText'
-import { CxFormTextarea } from './components/form/CxFormTextarea'
-import { CxInputGroup } from './components/form/CxInputGroup'
-import { CxInputGroupText } from './components/form/CxInputGroupText'
+import { CxInputAddon } from './components/input-group/CxInputAddon'
+import { CxInputGroup } from './components/input-group/CxInputGroup'
 import { CxRadio } from './components/radio/CxRadio'
 import { CxRadioGroup } from './components/radio/CxRadioGroup'
+import { CxRangeInput } from './components/range-input/CxRangeInput'
+import { CxSelect } from './components/select/CxSelect'
 import { CxSwitch } from './components/switch/CxSwitch'
+import { CxTextInput } from './components/text-input/CxTextInput'
+import { CxTextarea } from './components/textarea/CxTextarea'
 import { CxImage } from './components/image/CxImage'
 import { CxLink } from './components/link/CxLink'
 import { CxList } from './components/list/CxList'
@@ -176,18 +176,14 @@ export {
   CxCardGroup,
   CxCheckbox,
   CxCheckboxGroup,
+  CxFloatingInput,
   CxForm,
   CxFormFeedback,
-  CxFormFloating,
-  CxFormInput,
+  CxFormHelp,
   CxFormLabel,
-  CxFormRange,
-  CxFormSelect,
-  CxFormText,
-  CxFormTextarea,
   CxImage,
+  CxInputAddon,
   CxInputGroup,
-  CxInputGroupText,
   CxLink,
   CxList,
   CxListItem,
@@ -213,11 +209,13 @@ export {
   CxProgressBar,
   CxRadio,
   CxRadioGroup,
+  CxRangeInput,
   CxDrawer,
   CxDrawerBody,
   CxDrawerFooter,
   CxDrawerHeader,
   CxDrawerTitle,
+  CxSelect,
   CxSpinner,
   CxSwitch,
   CxTable,
@@ -232,6 +230,8 @@ export {
   CxTabPane,
   CxTabPanel,
   CxTabs,
+  CxTextInput,
+  CxTextarea,
   CxToast,
   CxToastBody,
   CxToastClose,

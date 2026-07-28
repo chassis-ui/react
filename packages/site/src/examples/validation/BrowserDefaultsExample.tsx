@@ -4,12 +4,12 @@ import {
   CxButton,
   CxForm,
   CxCheckbox,
-  CxFormInput,
+  CxTextInput,
   CxFormFeedback,
   CxFormLabel,
-  CxFormSelect,
+  CxSelect,
   CxInputGroup,
-  CxInputGroupText,
+  CxInputAddon,
   CxCol
 } from '@chassis-ui/react'
 
@@ -27,19 +27,19 @@ export const BrowserDefaultsExample = () => {
     <CxForm className="row g-3 needs-validation" validated={validated} onSubmit={handleSubmit}>
       <CxCol md={4}>
         <CxFormLabel htmlFor="validationDefault01">Email</CxFormLabel>
-        <CxFormInput type="text" id="validationDefault01" defaultValue="Mark" required />
+        <CxTextInput type="text" id="validationDefault01" defaultValue="Mark" required />
         <CxFormFeedback valid>Looks good!</CxFormFeedback>
       </CxCol>
       <CxCol md={4}>
         <CxFormLabel htmlFor="validationDefault02">Email</CxFormLabel>
-        <CxFormInput type="text" id="validationDefault02" defaultValue="Otto" required />
+        <CxTextInput type="text" id="validationDefault02" defaultValue="Otto" required />
         <CxFormFeedback valid>Looks good!</CxFormFeedback>
       </CxCol>
       <CxCol md={4}>
         <CxFormLabel htmlFor="validationDefaultUsername">Username</CxFormLabel>
         <CxInputGroup className="has-validation">
-          <CxInputGroupText id="inputGroupPrepend02">@</CxInputGroupText>
-          <CxFormInput
+          <CxInputAddon id="inputGroupPrepend02">@</CxInputAddon>
+          <CxTextInput
             type="text"
             id="validationDefaultUsername"
             defaultValue=""
@@ -51,20 +51,20 @@ export const BrowserDefaultsExample = () => {
       </CxCol>
       <CxCol md={6}>
         <CxFormLabel htmlFor="validationDefault03">City</CxFormLabel>
-        <CxFormInput type="text" id="validationDefault03" required />
+        <CxTextInput type="text" id="validationDefault03" required />
         <CxFormFeedback invalid>Please provide a valid city.</CxFormFeedback>
       </CxCol>
       <CxCol md={3}>
         <CxFormLabel htmlFor="validationDefault04">City</CxFormLabel>
-        <CxFormSelect id="validationDefault04">
+        <CxSelect id="validationDefault04">
           <option disabled>Choose...</option>
           <option>...</option>
-        </CxFormSelect>
+        </CxSelect>
         <CxFormFeedback invalid>Please provide a valid city.</CxFormFeedback>
       </CxCol>
       <CxCol md={3}>
         <CxFormLabel htmlFor="validationDefault05">City</CxFormLabel>
-        <CxFormInput type="text" id="validationDefault05" required />
+        <CxTextInput type="text" id="validationDefault05" required />
         <CxFormFeedback invalid>Please provide a valid zip.</CxFormFeedback>
       </CxCol>
       <CxCol xs={12}>

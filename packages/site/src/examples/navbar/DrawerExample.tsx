@@ -7,7 +7,7 @@ import {
   CxDrawerHeader,
   CxDrawerTitle,
   CxForm,
-  CxFormInput,
+  CxTextInput,
   CxMenu,
   CxMenuDivider,
   CxMenuItem,
@@ -65,7 +65,7 @@ export const DrawerExample = () => {
               </CxNavItem>
             </CxNavbarNav>
             <CxForm className="d-flex">
-              <CxFormInput type="search" className="me-2" placeholder="Search" />
+              <CxTextInput type="search" className="me-2" placeholder="Search" />
               <CxButton type="submit" context="success" variant="outline">
                 Search
               </CxButton>

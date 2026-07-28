@@ -6,15 +6,15 @@ toc: true
 ---
 
 
-import { CxForm, CxFormLabel, CxFormRange } from '@chassis-ui/react'
+import { CxForm, CxFormLabel, CxRangeInput } from '@chassis-ui/react'
 
 ## Overview
 
-Create custom `<input type="range">` controls with `<CxFormRange>`. The track (the background) and thumb (the value) are both styled to appear the same across browsers. As only Edge Legacy and Firefox supports "filling" their track from the left or right of the thumb as a means to visually indicate progress, we do not currently support it.
+Create custom `<input type="range">` controls with `<CxRangeInput>`. The track (the background) and thumb (the value) are both styled to appear the same across browsers. As only Edge Legacy and Firefox supports "filling" their track from the left or right of the thumb as a means to visually indicate progress, we do not currently support it.
 
 <Example>
   <CxFormLabel htmlFor="customRange1">Example range</CxFormLabel>
-  <CxFormRange id="customRange1" />
+  <CxRangeInput id="customRange1" />
 </Example>
 
 ## Disabled
@@ -23,7 +23,7 @@ Add the `disabled` boolean attribute on an input to give it a grayed out appeara
 
 <Example>
   <CxFormLabel htmlFor="disabledRange">Disabled range</CxFormLabel>
-  <CxFormRange id="disabledRange" disabled />
+  <CxRangeInput id="disabledRange" disabled />
 </Example>
 
 ## Min and max
@@ -32,7 +32,7 @@ Range inputs have implicit values for `min` and `max`—`0` and `100`, respectiv
 
 <Example>
   <CxFormLabel htmlFor="customRange2">Example range</CxFormLabel>
-  <CxFormRange min="0" max="5" defaultValue="3" id="customRange2" />
+  <CxRangeInput min="0" max="5" defaultValue="3" id="customRange2" />
 </Example>
 
 ## Steps
@@ -41,11 +41,11 @@ By default, range inputs "snap" to integer values. To change this, you can speci
 
 <Example>
   <CxFormLabel htmlFor="customRange3">Example range</CxFormLabel>
-  <CxFormRange min="0" max="5" step="0.5" defaultValue="3" id="customRange3" />
+  <CxRangeInput min="0" max="5" step="0.5" defaultValue="3" id="customRange3" />
 </Example>
 
 ## API
 
-### CxFormRange
+### CxRangeInput
 
-<PropTable component="CxFormRange" />
+<PropTable component="CxRangeInput" />

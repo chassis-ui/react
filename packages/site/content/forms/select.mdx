@@ -11,8 +11,8 @@ import {
   CxForm,
   CxCheckbox,
   CxFormLabel,
-  CxFormSelect,
-  CxFormText,
+  CxSelect,
+  CxFormHelp,
   CxCol,
   CxRow,
 } from '@chassis-ui/react'
@@ -22,7 +22,7 @@ import {
 Pass an `options` array for data-driven rendering. Options can be plain strings or objects with `value`, `label`, and `disabled` keys.
 
 <Example>
-  <CxFormSelect
+  <CxSelect
     aria-label="Default select example"
     options={[
       { label: 'One', value: '1' },
@@ -37,7 +37,7 @@ Pass an `options` array for data-driven rendering. Options can be plain strings 
 Use the `placeholder` prop to add a non-selectable first option that prompts the user to make a choice.
 
 <Example>
-  <CxFormSelect
+  <CxSelect
     placeholder="Select a country…"
     aria-label="Country select"
     options={[
@@ -54,40 +54,40 @@ Use the `placeholder` prop to add a non-selectable first option that prompts the
 You may also choose from small and large custom selects to match our similarly sized text inputs.
 
 <Example>
-  <CxFormSelect size="large" className="mb-medium" aria-label="Large select example">
+  <CxSelect size="large" className="mb-medium" aria-label="Large select example">
     <option>Open this select menu</option>
     <option value="1">One</option>
     <option value="2">Two</option>
     <option value="3">Three</option>
-  </CxFormSelect>
-  <CxFormSelect size="small" className="mb-medium" aria-label="Small select example">
+  </CxSelect>
+  <CxSelect size="small" className="mb-medium" aria-label="Small select example">
     <option>Open this select menu</option>
     <option value="1">One</option>
     <option value="2">Two</option>
     <option value="3">Three</option>
-  </CxFormSelect>
+  </CxSelect>
 </Example>
 
 The `multiple` attribute is also supported:
 
 <Example>
-  <CxFormSelect size="large" multiple aria-label="Multiple select example">
+  <CxSelect size="large" multiple aria-label="Multiple select example">
     <option>Open this select menu</option>
     <option value="1">One</option>
     <option value="2">Two</option>
     <option value="3">Three</option>
-  </CxFormSelect>
+  </CxSelect>
 </Example>
 
 As is the `htmlSize` property:
 
 <Example>
-  <CxFormSelect htmlSize={3} multiple aria-label="size 3 select example">
+  <CxSelect htmlSize={3} multiple aria-label="size 3 select example">
     <option>Open this select menu</option>
     <option value="1">One</option>
     <option value="2">Two</option>
     <option value="3">Three</option>
-  </CxFormSelect>
+  </CxSelect>
 </Example>
 
 ## Disabled
@@ -95,16 +95,16 @@ As is the `htmlSize` property:
 Add the `disabled` boolean attribute on a select to give it a grayed out appearance and remove pointer events.
 
 <Example>
-  <CxFormSelect aria-label="Disabled select example" disabled>
+  <CxSelect aria-label="Disabled select example" disabled>
     <option>Open this select menu</option>
     <option value="1">One</option>
     <option value="2">Two</option>
     <option value="3">Three</option>
-  </CxFormSelect>
+  </CxSelect>
 </Example>
 
 ## API
 
-### CxFormSelect
+### CxSelect
 
-<PropTable component="CxFormSelect" />
+<PropTable component="CxSelect" />

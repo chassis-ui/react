@@ -1,0 +1,28 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/floating-input/CxFloatingInput.tsx",
+  "description": "",
+  "displayName": "CxFloatingInput",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/floating-input/CxFloatingInput.tsx",
+        "name": "CxFloatingInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/floating-input/CxFloatingInput.tsx",
+          "name": "CxFloatingInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    }
+  }
+}

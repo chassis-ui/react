@@ -3,7 +3,7 @@ import {
   CxCol,
   CxForm,
   CxCheckbox,
-  CxFormInput,
+  CxTextInput,
   CxFormLabel,
   CxRadio,
   CxRadioGroup,
@@ -18,7 +18,7 @@ export const HorizontalFormExample = () => {
           Email
         </CxFormLabel>
         <CxCol sm={10}>
-          <CxFormInput type="email" id="inputEmail3" />
+          <CxTextInput type="email" id="inputEmail3" />
         </CxCol>
       </CxRow>
       <CxRow className="mb-medium">
@@ -26,7 +26,7 @@ export const HorizontalFormExample = () => {
           Password
         </CxFormLabel>
         <CxCol sm={10}>
-          <CxFormInput type="password" id="inputPassword3" />
+          <CxTextInput type="password" id="inputPassword3" />
         </CxCol>
       </CxRow>
       <CxRadioGroup className="row mb-medium" label="Radios" defaultValue="option1">

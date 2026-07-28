@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { CxFormInput, CxFormLabel, CxPasswordStrength } from '@chassis-ui/react'
+import { CxTextInput, CxFormLabel, CxPasswordStrength } from '@chassis-ui/react'
 
 export const BasicExample = () => {
   const [password, setPassword] = useState('')
@@ -7,7 +7,7 @@ export const BasicExample = () => {
   return (
     <div className="form-field">
       <CxFormLabel htmlFor="password1">Password</CxFormLabel>
-      <CxFormInput
+      <CxTextInput
         autoComplete="new-password"
         id="password1"
         onChange={(event) => setPassword(event.target.value)}

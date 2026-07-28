@@ -5,7 +5,7 @@ import { RadioGroupProps, useRadioGroupState } from 'react-stately'
 
 import { CxRadioGroupContext } from './context'
 import { CxFormFeedback } from '../form/CxFormFeedback'
-import { CxFormText } from '../form/CxFormText'
+import { CxFormHelp } from '../form/CxFormHelp'
 
 export interface CxRadioGroupProps extends Omit<
   HTMLAttributes<HTMLFieldSetElement>,
@@ -132,7 +132,7 @@ export const CxRadioGroup = forwardRef<HTMLFieldSetElement, CxRadioGroupProps>(
           </legend>
         )}
         {orientation === 'horizontal' ? <div className="d-flex gap-medium">{items}</div> : items}
-        {description && <CxFormText {...descriptionProps}>{description}</CxFormText>}
+        {description && <CxFormHelp {...descriptionProps}>{description}</CxFormHelp>}
         {invalid && errorMessage && (
           <CxFormFeedback invalid {...errorMessageProps}>
             {errorMessage}

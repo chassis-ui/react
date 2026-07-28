@@ -4,11 +4,11 @@ import {
   CxForm,
   CxCheckbox,
   CxFormFeedback,
-  CxFormInput,
+  CxTextInput,
   CxFormLabel,
   CxRadio,
   CxRadioGroup,
-  CxFormSelect
+  CxSelect
 } from '@chassis-ui/react'
 
 export const SupportedElementsExample = () => {
@@ -18,13 +18,13 @@ export const SupportedElementsExample = () => {
         <CxFormLabel htmlFor="validationTextarea" className="form-label">
           Textarea
         </CxFormLabel>
-        <CxFormInput
+        <CxTextInput
           component="textarea"
           id="validationTextarea"
           placeholder="Required example textarea"
           invalid
           required
-        ></CxFormInput>
+        ></CxTextInput>
         <CxFormFeedback invalid>Please enter a message in the textarea.</CxFormFeedback>
       </div>
       <CxCheckbox
@@ -40,16 +40,16 @@ export const SupportedElementsExample = () => {
       </CxRadioGroup>
       <CxFormFeedback invalid>More example invalid feedback text</CxFormFeedback>
       <div className="mb-medium">
-        <CxFormSelect required aria-label="select example">
+        <CxSelect required aria-label="select example">
           <option>Open this select menu</option>
           <option value="1">One</option>
           <option value="2">Two</option>
           <option value="3">Three</option>
-        </CxFormSelect>
+        </CxSelect>
         <CxFormFeedback invalid>Example invalid select feedback</CxFormFeedback>
       </div>
       <div className="mb-medium">
-        <CxFormInput type="file" id="validationTextarea" aria-label="file example" required />
+        <CxTextInput type="file" id="validationTextarea" aria-label="file example" required />
         <CxFormFeedback invalid>Example invalid form file feedback</CxFormFeedback>
       </div>
       <div className="mb-medium">

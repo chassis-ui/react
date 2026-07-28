@@ -7,7 +7,7 @@ import {
   CxTableRow,
   CxTableCell,
   CxPagination,
-  CxFormSelect,
+  CxSelect,
   CxBadge
 } from '@chassis-ui/react'
 
@@ -56,7 +56,7 @@ export const PaginatedTable = () => {
           <label htmlFor="pg-size" className="form-label mb-0">
             Rows per page
           </label>
-          <CxFormSelect
+          <CxSelect
             id="pg-size"
             style={{ width: 'auto' }}
             value={String(pageSize)}

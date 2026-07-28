@@ -17,7 +17,7 @@ export interface CxOtpInputProps extends Omit<
   'onChange' | 'defaultValue'
 > {
   /**
-   * Identifies the element that describes the group, e.g. a `CxFormText` help element.
+   * Identifies the element that describes the group, e.g. a `CxFormHelp` help element.
    */
   'aria-describedby'?: string
   /**

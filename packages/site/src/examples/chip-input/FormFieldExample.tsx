@@ -1,4 +1,4 @@
-import { CxChipInput, CxFormLabel, CxFormText } from '@chassis-ui/react'
+import { CxChipInput, CxFormLabel, CxFormHelp } from '@chassis-ui/react'
 
 export const FormFieldExample = () => {
   return (
@@ -10,7 +10,7 @@ export const FormFieldExample = () => {
         name="skills"
         placeholder="Add skill…"
       />
-      <CxFormText>Press Enter or , to add a skill.</CxFormText>
+      <CxFormHelp>Press Enter or , to add a skill.</CxFormHelp>
     </div>
   )
 }

@@ -9,10 +9,10 @@ import {
   CxButton,
   CxForm,
   CxCheckbox,
-  CxFormInput,
+  CxTextInput,
   CxFormLabel,
-  CxFormSelect,
-  CxFormText,
+  CxSelect,
+  CxFormHelp,
   CxCol,
   CxRow,
 } from '@chassis-ui/react'
@@ -29,12 +29,12 @@ Here's a quick example to demonstrate Chassis form styles. Keep reading for docu
   <CxForm>
     <div className="mb-medium">
       <CxFormLabel htmlFor="exampleInputEmail1">Email address</CxFormLabel>
-      <CxFormInput type="email" id="exampleInputEmail1" aria-describedby="emailHelp" />
-      <CxFormText id="emailHelp">We'll never share your email with anyone else.</CxFormText>
+      <CxTextInput type="email" id="exampleInputEmail1" aria-describedby="emailHelp" />
+      <CxFormHelp id="emailHelp">We'll never share your email with anyone else.</CxFormHelp>
     </div>
     <div className="mb-medium">
       <CxFormLabel htmlFor="exampleInputPassword1">Email Password</CxFormLabel>
-      <CxFormInput type="password" id="exampleInputPassword1" />
+      <CxTextInput type="password" id="exampleInputPassword1" />
     </div>
     <CxCheckbox
       className="mb-medium"
@@ -51,22 +51,22 @@ Here's a quick example to demonstrate Chassis form styles. Keep reading for docu
 
 ## Form text
 
-Block-level or inline-level form text can be created using `<CxFormText>`.
+Block-level or inline-level form text can be created using `<CxFormHelp>`.
 
 Associating form text with form controls
 Form text should be explicitly associated with the form control it relates to using the aria-describedby attribute. This will ensure that assistive technologies—such as screen readers—will announce this form text when the user focuses or enters the control.
 
-Form text below inputs can be styled with `<CxFormText>`. If a block-level element will be used, a top margin is added for easy spacing from the inputs above.
+Form text below inputs can be styled with `<CxFormHelp>`. If a block-level element will be used, a top margin is added for easy spacing from the inputs above.
 
 <Example>
   <CxForm>
     <div className="mb-medium">
       <CxFormLabel htmlFor="inputPassword5">Password</CxFormLabel>
-      <CxFormInput type="password" id="inputPassword5" aria-describedby="passwordHelpBlock" />
-      <CxFormText id="passwordHelpBlock">
+      <CxTextInput type="password" id="inputPassword5" aria-describedby="passwordHelpBlock" />
+      <CxFormHelp id="passwordHelpBlock">
         Your password must be 8-20 characters long, contain letters and numbers, and must not
         contain spaces, special characters, or emoji.
-      </CxFormText>
+      </CxFormHelp>
     </div>
   </CxForm>
 </Example>
@@ -81,12 +81,12 @@ Inline text can use any typical inline HTML element (be it a `<span>`, `<small>`
       </CxFormLabel>
     </CxCol>
     <CxCol xs="auto">
-      <CxFormInput type="password" id="inputPassword6" aria-describedby="passwordHelpInline" />
+      <CxTextInput type="password" id="inputPassword6" aria-describedby="passwordHelpInline" />
     </CxCol>
     <CxCol xs="auto">
-      <CxFormText component="span" id="passwordHelpInline">
+      <CxFormHelp component="span" id="passwordHelpInline">
         Must be 8-20 characters long.
-      </CxFormText>
+      </CxFormHelp>
     </CxCol>
   </CxRow>
 </Example>
@@ -109,13 +109,13 @@ However, if your form also includes custom button-like elements such as `<CxButt
       <legend>Disabled fieldset example</legend>
       <div className="mb-medium">
         <CxFormLabel htmlFor="disabledTextInput">Disabled input</CxFormLabel>
-        <CxFormInput id="disabledTextInput" placeholder="Disabled input" />
+        <CxTextInput id="disabledTextInput" placeholder="Disabled input" />
       </div>
       <div className="mb-medium">
         <CxFormLabel htmlFor="disabledSelect">Disabled select menu</CxFormLabel>
-        <CxFormSelect id="disabledSelect">
+        <CxSelect id="disabledSelect">
           <option>Disabled select</option>
-        </CxFormSelect>
+        </CxSelect>
       </div>
       <div className="mb-medium">
         <CxCheckbox id="disabledFieldsetCheck" label="Can't check this" disabled />

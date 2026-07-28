@@ -2,7 +2,7 @@ import * as React from 'react'
 import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { CxForm, CxFormLabel, CxFormInput, CxFormText, CxCheckbox, CxButton } from '../../../index'
+import { CxForm, CxFormLabel, CxTextInput, CxFormHelp, CxCheckbox, CxButton } from '../../../index'
 
 describe('CxForm', () => {
   describe('rendering', () => {
@@ -16,8 +16,8 @@ describe('CxForm', () => {
       const { container } = render(
         <CxForm>
           <CxFormLabel>A</CxFormLabel>
-          <CxFormInput type="email" aria-describedby="B" />
-          <CxFormText>C</CxFormText>
+          <CxTextInput type="email" aria-describedby="B" />
+          <CxFormHelp>C</CxFormHelp>
           <CxCheckbox label="D" />
           <CxButton type="submit" context="primary">
             E
@@ -50,7 +50,7 @@ describe('CxForm', () => {
       const { container } = render(
         <CxForm aria-label="Sign up">
           <CxFormLabel htmlFor="email">Email</CxFormLabel>
-          <CxFormInput id="email" type="email" />
+          <CxTextInput id="email" type="email" />
         </CxForm>
       )
       expect(await axe(container)).toHaveNoViolations()

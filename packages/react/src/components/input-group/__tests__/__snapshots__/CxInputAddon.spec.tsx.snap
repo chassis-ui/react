@@ -1,0 +1,11 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CxInputAddon > rendering > matches the baseline markup snapshot 1`] = `
+<div>
+  <span
+    class="input-addon"
+  >
+    Test
+  </span>
+</div>
+`;

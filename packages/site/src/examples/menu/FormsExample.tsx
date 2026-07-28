@@ -2,7 +2,7 @@ import {
   CxButton,
   CxForm,
   CxCheckbox,
-  CxFormInput,
+  CxTextInput,
   CxFormLabel,
   CxMenu,
   CxMenuToggle,
@@ -17,11 +17,11 @@ export const FormsExample = () => {
         <CxForm className="vstack gap-medium p-medium">
           <div>
             <CxFormLabel htmlFor="menuFormEmail">Email address</CxFormLabel>
-            <CxFormInput type="email" id="menuFormEmail" placeholder="email@example.com" />
+            <CxTextInput type="email" id="menuFormEmail" placeholder="email@example.com" />
           </div>
           <div>
             <CxFormLabel htmlFor="menuFormPassword">Password</CxFormLabel>
-            <CxFormInput type="password" id="menuFormPassword" placeholder="Password" />
+            <CxTextInput type="password" id="menuFormPassword" placeholder="Password" />
           </div>
           <CxCheckbox id="menuRemember" label="Remember me" />
           <CxButton type="submit" context="primary">

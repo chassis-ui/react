@@ -13,7 +13,10 @@ exports[`CxForm > rendering > matches the baseline markup snapshot 1`] = `
     <input
       aria-describedby="B"
       class="form-input"
+      id="react-aria-:r0:"
+      tabindex="0"
       type="email"
+      value=""
     />
     <div
       class="form-help"

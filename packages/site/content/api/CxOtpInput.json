@@ -7,7 +7,7 @@
   "props": {
     "aria-describedby": {
       "defaultValue": null,
-      "description": "Identifies the element that describes the group, e.g. a `CxFormText` help element.",
+      "description": "Identifies the element that describes the group, e.g. a `CxFormHelp` help element.",
       "name": "aria-describedby",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/otp-input/CxOtpInput.tsx",
