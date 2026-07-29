@@ -1,44 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxCheckbox customize button=false 1`] = `
-<div>
-  <label
-    class="form-check bazinga"
-  >
-    <span
-      class="check-input secondary"
-    >
-      <input
-        class=""
-        data-react-aria-pressable="true"
-        id="id"
-        tabindex="0"
-        type="checkbox"
-      />
-    </span>
-    label
-  </label>
-</div>
-`;
-
-exports[`CxCheckbox customize button=true 1`] = `
-<div>
-  <label
-    class="button button-check primary ghost large rounded bazinga"
-  >
-    <input
-      class=""
-      data-react-aria-pressable="true"
-      id="id"
-      tabindex="0"
-      type="checkbox"
-    />
-    label
-  </label>
-</div>
-`;
-
-exports[`loads and displays CxCheckbox component 1`] = `
+exports[`CxCheckbox > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <span
     class="check-input"

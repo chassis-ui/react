@@ -1,13 +1,13 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`loads and displays CxSubmenu component 1`] = `
+exports[`CxSubmenu > rendering > matches the baseline markup snapshot and renders the submenu wrapper 1`] = `
 <div>
   <div
     aria-hidden="false"
-    aria-labelledby="react-aria-:r3:"
+    aria-labelledby="react-aria-:r0:"
     class="menu show"
     data-cx-placement="bottom-start"
-    id="react-aria-:r4:"
+    id="react-aria-:r1:"
     role="menu"
     style="position: fixed; top: 0px; left: 0px;"
   >
@@ -18,7 +18,7 @@ exports[`loads and displays CxSubmenu component 1`] = `
         aria-expanded="false"
         aria-haspopup="true"
         class="menu-item"
-        id=":r5:-trigger"
+        id=":r2:-trigger"
         role="menuitem"
         type="button"
       >

@@ -12,21 +12,21 @@ import reactHooksPlugin from 'eslint-plugin-react-hooks'
 
 // The recommended preset is all error-level. It originally would have failed ~620 pre-existing
 // violations across a then-mostly-snapshot-only spec suite; a subsequent test-modernization pass
-// (see .claude/plans/abstract-snacking-tome.md) brought that down to ~20, concentrated in a
-// handful of Group F components whose existing behavioral tests were deliberately left untouched,
-// plus one not-yet-modernized component (carousel). Kept at warn rather than flipping back to
-// error until that remainder clears, so it nudges new/touched tests toward better patterns
-// without blocking on the tail of the backlog.
+// (see .claude/plans/abstract-snacking-tome.md and .claude/plans/frolicking-roaming-snowglobe.md)
+// cleared the entire backlog to zero, including no-node-access/no-container — this library has
+// plenty of plain presentational wrappers (divs, spans) with no accessible role/name, but nearly
+// every one of those turned out to have a real query available (screen.getByText on the given
+// children, an explicit role prop, an ancestor with a role) once actually looked at. The
+// remaining handful of genuinely inaccessible cases (hidden form-submission inputs, decorative
+// icons, closed <dialog> elements, class-only wrapper divs) are suppressed per-line with a
+// reasoned `eslint-disable-next-line`, not by turning a rule off wholesale. Kept at warn rather
+// than error, matching the rest of this preset, so it nudges new/touched tests toward better
+// patterns without hard-blocking a build over a single missed query.
 const testingLibraryWarnRules = Object.fromEntries(
   Object.entries(testingLibraryPlugin.configs['flat/react'].rules).map(([rule, config]) =>
     Array.isArray(config) ? [rule, ['warn', ...config.slice(1)]] : [rule, 'warn']
   )
 )
-// no-node-access and no-container assume every element under test has an accessible role/name
-// to query by. Much of this component library is plain presentational wrappers (divs, spans)
-// with none, so `container.firstChild` is the only option — these two don't fit this codebase.
-// testingLibraryWarnRules['testing-library/no-node-access'] = 'off'
-// testingLibraryWarnRules['testing-library/no-container'] = 'off'
 
 export default defineConfig([
   // Global ignores

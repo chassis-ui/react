@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`loads and displays CxRadioGroup component 1`] = `
+exports[`CxRadioGroup > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <fieldset
     aria-labelledby="react-aria-:r1:"
