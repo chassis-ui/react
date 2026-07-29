@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import { ContextColor, ExtendedSizing } from '../Types'
 import { CxAvatar } from './CxAvatar'
 
-export interface CxAvatarStackItem {
+export interface CxAvatarStackItemDef {
   /**
    * React key for the rendered `CxAvatar`. Falls back to the item's index in `data`.
    */
@@ -52,16 +52,16 @@ export interface CxAvatarStackProps extends HTMLAttributes<HTMLDivElement> {
    * Renders a `CxAvatar` for each item, ahead of any JSX `children` (handy for a trailing "+N"
    * overflow avatar).
    */
-  data?: CxAvatarStackItem[]
+  items?: CxAvatarStackItemDef[]
 }
 
 export const CxAvatarStack = forwardRef<HTMLDivElement, CxAvatarStackProps>(
-  ({ children, className, size, data, ...rest }, ref) => {
+  ({ children, className, size, items, ...rest }, ref) => {
     const _className = classNames('avatar-stack', size, className)
 
     return (
       <div className={_className} {...rest} ref={ref}>
-        {data?.map(({ key, content, ...item }, index) => (
+        {items?.map(({ key, content, ...item }, index) => (
           <CxAvatar key={key ?? index} {...item}>
             {content}
           </CxAvatar>

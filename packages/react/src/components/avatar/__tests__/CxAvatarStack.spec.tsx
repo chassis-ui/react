@@ -39,7 +39,7 @@ describe('CxAvatarStack', () => {
     test('renders a CxAvatar for each data item', () => {
       render(
         <CxAvatarStack
-          data={[
+          items={[
             { src: 'https://placehold.co/256x256', alt: 'Ada', status: 'success' },
             { src: 'https://placehold.co/256x256', alt: 'Grace' }
           ]}
@@ -52,7 +52,7 @@ describe('CxAvatarStack', () => {
 
     test('renders data items ahead of any JSX children', () => {
       render(
-        <CxAvatarStack data={[{ content: 'CX' }]}>
+        <CxAvatarStack items={[{ content: 'CX' }]}>
           <CxAvatar>+5</CxAvatar>
         </CxAvatarStack>
       )

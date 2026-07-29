@@ -200,7 +200,7 @@
     },
     "alt": {
       "defaultValue": {
-        "value": "Profile Picture"
+        "value": "Profile picture"
       },
       "description": "Alt text for the image rendered when `src` is set.",
       "name": "alt",

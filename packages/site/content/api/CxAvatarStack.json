@@ -67,10 +67,10 @@
         ]
       }
     },
-    "data": {
+    "items": {
       "defaultValue": null,
       "description": "Renders a `CxAvatar` for each item, ahead of any JSX `children` (handy for a trailing \"+N\"\noverflow avatar).",
-      "name": "data",
+      "name": "items",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/avatar/CxAvatarStack.tsx",
         "name": "CxAvatarStackProps"
@@ -83,7 +83,7 @@
       ],
       "required": false,
       "type": {
-        "name": "CxAvatarStackItem[]"
+        "name": "CxAvatarStackItemDef[]"
       }
     }
   }

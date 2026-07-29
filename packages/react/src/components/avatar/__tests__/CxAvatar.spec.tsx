@@ -40,7 +40,7 @@ describe('CxAvatar', () => {
   describe('image', () => {
     test('renders a CxAvatarImage when src is given, with the default alt text', () => {
       render(<CxAvatar src="https://placehold.co/256x256" />)
-      const img = screen.getByRole('img', { name: 'Profile Picture' })
+      const img = screen.getByRole('img', { name: 'Profile picture' })
       expect(img).toHaveClass('avatar-image')
       expect(img).toHaveAttribute('src', 'https://placehold.co/256x256')
     })
