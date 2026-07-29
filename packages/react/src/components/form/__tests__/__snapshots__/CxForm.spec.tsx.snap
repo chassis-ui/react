@@ -12,6 +12,7 @@ exports[`CxForm > rendering > matches the baseline markup snapshot 1`] = `
     </label>
     <input
       aria-describedby="B"
+      aria-label="A"
       class="form-input"
       id=":r0:"
       tabindex="0"

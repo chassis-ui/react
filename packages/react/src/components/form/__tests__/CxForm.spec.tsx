@@ -16,7 +16,7 @@ describe('CxForm', () => {
       const { container } = render(
         <CxForm>
           <CxFormLabel>A</CxFormLabel>
-          <CxTextInput type="email" aria-describedby="B" />
+          <CxTextInput aria-describedby="B" aria-label="A" type="email" />
           <CxFormHelp>C</CxFormHelp>
           <CxCheckbox label="D" />
           <CxButton type="submit" context="primary">
@@ -50,7 +50,7 @@ describe('CxForm', () => {
       const { container } = render(
         <CxForm aria-label="Sign up">
           <CxFormLabel htmlFor="email">Email</CxFormLabel>
-          <CxTextInput id="email" type="email" />
+          <CxTextInput aria-label="Email" id="email" type="email" />
         </CxForm>
       )
       expect(await axe(container)).toHaveNoViolations()

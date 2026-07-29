@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { act } from 'react'
-import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { CxNotification } from '../../../index'
@@ -31,13 +30,8 @@ describe('CxNotification', () => {
   })
 
   describe('dismiss behavior', () => {
-    test('renders a close button when dismissible and calls onClose on click', async () => {
+    test('renders a close button when dismissible and calls onClose on click', () => {
       vi.useFakeTimers()
-      const user = userEvent.setup({
-        advanceTimers: (ms) => {
-          vi.advanceTimersByTime(ms)
-        }
-      })
       const onClose = vi.fn()
       render(
         <CxNotification context="primary" dismissible onClose={onClose}>
@@ -45,7 +39,7 @@ describe('CxNotification', () => {
         </CxNotification>
       )
       expect(onClose).toHaveBeenCalledTimes(0)
-      await user.click(screen.getByRole('button', { name: 'Close' }))
+      fireEvent.click(screen.getByRole('button', { name: 'Close' }))
       act(() => vi.runAllTimers())
       expect(onClose).toHaveBeenCalledTimes(1)
       vi.useRealTimers()

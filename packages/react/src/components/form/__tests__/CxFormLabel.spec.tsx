@@ -31,7 +31,7 @@ describe('CxFormLabel', () => {
       render(
         <>
           <CxFormLabel htmlFor="email">Email</CxFormLabel>
-          <CxTextInput id="email" />
+          <CxTextInput aria-label="Email" id="email" />
         </>
       )
       expect(screen.getByLabelText('Email')).toBeInTheDocument()
@@ -51,7 +51,7 @@ describe('CxFormLabel', () => {
       const { container } = render(
         <>
           <CxFormLabel htmlFor="email">Email</CxFormLabel>
-          <CxTextInput id="email" />
+          <CxTextInput aria-label="Email" id="email" />
         </>
       )
       expect(await axe(container)).toHaveNoViolations()

@@ -7,7 +7,7 @@ import { CxCheckbox, CxCheckboxGroup } from '../../../index'
 describe('CxCheckbox', () => {
   describe('rendering', () => {
     test('matches the baseline markup snapshot', () => {
-      const { container } = render(<CxCheckbox />)
+      const { container } = render(<CxCheckbox aria-label="Accept terms" />)
       expect(container).toMatchSnapshot()
     })
   })

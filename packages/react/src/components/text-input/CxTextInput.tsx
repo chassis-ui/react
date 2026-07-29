@@ -94,12 +94,14 @@ export const CxTextInput = forwardRef<HTMLInputElement, CxTextInputProps>(
     const inputRef = useRef<HTMLInputElement>(null)
     const forkedRef = useForkedRef(ref, inputRef)
 
-    const { describedBy, feedbackId, helpId, inputId } = useFormField({
+    const { describedBy, feedbackId, helpId, inputId, labelId, labelledBy } = useFormField({
       ariaDescribedBy: rest['aria-describedby'],
+      ariaLabelledBy: rest['aria-labelledby'],
       help,
       id,
       invalid,
       invalidFeedback,
+      label,
       valid,
       validFeedback
     })
@@ -108,6 +110,7 @@ export const CxTextInput = forwardRef<HTMLInputElement, CxTextInputProps>(
       {
         ...rest,
         'aria-describedby': describedBy,
+        'aria-labelledby': labelledBy,
         id: inputId,
         isDisabled: disabled,
         isInvalid: invalid,
@@ -131,7 +134,7 @@ export const CxTextInput = forwardRef<HTMLInputElement, CxTextInputProps>(
     return renderFormField({
       children: <input {...inputProps} className={_className} ref={forkedRef} />,
       help,
-      ids: { feedback: feedbackId, help: helpId, input: inputId },
+      ids: { feedback: feedbackId, help: helpId, input: inputId, label: labelId },
       invalid,
       invalidFeedback,
       label,

@@ -9,6 +9,7 @@ exports[`CxSwitch > rendering > matches the baseline markup snapshot 1`] = `
       class="check-input"
     >
       <input
+        aria-label="Notifications"
         class=""
         data-react-aria-pressable="true"
         role="switch"

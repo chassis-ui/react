@@ -3,6 +3,7 @@
 exports[`CxTextarea > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <textarea
+    aria-label="Bio"
     class="form-input"
     id=":r6:"
     tabindex="0"

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { act, fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 
@@ -15,7 +15,7 @@ describe('CxTextarea', () => {
     })
 
     test('matches the baseline markup snapshot', () => {
-      const { container } = render(<CxTextarea defaultValue="Some value" />)
+      const { container } = render(<CxTextarea aria-label="Bio" defaultValue="Some value" />)
       expect(container).toMatchSnapshot()
     })
 
@@ -46,7 +46,14 @@ describe('CxTextarea', () => {
       render(<CxTextarea aria-label="Bio" onChange={onChange} />)
 
       const textarea = screen.getByRole('textbox', { name: 'Bio' })
-      await user.type(textarea, 'hi')
+      // react-aria's internal validation-state effect updates state as a direct consequence of
+      // `user.type`'s own dispatch, outside whatever act-environment userEvent itself toggles
+      // (confirmed by capturing `IS_REACT_ACT_ENVIRONMENT` at warning time for the equivalent
+      // CxDatePicker case) - needs an explicit `act(...)` around the interaction.
+      // eslint-disable-next-line testing-library/no-unnecessary-act -- see comment above
+      await act(async () => {
+        await user.type(textarea, 'hi')
+      })
       expect(onChange).toHaveBeenCalledTimes(2)
       expect(textarea).toHaveValue('hi')
     })
@@ -65,7 +72,7 @@ describe('CxTextarea', () => {
   describe('ref forwarding', () => {
     test('forwards a ref to the underlying textarea', () => {
       const ref = React.createRef<HTMLTextAreaElement>()
-      render(<CxTextarea ref={ref} />)
+      render(<CxTextarea aria-label="Bio" ref={ref} />)
       expect(ref.current).toBeInstanceOf(HTMLTextAreaElement)
     })
   })

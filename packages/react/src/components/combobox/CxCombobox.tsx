@@ -147,12 +147,14 @@ export const CxCombobox = ({
   const listBoxRef = useRef<HTMLElement>(null)
   const popoverRef = useRef<HTMLDivElement>(null)
 
-  const { describedBy, feedbackId, helpId, inputId } = useFormField({
+  const { describedBy, feedbackId, helpId, inputId, labelId, labelledBy } = useFormField({
     ariaDescribedBy: rest['aria-describedby'],
+    ariaLabelledBy: rest['aria-labelledby'],
     help,
     id,
     invalid,
     invalidFeedback,
+    label,
     valid,
     validFeedback
   })
@@ -160,7 +162,7 @@ export const CxCombobox = ({
   const { inputProps, listBoxProps } = useComboBox<ReactElement<CxComboboxItemProps>>(
     {
       'aria-label': rest['aria-label'],
-      'aria-labelledby': rest['aria-labelledby'],
+      'aria-labelledby': labelledBy,
       id: inputId,
       inputRef,
       listBoxRef,
@@ -230,7 +232,7 @@ export const CxCombobox = ({
       </>
     ),
     help,
-    ids: { feedback: feedbackId, help: helpId, input: inputId },
+    ids: { feedback: feedbackId, help: helpId, input: inputId, label: labelId },
     invalid,
     invalidFeedback,
     label,

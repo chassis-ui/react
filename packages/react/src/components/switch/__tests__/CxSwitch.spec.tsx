@@ -7,7 +7,7 @@ import { CxSwitch } from '../../../index'
 describe('CxSwitch', () => {
   describe('rendering', () => {
     test('matches the baseline markup snapshot', () => {
-      const { container } = render(<CxSwitch />)
+      const { container } = render(<CxSwitch aria-label="Notifications" />)
       expect(container).toMatchSnapshot()
     })
 

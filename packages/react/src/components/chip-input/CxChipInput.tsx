@@ -240,12 +240,14 @@ export const CxChipInput = ({
     setInputValue(parts[parts.length - 1] ?? '')
   }
 
-  const { describedBy, feedbackId, helpId, inputId } = useFormField({
+  const { describedBy, feedbackId, helpId, inputId, labelId, labelledBy } = useFormField({
     ariaDescribedBy: rest['aria-describedby'],
+    ariaLabelledBy: rest['aria-labelledby'],
     help,
     id,
     invalid,
     invalidFeedback,
+    label,
     valid,
     validFeedback
   })
@@ -255,7 +257,7 @@ export const CxChipInput = ({
       'aria-describedby': describedBy,
       'aria-label':
         rest['aria-label'] ?? (rest['aria-labelledby'] || label ? undefined : 'Add value'),
-      'aria-labelledby': rest['aria-labelledby'],
+      'aria-labelledby': labelledBy,
       id: inputId,
       isDisabled: disabled,
       isInvalid: invalid,
@@ -285,7 +287,7 @@ export const CxChipInput = ({
           groupRef={groupRef}
           props={{
             'aria-label': rest['aria-label'],
-            'aria-labelledby': rest['aria-labelledby'],
+            'aria-labelledby': labelledBy,
             onRemove: disabled ? undefined : removeTags
           }}
           state={listState}
@@ -295,7 +297,7 @@ export const CxChipInput = ({
       </div>
     ),
     help,
-    ids: { feedback: feedbackId, help: helpId, input: inputId },
+    ids: { feedback: feedbackId, help: helpId, input: inputId, label: labelId },
     invalid,
     invalidFeedback,
     label,

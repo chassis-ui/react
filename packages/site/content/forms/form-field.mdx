@@ -17,7 +17,7 @@ import {
 
 `<CxFormField>` wraps a form control (or a small group of them) with a `.form-field` grid layout, along with an associated `CxFormLabel`, `CxFormHelp`, and `CxFormFeedback` — see [chassis-css's Form Field docs](https://chassis-ui.com/css/docs/forms/form-field) for the underlying CSS.
 
-`CxTextInput`, `CxSelect`, `CxTextarea`, and `CxRangeInput` already accept `label`/`help`/`invalidFeedback`/`validFeedback` props directly and wrap themselves — reach for those first. Use `<CxFormField>` when the control doesn't have its own field props yet (`CxCombobox`, `CxDatePicker`, `CxChipInput`, `CxOtpInput`), or when you need to group more than one element — like an input alongside a `CxPasswordStrength` meter — under a single label and help text.
+Every form leaf (`CxTextInput`, `CxSelect`, `CxTextarea`, `CxRangeInput`, `CxCombobox`, `CxDatePicker`, `CxChipInput`, `CxOtpInput`, ...) already accepts `label`/`help`/`invalidFeedback`/`validFeedback` props directly and wraps itself — reach for those first. Use `<CxFormField>` when you need to group more than one element — like an input alongside a `CxPasswordStrength` meter — under a single label and help text.
 
 Renders nothing but its `children` bare when none of `label`/`help`/`validFeedback`/`invalidFeedback` are set, so it's always safe to reach for.
 

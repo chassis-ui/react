@@ -3,6 +3,7 @@
 exports[`CxTextInput > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <input
+    aria-label="Name"
     class="form-input"
     id=":r6:"
     tabindex="0"

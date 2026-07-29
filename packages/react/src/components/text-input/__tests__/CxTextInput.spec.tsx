@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { act, fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 
@@ -15,15 +15,16 @@ describe('CxTextInput', () => {
     })
 
     test('matches the baseline markup snapshot', () => {
-      const { container } = render(<CxTextInput />)
+      const { container } = render(<CxTextInput aria-label="Name" />)
       expect(container).toMatchSnapshot()
     })
 
     test('applies plainText, size and invalid/valid classes together', () => {
-      // type="color" has no textbox role and there's no aria-label here, so the input isn't
-      // reachable by any accessible query.
+      // type="color" has no textbox role, so the input isn't reachable by role query even with
+      // an aria-label - container.firstChild access below is the only way to reach it.
       const { container } = render(
         <CxTextInput
+          aria-label="Color"
           className="bazinga"
           invalid={true}
           plainText={true}
@@ -62,7 +63,14 @@ describe('CxTextInput', () => {
       render(<CxTextInput aria-label="Name" onChange={onChange} />)
 
       const input = screen.getByRole('textbox', { name: 'Name' })
-      await user.type(input, 'hi')
+      // react-aria's internal validation-state effect updates state as a direct consequence of
+      // `user.type`'s own dispatch, outside whatever act-environment userEvent itself toggles
+      // (confirmed by capturing `IS_REACT_ACT_ENVIRONMENT` at warning time for the equivalent
+      // CxDatePicker case) - needs an explicit `act(...)` around the interaction.
+      // eslint-disable-next-line testing-library/no-unnecessary-act -- see comment above
+      await act(async () => {
+        await user.type(input, 'hi')
+      })
       expect(onChange).toHaveBeenCalledTimes(2)
       expect(input).toHaveValue('hi')
     })
@@ -81,7 +89,7 @@ describe('CxTextInput', () => {
   describe('ref forwarding', () => {
     test('forwards a ref to the underlying input', () => {
       const ref = React.createRef<HTMLInputElement>()
-      render(<CxTextInput ref={ref} />)
+      render(<CxTextInput aria-label="Name" ref={ref} />)
       expect(ref.current).toBeInstanceOf(HTMLInputElement)
     })
   })

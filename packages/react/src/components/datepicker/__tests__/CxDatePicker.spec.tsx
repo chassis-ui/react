@@ -17,15 +17,6 @@ const getCalendarWrapper = () =>
   // eslint-disable-next-line testing-library/no-node-access
   document.querySelector('.cx-datepicker-calendar') as HTMLElement
 
-// `FocusScope`'s blur handler schedules a `requestAnimationFrame` safety net (its Android
-// Talkback focus-coercion patch) on every blur inside the scope. Flushing it inside `act`
-// after each focus-moving interaction keeps that later state update from leaking outside
-// `act(...)` and triggering React's "not wrapped in act" warning.
-const flushRaf = () =>
-  act(async () => {
-    await new Promise((resolve) => requestAnimationFrame(resolve))
-  })
-
 describe('CxDatePicker', () => {
   describe('rendering', () => {
     test('renders a labeled group with a segmented date field', () => {
@@ -86,12 +77,18 @@ describe('CxDatePicker', () => {
   })
 
   describe('focus management', () => {
+    // Tabbing inside the calendar triggers focus-ring bookkeeping in react-aria's
+    // `useCalendarGrid`/`useFocus` (each hold their own `isFocusWithin`/`isFocused` state) as a
+    // *direct* consequence of `user.tab`'s blur/focus dispatch - confirmed by capturing
+    // `IS_REACT_ACT_ENVIRONMENT` at the exact moment React's warning fires: it read `true`, i.e.
+    // user-event's own internal act-environment toggle (which only wraps `waitFor`, not this)
+    // was not in effect here. `user.tab`/`user.click`/`user.keyboard` need an explicit `act(...)`
+    // around them for these specific hooks' updates to be captured.
     test('focus moves into the calendar on open and is trapped there until it closes', async () => {
       const user = userEvent.setup()
       render(<CxDatePicker aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
       const dialog = getCalendarWrapper()
       openCalendar()
-      await flushRaf()
 
       // Checking that focus is *somewhere inside* the dialog (not a specific element) has no
       // role/text-based query — .contains() against document.activeElement is the standard way.
@@ -101,8 +98,10 @@ describe('CxDatePicker', () => {
       // Shift+Tabbing past the first focusable element should wrap back inside the calendar
       // instead of escaping to the toggle button or the page behind it.
       for (let i = 0; i < 6; i += 1) {
-        await user.tab({ shift: true })
-        await flushRaf()
+        // eslint-disable-next-line testing-library/no-unnecessary-act -- see comment above
+        await act(async () => {
+          await user.tab({ shift: true })
+        })
         // eslint-disable-next-line testing-library/no-node-access
         expect(dialog.contains(document.activeElement)).toBe(true)
       }
@@ -115,12 +114,15 @@ describe('CxDatePicker', () => {
 
       // `userEvent.click` (unlike `fireEvent.click`) focuses the element first, matching a real
       // click — required for `FocusScope`'s `restoreFocus` to have a toggle button to return to.
-      await user.click(toggle)
-      await user.keyboard('{Escape}')
+      // eslint-disable-next-line testing-library/no-unnecessary-act -- see comment above
+      await act(async () => {
+        await user.click(toggle)
+      })
+      // eslint-disable-next-line testing-library/no-unnecessary-act -- see comment above
+      await act(async () => {
+        await user.keyboard('{Escape}')
+      })
 
-      // `FocusScope` only restores focus once it observes focus having fallen back to `<body>`
-      // (the browser's default when the focused element unmounts), which it checks for on the
-      // next animation frame rather than synchronously.
       // document.activeElement is the standard way to read current focus; no Testing Library
       // query surfaces it.
       // eslint-disable-next-line testing-library/no-node-access

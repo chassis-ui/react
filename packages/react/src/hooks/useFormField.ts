@@ -8,7 +8,8 @@ export interface UseFormFieldOptions {
   ariaDescribedBy?: string
   /**
    * A caller-supplied `aria-labelledby` to merge in alongside `labelId` (e.g.
-   * `rest['aria-labelledby']`). Only relevant for the `role="group"` shape — see `labelledBy`.
+   * `rest['aria-labelledby']`). Relevant for the `role="group"` shape and for any single-input
+   * component backed by a react-aria hook — see `labelledBy`.
    */
   ariaLabelledBy?: string
   help?: ReactNode
@@ -42,7 +43,9 @@ export interface UseFormFieldResult {
   labelId: string
   /**
    * Merged `aria-labelledby` value (`labelId`, only when `label` is set + `ariaLabelledBy`), or
-   * `undefined` when neither applies. Only meaningful for the `role="group"` shape.
+   * `undefined` when neither applies. Feed this into the underlying react-aria hook's own
+   * `aria-labelledby` (in addition to any `htmlFor`-based association) so its own dev-mode
+   * "no accessible label" warning knows about a visible `label` it can't otherwise see.
    */
   labelledBy?: string
 }

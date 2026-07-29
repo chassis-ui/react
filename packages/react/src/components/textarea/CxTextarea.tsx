@@ -84,12 +84,14 @@ export const CxTextarea = forwardRef<HTMLTextAreaElement, CxTextareaProps>(
     const textareaRef = useRef<HTMLTextAreaElement>(null)
     const forkedRef = useForkedRef(ref, textareaRef)
 
-    const { describedBy, feedbackId, helpId, inputId } = useFormField({
+    const { describedBy, feedbackId, helpId, inputId, labelId, labelledBy } = useFormField({
       ariaDescribedBy: rest['aria-describedby'],
+      ariaLabelledBy: rest['aria-labelledby'],
       help,
       id,
       invalid,
       invalidFeedback,
+      label,
       valid,
       validFeedback
     })
@@ -98,6 +100,7 @@ export const CxTextarea = forwardRef<HTMLTextAreaElement, CxTextareaProps>(
       {
         ...rest,
         'aria-describedby': describedBy,
+        'aria-labelledby': labelledBy,
         id: inputId,
         inputElementType: 'textarea',
         isDisabled: disabled,
@@ -120,7 +123,7 @@ export const CxTextarea = forwardRef<HTMLTextAreaElement, CxTextareaProps>(
     return renderFormField({
       children: <textarea {...inputProps} className={_className} ref={forkedRef} />,
       help,
-      ids: { feedback: feedbackId, help: helpId, input: inputId },
+      ids: { feedback: feedbackId, help: helpId, input: inputId, label: labelId },
       invalid,
       invalidFeedback,
       label,

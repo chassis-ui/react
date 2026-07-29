@@ -47,7 +47,7 @@ describe('CxPopover', () => {
       vi.useFakeTimers()
       render(
         <dialog open>
-          <CxPopover content="content">
+          <CxPopover content="content" title="title">
             <CxButton>Test</CxButton>
           </CxPopover>
         </dialog>
@@ -64,7 +64,7 @@ describe('CxPopover', () => {
     test('responds to the visible prop changing after mount', () => {
       vi.useFakeTimers()
       const { rerender } = render(
-        <CxPopover content="content" visible={false}>
+        <CxPopover content="content" title="title" visible={false}>
           <CxButton>Test</CxButton>
         </CxPopover>
       )
@@ -72,7 +72,7 @@ describe('CxPopover', () => {
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
 
       rerender(
-        <CxPopover content="content" visible={true}>
+        <CxPopover content="content" title="title" visible={true}>
           <CxButton>Test</CxButton>
         </CxPopover>
       )
@@ -80,7 +80,7 @@ describe('CxPopover', () => {
       expect(screen.getByRole('dialog')).toBeInTheDocument()
 
       rerender(
-        <CxPopover content="content" visible={false}>
+        <CxPopover content="content" title="title" visible={false}>
           <CxButton>Test</CxButton>
         </CxPopover>
       )
@@ -95,7 +95,7 @@ describe('CxPopover', () => {
       vi.useFakeTimers()
       const onClick = vi.fn()
       render(
-        <CxPopover content="content">
+        <CxPopover content="content" title="title">
           <CxButton onClick={onClick}>Test</CxButton>
         </CxPopover>
       )
