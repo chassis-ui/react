@@ -13,6 +13,15 @@ const openCalendar = () => {
   })
 }
 
+// `FocusScope`'s blur handler schedules a `requestAnimationFrame` safety net (its Android
+// Talkback focus-coercion patch) on every blur inside the scope. Flushing it inside `act`
+// after each focus-moving interaction keeps that later state update from leaking outside
+// `act(...)` and triggering React's "not wrapped in act" warning.
+const flushRaf = () =>
+  act(async () => {
+    await new Promise((resolve) => requestAnimationFrame(resolve))
+  })
+
 test('renders a labeled group with a segmented date field', () => {
   render(<CxDatePicker aria-label="Event date" />)
   expect(screen.getByRole('group', { name: 'Event date' })).toBeInTheDocument()
@@ -55,6 +64,7 @@ test('focus moves into the calendar on open and is trapped there until it closes
   render(<CxDatePicker aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
   const dialog = document.querySelector('.cx-datepicker-calendar') as HTMLElement
   openCalendar()
+  await flushRaf()
 
   expect(dialog.contains(document.activeElement)).toBe(true)
 
@@ -62,6 +72,7 @@ test('focus moves into the calendar on open and is trapped there until it closes
   // instead of escaping to the toggle button or the page behind it.
   for (let i = 0; i < 6; i += 1) {
     await user.tab({ shift: true })
+    await flushRaf()
     expect(dialog.contains(document.activeElement)).toBe(true)
   }
 })

@@ -25,8 +25,8 @@ const testingLibraryWarnRules = Object.fromEntries(
 // no-node-access and no-container assume every element under test has an accessible role/name
 // to query by. Much of this component library is plain presentational wrappers (divs, spans)
 // with none, so `container.firstChild` is the only option — these two don't fit this codebase.
-testingLibraryWarnRules['testing-library/no-node-access'] = 'off'
-testingLibraryWarnRules['testing-library/no-container'] = 'off'
+// testingLibraryWarnRules['testing-library/no-node-access'] = 'off'
+// testingLibraryWarnRules['testing-library/no-container'] = 'off'
 
 export default defineConfig([
   // Global ignores

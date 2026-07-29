@@ -15,9 +15,17 @@ test('loads and displays CxRadio inside a CxRadioGroup', async () => {
 
 test('CxRadio throws when rendered outside a CxRadioGroup', () => {
   const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined)
+  // React's dev-mode guarded-callback replay dispatches this render error as a
+  // real DOM "error" event so jsdom can report it; suppress it here since the
+  // throw is expected and already asserted below.
+  const onWindowError = (event: ErrorEvent) => event.preventDefault()
+  window.addEventListener('error', onWindowError)
+
   expect(() => render(<CxRadio value="a" label="Option A" />)).toThrow(
     'CxRadio must be rendered inside a CxRadioGroup.'
   )
+
+  window.removeEventListener('error', onWindowError)
   consoleError.mockRestore()
 })
 
