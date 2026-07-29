@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { CxNavbarText } from '../../../index'
@@ -7,9 +7,10 @@ import { CxNavbarText } from '../../../index'
 describe('CxNavbarText', () => {
   describe('rendering', () => {
     test('renders a span with the base class and className merged', () => {
-      const { container } = render(<CxNavbarText className="bazinga">Test</CxNavbarText>)
-      expect(container.firstChild).toHaveClass('navbar-text', 'bazinga')
-      expect(container.firstChild?.nodeName).toBe('SPAN')
+      render(<CxNavbarText className="bazinga">Test</CxNavbarText>)
+      const text = screen.getByText('Test')
+      expect(text).toHaveClass('navbar-text', 'bazinga')
+      expect(text.tagName).toBe('SPAN')
     })
 
     test('matches the baseline markup snapshot', () => {

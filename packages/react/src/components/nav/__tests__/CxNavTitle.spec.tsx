@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { CxNavTitle } from '../../../index'
@@ -7,9 +7,10 @@ import { CxNavTitle } from '../../../index'
 describe('CxNavTitle', () => {
   describe('rendering', () => {
     test('renders a li with the base class and className merged', () => {
-      const { container } = render(<CxNavTitle className="bazinga">Test</CxNavTitle>)
-      expect(container.firstChild).toHaveClass('nav-title', 'bazinga')
-      expect(container.firstChild?.nodeName).toBe('LI')
+      render(<CxNavTitle className="bazinga">Test</CxNavTitle>)
+      const title = screen.getByText('Test')
+      expect(title).toHaveClass('nav-title', 'bazinga')
+      expect(title.tagName).toBe('LI')
     })
 
     test('matches the baseline markup snapshot', () => {

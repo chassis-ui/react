@@ -32,7 +32,7 @@ describe('CxNavbar', () => {
           Test
         </CxNavbar>
       )
-      const navbar = screen.getByText('Test').closest('h3')
+      const navbar = screen.getByRole('heading', { name: 'Test' })
       expect(navbar).toHaveClass(
         'bazinga',
         'navbar',
@@ -41,7 +41,7 @@ describe('CxNavbar', () => {
         'navbar-expand-large',
         'fixed-bottom'
       )
-      expect(navbar?.querySelector('.container-xlarge')).not.toBeNull()
+      expect(screen.getByText('Test')).toHaveClass('container-xlarge')
     })
 
     test('applies boolean container and expand classes', () => {
@@ -50,9 +50,8 @@ describe('CxNavbar', () => {
           Test
         </CxNavbar>
       )
-      const nav = screen.getByRole('navigation')
-      expect(nav).toHaveClass('navbar-expand')
-      expect(nav.querySelector('.container')).not.toBeNull()
+      expect(screen.getByRole('navigation')).toHaveClass('navbar-expand')
+      expect(screen.getByText('Test')).toHaveClass('container')
     })
   })
 

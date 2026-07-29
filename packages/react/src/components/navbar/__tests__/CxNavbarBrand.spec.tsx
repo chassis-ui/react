@@ -7,9 +7,10 @@ import { CxNavbarBrand } from '../../../index'
 describe('CxNavbarBrand', () => {
   describe('rendering', () => {
     test('renders a span with the base class when no href is given', () => {
-      const { container } = render(<CxNavbarBrand>Test</CxNavbarBrand>)
-      expect(container.firstChild).toHaveClass('navbar-brand')
-      expect(container.firstChild?.nodeName).toBe('SPAN')
+      render(<CxNavbarBrand>Test</CxNavbarBrand>)
+      const brand = screen.getByText('Test')
+      expect(brand).toHaveClass('navbar-brand')
+      expect(brand.tagName).toBe('SPAN')
     })
 
     test('renders an anchor when href is provided', () => {
@@ -25,13 +26,14 @@ describe('CxNavbarBrand', () => {
     })
 
     test('an explicit component takes precedence over href', () => {
-      const { container } = render(
+      render(
         <CxNavbarBrand className="bazinga" component="h3" href="/bazinga">
           Test
         </CxNavbarBrand>
       )
-      expect(container.firstChild).toHaveClass('navbar-brand', 'bazinga')
-      expect(container.firstChild?.nodeName).toBe('H3')
+      const brand = screen.getByText('Test')
+      expect(brand).toHaveClass('navbar-brand', 'bazinga')
+      expect(brand.tagName).toBe('H3')
     })
   })
 

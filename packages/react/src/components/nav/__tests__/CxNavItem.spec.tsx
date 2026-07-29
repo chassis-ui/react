@@ -7,9 +7,10 @@ import { CxNavItem } from '../../../index'
 describe('CxNavItem', () => {
   describe('rendering', () => {
     test('renders a li with the base class and plain children when no href', () => {
-      const { container } = render(<CxNavItem>Test</CxNavItem>)
-      expect(container.firstChild).toHaveClass('nav-item')
-      expect(container.firstChild?.nodeName).toBe('LI')
+      render(<CxNavItem>Test</CxNavItem>)
+      const item = screen.getByText('Test')
+      expect(item).toHaveClass('nav-item')
+      expect(item.tagName).toBe('LI')
     })
 
     test('matches the baseline markup snapshot', () => {
@@ -25,7 +26,7 @@ describe('CxNavItem', () => {
       )
       const link = screen.getByRole('link', { name: 'Test' })
       expect(link).toHaveClass('nav-link', 'active', 'disabled')
-      expect(link.closest('li')).toHaveClass('nav-item', 'bazinga')
+      expect(screen.getByRole('listitem')).toHaveClass('nav-item', 'bazinga')
     })
   })
 

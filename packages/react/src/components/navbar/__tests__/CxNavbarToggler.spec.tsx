@@ -15,7 +15,9 @@ describe('CxNavbarToggler', () => {
     })
 
     test('renders a default toggler icon when no children are provided', () => {
+      // Decorative default icon: no text, no role, so there's no accessible query for it.
       const { container } = render(<CxNavbarToggler />)
+      // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
       expect(container.querySelectorAll('.navbar-toggler-icon')).toHaveLength(1)
     })
 

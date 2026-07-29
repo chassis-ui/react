@@ -19,18 +19,19 @@ describe('CxNavLink', () => {
     })
 
     test('renders as a custom component with active/disabled classes', () => {
-      const { container } = render(
+      render(
         <CxNavLink active={true} className="bazinga" component="h3" disabled={true}>
           Test
         </CxNavLink>
       )
-      expect(container.firstChild).toHaveClass('nav-link', 'active', 'disabled', 'bazinga')
-      expect(container.firstChild?.nodeName).toBe('H3')
+      const link = screen.getByText('Test')
+      expect(link).toHaveClass('nav-link', 'active', 'disabled', 'bazinga')
+      expect(link.tagName).toBe('H3')
     })
 
     test('accepts an arbitrary "to" attribute without affecting the base class', () => {
-      const { container } = render(<CxNavLink to="/bazinga">Test</CxNavLink>)
-      expect(container.firstChild).toHaveClass('nav-link')
+      render(<CxNavLink to="/bazinga">Test</CxNavLink>)
+      expect(screen.getByText('Test')).toHaveClass('nav-link')
     })
   })
 
