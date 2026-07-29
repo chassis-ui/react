@@ -7,11 +7,14 @@ import { CxAvatar, CxAvatarStack } from '../../../index'
 describe('CxAvatarStack', () => {
   describe('rendering', () => {
     test('renders a div with the base class by default', () => {
+      // The stack wrapper is a plain div with no role of its own - the only queryable
+      // descendant is the CxAvatar button, not the wrapper itself.
       const { container } = render(
         <CxAvatarStack>
           <CxAvatar>CX</CxAvatar>
         </CxAvatarStack>
       )
+      // eslint-disable-next-line testing-library/no-node-access
       expect(container.firstChild).toHaveClass('avatar-stack')
       expect(container.firstChild?.nodeName).toBe('DIV')
     })
@@ -26,11 +29,13 @@ describe('CxAvatarStack', () => {
     })
 
     test('applies the size and caller className together', () => {
+      // Same unlabeled wrapper as above.
       const { container } = render(
         <CxAvatarStack className="bazinga" size="small">
           <CxAvatar>CX</CxAvatar>
         </CxAvatarStack>
       )
+      // eslint-disable-next-line testing-library/no-node-access
       expect(container.firstChild).toHaveClass('avatar-stack', 'small', 'bazinga')
     })
   })
@@ -47,6 +52,8 @@ describe('CxAvatarStack', () => {
       )
       expect(screen.getByRole('img', { name: 'Ada' })).toBeInTheDocument()
       expect(screen.getByRole('img', { name: 'Grace' })).toBeInTheDocument()
+      // The status badge has no role/name of its own - only checkable by class.
+      // eslint-disable-next-line testing-library/no-node-access
       expect(document.querySelector('.badge.success')).toBeInTheDocument()
     })
 

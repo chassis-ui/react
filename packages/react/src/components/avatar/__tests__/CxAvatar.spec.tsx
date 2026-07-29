@@ -7,10 +7,11 @@ import { CxAvatar } from '../../../index'
 describe('CxAvatar', () => {
   describe('rendering', () => {
     test('renders a button with the base class and type="button" by default', () => {
-      const { container } = render(<CxAvatar>CX</CxAvatar>)
-      expect(container.firstChild).toHaveClass('avatar')
-      expect(container.firstChild?.nodeName).toBe('BUTTON')
-      expect(container.firstChild).toHaveAttribute('type', 'button')
+      render(<CxAvatar>CX</CxAvatar>)
+      const avatar = screen.getByRole('button', { name: 'CX' })
+      expect(avatar).toHaveClass('avatar')
+      expect(avatar.tagName).toBe('BUTTON')
+      expect(avatar).toHaveAttribute('type', 'button')
     })
 
     test('matches the baseline markup snapshot', () => {
@@ -19,21 +20,27 @@ describe('CxAvatar', () => {
     })
 
     test('applies context, smooth and size classes together', () => {
-      const { container } = render(
+      render(
         <CxAvatar className="bazinga" context="primary" smooth size="small">
           CX
         </CxAvatar>
       )
-      expect(container.firstChild).toHaveClass('avatar', 'primary', 'small', 'smooth', 'bazinga')
+      expect(screen.getByRole('button', { name: 'CX' })).toHaveClass(
+        'avatar',
+        'primary',
+        'small',
+        'smooth',
+        'bazinga'
+      )
     })
 
     test('applies the disabled class when component is a non-interactive tag', () => {
-      const { container } = render(
+      render(
         <CxAvatar component="span" disabled>
           CX
         </CxAvatar>
       )
-      expect(container.firstChild).toHaveClass('disabled')
+      expect(screen.getByText('CX')).toHaveClass('disabled')
     })
   })
 
@@ -52,7 +59,7 @@ describe('CxAvatar', () => {
 
     test('renders children instead of an image when src is not given', () => {
       const { container } = render(<CxAvatar>CX</CxAvatar>)
-      expect(container.querySelector('img')).not.toBeInTheDocument()
+      expect(screen.queryByRole('img')).not.toBeInTheDocument()
       expect(container).toHaveTextContent('CX')
     })
   })
@@ -79,6 +86,9 @@ describe('CxAvatar', () => {
     test('renders a status badge with the status as the fallback accessible label', () => {
       render(<CxAvatar status="success">CX</CxAvatar>)
       const badge = screen.getByText('success', { selector: '.visually-hidden' })
+      // The badge wrapper has no role/name of its own - only its hidden label text is
+      // queryable, so reaching the wrapper to check its classes needs raw node access.
+      // eslint-disable-next-line testing-library/no-node-access
       expect(badge.closest('.badge')).toHaveClass('badge', 'success', 'circle')
     })
 
@@ -92,7 +102,9 @@ describe('CxAvatar', () => {
     })
 
     test('renders no badge when status is not given', () => {
+      // Same unlabeled badge wrapper as above; its absence can only be checked by class.
       const { container } = render(<CxAvatar>CX</CxAvatar>)
+      // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
       expect(container.querySelector('.badge')).not.toBeInTheDocument()
     })
   })
