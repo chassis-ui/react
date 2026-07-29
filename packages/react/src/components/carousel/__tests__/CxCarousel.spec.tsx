@@ -1,149 +1,135 @@
 import React from 'react'
-import { render, fireEvent } from '@testing-library/react'
-import { getByText } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
+import { axe } from 'jest-axe'
 
 import { CxCarousel, CxCarouselCaption, CxCarouselItem } from '../../../index'
 
-test('loads and displays CxCarousel component', async () => {
-  const { container } = render(
-    <CxCarousel controls indicators>
-      <CxCarouselItem>
-        Item-1
-        <CxCarouselCaption>Caption-1</CxCarouselCaption>
-      </CxCarouselItem>
-      <CxCarouselItem>
-        Item-2
-        <CxCarouselCaption>Caption-2</CxCarouselCaption>
-      </CxCarouselItem>
-      <CxCarouselItem>
-        Item-3
-        <CxCarouselCaption>Caption-3</CxCarouselCaption>
-      </CxCarouselItem>
-    </CxCarousel>
-  )
+const ThreeItemCarousel = (props: Partial<React.ComponentProps<typeof CxCarousel>> = {}) => (
+  <CxCarousel controls indicators {...props}>
+    <CxCarouselItem>
+      Item-1
+      <CxCarouselCaption>Caption-1</CxCarouselCaption>
+    </CxCarouselItem>
+    <CxCarouselItem>
+      Item-2
+      <CxCarouselCaption>Caption-2</CxCarouselCaption>
+    </CxCarouselItem>
+    <CxCarouselItem>
+      Item-3
+      <CxCarouselCaption>Caption-3</CxCarouselCaption>
+    </CxCarouselItem>
+  </CxCarousel>
+)
 
-  const carousel = document.querySelector('.carousel')
-  expect(carousel).toHaveClass('slide')
-  if (carousel === null) {
-    expect(true).toBe(false)
-  } else {
-    expect(carousel.children[0]).toHaveClass('carousel-indicators')
-    expect(carousel.children[1]).toHaveClass('carousel-inner')
-  }
+describe('CxCarousel', () => {
+  describe('rendering', () => {
+    test('renders the slide wrapper, indicators list and inner track', () => {
+      // The .carousel wrapper and .carousel-inner track are plain divs with no role of their
+      // own - no accessible query reaches them directly.
+      const { container } = render(<ThreeItemCarousel />)
+      // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+      const carousel = container.querySelector('.carousel') as HTMLElement
+      expect(carousel).toHaveClass('slide')
+      expect(screen.getByRole('list')).toHaveClass('carousel-indicators')
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(carousel.querySelector('.carousel-inner')).toBeInTheDocument()
+    })
 
-  let caption = getByText(container, 'Caption-1')
-  expect(caption).toHaveClass('carousel-caption')
-  caption = getByText(container, 'Caption-2')
-  expect(caption).toHaveClass('carousel-caption')
-  caption = getByText(container, 'Caption-3')
-  expect(caption).toHaveClass('carousel-caption')
-  let item = getByText(container, 'Item-1')
-  expect(item).toHaveClass('carousel-item')
-  item = getByText(container, 'Item-2')
-  expect(item).toHaveClass('carousel-item')
-  item = getByText(container, 'Item-3')
-  expect(item).toHaveClass('carousel-item')
+    test('renders each item and caption with the base classes', () => {
+      render(<ThreeItemCarousel />)
+      expect(screen.getByText('Item-1')).toHaveClass('carousel-item')
+      expect(screen.getByText('Item-2')).toHaveClass('carousel-item')
+      expect(screen.getByText('Item-3')).toHaveClass('carousel-item')
+      expect(screen.getByText('Caption-1')).toHaveClass('carousel-caption')
+      expect(screen.getByText('Caption-2')).toHaveClass('carousel-caption')
+      expect(screen.getByText('Caption-3')).toHaveClass('carousel-caption')
+    })
 
-  let button = document.querySelector('.carousel-control-next')
-  if (button === null) {
-    expect(true).toBe(false)
-  } else {
-    expect(button.firstChild).toHaveClass('carousel-control-next-icon')
-  }
-  button = document.querySelector('.carousel-control-prev')
-  if (button === null) {
-    expect(true).toBe(false)
-  } else {
-    expect(button.firstChild).toHaveClass('carousel-control-prev-icon')
-  }
+    test('renders labeled previous/next controls with decorative icons', () => {
+      render(<ThreeItemCarousel />)
+      const next = screen.getByRole('button', { name: 'Next slide' })
+      const prev = screen.getByRole('button', { name: 'Previous slide' })
+      // The icon is aria-hidden and decorative - no accessible query reaches it.
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(next.firstChild).toHaveClass('carousel-control-next-icon')
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(prev.firstChild).toHaveClass('carousel-control-prev-icon')
+    })
 
-  expect(container).toMatchSnapshot()
-})
+    test('matches the baseline markup snapshot', () => {
+      const { container } = render(<ThreeItemCarousel />)
+      expect(container).toMatchSnapshot()
+    })
+  })
 
-test('CxCarousel click on indicator', async () => {
-  const { container } = render(
-    <CxCarousel controls indicators>
-      <CxCarouselItem>
-        Item-1
-        <CxCarouselCaption>Caption-1</CxCarouselCaption>
-      </CxCarouselItem>
-      <CxCarouselItem>
-        Item-2
-        <CxCarouselCaption>Caption-2</CxCarouselCaption>
-      </CxCarouselItem>
-      <CxCarouselItem>
-        Item-3
-        <CxCarouselCaption>Caption-3</CxCarouselCaption>
-      </CxCarouselItem>
-    </CxCarousel>
-  )
-  const item1 = getByText(container, 'Item-1')
-  const item2 = getByText(container, 'Item-2')
+  describe('indicator navigation', () => {
+    test('clicking an indicator advances and returning to the first restores the original active item', () => {
+      render(<ThreeItemCarousel />)
+      const item1 = screen.getByText('Item-1')
+      const item2 = screen.getByText('Item-2')
 
-  expect(item1).toHaveClass('active')
-  expect(item1).toHaveClass('carousel-item')
-  expect(item2).not.toHaveClass('active')
-  expect(item2).toHaveClass('carousel-item')
+      expect(item1).toHaveClass('active', 'carousel-item')
+      expect(item2).not.toHaveClass('active')
+      expect(item2).toHaveClass('carousel-item')
 
-  // click
-  const buttons = document.querySelectorAll('.carousel-indicator-button')
-  buttons[1] && fireEvent.click(buttons[1])
-  fireEvent.transitionEnd(item1)
-  fireEvent.transitionEnd(item2)
+      fireEvent.click(screen.getByRole('button', { name: 'Slide 2' }))
+      fireEvent.transitionEnd(item1)
+      fireEvent.transitionEnd(item2)
 
-  expect(item1).not.toHaveClass('active')
-  expect(item2).toHaveClass('active')
+      expect(item1).not.toHaveClass('active')
+      expect(item2).toHaveClass('active')
 
-  // goback-click
-  buttons[0] && fireEvent.click(buttons[0])
-  fireEvent.transitionEnd(item1)
-  fireEvent.transitionEnd(item2)
+      fireEvent.click(screen.getByRole('button', { name: 'Slide 1' }))
+      fireEvent.transitionEnd(item1)
+      fireEvent.transitionEnd(item2)
 
-  expect(item1).toHaveClass('active')
-  expect(item2).not.toHaveClass('active')
-})
+      expect(item1).toHaveClass('active')
+      expect(item2).not.toHaveClass('active')
+    })
+  })
 
-test('CxCarousel click on button', async () => {
-  vi.useFakeTimers()
-  const { container } = render(
-    <CxCarousel controls indicators>
-      <CxCarouselItem>
-        Item-1
-        <CxCarouselCaption>Caption-1</CxCarouselCaption>
-      </CxCarouselItem>
-      <CxCarouselItem>
-        Item-2
-        <CxCarouselCaption>Caption-2</CxCarouselCaption>
-      </CxCarouselItem>
-      <CxCarouselItem>
-        Item-3
-        <CxCarouselCaption>Caption-3</CxCarouselCaption>
-      </CxCarouselItem>
-    </CxCarousel>
-  )
-  const item1 = getByText(container, 'Item-1')
-  const item2 = getByText(container, 'Item-2')
+  describe('control button navigation', () => {
+    test('Next/Previous buttons move the active item forward and back', () => {
+      render(<ThreeItemCarousel />)
+      const item1 = screen.getByText('Item-1')
+      const item2 = screen.getByText('Item-2')
 
-  expect(item1).toHaveClass('active')
-  expect(item1).toHaveClass('carousel-item')
-  expect(item2).not.toHaveClass('active')
-  expect(item2).toHaveClass('carousel-item')
+      expect(item1).toHaveClass('active', 'carousel-item')
+      expect(item2).not.toHaveClass('active')
+      expect(item2).toHaveClass('carousel-item')
 
-  // click
-  const buttonNext = document.querySelector('.carousel-control-next')
-  buttonNext && fireEvent.click(buttonNext)
-  fireEvent.transitionEnd(item1)
-  fireEvent.transitionEnd(item2)
+      fireEvent.click(screen.getByRole('button', { name: 'Next slide' }))
+      fireEvent.transitionEnd(item1)
+      fireEvent.transitionEnd(item2)
 
-  expect(item1).not.toHaveClass('active')
-  expect(item2).toHaveClass('active')
+      expect(item1).not.toHaveClass('active')
+      expect(item2).toHaveClass('active')
 
-  // goback-click
-  const buttonPrev = document.querySelector('.carousel-control-prev')
-  buttonPrev && fireEvent.click(buttonPrev)
-  fireEvent.transitionEnd(item1)
-  fireEvent.transitionEnd(item2)
+      fireEvent.click(screen.getByRole('button', { name: 'Previous slide' }))
+      fireEvent.transitionEnd(item1)
+      fireEvent.transitionEnd(item2)
 
-  expect(item1).toHaveClass('active')
-  expect(item2).not.toHaveClass('active')
+      expect(item1).toHaveClass('active')
+      expect(item2).not.toHaveClass('active')
+    })
+  })
+
+  describe('ref forwarding', () => {
+    test('forwards a ref to the underlying div', () => {
+      const ref = React.createRef<HTMLDivElement>()
+      render(
+        <CxCarousel ref={ref}>
+          <CxCarouselItem>Item-1</CxCarouselItem>
+        </CxCarousel>
+      )
+      expect(ref.current).toBeInstanceOf(HTMLDivElement)
+    })
+  })
+
+  describe('accessibility', () => {
+    test('has no axe violations', async () => {
+      const { container } = render(<ThreeItemCarousel />)
+      expect(await axe(container)).toHaveNoViolations()
+    })
+  })
 })

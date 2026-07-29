@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`loads and displays CxCarousel component 1`] = `
+exports[`CxCarousel > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <div
     class="carousel slide"
