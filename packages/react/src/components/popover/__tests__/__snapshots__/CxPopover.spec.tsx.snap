@@ -1,6 +1,18 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxPopover customize 1`] = `
+exports[`CxPopover > rendering > matches the baseline markup snapshot 1`] = `
+<div>
+  <button
+    aria-expanded="false"
+    class="button primary"
+    type="button"
+  >
+    Test
+  </button>
+</div>
+`;
+
+exports[`CxPopover > rendering > renders title, content, placement and arrow once shown 1`] = `
 <body>
   <div>
     <button
@@ -40,16 +52,4 @@ exports[`CxPopover customize 1`] = `
     </div>
   </div>
 </body>
-`;
-
-exports[`loads and displays CxPopover component 1`] = `
-<div>
-  <button
-    aria-expanded="false"
-    class="button primary"
-    type="button"
-  >
-    Test
-  </button>
-</div>
 `;

@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxModal customize 1`] = `
+exports[`CxModal > rendering > applies size, fullscreen and scrollable classes with className 1`] = `
 <div>
   <dialog
     class="modal dialog max-xlarge:fullscreen xlarge scrollable bazinga"
@@ -12,7 +12,7 @@ exports[`CxModal customize 1`] = `
 </div>
 `;
 
-exports[`loads and displays CxModal component 1`] = `
+exports[`CxModal > rendering > renders a closed dialog with the base classes 1`] = `
 <div>
   <dialog
     class="modal dialog"
