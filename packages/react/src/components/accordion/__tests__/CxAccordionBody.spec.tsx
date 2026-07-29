@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { CxAccordionBody } from '../../../index'
@@ -7,9 +7,10 @@ import { CxAccordionBody } from '../../../index'
 describe('CxAccordionBody', () => {
   describe('rendering', () => {
     test('renders a div with the base class and className merged', () => {
-      const { container } = render(<CxAccordionBody className="bazinga">Test</CxAccordionBody>)
-      expect(container.firstChild).toHaveClass('accordion-body', 'bazinga')
-      expect(container.firstChild?.nodeName).toBe('DIV')
+      render(<CxAccordionBody className="bazinga">Test</CxAccordionBody>)
+      const body = screen.getByText('Test')
+      expect(body).toHaveClass('accordion-body', 'bazinga')
+      expect(body.tagName).toBe('DIV')
     })
 
     test('matches the baseline markup snapshot', () => {

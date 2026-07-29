@@ -8,9 +8,10 @@ import { CxAccordion, CxAccordionBody, CxAccordionHeader, CxAccordionItem } from
 describe('CxAccordionItem', () => {
   describe('rendering', () => {
     test('renders a details with the base class and className merged', () => {
-      const { container } = render(<CxAccordionItem className="bazinga">Test</CxAccordionItem>)
-      expect(container.firstChild).toHaveClass('accordion-item', 'bazinga')
-      expect(container.firstChild?.nodeName).toBe('DETAILS')
+      render(<CxAccordionItem className="bazinga">Test</CxAccordionItem>)
+      const item = screen.getByRole('group')
+      expect(item).toHaveClass('accordion-item', 'bazinga')
+      expect(item.tagName).toBe('DETAILS')
     })
 
     test('matches the baseline markup snapshot', () => {
@@ -24,41 +25,41 @@ describe('CxAccordionItem', () => {
     })
 
     test('starts open when the open prop is set', () => {
-      const { container } = render(<CxAccordionItem open>Test</CxAccordionItem>)
-      expect(container.querySelector('details')).toHaveAttribute('open')
+      render(<CxAccordionItem open>Test</CxAccordionItem>)
+      expect(screen.getByRole('group')).toHaveAttribute('open')
     })
   })
 
   describe('group name behavior', () => {
     test('falls back to the accordion group name', () => {
-      const { container } = render(
+      render(
         <CxAccordion name="group-name">
           <CxAccordionItem>Test</CxAccordionItem>
         </CxAccordion>
       )
-      expect(container.querySelector('details')).toHaveAttribute('name', 'group-name')
+      expect(screen.getByRole('group')).toHaveAttribute('name', 'group-name')
     })
 
     test('a local name overrides the accordion group name', () => {
-      const { container } = render(
+      render(
         <CxAccordion name="group-name">
           <CxAccordionItem name="item-name">Test</CxAccordionItem>
         </CxAccordion>
       )
-      expect(container.querySelector('details')).toHaveAttribute('name', 'item-name')
+      expect(screen.getByRole('group')).toHaveAttribute('name', 'item-name')
     })
 
     test('alwaysOpen removes the shared name so the item opens independently', () => {
-      const { container } = render(
+      render(
         <CxAccordion name="group-name">
           <CxAccordionItem alwaysOpen>Test</CxAccordionItem>
         </CxAccordion>
       )
-      expect(container.querySelector('details')).not.toHaveAttribute('name')
+      expect(screen.getByRole('group')).not.toHaveAttribute('name')
     })
 
     test("the accordion's alwaysOpen removes the name unless an item overrides it", () => {
-      const { container } = render(
+      render(
         <CxAccordion name="group-name" alwaysOpen>
           <CxAccordionItem>Test</CxAccordionItem>
           <CxAccordionItem alwaysOpen={false} name="solo">
@@ -66,7 +67,7 @@ describe('CxAccordionItem', () => {
           </CxAccordionItem>
         </CxAccordion>
       )
-      const details = container.querySelectorAll('details')
+      const details = screen.getAllByRole('group')
       expect(details[0]).not.toHaveAttribute('name')
       expect(details[1]).toHaveAttribute('name', 'solo')
     })
@@ -81,7 +82,7 @@ describe('CxAccordionItem', () => {
           <CxAccordionBody>Body</CxAccordionBody>
         </CxAccordionItem>
       )
-      const details = screen.getByText('Body').closest('details') as HTMLDetailsElement
+      const details = screen.getByRole('group') as HTMLDetailsElement
       expect(details.open).toBe(false)
 
       await user.click(screen.getByText('Header'))

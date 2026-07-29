@@ -17,12 +17,12 @@ describe('CxAccordion', () => {
     })
 
     test('applies flush, size and caretEnd classes with className', () => {
-      const { container } = render(
+      render(
         <CxAccordion className="bazinga" flush size="large" caretEnd>
           Test
         </CxAccordion>
       )
-      expect(container.firstChild).toHaveClass(
+      expect(screen.getByText('Test')).toHaveClass(
         'accordion',
         'flush',
         'caret-end',
@@ -51,12 +51,12 @@ describe('CxAccordion', () => {
 
   describe('shared group name', () => {
     test('sets the shared group name for items that do not set their own', () => {
-      const { container } = render(
+      render(
         <CxAccordion name="shared-name">
           <CxAccordionItem>Item</CxAccordionItem>
         </CxAccordion>
       )
-      expect(container.querySelector('details')).toHaveAttribute('name', 'shared-name')
+      expect(screen.getByRole('group')).toHaveAttribute('name', 'shared-name')
     })
   })
 

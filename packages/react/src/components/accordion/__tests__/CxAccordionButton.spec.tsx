@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { CxAccordionButton } from '../../../index'
@@ -10,9 +10,10 @@ import { CxAccordionButton } from '../../../index'
 describe('CxAccordionButton', () => {
   describe('rendering', () => {
     test('renders a span with the base class and className merged', () => {
-      const { container } = render(<CxAccordionButton className="bazinga">Test</CxAccordionButton>)
-      expect(container.firstChild).toHaveClass('accordion-title', 'bazinga')
-      expect(container.firstChild?.nodeName).toBe('SPAN')
+      render(<CxAccordionButton className="bazinga">Test</CxAccordionButton>)
+      const button = screen.getByText('Test')
+      expect(button).toHaveClass('accordion-title', 'bazinga')
+      expect(button.tagName).toBe('SPAN')
     })
 
     test('matches the baseline markup snapshot', () => {

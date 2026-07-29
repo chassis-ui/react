@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { CxRow } from '../../../index'
@@ -7,9 +7,10 @@ import { CxRow } from '../../../index'
 describe('CxRow', () => {
   describe('rendering', () => {
     test('renders a div with the base class', () => {
-      const { container } = render(<CxRow>Test</CxRow>)
-      expect(container.firstChild).toHaveClass('row')
-      expect(container.firstChild?.nodeName).toBe('DIV')
+      render(<CxRow>Test</CxRow>)
+      const row = screen.getByText('Test')
+      expect(row).toHaveClass('row')
+      expect(row.tagName).toBe('DIV')
     })
 
     test('matches the baseline markup snapshot', () => {
@@ -20,7 +21,7 @@ describe('CxRow', () => {
 
   describe('breakpoint props', () => {
     test('applies cols classes per breakpoint', () => {
-      const { container } = render(
+      render(
         <CxRow
           className="bazinga"
           xs={{ cols: 1 }}
@@ -33,7 +34,7 @@ describe('CxRow', () => {
           Test
         </CxRow>
       )
-      expect(container.firstChild).toHaveClass(
+      expect(screen.getByText('Test')).toHaveClass(
         'bazinga',
         'row-cols-1',
         'small:row-cols-2',
@@ -45,7 +46,7 @@ describe('CxRow', () => {
     })
 
     test('applies gutter, gutterX and gutterY classes per breakpoint', () => {
-      const { container } = render(
+      render(
         <CxRow
           xs={{ gutter: 1 }}
           sm={{ gutterX: 2 }}
@@ -57,7 +58,7 @@ describe('CxRow', () => {
           Test
         </CxRow>
       )
-      expect(container.firstChild).toHaveClass(
+      expect(screen.getByText('Test')).toHaveClass(
         'g-1',
         'small:gx-2',
         'medium:gy-3',
