@@ -1,6 +1,16 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxTooltip customize 1`] = `
+exports[`CxTooltip > rendering > matches the baseline markup snapshot 1`] = `
+<div>
+  <a
+    class=""
+  >
+    Test
+  </a>
+</div>
+`;
+
+exports[`CxTooltip > rendering > renders placement, arrow and content once shown on hover 1`] = `
 <body>
   <div>
     <a
@@ -30,14 +40,4 @@ exports[`CxTooltip customize 1`] = `
     </div>
   </div>
 </body>
-`;
-
-exports[`loads and displays CxTooltip component 1`] = `
-<div>
-  <a
-    class=""
-  >
-    Test
-  </a>
-</div>
 `;
