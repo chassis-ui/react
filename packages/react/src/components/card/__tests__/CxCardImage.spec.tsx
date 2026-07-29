@@ -27,8 +27,12 @@ describe('CxCardImage', () => {
       const { container } = render(
         <CxCardImage className="bazinga" component="div" orientation="bottom" />
       )
-      expect(container.firstChild).toHaveClass('card-image-bottom', 'bazinga')
-      expect(container.firstChild?.nodeName).toBe('DIV')
+      // Rendered as a bare `div` with no alt text or role, so there is no accessible query
+      // that reaches it — `container.firstChild` is the only option.
+      // eslint-disable-next-line testing-library/no-node-access
+      const image = container.firstChild
+      expect(image).toHaveClass('card-image-bottom', 'bazinga')
+      expect((image as HTMLElement)?.nodeName).toBe('DIV')
     })
   })
 

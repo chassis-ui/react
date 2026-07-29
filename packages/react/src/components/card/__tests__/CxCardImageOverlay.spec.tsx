@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { CxCardImageOverlay } from '../../../index'
@@ -7,11 +7,8 @@ import { CxCardImageOverlay } from '../../../index'
 describe('CxCardImageOverlay', () => {
   describe('rendering', () => {
     test('renders a div with the base class and className merged', () => {
-      const { container } = render(
-        <CxCardImageOverlay className="bazinga">Test</CxCardImageOverlay>
-      )
-      expect(container.firstChild).toHaveClass('card-overlay', 'bazinga')
-      expect(container.firstChild).toHaveTextContent('Test')
+      render(<CxCardImageOverlay className="bazinga">Test</CxCardImageOverlay>)
+      expect(screen.getByText('Test')).toHaveClass('card-overlay', 'bazinga')
     })
 
     test('matches the baseline markup snapshot', () => {

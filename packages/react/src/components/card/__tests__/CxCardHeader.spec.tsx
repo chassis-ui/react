@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { CxCardHeader } from '../../../index'
@@ -7,9 +7,10 @@ import { CxCardHeader } from '../../../index'
 describe('CxCardHeader', () => {
   describe('rendering', () => {
     test('renders a div with the base class by default', () => {
-      const { container } = render(<CxCardHeader>Test</CxCardHeader>)
-      expect(container.firstChild).toHaveClass('card-header')
-      expect(container.firstChild?.nodeName).toBe('DIV')
+      render(<CxCardHeader>Test</CxCardHeader>)
+      const header = screen.getByText('Test')
+      expect(header).toHaveClass('card-header')
+      expect(header.tagName).toBe('DIV')
     })
 
     test('matches the baseline markup snapshot', () => {
@@ -18,13 +19,14 @@ describe('CxCardHeader', () => {
     })
 
     test('renders as a custom component with className merged', () => {
-      const { container } = render(
+      render(
         <CxCardHeader className="bazinga" component="h3">
           Test
         </CxCardHeader>
       )
-      expect(container.firstChild).toHaveClass('card-header', 'bazinga')
-      expect(container.firstChild?.nodeName).toBe('H3')
+      const header = screen.getByText('Test')
+      expect(header).toHaveClass('card-header', 'bazinga')
+      expect(header.tagName).toBe('H3')
     })
   })
 

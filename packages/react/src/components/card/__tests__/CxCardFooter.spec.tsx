@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { CxCardFooter } from '../../../index'
@@ -7,9 +7,10 @@ import { CxCardFooter } from '../../../index'
 describe('CxCardFooter', () => {
   describe('rendering', () => {
     test('renders a div with the base class and className merged', () => {
-      const { container } = render(<CxCardFooter className="bazinga">Test</CxCardFooter>)
-      expect(container.firstChild).toHaveClass('card-footer', 'bazinga')
-      expect(container.firstChild?.nodeName).toBe('DIV')
+      render(<CxCardFooter className="bazinga">Test</CxCardFooter>)
+      const footer = screen.getByText('Test')
+      expect(footer).toHaveClass('card-footer', 'bazinga')
+      expect(footer.tagName).toBe('DIV')
     })
 
     test('matches the baseline markup snapshot', () => {

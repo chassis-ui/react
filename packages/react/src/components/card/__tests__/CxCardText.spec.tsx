@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { CxCardText } from '../../../index'
@@ -7,9 +7,10 @@ import { CxCardText } from '../../../index'
 describe('CxCardText', () => {
   describe('rendering', () => {
     test('renders a p with the base class by default', () => {
-      const { container } = render(<CxCardText>Test</CxCardText>)
-      expect(container.firstChild).toHaveClass('card-text')
-      expect(container.firstChild?.nodeName).toBe('P')
+      render(<CxCardText>Test</CxCardText>)
+      const text = screen.getByText('Test')
+      expect(text).toHaveClass('card-text')
+      expect(text.tagName).toBe('P')
     })
 
     test('matches the baseline markup snapshot', () => {
@@ -18,13 +19,14 @@ describe('CxCardText', () => {
     })
 
     test('renders as a custom component with className merged', () => {
-      const { container } = render(
+      render(
         <CxCardText className="bazinga" component="h3">
           Test
         </CxCardText>
       )
-      expect(container.firstChild).toHaveClass('card-text', 'bazinga')
-      expect(container.firstChild?.nodeName).toBe('H3')
+      const text = screen.getByText('Test')
+      expect(text).toHaveClass('card-text', 'bazinga')
+      expect(text.tagName).toBe('H3')
     })
   })
 

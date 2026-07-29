@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import {
@@ -18,9 +18,10 @@ import {
 describe('CxCardGroup', () => {
   describe('rendering', () => {
     test('renders a div with the base class and className merged', () => {
-      const { container } = render(<CxCardGroup className="bazinga">Test</CxCardGroup>)
-      expect(container.firstChild).toHaveClass('card-group', 'bazinga')
-      expect(container.firstChild?.nodeName).toBe('DIV')
+      render(<CxCardGroup className="bazinga">Test</CxCardGroup>)
+      const group = screen.getByText('Test')
+      expect(group).toHaveClass('card-group', 'bazinga')
+      expect(group.tagName).toBe('DIV')
     })
 
     test('matches the baseline markup snapshot with nested cards', () => {

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { CxCard } from '../../../index'
@@ -7,9 +7,10 @@ import { CxCard } from '../../../index'
 describe('CxCard', () => {
   describe('rendering', () => {
     test('renders a div with the base class', () => {
-      const { container } = render(<CxCard>Test</CxCard>)
-      expect(container.firstChild).toHaveClass('card')
-      expect(container.firstChild?.nodeName).toBe('DIV')
+      render(<CxCard>Test</CxCard>)
+      const card = screen.getByText('Test')
+      expect(card).toHaveClass('card')
+      expect(card.tagName).toBe('DIV')
     })
 
     test('matches the baseline markup snapshot', () => {
@@ -20,12 +21,12 @@ describe('CxCard', () => {
 
   describe('styling props', () => {
     test('applies context, textColor and className together', () => {
-      const { container } = render(
+      render(
         <CxCard className="bazinga" context="primary" textColor="warning">
           Test
         </CxCard>
       )
-      expect(container.firstChild).toHaveClass('card', 'bg-primary', 'fg-warning', 'bazinga')
+      expect(screen.getByText('Test')).toHaveClass('card', 'bg-primary', 'fg-warning', 'bazinga')
     })
   })
 
