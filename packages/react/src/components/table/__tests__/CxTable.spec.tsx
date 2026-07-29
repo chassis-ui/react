@@ -62,146 +62,173 @@ const BasicTable = ({
   </CxTable>
 )
 
-test('renders an accessible grid with column headers, rows, and cells', () => {
-  render(<BasicTable />)
-  expect(screen.getByRole('grid', { name: 'Users' })).toBeInTheDocument()
-  expect(screen.getByRole('columnheader', { name: 'Name' })).toBeInTheDocument()
-  expect(screen.getAllByRole('row')).toHaveLength(4) // 1 header row + 3 body rows
-  expect(screen.getByRole('rowheader', { name: 'Mark' })).toBeInTheDocument()
-  expect(screen.getByRole('gridcell', { name: '@mdo' })).toBeInTheDocument()
-})
+describe('CxTable', () => {
+  describe('rendering', () => {
+    test('renders an accessible grid with column headers, rows, and cells', () => {
+      render(<BasicTable />)
+      expect(screen.getByRole('grid', { name: 'Users' })).toBeInTheDocument()
+      expect(screen.getByRole('columnheader', { name: 'Name' })).toBeInTheDocument()
+      expect(screen.getAllByRole('row')).toHaveLength(4) // 1 header row + 3 body rows
+      expect(screen.getByRole('rowheader', { name: 'Mark' })).toBeInTheDocument()
+      expect(screen.getByRole('gridcell', { name: '@mdo' })).toBeInTheDocument()
+    })
 
-test('clicking a sortable column header fires onSortChange', () => {
-  const onSortChange = vi.fn()
-  render(<BasicTable onSortChange={onSortChange} />)
-  fireEvent.click(screen.getByRole('columnheader', { name: 'Name' }))
-  expect(onSortChange).toHaveBeenCalledWith({ column: 'name', direction: 'ascending' })
-})
-
-test('the active sort column reflects aria-sort', () => {
-  render(<BasicTable sortDescriptor={{ column: 'name', direction: 'descending' }} />)
-  expect(screen.getByRole('columnheader', { name: /Name/ })).toHaveAttribute(
-    'aria-sort',
-    'descending'
-  )
-})
-
-test('multiple selection mode renders checkboxes and reports selection changes', () => {
-  const onSelectionChange = vi.fn()
-  render(<BasicTable onSelectionChange={onSelectionChange} selectionMode="multiple" />)
-  const row = screen.getByRole('row', { name: /Mark/ })
-  const checkbox = within(row).getByRole('checkbox')
-  act(() => {
-    fireEvent.click(checkbox)
+    test('renders a caption and a plain footer', () => {
+      render(
+        <CxTable
+          aria-label="With caption"
+          caption="List of users"
+          footer={
+            <tr>
+              <td>Total: 3</td>
+            </tr>
+          }
+        >
+          <CxTableHeader>
+            <CxTableColumn key="name">Name</CxTableColumn>
+          </CxTableHeader>
+          <CxTableBody items={rows}>
+            {(row) => (
+              <CxTableRow key={row.id}>{() => <CxTableCell>{row.name}</CxTableCell>}</CxTableRow>
+            )}
+          </CxTableBody>
+        </CxTable>
+      )
+      expect(screen.getByText('List of users')).toBeInTheDocument()
+      expect(screen.getByText('Total: 3')).toBeInTheDocument()
+    })
   })
-  expect(onSelectionChange).toHaveBeenCalled()
-  const selected = onSelectionChange.mock.calls[0][0] as Set<React.Key>
-  expect(selected.has('1')).toBe(true)
-})
 
-test('select-all checkbox selects every row', () => {
-  const onSelectionChange = vi.fn()
-  render(<BasicTable onSelectionChange={onSelectionChange} selectionMode="multiple" />)
-  const selectAll = screen.getByRole('checkbox', { name: /select all/i })
-  act(() => {
-    fireEvent.click(selectAll)
+  describe('styling props', () => {
+    test('renders bordered, striped, hoverable, and context variants', () => {
+      const { container } = render(
+        <CxTable
+          aria-label="Styled"
+          bordered
+          className="bazinga"
+          context="info"
+          hover
+          responsive="xlarge"
+          small
+          striped
+        >
+          <CxTableHeader>
+            <CxTableColumn key="name">Name</CxTableColumn>
+          </CxTableHeader>
+          <CxTableBody items={rows}>
+            {(row) => (
+              <CxTableRow key={row.id}>{() => <CxTableCell>{row.name}</CxTableCell>}</CxTableRow>
+            )}
+          </CxTableBody>
+        </CxTable>
+      )
+      // The responsive wrapper is a plain div with no role/name - no accessible query reaches it.
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(container.firstChild).toHaveClass('table-responsive-xlarge')
+      const table = screen.getByRole('grid')
+      expect(table).toHaveClass(
+        'table',
+        'info',
+        'bordered',
+        'hoverable',
+        'small',
+        'striped',
+        'bazinga'
+      )
+    })
   })
-  const selected = onSelectionChange.mock.calls[0][0]
-  expect(selected).toBe('all')
-})
 
-test('a selected row is highlighted with the active class', () => {
-  render(<BasicTable selectedKeys={new Set(['1'])} selectionMode="multiple" />)
-  expect(screen.getByRole('row', { name: /Mark/ })).toHaveClass('active')
-  expect(screen.getByRole('row', { name: /Jacob/ })).not.toHaveClass('active')
-})
+  describe('sorting', () => {
+    test('clicking a sortable column header fires onSortChange', () => {
+      const onSortChange = vi.fn()
+      render(<BasicTable onSortChange={onSortChange} />)
+      fireEvent.click(screen.getByRole('columnheader', { name: 'Name' }))
+      expect(onSortChange).toHaveBeenCalledWith({ column: 'name', direction: 'ascending' })
+    })
 
-test('single selection mode selects a row on click, with no checkboxes', () => {
-  const onSelectionChange = vi.fn()
-  render(<BasicTable onSelectionChange={onSelectionChange} selectionMode="single" />)
-  expect(screen.queryByRole('checkbox')).not.toBeInTheDocument()
-  fireEvent.click(screen.getByRole('rowheader', { name: 'Mark' }))
-  const selected = onSelectionChange.mock.calls[0][0] as Set<React.Key>
-  expect(selected.has('1')).toBe(true)
-})
-
-test('disabled rows cannot be selected', () => {
-  const onSelectionChange = vi.fn()
-  render(
-    <BasicTable disabledKeys={['1']} onSelectionChange={onSelectionChange} selectionMode="single" />
-  )
-  fireEvent.click(screen.getByRole('rowheader', { name: 'Mark' }))
-  expect(onSelectionChange).not.toHaveBeenCalled()
-})
-
-test('arrow keys move focus between cells for keyboard grid navigation', () => {
-  render(<BasicTable />)
-  const firstCell = screen.getByRole('columnheader', { name: /Name/ })
-  act(() => {
-    firstCell.focus()
+    test('the active sort column reflects aria-sort', () => {
+      render(<BasicTable sortDescriptor={{ column: 'name', direction: 'descending' }} />)
+      expect(screen.getByRole('columnheader', { name: /Name/ })).toHaveAttribute(
+        'aria-sort',
+        'descending'
+      )
+    })
   })
-  expect(firstCell).toHaveFocus()
 
-  fireEvent.keyDown(firstCell, { key: 'ArrowRight' })
-  expect(screen.getByRole('columnheader', { name: 'Username' })).toHaveFocus()
+  describe('selection', () => {
+    test('multiple selection mode renders checkboxes and reports selection changes', () => {
+      const onSelectionChange = vi.fn()
+      render(<BasicTable onSelectionChange={onSelectionChange} selectionMode="multiple" />)
+      const row = screen.getByRole('row', { name: /Mark/ })
+      const checkbox = within(row).getByRole('checkbox')
+      fireEvent.click(checkbox)
+      expect(onSelectionChange).toHaveBeenCalled()
+      const selected = onSelectionChange.mock.calls[0][0] as Set<React.Key>
+      expect(selected.has('1')).toBe(true)
+    })
 
-  fireEvent.keyDown(document.activeElement as HTMLElement, { key: 'ArrowDown' })
-  expect(screen.getByRole('gridcell', { name: '@mdo' })).toHaveFocus()
-})
+    test('select-all checkbox selects every row', () => {
+      const onSelectionChange = vi.fn()
+      render(<BasicTable onSelectionChange={onSelectionChange} selectionMode="multiple" />)
+      const selectAll = screen.getByRole('checkbox', { name: /select all/i })
+      fireEvent.click(selectAll)
+      const selected = onSelectionChange.mock.calls[0][0]
+      expect(selected).toBe('all')
+    })
 
-test('renders bordered, striped, hoverable, and context variants', () => {
-  const { container } = render(
-    <CxTable
-      aria-label="Styled"
-      bordered
-      className="bazinga"
-      context="info"
-      hover
-      responsive="xlarge"
-      small
-      striped
-    >
-      <CxTableHeader>
-        <CxTableColumn key="name">Name</CxTableColumn>
-      </CxTableHeader>
-      <CxTableBody items={rows}>
-        {(row) => (
-          <CxTableRow key={row.id}>{() => <CxTableCell>{row.name}</CxTableCell>}</CxTableRow>
-        )}
-      </CxTableBody>
-    </CxTable>
-  )
-  expect(container.firstChild).toHaveClass('table-responsive-xlarge')
-  const table = screen.getByRole('grid')
-  expect(table).toHaveClass('table', 'info', 'bordered', 'hoverable', 'small', 'striped', 'bazinga')
-})
+    test('a selected row is highlighted with the active class', () => {
+      render(<BasicTable selectedKeys={new Set(['1'])} selectionMode="multiple" />)
+      expect(screen.getByRole('row', { name: /Mark/ })).toHaveClass('active')
+      expect(screen.getByRole('row', { name: /Jacob/ })).not.toHaveClass('active')
+    })
 
-test('renders a caption and a plain footer', () => {
-  render(
-    <CxTable
-      aria-label="With caption"
-      caption="List of users"
-      footer={
-        <tr>
-          <td>Total: 3</td>
-        </tr>
-      }
-    >
-      <CxTableHeader>
-        <CxTableColumn key="name">Name</CxTableColumn>
-      </CxTableHeader>
-      <CxTableBody items={rows}>
-        {(row) => (
-          <CxTableRow key={row.id}>{() => <CxTableCell>{row.name}</CxTableCell>}</CxTableRow>
-        )}
-      </CxTableBody>
-    </CxTable>
-  )
-  expect(screen.getByText('List of users')).toBeInTheDocument()
-  expect(screen.getByText('Total: 3')).toBeInTheDocument()
-})
+    test('single selection mode selects a row on click, with no checkboxes', () => {
+      const onSelectionChange = vi.fn()
+      render(<BasicTable onSelectionChange={onSelectionChange} selectionMode="single" />)
+      expect(screen.queryByRole('checkbox')).not.toBeInTheDocument()
+      fireEvent.click(screen.getByRole('rowheader', { name: 'Mark' }))
+      const selected = onSelectionChange.mock.calls[0][0] as Set<React.Key>
+      expect(selected.has('1')).toBe(true)
+    })
 
-test('has no axe violations', async () => {
-  const { container } = render(<BasicTable />)
-  expect(await axe(container)).toHaveNoViolations()
+    test('disabled rows cannot be selected', () => {
+      const onSelectionChange = vi.fn()
+      render(
+        <BasicTable
+          disabledKeys={['1']}
+          onSelectionChange={onSelectionChange}
+          selectionMode="single"
+        />
+      )
+      fireEvent.click(screen.getByRole('rowheader', { name: 'Mark' }))
+      expect(onSelectionChange).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('keyboard navigation', () => {
+    test('arrow keys move focus between cells for keyboard grid navigation', () => {
+      render(<BasicTable />)
+      const firstCell = screen.getByRole('columnheader', { name: /Name/ })
+      act(() => {
+        firstCell.focus()
+      })
+      expect(firstCell).toHaveFocus()
+
+      fireEvent.keyDown(firstCell, { key: 'ArrowRight' })
+      expect(screen.getByRole('columnheader', { name: 'Username' })).toHaveFocus()
+
+      // document.activeElement is the standard way to read current focus; no Testing Library
+      // query surfaces it.
+      // eslint-disable-next-line testing-library/no-node-access
+      fireEvent.keyDown(document.activeElement as HTMLElement, { key: 'ArrowDown' })
+      expect(screen.getByRole('gridcell', { name: '@mdo' })).toHaveFocus()
+    })
+  })
+
+  describe('accessibility', () => {
+    test('has no axe violations', async () => {
+      const { container } = render(<BasicTable />)
+      expect(await axe(container)).toHaveNoViolations()
+    })
+  })
 })

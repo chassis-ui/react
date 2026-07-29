@@ -1,22 +1,55 @@
 import * as React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { axe } from 'jest-axe'
 
 import { CxCloseButton } from '../../../index'
 
-test('loads and displays CxCloseButton component', async () => {
-  const { container } = render(<CxCloseButton />)
-  const button = document.querySelector('button')
-  expect(button).toHaveClass('close-button')
-  expect(button).toHaveAttribute('aria-label', 'Close')
-  expect(container).toMatchSnapshot()
-})
+describe('CxCloseButton', () => {
+  describe('rendering', () => {
+    test('renders a button with the base class and a Close accessible label', () => {
+      render(<CxCloseButton />)
+      const button = screen.getByRole('button', { name: 'Close' })
+      expect(button).toHaveClass('close-button')
+    })
 
-test('CxCloseButton customize', async () => {
-  const { container } = render(<CxCloseButton white={true} disabled={true} className="bazinga" />)
-  const button = document.querySelector('button')
-  expect(button).toHaveClass('close-button')
-  expect(button).toHaveClass('white')
-  expect(button).toHaveClass('bazinga')
-  expect(button).toHaveAttribute('aria-label', 'Close')
-  expect(container).toMatchSnapshot()
+    test('matches the baseline markup snapshot', () => {
+      const { container } = render(<CxCloseButton />)
+      expect(container).toMatchSnapshot()
+    })
+  })
+
+  describe('styling props', () => {
+    test('applies white, disabled and className together', () => {
+      render(<CxCloseButton white disabled className="bazinga" />)
+      const button = screen.getByRole('button', { name: 'Close' })
+      expect(button).toHaveClass('close-button', 'white', 'bazinga')
+      expect(button).toBeDisabled()
+    })
+  })
+
+  describe('click behavior', () => {
+    test('fires onClick when clicked', async () => {
+      const user = userEvent.setup()
+      const onClick = vi.fn()
+      render(<CxCloseButton onClick={onClick} />)
+      await user.click(screen.getByRole('button', { name: 'Close' }))
+      expect(onClick).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  describe('ref forwarding', () => {
+    test('forwards a ref to the underlying button', () => {
+      const ref = React.createRef<HTMLButtonElement>()
+      render(<CxCloseButton ref={ref} />)
+      expect(ref.current).toBeInstanceOf(HTMLButtonElement)
+    })
+  })
+
+  describe('accessibility', () => {
+    test('has no axe violations', async () => {
+      const { container } = render(<CxCloseButton />)
+      expect(await axe(container)).toHaveNoViolations()
+    })
+  })
 })

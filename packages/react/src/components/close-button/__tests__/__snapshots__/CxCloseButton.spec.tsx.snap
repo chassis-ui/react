@@ -1,16 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxCloseButton customize 1`] = `
-<div>
-  <button
-    aria-label="Close"
-    class="close-button white bazinga"
-    disabled=""
-  />
-</div>
-`;
-
-exports[`loads and displays CxCloseButton component 1`] = `
+exports[`CxCloseButton > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <button
     aria-label="Close"

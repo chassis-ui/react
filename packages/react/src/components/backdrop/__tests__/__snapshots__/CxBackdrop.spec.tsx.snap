@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxBackdrop customize 1`] = `
+exports[`CxBackdrop > rendering > matches the baseline markup snapshot when visible 1`] = `
 <div>
   <div
     class="modal-backdrop fade show"
@@ -9,15 +9,3 @@ exports[`CxBackdrop customize 1`] = `
   </div>
 </div>
 `;
-
-exports[`CxBackdrop customize 2 1`] = `
-<div>
-  <div
-    class="bazinga fade show"
-  >
-    Test
-  </div>
-</div>
-`;
-
-exports[`loads and displays CxBackdrop component 1`] = `<div />`;

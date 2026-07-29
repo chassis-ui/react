@@ -19,104 +19,116 @@ const BasicTabs = (props: Partial<React.ComponentProps<typeof CxTabs>> = {}) => 
   </CxTabs>
 )
 
-test('renders tabs with correct ARIA roles', async () => {
-  render(<BasicTabs />)
-  expect(screen.getByRole('tablist', { name: 'Example tabs' })).toBeInTheDocument()
-  const tabs = screen.getAllByRole('tab')
-  expect(tabs).toHaveLength(3)
-  expect(screen.getByRole('tabpanel')).toHaveTextContent('Home content')
-})
-
-test('only renders the panel for the selected tab', async () => {
-  render(<BasicTabs />)
-  expect(screen.getByText('Home content')).toBeInTheDocument()
-  expect(screen.queryByText('Profile content')).not.toBeInTheDocument()
-  expect(screen.queryByText('Contact content')).not.toBeInTheDocument()
-})
-
-test('clicking a tab selects it and shows its panel', async () => {
-  render(<BasicTabs />)
-  fireEvent.click(screen.getByRole('tab', { name: 'Profile' }))
-  expect(screen.getByText('Profile content')).toBeInTheDocument()
-  expect(screen.queryByText('Home content')).not.toBeInTheDocument()
-  expect(screen.getByRole('tab', { name: 'Profile' })).toHaveAttribute('aria-selected', 'true')
-  expect(screen.getByRole('tab', { name: 'Profile' })).toHaveClass('active')
-})
-
-test('arrow keys navigate between tabs', async () => {
-  render(<BasicTabs />)
-  const home = screen.getByRole('tab', { name: 'Home' })
-  act(() => home.focus())
-  fireEvent.keyDown(home, { key: 'ArrowRight' })
-  expect(screen.getByRole('tab', { name: 'Profile' })).toHaveFocus()
-  expect(screen.getByText('Profile content')).toBeInTheDocument()
-})
-
-test('disabled tabs are skipped and not selectable', async () => {
-  render(<BasicTabs />)
-  const contact = screen.getByRole('tab', { name: 'Contact' })
-  expect(contact).toHaveAttribute('aria-disabled', 'true')
-  fireEvent.click(contact)
-  expect(screen.queryByText('Contact content')).not.toBeInTheDocument()
-})
-
-test('supports controlled selectedKey', async () => {
-  const onSelectionChange = vi.fn()
-  const { rerender } = render(
-    <BasicTabs selectedKey="home" onSelectionChange={onSelectionChange} />
-  )
-  fireEvent.click(screen.getByRole('tab', { name: 'Profile' }))
-  expect(onSelectionChange).toHaveBeenCalledWith('profile')
-  // Controlled: selection shouldn't change until the consumer updates `selectedKey`.
-  expect(screen.getByText('Home content')).toBeInTheDocument()
-
-  rerender(<BasicTabs selectedKey="profile" onSelectionChange={onSelectionChange} />)
-  expect(screen.getByText('Profile content')).toBeInTheDocument()
-})
-
-test('renders nav-tabs classes by default and nav-pills when requested', async () => {
-  const { rerender } = render(<BasicTabs />)
-  expect(screen.getByRole('tablist')).toHaveClass('nav', 'nav-tabs')
-
-  rerender(
-    <CxTabs defaultSelectedKey="home">
-      <CxTabList aria-label="Pills" variant="pills">
-        <CxTab id="home">Home</CxTab>
-      </CxTabList>
-      <CxTabPanel id="home">Home content</CxTabPanel>
-    </CxTabs>
-  )
-  expect(screen.getByRole('tablist')).toHaveClass('nav', 'nav-pills')
-})
-
-test('forwards a ref to the underlying div', () => {
-  const ref = React.createRef<HTMLDivElement>()
-  render(
-    <CxTabs ref={ref} defaultSelectedKey="home">
-      <CxTabList aria-label="Example tabs">
-        <CxTab id="home">Home</CxTab>
-      </CxTabList>
-      <CxTabPanel id="home">Home content</CxTabPanel>
-    </CxTabs>
-  )
-  expect(ref.current).toBeInstanceOf(HTMLDivElement)
-})
-
-test('has no axe violations', async () => {
-  const { container } = render(<BasicTabs />)
-  // CxTabList wraps each tab in a plain <li class="nav-item"> (Bootstrap's nav-tabs visual
-  // structure) with role="tab" on the inner <a>, not the <li> itself. Same finding class as
-  // CxNav/CxNavbarNav (Phase 2): a bare <li> isn't an ARIA-allowed child of role="tablist",
-  // which trips aria-required-children/aria-required-parent/listitem — a real, pre-existing
-  // structural mismatch, not something to paper over. Left unchanged here; disabling only for
-  // this check.
-  expect(
-    await axe(container, {
-      rules: {
-        'aria-required-children': { enabled: false },
-        'aria-required-parent': { enabled: false },
-        listitem: { enabled: false }
-      }
+describe('CxTabs', () => {
+  describe('rendering', () => {
+    test('renders tabs with correct ARIA roles', async () => {
+      render(<BasicTabs />)
+      expect(screen.getByRole('tablist', { name: 'Example tabs' })).toBeInTheDocument()
+      const tabs = screen.getAllByRole('tab')
+      expect(tabs).toHaveLength(3)
+      expect(screen.getByRole('tabpanel')).toHaveTextContent('Home content')
     })
-  ).toHaveNoViolations()
+
+    test('only renders the panel for the selected tab', async () => {
+      render(<BasicTabs />)
+      expect(screen.getByText('Home content')).toBeInTheDocument()
+      expect(screen.queryByText('Profile content')).not.toBeInTheDocument()
+      expect(screen.queryByText('Contact content')).not.toBeInTheDocument()
+    })
+  })
+
+  describe('tab selection', () => {
+    test('clicking a tab selects it and shows its panel', async () => {
+      render(<BasicTabs />)
+      fireEvent.click(screen.getByRole('tab', { name: 'Profile' }))
+      expect(screen.getByText('Profile content')).toBeInTheDocument()
+      expect(screen.queryByText('Home content')).not.toBeInTheDocument()
+      expect(screen.getByRole('tab', { name: 'Profile' })).toHaveAttribute('aria-selected', 'true')
+      expect(screen.getByRole('tab', { name: 'Profile' })).toHaveClass('active')
+    })
+
+    test('arrow keys navigate between tabs', async () => {
+      render(<BasicTabs />)
+      const home = screen.getByRole('tab', { name: 'Home' })
+      act(() => home.focus())
+      fireEvent.keyDown(home, { key: 'ArrowRight' })
+      expect(screen.getByRole('tab', { name: 'Profile' })).toHaveFocus()
+      expect(screen.getByText('Profile content')).toBeInTheDocument()
+    })
+
+    test('disabled tabs are skipped and not selectable', async () => {
+      render(<BasicTabs />)
+      const contact = screen.getByRole('tab', { name: 'Contact' })
+      expect(contact).toHaveAttribute('aria-disabled', 'true')
+      fireEvent.click(contact)
+      expect(screen.queryByText('Contact content')).not.toBeInTheDocument()
+    })
+
+    test('supports controlled selectedKey', async () => {
+      const onSelectionChange = vi.fn()
+      const { rerender } = render(
+        <BasicTabs selectedKey="home" onSelectionChange={onSelectionChange} />
+      )
+      fireEvent.click(screen.getByRole('tab', { name: 'Profile' }))
+      expect(onSelectionChange).toHaveBeenCalledWith('profile')
+      // Controlled: selection shouldn't change until the consumer updates `selectedKey`.
+      expect(screen.getByText('Home content')).toBeInTheDocument()
+
+      rerender(<BasicTabs selectedKey="profile" onSelectionChange={onSelectionChange} />)
+      expect(screen.getByText('Profile content')).toBeInTheDocument()
+    })
+  })
+
+  describe('styling props', () => {
+    test('renders nav-tabs classes by default and nav-pills when requested', async () => {
+      const { rerender } = render(<BasicTabs />)
+      expect(screen.getByRole('tablist')).toHaveClass('nav', 'nav-tabs')
+
+      rerender(
+        <CxTabs defaultSelectedKey="home">
+          <CxTabList aria-label="Pills" variant="pills">
+            <CxTab id="home">Home</CxTab>
+          </CxTabList>
+          <CxTabPanel id="home">Home content</CxTabPanel>
+        </CxTabs>
+      )
+      expect(screen.getByRole('tablist')).toHaveClass('nav', 'nav-pills')
+    })
+  })
+
+  describe('ref forwarding', () => {
+    test('forwards a ref to the underlying div', () => {
+      const ref = React.createRef<HTMLDivElement>()
+      render(
+        <CxTabs ref={ref} defaultSelectedKey="home">
+          <CxTabList aria-label="Example tabs">
+            <CxTab id="home">Home</CxTab>
+          </CxTabList>
+          <CxTabPanel id="home">Home content</CxTabPanel>
+        </CxTabs>
+      )
+      expect(ref.current).toBeInstanceOf(HTMLDivElement)
+    })
+  })
+
+  describe('accessibility', () => {
+    test('has no axe violations', async () => {
+      const { container } = render(<BasicTabs />)
+      // CxTabList wraps each tab in a plain <li class="nav-item"> (Bootstrap's nav-tabs visual
+      // structure) with role="tab" on the inner <a>, not the <li> itself. Same finding class as
+      // CxNav/CxNavbarNav (Phase 2): a bare <li> isn't an ARIA-allowed child of role="tablist",
+      // which trips aria-required-children/aria-required-parent/listitem — a real, pre-existing
+      // structural mismatch, not something to paper over. Left unchanged here; disabling only
+      // for this check.
+      expect(
+        await axe(container, {
+          rules: {
+            'aria-required-children': { enabled: false },
+            'aria-required-parent': { enabled: false },
+            listitem: { enabled: false }
+          }
+        })
+      ).toHaveNoViolations()
+    })
+  })
 })
