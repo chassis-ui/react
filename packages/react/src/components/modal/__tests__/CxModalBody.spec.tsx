@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { CxModalBody } from '../../../index'
@@ -7,9 +7,10 @@ import { CxModalBody } from '../../../index'
 describe('CxModalBody', () => {
   describe('rendering', () => {
     test('renders a div with the base class and className merged', () => {
-      const { container } = render(<CxModalBody className="bazinga">Test</CxModalBody>)
-      expect(container.firstChild).toHaveClass('modal-body', 'bazinga')
-      expect(container.firstChild?.nodeName).toBe('DIV')
+      render(<CxModalBody className="bazinga">Test</CxModalBody>)
+      const body = screen.getByText('Test')
+      expect(body).toHaveClass('modal-body', 'bazinga')
+      expect(body.tagName).toBe('DIV')
     })
 
     test('matches the baseline markup snapshot', () => {

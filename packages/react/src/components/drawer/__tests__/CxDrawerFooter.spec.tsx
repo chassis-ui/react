@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { CxDrawerFooter } from '../../../index'
@@ -7,9 +7,10 @@ import { CxDrawerFooter } from '../../../index'
 describe('CxDrawerFooter', () => {
   describe('rendering', () => {
     test('renders a div with the base class and className merged', () => {
-      const { container } = render(<CxDrawerFooter className="bazinga">Test</CxDrawerFooter>)
-      expect(container.firstChild).toHaveClass('drawer-footer', 'bazinga')
-      expect(container.firstChild?.nodeName).toBe('DIV')
+      render(<CxDrawerFooter className="bazinga">Test</CxDrawerFooter>)
+      const footer = screen.getByText('Test')
+      expect(footer).toHaveClass('drawer-footer', 'bazinga')
+      expect(footer.tagName).toBe('DIV')
     })
 
     test('matches the baseline markup snapshot', () => {
@@ -18,8 +19,8 @@ describe('CxDrawerFooter', () => {
     })
 
     test('applies the stacked class', () => {
-      const { container } = render(<CxDrawerFooter stacked>Test</CxDrawerFooter>)
-      expect(container.firstChild).toHaveClass('drawer-footer', 'stacked')
+      render(<CxDrawerFooter stacked>Test</CxDrawerFooter>)
+      expect(screen.getByText('Test')).toHaveClass('drawer-footer', 'stacked')
     })
   })
 

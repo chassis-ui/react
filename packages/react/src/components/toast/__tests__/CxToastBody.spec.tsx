@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { CxToastBody } from '../../../index'
@@ -7,9 +7,10 @@ import { CxToastBody } from '../../../index'
 describe('CxToastBody', () => {
   describe('rendering', () => {
     test('renders a div with the base class and className merged', () => {
-      const { container } = render(<CxToastBody className="bazinga">Test</CxToastBody>)
-      expect(container.firstChild).toHaveClass('toast-body', 'bazinga')
-      expect(container.firstChild?.nodeName).toBe('DIV')
+      render(<CxToastBody className="bazinga">Test</CxToastBody>)
+      const body = screen.getByText('Test')
+      expect(body).toHaveClass('toast-body', 'bazinga')
+      expect(body.tagName).toBe('DIV')
     })
 
     test('matches the baseline markup snapshot', () => {

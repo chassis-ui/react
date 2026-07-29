@@ -9,9 +9,10 @@ import { CxModalHeader } from '../../../index'
 describe('CxModalHeader', () => {
   describe('rendering', () => {
     test('renders a div with the base class and className merged', () => {
-      const { container } = render(<CxModalHeader className="bazinga">Test</CxModalHeader>)
-      expect(container.firstChild).toHaveClass('modal-header', 'bazinga')
-      expect(container.firstChild?.nodeName).toBe('DIV')
+      render(<CxModalHeader className="bazinga">Test</CxModalHeader>)
+      const header = screen.getByText('Test')
+      expect(header).toHaveClass('modal-header', 'bazinga')
+      expect(header.tagName).toBe('DIV')
     })
 
     test('matches the baseline markup snapshot', () => {

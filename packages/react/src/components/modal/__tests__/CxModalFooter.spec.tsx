@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { CxModalFooter } from '../../../index'
@@ -7,9 +7,10 @@ import { CxModalFooter } from '../../../index'
 describe('CxModalFooter', () => {
   describe('rendering', () => {
     test('renders a div with the base class and className merged', () => {
-      const { container } = render(<CxModalFooter className="bazinga">Test</CxModalFooter>)
-      expect(container.firstChild).toHaveClass('modal-footer', 'bazinga')
-      expect(container.firstChild?.nodeName).toBe('DIV')
+      render(<CxModalFooter className="bazinga">Test</CxModalFooter>)
+      const footer = screen.getByText('Test')
+      expect(footer).toHaveClass('modal-footer', 'bazinga')
+      expect(footer.tagName).toBe('DIV')
     })
 
     test('matches the baseline markup snapshot', () => {
@@ -18,8 +19,8 @@ describe('CxModalFooter', () => {
     })
 
     test('applies the stacked class', () => {
-      const { container } = render(<CxModalFooter stacked>Test</CxModalFooter>)
-      expect(container.firstChild).toHaveClass('modal-footer', 'stacked')
+      render(<CxModalFooter stacked>Test</CxModalFooter>)
+      expect(screen.getByText('Test')).toHaveClass('modal-footer', 'stacked')
     })
   })
 

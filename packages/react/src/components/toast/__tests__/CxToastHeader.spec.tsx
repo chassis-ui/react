@@ -8,9 +8,10 @@ import { CxToastContext } from '../CxToast'
 describe('CxToastHeader', () => {
   describe('rendering', () => {
     test('renders a div with the base class and className merged', () => {
-      const { container } = render(<CxToastHeader className="bazinga">Test</CxToastHeader>)
-      expect(container.firstChild).toHaveClass('toast-header', 'bazinga')
-      expect(container.firstChild?.nodeName).toBe('DIV')
+      render(<CxToastHeader className="bazinga">Test</CxToastHeader>)
+      const header = screen.getByText('Test')
+      expect(header).toHaveClass('toast-header', 'bazinga')
+      expect(header.tagName).toBe('DIV')
     })
 
     test('matches the baseline markup snapshot', () => {

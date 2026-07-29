@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { CxDrawerBody } from '../../../index'
@@ -7,9 +7,10 @@ import { CxDrawerBody } from '../../../index'
 describe('CxDrawerBody', () => {
   describe('rendering', () => {
     test('renders a div with the base class and className merged', () => {
-      const { container } = render(<CxDrawerBody className="bazinga">Test</CxDrawerBody>)
-      expect(container.firstChild).toHaveClass('drawer-body', 'bazinga')
-      expect(container.firstChild?.nodeName).toBe('DIV')
+      render(<CxDrawerBody className="bazinga">Test</CxDrawerBody>)
+      const body = screen.getByText('Test')
+      expect(body).toHaveClass('drawer-body', 'bazinga')
+      expect(body.tagName).toBe('DIV')
     })
 
     test('matches the baseline markup snapshot', () => {

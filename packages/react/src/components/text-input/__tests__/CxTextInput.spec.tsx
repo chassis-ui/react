@@ -20,6 +20,8 @@ describe('CxTextInput', () => {
     })
 
     test('applies plainText, size and invalid/valid classes together', () => {
+      // type="color" has no textbox role and there's no aria-label here, so the input isn't
+      // reachable by any accessible query.
       const { container } = render(
         <CxTextInput
           className="bazinga"
@@ -30,6 +32,7 @@ describe('CxTextInput', () => {
           valid={true}
         />
       )
+      // eslint-disable-next-line testing-library/no-node-access
       expect(container.firstChild).toHaveClass(
         'form-input',
         'plaintext',
@@ -38,7 +41,9 @@ describe('CxTextInput', () => {
         'is-valid',
         'bazinga'
       )
+      // eslint-disable-next-line testing-library/no-node-access
       expect(container.firstChild).not.toHaveClass('form-input-color')
+      // eslint-disable-next-line testing-library/no-node-access
       expect(container.firstChild).toHaveAttribute('type', 'color')
     })
 
@@ -83,13 +88,17 @@ describe('CxTextInput', () => {
 
   describe('field wrapping', () => {
     test('renders no wrapper when label/help/feedback are all unset', () => {
+      // The .form-field wrapper has no role/name, so its absence can only be checked by class.
       const { container } = render(<CxTextInput aria-label="Name" />)
+      // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
       expect(container.querySelector('.form-field')).toBeNull()
     })
 
     test('wraps in .form-field and associates the label via htmlFor when label is set', () => {
       render(<CxTextInput label="Name" />)
       const input = screen.getByRole('textbox', { name: 'Name' })
+      // Same class-only wrapper as above - no accessible query reaches it.
+      // eslint-disable-next-line testing-library/no-node-access
       expect(input.closest('.form-field')).not.toBeNull()
       expect(screen.getByText('Name').tagName).toBe('LABEL')
     })
