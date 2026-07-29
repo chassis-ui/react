@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { CxButtonGroup, CxButton } from '../../../index'
@@ -7,9 +7,10 @@ import { CxButtonGroup, CxButton } from '../../../index'
 describe('CxButtonGroup', () => {
   describe('rendering', () => {
     test('renders a div with the base class', () => {
-      const { container } = render(<CxButtonGroup>Test</CxButtonGroup>)
-      expect(container.firstChild).toHaveClass('button-group')
-      expect(container.firstChild?.nodeName).toBe('DIV')
+      render(<CxButtonGroup>Test</CxButtonGroup>)
+      const group = screen.getByText('Test')
+      expect(group).toHaveClass('button-group')
+      expect(group.tagName).toBe('DIV')
     })
 
     test('matches the baseline markup snapshot', () => {
@@ -24,12 +25,21 @@ describe('CxButtonGroup', () => {
     })
 
     test('applies size and vertical classes with className', () => {
-      const { container } = render(
+      render(
         <CxButtonGroup className="bazinga" size="large" vertical>
           <CxButton>A</CxButton>
         </CxButtonGroup>
       )
-      expect(container.firstChild).toHaveClass('button-group', 'large', 'vertical', 'bazinga')
+      // The group wrapper has no default role (only when a caller passes one explicitly, as
+      // the accessibility test below does), so its only queryable ancestor is the button's
+      // parent element.
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(screen.getByRole('button', { name: 'A' }).parentElement).toHaveClass(
+        'button-group',
+        'large',
+        'vertical',
+        'bazinga'
+      )
     })
   })
 

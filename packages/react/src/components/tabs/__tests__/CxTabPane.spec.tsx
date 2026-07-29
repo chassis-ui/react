@@ -8,9 +8,10 @@ import { CxTabContent, CxTabPane } from '../../../index'
 describe('CxTabPane', () => {
   describe('rendering', () => {
     test('renders a div with the base and fade classes by default', () => {
-      const { container } = render(<CxTabPane>Test</CxTabPane>)
-      expect(container.firstChild).toHaveClass('tab-pane', 'fade')
-      expect(container.firstChild).not.toHaveClass('active')
+      render(<CxTabPane>Test</CxTabPane>)
+      const pane = screen.getByText('Test')
+      expect(pane).toHaveClass('tab-pane', 'fade')
+      expect(pane).not.toHaveClass('active')
     })
 
     test('matches the baseline markup snapshot', () => {
@@ -23,8 +24,8 @@ describe('CxTabPane', () => {
     })
 
     test('applies the active class when visible', () => {
-      const { container } = render(<CxTabPane visible>Test</CxTabPane>)
-      expect(container.firstChild).toHaveClass('active')
+      render(<CxTabPane visible>Test</CxTabPane>)
+      expect(screen.getByText('Test')).toHaveClass('active')
     })
   })
 

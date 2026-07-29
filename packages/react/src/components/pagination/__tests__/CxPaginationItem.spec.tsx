@@ -8,9 +8,10 @@ import { CxPaginationItem } from '../../../index'
 describe('CxPaginationItem', () => {
   describe('rendering', () => {
     test('renders a li wrapping a button by default', () => {
-      const { container } = render(<CxPaginationItem>Test</CxPaginationItem>)
-      expect(container.firstChild).toHaveClass('page-item')
-      expect(container.firstChild?.nodeName).toBe('LI')
+      render(<CxPaginationItem>Test</CxPaginationItem>)
+      const item = screen.getByRole('listitem')
+      expect(item).toHaveClass('page-item')
+      expect(item.tagName).toBe('LI')
       const button = screen.getByRole('button', { name: 'Test' })
       expect(button).toHaveClass('page-link')
     })
@@ -28,13 +29,14 @@ describe('CxPaginationItem', () => {
     })
 
     test('renders as a span and ignores href when active', () => {
-      const { container } = render(
+      render(
         <CxPaginationItem active href="/bazinga">
           Test
         </CxPaginationItem>
       )
-      expect(container.firstChild).toHaveClass('page-item', 'active')
-      expect(container.firstChild).toHaveAttribute('aria-current', 'page')
+      const item = screen.getByRole('listitem')
+      expect(item).toHaveClass('page-item', 'active')
+      expect(item).toHaveAttribute('aria-current', 'page')
       expect(screen.queryByRole('link')).not.toBeInTheDocument()
       const span = screen.getByText('Test')
       expect(span.tagName).toBe('SPAN')
@@ -45,16 +47,16 @@ describe('CxPaginationItem', () => {
       render(<CxPaginationItem disabled>Test</CxPaginationItem>)
       const button = screen.getByRole('button', { name: 'Test' })
       expect(button).toBeDisabled()
-      expect(button.closest('li')).toHaveClass('disabled')
+      expect(screen.getByRole('listitem')).toHaveClass('disabled')
     })
 
     test('renders as a custom component with only className and ref applied', () => {
-      const { container } = render(
+      render(
         <CxPaginationItem className="bazinga" component="h3">
           Test
         </CxPaginationItem>
       )
-      expect(container.firstChild).toHaveClass('page-item', 'bazinga')
+      expect(screen.getByRole('listitem')).toHaveClass('page-item', 'bazinga')
       const heading = screen.getByText('Test')
       expect(heading.tagName).toBe('H3')
       expect(heading).toHaveClass('page-link')

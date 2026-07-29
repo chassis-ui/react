@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { CxButtonToolbar, CxButtonGroup, CxButton } from '../../../index'
@@ -7,9 +7,10 @@ import { CxButtonToolbar, CxButtonGroup, CxButton } from '../../../index'
 describe('CxButtonToolbar', () => {
   describe('rendering', () => {
     test('renders a div with the base class', () => {
-      const { container } = render(<CxButtonToolbar>Test</CxButtonToolbar>)
-      expect(container.firstChild).toHaveClass('button-toolbar')
-      expect(container.firstChild?.nodeName).toBe('DIV')
+      render(<CxButtonToolbar>Test</CxButtonToolbar>)
+      const toolbar = screen.getByText('Test')
+      expect(toolbar).toHaveClass('button-toolbar')
+      expect(toolbar.tagName).toBe('DIV')
     })
 
     test('matches the baseline markup snapshot', () => {
@@ -29,8 +30,8 @@ describe('CxButtonToolbar', () => {
     })
 
     test('applies className', () => {
-      const { container } = render(<CxButtonToolbar className="bazinga">Test</CxButtonToolbar>)
-      expect(container.firstChild).toHaveClass('button-toolbar', 'bazinga')
+      render(<CxButtonToolbar className="bazinga">Test</CxButtonToolbar>)
+      expect(screen.getByText('Test')).toHaveClass('button-toolbar', 'bazinga')
     })
   })
 

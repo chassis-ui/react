@@ -7,9 +7,10 @@ import { CxList, CxListItem } from '../../../index'
 describe('CxList', () => {
   describe('rendering', () => {
     test('renders a ul with the base class by default', () => {
-      const { container } = render(<CxList>Test</CxList>)
-      expect(container.firstChild).toHaveClass('list')
-      expect(container.firstChild?.nodeName).toBe('UL')
+      render(<CxList>Test</CxList>)
+      const list = screen.getByText('Test')
+      expect(list).toHaveClass('list')
+      expect(list.tagName).toBe('UL')
     })
 
     test('matches the baseline markup snapshot', () => {
@@ -24,41 +25,43 @@ describe('CxList', () => {
     })
 
     test('renders as a custom component with flush and layout classes', () => {
-      const { container } = render(
+      render(
         <CxList className="bazinga" component="h3" flush={true} layout="xlarge:horizontal">
           Test
         </CxList>
       )
-      expect(container.firstChild).toHaveClass('list', 'flush', 'xlarge:horizontal', 'bazinga')
-      expect(container.firstChild?.nodeName).toBe('H3')
+      const list = screen.getByText('Test')
+      expect(list).toHaveClass('list', 'flush', 'xlarge:horizontal', 'bazinga')
+      expect(list.tagName).toBe('H3')
     })
 
     test('applies plain and numbered classes', () => {
-      const { container } = render(
+      render(
         <CxList component="ol" plain={true} numbered={true}>
           Test
         </CxList>
       )
-      expect(container.firstChild).toHaveClass('plain', 'numbered')
+      expect(screen.getByText('Test')).toHaveClass('plain', 'numbered')
     })
 
     test('applies context and variant classes', () => {
-      const { container } = render(
+      render(
         <CxList context="primary" variant="solid">
           Test
         </CxList>
       )
-      expect(container.firstChild).toHaveClass('context', 'primary', 'solid')
+      expect(screen.getByText('Test')).toHaveClass('context', 'primary', 'solid')
     })
 
     test('forwards arbitrary HTML attributes', () => {
-      const { container } = render(
+      render(
         <CxList id="nav-list" data-testid="my-list">
           Test
         </CxList>
       )
-      expect(container.firstChild).toHaveAttribute('id', 'nav-list')
-      expect(container.firstChild).toHaveAttribute('data-testid', 'my-list')
+      const list = screen.getByText('Test')
+      expect(list).toHaveAttribute('id', 'nav-list')
+      expect(list).toHaveAttribute('data-testid', 'my-list')
     })
   })
 

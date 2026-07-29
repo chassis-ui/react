@@ -7,9 +7,10 @@ import { CxListItem } from '../../../index'
 describe('CxListItem', () => {
   describe('rendering', () => {
     test('renders an li with the base class by default', () => {
-      const { container } = render(<CxListItem>Test</CxListItem>)
-      expect(container.firstChild).toHaveClass('list-item')
-      expect(container.firstChild?.nodeName).toBe('LI')
+      render(<CxListItem>Test</CxListItem>)
+      const item = screen.getByText('Test')
+      expect(item).toHaveClass('list-item')
+      expect(item.tagName).toBe('LI')
     })
 
     test('matches the baseline markup snapshot', () => {
@@ -18,12 +19,12 @@ describe('CxListItem', () => {
     })
 
     test('applies context, active and disabled classes together', () => {
-      const { container } = render(
+      render(
         <CxListItem className="bazinga" active={true} context="warning" disabled={true}>
           Test
         </CxListItem>
       )
-      expect(container.firstChild).toHaveClass(
+      expect(screen.getByText('Test')).toHaveClass(
         'list-item',
         'context',
         'warning',

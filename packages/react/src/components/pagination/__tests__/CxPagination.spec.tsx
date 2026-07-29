@@ -13,8 +13,8 @@ describe('CxPagination', () => {
           <CxPaginationItem>A</CxPaginationItem>
         </CxPagination>
       )
-      const nav = screen.getByRole('navigation')
-      expect(nav.querySelector('ul')).toHaveClass('pagination')
+      expect(screen.getByRole('navigation')).toBeInTheDocument()
+      expect(screen.getByRole('list')).toHaveClass('pagination')
     })
 
     test('matches the baseline markup snapshot', () => {
@@ -34,8 +34,7 @@ describe('CxPagination', () => {
           Test
         </CxPagination>
       )
-      const nav = screen.getByRole('navigation')
-      expect(nav.querySelector('ul')).toHaveClass(
+      expect(screen.getByRole('list')).toHaveClass(
         'bazinga',
         'pagination',
         'pagination-large',
@@ -50,7 +49,10 @@ describe('CxPagination', () => {
 
       expect(screen.getByRole('button', { name: '1' })).toBeInTheDocument()
       // The active page renders as a non-interactive span, not a button — see CxPaginationItem.
+      // listitem's accessible name isn't computed from content (verified), so the enclosing
+      // <li> can't be found by role + name and needs raw node access instead.
       const active = screen.getByText('2')
+      // eslint-disable-next-line testing-library/no-node-access
       expect(active.closest('li')).toHaveAttribute('aria-current', 'page')
       expect(screen.getByRole('button', { name: '3' })).toBeInTheDocument()
     })

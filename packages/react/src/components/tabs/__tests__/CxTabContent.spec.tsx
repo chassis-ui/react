@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { CxTabContent } from '../../../index'
@@ -7,9 +7,10 @@ import { CxTabContent } from '../../../index'
 describe('CxTabContent', () => {
   describe('rendering', () => {
     test('renders a div with the base class and className merged', () => {
-      const { container } = render(<CxTabContent className="bazinga">Test</CxTabContent>)
-      expect(container.firstChild).toHaveClass('tab-content', 'bazinga')
-      expect(container.firstChild?.nodeName).toBe('DIV')
+      render(<CxTabContent className="bazinga">Test</CxTabContent>)
+      const content = screen.getByText('Test')
+      expect(content).toHaveClass('tab-content', 'bazinga')
+      expect(content.tagName).toBe('DIV')
     })
 
     test('matches the baseline markup snapshot', () => {
