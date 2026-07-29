@@ -4,121 +4,124 @@ import { axe } from 'jest-axe'
 
 import { CxMenu, CxMenuToggle, CxMenuList, CxMenuItem } from '../../../index'
 
-test('loads and displays CxMenu component', async () => {
-  const { container } = render(<CxMenu>Test</CxMenu>)
-  expect(container).toMatchSnapshot()
-})
+describe('CxMenu', () => {
+  describe('rendering', () => {
+    test('matches the baseline markup snapshot', () => {
+      const { container } = render(<CxMenu>Test</CxMenu>)
+      expect(container).toMatchSnapshot()
+    })
 
-test('CxMenu customize', async () => {
-  const { container } = render(
-    <CxMenu className="bazinga" component="h3" placement="right-end" visible={true}>
-      Test
-    </CxMenu>
-  )
-  expect(container).toMatchSnapshot()
-  expect(container.firstChild).toHaveClass('bazinga')
-})
+    test('renders as a custom component with className merged', () => {
+      render(
+        <CxMenu className="bazinga" component="h3" placement="right-end" visible={true}>
+          Test
+        </CxMenu>
+      )
+      expect(screen.getByText('Test')).toHaveClass('bazinga')
+    })
 
-test('CxMenu change visible prop', async () => {
-  render(
-    <CxMenu visible={false}>
-      <CxMenuToggle>Toggle</CxMenuToggle>
-      <CxMenuList>
-        <CxMenuItem>A</CxMenuItem>
-      </CxMenuList>
-    </CxMenu>
-  )
-  const menu = document.querySelector('.menu')
-  expect(menu).not.toHaveClass('show')
-})
+    test('matches the baseline markup snapshot when open', () => {
+      const { container } = render(
+        <CxMenu visible>
+          <CxMenuToggle>Test</CxMenuToggle>
+          <CxMenuList>
+            <CxMenuItem>A</CxMenuItem>
+            <CxMenuItem>B</CxMenuItem>
+          </CxMenuList>
+        </CxMenu>
+      )
+      expect(container).toMatchSnapshot()
+    })
+  })
 
-test('CxMenu click toggles the menu and closes on outside click', async () => {
-  vi.useFakeTimers()
-  render(
-    <CxMenu>
-      <CxMenuToggle>Toggle</CxMenuToggle>
-      <CxMenuList>
-        <CxMenuItem>A</CxMenuItem>
-        <CxMenuItem>B</CxMenuItem>
-      </CxMenuList>
-    </CxMenu>
-  )
-  const toggle = screen.getByText('Toggle')
-  const menu = document.querySelector('.menu')
-  expect(menu).not.toHaveClass('show')
+  describe('open/close behavior', () => {
+    test('reflects the visible prop on the menu panel', () => {
+      render(
+        <CxMenu visible={false}>
+          <CxMenuToggle>Toggle</CxMenuToggle>
+          <CxMenuList>
+            <CxMenuItem>A</CxMenuItem>
+          </CxMenuList>
+        </CxMenu>
+      )
+      expect(screen.getByRole('menu', { hidden: true })).not.toHaveClass('show')
+    })
 
-  fireEvent.click(toggle)
-  expect(menu).toHaveClass('show')
-  expect(toggle).toHaveAttribute('aria-expanded', 'true')
+    test('click toggles the menu and closes on outside click', () => {
+      vi.useFakeTimers()
+      render(
+        <CxMenu>
+          <CxMenuToggle>Toggle</CxMenuToggle>
+          <CxMenuList>
+            <CxMenuItem>A</CxMenuItem>
+            <CxMenuItem>B</CxMenuItem>
+          </CxMenuList>
+        </CxMenu>
+      )
+      const toggle = screen.getByText('Toggle')
+      expect(screen.getByRole('menu', { hidden: true })).not.toHaveClass('show')
 
-  vi.runAllTimers()
-  fireEvent.click(document)
-  expect(menu).not.toHaveClass('show')
-  vi.useRealTimers()
-})
+      fireEvent.click(toggle)
+      expect(screen.getByRole('menu')).toHaveClass('show')
+      expect(toggle).toHaveAttribute('aria-expanded', 'true')
 
-test('CxMenu autoClose="inside" only closes on clicks inside the menu', async () => {
-  vi.useFakeTimers()
-  render(
-    <CxMenu autoClose="inside">
-      <CxMenuToggle>Toggle</CxMenuToggle>
-      <CxMenuList>
-        <CxMenuItem>A</CxMenuItem>
-      </CxMenuList>
-    </CxMenu>
-  )
-  fireEvent.click(screen.getByText('Toggle'))
-  const menu = document.querySelector('.menu') as HTMLElement
-  vi.runAllTimers()
+      vi.runAllTimers()
+      fireEvent.click(document)
+      expect(screen.getByRole('menu', { hidden: true })).not.toHaveClass('show')
+      vi.useRealTimers()
+    })
 
-  fireEvent.click(document.body)
-  expect(menu).toHaveClass('show')
+    test('autoClose="inside" only closes on clicks inside the menu', () => {
+      vi.useFakeTimers()
+      render(
+        <CxMenu autoClose="inside">
+          <CxMenuToggle>Toggle</CxMenuToggle>
+          <CxMenuList>
+            <CxMenuItem>A</CxMenuItem>
+          </CxMenuList>
+        </CxMenu>
+      )
+      fireEvent.click(screen.getByText('Toggle'))
+      vi.runAllTimers()
 
-  fireEvent.click(screen.getByText('A'))
-  expect(menu).not.toHaveClass('show')
-  vi.useRealTimers()
-})
+      fireEvent.click(document.body)
+      expect(screen.getByRole('menu')).toHaveClass('show')
 
-test('CxMenu autoClose={false} never closes automatically', async () => {
-  vi.useFakeTimers()
-  render(
-    <CxMenu autoClose={false}>
-      <CxMenuToggle>Toggle</CxMenuToggle>
-      <CxMenuList>
-        <CxMenuItem>A</CxMenuItem>
-      </CxMenuList>
-    </CxMenu>
-  )
-  fireEvent.click(screen.getByText('Toggle'))
-  const menu = document.querySelector('.menu') as HTMLElement
-  vi.runAllTimers()
-  fireEvent.click(document.body)
-  expect(menu).toHaveClass('show')
-  vi.useRealTimers()
-})
+      fireEvent.click(screen.getByText('A'))
+      expect(screen.getByRole('menu', { hidden: true })).not.toHaveClass('show')
+      vi.useRealTimers()
+    })
 
-test('CxMenu example', async () => {
-  const { container } = render(
-    <CxMenu visible>
-      <CxMenuToggle>Test</CxMenuToggle>
-      <CxMenuList>
-        <CxMenuItem>A</CxMenuItem>
-        <CxMenuItem>B</CxMenuItem>
-      </CxMenuList>
-    </CxMenu>
-  )
-  expect(container).toMatchSnapshot()
-})
+    test('autoClose={false} never closes automatically', () => {
+      vi.useFakeTimers()
+      render(
+        <CxMenu autoClose={false}>
+          <CxMenuToggle>Toggle</CxMenuToggle>
+          <CxMenuList>
+            <CxMenuItem>A</CxMenuItem>
+          </CxMenuList>
+        </CxMenu>
+      )
+      fireEvent.click(screen.getByText('Toggle'))
+      vi.runAllTimers()
+      fireEvent.click(document.body)
+      expect(screen.getByRole('menu')).toHaveClass('show')
+      vi.useRealTimers()
+    })
+  })
 
-test('CxMenu has no axe violations when open', async () => {
-  const { container } = render(
-    <CxMenu visible>
-      <CxMenuToggle>Test</CxMenuToggle>
-      <CxMenuList>
-        <CxMenuItem href="#">A</CxMenuItem>
-        <CxMenuItem href="#">B</CxMenuItem>
-      </CxMenuList>
-    </CxMenu>
-  )
-  expect(await axe(container)).toHaveNoViolations()
+  describe('accessibility', () => {
+    test('has no axe violations when open', async () => {
+      const { container } = render(
+        <CxMenu visible>
+          <CxMenuToggle>Test</CxMenuToggle>
+          <CxMenuList>
+            <CxMenuItem href="#">A</CxMenuItem>
+            <CxMenuItem href="#">B</CxMenuItem>
+          </CxMenuList>
+        </CxMenu>
+      )
+      expect(await axe(container)).toHaveNoViolations()
+    })
+  })
 })

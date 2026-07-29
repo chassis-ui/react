@@ -1,26 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CxSwitch customize 1`] = `
-<div>
-  <label
-    class="form-check form-switch large is-invalid is-valid bazinga"
-  >
-    <span
-      class="check-input secondary is-invalid is-valid"
-    >
-      <input
-        class="is-invalid is-valid"
-        id="2"
-        role="switch"
-        type="radio"
-      />
-    </span>
-    Some label
-  </label>
-</div>
-`;
-
-exports[`loads and displays CxSwitch component 1`] = `
+exports[`CxSwitch > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <label
     class="form-check form-switch"
@@ -36,6 +16,26 @@ exports[`loads and displays CxSwitch component 1`] = `
         type="checkbox"
       />
     </span>
+  </label>
+</div>
+`;
+
+exports[`CxSwitch > styling props > applies context, size, invalid/valid classes together, as a radio-backed switch 1`] = `
+<div>
+  <label
+    class="form-check form-switch large is-invalid is-valid bazinga"
+  >
+    <span
+      class="check-input secondary is-invalid is-valid"
+    >
+      <input
+        class="is-invalid is-valid"
+        id="2"
+        role="switch"
+        type="radio"
+      />
+    </span>
+    Some label
   </label>
 </div>
 `;
