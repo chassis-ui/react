@@ -28,12 +28,12 @@ describe('CxForm', () => {
     })
 
     test('applies the was-validated class and className together', () => {
-      const { container } = render(
+      render(
         <CxForm className="bazinga" validated={true}>
           Test
         </CxForm>
       )
-      expect(container.firstChild).toHaveClass('was-validated', 'bazinga')
+      expect(screen.getByText('Test')).toHaveClass('was-validated', 'bazinga')
     })
   })
 

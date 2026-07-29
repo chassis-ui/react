@@ -72,13 +72,17 @@ describe('CxTextarea', () => {
 
   describe('field wrapping', () => {
     test('renders no wrapper when label/help/feedback are all unset', () => {
+      // The .form-field wrapper has no role/name, so its absence can only be checked by class.
       const { container } = render(<CxTextarea aria-label="Bio" />)
+      // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
       expect(container.querySelector('.form-field')).toBeNull()
     })
 
     test('wraps in .form-field and associates the label via htmlFor when label is set', () => {
       render(<CxTextarea label="Bio" />)
       const textarea = screen.getByRole('textbox', { name: 'Bio' })
+      // Same class-only wrapper as above - no accessible query reaches it.
+      // eslint-disable-next-line testing-library/no-node-access
       expect(textarea.closest('.form-field')).not.toBeNull()
       expect(screen.getByText('Bio').tagName).toBe('LABEL')
     })

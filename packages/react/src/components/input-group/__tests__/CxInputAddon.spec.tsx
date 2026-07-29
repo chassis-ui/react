@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { CxInputAddon } from '../../../index'
@@ -7,9 +7,10 @@ import { CxInputAddon } from '../../../index'
 describe('CxInputAddon', () => {
   describe('rendering', () => {
     test('renders a span with the base class by default', () => {
-      const { container } = render(<CxInputAddon>Test</CxInputAddon>)
-      expect(container.firstChild).toHaveClass('input-addon')
-      expect(container.firstChild?.nodeName).toBe('SPAN')
+      render(<CxInputAddon>Test</CxInputAddon>)
+      const addon = screen.getByText('Test')
+      expect(addon).toHaveClass('input-addon')
+      expect(addon.tagName).toBe('SPAN')
     })
 
     test('matches the baseline markup snapshot', () => {
@@ -18,13 +19,14 @@ describe('CxInputAddon', () => {
     })
 
     test('renders as a custom component with className merged', () => {
-      const { container } = render(
+      render(
         <CxInputAddon className="bazinga" component="label">
           Test
         </CxInputAddon>
       )
-      expect(container.firstChild).toHaveClass('input-addon', 'bazinga')
-      expect(container.firstChild?.nodeName).toBe('LABEL')
+      const addon = screen.getByText('Test')
+      expect(addon).toHaveClass('input-addon', 'bazinga')
+      expect(addon.tagName).toBe('LABEL')
     })
   })
 

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { CxFormFeedback } from '../../../index'
@@ -9,7 +9,7 @@ describe('CxFormFeedback', () => {
     test('renders a div by default with no validation classes', () => {
       const { container } = render(<CxFormFeedback>Test</CxFormFeedback>)
       expect(container.firstChild?.nodeName).toBe('DIV')
-      expect(container.firstChild).toHaveAttribute('class', '')
+      expect(screen.getByText('Test')).toHaveAttribute('class', '')
     })
 
     test('matches the baseline markup snapshot', () => {
@@ -18,21 +18,21 @@ describe('CxFormFeedback', () => {
     })
 
     test('applies invalid/valid feedback classes with className', () => {
-      const { container } = render(
+      render(
         <CxFormFeedback className="bazinga" invalid={true} valid={true}>
           Test
         </CxFormFeedback>
       )
-      expect(container.firstChild).toHaveClass('invalid-feedback', 'valid-feedback', 'bazinga')
+      expect(screen.getByText('Test')).toHaveClass('invalid-feedback', 'valid-feedback', 'bazinga')
     })
 
     test('applies tooltip variant classes', () => {
-      const { container } = render(
+      render(
         <CxFormFeedback invalid={true} valid={true} tooltip={true}>
           Test
         </CxFormFeedback>
       )
-      expect(container.firstChild).toHaveClass('invalid-tooltip', 'valid-tooltip')
+      expect(screen.getByText('Test')).toHaveClass('invalid-tooltip', 'valid-tooltip')
     })
 
     test('renders as a custom component', () => {

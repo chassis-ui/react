@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { CxFormHelp } from '../../../index'
@@ -7,9 +7,10 @@ import { CxFormHelp } from '../../../index'
 describe('CxFormHelp', () => {
   describe('rendering', () => {
     test('renders a div with the base class by default', () => {
-      const { container } = render(<CxFormHelp>Test</CxFormHelp>)
-      expect(container.firstChild).toHaveClass('form-help')
-      expect(container.firstChild?.nodeName).toBe('DIV')
+      render(<CxFormHelp>Test</CxFormHelp>)
+      const help = screen.getByText('Test')
+      expect(help).toHaveClass('form-help')
+      expect(help.tagName).toBe('DIV')
     })
 
     test('matches the baseline markup snapshot', () => {
@@ -18,13 +19,14 @@ describe('CxFormHelp', () => {
     })
 
     test('renders as a custom component with className merged', () => {
-      const { container } = render(
+      render(
         <CxFormHelp className="bazinga" component="h3">
           Test
         </CxFormHelp>
       )
-      expect(container.firstChild).toHaveClass('form-help', 'bazinga')
-      expect(container.firstChild?.nodeName).toBe('H3')
+      const help = screen.getByText('Test')
+      expect(help).toHaveClass('form-help', 'bazinga')
+      expect(help.tagName).toBe('H3')
     })
   })
 

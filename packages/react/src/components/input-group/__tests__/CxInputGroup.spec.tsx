@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { CxInputGroup } from '../../../index'
@@ -7,9 +7,10 @@ import { CxInputGroup } from '../../../index'
 describe('CxInputGroup', () => {
   describe('rendering', () => {
     test('renders a div with the base class by default', () => {
-      const { container } = render(<CxInputGroup>Test</CxInputGroup>)
-      expect(container.firstChild).toHaveClass('input-group')
-      expect(container.firstChild?.nodeName).toBe('DIV')
+      render(<CxInputGroup>Test</CxInputGroup>)
+      const group = screen.getByText('Test')
+      expect(group).toHaveClass('input-group')
+      expect(group.tagName).toBe('DIV')
     })
 
     test('matches the baseline markup snapshot', () => {
@@ -18,12 +19,12 @@ describe('CxInputGroup', () => {
     })
 
     test('applies size class and className together', () => {
-      const { container } = render(
+      render(
         <CxInputGroup className="bazinga" size="large">
           Test
         </CxInputGroup>
       )
-      expect(container.firstChild).toHaveClass('input-group', 'large', 'bazinga')
+      expect(screen.getByText('Test')).toHaveClass('input-group', 'large', 'bazinga')
     })
   })
 

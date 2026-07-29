@@ -7,12 +7,16 @@ import { CxFormField } from '../../../index'
 describe('CxFormField', () => {
   describe('rendering', () => {
     test('renders children bare when no label/help/feedback are set', () => {
+      // Asserting the absence of a wrapper with only a class, and that the input is the
+      // container's direct child with no wrapper at all - neither has an accessible query.
       const { container } = render(
         <CxFormField>
           <input aria-label="Name" />
         </CxFormField>
       )
+      // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
       expect(container.querySelector('.form-field')).toBeNull()
+      // eslint-disable-next-line testing-library/no-node-access
       expect(container.firstChild).toBe(screen.getByRole('textbox', { name: 'Name' }))
     })
 

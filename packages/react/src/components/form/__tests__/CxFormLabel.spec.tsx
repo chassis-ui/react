@@ -7,9 +7,10 @@ import { CxTextInput, CxFormLabel } from '../../../index'
 describe('CxFormLabel', () => {
   describe('rendering', () => {
     test('renders a label with the base class and className merged', () => {
-      const { container } = render(<CxFormLabel className="bazinga">Test</CxFormLabel>)
-      expect(container.firstChild).toHaveClass('form-label', 'bazinga')
-      expect(container.firstChild?.nodeName).toBe('LABEL')
+      render(<CxFormLabel className="bazinga">Test</CxFormLabel>)
+      const label = screen.getByText('Test')
+      expect(label).toHaveClass('form-label', 'bazinga')
+      expect(label.tagName).toBe('LABEL')
     })
 
     test('matches the baseline markup snapshot', () => {
@@ -18,12 +19,12 @@ describe('CxFormLabel', () => {
     })
 
     test('customClassName overrides the base and passed className entirely', () => {
-      const { container } = render(
+      render(
         <CxFormLabel className="bazinga" customClassName="only-this">
           Test
         </CxFormLabel>
       )
-      expect(container.firstChild).toHaveAttribute('class', 'only-this')
+      expect(screen.getByText('Test')).toHaveAttribute('class', 'only-this')
     })
 
     test('associates with a control via htmlFor', () => {

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { CxFloatingInput } from '../../../index'
@@ -7,9 +7,8 @@ import { CxFloatingInput } from '../../../index'
 describe('CxFloatingInput', () => {
   describe('rendering', () => {
     test('renders a div with the base class and className merged', () => {
-      const { container } = render(<CxFloatingInput className="bazinga">Test</CxFloatingInput>)
-      expect(container.firstChild).toHaveClass('form-floating', 'bazinga')
-      expect(container.firstChild).toHaveTextContent('Test')
+      render(<CxFloatingInput className="bazinga">Test</CxFloatingInput>)
+      expect(screen.getByText('Test')).toHaveClass('form-floating', 'bazinga')
     })
 
     test('matches the baseline markup snapshot', () => {
