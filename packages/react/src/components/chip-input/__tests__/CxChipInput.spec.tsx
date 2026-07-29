@@ -4,164 +4,201 @@ import { axe } from 'jest-axe'
 
 import { CxChipInput } from '../../../index'
 
-test('renders a labeled group with a ghost input', () => {
-  // react-aria's useTagGroup renders role="group" while empty and role="grid" once it has tags —
-  // real grid semantics don't apply to an empty collection.
-  render(<CxChipInput aria-label="Skills" />)
-  expect(screen.getByRole('group', { name: 'Skills' })).toBeInTheDocument()
-  expect(screen.getByRole('textbox')).toBeInTheDocument()
-})
+describe('CxChipInput', () => {
+  describe('rendering', () => {
+    test('renders a labeled group with a ghost input', () => {
+      // react-aria's useTagGroup renders role="group" while empty and role="grid" once it has
+      // tags — real grid semantics don't apply to an empty collection.
+      render(<CxChipInput aria-label="Skills" />)
+      expect(screen.getByRole('group', { name: 'Skills' })).toBeInTheDocument()
+      expect(screen.getByRole('textbox')).toBeInTheDocument()
+    })
 
-test('the group becomes a grid once it has tags', () => {
-  render(<CxChipInput aria-label="Skills" defaultValue={['React']} />)
-  expect(screen.getByRole('grid', { name: 'Skills' })).toBeInTheDocument()
-})
-
-test('typing a value and pressing Enter creates a chip', () => {
-  const onChange = vi.fn()
-  render(<CxChipInput aria-label="Skills" onChange={onChange} />)
-  const input = screen.getByRole('textbox')
-  fireEvent.change(input, { target: { value: 'React' } })
-  fireEvent.keyDown(input, { key: 'Enter' })
-  expect(onChange).toHaveBeenCalledWith(['React'])
-  expect(screen.getByRole('row', { name: /React/ })).toBeInTheDocument()
-  expect(input).toHaveValue('')
-})
-
-test('typing the separator character creates a chip', () => {
-  const onChange = vi.fn()
-  render(<CxChipInput aria-label="Skills" onChange={onChange} />)
-  const input = screen.getByRole('textbox')
-  fireEvent.change(input, { target: { value: 'React' } })
-  fireEvent.keyDown(input, { key: ',' })
-  expect(onChange).toHaveBeenCalledWith(['React'])
-})
-
-test('pasting separator-delimited text creates multiple chips', () => {
-  const onChange = vi.fn()
-  render(<CxChipInput aria-label="Skills" onChange={onChange} />)
-  const input = screen.getByRole('textbox') as HTMLInputElement
-  fireEvent.paste(input, {
-    clipboardData: { getData: () => 'React,TypeScript,CSS' }
+    test('the group becomes a grid once it has tags', () => {
+      render(<CxChipInput aria-label="Skills" defaultValue={['React']} />)
+      expect(screen.getByRole('grid', { name: 'Skills' })).toBeInTheDocument()
+    })
   })
-  expect(onChange).toHaveBeenCalledTimes(1)
-  expect(onChange).toHaveBeenCalledWith(['React', 'TypeScript'])
-  expect(input.value).toBe('CSS')
-})
 
-test('duplicate values are rejected unless allowDuplicates is set', () => {
-  const onChange = vi.fn()
-  render(<CxChipInput aria-label="Skills" defaultValue={['React']} onChange={onChange} />)
-  const input = screen.getByRole('textbox')
-  fireEvent.change(input, { target: { value: 'React' } })
-  fireEvent.keyDown(input, { key: 'Enter' })
-  expect(onChange).not.toHaveBeenCalled()
-})
+  describe('creating chips', () => {
+    test('typing a value and pressing Enter creates a chip', () => {
+      const onChange = vi.fn()
+      render(<CxChipInput aria-label="Skills" onChange={onChange} />)
+      const input = screen.getByRole('textbox')
+      fireEvent.change(input, { target: { value: 'React' } })
+      fireEvent.keyDown(input, { key: 'Enter' })
+      expect(onChange).toHaveBeenCalledWith(['React'])
+      expect(screen.getByRole('row', { name: /React/ })).toBeInTheDocument()
+      expect(input).toHaveValue('')
+    })
 
-test('maxChips prevents adding beyond the limit', () => {
-  const onChange = vi.fn()
-  render(
-    <CxChipInput aria-label="Skills" defaultValue={['React']} maxChips={1} onChange={onChange} />
-  )
-  const input = screen.getByRole('textbox')
-  fireEvent.change(input, { target: { value: 'CSS' } })
-  fireEvent.keyDown(input, { key: 'Enter' })
-  expect(onChange).not.toHaveBeenCalled()
-})
+    test('typing the separator character creates a chip', () => {
+      const onChange = vi.fn()
+      render(<CxChipInput aria-label="Skills" onChange={onChange} />)
+      const input = screen.getByRole('textbox')
+      fireEvent.change(input, { target: { value: 'React' } })
+      fireEvent.keyDown(input, { key: ',' })
+      expect(onChange).toHaveBeenCalledWith(['React'])
+    })
 
-test('clicking a chip close button removes it', () => {
-  const onChange = vi.fn()
-  render(
-    <CxChipInput aria-label="Skills" defaultValue={['React', 'TypeScript']} onChange={onChange} />
-  )
-  const row = screen.getByRole('row', { name: /React/ })
-  const removeButton = within(row).getByRole('button')
-  fireEvent.click(removeButton)
-  expect(onChange).toHaveBeenCalledWith(['TypeScript'])
-})
+    test('pasting separator-delimited text creates multiple chips', () => {
+      const onChange = vi.fn()
+      render(<CxChipInput aria-label="Skills" onChange={onChange} />)
+      const input = screen.getByRole('textbox') as HTMLInputElement
+      fireEvent.paste(input, {
+        clipboardData: { getData: () => 'React,TypeScript,CSS' }
+      })
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenCalledWith(['React', 'TypeScript'])
+      expect(input.value).toBe('CSS')
+    })
 
-test('backspace on an empty input focuses and selects the last chip', () => {
-  render(<CxChipInput aria-label="Skills" defaultValue={['React', 'TypeScript']} />)
-  const input = screen.getByRole('textbox')
-  fireEvent.keyDown(input, { key: 'Backspace' })
-  const lastRow = screen.getByRole('row', { name: /TypeScript/ })
-  expect(lastRow).toHaveFocus()
-})
+    test('duplicate values are rejected unless allowDuplicates is set', () => {
+      const onChange = vi.fn()
+      render(<CxChipInput aria-label="Skills" defaultValue={['React']} onChange={onChange} />)
+      const input = screen.getByRole('textbox')
+      fireEvent.change(input, { target: { value: 'React' } })
+      fireEvent.keyDown(input, { key: 'Enter' })
+      expect(onChange).not.toHaveBeenCalled()
+    })
 
-test('pressing Backspace with a chip focused removes it', () => {
-  const onChange = vi.fn()
-  render(
-    <CxChipInput aria-label="Skills" defaultValue={['React', 'TypeScript']} onChange={onChange} />
-  )
-  const input = screen.getByRole('textbox')
-  fireEvent.keyDown(input, { key: 'Backspace' })
-  const lastRow = screen.getByRole('row', { name: /TypeScript/ })
-  fireEvent.keyDown(lastRow, { key: 'Backspace' })
-  expect(onChange).toHaveBeenCalledWith(['React'])
-})
+    test('maxChips prevents adding beyond the limit', () => {
+      const onChange = vi.fn()
+      render(
+        <CxChipInput
+          aria-label="Skills"
+          defaultValue={['React']}
+          maxChips={1}
+          onChange={onChange}
+        />
+      )
+      const input = screen.getByRole('textbox')
+      fireEvent.change(input, { target: { value: 'CSS' } })
+      fireEvent.keyDown(input, { key: 'Enter' })
+      expect(onChange).not.toHaveBeenCalled()
+    })
+  })
 
-test('creates a hidden input per chip for form submission when name is provided', () => {
-  const { container } = render(
-    <CxChipInput aria-label="Skills" defaultValue={['React', 'TypeScript']} name="skills" />
-  )
-  const hiddenInputs = container.querySelectorAll('input[type="hidden"][name="skills"]')
-  expect(hiddenInputs).toHaveLength(2)
-  expect((hiddenInputs[0] as HTMLInputElement).value).toBe('React')
-  expect((hiddenInputs[1] as HTMLInputElement).value).toBe('TypeScript')
-})
+  describe('removing chips', () => {
+    test('clicking a chip close button removes it', () => {
+      const onChange = vi.fn()
+      render(
+        <CxChipInput
+          aria-label="Skills"
+          defaultValue={['React', 'TypeScript']}
+          onChange={onChange}
+        />
+      )
+      const row = screen.getByRole('row', { name: /React/ })
+      const removeButton = within(row).getByRole('button')
+      fireEvent.click(removeButton)
+      expect(onChange).toHaveBeenCalledWith(['TypeScript'])
+    })
 
-test('supports controlled value', () => {
-  const onChange = vi.fn()
-  const { rerender } = render(
-    <CxChipInput aria-label="Skills" onChange={onChange} value={['React']} />
-  )
-  expect(screen.getByRole('row', { name: /React/ })).toBeInTheDocument()
+    test('backspace on an empty input focuses and selects the last chip', () => {
+      render(<CxChipInput aria-label="Skills" defaultValue={['React', 'TypeScript']} />)
+      const input = screen.getByRole('textbox')
+      fireEvent.keyDown(input, { key: 'Backspace' })
+      const lastRow = screen.getByRole('row', { name: /TypeScript/ })
+      expect(lastRow).toHaveFocus()
+    })
 
-  rerender(<CxChipInput aria-label="Skills" onChange={onChange} value={['React', 'CSS']} />)
-  expect(screen.getByRole('row', { name: /CSS/ })).toBeInTheDocument()
-})
+    test('pressing Backspace with a chip focused removes it', () => {
+      const onChange = vi.fn()
+      render(
+        <CxChipInput
+          aria-label="Skills"
+          defaultValue={['React', 'TypeScript']}
+          onChange={onChange}
+        />
+      )
+      const input = screen.getByRole('textbox')
+      fireEvent.keyDown(input, { key: 'Backspace' })
+      const lastRow = screen.getByRole('row', { name: /TypeScript/ })
+      fireEvent.keyDown(lastRow, { key: 'Backspace' })
+      expect(onChange).toHaveBeenCalledWith(['React'])
+    })
+  })
 
-test('has no axe violations with chips present', async () => {
-  const { container } = render(<CxChipInput aria-label="Skills" defaultValue={['React']} />)
-  expect(await axe(container)).toHaveNoViolations()
-})
+  describe('form integration', () => {
+    test('creates a hidden input per chip for form submission when name is provided', () => {
+      const { container } = render(
+        <CxChipInput aria-label="Skills" defaultValue={['React', 'TypeScript']} name="skills" />
+      )
+      // Hidden inputs are intentionally excluded from the accessibility tree - no query reaches
+      // them.
+      // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+      const hiddenInputs = container.querySelectorAll('input[type="hidden"][name="skills"]')
+      expect(hiddenInputs).toHaveLength(2)
+      expect((hiddenInputs[0] as HTMLInputElement).value).toBe('React')
+      expect((hiddenInputs[1] as HTMLInputElement).value).toBe('TypeScript')
+    })
 
-test('renders no wrapper when label/help/feedback are all unset', () => {
-  const { container } = render(<CxChipInput aria-label="Skills" />)
-  expect(container.querySelector('.form-field')).toBeNull()
-})
+    test('supports controlled value', () => {
+      const onChange = vi.fn()
+      const { rerender } = render(
+        <CxChipInput aria-label="Skills" onChange={onChange} value={['React']} />
+      )
+      expect(screen.getByRole('row', { name: /React/ })).toBeInTheDocument()
 
-test('wraps in .form-field and associates the label via htmlFor when label is set', () => {
-  render(<CxChipInput label="Skills" />)
-  const input = screen.getByRole('textbox', { name: 'Skills' })
-  expect(input.closest('.form-field')).not.toBeNull()
-  expect(screen.getByText('Skills').tagName).toBe('LABEL')
-})
+      rerender(<CxChipInput aria-label="Skills" onChange={onChange} value={['React', 'CSS']} />)
+      expect(screen.getByRole('row', { name: /CSS/ })).toBeInTheDocument()
+    })
+  })
 
-test('renders help text and wires it into aria-describedby', () => {
-  render(<CxChipInput aria-label="Skills" help="Some help" />)
-  const input = screen.getByRole('textbox', { name: 'Skills' })
-  const help = screen.getByText('Some help')
-  expect(help).toHaveClass('form-help')
-  expect(input.getAttribute('aria-describedby')).toContain(help.id)
-})
+  describe('field wrapping', () => {
+    test('renders no wrapper when label/help/feedback are all unset', () => {
+      // The .form-field wrapper has no role/name, so its absence can only be checked by class.
+      const { container } = render(<CxChipInput aria-label="Skills" />)
+      // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+      expect(container.querySelector('.form-field')).toBeNull()
+    })
 
-test('renders invalid feedback and wires it into aria-describedby, and sets aria-invalid and the is-invalid class, only when invalid', () => {
-  const { rerender } = render(<CxChipInput aria-label="Skills" invalidFeedback="Required" />)
-  expect(screen.queryByText('Required')).toBeNull()
+    test('wraps in .form-field and associates the label via htmlFor when label is set', () => {
+      render(<CxChipInput label="Skills" />)
+      const input = screen.getByRole('textbox', { name: 'Skills' })
+      // Same class-only wrapper as above - no accessible query reaches it.
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(input.closest('.form-field')).not.toBeNull()
+      expect(screen.getByText('Skills').tagName).toBe('LABEL')
+    })
 
-  rerender(<CxChipInput aria-label="Skills" invalid invalidFeedback="Required" />)
-  const input = screen.getByRole('textbox', { name: 'Skills' })
-  const feedback = screen.getByText('Required')
-  expect(feedback).toHaveClass('invalid-feedback')
-  expect(input).toHaveAttribute('aria-invalid', 'true')
-  expect(input.getAttribute('aria-describedby')).toContain(feedback.id)
-  expect(input.closest('.chip-input')).toHaveClass('is-invalid')
-})
+    test('renders help text and wires it into aria-describedby', () => {
+      render(<CxChipInput aria-label="Skills" help="Some help" />)
+      const input = screen.getByRole('textbox', { name: 'Skills' })
+      const help = screen.getByText('Some help')
+      expect(help).toHaveClass('form-help')
+      expect(input.getAttribute('aria-describedby')).toContain(help.id)
+    })
 
-test('renders valid feedback and applies the is-valid class only when valid', () => {
-  render(<CxChipInput aria-label="Skills" valid validFeedback="Looks good" />)
-  const input = screen.getByRole('textbox', { name: 'Skills' })
-  expect(screen.getByText('Looks good')).toHaveClass('valid-feedback')
-  expect(input.closest('.chip-input')).toHaveClass('is-valid')
+    test('renders invalid feedback and wires it into aria-describedby, and sets aria-invalid and the is-invalid class, only when invalid', () => {
+      const { rerender } = render(<CxChipInput aria-label="Skills" invalidFeedback="Required" />)
+      expect(screen.queryByText('Required')).toBeNull()
+
+      rerender(<CxChipInput aria-label="Skills" invalid invalidFeedback="Required" />)
+      const input = screen.getByRole('textbox', { name: 'Skills' })
+      const feedback = screen.getByText('Required')
+      expect(feedback).toHaveClass('invalid-feedback')
+      expect(input).toHaveAttribute('aria-invalid', 'true')
+      expect(input.getAttribute('aria-describedby')).toContain(feedback.id)
+      // The .chip-input wrapper has no role/name of its own - no accessible query reaches it.
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(input.closest('.chip-input')).toHaveClass('is-invalid')
+    })
+
+    test('renders valid feedback and applies the is-valid class only when valid', () => {
+      render(<CxChipInput aria-label="Skills" valid validFeedback="Looks good" />)
+      const input = screen.getByRole('textbox', { name: 'Skills' })
+      expect(screen.getByText('Looks good')).toHaveClass('valid-feedback')
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(input.closest('.chip-input')).toHaveClass('is-valid')
+    })
+  })
+
+  describe('accessibility', () => {
+    test('has no axe violations with chips present', async () => {
+      const { container } = render(<CxChipInput aria-label="Skills" defaultValue={['React']} />)
+      expect(await axe(container)).toHaveNoViolations()
+    })
+  })
 })
