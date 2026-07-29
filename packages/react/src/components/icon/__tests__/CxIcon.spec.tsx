@@ -5,6 +5,11 @@ import { axe } from 'jest-axe'
 import { CxIcon } from '../../../index'
 
 describe('CxIcon', () => {
+  // The icon is decorative by default (aria-hidden) and, even with a title/aria-label set,
+  // neither an SVG <title> nor a plain aria-labelled <span> resolve to role="img" in this test
+  // environment (verified directly) - there is no accessible query for any of its states, so
+  // these assertions all need raw node access.
+  /* eslint-disable testing-library/no-node-access */
   describe('rendering', () => {
     test('renders an SVG with the base class and a sprite reference by default', () => {
       const { container } = render(<CxIcon name="folder-tree" />)
@@ -60,6 +65,7 @@ describe('CxIcon', () => {
       expect(container.firstChild).toHaveAttribute('aria-label', 'Folder tree')
     })
   })
+  /* eslint-enable testing-library/no-node-access */
 
   describe('ref forwarding', () => {
     test('forwards a ref to the underlying svg by default', () => {

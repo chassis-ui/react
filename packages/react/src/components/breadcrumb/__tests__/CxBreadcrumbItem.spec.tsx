@@ -7,9 +7,10 @@ import { CxBreadcrumbItem } from '../../../index'
 describe('CxBreadcrumbItem', () => {
   describe('rendering', () => {
     test('renders a li with the base class and plain text when no href', () => {
-      const { container } = render(<CxBreadcrumbItem>Test</CxBreadcrumbItem>)
-      expect(container.firstChild).toHaveClass('breadcrumb-item')
-      expect(container.firstChild?.nodeName).toBe('LI')
+      render(<CxBreadcrumbItem>Test</CxBreadcrumbItem>)
+      const item = screen.getByText('Test')
+      expect(item).toHaveClass('breadcrumb-item')
+      expect(item.tagName).toBe('LI')
     })
 
     test('matches the baseline markup snapshot', () => {
@@ -21,17 +22,18 @@ describe('CxBreadcrumbItem', () => {
       render(<CxBreadcrumbItem href="/bazinga">Test</CxBreadcrumbItem>)
       const link = screen.getByRole('link', { name: 'Test' })
       expect(link).toHaveAttribute('href', '/bazinga')
-      expect(link.closest('li')).toHaveClass('breadcrumb-item')
+      expect(screen.getByRole('listitem')).toHaveClass('breadcrumb-item')
     })
 
     test('applies active class and aria-current on the li', () => {
-      const { container } = render(
+      render(
         <CxBreadcrumbItem active={true} className="bazinga">
           Test
         </CxBreadcrumbItem>
       )
-      expect(container.firstChild).toHaveClass('breadcrumb-item', 'active', 'bazinga')
-      expect(container.firstChild).toHaveAttribute('aria-current', 'page')
+      const item = screen.getByRole('listitem')
+      expect(item).toHaveClass('breadcrumb-item', 'active', 'bazinga')
+      expect(item).toHaveAttribute('aria-current', 'page')
     })
   })
 

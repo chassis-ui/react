@@ -96,13 +96,17 @@ describe('CxSelect', () => {
 
   describe('field wrapping', () => {
     test('renders no wrapper when label/help/feedback are all unset', () => {
+      // The .form-field wrapper has no role/name, so its absence can only be checked by class.
       const { container } = render(<CxSelect aria-label="Language" options={['js']} />)
+      // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
       expect(container.querySelector('.form-field')).toBeNull()
     })
 
     test('wraps in .form-field and associates the label via htmlFor when label is set', () => {
       render(<CxSelect label="Language" options={['js']} />)
       const select = screen.getByRole('combobox', { name: 'Language' })
+      // Same class-only wrapper as above - no accessible query reaches it.
+      // eslint-disable-next-line testing-library/no-node-access
       expect(select.closest('.form-field')).not.toBeNull()
       expect(screen.getByText('Language').tagName).toBe('LABEL')
     })

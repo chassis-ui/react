@@ -7,9 +7,10 @@ import { CxProgress } from '../../../index'
 describe('CxProgress', () => {
   describe('rendering', () => {
     test('renders a div with the base class', () => {
-      const { container } = render(<CxProgress>Test</CxProgress>)
-      expect(container.firstChild).toHaveClass('progress')
-      expect(container.firstChild?.nodeName).toBe('DIV')
+      render(<CxProgress>Test</CxProgress>)
+      const progress = screen.getByText('Test')
+      expect(progress).toHaveClass('progress')
+      expect(progress.tagName).toBe('DIV')
     })
 
     test('matches the baseline markup snapshot', () => {
@@ -18,12 +19,12 @@ describe('CxProgress', () => {
     })
 
     test('applies thin and white classes with className', () => {
-      const { container } = render(
+      render(
         <CxProgress className="bazinga" thin white>
           Test
         </CxProgress>
       )
-      expect(container.firstChild).toHaveClass(
+      expect(screen.getByText('Test')).toHaveClass(
         'progress',
         'progress-thin',
         'progress-white',
@@ -32,8 +33,8 @@ describe('CxProgress', () => {
     })
 
     test('applies the height style', () => {
-      const { container } = render(<CxProgress height={100}>Test</CxProgress>)
-      expect(container.firstChild).toHaveStyle('height: 100px')
+      render(<CxProgress height={100}>Test</CxProgress>)
+      expect(screen.getByText('Test')).toHaveStyle('height: 100px')
     })
   })
 

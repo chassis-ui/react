@@ -58,13 +58,17 @@ describe('CxColorInput', () => {
 
   describe('field wrapping', () => {
     test('renders no wrapper when label/help/feedback are all unset', () => {
+      // The .form-field wrapper has no role/name, so its absence can only be checked by class.
       const { container } = render(<CxColorInput aria-label="Accent color" />)
+      // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
       expect(container.querySelector('.form-field')).toBeNull()
     })
 
     test('wraps in .form-field and associates the label via htmlFor when label is set', () => {
       render(<CxColorInput label="Accent color" />)
       const input = screen.getByLabelText('Accent color')
+      // Same class-only wrapper as above - no accessible query reaches it.
+      // eslint-disable-next-line testing-library/no-node-access
       expect(input.closest('.form-field')).not.toBeNull()
       expect(screen.getByText('Accent color').tagName).toBe('LABEL')
     })

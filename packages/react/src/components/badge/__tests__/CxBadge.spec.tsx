@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { CxBadge } from '../../../index'
@@ -7,9 +7,10 @@ import { CxBadge } from '../../../index'
 describe('CxBadge', () => {
   describe('rendering', () => {
     test('renders a span with the base and context class by default', () => {
-      const { container } = render(<CxBadge context="primary">Test</CxBadge>)
-      expect(container.firstChild).toHaveClass('badge', 'primary')
-      expect(container.firstChild?.nodeName).toBe('SPAN')
+      render(<CxBadge context="primary">Test</CxBadge>)
+      const badge = screen.getByText('Test')
+      expect(badge).toHaveClass('badge', 'primary')
+      expect(badge.tagName).toBe('SPAN')
     })
 
     test('matches the baseline markup snapshot', () => {
@@ -18,13 +19,14 @@ describe('CxBadge', () => {
     })
 
     test('renders as a custom component with circle and size classes', () => {
-      const { container } = render(
+      render(
         <CxBadge className="bazinga" context="warning" component="div" circle size="small">
           Test
         </CxBadge>
       )
-      expect(container.firstChild).toHaveClass('badge', 'warning', 'circle', 'small', 'bazinga')
-      expect(container.firstChild?.nodeName).toBe('DIV')
+      const badge = screen.getByText('Test')
+      expect(badge).toHaveClass('badge', 'warning', 'circle', 'small', 'bazinga')
+      expect(badge.tagName).toBe('DIV')
     })
   })
 
@@ -35,23 +37,23 @@ describe('CxBadge', () => {
           Test
         </CxBadge>
       )
-      expect(outline.firstChild).toHaveClass('outline')
+      expect(within(outline).getByText('Test')).toHaveClass('outline')
 
       const { container: smooth } = render(
         <CxBadge context="primary" variant="smooth">
           Test
         </CxBadge>
       )
-      expect(smooth.firstChild).toHaveClass('smooth')
+      expect(within(smooth).getByText('Test')).toHaveClass('smooth')
     })
 
     test('positions the badge in the top-end corner', () => {
-      const { container } = render(
+      render(
         <CxBadge context="danger" position="top-end">
           Test
         </CxBadge>
       )
-      expect(container.firstChild).toHaveClass(
+      expect(screen.getByText('Test')).toHaveClass(
         'position-absolute',
         'translate-middle',
         'top-0',
@@ -60,12 +62,12 @@ describe('CxBadge', () => {
     })
 
     test('positions the badge in the bottom-start corner', () => {
-      const { container } = render(
+      render(
         <CxBadge context="danger" position="bottom-start">
           Test
         </CxBadge>
       )
-      expect(container.firstChild).toHaveClass(
+      expect(screen.getByText('Test')).toHaveClass(
         'position-absolute',
         'translate-middle',
         'top-100',

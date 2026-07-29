@@ -8,8 +8,8 @@ describe('CxBreadcrumb', () => {
   describe('rendering', () => {
     test('renders a nav with an ol and the breadcrumb accessible name', () => {
       render(<CxBreadcrumb>Test</CxBreadcrumb>)
-      const nav = screen.getByRole('navigation', { name: 'breadcrumb' })
-      expect(nav.querySelector('ol')).toHaveClass('breadcrumb')
+      expect(screen.getByRole('navigation', { name: 'breadcrumb' })).toBeInTheDocument()
+      expect(screen.getByRole('list')).toHaveClass('breadcrumb')
     })
 
     test('matches the baseline markup snapshot', () => {
@@ -25,8 +25,7 @@ describe('CxBreadcrumb', () => {
 
     test('applies className to the inner ol', () => {
       render(<CxBreadcrumb className="bazinga">Test</CxBreadcrumb>)
-      const nav = screen.getByRole('navigation', { name: 'breadcrumb' })
-      expect(nav.querySelector('ol')).toHaveClass('bazinga')
+      expect(screen.getByRole('list')).toHaveClass('bazinga')
     })
   })
 
@@ -39,9 +38,11 @@ describe('CxBreadcrumb', () => {
       )
 
       expect(screen.getByRole('link', { name: 'Home' })).toBeInTheDocument()
-      const current = screen.getByText('Data')
-      expect(current.closest('li')).toHaveClass('active')
-      expect(current.closest('li')).toHaveAttribute('aria-current', 'page')
+      const items = screen.getAllByRole('listitem')
+      const current = items[items.length - 1]
+      expect(current).toHaveTextContent('Data')
+      expect(current).toHaveClass('active')
+      expect(current).toHaveAttribute('aria-current', 'page')
     })
   })
 

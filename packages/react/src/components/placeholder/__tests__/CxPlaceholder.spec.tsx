@@ -5,6 +5,8 @@ import { axe } from 'jest-axe'
 import { CxPlaceholder } from '../../../index'
 
 describe('CxPlaceholder', () => {
+  // A decorative loading skeleton with no text/role - there's no accessible query for it.
+  /* eslint-disable testing-library/no-node-access */
   describe('rendering', () => {
     test('renders a span with the base class by default', () => {
       const { container } = render(<CxPlaceholder context="primary" />)
@@ -48,6 +50,7 @@ describe('CxPlaceholder', () => {
       expect(container.firstChild).toHaveClass('placeholder-wave')
     })
   })
+  /* eslint-enable testing-library/no-node-access */
 
   describe('ref forwarding', () => {
     test('forwards a ref to the underlying span', () => {
