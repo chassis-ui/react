@@ -8,6 +8,9 @@ site.
 
 ## Content model
 
+- [`WRITING.md`](WRITING.md) — **read this before writing or
+  editing any `.mdx` doc.** Covers voice, section order, the `<Example>`/`<PropTable>` shortcodes,
+  and the `## Scope`/`## Accessibility`/`## API` conventions used across `content/**`.
 - `content/<section>/<page>.mdx` — prose docs. Sections: `getting-started`, `layout`, `components`,
   `forms`, `patterns`. Frontmatter needs `title` and `description`; `toc: true` enables the
   page's table of contents.
