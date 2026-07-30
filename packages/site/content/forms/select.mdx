@@ -1,106 +1,91 @@
 ---
 title: Select
-description: Chassis React Select component. Supports data-driven options arrays with placeholder, disabled options, and sizing variants.
+description: Native select component with data-driven options, sizing variants, and multi-select support.
 
 toc: true
 ---
 
+import { CxSelect } from '@chassis-ui/react'
+import { Example as BasicExample } from '../../src/examples/select/BasicExample.tsx'
+import { Example as FormFieldExample } from '../../src/examples/select/FormFieldExample.tsx'
+import { Example as NativeOptionsExample } from '../../src/examples/select/NativeOptionsExample.tsx'
+import { Example as SizingExample } from '../../src/examples/select/SizingExample.tsx'
+import { Example as DisabledExample } from '../../src/examples/select/DisabledExample.tsx'
+import { Example as MultipleExample } from '../../src/examples/select/MultipleExample.tsx'
+import { Example as SelectSizeExample } from '../../src/examples/select/SelectSizeExample.tsx'
+import { Example as DefaultSelectionExample } from '../../src/examples/select/DefaultSelectionExample.tsx'
+import { Example as ControlledValueExample } from '../../src/examples/select/ControlledValueExample.tsx'
 
-import {
-  CxButton,
-  CxForm,
-  CxCheckbox,
-  CxFormLabel,
-  CxSelect,
-  CxFormHelp,
-  CxCol,
-  CxRow,
-} from '@chassis-ui/react'
+## Overview
 
-## Default
-
-Pass an `options` array for data-driven rendering. Options can be plain strings or objects with `value`, `label`, and `disabled` keys.
+`CxSelect` is a styled wrapper around a native `<select>` element, applying the same `.form-input` class and shared label/help/validation-feedback wiring as other form leaves — see [Form Field]([[docsref:/forms/form-field]]) for the underlying pattern. Pass an `options` array for data-driven rendering — plain strings, or objects conforming to `CxSelectOptionDef` (`label`, `value`, `disabled`, `selected`) — or omit it and write native `<option>` elements directly as children instead. An object option with no `value` renders without a `value` attribute, so the browser falls back to its text content.
 
 <Example>
-  <CxSelect
-    aria-label="Default select example"
-    options={[
-      { label: 'One', value: '1' },
-      { label: 'Two', value: '2' },
-      { label: 'Three (disabled)', value: '3', disabled: true },
-    ]}
-  />
+  <BasicExample client:load />
 </Example>
 
-## Placeholder
+## As a form field
 
-Use the `placeholder` prop to add a non-selectable first option that prompts the user to make a choice.
+Pass `label` / `help` / `invalid` / `invalidFeedback` / `valid` / `validFeedback` directly to `CxSelect` to render it together with an associated `CxFormLabel`, `CxFormHelp`, and `CxFormFeedback`, already wired up via `aria-describedby` and `aria-invalid` — see [Form Field]([[docsref:/forms/form-field]]) instead when a control needs to be grouped with companion content under one label.
 
 <Example>
-  <CxSelect
-    placeholder="Select a country…"
-    aria-label="Country select"
-    options={[
-      { label: 'Australia', value: 'au' },
-      { label: 'Canada', value: 'ca' },
-      { label: 'United Kingdom', value: 'gb' },
-      { label: 'United States', value: 'us' },
-    ]}
-  />
+  <FormFieldExample client:load />
+</Example>
+
+## Native options
+
+Omit the `options` prop and write native `<option>` elements directly as children when the list doesn't need to be data-driven — every attribute a plain `<option>` supports (`value`, `disabled`, `selected`, etc.) works exactly as it would outside `CxSelect`.
+
+<Example>
+  <NativeOptionsExample client:load />
 </Example>
 
 ## Sizing
 
-You may also choose from small and large custom selects to match our similarly sized text inputs.
+Set the `size` prop to `small` or `large` to change the control's padding, typography, and border radius — matching same-sized [Text Input]([[docsref:/forms/text-input]]) controls alongside it.
 
-<Example>
-  <CxSelect size="large" className="mb-medium" aria-label="Large select example">
-    <option>Open this select menu</option>
-    <option value="1">One</option>
-    <option value="2">Two</option>
-    <option value="3">Three</option>
-  </CxSelect>
-  <CxSelect size="small" className="mb-medium" aria-label="Small select example">
-    <option>Open this select menu</option>
-    <option value="1">One</option>
-    <option value="2">Two</option>
-    <option value="3">Three</option>
-  </CxSelect>
-</Example>
-
-The `multiple` attribute is also supported:
-
-<Example>
-  <CxSelect size="large" multiple aria-label="Multiple select example">
-    <option>Open this select menu</option>
-    <option value="1">One</option>
-    <option value="2">Two</option>
-    <option value="3">Three</option>
-  </CxSelect>
-</Example>
-
-As is the `htmlSize` property:
-
-<Example>
-  <CxSelect htmlSize={3} multiple aria-label="size 3 select example">
-    <option>Open this select menu</option>
-    <option value="1">One</option>
-    <option value="2">Two</option>
-    <option value="3">Three</option>
-  </CxSelect>
+<Example class="vstack gap-medium">
+  <SizingExample client:load />
 </Example>
 
 ## Disabled
 
-Add the `disabled` boolean attribute on a select to give it a grayed out appearance and remove pointer events.
+Add the `disabled` boolean attribute to give the control a muted color. Browsers also remove disabled controls from the tab order and from form submission automatically.
 
 <Example>
-  <CxSelect aria-label="Disabled select example" disabled>
-    <option>Open this select menu</option>
-    <option value="1">One</option>
-    <option value="2">Two</option>
-    <option value="3">Three</option>
-  </CxSelect>
+  <DisabledExample client:load />
+</Example>
+
+## Multiple selection
+
+Set the `multiple` boolean prop to allow more than one option to be selected at once — pass `value` as a string array to control the selection from state, or see [Default selection](#default-selection) below for setting more than one option selected upfront without controlling `value` at all.
+
+<Example>
+  <MultipleExample client:load />
+</Example>
+
+## Select size
+
+The native `size` attribute — how many options show without scrolling, distinct from the small/large `size` prop above — is exposed as `htmlSize` instead, since `CxSelectProps` omits the native `size` attribute from its own type to avoid a name clash with the visual `size` prop.
+
+<Example>
+  <SelectSizeExample client:load />
+</Example>
+
+## Default selection
+
+Mark one or more `options` entries `selected: true` to set the initial value without passing `value`/`defaultValue` directly — it's resolved into the select's own `defaultValue` internally, so it's ignored whenever `value`/`defaultValue` is also set. Mark more than one entry `selected` only when `multiple` is also set; otherwise, matching native `<select>` behavior, only the last `selected` entry wins (and a console warning flags the mistake in development).
+
+<Example class="vstack gap-medium">
+  <DefaultSelectionExample client:load />
+</Example>
+
+## Controlled value
+
+Pass `value` and `onChange` to control the selected option from external state. Unlike [Text Input]([[docsref:/forms/text-input]]), `onChange` here isn't normalized to hand back the new value directly — it receives the native change event, the same as passing `onChange` to a plain `<select>`.
+
+<Example>
+  <ControlledValueExample client:load />
 </Example>
 
 ## API
@@ -108,3 +93,9 @@ Add the `disabled` boolean attribute on a select to give it a grayed out appeara
 ### CxSelect
 
 <PropTable component="CxSelect" />
+
+### CxSelectOptionDef
+
+Shape of each entry in `CxSelect`'s `options` array (data-driven rendering).
+
+<PropTable component="CxSelectOptionDef" />

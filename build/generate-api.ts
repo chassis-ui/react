@@ -136,9 +136,14 @@ function generateItemDefDocs(componentFiles: string[], componentDocs: Map<string
   const candidates = new Set<string>()
   for (const doc of componentDocs.values()) {
     for (const prop of Object.values<any>(doc.props)) {
-      const match = /^([A-Za-z_$][\w$]*)\[\]$/.exec(prop.type?.name ?? '')
-      if (match && match[1].startsWith('Cx') && !componentDocs.has(match[1])) {
-        candidates.add(match[1])
+      // Split on union members so a prop typed e.g. `CxSelectOptionDef[] | string[]` still
+      // surfaces its "Def" array member as a candidate, not just a prop typed as a bare array.
+      const parts = (prop.type?.name ?? '').split(' | ')
+      for (const part of parts) {
+        const match = /^([A-Za-z_$][\w$]*)\[\]$/.exec(part.trim())
+        if (match && match[1].startsWith('Cx') && !componentDocs.has(match[1])) {
+          candidates.add(match[1])
+        }
       }
     }
   }

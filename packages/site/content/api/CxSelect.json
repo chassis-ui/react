@@ -119,6 +119,25 @@
         "name": "ReactNode"
       }
     },
+    "multiple": {
+      "defaultValue": null,
+      "description": "Allows more than one option to be selected at once. Pass `value` as a string array (or set\n`selected` on more than one `options` entry) to control the selection.",
+      "name": "multiple",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/select/CxSelect.tsx",
+        "name": "CxSelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/select/CxSelect.tsx",
+          "name": "CxSelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
     "onChange": {
       "defaultValue": null,
       "description": "Method called immediately after the `value` prop changes.",
@@ -140,7 +159,7 @@
     },
     "options": {
       "defaultValue": null,
-      "description": "Options list of the select component. Available keys: `label`, `value`, `disabled`.\nExamples:\n- `options={[{ value: 'js', label: 'JavaScript' }, { value: 'html', label: 'HTML', disabled: true }]}`\n- `options={['js', 'html']}`",
+      "description": "Options list of the select component. Available keys: `label`, `value`, `disabled`,\n`selected`.\nExamples:\n- `options={[{ value: 'js', label: 'JavaScript' }, { value: 'html', label: 'HTML', disabled: true }]}`\n- `options={['js', 'html']}`",
       "name": "options",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/select/CxSelect.tsx",
@@ -154,7 +173,7 @@
       ],
       "required": false,
       "type": {
-        "name": "Option[] | string[]"
+        "name": "CxSelectOptionDef[] | string[]"
       }
     },
     "placeholder": {

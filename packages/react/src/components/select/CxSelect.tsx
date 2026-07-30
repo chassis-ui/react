@@ -4,10 +4,27 @@ import classNames from 'classnames'
 import { useFormField } from '../../hooks'
 import { renderFormField } from '../form-field/renderFormField'
 
-type Option = {
+export interface CxSelectOptionDef {
+  /**
+   * Marks the option as disabled — it can't be clicked or reached via the keyboard.
+   */
   disabled?: boolean
+  /**
+   * Label text rendered inside the option. Falls back to the browser's default (the `value`,
+   * stringified) when omitted.
+   */
   label?: string
-  value?: string
+  /**
+   * Marks the option as selected by default (uncontrolled) — resolved into the select's own
+   * `defaultValue`, and ignored when the select's `value`/`defaultValue` is set directly. Set on
+   * more than one option only when `multiple` is also set on `CxSelect` — otherwise, matching
+   * native `<select>` behavior, only the last option with `selected` set wins.
+   */
+  selected?: boolean
+  /**
+   * The option's value attribute.
+   */
+  value?: string | number
 }
 export interface CxSelectProps extends Omit<InputHTMLAttributes<HTMLSelectElement>, 'size'> {
   /**
@@ -35,16 +52,22 @@ export interface CxSelectProps extends Omit<InputHTMLAttributes<HTMLSelectElemen
    */
   label?: ReactNode
   /**
+   * Allows more than one option to be selected at once. Pass `value` as a string array (or set
+   * `selected` on more than one `options` entry) to control the selection.
+   */
+  multiple?: boolean
+  /**
    * Method called immediately after the `value` prop changes.
    */
   onChange?: ChangeEventHandler<HTMLSelectElement>
   /**
-   * Options list of the select component. Available keys: `label`, `value`, `disabled`.
+   * Options list of the select component. Available keys: `label`, `value`, `disabled`,
+   * `selected`.
    * Examples:
    * - `options={[{ value: 'js', label: 'JavaScript' }, { value: 'html', label: 'HTML', disabled: true }]}`
    * - `options={['js', 'html']}`
    */
-  options?: Option[] | string[]
+  options?: CxSelectOptionDef[] | string[]
   /**
    * Renders a disabled placeholder option as the first item (e.g. `"Select a country…"`).
    * The option has an empty value so it is not selectable once another option is chosen.
@@ -81,6 +104,7 @@ export const CxSelect = forwardRef<HTMLSelectElement, CxSelectProps>(
       invalid,
       invalidFeedback,
       label,
+      multiple,
       options,
       placeholder,
       size,
@@ -90,6 +114,32 @@ export const CxSelect = forwardRef<HTMLSelectElement, CxSelectProps>(
     },
     ref
   ) => {
+    const selectedValues = Array.isArray(options)
+      ? options
+          .filter(
+            (option): option is CxSelectOptionDef => typeof option === 'object' && !!option.selected
+          )
+          .map((option) => String(option.value ?? ''))
+      : []
+
+    if (!multiple && selectedValues.length > 1) {
+      console.warn(
+        'CxSelect: more than one option has `selected: true` but `multiple` is not set — only ' +
+          'the last one will be selected, matching native <select> behavior.'
+      )
+    }
+
+    // React warns against setting `selected` directly on <option>, recommending `defaultValue`/
+    // `value` on <select> instead — so `options[].selected` is resolved into a `defaultValue`
+    // here rather than rendered as an attribute. Left alone when the caller already controls
+    // `value`/`defaultValue` themselves.
+    const inferredDefaultValue =
+      selectedValues.length && rest.value === undefined && rest.defaultValue === undefined
+        ? multiple
+          ? selectedValues
+          : selectedValues[selectedValues.length - 1]
+        : undefined
+
     const { describedBy, feedbackId, helpId, inputId } = useFormField({
       ariaDescribedBy: rest['aria-describedby'],
       help,
@@ -118,8 +168,10 @@ export const CxSelect = forwardRef<HTMLSelectElement, CxSelectProps>(
           aria-invalid={invalid || undefined}
           className={_className}
           id={inputId}
+          multiple={multiple}
           ref={ref}
           size={htmlSize}
+          {...(inferredDefaultValue !== undefined && { defaultValue: inferredDefaultValue })}
         >
           {placeholder && (
             <option value="" disabled>

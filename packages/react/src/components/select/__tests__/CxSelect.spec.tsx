@@ -72,6 +72,77 @@ describe('CxSelect', () => {
       expect(placeholderOption).toBeDisabled()
       expect(placeholderOption).toHaveValue('')
     })
+
+    test('renders an option with `selected` as selected by default', () => {
+      render(
+        <CxSelect
+          aria-label="Language"
+          options={[
+            { value: 'js', label: 'JavaScript' },
+            { value: 'html', label: 'HTML', selected: true }
+          ]}
+        />
+      )
+      expect(screen.getByRole('option', { name: 'HTML' })).toHaveProperty('selected', true)
+      expect(screen.getByRole('option', { name: 'JavaScript' })).toHaveProperty('selected', false)
+    })
+
+    test('passes the multiple attribute through to the native select', () => {
+      render(<CxSelect aria-label="Language" multiple options={['js', 'html']} />)
+      expect(screen.getByRole('listbox', { name: 'Language' })).toHaveAttribute('multiple')
+    })
+
+    test('selects more than one option by default when multiple is set', () => {
+      render(
+        <CxSelect
+          aria-label="Language"
+          multiple
+          options={[
+            { value: 'js', label: 'JavaScript', selected: true },
+            { value: 'html', label: 'HTML', selected: true },
+            { value: 'css', label: 'CSS' }
+          ]}
+        />
+      )
+      const select = screen.getByRole('listbox', { name: 'Language' }) as HTMLSelectElement
+      expect(Array.from(select.selectedOptions).map((option) => option.value)).toEqual([
+        'js',
+        'html'
+      ])
+    })
+  })
+
+  describe('dev warnings', () => {
+    test('warns when more than one option is selected but multiple is not set', () => {
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      render(
+        <CxSelect
+          aria-label="Language"
+          options={[
+            { value: 'js', label: 'JavaScript', selected: true },
+            { value: 'html', label: 'HTML', selected: true }
+          ]}
+        />
+      )
+      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('more than one option has'))
+      warnSpy.mockRestore()
+    })
+
+    test('does not warn when multiple is set', () => {
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      render(
+        <CxSelect
+          aria-label="Language"
+          multiple
+          options={[
+            { value: 'js', label: 'JavaScript', selected: true },
+            { value: 'html', label: 'HTML', selected: true }
+          ]}
+        />
+      )
+      expect(warnSpy).not.toHaveBeenCalled()
+      warnSpy.mockRestore()
+    })
   })
 
   describe('change behavior', () => {
