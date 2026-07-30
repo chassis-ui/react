@@ -50,6 +50,14 @@ export interface CxTextareaProps extends Omit<
    */
   readOnly?: boolean
   /**
+   * The number of visible text lines for the control.
+   */
+  rows?: number
+  /**
+   * Size the component small or large.
+   */
+  size?: 'small' | 'large'
+  /**
    * Set component validation state to valid.
    */
   valid?: boolean
@@ -75,6 +83,8 @@ export const CxTextarea = forwardRef<HTMLTextAreaElement, CxTextareaProps>(
       label,
       plainText,
       readOnly,
+      rows,
+      size,
       valid,
       validFeedback,
       ...rest
@@ -113,6 +123,7 @@ export const CxTextarea = forwardRef<HTMLTextAreaElement, CxTextareaProps>(
     const _className = classNames(
       'form-input',
       plainText && 'plaintext',
+      size,
       {
         'is-invalid': invalid,
         'is-valid': valid
@@ -121,7 +132,7 @@ export const CxTextarea = forwardRef<HTMLTextAreaElement, CxTextareaProps>(
     )
 
     return renderFormField({
-      children: <textarea {...inputProps} className={_className} ref={forkedRef} />,
+      children: <textarea {...inputProps} rows={rows} className={_className} ref={forkedRef} />,
       help,
       ids: { feedback: feedbackId, help: helpId, input: inputId, label: labelId },
       invalid,

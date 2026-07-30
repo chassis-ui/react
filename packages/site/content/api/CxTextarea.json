@@ -195,6 +195,53 @@
         "name": "boolean"
       }
     },
+    "rows": {
+      "defaultValue": null,
+      "description": "The number of visible text lines for the control.",
+      "name": "rows",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/textarea/CxTextarea.tsx",
+        "name": "CxTextareaProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/textarea/CxTextarea.tsx",
+          "name": "CxTextareaProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number"
+      }
+    },
+    "size": {
+      "defaultValue": null,
+      "description": "Size the component small or large.",
+      "name": "size",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/textarea/CxTextarea.tsx",
+        "name": "CxTextareaProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/textarea/CxTextarea.tsx",
+          "name": "CxTextareaProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"small\" | \"large\"",
+        "value": [
+          {
+            "value": "\"small\""
+          },
+          {
+            "value": "\"large\""
+          }
+        ]
+      }
+    },
     "valid": {
       "defaultValue": null,
       "description": "Set component validation state to valid.",

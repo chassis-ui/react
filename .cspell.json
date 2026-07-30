@@ -18,5 +18,11 @@
     "packages/website/public/",
     "vendor/"
   ],
+  "ignoreRegExpList": [
+    "class=\"[^\"]*\"",
+    "className=\"[^\"]*\"",
+    "class='[^']*'",
+    "className='[^']*'"
+  ],
   "useGitignore": true
 }

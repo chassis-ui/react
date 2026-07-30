@@ -1,0 +1,93 @@
+---
+title: Textarea
+description: Multi-line text input component with custom styles, read-only and plain-text display, and native browser resizing.
+
+toc: true
+---
+
+import { Example as BasicExample } from '../../src/examples/textarea/BasicExample.tsx'
+import { Example as FormFieldExample } from '../../src/examples/textarea/FormFieldExample.tsx'
+import { Example as SizingExample } from '../../src/examples/textarea/SizingExample.tsx'
+import { Example as RowsExample } from '../../src/examples/textarea/RowsExample.tsx'
+import { Example as DisabledExample } from '../../src/examples/textarea/DisabledExample.tsx'
+import { Example as ReadonlyExample } from '../../src/examples/textarea/ReadonlyExample.tsx'
+import { Example as PlainTextExample } from '../../src/examples/textarea/PlainTextExample.tsx'
+import { Example as ControlledValueExample } from '../../src/examples/textarea/ControlledValueExample.tsx'
+
+## Overview
+
+`CxTextarea` is a styled, accessible replacement for a native multi-line `<textarea>`. It's built on React Aria's `useTextField` hook, which wires `aria-describedby` / `aria-labelledby` to the ids generated for an associated label, help text, and validation feedback — the same wiring [Text Input]([[docsref:/forms/text-input]]) uses.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## As a form field
+
+Pass `label` / `help` / `invalid` / `invalidFeedback` / `valid` / `validFeedback` directly to `CxTextarea` to render it together with an associated `CxFormLabel`, `CxFormHelp`, and `CxFormFeedback`, already wired up — see [Form Field]([[docsref:/forms/form-field]]) instead when a control needs to be grouped with companion content under one label.
+
+<Example>
+  <FormFieldExample client:load />
+</Example>
+
+## Sizing
+
+Set the `size` prop to `"large"` or `"small"` to change the control's padding, typography, and border radius.
+
+<Example class="vstack gap-medium">
+  <SizingExample client:load />
+</Example>
+
+## Rows
+
+Set the native `rows` attribute to control how many lines show before the control scrolls — independent of `size`, which changes padding and typography rather than height.
+
+<Example class="vstack gap-medium">
+  <RowsExample client:load />
+</Example>
+
+Regardless of `rows`, the control never renders shorter than a single-line `CxTextInput` — the underlying `.form-input` class applies the same minimum height floor to both.
+
+## Disabled
+
+Add the `disabled` boolean attribute to give the control a muted color. Browsers also remove disabled controls from the tab order and from form submission automatically.
+
+<Example class="vstack gap-medium">
+  <DisabledExample client:load />
+</Example>
+
+## Readonly
+
+Add the `readOnly` boolean attribute to prevent the value from being edited. Unlike `disabled`, a read-only control stays focusable and is still included in form submission — only typing into it is blocked — and it keeps the same appearance as an editable control.
+
+<Example class="vstack gap-medium">
+  <ReadonlyExample client:load />
+</Example>
+
+## Plain text
+
+Pair the `plainText` prop with `readOnly` to render the value as plain text instead of an editable-looking field — useful for read-only values that should still line up with the editable fields around them.
+
+<Example class="vstack gap-medium">
+  <PlainTextExample client:load />
+</Example>
+
+## Controlled value
+
+Pass `value` and `onChange` to control the value from external state. `onChange` receives the new string value directly rather than a change event, so it can be passed straight to a state setter. Omit them (optionally passing `defaultValue` instead) to let the component manage its own value.
+
+<Example class="vstack gap-medium">
+  <ControlledValueExample client:load />
+</Example>
+
+```tsx
+const [value, setValue] = useState('')
+
+<CxTextarea value={value} onChange={setValue} />
+```
+
+## API
+
+### CxTextarea
+
+<PropTable component="CxTextarea" />

@@ -46,6 +46,7 @@
   pages:
     - title: Overview
     - title: Text Input
+    - title: Textarea
     - title: Select
     - title: Checkbox
     - title: Radio

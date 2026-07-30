@@ -19,7 +19,12 @@ describe('CxTextarea', () => {
       expect(container).toMatchSnapshot()
     })
 
-    test('applies plainText, invalid/valid classes and disabled/readOnly attributes', () => {
+    test('forwards the rows attribute to the underlying textarea', () => {
+      render(<CxTextarea aria-label="Bio" rows={6} />)
+      expect(screen.getByRole('textbox', { name: 'Bio' })).toHaveAttribute('rows', '6')
+    })
+
+    test('applies plainText, size and invalid/valid classes and disabled/readOnly attributes', () => {
       render(
         <CxTextarea
           aria-label="Bio"
@@ -28,12 +33,20 @@ describe('CxTextarea', () => {
           invalid={true}
           plainText={true}
           readOnly={true}
+          size="large"
           valid={true}
           defaultValue="Some value"
         />
       )
       const textarea = screen.getByRole('textbox', { name: 'Bio' })
-      expect(textarea).toHaveClass('form-input', 'plaintext', 'is-invalid', 'is-valid', 'bazinga')
+      expect(textarea).toHaveClass(
+        'form-input',
+        'plaintext',
+        'large',
+        'is-invalid',
+        'is-valid',
+        'bazinga'
+      )
       expect(textarea).toBeDisabled()
       expect(textarea).toHaveAttribute('readonly')
     })
