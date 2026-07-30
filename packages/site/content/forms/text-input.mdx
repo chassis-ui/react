@@ -1,121 +1,87 @@
 ---
 title: Text Input
-description: Chassis input and textarea components. Give textual form controls like `<input>`s and `<textarea>`s an upgrade with custom styles, sizing, focus states, and more.
+description: Single-line text input component with custom styles, sizing, read-only and plain-text display, and native browser input types like email, date, and password.
 
 toc: true
 ---
 
+import { Example as BasicExample } from '../../src/examples/text-input/BasicExample.tsx'
+import { Example as FormFieldExample } from '../../src/examples/text-input/FormFieldExample.tsx'
+import { Example as SizingExample } from '../../src/examples/text-input/SizingExample.tsx'
+import { Example as DisabledExample } from '../../src/examples/text-input/DisabledExample.tsx'
+import { Example as ReadonlyExample } from '../../src/examples/text-input/ReadonlyExample.tsx'
+import { Example as PlainTextExample } from '../../src/examples/text-input/PlainTextExample.tsx'
+import { Example as TypesExample } from '../../src/examples/text-input/TypesExample.tsx'
+import { Example as ControlledValueExample } from '../../src/examples/text-input/ControlledValueExample.tsx'
 
-import { 
-  CxButton,
-  CxForm,
-  CxTextInput,
-  CxFormLabel,
-  CxTextarea,
-  CxCol,
-  CxRow
-} from '@chassis-ui/react'
+## Overview
 
-## Example
+`CxTextInput` is a styled, accessible replacement for a native single-line `<input>`. It's built on React Aria's `useTextField` hook, which wires `aria-describedby` / `aria-labelledby` to the ids generated for an associated label, help text, and validation feedback.
 
 <Example>
-  <CxForm>
-    <div className="mb-medium">
-      <CxFormLabel htmlFor="exampleFormControlInput1">Email address</CxFormLabel>
-      <CxTextInput type="email" id="exampleFormControlInput1" placeholder="name@example.com"/>
-    </div>
-    <div className="mb-medium">
-      <CxFormLabel htmlFor="exampleFormControlTextarea1">Example textarea</CxFormLabel>
-      <CxTextarea id="exampleFormControlTextarea1" rows="3"></CxTextarea>
-    </div>
-  </CxForm>
+  <BasicExample client:load />
 </Example>
 
-## Sizing
+## As a form field
 
-Set heights using `size` property like `size="large"` and `size="small"`.
-
-<Example>
-  <CxTextInput type="text" size="large" placeholder="Large input" aria-label="lg input example"/>
-  <br/>
-  <CxTextInput type="text" placeholder="Default input" aria-label="default input example"/>
-  <br/>
-  <CxTextInput type="text" size="small" placeholder="Small input" aria-label="sm input example"/>
-</Example>
-
-## Disabled
-
-Add the `disabled` boolean attribute on an input to give it a grayed out appearance and remove pointer events.
+Pass `label` / `help` / `invalid` / `invalidFeedback` / `valid` / `validFeedback` directly to `CxTextInput` to render it together with an associated `CxFormLabel`, `CxFormHelp`, and `CxFormFeedback`, already wired up — see [Form Field]([[docsref:/forms/form-field]]) instead when a control needs to be grouped with companion content under one label.
 
 <Example>
-  <CxTextInput type="text" placeholder="Disabled input" aria-label="Disabled input example" disabled/>
-  <br/>
-  <CxTextInput type="text" placeholder="Disabled readonly input" aria-label="Disabled input example" disabled readOnly/>
-  <br/>
-</Example>
-
-## Readonly
-
-Add the `readOnly` boolean attribute on an input to prevent modification of the input's value. Read-only inputs appear lighter (just like disabled inputs), but retain the standard cursor.
-
-<Example>
-  <CxTextInput type="text" placeholder="Readonly input here..." aria-label="readonly input example" readOnly/>
-</Example>
-
-## Readonly plain text
-
-If you want to have `<input readonly>` elements in your form styled as plain text, use the `plainText` boolean property to remove the default form field styling and preserve the correct margin and padding.
-
-<Example>
-  <CxRow className="mb-medium">
-    <CxFormLabel htmlFor="staticEmail" className="small:col-2 col-form-label">Email</CxFormLabel>
-    <CxCol sm={10}>
-      <CxTextInput type="text" id="staticEmail" defaultValue="email@example.com" readOnly plainText/>
-    </CxCol>
-  </CxRow>
-  <CxRow className="mb-medium">
-    <CxFormLabel htmlFor="inputPassword" className="small:col-2 col-form-label">Password</CxFormLabel>
-    <CxCol sm={10}>
-      <CxTextInput type="password" id="inputPassword"/>
-    </CxCol>
-  </CxRow>
-</Example>
-
-<Example>
-  <CxForm className="row g-3">
-    <CxCol xs="auto">
-      <CxFormLabel htmlFor="staticEmail2" className="visually-hidden">Email</CxFormLabel>
-      <CxTextInput type="text" id="staticEmail2" defaultValue="email@example.com" readOnly plainText/>
-    </CxCol>
-    <CxCol xs="auto">
-      <CxFormLabel htmlFor="inputPassword2" className="visually-hidden">Password</CxFormLabel>
-      <CxTextInput type="password" id="inputPassword2" placeholder="Password"/>
-    </CxCol>
-    <CxCol xs="auto">
-      <CxButton type="submit" className="mb-medium">Confirm identity</CxButton>
-    </CxCol>
-  </CxForm>
+  <FormFieldExample client:load />
 </Example>
 
 ## Types
 
 `CxTextInput` accepts any single-line, text-valued native `type`: `text`, `password`, `email`, `tel`, `url`, `search`, `date`, `datetime-local`, `month`, `week`, and `time`. The value is passed straight through to the underlying `<input>`, so browser-native behaviors like password reveal toggles, email validation, and date pickers all work as expected.
 
-<Example>
-  <CxTextInput type="email" placeholder="name@example.com" aria-label="email example" />
-  <br/>
-  <CxTextInput type="password" placeholder="Password" aria-label="password example" />
-  <br/>
-  <CxTextInput type="date" aria-label="date example" />
+<Example class="vstack gap-medium">
+  <TypesExample client:load />
 </Example>
 
-Color and file inputs need bespoke rendering (a swatch, a themed file-selector button) that a plain text field can't provide, so they have their own dedicated components instead — see [File Input](/react/docs/forms/file-input) and [Color Input](/react/docs/forms/color-input). For a richer date-picking experience with a calendar popup, see [Date Picker](/react/docs/forms/datepicker).
+Color and file inputs need bespoke rendering (a swatch, a themed file-selector button) that a plain text field can't provide, so they have their own dedicated components instead — see [File Input]([[docsref:/forms/file-input]]) and [Color Input]([[docsref:/forms/color-input]]). For a richer date-picking experience with a calendar popup, see [Date Picker]([[docsref:/forms/datepicker]]).
+
+## Sizing
+
+Set the `size` prop to `"large"` or `"small"` to change the control's height.
+
+<Example class="vstack gap-medium">
+  <SizingExample client:load />
+</Example>
+
+## Disabled
+
+Add the `disabled` boolean attribute to give the control a muted color. Browsers also remove disabled controls from the tab order and from form submission automatically.
+
+<Example class="vstack gap-medium">
+  <DisabledExample client:load />
+</Example>
+
+## Readonly
+
+Add the `readOnly` boolean attribute to prevent the value from being edited. Unlike `disabled`, a read-only control stays focusable and is still included in form submission — only typing into it is blocked — and it keeps the same appearance as an editable control.
+
+<Example class="vstack gap-medium">
+  <ReadonlyExample client:load />
+</Example>
+
+## Plain text
+
+Pair the `plainText` prop with `readOnly` to render the value as plain text instead of an editable-looking field — useful for read-only values that should still line up with the editable fields around them.
+
+<Example class="vstack gap-medium">
+  <PlainTextExample client:load />
+</Example>
+
+## Controlled value
+
+Pass `value` and `onChange` to control the value from external state. `onChange` receives the new string value directly rather than a change event, so it can be passed straight to a state setter. Omit them (optionally passing `defaultValue` instead) to let the component manage its own value.
+
+<Example class="vstack gap-medium">
+  <ControlledValueExample client:load />
+</Example>
 
 ## API
 
 ### CxTextInput
 
 <PropTable component="CxTextInput" />
-### CxTextarea
-
-<PropTable component="CxTextarea" />
