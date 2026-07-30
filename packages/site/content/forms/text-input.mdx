@@ -1,5 +1,5 @@
 ---
-title: Form Controls
+title: Text Input
 description: Chassis input and textarea components. Give textual form controls like `<input>`s and `<textarea>`s an upgrade with custom styles, sizing, focus states, and more.
 
 toc: true
@@ -97,7 +97,19 @@ If you want to have `<input readonly>` elements in your form styled as plain tex
   </CxForm>
 </Example>
 
-File and color inputs have their own dedicated components — see [File Input](/react/docs/forms/file-input) and [Color Input](/react/docs/forms/color-input).
+## Types
+
+`CxTextInput` accepts any single-line, text-valued native `type`: `text`, `password`, `email`, `tel`, `url`, `search`, `date`, `datetime-local`, `month`, `week`, and `time`. The value is passed straight through to the underlying `<input>`, so browser-native behaviors like password reveal toggles, email validation, and date pickers all work as expected.
+
+<Example>
+  <CxTextInput type="email" placeholder="name@example.com" aria-label="email example" />
+  <br/>
+  <CxTextInput type="password" placeholder="Password" aria-label="password example" />
+  <br/>
+  <CxTextInput type="date" aria-label="date example" />
+</Example>
+
+Color and file inputs need bespoke rendering (a swatch, a themed file-selector button) that a plain text field can't provide, so they have their own dedicated components instead — see [File Input](/react/docs/forms/file-input) and [Color Input](/react/docs/forms/color-input). For a richer date-picking experience with a calendar popup, see [Date Picker](/react/docs/forms/datepicker).
 
 ## API
 

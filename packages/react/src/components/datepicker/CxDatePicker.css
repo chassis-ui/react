@@ -97,7 +97,7 @@
   padding-block-end: var(--cx-space-2xsmall);
   font-size: var(--cx-font-size-xsmall);
   font-weight: 600;
-  color: var(--cx-fg-subtle);
+  color: var(--weekday-fg-color);
   text-align: center;
 }
 
@@ -112,7 +112,7 @@
   justify-content: center;
   width: 2.25rem;
   height: 2.25rem;
-  color: var(--cx-fg-main);
+  color: var(--weekday-fg-color);
   cursor: pointer;
   background-color: transparent;
   border: 0;
@@ -121,7 +121,7 @@
 }
 
 .cx-datepicker-cell-button:hover:not(.disabled):not(.selected) {
-  background-color: var(--cx-bg-hover);
+  background-color: var(--day-hover-bg-color);
 }
 
 .cx-datepicker-cell-button.focused {
@@ -130,8 +130,9 @@
 }
 
 .cx-datepicker-cell-button.today:not(.selected) {
-  font-weight: 700;
-  color: var(--cx-primary);
+  font-weight: var(--cx-day-today-font-weight);
+  color: var(--cx-day-today-fg-color);
+  background-color: var(--cx-day-today-bg-color);
 }
 
 .cx-datepicker-cell-button.selected {

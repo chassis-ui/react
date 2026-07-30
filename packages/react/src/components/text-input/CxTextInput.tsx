@@ -54,9 +54,21 @@ export interface CxTextInputProps extends Omit<
    */
   size?: 'small' | 'large'
   /**
-   * Specifies the type of component.
+   * Specifies the type of component. For `color` or `file` inputs, use the dedicated `CxColorInput` or `CxFileInput` components instead.
    */
-  type?: 'color' | 'file' | 'text' | string
+  type?:
+    | 'date'
+    | 'datetime-local'
+    | 'email'
+    | 'month'
+    | 'password'
+    | 'search'
+    | 'tel'
+    | 'text'
+    | 'time'
+    | 'url'
+    | 'week'
+    | (string & {})
   /**
    * Set component validation state to valid.
    */

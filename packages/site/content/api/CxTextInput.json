@@ -227,7 +227,7 @@
       "defaultValue": {
         "value": "text"
       },
-      "description": "Specifies the type of component.",
+      "description": "Specifies the type of component. For `color` or `file` inputs, use the dedicated `CxColorInput` or `CxFileInput` components instead.",
       "name": "type",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/text-input/CxTextInput.tsx",
