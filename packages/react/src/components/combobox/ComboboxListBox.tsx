@@ -1,16 +1,16 @@
-import React, { ReactElement, RefObject, useRef } from 'react'
+import React, { RefObject, useRef } from 'react'
 import classNames from 'classnames'
 import { AriaListBoxOptions, useListBox, useOption } from 'react-aria'
 import { ComboBoxState, Node } from 'react-stately'
 
 import { getVirtualFocusStyle } from '../../utils/virtualFocusStyle'
 import { CxIcon } from '../icon/CxIcon'
-import { CxComboboxItemProps } from './CxComboboxItem'
+import { ComboboxEntry } from './comboboxCollection'
 
 interface ComboboxListBoxProps {
-  listBoxProps: AriaListBoxOptions<ReactElement<CxComboboxItemProps>>
+  listBoxProps: AriaListBoxOptions<ComboboxEntry>
   listBoxRef: RefObject<HTMLElement | null>
-  state: ComboBoxState<ReactElement<CxComboboxItemProps>>
+  state: ComboBoxState<ComboboxEntry>
 }
 
 export const ComboboxListBox = ({ listBoxProps, listBoxRef, state }: ComboboxListBoxProps) => {
@@ -18,16 +18,46 @@ export const ComboboxListBox = ({ listBoxProps, listBoxRef, state }: ComboboxLis
 
   return (
     <div {...domListBoxProps} ref={listBoxRef as RefObject<HTMLDivElement>}>
-      {[...state.collection].map((item) => (
-        <ComboboxOption key={item.key} item={item} state={state} />
-      ))}
+      {[...state.collection].map((node) =>
+        node.type === 'section' ? (
+          <ComboboxSection key={node.key} node={node} state={state} />
+        ) : (
+          <ComboboxOption key={node.key} item={node} state={state} />
+        )
+      )}
     </div>
   )
 }
 
+interface ComboboxSectionProps {
+  node: Node<ComboboxEntry>
+  state: ComboBoxState<ComboboxEntry>
+}
+
+// Chassis-css groups are `.menu-header` siblings interleaved with `.menu-item`s, no wrapping
+// element — plain, static markup, so there's no need for react-aria's `useListBoxSection`.
+// `useComboBoxState`'s filtering hides child items whose text doesn't match, but doesn't drop an
+// emptied-out section node itself, so a fully-filtered-out group's header is skipped by hand here
+// rather than left to render on its own.
+const ComboboxSection = ({ node, state }: ComboboxSectionProps) => {
+  const childNodes = [...state.collection.getChildren!(node.key)]
+  if (childNodes.length === 0) return null
+
+  return (
+    <>
+      <div className="menu-header" role="presentation">
+        {node.rendered}
+      </div>
+      {childNodes.map((child) => (
+        <ComboboxOption key={child.key} item={child} state={state} />
+      ))}
+    </>
+  )
+}
+
 interface ComboboxOptionProps {
-  item: Node<ReactElement<CxComboboxItemProps>>
-  state: ComboBoxState<ReactElement<CxComboboxItemProps>>
+  item: Node<ComboboxEntry>
+  state: ComboBoxState<ComboboxEntry>
 }
 
 const ComboboxOption = ({ item, state }: ComboboxOptionProps) => {

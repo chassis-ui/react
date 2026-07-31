@@ -2,7 +2,7 @@ import * as React from 'react'
 import { act, render, screen, fireEvent } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { CxCombobox, CxComboboxItem } from '../../../index'
+import { CxCombobox, CxComboboxGroup, CxComboboxItem } from '../../../index'
 
 const BasicCombobox = (props: Partial<React.ComponentProps<typeof CxCombobox>> = {}) => (
   <CxCombobox aria-label="Fruit" {...props}>
@@ -139,6 +139,75 @@ describe('CxCombobox', () => {
       expect(admin.querySelector('.menu-item-check')).toBeInTheDocument()
       // eslint-disable-next-line testing-library/no-node-access
       expect(viewer.querySelector('.menu-item-check')).not.toBeInTheDocument()
+    })
+  })
+
+  describe('grouped items', () => {
+    const GroupedCombobox = (props: Partial<React.ComponentProps<typeof CxCombobox>> = {}) => (
+      <CxCombobox aria-label="Language" {...props}>
+        <CxComboboxGroup label="Frontend">
+          <CxComboboxItem id="html">HTML</CxComboboxItem>
+          <CxComboboxItem id="css">CSS</CxComboboxItem>
+        </CxComboboxGroup>
+        <CxComboboxGroup label="Backend">
+          <CxComboboxItem id="python">Python</CxComboboxItem>
+          <CxComboboxItem id="ruby">Ruby</CxComboboxItem>
+        </CxComboboxGroup>
+        <CxComboboxItem id="other">Other</CxComboboxItem>
+      </CxCombobox>
+    )
+
+    test('renders a non-interactive header with role=presentation per group', () => {
+      render(<GroupedCombobox />)
+      focusInput(screen.getByRole('combobox'))
+      const frontendHeader = screen.getByText('Frontend')
+      expect(frontendHeader).toHaveAttribute('role', 'presentation')
+      expect(frontendHeader).toHaveClass('menu-header')
+      expect(screen.getByText('Backend')).toHaveAttribute('role', 'presentation')
+      expect(screen.getByRole('option', { name: 'HTML' })).toBeInTheDocument()
+      expect(screen.getByRole('option', { name: 'Other' })).toBeInTheDocument()
+    })
+
+    test('filtering hides an entirely-matched-out group along with its header', () => {
+      render(<GroupedCombobox />)
+      const input = screen.getByRole('combobox')
+      focusInput(input)
+      fireEvent.change(input, { target: { value: 'py' } })
+      expect(screen.getByRole('option', { name: 'Python' })).toBeInTheDocument()
+      expect(screen.getByText('Backend')).toBeInTheDocument()
+      expect(screen.queryByText('Frontend')).not.toBeInTheDocument()
+      expect(screen.queryByRole('option', { name: 'HTML' })).not.toBeInTheDocument()
+    })
+
+    test('a query matching nothing in a group hides that header, keeping ungrouped items separate', () => {
+      render(<GroupedCombobox />)
+      const input = screen.getByRole('combobox')
+      focusInput(input)
+      fireEvent.change(input, { target: { value: 'other' } })
+      expect(screen.getByRole('option', { name: 'Other' })).toBeInTheDocument()
+      expect(screen.queryByText('Frontend')).not.toBeInTheDocument()
+      expect(screen.queryByText('Backend')).not.toBeInTheDocument()
+    })
+
+    test('items prop wins over children and supports header-driven grouping', () => {
+      render(
+        <CxCombobox
+          aria-label="Language"
+          items={[
+            { type: 'header', id: 'g1', label: 'Frontend' },
+            { id: 'html', label: 'HTML' },
+            { type: 'header', id: 'g2', label: 'Backend' },
+            { id: 'python', label: 'Python' }
+          ]}
+        >
+          <CxComboboxItem id="ignored">Ignored</CxComboboxItem>
+        </CxCombobox>
+      )
+      focusInput(screen.getByRole('combobox'))
+      expect(screen.getByText('Frontend')).toHaveAttribute('role', 'presentation')
+      expect(screen.getByRole('option', { name: 'HTML' })).toBeInTheDocument()
+      expect(screen.getByRole('option', { name: 'Python' })).toBeInTheDocument()
+      expect(screen.queryByRole('option', { name: 'Ignored' })).not.toBeInTheDocument()
     })
   })
 

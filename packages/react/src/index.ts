@@ -37,6 +37,7 @@ import { CxCloseButton } from './components/close-button/CxCloseButton'
 import { CxColorInput } from './components/color-input/CxColorInput'
 import { CxFileInput } from './components/file-input/CxFileInput'
 import { CxCombobox } from './components/combobox/CxCombobox'
+import { CxComboboxGroup } from './components/combobox/CxComboboxGroup'
 import { CxComboboxItem } from './components/combobox/CxComboboxItem'
 import { CxDatePicker } from './components/datepicker/CxDatePicker'
 import { CxOtpInput } from './components/otp-input/CxOtpInput'
@@ -162,6 +163,7 @@ export {
   CxCollapse,
   CxColorInput,
   CxCombobox,
+  CxComboboxGroup,
   CxComboboxItem,
   CxDatePicker,
   CxFileInput,

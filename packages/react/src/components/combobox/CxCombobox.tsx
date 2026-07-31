@@ -1,14 +1,101 @@
-import React, { HTMLAttributes, InputHTMLAttributes, ReactElement, ReactNode, useRef } from 'react'
+import React, { HTMLAttributes, InputHTMLAttributes, ReactNode, useRef } from 'react'
 import classNames from 'classnames'
 import { useComboBox, useFilter, useOverlayPosition } from 'react-aria'
-import { Item, Key, useComboBoxState } from 'react-stately'
+import { Item, Key, Section, useComboBoxState } from 'react-stately'
 
 import { useFormField } from '../../hooks'
 import { resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
 import { renderFormField } from '../form-field/renderFormField'
+import { CxMenuItemsDef } from '../menu/CxMenuItemDef'
 import { renderMenuItemContent } from '../menu/renderMenuItemContent'
-import { CxComboboxItemProps } from './CxComboboxItem'
+import {
+  ComboboxEntry,
+  ComboboxGroupEntry,
+  ComboboxItemElement,
+  isComboboxGroupEntry
+} from './comboboxCollection'
+import { CxComboboxGroup, CxComboboxGroupProps } from './CxComboboxGroup'
+import { CxComboboxItem } from './CxComboboxItem'
 import { ComboboxListBox } from './ComboboxListBox'
+
+// Splits `children` into a flat, ordered list of entries — bare `CxComboboxItem` elements and
+// `CxComboboxGroup`-wrapped clusters of them — mirroring how `useComboBoxState`'s dynamic
+// collection needs top-level nodes: some rendered as a plain `<Item>`, some as a `<Section>`
+// wrapping several `<Item>`s.
+const buildEntriesFromChildren = (children: ReactNode): ComboboxEntry[] => {
+  const entries: ComboboxEntry[] = []
+  React.Children.forEach(children, (child, index) => {
+    if (!React.isValidElement(child)) return
+    if (child.type === CxComboboxGroup) {
+      const groupProps = child.props as CxComboboxGroupProps
+      const items: ComboboxItemElement[] = []
+      React.Children.forEach(groupProps.children, (groupChild) => {
+        if (React.isValidElement(groupChild) && groupChild.type === CxComboboxItem) {
+          items.push(groupChild as ComboboxItemElement)
+        }
+      })
+      entries.push({ entryType: 'group', key: `group-${index}`, label: groupProps.label, items })
+      return
+    }
+    if (child.type === CxComboboxItem) {
+      entries.push(child as ComboboxItemElement)
+    }
+  })
+  return entries
+}
+
+// Same shape as `buildEntriesFromChildren`, from a flat `CxMenuItemsDef` instead. A `'header'`
+// entry opens a new group that all following items join until the next header (or the end of
+// the array) — matching how chassis-css itself renders grouped items (flat siblings, no
+// wrapping element per group). `'divider'` entries aren't meaningful for a listbox/option
+// collection and are skipped.
+const buildEntriesFromItemsDef = (defs: CxMenuItemsDef): ComboboxEntry[] => {
+  const entries: ComboboxEntry[] = []
+  let currentGroup: ComboboxGroupEntry | null = null
+
+  defs.forEach((def) => {
+    if (def.type === 'divider') return
+    if (def.type === 'header') {
+      currentGroup = { entryType: 'group', key: def.id, label: def.label, items: [] }
+      entries.push(currentGroup)
+      return
+    }
+    const item = (
+      <CxComboboxItem
+        key={def.id}
+        id={def.id}
+        disabled={def.disabled}
+        icon={def.icon}
+        description={def.description}
+      >
+        {def.label}
+      </CxComboboxItem>
+    )
+    if (currentGroup) currentGroup.items.push(item)
+    else entries.push(item)
+  })
+
+  return entries
+}
+
+const getDisabledKeys = (entries: ComboboxEntry[]): Key[] =>
+  entries.reduce<Key[]>((keys, entry) => {
+    const items = isComboboxGroupEntry(entry) ? entry.items : [entry]
+    return keys.concat(items.filter((item) => item.props.disabled).map((item) => item.props.id))
+  }, [])
+
+const renderComboboxItem = (item: ComboboxItemElement) => (
+  <Item
+    key={item.props.id}
+    textValue={typeof item.props.children === 'string' ? item.props.children : undefined}
+  >
+    {renderMenuItemContent({
+      icon: item.props.icon,
+      label: item.props.children,
+      description: item.props.description
+    })}
+  </Item>
+)
 
 export interface CxComboboxProps extends Omit<
   HTMLAttributes<HTMLDivElement>,
@@ -23,10 +110,10 @@ export interface CxComboboxProps extends Omit<
    */
   'aria-labelledby'?: string
   /**
-   * `CxComboboxItem` elements — read as data by `CxCombobox` to build the option list. Not
-   * rendered directly.
+   * `CxComboboxItem` elements, optionally wrapped in `CxComboboxGroup` — read as data by
+   * `CxCombobox` to build the option list. Not rendered directly. Ignored when `items` is set.
    */
-  children: ReactNode
+  children?: ReactNode
   /**
    * A string of all className you want applied to the base component.
    */
@@ -55,6 +142,14 @@ export interface CxComboboxProps extends Omit<
    * An error message for the field, rendered below the combobox when `invalid` is set.
    */
   invalidFeedback?: ReactNode
+  /**
+   * Array of item/header/divider definitions for data-driven rendering. When provided, children
+   * are ignored. A `'header'` entry starts a group that all following items join until the next
+   * header or the end of the array. `'divider'` entries are a no-op here (dividers aren't
+   * meaningful for a listbox/option collection) — use `CxComboboxGroup` composition instead if
+   * you need finer control over grouping.
+   */
+  items?: CxMenuItemsDef
   /**
    * The field's caption, rendered as a `CxFormLabel` associated with the input.
    */
@@ -103,6 +198,7 @@ export const CxCombobox = ({
   id,
   invalid,
   invalidFeedback,
+  items,
   label,
   name,
   noResultsText = 'No results found',
@@ -114,29 +210,23 @@ export const CxCombobox = ({
   value,
   ...rest
 }: CxComboboxProps) => {
-  const items = React.Children.toArray(children).filter(
-    (child): child is ReactElement<CxComboboxItemProps> => React.isValidElement(child)
-  )
+  const entries = items ? buildEntriesFromItemsDef(items) : buildEntriesFromChildren(children)
 
   // Case- and accent-insensitive substring matching, mirroring chassis-css's own
   // always-case-insensitive combobox.js filtering.
   const { contains } = useFilter({ sensitivity: 'base' })
 
-  const state = useComboBoxState<ReactElement<CxComboboxItemProps>>({
-    children: (item) => (
-      <Item
-        key={item.props.id}
-        textValue={typeof item.props.children === 'string' ? item.props.children : undefined}
-      >
-        {renderMenuItemContent({
-          icon: item.props.icon,
-          label: item.props.children,
-          description: item.props.description
-        })}
-      </Item>
-    ),
-    defaultItems: items,
-    disabledKeys: items.filter((item) => item.props.disabled).map((item) => item.props.id),
+  const state = useComboBoxState<ComboboxEntry>({
+    children: (entry) =>
+      isComboboxGroupEntry(entry) ? (
+        <Section key={entry.key} title={entry.label} items={entry.items}>
+          {renderComboboxItem}
+        </Section>
+      ) : (
+        renderComboboxItem(entry)
+      ),
+    defaultItems: entries,
+    disabledKeys: getDisabledKeys(entries),
     defaultFilter: contains,
     defaultValue,
     value,
@@ -164,7 +254,7 @@ export const CxCombobox = ({
     validFeedback
   })
 
-  const { inputProps, listBoxProps } = useComboBox<ReactElement<CxComboboxItemProps>>(
+  const { inputProps, listBoxProps } = useComboBox<ComboboxEntry>(
     {
       'aria-label': rest['aria-label'],
       'aria-labelledby': labelledBy,
