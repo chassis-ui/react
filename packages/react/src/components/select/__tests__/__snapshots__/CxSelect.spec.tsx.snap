@@ -1,5 +1,33 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`CxSelect > adorns > matches the adorned markup snapshot 1`] = `
+<div>
+  <div
+    class="form-input form-caret"
+  >
+    <span
+      class="input-help"
+    >
+      Lang
+    </span>
+    <select
+      aria-label="Language"
+      class="ghost-input"
+      id=":rk:"
+    >
+      <option>
+        js
+      </option>
+    </select>
+    <span
+      class="input-help"
+    >
+      Choose one
+    </span>
+  </div>
+</div>
+`;
+
 exports[`CxSelect > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <select

@@ -1,7 +1,14 @@
-import React, { ChangeEventHandler, forwardRef, InputHTMLAttributes, ReactNode } from 'react'
+import React, {
+  ChangeEventHandler,
+  forwardRef,
+  InputHTMLAttributes,
+  MouseEventHandler,
+  ReactNode,
+  useRef
+} from 'react'
 import classNames from 'classnames'
 
-import { useFormField } from '../../hooks'
+import { useForkedRef, useFormField } from '../../hooks'
 import { renderFormField } from '../form-field/renderFormField'
 
 export interface CxSelectOptionDef {
@@ -27,6 +34,22 @@ export interface CxSelectOptionDef {
   value?: string | number
 }
 export interface CxSelectProps extends Omit<InputHTMLAttributes<HTMLSelectElement>, 'size'> {
+  /**
+   * Content rendered at the select's trailing edge, e.g. a `CxInputAdorn` icon, text, or button.
+   * Setting either `adornStart` or `adornEnd` renders a `.form-input` wrapper around a
+   * `.ghost-input`, matching chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-help) pattern.
+   * Clicking anywhere in the wrapper (other than an actionable adorn) opens the select, since the
+   * native element itself no longer fills the wrapper's full width.
+   */
+  adornEnd?: ReactNode
+  /**
+   * Content rendered at the select's leading edge, e.g. a `CxInputAdorn` icon, text, or button.
+   * Setting either `adornStart` or `adornEnd` renders a `.form-input` wrapper around a
+   * `.ghost-input`, matching chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-help) pattern.
+   * Clicking anywhere in the wrapper (other than an actionable adorn) opens the select, since the
+   * native element itself no longer fills the wrapper's full width.
+   */
+  adornStart?: ReactNode
   /**
    * A string of all className you want applied to the component.
    */
@@ -96,6 +119,8 @@ export interface CxSelectProps extends Omit<InputHTMLAttributes<HTMLSelectElemen
 export const CxSelect = forwardRef<HTMLSelectElement, CxSelectProps>(
   (
     {
+      adornEnd,
+      adornStart,
       children,
       className,
       help,
@@ -114,6 +139,9 @@ export const CxSelect = forwardRef<HTMLSelectElement, CxSelectProps>(
     },
     ref
   ) => {
+    const selectRef = useRef<HTMLSelectElement>(null)
+    const forkedRef = useForkedRef(ref, selectRef)
+
     const selectedValues = Array.isArray(options)
       ? options
           .filter(
@@ -150,51 +178,87 @@ export const CxSelect = forwardRef<HTMLSelectElement, CxSelectProps>(
       validFeedback
     })
 
-    const _className = classNames(
-      'form-input',
-      size,
-      {
-        'is-invalid': invalid,
-        'is-valid': valid
-      },
-      className
+    const hasAdorn = adornStart != null || adornEnd != null
+    // A caret can only pop the dropdown open when the select actually renders as one - an inline
+    // listbox (`multiple`, or a `size` greater than 1) has no picker to show.
+    const isDropdown = !multiple && (!htmlSize || htmlSize <= 1)
+
+    // chassis-css's `.form-input:has(.ghost-input.is-valid)` selector reads validation state off
+    // the inner select, not the wrapper, once adorns turn `.form-input` into a flex container -
+    // see https://chassis-ui.com/css/docs/forms/input-help.
+    const selectClassName = classNames(
+      hasAdorn ? 'ghost-input' : 'form-input',
+      !hasAdorn && size,
+      { 'is-invalid': invalid, 'is-valid': valid },
+      !hasAdorn && className
+    )
+
+    const handleWrapperClick: MouseEventHandler<HTMLDivElement> = (event) => {
+      const node = selectRef.current
+      const target = event.target as HTMLElement
+      if (!node || node.disabled || !isDropdown || target === node || target.closest('button, a'))
+        return
+      node.focus()
+      try {
+        // showPicker() opens the native dropdown from a proxy click; unsupported browsers fall
+        // back to the focus() above, same as tabbing to a bare select and pressing Space/Down.
+        node.showPicker?.()
+      } catch {
+        // Can throw without a user activation or under a policy-restricted embed - focus() still
+        // leaves the select reachable via the keyboard.
+      }
+    }
+
+    const select = (
+      <select
+        {...rest}
+        aria-describedby={describedBy}
+        aria-invalid={invalid || undefined}
+        className={selectClassName}
+        id={inputId}
+        multiple={multiple}
+        ref={forkedRef}
+        size={htmlSize}
+        {...(inferredDefaultValue !== undefined && { defaultValue: inferredDefaultValue })}
+      >
+        {placeholder && (
+          <option value="" disabled>
+            {placeholder}
+          </option>
+        )}
+        {options
+          ? options.map((option, index) => {
+              return (
+                <option
+                  {...(typeof option === 'object' &&
+                    option.disabled && { disabled: option.disabled })}
+                  {...(typeof option === 'object' && option.value && { value: option.value })}
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={index}
+                >
+                  {typeof option === 'string' ? option : option.label}
+                </option>
+              )
+            })
+          : children}
+      </select>
+    )
+
+    const rendered = hasAdorn ? (
+      <div
+        className={classNames('form-input', isDropdown && 'form-caret', size, className)}
+        onClick={handleWrapperClick}
+      >
+        {adornStart}
+        {select}
+        {adornEnd}
+      </div>
+    ) : (
+      select
     )
 
     return renderFormField({
-      children: (
-        <select
-          {...rest}
-          aria-describedby={describedBy}
-          aria-invalid={invalid || undefined}
-          className={_className}
-          id={inputId}
-          multiple={multiple}
-          ref={ref}
-          size={htmlSize}
-          {...(inferredDefaultValue !== undefined && { defaultValue: inferredDefaultValue })}
-        >
-          {placeholder && (
-            <option value="" disabled>
-              {placeholder}
-            </option>
-          )}
-          {options
-            ? options.map((option, index) => {
-                return (
-                  <option
-                    {...(typeof option === 'object' &&
-                      option.disabled && { disabled: option.disabled })}
-                    {...(typeof option === 'object' && option.value && { value: option.value })}
-                    // eslint-disable-next-line react/no-array-index-key
-                    key={index}
-                  >
-                    {typeof option === 'string' ? option : option.label}
-                  </option>
-                )
-              })
-            : children}
-        </select>
-      ),
+      children: rendered,
       help,
       ids: { feedback: feedbackId, help: helpId, input: inputId },
       invalid,

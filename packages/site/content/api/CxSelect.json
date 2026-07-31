@@ -5,6 +5,44 @@
   "displayName": "CxSelect",
   "methods": [],
   "props": {
+    "adornEnd": {
+      "defaultValue": null,
+      "description": "Content rendered at the select's trailing edge, e.g. a `CxInputAdorn` icon, text, or button.\nSetting either `adornStart` or `adornEnd` renders a `.form-input` wrapper around a\n`.ghost-input`, matching chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-help) pattern.\nClicking anywhere in the wrapper (other than an actionable adorn) opens the select, since the\nnative element itself no longer fills the wrapper's full width.",
+      "name": "adornEnd",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/select/CxSelect.tsx",
+        "name": "CxSelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/select/CxSelect.tsx",
+          "name": "CxSelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "adornStart": {
+      "defaultValue": null,
+      "description": "Content rendered at the select's leading edge, e.g. a `CxInputAdorn` icon, text, or button.\nSetting either `adornStart` or `adornEnd` renders a `.form-input` wrapper around a\n`.ghost-input`, matching chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-help) pattern.\nClicking anywhere in the wrapper (other than an actionable adorn) opens the select, since the\nnative element itself no longer fills the wrapper's full width.",
+      "name": "adornStart",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/select/CxSelect.tsx",
+        "name": "CxSelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/select/CxSelect.tsx",
+          "name": "CxSelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
     "className": {
       "defaultValue": null,
       "description": "A string of all className you want applied to the component.",

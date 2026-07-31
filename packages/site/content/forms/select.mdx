@@ -15,6 +15,7 @@ import { Example as MultipleExample } from '../../src/examples/select/MultipleEx
 import { Example as SelectSizeExample } from '../../src/examples/select/SelectSizeExample.tsx'
 import { Example as DefaultSelectionExample } from '../../src/examples/select/DefaultSelectionExample.tsx'
 import { Example as ControlledValueExample } from '../../src/examples/select/ControlledValueExample.tsx'
+import { Example as AdornsExample } from '../../src/examples/select/AdornsExample.tsx'
 
 ## Overview
 
@@ -87,6 +88,36 @@ Pass `value` and `onChange` to control the selected option from external state. 
 <Example>
   <ControlledValueExample client:load />
 </Example>
+
+## Adorns
+
+Pass `adornStart` and/or `adornEnd` to render content — an icon, text, or an actionable button —
+at the leading or trailing edge of the select. Either prop switches the rendered markup from a bare
+`<select>` to chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-help) pattern:
+a `.form-input` wrapper containing the adorn(s) around a `.ghost-input`-classed `<select>`. Wrap
+adorn content in `CxInputAdorn` so it picks up the `.input-help` class the wrapper's flex layout
+targets — see [Text Input]([[docsref:/forms/text-input]]) for the same pattern on a text field.
+
+<Example>
+  <AdornsExample client:load />
+</Example>
+
+A native `<select>` normally opens its dropdown on click no matter where the pointer lands, since
+it fills its own box completely. Once wrapped, the select only occupies the space between its
+adorns, so `CxSelect` adds a click handler to the wrapper itself — clicking an adorn (or the
+wrapper's own padding) focuses the select and calls `showPicker()` to open it, the same as clicking
+the select directly. Clicking an actionable adorn (`CxInputAdorn` with `component="button"` or
+`component="a"`) is left alone, since that adorn already handles its own click.
+
+<Callout type="warning">
+  `showPicker()` isn't available in every browser. Where it's missing, the click still moves focus
+  to the select, leaving it reachable by keyboard (Space/Down to open) — the same fallback a bare,
+  unwrapped select already relies on for non-pointer input.
+</Callout>
+
+A wrapped select with `multiple` or an `htmlSize` greater than `1` renders as an inline listbox
+rather than a dropdown, so it has no picker to open — `CxSelect` omits `.form-caret` and the
+click-to-open handler for those cases, leaving the listbox itself directly clickable as normal.
 
 ## API
 

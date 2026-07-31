@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 
-import { CxSelect } from '../../../index'
+import { CxInputAdorn, CxSelect } from '../../../index'
 
 describe('CxSelect', () => {
   describe('rendering', () => {
@@ -109,6 +109,180 @@ describe('CxSelect', () => {
         'js',
         'html'
       ])
+    })
+  })
+
+  describe('adorns', () => {
+    test('renders bare without a wrapper when adornStart/adornEnd are unset', () => {
+      const { container } = render(<CxSelect aria-label="Language" options={['js']} />)
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(container.firstChild).toBe(screen.getByRole('combobox', { name: 'Language' }))
+    })
+
+    test('wraps in .form-input.form-caret with a .ghost-input select', () => {
+      const { container } = render(
+        <CxSelect
+          aria-label="Language"
+          options={['js']}
+          adornStart={<CxInputAdorn>Lang</CxInputAdorn>}
+        />
+      )
+      const select = screen.getByRole('combobox', { name: 'Language' })
+      expect(select).toHaveClass('ghost-input')
+      expect(select).not.toHaveClass('form-input')
+      // eslint-disable-next-line testing-library/no-node-access
+      const wrapper = container.firstChild as HTMLElement
+      expect(wrapper).toHaveClass('form-input', 'form-caret')
+    })
+
+    test('moves size and the caller className to the wrapper, not the ghost-input', () => {
+      const { container } = render(
+        <CxSelect
+          aria-label="Language"
+          options={['js']}
+          adornStart={<CxInputAdorn>Lang</CxInputAdorn>}
+          className="bazinga"
+          size="large"
+        />
+      )
+      // eslint-disable-next-line testing-library/no-node-access
+      const wrapper = container.firstChild as HTMLElement
+      expect(wrapper).toHaveClass('form-input', 'large', 'bazinga')
+      const select = screen.getByRole('combobox', { name: 'Language' })
+      expect(select).not.toHaveClass('large', 'bazinga')
+    })
+
+    test('keeps is-invalid/is-valid on the ghost-input, not the wrapper', () => {
+      const { container } = render(
+        <CxSelect
+          aria-label="Language"
+          options={['js']}
+          adornStart={<CxInputAdorn>Lang</CxInputAdorn>}
+          invalid
+          valid
+        />
+      )
+      // eslint-disable-next-line testing-library/no-node-access
+      const wrapper = container.firstChild as HTMLElement
+      expect(wrapper).not.toHaveClass('is-invalid', 'is-valid')
+      const select = screen.getByRole('combobox', { name: 'Language' })
+      expect(select).toHaveClass('is-invalid', 'is-valid')
+    })
+
+    test('omits .form-caret and skips the proxy-open when multiple is set', () => {
+      const { container } = render(
+        <CxSelect
+          aria-label="Language"
+          multiple
+          options={['js', 'html']}
+          adornStart={<CxInputAdorn>Lang</CxInputAdorn>}
+        />
+      )
+      // eslint-disable-next-line testing-library/no-node-access
+      const wrapper = container.firstChild as HTMLElement
+      expect(wrapper).not.toHaveClass('form-caret')
+    })
+
+    describe('proxy-open behavior', () => {
+      let showPicker: ReturnType<typeof vi.fn>
+
+      beforeEach(() => {
+        showPicker = vi.fn()
+        // jsdom doesn't implement showPicker() - stub it so the proxy-click path is observable.
+        HTMLSelectElement.prototype.showPicker =
+          showPicker as unknown as HTMLSelectElement['showPicker']
+      })
+
+      afterEach(() => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        delete (HTMLSelectElement.prototype as any).showPicker
+      })
+
+      test('clicking an adorn focuses and opens the select', async () => {
+        const user = userEvent.setup()
+        render(
+          <CxSelect
+            aria-label="Language"
+            options={['js']}
+            adornStart={<CxInputAdorn>Lang</CxInputAdorn>}
+          />
+        )
+        await user.click(screen.getByText('Lang'))
+        expect(screen.getByRole('combobox', { name: 'Language' })).toHaveFocus()
+        expect(showPicker).toHaveBeenCalledTimes(1)
+      })
+
+      test('clicking the select itself does not double-trigger the proxy', async () => {
+        const user = userEvent.setup()
+        render(
+          <CxSelect
+            aria-label="Language"
+            options={['js']}
+            adornStart={<CxInputAdorn>Lang</CxInputAdorn>}
+          />
+        )
+        await user.click(screen.getByRole('combobox', { name: 'Language' }))
+        expect(showPicker).not.toHaveBeenCalled()
+      })
+
+      test('clicking an actionable button adorn does not open the select', async () => {
+        const onClick = vi.fn()
+        const user = userEvent.setup()
+        render(
+          <CxSelect
+            aria-label="Language"
+            options={['js']}
+            adornEnd={
+              <CxInputAdorn component="button" type="button" aria-label="Clear" onClick={onClick}>
+                Clear
+              </CxInputAdorn>
+            }
+          />
+        )
+        await user.click(screen.getByRole('button', { name: 'Clear' }))
+        expect(onClick).toHaveBeenCalledTimes(1)
+        expect(showPicker).not.toHaveBeenCalled()
+      })
+
+      test('does not open a disabled select', async () => {
+        const user = userEvent.setup()
+        render(
+          <CxSelect
+            aria-label="Language"
+            disabled
+            options={['js']}
+            adornStart={<CxInputAdorn>Lang</CxInputAdorn>}
+          />
+        )
+        await user.click(screen.getByText('Lang'))
+        expect(showPicker).not.toHaveBeenCalled()
+      })
+
+      test('does not open a multiple select', async () => {
+        const user = userEvent.setup()
+        render(
+          <CxSelect
+            aria-label="Language"
+            multiple
+            options={['js', 'html']}
+            adornStart={<CxInputAdorn>Lang</CxInputAdorn>}
+          />
+        )
+        await user.click(screen.getByText('Lang'))
+        expect(showPicker).not.toHaveBeenCalled()
+      })
+    })
+
+    test('matches the adorned markup snapshot', () => {
+      const { container } = render(
+        <CxSelect
+          aria-label="Language"
+          options={['js']}
+          adornStart={<CxInputAdorn>Lang</CxInputAdorn>}
+          adornEnd={<CxInputAdorn>Choose one</CxInputAdorn>}
+        />
+      )
+      expect(container).toMatchSnapshot()
     })
   })
 
