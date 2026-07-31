@@ -38,6 +38,33 @@ describe('CxInputAdorn', () => {
     })
   })
 
+  describe('focus retention', () => {
+    test('prevents default on mousedown to keep focus on an associated input', () => {
+      render(
+        <CxInputAdorn component="button" type="button" aria-label="Toggle">
+          Test
+        </CxInputAdorn>
+      )
+      const adorn = screen.getByRole('button', { name: 'Toggle' })
+      const event = new MouseEvent('mousedown', { bubbles: true, cancelable: true })
+      const dispatchResult = adorn.dispatchEvent(event)
+      expect(dispatchResult).toBe(false)
+      expect(event.defaultPrevented).toBe(true)
+    })
+
+    test('still invokes a consumer-provided onMouseDown handler', () => {
+      const handleMouseDown = vi.fn()
+      render(
+        <CxInputAdorn component="button" type="button" aria-label="Toggle" onMouseDown={handleMouseDown}>
+          Test
+        </CxInputAdorn>
+      )
+      const adorn = screen.getByRole('button', { name: 'Toggle' })
+      adorn.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true }))
+      expect(handleMouseDown).toHaveBeenCalledTimes(1)
+    })
+  })
+
   describe('accessibility', () => {
     test('has no axe violations', async () => {
       const { container } = render(<CxInputAdorn>Test</CxInputAdorn>)

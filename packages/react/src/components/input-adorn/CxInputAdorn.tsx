@@ -24,10 +24,18 @@ export interface CxInputAdornProps
 }
 
 export const CxInputAdorn = forwardRef<HTMLElement, CxInputAdornProps>(
-  ({ children, className, component: Component = 'span', ...rest }, ref) => {
+  ({ children, className, component: Component = 'span', onMouseDown, ...rest }, ref) => {
     const _className = classNames('input-adorn', className)
+    const handleMouseDown: HTMLAttributes<HTMLElement>['onMouseDown'] = (event) => {
+      onMouseDown?.(event)
+      // Keep focus on the associated input (e.g. a password toggle) instead of
+      // letting the browser shift it to this button/anchor on mousedown.
+      if (!event.defaultPrevented) {
+        event.preventDefault()
+      }
+    }
     return (
-      <Component className={_className} {...rest} ref={ref}>
+      <Component className={_className} onMouseDown={handleMouseDown} {...rest} ref={ref}>
         {children}
       </Component>
     )
