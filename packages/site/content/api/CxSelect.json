@@ -7,7 +7,7 @@
   "props": {
     "adornEnd": {
       "defaultValue": null,
-      "description": "Content rendered at the select's trailing edge, e.g. a `CxInputAdorn` icon, text, or button.\nSetting either `adornStart` or `adornEnd` renders a `.form-input` wrapper around a\n`.ghost-input`, matching chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-help) pattern.\nClicking anywhere in the wrapper (other than an actionable adorn) opens the select, since the\nnative element itself no longer fills the wrapper's full width.",
+      "description": "Content rendered at the select's trailing edge, e.g. a `CxInputAdorn` icon, text, or button.\nSetting either `adornStart` or `adornEnd` renders a `.form-input` wrapper around a\n`.ghost-input`, matching chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-adorn) pattern.\nClicking anywhere in the wrapper (other than an actionable adorn) opens the select, since the\nnative element itself no longer fills the wrapper's full width.",
       "name": "adornEnd",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/select/CxSelect.tsx",
@@ -26,7 +26,7 @@
     },
     "adornStart": {
       "defaultValue": null,
-      "description": "Content rendered at the select's leading edge, e.g. a `CxInputAdorn` icon, text, or button.\nSetting either `adornStart` or `adornEnd` renders a `.form-input` wrapper around a\n`.ghost-input`, matching chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-help) pattern.\nClicking anywhere in the wrapper (other than an actionable adorn) opens the select, since the\nnative element itself no longer fills the wrapper's full width.",
+      "description": "Content rendered at the select's leading edge, e.g. a `CxInputAdorn` icon, text, or button.\nSetting either `adornStart` or `adornEnd` renders a `.form-input` wrapper around a\n`.ghost-input`, matching chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-adorn) pattern.\nClicking anywhere in the wrapper (other than an actionable adorn) opens the select, since the\nnative element itself no longer fills the wrapper's full width.",
       "name": "adornStart",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/select/CxSelect.tsx",

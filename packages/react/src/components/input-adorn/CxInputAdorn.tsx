@@ -25,7 +25,7 @@ export interface CxInputAdornProps
 
 export const CxInputAdorn = forwardRef<HTMLElement, CxInputAdornProps>(
   ({ children, className, component: Component = 'span', ...rest }, ref) => {
-    const _className = classNames('input-help', className)
+    const _className = classNames('input-adorn', className)
     return (
       <Component className={_className} {...rest} ref={ref}>
         {children}

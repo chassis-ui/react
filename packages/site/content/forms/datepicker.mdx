@@ -58,7 +58,7 @@ This is a single-date picker — the strong-fit case for React Aria's date picke
 
 ## Styling
 
-Unlike most Chassis React components, `CxDatePicker`'s calendar grid isn't styled by `@chassis-ui/css` — chassis-css's own datepicker styling is built entirely around [Vanilla Calendar Pro](https://vanilla-calendar.pro/)'s specific DOM output, which React Aria's calendar hooks don't produce. `CxDatePicker` instead ships its own scoped CSS (built on `@chassis-ui/tokens`' public design tokens, so it still matches the current theme and light/dark mode) that's automatically injected the first time the component is imported — no separate stylesheet to add. The field and toggle button, on the other hand, reuse chassis-css's existing `.form-input`/`.input-help`/`.ghost-input` classes as-is.
+Unlike most Chassis React components, `CxDatePicker`'s calendar grid isn't styled by `@chassis-ui/css` — chassis-css's own datepicker styling is built entirely around [Vanilla Calendar Pro](https://vanilla-calendar.pro/)'s specific DOM output, which React Aria's calendar hooks don't produce. `CxDatePicker` instead ships its own scoped CSS (built on `@chassis-ui/tokens`' public design tokens, so it still matches the current theme and light/dark mode) that's automatically injected the first time the component is imported — no separate stylesheet to add. The field and toggle button, on the other hand, reuse chassis-css's existing `.form-input`/`.input-adorn`/`.ghost-input` classes as-is.
 
 ## API
 

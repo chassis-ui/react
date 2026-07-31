@@ -12,13 +12,13 @@ export interface CxTextInputProps extends Omit<
   /**
    * Content rendered at the input's trailing edge, e.g. a `CxInputAdorn` icon, text, or button.
    * Setting either `adornStart` or `adornEnd` renders a `.form-input` wrapper around a
-   * `.ghost-input`, matching chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-help) pattern.
+   * `.ghost-input`, matching chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-adorn) pattern.
    */
   adornEnd?: ReactNode
   /**
    * Content rendered at the input's leading edge, e.g. a `CxInputAdorn` icon, text, or button.
    * Setting either `adornStart` or `adornEnd` renders a `.form-input` wrapper around a
-   * `.ghost-input`, matching chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-help) pattern.
+   * `.ghost-input`, matching chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-adorn) pattern.
    */
   adornStart?: ReactNode
   /**
@@ -150,7 +150,7 @@ export const CxTextInput = forwardRef<HTMLInputElement, CxTextInputProps>(
 
     // chassis-css's `.form-input:has(.ghost-input.is-valid)` selector reads validation state off
     // the inner input, not the wrapper, once adorns turn `.form-input` into a flex container - see
-    // https://chassis-ui.com/css/docs/forms/input-help.
+    // https://chassis-ui.com/css/docs/forms/input-adorn.
     const inputClassName = classNames(
       hasAdorn ? 'ghost-input' : 'form-input',
       !hasAdorn && plainText && 'plaintext',

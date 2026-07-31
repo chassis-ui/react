@@ -6,7 +6,7 @@ exports[`CxSelect > adorns > matches the adorned markup snapshot 1`] = `
     class="form-input form-caret"
   >
     <span
-      class="input-help"
+      class="input-adorn"
     >
       Lang
     </span>
@@ -20,7 +20,7 @@ exports[`CxSelect > adorns > matches the adorned markup snapshot 1`] = `
       </option>
     </select>
     <span
-      class="input-help"
+      class="input-adorn"
     >
       Choose one
     </span>

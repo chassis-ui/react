@@ -225,7 +225,7 @@ export const CxDatePicker = ({
           ref={groupRef}
         >
           <DateField fieldProps={fieldProps} />
-          <button {...toggleProps} className="input-help" ref={buttonRef} type="button">
+          <button {...toggleProps} className="input-adorn" ref={buttonRef} type="button">
             <svg
               fill="none"
               height="16"

@@ -3,7 +3,7 @@
 exports[`CxInputAdorn > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <span
-    class="input-help"
+    class="input-adorn"
   >
     Test
   </span>

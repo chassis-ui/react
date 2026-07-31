@@ -9,7 +9,7 @@ describe('CxInputAdorn', () => {
     test('renders a span with the base class by default', () => {
       render(<CxInputAdorn>Test</CxInputAdorn>)
       const adorn = screen.getByText('Test')
-      expect(adorn).toHaveClass('input-help')
+      expect(adorn).toHaveClass('input-adorn')
       expect(adorn.tagName).toBe('SPAN')
     })
 
@@ -25,7 +25,7 @@ describe('CxInputAdorn', () => {
         </CxInputAdorn>
       )
       const adorn = screen.getByRole('button', { name: 'Clear' })
-      expect(adorn).toHaveClass('input-help', 'bazinga')
+      expect(adorn).toHaveClass('input-adorn', 'bazinga')
       expect(adorn.tagName).toBe('BUTTON')
     })
   })

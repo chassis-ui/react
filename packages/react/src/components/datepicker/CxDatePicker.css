@@ -1,5 +1,5 @@
 /*
- * CxDatePicker's segmented field reuses chassis-css's existing `.form-input`/`.input-help`/
+ * CxDatePicker's segmented field reuses chassis-css's existing `.form-input`/`.input-adorn`/
  * `.ghost-input` classes as-is (input chrome, trailing-button layout, sizing modifiers all come
  * for free). Only the segments themselves and the calendar popover are genuinely new visual
  * territory with no chassis-css equivalent — see the plan doc for why. Built entirely on

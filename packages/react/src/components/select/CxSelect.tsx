@@ -37,7 +37,7 @@ export interface CxSelectProps extends Omit<InputHTMLAttributes<HTMLSelectElemen
   /**
    * Content rendered at the select's trailing edge, e.g. a `CxInputAdorn` icon, text, or button.
    * Setting either `adornStart` or `adornEnd` renders a `.form-input` wrapper around a
-   * `.ghost-input`, matching chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-help) pattern.
+   * `.ghost-input`, matching chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-adorn) pattern.
    * Clicking anywhere in the wrapper (other than an actionable adorn) opens the select, since the
    * native element itself no longer fills the wrapper's full width.
    */
@@ -45,7 +45,7 @@ export interface CxSelectProps extends Omit<InputHTMLAttributes<HTMLSelectElemen
   /**
    * Content rendered at the select's leading edge, e.g. a `CxInputAdorn` icon, text, or button.
    * Setting either `adornStart` or `adornEnd` renders a `.form-input` wrapper around a
-   * `.ghost-input`, matching chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-help) pattern.
+   * `.ghost-input`, matching chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-adorn) pattern.
    * Clicking anywhere in the wrapper (other than an actionable adorn) opens the select, since the
    * native element itself no longer fills the wrapper's full width.
    */
@@ -185,7 +185,7 @@ export const CxSelect = forwardRef<HTMLSelectElement, CxSelectProps>(
 
     // chassis-css's `.form-input:has(.ghost-input.is-valid)` selector reads validation state off
     // the inner select, not the wrapper, once adorns turn `.form-input` into a flex container -
-    // see https://chassis-ui.com/css/docs/forms/input-help.
+    // see https://chassis-ui.com/css/docs/forms/input-adorn.
     const selectClassName = classNames(
       hasAdorn ? 'ghost-input' : 'form-input',
       !hasAdorn && size,

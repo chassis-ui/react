@@ -73,7 +73,7 @@ describe('CxTextInput', () => {
       // eslint-disable-next-line testing-library/no-node-access
       const wrapper = container.firstChild as HTMLElement
       expect(wrapper).toHaveClass('form-input')
-      expect(screen.getByText('$')).toHaveClass('input-help')
+      expect(screen.getByText('$')).toHaveClass('input-adorn')
     })
 
     test('renders adornStart before and adornEnd after the input', () => {
@@ -128,7 +128,7 @@ describe('CxTextInput', () => {
       expect(input).toHaveClass('is-invalid', 'is-valid')
     })
 
-    test('renders an actionable button adorn with the input-help class directly on the button', async () => {
+    test('renders an actionable button adorn with the input-adorn class directly on the button', async () => {
       const onClick = vi.fn()
       render(
         <CxTextInput
@@ -147,7 +147,7 @@ describe('CxTextInput', () => {
         />
       )
       const button = screen.getByRole('button', { name: 'Show password' })
-      expect(button).toHaveClass('input-help')
+      expect(button).toHaveClass('input-adorn')
       const user = userEvent.setup()
       await user.click(button)
       expect(onClick).toHaveBeenCalledTimes(1)
