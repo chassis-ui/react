@@ -1,5 +1,32 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`CxTextInput > adorns > matches the adorned markup snapshot 1`] = `
+<div>
+  <div
+    class="form-input"
+  >
+    <span
+      class="input-help"
+    >
+      $
+    </span>
+    <input
+      aria-label="Amount"
+      class="ghost-input"
+      id=":r1s:"
+      tabindex="0"
+      type="text"
+      value=""
+    />
+    <span
+      class="input-help"
+    >
+      USD
+    </span>
+  </div>
+</div>
+`;
+
 exports[`CxTextInput > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <input

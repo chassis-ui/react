@@ -64,6 +64,7 @@ import { CxFormHelp } from './components/form/CxFormHelp'
 import { CxFormLabel } from './components/form/CxFormLabel'
 import { CxInputAddon } from './components/input-group/CxInputAddon'
 import { CxInputGroup } from './components/input-group/CxInputGroup'
+import { CxInputHelp } from './components/input-help/CxInputHelp'
 import { CxRadio } from './components/radio/CxRadio'
 import { CxRadioGroup } from './components/radio/CxRadioGroup'
 import { CxRangeInput } from './components/range-input/CxRangeInput'
@@ -198,6 +199,7 @@ export {
   CxImage,
   CxInputAddon,
   CxInputGroup,
+  CxInputHelp,
   CxLink,
   CxList,
   CxListItem,

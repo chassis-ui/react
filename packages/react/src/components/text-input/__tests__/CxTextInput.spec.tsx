@@ -3,7 +3,7 @@ import { act, fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 
-import { CxTextInput } from '../../../index'
+import { CxInputHelp, CxTextInput } from '../../../index'
 
 describe('CxTextInput', () => {
   describe('rendering', () => {
@@ -53,6 +53,110 @@ describe('CxTextInput', () => {
       const input = screen.getByRole('textbox', { name: 'Name' })
       expect(input).toBeDisabled()
       expect(input).toHaveAttribute('readonly')
+    })
+  })
+
+  describe('adorns', () => {
+    test('renders bare without a wrapper when adornStart/adornEnd are unset', () => {
+      const { container } = render(<CxTextInput aria-label="Name" />)
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(container.firstChild).toBe(screen.getByRole('textbox', { name: 'Name' }))
+    })
+
+    test('wraps in .form-input with a .ghost-input when adornStart is set', () => {
+      const { container } = render(
+        <CxTextInput aria-label="Amount" adornStart={<CxInputHelp>$</CxInputHelp>} />
+      )
+      const input = screen.getByRole('textbox', { name: 'Amount' })
+      expect(input).toHaveClass('ghost-input')
+      expect(input).not.toHaveClass('form-input')
+      // eslint-disable-next-line testing-library/no-node-access
+      const wrapper = container.firstChild as HTMLElement
+      expect(wrapper).toHaveClass('form-input')
+      expect(screen.getByText('$')).toHaveClass('input-help')
+    })
+
+    test('renders adornStart before and adornEnd after the input', () => {
+      render(
+        <CxTextInput
+          aria-label="Amount"
+          adornStart={<CxInputHelp>$</CxInputHelp>}
+          adornEnd={<CxInputHelp>USD</CxInputHelp>}
+        />
+      )
+      const input = screen.getByRole('textbox', { name: 'Amount' })
+      // eslint-disable-next-line testing-library/no-node-access
+      const wrapper = input.parentElement as HTMLElement
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(Array.from(wrapper.children).map((el) => el.textContent || el.tagName)).toEqual([
+        '$',
+        'INPUT',
+        'USD'
+      ])
+    })
+
+    test('moves size, plainText and the caller className to the wrapper, not the ghost-input', () => {
+      const { container } = render(
+        <CxTextInput
+          aria-label="Amount"
+          adornStart={<CxInputHelp>$</CxInputHelp>}
+          className="bazinga"
+          plainText
+          size="large"
+        />
+      )
+      // eslint-disable-next-line testing-library/no-node-access
+      const wrapper = container.firstChild as HTMLElement
+      expect(wrapper).toHaveClass('form-input', 'plaintext', 'large', 'bazinga')
+      const input = screen.getByRole('textbox', { name: 'Amount' })
+      expect(input).not.toHaveClass('plaintext', 'large', 'bazinga')
+    })
+
+    test('keeps is-invalid/is-valid on the ghost-input, not the wrapper', () => {
+      const { container } = render(
+        <CxTextInput aria-label="Amount" adornStart={<CxInputHelp>$</CxInputHelp>} invalid valid />
+      )
+      // eslint-disable-next-line testing-library/no-node-access
+      const wrapper = container.firstChild as HTMLElement
+      expect(wrapper).not.toHaveClass('is-invalid', 'is-valid')
+      const input = screen.getByRole('textbox', { name: 'Amount' })
+      expect(input).toHaveClass('is-invalid', 'is-valid')
+    })
+
+    test('renders an actionable button adorn with the input-help class directly on the button', async () => {
+      const onClick = vi.fn()
+      render(
+        <CxTextInput
+          aria-label="Password"
+          type="password"
+          adornEnd={
+            <CxInputHelp
+              component="button"
+              type="button"
+              aria-label="Show password"
+              onClick={onClick}
+            >
+              Show
+            </CxInputHelp>
+          }
+        />
+      )
+      const button = screen.getByRole('button', { name: 'Show password' })
+      expect(button).toHaveClass('input-help')
+      const user = userEvent.setup()
+      await user.click(button)
+      expect(onClick).toHaveBeenCalledTimes(1)
+    })
+
+    test('matches the adorned markup snapshot', () => {
+      const { container } = render(
+        <CxTextInput
+          aria-label="Amount"
+          adornStart={<CxInputHelp>$</CxInputHelp>}
+          adornEnd={<CxInputHelp>USD</CxInputHelp>}
+        />
+      )
+      expect(container).toMatchSnapshot()
     })
   })
 

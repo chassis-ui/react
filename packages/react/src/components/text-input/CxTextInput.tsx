@@ -10,6 +10,18 @@ export interface CxTextInputProps extends Omit<
   'defaultValue' | 'onChange' | 'size' | 'value'
 > {
   /**
+   * Content rendered at the input's trailing edge, e.g. a `CxInputHelp` icon, text, or button.
+   * Setting either `adornStart` or `adornEnd` renders a `.form-input` wrapper around a
+   * `.ghost-input`, matching chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-help) pattern.
+   */
+  adornEnd?: ReactNode
+  /**
+   * Content rendered at the input's leading edge, e.g. a `CxInputHelp` icon, text, or button.
+   * Setting either `adornStart` or `adornEnd` renders a `.form-input` wrapper around a
+   * `.ghost-input`, matching chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-help) pattern.
+   */
+  adornStart?: ReactNode
+  /**
    * A string of all className you want applied to the component.
    */
   className?: string
@@ -86,6 +98,8 @@ export interface CxTextInputProps extends Omit<
 export const CxTextInput = forwardRef<HTMLInputElement, CxTextInputProps>(
   (
     {
+      adornEnd,
+      adornStart,
       className,
       disabled,
       help,
@@ -132,19 +146,33 @@ export const CxTextInput = forwardRef<HTMLInputElement, CxTextInputProps>(
       inputRef
     )
 
-    const _className = classNames(
-      'form-input',
-      plainText && 'plaintext',
-      size,
-      {
-        'is-invalid': invalid,
-        'is-valid': valid
-      },
-      className
+    const hasAdorn = adornStart != null || adornEnd != null
+
+    // chassis-css's `.form-input:has(.ghost-input.is-valid)` selector reads validation state off
+    // the inner input, not the wrapper, once adorns turn `.form-input` into a flex container - see
+    // https://chassis-ui.com/css/docs/forms/input-help.
+    const inputClassName = classNames(
+      hasAdorn ? 'ghost-input' : 'form-input',
+      !hasAdorn && plainText && 'plaintext',
+      !hasAdorn && size,
+      { 'is-invalid': invalid, 'is-valid': valid },
+      !hasAdorn && className
+    )
+
+    const input = <input {...inputProps} className={inputClassName} ref={forkedRef} />
+
+    const children = hasAdorn ? (
+      <div className={classNames('form-input', plainText && 'plaintext', size, className)}>
+        {adornStart}
+        {input}
+        {adornEnd}
+      </div>
+    ) : (
+      input
     )
 
     return renderFormField({
-      children: <input {...inputProps} className={_className} ref={forkedRef} />,
+      children,
       help,
       ids: { feedback: feedbackId, help: helpId, input: inputId, label: labelId },
       invalid,

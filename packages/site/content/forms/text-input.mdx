@@ -13,6 +13,8 @@ import { Example as ReadonlyExample } from '../../src/examples/text-input/Readon
 import { Example as PlainTextExample } from '../../src/examples/text-input/PlainTextExample.tsx'
 import { Example as TypesExample } from '../../src/examples/text-input/TypesExample.tsx'
 import { Example as ControlledValueExample } from '../../src/examples/text-input/ControlledValueExample.tsx'
+import { Example as AdornsExample } from '../../src/examples/text-input/AdornsExample.tsx'
+import { Example as PasswordToggleExample } from '../../src/examples/text-input/PasswordToggleExample.tsx'
 
 ## Overview
 
@@ -80,8 +82,39 @@ Pass `value` and `onChange` to control the value from external state. `onChange`
   <ControlledValueExample client:load />
 </Example>
 
+## Adorns
+
+Pass `adornStart` and/or `adornEnd` to render content — an icon, text, or an actionable button —
+at the leading or trailing edge of the input. Either prop switches the rendered markup from a bare
+`<input>` to chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-help) pattern:
+a `.form-input` wrapper containing the adorn(s) around a `.ghost-input`. Wrap adorn content in
+`CxInputHelp` so it picks up the `.input-help` class the wrapper's flex layout targets.
+
+<Example class="vstack gap-medium">
+  <AdornsExample client:load />
+</Example>
+
+Set `component="button"` (or `component="a"`) on `CxInputHelp` for an actionable adorn — a
+password reveal toggle, a clear button, or a "forgot password" link.
+
+<Example>
+  <PasswordToggleExample client:load />
+</Example>
+
+## Accessibility
+
+A decorative icon adorn (rendered via `CxIcon` without a `title`) is hidden from assistive
+technology automatically. A text adorn like `$` or `USD` is not announced by screen readers — when
+it's essential to understanding the field, include it in the input's own accessible name via
+`aria-label` rather than relying on the adorn alone. An icon-only actionable adorn (`CxInputHelp`
+with `component="button"`) needs its own `aria-label` describing the action, since it has no text
+content for assistive technology to announce.
+
 ## API
 
 ### CxTextInput
 
 <PropTable component="CxTextInput" />
+### CxInputHelp
+
+<PropTable component="CxInputHelp" />

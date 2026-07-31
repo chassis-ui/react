@@ -5,6 +5,44 @@
   "displayName": "CxTextInput",
   "methods": [],
   "props": {
+    "adornEnd": {
+      "defaultValue": null,
+      "description": "Content rendered at the input's trailing edge, e.g. a `CxInputHelp` icon, text, or button.\nSetting either `adornStart` or `adornEnd` renders a `.form-input` wrapper around a\n`.ghost-input`, matching chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-help) pattern.",
+      "name": "adornEnd",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/text-input/CxTextInput.tsx",
+        "name": "CxTextInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/text-input/CxTextInput.tsx",
+          "name": "CxTextInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "adornStart": {
+      "defaultValue": null,
+      "description": "Content rendered at the input's leading edge, e.g. a `CxInputHelp` icon, text, or button.\nSetting either `adornStart` or `adornEnd` renders a `.form-input` wrapper around a\n`.ghost-input`, matching chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-help) pattern.",
+      "name": "adornStart",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/text-input/CxTextInput.tsx",
+        "name": "CxTextInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/text-input/CxTextInput.tsx",
+          "name": "CxTextInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
     "className": {
       "defaultValue": null,
       "description": "A string of all className you want applied to the component.",
