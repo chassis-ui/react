@@ -13,9 +13,9 @@ export interface CxPlaceholderProps extends HTMLAttributes<HTMLSpanElement> {
    */
   className?: string
   /**
-   * Sets the context color of the component to one of Chassis themed colors.
+   * Sets the color of the component to one of Chassis context colors.
    */
-  context?: ContextColor
+  color?: ContextColor
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
@@ -70,7 +70,7 @@ const BP_NAME: Record<string, string> = {
 
 export const CxPlaceholder = forwardRef<HTMLSpanElement, CxPlaceholderProps>(
   (
-    { children, animation, className, context, component: Component = 'span', size, ...rest },
+    { children, animation, className, color, component: Component = 'span', size, ...rest },
     ref
   ) => {
     const repsonsiveClassNames: string[] = []
@@ -95,7 +95,7 @@ export const CxPlaceholder = forwardRef<HTMLSpanElement, CxPlaceholderProps>(
     const _className = classNames(
       animation ? `placeholder-${animation}` : 'placeholder',
       {
-        [`bg-${context}`]: context,
+        [`bg-${color}`]: color,
         [`placeholder-${size}`]: size
       },
       repsonsiveClassNames,

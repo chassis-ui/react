@@ -41,7 +41,7 @@ export const ColorSchemesExample = () => {
                 <CxNavLink href="#">Link</CxNavLink>
               </CxNavItem>
               <CxMenu component="li" className="nav-item">
-                <CxMenuToggle context="secondary">Menu button</CxMenuToggle>
+                <CxMenuToggle color="secondary">Menu button</CxMenuToggle>
                 <CxMenuList>
                   <CxMenuItem href="#">Action</CxMenuItem>
                   <CxMenuItem href="#">Another action</CxMenuItem>
@@ -57,7 +57,7 @@ export const ColorSchemesExample = () => {
             </CxNavbarNav>
             <CxForm className="d-flex">
               <CxTextInput type="search" className="me-2" placeholder="Search" />
-              <CxButton type="submit" context="default" variant="outline">
+              <CxButton type="submit" color="default" variant="outline">
                 Search
               </CxButton>
             </CxForm>
@@ -84,7 +84,7 @@ export const ColorSchemesExample = () => {
                 <CxNavLink href="#">Link</CxNavLink>
               </CxNavItem>
               <CxMenu component="li" className="nav-item">
-                <CxMenuToggle context="secondary">Menu button</CxMenuToggle>
+                <CxMenuToggle color="secondary">Menu button</CxMenuToggle>
                 <CxMenuList>
                   <CxMenuItem href="#">Action</CxMenuItem>
                   <CxMenuItem href="#">Another action</CxMenuItem>
@@ -100,7 +100,7 @@ export const ColorSchemesExample = () => {
             </CxNavbarNav>
             <CxForm className="d-flex">
               <CxTextInput type="search" className="me-2" placeholder="Search" />
-              <CxButton type="submit" context="default" variant="outline">
+              <CxButton type="submit" color="default" variant="outline">
                 Search
               </CxButton>
             </CxForm>
@@ -127,7 +127,7 @@ export const ColorSchemesExample = () => {
                 <CxNavLink href="#">Link</CxNavLink>
               </CxNavItem>
               <CxMenu component="li" className="nav-item">
-                <CxMenuToggle context="secondary">Menu button</CxMenuToggle>
+                <CxMenuToggle color="secondary">Menu button</CxMenuToggle>
                 <CxMenuList>
                   <CxMenuItem href="#">Action</CxMenuItem>
                   <CxMenuItem href="#">Another action</CxMenuItem>
@@ -143,7 +143,7 @@ export const ColorSchemesExample = () => {
             </CxNavbarNav>
             <CxForm className="d-flex">
               <CxTextInput type="search" className="me-2" placeholder="Search" />
-              <CxButton type="submit" context="primary" variant="outline">
+              <CxButton type="submit" color="primary" variant="outline">
                 Search
               </CxButton>
             </CxForm>

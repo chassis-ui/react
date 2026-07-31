@@ -28,7 +28,7 @@ export const AppearanceExample = () => {
           <p>Flush against the viewport edge — no inset, rounding, or border.</p>
         </CxDrawerBody>
         <CxDrawerFooter>
-          <CxButton context="neutral" onClick={() => setVisibleSheet(false)}>
+          <CxButton color="neutral" onClick={() => setVisibleSheet(false)}>
             Close
           </CxButton>
         </CxDrawerFooter>
@@ -46,7 +46,7 @@ export const AppearanceExample = () => {
           <p>Frosted-glass background over the page content.</p>
         </CxDrawerBody>
         <CxDrawerFooter>
-          <CxButton context="neutral" onClick={() => setVisibleTranslucent(false)}>
+          <CxButton color="neutral" onClick={() => setVisibleTranslucent(false)}>
             Close
           </CxButton>
         </CxDrawerFooter>

@@ -9,9 +9,9 @@ export interface CxBadgeProps extends HTMLAttributes<HTMLDivElement | HTMLSpanEl
    */
   className?: string
   /**
-   * Sets the context color of the component to one of Chassis themed colors.
+   * Sets the color of the component to one of Chassis context colors.
    */
-  context?: ContextColor
+  color?: ContextColor
   /**
    * Sets the context style of the component. `solid`/`basic` render the default look with no extra class.
    */
@@ -38,7 +38,7 @@ export const CxBadge = forwardRef<HTMLDivElement | HTMLSpanElement, CxBadgeProps
     {
       children,
       className,
-      context,
+      color,
       variant,
       component: Component = 'span',
       position,
@@ -50,7 +50,7 @@ export const CxBadge = forwardRef<HTMLDivElement | HTMLSpanElement, CxBadgeProps
   ) => {
     const _className = classNames(
       'badge',
-      context,
+      color,
       size,
       {
         outline: variant === 'outline',

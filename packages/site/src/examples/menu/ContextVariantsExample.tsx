@@ -3,7 +3,7 @@ import { CxMenu, CxMenuToggle, CxMenuList, CxMenuItem } from '@chassis-ui/react'
 export const ContextVariantsExample = () => {
   return (
     <CxMenu>
-      <CxMenuToggle context="secondary">Toggle menu</CxMenuToggle>
+      <CxMenuToggle color="secondary">Toggle menu</CxMenuToggle>
       <CxMenuList>
         <CxMenuItem href="#" className="context info">
           Copy

@@ -121,10 +121,10 @@
         "name": "boolean"
       }
     },
-    "context": {
+    "color": {
       "defaultValue": null,
-      "description": "Sets the context color of the component to one of Chassis themed colors.",
-      "name": "context",
+      "description": "Sets the color of the component to one of Chassis context colors.",
+      "name": "color",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/progress/CxProgressBar.tsx",
         "name": "CxProgressBarProps"

@@ -19,9 +19,9 @@ describe('CxAvatar', () => {
       expect(container).toMatchSnapshot()
     })
 
-    test('applies context, smooth and size classes together', () => {
+    test('applies color, smooth and size classes together', () => {
       render(
-        <CxAvatar className="bazinga" context="primary" smooth size="small">
+        <CxAvatar className="bazinga" color="primary" smooth size="small">
           CX
         </CxAvatar>
       )
@@ -137,7 +137,7 @@ describe('CxAvatar', () => {
   describe('accessibility', () => {
     test('has no axe violations', async () => {
       const { container } = render(
-        <CxAvatar context="primary" status="success">
+        <CxAvatar color="primary" status="success">
           CX
         </CxAvatar>
       )

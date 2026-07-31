@@ -21,8 +21,8 @@ export const FooterExample = () => {
           <p>A drawer with multiple footer actions, stacking full-width at the small breakpoint.</p>
         </CxDrawerBody>
         <CxDrawerFooter stacked>
-          <CxButton context="primary">Take action</CxButton>
-          <CxButton context="secondary" onClick={() => setVisible(false)}>
+          <CxButton color="primary">Take action</CxButton>
+          <CxButton color="secondary" onClick={() => setVisible(false)}>
             Cancel
           </CxButton>
         </CxDrawerFooter>

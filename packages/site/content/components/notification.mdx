@@ -18,25 +18,25 @@ import {
 
 ## Examples
 
-Use one of the required contextual `context` props (e.g., `primary`) for styling. For inline dismissal, use the [dismissible prop](#dismissing).
+Use one of the required contextual `color` props (e.g., `primary`) for styling. For inline dismissal, use the [dismissible prop](#dismissing).
 
 <Example>
-  <CxNotification context="primary">
+  <CxNotification color="primary">
     A simple primary notification—check it out!
   </CxNotification>
-  <CxNotification context="secondary">
+  <CxNotification color="secondary">
     A simple secondary notification—check it out!
   </CxNotification>
-  <CxNotification context="success">
+  <CxNotification color="success">
     A simple success notification—check it out!
   </CxNotification>
-  <CxNotification context="danger">
+  <CxNotification color="danger">
     A simple danger notification—check it out!
   </CxNotification>
-  <CxNotification context="warning">
+  <CxNotification color="warning">
     A simple warning notification—check it out!
   </CxNotification>
-  <CxNotification context="info">
+  <CxNotification color="info">
     A simple info notification—check it out!
   </CxNotification>
 </Example>
@@ -62,22 +62,22 @@ Click the button below to show a notification, then dismiss it with the built-in
 Use `<CxNotificationLink>` to give matching colored links inside any notification.
 
 <Example>
-  <CxNotification context="primary">
+  <CxNotification color="primary">
     A simple primary notification with <CxNotificationLink href="#">an example link</CxNotificationLink>.
   </CxNotification>
-  <CxNotification context="secondary">
+  <CxNotification color="secondary">
     A simple secondary notification with <CxNotificationLink href="#">an example link</CxNotificationLink>.
   </CxNotification>
-  <CxNotification context="success">
+  <CxNotification color="success">
     A simple success notification with <CxNotificationLink href="#">an example link</CxNotificationLink>.
   </CxNotification>
-  <CxNotification context="danger">
+  <CxNotification color="danger">
     A simple danger notification with <CxNotificationLink href="#">an example link</CxNotificationLink>.
   </CxNotification>
-  <CxNotification context="warning">
+  <CxNotification color="warning">
     A simple warning notification with <CxNotificationLink href="#">an example link</CxNotificationLink>.
   </CxNotification>
-  <CxNotification context="info">
+  <CxNotification color="info">
     A simple info notification with <CxNotificationLink href="#">an example link</CxNotificationLink>.
   </CxNotification>
 </Example>
@@ -87,7 +87,7 @@ Use `<CxNotificationLink>` to give matching colored links inside any notificatio
 Notifications can incorporate supplementary components like headings, paragraphs, and dividers.
 
 <Example>
-  <CxNotification context="success">
+  <CxNotification color="success">
     <CxNotificationHeading tag="h4">Well done!</CxNotificationHeading>
     <p>Aww yeah, you successfully read this important notification message. This example text is going to run a bit longer so that you can see how spacing within a notification works with this kind of content.</p>
     <hr />
@@ -101,7 +101,7 @@ Add the `dismissible` prop to let users close the notification.
 
 <Example>
   <CxNotification
-    context="warning"
+    color="warning"
     dismissible
     onClose={() => {
       alert("Dismissed!");

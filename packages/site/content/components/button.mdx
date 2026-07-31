@@ -13,15 +13,15 @@ import { CxButton } from '@chassis-ui/react'
 Chassis includes a bunch of predefined buttons components, each serving its own semantic purpose. Buttons show what action will happen when the user clicks or touches it. Chassis buttons are used to initialize operations, both in the background or foreground of an experience.
 
 <Example>
-  <CxButton context="primary">Primary</CxButton>
-  <CxButton context="secondary">Secondary</CxButton>
-  <CxButton context="success">Success</CxButton>
-  <CxButton context="danger">Danger</CxButton>
-  <CxButton context="warning">Warning</CxButton>
-  <CxButton context="info">Info</CxButton>
-  <CxButton context="light">Light</CxButton>
-  <CxButton context="dark">Dark</CxButton>
-  <CxButton context="link">Link</CxButton>
+  <CxButton color="primary">Primary</CxButton>
+  <CxButton color="secondary">Secondary</CxButton>
+  <CxButton color="success">Success</CxButton>
+  <CxButton color="danger">Danger</CxButton>
+  <CxButton color="warning">Warning</CxButton>
+  <CxButton color="info">Info</CxButton>
+  <CxButton color="light">Light</CxButton>
+  <CxButton color="dark">Dark</CxButton>
+  <CxButton color="link">Link</CxButton>
 </Example>
 
 <Callout context="info">
@@ -45,15 +45,15 @@ The `<CxButton>` component are designed for `<button>` , `<a>` or `<input>` elem
 If you're using `<CxButton>` component as `<a>` elements that are used to trigger functionality ex. collapsing content, these links should be given a `role="button"` to adequately communicate their meaning to assistive technologies such as screen readers.
 
 <Example>
-  <CxButton component="a" context="primary" href="#" role="button">
+  <CxButton component="a" color="primary" href="#" role="button">
     Link
   </CxButton>
-  <CxButton type="submit" context="primary">
+  <CxButton type="submit" color="primary">
     Button
   </CxButton>
-  <CxButton component="input" type="button" context="primary" value="Input" />
-  <CxButton component="input" type="submit" context="primary" value="Submit" />
-  <CxButton component="input" type="reset" context="primary" value="Reset" />
+  <CxButton component="input" type="button" color="primary" value="Input" />
+  <CxButton component="input" type="submit" color="primary" value="Submit" />
+  <CxButton component="input" type="reset" color="primary" value="Reset" />
 </Example>
 
 ## Outline buttons
@@ -61,28 +61,28 @@ If you're using `<CxButton>` component as `<a>` elements that are used to trigge
 If you need a button, but without the strong background colors. Set `variant="outline"` prop to remove all background colors.
 
 <Example>
-  <CxButton context="primary" variant="outline">
+  <CxButton color="primary" variant="outline">
     Primary
   </CxButton>
-  <CxButton context="secondary" variant="outline">
+  <CxButton color="secondary" variant="outline">
     Secondary
   </CxButton>
-  <CxButton context="success" variant="outline">
+  <CxButton color="success" variant="outline">
     Success
   </CxButton>
-  <CxButton context="danger" variant="outline">
+  <CxButton color="danger" variant="outline">
     Danger
   </CxButton>
-  <CxButton context="warning" variant="outline">
+  <CxButton color="warning" variant="outline">
     Warning
   </CxButton>
-  <CxButton context="info" variant="outline">
+  <CxButton color="info" variant="outline">
     Info
   </CxButton>
-  <CxButton context="light" variant="outline">
+  <CxButton color="light" variant="outline">
     Light
   </CxButton>
-  <CxButton context="dark" variant="outline">
+  <CxButton color="dark" variant="outline">
     Dark
   </CxButton>
 </Example>
@@ -97,19 +97,19 @@ If you need a button, but without the strong background colors. Set `variant="ou
 Larger or smaller buttons? Add `size="large"` or `size="small"` for additional sizes.
 
 <Example>
-  <CxButton context="primary" size="large">
+  <CxButton color="primary" size="large">
     Large button
   </CxButton>
-  <CxButton context="secondary" size="large">
+  <CxButton color="secondary" size="large">
     Large button
   </CxButton>
 </Example>
 
 <Example>
-  <CxButton context="primary" size="small">
+  <CxButton color="primary" size="small">
     Small button
   </CxButton>
-  <CxButton context="secondary" size="small">
+  <CxButton color="secondary" size="small">
     Small button
   </CxButton>
 </Example>
@@ -119,10 +119,10 @@ Larger or smaller buttons? Add `size="large"` or `size="small"` for additional s
 Add the `disabled` boolean prop to any `<CxButton>` component to make buttons look inactive. Disabled button has `pointer-events: none` applied to, disabling hover and active states from triggering.
 
 <Example>
-  <CxButton context="primary" size="large" disabled>
+  <CxButton color="primary" size="large" disabled>
     Primary button
   </CxButton>
-  <CxButton context="secondary" size="large" disabled>
+  <CxButton color="secondary" size="large" disabled>
     Button
   </CxButton>
 </Example>
@@ -132,10 +132,10 @@ Disabled buttons using the `<a>` component act a little different:
 `<a>`s don't support the `disabled` attribute, so Chassis has to add `.disabled` className to make buttons look inactive. Chassis also has to add to the disabled button component `aria-disabled="true"` attribute to show the state of the component to assistive technologies.
 
 <Example>
-  <CxButton component="a" href="#" context="primary" size="large" disabled>
+  <CxButton component="a" href="#" color="primary" size="large" disabled>
     Primary link
   </CxButton>
-  <CxButton component="a" href="#" context="secondary" size="large" disabled>
+  <CxButton component="a" href="#" color="secondary" size="large" disabled>
     Link
   </CxButton>
 </Example>
@@ -148,8 +148,8 @@ Create buttons that span the full width of a parent—by using utilities.
 
 <Example>
   <div className="d-grid gap-2">
-    <CxButton context="primary">Button</CxButton>
-    <CxButton context="primary">Button</CxButton>
+    <CxButton color="primary">Button</CxButton>
+    <CxButton color="primary">Button</CxButton>
   </div>
 </Example>
 
@@ -157,8 +157,8 @@ Here we create a responsive variation, starting with vertically stacked buttons 
 
 <Example>
   <div className="d-grid gap-2 medium:d-block">
-    <CxButton context="primary">Button</CxButton>
-    <CxButton context="primary">Button</CxButton>
+    <CxButton color="primary">Button</CxButton>
+    <CxButton color="primary">Button</CxButton>
   </div>
 </Example>
 
@@ -166,8 +166,8 @@ You can adjust the width of your block buttons with grid column width classes. F
 
 <Example>
   <div className="d-grid gap-2 col-6 mx-auto">
-    <CxButton context="primary">Button</CxButton>
-    <CxButton context="primary">Button</CxButton>
+    <CxButton color="primary">Button</CxButton>
+    <CxButton color="primary">Button</CxButton>
   </div>
 </Example>
 
@@ -175,10 +175,10 @@ Additional utilities can be used to adjust the alignment of buttons when horizon
 
 <Example>
   <div className="d-grid gap-2 medium:d-flex medium:justify-content-end">
-    <CxButton context="primary" className="medium:me-small">
+    <CxButton color="primary" className="medium:me-small">
       Button
     </CxButton>
-    <CxButton context="primary">Button</CxButton>
+    <CxButton color="primary">Button</CxButton>
   </div>
 </Example>
 

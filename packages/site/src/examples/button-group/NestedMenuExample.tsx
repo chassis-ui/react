@@ -11,10 +11,10 @@ import {
 export const NestedMenuExample = () => {
   return (
     <CxButtonGroup role="group" aria-label="Button group with nested menu">
-      <CxButton context="primary">1</CxButton>
-      <CxButton context="primary">2</CxButton>
+      <CxButton color="primary">1</CxButton>
+      <CxButton color="primary">2</CxButton>
       <CxMenu>
-        <CxMenuToggle context="primary">Menu</CxMenuToggle>
+        <CxMenuToggle color="primary">Menu</CxMenuToggle>
         <CxMenuList>
           <CxMenuItem href="#">Action</CxMenuItem>
           <CxMenuItem href="#">Another action</CxMenuItem>

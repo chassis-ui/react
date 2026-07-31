@@ -53,7 +53,7 @@ export const SupportedElementsExample = () => {
         <CxFormFeedback invalid>Example invalid form file feedback</CxFormFeedback>
       </div>
       <div className="mb-medium">
-        <CxButton type="submit" context="primary" disabled>
+        <CxButton type="submit" color="primary" disabled>
           Submit form
         </CxButton>
       </div>

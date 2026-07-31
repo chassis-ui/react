@@ -13,11 +13,11 @@ export const SegmentedButtonsExample = () => {
   return (
     <>
       <CxInputGroup className="mb-3">
-        <CxButton type="button" context="secondary" variant="outline">
+        <CxButton type="button" color="secondary" variant="outline">
           Action
         </CxButton>
         <CxMenu>
-          <CxMenuToggle context="secondary" variant="outline">
+          <CxMenuToggle color="secondary" variant="outline">
             <span className="visually-hidden">Toggle menu</span>
           </CxMenuToggle>
           <CxMenuList>
@@ -33,11 +33,11 @@ export const SegmentedButtonsExample = () => {
 
       <CxInputGroup>
         <CxTextInput aria-label="Text input with segmented menu button" />
-        <CxButton type="button" context="secondary" variant="outline">
+        <CxButton type="button" color="secondary" variant="outline">
           Action
         </CxButton>
         <CxMenu placement="bottom-end">
-          <CxMenuToggle context="secondary" variant="outline">
+          <CxMenuToggle color="secondary" variant="outline">
             <span className="visually-hidden">Toggle menu</span>
           </CxMenuToggle>
           <CxMenuList>

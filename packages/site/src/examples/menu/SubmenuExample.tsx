@@ -10,7 +10,7 @@ import {
 export const SubmenuExample = () => {
   return (
     <CxMenu>
-      <CxMenuToggle context="secondary">Submenus</CxMenuToggle>
+      <CxMenuToggle color="secondary">Submenus</CxMenuToggle>
       <CxMenuList>
         <CxSubmenu trigger="File">
           <CxMenuItem href="#">New</CxMenuItem>

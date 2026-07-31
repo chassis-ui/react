@@ -6,10 +6,10 @@ export const BodyScrollExample = () => {
   const [visibleScrollBackdrop, setVisibleScrollBackdrop] = useState(false)
   return (
     <>
-      <CxButton context="primary" onClick={() => setVisibleScrolling(true)}>
+      <CxButton color="primary" onClick={() => setVisibleScrolling(true)}>
         Scrolling, no backdrop
       </CxButton>
-      <CxButton context="primary" onClick={() => setVisibleScrollBackdrop(true)}>
+      <CxButton color="primary" onClick={() => setVisibleScrollBackdrop(true)}>
         Scrolling with backdrop
       </CxButton>
       <CxDrawer

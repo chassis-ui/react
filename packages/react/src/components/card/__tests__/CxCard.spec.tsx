@@ -20,9 +20,9 @@ describe('CxCard', () => {
   })
 
   describe('styling props', () => {
-    test('applies context, textColor and className together', () => {
+    test('applies color, textColor and className together', () => {
       render(
-        <CxCard className="bazinga" context="primary" textColor="warning">
+        <CxCard className="bazinga" color="primary" textColor="warning">
           Test
         </CxCard>
       )

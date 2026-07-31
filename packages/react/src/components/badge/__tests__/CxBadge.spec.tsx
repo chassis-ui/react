@@ -6,21 +6,21 @@ import { CxBadge } from '../../../index'
 
 describe('CxBadge', () => {
   describe('rendering', () => {
-    test('renders a span with the base and context class by default', () => {
-      render(<CxBadge context="primary">Test</CxBadge>)
+    test('renders a span with the base and color class by default', () => {
+      render(<CxBadge color="primary">Test</CxBadge>)
       const badge = screen.getByText('Test')
       expect(badge).toHaveClass('badge', 'primary')
       expect(badge.tagName).toBe('SPAN')
     })
 
     test('matches the baseline markup snapshot', () => {
-      const { container } = render(<CxBadge context="primary">Test</CxBadge>)
+      const { container } = render(<CxBadge color="primary">Test</CxBadge>)
       expect(container).toMatchSnapshot()
     })
 
     test('renders as a custom component with circle and size classes', () => {
       render(
-        <CxBadge className="bazinga" context="warning" component="div" circle size="small">
+        <CxBadge className="bazinga" color="warning" component="div" circle size="small">
           Test
         </CxBadge>
       )
@@ -33,14 +33,14 @@ describe('CxBadge', () => {
   describe('styling props', () => {
     test('applies the outline and smooth variant classes', () => {
       const { container: outline } = render(
-        <CxBadge context="primary" variant="outline">
+        <CxBadge color="primary" variant="outline">
           Test
         </CxBadge>
       )
       expect(within(outline).getByText('Test')).toHaveClass('outline')
 
       const { container: smooth } = render(
-        <CxBadge context="primary" variant="smooth">
+        <CxBadge color="primary" variant="smooth">
           Test
         </CxBadge>
       )
@@ -49,7 +49,7 @@ describe('CxBadge', () => {
 
     test('positions the badge in the top-end corner', () => {
       render(
-        <CxBadge context="danger" position="top-end">
+        <CxBadge color="danger" position="top-end">
           Test
         </CxBadge>
       )
@@ -63,7 +63,7 @@ describe('CxBadge', () => {
 
     test('positions the badge in the bottom-start corner', () => {
       render(
-        <CxBadge context="danger" position="bottom-start">
+        <CxBadge color="danger" position="bottom-start">
           Test
         </CxBadge>
       )
@@ -86,7 +86,7 @@ describe('CxBadge', () => {
 
   describe('accessibility', () => {
     test('has no axe violations', async () => {
-      const { container } = render(<CxBadge context="primary">Test</CxBadge>)
+      const { container } = render(<CxBadge color="primary">Test</CxBadge>)
       expect(await axe(container)).toHaveNoViolations()
     })
   })

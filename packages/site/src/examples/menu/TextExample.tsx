@@ -3,7 +3,7 @@ import { CxMenu, CxMenuToggle, CxMenuList, CxMenuItem, CxMenuText } from '@chass
 export const TextExample = () => {
   return (
     <CxMenu>
-      <CxMenuToggle context="secondary">Toggle menu</CxMenuToggle>
+      <CxMenuToggle color="secondary">Toggle menu</CxMenuToggle>
       <CxMenuList>
         <CxMenuText>Clipboard</CxMenuText>
         <CxMenuItem href="#">Copy</CxMenuItem>

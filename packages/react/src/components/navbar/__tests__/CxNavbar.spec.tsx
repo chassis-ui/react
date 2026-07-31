@@ -18,11 +18,11 @@ describe('CxNavbar', () => {
       expect(container).toMatchSnapshot()
     })
 
-    test('renders as a custom component with context, colorScheme, container and placement', () => {
+    test('renders as a custom component with color, colorScheme, container and placement', () => {
       render(
         <CxNavbar
           className="bazinga"
-          context="warning"
+          color="warning"
           colorScheme="dark"
           component="h3"
           container="xlarge"

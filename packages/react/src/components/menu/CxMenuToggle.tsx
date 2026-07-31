@@ -38,8 +38,7 @@ export const CxMenuToggle = forwardRef<HTMLButtonElement | HTMLAnchorElement, Cx
         // selectors on a page that happens to load both — this component reimplements all of that
         // behavior itself, so there's nothing for the vanilla plugin to usefully do with it anyway.
         className={classNames('caret', className)}
-        {...rest}
-        {...mergeProps(buttonProps, { onClick: handleClick, onKeyDown })}
+        {...mergeProps(rest, buttonProps, { onClick: handleClick, onKeyDown })}
         ref={forkedRef}
       >
         {children}

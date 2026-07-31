@@ -14,9 +14,9 @@ export interface CxAvatarProps extends HTMLAttributes<
    */
   className?: string
   /**
-   * Sets the context color of the component to one of Chassis themed colors.
+   * Sets the color of the component to one of Chassis context colors.
    */
-  context?: ContextColor
+  color?: ContextColor
   /**
    * Toggle the disabled state for the component. Only applies when `component` is `a` or `button`.
    */
@@ -65,7 +65,7 @@ export const CxAvatar = forwardRef<
     {
       children,
       className,
-      context,
+      color,
       disabled,
       smooth,
       size,
@@ -84,7 +84,7 @@ export const CxAvatar = forwardRef<
 
     const _className = classNames(
       'avatar',
-      context,
+      color,
       size,
       { smooth },
       !isInteractive && { disabled },
@@ -103,7 +103,7 @@ export const CxAvatar = forwardRef<
       >
         {src ? <CxAvatarImage src={src} alt={alt} /> : children}
         {status && (
-          <CxBadge context={status} circle>
+          <CxBadge color={status} circle>
             <span className="visually-hidden">{statusLabel ?? status}</span>
           </CxBadge>
         )}

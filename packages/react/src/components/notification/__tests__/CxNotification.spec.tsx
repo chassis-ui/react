@@ -8,19 +8,19 @@ import { CxNotification } from '../../../index'
 describe('CxNotification', () => {
   describe('rendering', () => {
     test('renders a div with the base class and an alert role', () => {
-      render(<CxNotification context="primary">Test</CxNotification>)
+      render(<CxNotification color="primary">Test</CxNotification>)
       const notification = screen.getByRole('alert')
       expect(notification).toHaveClass('notification', 'primary')
     })
 
     test('matches the baseline markup snapshot', () => {
-      const { container } = render(<CxNotification context="primary">Test</CxNotification>)
+      const { container } = render(<CxNotification color="primary">Test</CxNotification>)
       expect(container).toMatchSnapshot()
     })
 
     test('applies the solid variant background/foreground classes with className', () => {
       render(
-        <CxNotification context="secondary" className="bazinga" variant="solid">
+        <CxNotification color="secondary" className="bazinga" variant="solid">
           Test
         </CxNotification>
       )
@@ -34,7 +34,7 @@ describe('CxNotification', () => {
       vi.useFakeTimers()
       const onClose = vi.fn()
       render(
-        <CxNotification context="primary" dismissible onClose={onClose}>
+        <CxNotification color="primary" dismissible onClose={onClose}>
           Test
         </CxNotification>
       )
@@ -46,7 +46,7 @@ describe('CxNotification', () => {
     })
 
     test('does not render a close button by default', () => {
-      render(<CxNotification context="primary">Test</CxNotification>)
+      render(<CxNotification color="primary">Test</CxNotification>)
       expect(screen.queryByRole('button', { name: 'Close' })).not.toBeInTheDocument()
     })
   })
@@ -62,7 +62,7 @@ describe('CxNotification', () => {
   describe('accessibility', () => {
     test('has no axe violations', async () => {
       const { container } = render(
-        <CxNotification context="primary" dismissible>
+        <CxNotification color="primary" dismissible>
           Test
         </CxNotification>
       )

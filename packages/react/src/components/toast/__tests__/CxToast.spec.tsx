@@ -13,9 +13,9 @@ describe('CxToast', () => {
   })
 
   describe('styling props', () => {
-    test('applies context, className and the default status role once shown', async () => {
+    test('applies color, className and the default status role once shown', async () => {
       const { container } = render(
-        <CxToast className="bazinga" autohide={false} context="warning" delay={100} visible={true}>
+        <CxToast className="bazinga" autohide={false} color="warning" delay={100} visible={true}>
           Test
         </CxToast>
       )
@@ -30,7 +30,7 @@ describe('CxToast', () => {
 
     test('applies solid/translucent classes and a custom role', async () => {
       render(
-        <CxToast context="warning" solid translucent visible={true} autohide={false} role="alert">
+        <CxToast color="warning" solid translucent visible={true} autohide={false} role="alert">
           Test
         </CxToast>
       )
@@ -51,7 +51,7 @@ describe('CxToast', () => {
         <CxToast
           className="bazinga"
           autohide={false}
-          context="warning"
+          color="warning"
           delay={100}
           visible={true}
           onClose={onClose}

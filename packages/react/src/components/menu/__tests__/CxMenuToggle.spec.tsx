@@ -23,7 +23,7 @@ describe('CxMenuToggle', () => {
     test('forwards custom props to the underlying button', () => {
       render(
         <CxMenu>
-          <CxMenuToggle context="secondary" className="bazinga">
+          <CxMenuToggle color="secondary" className="bazinga">
             Test
           </CxMenuToggle>
           <CxMenuList>

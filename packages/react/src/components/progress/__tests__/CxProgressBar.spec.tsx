@@ -7,7 +7,7 @@ import { CxProgressBar } from '../../../index'
 describe('CxProgressBar', () => {
   describe('rendering', () => {
     test('renders a progressbar with value-derived aria attributes', () => {
-      render(<CxProgressBar context="warning" value={50} />)
+      render(<CxProgressBar color="warning" value={50} />)
       const bar = screen.getByRole('progressbar')
       expect(bar).toHaveClass('progress-bar', 'warning')
       expect(bar).toHaveAttribute('aria-valuenow', '50')
@@ -17,13 +17,13 @@ describe('CxProgressBar', () => {
     })
 
     test('matches the baseline markup snapshot', () => {
-      const { container } = render(<CxProgressBar context="warning" value={50} />)
+      const { container } = render(<CxProgressBar color="warning" value={50} />)
       expect(container).toMatchSnapshot()
     })
 
     test('applies animated and striped variant classes with className', () => {
       render(
-        <CxProgressBar context="warning" className="bazinga" animated value={50} variant="striped">
+        <CxProgressBar color="warning" className="bazinga" animated value={50} variant="striped">
           Test
         </CxProgressBar>
       )
@@ -48,7 +48,7 @@ describe('CxProgressBar', () => {
     // must pass aria-label/aria-labelledby themselves. This check does that, as real usage should.
     test('has no axe violations', async () => {
       const { container } = render(
-        <CxProgressBar aria-label="Upload progress" context="warning" value={50} />
+        <CxProgressBar aria-label="Upload progress" color="warning" value={50} />
       )
       expect(await axe(container)).toHaveNoViolations()
     })

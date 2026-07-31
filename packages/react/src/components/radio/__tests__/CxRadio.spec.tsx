@@ -34,10 +34,10 @@ describe('CxRadio', () => {
   })
 
   describe('styling props', () => {
-    test('applies context and className to the check wrapper', () => {
+    test('applies color and className to the check wrapper', () => {
       render(
         <CxRadioGroup aria-label="Options" defaultValue="a">
-          <CxRadio className="bazinga" context="secondary" id="id" label="label" value="a" />
+          <CxRadio className="bazinga" color="secondary" id="id" label="label" value="a" />
         </CxRadioGroup>
       )
       const radio = screen.getByRole('radio')
@@ -55,7 +55,7 @@ describe('CxRadio', () => {
       render(
         <CxRadioGroup aria-label="Options" defaultValue="a">
           <CxRadio
-            button={{ context: 'primary', size: 'large', shape: 'rounded', variant: 'ghost' }}
+            button={{ color: 'primary', size: 'large', shape: 'rounded', variant: 'ghost' }}
             label="label"
             value="a"
           />

@@ -44,7 +44,7 @@ export const RegistrationForm = () => {
   return (
     <div>
       {success && (
-        <CxNotification context="success" dismissible onClose={handleReset} className="mb-4">
+        <CxNotification color="success" dismissible onClose={handleReset} className="mb-4">
           <strong>Account created!</strong> Welcome aboard, {name}.
         </CxNotification>
       )}
@@ -107,10 +107,10 @@ export const RegistrationForm = () => {
           </CxCol>
         </CxRow>
         <div className="d-flex gap-2">
-          <CxButton type="submit" context="primary">
+          <CxButton type="submit" color="primary">
             Create account
           </CxButton>
-          <CxButton type="reset" context="secondary" variant="outline">
+          <CxButton type="reset" color="secondary" variant="outline">
             Reset
           </CxButton>
         </div>

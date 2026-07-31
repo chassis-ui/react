@@ -17,7 +17,7 @@ export const TabsWithMenuExample = () => {
         </CxNavLink>
       </CxNavItem>
       <CxMenu component="li" className="nav-item">
-        <CxMenuToggle context="secondary">Menu button</CxMenuToggle>
+        <CxMenuToggle color="secondary">Menu button</CxMenuToggle>
         <CxMenuList>
           <CxMenuItem href="#">Action</CxMenuItem>
           <CxMenuItem href="#">Another action</CxMenuItem>

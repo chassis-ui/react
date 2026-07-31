@@ -27,9 +27,9 @@ export interface CxToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'titl
    */
   className?: string
   /**
-   * Sets the context color of the component to one of Chassis themed colors.
+   * Sets the color of the component to one of Chassis context colors.
    */
-  context?: ContextColor
+  color?: ContextColor
   /**
    * Delay hiding the toast (ms).
    */
@@ -43,7 +43,7 @@ export interface CxToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'titl
    */
   onShow?: () => void
   /**
-   * Apply a full-color background with inverted text. Only meaningful alongside `context`.
+   * Apply a full-color background with inverted text. Only meaningful alongside `color`.
    */
   solid?: boolean
   /**
@@ -70,7 +70,7 @@ export const CxToast = forwardRef<HTMLDivElement, CxToastProps>(
       animation = true,
       autohide = true,
       className,
-      context,
+      color,
       delay = 5000,
       role = 'status',
       solid,
@@ -147,11 +147,11 @@ export const CxToast = forwardRef<HTMLDivElement, CxToastProps>(
       'toast',
       {
         fade: animation,
-        context: !!context,
-        solid: Boolean(solid && context),
+        context: !!color,
+        solid: Boolean(solid && color),
         translucent
       },
-      context,
+      color,
       className
     )
 

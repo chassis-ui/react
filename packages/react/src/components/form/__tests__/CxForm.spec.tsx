@@ -19,7 +19,7 @@ describe('CxForm', () => {
           <CxTextInput aria-describedby="B" aria-label="A" type="email" />
           <CxFormHelp>C</CxFormHelp>
           <CxCheckbox label="D" />
-          <CxButton type="submit" context="primary">
+          <CxButton type="submit" color="primary">
             E
           </CxButton>
         </CxForm>

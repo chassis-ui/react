@@ -13,9 +13,9 @@ export interface CxListItemDef {
    */
   href?: string
   /**
-   * Sets the context color of the item.
+   * Sets the color of the item.
    */
-  context?: ContextColor
+  color?: ContextColor
   /**
    * Marks the item as active.
    */
@@ -36,9 +36,9 @@ export interface CxListProps extends HTMLAttributes<HTMLDivElement | HTMLUListEl
    */
   component?: string | ElementType
   /**
-   * Sets the context color of the component to one of Chassis themed colors.
+   * Sets the color of the component to one of Chassis context colors.
    */
-  context?: ContextColor
+  color?: ContextColor
   /**
    * Remove outer borders and rounded corners to render list items edge-to-edge in a parent component (e.g., `<CxCard>`).
    */
@@ -66,7 +66,7 @@ export interface CxListProps extends HTMLAttributes<HTMLDivElement | HTMLUListEl
    */
   plain?: boolean
   /**
-   * Applies a `.solid`, `.outline`, or `.smooth` context style. Only meaningful together with `context`.
+   * Applies a `.solid`, `.outline`, or `.smooth` context style. Only meaningful together with `color`.
    */
   variant?: ContextStyle
 }
@@ -77,7 +77,7 @@ export const CxList = forwardRef<HTMLDivElement | HTMLUListElement, CxListProps>
       children,
       className,
       component: Component = 'ul',
-      context,
+      color,
       variant,
       flush,
       items,
@@ -90,8 +90,8 @@ export const CxList = forwardRef<HTMLDivElement | HTMLUListElement, CxListProps>
   ) => {
     const _className = classNames(
       'list',
-      context && 'context',
-      context,
+      color && 'context',
+      color,
       variant,
       layout,
       {
@@ -104,7 +104,7 @@ export const CxList = forwardRef<HTMLDivElement | HTMLUListElement, CxListProps>
 
     const autoContent = items
       ? items.map((item, idx) => {
-          const itemClass = classNames('list-item', item.context && 'context', item.context, {
+          const itemClass = classNames('list-item', item.color && 'context', item.color, {
             'list-action': !!item.href,
             active: item.active,
             disabled: item.disabled

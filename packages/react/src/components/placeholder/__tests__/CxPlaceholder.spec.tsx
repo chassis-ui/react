@@ -9,13 +9,13 @@ describe('CxPlaceholder', () => {
   /* eslint-disable testing-library/no-node-access */
   describe('rendering', () => {
     test('renders a span with the base class by default', () => {
-      const { container } = render(<CxPlaceholder context="primary" />)
+      const { container } = render(<CxPlaceholder color="primary" />)
       expect(container.firstChild).toHaveClass('placeholder', 'bg-primary')
       expect(container.firstChild?.nodeName).toBe('SPAN')
     })
 
     test('matches the baseline markup snapshot', () => {
-      const { container } = render(<CxPlaceholder context="primary" />)
+      const { container } = render(<CxPlaceholder color="primary" />)
       expect(container).toMatchSnapshot()
     })
 
@@ -28,13 +28,7 @@ describe('CxPlaceholder', () => {
   describe('styling props', () => {
     test('applies animation, size, breakpoint and className together', () => {
       const { container } = render(
-        <CxPlaceholder
-          animation="glow"
-          className="bazinga"
-          context="secondary"
-          size="large"
-          sm={7}
-        />
+        <CxPlaceholder animation="glow" className="bazinga" color="secondary" size="large" sm={7} />
       )
       expect(container.firstChild).toHaveClass(
         'placeholder-glow',
@@ -62,7 +56,7 @@ describe('CxPlaceholder', () => {
 
   describe('accessibility', () => {
     test('has no axe violations', async () => {
-      const { container } = render(<CxPlaceholder context="primary" />)
+      const { container } = render(<CxPlaceholder color="primary" />)
       expect(await axe(container)).toHaveNoViolations()
     })
   })

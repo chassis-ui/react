@@ -4,7 +4,7 @@ export const DarkModeExample = () => {
   return (
     <div data-cx-theme="dark">
       <CxMenu>
-        <CxMenuToggle context="secondary">Toggle menu</CxMenuToggle>
+        <CxMenuToggle color="secondary">Toggle menu</CxMenuToggle>
         <CxMenuList>
           <CxMenuItem href="#" active>
             Recent

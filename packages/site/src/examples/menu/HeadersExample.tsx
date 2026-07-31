@@ -3,7 +3,7 @@ import { CxMenu, CxMenuToggle, CxMenuList, CxMenuItem, CxMenuHeader } from '@cha
 export const HeadersExample = () => {
   return (
     <CxMenu>
-      <CxMenuToggle context="secondary">Toggle menu</CxMenuToggle>
+      <CxMenuToggle color="secondary">Toggle menu</CxMenuToggle>
       <CxMenuList>
         <CxMenuItem href="#">Copy</CxMenuItem>
         <CxMenuItem href="#">Paste</CxMenuItem>

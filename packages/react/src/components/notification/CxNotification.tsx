@@ -12,9 +12,9 @@ export interface CxNotificationProps extends HTMLAttributes<HTMLDivElement> {
    */
   className?: string
   /**
-   * Sets the context color of the component to one of Chassis themed colors.
+   * Sets the color of the component to one of Chassis context colors.
    */
-  context?: ContextColor
+  color?: ContextColor
   /**
    * Optionally add a close button to the notification and allow it to self dismiss.
    */
@@ -38,7 +38,7 @@ export const CxNotification = forwardRef<HTMLDivElement, CxNotificationProps>(
     {
       children,
       className,
-      context = 'primary',
+      color = 'primary',
       dismissible,
       variant,
       visible = true,
@@ -57,9 +57,9 @@ export const CxNotification = forwardRef<HTMLDivElement, CxNotificationProps>(
 
     const _className = classNames(
       'notification',
-      context && !variant ? context : null,
+      color && !variant ? color : null,
       {
-        [`bg-${context}`]: context && variant === 'solid',
+        [`bg-${color}`]: color && variant === 'solid',
         'fg-white': variant === 'solid'
       },
       className

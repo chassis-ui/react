@@ -465,22 +465,22 @@ Cards include various options for customizing their backgrounds, borders, and co
 
 ### Background and context
 
-Use `context` property to change the appearance of a card.
+Use `color` property to change the appearance of a card.
 
 <Example>
   <>
     {[
-      { context: 'primary', textColor: 'white' },
-      { context: 'secondary', textColor: 'white' },
-      { context: 'success', textColor: 'white' },
-      { context: 'danger', textColor: 'white' },
-      { context: 'warning' },
-      { context: 'info', textColor: 'white' },
-      { context: 'light' },
-      { context: 'dark', textColor: 'white' },
+      { color: 'primary', textColor: 'white' },
+      { color: 'secondary', textColor: 'white' },
+      { color: 'success', textColor: 'white' },
+      { color: 'danger', textColor: 'white' },
+      { color: 'warning' },
+      { color: 'info', textColor: 'white' },
+      { color: 'light' },
+      { color: 'dark', textColor: 'white' },
     ].map((item, index) => (
       <CxCard
-        context={item.context}
+        color={item.color}
         textColor={item.textColor}
         className="mb-medium"
         style={{ maxWidth: '18rem' }}
@@ -488,7 +488,7 @@ Use `context` property to change the appearance of a card.
       >
         <CxCardHeader>Header</CxCardHeader>
         <CxCardBody>
-          <CxCardTitle>{item.context} card title</CxCardTitle>
+          <CxCardTitle>{item.color} card title</CxCardTitle>
           <CxCardText>
             Some quick example text to build on the card title and make up the bulk of the card's
             content.
@@ -516,24 +516,24 @@ Use border utilities to change just the `border-context` of a card. Note that yo
 <Example>
   <>
     {[
-      { context: 'primary', textColor: 'primary' },
-      { context: 'secondary', textColor: 'secondary' },
-      { context: 'success', textColor: 'success' },
-      { context: 'danger', textColor: 'danger' },
-      { context: 'warning', textColor: 'warning' },
-      { context: 'info', textColor: 'info' },
-      { context: 'light' },
-      { context: 'dark' },
+      { color: 'primary', textColor: 'primary' },
+      { color: 'secondary', textColor: 'secondary' },
+      { color: 'success', textColor: 'success' },
+      { color: 'danger', textColor: 'danger' },
+      { color: 'warning', textColor: 'warning' },
+      { color: 'info', textColor: 'info' },
+      { color: 'light' },
+      { color: 'dark' },
     ].map((item, index) => (
       <CxCard
         textColor={item.textColor}
-        className={`mb-medium border-${item.context}`}
+        className={`mb-medium border-${item.color}`}
         style={{ maxWidth: '18rem' }}
         key={index}
       >
         <CxCardHeader>Header</CxCardHeader>
         <CxCardBody>
-          <CxCardTitle>{item.context} card title</CxCardTitle>
+          <CxCardTitle>{item.color} card title</CxCardTitle>
           <CxCardText>
             Some quick example text to build on the card title and make up the bulk of the card's
             content.
@@ -549,24 +549,24 @@ Use border utilities to change just the `border-context` of a card. Note that yo
 <Example>
   <>
     {[
-      { context: 'primary', textColor: 'primary' },
-      { context: 'secondary', textColor: 'secondary' },
-      { context: 'success', textColor: 'success' },
-      { context: 'danger', textColor: 'danger' },
-      { context: 'warning', textColor: 'warning' },
-      { context: 'info', textColor: 'info' },
-      { context: 'light' },
-      { context: 'dark' },
+      { color: 'primary', textColor: 'primary' },
+      { color: 'secondary', textColor: 'secondary' },
+      { color: 'success', textColor: 'success' },
+      { color: 'danger', textColor: 'danger' },
+      { color: 'warning', textColor: 'warning' },
+      { color: 'info', textColor: 'info' },
+      { color: 'light' },
+      { color: 'dark' },
     ].map((item, index) => (
       <CxCard
         textColor={item.textColor}
-        className={`mb-medium border-top-${item.context} border-top-3`}
+        className={`mb-medium border-top-${item.color} border-top-3`}
         style={{ maxWidth: '18rem' }}
         key={index}
       >
         <CxCardHeader>Header</CxCardHeader>
         <CxCardBody>
-          <CxCardTitle>{item.context} card title</CxCardTitle>
+          <CxCardTitle>{item.color} card title</CxCardTitle>
           <CxCardText>
             Some quick example text to build on the card title and make up the bulk of the card's
             content.

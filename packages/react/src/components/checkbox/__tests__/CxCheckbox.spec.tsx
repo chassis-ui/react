@@ -13,9 +13,9 @@ describe('CxCheckbox', () => {
   })
 
   describe('styling props', () => {
-    test('applies context and className to the wrapper and check input', () => {
+    test('applies color and className to the wrapper and check input', () => {
       const { container } = render(
-        <CxCheckbox className="bazinga" context="secondary" id="id" label="label" />
+        <CxCheckbox className="bazinga" color="secondary" id="id" label="label" />
       )
       // The form-check wrapper and check-input span are plain elements with no role/name -
       // no accessible query reaches them.
@@ -32,7 +32,7 @@ describe('CxCheckbox', () => {
     test('renders the button variant classes on the wrapper', () => {
       const { container } = render(
         <CxCheckbox
-          button={{ context: 'primary', size: 'large', shape: 'rounded', variant: 'ghost' }}
+          button={{ color: 'primary', size: 'large', shape: 'rounded', variant: 'ghost' }}
           className="bazinga"
           id="id"
           label="label"

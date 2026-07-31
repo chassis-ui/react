@@ -9,9 +9,9 @@ export interface CxSpinnerProps extends HTMLAttributes<HTMLDivElement | HTMLSpan
    */
   className?: string
   /**
-   * Sets the context color of the component to one of Chassis themed colors.
+   * Sets the color of the component to one of Chassis context colors.
    */
-  context?: ContextColor
+  color?: ContextColor
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
@@ -34,7 +34,7 @@ export const CxSpinner = forwardRef<HTMLDivElement | HTMLSpanElement, CxSpinnerP
   (
     {
       className,
-      context,
+      color,
       component: Component = 'div',
       size,
       variant = 'border',
@@ -45,7 +45,7 @@ export const CxSpinner = forwardRef<HTMLDivElement | HTMLSpanElement, CxSpinnerP
   ) => {
     const _className = classNames(
       `spinner-${variant}`,
-      context ? `fg-${context}` : null,
+      color ? `fg-${color}` : null,
       size && `spinner-${variant}-${size}`,
       className
     )

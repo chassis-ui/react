@@ -12,7 +12,7 @@ import {
 export const FormsExample = () => {
   return (
     <CxMenu>
-      <CxMenuToggle context="secondary">Toggle menu</CxMenuToggle>
+      <CxMenuToggle color="secondary">Toggle menu</CxMenuToggle>
       <CxMenuList style={{ '--cx-menu-min-width': '300px' } as React.CSSProperties}>
         <CxForm className="vstack gap-medium p-medium">
           <div>
@@ -24,7 +24,7 @@ export const FormsExample = () => {
             <CxTextInput type="password" id="menuFormPassword" placeholder="Password" />
           </div>
           <CxCheckbox id="menuRemember" label="Remember me" />
-          <CxButton type="submit" context="primary">
+          <CxButton type="submit" color="primary">
             Sign in
           </CxButton>
         </CxForm>

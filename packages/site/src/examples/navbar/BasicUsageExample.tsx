@@ -37,7 +37,7 @@ export const BasicUsageExample = () => {
                 <CxNavLink href="#">Link</CxNavLink>
               </CxNavItem>
               <CxMenu component="li" className="nav-item">
-                <CxMenuToggle context="secondary">Menu button</CxMenuToggle>
+                <CxMenuToggle color="secondary">Menu button</CxMenuToggle>
                 <CxMenuList>
                   <CxMenuItem href="#">Action</CxMenuItem>
                   <CxMenuItem href="#">Another action</CxMenuItem>
@@ -53,7 +53,7 @@ export const BasicUsageExample = () => {
             </CxNavbarNav>
             <CxForm className="d-flex">
               <CxTextInput type="search" className="me-2" placeholder="Search" />
-              <CxButton type="submit" context="success" variant="outline">
+              <CxButton type="submit" color="success" variant="outline">
                 Search
               </CxButton>
             </CxForm>

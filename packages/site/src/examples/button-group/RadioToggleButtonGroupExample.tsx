@@ -5,19 +5,19 @@ export const RadioToggleButtonGroupExample = () => {
     <CxRadioGroup aria-label="Basic radio toggle button group" defaultValue="btnradio1">
       <CxButtonGroup>
         <CxRadio
-          button={{ context: 'primary', variant: 'outline' }}
+          button={{ color: 'primary', variant: 'outline' }}
           value="btnradio1"
           autoComplete="off"
           label="Radio 1"
         />
         <CxRadio
-          button={{ context: 'primary', variant: 'outline' }}
+          button={{ color: 'primary', variant: 'outline' }}
           value="btnradio2"
           autoComplete="off"
           label="Radio 2"
         />
         <CxRadio
-          button={{ context: 'primary', variant: 'outline' }}
+          button={{ color: 'primary', variant: 'outline' }}
           value="btnradio3"
           autoComplete="off"
           label="Radio 3"

@@ -9,11 +9,11 @@ export interface CxCardProps extends HTMLAttributes<HTMLDivElement> {
    */
   className?: string
   /**
-   * Sets the context color of the component to one of Chassis themed colors.
+   * Sets the color of the component to one of Chassis context colors.
    */
-  context?: ContextColor
+  color?: ContextColor
   /**
-   * Sets the text context color of the component to one of Chassis themed colors.
+   * Sets the text context color of the component to one of Chassis context colors.
    *
    * @type ContextColor | 'main' | 'subtle' | 'slight' | 'inverse' | 'solid' | 'highlight' | 'idle' | 'disabled' | 'hover' | 'press' | string
    */
@@ -21,11 +21,11 @@ export interface CxCardProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 export const CxCard = forwardRef<HTMLDivElement, CxCardProps>(
-  ({ children, className, context, textColor, ...rest }, ref) => {
+  ({ children, className, color, textColor, ...rest }, ref) => {
     const _className = classNames(
       'card',
       {
-        [`bg-${context}`]: context,
+        [`bg-${color}`]: color,
         [`fg-${textColor}`]: textColor
       },
       className

@@ -23,15 +23,9 @@ describe('CxSpinner', () => {
       expect(screen.getByText('Loading...')).toHaveClass('visually-hidden')
     })
 
-    test('renders as a custom component with context, size, variant and className', () => {
+    test('renders as a custom component with color, size, variant and className', () => {
       render(
-        <CxSpinner
-          className="bazinga"
-          context="warning"
-          component="span"
-          size="small"
-          variant="grow"
-        >
+        <CxSpinner className="bazinga" color="warning" component="span" size="small" variant="grow">
           Test
         </CxSpinner>
       )

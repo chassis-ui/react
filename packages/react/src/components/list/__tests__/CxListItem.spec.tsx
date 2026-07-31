@@ -18,9 +18,9 @@ describe('CxListItem', () => {
       expect(container).toMatchSnapshot()
     })
 
-    test('applies context, active and disabled classes together', () => {
+    test('applies color, active and disabled classes together', () => {
       render(
-        <CxListItem className="bazinga" active={true} context="warning" disabled={true}>
+        <CxListItem className="bazinga" active={true} color="warning" disabled={true}>
           Test
         </CxListItem>
       )

@@ -8,13 +8,13 @@ export const OutlinedTogglesExample = () => {
       orientation="horizontal"
     >
       <CxRadio
-        button={{ context: 'success', variant: 'outline' }}
+        button={{ color: 'success', variant: 'outline' }}
         value="success-outlined"
         autoComplete="off"
         label="Radio"
       />
       <CxRadio
-        button={{ context: 'danger', variant: 'outline' }}
+        button={{ color: 'danger', variant: 'outline' }}
         value="danger-outlined"
         autoComplete="off"
         label="Radio"

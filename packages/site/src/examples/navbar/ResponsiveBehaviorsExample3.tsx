@@ -43,7 +43,7 @@ export const ResponsiveBehaviorsExample3 = () => {
             </CxNavbarNav>
             <CxForm className="d-flex">
               <CxTextInput type="search" className="me-2" placeholder="Search" />
-              <CxButton type="submit" context="success" variant="outline">
+              <CxButton type="submit" color="success" variant="outline">
                 Search
               </CxButton>
             </CxForm>

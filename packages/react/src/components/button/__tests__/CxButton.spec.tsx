@@ -45,11 +45,11 @@ describe('CxButton', () => {
   })
 
   describe('styling props', () => {
-    test('applies context, variant, size, shape and className together', () => {
+    test('applies color, variant, size, shape and className together', () => {
       render(
         <CxButton
           className="bazinga"
-          context="warning"
+          color="warning"
           variant="outline"
           size="large"
           shape="rounded"

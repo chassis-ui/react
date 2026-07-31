@@ -64,10 +64,10 @@ Add a `CxToastFooter` below the body to hold acknowledgement or follow-up action
   <CxToast client:load autohide={false} visible={true}>
     <CxToastBody>Hello, world! This is a toast message.</CxToastBody>
     <CxToastFooter>
-      <CxButton type="button" context="primary" size="small">
+      <CxButton type="button" color="primary" size="small">
         Take action
       </CxButton>
-      <CxToastClose component={CxButton} context="secondary" size="small">
+      <CxToastClose component={CxButton} color="secondary" size="small">
         Close
       </CxToastClose>
     </CxToastFooter>
@@ -122,10 +122,10 @@ Customize your toasts by removing sub-components, tweaking them with utilities, 
 
 ### Color schemes
 
-Apply `context` and add `solid` for a full-color background with inverted text. Here we've set `context="primary"` and `solid` on the `<CxToast>`.
+Apply `color` and add `solid` for a full-color background with inverted text. Here we've set `color="primary"` and `solid` on the `<CxToast>`.
 
 <Example>
-  <CxToast client:load autohide={false} visible={true} context="primary" solid className="align-items-center">
+  <CxToast client:load autohide={false} visible={true} color="primary" solid className="align-items-center">
     <div className="d-flex">
       <CxToastBody>Hello, world! This is a toast message.</CxToastBody>
       <CxToastClose className="me-small m-auto" />

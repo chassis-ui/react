@@ -86,7 +86,7 @@ export const TooltipsExample = () => {
         </CxFormFeedback>
       </CxCol>
       <CxCol xs={12} className="position-relative">
-        <CxButton context="primary" type="submit">
+        <CxButton color="primary" type="submit">
           Submit form
         </CxButton>
       </CxCol>

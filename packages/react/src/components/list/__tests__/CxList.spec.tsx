@@ -44,9 +44,9 @@ describe('CxList', () => {
       expect(screen.getByText('Test')).toHaveClass('plain', 'numbered')
     })
 
-    test('applies context and variant classes', () => {
+    test('applies color and variant classes', () => {
       render(
-        <CxList context="primary" variant="solid">
+        <CxList color="primary" variant="solid">
           Test
         </CxList>
       )
@@ -72,7 +72,7 @@ describe('CxList', () => {
           items={[
             { label: 'Dashboard', href: '#', active: true },
             { label: 'Profile', href: '#' },
-            { label: 'Billing', href: '#', disabled: true, context: 'warning' }
+            { label: 'Billing', href: '#', disabled: true, color: 'warning' }
           ]}
         />
       )

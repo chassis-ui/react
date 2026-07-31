@@ -7,25 +7,25 @@ export const DirectionsExample = () => {
         content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
         placement="top"
       >
-        <CxButton context="secondary">Popover on top</CxButton>
+        <CxButton color="secondary">Popover on top</CxButton>
       </CxPopover>
       <CxPopover
         content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
         placement="right"
       >
-        <CxButton context="secondary">Popover on right</CxButton>
+        <CxButton color="secondary">Popover on right</CxButton>
       </CxPopover>
       <CxPopover
         content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
         placement="bottom"
       >
-        <CxButton context="secondary">Popover on bottom</CxButton>
+        <CxButton color="secondary">Popover on bottom</CxButton>
       </CxPopover>
       <CxPopover
         content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
         placement="left"
       >
-        <CxButton context="secondary">Popover on left</CxButton>
+        <CxButton color="secondary">Popover on left</CxButton>
       </CxPopover>
     </>
   )

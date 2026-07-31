@@ -7,9 +7,9 @@ import { CxFormLabel } from './CxFormLabel'
 
 export type ButtonObject = {
   /**
-   * Sets the context color of the component to one of Chassis themed colors.
+   * Sets the color of the component to one of Chassis context colors.
    */
-  context?: ContextColor
+  color?: ContextColor
   /**
    * Select the shape of the component.
    */
@@ -27,7 +27,7 @@ export type ButtonObject = {
 export interface RenderFormCheckOptions {
   button?: ButtonObject
   className?: string
-  context?: ContextColor
+  color?: ContextColor
   input: ReactNode
   invalid?: boolean
   label?: ReactNode
@@ -42,7 +42,7 @@ export interface RenderFormCheckOptions {
 export const renderFormCheck = ({
   button,
   className,
-  context,
+  color,
   input,
   invalid,
   label,
@@ -53,7 +53,7 @@ export const renderFormCheck = ({
     const _className = classNames(
       'button',
       'button-check',
-      button.context,
+      button.color,
       button.variant,
       button.size,
       button.shape,
@@ -67,7 +67,7 @@ export const renderFormCheck = ({
     )
   }
 
-  const checkInputClassName = classNames('check-input', context, {
+  const checkInputClassName = classNames('check-input', color, {
     'is-invalid': invalid,
     'is-valid': valid
   })

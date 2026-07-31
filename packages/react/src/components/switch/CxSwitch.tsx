@@ -17,9 +17,9 @@ export interface CxSwitchProps extends Omit<
    */
   className?: string
   /**
-   * Sets the context of the switch indicator to one of Chassis themed colors.
+   * Sets the color of the switch indicator to one of Chassis context colors.
    */
-  context?: ContextColor
+  color?: ContextColor
   /**
    * Whether the switch is selected, uncontrolled.
    */
@@ -62,7 +62,7 @@ export const CxSwitch = forwardRef<HTMLInputElement, CxSwitchProps>(
   (
     {
       className,
-      context,
+      color,
       defaultSelected,
       disabled,
       id,
@@ -129,7 +129,7 @@ export const CxSwitch = forwardRef<HTMLInputElement, CxSwitchProps>(
       className
     )
 
-    const checkInputClassName = classNames('check-input', context, {
+    const checkInputClassName = classNames('check-input', color, {
       'is-invalid': invalid,
       'is-valid': valid
     })

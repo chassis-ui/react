@@ -73,10 +73,10 @@ Apply the `size` property (`small` or `large`) to change the size of a checkbox.
 
 ## Context colors
 
-Checkboxes accept a `context` property to color the check indicator with any of the Chassis contextual colors.
+Checkboxes accept a `color` property to color the check indicator with any of the Chassis contextual colors.
 
 <Example>
-  <CxCheckbox context="secondary" id="checkSecondary" label="Secondary checkbox" defaultSelected />
+  <CxCheckbox color="secondary" id="checkSecondary" label="Secondary checkbox" defaultSelected />
 </Example>
 
 ## Without labels
@@ -93,7 +93,7 @@ Create button-like checkboxes by using the `button` property on `<CxCheckbox>`. 
 
 <Example>
   <CxCheckbox
-    button={{ context: 'primary' }}
+    button={{ color: 'primary' }}
     id="button-check"
     autoComplete="off"
     label="Single toggle"
@@ -102,7 +102,7 @@ Create button-like checkboxes by using the `button` property on `<CxCheckbox>`. 
 
 <Example>
   <CxCheckbox
-    button={{ context: 'primary' }}
+    button={{ color: 'primary' }}
     id="button-check-2"
     autoComplete="off"
     label="Checked"
@@ -112,7 +112,7 @@ Create button-like checkboxes by using the `button` property on `<CxCheckbox>`. 
 
 <Example>
   <CxCheckbox
-    button={{ context: 'primary' }}
+    button={{ color: 'primary' }}
     id="button-check-3"
     autoComplete="off"
     label="Disabled"
@@ -127,7 +127,7 @@ Different variants of button, such at the various outlined styles, are supported
 <Example>
   <div>
     <CxCheckbox
-      button={{ context: 'primary', variant: 'outline' }}
+      button={{ color: 'primary', variant: 'outline' }}
       id="button-check-outlined"
       autoComplete="off"
       label="Single toggle"
@@ -135,7 +135,7 @@ Different variants of button, such at the various outlined styles, are supported
   </div>
   <div>
     <CxCheckbox
-      button={{ context: 'secondary', variant: 'outline' }}
+      button={{ color: 'secondary', variant: 'outline' }}
       id="button-check-2-outlined"
       autoComplete="off"
       label="Checked"

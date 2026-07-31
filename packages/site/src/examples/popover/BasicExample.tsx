@@ -7,7 +7,7 @@ export const BasicExample = () => {
       content="And here's some amazing content. It's very engaging. Right?"
       placement="right"
     >
-      <CxButton context="danger" size="large">
+      <CxButton color="danger" size="large">
         Click to toggle popover
       </CxButton>
     </CxPopover>

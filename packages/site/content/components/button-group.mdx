@@ -27,9 +27,9 @@ Wrap a series of `<CxButton>` components in `<CxButtonGroup>`.
 
 <Example>
   <CxButtonGroup role="group" aria-label="Basic example">
-    <CxButton context="primary">Left</CxButton>
-    <CxButton context="primary">Middle</CxButton>
-    <CxButton context="primary">Right</CxButton>
+    <CxButton color="primary">Left</CxButton>
+    <CxButton color="primary">Middle</CxButton>
+    <CxButton color="primary">Right</CxButton>
   </CxButtonGroup>
 </Example>
 
@@ -43,13 +43,13 @@ These classes can also be added to groups of links, as an alternative to the `<C
 
 <Example>
   <CxButtonGroup>
-    <CxButton href="#" context="primary" active>
+    <CxButton href="#" color="primary" active>
       Active link
     </CxButton>
-    <CxButton href="#" context="primary">
+    <CxButton href="#" color="primary">
       Link
     </CxButton>
-    <CxButton href="#" context="primary">
+    <CxButton href="#" color="primary">
       Link
     </CxButton>
   </CxButtonGroup>
@@ -59,9 +59,9 @@ These classes can also be added to groups of links, as an alternative to the `<C
 
 <Example>
   <CxButtonGroup role="group" aria-label="Basic mixed styles example">
-    <CxButton context="danger">Left</CxButton>
-    <CxButton context="warning">Middle</CxButton>
-    <CxButton context="success">Right</CxButton>
+    <CxButton color="danger">Left</CxButton>
+    <CxButton color="warning">Middle</CxButton>
+    <CxButton color="success">Right</CxButton>
   </CxButtonGroup>
 </Example>
 
@@ -69,13 +69,13 @@ These classes can also be added to groups of links, as an alternative to the `<C
 
 <Example>
   <CxButtonGroup role="group" aria-label="Basic outlined example">
-    <CxButton context="primary" variant="outline">
+    <CxButton color="primary" variant="outline">
       Left
     </CxButton>
-    <CxButton context="primary" variant="outline">
+    <CxButton color="primary" variant="outline">
       Middle
     </CxButton>
-    <CxButton context="primary" variant="outline">
+    <CxButton color="primary" variant="outline">
       Right
     </CxButton>
   </CxButtonGroup>
@@ -88,19 +88,19 @@ Combine button-like checkbox and radio toggle buttons into a seamless looking bu
 <Example>
   <CxButtonGroup role="group" aria-label="Basic checkbox toggle button group">
     <CxCheckbox
-      button={{ context: 'primary', variant: 'outline' }}
+      button={{ color: 'primary', variant: 'outline' }}
       id="btncheck1"
       autoComplete="off"
       label="Checkbox 1"
     />
     <CxCheckbox
-      button={{ context: 'primary', variant: 'outline' }}
+      button={{ color: 'primary', variant: 'outline' }}
       id="btncheck2"
       autoComplete="off"
       label="Checkbox 2"
     />
     <CxCheckbox
-      button={{ context: 'primary', variant: 'outline' }}
+      button={{ color: 'primary', variant: 'outline' }}
       id="btncheck3"
       autoComplete="off"
       label="Checkbox 3"
@@ -119,18 +119,18 @@ Join sets of button groups into button toolbars for more complicated components.
 <Example>
   <CxButtonToolbar role="group" aria-label="Toolbar with button groups">
     <CxButtonGroup className="me-small" role="group" aria-label="First group">
-      <CxButton context="primary">1</CxButton>
-      <CxButton context="primary">2</CxButton>
-      <CxButton context="primary">3</CxButton>
-      <CxButton context="primary">4</CxButton>
+      <CxButton color="primary">1</CxButton>
+      <CxButton color="primary">2</CxButton>
+      <CxButton color="primary">3</CxButton>
+      <CxButton color="primary">4</CxButton>
     </CxButtonGroup>
     <CxButtonGroup className="me-small" role="group" aria-label="Second group">
-      <CxButton context="secondary">5</CxButton>
-      <CxButton context="secondary">6</CxButton>
-      <CxButton context="secondary">7</CxButton>
+      <CxButton color="secondary">5</CxButton>
+      <CxButton color="secondary">6</CxButton>
+      <CxButton color="secondary">7</CxButton>
     </CxButtonGroup>
     <CxButtonGroup className="me-small" role="group" aria-label="Third group">
-      <CxButton context="info">8</CxButton>
+      <CxButton color="info">8</CxButton>
     </CxButtonGroup>
   </CxButtonToolbar>
 </Example>
@@ -140,16 +140,16 @@ Feel free to combine input groups with button groups in your toolbars. Similar t
 <Example>
   <CxButtonToolbar className="mb-medium" role="group" aria-label="Toolbar with button groups">
     <CxButtonGroup className="me-small" role="group" aria-label="First group">
-      <CxButton context="secondary" variant="outline">
+      <CxButton color="secondary" variant="outline">
         1
       </CxButton>
-      <CxButton context="secondary" variant="outline">
+      <CxButton color="secondary" variant="outline">
         2
       </CxButton>
-      <CxButton context="secondary" variant="outline">
+      <CxButton color="secondary" variant="outline">
         3
       </CxButton>
-      <CxButton context="secondary" variant="outline">
+      <CxButton color="secondary" variant="outline">
         4
       </CxButton>
     </CxButtonGroup>
@@ -168,16 +168,16 @@ Feel free to combine input groups with button groups in your toolbars. Similar t
     aria-label="Toolbar with button groups"
   >
     <CxButtonGroup className="me-small" role="group" aria-label="First group">
-      <CxButton context="secondary" variant="outline">
+      <CxButton color="secondary" variant="outline">
         1
       </CxButton>
-      <CxButton context="secondary" variant="outline">
+      <CxButton color="secondary" variant="outline">
         2
       </CxButton>
-      <CxButton context="secondary" variant="outline">
+      <CxButton color="secondary" variant="outline">
         3
       </CxButton>
-      <CxButton context="secondary" variant="outline">
+      <CxButton color="secondary" variant="outline">
         4
       </CxButton>
     </CxButtonGroup>
@@ -248,13 +248,13 @@ Create a set of buttons that appear vertically stacked rather than horizontally.
 
 <Example>
   <CxButtonGroup vertical role="group" aria-label="Vertical button group">
-    <CxButton context="dark">Button</CxButton>
-    <CxButton context="dark">Button</CxButton>
-    <CxButton context="dark">Button</CxButton>
-    <CxButton context="dark">Button</CxButton>
-    <CxButton context="dark">Button</CxButton>
-    <CxButton context="dark">Button</CxButton>
-    <CxButton context="dark">Button</CxButton>
+    <CxButton color="dark">Button</CxButton>
+    <CxButton color="dark">Button</CxButton>
+    <CxButton color="dark">Button</CxButton>
+    <CxButton color="dark">Button</CxButton>
+    <CxButton color="dark">Button</CxButton>
+    <CxButton color="dark">Button</CxButton>
+    <CxButton color="dark">Button</CxButton>
   </CxButtonGroup>
 </Example>
 

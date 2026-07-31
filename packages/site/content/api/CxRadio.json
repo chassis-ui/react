@@ -43,10 +43,10 @@
         "name": "string"
       }
     },
-    "context": {
+    "color": {
       "defaultValue": null,
-      "description": "Sets the context of the radio indicator to one of Chassis themed colors. Ignored when `button` is set.",
-      "name": "context",
+      "description": "Sets the color of the radio indicator to one of Chassis context colors. Ignored when `button` is set.",
+      "name": "color",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/radio/CxRadio.tsx",
         "name": "CxRadioProps"

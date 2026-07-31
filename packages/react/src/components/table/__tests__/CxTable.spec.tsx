@@ -100,13 +100,13 @@ describe('CxTable', () => {
   })
 
   describe('styling props', () => {
-    test('renders bordered, striped, hoverable, and context variants', () => {
+    test('renders bordered, striped, hoverable, and color variants', () => {
       const { container } = render(
         <CxTable
           aria-label="Styled"
           bordered
           className="bazinga"
-          context="info"
+          color="info"
           hover
           responsive="xlarge"
           small

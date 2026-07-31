@@ -23,10 +23,10 @@
         "name": "string"
       }
     },
-    "context": {
-      "name": "context",
+    "color": {
+      "name": "color",
       "required": false,
-      "description": "Sets the context color of the item.",
+      "description": "Sets the color of the item.",
       "defaultValue": null,
       "type": {
         "name": "ContextColor"

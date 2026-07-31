@@ -29,9 +29,9 @@ export interface CxCheckboxProps extends Omit<
    */
   className?: string
   /**
-   * Sets the context of the check indicator to one of Chassis themed colors. Ignored when `button` is set.
+   * Sets the color of the check indicator to one of Chassis context colors. Ignored when `button` is set.
    */
-  context?: ContextColor
+  color?: ContextColor
   /**
    * Whether the checkbox is selected, uncontrolled. Ignored when rendered inside a `<CxCheckboxGroup>` —
    * the group's `value`/`defaultValue` owns selection there.
@@ -83,7 +83,7 @@ const CxCheckboxStandalone = forwardRef<HTMLInputElement, CxCheckboxProps>(
     {
       button,
       className,
-      context,
+      color,
       defaultSelected,
       disabled,
       id,
@@ -125,7 +125,7 @@ const CxCheckboxStandalone = forwardRef<HTMLInputElement, CxCheckboxProps>(
     return renderFormCheck({
       button,
       className,
-      context,
+      color,
       input: <input {...inputProps} className={inputClassName} id={id} ref={forkedRef} />,
       invalid,
       label,
@@ -145,7 +145,7 @@ const CxCheckboxGroupItem = forwardRef<HTMLInputElement, CxCheckboxGroupItemProp
     {
       button,
       className,
-      context,
+      color,
       defaultSelected: _defaultSelected,
       disabled,
       groupState,
@@ -193,7 +193,7 @@ const CxCheckboxGroupItem = forwardRef<HTMLInputElement, CxCheckboxGroupItemProp
     return renderFormCheck({
       button,
       className,
-      context,
+      color,
       input: <input {...inputProps} className={inputClassName} id={id} ref={forkedRef} />,
       invalid,
       label,

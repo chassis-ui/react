@@ -82,7 +82,7 @@ export const CustomStylesExample = () => {
         <CxFormFeedback invalid>You must agree before submitting.</CxFormFeedback>
       </CxCol>
       <CxCol xs={12}>
-        <CxButton context="primary" type="submit">
+        <CxButton color="primary" type="submit">
           Submit form
         </CxButton>
       </CxCol>

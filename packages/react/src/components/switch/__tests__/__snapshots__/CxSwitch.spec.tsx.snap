@@ -21,7 +21,7 @@ exports[`CxSwitch > rendering > matches the baseline markup snapshot 1`] = `
 </div>
 `;
 
-exports[`CxSwitch > styling props > applies context, size, invalid/valid classes together, as a radio-backed switch 1`] = `
+exports[`CxSwitch > styling props > applies color, size, invalid/valid classes together, as a radio-backed switch 1`] = `
 <div>
   <label
     class="form-check form-switch large is-invalid is-valid bazinga"

@@ -10,7 +10,7 @@ import {
 export const StackedSubmenuExample = () => {
   return (
     <CxMenu>
-      <CxMenuToggle context="secondary">Stacked submenus</CxMenuToggle>
+      <CxMenuToggle color="secondary">Stacked submenus</CxMenuToggle>
       <CxMenuList>
         <CxMenuItem href="#">Level 1 action</CxMenuItem>
         <CxSubmenu trigger="Level 1 submenu" stacked>

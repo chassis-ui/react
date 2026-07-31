@@ -14,7 +14,7 @@ describe('CxProgress', () => {
     })
 
     test('matches the baseline markup snapshot', () => {
-      const { container } = render(<CxProgress context="warning" value={50} />)
+      const { container } = render(<CxProgress color="warning" value={50} />)
       expect(container).toMatchSnapshot()
     })
 
@@ -40,7 +40,7 @@ describe('CxProgress', () => {
 
   describe('progress bar rendering', () => {
     test('renders an inner progressbar when value is set', () => {
-      render(<CxProgress context="warning" value={50} />)
+      render(<CxProgress color="warning" value={50} />)
       const bar = screen.getByRole('progressbar')
       expect(bar).toHaveAttribute('aria-valuenow', '50')
       expect(bar).toHaveStyle('width: 50%')
@@ -66,7 +66,7 @@ describe('CxProgress', () => {
     // pass aria-label/aria-labelledby themselves. This check does that, as real usage should.
     test('has no axe violations', async () => {
       const { container } = render(
-        <CxProgress aria-label="Upload progress" context="warning" value={50} />
+        <CxProgress aria-label="Upload progress" color="warning" value={50} />
       )
       expect(await axe(container)).toHaveNoViolations()
     })

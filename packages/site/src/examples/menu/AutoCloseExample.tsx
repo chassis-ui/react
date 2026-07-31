@@ -4,7 +4,7 @@ export const AutoCloseExample = () => {
   return (
     <div className="d-flex flex-wrap gap-small">
       <CxMenu autoClose>
-        <CxMenuToggle context="secondary">Default</CxMenuToggle>
+        <CxMenuToggle color="secondary">Default</CxMenuToggle>
         <CxMenuList>
           <CxMenuItem href="#">Copy</CxMenuItem>
           <CxMenuItem href="#">Paste</CxMenuItem>
@@ -13,7 +13,7 @@ export const AutoCloseExample = () => {
       </CxMenu>
 
       <CxMenu autoClose="inside">
-        <CxMenuToggle context="secondary">Close inside</CxMenuToggle>
+        <CxMenuToggle color="secondary">Close inside</CxMenuToggle>
         <CxMenuList>
           <CxMenuItem href="#">New file</CxMenuItem>
           <CxMenuItem href="#">Open</CxMenuItem>
@@ -22,7 +22,7 @@ export const AutoCloseExample = () => {
       </CxMenu>
 
       <CxMenu autoClose="outside">
-        <CxMenuToggle context="secondary">Close outside</CxMenuToggle>
+        <CxMenuToggle color="secondary">Close outside</CxMenuToggle>
         <CxMenuList>
           <CxMenuItem href="#">Rename</CxMenuItem>
           <CxMenuItem href="#">Duplicate</CxMenuItem>
@@ -31,7 +31,7 @@ export const AutoCloseExample = () => {
       </CxMenu>
 
       <CxMenu autoClose={false}>
-        <CxMenuToggle context="secondary">Manual close</CxMenuToggle>
+        <CxMenuToggle color="secondary">Manual close</CxMenuToggle>
         <CxMenuList>
           <CxMenuItem href="#">Cut</CxMenuItem>
           <CxMenuItem href="#">Copy</CxMenuItem>

@@ -68,9 +68,9 @@ export interface CxTableProps<T extends object> {
    */
   className?: string
   /**
-   * Sets the context of the component.
+   * Sets the color of the component.
    */
-  context?: ContextColor
+  color?: ContextColor
   /**
    * A list of row keys to disable. Disabled rows cannot be selected, focused, or interacted with.
    */
@@ -129,7 +129,7 @@ export const CxTable = <T extends object>({
   caption,
   children,
   className,
-  context,
+  color,
   disabledKeys,
   footer,
   hover,
@@ -164,7 +164,7 @@ export const CxTable = <T extends object>({
 
   const _className = classNames(
     'table',
-    context,
+    color,
     {
       [`align-${align}`]: align,
       bordered,

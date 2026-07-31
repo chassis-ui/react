@@ -21,10 +21,10 @@ export const Example = () => {
           I will not close if you click outside me. Don't even try to press escape key.
         </CxModalBody>
         <CxModalFooter>
-          <CxButton context="secondary" onClick={() => setVisible(false)}>
+          <CxButton color="secondary" onClick={() => setVisible(false)}>
             Close
           </CxButton>
-          <CxButton context="primary">Save changes</CxButton>
+          <CxButton color="primary">Save changes</CxButton>
         </CxModalFooter>
       </CxModal>
     </>

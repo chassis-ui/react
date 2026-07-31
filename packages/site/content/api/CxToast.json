@@ -66,10 +66,10 @@
         "name": "string"
       }
     },
-    "context": {
+    "color": {
       "defaultValue": null,
-      "description": "Sets the context color of the component to one of Chassis themed colors.",
-      "name": "context",
+      "description": "Sets the color of the component to one of Chassis context colors.",
+      "name": "color",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",
         "name": "CxToastProps"
@@ -182,7 +182,7 @@
     },
     "solid": {
       "defaultValue": null,
-      "description": "Apply a full-color background with inverted text. Only meaningful alongside `context`.",
+      "description": "Apply a full-color background with inverted text. Only meaningful alongside `color`.",
       "name": "solid",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/toast/CxToast.tsx",

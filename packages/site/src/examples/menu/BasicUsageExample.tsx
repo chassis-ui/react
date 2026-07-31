@@ -3,7 +3,7 @@ import { CxMenu, CxMenuToggle, CxMenuList, CxMenuItem, CxMenuDivider } from '@ch
 export const BasicUsageExample = () => {
   return (
     <CxMenu>
-      <CxMenuToggle context="secondary">Toggle menu</CxMenuToggle>
+      <CxMenuToggle color="secondary">Toggle menu</CxMenuToggle>
       <CxMenuList>
         <CxMenuItem href="#">Action</CxMenuItem>
         <CxMenuItem href="#">Another action</CxMenuItem>

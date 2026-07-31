@@ -9,9 +9,9 @@ export interface CxNavbarProps extends HTMLAttributes<HTMLDivElement> {
    */
   className?: string
   /**
-   * Sets the context color of the component to one of Chassis themed colors.
+   * Sets the color of the component to one of Chassis context colors.
    */
-  context?: ContextColor
+  color?: ContextColor
   /**
    * Sets if the context of text should be colored for a light or dark dark background.
    */
@@ -39,7 +39,7 @@ export const CxNavbar = forwardRef<HTMLDivElement, CxNavbarProps>(
     {
       children,
       className,
-      context,
+      color,
       colorScheme,
       component: Component = 'nav',
       container,
@@ -52,7 +52,7 @@ export const CxNavbar = forwardRef<HTMLDivElement, CxNavbarProps>(
     const _className = classNames(
       'navbar',
       {
-        [`bg-${context}`]: context,
+        [`bg-${color}`]: color,
         [`navbar-${colorScheme}`]: colorScheme,
         [typeof expand === 'boolean' ? 'navbar-expand' : `navbar-expand-${expand}`]: expand
       },

@@ -20,9 +20,9 @@ export interface CxRadioProps extends Omit<
    */
   className?: string
   /**
-   * Sets the context of the radio indicator to one of Chassis themed colors. Ignored when `button` is set.
+   * Sets the color of the radio indicator to one of Chassis context colors. Ignored when `button` is set.
    */
-  context?: ContextColor
+  color?: ContextColor
   /**
    * The id global attribute defines an identifier (ID) that must be unique in the whole document.
    */
@@ -45,7 +45,7 @@ export interface CxRadioProps extends Omit<
 // radio hook, only useRadio(props, RadioGroupState, ref), because a lone radio with no group is
 // not a meaningful accessible control (see https://chassis-ui.com/css/docs/forms/checkbox-radio).
 export const CxRadio = forwardRef<HTMLInputElement, CxRadioProps>(
-  ({ button, className, context, disabled, id, label, size, ...rest }, ref) => {
+  ({ button, className, color, disabled, id, label, size, ...rest }, ref) => {
     const groupState = useContext(CxRadioGroupContext)
 
     if (!groupState) {
@@ -68,7 +68,7 @@ export const CxRadio = forwardRef<HTMLInputElement, CxRadioProps>(
     return renderFormCheck({
       button,
       className,
-      context,
+      color,
       input: <input {...inputProps} id={id} ref={forkedRef} />,
       label,
       size

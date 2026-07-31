@@ -6,14 +6,14 @@ export const LiveExample = () => {
   return (
     <>
       <CxNotification
-        context="primary"
+        color="primary"
         dismissible
         visible={visible}
         onClose={() => setVisible(false)}
       >
         A simple primary notification—check it out!
       </CxNotification>
-      <CxButton context="primary" onClick={() => setVisible(true)}>
+      <CxButton color="primary" onClick={() => setVisible(true)}>
         Show live notification
       </CxButton>
     </>

@@ -12,9 +12,9 @@ export interface CxProgressBarProps extends HTMLAttributes<HTMLDivElement> {
    */
   className?: string
   /**
-   * Sets the context color of the component to one of Chassis themed colors.
+   * Sets the color of the component to one of Chassis context colors.
    */
-  context?: ContextColor
+  color?: ContextColor
   /**
    * The percent to progress the ProgressBar.
    */
@@ -26,10 +26,10 @@ export interface CxProgressBarProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 export const CxProgressBar = forwardRef<HTMLDivElement, CxProgressBarProps>(
-  ({ children, animated, className, context, value = 0, variant, ...rest }, ref) => {
+  ({ children, animated, className, color, value = 0, variant, ...rest }, ref) => {
     const _className = classNames(
       'progress-bar',
-      context,
+      color,
       {
         [`progress-bar-${variant}`]: variant,
         'progress-bar-animated': animated

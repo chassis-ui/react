@@ -21,7 +21,7 @@ Lists in Chassis CSS provide structured containers for related content with cons
 
 ## Data-driven usage
 
-Pass an `items` array to render the list from data. Each item accepts `label`, `href`, `context`, `active`, and `disabled`.
+Pass an `items` array to render the list from data. Each item accepts `label`, `href`, `color`, `active`, and `disabled`.
 
 <Example>
   <CxList
@@ -40,10 +40,10 @@ With context colors:
   <CxList
     items={[
       { label: 'Default item' },
-      { label: 'Primary item', context: 'primary' },
-      { label: 'Success item', context: 'success' },
-      { label: 'Danger item', context: 'danger' },
-      { label: 'Warning item', context: 'warning' },
+      { label: 'Primary item', color: 'primary' },
+      { label: 'Success item', color: 'success' },
+      { label: 'Danger item', color: 'danger' },
+      { label: 'Warning item', color: 'warning' },
     ]}
   />
 </Example>
@@ -231,15 +231,15 @@ Apply `.flex-fill` or `.flex-grow-1` utility classes to list items to stretch th
 
 ## Contextual classes
 
-Use the `context` property to style list items with a stateful background and color.
+Use the `color` property to style list items with a stateful background and color.
 
 <Example>
   <CxList>
     <CxListItem>Dapibus ac facilisis in</CxListItem>
     {['primary', 'secondary', 'success', 'danger', 'warning', 'info'].map(
-      (context, index) => (
-        <CxListItem context={context} key={index}>
-          A simple {context} list item
+      (color, index) => (
+        <CxListItem color={color} key={index}>
+          A simple {color} list item
         </CxListItem>
       ),
     )}
@@ -254,9 +254,9 @@ Contextual classes also work with `<a>`s or `<button>`s. Note the addition of th
       Dapibus ac facilisis in
     </CxListItem>
     {['primary', 'secondary', 'success', 'danger', 'warning', 'info'].map(
-      (context, index) => (
-        <CxListItem component="a" href="#" context={context} key={index}>
-          A simple {context} list action
+      (color, index) => (
+        <CxListItem component="a" href="#" color={color} key={index}>
+          A simple {color} list action
         </CxListItem>
       ),
     )}
@@ -275,33 +275,33 @@ Contextual classes also work with `<a>`s or `<button>`s. Note the addition of th
 
 ### Context styles
 
-`<CxList>` also accepts `context` together with a `variant` of `solid`, `outline`, or `smooth` to color the whole list container based on your design system's color palette.
+`<CxList>` also accepts `color` together with a `variant` of `solid`, `outline`, or `smooth` to color the whole list container based on your design system's color palette.
 
 <Example>
   <CxRow className="medium:row-cols-2 g-large">
     <CxCol>
-      <CxList context="primary">
+      <CxList color="primary">
         <CxListItem>Cras justo odio</CxListItem>
         <CxListItem>Dapibus ac facilisis in</CxListItem>
         <CxListItem>Vestibulum at eros</CxListItem>
       </CxList>
     </CxCol>
     <CxCol>
-      <CxList context="primary" variant="solid" flush className="rounded">
+      <CxList color="primary" variant="solid" flush className="rounded">
         <CxListItem>Cras justo odio</CxListItem>
         <CxListItem>Dapibus ac facilisis in</CxListItem>
         <CxListItem>Vestibulum at eros</CxListItem>
       </CxList>
     </CxCol>
     <CxCol>
-      <CxList context="primary" variant="smooth" flush className="rounded">
+      <CxList color="primary" variant="smooth" flush className="rounded">
         <CxListItem>Cras justo odio</CxListItem>
         <CxListItem>Dapibus ac facilisis in</CxListItem>
         <CxListItem>Vestibulum at eros</CxListItem>
       </CxList>
     </CxCol>
     <CxCol>
-      <CxList context="primary" variant="outline">
+      <CxList color="primary" variant="outline">
         <CxListItem>Cras justo odio</CxListItem>
         <CxListItem>Dapibus ac facilisis in</CxListItem>
         <CxListItem>Vestibulum at eros</CxListItem>
@@ -318,19 +318,19 @@ Add badges to any list item to show unread counts, activity, and more.
   <CxList>
     <CxListItem className="d-flex justify-content-between align-items-center">
       Cras justo odio
-      <CxBadge context="primary" className="rounded-full">
+      <CxBadge color="primary" className="rounded-full">
         14
       </CxBadge>
     </CxListItem>
     <CxListItem className="d-flex justify-content-between align-items-center">
       Dapibus ac facilisis in
-      <CxBadge context="primary" className="rounded-full">
+      <CxBadge color="primary" className="rounded-full">
         2
       </CxBadge>
     </CxListItem>
     <CxListItem className="d-flex justify-content-between align-items-center">
       Morbi leo risus
-      <CxBadge context="primary" className="rounded-full">
+      <CxBadge color="primary" className="rounded-full">
         1
       </CxBadge>
     </CxListItem>

@@ -169,10 +169,10 @@
         "name": "string"
       }
     },
-    "context": {
+    "color": {
       "defaultValue": null,
-      "description": "Sets the context of the component.",
-      "name": "context",
+      "description": "Sets the color of the component.",
+      "name": "color",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/table/CxTable.tsx",
         "name": "CxTableProps"

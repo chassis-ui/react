@@ -18,15 +18,15 @@ export interface CxToastContent {
    */
   children: ReactNode
   /**
-   * Sets the context color of the component to one of Chassis themed colors.
+   * Sets the color of the component to one of Chassis context colors.
    */
-  context?: ContextColor
+  color?: ContextColor
   /**
    * Delay hiding the toast (ms).
    */
   delay?: number
   /**
-   * Apply a full-color background with inverted text. Only meaningful alongside `context`.
+   * Apply a full-color background with inverted text. Only meaningful alongside `color`.
    */
   solid?: boolean
   /**

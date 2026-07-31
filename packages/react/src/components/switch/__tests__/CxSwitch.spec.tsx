@@ -18,11 +18,11 @@ describe('CxSwitch', () => {
   })
 
   describe('styling props', () => {
-    test('applies context, size, invalid/valid classes together, as a radio-backed switch', () => {
+    test('applies color, size, invalid/valid classes together, as a radio-backed switch', () => {
       const { container } = render(
         <CxSwitch
           className="bazinga"
-          context="secondary"
+          color="secondary"
           id="2"
           invalid={true}
           label="Some label"

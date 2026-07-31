@@ -16,9 +16,9 @@ export interface CxListItemProps extends HTMLAttributes<
    */
   className?: string
   /**
-   * Sets the context color of the component to one of Chassis themed colors.
+   * Sets the color of the component to one of Chassis context colors.
    */
-  context?: ContextColor
+  color?: ContextColor
   /**
    * Toggle the disabled state for the component.
    */
@@ -32,11 +32,11 @@ export interface CxListItemProps extends HTMLAttributes<
 export const CxListItem = forwardRef<
   HTMLLIElement | HTMLAnchorElement | HTMLButtonElement,
   CxListItemProps
->(({ children, active, className, disabled, context, component = 'li', ...rest }, ref) => {
+>(({ children, active, className, disabled, color, component = 'li', ...rest }, ref) => {
   const _className = classNames(
     'list-item',
-    context && 'context',
-    context,
+    color && 'context',
+    color,
     {
       'list-action': component === 'a' || component === 'button',
       active,

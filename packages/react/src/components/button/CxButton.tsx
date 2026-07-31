@@ -16,9 +16,9 @@ export interface CxButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
    */
   className?: string
   /**
-   * Sets the context color of the component to one of Chassis themed colors.
+   * Sets the color of the component to one of Chassis context colors.
    */
-  context?: ContextColor
+  color?: ContextColor
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
@@ -59,7 +59,7 @@ export const CxButton = forwardRef<HTMLButtonElement | HTMLAnchorElement, CxButt
     {
       children,
       className,
-      context = 'primary',
+      color = 'primary',
       component = 'button',
       disabled,
       onClick,
@@ -71,7 +71,7 @@ export const CxButton = forwardRef<HTMLButtonElement | HTMLAnchorElement, CxButt
     },
     ref
   ) => {
-    const _className = classNames('button', context, variant, size, shape, className)
+    const _className = classNames('button', color, variant, size, shape, className)
     const resolvedComponent = rest.href ? 'a' : component
     const isCustomComponent = resolvedComponent !== 'button' && resolvedComponent !== 'a'
 

@@ -2,7 +2,7 @@
 
 exports[`CxToast > rendering > matches the baseline markup snapshot 1`] = `<div />`;
 
-exports[`CxToast > styling props > applies context, className and the default status role once shown 1`] = `
+exports[`CxToast > styling props > applies color, className and the default status role once shown 1`] = `
 <div>
   <div
     class="toast fade context warning bazinga show"
