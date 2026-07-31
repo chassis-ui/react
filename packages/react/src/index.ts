@@ -4,6 +4,9 @@ import { CxAccordionButton } from './components/accordion/CxAccordionButton'
 import { CxAccordionCollapse } from './components/accordion/CxAccordionCollapse'
 import { CxAccordionHeader } from './components/accordion/CxAccordionHeader'
 import { CxAccordionItem } from './components/accordion/CxAccordionItem'
+import { CxAutocomplete } from './components/autocomplete/CxAutocomplete'
+import { CxAutocompleteGroup } from './components/autocomplete/CxAutocompleteGroup'
+import { CxAutocompleteItem } from './components/autocomplete/CxAutocompleteItem'
 import { CxAvatar } from './components/avatar/CxAvatar'
 import { CxAvatarImage } from './components/avatar/CxAvatarImage'
 import { CxAvatarStack } from './components/avatar/CxAvatarStack'
@@ -132,6 +135,9 @@ export {
   CxAccordionCollapse,
   CxAccordionHeader,
   CxAccordionItem,
+  CxAutocomplete,
+  CxAutocompleteGroup,
+  CxAutocompleteItem,
   CxAvatar,
   CxAvatarImage,
   CxAvatarStack,
