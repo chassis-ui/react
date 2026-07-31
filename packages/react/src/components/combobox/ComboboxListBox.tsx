@@ -5,15 +5,22 @@ import { ComboBoxState, Node } from 'react-stately'
 
 import { getVirtualFocusStyle } from '../../utils/virtualFocusStyle'
 import { CxIcon } from '../icon/CxIcon'
-import { ComboboxEntry } from './comboboxCollection'
+import { ComboboxEntry, ComboboxSelectionMode } from './comboboxCollection'
 
-interface ComboboxListBoxProps {
+interface ComboboxListBoxProps<M extends ComboboxSelectionMode = 'single'> {
   listBoxProps: AriaListBoxOptions<ComboboxEntry>
   listBoxRef: RefObject<HTMLElement | null>
-  state: ComboBoxState<ComboboxEntry>
+  state: ComboBoxState<ComboboxEntry, M>
 }
 
-export const ComboboxListBox = ({ listBoxProps, listBoxRef, state }: ComboboxListBoxProps) => {
+// Generic over `M` (single- vs multi-select) purely so both `CxCombobox` (always single) and
+// `CxAutocomplete` (either) can pass their own `ComboBoxState` here without a cast — nothing in
+// this file's rendering logic actually depends on which mode is active.
+export const ComboboxListBox = <M extends ComboboxSelectionMode = 'single'>({
+  listBoxProps,
+  listBoxRef,
+  state
+}: ComboboxListBoxProps<M>) => {
   const { listBoxProps: domListBoxProps } = useListBox(listBoxProps, state, listBoxRef)
 
   return (
@@ -29,9 +36,9 @@ export const ComboboxListBox = ({ listBoxProps, listBoxRef, state }: ComboboxLis
   )
 }
 
-interface ComboboxSectionProps {
+interface ComboboxSectionProps<M extends ComboboxSelectionMode = 'single'> {
   node: Node<ComboboxEntry>
-  state: ComboBoxState<ComboboxEntry>
+  state: ComboBoxState<ComboboxEntry, M>
 }
 
 // Chassis-css groups are `.menu-header` siblings interleaved with `.menu-item`s, no wrapping
@@ -39,7 +46,10 @@ interface ComboboxSectionProps {
 // `useComboBoxState`'s filtering hides child items whose text doesn't match, but doesn't drop an
 // emptied-out section node itself, so a fully-filtered-out group's header is skipped by hand here
 // rather than left to render on its own.
-const ComboboxSection = ({ node, state }: ComboboxSectionProps) => {
+const ComboboxSection = <M extends ComboboxSelectionMode = 'single'>({
+  node,
+  state
+}: ComboboxSectionProps<M>) => {
   const childNodes = [...state.collection.getChildren!(node.key)]
   if (childNodes.length === 0) return null
 
@@ -55,12 +65,15 @@ const ComboboxSection = ({ node, state }: ComboboxSectionProps) => {
   )
 }
 
-interface ComboboxOptionProps {
+interface ComboboxOptionProps<M extends ComboboxSelectionMode = 'single'> {
   item: Node<ComboboxEntry>
-  state: ComboBoxState<ComboboxEntry>
+  state: ComboBoxState<ComboboxEntry, M>
 }
 
-const ComboboxOption = ({ item, state }: ComboboxOptionProps) => {
+const ComboboxOption = <M extends ComboboxSelectionMode = 'single'>({
+  item,
+  state
+}: ComboboxOptionProps<M>) => {
   const ref = useRef<HTMLDivElement>(null)
   const { optionProps, isSelected, isDisabled, isFocused } = useOption(
     { key: item.key },

@@ -47,6 +47,17 @@ describe('CxAutocomplete', () => {
       openMenu()
       expect(screen.getByRole('combobox')).toHaveFocus()
     })
+
+    // Regression test: `useComboBox`'s own `buttonProps` sets `excludeFromTabOrder: true` by
+    // default (correct for its usual "auxiliary button beside an always-visible input" use
+    // case, wrong here — before opening, the toggle is the *only* focusable element, since the
+    // search input lives inside the still-`hidden` panel). Without overriding it back to
+    // reachable, this control is entirely unreachable via sequential Tab navigation.
+    test('the toggle is reachable via sequential Tab navigation (not excluded from the tab order)', () => {
+      render(<BasicAutocomplete />)
+      const button = screen.getByRole('button')
+      expect(button).not.toHaveAttribute('tabindex', '-1')
+    })
   })
 
   describe('filtering', () => {
@@ -105,7 +116,77 @@ describe('CxAutocomplete', () => {
 
     test('the whole autocomplete can be disabled', () => {
       render(<BasicAutocomplete disabled />)
-      expect(screen.getByRole('button')).toBeDisabled()
+      // The toggle is a `<div role="button">`, not a real `<button>` (see CxAutocomplete.tsx's
+      // doc comment) - a div has no native `disabled` attribute, so `useButton` communicates it
+      // via `aria-disabled` instead, matching how any non-native `elementType` button works.
+      const toggle = screen.getByRole('button')
+      expect(toggle).toHaveAttribute('aria-disabled', 'true')
+      expect(toggle).toHaveClass('disabled')
+    })
+  })
+
+  describe('multi-select behavior', () => {
+    const MultiAutocomplete = (
+      props: Partial<React.ComponentProps<typeof CxAutocomplete>> = {}
+    ) => (
+      <CxAutocomplete aria-label="Fruit" multiple {...props}>
+        <CxAutocompleteItem id="apple">Apple</CxAutocompleteItem>
+        <CxAutocompleteItem id="banana">Banana</CxAutocompleteItem>
+        <CxAutocompleteItem id="cherry">Cherry</CxAutocompleteItem>
+      </CxAutocomplete>
+    )
+
+    const getToggle = () => screen.getByRole('button', { name: 'Fruit' })
+    const openMultiMenu = () => fireEvent.click(getToggle())
+
+    test('selecting more than one option accumulates the selection and shows "N selected"', () => {
+      const onChange = vi.fn()
+      render(<MultiAutocomplete onChange={onChange} />)
+      openMultiMenu()
+      fireEvent.click(screen.getByRole('option', { name: 'Apple' }))
+      expect(getToggle()).toHaveTextContent('Apple')
+      fireEvent.click(screen.getByRole('option', { name: 'Banana' }))
+      expect(onChange).toHaveBeenLastCalledWith(['apple', 'banana'])
+      expect(getToggle()).toHaveTextContent('2 selected')
+    })
+
+    test('the menu stays open after a selection', () => {
+      render(<MultiAutocomplete />)
+      openMultiMenu()
+      fireEvent.click(screen.getByRole('option', { name: 'Apple' }))
+      expect(getListboxWrapper()).not.toHaveAttribute('hidden')
+    })
+
+    test('clicking an already-selected option again deselects it', () => {
+      const onChange = vi.fn()
+      render(<MultiAutocomplete onChange={onChange} value={['apple', 'banana']} />)
+      openMultiMenu()
+      fireEvent.click(screen.getByRole('option', { name: 'Apple' }))
+      expect(onChange).toHaveBeenLastCalledWith(['banana'])
+    })
+
+    test('Backspace in the empty search field removes the last selected option', () => {
+      const onChange = vi.fn()
+      render(<MultiAutocomplete onChange={onChange} value={['apple', 'banana']} />)
+      openMultiMenu()
+      fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Backspace' })
+      expect(onChange).toHaveBeenLastCalledWith(['apple'])
+    })
+
+    test('Backspace does not remove a selected option while the search field has text', () => {
+      const onChange = vi.fn()
+      render(<MultiAutocomplete onChange={onChange} value={['apple', 'banana']} />)
+      openMultiMenu()
+      const search = screen.getByRole('combobox')
+      fireEvent.change(search, { target: { value: 'a' } })
+      fireEvent.keyDown(search, { key: 'Backspace' })
+      expect(onChange).not.toHaveBeenCalled()
+    })
+
+    test('the listbox is aria-multiselectable', () => {
+      render(<MultiAutocomplete />)
+      openMultiMenu()
+      expect(getListboxWrapper()).toHaveAttribute('aria-multiselectable', 'true')
     })
   })
 
@@ -123,6 +204,23 @@ describe('CxAutocomplete', () => {
 
       rerender(<BasicAutocomplete name="fruit" value="banana" />)
       expect(hidden.value).toBe('banana')
+    })
+
+    test('creates one hidden input per selected key in multi-select mode', () => {
+      const { container } = render(
+        <CxAutocomplete aria-label="Fruit" multiple name="fruit" value={['apple', 'banana']}>
+          <CxAutocompleteItem id="apple">Apple</CxAutocompleteItem>
+          <CxAutocompleteItem id="banana">Banana</CxAutocompleteItem>
+        </CxAutocomplete>
+      )
+
+      // Hidden inputs are intentionally excluded from the accessibility tree - no query reaches
+      // them.
+      const hiddenInputs = [
+        // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+        ...container.querySelectorAll('input[type="hidden"][name="fruit"]')
+      ] as HTMLInputElement[]
+      expect(hiddenInputs.map((input) => input.value)).toEqual(['apple', 'banana'])
     })
   })
 
@@ -180,6 +278,24 @@ describe('CxAutocomplete', () => {
     test('has no axe violations with the listbox open', async () => {
       const { container } = render(<BasicAutocomplete />)
       openMenu()
+      expect(
+        await axe(container, {
+          rules: {
+            'aria-input-field-name': { enabled: false },
+            'aria-required-children': { enabled: false }
+          }
+        })
+      ).toHaveNoViolations()
+    })
+
+    test('has no axe violations in multi-select mode with a selection and the listbox open', async () => {
+      const { container } = render(
+        <CxAutocomplete aria-label="Fruit" multiple value={['apple', 'banana']}>
+          <CxAutocompleteItem id="apple">Apple</CxAutocompleteItem>
+          <CxAutocompleteItem id="banana">Banana</CxAutocompleteItem>
+        </CxAutocomplete>
+      )
+      fireEvent.click(screen.getByRole('button', { name: 'Fruit' }))
       expect(
         await axe(container, {
           rules: {

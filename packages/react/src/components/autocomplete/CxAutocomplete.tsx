@@ -1,6 +1,6 @@
 import React, { HTMLAttributes, InputHTMLAttributes, ReactNode, useEffect, useRef } from 'react'
 import classNames from 'classnames'
-import { useButton, useComboBox, useFilter, useOverlayPosition } from 'react-aria'
+import { mergeProps, useButton, useComboBox, useFilter, useOverlayPosition } from 'react-aria'
 import { Item, Key, Section, useComboBoxState } from 'react-stately'
 
 import { useFormField } from '../../hooks'
@@ -100,8 +100,29 @@ const renderAutocompleteItem = (item: ComboboxItemElement) => (
   </Item>
 )
 
+// `useComboBoxState`/`useComboBox` are generic over a `SelectionMode` ('single' | 'multiple')
+// that only affects *types* — actual runtime behavior (whether a selection closes the menu,
+// disallows an empty selection, *and* whether `state.value`/`onChange`'s callback argument come
+// through as a bare `Key` or a `Key[]`) is driven entirely by the `selectionMode` *string* passed
+// at the call site below, not by this type parameter. Fixing the parameter at `'multiple'` here
+// (the more permissive of the two shapes) lets one component serve both modes without a full
+// code fork, but it means the type system's claim that `state.value`/`onChange`'s argument are
+// always `Key[]` is untrustworthy for single-select at runtime — confirmed by testing (the
+// naive `keys[0]` on a bare string key silently returned its first *character*). `asKeyArray`
+// normalizes either shape; every read of `state.value` or `onChange`'s argument goes through it.
+const toMultiValue = (value: Key | Key[] | null | undefined): Key[] | undefined => {
+  if (value === undefined) return undefined
+  if (value === null) return []
+  return Array.isArray(value) ? value : [value]
+}
+
+const asKeyArray = (value: unknown): Key[] => {
+  if (value == null) return []
+  return Array.isArray(value) ? value : [value as Key]
+}
+
 export interface CxAutocompleteProps extends Omit<
-  HTMLAttributes<HTMLButtonElement>,
+  HTMLAttributes<HTMLDivElement>,
   'onChange' | 'defaultValue'
 > {
   /**
@@ -122,9 +143,9 @@ export interface CxAutocompleteProps extends Omit<
    */
   className?: string
   /**
-   * The initial selected option's id (uncontrolled).
+   * The initial selected option's id(s) (uncontrolled). An array when `multiple` is set.
    */
-  defaultValue?: Key | null
+  defaultValue?: Key | Key[] | null
   /**
    * Prevents the autocomplete from being focused or interacted with.
    */
@@ -134,7 +155,7 @@ export interface CxAutocompleteProps extends Omit<
    */
   help?: ReactNode
   /**
-   * `id` forwarded to the toggle button — useful for pairing with a `<label for>`.
+   * `id` forwarded to the toggle — useful for pairing with a `<label for>`.
    */
   id?: string
   /**
@@ -153,12 +174,19 @@ export interface CxAutocompleteProps extends Omit<
    */
   items?: CxMenuItemsDef
   /**
-   * The field's caption, rendered as a `CxFormLabel` associated with the toggle button.
+   * The field's caption, rendered as a `CxFormLabel` associated with the toggle.
    */
   label?: ReactNode
   /**
-   * `name` of an auto-created hidden input, kept in sync with the selection, for native form
-   * submission. Omit to skip creating one.
+   * Allows more than one option to be selected. Selected options render as removable chips in
+   * the toggle, the menu stays open after each selection, and `Backspace` in the empty search
+   * field removes the last chip.
+   */
+  multiple?: boolean
+  /**
+   * `name` of auto-created hidden input(s), kept in sync with the selection, for native form
+   * submission. Single-select renders one; `multiple` renders one per selected key. Omit to skip
+   * hidden-input creation.
    */
   name?: string
   /**
@@ -166,9 +194,9 @@ export interface CxAutocompleteProps extends Omit<
    */
   noResultsText?: ReactNode
   /**
-   * Callback fired when the selected option changes.
+   * Callback fired when the selection changes. Receives an array of keys when `multiple` is set.
    */
-  onChange?: (value: Key | null) => void
+  onChange?: (value: Key | Key[] | null) => void
   /**
    * Text shown on the toggle when nothing is selected.
    */
@@ -190,9 +218,9 @@ export interface CxAutocompleteProps extends Omit<
    */
   validFeedback?: ReactNode
   /**
-   * The selected option's id (controlled).
+   * The selected option's id(s) (controlled). An array when `multiple` is set.
    */
-  value?: Key | null
+  value?: Key | Key[] | null
 }
 
 // `CxAutocomplete` implements chassis-css's button-trigger combobox — a display-only toggle
@@ -201,9 +229,16 @@ export interface CxAutocompleteProps extends Omit<
 // same composition as `CxCombobox` (whose text input *is* the trigger): here, react-aria's
 // `useComboBox` is given a separate `buttonRef` — a first-class option the hook supports
 // specifically for this "button opens a listbox with its own input" shape — so the real
-// `role="combobox"` input lives inside the popover (styled as `.combobox-search-input`) while
-// a plain `<button>` (`.form-input.combobox`, matching `CxSelect`'s own dropdown-trigger look)
-// serves as the always-visible, always-focusable trigger.
+// `role="combobox"` input lives inside the popover (styled as `.combobox-search-input`) while a
+// toggle serves as the always-visible, always-focusable trigger. The toggle is a `<div
+// role="button">` (via `useButton`'s `elementType: 'div'`, the same pattern `CxButton.tsx` uses
+// for a non-native trigger) rather than a real `<button>` — an earlier version rendered
+// removable chips inside it for `multiple` mode, which a real (or ARIA) button can't legally
+// contain per axe's `nested-interactive` check; that's now plain "N selected" text instead (see
+// `triggerText` below), but the `<div>` stays since reverting buys little and this is proven.
+// `useComboBox`'s own `buttonProps` also sets `excludeFromTabOrder: true` by default — correct
+// for its usual "auxiliary button beside an always-visible input" composition, wrong here since
+// the toggle is the *only* focusable surface before opening; overridden back to reachable below.
 export const CxAutocomplete = ({
   children,
   className,
@@ -215,6 +250,7 @@ export const CxAutocomplete = ({
   invalidFeedback,
   items,
   label,
+  multiple = false,
   name,
   noResultsText = 'No results found',
   onChange,
@@ -232,7 +268,7 @@ export const CxAutocomplete = ({
   // always-case-insensitive combobox.js filtering.
   const { contains } = useFilter({ sensitivity: 'base' })
 
-  const state = useComboBoxState<ComboboxEntry>({
+  const state = useComboBoxState<ComboboxEntry, 'multiple'>({
     children: (entry) =>
       isComboboxGroupEntry(entry) ? (
         <Section key={entry.key} title={entry.label} items={entry.items}>
@@ -244,17 +280,23 @@ export const CxAutocomplete = ({
     defaultItems: entries,
     disabledKeys: getDisabledKeys(entries),
     defaultFilter: contains,
-    defaultValue,
-    value,
-    onChange,
+    // Cast: the actual runtime string ('single' or 'multiple') is what drives behavior — see the
+    // `toMultiValue` comment above for why the *type* parameter above is fixed at 'multiple'.
+    selectionMode: (multiple ? 'multiple' : 'single') as 'multiple',
+    defaultValue: toMultiValue(defaultValue),
+    value: toMultiValue(value),
+    onChange: (keys) => {
+      const keyArray = asKeyArray(keys)
+      onChange?.(multiple ? keyArray : (keyArray[0] ?? null))
+    },
     allowsEmptyCollection: true,
-    // Opening is driven only by the toggle button (see `buttonProps` below) — there's no input
-    // to focus or type into until the panel is already open, so 'input'/'focus' triggers (the
-    // hook's defaults, meant for `CxCombobox`'s text-input trigger) don't apply here.
+    // Opening is driven only by the toggle (see `buttonProps` below) — there's no input to focus
+    // or type into until the panel is already open, so 'input'/'focus' triggers (the hook's
+    // defaults, meant for `CxCombobox`'s text-input trigger) don't apply here.
     menuTrigger: 'manual'
   })
 
-  const triggerRef = useRef<HTMLButtonElement>(null)
+  const triggerRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const listBoxRef = useRef<HTMLElement>(null)
   const popoverRef = useRef<HTMLDivElement>(null)
@@ -271,7 +313,7 @@ export const CxAutocomplete = ({
     validFeedback
   })
 
-  const { buttonProps, inputProps, listBoxProps } = useComboBox<ComboboxEntry>(
+  const { buttonProps, inputProps, listBoxProps } = useComboBox<ComboboxEntry, 'multiple'>(
     {
       'aria-label': rest['aria-label'],
       'aria-labelledby': labelledBy,
@@ -286,8 +328,15 @@ export const CxAutocomplete = ({
     state
   )
 
+  // `useComboBox`'s own `buttonProps` sets `excludeFromTabOrder: true` — correct for its
+  // intended composition (an auxiliary icon button *next to* an already-focusable, always-
+  // visible input, e.g. a date picker's calendar-icon trigger), where the input is expected to
+  // be the primary tab stop. That doesn't hold here: the input lives inside the popover, `hidden`
+  // (and so untabbable) until opened, and this toggle is the *only* focusable surface before
+  // that — leaving `excludeFromTabOrder` in place would make the whole control unreachable by
+  // keyboard. Overriding it back to `false` is what actually makes the toggle the tab stop.
   const { buttonProps: triggerButtonProps } = useButton(
-    { ...buttonProps, elementType: 'button', isDisabled: disabled },
+    { ...buttonProps, elementType: 'div', isDisabled: disabled, excludeFromTabOrder: false },
     triggerRef
   )
 
@@ -306,6 +355,19 @@ export const CxAutocomplete = ({
     wasOpen.current = state.isOpen
   }, [state.isOpen])
 
+  // `useComboBox` also runs react-aria's `ariaHideOutside` while open, to keep background
+  // content out of screen readers' way — but it only knows to protect `inputRef`/`popoverRef`
+  // (the elements it was given), not this separate toggle, so the toggle (and, in `multiple`
+  // mode, its chips and their focusable remove buttons) would otherwise get `aria-hidden`
+  // applied to it too while the panel is open. `ariaHideOutside`'s own doc comment says it
+  // watches for *new* elements to hide, not attribute changes on existing ones, so removing it
+  // here (in an effect that necessarily runs after react-aria's own — declared later in this
+  // same component) doesn't get silently re-applied.
+  useEffect(() => {
+    if (!state.isOpen) return
+    triggerRef.current?.removeAttribute('aria-hidden')
+  }, [state.isOpen])
+
   const { overlayProps, placement: resolvedPlacement } = useOverlayPosition({
     targetRef: triggerRef,
     overlayRef: popoverRef,
@@ -321,14 +383,40 @@ export const CxAutocomplete = ({
   }
   const placementAttr = resolveDataPlacement('bottom-start', resolvedPlacement)
 
-  const inputHtmlProps = inputProps as InputHTMLAttributes<HTMLInputElement>
-  const selectedLabel = state.selectedItem?.textValue
+  const removeSelected = (key: Key) => state.selectionManager.toggleSelection(key)
+
+  // Backspace-removes-last-chip only touches the search field's own keydown handling — no
+  // nested interactive element needed for it, unlike a rendered "remove" button would be (see
+  // the trigger's `combobox-value` text below for why that path was dropped).
+  const handleSearchKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!multiple || event.key !== 'Backspace' || event.currentTarget.value !== '') return
+    const last = state.selectedItems[state.selectedItems.length - 1]
+    if (last) removeSelected(last.key)
+  }
+
+  const inputHtmlProps = mergeProps(inputProps, {
+    onKeyDown: handleSearchKeyDown
+  }) as InputHTMLAttributes<HTMLInputElement>
+
+  const hasSelection = state.selectedItems.length > 0
+  // Matches chassis-css's own vanilla multi-select combobox: the toggle shows the single
+  // selected item's label, or "N selected" once more than one is picked — deliberately plain
+  // text, not per-item chips with their own remove buttons. An earlier version rendered chips
+  // here; that failed a real axe check ("Interactive controls must not be nested") because the
+  // toggle is itself `role="button"`, and a button can't correctly contain other focusable
+  // controls. Deselecting an option is still possible by clicking it again in the open list
+  // (native to `useComboBoxState`'s multiple-selection toggle behavior) or via Backspace in the
+  // search field, just not from the toggle itself.
+  const triggerText = !hasSelection
+    ? placeholder
+    : state.selectedItems.length === 1
+      ? state.selectedItems[0].textValue
+      : `${state.selectedItems.length} selected`
 
   return renderFormField({
     children: (
       <>
-        <button
-          type="button"
+        <div
           className={classNames(
             'form-input',
             'combobox',
@@ -338,21 +426,25 @@ export const CxAutocomplete = ({
           )}
           {...rest}
           {...triggerButtonProps}
+          // `useComboBox`'s own `buttonProps` defaults to a generic "Show suggestions" label,
+          // since its primary a11y attention goes to the search input — override with the same
+          // label the input gets, so the toggle (the element actually reachable via Tab, since
+          // the input is hidden until open) announces the field's real name, matching the
+          // vanilla docs' own `aria-label="Select a country"` on the toggle button.
+          aria-label={rest['aria-label']}
+          aria-labelledby={labelledBy}
           aria-describedby={describedBy}
           aria-invalid={invalid || undefined}
           ref={triggerRef}
         >
-          <span
-            className={classNames('combobox-value', {
-              'combobox-placeholder': !state.selectedItem
-            })}
-          >
-            {state.selectedItem ? selectedLabel : placeholder}
+          <span className={classNames('combobox-value', { 'combobox-placeholder': !hasSelection })}>
+            {triggerText}
           </span>
-        </button>
+        </div>
         <div
           className={classNames('menu', { show: state.isOpen })}
           role="listbox"
+          aria-multiselectable={multiple || undefined}
           data-cx-placement={placementAttr}
           style={overlayStyle}
           hidden={!state.isOpen}
@@ -371,9 +463,19 @@ export const CxAutocomplete = ({
             <div className="combobox-no-results">{noResultsText}</div>
           )}
         </div>
-        {name && (
-          <input type="hidden" name={name} value={state.selectedKey ?? ''} disabled={disabled} />
-        )}
+        {name &&
+          (multiple ? (
+            asKeyArray(state.value).map((key) => (
+              <input key={key} type="hidden" name={name} value={key} disabled={disabled} />
+            ))
+          ) : (
+            <input
+              type="hidden"
+              name={name}
+              value={asKeyArray(state.value)[0] ?? ''}
+              disabled={disabled}
+            />
+          ))}
       </>
     ),
     help,

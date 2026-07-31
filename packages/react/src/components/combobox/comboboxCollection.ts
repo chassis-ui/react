@@ -17,5 +17,11 @@ export interface ComboboxGroupEntry {
 
 export type ComboboxEntry = ComboboxItemElement | ComboboxGroupEntry
 
+// `useComboBoxState`/`useComboBox`'s own `SelectionMode` ('single' | 'multiple') isn't
+// re-exported from react-stately's public entry point (only `ComboBoxState` etc. are) — this is
+// a structurally-identical stand-in so `ComboboxListBox` can stay generic over it without a
+// fragile deep import.
+export type ComboboxSelectionMode = 'single' | 'multiple'
+
 export const isComboboxGroupEntry = (entry: ComboboxEntry): entry is ComboboxGroupEntry =>
   (entry as ComboboxGroupEntry).entryType === 'group'
