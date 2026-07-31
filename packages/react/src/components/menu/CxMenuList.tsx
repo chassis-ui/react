@@ -1,10 +1,22 @@
-import React, { ElementType, forwardRef, HTMLAttributes, useContext, useEffect } from 'react'
+import React, {
+  ElementType,
+  forwardRef,
+  HTMLAttributes,
+  ReactNode,
+  useContext,
+  useEffect
+} from 'react'
 import { createPortal } from 'react-dom'
 import classNames from 'classnames'
 
 import { useForkedRef } from '../../hooks'
 import { CxMenuContext } from './CxMenu'
+import { CxMenuDivider } from './CxMenuDivider'
+import { CxMenuHeader } from './CxMenuHeader'
+import { CxMenuItem } from './CxMenuItem'
+import { CxMenuItemsDef } from './CxMenuItemDef'
 import { focusMenuItem, getMenuItems, handleMenuKeyDown } from './menuNavigation'
+import { renderMenuItemContent } from './renderMenuItemContent'
 import { SubmenuGroupContext, useSubmenuGroupProvider } from './submenuGroup'
 
 export interface CxMenuListProps extends HTMLAttributes<HTMLElement> {
@@ -16,10 +28,42 @@ export interface CxMenuListProps extends HTMLAttributes<HTMLElement> {
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
   component?: string | ElementType
+  /**
+   * Array of item/header/divider definitions for data-driven rendering. When provided, children
+   * are ignored. Covers flat items, headers, and dividers only — for nested submenus, compose
+   * with `children` and `CxSubmenu` instead.
+   */
+  items?: CxMenuItemsDef
+}
+
+const renderMenuItemDef = (def: CxMenuItemsDef[number]): ReactNode => {
+  if (def.type === 'header') {
+    return <CxMenuHeader key={def.id}>{def.label}</CxMenuHeader>
+  }
+  if (def.type === 'divider') {
+    return <CxMenuDivider key={def.id} />
+  }
+  return (
+    <CxMenuItem
+      key={def.id}
+      component={def.href ? 'a' : 'button'}
+      href={def.href}
+      disabled={def.disabled}
+      selected={def.selected}
+      onClick={def.onClick}
+    >
+      {renderMenuItemContent({
+        icon: def.icon,
+        label: def.label,
+        description: def.description,
+        selected: def.selected
+      })}
+    </CxMenuItem>
+  )
 }
 
 export const CxMenuList = forwardRef<HTMLElement, CxMenuListProps>(
-  ({ children, className, component: Component = 'div', onKeyDown, ...rest }, ref) => {
+  ({ children, className, component: Component = 'div', items, onKeyDown, ...rest }, ref) => {
     const {
       close,
       container,
@@ -61,7 +105,9 @@ export const CxMenuList = forwardRef<HTMLElement, CxMenuListProps>(
         onKeyDown={handleKeyDown}
         ref={forkedRef}
       >
-        <SubmenuGroupContext.Provider value={submenuGroup}>{children}</SubmenuGroupContext.Provider>
+        <SubmenuGroupContext.Provider value={submenuGroup}>
+          {items ? items.map(renderMenuItemDef) : children}
+        </SubmenuGroupContext.Provider>
       </Component>
     )
 

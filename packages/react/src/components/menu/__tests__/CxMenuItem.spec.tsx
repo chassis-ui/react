@@ -43,6 +43,40 @@ describe('CxMenuItem', () => {
       expect(item).toHaveClass('disabled')
       expect(item).toHaveAttribute('aria-disabled', 'true')
     })
+
+    test('renders plain children unchanged when icon/description are omitted', () => {
+      render(<CxMenuItem href="#">Test</CxMenuItem>)
+      const item = screen.getByRole('menuitem')
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(item.querySelector('.menu-item-icon')).not.toBeInTheDocument()
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(item.querySelector('.menu-item-content')).not.toBeInTheDocument()
+    })
+
+    test('renders an icon and description', () => {
+      render(
+        <CxMenuItem href="#" icon={<span data-testid="icon" />} description="More info">
+          Test
+        </CxMenuItem>
+      )
+      const item = screen.getByRole('menuitem', { name: 'TestMore info' })
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(item.querySelector('.menu-item-icon')).toBeInTheDocument()
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(item.querySelector('.menu-item-description')).toHaveTextContent('More info')
+    })
+
+    test('selected alone does not render a check icon (font-weight only)', () => {
+      render(
+        <CxMenuItem component="button" selected>
+          Test
+        </CxMenuItem>
+      )
+      const item = screen.getByRole('menuitem')
+      expect(item).toHaveClass('selected')
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(item.querySelector('.menu-item-check')).not.toBeInTheDocument()
+    })
   })
 
   describe('ref forwarding', () => {

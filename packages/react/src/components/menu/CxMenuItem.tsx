@@ -1,7 +1,8 @@
-import React, { ElementType, forwardRef } from 'react'
+import React, { ElementType, forwardRef, ReactNode } from 'react'
 import classNames from 'classnames'
 
 import { CxLinkProps, CxLink } from '../link/CxLink'
+import { renderMenuItemContent } from './renderMenuItemContent'
 
 export interface CxMenuItemProps extends CxLinkProps {
   /**
@@ -13,19 +14,29 @@ export interface CxMenuItemProps extends CxLinkProps {
    */
   component?: string | ElementType
   /**
-   * Marks the item as the current selection in a choice list. Renders in a heavier font
-   * weight. Combine with a `.menu-item-check` icon to show a checkmark on the selected item.
+   * Secondary line of text rendered below `children` (`.menu-item-description`).
+   */
+  description?: ReactNode
+  /**
+   * Icon rendered at the item's leading edge (`.menu-item-icon`).
+   */
+  icon?: ReactNode
+  /**
+   * Marks the item as the current selection in a choice list. Renders in a heavier font weight.
+   * Combine with a manually-composed `.menu-item-check` icon (in `children`, or via `icon` on a
+   * plain, non-selection item) to also show a checkmark — this prop alone doesn't add one, so
+   * existing font-weight-only usage keeps rendering unchanged.
    */
   selected?: boolean
 }
 
 export const CxMenuItem = forwardRef<HTMLButtonElement | HTMLAnchorElement, CxMenuItemProps>(
-  ({ children, className, component = 'a', selected, ...rest }, ref) => {
+  ({ children, className, component = 'a', description, icon, selected, ...rest }, ref) => {
     const _className = classNames('menu-item', { selected }, className)
 
     return (
       <CxLink role="menuitem" component={component} {...rest} className={_className} ref={ref}>
-        {children}
+        {renderMenuItemContent({ icon, label: children, description })}
       </CxLink>
     )
   }
