@@ -1,4 +1,4 @@
-import { CxIcon, CxInputHelp, CxTextInput } from '@chassis-ui/react'
+import { CxIcon, CxInputAdorn, CxTextInput } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
@@ -7,16 +7,16 @@ export const Example = () => {
         aria-label="Search"
         placeholder="Search..."
         adornStart={
-          <CxInputHelp>
+          <CxInputAdorn>
             <CxIcon name="search-outline" size={16} />
-          </CxInputHelp>
+          </CxInputAdorn>
         }
       />
       <CxTextInput
         aria-label="Amount in dollars"
         placeholder="0.00"
-        adornStart={<CxInputHelp>$</CxInputHelp>}
-        adornEnd={<CxInputHelp>USD</CxInputHelp>}
+        adornStart={<CxInputAdorn>$</CxInputAdorn>}
+        adornEnd={<CxInputAdorn>USD</CxInputAdorn>}
       />
     </>
   )

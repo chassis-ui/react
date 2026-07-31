@@ -7,7 +7,7 @@ import React, {
 } from 'react'
 import classNames from 'classnames'
 
-export interface CxInputHelpProps
+export interface CxInputAdornProps
   extends
     HTMLAttributes<HTMLElement>,
     Pick<AnchorHTMLAttributes<HTMLAnchorElement>, 'href' | 'rel' | 'target'>,
@@ -18,12 +18,12 @@ export interface CxInputHelpProps
   className?: string
   /**
    * Component used for the root node. Either a string to use a HTML element or a component. Use
-   * `"button"` or `"a"` for an actionable help, e.g. a password reveal toggle or a clear button.
+   * `"button"` or `"a"` for an actionable adorn, e.g. a password reveal toggle or a clear button.
    */
   component?: string | ElementType
 }
 
-export const CxInputHelp = forwardRef<HTMLElement, CxInputHelpProps>(
+export const CxInputAdorn = forwardRef<HTMLElement, CxInputAdornProps>(
   ({ children, className, component: Component = 'span', ...rest }, ref) => {
     const _className = classNames('input-help', className)
     return (
@@ -34,4 +34,4 @@ export const CxInputHelp = forwardRef<HTMLElement, CxInputHelpProps>(
   }
 )
 
-CxInputHelp.displayName = 'CxInputHelp'
+CxInputAdorn.displayName = 'CxInputAdorn'

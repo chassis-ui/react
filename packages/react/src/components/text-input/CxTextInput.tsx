@@ -10,13 +10,13 @@ export interface CxTextInputProps extends Omit<
   'defaultValue' | 'onChange' | 'size' | 'value'
 > {
   /**
-   * Content rendered at the input's trailing edge, e.g. a `CxInputHelp` icon, text, or button.
+   * Content rendered at the input's trailing edge, e.g. a `CxInputAdorn` icon, text, or button.
    * Setting either `adornStart` or `adornEnd` renders a `.form-input` wrapper around a
    * `.ghost-input`, matching chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-help) pattern.
    */
   adornEnd?: ReactNode
   /**
-   * Content rendered at the input's leading edge, e.g. a `CxInputHelp` icon, text, or button.
+   * Content rendered at the input's leading edge, e.g. a `CxInputAdorn` icon, text, or button.
    * Setting either `adornStart` or `adornEnd` renders a `.form-input` wrapper around a
    * `.ghost-input`, matching chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-help) pattern.
    */

@@ -88,13 +88,13 @@ Pass `adornStart` and/or `adornEnd` to render content — an icon, text, or an a
 at the leading or trailing edge of the input. Either prop switches the rendered markup from a bare
 `<input>` to chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-help) pattern:
 a `.form-input` wrapper containing the adorn(s) around a `.ghost-input`. Wrap adorn content in
-`CxInputHelp` so it picks up the `.input-help` class the wrapper's flex layout targets.
+`CxInputAdorn` so it picks up the `.input-help` class the wrapper's flex layout targets.
 
 <Example class="vstack gap-medium">
   <AdornsExample client:load />
 </Example>
 
-Set `component="button"` (or `component="a"`) on `CxInputHelp` for an actionable adorn — a
+Set `component="button"` (or `component="a"`) on `CxInputAdorn` for an actionable adorn — a
 password reveal toggle, a clear button, or a "forgot password" link.
 
 <Example>
@@ -106,7 +106,7 @@ password reveal toggle, a clear button, or a "forgot password" link.
 A decorative icon adorn (rendered via `CxIcon` without a `title`) is hidden from assistive
 technology automatically. A text adorn like `$` or `USD` is not announced by screen readers — when
 it's essential to understanding the field, include it in the input's own accessible name via
-`aria-label` rather than relying on the adorn alone. An icon-only actionable adorn (`CxInputHelp`
+`aria-label` rather than relying on the adorn alone. An icon-only actionable adorn (`CxInputAdorn`
 with `component="button"`) needs its own `aria-label` describing the action, since it has no text
 content for assistive technology to announce.
 
@@ -115,6 +115,6 @@ content for assistive technology to announce.
 ### CxTextInput
 
 <PropTable component="CxTextInput" />
-### CxInputHelp
+### CxInputAdorn
 
-<PropTable component="CxInputHelp" />
+<PropTable component="CxInputAdorn" />

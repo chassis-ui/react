@@ -3,7 +3,7 @@ import { act, fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 
-import { CxInputHelp, CxTextInput } from '../../../index'
+import { CxInputAdorn, CxTextInput } from '../../../index'
 
 describe('CxTextInput', () => {
   describe('rendering', () => {
@@ -65,7 +65,7 @@ describe('CxTextInput', () => {
 
     test('wraps in .form-input with a .ghost-input when adornStart is set', () => {
       const { container } = render(
-        <CxTextInput aria-label="Amount" adornStart={<CxInputHelp>$</CxInputHelp>} />
+        <CxTextInput aria-label="Amount" adornStart={<CxInputAdorn>$</CxInputAdorn>} />
       )
       const input = screen.getByRole('textbox', { name: 'Amount' })
       expect(input).toHaveClass('ghost-input')
@@ -80,8 +80,8 @@ describe('CxTextInput', () => {
       render(
         <CxTextInput
           aria-label="Amount"
-          adornStart={<CxInputHelp>$</CxInputHelp>}
-          adornEnd={<CxInputHelp>USD</CxInputHelp>}
+          adornStart={<CxInputAdorn>$</CxInputAdorn>}
+          adornEnd={<CxInputAdorn>USD</CxInputAdorn>}
         />
       )
       const input = screen.getByRole('textbox', { name: 'Amount' })
@@ -99,7 +99,7 @@ describe('CxTextInput', () => {
       const { container } = render(
         <CxTextInput
           aria-label="Amount"
-          adornStart={<CxInputHelp>$</CxInputHelp>}
+          adornStart={<CxInputAdorn>$</CxInputAdorn>}
           className="bazinga"
           plainText
           size="large"
@@ -114,7 +114,12 @@ describe('CxTextInput', () => {
 
     test('keeps is-invalid/is-valid on the ghost-input, not the wrapper', () => {
       const { container } = render(
-        <CxTextInput aria-label="Amount" adornStart={<CxInputHelp>$</CxInputHelp>} invalid valid />
+        <CxTextInput
+          aria-label="Amount"
+          adornStart={<CxInputAdorn>$</CxInputAdorn>}
+          invalid
+          valid
+        />
       )
       // eslint-disable-next-line testing-library/no-node-access
       const wrapper = container.firstChild as HTMLElement
@@ -130,14 +135,14 @@ describe('CxTextInput', () => {
           aria-label="Password"
           type="password"
           adornEnd={
-            <CxInputHelp
+            <CxInputAdorn
               component="button"
               type="button"
               aria-label="Show password"
               onClick={onClick}
             >
               Show
-            </CxInputHelp>
+            </CxInputAdorn>
           }
         />
       )
@@ -152,8 +157,8 @@ describe('CxTextInput', () => {
       const { container } = render(
         <CxTextInput
           aria-label="Amount"
-          adornStart={<CxInputHelp>$</CxInputHelp>}
-          adornEnd={<CxInputHelp>USD</CxInputHelp>}
+          adornStart={<CxInputAdorn>$</CxInputAdorn>}
+          adornEnd={<CxInputAdorn>USD</CxInputAdorn>}
         />
       )
       expect(container).toMatchSnapshot()
