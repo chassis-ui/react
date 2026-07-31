@@ -1,7 +1,7 @@
 import React, { forwardRef, HTMLAttributes, useContext } from 'react'
 import classNames from 'classnames'
 
-import { CxAccordionContext } from './CxAccordion'
+import { CxAccordionContext } from './context'
 
 export interface CxAccordionItemProps extends HTMLAttributes<HTMLDetailsElement> {
   /**

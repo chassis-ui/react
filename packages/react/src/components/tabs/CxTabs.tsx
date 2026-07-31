@@ -1,15 +1,9 @@
-import React, {
-  createContext,
-  forwardRef,
-  HTMLAttributes,
-  ReactElement,
-  ReactNode,
-  useContext
-} from 'react'
-import { Item, Key, TabListState, useTabListState } from 'react-stately'
+import React, { forwardRef, HTMLAttributes, ReactElement, ReactNode } from 'react'
+import { Item, Key, useTabListState } from 'react-stately'
 
 import { CxTabProps } from './CxTab'
 import { CxTabList } from './CxTabList'
+import { CxTabsContext } from './context'
 
 export interface CxTabsProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onSelect'> {
   /**
@@ -45,22 +39,6 @@ export interface CxTabsProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onSel
    * The selected tab's key (controlled).
    */
   selectedKey?: Key
-}
-
-export interface CxTabsContextValue {
-  keyboardActivation?: 'automatic' | 'manual'
-  orientation?: 'horizontal' | 'vertical'
-  state: TabListState<ReactElement<CxTabProps>>
-}
-
-export const CxTabsContext = createContext<CxTabsContextValue | null>(null)
-
-export const useCxTabsContext = (): CxTabsContextValue => {
-  const context = useContext(CxTabsContext)
-  if (!context) {
-    throw new Error('CxTabList and CxTabPanel must be rendered inside a CxTabs')
-  }
-  return context
 }
 
 export const CxTabs = forwardRef<HTMLDivElement, CxTabsProps>(

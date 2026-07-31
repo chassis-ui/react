@@ -10,6 +10,18 @@ const pkg = require('./package.json')
 export default [
   {
     input: 'src/index.ts',
+    onwarn(warning, warn) {
+      // @internationalized/date (a react-aria/react-stately dependency used by CxDatePicker) has
+      // benign internal circular imports between its type modules. Silence just that noise so real
+      // circular-dependency warnings in our own code stay visible.
+      if (
+        warning.code === 'CIRCULAR_DEPENDENCY' &&
+        warning.ids?.every((id) => id.includes('@internationalized/date'))
+      ) {
+        return
+      }
+      warn(warning)
+    },
     output: [
       {
         file: pkg.main,

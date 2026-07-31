@@ -1,9 +1,10 @@
-import React, { createContext, forwardRef, HTMLAttributes, ReactNode, useId } from 'react'
+import React, { forwardRef, HTMLAttributes, ReactNode, useId } from 'react'
 import classNames from 'classnames'
 
 import { CxAccordionBody } from './CxAccordionBody'
 import { CxAccordionHeader } from './CxAccordionHeader'
 import { CxAccordionItem } from './CxAccordionItem'
+import { CxAccordionContext } from './context'
 
 export interface CxAccordionItemDef {
   /**
@@ -67,13 +68,6 @@ export interface CxAccordionProps extends HTMLAttributes<HTMLDivElement> {
    */
   size?: 'small' | 'large'
 }
-
-export interface CxAccordionContextProps {
-  alwaysOpen?: boolean
-  name: string
-}
-
-export const CxAccordionContext = createContext({} as CxAccordionContextProps)
 
 export const CxAccordion = forwardRef<HTMLDivElement, CxAccordionProps>(
   (

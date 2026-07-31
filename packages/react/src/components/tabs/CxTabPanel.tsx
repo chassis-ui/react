@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { useTabPanel } from 'react-aria'
 import { Key } from 'react-stately'
 
-import { useCxTabsContext } from './CxTabs'
+import { useCxTabsContext } from './context'
 
 export interface CxTabPanelProps extends Omit<HTMLAttributes<HTMLDivElement>, 'id'> {
   /**

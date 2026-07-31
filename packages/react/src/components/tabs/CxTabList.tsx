@@ -4,7 +4,7 @@ import { useTab, useTabList } from 'react-aria'
 import { Node } from 'react-stately'
 
 import { CxTabProps } from './CxTab'
-import { useCxTabsContext } from './CxTabs'
+import { useCxTabsContext } from './context'
 
 export interface CxTabListProps extends AriaAttributes {
   /**
