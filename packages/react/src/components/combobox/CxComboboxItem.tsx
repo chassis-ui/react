@@ -4,13 +4,22 @@ import { Key } from 'react-stately'
 export interface CxComboboxItemProps {
   /**
    * Content of the option. Must be a plain string for the option to participate in filtering
-   * and typeahead.
+   * and typeahead — this holds even when `icon`/`description` are also set, since those are
+   * purely presentational additions layered on top.
    */
   children: ReactNode
+  /**
+   * Secondary line of text rendered below `children` (`.menu-item-description`).
+   */
+  description?: ReactNode
   /**
    * Prevents the option from being selected, focused, or otherwise interacted with.
    */
   disabled?: boolean
+  /**
+   * Icon rendered at the option's leading edge (`.menu-item-icon`).
+   */
+  icon?: ReactNode
   /**
    * Identifies this option. Submitted as the value when this option is selected.
    */

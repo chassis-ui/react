@@ -101,6 +101,47 @@ describe('CxCombobox', () => {
     })
   })
 
+  describe('rich item content', () => {
+    const RichCombobox = (props: Partial<React.ComponentProps<typeof CxCombobox>> = {}) => (
+      <CxCombobox aria-label="Role" {...props}>
+        <CxComboboxItem id="admin" icon={<span data-testid="icon" />} description="Full access">
+          Admin
+        </CxComboboxItem>
+        <CxComboboxItem id="viewer">Viewer</CxComboboxItem>
+      </CxCombobox>
+    )
+
+    test('renders icon and description on an option', () => {
+      render(<RichCombobox />)
+      focusInput(screen.getByRole('combobox'))
+      const option = screen.getByRole('option', { name: 'AdminFull access' })
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(option.querySelector('.menu-item-icon')).toBeInTheDocument()
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(option.querySelector('.menu-item-description')).toHaveTextContent('Full access')
+    })
+
+    test('an option without icon/description still filters and renders as plain text', () => {
+      render(<RichCombobox />)
+      const input = screen.getByRole('combobox')
+      focusInput(input)
+      fireEvent.change(input, { target: { value: 'view' } })
+      expect(screen.getByRole('option', { name: 'Viewer' })).toBeInTheDocument()
+      expect(screen.queryByRole('option', { name: 'AdminFull access' })).not.toBeInTheDocument()
+    })
+
+    test('the selected option shows a check icon, others do not', () => {
+      render(<RichCombobox value="admin" />)
+      focusInput(screen.getByRole('combobox'))
+      const admin = screen.getByRole('option', { name: 'AdminFull access' })
+      const viewer = screen.getByRole('option', { name: 'Viewer' })
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(admin.querySelector('.menu-item-check')).toBeInTheDocument()
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(viewer.querySelector('.menu-item-check')).not.toBeInTheDocument()
+    })
+  })
+
   describe('form integration', () => {
     test('creates a hidden input for form submission when name is provided', () => {
       // Hidden inputs are intentionally excluded from the accessibility tree - no query reaches

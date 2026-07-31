@@ -6,6 +6,7 @@ import { Item, Key, useComboBoxState } from 'react-stately'
 import { useFormField } from '../../hooks'
 import { resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
 import { renderFormField } from '../form-field/renderFormField'
+import { renderMenuItemContent } from '../menu/renderMenuItemContent'
 import { CxComboboxItemProps } from './CxComboboxItem'
 import { ComboboxListBox } from './ComboboxListBox'
 
@@ -127,7 +128,11 @@ export const CxCombobox = ({
         key={item.props.id}
         textValue={typeof item.props.children === 'string' ? item.props.children : undefined}
       >
-        {item.props.children}
+        {renderMenuItemContent({
+          icon: item.props.icon,
+          label: item.props.children,
+          description: item.props.description
+        })}
       </Item>
     ),
     defaultItems: items,

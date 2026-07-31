@@ -4,6 +4,7 @@ import { AriaListBoxOptions, useListBox, useOption } from 'react-aria'
 import { ComboBoxState, Node } from 'react-stately'
 
 import { getVirtualFocusStyle } from '../../utils/virtualFocusStyle'
+import { CxIcon } from '../icon/CxIcon'
 import { CxComboboxItemProps } from './CxComboboxItem'
 
 interface ComboboxListBoxProps {
@@ -48,6 +49,7 @@ const ComboboxOption = ({ item, state }: ComboboxOptionProps) => {
       ref={ref}
     >
       {item.rendered}
+      {isSelected && <CxIcon name="check-solid" className="menu-item-check" />}
     </div>
   )
 }
