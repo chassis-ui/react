@@ -21,6 +21,7 @@ import { CxButton } from './components/button/CxButton'
 import { CxButtonGroup } from './components/button-group/CxButtonGroup'
 import { CxButtonToolbar } from './components/button-group/CxButtonToolbar'
 import { CxCalendar } from './components/calendar/CxCalendar'
+import { CxRangeCalendar } from './components/calendar/CxRangeCalendar'
 import { CxCard } from './components/card/CxCard'
 import { CxCardBody } from './components/card/CxCardBody'
 import { CxCardFooter } from './components/card/CxCardFooter'
@@ -153,6 +154,7 @@ export {
   CxButtonGroup,
   CxButtonToolbar,
   CxCalendar,
+  CxRangeCalendar,
   CxCard,
   CxCardBody,
   CxCardFooter,
