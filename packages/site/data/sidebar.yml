@@ -1,71 +1,92 @@
 # This file holds all sidebar menu's entries for Chassis React.
 
 - title: Getting Started
+  icon: book-open-solid
   pages:
     - title: Introduction
 
-- title: Layout
-  pages:
-    - title: Breakpoints
-    - title: Containers
-    - title: Grid
-    - title: Columns
-    - title: Gutters
-
 - title: Components
+  icon: box-open-solid
   pages:
-    - title: Accordion
-    - title: Badge
-    - title: Breadcrumb
-    - title: Button
-    - title: Button Group
-    - title: Card
-    - title: Carousel
-    - title: Close Button
-    - title: Collapse
-    - title: Drawer
-    - title: Image
-    - title: List
-    - title: Menu
-    - title: Modal
-    - title: Navbar
-    - title: Navs & Tabs
-    - title: Notification
-    - title: Pagination
-    - title: Password Strength
-    - title: Placeholder
-    - title: Popover
-    - title: Progress
-    - title: Spinner
-    - title: Table
-    - title: Tabs
-    - title: Toast
-    - title: Tooltip
+    - group: Actions
+      pages:
+        - title: Button
+        - title: Button Group
+        - title: Close Button
+    - group: Dates
+      pages:
+        - title: Calendar
+        - title: Datepicker
+        - title: Date Range Picker
+        - title: Range Calendar
+    - group: Form Controls
+      pages:
+        - title: Text Input
+        - title: Textarea
+        - title: Select
+        - title: Checkbox
+        - title: Radio
+        - title: Switch
+        - title: Range
+        - title: File Input
+        - title: Color Input
+        - title: Combobox
+        - title: Autocomplete
+        - title: Chip Input
+        - title: OTP Input
+        - title: Password Strength
+    - group: Form Layout
+      pages:
+        - title: Overview
+        - title: Form Field
+        - title: Input Group
+        - title: Floating Labels
+        - title: Layout
+        - title: Validation
+    - group: Navigation
+      pages:
+        - title: Navbar
+        - title: Navs & Tabs
+        - title: Tabs
+        - title: Breadcrumb
+        - title: Pagination
+    - group: Overlays
+      pages:
+        - title: Modal
+        - title: Drawer
+        - title: Menu
+        - title: Popover
+        - title: Tooltip
+    - group: Feedback
+      pages:
+        - title: Toast
+        - title: Notification
+        - title: Progress
+        - title: Spinner
+        - title: Placeholder
+    - group: Data Display
+      pages:
+        - title: Table
+        - title: Card
+        - title: List
+        - title: Carousel
+        - title: Badge
+        - title: Image
+    - group: Disclosure
+      pages:
+        - title: Accordion
+        - title: Collapse
+    - group: Layout
+      pages:
+        - title: Breakpoints
+        - title: Containers
+        - title: Grid
+        - title: Columns
+        - title: Gutters
 
-- title: Forms
-  pages:
-    - title: Overview
-    - title: Text Input
-    - title: Textarea
-    - title: Select
-    - title: Checkbox
-    - title: Radio
-    - title: Switch
-    - title: Range
-    - title: File Input
-    - title: Color Input
-    - title: Combobox
-    - title: Autocomplete
-    - title: Datepicker
-    - title: Chip Input
-    - title: OTP Input
-    - title: Form Field
-    - title: Input Group
-    - title: Floating Labels
-    - title: Layout
-    - title: Validation
 
 - title: Patterns
+  icon: grid-solid
   pages:
     - title: Dashboard Widgets
     - title: Form Processing
