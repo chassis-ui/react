@@ -7,6 +7,8 @@ import {
   useCalendar,
   useCalendarCell,
   useCalendarGrid,
+  useCalendarMonthPicker,
+  useCalendarYearPicker,
   useLocale
 } from 'react-aria'
 import { CalendarState, DateValue, useCalendarState } from 'react-stately'
@@ -64,6 +66,14 @@ export interface CxCalendarProps extends Omit<
    */
   minValue?: DateValue | null
   /**
+   * How to navigate between months. `'dropdown'` shows month and year `<select>`s next to the
+   * prev/next buttons, for jumping further than one page at a time. `'arrows'` shows only the
+   * prev/next buttons and a plain text title.
+   *
+   * @default 'dropdown'
+   */
+  navigation?: 'dropdown' | 'arrows'
+  /**
    * Callback fired when the selected date changes. Unlike `CxDatePicker`'s `onChange` (whose
    * segmented field can be cleared to `null`), a calendar selection is always a concrete date.
    */
@@ -88,6 +98,7 @@ export const CxCalendar = forwardRef<HTMLDivElement, CxCalendarProps>(
       isDateUnavailable,
       maxValue,
       minValue,
+      navigation = 'dropdown',
       onChange,
       value,
       ...rest
@@ -141,7 +152,11 @@ export const CxCalendar = forwardRef<HTMLDivElement, CxCalendarProps>(
           <button {...domPrevButtonProps} className="cx-calendar-nav" ref={prevRef} type="button">
             ‹
           </button>
-          <div className="cx-calendar-title">{title}</div>
+          {navigation === 'dropdown' ? (
+            <CalendarNavDropdowns state={state} />
+          ) : (
+            <div className="cx-calendar-title">{title}</div>
+          )}
           <button {...domNextButtonProps} className="cx-calendar-nav" ref={nextRef} type="button">
             ›
           </button>
@@ -153,6 +168,51 @@ export const CxCalendar = forwardRef<HTMLDivElement, CxCalendarProps>(
 )
 
 CxCalendar.displayName = 'CxCalendar'
+
+interface CalendarNavDropdownsProps {
+  state: CalendarState
+}
+
+// `useCalendarMonthPicker`/`useCalendarYearPicker` both drive navigation through
+// `state.setFocusedDate` — the same primitive the prev/next buttons use — so switching months or
+// years this way still updates `state.visibleRange` normally, which is what `useCalendar`'s own
+// live-region effect (wired up in the parent) watches to announce the new visible range. No extra
+// announcement plumbing needed here.
+const CalendarNavDropdowns = ({ state }: CalendarNavDropdownsProps) => {
+  const monthPicker = useCalendarMonthPicker({}, state)
+  const yearPicker = useCalendarYearPicker({}, state)
+
+  return (
+    <div className="cx-calendar-nav-dropdowns">
+      <select
+        aria-label={monthPicker['aria-label']}
+        className="cx-calendar-select"
+        disabled={state.isDisabled}
+        onChange={(e) => monthPicker.onChange(Number(e.target.value))}
+        value={monthPicker.value}
+      >
+        {monthPicker.items.map((item) => (
+          <option key={item.id} value={item.id}>
+            {item.formatted}
+          </option>
+        ))}
+      </select>
+      <select
+        aria-label={yearPicker['aria-label']}
+        className="cx-calendar-select"
+        disabled={state.isDisabled}
+        onChange={(e) => yearPicker.onChange(Number(e.target.value))}
+        value={yearPicker.value}
+      >
+        {yearPicker.items.map((item) => (
+          <option key={item.id} value={item.id}>
+            {item.formatted}
+          </option>
+        ))}
+      </select>
+    </div>
+  )
+}
 
 interface CalendarGridProps {
   locale: string

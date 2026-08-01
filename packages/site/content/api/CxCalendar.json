@@ -176,6 +176,36 @@
         "name": "DateValue | null"
       }
     },
+    "navigation": {
+      "defaultValue": {
+        "value": "dropdown"
+      },
+      "description": "How to navigate between months. `'dropdown'` shows month and year `<select>`s next to the\nprev/next buttons, for jumping further than one page at a time. `'arrows'` shows only the\nprev/next buttons and a plain text title.",
+      "name": "navigation",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/calendar/CxCalendar.tsx",
+        "name": "CxCalendarProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/calendar/CxCalendar.tsx",
+          "name": "CxCalendarProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"dropdown\" | \"arrows\"",
+        "value": [
+          {
+            "value": "\"dropdown\""
+          },
+          {
+            "value": "\"arrows\""
+          }
+        ]
+      }
+    },
     "onChange": {
       "defaultValue": null,
       "description": "Callback fired when the selected date changes. Unlike `CxDatePicker`'s `onChange` (whose\nsegmented field can be cleared to `null`), a calendar selection is always a concrete date.",

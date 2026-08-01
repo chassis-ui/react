@@ -48,6 +48,38 @@
   cursor: default;
 }
 
+.cx-calendar-nav-dropdowns {
+  display: flex;
+  flex: 1;
+  gap: 0.25rem;
+  justify-content: center;
+}
+
+.cx-calendar-select {
+  padding: 0.125rem 0.25rem;
+  font-weight: 600;
+  color: var(--cx-fg-main);
+  cursor: pointer;
+  background-color: transparent;
+  border: 0;
+  border-radius: var(--cx-border-radius-medium);
+  outline: none;
+}
+
+.cx-calendar-select:hover:not(:disabled) {
+  background-color: var(--cx-bg-hover);
+}
+
+.cx-calendar-select:focus-visible {
+  outline: var(--cx-border-width-xlarge) solid var(--cx-primary);
+  outline-offset: -1px;
+}
+
+.cx-calendar-select:disabled {
+  color: var(--cx-fg-disabled);
+  cursor: default;
+}
+
 .cx-calendar-grid {
   width: 100%;
   border-collapse: collapse;

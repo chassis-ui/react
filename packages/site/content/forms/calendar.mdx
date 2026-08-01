@@ -8,6 +8,7 @@ toc: true
 import { BasicExample } from '../../src/examples/calendar/BasicExample.tsx'
 import { MinMaxExample } from '../../src/examples/calendar/MinMaxExample.tsx'
 import { UnavailableExample } from '../../src/examples/calendar/UnavailableExample.tsx'
+import { NavigationExample } from '../../src/examples/calendar/NavigationExample.tsx'
 
 import { CxCalendar } from '@chassis-ui/react'
 
@@ -35,6 +36,14 @@ Pass `isDateUnavailable` to mark specific dates as unselectable without excludin
   <UnavailableExample client:load />
 </Example>
 
+## Navigation
+
+By default, `CxCalendar` shows month and year `<select>`s next to the prev/next buttons, for jumping further than one page at a time. Pass `navigation="arrows"` for the plain prev/next-only header instead.
+
+<Example>
+  <NavigationExample client:load />
+</Example>
+
 ## Accessible name
 
 `CxCalendar` has no visible label of its own — pass `aria-label` or `aria-labelledby` any time it's used standalone (as in every example above). When composed inside `CxDatePicker`'s popover, the accessible name instead comes from the picker's own label.
@@ -43,7 +52,6 @@ Pass `isDateUnavailable` to mark specific dates as unselectable without excludin
 
 - **Single month** — the grid always shows one month at a time; multi-month display isn't supported yet.
 - **Single date** — one selected date at a time; range selection isn't supported yet (a dedicated `CxRangeCalendar` may ship separately).
-- **Navigation** — month/year navigation is prev/next arrows only for now; jump-to-month/year controls aren't supported yet.
 
 ## Styling
 
