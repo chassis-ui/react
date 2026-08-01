@@ -7,6 +7,7 @@ import {
   useButton,
   useDateRangePicker,
   useDialog,
+  useLocale,
   usePopover
 } from 'react-aria'
 import { DateValue, useDateRangePickerState } from 'react-stately'
@@ -17,6 +18,7 @@ import { renderFormField } from '../form-field/renderFormField'
 import { CxRangeCalendar } from '../calendar/CxRangeCalendar'
 import { mergeIsDateUnavailable } from '../calendar/mergeIsDateUnavailable'
 import { DateField } from '../datepicker/DateField'
+import { CxDateRangePreset, getDefaultDateRangePresets } from './dateRangePresets'
 import '../datepicker/CxDatePicker.css'
 import './CxDateRangePicker.css'
 
@@ -88,6 +90,15 @@ export interface CxDateRangePickerProps extends Omit<
    */
   onChange?: (value: RangeValue<DateValue> | null) => void
   /**
+   * A list of quick-select range presets shown in the popover next to the calendar, or `true`
+   * for a sensible default list (Today, Last 7/30/90 Days, Last Week, Last Month — all relative
+   * to today). Selecting a preset commits its range immediately, the same as picking a start and
+   * end date from the calendar. Omit (or `false`) to not show a preset list.
+   *
+   * @default false
+   */
+  presets?: boolean | CxDateRangePreset[]
+  /**
    * Size the component small or large.
    */
   size?: 'small' | 'large'
@@ -121,7 +132,10 @@ export interface CxDateRangePickerProps extends Omit<
 // Mirrors `CxDatePicker` closely — same field/popover/dialog composition, just with two
 // segmented fields (`startFieldProps`/`endFieldProps` in place of a single `fieldProps`) and
 // `CxRangeCalendar` in place of `CxCalendar` in the popover. See `CxDatePicker`'s own comments for
-// the reasoning behind the dialog-wiring pattern; it's identical here.
+// the reasoning behind the dialog-wiring pattern in general — one difference here: the dialog
+// role/ref lands on a wrapper *around* both the optional presets list and `CxRangeCalendar`
+// (rather than on the calendar itself), since the dialog now encompasses the presets too when
+// they're shown.
 export const CxDateRangePicker = ({
   className,
   defaultValue,
@@ -136,6 +150,7 @@ export const CxDateRangePicker = ({
   minValue,
   name,
   onChange,
+  presets,
   size,
   unavailableDates,
   valid,
@@ -144,7 +159,9 @@ export const CxDateRangePicker = ({
   visibleMonths,
   ...rest
 }: CxDateRangePickerProps) => {
+  const { locale } = useLocale()
   const combinedIsDateUnavailable = mergeIsDateUnavailable(unavailableDates, isDateUnavailable)
+  const resolvedPresets = presets === true ? getDefaultDateRangePresets(locale) : presets || null
 
   const state = useDateRangePickerState({
     defaultValue,
@@ -155,6 +172,14 @@ export const CxDateRangePicker = ({
     onChange,
     value
   })
+
+  // Mirrors what completing a selection in the calendar itself does — commit the full range
+  // through the same state.setValue path (so controlled/uncontrolled onChange semantics stay
+  // consistent) and close the popover.
+  const handlePresetSelect = (range: RangeValue<DateValue>) => {
+    state.setValue(range)
+    state.setOpen(false)
+  }
 
   const groupRef = useRef<HTMLDivElement>(null)
   const buttonRef = useRef<HTMLButtonElement>(null)
@@ -284,18 +309,27 @@ export const CxDateRangePicker = ({
         >
           {state.isOpen && (
             <FocusScope contain restoreFocus>
-              <CxRangeCalendar
+              <div
                 {...domDialogProps}
-                autoFocus
-                disabled={disabled}
-                isDateUnavailable={combinedIsDateUnavailable}
-                maxValue={maxValue}
-                minValue={minValue}
-                onChange={calendarProps.onChange}
+                className={classNames('cx-daterangepicker-popover-body', {
+                  'has-presets': resolvedPresets
+                })}
                 ref={calendarRef}
-                value={calendarProps.value}
-                visibleMonths={visibleMonths}
-              />
+              >
+                {resolvedPresets && (
+                  <DateRangePresets onSelect={handlePresetSelect} presets={resolvedPresets} />
+                )}
+                <CxRangeCalendar
+                  autoFocus
+                  disabled={disabled}
+                  isDateUnavailable={combinedIsDateUnavailable}
+                  maxValue={maxValue}
+                  minValue={minValue}
+                  onChange={calendarProps.onChange}
+                  value={calendarProps.value}
+                  visibleMonths={visibleMonths}
+                />
+              </div>
             </FocusScope>
           )}
         </div>
@@ -328,3 +362,27 @@ export const CxDateRangePicker = ({
 }
 
 CxDateRangePicker.displayName = 'CxDateRangePicker'
+
+interface DateRangePresetsProps {
+  onSelect: (range: RangeValue<DateValue>) => void
+  presets: CxDateRangePreset[]
+}
+
+// Plain buttons in a list, not a listbox — a group of independent actions (each one commits and
+// closes) rather than a single-selection widget, so native Tab/Enter/Space is the right
+// interaction model without extra roving-tabindex/arrow-key wiring.
+const DateRangePresets = ({ onSelect, presets }: DateRangePresetsProps) => (
+  <ul className="cx-daterangepicker-presets">
+    {presets.map((preset) => (
+      <li key={preset.label}>
+        <button
+          className="cx-daterangepicker-preset"
+          onClick={() => onSelect(preset.range)}
+          type="button"
+        >
+          {preset.label}
+        </button>
+      </li>
+    ))}
+  </ul>
+)

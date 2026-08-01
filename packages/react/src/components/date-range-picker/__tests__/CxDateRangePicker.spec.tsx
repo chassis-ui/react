@@ -212,6 +212,67 @@ describe('CxDateRangePicker', () => {
     })
   })
 
+  describe('presets', () => {
+    test('no presets prop renders no preset list', () => {
+      render(<CxDateRangePicker aria-label="Trip dates" />)
+      openCalendar()
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(document.querySelector('.cx-daterangepicker-presets')).toBeNull()
+    })
+
+    test('presets={true} renders the default preset list', () => {
+      render(<CxDateRangePicker aria-label="Trip dates" presets />)
+      openCalendar()
+      ;['Today', 'Last 7 Days', 'Last 30 Days', 'Last 90 Days', 'Last Week', 'Last Month'].forEach(
+        (label) => {
+          expect(screen.getByRole('button', { name: label })).toBeInTheDocument()
+        }
+      )
+    })
+
+    test('a custom presets array overrides the default list', () => {
+      const customPresets = [
+        {
+          label: 'Custom Range',
+          range: { start: new CalendarDate(2026, 7, 1), end: new CalendarDate(2026, 7, 10) }
+        }
+      ]
+      render(<CxDateRangePicker aria-label="Trip dates" presets={customPresets} />)
+      openCalendar()
+      expect(screen.getByRole('button', { name: 'Custom Range' })).toBeInTheDocument()
+      expect(screen.queryByRole('button', { name: 'Today' })).toBeNull()
+    })
+
+    test('selecting a preset commits its range, fires onChange, and closes the calendar', () => {
+      const onChange = vi.fn()
+      const customPresets = [
+        {
+          label: 'Custom Range',
+          range: { start: new CalendarDate(2026, 7, 1), end: new CalendarDate(2026, 7, 10) }
+        }
+      ]
+      render(
+        <CxDateRangePicker aria-label="Trip dates" onChange={onChange} presets={customPresets} />
+      )
+      openCalendar()
+      fireEvent.click(screen.getByRole('button', { name: 'Custom Range' }))
+
+      expect(onChange).toHaveBeenCalledWith({
+        start: new CalendarDate(2026, 7, 1),
+        end: new CalendarDate(2026, 7, 10)
+      })
+      expect(getCalendarWrapper()).toHaveAttribute('hidden')
+    })
+
+    test('has no axe violations with presets shown', async () => {
+      render(<CxDateRangePicker aria-label="Trip dates" presets />)
+      openCalendar()
+      expect(
+        await axe(document.body, { rules: { region: { enabled: false } } })
+      ).toHaveNoViolations()
+    })
+  })
+
   describe('form integration', () => {
     test('creates a pair of hidden inputs for form submission when name is provided', () => {
       const { rerender } = render(

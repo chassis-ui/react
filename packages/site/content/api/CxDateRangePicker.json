@@ -290,6 +290,27 @@
         "name": "((value: RangeValue<DateValue> | null) => void)"
       }
     },
+    "presets": {
+      "defaultValue": {
+        "value": "false"
+      },
+      "description": "A list of quick-select range presets shown in the popover next to the calendar, or `true`\nfor a sensible default list (Today, Last 7/30/90 Days, Last Week, Last Month — all relative\nto today). Selecting a preset commits its range immediately, the same as picking a start and\nend date from the calendar. Omit (or `false`) to not show a preset list.",
+      "name": "presets",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/date-range-picker/CxDateRangePicker.tsx",
+        "name": "CxDateRangePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/date-range-picker/CxDateRangePicker.tsx",
+          "name": "CxDateRangePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean | CxDateRangePreset[]"
+      }
+    },
     "size": {
       "defaultValue": null,
       "description": "Size the component small or large.",
