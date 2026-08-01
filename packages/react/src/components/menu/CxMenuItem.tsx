@@ -31,11 +31,28 @@ export interface CxMenuItemProps extends CxLinkProps {
 }
 
 export const CxMenuItem = forwardRef<HTMLButtonElement | HTMLAnchorElement, CxMenuItemProps>(
-  ({ children, className, component = 'a', description, icon, selected, ...rest }, ref) => {
+  ({ children, className, component = 'a', description, href, icon, onClick, selected, ...rest }, ref) => {
     const _className = classNames('menu-item', { selected }, className)
 
+    // `href="#"` is a common placeholder for menu items that act via `onClick` rather than
+    // real navigation. Left alone, a plain anchor click still navigates to the empty fragment,
+    // which scrolls the page to the top — so we suppress that default for the placeholder case
+    // only, leaving real same-page anchors (`href="#some-id"`) free to navigate as expected.
+    const handleClick = (event: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => {
+      if (href === '#') event.preventDefault()
+      onClick?.(event)
+    }
+
     return (
-      <CxLink role="menuitem" component={component} {...rest} className={_className} ref={ref}>
+      <CxLink
+        role="menuitem"
+        component={component}
+        href={href}
+        onClick={handleClick}
+        {...rest}
+        className={_className}
+        ref={ref}
+      >
         {renderMenuItemContent({ icon, label: children, description })}
       </CxLink>
     )

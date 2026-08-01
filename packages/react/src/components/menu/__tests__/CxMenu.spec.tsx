@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 
 import { CxMenu, CxMenuToggle, CxMenuList, CxMenuItem } from '../../../index'
@@ -69,6 +70,25 @@ describe('CxMenu', () => {
       fireEvent.click(document)
       expect(screen.getByRole('menu', { hidden: true })).not.toHaveClass('show')
       vi.useRealTimers()
+    })
+
+    test('clicking the toggle again while open closes the menu', async () => {
+      const user = userEvent.setup()
+      render(
+        <CxMenu>
+          <CxMenuToggle>Toggle</CxMenuToggle>
+          <CxMenuList>
+            <CxMenuItem>A</CxMenuItem>
+          </CxMenuList>
+        </CxMenu>
+      )
+      const toggle = screen.getByText('Toggle')
+
+      await user.click(toggle)
+      expect(toggle).toHaveAttribute('aria-expanded', 'true')
+
+      await user.click(toggle)
+      expect(toggle).toHaveAttribute('aria-expanded', 'false')
     })
 
     test('autoClose="inside" only closes on clicks inside the menu', () => {

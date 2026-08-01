@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { CxMenuItem } from '../../../index'
@@ -76,6 +76,26 @@ describe('CxMenuItem', () => {
       expect(item).toHaveClass('selected')
       // eslint-disable-next-line testing-library/no-node-access
       expect(item.querySelector('.menu-item-check')).not.toBeInTheDocument()
+    })
+  })
+
+  describe('interaction', () => {
+    test('prevents default navigation for placeholder href="#" so the page does not jump to top', () => {
+      const handleClick = vi.fn()
+      render(
+        <CxMenuItem href="#" onClick={handleClick}>
+          Test
+        </CxMenuItem>
+      )
+      const notCancelled = fireEvent.click(screen.getByRole('menuitem'))
+      expect(notCancelled).toBe(false)
+      expect(handleClick).toHaveBeenCalledTimes(1)
+    })
+
+    test('leaves a real same-page anchor href free to navigate', () => {
+      render(<CxMenuItem href="#section">Test</CxMenuItem>)
+      const notCancelled = fireEvent.click(screen.getByRole('menuitem'))
+      expect(notCancelled).toBe(true)
     })
   })
 
