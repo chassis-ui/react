@@ -3,7 +3,7 @@ import { render, screen, fireEvent, within } from '@testing-library/react'
 import { CalendarDate } from '@internationalized/date'
 import { axe } from 'jest-axe'
 
-import { CxCalendar } from '../../../index'
+import { CxCalendar, I18nProvider } from '../../../index'
 
 // `.cx-calendar-title` is the only reliable way to read the visible month/year — react-aria's
 // live-announcer renders a second, visually-hidden node with the same text on every navigation,
@@ -162,6 +162,80 @@ describe('CxCalendar', () => {
       render(<CxCalendar aria-label="Event date" disabled value={new CalendarDate(2026, 7, 24)} />)
       expect(screen.getByRole('combobox', { name: /month/i })).toBeDisabled()
       expect(screen.getByRole('combobox', { name: /year/i })).toBeDisabled()
+    })
+  })
+
+  describe('weekend styling', () => {
+    test('marks Saturday/Sunday as weekends under en-US', () => {
+      render(
+        <I18nProvider locale="en-US">
+          <CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />
+        </I18nProvider>
+      )
+      const grid = screen.getByRole('grid')
+      expect(within(grid).getByRole('button', { name: /Saturday, July 25/ })).toHaveClass('weekend')
+      expect(within(grid).getByRole('button', { name: /Monday, July 27/ })).not.toHaveClass(
+        'weekend'
+      )
+    })
+
+    test('follows the active locale — ar-SA treats Friday/Saturday as the weekend instead', () => {
+      render(
+        <I18nProvider locale="ar-SA">
+          <CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />
+        </I18nProvider>
+      )
+      // ar-SA renders day numbers as Arabic-Indic numerals ("٢٤"), so text-based queries can't
+      // find cells by ASCII digit — instead, pick cells by their chronological position among the
+      // visible month's own (non-"outside") days: index 23 is July 24, index 25 is July 26.
+      const grid = screen.getByRole('grid')
+      const inRangeCells = within(grid)
+        .getAllByRole('button')
+        .filter((cell) => !cell.classList.contains('outside'))
+      expect(inRangeCells[23]).toHaveClass('weekend')
+      expect(inRangeCells[25]).not.toHaveClass('weekend')
+    })
+  })
+
+  describe('unavailableDates', () => {
+    test('blocks selection of dates listed as ISO strings', () => {
+      const onChange = vi.fn()
+      render(
+        <CxCalendar
+          aria-label="Event date"
+          onChange={onChange}
+          unavailableDates={['2026-07-25']}
+          value={new CalendarDate(2026, 7, 15)}
+        />
+      )
+
+      const grid = screen.getByRole('grid')
+      const unavailable = within(grid).getByRole('button', { name: /25/ })
+      expect(unavailable).toHaveClass('unavailable')
+      fireEvent.click(unavailable)
+      expect(onChange).not.toHaveBeenCalled()
+    })
+
+    test('composes with isDateUnavailable — either marks a date unavailable', () => {
+      const onChange = vi.fn()
+      render(
+        <CxCalendar
+          aria-label="Event date"
+          isDateUnavailable={(date) => date.day === 12}
+          onChange={onChange}
+          unavailableDates={['2026-07-25']}
+          value={new CalendarDate(2026, 7, 15)}
+        />
+      )
+
+      // Regexes like `/12/` also match the "2026" inside every cell's aria-label, so these use
+      // the full formatted label to pin down a single cell.
+      const grid = screen.getByRole('grid')
+      expect(within(grid).getByRole('button', { name: /July 12, 2026/ })).toHaveClass('unavailable')
+      expect(within(grid).getByRole('button', { name: /July 25, 2026/ })).toHaveClass('unavailable')
+      expect(within(grid).getByRole('button', { name: /July 13, 2026/ })).not.toHaveClass(
+        'unavailable'
+      )
     })
   })
 

@@ -168,6 +168,25 @@ describe('CxDatePicker', () => {
       fireEvent.click(outOfRange)
       expect(onChange).not.toHaveBeenCalled()
     })
+
+    test('dates listed in unavailableDates cannot be selected from the calendar', () => {
+      const onChange = vi.fn()
+      render(
+        <CxDatePicker
+          aria-label="Event date"
+          onChange={onChange}
+          unavailableDates={['2026-07-25']}
+          value={new CalendarDate(2026, 7, 15)}
+        />
+      )
+      openCalendar()
+
+      const grid = screen.getByRole('grid')
+      const unavailable = within(grid).getByRole('button', { name: /25/ })
+      expect(unavailable).toHaveClass('unavailable')
+      fireEvent.click(unavailable)
+      expect(onChange).not.toHaveBeenCalled()
+    })
   })
 
   describe('form integration', () => {

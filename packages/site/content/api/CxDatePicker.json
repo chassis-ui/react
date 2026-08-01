@@ -318,6 +318,25 @@
         ]
       }
     },
+    "unavailableDates": {
+      "defaultValue": null,
+      "description": "ISO 8601 dates (`YYYY-MM-DD`) to mark unselectable, as a convenience alternative to\n`isDateUnavailable` for data-driven cases (e.g. booked dates fetched from an API). Composed\nwith `isDateUnavailable` when both are given — a date unavailable by either is unavailable.\nApplies to both the calendar popover and typing a date directly into the field.",
+      "name": "unavailableDates",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
+        "name": "CxDatePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
+          "name": "CxDatePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string[]"
+      }
+    },
     "valid": {
       "defaultValue": null,
       "description": "Set component validation state to valid.",

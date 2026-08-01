@@ -8,6 +8,7 @@ toc: true
 import { BasicExample } from '../../src/examples/calendar/BasicExample.tsx'
 import { MinMaxExample } from '../../src/examples/calendar/MinMaxExample.tsx'
 import { UnavailableExample } from '../../src/examples/calendar/UnavailableExample.tsx'
+import { UnavailableDatesExample } from '../../src/examples/calendar/UnavailableDatesExample.tsx'
 import { NavigationExample } from '../../src/examples/calendar/NavigationExample.tsx'
 
 import { CxCalendar } from '@chassis-ui/react'
@@ -35,6 +36,18 @@ Pass `isDateUnavailable` to mark specific dates as unselectable without excludin
 <Example>
   <UnavailableExample client:load />
 </Example>
+
+### From a list of dates
+
+For data-driven cases — booked dates fetched from an API, say — pass `unavailableDates` instead: a plain array of ISO 8601 (`YYYY-MM-DD`) strings. It composes with `isDateUnavailable` when both are given; a date unavailable by either is unavailable.
+
+<Example>
+  <UnavailableDatesExample client:load />
+</Example>
+
+## Weekend styling
+
+Saturday/Sunday (or whichever days the active locale considers the weekend — determined via `@internationalized/date`'s `isWeekend`) are shown muted automatically, no prop required. This is purely visual — weekends stay selectable unless also marked unavailable. Every example on this page shows it.
 
 ## Navigation
 

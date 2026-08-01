@@ -225,6 +225,25 @@
         "name": "((value: DateValue) => void)"
       }
     },
+    "unavailableDates": {
+      "defaultValue": null,
+      "description": "ISO 8601 dates (`YYYY-MM-DD`) to mark unselectable, as a convenience alternative to\n`isDateUnavailable` for data-driven cases (e.g. booked dates fetched from an API). Composed\nwith `isDateUnavailable` when both are given — a date unavailable by either is unavailable.",
+      "name": "unavailableDates",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/calendar/CxCalendar.tsx",
+        "name": "CxCalendarProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/calendar/CxCalendar.tsx",
+          "name": "CxCalendarProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string[]"
+      }
+    },
     "value": {
       "defaultValue": null,
       "description": "The selected date (controlled).",

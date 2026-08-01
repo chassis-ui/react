@@ -136,6 +136,10 @@
   opacity: 0.5;
 }
 
+.cx-calendar-cell-button.weekend:not(.selected):not(.unavailable):not(.disabled) {
+  color: var(--cx-fg-subtle);
+}
+
 .cx-calendar-cell-button.unavailable:not(.selected) {
   color: var(--cx-danger);
   text-decoration: line-through;

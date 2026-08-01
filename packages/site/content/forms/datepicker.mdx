@@ -46,7 +46,13 @@ Restrict the selectable range with `minValue`/`maxValue`. Dates outside the rang
 
 ## Unavailable dates
 
-Pass `isDateUnavailable` to mark specific dates as unselectable without excluding them from the grid — useful for booked dates or holidays. Unavailable dates remain focusable (so screen reader users can discover why they can't be picked) but can't be selected.
+Pass `isDateUnavailable` to mark specific dates as unselectable without excluding them from the grid — useful for booked dates or holidays. Unavailable dates remain focusable (so screen reader users can discover why they can't be picked) but can't be selected. This applies to both the calendar popover and typing a date directly into the field.
+
+For data-driven cases, pass `unavailableDates` instead — a plain array of ISO 8601 (`YYYY-MM-DD`) strings — as a convenience alternative. It composes with `isDateUnavailable` when both are given.
+
+## Weekend styling
+
+Saturday/Sunday (or whichever days the active locale considers the weekend) are shown muted in the calendar popover automatically — inherited from [`CxCalendar`](/forms/calendar), no prop required.
 
 ## Scope
 

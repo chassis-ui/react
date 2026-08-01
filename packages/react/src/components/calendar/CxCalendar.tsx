@@ -17,10 +17,12 @@ import {
   createCalendar,
   getLocalTimeZone,
   getWeeksInMonth,
-  isToday
+  isToday,
+  isWeekend
 } from '@internationalized/date'
 
 import { useForkedRef } from '../../hooks'
+import { mergeIsDateUnavailable } from './mergeIsDateUnavailable'
 import './CxCalendar.css'
 
 export interface CxCalendarProps extends Omit<
@@ -79,6 +81,12 @@ export interface CxCalendarProps extends Omit<
    */
   onChange?: (value: DateValue) => void
   /**
+   * ISO 8601 dates (`YYYY-MM-DD`) to mark unselectable, as a convenience alternative to
+   * `isDateUnavailable` for data-driven cases (e.g. booked dates fetched from an API). Composed
+   * with `isDateUnavailable` when both are given — a date unavailable by either is unavailable.
+   */
+  unavailableDates?: string[]
+  /**
    * The selected date (controlled).
    */
   value?: DateValue | null
@@ -100,6 +108,7 @@ export const CxCalendar = forwardRef<HTMLDivElement, CxCalendarProps>(
       minValue,
       navigation = 'dropdown',
       onChange,
+      unavailableDates,
       value,
       ...rest
     },
@@ -108,12 +117,13 @@ export const CxCalendar = forwardRef<HTMLDivElement, CxCalendarProps>(
     const { locale } = useLocale()
     const internalRef = useRef<HTMLDivElement>(null)
     const ref = useForkedRef(internalRef, forwardedRef)
+    const combinedIsDateUnavailable = mergeIsDateUnavailable(unavailableDates, isDateUnavailable)
 
     const state = useCalendarState({
       autoFocus,
       createCalendar,
       defaultValue,
-      isDateUnavailable,
+      isDateUnavailable: combinedIsDateUnavailable,
       isDisabled: disabled,
       locale,
       maxValue,
@@ -128,7 +138,7 @@ export const CxCalendar = forwardRef<HTMLDivElement, CxCalendarProps>(
       'aria-labelledby': rest['aria-labelledby'],
       autoFocus,
       defaultValue,
-      isDateUnavailable,
+      isDateUnavailable: combinedIsDateUnavailable,
       isDisabled: disabled,
       maxValue,
       minValue,
@@ -240,7 +250,7 @@ const CalendarGrid = ({ locale, state }: CalendarGridProps) => {
           <tr key={weekIndex}>
             {state.getDatesInWeek(weekIndex).map((date, i) =>
               date ? (
-                <CalendarCell date={date} key={date.toString()} state={state} />
+                <CalendarCell date={date} key={date.toString()} locale={locale} state={state} />
               ) : (
                 // eslint-disable-next-line react/no-array-index-key
                 <td key={i} />
@@ -255,10 +265,11 @@ const CalendarGrid = ({ locale, state }: CalendarGridProps) => {
 
 interface CalendarCellProps {
   date: CalendarDate
+  locale: string
   state: CalendarState
 }
 
-const CalendarCell = ({ date, state }: CalendarCellProps) => {
+const CalendarCell = ({ date, locale, state }: CalendarCellProps) => {
   const ref = useRef<HTMLDivElement>(null)
   const {
     cellProps,
@@ -281,6 +292,7 @@ const CalendarCell = ({ date, state }: CalendarCellProps) => {
           outside: isOutsideVisibleRange,
           disabled: isDisabled,
           unavailable: isUnavailable,
+          weekend: isWeekend(date, locale),
           focused: isFocused
         })}
         ref={ref}

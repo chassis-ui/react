@@ -7,6 +7,7 @@ import { useFormField } from '../../hooks'
 import { resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
 import { renderFormField } from '../form-field/renderFormField'
 import { CxCalendar } from '../calendar/CxCalendar'
+import { mergeIsDateUnavailable } from '../calendar/mergeIsDateUnavailable'
 import { DateField } from './DateField'
 import './CxDatePicker.css'
 
@@ -81,6 +82,13 @@ export interface CxDatePickerProps extends Omit<
    */
   size?: 'small' | 'large'
   /**
+   * ISO 8601 dates (`YYYY-MM-DD`) to mark unselectable, as a convenience alternative to
+   * `isDateUnavailable` for data-driven cases (e.g. booked dates fetched from an API). Composed
+   * with `isDateUnavailable` when both are given — a date unavailable by either is unavailable.
+   * Applies to both the calendar popover and typing a date directly into the field.
+   */
+  unavailableDates?: string[]
+  /**
    * Set component validation state to valid.
    */
   valid?: boolean
@@ -109,14 +117,17 @@ export const CxDatePicker = ({
   name,
   onChange,
   size,
+  unavailableDates,
   valid,
   validFeedback,
   value,
   ...rest
 }: CxDatePickerProps) => {
+  const combinedIsDateUnavailable = mergeIsDateUnavailable(unavailableDates, isDateUnavailable)
+
   const state = useDatePickerState({
     defaultValue,
-    isDateUnavailable,
+    isDateUnavailable: combinedIsDateUnavailable,
     isDisabled: disabled,
     maxValue,
     minValue,
@@ -154,7 +165,7 @@ export const CxDatePicker = ({
       'aria-labelledby': labelledBy,
       defaultValue,
       id: groupId,
-      isDateUnavailable,
+      isDateUnavailable: combinedIsDateUnavailable,
       isDisabled: disabled,
       isInvalid: invalid,
       maxValue,
@@ -261,7 +272,7 @@ export const CxDatePicker = ({
                 {...domDialogProps}
                 autoFocus
                 disabled={disabled}
-                isDateUnavailable={isDateUnavailable}
+                isDateUnavailable={combinedIsDateUnavailable}
                 maxValue={maxValue}
                 minValue={minValue}
                 onChange={calendarProps.onChange}
