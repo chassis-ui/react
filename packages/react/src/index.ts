@@ -45,6 +45,7 @@ import { CxCombobox } from './components/combobox/CxCombobox'
 import { CxComboboxGroup } from './components/combobox/CxComboboxGroup'
 import { CxComboboxItem } from './components/combobox/CxComboboxItem'
 import { CxDatePicker } from './components/datepicker/CxDatePicker'
+import { CxDateRangePicker } from './components/date-range-picker/CxDateRangePicker'
 import { CxOtpInput } from './components/otp-input/CxOtpInput'
 import { CxPasswordStrength } from './components/password-strength/CxPasswordStrength'
 import { I18nProvider } from 'react-aria'
@@ -176,6 +177,7 @@ export {
   CxComboboxGroup,
   CxComboboxItem,
   CxDatePicker,
+  CxDateRangePicker,
   CxFileInput,
   // Re-exported (not a `Cx*` component): react-aria is a bundled dependency, not a peer, so its
   // module — including the `I18nProvider` context `CxDatePicker` reads locale from via

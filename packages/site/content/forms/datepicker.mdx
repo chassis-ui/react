@@ -58,7 +58,7 @@ Saturday/Sunday (or whichever days the active locale considers the weekend) are 
 
 This is a single-date picker — the strong-fit case for React Aria's date picker hooks. A few things are deliberately out of scope for this pass:
 
-- **Date ranges** — `useDateRangePickerState`/`useDateRangePicker` are a separate hook pair with their own two-value field/calendar composition. A dedicated `CxDateRangePicker` may ship separately.
+- **Date ranges** — for a start/end range, see [`CxDateRangePicker`](/forms/date-range-picker), built on the separate `useDateRangePickerState`/`useDateRangePicker` hook pair.
 - **Time selection** — the field is date-only (`granularity="day"`); no time segments are rendered.
 - **Multiple visible months** — the calendar grid always shows one month at a time.
 

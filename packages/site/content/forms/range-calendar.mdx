@@ -6,16 +6,60 @@ toc: true
 ---
 
 import { RangeBasicExample } from '../../src/examples/calendar/RangeBasicExample.tsx'
+import { RangeMinMaxExample } from '../../src/examples/calendar/RangeMinMaxExample.tsx'
+import { RangeUnavailableDatesExample } from '../../src/examples/calendar/RangeUnavailableDatesExample.tsx'
+import { RangeNavigationExample } from '../../src/examples/calendar/RangeNavigationExample.tsx'
 
 import { CxRangeCalendar } from '@chassis-ui/react'
 
 ## Overview
 
-`CxRangeCalendar` is the range-selection counterpart to [`CxCalendar`](/forms/calendar) — click a start date, then an end date, to select a contiguous range. Hovering (or dragging) between the two previews the range before it's committed.
+`CxRangeCalendar` is the range-selection counterpart to [`CxCalendar`](/forms/calendar) — click a start date, then an end date, to select a contiguous range. Hovering (or dragging) between the two previews the range before it's committed. [`CxDateRangePicker`](/forms/date-range-picker) renders this same component inside its popover, the same way `CxDatePicker` renders `CxCalendar`.
 
 <Example>
   <RangeBasicExample client:load />
 </Example>
+
+## Min & max dates
+
+Restrict the selectable range with `minValue`/`maxValue`, same as `CxCalendar`. Dates outside the range are shown but disabled, and can't start or extend a selection.
+
+<Example>
+  <RangeMinMaxExample client:load />
+</Example>
+
+## Unavailable dates
+
+`isDateUnavailable` and the JSON-friendly `unavailableDates` (an array of ISO 8601 `YYYY-MM-DD` strings) work exactly as they do on `CxCalendar`, composing when both are given. An unavailable date can't be picked as either endpoint.
+
+<Example>
+  <RangeUnavailableDatesExample client:load />
+</Example>
+
+## Weekend styling
+
+Weekends are shown muted automatically, same as `CxCalendar` — locale-aware, no prop required.
+
+## Navigation
+
+Same `navigation` prop as `CxCalendar` (`'dropdown'` by default, `'arrows'` for the plain prev/next-only header).
+
+<Example>
+  <RangeNavigationExample client:load />
+</Example>
+
+## Accessible name
+
+`CxRangeCalendar` has no visible label of its own — pass `aria-label` or `aria-labelledby` any time it's used standalone. When composed inside `CxDateRangePicker`'s popover, the accessible name instead comes from the picker's own label.
+
+## Scope
+
+- **Single month** — the grid always shows one month at a time; multi-month display isn't supported yet.
+- **Contiguous ranges only** — `allowsNonContiguousRanges` (a react-aria option for ranges that may skip over unavailable dates) isn't exposed.
+
+## Styling
+
+Like `CxCalendar`, `CxRangeCalendar` isn't styled by `@chassis-ui/css`. It reuses `CxCalendar.css`'s header/nav/grid/cell classes directly (so the two always look identical outside of an active selection), adding only the small amount of CSS needed for the connected "pill" band across a selected or previewed range — automatically injected the first time the component is imported, no separate stylesheet to add.
 
 ## API
 

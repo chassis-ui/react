@@ -105,6 +105,35 @@ describe('CxRangeCalendar', () => {
     })
   })
 
+  describe('keyboard interaction', () => {
+    test('Enter key selects a start and end date, mirroring click', () => {
+      const onChange = vi.fn()
+      render(
+        <CxRangeCalendar
+          aria-label="Trip dates"
+          defaultValue={{ start: new CalendarDate(2026, 7, 1), end: new CalendarDate(2026, 7, 1) }}
+          onChange={onChange}
+        />
+      )
+      const grid = screen.getByRole('grid')
+      const start = within(grid).getByRole('button', { name: /July 10, 2026/ })
+      const end = within(grid).getByRole('button', { name: /July 15, 2026/ })
+
+      start.focus()
+      fireEvent.keyDown(start, { key: 'Enter' })
+      fireEvent.keyUp(start, { key: 'Enter' })
+      expect(onChange).not.toHaveBeenCalled()
+
+      end.focus()
+      fireEvent.keyDown(end, { key: 'Enter' })
+      fireEvent.keyUp(end, { key: 'Enter' })
+      expect(onChange).toHaveBeenCalledWith({
+        start: new CalendarDate(2026, 7, 10),
+        end: new CalendarDate(2026, 7, 15)
+      })
+    })
+  })
+
   describe('pill styling', () => {
     test('marks the start and end cells distinctly from the days in between', () => {
       render(

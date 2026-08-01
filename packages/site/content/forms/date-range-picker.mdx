@@ -1,0 +1,68 @@
+---
+title: Date Range Picker
+description: Chassis DateRangePicker combines two segmented text fields with a range-calendar popover for entering or picking a date range.
+
+toc: true
+---
+
+import { BasicExample } from '../../src/examples/date-range-picker/BasicExample.tsx'
+import { FormFieldExample } from '../../src/examples/date-range-picker/FormFieldExample.tsx'
+import { MinMaxExample } from '../../src/examples/date-range-picker/MinMaxExample.tsx'
+import { UnavailableExample } from '../../src/examples/date-range-picker/UnavailableExample.tsx'
+
+import { CxDateRangePicker } from '@chassis-ui/react'
+
+## Overview
+
+`CxDateRangePicker` combines two individually-editable segmented date fields (start and end, each day/month/year) with a range-calendar popover — type both dates directly, or pick a start and end from the grid. All three stay in sync with a single selected range. The popover renders [`CxRangeCalendar`](/forms/range-calendar), which is also available on its own wherever an inline, non-popover range calendar is needed.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## As a form field
+
+Pass `label`/`help` to wrap the picker in a `.form-field` with an associated `CxFormLabel` and `CxFormHelp`. Pass `name` to have `CxDateRangePicker` create and manage a pair of hidden inputs for native form submission — `${name}Start` and `${name}End`, each an ISO 8601 date string (`2026-07-24`).
+
+<Example>
+  <FormFieldExample client:load />
+</Example>
+
+## Min & max dates
+
+Restrict the selectable range with `minValue`/`maxValue`. Dates outside the range are shown but disabled in the calendar grid, and typing an out-of-range value into either field is rejected.
+
+<Example>
+  <MinMaxExample client:load />
+</Example>
+
+## Unavailable dates
+
+Pass `isDateUnavailable`, or the JSON-friendly `unavailableDates` (an array of ISO 8601 `YYYY-MM-DD` strings), to mark specific dates as unselectable without excluding them from the grid. Unavailable dates remain focusable but can't be selected — this applies to both the calendar popover and typing a date directly into either field.
+
+<Example>
+  <UnavailableExample client:load />
+</Example>
+
+## Scope
+
+This is a date-only range picker — a few things are deliberately out of scope for this pass:
+
+- **Time selection** — both fields are date-only (`granularity="day"`); no time segments are rendered.
+- **Multiple visible months** — the calendar grid always shows one month at a time.
+- **Presets** — a preset list ("Last 7 days", "This month", etc.) isn't included; a dedicated `presets` prop may ship separately.
+- **Non-contiguous ranges** — react-aria's `allowsNonContiguousRanges` option isn't exposed.
+
+## Form submission
+
+Unlike `CxDatePicker` (one hidden input), `CxDateRangePicker` creates **two** hidden inputs when `name` is set: `${name}Start` and `${name}End`. This was chosen over a single combined value so each endpoint posts as an ordinary named field — no custom parsing needed on the receiving end.
+
+## Styling
+
+Like `CxDatePicker`, `CxDateRangePicker` isn't styled by `@chassis-ui/css`. It reuses `CxDatePicker.css`'s segmented-field and popover-shell classes directly, adding only a small separator between the two fields. The range-calendar grid itself is styled by [`CxRangeCalendar`](/forms/range-calendar)'s own scoped CSS, imported transitively. All of it is automatically injected the first time the component is imported — no separate stylesheet to add.
+
+## API
+
+### CxDateRangePicker
+
+<PropTable component="CxDateRangePicker" />

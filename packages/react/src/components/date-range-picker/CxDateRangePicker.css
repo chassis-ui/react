@@ -1,0 +1,11 @@
+/*
+ * CxDateRangePicker reuses CxDatePicker.css's `.cx-datepicker-field`/`.cx-datepicker-segment`
+ * classes for each of its two segmented fields, and its `.cx-datepicker-calendar` popover shell
+ * class for the popover positioning box (both imported alongside this file) — the separator
+ * between the two fields is the only new visual territory here.
+ */
+
+.cx-daterangepicker-separator {
+  padding-inline: 0.125rem;
+  color: var(--cx-fg-subtle);
+}
