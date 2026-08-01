@@ -1,0 +1,56 @@
+---
+title: Calendar
+description: Chassis Calendar is a standalone date grid — the same calendar CxDatePicker renders in its popover, usable on its own.
+
+toc: true
+---
+
+import { BasicExample } from '../../src/examples/calendar/BasicExample.tsx'
+import { MinMaxExample } from '../../src/examples/calendar/MinMaxExample.tsx'
+import { UnavailableExample } from '../../src/examples/calendar/UnavailableExample.tsx'
+
+import { CxCalendar } from '@chassis-ui/react'
+
+## Overview
+
+`CxCalendar` is a single-month date grid with keyboard-navigable cells, usable on its own wherever an inline calendar is needed — no popover, no text field. [`CxDatePicker`](/forms/datepicker) renders this same component inside its popover, so the two always look and behave identically.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## Min & max dates
+
+Restrict the selectable range with `minValue`/`maxValue`. Dates outside the range are shown but disabled.
+
+<Example>
+  <MinMaxExample client:load />
+</Example>
+
+## Unavailable dates
+
+Pass `isDateUnavailable` to mark specific dates as unselectable without excluding them from the grid — useful for booked dates, holidays, or (as below, using `@internationalized/date`'s locale-aware `isWeekend`) weekends. Unavailable dates remain focusable so screen reader users can discover why they can't be picked.
+
+<Example>
+  <UnavailableExample client:load />
+</Example>
+
+## Accessible name
+
+`CxCalendar` has no visible label of its own — pass `aria-label` or `aria-labelledby` any time it's used standalone (as in every example above). When composed inside `CxDatePicker`'s popover, the accessible name instead comes from the picker's own label.
+
+## Scope
+
+- **Single month** — the grid always shows one month at a time; multi-month display isn't supported yet.
+- **Single date** — one selected date at a time; range selection isn't supported yet (a dedicated `CxRangeCalendar` may ship separately).
+- **Navigation** — month/year navigation is prev/next arrows only for now; jump-to-month/year controls aren't supported yet.
+
+## Styling
+
+Like `CxDatePicker`, `CxCalendar` isn't styled by `@chassis-ui/css` — chassis-css's own datepicker styling is built entirely around [Vanilla Calendar Pro](https://vanilla-calendar.pro/)'s specific DOM output, which React Aria's calendar hooks don't produce. `CxCalendar` instead ships its own scoped CSS (built on `@chassis-ui/tokens`' public design tokens, so it still matches the current theme and light/dark mode) that's automatically injected the first time the component is imported — no separate stylesheet to add.
+
+## API
+
+### CxCalendar
+
+<PropTable component="CxCalendar" />

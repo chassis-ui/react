@@ -1,14 +1,13 @@
 import React, { HTMLAttributes, ReactNode, useRef } from 'react'
 import classNames from 'classnames'
-import { FocusScope, mergeProps, useButton, useDatePicker, useLocale, usePopover } from 'react-aria'
-import { DateValue, useCalendarState, useDatePickerState } from 'react-stately'
-import { createCalendar } from '@internationalized/date'
+import { FocusScope, mergeProps, useButton, useDatePicker, useDialog, usePopover } from 'react-aria'
+import { DateValue, useDatePickerState } from 'react-stately'
 
 import { useFormField } from '../../hooks'
 import { resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
 import { renderFormField } from '../form-field/renderFormField'
+import { CxCalendar } from '../calendar/CxCalendar'
 import { DateField } from './DateField'
-import { Calendar } from './Calendar'
 import './CxDatePicker.css'
 
 export interface CxDatePickerProps extends Omit<
@@ -115,8 +114,6 @@ export const CxDatePicker = ({
   value,
   ...rest
 }: CxDatePickerProps) => {
-  const { locale } = useLocale()
-
   const state = useDatePickerState({
     defaultValue,
     isDateUnavailable,
@@ -202,12 +199,10 @@ export const CxDatePicker = ({
   }
   const placementAttr = resolveDataPlacement('bottom-start', resolvedPlacement)
 
-  const calendarState = useCalendarState({
-    ...calendarProps,
-    createCalendar,
-    locale,
-    visibleDuration: { months: 1 }
-  })
+  // `CxCalendar` is dialog-agnostic by design (see its own comment) — applying `role="dialog"`
+  // etc. is this component's concern, layered on via the generic HTML-attribute passthrough
+  // `CxCalendar` merges onto its root.
+  const { dialogProps: domDialogProps } = useDialog(dialogProps, calendarRef)
 
   return renderFormField({
     children: (
@@ -262,12 +257,16 @@ export const CxDatePicker = ({
         >
           {state.isOpen && (
             <FocusScope contain restoreFocus>
-              <Calendar
-                calendarRef={calendarRef}
-                dialogProps={dialogProps}
-                locale={locale}
-                props={{}}
-                state={calendarState}
+              <CxCalendar
+                {...domDialogProps}
+                autoFocus
+                disabled={disabled}
+                isDateUnavailable={isDateUnavailable}
+                maxValue={maxValue}
+                minValue={minValue}
+                onChange={calendarProps.onChange}
+                ref={calendarRef}
+                value={calendarProps.value}
               />
             </FocusScope>
           )}

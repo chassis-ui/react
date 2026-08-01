@@ -20,6 +20,7 @@ import { CxBreadcrumbItem } from './components/breadcrumb/CxBreadcrumbItem'
 import { CxButton } from './components/button/CxButton'
 import { CxButtonGroup } from './components/button-group/CxButtonGroup'
 import { CxButtonToolbar } from './components/button-group/CxButtonToolbar'
+import { CxCalendar } from './components/calendar/CxCalendar'
 import { CxCard } from './components/card/CxCard'
 import { CxCardBody } from './components/card/CxCardBody'
 import { CxCardFooter } from './components/card/CxCardFooter'
@@ -151,6 +152,7 @@ export {
   CxButton,
   CxButtonGroup,
   CxButtonToolbar,
+  CxCalendar,
   CxCard,
   CxCardBody,
   CxCardFooter,

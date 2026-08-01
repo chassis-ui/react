@@ -1,0 +1,115 @@
+/*
+ * `CxCalendar`'s grid has no chassis-css equivalent to reuse (chassis-css's own datepicker
+ * styling targets Vanilla Calendar Pro's DOM, which React Aria's calendar hooks don't produce —
+ * see the datepicker docs for details). Built entirely on `@chassis-ui/tokens`' public `--cx-*`
+ * custom properties so it stays on the same design language (and adapts to light/dark) without
+ * depending on any of chassis-css's internal, unpublished component tokens.
+ */
+
+.cx-calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-block-end: var(--cx-space-small);
+}
+
+.cx-calendar-title {
+  flex: 1;
+  font-weight: 600;
+  text-align: center;
+}
+
+.cx-calendar-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  color: var(--cx-fg-main);
+  cursor: pointer;
+  background-color: transparent;
+  border: 0;
+  border-radius: var(--cx-border-radius-medium);
+  outline: none;
+}
+
+.cx-calendar-nav:hover:not(:disabled) {
+  background-color: var(--cx-bg-hover);
+}
+
+.cx-calendar-nav:focus {
+  outline: var(--cx-border-width-xlarge) solid var(--cx-primary);
+  outline-offset: -1px;
+}
+
+.cx-calendar-nav:disabled {
+  color: var(--cx-fg-disabled);
+  cursor: default;
+}
+
+.cx-calendar-grid {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.cx-calendar-weekday {
+  padding-block-end: var(--cx-space-2xsmall);
+  font-size: var(--cx-font-size-xsmall);
+  font-weight: 600;
+  color: var(--weekday-fg-color);
+  text-align: center;
+}
+
+.cx-calendar-cell {
+  padding: 0.0625rem;
+  text-align: center;
+}
+
+.cx-calendar-cell-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  color: var(--weekday-fg-color);
+  cursor: pointer;
+  background-color: transparent;
+  border: 0;
+  border-radius: var(--cx-border-radius-medium);
+  outline: none;
+}
+
+.cx-calendar-cell-button:hover:not(.disabled):not(.selected) {
+  background-color: var(--day-hover-bg-color);
+}
+
+.cx-calendar-cell-button.focused {
+  outline: var(--cx-border-width-xlarge) solid var(--cx-primary);
+  outline-offset: -1px;
+}
+
+.cx-calendar-cell-button.today:not(.selected) {
+  font-weight: var(--cx-day-today-font-weight);
+  color: var(--cx-day-today-fg-color);
+  background-color: var(--cx-day-today-bg-color);
+}
+
+.cx-calendar-cell-button.selected {
+  color: var(--cx-primary-contrast);
+  background-color: var(--cx-primary);
+}
+
+.cx-calendar-cell-button.outside {
+  opacity: 0.5;
+}
+
+.cx-calendar-cell-button.unavailable:not(.selected) {
+  color: var(--cx-danger);
+  text-decoration: line-through;
+}
+
+.cx-calendar-cell-button.disabled {
+  color: var(--cx-fg-disabled);
+  cursor: default;
+}

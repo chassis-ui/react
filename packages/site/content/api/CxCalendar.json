@@ -1,0 +1,218 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/calendar/CxCalendar.tsx",
+  "description": "",
+  "displayName": "CxCalendar",
+  "methods": [],
+  "props": {
+    "aria-label": {
+      "defaultValue": null,
+      "description": "An accessible label for the calendar, used when there's no visible label. Required for\nstandalone use — a calendar grid has no other accessible name of its own.",
+      "name": "aria-label",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/calendar/CxCalendar.tsx",
+        "name": "CxCalendarProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/calendar/CxCalendar.tsx",
+          "name": "CxCalendarProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "aria-labelledby": {
+      "defaultValue": null,
+      "description": "Identifies a visible label element for the calendar.",
+      "name": "aria-labelledby",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/calendar/CxCalendar.tsx",
+        "name": "CxCalendarProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/calendar/CxCalendar.tsx",
+          "name": "CxCalendarProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "autoFocus": {
+      "defaultValue": null,
+      "description": "Whether to automatically focus the calendar when it mounts.",
+      "name": "autoFocus",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/calendar/CxCalendar.tsx",
+        "name": "CxCalendarProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/calendar/CxCalendar.tsx",
+          "name": "CxCalendarProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/calendar/CxCalendar.tsx",
+        "name": "CxCalendarProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/calendar/CxCalendar.tsx",
+          "name": "CxCalendarProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "defaultValue": {
+      "defaultValue": null,
+      "description": "The initial selected date (uncontrolled).",
+      "name": "defaultValue",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/calendar/CxCalendar.tsx",
+        "name": "CxCalendarProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/calendar/CxCalendar.tsx",
+          "name": "CxCalendarProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "DateValue | null"
+      }
+    },
+    "disabled": {
+      "defaultValue": null,
+      "description": "Prevents the calendar from being focused or interacted with.",
+      "name": "disabled",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/calendar/CxCalendar.tsx",
+        "name": "CxCalendarProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/calendar/CxCalendar.tsx",
+          "name": "CxCalendarProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "isDateUnavailable": {
+      "defaultValue": null,
+      "description": "Callback that is called for each date in the calendar. If it returns `true`, that date is\nshown but cannot be selected.",
+      "name": "isDateUnavailable",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/calendar/CxCalendar.tsx",
+        "name": "CxCalendarProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/calendar/CxCalendar.tsx",
+          "name": "CxCalendarProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((date: DateValue) => boolean)"
+      }
+    },
+    "maxValue": {
+      "defaultValue": null,
+      "description": "The maximum allowed date that a user may select.",
+      "name": "maxValue",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/calendar/CxCalendar.tsx",
+        "name": "CxCalendarProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/calendar/CxCalendar.tsx",
+          "name": "CxCalendarProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "DateValue | null"
+      }
+    },
+    "minValue": {
+      "defaultValue": null,
+      "description": "The minimum allowed date that a user may select.",
+      "name": "minValue",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/calendar/CxCalendar.tsx",
+        "name": "CxCalendarProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/calendar/CxCalendar.tsx",
+          "name": "CxCalendarProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "DateValue | null"
+      }
+    },
+    "onChange": {
+      "defaultValue": null,
+      "description": "Callback fired when the selected date changes. Unlike `CxDatePicker`'s `onChange` (whose\nsegmented field can be cleared to `null`), a calendar selection is always a concrete date.",
+      "name": "onChange",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/calendar/CxCalendar.tsx",
+        "name": "CxCalendarProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/calendar/CxCalendar.tsx",
+          "name": "CxCalendarProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((value: DateValue) => void)"
+      }
+    },
+    "value": {
+      "defaultValue": null,
+      "description": "The selected date (controlled).",
+      "name": "value",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/calendar/CxCalendar.tsx",
+        "name": "CxCalendarProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/calendar/CxCalendar.tsx",
+          "name": "CxCalendarProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "DateValue | null"
+      }
+    }
+  }
+}
