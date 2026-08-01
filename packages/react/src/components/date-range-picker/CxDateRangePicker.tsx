@@ -110,6 +110,12 @@ export interface CxDateRangePickerProps extends Omit<
    * The selected date range (controlled).
    */
   value?: RangeValue<DateValue> | null
+  /**
+   * Number of months to display side by side in the calendar popover.
+   *
+   * @default 1
+   */
+  visibleMonths?: number
 }
 
 // Mirrors `CxDatePicker` closely — same field/popover/dialog composition, just with two
@@ -135,6 +141,7 @@ export const CxDateRangePicker = ({
   valid,
   validFeedback,
   value,
+  visibleMonths,
   ...rest
 }: CxDateRangePickerProps) => {
   const combinedIsDateUnavailable = mergeIsDateUnavailable(unavailableDates, isDateUnavailable)
@@ -287,6 +294,7 @@ export const CxDateRangePicker = ({
                 onChange={calendarProps.onChange}
                 ref={calendarRef}
                 value={calendarProps.value}
+                visibleMonths={visibleMonths}
               />
             </FocusScope>
           )}

@@ -262,6 +262,27 @@
       "type": {
         "name": "RangeValue<DateValue> | null"
       }
+    },
+    "visibleMonths": {
+      "defaultValue": {
+        "value": 1
+      },
+      "description": "Number of months to display side by side, sharing one selection. Wraps to multiple rows in\na narrow container (e.g. a popover on a small screen) rather than overflowing — the wrap is\ndriven by the calendar's own width, not the viewport, so it adapts correctly regardless of\nwhere the calendar is embedded.",
+      "name": "visibleMonths",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/calendar/CxRangeCalendar.tsx",
+        "name": "CxRangeCalendarProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/calendar/CxRangeCalendar.tsx",
+          "name": "CxRangeCalendarProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number"
+      }
     }
   }
 }

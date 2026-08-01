@@ -9,6 +9,7 @@ import { RangeBasicExample } from '../../src/examples/calendar/RangeBasicExample
 import { RangeMinMaxExample } from '../../src/examples/calendar/RangeMinMaxExample.tsx'
 import { RangeUnavailableDatesExample } from '../../src/examples/calendar/RangeUnavailableDatesExample.tsx'
 import { RangeNavigationExample } from '../../src/examples/calendar/RangeNavigationExample.tsx'
+import { RangeMultiMonthExample } from '../../src/examples/calendar/RangeMultiMonthExample.tsx'
 
 import { CxRangeCalendar } from '@chassis-ui/react'
 
@@ -48,13 +49,20 @@ Same `navigation` prop as `CxCalendar` (`'dropdown'` by default, `'arrows'` for 
   <RangeNavigationExample client:load />
 </Example>
 
+## Multiple months
+
+Pass `visibleMonths` to show more than one month side by side, sharing a single selection — the standard layout for picking a date range. Each month gets its own heading; the prev/next buttons (and the top nav, if `navigation="dropdown"`) page the whole visible span at once. The months wrap onto a new row if their container is too narrow to fit them side by side (driven by the calendar's own width, not the viewport).
+
+<Example>
+  <RangeMultiMonthExample client:load />
+</Example>
+
 ## Accessible name
 
 `CxRangeCalendar` has no visible label of its own — pass `aria-label` or `aria-labelledby` any time it's used standalone. When composed inside `CxDateRangePicker`'s popover, the accessible name instead comes from the picker's own label.
 
 ## Scope
 
-- **Single month** — the grid always shows one month at a time; multi-month display isn't supported yet.
 - **Contiguous ranges only** — `allowsNonContiguousRanges` (a react-aria option for ranges that may skip over unavailable dates) isn't exposed.
 
 ## Styling

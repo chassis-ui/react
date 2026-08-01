@@ -41,3 +41,21 @@
   border-start-start-radius: 0;
   border-end-start-radius: 0;
 }
+
+/*
+ * Multi-month (`visibleMonths > 1`) layout. `flex-wrap` reflows to a stacked layout once the
+ * calendar's own container gets too narrow to fit every month on one row — deliberately not a
+ * viewport `@media` query, since a calendar can be embedded in a narrow container (a popover, a
+ * sidebar) regardless of how wide the actual viewport is.
+ */
+.cx-calendar-months {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cx-space-small);
+}
+
+.cx-calendar-month-heading {
+  margin-block-end: var(--cx-space-small);
+  font-weight: 600;
+  text-align: center;
+}

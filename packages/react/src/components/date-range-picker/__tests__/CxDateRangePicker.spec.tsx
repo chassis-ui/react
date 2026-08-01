@@ -198,6 +198,20 @@ describe('CxDateRangePicker', () => {
     })
   })
 
+  describe('visibleMonths', () => {
+    test('passes through to the popover calendar', () => {
+      render(
+        <CxDateRangePicker
+          aria-label="Trip dates"
+          value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 8, 5) }}
+          visibleMonths={2}
+        />
+      )
+      openCalendar()
+      expect(screen.getAllByRole('grid')).toHaveLength(2)
+    })
+  })
+
   describe('form integration', () => {
     test('creates a pair of hidden inputs for form submission when name is provided', () => {
       const { rerender } = render(

@@ -212,12 +212,75 @@ describe('CxRangeCalendar', () => {
     })
   })
 
+  describe('visibleMonths', () => {
+    test('defaults to a single month with no per-month heading', () => {
+      render(
+        <CxRangeCalendar
+          aria-label="Trip dates"
+          value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 7, 15) }}
+        />
+      )
+      expect(screen.getAllByRole('grid')).toHaveLength(1)
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(document.querySelector('.cx-calendar-month-heading')).toBeNull()
+    })
+
+    test('renders the requested number of months, each with its own heading', () => {
+      render(
+        <CxRangeCalendar
+          aria-label="Trip dates"
+          navigation="arrows"
+          value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 8, 15) }}
+          visibleMonths={2}
+        />
+      )
+      expect(screen.getAllByRole('grid')).toHaveLength(2)
+      // eslint-disable-next-line testing-library/no-node-access
+      const headings = [...document.querySelectorAll('.cx-calendar-month-heading')].map(
+        (el) => el.textContent
+      )
+      expect(headings).toEqual(['July 2026', 'August 2026'])
+    })
+
+    test('a range spanning both visible months is selectable and pills continuously', () => {
+      const onChange = vi.fn()
+      render(
+        <CxRangeCalendar
+          aria-label="Trip dates"
+          defaultValue={{ start: new CalendarDate(2026, 7, 1), end: new CalendarDate(2026, 7, 1) }}
+          onChange={onChange}
+          visibleMonths={2}
+        />
+      )
+
+      const grids = screen.getAllByRole('grid')
+      fireEvent.click(within(grids[0]).getByRole('button', { name: /July 28, 2026/ }))
+      fireEvent.click(within(grids[1]).getByRole('button', { name: /August 3, 2026/ }))
+
+      expect(onChange).toHaveBeenCalledWith({
+        start: new CalendarDate(2026, 7, 28),
+        end: new CalendarDate(2026, 8, 3)
+      })
+    })
+  })
+
   describe('accessibility', () => {
     test('has no axe violations', async () => {
       render(
         <CxRangeCalendar
           aria-label="Trip dates"
           value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 7, 15) }}
+        />
+      )
+      expect(await axe(document.body)).toHaveNoViolations()
+    })
+
+    test('has no axe violations with two months visible', async () => {
+      render(
+        <CxRangeCalendar
+          aria-label="Trip dates"
+          value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 8, 5) }}
+          visibleMonths={2}
         />
       )
       expect(await axe(document.body)).toHaveNoViolations()

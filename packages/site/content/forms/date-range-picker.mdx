@@ -9,6 +9,7 @@ import { BasicExample } from '../../src/examples/date-range-picker/BasicExample.
 import { FormFieldExample } from '../../src/examples/date-range-picker/FormFieldExample.tsx'
 import { MinMaxExample } from '../../src/examples/date-range-picker/MinMaxExample.tsx'
 import { UnavailableExample } from '../../src/examples/date-range-picker/UnavailableExample.tsx'
+import { MultiMonthExample } from '../../src/examples/date-range-picker/MultiMonthExample.tsx'
 
 import { CxDateRangePicker } from '@chassis-ui/react'
 
@@ -44,12 +45,19 @@ Pass `isDateUnavailable`, or the JSON-friendly `unavailableDates` (an array of I
   <UnavailableExample client:load />
 </Example>
 
+## Multiple months
+
+Pass `visibleMonths` to show more than one month side by side in the popover, sharing a single selection — passed straight through to the underlying [`CxRangeCalendar`](/forms/range-calendar).
+
+<Example>
+  <MultiMonthExample client:load />
+</Example>
+
 ## Scope
 
 This is a date-only range picker — a few things are deliberately out of scope for this pass:
 
 - **Time selection** — both fields are date-only (`granularity="day"`); no time segments are rendered.
-- **Multiple visible months** — the calendar grid always shows one month at a time.
 - **Presets** — a preset list ("Last 7 days", "This month", etc.) isn't included; a dedicated `presets` prop may ship separately.
 - **Non-contiguous ranges** — react-aria's `allowsNonContiguousRanges` option isn't exposed.
 

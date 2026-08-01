@@ -393,6 +393,27 @@
       "type": {
         "name": "RangeValue<DateValue> | null"
       }
+    },
+    "visibleMonths": {
+      "defaultValue": {
+        "value": "1"
+      },
+      "description": "Number of months to display side by side in the calendar popover.",
+      "name": "visibleMonths",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/date-range-picker/CxDateRangePicker.tsx",
+        "name": "CxDateRangePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/date-range-picker/CxDateRangePicker.tsx",
+          "name": "CxDateRangePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number"
+      }
     }
   }
 }

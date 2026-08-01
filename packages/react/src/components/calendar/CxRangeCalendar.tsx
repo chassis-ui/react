@@ -7,6 +7,7 @@ import {
   useButton,
   useCalendarCell,
   useCalendarGrid,
+  useCalendarHeading,
   useCalendarMonthPicker,
   useCalendarYearPicker,
   useLocale,
@@ -17,7 +18,6 @@ import {
   CalendarDate,
   createCalendar,
   getLocalTimeZone,
-  getWeeksInMonth,
   isSameDay,
   isToday,
   isWeekend
@@ -92,6 +92,15 @@ export interface CxRangeCalendarProps extends Omit<
    * The selected date range (controlled).
    */
   value?: RangeValue<DateValue> | null
+  /**
+   * Number of months to display side by side, sharing one selection. Wraps to multiple rows in
+   * a narrow container (e.g. a popover on a small screen) rather than overflowing — the wrap is
+   * driven by the calendar's own width, not the viewport, so it adapts correctly regardless of
+   * where the calendar is embedded.
+   *
+   * @default 1
+   */
+  visibleMonths?: number
 }
 
 // Range counterpart to `CxCalendar` — same dialog-agnostic composition boundary (see that
@@ -115,6 +124,7 @@ export const CxRangeCalendar = forwardRef<HTMLDivElement, CxRangeCalendarProps>(
       onChange,
       unavailableDates,
       value,
+      visibleMonths = 1,
       ...rest
     },
     forwardedRef
@@ -135,7 +145,7 @@ export const CxRangeCalendar = forwardRef<HTMLDivElement, CxRangeCalendarProps>(
       minValue,
       onChange,
       value,
-      visibleDuration: { months: 1 }
+      visibleDuration: { months: visibleMonths }
     })
 
     const ariaProps: AriaRangeCalendarProps<DateValue> = {
@@ -180,7 +190,19 @@ export const CxRangeCalendar = forwardRef<HTMLDivElement, CxRangeCalendarProps>(
             ›
           </button>
         </div>
-        <CalendarGrid locale={locale} state={state} />
+        <div className="cx-calendar-months">
+          {[...new Array(visibleMonths).keys()].map((monthIndex) => (
+            <CalendarMonth
+              key={monthIndex}
+              locale={locale}
+              monthIndex={monthIndex}
+              // A single month already has its own name in the header above (title or dropdowns)
+              // — a second heading here would just repeat it.
+              showHeading={visibleMonths > 1}
+              state={state}
+            />
+          ))}
+        </div>
       </div>
     )
   }
@@ -230,52 +252,64 @@ const CalendarNavDropdowns = ({ state }: CalendarNavDropdownsProps) => {
   )
 }
 
-interface CalendarGridProps {
+interface CalendarMonthProps {
   locale: string
+  monthIndex: number
+  showHeading: boolean
   state: RangeCalendarState
 }
 
-const CalendarGrid = ({ locale, state }: CalendarGridProps) => {
-  const { gridProps, headerProps, weekDays } = useCalendarGrid({}, state)
-  const weeksInMonth = getWeeksInMonth(state.visibleRange.start, locale)
+// One visible month within `visibleMonths` — `useCalendarGrid`'s `startDate`/`endDate` and
+// `useCalendarHeading`'s `offset` are both designed for exactly this "multiple date grids in one
+// calendar" case, so no manual date math is needed beyond locating this month's own start.
+const CalendarMonth = ({ locale, monthIndex, showHeading, state }: CalendarMonthProps) => {
+  const monthStart = state.visibleRange.start.add({ months: monthIndex })
+  const heading = useCalendarHeading({ offset: { months: monthIndex } }, state)
+  const { gridProps, headerProps, weekDays, weeksInMonth } = useCalendarGrid(
+    { startDate: monthStart },
+    state
+  )
 
   return (
-    <table {...gridProps} className="cx-calendar-grid">
-      <thead {...headerProps}>
-        <tr>
-          {weekDays.map((day, index) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <th className="cx-calendar-weekday" key={index}>
-              {day}
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {[...new Array(weeksInMonth).keys()].map((weekIndex) => {
-          const week = state.getDatesInWeek(weekIndex)
-          return (
-            <tr key={weekIndex}>
-              {week.map((date, i) =>
-                date ? (
-                  <CalendarCell
-                    date={date}
-                    isFirstInRow={i === 0}
-                    isLastInRow={i === week.length - 1}
-                    key={date.toString()}
-                    locale={locale}
-                    state={state}
-                  />
-                ) : (
-                  // eslint-disable-next-line react/no-array-index-key
-                  <td key={i} />
-                )
-              )}
-            </tr>
-          )
-        })}
-      </tbody>
-    </table>
+    <div className="cx-calendar-month">
+      {showHeading && <div className="cx-calendar-month-heading">{heading}</div>}
+      <table {...gridProps} className="cx-calendar-grid">
+        <thead {...headerProps}>
+          <tr>
+            {weekDays.map((day, index) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <th className="cx-calendar-weekday" key={index}>
+                {day}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {[...new Array(weeksInMonth).keys()].map((weekIndex) => {
+            const week = state.getDatesInWeek(weekIndex, monthStart)
+            return (
+              <tr key={weekIndex}>
+                {week.map((date, i) =>
+                  date ? (
+                    <CalendarCell
+                      date={date}
+                      isFirstInRow={i === 0}
+                      isLastInRow={i === week.length - 1}
+                      key={date.toString()}
+                      locale={locale}
+                      state={state}
+                    />
+                  ) : (
+                    // eslint-disable-next-line react/no-array-index-key
+                    <td key={i} />
+                  )
+                )}
+              </tr>
+            )
+          })}
+        </tbody>
+      </table>
+    </div>
   )
 }
 
