@@ -44,6 +44,25 @@
       "type": {
         "name": "string | ComponentClass<any, any> | FunctionComponent<any>"
       }
+    },
+    "items": {
+      "defaultValue": null,
+      "description": "Array of item/header/divider definitions for data-driven rendering. When provided, children\nare ignored. Covers flat items, headers, and dividers only — for nested submenus, compose\nwith `children` and `CxSubmenu` instead.",
+      "name": "items",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/menu/CxMenuList.tsx",
+        "name": "CxMenuListProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/CxMenuList.tsx",
+          "name": "CxMenuListProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "CxMenuItemsDef"
+      }
     }
   }
 }

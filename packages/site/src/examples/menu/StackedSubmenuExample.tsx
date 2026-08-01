@@ -7,7 +7,7 @@ import {
   CxSubmenuBack
 } from '@chassis-ui/react'
 
-export const StackedSubmenuExample = () => {
+export const Example = () => {
   return (
     <CxMenu>
       <CxMenuToggle color="secondary">Stacked submenus</CxMenuToggle>

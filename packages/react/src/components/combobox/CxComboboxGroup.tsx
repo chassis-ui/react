@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 
 export interface CxComboboxGroupProps {
   /**
-   * `CxComboboxItem` elements belonging to this group.
+   * Items belonging to this group.
    */
   children: ReactNode
   /**

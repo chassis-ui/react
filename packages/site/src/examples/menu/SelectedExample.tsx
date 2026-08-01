@@ -1,6 +1,6 @@
 import { CxMenu, CxMenuToggle, CxMenuList, CxMenuItem } from '@chassis-ui/react'
 
-export const SelectedExample = () => {
+export const Example = () => {
   return (
     <CxMenu>
       <CxMenuToggle color="secondary">Sort by</CxMenuToggle>

@@ -1,6 +1,6 @@
 import { CxCombobox, CxComboboxItem } from '@chassis-ui/react'
 
-export const FormFieldExample = () => {
+export const Example = () => {
   return (
     <CxCombobox
       label="Country"

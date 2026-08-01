@@ -5,19 +5,21 @@ description: Chassis Menu component (formerly Dropdown) is a toggleable contextu
 toc: true
 ---
 
-import { BasicUsageExample } from '../../src/examples/menu/BasicUsageExample.tsx'
-import { MenuItemsExample } from '../../src/examples/menu/MenuItemsExample.tsx'
-import { SelectedExample } from '../../src/examples/menu/SelectedExample.tsx'
-import { HeadersExample } from '../../src/examples/menu/HeadersExample.tsx'
-import { DividersExample } from '../../src/examples/menu/DividersExample.tsx'
-import { TextExample } from '../../src/examples/menu/TextExample.tsx'
-import { FormsExample } from '../../src/examples/menu/FormsExample.tsx'
-import { PlacementExample } from '../../src/examples/menu/PlacementExample.tsx'
-import { AutoCloseExample } from '../../src/examples/menu/AutoCloseExample.tsx'
-import { SubmenuExample } from '../../src/examples/menu/SubmenuExample.tsx'
-import { StackedSubmenuExample } from '../../src/examples/menu/StackedSubmenuExample.tsx'
-import { DarkModeExample } from '../../src/examples/menu/DarkModeExample.tsx'
-import { ContextVariantsExample } from '../../src/examples/menu/ContextVariantsExample.tsx'
+import { Example as BasicUsageExample } from '../../src/examples/menu/BasicUsageExample.tsx'
+import { Example as MenuItemsExample } from '../../src/examples/menu/MenuItemsExample.tsx'
+import { Example as SelectedExample } from '../../src/examples/menu/SelectedExample.tsx'
+import { Example as RichContentExample } from '../../src/examples/menu/RichContentExample.tsx'
+import { Example as ItemsExample } from '../../src/examples/menu/ItemsExample.tsx'
+import { Example as HeadersExample } from '../../src/examples/menu/HeadersExample.tsx'
+import { Example as DividersExample } from '../../src/examples/menu/DividersExample.tsx'
+import { Example as TextExample } from '../../src/examples/menu/TextExample.tsx'
+import { Example as FormsExample } from '../../src/examples/menu/FormsExample.tsx'
+import { Example as PlacementExample } from '../../src/examples/menu/PlacementExample.tsx'
+import { Example as AutoCloseExample } from '../../src/examples/menu/AutoCloseExample.tsx'
+import { Example as SubmenuExample } from '../../src/examples/menu/SubmenuExample.tsx'
+import { Example as StackedSubmenuExample } from '../../src/examples/menu/StackedSubmenuExample.tsx'
+import { Example as DarkModeExample } from '../../src/examples/menu/DarkModeExample.tsx'
+import { Example as ContextVariantsExample } from '../../src/examples/menu/ContextVariantsExample.tsx'
 
 ## Overview
 
@@ -45,6 +47,14 @@ Add `selected` to a `CxMenuItem` to indicate the current choice in a selection l
 
 <Example>
   <SelectedExample client:load />
+</Example>
+
+### Rich content
+
+Add `icon`/`description` to a `CxMenuItem` for a leading icon and a secondary line of text below the label.
+
+<Example>
+  <RichContentExample client:load />
 </Example>
 
 ## Menu content
@@ -81,6 +91,14 @@ A menu list can contain any form content.
   <FormsExample client:load />
 </Example>
 
+## Data-driven items
+
+Pass an `items` array to `CxMenuList` instead of composing children to build a flat list from data — items, headers, and dividers interleaved in authoring order. Covers flat items, headers, and dividers only; compose with `children` and `CxSubmenu` directly for nested submenus.
+
+<Example>
+  <ItemsExample client:load />
+</Example>
+
 ## Placement
 
 Pass a `placement` prop to control which side of the toggle the menu opens on. It flips automatically when viewport space is limited.
@@ -99,7 +117,7 @@ The `autoClose` prop controls which clicks close the menu. The default (`true`) 
 
 ## Submenus
 
-Wrap a trigger and nested items in `CxSubmenu` to create a flyout. Submenus close sibling submenus automatically when a new one opens, and close along with their ancestor menu.
+Wrap a trigger and nested items in `CxSubmenu` to create a flyout. Submenus close sibling submenus automatically when a new one opens, and close along with their ancestor menu. Set `activation` to `'hover'` or `'click'` to restrict which interaction opens it on hover-capable devices — the default, `'both'`, accepts either; touch devices always use tap regardless of this setting.
 
 <Example>
   <SubmenuExample client:load />
@@ -113,9 +131,7 @@ Set `stacked` on a `CxSubmenu` to switch to a view-replacement pattern below the
   <StackedSubmenuExample client:load />
 </Example>
 
-## Theming
-
-### Dark mode
+## Dark mode
 
 Apply `data-cx-theme="dark"` to a `CxMenu` or any ancestor element to opt the menu into the dark theme.
 
@@ -123,7 +139,7 @@ Apply `data-cx-theme="dark"` to a `CxMenu` or any ancestor element to opt the me
   <DarkModeExample client:load />
 </Example>
 
-### Context variants
+## Context variants
 
 Add `context` classes (e.g. `context info`, `context danger`) to a `CxMenuList` or an individual `CxMenuItem` to remap colors to a semantic palette.
 

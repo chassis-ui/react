@@ -5,20 +5,37 @@ description: Chassis Combobox combines a text input with a filterable listbox, l
 toc: true
 ---
 
-import { BasicExample } from '../../src/examples/combobox/BasicExample.tsx'
-import { FormFieldExample } from '../../src/examples/combobox/FormFieldExample.tsx'
-import { DisabledExample } from '../../src/examples/combobox/DisabledExample.tsx'
-
-import { CxCombobox, CxComboboxItem } from '@chassis-ui/react'
+import { Example as BasicExample } from '../../src/examples/combobox/BasicExample.tsx'
+import { Example as RichContentExample } from '../../src/examples/combobox/RichContentExample.tsx'
+import { Example as GroupedExample } from '../../src/examples/combobox/GroupedExample.tsx'
+import { Example as DisabledExample } from '../../src/examples/combobox/DisabledExample.tsx'
+import { Example as ItemsExample } from '../../src/examples/combobox/ItemsExample.tsx'
+import { Example as FormFieldExample } from '../../src/examples/combobox/FormFieldExample.tsx'
 
 ## Overview
 
-`CxCombobox` combines a text input with a filterable list of options — type to narrow the list, arrow keys to move through it, Enter to select. It replaces hand-wiring a `CxMenu` to a text input with real combobox semantics: `role="combobox"` on the input, `role="listbox"`/`role="option"` on the list, and `aria-expanded`/`aria-controls`/`aria-activedescendant` kept in sync automatically.
+`CxCombobox` combines a text input with a filterable list of options — type to narrow the list, arrow keys to move through it, Enter to select. It replaces hand-wiring a `CxMenu` to a text input with real combobox semantics: `role="combobox"` on the input, `role="listbox"`/`role="option"` on the list, and `aria-expanded`/`aria-controls`/`aria-activedescendant` kept in sync automatically. For a display-only toggle that opens the option list instead of typing directly into it, see [Autocomplete]([[docsref:/forms/autocomplete]]).
 
 Compose a `CxComboboxItem` per option, each identified by an `id`.
 
 <Example>
   <BasicExample client:load />
+</Example>
+
+## Rich item content
+
+Add `icon`/`description` to a `CxComboboxItem` for a leading icon and a secondary line of text below the label. Content still filters and renders as plain text when neither is set.
+
+<Example>
+  <RichContentExample client:load />
+</Example>
+
+## Grouped items
+
+Wrap related `CxComboboxItem` elements in a `CxComboboxGroup` to render them under a shared header. Filtering a query out of every item in a group hides that group's header along with it.
+
+<Example>
+  <GroupedExample client:load />
 </Example>
 
 ## Disabled options
@@ -27,6 +44,14 @@ Add `disabled` to a `CxComboboxItem` to remove it from keyboard navigation and p
 
 <Example>
   <DisabledExample client:load />
+</Example>
+
+## Data-driven items
+
+Pass an `items` array instead of composing children to build the option list from data. A `'header'` entry starts a group that every following item joins until the next header or the end of the array; `items` wins over `children` when both are set.
+
+<Example>
+  <ItemsExample client:load />
 </Example>
 
 ## As a form field
@@ -43,10 +68,12 @@ Pass `value`/`onChange` to `CxCombobox` to control the selected option yourself.
 
 ## Scope
 
-This is the single-select, type-to-filter combobox — the strong-fit case for React Aria's combobox hooks, and the most common combobox pattern. Two variants chassis-css's vanilla JS supports aren't covered here:
+This is the single-select, type-to-filter combobox — the strong-fit case for React Aria's combobox hooks, and the most common combobox pattern. Two related patterns live in other components instead:
 
-- **Button-trigger comboboxes** (a display-only toggle with a separate search field inside the dropdown, like a searchable `<select>`) — a different, more custom composition than React Aria's text-input-driven combobox hook is designed around.
-- **Multiple selection** — not built on top of the single-select hooks here. A dedicated multi-select/chip-input component is a better fit and may ship separately.
+- **A button-trigger toggle with its own search field** — see [Autocomplete]([[docsref:/forms/autocomplete]]).
+- **Multiple selection** — also [Autocomplete]([[docsref:/forms/autocomplete]]), via its `multiple` prop, built on the same button-trigger composition.
+
+**No async filtering.** Matching happens entirely client-side against the options already passed as `children`/`items`; there's no controlled input value or `onInputChange` callback to drive a server-side search.
 
 ## API
 
@@ -57,3 +84,7 @@ This is the single-select, type-to-filter combobox — the strong-fit case for R
 ### CxComboboxItem
 
 <PropTable component="CxComboboxItem" />
+
+### CxComboboxGroup
+
+<PropTable component="CxComboboxGroup" />

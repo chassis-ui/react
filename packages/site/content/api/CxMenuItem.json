@@ -45,9 +45,47 @@
         "name": "string | ComponentClass<any, any> | FunctionComponent<any>"
       }
     },
+    "description": {
+      "defaultValue": null,
+      "description": "Secondary line of text rendered below `children` (`.menu-item-description`).",
+      "name": "description",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/menu/CxMenuItem.tsx",
+        "name": "CxMenuItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/CxMenuItem.tsx",
+          "name": "CxMenuItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "icon": {
+      "defaultValue": null,
+      "description": "Icon rendered at the item's leading edge (`.menu-item-icon`).",
+      "name": "icon",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/menu/CxMenuItem.tsx",
+        "name": "CxMenuItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/CxMenuItem.tsx",
+          "name": "CxMenuItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
     "selected": {
       "defaultValue": null,
-      "description": "Marks the item as the current selection in a choice list. Renders in a heavier font\nweight. Combine with a `.menu-item-check` icon to show a checkmark on the selected item.",
+      "description": "Marks the item as the current selection in a choice list. Renders in a heavier font weight.\nCombine with a manually-composed `.menu-item-check` icon (in `children`, or via `icon` on a\nplain, non-selection item) to also show a checkmark — this prop alone doesn't add one, so\nexisting font-weight-only usage keeps rendering unchanged.",
       "name": "selected",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/menu/CxMenuItem.tsx",

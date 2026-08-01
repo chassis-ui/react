@@ -1,0 +1,47 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/autocomplete/CxAutocompleteGroup.tsx",
+  "description": "",
+  "displayName": "CxAutocompleteGroup",
+  "methods": [],
+  "props": {
+    "children": {
+      "defaultValue": null,
+      "description": "Items belonging to this group.",
+      "name": "children",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/combobox/CxComboboxGroup.tsx",
+        "name": "CxComboboxGroupProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/combobox/CxComboboxGroup.tsx",
+          "name": "CxComboboxGroupProps"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "label": {
+      "defaultValue": null,
+      "description": "Header content for the group (`.menu-header`).",
+      "name": "label",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/combobox/CxComboboxGroup.tsx",
+        "name": "CxComboboxGroupProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/combobox/CxComboboxGroup.tsx",
+          "name": "CxComboboxGroupProps"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "ReactNode"
+      }
+    }
+  }
+}

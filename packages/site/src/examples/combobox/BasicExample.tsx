@@ -1,6 +1,6 @@
 import { CxCombobox, CxComboboxItem } from '@chassis-ui/react'
 
-export const BasicExample = () => {
+export const Example = () => {
   return (
     <CxCombobox aria-label="Fruit" placeholder="Select a fruit…">
       <CxComboboxItem id="apple">Apple</CxComboboxItem>

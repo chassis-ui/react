@@ -1,6 +1,6 @@
 import { CxCombobox, CxComboboxItem } from '@chassis-ui/react'
 
-export const DisabledExample = () => {
+export const Example = () => {
   return (
     <CxCombobox aria-label="Role" placeholder="Choose a role…">
       <CxComboboxItem id="admin">Admin</CxComboboxItem>

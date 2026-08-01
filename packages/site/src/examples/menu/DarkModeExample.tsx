@@ -1,6 +1,6 @@
 import { CxMenu, CxMenuToggle, CxMenuList, CxMenuItem } from '@chassis-ui/react'
 
-export const DarkModeExample = () => {
+export const Example = () => {
   return (
     <div data-cx-theme="dark">
       <CxMenu>

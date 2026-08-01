@@ -1,6 +1,6 @@
 import { CxMenu, CxMenuToggle, CxMenuList, CxMenuItem } from '@chassis-ui/react'
 
-export const AutoCloseExample = () => {
+export const Example = () => {
   return (
     <div className="d-flex flex-wrap gap-small">
       <CxMenu autoClose>

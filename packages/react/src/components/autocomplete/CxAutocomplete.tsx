@@ -178,9 +178,9 @@ export interface CxAutocompleteProps extends Omit<
    */
   label?: ReactNode
   /**
-   * Allows more than one option to be selected. Selected options render as removable chips in
-   * the toggle, the menu stays open after each selection, and `Backspace` in the empty search
-   * field removes the last chip.
+   * Allows more than one option to be selected. The toggle shows the single selection's label,
+   * or an "N selected" count once more than one is picked. The menu stays open after each
+   * selection, and `Backspace` in the empty search field removes the last selected option.
    */
   multiple?: boolean
   /**

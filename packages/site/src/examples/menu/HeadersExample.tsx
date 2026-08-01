@@ -1,6 +1,6 @@
 import { CxMenu, CxMenuToggle, CxMenuList, CxMenuItem, CxMenuHeader } from '@chassis-ui/react'
 
-export const HeadersExample = () => {
+export const Example = () => {
   return (
     <CxMenu>
       <CxMenuToggle color="secondary">Toggle menu</CxMenuToggle>

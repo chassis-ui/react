@@ -9,7 +9,7 @@ import {
   CxMenuList
 } from '@chassis-ui/react'
 
-export const FormsExample = () => {
+export const Example = () => {
   return (
     <CxMenu>
       <CxMenuToggle color="secondary">Toggle menu</CxMenuToggle>

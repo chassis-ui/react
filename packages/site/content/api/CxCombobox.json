@@ -45,7 +45,7 @@
     },
     "children": {
       "defaultValue": null,
-      "description": "`CxComboboxItem` elements — read as data by `CxCombobox` to build the option list. Not\nrendered directly.",
+      "description": "`CxComboboxItem` elements, optionally wrapped in `CxComboboxGroup` — read as data by\n`CxCombobox` to build the option list. Not rendered directly. Ignored when `items` is set.",
       "name": "children",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
@@ -57,7 +57,7 @@
           "name": "CxComboboxProps"
         }
       ],
-      "required": true,
+      "required": false,
       "type": {
         "name": "ReactNode"
       }
@@ -193,6 +193,25 @@
       "required": false,
       "type": {
         "name": "ReactNode"
+      }
+    },
+    "items": {
+      "defaultValue": null,
+      "description": "Array of item/header/divider definitions for data-driven rendering. When provided, children\nare ignored. A `'header'` entry starts a group that all following items join until the next\nheader or the end of the array. `'divider'` entries are a no-op here (dividers aren't\nmeaningful for a listbox/option collection) — use `CxComboboxGroup` composition instead if\nyou need finer control over grouping.",
+      "name": "items",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
+        "name": "CxComboboxProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/combobox/CxCombobox.tsx",
+          "name": "CxComboboxProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "CxMenuItemsDef"
       }
     },
     "label": {

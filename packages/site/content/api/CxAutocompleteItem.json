@@ -1,8 +1,8 @@
 {
   "tags": {},
-  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/combobox/CxComboboxItem.tsx",
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/autocomplete/CxAutocompleteItem.tsx",
   "description": "",
-  "displayName": "CxComboboxItem",
+  "displayName": "CxAutocompleteItem",
   "methods": [],
   "props": {
     "children": {

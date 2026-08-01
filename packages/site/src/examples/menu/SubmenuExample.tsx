@@ -7,7 +7,7 @@ import {
   CxSubmenu
 } from '@chassis-ui/react'
 
-export const SubmenuExample = () => {
+export const Example = () => {
   return (
     <CxMenu>
       <CxMenuToggle color="secondary">Submenus</CxMenuToggle>
