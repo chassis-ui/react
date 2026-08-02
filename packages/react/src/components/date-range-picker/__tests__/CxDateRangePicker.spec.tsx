@@ -218,7 +218,7 @@ describe('CxDateRangePicker', () => {
       render(<CxDateRangePicker aria-label="Trip dates" />)
       openCalendar()
       // eslint-disable-next-line testing-library/no-node-access
-      expect(document.querySelector('.cx-daterangepicker-presets')).toBeNull()
+      expect(document.querySelector('.cx-calendar-presets')).toBeNull()
     })
 
     test('presets={true} renders the default preset list', () => {

@@ -10,6 +10,7 @@ import { RangeMinMaxExample } from '../../src/examples/calendar/RangeMinMaxExamp
 import { RangeUnavailableDatesExample } from '../../src/examples/calendar/RangeUnavailableDatesExample.tsx'
 import { RangeNavigationExample } from '../../src/examples/calendar/RangeNavigationExample.tsx'
 import { RangeMultiMonthExample } from '../../src/examples/calendar/RangeMultiMonthExample.tsx'
+import { PresetsExample } from '../../src/examples/calendar/PresetsExample.tsx'
 
 import { CxRangeCalendar } from '@chassis-ui/react'
 
@@ -55,6 +56,14 @@ Pass `visibleMonths` to show more than one month side by side, sharing a single 
 
 <Example>
   <RangeMultiMonthExample client:load />
+</Example>
+
+## Presets
+
+Pass `presets` to show a quick-select list next to the calendar in the popover. `presets={true}` uses a sensible default list — Today, Last 7/30/90 Days, Last Week, Last Month, all computed relative to today (and locale-aware: "Last Week"/"Last Month" respect the active locale's week/month boundaries). Selecting a preset commits its range immediately, the same as picking a start and end date from the calendar.
+
+<Example>
+  <PresetsExample client:load />
 </Example>
 
 ## Accessible name

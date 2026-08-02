@@ -24,6 +24,7 @@ import {
 } from '@internationalized/date'
 
 import { useForkedRef } from '../../hooks'
+import { CxDateRangePreset, getDefaultDateRangePresets } from './dateRangePresets'
 import { mergeIsDateUnavailable } from './mergeIsDateUnavailable'
 import './CxCalendar.css'
 import './CxRangeCalendar.css'
@@ -83,6 +84,15 @@ export interface CxRangeCalendarProps extends Omit<
    */
   onChange?: (value: RangeValue<DateValue>) => void
   /**
+   * A list of quick-select range presets shown beside the calendar, or `true` for a sensible
+   * default list (Today, Last 7/30/90 Days, Last Week, Last Month — all relative to today).
+   * Selecting a preset commits its range immediately, the same as picking a start and end date
+   * from the grid. Omit (or `false`) to not show a preset list.
+   *
+   * @default false
+   */
+  presets?: boolean | CxDateRangePreset[]
+  /**
    * ISO 8601 dates (`YYYY-MM-DD`) to mark unselectable, as a convenience alternative to
    * `isDateUnavailable` for data-driven cases (e.g. booked dates fetched from an API). Composed
    * with `isDateUnavailable` when both are given — a date unavailable by either is unavailable.
@@ -122,6 +132,7 @@ export const CxRangeCalendar = forwardRef<HTMLDivElement, CxRangeCalendarProps>(
       minValue,
       navigation = 'dropdown',
       onChange,
+      presets,
       unavailableDates,
       value,
       visibleMonths = 1,
@@ -133,6 +144,7 @@ export const CxRangeCalendar = forwardRef<HTMLDivElement, CxRangeCalendarProps>(
     const internalRef = useRef<HTMLDivElement>(null)
     const ref = useForkedRef(internalRef, forwardedRef)
     const combinedIsDateUnavailable = mergeIsDateUnavailable(unavailableDates, isDateUnavailable)
+    const resolvedPresets = presets === true ? getDefaultDateRangePresets(locale) : presets || null
 
     const state = useRangeCalendarState({
       autoFocus,
@@ -171,6 +183,14 @@ export const CxRangeCalendar = forwardRef<HTMLDivElement, CxRangeCalendarProps>(
     const { buttonProps: domPrevButtonProps } = useButton(prevButtonProps, prevRef)
     const { buttonProps: domNextButtonProps } = useButton(nextButtonProps, nextRef)
 
+    // Goes through the same `state.setValue` path a two-click grid selection does (rather than
+    // calling `onChange` directly), so it behaves identically whether `value` is controlled or
+    // uncontrolled — including `CxDateRangePicker`, which relies on this to auto-close its popover
+    // the same way completing a range in the grid already does.
+    const handlePresetSelect = (range: RangeValue<DateValue>) => {
+      state.setValue(range)
+    }
+
     return (
       <div
         {...mergeProps(calendarProps, rest)}
@@ -201,18 +221,23 @@ export const CxRangeCalendar = forwardRef<HTMLDivElement, CxRangeCalendarProps>(
             ›
           </button>
         </div>
-        <div className="cx-calendar-months">
-          {[...new Array(visibleMonths).keys()].map((monthIndex) => (
-            <CalendarMonth
-              key={monthIndex}
-              locale={locale}
-              monthIndex={monthIndex}
-              // A single month already has its own name in the header above (title or dropdowns)
-              // — a second heading here would just repeat it.
-              showHeading={visibleMonths > 1}
-              state={state}
-            />
-          ))}
+        <div className="datepicker-grid">
+          {resolvedPresets && (
+            <DateRangePresets onSelect={handlePresetSelect} presets={resolvedPresets} />
+          )}
+          <div className="cx-calendar-months">
+            {[...new Array(visibleMonths).keys()].map((monthIndex) => (
+              <CalendarMonth
+                key={monthIndex}
+                locale={locale}
+                monthIndex={monthIndex}
+                // A single month already has its own name in the header above (title or
+                // dropdowns) — a second heading here would just repeat it.
+                showHeading={visibleMonths > 1}
+                state={state}
+              />
+            ))}
+          </div>
         </div>
       </div>
     )
@@ -378,3 +403,23 @@ const CalendarCell = ({ date, isFirstInRow, isLastInRow, locale, state }: Calend
     </div>
   )
 }
+
+interface DateRangePresetsProps {
+  onSelect: (range: RangeValue<DateValue>) => void
+  presets: CxDateRangePreset[]
+}
+
+// Plain buttons in a list, not a listbox — a group of independent actions (each one commits
+// immediately) rather than a single-selection widget, so native Tab/Enter/Space is the right
+// interaction model without extra roving-tabindex/arrow-key wiring.
+const DateRangePresets = ({ onSelect, presets }: DateRangePresetsProps) => (
+  <ul className="cx-calendar-presets">
+    {presets.map((preset) => (
+      <li key={preset.label}>
+        <button className="cx-calendar-preset" onClick={() => onSelect(preset.range)} type="button">
+          {preset.label}
+        </button>
+      </li>
+    ))}
+  </ul>
+)
