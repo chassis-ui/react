@@ -24,7 +24,7 @@ export const DateField = ({ fieldProps }: DateFieldProps) => {
   const { fieldProps: domFieldProps } = useDateField(fieldProps, state, ref)
 
   return (
-    <div {...domFieldProps} className="cx-datepicker-field ghost-input" ref={ref}>
+    <div {...domFieldProps} className="cx-datepicker-field" ref={ref}>
       {state.segments.map((segment, index) => (
         // eslint-disable-next-line react/no-array-index-key
         <DateSegment key={index} segment={segment} state={state} />

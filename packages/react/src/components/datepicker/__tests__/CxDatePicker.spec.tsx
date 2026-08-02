@@ -10,12 +10,14 @@ const openCalendar = () => {
   fireEvent.click(screen.getByRole('button'))
 }
 
-// The .cx-datepicker-calendar wrapper only toggles a `hidden` attribute and has no role of its
-// own (the actual role="dialog" lives on the Calendar rendered inside it, only while open) - no
-// accessible query reaches the wrapper itself.
+// The popover wrapper only toggles a `hidden` attribute and has no role of its own (the actual
+// role="dialog" lives on the Calendar rendered inside it, only while open) - no accessible query
+// reaches the wrapper itself. It's the first `.datepicker` in document order — the nested
+// `CxCalendar` (also classed `.datepicker`, adopting chassis-css's real class name) only exists
+// once the popover is open, and always renders after this one.
 const getCalendarWrapper = () =>
   // eslint-disable-next-line testing-library/no-node-access
-  document.querySelector('.cx-datepicker-calendar') as HTMLElement
+  document.querySelector('.datepicker') as HTMLElement
 
 describe('CxDatePicker', () => {
   describe('rendering', () => {
@@ -183,7 +185,8 @@ describe('CxDatePicker', () => {
 
       const grid = screen.getByRole('grid')
       const unavailable = within(grid).getByRole('button', { name: /25/ })
-      expect(unavailable).toHaveClass('unavailable')
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(unavailable.closest('.datepicker-date')).toHaveClass('datepicker-date-unavailable')
       fireEvent.click(unavailable)
       expect(onChange).not.toHaveBeenCalled()
     })

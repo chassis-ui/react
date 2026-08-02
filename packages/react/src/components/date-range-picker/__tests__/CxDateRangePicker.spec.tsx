@@ -10,11 +10,11 @@ const openCalendar = () => {
   fireEvent.click(screen.getByRole('button'))
 }
 
-// Same rationale as `CxDatePicker.spec.tsx`: the `.cx-datepicker-calendar` wrapper only toggles a
-// `hidden` attribute and has no role of its own.
+// Same rationale as `CxDatePicker.spec.tsx`: the popover wrapper only toggles a `hidden` attribute
+// and has no role of its own, and is the first `.datepicker` in document order.
 const getCalendarWrapper = () =>
   // eslint-disable-next-line testing-library/no-node-access
-  document.querySelector('.cx-datepicker-calendar') as HTMLElement
+  document.querySelector('.datepicker') as HTMLElement
 
 describe('CxDateRangePicker', () => {
   describe('rendering', () => {
@@ -149,7 +149,8 @@ describe('CxDateRangePicker', () => {
 
       const grid = screen.getByRole('grid')
       const unavailable = within(grid).getByRole('button', { name: /July 15, 2026/ })
-      expect(unavailable).toHaveClass('unavailable')
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(unavailable.closest('.datepicker-date')).toHaveClass('datepicker-date-unavailable')
     })
   })
 

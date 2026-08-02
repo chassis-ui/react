@@ -7,7 +7,14 @@ import { CxRangeCalendar, I18nProvider } from '../../../index'
 
 const getTitle = () =>
   // eslint-disable-next-line testing-library/no-node-access
-  (document.querySelector('.cx-calendar-title') as HTMLElement).textContent
+  (document.querySelector('.datepicker-header-content') as HTMLElement).textContent
+
+// State classes (`weekend`, `unavailable`, range endpoints, etc.) live on the `.datepicker-date`
+// wrapper, not the `.datepicker-date-btn` button itself — matching chassis-css's own
+// `.datepicker-date-X > .datepicker-date-btn` selector pattern.
+const getDateCell = (button: HTMLElement) =>
+  // eslint-disable-next-line testing-library/no-node-access
+  button.closest('.datepicker-date') as HTMLElement
 
 describe('CxRangeCalendar', () => {
   describe('rendering', () => {
@@ -101,7 +108,7 @@ describe('CxRangeCalendar', () => {
 
       const grid = screen.getByRole('grid')
       const unavailable = within(grid).getByRole('button', { name: /July 15, 2026/ })
-      expect(unavailable).toHaveClass('unavailable')
+      expect(getDateCell(unavailable)).toHaveClass('datepicker-date-unavailable')
     })
   })
 
@@ -153,14 +160,13 @@ describe('CxRangeCalendar', () => {
       const middle = within(grid).getByRole('button', { name: /July 12, 2026/ })
       const end = within(grid).getByRole('button', { name: /Wednesday, July 15, 2026 selected/ })
 
-      expect(start).toHaveClass('range-start')
-      expect(start).not.toHaveClass('range-end')
-      expect(end).toHaveClass('range-end')
-      expect(end).not.toHaveClass('range-start')
-      expect(middle).not.toHaveClass('range-start')
-      expect(middle).not.toHaveClass('range-end')
-      // eslint-disable-next-line testing-library/no-node-access
-      expect(middle.closest('td')).toHaveClass('in-range')
+      expect(start).toHaveClass('datepicker-date-range-start')
+      expect(start).not.toHaveClass('datepicker-date-range-end')
+      expect(end).toHaveClass('datepicker-date-range-end')
+      expect(end).not.toHaveClass('datepicker-date-range-start')
+      expect(middle).not.toHaveClass('datepicker-date-range-start')
+      expect(middle).not.toHaveClass('datepicker-date-range-end')
+      expect(getDateCell(middle)).toHaveClass('datepicker-date-in-range')
     })
   })
 
@@ -205,10 +211,12 @@ describe('CxRangeCalendar', () => {
         </I18nProvider>
       )
       const grid = screen.getByRole('grid')
-      expect(within(grid).getByRole('button', { name: /Saturday, July 25/ })).toHaveClass('weekend')
-      expect(within(grid).getByRole('button', { name: /Monday, July 27/ })).not.toHaveClass(
-        'weekend'
-      )
+      expect(
+        getDateCell(within(grid).getByRole('button', { name: /Saturday, July 25/ }))
+      ).toHaveClass('datepicker-date-weekend')
+      expect(
+        getDateCell(within(grid).getByRole('button', { name: /Monday, July 27/ }))
+      ).not.toHaveClass('datepicker-date-weekend')
     })
   })
 

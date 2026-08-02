@@ -5,12 +5,19 @@ import { axe } from 'jest-axe'
 
 import { CxCalendar, I18nProvider } from '../../../index'
 
-// `.cx-calendar-title` is the only reliable way to read the visible month/year — react-aria's
-// live-announcer renders a second, visually-hidden node with the same text on every navigation,
-// so text-based queries against the whole document match more than one element.
+// `.datepicker-header-content` is the only reliable way to read the visible month/year —
+// react-aria's live-announcer renders a second, visually-hidden node with the same text on every
+// navigation, so text-based queries against the whole document match more than one element.
 const getTitle = () =>
   // eslint-disable-next-line testing-library/no-node-access
-  (document.querySelector('.cx-calendar-title') as HTMLElement).textContent
+  (document.querySelector('.datepicker-header-content') as HTMLElement).textContent
+
+// State classes (`selected`, `weekend`, `unavailable`, etc.) live on the `.datepicker-date`
+// wrapper, not the `.datepicker-date-btn` button itself — matching chassis-css's own
+// `.datepicker-date-X > .datepicker-date-btn` selector pattern.
+const getDateCell = (button: HTMLElement) =>
+  // eslint-disable-next-line testing-library/no-node-access
+  button.closest('.datepicker-date') as HTMLElement
 
 // The year `<select>`'s `value` is a list index (react-aria's `useCalendarYearPicker` keys
 // options by position, not by the year itself, since eras can make the same year number ambiguous
@@ -31,10 +38,14 @@ describe('CxCalendar', () => {
         <CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />
       )
       const grid = screen.getByRole('grid')
-      expect(within(grid).getByRole('button', { name: /24/ })).toHaveClass('selected')
+      expect(getDateCell(within(grid).getByRole('button', { name: /24/ }))).toHaveClass(
+        'datepicker-date-selected'
+      )
 
       rerender(<CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 25)} />)
-      expect(within(grid).getByRole('button', { name: /25/ })).toHaveClass('selected')
+      expect(getDateCell(within(grid).getByRole('button', { name: /25/ }))).toHaveClass(
+        'datepicker-date-selected'
+      )
     })
   })
 
@@ -87,8 +98,8 @@ describe('CxCalendar', () => {
 
       const grid = screen.getByRole('grid')
       const unavailable = within(grid).getByRole('button', { name: /25/ })
-      expect(unavailable).toHaveClass('unavailable')
-      expect(unavailable).not.toHaveClass('disabled')
+      expect(getDateCell(unavailable)).toHaveClass('datepicker-date-unavailable')
+      expect(getDateCell(unavailable)).not.toHaveClass('datepicker-date-disabled')
       fireEvent.click(unavailable)
       expect(onChange).not.toHaveBeenCalled()
     })
@@ -142,7 +153,9 @@ describe('CxCalendar', () => {
       // Only the visible month's own days are ever selectable — outside-range days from the
       // trailing/leading weeks share text with in-range days, so this is the reliable way to
       // confirm the grid actually re-rendered for the new month rather than merely re-labeling.
-      expect(within(grid).getByRole('button', { name: /24/ })).not.toHaveClass('outside')
+      expect(getDateCell(within(grid).getByRole('button', { name: /24/ }))).not.toHaveClass(
+        'datepicker-date-outside'
+      )
       expect(monthSelect).toHaveValue('1')
     })
 
@@ -173,10 +186,12 @@ describe('CxCalendar', () => {
         </I18nProvider>
       )
       const grid = screen.getByRole('grid')
-      expect(within(grid).getByRole('button', { name: /Saturday, July 25/ })).toHaveClass('weekend')
-      expect(within(grid).getByRole('button', { name: /Monday, July 27/ })).not.toHaveClass(
-        'weekend'
-      )
+      expect(
+        getDateCell(within(grid).getByRole('button', { name: /Saturday, July 25/ }))
+      ).toHaveClass('datepicker-date-weekend')
+      expect(
+        getDateCell(within(grid).getByRole('button', { name: /Monday, July 27/ }))
+      ).not.toHaveClass('datepicker-date-weekend')
     })
 
     test('follows the active locale — ar-SA treats Friday/Saturday as the weekend instead', () => {
@@ -191,9 +206,9 @@ describe('CxCalendar', () => {
       const grid = screen.getByRole('grid')
       const inRangeCells = within(grid)
         .getAllByRole('button')
-        .filter((cell) => !cell.classList.contains('outside'))
-      expect(inRangeCells[23]).toHaveClass('weekend')
-      expect(inRangeCells[25]).not.toHaveClass('weekend')
+        .filter((cell) => !getDateCell(cell).classList.contains('datepicker-date-outside'))
+      expect(getDateCell(inRangeCells[23])).toHaveClass('datepicker-date-weekend')
+      expect(getDateCell(inRangeCells[25])).not.toHaveClass('datepicker-date-weekend')
     })
   })
 
@@ -211,7 +226,7 @@ describe('CxCalendar', () => {
 
       const grid = screen.getByRole('grid')
       const unavailable = within(grid).getByRole('button', { name: /25/ })
-      expect(unavailable).toHaveClass('unavailable')
+      expect(getDateCell(unavailable)).toHaveClass('datepicker-date-unavailable')
       fireEvent.click(unavailable)
       expect(onChange).not.toHaveBeenCalled()
     })
@@ -231,11 +246,15 @@ describe('CxCalendar', () => {
       // Regexes like `/12/` also match the "2026" inside every cell's aria-label, so these use
       // the full formatted label to pin down a single cell.
       const grid = screen.getByRole('grid')
-      expect(within(grid).getByRole('button', { name: /July 12, 2026/ })).toHaveClass('unavailable')
-      expect(within(grid).getByRole('button', { name: /July 25, 2026/ })).toHaveClass('unavailable')
-      expect(within(grid).getByRole('button', { name: /July 13, 2026/ })).not.toHaveClass(
-        'unavailable'
+      expect(getDateCell(within(grid).getByRole('button', { name: /July 12, 2026/ }))).toHaveClass(
+        'datepicker-date-unavailable'
       )
+      expect(getDateCell(within(grid).getByRole('button', { name: /July 25, 2026/ }))).toHaveClass(
+        'datepicker-date-unavailable'
+      )
+      expect(
+        getDateCell(within(grid).getByRole('button', { name: /July 13, 2026/ }))
+      ).not.toHaveClass('datepicker-date-unavailable')
     })
   })
 

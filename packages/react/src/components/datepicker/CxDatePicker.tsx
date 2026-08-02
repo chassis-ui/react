@@ -230,7 +230,9 @@ export const CxDatePicker = ({
           aria-labelledby={labelledBy}
           ref={groupRef}
         >
-          <DateField fieldProps={fieldProps} />
+          <div className="w-100">
+            <DateField fieldProps={fieldProps} />
+          </div>
           <button {...toggleProps} className="input-adorn" ref={buttonRef} type="button">
             <svg
               fill="none"
@@ -259,7 +261,7 @@ export const CxDatePicker = ({
           </button>
         </div>
         <div
-          className="cx-datepicker-calendar"
+          className="datepicker"
           data-cx-placement={placementAttr}
           hidden={!state.isOpen}
           ref={popoverRef}

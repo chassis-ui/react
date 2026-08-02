@@ -174,19 +174,30 @@ export const CxRangeCalendar = forwardRef<HTMLDivElement, CxRangeCalendarProps>(
     return (
       <div
         {...mergeProps(calendarProps, rest)}
-        className={classNames('cx-calendar', className)}
+        className={classNames('datepicker', className)}
+        data-cx-inline="true"
         ref={ref}
       >
-        <div className="cx-calendar-header">
-          <button {...domPrevButtonProps} className="cx-calendar-nav" ref={prevRef} type="button">
+        <div className="datepicker-header">
+          <button
+            {...domPrevButtonProps}
+            className="datepicker-arrow datepicker-arrow-prev"
+            ref={prevRef}
+            type="button"
+          >
             ‹
           </button>
           {navigation === 'dropdown' ? (
             <CalendarNavDropdowns state={state} />
           ) : (
-            <div className="cx-calendar-title">{title}</div>
+            <div className="datepicker-header-content">{title}</div>
           )}
-          <button {...domNextButtonProps} className="cx-calendar-nav" ref={nextRef} type="button">
+          <button
+            {...domNextButtonProps}
+            className="datepicker-arrow datepicker-arrow-next"
+            ref={nextRef}
+            type="button"
+          >
             ›
           </button>
         </div>
@@ -221,7 +232,7 @@ const CalendarNavDropdowns = ({ state }: CalendarNavDropdownsProps) => {
   const yearPicker = useCalendarYearPicker({}, state)
 
   return (
-    <div className="cx-calendar-nav-dropdowns">
+    <div className="datepicker-header-content">
       <select
         aria-label={monthPicker['aria-label']}
         className="cx-calendar-select"
@@ -273,42 +284,42 @@ const CalendarMonth = ({ locale, monthIndex, showHeading, state }: CalendarMonth
   return (
     <div className="cx-calendar-month">
       {showHeading && <div className="cx-calendar-month-heading">{heading}</div>}
-      <table {...gridProps} className="cx-calendar-grid">
-        <thead {...headerProps}>
-          <tr>
+      <div className="datepicker-wrapper">
+        <div {...gridProps} className="datepicker-content">
+          <div {...headerProps} className="datepicker-week" role="row">
             {weekDays.map((day, index) => (
               // eslint-disable-next-line react/no-array-index-key
-              <th className="cx-calendar-weekday" key={index}>
+              <span className="datepicker-week-day" key={index} role="columnheader">
                 {day}
-              </th>
+              </span>
             ))}
-          </tr>
-        </thead>
-        <tbody>
-          {[...new Array(weeksInMonth).keys()].map((weekIndex) => {
-            const week = state.getDatesInWeek(weekIndex, monthStart)
-            return (
-              <tr key={weekIndex}>
-                {week.map((date, i) =>
-                  date ? (
-                    <CalendarCell
-                      date={date}
-                      isFirstInRow={i === 0}
-                      isLastInRow={i === week.length - 1}
-                      key={date.toString()}
-                      locale={locale}
-                      state={state}
-                    />
-                  ) : (
-                    // eslint-disable-next-line react/no-array-index-key
-                    <td key={i} />
-                  )
-                )}
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
+          </div>
+          <div className="datepicker-dates">
+            {[...new Array(weeksInMonth).keys()].map((weekIndex) => {
+              const week = state.getDatesInWeek(weekIndex, monthStart)
+              return (
+                <div className="datepicker-dates-row" key={weekIndex} role="row">
+                  {week.map((date, i) =>
+                    date ? (
+                      <CalendarCell
+                        date={date}
+                        isFirstInRow={i === 0}
+                        isLastInRow={i === week.length - 1}
+                        key={date.toString()}
+                        locale={locale}
+                        state={state}
+                      />
+                    ) : (
+                      // eslint-disable-next-line react/no-array-index-key
+                      <div className="datepicker-date" key={i} role="gridcell" />
+                    )
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
@@ -330,7 +341,6 @@ const CalendarCell = ({ date, isFirstInRow, isLastInRow, locale, state }: Calend
     isOutsideVisibleRange,
     isDisabled,
     isUnavailable,
-    isFocused,
     formattedDate
   } = useCalendarCell({ date }, state, ref)
 
@@ -342,30 +352,29 @@ const CalendarCell = ({ date, isFirstInRow, isLastInRow, locale, state }: Calend
   const isRangeEnd = Boolean(highlightedRange && isSameDay(date, highlightedRange.end))
 
   return (
-    <td
+    <div
       {...cellProps}
-      className={classNames('cx-calendar-cell', {
-        'in-range': isSelected,
-        'range-start': isSelected && (isRangeStart || isFirstInRow),
-        'range-end': isSelected && (isRangeEnd || isLastInRow)
+      aria-current={isToday(date, getLocalTimeZone()) ? 'date' : undefined}
+      className={classNames('datepicker-date', {
+        'datepicker-date-in-range': isSelected,
+        'datepicker-date-range-start': isSelected && (isRangeStart || isFirstInRow),
+        'datepicker-date-range-end': isSelected && (isRangeEnd || isLastInRow),
+        'datepicker-date-outside': isOutsideVisibleRange,
+        'datepicker-date-disabled': isDisabled,
+        'datepicker-date-unavailable': isUnavailable,
+        'datepicker-date-weekend': isWeekend(date, locale)
       })}
     >
       <div
         {...buttonProps}
-        className={classNames('cx-calendar-cell-button', {
-          today: isToday(date, getLocalTimeZone()),
-          outside: isOutsideVisibleRange,
-          disabled: isDisabled,
-          unavailable: isUnavailable,
-          weekend: isWeekend(date, locale),
-          focused: isFocused,
-          'range-start': isRangeStart,
-          'range-end': isRangeEnd
+        className={classNames('datepicker-date-btn', {
+          'datepicker-date-range-start': isRangeStart,
+          'datepicker-date-range-end': isRangeEnd
         })}
         ref={ref}
       >
         {formattedDate}
       </div>
-    </td>
+    </div>
   )
 }

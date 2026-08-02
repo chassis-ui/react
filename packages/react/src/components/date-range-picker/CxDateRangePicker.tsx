@@ -267,11 +267,13 @@ export const CxDateRangePicker = ({
           aria-labelledby={labelledBy}
           ref={groupRef}
         >
-          <DateField fieldProps={startFieldProps} />
-          <span aria-hidden="true" className="cx-daterangepicker-separator">
-            –
-          </span>
-          <DateField fieldProps={endFieldProps} />
+          <div className="d-flex gap-small w-100">
+            <DateField fieldProps={startFieldProps} />
+            <span aria-hidden="true" className="cx-daterangepicker-separator">
+              –
+            </span>
+            <DateField fieldProps={endFieldProps} />
+          </div>
           <button {...toggleProps} className="input-adorn" ref={buttonRef} type="button">
             <svg
               fill="none"
@@ -300,7 +302,7 @@ export const CxDateRangePicker = ({
           </button>
         </div>
         <div
-          className="cx-datepicker-calendar"
+          className="datepicker"
           data-cx-placement={placementAttr}
           hidden={!state.isOpen}
           ref={popoverRef}

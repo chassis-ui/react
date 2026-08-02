@@ -1,23 +1,40 @@
 /*
  * CxDatePicker's segmented field reuses chassis-css's existing `.form-input`/`.input-adorn`/
  * `.ghost-input` classes as-is (input chrome, trailing-button layout, sizing modifiers all come
- * for free). Only the segments themselves and the popover shell are genuinely new visual
- * territory with no chassis-css equivalent. The calendar grid itself lives in `CxCalendar.css`
- * (imported transitively via `CxCalendar`, which this component renders inside the popover).
+ * for free). The popover shell is chassis-css's real `.datepicker` class too now (not the custom
+ * `.cx-datepicker-calendar` this used to be) — rendered *without* `data-cx-inline`, so it gets
+ * chassis-css's native popover treatment (position, z-index, padding, border, box-shadow)
+ * directly, while `CxCalendar` nested inside it stays `data-cx-inline` (no border/shadow of its
+ * own — see `CxCalendar.css`'s comment) so there's only one bordered/shadowed box, not two. Only
+ * the segments themselves are genuinely new visual territory with no chassis-css equivalent.
  * Built entirely on `@chassis-ui/tokens`' public `--cx-*` custom properties so it stays on the
  * same design language (and adapts to light/dark) without depending on any of chassis-css's
  * internal, unpublished component tokens.
  */
 
+/*
+ * chassis-css's own `.datepicker` rule sets `display: flex` unconditionally, which — same-
+ * specificity, later-declared-layer concerns aside — otherwise wins over the browser's default
+ * `[hidden] { display: none }` UA rule (author styles always beat UA styles). Layered here to
+ * land in the same cascade layer as chassis-css's own rule (see `CxCalendar.css`'s comment on
+ * why), with the `[hidden]` attribute bumping specificity enough to reliably win within it.
+ */
+@layer components {
+  .datepicker[hidden] {
+    display: none;
+  }
+}
+
 .cx-datepicker-field {
   display: flex;
   align-items: center;
   gap: 0.125rem;
+  width: fit-content;
 }
 
 .cx-datepicker-segment {
   padding-inline: 0.0625rem;
-  font-variant-numeric: tabular-nums;
+  /* font-variant-numeric: tabular-nums; */
   border-radius: var(--cx-border-radius-small);
   outline: none;
 }
@@ -43,6 +60,3 @@
   box-shadow: var(--cx-box-shadow-medium);
 }
 
-.cx-datepicker-calendar[hidden] {
-  display: none;
-}

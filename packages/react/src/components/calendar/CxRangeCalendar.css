@@ -1,53 +1,64 @@
 /*
- * `CxRangeCalendar` reuses `CxCalendar.css`'s header/nav/grid/cell classes as-is (imported
- * alongside this file) — only the "connected pill" look for an in-progress or committed range is
- * new here. `--cx-range-band-color` has no dedicated `@chassis-ui/tokens` equivalent to reuse, so
- * it's derived from the already-public `--cx-primary` token via `color-mix()` rather than
- * hardcoding a color.
+ * `CxRangeCalendar` reuses chassis-css's real `.datepicker-*` grid/cell classes as-is (see
+ * `CxCalendar.css`'s comment) — range-specific state (`.datepicker-date-in-range`, `.datepicker-
+ * date-range-start`/`-end`) has no vanilla-calendar-pro `data-vc-*` counterpart that chassis-css
+ * styles (its own range equivalents are `[data-vc-date-selected="first"/"middle"/"last"]`, JS-only
+ * attributes), so those are adapted below the same way `CxCalendar.css` adapts its own single-date
+ * states — same visual shape, `--cx-*` public tokens instead of chassis-css's internal `--day-*`
+ * ones, and the same `@layer components` wrapping (see `CxCalendar.css`'s comment on why — without
+ * it these un-layered rules would unconditionally win over chassis-css's layered ones regardless
+ * of specificity, instead of losing to more-specific ones like `[aria-current="date"]` as
+ * intended). Only the multi-month (`visibleMonths > 1`) side-by-side layout below is genuinely
+ * new — chassis-css's datepicker has no equivalent (its own `.datepicker-months`/`.datepicker-
+ * years` are the month/year *picker* grids, not multiple full calendars shown side by side).
  */
 
-.cx-calendar-cell.in-range {
-  --cx-range-band-color: color-mix(in srgb, var(--cx-primary) 18%, transparent);
+@layer components {
+  .datepicker-date-in-range {
+    --cx-range-band-color: color-mix(in srgb, var(--cx-primary) 18%, transparent);
 
-  padding-block: 0.0625rem;
-  padding-inline: 0;
-  background-color: var(--cx-range-band-color);
+    padding-block: 0.0625rem;
+    padding-inline: 0;
+    background-color: var(--cx-range-band-color);
+  }
+
+  .datepicker-date-in-range.datepicker-date-range-start {
+    padding-inline-start: 0.0625rem;
+    border-start-start-radius: var(--cx-border-radius-medium);
+    border-end-start-radius: var(--cx-border-radius-medium);
+  }
+
+  .datepicker-date-in-range.datepicker-date-range-end {
+    padding-inline-end: 0.0625rem;
+    border-start-end-radius: var(--cx-border-radius-medium);
+    border-end-end-radius: var(--cx-border-radius-medium);
+  }
+
+  .datepicker-date-btn.datepicker-date-range-start,
+  .datepicker-date-btn.datepicker-date-range-end {
+    color: var(--cx-primary-contrast);
+    background-color: var(--cx-primary);
+  }
+
+  .datepicker-date-btn.datepicker-date-range-start:not(.datepicker-date-range-end) {
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
+  }
+
+  .datepicker-date-btn.datepicker-date-range-end:not(.datepicker-date-range-start) {
+    border-start-start-radius: 0;
+    border-end-start-radius: 0;
+  }
+
+  /* Wins over chassis-css's `[aria-current="date"]` "today" styling for a range endpoint that's
+     also today — same tie-breaking approach as `CxCalendar.css`'s selected+today override. */
+  .datepicker-date[aria-current='date'] > .datepicker-date-btn.datepicker-date-range-start,
+  .datepicker-date[aria-current='date'] > .datepicker-date-btn.datepicker-date-range-end {
+    color: var(--cx-primary-contrast);
+    background-color: var(--cx-primary);
+  }
 }
 
-.cx-calendar-cell.in-range.range-start {
-  padding-inline-start: 0.0625rem;
-  border-start-start-radius: var(--cx-border-radius-medium);
-  border-end-start-radius: var(--cx-border-radius-medium);
-}
-
-.cx-calendar-cell.in-range.range-end {
-  padding-inline-end: 0.0625rem;
-  border-start-end-radius: var(--cx-border-radius-medium);
-  border-end-end-radius: var(--cx-border-radius-medium);
-}
-
-.cx-calendar-cell-button.range-start,
-.cx-calendar-cell-button.range-end {
-  color: var(--cx-primary-contrast);
-  background-color: var(--cx-primary);
-}
-
-.cx-calendar-cell-button.range-start:not(.range-end) {
-  border-start-end-radius: 0;
-  border-end-end-radius: 0;
-}
-
-.cx-calendar-cell-button.range-end:not(.range-start) {
-  border-start-start-radius: 0;
-  border-end-start-radius: 0;
-}
-
-/*
- * Multi-month (`visibleMonths > 1`) layout. `flex-wrap` reflows to a stacked layout once the
- * calendar's own container gets too narrow to fit every month on one row — deliberately not a
- * viewport `@media` query, since a calendar can be embedded in a narrow container (a popover, a
- * sidebar) regardless of how wide the actual viewport is.
- */
 .cx-calendar-months {
   display: flex;
   flex-wrap: wrap;
