@@ -192,6 +192,28 @@ describe('CxDatePicker', () => {
     })
   })
 
+  describe('firstDayOfWeek', () => {
+    test('is forwarded to the calendar popover, defaulting to Monday', () => {
+      render(<CxDatePicker aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
+      openCalendar()
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(getCalendarWrapper().querySelector('.datepicker-week-day')).toHaveTextContent('M')
+    })
+
+    test('can be overridden', () => {
+      render(
+        <CxDatePicker
+          aria-label="Event date"
+          firstDayOfWeek="sun"
+          value={new CalendarDate(2026, 7, 24)}
+        />
+      )
+      openCalendar()
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(getCalendarWrapper().querySelector('.datepicker-week-day')).toHaveTextContent('S')
+    })
+  })
+
   describe('form integration', () => {
     test('creates a hidden input for form submission when name is provided', () => {
       const { rerender } = render(

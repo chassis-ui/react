@@ -5,13 +5,6 @@ import { axe } from 'jest-axe'
 
 import { CxCalendar, I18nProvider } from '../../../index'
 
-// `.datepicker-header-content` is the only reliable way to read the visible month/year —
-// react-aria's live-announcer renders a second, visually-hidden node with the same text on every
-// navigation, so text-based queries against the whole document match more than one element.
-const getTitle = () =>
-  // eslint-disable-next-line testing-library/no-node-access
-  (document.querySelector('.datepicker-header-content') as HTMLElement).textContent
-
 // State classes (`selected`, `weekend`, `unavailable`, etc.) live on the `.datepicker-date`
 // wrapper, not the `.datepicker-date-btn` button itself — matching chassis-css's own
 // `.datepicker-date-X > .datepicker-date-btn` selector pattern.
@@ -105,35 +98,21 @@ describe('CxCalendar', () => {
     })
   })
 
-  describe('navigation — arrows', () => {
+  describe('navigation', () => {
     test('the next button advances the visible month', () => {
-      render(
-        <CxCalendar
-          aria-label="Event date"
-          navigation="arrows"
-          value={new CalendarDate(2026, 7, 24)}
-        />
-      )
-      expect(getTitle()).toBe('July 2026')
+      render(<CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
+      expect(screen.getByRole('combobox', { name: /month/i })).toHaveValue('7')
 
       fireEvent.click(screen.getByRole('button', { name: /next/i }))
-      expect(getTitle()).toBe('August 2026')
+      expect(screen.getByRole('combobox', { name: /month/i })).toHaveValue('8')
     })
 
     test('the previous button retreats the visible month', () => {
-      render(
-        <CxCalendar
-          aria-label="Event date"
-          navigation="arrows"
-          value={new CalendarDate(2026, 7, 24)}
-        />
-      )
+      render(<CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
       fireEvent.click(screen.getByRole('button', { name: /previous/i }))
-      expect(getTitle()).toBe('June 2026')
+      expect(screen.getByRole('combobox', { name: /month/i })).toHaveValue('6')
     })
-  })
 
-  describe('navigation — dropdown (default)', () => {
     test('renders month and year selects reflecting the visible month', () => {
       render(<CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
 
@@ -175,6 +154,59 @@ describe('CxCalendar', () => {
       render(<CxCalendar aria-label="Event date" disabled value={new CalendarDate(2026, 7, 24)} />)
       expect(screen.getByRole('combobox', { name: /month/i })).toBeDisabled()
       expect(screen.getByRole('combobox', { name: /year/i })).toBeDisabled()
+    })
+  })
+
+  describe('firstDayOfWeek', () => {
+    test('defaults to Monday regardless of locale', () => {
+      render(
+        <I18nProvider locale="en-US">
+          <CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />
+        </I18nProvider>
+      )
+      // The header row is `aria-hidden` (see react-aria's `useCalendarGrid`), so its
+      // `columnheader` cells aren't reachable via role queries — direct node access is the only
+      // way to read them.
+      // eslint-disable-next-line testing-library/no-node-access
+      const headers = document.querySelectorAll('.datepicker-week-day')
+      expect(headers[0]).toHaveTextContent('M')
+
+      // July 24, 2026 is a Friday. With Monday as the first column, its row starts on July 20
+      // (Monday) — so Friday the 24th falls in the 5th data cell of that row.
+      const grid = screen.getByRole('grid')
+      const rows = within(grid).getAllByRole('row')
+      const rowWithThe24th = rows.find((row) =>
+        within(row)
+          .queryAllByRole('button')
+          .some((cell) => cell.getAttribute('aria-label')?.includes('July 24, 2026'))
+      ) as HTMLElement
+      const cellsInRow = within(rowWithThe24th).getAllByRole('button')
+      expect(cellsInRow[4]).toHaveAccessibleName(/Friday, July 24, 2026/)
+    })
+
+    test('can be overridden, e.g. to Sunday', () => {
+      render(
+        <CxCalendar
+          aria-label="Event date"
+          firstDayOfWeek="sun"
+          value={new CalendarDate(2026, 7, 24)}
+        />
+      )
+      // eslint-disable-next-line testing-library/no-node-access
+      const headers = document.querySelectorAll('.datepicker-week-day')
+      expect(headers[0]).toHaveTextContent('S')
+
+      // With Sunday as the first column, the row containing July 24 (Friday) starts on July 19
+      // (Sunday) — so Friday the 24th falls in the 6th data cell instead.
+      const grid = screen.getByRole('grid')
+      const rows = within(grid).getAllByRole('row')
+      const rowWithThe24th = rows.find((row) =>
+        within(row)
+          .queryAllByRole('button')
+          .some((cell) => cell.getAttribute('aria-label')?.includes('July 24, 2026'))
+      ) as HTMLElement
+      const cellsInRow = within(rowWithThe24th).getAllByRole('button')
+      expect(cellsInRow[5]).toHaveAccessibleName(/Friday, July 24, 2026/)
     })
   })
 

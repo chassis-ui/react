@@ -100,6 +100,51 @@
         "name": "boolean"
       }
     },
+    "firstDayOfWeek": {
+      "defaultValue": {
+        "value": "'mon'"
+      },
+      "description": "The day that starts the week in the calendar popover, overriding the default set by the\nactive locale.",
+      "name": "firstDayOfWeek",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
+        "name": "CxDatePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
+          "name": "CxDatePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"sun\" | \"mon\" | \"tue\" | \"wed\" | \"thu\" | \"fri\" | \"sat\"",
+        "value": [
+          {
+            "value": "\"sun\""
+          },
+          {
+            "value": "\"mon\""
+          },
+          {
+            "value": "\"tue\""
+          },
+          {
+            "value": "\"wed\""
+          },
+          {
+            "value": "\"thu\""
+          },
+          {
+            "value": "\"fri\""
+          },
+          {
+            "value": "\"sat\""
+          }
+        ]
+      }
+    },
     "help": {
       "defaultValue": null,
       "description": "A description for the field, rendered below the date picker.",

@@ -8,9 +8,9 @@ toc: true
 import { RangeBasicExample } from '../../src/examples/calendar/RangeBasicExample.tsx'
 import { RangeMinMaxExample } from '../../src/examples/calendar/RangeMinMaxExample.tsx'
 import { RangeUnavailableDatesExample } from '../../src/examples/calendar/RangeUnavailableDatesExample.tsx'
-import { RangeNavigationExample } from '../../src/examples/calendar/RangeNavigationExample.tsx'
 import { RangeMultiMonthExample } from '../../src/examples/calendar/RangeMultiMonthExample.tsx'
 import { PresetsExample } from '../../src/examples/calendar/PresetsExample.tsx'
+import { RangeFirstDayOfWeekExample } from '../../src/examples/calendar/RangeFirstDayOfWeekExample.tsx'
 
 import { CxRangeCalendar } from '@chassis-ui/react'
 
@@ -44,15 +44,19 @@ Weekends are shown muted automatically, same as `CxCalendar` — locale-aware, n
 
 ## Navigation
 
-Same `navigation` prop as `CxCalendar` (`'dropdown'` by default, `'arrows'` for the plain prev/next-only header).
+Navigation is always month/year dropdowns — there's no plain arrows-only variant to choose between, since a range picker is usually paired with `visibleMonths > 1`, where jumping several months or years at once is the common case.
+
+## First day of week
+
+Same `firstDayOfWeek` prop as `CxCalendar` — the week starts on Monday by default, regardless of the active locale. When `visibleMonths > 1`, it applies consistently across every visible month.
 
 <Example>
-  <RangeNavigationExample client:load />
+  <RangeFirstDayOfWeekExample client:load />
 </Example>
 
 ## Multiple months
 
-Pass `visibleMonths` to show more than one month side by side, sharing a single selection — the standard layout for picking a date range. Each month gets its own heading; the prev/next buttons (and the top nav, if `navigation="dropdown"`) page the whole visible span at once. The months wrap onto a new row if their container is too narrow to fit them side by side (driven by the calendar's own width, not the viewport).
+Pass `visibleMonths` to show more than one month side by side, sharing a single selection — the standard layout for picking a date range. Each month gets its own header with its own month/year dropdowns, kept in sync — picking a month or year from any one of them moves every visible month together. The prev/next buttons move to a single global overlay instead of repeating in every month's header, paging the whole visible span at once. The months wrap onto a new row if their container is too narrow to fit them side by side (driven by the calendar's own width, not the viewport).
 
 <Example>
   <RangeMultiMonthExample client:load />
@@ -76,7 +80,7 @@ Pass `presets` to show a quick-select list next to the calendar in the popover. 
 
 ## Styling
 
-Like `CxCalendar`, `CxRangeCalendar` isn't styled by `@chassis-ui/css`. It reuses `CxCalendar.css`'s header/nav/grid/cell classes directly (so the two always look identical outside of an active selection), adding only the small amount of CSS needed for the connected "pill" band across a selected or previewed range — automatically injected the first time the component is imported, no separate stylesheet to add.
+Like `CxCalendar`, `CxRangeCalendar` isn't styled by `@chassis-ui/css`. It reuses `CxCalendar.css`'s header/nav/grid/cell classes directly (so the two always look identical outside of an active selection), adding only the small amount of CSS needed for the connected "pill" band across a selected or previewed range, and for the multi-month layout (`.datepicker-grid`/`.datepicker-column`/`.datepicker-controls`, the same classes `@chassis-ui/css`'s own datepicker component uses for side-by-side month grids with a shared prev/next pair) — automatically injected the first time the component is imported, no separate stylesheet to add.
 
 ## API
 

@@ -213,6 +213,33 @@ describe('CxDateRangePicker', () => {
     })
   })
 
+  describe('firstDayOfWeek', () => {
+    test('is forwarded to the popover calendar, defaulting to Monday', () => {
+      render(
+        <CxDateRangePicker
+          aria-label="Trip dates"
+          value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 7, 15) }}
+        />
+      )
+      openCalendar()
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(getCalendarWrapper().querySelector('.datepicker-week-day')).toHaveTextContent('M')
+    })
+
+    test('can be overridden', () => {
+      render(
+        <CxDateRangePicker
+          aria-label="Trip dates"
+          firstDayOfWeek="sun"
+          value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 7, 15) }}
+        />
+      )
+      openCalendar()
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(getCalendarWrapper().querySelector('.datepicker-week-day')).toHaveTextContent('S')
+    })
+  })
+
   describe('presets', () => {
     test('no presets prop renders no preset list', () => {
       render(<CxDateRangePicker aria-label="Trip dates" />)

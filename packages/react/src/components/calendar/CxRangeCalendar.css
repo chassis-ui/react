@@ -8,9 +8,13 @@
  * ones, and the same `@layer components` wrapping (see `CxCalendar.css`'s comment on why — without
  * it these un-layered rules would unconditionally win over chassis-css's layered ones regardless
  * of specificity, instead of losing to more-specific ones like `[aria-current="date"]` as
- * intended). Only the multi-month (`visibleMonths > 1`) side-by-side layout below is genuinely
- * new — chassis-css's datepicker has no equivalent (its own `.datepicker-months`/`.datepicker-
- * years` are the month/year *picker* grids, not multiple full calendars shown side by side).
+ * intended). The multi-month (`visibleMonths > 1`) layout itself reuses chassis-css's own
+ * `.datepicker-grid`/`.datepicker-column`/`.datepicker-controls` classes as-is (real, pre-existing
+ * chassis-css component classes meant for exactly this — several month grids side by side with a
+ * shared, absolutely-positioned prev/next pair) rather than inventing new ones; `.cx-calendar-body`
+ * below only adds the one thing that trio doesn't provide on its own — a positioning context
+ * scoped to the calendars alone, so `.datepicker-controls` can't stretch out over a `presets` list
+ * sitting beside it as a separate grid column.
  */
 
 @layer components {
@@ -59,16 +63,14 @@
   }
 }
 
-.cx-calendar-months {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--cx-space-small);
-}
-
-.cx-calendar-month-heading {
-  margin-block-end: var(--cx-space-small);
-  font-weight: 600;
-  text-align: center;
+/*
+ * Positioning context for the calendars column only (see this file's top comment) — sibling to
+ * `presets` in the outer `.datepicker-grid`, so `.datepicker-controls`'s `inset-inline: 0` resolves
+ * against just this box's width instead of bubbling up to `.datepicker[data-cx-inline]`'s (which
+ * would stretch the arrows out over the presets column too).
+ */
+.cx-calendar-body {
+  position: relative;
 }
 
 /*
@@ -76,14 +78,6 @@
  * dates directly. No chassis-css equivalent (vanilla-calendar-pro has no such concept), so this
  * is entirely custom, built on the same public `--cx-*` tokens as the rest of this file.
  */
-.cx-calendar-body {
-  display: flex;
-}
-
-.cx-calendar-body.has-presets {
-  gap: var(--cx-space-small);
-}
-
 .cx-calendar-presets {
   display: flex;
   flex-direction: column;

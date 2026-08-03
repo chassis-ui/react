@@ -36,6 +36,13 @@ export interface CxDatePickerProps extends Omit<
    */
   disabled?: boolean
   /**
+   * The day that starts the week in the calendar popover, overriding the default set by the
+   * active locale.
+   *
+   * @default 'mon'
+   */
+  firstDayOfWeek?: 'sun' | 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat'
+  /**
    * A description for the field, rendered below the date picker.
    */
   help?: ReactNode
@@ -106,6 +113,7 @@ export const CxDatePicker = ({
   className,
   defaultValue,
   disabled,
+  firstDayOfWeek,
   help,
   id,
   invalid,
@@ -274,6 +282,7 @@ export const CxDatePicker = ({
                 {...domDialogProps}
                 autoFocus
                 disabled={disabled}
+                firstDayOfWeek={firstDayOfWeek}
                 isDateUnavailable={combinedIsDateUnavailable}
                 maxValue={maxValue}
                 minValue={minValue}

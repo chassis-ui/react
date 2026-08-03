@@ -55,6 +55,12 @@ export interface CxCalendarProps extends Omit<
    */
   disabled?: boolean
   /**
+   * The day that starts the week, overriding the default set by the active locale.
+   *
+   * @default 'mon'
+   */
+  firstDayOfWeek?: 'sun' | 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat'
+  /**
    * Callback that is called for each date in the calendar. If it returns `true`, that date is
    * shown but cannot be selected.
    */
@@ -67,14 +73,6 @@ export interface CxCalendarProps extends Omit<
    * The minimum allowed date that a user may select.
    */
   minValue?: DateValue | null
-  /**
-   * How to navigate between months. `'dropdown'` shows month and year `<select>`s next to the
-   * prev/next buttons, for jumping further than one page at a time. `'arrows'` shows only the
-   * prev/next buttons and a plain text title.
-   *
-   * @default 'dropdown'
-   */
-  navigation?: 'dropdown' | 'arrows'
   /**
    * Callback fired when the selected date changes. Unlike `CxDatePicker`'s `onChange` (whose
    * segmented field can be cleared to `null`), a calendar selection is always a concrete date.
@@ -103,10 +101,10 @@ export const CxCalendar = forwardRef<HTMLDivElement, CxCalendarProps>(
       className,
       defaultValue,
       disabled,
+      firstDayOfWeek = 'mon',
       isDateUnavailable,
       maxValue,
       minValue,
-      navigation = 'dropdown',
       onChange,
       unavailableDates,
       value,
@@ -123,6 +121,7 @@ export const CxCalendar = forwardRef<HTMLDivElement, CxCalendarProps>(
       autoFocus,
       createCalendar,
       defaultValue,
+      firstDayOfWeek,
       isDateUnavailable: combinedIsDateUnavailable,
       isDisabled: disabled,
       locale,
@@ -146,7 +145,7 @@ export const CxCalendar = forwardRef<HTMLDivElement, CxCalendarProps>(
       value
     }
 
-    const { calendarProps, prevButtonProps, nextButtonProps, title } = useCalendar(ariaProps, state)
+    const { calendarProps, prevButtonProps, nextButtonProps } = useCalendar(ariaProps, state)
     const prevRef = useRef<HTMLButtonElement>(null)
     const nextRef = useRef<HTMLButtonElement>(null)
     const { buttonProps: domPrevButtonProps } = useButton(prevButtonProps, prevRef)
@@ -168,11 +167,7 @@ export const CxCalendar = forwardRef<HTMLDivElement, CxCalendarProps>(
           >
             ‹
           </button>
-          {navigation === 'dropdown' ? (
-            <CalendarNavDropdowns state={state} />
-          ) : (
-            <div className="datepicker-header-content">{title}</div>
-          )}
+          <CalendarNavDropdowns state={state} />
           <button
             {...domNextButtonProps}
             className="datepicker-arrow datepicker-arrow-next"
@@ -182,7 +177,7 @@ export const CxCalendar = forwardRef<HTMLDivElement, CxCalendarProps>(
             ›
           </button>
         </div>
-        <CalendarGrid locale={locale} state={state} />
+        <CalendarGrid firstDayOfWeek={firstDayOfWeek} locale={locale} state={state} />
       </div>
     )
   }
@@ -236,13 +231,14 @@ const CalendarNavDropdowns = ({ state }: CalendarNavDropdownsProps) => {
 }
 
 interface CalendarGridProps {
+  firstDayOfWeek?: 'sun' | 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat'
   locale: string
   state: CalendarState
 }
 
-const CalendarGrid = ({ locale, state }: CalendarGridProps) => {
-  const { gridProps, headerProps, weekDays } = useCalendarGrid({}, state)
-  const weeksInMonth = getWeeksInMonth(state.visibleRange.start, locale)
+const CalendarGrid = ({ firstDayOfWeek, locale, state }: CalendarGridProps) => {
+  const { gridProps, headerProps, weekDays } = useCalendarGrid({ firstDayOfWeek }, state)
+  const weeksInMonth = getWeeksInMonth(state.visibleRange.start, locale, firstDayOfWeek)
 
   return (
     <div className="datepicker-wrapper">

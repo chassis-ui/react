@@ -5,10 +5,6 @@ import { axe } from 'jest-axe'
 
 import { CxRangeCalendar, I18nProvider } from '../../../index'
 
-const getTitle = () =>
-  // eslint-disable-next-line testing-library/no-node-access
-  (document.querySelector('.datepicker-header-content') as HTMLElement).textContent
-
 // State classes (`weekend`, `unavailable`, range endpoints, etc.) live on the `.datepicker-date`
 // wrapper, not the `.datepicker-date-btn` button itself — matching chassis-css's own
 // `.datepicker-date-X > .datepicker-date-btn` selector pattern.
@@ -170,7 +166,7 @@ describe('CxRangeCalendar', () => {
     })
   })
 
-  describe('navigation — dropdown (default)', () => {
+  describe('navigation', () => {
     test('renders month and year selects reflecting the visible month', () => {
       render(
         <CxRangeCalendar
@@ -180,20 +176,83 @@ describe('CxRangeCalendar', () => {
       )
       expect(screen.getByRole('combobox', { name: /month/i })).toHaveValue('7')
     })
-  })
 
-  describe('navigation — arrows', () => {
-    test('the next button advances the visible month', () => {
+    test('the next/previous buttons advance and rewind the visible month', () => {
       render(
         <CxRangeCalendar
           aria-label="Trip dates"
-          navigation="arrows"
           value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 7, 15) }}
         />
       )
-      expect(getTitle()).toBe('July 2026')
       fireEvent.click(screen.getByRole('button', { name: /next/i }))
-      expect(getTitle()).toBe('August 2026')
+      expect(screen.getByRole('combobox', { name: /month/i })).toHaveValue('8')
+      fireEvent.click(screen.getByRole('button', { name: /previous/i }))
+      expect(screen.getByRole('combobox', { name: /month/i })).toHaveValue('7')
+    })
+
+    test('selecting a year from the dropdown moves the visible range', () => {
+      render(
+        <CxRangeCalendar
+          aria-label="Trip dates"
+          value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 7, 15) }}
+        />
+      )
+      const yearOption = screen.getByRole('option', { name: '2027' }) as HTMLOptionElement
+      fireEvent.change(screen.getByRole('combobox', { name: /year/i }), {
+        target: { value: yearOption.value }
+      })
+      expect(screen.getByRole('combobox', { name: /month/i })).toHaveValue('7')
+      expect(
+        (screen.getByRole('combobox', { name: /year/i }) as HTMLSelectElement).selectedOptions[0]
+          .textContent
+      ).toBe('2027')
+    })
+  })
+
+  describe('firstDayOfWeek', () => {
+    test('defaults to Monday regardless of locale', () => {
+      render(
+        <I18nProvider locale="en-US">
+          <CxRangeCalendar
+            aria-label="Trip dates"
+            value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 7, 15) }}
+          />
+        </I18nProvider>
+      )
+      // eslint-disable-next-line testing-library/no-node-access
+      const headers = document.querySelectorAll('.datepicker-week-day')
+      expect(headers[0]).toHaveTextContent('M')
+    })
+
+    test('can be overridden, e.g. to Sunday', () => {
+      render(
+        <CxRangeCalendar
+          aria-label="Trip dates"
+          firstDayOfWeek="sun"
+          value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 7, 15) }}
+        />
+      )
+      // eslint-disable-next-line testing-library/no-node-access
+      const headers = document.querySelectorAll('.datepicker-week-day')
+      expect(headers[0]).toHaveTextContent('S')
+    })
+
+    test('applies consistently across every visible month', () => {
+      render(
+        <CxRangeCalendar
+          aria-label="Trip dates"
+          firstDayOfWeek="sun"
+          value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 8, 15) }}
+          visibleMonths={2}
+        />
+      )
+      // eslint-disable-next-line testing-library/no-node-access
+      const weekDayRows = document.querySelectorAll('.datepicker-week')
+      expect(weekDayRows).toHaveLength(2)
+      weekDayRows.forEach((row) => {
+        // eslint-disable-next-line testing-library/no-node-access
+        expect(row.querySelectorAll('.datepicker-week-day')[0]).toHaveTextContent('S')
+      })
     })
   })
 
@@ -221,7 +280,7 @@ describe('CxRangeCalendar', () => {
   })
 
   describe('visibleMonths', () => {
-    test('defaults to a single month with no per-month heading', () => {
+    test('defaults to a single month with prev/next arrows in its own header', () => {
       render(
         <CxRangeCalendar
           aria-label="Trip dates"
@@ -229,25 +288,58 @@ describe('CxRangeCalendar', () => {
         />
       )
       expect(screen.getAllByRole('grid')).toHaveLength(1)
-      // eslint-disable-next-line testing-library/no-node-access
-      expect(document.querySelector('.cx-calendar-month-heading')).toBeNull()
+      expect(screen.getAllByRole('combobox', { name: /month/i })).toHaveLength(1)
+      expect(screen.getByRole('button', { name: /next/i })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: /previous/i })).toBeInTheDocument()
     })
 
-    test('renders the requested number of months, each with its own heading', () => {
+    test('renders the requested number of months, each with its own synced month/year dropdowns', () => {
       render(
         <CxRangeCalendar
           aria-label="Trip dates"
-          navigation="arrows"
           value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 8, 15) }}
           visibleMonths={2}
         />
       )
       expect(screen.getAllByRole('grid')).toHaveLength(2)
-      // eslint-disable-next-line testing-library/no-node-access
-      const headings = [...document.querySelectorAll('.cx-calendar-month-heading')].map(
-        (el) => el.textContent
+      const monthSelects = screen.getAllByRole('combobox', { name: /month/i })
+      expect(monthSelects.map((select) => (select as HTMLSelectElement).value)).toEqual(['7', '8'])
+    })
+
+    test('a single global prev/next pair pages every visible month at once, with none in the per-month headers', () => {
+      render(
+        <CxRangeCalendar
+          aria-label="Trip dates"
+          value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 8, 15) }}
+          visibleMonths={2}
+        />
       )
-      expect(headings).toEqual(['July 2026', 'August 2026'])
+      expect(screen.getAllByRole('button', { name: /next/i })).toHaveLength(1)
+      expect(screen.getAllByRole('button', { name: /previous/i })).toHaveLength(1)
+
+      // Paging moves the whole visible span at once (the default `pageBehavior`), so two visible
+      // months advance by two months, not one.
+      fireEvent.click(screen.getByRole('button', { name: /next/i }))
+      const monthSelects = screen.getAllByRole('combobox', { name: /month/i })
+      expect(monthSelects.map((select) => (select as HTMLSelectElement).value)).toEqual(['9', '10'])
+    })
+
+    test('selecting a month from the second block moves both months in sync', () => {
+      render(
+        <CxRangeCalendar
+          aria-label="Trip dates"
+          value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 8, 15) }}
+          visibleMonths={2}
+        />
+      )
+      const [, secondMonthSelect] = screen.getAllByRole('combobox', { name: /month/i })
+      fireEvent.change(secondMonthSelect, { target: { value: '12' } })
+
+      const updatedSelects = screen.getAllByRole('combobox', { name: /month/i })
+      expect(updatedSelects.map((select) => (select as HTMLSelectElement).value)).toEqual([
+        '11',
+        '12'
+      ])
     })
 
     test('a range spanning both visible months is selectable and pills continuously', () => {

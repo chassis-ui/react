@@ -1,4 +1,4 @@
-import React, { forwardRef, HTMLAttributes, useRef } from 'react'
+import React, { forwardRef, HTMLAttributes, ReactNode, useMemo, useRef } from 'react'
 import classNames from 'classnames'
 import {
   AriaRangeCalendarProps,
@@ -7,9 +7,7 @@ import {
   useButton,
   useCalendarCell,
   useCalendarGrid,
-  useCalendarHeading,
-  useCalendarMonthPicker,
-  useCalendarYearPicker,
+  useDateFormatter,
   useLocale,
   useRangeCalendar
 } from 'react-aria'
@@ -19,8 +17,10 @@ import {
   createCalendar,
   getLocalTimeZone,
   isSameDay,
+  isSameYear,
   isToday,
-  isWeekend
+  isWeekend,
+  toCalendarDate
 } from '@internationalized/date'
 
 import { useForkedRef } from '../../hooks'
@@ -59,6 +59,12 @@ export interface CxRangeCalendarProps extends Omit<
    */
   disabled?: boolean
   /**
+   * The day that starts the week, overriding the default set by the active locale.
+   *
+   * @default 'mon'
+   */
+  firstDayOfWeek?: 'sun' | 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat'
+  /**
    * Callback that is called for each date in the calendar. If it returns `true`, that date is
    * shown but cannot be selected.
    */
@@ -71,14 +77,6 @@ export interface CxRangeCalendarProps extends Omit<
    * The minimum allowed date that a user may select.
    */
   minValue?: DateValue | null
-  /**
-   * How to navigate between months. `'dropdown'` shows month and year `<select>`s next to the
-   * prev/next buttons, for jumping further than one page at a time. `'arrows'` shows only the
-   * prev/next buttons and a plain text title.
-   *
-   * @default 'dropdown'
-   */
-  navigation?: 'dropdown' | 'arrows'
   /**
    * Callback fired when a complete range is selected (both a start and end date).
    */
@@ -119,7 +117,9 @@ export interface CxRangeCalendarProps extends Omit<
 // on `CxCalendar`: the underlying react-stately/react-aria hooks are a genuinely different pair
 // (`useRangeCalendarState`/`useRangeCalendar` vs `useCalendarState`/`useCalendar`), and the cell
 // rendering has range-only concerns (start/end/in-between pill styling) with no single-date
-// equivalent.
+// equivalent. Unlike `CxCalendar`, navigation is always month/year dropdowns — a range picker is
+// usually paired with `visibleMonths > 1`, where jumping several months/years at once is the
+// common case, so there's no plain-arrows-only variant to choose between.
 export const CxRangeCalendar = forwardRef<HTMLDivElement, CxRangeCalendarProps>(
   (
     {
@@ -127,10 +127,10 @@ export const CxRangeCalendar = forwardRef<HTMLDivElement, CxRangeCalendarProps>(
       className,
       defaultValue,
       disabled,
+      firstDayOfWeek = 'mon',
       isDateUnavailable,
       maxValue,
       minValue,
-      navigation = 'dropdown',
       onChange,
       presets,
       unavailableDates,
@@ -150,6 +150,7 @@ export const CxRangeCalendar = forwardRef<HTMLDivElement, CxRangeCalendarProps>(
       autoFocus,
       createCalendar,
       defaultValue,
+      firstDayOfWeek,
       isDateUnavailable: combinedIsDateUnavailable,
       isDisabled: disabled,
       locale,
@@ -173,7 +174,7 @@ export const CxRangeCalendar = forwardRef<HTMLDivElement, CxRangeCalendarProps>(
       value
     }
 
-    const { calendarProps, prevButtonProps, nextButtonProps, title } = useRangeCalendar(
+    const { calendarProps, prevButtonProps, nextButtonProps } = useRangeCalendar(
       ariaProps,
       state,
       internalRef
@@ -182,6 +183,31 @@ export const CxRangeCalendar = forwardRef<HTMLDivElement, CxRangeCalendarProps>(
     const nextRef = useRef<HTMLButtonElement>(null)
     const { buttonProps: domPrevButtonProps } = useButton(prevButtonProps, prevRef)
     const { buttonProps: domNextButtonProps } = useButton(nextButtonProps, nextRef)
+
+    // A single pair of buttons, placed in exactly one spot depending on `visibleMonths` — inline
+    // in the (only) month's own header for a single month, or once as a global overlay for
+    // several — never both, so there's no risk of two DOM nodes fighting over one ref.
+    const prevButton = (
+      <button
+        {...domPrevButtonProps}
+        className="datepicker-arrow datepicker-arrow-prev"
+        ref={prevRef}
+        type="button"
+      >
+        ‹
+      </button>
+    )
+    const nextButton = (
+      <button
+        {...domNextButtonProps}
+        className="datepicker-arrow datepicker-arrow-next"
+        ref={nextRef}
+        type="button"
+      >
+        ›
+      </button>
+    )
+    const singleMonthArrows = visibleMonths === 1 ? { next: nextButton, prev: prevButton } : null
 
     // Goes through the same `state.setValue` path a two-click grid selection does (rather than
     // calling `onChange` directly), so it behaves identically whether `value` is controlled or
@@ -198,45 +224,29 @@ export const CxRangeCalendar = forwardRef<HTMLDivElement, CxRangeCalendarProps>(
         data-cx-inline="true"
         ref={ref}
       >
-        <div className="datepicker-header">
-          <button
-            {...domPrevButtonProps}
-            className="datepicker-arrow datepicker-arrow-prev"
-            ref={prevRef}
-            type="button"
-          >
-            ‹
-          </button>
-          {navigation === 'dropdown' ? (
-            <CalendarNavDropdowns state={state} />
-          ) : (
-            <div className="datepicker-header-content">{title}</div>
-          )}
-          <button
-            {...domNextButtonProps}
-            className="datepicker-arrow datepicker-arrow-next"
-            ref={nextRef}
-            type="button"
-          >
-            ›
-          </button>
-        </div>
         <div className="datepicker-grid">
           {resolvedPresets && (
             <DateRangePresets onSelect={handlePresetSelect} presets={resolvedPresets} />
           )}
-          <div className="cx-calendar-months">
-            {[...new Array(visibleMonths).keys()].map((monthIndex) => (
-              <CalendarMonth
-                key={monthIndex}
-                locale={locale}
-                monthIndex={monthIndex}
-                // A single month already has its own name in the header above (title or
-                // dropdowns) — a second heading here would just repeat it.
-                showHeading={visibleMonths > 1}
-                state={state}
-              />
-            ))}
+          <div className="datepicker-column cx-calendar-body">
+            {visibleMonths > 1 && (
+              <div className="datepicker-controls">
+                {prevButton}
+                {nextButton}
+              </div>
+            )}
+            <div className="datepicker-grid">
+              {[...new Array(visibleMonths).keys()].map((monthIndex) => (
+                <CalendarMonth
+                  arrows={monthIndex === 0 ? singleMonthArrows : null}
+                  firstDayOfWeek={firstDayOfWeek}
+                  key={monthIndex}
+                  locale={locale}
+                  monthIndex={monthIndex}
+                  state={state}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -246,41 +256,118 @@ export const CxRangeCalendar = forwardRef<HTMLDivElement, CxRangeCalendarProps>(
 
 CxRangeCalendar.displayName = 'CxRangeCalendar'
 
-interface CalendarNavDropdownsProps {
+interface CalendarMonthYearDropdownsProps {
+  locale: string
+  monthIndex: number
+  monthStart: CalendarDate
   state: RangeCalendarState
 }
 
-// Same primitives as `CxCalendar`'s dropdown nav — `useCalendarMonthPicker`/`useCalendarYearPicker`
-// both accept a plain `CalendarState` or a `RangeCalendarState` interchangeably.
-const CalendarNavDropdowns = ({ state }: CalendarNavDropdownsProps) => {
-  const monthPicker = useCalendarMonthPicker({}, state)
-  const yearPicker = useCalendarYearPicker({}, state)
+// Each visible month gets its own month/year dropdowns rather than one shared pair — react-aria's
+// own `useCalendarMonthPicker`/`useCalendarYearPicker` always read/write `state.focusedDate`, i.e.
+// only the first visible month, so they can't drive a second or third month's dropdowns on their
+// own. This mirrors their logic (same option lists, same `min`/`maxValue` clamping) but anchored to
+// this month's own `monthStart` instead, and re-targets `state.setFocusedDate` by subtracting this
+// month's offset — so picking a month/year here still moves `state.focusedDate` (and therefore
+// every visible month, since they're all computed from that one anchor) in sync.
+const CalendarMonthYearDropdowns = ({
+  locale,
+  monthIndex,
+  monthStart,
+  state
+}: CalendarMonthYearDropdownsProps) => {
+  const monthFormatter = useDateFormatter({
+    calendar: monthStart.calendar.identifier,
+    month: 'short',
+    timeZone: state.timeZone
+  })
+  const yearFormatter = useDateFormatter({
+    calendar: monthStart.calendar.identifier,
+    timeZone: state.timeZone,
+    year: 'numeric'
+  })
+  const monthFieldLabel = useMemo(
+    () => new Intl.DisplayNames(locale, { type: 'dateTimeField' }).of('month'),
+    [locale]
+  )
+  const yearFieldLabel = useMemo(
+    () => new Intl.DisplayNames(locale, { type: 'dateTimeField' }).of('year'),
+    [locale]
+  )
+
+  const months = useMemo(() => {
+    const numMonths = monthStart.calendar.getMonthsInYear(monthStart)
+    return [...new Array(numMonths).keys()].map((i) => {
+      const date = monthStart.set({ month: i + 1 })
+      return { date, formatted: monthFormatter.format(date.toDate(state.timeZone)), id: i + 1 }
+    })
+  }, [monthFormatter, monthStart, state.timeZone])
+
+  const years = useMemo(() => {
+    const visibleYears = 20
+    let minDate = monthStart.subtract({ years: Math.floor(visibleYears / 2) })
+    let maxDate = monthStart.add({ years: Math.ceil(visibleYears / 2) - 1 })
+    if (state.maxValue && maxDate.compare(state.maxValue) > 0) {
+      maxDate = toCalendarDate(state.maxValue)
+      minDate = maxDate.subtract({ years: visibleYears - 1 })
+    }
+    if (state.minValue && minDate.compare(state.minValue) < 0) {
+      minDate = toCalendarDate(state.minValue)
+      maxDate = minDate.add({ years: visibleYears - 1 })
+      if (state.maxValue && maxDate.compare(state.maxValue) > 0) {
+        maxDate = toCalendarDate(state.maxValue)
+      }
+    }
+    const items: { date: CalendarDate; formatted: string; id: number }[] = []
+    let date = minDate
+    while (date.compare(maxDate) <= 0) {
+      items.push({
+        date,
+        formatted: yearFormatter.format(date.toDate(state.timeZone)),
+        id: items.length
+      })
+      date = date.add({ years: 1 })
+    }
+    return items
+  }, [monthStart, state.maxValue, state.minValue, state.timeZone, yearFormatter])
+
+  const yearValue = years.findIndex((year) => isSameYear(year.date, monthStart))
+
+  const handleMonthChange = (id: number) => {
+    const target = months.find((month) => month.id === id)
+    if (target) state.setFocusedDate(target.date.subtract({ months: monthIndex }))
+  }
+
+  const handleYearChange = (id: number) => {
+    const target = years[id]
+    if (target) state.setFocusedDate(target.date.subtract({ months: monthIndex }))
+  }
 
   return (
     <div className="datepicker-header-content">
       <select
-        aria-label={monthPicker['aria-label']}
+        aria-label={monthFieldLabel}
         className="cx-calendar-select"
         disabled={state.isDisabled}
-        onChange={(e) => monthPicker.onChange(Number(e.target.value))}
-        value={monthPicker.value}
+        onChange={(e) => handleMonthChange(Number(e.target.value))}
+        value={monthStart.month}
       >
-        {monthPicker.items.map((item) => (
-          <option key={item.id} value={item.id}>
-            {item.formatted}
+        {months.map((month) => (
+          <option key={month.id} value={month.id}>
+            {month.formatted}
           </option>
         ))}
       </select>
       <select
-        aria-label={yearPicker['aria-label']}
+        aria-label={yearFieldLabel}
         className="cx-calendar-select"
         disabled={state.isDisabled}
-        onChange={(e) => yearPicker.onChange(Number(e.target.value))}
-        value={yearPicker.value}
+        onChange={(e) => handleYearChange(Number(e.target.value))}
+        value={yearValue}
       >
-        {yearPicker.items.map((item) => (
-          <option key={item.id} value={item.id}>
-            {item.formatted}
+        {years.map((year) => (
+          <option key={year.id} value={year.id}>
+            {year.formatted}
           </option>
         ))}
       </select>
@@ -289,26 +376,42 @@ const CalendarNavDropdowns = ({ state }: CalendarNavDropdownsProps) => {
 }
 
 interface CalendarMonthProps {
+  arrows?: { next: ReactNode; prev: ReactNode } | null
+  firstDayOfWeek?: 'sun' | 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat'
   locale: string
   monthIndex: number
-  showHeading: boolean
   state: RangeCalendarState
 }
 
-// One visible month within `visibleMonths` — `useCalendarGrid`'s `startDate`/`endDate` and
-// `useCalendarHeading`'s `offset` are both designed for exactly this "multiple date grids in one
-// calendar" case, so no manual date math is needed beyond locating this month's own start.
-const CalendarMonth = ({ locale, monthIndex, showHeading, state }: CalendarMonthProps) => {
+// One visible month within `visibleMonths` — `useCalendarGrid`'s `startDate` is exactly what's
+// needed to locate this month's own start within the shared `state`. Its header carries this
+// month's own month/year dropdowns, plus the prev/next arrows too when it's the only visible
+// month (`arrows` is `null` whenever a global overlay is handling paging instead — see the parent).
+const CalendarMonth = ({
+  arrows,
+  firstDayOfWeek,
+  locale,
+  monthIndex,
+  state
+}: CalendarMonthProps) => {
   const monthStart = state.visibleRange.start.add({ months: monthIndex })
-  const heading = useCalendarHeading({ offset: { months: monthIndex } }, state)
   const { gridProps, headerProps, weekDays, weeksInMonth } = useCalendarGrid(
-    { startDate: monthStart },
+    { firstDayOfWeek, startDate: monthStart },
     state
   )
 
   return (
-    <div className="cx-calendar-month">
-      {showHeading && <div className="cx-calendar-month-heading">{heading}</div>}
+    <div className="datepicker-column">
+      <div className="datepicker-header">
+        {arrows?.prev}
+        <CalendarMonthYearDropdowns
+          locale={locale}
+          monthIndex={monthIndex}
+          monthStart={monthStart}
+          state={state}
+        />
+        {arrows?.next}
+      </div>
       <div className="datepicker-wrapper">
         <div {...gridProps} className="datepicker-content">
           <div {...headerProps} className="datepicker-week" role="row">

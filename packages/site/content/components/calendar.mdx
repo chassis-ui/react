@@ -9,7 +9,7 @@ import { BasicExample } from '../../src/examples/calendar/BasicExample.tsx'
 import { MinMaxExample } from '../../src/examples/calendar/MinMaxExample.tsx'
 import { UnavailableExample } from '../../src/examples/calendar/UnavailableExample.tsx'
 import { UnavailableDatesExample } from '../../src/examples/calendar/UnavailableDatesExample.tsx'
-import { NavigationExample } from '../../src/examples/calendar/NavigationExample.tsx'
+import { FirstDayOfWeekExample } from '../../src/examples/calendar/FirstDayOfWeekExample.tsx'
 
 import { CxCalendar } from '@chassis-ui/react'
 
@@ -51,10 +51,14 @@ Saturday/Sunday (or whichever days the active locale considers the weekend — d
 
 ## Navigation
 
-By default, `CxCalendar` shows month and year `<select>`s next to the prev/next buttons, for jumping further than one page at a time. Pass `navigation="arrows"` for the plain prev/next-only header instead.
+`CxCalendar` shows month and year `<select>`s next to the prev/next buttons, for jumping further than one page at a time.
+
+## First day of week
+
+The week starts on Monday by default, regardless of the active locale. Pass `firstDayOfWeek` to override it — `'sun'`, `'mon'`, `'tue'`, `'wed'`, `'thu'`, `'fri'`, or `'sat'`.
 
 <Example>
-  <NavigationExample client:load />
+  <FirstDayOfWeekExample client:load />
 </Example>
 
 ## Accessible name

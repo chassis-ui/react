@@ -119,6 +119,51 @@
         "name": "boolean"
       }
     },
+    "firstDayOfWeek": {
+      "defaultValue": {
+        "value": "mon"
+      },
+      "description": "The day that starts the week, overriding the default set by the active locale.",
+      "name": "firstDayOfWeek",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/calendar/CxRangeCalendar.tsx",
+        "name": "CxRangeCalendarProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/calendar/CxRangeCalendar.tsx",
+          "name": "CxRangeCalendarProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"sun\" | \"mon\" | \"tue\" | \"wed\" | \"thu\" | \"fri\" | \"sat\"",
+        "value": [
+          {
+            "value": "\"sun\""
+          },
+          {
+            "value": "\"mon\""
+          },
+          {
+            "value": "\"tue\""
+          },
+          {
+            "value": "\"wed\""
+          },
+          {
+            "value": "\"thu\""
+          },
+          {
+            "value": "\"fri\""
+          },
+          {
+            "value": "\"sat\""
+          }
+        ]
+      }
+    },
     "isDateUnavailable": {
       "defaultValue": null,
       "description": "Callback that is called for each date in the calendar. If it returns `true`, that date is\nshown but cannot be selected.",
@@ -176,36 +221,6 @@
         "name": "DateValue | null"
       }
     },
-    "navigation": {
-      "defaultValue": {
-        "value": "dropdown"
-      },
-      "description": "How to navigate between months. `'dropdown'` shows month and year `<select>`s next to the\nprev/next buttons, for jumping further than one page at a time. `'arrows'` shows only the\nprev/next buttons and a plain text title.",
-      "name": "navigation",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/calendar/CxRangeCalendar.tsx",
-        "name": "CxRangeCalendarProps"
-      },
-      "declarations": [
-        {
-          "fileName": "chassis-react/packages/react/src/components/calendar/CxRangeCalendar.tsx",
-          "name": "CxRangeCalendarProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"dropdown\" | \"arrows\"",
-        "value": [
-          {
-            "value": "\"dropdown\""
-          },
-          {
-            "value": "\"arrows\""
-          }
-        ]
-      }
-    },
     "onChange": {
       "defaultValue": null,
       "description": "Callback fired when a complete range is selected (both a start and end date).",
@@ -223,6 +238,27 @@
       "required": false,
       "type": {
         "name": "((value: RangeValue<DateValue>) => void)"
+      }
+    },
+    "presets": {
+      "defaultValue": {
+        "value": "false"
+      },
+      "description": "A list of quick-select range presets shown beside the calendar, or `true` for a sensible\ndefault list (Today, Last 7/30/90 Days, Last Week, Last Month — all relative to today).\nSelecting a preset commits its range immediately, the same as picking a start and end date\nfrom the grid. Omit (or `false`) to not show a preset list.",
+      "name": "presets",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/calendar/CxRangeCalendar.tsx",
+        "name": "CxRangeCalendarProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/calendar/CxRangeCalendar.tsx",
+          "name": "CxRangeCalendarProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean | CxDateRangePreset[]"
       }
     },
     "unavailableDates": {

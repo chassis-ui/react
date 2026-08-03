@@ -54,6 +54,10 @@ For data-driven cases, pass `unavailableDates` instead — a plain array of ISO 
 
 Saturday/Sunday (or whichever days the active locale considers the weekend) are shown muted in the calendar popover automatically — inherited from [`CxCalendar`](/forms/calendar), no prop required.
 
+## First day of week
+
+The calendar popover's week starts on Monday by default, regardless of the active locale. Pass `firstDayOfWeek` to override it, same as [`CxCalendar`](/forms/calendar).
+
 ## Scope
 
 This is a single-date picker — the strong-fit case for React Aria's date picker hooks. A few things are deliberately out of scope for this pass:
