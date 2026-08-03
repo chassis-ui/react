@@ -3,6 +3,8 @@ import { useDateFormatter } from 'react-aria'
 import { CalendarState, RangeCalendarState } from 'react-stately'
 import { CalendarDate, isSameYear, toCalendarDate } from '@internationalized/date'
 
+import { setVisibleRangeStart } from './setVisibleRangeStart'
+
 interface CalendarMonthYearDropdownsProps {
   locale: string
   monthIndex?: number
@@ -24,7 +26,7 @@ export const CalendarMonthYearDropdowns = ({
 }: CalendarMonthYearDropdownsProps) => {
   const monthFormatter = useDateFormatter({
     calendar: monthStart.calendar.identifier,
-    month: 'short',
+    month: 'long',
     timeZone: state.timeZone
   })
   const yearFormatter = useDateFormatter({
@@ -81,12 +83,12 @@ export const CalendarMonthYearDropdowns = ({
 
   const handleMonthChange = (id: number) => {
     const target = months.find((month) => month.id === id)
-    if (target) state.setFocusedDate(target.date.subtract({ months: monthIndex }))
+    if (target) setVisibleRangeStart(state, target.date.subtract({ months: monthIndex }))
   }
 
   const handleYearChange = (id: number) => {
     const target = years[id]
-    if (target) state.setFocusedDate(target.date.subtract({ months: monthIndex }))
+    if (target) setVisibleRangeStart(state, target.date.subtract({ months: monthIndex }))
   }
 
   return (

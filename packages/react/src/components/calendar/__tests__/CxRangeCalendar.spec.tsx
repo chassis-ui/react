@@ -342,6 +342,48 @@ describe('CxRangeCalendar', () => {
       ])
     })
 
+    // Regression coverage for a case the tests above don't reach: picking a month that's less
+    // than a full `visibleMonths` away from the current one — the common case, since adjacent
+    // blocks are always exactly one month apart. `state.setFocusedDate` only pages the visible
+    // range when the new focus lands outside it; a target still inside the current range (this
+    // test) used to silently no-op, and one exactly `visibleMonths - 1` short of the boundary
+    // (the test below) used to overshoot by an extra month. See `setVisibleRangeStart`.
+    test('selecting the immediately next month in the first block advances by one month', () => {
+      render(
+        <CxRangeCalendar
+          aria-label="Trip dates"
+          value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 8, 15) }}
+          visibleMonths={2}
+        />
+      )
+      const [firstMonthSelect] = screen.getAllByRole('combobox', { name: /month/i })
+      fireEvent.change(firstMonthSelect, { target: { value: '8' } })
+
+      const updatedSelects = screen.getAllByRole('combobox', { name: /month/i })
+      expect(updatedSelects.map((select) => (select as HTMLSelectElement).value)).toEqual([
+        '8',
+        '9'
+      ])
+    })
+
+    test('selecting the immediately previous month in the second block retreats by one month', () => {
+      render(
+        <CxRangeCalendar
+          aria-label="Trip dates"
+          value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 8, 15) }}
+          visibleMonths={2}
+        />
+      )
+      const [, secondMonthSelect] = screen.getAllByRole('combobox', { name: /month/i })
+      fireEvent.change(secondMonthSelect, { target: { value: '7' } })
+
+      const updatedSelects = screen.getAllByRole('combobox', { name: /month/i })
+      expect(updatedSelects.map((select) => (select as HTMLSelectElement).value)).toEqual([
+        '6',
+        '7'
+      ])
+    })
+
     test('a range spanning both visible months is selectable and pills continuously', () => {
       const onChange = vi.fn()
       render(
