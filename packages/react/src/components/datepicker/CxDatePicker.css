@@ -28,19 +28,17 @@
 .cx-datepicker-field {
   display: flex;
   align-items: center;
-  gap: 0.125rem;
   width: fit-content;
 }
 
 .cx-datepicker-segment {
-  padding-inline: 0.0625rem;
-  font-variant-numeric: tabular-nums;
+  padding-inline: var(--cx-space-3xsmall);
   border-radius: var(--cx-border-radius-small);
   outline: none;
 }
 
 .cx-datepicker-segment.placeholder {
-  color: var(--cx-fg-subtle);
+  color: var(--cx-form-idle-fg-inactive);
 }
 
 .cx-datepicker-segment:focus {

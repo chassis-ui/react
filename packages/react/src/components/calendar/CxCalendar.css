@@ -56,14 +56,14 @@
 
 .datepicker-month:disabled,
 .datepicker-year:disabled {
-  color: var(--cx-fg-disabled);
+  color: var(--cx-day-disabled-fg-color);
   cursor: default;
 }
 
 @layer components {
   /* Outside the visible month (leading/trailing days from the adjacent month) */
   .datepicker-date-outside > .datepicker-date-btn {
-    opacity: 0.5;
+    color: var(--cx-day-disabled-fg-color);
   }
 
   /* Weekend, per the active locale — muted unless something more important (selection,
@@ -80,7 +80,7 @@
   /* Unavailable — focusable and announced (see `isDateUnavailable`'s docs) but not selectable, so
      distinct from the native disabled state entirely. */
   .datepicker-date-unavailable:where(:not(.datepicker-date-selected)) > .datepicker-date-btn {
-    color: var(--cx-danger);
+    color: var(--cx-day-disabled-fg-color);
     text-decoration: line-through;
   }
 

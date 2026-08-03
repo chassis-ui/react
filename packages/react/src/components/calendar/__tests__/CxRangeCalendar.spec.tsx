@@ -12,6 +12,11 @@ const getDateCell = (button: HTMLElement) =>
   // eslint-disable-next-line testing-library/no-node-access
   button.closest('.datepicker-date') as HTMLElement
 
+// The year `<select>`'s `value` is a list index, not the year itself — reading the selected
+// option's own text is the only reliable way to assert which year is actually showing.
+const getSelectedOptionText = (select: HTMLElement) =>
+  (select as HTMLSelectElement).selectedOptions[0].textContent
+
 describe('CxRangeCalendar', () => {
   describe('rendering', () => {
     test('renders a grid with the accessible label applied', () => {
@@ -317,11 +322,54 @@ describe('CxRangeCalendar', () => {
       expect(screen.getAllByRole('button', { name: /next/i })).toHaveLength(1)
       expect(screen.getAllByRole('button', { name: /previous/i })).toHaveLength(1)
 
-      // Paging moves the whole visible span at once (the default `pageBehavior`), so two visible
-      // months advance by two months, not one.
+      // Paging slides the whole visible window by one month at a time (`pageBehavior: 'single'`),
+      // not by the entire visible span — so two visible months advance by one month, not two,
+      // matching `CalendarMonthYearDropdowns`' own one-month-at-a-time jumps.
       fireEvent.click(screen.getByRole('button', { name: /next/i }))
       const monthSelects = screen.getAllByRole('combobox', { name: /month/i })
-      expect(monthSelects.map((select) => (select as HTMLSelectElement).value)).toEqual(['9', '10'])
+      expect(monthSelects.map((select) => (select as HTMLSelectElement).value)).toEqual(['8', '9'])
+
+      fireEvent.click(screen.getByRole('button', { name: /previous/i }))
+      const monthSelectsAfterPrev = screen.getAllByRole('combobox', { name: /month/i })
+      expect(monthSelectsAfterPrev.map((select) => (select as HTMLSelectElement).value)).toEqual([
+        '7',
+        '8'
+      ])
+    })
+
+    test('paging across a year boundary slides by one month, not by the full visible span', () => {
+      render(
+        <CxRangeCalendar
+          aria-label="Trip dates"
+          value={{ start: new CalendarDate(2026, 11, 10), end: new CalendarDate(2026, 11, 15) }}
+          visibleMonths={2}
+        />
+      )
+      // Starts on November/December 2026.
+      let monthSelects = screen.getAllByRole('combobox', { name: /month/i })
+      let yearSelects = screen.getAllByRole('combobox', { name: /year/i })
+      expect(monthSelects.map((select) => (select as HTMLSelectElement).value)).toEqual([
+        '11',
+        '12'
+      ])
+      expect(yearSelects.map(getSelectedOptionText)).toEqual(['2026', '2026'])
+
+      // Next should land on December 2026/January 2027 — not skip straight to January/February.
+      fireEvent.click(screen.getByRole('button', { name: /next/i }))
+      monthSelects = screen.getAllByRole('combobox', { name: /month/i })
+      yearSelects = screen.getAllByRole('combobox', { name: /year/i })
+      expect(monthSelects.map((select) => (select as HTMLSelectElement).value)).toEqual(['12', '1'])
+      expect(yearSelects.map(getSelectedOptionText)).toEqual(['2026', '2027'])
+
+      // Previous should undo that back to November/December 2026.
+      fireEvent.click(screen.getByRole('button', { name: /previous/i }))
+      monthSelects = screen.getAllByRole('combobox', { name: /month/i })
+      yearSelects = screen.getAllByRole('combobox', { name: /year/i })
+      expect(monthSelects.map((select) => (select as HTMLSelectElement).value)).toEqual([
+        '11',
+        '12'
+      ])
+      expect(yearSelects.map(getSelectedOptionText)).toEqual(['2026', '2026'])
     })
 
     test('selecting a month from the second block moves both months in sync', () => {

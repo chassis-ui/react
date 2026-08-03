@@ -152,6 +152,12 @@ export const CxRangeCalendar = forwardRef<HTMLDivElement, CxRangeCalendarProps>(
       maxValue,
       minValue,
       onChange,
+      // Prev/next always slide the visible window by one month, regardless of `visibleMonths` —
+      // react-stately's own default (`pageBehavior: 'visible'`) instead pages by the *entire*
+      // visible span at once (e.g. jumping straight from Nov/Dec to Jan/Feb for `visibleMonths={2}`,
+      // skipping Dec/Jan entirely), which reads as broken next to `CalendarMonthYearDropdowns`'
+      // own one-month-at-a-time jumps.
+      pageBehavior: 'single',
       value,
       visibleDuration: { months: visibleMonths }
     })

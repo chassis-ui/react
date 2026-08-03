@@ -234,7 +234,7 @@ export const CxDateRangePicker = ({
           aria-labelledby={labelledBy}
           ref={groupRef}
         >
-          <div className="d-flex gap-small w-100">
+          <div className="d-flex w-100">
             <DateField fieldProps={startFieldProps} />
             <span aria-hidden="true" className="cx-daterangepicker-separator">
               –

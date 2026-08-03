@@ -6,6 +6,6 @@
  */
 
 .cx-daterangepicker-separator {
-  padding-inline: 0.125rem;
+  margin-inline: var(--cx-gap);
   color: var(--cx-fg-subtle);
 }
