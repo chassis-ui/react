@@ -108,3 +108,12 @@
   outline: var(--cx-border-width-xlarge) solid var(--cx-primary);
   outline-offset: -1px;
 }
+
+.cx-calendar-preset.selected {
+  color: var(--cx-primary-contrast);
+  background-color: var(--cx-primary);
+}
+
+.cx-calendar-preset.selected:hover {
+  background-color: var(--cx-primary);
+}

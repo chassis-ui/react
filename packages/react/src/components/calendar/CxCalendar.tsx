@@ -202,7 +202,7 @@ const CalendarNavDropdowns = ({ state }: CalendarNavDropdownsProps) => {
     <div className="datepicker-header-content">
       <select
         aria-label={monthPicker['aria-label']}
-        className="cx-calendar-select"
+        className="datepicker-month"
         disabled={state.isDisabled}
         onChange={(e) => monthPicker.onChange(Number(e.target.value))}
         value={monthPicker.value}
@@ -215,7 +215,7 @@ const CalendarNavDropdowns = ({ state }: CalendarNavDropdownsProps) => {
       </select>
       <select
         aria-label={yearPicker['aria-label']}
-        className="cx-calendar-select"
+        className="datepicker-year"
         disabled={state.isDisabled}
         onChange={(e) => yearPicker.onChange(Number(e.target.value))}
         value={yearPicker.value}

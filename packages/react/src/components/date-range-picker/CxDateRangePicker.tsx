@@ -96,14 +96,12 @@ export interface CxDateRangePickerProps extends Omit<
    */
   onChange?: (value: RangeValue<DateValue> | null) => void
   /**
-   * A list of quick-select range presets shown in the popover next to the calendar, or `true`
-   * for a sensible default list (Today, Last 7/30/90 Days, Last Week, Last Month — all relative
-   * to today). Selecting a preset commits its range immediately, the same as picking a start and
-   * end date from the calendar. Omit (or `false`) to not show a preset list.
-   *
-   * @default false
+   * A list of quick-select range presets shown in the popover next to the calendar. Selecting a
+   * preset commits its range immediately, the same as picking a start and end date from the
+   * calendar. The preset matching the current selection (if any) is marked selected. Omit to not
+   * show a preset list.
    */
-  presets?: boolean | CxDateRangePreset[]
+  presets?: CxDateRangePreset[]
   /**
    * Size the component small or large.
    */

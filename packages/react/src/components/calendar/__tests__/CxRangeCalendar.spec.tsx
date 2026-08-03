@@ -371,25 +371,20 @@ describe('CxRangeCalendar', () => {
       expect(document.querySelector('.cx-calendar-presets')).toBeNull()
     })
 
-    test('presets={true} renders the default preset list', () => {
-      render(<CxRangeCalendar aria-label="Trip dates" presets />)
-      ;['Today', 'Last 7 Days', 'Last 30 Days', 'Last 90 Days', 'Last Week', 'Last Month'].forEach(
-        (label) => {
-          expect(screen.getByRole('button', { name: label })).toBeInTheDocument()
-        }
-      )
-    })
-
-    test('a custom presets array overrides the default list', () => {
+    test('renders each preset as a button', () => {
       const customPresets = [
         {
           label: 'Custom Range',
           range: { start: new CalendarDate(2026, 7, 1), end: new CalendarDate(2026, 7, 10) }
+        },
+        {
+          label: 'Another Range',
+          range: { start: new CalendarDate(2026, 8, 1), end: new CalendarDate(2026, 8, 10) }
         }
       ]
       render(<CxRangeCalendar aria-label="Trip dates" presets={customPresets} />)
       expect(screen.getByRole('button', { name: 'Custom Range' })).toBeInTheDocument()
-      expect(screen.queryByRole('button', { name: 'Today' })).toBeNull()
+      expect(screen.getByRole('button', { name: 'Another Range' })).toBeInTheDocument()
     })
 
     test('selecting a preset commits its range and fires onChange', () => {
@@ -445,10 +440,64 @@ describe('CxRangeCalendar', () => {
       expect(getDateCell(within(grid).getByRole('button', { name: /July 5, 2026/ }))).toHaveClass(
         'datepicker-date-in-range'
       )
+
+      const presetButton = screen.getByRole('button', { name: 'Custom Range' })
+      expect(presetButton).toHaveClass('selected')
+      expect(presetButton).toHaveAttribute('aria-current', 'true')
+    })
+
+    test('marks the preset matching the current value as selected on initial render', () => {
+      const customPresets = [
+        {
+          label: 'Custom Range',
+          range: { start: new CalendarDate(2026, 7, 1), end: new CalendarDate(2026, 7, 10) }
+        }
+      ]
+      render(
+        <CxRangeCalendar
+          aria-label="Trip dates"
+          presets={customPresets}
+          value={{ start: new CalendarDate(2026, 7, 1), end: new CalendarDate(2026, 7, 10) }}
+        />
+      )
+      const presetButton = screen.getByRole('button', { name: 'Custom Range' })
+      expect(presetButton).toHaveClass('selected')
+      expect(presetButton).toHaveAttribute('aria-current', 'true')
+    })
+
+    test('no preset is selected when the current value matches none of them', () => {
+      const customPresets = [
+        {
+          label: 'Custom Range',
+          range: { start: new CalendarDate(2026, 7, 1), end: new CalendarDate(2026, 7, 10) }
+        }
+      ]
+      render(
+        <CxRangeCalendar
+          aria-label="Trip dates"
+          presets={customPresets}
+          value={{ start: new CalendarDate(2026, 7, 20), end: new CalendarDate(2026, 7, 22) }}
+        />
+      )
+      const presetButton = screen.getByRole('button', { name: 'Custom Range' })
+      expect(presetButton).not.toHaveClass('selected')
+      expect(presetButton).not.toHaveAttribute('aria-current')
     })
 
     test('has no axe violations with presets shown', async () => {
-      render(<CxRangeCalendar aria-label="Trip dates" presets />)
+      const customPresets = [
+        {
+          label: 'Custom Range',
+          range: { start: new CalendarDate(2026, 7, 1), end: new CalendarDate(2026, 7, 10) }
+        }
+      ]
+      render(
+        <CxRangeCalendar
+          aria-label="Trip dates"
+          presets={customPresets}
+          value={{ start: new CalendarDate(2026, 7, 1), end: new CalendarDate(2026, 7, 10) }}
+        />
+      )
       expect(
         await axe(document.body, { rules: { region: { enabled: false } } })
       ).toHaveNoViolations()

@@ -24,7 +24,7 @@ import {
 } from '@internationalized/date'
 
 import { useForkedRef } from '../../hooks'
-import { CxDateRangePreset, getDefaultDateRangePresets } from './dateRangePresets'
+import { CxDateRangePreset } from './dateRangePresets'
 import { mergeIsDateUnavailable } from './mergeIsDateUnavailable'
 import './CxCalendar.css'
 import './CxRangeCalendar.css'
@@ -82,14 +82,11 @@ export interface CxRangeCalendarProps extends Omit<
    */
   onChange?: (value: RangeValue<DateValue>) => void
   /**
-   * A list of quick-select range presets shown beside the calendar, or `true` for a sensible
-   * default list (Today, Last 7/30/90 Days, Last Week, Last Month — all relative to today).
-   * Selecting a preset commits its range immediately, the same as picking a start and end date
-   * from the grid. Omit (or `false`) to not show a preset list.
-   *
-   * @default false
+   * A list of quick-select range presets shown beside the calendar. Selecting a preset commits
+   * its range immediately, the same as picking a start and end date from the grid. The preset
+   * matching the current selection (if any) is marked selected. Omit to not show a preset list.
    */
-  presets?: boolean | CxDateRangePreset[]
+  presets?: CxDateRangePreset[]
   /**
    * ISO 8601 dates (`YYYY-MM-DD`) to mark unselectable, as a convenience alternative to
    * `isDateUnavailable` for data-driven cases (e.g. booked dates fetched from an API). Composed
@@ -144,7 +141,7 @@ export const CxRangeCalendar = forwardRef<HTMLDivElement, CxRangeCalendarProps>(
     const internalRef = useRef<HTMLDivElement>(null)
     const ref = useForkedRef(internalRef, forwardedRef)
     const combinedIsDateUnavailable = mergeIsDateUnavailable(unavailableDates, isDateUnavailable)
-    const resolvedPresets = presets === true ? getDefaultDateRangePresets(locale) : presets || null
+    const resolvedPresets = presets && presets.length > 0 ? presets : null
 
     const state = useRangeCalendarState({
       autoFocus,
@@ -226,7 +223,11 @@ export const CxRangeCalendar = forwardRef<HTMLDivElement, CxRangeCalendarProps>(
       >
         <div className="datepicker-grid">
           {resolvedPresets && (
-            <DateRangePresets onSelect={handlePresetSelect} presets={resolvedPresets} />
+            <DateRangePresets
+              onSelect={handlePresetSelect}
+              presets={resolvedPresets}
+              value={state.value}
+            />
           )}
           <div className="datepicker-column cx-calendar-body">
             {visibleMonths > 1 && (
@@ -510,19 +511,35 @@ const CalendarCell = ({ date, isFirstInRow, isLastInRow, locale, state }: Calend
 interface DateRangePresetsProps {
   onSelect: (range: RangeValue<DateValue>) => void
   presets: CxDateRangePreset[]
+  value: RangeValue<DateValue> | null
 }
+
+// A preset "matches" the current selection when both endpoints land on the same day — the same
+// granularity `CalendarCell` already uses to compare dates, so a preset stays marked selected
+// regardless of whether `value` is a `CalendarDate`, `CalendarDateTime`, or `ZonedDateTime`.
+const isSameRange = (a: RangeValue<DateValue>, b: RangeValue<DateValue>) =>
+  isSameDay(a.start, b.start) && isSameDay(a.end, b.end)
 
 // Plain buttons in a list, not a listbox — a group of independent actions (each one commits
 // immediately) rather than a single-selection widget, so native Tab/Enter/Space is the right
 // interaction model without extra roving-tabindex/arrow-key wiring.
-const DateRangePresets = ({ onSelect, presets }: DateRangePresetsProps) => (
+const DateRangePresets = ({ onSelect, presets, value }: DateRangePresetsProps) => (
   <ul className="cx-calendar-presets">
-    {presets.map((preset) => (
-      <li key={preset.label}>
-        <button className="cx-calendar-preset" onClick={() => onSelect(preset.range)} type="button">
-          {preset.label}
-        </button>
-      </li>
-    ))}
+    {presets.map((preset) => {
+      const isSelected = Boolean(value && isSameRange(value, preset.range))
+
+      return (
+        <li key={preset.label}>
+          <button
+            aria-current={isSelected ? 'true' : undefined}
+            className={classNames('cx-calendar-preset', { selected: isSelected })}
+            onClick={() => onSelect(preset.range)}
+            type="button"
+          >
+            {preset.label}
+          </button>
+        </li>
+      )
+    })}
   </ul>
 )

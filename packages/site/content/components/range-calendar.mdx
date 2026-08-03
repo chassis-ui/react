@@ -64,7 +64,7 @@ Pass `visibleMonths` to show more than one month side by side, sharing a single 
 
 ## Presets
 
-Pass `presets` to show a quick-select list next to the calendar in the popover. `presets={true}` uses a sensible default list — Today, Last 7/30/90 Days, Last Week, Last Month, all computed relative to today (and locale-aware: "Last Week"/"Last Month" respect the active locale's week/month boundaries). Selecting a preset commits its range immediately, the same as picking a start and end date from the calendar.
+Pass `presets` — an array of `{ label, range }` entries (see [`CxDateRangePreset`](#cxdaterangepreset) below) — to show a quick-select list next to the calendar. Selecting a preset commits its range immediately, the same as picking a start and end date from the grid. The preset matching the current selection (if any) is shown as the active one.
 
 <Example>
   <PresetsExample client:load />
@@ -87,3 +87,9 @@ Like `CxCalendar`, `CxRangeCalendar` isn't styled by `@chassis-ui/css`. It reuse
 ### CxRangeCalendar
 
 <PropTable component="CxRangeCalendar" />
+
+### CxDateRangePreset
+
+Shape of each entry in the `presets` array.
+
+<PropTable component="CxDateRangePreset" />

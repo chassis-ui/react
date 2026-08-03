@@ -248,17 +248,7 @@ describe('CxDateRangePicker', () => {
       expect(document.querySelector('.cx-calendar-presets')).toBeNull()
     })
 
-    test('presets={true} renders the default preset list', () => {
-      render(<CxDateRangePicker aria-label="Trip dates" presets />)
-      openCalendar()
-      ;['Today', 'Last 7 Days', 'Last 30 Days', 'Last 90 Days', 'Last Week', 'Last Month'].forEach(
-        (label) => {
-          expect(screen.getByRole('button', { name: label })).toBeInTheDocument()
-        }
-      )
-    })
-
-    test('a custom presets array overrides the default list', () => {
+    test('renders each preset as a button', () => {
       const customPresets = [
         {
           label: 'Custom Range',
@@ -268,7 +258,6 @@ describe('CxDateRangePicker', () => {
       render(<CxDateRangePicker aria-label="Trip dates" presets={customPresets} />)
       openCalendar()
       expect(screen.getByRole('button', { name: 'Custom Range' })).toBeInTheDocument()
-      expect(screen.queryByRole('button', { name: 'Today' })).toBeNull()
     })
 
     test('selecting a preset commits its range, fires onChange, and closes the calendar', () => {
@@ -292,8 +281,40 @@ describe('CxDateRangePicker', () => {
       expect(getCalendarWrapper()).toHaveAttribute('hidden')
     })
 
+    test('marks the preset matching the current value as selected', () => {
+      const customPresets = [
+        {
+          label: 'Custom Range',
+          range: { start: new CalendarDate(2026, 7, 1), end: new CalendarDate(2026, 7, 10) }
+        }
+      ]
+      render(
+        <CxDateRangePicker
+          aria-label="Trip dates"
+          presets={customPresets}
+          value={{ start: new CalendarDate(2026, 7, 1), end: new CalendarDate(2026, 7, 10) }}
+        />
+      )
+      openCalendar()
+      const presetButton = screen.getByRole('button', { name: 'Custom Range' })
+      expect(presetButton).toHaveClass('selected')
+      expect(presetButton).toHaveAttribute('aria-current', 'true')
+    })
+
     test('has no axe violations with presets shown', async () => {
-      render(<CxDateRangePicker aria-label="Trip dates" presets />)
+      const customPresets = [
+        {
+          label: 'Custom Range',
+          range: { start: new CalendarDate(2026, 7, 1), end: new CalendarDate(2026, 7, 10) }
+        }
+      ]
+      render(
+        <CxDateRangePicker
+          aria-label="Trip dates"
+          presets={customPresets}
+          value={{ start: new CalendarDate(2026, 7, 1), end: new CalendarDate(2026, 7, 10) }}
+        />
+      )
       openCalendar()
       expect(
         await axe(document.body, { rules: { region: { enabled: false } } })

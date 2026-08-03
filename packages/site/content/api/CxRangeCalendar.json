@@ -241,10 +241,8 @@
       }
     },
     "presets": {
-      "defaultValue": {
-        "value": "false"
-      },
-      "description": "A list of quick-select range presets shown beside the calendar, or `true` for a sensible\ndefault list (Today, Last 7/30/90 Days, Last Week, Last Month — all relative to today).\nSelecting a preset commits its range immediately, the same as picking a start and end date\nfrom the grid. Omit (or `false`) to not show a preset list.",
+      "defaultValue": null,
+      "description": "A list of quick-select range presets shown beside the calendar. Selecting a preset commits\nits range immediately, the same as picking a start and end date from the grid. The preset\nmatching the current selection (if any) is marked selected. Omit to not show a preset list.",
       "name": "presets",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/calendar/CxRangeCalendar.tsx",
@@ -258,7 +256,7 @@
       ],
       "required": false,
       "type": {
-        "name": "boolean | CxDateRangePreset[]"
+        "name": "CxDateRangePreset[]"
       }
     },
     "unavailableDates": {
