@@ -1,27 +1,19 @@
 import React, { forwardRef, HTMLAttributes, useRef } from 'react'
 import classNames from 'classnames'
-import {
-  AriaCalendarProps,
-  mergeProps,
-  useButton,
-  useCalendar,
-  useCalendarCell,
-  useCalendarGrid,
-  useCalendarMonthPicker,
-  useCalendarYearPicker,
-  useLocale
-} from 'react-aria'
+import { AriaCalendarProps, mergeProps, useCalendar, useCalendarCell, useLocale } from 'react-aria'
 import { CalendarState, DateValue, useCalendarState } from 'react-stately'
 import {
   CalendarDate,
   createCalendar,
   getLocalTimeZone,
-  getWeeksInMonth,
   isToday,
   isWeekend
 } from '@internationalized/date'
 
 import { useForkedRef } from '../../hooks'
+import { CalendarMonthYearDropdowns } from './CalendarMonthYearDropdowns'
+import { CalendarNavButton } from './CalendarNavButton'
+import { CalendarWeekGrid } from './CalendarWeekGrid'
 import { mergeIsDateUnavailable } from './mergeIsDateUnavailable'
 import './CxCalendar.css'
 
@@ -146,10 +138,6 @@ export const CxCalendar = forwardRef<HTMLDivElement, CxCalendarProps>(
     }
 
     const { calendarProps, prevButtonProps, nextButtonProps } = useCalendar(ariaProps, state)
-    const prevRef = useRef<HTMLButtonElement>(null)
-    const nextRef = useRef<HTMLButtonElement>(null)
-    const { buttonProps: domPrevButtonProps } = useButton(prevButtonProps, prevRef)
-    const { buttonProps: domNextButtonProps } = useButton(nextButtonProps, nextRef)
 
     return (
       <div
@@ -159,116 +147,25 @@ export const CxCalendar = forwardRef<HTMLDivElement, CxCalendarProps>(
         ref={ref}
       >
         <div className="datepicker-header">
-          <button
-            {...domPrevButtonProps}
-            className="datepicker-arrow datepicker-arrow-prev"
-            ref={prevRef}
-            type="button"
-          >
-            ‹
-          </button>
-          <CalendarNavDropdowns state={state} />
-          <button
-            {...domNextButtonProps}
-            className="datepicker-arrow datepicker-arrow-next"
-            ref={nextRef}
-            type="button"
-          >
-            ›
-          </button>
+          <CalendarNavButton buttonProps={prevButtonProps} direction="prev" />
+          <CalendarMonthYearDropdowns
+            locale={locale}
+            monthStart={state.visibleRange.start}
+            state={state}
+          />
+          <CalendarNavButton buttonProps={nextButtonProps} direction="next" />
         </div>
-        <CalendarGrid firstDayOfWeek={firstDayOfWeek} locale={locale} state={state} />
+        <CalendarWeekGrid
+          firstDayOfWeek={firstDayOfWeek}
+          renderCell={(date) => <CalendarCell date={date} locale={locale} state={state} />}
+          state={state}
+        />
       </div>
     )
   }
 )
 
 CxCalendar.displayName = 'CxCalendar'
-
-interface CalendarNavDropdownsProps {
-  state: CalendarState
-}
-
-// `useCalendarMonthPicker`/`useCalendarYearPicker` both drive navigation through
-// `state.setFocusedDate` — the same primitive the prev/next buttons use — so switching months or
-// years this way still updates `state.visibleRange` normally, which is what `useCalendar`'s own
-// live-region effect (wired up in the parent) watches to announce the new visible range. No extra
-// announcement plumbing needed here.
-const CalendarNavDropdowns = ({ state }: CalendarNavDropdownsProps) => {
-  const monthPicker = useCalendarMonthPicker({}, state)
-  const yearPicker = useCalendarYearPicker({}, state)
-
-  return (
-    <div className="datepicker-header-content">
-      <select
-        aria-label={monthPicker['aria-label']}
-        className="datepicker-month"
-        disabled={state.isDisabled}
-        onChange={(e) => monthPicker.onChange(Number(e.target.value))}
-        value={monthPicker.value}
-      >
-        {monthPicker.items.map((item) => (
-          <option key={item.id} value={item.id}>
-            {item.formatted}
-          </option>
-        ))}
-      </select>
-      <select
-        aria-label={yearPicker['aria-label']}
-        className="datepicker-year"
-        disabled={state.isDisabled}
-        onChange={(e) => yearPicker.onChange(Number(e.target.value))}
-        value={yearPicker.value}
-      >
-        {yearPicker.items.map((item) => (
-          <option key={item.id} value={item.id}>
-            {item.formatted}
-          </option>
-        ))}
-      </select>
-    </div>
-  )
-}
-
-interface CalendarGridProps {
-  firstDayOfWeek?: 'sun' | 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat'
-  locale: string
-  state: CalendarState
-}
-
-const CalendarGrid = ({ firstDayOfWeek, locale, state }: CalendarGridProps) => {
-  const { gridProps, headerProps, weekDays } = useCalendarGrid({ firstDayOfWeek }, state)
-  const weeksInMonth = getWeeksInMonth(state.visibleRange.start, locale, firstDayOfWeek)
-
-  return (
-    <div className="datepicker-wrapper">
-      <div {...gridProps} className="datepicker-content">
-        <div {...headerProps} className="datepicker-week" role="row">
-          {weekDays.map((day, index) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <span className="datepicker-week-day" key={index} role="columnheader">
-              {day}
-            </span>
-          ))}
-        </div>
-        <div className="datepicker-dates">
-          {[...new Array(weeksInMonth).keys()].map((weekIndex) => (
-            <div className="datepicker-dates-row" key={weekIndex} role="row">
-              {state.getDatesInWeek(weekIndex).map((date, i) =>
-                date ? (
-                  <CalendarCell date={date} key={date.toString()} locale={locale} state={state} />
-                ) : (
-                  // eslint-disable-next-line react/no-array-index-key
-                  <div className="datepicker-date" key={i} role="gridcell" />
-                )
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  )
-}
 
 interface CalendarCellProps {
   date: CalendarDate

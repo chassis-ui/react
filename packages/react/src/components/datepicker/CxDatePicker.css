@@ -34,7 +34,7 @@
 
 .cx-datepicker-segment {
   padding-inline: 0.0625rem;
-  /* font-variant-numeric: tabular-nums; */
+  font-variant-numeric: tabular-nums;
   border-radius: var(--cx-border-radius-small);
   outline: none;
 }
@@ -46,17 +46,5 @@
 .cx-datepicker-segment:focus {
   color: var(--cx-primary-contrast);
   background-color: var(--cx-primary);
-}
-
-.cx-datepicker-calendar {
-  position: absolute;
-  z-index: 1000;
-  box-sizing: border-box;
-  min-width: 18rem;
-  padding: var(--cx-space-small);
-  background-color: var(--cx-bg-main);
-  border: var(--cx-border-width-medium) solid var(--cx-border-color);
-  border-radius: var(--cx-border-radius-large);
-  box-shadow: var(--cx-box-shadow-medium);
 }
 

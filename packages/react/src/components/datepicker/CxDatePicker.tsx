@@ -1,14 +1,15 @@
 import React, { HTMLAttributes, ReactNode, useRef } from 'react'
 import classNames from 'classnames'
-import { FocusScope, mergeProps, useButton, useDatePicker, useDialog, usePopover } from 'react-aria'
+import { FocusScope, mergeProps, useDatePicker, useDialog } from 'react-aria'
 import { DateValue, useDatePickerState } from 'react-stately'
 
 import { useFormField } from '../../hooks'
-import { resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
 import { renderFormField } from '../form-field/renderFormField'
 import { CxCalendar } from '../calendar/CxCalendar'
 import { mergeIsDateUnavailable } from '../calendar/mergeIsDateUnavailable'
+import { CalendarToggleButton } from './CalendarToggleButton'
 import { DateField } from './DateField'
+import { useOverlayPlacement } from './useOverlayPlacement'
 import './CxDatePicker.css'
 
 export interface CxDatePickerProps extends Omit<
@@ -144,7 +145,6 @@ export const CxDatePicker = ({
   })
 
   const groupRef = useRef<HTMLDivElement>(null)
-  const buttonRef = useRef<HTMLButtonElement>(null)
   const calendarRef = useRef<HTMLDivElement>(null)
   const popoverRef = useRef<HTMLDivElement>(null)
 
@@ -185,38 +185,11 @@ export const CxDatePicker = ({
     groupRef
   )
 
-  // `useDatePicker`'s `buttonProps.onPress` only ever opens the calendar (matches upstream
-  // react-aria), so re-clicking the toggle button while open would otherwise do nothing —
-  // override it to actually toggle.
-  const { buttonProps: toggleProps } = useButton(
-    { ...buttonProps, onPress: () => state.toggle() },
-    buttonRef
-  )
-
-  const { popoverProps, placement: resolvedPlacement } = usePopover(
-    {
-      triggerRef: groupRef,
-      popoverRef,
-      placement: toAriaPlacement('bottom-start'),
-      offset: 2,
-      // The toggle button lives inside `groupRef`, not `popoverRef` — without this it would
-      // count as an "outside" interaction and `usePopover` would close the calendar on
-      // pointerdown, which `toggleProps.onPress` above then immediately reopens on click.
-      shouldCloseOnInteractOutside: (element) => !groupRef.current?.contains(element)
-    },
-    state
-  )
-
-  // `usePopover` merges positioning styles (`top`/`left`/`position`) with escape/outside-click
-  // dismissal props (`onKeyDown`, focus-within handlers) — split them back apart since we only
-  // want a subset of the computed style (no `zIndex`/`maxHeight` overrides; chassis-css owns those).
-  const { style: popoverPositionStyle, ...popoverDismissProps } = popoverProps
-  const overlayStyle: React.CSSProperties = {
-    position: popoverPositionStyle?.position as React.CSSProperties['position'],
-    top: popoverPositionStyle?.top,
-    left: popoverPositionStyle?.left
-  }
-  const placementAttr = resolveDataPlacement('bottom-start', resolvedPlacement)
+  const { overlayStyle, placementAttr, popoverDismissProps } = useOverlayPlacement({
+    popoverRef,
+    state,
+    triggerRef: groupRef
+  })
 
   // `CxCalendar` is dialog-agnostic by design (see its own comment) — applying `role="dialog"`
   // etc. is this component's concern, layered on via the generic HTML-attribute passthrough
@@ -241,32 +214,7 @@ export const CxDatePicker = ({
           <div className="w-100">
             <DateField fieldProps={fieldProps} />
           </div>
-          <button {...toggleProps} className="input-adorn" ref={buttonRef} type="button">
-            <svg
-              fill="none"
-              height="16"
-              viewBox="0 0 16 16"
-              width="16"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <rect
-                height="12"
-                rx="1.5"
-                stroke="currentColor"
-                strokeWidth="1.25"
-                width="13"
-                x="1.5"
-                y="3"
-              />
-              <path d="M1.5 6.5h13" stroke="currentColor" strokeWidth="1.25" />
-              <path
-                d="M4.5 1.5v3M11.5 1.5v3"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeWidth="1.25"
-              />
-            </svg>
-          </button>
+          <CalendarToggleButton buttonProps={buttonProps} state={state} />
         </div>
         <div
           className="datepicker"

@@ -5,7 +5,7 @@
  * this file) — the separator between the two fields is the only new visual territory here.
  */
 
-/* .cx-daterangepicker-separator {
+.cx-daterangepicker-separator {
   padding-inline: 0.125rem;
   color: var(--cx-fg-subtle);
-} */
+}

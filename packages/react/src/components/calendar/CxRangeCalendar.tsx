@@ -1,13 +1,10 @@
-import React, { forwardRef, HTMLAttributes, ReactNode, useMemo, useRef } from 'react'
+import React, { forwardRef, HTMLAttributes, ReactNode, useRef } from 'react'
 import classNames from 'classnames'
 import {
   AriaRangeCalendarProps,
   mergeProps,
   RangeValue,
-  useButton,
   useCalendarCell,
-  useCalendarGrid,
-  useDateFormatter,
   useLocale,
   useRangeCalendar
 } from 'react-aria'
@@ -17,13 +14,14 @@ import {
   createCalendar,
   getLocalTimeZone,
   isSameDay,
-  isSameYear,
   isToday,
-  isWeekend,
-  toCalendarDate
+  isWeekend
 } from '@internationalized/date'
 
 import { useForkedRef } from '../../hooks'
+import { CalendarMonthYearDropdowns } from './CalendarMonthYearDropdowns'
+import { CalendarNavButton } from './CalendarNavButton'
+import { CalendarWeekGrid } from './CalendarWeekGrid'
 import { CxDateRangePreset } from './dateRangePresets'
 import { mergeIsDateUnavailable } from './mergeIsDateUnavailable'
 import './CxCalendar.css'
@@ -176,34 +174,11 @@ export const CxRangeCalendar = forwardRef<HTMLDivElement, CxRangeCalendarProps>(
       state,
       internalRef
     )
-    const prevRef = useRef<HTMLButtonElement>(null)
-    const nextRef = useRef<HTMLButtonElement>(null)
-    const { buttonProps: domPrevButtonProps } = useButton(prevButtonProps, prevRef)
-    const { buttonProps: domNextButtonProps } = useButton(nextButtonProps, nextRef)
-
     // A single pair of buttons, placed in exactly one spot depending on `visibleMonths` — inline
     // in the (only) month's own header for a single month, or once as a global overlay for
     // several — never both, so there's no risk of two DOM nodes fighting over one ref.
-    const prevButton = (
-      <button
-        {...domPrevButtonProps}
-        className="datepicker-arrow datepicker-arrow-prev"
-        ref={prevRef}
-        type="button"
-      >
-        ‹
-      </button>
-    )
-    const nextButton = (
-      <button
-        {...domNextButtonProps}
-        className="datepicker-arrow datepicker-arrow-next"
-        ref={nextRef}
-        type="button"
-      >
-        ›
-      </button>
-    )
+    const prevButton = <CalendarNavButton buttonProps={prevButtonProps} direction="prev" />
+    const nextButton = <CalendarNavButton buttonProps={nextButtonProps} direction="next" />
     const singleMonthArrows = visibleMonths === 1 ? { next: nextButton, prev: prevButton } : null
 
     // Goes through the same `state.setValue` path a two-click grid selection does (rather than
@@ -257,125 +232,6 @@ export const CxRangeCalendar = forwardRef<HTMLDivElement, CxRangeCalendarProps>(
 
 CxRangeCalendar.displayName = 'CxRangeCalendar'
 
-interface CalendarMonthYearDropdownsProps {
-  locale: string
-  monthIndex: number
-  monthStart: CalendarDate
-  state: RangeCalendarState
-}
-
-// Each visible month gets its own month/year dropdowns rather than one shared pair — react-aria's
-// own `useCalendarMonthPicker`/`useCalendarYearPicker` always read/write `state.focusedDate`, i.e.
-// only the first visible month, so they can't drive a second or third month's dropdowns on their
-// own. This mirrors their logic (same option lists, same `min`/`maxValue` clamping) but anchored to
-// this month's own `monthStart` instead, and re-targets `state.setFocusedDate` by subtracting this
-// month's offset — so picking a month/year here still moves `state.focusedDate` (and therefore
-// every visible month, since they're all computed from that one anchor) in sync.
-const CalendarMonthYearDropdowns = ({
-  locale,
-  monthIndex,
-  monthStart,
-  state
-}: CalendarMonthYearDropdownsProps) => {
-  const monthFormatter = useDateFormatter({
-    calendar: monthStart.calendar.identifier,
-    month: 'short',
-    timeZone: state.timeZone
-  })
-  const yearFormatter = useDateFormatter({
-    calendar: monthStart.calendar.identifier,
-    timeZone: state.timeZone,
-    year: 'numeric'
-  })
-  const monthFieldLabel = useMemo(
-    () => new Intl.DisplayNames(locale, { type: 'dateTimeField' }).of('month'),
-    [locale]
-  )
-  const yearFieldLabel = useMemo(
-    () => new Intl.DisplayNames(locale, { type: 'dateTimeField' }).of('year'),
-    [locale]
-  )
-
-  const months = useMemo(() => {
-    const numMonths = monthStart.calendar.getMonthsInYear(monthStart)
-    return [...new Array(numMonths).keys()].map((i) => {
-      const date = monthStart.set({ month: i + 1 })
-      return { date, formatted: monthFormatter.format(date.toDate(state.timeZone)), id: i + 1 }
-    })
-  }, [monthFormatter, monthStart, state.timeZone])
-
-  const years = useMemo(() => {
-    const visibleYears = 20
-    let minDate = monthStart.subtract({ years: Math.floor(visibleYears / 2) })
-    let maxDate = monthStart.add({ years: Math.ceil(visibleYears / 2) - 1 })
-    if (state.maxValue && maxDate.compare(state.maxValue) > 0) {
-      maxDate = toCalendarDate(state.maxValue)
-      minDate = maxDate.subtract({ years: visibleYears - 1 })
-    }
-    if (state.minValue && minDate.compare(state.minValue) < 0) {
-      minDate = toCalendarDate(state.minValue)
-      maxDate = minDate.add({ years: visibleYears - 1 })
-      if (state.maxValue && maxDate.compare(state.maxValue) > 0) {
-        maxDate = toCalendarDate(state.maxValue)
-      }
-    }
-    const items: { date: CalendarDate; formatted: string; id: number }[] = []
-    let date = minDate
-    while (date.compare(maxDate) <= 0) {
-      items.push({
-        date,
-        formatted: yearFormatter.format(date.toDate(state.timeZone)),
-        id: items.length
-      })
-      date = date.add({ years: 1 })
-    }
-    return items
-  }, [monthStart, state.maxValue, state.minValue, state.timeZone, yearFormatter])
-
-  const yearValue = years.findIndex((year) => isSameYear(year.date, monthStart))
-
-  const handleMonthChange = (id: number) => {
-    const target = months.find((month) => month.id === id)
-    if (target) state.setFocusedDate(target.date.subtract({ months: monthIndex }))
-  }
-
-  const handleYearChange = (id: number) => {
-    const target = years[id]
-    if (target) state.setFocusedDate(target.date.subtract({ months: monthIndex }))
-  }
-
-  return (
-    <div className="datepicker-header-content">
-      <select
-        aria-label={monthFieldLabel}
-        className="cx-calendar-select"
-        disabled={state.isDisabled}
-        onChange={(e) => handleMonthChange(Number(e.target.value))}
-        value={monthStart.month}
-      >
-        {months.map((month) => (
-          <option key={month.id} value={month.id}>
-            {month.formatted}
-          </option>
-        ))}
-      </select>
-      <select
-        aria-label={yearFieldLabel}
-        className="cx-calendar-select"
-        disabled={state.isDisabled}
-        onChange={(e) => handleYearChange(Number(e.target.value))}
-        value={yearValue}
-      >
-        {years.map((year) => (
-          <option key={year.id} value={year.id}>
-            {year.formatted}
-          </option>
-        ))}
-      </select>
-    </div>
-  )
-}
-
 interface CalendarMonthProps {
   arrows?: { next: ReactNode; prev: ReactNode } | null
   firstDayOfWeek?: 'sun' | 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat'
@@ -396,10 +252,6 @@ const CalendarMonth = ({
   state
 }: CalendarMonthProps) => {
   const monthStart = state.visibleRange.start.add({ months: monthIndex })
-  const { gridProps, headerProps, weekDays, weeksInMonth } = useCalendarGrid(
-    { firstDayOfWeek, startDate: monthStart },
-    state
-  )
 
   return (
     <div className="datepicker-column">
@@ -413,42 +265,20 @@ const CalendarMonth = ({
         />
         {arrows?.next}
       </div>
-      <div className="datepicker-wrapper">
-        <div {...gridProps} className="datepicker-content">
-          <div {...headerProps} className="datepicker-week" role="row">
-            {weekDays.map((day, index) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <span className="datepicker-week-day" key={index} role="columnheader">
-                {day}
-              </span>
-            ))}
-          </div>
-          <div className="datepicker-dates">
-            {[...new Array(weeksInMonth).keys()].map((weekIndex) => {
-              const week = state.getDatesInWeek(weekIndex, monthStart)
-              return (
-                <div className="datepicker-dates-row" key={weekIndex} role="row">
-                  {week.map((date, i) =>
-                    date ? (
-                      <CalendarCell
-                        date={date}
-                        isFirstInRow={i === 0}
-                        isLastInRow={i === week.length - 1}
-                        key={date.toString()}
-                        locale={locale}
-                        state={state}
-                      />
-                    ) : (
-                      // eslint-disable-next-line react/no-array-index-key
-                      <div className="datepicker-date" key={i} role="gridcell" />
-                    )
-                  )}
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      </div>
+      <CalendarWeekGrid
+        firstDayOfWeek={firstDayOfWeek}
+        renderCell={(date, i, week) => (
+          <CalendarCell
+            date={date}
+            isFirstInRow={i === 0}
+            isLastInRow={i === week.length - 1}
+            locale={locale}
+            state={state}
+          />
+        )}
+        startDate={monthStart}
+        state={state}
+      />
     </div>
   )
 }

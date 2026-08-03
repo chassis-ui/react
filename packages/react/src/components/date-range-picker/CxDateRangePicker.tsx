@@ -1,23 +1,16 @@
 import React, { HTMLAttributes, ReactNode, useRef } from 'react'
 import classNames from 'classnames'
-import {
-  FocusScope,
-  mergeProps,
-  RangeValue,
-  useButton,
-  useDateRangePicker,
-  useDialog,
-  usePopover
-} from 'react-aria'
+import { FocusScope, mergeProps, RangeValue, useDateRangePicker, useDialog } from 'react-aria'
 import { DateValue, useDateRangePickerState } from 'react-stately'
 
 import { useFormField } from '../../hooks'
-import { resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
 import { renderFormField } from '../form-field/renderFormField'
 import { CxDateRangePreset } from '../calendar/dateRangePresets'
 import { CxRangeCalendar } from '../calendar/CxRangeCalendar'
 import { mergeIsDateUnavailable } from '../calendar/mergeIsDateUnavailable'
+import { CalendarToggleButton } from '../datepicker/CalendarToggleButton'
 import { DateField } from '../datepicker/DateField'
+import { useOverlayPlacement } from '../datepicker/useOverlayPlacement'
 import '../datepicker/CxDatePicker.css'
 import './CxDateRangePicker.css'
 
@@ -177,7 +170,6 @@ export const CxDateRangePicker = ({
   })
 
   const groupRef = useRef<HTMLDivElement>(null)
-  const buttonRef = useRef<HTMLButtonElement>(null)
   const calendarRef = useRef<HTMLDivElement>(null)
   const popoverRef = useRef<HTMLDivElement>(null)
 
@@ -219,31 +211,11 @@ export const CxDateRangePicker = ({
       groupRef
     )
 
-  // Same override as `CxDatePicker`'s toggle button — `buttonProps.onPress` only ever opens the
-  // calendar, so re-clicking it while open would otherwise do nothing.
-  const { buttonProps: toggleProps } = useButton(
-    { ...buttonProps, onPress: () => state.toggle() },
-    buttonRef
-  )
-
-  const { popoverProps, placement: resolvedPlacement } = usePopover(
-    {
-      triggerRef: groupRef,
-      popoverRef,
-      placement: toAriaPlacement('bottom-start'),
-      offset: 2,
-      shouldCloseOnInteractOutside: (element) => !groupRef.current?.contains(element)
-    },
-    state
-  )
-
-  const { style: popoverPositionStyle, ...popoverDismissProps } = popoverProps
-  const overlayStyle: React.CSSProperties = {
-    position: popoverPositionStyle?.position as React.CSSProperties['position'],
-    top: popoverPositionStyle?.top,
-    left: popoverPositionStyle?.left
-  }
-  const placementAttr = resolveDataPlacement('bottom-start', resolvedPlacement)
+  const { overlayStyle, placementAttr, popoverDismissProps } = useOverlayPlacement({
+    popoverRef,
+    state,
+    triggerRef: groupRef
+  })
 
   const { dialogProps: domDialogProps } = useDialog(dialogProps, calendarRef)
 
@@ -269,32 +241,7 @@ export const CxDateRangePicker = ({
             </span>
             <DateField fieldProps={endFieldProps} />
           </div>
-          <button {...toggleProps} className="input-adorn" ref={buttonRef} type="button">
-            <svg
-              fill="none"
-              height="16"
-              viewBox="0 0 16 16"
-              width="16"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <rect
-                height="12"
-                rx="1.5"
-                stroke="currentColor"
-                strokeWidth="1.25"
-                width="13"
-                x="1.5"
-                y="3"
-              />
-              <path d="M1.5 6.5h13" stroke="currentColor" strokeWidth="1.25" />
-              <path
-                d="M4.5 1.5v3M11.5 1.5v3"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeWidth="1.25"
-              />
-            </svg>
-          </button>
+          <CalendarToggleButton buttonProps={buttonProps} state={state} />
         </div>
         <div
           className="datepicker"

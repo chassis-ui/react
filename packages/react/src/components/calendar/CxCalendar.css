@@ -9,9 +9,11 @@
  * - States vanilla-calendar-pro conveys via `data-vc-date-*` attributes, which only its own JS
  *   sets — react-aria has no equivalent, so these are re-expressed as classes on `.datepicker-date`
  *   instead, following the same `.datepicker-date-X > .datepicker-date-btn` shape.
- * - `.cx-calendar-select` (the month/year `<select>`s), which has no vanilla-calendar-pro
- *   counterpart at all — chassis's own `.datepicker-month`/`.datepicker-year` are buttons that
- *   open a separate month/year grid picker, a different interaction entirely.
+ * - The month/year `<select>`s, which have no vanilla-calendar-pro counterpart at all — chassis's
+ *   own `.datepicker-month`/`.datepicker-year` classes belong to buttons that open a separate
+ *   month/year grid picker there, a different interaction entirely. Reused here purely as class
+ *   names (not chassis-css's component) so a `<select>` gets the same visual treatment; styled
+ *   fully below rather than relying on any chassis-css declaration for these classes.
  *
  * Colors use `@chassis-ui/tokens`' public `--cx-*` custom properties rather than the `--day-*`/
  * `--weekday-*` custom properties chassis-css itself sets on `.datepicker` — those are internal,
@@ -27,7 +29,9 @@
  * ones (e.g. `[aria-current="date"]` "today") instead of losing to them as intended.
  */
 
-.cx-calendar-select {
+.datepicker-month,
+.datepicker-year {
+  appearance: none;
   padding: 0.125rem 0.25rem;
   font-weight: 600;
   color: var(--cx-fg-main);
@@ -38,16 +42,19 @@
   outline: none;
 }
 
-.cx-calendar-select:hover:not(:disabled) {
+.datepicker-month:hover:not(:disabled),
+.datepicker-year:hover:not(:disabled) {
   background-color: var(--cx-bg-hover);
 }
 
-.cx-calendar-select:focus-visible {
+.datepicker-month:focus-visible,
+.datepicker-year:focus-visible {
   outline: var(--cx-border-width-xlarge) solid var(--cx-primary);
   outline-offset: -1px;
 }
 
-.cx-calendar-select:disabled {
+.datepicker-month:disabled,
+.datepicker-year:disabled {
   color: var(--cx-fg-disabled);
   cursor: default;
 }
