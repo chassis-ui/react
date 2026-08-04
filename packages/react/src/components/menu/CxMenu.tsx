@@ -161,7 +161,7 @@ export const CxMenu = forwardRef<HTMLElement, CxMenuProps>(
     const state = useMenuTriggerState({ defaultOpen: !!visible })
     const { menuTriggerProps, menuProps } = useMenuTrigger<unknown>({}, state, toggleNodeRef)
 
-    // Sync-on-change, not strictly controlled — matches `CxModal`'s `visible` semantics.
+    // Sync-on-change, not strictly controlled — matches `Modal`'s `visible` semantics.
     // Internal `show`/`hide`/`toggle` calls (from `CxMenuToggle`, autoClose dismissal, etc.)
     // still work freely between prop changes; `visible` only re-asserts the open state when
     // its own value actually changes.

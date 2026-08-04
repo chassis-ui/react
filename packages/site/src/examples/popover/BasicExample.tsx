@@ -1,8 +1,8 @@
-import { CxPopover, Button } from '@chassis-ui/react'
+import { Popover, Button } from '@chassis-ui/react'
 
 export const BasicExample = () => {
   return (
-    <CxPopover
+    <Popover
       title="Popover title"
       content="And here's some amazing content. It's very engaging. Right?"
       placement="right"
@@ -10,6 +10,6 @@ export const BasicExample = () => {
       <Button color="danger" size="large">
         Click to toggle popover
       </Button>
-    </CxPopover>
+    </Popover>
   )
 }

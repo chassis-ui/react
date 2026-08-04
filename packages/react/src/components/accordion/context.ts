@@ -1,8 +1,8 @@
 import { createContext } from 'react'
 
-export interface CxAccordionContextProps {
+export interface AccordionContextProps {
   alwaysOpen?: boolean
   name: string
 }
 
-export const CxAccordionContext = createContext({} as CxAccordionContextProps)
+export const AccordionContext = createContext({} as AccordionContextProps)

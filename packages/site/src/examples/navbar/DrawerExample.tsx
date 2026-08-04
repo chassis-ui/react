@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, Container, CxDrawer, CxDrawerBody, CxDrawerHeader, CxDrawerTitle, CxForm, CxTextInput, CxMenu, CxMenuDivider, CxMenuItem, CxMenuList, CxMenuToggle, Nav, Navbar } from '@chassis-ui/react'
+import { Button, Container, Drawer, CxForm, CxTextInput, CxMenu, CxMenuDivider, CxMenuItem, CxMenuList, CxMenuToggle, Nav, Navbar } from '@chassis-ui/react'
 
 export const DrawerExample = () => {
   const [visible, setVisible] = useState(false)
@@ -11,16 +11,16 @@ export const DrawerExample = () => {
           aria-label="Toggle navigation"
           onClick={() => setVisible(!visible)}
         />
-        <CxDrawer
+        <Drawer
           id="drawerNavbar"
           placement="end"
           visible={visible}
           onClose={() => setVisible(false)}
         >
-          <CxDrawerHeader>
-            <CxDrawerTitle>Drawer</CxDrawerTitle>
-          </CxDrawerHeader>
-          <CxDrawerBody>
+          <Drawer.Header>
+            <Drawer.Title>Drawer</Drawer.Title>
+          </Drawer.Header>
+          <Drawer.Body>
             <Navbar.Nav>
               <Nav.Item>
                 <Nav.Link href="#" active>
@@ -51,8 +51,8 @@ export const DrawerExample = () => {
                 Search
               </Button>
             </CxForm>
-          </CxDrawerBody>
-        </CxDrawer>
+          </Drawer.Body>
+        </Drawer>
       </Container>
     </Navbar>
   )

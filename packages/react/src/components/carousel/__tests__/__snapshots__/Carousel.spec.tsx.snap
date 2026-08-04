@@ -1,0 +1,99 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Carousel > rendering > matches the baseline markup snapshot 1`] = `
+<div>
+  <div
+    class="carousel slide"
+  >
+    <ol
+      class="carousel-indicators"
+    >
+      <li
+        class="active"
+        data-cx-target=""
+      >
+        <button
+          aria-current="true"
+          aria-label="Slide 1"
+          class="carousel-indicator-button"
+          type="button"
+        />
+      </li>
+      <li
+        class=""
+        data-cx-target=""
+      >
+        <button
+          aria-label="Slide 2"
+          class="carousel-indicator-button"
+          type="button"
+        />
+      </li>
+      <li
+        class=""
+        data-cx-target=""
+      >
+        <button
+          aria-label="Slide 3"
+          class="carousel-indicator-button"
+          type="button"
+        />
+      </li>
+    </ol>
+    <div
+      class="carousel-inner"
+    >
+      <div
+        class="carousel-item active"
+      >
+        Item-1
+        <div
+          class="carousel-caption"
+        >
+          Caption-1
+        </div>
+      </div>
+      <div
+        class="carousel-item"
+      >
+        Item-2
+        <div
+          class="carousel-caption"
+        >
+          Caption-2
+        </div>
+      </div>
+      <div
+        class="carousel-item"
+      >
+        Item-3
+        <div
+          class="carousel-caption"
+        >
+          Caption-3
+        </div>
+      </div>
+    </div>
+    <button
+      aria-label="Previous slide"
+      class="carousel-control-prev"
+      type="button"
+    >
+      <span
+        aria-hidden="true"
+        class="carousel-control-prev-icon"
+      />
+    </button>
+    <button
+      aria-label="Next slide"
+      class="carousel-control-next"
+      type="button"
+    >
+      <span
+        aria-hidden="true"
+        class="carousel-control-next-icon"
+      />
+    </button>
+  </div>
+</div>
+`;

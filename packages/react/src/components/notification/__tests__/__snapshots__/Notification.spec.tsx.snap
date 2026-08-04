@@ -1,0 +1,12 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Notification > rendering > matches the baseline markup snapshot 1`] = `
+<div>
+  <div
+    class="notification primary show"
+    role="alert"
+  >
+    Test
+  </div>
+</div>
+`;

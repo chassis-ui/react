@@ -1,36 +1,36 @@
-import { CxAccordion, CxAccordionBody, CxAccordionHeader, CxAccordionItem } from '@chassis-ui/react'
+import { Accordion } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
     <>
-      <CxAccordion size="large" name="size-example-large" className="mb-medium">
-        <CxAccordionItem open>
-          <CxAccordionHeader>Large Accordion Item #1</CxAccordionHeader>
-          <CxAccordionBody>
+      <Accordion size="large" name="size-example-large" className="mb-medium">
+        <Accordion.Item open>
+          <Accordion.Header>Large Accordion Item #1</Accordion.Header>
+          <Accordion.Body>
             <strong>This is the first item's accordion body.</strong>
-          </CxAccordionBody>
-        </CxAccordionItem>
-        <CxAccordionItem>
-          <CxAccordionHeader>Large Accordion Item #2</CxAccordionHeader>
-          <CxAccordionBody>
+          </Accordion.Body>
+        </Accordion.Item>
+        <Accordion.Item>
+          <Accordion.Header>Large Accordion Item #2</Accordion.Header>
+          <Accordion.Body>
             <strong>This is the second item's accordion body.</strong>
-          </CxAccordionBody>
-        </CxAccordionItem>
-      </CxAccordion>
-      <CxAccordion size="small" name="size-example-small">
-        <CxAccordionItem open>
-          <CxAccordionHeader>Small Accordion Item #1</CxAccordionHeader>
-          <CxAccordionBody>
+          </Accordion.Body>
+        </Accordion.Item>
+      </Accordion>
+      <Accordion size="small" name="size-example-small">
+        <Accordion.Item open>
+          <Accordion.Header>Small Accordion Item #1</Accordion.Header>
+          <Accordion.Body>
             <strong>This is the first item's accordion body.</strong>
-          </CxAccordionBody>
-        </CxAccordionItem>
-        <CxAccordionItem>
-          <CxAccordionHeader>Small Accordion Item #2</CxAccordionHeader>
-          <CxAccordionBody>
+          </Accordion.Body>
+        </Accordion.Item>
+        <Accordion.Item>
+          <Accordion.Header>Small Accordion Item #2</Accordion.Header>
+          <Accordion.Body>
             <strong>This is the second item's accordion body.</strong>
-          </CxAccordionBody>
-        </CxAccordionItem>
-      </CxAccordion>
+          </Accordion.Body>
+        </Accordion.Item>
+      </Accordion>
     </>
   )
 }

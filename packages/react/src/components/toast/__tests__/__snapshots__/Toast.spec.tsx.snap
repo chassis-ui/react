@@ -1,0 +1,14 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Toast > rendering > matches the baseline markup snapshot 1`] = `<div />`;
+
+exports[`Toast > styling props > applies color, className and the default status role once shown 1`] = `
+<div>
+  <div
+    class="toast fade context warning bazinga show"
+    role="status"
+  >
+    Test
+  </div>
+</div>
+`;

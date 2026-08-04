@@ -1,0 +1,11 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Modal.Title > rendering > matches the baseline markup snapshot 1`] = `
+<div>
+  <h2
+    class="modal-title"
+  >
+    Test
+  </h2>
+</div>
+`;

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, CxForm, CxTextInput, CxFormLabel, CxSelect, CxFormFeedback, CxNotification, Row, Col } from '@chassis-ui/react'
+import { Button, CxForm, CxTextInput, CxFormLabel, CxSelect, CxFormFeedback, Notification, Row, Col } from '@chassis-ui/react'
 
 export const RegistrationForm = () => {
   const [name, setName] = useState('')
@@ -34,9 +34,9 @@ export const RegistrationForm = () => {
   return (
     <div>
       {success && (
-        <CxNotification color="success" dismissible onClose={handleReset} className="mb-4">
+        <Notification color="success" dismissible onClose={handleReset} className="mb-4">
           <strong>Account created!</strong> Welcome aboard, {name}.
-        </CxNotification>
+        </Notification>
       )}
       <CxForm onSubmit={handleSubmit} onReset={handleReset} validated={false}>
         <Row className="mb-3">

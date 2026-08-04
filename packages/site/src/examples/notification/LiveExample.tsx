@@ -1,18 +1,18 @@
 import { useState } from 'react'
-import { CxNotification, Button } from '@chassis-ui/react'
+import { Notification, Button } from '@chassis-ui/react'
 
 export const LiveExample = () => {
   const [visible, setVisible] = useState(false)
   return (
     <>
-      <CxNotification
+      <Notification
         color="primary"
         dismissible
         visible={visible}
         onClose={() => setVisible(false)}
       >
         A simple primary notification—check it out!
-      </CxNotification>
+      </Notification>
       <Button color="primary" onClick={() => setVisible(true)}>
         Show live notification
       </Button>

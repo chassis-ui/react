@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, CxModal, CxModalBody, CxModalHeader, CxModalTitle } from '@chassis-ui/react'
+import { Button, Modal } from '@chassis-ui/react'
 
 export const Example = () => {
   const [visibleXL, setVisibleXL] = useState(false)
@@ -10,24 +10,24 @@ export const Example = () => {
       <Button onClick={() => setVisibleXL(!visibleXL)}>Extra large modal</Button>
       <Button onClick={() => setVisibleLg(!visibleLg)}>Large modal</Button>
       <Button onClick={() => setVisibleSm(!visibleSm)}>Small modal</Button>
-      <CxModal size="xlarge" visible={visibleXL} onClose={() => setVisibleXL(false)}>
-        <CxModalHeader>
-          <CxModalTitle>Extra large modal</CxModalTitle>
-        </CxModalHeader>
-        <CxModalBody>...</CxModalBody>
-      </CxModal>
-      <CxModal size="large" visible={visibleLg} onClose={() => setVisibleLg(false)}>
-        <CxModalHeader>
-          <CxModalTitle>Large modal</CxModalTitle>
-        </CxModalHeader>
-        <CxModalBody>...</CxModalBody>
-      </CxModal>
-      <CxModal size="small" visible={visibleSm} onClose={() => setVisibleSm(false)}>
-        <CxModalHeader>
-          <CxModalTitle>Small modal</CxModalTitle>
-        </CxModalHeader>
-        <CxModalBody>...</CxModalBody>
-      </CxModal>
+      <Modal size="xlarge" visible={visibleXL} onClose={() => setVisibleXL(false)}>
+        <Modal.Header>
+          <Modal.Title>Extra large modal</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>...</Modal.Body>
+      </Modal>
+      <Modal size="large" visible={visibleLg} onClose={() => setVisibleLg(false)}>
+        <Modal.Header>
+          <Modal.Title>Large modal</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>...</Modal.Body>
+      </Modal>
+      <Modal size="small" visible={visibleSm} onClose={() => setVisibleSm(false)}>
+        <Modal.Header>
+          <Modal.Title>Small modal</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>...</Modal.Body>
+      </Modal>
     </>
   )
 }

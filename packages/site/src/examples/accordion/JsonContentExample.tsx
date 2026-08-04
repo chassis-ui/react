@@ -1,4 +1,4 @@
-import { CxAccordion } from '@chassis-ui/react'
+import { Accordion } from '@chassis-ui/react'
 
 const items = [
   {
@@ -26,5 +26,5 @@ const items = [
 ]
 
 export const Example = () => {
-  return <CxAccordion name="json-content-example" items={items} />
+  return <Accordion name="json-content-example" items={items} />
 }

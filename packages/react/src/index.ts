@@ -1,16 +1,9 @@
-import { CxAccordion } from './components/accordion/CxAccordion'
-import { CxAccordionBody } from './components/accordion/CxAccordionBody'
-import { CxAccordionButton } from './components/accordion/CxAccordionButton'
-import { CxAccordionCollapse } from './components/accordion/CxAccordionCollapse'
-import { CxAccordionHeader } from './components/accordion/CxAccordionHeader'
-import { CxAccordionItem } from './components/accordion/CxAccordionItem'
+import { Accordion } from './components/accordion'
 import { CxAutocomplete } from './components/autocomplete/CxAutocomplete'
 import { CxAutocompleteGroup } from './components/autocomplete/CxAutocompleteGroup'
 import { CxAutocompleteItem } from './components/autocomplete/CxAutocompleteItem'
 import { Avatar } from './components/avatar'
-import { CxNotification } from './components/notification/CxNotification'
-import { CxNotificationHeading } from './components/notification/CxNotificationHeading'
-import { CxNotificationLink } from './components/notification/CxNotificationLink'
+import { Notification } from './components/notification'
 import { Badge } from './components/badge'
 import { Backdrop } from './components/backdrop'
 import { Breadcrumb } from './components/breadcrumb'
@@ -19,9 +12,7 @@ import { ButtonGroup, ButtonToolbar } from './components/button-group'
 import { CxCalendar } from './components/calendar/CxCalendar'
 import { CxRangeCalendar } from './components/calendar/CxRangeCalendar'
 import { Card } from './components/card'
-import { CxCarousel } from './components/carousel/CxCarousel'
-import { CxCarouselCaption } from './components/carousel/CxCarouselCaption'
-import { CxCarouselItem } from './components/carousel/CxCarouselItem'
+import { Carousel } from './components/carousel'
 import { Collapse } from './components/collapse'
 import { CxChipInput } from './components/chip-input/CxChipInput'
 import { CloseButton } from './components/close-button'
@@ -67,22 +58,14 @@ import { Icon } from './components/icon'
 import { Image } from './components/image'
 import { Link } from './components/link'
 import { List } from './components/list'
-import { CxModal } from './components/modal/CxModal'
-import { CxModalBody } from './components/modal/CxModalBody'
-import { CxModalFooter } from './components/modal/CxModalFooter'
-import { CxModalHeader } from './components/modal/CxModalHeader'
-import { CxModalTitle } from './components/modal/CxModalTitle'
+import { Modal } from './components/modal'
 import { Nav } from './components/nav'
 import { Navbar } from './components/navbar'
 import { Pagination } from './components/pagination'
 import { Placeholder } from './components/placeholder'
-import { CxPopover } from './components/popover/CxPopover'
+import { Popover } from './components/popover'
 import { Progress } from './components/progress'
-import { CxDrawer } from './components/drawer/CxDrawer'
-import { CxDrawerBody } from './components/drawer/CxDrawerBody'
-import { CxDrawerFooter } from './components/drawer/CxDrawerFooter'
-import { CxDrawerHeader } from './components/drawer/CxDrawerHeader'
-import { CxDrawerTitle } from './components/drawer/CxDrawerTitle'
+import { Drawer } from './components/drawer'
 import { Spinner } from './components/spinner'
 import { CxTable } from './components/table/CxTable'
 import { CxTableBody } from './components/table/CxTableBody'
@@ -91,31 +74,18 @@ import { CxTableColumn } from './components/table/CxTableColumn'
 import { CxTableHeader } from './components/table/CxTableHeader'
 import { CxTableRow } from './components/table/CxTableRow'
 import { Tabs, TabContent, TabPane } from './components/tabs'
-import { CxToast } from './components/toast/CxToast'
-import { CxToastBody } from './components/toast/CxToastBody'
-import { CxToastClose } from './components/toast/CxToastClose'
-import { CxToastFooter } from './components/toast/CxToastFooter'
-import { CxToastHeader } from './components/toast/CxToastHeader'
-import { CxToaster } from './components/toast/CxToaster'
-import { addToast, closeToast, toastQueue } from './components/toast/toastQueue'
+import { Toast, Toaster, addToast, closeToast, toastQueue } from './components/toast'
 import { Tooltip } from './components/tooltip'
 // plop:import
 
 export {
   // plop:export
-  CxAccordion,
-  CxAccordionBody,
-  CxAccordionButton,
-  CxAccordionCollapse,
-  CxAccordionHeader,
-  CxAccordionItem,
+  Accordion,
   CxAutocomplete,
   CxAutocompleteGroup,
   CxAutocompleteItem,
   Avatar,
-  CxNotification,
-  CxNotificationHeading,
-  CxNotificationLink,
+  Notification,
   Badge,
   Backdrop,
   Breadcrumb,
@@ -125,9 +95,7 @@ export {
   CxCalendar,
   CxRangeCalendar,
   Card,
-  CxCarousel,
-  CxCarouselCaption,
-  CxCarouselItem,
+  Carousel,
   CxChipInput,
   CloseButton,
   Collapse,
@@ -174,25 +142,17 @@ export {
   CxInputAdorn,
   Link,
   List,
-  CxModal,
-  CxModalBody,
-  CxModalFooter,
-  CxModalHeader,
-  CxModalTitle,
+  Modal,
   Nav,
   Navbar,
   Pagination,
   Placeholder,
-  CxPopover,
+  Popover,
   Progress,
   CxRadio,
   CxRadioGroup,
   CxRangeInput,
-  CxDrawer,
-  CxDrawerBody,
-  CxDrawerFooter,
-  CxDrawerHeader,
-  CxDrawerTitle,
+  Drawer,
   CxSelect,
   Spinner,
   CxSwitch,
@@ -207,12 +167,8 @@ export {
   TabPane,
   CxTextInput,
   CxTextarea,
-  CxToast,
-  CxToastBody,
-  CxToastClose,
-  CxToastFooter,
-  CxToastHeader,
-  CxToaster,
+  Toast,
+  Toaster,
   addToast,
   closeToast,
   toastQueue,

@@ -1,4 +1,4 @@
-// Shared transition timing for native <dialog>-based components (CxModal, CxDrawer). Body-scroll
+// Shared transition timing for native <dialog>-based components (Modal, Drawer). Body-scroll
 // locking is handled by react-aria's usePreventScroll directly in each component.
 
 export const getTransitionDuration = (element: HTMLElement) => {

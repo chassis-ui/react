@@ -3,7 +3,7 @@ import { ToastQueue } from 'react-stately'
 
 import { ContextColor } from '../Types'
 
-export interface CxToastContent {
+export interface ToastContent {
   /**
    * Apply a CSS fade transition to the toast.
    */
@@ -14,7 +14,7 @@ export interface CxToastContent {
    */
   autohide?: boolean
   /**
-   * Content of the toast — typically a `CxToastHeader`/`CxToastBody`/`CxToastFooter`.
+   * Content of the toast — typically a `Toast.Header`/`Toast.Body`/`Toast.Footer`.
    */
   children: ReactNode
   /**
@@ -35,17 +35,17 @@ export interface CxToastContent {
   translucent?: boolean
 }
 
-// The queue backing `CxToaster` — a module-level singleton so `addToast()` is callable from
+// The queue backing `Toaster` — a module-level singleton so `addToast()` is callable from
 // anywhere (an event handler, an async callback) without threading a `push` prop through
-// render. `CxToaster` subscribes to it via `useToastQueue`; nothing renders until a
-// `<CxToaster />` is actually mounted somewhere to display the queue's contents.
-export const toastQueue = new ToastQueue<CxToastContent>()
+// render. `Toaster` subscribes to it via `useToastQueue`; nothing renders until a
+// `<Toaster />` is actually mounted somewhere to display the queue's contents.
+export const toastQueue = new ToastQueue<ToastContent>()
 
 // Adds a toast to the queue. Returns the toast's key, which can be passed to `closeToast` to
 // dismiss it programmatically.
 export function addToast(
   children: ReactNode,
-  options: Omit<CxToastContent, 'children'> = {}
+  options: Omit<ToastContent, 'children'> = {}
 ): string {
   return toastQueue.add({ children, ...options })
 }

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, CxModal, CxModalBody, CxModalHeader, CxModalTitle } from '@chassis-ui/react'
+import { Button, Modal } from '@chassis-ui/react'
 
 export const Example = () => {
   const [visible, setVisible] = useState(false)
@@ -18,46 +18,46 @@ export const Example = () => {
       <Button onClick={() => setVisible2xlarge(!visible2xlarge)}>
         Full screen below 2xlarge
       </Button>
-      <CxModal fullscreen visible={visible} onClose={() => setVisible(false)}>
-        <CxModalHeader>
-          <CxModalTitle>Full screen</CxModalTitle>
-        </CxModalHeader>
-        <CxModalBody>...</CxModalBody>
-      </CxModal>
-      <CxModal fullscreen="small" visible={visibleSmall} onClose={() => setVisibleSmall(false)}>
-        <CxModalHeader>
-          <CxModalTitle>Full screen below small</CxModalTitle>
-        </CxModalHeader>
-        <CxModalBody>...</CxModalBody>
-      </CxModal>
-      <CxModal fullscreen="medium" visible={visibleMedium} onClose={() => setVisibleMedium(false)}>
-        <CxModalHeader>
-          <CxModalTitle>Full screen below medium</CxModalTitle>
-        </CxModalHeader>
-        <CxModalBody>...</CxModalBody>
-      </CxModal>
-      <CxModal fullscreen="large" visible={visibleLarge} onClose={() => setVisibleLarge(false)}>
-        <CxModalHeader>
-          <CxModalTitle>Full screen below large</CxModalTitle>
-        </CxModalHeader>
-        <CxModalBody>...</CxModalBody>
-      </CxModal>
-      <CxModal fullscreen="xlarge" visible={visibleXlarge} onClose={() => setVisibleXlarge(false)}>
-        <CxModalHeader>
-          <CxModalTitle>Full screen below xlarge</CxModalTitle>
-        </CxModalHeader>
-        <CxModalBody>...</CxModalBody>
-      </CxModal>
-      <CxModal
+      <Modal fullscreen visible={visible} onClose={() => setVisible(false)}>
+        <Modal.Header>
+          <Modal.Title>Full screen</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>...</Modal.Body>
+      </Modal>
+      <Modal fullscreen="small" visible={visibleSmall} onClose={() => setVisibleSmall(false)}>
+        <Modal.Header>
+          <Modal.Title>Full screen below small</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>...</Modal.Body>
+      </Modal>
+      <Modal fullscreen="medium" visible={visibleMedium} onClose={() => setVisibleMedium(false)}>
+        <Modal.Header>
+          <Modal.Title>Full screen below medium</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>...</Modal.Body>
+      </Modal>
+      <Modal fullscreen="large" visible={visibleLarge} onClose={() => setVisibleLarge(false)}>
+        <Modal.Header>
+          <Modal.Title>Full screen below large</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>...</Modal.Body>
+      </Modal>
+      <Modal fullscreen="xlarge" visible={visibleXlarge} onClose={() => setVisibleXlarge(false)}>
+        <Modal.Header>
+          <Modal.Title>Full screen below xlarge</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>...</Modal.Body>
+      </Modal>
+      <Modal
         fullscreen="2xlarge"
         visible={visible2xlarge}
         onClose={() => setVisible2xlarge(false)}
       >
-        <CxModalHeader>
-          <CxModalTitle>Full screen below 2xlarge</CxModalTitle>
-        </CxModalHeader>
-        <CxModalBody>...</CxModalBody>
-      </CxModal>
+        <Modal.Header>
+          <Modal.Title>Full screen below 2xlarge</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>...</Modal.Body>
+      </Modal>
     </>
   )
 }

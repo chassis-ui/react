@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, CxDrawer, CxDrawerBody, CxDrawerFooter, CxDrawerHeader, CxDrawerTitle } from '@chassis-ui/react'
+import { Button, Drawer } from '@chassis-ui/react'
 
 export const AppearanceExample = () => {
   const [visibleSheet, setVisibleSheet] = useState(false)
@@ -8,42 +8,42 @@ export const AppearanceExample = () => {
     <>
       <Button onClick={() => setVisibleSheet(true)}>Sheet</Button>
       <Button onClick={() => setVisibleTranslucent(true)}>Translucent</Button>
-      <CxDrawer
+      <Drawer
         sheet
         placement="start"
         visible={visibleSheet}
         onClose={() => setVisibleSheet(false)}
       >
-        <CxDrawerHeader>
-          <CxDrawerTitle>Sheet drawer</CxDrawerTitle>
-        </CxDrawerHeader>
-        <CxDrawerBody>
+        <Drawer.Header>
+          <Drawer.Title>Sheet drawer</Drawer.Title>
+        </Drawer.Header>
+        <Drawer.Body>
           <p>Flush against the viewport edge — no inset, rounding, or border.</p>
-        </CxDrawerBody>
-        <CxDrawerFooter>
+        </Drawer.Body>
+        <Drawer.Footer>
           <Button color="neutral" onClick={() => setVisibleSheet(false)}>
             Close
           </Button>
-        </CxDrawerFooter>
-      </CxDrawer>
-      <CxDrawer
+        </Drawer.Footer>
+      </Drawer>
+      <Drawer
         translucent
         placement="start"
         visible={visibleTranslucent}
         onClose={() => setVisibleTranslucent(false)}
       >
-        <CxDrawerHeader>
-          <CxDrawerTitle>Translucent drawer</CxDrawerTitle>
-        </CxDrawerHeader>
-        <CxDrawerBody>
+        <Drawer.Header>
+          <Drawer.Title>Translucent drawer</Drawer.Title>
+        </Drawer.Header>
+        <Drawer.Body>
           <p>Frosted-glass background over the page content.</p>
-        </CxDrawerBody>
-        <CxDrawerFooter>
+        </Drawer.Body>
+        <Drawer.Footer>
           <Button color="neutral" onClick={() => setVisibleTranslucent(false)}>
             Close
           </Button>
-        </CxDrawerFooter>
-      </CxDrawer>
+        </Drawer.Footer>
+      </Drawer>
     </>
   )
 }

@@ -1,25 +1,25 @@
 import { useState } from 'react'
-import { Button, Link, CxModal, CxModalBody, CxModalFooter, CxModalHeader, CxModalTitle, CxPopover, Tooltip } from '@chassis-ui/react'
+import { Button, Link, Modal, Popover, Tooltip } from '@chassis-ui/react'
 
 export const Example = () => {
   const [visible, setVisible] = useState(false)
   return (
     <>
       <Button onClick={() => setVisible(!visible)}>Launch demo modal</Button>
-      <CxModal visible={visible} onClose={() => setVisible(false)}>
-        <CxModalHeader>
-          <CxModalTitle>Modal title</CxModalTitle>
-        </CxModalHeader>
-        <CxModalBody>
+      <Modal visible={visible} onClose={() => setVisible(false)}>
+        <Modal.Header>
+          <Modal.Title>Modal title</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
           <h5>Popover in a modal</h5>
           <p>
             This
-            <CxPopover
+            <Popover
               title="Popover title"
               content="Popover body content is set in this property."
             >
               <Button>button</Button>
-            </CxPopover>{' '}
+            </Popover>{' '}
             triggers a popover on click.
           </p>
           <hr />
@@ -34,14 +34,14 @@ export const Example = () => {
             </Tooltip>{' '}
             have tooltips on hover.
           </p>
-        </CxModalBody>
-        <CxModalFooter>
+        </Modal.Body>
+        <Modal.Footer>
           <Button color="secondary" onClick={() => setVisible(false)}>
             Close
           </Button>
           <Button color="primary">Save changes</Button>
-        </CxModalFooter>
-      </CxModal>
+        </Modal.Footer>
+      </Modal>
     </>
   )
 }

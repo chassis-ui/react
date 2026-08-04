@@ -1,0 +1,89 @@
+import * as React from 'react'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { axe } from 'jest-axe'
+
+import { Toast } from '../../../index'
+import { ToastContext } from '../Toast'
+
+describe('Toast.Close', () => {
+  describe('rendering', () => {
+    test('renders a close button by default', () => {
+      render(
+        <ToastContext.Provider value={{ setVisible: vi.fn() }}>
+          <Toast.Close />
+        </ToastContext.Provider>
+      )
+      expect(screen.getByRole('button', { name: 'Close' })).toBeInTheDocument()
+    })
+
+    test('matches the baseline markup snapshot', () => {
+      const { container } = render(
+        <ToastContext.Provider value={{ setVisible: vi.fn() }}>
+          <Toast.Close />
+        </ToastContext.Provider>
+      )
+      expect(container).toMatchSnapshot()
+    })
+
+    test('renders as a custom component when given', () => {
+      render(
+        <ToastContext.Provider value={{ setVisible: vi.fn() }}>
+          <Toast.Close component="span">Dismiss</Toast.Close>
+        </ToastContext.Provider>
+      )
+      expect(screen.getByText('Dismiss').tagName).toBe('SPAN')
+    })
+  })
+
+  describe('click behavior', () => {
+    test('closes the toast on click', async () => {
+      const user = userEvent.setup()
+      const setVisible = vi.fn()
+      render(
+        <ToastContext.Provider value={{ setVisible }}>
+          <Toast.Close />
+        </ToastContext.Provider>
+      )
+      await user.click(screen.getByRole('button', { name: 'Close' }))
+      expect(setVisible).toHaveBeenCalledWith(false)
+    })
+
+    test('still closes the toast when a custom onClick is provided', async () => {
+      const user = userEvent.setup()
+      const setVisible = vi.fn()
+      const onClick = vi.fn()
+      render(
+        <ToastContext.Provider value={{ setVisible }}>
+          <Toast.Close onClick={onClick} />
+        </ToastContext.Provider>
+      )
+      await user.click(screen.getByRole('button', { name: 'Close' }))
+      expect(onClick).toHaveBeenCalledTimes(1)
+      expect(setVisible).toHaveBeenCalledWith(false)
+    })
+  })
+
+  describe('ref forwarding', () => {
+    test('forwards a ref to the underlying button', () => {
+      const ref = React.createRef<HTMLButtonElement>()
+      render(
+        <ToastContext.Provider value={{ setVisible: vi.fn() }}>
+          <Toast.Close ref={ref} />
+        </ToastContext.Provider>
+      )
+      expect(ref.current).toBeInstanceOf(HTMLButtonElement)
+    })
+  })
+
+  describe('accessibility', () => {
+    test('has no axe violations', async () => {
+      const { container } = render(
+        <ToastContext.Provider value={{ setVisible: vi.fn() }}>
+          <Toast.Close />
+        </ToastContext.Provider>
+      )
+      expect(await axe(container)).toHaveNoViolations()
+    })
+  })
+})

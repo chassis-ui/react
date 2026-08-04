@@ -379,7 +379,7 @@ export const CxAutocomplete = ({
     // `onClose === null`, not falsy). It happens to be a no-op today only because this toggle is
     // never registered in react-aria's `useOverlayTrigger`/`onCloseMap` backward-compat map (this
     // component calls `useComboBox`, not `useOverlayTrigger`) — an incidental, not guaranteed,
-    // safety net. Passing `null` here makes the opt-out explicit, matching `CxMenu`/`CxPopover`.
+    // safety net. Passing `null` here makes the opt-out explicit, matching `CxMenu`/`Popover`.
     onClose: null
   })
 

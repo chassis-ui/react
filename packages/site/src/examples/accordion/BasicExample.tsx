@@ -1,28 +1,28 @@
-import { CxAccordion, CxAccordionBody, CxAccordionHeader, CxAccordionItem } from '@chassis-ui/react'
+import { Accordion } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
-    <CxAccordion name="basic-example">
-      <CxAccordionItem open>
-        <CxAccordionHeader>Accordion Item #1</CxAccordionHeader>
-        <CxAccordionBody>
+    <Accordion name="basic-example">
+      <Accordion.Item open>
+        <Accordion.Header>Accordion Item #1</Accordion.Header>
+        <Accordion.Body>
           <strong>This is the first item's accordion body.</strong> It is hidden by default. Just
           about any HTML can go within the <code>.accordion-body</code>.
-        </CxAccordionBody>
-      </CxAccordionItem>
-      <CxAccordionItem>
-        <CxAccordionHeader>Accordion Item #2</CxAccordionHeader>
-        <CxAccordionBody>
+        </Accordion.Body>
+      </Accordion.Item>
+      <Accordion.Item>
+        <Accordion.Header>Accordion Item #2</Accordion.Header>
+        <Accordion.Body>
           <strong>This is the second item's accordion body.</strong> It is shown by default via the{' '}
           <code>open</code> prop.
-        </CxAccordionBody>
-      </CxAccordionItem>
-      <CxAccordionItem>
-        <CxAccordionHeader>Accordion Item #3</CxAccordionHeader>
-        <CxAccordionBody>
+        </Accordion.Body>
+      </Accordion.Item>
+      <Accordion.Item>
+        <Accordion.Header>Accordion Item #3</Accordion.Header>
+        <Accordion.Body>
           <strong>This is the third item's accordion body.</strong> It is hidden by default.
-        </CxAccordionBody>
-      </CxAccordionItem>
-    </CxAccordion>
+        </Accordion.Body>
+      </Accordion.Item>
+    </Accordion>
   )
 }

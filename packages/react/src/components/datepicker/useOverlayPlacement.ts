@@ -33,7 +33,7 @@ interface UseOverlayPlacementResult {
 // not disappear. Calling the two lower-level hooks directly, with `onClose: null` passed to
 // `useOverlayPosition` alone, gets the positioning and Escape/blur dismissal this calendar needs
 // without arming that listener — the same fix already applied to `CxAutocomplete`/`CxCombobox`/
-// `CxMenu`/`CxSubmenu`/`CxPopover`, none of which use `usePopover` either, all for this same reason.
+// `CxMenu`/`CxSubmenu`/`Popover`, none of which use `usePopover` either, all for this same reason.
 export const useOverlayPlacement = ({
   overlayRef,
   state,
