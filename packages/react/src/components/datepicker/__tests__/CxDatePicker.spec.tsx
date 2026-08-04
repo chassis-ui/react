@@ -7,7 +7,7 @@ import { axe } from 'jest-axe'
 import { CxDatePicker } from '../../../index'
 
 const openCalendar = () => {
-  fireEvent.click(screen.getByRole('button'))
+  fireEvent.click(screen.getByRole('button', { name: /calendar/i }))
 }
 
 // The popover wrapper only toggles a `hidden` attribute and has no role of its own (the actual
@@ -60,7 +60,7 @@ describe('CxDatePicker', () => {
 
     test('re-clicking the toggle button closes an open calendar', () => {
       render(<CxDatePicker aria-label="Event date" />)
-      const toggle = screen.getByRole('button')
+      const toggle = screen.getByRole('button', { name: /calendar/i })
       const dialog = getCalendarWrapper()
       fireEvent.click(toggle)
       expect(dialog).not.toHaveAttribute('hidden')
@@ -77,6 +77,27 @@ describe('CxDatePicker', () => {
       expect(dialog).toHaveAttribute('hidden')
     })
 
+    // Regression coverage: `useOverlay`'s `shouldCloseOnBlur` mechanism alone doesn't catch this —
+    // it explicitly bails when the click target isn't focusable (focus lands on `document.body`
+    // instead, the common case for a plain click on page content), relying on a separate
+    // pointerdown-outside listener that `useOverlay` only wires up when `isDismissable` is true.
+    // `userEvent.click` (not `fireEvent.click`) is required here — it's the one that actually
+    // simulates the browser's real focus-shifting-to-body behavior on a click.
+    test('a real click on plain page content outside the calendar closes it', async () => {
+      const user = userEvent.setup()
+      render(
+        <div>
+          <CxDatePicker aria-label="Event date" />
+          <p>Some page content</p>
+        </div>
+      )
+      const dialog = getCalendarWrapper()
+      await user.click(screen.getByRole('button', { name: /calendar/i }))
+      expect(dialog).not.toHaveAttribute('hidden')
+      await user.click(screen.getByText('Some page content'))
+      expect(dialog).toHaveAttribute('hidden')
+    })
+
     // Regression coverage: `useOverlayPosition` (which `useOverlayPlacement` calls to position
     // the popover) also offers to close the overlay on any window scroll via `useCloseOnScroll`,
     // armed whenever a non-null `onClose` is passed. The popover should instead just reposition
@@ -88,6 +109,96 @@ describe('CxDatePicker', () => {
       expect(dialog).not.toHaveAttribute('hidden')
       fireEvent.scroll(window)
       expect(dialog).not.toHaveAttribute('hidden')
+    })
+
+    test('defaultOpen renders the calendar already open', () => {
+      render(<CxDatePicker aria-label="Event date" defaultOpen />)
+      expect(getCalendarWrapper()).not.toHaveAttribute('hidden')
+    })
+
+    test('isOpen controls the calendar and onOpenChange reports toggle attempts without opening it', () => {
+      const onOpenChange = vi.fn()
+      const { rerender } = render(
+        <CxDatePicker aria-label="Event date" isOpen={false} onOpenChange={onOpenChange} />
+      )
+      fireEvent.click(screen.getByRole('button', { name: /calendar/i }))
+      expect(onOpenChange).toHaveBeenCalledWith(true)
+      expect(getCalendarWrapper()).toHaveAttribute('hidden')
+
+      rerender(<CxDatePicker aria-label="Event date" isOpen onOpenChange={onOpenChange} />)
+      expect(getCalendarWrapper()).not.toHaveAttribute('hidden')
+    })
+  })
+
+  describe('clearing', () => {
+    test('no clear button when there is nothing selected', () => {
+      render(<CxDatePicker aria-label="Event date" />)
+      expect(screen.queryByRole('button', { name: 'Clear' })).not.toBeInTheDocument()
+    })
+
+    test('clicking the clear button resets the value and fires onChange with null', () => {
+      const onChange = vi.fn()
+      render(
+        <CxDatePicker
+          aria-label="Event date"
+          onChange={onChange}
+          value={new CalendarDate(2026, 7, 24)}
+        />
+      )
+      fireEvent.click(screen.getByRole('button', { name: 'Clear' }))
+      expect(onChange).toHaveBeenCalledWith(null)
+    })
+
+    test('no clear button when disabled, even with a value', () => {
+      render(
+        <CxDatePicker aria-label="Event date" disabled value={new CalendarDate(2026, 7, 24)} />
+      )
+      expect(screen.queryByRole('button', { name: 'Clear' })).not.toBeInTheDocument()
+    })
+
+    test('multiple selection: clicking the clear button empties the selection', () => {
+      const onChange = vi.fn()
+      render(
+        <CxDatePicker
+          aria-label="Event dates"
+          onChange={onChange}
+          selectionMode="multiple"
+          value={[new CalendarDate(2026, 7, 5), new CalendarDate(2026, 7, 12)]}
+        />
+      )
+      fireEvent.click(screen.getByRole('button', { name: 'Clear' }))
+      expect(onChange).toHaveBeenCalledWith([])
+    })
+
+    // Regression coverage: the clear button unmounts itself the moment the value it's clearing
+    // becomes empty — without an explicit refocus, that drops focus to `document.body` (the same
+    // failure mode `CalendarMonthYearPicker`'s view switch had — see its own comment). Needs an
+    // actually-clearing (uncontrolled) picker, unlike the tests above — a controlled `value` that
+    // the test never updates never causes the button to unmount in the first place.
+    test('clicking the clear button moves focus to the calendar toggle button, not the document body', async () => {
+      const user = userEvent.setup()
+      render(<CxDatePicker aria-label="Event date" defaultValue={new CalendarDate(2026, 7, 24)} />)
+      await user.click(screen.getByRole('button', { name: 'Clear' }))
+      await waitFor(() => {
+        expect(screen.queryByRole('button', { name: 'Clear' })).not.toBeInTheDocument()
+      })
+      expect(screen.getByRole('button', { name: /calendar/i })).toHaveFocus()
+    })
+
+    test('multiple selection: clicking the clear button moves focus to the calendar toggle button', async () => {
+      const user = userEvent.setup()
+      render(
+        <CxDatePicker
+          aria-label="Event dates"
+          defaultValue={[new CalendarDate(2026, 7, 5)]}
+          selectionMode="multiple"
+        />
+      )
+      await user.click(screen.getByRole('button', { name: 'Clear' }))
+      await waitFor(() => {
+        expect(screen.queryByRole('button', { name: 'Clear' })).not.toBeInTheDocument()
+      })
+      expect(screen.getByRole('button', { name: /calendar/i })).toHaveFocus()
     })
   })
 
@@ -125,7 +236,7 @@ describe('CxDatePicker', () => {
     test('closing the calendar restores focus to the toggle button', async () => {
       const user = userEvent.setup()
       render(<CxDatePicker aria-label="Event date" />)
-      const toggle = screen.getByRole('button')
+      const toggle = screen.getByRole('button', { name: /calendar/i })
 
       // `userEvent.click` (unlike `fireEvent.click`) focuses the element first, matching a real
       // click — required for `FocusScope`'s `restoreFocus` to have a toggle button to return to.
@@ -317,6 +428,34 @@ describe('CxDatePicker', () => {
         '2026-07-05',
         '2026-07-12'
       ])
+    })
+
+    test('the toggle button is disabled and cannot open the popover when the picker is disabled', () => {
+      render(
+        <CxDatePicker
+          aria-label="Event dates"
+          disabled
+          selectionMode="multiple"
+          value={[new CalendarDate(2026, 7, 5)]}
+        />
+      )
+      const toggle = screen.getByRole('button', { name: /calendar/i })
+      expect(toggle).toBeDisabled()
+
+      fireEvent.click(toggle)
+      expect(getCalendarWrapper()).toHaveAttribute('hidden')
+    })
+
+    test('the popover calendar dialog is labelled by the field label, not just the visible month', () => {
+      render(
+        <CxDatePicker
+          aria-label="Event dates"
+          selectionMode="multiple"
+          value={[new CalendarDate(2026, 7, 5)]}
+        />
+      )
+      openCalendar()
+      expect(screen.getByRole('dialog', { name: /Event dates/ })).toBeInTheDocument()
     })
   })
 

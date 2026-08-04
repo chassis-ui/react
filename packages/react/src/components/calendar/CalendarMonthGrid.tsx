@@ -48,7 +48,11 @@ export const CalendarMonthGrid = ({
         </div>
       </div>
       <div className="datepicker-content">
-        <div className="datepicker-months" role="listbox">
+        <div
+          aria-label={yearFormatter.format(monthStart.toDate(state.timeZone))}
+          className="datepicker-months"
+          role="listbox"
+        >
           {months.map((month) => {
             const isSelected = month.date.month === monthStart.month
             const isDisabled = isWholeUnitDisabled(

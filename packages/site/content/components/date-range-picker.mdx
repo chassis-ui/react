@@ -11,6 +11,7 @@ import { MinMaxExample } from '../../src/examples/date-range-picker/MinMaxExampl
 import { UnavailableExample } from '../../src/examples/date-range-picker/UnavailableExample.tsx'
 import { MultiMonthExample } from '../../src/examples/date-range-picker/MultiMonthExample.tsx'
 import { PresetsExample } from '../../src/examples/date-range-picker/PresetsExample.tsx'
+import { ControlledOpenExample } from '../../src/examples/date-range-picker/ControlledOpenExample.tsx'
 
 import { CxDateRangePicker } from '@chassis-ui/react'
 
@@ -64,6 +65,14 @@ Pass `presets` — an array of `{ label, range }` entries (see [`CxDateRangePres
 
 <Example>
   <PresetsExample client:load />
+</Example>
+
+## Controlling the popover
+
+The popover manages its own open state by default. Pass `isOpen` (with `onOpenChange`) to drive it from outside instead — e.g. to open the calendar from a button elsewhere on the page. `defaultOpen` sets the initial open state for the uncontrolled case, the same as `isOpen` without also taking over control.
+
+<Example>
+  <ControlledOpenExample client:load />
 </Example>
 
 ## Scope

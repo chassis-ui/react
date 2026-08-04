@@ -7,7 +7,7 @@ import { axe } from 'jest-axe'
 import { CxDateRangePicker } from '../../../index'
 
 const openCalendar = () => {
-  fireEvent.click(screen.getByRole('button'))
+  fireEvent.click(screen.getByRole('button', { name: /calendar/i }))
 }
 
 // Same rationale as `CxDatePicker.spec.tsx`: the popover wrapper only toggles a `hidden` attribute
@@ -50,7 +50,7 @@ describe('CxDateRangePicker', () => {
 
     test('re-clicking the toggle button closes an open calendar', () => {
       render(<CxDateRangePicker aria-label="Trip dates" />)
-      const toggle = screen.getByRole('button')
+      const toggle = screen.getByRole('button', { name: /calendar/i })
       const dialog = getCalendarWrapper()
       fireEvent.click(toggle)
       expect(dialog).not.toHaveAttribute('hidden')
@@ -67,6 +67,25 @@ describe('CxDateRangePicker', () => {
       expect(dialog).toHaveAttribute('hidden')
     })
 
+    // Regression coverage: see `CxDatePicker.spec.tsx`'s identical test for why `userEvent.click`
+    // (not `fireEvent.click`) is required — it's the one that simulates the browser's real
+    // focus-shifting-to-body behavior on a click, which is what `useOverlay`'s `isDismissable`
+    // outside-click listener depends on to fire for a plain, non-focusable click target.
+    test('a real click on plain page content outside the calendar closes it', async () => {
+      const user = userEvent.setup()
+      render(
+        <div>
+          <CxDateRangePicker aria-label="Trip dates" />
+          <p>Some page content</p>
+        </div>
+      )
+      const dialog = getCalendarWrapper()
+      await user.click(screen.getByRole('button', { name: /calendar/i }))
+      expect(dialog).not.toHaveAttribute('hidden')
+      await user.click(screen.getByText('Some page content'))
+      expect(dialog).toHaveAttribute('hidden')
+    })
+
     // Regression coverage: see `CxDatePicker.spec.tsx`'s identical test — both share
     // `useOverlayPlacement`, which opts out of `useOverlayPosition`'s close-on-any-window-scroll
     // listener so the popover repositions with its trigger instead of vanishing on scroll.
@@ -78,13 +97,83 @@ describe('CxDateRangePicker', () => {
       fireEvent.scroll(window)
       expect(dialog).not.toHaveAttribute('hidden')
     })
+
+    test('defaultOpen renders the calendar already open', () => {
+      render(<CxDateRangePicker aria-label="Trip dates" defaultOpen />)
+      expect(getCalendarWrapper()).not.toHaveAttribute('hidden')
+    })
+
+    test('isOpen controls the calendar and onOpenChange reports toggle attempts without opening it', () => {
+      const onOpenChange = vi.fn()
+      const { rerender } = render(
+        <CxDateRangePicker aria-label="Trip dates" isOpen={false} onOpenChange={onOpenChange} />
+      )
+      fireEvent.click(screen.getByRole('button', { name: /calendar/i }))
+      expect(onOpenChange).toHaveBeenCalledWith(true)
+      expect(getCalendarWrapper()).toHaveAttribute('hidden')
+
+      rerender(<CxDateRangePicker aria-label="Trip dates" isOpen onOpenChange={onOpenChange} />)
+      expect(getCalendarWrapper()).not.toHaveAttribute('hidden')
+    })
+  })
+
+  describe('clearing', () => {
+    test('no clear button when nothing is selected', () => {
+      render(<CxDateRangePicker aria-label="Trip dates" />)
+      expect(screen.queryByRole('button', { name: 'Clear' })).not.toBeInTheDocument()
+    })
+
+    test('clicking the clear button resets the range and fires onChange with null', () => {
+      const onChange = vi.fn()
+      render(
+        <CxDateRangePicker
+          aria-label="Trip dates"
+          onChange={onChange}
+          value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 7, 15) }}
+        />
+      )
+      fireEvent.click(screen.getByRole('button', { name: 'Clear' }))
+      expect(onChange).toHaveBeenCalledWith(null)
+    })
+
+    test('no clear button when disabled, even with a value', () => {
+      render(
+        <CxDateRangePicker
+          aria-label="Trip dates"
+          disabled
+          value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 7, 15) }}
+        />
+      )
+      expect(screen.queryByRole('button', { name: 'Clear' })).not.toBeInTheDocument()
+    })
+
+    // Regression coverage: see `CxDatePicker.spec.tsx`'s identical test — the clear button
+    // unmounts itself on press, which drops focus to `document.body` without an explicit refocus.
+    // Needs an actually-clearing (uncontrolled) picker, unlike the tests above.
+    test('clicking the clear button moves focus to the calendar toggle button, not the document body', async () => {
+      const user = userEvent.setup()
+      render(
+        <CxDateRangePicker
+          aria-label="Trip dates"
+          defaultValue={{
+            start: new CalendarDate(2026, 7, 10),
+            end: new CalendarDate(2026, 7, 15)
+          }}
+        />
+      )
+      await user.click(screen.getByRole('button', { name: 'Clear' }))
+      await waitFor(() => {
+        expect(screen.queryByRole('button', { name: 'Clear' })).not.toBeInTheDocument()
+      })
+      expect(screen.getByRole('button', { name: /calendar/i })).toHaveFocus()
+    })
   })
 
   describe('focus management', () => {
     test('closing the calendar restores focus to the toggle button', async () => {
       const user = userEvent.setup()
       render(<CxDateRangePicker aria-label="Trip dates" />)
-      const toggle = screen.getByRole('button')
+      const toggle = screen.getByRole('button', { name: /calendar/i })
 
       // eslint-disable-next-line testing-library/no-unnecessary-act -- see CxDatePicker.spec.tsx
       await act(async () => {

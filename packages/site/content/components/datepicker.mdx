@@ -11,6 +11,7 @@ import { MinMaxExample } from '../../src/examples/datepicker/MinMaxExample.tsx'
 import { LocaleExample } from '../../src/examples/datepicker/LocaleExample.tsx'
 import { MultiSelectExample } from '../../src/examples/datepicker/MultiSelectExample.tsx'
 import { MultiMonthExample } from '../../src/examples/datepicker/MultiMonthExample.tsx'
+import { ControlledOpenExample } from '../../src/examples/datepicker/ControlledOpenExample.tsx'
 
 import { CxDatePicker } from '@chassis-ui/react'
 
@@ -74,6 +75,14 @@ Pass `visibleMonths` to show more than one month side by side in the calendar po
 
 <Example>
   <MultiMonthExample client:load />
+</Example>
+
+## Controlling the popover
+
+The popover manages its own open state by default. Pass `isOpen` (with `onOpenChange`) to drive it from outside instead — e.g. to open the calendar from a button elsewhere on the page. `defaultOpen` sets the initial open state for the uncontrolled case, the same as `isOpen` without also taking over control.
+
+<Example>
+  <ControlledOpenExample client:load />
 </Example>
 
 ## Scope

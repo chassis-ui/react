@@ -172,6 +172,32 @@ describe('CxCalendar', () => {
       expect(getMonthButton()).toBeDisabled()
       expect(getYearButton()).toBeDisabled()
     })
+
+    test('switching to the month grid moves focus onto it instead of dropping to the document body', () => {
+      render(<CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
+      fireEvent.click(getMonthButton())
+      expect(document.body).not.toHaveFocus()
+      expect(screen.getByRole('option', { name: 'Jul' })).toHaveFocus()
+    })
+
+    test('switching to the year grid moves focus onto it instead of dropping to the document body', () => {
+      render(<CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
+      fireEvent.click(getYearButton())
+      expect(document.body).not.toHaveFocus()
+      expect(screen.getByRole('option', { name: '2026' })).toHaveFocus()
+    })
+
+    test('returning to the day grid restores focus onto it instead of dropping to the document body', () => {
+      render(<CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
+      fireEvent.click(getMonthButton())
+      fireEvent.click(screen.getByRole('option', { name: 'Jan' }))
+      expect(document.body).not.toHaveFocus()
+      // document.activeElement is the standard way to read current focus; no Testing Library
+      // query surfaces it, and which day ends up focused depends on internal react-stately paging
+      // math this test isn't pinning down — only that focus landed somewhere inside the grid.
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(screen.getByRole('grid')).toContainElement(document.activeElement as HTMLElement)
+    })
   })
 
   describe('firstDayOfWeek', () => {
@@ -519,6 +545,18 @@ describe('CxCalendar', () => {
           value={[new CalendarDate(2026, 7, 5), new CalendarDate(2026, 7, 12)]}
         />
       )
+      expect(await axe(document.body)).toHaveNoViolations()
+    })
+
+    test('has no axe violations with the month grid open', async () => {
+      render(<CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
+      fireEvent.click(getMonthButton())
+      expect(await axe(document.body)).toHaveNoViolations()
+    })
+
+    test('has no axe violations with the year grid open', async () => {
+      render(<CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
+      fireEvent.click(getYearButton())
       expect(await axe(document.body)).toHaveNoViolations()
     })
   })

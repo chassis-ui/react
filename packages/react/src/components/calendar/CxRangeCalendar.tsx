@@ -1,4 +1,4 @@
-import React, { forwardRef, HTMLAttributes, ReactNode, useRef, useState } from 'react'
+import React, { forwardRef, HTMLAttributes, useMemo, useRef, useState } from 'react'
 import classNames from 'classnames'
 import {
   AriaRangeCalendarProps,
@@ -19,9 +19,8 @@ import {
 } from '@internationalized/date'
 
 import { useForkedRef } from '../../hooks'
-import { CalendarMonthYearPicker } from './CalendarMonthYearPicker'
+import { CalendarMonthBlock } from './CalendarMonthBlock'
 import { CalendarNavButton } from './CalendarNavButton'
-import { CalendarWeekGrid } from './CalendarWeekGrid'
 import { CxDateRangePreset } from './dateRangePresets'
 import { mergeIsDateUnavailable } from './mergeIsDateUnavailable'
 import './CxCalendar.css'
@@ -136,7 +135,10 @@ export const CxRangeCalendar = forwardRef<HTMLDivElement, CxRangeCalendarProps>(
     const { locale } = useLocale()
     const internalRef = useRef<HTMLDivElement>(null)
     const ref = useForkedRef(internalRef, forwardedRef)
-    const combinedIsDateUnavailable = mergeIsDateUnavailable(unavailableDates, isDateUnavailable)
+    const combinedIsDateUnavailable = useMemo(
+      () => mergeIsDateUnavailable(unavailableDates, isDateUnavailable),
+      [unavailableDates, isDateUnavailable]
+    )
     const resolvedPresets = presets && presets.length > 0 ? presets : null
     // Tracks each visible month block's own view, keyed by `monthIndex` — needed only to know
     // whether *any* block has switched away from the day grid. `CalendarYearGrid` owns its own
@@ -225,15 +227,23 @@ export const CxRangeCalendar = forwardRef<HTMLDivElement, CxRangeCalendarProps>(
             )}
             <div className="datepicker-grid">
               {[...new Array(visibleMonths).keys()].map((monthIndex) => (
-                <CalendarMonth
+                <CalendarMonthBlock
                   arrows={monthIndex === 0 ? singleMonthArrows : null}
                   firstDayOfWeek={firstDayOfWeek}
                   key={monthIndex}
-                  locale={locale}
                   monthIndex={monthIndex}
                   onViewChange={(view) =>
                     setMonthViews((prev) => ({ ...prev, [monthIndex]: view }))
                   }
+                  renderCell={(date, i, week) => (
+                    <CalendarCell
+                      date={date}
+                      isFirstInRow={i === 0}
+                      isLastInRow={i === week.length - 1}
+                      locale={locale}
+                      state={state}
+                    />
+                  )}
                   state={state}
                 />
               ))}
@@ -246,58 +256,6 @@ export const CxRangeCalendar = forwardRef<HTMLDivElement, CxRangeCalendarProps>(
 )
 
 CxRangeCalendar.displayName = 'CxRangeCalendar'
-
-interface CalendarMonthProps {
-  arrows?: { next: ReactNode; prev: ReactNode } | null
-  firstDayOfWeek?: 'sun' | 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat'
-  locale: string
-  monthIndex: number
-  onViewChange: (view: 'days' | 'months' | 'years') => void
-  state: RangeCalendarState
-}
-
-// One visible month within `visibleMonths` — `useCalendarGrid`'s `startDate` is exactly what's
-// needed to locate this month's own start within the shared `state`. Its header carries this
-// month's own month/year picker, plus the prev/next arrows too when it's the only visible month
-// (`arrows` is `null` whenever a global overlay is handling paging instead — see the parent).
-const CalendarMonth = ({
-  arrows,
-  firstDayOfWeek,
-  locale,
-  monthIndex,
-  onViewChange,
-  state
-}: CalendarMonthProps) => {
-  const monthStart = state.visibleRange.start.add({ months: monthIndex })
-
-  return (
-    <div className="datepicker-column">
-      <CalendarMonthYearPicker
-        monthIndex={monthIndex}
-        monthStart={monthStart}
-        nextArrow={arrows?.next}
-        onViewChange={onViewChange}
-        prevArrow={arrows?.prev}
-        state={state}
-      >
-        <CalendarWeekGrid
-          firstDayOfWeek={firstDayOfWeek}
-          renderCell={(date, i, week) => (
-            <CalendarCell
-              date={date}
-              isFirstInRow={i === 0}
-              isLastInRow={i === week.length - 1}
-              locale={locale}
-              state={state}
-            />
-          )}
-          startDate={monthStart}
-          state={state}
-        />
-      </CalendarMonthYearPicker>
-    </div>
-  )
-}
 
 interface CalendarCellProps {
   date: CalendarDate
@@ -325,13 +283,14 @@ const CalendarCell = ({ date, isFirstInRow, isLastInRow, locale, state }: Calend
   const { highlightedRange } = state
   const isRangeStart = Boolean(highlightedRange && isSameDay(date, highlightedRange.start))
   const isRangeEnd = Boolean(highlightedRange && isSameDay(date, highlightedRange.end))
+  const isCurrentDate = isToday(date, getLocalTimeZone())
 
   return (
     <div
       {...cellProps}
-      aria-current={isToday(date, getLocalTimeZone()) ? 'date' : undefined}
+      aria-current={isCurrentDate ? 'date' : undefined}
       className={classNames('datepicker-date', {
-        'datepicker-date-today': isToday(date, getLocalTimeZone()),
+        'datepicker-date-today': isCurrentDate,
         'datepicker-date-in-range': isSelected,
         'datepicker-date-range-start': isSelected && (isRangeStart || isFirstInRow),
         'datepicker-date-range-end': isSelected && (isRangeEnd || isLastInRow),

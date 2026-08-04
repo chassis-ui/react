@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react'
+import React, { ReactNode, useEffect, useRef, useState } from 'react'
 import { useDateFormatter } from 'react-aria'
 import { CalendarState, RangeCalendarState } from 'react-stately'
 import { CalendarDate } from '@internationalized/date'
@@ -50,11 +50,42 @@ export const CalendarMonthYearPicker = ({
   state
 }: CalendarMonthYearPickerProps) => {
   const [view, setView] = useState<'days' | 'months' | 'years'>('days')
+  const containerRef = useRef<HTMLDivElement>(null)
+  // Skipped on mount — there's no prior view to restore focus from yet, and stealing focus
+  // as soon as the calendar renders would fight `autoFocus`/the caller's own focus management.
+  const isFirstRender = useRef(true)
 
   const changeView = (next: 'days' | 'months' | 'years') => {
     setView(next)
     onViewChange?.(next)
   }
+
+  // Switching `view` swaps in a whole new subtree, unmounting whatever was focused (the month/
+  // year trigger button, or the month/year grid button just picked) — React has no reason to move
+  // focus anywhere on its own, so without this it drops to `document.body`, breaking out of
+  // `FocusScope`'s containment in `CxDatePicker`/`CxDateRangePicker`'s popover entirely. Lands
+  // focus on the selected month/year button when entering the month/year view (falling back to
+  // the first option if nothing is selected on the currently visible page), or back onto the
+  // day grid's own roving-tabindex cell when returning to 'days'.
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false
+      return
+    }
+
+    const container = containerRef.current
+    if (!container) return
+
+    const target =
+      view === 'days'
+        ? container.querySelector<HTMLElement>('.datepicker-date-btn[tabindex="0"]')
+        : (container.querySelector<HTMLElement>(
+            '.datepicker-months-month.selected, .datepicker-years-year.selected'
+          ) ??
+          container.querySelector<HTMLElement>('.datepicker-months-month, .datepicker-years-year'))
+
+    target?.focus()
+  }, [view])
 
   const monthFormatter = useDateFormatter({
     calendar: monthStart.calendar.identifier,
@@ -72,55 +103,53 @@ export const CalendarMonthYearPicker = ({
     changeView('days')
   }
 
-  if (view === 'months') {
-    return (
-      <CalendarMonthGrid
-        monthStart={monthStart}
-        onBack={() => changeView('days')}
-        onSelect={commitAndReturn}
-        state={state}
-      />
-    )
-  }
-
-  if (view === 'years') {
-    return (
-      <CalendarYearGrid
-        monthStart={monthStart}
-        onBack={() => changeView('days')}
-        onSelect={commitAndReturn}
-        state={state}
-      />
-    )
-  }
-
   return (
-    <>
-      <div className="datepicker-header">
-        {prevArrow}
-        <div className="datepicker-header-content">
-          <button
-            aria-label={`Month: ${monthFormatter.format(monthStart.toDate(state.timeZone))}`}
-            className="datepicker-month"
-            disabled={state.isDisabled}
-            onClick={() => changeView('months')}
-            type="button"
-          >
-            {monthFormatter.format(monthStart.toDate(state.timeZone))}
-          </button>
-          <button
-            aria-label={`Year: ${yearFormatter.format(monthStart.toDate(state.timeZone))}`}
-            className="datepicker-year"
-            disabled={state.isDisabled}
-            onClick={() => changeView('years')}
-            type="button"
-          >
-            {yearFormatter.format(monthStart.toDate(state.timeZone))}
-          </button>
-        </div>
-        {nextArrow}
-      </div>
-      {children}
-    </>
+    <div ref={containerRef}>
+      {view === 'months' && (
+        <CalendarMonthGrid
+          monthStart={monthStart}
+          onBack={() => changeView('days')}
+          onSelect={commitAndReturn}
+          state={state}
+        />
+      )}
+      {view === 'years' && (
+        <CalendarYearGrid
+          monthStart={monthStart}
+          onBack={() => changeView('days')}
+          onSelect={commitAndReturn}
+          state={state}
+        />
+      )}
+      {view === 'days' && (
+        <>
+          <div className="datepicker-header">
+            {prevArrow}
+            <div className="datepicker-header-content">
+              <button
+                aria-label={`Month: ${monthFormatter.format(monthStart.toDate(state.timeZone))}`}
+                className="datepicker-month"
+                disabled={state.isDisabled}
+                onClick={() => changeView('months')}
+                type="button"
+              >
+                {monthFormatter.format(monthStart.toDate(state.timeZone))}
+              </button>
+              <button
+                aria-label={`Year: ${yearFormatter.format(monthStart.toDate(state.timeZone))}`}
+                className="datepicker-year"
+                disabled={state.isDisabled}
+                onClick={() => changeView('years')}
+                type="button"
+              >
+                {yearFormatter.format(monthStart.toDate(state.timeZone))}
+              </button>
+            </div>
+            {nextArrow}
+          </div>
+          {children}
+        </>
+      )}
+    </div>
   )
 }

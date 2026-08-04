@@ -20,7 +20,8 @@ interface UseOverlayPlacementResult {
 }
 
 // Shared by `CxDatePicker` and `CxDateRangePicker` — both position their calendar overlay the same
-// way (`bottom-start`, 2px offset, closing on Escape or when focus leaves the trigger group).
+// way (`bottom-start`, 2px offset, closing on Escape, on any click outside it, or when focus leaves
+// the trigger group).
 //
 // Built directly on `useOverlay` + `useOverlayPosition` rather than the higher-level `usePopover`
 // combo hook. `usePopover` computes its own internal `onClose` for `useOverlayPosition` from
@@ -43,22 +44,18 @@ export const useOverlayPlacement = ({
   // close the overlay, which the button's own `onPress` then immediately reopens on click.
   const shouldCloseOnInteractOutside = (element: Element) => !triggerRef.current?.contains(element)
 
-  // Escape key + focus-leaves-the-overlay dismissal — the two pieces of `usePopover`'s bundled
-  // behavior this calendar still needs. `isDismissable` is left at its default (`false`), matching
-  // the value `usePopover` itself computes whenever `isNonModal` is true (as it always is for this
-  // calendar): outside-*click* dismissal happens via `shouldCloseOnBlur`'s focus-leaves-the-overlay
-  // check, not a separate pointerdown listener — `usePopover` doesn't wire that one either in the
-  // non-modal case.
-  //
-  // Deliberately not reproducing `usePopover`'s `usePreventScroll`/`ariaHideOutside` calls on top
-  // of this: `usePreventScroll`'s `isDisabled: isNonModal || !state.isOpen` is always true here
-  // (this calendar is always non-modal), so it was already a permanent no-op; `ariaHideOutside`'s
-  // `keepVisible` counterpart (exempting this overlay from being aria-hidden if some *other*, modal
-  // overlay happens to be open at the same time) lives only on a private, unexported react-aria
-  // subpath — the same trade-off `CxAutocomplete`/`CxCombobox`/`CxMenu`/`CxSubmenu`/`CxPopover`
-  // already accept for opting out of `usePopover`, none of them reproducing it either.
+  // Escape key + outside-interaction dismissal — the two pieces of `usePopover`'s bundled behavior
+  // this calendar still needs. `isDismissable: true` — *not* `usePopover`'s own default of `false`
+  // whenever `isNonModal` is true — is required to actually get outside-*click* dismissal:
+  // `useOverlay`'s `shouldCloseOnBlur` only closes on a focus-based blur, and explicitly bails when
+  // the click target isn't focusable (`relatedTarget` is `null`, i.e. focus lands on `document.body`,
+  // as it does for an ordinary click on plain page content) — its own source comments that this case
+  // is intentionally left to the separate pointerdown-outside listener `useOverlay` only wires up
+  // when `isDismissable` is true. Leaving it at the `usePopover`-matching default therefore silently
+  // drops the single most common way users try to dismiss a popover.
   const { overlayProps } = useOverlay(
     {
+      isDismissable: true,
       isOpen: state.isOpen,
       onClose: state.close,
       shouldCloseOnBlur: true,

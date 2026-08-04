@@ -1,4 +1,4 @@
-import React, { forwardRef, HTMLAttributes, useRef, useState } from 'react'
+import React, { forwardRef, HTMLAttributes, useMemo, useRef, useState } from 'react'
 import classNames from 'classnames'
 import { AriaCalendarProps, mergeProps, useCalendar, useCalendarCell, useLocale } from 'react-aria'
 import { CalendarState, DateValue, useCalendarState } from 'react-stately'
@@ -12,6 +12,7 @@ import {
 } from '@internationalized/date'
 
 import { useForkedRef } from '../../hooks'
+import { CalendarMonthBlock } from './CalendarMonthBlock'
 import { CalendarMonthYearPicker } from './CalendarMonthYearPicker'
 import { CalendarNavButton } from './CalendarNavButton'
 import { CalendarWeekGrid } from './CalendarWeekGrid'
@@ -157,7 +158,10 @@ export const CxCalendar = forwardRef<HTMLDivElement, CxCalendarProps>((props, fo
   const { locale } = useLocale()
   const internalRef = useRef<HTMLDivElement>(null)
   const ref = useForkedRef(internalRef, forwardedRef)
-  const combinedIsDateUnavailable = mergeIsDateUnavailable(unavailableDates, isDateUnavailable)
+  const combinedIsDateUnavailable = useMemo(
+    () => mergeIsDateUnavailable(unavailableDates, isDateUnavailable),
+    [unavailableDates, isDateUnavailable]
+  )
   // Tracks each visible month block's own view, keyed by `monthIndex` — same reasoning as
   // `CxRangeCalendar`'s identical state: needed only to know whether *any* block has switched
   // away from the day grid, so the global `.datepicker-controls` overlay can hide itself rather
@@ -260,12 +264,12 @@ export const CxCalendar = forwardRef<HTMLDivElement, CxCalendarProps>((props, fo
           )}
           <div className="datepicker-grid">
             {[...new Array(visibleMonths).keys()].map((monthIndex) => (
-              <CalendarMonth
+              <CalendarMonthBlock
                 firstDayOfWeek={firstDayOfWeek}
                 key={monthIndex}
-                locale={locale}
                 monthIndex={monthIndex}
                 onViewChange={(view) => setMonthViews((prev) => ({ ...prev, [monthIndex]: view }))}
+                renderCell={(date) => <CalendarCell date={date} locale={locale} state={state} />}
                 state={state}
               />
             ))}
@@ -279,44 +283,6 @@ export const CxCalendar = forwardRef<HTMLDivElement, CxCalendarProps>((props, fo
 CxCalendar.displayName = 'CxCalendar'
 
 type CxCalendarState = CalendarState<'single' | 'multiple'>
-
-interface CalendarMonthProps {
-  firstDayOfWeek?: 'sun' | 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat'
-  locale: string
-  monthIndex: number
-  onViewChange: (view: 'days' | 'months' | 'years') => void
-  state: CxCalendarState
-}
-
-// One visible month within `visibleMonths` — mirrors `CxRangeCalendar`'s identical subcomponent
-// (see its own comment), adapted to a single/multiple-select state instead of a range one.
-const CalendarMonth = ({
-  firstDayOfWeek,
-  locale,
-  monthIndex,
-  onViewChange,
-  state
-}: CalendarMonthProps) => {
-  const monthStart = state.visibleRange.start.add({ months: monthIndex })
-
-  return (
-    <div className="datepicker-column">
-      <CalendarMonthYearPicker
-        monthIndex={monthIndex}
-        monthStart={monthStart}
-        onViewChange={onViewChange}
-        state={state}
-      >
-        <CalendarWeekGrid
-          firstDayOfWeek={firstDayOfWeek}
-          renderCell={(date) => <CalendarCell date={date} locale={locale} state={state} />}
-          startDate={monthStart}
-          state={state}
-        />
-      </CalendarMonthYearPicker>
-    </div>
-  )
-}
 
 interface CalendarCellProps {
   date: CalendarDate
@@ -335,14 +301,15 @@ const CalendarCell = ({ date, locale, state }: CalendarCellProps) => {
     isUnavailable,
     formattedDate
   } = useCalendarCell({ date }, state, ref)
+  const isCurrentDate = isToday(date, getLocalTimeZone())
 
   return (
     <div
       {...cellProps}
-      aria-current={isToday(date, getLocalTimeZone()) ? 'date' : undefined}
+      aria-current={isCurrentDate ? 'date' : undefined}
       className={classNames('datepicker-date', {
         'datepicker-date-selected': isSelected,
-        'datepicker-date-today': isToday(date, getLocalTimeZone()),
+        'datepicker-date-today': isCurrentDate,
         'datepicker-date-outside': isOutsideVisibleRange,
         'datepicker-date-disabled': isDisabled,
         'datepicker-date-unavailable': isUnavailable,

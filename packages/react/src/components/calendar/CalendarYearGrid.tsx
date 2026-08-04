@@ -86,7 +86,7 @@ export const CalendarYearGrid = ({
         />
       </div>
       <div className="datepicker-content">
-        <div className="datepicker-years" role="listbox">
+        <div aria-label={rangeLabel} className="datepicker-years" role="listbox">
           {years.map((year) => {
             const isSelected = year.date.year === monthStart.year
             const isDisabled = isWholeUnitDisabled(state, year.yearStart, year.yearEnd)

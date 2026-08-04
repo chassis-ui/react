@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, ReactNode, useRef, useState } from 'react'
+import React, { HTMLAttributes, ReactNode, useMemo, useRef, useState } from 'react'
 import classNames from 'classnames'
 import {
   AriaButtonProps,
@@ -21,6 +21,7 @@ import { renderFormField } from '../form-field/renderFormField'
 import { CxCalendar } from '../calendar/CxCalendar'
 import { mergeIsDateUnavailable } from '../calendar/mergeIsDateUnavailable'
 import { CalendarToggleButton } from './CalendarToggleButton'
+import { ClearButton } from './ClearButton'
 import { DateField } from './DateField'
 import { useOverlayPlacement } from './useOverlayPlacement'
 import './CxDatePicker.css'
@@ -41,6 +42,12 @@ interface CxDatePickerBaseProps extends Omit<
    * A string of all className you want applied to the base component.
    */
   className?: string
+  /**
+   * Whether the calendar popover is open by default (uncontrolled).
+   *
+   * @default false
+   */
+  defaultOpen?: boolean
   /**
    * Prevents the date picker from being focused or interacted with.
    */
@@ -74,6 +81,10 @@ interface CxDatePickerBaseProps extends Omit<
    */
   isDateUnavailable?: (date: DateValue) => boolean
   /**
+   * Whether the calendar popover is open (controlled).
+   */
+  isOpen?: boolean
+  /**
    * The field's caption, rendered as a `CxFormLabel` associated with the field group.
    */
   label?: ReactNode
@@ -92,6 +103,10 @@ interface CxDatePickerBaseProps extends Omit<
    * skip creating any.
    */
   name?: string
+  /**
+   * Callback fired when the calendar popover's open state changes.
+   */
+  onOpenChange?: (isOpen: boolean) => void
   /**
    * Size the component small or large.
    */
@@ -182,6 +197,7 @@ CxDatePicker.displayName = 'CxDatePicker'
 
 const CxDatePickerSingle = ({
   className,
+  defaultOpen,
   defaultValue,
   disabled,
   firstDayOfWeek,
@@ -190,11 +206,13 @@ const CxDatePickerSingle = ({
   invalid,
   invalidFeedback,
   isDateUnavailable,
+  isOpen,
   label,
   maxValue,
   minValue,
   name,
   onChange,
+  onOpenChange,
   selectionMode: _selectionMode,
   size,
   unavailableDates,
@@ -204,21 +222,28 @@ const CxDatePickerSingle = ({
   visibleMonths,
   ...rest
 }: CxDatePickerSingleProps) => {
-  const combinedIsDateUnavailable = mergeIsDateUnavailable(unavailableDates, isDateUnavailable)
+  const combinedIsDateUnavailable = useMemo(
+    () => mergeIsDateUnavailable(unavailableDates, isDateUnavailable),
+    [unavailableDates, isDateUnavailable]
+  )
 
   const state = useDatePickerState({
+    defaultOpen,
     defaultValue,
     isDateUnavailable: combinedIsDateUnavailable,
     isDisabled: disabled,
+    isOpen,
     maxValue,
     minValue,
     onChange,
+    onOpenChange,
     value
   })
 
   const groupRef = useRef<HTMLDivElement>(null)
   const calendarRef = useRef<HTMLDivElement>(null)
   const overlayRef = useRef<HTMLDivElement>(null)
+  const toggleButtonRef = useRef<HTMLButtonElement>(null)
 
   const {
     describedBy,
@@ -286,7 +311,18 @@ const CxDatePickerSingle = ({
           <div className="w-100 overflow-x-scroll">
             <DateField fieldProps={fieldProps} />
           </div>
-          <CalendarToggleButton buttonProps={buttonProps} state={state} />
+          {state.value && !disabled && (
+            <ClearButton
+              onPress={() => {
+                state.setValue(null)
+                // `ClearButton` unmounts itself once `state.value` clears — without this, focus
+                // would otherwise drop to `document.body` (same failure mode fixed for the
+                // calendar's own month/year view switch — see `CalendarMonthYearPicker`'s comment).
+                toggleButtonRef.current?.focus()
+              }}
+            />
+          )}
+          <CalendarToggleButton buttonProps={buttonProps} ref={toggleButtonRef} state={state} />
         </div>
         <div
           className="datepicker"
@@ -347,6 +383,7 @@ CxDatePickerSingle.displayName = 'CxDatePickerSingle'
 // a read-only comma-separated field in place of `DateField`'s editable segments.
 const CxDatePickerMultiple = ({
   className,
+  defaultOpen,
   defaultValue,
   disabled,
   firstDayOfWeek,
@@ -355,11 +392,13 @@ const CxDatePickerMultiple = ({
   invalid,
   invalidFeedback,
   isDateUnavailable,
+  isOpen,
   label,
   maxValue,
   minValue,
   name,
   onChange,
+  onOpenChange,
   selectionMode: _selectionMode,
   size,
   unavailableDates,
@@ -369,7 +408,10 @@ const CxDatePickerMultiple = ({
   visibleMonths,
   ...rest
 }: CxDatePickerMultipleProps) => {
-  const combinedIsDateUnavailable = mergeIsDateUnavailable(unavailableDates, isDateUnavailable)
+  const combinedIsDateUnavailable = useMemo(
+    () => mergeIsDateUnavailable(unavailableDates, isDateUnavailable),
+    [unavailableDates, isDateUnavailable]
+  )
 
   const isControlled = value !== undefined
   const [uncontrolledValues, setUncontrolledValues] = useState<DateValue[]>(defaultValue ?? [])
@@ -380,11 +422,12 @@ const CxDatePickerMultiple = ({
     onChange?.(next)
   }
 
-  const state: OverlayTriggerState = useOverlayTriggerState({})
+  const state: OverlayTriggerState = useOverlayTriggerState({ defaultOpen, isOpen, onOpenChange })
 
   const groupRef = useRef<HTMLDivElement>(null)
   const calendarRef = useRef<HTMLDivElement>(null)
   const overlayRef = useRef<HTMLDivElement>(null)
+  const toggleButtonRef = useRef<HTMLButtonElement>(null)
 
   const {
     describedBy,
@@ -411,12 +454,16 @@ const CxDatePickerMultiple = ({
     triggerRef: groupRef
   })
 
-  const { dialogProps: domDialogProps } = useDialog({}, calendarRef)
+  const { dialogProps: domDialogProps } = useDialog(
+    { 'aria-label': rest['aria-label'], 'aria-labelledby': labelledBy },
+    calendarRef
+  )
 
   const buttonProps: AriaButtonProps = {
     'aria-expanded': state.isOpen,
     'aria-haspopup': 'dialog',
-    'aria-label': 'Calendar'
+    'aria-label': 'Calendar',
+    isDisabled: disabled
   }
 
   return renderFormField({
@@ -440,7 +487,16 @@ const CxDatePickerMultiple = ({
           <div className="w-100 overflow-x-scroll">
             <MultiDateField values={values} />
           </div>
-          <CalendarToggleButton buttonProps={buttonProps} state={state} />
+          {values.length > 0 && !disabled && (
+            <ClearButton
+              onPress={() => {
+                setValues([])
+                // See the single-selection `ClearButton` usage above for why this is needed.
+                toggleButtonRef.current?.focus()
+              }}
+            />
+          )}
+          <CalendarToggleButton buttonProps={buttonProps} ref={toggleButtonRef} state={state} />
         </div>
         <div
           className="datepicker"

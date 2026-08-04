@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, ReactNode, useRef } from 'react'
+import React, { HTMLAttributes, ReactNode, useMemo, useRef } from 'react'
 import classNames from 'classnames'
 import { FocusScope, mergeProps, RangeValue, useDateRangePicker, useDialog } from 'react-aria'
 import { DateValue, useDateRangePickerState } from 'react-stately'
@@ -9,6 +9,7 @@ import { CxDateRangePreset } from '../calendar/dateRangePresets'
 import { CxRangeCalendar } from '../calendar/CxRangeCalendar'
 import { mergeIsDateUnavailable } from '../calendar/mergeIsDateUnavailable'
 import { CalendarToggleButton } from './CalendarToggleButton'
+import { ClearButton } from './ClearButton'
 import { DateField } from './DateField'
 import { useOverlayPlacement } from './useOverlayPlacement'
 import './CxDatePicker.css'
@@ -30,6 +31,12 @@ export interface CxDateRangePickerProps extends Omit<
    * A string of all className you want applied to the base component.
    */
   className?: string
+  /**
+   * Whether the calendar popover is open by default (uncontrolled).
+   *
+   * @default false
+   */
+  defaultOpen?: boolean
   /**
    * The initial selected date range (uncontrolled).
    */
@@ -67,6 +74,10 @@ export interface CxDateRangePickerProps extends Omit<
    */
   isDateUnavailable?: (date: DateValue) => boolean
   /**
+   * Whether the calendar popover is open (controlled).
+   */
+  isOpen?: boolean
+  /**
    * The field's caption, rendered as a `CxFormLabel` associated with the field group.
    */
   label?: ReactNode
@@ -88,6 +99,10 @@ export interface CxDateRangePickerProps extends Omit<
    * Callback fired when the selected date range changes.
    */
   onChange?: (value: RangeValue<DateValue> | null) => void
+  /**
+   * Callback fired when the calendar popover's open state changes.
+   */
+  onOpenChange?: (isOpen: boolean) => void
   /**
    * A list of quick-select range presets shown in the overlay next to the calendar. Selecting a
    * preset commits its range immediately, the same as picking a start and end date from the
@@ -135,6 +150,7 @@ export interface CxDateRangePickerProps extends Omit<
 // which is what closes this overlay automatically.
 export const CxDateRangePicker = ({
   className,
+  defaultOpen,
   defaultValue,
   disabled,
   firstDayOfWeek,
@@ -143,11 +159,13 @@ export const CxDateRangePicker = ({
   invalid,
   invalidFeedback,
   isDateUnavailable,
+  isOpen,
   label,
   maxValue,
   minValue,
   name,
   onChange,
+  onOpenChange,
   presets,
   size,
   unavailableDates,
@@ -157,21 +175,28 @@ export const CxDateRangePicker = ({
   visibleMonths,
   ...rest
 }: CxDateRangePickerProps) => {
-  const combinedIsDateUnavailable = mergeIsDateUnavailable(unavailableDates, isDateUnavailable)
+  const combinedIsDateUnavailable = useMemo(
+    () => mergeIsDateUnavailable(unavailableDates, isDateUnavailable),
+    [unavailableDates, isDateUnavailable]
+  )
 
   const state = useDateRangePickerState({
+    defaultOpen,
     defaultValue,
     isDateUnavailable: combinedIsDateUnavailable,
     isDisabled: disabled,
+    isOpen,
     maxValue,
     minValue,
     onChange,
+    onOpenChange,
     value
   })
 
   const groupRef = useRef<HTMLDivElement>(null)
   const calendarRef = useRef<HTMLDivElement>(null)
   const overlayRef = useRef<HTMLDivElement>(null)
+  const toggleButtonRef = useRef<HTMLButtonElement>(null)
 
   const {
     describedBy,
@@ -241,7 +266,20 @@ export const CxDateRangePicker = ({
             </span>
             <DateField fieldProps={endFieldProps} />
           </div>
-          <CalendarToggleButton buttonProps={buttonProps} state={state} />
+          {/* `state.value` is always a `{ start, end }` object, never `null` itself — even with
+              nothing picked yet — so the endpoints are what actually indicate a selection to
+              clear (matching the hidden-input `value`s below, which check the same way). */}
+          {(state.value?.start || state.value?.end) && !disabled && (
+            <ClearButton
+              onPress={() => {
+                state.setValue(null)
+                // See `CxDatePicker`'s identical `ClearButton` usage for why this is needed —
+                // this button unmounts itself once cleared, so focus needs somewhere to land.
+                toggleButtonRef.current?.focus()
+              }}
+            />
+          )}
+          <CalendarToggleButton buttonProps={buttonProps} ref={toggleButtonRef} state={state} />
         </div>
         <div
           className="datepicker"

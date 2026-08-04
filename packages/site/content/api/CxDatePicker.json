@@ -165,6 +165,27 @@
         "name": "string"
       }
     },
+    "defaultOpen": {
+      "defaultValue": {
+        "value": "false"
+      },
+      "description": "Whether the calendar popover is open by default (uncontrolled).",
+      "name": "defaultOpen",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
+        "name": "CxDatePickerBaseProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
+          "name": "CxDatePickerBaseProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
     "disabled": {
       "defaultValue": null,
       "description": "Prevents the date picker from being focused or interacted with.",
@@ -188,7 +209,7 @@
       "defaultValue": {
         "value": "'mon'"
       },
-      "description": "The day that starts the week in the calendar popover, overriding the default set by the\nactive locale.",
+      "description": "The day that starts the week in the calendar overlay, overriding the default set by the\nactive locale.",
       "name": "firstDayOfWeek",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
@@ -324,6 +345,25 @@
         "name": "((date: DateValue) => boolean)"
       }
     },
+    "isOpen": {
+      "defaultValue": null,
+      "description": "Whether the calendar popover is open (controlled).",
+      "name": "isOpen",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
+        "name": "CxDatePickerBaseProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
+          "name": "CxDatePickerBaseProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
     "label": {
       "defaultValue": null,
       "description": "The field's caption, rendered as a `CxFormLabel` associated with the field group.",
@@ -400,6 +440,25 @@
         "name": "string"
       }
     },
+    "onOpenChange": {
+      "defaultValue": null,
+      "description": "Callback fired when the calendar popover's open state changes.",
+      "name": "onOpenChange",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
+        "name": "CxDatePickerBaseProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
+          "name": "CxDatePickerBaseProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((isOpen: boolean) => void)"
+      }
+    },
     "size": {
       "defaultValue": null,
       "description": "Size the component small or large.",
@@ -430,7 +489,7 @@
     },
     "unavailableDates": {
       "defaultValue": null,
-      "description": "ISO 8601 dates (`YYYY-MM-DD`) to mark unselectable, as a convenience alternative to\n`isDateUnavailable` for data-driven cases (e.g. booked dates fetched from an API). Composed\nwith `isDateUnavailable` when both are given — a date unavailable by either is unavailable.\nApplies to both the calendar popover and typing a date directly into the field.",
+      "description": "ISO 8601 dates (`YYYY-MM-DD`) to mark unselectable, as a convenience alternative to\n`isDateUnavailable` for data-driven cases (e.g. booked dates fetched from an API). Composed\nwith `isDateUnavailable` when both are given — a date unavailable by either is unavailable.\nApplies to both the calendar overlay and typing a date directly into the field.",
       "name": "unavailableDates",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
@@ -489,7 +548,7 @@
       "defaultValue": {
         "value": "1"
       },
-      "description": "Number of months to display side by side in the calendar popover.",
+      "description": "Number of months to display side by side in the calendar overlay.",
       "name": "visibleMonths",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/datepicker/CxDatePicker.tsx",
