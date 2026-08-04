@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import {
   CxButton,
-  CxContainer,
+  Container,
   CxDrawer,
   CxDrawerBody,
   CxDrawerHeader,
@@ -24,7 +24,7 @@ export const DrawerExample = () => {
   const [visible, setVisible] = useState(false)
   return (
     <CxNavbar colorScheme="light" className="bg-light">
-      <CxContainer fluid>
+      <Container fluid>
         <CxNavbarToggler
           aria-controls="drawerNavbar"
           aria-label="Toggle navigation"
@@ -72,7 +72,7 @@ export const DrawerExample = () => {
             </CxForm>
           </CxDrawerBody>
         </CxDrawer>
-      </CxContainer>
+      </Container>
     </CxNavbar>
   )
 }

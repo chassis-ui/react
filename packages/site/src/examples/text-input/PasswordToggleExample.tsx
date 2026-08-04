@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { CxIcon, CxInputAdorn, CxTextInput } from '@chassis-ui/react'
+import { Icon, CxInputAdorn, CxTextInput } from '@chassis-ui/react'
 
 export const Example = () => {
   const [visible, setVisible] = useState(false)
@@ -10,7 +10,7 @@ export const Example = () => {
       aria-label={visible ? 'Hide password' : 'Show password'}
       onClick={() => setVisible(!visible)}
     >
-      <CxIcon name={visible ? 'eye-slash-outline' : 'eye-outline'} size={16} />
+      <Icon name={visible ? 'eye-slash-outline' : 'eye-outline'} size={16} />
     </CxInputAdorn>
   )
 

@@ -1,8 +1,8 @@
 import React, { ElementType, forwardRef, useContext } from 'react'
 import { CxToastContext } from './CxToast'
-import { CxCloseButton, CxCloseButtonProps } from '../close-button/CxCloseButton'
+import { CloseButton, CloseButtonProps } from '../close-button/CloseButton'
 
-export interface CxToastCloseProps extends CxCloseButtonProps {
+export interface CxToastCloseProps extends CloseButtonProps {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
@@ -21,7 +21,7 @@ export const CxToastClose = forwardRef<HTMLButtonElement, CxToastCloseProps>(
         {children}
       </Component>
     ) : (
-      <CxCloseButton onClick={handleClick} {...rest} ref={ref} />
+      <CloseButton onClick={handleClick} {...rest} ref={ref} />
     )
   }
 )

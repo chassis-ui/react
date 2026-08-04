@@ -112,8 +112,8 @@ export const remarkCxDocsref: Plugin<[], Root> = function () {
 // Block wrappers (paragraph, heading, blockquote, list, listItem) are purely additive — their
 // inner content is unaffected, so `flattenBlockNodes` just recurses into their children and
 // splices them into place. That alone also surfaces any JSX element nested inside one of them
-// (e.g. `<CxButton>Profile <CxBadge>4</CxBadge></CxButton>` parses as a single `paragraph`
-// wrapping `[text, CxBadge]` — flattening exposes that `CxBadge` as a sibling again instead of
+// (e.g. `<CxButton>Profile <Badge>4</Badge></CxButton>` parses as a single `paragraph`
+// wrapping `[text, Badge]` — flattening exposes that `Badge` as a sibling again instead of
 // leaving it buried inside the paragraph).
 //
 // Inline constructs are different: they actually *consume* their markdown syntax characters

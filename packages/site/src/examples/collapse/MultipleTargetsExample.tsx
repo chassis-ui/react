@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { CxButton, CxCard, CxCardBody, CxCol, CxCollapse, CxRow } from '@chassis-ui/react'
+import { Card, CxButton, Col, Collapse, Row } from '@chassis-ui/react'
 
 export const MultipleTargetsExample = () => {
   const [visibleA, setVisibleA] = useState(false)
@@ -16,30 +16,30 @@ export const MultipleTargetsExample = () => {
       >
         Toggle both elements
       </CxButton>
-      <CxRow>
-        <CxCol xs={6}>
-          <CxCollapse visible={visibleA}>
-            <CxCard className="mt-3">
-              <CxCardBody>
+      <Row>
+        <Col xs={6}>
+          <Collapse visible={visibleA}>
+            <Card className="mt-3">
+              <Card.Body>
                 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
                 richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson
                 cred nesciunt sapiente ea proident.
-              </CxCardBody>
-            </CxCard>
-          </CxCollapse>
-        </CxCol>
-        <CxCol xs={6}>
-          <CxCollapse visible={visibleB}>
-            <CxCard className="mt-3">
-              <CxCardBody>
+              </Card.Body>
+            </Card>
+          </Collapse>
+        </Col>
+        <Col xs={6}>
+          <Collapse visible={visibleB}>
+            <Card className="mt-3">
+              <Card.Body>
                 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
                 richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson
                 cred nesciunt sapiente ea proident.
-              </CxCardBody>
-            </CxCard>
-          </CxCollapse>
-        </CxCol>
-      </CxRow>
+              </Card.Body>
+            </Card>
+          </Collapse>
+        </Col>
+      </Row>
     </>
   )
 }

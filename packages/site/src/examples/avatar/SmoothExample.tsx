@@ -1,41 +1,41 @@
-import { CxAvatar } from '@chassis-ui/react'
+import { Avatar } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
     <>
-      <CxAvatar color="default" smooth>
+      <Avatar color="default" smooth>
         CX
-      </CxAvatar>
-      <CxAvatar color="alternate" smooth>
+      </Avatar>
+      <Avatar color="alternate" smooth>
         CX
-      </CxAvatar>
-      <CxAvatar color="primary" smooth>
+      </Avatar>
+      <Avatar color="primary" smooth>
         CX
-      </CxAvatar>
-      <CxAvatar color="secondary" smooth>
+      </Avatar>
+      <Avatar color="secondary" smooth>
         CX
-      </CxAvatar>
-      <CxAvatar color="neutral" smooth>
+      </Avatar>
+      <Avatar color="neutral" smooth>
         CX
-      </CxAvatar>
-      <CxAvatar color="danger" smooth>
+      </Avatar>
+      <Avatar color="danger" smooth>
         CX
-      </CxAvatar>
-      <CxAvatar color="success" smooth>
+      </Avatar>
+      <Avatar color="success" smooth>
         CX
-      </CxAvatar>
-      <CxAvatar color="warning" smooth>
+      </Avatar>
+      <Avatar color="warning" smooth>
         CX
-      </CxAvatar>
-      <CxAvatar color="info" smooth>
+      </Avatar>
+      <Avatar color="info" smooth>
         CX
-      </CxAvatar>
-      <CxAvatar color="black" smooth>
+      </Avatar>
+      <Avatar color="black" smooth>
         CX
-      </CxAvatar>
-      <CxAvatar color="white" smooth>
+      </Avatar>
+      <Avatar color="white" smooth>
         CX
-      </CxAvatar>
+      </Avatar>
     </>
   )
 }

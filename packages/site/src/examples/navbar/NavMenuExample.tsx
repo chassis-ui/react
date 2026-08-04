@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import {
-  CxContainer,
-  CxCollapse,
+  Container,
+  Collapse,
   CxMenu,
   CxMenuDivider,
   CxMenuItem,
@@ -20,14 +20,14 @@ export const NavMenuExample = () => {
   return (
     <>
       <CxNavbar expand="large" colorScheme="light" className="bg-light">
-        <CxContainer fluid>
+        <Container fluid>
           <CxNavbarBrand href="#">Navbar</CxNavbarBrand>
           <CxNavbarToggler
             aria-label="Toggle navigation"
             aria-expanded={visible}
             onClick={() => setVisible(!visible)}
           />
-          <CxCollapse className="navbar-collapse" visible={visible}>
+          <Collapse className="navbar-collapse" visible={visible}>
             <CxNavbarNav>
               <CxNavItem>
                 <CxNavLink href="#" active>
@@ -50,8 +50,8 @@ export const NavMenuExample = () => {
                 </CxMenuList>
               </CxMenu>
             </CxNavbarNav>
-          </CxCollapse>
-        </CxContainer>
+          </Collapse>
+        </Container>
       </CxNavbar>
     </>
   )

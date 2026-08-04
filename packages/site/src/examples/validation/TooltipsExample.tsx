@@ -9,7 +9,7 @@ import {
   CxSelect,
   CxInputGroup,
   CxInputAddon,
-  CxCol
+  Col
 } from '@chassis-ui/react'
 
 export const TooltipsExample = () => {
@@ -29,21 +29,21 @@ export const TooltipsExample = () => {
       validated={validated}
       onSubmit={handleSubmit}
     >
-      <CxCol md={4} className="position-relative">
+      <Col md={4} className="position-relative">
         <CxFormLabel htmlFor="validationTooltip01">Email</CxFormLabel>
         <CxTextInput type="text" id="validationTooltip01" defaultValue="Mark" required />
         <CxFormFeedback tooltip valid>
           Looks good!
         </CxFormFeedback>
-      </CxCol>
-      <CxCol md={4} className="position-relative">
+      </Col>
+      <Col md={4} className="position-relative">
         <CxFormLabel htmlFor="validationTooltip02">Email</CxFormLabel>
         <CxTextInput type="text" id="validationTooltip02" defaultValue="Otto" required />
         <CxFormFeedback tooltip valid>
           Looks good!
         </CxFormFeedback>
-      </CxCol>
-      <CxCol md={4} className="position-relative">
+      </Col>
+      <Col md={4} className="position-relative">
         <CxFormLabel htmlFor="validationTooltipUsername">Username</CxFormLabel>
         <CxInputGroup className="has-validation">
           <CxInputAddon id="inputGroupPrepend">@</CxInputAddon>
@@ -58,15 +58,15 @@ export const TooltipsExample = () => {
             Please choose a username.
           </CxFormFeedback>
         </CxInputGroup>
-      </CxCol>
-      <CxCol md={6} className="position-relative">
+      </Col>
+      <Col md={6} className="position-relative">
         <CxFormLabel htmlFor="validationTooltip03">City</CxFormLabel>
         <CxTextInput type="text" id="validationTooltip03" required />
         <CxFormFeedback tooltip invalid>
           Please provide a valid city.
         </CxFormFeedback>
-      </CxCol>
-      <CxCol md={3} className="position-relative">
+      </Col>
+      <Col md={3} className="position-relative">
         <CxFormLabel htmlFor="validationTooltip04">City</CxFormLabel>
         <CxSelect id="validationTooltip04" required>
           <option disabled value="">
@@ -77,19 +77,19 @@ export const TooltipsExample = () => {
         <CxFormFeedback tooltip invalid>
           Please provide a valid city.
         </CxFormFeedback>
-      </CxCol>
-      <CxCol md={3} className="position-relative">
+      </Col>
+      <Col md={3} className="position-relative">
         <CxFormLabel htmlFor="validationTooltip05">City</CxFormLabel>
         <CxTextInput type="text" id="validationTooltip05" required />
         <CxFormFeedback tooltip invalid>
           Please provide a valid zip.
         </CxFormFeedback>
-      </CxCol>
-      <CxCol xs={12} className="position-relative">
+      </Col>
+      <Col xs={12} className="position-relative">
         <CxButton color="primary" type="submit">
           Submit form
         </CxButton>
-      </CxCol>
+      </Col>
     </CxForm>
   )
 }

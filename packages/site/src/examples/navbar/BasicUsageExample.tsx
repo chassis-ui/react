@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import {
   CxButton,
-  CxContainer,
-  CxCollapse,
+  Container,
+  Collapse,
   CxForm,
   CxTextInput,
   CxMenu,
@@ -23,10 +23,10 @@ export const BasicUsageExample = () => {
   return (
     <>
       <CxNavbar expand="large" colorScheme="light" className="bg-light">
-        <CxContainer fluid>
+        <Container fluid>
           <CxNavbarBrand href="#">Navbar</CxNavbarBrand>
           <CxNavbarToggler onClick={() => setVisible(!visible)} />
-          <CxCollapse className="navbar-collapse" visible={visible}>
+          <Collapse className="navbar-collapse" visible={visible}>
             <CxNavbarNav>
               <CxNavItem>
                 <CxNavLink href="#" active>
@@ -57,8 +57,8 @@ export const BasicUsageExample = () => {
                 Search
               </CxButton>
             </CxForm>
-          </CxCollapse>
-        </CxContainer>
+          </Collapse>
+        </Container>
       </CxNavbar>
     </>
   )

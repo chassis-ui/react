@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { Transition } from 'react-transition-group'
 
 import { ContextColor } from '../Types'
-import { CxCloseButton } from '../close-button/CxCloseButton'
+import { CloseButton } from '../close-button/CloseButton'
 import { useForkedRef } from '../../hooks'
 
 export interface CxNotificationProps extends HTMLAttributes<HTMLDivElement> {
@@ -88,7 +88,7 @@ export const CxNotification = forwardRef<HTMLDivElement, CxNotificationProps>(
               ref={forkedRef}
             >
               {children}
-              {dismissible && <CxCloseButton onClick={() => setVisible(false)} />}
+              {dismissible && <CloseButton onClick={() => setVisible(false)} />}
             </div>
           )
         }}

@@ -1,15 +1,15 @@
-import { CxAvatar } from '@chassis-ui/react'
+import { Avatar } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
     <>
-      <CxAvatar size="2xsmall">CX</CxAvatar>
-      <CxAvatar size="xsmall">CX</CxAvatar>
-      <CxAvatar size="small">CX</CxAvatar>
-      <CxAvatar>CX</CxAvatar>
-      <CxAvatar size="large">CX</CxAvatar>
-      <CxAvatar size="xlarge">CX</CxAvatar>
-      <CxAvatar size="2xlarge">CX</CxAvatar>
+      <Avatar size="2xsmall">CX</Avatar>
+      <Avatar size="xsmall">CX</Avatar>
+      <Avatar size="small">CX</Avatar>
+      <Avatar>CX</Avatar>
+      <Avatar size="large">CX</Avatar>
+      <Avatar size="xlarge">CX</Avatar>
+      <Avatar size="2xlarge">CX</Avatar>
     </>
   )
 }

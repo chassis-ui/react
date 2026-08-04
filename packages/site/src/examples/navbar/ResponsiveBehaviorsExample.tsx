@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import {
   CxButton,
-  CxContainer,
-  CxCollapse,
+  Container,
+  Collapse,
   CxForm,
   CxTextInput,
   CxNavItem,
@@ -18,13 +18,13 @@ export const ResponsiveBehaviorsExample = () => {
   return (
     <>
       <CxNavbar expand="large" colorScheme="light" className="bg-light">
-        <CxContainer fluid>
+        <Container fluid>
           <CxNavbarToggler
             aria-label="Toggle navigation"
             aria-expanded={visible}
             onClick={() => setVisible(!visible)}
           />
-          <CxCollapse className="navbar-collapse" visible={visible}>
+          <Collapse className="navbar-collapse" visible={visible}>
             <CxNavbarBrand href="#">Hidden brand</CxNavbarBrand>
             <CxNavbarNav className="me-auto mb-2 large:mb-0">
               <CxNavItem>
@@ -47,8 +47,8 @@ export const ResponsiveBehaviorsExample = () => {
                 Search
               </CxButton>
             </CxForm>
-          </CxCollapse>
-        </CxContainer>
+          </Collapse>
+        </Container>
       </CxNavbar>
     </>
   )

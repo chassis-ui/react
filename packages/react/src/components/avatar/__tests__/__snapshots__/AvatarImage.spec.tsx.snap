@@ -1,0 +1,11 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Avatar.Image > rendering > matches the baseline markup snapshot 1`] = `
+<div>
+  <img
+    alt="Profile picture"
+    class="avatar-image"
+    src="https://i.pravatar.cc/256"
+  />
+</div>
+`;

@@ -1,0 +1,30 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Breadcrumb > rendering > matches the baseline markup snapshot 1`] = `
+<div>
+  <nav
+    aria-label="breadcrumb"
+  >
+    <ol
+      class="breadcrumb bazinga"
+    >
+      <li
+        class="breadcrumb-item"
+      >
+        Test A
+      </li>
+      <li
+        class="breadcrumb-item"
+      >
+        Test B
+      </li>
+      <li
+        aria-current="page"
+        class="breadcrumb-item active"
+      >
+        Test C
+      </li>
+    </ol>
+  </nav>
+</div>
+`;

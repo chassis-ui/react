@@ -10,7 +10,7 @@ import {
   CxSelect,
   CxInputGroup,
   CxInputAddon,
-  CxCol
+  Col
 } from '@chassis-ui/react'
 
 export const CustomStylesExample = () => {
@@ -30,17 +30,17 @@ export const CustomStylesExample = () => {
       validated={validated}
       onSubmit={handleSubmit}
     >
-      <CxCol md={4}>
+      <Col md={4}>
         <CxFormLabel htmlFor="validationCustom01">Email</CxFormLabel>
         <CxTextInput type="text" id="validationCustom01" defaultValue="Mark" required />
         <CxFormFeedback valid>Looks good!</CxFormFeedback>
-      </CxCol>
-      <CxCol md={4}>
+      </Col>
+      <Col md={4}>
         <CxFormLabel htmlFor="validationCustom02">Email</CxFormLabel>
         <CxTextInput type="text" id="validationCustom02" defaultValue="Otto" required />
         <CxFormFeedback valid>Looks good!</CxFormFeedback>
-      </CxCol>
-      <CxCol md={4}>
+      </Col>
+      <Col md={4}>
         <CxFormLabel htmlFor="validationCustomUsername">Username</CxFormLabel>
         <CxInputGroup className="has-validation">
           <CxInputAddon id="inputGroupPrepend">@</CxInputAddon>
@@ -53,26 +53,26 @@ export const CustomStylesExample = () => {
           />
           <CxFormFeedback invalid>Please choose a username.</CxFormFeedback>
         </CxInputGroup>
-      </CxCol>
-      <CxCol md={6}>
+      </Col>
+      <Col md={6}>
         <CxFormLabel htmlFor="validationCustom03">City</CxFormLabel>
         <CxTextInput type="text" id="validationCustom03" required />
         <CxFormFeedback invalid>Please provide a valid city.</CxFormFeedback>
-      </CxCol>
-      <CxCol md={3}>
+      </Col>
+      <Col md={3}>
         <CxFormLabel htmlFor="validationCustom04">City</CxFormLabel>
         <CxSelect id="validationCustom04">
           <option disabled>Choose...</option>
           <option>...</option>
         </CxSelect>
         <CxFormFeedback invalid>Please provide a valid city.</CxFormFeedback>
-      </CxCol>
-      <CxCol md={3}>
+      </Col>
+      <Col md={3}>
         <CxFormLabel htmlFor="validationCustom05">City</CxFormLabel>
         <CxTextInput type="text" id="validationCustom05" required />
         <CxFormFeedback invalid>Please provide a valid zip.</CxFormFeedback>
-      </CxCol>
-      <CxCol xs={12}>
+      </Col>
+      <Col xs={12}>
         <CxCheckbox
           type="checkbox"
           id="invalidCheck"
@@ -80,12 +80,12 @@ export const CustomStylesExample = () => {
           required
         />
         <CxFormFeedback invalid>You must agree before submitting.</CxFormFeedback>
-      </CxCol>
-      <CxCol xs={12}>
+      </Col>
+      <Col xs={12}>
         <CxButton color="primary" type="submit">
           Submit form
         </CxButton>
-      </CxCol>
+      </Col>
     </CxForm>
   )
 }

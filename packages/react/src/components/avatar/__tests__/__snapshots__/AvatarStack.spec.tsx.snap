@@ -1,0 +1,16 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Avatar.Stack > rendering > matches the baseline markup snapshot 1`] = `
+<div>
+  <div
+    class="avatar-stack"
+  >
+    <button
+      class="avatar"
+      type="button"
+    >
+      CX
+    </button>
+  </div>
+</div>
+`;

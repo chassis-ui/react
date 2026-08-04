@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { CxButton, CxCard, CxCardBody, CxCollapse } from '@chassis-ui/react'
+import { Card, CxButton, Collapse } from '@chassis-ui/react'
 
 export const BasicExample = () => {
   const [visible, setVisible] = useState(false)
@@ -15,15 +15,15 @@ export const BasicExample = () => {
         Link
       </CxButton>
       <CxButton onClick={() => setVisible(!visible)}>Button</CxButton>
-      <CxCollapse visible={visible}>
-        <CxCard className="mt-3">
-          <CxCardBody>
+      <Collapse visible={visible}>
+        <Card className="mt-3">
+          <Card.Body>
             Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
             squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
             sapiente ea proident.
-          </CxCardBody>
-        </CxCard>
-      </CxCollapse>
+          </Card.Body>
+        </Card>
+      </Collapse>
     </>
   )
 }

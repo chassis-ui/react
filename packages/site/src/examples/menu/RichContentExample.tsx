@@ -1,4 +1,4 @@
-import { CxIcon, CxMenu, CxMenuItem, CxMenuList, CxMenuToggle } from '@chassis-ui/react'
+import { Icon, CxMenu, CxMenuItem, CxMenuList, CxMenuToggle } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
@@ -7,7 +7,7 @@ export const Example = () => {
       <CxMenuList>
         <CxMenuItem
           component="button"
-          icon={<CxIcon name="shield-outline" size={16} />}
+          icon={<Icon name="shield-outline" size={16} />}
           description="3 members"
           selected
         >
@@ -15,7 +15,7 @@ export const Example = () => {
         </CxMenuItem>
         <CxMenuItem
           component="button"
-          icon={<CxIcon name="users-outline" size={16} />}
+          icon={<Icon name="users-outline" size={16} />}
           description="12 members"
         >
           Globex Inc

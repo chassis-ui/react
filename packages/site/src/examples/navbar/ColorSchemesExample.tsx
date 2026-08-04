@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import {
   CxButton,
-  CxContainer,
-  CxCollapse,
+  Container,
+  Collapse,
   CxForm,
   CxTextInput,
   CxMenu,
@@ -23,14 +23,14 @@ export const ColorSchemesExample = () => {
   return (
     <>
       <CxNavbar expand="large" colorScheme="dark" className="bg-dark">
-        <CxContainer fluid>
+        <Container fluid>
           <CxNavbarBrand href="#">Navbar</CxNavbarBrand>
           <CxNavbarToggler
             aria-label="Toggle navigation"
             aria-expanded={visible}
             onClick={() => setVisible(!visible)}
           />
-          <CxCollapse className="navbar-collapse" visible={visible}>
+          <Collapse className="navbar-collapse" visible={visible}>
             <CxNavbarNav>
               <CxNavItem>
                 <CxNavLink href="#" active>
@@ -61,19 +61,19 @@ export const ColorSchemesExample = () => {
                 Search
               </CxButton>
             </CxForm>
-          </CxCollapse>
-        </CxContainer>
+          </Collapse>
+        </Container>
       </CxNavbar>
       <br />
       <CxNavbar expand="large" colorScheme="dark" className="bg-primary">
-        <CxContainer fluid>
+        <Container fluid>
           <CxNavbarBrand href="#">Navbar</CxNavbarBrand>
           <CxNavbarToggler
             aria-label="Toggle navigation"
             aria-expanded={visible}
             onClick={() => setVisible(!visible)}
           />
-          <CxCollapse className="navbar-collapse" visible={visible}>
+          <Collapse className="navbar-collapse" visible={visible}>
             <CxNavbarNav>
               <CxNavItem>
                 <CxNavLink href="#" active>
@@ -104,19 +104,19 @@ export const ColorSchemesExample = () => {
                 Search
               </CxButton>
             </CxForm>
-          </CxCollapse>
-        </CxContainer>
+          </Collapse>
+        </Container>
       </CxNavbar>
       <br />
       <CxNavbar expand="large" colorScheme="light" style={{ backgroundColor: '#e3f2fd' }}>
-        <CxContainer fluid>
+        <Container fluid>
           <CxNavbarBrand href="#">Navbar</CxNavbarBrand>
           <CxNavbarToggler
             aria-label="Toggle navigation"
             aria-expanded={visible}
             onClick={() => setVisible(!visible)}
           />
-          <CxCollapse className="navbar-collapse" visible={visible}>
+          <Collapse className="navbar-collapse" visible={visible}>
             <CxNavbarNav>
               <CxNavItem>
                 <CxNavLink href="#" active>
@@ -147,8 +147,8 @@ export const ColorSchemesExample = () => {
                 Search
               </CxButton>
             </CxForm>
-          </CxCollapse>
-        </CxContainer>
+          </Collapse>
+        </Container>
       </CxNavbar>
     </>
   )

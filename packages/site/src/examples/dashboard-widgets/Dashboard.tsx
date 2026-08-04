@@ -1,18 +1,16 @@
 import {
-  CxCard,
-  CxCardBody,
-  CxBadge,
-  CxList,
-  CxProgress,
-  CxProgressBar,
+  Card,
+  Badge,
+  List,
+  Progress,
   CxTable,
   CxTableHeader,
   CxTableBody,
   CxTableColumn,
   CxTableRow,
   CxTableCell,
-  CxRow,
-  CxCol
+  Row,
+  Col
 } from '@chassis-ui/react'
 
 export const Dashboard = () => {
@@ -49,33 +47,33 @@ export const Dashboard = () => {
       key: 'status',
       label: 'Status',
       render: (v: string) => (
-        <CxBadge color={orderStatusColor[v as keyof typeof orderStatusColor]}>{v}</CxBadge>
+        <Badge color={orderStatusColor[v as keyof typeof orderStatusColor]}>{v}</Badge>
       )
     }
   ]
   return (
     <div>
-      <CxRow className="mb-xlarge">
+      <Row className="mb-xlarge">
         {stats.map((stat) => (
-          <CxCol key={stat.label}>
-            <CxCard>
-              <CxCardBody>
+          <Col key={stat.label}>
+            <Card>
+              <Card.Body>
                 <div className="d-flex justify-content-between align-items-start">
                   <div>
                     <div className="small fg-neutral mb-xsmall">{stat.label}</div>
                     <div className="h4 mb-0">{stat.value}</div>
                   </div>
-                  <CxBadge color={stat.color}>{stat.delta}</CxBadge>
+                  <Badge color={stat.color}>{stat.delta}</Badge>
                 </div>
-              </CxCardBody>
-            </CxCard>
-          </CxCol>
+              </Card.Body>
+            </Card>
+          </Col>
         ))}
-      </CxRow>
-      <CxRow className="mb-xlarge">
-        <CxCol>
-          <CxCard>
-            <CxCardBody>
+      </Row>
+      <Row className="mb-xlarge">
+        <Col>
+          <Card>
+            <Card.Body>
               <h5 className="mb-medium">Recent Orders</h5>
               <CxTable aria-label="Recent orders" hover>
                 <CxTableHeader columns={orderColumns}>
@@ -97,22 +95,22 @@ export const Dashboard = () => {
                   )}
                 </CxTableBody>
               </CxTable>
-            </CxCardBody>
-          </CxCard>
-        </CxCol>
-      </CxRow>
-      <CxRow>
-        <CxCol>
-          <CxCard>
-            <CxCardBody>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Card>
+            <Card.Body>
               <h5 className="mb-medium">Recent Activity</h5>
-              <CxList flush items={activity} />
-            </CxCardBody>
-          </CxCard>
-        </CxCol>
-        <CxCol>
-          <CxCard>
-            <CxCardBody>
+              <List flush items={activity} />
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col>
+          <Card>
+            <Card.Body>
               <h5 className="mb-medium">Traffic Sources</h5>
               {traffic.map((src) => (
                 <div key={src.label} className="mb-medium">
@@ -120,15 +118,15 @@ export const Dashboard = () => {
                     <small>{src.label}</small>
                     <small>{src.value}%</small>
                   </div>
-                  <CxProgress>
-                    <CxProgressBar color={src.color} value={src.value} />
-                  </CxProgress>
+                  <Progress>
+                    <Progress.Bar color={src.color} value={src.value} />
+                  </Progress>
                 </div>
               ))}
-            </CxCardBody>
-          </CxCard>
-        </CxCol>
-      </CxRow>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
     </div>
   )
 }

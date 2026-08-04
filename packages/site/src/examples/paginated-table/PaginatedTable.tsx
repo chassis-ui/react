@@ -8,7 +8,7 @@ import {
   CxTableCell,
   CxPagination,
   CxSelect,
-  CxBadge
+  Badge
 } from '@chassis-ui/react'
 
 export const PaginatedTable = () => {
@@ -39,9 +39,7 @@ export const PaginatedTable = () => {
     {
       key: 'status',
       label: 'Status',
-      render: (v: string) => (
-        <CxBadge color={statusColor[v as keyof typeof statusColor]}>{v}</CxBadge>
-      )
+      render: (v: string) => <Badge color={statusColor[v as keyof typeof statusColor]}>{v}</Badge>
     }
   ]
   const handleSizeChange = (e: ChangeEvent<HTMLSelectElement>) => {

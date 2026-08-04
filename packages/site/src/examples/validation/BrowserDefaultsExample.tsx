@@ -10,7 +10,7 @@ import {
   CxSelect,
   CxInputGroup,
   CxInputAddon,
-  CxCol
+  Col
 } from '@chassis-ui/react'
 
 export const BrowserDefaultsExample = () => {
@@ -25,17 +25,17 @@ export const BrowserDefaultsExample = () => {
   }
   return (
     <CxForm className="row g-3 needs-validation" validated={validated} onSubmit={handleSubmit}>
-      <CxCol md={4}>
+      <Col md={4}>
         <CxFormLabel htmlFor="validationDefault01">Email</CxFormLabel>
         <CxTextInput type="text" id="validationDefault01" defaultValue="Mark" required />
         <CxFormFeedback valid>Looks good!</CxFormFeedback>
-      </CxCol>
-      <CxCol md={4}>
+      </Col>
+      <Col md={4}>
         <CxFormLabel htmlFor="validationDefault02">Email</CxFormLabel>
         <CxTextInput type="text" id="validationDefault02" defaultValue="Otto" required />
         <CxFormFeedback valid>Looks good!</CxFormFeedback>
-      </CxCol>
-      <CxCol md={4}>
+      </Col>
+      <Col md={4}>
         <CxFormLabel htmlFor="validationDefaultUsername">Username</CxFormLabel>
         <CxInputGroup className="has-validation">
           <CxInputAddon id="inputGroupPrepend02">@</CxInputAddon>
@@ -48,26 +48,26 @@ export const BrowserDefaultsExample = () => {
           />
           <CxFormFeedback invalid>Please choose a username.</CxFormFeedback>
         </CxInputGroup>
-      </CxCol>
-      <CxCol md={6}>
+      </Col>
+      <Col md={6}>
         <CxFormLabel htmlFor="validationDefault03">City</CxFormLabel>
         <CxTextInput type="text" id="validationDefault03" required />
         <CxFormFeedback invalid>Please provide a valid city.</CxFormFeedback>
-      </CxCol>
-      <CxCol md={3}>
+      </Col>
+      <Col md={3}>
         <CxFormLabel htmlFor="validationDefault04">City</CxFormLabel>
         <CxSelect id="validationDefault04">
           <option disabled>Choose...</option>
           <option>...</option>
         </CxSelect>
         <CxFormFeedback invalid>Please provide a valid city.</CxFormFeedback>
-      </CxCol>
-      <CxCol md={3}>
+      </Col>
+      <Col md={3}>
         <CxFormLabel htmlFor="validationDefault05">City</CxFormLabel>
         <CxTextInput type="text" id="validationDefault05" required />
         <CxFormFeedback invalid>Please provide a valid zip.</CxFormFeedback>
-      </CxCol>
-      <CxCol xs={12}>
+      </Col>
+      <Col xs={12}>
         <CxCheckbox
           type="checkbox"
           id="invalidCheck"
@@ -75,12 +75,12 @@ export const BrowserDefaultsExample = () => {
           required
         />
         <CxFormFeedback invalid>You must agree before submitting.</CxFormFeedback>
-      </CxCol>
-      <CxCol xs={12}>
+      </Col>
+      <Col xs={12}>
         <CxButton color="primary" type="submit">
           Submit form
         </CxButton>
-      </CxCol>
+      </Col>
     </CxForm>
   )
 }

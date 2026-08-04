@@ -7,8 +7,8 @@ import {
   CxSelect,
   CxFormFeedback,
   CxNotification,
-  CxRow,
-  CxCol
+  Row,
+  Col
 } from '@chassis-ui/react'
 
 export const RegistrationForm = () => {
@@ -49,8 +49,8 @@ export const RegistrationForm = () => {
         </CxNotification>
       )}
       <CxForm onSubmit={handleSubmit} onReset={handleReset} validated={false}>
-        <CxRow className="mb-3">
-          <CxCol>
+        <Row className="mb-3">
+          <Col>
             <CxFormLabel htmlFor="reg-name">Full name</CxFormLabel>
             <CxTextInput
               id="reg-name"
@@ -63,8 +63,8 @@ export const RegistrationForm = () => {
             <CxFormFeedback invalid>
               Please enter your full name (at least 2 characters).
             </CxFormFeedback>
-          </CxCol>
-          <CxCol>
+          </Col>
+          <Col>
             <CxFormLabel htmlFor="reg-email">Email address</CxFormLabel>
             <CxTextInput
               id="reg-email"
@@ -76,10 +76,10 @@ export const RegistrationForm = () => {
               invalid={submitted && !validEmail}
             />
             <CxFormFeedback invalid>Please enter a valid email address.</CxFormFeedback>
-          </CxCol>
-        </CxRow>
-        <CxRow className="mb-3">
-          <CxCol>
+          </Col>
+        </Row>
+        <Row className="mb-3">
+          <Col>
             <CxFormLabel htmlFor="reg-role">Role</CxFormLabel>
             <CxSelect
               id="reg-role"
@@ -91,8 +91,8 @@ export const RegistrationForm = () => {
               options={roleOptions}
             />
             <CxFormFeedback invalid>Please select a role.</CxFormFeedback>
-          </CxCol>
-          <CxCol>
+          </Col>
+          <Col>
             <CxFormLabel htmlFor="reg-pw">Password</CxFormLabel>
             <CxTextInput
               id="reg-pw"
@@ -104,8 +104,8 @@ export const RegistrationForm = () => {
               invalid={submitted && !validPassword}
             />
             <CxFormFeedback invalid>Password must be at least 8 characters.</CxFormFeedback>
-          </CxCol>
-        </CxRow>
+          </Col>
+        </Row>
         <div className="d-flex gap-2">
           <CxButton type="submit" color="primary">
             Create account

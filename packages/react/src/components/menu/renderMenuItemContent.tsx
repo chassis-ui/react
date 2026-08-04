@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
 
-import { CxIcon } from '../icon/CxIcon'
+import { Icon } from '../icon/Icon'
 
 export interface MenuItemContentDef {
   /**
@@ -55,7 +55,7 @@ export const renderMenuItemContent = ({
       ) : (
         label
       )}
-      {selected && <CxIcon name={checkIcon} className="menu-item-check" />}
+      {selected && <Icon name={checkIcon} className="menu-item-check" />}
     </>
   )
 }

@@ -2,7 +2,7 @@ import React, { forwardRef, HTMLAttributes, useContext } from 'react'
 import classNames from 'classnames'
 
 import { CxDrawerContext } from './CxDrawer'
-import { CxCloseButton } from '../close-button/CxCloseButton'
+import { CloseButton } from '../close-button/CloseButton'
 
 export interface CxDrawerHeaderProps extends HTMLAttributes<HTMLDivElement> {
   /**
@@ -23,7 +23,7 @@ export const CxDrawerHeader = forwardRef<HTMLDivElement, CxDrawerHeaderProps>(
     return (
       <div className={_className} {...rest} ref={ref}>
         {children}
-        {closeButton && <CxCloseButton onClick={() => requestClose?.()} />}
+        {closeButton && <CloseButton onClick={() => requestClose?.()} />}
       </div>
     )
   }

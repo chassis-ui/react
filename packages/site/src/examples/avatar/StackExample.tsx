@@ -1,10 +1,10 @@
-import { CxAvatar, CxAvatarStack } from '@chassis-ui/react'
+import { Avatar } from '@chassis-ui/react'
 
 export const Example = () => {
   const randomAvatar = () => `https://i.pravatar.cc/256?u=${Math.floor(Math.random() * 64)}`
   return (
     <>
-      <CxAvatarStack
+      <Avatar.Stack
         items={[
           {
             src: randomAvatar(),
@@ -20,8 +20,8 @@ export const Example = () => {
           }
         ]}
       >
-        <CxAvatar component="span">+5</CxAvatar>
-      </CxAvatarStack>
+        <Avatar component="span">+5</Avatar>
+      </Avatar.Stack>
     </>
   )
 }

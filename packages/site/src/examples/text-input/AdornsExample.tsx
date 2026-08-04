@@ -1,4 +1,4 @@
-import { CxIcon, CxInputAdorn, CxTextInput } from '@chassis-ui/react'
+import { Icon, CxInputAdorn, CxTextInput } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
@@ -8,7 +8,7 @@ export const Example = () => {
         placeholder="Search..."
         adornStart={
           <CxInputAdorn>
-            <CxIcon name="search-outline" size={16} />
+            <Icon name="search-outline" size={16} />
           </CxInputAdorn>
         }
       />

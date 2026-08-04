@@ -1,4 +1,4 @@
-import { CxIcon, CxMenu, CxMenuList, CxMenuToggle } from '@chassis-ui/react'
+import { Icon, CxMenu, CxMenuList, CxMenuToggle } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
@@ -13,13 +13,13 @@ export const Example = () => {
           {
             id: 'report',
             label: 'Quarterly report.docx',
-            icon: <CxIcon name="file-circle-check-outline" size={16} />,
+            icon: <Icon name="file-circle-check-outline" size={16} />,
             href: '#'
           },
           {
             id: 'notes',
             label: 'Meeting notes.docx',
-            icon: <CxIcon name="file-circle-check-outline" size={16} />,
+            icon: <Icon name="file-circle-check-outline" size={16} />,
             href: '#'
           }
         ]}

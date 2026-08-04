@@ -1,0 +1,11 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Card.Header > rendering > matches the baseline markup snapshot 1`] = `
+<div>
+  <div
+    class="card-header"
+  >
+    Test
+  </div>
+</div>
+`;

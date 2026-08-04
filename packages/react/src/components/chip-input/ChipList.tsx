@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { AriaTagGroupOptions, useButton, useTag, useTagGroup } from 'react-aria'
 import { ListState, Node } from 'react-stately'
 
-import { CxCloseButton } from '../close-button/CxCloseButton'
+import { CloseButton } from '../close-button/CloseButton'
 
 // react-stately's collection builder caches nodes in a WeakMap keyed by each item's own
 // identity, so `items` must be objects — plain tag strings can't be WeakMap keys.
@@ -57,7 +57,7 @@ const Chip = ({ chipVariant, item, state }: ChipProps) => {
     >
       <div {...gridCellProps}>
         {item.rendered}
-        {allowsRemoving && <CxCloseButton {...buttonProps} ref={buttonRef} />}
+        {allowsRemoving && <CloseButton {...buttonProps} ref={buttonRef} />}
       </div>
     </div>
   )
