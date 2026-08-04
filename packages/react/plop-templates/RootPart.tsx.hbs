@@ -1,0 +1,24 @@
+import React, { forwardRef, HTMLAttributes } from 'react'
+import classNames from 'classnames'
+
+export interface {{pascalCase root}}{{pascalCase part}}Props extends HTMLAttributes<HTMLDivElement> {
+  /**
+   * A string of all className you want applied to the component.
+   */
+  className?: string
+}
+
+export const {{pascalCase root}}{{pascalCase part}} = forwardRef<
+  HTMLDivElement,
+  {{pascalCase root}}{{pascalCase part}}Props
+>(({ children, className, ...rest }, ref) => {
+  const _className = classNames('{{kebabCase root}}-{{kebabCase part}}', className)
+
+  return (
+    <div className={_className} {...rest} ref={ref}>
+      {children}
+    </div>
+  )
+})
+
+{{pascalCase root}}{{pascalCase part}}.displayName = '{{pascalCase root}}{{pascalCase part}}'

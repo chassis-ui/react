@@ -18,6 +18,8 @@
     "astro:preview": "pnpm --filter chassis-react-site preview",
     "api:generate": "ts-node --project build/tsconfig.json build/generate-api.ts",
     "lib:build": "pnpm --filter @chassis-ui/react build",
+    "generate": "pnpm --filter @chassis-ui/react generate",
+    "generate:sub": "pnpm --filter @chassis-ui/react generate:sub",
     "lint": "eslint \"packages/**/src/**/*.{js,ts,tsx}\"",
     "format": "prettier --write \"packages/site/src/examples/**/*.tsx\"",
     "format:check": "prettier --check \"packages/site/src/examples/**/*.tsx\"",

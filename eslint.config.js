@@ -88,6 +88,39 @@ export default defineConfig([
     rules: testingLibraryWarnRules,
     files: ['**/*.spec.ts', '**/*.spec.tsx']
   },
+  // Enterprise migration (see .claude/plans/chassis-react-enterprise-migration.md, Phase 0/1):
+  // `Cx`-prefixed identifiers are being dropped from packages/react/src. Kept at `warn`, not
+  // `error`, until Phase 1 (the scripted rename) actually clears the ~870 pre-existing
+  // occurrences — flips to `error` in Phase 1 Batch G. Neither this nor the rule below catches
+  // string literals (`cx-*` class names, `data-cx-*` attributes) — see CONVENTIONS.md and the
+  // plan's Ground Truth section for those.
+  {
+    files: ['packages/react/src/**/*.ts', 'packages/react/src/**/*.tsx'],
+    rules: {
+      'no-restricted-syntax': [
+        'warn',
+        {
+          selector: 'Identifier[name=/^Cx[A-Z]/]',
+          message:
+            "Cx-prefixed identifiers are being migrated away — see packages/react/CONVENTIONS.md."
+        },
+        {
+          selector: 'JSXIdentifier[name=/^Cx[A-Z]/]',
+          message:
+            "Cx-prefixed identifiers are being migrated away — see packages/react/CONVENTIONS.md."
+        }
+      ]
+    }
+  },
+  // `onValueChange` and `tone` aren't part of this library's vocabulary (see CONVENTIONS.md —
+  // change props are `onChange`, colors/variants are `color`/`variant`). Zero existing uses as of
+  // the Phase 0 audit, so this starts at `error` with nothing to grandfather in.
+  {
+    files: ['packages/react/src/**/*.ts', 'packages/react/src/**/*.tsx'],
+    rules: {
+      'id-denylist': ['error', 'onValueChange', 'tone']
+    }
+  },
   {
     files: ['**/*.astro'],
     languageOptions: {

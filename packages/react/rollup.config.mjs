@@ -1,3 +1,4 @@
+import path from 'path'
 import commonjs from '@rollup/plugin-commonjs'
 import external from 'rollup-plugin-peer-deps-external'
 import resolve from '@rollup/plugin-node-resolve'
@@ -60,7 +61,27 @@ export default [
       // their own scoped CSS, injected as a <style> tag on import — no separate stylesheet for
       // consumers to remember to include.
       postcss({
-        inject: true
+        inject: true,
+        use: {
+          sass: {
+            // Two resolution gaps between how this repo writes `@use '~@chassis-ui/css/...'`
+            // and what the bundled (legacy API) sass loader resolves on its own:
+            // - directory-partial imports need an explicit `/index` (this loader's
+            //   directory-index convention looks for `index.<ext>`, not Sass's own `_index.<ext>`
+            //   partial convention) — write `@use '~@chassis-ui/css/scss/config/index'`, not
+            //   `.../scss/config`.
+            // - `@chassis-ui/css`'s own `scss/config/_vendor.scss` forwards two bare specifiers
+            //   legacy dart-sass can't resolve on its own: `@forward "chassis-tokens"` (resolved
+            //   by including `node_modules/@chassis-ui/css/scss/vendor`, which has a matching
+            //   `_chassis-tokens.scss`) and `@forward
+            //   "@chassis-ui/tokens/dist/web/docs/chassis/main"` (resolved because `node_modules`
+            //   + that literal specifier is a normal path lookup).
+            includePaths: [
+              path.resolve('./node_modules/@chassis-ui/css/scss/vendor'),
+              path.resolve('./node_modules')
+            ]
+          }
+        }
       })
     ]
   },

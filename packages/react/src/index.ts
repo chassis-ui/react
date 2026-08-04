@@ -130,8 +130,10 @@ import { CxToastHeader } from './components/toast/CxToastHeader'
 import { CxToaster } from './components/toast/CxToaster'
 import { addToast, closeToast, toastQueue } from './components/toast/toastQueue'
 import { CxTooltip } from './components/tooltip/CxTooltip'
+// plop:import
 
 export {
+  // plop:export
   CxAccordion,
   CxAccordionBody,
   CxAccordionButton,

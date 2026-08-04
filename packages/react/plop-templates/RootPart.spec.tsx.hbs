@@ -1,0 +1,31 @@
+import * as React from 'react'
+import { render, screen } from '@testing-library/react'
+import { axe } from 'jest-axe'
+
+import { {{pascalCase root}} } from '../../../index'
+
+describe('{{pascalCase root}}.{{pascalCase part}}', () => {
+  describe('rendering', () => {
+    test('renders with the base class by default', () => {
+      render(<{{pascalCase root}}.{{pascalCase part}}>Test</{{pascalCase root}}.{{pascalCase part}}>)
+      const el = screen.getByText('Test')
+      expect(el).toHaveClass('{{kebabCase root}}-{{kebabCase part}}')
+    })
+
+    test('matches the baseline markup snapshot', () => {
+      const { container } = render(
+        <{{pascalCase root}}.{{pascalCase part}}>Test</{{pascalCase root}}.{{pascalCase part}}>
+      )
+      expect(container).toMatchSnapshot()
+    })
+  })
+
+  describe('accessibility', () => {
+    test('has no axe violations', async () => {
+      const { container } = render(
+        <{{pascalCase root}}.{{pascalCase part}}>Test</{{pascalCase root}}.{{pascalCase part}}>
+      )
+      expect(await axe(container)).toHaveNoViolations()
+    })
+  })
+})
