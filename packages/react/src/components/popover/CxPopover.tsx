@@ -154,7 +154,12 @@ export const CxPopover: FC<CxPopoverProps> = ({
     crossOffset: offsetProp[0],
     arrowSize: 8,
     arrowRef,
-    isOpen: state.isOpen
+    isOpen: state.isOpen,
+    // `useOverlayPosition` closes on any window scroll via a backward-compat `WeakMap` that
+    // `useOverlayTrigger` populates for `triggerRef.current` above. Passing `null` opts out so
+    // the popover repositions with its trigger instead of vanishing — matching
+    // `CxAutocomplete`/`CxCombobox`, neither of which is wired into that map.
+    onClose: null
   })
 
   const floatingStyle: React.CSSProperties = {

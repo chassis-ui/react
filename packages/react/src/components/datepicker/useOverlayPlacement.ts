@@ -40,7 +40,12 @@ export const useOverlayPlacement = ({
       // The trigger's own toggle button lives inside `triggerRef`, not `popoverRef` — without this
       // it would count as an "outside" interaction and `usePopover` would close the popover on
       // pointerdown, which the toggle button's own `onPress` then immediately reopens on click.
-      shouldCloseOnInteractOutside: (element) => !triggerRef.current?.contains(element)
+      shouldCloseOnInteractOutside: (element) => !triggerRef.current?.contains(element),
+      // Without this, `usePopover` defaults to modal behavior: it locks page scroll
+      // (`usePreventScroll`) for as long as the calendar is open and `aria-hide`s the rest of the
+      // page from assistive tech. The calendar was never meant to be modal — it should scroll
+      // with the page like `CxAutocomplete`'s panel does, not block it.
+      isNonModal: true
     },
     state
   )

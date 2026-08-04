@@ -196,7 +196,12 @@ export const CxMenu = forwardRef<HTMLElement, CxMenuProps>(
       offset: offsetProp[1],
       crossOffset: offsetProp[0],
       containerPadding: 8,
-      isOpen: state.isOpen
+      isOpen: state.isOpen,
+      // `useOverlayPosition` closes on any window scroll via a backward-compat `WeakMap` that
+      // `useMenuTrigger` populates for `targetRef.current` (see `CxMenuToggle`'s `setRefs`).
+      // Passing `null` opts out so the menu repositions with its trigger instead of vanishing —
+      // matching `CxAutocomplete`/`CxCombobox`, neither of which is wired into that map.
+      onClose: null
     })
 
     // Only `position`/`top`/`left` are taken from the hook's computed style — `zIndex` and
