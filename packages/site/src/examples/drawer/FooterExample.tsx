@@ -1,18 +1,11 @@
 import { useState } from 'react'
-import {
-  CxButton,
-  CxDrawer,
-  CxDrawerBody,
-  CxDrawerFooter,
-  CxDrawerHeader,
-  CxDrawerTitle
-} from '@chassis-ui/react'
+import { Button, CxDrawer, CxDrawerBody, CxDrawerFooter, CxDrawerHeader, CxDrawerTitle } from '@chassis-ui/react'
 
 export const FooterExample = () => {
   const [visible, setVisible] = useState(false)
   return (
     <>
-      <CxButton onClick={() => setVisible(true)}>Open drawer</CxButton>
+      <Button onClick={() => setVisible(true)}>Open drawer</Button>
       <CxDrawer placement="start" visible={visible} onClose={() => setVisible(false)}>
         <CxDrawerHeader>
           <CxDrawerTitle>Drawer with stacked actions</CxDrawerTitle>
@@ -21,10 +14,10 @@ export const FooterExample = () => {
           <p>A drawer with multiple footer actions, stacking full-width at the small breakpoint.</p>
         </CxDrawerBody>
         <CxDrawerFooter stacked>
-          <CxButton color="primary">Take action</CxButton>
-          <CxButton color="secondary" onClick={() => setVisible(false)}>
+          <Button color="primary">Take action</Button>
+          <Button color="secondary" onClick={() => setVisible(false)}>
             Cancel
-          </CxButton>
+          </Button>
         </CxDrawerFooter>
       </CxDrawer>
     </>

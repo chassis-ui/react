@@ -1,17 +1,17 @@
 import { useState } from 'react'
-import { CxButton, CxDrawer, CxDrawerBody, CxDrawerHeader, CxDrawerTitle } from '@chassis-ui/react'
+import { Button, CxDrawer, CxDrawerBody, CxDrawerHeader, CxDrawerTitle } from '@chassis-ui/react'
 
 export const BodyScrollExample = () => {
   const [visibleScrolling, setVisibleScrolling] = useState(false)
   const [visibleScrollBackdrop, setVisibleScrollBackdrop] = useState(false)
   return (
     <>
-      <CxButton color="primary" onClick={() => setVisibleScrolling(true)}>
+      <Button color="primary" onClick={() => setVisibleScrolling(true)}>
         Scrolling, no backdrop
-      </CxButton>
-      <CxButton color="primary" onClick={() => setVisibleScrollBackdrop(true)}>
+      </Button>
+      <Button color="primary" onClick={() => setVisibleScrollBackdrop(true)}>
         Scrolling with backdrop
-      </CxButton>
+      </Button>
       <CxDrawer
         backdrop={false}
         placement="start"

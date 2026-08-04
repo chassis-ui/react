@@ -1,7 +1,7 @@
 import React, { AnchorHTMLAttributes, forwardRef } from 'react'
 import classNames from 'classnames'
 
-import { CxLink } from '../link/CxLink'
+import { Link } from '../link/Link'
 
 export interface CardLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   /**
@@ -19,9 +19,9 @@ export const CardLink = forwardRef<HTMLAnchorElement, CardLinkProps>(
     const _className = classNames('card-link', className)
 
     return (
-      <CxLink className={_className} {...rest} ref={ref}>
+      <Link className={_className} {...rest} ref={ref}>
         {children}
-      </CxLink>
+      </Link>
     )
   }
 )

@@ -1,20 +1,20 @@
 import { createContext, ReactElement, useContext } from 'react'
 import { TabListState } from 'react-stately'
 
-import { CxTabProps } from './CxTab'
+import { TabProps } from './Tab'
 
-export interface CxTabsContextValue {
+export interface TabsContextValue {
   keyboardActivation?: 'automatic' | 'manual'
   orientation?: 'horizontal' | 'vertical'
-  state: TabListState<ReactElement<CxTabProps>>
+  state: TabListState<ReactElement<TabProps>>
 }
 
-export const CxTabsContext = createContext<CxTabsContextValue | null>(null)
+export const TabsContext = createContext<TabsContextValue | null>(null)
 
-export const useCxTabsContext = (): CxTabsContextValue => {
-  const context = useContext(CxTabsContext)
+export const useTabsContext = (): TabsContextValue => {
+  const context = useContext(TabsContext)
   if (!context) {
-    throw new Error('CxTabList and CxTabPanel must be rendered inside a CxTabs')
+    throw new Error('TabList and TabPanel must be rendered inside a Tabs')
   }
   return context
 }

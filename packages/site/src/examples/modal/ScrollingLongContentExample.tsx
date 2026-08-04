@@ -1,18 +1,11 @@
 import { useState } from 'react'
-import {
-  CxButton,
-  CxModal,
-  CxModalBody,
-  CxModalFooter,
-  CxModalHeader,
-  CxModalTitle
-} from '@chassis-ui/react'
+import { Button, CxModal, CxModalBody, CxModalFooter, CxModalHeader, CxModalTitle } from '@chassis-ui/react'
 
 export const Example = () => {
   const [visible, setVisible] = useState(false)
   return (
     <>
-      <CxButton onClick={() => setVisible(!visible)}>Launch demo modal</CxButton>
+      <Button onClick={() => setVisible(!visible)}>Launch demo modal</Button>
       <CxModal visible={visible} onClose={() => setVisible(false)}>
         <CxModalHeader>
           <CxModalTitle>Modal title</CxModalTitle>
@@ -98,10 +91,10 @@ export const Example = () => {
           </p>
         </CxModalBody>
         <CxModalFooter>
-          <CxButton color="secondary" onClick={() => setVisible(false)}>
+          <Button color="secondary" onClick={() => setVisible(false)}>
             Close
-          </CxButton>
-          <CxButton color="primary">Save changes</CxButton>
+          </Button>
+          <Button color="primary">Save changes</Button>
         </CxModalFooter>
       </CxModal>
     </>

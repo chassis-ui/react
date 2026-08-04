@@ -1,22 +1,22 @@
-import { CxTab, CxTabList, CxTabPanel, CxTabs } from '@chassis-ui/react'
+import { Tabs } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
-    <CxTabs defaultSelectedKey="home">
-      <CxTabList aria-label="Example tabs with a disabled tab">
-        <CxTab id="home">Home</CxTab>
-        <CxTab id="profile" disabled>
+    <Tabs defaultSelectedKey="home">
+      <Tabs.List aria-label="Example tabs with a disabled tab">
+        <Tabs.Tab id="home">Home</Tabs.Tab>
+        <Tabs.Tab id="profile" disabled>
           Profile
-        </CxTab>
-        <CxTab id="contact">Contact</CxTab>
-      </CxTabList>
-      <CxTabPanel id="home">
+        </Tabs.Tab>
+        <Tabs.Tab id="contact">Contact</Tabs.Tab>
+      </Tabs.List>
+      <Tabs.Panel id="home">
         Raw denim you probably haven't heard of them jean shorts Austin.
-      </CxTabPanel>
-      <CxTabPanel id="profile">This panel can't be reached — Profile is disabled.</CxTabPanel>
-      <CxTabPanel id="contact">
+      </Tabs.Panel>
+      <Tabs.Panel id="profile">This panel can't be reached — Profile is disabled.</Tabs.Panel>
+      <Tabs.Panel id="contact">
         Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's.
-      </CxTabPanel>
-    </CxTabs>
+      </Tabs.Panel>
+    </Tabs>
   )
 }

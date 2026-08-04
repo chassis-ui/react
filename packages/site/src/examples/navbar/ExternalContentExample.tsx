@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Container, Collapse, CxNavbar, CxNavbarToggler } from '@chassis-ui/react'
+import { Container, Collapse, Navbar } from '@chassis-ui/react'
 
 export const ExternalContentExample = () => {
   const [visible, setVisible] = useState(false)
@@ -11,15 +11,15 @@ export const ExternalContentExample = () => {
           <span className="medium:text-emphasis-inverse">Toggleable via the navbar brand.</span>
         </div>
       </Collapse>
-      <CxNavbar colorScheme="dark" className="bg-dark">
+      <Navbar colorScheme="dark" className="bg-dark">
         <Container fluid>
-          <CxNavbarToggler
+          <Navbar.Toggler
             aria-controls="navbarToggleExternalContent"
             aria-label="Toggle navigation"
             onClick={() => setVisible(!visible)}
           />
         </Container>
-      </CxNavbar>
+      </Navbar>
     </>
   )
 }

@@ -2,7 +2,7 @@ import React, { ElementType, HTMLAttributes, forwardRef } from 'react'
 import classNames from 'classnames'
 
 import { ContextColor } from '../Types'
-import { CxLink } from '../link/CxLink'
+import { Link } from '../link/Link'
 
 export interface ListItemProps extends HTMLAttributes<
   HTMLLIElement | HTMLAnchorElement | HTMLButtonElement
@@ -46,7 +46,7 @@ export const ListItem = forwardRef<
   )
 
   const Component = (
-    component === 'a' || component === 'button' ? CxLink : component
+    component === 'a' || component === 'button' ? Link : component
   ) as ElementType
 
   rest = {

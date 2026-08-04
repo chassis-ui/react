@@ -1,0 +1,46 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ButtonToolbar > rendering > matches the baseline markup snapshot 1`] = `
+<div>
+  <div
+    aria-label="Bazinga"
+    class="button-toolbar"
+    role="group"
+  >
+    <div
+      class="button-group"
+      role="group"
+    >
+      <button
+        class="button primary"
+        type="button"
+      >
+        1
+      </button>
+      <button
+        class="button primary"
+        type="button"
+      >
+        2
+      </button>
+    </div>
+    <div
+      class="button-group"
+      role="group"
+    >
+      <button
+        class="button primary"
+        type="button"
+      >
+        A
+      </button>
+      <button
+        class="button primary"
+        type="button"
+      >
+        B
+      </button>
+    </div>
+  </div>
+</div>
+`;

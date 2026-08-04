@@ -231,7 +231,7 @@ export interface CxAutocompleteProps extends Omit<
 // specifically for this "button opens a listbox with its own input" shape — so the real
 // `role="combobox"` input lives inside the popover (styled as `.combobox-search-input`) while a
 // toggle serves as the always-visible, always-focusable trigger. The toggle is a `<div
-// role="button">` (via `useButton`'s `elementType: 'div'`, the same pattern `CxButton.tsx` uses
+// role="button">` (via `useButton`'s `elementType: 'div'`, the same pattern `Button.tsx` uses
 // for a non-native trigger) rather than a real `<button>` — an earlier version rendered
 // removable chips inside it for `multiple` mode, which a real (or ARIA) button can't legally
 // contain per axe's `nested-interactive` check; that's now plain "N selected" text instead (see

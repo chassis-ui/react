@@ -1,10 +1,10 @@
 import React, { ElementType, forwardRef, ReactNode } from 'react'
 import classNames from 'classnames'
 
-import { CxLinkProps, CxLink } from '../link/CxLink'
+import { LinkProps, Link } from '../link/Link'
 import { renderMenuItemContent } from './renderMenuItemContent'
 
-export interface CxMenuItemProps extends CxLinkProps {
+export interface CxMenuItemProps extends LinkProps {
   /**
    * A string of all className you want applied to the component.
    */
@@ -44,7 +44,7 @@ export const CxMenuItem = forwardRef<HTMLButtonElement | HTMLAnchorElement, CxMe
     }
 
     return (
-      <CxLink
+      <Link
         role="menuitem"
         component={component}
         href={href}
@@ -54,7 +54,7 @@ export const CxMenuItem = forwardRef<HTMLButtonElement | HTMLAnchorElement, CxMe
         ref={ref}
       >
         {renderMenuItemContent({ icon, label: children, description })}
-      </CxLink>
+      </Link>
     )
   }
 )

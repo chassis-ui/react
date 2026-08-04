@@ -1,18 +1,18 @@
 import { useState } from 'react'
-import { Card, CxButton, Collapse } from '@chassis-ui/react'
+import { Card, Button, Collapse } from '@chassis-ui/react'
 
 export const HorizontalExample = () => {
   const [visible, setVisible] = useState(false)
   return (
     <>
-      <CxButton
+      <Button
         className="mb-3"
         onClick={() => setVisible(!visible)}
         aria-expanded={visible}
         aria-controls="collapseWidthExample"
       >
         Button
-      </CxButton>
+      </Button>
       <div style={{ minHeight: '120px' }}>
         <Collapse id="collapseWidthExample" horizontal visible={visible}>
           <Card style={{ width: '300px' }}>

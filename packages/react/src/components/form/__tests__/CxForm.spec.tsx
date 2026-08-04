@@ -2,7 +2,7 @@ import * as React from 'react'
 import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { CxForm, CxFormLabel, CxTextInput, CxFormHelp, CxCheckbox, CxButton } from '../../../index'
+import { CxForm, CxFormLabel, CxTextInput, CxFormHelp, CxCheckbox, Button } from '../../../index'
 
 describe('CxForm', () => {
   describe('rendering', () => {
@@ -19,9 +19,9 @@ describe('CxForm', () => {
           <CxTextInput aria-describedby="B" aria-label="A" type="email" />
           <CxFormHelp>C</CxFormHelp>
           <CxCheckbox label="D" />
-          <CxButton type="submit" color="primary">
+          <Button type="submit" color="primary">
             E
-          </CxButton>
+          </Button>
         </CxForm>
       )
       expect(container).toMatchSnapshot()

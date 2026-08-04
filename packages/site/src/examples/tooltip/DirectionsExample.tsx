@@ -1,32 +1,32 @@
-import { CxTooltip, CxButton } from '@chassis-ui/react'
+import { Tooltip, Button } from '@chassis-ui/react'
 
 export const DirectionsExample = () => {
   return (
     <>
-      <CxTooltip
+      <Tooltip
         content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
         placement="top"
       >
-        <CxButton color="secondary">Tooltip on top</CxButton>
-      </CxTooltip>
-      <CxTooltip
+        <Button color="secondary">Tooltip on top</Button>
+      </Tooltip>
+      <Tooltip
         content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
         placement="right"
       >
-        <CxButton color="secondary">Tooltip on right</CxButton>
-      </CxTooltip>
-      <CxTooltip
+        <Button color="secondary">Tooltip on right</Button>
+      </Tooltip>
+      <Tooltip
         content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
         placement="bottom"
       >
-        <CxButton color="secondary">Tooltip on bottom</CxButton>
-      </CxTooltip>
-      <CxTooltip
+        <Button color="secondary">Tooltip on bottom</Button>
+      </Tooltip>
+      <Tooltip
         content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
         placement="left"
       >
-        <CxButton color="secondary">Tooltip on left</CxButton>
-      </CxTooltip>
+        <Button color="secondary">Tooltip on left</Button>
+      </Tooltip>
     </>
   )
 }

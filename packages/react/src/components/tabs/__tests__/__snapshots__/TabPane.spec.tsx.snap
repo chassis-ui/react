@@ -1,0 +1,11 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`TabPane > rendering > matches the baseline markup snapshot 1`] = `
+<div>
+  <div
+    class="tab-pane fade active bazinga show"
+  >
+    Test
+  </div>
+</div>
+`;

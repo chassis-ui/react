@@ -14,7 +14,7 @@ import { mergeProps, useDialog, useOverlayPosition, useOverlayTrigger } from 're
 import { useOverlayTriggerState } from 'react-stately'
 import { Transition } from 'react-transition-group'
 
-import { Placement } from '../tooltip/CxTooltip'
+import { Placement } from '../tooltip/Tooltip'
 import { resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
 
 interface PopoverPanelProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'content'> {
@@ -113,7 +113,7 @@ export const CxPopover: FC<CxPopoverProps> = ({
   // `document.body`, so they render in its top layer and close with it automatically.
   const resolvePortalContainer = () => triggerRef.current?.closest('dialog[open]') ?? document.body
 
-  // Sync-on-change, not strictly controlled — matches `CxMenu`/`CxTooltip`'s `visible` semantics.
+  // Sync-on-change, not strictly controlled — matches `CxMenu`/`Tooltip`'s `visible` semantics.
   useEffect(() => {
     if (visible === undefined) return
     setPortalContainer(resolvePortalContainer())

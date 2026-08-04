@@ -1,9 +1,9 @@
-import { CxButtonGroup, CxRadio, CxRadioGroup } from '@chassis-ui/react'
+import { ButtonGroup, CxRadio, CxRadioGroup } from '@chassis-ui/react'
 
 export const VerticalRadioToggleButtonGroupExample = () => {
   return (
     <CxRadioGroup aria-label="Vertical radio toggle button group" defaultValue="vbtnradio1">
-      <CxButtonGroup vertical>
+      <ButtonGroup vertical>
         <CxRadio
           button={{ color: 'danger', variant: 'outline' }}
           value="vbtnradio1"
@@ -22,7 +22,7 @@ export const VerticalRadioToggleButtonGroupExample = () => {
           autoComplete="off"
           label="Radio 3"
         />
-      </CxButtonGroup>
+      </ButtonGroup>
     </CxRadioGroup>
   )
 }

@@ -1,15 +1,5 @@
 import { useState, type ChangeEvent } from 'react'
-import {
-  CxTable,
-  CxTableHeader,
-  CxTableBody,
-  CxTableColumn,
-  CxTableRow,
-  CxTableCell,
-  CxPagination,
-  CxSelect,
-  Badge
-} from '@chassis-ui/react'
+import { CxTable, CxTableHeader, CxTableBody, CxTableColumn, CxTableRow, CxTableCell, Pagination, CxSelect, Badge } from '@chassis-ui/react'
 
 export const PaginatedTable = () => {
   const allUsers = [
@@ -86,7 +76,7 @@ export const PaginatedTable = () => {
         </CxTableBody>
       </CxTable>
       <div className="d-flex justify-content-end mt-3">
-        <CxPagination
+        <Pagination
           pages={totalPages}
           activePage={page}
           onActivePageChange={setPage}

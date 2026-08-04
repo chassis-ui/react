@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { CxButton, CxModal, CxModalBody, CxModalHeader, CxModalTitle } from '@chassis-ui/react'
+import { Button, CxModal, CxModalBody, CxModalHeader, CxModalTitle } from '@chassis-ui/react'
 
 export const Example = () => {
   const [visible, setVisible] = useState(false)
@@ -10,14 +10,14 @@ export const Example = () => {
   const [visible2xlarge, setVisible2xlarge] = useState(false)
   return (
     <>
-      <CxButton onClick={() => setVisible(!visible)}>Full screen</CxButton>
-      <CxButton onClick={() => setVisibleSmall(!visibleSmall)}>Full screen below small</CxButton>
-      <CxButton onClick={() => setVisibleMedium(!visibleMedium)}>Full screen below medium</CxButton>
-      <CxButton onClick={() => setVisibleLarge(!visibleLarge)}>Full screen below large</CxButton>
-      <CxButton onClick={() => setVisibleXlarge(!visibleXlarge)}>Full screen below xlarge</CxButton>
-      <CxButton onClick={() => setVisible2xlarge(!visible2xlarge)}>
+      <Button onClick={() => setVisible(!visible)}>Full screen</Button>
+      <Button onClick={() => setVisibleSmall(!visibleSmall)}>Full screen below small</Button>
+      <Button onClick={() => setVisibleMedium(!visibleMedium)}>Full screen below medium</Button>
+      <Button onClick={() => setVisibleLarge(!visibleLarge)}>Full screen below large</Button>
+      <Button onClick={() => setVisibleXlarge(!visibleXlarge)}>Full screen below xlarge</Button>
+      <Button onClick={() => setVisible2xlarge(!visible2xlarge)}>
         Full screen below 2xlarge
-      </CxButton>
+      </Button>
       <CxModal fullscreen visible={visible} onClose={() => setVisible(false)}>
         <CxModalHeader>
           <CxModalTitle>Full screen</CxModalTitle>

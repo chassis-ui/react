@@ -1,55 +1,43 @@
 import { useState } from 'react'
-import {
-  CxButton,
-  Container,
-  Collapse,
-  CxForm,
-  CxTextInput,
-  CxNavItem,
-  CxNavLink,
-  CxNavbar,
-  CxNavbarBrand,
-  CxNavbarNav,
-  CxNavbarToggler
-} from '@chassis-ui/react'
+import { Button, Container, Collapse, CxForm, CxTextInput, Nav, Navbar } from '@chassis-ui/react'
 
 export const ResponsiveBehaviorsExample3 = () => {
   const [visible, setVisible] = useState(false)
   return (
     <>
-      <CxNavbar expand="large" colorScheme="light" className="bg-light">
+      <Navbar expand="large" colorScheme="light" className="bg-light">
         <Container fluid>
-          <CxNavbarToggler
+          <Navbar.Toggler
             aria-label="Toggle navigation"
             aria-expanded={visible}
             onClick={() => setVisible(!visible)}
           />
-          <CxNavbarBrand href="#">Navbar</CxNavbarBrand>
+          <Navbar.Brand href="#">Navbar</Navbar.Brand>
           <Collapse className="navbar-collapse" visible={visible}>
-            <CxNavbarNav className="me-auto mb-2 large:mb-0">
-              <CxNavItem>
-                <CxNavLink href="#" active>
+            <Navbar.Nav className="me-auto mb-2 large:mb-0">
+              <Nav.Item>
+                <Nav.Link href="#" active>
                   Home
-                </CxNavLink>
-              </CxNavItem>
-              <CxNavItem>
-                <CxNavLink href="#">Link</CxNavLink>
-              </CxNavItem>
-              <CxNavItem>
-                <CxNavLink href="#" disabled>
+                </Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link href="#">Link</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link href="#" disabled>
                   Disabled
-                </CxNavLink>
-              </CxNavItem>
-            </CxNavbarNav>
+                </Nav.Link>
+              </Nav.Item>
+            </Navbar.Nav>
             <CxForm className="d-flex">
               <CxTextInput type="search" className="me-2" placeholder="Search" />
-              <CxButton type="submit" color="success" variant="outline">
+              <Button type="submit" color="success" variant="outline">
                 Search
-              </CxButton>
+              </Button>
             </CxForm>
           </Collapse>
         </Container>
-      </CxNavbar>
+      </Navbar>
     </>
   )
 }

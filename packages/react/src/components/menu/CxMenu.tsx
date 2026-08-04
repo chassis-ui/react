@@ -35,7 +35,7 @@ export interface CxMenuProps extends HTMLAttributes<HTMLElement> {
    * Component used for the root node. Either a string to use a HTML element or a component.
    * Defaults to `Fragment` — `CxMenuToggle`/`CxMenuList` render with no wrapping element, so
    * they land as direct children of whatever contains the `CxMenu`. This matters inside
-   * `CxButtonGroup`/`CxInputGroup`, whose CSS expects the toggle button and menu panel as direct
+   * `ButtonGroup`/`CxInputGroup`, whose CSS expects the toggle button and menu panel as direct
    * children rather than nested inside an intermediate node.
    *
    * Pass an actual element (e.g. `"div"`, or `"li"` for a navbar item) to opt back into a

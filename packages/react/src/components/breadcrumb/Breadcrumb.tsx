@@ -1,7 +1,7 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-import { CxLink } from '../link/CxLink'
+import { Link } from '../link/Link'
 
 export interface BreadcrumbItemDef {
   /**
@@ -40,7 +40,7 @@ export const Breadcrumb = forwardRef<HTMLOListElement, BreadcrumbProps>(
               className={classNames('breadcrumb-item', { active: isLast })}
               {...(isLast ? { 'aria-current': 'page' } : {})}
             >
-              {!isLast && item.href ? <CxLink href={item.href}>{item.label}</CxLink> : item.label}
+              {!isLast && item.href ? <Link href={item.href}>{item.label}</Link> : item.label}
             </li>
           )
         })

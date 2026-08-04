@@ -1,16 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
-import {
-  CxButton,
-  CxForm,
-  CxTextInput,
-  CxFormFeedback,
-  CxFormLabel,
-  CxSelect,
-  CxInputGroup,
-  CxInputAddon,
-  Col
-} from '@chassis-ui/react'
+import { Button, CxForm, CxTextInput, CxFormFeedback, CxFormLabel, CxSelect, CxInputGroup, CxInputAddon, Col } from '@chassis-ui/react'
 
 export const TooltipsExample = () => {
   const [validated, setValidated] = useState(false)
@@ -86,9 +76,9 @@ export const TooltipsExample = () => {
         </CxFormFeedback>
       </Col>
       <Col xs={12} className="position-relative">
-        <CxButton color="primary" type="submit">
+        <Button color="primary" type="submit">
           Submit form
-        </CxButton>
+        </Button>
       </Col>
     </CxForm>
   )

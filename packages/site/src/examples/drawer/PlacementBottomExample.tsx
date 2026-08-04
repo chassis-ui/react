@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import { CxButton, CxDrawer, CxDrawerBody, CxDrawerHeader, CxDrawerTitle } from '@chassis-ui/react'
+import { Button, CxDrawer, CxDrawerBody, CxDrawerHeader, CxDrawerTitle } from '@chassis-ui/react'
 
 export const PlacementBottomExample = () => {
   const [visible, setVisible] = useState(false)
   return (
     <>
-      <CxButton onClick={() => setVisible(true)}>Bottom</CxButton>
+      <Button onClick={() => setVisible(true)}>Bottom</Button>
       <CxDrawer placement="bottom" visible={visible} onClose={() => setVisible(false)}>
         <CxDrawerHeader>
           <CxDrawerTitle>Bottom drawer</CxDrawerTitle>

@@ -2,11 +2,11 @@ import React, { forwardRef, useContext, useRef } from 'react'
 import classNames from 'classnames'
 import { mergeProps, useButton } from 'react-aria'
 
-import { CxButton, CxButtonProps } from '../button/CxButton'
+import { Button, ButtonProps } from '../button/Button'
 import { CxMenuContext } from './CxMenu'
 import { useForkedRef } from '../../hooks'
 
-export type CxMenuToggleProps = Omit<CxButtonProps, 'type'>
+export type CxMenuToggleProps = Omit<ButtonProps, 'type'>
 
 export const CxMenuToggle = forwardRef<HTMLButtonElement | HTMLAnchorElement, CxMenuToggleProps>(
   ({ children, className, onClick, onKeyDown, ...rest }, ref) => {
@@ -46,7 +46,7 @@ export const CxMenuToggle = forwardRef<HTMLButtonElement | HTMLAnchorElement, Cx
     }
 
     return (
-      <CxButton
+      <Button
         type="button"
         // The `.caret` utility (rather than styling off `[data-cx-toggle="menu"]`, as the vanilla
         // CSS docs show) keeps this element from also matching Chassis CSS's own vanilla menu.js
@@ -60,7 +60,7 @@ export const CxMenuToggle = forwardRef<HTMLButtonElement | HTMLAnchorElement, Cx
         ref={forkedRef}
       >
         {children}
-      </CxButton>
+      </Button>
     )
   }
 )

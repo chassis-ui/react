@@ -1,0 +1,14 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Navbar.Toggler > rendering > matches the baseline markup snapshot 1`] = `
+<div>
+  <button
+    class="navbar-toggler"
+    type="button"
+  >
+    <span
+      class="navbar-toggler-icon"
+    />
+  </button>
+</div>
+`;

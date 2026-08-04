@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import { CxButton, CxDrawer, CxDrawerBody, CxDrawerHeader, CxDrawerTitle } from '@chassis-ui/react'
+import { Button, CxDrawer, CxDrawerBody, CxDrawerHeader, CxDrawerTitle } from '@chassis-ui/react'
 
 export const FullscreenExample = () => {
   const [visible, setVisible] = useState(false)
   return (
     <>
-      <CxButton onClick={() => setVisible(true)}>Fullscreen</CxButton>
+      <Button onClick={() => setVisible(true)}>Fullscreen</Button>
       <CxDrawer fullscreen placement="bottom" visible={visible} onClose={() => setVisible(false)}>
         <CxDrawerHeader>
           <CxDrawerTitle>Fullscreen drawer</CxDrawerTitle>

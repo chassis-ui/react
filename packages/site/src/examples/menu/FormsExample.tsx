@@ -1,13 +1,4 @@
-import {
-  CxButton,
-  CxForm,
-  CxCheckbox,
-  CxTextInput,
-  CxFormLabel,
-  CxMenu,
-  CxMenuToggle,
-  CxMenuList
-} from '@chassis-ui/react'
+import { Button, CxForm, CxCheckbox, CxTextInput, CxFormLabel, CxMenu, CxMenuToggle, CxMenuList } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
@@ -24,9 +15,9 @@ export const Example = () => {
             <CxTextInput type="password" id="menuFormPassword" placeholder="Password" />
           </div>
           <CxCheckbox id="menuRemember" label="Remember me" />
-          <CxButton type="submit" color="primary">
+          <Button type="submit" color="primary">
             Sign in
-          </CxButton>
+          </Button>
         </CxForm>
       </CxMenuList>
     </CxMenu>

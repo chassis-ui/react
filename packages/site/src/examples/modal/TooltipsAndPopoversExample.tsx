@@ -1,21 +1,11 @@
 import { useState } from 'react'
-import {
-  CxButton,
-  CxLink,
-  CxModal,
-  CxModalBody,
-  CxModalFooter,
-  CxModalHeader,
-  CxModalTitle,
-  CxPopover,
-  CxTooltip
-} from '@chassis-ui/react'
+import { Button, Link, CxModal, CxModalBody, CxModalFooter, CxModalHeader, CxModalTitle, CxPopover, Tooltip } from '@chassis-ui/react'
 
 export const Example = () => {
   const [visible, setVisible] = useState(false)
   return (
     <>
-      <CxButton onClick={() => setVisible(!visible)}>Launch demo modal</CxButton>
+      <Button onClick={() => setVisible(!visible)}>Launch demo modal</Button>
       <CxModal visible={visible} onClose={() => setVisible(false)}>
         <CxModalHeader>
           <CxModalTitle>Modal title</CxModalTitle>
@@ -28,28 +18,28 @@ export const Example = () => {
               title="Popover title"
               content="Popover body content is set in this property."
             >
-              <CxButton>button</CxButton>
+              <Button>button</Button>
             </CxPopover>{' '}
             triggers a popover on click.
           </p>
           <hr />
           <h5>Tooltips in a modal</h5>
           <p>
-            <CxTooltip content="Tooltip">
-              <CxLink>This link</CxLink>
-            </CxTooltip>{' '}
+            <Tooltip content="Tooltip">
+              <Link>This link</Link>
+            </Tooltip>{' '}
             and
-            <CxTooltip content="Tooltip">
-              <CxLink>that link</CxLink>
-            </CxTooltip>{' '}
+            <Tooltip content="Tooltip">
+              <Link>that link</Link>
+            </Tooltip>{' '}
             have tooltips on hover.
           </p>
         </CxModalBody>
         <CxModalFooter>
-          <CxButton color="secondary" onClick={() => setVisible(false)}>
+          <Button color="secondary" onClick={() => setVisible(false)}>
             Close
-          </CxButton>
-          <CxButton color="primary">Save changes</CxButton>
+          </Button>
+          <Button color="primary">Save changes</Button>
         </CxModalFooter>
       </CxModal>
     </>

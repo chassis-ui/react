@@ -1,4 +1,4 @@
-import { CxButton, CxToastBody, CxToastHeader, CxToaster, addToast } from '@chassis-ui/react'
+import { Button, CxToastBody, CxToastHeader, CxToaster, addToast } from '@chassis-ui/react'
 
 export const BasicExample = () => {
   const handleClick = () => {
@@ -25,7 +25,7 @@ export const BasicExample = () => {
   }
   return (
     <>
-      <CxButton onClick={handleClick}>Send a toast</CxButton>
+      <Button onClick={handleClick}>Send a toast</Button>
       <CxToaster placement="bottom-end" />
     </>
   )

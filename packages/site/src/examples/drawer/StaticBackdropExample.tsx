@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import { CxButton, CxDrawer, CxDrawerBody, CxDrawerHeader, CxDrawerTitle } from '@chassis-ui/react'
+import { Button, CxDrawer, CxDrawerBody, CxDrawerHeader, CxDrawerTitle } from '@chassis-ui/react'
 
 export const StaticBackdropExample = () => {
   const [visible, setVisible] = useState(false)
   return (
     <>
-      <CxButton onClick={() => setVisible(true)}>Static backdrop</CxButton>
+      <Button onClick={() => setVisible(true)}>Static backdrop</Button>
       <CxDrawer
         backdrop="static"
         placement="start"

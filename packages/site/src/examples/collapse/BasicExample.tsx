@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import { Card, CxButton, Collapse } from '@chassis-ui/react'
+import { Card, Button, Collapse } from '@chassis-ui/react'
 
 export const BasicExample = () => {
   const [visible, setVisible] = useState(false)
   return (
     <>
-      <CxButton
+      <Button
         href="#"
         onClick={(event) => {
           event.preventDefault()
@@ -13,8 +13,8 @@ export const BasicExample = () => {
         }}
       >
         Link
-      </CxButton>
-      <CxButton onClick={() => setVisible(!visible)}>Button</CxButton>
+      </Button>
+      <Button onClick={() => setVisible(!visible)}>Button</Button>
       <Collapse visible={visible}>
         <Card className="mt-3">
           <Card.Body>

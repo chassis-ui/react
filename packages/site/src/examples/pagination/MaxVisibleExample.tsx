@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import { CxPagination } from '@chassis-ui/react'
+import { Pagination } from '@chassis-ui/react'
 
 export const MaxVisibleExample = () => {
   const [page, setPage] = useState(5)
   return (
-    <CxPagination
+    <Pagination
       pages={20}
       activePage={page}
       onActivePageChange={setPage}

@@ -2,7 +2,7 @@ import * as React from 'react'
 import { act, render, screen, fireEvent } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { CxPopover, CxButton } from '../../../index'
+import { CxPopover, Button } from '../../../index'
 
 const openPopover = () => {
   fireEvent.click(screen.getByRole('button', { name: 'Test' }))
@@ -13,7 +13,7 @@ describe('CxPopover', () => {
     test('matches the baseline markup snapshot', () => {
       const { container } = render(
         <CxPopover content="A">
-          <CxButton>Test</CxButton>
+          <Button>Test</Button>
         </CxPopover>
       )
       expect(container).toMatchSnapshot()
@@ -23,7 +23,7 @@ describe('CxPopover', () => {
       vi.useFakeTimers()
       render(
         <CxPopover content="content" title="title" placement="right">
-          <CxButton>Test</CxButton>
+          <Button>Test</Button>
         </CxPopover>
       )
       openPopover()
@@ -48,7 +48,7 @@ describe('CxPopover', () => {
       render(
         <dialog open>
           <CxPopover content="content" title="title">
-            <CxButton>Test</CxButton>
+            <Button>Test</Button>
           </CxPopover>
         </dialog>
       )
@@ -65,7 +65,7 @@ describe('CxPopover', () => {
       vi.useFakeTimers()
       const { rerender } = render(
         <CxPopover content="content" title="title" visible={false}>
-          <CxButton>Test</CxButton>
+          <Button>Test</Button>
         </CxPopover>
       )
       act(() => vi.runAllTimers())
@@ -73,7 +73,7 @@ describe('CxPopover', () => {
 
       rerender(
         <CxPopover content="content" title="title" visible={true}>
-          <CxButton>Test</CxButton>
+          <Button>Test</Button>
         </CxPopover>
       )
       act(() => vi.runAllTimers())
@@ -81,7 +81,7 @@ describe('CxPopover', () => {
 
       rerender(
         <CxPopover content="content" title="title" visible={false}>
-          <CxButton>Test</CxButton>
+          <Button>Test</Button>
         </CxPopover>
       )
       act(() => vi.runAllTimers())
@@ -96,7 +96,7 @@ describe('CxPopover', () => {
       const onClick = vi.fn()
       render(
         <CxPopover content="content" title="title">
-          <CxButton onClick={onClick}>Test</CxButton>
+          <Button onClick={onClick}>Test</Button>
         </CxPopover>
       )
       openPopover()
@@ -112,7 +112,7 @@ describe('CxPopover', () => {
       vi.useFakeTimers()
       render(
         <CxPopover content="content" title="title">
-          <CxButton>Test</CxButton>
+          <Button>Test</Button>
         </CxPopover>
       )
       openPopover()
@@ -130,7 +130,7 @@ describe('CxPopover', () => {
       vi.useFakeTimers()
       render(
         <CxPopover content="content" title="title">
-          <CxButton>Test</CxButton>
+          <Button>Test</Button>
         </CxPopover>
       )
       openPopover()

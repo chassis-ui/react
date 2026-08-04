@@ -1,49 +1,40 @@
 import { useState } from 'react'
-import {
-  Container,
-  Collapse,
-  CxNavItem,
-  CxNavLink,
-  CxNavbar,
-  CxNavbarBrand,
-  CxNavbarNav,
-  CxNavbarToggler
-} from '@chassis-ui/react'
+import { Container, Collapse, Nav, Navbar } from '@chassis-ui/react'
 
 export const NavExample = () => {
   const [visible, setVisible] = useState(false)
   return (
     <>
-      <CxNavbar expand="large" colorScheme="light" className="bg-light">
+      <Navbar expand="large" colorScheme="light" className="bg-light">
         <Container fluid>
-          <CxNavbarBrand href="#">Navbar</CxNavbarBrand>
-          <CxNavbarToggler
+          <Navbar.Brand href="#">Navbar</Navbar.Brand>
+          <Navbar.Toggler
             aria-label="Toggle navigation"
             aria-expanded={visible}
             onClick={() => setVisible(!visible)}
           />
           <Collapse className="navbar-collapse" visible={visible}>
-            <CxNavbarNav>
-              <CxNavItem>
-                <CxNavLink href="#" active>
+            <Navbar.Nav>
+              <Nav.Item>
+                <Nav.Link href="#" active>
                   Home
-                </CxNavLink>
-              </CxNavItem>
-              <CxNavItem>
-                <CxNavLink href="#">Features</CxNavLink>
-              </CxNavItem>
-              <CxNavItem>
-                <CxNavLink href="#">Pricing</CxNavLink>
-              </CxNavItem>
-              <CxNavItem>
-                <CxNavLink href="#" disabled>
+                </Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link href="#">Features</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link href="#">Pricing</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link href="#" disabled>
                   Disabled
-                </CxNavLink>
-              </CxNavItem>
-            </CxNavbarNav>
+                </Nav.Link>
+              </Nav.Item>
+            </Navbar.Nav>
           </Collapse>
         </Container>
-      </CxNavbar>
+      </Navbar>
     </>
   )
 }

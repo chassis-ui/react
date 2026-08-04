@@ -26,7 +26,7 @@ export interface CxComboboxItemProps {
   id: Key
 }
 
-// `CxComboboxItem` is never actually mounted — like `CxTab`, it's read as data by `CxCombobox`,
+// `CxComboboxItem` is never actually mounted — like `Tab`, it's read as data by `CxCombobox`,
 // which builds react-aria's listbox collection from each item's `id` and `children`. This keeps
 // the public authoring shape as plain composed JSX:
 //

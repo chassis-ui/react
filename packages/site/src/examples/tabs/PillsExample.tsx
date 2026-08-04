@@ -1,25 +1,25 @@
-import { CxTab, CxTabList, CxTabPanel, CxTabs } from '@chassis-ui/react'
+import { Tabs } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
-    <CxTabs defaultSelectedKey="home">
-      <CxTabList aria-label="Pills example" variant="pills">
-        <CxTab id="home">Home</CxTab>
-        <CxTab id="profile">Profile</CxTab>
-        <CxTab id="contact">Contact</CxTab>
-      </CxTabList>
-      <CxTabPanel id="home">
+    <Tabs defaultSelectedKey="home">
+      <Tabs.List aria-label="Pills example" variant="pills">
+        <Tabs.Tab id="home">Home</Tabs.Tab>
+        <Tabs.Tab id="profile">Profile</Tabs.Tab>
+        <Tabs.Tab id="contact">Contact</Tabs.Tab>
+      </Tabs.List>
+      <Tabs.Panel id="home">
         Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown
         aliqua, retro synth master cleanse.
-      </CxTabPanel>
-      <CxTabPanel id="profile">
+      </Tabs.Panel>
+      <Tabs.Panel id="profile">
         Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid.
         Exercitation +1 labore velit, blog sartorial PBR leggings.
-      </CxTabPanel>
-      <CxTabPanel id="contact">
+      </Tabs.Panel>
+      <Tabs.Panel id="contact">
         Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic
         lomo retro fanny pack lo-fi farm-to-table readymade.
-      </CxTabPanel>
-    </CxTabs>
+      </Tabs.Panel>
+    </Tabs>
   )
 }

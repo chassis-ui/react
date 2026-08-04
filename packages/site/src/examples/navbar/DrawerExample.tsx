@@ -1,31 +1,12 @@
 import { useState } from 'react'
-import {
-  CxButton,
-  Container,
-  CxDrawer,
-  CxDrawerBody,
-  CxDrawerHeader,
-  CxDrawerTitle,
-  CxForm,
-  CxTextInput,
-  CxMenu,
-  CxMenuDivider,
-  CxMenuItem,
-  CxMenuList,
-  CxMenuToggle,
-  CxNavItem,
-  CxNavLink,
-  CxNavbar,
-  CxNavbarNav,
-  CxNavbarToggler
-} from '@chassis-ui/react'
+import { Button, Container, CxDrawer, CxDrawerBody, CxDrawerHeader, CxDrawerTitle, CxForm, CxTextInput, CxMenu, CxMenuDivider, CxMenuItem, CxMenuList, CxMenuToggle, Nav, Navbar } from '@chassis-ui/react'
 
 export const DrawerExample = () => {
   const [visible, setVisible] = useState(false)
   return (
-    <CxNavbar colorScheme="light" className="bg-light">
+    <Navbar colorScheme="light" className="bg-light">
       <Container fluid>
-        <CxNavbarToggler
+        <Navbar.Toggler
           aria-controls="drawerNavbar"
           aria-label="Toggle navigation"
           onClick={() => setVisible(!visible)}
@@ -40,15 +21,15 @@ export const DrawerExample = () => {
             <CxDrawerTitle>Drawer</CxDrawerTitle>
           </CxDrawerHeader>
           <CxDrawerBody>
-            <CxNavbarNav>
-              <CxNavItem>
-                <CxNavLink href="#" active>
+            <Navbar.Nav>
+              <Nav.Item>
+                <Nav.Link href="#" active>
                   Home
-                </CxNavLink>
-              </CxNavItem>
-              <CxNavItem>
-                <CxNavLink href="#">Link</CxNavLink>
-              </CxNavItem>
+                </Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link href="#">Link</Nav.Link>
+              </Nav.Item>
               <CxMenu component="li" className="nav-item">
                 <CxMenuToggle color="secondary">Menu button</CxMenuToggle>
                 <CxMenuList>
@@ -58,21 +39,21 @@ export const DrawerExample = () => {
                   <CxMenuItem href="#">Something else here</CxMenuItem>
                 </CxMenuList>
               </CxMenu>
-              <CxNavItem>
-                <CxNavLink href="#" disabled>
+              <Nav.Item>
+                <Nav.Link href="#" disabled>
                   Disabled
-                </CxNavLink>
-              </CxNavItem>
-            </CxNavbarNav>
+                </Nav.Link>
+              </Nav.Item>
+            </Navbar.Nav>
             <CxForm className="d-flex">
               <CxTextInput type="search" className="me-2" placeholder="Search" />
-              <CxButton type="submit" color="success" variant="outline">
+              <Button type="submit" color="success" variant="outline">
                 Search
-              </CxButton>
+              </Button>
             </CxForm>
           </CxDrawerBody>
         </CxDrawer>
       </Container>
-    </CxNavbar>
+    </Navbar>
   )
 }

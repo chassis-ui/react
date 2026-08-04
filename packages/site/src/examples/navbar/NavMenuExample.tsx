@@ -1,45 +1,31 @@
 import { useState } from 'react'
-import {
-  Container,
-  Collapse,
-  CxMenu,
-  CxMenuDivider,
-  CxMenuItem,
-  CxMenuList,
-  CxMenuToggle,
-  CxNavItem,
-  CxNavLink,
-  CxNavbar,
-  CxNavbarBrand,
-  CxNavbarNav,
-  CxNavbarToggler
-} from '@chassis-ui/react'
+import { Container, Collapse, CxMenu, CxMenuDivider, CxMenuItem, CxMenuList, CxMenuToggle, Nav, Navbar } from '@chassis-ui/react'
 
 export const NavMenuExample = () => {
   const [visible, setVisible] = useState(false)
   return (
     <>
-      <CxNavbar expand="large" colorScheme="light" className="bg-light">
+      <Navbar expand="large" colorScheme="light" className="bg-light">
         <Container fluid>
-          <CxNavbarBrand href="#">Navbar</CxNavbarBrand>
-          <CxNavbarToggler
+          <Navbar.Brand href="#">Navbar</Navbar.Brand>
+          <Navbar.Toggler
             aria-label="Toggle navigation"
             aria-expanded={visible}
             onClick={() => setVisible(!visible)}
           />
           <Collapse className="navbar-collapse" visible={visible}>
-            <CxNavbarNav>
-              <CxNavItem>
-                <CxNavLink href="#" active>
+            <Navbar.Nav>
+              <Nav.Item>
+                <Nav.Link href="#" active>
                   Home
-                </CxNavLink>
-              </CxNavItem>
-              <CxNavItem>
-                <CxNavLink href="#">Features</CxNavLink>
-              </CxNavItem>
-              <CxNavItem>
-                <CxNavLink href="#">Pricing</CxNavLink>
-              </CxNavItem>
+                </Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link href="#">Features</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link href="#">Pricing</Nav.Link>
+              </Nav.Item>
               <CxMenu component="li" className="nav-item">
                 <CxMenuToggle>Menu link</CxMenuToggle>
                 <CxMenuList>
@@ -49,10 +35,10 @@ export const NavMenuExample = () => {
                   <CxMenuItem href="#">Something else here</CxMenuItem>
                 </CxMenuList>
               </CxMenu>
-            </CxNavbarNav>
+            </Navbar.Nav>
           </Collapse>
         </Container>
-      </CxNavbar>
+      </Navbar>
     </>
   )
 }

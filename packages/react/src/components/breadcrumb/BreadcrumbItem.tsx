@@ -1,7 +1,7 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-import { CxLink } from '../link/CxLink'
+import { Link } from '../link/Link'
 
 export interface BreadcrumbItemProps extends HTMLAttributes<HTMLLIElement> {
   /**
@@ -13,7 +13,7 @@ export interface BreadcrumbItemProps extends HTMLAttributes<HTMLLIElement> {
    */
   className?: string
   /**
-   * The `href` attribute for the inner `<CxLink>` component.
+   * The `href` attribute for the inner `<Link>` component.
    */
   href?: string
 }
@@ -29,7 +29,7 @@ export const BreadcrumbItem = forwardRef<HTMLLIElement, BreadcrumbItemProps>(
     )
     return (
       <li className={_className} {...(active && { 'aria-current': 'page' })} {...rest} ref={ref}>
-        {href ? <CxLink href={href}>{children}</CxLink> : children}
+        {href ? <Link href={href}>{children}</Link> : children}
       </li>
     )
   }

@@ -1,27 +1,27 @@
-import { CxTooltip, CxLink } from '@chassis-ui/react'
+import { Tooltip, Link } from '@chassis-ui/react'
 
 export const BasicExample = () => {
   return (
     <p className="medium:text-emphasis">
       Tight pants next level keffiyeh
-      <CxTooltip content="Tooltip text">
-        <CxLink> you probably </CxLink>
-      </CxTooltip>
+      <Tooltip content="Tooltip text">
+        <Link> you probably </Link>
+      </Tooltip>
       haven't heard of them. Photo booth beard raw denim letterpress vegan messenger bag stumptown.
       Farm-to-table seitan, mcsweeney's fixie sustainable quinoa 8-bit american apparel
-      <CxTooltip content="Tooltip text">
-        <CxLink> have a </CxLink>
-      </CxTooltip>
+      <Tooltip content="Tooltip text">
+        <Link> have a </Link>
+      </Tooltip>
       terry richardson vinyl chambray. Beard stumptown, cardigans banh mi lomo thundercats. Tofu
       biodiesel williamsburg marfa, four loko mcsweeney''s cleanse vegan chambray. A really ironic
       artisan
-      <CxTooltip content="Tooltip text">
-        <CxLink> whatever keytar </CxLink>
-      </CxTooltip>
+      <Tooltip content="Tooltip text">
+        <Link> whatever keytar </Link>
+      </Tooltip>
       scenester farm-to-table banksy Austin
-      <CxTooltip content="Tooltip text">
-        <CxLink> twitter handle </CxLink>
-      </CxTooltip>
+      <Tooltip content="Tooltip text">
+        <Link> twitter handle </Link>
+      </Tooltip>
       freegan cred raw denim single-origin coffee viral.
     </p>
   )

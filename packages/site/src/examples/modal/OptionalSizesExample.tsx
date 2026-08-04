@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { CxButton, CxModal, CxModalBody, CxModalHeader, CxModalTitle } from '@chassis-ui/react'
+import { Button, CxModal, CxModalBody, CxModalHeader, CxModalTitle } from '@chassis-ui/react'
 
 export const Example = () => {
   const [visibleXL, setVisibleXL] = useState(false)
@@ -7,9 +7,9 @@ export const Example = () => {
   const [visibleSm, setVisibleSm] = useState(false)
   return (
     <>
-      <CxButton onClick={() => setVisibleXL(!visibleXL)}>Extra large modal</CxButton>
-      <CxButton onClick={() => setVisibleLg(!visibleLg)}>Large modal</CxButton>
-      <CxButton onClick={() => setVisibleSm(!visibleSm)}>Small modal</CxButton>
+      <Button onClick={() => setVisibleXL(!visibleXL)}>Extra large modal</Button>
+      <Button onClick={() => setVisibleLg(!visibleLg)}>Large modal</Button>
+      <Button onClick={() => setVisibleSm(!visibleSm)}>Small modal</Button>
       <CxModal size="xlarge" visible={visibleXL} onClose={() => setVisibleXL(false)}>
         <CxModalHeader>
           <CxModalTitle>Extra large modal</CxModalTitle>

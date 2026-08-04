@@ -1,45 +1,28 @@
 import { useState } from 'react'
-import {
-  CxButton,
-  Container,
-  Collapse,
-  CxForm,
-  CxTextInput,
-  CxMenu,
-  CxMenuDivider,
-  CxMenuItem,
-  CxMenuList,
-  CxMenuToggle,
-  CxNavItem,
-  CxNavLink,
-  CxNavbar,
-  CxNavbarBrand,
-  CxNavbarNav,
-  CxNavbarToggler
-} from '@chassis-ui/react'
+import { Button, Container, Collapse, CxForm, CxTextInput, CxMenu, CxMenuDivider, CxMenuItem, CxMenuList, CxMenuToggle, Nav, Navbar } from '@chassis-ui/react'
 
 export const ColorSchemesExample = () => {
   const [visible, setVisible] = useState(false)
   return (
     <>
-      <CxNavbar expand="large" colorScheme="dark" className="bg-dark">
+      <Navbar expand="large" colorScheme="dark" className="bg-dark">
         <Container fluid>
-          <CxNavbarBrand href="#">Navbar</CxNavbarBrand>
-          <CxNavbarToggler
+          <Navbar.Brand href="#">Navbar</Navbar.Brand>
+          <Navbar.Toggler
             aria-label="Toggle navigation"
             aria-expanded={visible}
             onClick={() => setVisible(!visible)}
           />
           <Collapse className="navbar-collapse" visible={visible}>
-            <CxNavbarNav>
-              <CxNavItem>
-                <CxNavLink href="#" active>
+            <Navbar.Nav>
+              <Nav.Item>
+                <Nav.Link href="#" active>
                   Home
-                </CxNavLink>
-              </CxNavItem>
-              <CxNavItem>
-                <CxNavLink href="#">Link</CxNavLink>
-              </CxNavItem>
+                </Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link href="#">Link</Nav.Link>
+              </Nav.Item>
               <CxMenu component="li" className="nav-item">
                 <CxMenuToggle color="secondary">Menu button</CxMenuToggle>
                 <CxMenuList>
@@ -49,40 +32,40 @@ export const ColorSchemesExample = () => {
                   <CxMenuItem href="#">Something else here</CxMenuItem>
                 </CxMenuList>
               </CxMenu>
-              <CxNavItem>
-                <CxNavLink href="#" disabled>
+              <Nav.Item>
+                <Nav.Link href="#" disabled>
                   Disabled
-                </CxNavLink>
-              </CxNavItem>
-            </CxNavbarNav>
+                </Nav.Link>
+              </Nav.Item>
+            </Navbar.Nav>
             <CxForm className="d-flex">
               <CxTextInput type="search" className="me-2" placeholder="Search" />
-              <CxButton type="submit" color="default" variant="outline">
+              <Button type="submit" color="default" variant="outline">
                 Search
-              </CxButton>
+              </Button>
             </CxForm>
           </Collapse>
         </Container>
-      </CxNavbar>
+      </Navbar>
       <br />
-      <CxNavbar expand="large" colorScheme="dark" className="bg-primary">
+      <Navbar expand="large" colorScheme="dark" className="bg-primary">
         <Container fluid>
-          <CxNavbarBrand href="#">Navbar</CxNavbarBrand>
-          <CxNavbarToggler
+          <Navbar.Brand href="#">Navbar</Navbar.Brand>
+          <Navbar.Toggler
             aria-label="Toggle navigation"
             aria-expanded={visible}
             onClick={() => setVisible(!visible)}
           />
           <Collapse className="navbar-collapse" visible={visible}>
-            <CxNavbarNav>
-              <CxNavItem>
-                <CxNavLink href="#" active>
+            <Navbar.Nav>
+              <Nav.Item>
+                <Nav.Link href="#" active>
                   Home
-                </CxNavLink>
-              </CxNavItem>
-              <CxNavItem>
-                <CxNavLink href="#">Link</CxNavLink>
-              </CxNavItem>
+                </Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link href="#">Link</Nav.Link>
+              </Nav.Item>
               <CxMenu component="li" className="nav-item">
                 <CxMenuToggle color="secondary">Menu button</CxMenuToggle>
                 <CxMenuList>
@@ -92,40 +75,40 @@ export const ColorSchemesExample = () => {
                   <CxMenuItem href="#">Something else here</CxMenuItem>
                 </CxMenuList>
               </CxMenu>
-              <CxNavItem>
-                <CxNavLink href="#" disabled>
+              <Nav.Item>
+                <Nav.Link href="#" disabled>
                   Disabled
-                </CxNavLink>
-              </CxNavItem>
-            </CxNavbarNav>
+                </Nav.Link>
+              </Nav.Item>
+            </Navbar.Nav>
             <CxForm className="d-flex">
               <CxTextInput type="search" className="me-2" placeholder="Search" />
-              <CxButton type="submit" color="default" variant="outline">
+              <Button type="submit" color="default" variant="outline">
                 Search
-              </CxButton>
+              </Button>
             </CxForm>
           </Collapse>
         </Container>
-      </CxNavbar>
+      </Navbar>
       <br />
-      <CxNavbar expand="large" colorScheme="light" style={{ backgroundColor: '#e3f2fd' }}>
+      <Navbar expand="large" colorScheme="light" style={{ backgroundColor: '#e3f2fd' }}>
         <Container fluid>
-          <CxNavbarBrand href="#">Navbar</CxNavbarBrand>
-          <CxNavbarToggler
+          <Navbar.Brand href="#">Navbar</Navbar.Brand>
+          <Navbar.Toggler
             aria-label="Toggle navigation"
             aria-expanded={visible}
             onClick={() => setVisible(!visible)}
           />
           <Collapse className="navbar-collapse" visible={visible}>
-            <CxNavbarNav>
-              <CxNavItem>
-                <CxNavLink href="#" active>
+            <Navbar.Nav>
+              <Nav.Item>
+                <Nav.Link href="#" active>
                   Home
-                </CxNavLink>
-              </CxNavItem>
-              <CxNavItem>
-                <CxNavLink href="#">Link</CxNavLink>
-              </CxNavItem>
+                </Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link href="#">Link</Nav.Link>
+              </Nav.Item>
               <CxMenu component="li" className="nav-item">
                 <CxMenuToggle color="secondary">Menu button</CxMenuToggle>
                 <CxMenuList>
@@ -135,21 +118,21 @@ export const ColorSchemesExample = () => {
                   <CxMenuItem href="#">Something else here</CxMenuItem>
                 </CxMenuList>
               </CxMenu>
-              <CxNavItem>
-                <CxNavLink href="#" disabled>
+              <Nav.Item>
+                <Nav.Link href="#" disabled>
                   Disabled
-                </CxNavLink>
-              </CxNavItem>
-            </CxNavbarNav>
+                </Nav.Link>
+              </Nav.Item>
+            </Navbar.Nav>
             <CxForm className="d-flex">
               <CxTextInput type="search" className="me-2" placeholder="Search" />
-              <CxButton type="submit" color="primary" variant="outline">
+              <Button type="submit" color="primary" variant="outline">
                 Search
-              </CxButton>
+              </Button>
             </CxForm>
           </Collapse>
         </Container>
-      </CxNavbar>
+      </Navbar>
     </>
   )
 }

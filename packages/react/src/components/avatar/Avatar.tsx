@@ -2,7 +2,7 @@ import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
 import { ContextColor, ExtendedSizing } from '../Types'
-import { CxLink } from '../link/CxLink'
+import { Link } from '../link/Link'
 import { Badge } from '../badge'
 import { AvatarImage } from './AvatarImage'
 
@@ -91,7 +91,7 @@ export const Avatar = forwardRef<
       className
     )
 
-    const Component = (isInteractive ? CxLink : tag) as ElementType
+    const Component = (isInteractive ? Link : tag) as ElementType
 
     return (
       <Component

@@ -1,17 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
-import {
-  CxButton,
-  CxForm,
-  CxCheckbox,
-  CxTextInput,
-  CxFormFeedback,
-  CxFormLabel,
-  CxSelect,
-  CxInputGroup,
-  CxInputAddon,
-  Col
-} from '@chassis-ui/react'
+import { Button, CxForm, CxCheckbox, CxTextInput, CxFormFeedback, CxFormLabel, CxSelect, CxInputGroup, CxInputAddon, Col } from '@chassis-ui/react'
 
 export const CustomStylesExample = () => {
   const [validated, setValidated] = useState(false)
@@ -82,9 +71,9 @@ export const CustomStylesExample = () => {
         <CxFormFeedback invalid>You must agree before submitting.</CxFormFeedback>
       </Col>
       <Col xs={12}>
-        <CxButton color="primary" type="submit">
+        <Button color="primary" type="submit">
           Submit form
-        </CxButton>
+        </Button>
       </Col>
     </CxForm>
   )

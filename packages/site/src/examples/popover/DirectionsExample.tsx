@@ -1,4 +1,4 @@
-import { CxPopover, CxButton } from '@chassis-ui/react'
+import { CxPopover, Button } from '@chassis-ui/react'
 
 export const DirectionsExample = () => {
   return (
@@ -7,25 +7,25 @@ export const DirectionsExample = () => {
         content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
         placement="top"
       >
-        <CxButton color="secondary">Popover on top</CxButton>
+        <Button color="secondary">Popover on top</Button>
       </CxPopover>
       <CxPopover
         content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
         placement="right"
       >
-        <CxButton color="secondary">Popover on right</CxButton>
+        <Button color="secondary">Popover on right</Button>
       </CxPopover>
       <CxPopover
         content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
         placement="bottom"
       >
-        <CxButton color="secondary">Popover on bottom</CxButton>
+        <Button color="secondary">Popover on bottom</Button>
       </CxPopover>
       <CxPopover
         content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
         placement="left"
       >
-        <CxButton color="secondary">Popover on left</CxButton>
+        <Button color="secondary">Popover on left</Button>
       </CxPopover>
     </>
   )

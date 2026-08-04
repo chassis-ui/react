@@ -1,15 +1,5 @@
 import { useState } from 'react'
-import {
-  CxButton,
-  CxForm,
-  CxTextInput,
-  CxFormLabel,
-  CxSelect,
-  CxFormFeedback,
-  CxNotification,
-  Row,
-  Col
-} from '@chassis-ui/react'
+import { Button, CxForm, CxTextInput, CxFormLabel, CxSelect, CxFormFeedback, CxNotification, Row, Col } from '@chassis-ui/react'
 
 export const RegistrationForm = () => {
   const [name, setName] = useState('')
@@ -107,12 +97,12 @@ export const RegistrationForm = () => {
           </Col>
         </Row>
         <div className="d-flex gap-2">
-          <CxButton type="submit" color="primary">
+          <Button type="submit" color="primary">
             Create account
-          </CxButton>
-          <CxButton type="reset" color="secondary" variant="outline">
+          </Button>
+          <Button type="reset" color="secondary" variant="outline">
             Reset
-          </CxButton>
+          </Button>
         </div>
       </CxForm>
     </div>

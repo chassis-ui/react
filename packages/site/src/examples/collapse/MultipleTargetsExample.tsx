@@ -1,21 +1,21 @@
 import { useState } from 'react'
-import { Card, CxButton, Col, Collapse, Row } from '@chassis-ui/react'
+import { Card, Button, Col, Collapse, Row } from '@chassis-ui/react'
 
 export const MultipleTargetsExample = () => {
   const [visibleA, setVisibleA] = useState(false)
   const [visibleB, setVisibleB] = useState(false)
   return (
     <>
-      <CxButton onClick={() => setVisibleA(!visibleA)}>Toggle first element</CxButton>
-      <CxButton onClick={() => setVisibleB(!visibleB)}>Toggle second element</CxButton>
-      <CxButton
+      <Button onClick={() => setVisibleA(!visibleA)}>Toggle first element</Button>
+      <Button onClick={() => setVisibleB(!visibleB)}>Toggle second element</Button>
+      <Button
         onClick={() => {
           setVisibleA(!visibleA)
           setVisibleB(!visibleB)
         }}
       >
         Toggle both elements
-      </CxButton>
+      </Button>
       <Row>
         <Col xs={6}>
           <Collapse visible={visibleA}>

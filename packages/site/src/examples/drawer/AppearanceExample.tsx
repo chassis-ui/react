@@ -1,20 +1,13 @@
 import { useState } from 'react'
-import {
-  CxButton,
-  CxDrawer,
-  CxDrawerBody,
-  CxDrawerFooter,
-  CxDrawerHeader,
-  CxDrawerTitle
-} from '@chassis-ui/react'
+import { Button, CxDrawer, CxDrawerBody, CxDrawerFooter, CxDrawerHeader, CxDrawerTitle } from '@chassis-ui/react'
 
 export const AppearanceExample = () => {
   const [visibleSheet, setVisibleSheet] = useState(false)
   const [visibleTranslucent, setVisibleTranslucent] = useState(false)
   return (
     <>
-      <CxButton onClick={() => setVisibleSheet(true)}>Sheet</CxButton>
-      <CxButton onClick={() => setVisibleTranslucent(true)}>Translucent</CxButton>
+      <Button onClick={() => setVisibleSheet(true)}>Sheet</Button>
+      <Button onClick={() => setVisibleTranslucent(true)}>Translucent</Button>
       <CxDrawer
         sheet
         placement="start"
@@ -28,9 +21,9 @@ export const AppearanceExample = () => {
           <p>Flush against the viewport edge — no inset, rounding, or border.</p>
         </CxDrawerBody>
         <CxDrawerFooter>
-          <CxButton color="neutral" onClick={() => setVisibleSheet(false)}>
+          <Button color="neutral" onClick={() => setVisibleSheet(false)}>
             Close
-          </CxButton>
+          </Button>
         </CxDrawerFooter>
       </CxDrawer>
       <CxDrawer
@@ -46,9 +39,9 @@ export const AppearanceExample = () => {
           <p>Frosted-glass background over the page content.</p>
         </CxDrawerBody>
         <CxDrawerFooter>
-          <CxButton color="neutral" onClick={() => setVisibleTranslucent(false)}>
+          <Button color="neutral" onClick={() => setVisibleTranslucent(false)}>
             Close
-          </CxButton>
+          </Button>
         </CxDrawerFooter>
       </CxDrawer>
     </>

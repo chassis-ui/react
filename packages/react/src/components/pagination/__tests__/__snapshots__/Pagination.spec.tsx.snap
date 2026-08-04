@@ -1,0 +1,39 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Pagination > rendering > matches the baseline markup snapshot 1`] = `
+<div>
+  <nav>
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item"
+      >
+        <button
+          class="page-link"
+        >
+          A
+        </button>
+      </li>
+      <li
+        class="page-item"
+      >
+        <button
+          class="page-link"
+        >
+          B
+        </button>
+      </li>
+      <li
+        class="page-item"
+      >
+        <button
+          class="page-link"
+        >
+          C
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;

@@ -1,16 +1,5 @@
 import React from 'react'
-import {
-  CxButton,
-  CxFileInput,
-  CxForm,
-  CxCheckbox,
-  CxFormFeedback,
-  CxFormLabel,
-  CxRadio,
-  CxRadioGroup,
-  CxSelect,
-  CxTextarea
-} from '@chassis-ui/react'
+import { Button, CxFileInput, CxForm, CxCheckbox, CxFormFeedback, CxFormLabel, CxRadio, CxRadioGroup, CxSelect, CxTextarea } from '@chassis-ui/react'
 
 export const SupportedElementsExample = () => {
   return (
@@ -53,9 +42,9 @@ export const SupportedElementsExample = () => {
         <CxFormFeedback invalid>Example invalid form file feedback</CxFormFeedback>
       </div>
       <div className="mb-medium">
-        <CxButton type="submit" color="primary" disabled>
+        <Button type="submit" color="primary" disabled>
           Submit form
-        </CxButton>
+        </Button>
       </div>
     </CxForm>
   )

@@ -1,21 +1,13 @@
-import {
-  CxNav,
-  CxNavItem,
-  CxNavLink,
-  CxMenu,
-  CxMenuToggle,
-  CxMenuList,
-  CxMenuItem
-} from '@chassis-ui/react'
+import { Nav, CxMenu, CxMenuToggle, CxMenuList, CxMenuItem } from '@chassis-ui/react'
 
 export const PillsWithMenuExample = () => {
   return (
-    <CxNav variant="pills">
-      <CxNavItem>
-        <CxNavLink href="#" active>
+    <Nav variant="pills">
+      <Nav.Item>
+        <Nav.Link href="#" active>
           Active
-        </CxNavLink>
-      </CxNavItem>
+        </Nav.Link>
+      </Nav.Item>
       <CxMenu component="li" className="nav-item">
         <CxMenuToggle color="secondary">Menu button</CxMenuToggle>
         <CxMenuList>
@@ -24,14 +16,14 @@ export const PillsWithMenuExample = () => {
           <CxMenuItem href="#">Something else here</CxMenuItem>
         </CxMenuList>
       </CxMenu>
-      <CxNavItem>
-        <CxNavLink href="#">Link</CxNavLink>
-      </CxNavItem>
-      <CxNavItem>
-        <CxNavLink href="#" disabled>
+      <Nav.Item>
+        <Nav.Link href="#">Link</Nav.Link>
+      </Nav.Item>
+      <Nav.Item>
+        <Nav.Link href="#" disabled>
           Disabled
-        </CxNavLink>
-      </CxNavItem>
-    </CxNav>
+        </Nav.Link>
+      </Nav.Item>
+    </Nav>
   )
 }

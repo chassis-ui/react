@@ -1,14 +1,4 @@
-import {
-  CxButton,
-  Col,
-  CxForm,
-  CxCheckbox,
-  CxTextInput,
-  CxFormLabel,
-  CxRadio,
-  CxRadioGroup,
-  Row
-} from '@chassis-ui/react'
+import { Button, Col, CxForm, CxCheckbox, CxTextInput, CxFormLabel, CxRadio, CxRadioGroup, Row } from '@chassis-ui/react'
 
 export const HorizontalFormExample = () => {
   return (
@@ -41,7 +31,7 @@ export const HorizontalFormExample = () => {
           <CxCheckbox id="gridCheck1" label="Example checkbox" />
         </div>
       </Row>
-      <CxButton type="submit">Sign in</CxButton>
+      <Button type="submit">Sign in</Button>
     </CxForm>
   )
 }

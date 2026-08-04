@@ -14,9 +14,8 @@ import { CxNotificationLink } from './components/notification/CxNotificationLink
 import { Badge } from './components/badge'
 import { Backdrop } from './components/backdrop'
 import { Breadcrumb } from './components/breadcrumb'
-import { CxButton } from './components/button/CxButton'
-import { CxButtonGroup } from './components/button-group/CxButtonGroup'
-import { CxButtonToolbar } from './components/button-group/CxButtonToolbar'
+import { Button } from './components/button'
+import { ButtonGroup, ButtonToolbar } from './components/button-group'
 import { CxCalendar } from './components/calendar/CxCalendar'
 import { CxRangeCalendar } from './components/calendar/CxRangeCalendar'
 import { Card } from './components/card'
@@ -66,24 +65,16 @@ import { CxTextInput } from './components/text-input/CxTextInput'
 import { CxTextarea } from './components/textarea/CxTextarea'
 import { Icon } from './components/icon'
 import { Image } from './components/image'
-import { CxLink } from './components/link/CxLink'
+import { Link } from './components/link'
 import { List } from './components/list'
 import { CxModal } from './components/modal/CxModal'
 import { CxModalBody } from './components/modal/CxModalBody'
 import { CxModalFooter } from './components/modal/CxModalFooter'
 import { CxModalHeader } from './components/modal/CxModalHeader'
 import { CxModalTitle } from './components/modal/CxModalTitle'
-import { CxNav } from './components/nav/CxNav'
-import { CxNavItem } from './components/nav/CxNavItem'
-import { CxNavLink } from './components/nav/CxNavLink'
-import { CxNavTitle } from './components/nav/CxNavTitle'
-import { CxNavbar } from './components/navbar/CxNavbar'
-import { CxNavbarBrand } from './components/navbar/CxNavbarBrand'
-import { CxNavbarNav } from './components/navbar/CxNavbarNav'
-import { CxNavbarText } from './components/navbar/CxNavbarText'
-import { CxNavbarToggler } from './components/navbar/CxNavbarToggler'
-import { CxPagination } from './components/pagination/CxPagination'
-import { CxPaginationItem } from './components/pagination/CxPaginationItem'
+import { Nav } from './components/nav'
+import { Navbar } from './components/navbar'
+import { Pagination } from './components/pagination'
 import { Placeholder } from './components/placeholder'
 import { CxPopover } from './components/popover/CxPopover'
 import { Progress } from './components/progress'
@@ -99,12 +90,7 @@ import { CxTableCell } from './components/table/CxTableCell'
 import { CxTableColumn } from './components/table/CxTableColumn'
 import { CxTableHeader } from './components/table/CxTableHeader'
 import { CxTableRow } from './components/table/CxTableRow'
-import { CxTab } from './components/tabs/CxTab'
-import { CxTabContent } from './components/tabs/CxTabContent'
-import { CxTabList } from './components/tabs/CxTabList'
-import { CxTabPane } from './components/tabs/CxTabPane'
-import { CxTabPanel } from './components/tabs/CxTabPanel'
-import { CxTabs } from './components/tabs/CxTabs'
+import { Tabs, TabContent, TabPane } from './components/tabs'
 import { CxToast } from './components/toast/CxToast'
 import { CxToastBody } from './components/toast/CxToastBody'
 import { CxToastClose } from './components/toast/CxToastClose'
@@ -112,7 +98,7 @@ import { CxToastFooter } from './components/toast/CxToastFooter'
 import { CxToastHeader } from './components/toast/CxToastHeader'
 import { CxToaster } from './components/toast/CxToaster'
 import { addToast, closeToast, toastQueue } from './components/toast/toastQueue'
-import { CxTooltip } from './components/tooltip/CxTooltip'
+import { Tooltip } from './components/tooltip'
 // plop:import
 
 export {
@@ -133,9 +119,9 @@ export {
   Badge,
   Backdrop,
   Breadcrumb,
-  CxButton,
-  CxButtonGroup,
-  CxButtonToolbar,
+  Button,
+  ButtonGroup,
+  ButtonToolbar,
   CxCalendar,
   CxRangeCalendar,
   Card,
@@ -186,24 +172,16 @@ export {
   CxInputAddon,
   CxInputGroup,
   CxInputAdorn,
-  CxLink,
+  Link,
   List,
   CxModal,
   CxModalBody,
   CxModalFooter,
   CxModalHeader,
   CxModalTitle,
-  CxNav,
-  CxNavItem,
-  CxNavLink,
-  CxNavTitle,
-  CxNavbar,
-  CxNavbarBrand,
-  CxNavbarNav,
-  CxNavbarText,
-  CxNavbarToggler,
-  CxPagination,
-  CxPaginationItem,
+  Nav,
+  Navbar,
+  Pagination,
   Placeholder,
   CxPopover,
   Progress,
@@ -224,12 +202,9 @@ export {
   CxTableColumn,
   CxTableHeader,
   CxTableRow,
-  CxTab,
-  CxTabContent,
-  CxTabList,
-  CxTabPane,
-  CxTabPanel,
-  CxTabs,
+  Tabs,
+  TabContent,
+  TabPane,
   CxTextInput,
   CxTextarea,
   CxToast,
@@ -241,5 +216,5 @@ export {
   addToast,
   closeToast,
   toastQueue,
-  CxTooltip
+  Tooltip
 }

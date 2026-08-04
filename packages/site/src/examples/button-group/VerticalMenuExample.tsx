@@ -1,18 +1,10 @@
-import {
-  CxButton,
-  CxButtonGroup,
-  CxMenu,
-  CxMenuDivider,
-  CxMenuItem,
-  CxMenuList,
-  CxMenuToggle
-} from '@chassis-ui/react'
+import { Button, ButtonGroup, CxMenu, CxMenuDivider, CxMenuItem, CxMenuList, CxMenuToggle } from '@chassis-ui/react'
 
 export const VerticalMenuExample = () => {
   return (
-    <CxButtonGroup vertical role="group" aria-label="Vertical button group">
-      <CxButton color="primary">Button</CxButton>
-      <CxButton color="primary">Button</CxButton>
+    <ButtonGroup vertical role="group" aria-label="Vertical button group">
+      <Button color="primary">Button</Button>
+      <Button color="primary">Button</Button>
       <CxMenu>
         <CxMenuToggle color="primary">Menu</CxMenuToggle>
         <CxMenuList>
@@ -23,8 +15,8 @@ export const VerticalMenuExample = () => {
           <CxMenuItem href="#">Separated link</CxMenuItem>
         </CxMenuList>
       </CxMenu>
-      <CxButton color="primary">Button</CxButton>
-      <CxButton color="primary">Button</CxButton>
+      <Button color="primary">Button</Button>
+      <Button color="primary">Button</Button>
       <CxMenu>
         <CxMenuToggle color="primary">Menu</CxMenuToggle>
         <CxMenuList>
@@ -55,6 +47,6 @@ export const VerticalMenuExample = () => {
           <CxMenuItem href="#">Separated link</CxMenuItem>
         </CxMenuList>
       </CxMenu>
-    </CxButtonGroup>
+    </ButtonGroup>
   )
 }

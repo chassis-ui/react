@@ -1,21 +1,12 @@
-import {
-  CxButton,
-  CxTextInput,
-  CxInputGroup,
-  CxMenu,
-  CxMenuDivider,
-  CxMenuItem,
-  CxMenuList,
-  CxMenuToggle
-} from '@chassis-ui/react'
+import { Button, CxTextInput, CxInputGroup, CxMenu, CxMenuDivider, CxMenuItem, CxMenuList, CxMenuToggle } from '@chassis-ui/react'
 
 export const SegmentedButtonsExample = () => {
   return (
     <>
       <CxInputGroup className="mb-3">
-        <CxButton type="button" color="secondary" variant="outline">
+        <Button type="button" color="secondary" variant="outline">
           Action
-        </CxButton>
+        </Button>
         <CxMenu>
           <CxMenuToggle color="secondary" variant="outline">
             <span className="visually-hidden">Toggle menu</span>
@@ -33,9 +24,9 @@ export const SegmentedButtonsExample = () => {
 
       <CxInputGroup>
         <CxTextInput aria-label="Text input with segmented menu button" />
-        <CxButton type="button" color="secondary" variant="outline">
+        <Button type="button" color="secondary" variant="outline">
           Action
-        </CxButton>
+        </Button>
         <CxMenu placement="bottom-end">
           <CxMenuToggle color="secondary" variant="outline">
             <span className="visually-hidden">Toggle menu</span>

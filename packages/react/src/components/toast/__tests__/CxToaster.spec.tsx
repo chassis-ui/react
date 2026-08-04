@@ -6,7 +6,7 @@ import {
   CxToaster,
   CxToastBody,
   CxToastHeader,
-  CxButton,
+  Button,
   addToast,
   toastQueue
 } from '../../../index'
@@ -32,7 +32,7 @@ describe('CxToaster', () => {
       render(
         <>
           <CxToaster className="bazinga" />
-          <CxButton
+          <Button
             onClick={() =>
               addToast(
                 <>
@@ -44,7 +44,7 @@ describe('CxToaster', () => {
             }
           >
             Send a toast
-          </CxButton>
+          </Button>
         </>
       )
       fireEvent.click(screen.getByRole('button', { name: 'Send a toast' }))
