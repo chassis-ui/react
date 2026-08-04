@@ -9,6 +9,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "astro": "astro",
     "clean": "rimraf ../../_site .astro"
   },
   "dependencies": {
@@ -51,6 +52,6 @@
     "typescript": "^5.0.0",
     "unified": "^11.0.5",
     "unist-util-visit": "^5.1.0",
-    "zod": "^3.23.8"
+    "zod": "^4.4.3"
   }
 }

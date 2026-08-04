@@ -1,4 +1,5 @@
-import { z, defineCollection } from 'astro:content'
+import { z } from 'zod'
+import { defineCollection } from 'astro:content'
 import { glob } from 'astro/loaders'
 
 const docsSchema = z.object({
@@ -43,6 +44,7 @@ const apiSchema = z.object({
   displayName: z.string(),
   description: z.string().optional(),
   props: z.record(
+    z.string(),
     z.object({
       name: z.string(),
       description: z.string(),
@@ -60,7 +62,7 @@ const apiSchema = z.object({
 
 const calloutsCollection = defineCollection({
   loader: glob({ pattern: '*.md', base: './content/callouts' }),
-  schema: z.object({}).passthrough()
+  schema: z.looseObject({})
 })
 
 const apiCollection = defineCollection({

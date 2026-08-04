@@ -15,7 +15,7 @@ import {
 
 export const CustomStylesExample = () => {
   const [validated, setValidated] = useState(false)
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     const form = event.currentTarget
     if (form.checkValidity() === false) {
       event.preventDefault()

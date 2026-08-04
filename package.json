@@ -23,6 +23,7 @@
     "format:check": "prettier --check \"packages/site/src/examples/**/*.tsx\"",
     "test": "pnpm --filter @chassis-ui/react test",
     "test:update": "pnpm --filter @chassis-ui/react test:update",
+    "check:astro": "pnpm --filter chassis-react-site astro check",
     "change-version": "node build/change-version.js",
     "sync-submodules": "node build/sync-submodules.js"
   },

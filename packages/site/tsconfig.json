@@ -14,5 +14,6 @@
       "@scss/*": ["src/scss/*"],
       "@shortcodes/*": ["src/components/shortcodes/*"]
     }
-  }
+  },
+  "exclude": ["public"]
 }

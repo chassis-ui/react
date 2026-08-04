@@ -5,7 +5,7 @@ export const Example = () => {
   return (
     <>
       <CxAvatarStack
-        data={[
+        items={[
           {
             src: randomAvatar(),
             alt: 'Team member'
