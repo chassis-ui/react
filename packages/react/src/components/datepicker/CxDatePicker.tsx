@@ -1,7 +1,20 @@
-import React, { HTMLAttributes, ReactNode, useRef } from 'react'
+import React, { HTMLAttributes, ReactNode, useRef, useState } from 'react'
 import classNames from 'classnames'
-import { FocusScope, mergeProps, useDatePicker, useDialog } from 'react-aria'
-import { DateValue, useDatePickerState } from 'react-stately'
+import {
+  AriaButtonProps,
+  FocusScope,
+  mergeProps,
+  useDateFormatter,
+  useDatePicker,
+  useDialog
+} from 'react-aria'
+import {
+  DateValue,
+  OverlayTriggerState,
+  useDatePickerState,
+  useOverlayTriggerState
+} from 'react-stately'
+import { getLocalTimeZone } from '@internationalized/date'
 
 import { useFormField } from '../../hooks'
 import { renderFormField } from '../form-field/renderFormField'
@@ -12,7 +25,7 @@ import { DateField } from './DateField'
 import { useOverlayPlacement } from './useOverlayPlacement'
 import './CxDatePicker.css'
 
-export interface CxDatePickerProps extends Omit<
+interface CxDatePickerBaseProps extends Omit<
   HTMLAttributes<HTMLDivElement>,
   'onChange' | 'defaultValue'
 > {
@@ -29,15 +42,11 @@ export interface CxDatePickerProps extends Omit<
    */
   className?: string
   /**
-   * The initial selected date (uncontrolled).
-   */
-  defaultValue?: DateValue | null
-  /**
    * Prevents the date picker from being focused or interacted with.
    */
   disabled?: boolean
   /**
-   * The day that starts the week in the calendar popover, overriding the default set by the
+   * The day that starts the week in the calendar overlay, overriding the default set by the
    * active locale.
    *
    * @default 'mon'
@@ -78,13 +87,11 @@ export interface CxDatePickerProps extends Omit<
   minValue?: DateValue | null
   /**
    * `name` of an auto-created hidden input, kept in sync with the selection, for native form
-   * submission. Omit to skip creating one.
+   * submission — one input when `selectionMode` is `'single'`, one per selected date when it's
+   * `'multiple'` (same `name` on each, which browsers serialize as multiple form values). Omit to
+   * skip creating any.
    */
   name?: string
-  /**
-   * Callback fired when the selected date changes.
-   */
-  onChange?: (value: DateValue | null) => void
   /**
    * Size the component small or large.
    */
@@ -93,7 +100,7 @@ export interface CxDatePickerProps extends Omit<
    * ISO 8601 dates (`YYYY-MM-DD`) to mark unselectable, as a convenience alternative to
    * `isDateUnavailable` for data-driven cases (e.g. booked dates fetched from an API). Composed
    * with `isDateUnavailable` when both are given — a date unavailable by either is unavailable.
-   * Applies to both the calendar popover and typing a date directly into the field.
+   * Applies to both the calendar overlay and typing a date directly into the field.
    */
   unavailableDates?: string[]
   /**
@@ -105,12 +112,75 @@ export interface CxDatePickerProps extends Omit<
    */
   validFeedback?: ReactNode
   /**
+   * Number of months to display side by side in the calendar overlay.
+   *
+   * @default 1
+   */
+  visibleMonths?: number
+}
+
+export interface CxDatePickerSingleProps extends CxDatePickerBaseProps {
+  /**
+   * The initial selected date (uncontrolled).
+   */
+  defaultValue?: DateValue | null
+  /**
+   * Callback fired when the selected date changes.
+   */
+  onChange?: (value: DateValue | null) => void
+  /**
+   * Whether a single date or multiple, independently toggled dates can be selected. Multiple
+   * selection replaces the editable segmented field with a read-only, comma-separated list of
+   * the selected dates — a segmented day/month/year field has no way to represent more than one
+   * date.
+   *
+   * @default 'single'
+   */
+  selectionMode?: 'single'
+  /**
    * The selected date (controlled).
    */
   value?: DateValue | null
 }
 
-export const CxDatePicker = ({
+export interface CxDatePickerMultipleProps extends CxDatePickerBaseProps {
+  /**
+   * The initial selected dates (uncontrolled).
+   */
+  defaultValue?: DateValue[] | null
+  /**
+   * Callback fired when the set of selected dates changes.
+   */
+  onChange?: (value: DateValue[]) => void
+  /**
+   * Whether a single date or multiple, independently toggled dates can be selected. Multiple
+   * selection replaces the editable segmented field with a read-only, comma-separated list of
+   * the selected dates — a segmented day/month/year field has no way to represent more than one
+   * date.
+   *
+   * @default 'single'
+   */
+  selectionMode: 'multiple'
+  /**
+   * The selected dates (controlled).
+   */
+  value?: DateValue[] | null
+}
+
+export type CxDatePickerProps = CxDatePickerSingleProps | CxDatePickerMultipleProps
+
+// Dispatches on `selectionMode` between two internal implementations that share little beyond
+// the field/overlay shell and `useFormField` — `selectionMode: 'multiple'` has no
+// `useDatePickerState`/`useDatePicker` equivalent to build on (see `CxDatePickerMultiple`'s own
+// comment), so bolting an array value onto the single-value hook pair isn't an option.
+export const CxDatePicker = (props: CxDatePickerProps) => {
+  if (props.selectionMode === 'multiple') return <CxDatePickerMultiple {...props} />
+  return <CxDatePickerSingle {...props} />
+}
+
+CxDatePicker.displayName = 'CxDatePicker'
+
+const CxDatePickerSingle = ({
   className,
   defaultValue,
   disabled,
@@ -125,13 +195,15 @@ export const CxDatePicker = ({
   minValue,
   name,
   onChange,
+  selectionMode: _selectionMode,
   size,
   unavailableDates,
   valid,
   validFeedback,
   value,
+  visibleMonths,
   ...rest
-}: CxDatePickerProps) => {
+}: CxDatePickerSingleProps) => {
   const combinedIsDateUnavailable = mergeIsDateUnavailable(unavailableDates, isDateUnavailable)
 
   const state = useDatePickerState({
@@ -146,7 +218,7 @@ export const CxDatePicker = ({
 
   const groupRef = useRef<HTMLDivElement>(null)
   const calendarRef = useRef<HTMLDivElement>(null)
-  const popoverRef = useRef<HTMLDivElement>(null)
+  const overlayRef = useRef<HTMLDivElement>(null)
 
   const {
     describedBy,
@@ -185,8 +257,8 @@ export const CxDatePicker = ({
     groupRef
   )
 
-  const { overlayStyle, placementAttr, popoverDismissProps } = useOverlayPlacement({
-    popoverRef,
+  const { overlayStyle, placementAttr, overlayDismissProps } = useOverlayPlacement({
+    overlayRef,
     state,
     triggerRef: groupRef
   })
@@ -211,7 +283,7 @@ export const CxDatePicker = ({
           aria-labelledby={labelledBy}
           ref={groupRef}
         >
-          <div className="w-100">
+          <div className="w-100 overflow-x-scroll">
             <DateField fieldProps={fieldProps} />
           </div>
           <CalendarToggleButton buttonProps={buttonProps} state={state} />
@@ -220,8 +292,8 @@ export const CxDatePicker = ({
           className="datepicker"
           data-cx-placement={placementAttr}
           hidden={!state.isOpen}
-          ref={popoverRef}
-          {...popoverDismissProps}
+          ref={overlayRef}
+          {...overlayDismissProps}
           style={overlayStyle}
         >
           {state.isOpen && (
@@ -237,6 +309,7 @@ export const CxDatePicker = ({
                 onChange={calendarProps.onChange}
                 ref={calendarRef}
                 value={calendarProps.value}
+                visibleMonths={visibleMonths}
               />
             </FocusScope>
           )}
@@ -261,4 +334,191 @@ export const CxDatePicker = ({
   })
 }
 
-CxDatePicker.displayName = 'CxDatePicker'
+CxDatePickerSingle.displayName = 'CxDatePickerSingle'
+
+// `selectionMode: 'multiple'` counterpart to `CxDatePickerSingle` — deliberately not built on
+// `useDatePickerState`/`useDatePicker`, since neither has any multi-value concept (a single
+// `DateValue`, edited through one segmented day/month/year field that has no way to represent
+// more than one date — see react-stately's own `useDatePickerState` types). Instead this is
+// assembled from the same lower-level pieces already used elsewhere in this codebase:
+// `useOverlayTriggerState` for open/close (the same `OverlayTriggerState` shape
+// `useOverlayPlacement`/`CalendarToggleButton` already expect, so both are reused unchanged), the
+// manual controlled/uncontrolled pattern `CxChipInput` already uses for its own array value, and
+// a read-only comma-separated field in place of `DateField`'s editable segments.
+const CxDatePickerMultiple = ({
+  className,
+  defaultValue,
+  disabled,
+  firstDayOfWeek,
+  help,
+  id,
+  invalid,
+  invalidFeedback,
+  isDateUnavailable,
+  label,
+  maxValue,
+  minValue,
+  name,
+  onChange,
+  selectionMode: _selectionMode,
+  size,
+  unavailableDates,
+  valid,
+  validFeedback,
+  value,
+  visibleMonths,
+  ...rest
+}: CxDatePickerMultipleProps) => {
+  const combinedIsDateUnavailable = mergeIsDateUnavailable(unavailableDates, isDateUnavailable)
+
+  const isControlled = value !== undefined
+  const [uncontrolledValues, setUncontrolledValues] = useState<DateValue[]>(defaultValue ?? [])
+  const values = isControlled ? (value ?? []) : uncontrolledValues
+
+  const setValues = (next: DateValue[]) => {
+    if (!isControlled) setUncontrolledValues(next)
+    onChange?.(next)
+  }
+
+  const state: OverlayTriggerState = useOverlayTriggerState({})
+
+  const groupRef = useRef<HTMLDivElement>(null)
+  const calendarRef = useRef<HTMLDivElement>(null)
+  const overlayRef = useRef<HTMLDivElement>(null)
+
+  const {
+    describedBy,
+    feedbackId,
+    helpId,
+    inputId: groupId,
+    labelId,
+    labelledBy
+  } = useFormField({
+    ariaDescribedBy: rest['aria-describedby'],
+    ariaLabelledBy: rest['aria-labelledby'],
+    help,
+    id,
+    invalid,
+    invalidFeedback,
+    label,
+    valid,
+    validFeedback
+  })
+
+  const { overlayStyle, placementAttr, overlayDismissProps } = useOverlayPlacement({
+    overlayRef,
+    state,
+    triggerRef: groupRef
+  })
+
+  const { dialogProps: domDialogProps } = useDialog({}, calendarRef)
+
+  const buttonProps: AriaButtonProps = {
+    'aria-expanded': state.isOpen,
+    'aria-haspopup': 'dialog',
+    'aria-label': 'Calendar'
+  }
+
+  return renderFormField({
+    children: (
+      <>
+        <div
+          className={classNames(
+            'form-input',
+            { small: size === 'small', large: size === 'large', disabled },
+            { 'is-invalid': invalid, 'is-valid': valid },
+            className
+          )}
+          {...mergeProps(rest)}
+          aria-describedby={describedBy}
+          aria-disabled={disabled || undefined}
+          aria-labelledby={labelledBy}
+          id={groupId}
+          ref={groupRef}
+          role="group"
+        >
+          <div className="w-100 overflow-x-scroll">
+            <MultiDateField values={values} />
+          </div>
+          <CalendarToggleButton buttonProps={buttonProps} state={state} />
+        </div>
+        <div
+          className="datepicker"
+          data-cx-placement={placementAttr}
+          hidden={!state.isOpen}
+          ref={overlayRef}
+          {...overlayDismissProps}
+          style={overlayStyle}
+        >
+          {state.isOpen && (
+            <FocusScope contain restoreFocus>
+              <CxCalendar
+                {...domDialogProps}
+                autoFocus
+                disabled={disabled}
+                firstDayOfWeek={firstDayOfWeek}
+                isDateUnavailable={combinedIsDateUnavailable}
+                maxValue={maxValue}
+                minValue={minValue}
+                onChange={setValues}
+                ref={calendarRef}
+                selectionMode="multiple"
+                value={values}
+                visibleMonths={visibleMonths}
+              />
+            </FocusScope>
+          )}
+        </div>
+        {name &&
+          values.map((date) => (
+            <input
+              disabled={disabled}
+              key={date.toString()}
+              name={name}
+              type="hidden"
+              value={date.toString()}
+            />
+          ))}
+      </>
+    ),
+    help,
+    ids: { feedback: feedbackId, help: helpId, label: labelId },
+    invalid,
+    invalidFeedback,
+    label,
+    valid,
+    validFeedback
+  })
+}
+
+CxDatePickerMultiple.displayName = 'CxDatePickerMultiple'
+
+interface MultiDateFieldProps {
+  values: DateValue[]
+}
+
+// `ZonedDateTime` carries its own time zone (`toDate()` takes no argument); `CalendarDate`/
+// `CalendarDateTime` don't, so they need the viewer's local one supplied explicitly.
+const toJsDate = (date: DateValue): Date =>
+  'timeZone' in date ? date.toDate() : date.toDate(getLocalTimeZone())
+
+// Read-only stand-in for `DateField`'s editable segments — a segmented day/month/year field can
+// only ever represent one date, so multiple selection instead shows every selected date, formatted
+// per the active locale and joined with commas.
+const MultiDateField = ({ values }: MultiDateFieldProps) => {
+  const formatter = useDateFormatter({ dateStyle: 'medium' })
+
+  return (
+    <div className="cx-datepicker-field">
+      {values.length > 0 && (
+        <>
+          {values
+            .slice()
+            .sort((a, b) => a.compare(b))
+            .map((date) => formatter.format(toJsDate(date)))
+            .join(', ')}
+        </>
+      )}
+    </div>
+  )
+}

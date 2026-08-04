@@ -23,7 +23,7 @@ import { CalendarDate } from '@internationalized/date'
 // second call runs, then back onto `desiredStart` itself — which, relative to that intermediate
 // range, is now exactly one `visibleDuration` away and so lands exactly too.
 export const setVisibleRangeStart = (
-  state: CalendarState | RangeCalendarState,
+  state: CalendarState<'single' | 'multiple'> | RangeCalendarState,
   desiredStart: CalendarDate
 ): void => {
   const { start: currentStart, end: currentEnd } = state.visibleRange

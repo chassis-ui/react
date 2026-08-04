@@ -1,11 +1,11 @@
 import { CSSProperties, HTMLAttributes, RefObject } from 'react'
-import { usePopover } from 'react-aria'
+import { mergeProps, useOverlay, useOverlayPosition } from 'react-aria'
 import { OverlayTriggerState } from 'react-stately'
 
 import { resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
 
 interface UseOverlayPlacementProps {
-  popoverRef: RefObject<HTMLElement | null>
+  overlayRef: RefObject<HTMLElement | null>
   state: OverlayTriggerState
   triggerRef: RefObject<HTMLElement | null>
 }
@@ -13,50 +13,82 @@ interface UseOverlayPlacementProps {
 interface UseOverlayPlacementResult {
   overlayStyle: CSSProperties
   placementAttr: string
-  // `usePopover`'s own `popoverProps` type pulls in `@react-types/shared`'s `DOMAttributes`, whose
-  // event handlers reference `FocusableElement` — a type `rollup-plugin-dts` can't always resolve
-  // a portable name for in the bundled `.d.ts`. Re-typed here as the plain HTML attributes it's
-  // actually spread onto (a `<div>` in both callers), which every prop it carries (aria-*,
-  // onKeyDown, etc.) is structurally assignable to.
-  popoverDismissProps: HTMLAttributes<HTMLElement>
+  // Re-typed as plain HTML attributes for the same `rollup-plugin-dts` portability reason as
+  // before (see git history) — react-aria's own return type pulls in a `FocusableElement`
+  // reference the bundled `.d.ts` can't always resolve a portable name for.
+  overlayDismissProps: HTMLAttributes<HTMLElement>
 }
 
-// Shared by `CxDatePicker` and `CxDateRangePicker` — both position their calendar popover the same
-// way (`bottom-start`, 2px offset, closing only on interaction outside the trigger group). Wraps
-// `usePopover` and splits its computed `style` back apart: only position/top/left are wanted (no
-// `zIndex`/`maxHeight` overrides — chassis-css owns those), the rest are the escape/outside-click
-// dismissal props the caller still needs to spread onto the popover element.
+// Shared by `CxDatePicker` and `CxDateRangePicker` — both position their calendar overlay the same
+// way (`bottom-start`, 2px offset, closing on Escape or when focus leaves the trigger group).
+//
+// Built directly on `useOverlay` + `useOverlayPosition` rather than the higher-level `usePopover`
+// combo hook. `usePopover` computes its own internal `onClose` for `useOverlayPosition` from
+// `isNonModal` (`isNonModal && !isSubmenu ? state.close : null`, neither overridable by a caller),
+// and `isNonModal: true` — needed so the calendar doesn't lock page scroll or aria-hide the rest of
+// the page, since it was never meant to be modal — unconditionally arms `useOverlayPosition`'s
+// close-on-any-window-scroll listener (`useCloseOnScroll`, keyed off `onClose !== null`) as a side
+// effect. That's wrong here: the calendar should reposition with its trigger when the page scrolls,
+// not disappear. Calling the two lower-level hooks directly, with `onClose: null` passed to
+// `useOverlayPosition` alone, gets the positioning and Escape/blur dismissal this calendar needs
+// without arming that listener — the same fix already applied to `CxAutocomplete`/`CxCombobox`/
+// `CxMenu`/`CxSubmenu`/`CxPopover`, none of which use `usePopover` either, all for this same reason.
 export const useOverlayPlacement = ({
-  popoverRef,
+  overlayRef,
   state,
   triggerRef
 }: UseOverlayPlacementProps): UseOverlayPlacementResult => {
-  const { popoverProps, placement: resolvedPlacement } = usePopover(
+  // The trigger's own toggle button lives inside `triggerRef`, not `overlayRef` — without this,
+  // focus moving there when the button is pressed would count as an "outside" interaction and
+  // close the overlay, which the button's own `onPress` then immediately reopens on click.
+  const shouldCloseOnInteractOutside = (element: Element) => !triggerRef.current?.contains(element)
+
+  // Escape key + focus-leaves-the-overlay dismissal — the two pieces of `usePopover`'s bundled
+  // behavior this calendar still needs. `isDismissable` is left at its default (`false`), matching
+  // the value `usePopover` itself computes whenever `isNonModal` is true (as it always is for this
+  // calendar): outside-*click* dismissal happens via `shouldCloseOnBlur`'s focus-leaves-the-overlay
+  // check, not a separate pointerdown listener — `usePopover` doesn't wire that one either in the
+  // non-modal case.
+  //
+  // Deliberately not reproducing `usePopover`'s `usePreventScroll`/`ariaHideOutside` calls on top
+  // of this: `usePreventScroll`'s `isDisabled: isNonModal || !state.isOpen` is always true here
+  // (this calendar is always non-modal), so it was already a permanent no-op; `ariaHideOutside`'s
+  // `keepVisible` counterpart (exempting this overlay from being aria-hidden if some *other*, modal
+  // overlay happens to be open at the same time) lives only on a private, unexported react-aria
+  // subpath — the same trade-off `CxAutocomplete`/`CxCombobox`/`CxMenu`/`CxSubmenu`/`CxPopover`
+  // already accept for opting out of `usePopover`, none of them reproducing it either.
+  const { overlayProps } = useOverlay(
     {
-      triggerRef,
-      popoverRef,
-      placement: toAriaPlacement('bottom-start'),
-      offset: 2,
-      // The trigger's own toggle button lives inside `triggerRef`, not `popoverRef` — without this
-      // it would count as an "outside" interaction and `usePopover` would close the popover on
-      // pointerdown, which the toggle button's own `onPress` then immediately reopens on click.
-      shouldCloseOnInteractOutside: (element) => !triggerRef.current?.contains(element),
-      // Without this, `usePopover` defaults to modal behavior: it locks page scroll
-      // (`usePreventScroll`) for as long as the calendar is open and `aria-hide`s the rest of the
-      // page from assistive tech. The calendar was never meant to be modal — it should scroll
-      // with the page like `CxAutocomplete`'s panel does, not block it.
-      isNonModal: true
+      isOpen: state.isOpen,
+      onClose: state.close,
+      shouldCloseOnBlur: true,
+      shouldCloseOnInteractOutside
     },
-    state
+    overlayRef
   )
 
-  const { style: popoverPositionStyle, ...popoverDismissProps } = popoverProps
+  const { overlayProps: positionProps, placement: resolvedPlacement } = useOverlayPosition({
+    isOpen: state.isOpen,
+    offset: 2,
+    // Opts out of `useOverlayPosition`'s own close-on-any-window-scroll listener — see this hook's
+    // own comment above. Leaving this `undefined` would NOT disable it: `useCloseOnScroll` only
+    // early-returns on `onClose === null`, not merely falsy.
+    onClose: null,
+    overlayRef,
+    placement: toAriaPlacement('bottom-start'),
+    targetRef: triggerRef
+  })
+
+  const { style: overlayPositionStyle, ...overlayDismissProps } = mergeProps(
+    overlayProps,
+    positionProps
+  )
   const overlayStyle: CSSProperties = {
-    position: popoverPositionStyle?.position as CSSProperties['position'],
-    top: popoverPositionStyle?.top,
-    left: popoverPositionStyle?.left
+    position: overlayPositionStyle?.position as CSSProperties['position'],
+    top: overlayPositionStyle?.top,
+    left: overlayPositionStyle?.left
   }
   const placementAttr = resolveDataPlacement('bottom-start', resolvedPlacement)
 
-  return { overlayStyle, placementAttr, popoverDismissProps }
+  return { overlayStyle, placementAttr, overlayDismissProps }
 }

@@ -76,6 +76,19 @@ describe('CxDatePicker', () => {
       fireEvent.keyDown(dialog, { key: 'Escape' })
       expect(dialog).toHaveAttribute('hidden')
     })
+
+    // Regression coverage: `useOverlayPosition` (which `useOverlayPlacement` calls to position
+    // the popover) also offers to close the overlay on any window scroll via `useCloseOnScroll`,
+    // armed whenever a non-null `onClose` is passed. The popover should instead just reposition
+    // with its trigger as the page scrolls, the same as `CxAutocomplete`'s panel.
+    test('scrolling the window while the calendar is open does not close it', () => {
+      render(<CxDatePicker aria-label="Event date" />)
+      const dialog = getCalendarWrapper()
+      openCalendar()
+      expect(dialog).not.toHaveAttribute('hidden')
+      fireEvent.scroll(window)
+      expect(dialog).not.toHaveAttribute('hidden')
+    })
   })
 
   describe('focus management', () => {
@@ -214,6 +227,99 @@ describe('CxDatePicker', () => {
     })
   })
 
+  describe('visibleMonths', () => {
+    test('passes through to the popover calendar', () => {
+      render(
+        <CxDatePicker
+          aria-label="Event date"
+          value={new CalendarDate(2026, 7, 24)}
+          visibleMonths={2}
+        />
+      )
+      openCalendar()
+      expect(screen.getAllByRole('grid')).toHaveLength(2)
+    })
+  })
+
+  describe('selectionMode multiple', () => {
+    test('renders a labeled group with a read-only, comma-separated field', () => {
+      render(
+        <CxDatePicker
+          aria-label="Event dates"
+          selectionMode="multiple"
+          value={[new CalendarDate(2026, 7, 5), new CalendarDate(2026, 7, 12)]}
+        />
+      )
+      expect(screen.getByRole('group', { name: 'Event dates' })).toBeInTheDocument()
+      expect(screen.getByText('Jul 5, 2026, Jul 12, 2026')).toBeInTheDocument()
+    })
+
+    test('renders nothing in the field when no dates are selected', () => {
+      render(<CxDatePicker aria-label="Event dates" selectionMode="multiple" />)
+      const group = screen.getByRole('group', { name: 'Event dates' })
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(group.querySelector('.cx-datepicker-field')).toHaveTextContent('')
+    })
+
+    // Regression coverage: the popover calendar starts controlled with a real `[]` (not
+    // `undefined`) before anything is picked — see `CxCalendar.spec.tsx`'s identical test for
+    // why that specific shape used to crash react-stately's initial-focus computation.
+    test('opening the popover with no dates selected yet renders the grid without crashing', () => {
+      render(<CxDatePicker aria-label="Event dates" selectionMode="multiple" />)
+      openCalendar()
+      expect(screen.getByRole('grid')).toBeInTheDocument()
+    })
+
+    test('selecting dates in the popover updates the field and fires onChange, without closing the popover', () => {
+      const onChange = vi.fn()
+      render(
+        <CxDatePicker
+          aria-label="Event dates"
+          defaultValue={[new CalendarDate(2026, 7, 5)]}
+          onChange={onChange}
+          selectionMode="multiple"
+        />
+      )
+      openCalendar()
+
+      const grid = screen.getByRole('grid')
+      fireEvent.click(within(grid).getByRole('button', { name: /July 12, 2026/ }))
+      expect(onChange).toHaveBeenCalledWith([
+        new CalendarDate(2026, 7, 5),
+        new CalendarDate(2026, 7, 12)
+      ])
+      expect(getCalendarWrapper()).not.toHaveAttribute('hidden')
+    })
+
+    test('supports uncontrolled defaultValue', () => {
+      render(
+        <CxDatePicker
+          aria-label="Event dates"
+          defaultValue={[new CalendarDate(2026, 7, 5)]}
+          selectionMode="multiple"
+        />
+      )
+      expect(screen.getByText('Jul 5, 2026')).toBeInTheDocument()
+    })
+
+    test('creates one hidden input per selected date when name is provided', () => {
+      render(
+        <CxDatePicker
+          aria-label="Event dates"
+          name="eventDates"
+          selectionMode="multiple"
+          value={[new CalendarDate(2026, 7, 5), new CalendarDate(2026, 7, 12)]}
+        />
+      )
+      // eslint-disable-next-line testing-library/no-node-access
+      const hiddenInputs = document.querySelectorAll('input[type="hidden"][name="eventDates"]')
+      expect(Array.from(hiddenInputs).map((input) => (input as HTMLInputElement).value)).toEqual([
+        '2026-07-05',
+        '2026-07-12'
+      ])
+    })
+  })
+
   describe('form integration', () => {
     test('creates a hidden input for form submission when name is provided', () => {
       const { rerender } = render(
@@ -308,6 +414,20 @@ describe('CxDatePicker', () => {
       // sits inside a page landmark in this isolated fixture, which trips axe's "region"
       // best-practice rule. That rule is about overall page structure, not anything
       // CxDatePicker controls.
+      expect(
+        await axe(document.body, { rules: { region: { enabled: false } } })
+      ).toHaveNoViolations()
+    })
+
+    test('has no axe violations in multiple selection mode with the calendar open', async () => {
+      render(
+        <CxDatePicker
+          aria-label="Event dates"
+          selectionMode="multiple"
+          value={[new CalendarDate(2026, 7, 5), new CalendarDate(2026, 7, 12)]}
+        />
+      )
+      openCalendar()
       expect(
         await axe(document.body, { rules: { region: { enabled: false } } })
       ).toHaveNoViolations()

@@ -66,6 +66,18 @@ describe('CxDateRangePicker', () => {
       fireEvent.keyDown(dialog, { key: 'Escape' })
       expect(dialog).toHaveAttribute('hidden')
     })
+
+    // Regression coverage: see `CxDatePicker.spec.tsx`'s identical test — both share
+    // `useOverlayPlacement`, which opts out of `useOverlayPosition`'s close-on-any-window-scroll
+    // listener so the popover repositions with its trigger instead of vanishing on scroll.
+    test('scrolling the window while the calendar is open does not close it', () => {
+      render(<CxDateRangePicker aria-label="Trip dates" />)
+      const dialog = getCalendarWrapper()
+      openCalendar()
+      expect(dialog).not.toHaveAttribute('hidden')
+      fireEvent.scroll(window)
+      expect(dialog).not.toHaveAttribute('hidden')
+    })
   })
 
   describe('focus management', () => {

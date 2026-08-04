@@ -307,9 +307,218 @@ describe('CxCalendar', () => {
     })
   })
 
+  describe('visibleMonths', () => {
+    test('defaults to a single month with prev/next arrows in its own header', () => {
+      render(<CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
+      expect(screen.getAllByRole('grid')).toHaveLength(1)
+      expect(screen.getAllByRole('button', { name: /^Month:/ })).toHaveLength(1)
+      expect(screen.getByRole('button', { name: /next/i })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: /previous/i })).toBeInTheDocument()
+    })
+
+    test('renders the requested number of months, each with its own synced month/year picker', () => {
+      render(
+        <CxCalendar
+          aria-label="Event date"
+          value={new CalendarDate(2026, 7, 24)}
+          visibleMonths={2}
+        />
+      )
+      expect(screen.getAllByRole('grid')).toHaveLength(2)
+      const monthButtons = screen.getAllByRole('button', { name: /^Month:/ })
+      expect(monthButtons.map((button) => button.textContent)).toEqual(['July', 'August'])
+    })
+
+    test('a single global prev/next pair pages every visible month at once, with none in the per-month headers', () => {
+      render(
+        <CxCalendar
+          aria-label="Event date"
+          value={new CalendarDate(2026, 7, 24)}
+          visibleMonths={2}
+        />
+      )
+      expect(screen.getAllByRole('button', { name: /next/i })).toHaveLength(1)
+      expect(screen.getAllByRole('button', { name: /previous/i })).toHaveLength(1)
+
+      fireEvent.click(screen.getByRole('button', { name: /next/i }))
+      let monthButtons = screen.getAllByRole('button', { name: /^Month:/ })
+      expect(monthButtons.map((button) => button.textContent)).toEqual(['August', 'September'])
+
+      fireEvent.click(screen.getByRole('button', { name: /previous/i }))
+      monthButtons = screen.getAllByRole('button', { name: /^Month:/ })
+      expect(monthButtons.map((button) => button.textContent)).toEqual(['July', 'August'])
+    })
+
+    test('picking a month from the second block moves both months in sync', () => {
+      render(
+        <CxCalendar
+          aria-label="Event date"
+          value={new CalendarDate(2026, 7, 24)}
+          visibleMonths={2}
+        />
+      )
+      const [, secondMonthButton] = screen.getAllByRole('button', { name: /^Month:/ })
+      fireEvent.click(secondMonthButton)
+      fireEvent.click(screen.getByRole('option', { name: 'Dec' }))
+
+      const monthButtons = screen.getAllByRole('button', { name: /^Month:/ })
+      expect(monthButtons.map((button) => button.textContent)).toEqual(['November', 'December'])
+    })
+
+    test('clicking a date in the second visible month selects it', () => {
+      const onChange = vi.fn()
+      render(
+        <CxCalendar
+          aria-label="Event date"
+          onChange={onChange}
+          value={new CalendarDate(2026, 7, 1)}
+          visibleMonths={2}
+        />
+      )
+
+      const grids = screen.getAllByRole('grid')
+      fireEvent.click(within(grids[1]).getByRole('button', { name: /August 3, 2026/ }))
+
+      expect(onChange).toHaveBeenCalledWith(new CalendarDate(2026, 8, 3))
+    })
+
+    // Regression coverage: the global prev/next overlay and `CalendarYearGrid`'s own prev/next
+    // pager both render in the same spot — see `CxRangeCalendar`'s identical test for the full
+    // reasoning.
+    test('the global prev/next overlay hides while any visible month is in year-selection mode', () => {
+      render(
+        <CxCalendar
+          aria-label="Event date"
+          value={new CalendarDate(2026, 7, 24)}
+          visibleMonths={2}
+        />
+      )
+
+      expect(screen.getByRole('button', { name: /^next$/i })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: /^previous$/i })).toBeInTheDocument()
+
+      const [, secondYearButton] = screen.getAllByRole('button', { name: /^Year:/ })
+      fireEvent.click(secondYearButton)
+
+      expect(screen.queryByRole('button', { name: /^next$/i })).not.toBeInTheDocument()
+      expect(screen.queryByRole('button', { name: /^previous$/i })).not.toBeInTheDocument()
+
+      fireEvent.click(screen.getByRole('button', { name: /2026 – 2040/ }))
+
+      expect(screen.getByRole('button', { name: /^next$/i })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: /^previous$/i })).toBeInTheDocument()
+    })
+  })
+
+  describe('selectionMode', () => {
+    test('defaults to single selection — picking a new date replaces the old one', () => {
+      const onChange = vi.fn()
+      render(
+        <CxCalendar
+          aria-label="Event date"
+          onChange={onChange}
+          value={new CalendarDate(2026, 7, 24)}
+        />
+      )
+
+      const grid = screen.getByRole('grid')
+      fireEvent.click(within(grid).getByRole('button', { name: /July 15, 2026/ }))
+
+      expect(onChange).toHaveBeenCalledWith(new CalendarDate(2026, 7, 15))
+    })
+
+    test('multiple selection: clicking several dates selects all of them independently', () => {
+      const onChange = vi.fn()
+      render(
+        <CxCalendar
+          aria-label="Event date"
+          onChange={onChange}
+          selectionMode="multiple"
+          value={[new CalendarDate(2026, 7, 5)]}
+        />
+      )
+
+      const grid = screen.getByRole('grid')
+      expect(getDateCell(within(grid).getByRole('button', { name: /July 5, 2026/ }))).toHaveClass(
+        'datepicker-date-selected'
+      )
+
+      fireEvent.click(within(grid).getByRole('button', { name: /July 12, 2026/ }))
+      expect(onChange).toHaveBeenCalledWith([
+        new CalendarDate(2026, 7, 5),
+        new CalendarDate(2026, 7, 12)
+      ])
+    })
+
+    test('multiple selection: clicking an already-selected date deselects it', () => {
+      const onChange = vi.fn()
+      render(
+        <CxCalendar
+          aria-label="Event date"
+          onChange={onChange}
+          selectionMode="multiple"
+          value={[new CalendarDate(2026, 7, 5), new CalendarDate(2026, 7, 12)]}
+        />
+      )
+
+      const grid = screen.getByRole('grid')
+      fireEvent.click(within(grid).getByRole('button', { name: /July 5, 2026/ }))
+
+      expect(onChange).toHaveBeenCalledWith([new CalendarDate(2026, 7, 12)])
+    })
+
+    test('multiple selection: supports uncontrolled defaultValue', () => {
+      render(
+        <CxCalendar
+          aria-label="Event date"
+          defaultValue={[new CalendarDate(2026, 7, 5), new CalendarDate(2026, 7, 12)]}
+          selectionMode="multiple"
+        />
+      )
+
+      const grid = screen.getByRole('grid')
+      expect(getDateCell(within(grid).getByRole('button', { name: /July 5, 2026/ }))).toHaveClass(
+        'datepicker-date-selected'
+      )
+      expect(getDateCell(within(grid).getByRole('button', { name: /July 12, 2026/ }))).toHaveClass(
+        'datepicker-date-selected'
+      )
+      expect(
+        getDateCell(within(grid).getByRole('button', { name: /July 13, 2026/ }))
+      ).not.toHaveClass('datepicker-date-selected')
+    })
+
+    // Regression coverage: react-stately's `useCalendarState` computes an initial focused date
+    // by falling back to today only when the value is nullish — an empty array is truthy, so
+    // without `defaultFocusedValue` it instead indexes the (nonexistent) first element and
+    // throws trying to call `.subtract` on the resulting `undefined`. This is the actual shape
+    // `CxDatePicker`'s multi-select mode starts with (a real `[]`, not `undefined`) before any
+    // date is picked.
+    test('multiple selection: renders without an initial value, controlled as an empty array', () => {
+      render(<CxCalendar aria-label="Event date" selectionMode="multiple" value={[]} />)
+      expect(screen.getByRole('grid')).toBeInTheDocument()
+    })
+
+    test('multiple selection: renders without an initial value, uncontrolled as an empty array', () => {
+      render(<CxCalendar aria-label="Event date" defaultValue={[]} selectionMode="multiple" />)
+      expect(screen.getByRole('grid')).toBeInTheDocument()
+    })
+  })
+
   describe('accessibility', () => {
     test('has no axe violations', async () => {
       render(<CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
+      expect(await axe(document.body)).toHaveNoViolations()
+    })
+
+    test('has no axe violations in multiple selection mode', async () => {
+      render(
+        <CxCalendar
+          aria-label="Event date"
+          selectionMode="multiple"
+          value={[new CalendarDate(2026, 7, 5), new CalendarDate(2026, 7, 12)]}
+        />
+      )
       expect(await axe(document.body)).toHaveNoViolations()
     })
   })

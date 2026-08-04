@@ -9,6 +9,8 @@ import { BasicExample } from '../../src/examples/datepicker/BasicExample.tsx'
 import { FormFieldExample } from '../../src/examples/datepicker/FormFieldExample.tsx'
 import { MinMaxExample } from '../../src/examples/datepicker/MinMaxExample.tsx'
 import { LocaleExample } from '../../src/examples/datepicker/LocaleExample.tsx'
+import { MultiSelectExample } from '../../src/examples/datepicker/MultiSelectExample.tsx'
+import { MultiMonthExample } from '../../src/examples/datepicker/MultiMonthExample.tsx'
 
 import { CxDatePicker } from '@chassis-ui/react'
 
@@ -58,13 +60,28 @@ Saturday/Sunday (or whichever days the active locale considers the weekend) are 
 
 The calendar popover's week starts on Monday by default, regardless of the active locale. Pass `firstDayOfWeek` to override it, same as [`CxCalendar`](/forms/calendar).
 
+## Multiple dates
+
+Pass `selectionMode="multiple"` to select any number of independent dates instead of one. A segmented day/month/year field can't represent more than one date, so multiple selection replaces it with a read-only, comma-separated list of the selected dates — the calendar popover still works the same way, just toggling dates on and off instead of replacing a single value. `value`/`defaultValue`/`onChange` switch from a single date to an array of dates, and a `name`'d hidden input is created per selected date instead of just one.
+
+<Example>
+  <MultiSelectExample client:load />
+</Example>
+
+## Multiple months
+
+Pass `visibleMonths` to show more than one month side by side in the calendar popover — independent of `selectionMode`, same as on [`CxCalendar`](/forms/calendar) itself.
+
+<Example>
+  <MultiMonthExample client:load />
+</Example>
+
 ## Scope
 
-This is a single-date picker — the strong-fit case for React Aria's date picker hooks. A few things are deliberately out of scope for this pass:
+The strong-fit case for React Aria's date picker hooks is a single editable date field. A few things are deliberately out of scope for this pass:
 
 - **Date ranges** — for a start/end range, see [`CxDateRangePicker`](/forms/date-range-picker), built on the separate `useDateRangePickerState`/`useDateRangePicker` hook pair.
 - **Time selection** — the field is date-only (`granularity="day"`); no time segments are rendered.
-- **Multiple visible months** — the calendar grid always shows one month at a time.
 
 ## Styling
 

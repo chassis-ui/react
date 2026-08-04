@@ -1,4 +1,4 @@
-import React, { forwardRef, HTMLAttributes, useRef } from 'react'
+import React, { forwardRef, HTMLAttributes, useRef, useState } from 'react'
 import classNames from 'classnames'
 import { AriaCalendarProps, mergeProps, useCalendar, useCalendarCell, useLocale } from 'react-aria'
 import { CalendarState, DateValue, useCalendarState } from 'react-stately'
@@ -7,7 +7,8 @@ import {
   createCalendar,
   getLocalTimeZone,
   isToday,
-  isWeekend
+  isWeekend,
+  today
 } from '@internationalized/date'
 
 import { useForkedRef } from '../../hooks'
@@ -17,7 +18,7 @@ import { CalendarWeekGrid } from './CalendarWeekGrid'
 import { mergeIsDateUnavailable } from './mergeIsDateUnavailable'
 import './CxCalendar.css'
 
-export interface CxCalendarProps extends Omit<
+interface CxCalendarBaseProps extends Omit<
   HTMLAttributes<HTMLDivElement>,
   'onChange' | 'defaultValue'
 > {
@@ -38,10 +39,6 @@ export interface CxCalendarProps extends Omit<
    * A string of all className you want applied to the base component.
    */
   className?: string
-  /**
-   * The initial selected date (uncontrolled).
-   */
-  defaultValue?: DateValue | null
   /**
    * Prevents the calendar from being focused or interacted with.
    */
@@ -66,90 +63,181 @@ export interface CxCalendarProps extends Omit<
    */
   minValue?: DateValue | null
   /**
-   * Callback fired when the selected date changes. Unlike `CxDatePicker`'s `onChange` (whose
-   * segmented field can be cleared to `null`), a calendar selection is always a concrete date.
-   */
-  onChange?: (value: DateValue) => void
-  /**
    * ISO 8601 dates (`YYYY-MM-DD`) to mark unselectable, as a convenience alternative to
    * `isDateUnavailable` for data-driven cases (e.g. booked dates fetched from an API). Composed
    * with `isDateUnavailable` when both are given — a date unavailable by either is unavailable.
    */
   unavailableDates?: string[]
   /**
+   * Number of months to display side by side, sharing one selection. Wraps to multiple rows in
+   * a narrow container (e.g. a popover on a small screen) rather than overflowing — the wrap is
+   * driven by the calendar's own width, not the viewport, so it adapts correctly regardless of
+   * where the calendar is embedded.
+   *
+   * @default 1
+   */
+  visibleMonths?: number
+}
+
+export interface CxCalendarSingleProps extends CxCalendarBaseProps {
+  /**
+   * The initial selected date (uncontrolled).
+   */
+  defaultValue?: DateValue | null
+  /**
+   * Callback fired when the selected date changes. Unlike `CxDatePicker`'s `onChange` (whose
+   * segmented field can be cleared to `null`), a calendar selection is always a concrete date.
+   */
+  onChange?: (value: DateValue) => void
+  /**
+   * Whether a single date or multiple, independently toggled dates can be selected.
+   *
+   * @default 'single'
+   */
+  selectionMode?: 'single'
+  /**
    * The selected date (controlled).
    */
   value?: DateValue | null
 }
 
+export interface CxCalendarMultipleProps extends CxCalendarBaseProps {
+  /**
+   * The initial selected dates (uncontrolled).
+   */
+  defaultValue?: DateValue[] | null
+  /**
+   * Callback fired when the set of selected dates changes.
+   */
+  onChange?: (value: DateValue[]) => void
+  /**
+   * Whether a single date or multiple, independently toggled dates can be selected.
+   *
+   * @default 'single'
+   */
+  selectionMode: 'multiple'
+  /**
+   * The selected dates (controlled).
+   */
+  value?: DateValue[] | null
+}
+
+export type CxCalendarProps = CxCalendarSingleProps | CxCalendarMultipleProps
+
 // Public, standalone calendar grid — also used internally by `CxDatePicker` to render the grid
 // inside its popover. Deliberately has no knowledge of dialog/popover semantics (role="dialog",
 // focus trapping, etc.) — that's the caller's concern, layered on via the `...rest` passthrough
 // below (see `CxDatePicker`, which merges its own `useDialog` output in this way).
-export const CxCalendar = forwardRef<HTMLDivElement, CxCalendarProps>(
-  (
-    {
-      autoFocus,
-      className,
-      defaultValue,
-      disabled,
-      firstDayOfWeek = 'mon',
-      isDateUnavailable,
-      maxValue,
-      minValue,
-      onChange,
-      unavailableDates,
-      value,
-      ...rest
-    },
-    forwardedRef
-  ) => {
-    const { locale } = useLocale()
-    const internalRef = useRef<HTMLDivElement>(null)
-    const ref = useForkedRef(internalRef, forwardedRef)
-    const combinedIsDateUnavailable = mergeIsDateUnavailable(unavailableDates, isDateUnavailable)
+//
+// `selectionMode` is a discriminated union on the public props (single vs. multiple value/
+// onChange shapes), bridged onto one underlying `useCalendarState`/`useCalendar` call instantiated
+// over the union of both modes — react-stately/react-aria are natively selection-mode-aware at
+// that layer (including `useCalendarCell`'s `isSelected`), so no custom multi-select logic is
+// needed here, just narrow, provably-safe casts at the seam between the public union and the
+// single generic call (react-stately always reports/expects the value shape matching whichever
+// `selectionMode` was actually passed in).
+export const CxCalendar = forwardRef<HTMLDivElement, CxCalendarProps>((props, forwardedRef) => {
+  const {
+    autoFocus,
+    className,
+    defaultValue,
+    disabled,
+    firstDayOfWeek = 'mon',
+    isDateUnavailable,
+    maxValue,
+    minValue,
+    onChange,
+    selectionMode = 'single',
+    unavailableDates,
+    value,
+    visibleMonths = 1,
+    ...rest
+  } = props
 
-    const state = useCalendarState({
-      autoFocus,
-      createCalendar,
-      defaultValue,
-      firstDayOfWeek,
-      isDateUnavailable: combinedIsDateUnavailable,
-      isDisabled: disabled,
-      locale,
-      maxValue,
-      minValue,
-      onChange,
-      value,
-      visibleDuration: { months: 1 }
-    })
+  const { locale } = useLocale()
+  const internalRef = useRef<HTMLDivElement>(null)
+  const ref = useForkedRef(internalRef, forwardedRef)
+  const combinedIsDateUnavailable = mergeIsDateUnavailable(unavailableDates, isDateUnavailable)
+  // Tracks each visible month block's own view, keyed by `monthIndex` — same reasoning as
+  // `CxRangeCalendar`'s identical state: needed only to know whether *any* block has switched
+  // away from the day grid, so the global `.datepicker-controls` overlay can hide itself rather
+  // than sit on top of `CalendarYearGrid`'s own pager.
+  const [monthViews, setMonthViews] = useState<Record<number, 'days' | 'months' | 'years'>>({})
+  const hasPickerView = Object.values(monthViews).some((view) => view !== 'days')
 
-    const ariaProps: AriaCalendarProps<DateValue> = {
-      'aria-label': rest['aria-label'],
-      'aria-labelledby': rest['aria-labelledby'],
-      autoFocus,
-      defaultValue,
-      isDateUnavailable: combinedIsDateUnavailable,
-      isDisabled: disabled,
-      maxValue,
-      minValue,
-      onChange,
-      value
+  const handleChange = (next: DateValue | readonly DateValue[]) => {
+    if (selectionMode === 'multiple') {
+      ;(onChange as ((value: DateValue[]) => void) | undefined)?.(next as DateValue[])
+    } else {
+      ;(onChange as ((value: DateValue) => void) | undefined)?.(next as DateValue)
     }
+  }
+  const normalizedValue = value as DateValue | readonly DateValue[] | null | undefined
+  const normalizedDefaultValue = defaultValue as DateValue | readonly DateValue[] | null | undefined
+  // react-stately's `useCalendarState` crashes computing the initial focused date for
+  // `selectionMode: 'multiple'` when the (controlled or default) value is a genuinely empty
+  // array — its own fallback-to-today logic only runs when the value is nullish, but an empty
+  // array is truthy, so it instead indexes the (nonexistent) first element and calls `.subtract`
+  // on the resulting `undefined`. Supplying `defaultFocusedValue` ourselves in exactly that case
+  // short-circuits react-stately's logic before it ever reaches the buggy branch, without
+  // affecting the normal "focus follows the selection" behavior whenever there is one.
+  const resolvedValue = normalizedValue !== undefined ? normalizedValue : normalizedDefaultValue
+  const defaultFocusedValue =
+    selectionMode === 'multiple' && Array.isArray(resolvedValue) && resolvedValue.length === 0
+      ? today(getLocalTimeZone())
+      : undefined
 
-    const { calendarProps, prevButtonProps, nextButtonProps } = useCalendar(ariaProps, state)
+  const state = useCalendarState<DateValue, 'single' | 'multiple'>({
+    autoFocus,
+    createCalendar,
+    defaultFocusedValue,
+    defaultValue: normalizedDefaultValue,
+    firstDayOfWeek,
+    isDateUnavailable: combinedIsDateUnavailable,
+    isDisabled: disabled,
+    locale,
+    maxValue,
+    minValue,
+    onChange: handleChange,
+    // Prev/next always slide the visible window by one month, regardless of `visibleMonths` —
+    // same reasoning as `CxRangeCalendar`'s identical setting (see that component's own comment).
+    pageBehavior: 'single',
+    selectionMode,
+    value: normalizedValue,
+    visibleDuration: { months: visibleMonths }
+  })
 
-    return (
-      <div
-        {...mergeProps(calendarProps, rest)}
-        className={classNames('datepicker', className)}
-        data-cx-inline="true"
-        ref={ref}
-      >
+  const ariaProps: AriaCalendarProps<DateValue, 'single' | 'multiple'> = {
+    'aria-label': rest['aria-label'],
+    'aria-labelledby': rest['aria-labelledby'],
+    autoFocus,
+    defaultFocusedValue,
+    defaultValue: normalizedDefaultValue,
+    isDateUnavailable: combinedIsDateUnavailable,
+    isDisabled: disabled,
+    maxValue,
+    minValue,
+    onChange: handleChange,
+    selectionMode,
+    value: normalizedValue
+  }
+
+  const { calendarProps, prevButtonProps, nextButtonProps } = useCalendar(ariaProps, state)
+  const prevButton = <CalendarNavButton buttonProps={prevButtonProps} direction="prev" />
+  const nextButton = <CalendarNavButton buttonProps={nextButtonProps} direction="next" />
+
+  return (
+    <div
+      {...mergeProps(calendarProps, rest)}
+      className={classNames('datepicker', className)}
+      data-cx-inline="true"
+      ref={ref}
+    >
+      {visibleMonths === 1 ? (
         <CalendarMonthYearPicker
           monthStart={state.visibleRange.start}
-          nextArrow={<CalendarNavButton buttonProps={nextButtonProps} direction="next" />}
-          prevArrow={<CalendarNavButton buttonProps={prevButtonProps} direction="prev" />}
+          nextArrow={nextButton}
+          prevArrow={prevButton}
           state={state}
         >
           <CalendarWeekGrid
@@ -158,17 +246,82 @@ export const CxCalendar = forwardRef<HTMLDivElement, CxCalendarProps>(
             state={state}
           />
         </CalendarMonthYearPicker>
-      </div>
-    )
-  }
-)
+      ) : (
+        <>
+          {/* `.datepicker[data-cx-inline]` (the root above) is already `position: relative` in
+              chassis-css, so this overlay needs no extra positioning wrapper of its own — unlike
+              `CxRangeCalendar`, which has a `presets` column sharing that root and so scopes its
+              own copy of this overlay to a nested `.cx-calendar-body` instead. */}
+          {!hasPickerView && (
+            <div className="datepicker-controls">
+              {prevButton}
+              {nextButton}
+            </div>
+          )}
+          <div className="datepicker-grid">
+            {[...new Array(visibleMonths).keys()].map((monthIndex) => (
+              <CalendarMonth
+                firstDayOfWeek={firstDayOfWeek}
+                key={monthIndex}
+                locale={locale}
+                monthIndex={monthIndex}
+                onViewChange={(view) => setMonthViews((prev) => ({ ...prev, [monthIndex]: view }))}
+                state={state}
+              />
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  )
+})
 
 CxCalendar.displayName = 'CxCalendar'
+
+type CxCalendarState = CalendarState<'single' | 'multiple'>
+
+interface CalendarMonthProps {
+  firstDayOfWeek?: 'sun' | 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat'
+  locale: string
+  monthIndex: number
+  onViewChange: (view: 'days' | 'months' | 'years') => void
+  state: CxCalendarState
+}
+
+// One visible month within `visibleMonths` — mirrors `CxRangeCalendar`'s identical subcomponent
+// (see its own comment), adapted to a single/multiple-select state instead of a range one.
+const CalendarMonth = ({
+  firstDayOfWeek,
+  locale,
+  monthIndex,
+  onViewChange,
+  state
+}: CalendarMonthProps) => {
+  const monthStart = state.visibleRange.start.add({ months: monthIndex })
+
+  return (
+    <div className="datepicker-column">
+      <CalendarMonthYearPicker
+        monthIndex={monthIndex}
+        monthStart={monthStart}
+        onViewChange={onViewChange}
+        state={state}
+      >
+        <CalendarWeekGrid
+          firstDayOfWeek={firstDayOfWeek}
+          renderCell={(date) => <CalendarCell date={date} locale={locale} state={state} />}
+          startDate={monthStart}
+          state={state}
+        />
+      </CalendarMonthYearPicker>
+    </div>
+  )
+}
 
 interface CalendarCellProps {
   date: CalendarDate
   locale: string
-  state: CalendarState
+  state: CxCalendarState
 }
 
 const CalendarCell = ({ date, locale, state }: CalendarCellProps) => {

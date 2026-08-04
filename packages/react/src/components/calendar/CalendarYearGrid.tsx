@@ -10,7 +10,7 @@ interface CalendarYearGridProps {
   monthStart: CalendarDate
   onBack: () => void
   onSelect: (date: CalendarDate) => void
-  state: CalendarState | RangeCalendarState
+  state: CalendarState<'single' | 'multiple'> | RangeCalendarState
 }
 
 const YEARS_PER_PAGE = 15

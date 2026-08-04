@@ -6,7 +6,7 @@ import { CalendarDate, toCalendarDate } from '@internationalized/date'
 // a `maxValue` of March 15th still leaves March itself partly selectable, so March's button stays
 // enabled; April's doesn't). `unitEnd` is the last day of the button's own month/year.
 export const isWholeUnitDisabled = (
-  state: CalendarState | RangeCalendarState,
+  state: CalendarState<'single' | 'multiple'> | RangeCalendarState,
   unitStart: CalendarDate,
   unitEnd: CalendarDate
 ): boolean => {

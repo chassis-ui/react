@@ -7,9 +7,9 @@ interface CalendarToggleButtonProps {
   state: OverlayTriggerState
 }
 
-// Shared by `CxDatePicker` and `CxDateRangePicker` — both trigger their calendar popover with an
+// Shared by `CxDatePicker` and `CxDateRangePicker` — both trigger their calendar overlay with an
 // identical calendar-icon button. `buttonProps.onPress` (from that caller's own `useDatePicker`/
-// `useDateRangePicker`) only ever opens the popover (matches upstream react-aria), so re-clicking
+// `useDateRangePicker`) only ever opens the overlay (matches upstream react-aria), so re-clicking
 // the button while it's already open would otherwise do nothing — overridden here to actually
 // toggle.
 export const CalendarToggleButton = ({ buttonProps, state }: CalendarToggleButtonProps) => {

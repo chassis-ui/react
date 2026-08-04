@@ -10,12 +10,14 @@ import { MinMaxExample } from '../../src/examples/calendar/MinMaxExample.tsx'
 import { UnavailableExample } from '../../src/examples/calendar/UnavailableExample.tsx'
 import { UnavailableDatesExample } from '../../src/examples/calendar/UnavailableDatesExample.tsx'
 import { FirstDayOfWeekExample } from '../../src/examples/calendar/FirstDayOfWeekExample.tsx'
+import { MultiSelectExample } from '../../src/examples/calendar/MultiSelectExample.tsx'
+import { MultiMonthExample } from '../../src/examples/calendar/MultiMonthExample.tsx'
 
 import { CxCalendar } from '@chassis-ui/react'
 
 ## Overview
 
-`CxCalendar` is a single-month date grid with keyboard-navigable cells, usable on its own wherever an inline calendar is needed — no popover, no text field. [`CxDatePicker`](/forms/datepicker) renders this same component inside its popover, so the two always look and behave identically.
+`CxCalendar` is a date grid with keyboard-navigable cells, usable on its own wherever an inline calendar is needed — no popover, no text field. [`CxDatePicker`](/forms/datepicker) renders this same component inside its popover, so the two always look and behave identically.
 
 <Example>
   <BasicExample client:load />
@@ -61,14 +63,29 @@ The week starts on Monday by default, regardless of the active locale. Pass `fir
   <FirstDayOfWeekExample client:load />
 </Example>
 
+## Multiple dates
+
+Pass `selectionMode="multiple"` to select any number of independent dates instead of one — clicking a date toggles it on or off, and `value`/`defaultValue`/`onChange` switch from a single date to an array of dates. Unlike [`CxRangeCalendar`](/forms/range-calendar), the selected dates don't need to be contiguous.
+
+<Example>
+  <MultiSelectExample client:load />
+</Example>
+
+## Multiple months
+
+Pass `visibleMonths` to show more than one month side by side, sharing one selection — independent of `selectionMode`, so it works the same with a single selected date or several. Each month gets its own header with its own month/year dropdowns, kept in sync. The prev/next buttons move to a single global overlay instead of repeating in every month's header, paging the whole visible span at once.
+
+<Example>
+  <MultiMonthExample client:load />
+</Example>
+
 ## Accessible name
 
 `CxCalendar` has no visible label of its own — pass `aria-label` or `aria-labelledby` any time it's used standalone (as in every example above). When composed inside `CxDatePicker`'s popover, the accessible name instead comes from the picker's own label.
 
 ## Scope
 
-- **Single month** — the grid always shows one month at a time; multi-month display isn't supported yet.
-- **Single date** — one selected date at a time; for range selection, see [`CxRangeCalendar`](/forms/range-calendar).
+- **Contiguous ranges** — `CxCalendar` selects independent dates or none at all; for a start/end range, see [`CxRangeCalendar`](/forms/range-calendar).
 
 ## Styling
 

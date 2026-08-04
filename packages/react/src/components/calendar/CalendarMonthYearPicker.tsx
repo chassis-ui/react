@@ -25,7 +25,7 @@ interface CalendarMonthYearPickerProps {
   // otherwise sit right underneath the parent's global `.datepicker-controls` overlay.
   onViewChange?: (view: 'days' | 'months' | 'years') => void
   prevArrow?: ReactNode
-  state: CalendarState | RangeCalendarState
+  state: CalendarState<'single' | 'multiple'> | RangeCalendarState
 }
 
 // Header + body for one visible month block: the day grid by default, switching in place to a

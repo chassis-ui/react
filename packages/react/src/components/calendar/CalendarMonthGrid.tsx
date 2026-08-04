@@ -10,7 +10,7 @@ interface CalendarMonthGridProps {
   monthStart: CalendarDate
   onBack: () => void
   onSelect: (date: CalendarDate) => void
-  state: CalendarState | RangeCalendarState
+  state: CalendarState<'single' | 'multiple'> | RangeCalendarState
 }
 
 // The month view of `CalendarMonthYearPicker` — every month in `monthStart`'s own year, laid out

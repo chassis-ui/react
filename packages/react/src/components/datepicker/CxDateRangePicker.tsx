@@ -39,7 +39,7 @@ export interface CxDateRangePickerProps extends Omit<
    */
   disabled?: boolean
   /**
-   * The day that starts the week in the calendar popover, overriding the default set by the
+   * The day that starts the week in the calendar overlay, overriding the default set by the
    * active locale.
    *
    * @default 'mon'
@@ -89,7 +89,7 @@ export interface CxDateRangePickerProps extends Omit<
    */
   onChange?: (value: RangeValue<DateValue> | null) => void
   /**
-   * A list of quick-select range presets shown in the popover next to the calendar. Selecting a
+   * A list of quick-select range presets shown in the overlay next to the calendar. Selecting a
    * preset commits its range immediately, the same as picking a start and end date from the
    * calendar. The preset matching the current selection (if any) is marked selected. Omit to not
    * show a preset list.
@@ -103,7 +103,7 @@ export interface CxDateRangePickerProps extends Omit<
    * ISO 8601 dates (`YYYY-MM-DD`) to mark unselectable, as a convenience alternative to
    * `isDateUnavailable` for data-driven cases (e.g. booked dates fetched from an API). Composed
    * with `isDateUnavailable` when both are given — a date unavailable by either is unavailable.
-   * Applies to both the calendar popover and typing a date directly into either field.
+   * Applies to both the calendar overlay and typing a date directly into either field.
    */
   unavailableDates?: string[]
   /**
@@ -119,20 +119,20 @@ export interface CxDateRangePickerProps extends Omit<
    */
   value?: RangeValue<DateValue> | null
   /**
-   * Number of months to display side by side in the calendar popover.
+   * Number of months to display side by side in the calendar overlay.
    *
    * @default 1
    */
   visibleMonths?: number
 }
 
-// Mirrors `CxDatePicker` closely — same field/popover/dialog composition, just with two
+// Mirrors `CxDatePicker` closely — same field/overlay/dialog composition, just with two
 // segmented fields (`startFieldProps`/`endFieldProps` in place of a single `fieldProps`) and
-// `CxRangeCalendar` in place of `CxCalendar` in the popover, dialog role/ref landing directly on
+// `CxRangeCalendar` in place of `CxCalendar` in the overlay, dialog role/ref landing directly on
 // it exactly as `CxCalendar` does for `CxDatePicker`. `presets` is passed straight through —
 // `CxRangeCalendar` owns rendering and selecting them (it's also usable standalone), so completing
 // one goes through the same `state.setValue`/`onChange` path a two-click grid selection does,
-// which is what closes this popover automatically.
+// which is what closes this overlay automatically.
 export const CxDateRangePicker = ({
   className,
   defaultValue,
@@ -171,7 +171,7 @@ export const CxDateRangePicker = ({
 
   const groupRef = useRef<HTMLDivElement>(null)
   const calendarRef = useRef<HTMLDivElement>(null)
-  const popoverRef = useRef<HTMLDivElement>(null)
+  const overlayRef = useRef<HTMLDivElement>(null)
 
   const {
     describedBy,
@@ -211,8 +211,8 @@ export const CxDateRangePicker = ({
       groupRef
     )
 
-  const { overlayStyle, placementAttr, popoverDismissProps } = useOverlayPlacement({
-    popoverRef,
+  const { overlayStyle, placementAttr, overlayDismissProps } = useOverlayPlacement({
+    overlayRef,
     state,
     triggerRef: groupRef
   })
@@ -247,8 +247,8 @@ export const CxDateRangePicker = ({
           className="datepicker"
           data-cx-placement={placementAttr}
           hidden={!state.isOpen}
-          ref={popoverRef}
-          {...popoverDismissProps}
+          ref={overlayRef}
+          {...overlayDismissProps}
           style={overlayStyle}
         >
           {state.isOpen && (

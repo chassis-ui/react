@@ -7,7 +7,7 @@ interface CalendarWeekGridProps {
   firstDayOfWeek?: 'sun' | 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat'
   renderCell: (date: CalendarDate, index: number, week: (CalendarDate | null)[]) => ReactNode
   startDate?: CalendarDate
-  state: CalendarState | RangeCalendarState
+  state: CalendarState<'single' | 'multiple'> | RangeCalendarState
 }
 
 // Shared week-day header + date-rows grid, used by both `CxCalendar` and `CxRangeCalendar` —
