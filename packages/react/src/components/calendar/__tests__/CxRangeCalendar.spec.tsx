@@ -424,6 +424,60 @@ describe('CxRangeCalendar', () => {
         end: new CalendarDate(2026, 8, 3)
       })
     })
+
+    // Regression coverage: the global prev/next overlay (`.datepicker-controls`, absolutely
+    // positioned across the very top of the calendar) and `CalendarYearGrid`'s own prev/next pager
+    // both render in that same spot — visible together, they'd sit on top of one another. The
+    // overlay must step aside whenever any visible month block has switched to its year view.
+    test('the global prev/next overlay hides while any visible month is in year-selection mode', () => {
+      render(
+        <CxRangeCalendar
+          aria-label="Trip dates"
+          value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 8, 15) }}
+          visibleMonths={2}
+        />
+      )
+
+      expect(screen.getByRole('button', { name: /^next$/i })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: /^previous$/i })).toBeInTheDocument()
+
+      const [, secondYearButton] = screen.getAllByRole('button', { name: /^Year:/ })
+      fireEvent.click(secondYearButton)
+
+      expect(screen.queryByRole('button', { name: /^next$/i })).not.toBeInTheDocument()
+      expect(screen.queryByRole('button', { name: /^previous$/i })).not.toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'Next years' })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'Previous years' })).toBeInTheDocument()
+
+      fireEvent.click(screen.getByRole('button', { name: /2026 – 2040/ }))
+
+      expect(screen.getByRole('button', { name: /^next$/i })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: /^previous$/i })).toBeInTheDocument()
+    })
+
+    // Same overlay, same reasoning, for the month view — it has no pager of its own to overlap,
+    // but the global one would still be paging a day grid that's no longer showing, which reads
+    // as it doing nothing.
+    test('the global prev/next overlay hides while any visible month is in month-selection mode', () => {
+      render(
+        <CxRangeCalendar
+          aria-label="Trip dates"
+          value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 8, 15) }}
+          visibleMonths={2}
+        />
+      )
+
+      const [firstMonthButton] = screen.getAllByRole('button', { name: /^Month:/ })
+      fireEvent.click(firstMonthButton)
+
+      expect(screen.queryByRole('button', { name: /^next$/i })).not.toBeInTheDocument()
+      expect(screen.queryByRole('button', { name: /^previous$/i })).not.toBeInTheDocument()
+
+      fireEvent.click(screen.getByRole('button', { name: '2026' }))
+
+      expect(screen.getByRole('button', { name: /^next$/i })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: /^previous$/i })).toBeInTheDocument()
+    })
   })
 
   describe('presets', () => {

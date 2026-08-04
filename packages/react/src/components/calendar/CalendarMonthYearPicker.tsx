@@ -19,6 +19,11 @@ interface CalendarMonthYearPickerProps {
   // component's own `arrows` prop. Only ever rendered in the 'days' view; the month/year views page
   // themselves independently (`CalendarYearGrid`) or don't page at all (`CalendarMonthGrid`).
   nextArrow?: ReactNode
+  // Reports this block's own view whenever it changes, so a parent rendering several blocks
+  // (`CxRangeCalendar` with `visibleMonths > 1`) can tell when one of them has switched to the
+  // year view — `CalendarYearGrid` owns its own prev/next pager in that view, which would
+  // otherwise sit right underneath the parent's global `.datepicker-controls` overlay.
+  onViewChange?: (view: 'days' | 'months' | 'years') => void
   prevArrow?: ReactNode
   state: CalendarState | RangeCalendarState
 }
@@ -40,10 +45,16 @@ export const CalendarMonthYearPicker = ({
   monthIndex = 0,
   monthStart,
   nextArrow,
+  onViewChange,
   prevArrow,
   state
 }: CalendarMonthYearPickerProps) => {
   const [view, setView] = useState<'days' | 'months' | 'years'>('days')
+
+  const changeView = (next: 'days' | 'months' | 'years') => {
+    setView(next)
+    onViewChange?.(next)
+  }
 
   const monthFormatter = useDateFormatter({
     calendar: monthStart.calendar.identifier,
@@ -58,14 +69,14 @@ export const CalendarMonthYearPicker = ({
 
   const commitAndReturn = (date: CalendarDate) => {
     setVisibleRangeStart(state, date.subtract({ months: monthIndex }))
-    setView('days')
+    changeView('days')
   }
 
   if (view === 'months') {
     return (
       <CalendarMonthGrid
         monthStart={monthStart}
-        onBack={() => setView('days')}
+        onBack={() => changeView('days')}
         onSelect={commitAndReturn}
         state={state}
       />
@@ -76,7 +87,7 @@ export const CalendarMonthYearPicker = ({
     return (
       <CalendarYearGrid
         monthStart={monthStart}
-        onBack={() => setView('days')}
+        onBack={() => changeView('days')}
         onSelect={commitAndReturn}
         state={state}
       />
@@ -92,7 +103,7 @@ export const CalendarMonthYearPicker = ({
             aria-label={`Month: ${monthFormatter.format(monthStart.toDate(state.timeZone))}`}
             className="datepicker-month"
             disabled={state.isDisabled}
-            onClick={() => setView('months')}
+            onClick={() => changeView('months')}
             type="button"
           >
             {monthFormatter.format(monthStart.toDate(state.timeZone))}
@@ -101,7 +112,7 @@ export const CalendarMonthYearPicker = ({
             aria-label={`Year: ${yearFormatter.format(monthStart.toDate(state.timeZone))}`}
             className="datepicker-year"
             disabled={state.isDisabled}
-            onClick={() => setView('years')}
+            onClick={() => changeView('years')}
             type="button"
           >
             {yearFormatter.format(monthStart.toDate(state.timeZone))}

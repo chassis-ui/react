@@ -1,4 +1,4 @@
-import React, { forwardRef, HTMLAttributes, ReactNode, useRef } from 'react'
+import React, { forwardRef, HTMLAttributes, ReactNode, useRef, useState } from 'react'
 import classNames from 'classnames'
 import {
   AriaRangeCalendarProps,
@@ -138,6 +138,14 @@ export const CxRangeCalendar = forwardRef<HTMLDivElement, CxRangeCalendarProps>(
     const ref = useForkedRef(internalRef, forwardedRef)
     const combinedIsDateUnavailable = mergeIsDateUnavailable(unavailableDates, isDateUnavailable)
     const resolvedPresets = presets && presets.length > 0 ? presets : null
+    // Tracks each visible month block's own view, keyed by `monthIndex` — needed only to know
+    // whether *any* block has switched away from the day grid. `CalendarYearGrid` owns its own
+    // prev/next pager, which would otherwise sit right underneath the global `.datepicker-controls`
+    // overlay below (see its own comment) — and even in the month view, where there's no such
+    // literal overlap, the global pager would still page the day grid one block is no longer
+    // showing, which reads as it doing nothing.
+    const [monthViews, setMonthViews] = useState<Record<number, 'days' | 'months' | 'years'>>({})
+    const hasPickerView = Object.values(monthViews).some((view) => view !== 'days')
 
     const state = useRangeCalendarState({
       autoFocus,
@@ -209,7 +217,7 @@ export const CxRangeCalendar = forwardRef<HTMLDivElement, CxRangeCalendarProps>(
             />
           )}
           <div className="datepicker-column cx-calendar-body">
-            {visibleMonths > 1 && (
+            {visibleMonths > 1 && !hasPickerView && (
               <div className="datepicker-controls">
                 {prevButton}
                 {nextButton}
@@ -223,6 +231,9 @@ export const CxRangeCalendar = forwardRef<HTMLDivElement, CxRangeCalendarProps>(
                   key={monthIndex}
                   locale={locale}
                   monthIndex={monthIndex}
+                  onViewChange={(view) =>
+                    setMonthViews((prev) => ({ ...prev, [monthIndex]: view }))
+                  }
                   state={state}
                 />
               ))}
@@ -241,6 +252,7 @@ interface CalendarMonthProps {
   firstDayOfWeek?: 'sun' | 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat'
   locale: string
   monthIndex: number
+  onViewChange: (view: 'days' | 'months' | 'years') => void
   state: RangeCalendarState
 }
 
@@ -253,6 +265,7 @@ const CalendarMonth = ({
   firstDayOfWeek,
   locale,
   monthIndex,
+  onViewChange,
   state
 }: CalendarMonthProps) => {
   const monthStart = state.visibleRange.start.add({ months: monthIndex })
@@ -263,6 +276,7 @@ const CalendarMonth = ({
         monthIndex={monthIndex}
         monthStart={monthStart}
         nextArrow={arrows?.next}
+        onViewChange={onViewChange}
         prevArrow={arrows?.prev}
         state={state}
       >
