@@ -19,11 +19,14 @@
 
 @layer components {
   .datepicker-date-in-range {
-    --cx-range-band-color: color-mix(in srgb, var(--cx-primary) 18%, transparent);
-
     padding-block: 0.0625rem;
     padding-inline: 0;
-    background-color: var(--cx-range-band-color);
+    color: var(--cx-day-range-fg-color);
+    background-color: var(--cx-day-range-bg-color);
+  }
+
+  .datepicker-date-in-range > .datepicker-date-btn:hover {
+    background-color: unset;
   }
 
   .datepicker-date-in-range.datepicker-date-range-start {
@@ -38,8 +41,8 @@
     border-end-end-radius: var(--cx-border-radius-medium);
   }
 
-  .datepicker-date-btn.datepicker-date-range-start,
-  .datepicker-date-btn.datepicker-date-range-end {
+  .datepicker-date-btn:is(.datepicker-date-range-start, .datepicker-date-range-end),
+  .datepicker-date-btn:is(.datepicker-date-range-start, .datepicker-date-range-end):hover {
     color: var(--cx-primary-contrast);
     background-color: var(--cx-primary);
   }

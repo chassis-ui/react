@@ -331,6 +331,7 @@ const CalendarCell = ({ date, isFirstInRow, isLastInRow, locale, state }: Calend
       {...cellProps}
       aria-current={isToday(date, getLocalTimeZone()) ? 'date' : undefined}
       className={classNames('datepicker-date', {
+        'datepicker-date-today': isToday(date, getLocalTimeZone()),
         'datepicker-date-in-range': isSelected,
         'datepicker-date-range-start': isSelected && (isRangeStart || isFirstInRow),
         'datepicker-date-range-end': isSelected && (isRangeEnd || isLastInRow),

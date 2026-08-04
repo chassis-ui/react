@@ -189,6 +189,7 @@ const CalendarCell = ({ date, locale, state }: CalendarCellProps) => {
       aria-current={isToday(date, getLocalTimeZone()) ? 'date' : undefined}
       className={classNames('datepicker-date', {
         'datepicker-date-selected': isSelected,
+        'datepicker-date-today': isToday(date, getLocalTimeZone()),
         'datepicker-date-outside': isOutsideVisibleRange,
         'datepicker-date-disabled': isDisabled,
         'datepicker-date-unavailable': isUnavailable,
