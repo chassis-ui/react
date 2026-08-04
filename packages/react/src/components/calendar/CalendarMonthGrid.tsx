@@ -23,7 +23,7 @@ export const CalendarMonthGrid = ({
 }: CalendarMonthGridProps) => {
   const monthFormatter = useDateFormatter({
     calendar: monthStart.calendar.identifier,
-    month: 'long',
+    month: 'short',
     timeZone: state.timeZone
   })
   const yearFormatter = useDateFormatter({
@@ -39,36 +39,40 @@ export const CalendarMonthGrid = ({
   })
 
   return (
-    <div className="datepicker-months-panel">
-      <div className="datepicker-months-header">
-        <button className="datepicker-months-back" onClick={onBack} type="button">
-          {yearFormatter.format(monthStart.toDate(state.timeZone))}
-        </button>
+    <>
+      <div className="datepicker-header">
+        <div className="datepicker-header-content">
+          <button className="datepicker-month" onClick={onBack} type="button">
+            {yearFormatter.format(monthStart.toDate(state.timeZone))}
+          </button>
+        </div>
       </div>
-      <div className="datepicker-months" role="listbox">
-        {months.map((month) => {
-          const isSelected = month.date.month === monthStart.month
-          const isDisabled = isWholeUnitDisabled(
-            state,
-            month.date,
-            month.date.add({ months: 1 }).subtract({ days: 1 })
-          )
+      <div className="datepicker-content">
+        <div className="datepicker-months" role="listbox">
+          {months.map((month) => {
+            const isSelected = month.date.month === monthStart.month
+            const isDisabled = isWholeUnitDisabled(
+              state,
+              month.date,
+              month.date.add({ months: 1 }).subtract({ days: 1 })
+            )
 
-          return (
-            <button
-              aria-selected={isSelected}
-              className={classNames('datepicker-months-month', { selected: isSelected })}
-              disabled={isDisabled}
-              key={month.date.month}
-              onClick={() => onSelect(month.date)}
-              role="option"
-              type="button"
-            >
-              {month.formatted}
-            </button>
-          )
-        })}
+            return (
+              <button
+                aria-selected={isSelected}
+                className={classNames('datepicker-months-month', { selected: isSelected })}
+                disabled={isDisabled}
+                key={month.date.month}
+                onClick={() => onSelect(month.date)}
+                role="option"
+                type="button"
+              >
+                {month.formatted}
+              </button>
+            )
+          })}
+        </div>
       </div>
-    </div>
+    </>
   )
 }

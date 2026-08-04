@@ -27,35 +27,31 @@ export const CalendarWeekGrid = ({
   )
 
   return (
-    <div className="datepicker-wrapper">
-      <div {...gridProps} className="datepicker-content">
-        <div {...headerProps} className="datepicker-week" role="row">
-          {weekDays.map((day, index) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <span className="datepicker-week-day" key={index} role="columnheader">
-              {day}
-            </span>
-          ))}
-        </div>
-        <div className="datepicker-dates">
-          {[...new Array(weeksInMonth).keys()].map((weekIndex) => {
-            const week = state.getDatesInWeek(weekIndex, startDate)
-            return (
-              <div className="datepicker-dates-row" key={weekIndex} role="row">
-                {week.map((date, i) =>
-                  date ? (
-                    <React.Fragment key={date.toString()}>
-                      {renderCell(date, i, week)}
-                    </React.Fragment>
-                  ) : (
-                    // eslint-disable-next-line react/no-array-index-key
-                    <div className="datepicker-date" key={i} role="gridcell" />
-                  )
-                )}
-              </div>
-            )
-          })}
-        </div>
+    <div {...gridProps} className="datepicker-content">
+      <div {...headerProps} className="datepicker-week" role="row">
+        {weekDays.map((day, index) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <span className="datepicker-week-day" key={index} role="columnheader">
+            {day}
+          </span>
+        ))}
+      </div>
+      <div className="datepicker-dates">
+        {[...new Array(weeksInMonth).keys()].map((weekIndex) => {
+          const week = state.getDatesInWeek(weekIndex, startDate)
+          return (
+            <div className="datepicker-dates-row" key={weekIndex} role="row">
+              {week.map((date, i) =>
+                date ? (
+                  <React.Fragment key={date.toString()}>{renderCell(date, i, week)}</React.Fragment>
+                ) : (
+                  // eslint-disable-next-line react/no-array-index-key
+                  <div className="datepicker-date" key={i} role="gridcell" />
+                )
+              )}
+            </div>
+          )
+        })}
       </div>
     </div>
   )

@@ -13,7 +13,7 @@ interface CalendarYearGridProps {
   state: CalendarState | RangeCalendarState
 }
 
-const YEARS_PER_PAGE = 12
+const YEARS_PER_PAGE = 15
 
 // The year view of `CalendarMonthYearPicker` — a paged 3-column grid, `YEARS_PER_PAGE` years at a
 // time starting from the currently visible year. Unlike the month view, a year range doesn't fit
@@ -51,7 +51,7 @@ export const CalendarYearGrid = ({
   })
   const firstYearStart = years[0].yearStart
   const lastYearEnd = years[years.length - 1].yearEnd
-  const rangeLabel = `${years[0].formatted}–${years[years.length - 1].formatted}`
+  const rangeLabel = `${years[0].formatted} – ${years[years.length - 1].formatted}`
 
   const isPrevDisabled =
     state.isDisabled ||
@@ -63,8 +63,8 @@ export const CalendarYearGrid = ({
       lastYearEnd.add({ days: 1 }).compare(toCalendarDate(state.maxValue)) > 0)
 
   return (
-    <div className="datepicker-years-panel">
-      <div className="datepicker-years-header">
+    <>
+      <div className="datepicker-header">
         <button
           aria-label="Previous years"
           className="datepicker-arrow datepicker-arrow-prev"
@@ -72,9 +72,11 @@ export const CalendarYearGrid = ({
           onClick={() => setPageStart((start) => start - YEARS_PER_PAGE)}
           type="button"
         />
-        <button className="datepicker-years-back" onClick={onBack} type="button">
-          {rangeLabel}
-        </button>
+        <div className="datepicker-header-content">
+          <button className="datepicker-year" onClick={onBack} type="button">
+            {rangeLabel}
+          </button>
+        </div>
         <button
           aria-label="Next years"
           className="datepicker-arrow datepicker-arrow-next"
@@ -83,26 +85,28 @@ export const CalendarYearGrid = ({
           type="button"
         />
       </div>
-      <div className="datepicker-years" role="listbox">
-        {years.map((year) => {
-          const isSelected = year.date.year === monthStart.year
-          const isDisabled = isWholeUnitDisabled(state, year.yearStart, year.yearEnd)
+      <div className="datepicker-content">
+        <div className="datepicker-years" role="listbox">
+          {years.map((year) => {
+            const isSelected = year.date.year === monthStart.year
+            const isDisabled = isWholeUnitDisabled(state, year.yearStart, year.yearEnd)
 
-          return (
-            <button
-              aria-selected={isSelected}
-              className={classNames('datepicker-years-year', { selected: isSelected })}
-              disabled={isDisabled}
-              key={year.date.year}
-              onClick={() => onSelect(year.date)}
-              role="option"
-              type="button"
-            >
-              {year.formatted}
-            </button>
-          )
-        })}
+            return (
+              <button
+                aria-selected={isSelected}
+                className={classNames('datepicker-years-year', { selected: isSelected })}
+                disabled={isDisabled}
+                key={year.date.year}
+                onClick={() => onSelect(year.date)}
+                role="option"
+                type="button"
+              >
+                {year.formatted}
+              </button>
+            )
+          })}
+        </div>
       </div>
-    </div>
+    </>
   )
 }

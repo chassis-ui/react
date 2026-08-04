@@ -360,7 +360,7 @@ describe('CxRangeCalendar', () => {
       )
       const [, secondMonthButton] = screen.getAllByRole('button', { name: /^Month:/ })
       fireEvent.click(secondMonthButton)
-      fireEvent.click(screen.getByRole('option', { name: 'December' }))
+      fireEvent.click(screen.getByRole('option', { name: 'Dec' }))
 
       const monthButtons = screen.getAllByRole('button', { name: /^Month:/ })
       expect(monthButtons.map((button) => button.textContent)).toEqual(['November', 'December'])
@@ -382,7 +382,7 @@ describe('CxRangeCalendar', () => {
       )
       const [firstMonthButton] = screen.getAllByRole('button', { name: /^Month:/ })
       fireEvent.click(firstMonthButton)
-      fireEvent.click(screen.getByRole('option', { name: 'August' }))
+      fireEvent.click(screen.getByRole('option', { name: 'Aug' }))
 
       const monthButtons = screen.getAllByRole('button', { name: /^Month:/ })
       expect(monthButtons.map((button) => button.textContent)).toEqual(['August', 'September'])
@@ -398,7 +398,7 @@ describe('CxRangeCalendar', () => {
       )
       const [, secondMonthButton] = screen.getAllByRole('button', { name: /^Month:/ })
       fireEvent.click(secondMonthButton)
-      fireEvent.click(screen.getByRole('option', { name: 'July' }))
+      fireEvent.click(screen.getByRole('option', { name: 'Jul' }))
 
       const monthButtons = screen.getAllByRole('button', { name: /^Month:/ })
       expect(monthButtons.map((button) => button.textContent)).toEqual(['June', 'July'])

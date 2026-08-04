@@ -121,9 +121,9 @@ describe('CxCalendar', () => {
       render(<CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
 
       fireEvent.click(getMonthButton())
-      fireEvent.click(screen.getByRole('option', { name: 'January' }))
+      fireEvent.click(screen.getByRole('option', { name: 'Jan' }))
 
-      expect(getMonthButton()).toHaveTextContent('January')
+      expect(getMonthButton()).toHaveTextContent('Jan')
       // Back in the day grid (not still showing the month grid) — only the visible month's own
       // days are ever selectable, so this also confirms the grid re-rendered for the new month
       // rather than merely re-labeling.

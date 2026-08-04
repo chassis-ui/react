@@ -61,36 +61,6 @@
   cursor: default;
 }
 
-.datepicker-months-header,
-.datepicker-years-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--cx-space-xsmall);
-  margin-block-end: var(--cx-space-xsmall);
-}
-
-.datepicker-months-back,
-.datepicker-years-back {
-  padding: var(--cx-space-2xsmall) var(--cx-space-xsmall);
-  font-weight: 600;
-  color: var(--cx-fg-main);
-  cursor: pointer;
-  background-color: transparent;
-  border: 0;
-  border-radius: var(--cx-border-radius-medium);
-}
-
-.datepicker-years-back {
-  flex-grow: 1;
-  text-align: center;
-}
-
-.datepicker-months-back:hover,
-.datepicker-years-back:hover {
-  background-color: var(--cx-bg-hover);
-}
-
 .datepicker-months,
 .datepicker-years {
   display: grid;
