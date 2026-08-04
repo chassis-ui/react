@@ -12,11 +12,6 @@ const getDateCell = (button: HTMLElement) =>
   // eslint-disable-next-line testing-library/no-node-access
   button.closest('.datepicker-date') as HTMLElement
 
-// The year `<select>`'s `value` is a list index, not the year itself — reading the selected
-// option's own text is the only reliable way to assert which year is actually showing.
-const getSelectedOptionText = (select: HTMLElement) =>
-  (select as HTMLSelectElement).selectedOptions[0].textContent
-
 describe('CxRangeCalendar', () => {
   describe('rendering', () => {
     test('renders a grid with the accessible label applied', () => {
@@ -172,14 +167,14 @@ describe('CxRangeCalendar', () => {
   })
 
   describe('navigation', () => {
-    test('renders month and year selects reflecting the visible month', () => {
+    test('renders month and year buttons reflecting the visible month', () => {
       render(
         <CxRangeCalendar
           aria-label="Trip dates"
           value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 7, 15) }}
         />
       )
-      expect(screen.getByRole('combobox', { name: /month/i })).toHaveValue('7')
+      expect(screen.getByRole('button', { name: /^Month:/ })).toHaveTextContent('July')
     })
 
     test('the next/previous buttons advance and rewind the visible month', () => {
@@ -190,27 +185,23 @@ describe('CxRangeCalendar', () => {
         />
       )
       fireEvent.click(screen.getByRole('button', { name: /next/i }))
-      expect(screen.getByRole('combobox', { name: /month/i })).toHaveValue('8')
+      expect(screen.getByRole('button', { name: /^Month:/ })).toHaveTextContent('August')
       fireEvent.click(screen.getByRole('button', { name: /previous/i }))
-      expect(screen.getByRole('combobox', { name: /month/i })).toHaveValue('7')
+      expect(screen.getByRole('button', { name: /^Month:/ })).toHaveTextContent('July')
     })
 
-    test('selecting a year from the dropdown moves the visible range', () => {
+    test('picking a year from the year grid moves the visible range', () => {
       render(
         <CxRangeCalendar
           aria-label="Trip dates"
           value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 7, 15) }}
         />
       )
-      const yearOption = screen.getByRole('option', { name: '2027' }) as HTMLOptionElement
-      fireEvent.change(screen.getByRole('combobox', { name: /year/i }), {
-        target: { value: yearOption.value }
-      })
-      expect(screen.getByRole('combobox', { name: /month/i })).toHaveValue('7')
-      expect(
-        (screen.getByRole('combobox', { name: /year/i }) as HTMLSelectElement).selectedOptions[0]
-          .textContent
-      ).toBe('2027')
+      fireEvent.click(screen.getByRole('button', { name: /^Year:/ }))
+      fireEvent.click(screen.getByRole('option', { name: '2027' }))
+
+      expect(screen.getByRole('button', { name: /^Year:/ })).toHaveTextContent('2027')
+      expect(screen.getByRole('button', { name: /^Month:/ })).toHaveTextContent('July')
     })
   })
 
@@ -293,12 +284,12 @@ describe('CxRangeCalendar', () => {
         />
       )
       expect(screen.getAllByRole('grid')).toHaveLength(1)
-      expect(screen.getAllByRole('combobox', { name: /month/i })).toHaveLength(1)
+      expect(screen.getAllByRole('button', { name: /^Month:/ })).toHaveLength(1)
       expect(screen.getByRole('button', { name: /next/i })).toBeInTheDocument()
       expect(screen.getByRole('button', { name: /previous/i })).toBeInTheDocument()
     })
 
-    test('renders the requested number of months, each with its own synced month/year dropdowns', () => {
+    test('renders the requested number of months, each with its own synced month/year picker', () => {
       render(
         <CxRangeCalendar
           aria-label="Trip dates"
@@ -307,8 +298,8 @@ describe('CxRangeCalendar', () => {
         />
       )
       expect(screen.getAllByRole('grid')).toHaveLength(2)
-      const monthSelects = screen.getAllByRole('combobox', { name: /month/i })
-      expect(monthSelects.map((select) => (select as HTMLSelectElement).value)).toEqual(['7', '8'])
+      const monthButtons = screen.getAllByRole('button', { name: /^Month:/ })
+      expect(monthButtons.map((button) => button.textContent)).toEqual(['July', 'August'])
     })
 
     test('a single global prev/next pair pages every visible month at once, with none in the per-month headers', () => {
@@ -324,17 +315,14 @@ describe('CxRangeCalendar', () => {
 
       // Paging slides the whole visible window by one month at a time (`pageBehavior: 'single'`),
       // not by the entire visible span — so two visible months advance by one month, not two,
-      // matching `CalendarMonthYearDropdowns`' own one-month-at-a-time jumps.
+      // matching `CalendarMonthYearPicker`'s own one-month-at-a-time jumps.
       fireEvent.click(screen.getByRole('button', { name: /next/i }))
-      const monthSelects = screen.getAllByRole('combobox', { name: /month/i })
-      expect(monthSelects.map((select) => (select as HTMLSelectElement).value)).toEqual(['8', '9'])
+      let monthButtons = screen.getAllByRole('button', { name: /^Month:/ })
+      expect(monthButtons.map((button) => button.textContent)).toEqual(['August', 'September'])
 
       fireEvent.click(screen.getByRole('button', { name: /previous/i }))
-      const monthSelectsAfterPrev = screen.getAllByRole('combobox', { name: /month/i })
-      expect(monthSelectsAfterPrev.map((select) => (select as HTMLSelectElement).value)).toEqual([
-        '7',
-        '8'
-      ])
+      monthButtons = screen.getAllByRole('button', { name: /^Month:/ })
+      expect(monthButtons.map((button) => button.textContent)).toEqual(['July', 'August'])
     })
 
     test('paging across a year boundary slides by one month, not by the full visible span', () => {
@@ -346,33 +334,23 @@ describe('CxRangeCalendar', () => {
         />
       )
       // Starts on November/December 2026.
-      let monthSelects = screen.getAllByRole('combobox', { name: /month/i })
-      let yearSelects = screen.getAllByRole('combobox', { name: /year/i })
-      expect(monthSelects.map((select) => (select as HTMLSelectElement).value)).toEqual([
-        '11',
-        '12'
-      ])
-      expect(yearSelects.map(getSelectedOptionText)).toEqual(['2026', '2026'])
+      const monthButtons = () => screen.getAllByRole('button', { name: /^Month:/ })
+      const yearButtons = () => screen.getAllByRole('button', { name: /^Year:/ })
+      expect(monthButtons().map((button) => button.textContent)).toEqual(['November', 'December'])
+      expect(yearButtons().map((button) => button.textContent)).toEqual(['2026', '2026'])
 
       // Next should land on December 2026/January 2027 — not skip straight to January/February.
       fireEvent.click(screen.getByRole('button', { name: /next/i }))
-      monthSelects = screen.getAllByRole('combobox', { name: /month/i })
-      yearSelects = screen.getAllByRole('combobox', { name: /year/i })
-      expect(monthSelects.map((select) => (select as HTMLSelectElement).value)).toEqual(['12', '1'])
-      expect(yearSelects.map(getSelectedOptionText)).toEqual(['2026', '2027'])
+      expect(monthButtons().map((button) => button.textContent)).toEqual(['December', 'January'])
+      expect(yearButtons().map((button) => button.textContent)).toEqual(['2026', '2027'])
 
       // Previous should undo that back to November/December 2026.
       fireEvent.click(screen.getByRole('button', { name: /previous/i }))
-      monthSelects = screen.getAllByRole('combobox', { name: /month/i })
-      yearSelects = screen.getAllByRole('combobox', { name: /year/i })
-      expect(monthSelects.map((select) => (select as HTMLSelectElement).value)).toEqual([
-        '11',
-        '12'
-      ])
-      expect(yearSelects.map(getSelectedOptionText)).toEqual(['2026', '2026'])
+      expect(monthButtons().map((button) => button.textContent)).toEqual(['November', 'December'])
+      expect(yearButtons().map((button) => button.textContent)).toEqual(['2026', '2026'])
     })
 
-    test('selecting a month from the second block moves both months in sync', () => {
+    test('picking a month from the second block moves both months in sync', () => {
       render(
         <CxRangeCalendar
           aria-label="Trip dates"
@@ -380,14 +358,12 @@ describe('CxRangeCalendar', () => {
           visibleMonths={2}
         />
       )
-      const [, secondMonthSelect] = screen.getAllByRole('combobox', { name: /month/i })
-      fireEvent.change(secondMonthSelect, { target: { value: '12' } })
+      const [, secondMonthButton] = screen.getAllByRole('button', { name: /^Month:/ })
+      fireEvent.click(secondMonthButton)
+      fireEvent.click(screen.getByRole('option', { name: 'December' }))
 
-      const updatedSelects = screen.getAllByRole('combobox', { name: /month/i })
-      expect(updatedSelects.map((select) => (select as HTMLSelectElement).value)).toEqual([
-        '11',
-        '12'
-      ])
+      const monthButtons = screen.getAllByRole('button', { name: /^Month:/ })
+      expect(monthButtons.map((button) => button.textContent)).toEqual(['November', 'December'])
     })
 
     // Regression coverage for a case the tests above don't reach: picking a month that's less
@@ -396,7 +372,7 @@ describe('CxRangeCalendar', () => {
     // range when the new focus lands outside it; a target still inside the current range (this
     // test) used to silently no-op, and one exactly `visibleMonths - 1` short of the boundary
     // (the test below) used to overshoot by an extra month. See `setVisibleRangeStart`.
-    test('selecting the immediately next month in the first block advances by one month', () => {
+    test('picking the immediately next month in the first block advances by one month', () => {
       render(
         <CxRangeCalendar
           aria-label="Trip dates"
@@ -404,17 +380,15 @@ describe('CxRangeCalendar', () => {
           visibleMonths={2}
         />
       )
-      const [firstMonthSelect] = screen.getAllByRole('combobox', { name: /month/i })
-      fireEvent.change(firstMonthSelect, { target: { value: '8' } })
+      const [firstMonthButton] = screen.getAllByRole('button', { name: /^Month:/ })
+      fireEvent.click(firstMonthButton)
+      fireEvent.click(screen.getByRole('option', { name: 'August' }))
 
-      const updatedSelects = screen.getAllByRole('combobox', { name: /month/i })
-      expect(updatedSelects.map((select) => (select as HTMLSelectElement).value)).toEqual([
-        '8',
-        '9'
-      ])
+      const monthButtons = screen.getAllByRole('button', { name: /^Month:/ })
+      expect(monthButtons.map((button) => button.textContent)).toEqual(['August', 'September'])
     })
 
-    test('selecting the immediately previous month in the second block retreats by one month', () => {
+    test('picking the immediately previous month in the second block retreats by one month', () => {
       render(
         <CxRangeCalendar
           aria-label="Trip dates"
@@ -422,14 +396,12 @@ describe('CxRangeCalendar', () => {
           visibleMonths={2}
         />
       )
-      const [, secondMonthSelect] = screen.getAllByRole('combobox', { name: /month/i })
-      fireEvent.change(secondMonthSelect, { target: { value: '7' } })
+      const [, secondMonthButton] = screen.getAllByRole('button', { name: /^Month:/ })
+      fireEvent.click(secondMonthButton)
+      fireEvent.click(screen.getByRole('option', { name: 'July' }))
 
-      const updatedSelects = screen.getAllByRole('combobox', { name: /month/i })
-      expect(updatedSelects.map((select) => (select as HTMLSelectElement).value)).toEqual([
-        '6',
-        '7'
-      ])
+      const monthButtons = screen.getAllByRole('button', { name: /^Month:/ })
+      expect(monthButtons.map((button) => button.textContent)).toEqual(['June', 'July'])
     })
 
     test('a range spanning both visible months is selectable and pills continuously', () => {

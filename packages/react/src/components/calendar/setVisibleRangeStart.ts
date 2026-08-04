@@ -3,7 +3,7 @@ import { CalendarState, RangeCalendarState } from 'react-stately'
 import { CalendarDate } from '@internationalized/date'
 
 // Moves a (possibly multi-month) calendar's visible range so it starts at `desiredStart` — used by
-// `CalendarMonthYearDropdowns` to jump straight to a picked month/year, in any visible block.
+// `CalendarMonthYearPicker` to jump straight to a picked month/year, in any visible block.
 //
 // `state.setFocusedDate` is the only way to move `visibleRange` from outside react-stately, but it
 // doesn't just set `visibleRange.start` to wherever focus goes: react-stately keeps the visible

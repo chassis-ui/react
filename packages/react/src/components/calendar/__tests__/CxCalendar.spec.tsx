@@ -12,12 +12,10 @@ const getDateCell = (button: HTMLElement) =>
   // eslint-disable-next-line testing-library/no-node-access
   button.closest('.datepicker-date') as HTMLElement
 
-// The year `<select>`'s `value` is a list index (react-aria's `useCalendarYearPicker` keys
-// options by position, not by the year itself, since eras can make the same year number ambiguous
-// across calendar systems) — reading the selected option's own text is the only reliable way to
-// assert which year is actually showing.
-const getSelectedOptionText = (select: HTMLElement) =>
-  (select as HTMLSelectElement).selectedOptions[0].textContent
+// The month/year header buttons carry an `aria-label` ("Month: August") distinct from their
+// visible text (just "August") — the label is what `getByRole`'s `name` matches against.
+const getMonthButton = () => screen.getByRole('button', { name: /^Month:/ })
+const getYearButton = () => screen.getByRole('button', { name: /^Year:/ })
 
 describe('CxCalendar', () => {
   describe('rendering', () => {
@@ -101,59 +99,78 @@ describe('CxCalendar', () => {
   describe('navigation', () => {
     test('the next button advances the visible month', () => {
       render(<CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
-      expect(screen.getByRole('combobox', { name: /month/i })).toHaveValue('7')
+      expect(getMonthButton()).toHaveTextContent('July')
 
       fireEvent.click(screen.getByRole('button', { name: /next/i }))
-      expect(screen.getByRole('combobox', { name: /month/i })).toHaveValue('8')
+      expect(getMonthButton()).toHaveTextContent('August')
     })
 
     test('the previous button retreats the visible month', () => {
       render(<CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
       fireEvent.click(screen.getByRole('button', { name: /previous/i }))
-      expect(screen.getByRole('combobox', { name: /month/i })).toHaveValue('6')
+      expect(getMonthButton()).toHaveTextContent('June')
     })
 
-    test('renders month and year selects reflecting the visible month', () => {
+    test('renders month and year buttons reflecting the visible month', () => {
       render(<CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
-
-      const monthSelect = screen.getByRole('combobox', { name: /month/i })
-      const yearSelect = screen.getByRole('combobox', { name: /year/i })
-      expect(monthSelect).toHaveValue('7')
-      expect(getSelectedOptionText(yearSelect)).toBe('2026')
+      expect(getMonthButton()).toHaveTextContent('July')
+      expect(getYearButton()).toHaveTextContent('2026')
     })
 
-    test('changing the month select jumps the visible month', () => {
+    test('picking a month from the month grid jumps the visible month and returns to the day grid', () => {
       render(<CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
 
-      const monthSelect = screen.getByRole('combobox', { name: /month/i })
-      fireEvent.change(monthSelect, { target: { value: '1' } })
+      fireEvent.click(getMonthButton())
+      fireEvent.click(screen.getByRole('option', { name: 'January' }))
 
+      expect(getMonthButton()).toHaveTextContent('January')
+      // Back in the day grid (not still showing the month grid) — only the visible month's own
+      // days are ever selectable, so this also confirms the grid re-rendered for the new month
+      // rather than merely re-labeling.
       const grid = screen.getByRole('grid')
-      // Only the visible month's own days are ever selectable — outside-range days from the
-      // trailing/leading weeks share text with in-range days, so this is the reliable way to
-      // confirm the grid actually re-rendered for the new month rather than merely re-labeling.
       expect(getDateCell(within(grid).getByRole('button', { name: /24/ }))).not.toHaveClass(
         'datepicker-date-outside'
       )
-      expect(monthSelect).toHaveValue('1')
     })
 
-    test('changing the year select jumps the visible year', () => {
+    test('picking a year from the year grid jumps the visible year and returns to the day grid', () => {
       render(<CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
 
-      const yearSelect = screen.getByRole('combobox', { name: /year/i }) as HTMLSelectElement
-      const nextYearOption = within(yearSelect)
-        .getAllByRole('option')
-        .find((option) => option.textContent === '2027') as HTMLOptionElement
-      fireEvent.change(yearSelect, { target: { value: nextYearOption.value } })
+      fireEvent.click(getYearButton())
+      fireEvent.click(screen.getByRole('option', { name: '2027' }))
 
-      expect(getSelectedOptionText(yearSelect)).toBe('2027')
+      expect(getYearButton()).toHaveTextContent('2027')
+      expect(screen.queryByRole('option')).not.toBeInTheDocument()
     })
 
-    test('the selects are disabled when the calendar is disabled', () => {
+    test('the year grid pages forward and back by its own arrows', () => {
+      render(<CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
+
+      fireEvent.click(getYearButton())
+      expect(screen.getByRole('option', { name: '2026' })).toBeInTheDocument()
+
+      fireEvent.click(screen.getByRole('button', { name: /next years/i }))
+      expect(screen.queryByRole('option', { name: '2026' })).not.toBeInTheDocument()
+
+      fireEvent.click(screen.getByRole('button', { name: /previous years/i }))
+      expect(screen.getByRole('option', { name: '2026' })).toBeInTheDocument()
+    })
+
+    test('the back button in the month/year grid returns to the day grid without changing anything', () => {
+      render(<CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
+
+      fireEvent.click(getMonthButton())
+      // The month grid's own header button is the current year — doubles as "back".
+      fireEvent.click(screen.getByRole('button', { name: '2026' }))
+
+      expect(getMonthButton()).toHaveTextContent('July')
+      expect(screen.getByRole('grid')).toBeInTheDocument()
+    })
+
+    test('the month and year buttons are disabled when the calendar is disabled', () => {
       render(<CxCalendar aria-label="Event date" disabled value={new CalendarDate(2026, 7, 24)} />)
-      expect(screen.getByRole('combobox', { name: /month/i })).toBeDisabled()
-      expect(screen.getByRole('combobox', { name: /year/i })).toBeDisabled()
+      expect(getMonthButton()).toBeDisabled()
+      expect(getYearButton()).toBeDisabled()
     })
   })
 

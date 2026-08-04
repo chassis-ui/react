@@ -9,11 +9,12 @@
  * - States vanilla-calendar-pro conveys via `data-vc-date-*` attributes, which only its own JS
  *   sets — react-aria has no equivalent, so these are re-expressed as classes on `.datepicker-date`
  *   instead, following the same `.datepicker-date-X > .datepicker-date-btn` shape.
- * - The month/year `<select>`s, which have no vanilla-calendar-pro counterpart at all — chassis's
- *   own `.datepicker-month`/`.datepicker-year` classes belong to buttons that open a separate
- *   month/year grid picker there, a different interaction entirely. Reused here purely as class
- *   names (not chassis-css's component) so a `<select>` gets the same visual treatment; styled
- *   fully below rather than relying on any chassis-css declaration for these classes.
+ * - The month/year trigger buttons and the grids they switch to (`CalendarMonthYearPicker`) —
+ *   chassis-css's real datepicker (vanilla-calendar-pro's own `[data-vc="months"]`/`[data-vc=
+ *   "years"]`, per its `_datepicker.scss`) uses attribute selectors this component has no
+ *   equivalent of, so these get their own class-based rules below instead of relying on any
+ *   chassis-css declaration for them. `.datepicker-month`/`.datepicker-year` (the trigger buttons)
+ *   do reuse chassis's own class names, since those already belong to buttons there too.
  *
  * Colors use `@chassis-ui/tokens`' public `--cx-*` custom properties rather than the `--day-*`/
  * `--weekday-*` custom properties chassis-css itself sets on `.datepicker` — those are internal,
@@ -58,6 +59,87 @@
 .datepicker-year:disabled {
   color: var(--cx-day-disabled-fg-color);
   cursor: default;
+}
+
+.datepicker-months-header,
+.datepicker-years-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--cx-space-xsmall);
+  margin-block-end: var(--cx-space-xsmall);
+}
+
+.datepicker-months-back,
+.datepicker-years-back {
+  padding: var(--cx-space-2xsmall) var(--cx-space-xsmall);
+  font-weight: 600;
+  color: var(--cx-fg-main);
+  cursor: pointer;
+  background-color: transparent;
+  border: 0;
+  border-radius: var(--cx-border-radius-medium);
+}
+
+.datepicker-years-back {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.datepicker-months-back:hover,
+.datepicker-years-back:hover {
+  background-color: var(--cx-bg-hover);
+}
+
+.datepicker-months,
+.datepicker-years {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--cx-space-xsmall);
+}
+
+.datepicker-months-month,
+.datepicker-years-year {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.5rem;
+  padding: var(--cx-space-2xsmall);
+  font-weight: 600;
+  color: var(--cx-fg-main);
+  text-align: center;
+  cursor: pointer;
+  background-color: transparent;
+  border: 0;
+  border-radius: var(--cx-border-radius-medium);
+}
+
+.datepicker-months-month:hover:not(:disabled),
+.datepicker-years-year:hover:not(:disabled) {
+  background-color: var(--cx-bg-hover);
+}
+
+.datepicker-months-month:focus-visible,
+.datepicker-years-year:focus-visible {
+  outline: var(--cx-border-width-xlarge) solid var(--cx-primary);
+  outline-offset: -1px;
+}
+
+.datepicker-months-month:disabled,
+.datepicker-years-year:disabled {
+  color: var(--cx-day-disabled-fg-color);
+  cursor: default;
+}
+
+.datepicker-months-month.selected,
+.datepicker-years-year.selected {
+  color: var(--cx-primary-contrast);
+  background-color: var(--cx-primary);
+}
+
+.datepicker-months-month.selected:hover,
+.datepicker-years-year.selected:hover {
+  background-color: var(--cx-primary);
 }
 
 @layer components {

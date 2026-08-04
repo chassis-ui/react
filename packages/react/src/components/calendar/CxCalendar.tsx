@@ -11,7 +11,7 @@ import {
 } from '@internationalized/date'
 
 import { useForkedRef } from '../../hooks'
-import { CalendarMonthYearDropdowns } from './CalendarMonthYearDropdowns'
+import { CalendarMonthYearPicker } from './CalendarMonthYearPicker'
 import { CalendarNavButton } from './CalendarNavButton'
 import { CalendarWeekGrid } from './CalendarWeekGrid'
 import { mergeIsDateUnavailable } from './mergeIsDateUnavailable'
@@ -146,20 +146,18 @@ export const CxCalendar = forwardRef<HTMLDivElement, CxCalendarProps>(
         data-cx-inline="true"
         ref={ref}
       >
-        <div className="datepicker-header">
-          <CalendarNavButton buttonProps={prevButtonProps} direction="prev" />
-          <CalendarMonthYearDropdowns
-            locale={locale}
-            monthStart={state.visibleRange.start}
+        <CalendarMonthYearPicker
+          monthStart={state.visibleRange.start}
+          nextArrow={<CalendarNavButton buttonProps={nextButtonProps} direction="next" />}
+          prevArrow={<CalendarNavButton buttonProps={prevButtonProps} direction="prev" />}
+          state={state}
+        >
+          <CalendarWeekGrid
+            firstDayOfWeek={firstDayOfWeek}
+            renderCell={(date) => <CalendarCell date={date} locale={locale} state={state} />}
             state={state}
           />
-          <CalendarNavButton buttonProps={nextButtonProps} direction="next" />
-        </div>
-        <CalendarWeekGrid
-          firstDayOfWeek={firstDayOfWeek}
-          renderCell={(date) => <CalendarCell date={date} locale={locale} state={state} />}
-          state={state}
-        />
+        </CalendarMonthYearPicker>
       </div>
     )
   }

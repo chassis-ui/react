@@ -19,7 +19,7 @@ import {
 } from '@internationalized/date'
 
 import { useForkedRef } from '../../hooks'
-import { CalendarMonthYearDropdowns } from './CalendarMonthYearDropdowns'
+import { CalendarMonthYearPicker } from './CalendarMonthYearPicker'
 import { CalendarNavButton } from './CalendarNavButton'
 import { CalendarWeekGrid } from './CalendarWeekGrid'
 import { CxDateRangePreset } from './dateRangePresets'
@@ -107,14 +107,12 @@ export interface CxRangeCalendarProps extends Omit<
 }
 
 // Range counterpart to `CxCalendar` — same dialog-agnostic composition boundary (see that
-// component's own comment) and the same header/nav-dropdown/grid visual language, reusing
+// component's own comment) and the same header/month-year-picker/grid visual language, reusing
 // `CxCalendar.css`'s shared classes directly. Kept as its own component rather than a `mode` prop
 // on `CxCalendar`: the underlying react-stately/react-aria hooks are a genuinely different pair
 // (`useRangeCalendarState`/`useRangeCalendar` vs `useCalendarState`/`useCalendar`), and the cell
 // rendering has range-only concerns (start/end/in-between pill styling) with no single-date
-// equivalent. Unlike `CxCalendar`, navigation is always month/year dropdowns — a range picker is
-// usually paired with `visibleMonths > 1`, where jumping several months/years at once is the
-// common case, so there's no plain-arrows-only variant to choose between.
+// equivalent.
 export const CxRangeCalendar = forwardRef<HTMLDivElement, CxRangeCalendarProps>(
   (
     {
@@ -248,8 +246,8 @@ interface CalendarMonthProps {
 
 // One visible month within `visibleMonths` — `useCalendarGrid`'s `startDate` is exactly what's
 // needed to locate this month's own start within the shared `state`. Its header carries this
-// month's own month/year dropdowns, plus the prev/next arrows too when it's the only visible
-// month (`arrows` is `null` whenever a global overlay is handling paging instead — see the parent).
+// month's own month/year picker, plus the prev/next arrows too when it's the only visible month
+// (`arrows` is `null` whenever a global overlay is handling paging instead — see the parent).
 const CalendarMonth = ({
   arrows,
   firstDayOfWeek,
@@ -261,30 +259,28 @@ const CalendarMonth = ({
 
   return (
     <div className="datepicker-column">
-      <div className="datepicker-header">
-        {arrows?.prev}
-        <CalendarMonthYearDropdowns
-          locale={locale}
-          monthIndex={monthIndex}
-          monthStart={monthStart}
+      <CalendarMonthYearPicker
+        monthIndex={monthIndex}
+        monthStart={monthStart}
+        nextArrow={arrows?.next}
+        prevArrow={arrows?.prev}
+        state={state}
+      >
+        <CalendarWeekGrid
+          firstDayOfWeek={firstDayOfWeek}
+          renderCell={(date, i, week) => (
+            <CalendarCell
+              date={date}
+              isFirstInRow={i === 0}
+              isLastInRow={i === week.length - 1}
+              locale={locale}
+              state={state}
+            />
+          )}
+          startDate={monthStart}
           state={state}
         />
-        {arrows?.next}
-      </div>
-      <CalendarWeekGrid
-        firstDayOfWeek={firstDayOfWeek}
-        renderCell={(date, i, week) => (
-          <CalendarCell
-            date={date}
-            isFirstInRow={i === 0}
-            isLastInRow={i === week.length - 1}
-            locale={locale}
-            state={state}
-          />
-        )}
-        startDate={monthStart}
-        state={state}
-      />
+      </CalendarMonthYearPicker>
     </div>
   )
 }
