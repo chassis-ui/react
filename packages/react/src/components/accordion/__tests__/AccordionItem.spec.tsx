@@ -112,4 +112,20 @@ describe('AccordionItem', () => {
       expect(await axe(container)).toHaveNoViolations()
     })
   })
+
+  describe('dev warnings', () => {
+    test('warns when the deprecated itemKey prop is passed', () => {
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      render(<AccordionItem itemKey="a">Test</AccordionItem>)
+      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('itemKey prop is deprecated'))
+      warnSpy.mockRestore()
+    })
+
+    test('does not warn when itemKey is omitted', () => {
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      render(<AccordionItem>Test</AccordionItem>)
+      expect(warnSpy).not.toHaveBeenCalled()
+      warnSpy.mockRestore()
+    })
+  })
 })

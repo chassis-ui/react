@@ -15,6 +15,12 @@ export interface AccordionButtonProps extends HTMLAttributes<HTMLSpanElement> {
  */
 export const AccordionButton = forwardRef<HTMLSpanElement, AccordionButtonProps>(
   ({ children, className, ...rest }, ref) => {
+    console.warn(
+      'AccordionButton is deprecated: AccordionHeader already renders its own .accordion-title ' +
+        'wrapper around its children, so pass content directly to AccordionHeader instead. It ' +
+        'will be removed in a future major version.'
+    )
+
     return (
       <span className={classNames('accordion-title', className)} {...rest} ref={ref}>
         {children}

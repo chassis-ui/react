@@ -75,6 +75,11 @@ That image tag has to stay in lockstep with the `@playwright/test` devDependency
 `packages/react/package.json` — bumping one without the other risks font/rendering drift that
 looks like a regression but isn't.
 
+A third workflow, `.github/workflows/release.yml`, is unrelated to the checks above — it's the
+Changesets-based release pipeline (opens/updates a "Version Packages" PR, publishes to npm on
+merge). See [`packages/react/VERSIONING.md`](packages/react/VERSIONING.md) for the full release
+process and what a repo admin still needs to configure before it can actually publish.
+
 ## Where things live
 
 - Component source + tests: `packages/react/src/components/**`

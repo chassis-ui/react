@@ -23,4 +23,15 @@ describe('AccordionCollapse', () => {
       expect(container.innerHTML).toBe('Test')
     })
   })
+
+  describe('dev warnings', () => {
+    test('warns that it is deprecated', () => {
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      render(<AccordionCollapse>Test</AccordionCollapse>)
+      expect(warnSpy).toHaveBeenCalledWith(
+        expect.stringContaining('AccordionCollapse is deprecated')
+      )
+      warnSpy.mockRestore()
+    })
+  })
 })

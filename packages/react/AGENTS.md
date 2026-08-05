@@ -26,6 +26,10 @@ calendar grid), which inject scoped CSS via `rollup-plugin-postcss`.
   `@chassis-ui/tokens` surface is the supported override point, versus internal values that could
   change without notice. Read this before adding component-scoped CSS (see the calendar/datepicker
   family) or documenting a "how to customize" story for consumers.
+- `VERSIONING.md` — the Changesets-based release process, the semver policy for this API's flat
+  exports, and the deprecation policy (TSDoc `@deprecated` + a runtime `console.warn`, minimum one
+  minor release before a breaking removal). Read this before deprecating or removing any exported
+  component/prop, or before publishing a release.
 - `src/index.ts` — the public API surface. Every exported component/helper needs **two** entries
   here: an `import` line (from the component's folder barrel, not the component file) and a
   matching entry in the trailing `export { ... }` block. Forgetting either means it silently isn't

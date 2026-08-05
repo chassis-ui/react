@@ -29,6 +29,13 @@ export interface AccordionItemProps extends HTMLAttributes<HTMLDetailsElement> {
 
 export const AccordionItem = forwardRef<HTMLDetailsElement, AccordionItemProps>(
   ({ children, alwaysOpen, className, name, open, itemKey: _itemKey, ...rest }, ref) => {
+    if (_itemKey !== undefined) {
+      console.warn(
+        'AccordionItem: the itemKey prop is deprecated and no longer used — the native ' +
+          '<details> element manages its own state. It will be removed in a future major version.'
+      )
+    }
+
     const context = useContext(AccordionContext)
     const isAlwaysOpen = alwaysOpen ?? context.alwaysOpen
     const groupName = name ?? context.name

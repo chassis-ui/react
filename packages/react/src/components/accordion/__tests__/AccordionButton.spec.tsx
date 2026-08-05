@@ -36,4 +36,13 @@ describe('AccordionButton', () => {
       expect(await axe(container)).toHaveNoViolations()
     })
   })
+
+  describe('dev warnings', () => {
+    test('warns that it is deprecated', () => {
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      render(<AccordionButton>Test</AccordionButton>)
+      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('AccordionButton is deprecated'))
+      warnSpy.mockRestore()
+    })
+  })
 })
