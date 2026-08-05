@@ -17,7 +17,7 @@ import { CalendarMonthYearPicker } from './CalendarMonthYearPicker'
 import { CalendarNavButton } from './CalendarNavButton'
 import { CalendarWeekGrid } from './CalendarWeekGrid'
 import { mergeIsDateUnavailable } from './mergeIsDateUnavailable'
-import './Calendar.css'
+import './Calendar.scss'
 
 interface CalendarBaseProps extends Omit<
   HTMLAttributes<HTMLDivElement>,

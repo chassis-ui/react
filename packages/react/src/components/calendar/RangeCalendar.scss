@@ -1,11 +1,13 @@
 /*
  * `RangeCalendar` reuses chassis-css's real `.datepicker-*` grid/cell classes as-is (see
- * `Calendar.css`'s comment) — range-specific state (`.datepicker-date-in-range`, `.datepicker-
+ * `Calendar.scss`'s comment) — range-specific state (`.datepicker-date-in-range`, `.datepicker-
  * date-range-start`/`-end`) has no vanilla-calendar-pro `data-vc-*` counterpart that chassis-css
  * styles (its own range equivalents are `[data-vc-date-selected="first"/"middle"/"last"]`, JS-only
- * attributes), so those are adapted below the same way `Calendar.css` adapts its own single-date
- * states — same visual shape, `--cx-*` public tokens instead of chassis-css's internal `--day-*`
- * ones, and the same `@layer components` wrapping (see `Calendar.css`'s comment on why — without
+ * attributes), so those are adapted below the same way `Calendar.scss` adapts its own single-date
+ * states — same visual shape, chassis-css's globally-defined `--cx-*` tokens instead of the
+ * unprefixed `--day-*` ones `_datepicker.scss` sets locally on `.datepicker` (see `Calendar.scss`'s
+ * comment for the one accepted exception, `--cx-day-range-bg-color`/`--cx-day-range-fg-color`,
+ * used below), and the same `@layer components` wrapping (see `Calendar.scss`'s comment on why — without
  * it these un-layered rules would unconditionally win over chassis-css's layered ones regardless
  * of specificity, instead of losing to more-specific ones like `[aria-current="date"]` as
  * intended). The multi-month (`visibleMonths > 1`) layout itself reuses chassis-css's own
@@ -58,7 +60,7 @@
   }
 
   /* Wins over chassis-css's `[aria-current="date"]` "today" styling for a range endpoint that's
-     also today — same tie-breaking approach as `Calendar.css`'s selected+today override. */
+     also today — same tie-breaking approach as `Calendar.scss`'s selected+today override. */
   .datepicker-date[aria-current='date'] > .datepicker-date-btn.datepicker-date-range-start,
   .datepicker-date[aria-current='date'] > .datepicker-date-btn.datepicker-date-range-end {
     color: var(--cx-primary-contrast);
@@ -79,7 +81,7 @@
 /*
  * `presets` — a quick-select list beside the grid, sharing the same selection state as clicking
  * dates directly. No chassis-css equivalent (vanilla-calendar-pro has no such concept), so this
- * is entirely custom, built on the same public `--cx-*` tokens as the rest of this file.
+ * is entirely custom, built on the same globally-defined `--cx-*` tokens as the rest of this file.
  */
 .calendar-presets {
   display: flex;

@@ -12,8 +12,8 @@ import { CalendarToggleButton } from './CalendarToggleButton'
 import { ClearButton } from './ClearButton'
 import { DateField } from './DateField'
 import { useOverlayPlacement } from './useOverlayPlacement'
-import './DatePicker.css'
-import './DateRangePicker.css'
+import './DatePicker.scss'
+import './DateRangePicker.scss'
 
 export interface DateRangePickerProps extends Omit<
   HTMLAttributes<HTMLDivElement>,

@@ -23,8 +23,8 @@ import { CalendarMonthBlock } from './CalendarMonthBlock'
 import { CalendarNavButton } from './CalendarNavButton'
 import { DateRangePreset } from './dateRangePresets'
 import { mergeIsDateUnavailable } from './mergeIsDateUnavailable'
-import './Calendar.css'
-import './RangeCalendar.css'
+import './Calendar.scss'
+import './RangeCalendar.scss'
 
 export interface RangeCalendarProps extends Omit<
   HTMLAttributes<HTMLDivElement>,
@@ -107,7 +107,7 @@ export interface RangeCalendarProps extends Omit<
 
 // Range counterpart to `Calendar` — same dialog-agnostic composition boundary (see that
 // component's own comment) and the same header/month-year-picker/grid visual language, reusing
-// `Calendar.css`'s shared classes directly. Kept as its own component rather than a `mode` prop
+// `Calendar.scss`'s shared classes directly. Kept as its own component rather than a `mode` prop
 // on `Calendar`: the underlying react-stately/react-aria hooks are a genuinely different pair
 // (`useRangeCalendarState`/`useRangeCalendar` vs `useCalendarState`/`useCalendar`), and the cell
 // rendering has range-only concerns (start/end/in-between pill styling) with no single-date

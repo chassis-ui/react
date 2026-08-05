@@ -16,11 +16,21 @@
  *   chassis-css declaration for them. `.datepicker-month`/`.datepicker-year` (the trigger buttons)
  *   do reuse chassis's own class names, since those already belong to buttons there too.
  *
- * Colors use `@chassis-ui/tokens`' public `--cx-*` custom properties rather than the `--day-*`/
- * `--weekday-*` custom properties chassis-css itself sets on `.datepicker` — those are internal,
- * unpublished component tokens (no semver guarantee), so depending on them here would silently
- * recouple this file to chassis-css's implementation details despite `@chassis-ui/react` not
- * requiring `@chassis-ui/css` as a dependency.
+ * Colors mostly use chassis-css's globally-defined `--cx-*` tokens (`--cx-primary`, `--cx-fg-main`,
+ * `--cx-border-radius-medium`, etc. — set once at `:root`, documented, semver-stable) rather than
+ * the unprefixed `--day-*`/`--weekday-*` custom properties `_datepicker.scss` sets locally on
+ * `.datepicker` for vanilla-calendar-pro's own use. Note the `cx-` prefix itself doesn't signal
+ * that distinction — chassis-css's PostCSS build (`build/postcss.config.js`) applies it uniformly
+ * to every custom property it emits, `:root` globals and internal per-component ones alike. Four
+ * properties here are a deliberate, accepted exception to the "globals only" rule:
+ * `--cx-day-disabled-fg-color`, `--cx-day-range-bg-color`, `--cx-day-range-fg-color` (this file/
+ * `RangeCalendar.scss`) and `--cx-form-idle-fg-inactive` (`DatePicker.scss`) are only ever defined
+ * inside chassis-css's own `.datepicker`/`.form-input` blocks — no `:root` fallback — so they carry
+ * the same "could be renamed without notice" risk `--day-*`/`--weekday-*` would. Kept anyway
+ * because each already resolves to a stable-looking global default in the current chassis-css
+ * source (e.g. `--cx-day-disabled-fg-color` falls back to `--cx-default-fg-slight`) and swapping
+ * them is a live design decision, not a mechanical rename — revisit if chassis-css's in-progress
+ * `.datepicker` refactor (see the sibling `../chassis-css` checkout) changes that fallback shape.
  *
  * The `.datepicker-date-*` rules below are wrapped in `@layer components` to land in the same
  * cascade layer chassis-css itself uses (its layer order is `colors, theme, config, root, reboot,
@@ -137,7 +147,7 @@
   }
 
   /* Selected (single-date `Calendar` only — `RangeCalendar` has its own start/end/in-range
-     styling in `RangeCalendar.css`). */
+     styling in `RangeCalendar.scss`). */
   .datepicker-date-selected > .datepicker-date-btn {
     color: var(--cx-primary-contrast);
     background-color: var(--cx-primary);

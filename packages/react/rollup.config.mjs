@@ -12,7 +12,7 @@ export default [
   {
     input: 'src/index.ts',
     onwarn(warning, warn) {
-      // @internationalized/date (a react-aria/react-stately dependency used by CxDatePicker) has
+      // @internationalized/date (a react-aria/react-stately dependency used by DatePicker) has
       // benign internal circular imports between its type modules. Silence just that noise so real
       // circular-dependency warnings in our own code stay visible.
       if (
@@ -57,8 +57,8 @@ export default [
       commonjs({
         include: ['../../node_modules/**']
       }),
-      // Components with no chassis-css visual equivalent (CxDatePicker's calendar grid) ship
-      // their own scoped CSS, injected as a <style> tag on import — no separate stylesheet for
+      // Components with no chassis-css visual equivalent (DatePicker's calendar grid) ship
+      // their own scoped Sass, injected as a <style> tag on import — no separate stylesheet for
       // consumers to remember to include.
       postcss({
         inject: true,
@@ -88,7 +88,7 @@ export default [
   {
     input: 'dist/src/index.d.ts',
     output: [{ file: pkg.types, format: 'es' }],
-    external: [/\.css$/],
+    external: [/\.css$/, /\.scss$/],
     plugins: [dts()]
   }
 ]
