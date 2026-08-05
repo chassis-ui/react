@@ -4,29 +4,29 @@ import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 
 import { ModalContext } from '../Modal'
-import { Modal } from '../../../index'
+import { ModalHeader } from '../../../index'
 
-describe('Modal.Header', () => {
+describe('ModalHeader', () => {
   describe('rendering', () => {
     test('renders a div with the base class and className merged', () => {
-      render(<Modal.Header className="bazinga">Test</Modal.Header>)
+      render(<ModalHeader className="bazinga">Test</ModalHeader>)
       const header = screen.getByText('Test')
       expect(header).toHaveClass('modal-header', 'bazinga')
       expect(header.tagName).toBe('DIV')
     })
 
     test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Modal.Header>Test</Modal.Header>)
+      const { container } = render(<ModalHeader>Test</ModalHeader>)
       expect(container).toMatchSnapshot()
     })
 
     test('renders a close button by default', () => {
-      render(<Modal.Header>Test</Modal.Header>)
+      render(<ModalHeader>Test</ModalHeader>)
       expect(screen.getByRole('button', { name: 'Close' })).toBeInTheDocument()
     })
 
     test('can hide the close button', () => {
-      render(<Modal.Header closeButton={false}>Test</Modal.Header>)
+      render(<ModalHeader closeButton={false}>Test</ModalHeader>)
       expect(screen.queryByRole('button', { name: 'Close' })).not.toBeInTheDocument()
     })
   })
@@ -37,7 +37,7 @@ describe('Modal.Header', () => {
       const requestClose = vi.fn()
       render(
         <ModalContext.Provider value={{ requestClose }}>
-          <Modal.Header>Test</Modal.Header>
+          <ModalHeader>Test</ModalHeader>
         </ModalContext.Provider>
       )
       await user.click(screen.getByRole('button', { name: 'Close' }))
@@ -48,14 +48,14 @@ describe('Modal.Header', () => {
   describe('ref forwarding', () => {
     test('forwards a ref to the underlying div', () => {
       const ref = React.createRef<HTMLDivElement>()
-      render(<Modal.Header ref={ref}>Test</Modal.Header>)
+      render(<ModalHeader ref={ref}>Test</ModalHeader>)
       expect(ref.current).toBeInstanceOf(HTMLDivElement)
     })
   })
 
   describe('accessibility', () => {
     test('has no axe violations', async () => {
-      const { container } = render(<Modal.Header>Test</Modal.Header>)
+      const { container } = render(<ModalHeader>Test</ModalHeader>)
       expect(await axe(container)).toHaveNoViolations()
     })
   })

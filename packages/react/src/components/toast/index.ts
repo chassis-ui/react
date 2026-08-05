@@ -1,23 +1,14 @@
-import { Toast as ToastRoot } from './Toast'
-import { ToastBody } from './ToastBody'
-import { ToastClose } from './ToastClose'
-import { ToastFooter } from './ToastFooter'
-import { ToastHeader } from './ToastHeader'
-// plop:sub-import
-
-export const Toast = Object.assign(ToastRoot, {
-  // plop:sub-entry
-  Body: ToastBody,
-  Close: ToastClose,
-  Footer: ToastFooter,
-  Header: ToastHeader
-})
+export { Toast } from './Toast'
 export type { ToastProps } from './Toast'
+export { ToastBody } from './ToastBody'
 export type { ToastBodyProps } from './ToastBody'
+export { ToastClose } from './ToastClose'
 export type { ToastCloseProps } from './ToastClose'
+export { ToastFooter } from './ToastFooter'
 export type { ToastFooterProps } from './ToastFooter'
+export { ToastHeader } from './ToastHeader'
 export type { ToastHeaderProps } from './ToastHeader'
-// plop:sub-type
+// plop:sub-export
 
 // Toaster is an independent manager/container component (react-hot-toast-style), not a Toast
 // sub-part — it subscribes to the shared toastQueue and renders Toast instances from it, rather

@@ -2,7 +2,7 @@ import * as React from 'react'
 import { act } from 'react'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 
-import { Toast } from '../../../index'
+import { Toast, ToastBody, ToastHeader } from '../../../index'
 
 describe('Toast', () => {
   describe('rendering', () => {
@@ -56,7 +56,7 @@ describe('Toast', () => {
           visible={true}
           onClose={onClose}
         >
-          <Toast.Header closeButton>
+          <ToastHeader closeButton>
             <svg
               className="rounded me-2"
               width="20"
@@ -70,8 +70,8 @@ describe('Toast', () => {
             </svg>
             <strong className="me-auto">Chassis</strong>
             <small>7 min ago</small>
-          </Toast.Header>
-          <Toast.Body>Hello, world! This is a toast message.</Toast.Body>
+          </ToastHeader>
+          <ToastBody>Hello, world! This is a toast message.</ToastBody>
         </Toast>
       )
       await waitFor(() => {

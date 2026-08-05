@@ -2,32 +2,32 @@ import * as React from 'react'
 import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Toast } from '../../../index'
+import { ToastHeader } from '../../../index'
 import { ToastContext } from '../Toast'
 
-describe('Toast.Header', () => {
+describe('ToastHeader', () => {
   describe('rendering', () => {
     test('renders a div with the base class and className merged', () => {
-      render(<Toast.Header className="bazinga">Test</Toast.Header>)
+      render(<ToastHeader className="bazinga">Test</ToastHeader>)
       const header = screen.getByText('Test')
       expect(header).toHaveClass('toast-header', 'bazinga')
       expect(header.tagName).toBe('DIV')
     })
 
     test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Toast.Header>Test</Toast.Header>)
+      const { container } = render(<ToastHeader>Test</ToastHeader>)
       expect(container).toMatchSnapshot()
     })
 
     test('does not render a close button by default', () => {
-      render(<Toast.Header>Test</Toast.Header>)
+      render(<ToastHeader>Test</ToastHeader>)
       expect(screen.queryByRole('button', { name: 'Close' })).not.toBeInTheDocument()
     })
 
     test('renders a close button when closeButton is set', () => {
       render(
         <ToastContext.Provider value={{ setVisible: vi.fn() }}>
-          <Toast.Header closeButton>Test</Toast.Header>
+          <ToastHeader closeButton>Test</ToastHeader>
         </ToastContext.Provider>
       )
       expect(screen.getByRole('button', { name: 'Close' })).toBeInTheDocument()
@@ -37,7 +37,7 @@ describe('Toast.Header', () => {
   describe('ref forwarding', () => {
     test('forwards a ref to the underlying div', () => {
       const ref = React.createRef<HTMLDivElement>()
-      render(<Toast.Header ref={ref}>Test</Toast.Header>)
+      render(<ToastHeader ref={ref}>Test</ToastHeader>)
       expect(ref.current).toBeInstanceOf(HTMLDivElement)
     })
   })
@@ -46,7 +46,7 @@ describe('Toast.Header', () => {
     test('has no axe violations', async () => {
       const { container } = render(
         <ToastContext.Provider value={{ setVisible: vi.fn() }}>
-          <Toast.Header closeButton>Test</Toast.Header>
+          <ToastHeader closeButton>Test</ToastHeader>
         </ToastContext.Provider>
       )
       expect(await axe(container)).toHaveNoViolations()

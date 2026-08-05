@@ -2,7 +2,7 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Accordion } from '../../../index'
+import { Accordion, AccordionItem } from '../../../index'
 
 describe('Accordion', () => {
   describe('rendering', () => {
@@ -53,7 +53,7 @@ describe('Accordion', () => {
     test('sets the shared group name for items that do not set their own', () => {
       render(
         <Accordion name="shared-name">
-          <Accordion.Item>Item</Accordion.Item>
+          <AccordionItem>Item</AccordionItem>
         </Accordion>
       )
       expect(screen.getByRole('group')).toHaveAttribute('name', 'shared-name')

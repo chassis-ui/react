@@ -1,5 +1,12 @@
 import { useState } from 'react'
-import { Button, Drawer } from '@chassis-ui/react'
+import {
+  Button,
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle
+} from '@chassis-ui/react'
 
 export const AppearanceExample = () => {
   const [visibleSheet, setVisibleSheet] = useState(false)
@@ -8,23 +15,18 @@ export const AppearanceExample = () => {
     <>
       <Button onClick={() => setVisibleSheet(true)}>Sheet</Button>
       <Button onClick={() => setVisibleTranslucent(true)}>Translucent</Button>
-      <Drawer
-        sheet
-        placement="start"
-        visible={visibleSheet}
-        onClose={() => setVisibleSheet(false)}
-      >
-        <Drawer.Header>
-          <Drawer.Title>Sheet drawer</Drawer.Title>
-        </Drawer.Header>
-        <Drawer.Body>
+      <Drawer sheet placement="start" visible={visibleSheet} onClose={() => setVisibleSheet(false)}>
+        <DrawerHeader>
+          <DrawerTitle>Sheet drawer</DrawerTitle>
+        </DrawerHeader>
+        <DrawerBody>
           <p>Flush against the viewport edge — no inset, rounding, or border.</p>
-        </Drawer.Body>
-        <Drawer.Footer>
+        </DrawerBody>
+        <DrawerFooter>
           <Button color="neutral" onClick={() => setVisibleSheet(false)}>
             Close
           </Button>
-        </Drawer.Footer>
+        </DrawerFooter>
       </Drawer>
       <Drawer
         translucent
@@ -32,17 +34,17 @@ export const AppearanceExample = () => {
         visible={visibleTranslucent}
         onClose={() => setVisibleTranslucent(false)}
       >
-        <Drawer.Header>
-          <Drawer.Title>Translucent drawer</Drawer.Title>
-        </Drawer.Header>
-        <Drawer.Body>
+        <DrawerHeader>
+          <DrawerTitle>Translucent drawer</DrawerTitle>
+        </DrawerHeader>
+        <DrawerBody>
           <p>Frosted-glass background over the page content.</p>
-        </Drawer.Body>
-        <Drawer.Footer>
+        </DrawerBody>
+        <DrawerFooter>
           <Button color="neutral" onClick={() => setVisibleTranslucent(false)}>
             Close
           </Button>
-        </Drawer.Footer>
+        </DrawerFooter>
       </Drawer>
     </>
   )

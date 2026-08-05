@@ -1,5 +1,15 @@
 import { useState } from 'react'
-import { Button, Link, Modal, Popover, Tooltip } from '@chassis-ui/react'
+import {
+  Button,
+  Link,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  ModalTitle,
+  Popover,
+  Tooltip
+} from '@chassis-ui/react'
 
 export const Example = () => {
   const [visible, setVisible] = useState(false)
@@ -7,17 +17,14 @@ export const Example = () => {
     <>
       <Button onClick={() => setVisible(!visible)}>Launch demo modal</Button>
       <Modal visible={visible} onClose={() => setVisible(false)}>
-        <Modal.Header>
-          <Modal.Title>Modal title</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
+        <ModalHeader>
+          <ModalTitle>Modal title</ModalTitle>
+        </ModalHeader>
+        <ModalBody>
           <h5>Popover in a modal</h5>
           <p>
             This
-            <Popover
-              title="Popover title"
-              content="Popover body content is set in this property."
-            >
+            <Popover title="Popover title" content="Popover body content is set in this property.">
               <Button>button</Button>
             </Popover>{' '}
             triggers a popover on click.
@@ -34,13 +41,13 @@ export const Example = () => {
             </Tooltip>{' '}
             have tooltips on hover.
           </p>
-        </Modal.Body>
-        <Modal.Footer>
+        </ModalBody>
+        <ModalFooter>
           <Button color="secondary" onClick={() => setVisible(false)}>
             Close
           </Button>
           <Button color="primary">Save changes</Button>
-        </Modal.Footer>
+        </ModalFooter>
       </Modal>
     </>
   )

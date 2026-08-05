@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, Drawer } from '@chassis-ui/react'
+import { Button, Drawer, DrawerBody, DrawerHeader, DrawerTitle } from '@chassis-ui/react'
 
 export const PlacementTopExample = () => {
   const [visible, setVisible] = useState(false)
@@ -7,12 +7,12 @@ export const PlacementTopExample = () => {
     <>
       <Button onClick={() => setVisible(true)}>Top</Button>
       <Drawer placement="top" visible={visible} onClose={() => setVisible(false)}>
-        <Drawer.Header>
-          <Drawer.Title>Top drawer</Drawer.Title>
-        </Drawer.Header>
-        <Drawer.Body>
+        <DrawerHeader>
+          <DrawerTitle>Top drawer</DrawerTitle>
+        </DrawerHeader>
+        <DrawerBody>
           <p>Slides down from the top.</p>
-        </Drawer.Body>
+        </DrawerBody>
       </Drawer>
     </>
   )

@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Accordion.Button > rendering > matches the baseline markup snapshot 1`] = `
+exports[`AccordionButton > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <span
     class="accordion-title"

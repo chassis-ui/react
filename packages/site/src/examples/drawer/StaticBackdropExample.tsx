@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, Drawer } from '@chassis-ui/react'
+import { Button, Drawer, DrawerBody, DrawerHeader, DrawerTitle } from '@chassis-ui/react'
 
 export const StaticBackdropExample = () => {
   const [visible, setVisible] = useState(false)
@@ -12,12 +12,12 @@ export const StaticBackdropExample = () => {
         visible={visible}
         onClose={() => setVisible(false)}
       >
-        <Drawer.Header>
-          <Drawer.Title>Static backdrop</Drawer.Title>
-        </Drawer.Header>
-        <Drawer.Body>
+        <DrawerHeader>
+          <DrawerTitle>Static backdrop</DrawerTitle>
+        </DrawerHeader>
+        <DrawerBody>
           <p>Clicking outside nudges this drawer rather than closing it.</p>
-        </Drawer.Body>
+        </DrawerBody>
       </Drawer>
     </>
   )

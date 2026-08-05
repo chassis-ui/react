@@ -2,19 +2,19 @@ import * as React from 'react'
 import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Drawer } from '../../../index'
+import { DrawerBody } from '../../../index'
 
-describe('Drawer.Body', () => {
+describe('DrawerBody', () => {
   describe('rendering', () => {
     test('renders a div with the base class and className merged', () => {
-      render(<Drawer.Body className="bazinga">Test</Drawer.Body>)
+      render(<DrawerBody className="bazinga">Test</DrawerBody>)
       const body = screen.getByText('Test')
       expect(body).toHaveClass('drawer-body', 'bazinga')
       expect(body.tagName).toBe('DIV')
     })
 
     test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Drawer.Body>Test</Drawer.Body>)
+      const { container } = render(<DrawerBody>Test</DrawerBody>)
       expect(container).toMatchSnapshot()
     })
   })
@@ -22,14 +22,14 @@ describe('Drawer.Body', () => {
   describe('ref forwarding', () => {
     test('forwards a ref to the underlying div', () => {
       const ref = React.createRef<HTMLDivElement>()
-      render(<Drawer.Body ref={ref}>Test</Drawer.Body>)
+      render(<DrawerBody ref={ref}>Test</DrawerBody>)
       expect(ref.current).toBeInstanceOf(HTMLDivElement)
     })
   })
 
   describe('accessibility', () => {
     test('has no axe violations', async () => {
-      const { container } = render(<Drawer.Body>Test</Drawer.Body>)
+      const { container } = render(<DrawerBody>Test</DrawerBody>)
       expect(await axe(container)).toHaveNoViolations()
     })
   })

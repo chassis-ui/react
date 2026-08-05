@@ -1,14 +1,7 @@
-import { Notification as NotificationRoot } from './Notification'
-import { NotificationHeading } from './NotificationHeading'
-import { NotificationLink } from './NotificationLink'
-// plop:sub-import
-
-export const Notification = Object.assign(NotificationRoot, {
-  // plop:sub-entry
-  Heading: NotificationHeading,
-  Link: NotificationLink
-})
+export { Notification } from './Notification'
 export type { NotificationProps } from './Notification'
+export { NotificationHeading } from './NotificationHeading'
 export type { NotificationHeadingProps } from './NotificationHeading'
+export { NotificationLink } from './NotificationLink'
 export type { NotificationLinkProps } from './NotificationLink'
-// plop:sub-type
+// plop:sub-export

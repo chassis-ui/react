@@ -4,29 +4,29 @@ import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 
 import { DrawerContext } from '../Drawer'
-import { Drawer } from '../../../index'
+import { DrawerHeader } from '../../../index'
 
-describe('Drawer.Header', () => {
+describe('DrawerHeader', () => {
   describe('rendering', () => {
     test('renders a div with the base class and className merged', () => {
-      render(<Drawer.Header className="bazinga">Test</Drawer.Header>)
+      render(<DrawerHeader className="bazinga">Test</DrawerHeader>)
       const header = screen.getByText('Test')
       expect(header).toHaveClass('drawer-header', 'bazinga')
       expect(header.tagName).toBe('DIV')
     })
 
     test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Drawer.Header>Test</Drawer.Header>)
+      const { container } = render(<DrawerHeader>Test</DrawerHeader>)
       expect(container).toMatchSnapshot()
     })
 
     test('renders a close button by default', () => {
-      render(<Drawer.Header>Test</Drawer.Header>)
+      render(<DrawerHeader>Test</DrawerHeader>)
       expect(screen.getByRole('button', { name: 'Close' })).toBeInTheDocument()
     })
 
     test('can hide the close button', () => {
-      render(<Drawer.Header closeButton={false}>Test</Drawer.Header>)
+      render(<DrawerHeader closeButton={false}>Test</DrawerHeader>)
       expect(screen.queryByRole('button', { name: 'Close' })).not.toBeInTheDocument()
     })
   })
@@ -37,7 +37,7 @@ describe('Drawer.Header', () => {
       const requestClose = vi.fn()
       render(
         <DrawerContext.Provider value={{ requestClose }}>
-          <Drawer.Header>Test</Drawer.Header>
+          <DrawerHeader>Test</DrawerHeader>
         </DrawerContext.Provider>
       )
       await user.click(screen.getByRole('button', { name: 'Close' }))
@@ -48,14 +48,14 @@ describe('Drawer.Header', () => {
   describe('ref forwarding', () => {
     test('forwards a ref to the underlying div', () => {
       const ref = React.createRef<HTMLDivElement>()
-      render(<Drawer.Header ref={ref}>Test</Drawer.Header>)
+      render(<DrawerHeader ref={ref}>Test</DrawerHeader>)
       expect(ref.current).toBeInstanceOf(HTMLDivElement)
     })
   })
 
   describe('accessibility', () => {
     test('has no axe violations', async () => {
-      const { container } = render(<Drawer.Header>Test</Drawer.Header>)
+      const { container } = render(<DrawerHeader>Test</DrawerHeader>)
       expect(await axe(container)).toHaveNoViolations()
     })
   })

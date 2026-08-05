@@ -6,7 +6,7 @@ toc: true
 ---
 
 
-import { Carousel, Image } from '@chassis-ui/react'
+import { Carousel, CarouselCaption, CarouselItem, Image } from '@chassis-ui/react'
 
 
 ## How it works
@@ -23,15 +23,15 @@ Carousels don't automatically normalize slide dimensions. As such, you may want 
 
 <Example>
   <Carousel>
-    <Carousel.Item>
+    <CarouselItem>
       <Image className="d-block w-100" src="https://placehold.co/800x400" alt="slide 1" />
-    </Carousel.Item>
-    <Carousel.Item>
+    </CarouselItem>
+    <CarouselItem>
       <Image className="d-block w-100" src="https://placehold.co/800x400" alt="slide 2"/>
-    </Carousel.Item>
-    <Carousel.Item>
+    </CarouselItem>
+    <CarouselItem>
       <Image className="d-block w-100" src="https://placehold.co/800x400" alt="slide 3" />
-    </Carousel.Item>
+    </CarouselItem>
   </Carousel>
 </Example>
 
@@ -41,15 +41,15 @@ Adding in the previous and next controls by `controls` property.
 
 <Example>
   <Carousel controls>
-    <Carousel.Item>
+    <CarouselItem>
       <Image className="d-block w-100" src="https://placehold.co/800x400" alt="slide 1" />
-    </Carousel.Item>
-    <Carousel.Item>
+    </CarouselItem>
+    <CarouselItem>
       <Image className="d-block w-100" src="https://placehold.co/800x400" alt="slide 2" />
-    </Carousel.Item>
-    <Carousel.Item>
+    </CarouselItem>
+    <CarouselItem>
       <Image className="d-block w-100" src="https://placehold.co/800x400" alt="slide 3" />
-    </Carousel.Item>
+    </CarouselItem>
   </Carousel>
 </Example>
 
@@ -59,45 +59,45 @@ You can attach the indicators to the carousel, lengthwise the controls, too.
 
 <Example>
   <Carousel controls indicators>
-    <Carousel.Item>
+    <CarouselItem>
       <Image className="d-block w-100" src="https://placehold.co/800x400" alt="slide 1" />
-    </Carousel.Item>
-    <Carousel.Item>
+    </CarouselItem>
+    <CarouselItem>
       <Image className="d-block w-100" src="https://placehold.co/800x400" alt="slide 2" />
-    </Carousel.Item>
-    <Carousel.Item>
+    </CarouselItem>
+    <CarouselItem>
       <Image className="d-block w-100" src="https://placehold.co/800x400" alt="slide 3" />
-    </Carousel.Item>
+    </CarouselItem>
   </Carousel>
 </Example>
 
 ### With captions
 
-You can add captions to slides with the `<Carousel.Caption>` element within any `<Carousel.Item>`. They can be immediately hidden on smaller viewports, as shown below, with optional display utilities. We hide them with `.d-none` and draw them back on medium-sized devices with `.medium:d-block`.
+You can add captions to slides with the `<CarouselCaption>` element within any `<CarouselItem>`. They can be immediately hidden on smaller viewports, as shown below, with optional display utilities. We hide them with `.d-none` and draw them back on medium-sized devices with `.medium:d-block`.
 
 <Example>
   <Carousel controls indicators>
-    <Carousel.Item>
+    <CarouselItem>
       <Image className="d-block w-100" src="https://placehold.co/800x400" alt="slide 1" />
-      <Carousel.Caption className="d-none medium:d-block">
+      <CarouselCaption className="d-none medium:d-block">
         <h5>First slide label</h5>
         <p>Some representative placeholder content for the first slide.</p>
-      </Carousel.Caption>
-    </Carousel.Item>
-    <Carousel.Item>
+      </CarouselCaption>
+    </CarouselItem>
+    <CarouselItem>
       <Image className="d-block w-100" src="https://placehold.co/800x400" alt="slide 2" />
-      <Carousel.Caption className="d-none medium:d-block">
+      <CarouselCaption className="d-none medium:d-block">
         <h5>Second slide label</h5>
         <p>Some representative placeholder content for the first slide.</p>
-      </Carousel.Caption>
-    </Carousel.Item>
-    <Carousel.Item>
+      </CarouselCaption>
+    </CarouselItem>
+    <CarouselItem>
       <Image className="d-block w-100" src="https://placehold.co/800x400" alt="slide 3" />
-      <Carousel.Caption className="d-none medium:d-block">
+      <CarouselCaption className="d-none medium:d-block">
         <h5>Third slide label</h5>
         <p>Some representative placeholder content for the first slide.</p>
-      </Carousel.Caption>
-    </Carousel.Item>
+      </CarouselCaption>
+    </CarouselItem>
   </Carousel>
 </Example>
 
@@ -107,15 +107,15 @@ Add `transition="crossfade"` to your carousel to animate slides with a fade tran
 
 <Example>
   <Carousel controls transition="crossfade">
-    <Carousel.Item>
+    <CarouselItem>
       <Image className="d-block w-100" src="https://placehold.co/800x400" alt="slide 1" />
-    </Carousel.Item>
-    <Carousel.Item>
+    </CarouselItem>
+    <CarouselItem>
       <Image className="d-block w-100" src="https://placehold.co/800x400" alt="slide 2" />
-    </Carousel.Item>
-    <Carousel.Item>
+    </CarouselItem>
+    <CarouselItem>
       <Image className="d-block w-100" src="https://placehold.co/800x400" alt="slide 3" />
-    </Carousel.Item>
+    </CarouselItem>
   </Carousel>
 </Example>
 
@@ -125,27 +125,27 @@ Add `dark` property to the `Carousel` for darker controls, indicators, and capti
 
 <Example>
   <Carousel controls indicators dark>
-    <Carousel.Item>
+    <CarouselItem>
       <Image className="d-block w-100" src="https://placehold.co/800x400" alt="slide 1" />
-      <Carousel.Caption className="d-none medium:d-block">
+      <CarouselCaption className="d-none medium:d-block">
         <h5>First slide label</h5>
         <p>Some representative placeholder content for the first slide.</p>
-      </Carousel.Caption>
-    </Carousel.Item>
-    <Carousel.Item>
+      </CarouselCaption>
+    </CarouselItem>
+    <CarouselItem>
       <Image className="d-block w-100" src="https://placehold.co/800x400" alt="slide 2" />
-      <Carousel.Caption className="d-none medium:d-block">
+      <CarouselCaption className="d-none medium:d-block">
         <h5>Second slide label</h5>
         <p>Some representative placeholder content for the first slide.</p>
-      </Carousel.Caption>
-    </Carousel.Item>
-    <Carousel.Item>
+      </CarouselCaption>
+    </CarouselItem>
+    <CarouselItem>
       <Image className="d-block w-100" src="https://placehold.co/800x400" alt="slide 3" />
-      <Carousel.Caption className="d-none medium:d-block">
+      <CarouselCaption className="d-none medium:d-block">
         <h5>Third slide label</h5>
         <p>Some representative placeholder content for the first slide.</p>
-      </Carousel.Caption>
-    </Carousel.Item>
+      </CarouselCaption>
+    </CarouselItem>
   </Carousel>
 </Example>
 
@@ -154,9 +154,9 @@ Add `dark` property to the `Carousel` for darker controls, indicators, and capti
 ### Carousel
 
 <PropTable component="Carousel" />
-### Carousel.Caption
+### CarouselCaption
 
 <PropTable component="CarouselCaption" />
-### Carousel.Item
+### CarouselItem
 
 <PropTable component="CarouselItem" />

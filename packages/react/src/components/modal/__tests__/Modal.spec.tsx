@@ -2,7 +2,7 @@ import * as React from 'react'
 import { act, render, screen, fireEvent } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Modal } from '../../../index'
+import { Modal, ModalBody, ModalHeader, ModalTitle } from '../../../index'
 
 // The dialog only gets an accessible role="dialog" once open (closed <dialog> elements have no
 // exposed role, verified directly), and several tests need the same stable node reference across
@@ -193,10 +193,10 @@ describe('Modal', () => {
     test('has no axe violations when visible', async () => {
       const { container } = render(
         <Modal visible>
-          <Modal.Header>
-            <Modal.Title>Title</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>Body</Modal.Body>
+          <ModalHeader>
+            <ModalTitle>Title</ModalTitle>
+          </ModalHeader>
+          <ModalBody>Body</ModalBody>
         </Modal>
       )
       expect(await axe(container)).toHaveNoViolations()

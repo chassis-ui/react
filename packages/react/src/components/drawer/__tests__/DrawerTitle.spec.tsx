@@ -2,26 +2,26 @@ import * as React from 'react'
 import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Drawer } from '../../../index'
+import { DrawerTitle } from '../../../index'
 
-describe('Drawer.Title', () => {
+describe('DrawerTitle', () => {
   describe('rendering', () => {
     test('renders an h2 with the base class by default', () => {
-      render(<Drawer.Title>Test</Drawer.Title>)
+      render(<DrawerTitle>Test</DrawerTitle>)
       const heading = screen.getByRole('heading', { level: 2, name: 'Test' })
       expect(heading).toHaveClass('drawer-title')
     })
 
     test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Drawer.Title>Test</Drawer.Title>)
+      const { container } = render(<DrawerTitle>Test</DrawerTitle>)
       expect(container).toMatchSnapshot()
     })
 
     test('renders as a custom component with className merged', () => {
       render(
-        <Drawer.Title className="bazinga" component="h3">
+        <DrawerTitle className="bazinga" component="h3">
           Test
-        </Drawer.Title>
+        </DrawerTitle>
       )
       const heading = screen.getByRole('heading', { level: 3, name: 'Test' })
       expect(heading).toHaveClass('drawer-title', 'bazinga')
@@ -31,14 +31,14 @@ describe('Drawer.Title', () => {
   describe('ref forwarding', () => {
     test('forwards a ref to the underlying heading', () => {
       const ref = React.createRef<HTMLHeadingElement>()
-      render(<Drawer.Title ref={ref}>Test</Drawer.Title>)
+      render(<DrawerTitle ref={ref}>Test</DrawerTitle>)
       expect(ref.current).toBeInstanceOf(HTMLHeadingElement)
     })
   })
 
   describe('accessibility', () => {
     test('has no axe violations', async () => {
-      const { container } = render(<Drawer.Title>Test</Drawer.Title>)
+      const { container } = render(<DrawerTitle>Test</DrawerTitle>)
       expect(await axe(container)).toHaveNoViolations()
     })
   })

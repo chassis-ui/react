@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, Drawer } from '@chassis-ui/react'
+import { Button, Drawer, DrawerBody, DrawerHeader, DrawerTitle } from '@chassis-ui/react'
 
 export const BodyScrollExample = () => {
   const [visibleScrolling, setVisibleScrolling] = useState(false)
@@ -19,12 +19,12 @@ export const BodyScrollExample = () => {
         visible={visibleScrolling}
         onClose={() => setVisibleScrolling(false)}
       >
-        <Drawer.Header>
-          <Drawer.Title>Scrolling, no backdrop</Drawer.Title>
-        </Drawer.Header>
-        <Drawer.Body>
+        <DrawerHeader>
+          <DrawerTitle>Scrolling, no backdrop</DrawerTitle>
+        </DrawerHeader>
+        <DrawerBody>
           <p>Body scroll is enabled and the backdrop is removed.</p>
-        </Drawer.Body>
+        </DrawerBody>
       </Drawer>
       <Drawer
         placement="start"
@@ -32,12 +32,12 @@ export const BodyScrollExample = () => {
         visible={visibleScrollBackdrop}
         onClose={() => setVisibleScrollBackdrop(false)}
       >
-        <Drawer.Header>
-          <Drawer.Title>Scrolling with backdrop</Drawer.Title>
-        </Drawer.Header>
-        <Drawer.Body>
+        <DrawerHeader>
+          <DrawerTitle>Scrolling with backdrop</DrawerTitle>
+        </DrawerHeader>
+        <DrawerBody>
           <p>Body scroll is enabled and the backdrop remains visible.</p>
-        </Drawer.Body>
+        </DrawerBody>
       </Drawer>
     </>
   )

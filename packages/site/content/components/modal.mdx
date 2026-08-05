@@ -19,6 +19,10 @@ import {
   Button,
   Link,
   Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  ModalTitle,
   Popover,
   Tooltip,
 } from '@chassis-ui/react'
@@ -30,24 +34,24 @@ import {
 Below is a static modal example, with the backdrop and keyboard dismissal disabled so it stays open for illustration. Included are the modal header, modal body (required for `padding`), and modal footer (optional). We ask that you include modal headers with dismiss actions whenever possible, or provide another explicit dismiss action.
 
 <Example customMarkup={`<Modal backdrop={false} keyboard={false} open>
-    <Modal.Header>
-      <Modal.Title>Modal title</Modal.Title>
-    </Modal.Header>
-    <Modal.Body>Modal body text goes here.</Modal.Body>
-    <Modal.Footer>
+    <ModalHeader>
+      <ModalTitle>Modal title</ModalTitle>
+    </ModalHeader>
+    <ModalBody>Modal body text goes here.</ModalBody>
+    <ModalFooter>
       <Button color="secondary">Close</Button>
       <Button color="primary">Save changes</Button>
-    </Modal.Footer>
+    </ModalFooter>
   </Modal>`}>
   <Modal backdrop={false} keyboard={false} style={{ position: 'relative' }} open>
-    <Modal.Header>
-      <Modal.Title>Modal title</Modal.Title>
-    </Modal.Header>
-    <Modal.Body>Modal body text goes here.</Modal.Body>
-    <Modal.Footer>
+    <ModalHeader>
+      <ModalTitle>Modal title</ModalTitle>
+    </ModalHeader>
+    <ModalBody>Modal body text goes here.</ModalBody>
+    <ModalFooter>
       <Button color="secondary">Close</Button>
       <Button color="primary">Save changes</Button>
-    </Modal.Footer>
+    </ModalFooter>
   </Modal>
 </Example>
 
@@ -220,15 +224,15 @@ Another override is the option to pop up a modal that covers the user viewport, 
 ### Modal
 
 <PropTable component="Modal" />
-### Modal.Body
+### ModalBody
 
 <PropTable component="ModalBody" />
-### Modal.Footer
+### ModalFooter
 
 <PropTable component="ModalFooter" />
-### Modal.Header
+### ModalHeader
 
 <PropTable component="ModalHeader" />
-### Modal.Title
+### ModalTitle
 
 <PropTable component="ModalTitle" />

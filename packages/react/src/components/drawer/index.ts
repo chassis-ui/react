@@ -1,20 +1,11 @@
-import { Drawer as DrawerRoot } from './Drawer'
-import { DrawerBody } from './DrawerBody'
-import { DrawerFooter } from './DrawerFooter'
-import { DrawerHeader } from './DrawerHeader'
-import { DrawerTitle } from './DrawerTitle'
-// plop:sub-import
-
-export const Drawer = Object.assign(DrawerRoot, {
-  // plop:sub-entry
-  Body: DrawerBody,
-  Footer: DrawerFooter,
-  Header: DrawerHeader,
-  Title: DrawerTitle
-})
+export { Drawer } from './Drawer'
 export type { DrawerProps } from './Drawer'
+export { DrawerBody } from './DrawerBody'
 export type { DrawerBodyProps } from './DrawerBody'
+export { DrawerFooter } from './DrawerFooter'
 export type { DrawerFooterProps } from './DrawerFooter'
+export { DrawerHeader } from './DrawerHeader'
 export type { DrawerHeaderProps } from './DrawerHeader'
+export { DrawerTitle } from './DrawerTitle'
 export type { DrawerTitleProps } from './DrawerTitle'
-// plop:sub-type
+// plop:sub-export

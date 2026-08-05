@@ -3,15 +3,15 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 
-import { Toast } from '../../../index'
+import { ToastClose } from '../../../index'
 import { ToastContext } from '../Toast'
 
-describe('Toast.Close', () => {
+describe('ToastClose', () => {
   describe('rendering', () => {
     test('renders a close button by default', () => {
       render(
         <ToastContext.Provider value={{ setVisible: vi.fn() }}>
-          <Toast.Close />
+          <ToastClose />
         </ToastContext.Provider>
       )
       expect(screen.getByRole('button', { name: 'Close' })).toBeInTheDocument()
@@ -20,7 +20,7 @@ describe('Toast.Close', () => {
     test('matches the baseline markup snapshot', () => {
       const { container } = render(
         <ToastContext.Provider value={{ setVisible: vi.fn() }}>
-          <Toast.Close />
+          <ToastClose />
         </ToastContext.Provider>
       )
       expect(container).toMatchSnapshot()
@@ -29,7 +29,7 @@ describe('Toast.Close', () => {
     test('renders as a custom component when given', () => {
       render(
         <ToastContext.Provider value={{ setVisible: vi.fn() }}>
-          <Toast.Close component="span">Dismiss</Toast.Close>
+          <ToastClose component="span">Dismiss</ToastClose>
         </ToastContext.Provider>
       )
       expect(screen.getByText('Dismiss').tagName).toBe('SPAN')
@@ -42,7 +42,7 @@ describe('Toast.Close', () => {
       const setVisible = vi.fn()
       render(
         <ToastContext.Provider value={{ setVisible }}>
-          <Toast.Close />
+          <ToastClose />
         </ToastContext.Provider>
       )
       await user.click(screen.getByRole('button', { name: 'Close' }))
@@ -55,7 +55,7 @@ describe('Toast.Close', () => {
       const onClick = vi.fn()
       render(
         <ToastContext.Provider value={{ setVisible }}>
-          <Toast.Close onClick={onClick} />
+          <ToastClose onClick={onClick} />
         </ToastContext.Provider>
       )
       await user.click(screen.getByRole('button', { name: 'Close' }))
@@ -69,7 +69,7 @@ describe('Toast.Close', () => {
       const ref = React.createRef<HTMLButtonElement>()
       render(
         <ToastContext.Provider value={{ setVisible: vi.fn() }}>
-          <Toast.Close ref={ref} />
+          <ToastClose ref={ref} />
         </ToastContext.Provider>
       )
       expect(ref.current).toBeInstanceOf(HTMLButtonElement)
@@ -80,7 +80,7 @@ describe('Toast.Close', () => {
     test('has no axe violations', async () => {
       const { container } = render(
         <ToastContext.Provider value={{ setVisible: vi.fn() }}>
-          <Toast.Close />
+          <ToastClose />
         </ToastContext.Provider>
       )
       expect(await axe(container)).toHaveNoViolations()

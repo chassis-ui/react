@@ -9,7 +9,7 @@ import { LiveExample } from '../../src/examples/notification/LiveExample.tsx'
 
 
 import { useState } from 'react'
-import { Notification, Button } from '@chassis-ui/react'
+import { Notification, NotificationHeading, NotificationLink, Button } from '@chassis-ui/react'
 
 ## Examples
 
@@ -54,26 +54,26 @@ Click the button below to show a notification, then dismiss it with the built-in
 
 ### Link context
 
-Use `<Notification.Link>` to give matching colored links inside any notification.
+Use `<NotificationLink>` to give matching colored links inside any notification.
 
 <Example>
   <Notification color="primary">
-    A simple primary notification with <Notification.Link href="#">an example link</Notification.Link>.
+    A simple primary notification with <NotificationLink href="#">an example link</NotificationLink>.
   </Notification>
   <Notification color="secondary">
-    A simple secondary notification with <Notification.Link href="#">an example link</Notification.Link>.
+    A simple secondary notification with <NotificationLink href="#">an example link</NotificationLink>.
   </Notification>
   <Notification color="success">
-    A simple success notification with <Notification.Link href="#">an example link</Notification.Link>.
+    A simple success notification with <NotificationLink href="#">an example link</NotificationLink>.
   </Notification>
   <Notification color="danger">
-    A simple danger notification with <Notification.Link href="#">an example link</Notification.Link>.
+    A simple danger notification with <NotificationLink href="#">an example link</NotificationLink>.
   </Notification>
   <Notification color="warning">
-    A simple warning notification with <Notification.Link href="#">an example link</Notification.Link>.
+    A simple warning notification with <NotificationLink href="#">an example link</NotificationLink>.
   </Notification>
   <Notification color="info">
-    A simple info notification with <Notification.Link href="#">an example link</Notification.Link>.
+    A simple info notification with <NotificationLink href="#">an example link</NotificationLink>.
   </Notification>
 </Example>
 
@@ -83,7 +83,7 @@ Notifications can incorporate supplementary components like headings, paragraphs
 
 <Example>
   <Notification color="success">
-    <Notification.Heading tag="h4">Well done!</Notification.Heading>
+    <NotificationHeading tag="h4">Well done!</NotificationHeading>
     <p>Aww yeah, you successfully read this important notification message. This example text is going to run a bit longer so that you can see how spacing within a notification works with this kind of content.</p>
     <hr />
     <p className="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
@@ -111,9 +111,9 @@ Add the `dismissible` prop to let users close the notification.
 ### Notification
 
 <PropTable component="Notification" />
-### Notification.Heading
+### NotificationHeading
 
 <PropTable component="NotificationHeading" />
-### Notification.Link
+### NotificationLink
 
 <PropTable component="NotificationLink" />

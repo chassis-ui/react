@@ -1,10 +1,10 @@
-import { Toast, Toaster } from '@chassis-ui/react'
+import { Toast, ToastBody, ToastHeader, Toaster } from '@chassis-ui/react'
 
 export const StackingExample = () => {
   return (
     <Toaster>
       <Toast autohide={false} visible={true}>
-        <Toast.Header closeButton>
+        <ToastHeader closeButton>
           <svg
             className="rounded me-small"
             width="20"
@@ -18,11 +18,11 @@ export const StackingExample = () => {
           </svg>
           <strong className="me-auto">Chassis</strong>
           <small>7 min ago</small>
-        </Toast.Header>
-        <Toast.Body>Hello, world! This is a toast message.</Toast.Body>
+        </ToastHeader>
+        <ToastBody>Hello, world! This is a toast message.</ToastBody>
       </Toast>
       <Toast autohide={false} visible={true}>
-        <Toast.Header closeButton>
+        <ToastHeader closeButton>
           <svg
             className="rounded me-small"
             width="20"
@@ -36,8 +36,8 @@ export const StackingExample = () => {
           </svg>
           <strong className="me-auto">Chassis</strong>
           <small>7 min ago</small>
-        </Toast.Header>
-        <Toast.Body>Hello, world! This is a toast message.</Toast.Body>
+        </ToastHeader>
+        <ToastBody>Hello, world! This is a toast message.</ToastBody>
       </Toast>
     </Toaster>
   )

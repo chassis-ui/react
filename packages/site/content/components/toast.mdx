@@ -10,7 +10,7 @@ import { StackingExample } from '../../src/examples/toast/StackingExample.tsx'
 
 
 import { useState, useRef } from 'react'
-import { Button, Toast, Toaster } from '@chassis-ui/react'
+import { Button, Toast, ToastBody, ToastClose, ToastFooter, ToastHeader, Toaster } from '@chassis-ui/react'
 import DocsPlaceholder from '@chassis-ui/docs/shortcodes/Placeholder.astro'
 
 React toasts are lightweight notifications designed to mimic the push notifications that have been popularized by mobile and desktop operating systems. They're built with flexbox, so they're easy to align and position.
@@ -33,12 +33,12 @@ Toasts are as flexible as you need and have very little required markup. At a mi
 
 <Example>
   <Toast client:load animation={false} autohide={false} visible={true}>
-    <Toast.Header closeButton>
+    <ToastHeader closeButton>
       <DocsPlaceholder width="20" height="20" background="#007aff" class="rounded me-xsmall" text={false} title={false} />
       <strong className="me-auto">Chassis</strong>
       <small>7 min ago</small>
-    </Toast.Header>
-    <Toast.Body>Hello, world! This is a toast message.</Toast.Body>
+    </ToastHeader>
+    <ToastBody>Hello, world! This is a toast message.</ToastBody>
   </Toast>
 </Example>
 
@@ -51,19 +51,19 @@ For dynamic notifications, call `addToast()` from anywhere — an event handler,
 
 ### Action footer
 
-Add a `Toast.Footer` below the body to hold acknowledgement or follow-up actions. It renders `.toast-footer`, separated from the body by a border that matches the header rule.
+Add a `ToastFooter` below the body to hold acknowledgement or follow-up actions. It renders `.toast-footer`, separated from the body by a border that matches the header rule.
 
 <Example>
   <Toast client:load autohide={false} visible={true}>
-    <Toast.Body>Hello, world! This is a toast message.</Toast.Body>
-    <Toast.Footer>
+    <ToastBody>Hello, world! This is a toast message.</ToastBody>
+    <ToastFooter>
       <Button type="button" color="primary" size="small">
         Take action
       </Button>
-      <Toast.Close component={Button} color="secondary" size="small">
+      <ToastClose component={Button} color="secondary" size="small">
         Close
-      </Toast.Close>
-    </Toast.Footer>
+      </ToastClose>
+    </ToastFooter>
   </Toast>
 </Example>
 
@@ -73,7 +73,7 @@ Add `translucent` to blend the toast in with what's below it.
 
 <Example className="bg-dark">
   <Toast client:load translucent autohide={false} visible={true}>
-    <Toast.Header closeButton>
+    <ToastHeader closeButton>
       <svg
         className="rounded me-small"
         width="20"
@@ -87,8 +87,8 @@ Add `translucent` to blend the toast in with what's below it.
       </svg>
       <strong className="me-auto">Chassis</strong>
       <small>7 min ago</small>
-    </Toast.Header>
-    <Toast.Body>Hello, world! This is a toast message.</Toast.Body>
+    </ToastHeader>
+    <ToastBody>Hello, world! This is a toast message.</ToastBody>
   </Toast>
 </Example>
 
@@ -102,13 +102,13 @@ You can stack toasts by wrapping them in a `Toaster`, which will vertically add 
 
 ### Simplified layout
 
-Customize your toasts by removing sub-components, tweaking them with utilities, or by adding your own markup. Here we've created a simpler toast by removing the default `<Toast.Header>`, adding a custom hide icon from Chassis Icons, and using some flexbox utilities to adjust the layout.
+Customize your toasts by removing sub-components, tweaking them with utilities, or by adding your own markup. Here we've created a simpler toast by removing the default `<ToastHeader>`, adding a custom hide icon from Chassis Icons, and using some flexbox utilities to adjust the layout.
 
 <Example>
   <Toast client:load autohide={false} visible={true} className="align-items-center">
     <div className="d-flex">
-      <Toast.Body>Hello, world! This is a toast message.</Toast.Body>
-      <Toast.Close className="me-small m-auto" />
+      <ToastBody>Hello, world! This is a toast message.</ToastBody>
+      <ToastClose className="me-small m-auto" />
     </div>
   </Toast>
 </Example>
@@ -120,8 +120,8 @@ Apply `color` and add `solid` for a full-color background with inverted text. He
 <Example>
   <Toast client:load autohide={false} visible={true} color="primary" solid className="align-items-center">
     <div className="d-flex">
-      <Toast.Body>Hello, world! This is a toast message.</Toast.Body>
-      <Toast.Close className="me-small m-auto" />
+      <ToastBody>Hello, world! This is a toast message.</ToastBody>
+      <ToastClose className="me-small m-auto" />
     </div>
   </Toast>
 </Example>
@@ -131,16 +131,16 @@ Apply `color` and add `solid` for a full-color background with inverted text. He
 ### Toast
 
 <PropTable component="Toast" />
-### Toast.Header
+### ToastHeader
 
 <PropTable component="ToastHeader" />
-### Toast.Body
+### ToastBody
 
 <PropTable component="ToastBody" />
-### Toast.Footer
+### ToastFooter
 
 <PropTable component="ToastFooter" />
-### Toast.Close
+### ToastClose
 
 <PropTable component="ToastClose" />
 ### Toaster

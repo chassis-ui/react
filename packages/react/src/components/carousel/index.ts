@@ -1,14 +1,7 @@
-import { Carousel as CarouselRoot } from './Carousel'
-import { CarouselCaption } from './CarouselCaption'
-import { CarouselItem } from './CarouselItem'
-// plop:sub-import
-
-export const Carousel = Object.assign(CarouselRoot, {
-  // plop:sub-entry
-  Caption: CarouselCaption,
-  Item: CarouselItem
-})
+export { Carousel } from './Carousel'
 export type { CarouselProps } from './Carousel'
+export { CarouselCaption } from './CarouselCaption'
 export type { CarouselCaptionProps } from './CarouselCaption'
+export { CarouselItem } from './CarouselItem'
 export type { CarouselItemProps } from './CarouselItem'
-// plop:sub-type
+// plop:sub-export

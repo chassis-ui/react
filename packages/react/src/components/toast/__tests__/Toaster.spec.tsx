@@ -2,7 +2,14 @@ import React from 'react'
 import { act, render, screen, fireEvent } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Toast, Toaster, Button, addToast, toastQueue } from '../../../index'
+import {
+  ToastBody,
+  ToastHeader,
+  Toaster,
+  Button,
+  addToast,
+  toastQueue
+} from '../../../index'
 
 afterEach(() => {
   act(() => toastQueue.clear())
@@ -29,8 +36,8 @@ describe('Toaster', () => {
             onClick={() =>
               addToast(
                 <>
-                  <Toast.Header closeButton>Lorem ipsum</Toast.Header>
-                  <Toast.Body>Hello, world! This is a toast message.</Toast.Body>
+                  <ToastHeader closeButton>Lorem ipsum</ToastHeader>
+                  <ToastBody>Hello, world! This is a toast message.</ToastBody>
                 </>,
                 { autohide: false }
               )
@@ -66,7 +73,7 @@ describe('Toaster', () => {
       vi.useFakeTimers()
       render(<Toaster />)
       act(() => {
-        addToast(<Toast.Header closeButton>Dismiss me</Toast.Header>, { autohide: false })
+        addToast(<ToastHeader closeButton>Dismiss me</ToastHeader>, { autohide: false })
       })
       act(() => vi.runAllTimers())
       expect(screen.getAllByRole('status')).toHaveLength(1)
@@ -85,8 +92,8 @@ describe('Toaster', () => {
       act(() => {
         addToast(
           <>
-            <Toast.Header closeButton>Lorem ipsum</Toast.Header>
-            <Toast.Body>Hello, world! This is a toast message.</Toast.Body>
+            <ToastHeader closeButton>Lorem ipsum</ToastHeader>
+            <ToastBody>Hello, world! This is a toast message.</ToastBody>
           </>,
           { autohide: false }
         )

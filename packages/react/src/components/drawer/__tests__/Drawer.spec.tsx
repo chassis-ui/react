@@ -2,7 +2,7 @@ import * as React from 'react'
 import { act, render, screen, fireEvent } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Drawer } from '../../../index'
+import { Drawer, DrawerBody, DrawerHeader, DrawerTitle } from '../../../index'
 
 // The dialog only gets an accessible role="dialog" once open (closed <dialog> elements have no
 // exposed role, verified directly), and several tests need the same stable node reference across
@@ -289,10 +289,10 @@ describe('Drawer', () => {
     test('has no axe violations when visible', async () => {
       const { container } = render(
         <Drawer placement="start" visible>
-          <Drawer.Header>
-            <Drawer.Title>Title</Drawer.Title>
-          </Drawer.Header>
-          <Drawer.Body>Body</Drawer.Body>
+          <DrawerHeader>
+            <DrawerTitle>Title</DrawerTitle>
+          </DrawerHeader>
+          <DrawerBody>Body</DrawerBody>
         </Drawer>
       )
       expect(await axe(container)).toHaveNoViolations()

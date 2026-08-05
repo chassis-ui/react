@@ -2,26 +2,26 @@ import * as React from 'react'
 import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Modal } from '../../../index'
+import { ModalTitle } from '../../../index'
 
-describe('Modal.Title', () => {
+describe('ModalTitle', () => {
   describe('rendering', () => {
     test('renders an h2 with the base class by default', () => {
-      render(<Modal.Title>Test</Modal.Title>)
+      render(<ModalTitle>Test</ModalTitle>)
       const heading = screen.getByRole('heading', { level: 2, name: 'Test' })
       expect(heading).toHaveClass('modal-title')
     })
 
     test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Modal.Title>Test</Modal.Title>)
+      const { container } = render(<ModalTitle>Test</ModalTitle>)
       expect(container).toMatchSnapshot()
     })
 
     test('renders as a custom component with className merged', () => {
       render(
-        <Modal.Title className="bazinga" component="h3">
+        <ModalTitle className="bazinga" component="h3">
           Test
-        </Modal.Title>
+        </ModalTitle>
       )
       const heading = screen.getByRole('heading', { level: 3, name: 'Test' })
       expect(heading).toHaveClass('modal-title', 'bazinga')
@@ -31,14 +31,14 @@ describe('Modal.Title', () => {
   describe('ref forwarding', () => {
     test('forwards a ref to the underlying heading', () => {
       const ref = React.createRef<HTMLHeadingElement>()
-      render(<Modal.Title ref={ref}>Test</Modal.Title>)
+      render(<ModalTitle ref={ref}>Test</ModalTitle>)
       expect(ref.current).toBeInstanceOf(HTMLHeadingElement)
     })
   })
 
   describe('accessibility', () => {
     test('has no axe violations', async () => {
-      const { container } = render(<Modal.Title>Test</Modal.Title>)
+      const { container } = render(<ModalTitle>Test</ModalTitle>)
       expect(await axe(container)).toHaveNoViolations()
     })
   })

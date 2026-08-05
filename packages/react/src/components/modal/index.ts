@@ -1,20 +1,11 @@
-import { Modal as ModalRoot } from './Modal'
-import { ModalBody } from './ModalBody'
-import { ModalFooter } from './ModalFooter'
-import { ModalHeader } from './ModalHeader'
-import { ModalTitle } from './ModalTitle'
-// plop:sub-import
-
-export const Modal = Object.assign(ModalRoot, {
-  // plop:sub-entry
-  Body: ModalBody,
-  Footer: ModalFooter,
-  Header: ModalHeader,
-  Title: ModalTitle
-})
+export { Modal } from './Modal'
 export type { ModalProps } from './Modal'
+export { ModalBody } from './ModalBody'
 export type { ModalBodyProps } from './ModalBody'
+export { ModalFooter } from './ModalFooter'
 export type { ModalFooterProps } from './ModalFooter'
+export { ModalHeader } from './ModalHeader'
 export type { ModalHeaderProps } from './ModalHeader'
+export { ModalTitle } from './ModalTitle'
 export type { ModalTitleProps } from './ModalTitle'
-// plop:sub-type
+// plop:sub-export

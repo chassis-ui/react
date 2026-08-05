@@ -1,7 +1,14 @@
-import { Accordion } from './components/accordion'
+import {
+  Accordion,
+  AccordionBody,
+  AccordionButton,
+  AccordionCollapse,
+  AccordionHeader,
+  AccordionItem
+} from './components/accordion'
 import { Autocomplete } from './components/autocomplete'
 import { Avatar, AvatarImage, AvatarStack } from './components/avatar'
-import { Notification } from './components/notification'
+import { Notification, NotificationHeading, NotificationLink } from './components/notification'
 import { Badge } from './components/badge'
 import { Backdrop } from './components/backdrop'
 import { Breadcrumb, BreadcrumbItem } from './components/breadcrumb'
@@ -21,7 +28,7 @@ import {
   CardText,
   CardTitle
 } from './components/card'
-import { Carousel } from './components/carousel'
+import { Carousel, CarouselCaption, CarouselItem } from './components/carousel'
 import { Collapse } from './components/collapse'
 import { ChipInput } from './components/chip-input'
 import { CloseButton } from './components/close-button'
@@ -50,14 +57,14 @@ import { Icon } from './components/icon'
 import { Image } from './components/image'
 import { Link } from './components/link'
 import { List, ListItem } from './components/list'
-import { Modal } from './components/modal'
+import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from './components/modal'
 import { Nav, NavItem, NavLink, NavTitle } from './components/nav'
 import { Navbar, NavbarBrand, NavbarNav, NavbarText, NavbarToggler } from './components/navbar'
 import { Pagination, PaginationItem } from './components/pagination'
 import { Placeholder } from './components/placeholder'
 import { Popover } from './components/popover'
 import { Progress, ProgressBar } from './components/progress'
-import { Drawer } from './components/drawer'
+import { Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerTitle } from './components/drawer'
 import { Spinner } from './components/spinner'
 import { Table } from './components/table'
 import {
@@ -68,18 +75,35 @@ import {
   TabContent,
   TabPane
 } from './components/tabs'
-import { Toast, Toaster, addToast, closeToast, toastQueue } from './components/toast'
+import {
+  Toast,
+  ToastBody,
+  ToastClose,
+  ToastFooter,
+  ToastHeader,
+  Toaster,
+  addToast,
+  closeToast,
+  toastQueue
+} from './components/toast'
 import { Tooltip } from './components/tooltip'
 // plop:import
 
 export {
   // plop:export
   Accordion,
+  AccordionBody,
+  AccordionButton,
+  AccordionCollapse,
+  AccordionHeader,
+  AccordionItem,
   Autocomplete,
   Avatar,
   AvatarImage,
   AvatarStack,
   Notification,
+  NotificationHeading,
+  NotificationLink,
   Badge,
   Backdrop,
   Breadcrumb,
@@ -101,6 +125,8 @@ export {
   CardText,
   CardTitle,
   Carousel,
+  CarouselCaption,
+  CarouselItem,
   ChipInput,
   CloseButton,
   Collapse,
@@ -138,6 +164,10 @@ export {
   List,
   ListItem,
   Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  ModalTitle,
   Nav,
   NavItem,
   NavLink,
@@ -157,6 +187,10 @@ export {
   RadioGroup,
   RangeInput,
   Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
   Select,
   Spinner,
   Switch,
@@ -170,6 +204,10 @@ export {
   TextInput,
   Textarea,
   Toast,
+  ToastBody,
+  ToastClose,
+  ToastFooter,
+  ToastHeader,
   Toaster,
   addToast,
   closeToast,

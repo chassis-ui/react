@@ -1,10 +1,10 @@
-import { Button, Toast, Toaster, addToast } from '@chassis-ui/react'
+import { Button, ToastBody, ToastHeader, Toaster, addToast } from '@chassis-ui/react'
 
 export const BasicExample = () => {
   const handleClick = () => {
     addToast(
       <>
-        <Toast.Header closeButton>
+        <ToastHeader closeButton>
           <svg
             className="rounded me-small"
             width="20"
@@ -18,8 +18,8 @@ export const BasicExample = () => {
           </svg>
           <strong className="me-auto">Chassis</strong>
           <small>7 min ago</small>
-        </Toast.Header>
-        <Toast.Body>Hello, world! This is a toast message.</Toast.Body>
+        </ToastHeader>
+        <ToastBody>Hello, world! This is a toast message.</ToastBody>
       </>
     )
   }

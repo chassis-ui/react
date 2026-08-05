@@ -3,6 +3,9 @@ import {
   Button,
   Container,
   Drawer,
+  DrawerBody,
+  DrawerHeader,
+  DrawerTitle,
   Form,
   TextInput,
   Menu,
@@ -29,10 +32,10 @@ export const DrawerExample = () => {
           visible={visible}
           onClose={() => setVisible(false)}
         >
-          <Drawer.Header>
-            <Drawer.Title>Drawer</Drawer.Title>
-          </Drawer.Header>
-          <Drawer.Body>
+          <DrawerHeader>
+            <DrawerTitle>Drawer</DrawerTitle>
+          </DrawerHeader>
+          <DrawerBody>
             <NavbarNav>
               <NavItem>
                 <NavLink href="#" active>
@@ -63,7 +66,7 @@ export const DrawerExample = () => {
                 Search
               </Button>
             </Form>
-          </Drawer.Body>
+          </DrawerBody>
         </Drawer>
       </Container>
     </Navbar>

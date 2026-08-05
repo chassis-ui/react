@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, Modal } from '@chassis-ui/react'
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from '@chassis-ui/react'
 
 export const Example = () => {
   const [visible, setVisible] = useState(false)
@@ -7,10 +7,10 @@ export const Example = () => {
     <>
       <Button onClick={() => setVisible(!visible)}>Launch demo modal</Button>
       <Modal scrollable visible={visible} onClose={() => setVisible(false)}>
-        <Modal.Header>
-          <Modal.Title>Modal title</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
+        <ModalHeader>
+          <ModalTitle>Modal title</ModalTitle>
+        </ModalHeader>
+        <ModalBody>
           <p>
             Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis
             in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
@@ -89,13 +89,13 @@ export const Example = () => {
             scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus
             auctor fringilla.
           </p>
-        </Modal.Body>
-        <Modal.Footer>
+        </ModalBody>
+        <ModalFooter>
           <Button color="secondary" onClick={() => setVisible(false)}>
             Close
           </Button>
           <Button color="primary">Save changes</Button>
-        </Modal.Footer>
+        </ModalFooter>
       </Modal>
     </>
   )

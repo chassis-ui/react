@@ -3,12 +3,12 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 
-import { Accordion } from '../../../index'
+import { Accordion, AccordionBody, AccordionHeader, AccordionItem } from '../../../index'
 
-describe('Accordion.Item', () => {
+describe('AccordionItem', () => {
   describe('rendering', () => {
     test('renders a details with the base class and className merged', () => {
-      render(<Accordion.Item className="bazinga">Test</Accordion.Item>)
+      render(<AccordionItem className="bazinga">Test</AccordionItem>)
       const item = screen.getByRole('group')
       expect(item).toHaveClass('accordion-item', 'bazinga')
       expect(item.tagName).toBe('DETAILS')
@@ -16,16 +16,16 @@ describe('Accordion.Item', () => {
 
     test('matches the baseline markup snapshot', () => {
       const { container } = render(
-        <Accordion.Item>
-          <Accordion.Header>Header</Accordion.Header>
-          <Accordion.Body>Body</Accordion.Body>
-        </Accordion.Item>
+        <AccordionItem>
+          <AccordionHeader>Header</AccordionHeader>
+          <AccordionBody>Body</AccordionBody>
+        </AccordionItem>
       )
       expect(container).toMatchSnapshot()
     })
 
     test('starts open when the open prop is set', () => {
-      render(<Accordion.Item open>Test</Accordion.Item>)
+      render(<AccordionItem open>Test</AccordionItem>)
       expect(screen.getByRole('group')).toHaveAttribute('open')
     })
   })
@@ -34,7 +34,7 @@ describe('Accordion.Item', () => {
     test('falls back to the accordion group name', () => {
       render(
         <Accordion name="group-name">
-          <Accordion.Item>Test</Accordion.Item>
+          <AccordionItem>Test</AccordionItem>
         </Accordion>
       )
       expect(screen.getByRole('group')).toHaveAttribute('name', 'group-name')
@@ -43,7 +43,7 @@ describe('Accordion.Item', () => {
     test('a local name overrides the accordion group name', () => {
       render(
         <Accordion name="group-name">
-          <Accordion.Item name="item-name">Test</Accordion.Item>
+          <AccordionItem name="item-name">Test</AccordionItem>
         </Accordion>
       )
       expect(screen.getByRole('group')).toHaveAttribute('name', 'item-name')
@@ -52,7 +52,7 @@ describe('Accordion.Item', () => {
     test('alwaysOpen removes the shared name so the item opens independently', () => {
       render(
         <Accordion name="group-name">
-          <Accordion.Item alwaysOpen>Test</Accordion.Item>
+          <AccordionItem alwaysOpen>Test</AccordionItem>
         </Accordion>
       )
       expect(screen.getByRole('group')).not.toHaveAttribute('name')
@@ -61,10 +61,10 @@ describe('Accordion.Item', () => {
     test("the accordion's alwaysOpen removes the name unless an item overrides it", () => {
       render(
         <Accordion name="group-name" alwaysOpen>
-          <Accordion.Item>Test</Accordion.Item>
-          <Accordion.Item alwaysOpen={false} name="solo">
+          <AccordionItem>Test</AccordionItem>
+          <AccordionItem alwaysOpen={false} name="solo">
             Test
-          </Accordion.Item>
+          </AccordionItem>
         </Accordion>
       )
       const details = screen.getAllByRole('group')
@@ -77,10 +77,10 @@ describe('Accordion.Item', () => {
     test('clicking the header toggles the native details element open and closed', async () => {
       const user = userEvent.setup()
       render(
-        <Accordion.Item>
-          <Accordion.Header>Header</Accordion.Header>
-          <Accordion.Body>Body</Accordion.Body>
-        </Accordion.Item>
+        <AccordionItem>
+          <AccordionHeader>Header</AccordionHeader>
+          <AccordionBody>Body</AccordionBody>
+        </AccordionItem>
       )
       const details = screen.getByRole('group') as HTMLDetailsElement
       expect(details.open).toBe(false)
@@ -96,7 +96,7 @@ describe('Accordion.Item', () => {
   describe('ref forwarding', () => {
     test('forwards a ref to the underlying details', () => {
       const ref = React.createRef<HTMLDetailsElement>()
-      render(<Accordion.Item ref={ref}>Test</Accordion.Item>)
+      render(<AccordionItem ref={ref}>Test</AccordionItem>)
       expect(ref.current).toBeInstanceOf(HTMLDetailsElement)
     })
   })
@@ -104,10 +104,10 @@ describe('Accordion.Item', () => {
   describe('accessibility', () => {
     test('has no axe violations', async () => {
       const { container } = render(
-        <Accordion.Item open>
-          <Accordion.Header>Header</Accordion.Header>
-          <Accordion.Body>Body</Accordion.Body>
-        </Accordion.Item>
+        <AccordionItem open>
+          <AccordionHeader>Header</AccordionHeader>
+          <AccordionBody>Body</AccordionBody>
+        </AccordionItem>
       )
       expect(await axe(container)).toHaveNoViolations()
     })

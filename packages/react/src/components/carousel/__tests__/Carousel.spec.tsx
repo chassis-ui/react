@@ -2,22 +2,22 @@ import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Carousel } from '../../../index'
+import { Carousel, CarouselCaption, CarouselItem } from '../../../index'
 
 const ThreeItemCarousel = (props: Partial<React.ComponentProps<typeof Carousel>> = {}) => (
   <Carousel controls indicators {...props}>
-    <Carousel.Item>
+    <CarouselItem>
       Item-1
-      <Carousel.Caption>Caption-1</Carousel.Caption>
-    </Carousel.Item>
-    <Carousel.Item>
+      <CarouselCaption>Caption-1</CarouselCaption>
+    </CarouselItem>
+    <CarouselItem>
       Item-2
-      <Carousel.Caption>Caption-2</Carousel.Caption>
-    </Carousel.Item>
-    <Carousel.Item>
+      <CarouselCaption>Caption-2</CarouselCaption>
+    </CarouselItem>
+    <CarouselItem>
       Item-3
-      <Carousel.Caption>Caption-3</Carousel.Caption>
-    </Carousel.Item>
+      <CarouselCaption>Caption-3</CarouselCaption>
+    </CarouselItem>
   </Carousel>
 )
 
@@ -119,7 +119,7 @@ describe('Carousel', () => {
       const ref = React.createRef<HTMLDivElement>()
       render(
         <Carousel ref={ref}>
-          <Carousel.Item>Item-1</Carousel.Item>
+          <CarouselItem>Item-1</CarouselItem>
         </Carousel>
       )
       expect(ref.current).toBeInstanceOf(HTMLDivElement)

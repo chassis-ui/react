@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Accordion.Collapse > rendering > matches the baseline markup snapshot 1`] = `
+exports[`AccordionCollapse > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   Test
 </div>

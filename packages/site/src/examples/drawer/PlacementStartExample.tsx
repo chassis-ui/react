@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, Drawer } from '@chassis-ui/react'
+import { Button, Drawer, DrawerBody, DrawerHeader, DrawerTitle } from '@chassis-ui/react'
 
 export const PlacementStartExample = () => {
   const [visible, setVisible] = useState(false)
@@ -7,12 +7,12 @@ export const PlacementStartExample = () => {
     <>
       <Button onClick={() => setVisible(true)}>Start</Button>
       <Drawer placement="start" visible={visible} onClose={() => setVisible(false)}>
-        <Drawer.Header>
-          <Drawer.Title>Start drawer</Drawer.Title>
-        </Drawer.Header>
-        <Drawer.Body>
+        <DrawerHeader>
+          <DrawerTitle>Start drawer</DrawerTitle>
+        </DrawerHeader>
+        <DrawerBody>
           <p>Slides in from the left (LTR).</p>
-        </Drawer.Body>
+        </DrawerBody>
       </Drawer>
     </>
   )

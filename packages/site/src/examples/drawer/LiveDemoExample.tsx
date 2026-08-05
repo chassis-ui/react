@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, Drawer } from '@chassis-ui/react'
+import { Button, Drawer, DrawerBody, DrawerHeader, DrawerTitle } from '@chassis-ui/react'
 
 export const LiveDemoExample = () => {
   const [visible, setVisible] = useState(false)
@@ -7,12 +7,12 @@ export const LiveDemoExample = () => {
     <>
       <Button onClick={() => setVisible(true)}>Open drawer</Button>
       <Drawer placement="start" visible={visible} onClose={() => setVisible(false)}>
-        <Drawer.Header>
-          <Drawer.Title>Drawer</Drawer.Title>
-        </Drawer.Header>
-        <Drawer.Body>
+        <DrawerHeader>
+          <DrawerTitle>Drawer</DrawerTitle>
+        </DrawerHeader>
+        <DrawerBody>
           <p>Drawer body content goes here.</p>
-        </Drawer.Body>
+        </DrawerBody>
       </Drawer>
     </>
   )
