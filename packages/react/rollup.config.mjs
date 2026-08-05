@@ -21,6 +21,11 @@ export default [
       ) {
         return
       }
+      // Rollup strips module-level directives ("use client") when bundling — expected, see the
+      // `banner` on each output below, which re-adds it directly to the emitted files instead.
+      if (warning.code === 'MODULE_LEVEL_DIRECTIVE' && warning.message.includes('use client')) {
+        return
+      }
       warn(warning)
     },
     output: [
@@ -29,6 +34,13 @@ export default [
         format: 'cjs',
         exports: 'named',
         sourcemap: true,
+        // Rollup drops `src/index.ts`'s own `'use client'` directive when bundling (directives
+        // aren't preserved across module concatenation) — re-added here as a literal banner so
+        // it survives as the first line of the actual emitted file, which is what RSC-aware
+        // bundlers (Next.js, etc.) scan for. Almost every component here uses react-aria hooks or
+        // `forwardRef` (~90% of component files, audited 2026-08-05 — see Phase 7 of the
+        // migration plan), so this is a whole-package client boundary, not a per-component one.
+        banner: "'use client';",
         sourcemapPathTransform: (relativeSourcePath) => {
           return relativeSourcePath
             .replace('../../node_modules/', '../')
@@ -40,6 +52,7 @@ export default [
         format: 'es',
         exports: 'named',
         sourcemap: true,
+        banner: "'use client';",
         sourcemapPathTransform: (relativeSourcePath) => {
           return relativeSourcePath
             .replace('../../node_modules/', '../')

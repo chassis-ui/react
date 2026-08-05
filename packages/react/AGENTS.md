@@ -30,6 +30,10 @@ calendar grid), which inject scoped CSS via `rollup-plugin-postcss`.
   exports, and the deprecation policy (TSDoc `@deprecated` + a runtime `console.warn`, minimum one
   minor release before a breaking removal). Read this before deprecating or removing any exported
   component/prop, or before publishing a release.
+- `RSC.md` — why the package ships one `'use client'` directive for the whole bundle (not
+  per-component), what that means for a consumer, and how to re-verify it survives the Rollup build
+  if that build ever changes. Read this before touching `rollup.config.mjs`'s output config or
+  reconsidering the single-bundle build shape.
 - `src/index.ts` — the public API surface. Every exported component/helper needs **two** entries
   here: an `import` line (from the component's folder barrel, not the component file) and a
   matching entry in the trailing `export { ... }` block. Forgetting either means it silently isn't
