@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { useTextField } from 'react-aria'
 import { Item, Key, useListState } from 'react-stately'
 
-import { useFormField } from '../../hooks'
+import { useControllableState, useFormField } from '../../hooks'
 import { renderFormField } from '../form-field/renderFormField'
 import { ChipList, ChipItem } from './ChipList'
 
@@ -122,14 +122,7 @@ export const ChipInput = ({
   value,
   ...rest
 }: ChipInputProps) => {
-  const isControlled = value !== undefined
-  const [uncontrolledTags, setUncontrolledTags] = useState<string[]>(defaultValue ?? [])
-  const tags = isControlled ? (value as string[]) : uncontrolledTags
-
-  const updateTags = (next: string[]) => {
-    if (!isControlled) setUncontrolledTags(next)
-    onChange?.(next)
-  }
+  const [tags, updateTags] = useControllableState<string[]>(value, defaultValue ?? [], onChange)
 
   const addTag = (raw: string) => {
     const trimmed = raw.trim()

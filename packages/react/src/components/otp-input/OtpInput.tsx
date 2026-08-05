@@ -5,12 +5,11 @@ import React, {
   KeyboardEvent,
   ReactNode,
   useMemo,
-  useRef,
-  useState
+  useRef
 } from 'react'
 import classNames from 'classnames'
 
-import { useFormField } from '../../hooks'
+import { useControllableState, useFormField } from '../../hooks'
 import { renderFormField } from '../form-field/renderFormField'
 import { OtpBox } from './OtpBox'
 
@@ -149,9 +148,7 @@ export const OtpInput = ({
 }: OtpInputProps) => {
   const total = groupSizes && groupSizes.length > 0 ? groupSizes.reduce((a, b) => a + b, 0) : length
 
-  const isControlled = value !== undefined
-  const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue ?? '')
-  const rawValue = isControlled ? (value as string) : uncontrolledValue
+  const [rawValue, setRawValue] = useControllableState(value, defaultValue ?? '', onChange)
   const boxes = useMemo(() => toBoxes(rawValue, total), [rawValue, total])
 
   const boxRefs = useRef<Array<HTMLInputElement | null>>([])
@@ -159,8 +156,7 @@ export const OtpInput = ({
 
   const commit = (nextBoxes: string[]) => {
     const next = nextBoxes.join('')
-    if (!isControlled) setUncontrolledValue(next)
-    onChange?.(next)
+    setRawValue(next)
     if (nextBoxes.length === total && nextBoxes.every((box) => box !== '')) {
       onComplete?.(next)
     }
