@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { act } from 'react'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { axe } from 'jest-axe'
 
 import { Toast, ToastBody, ToastHeader } from '../../../index'
 
@@ -138,5 +139,23 @@ describe('Toast', () => {
         }
       )
     }, 10000)
+  })
+
+  describe('accessibility', () => {
+    test('has no axe violations once shown', async () => {
+      const { container } = render(
+        <Toast autohide={false} color="warning" visible={true}>
+          <ToastHeader closeButton>
+            <strong className="me-auto">Chassis</strong>
+            <small>7 min ago</small>
+          </ToastHeader>
+          <ToastBody>Hello, world! This is a toast message.</ToastBody>
+        </Toast>
+      )
+      await waitFor(() => {
+        expect(screen.getByRole('status')).toHaveClass('show')
+      })
+      expect(await axe(container)).toHaveNoViolations()
+    })
   })
 })

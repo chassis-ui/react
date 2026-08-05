@@ -60,8 +60,12 @@ pnpm test:update  # same, plus -u to update snapshots
   `vi.runAllTimers()` needs this to actually flush them.
 - Import components under test from the package's own public entry point (`'../../../index'`),
   not directly from the component file — this keeps tests honest about what's actually exported.
-- Every test file gets jest-axe accessibility assertions where practical
-  (`expect(await axe(container)).toHaveNoViolations()`).
+- Every interactive component's spec file gets a jest-axe accessibility assertion
+  (`expect(await axe(container)).toHaveNoViolations()`), rendered in a realistic composed state
+  (visible/open, with the sub-parts a real usage would include) rather than the emptiest possible
+  markup — an axe check against a bare shell can pass while the actual documented usage still
+  violates. Deliberate exception: `AccordionCollapse` (a `@deprecated` no-op passthrough that
+  renders only its children, unwrapped — no markup of its own to check).
 
 ## Conventions
 

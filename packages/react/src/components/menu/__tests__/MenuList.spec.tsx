@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { render, screen } from '@testing-library/react'
+import { axe } from 'jest-axe'
 
 import { Menu, MenuList, MenuItem } from '../../../index'
 
@@ -132,7 +133,12 @@ describe('MenuList', () => {
         <Menu visible>
           <MenuList
             items={[
-              { id: 'a', label: 'Admin', icon: <span data-testid="icon" />, description: 'Full access' }
+              {
+                id: 'a',
+                label: 'Admin',
+                icon: <span data-testid="icon" />,
+                description: 'Full access'
+              }
             ]}
           />
         </Menu>
@@ -158,6 +164,30 @@ describe('MenuList', () => {
       // parentage - no Testing Library query expresses "is a child of".
       // eslint-disable-next-line testing-library/no-node-access
       expect(screen.getByRole('menu', { hidden: true }).parentElement).toBe(document.body)
+    })
+  })
+
+  describe('accessibility', () => {
+    test('has no axe violations rendering items with headers, dividers and disabled state', async () => {
+      const { container } = render(
+        <Menu visible>
+          <MenuList
+            items={[
+              { type: 'header', id: 'h', label: 'Group' },
+              {
+                id: 'a',
+                label: 'Admin',
+                icon: <span aria-hidden="true" />,
+                description: 'Full access'
+              },
+              { type: 'divider', id: 'd' },
+              { id: 'b', label: 'Disabled', disabled: true },
+              { id: 'c', label: 'Link', href: '#' }
+            ]}
+          />
+        </Menu>
+      )
+      expect(await axe(container)).toHaveNoViolations()
     })
   })
 })
