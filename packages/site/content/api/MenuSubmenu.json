@@ -98,10 +98,8 @@
       }
     },
     "placement": {
-      "defaultValue": {
-        "value": "right-start"
-      },
-      "description": "Placement of the nested menu relative to the trigger.",
+      "defaultValue": null,
+      "description": "Placement of the nested menu relative to the trigger. Defaults to cascading in the reading\ndirection — `'right-start'` under LTR locales, `'left-start'` under RTL ones (see\n`useLocale`) — matching native OS/browser submenu behavior. An explicit value always wins\nover that locale-based default.",
       "name": "placement",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/menu/MenuSubmenu.tsx",

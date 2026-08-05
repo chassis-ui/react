@@ -44,8 +44,9 @@ are already listed there.
 - `<PropTable component="Whatever" />` (`src/components/shortcodes/PropTable.astro`) — renders
   the generated `content/api/Whatever.json` as a props table. Component name is matched
   case-insensitively against the generated JSON's filename — for a compound sub-part this is the
-  flat underlying name (`AccordionItem`), not the dotted namespace form used in JSX/prose
-  (`Accordion.Item`).
+  same flat, root-prefixed name used everywhere else (`AccordionItem`), matching the actual
+  exported identifier (`@chassis-ui/react` has no namespace/dotted API — see
+  `packages/react/CONVENTIONS.md`).
 - `remarkCxDocsref` / `remarkCxConfig` / `remarkCxExampleInlineChildren` (`src/libs/remark.ts`) —
   custom remark plugins layered into `getDocsMarkdownConfig()` from `@chassis-ui/docs`; read that
   file before adding a new MDX shortcode or custom directive, rather than reinventing one that
