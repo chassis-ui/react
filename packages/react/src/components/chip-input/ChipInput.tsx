@@ -156,7 +156,7 @@ export const ChipInput = ({
 
   const focusLastChip = (extend: boolean) => {
     if (tags.length === 0) return
-    const lastKey = tags[tags.length - 1]
+    const lastKey = tags[tags.length - 1]!
     if (extend) {
       listState.selectionManager.extendSelection(lastKey)
     } else {

@@ -2,7 +2,8 @@
   "extends": "../../tsconfig",
   "compilerOptions": {
     "outDir": "dist",
-    "declarationDir": "dist"
+    "declarationDir": "dist",
+    "noUncheckedIndexedAccess": true
   },
   "include": ["src/**/*", "test/**/*"]
 }

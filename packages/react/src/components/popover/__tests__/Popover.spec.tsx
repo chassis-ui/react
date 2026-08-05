@@ -57,7 +57,7 @@ describe('Popover', () => {
       const dialogs = screen.getAllByRole('dialog')
       const [ancestorDialog, popover] = dialogs
       expect(popover).toBeInTheDocument()
-      expect(ancestorDialog.contains(popover)).toBe(true)
+      expect(ancestorDialog!.contains(popover!)).toBe(true)
       vi.useRealTimers()
     })
 

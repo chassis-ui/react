@@ -172,7 +172,7 @@ export const OtpInput = ({
       const chars = [...digits]
       const nextBoxes = [...boxes]
       for (let i = 0; i < chars.length && index + i < total; i++) {
-        nextBoxes[index + i] = chars[i]
+        nextBoxes[index + i] = chars[i]!
       }
       commit(nextBoxes)
       focusBox(Math.min(index + chars.length, total - 1))
@@ -201,8 +201,10 @@ export const OtpInput = ({
       }
       case 'Delete': {
         event.preventDefault()
+        // `boxes` (and every copy derived from it) is always exactly `total` entries long — see
+        // `toBoxes` — so `i + 1` (bounded by `i < total - 1`) never reads past the end.
         const nextBoxes = [...boxes]
-        for (let i = index; i < total - 1; i++) nextBoxes[i] = nextBoxes[i + 1]
+        for (let i = index; i < total - 1; i++) nextBoxes[i] = nextBoxes[i + 1]!
         nextBoxes[total - 1] = ''
         commit(nextBoxes)
         break

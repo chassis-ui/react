@@ -32,7 +32,7 @@ export const getMenuItems = (menu: HTMLElement | null): HTMLElement[] => {
 
 export const focusMenuItem = (items: HTMLElement[], target: 'first' | 'last') => {
   if (!items.length) return
-  ;(target === 'first' ? items[0] : items[items.length - 1]).focus()
+  ;(target === 'first' ? items[0]! : items[items.length - 1]!).focus()
 }
 
 export interface MenuKeyDownOptions {
@@ -68,7 +68,9 @@ export const handleMenuKeyDown = (
             ? 0
             : items.length - 1
           : (currentIndex + (event.key === 'ArrowDown' ? 1 : -1) + items.length) % items.length
-      items[nextIndex].focus()
+      // `nextIndex` is always a valid index into `items` here (0, items.length - 1, or a modulo
+      // result — the `if (!items.length) return` above already ruled out the empty-array case).
+      items[nextIndex]!.focus()
       return
     }
     case 'Home':

@@ -282,8 +282,8 @@ describe('Calendar', () => {
       const inRangeCells = within(grid)
         .getAllByRole('button')
         .filter((cell) => !getDateCell(cell).classList.contains('datepicker-date-outside'))
-      expect(getDateCell(inRangeCells[23])).toHaveClass('datepicker-date-weekend')
-      expect(getDateCell(inRangeCells[25])).not.toHaveClass('datepicker-date-weekend')
+      expect(getDateCell(inRangeCells[23]!)).toHaveClass('datepicker-date-weekend')
+      expect(getDateCell(inRangeCells[25]!)).not.toHaveClass('datepicker-date-weekend')
     })
   })
 
@@ -384,7 +384,7 @@ describe('Calendar', () => {
         />
       )
       const [, secondMonthButton] = screen.getAllByRole('button', { name: /^Month:/ })
-      fireEvent.click(secondMonthButton)
+      fireEvent.click(secondMonthButton!)
       fireEvent.click(screen.getByRole('option', { name: 'Dec' }))
 
       const monthButtons = screen.getAllByRole('button', { name: /^Month:/ })
@@ -403,7 +403,7 @@ describe('Calendar', () => {
       )
 
       const grids = screen.getAllByRole('grid')
-      fireEvent.click(within(grids[1]).getByRole('button', { name: /August 3, 2026/ }))
+      fireEvent.click(within(grids[1]!).getByRole('button', { name: /August 3, 2026/ }))
 
       expect(onChange).toHaveBeenCalledWith(new CalendarDate(2026, 8, 3))
     })
@@ -424,7 +424,7 @@ describe('Calendar', () => {
       expect(screen.getByRole('button', { name: /^previous$/i })).toBeInTheDocument()
 
       const [, secondYearButton] = screen.getAllByRole('button', { name: /^Year:/ })
-      fireEvent.click(secondYearButton)
+      fireEvent.click(secondYearButton!)
 
       expect(screen.queryByRole('button', { name: /^next$/i })).not.toBeInTheDocument()
       expect(screen.queryByRole('button', { name: /^previous$/i })).not.toBeInTheDocument()

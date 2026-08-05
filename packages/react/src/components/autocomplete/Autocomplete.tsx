@@ -417,7 +417,7 @@ export const Autocomplete = ({
   const triggerText = !hasSelection
     ? placeholder
     : state.selectedItems.length === 1
-      ? state.selectedItems[0].textValue
+      ? (state.selectedItems[0]?.textValue ?? '')
       : `${state.selectedItems.length} selected`
 
   return renderFormField({

@@ -49,9 +49,13 @@ export const CalendarYearGrid = ({
       yearStart
     }
   })
-  const firstYearStart = years[0].yearStart
-  const lastYearEnd = years[years.length - 1].yearEnd
-  const rangeLabel = `${years[0].formatted} – ${years[years.length - 1].formatted}`
+  // `years` always has exactly `YEARS_PER_PAGE` (15) entries — a fixed, non-zero constant, never
+  // empty — so the first/last indices are always in range.
+  const firstYear = years[0]!
+  const lastYear = years[years.length - 1]!
+  const firstYearStart = firstYear.yearStart
+  const lastYearEnd = lastYear.yearEnd
+  const rangeLabel = `${firstYear.formatted} – ${lastYear.formatted}`
 
   const isPrevDisabled =
     state.isDisabled ||

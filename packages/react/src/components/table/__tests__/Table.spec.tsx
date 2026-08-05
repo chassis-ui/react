@@ -152,7 +152,7 @@ describe('Table', () => {
       const checkbox = within(row).getByRole('checkbox')
       fireEvent.click(checkbox)
       expect(onSelectionChange).toHaveBeenCalled()
-      const selected = onSelectionChange.mock.calls[0][0] as Set<React.Key>
+      const selected = onSelectionChange.mock.calls[0]![0] as Set<React.Key>
       expect(selected.has('1')).toBe(true)
     })
 
@@ -161,7 +161,7 @@ describe('Table', () => {
       render(<BasicTable onSelectionChange={onSelectionChange} selectionMode="multiple" />)
       const selectAll = screen.getByRole('checkbox', { name: /select all/i })
       fireEvent.click(selectAll)
-      const selected = onSelectionChange.mock.calls[0][0]
+      const selected = onSelectionChange.mock.calls[0]![0]
       expect(selected).toBe('all')
     })
 
@@ -176,7 +176,7 @@ describe('Table', () => {
       render(<BasicTable onSelectionChange={onSelectionChange} selectionMode="single" />)
       expect(screen.queryByRole('checkbox')).not.toBeInTheDocument()
       fireEvent.click(screen.getByRole('rowheader', { name: 'Mark' }))
-      const selected = onSelectionChange.mock.calls[0][0] as Set<React.Key>
+      const selected = onSelectionChange.mock.calls[0]![0] as Set<React.Key>
       expect(selected.has('1')).toBe(true)
     })
 
