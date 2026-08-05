@@ -1,24 +1,24 @@
 {
   "tags": {},
-  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/menu/Submenu.tsx",
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/menu/MenuSubmenu.tsx",
   "description": "",
-  "displayName": "Submenu",
+  "displayName": "MenuSubmenu",
   "methods": [],
   "props": {
     "activation": {
       "defaultValue": {
         "value": "both"
       },
-      "description": "Submenu activation mode on hover-capable devices. `'click'` activates on click only.\n`'hover'` activates on hover only. `'both'` (the default) activates on both. Touch\ndevices always use tap regardless of this setting.",
+      "description": "MenuSubmenu activation mode on hover-capable devices. `'click'` activates on click only.\n`'hover'` activates on hover only. `'both'` (the default) activates on both. Touch\ndevices always use tap regardless of this setting.",
       "name": "activation",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/menu/Submenu.tsx",
-        "name": "SubmenuProps"
+        "fileName": "chassis-react/packages/react/src/components/menu/MenuSubmenu.tsx",
+        "name": "MenuSubmenuProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/menu/Submenu.tsx",
-          "name": "SubmenuProps"
+          "fileName": "chassis-react/packages/react/src/components/menu/MenuSubmenu.tsx",
+          "name": "MenuSubmenuProps"
         }
       ],
       "required": false,
@@ -43,13 +43,13 @@
       "description": "A string of all className you want applied to the base component.",
       "name": "className",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/menu/Submenu.tsx",
-        "name": "SubmenuProps"
+        "fileName": "chassis-react/packages/react/src/components/menu/MenuSubmenu.tsx",
+        "name": "MenuSubmenuProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/menu/Submenu.tsx",
-          "name": "SubmenuProps"
+          "fileName": "chassis-react/packages/react/src/components/menu/MenuSubmenu.tsx",
+          "name": "MenuSubmenuProps"
         }
       ],
       "required": false,
@@ -62,13 +62,13 @@
       "description": "Prevents the submenu from opening.",
       "name": "disabled",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/menu/Submenu.tsx",
-        "name": "SubmenuProps"
+        "fileName": "chassis-react/packages/react/src/components/menu/MenuSubmenu.tsx",
+        "name": "MenuSubmenuProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/menu/Submenu.tsx",
-          "name": "SubmenuProps"
+          "fileName": "chassis-react/packages/react/src/components/menu/MenuSubmenu.tsx",
+          "name": "MenuSubmenuProps"
         }
       ],
       "required": false,
@@ -83,13 +83,13 @@
       "description": "Distance between the nested menu and the trigger, as `[skidding, distance]` in pixels.",
       "name": "offset",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/menu/Submenu.tsx",
-        "name": "SubmenuProps"
+        "fileName": "chassis-react/packages/react/src/components/menu/MenuSubmenu.tsx",
+        "name": "MenuSubmenuProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/menu/Submenu.tsx",
-          "name": "SubmenuProps"
+          "fileName": "chassis-react/packages/react/src/components/menu/MenuSubmenu.tsx",
+          "name": "MenuSubmenuProps"
         }
       ],
       "required": false,
@@ -104,13 +104,13 @@
       "description": "Placement of the nested menu relative to the trigger.",
       "name": "placement",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/menu/Submenu.tsx",
-        "name": "SubmenuProps"
+        "fileName": "chassis-react/packages/react/src/components/menu/MenuSubmenu.tsx",
+        "name": "MenuSubmenuProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/menu/Submenu.tsx",
-          "name": "SubmenuProps"
+          "fileName": "chassis-react/packages/react/src/components/menu/MenuSubmenu.tsx",
+          "name": "MenuSubmenuProps"
         }
       ],
       "required": false,
@@ -159,16 +159,16 @@
     },
     "stacked": {
       "defaultValue": null,
-      "description": "Switches to a view-replacement pattern below the `small` breakpoint. Pair with a\n`SubmenuBack` as the first item of the nested menu.",
+      "description": "Switches to a view-replacement pattern below the `small` breakpoint. Pair with a\n`MenuSubmenuBack` as the first item of the nested menu.",
       "name": "stacked",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/menu/Submenu.tsx",
-        "name": "SubmenuProps"
+        "fileName": "chassis-react/packages/react/src/components/menu/MenuSubmenu.tsx",
+        "name": "MenuSubmenuProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/menu/Submenu.tsx",
-          "name": "SubmenuProps"
+          "fileName": "chassis-react/packages/react/src/components/menu/MenuSubmenu.tsx",
+          "name": "MenuSubmenuProps"
         }
       ],
       "required": false,
@@ -183,13 +183,13 @@
       "description": "Milliseconds before closing the submenu when the pointer leaves it.",
       "name": "submenuDelay",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/menu/Submenu.tsx",
-        "name": "SubmenuProps"
+        "fileName": "chassis-react/packages/react/src/components/menu/MenuSubmenu.tsx",
+        "name": "MenuSubmenuProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/menu/Submenu.tsx",
-          "name": "SubmenuProps"
+          "fileName": "chassis-react/packages/react/src/components/menu/MenuSubmenu.tsx",
+          "name": "MenuSubmenuProps"
         }
       ],
       "required": false,
@@ -202,13 +202,13 @@
       "description": "Content of the `.menu-item` trigger that opens the submenu.",
       "name": "trigger",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/menu/Submenu.tsx",
-        "name": "SubmenuProps"
+        "fileName": "chassis-react/packages/react/src/components/menu/MenuSubmenu.tsx",
+        "name": "MenuSubmenuProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/menu/Submenu.tsx",
-          "name": "SubmenuProps"
+          "fileName": "chassis-react/packages/react/src/components/menu/MenuSubmenu.tsx",
+          "name": "MenuSubmenuProps"
         }
       ],
       "required": true,

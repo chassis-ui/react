@@ -47,7 +47,7 @@
     },
     "items": {
       "defaultValue": null,
-      "description": "Array of item/header/divider definitions for data-driven rendering. When provided, children\nare ignored. Covers flat items, headers, and dividers only — for nested submenus, compose\nwith `children` and `Submenu` instead.",
+      "description": "Array of item/header/divider definitions for data-driven rendering. When provided, children\nare ignored. Covers flat items, headers, and dividers only — for nested submenus, compose\nwith `children` and `MenuSubmenu` instead.",
       "name": "items",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/menu/MenuList.tsx",

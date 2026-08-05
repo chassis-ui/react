@@ -1,8 +1,8 @@
 {
   "tags": {},
-  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/input-group/InputAddon.tsx",
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/input-group/InputGroupAddon.tsx",
   "description": "",
-  "displayName": "InputAddon",
+  "displayName": "InputGroupAddon",
   "methods": [],
   "props": {
     "className": {
@@ -10,13 +10,13 @@
       "description": "A string of all className you want applied to the component.",
       "name": "className",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/input-group/InputAddon.tsx",
-        "name": "InputAddonProps"
+        "fileName": "chassis-react/packages/react/src/components/input-group/InputGroupAddon.tsx",
+        "name": "InputGroupAddonProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/input-group/InputAddon.tsx",
-          "name": "InputAddonProps"
+          "fileName": "chassis-react/packages/react/src/components/input-group/InputGroupAddon.tsx",
+          "name": "InputGroupAddonProps"
         }
       ],
       "required": false,
@@ -31,13 +31,13 @@
       "description": "Component used for the root node. Either a string to use a HTML element or a component.",
       "name": "component",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/input-group/InputAddon.tsx",
-        "name": "InputAddonProps"
+        "fileName": "chassis-react/packages/react/src/components/input-group/InputGroupAddon.tsx",
+        "name": "InputGroupAddonProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/input-group/InputAddon.tsx",
-          "name": "InputAddonProps"
+          "fileName": "chassis-react/packages/react/src/components/input-group/InputGroupAddon.tsx",
+          "name": "InputGroupAddonProps"
         }
       ],
       "required": false,

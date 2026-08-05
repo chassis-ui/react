@@ -13,9 +13,9 @@ calendar grid), which inject scoped CSS via `rollup-plugin-postcss`.
   `__tests__/__snapshots__/` snapshot file. See `CONVENTIONS.md` for the naming/barrel/compound-API
   rules this layout follows.
 - `src/components/<kebab-name>/index.ts` — every component folder's barrel: re-exports the root
-  component (and, for compound families, assembles sub-parts onto it via `Object.assign` — see
-  `CONVENTIONS.md`). The central `src/index.ts` imports from these barrels, not from component
-  files directly.
+  component and, for compound families, every sub-part as its own flat, root-prefixed named export
+  (`AccordionItem`, not `Accordion.Item` — see `CONVENTIONS.md`). The central `src/index.ts`
+  imports from these barrels, not from component files directly.
 - `FORMS.md` — **read this before touching any form-related component**
   (text inputs, select, checkbox/radio, combobox, datepicker, chip-input, otp-input, and the
   shared `form`/`form-field` render helpers). It documents two non-interchangeable shared render

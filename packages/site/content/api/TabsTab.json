@@ -1,8 +1,8 @@
 {
   "tags": {},
-  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/tabs/Tab.tsx",
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/tabs/TabsTab.tsx",
   "description": "",
-  "displayName": "Tab",
+  "displayName": "TabsTab",
   "methods": [],
   "props": {
     "children": {
@@ -10,13 +10,13 @@
       "description": "Label content for the tab. Must be a plain string for the tab to participate in typeahead.",
       "name": "children",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/tabs/Tab.tsx",
-        "name": "TabProps"
+        "fileName": "chassis-react/packages/react/src/components/tabs/TabsTab.tsx",
+        "name": "TabsTabProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/tabs/Tab.tsx",
-          "name": "TabProps"
+          "fileName": "chassis-react/packages/react/src/components/tabs/TabsTab.tsx",
+          "name": "TabsTabProps"
         }
       ],
       "required": true,
@@ -29,13 +29,13 @@
       "description": "Prevents the tab from being selected, focused, or otherwise interacted with.",
       "name": "disabled",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/tabs/Tab.tsx",
-        "name": "TabProps"
+        "fileName": "chassis-react/packages/react/src/components/tabs/TabsTab.tsx",
+        "name": "TabsTabProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/tabs/Tab.tsx",
-          "name": "TabProps"
+          "fileName": "chassis-react/packages/react/src/components/tabs/TabsTab.tsx",
+          "name": "TabsTabProps"
         }
       ],
       "required": false,
@@ -45,16 +45,16 @@
     },
     "id": {
       "defaultValue": null,
-      "description": "Identifies this tab and pairs it with the `TabPanel` of the same `id`.",
+      "description": "Identifies this tab and pairs it with the `TabsPanel` of the same `id`.",
       "name": "id",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/tabs/Tab.tsx",
-        "name": "TabProps"
+        "fileName": "chassis-react/packages/react/src/components/tabs/TabsTab.tsx",
+        "name": "TabsTabProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/tabs/Tab.tsx",
-          "name": "TabProps"
+          "fileName": "chassis-react/packages/react/src/components/tabs/TabsTab.tsx",
+          "name": "TabsTabProps"
         }
       ],
       "required": true,
