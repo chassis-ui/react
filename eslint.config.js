@@ -79,7 +79,11 @@ export default defineConfig([
         { argsIgnorePattern: '^_', varsIgnorePattern: '^(_|React)$' }
       ],
       'react-hooks/rules-of-hooks': 'error',
-      'react-hooks/exhaustive-deps': 'warn',
+      // `additionalHooks` teaches the rule that `useIsomorphicLayoutEffect` (packages/react/src/
+      // hooks/useIsomorphicLayoutEffect.ts) is itself an effect hook needing dependency-array
+      // checking — without this the rule silently stops validating any call to it at all (it only
+      // recognizes the literal names `useEffect`/`useLayoutEffect`/etc. by default).
+      'react-hooks/exhaustive-deps': ['warn', { additionalHooks: '^useIsomorphicLayoutEffect$' }],
       'react/no-array-index-key': 'warn'
     }
   },

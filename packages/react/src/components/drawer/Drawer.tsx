@@ -3,14 +3,13 @@ import React, {
   DialogHTMLAttributes,
   forwardRef,
   useEffect,
-  useLayoutEffect,
   useRef,
   useState
 } from 'react'
 import classNames from 'classnames'
 import { usePreventScroll } from 'react-aria'
 
-import { useForkedRef } from '../../hooks'
+import { useForkedRef, useIsomorphicLayoutEffect } from '../../hooks'
 import { executeAfterTransition } from '../../utils/dialogTransition'
 
 export interface DrawerProps extends Omit<
@@ -169,7 +168,7 @@ export const Drawer = forwardRef<HTMLDialogElement, DrawerProps>(
       executeAfterTransition(dialog, () => setStaticBounce(false), !instant)
     }
 
-    useLayoutEffect(() => {
+    useIsomorphicLayoutEffect(() => {
       const dialog = dialogRef.current
       if (!dialog) return undefined
 

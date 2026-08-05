@@ -5,14 +5,13 @@ import React, {
   Fragment,
   HTMLAttributes,
   useEffect,
-  useLayoutEffect,
   useRef
 } from 'react'
 import classNames from 'classnames'
 import { AriaButtonProps, useMenuTrigger, useOverlayPosition } from 'react-aria'
 import { useMenuTriggerState } from 'react-stately'
 
-import { useForkedRef } from '../../hooks'
+import { useForkedRef, useIsomorphicLayoutEffect } from '../../hooks'
 import { Placement, resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
 
 export type { Placement }
@@ -172,7 +171,7 @@ export const Menu = forwardRef<HTMLElement, MenuProps>(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [visible])
 
-    useLayoutEffect(() => {
+    useIsomorphicLayoutEffect(() => {
       if (reference === 'parent') {
         targetRef.current = wrapperRef.current
       }
