@@ -21,3 +21,10 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       - run: pnpm test
+
+      # Builds the real dist/index.d.ts (rolled up by rollup-plugin-dts) and diffs it against the
+      # checked-in packages/react/api-report.md snapshot, so an accidental breaking change to the
+      # public props/types surface is caught here instead of only being discovered by a consumer
+      # after publish. See build/check-api-surface.ts.
+      - run: pnpm lib:build
+      - run: pnpm api:report

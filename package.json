@@ -17,6 +17,8 @@
     "astro:build": "pnpm --filter chassis-react-site build",
     "astro:preview": "pnpm --filter chassis-react-site preview",
     "api:generate": "ts-node --project build/tsconfig.json build/generate-api.ts",
+    "api:report": "ts-node --project build/tsconfig.json build/check-api-surface.ts",
+    "api:report:update": "ts-node --project build/tsconfig.json build/check-api-surface.ts --update",
     "lib:build": "pnpm --filter @chassis-ui/react build",
     "generate": "pnpm --filter @chassis-ui/react generate",
     "generate:sub": "pnpm --filter @chassis-ui/react generate:sub",
