@@ -111,6 +111,8 @@ Please read through our [contributing guidelines](https://github.com/chassis-ui/
 
 Editor preferences are available in the [editor config](https://github.com/chassis-ui/react/blob/main/.editorconfig) for easy use in common text editors. Read more and download plugins at <https://editorconfig.org/>.
 
+Everyone participating in this project is expected to follow our [Code of Conduct](https://github.com/chassis-ui/react/blob/main/.github/CODE_OF_CONDUCT.md). Found a security vulnerability? Please don't open a public issue — see our [security policy](https://github.com/chassis-ui/react/blob/main/.github/SECURITY.md) for private disclosure instead.
+
 ## Community
 
 Stay up to date on the development of Chassis React and reach out to the community with these helpful resources.
