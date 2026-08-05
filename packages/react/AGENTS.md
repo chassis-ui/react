@@ -83,10 +83,13 @@ pnpm test:update  # same, plus -u to update snapshots
 
 Storybook (`.storybook/`, config framework `@storybook/react-vite`) plus Playwright screenshot
 tests (`visual-tests/`) catch pixel-level regressions that `vitest`'s DOM snapshots can't — e.g. a
-CSS change that doesn't alter markup at all. Coverage today is scoped to the calendar/datepicker
-family only (Phase 2 of the enterprise migration touched that family's CSS output directly); a
-future family gets its own `visual-tests/<family>.visual.spec.ts` with its own story-title filter,
-not a widened version of this one.
+CSS change that doesn't alter markup at all. Coverage today (Phase 10 of the enterprise migration)
+spans four batches, each its own spec file: `calendar-datepicker.visual.spec.ts` (calendar,
+datepicker — Phase 2 touched this family's CSS output directly), `menu-popover-tooltip.visual.spec.ts`
+(positioning-heavy, portal-based), `toast-notification.visual.spec.ts` (transition-heavy), and
+`accordion-collapse.visual.spec.ts` (native `<details>` / `CSSTransition`-driven open-close state).
+A future family gets its own `visual-tests/<family>.visual.spec.ts` with its own story-title
+filter, not a widened version of an existing one.
 
 ```bash
 pnpm storybook          # storybook dev -p 6006, for authoring stories interactively
