@@ -1,5 +1,13 @@
 import { useState } from 'react'
-import { Container, Collapse, Nav, Navbar } from '@chassis-ui/react'
+import {
+  Container,
+  Collapse,
+  Navbar,
+  NavLink,
+  NavbarBrand,
+  NavbarNav,
+  NavbarToggler
+} from '@chassis-ui/react'
 
 export const NavExample2 = () => {
   const [visible, setVisible] = useState(false)
@@ -7,23 +15,23 @@ export const NavExample2 = () => {
     <>
       <Navbar expand="large" colorScheme="light" className="bg-light">
         <Container fluid>
-          <Navbar.Brand href="#">Navbar</Navbar.Brand>
-          <Navbar.Toggler
+          <NavbarBrand href="#">Navbar</NavbarBrand>
+          <NavbarToggler
             aria-label="Toggle navigation"
             aria-expanded={visible}
             onClick={() => setVisible(!visible)}
           />
           <Collapse className="navbar-collapse" visible={visible}>
-            <Navbar.Nav component="nav">
-              <Nav.Link href="#" active>
+            <NavbarNav component="nav">
+              <NavLink href="#" active>
                 Home
-              </Nav.Link>
-              <Nav.Link href="#">Features</Nav.Link>
-              <Nav.Link href="#">Pricing</Nav.Link>
-              <Nav.Link href="#" disabled>
+              </NavLink>
+              <NavLink href="#">Features</NavLink>
+              <NavLink href="#">Pricing</NavLink>
+              <NavLink href="#" disabled>
                 Disabled
-              </Nav.Link>
-            </Navbar.Nav>
+              </NavLink>
+            </NavbarNav>
           </Collapse>
         </Container>
       </Navbar>

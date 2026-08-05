@@ -1,5 +1,17 @@
 import { useState } from 'react'
-import { Button, Container, Collapse, Form, TextInput, Nav, Navbar } from '@chassis-ui/react'
+import {
+  Button,
+  Container,
+  Collapse,
+  Form,
+  TextInput,
+  Navbar,
+  NavItem,
+  NavLink,
+  NavbarBrand,
+  NavbarNav,
+  NavbarToggler
+} from '@chassis-ui/react'
 
 export const ResponsiveBehaviorsExample = () => {
   const [visible, setVisible] = useState(false)
@@ -7,28 +19,28 @@ export const ResponsiveBehaviorsExample = () => {
     <>
       <Navbar expand="large" colorScheme="light" className="bg-light">
         <Container fluid>
-          <Navbar.Toggler
+          <NavbarToggler
             aria-label="Toggle navigation"
             aria-expanded={visible}
             onClick={() => setVisible(!visible)}
           />
           <Collapse className="navbar-collapse" visible={visible}>
-            <Navbar.Brand href="#">Hidden brand</Navbar.Brand>
-            <Navbar.Nav className="me-auto mb-2 large:mb-0">
-              <Nav.Item>
-                <Nav.Link href="#" active>
+            <NavbarBrand href="#">Hidden brand</NavbarBrand>
+            <NavbarNav className="me-auto mb-2 large:mb-0">
+              <NavItem>
+                <NavLink href="#" active>
                   Home
-                </Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link href="#">Link</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link href="#" disabled>
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="#">Link</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="#" disabled>
                   Disabled
-                </Nav.Link>
-              </Nav.Item>
-            </Navbar.Nav>
+                </NavLink>
+              </NavItem>
+            </NavbarNav>
             <Form className="d-flex">
               <TextInput type="search" className="me-2" placeholder="Search" />
               <Button type="submit" color="success" variant="outline">

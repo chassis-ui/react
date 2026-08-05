@@ -13,7 +13,7 @@ import { PillsWithMenuExample } from '../../src/examples/navs-tabs/PillsWithMenu
 
 import { useState } from 'react'
 
-import { Nav, TabContent, TabPane } from '@chassis-ui/react'
+import { Nav, NavItem, NavLink, TabContent, TabPane } from '@chassis-ui/react'
 
 ## Data-driven usage
 
@@ -64,22 +64,22 @@ The base `<Nav>` component is built with flexbox and provide a strong foundation
 
 <Example>
   <Nav>
-    <Nav.Item>
-      <Nav.Link href="#" active>
+    <NavItem>
+      <NavLink href="#" active>
         Active
-      </Nav.Link>
-    </Nav.Item>
-    <Nav.Item>
-      <Nav.Link href="#">Link</Nav.Link>
-    </Nav.Item>
-    <Nav.Item>
-      <Nav.Link href="#">Link</Nav.Link>
-    </Nav.Item>
-    <Nav.Item>
-      <Nav.Link href="#" disabled>
+      </NavLink>
+    </NavItem>
+    <NavItem>
+      <NavLink href="#">Link</NavLink>
+    </NavItem>
+    <NavItem>
+      <NavLink href="#">Link</NavLink>
+    </NavItem>
+    <NavItem>
+      <NavLink href="#" disabled>
         Disabled
-      </Nav.Link>
-    </Nav.Item>
+      </NavLink>
+    </NavItem>
   </Nav>
 </Example>
 
@@ -87,14 +87,14 @@ Classes are used throughout, so your markup can be super flexible. Use `<ul>`s l
 
 <Example>
   <Nav component="nav">
-    <Nav.Link href="#" active>
+    <NavLink href="#" active>
       Active
-    </Nav.Link>
-    <Nav.Link href="#">Link</Nav.Link>
-    <Nav.Link href="#">Link</Nav.Link>
-    <Nav.Link href="#" disabled>
+    </NavLink>
+    <NavLink href="#">Link</NavLink>
+    <NavLink href="#">Link</NavLink>
+    <NavLink href="#" disabled>
       Disabled
-    </Nav.Link>
+    </NavLink>
   </Nav>
 </Example>
 
@@ -110,22 +110,22 @@ Centered with `.justify-content-center`:
 
 <Example>
   <Nav className="justify-content-center">
-    <Nav.Item>
-      <Nav.Link href="#" active>
+    <NavItem>
+      <NavLink href="#" active>
         Active
-      </Nav.Link>
-    </Nav.Item>
-    <Nav.Item>
-      <Nav.Link href="#">Link</Nav.Link>
-    </Nav.Item>
-    <Nav.Item>
-      <Nav.Link href="#">Link</Nav.Link>
-    </Nav.Item>
-    <Nav.Item>
-      <Nav.Link href="#" disabled>
+      </NavLink>
+    </NavItem>
+    <NavItem>
+      <NavLink href="#">Link</NavLink>
+    </NavItem>
+    <NavItem>
+      <NavLink href="#">Link</NavLink>
+    </NavItem>
+    <NavItem>
+      <NavLink href="#" disabled>
         Disabled
-      </Nav.Link>
-    </Nav.Item>
+      </NavLink>
+    </NavItem>
   </Nav>
 </Example>
 
@@ -133,22 +133,22 @@ Right-aligned with `.justify-content-end`:
 
 <Example>
   <Nav className="justify-content-end">
-    <Nav.Item>
-      <Nav.Link href="#" active>
+    <NavItem>
+      <NavLink href="#" active>
         Active
-      </Nav.Link>
-    </Nav.Item>
-    <Nav.Item>
-      <Nav.Link href="#">Link</Nav.Link>
-    </Nav.Item>
-    <Nav.Item>
-      <Nav.Link href="#">Link</Nav.Link>
-    </Nav.Item>
-    <Nav.Item>
-      <Nav.Link href="#" disabled>
+      </NavLink>
+    </NavItem>
+    <NavItem>
+      <NavLink href="#">Link</NavLink>
+    </NavItem>
+    <NavItem>
+      <NavLink href="#">Link</NavLink>
+    </NavItem>
+    <NavItem>
+      <NavLink href="#" disabled>
         Disabled
-      </Nav.Link>
-    </Nav.Item>
+      </NavLink>
+    </NavItem>
   </Nav>
 </Example>
 
@@ -158,22 +158,22 @@ Stack your navigation by changing the flex item direction with the `.flex-column
 
 <Example>
   <Nav className="flex-column">
-    <Nav.Item>
-      <Nav.Link href="#" active>
+    <NavItem>
+      <NavLink href="#" active>
         Active
-      </Nav.Link>
-    </Nav.Item>
-    <Nav.Item>
-      <Nav.Link href="#">Link</Nav.Link>
-    </Nav.Item>
-    <Nav.Item>
-      <Nav.Link href="#">Link</Nav.Link>
-    </Nav.Item>
-    <Nav.Item>
-      <Nav.Link href="#" disabled>
+      </NavLink>
+    </NavItem>
+    <NavItem>
+      <NavLink href="#">Link</NavLink>
+    </NavItem>
+    <NavItem>
+      <NavLink href="#">Link</NavLink>
+    </NavItem>
+    <NavItem>
+      <NavLink href="#" disabled>
         Disabled
-      </Nav.Link>
-    </Nav.Item>
+      </NavLink>
+    </NavItem>
   </Nav>
 </Example>
 
@@ -183,22 +183,22 @@ Takes the basic nav from above and adds the `variant="tabs"` class to generate a
 
 <Example>
   <Nav variant="tabs">
-    <Nav.Item>
-      <Nav.Link href="#" active>
+    <NavItem>
+      <NavLink href="#" active>
         Active
-      </Nav.Link>
-    </Nav.Item>
-    <Nav.Item>
-      <Nav.Link href="#">Link</Nav.Link>
-    </Nav.Item>
-    <Nav.Item>
-      <Nav.Link href="#">Link</Nav.Link>
-    </Nav.Item>
-    <Nav.Item>
-      <Nav.Link href="#" disabled>
+      </NavLink>
+    </NavItem>
+    <NavItem>
+      <NavLink href="#">Link</NavLink>
+    </NavItem>
+    <NavItem>
+      <NavLink href="#">Link</NavLink>
+    </NavItem>
+    <NavItem>
+      <NavLink href="#" disabled>
         Disabled
-      </Nav.Link>
-    </Nav.Item>
+      </NavLink>
+    </NavItem>
   </Nav>
 </Example>
 
@@ -208,22 +208,22 @@ Take that same HTML, but use `variant="pills"` instead:
 
 <Example>
   <Nav variant="pills">
-    <Nav.Item>
-      <Nav.Link href="#" active>
+    <NavItem>
+      <NavLink href="#" active>
         Active
-      </Nav.Link>
-    </Nav.Item>
-    <Nav.Item>
-      <Nav.Link href="#">Link</Nav.Link>
-    </Nav.Item>
-    <Nav.Item>
-      <Nav.Link href="#">Link</Nav.Link>
-    </Nav.Item>
-    <Nav.Item>
-      <Nav.Link href="#" disabled>
+      </NavLink>
+    </NavItem>
+    <NavItem>
+      <NavLink href="#">Link</NavLink>
+    </NavItem>
+    <NavItem>
+      <NavLink href="#">Link</NavLink>
+    </NavItem>
+    <NavItem>
+      <NavLink href="#" disabled>
         Disabled
-      </Nav.Link>
-    </Nav.Item>
+      </NavLink>
+    </NavItem>
   </Nav>
 </Example>
 
@@ -233,22 +233,22 @@ Force your `<Nav>`'s contents to extend the full available width one of two modi
 
 <Example>
   <Nav variant="pills" layout="fill">
-    <Nav.Item>
-      <Nav.Link href="#" active>
+    <NavItem>
+      <NavLink href="#" active>
         Active
-      </Nav.Link>
-    </Nav.Item>
-    <Nav.Item>
-      <Nav.Link href="#">Link</Nav.Link>
-    </Nav.Item>
-    <Nav.Item>
-      <Nav.Link href="#">Link</Nav.Link>
-    </Nav.Item>
-    <Nav.Item>
-      <Nav.Link href="#" disabled>
+      </NavLink>
+    </NavItem>
+    <NavItem>
+      <NavLink href="#">Link</NavLink>
+    </NavItem>
+    <NavItem>
+      <NavLink href="#">Link</NavLink>
+    </NavItem>
+    <NavItem>
+      <NavLink href="#" disabled>
         Disabled
-      </Nav.Link>
-    </Nav.Item>
+      </NavLink>
+    </NavItem>
   </Nav>
 </Example>
 
@@ -256,22 +256,22 @@ For equal-width elements, use `layout="justified"`. All horizontal space will be
 
 <Example>
   <Nav variant="pills" layout="justified">
-    <Nav.Item>
-      <Nav.Link href="#" active>
+    <NavItem>
+      <NavLink href="#" active>
         Active
-      </Nav.Link>
-    </Nav.Item>
-    <Nav.Item>
-      <Nav.Link href="#">Link</Nav.Link>
-    </Nav.Item>
-    <Nav.Item>
-      <Nav.Link href="#">Link</Nav.Link>
-    </Nav.Item>
-    <Nav.Item>
-      <Nav.Link href="#" disabled>
+      </NavLink>
+    </NavItem>
+    <NavItem>
+      <NavLink href="#">Link</NavLink>
+    </NavItem>
+    <NavItem>
+      <NavLink href="#">Link</NavLink>
+    </NavItem>
+    <NavItem>
+      <NavLink href="#" disabled>
         Disabled
-      </Nav.Link>
-    </Nav.Item>
+      </NavLink>
+    </NavItem>
   </Nav>
 </Example>
 
@@ -281,14 +281,14 @@ If you need responsive nav variations, consider using a series of flexbox utilit
 
 <Example>
   <Nav component="nav" variant="pills" className="flex-column small:flex-row">
-    <Nav.Link href="#" active>
+    <NavLink href="#" active>
       Active
-    </Nav.Link>
-    <Nav.Link href="#">Link</Nav.Link>
-    <Nav.Link href="#">Link</Nav.Link>
-    <Nav.Link href="#" disabled>
+    </NavLink>
+    <NavLink href="#">Link</NavLink>
+    <NavLink href="#">Link</NavLink>
+    <NavLink href="#" disabled>
       Disabled
-    </Nav.Link>
+    </NavLink>
   </Nav>
 </Example>
 
@@ -342,10 +342,10 @@ The tabs also works with pills.
 Shape of each entry in `Nav`'s `items` array (data-driven rendering).
 
 <PropTable component="NavItemDef" />
-### Nav.Item
+### NavItem
 
 <PropTable component="NavItem" />
-### Nav.Link
+### NavLink
 
 <PropTable component="NavLink" />
 ### TabContent

@@ -27,8 +27,11 @@ import {
   Form,
   TextInput,
   InputGroup,
-  Nav,
   Navbar,
+  NavbarBrand,
+  NavbarNav,
+  NavbarText,
+  NavbarToggler,
   Drawer,
 } from '@chassis-ui/react'
 
@@ -37,11 +40,11 @@ import {
 
 `<Navbar>` come with built-in support for a handful of sub-components. Choose from the following as needed:
 
-- `<Navbar.Brand>` for your company, product, or project name.
-- `<Navbar.Nav>` for a full-height and lightweight navigation (including support for menus).
-- `<Navbar.Toggler>` for use with our collapse plugin and other [navigation toggling](#responsive-behaviors) behaviors.
+- `<NavbarBrand>` for your company, product, or project name.
+- `<NavbarNav>` for a full-height and lightweight navigation (including support for menus).
+- `<NavbarToggler>` for use with our collapse plugin and other [navigation toggling](#responsive-behaviors) behaviors.
 - Flex and spacing utilities for any form controls and actions.
-- `<Navbar.Text>` for adding vertically centered strings of text.
+- `<NavbarText>` for adding vertically centered strings of text.
 - `<Collapse>` for grouping and hiding navbar contents by a parent breakpoint.
 
 Here's an example of all the sub-components included in a responsive light-themed navbar that automatically collapses at the `lg` (large) breakpoint.
@@ -55,33 +58,33 @@ Here's an example of all the sub-components included in a responsive light-theme
 
 ### Brand
 
-The `<Navbar.Brand>` can be applied to most elements, but an anchor works best, as some elements might require utility classes or custom styles.
+The `<NavbarBrand>` can be applied to most elements, but an anchor works best, as some elements might require utility classes or custom styles.
 
 <Example>
   {/* As a link */}
   <Navbar colorScheme="light" className="bg-light">
     <Container fluid>
-      <Navbar.Brand href="#">Navbar</Navbar.Brand>
+      <NavbarBrand href="#">Navbar</NavbarBrand>
     </Container>
   </Navbar>
   <br />
   {/* As a heading */}
   <Navbar colorScheme="light" className="bg-light">
     <Container fluid>
-      <Navbar.Brand className="mb-0 h1">Navbar</Navbar.Brand>
+      <NavbarBrand className="mb-0 h1">Navbar</NavbarBrand>
     </Container>
   </Navbar>
 </Example>
 
-Adding images to the `<Navbar.Brand>` will likely always require custom styles or utilities to properly size. Here are some examples to demonstrate.
+Adding images to the `<NavbarBrand>` will likely always require custom styles or utilities to properly size. Here are some examples to demonstrate.
 
 <Example>
   {/* Just an image */}
   <Navbar colorScheme="light" className="bg-light">
     <Container fluid>
-      <Navbar.Brand href="#">
+      <NavbarBrand href="#">
         <img src="https://placehold.co/800x400" alt="" width="22" height="24" />
-      </Navbar.Brand>
+      </NavbarBrand>
     </Container>
   </Navbar>
 </Example>
@@ -90,7 +93,7 @@ Adding images to the `<Navbar.Brand>` will likely always require custom styles o
   {/* Image and text */}
   <Navbar colorScheme="light" className="bg-light">
     <Container fluid>
-      <Navbar.Brand href="#">
+      <NavbarBrand href="#">
         <img
           src="https://placehold.co/800x400"
           alt=""
@@ -99,14 +102,14 @@ Adding images to the `<Navbar.Brand>` will likely always require custom styles o
           className="d-inline-block align-top"
         />{' '}
         Chassis
-      </Navbar.Brand>
+      </NavbarBrand>
     </Container>
   </Navbar>
 </Example>
 
 ### Nav
 
-`<Navbar>` navigation is based on `<Navbar.Nav>`. **Navigation in navbars will also grow to occupy as much horizontal space as possible** to keep your navbar contents securely aligned.
+`<Navbar>` navigation is based on `<NavbarNav>`. **Navigation in navbars will also grow to occupy as much horizontal space as possible** to keep your navbar contents securely aligned.
 
 
 <Example>
@@ -149,7 +152,7 @@ Immediate child elements of `<Navbar>` use flex layout and will default to `just
 <Example>
   <Navbar colorScheme="light" className="bg-light">
     <Container fluid>
-      <Navbar.Brand href="#">Navbar</Navbar.Brand>
+      <NavbarBrand href="#">Navbar</NavbarBrand>
       <Form className="d-flex">
         <TextInput type="search" className="me-small" placeholder="Search" />
         <Button type="submit" color="success" variant="outline">
@@ -190,12 +193,12 @@ Various buttons are supported as part of these navbar forms, too. This is also a
 
 ### Text
 
-Navbars may contain bits of text with the help of `<Navbar.Text>`. This class adjusts vertical alignment and horizontal spacing for strings of text.
+Navbars may contain bits of text with the help of `<NavbarText>`. This class adjusts vertical alignment and horizontal spacing for strings of text.
 
 <Example>
   <Navbar colorScheme="light" className="bg-light">
     <Container fluid>
-      <Navbar.Text>Navbar text with an inline element</Navbar.Text>
+      <NavbarText>Navbar text with an inline element</NavbarText>
     </Container>
   </Navbar>
 </Example>
@@ -217,7 +220,7 @@ Although it's not required, you can wrap a `<Navbar>` in a `<Container>` to cent
   <Container>
     <Navbar colorScheme="light" className="bg-light">
       <Container fluid>
-        <Navbar.Brand href="#">Navbar</Navbar.Brand>
+        <NavbarBrand href="#">Navbar</NavbarBrand>
       </Container>
     </Navbar>
   </Container>
@@ -228,7 +231,7 @@ Use any of the responsive containers to change how wide the content in your navb
 <Example>
   <Navbar colorScheme="light" className="bg-light">
     <Container breakpoint="md">
-      <Navbar.Brand href="#">Navbar</Navbar.Brand>
+      <NavbarBrand href="#">Navbar</NavbarBrand>
     </Container>
   </Navbar>
 </Example>
@@ -242,7 +245,7 @@ Also note that **`.sticky-top` uses `position: sticky`, which [isn't fully suppo
 <Example>
   <Navbar colorScheme="light" className="bg-light">
     <Container fluid>
-      <Navbar.Brand href="#">Default</Navbar.Brand>
+      <NavbarBrand href="#">Default</NavbarBrand>
     </Container>
   </Navbar>
 </Example>
@@ -250,7 +253,7 @@ Also note that **`.sticky-top` uses `position: sticky`, which [isn't fully suppo
 <Example>
   <Navbar colorScheme="light" className="bg-light" placement="fixed-top">
     <Container fluid>
-      <Navbar.Brand href="#">Fixed top</Navbar.Brand>
+      <NavbarBrand href="#">Fixed top</NavbarBrand>
     </Container>
   </Navbar>
 </Example>
@@ -258,7 +261,7 @@ Also note that **`.sticky-top` uses `position: sticky`, which [isn't fully suppo
 <Example>
   <Navbar colorScheme="light" className="bg-light" placement="fixed-bottom">
     <Container fluid>
-      <Navbar.Brand href="#">Fixed bottom</Navbar.Brand>
+      <NavbarBrand href="#">Fixed bottom</NavbarBrand>
     </Container>
   </Navbar>
 </Example>
@@ -266,22 +269,22 @@ Also note that **`.sticky-top` uses `position: sticky`, which [isn't fully suppo
 <Example>
   <Navbar colorScheme="light" className="bg-light" placement="sticky-top">
     <Container fluid>
-      <Navbar.Brand href="#">Sticky top</Navbar.Brand>
+      <NavbarBrand href="#">Sticky top</NavbarBrand>
     </Container>
   </Navbar>
 </Example>
 
 ## Responsive behaviors
 
-Navbars can use `<Navbar.Toggler>`, `<Collapse>`, and `expand="{sm|md|lg|xl|xxl}"` property to determine when their content collapses behind a button. In combination with other utilities, you can easily choose when to show or hide particular elements.
+Navbars can use `<NavbarToggler>`, `<Collapse>`, and `expand="{sm|md|lg|xl|xxl}"` property to determine when their content collapses behind a button. In combination with other utilities, you can easily choose when to show or hide particular elements.
 
 For navbars that never collapse, add the `expand` boolean property on the `<Navbar>`. For navbars that always collapse, don't add any property.
 
 ### Toggler
 
-Navbar togglers are left-aligned by default, but should they follow a sibling element like a `<Navbar.Brand>`, they'll automatically be aligned to the far right. Reversing your markup will reverse the placement of the toggler. Below are examples of different toggle styles.
+Navbar togglers are left-aligned by default, but should they follow a sibling element like a `<NavbarBrand>`, they'll automatically be aligned to the far right. Reversing your markup will reverse the placement of the toggler. Below are examples of different toggle styles.
 
-With no `<Navbar.Brand>` shown at the smallest breakpoint:
+With no `<NavbarBrand>` shown at the smallest breakpoint:
 
 
 <Example>
@@ -334,15 +337,15 @@ To create a drawer navbar that expands into a normal navbar at a specific breakp
 ### Navbar
 
 <PropTable component="Navbar" />
-### Navbar.Brand
+### NavbarBrand
 
 <PropTable component="NavbarBrand" />
-### Navbar.Nav
+### NavbarNav
 
 <PropTable component="NavbarNav" />
-### Navbar.Text
+### NavbarText
 
 <PropTable component="NavbarText" />
-### Navbar.Toggler
+### NavbarToggler
 
 <PropTable component="NavbarToggler" />

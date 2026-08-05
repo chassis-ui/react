@@ -51,16 +51,23 @@ import { Image } from './components/image'
 import { Link } from './components/link'
 import { List, ListItem } from './components/list'
 import { Modal } from './components/modal'
-import { Nav } from './components/nav'
-import { Navbar } from './components/navbar'
-import { Pagination } from './components/pagination'
+import { Nav, NavItem, NavLink, NavTitle } from './components/nav'
+import { Navbar, NavbarBrand, NavbarNav, NavbarText, NavbarToggler } from './components/navbar'
+import { Pagination, PaginationItem } from './components/pagination'
 import { Placeholder } from './components/placeholder'
 import { Popover } from './components/popover'
 import { Progress, ProgressBar } from './components/progress'
 import { Drawer } from './components/drawer'
 import { Spinner } from './components/spinner'
 import { Table } from './components/table'
-import { Tabs, TabContent, TabPane } from './components/tabs'
+import {
+  Tabs,
+  TabsTab,
+  TabsList,
+  TabsPanel,
+  TabContent,
+  TabPane
+} from './components/tabs'
 import { Toast, Toaster, addToast, closeToast, toastQueue } from './components/toast'
 import { Tooltip } from './components/tooltip'
 // plop:import
@@ -132,8 +139,16 @@ export {
   ListItem,
   Modal,
   Nav,
+  NavItem,
+  NavLink,
+  NavTitle,
   Navbar,
+  NavbarBrand,
+  NavbarNav,
+  NavbarText,
+  NavbarToggler,
   Pagination,
+  PaginationItem,
   Placeholder,
   Popover,
   Progress,
@@ -147,6 +162,9 @@ export {
   Switch,
   Table,
   Tabs,
+  TabsTab,
+  TabsList,
+  TabsPanel,
   TabContent,
   TabPane,
   TextInput,

@@ -1,20 +1,11 @@
-import { Navbar as NavbarRoot } from './Navbar'
-import { NavbarBrand } from './NavbarBrand'
-import { NavbarNav } from './NavbarNav'
-import { NavbarText } from './NavbarText'
-import { NavbarToggler } from './NavbarToggler'
-// plop:sub-import
-
-export const Navbar = Object.assign(NavbarRoot, {
-  // plop:sub-entry
-  Brand: NavbarBrand,
-  Nav: NavbarNav,
-  Text: NavbarText,
-  Toggler: NavbarToggler
-})
+export { Navbar } from './Navbar'
 export type { NavbarProps } from './Navbar'
+export { NavbarBrand } from './NavbarBrand'
 export type { NavbarBrandProps } from './NavbarBrand'
+export { NavbarNav } from './NavbarNav'
 export type { NavbarNavProps } from './NavbarNav'
+export { NavbarText } from './NavbarText'
 export type { NavbarTextProps } from './NavbarText'
+export { NavbarToggler } from './NavbarToggler'
 export type { NavbarTogglerProps } from './NavbarToggler'
-// plop:sub-type
+// plop:sub-export

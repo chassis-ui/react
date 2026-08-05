@@ -3,12 +3,12 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 
-import { Pagination } from '../../../index'
+import { PaginationItem } from '../../../index'
 
-describe('Pagination.Item', () => {
+describe('PaginationItem', () => {
   describe('rendering', () => {
     test('renders a li wrapping a button by default', () => {
-      render(<Pagination.Item>Test</Pagination.Item>)
+      render(<PaginationItem>Test</PaginationItem>)
       const item = screen.getByRole('listitem')
       expect(item).toHaveClass('page-item')
       expect(item.tagName).toBe('LI')
@@ -17,12 +17,12 @@ describe('Pagination.Item', () => {
     })
 
     test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Pagination.Item>Test</Pagination.Item>)
+      const { container } = render(<PaginationItem>Test</PaginationItem>)
       expect(container).toMatchSnapshot()
     })
 
     test('renders an anchor when href is provided', () => {
-      render(<Pagination.Item href="/bazinga">Test</Pagination.Item>)
+      render(<PaginationItem href="/bazinga">Test</PaginationItem>)
       const link = screen.getByRole('link', { name: 'Test' })
       expect(link).toHaveClass('page-link')
       expect(link).toHaveAttribute('href', '/bazinga')
@@ -30,9 +30,9 @@ describe('Pagination.Item', () => {
 
     test('renders as a span and ignores href when active', () => {
       render(
-        <Pagination.Item active href="/bazinga">
+        <PaginationItem active href="/bazinga">
           Test
-        </Pagination.Item>
+        </PaginationItem>
       )
       const item = screen.getByRole('listitem')
       expect(item).toHaveClass('page-item', 'active')
@@ -44,7 +44,7 @@ describe('Pagination.Item', () => {
     })
 
     test('renders a disabled button when disabled with no href', () => {
-      render(<Pagination.Item disabled>Test</Pagination.Item>)
+      render(<PaginationItem disabled>Test</PaginationItem>)
       const button = screen.getByRole('button', { name: 'Test' })
       expect(button).toBeDisabled()
       expect(screen.getByRole('listitem')).toHaveClass('disabled')
@@ -52,9 +52,9 @@ describe('Pagination.Item', () => {
 
     test('renders as a custom component with only className and ref applied', () => {
       render(
-        <Pagination.Item className="bazinga" component="h3">
+        <PaginationItem className="bazinga" component="h3">
           Test
-        </Pagination.Item>
+        </PaginationItem>
       )
       expect(screen.getByRole('listitem')).toHaveClass('page-item', 'bazinga')
       const heading = screen.getByText('Test')
@@ -67,7 +67,7 @@ describe('Pagination.Item', () => {
     test('fires onClick on the default button', async () => {
       const user = userEvent.setup()
       const onClick = vi.fn()
-      render(<Pagination.Item onClick={onClick}>Test</Pagination.Item>)
+      render(<PaginationItem onClick={onClick}>Test</PaginationItem>)
       await user.click(screen.getByRole('button', { name: 'Test' }))
       expect(onClick).toHaveBeenCalledTimes(1)
     })
@@ -76,9 +76,9 @@ describe('Pagination.Item', () => {
       const user = userEvent.setup()
       const onClick = vi.fn()
       render(
-        <Pagination.Item disabled onClick={onClick}>
+        <PaginationItem disabled onClick={onClick}>
           Test
-        </Pagination.Item>
+        </PaginationItem>
       )
       await user.click(screen.getByRole('button', { name: 'Test' }))
       expect(onClick).not.toHaveBeenCalled()
@@ -88,16 +88,16 @@ describe('Pagination.Item', () => {
   describe('ref forwarding', () => {
     test('forwards a ref to the underlying button by default', () => {
       const ref = React.createRef<HTMLButtonElement>()
-      render(<Pagination.Item ref={ref}>Test</Pagination.Item>)
+      render(<PaginationItem ref={ref}>Test</PaginationItem>)
       expect(ref.current).toBeInstanceOf(HTMLButtonElement)
     })
 
     test('forwards a ref to the underlying anchor when href is provided', () => {
       const ref = React.createRef<HTMLAnchorElement>()
       render(
-        <Pagination.Item ref={ref} href="/bazinga">
+        <PaginationItem ref={ref} href="/bazinga">
           Test
-        </Pagination.Item>
+        </PaginationItem>
       )
       expect(ref.current).toBeInstanceOf(HTMLAnchorElement)
     })
@@ -107,8 +107,8 @@ describe('Pagination.Item', () => {
     test('has no axe violations', async () => {
       const { container } = render(
         <ul>
-          <Pagination.Item href="/bazinga">A</Pagination.Item>
-          <Pagination.Item active>B</Pagination.Item>
+          <PaginationItem href="/bazinga">A</PaginationItem>
+          <PaginationItem active>B</PaginationItem>
         </ul>
       )
       expect(await axe(container)).toHaveNoViolations()

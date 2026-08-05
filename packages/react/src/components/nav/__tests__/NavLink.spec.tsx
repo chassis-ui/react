@@ -2,27 +2,27 @@ import * as React from 'react'
 import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Nav } from '../../../index'
+import { NavLink } from '../../../index'
 
-describe('Nav.Link', () => {
+describe('NavLink', () => {
   describe('rendering', () => {
     test('renders an anchor with the base class by default', () => {
-      render(<Nav.Link href="/bazinga">Test</Nav.Link>)
+      render(<NavLink href="/bazinga">Test</NavLink>)
       const link = screen.getByRole('link', { name: 'Test' })
       expect(link).toHaveClass('nav-link')
       expect(link).toHaveAttribute('href', '/bazinga')
     })
 
     test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Nav.Link href="/bazinga">Test</Nav.Link>)
+      const { container } = render(<NavLink href="/bazinga">Test</NavLink>)
       expect(container).toMatchSnapshot()
     })
 
     test('renders as a custom component with active/disabled classes', () => {
       render(
-        <Nav.Link active={true} className="bazinga" component="h3" disabled={true}>
+        <NavLink active={true} className="bazinga" component="h3" disabled={true}>
           Test
-        </Nav.Link>
+        </NavLink>
       )
       const link = screen.getByText('Test')
       expect(link).toHaveClass('nav-link', 'active', 'disabled', 'bazinga')
@@ -30,7 +30,7 @@ describe('Nav.Link', () => {
     })
 
     test('accepts an arbitrary "to" attribute without affecting the base class', () => {
-      render(<Nav.Link to="/bazinga">Test</Nav.Link>)
+      render(<NavLink to="/bazinga">Test</NavLink>)
       expect(screen.getByText('Test')).toHaveClass('nav-link')
     })
   })
@@ -39,9 +39,9 @@ describe('Nav.Link', () => {
     test('forwards a ref to the underlying anchor by default', () => {
       const ref = React.createRef<HTMLAnchorElement>()
       render(
-        <Nav.Link ref={ref} href="/bazinga">
+        <NavLink ref={ref} href="/bazinga">
           Test
-        </Nav.Link>
+        </NavLink>
       )
       expect(ref.current).toBeInstanceOf(HTMLAnchorElement)
     })
@@ -49,9 +49,9 @@ describe('Nav.Link', () => {
     test('forwards a ref to the underlying button', () => {
       const ref = React.createRef<HTMLButtonElement>()
       render(
-        <Nav.Link ref={ref} component="button">
+        <NavLink ref={ref} component="button">
           Test
-        </Nav.Link>
+        </NavLink>
       )
       expect(ref.current).toBeInstanceOf(HTMLButtonElement)
     })
@@ -59,7 +59,7 @@ describe('Nav.Link', () => {
 
   describe('accessibility', () => {
     test('has no axe violations', async () => {
-      const { container } = render(<Nav.Link href="/bazinga">Test</Nav.Link>)
+      const { container } = render(<NavLink href="/bazinga">Test</NavLink>)
       expect(await axe(container)).toHaveNoViolations()
     })
   })

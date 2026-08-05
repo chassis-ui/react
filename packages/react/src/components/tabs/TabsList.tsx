@@ -3,12 +3,12 @@ import classNames from 'classnames'
 import { useTab, useTabList } from 'react-aria'
 import { Node } from 'react-stately'
 
-import { TabProps } from './Tab'
+import { TabsTabProps } from './TabsTab'
 import { useTabsContext } from './context'
 
-export interface TabListProps extends AriaAttributes {
+export interface TabsListProps extends AriaAttributes {
   /**
-   * `Tab` elements — read as data by `Tabs` to build the tab collection (see `Tabs.tsx`).
+   * `TabsTab` elements — read as data by `Tabs` to build the tab collection (see `Tabs.tsx`).
    * Not rendered directly.
    */
   children: ReactNode
@@ -25,7 +25,7 @@ export interface TabListProps extends AriaAttributes {
 // Renders the actual, focusable tabs from `state.collection` — built by the ancestor `Tabs`
 // from this component's own `children` (see the comment there). This component's own `children`
 // prop is intentionally unused for rendering.
-export const TabList = ({ className, variant = 'tabs', ...rest }: TabListProps) => {
+export const TabsList = ({ className, variant = 'tabs', ...rest }: TabsListProps) => {
   const { keyboardActivation, orientation, state } = useTabsContext()
   const ref = useRef<HTMLUListElement>(null)
   const { tabListProps } = useTabList({ keyboardActivation, orientation, ...rest }, state, ref)
@@ -41,10 +41,10 @@ export const TabList = ({ className, variant = 'tabs', ...rest }: TabListProps) 
   )
 }
 
-TabList.displayName = 'TabList'
+TabsList.displayName = 'TabsList'
 
 interface TabItemProps {
-  item: Node<ReactElement<TabProps>>
+  item: Node<ReactElement<TabsTabProps>>
 }
 
 const TabItem = ({ item }: TabItemProps) => {

@@ -3,12 +3,12 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 
-import { Navbar } from '../../../index'
+import { NavbarToggler } from '../../../index'
 
-describe('Navbar.Toggler', () => {
+describe('NavbarToggler', () => {
   describe('rendering', () => {
     test('renders a button with the base class', () => {
-      render(<Navbar.Toggler>Test</Navbar.Toggler>)
+      render(<NavbarToggler>Test</NavbarToggler>)
       const button = screen.getByRole('button', { name: 'Test' })
       expect(button).toHaveClass('navbar-toggler')
       expect(button).toHaveAttribute('type', 'button')
@@ -16,18 +16,18 @@ describe('Navbar.Toggler', () => {
 
     test('renders a default toggler icon when no children are provided', () => {
       // Decorative default icon: no text, no role, so there's no accessible query for it.
-      const { container } = render(<Navbar.Toggler />)
+      const { container } = render(<NavbarToggler />)
       // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
       expect(container.querySelectorAll('.navbar-toggler-icon')).toHaveLength(1)
     })
 
     test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Navbar.Toggler />)
+      const { container } = render(<NavbarToggler />)
       expect(container).toMatchSnapshot()
     })
 
     test('applies a custom className', () => {
-      render(<Navbar.Toggler className="bazinga" />)
+      render(<NavbarToggler className="bazinga" />)
       expect(screen.getByRole('button')).toHaveClass('navbar-toggler', 'bazinga')
     })
   })
@@ -36,7 +36,7 @@ describe('Navbar.Toggler', () => {
     test('fires onClick when clicked', async () => {
       const user = userEvent.setup()
       const onClick = vi.fn()
-      render(<Navbar.Toggler onClick={onClick} />)
+      render(<NavbarToggler onClick={onClick} />)
       await user.click(screen.getByRole('button'))
       expect(onClick).toHaveBeenCalledTimes(1)
     })
@@ -45,14 +45,14 @@ describe('Navbar.Toggler', () => {
   describe('ref forwarding', () => {
     test('forwards a ref to the underlying button', () => {
       const ref = React.createRef<HTMLButtonElement>()
-      render(<Navbar.Toggler ref={ref} />)
+      render(<NavbarToggler ref={ref} />)
       expect(ref.current).toBeInstanceOf(HTMLButtonElement)
     })
   })
 
   describe('accessibility', () => {
     test('has no axe violations', async () => {
-      const { container } = render(<Navbar.Toggler aria-label="Toggle navigation" />)
+      const { container } = render(<NavbarToggler aria-label="Toggle navigation" />)
       expect(await axe(container)).toHaveNoViolations()
     })
   })

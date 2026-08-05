@@ -5,9 +5,9 @@ import { Key } from 'react-stately'
 
 import { useTabsContext } from './context'
 
-export interface TabPanelProps extends Omit<HTMLAttributes<HTMLDivElement>, 'id'> {
+export interface TabsPanelProps extends Omit<HTMLAttributes<HTMLDivElement>, 'id'> {
   /**
-   * Content of the panel, shown while the `Tab` of the same `id` is selected.
+   * Content of the panel, shown while the `TabsTab` of the same `id` is selected.
    */
   children: ReactNode
   /**
@@ -15,14 +15,14 @@ export interface TabPanelProps extends Omit<HTMLAttributes<HTMLDivElement>, 'id'
    */
   className?: string
   /**
-   * Pairs this panel with the `Tab` of the same `id`.
+   * Pairs this panel with the `TabsTab` of the same `id`.
    */
   id: Key
 }
 
-// The counterpart to `Tab` — unlike `Tab`, `TabPanel` renders for real, but only while its
-// `id` matches the currently selected tab.
-export const TabPanel = ({ children, className, id, ...rest }: TabPanelProps) => {
+// The counterpart to `TabsTab` — unlike `TabsTab`, `TabsPanel` renders for real, but only while
+// its `id` matches the currently selected tab.
+export const TabsPanel = ({ children, className, id, ...rest }: TabsPanelProps) => {
   const { state } = useTabsContext()
   const ref = useRef<HTMLDivElement>(null)
   const { tabPanelProps } = useTabPanel({ id }, state, ref)
@@ -41,4 +41,4 @@ export const TabPanel = ({ children, className, id, ...rest }: TabPanelProps) =>
   )
 }
 
-TabPanel.displayName = 'TabPanel'
+TabsPanel.displayName = 'TabsPanel'

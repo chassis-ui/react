@@ -1,5 +1,15 @@
 import { useState } from 'react'
-import { Container, Collapse, Menu, Nav, Navbar } from '@chassis-ui/react'
+import {
+  Container,
+  Collapse,
+  Menu,
+  Navbar,
+  NavItem,
+  NavLink,
+  NavbarBrand,
+  NavbarNav,
+  NavbarToggler
+} from '@chassis-ui/react'
 
 export const NavMenuExample = () => {
   const [visible, setVisible] = useState(false)
@@ -7,25 +17,25 @@ export const NavMenuExample = () => {
     <>
       <Navbar expand="large" colorScheme="light" className="bg-light">
         <Container fluid>
-          <Navbar.Brand href="#">Navbar</Navbar.Brand>
-          <Navbar.Toggler
+          <NavbarBrand href="#">Navbar</NavbarBrand>
+          <NavbarToggler
             aria-label="Toggle navigation"
             aria-expanded={visible}
             onClick={() => setVisible(!visible)}
           />
           <Collapse className="navbar-collapse" visible={visible}>
-            <Navbar.Nav>
-              <Nav.Item>
-                <Nav.Link href="#" active>
+            <NavbarNav>
+              <NavItem>
+                <NavLink href="#" active>
                   Home
-                </Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link href="#">Features</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link href="#">Pricing</Nav.Link>
-              </Nav.Item>
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="#">Features</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="#">Pricing</NavLink>
+              </NavItem>
               <Menu component="li" className="nav-item">
                 <Menu.Toggle>Menu link</Menu.Toggle>
                 <Menu.List>
@@ -35,7 +45,7 @@ export const NavMenuExample = () => {
                   <Menu.Item href="#">Something else here</Menu.Item>
                 </Menu.List>
               </Menu>
-            </Navbar.Nav>
+            </NavbarNav>
           </Collapse>
         </Container>
       </Navbar>

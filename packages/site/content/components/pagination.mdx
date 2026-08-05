@@ -1,6 +1,6 @@
 ---
 title: Pagination
-description: Chassis React Pagination supports both a smart data-driven mode (pass total pages and current page) and manual markup with Pagination.Item.
+description: Chassis React Pagination supports both a smart data-driven mode (pass total pages and current page) and manual markup with PaginationItem.
 
 toc: true
 ---
@@ -10,7 +10,7 @@ import { MaxVisibleExample } from '../../src/examples/pagination/MaxVisibleExamp
 
 
 import { useState } from 'react'
-import { Pagination } from '@chassis-ui/react'
+import { Pagination, PaginationItem } from '@chassis-ui/react'
 
 ## Smart pagination
 
@@ -32,15 +32,15 @@ Use `maxVisiblePages` to control how many page buttons appear before collapsing 
 
 ## Manual markup
 
-For full control, compose the pagination using `<Pagination.Item>` directly.
+For full control, compose the pagination using `<PaginationItem>` directly.
 
 <Example>
   <Pagination aria-label="Page navigation example">
-    <Pagination.Item aria-label="Previous">&laquo;</Pagination.Item>
-    <Pagination.Item>1</Pagination.Item>
-    <Pagination.Item active>2</Pagination.Item>
-    <Pagination.Item>3</Pagination.Item>
-    <Pagination.Item aria-label="Next">&raquo;</Pagination.Item>
+    <PaginationItem aria-label="Previous">&laquo;</PaginationItem>
+    <PaginationItem>1</PaginationItem>
+    <PaginationItem active>2</PaginationItem>
+    <PaginationItem>3</PaginationItem>
+    <PaginationItem aria-label="Next">&raquo;</PaginationItem>
   </Pagination>
 </Example>
 
@@ -48,11 +48,11 @@ For full control, compose the pagination using `<Pagination.Item>` directly.
 
 <Example>
   <Pagination aria-label="...">
-    <Pagination.Item disabled>&laquo;</Pagination.Item>
-    <Pagination.Item active>1</Pagination.Item>
-    <Pagination.Item>2</Pagination.Item>
-    <Pagination.Item>3</Pagination.Item>
-    <Pagination.Item>&raquo;</Pagination.Item>
+    <PaginationItem disabled>&laquo;</PaginationItem>
+    <PaginationItem active>1</PaginationItem>
+    <PaginationItem>2</PaginationItem>
+    <PaginationItem>3</PaginationItem>
+    <PaginationItem>&raquo;</PaginationItem>
   </Pagination>
 </Example>
 
@@ -60,18 +60,18 @@ For full control, compose the pagination using `<Pagination.Item>` directly.
 
 <Example>
   <Pagination size="large" aria-label="Large pagination example">
-    <Pagination.Item>&laquo;</Pagination.Item>
-    <Pagination.Item>1</Pagination.Item>
-    <Pagination.Item active>2</Pagination.Item>
-    <Pagination.Item>3</Pagination.Item>
-    <Pagination.Item>&raquo;</Pagination.Item>
+    <PaginationItem>&laquo;</PaginationItem>
+    <PaginationItem>1</PaginationItem>
+    <PaginationItem active>2</PaginationItem>
+    <PaginationItem>3</PaginationItem>
+    <PaginationItem>&raquo;</PaginationItem>
   </Pagination>
   <Pagination size="small" aria-label="Small pagination example">
-    <Pagination.Item>&laquo;</Pagination.Item>
-    <Pagination.Item>1</Pagination.Item>
-    <Pagination.Item active>2</Pagination.Item>
-    <Pagination.Item>3</Pagination.Item>
-    <Pagination.Item>&raquo;</Pagination.Item>
+    <PaginationItem>&laquo;</PaginationItem>
+    <PaginationItem>1</PaginationItem>
+    <PaginationItem active>2</PaginationItem>
+    <PaginationItem>3</PaginationItem>
+    <PaginationItem>&raquo;</PaginationItem>
   </Pagination>
 </Example>
 
@@ -79,18 +79,18 @@ For full control, compose the pagination using `<Pagination.Item>` directly.
 
 <Example>
   <Pagination align="center" aria-label="Centered pagination">
-    <Pagination.Item>&laquo;</Pagination.Item>
-    <Pagination.Item>1</Pagination.Item>
-    <Pagination.Item active>2</Pagination.Item>
-    <Pagination.Item>3</Pagination.Item>
-    <Pagination.Item>&raquo;</Pagination.Item>
+    <PaginationItem>&laquo;</PaginationItem>
+    <PaginationItem>1</PaginationItem>
+    <PaginationItem active>2</PaginationItem>
+    <PaginationItem>3</PaginationItem>
+    <PaginationItem>&raquo;</PaginationItem>
   </Pagination>
   <Pagination align="end" aria-label="Right-aligned pagination">
-    <Pagination.Item>&laquo;</Pagination.Item>
-    <Pagination.Item>1</Pagination.Item>
-    <Pagination.Item active>2</Pagination.Item>
-    <Pagination.Item>3</Pagination.Item>
-    <Pagination.Item>&raquo;</Pagination.Item>
+    <PaginationItem>&laquo;</PaginationItem>
+    <PaginationItem>1</PaginationItem>
+    <PaginationItem active>2</PaginationItem>
+    <PaginationItem>3</PaginationItem>
+    <PaginationItem>&raquo;</PaginationItem>
   </Pagination>
 </Example>
 
@@ -99,6 +99,6 @@ For full control, compose the pagination using `<Pagination.Item>` directly.
 ### Pagination
 
 <PropTable component="Pagination" />
-### Pagination.Item
+### PaginationItem
 
 <PropTable component="PaginationItem" />

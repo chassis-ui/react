@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Container, Collapse, Navbar } from '@chassis-ui/react'
+import { Container, Collapse, Navbar, NavbarToggler } from '@chassis-ui/react'
 
 export const ExternalContentExample = () => {
   const [visible, setVisible] = useState(false)
@@ -13,7 +13,7 @@ export const ExternalContentExample = () => {
       </Collapse>
       <Navbar colorScheme="dark" className="bg-dark">
         <Container fluid>
-          <Navbar.Toggler
+          <NavbarToggler
             aria-controls="navbarToggleExternalContent"
             aria-label="Toggle navigation"
             onClick={() => setVisible(!visible)}

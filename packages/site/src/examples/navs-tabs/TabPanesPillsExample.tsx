@@ -1,38 +1,38 @@
 import { useState } from 'react'
-import { Nav, TabContent, TabPane } from '@chassis-ui/react'
+import { Nav, NavItem, NavLink, TabContent, TabPane } from '@chassis-ui/react'
 
 export const TabPanesPillsExample = () => {
   const [activeKey, setActiveKey] = useState(1)
   return (
     <>
       <Nav variant="pills" role="tablist">
-        <Nav.Item>
-          <Nav.Link
+        <NavItem>
+          <NavLink
             href="javascript:void(0);"
             active={activeKey === 1}
             onClick={() => setActiveKey(1)}
           >
             Home
-          </Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link
+          </NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink
             href="javascript:void(0);"
             active={activeKey === 2}
             onClick={() => setActiveKey(2)}
           >
             Profile
-          </Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link
+          </NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink
             href="javascript:void(0);"
             active={activeKey === 3}
             onClick={() => setActiveKey(3)}
           >
             Contact
-          </Nav.Link>
-        </Nav.Item>
+          </NavLink>
+        </NavItem>
       </Nav>
       <TabContent>
         <TabPane role="tabpanel" aria-labelledby="home-tab" visible={activeKey === 1}>

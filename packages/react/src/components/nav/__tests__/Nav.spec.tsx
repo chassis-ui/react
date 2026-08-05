@@ -2,7 +2,7 @@ import * as React from 'react'
 import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Nav } from '../../../index'
+import { Nav, NavItem, NavLink } from '../../../index'
 
 describe('Nav', () => {
   describe('rendering', () => {
@@ -16,14 +16,14 @@ describe('Nav', () => {
     test('matches the baseline markup snapshot', () => {
       const { container } = render(
         <Nav>
-          <Nav.Item>
-            <Nav.Link href="#" active>
+          <NavItem>
+            <NavLink href="#" active>
               Active
-            </Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link href="#">Link</Nav.Link>
-          </Nav.Item>
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink href="#">Link</NavLink>
+          </NavItem>
         </Nav>
       )
       expect(container).toMatchSnapshot()
@@ -81,10 +81,10 @@ describe('Nav', () => {
     test('has no axe violations', async () => {
       const { container } = render(
         <Nav component="nav">
-          <Nav.Link href="#" active>
+          <NavLink href="#" active>
             Active
-          </Nav.Link>
-          <Nav.Link href="#">Link</Nav.Link>
+          </NavLink>
+          <NavLink href="#">Link</NavLink>
         </Nav>
       )
       expect(await axe(container)).toHaveNoViolations()

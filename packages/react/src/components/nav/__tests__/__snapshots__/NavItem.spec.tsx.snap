@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Nav.Item > rendering > matches the baseline markup snapshot 1`] = `
+exports[`NavItem > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <li
     class="nav-item"

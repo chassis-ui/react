@@ -2,27 +2,27 @@ import * as React from 'react'
 import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Nav } from '../../../index'
+import { NavItem, NavLink } from '../../../index'
 
-describe('Nav.Item', () => {
+describe('NavItem', () => {
   describe('rendering', () => {
     test('renders a li with the base class and plain children when no href', () => {
-      render(<Nav.Item>Test</Nav.Item>)
+      render(<NavItem>Test</NavItem>)
       const item = screen.getByText('Test')
       expect(item).toHaveClass('nav-item')
       expect(item.tagName).toBe('LI')
     })
 
     test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Nav.Item>Test</Nav.Item>)
+      const { container } = render(<NavItem>Test</NavItem>)
       expect(container).toMatchSnapshot()
     })
 
-    test('wraps children in a Nav.Link when href is provided', () => {
+    test('wraps children in a NavLink when href is provided', () => {
       render(
-        <Nav.Item active={true} className="bazinga" disabled={true} href="/bazinga">
+        <NavItem active={true} className="bazinga" disabled={true} href="/bazinga">
           Test
-        </Nav.Item>
+        </NavItem>
       )
       const link = screen.getByRole('link', { name: 'Test' })
       expect(link).toHaveClass('nav-link', 'active', 'disabled')
@@ -33,7 +33,7 @@ describe('Nav.Item', () => {
   describe('ref forwarding', () => {
     test('forwards a ref to the underlying li', () => {
       const ref = React.createRef<HTMLLIElement>()
-      render(<Nav.Item ref={ref}>Test</Nav.Item>)
+      render(<NavItem ref={ref}>Test</NavItem>)
       expect(ref.current).toBeInstanceOf(HTMLLIElement)
     })
   })
@@ -42,7 +42,7 @@ describe('Nav.Item', () => {
     test('has no axe violations', async () => {
       const { container } = render(
         <ul>
-          <Nav.Item href="/bazinga">Test</Nav.Item>
+          <NavItem href="/bazinga">Test</NavItem>
         </ul>
       )
       expect(await axe(container)).toHaveNoViolations()

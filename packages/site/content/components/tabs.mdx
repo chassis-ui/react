@@ -15,7 +15,7 @@ import { Tabs } from '@chassis-ui/react'
 
 `Tabs` organizes content into sections, showing one at a time. Unlike hand-wiring a `Nav` to a set of manually-toggled panels, `Tabs` handles keyboard navigation (arrow keys, Home/End), roving tab focus, and the `role="tablist"`/`role="tab"`/`role="tabpanel"` + `aria-selected`/`aria-controls`/`aria-labelledby` wiring between them for you.
 
-Compose a `Tabs.List` of `Tabs.Tab`s, followed by one `Tabs.Panel` per tab. A tab and its panel are paired by a matching `id` — not by position, and not by React's own `key` (though you should still give each a `key`, as with any list).
+Compose a `TabsList` of `TabsTab`s, followed by one `TabsPanel` per tab. A tab and its panel are paired by a matching `id` — not by position, and not by React's own `key` (though you should still give each a `key`, as with any list).
 
 <Example>
   <BasicExample client:load />
@@ -23,7 +23,7 @@ Compose a `Tabs.List` of `Tabs.Tab`s, followed by one `Tabs.Panel` per tab. A ta
 
 ## Pills
 
-Pass `variant="pills"` to `Tabs.List` for a pill-styled tab list instead of the default underlined tabs.
+Pass `variant="pills"` to `TabsList` for a pill-styled tab list instead of the default underlined tabs.
 
 <Example>
   <PillsExample client:load />
@@ -31,7 +31,7 @@ Pass `variant="pills"` to `Tabs.List` for a pill-styled tab list instead of the 
 
 ## Disabled tabs
 
-Add `disabled` to a `Tabs.Tab` to remove it from keyboard navigation and prevent it from being selected.
+Add `disabled` to a `TabsTab` to remove it from keyboard navigation and prevent it from being selected.
 
 <Example>
   <DisabledExample client:load />
@@ -47,14 +47,14 @@ Pass `selectedKey`/`onSelectionChange` to `Tabs` to control which tab is selecte
 
 <PropTable component="Tabs" />
 
-### Tabs.List
+### TabsList
 
-<PropTable component="TabList" />
+<PropTable component="TabsList" />
 
-### Tabs.Tab
+### TabsTab
 
-<PropTable component="Tab" />
+<PropTable component="TabsTab" />
 
-### Tabs.Panel
+### TabsPanel
 
-<PropTable component="TabPanel" />
+<PropTable component="TabsPanel" />

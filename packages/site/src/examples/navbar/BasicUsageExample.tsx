@@ -1,5 +1,18 @@
 import { useState } from 'react'
-import { Button, Container, Collapse, Form, TextInput, Menu, Nav, Navbar } from '@chassis-ui/react'
+import {
+  Button,
+  Container,
+  Collapse,
+  Form,
+  TextInput,
+  Menu,
+  Navbar,
+  NavItem,
+  NavLink,
+  NavbarBrand,
+  NavbarNav,
+  NavbarToggler
+} from '@chassis-ui/react'
 
 export const BasicUsageExample = () => {
   const [visible, setVisible] = useState(false)
@@ -7,18 +20,18 @@ export const BasicUsageExample = () => {
     <>
       <Navbar expand="large" colorScheme="light" className="bg-light">
         <Container fluid>
-          <Navbar.Brand href="#">Navbar</Navbar.Brand>
-          <Navbar.Toggler onClick={() => setVisible(!visible)} />
+          <NavbarBrand href="#">Navbar</NavbarBrand>
+          <NavbarToggler onClick={() => setVisible(!visible)} />
           <Collapse className="navbar-collapse" visible={visible}>
-            <Navbar.Nav>
-              <Nav.Item>
-                <Nav.Link href="#" active>
+            <NavbarNav>
+              <NavItem>
+                <NavLink href="#" active>
                   Home
-                </Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link href="#">Link</Nav.Link>
-              </Nav.Item>
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="#">Link</NavLink>
+              </NavItem>
               <Menu component="li" className="nav-item">
                 <Menu.Toggle color="secondary">Menu button</Menu.Toggle>
                 <Menu.List>
@@ -28,12 +41,12 @@ export const BasicUsageExample = () => {
                   <Menu.Item href="#">Something else here</Menu.Item>
                 </Menu.List>
               </Menu>
-              <Nav.Item>
-                <Nav.Link href="#" disabled>
+              <NavItem>
+                <NavLink href="#" disabled>
                   Disabled
-                </Nav.Link>
-              </Nav.Item>
-            </Navbar.Nav>
+                </NavLink>
+              </NavItem>
+            </NavbarNav>
             <Form className="d-flex">
               <TextInput type="search" className="me-2" placeholder="Search" />
               <Button type="submit" color="success" variant="outline">

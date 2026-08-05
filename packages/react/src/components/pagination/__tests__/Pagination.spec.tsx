@@ -3,14 +3,14 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 
-import { Pagination } from '../../../index'
+import { Pagination, PaginationItem } from '../../../index'
 
 describe('Pagination', () => {
   describe('rendering', () => {
     test('renders a nav wrapping a ul with the base class', () => {
       render(
         <Pagination>
-          <Pagination.Item>A</Pagination.Item>
+          <PaginationItem>A</PaginationItem>
         </Pagination>
       )
       expect(screen.getByRole('navigation')).toBeInTheDocument()
@@ -20,9 +20,9 @@ describe('Pagination', () => {
     test('matches the baseline markup snapshot', () => {
       const { container } = render(
         <Pagination>
-          <Pagination.Item>A</Pagination.Item>
-          <Pagination.Item>B</Pagination.Item>
-          <Pagination.Item>C</Pagination.Item>
+          <PaginationItem>A</PaginationItem>
+          <PaginationItem>B</PaginationItem>
+          <PaginationItem>C</PaginationItem>
         </Pagination>
       )
       expect(container).toMatchSnapshot()
@@ -48,7 +48,7 @@ describe('Pagination', () => {
       render(<Pagination activePage={2} pages={3} onActivePageChange={vi.fn()} />)
 
       expect(screen.getByRole('button', { name: '1' })).toBeInTheDocument()
-      // The active page renders as a non-interactive span, not a button — see Pagination.Item.
+      // The active page renders as a non-interactive span, not a button — see PaginationItem.
       // listitem's accessible name isn't computed from content (verified), so the enclosing
       // <li> can't be found by role + name and needs raw node access instead.
       const active = screen.getByText('2')
@@ -100,7 +100,7 @@ describe('Pagination', () => {
       const ref = React.createRef<HTMLElement>()
       render(
         <Pagination ref={ref}>
-          <Pagination.Item>A</Pagination.Item>
+          <PaginationItem>A</PaginationItem>
         </Pagination>
       )
       expect(ref.current).toBeInstanceOf(HTMLElement)

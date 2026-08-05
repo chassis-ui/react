@@ -1,23 +1,15 @@
-import { Tabs as TabsRoot } from './Tabs'
-import { Tab } from './Tab'
-import { TabList } from './TabList'
-import { TabPanel } from './TabPanel'
-// plop:sub-import
-
-export const Tabs = Object.assign(TabsRoot, {
-  // plop:sub-entry
-  Tab: Tab,
-  List: TabList,
-  Panel: TabPanel
-})
+export { Tabs } from './Tabs'
 export type { TabsProps } from './Tabs'
-export type { TabProps } from './Tab'
-export type { TabListProps } from './TabList'
-export type { TabPanelProps } from './TabPanel'
-// plop:sub-type
+export { TabsTab } from './TabsTab'
+export type { TabsTabProps } from './TabsTab'
+export { TabsList } from './TabsList'
+export type { TabsListProps } from './TabsList'
+export { TabsPanel } from './TabsPanel'
+export type { TabsPanelProps } from './TabsPanel'
+// plop:sub-export
 
 // TabContent/TabPane are a separate, older API — pair with Nav (uncontrolled `visible` prop),
-// not with Tabs (react-aria controlled selection). Not part of the Tabs namespace.
+// not with Tabs (react-aria controlled selection). Not part of the Tabs family above.
 export { TabContent } from './TabContent'
 export type { TabContentProps } from './TabContent'
 export { TabPane } from './TabPane'
