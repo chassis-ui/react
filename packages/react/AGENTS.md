@@ -71,6 +71,49 @@ pnpm test:update  # same, plus -u to update snapshots
   violates. Deliberate exception: `AccordionCollapse` (a `@deprecated` no-op passthrough that
   renders only its children, unwrapped — no markup of its own to check).
 
+## Visual regression
+
+Storybook (`.storybook/`, config framework `@storybook/react-vite`) plus Playwright screenshot
+tests (`visual-tests/`) catch pixel-level regressions that `vitest`'s DOM snapshots can't — e.g. a
+CSS change that doesn't alter markup at all. Coverage today is scoped to the calendar/datepicker
+family only (Phase 2 of the enterprise migration touched that family's CSS output directly); a
+future family gets its own `visual-tests/<family>.visual.spec.ts` with its own story-title filter,
+not a widened version of this one.
+
+```bash
+pnpm storybook          # storybook dev -p 6006, for authoring stories interactively
+pnpm build-storybook     # static build to storybook-static/ (gitignored)
+pnpm test:visual         # build-storybook, then run visual-tests/**/*.visual.spec.ts against it
+pnpm test:visual:update  # same, plus --update-snapshots to regenerate baselines
+```
+
+- A story file lives beside its component (`Calendar.stories.tsx` next to `Calendar.tsx`), matched
+  by `.storybook/main.ts`'s glob against anywhere under `src/`. `.storybook/preview.tsx` imports
+  the real compiled `@chassis-ui/css/dist/css/chassis.min.css` — Storybook has no consuming app to
+  supply that peer dependency itself (see `THEMING.md`), so without it every story would render
+  unstyled.
+- Story `args` use fixed, past `CalendarDate`s (e.g. `new CalendarDate(2024, 3, 15)`), not
+  `today()` like the docs-site examples in `packages/site/src/examples/` do — a screenshot has to
+  render identically no matter what day it's actually run, and `today()` would shift both the
+  visible month and the `.datepicker-date-today` highlight on every run.
+- `visual-tests/*.visual.spec.ts` reads `storybook-static/index.json` (Storybook's own build
+  manifest) at collection time to enumerate stories, rather than hardcoding story IDs — a new story
+  on an already-covered component is picked up automatically. This is also why `test:visual` runs
+  `build-storybook` as an explicit, separate step before `playwright test`, not inside
+  `playwright.config.ts`'s `webServer` — the manifest must already exist on disk before Playwright
+  starts loading spec files.
+- Playwright's snapshot filenames are platform-suffixed (`-chromium-darwin.png`,
+  `-chromium-linux.png`) and both are checked in: the `-linux.png` ones are what CI's
+  `visual-regression` job (running inside the official Playwright Docker image, see
+  `.github/workflows/ci.yml`) actually checks against; the `-darwin.png` ones exist purely so a
+  contributor on a Mac gets a meaningful local pass/fail from `pnpm test:visual` too. If you only
+  have a Mac, regenerating the Linux baselines needs a matching container — run
+  `pnpm test:visual:update` inside `mcr.microsoft.com/playwright:<version matching
+  @playwright/test's own devDependency version>-noble`, not on your host OS.
+- A popover-based story (`DatePicker`/`DateRangePicker`'s `Open*` variants) screenshots the whole
+  iframe page rather than a specific element, because `Popover` portals to `document.body` (see
+  `Popover.tsx`), outside Storybook's `#storybook-root`.
+
 ## Conventions
 
 - New component checklist lives in

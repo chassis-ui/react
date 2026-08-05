@@ -1,3 +1,6 @@
+// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
+import storybook from 'eslint-plugin-storybook'
+
 import { defineConfig } from 'eslint/config'
 import eslint from '@eslint/js'
 import globals from 'globals'
@@ -91,8 +94,7 @@ export default defineConfig([
     plugins: testingLibraryPlugin.configs['flat/react'].plugins,
     rules: testingLibraryWarnRules,
     files: ['**/*.spec.ts', '**/*.spec.tsx']
-  },
-  // Enterprise migration (see .claude/plans/chassis-react-enterprise-migration.md, Phase 0/1):
+  }, // Enterprise migration (see .claude/plans/chassis-react-enterprise-migration.md, Phase 0/1):
   // `Cx`-prefixed identifiers were dropped from packages/react/src by Phase 1's scripted rename.
   // Flipped from `warn` to `error` in Phase 1 Batch G, once the rename actually cleared the
   // ~870 pre-existing occurrences — this now guards against reintroducing the prefix rather than
@@ -114,8 +116,7 @@ export default defineConfig([
         }
       ]
     }
-  },
-  // `onValueChange` and `tone` aren't part of this library's vocabulary (see CONVENTIONS.md —
+  }, // `onValueChange` and `tone` aren't part of this library's vocabulary (see CONVENTIONS.md —
   // change props are `onChange`, colors/variants are `color`/`variant`). Zero existing uses as of
   // the Phase 0 audit, so this starts at `error` with nothing to grandfather in.
   {
@@ -140,5 +141,6 @@ export default defineConfig([
     languageOptions: {
       globals: { ...globals.browser }
     }
-  }
+  },
+  ...storybook.configs['flat/recommended']
 ])

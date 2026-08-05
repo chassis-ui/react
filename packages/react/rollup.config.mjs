@@ -58,7 +58,11 @@ export default [
       external({ includeDependencies: true }),
       resolve(),
       typescript({
-        exclude: ['**/__tests__/**'],
+        // Story files import `@storybook/react-vite` (a devDependency this build's tsconfig
+        // doesn't type-check against, same reasoning as excluding `__tests__`) and are never
+        // reachable from `src/index.ts` — excluding them keeps the build free of unreachable-file
+        // type warnings.
+        exclude: ['**/__tests__/**', '**/*.stories.tsx'],
         tsconfig: './tsconfig.json'
       }),
       commonjs({

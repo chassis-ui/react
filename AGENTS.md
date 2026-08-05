@@ -67,6 +67,14 @@ disclosed build-tooling CVE would make the gate chronically red). The full `pnpm
 (static site generation, not just type-checking) still isn't part of CI, for the Sass reason
 above — run it locally before relying on it being caught automatically.
 
+A separate `visual-regression` job runs `pnpm test:visual` (Storybook + Playwright screenshot
+tests scoped to the calendar/datepicker family today — see
+[`packages/react/AGENTS.md`](packages/react/AGENTS.md#visual-regression)) inside the official
+Playwright Docker image, so the rendered pixels match the checked-in Linux baseline screenshots.
+That image tag has to stay in lockstep with the `@playwright/test` devDependency version in
+`packages/react/package.json` — bumping one without the other risks font/rendering drift that
+looks like a regression but isn't.
+
 ## Where things live
 
 - Component source + tests: `packages/react/src/components/**`

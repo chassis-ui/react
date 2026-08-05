@@ -61,3 +61,12 @@ lerna-debug.log*
 # deploy
 .vercel
 .netlify
+
+*storybook.log
+storybook-static
+
+# Playwright (visual regression tests, see packages/react/visual-tests/) — transient run output,
+# not the *-snapshots/ baseline images, which are checked in.
+test-results/
+playwright-report/
+playwright/.cache/

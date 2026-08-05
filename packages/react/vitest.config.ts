@@ -29,7 +29,10 @@ export default defineConfig({
       // thresholds were tuned against under ts-jest.
       provider: 'istanbul',
       include: ['src/**/*.ts', 'src/**/*.tsx'],
-      exclude: ['src/**/*.spec.tsx'],
+      // Storybook story files are never executed by this test suite (Playwright's own visual
+      // tests exercise them separately, against a built Storybook, not through vitest) — counting
+      // them here would drag coverage down purely from being unexecuted, not undertested.
+      exclude: ['src/**/*.spec.tsx', 'src/**/*.stories.tsx'],
       // Re-baselined after the CxButton-pattern test modernization pass (see the plan at
       // .claude/plans/abstract-snacking-tome.md): behavioral coverage across the suite pushed
       // real numbers up from the ts-jest-era baseline (statements 89.49%, branches 74.74%,
