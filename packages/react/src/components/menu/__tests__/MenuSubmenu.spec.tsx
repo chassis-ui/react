@@ -1,8 +1,15 @@
 import * as React from 'react'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Menu, MenuList, MenuItem, MenuSubmenu, MenuSubmenuBack } from '../../../index'
+import {
+  I18nProvider,
+  Menu,
+  MenuList,
+  MenuItem,
+  MenuSubmenu,
+  MenuSubmenuBack
+} from '../../../index'
 
 // The nested submenu panel is a `.menu` div with role="menu" (see MenuList), but a menu can
 // have several nested submenus open/closed at once, each with that same role — disambiguating
@@ -13,6 +20,18 @@ const getNestedMenu = (itemText: string) =>
   screen.getByText(itemText).closest('.menu') as HTMLElement
 
 describe('MenuSubmenu', () => {
+  // jsdom never runs real layout — offsetWidth/offsetHeight/getClientRects() are always zero for
+  // every element, regardless of what's actually rendered — but menuNavigation's `isVisible`
+  // filter (used by focus-on-open) depends on non-zero dimensions to tell a hidden item from a
+  // shown one. Stub a non-zero offsetHeight file-wide so the "focuses the first item" assertions
+  // below exercise the real focus call instead of silently seeing an always-empty items list.
+  beforeEach(() => {
+    vi.spyOn(HTMLElement.prototype, 'offsetHeight', 'get').mockReturnValue(1)
+  })
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
   describe('rendering', () => {
     test('matches the baseline markup snapshot and renders the submenu wrapper', () => {
       const { container } = render(
@@ -126,6 +145,104 @@ describe('MenuSubmenu', () => {
       fireEvent.click(screen.getByText('Back'))
       expect(nestedMenu).not.toHaveClass('show')
       expect(trigger).toHaveFocus()
+    })
+  })
+
+  describe('keyboard navigation', () => {
+    test('ArrowRight on the trigger opens the submenu and focuses its first item; ArrowLeft on an item closes it and refocuses the trigger', async () => {
+      render(
+        <Menu visible>
+          <MenuList>
+            <MenuSubmenu trigger="File">
+              <MenuItem href="#">New</MenuItem>
+            </MenuSubmenu>
+          </MenuList>
+        </Menu>
+      )
+      const trigger = screen.getByText('File')
+      const nestedMenu = getNestedMenu('New')
+
+      trigger.focus()
+      fireEvent.keyDown(trigger, { key: 'ArrowRight' })
+      expect(nestedMenu).toHaveClass('show')
+      await waitFor(() => expect(screen.getByText('New')).toHaveFocus())
+
+      fireEvent.keyDown(screen.getByText('New'), { key: 'ArrowLeft' })
+      expect(nestedMenu).not.toHaveClass('show')
+      expect(trigger).toHaveFocus()
+    })
+
+    test('placement defaults to right-start under an LTR locale', () => {
+      render(
+        <Menu visible>
+          <MenuList>
+            <MenuSubmenu trigger="File">
+              <MenuItem>New</MenuItem>
+            </MenuSubmenu>
+          </MenuList>
+        </Menu>
+      )
+      expect(getNestedMenu('New')).toHaveAttribute('data-cx-placement', 'right-start')
+    })
+  })
+
+  describe('RTL locale', () => {
+    test('placement defaults to left-start, and ArrowLeft/ArrowRight swap roles', async () => {
+      render(
+        <I18nProvider locale="ar-SA">
+          <Menu visible>
+            <MenuList>
+              <MenuSubmenu trigger="File">
+                <MenuItem href="#">New</MenuItem>
+              </MenuSubmenu>
+            </MenuList>
+          </Menu>
+        </I18nProvider>
+      )
+      const trigger = screen.getByText('File')
+      const nestedMenu = getNestedMenu('New')
+      expect(nestedMenu).toHaveAttribute('data-cx-placement', 'left-start')
+
+      trigger.focus()
+      fireEvent.keyDown(trigger, { key: 'ArrowLeft' })
+      expect(nestedMenu).toHaveClass('show')
+      await waitFor(() => expect(screen.getByText('New')).toHaveFocus())
+
+      fireEvent.keyDown(screen.getByText('New'), { key: 'ArrowRight' })
+      expect(nestedMenu).not.toHaveClass('show')
+      expect(trigger).toHaveFocus()
+    })
+
+    test('an explicit placement prop still wins over the locale-based default', () => {
+      render(
+        <I18nProvider locale="ar-SA">
+          <Menu visible>
+            <MenuList>
+              <MenuSubmenu placement="right-start" trigger="File">
+                <MenuItem>New</MenuItem>
+              </MenuSubmenu>
+            </MenuList>
+          </Menu>
+        </I18nProvider>
+      )
+      expect(getNestedMenu('New')).toHaveAttribute('data-cx-placement', 'right-start')
+    })
+
+    test('has no axe violations when open', async () => {
+      const { container } = render(
+        <I18nProvider locale="ar-SA">
+          <Menu visible>
+            <MenuList>
+              <MenuSubmenu trigger="File">
+                <MenuItem href="#">New</MenuItem>
+                <MenuItem href="#">Open</MenuItem>
+              </MenuSubmenu>
+            </MenuList>
+          </Menu>
+        </I18nProvider>
+      )
+      fireEvent.click(screen.getByText('File'))
+      expect(await axe(container)).toHaveNoViolations()
     })
   })
 

@@ -2,7 +2,7 @@ import * as React from 'react'
 import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Breadcrumb, BreadcrumbItem } from '../../../index'
+import { Breadcrumb, BreadcrumbItem, I18nProvider } from '../../../index'
 
 describe('Breadcrumb', () => {
   describe('rendering', () => {
@@ -60,6 +60,22 @@ describe('Breadcrumb', () => {
         <Breadcrumb items={[{ label: 'Home', href: '#' }, { label: 'Data' }]} />
       )
       expect(await axe(container)).toHaveNoViolations()
+    })
+  })
+
+  describe('RTL locale', () => {
+    // The item separator is a pure CSS ::before on .breadcrumb-item (chassis-css owns any
+    // [dir=rtl] mirroring there) — nothing in this component's own markup or logic is
+    // direction-dependent. Documents that audit finding as an executable check.
+    test('renders the same way as under LTR', () => {
+      render(
+        <I18nProvider locale="ar-SA">
+          <Breadcrumb items={[{ label: 'Home', href: '#' }, { label: 'Data' }]} />
+        </I18nProvider>
+      )
+      expect(screen.getByRole('link', { name: 'Home' })).toBeInTheDocument()
+      const items = screen.getAllByRole('listitem')
+      expect(items[items.length - 1]).toHaveTextContent('Data')
     })
   })
 })

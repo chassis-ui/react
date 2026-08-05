@@ -37,14 +37,19 @@ export const focusMenuItem = (items: HTMLElement[], target: 'first' | 'last') =>
 
 export interface MenuKeyDownOptions {
   onArrowLeft?: () => void
+  onArrowRight?: () => void
   onEscape?: () => void
 }
 
 // Scoped to `event.currentTarget` (the `.menu` element the handler is bound to), so the same
 // function drives keyboard navigation for both the top-level menu and any nested submenu list.
+// `onArrowLeft`/`onArrowRight` are both optional and independent (rather than a single
+// direction-agnostic "close" callback) so a caller under an RTL locale can wire the one that
+// actually points back toward the trigger — see `MenuSubmenu`, the only current consumer of
+// either.
 export const handleMenuKeyDown = (
   event: React.KeyboardEvent<HTMLElement>,
-  { onArrowLeft, onEscape }: MenuKeyDownOptions
+  { onArrowLeft, onArrowRight, onEscape }: MenuKeyDownOptions
 ): void => {
   const menu = event.currentTarget
   const target = event.target as HTMLElement
@@ -85,6 +90,13 @@ export const handleMenuKeyDown = (
       event.preventDefault()
       event.stopPropagation()
       onArrowLeft()
+      return
+    }
+    case 'ArrowRight': {
+      if (!onArrowRight) return
+      event.preventDefault()
+      event.stopPropagation()
+      onArrowRight()
       return
     }
     default:

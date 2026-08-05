@@ -2,7 +2,7 @@ import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Carousel, CarouselCaption, CarouselItem } from '../../../index'
+import { Carousel, CarouselCaption, CarouselItem, I18nProvider } from '../../../index'
 
 const ThreeItemCarousel = (props: Partial<React.ComponentProps<typeof Carousel>> = {}) => (
   <Carousel controls indicators {...props}>
@@ -130,6 +130,30 @@ describe('Carousel', () => {
     test('has no axe violations', async () => {
       const { container } = render(<ThreeItemCarousel />)
       expect(await axe(container)).toHaveNoViolations()
+    })
+  })
+
+  describe('RTL locale', () => {
+    // The prev/next controls carry no hardcoded left/right of their own (`.carousel-control-prev`/
+    // `-next` — logical, chassis-css-driven classes, mirrored by chassis-css's own `[dir=rtl]`
+    // rules), so under an RTL locale the component should render and behave identically; this
+    // documents that audit finding as an executable check rather than only a plan note.
+    test('renders and navigates the same way as under LTR', () => {
+      render(
+        <I18nProvider locale="ar-SA">
+          <ThreeItemCarousel />
+        </I18nProvider>
+      )
+      const item1 = screen.getByText('Item-1')
+      const item2 = screen.getByText('Item-2')
+      expect(item1).toHaveClass('active')
+
+      fireEvent.click(screen.getByRole('button', { name: 'Next slide' }))
+      fireEvent.transitionEnd(item1)
+      fireEvent.transitionEnd(item2)
+
+      expect(item1).not.toHaveClass('active')
+      expect(item2).toHaveClass('active')
     })
   })
 })

@@ -2,7 +2,7 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Accordion, AccordionItem } from '../../../index'
+import { Accordion, AccordionItem, I18nProvider } from '../../../index'
 
 describe('Accordion', () => {
   describe('rendering', () => {
@@ -79,6 +79,22 @@ describe('Accordion', () => {
         />
       )
       expect(await axe(container)).toHaveNoViolations()
+    })
+  })
+
+  describe('RTL locale', () => {
+    // Built on native <details>/<summary> with no left/right-directional JS of its own — the
+    // expand/collapse caret is a pure CSS marker, not something this component computes. Documents
+    // that audit finding as an executable check rather than only a plan note.
+    test('renders and expands the same way as under LTR', () => {
+      render(
+        <I18nProvider locale="ar-SA">
+          <Accordion items={[{ id: 'a', header: 'Header A', body: 'Body A', open: true }]} />
+        </I18nProvider>
+      )
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(screen.getByText('Header A').closest('details')).toHaveAttribute('open')
+      expect(screen.getByText('Body A')).toBeInTheDocument()
     })
   })
 })

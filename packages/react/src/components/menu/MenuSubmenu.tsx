@@ -11,7 +11,7 @@ import React, {
 } from 'react'
 import { createPortal } from 'react-dom'
 import classNames from 'classnames'
-import { useOverlayPosition } from 'react-aria'
+import { useLocale, useOverlayPosition } from 'react-aria'
 
 import { MenuContext } from './Menu'
 import { Placement, resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
@@ -38,7 +38,10 @@ export interface MenuSubmenuProps extends Omit<HTMLAttributes<HTMLDivElement>, '
    */
   offset?: [number, number]
   /**
-   * Placement of the nested menu relative to the trigger.
+   * Placement of the nested menu relative to the trigger. Defaults to cascading in the reading
+   * direction — `'right-start'` under LTR locales, `'left-start'` under RTL ones (see
+   * `useLocale`) — matching native OS/browser submenu behavior. An explicit value always wins
+   * over that locale-based default.
    */
   placement?: Placement
   /**
@@ -64,7 +67,7 @@ export const MenuSubmenu = forwardRef<HTMLDivElement, MenuSubmenuProps>(
       className,
       disabled,
       offset: offsetProp = [-4, 0],
-      placement = 'right-start',
+      placement,
       stacked,
       submenuDelay = 100,
       trigger,
@@ -86,6 +89,9 @@ export const MenuSubmenu = forwardRef<HTMLDivElement, MenuSubmenuProps>(
     const parentGroup = useContext(SubmenuGroupContext)
     const ownGroup = useSubmenuGroupProvider()
     const { visible: parentMenuVisible } = useContext(MenuContext)
+    const { direction } = useLocale()
+    const isRtl = direction === 'rtl'
+    const effectivePlacement = placement ?? (isRtl ? 'left-start' : 'right-start')
 
     const { overlayProps, placement: resolvedPlacement } = useOverlayPosition({
       targetRef: triggerRef,
@@ -94,7 +100,7 @@ export const MenuSubmenu = forwardRef<HTMLDivElement, MenuSubmenuProps>(
       // menu's own floated panel, and `useOverlayPosition` measures against the overlay's real
       // containing block — since the panel portals straight to `document.body`, that resolves
       // the same way a `fixed`-strategy engine would.
-      placement: toAriaPlacement(placement),
+      placement: toAriaPlacement(effectivePlacement),
       offset: offsetProp[1],
       crossOffset: offsetProp[0],
       containerPadding: 8,
@@ -106,7 +112,7 @@ export const MenuSubmenu = forwardRef<HTMLDivElement, MenuSubmenuProps>(
       top: overlayProps.style?.top,
       left: overlayProps.style?.left
     }
-    const placementAttr = resolveDataPlacement(placement, resolvedPlacement)
+    const placementAttr = resolveDataPlacement(effectivePlacement, resolvedPlacement)
 
     const clearCloseTimeout = useCallback(() => {
       if (closeTimeoutRef.current !== undefined) {
@@ -168,9 +174,14 @@ export const MenuSubmenu = forwardRef<HTMLDivElement, MenuSubmenuProps>(
       visible ? close() : openAndFocusFirst()
     }
 
+    // A submenu cascades toward the reading direction, so the arrow key that opens it (and the
+    // one its own item list closes on, below) mirror too: ArrowRight/ArrowLeft under LTR,
+    // ArrowLeft/ArrowRight under RTL.
+    const openKey = isRtl ? 'ArrowLeft' : 'ArrowRight'
+
     const handleTriggerKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
       if (disabled) return
-      if (event.key === 'Enter' || event.key === ' ' || event.key === 'ArrowRight') {
+      if (event.key === 'Enter' || event.key === ' ' || event.key === openKey) {
         event.preventDefault()
         event.stopPropagation()
         openAndFocusFirst()
@@ -213,7 +224,9 @@ export const MenuSubmenu = forwardRef<HTMLDivElement, MenuSubmenuProps>(
               onKeyDown={(event) =>
                 handleMenuKeyDown(event, {
                   onEscape: closeAndRefocusTrigger,
-                  onArrowLeft: closeAndRefocusTrigger
+                  ...(isRtl
+                    ? { onArrowRight: closeAndRefocusTrigger }
+                    : { onArrowLeft: closeAndRefocusTrigger })
                 })
               }
               onMouseEnter={hoverEnabled ? clearCloseTimeout : undefined}

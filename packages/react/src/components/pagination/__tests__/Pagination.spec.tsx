@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 
-import { Pagination, PaginationItem } from '../../../index'
+import { I18nProvider, Pagination, PaginationItem } from '../../../index'
 
 describe('Pagination', () => {
   describe('rendering', () => {
@@ -114,6 +114,23 @@ describe('Pagination', () => {
         <Pagination activePage={2} pages={3} onActivePageChange={vi.fn()} />
       )
       expect(await axe(container)).toHaveNoViolations()
+    })
+  })
+
+  describe('RTL locale', () => {
+    // Prev/Next are labeled "Previous"/"Next" (logical, chassis-css-driven `.page-link` styling)
+    // rather than hardcoded to a physical side — nothing in this component's own logic is
+    // direction-dependent. Documents that audit finding as an executable check.
+    test('renders and paginates the same way as under LTR', async () => {
+      const user = userEvent.setup()
+      const onActivePageChange = vi.fn()
+      render(
+        <I18nProvider locale="ar-SA">
+          <Pagination activePage={1} pages={3} onActivePageChange={onActivePageChange} />
+        </I18nProvider>
+      )
+      await user.click(screen.getByRole('button', { name: 'Next' }))
+      expect(onActivePageChange).toHaveBeenCalledWith(2)
     })
   })
 })
