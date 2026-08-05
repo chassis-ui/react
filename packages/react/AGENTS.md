@@ -21,7 +21,11 @@ calendar grid), which inject scoped CSS via `rollup-plugin-postcss`.
   shared `form`/`form-field` render helpers). It documents two non-interchangeable shared render
   engines and several non-obvious rules that are easy to violate by copy-pasting from the wrong
   sibling component.
-- `src/utils/hooks` — shared hooks (e.g. `useForkedRef`) used across components.
+- `src/hooks` — shared hooks (e.g. `useForkedRef`) used across components.
+- `THEMING.md` — how a consuming app re-themes the library: which `@chassis-ui/css`/
+  `@chassis-ui/tokens` surface is the supported override point, versus internal values that could
+  change without notice. Read this before adding component-scoped CSS (see the calendar/datepicker
+  family) or documenting a "how to customize" story for consumers.
 - `src/index.ts` — the public API surface. Every exported component/helper needs **two** entries
   here: an `import` line (from the component's folder barrel, not the component file) and a
   matching entry in the trailing `export { ... }` block. Forgetting either means it silently isn't
