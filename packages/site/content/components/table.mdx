@@ -17,7 +17,7 @@ import { ResponsiveExample } from '../../src/examples/table/ResponsiveExample.ts
 
 ## Overview
 
-`Table` is a real ARIA grid (`role="grid"`) — arrow keys move focus between cells, columns can be sortable, and rows can be selectable, all handled by React Aria's table hooks. Composing it uses `Table.Header`/`Table.Column`/`Table.Body`/`Table.Row`/`Table.Cell` as data — read to build the table's collection — rather than plain `<thead>`/`<tbody>` JSX. `Table` renders the real `<table>` markup itself from that collection.
+`Table` is a real ARIA grid (`role="grid"`) — arrow keys move focus between cells, columns can be sortable, and rows can be selectable, all handled by React Aria's table hooks. Composing it uses `TableHeader`/`TableColumn`/`TableBody`/`TableRow`/`TableCell` as data — read to build the table's collection — rather than plain `<thead>`/`<tbody>` JSX. `Table` renders the real `<table>` markup itself from that collection.
 
 This is a deliberate trade: the authoring model is less "just markup" than most of the rest of Chassis React, in exchange for real sorting, selection, and keyboard grid navigation you'd otherwise have to hand-roll.
 
@@ -27,7 +27,7 @@ This is a deliberate trade: the authoring model is less "just markup" than most 
 
 ## Dynamic columns and rows
 
-Both `Table.Header` and `Table.Body` also accept a `columns`/`items` array plus a render function, for columns and rows built from data rather than written out by hand.
+Both `TableHeader` and `TableBody` also accept a `columns`/`items` array plus a render function, for columns and rows built from data rather than written out by hand.
 
 <Example>
   <DynamicExample client:load />
@@ -35,7 +35,7 @@ Both `Table.Header` and `Table.Body` also accept a `columns`/`items` array plus 
 
 ## Sorting
 
-Add `allowsSorting` to a `Table.Column` to make it clickable (and keyboard-activatable). `Table` doesn't sort your data itself — it reports the requested column/direction via `onSortChange`, so pair it with `sortDescriptor` and sort the array yourself, as in the example below.
+Add `allowsSorting` to a `TableColumn` to make it clickable (and keyboard-activatable). `Table` doesn't sort your data itself — it reports the requested column/direction via `onSortChange`, so pair it with `sortDescriptor` and sort the array yourself, as in the example below.
 
 <Example>
   <SortingExample client:load />
@@ -88,22 +88,22 @@ Wrap in a responsive container with the `responsive` prop — `true` for all vie
 
 <PropTable component="Table" />
 
-### Table.Header
+### TableHeader
 
 <PropTable component="TableHeader" />
 
-### Table.Column
+### TableColumn
 
 <PropTable component="TableColumn" />
 
-### Table.Body
+### TableBody
 
 <PropTable component="TableBody" />
 
-### Table.Row
+### TableRow
 
 <PropTable component="TableRow" />
 
-### Table.Cell
+### TableCell
 
 <PropTable component="TableCell" />

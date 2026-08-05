@@ -55,7 +55,7 @@ import { Checkbox, CheckboxGroup } from './components/checkbox'
 import { Form, FormFeedback, FormHelp, FormLabel } from './components/form'
 import { FloatingInput } from './components/floating-input'
 import { FormField } from './components/form-field'
-import { InputGroup } from './components/input-group'
+import { InputGroup, InputGroupAddon } from './components/input-group'
 import { InputAdorn } from './components/input-adorn'
 import { Radio, RadioGroup } from './components/radio'
 import { RangeInput } from './components/range-input'
@@ -76,15 +76,8 @@ import { Popover } from './components/popover'
 import { Progress, ProgressBar } from './components/progress'
 import { Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerTitle } from './components/drawer'
 import { Spinner } from './components/spinner'
-import { Table } from './components/table'
-import {
-  Tabs,
-  TabsTab,
-  TabsList,
-  TabsPanel,
-  TabContent,
-  TabPane
-} from './components/tabs'
+import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from './components/table'
+import { Tabs, TabsTab, TabsList, TabsPanel, TabContent, TabPane } from './components/tabs'
 import {
   Toast,
   ToastBody,
@@ -181,6 +174,7 @@ export {
   Icon,
   Image,
   InputGroup,
+  InputGroupAddon,
   InputAdorn,
   Link,
   List,
@@ -217,6 +211,11 @@ export {
   Spinner,
   Switch,
   Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
   Tabs,
   TabsTab,
   TabsList,

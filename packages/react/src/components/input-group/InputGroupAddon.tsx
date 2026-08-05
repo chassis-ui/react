@@ -1,7 +1,7 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-export interface InputAddonProps extends HTMLAttributes<HTMLLabelElement | HTMLSpanElement> {
+export interface InputGroupAddonProps extends HTMLAttributes<HTMLLabelElement | HTMLSpanElement> {
   /**
    * A string of all className you want applied to the component.
    */
@@ -12,7 +12,7 @@ export interface InputAddonProps extends HTMLAttributes<HTMLLabelElement | HTMLS
   component?: string | ElementType
 }
 
-export const InputAddon = forwardRef<HTMLLabelElement | HTMLSpanElement, InputAddonProps>(
+export const InputGroupAddon = forwardRef<HTMLLabelElement | HTMLSpanElement, InputGroupAddonProps>(
   ({ children, className, component: Component = 'span', ...rest }, ref) => {
     const _className = classNames('input-addon', className)
     return (
@@ -23,4 +23,4 @@ export const InputAddon = forwardRef<HTMLLabelElement | HTMLSpanElement, InputAd
   }
 )
 
-InputAddon.displayName = 'InputAddon'
+InputGroupAddon.displayName = 'InputGroupAddon'

@@ -9,7 +9,8 @@ import {
   FormLabel,
   Select,
   InputGroup,
-  Col
+  Col,
+  InputGroupAddon
 } from '@chassis-ui/react'
 
 export const CustomStylesExample = () => {
@@ -42,7 +43,7 @@ export const CustomStylesExample = () => {
       <Col md={4}>
         <FormLabel htmlFor="validationCustomUsername">Username</FormLabel>
         <InputGroup className="has-validation">
-          <InputGroup.Addon id="inputGroupPrepend">@</InputGroup.Addon>
+          <InputGroupAddon id="inputGroupPrepend">@</InputGroupAddon>
           <TextInput
             type="text"
             id="validationCustomUsername"

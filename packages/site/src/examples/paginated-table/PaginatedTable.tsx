@@ -1,5 +1,15 @@
 import { useState, type ChangeEvent } from 'react'
-import { Table, Pagination, Select, Badge } from '@chassis-ui/react'
+import {
+  Table,
+  Pagination,
+  Select,
+  Badge,
+  TableHeader,
+  TableColumn,
+  TableBody,
+  TableRow,
+  TableCell
+} from '@chassis-ui/react'
 
 export const PaginatedTable = () => {
   const allUsers = [
@@ -58,24 +68,22 @@ export const PaginatedTable = () => {
         </div>
       </div>
       <Table aria-label="Users" hover>
-        <Table.Header columns={columns}>
-          {(column) => <Table.Column key={column.key}>{column.label}</Table.Column>}
-        </Table.Header>
-        <Table.Body items={rows}>
+        <TableHeader columns={columns}>
+          {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
+        </TableHeader>
+        <TableBody items={rows}>
           {(row) => (
-            <Table.Row key={row.id}>
+            <TableRow key={row.id}>
               {(columnKey) => {
                 const column = columns.find((c) => c.key === columnKey)
                 const value = row[columnKey as keyof typeof row]
                 return (
-                  <Table.Cell>
-                    {column?.render ? column.render(String(value)) : value}
-                  </Table.Cell>
+                  <TableCell>{column?.render ? column.render(String(value)) : value}</TableCell>
                 )
               }}
-            </Table.Row>
+            </TableRow>
           )}
-        </Table.Body>
+        </TableBody>
       </Table>
       <div className="d-flex justify-content-end mt-3">
         <Pagination

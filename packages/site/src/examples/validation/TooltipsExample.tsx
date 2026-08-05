@@ -8,7 +8,8 @@ import {
   FormLabel,
   Select,
   InputGroup,
-  Col
+  Col,
+  InputGroupAddon
 } from '@chassis-ui/react'
 
 export const TooltipsExample = () => {
@@ -45,7 +46,7 @@ export const TooltipsExample = () => {
       <Col md={4} className="position-relative">
         <FormLabel htmlFor="validationTooltipUsername">Username</FormLabel>
         <InputGroup className="has-validation">
-          <InputGroup.Addon id="inputGroupPrepend">@</InputGroup.Addon>
+          <InputGroupAddon id="inputGroupPrepend">@</InputGroupAddon>
           <TextInput
             type="text"
             id="validationTooltipUsername"

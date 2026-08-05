@@ -9,7 +9,8 @@ import {
   FormLabel,
   Select,
   InputGroup,
-  Col
+  Col,
+  InputGroupAddon
 } from '@chassis-ui/react'
 
 export const BrowserDefaultsExample = () => {
@@ -37,7 +38,7 @@ export const BrowserDefaultsExample = () => {
       <Col md={4}>
         <FormLabel htmlFor="validationDefaultUsername">Username</FormLabel>
         <InputGroup className="has-validation">
-          <InputGroup.Addon id="inputGroupPrepend02">@</InputGroup.Addon>
+          <InputGroupAddon id="inputGroupPrepend02">@</InputGroupAddon>
           <TextInput
             type="text"
             id="validationDefaultUsername"

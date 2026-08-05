@@ -29,7 +29,7 @@ Place one add-on or button on either side of an input. You may also place one on
 
 <Example class="vstack gap-medium">
   <InputGroup className="mb-medium">
-    <InputGroup.Addon id="basic-addon1">@</InputGroup.Addon>
+    <InputGroupAddon id="basic-addon1">@</InputGroupAddon>
     <TextInput placeholder="Username" aria-label="Username" aria-describedby="basic-addon1"/>
   </InputGroup>
 
@@ -39,29 +39,29 @@ Place one add-on or button on either side of an input. You may also place one on
       aria-label="Recipient's username"
       aria-describedby="basic-addon2"
     />
-    <InputGroup.Addon id="basic-addon2">@example.com</InputGroup.Addon>
+    <InputGroupAddon id="basic-addon2">@example.com</InputGroupAddon>
   </InputGroup>
 
   <FormLabel htmlFor="basic-url">Your vanity URL</FormLabel>
   <InputGroup className="mb-medium">
-    <InputGroup.Addon id="basic-addon3">https://example.com/users/</InputGroup.Addon>
+    <InputGroupAddon id="basic-addon3">https://example.com/users/</InputGroupAddon>
     <TextInput id="basic-url" aria-describedby="basic-addon3" />
   </InputGroup>
 
   <InputGroup className="mb-medium">
-    <InputGroup.Addon>$</InputGroup.Addon>
+    <InputGroupAddon>$</InputGroupAddon>
     <TextInput aria-label="Amount (to the nearest dollar)" />
-    <InputGroup.Addon>.00</InputGroup.Addon>
+    <InputGroupAddon>.00</InputGroupAddon>
   </InputGroup>
 
   <InputGroup className="mb-medium">
     <TextInput placeholder="Username" aria-label="Username" />
-    <InputGroup.Addon>@</InputGroup.Addon>
+    <InputGroupAddon>@</InputGroupAddon>
     <TextInput placeholder="Server" aria-label="Server" />
   </InputGroup>
 
   <InputGroup>
-    <InputGroup.Addon>With textarea</InputGroup.Addon>
+    <InputGroupAddon>With textarea</InputGroupAddon>
     <Textarea aria-label="With textarea"></Textarea>
   </InputGroup>
 </Example>
@@ -72,7 +72,7 @@ Input groups wrap by default via `flex-wrap: wrap` in order to accommodate custo
 
 <Example>
   <InputGroup className="flex-nowrap">
-    <InputGroup.Addon id="addon-wrapping">@</InputGroup.Addon>
+    <InputGroupAddon id="addon-wrapping">@</InputGroupAddon>
     <TextInput placeholder="Username" aria-label="Username" aria-describedby="addon-wrapping" />
   </InputGroup>
 </Example>
@@ -85,17 +85,17 @@ Add the relative form sizing classes to the `<InputGroup>` itself and contents w
 
 <Example>
   <InputGroup size="small" className="mb-medium">
-    <InputGroup.Addon id="inputGroup-sizing-small">Small</InputGroup.Addon>
+    <InputGroupAddon id="inputGroup-sizing-small">Small</InputGroupAddon>
     <TextInput aria-label="Sizing example input" aria-describedby="inputGroup-sizing-small"/>
   </InputGroup>
 
   <InputGroup className="mb-medium">
-    <InputGroup.Addon id="inputGroup-sizing-default">Default</InputGroup.Addon>
+    <InputGroupAddon id="inputGroup-sizing-default">Default</InputGroupAddon>
     <TextInput aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
   </InputGroup>
 
   <InputGroup size="large">
-    <InputGroup.Addon id="inputGroup-sizing-large">Large</InputGroup.Addon>
+    <InputGroupAddon id="inputGroup-sizing-large">Large</InputGroupAddon>
     <TextInput aria-label="Sizing example input" aria-describedby="inputGroup-sizing-large"/>
   </InputGroup>
 </Example>
@@ -114,7 +114,7 @@ While multiple `<TextInput>`s are supported visually, validation styles are only
 
 <Example>
   <InputGroup>
-    <InputGroup.Addon>First and last name</InputGroup.Addon>
+    <InputGroupAddon>First and last name</InputGroupAddon>
     <TextInput aria-label="First name" />
     <TextInput aria-label="Last name" />
   </InputGroup>
@@ -126,15 +126,15 @@ Multiple add-ons are supported and can be mixed with checkbox and radio input ve
 
 <Example>
   <InputGroup className="mb-medium">
-    <InputGroup.Addon>$</InputGroup.Addon>
-    <InputGroup.Addon>0.00</InputGroup.Addon>
+    <InputGroupAddon>$</InputGroupAddon>
+    <InputGroupAddon>0.00</InputGroupAddon>
     <TextInput aria-label="Dollar amount (with dot and two decimal places)"/>
   </InputGroup>
 
   <InputGroup>
     <TextInput aria-label="Dollar amount (with dot and two decimal places)"/>
-    <InputGroup.Addon>$</InputGroup.Addon>
-    <InputGroup.Addon>0.00</InputGroup.Addon>
+    <InputGroupAddon>$</InputGroupAddon>
+    <InputGroupAddon>0.00</InputGroupAddon>
   </InputGroup>
 </Example>
 
@@ -194,7 +194,7 @@ Input groups include support for custom selects and custom file inputs. Browser 
 
 <Example>
   <InputGroup className="mb-medium">
-    <InputGroup.Addon component="label" htmlFor="inputGroupSelect01">Options</InputGroup.Addon>
+    <InputGroupAddon component="label" htmlFor="inputGroupSelect01">Options</InputGroupAddon>
     <Select id="inputGroupSelect01">
       <option>Choose...</option>
       <option value="1">One</option>
@@ -210,9 +210,9 @@ Input groups include support for custom selects and custom file inputs. Browser 
       <option value="2">Two</option>
       <option value="3">Three</option>
     </Select>
-    <InputGroup.Addon component="label" htmlFor="inputGroupSelect02">
+    <InputGroupAddon component="label" htmlFor="inputGroupSelect02">
       Options
-    </InputGroup.Addon>
+    </InputGroupAddon>
   </InputGroup>
 
   <InputGroup className="mb-medium">
@@ -242,15 +242,15 @@ Input groups include support for custom selects and custom file inputs. Browser 
 
 <Example>
   <InputGroup className="mb-medium">
-    <InputGroup.Addon component="label" htmlFor="inputGroupFile01">Upload</InputGroup.Addon>
+    <InputGroupAddon component="label" htmlFor="inputGroupFile01">Upload</InputGroupAddon>
     <FileInput id="inputGroupFile01"/>
   </InputGroup>
 
   <InputGroup className="mb-medium">
     <FileInput id="inputGroupFile02" />
-    <InputGroup.Addon component="label" htmlFor="inputGroupFile02">
+    <InputGroupAddon component="label" htmlFor="inputGroupFile02">
       Upload
-    </InputGroup.Addon>
+    </InputGroupAddon>
   </InputGroup>
 
   <InputGroup className="mb-medium">
@@ -275,6 +275,6 @@ Input groups include support for custom selects and custom file inputs. Browser 
 ### InputGroup
 
 <PropTable component="InputGroup" />
-### InputGroup.Addon
+### InputGroupAddon
 
-<PropTable component="InputAddon" />
+<PropTable component="InputGroupAddon" />

@@ -7,7 +7,12 @@ import {
   ProgressBar,
   Table,
   Row,
-  Col
+  Col,
+  TableHeader,
+  TableColumn,
+  TableBody,
+  TableRow,
+  TableCell
 } from '@chassis-ui/react'
 
 export const Dashboard = () => {
@@ -73,24 +78,24 @@ export const Dashboard = () => {
             <CardBody>
               <h5 className="mb-medium">Recent Orders</h5>
               <Table aria-label="Recent orders" hover>
-                <Table.Header columns={orderColumns}>
-                  {(column) => <Table.Column key={column.key}>{column.label}</Table.Column>}
-                </Table.Header>
-                <Table.Body items={orders}>
+                <TableHeader columns={orderColumns}>
+                  {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
+                </TableHeader>
+                <TableBody items={orders}>
                   {(row) => (
-                    <Table.Row key={row.id}>
+                    <TableRow key={row.id}>
                       {(columnKey) => {
                         const column = orderColumns.find((c) => c.key === columnKey)
                         const value = row[columnKey as keyof typeof row]
                         return (
-                          <Table.Cell>
+                          <TableCell>
                             {column?.render ? column.render(String(value)) : value}
-                          </Table.Cell>
+                          </TableCell>
                         )
                       }}
-                    </Table.Row>
+                    </TableRow>
                   )}
-                </Table.Body>
+                </TableBody>
               </Table>
             </CardBody>
           </Card>

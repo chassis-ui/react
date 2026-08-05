@@ -1,4 +1,4 @@
-import { Table } from '@chassis-ui/react'
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from '@chassis-ui/react'
 
 const columns = [
   { id: 'firstName', name: 'First name' },
@@ -14,15 +14,15 @@ const rows = [
 
 export const DynamicExample = () => (
   <Table aria-label="Users">
-    <Table.Header columns={columns}>
-      {(column) => <Table.Column key={column.id}>{column.name}</Table.Column>}
-    </Table.Header>
-    <Table.Body items={rows}>
+    <TableHeader columns={columns}>
+      {(column) => <TableColumn key={column.id}>{column.name}</TableColumn>}
+    </TableHeader>
+    <TableBody items={rows}>
       {(row) => (
-        <Table.Row key={row.id}>
-          {(columnKey) => <Table.Cell>{row[columnKey as keyof typeof row]}</Table.Cell>}
-        </Table.Row>
+        <TableRow key={row.id}>
+          {(columnKey) => <TableCell>{row[columnKey as keyof typeof row]}</TableCell>}
+        </TableRow>
       )}
-    </Table.Body>
+    </TableBody>
   </Table>
 )

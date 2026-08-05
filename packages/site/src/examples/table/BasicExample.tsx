@@ -1,28 +1,28 @@
-import { Table } from '@chassis-ui/react'
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from '@chassis-ui/react'
 
 export const BasicExample = () => (
   <Table aria-label="Users">
-    <Table.Header>
-      <Table.Column key="firstName">First name</Table.Column>
-      <Table.Column key="lastName">Last name</Table.Column>
-      <Table.Column key="handle">Username</Table.Column>
-    </Table.Header>
-    <Table.Body>
-      <Table.Row>
-        <Table.Cell>Mark</Table.Cell>
-        <Table.Cell>Otto</Table.Cell>
-        <Table.Cell>@mdo</Table.Cell>
-      </Table.Row>
-      <Table.Row>
-        <Table.Cell>Jacob</Table.Cell>
-        <Table.Cell>Thornton</Table.Cell>
-        <Table.Cell>@fat</Table.Cell>
-      </Table.Row>
-      <Table.Row>
-        <Table.Cell>Larry</Table.Cell>
-        <Table.Cell>Bird</Table.Cell>
-        <Table.Cell>@twitter</Table.Cell>
-      </Table.Row>
-    </Table.Body>
+    <TableHeader>
+      <TableColumn key="firstName">First name</TableColumn>
+      <TableColumn key="lastName">Last name</TableColumn>
+      <TableColumn key="handle">Username</TableColumn>
+    </TableHeader>
+    <TableBody>
+      <TableRow>
+        <TableCell>Mark</TableCell>
+        <TableCell>Otto</TableCell>
+        <TableCell>@mdo</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell>Jacob</TableCell>
+        <TableCell>Thornton</TableCell>
+        <TableCell>@fat</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell>Larry</TableCell>
+        <TableCell>Bird</TableCell>
+        <TableCell>@twitter</TableCell>
+      </TableRow>
+    </TableBody>
   </Table>
 )

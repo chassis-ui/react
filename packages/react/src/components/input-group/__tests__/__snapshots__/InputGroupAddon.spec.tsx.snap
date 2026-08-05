@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`InputGroup.Addon > rendering > matches the baseline markup snapshot 1`] = `
+exports[`InputGroupAddon > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <span
     class="input-addon"

@@ -1,23 +1,13 @@
-import { Table as TableRoot } from './Table'
-import { TableBody } from './TableBody'
-import { TableCell } from './TableCell'
-import { TableColumn } from './TableColumn'
-import { TableHeader } from './TableHeader'
-import { TableRow } from './TableRow'
-// plop:sub-import
-
-export const Table = Object.assign(TableRoot, {
-  // plop:sub-entry
-  Body: TableBody,
-  Cell: TableCell,
-  Column: TableColumn,
-  Header: TableHeader,
-  Row: TableRow
-})
+export { Table } from './Table'
 export type { TableProps } from './Table'
+export { TableBody } from './TableBody'
 export type { TableBodyProps } from './TableBody'
+export { TableCell } from './TableCell'
 export type { TableCellProps } from './TableCell'
+export { TableColumn } from './TableColumn'
 export type { TableColumnProps } from './TableColumn'
+export { TableHeader } from './TableHeader'
 export type { TableHeaderProps } from './TableHeader'
+export { TableRow } from './TableRow'
 export type { TableRowProps } from './TableRow'
-// plop:sub-type
+// plop:sub-export

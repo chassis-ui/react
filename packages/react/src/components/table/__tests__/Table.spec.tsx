@@ -2,7 +2,7 @@ import * as React from 'react'
 import { act, render, screen, fireEvent, within } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Table } from '../../../index'
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from '../../../index'
 
 const rows = [
   { id: '1', name: 'Mark', username: '@mdo' },
@@ -39,19 +39,19 @@ const BasicTable = ({
     selectionMode={selectionMode}
     sortDescriptor={sortDescriptor}
   >
-    <Table.Header>
-      <Table.Column key="name" allowsSorting>
+    <TableHeader>
+      <TableColumn key="name" allowsSorting>
         Name
-      </Table.Column>
-      <Table.Column key="username">Username</Table.Column>
-    </Table.Header>
-    <Table.Body items={rows}>
+      </TableColumn>
+      <TableColumn key="username">Username</TableColumn>
+    </TableHeader>
+    <TableBody items={rows}>
       {(row) => (
-        <Table.Row key={row.id}>
-          {(columnKey) => <Table.Cell>{row[columnKey as keyof typeof row]}</Table.Cell>}
-        </Table.Row>
+        <TableRow key={row.id}>
+          {(columnKey) => <TableCell>{row[columnKey as keyof typeof row]}</TableCell>}
+        </TableRow>
       )}
-    </Table.Body>
+    </TableBody>
   </Table>
 )
 
@@ -77,14 +77,12 @@ describe('Table', () => {
             </tr>
           }
         >
-          <Table.Header>
-            <Table.Column key="name">Name</Table.Column>
-          </Table.Header>
-          <Table.Body items={rows}>
-            {(row) => (
-              <Table.Row key={row.id}>{() => <Table.Cell>{row.name}</Table.Cell>}</Table.Row>
-            )}
-          </Table.Body>
+          <TableHeader>
+            <TableColumn key="name">Name</TableColumn>
+          </TableHeader>
+          <TableBody items={rows}>
+            {(row) => <TableRow key={row.id}>{() => <TableCell>{row.name}</TableCell>}</TableRow>}
+          </TableBody>
         </Table>
       )
       expect(screen.getByText('List of users')).toBeInTheDocument()
@@ -105,14 +103,12 @@ describe('Table', () => {
           small
           striped
         >
-          <Table.Header>
-            <Table.Column key="name">Name</Table.Column>
-          </Table.Header>
-          <Table.Body items={rows}>
-            {(row) => (
-              <Table.Row key={row.id}>{() => <Table.Cell>{row.name}</Table.Cell>}</Table.Row>
-            )}
-          </Table.Body>
+          <TableHeader>
+            <TableColumn key="name">Name</TableColumn>
+          </TableHeader>
+          <TableBody items={rows}>
+            {(row) => <TableRow key={row.id}>{() => <TableCell>{row.name}</TableCell>}</TableRow>}
+          </TableBody>
         </Table>
       )
       // The responsive wrapper is a plain div with no role/name - no accessible query reaches it.

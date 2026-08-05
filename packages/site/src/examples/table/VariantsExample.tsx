@@ -1,4 +1,4 @@
-import { Table } from '@chassis-ui/react'
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from '@chassis-ui/react'
 
 const rows = [
   { id: 1, name: 'Mark Otto', role: 'Engineer' },
@@ -8,16 +8,16 @@ const rows = [
 
 export const VariantsExample = () => (
   <Table aria-label="Team" bordered hover small striped>
-    <Table.Header>
-      <Table.Column key="name">Name</Table.Column>
-      <Table.Column key="role">Role</Table.Column>
-    </Table.Header>
-    <Table.Body items={rows}>
+    <TableHeader>
+      <TableColumn key="name">Name</TableColumn>
+      <TableColumn key="role">Role</TableColumn>
+    </TableHeader>
+    <TableBody items={rows}>
       {(row) => (
-        <Table.Row key={row.id}>
-          {(columnKey) => <Table.Cell>{row[columnKey as keyof typeof row]}</Table.Cell>}
-        </Table.Row>
+        <TableRow key={row.id}>
+          {(columnKey) => <TableCell>{row[columnKey as keyof typeof row]}</TableCell>}
+        </TableRow>
       )}
-    </Table.Body>
+    </TableBody>
   </Table>
 )
