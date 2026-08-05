@@ -28,6 +28,7 @@
     "test": "pnpm --filter @chassis-ui/react test",
     "test:update": "pnpm --filter @chassis-ui/react test:update",
     "check:astro": "pnpm --filter chassis-react-site astro check",
+    "check:bundle": "pnpm --filter @chassis-ui/react check:bundle",
     "change-version": "node build/change-version.js",
     "sync-submodules": "node build/sync-submodules.js"
   },

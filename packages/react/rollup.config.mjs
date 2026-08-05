@@ -48,7 +48,14 @@ export default [
       }
     ],
     plugins: [
-      external(),
+      // `includeDependencies: true` externalizes everything in `package.json`'s `dependencies`
+      // too, not just `peerDependencies` (its default) — react-aria/react-stately/
+      // react-transition-group/@internationalized/date/classnames are real runtime dependencies
+      // (not devDependencies-only build tooling) and were previously getting bundled directly
+      // into dist/ instead of resolved normally from a consumer's own node_modules, ballooning
+      // bundle size and risking duplicate react-aria context instances if a consumer's app also
+      // uses react-aria directly elsewhere.
+      external({ includeDependencies: true }),
       resolve(),
       typescript({
         exclude: ['**/__tests__/**'],

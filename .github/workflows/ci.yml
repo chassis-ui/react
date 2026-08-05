@@ -29,6 +29,14 @@ jobs:
       - run: pnpm lib:build
       - run: pnpm api:report
 
+      # Guards against the exact class of regression this repo already hit once: react-aria/
+      # react-stately/etc. silently getting bundled into dist/ instead of resolved from a
+      # consumer's own node_modules (see rollup.config.mjs's `includeDependencies: true`) — a
+      # bug that this same Phase 4 item found and fixed, shrinking the gzip bundle from ~344KB to
+      # ~65KB. Thresholds in packages/react/.bundlewatch.config.json carry ~15% headroom over that
+      # corrected baseline.
+      - run: pnpm check:bundle
+
       # Blocking: a vulnerable *runtime* dependency would ship to every consumer of
       # @chassis-ui/react, so this fails the build. Non-blocking: the same audit including
       # devDependencies (build tooling — astro, eslint plugins, sharp, ...) surfaces real findings

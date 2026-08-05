@@ -54,7 +54,10 @@ resolve, check the sibling checkout exists rather than assuming a registry/versi
 --frozen-lockfile`, then `pnpm test` (the react package's vitest suite, including coverage
 thresholds — see [`packages/react/AGENTS.md`](packages/react/AGENTS.md)), then `pnpm lib:build` +
 `pnpm api:report` (fails if the public props/types surface drifted from the checked-in
-`packages/react/api-report.md` — see that package's `AGENTS.md`), then `pnpm audit --prod`
+`packages/react/api-report.md` — see that package's `AGENTS.md`), then `pnpm check:bundle`
+(`packages/react/.bundlewatch.config.json` — fails if `dist/index.js`/`dist/index.es.js` grow
+past ~15% over their current gzip size, catching e.g. a real dependency silently getting bundled
+instead of externalized again), then `pnpm audit --prod`
 (blocking — a vulnerable runtime dependency would ship to every consumer) and a non-blocking
 `pnpm audit` covering devDependencies too (real findings worth tracking, but failing CI on every
 disclosed build-tooling CVE would make the gate chronically red). Linting and the site build are
