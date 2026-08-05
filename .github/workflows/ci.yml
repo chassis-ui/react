@@ -28,3 +28,13 @@ jobs:
       # after publish. See build/check-api-surface.ts.
       - run: pnpm lib:build
       - run: pnpm api:report
+
+      # Blocking: a vulnerable *runtime* dependency would ship to every consumer of
+      # @chassis-ui/react, so this fails the build. Non-blocking: the same audit including
+      # devDependencies (build tooling — astro, eslint plugins, sharp, ...) surfaces real findings
+      # worth tracking, but failing CI on every disclosed dev-tooling CVE (routine, frequent, and
+      # never fully at zero across a repo this size) would make the gate chronically red and
+      # trained-to-ignore rather than actionable.
+      - run: pnpm audit --prod
+      - run: pnpm audit
+        continue-on-error: true

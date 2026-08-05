@@ -51,10 +51,15 @@ resolve, check the sibling checkout exists rather than assuming a registry/versi
 ## CI
 
 `.github/workflows/ci.yml` runs on push to `main`/`develop` and on PRs: `pnpm install
---frozen-lockfile` then `pnpm test` (the react package's vitest suite, including coverage
-thresholds — see [`packages/react/AGENTS.md`](packages/react/AGENTS.md)). Linting and the site
-build are not part of CI yet; run `pnpm lint` and `pnpm site:build` locally before relying on
-them being caught automatically.
+--frozen-lockfile`, then `pnpm test` (the react package's vitest suite, including coverage
+thresholds — see [`packages/react/AGENTS.md`](packages/react/AGENTS.md)), then `pnpm lib:build` +
+`pnpm api:report` (fails if the public props/types surface drifted from the checked-in
+`packages/react/api-report.md` — see that package's `AGENTS.md`), then `pnpm audit --prod`
+(blocking — a vulnerable runtime dependency would ship to every consumer) and a non-blocking
+`pnpm audit` covering devDependencies too (real findings worth tracking, but failing CI on every
+disclosed build-tooling CVE would make the gate chronically red). Linting and the site build are
+not part of CI yet; run `pnpm lint` and `pnpm site:build` locally before relying on them being
+caught automatically.
 
 ## Where things live
 
