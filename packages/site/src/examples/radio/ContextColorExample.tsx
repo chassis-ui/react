@@ -1,9 +1,9 @@
-import { CxRadio, CxRadioGroup } from '@chassis-ui/react'
+import { Radio, RadioGroup } from '@chassis-ui/react'
 
 export const ContextColorExample = () => {
   return (
-    <CxRadioGroup label="Success option" defaultValue="checkSuccess">
-      <CxRadio color="success" value="checkSuccess" label="Success radio" />
-    </CxRadioGroup>
+    <RadioGroup label="Success option" defaultValue="checkSuccess">
+      <Radio color="success" value="checkSuccess" label="Success radio" />
+    </RadioGroup>
   )
 }

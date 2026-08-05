@@ -85,7 +85,7 @@ interface CxDatePickerBaseProps extends Omit<
    */
   isOpen?: boolean
   /**
-   * The field's caption, rendered as a `CxFormLabel` associated with the field group.
+   * The field's caption, rendered as a `FormLabel` associated with the field group.
    */
   label?: ReactNode
   /**
@@ -379,7 +379,7 @@ CxDatePickerSingle.displayName = 'CxDatePickerSingle'
 // assembled from the same lower-level pieces already used elsewhere in this codebase:
 // `useOverlayTriggerState` for open/close (the same `OverlayTriggerState` shape
 // `useOverlayPlacement`/`CalendarToggleButton` already expect, so both are reused unchanged), the
-// manual controlled/uncontrolled pattern `CxChipInput` already uses for its own array value, and
+// manual controlled/uncontrolled pattern `ChipInput` already uses for its own array value, and
 // a read-only comma-separated field in place of `DateField`'s editable segments.
 const CxDatePickerMultiple = ({
   className,

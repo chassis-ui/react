@@ -1,12 +1,12 @@
 import { useState } from 'react'
-import { CxTextInput, CxFormField, CxPasswordStrength } from '@chassis-ui/react'
+import { TextInput, FormField, PasswordStrength } from '@chassis-ui/react'
 
 export const BasicExample = () => {
   const [password, setPassword] = useState('')
 
   return (
-    <CxFormField label="Password" ids={{ input: 'password1' }}>
-      <CxTextInput
+    <FormField label="Password" ids={{ input: 'password1' }}>
+      <TextInput
         autoComplete="new-password"
         id="password1"
         onChange={setPassword}
@@ -14,7 +14,7 @@ export const BasicExample = () => {
         type="password"
         value={password}
       />
-      <CxPasswordStrength value={password} />
-    </CxFormField>
+      <PasswordStrength value={password} />
+    </FormField>
   )
 }

@@ -1,4 +1,4 @@
-import { Icon, CxInputAdorn, Select } from '@chassis-ui/react'
+import { Icon, InputAdorn, Select } from '@chassis-ui/react'
 
 export const Example = () => {
   const options = [
@@ -12,11 +12,11 @@ export const Example = () => {
       placeholder="Choose a language"
       options={options}
       adornStart={
-        <CxInputAdorn>
+        <InputAdorn>
           <Icon name="search-outline" size={16} />
-        </CxInputAdorn>
+        </InputAdorn>
       }
-      adornEnd={<CxInputAdorn>Required</CxInputAdorn>}
+      adornEnd={<InputAdorn>Required</InputAdorn>}
     />
   )
 }

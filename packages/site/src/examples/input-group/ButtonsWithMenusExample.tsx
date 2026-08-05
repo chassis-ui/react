@@ -1,9 +1,9 @@
-import { CxTextInput, CxInputGroup, Menu } from '@chassis-ui/react'
+import { TextInput, InputGroup, Menu } from '@chassis-ui/react'
 
 export const ButtonsWithMenusExample = () => {
   return (
     <>
-      <CxInputGroup className="mb-3">
+      <InputGroup className="mb-3">
         <Menu>
           <Menu.Toggle color="secondary" variant="outline">
             Menu
@@ -16,11 +16,11 @@ export const ButtonsWithMenusExample = () => {
             <Menu.Item href="#">Separated link</Menu.Item>
           </Menu.List>
         </Menu>
-        <CxTextInput aria-label="Text input with menu button" />
-      </CxInputGroup>
+        <TextInput aria-label="Text input with menu button" />
+      </InputGroup>
 
-      <CxInputGroup className="mb-3">
-        <CxTextInput aria-label="Text input with menu button" />
+      <InputGroup className="mb-3">
+        <TextInput aria-label="Text input with menu button" />
         <Menu placement="bottom-end">
           <Menu.Toggle color="secondary" variant="outline">
             Menu
@@ -33,9 +33,9 @@ export const ButtonsWithMenusExample = () => {
             <Menu.Item href="#">Separated link</Menu.Item>
           </Menu.List>
         </Menu>
-      </CxInputGroup>
+      </InputGroup>
 
-      <CxInputGroup>
+      <InputGroup>
         <Menu>
           <Menu.Toggle color="secondary" variant="outline">
             Menu
@@ -48,7 +48,7 @@ export const ButtonsWithMenusExample = () => {
             <Menu.Item href="#">Separated link</Menu.Item>
           </Menu.List>
         </Menu>
-        <CxTextInput aria-label="Text input with 2 menu buttons" />
+        <TextInput aria-label="Text input with 2 menu buttons" />
         <Menu placement="bottom-end">
           <Menu.Toggle color="secondary" variant="outline">
             Menu
@@ -61,7 +61,7 @@ export const ButtonsWithMenusExample = () => {
             <Menu.Item href="#">Separated link</Menu.Item>
           </Menu.List>
         </Menu>
-      </CxInputGroup>
+      </InputGroup>
     </>
   )
 }

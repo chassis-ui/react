@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, CxForm, CxTextInput, CxFormLabel, Select, CxFormFeedback, Notification, Row, Col } from '@chassis-ui/react'
+import { Button, Form, TextInput, FormLabel, Select, FormFeedback, Notification, Row, Col } from '@chassis-ui/react'
 
 export const RegistrationForm = () => {
   const [name, setName] = useState('')
@@ -38,11 +38,11 @@ export const RegistrationForm = () => {
           <strong>Account created!</strong> Welcome aboard, {name}.
         </Notification>
       )}
-      <CxForm onSubmit={handleSubmit} onReset={handleReset} validated={false}>
+      <Form onSubmit={handleSubmit} onReset={handleReset} validated={false}>
         <Row className="mb-3">
           <Col>
-            <CxFormLabel htmlFor="reg-name">Full name</CxFormLabel>
-            <CxTextInput
+            <FormLabel htmlFor="reg-name">Full name</FormLabel>
+            <TextInput
               id="reg-name"
               placeholder="Jane Smith"
               value={name}
@@ -50,13 +50,13 @@ export const RegistrationForm = () => {
               valid={submitted && validName}
               invalid={submitted && !validName}
             />
-            <CxFormFeedback invalid>
+            <FormFeedback invalid>
               Please enter your full name (at least 2 characters).
-            </CxFormFeedback>
+            </FormFeedback>
           </Col>
           <Col>
-            <CxFormLabel htmlFor="reg-email">Email address</CxFormLabel>
-            <CxTextInput
+            <FormLabel htmlFor="reg-email">Email address</FormLabel>
+            <TextInput
               id="reg-email"
               type="email"
               placeholder="jane@example.com"
@@ -65,12 +65,12 @@ export const RegistrationForm = () => {
               valid={submitted && validEmail}
               invalid={submitted && !validEmail}
             />
-            <CxFormFeedback invalid>Please enter a valid email address.</CxFormFeedback>
+            <FormFeedback invalid>Please enter a valid email address.</FormFeedback>
           </Col>
         </Row>
         <Row className="mb-3">
           <Col>
-            <CxFormLabel htmlFor="reg-role">Role</CxFormLabel>
+            <FormLabel htmlFor="reg-role">Role</FormLabel>
             <Select
               id="reg-role"
               placeholder="Select a role…"
@@ -80,11 +80,11 @@ export const RegistrationForm = () => {
               invalid={submitted && !validRole}
               options={roleOptions}
             />
-            <CxFormFeedback invalid>Please select a role.</CxFormFeedback>
+            <FormFeedback invalid>Please select a role.</FormFeedback>
           </Col>
           <Col>
-            <CxFormLabel htmlFor="reg-pw">Password</CxFormLabel>
-            <CxTextInput
+            <FormLabel htmlFor="reg-pw">Password</FormLabel>
+            <TextInput
               id="reg-pw"
               type="password"
               placeholder="Min. 8 characters"
@@ -93,7 +93,7 @@ export const RegistrationForm = () => {
               valid={submitted && validPassword}
               invalid={submitted && !validPassword}
             />
-            <CxFormFeedback invalid>Password must be at least 8 characters.</CxFormFeedback>
+            <FormFeedback invalid>Password must be at least 8 characters.</FormFeedback>
           </Col>
         </Row>
         <div className="d-flex gap-2">
@@ -104,7 +104,7 @@ export const RegistrationForm = () => {
             Reset
           </Button>
         </div>
-      </CxForm>
+      </Form>
     </div>
   )
 }

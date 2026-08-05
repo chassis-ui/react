@@ -1,6 +1,16 @@
 import React from 'react'
 import { useState } from 'react'
-import { Button, CxForm, CxCheckbox, CxTextInput, CxFormFeedback, CxFormLabel, Select, CxInputGroup, CxInputAddon, Col } from '@chassis-ui/react'
+import {
+  Button,
+  Form,
+  Checkbox,
+  TextInput,
+  FormFeedback,
+  FormLabel,
+  Select,
+  InputGroup,
+  Col
+} from '@chassis-ui/react'
 
 export const CustomStylesExample = () => {
   const [validated, setValidated] = useState(false)
@@ -13,68 +23,68 @@ export const CustomStylesExample = () => {
     setValidated(true)
   }
   return (
-    <CxForm
+    <Form
       className="row g-3 needs-validation"
       noValidate
       validated={validated}
       onSubmit={handleSubmit}
     >
       <Col md={4}>
-        <CxFormLabel htmlFor="validationCustom01">Email</CxFormLabel>
-        <CxTextInput type="text" id="validationCustom01" defaultValue="Mark" required />
-        <CxFormFeedback valid>Looks good!</CxFormFeedback>
+        <FormLabel htmlFor="validationCustom01">Email</FormLabel>
+        <TextInput type="text" id="validationCustom01" defaultValue="Mark" required />
+        <FormFeedback valid>Looks good!</FormFeedback>
       </Col>
       <Col md={4}>
-        <CxFormLabel htmlFor="validationCustom02">Email</CxFormLabel>
-        <CxTextInput type="text" id="validationCustom02" defaultValue="Otto" required />
-        <CxFormFeedback valid>Looks good!</CxFormFeedback>
+        <FormLabel htmlFor="validationCustom02">Email</FormLabel>
+        <TextInput type="text" id="validationCustom02" defaultValue="Otto" required />
+        <FormFeedback valid>Looks good!</FormFeedback>
       </Col>
       <Col md={4}>
-        <CxFormLabel htmlFor="validationCustomUsername">Username</CxFormLabel>
-        <CxInputGroup className="has-validation">
-          <CxInputAddon id="inputGroupPrepend">@</CxInputAddon>
-          <CxTextInput
+        <FormLabel htmlFor="validationCustomUsername">Username</FormLabel>
+        <InputGroup className="has-validation">
+          <InputGroup.Addon id="inputGroupPrepend">@</InputGroup.Addon>
+          <TextInput
             type="text"
             id="validationCustomUsername"
             defaultValue=""
             aria-describedby="inputGroupPrepend"
             required
           />
-          <CxFormFeedback invalid>Please choose a username.</CxFormFeedback>
-        </CxInputGroup>
+          <FormFeedback invalid>Please choose a username.</FormFeedback>
+        </InputGroup>
       </Col>
       <Col md={6}>
-        <CxFormLabel htmlFor="validationCustom03">City</CxFormLabel>
-        <CxTextInput type="text" id="validationCustom03" required />
-        <CxFormFeedback invalid>Please provide a valid city.</CxFormFeedback>
+        <FormLabel htmlFor="validationCustom03">City</FormLabel>
+        <TextInput type="text" id="validationCustom03" required />
+        <FormFeedback invalid>Please provide a valid city.</FormFeedback>
       </Col>
       <Col md={3}>
-        <CxFormLabel htmlFor="validationCustom04">City</CxFormLabel>
+        <FormLabel htmlFor="validationCustom04">City</FormLabel>
         <Select id="validationCustom04">
           <option disabled>Choose...</option>
           <option>...</option>
         </Select>
-        <CxFormFeedback invalid>Please provide a valid city.</CxFormFeedback>
+        <FormFeedback invalid>Please provide a valid city.</FormFeedback>
       </Col>
       <Col md={3}>
-        <CxFormLabel htmlFor="validationCustom05">City</CxFormLabel>
-        <CxTextInput type="text" id="validationCustom05" required />
-        <CxFormFeedback invalid>Please provide a valid zip.</CxFormFeedback>
+        <FormLabel htmlFor="validationCustom05">City</FormLabel>
+        <TextInput type="text" id="validationCustom05" required />
+        <FormFeedback invalid>Please provide a valid zip.</FormFeedback>
       </Col>
       <Col xs={12}>
-        <CxCheckbox
+        <Checkbox
           type="checkbox"
           id="invalidCheck"
           label="Agree to terms and conditions"
           required
         />
-        <CxFormFeedback invalid>You must agree before submitting.</CxFormFeedback>
+        <FormFeedback invalid>You must agree before submitting.</FormFeedback>
       </Col>
       <Col xs={12}>
         <Button color="primary" type="submit">
           Submit form
         </Button>
       </Col>
-    </CxForm>
+    </Form>
   )
 }

@@ -1,4 +1,4 @@
 import { createContext } from 'react'
 import { RadioGroupState } from 'react-stately'
 
-export const CxRadioGroupContext = createContext<RadioGroupState | null>(null)
+export const RadioGroupContext = createContext<RadioGroupState | null>(null)

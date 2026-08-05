@@ -1,33 +1,33 @@
 import React from 'react'
-import { Button, CxFileInput, CxForm, CxCheckbox, CxFormFeedback, CxFormLabel, CxRadio, CxRadioGroup, Select, CxTextarea } from '@chassis-ui/react'
+import { Button, FileInput, Form, Checkbox, FormFeedback, FormLabel, Radio, RadioGroup, Select, Textarea } from '@chassis-ui/react'
 
 export const SupportedElementsExample = () => {
   return (
-    <CxForm validated={true}>
+    <Form validated={true}>
       <div className="mb-medium">
-        <CxFormLabel htmlFor="validationTextarea" className="form-label">
+        <FormLabel htmlFor="validationTextarea" className="form-label">
           Textarea
-        </CxFormLabel>
-        <CxTextarea
+        </FormLabel>
+        <Textarea
           id="validationTextarea"
           placeholder="Required example textarea"
           invalid
           required
         />
-        <CxFormFeedback invalid>Please enter a message in the textarea.</CxFormFeedback>
+        <FormFeedback invalid>Please enter a message in the textarea.</FormFeedback>
       </div>
-      <CxCheckbox
+      <Checkbox
         className="mb-medium"
         id="validationFormCheck1"
         label="Check this checkbox"
         required
       />
-      <CxFormFeedback invalid>Example invalid feedback text</CxFormFeedback>
-      <CxRadioGroup className="mb-medium" name="radio-stacked" required>
-        <CxRadio value="radio1" label="Check this checkbox" />
-        <CxRadio value="radio2" label="Or toggle this other radio" />
-      </CxRadioGroup>
-      <CxFormFeedback invalid>More example invalid feedback text</CxFormFeedback>
+      <FormFeedback invalid>Example invalid feedback text</FormFeedback>
+      <RadioGroup className="mb-medium" name="radio-stacked" required>
+        <Radio value="radio1" label="Check this checkbox" />
+        <Radio value="radio2" label="Or toggle this other radio" />
+      </RadioGroup>
+      <FormFeedback invalid>More example invalid feedback text</FormFeedback>
       <div className="mb-medium">
         <Select required aria-label="select example">
           <option>Open this select menu</option>
@@ -35,17 +35,17 @@ export const SupportedElementsExample = () => {
           <option value="2">Two</option>
           <option value="3">Three</option>
         </Select>
-        <CxFormFeedback invalid>Example invalid select feedback</CxFormFeedback>
+        <FormFeedback invalid>Example invalid select feedback</FormFeedback>
       </div>
       <div className="mb-medium">
-        <CxFileInput id="validationFile" aria-label="file example" required />
-        <CxFormFeedback invalid>Example invalid form file feedback</CxFormFeedback>
+        <FileInput id="validationFile" aria-label="file example" required />
+        <FormFeedback invalid>Example invalid form file feedback</FormFeedback>
       </div>
       <div className="mb-medium">
         <Button type="submit" color="primary" disabled>
           Submit form
         </Button>
       </div>
-    </CxForm>
+    </Form>
   )
 }

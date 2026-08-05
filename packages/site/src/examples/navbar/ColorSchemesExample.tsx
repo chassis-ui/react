@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, Container, Collapse, CxForm, CxTextInput, Menu, Nav, Navbar } from '@chassis-ui/react'
+import { Button, Container, Collapse, Form, TextInput, Menu, Nav, Navbar } from '@chassis-ui/react'
 
 export const ColorSchemesExample = () => {
   const [visible, setVisible] = useState(false)
@@ -38,12 +38,12 @@ export const ColorSchemesExample = () => {
                 </Nav.Link>
               </Nav.Item>
             </Navbar.Nav>
-            <CxForm className="d-flex">
-              <CxTextInput type="search" className="me-2" placeholder="Search" />
+            <Form className="d-flex">
+              <TextInput type="search" className="me-2" placeholder="Search" />
               <Button type="submit" color="default" variant="outline">
                 Search
               </Button>
-            </CxForm>
+            </Form>
           </Collapse>
         </Container>
       </Navbar>
@@ -81,12 +81,12 @@ export const ColorSchemesExample = () => {
                 </Nav.Link>
               </Nav.Item>
             </Navbar.Nav>
-            <CxForm className="d-flex">
-              <CxTextInput type="search" className="me-2" placeholder="Search" />
+            <Form className="d-flex">
+              <TextInput type="search" className="me-2" placeholder="Search" />
               <Button type="submit" color="default" variant="outline">
                 Search
               </Button>
-            </CxForm>
+            </Form>
           </Collapse>
         </Container>
       </Navbar>
@@ -124,12 +124,12 @@ export const ColorSchemesExample = () => {
                 </Nav.Link>
               </Nav.Item>
             </Navbar.Nav>
-            <CxForm className="d-flex">
-              <CxTextInput type="search" className="me-2" placeholder="Search" />
+            <Form className="d-flex">
+              <TextInput type="search" className="me-2" placeholder="Search" />
               <Button type="submit" color="primary" variant="outline">
                 Search
               </Button>
-            </CxForm>
+            </Form>
           </Collapse>
         </Container>
       </Navbar>

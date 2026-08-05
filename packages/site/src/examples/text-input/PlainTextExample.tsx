@@ -1,5 +1,5 @@
-import { CxTextInput } from '@chassis-ui/react'
+import { TextInput } from '@chassis-ui/react'
 
 export const Example = () => {
-  return <CxTextInput label="Email" defaultValue="email@example.com" readOnly plainText />
+  return <TextInput label="Email" defaultValue="email@example.com" readOnly plainText />
 }

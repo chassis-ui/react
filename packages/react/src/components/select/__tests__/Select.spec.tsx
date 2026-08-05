@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 
-import { CxInputAdorn, Select } from '../../../index'
+import { InputAdorn, Select } from '../../../index'
 
 describe('Select', () => {
   describe('rendering', () => {
@@ -124,7 +124,7 @@ describe('Select', () => {
         <Select
           aria-label="Language"
           options={['js']}
-          adornStart={<CxInputAdorn>Lang</CxInputAdorn>}
+          adornStart={<InputAdorn>Lang</InputAdorn>}
         />
       )
       const select = screen.getByRole('combobox', { name: 'Language' })
@@ -140,7 +140,7 @@ describe('Select', () => {
         <Select
           aria-label="Language"
           options={['js']}
-          adornStart={<CxInputAdorn>Lang</CxInputAdorn>}
+          adornStart={<InputAdorn>Lang</InputAdorn>}
           className="bazinga"
           size="large"
         />
@@ -157,7 +157,7 @@ describe('Select', () => {
         <Select
           aria-label="Language"
           options={['js']}
-          adornStart={<CxInputAdorn>Lang</CxInputAdorn>}
+          adornStart={<InputAdorn>Lang</InputAdorn>}
           invalid
           valid
         />
@@ -175,7 +175,7 @@ describe('Select', () => {
           aria-label="Language"
           multiple
           options={['js', 'html']}
-          adornStart={<CxInputAdorn>Lang</CxInputAdorn>}
+          adornStart={<InputAdorn>Lang</InputAdorn>}
         />
       )
       // eslint-disable-next-line testing-library/no-node-access
@@ -204,7 +204,7 @@ describe('Select', () => {
           <Select
             aria-label="Language"
             options={['js']}
-            adornStart={<CxInputAdorn>Lang</CxInputAdorn>}
+            adornStart={<InputAdorn>Lang</InputAdorn>}
           />
         )
         await user.click(screen.getByText('Lang'))
@@ -218,7 +218,7 @@ describe('Select', () => {
           <Select
             aria-label="Language"
             options={['js']}
-            adornStart={<CxInputAdorn>Lang</CxInputAdorn>}
+            adornStart={<InputAdorn>Lang</InputAdorn>}
           />
         )
         await user.click(screen.getByRole('combobox', { name: 'Language' }))
@@ -233,9 +233,9 @@ describe('Select', () => {
             aria-label="Language"
             options={['js']}
             adornEnd={
-              <CxInputAdorn component="button" type="button" aria-label="Clear" onClick={onClick}>
+              <InputAdorn component="button" type="button" aria-label="Clear" onClick={onClick}>
                 Clear
-              </CxInputAdorn>
+              </InputAdorn>
             }
           />
         )
@@ -251,7 +251,7 @@ describe('Select', () => {
             aria-label="Language"
             disabled
             options={['js']}
-            adornStart={<CxInputAdorn>Lang</CxInputAdorn>}
+            adornStart={<InputAdorn>Lang</InputAdorn>}
           />
         )
         await user.click(screen.getByText('Lang'))
@@ -265,7 +265,7 @@ describe('Select', () => {
             aria-label="Language"
             multiple
             options={['js', 'html']}
-            adornStart={<CxInputAdorn>Lang</CxInputAdorn>}
+            adornStart={<InputAdorn>Lang</InputAdorn>}
           />
         )
         await user.click(screen.getByText('Lang'))
@@ -278,8 +278,8 @@ describe('Select', () => {
         <Select
           aria-label="Language"
           options={['js']}
-          adornStart={<CxInputAdorn>Lang</CxInputAdorn>}
-          adornEnd={<CxInputAdorn>Choose one</CxInputAdorn>}
+          adornStart={<InputAdorn>Lang</InputAdorn>}
+          adornEnd={<InputAdorn>Choose one</InputAdorn>}
         />
       )
       expect(container).toMatchSnapshot()

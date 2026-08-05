@@ -1,5 +1,5 @@
-import { CxOtpInput } from '@chassis-ui/react'
+import { OtpInput } from '@chassis-ui/react'
 
 export const MaskedExample = () => {
-  return <CxOtpInput aria-label="Verification code" defaultValue="123" inputGroup mask />
+  return <OtpInput aria-label="Verification code" defaultValue="123" inputGroup mask />
 }

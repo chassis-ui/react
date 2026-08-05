@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, Container, Collapse, CxForm, CxTextInput, Nav, Navbar } from '@chassis-ui/react'
+import { Button, Container, Collapse, Form, TextInput, Nav, Navbar } from '@chassis-ui/react'
 
 export const ResponsiveBehaviorsExample3 = () => {
   const [visible, setVisible] = useState(false)
@@ -29,12 +29,12 @@ export const ResponsiveBehaviorsExample3 = () => {
                 </Nav.Link>
               </Nav.Item>
             </Navbar.Nav>
-            <CxForm className="d-flex">
-              <CxTextInput type="search" className="me-2" placeholder="Search" />
+            <Form className="d-flex">
+              <TextInput type="search" className="me-2" placeholder="Search" />
               <Button type="submit" color="success" variant="outline">
                 Search
               </Button>
-            </CxForm>
+            </Form>
           </Collapse>
         </Container>
       </Navbar>

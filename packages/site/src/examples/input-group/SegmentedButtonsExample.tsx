@@ -1,9 +1,9 @@
-import { Button, CxTextInput, CxInputGroup, Menu } from '@chassis-ui/react'
+import { Button, TextInput, InputGroup, Menu } from '@chassis-ui/react'
 
 export const SegmentedButtonsExample = () => {
   return (
     <>
-      <CxInputGroup className="mb-3">
+      <InputGroup className="mb-3">
         <Button type="button" color="secondary" variant="outline">
           Action
         </Button>
@@ -19,11 +19,11 @@ export const SegmentedButtonsExample = () => {
             <Menu.Item href="#">Separated link</Menu.Item>
           </Menu.List>
         </Menu>
-        <CxTextInput aria-label="Text input with segmented menu button" />
-      </CxInputGroup>
+        <TextInput aria-label="Text input with segmented menu button" />
+      </InputGroup>
 
-      <CxInputGroup>
-        <CxTextInput aria-label="Text input with segmented menu button" />
+      <InputGroup>
+        <TextInput aria-label="Text input with segmented menu button" />
         <Button type="button" color="secondary" variant="outline">
           Action
         </Button>
@@ -39,7 +39,7 @@ export const SegmentedButtonsExample = () => {
             <Menu.Item href="#">Separated link</Menu.Item>
           </Menu.List>
         </Menu>
-      </CxInputGroup>
+      </InputGroup>
     </>
   )
 }

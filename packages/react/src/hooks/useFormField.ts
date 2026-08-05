@@ -31,7 +31,7 @@ export interface UseFormFieldResult {
   feedbackId: string
   helpId: string
   /**
-   * Id for the one real focusable control — pair with `<CxFormLabel htmlFor={inputId}>` (via
+   * Id for the one real focusable control — pair with `<FormLabel htmlFor={inputId}>` (via
    * `ids.input`). Ignore this and use `labelId`/`labelledBy` instead for a `role="group"` wrapper
    * with no single input to target — see FORMS.md's "`htmlFor` vs `aria-labelledby`" section.
    */

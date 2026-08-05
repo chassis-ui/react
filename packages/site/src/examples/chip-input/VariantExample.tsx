@@ -1,15 +1,15 @@
-import { CxChipInput } from '@chassis-ui/react'
+import { ChipInput } from '@chassis-ui/react'
 
 export const VariantExample = () => {
   return (
     <div className="vstack gap-medium">
-      <CxChipInput
+      <ChipInput
         aria-label="Status"
         chipVariant="primary"
         defaultValue={['Approved', 'Verified']}
         placeholder="Add status…"
       />
-      <CxChipInput
+      <ChipInput
         aria-label="Issue labels"
         chipVariant="danger smooth"
         defaultValue={['Bug', 'Critical']}

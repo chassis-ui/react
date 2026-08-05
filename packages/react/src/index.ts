@@ -12,36 +12,30 @@ import { CxRangeCalendar } from './components/calendar/CxRangeCalendar'
 import { Card } from './components/card'
 import { Carousel } from './components/carousel'
 import { Collapse } from './components/collapse'
-import { CxChipInput } from './components/chip-input/CxChipInput'
+import { ChipInput } from './components/chip-input'
 import { CloseButton } from './components/close-button'
-import { CxColorInput } from './components/color-input/CxColorInput'
-import { CxFileInput } from './components/file-input/CxFileInput'
+import { ColorInput } from './components/color-input'
+import { FileInput } from './components/file-input'
 import { Combobox } from './components/combobox'
 import { CxDatePicker } from './components/datepicker/CxDatePicker'
 import { CxDateRangePicker } from './components/datepicker/CxDateRangePicker'
-import { CxOtpInput } from './components/otp-input/CxOtpInput'
-import { CxPasswordStrength } from './components/password-strength/CxPasswordStrength'
+import { OtpInput } from './components/otp-input'
+import { PasswordStrength } from './components/password-strength'
 import { I18nProvider } from 'react-aria'
 import { Menu } from './components/menu'
 import { Col, Container, Row } from './components/grid'
-import { CxCheckbox } from './components/checkbox/CxCheckbox'
-import { CxCheckboxGroup } from './components/checkbox/CxCheckboxGroup'
-import { CxForm } from './components/form/CxForm'
-import { CxFloatingInput } from './components/floating-input/CxFloatingInput'
-import { CxFormField } from './components/form-field/CxFormField'
-import { CxFormFeedback } from './components/form/CxFormFeedback'
-import { CxFormHelp } from './components/form/CxFormHelp'
-import { CxFormLabel } from './components/form/CxFormLabel'
-import { CxInputAddon } from './components/input-group/CxInputAddon'
-import { CxInputGroup } from './components/input-group/CxInputGroup'
-import { CxInputAdorn } from './components/input-adorn/CxInputAdorn'
-import { CxRadio } from './components/radio/CxRadio'
-import { CxRadioGroup } from './components/radio/CxRadioGroup'
-import { CxRangeInput } from './components/range-input/CxRangeInput'
+import { Checkbox, CheckboxGroup } from './components/checkbox'
+import { Form, FormFeedback, FormHelp, FormLabel } from './components/form'
+import { FloatingInput } from './components/floating-input'
+import { FormField } from './components/form-field'
+import { InputGroup } from './components/input-group'
+import { InputAdorn } from './components/input-adorn'
+import { Radio, RadioGroup } from './components/radio'
+import { RangeInput } from './components/range-input'
 import { Select } from './components/select'
-import { CxSwitch } from './components/switch/CxSwitch'
-import { CxTextInput } from './components/text-input/CxTextInput'
-import { CxTextarea } from './components/textarea/CxTextarea'
+import { Switch } from './components/switch'
+import { TextInput } from './components/text-input'
+import { Textarea } from './components/textarea'
 import { Icon } from './components/icon'
 import { Image } from './components/image'
 import { Link } from './components/link'
@@ -82,14 +76,14 @@ export {
   CxRangeCalendar,
   Card,
   Carousel,
-  CxChipInput,
+  ChipInput,
   CloseButton,
   Collapse,
-  CxColorInput,
+  ColorInput,
   Combobox,
   CxDatePicker,
   CxDateRangePicker,
-  CxFileInput,
+  FileInput,
   // Re-exported (not a `Cx*` component): react-aria is a bundled dependency, not a peer, so its
   // module — including the `I18nProvider` context `CxDatePicker` reads locale from via
   // `useLocale()` — is inlined into this package's own build output, distinct from any react-aria
@@ -97,25 +91,24 @@ export {
   // *different* context instance and silently have no effect on `CxDatePicker`; this re-export is
   // the one that actually reaches it.
   I18nProvider,
-  CxOtpInput,
-  CxPasswordStrength,
+  OtpInput,
+  PasswordStrength,
   Menu,
   Col,
   Container,
   Row,
-  CxCheckbox,
-  CxCheckboxGroup,
-  CxFloatingInput,
-  CxForm,
-  CxFormField,
-  CxFormFeedback,
-  CxFormHelp,
-  CxFormLabel,
+  Checkbox,
+  CheckboxGroup,
+  FloatingInput,
+  Form,
+  FormField,
+  FormFeedback,
+  FormHelp,
+  FormLabel,
   Icon,
   Image,
-  CxInputAddon,
-  CxInputGroup,
-  CxInputAdorn,
+  InputGroup,
+  InputAdorn,
   Link,
   List,
   Modal,
@@ -125,13 +118,13 @@ export {
   Placeholder,
   Popover,
   Progress,
-  CxRadio,
-  CxRadioGroup,
-  CxRangeInput,
+  Radio,
+  RadioGroup,
+  RangeInput,
   Drawer,
   Select,
   Spinner,
-  CxSwitch,
+  Switch,
   CxTable,
   CxTableBody,
   CxTableCell,
@@ -141,8 +134,8 @@ export {
   Tabs,
   TabContent,
   TabPane,
-  CxTextInput,
-  CxTextarea,
+  TextInput,
+  Textarea,
   Toast,
   Toaster,
   addToast,

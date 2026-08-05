@@ -1,10 +1,10 @@
-import { CxTextInput } from '@chassis-ui/react'
+import { TextInput } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
     <>
-      <CxTextInput defaultValue="Readonly input" aria-label="readonly input example" readOnly />
-      <CxTextInput
+      <TextInput defaultValue="Readonly input" aria-label="readonly input example" readOnly />
+      <TextInput
         defaultValue="Readonly disabled input"
         aria-label="readonly disabled input example"
         readOnly

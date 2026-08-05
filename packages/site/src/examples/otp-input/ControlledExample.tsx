@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { CxOtpInput } from '@chassis-ui/react'
+import { OtpInput } from '@chassis-ui/react'
 
 export const ControlledExample = () => {
   const [value, setValue] = useState('')
@@ -7,7 +7,7 @@ export const ControlledExample = () => {
 
   return (
     <div className="vstack gap-small">
-      <CxOtpInput
+      <OtpInput
         aria-label="Verification code"
         length={4}
         onChange={setValue}

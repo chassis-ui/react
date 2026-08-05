@@ -1,4 +1,4 @@
-import { CxPasswordStrength } from '@chassis-ui/react'
+import { PasswordStrength } from '@chassis-ui/react'
 
 const samples: { label: string; password: string }[] = [
   { label: 'Weak', password: 'abc' },
@@ -13,7 +13,7 @@ export const LevelsExample = () => {
       {samples.map(({ label, password }) => (
         <div key={label}>
           <div className="fg-medium">{label}</div>
-          <CxPasswordStrength aria-label={`${label} example`} value={password} />
+          <PasswordStrength aria-label={`${label} example`} value={password} />
         </div>
       ))}
     </div>

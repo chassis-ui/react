@@ -1,0 +1,52 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CheckboxGroup > rendering > matches the baseline markup snapshot 1`] = `
+<div>
+  <fieldset
+    aria-labelledby="react-aria-:r1:"
+    class="form-field"
+    id="react-aria-:r0:"
+    role="group"
+  >
+    <legend
+      class="form-label"
+      id="react-aria-:r1:"
+    >
+      Notifications
+    </legend>
+    <label
+      class="form-check"
+    >
+      <span
+        class="check-input"
+      >
+        <input
+          checked=""
+          class=""
+          data-react-aria-pressable="true"
+          tabindex="0"
+          type="checkbox"
+          value="email"
+        />
+      </span>
+      Email
+    </label>
+    <label
+      class="form-check"
+    >
+      <span
+        class="check-input"
+      >
+        <input
+          class=""
+          data-react-aria-pressable="true"
+          tabindex="0"
+          type="checkbox"
+          value="sms"
+        />
+      </span>
+      SMS
+    </label>
+  </fieldset>
+</div>
+`;

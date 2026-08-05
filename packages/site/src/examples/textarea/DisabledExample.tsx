@@ -1,14 +1,14 @@
-import { CxTextarea } from '@chassis-ui/react'
+import { Textarea } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
     <>
-      <CxTextarea
+      <Textarea
         placeholder="Disabled textarea placeholder"
         aria-label="Disabled textarea placeholder example"
         disabled
       />
-      <CxTextarea
+      <Textarea
         defaultValue="Disabled textarea value"
         aria-label="Disabled textarea value example"
         disabled

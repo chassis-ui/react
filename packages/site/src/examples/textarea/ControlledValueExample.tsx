@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import { CxTextarea } from '@chassis-ui/react'
+import { Textarea } from '@chassis-ui/react'
 
 export const Example = () => {
   const [value, setValue] = useState('')
   return (
-    <CxTextarea
+    <Textarea
       label="Comment"
       help={`${value.length} characters`}
       value={value}

@@ -1,5 +1,5 @@
-import { CxChipInput } from '@chassis-ui/react'
+import { ChipInput } from '@chassis-ui/react'
 
 export const DisabledExample = () => {
-  return <CxChipInput aria-label="Skills" defaultValue={['React', 'CSS']} disabled />
+  return <ChipInput aria-label="Skills" defaultValue={['React', 'CSS']} disabled />
 }

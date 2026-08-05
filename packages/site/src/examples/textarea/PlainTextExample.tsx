@@ -1,7 +1,7 @@
-import { CxTextarea } from '@chassis-ui/react'
+import { Textarea } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
-    <CxTextarea defaultValue="Shipping address confirmed by the customer." readOnly plainText />
+    <Textarea defaultValue="Shipping address confirmed by the customer." readOnly plainText />
   )
 }

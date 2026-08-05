@@ -1,8 +1,8 @@
-import { CxOtpInput } from '@chassis-ui/react'
+import { OtpInput } from '@chassis-ui/react'
 
 export const FormFieldExample = () => {
   return (
-    <CxOtpInput
+    <OtpInput
       label="Verification code"
       help="Enter the 6-digit code sent to your phone."
       inputGroup

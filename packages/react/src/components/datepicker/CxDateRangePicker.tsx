@@ -78,7 +78,7 @@ export interface CxDateRangePickerProps extends Omit<
    */
   isOpen?: boolean
   /**
-   * The field's caption, rendered as a `CxFormLabel` associated with the field group.
+   * The field's caption, rendered as a `FormLabel` associated with the field group.
    */
   label?: ReactNode
   /**

@@ -1,8 +1,8 @@
-import { CxChipInput } from '@chassis-ui/react'
+import { ChipInput } from '@chassis-ui/react'
 
 export const FormFieldExample = () => {
   return (
-    <CxChipInput
+    <ChipInput
       label="Skills"
       help="Press Enter or , to add a skill."
       defaultValue={['React', 'CSS']}

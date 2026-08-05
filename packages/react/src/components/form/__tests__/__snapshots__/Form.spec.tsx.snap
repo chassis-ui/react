@@ -1,0 +1,50 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Form > rendering > matches the baseline markup snapshot 1`] = `
+<div>
+  <form
+    class=""
+  >
+    <label
+      class="form-label"
+    >
+      A
+    </label>
+    <input
+      aria-describedby="B"
+      aria-label="A"
+      class="form-input"
+      id=":r0:"
+      tabindex="0"
+      type="email"
+      value=""
+    />
+    <div
+      class="form-help"
+    >
+      C
+    </div>
+    <label
+      class="form-check"
+    >
+      <span
+        class="check-input"
+      >
+        <input
+          class=""
+          data-react-aria-pressable="true"
+          tabindex="0"
+          type="checkbox"
+        />
+      </span>
+      D
+    </label>
+    <button
+      class="button primary"
+      type="submit"
+    >
+      E
+    </button>
+  </form>
+</div>
+`;

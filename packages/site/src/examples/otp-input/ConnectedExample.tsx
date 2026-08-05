@@ -1,5 +1,5 @@
-import { CxOtpInput } from '@chassis-ui/react'
+import { OtpInput } from '@chassis-ui/react'
 
 export const ConnectedExample = () => {
-  return <CxOtpInput aria-label="Verification code" inputGroup length={6} />
+  return <OtpInput aria-label="Verification code" inputGroup length={6} />
 }

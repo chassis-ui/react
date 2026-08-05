@@ -1,5 +1,5 @@
-import { CxTextarea } from '@chassis-ui/react'
+import { Textarea } from '@chassis-ui/react'
 
 export const Example = () => {
-  return <CxTextarea placeholder="Example textarea" aria-label="Example textarea" />
+  return <Textarea placeholder="Example textarea" aria-label="Example textarea" />
 }

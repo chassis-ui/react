@@ -1,37 +1,37 @@
-import { Button, Col, CxForm, CxCheckbox, CxTextInput, CxFormLabel, CxRadio, CxRadioGroup, Row } from '@chassis-ui/react'
+import { Button, Col, Form, Checkbox, TextInput, FormLabel, Radio, RadioGroup, Row } from '@chassis-ui/react'
 
 export const HorizontalFormExample = () => {
   return (
-    <CxForm>
+    <Form>
       <Row className="mb-medium">
-        <CxFormLabel htmlFor="inputEmail3" className="small:col-2 col-form-label">
+        <FormLabel htmlFor="inputEmail3" className="small:col-2 col-form-label">
           Email
-        </CxFormLabel>
+        </FormLabel>
         <Col sm={10}>
-          <CxTextInput type="email" id="inputEmail3" />
+          <TextInput type="email" id="inputEmail3" />
         </Col>
       </Row>
       <Row className="mb-medium">
-        <CxFormLabel htmlFor="inputPassword3" className="small:col-2 col-form-label">
+        <FormLabel htmlFor="inputPassword3" className="small:col-2 col-form-label">
           Password
-        </CxFormLabel>
+        </FormLabel>
         <Col sm={10}>
-          <CxTextInput type="password" id="inputPassword3" />
+          <TextInput type="password" id="inputPassword3" />
         </Col>
       </Row>
-      <CxRadioGroup className="row mb-medium" label="Radios" defaultValue="option1">
+      <RadioGroup className="row mb-medium" label="Radios" defaultValue="option1">
         <Col sm={10}>
-          <CxRadio value="option1" label="First radio" />
-          <CxRadio value="option2" label="Second radio" />
-          <CxRadio value="option3" label="Third disabled radio" disabled />
+          <Radio value="option1" label="First radio" />
+          <Radio value="option2" label="Second radio" />
+          <Radio value="option3" label="Third disabled radio" disabled />
         </Col>
-      </CxRadioGroup>
+      </RadioGroup>
       <Row className="mb-medium">
         <div className="small:col-10 small:offset-2">
-          <CxCheckbox id="gridCheck1" label="Example checkbox" />
+          <Checkbox id="gridCheck1" label="Example checkbox" />
         </div>
       </Row>
       <Button type="submit">Sign in</Button>
-    </CxForm>
+    </Form>
   )
 }

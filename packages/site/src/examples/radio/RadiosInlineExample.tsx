@@ -1,11 +1,11 @@
-import { CxRadio, CxRadioGroup } from '@chassis-ui/react'
+import { Radio, RadioGroup } from '@chassis-ui/react'
 
 export const RadiosInlineExample = () => {
   return (
-    <CxRadioGroup label="Options" defaultValue="option1" orientation="horizontal">
-      <CxRadio value="option1" label="1" />
-      <CxRadio value="option2" label="2" />
-      <CxRadio value="option3" label="3 (disabled)" disabled />
-    </CxRadioGroup>
+    <RadioGroup label="Options" defaultValue="option1" orientation="horizontal">
+      <Radio value="option1" label="1" />
+      <Radio value="option2" label="2" />
+      <Radio value="option3" label="3 (disabled)" disabled />
+    </RadioGroup>
   )
 }

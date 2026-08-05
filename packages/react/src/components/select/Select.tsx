@@ -35,7 +35,7 @@ export interface SelectOptionDef {
 }
 export interface SelectProps extends Omit<InputHTMLAttributes<HTMLSelectElement>, 'size'> {
   /**
-   * Content rendered at the select's trailing edge, e.g. a `CxInputAdorn` icon, text, or button.
+   * Content rendered at the select's trailing edge, e.g. a `InputAdorn` icon, text, or button.
    * Setting either `adornStart` or `adornEnd` renders a `.form-input` wrapper around a
    * `.ghost-input`, matching chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-adorn) pattern.
    * Clicking anywhere in the wrapper (other than an actionable adorn) opens the select, since the
@@ -43,7 +43,7 @@ export interface SelectProps extends Omit<InputHTMLAttributes<HTMLSelectElement>
    */
   adornEnd?: ReactNode
   /**
-   * Content rendered at the select's leading edge, e.g. a `CxInputAdorn` icon, text, or button.
+   * Content rendered at the select's leading edge, e.g. a `InputAdorn` icon, text, or button.
    * Setting either `adornStart` or `adornEnd` renders a `.form-input` wrapper around a
    * `.ghost-input`, matching chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-adorn) pattern.
    * Clicking anywhere in the wrapper (other than an actionable adorn) opens the select, since the

@@ -1,9 +1,9 @@
 import React, { ReactNode } from 'react'
 import classNames from 'classnames'
 
-import { CxFormFeedback } from '../form/CxFormFeedback'
-import { CxFormHelp } from '../form/CxFormHelp'
-import { CxFormLabel } from '../form/CxFormLabel'
+import { FormFeedback } from '../form/FormFeedback'
+import { FormHelp } from '../form/FormHelp'
+import { FormLabel } from '../form/FormLabel'
 
 export interface FormFieldIds {
   feedback?: string
@@ -53,21 +53,21 @@ export const renderFormField = ({
   return (
     <div className={classNames('form-field', className)}>
       {label && (
-        <CxFormLabel htmlFor={ids.input} id={ids.label}>
+        <FormLabel htmlFor={ids.input} id={ids.label}>
           {label}
-        </CxFormLabel>
+        </FormLabel>
       )}
       {children}
-      {help && <CxFormHelp id={ids.help}>{help}</CxFormHelp>}
+      {help && <FormHelp id={ids.help}>{help}</FormHelp>}
       {showInvalidFeedback && (
-        <CxFormFeedback id={ids.feedback} invalid>
+        <FormFeedback id={ids.feedback} invalid>
           {invalidFeedback}
-        </CxFormFeedback>
+        </FormFeedback>
       )}
       {showValidFeedback && (
-        <CxFormFeedback id={ids.feedback} valid>
+        <FormFeedback id={ids.feedback} valid>
           {validFeedback}
-        </CxFormFeedback>
+        </FormFeedback>
       )}
     </div>
   )
