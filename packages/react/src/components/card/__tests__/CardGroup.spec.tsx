@@ -2,12 +2,23 @@ import * as React from 'react'
 import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Card } from '../../../index'
+import {
+  Card,
+  CardImage,
+  CardHeader,
+  CardBody,
+  CardTitle,
+  CardSubtitle,
+  CardText,
+  CardLink,
+  CardFooter,
+  CardGroup
+} from '../../../index'
 
-describe('Card.Group', () => {
+describe('CardGroup', () => {
   describe('rendering', () => {
     test('renders a div with the base class and className merged', () => {
-      render(<Card.Group className="bazinga">Test</Card.Group>)
+      render(<CardGroup className="bazinga">Test</CardGroup>)
       const group = screen.getByText('Test')
       expect(group).toHaveClass('card-group', 'bazinga')
       expect(group.tagName).toBe('DIV')
@@ -15,24 +26,24 @@ describe('Card.Group', () => {
 
     test('matches the baseline markup snapshot with nested cards', () => {
       const { container } = render(
-        <Card.Group>
+        <CardGroup>
           <Card>
-            <Card.Image component="svg">Image</Card.Image>
-            <Card.Header>Header</Card.Header>
-            <Card.Body>
-              <Card.Title>Title</Card.Title>
-              <Card.Subtitle>Subtitle</Card.Subtitle>
-              <Card.Text>Text</Card.Text>
-              <Card.Link href="/bazinga">Link</Card.Link>
-            </Card.Body>
-            <Card.Footer>Footer</Card.Footer>
+            <CardImage component="svg">Image</CardImage>
+            <CardHeader>Header</CardHeader>
+            <CardBody>
+              <CardTitle>Title</CardTitle>
+              <CardSubtitle>Subtitle</CardSubtitle>
+              <CardText>Text</CardText>
+              <CardLink href="/bazinga">Link</CardLink>
+            </CardBody>
+            <CardFooter>Footer</CardFooter>
           </Card>
           <Card>
-            <Card.Body>
-              <Card.Title>Card Title</Card.Title>
-            </Card.Body>
+            <CardBody>
+              <CardTitle>Card Title</CardTitle>
+            </CardBody>
           </Card>
-        </Card.Group>
+        </CardGroup>
       )
       expect(container).toMatchSnapshot()
     })
@@ -41,14 +52,14 @@ describe('Card.Group', () => {
   describe('ref forwarding', () => {
     test('forwards a ref to the underlying div', () => {
       const ref = React.createRef<HTMLDivElement>()
-      render(<Card.Group ref={ref}>Test</Card.Group>)
+      render(<CardGroup ref={ref}>Test</CardGroup>)
       expect(ref.current).toBeInstanceOf(HTMLDivElement)
     })
   })
 
   describe('accessibility', () => {
     test('has no axe violations', async () => {
-      const { container } = render(<Card.Group>Test</Card.Group>)
+      const { container } = render(<CardGroup>Test</CardGroup>)
       expect(await axe(container)).toHaveNoViolations()
     })
   })

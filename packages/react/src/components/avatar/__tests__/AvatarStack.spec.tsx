@@ -2,17 +2,17 @@ import * as React from 'react'
 import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Avatar } from '../../../index'
+import { Avatar, AvatarStack } from '../../../index'
 
-describe('Avatar.Stack', () => {
+describe('AvatarStack', () => {
   describe('rendering', () => {
     test('renders a div with the base class by default', () => {
       // The stack wrapper is a plain div with no role of its own - the only queryable
       // descendant is the Avatar button, not the wrapper itself.
       const { container } = render(
-        <Avatar.Stack>
+        <AvatarStack>
           <Avatar>CX</Avatar>
-        </Avatar.Stack>
+        </AvatarStack>
       )
       // eslint-disable-next-line testing-library/no-node-access
       expect(container.firstChild).toHaveClass('avatar-stack')
@@ -21,9 +21,9 @@ describe('Avatar.Stack', () => {
 
     test('matches the baseline markup snapshot', () => {
       const { container } = render(
-        <Avatar.Stack>
+        <AvatarStack>
           <Avatar>CX</Avatar>
-        </Avatar.Stack>
+        </AvatarStack>
       )
       expect(container).toMatchSnapshot()
     })
@@ -31,9 +31,9 @@ describe('Avatar.Stack', () => {
     test('applies the size and caller className together', () => {
       // Same unlabeled wrapper as above.
       const { container } = render(
-        <Avatar.Stack className="bazinga" size="small">
+        <AvatarStack className="bazinga" size="small">
           <Avatar>CX</Avatar>
-        </Avatar.Stack>
+        </AvatarStack>
       )
       // eslint-disable-next-line testing-library/no-node-access
       expect(container.firstChild).toHaveClass('avatar-stack', 'small', 'bazinga')
@@ -43,7 +43,7 @@ describe('Avatar.Stack', () => {
   describe('data', () => {
     test('renders an Avatar for each data item', () => {
       render(
-        <Avatar.Stack
+        <AvatarStack
           items={[
             { src: 'https://placehold.co/256x256', alt: 'Ada', status: 'success' },
             { src: 'https://placehold.co/256x256', alt: 'Grace' }
@@ -59,9 +59,9 @@ describe('Avatar.Stack', () => {
 
     test('renders data items ahead of any JSX children', () => {
       render(
-        <Avatar.Stack items={[{ content: 'CX' }]}>
+        <AvatarStack items={[{ content: 'CX' }]}>
           <Avatar>+5</Avatar>
-        </Avatar.Stack>
+        </AvatarStack>
       )
       const avatars = screen.getAllByRole('button')
       expect(avatars.map((el) => el.textContent)).toEqual(['CX', '+5'])
@@ -72,9 +72,9 @@ describe('Avatar.Stack', () => {
     test('forwards a ref to the underlying div', () => {
       const ref = React.createRef<HTMLDivElement>()
       render(
-        <Avatar.Stack ref={ref}>
+        <AvatarStack ref={ref}>
           <Avatar>CX</Avatar>
-        </Avatar.Stack>
+        </AvatarStack>
       )
       expect(ref.current).toBeInstanceOf(HTMLDivElement)
     })
@@ -83,10 +83,10 @@ describe('Avatar.Stack', () => {
   describe('accessibility', () => {
     test('has no axe violations', async () => {
       const { container } = render(
-        <Avatar.Stack>
+        <AvatarStack>
           <Avatar>CX</Avatar>
           <Avatar>+5</Avatar>
-        </Avatar.Stack>
+        </AvatarStack>
       )
       expect(await axe(container)).toHaveNoViolations()
     })

@@ -9,7 +9,18 @@ toc: true
 import {
   Button,
   Card,
+  CardBody,
+  CardFooter,
+  CardGroup,
+  CardHeader,
+  CardImage,
+  CardImageOverlay,
+  CardLink,
+  CardSubtitle,
+  CardText,
+  CardTitle,
   List,
+  ListItem,
   Col,
   Nav,
   Row,
@@ -28,15 +39,15 @@ Below is an example of a basic card with mixed content and a fixed width. Cards 
 
 <Example>
   <Card style={{ width: '18rem' }}>
-    <Card.Image orientation="top" src="https://placehold.co/800x400" />
-    <Card.Body>
-      <Card.Title>Card title</Card.Title>
-      <Card.Text>
+    <CardImage orientation="top" src="https://placehold.co/800x400" />
+    <CardBody>
+      <CardTitle>Card title</CardTitle>
+      <CardText>
         Some quick example text to build on the card title and make up the bulk of the card's
         content.
-      </Card.Text>
+      </CardText>
       <Button href="#">Go somewhere</Button>
-    </Card.Body>
+    </CardBody>
   </Card>
 </Example>
 
@@ -46,50 +57,50 @@ Chassis card supports a wide variety of content, including images, text, lists, 
 
 ### Body
 
-The main block of a card is the `<Card.Body>`. Use it whenever you need a padded section within a card.
+The main block of a card is the `<CardBody>`. Use it whenever you need a padded section within a card.
 
 <Example>
   <Card>
-    <Card.Body>This is some text within a card body.</Card.Body>
+    <CardBody>This is some text within a card body.</CardBody>
   </Card>
 </Example>
 
 ### Titles, text, and links
 
-Card titles are managed by `<Card.Title>` component. Identically, links are attached and collected next to each other by `<Card.Link>` component.
+Card titles are managed by `<CardTitle>` component. Identically, links are attached and collected next to each other by `<CardLink>` component.
 
-Subtitles are managed by `<Card.Subtitle>` component. If the `<Card.Title>` also, the `<Card.Subtitle>` items are stored in a `<Card.Body>` item, the card title, and subtitle are arranged rightly.
+Subtitles are managed by `<CardSubtitle>` component. If the `<CardTitle>` also, the `<CardSubtitle>` items are stored in a `<CardBody>` item, the card title, and subtitle are arranged rightly.
 
 <Example>
   <Card style={{ width: '18rem' }}>
-    <Card.Body>
-      <Card.Title>Card title</Card.Title>
-      <Card.Subtitle className="mb-medium medium:text-emphasis">Card subtitle</Card.Subtitle>
-      <Card.Text>
+    <CardBody>
+      <CardTitle>Card title</CardTitle>
+      <CardSubtitle className="mb-medium medium:text-emphasis">Card subtitle</CardSubtitle>
+      <CardText>
         Some quick example text to build on the card title and make up the bulk of the card's
         content.
-      </Card.Text>
-      <Card.Text>
-        <Card.Link href="#">Card link</Card.Link>
-        <Card.Link href="#">Another link</Card.Link>
-      </Card.Text>
-    </Card.Body>
+      </CardText>
+      <CardText>
+        <CardLink href="#">Card link</CardLink>
+        <CardLink href="#">Another link</CardLink>
+      </CardText>
+    </CardBody>
   </Card>
 </Example>
 
 ### Images
 
-`orientation="top"` places a picture to the top of the card. With `<Card.Text>`, text can be added to the card. Text within `<Card.Text>` can additionally be styled with the regular HTML tags.
+`orientation="top"` places a picture to the top of the card. With `<CardText>`, text can be added to the card. Text within `<CardText>` can additionally be styled with the regular HTML tags.
 
 <Example>
   <Card style={{ width: '18rem' }}>
-    <Card.Image orientation="top" src="https://placehold.co/800x400" />
-    <Card.Body>
-      <Card.Text>
+    <CardImage orientation="top" src="https://placehold.co/800x400" />
+    <CardBody>
+      <CardText>
         Some quick example text to build on the card title and make up the bulk of the card's
         content.
-      </Card.Text>
-    </Card.Body>
+      </CardText>
+    </CardBody>
   </Card>
 </Example>
 
@@ -100,20 +111,20 @@ Create lists of content in a card with a flush list.
 <Example>
   <Card style={{ width: '18rem' }}>
     <List flush>
-      <List.Item>Cras justo odio</List.Item>
-      <List.Item>Dapibus ac facilisis in</List.Item>
-      <List.Item>Vestibulum at eros</List.Item>
+      <ListItem>Cras justo odio</ListItem>
+      <ListItem>Dapibus ac facilisis in</ListItem>
+      <ListItem>Vestibulum at eros</ListItem>
     </List>
   </Card>
 </Example>
 
 <Example>
   <Card style={{ width: '18rem' }}>
-    <Card.Header>Header</Card.Header>
+    <CardHeader>Header</CardHeader>
     <List flush>
-      <List.Item>Cras justo odio</List.Item>
-      <List.Item>Dapibus ac facilisis in</List.Item>
-      <List.Item>Vestibulum at eros</List.Item>
+      <ListItem>Cras justo odio</ListItem>
+      <ListItem>Dapibus ac facilisis in</ListItem>
+      <ListItem>Vestibulum at eros</ListItem>
     </List>
   </Card>
 </Example>
@@ -121,11 +132,11 @@ Create lists of content in a card with a flush list.
 <Example>
   <Card style={{ width: '18rem' }}>
     <List flush>
-      <List.Item>Cras justo odio</List.Item>
-      <List.Item>Dapibus ac facilisis in</List.Item>
-      <List.Item>Vestibulum at eros</List.Item>
+      <ListItem>Cras justo odio</ListItem>
+      <ListItem>Dapibus ac facilisis in</ListItem>
+      <ListItem>Vestibulum at eros</ListItem>
     </List>
-    <Card.Footer>Footer</Card.Footer>
+    <CardFooter>Footer</CardFooter>
   </Card>
 </Example>
 
@@ -135,23 +146,23 @@ Combine and match many content types to build the card you need, or throw everyt
 
 <Example>
   <Card style={{ width: '18rem' }}>
-    <Card.Image orientation="top" src="https://placehold.co/800x400" />
-    <Card.Body>
-      <Card.Title>Card title</Card.Title>
-      <Card.Text>
+    <CardImage orientation="top" src="https://placehold.co/800x400" />
+    <CardBody>
+      <CardTitle>Card title</CardTitle>
+      <CardText>
         Some quick example text to build on the card title and make up the bulk of the card's
         content.
-      </Card.Text>
-    </Card.Body>
+      </CardText>
+    </CardBody>
     <List flush>
-      <List.Item>Cras justo odio</List.Item>
-      <List.Item>Dapibus ac facilisis in</List.Item>
-      <List.Item>Vestibulum at eros</List.Item>
+      <ListItem>Cras justo odio</ListItem>
+      <ListItem>Dapibus ac facilisis in</ListItem>
+      <ListItem>Vestibulum at eros</ListItem>
     </List>
-    <Card.Body>
-      <Card.Link href="#">Card link</Card.Link>
-      <Card.Link href="#">Another link</Card.Link>
-    </Card.Body>
+    <CardBody>
+      <CardLink href="#">Card link</CardLink>
+      <CardLink href="#">Another link</CardLink>
+    </CardBody>
   </Card>
 </Example>
 
@@ -161,12 +172,12 @@ Add an optional header and/or footer within a card.
 
 <Example>
   <Card>
-    <Card.Header>Header</Card.Header>
-    <Card.Body>
-      <Card.Title>Special title treatment</Card.Title>
-      <Card.Text>With supporting text below as a natural lead-in to additional content.</Card.Text>
+    <CardHeader>Header</CardHeader>
+    <CardBody>
+      <CardTitle>Special title treatment</CardTitle>
+      <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
       <Button href="#">Go somewhere</Button>
-    </Card.Body>
+    </CardBody>
   </Card>
 </Example>
 
@@ -174,38 +185,38 @@ Card headers can be styled by adding ex. `component="h5"`.
 
 <Example>
   <Card>
-    <Card.Header component="h5">Header</Card.Header>
-    <Card.Body>
-      <Card.Title>Special title treatment</Card.Title>
-      <Card.Text>With supporting text below as a natural lead-in to additional content.</Card.Text>
+    <CardHeader component="h5">Header</CardHeader>
+    <CardBody>
+      <CardTitle>Special title treatment</CardTitle>
+      <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
       <Button href="#">Go somewhere</Button>
-    </Card.Body>
+    </CardBody>
   </Card>
 </Example>
 
 <Example>
   <Card>
-    <Card.Header>Quote</Card.Header>
-    <Card.Body>
+    <CardHeader>Quote</CardHeader>
+    <CardBody>
       <blockquote className="blockquote mb-0">
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
         <footer className="blockquote-footer">
           Someone famous in <cite title="Source Title">Source Title</cite>
         </footer>
       </blockquote>
-    </Card.Body>
+    </CardBody>
   </Card>
 </Example>
 
 <Example>
   <Card className="text-center">
-    <Card.Header>Header</Card.Header>
-    <Card.Body>
-      <Card.Title>Special title treatment</Card.Title>
-      <Card.Text>With supporting text below as a natural lead-in to additional content.</Card.Text>
+    <CardHeader>Header</CardHeader>
+    <CardBody>
+      <CardTitle>Special title treatment</CardTitle>
+      <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
       <Button href="#">Go somewhere</Button>
-    </Card.Body>
-    <Card.Footer className="medium:text-emphasis">2 days ago</Card.Footer>
+    </CardBody>
+    <CardFooter className="medium:text-emphasis">2 days ago</CardFooter>
   </Card>
 </Example>
 
@@ -221,24 +232,24 @@ Using the grid, wrap cards in columns and rows as needed.
   <Row>
     <Col sm={6}>
       <Card>
-        <Card.Body>
-          <Card.Title>Special title treatment</Card.Title>
-          <Card.Text>
+        <CardBody>
+          <CardTitle>Special title treatment</CardTitle>
+          <CardText>
             With supporting text below as a natural lead-in to additional content.
-          </Card.Text>
+          </CardText>
           <Button href="#">Go somewhere</Button>
-        </Card.Body>
+        </CardBody>
       </Card>
     </Col>
     <Col sm={6}>
       <Card>
-        <Card.Body>
-          <Card.Title>Special title treatment</Card.Title>
-          <Card.Text>
+        <CardBody>
+          <CardTitle>Special title treatment</CardTitle>
+          <CardText>
             With supporting text below as a natural lead-in to additional content.
-          </Card.Text>
+          </CardText>
           <Button href="#">Go somewhere</Button>
-        </Card.Body>
+        </CardBody>
       </Card>
     </Col>
   </Row>
@@ -250,18 +261,18 @@ Use some of available sizing utilities to rapidly set a card's width.
 
 <Example>
   <Card className="w-75">
-    <Card.Body>
-      <Card.Title>Card title</Card.Title>
-      <Card.Text>With supporting text below as a natural lead-in to additional content.</Card.Text>
+    <CardBody>
+      <CardTitle>Card title</CardTitle>
+      <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
       <Button href="#">Go somewhere</Button>
-    </Card.Body>
+    </CardBody>
   </Card>
   <Card className="w-50">
-    <Card.Body>
-      <Card.Title>Card title</Card.Title>
-      <Card.Text>With supporting text below as a natural lead-in to additional content.</Card.Text>
+    <CardBody>
+      <CardTitle>Card title</CardTitle>
+      <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
       <Button href="#">Go somewhere</Button>
-    </Card.Body>
+    </CardBody>
   </Card>
 </Example>
 
@@ -271,11 +282,11 @@ Use custom CSS in your stylesheets or as inline styles to set a width.
 
 <Example>
   <Card style={{ width: '18rem' }}>
-    <Card.Body>
-      <Card.Title>Special title treatment</Card.Title>
-      <Card.Text>With supporting text below as a natural lead-in to additional content.</Card.Text>
+    <CardBody>
+      <CardTitle>Special title treatment</CardTitle>
+      <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
       <Button href="#">Go somewhere</Button>
-    </Card.Body>
+    </CardBody>
   </Card>
 </Example>
 
@@ -285,35 +296,35 @@ You can instantly change the text arrangement of any card—in its whole or spec
 
 <Example>
   <Card style={{ width: '18rem' }}>
-    <Card.Body>
-      <Card.Title>Special title treatment</Card.Title>
-      <Card.Text>With supporting text below as a natural lead-in to additional content.</Card.Text>
+    <CardBody>
+      <CardTitle>Special title treatment</CardTitle>
+      <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
       <Button href="#">Go somewhere</Button>
-    </Card.Body>
+    </CardBody>
   </Card>
   <Card className="text-center" style={{ width: '18rem' }}>
-    <Card.Body>
-      <Card.Title>Special title treatment</Card.Title>
-      <Card.Text>With supporting text below as a natural lead-in to additional content.</Card.Text>
+    <CardBody>
+      <CardTitle>Special title treatment</CardTitle>
+      <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
       <Button href="#">Go somewhere</Button>
-    </Card.Body>
+    </CardBody>
   </Card>
   <Card className="text-end" style={{ width: '18rem' }}>
-    <Card.Body>
-      <Card.Title>Special title treatment</Card.Title>
-      <Card.Text>With supporting text below as a natural lead-in to additional content.</Card.Text>
+    <CardBody>
+      <CardTitle>Special title treatment</CardTitle>
+      <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
       <Button href="#">Go somewhere</Button>
-    </Card.Body>
+    </CardBody>
   </Card>
 </Example>
 
 ## Navigation
 
-Add some navigation to a `<Card.Header>` with our `<Nav>` component.
+Add some navigation to a `<CardHeader>` with our `<Nav>` component.
 
 <Example>
   <Card className="text-center">
-    <Card.Header>
+    <CardHeader>
       <Nav variant="tabs" className="card-header-tabs">
         <Nav.Item>
           <Nav.Link href="#" active>
@@ -329,18 +340,18 @@ Add some navigation to a `<Card.Header>` with our `<Nav>` component.
           </Nav.Link>
         </Nav.Item>
       </Nav>
-    </Card.Header>
-    <Card.Body>
-      <Card.Title>Special title treatment</Card.Title>
-      <Card.Text>With supporting text below as a natural lead-in to additional content.</Card.Text>
+    </CardHeader>
+    <CardBody>
+      <CardTitle>Special title treatment</CardTitle>
+      <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
       <Button href="#">Go somewhere</Button>
-    </Card.Body>
+    </CardBody>
   </Card>
 </Example>
 
 <Example>
   <Card className="text-center">
-    <Card.Header>
+    <CardHeader>
       <Nav variant="pills" className="card-header-pills">
         <Nav.Item>
           <Nav.Link href="#" active>
@@ -356,12 +367,12 @@ Add some navigation to a `<Card.Header>` with our `<Nav>` component.
           </Nav.Link>
         </Nav.Item>
       </Nav>
-    </Card.Header>
-    <Card.Body>
-      <Card.Title>Special title treatment</Card.Title>
-      <Card.Text>With supporting text below as a natural lead-in to additional content.</Card.Text>
+    </CardHeader>
+    <CardBody>
+      <CardTitle>Special title treatment</CardTitle>
+      <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
       <Button href="#">Go somewhere</Button>
-    </Card.Body>
+    </CardBody>
   </Card>
 </Example>
 
@@ -375,30 +386,30 @@ Similar to headers and footers, cards can include top and bottom "image caps"—
 
 <Example>
   <Card className="mb-medium">
-    <Card.Image orientation="top" src="https://placehold.co/800x400" />
-    <Card.Body>
-      <Card.Title>Card title</Card.Title>
-      <Card.Text>
+    <CardImage orientation="top" src="https://placehold.co/800x400" />
+    <CardBody>
+      <CardTitle>Card title</CardTitle>
+      <CardText>
         This is a wider card with supporting text below as a natural lead-in to additional content.
         This content is a little bit longer.
-      </Card.Text>
-      <Card.Text>
+      </CardText>
+      <CardText>
         <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-      </Card.Text>
-    </Card.Body>
+      </CardText>
+    </CardBody>
   </Card>
   <Card className="mb-medium">
-    <Card.Body>
-      <Card.Title>Card title</Card.Title>
-      <Card.Text>
+    <CardBody>
+      <CardTitle>Card title</CardTitle>
+      <CardText>
         This is a wider card with supporting text below as a natural lead-in to additional content.
         This content is a little bit longer.
-      </Card.Text>
-      <Card.Text>
+      </CardText>
+      <CardText>
         <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-      </Card.Text>
-    </Card.Body>
-    <Card.Image orientation="bottom" src="https://placehold.co/800x400" />
+      </CardText>
+    </CardBody>
+    <CardImage orientation="bottom" src="https://placehold.co/800x400" />
   </Card>
 </Example>
 
@@ -408,15 +419,15 @@ Adapt an image into a background and overlay your text. Depending on the image, 
 
 <Example>
   <Card className="mb-medium bg-dark text-white">
-    <Card.Image src="https://placehold.co/800x400" />
-    <Card.ImageOverlay>
-      <Card.Title>Card title</Card.Title>
-      <Card.Text>
+    <CardImage src="https://placehold.co/800x400" />
+    <CardImageOverlay>
+      <CardTitle>Card title</CardTitle>
+      <CardText>
         This is a wider card with supporting text below as a natural lead-in to additional content.
         This content is a little bit longer.
-      </Card.Text>
-      <Card.Text>Last updated 3 mins ago</Card.Text>
-    </Card.ImageOverlay>
+      </CardText>
+      <CardText>Last updated 3 mins ago</CardText>
+    </CardImageOverlay>
   </Card>
 </Example>
 
@@ -428,19 +439,19 @@ Using a combination of grid and utility classes, cards can be made horizontal in
   <Card className="mb-medium" style={{ maxWidth: '540px' }}>
     <Row className="g-0">
       <Col md={4}>
-        <Card.Image src="https://placehold.co/800x400" />
+        <CardImage src="https://placehold.co/800x400" />
       </Col>
       <Col md={8}>
-        <Card.Body>
-          <Card.Title>Card title</Card.Title>
-          <Card.Text>
+        <CardBody>
+          <CardTitle>Card title</CardTitle>
+          <CardText>
             This is a wider card with supporting text below as a natural lead-in to additional
             content. This content is a little bit longer.
-          </Card.Text>
-          <Card.Text>
+          </CardText>
+          <CardText>
             <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-          </Card.Text>
-        </Card.Body>
+          </CardText>
+        </CardBody>
       </Col>
     </Row>
   </Card>
@@ -473,14 +484,14 @@ Use `color` property to change the appearance of a card.
         style={{ maxWidth: '18rem' }}
         key={index}
       >
-        <Card.Header>Header</Card.Header>
-        <Card.Body>
-          <Card.Title>{item.color} card title</Card.Title>
-          <Card.Text>
+        <CardHeader>Header</CardHeader>
+        <CardBody>
+          <CardTitle>{item.color} card title</CardTitle>
+          <CardText>
             Some quick example text to build on the card title and make up the bulk of the card's
             content.
-          </Card.Text>
-        </Card.Body>
+          </CardText>
+        </CardBody>
       </Card>
     ))}
   </>
@@ -518,14 +529,14 @@ Use border utilities to change just the `border-context` of a card. Note that yo
         style={{ maxWidth: '18rem' }}
         key={index}
       >
-        <Card.Header>Header</Card.Header>
-        <Card.Body>
-          <Card.Title>{item.color} card title</Card.Title>
-          <Card.Text>
+        <CardHeader>Header</CardHeader>
+        <CardBody>
+          <CardTitle>{item.color} card title</CardTitle>
+          <CardText>
             Some quick example text to build on the card title and make up the bulk of the card's
             content.
-          </Card.Text>
-        </Card.Body>
+          </CardText>
+        </CardBody>
       </Card>
     ))}
   </>
@@ -551,14 +562,14 @@ Use border utilities to change just the `border-context` of a card. Note that yo
         style={{ maxWidth: '18rem' }}
         key={index}
       >
-        <Card.Header>Header</Card.Header>
-        <Card.Body>
-          <Card.Title>{item.color} card title</Card.Title>
-          <Card.Text>
+        <CardHeader>Header</CardHeader>
+        <CardBody>
+          <CardTitle>{item.color} card title</CardTitle>
+          <CardText>
             Some quick example text to build on the card title and make up the bulk of the card's
             content.
-          </Card.Text>
-        </Card.Body>
+          </CardText>
+        </CardBody>
       </Card>
     ))}
   </>
@@ -573,93 +584,93 @@ In addition to styling the content within cards, Chassis includes a few options 
 Use card groups to render cards as a single, attached element with equal width and height columns. Card groups start off stacked and use `display: flex;` to become attached with uniform dimensions starting at the `sm` breakpoint.
 
 <Example>
-  <Card.Group>
+  <CardGroup>
     <Card>
-      <Card.Image orientation="top" src="https://placehold.co/800x400" />
-      <Card.Body>
-        <Card.Title>Card title</Card.Title>
-        <Card.Text>
+      <CardImage orientation="top" src="https://placehold.co/800x400" />
+      <CardBody>
+        <CardTitle>Card title</CardTitle>
+        <CardText>
           This is a wider card with supporting text below as a natural lead-in to additional
           content. This content is a little bit longer.
-        </Card.Text>
-        <Card.Text>
+        </CardText>
+        <CardText>
           <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </Card.Text>
-      </Card.Body>
+        </CardText>
+      </CardBody>
     </Card>
     <Card>
-      <Card.Image orientation="top" src="https://placehold.co/800x400" />
-      <Card.Body>
-        <Card.Title>Card title</Card.Title>
-        <Card.Text>
+      <CardImage orientation="top" src="https://placehold.co/800x400" />
+      <CardBody>
+        <CardTitle>Card title</CardTitle>
+        <CardText>
           This card has supporting text below as a natural lead-in to additional content.
-        </Card.Text>
-        <Card.Text>
+        </CardText>
+        <CardText>
           <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </Card.Text>
-      </Card.Body>
+        </CardText>
+      </CardBody>
     </Card>
     <Card>
-      <Card.Image orientation="top" src="https://placehold.co/800x400" />
-      <Card.Body>
-        <Card.Title>Card title</Card.Title>
-        <Card.Text>
+      <CardImage orientation="top" src="https://placehold.co/800x400" />
+      <CardBody>
+        <CardTitle>Card title</CardTitle>
+        <CardText>
           This is a wider card with supporting text below as a natural lead-in to additional
           content. This card has even longer content than the first to show that equal height
           action.
-        </Card.Text>
-        <Card.Text>
+        </CardText>
+        <CardText>
           <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </Card.Text>
-      </Card.Body>
+        </CardText>
+      </CardBody>
     </Card>
-  </Card.Group>
+  </CardGroup>
 </Example>
 
 When using card groups with footers, their content will automatically line up.
 
 <Example>
-  <Card.Group>
+  <CardGroup>
     <Card>
-      <Card.Image orientation="top" src="https://placehold.co/800x400" />
-      <Card.Body>
-        <Card.Title>Card title</Card.Title>
-        <Card.Text>
+      <CardImage orientation="top" src="https://placehold.co/800x400" />
+      <CardBody>
+        <CardTitle>Card title</CardTitle>
+        <CardText>
           This is a wider card with supporting text below as a natural lead-in to additional
           content. This content is a little bit longer.
-        </Card.Text>
-      </Card.Body>
-      <Card.Footer>
+        </CardText>
+      </CardBody>
+      <CardFooter>
         <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-      </Card.Footer>
+      </CardFooter>
     </Card>
     <Card>
-      <Card.Image orientation="top" src="https://placehold.co/800x400" />
-      <Card.Body>
-        <Card.Title>Card title</Card.Title>
-        <Card.Text>
+      <CardImage orientation="top" src="https://placehold.co/800x400" />
+      <CardBody>
+        <CardTitle>Card title</CardTitle>
+        <CardText>
           This card has supporting text below as a natural lead-in to additional content.
-        </Card.Text>
-      </Card.Body>
-      <Card.Footer>
+        </CardText>
+      </CardBody>
+      <CardFooter>
         <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-      </Card.Footer>
+      </CardFooter>
     </Card>
     <Card>
-      <Card.Image orientation="top" src="https://placehold.co/800x400" />
-      <Card.Body>
-        <Card.Title>Card title</Card.Title>
-        <Card.Text>
+      <CardImage orientation="top" src="https://placehold.co/800x400" />
+      <CardBody>
+        <CardTitle>Card title</CardTitle>
+        <CardText>
           This is a wider card with supporting text below as a natural lead-in to additional
           content. This card has even longer content than the first to show that equal height
           action.
-        </Card.Text>
-      </Card.Body>
-      <Card.Footer>
+        </CardText>
+      </CardBody>
+      <CardFooter>
         <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-      </Card.Footer>
+      </CardFooter>
     </Card>
-  </Card.Group>
+  </CardGroup>
 </Example>
 
 ### Grid cards
@@ -670,62 +681,62 @@ Use the `Row` component and set `xs|sm|md|lg|xl|xxl}={{ cols: * }}` property to 
   <Row xs={{ cols: 1, gutter: 4 }} md={{ cols: 2 }}>
     <Col xs>
       <Card>
-        <Card.Image orientation="top" src="https://placehold.co/800x400" />
-        <Card.Body>
-          <Card.Title>Card title</Card.Title>
-          <Card.Text>
+        <CardImage orientation="top" src="https://placehold.co/800x400" />
+        <CardBody>
+          <CardTitle>Card title</CardTitle>
+          <CardText>
             This is a wider card with supporting text below as a natural lead-in to additional
             content. This content is a little bit longer.
-          </Card.Text>
-        </Card.Body>
-        <Card.Footer>
+          </CardText>
+        </CardBody>
+        <CardFooter>
           <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </Card.Footer>
+        </CardFooter>
       </Card>
     </Col>
     <Col xs>
       <Card>
-        <Card.Image orientation="top" src="https://placehold.co/800x400" />
-        <Card.Body>
-          <Card.Title>Card title</Card.Title>
-          <Card.Text>
+        <CardImage orientation="top" src="https://placehold.co/800x400" />
+        <CardBody>
+          <CardTitle>Card title</CardTitle>
+          <CardText>
             This is a wider card with supporting text below as a natural lead-in to additional
             content. This content is a little bit longer.
-          </Card.Text>
-        </Card.Body>
-        <Card.Footer>
+          </CardText>
+        </CardBody>
+        <CardFooter>
           <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </Card.Footer>
+        </CardFooter>
       </Card>
     </Col>
     <Col xs>
       <Card>
-        <Card.Image orientation="top" src="https://placehold.co/800x400" />
-        <Card.Body>
-          <Card.Title>Card title</Card.Title>
-          <Card.Text>
+        <CardImage orientation="top" src="https://placehold.co/800x400" />
+        <CardBody>
+          <CardTitle>Card title</CardTitle>
+          <CardText>
             This is a wider card with supporting text below as a natural lead-in to additional
             content. This content is a little bit longer.
-          </Card.Text>
-        </Card.Body>
-        <Card.Footer>
+          </CardText>
+        </CardBody>
+        <CardFooter>
           <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </Card.Footer>
+        </CardFooter>
       </Card>
     </Col>
     <Col xs>
       <Card>
-        <Card.Image orientation="top" src="https://placehold.co/800x400" />
-        <Card.Body>
-          <Card.Title>Card title</Card.Title>
-          <Card.Text>
+        <CardImage orientation="top" src="https://placehold.co/800x400" />
+        <CardBody>
+          <CardTitle>Card title</CardTitle>
+          <CardText>
             This is a wider card with supporting text below as a natural lead-in to additional
             content. This content is a little bit longer.
-          </Card.Text>
-        </Card.Body>
-        <Card.Footer>
+          </CardText>
+        </CardBody>
+        <CardFooter>
           <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </Card.Footer>
+        </CardFooter>
       </Card>
     </Col>
   </Row>
@@ -737,62 +748,62 @@ Change it to `md={{ cols: 3}}` and you'll see the fourth card wrap.
   <Row xs={{ cols: 1, gutter: 4 }} md={{ cols: 3 }}>
     <Col xs>
       <Card>
-        <Card.Image orientation="top" src="https://placehold.co/800x400" />
-        <Card.Body>
-          <Card.Title>Card title</Card.Title>
-          <Card.Text>
+        <CardImage orientation="top" src="https://placehold.co/800x400" />
+        <CardBody>
+          <CardTitle>Card title</CardTitle>
+          <CardText>
             This is a wider card with supporting text below as a natural lead-in to additional
             content. This content is a little bit longer.
-          </Card.Text>
-        </Card.Body>
-        <Card.Footer>
+          </CardText>
+        </CardBody>
+        <CardFooter>
           <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </Card.Footer>
+        </CardFooter>
       </Card>
     </Col>
     <Col xs>
       <Card>
-        <Card.Image orientation="top" src="https://placehold.co/800x400" />
-        <Card.Body>
-          <Card.Title>Card title</Card.Title>
-          <Card.Text>
+        <CardImage orientation="top" src="https://placehold.co/800x400" />
+        <CardBody>
+          <CardTitle>Card title</CardTitle>
+          <CardText>
             This is a wider card with supporting text below as a natural lead-in to additional
             content. This content is a little bit longer.
-          </Card.Text>
-        </Card.Body>
-        <Card.Footer>
+          </CardText>
+        </CardBody>
+        <CardFooter>
           <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </Card.Footer>
+        </CardFooter>
       </Card>
     </Col>
     <Col xs>
       <Card>
-        <Card.Image orientation="top" src="https://placehold.co/800x400" />
-        <Card.Body>
-          <Card.Title>Card title</Card.Title>
-          <Card.Text>
+        <CardImage orientation="top" src="https://placehold.co/800x400" />
+        <CardBody>
+          <CardTitle>Card title</CardTitle>
+          <CardText>
             This is a wider card with supporting text below as a natural lead-in to additional
             content. This content is a little bit longer.
-          </Card.Text>
-        </Card.Body>
-        <Card.Footer>
+          </CardText>
+        </CardBody>
+        <CardFooter>
           <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </Card.Footer>
+        </CardFooter>
       </Card>
     </Col>
     <Col xs>
       <Card>
-        <Card.Image orientation="top" src="https://placehold.co/800x400" />
-        <Card.Body>
-          <Card.Title>Card title</Card.Title>
-          <Card.Text>
+        <CardImage orientation="top" src="https://placehold.co/800x400" />
+        <CardBody>
+          <CardTitle>Card title</CardTitle>
+          <CardText>
             This is a wider card with supporting text below as a natural lead-in to additional
             content. This content is a little bit longer.
-          </Card.Text>
-        </Card.Body>
-        <Card.Footer>
+          </CardText>
+        </CardBody>
+        <CardFooter>
           <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </Card.Footer>
+        </CardFooter>
       </Card>
     </Col>
   </Row>
@@ -804,50 +815,50 @@ When you need equal height, add `.h-100` to the cards. If you want equal heights
   <Row xs={{ cols: 1 }} md={{ cols: 3 }} className="g-4">
     <Col xs>
       <Card className="h-100">
-        <Card.Image orientation="top" src="https://placehold.co/800x400" />
-        <Card.Body>
-          <Card.Title>Card title</Card.Title>
-          <Card.Text>
+        <CardImage orientation="top" src="https://placehold.co/800x400" />
+        <CardBody>
+          <CardTitle>Card title</CardTitle>
+          <CardText>
             This is a wider card with supporting text below as a natural lead-in to additional
             content. This content is a little bit longer.
-          </Card.Text>
-        </Card.Body>
+          </CardText>
+        </CardBody>
       </Card>
     </Col>
     <Col xs>
       <Card className="h-100">
-        <Card.Image orientation="top" src="https://placehold.co/800x400" />
-        <Card.Body>
-          <Card.Title>Card title</Card.Title>
-          <Card.Text>
+        <CardImage orientation="top" src="https://placehold.co/800x400" />
+        <CardBody>
+          <CardTitle>Card title</CardTitle>
+          <CardText>
             This card has supporting text below as a natural lead-in to additional content.
-          </Card.Text>
-        </Card.Body>
+          </CardText>
+        </CardBody>
       </Card>
     </Col>
     <Col xs>
       <Card className="h-100">
-        <Card.Image orientation="top" src="https://placehold.co/800x400" />
-        <Card.Body>
-          <Card.Title>Card title</Card.Title>
-          <Card.Text>
+        <CardImage orientation="top" src="https://placehold.co/800x400" />
+        <CardBody>
+          <CardTitle>Card title</CardTitle>
+          <CardText>
             This is a wider card with supporting text below as a natural lead-in to additional
             content. This card has even longer content than the first to show that equal height
             action.
-          </Card.Text>
-        </Card.Body>
+          </CardText>
+        </CardBody>
       </Card>
     </Col>
     <Col xs>
       <Card className="h-100">
-        <Card.Image orientation="top" src="https://placehold.co/800x400" />
-        <Card.Body>
-          <Card.Title>Card title</Card.Title>
-          <Card.Text>
+        <CardImage orientation="top" src="https://placehold.co/800x400" />
+        <CardBody>
+          <CardTitle>Card title</CardTitle>
+          <CardText>
             This is a wider card with supporting text below as a natural lead-in to additional
             content. This content is a little bit longer.
-          </Card.Text>
-        </Card.Body>
+          </CardText>
+        </CardBody>
       </Card>
     </Col>
   </Row>
@@ -859,47 +870,47 @@ Just like with card groups, card footers will automatically line up.
   <Row xs={{ cols: 1 }} md={{ cols: 3 }} className="g-4">
     <Col xs>
       <Card className="h-100">
-        <Card.Image orientation="top" src="https://placehold.co/800x400" />
-        <Card.Body>
-          <Card.Title>Card title</Card.Title>
-          <Card.Text>
+        <CardImage orientation="top" src="https://placehold.co/800x400" />
+        <CardBody>
+          <CardTitle>Card title</CardTitle>
+          <CardText>
             This is a wider card with supporting text below as a natural lead-in to additional
             content. This content is a little bit longer.
-          </Card.Text>
-        </Card.Body>
-        <Card.Footer>
+          </CardText>
+        </CardBody>
+        <CardFooter>
           <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </Card.Footer>
+        </CardFooter>
       </Card>
     </Col>
     <Col xs>
       <Card className="h-100">
-        <Card.Image orientation="top" src="https://placehold.co/800x400" />
-        <Card.Body>
-          <Card.Title>Card title</Card.Title>
-          <Card.Text>
+        <CardImage orientation="top" src="https://placehold.co/800x400" />
+        <CardBody>
+          <CardTitle>Card title</CardTitle>
+          <CardText>
             This card has supporting text below as a natural lead-in to additional content.
-          </Card.Text>
-        </Card.Body>
-        <Card.Footer>
+          </CardText>
+        </CardBody>
+        <CardFooter>
           <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </Card.Footer>
+        </CardFooter>
       </Card>
     </Col>
     <Col xs>
       <Card className="h-100">
-        <Card.Image orientation="top" src="https://placehold.co/800x400" />
-        <Card.Body>
-          <Card.Title>Card title</Card.Title>
-          <Card.Text>
+        <CardImage orientation="top" src="https://placehold.co/800x400" />
+        <CardBody>
+          <CardTitle>Card title</CardTitle>
+          <CardText>
             This is a wider card with supporting text below as a natural lead-in to additional
             content. This card has even longer content than the first to show that equal height
             action.
-          </Card.Text>
-        </Card.Body>
-        <Card.Footer>
+          </CardText>
+        </CardBody>
+        <CardFooter>
           <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </Card.Footer>
+        </CardFooter>
       </Card>
     </Col>
   </Row>
@@ -910,33 +921,33 @@ Just like with card groups, card footers will automatically line up.
 ### Card
 
 <PropTable component="Card" />
-### Card.Body
+### CardBody
 
 <PropTable component="CardBody" />
-### Card.Footer
+### CardFooter
 
 <PropTable component="CardFooter" />
-### Card.Group
+### CardGroup
 
 <PropTable component="CardGroup" />
-### Card.Header
+### CardHeader
 
 <PropTable component="CardHeader" />
-### Card.Image
+### CardImage
 
 <PropTable component="CardImage" />
-### Card.ImageOverlay
+### CardImageOverlay
 
 <PropTable component="CardImageOverlay" />
-### Card.Link
+### CardLink
 
 <PropTable component="CardLink" />
-### Card.Subtitle
+### CardSubtitle
 
 <PropTable component="CardSubtitle" />
-### Card.Text
+### CardText
 
 <PropTable component="CardText" />
-### Card.Title
+### CardTitle
 
 <PropTable component="CardTitle" />

@@ -30,7 +30,7 @@ Render a `<Avatar>` with text content for initials, or set the `src` prop to dis
   <BasicExample client:load />
 </Example>
 
-Passing a `src` renders a `Avatar.Image` automatically. Nest one directly instead if you need more control over the image itself.
+Passing a `src` renders an `AvatarImage` automatically. Nest one directly instead if you need more control over the image itself.
 
 <Example class="d-flex gap-small">
   <AvatarImageExample client:load />
@@ -90,7 +90,7 @@ Set the `status` prop to one of the Chassis themed colors to show a status indic
 
 ## Stacks
 
-Use `<Avatar.Stack>` to group related avatars together with a consistent overlap. Pass a `data` array to render a `Avatar` per item, or nest `<Avatar>` children directly &mdash; handy for a trailing "+N" overflow avatar. Set the `--cx-avatar-stack-spacing` CSS variable to adjust how much they overlap, and use the `size` prop to size every avatar in the stack at once.
+Use `<AvatarStack>` to group related avatars together with a consistent overlap. Pass a `data` array to render a `Avatar` per item, or nest `<Avatar>` children directly &mdash; handy for a trailing "+N" overflow avatar. Set the `--cx-avatar-stack-spacing` CSS variable to adjust how much they overlap, and use the `size` prop to size every avatar in the stack at once.
 
 <Example class="d-flex gap-small">
   <StackExample client:load />
@@ -106,16 +106,16 @@ Use `<Avatar.Stack>` to group related avatars together with a consistent overlap
 
 <PropTable component="Avatar" />
 
-### Avatar.Image
+### AvatarImage
 
 <PropTable component="AvatarImage" />
 
-### Avatar.Stack
+### AvatarStack
 
 <PropTable component="AvatarStack" />
 
 ### AvatarStackItemDef
 
-Shape of each entry in `Avatar.Stack`'s `items` array.
+Shape of each entry in `AvatarStack`'s `items` array.
 
 <PropTable component="AvatarStackItemDef" />

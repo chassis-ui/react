@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Card.Text > rendering > matches the baseline markup snapshot 1`] = `
+exports[`CardText > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <p
     class="card-text"

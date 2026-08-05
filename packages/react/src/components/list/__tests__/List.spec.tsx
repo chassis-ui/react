@@ -2,7 +2,7 @@ import * as React from 'react'
 import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { List } from '../../../index'
+import { List, ListItem } from '../../../index'
 
 describe('List', () => {
   describe('rendering', () => {
@@ -16,9 +16,9 @@ describe('List', () => {
     test('matches the baseline markup snapshot', () => {
       const { container } = render(
         <List>
-          <List.Item>A</List.Item>
-          <List.Item>B</List.Item>
-          <List.Item>C</List.Item>
+          <ListItem>A</ListItem>
+          <ListItem>B</ListItem>
+          <ListItem>C</ListItem>
         </List>
       )
       expect(container).toMatchSnapshot()
@@ -111,8 +111,8 @@ describe('List', () => {
     test('has no axe violations', async () => {
       const { container } = render(
         <List>
-          <List.Item>A</List.Item>
-          <List.Item>B</List.Item>
+          <ListItem>A</ListItem>
+          <ListItem>B</ListItem>
         </List>
       )
       expect(await axe(container)).toHaveNoViolations()

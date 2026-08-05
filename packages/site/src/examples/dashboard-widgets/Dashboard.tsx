@@ -1,4 +1,14 @@
-import { Card, Badge, List, Progress, Table, Row, Col } from '@chassis-ui/react'
+import {
+  Card,
+  CardBody,
+  Badge,
+  List,
+  Progress,
+  ProgressBar,
+  Table,
+  Row,
+  Col
+} from '@chassis-ui/react'
 
 export const Dashboard = () => {
   const stats = [
@@ -44,7 +54,7 @@ export const Dashboard = () => {
         {stats.map((stat) => (
           <Col key={stat.label}>
             <Card>
-              <Card.Body>
+              <CardBody>
                 <div className="d-flex justify-content-between align-items-start">
                   <div>
                     <div className="small fg-neutral mb-xsmall">{stat.label}</div>
@@ -52,7 +62,7 @@ export const Dashboard = () => {
                   </div>
                   <Badge color={stat.color}>{stat.delta}</Badge>
                 </div>
-              </Card.Body>
+              </CardBody>
             </Card>
           </Col>
         ))}
@@ -60,7 +70,7 @@ export const Dashboard = () => {
       <Row className="mb-xlarge">
         <Col>
           <Card>
-            <Card.Body>
+            <CardBody>
               <h5 className="mb-medium">Recent Orders</h5>
               <Table aria-label="Recent orders" hover>
                 <Table.Header columns={orderColumns}>
@@ -82,22 +92,22 @@ export const Dashboard = () => {
                   )}
                 </Table.Body>
               </Table>
-            </Card.Body>
+            </CardBody>
           </Card>
         </Col>
       </Row>
       <Row>
         <Col>
           <Card>
-            <Card.Body>
+            <CardBody>
               <h5 className="mb-medium">Recent Activity</h5>
               <List flush items={activity} />
-            </Card.Body>
+            </CardBody>
           </Card>
         </Col>
         <Col>
           <Card>
-            <Card.Body>
+            <CardBody>
               <h5 className="mb-medium">Traffic Sources</h5>
               {traffic.map((src) => (
                 <div key={src.label} className="mb-medium">
@@ -106,11 +116,11 @@ export const Dashboard = () => {
                     <small>{src.value}%</small>
                   </div>
                   <Progress>
-                    <Progress.Bar color={src.color} value={src.value} />
+                    <ProgressBar color={src.color} value={src.value} />
                   </Progress>
                 </div>
               ))}
-            </Card.Body>
+            </CardBody>
           </Card>
         </Col>
       </Row>

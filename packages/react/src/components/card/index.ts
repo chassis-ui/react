@@ -1,38 +1,23 @@
-import { Card as CardRoot } from './Card'
-import { CardBody } from './CardBody'
-import { CardFooter } from './CardFooter'
-import { CardGroup } from './CardGroup'
-import { CardHeader } from './CardHeader'
-import { CardImage } from './CardImage'
-import { CardImageOverlay } from './CardImageOverlay'
-import { CardLink } from './CardLink'
-import { CardSubtitle } from './CardSubtitle'
-import { CardText } from './CardText'
-import { CardTitle } from './CardTitle'
-// plop:sub-import
-
-export const Card = Object.assign(CardRoot, {
-  // plop:sub-entry
-  Body: CardBody,
-  Footer: CardFooter,
-  Group: CardGroup,
-  Header: CardHeader,
-  Image: CardImage,
-  ImageOverlay: CardImageOverlay,
-  Link: CardLink,
-  Subtitle: CardSubtitle,
-  Text: CardText,
-  Title: CardTitle
-})
+export { Card } from './Card'
 export type { CardProps } from './Card'
+export { CardBody } from './CardBody'
 export type { CardBodyProps } from './CardBody'
+export { CardFooter } from './CardFooter'
 export type { CardFooterProps } from './CardFooter'
+export { CardGroup } from './CardGroup'
 export type { CardGroupProps } from './CardGroup'
+export { CardHeader } from './CardHeader'
 export type { CardHeaderProps } from './CardHeader'
+export { CardImage } from './CardImage'
 export type { CardImageProps } from './CardImage'
+export { CardImageOverlay } from './CardImageOverlay'
 export type { CardImageOverlayProps } from './CardImageOverlay'
+export { CardLink } from './CardLink'
 export type { CardLinkProps } from './CardLink'
+export { CardSubtitle } from './CardSubtitle'
 export type { CardSubtitleProps } from './CardSubtitle'
+export { CardText } from './CardText'
 export type { CardTextProps } from './CardText'
+export { CardTitle } from './CardTitle'
 export type { CardTitleProps } from './CardTitle'
-// plop:sub-type
+// plop:sub-export

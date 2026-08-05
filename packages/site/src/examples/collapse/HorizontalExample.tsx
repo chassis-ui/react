@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Card, Button, Collapse } from '@chassis-ui/react'
+import { Card, CardBody, Button, Collapse } from '@chassis-ui/react'
 
 export const HorizontalExample = () => {
   const [visible, setVisible] = useState(false)
@@ -16,10 +16,10 @@ export const HorizontalExample = () => {
       <div style={{ minHeight: '120px' }}>
         <Collapse id="collapseWidthExample" horizontal visible={visible}>
           <Card style={{ width: '300px' }}>
-            <Card.Body>
+            <CardBody>
               This is some placeholder content for a horizontal collapse. It's hidden by default and
               shown when triggered.
-            </Card.Body>
+            </CardBody>
           </Card>
         </Collapse>
       </div>

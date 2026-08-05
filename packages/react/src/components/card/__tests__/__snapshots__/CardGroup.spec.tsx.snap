@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Card.Group > rendering > matches the baseline markup snapshot with nested cards 1`] = `
+exports[`CardGroup > rendering > matches the baseline markup snapshot with nested cards 1`] = `
 <div>
   <div
     class="card-group"

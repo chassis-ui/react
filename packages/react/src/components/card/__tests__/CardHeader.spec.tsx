@@ -2,27 +2,27 @@ import * as React from 'react'
 import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Card } from '../../../index'
+import { CardHeader } from '../../../index'
 
-describe('Card.Header', () => {
+describe('CardHeader', () => {
   describe('rendering', () => {
     test('renders a div with the base class by default', () => {
-      render(<Card.Header>Test</Card.Header>)
+      render(<CardHeader>Test</CardHeader>)
       const header = screen.getByText('Test')
       expect(header).toHaveClass('card-header')
       expect(header.tagName).toBe('DIV')
     })
 
     test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Card.Header>Test</Card.Header>)
+      const { container } = render(<CardHeader>Test</CardHeader>)
       expect(container).toMatchSnapshot()
     })
 
     test('renders as a custom component with className merged', () => {
       render(
-        <Card.Header className="bazinga" component="h3">
+        <CardHeader className="bazinga" component="h3">
           Test
-        </Card.Header>
+        </CardHeader>
       )
       const header = screen.getByText('Test')
       expect(header).toHaveClass('card-header', 'bazinga')
@@ -33,14 +33,14 @@ describe('Card.Header', () => {
   describe('ref forwarding', () => {
     test('forwards a ref to the underlying div', () => {
       const ref = React.createRef<HTMLDivElement>()
-      render(<Card.Header ref={ref}>Test</Card.Header>)
+      render(<CardHeader ref={ref}>Test</CardHeader>)
       expect(ref.current).toBeInstanceOf(HTMLDivElement)
     })
   })
 
   describe('accessibility', () => {
     test('has no axe violations', async () => {
-      const { container } = render(<Card.Header>Test</Card.Header>)
+      const { container } = render(<CardHeader>Test</CardHeader>)
       expect(await axe(container)).toHaveNoViolations()
     })
   })

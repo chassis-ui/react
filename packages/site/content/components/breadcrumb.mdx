@@ -7,7 +7,7 @@ toc: true
 ---
 
 
-import { Breadcrumb } from '@chassis-ui/react'
+import { Breadcrumb, BreadcrumbItem } from '@chassis-ui/react'
 
 ## Data-driven usage
 
@@ -29,18 +29,18 @@ The breadcrumb navigation provides links back to each previous page the user nav
 
 <Example>
   <Breadcrumb>
-    <Breadcrumb.Item active>Home</Breadcrumb.Item>
+    <BreadcrumbItem active>Home</BreadcrumbItem>
   </Breadcrumb>
 
   <Breadcrumb>
-    <Breadcrumb.Item href="#">Home</Breadcrumb.Item>
-    <Breadcrumb.Item active>Library</Breadcrumb.Item>
+    <BreadcrumbItem href="#">Home</BreadcrumbItem>
+    <BreadcrumbItem active>Library</BreadcrumbItem>
   </Breadcrumb>
 
   <Breadcrumb>
-    <Breadcrumb.Item href="#">Home</Breadcrumb.Item>
-    <Breadcrumb.Item href="#">Library</Breadcrumb.Item>
-    <Breadcrumb.Item active>Data</Breadcrumb.Item>
+    <BreadcrumbItem href="#">Home</BreadcrumbItem>
+    <BreadcrumbItem href="#">Library</BreadcrumbItem>
+    <BreadcrumbItem active>Data</BreadcrumbItem>
   </Breadcrumb>
 </Example>
 
@@ -50,8 +50,8 @@ Dividers are automatically added in CSS through [`::before`](https://developer.m
 
 <Example>
   <Breadcrumb style={{"--cui-breadcrumb-divider": "'>'"}}>
-    <Breadcrumb.Item href="#">Home</Breadcrumb.Item>
-    <Breadcrumb.Item active>Library</Breadcrumb.Item>
+    <BreadcrumbItem href="#">Home</BreadcrumbItem>
+    <BreadcrumbItem active>Library</BreadcrumbItem>
   </Breadcrumb>
 </Example>
 
@@ -65,8 +65,8 @@ It's also possible to use an **embedded SVG icon**. Apply it via our CSS custom 
 
 <Example>
   <Breadcrumb style={{"--cui-breadcrumb-divider": "url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);"}}>
-    <Breadcrumb.Item href="#">Home</Breadcrumb.Item>
-    <Breadcrumb.Item active>Library</Breadcrumb.Item>
+    <BreadcrumbItem href="#">Home</BreadcrumbItem>
+    <BreadcrumbItem active>Library</BreadcrumbItem>
   </Breadcrumb>
 </Example>
 
@@ -79,8 +79,8 @@ You can also remove the divider setting `--cui-breadcrumb-divider: '';` (empty s
 
 <Example>
   <Breadcrumb style={{"--cui-breadcrumb-divider": "'';"}}>
-    <Breadcrumb.Item href="#">Home</Breadcrumb.Item>
-    <Breadcrumb.Item active>Library</Breadcrumb.Item>
+    <BreadcrumbItem href="#">Home</BreadcrumbItem>
+    <BreadcrumbItem active>Library</BreadcrumbItem>
   </Breadcrumb>
 </Example>
 
@@ -104,6 +104,6 @@ For more information, see the [WAI-ARIA Authoring Practices for the breadcrumb p
 Shape of each entry in `Breadcrumb`'s `items` array (data-driven rendering).
 
 <PropTable component="BreadcrumbItemDef" />
-### Breadcrumb.Item
+### BreadcrumbItem
 
 <PropTable component="BreadcrumbItem" />

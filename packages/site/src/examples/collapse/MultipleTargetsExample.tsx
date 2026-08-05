@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Card, Button, Col, Collapse, Row } from '@chassis-ui/react'
+import { Card, CardBody, Button, Col, Collapse, Row } from '@chassis-ui/react'
 
 export const MultipleTargetsExample = () => {
   const [visibleA, setVisibleA] = useState(false)
@@ -20,22 +20,22 @@ export const MultipleTargetsExample = () => {
         <Col xs={6}>
           <Collapse visible={visibleA}>
             <Card className="mt-3">
-              <Card.Body>
+              <CardBody>
                 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
                 richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson
                 cred nesciunt sapiente ea proident.
-              </Card.Body>
+              </CardBody>
             </Card>
           </Collapse>
         </Col>
         <Col xs={6}>
           <Collapse visible={visibleB}>
             <Card className="mt-3">
-              <Card.Body>
+              <CardBody>
                 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
                 richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson
                 cred nesciunt sapiente ea proident.
-              </Card.Body>
+              </CardBody>
             </Card>
           </Collapse>
         </Col>

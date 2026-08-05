@@ -2,12 +2,12 @@ import * as React from 'react'
 import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Progress } from '../../../index'
+import { ProgressBar } from '../../../index'
 
-describe('Progress.Bar', () => {
+describe('ProgressBar', () => {
   describe('rendering', () => {
     test('renders a progressbar with value-derived aria attributes', () => {
-      render(<Progress.Bar color="warning" value={50} />)
+      render(<ProgressBar color="warning" value={50} />)
       const bar = screen.getByRole('progressbar')
       expect(bar).toHaveClass('progress-bar', 'warning')
       expect(bar).toHaveAttribute('aria-valuenow', '50')
@@ -17,15 +17,15 @@ describe('Progress.Bar', () => {
     })
 
     test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Progress.Bar color="warning" value={50} />)
+      const { container } = render(<ProgressBar color="warning" value={50} />)
       expect(container).toMatchSnapshot()
     })
 
     test('applies animated and striped variant classes with className', () => {
       render(
-        <Progress.Bar color="warning" className="bazinga" animated value={50} variant="striped">
+        <ProgressBar color="warning" className="bazinga" animated value={50} variant="striped">
           Test
-        </Progress.Bar>
+        </ProgressBar>
       )
       expect(screen.getByRole('progressbar')).toHaveClass(
         'progress-bar-striped',
@@ -38,17 +38,17 @@ describe('Progress.Bar', () => {
   describe('ref forwarding', () => {
     test('forwards a ref to the underlying div', () => {
       const ref = React.createRef<HTMLDivElement>()
-      render(<Progress.Bar ref={ref} />)
+      render(<ProgressBar ref={ref} />)
       expect(ref.current).toBeInstanceOf(HTMLDivElement)
     })
   })
 
   describe('accessibility', () => {
-    // A progressbar needs an accessible name — Progress.Bar doesn't supply one, so callers
+    // A progressbar needs an accessible name — ProgressBar doesn't supply one, so callers
     // must pass aria-label/aria-labelledby themselves. This check does that, as real usage should.
     test('has no axe violations', async () => {
       const { container } = render(
-        <Progress.Bar aria-label="Upload progress" color="warning" value={50} />
+        <ProgressBar aria-label="Upload progress" color="warning" value={50} />
       )
       expect(await axe(container)).toHaveNoViolations()
     })

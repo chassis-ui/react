@@ -1,14 +1,26 @@
 import { Accordion } from './components/accordion'
 import { Autocomplete } from './components/autocomplete'
-import { Avatar } from './components/avatar'
+import { Avatar, AvatarImage, AvatarStack } from './components/avatar'
 import { Notification } from './components/notification'
 import { Badge } from './components/badge'
 import { Backdrop } from './components/backdrop'
-import { Breadcrumb } from './components/breadcrumb'
+import { Breadcrumb, BreadcrumbItem } from './components/breadcrumb'
 import { Button } from './components/button'
 import { ButtonGroup, ButtonToolbar } from './components/button-group'
 import { Calendar, RangeCalendar } from './components/calendar'
-import { Card } from './components/card'
+import {
+  Card,
+  CardBody,
+  CardFooter,
+  CardGroup,
+  CardHeader,
+  CardImage,
+  CardImageOverlay,
+  CardLink,
+  CardSubtitle,
+  CardText,
+  CardTitle
+} from './components/card'
 import { Carousel } from './components/carousel'
 import { Collapse } from './components/collapse'
 import { ChipInput } from './components/chip-input'
@@ -37,14 +49,14 @@ import { Textarea } from './components/textarea'
 import { Icon } from './components/icon'
 import { Image } from './components/image'
 import { Link } from './components/link'
-import { List } from './components/list'
+import { List, ListItem } from './components/list'
 import { Modal } from './components/modal'
 import { Nav } from './components/nav'
 import { Navbar } from './components/navbar'
 import { Pagination } from './components/pagination'
 import { Placeholder } from './components/placeholder'
 import { Popover } from './components/popover'
-import { Progress } from './components/progress'
+import { Progress, ProgressBar } from './components/progress'
 import { Drawer } from './components/drawer'
 import { Spinner } from './components/spinner'
 import { Table } from './components/table'
@@ -58,16 +70,29 @@ export {
   Accordion,
   Autocomplete,
   Avatar,
+  AvatarImage,
+  AvatarStack,
   Notification,
   Badge,
   Backdrop,
   Breadcrumb,
+  BreadcrumbItem,
   Button,
   ButtonGroup,
   ButtonToolbar,
   Calendar,
   RangeCalendar,
   Card,
+  CardBody,
+  CardFooter,
+  CardGroup,
+  CardHeader,
+  CardImage,
+  CardImageOverlay,
+  CardLink,
+  CardSubtitle,
+  CardText,
+  CardTitle,
   Carousel,
   ChipInput,
   CloseButton,
@@ -104,6 +129,7 @@ export {
   InputAdorn,
   Link,
   List,
+  ListItem,
   Modal,
   Nav,
   Navbar,
@@ -111,6 +137,7 @@ export {
   Placeholder,
   Popover,
   Progress,
+  ProgressBar,
   Radio,
   RadioGroup,
   RangeInput,

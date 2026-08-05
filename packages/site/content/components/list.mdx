@@ -11,6 +11,7 @@ import {
   Col,
   Checkbox,
   List,
+  ListItem,
   Row,
 } from '@chassis-ui/react'
 
@@ -49,35 +50,35 @@ With context colors:
 
 ## Basic example
 
-The foundation of the list component is an unordered list built with `<List>` and `<List.Item>`. This structure establishes consistent spacing, borders, and typography through Chassis's design token system.
+The foundation of the list component is an unordered list built with `<List>` and `<ListItem>`. This structure establishes consistent spacing, borders, and typography through Chassis's design token system.
 
 <Example>
   <List>
-    <List.Item>Cras justo odio</List.Item>
-    <List.Item>Dapibus ac facilisis in</List.Item>
-    <List.Item>Morbi leo risus</List.Item>
-    <List.Item>Porta ac consectetur ac</List.Item>
-    <List.Item>Vestibulum at eros</List.Item>
+    <ListItem>Cras justo odio</ListItem>
+    <ListItem>Dapibus ac facilisis in</ListItem>
+    <ListItem>Morbi leo risus</ListItem>
+    <ListItem>Porta ac consectetur ac</ListItem>
+    <ListItem>Vestibulum at eros</ListItem>
   </List>
 </Example>
 
 ## Active items
 
-Add `active` boolean property to a `<List.Item>` to show the current active selection. For better accessibility, active items automatically get an `aria-current="true"` attribute.
+Add `active` boolean property to a `<ListItem>` to show the current active selection. For better accessibility, active items automatically get an `aria-current="true"` attribute.
 
 <Example>
   <List>
-    <List.Item active>Cras justo odio</List.Item>
-    <List.Item>Dapibus ac facilisis in</List.Item>
-    <List.Item>Morbi leo risus</List.Item>
-    <List.Item>Porta ac consectetur ac</List.Item>
-    <List.Item>Vestibulum at eros</List.Item>
+    <ListItem active>Cras justo odio</ListItem>
+    <ListItem>Dapibus ac facilisis in</ListItem>
+    <ListItem>Morbi leo risus</ListItem>
+    <ListItem>Porta ac consectetur ac</ListItem>
+    <ListItem>Vestibulum at eros</ListItem>
   </List>
 </Example>
 
 ## Disabled items
 
-Add `disabled` boolean property to a `<List.Item>` to make it appear disabled. Disabled items automatically get an `aria-disabled="true"` attribute.
+Add `disabled` boolean property to a `<ListItem>` to make it appear disabled. Disabled items automatically get an `aria-disabled="true"` attribute.
 
 <Callout context="info">
   <p>
@@ -87,11 +88,11 @@ Add `disabled` boolean property to a `<List.Item>` to make it appear disabled. D
 
 <Example>
   <List>
-    <List.Item disabled>Cras justo odio</List.Item>
-    <List.Item>Dapibus ac facilisis in</List.Item>
-    <List.Item>Morbi leo risus</List.Item>
-    <List.Item>Porta ac consectetur ac</List.Item>
-    <List.Item>Vestibulum at eros</List.Item>
+    <ListItem disabled>Cras justo odio</ListItem>
+    <ListItem>Dapibus ac facilisis in</ListItem>
+    <ListItem>Morbi leo risus</ListItem>
+    <ListItem>Porta ac consectetur ac</ListItem>
+    <ListItem>Vestibulum at eros</ListItem>
   </List>
 </Example>
 
@@ -103,35 +104,35 @@ Use `component="a"` when the action navigates to a new location, and `component=
 
 <Example>
   <List>
-    <List.Item component="a" href="#" active>
+    <ListItem component="a" href="#" active>
       Cras justo odio
-    </List.Item>
-    <List.Item component="a" href="#">
+    </ListItem>
+    <ListItem component="a" href="#">
       Dapibus ac facilisis in
-    </List.Item>
-    <List.Item component="a" href="#">
+    </ListItem>
+    <ListItem component="a" href="#">
       Morbi leo risus
-    </List.Item>
-    <List.Item component="a" href="#">
+    </ListItem>
+    <ListItem component="a" href="#">
       Porta ac consectetur ac
-    </List.Item>
-    <List.Item component="a" href="#" disabled>
+    </ListItem>
+    <ListItem component="a" href="#" disabled>
       Vestibulum at eros
-    </List.Item>
+    </ListItem>
   </List>
 </Example>
 
 <Example>
   <List>
-    <List.Item component="button" active>
+    <ListItem component="button" active>
       Cras justo odio
-    </List.Item>
-    <List.Item component="button">Dapibus ac facilisis in</List.Item>
-    <List.Item component="button">Morbi leo risus</List.Item>
-    <List.Item component="button">Porta ac consectetur ac</List.Item>
-    <List.Item component="button" disabled>
+    </ListItem>
+    <ListItem component="button">Dapibus ac facilisis in</ListItem>
+    <ListItem component="button">Morbi leo risus</ListItem>
+    <ListItem component="button">Porta ac consectetur ac</ListItem>
+    <ListItem component="button" disabled>
       Vestibulum at eros
-    </List.Item>
+    </ListItem>
   </List>
 </Example>
 
@@ -143,11 +144,11 @@ Add `flush` boolean property to remove outer borders and rounded corners, render
 
 <Example>
   <List flush>
-    <List.Item>Cras justo odio</List.Item>
-    <List.Item>Dapibus ac facilisis in</List.Item>
-    <List.Item>Morbi leo risus</List.Item>
-    <List.Item>Porta ac consectetur ac</List.Item>
-    <List.Item>Vestibulum at eros</List.Item>
+    <ListItem>Cras justo odio</ListItem>
+    <ListItem>Dapibus ac facilisis in</ListItem>
+    <ListItem>Morbi leo risus</ListItem>
+    <ListItem>Porta ac consectetur ac</ListItem>
+    <ListItem>Vestibulum at eros</ListItem>
   </List>
 </Example>
 
@@ -157,11 +158,11 @@ Add `plain` boolean property for a minimal list that removes outer borders, roun
 
 <Example>
   <List plain>
-    <List.Item>Cras justo odio</List.Item>
-    <List.Item>Dapibus ac facilisis in</List.Item>
-    <List.Item>Morbi leo risus</List.Item>
-    <List.Item>Porta ac consectetur ac</List.Item>
-    <List.Item>Vestibulum at eros</List.Item>
+    <ListItem>Cras justo odio</ListItem>
+    <ListItem>Dapibus ac facilisis in</ListItem>
+    <ListItem>Morbi leo risus</ListItem>
+    <ListItem>Porta ac consectetur ac</ListItem>
+    <ListItem>Vestibulum at eros</ListItem>
   </List>
 </Example>
 
@@ -177,9 +178,9 @@ Add `numbered` boolean property to sequentially number list items. For semantic 
 
 <Example>
   <List component="ol" numbered>
-    <List.Item>A list item</List.Item>
-    <List.Item>A list item</List.Item>
-    <List.Item>A list item</List.Item>
+    <ListItem>A list item</ListItem>
+    <ListItem>A list item</ListItem>
+    <ListItem>A list item</ListItem>
   </List>
 </Example>
 
@@ -196,24 +197,24 @@ Responsive variants use [container queries](/react/docs/layout/breakpoints#conta
 <Example>
   <div className="contains-inline">
     <List className="mb-medium" layout="horizontal">
-      <List.Item>Cras justo odio</List.Item>
-      <List.Item>Dapibus ac facilisis in</List.Item>
-      <List.Item>Morbi leo risus</List.Item>
+      <ListItem>Cras justo odio</ListItem>
+      <ListItem>Dapibus ac facilisis in</ListItem>
+      <ListItem>Morbi leo risus</ListItem>
     </List>
     <List className="mb-medium" layout="small:horizontal">
-      <List.Item>Cras justo odio</List.Item>
-      <List.Item>Dapibus ac facilisis in</List.Item>
-      <List.Item>Morbi leo risus</List.Item>
+      <ListItem>Cras justo odio</ListItem>
+      <ListItem>Dapibus ac facilisis in</ListItem>
+      <ListItem>Morbi leo risus</ListItem>
     </List>
     <List className="mb-medium" layout="medium:horizontal">
-      <List.Item>Cras justo odio</List.Item>
-      <List.Item>Dapibus ac facilisis in</List.Item>
-      <List.Item>Morbi leo risus</List.Item>
+      <ListItem>Cras justo odio</ListItem>
+      <ListItem>Dapibus ac facilisis in</ListItem>
+      <ListItem>Morbi leo risus</ListItem>
     </List>
     <List layout="large:horizontal">
-      <List.Item>Cras justo odio</List.Item>
-      <List.Item>Dapibus ac facilisis in</List.Item>
-      <List.Item>Morbi leo risus</List.Item>
+      <ListItem>Cras justo odio</ListItem>
+      <ListItem>Dapibus ac facilisis in</ListItem>
+      <ListItem>Morbi leo risus</ListItem>
     </List>
   </div>
 </Example>
@@ -222,9 +223,9 @@ Apply `.flex-fill` or `.flex-grow-1` utility classes to list items to stretch th
 
 <Example>
   <List layout="horizontal">
-    <List.Item className="flex-fill">Cras justo odio</List.Item>
-    <List.Item className="flex-fill">Dapibus ac facilisis in</List.Item>
-    <List.Item className="flex-fill">Vestibulum at eros</List.Item>
+    <ListItem className="flex-fill">Cras justo odio</ListItem>
+    <ListItem className="flex-fill">Dapibus ac facilisis in</ListItem>
+    <ListItem className="flex-fill">Vestibulum at eros</ListItem>
   </List>
 </Example>
 
@@ -234,12 +235,12 @@ Use the `color` property to style list items with a stateful background and colo
 
 <Example>
   <List>
-    <List.Item>Dapibus ac facilisis in</List.Item>
+    <ListItem>Dapibus ac facilisis in</ListItem>
     {['primary', 'secondary', 'success', 'danger', 'warning', 'info'].map(
       (color, index) => (
-        <List.Item color={color} key={index}>
+        <ListItem color={color} key={index}>
           A simple {color} list item
-        </List.Item>
+        </ListItem>
       ),
     )}
   </List>
@@ -249,14 +250,14 @@ Contextual classes also work with `<a>`s or `<button>`s. Note the addition of th
 
 <Example>
   <List>
-    <List.Item component="a" href="#">
+    <ListItem component="a" href="#">
       Dapibus ac facilisis in
-    </List.Item>
+    </ListItem>
     {['primary', 'secondary', 'success', 'danger', 'warning', 'info'].map(
       (color, index) => (
-        <List.Item component="a" href="#" color={color} key={index}>
+        <ListItem component="a" href="#" color={color} key={index}>
           A simple {color} list action
-        </List.Item>
+        </ListItem>
       ),
     )}
   </List>
@@ -280,30 +281,30 @@ Contextual classes also work with `<a>`s or `<button>`s. Note the addition of th
   <Row className="medium:row-cols-2 g-large">
     <Col>
       <List color="primary">
-        <List.Item>Cras justo odio</List.Item>
-        <List.Item>Dapibus ac facilisis in</List.Item>
-        <List.Item>Vestibulum at eros</List.Item>
+        <ListItem>Cras justo odio</ListItem>
+        <ListItem>Dapibus ac facilisis in</ListItem>
+        <ListItem>Vestibulum at eros</ListItem>
       </List>
     </Col>
     <Col>
       <List color="primary" variant="solid" flush className="rounded">
-        <List.Item>Cras justo odio</List.Item>
-        <List.Item>Dapibus ac facilisis in</List.Item>
-        <List.Item>Vestibulum at eros</List.Item>
+        <ListItem>Cras justo odio</ListItem>
+        <ListItem>Dapibus ac facilisis in</ListItem>
+        <ListItem>Vestibulum at eros</ListItem>
       </List>
     </Col>
     <Col>
       <List color="primary" variant="smooth" flush className="rounded">
-        <List.Item>Cras justo odio</List.Item>
-        <List.Item>Dapibus ac facilisis in</List.Item>
-        <List.Item>Vestibulum at eros</List.Item>
+        <ListItem>Cras justo odio</ListItem>
+        <ListItem>Dapibus ac facilisis in</ListItem>
+        <ListItem>Vestibulum at eros</ListItem>
       </List>
     </Col>
     <Col>
       <List color="primary" variant="outline">
-        <List.Item>Cras justo odio</List.Item>
-        <List.Item>Dapibus ac facilisis in</List.Item>
-        <List.Item>Vestibulum at eros</List.Item>
+        <ListItem>Cras justo odio</ListItem>
+        <ListItem>Dapibus ac facilisis in</ListItem>
+        <ListItem>Vestibulum at eros</ListItem>
       </List>
     </Col>
   </Row>
@@ -315,24 +316,24 @@ Add badges to any list item to show unread counts, activity, and more.
 
 <Example>
   <List>
-    <List.Item className="d-flex justify-content-between align-items-center">
+    <ListItem className="d-flex justify-content-between align-items-center">
       Cras justo odio
       <Badge color="primary" className="rounded-full">
         14
       </Badge>
-    </List.Item>
-    <List.Item className="d-flex justify-content-between align-items-center">
+    </ListItem>
+    <ListItem className="d-flex justify-content-between align-items-center">
       Dapibus ac facilisis in
       <Badge color="primary" className="rounded-full">
         2
       </Badge>
-    </List.Item>
-    <List.Item className="d-flex justify-content-between align-items-center">
+    </ListItem>
+    <ListItem className="d-flex justify-content-between align-items-center">
       Morbi leo risus
       <Badge color="primary" className="rounded-full">
         1
       </Badge>
-    </List.Item>
+    </ListItem>
   </List>
 </Example>
 
@@ -342,7 +343,7 @@ Add nearly any HTML within, even for linked list items like the one below, with 
 
 <Example>
   <List>
-    <List.Item component="a" href="#" active>
+    <ListItem component="a" href="#" active>
       <div className="d-flex w-100 justify-content-between">
         <h5 className="mb-1">List item heading</h5>
         <small>3 days ago</small>
@@ -352,8 +353,8 @@ Add nearly any HTML within, even for linked list items like the one below, with 
         blandit.
       </p>
       <small>Donec id elit non mi porta.</small>
-    </List.Item>
-    <List.Item component="a" href="#">
+    </ListItem>
+    <ListItem component="a" href="#">
       <div className="d-flex w-100 justify-content-between">
         <h5 className="mb-1">List item heading</h5>
         <small className="medium:text-emphasis">3 days ago</small>
@@ -363,8 +364,8 @@ Add nearly any HTML within, even for linked list items like the one below, with 
         blandit.
       </p>
       <small className="medium:text-emphasis">Donec id elit non mi porta.</small>
-    </List.Item>
-    <List.Item component="a" href="#">
+    </ListItem>
+    <ListItem component="a" href="#">
       <div className="d-flex w-100 justify-content-between">
         <h5 className="mb-1">List item heading</h5>
         <small className="medium:text-emphasis">3 days ago</small>
@@ -374,7 +375,7 @@ Add nearly any HTML within, even for linked list items like the one below, with 
         blandit.
       </p>
       <small className="medium:text-emphasis">Donec id elit non mi porta.</small>
-    </List.Item>
+    </ListItem>
   </List>
 </Example>
 
@@ -384,21 +385,21 @@ Place Chassis checkboxes and radios within list items and customize as needed.
 
 <Example>
   <List>
-    <List.Item>
+    <ListItem>
       <Checkbox label="Cras justo odio" />
-    </List.Item>
-    <List.Item>
+    </ListItem>
+    <ListItem>
       <Checkbox label="Dapibus ac facilisis in" defaultSelected />
-    </List.Item>
-    <List.Item>
+    </ListItem>
+    <ListItem>
       <Checkbox label="Morbi leo risus" defaultSelected />
-    </List.Item>
-    <List.Item>
+    </ListItem>
+    <ListItem>
       <Checkbox label="orta ac consectetur ac" />
-    </List.Item>
-    <List.Item>
+    </ListItem>
+    <ListItem>
       <Checkbox label="Vestibulum at eros" />
-    </List.Item>
+    </ListItem>
   </List>
 </Example>
 
@@ -419,7 +420,7 @@ And since `<Checkbox>` always renders a `<label>` as its root element, you can a
 ### List
 
 <PropTable component="List" />
-### List.Item
+### ListItem
 
 <PropTable component="ListItem" />
 

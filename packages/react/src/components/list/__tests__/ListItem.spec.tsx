@@ -2,27 +2,27 @@ import * as React from 'react'
 import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { List } from '../../../index'
+import { ListItem } from '../../../index'
 
-describe('List.Item', () => {
+describe('ListItem', () => {
   describe('rendering', () => {
     test('renders an li with the base class by default', () => {
-      render(<List.Item>Test</List.Item>)
+      render(<ListItem>Test</ListItem>)
       const item = screen.getByText('Test')
       expect(item).toHaveClass('list-item')
       expect(item.tagName).toBe('LI')
     })
 
     test('matches the baseline markup snapshot', () => {
-      const { container } = render(<List.Item>Test</List.Item>)
+      const { container } = render(<ListItem>Test</ListItem>)
       expect(container).toMatchSnapshot()
     })
 
     test('applies color, active and disabled classes together', () => {
       render(
-        <List.Item className="bazinga" active={true} color="warning" disabled={true}>
+        <ListItem className="bazinga" active={true} color="warning" disabled={true}>
           Test
-        </List.Item>
+        </ListItem>
       )
       expect(screen.getByText('Test')).toHaveClass(
         'list-item',
@@ -36,9 +36,9 @@ describe('List.Item', () => {
 
     test('renders as an interactive link when component is "a"', () => {
       render(
-        <List.Item component="a" href="/bazinga">
+        <ListItem component="a" href="/bazinga">
           Test
-        </List.Item>
+        </ListItem>
       )
       const link = screen.getByRole('link', { name: 'Test' })
       expect(link).toHaveClass('list-action')
@@ -46,16 +46,16 @@ describe('List.Item', () => {
     })
 
     test('renders as an interactive button when component is "button"', () => {
-      render(<List.Item component="button">Test</List.Item>)
+      render(<ListItem component="button">Test</ListItem>)
       const button = screen.getByRole('button', { name: 'Test' })
       expect(button).toHaveClass('list-action')
     })
 
     test('exposes aria-current and aria-disabled when active/disabled', () => {
       render(
-        <List.Item component="a" href="/bazinga" active disabled>
+        <ListItem component="a" href="/bazinga" active disabled>
           Test
-        </List.Item>
+        </ListItem>
       )
       const link = screen.getByRole('link', { name: 'Test' })
       expect(link).toHaveAttribute('aria-current', 'page')
@@ -66,16 +66,16 @@ describe('List.Item', () => {
   describe('ref forwarding', () => {
     test('forwards a ref for the default li element', () => {
       const ref = React.createRef<HTMLLIElement>()
-      render(<List.Item ref={ref}>Test</List.Item>)
+      render(<ListItem ref={ref}>Test</ListItem>)
       expect(ref.current).toBeInstanceOf(HTMLLIElement)
     })
 
     test('forwards a ref to the underlying anchor when component is "a"', () => {
       const ref = React.createRef<HTMLAnchorElement>()
       render(
-        <List.Item ref={ref} component="a" href="/bazinga">
+        <ListItem ref={ref} component="a" href="/bazinga">
           Test
-        </List.Item>
+        </ListItem>
       )
       expect(ref.current).toBeInstanceOf(HTMLAnchorElement)
     })
@@ -83,9 +83,9 @@ describe('List.Item', () => {
     test('forwards a ref to the underlying button when component is "button"', () => {
       const ref = React.createRef<HTMLButtonElement>()
       render(
-        <List.Item ref={ref} component="button">
+        <ListItem ref={ref} component="button">
           Test
-        </List.Item>
+        </ListItem>
       )
       expect(ref.current).toBeInstanceOf(HTMLButtonElement)
     })
@@ -95,7 +95,7 @@ describe('List.Item', () => {
     test('has no axe violations as a plain list item', async () => {
       const { container } = render(
         <ul>
-          <List.Item>Test</List.Item>
+          <ListItem>Test</ListItem>
         </ul>
       )
       expect(await axe(container)).toHaveNoViolations()
@@ -103,9 +103,9 @@ describe('List.Item', () => {
 
     test('has no axe violations as an active link', async () => {
       const { container } = render(
-        <List.Item component="a" href="/bazinga" active>
+        <ListItem component="a" href="/bazinga" active>
           Test
-        </List.Item>
+        </ListItem>
       )
       expect(await axe(container)).toHaveNoViolations()
     })

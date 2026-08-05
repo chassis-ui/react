@@ -7,7 +7,7 @@ toc: true
 ---
 
 
-import { Progress, Button } from '@chassis-ui/react'
+import { Progress, ProgressBar, Button } from '@chassis-ui/react'
 
 ## Example
 
@@ -17,42 +17,42 @@ Progress components are built with two HTML elements, some CSS to set the width,
 
 <Example>
   <Progress className="mb-medium">
-    <Progress.Bar value={0} />
+    <ProgressBar value={0} />
   </Progress>
   <Progress className="mb-medium">
-    <Progress.Bar value={25} />
+    <ProgressBar value={25} />
   </Progress>
   <Progress className="mb-medium">
-    <Progress.Bar value={50} />
+    <ProgressBar value={50} />
   </Progress>
   <Progress className="mb-medium">
-    <Progress.Bar value={75} />
+    <ProgressBar value={75} />
   </Progress>
   <Progress className="mb-medium">
-    <Progress.Bar value={100} />
+    <ProgressBar value={100} />
   </Progress>
 </Example>
 
 ## Labels
 
-Add labels to your progress bars by placing text within the `<Progress.Bar>`.
+Add labels to your progress bars by placing text within the `<ProgressBar>`.
 
 <Example>
   <Progress className="mb-medium">
-    <Progress.Bar value={25}>25%</Progress.Bar>
+    <ProgressBar value={25}>25%</ProgressBar>
   </Progress>
 </Example>
 
 ## Height
 
-We only set a `height` value on the `<Progress>`, so if you change that value the inner `<Progress.Bar>` will automatically resize accordingly.
+We only set a `height` value on the `<Progress>`, so if you change that value the inner `<ProgressBar>` will automatically resize accordingly.
 
 <Example>
   <Progress height={1} className="mb-medium">
-    <Progress.Bar value={25}></Progress.Bar>
+    <ProgressBar value={25}></ProgressBar>
   </Progress>
   <Progress height={20} className="mb-medium">
-    <Progress.Bar value={25}></Progress.Bar>
+    <ProgressBar value={25}></ProgressBar>
   </Progress>
 </Example>
 
@@ -62,16 +62,16 @@ Use `color` prop to change the appearance of individual progress bars.
 
 <Example>
   <Progress className="mb-medium">
-    <Progress.Bar color="success" value={25} />
+    <ProgressBar color="success" value={25} />
   </Progress>
   <Progress className="mb-medium">
-    <Progress.Bar color="info" value={50} />
+    <ProgressBar color="info" value={50} />
   </Progress>
   <Progress className="mb-medium">
-    <Progress.Bar color="warning" value={75} />
+    <ProgressBar color="warning" value={75} />
   </Progress>
   <Progress className="mb-medium">
-    <Progress.Bar color="danger" value={100} />
+    <ProgressBar color="danger" value={100} />
   </Progress>
 </Example>
 
@@ -81,47 +81,47 @@ Include multiple progress bars in a progress component if you need.
 
 <Example>
   <Progress className="mb-medium">
-    <Progress.Bar value={15} />
-    <Progress.Bar color="success" value={30} />
-    <Progress.Bar color="info" value={20} />
+    <ProgressBar value={15} />
+    <ProgressBar color="success" value={30} />
+    <ProgressBar color="info" value={20} />
   </Progress>
 </Example>
 
 ## Striped
 
-Add `variant="striped"` to any `<Progress.Bar>` to apply a stripe via CSS gradient over the progress bar's background context.
+Add `variant="striped"` to any `<ProgressBar>` to apply a stripe via CSS gradient over the progress bar's background context.
 
 <Example>
   <Progress className="mb-medium">
-    <Progress.Bar color="success" variant="striped" value={25} />
+    <ProgressBar color="success" variant="striped" value={25} />
   </Progress>
   <Progress className="mb-medium">
-    <Progress.Bar color="info" variant="striped" value={50} />
+    <ProgressBar color="info" variant="striped" value={50} />
   </Progress>
   <Progress className="mb-medium">
-    <Progress.Bar color="warning" variant="striped" value={75} />
+    <ProgressBar color="warning" variant="striped" value={75} />
   </Progress>
   <Progress className="mb-medium">
-    <Progress.Bar color="danger" variant="striped" value={100} />
+    <ProgressBar color="danger" variant="striped" value={100} />
   </Progress>
 </Example>
 
 ## Animated stripes
 
-The striped gradient can also be animated. Add `animated` property to `<Progress.Bar>` to animate the stripes right to left via CSS3 animations.
+The striped gradient can also be animated. Add `animated` property to `<ProgressBar>` to animate the stripes right to left via CSS3 animations.
 
 <Example>
   <Progress className="mb-medium">
-    <Progress.Bar color="success" variant="striped" animated value={25} />
+    <ProgressBar color="success" variant="striped" animated value={25} />
   </Progress>
   <Progress className="mb-medium">
-    <Progress.Bar color="info" variant="striped" animated value={50} />
+    <ProgressBar color="info" variant="striped" animated value={50} />
   </Progress>
   <Progress className="mb-medium">
-    <Progress.Bar color="warning" variant="striped" animated value={75} />
+    <ProgressBar color="warning" variant="striped" animated value={75} />
   </Progress>
   <Progress className="mb-medium">
-    <Progress.Bar color="danger" variant="striped" animated value={100} />
+    <ProgressBar color="danger" variant="striped" animated value={100} />
   </Progress>
 </Example>
 
@@ -130,6 +130,6 @@ The striped gradient can also be animated. Add `animated` property to `<Progress
 ### Progress
 
 <PropTable component="Progress" />
-### Progress.Bar
+### ProgressBar
 
 <PropTable component="ProgressBar" />

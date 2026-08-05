@@ -2,7 +2,7 @@ import * as React from 'react'
 import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Breadcrumb } from '../../../index'
+import { Breadcrumb, BreadcrumbItem } from '../../../index'
 
 describe('Breadcrumb', () => {
   describe('rendering', () => {
@@ -15,9 +15,9 @@ describe('Breadcrumb', () => {
     test('matches the baseline markup snapshot', () => {
       const { container } = render(
         <Breadcrumb className="bazinga">
-          <Breadcrumb.Item>Test A</Breadcrumb.Item>
-          <Breadcrumb.Item active={false}>Test B</Breadcrumb.Item>
-          <Breadcrumb.Item active={true}>Test C</Breadcrumb.Item>
+          <BreadcrumbItem>Test A</BreadcrumbItem>
+          <BreadcrumbItem active={false}>Test B</BreadcrumbItem>
+          <BreadcrumbItem active={true}>Test C</BreadcrumbItem>
         </Breadcrumb>
       )
       expect(container).toMatchSnapshot()

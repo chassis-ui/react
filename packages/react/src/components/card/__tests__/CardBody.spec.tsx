@@ -2,19 +2,19 @@ import * as React from 'react'
 import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Card } from '../../../index'
+import { CardBody } from '../../../index'
 
-describe('Card.Body', () => {
+describe('CardBody', () => {
   describe('rendering', () => {
     test('renders a div with the base class and className merged', () => {
-      render(<Card.Body className="bazinga">Test</Card.Body>)
+      render(<CardBody className="bazinga">Test</CardBody>)
       const body = screen.getByText('Test')
       expect(body).toHaveClass('card-body', 'bazinga')
       expect(body.tagName).toBe('DIV')
     })
 
     test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Card.Body>Test</Card.Body>)
+      const { container } = render(<CardBody>Test</CardBody>)
       expect(container).toMatchSnapshot()
     })
   })
@@ -22,14 +22,14 @@ describe('Card.Body', () => {
   describe('ref forwarding', () => {
     test('forwards a ref to the underlying div', () => {
       const ref = React.createRef<HTMLDivElement>()
-      render(<Card.Body ref={ref}>Test</Card.Body>)
+      render(<CardBody ref={ref}>Test</CardBody>)
       expect(ref.current).toBeInstanceOf(HTMLDivElement)
     })
   })
 
   describe('accessibility', () => {
     test('has no axe violations', async () => {
-      const { container } = render(<Card.Body>Test</Card.Body>)
+      const { container } = render(<CardBody>Test</CardBody>)
       expect(await axe(container)).toHaveNoViolations()
     })
   })
