@@ -20,6 +20,7 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      - run: pnpm lint
       - run: pnpm test
 
       # Builds the real dist/index.d.ts (rolled up by rollup-plugin-dts) and diffs it against the
@@ -28,6 +29,16 @@ jobs:
       # after publish. See build/check-api-surface.ts.
       - run: pnpm lib:build
       - run: pnpm api:report
+
+      # `pnpm check:astro` (type-check only, no Sass compilation) rather than the full
+      # `pnpm build`/`pnpm site:build`/`astro build` — the full static build currently fails on a
+      # pre-existing, external issue in the sibling `../chassis-css` checkout's own in-progress
+      # `_datepicker.scss` changes (undefined `$cx-color-date-picker-fg-idle`), unrelated to this
+      # repo, documented across several `.claude/plans/chassis-react-enterprise-migration.md`
+      # batches. Wiring the full build here would make this gate chronically red for reasons
+      # outside this repo's control. `astro check` doesn't compile Sass at all, so it isn't
+      # affected and has stayed green throughout.
+      - run: pnpm check:astro
 
       # Guards against the exact class of regression this repo already hit once: react-aria/
       # react-stately/etc. silently getting bundled into dist/ instead of resolved from a

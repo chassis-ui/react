@@ -51,18 +51,21 @@ resolve, check the sibling checkout exists rather than assuming a registry/versi
 ## CI
 
 `.github/workflows/ci.yml` runs on push to `main`/`develop` and on PRs: `pnpm install
---frozen-lockfile`, then `pnpm test` (the react package's vitest suite, including coverage
-thresholds — see [`packages/react/AGENTS.md`](packages/react/AGENTS.md)), then `pnpm lib:build` +
-`pnpm api:report` (fails if the public props/types surface drifted from the checked-in
-`packages/react/api-report.md` — see that package's `AGENTS.md`), then `pnpm check:bundle`
-(`packages/react/.bundlewatch.config.json` — fails if `dist/index.js`/`dist/index.es.js` grow
-past ~15% over their current gzip size, catching e.g. a real dependency silently getting bundled
-instead of externalized again), then `pnpm audit --prod`
+--frozen-lockfile`, then `pnpm lint`, then `pnpm test` (the react package's vitest suite,
+including coverage thresholds — see [`packages/react/AGENTS.md`](packages/react/AGENTS.md)), then
+`pnpm lib:build` + `pnpm api:report` (fails if the public props/types surface drifted from the
+checked-in `packages/react/api-report.md` — see that package's `AGENTS.md`), then
+`pnpm check:astro` (Astro/MDX type-checking — deliberately not the full `pnpm site:build`/
+`astro build`, which currently fails on a pre-existing, external issue in the sibling
+`../chassis-css` checkout's own in-progress Sass changes; `astro check` doesn't compile Sass so
+it's unaffected), then `pnpm check:bundle` (`packages/react/.bundlewatch.config.json` — fails if
+`dist/index.js`/`dist/index.es.js` grow past ~15% over their current gzip size, catching e.g. a
+real dependency silently getting bundled instead of externalized again), then `pnpm audit --prod`
 (blocking — a vulnerable runtime dependency would ship to every consumer) and a non-blocking
 `pnpm audit` covering devDependencies too (real findings worth tracking, but failing CI on every
-disclosed build-tooling CVE would make the gate chronically red). Linting and the site build are
-not part of CI yet; run `pnpm lint` and `pnpm site:build` locally before relying on them being
-caught automatically.
+disclosed build-tooling CVE would make the gate chronically red). The full `pnpm site:build`
+(static site generation, not just type-checking) still isn't part of CI, for the Sass reason
+above — run it locally before relying on it being caught automatically.
 
 ## Where things live
 
