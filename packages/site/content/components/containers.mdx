@@ -6,7 +6,7 @@ toc: true
 ---
 
 
-import { CxCol, CxContainer, CxRow } from '@chassis-ui/react'
+import { Col, Container, Row } from '@chassis-ui/react'
 
 ## How they work
 
@@ -14,11 +14,11 @@ Containers are the most basic layout element in Chassis and are **required when 
 
 Chassis comes with three different containers:
 
-- `<CxContainer>`, which sets a `max-width` at each responsive breakpoint
-- `<CxContainer fluid>`, which is `width: 100%` at all breakpoints
-- `<CxContainer {sm|md|lg|xl|xxl}>`, which is `width: 100%` until the specified breakpoint
+- `<Container>`, which sets a `max-width` at each responsive breakpoint
+- `<Container fluid>`, which is `width: 100%` at all breakpoints
+- `<Container {sm|md|lg|xl|xxl}>`, which is `width: 100%` until the specified breakpoint
 
-The table below illustrates how each container's `max-width` compares to the original `<CxContainer>` and `<CxContainer fluid>` across each breakpoint.
+The table below illustrates how each container's `max-width` compares to the original `<Container>` and `<Container fluid>` across each breakpoint.
 
 <table className="table">
   <thead>
@@ -52,7 +52,7 @@ The table below illustrates how each container's `max-width` compares to the ori
   </thead>
   <tbody>
     <tr>
-      <th scope="row" className="fw-normal"><code>&lt;CxContainer&gt;</code></th>
+      <th scope="row" className="fw-normal"><code>&lt;Container&gt;</code></th>
       <td className="medium:text-emphasis">100%</td>
       <td>540px</td>
       <td>720px</td>
@@ -61,7 +61,7 @@ The table below illustrates how each container's `max-width` compares to the ori
       <td>1320px</td>
     </tr>
     <tr>
-      <th scope="row" className="fw-normal"><code>&lt;CxContainer sm&gt;</code></th>
+      <th scope="row" className="fw-normal"><code>&lt;Container sm&gt;</code></th>
       <td className="medium:text-emphasis">100%</td>
       <td>540px</td>
       <td>720px</td>
@@ -70,7 +70,7 @@ The table below illustrates how each container's `max-width` compares to the ori
       <td>1320px</td>
     </tr>
     <tr>
-      <th scope="row" className="fw-normal"><code>&lt;CxContainer md&gt;</code></th>
+      <th scope="row" className="fw-normal"><code>&lt;Container md&gt;</code></th>
       <td className="medium:text-emphasis">100%</td>
       <td className="medium:text-emphasis">100%</td>
       <td>720px</td>
@@ -79,7 +79,7 @@ The table below illustrates how each container's `max-width` compares to the ori
       <td>1320px</td>
     </tr>
     <tr>
-      <th scope="row" className="fw-normal"><code>&lt;CxContainer lg&gt;</code></th>
+      <th scope="row" className="fw-normal"><code>&lt;Container lg&gt;</code></th>
       <td className="medium:text-emphasis">100%</td>
       <td className="medium:text-emphasis">100%</td>
       <td className="medium:text-emphasis">100%</td>
@@ -88,7 +88,7 @@ The table below illustrates how each container's `max-width` compares to the ori
       <td>1320px</td>
     </tr>
     <tr>
-      <th scope="row" className="fw-normal"><code>&lt;CxContainer xl&gt;</code></th>
+      <th scope="row" className="fw-normal"><code>&lt;Container xl&gt;</code></th>
       <td className="medium:text-emphasis">100%</td>
       <td className="medium:text-emphasis">100%</td>
       <td className="medium:text-emphasis">100%</td>
@@ -97,7 +97,7 @@ The table below illustrates how each container's `max-width` compares to the ori
       <td>1320px</td>
     </tr>
     <tr>
-      <th scope="row" className="fw-normal"><code>&lt;CxContainer xxl&gt;</code></th>
+      <th scope="row" className="fw-normal"><code>&lt;Container xxl&gt;</code></th>
       <td className="medium:text-emphasis">100%</td>
       <td className="medium:text-emphasis">100%</td>
       <td className="medium:text-emphasis">100%</td>
@@ -106,7 +106,7 @@ The table below illustrates how each container's `max-width` compares to the ori
       <td>1320px</td>
     </tr>
     <tr>
-      <th scope="row" className="fw-normal"><code>&lt;CxContainer fluid&gt;</code></th>
+      <th scope="row" className="fw-normal"><code>&lt;Container fluid&gt;</code></th>
       <td className="medium:text-emphasis">100%</td>
       <td className="medium:text-emphasis">100%</td>
       <td className="medium:text-emphasis">100%</td>
@@ -119,38 +119,38 @@ The table below illustrates how each container's `max-width` compares to the ori
 
 ## Default container
 
-Our default `<CxContainer>` class is a responsive, fixed-width container, meaning its `max-width` changes at each breakpoint.
+Our default `<Container>` class is a responsive, fixed-width container, meaning its `max-width` changes at each breakpoint.
 
 <Example>
-  <CxContainer>
+  <Container>
     Content here
-  </CxContainer>
+  </Container>
 </Example>
 
 ## Responsive containers
 
-Responsive containers allow you to specify a class that is 100% wide until the specified breakpoint is reached, after which we apply `max-width`s for each of the higher breakpoints. For example, `<CxContainer sm>` is 100% wide to start until the `sm` breakpoint is reached, where it will scale up with `md`, `lg`, `xl`, and `xxl`.
+Responsive containers allow you to specify a class that is 100% wide until the specified breakpoint is reached, after which we apply `max-width`s for each of the higher breakpoints. For example, `<Container sm>` is 100% wide to start until the `sm` breakpoint is reached, where it will scale up with `md`, `lg`, `xl`, and `xxl`.
 
 <Example>
-  <CxContainer sm>100% wide until small breakpoint</CxContainer>
-  <CxContainer md>100% wide until medium breakpoint</CxContainer>
-  <CxContainer lg>100% wide until large breakpoint</CxContainer>
-  <CxContainer xl>100% wide until extra large breakpoint</CxContainer>
-  <CxContainer xxl>100% wide until extra extra large breakpoint</CxContainer>
+  <Container sm>100% wide until small breakpoint</Container>
+  <Container md>100% wide until medium breakpoint</Container>
+  <Container lg>100% wide until large breakpoint</Container>
+  <Container xl>100% wide until extra large breakpoint</Container>
+  <Container xxl>100% wide until extra extra large breakpoint</Container>
 </Example>
 
 ## Fluid containers
 
-Use `<CxContainer fluid>` for a full width container, spanning the entire width of the viewport.
+Use `<Container fluid>` for a full width container, spanning the entire width of the viewport.
 
 <Example>
-  <CxContainer fluid>
+  <Container fluid>
     Content here
-  </CxContainer>
+  </Container>
 </Example>
 
 ## API
 
-### CxContainer
+### Container
 
-<PropTable component="CxContainer" />
+<PropTable component="Container" />

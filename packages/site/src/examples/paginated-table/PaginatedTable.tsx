@@ -1,5 +1,5 @@
 import { useState, type ChangeEvent } from 'react'
-import { CxTable, CxTableHeader, CxTableBody, CxTableColumn, CxTableRow, CxTableCell, Pagination, Select, Badge } from '@chassis-ui/react'
+import { Table, Pagination, Select, Badge } from '@chassis-ui/react'
 
 export const PaginatedTable = () => {
   const allUsers = [
@@ -57,24 +57,26 @@ export const PaginatedTable = () => {
           />
         </div>
       </div>
-      <CxTable aria-label="Users" hover>
-        <CxTableHeader columns={columns}>
-          {(column) => <CxTableColumn key={column.key}>{column.label}</CxTableColumn>}
-        </CxTableHeader>
-        <CxTableBody items={rows}>
+      <Table aria-label="Users" hover>
+        <Table.Header columns={columns}>
+          {(column) => <Table.Column key={column.key}>{column.label}</Table.Column>}
+        </Table.Header>
+        <Table.Body items={rows}>
           {(row) => (
-            <CxTableRow key={row.id}>
+            <Table.Row key={row.id}>
               {(columnKey) => {
                 const column = columns.find((c) => c.key === columnKey)
                 const value = row[columnKey as keyof typeof row]
                 return (
-                  <CxTableCell>{column?.render ? column.render(String(value)) : value}</CxTableCell>
+                  <Table.Cell>
+                    {column?.render ? column.render(String(value)) : value}
+                  </Table.Cell>
                 )
               }}
-            </CxTableRow>
+            </Table.Row>
           )}
-        </CxTableBody>
-      </CxTable>
+        </Table.Body>
+      </Table>
       <div className="d-flex justify-content-end mt-3">
         <Pagination
           pages={totalPages}

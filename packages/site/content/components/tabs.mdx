@@ -9,13 +9,13 @@ import { Example as BasicExample } from '../../src/examples/tabs/BasicExample.ts
 import { Example as PillsExample } from '../../src/examples/tabs/PillsExample.tsx'
 import { Example as DisabledExample } from '../../src/examples/tabs/DisabledExample.tsx'
 
-import { CxTab, CxTabList, CxTabPanel, CxTabs } from '@chassis-ui/react'
+import { Tabs } from '@chassis-ui/react'
 
 ## Overview
 
-`CxTabs` organizes content into sections, showing one at a time. Unlike hand-wiring a `CxNav` to a set of manually-toggled panels, `CxTabs` handles keyboard navigation (arrow keys, Home/End), roving tab focus, and the `role="tablist"`/`role="tab"`/`role="tabpanel"` + `aria-selected`/`aria-controls`/`aria-labelledby` wiring between them for you.
+`Tabs` organizes content into sections, showing one at a time. Unlike hand-wiring a `Nav` to a set of manually-toggled panels, `Tabs` handles keyboard navigation (arrow keys, Home/End), roving tab focus, and the `role="tablist"`/`role="tab"`/`role="tabpanel"` + `aria-selected`/`aria-controls`/`aria-labelledby` wiring between them for you.
 
-Compose a `CxTabList` of `CxTab`s, followed by one `CxTabPanel` per tab. A tab and its panel are paired by a matching `id` — not by position, and not by React's own `key` (though you should still give each a `key`, as with any list).
+Compose a `Tabs.List` of `Tabs.Tab`s, followed by one `Tabs.Panel` per tab. A tab and its panel are paired by a matching `id` — not by position, and not by React's own `key` (though you should still give each a `key`, as with any list).
 
 <Example>
   <BasicExample client:load />
@@ -23,7 +23,7 @@ Compose a `CxTabList` of `CxTab`s, followed by one `CxTabPanel` per tab. A tab a
 
 ## Pills
 
-Pass `variant="pills"` to `CxTabList` for a pill-styled tab list instead of the default underlined tabs.
+Pass `variant="pills"` to `Tabs.List` for a pill-styled tab list instead of the default underlined tabs.
 
 <Example>
   <PillsExample client:load />
@@ -31,7 +31,7 @@ Pass `variant="pills"` to `CxTabList` for a pill-styled tab list instead of the 
 
 ## Disabled tabs
 
-Add `disabled` to a `CxTab` to remove it from keyboard navigation and prevent it from being selected.
+Add `disabled` to a `Tabs.Tab` to remove it from keyboard navigation and prevent it from being selected.
 
 <Example>
   <DisabledExample client:load />
@@ -39,22 +39,22 @@ Add `disabled` to a `CxTab` to remove it from keyboard navigation and prevent it
 
 ## Controlled selection
 
-Pass `selectedKey`/`onSelectionChange` to `CxTabs` to control which tab is selected yourself, e.g. to sync it with the URL. Omit them (use `defaultSelectedKey` instead) to let `CxTabs` manage selection internally.
+Pass `selectedKey`/`onSelectionChange` to `Tabs` to control which tab is selected yourself, e.g. to sync it with the URL. Omit them (use `defaultSelectedKey` instead) to let `Tabs` manage selection internally.
 
 ## API
 
-### CxTabs
+### Tabs
 
-<PropTable component="CxTabs" />
+<PropTable component="Tabs" />
 
-### CxTabList
+### Tabs.List
 
-<PropTable component="CxTabList" />
+<PropTable component="TabList" />
 
-### CxTab
+### Tabs.Tab
 
-<PropTable component="CxTab" />
+<PropTable component="Tab" />
 
-### CxTabPanel
+### Tabs.Panel
 
-<PropTable component="CxTabPanel" />
+<PropTable component="TabPanel" />

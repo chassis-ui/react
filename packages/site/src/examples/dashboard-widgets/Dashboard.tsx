@@ -1,17 +1,4 @@
-import {
-  Card,
-  Badge,
-  List,
-  Progress,
-  CxTable,
-  CxTableHeader,
-  CxTableBody,
-  CxTableColumn,
-  CxTableRow,
-  CxTableCell,
-  Row,
-  Col
-} from '@chassis-ui/react'
+import { Card, Badge, List, Progress, Table, Row, Col } from '@chassis-ui/react'
 
 export const Dashboard = () => {
   const stats = [
@@ -75,26 +62,26 @@ export const Dashboard = () => {
           <Card>
             <Card.Body>
               <h5 className="mb-medium">Recent Orders</h5>
-              <CxTable aria-label="Recent orders" hover>
-                <CxTableHeader columns={orderColumns}>
-                  {(column) => <CxTableColumn key={column.key}>{column.label}</CxTableColumn>}
-                </CxTableHeader>
-                <CxTableBody items={orders}>
+              <Table aria-label="Recent orders" hover>
+                <Table.Header columns={orderColumns}>
+                  {(column) => <Table.Column key={column.key}>{column.label}</Table.Column>}
+                </Table.Header>
+                <Table.Body items={orders}>
                   {(row) => (
-                    <CxTableRow key={row.id}>
+                    <Table.Row key={row.id}>
                       {(columnKey) => {
                         const column = orderColumns.find((c) => c.key === columnKey)
                         const value = row[columnKey as keyof typeof row]
                         return (
-                          <CxTableCell>
+                          <Table.Cell>
                             {column?.render ? column.render(String(value)) : value}
-                          </CxTableCell>
+                          </Table.Cell>
                         )
                       }}
-                    </CxTableRow>
+                    </Table.Row>
                   )}
-                </CxTableBody>
-              </CxTable>
+                </Table.Body>
+              </Table>
             </Card.Body>
           </Card>
         </Col>

@@ -8,7 +8,10 @@ import { getDocsFsPath } from './path'
 // same name, or that conflict with a `@chassis-ui/react` export of the same name.
 // The local/react version always wins.
 const excludedDocsShortcodes = new Set([
-  'CxTable.astro', // conflicts with the `CxTable` export from `@chassis-ui/react`
+  'CxTable.astro', // filename from @chassis-ui/docs itself (unrelated repo, not renamed by this
+  // migration) - conflicts with the `Table` export from `@chassis-ui/react`
+  'Icon.astro', // conflicts with the `Icon` export from `@chassis-ui/react`
+  'Placeholder.astro', // conflicts with the `Placeholder` export from `@chassis-ui/react`
   'Example.astro' // chassis-react has its own live-JSX `Example`, see `components/shortcodes/Example.astro`
 ])
 

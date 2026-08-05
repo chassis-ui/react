@@ -1,0 +1,47 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/modal/ModalFooter.tsx",
+  "description": "",
+  "displayName": "ModalFooter",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/modal/ModalFooter.tsx",
+        "name": "ModalFooterProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/modal/ModalFooter.tsx",
+          "name": "ModalFooterProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "stacked": {
+      "defaultValue": null,
+      "description": "Stack the footer actions as full-width columns instead of a right-aligned row.",
+      "name": "stacked",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/modal/ModalFooter.tsx",
+        "name": "ModalFooterProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/modal/ModalFooter.tsx",
+          "name": "ModalFooterProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    }
+  }
+}

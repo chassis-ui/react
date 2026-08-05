@@ -6,14 +6,14 @@ toc: true
 ---
 
 
-import { CxCloseButton } from '@chassis-ui/react'
+import { CloseButton } from '@chassis-ui/react'
 
 ## Example
 
-Provide an option to dismiss or close a component with `<CxCloseButton>`. Default styling is limited, but highly customizable. Modify the Sass variables to replace the default `background-image`.
+Provide an option to dismiss or close a component with `<CloseButton>`. Default styling is limited, but highly customizable. Modify the Sass variables to replace the default `background-image`.
 
 <Example>
-  <CxCloseButton />
+  <CloseButton />
 </Example>
 
 ## Disabled state
@@ -21,20 +21,20 @@ Provide an option to dismiss or close a component with `<CxCloseButton>`. Defaul
 Disabled close buttons change their `opacity`. We've also applied `pointer-events: none` and `user-select: none` to preventing hover and active states from triggering.
 
 <Example>
-  <CxCloseButton disabled />
+  <CloseButton disabled />
 </Example>
 
 ## White variant
 
-Change the default `<CxCloseButton>` to be white with the `white` boolean property.
+Change the default `<CloseButton>` to be white with the `white` boolean property.
 
 <Example className="bg-dark border-0">
-  <CxCloseButton white />
-  <CxCloseButton white disabled />
+  <CloseButton white />
+  <CloseButton white disabled />
 </Example>
 
 ## API
 
-### CxCloseButton
+### CloseButton
 
-<PropTable component="CxCloseButton" />
+<PropTable component="CloseButton" />

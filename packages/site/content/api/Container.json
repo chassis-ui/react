@@ -1,0 +1,142 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/grid/Container.tsx",
+  "description": "",
+  "displayName": "Container",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/grid/Container.tsx",
+        "name": "ContainerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Container.tsx",
+          "name": "ContainerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "sm": {
+      "defaultValue": null,
+      "description": "Set container 100% wide until small breakpoint.",
+      "name": "sm",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/grid/Container.tsx",
+        "name": "ContainerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Container.tsx",
+          "name": "ContainerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "md": {
+      "defaultValue": null,
+      "description": "Set container 100% wide until medium breakpoint.",
+      "name": "md",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/grid/Container.tsx",
+        "name": "ContainerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Container.tsx",
+          "name": "ContainerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "lg": {
+      "defaultValue": null,
+      "description": "Set container 100% wide until large breakpoint.",
+      "name": "lg",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/grid/Container.tsx",
+        "name": "ContainerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Container.tsx",
+          "name": "ContainerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "xl": {
+      "defaultValue": null,
+      "description": "Set container 100% wide until X-large breakpoint.",
+      "name": "xl",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/grid/Container.tsx",
+        "name": "ContainerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Container.tsx",
+          "name": "ContainerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "xxl": {
+      "defaultValue": null,
+      "description": "Set container 100% wide until XX-large breakpoint.",
+      "name": "xxl",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/grid/Container.tsx",
+        "name": "ContainerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Container.tsx",
+          "name": "ContainerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "fluid": {
+      "defaultValue": null,
+      "description": "Set container 100% wide, spanning the entire width of the viewport.",
+      "name": "fluid",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/grid/Container.tsx",
+        "name": "ContainerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Container.tsx",
+          "name": "ContainerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    }
+  }
+}

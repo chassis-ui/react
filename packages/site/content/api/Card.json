@@ -1,0 +1,102 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/card/Card.tsx",
+  "description": "",
+  "displayName": "Card",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/card/Card.tsx",
+        "name": "CardProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/card/Card.tsx",
+          "name": "CardProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "color": {
+      "defaultValue": null,
+      "description": "Sets the color of the component to one of Chassis context colors.",
+      "name": "color",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/card/Card.tsx",
+        "name": "CardProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/card/Card.tsx",
+          "name": "CardProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "ContextColor",
+        "value": [
+          {
+            "value": "\"default\""
+          },
+          {
+            "value": "\"alternate\""
+          },
+          {
+            "value": "\"primary\""
+          },
+          {
+            "value": "\"secondary\""
+          },
+          {
+            "value": "\"neutral\""
+          },
+          {
+            "value": "\"success\""
+          },
+          {
+            "value": "\"danger\""
+          },
+          {
+            "value": "\"warning\""
+          },
+          {
+            "value": "\"info\""
+          },
+          {
+            "value": "\"black\""
+          },
+          {
+            "value": "\"white\""
+          }
+        ]
+      }
+    },
+    "textColor": {
+      "defaultValue": null,
+      "description": "Sets the text context color of the component to one of Chassis context colors.",
+      "name": "textColor",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/card/Card.tsx",
+        "name": "CardProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/card/Card.tsx",
+          "name": "CardProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ContextColor | 'main' | 'subtle' | 'slight' | 'inverse' | 'solid' | 'highlight' | 'idle' | 'disabled' | 'hover' | 'press' | string"
+      }
+    }
+  }
+}

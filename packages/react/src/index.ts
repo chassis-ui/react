@@ -47,12 +47,7 @@ import { Popover } from './components/popover'
 import { Progress } from './components/progress'
 import { Drawer } from './components/drawer'
 import { Spinner } from './components/spinner'
-import { CxTable } from './components/table/CxTable'
-import { CxTableBody } from './components/table/CxTableBody'
-import { CxTableCell } from './components/table/CxTableCell'
-import { CxTableColumn } from './components/table/CxTableColumn'
-import { CxTableHeader } from './components/table/CxTableHeader'
-import { CxTableRow } from './components/table/CxTableRow'
+import { Table } from './components/table'
 import { Tabs, TabContent, TabPane } from './components/tabs'
 import { Toast, Toaster, addToast, closeToast, toastQueue } from './components/toast'
 import { Tooltip } from './components/tooltip'
@@ -123,12 +118,7 @@ export {
   Select,
   Spinner,
   Switch,
-  CxTable,
-  CxTableBody,
-  CxTableCell,
-  CxTableColumn,
-  CxTableHeader,
-  CxTableRow,
+  Table,
   Tabs,
   TabContent,
   TabPane,

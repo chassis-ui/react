@@ -1,0 +1,303 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/textarea/Textarea.tsx",
+  "description": "",
+  "displayName": "Textarea",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/textarea/Textarea.tsx",
+        "name": "TextareaProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/textarea/Textarea.tsx",
+          "name": "TextareaProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "defaultValue": {
+      "defaultValue": null,
+      "description": "The value of the textarea, uncontrolled.",
+      "name": "defaultValue",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/textarea/Textarea.tsx",
+        "name": "TextareaProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/textarea/Textarea.tsx",
+          "name": "TextareaProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "disabled": {
+      "defaultValue": null,
+      "description": "Toggle the disabled state for the component.",
+      "name": "disabled",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/textarea/Textarea.tsx",
+        "name": "TextareaProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/textarea/Textarea.tsx",
+          "name": "TextareaProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "help": {
+      "defaultValue": null,
+      "description": "A description for the field, rendered below the textarea.",
+      "name": "help",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/textarea/Textarea.tsx",
+        "name": "TextareaProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/textarea/Textarea.tsx",
+          "name": "TextareaProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "invalid": {
+      "defaultValue": null,
+      "description": "Set component validation state to invalid.",
+      "name": "invalid",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/textarea/Textarea.tsx",
+        "name": "TextareaProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/textarea/Textarea.tsx",
+          "name": "TextareaProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "invalidFeedback": {
+      "defaultValue": null,
+      "description": "An error message for the field, rendered below the textarea when `invalid` is set.",
+      "name": "invalidFeedback",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/textarea/Textarea.tsx",
+        "name": "TextareaProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/textarea/Textarea.tsx",
+          "name": "TextareaProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "label": {
+      "defaultValue": null,
+      "description": "The field's caption, rendered as a `FormLabel` associated with this textarea.",
+      "name": "label",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/textarea/Textarea.tsx",
+        "name": "TextareaProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/textarea/Textarea.tsx",
+          "name": "TextareaProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "onChange": {
+      "defaultValue": null,
+      "description": "Handler that is called when the value changes.",
+      "name": "onChange",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/textarea/Textarea.tsx",
+        "name": "TextareaProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/textarea/Textarea.tsx",
+          "name": "TextareaProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((value: string) => void)"
+      }
+    },
+    "plainText": {
+      "defaultValue": null,
+      "description": "Render the component styled as plain text. Removes the default form field styling and preserve the correct margin and padding. Recommend to use only along side `readonly`.",
+      "name": "plainText",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/textarea/Textarea.tsx",
+        "name": "TextareaProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/textarea/Textarea.tsx",
+          "name": "TextareaProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "readOnly": {
+      "defaultValue": null,
+      "description": "Toggle the readonly state for the component.",
+      "name": "readOnly",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/textarea/Textarea.tsx",
+        "name": "TextareaProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/textarea/Textarea.tsx",
+          "name": "TextareaProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "rows": {
+      "defaultValue": null,
+      "description": "The number of visible text lines for the control.",
+      "name": "rows",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/textarea/Textarea.tsx",
+        "name": "TextareaProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/textarea/Textarea.tsx",
+          "name": "TextareaProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number"
+      }
+    },
+    "size": {
+      "defaultValue": null,
+      "description": "Size the component small or large.",
+      "name": "size",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/textarea/Textarea.tsx",
+        "name": "TextareaProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/textarea/Textarea.tsx",
+          "name": "TextareaProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"small\" | \"large\"",
+        "value": [
+          {
+            "value": "\"small\""
+          },
+          {
+            "value": "\"large\""
+          }
+        ]
+      }
+    },
+    "valid": {
+      "defaultValue": null,
+      "description": "Set component validation state to valid.",
+      "name": "valid",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/textarea/Textarea.tsx",
+        "name": "TextareaProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/textarea/Textarea.tsx",
+          "name": "TextareaProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "validFeedback": {
+      "defaultValue": null,
+      "description": "A success message for the field, rendered below the textarea when `valid` is set.",
+      "name": "validFeedback",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/textarea/Textarea.tsx",
+        "name": "TextareaProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/textarea/Textarea.tsx",
+          "name": "TextareaProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "value": {
+      "defaultValue": null,
+      "description": "The value of the textarea, controlled.",
+      "name": "value",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/textarea/Textarea.tsx",
+        "name": "TextareaProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/textarea/Textarea.tsx",
+          "name": "TextareaProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    }
+  }
+}

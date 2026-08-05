@@ -1,0 +1,66 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/close-button/CloseButton.tsx",
+  "description": "",
+  "displayName": "CloseButton",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/close-button/CloseButton.tsx",
+        "name": "CloseButtonProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/close-button/CloseButton.tsx",
+          "name": "CloseButtonProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "disabled": {
+      "defaultValue": null,
+      "description": "Toggle the disabled state for the component.",
+      "name": "disabled",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/close-button/CloseButton.tsx",
+        "name": "CloseButtonProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/close-button/CloseButton.tsx",
+          "name": "CloseButtonProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "white": {
+      "defaultValue": null,
+      "description": "Change the default context to white.",
+      "name": "white",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/close-button/CloseButton.tsx",
+        "name": "CloseButtonProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/close-button/CloseButton.tsx",
+          "name": "CloseButtonProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    }
+  }
+}

@@ -1,35 +1,28 @@
-import {
-  CxTable,
-  CxTableBody,
-  CxTableCell,
-  CxTableColumn,
-  CxTableHeader,
-  CxTableRow
-} from '@chassis-ui/react'
+import { Table } from '@chassis-ui/react'
 
 export const BasicExample = () => (
-  <CxTable aria-label="Users">
-    <CxTableHeader>
-      <CxTableColumn key="firstName">First name</CxTableColumn>
-      <CxTableColumn key="lastName">Last name</CxTableColumn>
-      <CxTableColumn key="handle">Username</CxTableColumn>
-    </CxTableHeader>
-    <CxTableBody>
-      <CxTableRow>
-        <CxTableCell>Mark</CxTableCell>
-        <CxTableCell>Otto</CxTableCell>
-        <CxTableCell>@mdo</CxTableCell>
-      </CxTableRow>
-      <CxTableRow>
-        <CxTableCell>Jacob</CxTableCell>
-        <CxTableCell>Thornton</CxTableCell>
-        <CxTableCell>@fat</CxTableCell>
-      </CxTableRow>
-      <CxTableRow>
-        <CxTableCell>Larry</CxTableCell>
-        <CxTableCell>Bird</CxTableCell>
-        <CxTableCell>@twitter</CxTableCell>
-      </CxTableRow>
-    </CxTableBody>
-  </CxTable>
+  <Table aria-label="Users">
+    <Table.Header>
+      <Table.Column key="firstName">First name</Table.Column>
+      <Table.Column key="lastName">Last name</Table.Column>
+      <Table.Column key="handle">Username</Table.Column>
+    </Table.Header>
+    <Table.Body>
+      <Table.Row>
+        <Table.Cell>Mark</Table.Cell>
+        <Table.Cell>Otto</Table.Cell>
+        <Table.Cell>@mdo</Table.Cell>
+      </Table.Row>
+      <Table.Row>
+        <Table.Cell>Jacob</Table.Cell>
+        <Table.Cell>Thornton</Table.Cell>
+        <Table.Cell>@fat</Table.Cell>
+      </Table.Row>
+      <Table.Row>
+        <Table.Cell>Larry</Table.Cell>
+        <Table.Cell>Bird</Table.Cell>
+        <Table.Cell>@twitter</Table.Cell>
+      </Table.Row>
+    </Table.Body>
+  </Table>
 )

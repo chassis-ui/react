@@ -6,12 +6,7 @@ toc: true
 ---
 
 
-import {
-  CxCarousel,
-  CxCarouselCaption,
-  CxCarouselItem,
-  CxImage,
-} from '@chassis-ui/react'
+import { Carousel, Image } from '@chassis-ui/react'
 
 
 ## How it works
@@ -27,17 +22,17 @@ Carousels don't automatically normalize slide dimensions. As such, you may want 
 ### Slides only
 
 <Example>
-  <CxCarousel>
-    <CxCarouselItem>
-      <CxImage className="d-block w-100" src="https://placehold.co/800x400" alt="slide 1" />
-    </CxCarouselItem>
-    <CxCarouselItem>
-      <CxImage className="d-block w-100" src="https://placehold.co/800x400" alt="slide 2"/>
-    </CxCarouselItem>
-    <CxCarouselItem>
-      <CxImage className="d-block w-100" src="https://placehold.co/800x400" alt="slide 3" />
-    </CxCarouselItem>
-  </CxCarousel>
+  <Carousel>
+    <Carousel.Item>
+      <Image className="d-block w-100" src="https://placehold.co/800x400" alt="slide 1" />
+    </Carousel.Item>
+    <Carousel.Item>
+      <Image className="d-block w-100" src="https://placehold.co/800x400" alt="slide 2"/>
+    </Carousel.Item>
+    <Carousel.Item>
+      <Image className="d-block w-100" src="https://placehold.co/800x400" alt="slide 3" />
+    </Carousel.Item>
+  </Carousel>
 </Example>
 
 ### With controls
@@ -45,17 +40,17 @@ Carousels don't automatically normalize slide dimensions. As such, you may want 
 Adding in the previous and next controls by `controls` property.
 
 <Example>
-  <CxCarousel controls>
-    <CxCarouselItem>
-      <CxImage className="d-block w-100" src="https://placehold.co/800x400" alt="slide 1" />
-    </CxCarouselItem>
-    <CxCarouselItem>
-      <CxImage className="d-block w-100" src="https://placehold.co/800x400" alt="slide 2" />
-    </CxCarouselItem>
-    <CxCarouselItem>
-      <CxImage className="d-block w-100" src="https://placehold.co/800x400" alt="slide 3" />
-    </CxCarouselItem>
-  </CxCarousel>
+  <Carousel controls>
+    <Carousel.Item>
+      <Image className="d-block w-100" src="https://placehold.co/800x400" alt="slide 1" />
+    </Carousel.Item>
+    <Carousel.Item>
+      <Image className="d-block w-100" src="https://placehold.co/800x400" alt="slide 2" />
+    </Carousel.Item>
+    <Carousel.Item>
+      <Image className="d-block w-100" src="https://placehold.co/800x400" alt="slide 3" />
+    </Carousel.Item>
+  </Carousel>
 </Example>
 
 ### With indicators
@@ -63,47 +58,47 @@ Adding in the previous and next controls by `controls` property.
 You can attach the indicators to the carousel, lengthwise the controls, too.
 
 <Example>
-  <CxCarousel controls indicators>
-    <CxCarouselItem>
-      <CxImage className="d-block w-100" src="https://placehold.co/800x400" alt="slide 1" />
-    </CxCarouselItem>
-    <CxCarouselItem>
-      <CxImage className="d-block w-100" src="https://placehold.co/800x400" alt="slide 2" />
-    </CxCarouselItem>
-    <CxCarouselItem>
-      <CxImage className="d-block w-100" src="https://placehold.co/800x400" alt="slide 3" />
-    </CxCarouselItem>
-  </CxCarousel>
+  <Carousel controls indicators>
+    <Carousel.Item>
+      <Image className="d-block w-100" src="https://placehold.co/800x400" alt="slide 1" />
+    </Carousel.Item>
+    <Carousel.Item>
+      <Image className="d-block w-100" src="https://placehold.co/800x400" alt="slide 2" />
+    </Carousel.Item>
+    <Carousel.Item>
+      <Image className="d-block w-100" src="https://placehold.co/800x400" alt="slide 3" />
+    </Carousel.Item>
+  </Carousel>
 </Example>
 
 ### With captions
 
-You can add captions to slides with the `<CxCarouselCaption>` element within any `<CxCarouselItem>`. They can be immediately hidden on smaller viewports, as shown below, with optional display utilities. We hide them with `.d-none` and draw them back on medium-sized devices with `.medium:d-block`.
+You can add captions to slides with the `<Carousel.Caption>` element within any `<Carousel.Item>`. They can be immediately hidden on smaller viewports, as shown below, with optional display utilities. We hide them with `.d-none` and draw them back on medium-sized devices with `.medium:d-block`.
 
 <Example>
-  <CxCarousel controls indicators>
-    <CxCarouselItem>
-      <CxImage className="d-block w-100" src="https://placehold.co/800x400" alt="slide 1" />
-      <CxCarouselCaption className="d-none medium:d-block">
+  <Carousel controls indicators>
+    <Carousel.Item>
+      <Image className="d-block w-100" src="https://placehold.co/800x400" alt="slide 1" />
+      <Carousel.Caption className="d-none medium:d-block">
         <h5>First slide label</h5>
         <p>Some representative placeholder content for the first slide.</p>
-      </CxCarouselCaption>
-    </CxCarouselItem>
-    <CxCarouselItem>
-      <CxImage className="d-block w-100" src="https://placehold.co/800x400" alt="slide 2" />
-      <CxCarouselCaption className="d-none medium:d-block">
+      </Carousel.Caption>
+    </Carousel.Item>
+    <Carousel.Item>
+      <Image className="d-block w-100" src="https://placehold.co/800x400" alt="slide 2" />
+      <Carousel.Caption className="d-none medium:d-block">
         <h5>Second slide label</h5>
         <p>Some representative placeholder content for the first slide.</p>
-      </CxCarouselCaption>
-    </CxCarouselItem>
-    <CxCarouselItem>
-      <CxImage className="d-block w-100" src="https://placehold.co/800x400" alt="slide 3" />
-      <CxCarouselCaption className="d-none medium:d-block">
+      </Carousel.Caption>
+    </Carousel.Item>
+    <Carousel.Item>
+      <Image className="d-block w-100" src="https://placehold.co/800x400" alt="slide 3" />
+      <Carousel.Caption className="d-none medium:d-block">
         <h5>Third slide label</h5>
         <p>Some representative placeholder content for the first slide.</p>
-      </CxCarouselCaption>
-    </CxCarouselItem>
-  </CxCarousel>
+      </Carousel.Caption>
+    </Carousel.Item>
+  </Carousel>
 </Example>
 
 ### Crossfade
@@ -111,57 +106,57 @@ You can add captions to slides with the `<CxCarouselCaption>` element within any
 Add `transition="crossfade"` to your carousel to animate slides with a fade transition instead of a slide.
 
 <Example>
-  <CxCarousel controls transition="crossfade">
-    <CxCarouselItem>
-      <CxImage className="d-block w-100" src="https://placehold.co/800x400" alt="slide 1" />
-    </CxCarouselItem>
-    <CxCarouselItem>
-      <CxImage className="d-block w-100" src="https://placehold.co/800x400" alt="slide 2" />
-    </CxCarouselItem>
-    <CxCarouselItem>
-      <CxImage className="d-block w-100" src="https://placehold.co/800x400" alt="slide 3" />
-    </CxCarouselItem>
-  </CxCarousel>
+  <Carousel controls transition="crossfade">
+    <Carousel.Item>
+      <Image className="d-block w-100" src="https://placehold.co/800x400" alt="slide 1" />
+    </Carousel.Item>
+    <Carousel.Item>
+      <Image className="d-block w-100" src="https://placehold.co/800x400" alt="slide 2" />
+    </Carousel.Item>
+    <Carousel.Item>
+      <Image className="d-block w-100" src="https://placehold.co/800x400" alt="slide 3" />
+    </Carousel.Item>
+  </Carousel>
 </Example>
 
 ## Dark variant
 
-Add `dark` property to the `CxCarousel` for darker controls, indicators, and captions. Controls have been inverted from their default white fill with the `filter` CSS property. Captions and controls have additional Sass variables that customize the `context` and `background-context`.
+Add `dark` property to the `Carousel` for darker controls, indicators, and captions. Controls have been inverted from their default white fill with the `filter` CSS property. Captions and controls have additional Sass variables that customize the `context` and `background-context`.
 
 <Example>
-  <CxCarousel controls indicators dark>
-    <CxCarouselItem>
-      <CxImage className="d-block w-100" src="https://placehold.co/800x400" alt="slide 1" />
-      <CxCarouselCaption className="d-none medium:d-block">
+  <Carousel controls indicators dark>
+    <Carousel.Item>
+      <Image className="d-block w-100" src="https://placehold.co/800x400" alt="slide 1" />
+      <Carousel.Caption className="d-none medium:d-block">
         <h5>First slide label</h5>
         <p>Some representative placeholder content for the first slide.</p>
-      </CxCarouselCaption>
-    </CxCarouselItem>
-    <CxCarouselItem>
-      <CxImage className="d-block w-100" src="https://placehold.co/800x400" alt="slide 2" />
-      <CxCarouselCaption className="d-none medium:d-block">
+      </Carousel.Caption>
+    </Carousel.Item>
+    <Carousel.Item>
+      <Image className="d-block w-100" src="https://placehold.co/800x400" alt="slide 2" />
+      <Carousel.Caption className="d-none medium:d-block">
         <h5>Second slide label</h5>
         <p>Some representative placeholder content for the first slide.</p>
-      </CxCarouselCaption>
-    </CxCarouselItem>
-    <CxCarouselItem>
-      <CxImage className="d-block w-100" src="https://placehold.co/800x400" alt="slide 3" />
-      <CxCarouselCaption className="d-none medium:d-block">
+      </Carousel.Caption>
+    </Carousel.Item>
+    <Carousel.Item>
+      <Image className="d-block w-100" src="https://placehold.co/800x400" alt="slide 3" />
+      <Carousel.Caption className="d-none medium:d-block">
         <h5>Third slide label</h5>
         <p>Some representative placeholder content for the first slide.</p>
-      </CxCarouselCaption>
-    </CxCarouselItem>
-  </CxCarousel>
+      </Carousel.Caption>
+    </Carousel.Item>
+  </Carousel>
 </Example>
 
 ## API
 
-### CxCarousel
+### Carousel
 
-<PropTable component="CxCarousel" />
-### CxCarouselCaption
+<PropTable component="Carousel" />
+### Carousel.Caption
 
-<PropTable component="CxCarouselCaption" />
-### CxCarouselItem
+<PropTable component="CarouselCaption" />
+### Carousel.Item
 
-<PropTable component="CxCarouselItem" />
+<PropTable component="CarouselItem" />

@@ -18,7 +18,7 @@ import { Example as PasswordToggleExample } from '../../src/examples/text-input/
 
 ## Overview
 
-`CxTextInput` is a styled, accessible replacement for a native single-line `<input>`. It's built on React Aria's `useTextField` hook, which wires `aria-describedby` / `aria-labelledby` to the ids generated for an associated label, help text, and validation feedback.
+`TextInput` is a styled, accessible replacement for a native single-line `<input>`. It's built on React Aria's `useTextField` hook, which wires `aria-describedby` / `aria-labelledby` to the ids generated for an associated label, help text, and validation feedback.
 
 <Example>
   <BasicExample client:load />
@@ -26,7 +26,7 @@ import { Example as PasswordToggleExample } from '../../src/examples/text-input/
 
 ## As a form field
 
-Pass `label` / `help` / `invalid` / `invalidFeedback` / `valid` / `validFeedback` directly to `CxTextInput` to render it together with an associated `CxFormLabel`, `CxFormHelp`, and `CxFormFeedback`, already wired up — see [Form Field]([[docsref:/forms/form-field]]) instead when a control needs to be grouped with companion content under one label.
+Pass `label` / `help` / `invalid` / `invalidFeedback` / `valid` / `validFeedback` directly to `TextInput` to render it together with an associated `FormLabel`, `FormHelp`, and `FormFeedback`, already wired up — see [Form Field]([[docsref:/components/form-field]]) instead when a control needs to be grouped with companion content under one label.
 
 <Example>
   <FormFieldExample client:load />
@@ -34,13 +34,13 @@ Pass `label` / `help` / `invalid` / `invalidFeedback` / `valid` / `validFeedback
 
 ## Types
 
-`CxTextInput` accepts any single-line, text-valued native `type`: `text`, `password`, `email`, `tel`, `url`, `search`, `date`, `datetime-local`, `month`, `week`, and `time`. The value is passed straight through to the underlying `<input>`, so browser-native behaviors like password reveal toggles, email validation, and date pickers all work as expected.
+`TextInput` accepts any single-line, text-valued native `type`: `text`, `password`, `email`, `tel`, `url`, `search`, `date`, `datetime-local`, `month`, `week`, and `time`. The value is passed straight through to the underlying `<input>`, so browser-native behaviors like password reveal toggles, email validation, and date pickers all work as expected.
 
 <Example class="vstack gap-medium">
   <TypesExample client:load />
 </Example>
 
-Color and file inputs need bespoke rendering (a swatch, a themed file-selector button) that a plain text field can't provide, so they have their own dedicated components instead — see [File Input]([[docsref:/forms/file-input]]) and [Color Input]([[docsref:/forms/color-input]]). For a richer date-picking experience with a calendar popup, see [Date Picker]([[docsref:/forms/datepicker]]).
+Color and file inputs need bespoke rendering (a swatch, a themed file-selector button) that a plain text field can't provide, so they have their own dedicated components instead — see [File Input]([[docsref:/components/file-input]]) and [Color Input]([[docsref:/components/color-input]]). For a richer date-picking experience with a calendar popup, see [Date Picker]([[docsref:/components/datepicker]]).
 
 ## Sizing
 
@@ -88,13 +88,13 @@ Pass `adornStart` and/or `adornEnd` to render content — an icon, text, or an a
 at the leading or trailing edge of the input. Either prop switches the rendered markup from a bare
 `<input>` to chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-adorn) pattern:
 a `.form-input` wrapper containing the adorn(s) around a `.ghost-input`. Wrap adorn content in
-`CxInputAdorn` so it picks up the `.input-adorn` class the wrapper's flex layout targets.
+`InputAdorn` so it picks up the `.input-adorn` class the wrapper's flex layout targets.
 
 <Example class="vstack gap-medium">
   <AdornsExample client:load />
 </Example>
 
-Set `component="button"` (or `component="a"`) on `CxInputAdorn` for an actionable adorn — a
+Set `component="button"` (or `component="a"`) on `InputAdorn` for an actionable adorn — a
 password reveal toggle, a clear button, or a "forgot password" link.
 
 <Example>
@@ -103,18 +103,18 @@ password reveal toggle, a clear button, or a "forgot password" link.
 
 ## Accessibility
 
-A decorative icon adorn (rendered via `CxIcon` without a `title`) is hidden from assistive
+A decorative icon adorn (rendered via `Icon` without a `title`) is hidden from assistive
 technology automatically. A text adorn like `$` or `USD` is not announced by screen readers — when
 it's essential to understanding the field, include it in the input's own accessible name via
-`aria-label` rather than relying on the adorn alone. An icon-only actionable adorn (`CxInputAdorn`
+`aria-label` rather than relying on the adorn alone. An icon-only actionable adorn (`InputAdorn`
 with `component="button"`) needs its own `aria-label` describing the action, since it has no text
 content for assistive technology to announce.
 
 ## API
 
-### CxTextInput
+### TextInput
 
-<PropTable component="CxTextInput" />
-### CxInputAdorn
+<PropTable component="TextInput" />
+### InputAdorn
 
-<PropTable component="CxInputAdorn" />
+<PropTable component="InputAdorn" />

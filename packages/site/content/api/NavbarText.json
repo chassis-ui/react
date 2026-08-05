@@ -1,0 +1,28 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/navbar/NavbarText.tsx",
+  "description": "",
+  "displayName": "NavbarText",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/navbar/NavbarText.tsx",
+        "name": "NavbarTextProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/navbar/NavbarText.tsx",
+          "name": "NavbarTextProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    }
+  }
+}

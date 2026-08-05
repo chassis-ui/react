@@ -1,11 +1,4 @@
-import {
-  CxTable,
-  CxTableBody,
-  CxTableCell,
-  CxTableColumn,
-  CxTableHeader,
-  CxTableRow
-} from '@chassis-ui/react'
+import { Table } from '@chassis-ui/react'
 
 const rows = [
   { id: 1, name: 'Mark Otto', amount: '$120' },
@@ -13,7 +6,7 @@ const rows = [
 ]
 
 export const CaptionFooterExample = () => (
-  <CxTable
+  <Table
     aria-label="Invoices"
     caption="Recent invoices"
     footer={
@@ -23,16 +16,16 @@ export const CaptionFooterExample = () => (
       </tr>
     }
   >
-    <CxTableHeader>
-      <CxTableColumn key="name">Name</CxTableColumn>
-      <CxTableColumn key="amount">Amount</CxTableColumn>
-    </CxTableHeader>
-    <CxTableBody items={rows}>
+    <Table.Header>
+      <Table.Column key="name">Name</Table.Column>
+      <Table.Column key="amount">Amount</Table.Column>
+    </Table.Header>
+    <Table.Body items={rows}>
       {(row) => (
-        <CxTableRow key={row.id}>
-          {(columnKey) => <CxTableCell>{row[columnKey as keyof typeof row]}</CxTableCell>}
-        </CxTableRow>
+        <Table.Row key={row.id}>
+          {(columnKey) => <Table.Cell>{row[columnKey as keyof typeof row]}</Table.Cell>}
+        </Table.Row>
       )}
-    </CxTableBody>
-  </CxTable>
+    </Table.Body>
+  </Table>
 )

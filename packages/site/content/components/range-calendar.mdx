@@ -12,11 +12,11 @@ import { RangeMultiMonthExample } from '../../src/examples/calendar/RangeMultiMo
 import { PresetsExample } from '../../src/examples/calendar/PresetsExample.tsx'
 import { RangeFirstDayOfWeekExample } from '../../src/examples/calendar/RangeFirstDayOfWeekExample.tsx'
 
-import { CxRangeCalendar } from '@chassis-ui/react'
+import { RangeCalendar } from '@chassis-ui/react'
 
 ## Overview
 
-`CxRangeCalendar` is the range-selection counterpart to [`CxCalendar`](/forms/calendar) — click a start date, then an end date, to select a contiguous range. Hovering (or dragging) between the two previews the range before it's committed. [`CxDateRangePicker`](/forms/date-range-picker) renders this same component inside its popover, the same way `CxDatePicker` renders `CxCalendar`.
+`RangeCalendar` is the range-selection counterpart to [`Calendar`](/forms/calendar) — click a start date, then an end date, to select a contiguous range. Hovering (or dragging) between the two previews the range before it's committed. [`DateRangePicker`](/forms/date-range-picker) renders this same component inside its popover, the same way `DatePicker` renders `Calendar`.
 
 <Example>
   <RangeBasicExample client:load />
@@ -24,7 +24,7 @@ import { CxRangeCalendar } from '@chassis-ui/react'
 
 ## Min & max dates
 
-Restrict the selectable range with `minValue`/`maxValue`, same as `CxCalendar`. Dates outside the range are shown but disabled, and can't start or extend a selection.
+Restrict the selectable range with `minValue`/`maxValue`, same as `Calendar`. Dates outside the range are shown but disabled, and can't start or extend a selection.
 
 <Example>
   <RangeMinMaxExample client:load />
@@ -32,7 +32,7 @@ Restrict the selectable range with `minValue`/`maxValue`, same as `CxCalendar`. 
 
 ## Unavailable dates
 
-`isDateUnavailable` and the JSON-friendly `unavailableDates` (an array of ISO 8601 `YYYY-MM-DD` strings) work exactly as they do on `CxCalendar`, composing when both are given. An unavailable date can't be picked as either endpoint.
+`isDateUnavailable` and the JSON-friendly `unavailableDates` (an array of ISO 8601 `YYYY-MM-DD` strings) work exactly as they do on `Calendar`, composing when both are given. An unavailable date can't be picked as either endpoint.
 
 <Example>
   <RangeUnavailableDatesExample client:load />
@@ -40,7 +40,7 @@ Restrict the selectable range with `minValue`/`maxValue`, same as `CxCalendar`. 
 
 ## Weekend styling
 
-Weekends are shown muted automatically, same as `CxCalendar` — locale-aware, no prop required.
+Weekends are shown muted automatically, same as `Calendar` — locale-aware, no prop required.
 
 ## Navigation
 
@@ -48,7 +48,7 @@ Navigation is always month/year dropdowns — there's no plain arrows-only varia
 
 ## First day of week
 
-Same `firstDayOfWeek` prop as `CxCalendar` — the week starts on Monday by default, regardless of the active locale. When `visibleMonths > 1`, it applies consistently across every visible month.
+Same `firstDayOfWeek` prop as `Calendar` — the week starts on Monday by default, regardless of the active locale. When `visibleMonths > 1`, it applies consistently across every visible month.
 
 <Example>
   <RangeFirstDayOfWeekExample client:load />
@@ -64,7 +64,7 @@ Pass `visibleMonths` to show more than one month side by side, sharing a single 
 
 ## Presets
 
-Pass `presets` — an array of `{ label, range }` entries (see [`CxDateRangePreset`](#cxdaterangepreset) below) — to show a quick-select list next to the calendar. Selecting a preset commits its range immediately, the same as picking a start and end date from the grid. The preset matching the current selection (if any) is shown as the active one.
+Pass `presets` — an array of `{ label, range }` entries (see [`DateRangePreset`](#cxdaterangepreset) below) — to show a quick-select list next to the calendar. Selecting a preset commits its range immediately, the same as picking a start and end date from the grid. The preset matching the current selection (if any) is shown as the active one.
 
 <Example>
   <PresetsExample client:load />
@@ -72,7 +72,7 @@ Pass `presets` — an array of `{ label, range }` entries (see [`CxDateRangePres
 
 ## Accessible name
 
-`CxRangeCalendar` has no visible label of its own — pass `aria-label` or `aria-labelledby` any time it's used standalone. When composed inside `CxDateRangePicker`'s popover, the accessible name instead comes from the picker's own label.
+`RangeCalendar` has no visible label of its own — pass `aria-label` or `aria-labelledby` any time it's used standalone. When composed inside `DateRangePicker`'s popover, the accessible name instead comes from the picker's own label.
 
 ## Scope
 
@@ -80,16 +80,16 @@ Pass `presets` — an array of `{ label, range }` entries (see [`CxDateRangePres
 
 ## Styling
 
-Like `CxCalendar`, `CxRangeCalendar` isn't styled by `@chassis-ui/css`. It reuses `CxCalendar.css`'s header/nav/grid/cell classes directly (so the two always look identical outside of an active selection), adding only the small amount of CSS needed for the connected "pill" band across a selected or previewed range, and for the multi-month layout (`.datepicker-grid`/`.datepicker-column`/`.datepicker-controls`, the same classes `@chassis-ui/css`'s own datepicker component uses for side-by-side month grids with a shared prev/next pair) — automatically injected the first time the component is imported, no separate stylesheet to add.
+Like `Calendar`, `RangeCalendar` isn't styled by `@chassis-ui/css`. It reuses `Calendar.css`'s header/nav/grid/cell classes directly (so the two always look identical outside of an active selection), adding only the small amount of CSS needed for the connected "pill" band across a selected or previewed range, and for the multi-month layout (`.datepicker-grid`/`.datepicker-column`/`.datepicker-controls`, the same classes `@chassis-ui/css`'s own datepicker component uses for side-by-side month grids with a shared prev/next pair) — automatically injected the first time the component is imported, no separate stylesheet to add.
 
 ## API
 
-### CxRangeCalendar
+### RangeCalendar
 
-<PropTable component="CxRangeCalendar" />
+<PropTable component="RangeCalendar" />
 
-### CxDateRangePreset
+### DateRangePreset
 
 Shape of each entry in the `presets` array.
 
-<PropTable component="CxDateRangePreset" />
+<PropTable component="DateRangePreset" />

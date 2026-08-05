@@ -5,7 +5,7 @@ description: Chassis ChipInput is a multi-value text field that wraps typed entr
 toc: true
 ---
 
-import { CxChipInput } from '@chassis-ui/react'
+import { ChipInput } from '@chassis-ui/react'
 
 import { BasicExample } from '../../src/examples/chip-input/BasicExample.tsx'
 import { FormFieldExample } from '../../src/examples/chip-input/FormFieldExample.tsx'
@@ -15,7 +15,7 @@ import { DisabledExample } from '../../src/examples/chip-input/DisabledExample.t
 
 ## Overview
 
-`CxChipInput` combines a text field with a focusable, removable list of chips — type a value and press <kbd>Enter</kbd> or the separator character (`,` by default) to turn it into a chip. Arrow keys move focus between chips, and <kbd>Backspace</kbd>/<kbd>Delete</kbd> removes a focused (or selected) chip.
+`ChipInput` combines a text field with a focusable, removable list of chips — type a value and press <kbd>Enter</kbd> or the separator character (`,` by default) to turn it into a chip. Arrow keys move focus between chips, and <kbd>Backspace</kbd>/<kbd>Delete</kbd> removes a focused (or selected) chip.
 
 <Example>
   <BasicExample client:load />
@@ -23,7 +23,7 @@ import { DisabledExample } from '../../src/examples/chip-input/DisabledExample.t
 
 ## As a form field
 
-Pass `label`/`help` to wrap the input in a `.form-field` with an associated `CxFormLabel` and `CxFormHelp`. Pass `name` to have `CxChipInput` create a hidden `<input type="hidden">` per chip — all sharing that `name`, so a native form submission collects them together (`FormData.getAll('skills')`).
+Pass `label`/`help` to wrap the input in a `.form-field` with an associated `FormLabel` and `FormHelp`. Pass `name` to have `ChipInput` create a hidden `<input type="hidden">` per chip — all sharing that `name`, so a native form submission collects them together (`FormData.getAll('skills')`).
 
 <Example>
   <FormFieldExample client:load />
@@ -39,7 +39,7 @@ Pass `chipVariant` with any combination of chassis-css chip modifier classes (e.
 
 ## Controlled values
 
-Pass `value`/`onChange` to control the set of chip values yourself. Omit them (use `defaultValue` instead) to let `CxChipInput` manage its own state.
+Pass `value`/`onChange` to control the set of chip values yourself. Omit them (use `defaultValue` instead) to let `ChipInput` manage its own state.
 
 <Example>
   <ControlledExample client:load />
@@ -64,6 +64,6 @@ A few Mail.app-style affordances from chassis-css's vanilla `chip-input.js` aren
 
 ## API
 
-### CxChipInput
+### ChipInput
 
-<PropTable component="CxChipInput" />
+<PropTable component="ChipInput" />

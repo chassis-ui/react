@@ -5,7 +5,7 @@ description: Chassis Table is a full interactive data grid with sorting, row sel
 toc: true
 ---
 
-import { CxTable, CxTableBody, CxTableCell, CxTableColumn, CxTableHeader, CxTableRow } from '@chassis-ui/react'
+import { Table } from '@chassis-ui/react'
 
 import { BasicExample } from '../../src/examples/table/BasicExample.tsx'
 import { DynamicExample } from '../../src/examples/table/DynamicExample.tsx'
@@ -17,7 +17,7 @@ import { ResponsiveExample } from '../../src/examples/table/ResponsiveExample.ts
 
 ## Overview
 
-`CxTable` is a real ARIA grid (`role="grid"`) — arrow keys move focus between cells, columns can be sortable, and rows can be selectable, all handled by React Aria's table hooks. Composing it uses `CxTableHeader`/`CxTableColumn`/`CxTableBody`/`CxTableRow`/`CxTableCell` as data — read to build the table's collection — rather than plain `<thead>`/`<tbody>` JSX. `CxTable` renders the real `<table>` markup itself from that collection.
+`Table` is a real ARIA grid (`role="grid"`) — arrow keys move focus between cells, columns can be sortable, and rows can be selectable, all handled by React Aria's table hooks. Composing it uses `Table.Header`/`Table.Column`/`Table.Body`/`Table.Row`/`Table.Cell` as data — read to build the table's collection — rather than plain `<thead>`/`<tbody>` JSX. `Table` renders the real `<table>` markup itself from that collection.
 
 This is a deliberate trade: the authoring model is less "just markup" than most of the rest of Chassis React, in exchange for real sorting, selection, and keyboard grid navigation you'd otherwise have to hand-roll.
 
@@ -27,7 +27,7 @@ This is a deliberate trade: the authoring model is less "just markup" than most 
 
 ## Dynamic columns and rows
 
-Both `CxTableHeader` and `CxTableBody` also accept a `columns`/`items` array plus a render function, for columns and rows built from data rather than written out by hand.
+Both `Table.Header` and `Table.Body` also accept a `columns`/`items` array plus a render function, for columns and rows built from data rather than written out by hand.
 
 <Example>
   <DynamicExample client:load />
@@ -35,7 +35,7 @@ Both `CxTableHeader` and `CxTableBody` also accept a `columns`/`items` array plu
 
 ## Sorting
 
-Add `allowsSorting` to a `CxTableColumn` to make it clickable (and keyboard-activatable). `CxTable` doesn't sort your data itself — it reports the requested column/direction via `onSortChange`, so pair it with `sortDescriptor` and sort the array yourself, as in the example below.
+Add `allowsSorting` to a `Table.Column` to make it clickable (and keyboard-activatable). `Table` doesn't sort your data itself — it reports the requested column/direction via `onSortChange`, so pair it with `sortDescriptor` and sort the array yourself, as in the example below.
 
 <Example>
   <SortingExample client:load />
@@ -84,26 +84,26 @@ Wrap in a responsive container with the `responsive` prop — `true` for all vie
 
 ## API
 
-### CxTable
+### Table
 
-<PropTable component="CxTable" />
+<PropTable component="Table" />
 
-### CxTableHeader
+### Table.Header
 
-<PropTable component="CxTableHeader" />
+<PropTable component="TableHeader" />
 
-### CxTableColumn
+### Table.Column
 
-<PropTable component="CxTableColumn" />
+<PropTable component="TableColumn" />
 
-### CxTableBody
+### Table.Body
 
-<PropTable component="CxTableBody" />
+<PropTable component="TableBody" />
 
-### CxTableRow
+### Table.Row
 
-<PropTable component="CxTableRow" />
+<PropTable component="TableRow" />
 
-### CxTableCell
+### Table.Cell
 
-<PropTable component="CxTableCell" />
+<PropTable component="TableCell" />

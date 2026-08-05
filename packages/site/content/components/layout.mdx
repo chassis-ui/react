@@ -7,26 +7,25 @@ toc: true
 
 import { HorizontalFormExample } from '../../src/examples/layout/HorizontalFormExample.tsx'
 
-import { 
-  CxButton,
-  CxForm,
-  CxCheckbox,
-  CxTextInput,
-  CxFormLabel,
-  CxSelect,
-  CxInputGroup,
-  CxInputAddon,
-  CxCol,
-  CxRow 
+import {
+  Button,
+  Form,
+  Checkbox,
+  TextInput,
+  FormLabel,
+  Select,
+  InputGroup,
+  Col,
+  Row,
 } from '@chassis-ui/react'
 
 ## Forms
 
-Every group of form fields should reside in a `<CxForm>` element. Chassis provides no default styling for the `<CxForm>` element, but there are some powerful browser features that are provided by default.
+Every group of form fields should reside in a `<Form>` element. Chassis provides no default styling for the `<Form>` element, but there are some powerful browser features that are provided by default.
 
 - New to browser forms? Consider reviewing [the MDN form docs](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form) for an overview and complete list of available attributes.
-- `<CxButton>`s within a `<CxForm>` default to `type="submit"`, so strive to be specific and always include a `type`.
-- You can disable every form element within a form with the `disabled` attribute on the `<CxForm>`.
+- `<Button>`s within a `<Form>` default to `type="submit"`, so strive to be specific and always include a `type`.
+- You can disable every form element within a form with the `disabled` attribute on the `<Form>`.
 
 Since Chassis applies `display: block` and `width: 100%` to almost all our form controls, forms will by default stack vertically. Additional classes can be used to vary this layout on a per-form basis.
 
@@ -39,14 +38,14 @@ Margin utilities are the easiest way to add some structure to forms. They provid
 More complex forms can be built using our grid classes. Use these for form layouts that require multiple columns, varied widths, and additional alignment options.
 
 <Example>
-  <CxRow>
-    <CxCol xs>
-      <CxTextInput placeholder="First name" aria-label="First name"/>
-    </CxCol>
-    <CxCol xs>
-      <CxTextInput placeholder="Last name" aria-label="Last name"/>
-    </CxCol>
-  </CxRow>
+  <Row>
+    <Col xs>
+      <TextInput placeholder="First name" aria-label="First name"/>
+    </Col>
+    <Col xs>
+      <TextInput placeholder="Last name" aria-label="Last name"/>
+    </Col>
+  </Row>
 </Example>
 
 ## Gutters
@@ -54,63 +53,63 @@ More complex forms can be built using our grid classes. Use these for form layou
 By adding gutter modifier classes, you can have control over the gutter width in as well the inline as block direction.
 
 <Example>
-  <CxRow className="g-3">
-    <CxCol xs>
-      <CxTextInput placeholder="First name" aria-label="First name"/>
-    </CxCol>
-    <CxCol xs>
-      <CxTextInput placeholder="Last name" aria-label="Last name"/>
-    </CxCol>
-  </CxRow>
+  <Row className="g-3">
+    <Col xs>
+      <TextInput placeholder="First name" aria-label="First name"/>
+    </Col>
+    <Col xs>
+      <TextInput placeholder="Last name" aria-label="Last name"/>
+    </Col>
+  </Row>
 </Example>
 
 More complex layouts can also be created with the grid system.
 
 <Example>
-  <CxForm className="row g-3">
-    <CxCol md={6}>
-      <CxFormLabel htmlFor="inputEmail4">Email</CxFormLabel>
-      <CxTextInput type="email" id="inputEmail4"/>
-    </CxCol>
-    <CxCol md={6}>
-      <CxFormLabel htmlFor="inputPassword4">Password</CxFormLabel>
-      <CxTextInput type="password" id="inputPassword4"/>
-    </CxCol>
-    <CxCol xs={12}>
-      <CxFormLabel htmlFor="inputAddress">Address</CxFormLabel>
-      <CxTextInput id="inputAddress" placeholder="1234 Main St"/>
-    </CxCol>
-    <CxCol xs={12}>
-      <CxFormLabel htmlFor="inputAddress2">Address 2</CxFormLabel>
-      <CxTextInput id="inputAddress2" placeholder="Apartment, studio, or floor"/>
-    </CxCol>
-    <CxCol md={6}>
-      <CxFormLabel htmlFor="inputCity">City</CxFormLabel>
-      <CxTextInput id="inputCity"/>
-    </CxCol>
-    <CxCol md={4}>
-      <CxFormLabel htmlFor="inputState">State</CxFormLabel>
-      <CxSelect id="inputState">
+  <Form className="row g-3">
+    <Col md={6}>
+      <FormLabel htmlFor="inputEmail4">Email</FormLabel>
+      <TextInput type="email" id="inputEmail4"/>
+    </Col>
+    <Col md={6}>
+      <FormLabel htmlFor="inputPassword4">Password</FormLabel>
+      <TextInput type="password" id="inputPassword4"/>
+    </Col>
+    <Col xs={12}>
+      <FormLabel htmlFor="inputAddress">Address</FormLabel>
+      <TextInput id="inputAddress" placeholder="1234 Main St"/>
+    </Col>
+    <Col xs={12}>
+      <FormLabel htmlFor="inputAddress2">Address 2</FormLabel>
+      <TextInput id="inputAddress2" placeholder="Apartment, studio, or floor"/>
+    </Col>
+    <Col md={6}>
+      <FormLabel htmlFor="inputCity">City</FormLabel>
+      <TextInput id="inputCity"/>
+    </Col>
+    <Col md={4}>
+      <FormLabel htmlFor="inputState">State</FormLabel>
+      <Select id="inputState">
         <option>Choose...</option>
         <option>...</option>
-      </CxSelect>
-    </CxCol>
-    <CxCol md={2}>
-      <CxFormLabel htmlFor="inputZip">Zip</CxFormLabel>
-      <CxTextInput id="inputZip"/>
-    </CxCol>
-    <CxCol xs={12}>
-      <CxCheckbox id="gridCheck" label="Check me out"/>
-    </CxCol>
-    <CxCol xs={12}>
-      <CxButton type="submit">Sign in</CxButton>
-    </CxCol>
-  </CxForm>
+      </Select>
+    </Col>
+    <Col md={2}>
+      <FormLabel htmlFor="inputZip">Zip</FormLabel>
+      <TextInput id="inputZip"/>
+    </Col>
+    <Col xs={12}>
+      <Checkbox id="gridCheck" label="Check me out"/>
+    </Col>
+    <Col xs={12}>
+      <Button type="submit">Sign in</Button>
+    </Col>
+  </Form>
 </Example>
 
 ## Horizontal form
 
-Create horizontal forms with the grid by adding the `.row` class to form groups and using the `.col-*-*` classes to specify the width of your labels and controls. Be sure to add `.col-form-label` to your `<CxFormLabel>`s as well so they're vertically centered with their associated form controls.
+Create horizontal forms with the grid by adding the `.row` class to form groups and using the `.col-*-*` classes to specify the width of your labels and controls. Be sure to add `.col-form-label` to your `<FormLabel>`s as well so they're vertically centered with their associated form controls.
 
 At times, you maybe need to use margin or padding utilities to create that perfect alignment you need.
 
@@ -120,143 +119,143 @@ At times, you maybe need to use margin or padding utilities to create that perfe
 
 ### Horizontal form label sizing
 
-Be sure to use `.col-form-label-small` or `.col-form-label-large` to your `<CxFormLabel>`s or `<legend>`s to correctly follow the size of `.large` and `.small`.
+Be sure to use `.col-form-label-small` or `.col-form-label-large` to your `<FormLabel>`s or `<legend>`s to correctly follow the size of `.large` and `.small`.
 
 <Example>
-  <CxRow className="mb-medium">
-    <CxFormLabel htmlFor="colFormLabelSm" className="small:col-2 col-form-label col-form-label-small">Email</CxFormLabel>
-    <CxCol sm={10} >
-      <CxTextInput type="email" className="form-input small" id="colFormLabelSm" placeholder="col-form-label-small"/>
-    </CxCol>
-  </CxRow>
-  <CxRow className="mb-medium">
-    <CxFormLabel htmlFor="colFormLabel" className="small:col-2 col-form-label">Email</CxFormLabel>
-    <CxCol sm={10} >
-      <CxTextInput type="email" id="colFormLabel" placeholder="col-form-label"/>
-    </CxCol>
-  </CxRow>
-  <CxRow>
-    <CxFormLabel htmlFor="colFormLabelLg" className="small:col-2 col-form-label col-form-label-large">Email</CxFormLabel>
-    <CxCol sm={10} >
-      <CxTextInput type="email" className="form-input large" id="colFormLabelLg" placeholder="col-form-label-large"/>
-    </CxCol>
-  </CxRow>
+  <Row className="mb-medium">
+    <FormLabel htmlFor="colFormLabelSm" className="small:col-2 col-form-label col-form-label-small">Email</FormLabel>
+    <Col sm={10} >
+      <TextInput type="email" className="form-input small" id="colFormLabelSm" placeholder="col-form-label-small"/>
+    </Col>
+  </Row>
+  <Row className="mb-medium">
+    <FormLabel htmlFor="colFormLabel" className="small:col-2 col-form-label">Email</FormLabel>
+    <Col sm={10} >
+      <TextInput type="email" id="colFormLabel" placeholder="col-form-label"/>
+    </Col>
+  </Row>
+  <Row>
+    <FormLabel htmlFor="colFormLabelLg" className="small:col-2 col-form-label col-form-label-large">Email</FormLabel>
+    <Col sm={10} >
+      <TextInput type="email" className="form-input large" id="colFormLabelLg" placeholder="col-form-label-large"/>
+    </Col>
+  </Row>
 </Example>
 
 ## Column sizing
 
-As shown in the previous examples, our grid system allows you to place any number of `<CxCol>`s within a `<CxRow>`. They'll split the available width equally between them. You may also pick a subset of your columns to take up more or less space, while the remaining `<CxCol>`s equally split the rest, with specific column classes like `<CxCol sm={7} >`.
+As shown in the previous examples, our grid system allows you to place any number of `<Col>`s within a `<Row>`. They'll split the available width equally between them. You may also pick a subset of your columns to take up more or less space, while the remaining `<Col>`s equally split the rest, with specific column classes like `<Col sm={7} >`.
 
 <Example>
-  <CxRow className="g-3">
-    <CxCol sm={7} >
-      <CxTextInput placeholder="City" aria-label="City"/>
-    </CxCol>
-    <CxCol sm>
-      <CxTextInput placeholder="State" aria-label="State"/>
-    </CxCol>
-    <CxCol sm>
-      <CxTextInput placeholder="Zip" aria-label="Zip"/>
-    </CxCol>
-  </CxRow>
+  <Row className="g-3">
+    <Col sm={7} >
+      <TextInput placeholder="City" aria-label="City"/>
+    </Col>
+    <Col sm>
+      <TextInput placeholder="State" aria-label="State"/>
+    </Col>
+    <Col sm>
+      <TextInput placeholder="Zip" aria-label="Zip"/>
+    </Col>
+  </Row>
 </Example>
 
 ## Auto-sizing
 
-The example below uses a flexbox utility to vertically center the contents and changes `<CxCol>` to `<CxCol xs="auto">` so that your columns only take up as much space as needed. Put another way, the column sizes itself based on the contents.
+The example below uses a flexbox utility to vertically center the contents and changes `<Col>` to `<Col xs="auto">` so that your columns only take up as much space as needed. Put another way, the column sizes itself based on the contents.
 
 <Example>
-  <CxForm className="row gy-2 gx-3 align-items-center">
-    <CxCol xs="auto">
-      <CxFormLabel className="visually-hidden" htmlFor="autoSizingInput">Name</CxFormLabel>
-      <CxTextInput id="autoSizingInput" placeholder="Jane Doe"/>
-    </CxCol>
-    <CxCol xs="auto">
-      <CxFormLabel className="visually-hidden" htmlFor="autoSizingInputGroup">Username</CxFormLabel>
-      <CxInputGroup>
-        <CxInputAddon>@</CxInputAddon>
-        <CxTextInput id="autoSizingInputGroup" placeholder="Username"/>
-      </CxInputGroup>
-    </CxCol>
-    <CxCol xs="auto">
-      <CxFormLabel className="visually-hidden" htmlFor="autoSizingSelect">Preference</CxFormLabel>
-      <CxSelect id="autoSizingSelect">
+  <Form className="row gy-2 gx-3 align-items-center">
+    <Col xs="auto">
+      <FormLabel className="visually-hidden" htmlFor="autoSizingInput">Name</FormLabel>
+      <TextInput id="autoSizingInput" placeholder="Jane Doe"/>
+    </Col>
+    <Col xs="auto">
+      <FormLabel className="visually-hidden" htmlFor="autoSizingInputGroup">Username</FormLabel>
+      <InputGroup>
+        <InputGroup.Addon>@</InputGroup.Addon>
+        <TextInput id="autoSizingInputGroup" placeholder="Username"/>
+      </InputGroup>
+    </Col>
+    <Col xs="auto">
+      <FormLabel className="visually-hidden" htmlFor="autoSizingSelect">Preference</FormLabel>
+      <Select id="autoSizingSelect">
         <option>Choose...</option>
         <option value="1">One</option>
         <option value="2">Two</option>
         <option value="3">Three</option>
-      </CxSelect>
-    </CxCol>
-    <CxCol xs="auto">
-      <CxCheckbox id="autoSizingCheck" label="Remember me"/>
-    </CxCol>
-    <CxCol xs="auto">
-      <CxButton type="submit">Submit</CxButton>
-    </CxCol>
-  </CxForm>
+      </Select>
+    </Col>
+    <Col xs="auto">
+      <Checkbox id="autoSizingCheck" label="Remember me"/>
+    </Col>
+    <Col xs="auto">
+      <Button type="submit">Submit</Button>
+    </Col>
+  </Form>
 </Example>
 
 You can then remix that once again with size-specific column classes.
 
 <Example>
-  <CxForm className="row gx-3 gy-2 align-items-center">
-    <CxCol sm={3} >
-      <CxFormLabel className="visually-hidden" htmlFor="specificSizeInputName">Name</CxFormLabel>
-      <CxTextInput id="specificSizeInputName" placeholder="Jane Doe"/>
-    </CxCol>
-    <CxCol sm={3} >
-      <CxFormLabel className="visually-hidden" htmlFor="specificSizeInputGroupUsername">Username</CxFormLabel>
-      <CxInputGroup>
-        <CxInputAddon>@</CxInputAddon>
-        <CxTextInput id="specificSizeInputGroupUsername" placeholder="Username"/>
-      </CxInputGroup>
-    </CxCol>
-    <CxCol sm={3} >
-      <CxFormLabel className="visually-hidden" htmlFor="specificSizeSelect">Preference</CxFormLabel>
-      <CxSelect id="specificSizeSelect">
+  <Form className="row gx-3 gy-2 align-items-center">
+    <Col sm={3} >
+      <FormLabel className="visually-hidden" htmlFor="specificSizeInputName">Name</FormLabel>
+      <TextInput id="specificSizeInputName" placeholder="Jane Doe"/>
+    </Col>
+    <Col sm={3} >
+      <FormLabel className="visually-hidden" htmlFor="specificSizeInputGroupUsername">Username</FormLabel>
+      <InputGroup>
+        <InputGroup.Addon>@</InputGroup.Addon>
+        <TextInput id="specificSizeInputGroupUsername" placeholder="Username"/>
+      </InputGroup>
+    </Col>
+    <Col sm={3} >
+      <FormLabel className="visually-hidden" htmlFor="specificSizeSelect">Preference</FormLabel>
+      <Select id="specificSizeSelect">
         <option>Choose...</option>
         <option value="1">One</option>
         <option value="2">Two</option>
         <option value="3">Three</option>
-      </CxSelect>
-    </CxCol>
-    <CxCol xs="auto">
-      <CxCheckbox id="autoSizingCheck2" label="Remember me"/>
-    </CxCol>
-    <CxCol xs="auto">
-      <CxButton type="submit">Submit</CxButton>
-    </CxCol>
-  </CxForm>
+      </Select>
+    </Col>
+    <Col xs="auto">
+      <Checkbox id="autoSizingCheck2" label="Remember me"/>
+    </Col>
+    <Col xs="auto">
+      <Button type="submit">Submit</Button>
+    </Col>
+  </Form>
 </Example>
 
 ## Inline forms
 
-Use the `<CxCol xs="auto">` class to create horizontal layouts. By adding gutter modifier classes, we will have gutters in horizontal and vertical directions. The `.align-items-center` aligns the form elements to the middle, making the `<CxCheckbox>` align properly.
+Use the `<Col xs="auto">` class to create horizontal layouts. By adding gutter modifier classes, we will have gutters in horizontal and vertical directions. The `.align-items-center` aligns the form elements to the middle, making the `<Checkbox>` align properly.
 
 <Example>
-  <CxForm className="row large:row-cols-auto g-3 align-items-center">
-    <CxCol xs={12}>
-      <CxFormLabel className="visually-hidden" htmlFor="inlineFormInputGroupUsername">Username</CxFormLabel>
-      <CxInputGroup>
-        <CxInputAddon>@</CxInputAddon>
-        <CxTextInput id="inlineFormInputGroupUsername" placeholder="Username"/>
-      </CxInputGroup>
-    </CxCol>
-    <CxCol xs={12}>
-      <CxFormLabel className="visually-hidden" htmlFor="inlineFormSelectPref">Preference</CxFormLabel>
-      <CxSelect id="inlineFormSelectPref">
+  <Form className="row large:row-cols-auto g-3 align-items-center">
+    <Col xs={12}>
+      <FormLabel className="visually-hidden" htmlFor="inlineFormInputGroupUsername">Username</FormLabel>
+      <InputGroup>
+        <InputGroup.Addon>@</InputGroup.Addon>
+        <TextInput id="inlineFormInputGroupUsername" placeholder="Username"/>
+      </InputGroup>
+    </Col>
+    <Col xs={12}>
+      <FormLabel className="visually-hidden" htmlFor="inlineFormSelectPref">Preference</FormLabel>
+      <Select id="inlineFormSelectPref">
         <option>Choose...</option>
         <option value="1">One</option>
         <option value="2">Two</option>
         <option value="3">Three</option>
-      </CxSelect>
-    </CxCol>
-    <CxCol xs={12}>
-      <CxCheckbox id="inlineFormCheck" label="Remember me"/>
-    </CxCol>
-    <CxCol xs={12}>
-      <CxButton type="submit">Submit</CxButton>
-    </CxCol>
-  </CxForm>
+      </Select>
+    </Col>
+    <Col xs={12}>
+      <Checkbox id="inlineFormCheck" label="Remember me"/>
+    </Col>
+    <Col xs={12}>
+      <Button type="submit">Submit</Button>
+    </Col>
+  </Form>
 </Example>
 

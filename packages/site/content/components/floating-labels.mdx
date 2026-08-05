@@ -7,87 +7,87 @@ toc: true
 
 
 import { 
-  CxButton,
-  CxForm,
-  CxFloatingInput,
-  CxTextInput,
-  CxFormLabel,
-  CxSelect,
-  CxTextarea,
-  CxCol,
-  CxRow 
+  Button,
+  Form,
+  FloatingInput,
+  TextInput,
+  FormLabel,
+  Select,
+  Textarea,
+  Col,
+  Row 
 } from '@chassis-ui/react'
 
 ## Example
 
-Wrap a pair of `<CxTextInput>` and `<CxFormLabel>` elements in `CxFloatingInput` to enable floating labels with textual form fields. A `placeholder` is required on each `<CxTextInput>` as our method of CSS-only floating labels uses the `:placeholder-shown` pseudo-element. Also note that the `<CxTextInput>` must come first so we can utilize a sibling selector (e.g., `~`).
+Wrap a pair of `<TextInput>` and `<FormLabel>` elements in `FloatingInput` to enable floating labels with textual form fields. A `placeholder` is required on each `<TextInput>` as our method of CSS-only floating labels uses the `:placeholder-shown` pseudo-element. Also note that the `<TextInput>` must come first so we can utilize a sibling selector (e.g., `~`).
 
 <Example>
-  <CxFloatingInput className="mb-medium">
-    <CxTextInput type="email" id="floatingInput" placeholder="name@example.com" />
-    <CxFormLabel htmlFor="floatingInput">Email address</CxFormLabel>
-  </CxFloatingInput>
-  <CxFloatingInput>
-    <CxTextInput type="password" id="floatingPassword" placeholder="Password" />
-    <CxFormLabel htmlFor="exampleFormControlTextarea1">Password</CxFormLabel>
-  </CxFloatingInput>
+  <FloatingInput className="mb-medium">
+    <TextInput type="email" id="floatingInput" placeholder="name@example.com" />
+    <FormLabel htmlFor="floatingInput">Email address</FormLabel>
+  </FloatingInput>
+  <FloatingInput>
+    <TextInput type="password" id="floatingPassword" placeholder="Password" />
+    <FormLabel htmlFor="exampleFormControlTextarea1">Password</FormLabel>
+  </FloatingInput>
 </Example>
 
-When there's a `value` already defined, `<CxFormLabel>`s will automatically adjust to their floated position.
+When there's a `value` already defined, `<FormLabel>`s will automatically adjust to their floated position.
 
 <Example>
-  <CxFloatingInput>
-    <CxTextInput
+  <FloatingInput>
+    <TextInput
       type="email"
       id="floatingInputValue"
       placeholder="name@example.com"
       defaultValue="test@example.com"
     />
-    <CxFormLabel htmlFor="floatingInputValue">Input with value</CxFormLabel>
-  </CxFloatingInput>
+    <FormLabel htmlFor="floatingInputValue">Input with value</FormLabel>
+  </FloatingInput>
 </Example>
 
 ## Textareas
 
-By default, `<CxTextarea>`s will be the same height as `<CxTextInput>`s.
+By default, `<Textarea>`s will be the same height as `<TextInput>`s.
 
 <Example>
-  <CxFloatingInput>
-    <CxTextarea
+  <FloatingInput>
+    <Textarea
       id="floatingTextarea"
       placeholder="Leave a comment here"
-    ></CxTextarea>
-    <CxFormLabel htmlFor="floatingTextarea">Comments</CxFormLabel>
-  </CxFloatingInput>
+    ></Textarea>
+    <FormLabel htmlFor="floatingTextarea">Comments</FormLabel>
+  </FloatingInput>
 </Example>
 
-To set a custom height on your `<CxTextarea>`, do not use the `rows` attribute. Instead, set an explicit `height` (either inline or via custom CSS).
+To set a custom height on your `<Textarea>`, do not use the `rows` attribute. Instead, set an explicit `height` (either inline or via custom CSS).
 
 <Example>
-  <CxFloatingInput>
-    <CxTextarea
+  <FloatingInput>
+    <Textarea
       placeholder="Leave a comment here"
       id="floatingTextarea2"
       style={{ height: '100px' }}
-    ></CxTextarea>
-    <CxFormLabel htmlFor="floatingTextarea2">Comments</CxFormLabel>
-  </CxFloatingInput>
+    ></Textarea>
+    <FormLabel htmlFor="floatingTextarea2">Comments</FormLabel>
+  </FloatingInput>
 </Example>
 
 ## Selects
 
-Other than `<CxTextInput>`, floating labels are only available on `<CxSelect>`s. They work in the same way, but unlike `<CxTextInput>`s, they'll always show the `<CxFormLabel>` in its floated state. **Selects with `size` and `multiple` are not supported.**
+Other than `<TextInput>`, floating labels are only available on `<Select>`s. They work in the same way, but unlike `<TextInput>`s, they'll always show the `<FormLabel>` in its floated state. **Selects with `size` and `multiple` are not supported.**
 
 <Example>
-  <CxFloatingInput>
-    <CxSelect id="floatingSelect" aria-label="Floating label select example">
+  <FloatingInput>
+    <Select id="floatingSelect" aria-label="Floating label select example">
       <option>Open this select menu</option>
       <option value="1">One</option>
       <option value="2">Two</option>
       <option value="3">Three</option>
-    </CxSelect>
-    <CxFormLabel htmlFor="floatingSelect">Works with selects</CxFormLabel>
-  </CxFloatingInput>
+    </Select>
+    <FormLabel htmlFor="floatingSelect">Works with selects</FormLabel>
+  </FloatingInput>
 </Example>
 
 ## Layout
@@ -95,29 +95,29 @@ Other than `<CxTextInput>`, floating labels are only available on `<CxSelect>`s.
 When working with the Chassis grid system, be sure to place form elements within column classes.
 
 <Example>
-  <CxRow xs={{gutter: 2}}>
-    <CxCol md>
-      <CxFloatingInput>
-        <CxTextInput type="email" id="floatingInputGrid" placeholder="name@example.com" defaultValue="email@example.com" />
-        <CxFormLabel htmlFor="floatingInputGrid">Email address</CxFormLabel>
-      </CxFloatingInput>
-    </CxCol>
-    <CxCol md>
-      <CxFloatingInput>
-        <CxSelect id="floatingSelectGrid" aria-label="Floating label select example">
+  <Row xs={{gutter: 2}}>
+    <Col md>
+      <FloatingInput>
+        <TextInput type="email" id="floatingInputGrid" placeholder="name@example.com" defaultValue="email@example.com" />
+        <FormLabel htmlFor="floatingInputGrid">Email address</FormLabel>
+      </FloatingInput>
+    </Col>
+    <Col md>
+      <FloatingInput>
+        <Select id="floatingSelectGrid" aria-label="Floating label select example">
           <option>Open this select menu</option>
           <option value="1">One</option>
           <option value="2">Two</option>
           <option value="3">Three</option>
-        </CxSelect>
-        <CxFormLabel htmlFor="floatingSelectGrid">Works with selects</CxFormLabel>
-      </CxFloatingInput>
-    </CxCol>
-  </CxRow>
+        </Select>
+        <FormLabel htmlFor="floatingSelectGrid">Works with selects</FormLabel>
+      </FloatingInput>
+    </Col>
+  </Row>
 </Example>
 
 ## API
 
-### CxFloatingInput
+### FloatingInput
 
-<PropTable component="CxFloatingInput" />
+<PropTable component="FloatingInput" />

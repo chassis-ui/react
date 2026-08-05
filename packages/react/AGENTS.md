@@ -1,16 +1,21 @@
 # `@chassis-ui/react`
 
-The component library itself: every `Cx*` component, published from `dist/` (built by Rollup)
-with source living in `src/`. Styling comes entirely from the sibling `@chassis-ui/css` framework
-(a peer dependency in consuming apps) — components apply chassis-css class names, they don't ship
-their own styles, except for the handful of components with no chassis-css visual equivalent
-(e.g. `CxDatePicker`'s calendar grid), which inject scoped CSS via `rollup-plugin-postcss`.
+The component library itself, published from `dist/` (built by Rollup) with source living in
+`src/`. Styling comes entirely from the sibling `@chassis-ui/css` framework (a peer dependency in
+consuming apps) — components apply chassis-css class names, they don't ship their own styles,
+except for the handful of components with no chassis-css visual equivalent (e.g. `DatePicker`'s
+calendar grid), which inject scoped CSS via `rollup-plugin-postcss`.
 
 ## Layout
 
-- `src/components/<kebab-name>/Cx<PascalName>.tsx` — one folder per component (or tightly-coupled
-  family, e.g. a group + its item), plus `__tests__/Cx<PascalName>.spec.tsx` and a
-  `__tests__/__snapshots__/` snapshot file.
+- `src/components/<kebab-name>/<PascalName>.tsx` — one folder per component (or a compound
+  family's root + sub-parts), plus `__tests__/<PascalName>.spec.tsx` and a
+  `__tests__/__snapshots__/` snapshot file. See `CONVENTIONS.md` for the naming/barrel/compound-API
+  rules this layout follows.
+- `src/components/<kebab-name>/index.ts` — every component folder's barrel: re-exports the root
+  component (and, for compound families, assembles sub-parts onto it via `Object.assign` — see
+  `CONVENTIONS.md`). The central `src/index.ts` imports from these barrels, not from component
+  files directly.
 - `FORMS.md` — **read this before touching any form-related component**
   (text inputs, select, checkbox/radio, combobox, datepicker, chip-input, otp-input, and the
   shared `form`/`form-field` render helpers). It documents two non-interchangeable shared render
@@ -18,8 +23,9 @@ their own styles, except for the handful of components with no chassis-css visua
   sibling component.
 - `src/utils/hooks` — shared hooks (e.g. `useForkedRef`) used across components.
 - `src/index.ts` — the public API surface. Every exported component/helper needs **two** entries
-  here: an `import` line and a matching entry in the trailing `export { ... }` block. Forgetting
-  either means it silently isn't part of the published package even though it works in local dev.
+  here: an `import` line (from the component's folder barrel, not the component file) and a
+  matching entry in the trailing `export { ... }` block. Forgetting either means it silently isn't
+  part of the published package even though it works in local dev.
 - `test/setup.ts`, `test/dialogPolyfill.js`, `test/axeMatchers.js` — shared Vitest setup
   (jest-axe matchers, a `<dialog>` polyfill for jsdom, global test config).
 

@@ -5,15 +5,15 @@ description: Chassis Color Input component. Use our custom color inputs for a co
 toc: true
 ---
 
-import { CxColorInput, CxFormLabel } from '@chassis-ui/react'
+import { ColorInput, FormLabel } from '@chassis-ui/react'
 
 ## Overview
 
-`<CxColorInput>` wraps `<input type="color">` with the `.form-input` class, giving a consistently sized and rounded color swatch with no additional markup required.
+`<ColorInput>` wraps `<input type="color">` with the `.form-input` class, giving a consistently sized and rounded color swatch with no additional markup required.
 
 <Example>
-  <CxFormLabel htmlFor="exampleColorInput">Color picker</CxFormLabel>
-  <CxColorInput id="exampleColorInput" defaultValue="#0d6efd" />
+  <FormLabel htmlFor="exampleColorInput">Color picker</FormLabel>
+  <ColorInput id="exampleColorInput" defaultValue="#0d6efd" />
 </Example>
 
 ## Disabled
@@ -21,16 +21,16 @@ import { CxColorInput, CxFormLabel } from '@chassis-ui/react'
 Add the `disabled` boolean attribute to give the input a grayed-out appearance and remove pointer events.
 
 <Example>
-  <CxFormLabel htmlFor="exampleColorInputDisabled">Disabled color picker</CxFormLabel>
-  <CxColorInput id="exampleColorInputDisabled" defaultValue="#0d6efd" disabled />
+  <FormLabel htmlFor="exampleColorInputDisabled">Disabled color picker</FormLabel>
+  <ColorInput id="exampleColorInputDisabled" defaultValue="#0d6efd" disabled />
 </Example>
 
 ## As a form field
 
-Use `label`/`help`/`invalidFeedback`/`validFeedback` directly on `<CxColorInput>` to wrap it in a `.form-field` with an associated label and help text.
+Use `label`/`help`/`invalidFeedback`/`validFeedback` directly on `<ColorInput>` to wrap it in a `.form-field` with an associated label and help text.
 
 <Example>
-  <CxColorInput
+  <ColorInput
     label="Accent color"
     help="Used for links and primary buttons."
     defaultValue="#0d6efd"
@@ -40,6 +40,6 @@ Use `label`/`help`/`invalidFeedback`/`validFeedback` directly on `<CxColorInput>
 
 ## API
 
-### CxColorInput
+### ColorInput
 
-<PropTable component="CxColorInput" />
+<PropTable component="ColorInput" />

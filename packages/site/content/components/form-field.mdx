@@ -5,19 +5,18 @@ toc: true
 ---
 
 import {
-  CxChipInput,
-  CxCombobox,
-  CxComboboxItem,
-  CxFormField,
-  CxPasswordStrength,
-  CxTextInput
+  ChipInput,
+  Combobox,
+  FormField,
+  PasswordStrength,
+  TextInput,
 } from '@chassis-ui/react'
 
 ## Approach
 
-`<CxFormField>` wraps a form control (or a small group of them) with a `.form-field` grid layout, along with an associated `CxFormLabel`, `CxFormHelp`, and `CxFormFeedback` — see [chassis-css's Form Field docs](https://chassis-ui.com/css/docs/forms/form-field) for the underlying CSS.
+`<FormField>` wraps a form control (or a small group of them) with a `.form-field` grid layout, along with an associated `FormLabel`, `FormHelp`, and `FormFeedback` — see [chassis-css's Form Field docs](https://chassis-ui.com/css/docs/forms/form-field) for the underlying CSS.
 
-Every form leaf (`CxTextInput`, `CxSelect`, `CxTextarea`, `CxRangeInput`, `CxCombobox`, `CxDatePicker`, `CxChipInput`, `CxOtpInput`, ...) already accepts `label`/`help`/`invalidFeedback`/`validFeedback` props directly and wraps itself — reach for those first. Use `<CxFormField>` when you need to group more than one element — like an input alongside a `CxPasswordStrength` meter — under a single label and help text.
+Every form leaf (`TextInput`, `Select`, `Textarea`, `RangeInput`, `Combobox`, `DatePicker`, `ChipInput`, `OtpInput`, ...) already accepts `label`/`help`/`invalidFeedback`/`validFeedback` props directly and wraps itself — reach for those first. Use `<FormField>` when you need to group more than one element — like an input alongside a `PasswordStrength` meter — under a single label and help text.
 
 Renders nothing but its `children` bare when none of `label`/`help`/`validFeedback`/`invalidFeedback` are set, so it's always safe to reach for.
 
@@ -26,7 +25,7 @@ Renders nothing but its `children` bare when none of `label`/`help`/`validFeedba
 ### Using a leaf's own field props
 
 <Example>
-  <CxTextInput
+  <TextInput
     label="Email address"
     help="We'll never share your email with anyone else."
     id="ffEmail"
@@ -36,22 +35,22 @@ Renders nothing but its `children` bare when none of `label`/`help`/`validFeedba
 ### Wrapping a control with no field props of its own
 
 <Example>
-  <CxFormField label="Country" help="The billing region." ids={{ input: 'ffCountry' }}>
-    <CxCombobox id="ffCountry" name="country" placeholder="Pick a country…">
-      <CxComboboxItem id="us">United States</CxComboboxItem>
-      <CxComboboxItem id="uk">United Kingdom</CxComboboxItem>
-      <CxComboboxItem id="ca">Canada</CxComboboxItem>
-    </CxCombobox>
-  </CxFormField>
+  <FormField label="Country" help="The billing region." ids={{ input: 'ffCountry' }}>
+    <Combobox id="ffCountry" name="country" placeholder="Pick a country…">
+      <Combobox.Item id="us">United States</Combobox.Item>
+      <Combobox.Item id="uk">United Kingdom</Combobox.Item>
+      <Combobox.Item id="ca">Canada</Combobox.Item>
+    </Combobox>
+  </FormField>
 </Example>
 
 ### Grouping a control with companion content
 
 <Example>
-  <CxFormField label="Password" ids={{ input: 'ffPassword' }}>
-    <CxTextInput autoComplete="new-password" id="ffPassword" type="password" />
-    <CxPasswordStrength value="" />
-  </CxFormField>
+  <FormField label="Password" ids={{ input: 'ffPassword' }}>
+    <TextInput autoComplete="new-password" id="ffPassword" type="password" />
+    <PasswordStrength value="" />
+  </FormField>
 </Example>
 
 ### Validation feedback
@@ -59,22 +58,22 @@ Renders nothing but its `children` bare when none of `label`/`help`/`validFeedba
 `invalidFeedback`/`validFeedback` render only alongside a truthy `invalid`/`valid`, matching the leaf components' own validation props.
 
 <Example>
-  <CxFormField
+  <FormField
     label="Username"
     invalid
     invalidFeedback="This username is already taken."
     ids={{ input: 'ffUsername' }}
   >
-    <CxChipInput id="ffUsername" name="username" />
-  </CxFormField>
+    <ChipInput id="ffUsername" name="username" />
+  </FormField>
 </Example>
 
 ## Manual id wiring
 
-`<CxFormField>` doesn't clone its children, so it can't wire ids onto a control it doesn't own. Pass matching values through the `ids` prop — `input` for `htmlFor` (or `label` for a group with no single input to target, wired via the control's own `aria-labelledby`) — and set `aria-describedby`/`aria-labelledby` on your control yourself, pointing at the same id.
+`<FormField>` doesn't clone its children, so it can't wire ids onto a control it doesn't own. Pass matching values through the `ids` prop — `input` for `htmlFor` (or `label` for a group with no single input to target, wired via the control's own `aria-labelledby`) — and set `aria-describedby`/`aria-labelledby` on your control yourself, pointing at the same id.
 
 ## API
 
-### CxFormField
+### FormField
 
-<PropTable component="CxFormField" />
+<PropTable component="FormField" />

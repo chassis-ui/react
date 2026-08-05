@@ -1,0 +1,371 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/drawer/Drawer.tsx",
+  "description": "",
+  "displayName": "Drawer",
+  "methods": [],
+  "props": {
+    "backdrop": {
+      "defaultValue": {
+        "value": true
+      },
+      "description": "Show a backdrop while the drawer is open. `'static'` blocks closing on backdrop click\n(the drawer nudges instead).",
+      "name": "backdrop",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/drawer/Drawer.tsx",
+        "name": "DrawerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/drawer/Drawer.tsx",
+          "name": "DrawerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean | \"static\""
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/drawer/Drawer.tsx",
+        "name": "DrawerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/drawer/Drawer.tsx",
+          "name": "DrawerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "fitContent": {
+      "defaultValue": null,
+      "description": "Size the height to the drawer's content instead of `--drawer-height`. Meaningful for\n`placement=\"bottom\"`.",
+      "name": "fitContent",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/drawer/Drawer.tsx",
+        "name": "DrawerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/drawer/Drawer.tsx",
+          "name": "DrawerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "fullscreen": {
+      "defaultValue": null,
+      "description": "Expand the panel to fill the viewport, animating in from the direction of `placement`.",
+      "name": "fullscreen",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/drawer/Drawer.tsx",
+        "name": "DrawerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/drawer/Drawer.tsx",
+          "name": "DrawerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "instant": {
+      "defaultValue": null,
+      "description": "Disable the open/close transition entirely.",
+      "name": "instant",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/drawer/Drawer.tsx",
+        "name": "DrawerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/drawer/Drawer.tsx",
+          "name": "DrawerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "keyboard": {
+      "defaultValue": {
+        "value": true
+      },
+      "description": "Closes the drawer when the escape key is pressed.",
+      "name": "keyboard",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/drawer/Drawer.tsx",
+        "name": "DrawerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/drawer/Drawer.tsx",
+          "name": "DrawerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "onClose": {
+      "defaultValue": null,
+      "description": "Callback fired when the drawer requests to be closed (escape, backdrop click, close button,\nor another drawer opening).",
+      "name": "onClose",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/drawer/Drawer.tsx",
+        "name": "DrawerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/drawer/Drawer.tsx",
+          "name": "DrawerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "onClosePrevented": {
+      "defaultValue": null,
+      "description": "Callback fired when a close attempt is blocked (static backdrop click, or escape with `keyboard=false`).",
+      "name": "onClosePrevented",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/drawer/Drawer.tsx",
+        "name": "DrawerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/drawer/Drawer.tsx",
+          "name": "DrawerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "onHidden": {
+      "defaultValue": null,
+      "description": "Callback fired after the exit transition completes and the drawer is fully hidden.",
+      "name": "onHidden",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/drawer/Drawer.tsx",
+        "name": "DrawerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/drawer/Drawer.tsx",
+          "name": "DrawerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "onShow": {
+      "defaultValue": null,
+      "description": "Callback fired when the drawer starts to open.",
+      "name": "onShow",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/drawer/Drawer.tsx",
+        "name": "DrawerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/drawer/Drawer.tsx",
+          "name": "DrawerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "onShown": {
+      "defaultValue": null,
+      "description": "Callback fired after the entry transition completes and the drawer is fully visible.",
+      "name": "onShown",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/drawer/Drawer.tsx",
+        "name": "DrawerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/drawer/Drawer.tsx",
+          "name": "DrawerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "placement": {
+      "defaultValue": null,
+      "description": "Which viewport edge the panel slides in from. Always required — there is no default\noff-screen transform without one.",
+      "name": "placement",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/drawer/Drawer.tsx",
+        "name": "DrawerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/drawer/Drawer.tsx",
+          "name": "DrawerProps"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "enum",
+        "raw": "\"start\" | \"end\" | \"top\" | \"bottom\"",
+        "value": [
+          {
+            "value": "\"start\""
+          },
+          {
+            "value": "\"end\""
+          },
+          {
+            "value": "\"top\""
+          },
+          {
+            "value": "\"bottom\""
+          }
+        ]
+      }
+    },
+    "responsive": {
+      "defaultValue": null,
+      "description": "Renders as a drawer only below this breakpoint — inline as a flex container above it.",
+      "name": "responsive",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/drawer/Drawer.tsx",
+        "name": "DrawerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/drawer/Drawer.tsx",
+          "name": "DrawerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"small\" | \"medium\" | \"large\" | \"xlarge\" | \"2xlarge\"",
+        "value": [
+          {
+            "value": "\"small\""
+          },
+          {
+            "value": "\"medium\""
+          },
+          {
+            "value": "\"large\""
+          },
+          {
+            "value": "\"xlarge\""
+          },
+          {
+            "value": "\"2xlarge\""
+          }
+        ]
+      }
+    },
+    "scroll": {
+      "defaultValue": {
+        "value": false
+      },
+      "description": "Allow the page behind the drawer to scroll while it's open.",
+      "name": "scroll",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/drawer/Drawer.tsx",
+        "name": "DrawerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/drawer/Drawer.tsx",
+          "name": "DrawerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "sheet": {
+      "defaultValue": null,
+      "description": "Remove the inset gap, border radius, and border so the panel sits flush against the\nviewport edge.",
+      "name": "sheet",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/drawer/Drawer.tsx",
+        "name": "DrawerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/drawer/Drawer.tsx",
+          "name": "DrawerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "translucent": {
+      "defaultValue": null,
+      "description": "Apply a frosted-glass background to the panel.",
+      "name": "translucent",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/drawer/Drawer.tsx",
+        "name": "DrawerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/drawer/Drawer.tsx",
+          "name": "DrawerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "visible": {
+      "defaultValue": null,
+      "description": "Toggle the visibility of the drawer component.",
+      "name": "visible",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/drawer/Drawer.tsx",
+        "name": "DrawerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/drawer/Drawer.tsx",
+          "name": "DrawerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    }
+  }
+}

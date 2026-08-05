@@ -1,11 +1,4 @@
-import {
-  CxTable,
-  CxTableBody,
-  CxTableCell,
-  CxTableColumn,
-  CxTableHeader,
-  CxTableRow
-} from '@chassis-ui/react'
+import { Table } from '@chassis-ui/react'
 
 const columns = [
   { id: 'firstName', name: 'First name' },
@@ -20,16 +13,16 @@ const rows = [
 ]
 
 export const DynamicExample = () => (
-  <CxTable aria-label="Users">
-    <CxTableHeader columns={columns}>
-      {(column) => <CxTableColumn key={column.id}>{column.name}</CxTableColumn>}
-    </CxTableHeader>
-    <CxTableBody items={rows}>
+  <Table aria-label="Users">
+    <Table.Header columns={columns}>
+      {(column) => <Table.Column key={column.id}>{column.name}</Table.Column>}
+    </Table.Header>
+    <Table.Body items={rows}>
       {(row) => (
-        <CxTableRow key={row.id}>
-          {(columnKey) => <CxTableCell>{row[columnKey as keyof typeof row]}</CxTableCell>}
-        </CxTableRow>
+        <Table.Row key={row.id}>
+          {(columnKey) => <Table.Cell>{row[columnKey as keyof typeof row]}</Table.Cell>}
+        </Table.Row>
       )}
-    </CxTableBody>
-  </CxTable>
+    </Table.Body>
+  </Table>
 )

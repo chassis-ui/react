@@ -1,0 +1,28 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/avatar/AvatarImage.tsx",
+  "description": "",
+  "displayName": "AvatarImage",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/avatar/AvatarImage.tsx",
+        "name": "AvatarImageProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/avatar/AvatarImage.tsx",
+          "name": "AvatarImageProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    }
+  }
+}

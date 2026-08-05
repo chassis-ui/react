@@ -21,38 +21,28 @@ import { DrawerExample2 } from '../../src/examples/navbar/DrawerExample2.tsx'
 
 import { useState } from 'react'
 import {
-  CxButton,
-  CxContainer,
-  CxCollapse,
-  CxForm,
-  CxTextInput,
-  CxInputGroup,
-  CxInputAddon,
-  CxNav,
-  CxNavItem,
-  CxNavLink,
-  CxNavbar,
-  CxNavbarBrand,
-  CxNavbarNav,
-  CxNavbarText,
-  CxNavbarToggler,
-  CxDrawer,
-  CxDrawerBody,
-  CxDrawerHeader,
-  CxDrawerTitle,
+  Button,
+  Container,
+  Collapse,
+  Form,
+  TextInput,
+  InputGroup,
+  Nav,
+  Navbar,
+  Drawer,
 } from '@chassis-ui/react'
 
 
 ## Supported content
 
-`<CxNavbar>` come with built-in support for a handful of sub-components. Choose from the following as needed:
+`<Navbar>` come with built-in support for a handful of sub-components. Choose from the following as needed:
 
-- `<CxNavbarBrand>` for your company, product, or project name.
-- `<CxNavbarNav>` for a full-height and lightweight navigation (including support for menus).
-- `<CxNavbarToggler>` for use with our collapse plugin and other [navigation toggling](#responsive-behaviors) behaviors.
+- `<Navbar.Brand>` for your company, product, or project name.
+- `<Navbar.Nav>` for a full-height and lightweight navigation (including support for menus).
+- `<Navbar.Toggler>` for use with our collapse plugin and other [navigation toggling](#responsive-behaviors) behaviors.
 - Flex and spacing utilities for any form controls and actions.
-- `<CxNavbarText>` for adding vertically centered strings of text.
-- `<CxCollapse>` for grouping and hiding navbar contents by a parent breakpoint.
+- `<Navbar.Text>` for adding vertically centered strings of text.
+- `<Collapse>` for grouping and hiding navbar contents by a parent breakpoint.
 
 Here's an example of all the sub-components included in a responsive light-themed navbar that automatically collapses at the `lg` (large) breakpoint.
 
@@ -65,42 +55,42 @@ Here's an example of all the sub-components included in a responsive light-theme
 
 ### Brand
 
-The `<CxNavbarBrand>` can be applied to most elements, but an anchor works best, as some elements might require utility classes or custom styles.
+The `<Navbar.Brand>` can be applied to most elements, but an anchor works best, as some elements might require utility classes or custom styles.
 
 <Example>
   {/* As a link */}
-  <CxNavbar colorScheme="light" className="bg-light">
-    <CxContainer fluid>
-      <CxNavbarBrand href="#">Navbar</CxNavbarBrand>
-    </CxContainer>
-  </CxNavbar>
+  <Navbar colorScheme="light" className="bg-light">
+    <Container fluid>
+      <Navbar.Brand href="#">Navbar</Navbar.Brand>
+    </Container>
+  </Navbar>
   <br />
   {/* As a heading */}
-  <CxNavbar colorScheme="light" className="bg-light">
-    <CxContainer fluid>
-      <CxNavbarBrand className="mb-0 h1">Navbar</CxNavbarBrand>
-    </CxContainer>
-  </CxNavbar>
+  <Navbar colorScheme="light" className="bg-light">
+    <Container fluid>
+      <Navbar.Brand className="mb-0 h1">Navbar</Navbar.Brand>
+    </Container>
+  </Navbar>
 </Example>
 
-Adding images to the `<CxNavbarBrand>` will likely always require custom styles or utilities to properly size. Here are some examples to demonstrate.
+Adding images to the `<Navbar.Brand>` will likely always require custom styles or utilities to properly size. Here are some examples to demonstrate.
 
 <Example>
   {/* Just an image */}
-  <CxNavbar colorScheme="light" className="bg-light">
-    <CxContainer fluid>
-      <CxNavbarBrand href="#">
+  <Navbar colorScheme="light" className="bg-light">
+    <Container fluid>
+      <Navbar.Brand href="#">
         <img src="https://placehold.co/800x400" alt="" width="22" height="24" />
-      </CxNavbarBrand>
-    </CxContainer>
-  </CxNavbar>
+      </Navbar.Brand>
+    </Container>
+  </Navbar>
 </Example>
 
 <Example>
   {/* Image and text */}
-  <CxNavbar colorScheme="light" className="bg-light">
-    <CxContainer fluid>
-      <CxNavbarBrand href="#">
+  <Navbar colorScheme="light" className="bg-light">
+    <Container fluid>
+      <Navbar.Brand href="#">
         <img
           src="https://placehold.co/800x400"
           alt=""
@@ -109,14 +99,14 @@ Adding images to the `<CxNavbarBrand>` will likely always require custom styles 
           className="d-inline-block align-top"
         />{' '}
         Chassis
-      </CxNavbarBrand>
-    </CxContainer>
-  </CxNavbar>
+      </Navbar.Brand>
+    </Container>
+  </Navbar>
 </Example>
 
 ### Nav
 
-`<CxNavbar>` navigation is based on `<CxNavbarNav>`. **Navigation in navbars will also grow to occupy as much horizontal space as possible** to keep your navbar contents securely aligned.
+`<Navbar>` navigation is based on `<Navbar.Nav>`. **Navigation in navbars will also grow to occupy as much horizontal space as possible** to keep your navbar contents securely aligned.
 
 
 <Example>
@@ -130,7 +120,7 @@ And because we use classes for our navs, you can avoid the list-based approach e
   <NavExample2 client:load />
 </Example>
 
-You can also use menus in your navbar. Render `<CxMenu>` with `component="li"` and `className="nav-item"` so the toggle and menu share the same nav item wrapper.
+You can also use menus in your navbar. Render `<Menu>` with `component="li"` and `className="nav-item"` so the toggle and menu share the same nav item wrapper.
 
 
 <Example>
@@ -142,72 +132,72 @@ You can also use menus in your navbar. Render `<CxMenu>` with `component="li"` a
 Place various form controls and components within a navbar:
 
 <Example>
-  <CxNavbar colorScheme="light" className="bg-light">
-    <CxContainer fluid>
-      <CxForm className="d-flex">
-        <CxTextInput type="search" className="me-small" placeholder="Search" />
-        <CxButton type="submit" color="success" variant="outline">
+  <Navbar colorScheme="light" className="bg-light">
+    <Container fluid>
+      <Form className="d-flex">
+        <TextInput type="search" className="me-small" placeholder="Search" />
+        <Button type="submit" color="success" variant="outline">
           Search
-        </CxButton>
-      </CxForm>
-    </CxContainer>
-  </CxNavbar>
+        </Button>
+      </Form>
+    </Container>
+  </Navbar>
 </Example>
 
-Immediate child elements of `<CxNavbar>` use flex layout and will default to `justify-content: space-between`. Use additional flex utilities as needed to adjust this behavior.
+Immediate child elements of `<Navbar>` use flex layout and will default to `justify-content: space-between`. Use additional flex utilities as needed to adjust this behavior.
 
 <Example>
-  <CxNavbar colorScheme="light" className="bg-light">
-    <CxContainer fluid>
-      <CxNavbarBrand href="#">Navbar</CxNavbarBrand>
-      <CxForm className="d-flex">
-        <CxTextInput type="search" className="me-small" placeholder="Search" />
-        <CxButton type="submit" color="success" variant="outline">
+  <Navbar colorScheme="light" className="bg-light">
+    <Container fluid>
+      <Navbar.Brand href="#">Navbar</Navbar.Brand>
+      <Form className="d-flex">
+        <TextInput type="search" className="me-small" placeholder="Search" />
+        <Button type="submit" color="success" variant="outline">
           Search
-        </CxButton>
-      </CxForm>
-    </CxContainer>
-  </CxNavbar>
+        </Button>
+      </Form>
+    </Container>
+  </Navbar>
 </Example>
 
-Input groups work, too. If your navbar is an entire form, or mostly a form, you can use the `<CxForm>` element as the container and save some HTML.
+Input groups work, too. If your navbar is an entire form, or mostly a form, you can use the `<Form>` element as the container and save some HTML.
 
 <Example>
-  <CxNavbar colorScheme="light" className="bg-light">
-    <CxForm className="container-fluid">
-      <CxInputGroup>
-        <CxInputAddon id="basic-addon1">@</CxInputAddon>
-        <CxTextInput placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" />
-      </CxInputGroup>
-    </CxForm>
-  </CxNavbar>
+  <Navbar colorScheme="light" className="bg-light">
+    <Form className="container-fluid">
+      <InputGroup>
+        <InputGroup.Addon id="basic-addon1">@</InputGroup.Addon>
+        <TextInput placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" />
+      </InputGroup>
+    </Form>
+  </Navbar>
 </Example>
 
 Various buttons are supported as part of these navbar forms, too. This is also a great reminder that vertical alignment utilities can be used to align different sized elements.
 
 <Example>
-  <CxNavbar colorScheme="light" className="bg-light">
-    <CxForm className="container-fluid justify-content-start">
-      <CxButton type="button" color="success" variant="outline" className="me-small">
+  <Navbar colorScheme="light" className="bg-light">
+    <Form className="container-fluid justify-content-start">
+      <Button type="button" color="success" variant="outline" className="me-small">
         Main button
-      </CxButton>
-      <CxButton type="button" color="secondary" variant="outline" size="small">
+      </Button>
+      <Button type="button" color="secondary" variant="outline" size="small">
         Smaller button
-      </CxButton>
-    </CxForm>
-  </CxNavbar>
+      </Button>
+    </Form>
+  </Navbar>
 </Example>
 
 ### Text
 
-Navbars may contain bits of text with the help of `<CxNavbarText>`. This class adjusts vertical alignment and horizontal spacing for strings of text.
+Navbars may contain bits of text with the help of `<Navbar.Text>`. This class adjusts vertical alignment and horizontal spacing for strings of text.
 
 <Example>
-  <CxNavbar colorScheme="light" className="bg-light">
-    <CxContainer fluid>
-      <CxNavbarText>Navbar text with an inline element</CxNavbarText>
-    </CxContainer>
-  </CxNavbar>
+  <Navbar colorScheme="light" className="bg-light">
+    <Container fluid>
+      <Navbar.Text>Navbar text with an inline element</Navbar.Text>
+    </Container>
+  </Navbar>
 </Example>
 
 ## Color schemes
@@ -221,26 +211,26 @@ Theming the navbar has never been easier thanks to the combination of theming cl
 
 ## Containers
 
-Although it's not required, you can wrap a `<CxNavbar>` in a `<CxContainer>` to center it on a page–though note that an inner container is still required. Or you can add a container inside the `<CxNavbar>` to only center the contents of a [fixed or static top navbar](#placement).
+Although it's not required, you can wrap a `<Navbar>` in a `<Container>` to center it on a page–though note that an inner container is still required. Or you can add a container inside the `<Navbar>` to only center the contents of a [fixed or static top navbar](#placement).
 
 <Example>
-  <CxContainer>
-    <CxNavbar colorScheme="light" className="bg-light">
-      <CxContainer fluid>
-        <CxNavbarBrand href="#">Navbar</CxNavbarBrand>
-      </CxContainer>
-    </CxNavbar>
-  </CxContainer>
+  <Container>
+    <Navbar colorScheme="light" className="bg-light">
+      <Container fluid>
+        <Navbar.Brand href="#">Navbar</Navbar.Brand>
+      </Container>
+    </Navbar>
+  </Container>
 </Example>
 
 Use any of the responsive containers to change how wide the content in your navbar is presented.
 
 <Example>
-  <CxNavbar colorScheme="light" className="bg-light">
-    <CxContainer breakpoint="md">
-      <CxNavbarBrand href="#">Navbar</CxNavbarBrand>
-    </CxContainer>
-  </CxNavbar>
+  <Navbar colorScheme="light" className="bg-light">
+    <Container breakpoint="md">
+      <Navbar.Brand href="#">Navbar</Navbar.Brand>
+    </Container>
+  </Navbar>
 </Example>
 
 ## Placement
@@ -250,48 +240,48 @@ Use our `placement` properly to place navbars in non-static positions. Choose fr
 Also note that **`.sticky-top` uses `position: sticky`, which [isn't fully supported in every browser](https://caniuse.com/css-sticky)**.
 
 <Example>
-  <CxNavbar colorScheme="light" className="bg-light">
-    <CxContainer fluid>
-      <CxNavbarBrand href="#">Default</CxNavbarBrand>
-    </CxContainer>
-  </CxNavbar>
+  <Navbar colorScheme="light" className="bg-light">
+    <Container fluid>
+      <Navbar.Brand href="#">Default</Navbar.Brand>
+    </Container>
+  </Navbar>
 </Example>
 
 <Example>
-  <CxNavbar colorScheme="light" className="bg-light" placement="fixed-top">
-    <CxContainer fluid>
-      <CxNavbarBrand href="#">Fixed top</CxNavbarBrand>
-    </CxContainer>
-  </CxNavbar>
+  <Navbar colorScheme="light" className="bg-light" placement="fixed-top">
+    <Container fluid>
+      <Navbar.Brand href="#">Fixed top</Navbar.Brand>
+    </Container>
+  </Navbar>
 </Example>
 
 <Example>
-  <CxNavbar colorScheme="light" className="bg-light" placement="fixed-bottom">
-    <CxContainer fluid>
-      <CxNavbarBrand href="#">Fixed bottom</CxNavbarBrand>
-    </CxContainer>
-  </CxNavbar>
+  <Navbar colorScheme="light" className="bg-light" placement="fixed-bottom">
+    <Container fluid>
+      <Navbar.Brand href="#">Fixed bottom</Navbar.Brand>
+    </Container>
+  </Navbar>
 </Example>
 
 <Example>
-  <CxNavbar colorScheme="light" className="bg-light" placement="sticky-top">
-    <CxContainer fluid>
-      <CxNavbarBrand href="#">Sticky top</CxNavbarBrand>
-    </CxContainer>
-  </CxNavbar>
+  <Navbar colorScheme="light" className="bg-light" placement="sticky-top">
+    <Container fluid>
+      <Navbar.Brand href="#">Sticky top</Navbar.Brand>
+    </Container>
+  </Navbar>
 </Example>
 
 ## Responsive behaviors
 
-Navbars can use `<CxNavbarToggler>`, `<CxCollapse>`, and `expand="{sm|md|lg|xl|xxl}"` property to determine when their content collapses behind a button. In combination with other utilities, you can easily choose when to show or hide particular elements.
+Navbars can use `<Navbar.Toggler>`, `<Collapse>`, and `expand="{sm|md|lg|xl|xxl}"` property to determine when their content collapses behind a button. In combination with other utilities, you can easily choose when to show or hide particular elements.
 
-For navbars that never collapse, add the `expand` boolean property on the `<CxNavbar>`. For navbars that always collapse, don't add any property.
+For navbars that never collapse, add the `expand` boolean property on the `<Navbar>`. For navbars that always collapse, don't add any property.
 
 ### Toggler
 
-Navbar togglers are left-aligned by default, but should they follow a sibling element like a `<CxNavbarBrand>`, they'll automatically be aligned to the far right. Reversing your markup will reverse the placement of the toggler. Below are examples of different toggle styles.
+Navbar togglers are left-aligned by default, but should they follow a sibling element like a `<Navbar.Brand>`, they'll automatically be aligned to the far right. Reversing your markup will reverse the placement of the toggler. Below are examples of different toggle styles.
 
-With no `<CxNavbarBrand>` shown at the smallest breakpoint:
+With no `<Navbar.Brand>` shown at the smallest breakpoint:
 
 
 <Example>
@@ -314,7 +304,7 @@ With a toggler on the left and brand name on the right:
 
 ### External content
 
-Sometimes you want to use the collapse plugin to trigger a container element for content that structurally sits outside of the `<CxNavbar>`.
+Sometimes you want to use the collapse plugin to trigger a container element for content that structurally sits outside of the `<Navbar>`.
 
 
 <Example>
@@ -341,18 +331,18 @@ To create a drawer navbar that expands into a normal navbar at a specific breakp
 
 ## API
 
-### CxNavbar
+### Navbar
 
-<PropTable component="CxNavbar" />
-### CxNavbarBrand
+<PropTable component="Navbar" />
+### Navbar.Brand
 
-<PropTable component="CxNavbarBrand" />
-### CxNavbarNav
+<PropTable component="NavbarBrand" />
+### Navbar.Nav
 
-<PropTable component="CxNavbarNav" />
-### CxNavbarText
+<PropTable component="NavbarNav" />
+### Navbar.Text
 
-<PropTable component="CxNavbarText" />
-### CxNavbarToggler
+<PropTable component="NavbarText" />
+### Navbar.Toggler
 
-<PropTable component="CxNavbarToggler" />
+<PropTable component="NavbarToggler" />

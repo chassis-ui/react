@@ -11,13 +11,16 @@ site.
 - [`WRITING.md`](WRITING.md) — **read this before writing or
   editing any `.mdx` doc.** Covers voice, section order, the `<Example>`/`<PropTable>` shortcodes,
   and the `## Scope`/`## Accessibility`/`## API` conventions used across `content/**`.
-- `content/<section>/<page>.mdx` — prose docs. Sections: `getting-started`, `layout`, `components`,
-  `forms`, `patterns`. Frontmatter needs `title` and `description`; `toc: true` enables the
-  page's table of contents.
-- `content/api/Cx*.json` — **generated, not hand-written**. Produced by `pnpm api:generate`
+- `content/<section>/<page>.mdx` — prose docs. Sections: `getting-started`, `components`,
+  `patterns`. Every component doc — including the form-family and layout/grid pages — lives flat
+  under `content/components/`; there's no separate `forms`/`layout` content directory. The
+  sidebar's `Form Controls`/`Form Layout`/`Layout`/etc. groupings (`data/sidebar.yml`) are a nav
+  presentation concern layered on top, not a filesystem split. Frontmatter needs `title` and
+  `description`; `toc: true` enables the page's table of contents.
+- `content/api/*.json` — **generated, not hand-written**. Produced by `pnpm api:generate`
   (`build/generate-api.ts`, run from the repo root) via `react-docgen-typescript` over
   `packages/react/src/components`. Re-run it after changing any component's exported props —
-  otherwise `<PropTable component="CxWhatever" />` on the docs page silently shows stale props.
+  otherwise `<PropTable component="Whatever" />` on the docs page silently shows stale props.
 - `data/sidebar.yml` — the site nav structure. Adding an `.mdx` file under `content/` does **not**
   automatically add it to the sidebar; add a matching `title:` entry under the right section here
   too, or the page is only reachable by direct URL.
@@ -29,19 +32,20 @@ site.
 
 ## Where a new form component's docs page goes
 
-Per `packages/react/FORMS.md`, form components live under `content/forms/`, not
-`content/components/` — the two content sections are for form-family vs. general components
-respectively, and `data/sidebar.yml` lists them under separate `Forms`/`Components` nav groups to
-match. When adding a new form component per that guide's checklist, the doc page + sidebar entry
-belong here, in `forms`.
+Per `packages/react/FORMS.md`'s checklist: the doc page goes in `content/components/<kebab-name>.mdx`
+(same directory as every other component), and the sidebar entry goes under one of the `Form
+Controls`/`Form Layout` groups in `data/sidebar.yml`, matching where the existing form components
+are already listed there.
 
 ## Astro-specific shortcodes/plugins (`astro.config.mjs`, `src/libs/`)
 
 - `<Example>` (`src/components/shortcodes/Example.astro`) — live preview + auto-derived source
   snippet, used pervasively instead of hand-pasting a `<Code>` block next to a demo.
-- `<PropTable component="CxWhatever" />` (`src/components/shortcodes/PropTable.astro`) — renders
-  the generated `content/api/CxWhatever.json` as a props table. Component name is matched
-  case-insensitively against the generated JSON's filename.
+- `<PropTable component="Whatever" />` (`src/components/shortcodes/PropTable.astro`) — renders
+  the generated `content/api/Whatever.json` as a props table. Component name is matched
+  case-insensitively against the generated JSON's filename — for a compound sub-part this is the
+  flat underlying name (`AccordionItem`), not the dotted namespace form used in JSX/prose
+  (`Accordion.Item`).
 - `remarkCxDocsref` / `remarkCxConfig` / `remarkCxExampleInlineChildren` (`src/libs/remark.ts`) —
   custom remark plugins layered into `getDocsMarkdownConfig()` from `@chassis-ui/docs`; read that
   file before adding a new MDX shortcode or custom directive, rather than reinventing one that

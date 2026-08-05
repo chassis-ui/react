@@ -6,7 +6,7 @@ toc: true
 ---
 
 
-import { CxCol, CxContainer, CxRow } from '@chassis-ui/react'
+import { Col, Container, Row } from '@chassis-ui/react'
 
 ## How they work
 
@@ -18,57 +18,57 @@ import { CxCol, CxContainer, CxRow } from '@chassis-ui/react'
 
 ## Horizontal gutters
 
-`{breakpoint}={{ gutterX: * }}` props can be used to control the horizontal gutter widths. The `<CxContainer>` or `<CxContainer fluid>` parent may need to be adjusted if larger gutters are used too to avoid unwanted overflow, using a matching padding utility. For example, in the following example we've increased the padding with `.px-4`:
+`{breakpoint}={{ gutterX: * }}` props can be used to control the horizontal gutter widths. The `<Container>` or `<Container fluid>` parent may need to be adjusted if larger gutters are used too to avoid unwanted overflow, using a matching padding utility. For example, in the following example we've increased the padding with `.px-4`:
 
 <Example>
-  <CxContainer className="px-4">
-    <CxRow xs={{ gutterX: 5 }}>
-      <CxCol>
+  <Container className="px-4">
+    <Row xs={{ gutterX: 5 }}>
+      <Col>
         <div className="p-3 border bg-light">Custom column padding</div>
-      </CxCol>
-      <CxCol>
+      </Col>
+      <Col>
         <div className="p-3 border bg-light">Custom column padding</div>
-      </CxCol>
-    </CxRow>
-  </CxContainer>
+      </Col>
+    </Row>
+  </Container>
 </Example>
 
-An alternative solution is to add a wrapper around the `<CxRow>` with the `.overflow-hidden` class:
+An alternative solution is to add a wrapper around the `<Row>` with the `.overflow-hidden` class:
 
 <Example>
-  <CxContainer className="overflow-hidden">
-    <CxRow xs={{ gutterX: 5 }}>
-      <CxCol>
+  <Container className="overflow-hidden">
+    <Row xs={{ gutterX: 5 }}>
+      <Col>
         <div className="p-3 border bg-light">Custom column padding</div>
-      </CxCol>
-      <CxCol>
+      </Col>
+      <Col>
         <div className="p-3 border bg-light">Custom column padding</div>
-      </CxCol>
-    </CxRow>
-  </CxContainer>
+      </Col>
+    </Row>
+  </Container>
 </Example>
 
 ## Vertical gutters
 
-`{breakpoint}={{ gutterY: * }}` props can be used to control the vertical gutter widths. Like the horizontal gutters, the vertical gutters can cause some overflow below the `<CxRow>` at the end of a page. If this occurs, you add a wrapper around `<CxRow>` with the `.overflow-hidden` class:
+`{breakpoint}={{ gutterY: * }}` props can be used to control the vertical gutter widths. Like the horizontal gutters, the vertical gutters can cause some overflow below the `<Row>` at the end of a page. If this occurs, you add a wrapper around `<Row>` with the `.overflow-hidden` class:
 
 <Example>
-  <CxContainer className="overflow-hidden">
-    <CxRow xs={{ gutterY: 5 }}>
-      <CxCol xs={{ span: 6 }}>
+  <Container className="overflow-hidden">
+    <Row xs={{ gutterY: 5 }}>
+      <Col xs={{ span: 6 }}>
         <div className="p-3 border bg-light">Custom column padding</div>
-      </CxCol>
-      <CxCol xs={{ span: 6 }}>
+      </Col>
+      <Col xs={{ span: 6 }}>
         <div className="p-3 border bg-light">Custom column padding</div>
-      </CxCol>
-      <CxCol xs={{ span: 6 }}>
+      </Col>
+      <Col xs={{ span: 6 }}>
         <div className="p-3 border bg-light">Custom column padding</div>
-      </CxCol>
-      <CxCol xs={{ span: 6 }}>
+      </Col>
+      <Col xs={{ span: 6 }}>
         <div className="p-3 border bg-light">Custom column padding</div>
-      </CxCol>
-    </CxRow>
-  </CxContainer>
+      </Col>
+    </Row>
+  </Container>
 </Example>
 
 ## Horizontal & vertical gutters
@@ -76,22 +76,22 @@ An alternative solution is to add a wrapper around the `<CxRow>` with the `.over
 `{breakpoint}={{ gutter: * }}` props can be used to control the horizontal gutter widths, for the following example we use a smaller gutter width, so there won't be a need to add the `.overflow-hidden` wrapper class.
 
 <Example>
-  <CxContainer>
-    <CxRow xs={{ gutter: 2 }}>
-      <CxCol xs={{ span: 6 }}>
+  <Container>
+    <Row xs={{ gutter: 2 }}>
+      <Col xs={{ span: 6 }}>
         <div className="p-3 border bg-light">Custom column padding</div>
-      </CxCol>
-      <CxCol xs={{ span: 6 }}>
+      </Col>
+      <Col xs={{ span: 6 }}>
         <div className="p-3 border bg-light">Custom column padding</div>
-      </CxCol>
-      <CxCol xs={{ span: 6 }}>
+      </Col>
+      <Col xs={{ span: 6 }}>
         <div className="p-3 border bg-light">Custom column padding</div>
-      </CxCol>
-      <CxCol xs={{ span: 6 }}>
+      </Col>
+      <Col xs={{ span: 6 }}>
         <div className="p-3 border bg-light">Custom column padding</div>
-      </CxCol>
-    </CxRow>
-  </CxContainer>
+      </Col>
+    </Row>
+  </Container>
 </Example>
 
 ## Row columns gutters
@@ -99,67 +99,67 @@ An alternative solution is to add a wrapper around the `<CxRow>` with the `.over
 Gutter props can also be added to [row columns](../layout/grid#row-columns). In the following example, we use responsive row columns and responsive gutter props.
 
 <Example>
-  <CxContainer>
-    <CxRow xs={{ cols:2, gutter: 2 }} lg={{ cols: 5, gutter: 3}}>
-      <CxCol>
+  <Container>
+    <Row xs={{ cols:2, gutter: 2 }} lg={{ cols: 5, gutter: 3}}>
+      <Col>
         <div className="p-3 border bg-light">Row column</div>
-      </CxCol>
-      <CxCol>
+      </Col>
+      <Col>
         <div className="p-3 border bg-light">Row column</div>
-      </CxCol>
-      <CxCol>
+      </Col>
+      <Col>
         <div className="p-3 border bg-light">Row column</div>
-      </CxCol>
-      <CxCol>
+      </Col>
+      <Col>
         <div className="p-3 border bg-light">Row column</div>
-      </CxCol>
-      <CxCol>
+      </Col>
+      <Col>
         <div className="p-3 border bg-light">Row column</div>
-      </CxCol>
-      <CxCol>
+      </Col>
+      <Col>
         <div className="p-3 border bg-light">Row column</div>
-      </CxCol>
-      <CxCol>
+      </Col>
+      <Col>
         <div className="p-3 border bg-light">Row column</div>
-      </CxCol>
-      <CxCol>
+      </Col>
+      <Col>
         <div className="p-3 border bg-light">Row column</div>
-      </CxCol>
-      <CxCol>
+      </Col>
+      <Col>
         <div className="p-3 border bg-light">Row column</div>
-      </CxCol>
-      <CxCol>
+      </Col>
+      <Col>
         <div className="p-3 border bg-light">Row column</div>
-      </CxCol>
-    </CxRow>
-  </CxContainer>
+      </Col>
+    </Row>
+  </Container>
 </Example>
 
 ## No gutters
 
-The gutters between columns in our predefined grid props can be removed with `{breakpoint}={{ gutter: 0 }}`. This removes the negative `margin`s from `<CxRow>` and the horizontal `padding` from all immediate children columns.
+The gutters between columns in our predefined grid props can be removed with `{breakpoint}={{ gutter: 0 }}`. This removes the negative `margin`s from `<Row>` and the horizontal `padding` from all immediate children columns.
 
-**Need an edge-to-edge design?** Drop the parent `<CxContainer>` or `<CxContainer fluid>`.
+**Need an edge-to-edge design?** Drop the parent `<Container>` or `<Container fluid>`.
 
 In practice, here's how it looks. Note you can continue to use this with all other predefined grid props (including column widths, responsive tiers, reorders, and more).
 
 <Example>
   <div className="docs-example-row">
-    <CxRow xs={{ gutter: 0 }}>
-      <CxCol sm={6} md={8}>.small:col-6 .medium:col-8</CxCol>
-      <CxCol xs={6} md={4}>.col-6 .medium:col-4</CxCol>
-    </CxRow>
+    <Row xs={{ gutter: 0 }}>
+      <Col sm={6} md={8}>.small:col-6 .medium:col-8</Col>
+      <Col xs={6} md={4}>.col-6 .medium:col-4</Col>
+    </Row>
   </div>
 </Example>
 
 ## API
 
-### CxContainer
+### Container
 
-<PropTable component="CxContainer" />
-### CxRow
+<PropTable component="Container" />
+### Row
 
-<PropTable component="CxRow" />
-### CxCol
+<PropTable component="Row" />
+### Col
 
-<PropTable component="CxCol" />
+<PropTable component="Col" />

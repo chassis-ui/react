@@ -1,0 +1,45 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/nav/Nav.tsx",
+  "description": "",
+  "displayName": "NavItemDef",
+  "methods": [],
+  "props": {
+    "label": {
+      "name": "label",
+      "required": true,
+      "description": "Label content for the nav item.",
+      "defaultValue": null,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "href": {
+      "name": "href",
+      "required": false,
+      "description": "URL for the nav link.",
+      "defaultValue": null,
+      "type": {
+        "name": "string"
+      }
+    },
+    "active": {
+      "name": "active",
+      "required": false,
+      "description": "Marks the item as active.",
+      "defaultValue": null,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "disabled": {
+      "name": "disabled",
+      "required": false,
+      "description": "Marks the item as disabled.",
+      "defaultValue": null,
+      "type": {
+        "name": "boolean"
+      }
+    }
+  }
+}

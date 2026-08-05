@@ -1,0 +1,49 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/drawer/DrawerHeader.tsx",
+  "description": "",
+  "displayName": "DrawerHeader",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/drawer/DrawerHeader.tsx",
+        "name": "DrawerHeaderProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/drawer/DrawerHeader.tsx",
+          "name": "DrawerHeaderProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "closeButton": {
+      "defaultValue": {
+        "value": true
+      },
+      "description": "Add a close button component to the header.",
+      "name": "closeButton",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/drawer/DrawerHeader.tsx",
+        "name": "DrawerHeaderProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/drawer/DrawerHeader.tsx",
+          "name": "DrawerHeaderProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    }
+  }
+}

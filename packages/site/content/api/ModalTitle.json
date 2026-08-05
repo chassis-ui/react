@@ -1,0 +1,49 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/modal/ModalTitle.tsx",
+  "description": "",
+  "displayName": "ModalTitle",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/modal/ModalTitle.tsx",
+        "name": "ModalTitleProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/modal/ModalTitle.tsx",
+          "name": "ModalTitleProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "component": {
+      "defaultValue": {
+        "value": "h2"
+      },
+      "description": "Component used for the root node. Either a string to use a HTML element or a component.",
+      "name": "component",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/modal/ModalTitle.tsx",
+        "name": "ModalTitleProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/modal/ModalTitle.tsx",
+          "name": "ModalTitleProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | ComponentClass<any, any> | FunctionComponent<any>"
+      }
+    }
+  }
+}

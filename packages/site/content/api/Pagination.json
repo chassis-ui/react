@@ -1,0 +1,167 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/pagination/Pagination.tsx",
+  "description": "",
+  "displayName": "Pagination",
+  "methods": [],
+  "props": {
+    "activePage": {
+      "defaultValue": {
+        "value": 1
+      },
+      "description": "Current active page (1-indexed). Used with `pages` for data-driven mode.",
+      "name": "activePage",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/pagination/Pagination.tsx",
+        "name": "PaginationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/pagination/Pagination.tsx",
+          "name": "PaginationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number"
+      }
+    },
+    "align": {
+      "defaultValue": null,
+      "description": "Set the alignment of pagination components.",
+      "name": "align",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/pagination/Pagination.tsx",
+        "name": "PaginationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/pagination/Pagination.tsx",
+          "name": "PaginationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"start\" | \"center\" | \"end\"",
+        "value": [
+          {
+            "value": "\"start\""
+          },
+          {
+            "value": "\"center\""
+          },
+          {
+            "value": "\"end\""
+          }
+        ]
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/pagination/Pagination.tsx",
+        "name": "PaginationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/pagination/Pagination.tsx",
+          "name": "PaginationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "maxVisiblePages": {
+      "defaultValue": {
+        "value": 5
+      },
+      "description": "Maximum number of visible page buttons (default: 5). Flanking pages are collapsed to ellipsis.",
+      "name": "maxVisiblePages",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/pagination/Pagination.tsx",
+        "name": "PaginationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/pagination/Pagination.tsx",
+          "name": "PaginationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number"
+      }
+    },
+    "onActivePageChange": {
+      "defaultValue": null,
+      "description": "Callback fired when the active page changes.",
+      "name": "onActivePageChange",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/pagination/Pagination.tsx",
+        "name": "PaginationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/pagination/Pagination.tsx",
+          "name": "PaginationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((page: number) => void)"
+      }
+    },
+    "pages": {
+      "defaultValue": null,
+      "description": "Total number of pages. When provided alongside `activePage` and `onActivePageChange`,\nthe component renders a fully-controlled smart paginator with Prev/Next and ellipsis.",
+      "name": "pages",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/pagination/Pagination.tsx",
+        "name": "PaginationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/pagination/Pagination.tsx",
+          "name": "PaginationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number"
+      }
+    },
+    "size": {
+      "defaultValue": null,
+      "description": "Size the component small or large.",
+      "name": "size",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/pagination/Pagination.tsx",
+        "name": "PaginationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/pagination/Pagination.tsx",
+          "name": "PaginationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"small\" | \"large\"",
+        "value": [
+          {
+            "value": "\"small\""
+          },
+          {
+            "value": "\"large\""
+          }
+        ]
+      }
+    }
+  }
+}

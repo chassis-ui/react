@@ -89,25 +89,24 @@ export default defineConfig([
     files: ['**/*.spec.ts', '**/*.spec.tsx']
   },
   // Enterprise migration (see .claude/plans/chassis-react-enterprise-migration.md, Phase 0/1):
-  // `Cx`-prefixed identifiers are being dropped from packages/react/src. Kept at `warn`, not
-  // `error`, until Phase 1 (the scripted rename) actually clears the ~870 pre-existing
-  // occurrences — flips to `error` in Phase 1 Batch G. Neither this nor the rule below catches
-  // string literals (`cx-*` class names, `data-cx-*` attributes) — see CONVENTIONS.md and the
-  // plan's Ground Truth section for those.
+  // `Cx`-prefixed identifiers were dropped from packages/react/src by Phase 1's scripted rename.
+  // Flipped from `warn` to `error` in Phase 1 Batch G, once the rename actually cleared the
+  // ~870 pre-existing occurrences — this now guards against reintroducing the prefix rather than
+  // tracking a migration in progress. Neither this nor the rule below catches string literals
+  // (`cx-*` class names, `data-cx-*` attributes) — see CONVENTIONS.md and the plan's Ground Truth
+  // section for those.
   {
     files: ['packages/react/src/**/*.ts', 'packages/react/src/**/*.tsx'],
     rules: {
       'no-restricted-syntax': [
-        'warn',
+        'error',
         {
           selector: 'Identifier[name=/^Cx[A-Z]/]',
-          message:
-            "Cx-prefixed identifiers are being migrated away — see packages/react/CONVENTIONS.md."
+          message: "Cx-prefixed identifiers aren't allowed — see packages/react/CONVENTIONS.md."
         },
         {
           selector: 'JSXIdentifier[name=/^Cx[A-Z]/]',
-          message:
-            "Cx-prefixed identifiers are being migrated away — see packages/react/CONVENTIONS.md."
+          message: "Cx-prefixed identifiers aren't allowed — see packages/react/CONVENTIONS.md."
         }
       ]
     }

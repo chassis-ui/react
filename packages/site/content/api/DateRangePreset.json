@@ -1,0 +1,27 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/calendar/dateRangePresets.ts",
+  "description": "",
+  "displayName": "DateRangePreset",
+  "methods": [],
+  "props": {
+    "label": {
+      "name": "label",
+      "required": true,
+      "description": "",
+      "defaultValue": null,
+      "type": {
+        "name": "string"
+      }
+    },
+    "range": {
+      "name": "range",
+      "required": true,
+      "description": "",
+      "defaultValue": null,
+      "type": {
+        "name": "RangeValue<DateValue>"
+      }
+    }
+  }
+}

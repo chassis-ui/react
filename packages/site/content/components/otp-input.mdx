@@ -5,7 +5,7 @@ description: Chassis OtpInput groups individually styled digit boxes into a sequ
 toc: true
 ---
 
-import { CxOtpInput } from '@chassis-ui/react'
+import { OtpInput } from '@chassis-ui/react'
 
 import { BasicExample } from '../../src/examples/otp-input/BasicExample.tsx'
 import { ConnectedExample } from '../../src/examples/otp-input/ConnectedExample.tsx'
@@ -18,7 +18,7 @@ import { MaskedExample } from '../../src/examples/otp-input/MaskedExample.tsx'
 
 ## Overview
 
-`CxOtpInput` renders `length` single-character boxes (`6` by default) with automatic focus advancement after each digit, backspace navigation back to the previous box, arrow-key navigation, and full-code paste distribution. The first box gets `autocomplete="one-time-code"` for SMS/email code autofill on supported browsers.
+`OtpInput` renders `length` single-character boxes (`6` by default) with automatic focus advancement after each digit, backspace navigation back to the previous box, arrow-key navigation, and full-code paste distribution. The first box gets `autocomplete="one-time-code"` for SMS/email code autofill on supported browsers.
 
 <Example>
   <BasicExample client:load />
@@ -42,7 +42,7 @@ Pass `groupSizes` (e.g. `[3, 3]`) to split the boxes into groups with a `–` se
 
 ## As a form field
 
-Pass `label`/`help` to wrap the group in a `.form-field` with an associated `CxFormLabel` (linked via `aria-labelledby`, since there's no single input to target with `htmlFor`) and `CxFormHelp`. Pass `name` to have `CxOtpInput` create a hidden `<input type="hidden">` kept in sync with the code, for native form submission.
+Pass `label`/`help` to wrap the group in a `.form-field` with an associated `FormLabel` (linked via `aria-labelledby`, since there's no single input to target with `htmlFor`) and `FormHelp`. Pass `name` to have `OtpInput` create a hidden `<input type="hidden">` kept in sync with the code, for native form submission.
 
 <Example>
   <FormFieldExample client:load />
@@ -50,7 +50,7 @@ Pass `label`/`help` to wrap the group in a `.form-field` with an associated `CxF
 
 ## Controlled value
 
-Pass `value`/`onChange` to control the code yourself, and `onComplete` to react once every box is filled. Omit them (use `defaultValue` instead) to let `CxOtpInput` manage its own state.
+Pass `value`/`onChange` to control the code yourself, and `onComplete` to react once every box is filled. Omit them (use `defaultValue` instead) to let `OtpInput` manage its own state.
 
 <Example>
   <ControlledExample client:load />
@@ -88,16 +88,16 @@ Pass `mask` to render each box as `type="password"`, hiding entered digits.
 
 ## Accessibility
 
-Each box has no visible label, so it carries its own `aria-label` (`"Digit 1"`, `"Digit 2"`, …) generated automatically — screen readers announce each box's position. Label the group as a whole with `aria-label` or `aria-labelledby` on `CxOtpInput` itself, and associate help text with `aria-describedby`.
+Each box has no visible label, so it carries its own `aria-label` (`"Digit 1"`, `"Digit 2"`, …) generated automatically — screen readers announce each box's position. Label the group as a whole with `aria-label` or `aria-labelledby` on `OtpInput` itself, and associate help text with `aria-describedby`.
 
 ## Scope
 
 Built on React Aria's `useTextField`/`useFocusRing` per box — there's no dedicated "OTP input" hook, so auto-advance, backspace/delete navigation, and paste-splitting are hand-written to match chassis-css's vanilla `otp-input.js` behavior, same framing as the plan's own description of this as the closest-to-hand-rolled of the newer form widgets.
 
-Unlike the vanilla component, `CxOtpInput` doesn't expose imperative `focus()`/`clear()` methods or a `complete`/`input` DOM event pair — use the declarative `value`/`defaultValue`/`onChange`/`onComplete` props instead.
+Unlike the vanilla component, `OtpInput` doesn't expose imperative `focus()`/`clear()` methods or a `complete`/`input` DOM event pair — use the declarative `value`/`defaultValue`/`onChange`/`onComplete` props instead.
 
 ## API
 
-### CxOtpInput
+### OtpInput
 
-<PropTable component="CxOtpInput" />
+<PropTable component="OtpInput" />

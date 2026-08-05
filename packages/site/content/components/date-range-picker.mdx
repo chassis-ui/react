@@ -13,11 +13,11 @@ import { MultiMonthExample } from '../../src/examples/date-range-picker/MultiMon
 import { PresetsExample } from '../../src/examples/date-range-picker/PresetsExample.tsx'
 import { ControlledOpenExample } from '../../src/examples/date-range-picker/ControlledOpenExample.tsx'
 
-import { CxDateRangePicker } from '@chassis-ui/react'
+import { DateRangePicker } from '@chassis-ui/react'
 
 ## Overview
 
-`CxDateRangePicker` combines two individually-editable segmented date fields (start and end, each day/month/year) with a range-calendar popover — type both dates directly, or pick a start and end from the grid. All three stay in sync with a single selected range. The popover renders [`CxRangeCalendar`](/forms/range-calendar), which is also available on its own wherever an inline, non-popover range calendar is needed.
+`DateRangePicker` combines two individually-editable segmented date fields (start and end, each day/month/year) with a range-calendar popover — type both dates directly, or pick a start and end from the grid. All three stay in sync with a single selected range. The popover renders [`RangeCalendar`](/forms/range-calendar), which is also available on its own wherever an inline, non-popover range calendar is needed.
 
 <Example>
   <BasicExample client:load />
@@ -25,7 +25,7 @@ import { CxDateRangePicker } from '@chassis-ui/react'
 
 ## As a form field
 
-Pass `label`/`help` to wrap the picker in a `.form-field` with an associated `CxFormLabel` and `CxFormHelp`. Pass `name` to have `CxDateRangePicker` create and manage a pair of hidden inputs for native form submission — `${name}Start` and `${name}End`, each an ISO 8601 date string (`2026-07-24`).
+Pass `label`/`help` to wrap the picker in a `.form-field` with an associated `FormLabel` and `FormHelp`. Pass `name` to have `DateRangePicker` create and manage a pair of hidden inputs for native form submission — `${name}Start` and `${name}End`, each an ISO 8601 date string (`2026-07-24`).
 
 <Example>
   <FormFieldExample client:load />
@@ -49,11 +49,11 @@ Pass `isDateUnavailable`, or the JSON-friendly `unavailableDates` (an array of I
 
 ## First day of week
 
-The calendar popover's week starts on Monday by default, regardless of the active locale. Pass `firstDayOfWeek` to override it — passed straight through to the underlying [`CxRangeCalendar`](/forms/range-calendar).
+The calendar popover's week starts on Monday by default, regardless of the active locale. Pass `firstDayOfWeek` to override it — passed straight through to the underlying [`RangeCalendar`](/forms/range-calendar).
 
 ## Multiple months
 
-Pass `visibleMonths` to show more than one month side by side in the popover, sharing a single selection — passed straight through to the underlying [`CxRangeCalendar`](/forms/range-calendar).
+Pass `visibleMonths` to show more than one month side by side in the popover, sharing a single selection — passed straight through to the underlying [`RangeCalendar`](/forms/range-calendar).
 
 <Example>
   <MultiMonthExample client:load />
@@ -61,7 +61,7 @@ Pass `visibleMonths` to show more than one month side by side in the popover, sh
 
 ## Presets
 
-Pass `presets` — an array of `{ label, range }` entries (see [`CxDateRangePreset`](/forms/range-calendar#cxdaterangepreset)) — to show a quick-select list next to the calendar in the popover. Selecting a preset commits its range immediately, the same as picking a start and end date from the calendar. The preset matching the current selection (if any) is shown as the active one.
+Pass `presets` — an array of `{ label, range }` entries (see [`DateRangePreset`](/forms/range-calendar#cxdaterangepreset)) — to show a quick-select list next to the calendar in the popover. Selecting a preset commits its range immediately, the same as picking a start and end date from the calendar. The preset matching the current selection (if any) is shown as the active one.
 
 <Example>
   <PresetsExample client:load />
@@ -84,14 +84,14 @@ This is a date-only range picker — a few things are deliberately out of scope 
 
 ## Form submission
 
-Unlike `CxDatePicker` (one hidden input), `CxDateRangePicker` creates **two** hidden inputs when `name` is set: `${name}Start` and `${name}End`. This was chosen over a single combined value so each endpoint posts as an ordinary named field — no custom parsing needed on the receiving end.
+Unlike `DatePicker` (one hidden input), `DateRangePicker` creates **two** hidden inputs when `name` is set: `${name}Start` and `${name}End`. This was chosen over a single combined value so each endpoint posts as an ordinary named field — no custom parsing needed on the receiving end.
 
 ## Styling
 
-Like `CxDatePicker`, `CxDateRangePicker` isn't styled by `@chassis-ui/css`. It reuses `CxDatePicker.css`'s segmented-field and popover-shell classes directly, adding only a small separator between the two fields. The range-calendar grid itself is styled by [`CxRangeCalendar`](/forms/range-calendar)'s own scoped CSS, imported transitively. All of it is automatically injected the first time the component is imported — no separate stylesheet to add.
+Like `DatePicker`, `DateRangePicker` isn't styled by `@chassis-ui/css`. It reuses `DatePicker.css`'s segmented-field and popover-shell classes directly, adding only a small separator between the two fields. The range-calendar grid itself is styled by [`RangeCalendar`](/forms/range-calendar)'s own scoped CSS, imported transitively. All of it is automatically injected the first time the component is imported — no separate stylesheet to add.
 
 ## API
 
-### CxDateRangePicker
+### DateRangePicker
 
-<PropTable component="CxDateRangePicker" />
+<PropTable component="DateRangePicker" />

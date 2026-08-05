@@ -6,7 +6,7 @@ toc: true
 ---
 
 
-import { CxImage } from '@chassis-ui/react'
+import { Image } from '@chassis-ui/react'
 
 
 ## Responsive images
@@ -14,7 +14,7 @@ import { CxImage } from '@chassis-ui/react'
 Images in Chassis are made responsive with `fluid` property. This applies `max-width: 100%;` and `height: auto;` to the image so that it scales with the parent element.
 
 <Example>
-  <CxImage fluid src="https://placehold.co/800x400" />
+  <Image fluid src="https://placehold.co/800x400" />
 </Example>
 
 ## Image thumbnails
@@ -22,7 +22,7 @@ Images in Chassis are made responsive with `fluid` property. This applies `max-w
 In addition to our border-radius utilities, you can use prop`thumbnail` to give an image a rounded 1px border appearance.
 
 <Example>
-  <CxImage rounded thumbnail src="https://placehold.co/800x400" width={200} height={200} />
+  <Image rounded thumbnail src="https://placehold.co/800x400" width={200} height={200} />
 </Example>
 
 ## Aligning images
@@ -31,25 +31,25 @@ Align images with the `align` property.
 
 <Example>
   <div className="clearfix">
-    <CxImage align="start" rounded src="https://placehold.co/800x400" width={200} height={200} />
-    <CxImage align="end" rounded src="https://placehold.co/800x400" width={200} height={200} />
+    <Image align="start" rounded src="https://placehold.co/800x400" width={200} height={200} />
+    <Image align="end" rounded src="https://placehold.co/800x400" width={200} height={200} />
   </div>
 </Example>
 
 <Example>
   <div className="clearfix">
-    <CxImage align="center" rounded src="https://placehold.co/800x400" width={200} height={200} />
+    <Image align="center" rounded src="https://placehold.co/800x400" width={200} height={200} />
   </div>
 </Example>
 
 <Example>
   <div className="text-center">
-    <CxImage rounded src="https://placehold.co/800x400" width={200} height={200} />
+    <Image rounded src="https://placehold.co/800x400" width={200} height={200} />
   </div>
 </Example>
 
 ## API
 
-### CxImage
+### Image
 
-<PropTable component="CxImage" />
+<PropTable component="Image" />

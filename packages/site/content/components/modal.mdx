@@ -16,15 +16,11 @@ import { Example as FullscreenExample } from '../../src/examples/modal/Fullscree
 
 import { useState } from 'react'
 import {
-  CxButton,
-  CxLink,
-  CxModal,
-  CxModalBody,
-  CxModalFooter,
-  CxModalHeader,
-  CxModalTitle,
-  CxPopover,
-  CxTooltip,
+  Button,
+  Link,
+  Modal,
+  Popover,
+  Tooltip,
 } from '@chassis-ui/react'
 
 ## Examples
@@ -33,26 +29,26 @@ import {
 
 Below is a static modal example, with the backdrop and keyboard dismissal disabled so it stays open for illustration. Included are the modal header, modal body (required for `padding`), and modal footer (optional). We ask that you include modal headers with dismiss actions whenever possible, or provide another explicit dismiss action.
 
-<Example customMarkup={`<CxModal backdrop={false} keyboard={false} open>
-    <CxModalHeader>
-      <CxModalTitle>Modal title</CxModalTitle>
-    </CxModalHeader>
-    <CxModalBody>Modal body text goes here.</CxModalBody>
-    <CxModalFooter>
-      <CxButton color="secondary">Close</CxButton>
-      <CxButton color="primary">Save changes</CxButton>
-    </CxModalFooter>
-  </CxModal>`}>
-  <CxModal backdrop={false} keyboard={false} style={{ position: 'relative' }} open>
-    <CxModalHeader>
-      <CxModalTitle>Modal title</CxModalTitle>
-    </CxModalHeader>
-    <CxModalBody>Modal body text goes here.</CxModalBody>
-    <CxModalFooter>
-      <CxButton color="secondary">Close</CxButton>
-      <CxButton color="primary">Save changes</CxButton>
-    </CxModalFooter>
-  </CxModal>
+<Example customMarkup={`<Modal backdrop={false} keyboard={false} open>
+    <Modal.Header>
+      <Modal.Title>Modal title</Modal.Title>
+    </Modal.Header>
+    <Modal.Body>Modal body text goes here.</Modal.Body>
+    <Modal.Footer>
+      <Button color="secondary">Close</Button>
+      <Button color="primary">Save changes</Button>
+    </Modal.Footer>
+  </Modal>`}>
+  <Modal backdrop={false} keyboard={false} style={{ position: 'relative' }} open>
+    <Modal.Header>
+      <Modal.Title>Modal title</Modal.Title>
+    </Modal.Header>
+    <Modal.Body>Modal body text goes here.</Modal.Body>
+    <Modal.Footer>
+      <Button color="secondary">Close</Button>
+      <Button color="primary">Save changes</Button>
+    </Modal.Footer>
+  </Modal>
 </Example>
 
 ### Live demo
@@ -100,7 +96,7 @@ You can also create a scrollable modal that allows scroll the modal body by addi
 
 ## Optional sizes
 
-Modals have three optional sizes, available via modifier classes to be placed on a `<CxModal>`. These sizes kick in at certain breakpoints to avoid horizontal scrollbars on narrower viewports.
+Modals have three optional sizes, available via modifier classes to be placed on a `<Modal>`. These sizes kick in at certain breakpoints to avoid horizontal scrollbars on narrower viewports.
 
 <table className="table">
   <thead>
@@ -221,18 +217,18 @@ Another override is the option to pop up a modal that covers the user viewport, 
 
 ## API
 
-### CxModal
+### Modal
 
-<PropTable component="CxModal" />
-### CxModalBody
+<PropTable component="Modal" />
+### Modal.Body
 
-<PropTable component="CxModalBody" />
-### CxModalFooter
+<PropTable component="ModalBody" />
+### Modal.Footer
 
-<PropTable component="CxModalFooter" />
-### CxModalHeader
+<PropTable component="ModalFooter" />
+### Modal.Header
 
-<PropTable component="CxModalHeader" />
-### CxModalTitle
+<PropTable component="ModalHeader" />
+### Modal.Title
 
-<PropTable component="CxModalTitle" />
+<PropTable component="ModalTitle" />

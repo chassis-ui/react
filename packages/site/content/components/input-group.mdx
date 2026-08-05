@@ -11,60 +11,59 @@ import { SegmentedButtonsExample } from '../../src/examples/input-group/Segmente
 import { CheckboxRadioAddonsExample } from '../../src/examples/input-group/CheckboxRadioAddonsExample.tsx'
 
 import {
-  CxButton,
-  CxFileInput,
-  CxForm,
-  CxTextInput,
-  CxFormLabel,
-  CxSelect,
-  CxTextarea,
-  CxInputGroup,
-  CxInputAddon,
-  CxCol,
-  CxRow,
+  Button,
+  FileInput,
+  Form,
+  TextInput,
+  FormLabel,
+  Select,
+  Textarea,
+  InputGroup,
+  Col,
+  Row,
 } from '@chassis-ui/react'
 
 ## Basic example
 
-Place one add-on or button on either side of an input. You may also place one on both sides of an input. Remember to place `<CxFormLabel>`s outside the input group.
+Place one add-on or button on either side of an input. You may also place one on both sides of an input. Remember to place `<FormLabel>`s outside the input group.
 
 <Example class="vstack gap-medium">
-  <CxInputGroup className="mb-medium">
-    <CxInputAddon id="basic-addon1">@</CxInputAddon>
-    <CxTextInput placeholder="Username" aria-label="Username" aria-describedby="basic-addon1"/>
-  </CxInputGroup>
+  <InputGroup className="mb-medium">
+    <InputGroup.Addon id="basic-addon1">@</InputGroup.Addon>
+    <TextInput placeholder="Username" aria-label="Username" aria-describedby="basic-addon1"/>
+  </InputGroup>
 
-  <CxInputGroup className="mb-medium">
-    <CxTextInput
+  <InputGroup className="mb-medium">
+    <TextInput
       placeholder="Recipient's username"
       aria-label="Recipient's username"
       aria-describedby="basic-addon2"
     />
-    <CxInputAddon id="basic-addon2">@example.com</CxInputAddon>
-  </CxInputGroup>
+    <InputGroup.Addon id="basic-addon2">@example.com</InputGroup.Addon>
+  </InputGroup>
 
-  <CxFormLabel htmlFor="basic-url">Your vanity URL</CxFormLabel>
-  <CxInputGroup className="mb-medium">
-    <CxInputAddon id="basic-addon3">https://example.com/users/</CxInputAddon>
-    <CxTextInput id="basic-url" aria-describedby="basic-addon3" />
-  </CxInputGroup>
+  <FormLabel htmlFor="basic-url">Your vanity URL</FormLabel>
+  <InputGroup className="mb-medium">
+    <InputGroup.Addon id="basic-addon3">https://example.com/users/</InputGroup.Addon>
+    <TextInput id="basic-url" aria-describedby="basic-addon3" />
+  </InputGroup>
 
-  <CxInputGroup className="mb-medium">
-    <CxInputAddon>$</CxInputAddon>
-    <CxTextInput aria-label="Amount (to the nearest dollar)" />
-    <CxInputAddon>.00</CxInputAddon>
-  </CxInputGroup>
+  <InputGroup className="mb-medium">
+    <InputGroup.Addon>$</InputGroup.Addon>
+    <TextInput aria-label="Amount (to the nearest dollar)" />
+    <InputGroup.Addon>.00</InputGroup.Addon>
+  </InputGroup>
 
-  <CxInputGroup className="mb-medium">
-    <CxTextInput placeholder="Username" aria-label="Username" />
-    <CxInputAddon>@</CxInputAddon>
-    <CxTextInput placeholder="Server" aria-label="Server" />
-  </CxInputGroup>
+  <InputGroup className="mb-medium">
+    <TextInput placeholder="Username" aria-label="Username" />
+    <InputGroup.Addon>@</InputGroup.Addon>
+    <TextInput placeholder="Server" aria-label="Server" />
+  </InputGroup>
 
-  <CxInputGroup>
-    <CxInputAddon>With textarea</CxInputAddon>
-    <CxTextarea aria-label="With textarea"></CxTextarea>
-  </CxInputGroup>
+  <InputGroup>
+    <InputGroup.Addon>With textarea</InputGroup.Addon>
+    <Textarea aria-label="With textarea"></Textarea>
+  </InputGroup>
 </Example>
 
 ## Wrapping
@@ -72,33 +71,33 @@ Place one add-on or button on either side of an input. You may also place one on
 Input groups wrap by default via `flex-wrap: wrap` in order to accommodate custom form field validation within an input group. You may disable this with `.flex-nowrap`.
 
 <Example>
-  <CxInputGroup className="flex-nowrap">
-    <CxInputAddon id="addon-wrapping">@</CxInputAddon>
-    <CxTextInput placeholder="Username" aria-label="Username" aria-describedby="addon-wrapping" />
-  </CxInputGroup>
+  <InputGroup className="flex-nowrap">
+    <InputGroup.Addon id="addon-wrapping">@</InputGroup.Addon>
+    <TextInput placeholder="Username" aria-label="Username" aria-describedby="addon-wrapping" />
+  </InputGroup>
 </Example>
 
 ## Sizing
 
-Add the relative form sizing classes to the `<CxInputGroup>` itself and contents within will automatically resize—no need for repeating the form control size classes on each element.
+Add the relative form sizing classes to the `<InputGroup>` itself and contents within will automatically resize—no need for repeating the form control size classes on each element.
 
 **Sizing on the individual input group elements isn't supported.**
 
 <Example>
-  <CxInputGroup size="small" className="mb-medium">
-    <CxInputAddon id="inputGroup-sizing-small">Small</CxInputAddon>
-    <CxTextInput aria-label="Sizing example input" aria-describedby="inputGroup-sizing-small"/>
-  </CxInputGroup>
+  <InputGroup size="small" className="mb-medium">
+    <InputGroup.Addon id="inputGroup-sizing-small">Small</InputGroup.Addon>
+    <TextInput aria-label="Sizing example input" aria-describedby="inputGroup-sizing-small"/>
+  </InputGroup>
 
-  <CxInputGroup className="mb-medium">
-    <CxInputAddon id="inputGroup-sizing-default">Default</CxInputAddon>
-    <CxTextInput aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
-  </CxInputGroup>
+  <InputGroup className="mb-medium">
+    <InputGroup.Addon id="inputGroup-sizing-default">Default</InputGroup.Addon>
+    <TextInput aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
+  </InputGroup>
 
-  <CxInputGroup size="large">
-    <CxInputAddon id="inputGroup-sizing-large">Large</CxInputAddon>
-    <CxTextInput aria-label="Sizing example input" aria-describedby="inputGroup-sizing-large"/>
-  </CxInputGroup>
+  <InputGroup size="large">
+    <InputGroup.Addon id="inputGroup-sizing-large">Large</InputGroup.Addon>
+    <TextInput aria-label="Sizing example input" aria-describedby="inputGroup-sizing-large"/>
+  </InputGroup>
 </Example>
 
 ## Checkboxes and radios
@@ -111,14 +110,14 @@ Place any checkbox or radio option within an input group's addon instead of text
 
 ## Multiple inputs
 
-While multiple `<CxTextInput>`s are supported visually, validation styles are only available for input groups with a single `<CxTextInput>`.
+While multiple `<TextInput>`s are supported visually, validation styles are only available for input groups with a single `<TextInput>`.
 
 <Example>
-  <CxInputGroup>
-    <CxInputAddon>First and last name</CxInputAddon>
-    <CxTextInput aria-label="First name" />
-    <CxTextInput aria-label="Last name" />
-  </CxInputGroup>
+  <InputGroup>
+    <InputGroup.Addon>First and last name</InputGroup.Addon>
+    <TextInput aria-label="First name" />
+    <TextInput aria-label="Last name" />
+  </InputGroup>
 </Example>
 
 ## Multiple addons
@@ -126,53 +125,53 @@ While multiple `<CxTextInput>`s are supported visually, validation styles are on
 Multiple add-ons are supported and can be mixed with checkbox and radio input versions.
 
 <Example>
-  <CxInputGroup className="mb-medium">
-    <CxInputAddon>$</CxInputAddon>
-    <CxInputAddon>0.00</CxInputAddon>
-    <CxTextInput aria-label="Dollar amount (with dot and two decimal places)"/>
-  </CxInputGroup>
+  <InputGroup className="mb-medium">
+    <InputGroup.Addon>$</InputGroup.Addon>
+    <InputGroup.Addon>0.00</InputGroup.Addon>
+    <TextInput aria-label="Dollar amount (with dot and two decimal places)"/>
+  </InputGroup>
 
-  <CxInputGroup>
-    <CxTextInput aria-label="Dollar amount (with dot and two decimal places)"/>
-    <CxInputAddon>$</CxInputAddon>
-    <CxInputAddon>0.00</CxInputAddon>
-  </CxInputGroup>
+  <InputGroup>
+    <TextInput aria-label="Dollar amount (with dot and two decimal places)"/>
+    <InputGroup.Addon>$</InputGroup.Addon>
+    <InputGroup.Addon>0.00</InputGroup.Addon>
+  </InputGroup>
 </Example>
 
 ## Button addons
 
 <Example>
-  <CxInputGroup className="mb-medium">
-    <CxButton type="button" color="secondary" variant="outline" id="button-addon1">Button</CxButton>
-    <CxTextInput placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1"/>
-  </CxInputGroup>
+  <InputGroup className="mb-medium">
+    <Button type="button" color="secondary" variant="outline" id="button-addon1">Button</Button>
+    <TextInput placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1"/>
+  </InputGroup>
 
-  <CxInputGroup className="mb-medium">
-    <CxTextInput
+  <InputGroup className="mb-medium">
+    <TextInput
       placeholder="Recipient's username"
       aria-label="Recipient's username"
       aria-describedby="button-addon2"
     />
-    <CxButton type="button" color="secondary" variant="outline" id="button-addon2">
+    <Button type="button" color="secondary" variant="outline" id="button-addon2">
       Button
-    </CxButton>
-  </CxInputGroup>
+    </Button>
+  </InputGroup>
 
-  <CxInputGroup className="mb-medium">
-    <CxButton type="button" color="secondary" variant="outline">
+  <InputGroup className="mb-medium">
+    <Button type="button" color="secondary" variant="outline">
       Button
-    </CxButton>
-    <CxButton type="button" color="secondary" variant="outline">
+    </Button>
+    <Button type="button" color="secondary" variant="outline">
       Button
-    </CxButton>
-    <CxTextInput placeholder="" aria-label="Example text with two button addons" />
-  </CxInputGroup>
+    </Button>
+    <TextInput placeholder="" aria-label="Example text with two button addons" />
+  </InputGroup>
 
-  <CxInputGroup>
-    <CxTextInput placeholder="Recipient's username" aria-label="Recipient's username with two button addons"/>
-    <CxButton type="button" color="secondary" variant="outline">Button</CxButton>
-    <CxButton type="button" color="secondary" variant="outline">Button</CxButton>
-  </CxInputGroup>
+  <InputGroup>
+    <TextInput placeholder="Recipient's username" aria-label="Recipient's username with two button addons"/>
+    <Button type="button" color="secondary" variant="outline">Button</Button>
+    <Button type="button" color="secondary" variant="outline">Button</Button>
+  </InputGroup>
 </Example>
 
 ## Buttons with menus
@@ -194,88 +193,88 @@ Input groups include support for custom selects and custom file inputs. Browser 
 ### Custom select
 
 <Example>
-  <CxInputGroup className="mb-medium">
-    <CxInputAddon component="label" htmlFor="inputGroupSelect01">Options</CxInputAddon>
-    <CxSelect id="inputGroupSelect01">
+  <InputGroup className="mb-medium">
+    <InputGroup.Addon component="label" htmlFor="inputGroupSelect01">Options</InputGroup.Addon>
+    <Select id="inputGroupSelect01">
       <option>Choose...</option>
       <option value="1">One</option>
       <option value="2">Two</option>
       <option value="3">Three</option>
-    </CxSelect>
-  </CxInputGroup>
+    </Select>
+  </InputGroup>
 
-  <CxInputGroup className="mb-medium">
-    <CxSelect id="inputGroupSelect02">
+  <InputGroup className="mb-medium">
+    <Select id="inputGroupSelect02">
       <option>Choose...</option>
       <option value="1">One</option>
       <option value="2">Two</option>
       <option value="3">Three</option>
-    </CxSelect>
-    <CxInputAddon component="label" htmlFor="inputGroupSelect02">
+    </Select>
+    <InputGroup.Addon component="label" htmlFor="inputGroupSelect02">
       Options
-    </CxInputAddon>
-  </CxInputGroup>
+    </InputGroup.Addon>
+  </InputGroup>
 
-  <CxInputGroup className="mb-medium">
-    <CxButton type="button" color="secondary" variant="outline">
+  <InputGroup className="mb-medium">
+    <Button type="button" color="secondary" variant="outline">
       Button
-    </CxButton>
-    <CxSelect id="inputGroupSelect03" aria-label="Example select with button addon">
+    </Button>
+    <Select id="inputGroupSelect03" aria-label="Example select with button addon">
       <option>Choose...</option>
       <option value="1">One</option>
       <option value="2">Two</option>
       <option value="3">Three</option>
-    </CxSelect>
-  </CxInputGroup>
+    </Select>
+  </InputGroup>
 
-  <CxInputGroup>
-    <CxSelect id="inputGroupSelect04" aria-label="Example select with button addon">
+  <InputGroup>
+    <Select id="inputGroupSelect04" aria-label="Example select with button addon">
       <option>Choose...</option>
       <option value="1">One</option>
       <option value="2">Two</option>
       <option value="3">Three</option>
-    </CxSelect>
-    <CxButton type="button" color="secondary" variant="outline">Button</CxButton>
-  </CxInputGroup>
+    </Select>
+    <Button type="button" color="secondary" variant="outline">Button</Button>
+  </InputGroup>
 </Example>
 
 ### Custom file input
 
 <Example>
-  <CxInputGroup className="mb-medium">
-    <CxInputAddon component="label" htmlFor="inputGroupFile01">Upload</CxInputAddon>
-    <CxFileInput id="inputGroupFile01"/>
-  </CxInputGroup>
+  <InputGroup className="mb-medium">
+    <InputGroup.Addon component="label" htmlFor="inputGroupFile01">Upload</InputGroup.Addon>
+    <FileInput id="inputGroupFile01"/>
+  </InputGroup>
 
-  <CxInputGroup className="mb-medium">
-    <CxFileInput id="inputGroupFile02" />
-    <CxInputAddon component="label" htmlFor="inputGroupFile02">
+  <InputGroup className="mb-medium">
+    <FileInput id="inputGroupFile02" />
+    <InputGroup.Addon component="label" htmlFor="inputGroupFile02">
       Upload
-    </CxInputAddon>
-  </CxInputGroup>
+    </InputGroup.Addon>
+  </InputGroup>
 
-  <CxInputGroup className="mb-medium">
-    <CxButton type="button" color="secondary" variant="outline" id="inputGroupFileAddon03">
+  <InputGroup className="mb-medium">
+    <Button type="button" color="secondary" variant="outline" id="inputGroupFileAddon03">
       Button
-    </CxButton>
-    <CxFileInput
+    </Button>
+    <FileInput
       id="inputGroupFile03"
       aria-describedby="inputGroupFileAddon03"
       aria-label="Upload"
     />
-  </CxInputGroup>
+  </InputGroup>
 
-  <CxInputGroup>
-    <CxFileInput id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload"/>
-    <CxButton type="button" color="secondary" variant="outline" id="inputGroupFileAddon04">Button</CxButton>
-  </CxInputGroup>
+  <InputGroup>
+    <FileInput id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload"/>
+    <Button type="button" color="secondary" variant="outline" id="inputGroupFileAddon04">Button</Button>
+  </InputGroup>
 </Example>
 
 ## API
 
-### CxInputGroup
+### InputGroup
 
-<PropTable component="CxInputGroup" />
-### CxInputAddon
+<PropTable component="InputGroup" />
+### InputGroup.Addon
 
-<PropTable component="CxInputAddon" />
+<PropTable component="InputAddon" />

@@ -1,0 +1,116 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/image/Image.tsx",
+  "description": "",
+  "displayName": "Image",
+  "methods": [],
+  "props": {
+    "align": {
+      "defaultValue": null,
+      "description": "Set the horizontal aligment.",
+      "name": "align",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/image/Image.tsx",
+        "name": "ImageProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/image/Image.tsx",
+          "name": "ImageProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"start\" | \"center\" | \"end\"",
+        "value": [
+          {
+            "value": "\"start\""
+          },
+          {
+            "value": "\"center\""
+          },
+          {
+            "value": "\"end\""
+          }
+        ]
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/image/Image.tsx",
+        "name": "ImageProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/image/Image.tsx",
+          "name": "ImageProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "fluid": {
+      "defaultValue": null,
+      "description": "Make image responsive.",
+      "name": "fluid",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/image/Image.tsx",
+        "name": "ImageProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/image/Image.tsx",
+          "name": "ImageProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "rounded": {
+      "defaultValue": null,
+      "description": "Make image rounded.",
+      "name": "rounded",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/image/Image.tsx",
+        "name": "ImageProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/image/Image.tsx",
+          "name": "ImageProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "thumbnail": {
+      "defaultValue": null,
+      "description": "Give an image a rounded 1px border appearance.",
+      "name": "thumbnail",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/image/Image.tsx",
+        "name": "ImageProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/image/Image.tsx",
+          "name": "ImageProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    }
+  }
+}

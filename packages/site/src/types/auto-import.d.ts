@@ -12,10 +12,8 @@ export declare global {
   export const Callout: typeof import('@chassis-ui/docs/shortcodes/Callout.astro').default
   export const Code: typeof import('@chassis-ui/docs/shortcodes/Code.astro').default
   export const DeprecatedIn: typeof import('@chassis-ui/docs/shortcodes/DeprecatedIn.astro').default
-  export const Icon: typeof import('@chassis-ui/docs/shortcodes/Icon.astro').default
   export const InFigma: typeof import('@chassis-ui/docs/shortcodes/InFigma.astro').default
   export const JsDocs: typeof import('@chassis-ui/docs/shortcodes/JsDocs.astro').default
-  export const Placeholder: typeof import('@chassis-ui/docs/shortcodes/Placeholder.astro').default
   export const ResizableExample: typeof import('@chassis-ui/docs/shortcodes/ResizableExample.astro').default
   export const ScssDocs: typeof import('@chassis-ui/docs/shortcodes/ScssDocs.astro').default
   export const ScssDocsSimple: typeof import('@chassis-ui/docs/shortcodes/ScssDocsSimple.astro').default

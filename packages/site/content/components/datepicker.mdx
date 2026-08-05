@@ -13,11 +13,11 @@ import { MultiSelectExample } from '../../src/examples/datepicker/MultiSelectExa
 import { MultiMonthExample } from '../../src/examples/datepicker/MultiMonthExample.tsx'
 import { ControlledOpenExample } from '../../src/examples/datepicker/ControlledOpenExample.tsx'
 
-import { CxDatePicker } from '@chassis-ui/react'
+import { DatePicker } from '@chassis-ui/react'
 
 ## Overview
 
-`CxDatePicker` combines an individually-editable segmented date field (day/month/year, each a separate keyboard-navigable unit) with a calendar popover — type a date directly or pick one from the grid. Both stay in sync with a single selected value. The popover renders [`CxCalendar`](/forms/calendar), which is also available on its own wherever an inline, non-popover calendar is needed.
+`DatePicker` combines an individually-editable segmented date field (day/month/year, each a separate keyboard-navigable unit) with a calendar popover — type a date directly or pick one from the grid. Both stay in sync with a single selected value. The popover renders [`Calendar`](/forms/calendar), which is also available on its own wherever an inline, non-popover calendar is needed.
 
 <Example>
   <BasicExample client:load />
@@ -25,7 +25,7 @@ import { CxDatePicker } from '@chassis-ui/react'
 
 ## As a form field
 
-Pass `label`/`help` to wrap the date picker in a `.form-field` with an associated `CxFormLabel` and `CxFormHelp`. Pass `name` to have `CxDatePicker` create and manage a hidden `<input>` for native form submission — its value stays in sync with the selection, formatted as an ISO 8601 date string (`2026-07-24`).
+Pass `label`/`help` to wrap the date picker in a `.form-field` with an associated `FormLabel` and `FormHelp`. Pass `name` to have `DatePicker` create and manage a hidden `<input>` for native form submission — its value stays in sync with the selection, formatted as an ISO 8601 date string (`2026-07-24`).
 
 <Example>
   <FormFieldExample client:load />
@@ -41,7 +41,7 @@ Restrict the selectable range with `minValue`/`maxValue`. Dates outside the rang
 
 ## Locale & calendar system
 
-`CxDatePicker` reads locale from React Aria's `I18nProvider` (or the browser's locale if none is set). Segment order, weekday names, and the calendar system itself all follow the active locale — this example uses `ar-SA`, which renders right-to-left and uses the Umm al-Qura calendar instead of Gregorian.
+`DatePicker` reads locale from React Aria's `I18nProvider` (or the browser's locale if none is set). Segment order, weekday names, and the calendar system itself all follow the active locale — this example uses `ar-SA`, which renders right-to-left and uses the Umm al-Qura calendar instead of Gregorian.
 
 <Example>
   <LocaleExample client:load />
@@ -55,11 +55,11 @@ For data-driven cases, pass `unavailableDates` instead — a plain array of ISO 
 
 ## Weekend styling
 
-Saturday/Sunday (or whichever days the active locale considers the weekend) are shown muted in the calendar popover automatically — inherited from [`CxCalendar`](/forms/calendar), no prop required.
+Saturday/Sunday (or whichever days the active locale considers the weekend) are shown muted in the calendar popover automatically — inherited from [`Calendar`](/forms/calendar), no prop required.
 
 ## First day of week
 
-The calendar popover's week starts on Monday by default, regardless of the active locale. Pass `firstDayOfWeek` to override it, same as [`CxCalendar`](/forms/calendar).
+The calendar popover's week starts on Monday by default, regardless of the active locale. Pass `firstDayOfWeek` to override it, same as [`Calendar`](/forms/calendar).
 
 ## Multiple dates
 
@@ -71,7 +71,7 @@ Pass `selectionMode="multiple"` to select any number of independent dates instea
 
 ## Multiple months
 
-Pass `visibleMonths` to show more than one month side by side in the calendar popover — independent of `selectionMode`, same as on [`CxCalendar`](/forms/calendar) itself.
+Pass `visibleMonths` to show more than one month side by side in the calendar popover — independent of `selectionMode`, same as on [`Calendar`](/forms/calendar) itself.
 
 <Example>
   <MultiMonthExample client:load />
@@ -89,15 +89,15 @@ The popover manages its own open state by default. Pass `isOpen` (with `onOpenCh
 
 The strong-fit case for React Aria's date picker hooks is a single editable date field. A few things are deliberately out of scope for this pass:
 
-- **Date ranges** — for a start/end range, see [`CxDateRangePicker`](/forms/date-range-picker), built on the separate `useDateRangePickerState`/`useDateRangePicker` hook pair.
+- **Date ranges** — for a start/end range, see [`DateRangePicker`](/forms/date-range-picker), built on the separate `useDateRangePickerState`/`useDateRangePicker` hook pair.
 - **Time selection** — the field is date-only (`granularity="day"`); no time segments are rendered.
 
 ## Styling
 
-Unlike most Chassis React components, `CxDatePicker`'s calendar grid isn't styled by `@chassis-ui/css` — chassis-css's own datepicker styling is built entirely around [Vanilla Calendar Pro](https://vanilla-calendar.pro/)'s specific DOM output, which React Aria's calendar hooks don't produce. The grid itself is styled by [`CxCalendar`](/forms/calendar)'s own scoped CSS (built on `@chassis-ui/tokens`' public design tokens, so it still matches the current theme and light/dark mode), imported transitively along with `CxCalendar` — no separate stylesheet to add. `CxDatePicker` adds its own scoped CSS on top for the field and popover shell. The field and toggle button, in turn, reuse chassis-css's existing `.form-input`/`.input-adorn`/`.ghost-input` classes as-is.
+Unlike most Chassis React components, `DatePicker`'s calendar grid isn't styled by `@chassis-ui/css` — chassis-css's own datepicker styling is built entirely around [Vanilla Calendar Pro](https://vanilla-calendar.pro/)'s specific DOM output, which React Aria's calendar hooks don't produce. The grid itself is styled by [`Calendar`](/forms/calendar)'s own scoped CSS (built on `@chassis-ui/tokens`' public design tokens, so it still matches the current theme and light/dark mode), imported transitively along with `Calendar` — no separate stylesheet to add. `DatePicker` adds its own scoped CSS on top for the field and popover shell. The field and toggle button, in turn, reuse chassis-css's existing `.form-input`/`.input-adorn`/`.ghost-input` classes as-is.
 
 ## API
 
-### CxDatePicker
+### DatePicker
 
-<PropTable component="CxDatePicker" />
+<PropTable component="DatePicker" />

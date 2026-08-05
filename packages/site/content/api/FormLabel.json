@@ -1,0 +1,47 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/form/FormLabel.tsx",
+  "description": "",
+  "displayName": "FormLabel",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/FormLabel.tsx",
+        "name": "FormLabelProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/FormLabel.tsx",
+          "name": "FormLabelProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "customClassName": {
+      "defaultValue": null,
+      "description": "A string of all className you want to be applied to the component, and override standard className value.",
+      "name": "customClassName",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/FormLabel.tsx",
+        "name": "FormLabelProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/FormLabel.tsx",
+          "name": "FormLabelProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    }
+  }
+}

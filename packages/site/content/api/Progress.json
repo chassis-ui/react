@@ -1,0 +1,205 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/progress/Progress.tsx",
+  "description": "",
+  "displayName": "Progress",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/progress/Progress.tsx",
+        "name": "ProgressProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/progress/Progress.tsx",
+          "name": "ProgressProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "height": {
+      "defaultValue": null,
+      "description": "Sets the height of the component. If you set that value the inner `<ProgressBar>` will automatically resize accordingly.",
+      "name": "height",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/progress/Progress.tsx",
+        "name": "ProgressProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/progress/Progress.tsx",
+          "name": "ProgressProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number"
+      }
+    },
+    "thin": {
+      "defaultValue": null,
+      "description": "Makes progress bar thinner.",
+      "name": "thin",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/progress/Progress.tsx",
+        "name": "ProgressProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/progress/Progress.tsx",
+          "name": "ProgressProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "value": {
+      "defaultValue": {
+        "value": 0
+      },
+      "description": "The percent to progress the ProgressBar (out of 100).",
+      "name": "value",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/progress/Progress.tsx",
+        "name": "ProgressProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/progress/Progress.tsx",
+          "name": "ProgressProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number"
+      }
+    },
+    "white": {
+      "defaultValue": null,
+      "description": "Change the default context to white.",
+      "name": "white",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/progress/Progress.tsx",
+        "name": "ProgressProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/progress/Progress.tsx",
+          "name": "ProgressProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "animated": {
+      "defaultValue": null,
+      "description": "Use to animate the stripes right to left via CSS3 animations.",
+      "name": "animated",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/progress/ProgressBar.tsx",
+        "name": "ProgressBarProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/progress/ProgressBar.tsx",
+          "name": "ProgressBarProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "color": {
+      "defaultValue": null,
+      "description": "Sets the color of the component to one of Chassis context colors.",
+      "name": "color",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/progress/ProgressBar.tsx",
+        "name": "ProgressBarProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/progress/ProgressBar.tsx",
+          "name": "ProgressBarProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "ContextColor",
+        "value": [
+          {
+            "value": "\"white\""
+          },
+          {
+            "value": "\"default\""
+          },
+          {
+            "value": "\"alternate\""
+          },
+          {
+            "value": "\"primary\""
+          },
+          {
+            "value": "\"secondary\""
+          },
+          {
+            "value": "\"neutral\""
+          },
+          {
+            "value": "\"success\""
+          },
+          {
+            "value": "\"danger\""
+          },
+          {
+            "value": "\"warning\""
+          },
+          {
+            "value": "\"info\""
+          },
+          {
+            "value": "\"black\""
+          }
+        ]
+      }
+    },
+    "variant": {
+      "defaultValue": null,
+      "description": "Set the progress bar variant to optional striped.",
+      "name": "variant",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/progress/ProgressBar.tsx",
+        "name": "ProgressBarProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/progress/ProgressBar.tsx",
+          "name": "ProgressBarProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"striped\"",
+        "value": [
+          {
+            "value": "\"striped\""
+          }
+        ]
+      }
+    }
+  }
+}

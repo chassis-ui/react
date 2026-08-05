@@ -5,7 +5,7 @@ framework (a separate repo, `@chassis-ui/css`). This repo hosts the component li
 the docs site that documents it. Both are pnpm workspace packages under `packages/`:
 
 - **[`packages/react`](packages/react/AGENTS.md)** — `@chassis-ui/react`, the published component
-  library (`Cx*` components). This is the actual product; almost all engineering work happens here.
+  library. This is the actual product; almost all engineering work happens here.
 - **[`packages/site`](packages/site/AGENTS.md)** — `chassis-react-site`, the Astro docs site
   published at chassis-ui.com/react. Consumes `@chassis-ui/react` via `workspace:*` and renders
   live component examples alongside prose docs.

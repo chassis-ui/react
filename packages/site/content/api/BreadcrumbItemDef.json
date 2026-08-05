@@ -1,0 +1,27 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/breadcrumb/Breadcrumb.tsx",
+  "description": "",
+  "displayName": "BreadcrumbItemDef",
+  "methods": [],
+  "props": {
+    "label": {
+      "name": "label",
+      "required": true,
+      "description": "Label for the breadcrumb item.",
+      "defaultValue": null,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "href": {
+      "name": "href",
+      "required": false,
+      "description": "URL for the breadcrumb link. The last item in the array is always rendered as active (no link needed).",
+      "defaultValue": null,
+      "type": {
+        "name": "string"
+      }
+    }
+  }
+}

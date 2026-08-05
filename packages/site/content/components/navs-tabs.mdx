@@ -13,20 +13,14 @@ import { PillsWithMenuExample } from '../../src/examples/navs-tabs/PillsWithMenu
 
 import { useState } from 'react'
 
-import {
-  CxNav,
-  CxNavItem,
-  CxNavLink,
-  CxTabContent,
-  CxTabPane,
-} from '@chassis-ui/react'
+import { Nav, TabContent, TabPane } from '@chassis-ui/react'
 
 ## Data-driven usage
 
-Pass an `items` array to `<CxNav>` to render navigation from data. Each item accepts `label`, `href`, `active`, and `disabled`.
+Pass an `items` array to `<Nav>` to render navigation from data. Each item accepts `label`, `href`, `active`, and `disabled`.
 
 <Example>
-  <CxNav
+  <Nav
     items={[
       { label: 'Home', href: '#', active: true },
       { label: 'Features', href: '#' },
@@ -39,7 +33,7 @@ Pass an `items` array to `<CxNav>` to render navigation from data. Each item acc
 With tabs or pills variant:
 
 <Example>
-  <CxNav
+  <Nav
     variant="tabs"
     items={[
       { label: 'Active', href: '#', active: true },
@@ -51,7 +45,7 @@ With tabs or pills variant:
 </Example>
 
 <Example>
-  <CxNav
+  <Nav
     variant="pills"
     items={[
       { label: 'Active', href: '#', active: true },
@@ -66,47 +60,47 @@ With tabs or pills variant:
 
 Navigation available in Chassis share general markup and styles, from the base `.nav` class to the active and disabled states. Swap modifier classes to switch between each style.
 
-The base `<CxNav>` component is built with flexbox and provide a strong foundation for building all types of navigation components. It includes some style overrides (for working with lists), some link padding for larger hit areas, and basic disabled styling.
+The base `<Nav>` component is built with flexbox and provide a strong foundation for building all types of navigation components. It includes some style overrides (for working with lists), some link padding for larger hit areas, and basic disabled styling.
 
 <Example>
-  <CxNav>
-    <CxNavItem>
-      <CxNavLink href="#" active>
+  <Nav>
+    <Nav.Item>
+      <Nav.Link href="#" active>
         Active
-      </CxNavLink>
-    </CxNavItem>
-    <CxNavItem>
-      <CxNavLink href="#">Link</CxNavLink>
-    </CxNavItem>
-    <CxNavItem>
-      <CxNavLink href="#">Link</CxNavLink>
-    </CxNavItem>
-    <CxNavItem>
-      <CxNavLink href="#" disabled>
+      </Nav.Link>
+    </Nav.Item>
+    <Nav.Item>
+      <Nav.Link href="#">Link</Nav.Link>
+    </Nav.Item>
+    <Nav.Item>
+      <Nav.Link href="#">Link</Nav.Link>
+    </Nav.Item>
+    <Nav.Item>
+      <Nav.Link href="#" disabled>
         Disabled
-      </CxNavLink>
-    </CxNavItem>
-  </CxNav>
+      </Nav.Link>
+    </Nav.Item>
+  </Nav>
 </Example>
 
 Classes are used throughout, so your markup can be super flexible. Use `<ul>`s like above, `<ol>` if the order of your items is important, or roll your own with a `<nav>` element. Because the .nav uses display: flex, the nav links behave the same as nav items would, but without the extra markup.
 
 <Example>
-  <CxNav component="nav">
-    <CxNavLink href="#" active>
+  <Nav component="nav">
+    <Nav.Link href="#" active>
       Active
-    </CxNavLink>
-    <CxNavLink href="#">Link</CxNavLink>
-    <CxNavLink href="#">Link</CxNavLink>
-    <CxNavLink href="#" disabled>
+    </Nav.Link>
+    <Nav.Link href="#">Link</Nav.Link>
+    <Nav.Link href="#">Link</Nav.Link>
+    <Nav.Link href="#" disabled>
       Disabled
-    </CxNavLink>
-  </CxNav>
+    </Nav.Link>
+  </Nav>
 </Example>
 
 ## Available styles
 
-Change the style of `<CxNav>`'s component with modifiers and utilities. Mix and match as needed, or build your own.
+Change the style of `<Nav>`'s component with modifiers and utilities. Mix and match as needed, or build your own.
 
 ### Horizontal alignment
 
@@ -115,47 +109,47 @@ Change the horizontal alignment of your nav with flexbox utilities. By default, 
 Centered with `.justify-content-center`:
 
 <Example>
-  <CxNav className="justify-content-center">
-    <CxNavItem>
-      <CxNavLink href="#" active>
+  <Nav className="justify-content-center">
+    <Nav.Item>
+      <Nav.Link href="#" active>
         Active
-      </CxNavLink>
-    </CxNavItem>
-    <CxNavItem>
-      <CxNavLink href="#">Link</CxNavLink>
-    </CxNavItem>
-    <CxNavItem>
-      <CxNavLink href="#">Link</CxNavLink>
-    </CxNavItem>
-    <CxNavItem>
-      <CxNavLink href="#" disabled>
+      </Nav.Link>
+    </Nav.Item>
+    <Nav.Item>
+      <Nav.Link href="#">Link</Nav.Link>
+    </Nav.Item>
+    <Nav.Item>
+      <Nav.Link href="#">Link</Nav.Link>
+    </Nav.Item>
+    <Nav.Item>
+      <Nav.Link href="#" disabled>
         Disabled
-      </CxNavLink>
-    </CxNavItem>
-  </CxNav>
+      </Nav.Link>
+    </Nav.Item>
+  </Nav>
 </Example>
 
 Right-aligned with `.justify-content-end`:
 
 <Example>
-  <CxNav className="justify-content-end">
-    <CxNavItem>
-      <CxNavLink href="#" active>
+  <Nav className="justify-content-end">
+    <Nav.Item>
+      <Nav.Link href="#" active>
         Active
-      </CxNavLink>
-    </CxNavItem>
-    <CxNavItem>
-      <CxNavLink href="#">Link</CxNavLink>
-    </CxNavItem>
-    <CxNavItem>
-      <CxNavLink href="#">Link</CxNavLink>
-    </CxNavItem>
-    <CxNavItem>
-      <CxNavLink href="#" disabled>
+      </Nav.Link>
+    </Nav.Item>
+    <Nav.Item>
+      <Nav.Link href="#">Link</Nav.Link>
+    </Nav.Item>
+    <Nav.Item>
+      <Nav.Link href="#">Link</Nav.Link>
+    </Nav.Item>
+    <Nav.Item>
+      <Nav.Link href="#" disabled>
         Disabled
-      </CxNavLink>
-    </CxNavItem>
-  </CxNav>
+      </Nav.Link>
+    </Nav.Item>
+  </Nav>
 </Example>
 
 ### Vertical
@@ -163,24 +157,24 @@ Right-aligned with `.justify-content-end`:
 Stack your navigation by changing the flex item direction with the `.flex-column` utility. Need to stack them on some viewports but not others? Use the responsive versions (e.g., `.small:flex-column`).
 
 <Example>
-  <CxNav className="flex-column">
-    <CxNavItem>
-      <CxNavLink href="#" active>
+  <Nav className="flex-column">
+    <Nav.Item>
+      <Nav.Link href="#" active>
         Active
-      </CxNavLink>
-    </CxNavItem>
-    <CxNavItem>
-      <CxNavLink href="#">Link</CxNavLink>
-    </CxNavItem>
-    <CxNavItem>
-      <CxNavLink href="#">Link</CxNavLink>
-    </CxNavItem>
-    <CxNavItem>
-      <CxNavLink href="#" disabled>
+      </Nav.Link>
+    </Nav.Item>
+    <Nav.Item>
+      <Nav.Link href="#">Link</Nav.Link>
+    </Nav.Item>
+    <Nav.Item>
+      <Nav.Link href="#">Link</Nav.Link>
+    </Nav.Item>
+    <Nav.Item>
+      <Nav.Link href="#" disabled>
         Disabled
-      </CxNavLink>
-    </CxNavItem>
-  </CxNav>
+      </Nav.Link>
+    </Nav.Item>
+  </Nav>
 </Example>
 
 ### Tabs
@@ -188,24 +182,24 @@ Stack your navigation by changing the flex item direction with the `.flex-column
 Takes the basic nav from above and adds the `variant="tabs"` class to generate a tabbed interface
 
 <Example>
-  <CxNav variant="tabs">
-    <CxNavItem>
-      <CxNavLink href="#" active>
+  <Nav variant="tabs">
+    <Nav.Item>
+      <Nav.Link href="#" active>
         Active
-      </CxNavLink>
-    </CxNavItem>
-    <CxNavItem>
-      <CxNavLink href="#">Link</CxNavLink>
-    </CxNavItem>
-    <CxNavItem>
-      <CxNavLink href="#">Link</CxNavLink>
-    </CxNavItem>
-    <CxNavItem>
-      <CxNavLink href="#" disabled>
+      </Nav.Link>
+    </Nav.Item>
+    <Nav.Item>
+      <Nav.Link href="#">Link</Nav.Link>
+    </Nav.Item>
+    <Nav.Item>
+      <Nav.Link href="#">Link</Nav.Link>
+    </Nav.Item>
+    <Nav.Item>
+      <Nav.Link href="#" disabled>
         Disabled
-      </CxNavLink>
-    </CxNavItem>
-  </CxNav>
+      </Nav.Link>
+    </Nav.Item>
+  </Nav>
 </Example>
 
 ### Pills
@@ -213,72 +207,72 @@ Takes the basic nav from above and adds the `variant="tabs"` class to generate a
 Take that same HTML, but use `variant="pills"` instead:
 
 <Example>
-  <CxNav variant="pills">
-    <CxNavItem>
-      <CxNavLink href="#" active>
+  <Nav variant="pills">
+    <Nav.Item>
+      <Nav.Link href="#" active>
         Active
-      </CxNavLink>
-    </CxNavItem>
-    <CxNavItem>
-      <CxNavLink href="#">Link</CxNavLink>
-    </CxNavItem>
-    <CxNavItem>
-      <CxNavLink href="#">Link</CxNavLink>
-    </CxNavItem>
-    <CxNavItem>
-      <CxNavLink href="#" disabled>
+      </Nav.Link>
+    </Nav.Item>
+    <Nav.Item>
+      <Nav.Link href="#">Link</Nav.Link>
+    </Nav.Item>
+    <Nav.Item>
+      <Nav.Link href="#">Link</Nav.Link>
+    </Nav.Item>
+    <Nav.Item>
+      <Nav.Link href="#" disabled>
         Disabled
-      </CxNavLink>
-    </CxNavItem>
-  </CxNav>
+      </Nav.Link>
+    </Nav.Item>
+  </Nav>
 </Example>
 
 ### Fill and justify
 
-Force your `<CxNav>`'s contents to extend the full available width one of two modifier classes. To proportionately fill all available space with your `.nav-item`s, use `layout="fill"`. Notice that all horizontal space is occupied, but not every nav item has the same width.
+Force your `<Nav>`'s contents to extend the full available width one of two modifier classes. To proportionately fill all available space with your `.nav-item`s, use `layout="fill"`. Notice that all horizontal space is occupied, but not every nav item has the same width.
 
 <Example>
-  <CxNav variant="pills" layout="fill">
-    <CxNavItem>
-      <CxNavLink href="#" active>
+  <Nav variant="pills" layout="fill">
+    <Nav.Item>
+      <Nav.Link href="#" active>
         Active
-      </CxNavLink>
-    </CxNavItem>
-    <CxNavItem>
-      <CxNavLink href="#">Link</CxNavLink>
-    </CxNavItem>
-    <CxNavItem>
-      <CxNavLink href="#">Link</CxNavLink>
-    </CxNavItem>
-    <CxNavItem>
-      <CxNavLink href="#" disabled>
+      </Nav.Link>
+    </Nav.Item>
+    <Nav.Item>
+      <Nav.Link href="#">Link</Nav.Link>
+    </Nav.Item>
+    <Nav.Item>
+      <Nav.Link href="#">Link</Nav.Link>
+    </Nav.Item>
+    <Nav.Item>
+      <Nav.Link href="#" disabled>
         Disabled
-      </CxNavLink>
-    </CxNavItem>
-  </CxNav>
+      </Nav.Link>
+    </Nav.Item>
+  </Nav>
 </Example>
 
 For equal-width elements, use `layout="justified"`. All horizontal space will be occupied by nav links, but unlike the .nav-fill above, every nav item will be the same width.
 
 <Example>
-  <CxNav variant="pills" layout="justified">
-    <CxNavItem>
-      <CxNavLink href="#" active>
+  <Nav variant="pills" layout="justified">
+    <Nav.Item>
+      <Nav.Link href="#" active>
         Active
-      </CxNavLink>
-    </CxNavItem>
-    <CxNavItem>
-      <CxNavLink href="#">Link</CxNavLink>
-    </CxNavItem>
-    <CxNavItem>
-      <CxNavLink href="#">Link</CxNavLink>
-    </CxNavItem>
-    <CxNavItem>
-      <CxNavLink href="#" disabled>
+      </Nav.Link>
+    </Nav.Item>
+    <Nav.Item>
+      <Nav.Link href="#">Link</Nav.Link>
+    </Nav.Item>
+    <Nav.Item>
+      <Nav.Link href="#">Link</Nav.Link>
+    </Nav.Item>
+    <Nav.Item>
+      <Nav.Link href="#" disabled>
         Disabled
-      </CxNavLink>
-    </CxNavItem>
-  </CxNav>
+      </Nav.Link>
+    </Nav.Item>
+  </Nav>
 </Example>
 
 ## Working with flex utilities
@@ -286,16 +280,16 @@ For equal-width elements, use `layout="justified"`. All horizontal space will be
 If you need responsive nav variations, consider using a series of flexbox utilities. While more verbose, these utilities offer greater customization across responsive breakpoints. In the example below, our nav will be stacked on the lowest breakpoint, then adapt to a horizontal layout that fills the available width starting from the small breakpoint.
 
 <Example>
-  <CxNav component="nav" variant="pills" className="flex-column small:flex-row">
-    <CxNavLink href="#" active>
+  <Nav component="nav" variant="pills" className="flex-column small:flex-row">
+    <Nav.Link href="#" active>
       Active
-    </CxNavLink>
-    <CxNavLink href="#">Link</CxNavLink>
-    <CxNavLink href="#">Link</CxNavLink>
-    <CxNavLink href="#" disabled>
+    </Nav.Link>
+    <Nav.Link href="#">Link</Nav.Link>
+    <Nav.Link href="#">Link</Nav.Link>
+    <Nav.Link href="#" disabled>
       Disabled
-    </CxNavLink>
-  </CxNav>
+    </Nav.Link>
+  </Nav>
 </Example>
 
 ## Regarding accessibility
@@ -340,23 +334,23 @@ The tabs also works with pills.
 
 ## API
 
-### CxNav
+### Nav
 
-<PropTable component="CxNav" />
-### CxNavItemDef
+<PropTable component="Nav" />
+### NavItemDef
 
-Shape of each entry in `CxNav`'s `items` array (data-driven rendering).
+Shape of each entry in `Nav`'s `items` array (data-driven rendering).
 
-<PropTable component="CxNavItemDef" />
-### CxNavItem
+<PropTable component="NavItemDef" />
+### Nav.Item
 
-<PropTable component="CxNavItem" />
-### CxNavLink
+<PropTable component="NavItem" />
+### Nav.Link
 
-<PropTable component="CxNavLink" />
-### CxTabContent
+<PropTable component="NavLink" />
+### TabContent
 
-<PropTable component="CxTabContent" />
-### CxTabPane
+<PropTable component="TabContent" />
+### TabPane
 
-<PropTable component="CxTabPane" />
+<PropTable component="TabPane" />

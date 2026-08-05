@@ -1,0 +1,66 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/breadcrumb/BreadcrumbItem.tsx",
+  "description": "",
+  "displayName": "BreadcrumbItem",
+  "methods": [],
+  "props": {
+    "active": {
+      "defaultValue": null,
+      "description": "Toggle the active state for the component.",
+      "name": "active",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/breadcrumb/BreadcrumbItem.tsx",
+        "name": "BreadcrumbItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/breadcrumb/BreadcrumbItem.tsx",
+          "name": "BreadcrumbItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/breadcrumb/BreadcrumbItem.tsx",
+        "name": "BreadcrumbItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/breadcrumb/BreadcrumbItem.tsx",
+          "name": "BreadcrumbItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "href": {
+      "defaultValue": null,
+      "description": "The `href` attribute for the inner `<Link>` component.",
+      "name": "href",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/breadcrumb/BreadcrumbItem.tsx",
+        "name": "BreadcrumbItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/breadcrumb/BreadcrumbItem.tsx",
+          "name": "BreadcrumbItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    }
+  }
+}

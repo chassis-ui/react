@@ -6,7 +6,7 @@ toc: true
 ---
 
 
-import { CxBadge, CxButton } from '@chassis-ui/react'
+import { Badge, Button } from '@chassis-ui/react'
 
 ## About
 
@@ -14,23 +14,23 @@ Badges are lightweight components used to add counts, labels, or status indicato
 
 ## Basic usage
 
-A `<CxBadge>` scales to suit the size of the parent element by using relative font sizing and `em` units.
+A `<Badge>` scales to suit the size of the parent element by using relative font sizing and `em` units.
 
 <Example>
-  <h1>Example heading <CxBadge color="secondary">New</CxBadge></h1>
-  <h2>Example heading <CxBadge color="secondary">New</CxBadge></h2>
-  <h3>Example heading <CxBadge color="secondary">New</CxBadge></h3>
-  <h4>Example heading <CxBadge color="secondary">New</CxBadge></h4>
-  <h5>Example heading <CxBadge color="secondary">New</CxBadge></h5>
-  <h6>Example heading <CxBadge color="secondary">New</CxBadge></h6>
+  <h1>Example heading <Badge color="secondary">New</Badge></h1>
+  <h2>Example heading <Badge color="secondary">New</Badge></h2>
+  <h3>Example heading <Badge color="secondary">New</Badge></h3>
+  <h4>Example heading <Badge color="secondary">New</Badge></h4>
+  <h5>Example heading <Badge color="secondary">New</Badge></h5>
+  <h6>Example heading <Badge color="secondary">New</Badge></h6>
 </Example>
 
 Badges can be used as part of links or buttons to provide a counter.
 
 <Example>
-  <CxButton color="primary">
-    Notifications <CxBadge color="secondary">4</CxBadge>
-  </CxButton>
+  <Button color="primary">
+    Notifications <Badge color="secondary">4</Badge>
+  </Button>
 </Example>
 
 <Callout context="info">
@@ -40,9 +40,9 @@ Badges can be used as part of links or buttons to provide a counter.
 </Callout>
 
 <Example>
-  <CxButton color="primary">
-    Profile <CxBadge color="secondary" role="status" aria-label="unread messages">9</CxBadge>
-  </CxButton>
+  <Button color="primary">
+    Profile <Badge color="secondary" role="status" aria-label="unread messages">9</Badge>
+  </Button>
 </Example>
 
 ## Color variants
@@ -50,17 +50,17 @@ Badges can be used as part of links or buttons to provide a counter.
 Set the `color` prop to one of the Chassis themed colors to apply the appropriate background and text colors.
 
 <Example>
-  <CxBadge color="default">Default</CxBadge>
-  <CxBadge color="alternate">Alternate</CxBadge>
-  <CxBadge color="primary">Primary</CxBadge>
-  <CxBadge color="secondary">Secondary</CxBadge>
-  <CxBadge color="neutral">Neutral</CxBadge>
-  <CxBadge color="danger">Danger</CxBadge>
-  <CxBadge color="success">Success</CxBadge>
-  <CxBadge color="warning">Warning</CxBadge>
-  <CxBadge color="info">Info</CxBadge>
-  <CxBadge color="black">Black</CxBadge>
-  <CxBadge color="white">White</CxBadge>
+  <Badge color="default">Default</Badge>
+  <Badge color="alternate">Alternate</Badge>
+  <Badge color="primary">Primary</Badge>
+  <Badge color="secondary">Secondary</Badge>
+  <Badge color="neutral">Neutral</Badge>
+  <Badge color="danger">Danger</Badge>
+  <Badge color="success">Success</Badge>
+  <Badge color="warning">Warning</Badge>
+  <Badge color="info">Info</Badge>
+  <Badge color="black">Black</Badge>
+  <Badge color="white">White</Badge>
 </Example>
 
 <Callout context="info">
@@ -74,13 +74,13 @@ Set the `color` prop to one of the Chassis themed colors to apply the appropriat
 Set `variant="outline"` to create badges with a transparent background, colored border and text.
 
 <Example>
-  <CxBadge color="default" variant="outline">Default</CxBadge>
-  <CxBadge color="primary" variant="outline">Primary</CxBadge>
-  <CxBadge color="secondary" variant="outline">Secondary</CxBadge>
-  <CxBadge color="danger" variant="outline">Danger</CxBadge>
-  <CxBadge color="success" variant="outline">Success</CxBadge>
-  <CxBadge color="warning" variant="outline">Warning</CxBadge>
-  <CxBadge color="info" variant="outline">Info</CxBadge>
+  <Badge color="default" variant="outline">Default</Badge>
+  <Badge color="primary" variant="outline">Primary</Badge>
+  <Badge color="secondary" variant="outline">Secondary</Badge>
+  <Badge color="danger" variant="outline">Danger</Badge>
+  <Badge color="success" variant="outline">Success</Badge>
+  <Badge color="warning" variant="outline">Warning</Badge>
+  <Badge color="info" variant="outline">Info</Badge>
 </Example>
 
 ### Smooth style
@@ -88,13 +88,13 @@ Set `variant="outline"` to create badges with a transparent background, colored 
 Set `variant="smooth"` to create badges with a subdued background color and matching text color, for a softer, more subtle appearance.
 
 <Example>
-  <CxBadge color="default" variant="smooth">Default</CxBadge>
-  <CxBadge color="primary" variant="smooth">Primary</CxBadge>
-  <CxBadge color="secondary" variant="smooth">Secondary</CxBadge>
-  <CxBadge color="danger" variant="smooth">Danger</CxBadge>
-  <CxBadge color="success" variant="smooth">Success</CxBadge>
-  <CxBadge color="warning" variant="smooth">Warning</CxBadge>
-  <CxBadge color="info" variant="smooth">Info</CxBadge>
+  <Badge color="default" variant="smooth">Default</Badge>
+  <Badge color="primary" variant="smooth">Primary</Badge>
+  <Badge color="secondary" variant="smooth">Secondary</Badge>
+  <Badge color="danger" variant="smooth">Danger</Badge>
+  <Badge color="success" variant="smooth">Success</Badge>
+  <Badge color="warning" variant="smooth">Warning</Badge>
+  <Badge color="info" variant="smooth">Info</Badge>
 </Example>
 
 ## Size variants
@@ -102,12 +102,12 @@ Set `variant="smooth"` to create badges with a subdued background color and matc
 Set `size="small"` or `size="large"` to adjust the size of the badge for compact spaces or greater emphasis. Combine with `circle` for round counters.
 
 <Example>
-  <CxBadge color="primary" size="small">Small</CxBadge>
-  <CxBadge color="primary">Medium</CxBadge>
-  <CxBadge color="primary" size="large">Large</CxBadge>
-  <CxBadge color="primary" size="small" circle>2</CxBadge>
-  <CxBadge color="primary" circle>2</CxBadge>
-  <CxBadge color="primary" size="large" circle>2</CxBadge>
+  <Badge color="primary" size="small">Small</Badge>
+  <Badge color="primary">Medium</Badge>
+  <Badge color="primary" size="large">Large</Badge>
+  <Badge color="primary" size="small" circle>2</Badge>
+  <Badge color="primary" circle>2</Badge>
+  <Badge color="primary" size="large" circle>2</Badge>
 </Example>
 
 ## Use cases
@@ -117,9 +117,9 @@ Set `size="small"` or `size="large"` to adjust the size of the badge for compact
 Badges work well inside buttons and other components to indicate counts, status, or other supplementary information.
 
 <Example>
-  <CxButton color="primary">
-    Notifications <CxBadge color="secondary" circle role="status" aria-label="new notifications">2</CxBadge>
-  </CxButton>
+  <Button color="primary">
+    Notifications <Badge color="secondary" circle role="status" aria-label="new notifications">2</Badge>
+  </Button>
 </Example>
 
 ### Positioned badges
@@ -127,31 +127,31 @@ Badges work well inside buttons and other components to indicate counts, status,
 Set the `position` prop to place a badge in one of the corners of a link or button. The parent needs `position-relative` (or another positioning context) for this to work.
 
 <Example>
-  <CxButton color="primary" className="position-relative">
+  <Button color="primary" className="position-relative">
     Profile
-    <CxBadge color="danger" position="top-start" circle>
+    <Badge color="danger" position="top-start" circle>
       99+ <span className="visually-hidden">unread messages</span>
-    </CxBadge>
-  </CxButton>
-  <CxButton color="primary" className="position-relative ms-xsmall">
+    </Badge>
+  </Button>
+  <Button color="primary" className="position-relative ms-xsmall">
     Profile
-    <CxBadge color="danger" position="top-end" circle>
+    <Badge color="danger" position="top-end" circle>
       99+ <span className="visually-hidden">unread messages</span>
-    </CxBadge>
-  </CxButton>
+    </Badge>
+  </Button>
   <br/>
-  <CxButton color="primary" className="position-relative">
+  <Button color="primary" className="position-relative">
     Profile
-    <CxBadge color="danger" position="bottom-start" circle>
+    <Badge color="danger" position="bottom-start" circle>
       99+ <span className="visually-hidden">unread messages</span>
-    </CxBadge>
-  </CxButton>
-  <CxButton color="primary" className="position-relative ms-xsmall">
+    </Badge>
+  </Button>
+  <Button color="primary" className="position-relative ms-xsmall">
     Profile
-    <CxBadge color="danger" position="bottom-end" circle>
+    <Badge color="danger" position="bottom-end" circle>
       99+ <span className="visually-hidden">unread messages</span>
-    </CxBadge>
-  </CxButton>
+    </Badge>
+  </Button>
 </Example>
 
 ### Custom corners
@@ -159,14 +159,14 @@ Set the `position` prop to place a badge in one of the corners of a link or butt
 Beyond the default rounded appearance and the `circle` prop, apply border-radius utility classes through `className` for precise control over corners.
 
 <Example>
-  <CxBadge color="primary" className="rounded-zero">Sharp</CxBadge>
-  <CxBadge color="primary" className="rounded-small">Blunt</CxBadge>
-  <CxBadge color="primary" className="rounded-medium">Soft</CxBadge>
-  <CxBadge color="primary" className="rounded-full">Pill</CxBadge>
+  <Badge color="primary" className="rounded-zero">Sharp</Badge>
+  <Badge color="primary" className="rounded-small">Blunt</Badge>
+  <Badge color="primary" className="rounded-medium">Soft</Badge>
+  <Badge color="primary" className="rounded-full">Pill</Badge>
 </Example>
 
 ## API
 
-### CxBadge
+### Badge
 
-<PropTable component="CxBadge" />
+<PropTable component="Badge" />

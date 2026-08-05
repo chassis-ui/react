@@ -1,0 +1,142 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/grid/Row.tsx",
+  "description": "",
+  "displayName": "Row",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
+        "name": "RowProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
+          "name": "RowProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "xs": {
+      "defaultValue": null,
+      "description": "The number of columns/offset/order on extra small devices (<576px).",
+      "name": "xs",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
+        "name": "RowProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
+          "name": "RowProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "{{ cols: 'auto' | number | string } | { gutter: number | string } | { gutterX: number | string } | { gutterY: number | string }}"
+      }
+    },
+    "sm": {
+      "defaultValue": null,
+      "description": "The number of columns/offset/order on small devices (<768px).",
+      "name": "sm",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
+        "name": "RowProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
+          "name": "RowProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "{{ cols: 'auto' | number | string } | { gutter: number | string } | { gutterX: number | string } | { gutterY: number | string }}"
+      }
+    },
+    "md": {
+      "defaultValue": null,
+      "description": "The number of columns/offset/order on medium devices (<992px).",
+      "name": "md",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
+        "name": "RowProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
+          "name": "RowProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "{{ cols: 'auto' | number | string } | { gutter: number | string } | { gutterX: number | string } | { gutterY: number | string }}"
+      }
+    },
+    "lg": {
+      "defaultValue": null,
+      "description": "The number of columns/offset/order on large devices (<1200px).",
+      "name": "lg",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
+        "name": "RowProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
+          "name": "RowProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "{{ cols: 'auto' | number | string } | { gutter: number | string } | { gutterX: number | string } | { gutterY: number | string }}"
+      }
+    },
+    "xl": {
+      "defaultValue": null,
+      "description": "The number of columns/offset/order on X-Large devices (<1400px).",
+      "name": "xl",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
+        "name": "RowProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
+          "name": "RowProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "{{ cols: 'auto' | number | string } | { gutter: number | string } | { gutterX: number | string } | { gutterY: number | string }}"
+      }
+    },
+    "xxl": {
+      "defaultValue": null,
+      "description": "The number of columns/offset/order on XX-Large devices (≥1400px).",
+      "name": "xxl",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
+        "name": "RowProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
+          "name": "RowProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "{{ cols: 'auto' | number | string } | { gutter: number | string } | { gutterX: number | string } | { gutterY: number | string }}"
+      }
+    }
+  }
+}

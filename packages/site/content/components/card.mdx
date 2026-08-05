@@ -7,25 +7,12 @@ toc: true
 
 
 import {
-  CxButton,
-  CxCard,
-  CxCardBody,
-  CxCardFooter,
-  CxCardGroup,
-  CxCardHeader,
-  CxCardImage,
-  CxCardImageOverlay,
-  CxCardLink,
-  CxCardSubtitle,
-  CxCardTitle,
-  CxCardText,
-  CxList,
-  CxListItem,
-  CxCol,
-  CxNav,
-  CxNavItem,
-  CxNavLink,
-  CxRow,
+  Button,
+  Card,
+  List,
+  Col,
+  Nav,
+  Row,
 } from '@chassis-ui/react'
 
 
@@ -40,17 +27,17 @@ Cards are built with as little markup and styles as possible but still manage to
 Below is an example of a basic card with mixed content and a fixed width. Cards have no fixed width to start, so they'll naturally fill the full width of its parent element.
 
 <Example>
-  <CxCard style={{ width: '18rem' }}>
-    <CxCardImage orientation="top" src="https://placehold.co/800x400" />
-    <CxCardBody>
-      <CxCardTitle>Card title</CxCardTitle>
-      <CxCardText>
+  <Card style={{ width: '18rem' }}>
+    <Card.Image orientation="top" src="https://placehold.co/800x400" />
+    <Card.Body>
+      <Card.Title>Card title</Card.Title>
+      <Card.Text>
         Some quick example text to build on the card title and make up the bulk of the card's
         content.
-      </CxCardText>
-      <CxButton href="#">Go somewhere</CxButton>
-    </CxCardBody>
-  </CxCard>
+      </Card.Text>
+      <Button href="#">Go somewhere</Button>
+    </Card.Body>
+  </Card>
 </Example>
 
 ## Content types
@@ -59,51 +46,51 @@ Chassis card supports a wide variety of content, including images, text, lists, 
 
 ### Body
 
-The main block of a card is the `<CxCardBody>`. Use it whenever you need a padded section within a card.
+The main block of a card is the `<Card.Body>`. Use it whenever you need a padded section within a card.
 
 <Example>
-  <CxCard>
-    <CxCardBody>This is some text within a card body.</CxCardBody>
-  </CxCard>
+  <Card>
+    <Card.Body>This is some text within a card body.</Card.Body>
+  </Card>
 </Example>
 
 ### Titles, text, and links
 
-Card titles are managed by `<CxCardTitle>` component. Identically, links are attached and collected next to each other by `<CxCardLink>` component.
+Card titles are managed by `<Card.Title>` component. Identically, links are attached and collected next to each other by `<Card.Link>` component.
 
-Subtitles are managed by `<CxCardSubtitle>` component. If the `<CxCardTitle>` also, the `<CxCardSubtitle>` items are stored in a `<CxCardBody>` item, the card title, and subtitle are arranged rightly.
+Subtitles are managed by `<Card.Subtitle>` component. If the `<Card.Title>` also, the `<Card.Subtitle>` items are stored in a `<Card.Body>` item, the card title, and subtitle are arranged rightly.
 
 <Example>
-  <CxCard style={{ width: '18rem' }}>
-    <CxCardBody>
-      <CxCardTitle>Card title</CxCardTitle>
-      <CxCardSubtitle className="mb-medium medium:text-emphasis">Card subtitle</CxCardSubtitle>
-      <CxCardText>
+  <Card style={{ width: '18rem' }}>
+    <Card.Body>
+      <Card.Title>Card title</Card.Title>
+      <Card.Subtitle className="mb-medium medium:text-emphasis">Card subtitle</Card.Subtitle>
+      <Card.Text>
         Some quick example text to build on the card title and make up the bulk of the card's
         content.
-      </CxCardText>
-      <CxCardText>
-        <CxCardLink href="#">Card link</CxCardLink>
-        <CxCardLink href="#">Another link</CxCardLink>
-      </CxCardText>
-    </CxCardBody>
-  </CxCard>
+      </Card.Text>
+      <Card.Text>
+        <Card.Link href="#">Card link</Card.Link>
+        <Card.Link href="#">Another link</Card.Link>
+      </Card.Text>
+    </Card.Body>
+  </Card>
 </Example>
 
 ### Images
 
-`orientation="top"` places a picture to the top of the card. With `<CxCardText>`, text can be added to the card. Text within `<CxCardText>` can additionally be styled with the regular HTML tags.
+`orientation="top"` places a picture to the top of the card. With `<Card.Text>`, text can be added to the card. Text within `<Card.Text>` can additionally be styled with the regular HTML tags.
 
 <Example>
-  <CxCard style={{ width: '18rem' }}>
-    <CxCardImage orientation="top" src="https://placehold.co/800x400" />
-    <CxCardBody>
-      <CxCardText>
+  <Card style={{ width: '18rem' }}>
+    <Card.Image orientation="top" src="https://placehold.co/800x400" />
+    <Card.Body>
+      <Card.Text>
         Some quick example text to build on the card title and make up the bulk of the card's
         content.
-      </CxCardText>
-    </CxCardBody>
-  </CxCard>
+      </Card.Text>
+    </Card.Body>
+  </Card>
 </Example>
 
 ### Lists
@@ -111,35 +98,35 @@ Subtitles are managed by `<CxCardSubtitle>` component. If the `<CxCardTitle>` al
 Create lists of content in a card with a flush list.
 
 <Example>
-  <CxCard style={{ width: '18rem' }}>
-    <CxList flush>
-      <CxListItem>Cras justo odio</CxListItem>
-      <CxListItem>Dapibus ac facilisis in</CxListItem>
-      <CxListItem>Vestibulum at eros</CxListItem>
-    </CxList>
-  </CxCard>
+  <Card style={{ width: '18rem' }}>
+    <List flush>
+      <List.Item>Cras justo odio</List.Item>
+      <List.Item>Dapibus ac facilisis in</List.Item>
+      <List.Item>Vestibulum at eros</List.Item>
+    </List>
+  </Card>
 </Example>
 
 <Example>
-  <CxCard style={{ width: '18rem' }}>
-    <CxCardHeader>Header</CxCardHeader>
-    <CxList flush>
-      <CxListItem>Cras justo odio</CxListItem>
-      <CxListItem>Dapibus ac facilisis in</CxListItem>
-      <CxListItem>Vestibulum at eros</CxListItem>
-    </CxList>
-  </CxCard>
+  <Card style={{ width: '18rem' }}>
+    <Card.Header>Header</Card.Header>
+    <List flush>
+      <List.Item>Cras justo odio</List.Item>
+      <List.Item>Dapibus ac facilisis in</List.Item>
+      <List.Item>Vestibulum at eros</List.Item>
+    </List>
+  </Card>
 </Example>
 
 <Example>
-  <CxCard style={{ width: '18rem' }}>
-    <CxList flush>
-      <CxListItem>Cras justo odio</CxListItem>
-      <CxListItem>Dapibus ac facilisis in</CxListItem>
-      <CxListItem>Vestibulum at eros</CxListItem>
-    </CxList>
-    <CxCardFooter>Footer</CxCardFooter>
-  </CxCard>
+  <Card style={{ width: '18rem' }}>
+    <List flush>
+      <List.Item>Cras justo odio</List.Item>
+      <List.Item>Dapibus ac facilisis in</List.Item>
+      <List.Item>Vestibulum at eros</List.Item>
+    </List>
+    <Card.Footer>Footer</Card.Footer>
+  </Card>
 </Example>
 
 ### Kitchen sink
@@ -147,25 +134,25 @@ Create lists of content in a card with a flush list.
 Combine and match many content types to build the card you need, or throw everything in there. Shown below are image styles, blocks, text styles, and a list—all wrapped in a fixed-width card.
 
 <Example>
-  <CxCard style={{ width: '18rem' }}>
-    <CxCardImage orientation="top" src="https://placehold.co/800x400" />
-    <CxCardBody>
-      <CxCardTitle>Card title</CxCardTitle>
-      <CxCardText>
+  <Card style={{ width: '18rem' }}>
+    <Card.Image orientation="top" src="https://placehold.co/800x400" />
+    <Card.Body>
+      <Card.Title>Card title</Card.Title>
+      <Card.Text>
         Some quick example text to build on the card title and make up the bulk of the card's
         content.
-      </CxCardText>
-    </CxCardBody>
-    <CxList flush>
-      <CxListItem>Cras justo odio</CxListItem>
-      <CxListItem>Dapibus ac facilisis in</CxListItem>
-      <CxListItem>Vestibulum at eros</CxListItem>
-    </CxList>
-    <CxCardBody>
-      <CxCardLink href="#">Card link</CxCardLink>
-      <CxCardLink href="#">Another link</CxCardLink>
-    </CxCardBody>
-  </CxCard>
+      </Card.Text>
+    </Card.Body>
+    <List flush>
+      <List.Item>Cras justo odio</List.Item>
+      <List.Item>Dapibus ac facilisis in</List.Item>
+      <List.Item>Vestibulum at eros</List.Item>
+    </List>
+    <Card.Body>
+      <Card.Link href="#">Card link</Card.Link>
+      <Card.Link href="#">Another link</Card.Link>
+    </Card.Body>
+  </Card>
 </Example>
 
 ### Header and footer
@@ -173,53 +160,53 @@ Combine and match many content types to build the card you need, or throw everyt
 Add an optional header and/or footer within a card.
 
 <Example>
-  <CxCard>
-    <CxCardHeader>Header</CxCardHeader>
-    <CxCardBody>
-      <CxCardTitle>Special title treatment</CxCardTitle>
-      <CxCardText>With supporting text below as a natural lead-in to additional content.</CxCardText>
-      <CxButton href="#">Go somewhere</CxButton>
-    </CxCardBody>
-  </CxCard>
+  <Card>
+    <Card.Header>Header</Card.Header>
+    <Card.Body>
+      <Card.Title>Special title treatment</Card.Title>
+      <Card.Text>With supporting text below as a natural lead-in to additional content.</Card.Text>
+      <Button href="#">Go somewhere</Button>
+    </Card.Body>
+  </Card>
 </Example>
 
 Card headers can be styled by adding ex. `component="h5"`.
 
 <Example>
-  <CxCard>
-    <CxCardHeader component="h5">Header</CxCardHeader>
-    <CxCardBody>
-      <CxCardTitle>Special title treatment</CxCardTitle>
-      <CxCardText>With supporting text below as a natural lead-in to additional content.</CxCardText>
-      <CxButton href="#">Go somewhere</CxButton>
-    </CxCardBody>
-  </CxCard>
+  <Card>
+    <Card.Header component="h5">Header</Card.Header>
+    <Card.Body>
+      <Card.Title>Special title treatment</Card.Title>
+      <Card.Text>With supporting text below as a natural lead-in to additional content.</Card.Text>
+      <Button href="#">Go somewhere</Button>
+    </Card.Body>
+  </Card>
 </Example>
 
 <Example>
-  <CxCard>
-    <CxCardHeader>Quote</CxCardHeader>
-    <CxCardBody>
+  <Card>
+    <Card.Header>Quote</Card.Header>
+    <Card.Body>
       <blockquote className="blockquote mb-0">
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
         <footer className="blockquote-footer">
           Someone famous in <cite title="Source Title">Source Title</cite>
         </footer>
       </blockquote>
-    </CxCardBody>
-  </CxCard>
+    </Card.Body>
+  </Card>
 </Example>
 
 <Example>
-  <CxCard className="text-center">
-    <CxCardHeader>Header</CxCardHeader>
-    <CxCardBody>
-      <CxCardTitle>Special title treatment</CxCardTitle>
-      <CxCardText>With supporting text below as a natural lead-in to additional content.</CxCardText>
-      <CxButton href="#">Go somewhere</CxButton>
-    </CxCardBody>
-    <CxCardFooter className="medium:text-emphasis">2 days ago</CxCardFooter>
-  </CxCard>
+  <Card className="text-center">
+    <Card.Header>Header</Card.Header>
+    <Card.Body>
+      <Card.Title>Special title treatment</Card.Title>
+      <Card.Text>With supporting text below as a natural lead-in to additional content.</Card.Text>
+      <Button href="#">Go somewhere</Button>
+    </Card.Body>
+    <Card.Footer className="medium:text-emphasis">2 days ago</Card.Footer>
+  </Card>
 </Example>
 
 ## Sizing
@@ -231,30 +218,30 @@ Cards assume no specific `width` to start, so they'll be 100% wide unless otherw
 Using the grid, wrap cards in columns and rows as needed.
 
 <Example>
-  <CxRow>
-    <CxCol sm={6}>
-      <CxCard>
-        <CxCardBody>
-          <CxCardTitle>Special title treatment</CxCardTitle>
-          <CxCardText>
+  <Row>
+    <Col sm={6}>
+      <Card>
+        <Card.Body>
+          <Card.Title>Special title treatment</Card.Title>
+          <Card.Text>
             With supporting text below as a natural lead-in to additional content.
-          </CxCardText>
-          <CxButton href="#">Go somewhere</CxButton>
-        </CxCardBody>
-      </CxCard>
-    </CxCol>
-    <CxCol sm={6}>
-      <CxCard>
-        <CxCardBody>
-          <CxCardTitle>Special title treatment</CxCardTitle>
-          <CxCardText>
+          </Card.Text>
+          <Button href="#">Go somewhere</Button>
+        </Card.Body>
+      </Card>
+    </Col>
+    <Col sm={6}>
+      <Card>
+        <Card.Body>
+          <Card.Title>Special title treatment</Card.Title>
+          <Card.Text>
             With supporting text below as a natural lead-in to additional content.
-          </CxCardText>
-          <CxButton href="#">Go somewhere</CxButton>
-        </CxCardBody>
-      </CxCard>
-    </CxCol>
-  </CxRow>
+          </Card.Text>
+          <Button href="#">Go somewhere</Button>
+        </Card.Body>
+      </Card>
+    </Col>
+  </Row>
 </Example>
 
 ### Using utilities
@@ -262,20 +249,20 @@ Using the grid, wrap cards in columns and rows as needed.
 Use some of available sizing utilities to rapidly set a card's width.
 
 <Example>
-  <CxCard className="w-75">
-    <CxCardBody>
-      <CxCardTitle>Card title</CxCardTitle>
-      <CxCardText>With supporting text below as a natural lead-in to additional content.</CxCardText>
-      <CxButton href="#">Go somewhere</CxButton>
-    </CxCardBody>
-  </CxCard>
-  <CxCard className="w-50">
-    <CxCardBody>
-      <CxCardTitle>Card title</CxCardTitle>
-      <CxCardText>With supporting text below as a natural lead-in to additional content.</CxCardText>
-      <CxButton href="#">Go somewhere</CxButton>
-    </CxCardBody>
-  </CxCard>
+  <Card className="w-75">
+    <Card.Body>
+      <Card.Title>Card title</Card.Title>
+      <Card.Text>With supporting text below as a natural lead-in to additional content.</Card.Text>
+      <Button href="#">Go somewhere</Button>
+    </Card.Body>
+  </Card>
+  <Card className="w-50">
+    <Card.Body>
+      <Card.Title>Card title</Card.Title>
+      <Card.Text>With supporting text below as a natural lead-in to additional content.</Card.Text>
+      <Button href="#">Go somewhere</Button>
+    </Card.Body>
+  </Card>
 </Example>
 
 ### Using custom CSS
@@ -283,13 +270,13 @@ Use some of available sizing utilities to rapidly set a card's width.
 Use custom CSS in your stylesheets or as inline styles to set a width.
 
 <Example>
-  <CxCard style={{ width: '18rem' }}>
-    <CxCardBody>
-      <CxCardTitle>Special title treatment</CxCardTitle>
-      <CxCardText>With supporting text below as a natural lead-in to additional content.</CxCardText>
-      <CxButton href="#">Go somewhere</CxButton>
-    </CxCardBody>
-  </CxCard>
+  <Card style={{ width: '18rem' }}>
+    <Card.Body>
+      <Card.Title>Special title treatment</Card.Title>
+      <Card.Text>With supporting text below as a natural lead-in to additional content.</Card.Text>
+      <Button href="#">Go somewhere</Button>
+    </Card.Body>
+  </Card>
 </Example>
 
 ## Text alignment
@@ -297,85 +284,85 @@ Use custom CSS in your stylesheets or as inline styles to set a width.
 You can instantly change the text arrangement of any card—in its whole or specific parts—with text align classes.
 
 <Example>
-  <CxCard style={{ width: '18rem' }}>
-    <CxCardBody>
-      <CxCardTitle>Special title treatment</CxCardTitle>
-      <CxCardText>With supporting text below as a natural lead-in to additional content.</CxCardText>
-      <CxButton href="#">Go somewhere</CxButton>
-    </CxCardBody>
-  </CxCard>
-  <CxCard className="text-center" style={{ width: '18rem' }}>
-    <CxCardBody>
-      <CxCardTitle>Special title treatment</CxCardTitle>
-      <CxCardText>With supporting text below as a natural lead-in to additional content.</CxCardText>
-      <CxButton href="#">Go somewhere</CxButton>
-    </CxCardBody>
-  </CxCard>
-  <CxCard className="text-end" style={{ width: '18rem' }}>
-    <CxCardBody>
-      <CxCardTitle>Special title treatment</CxCardTitle>
-      <CxCardText>With supporting text below as a natural lead-in to additional content.</CxCardText>
-      <CxButton href="#">Go somewhere</CxButton>
-    </CxCardBody>
-  </CxCard>
+  <Card style={{ width: '18rem' }}>
+    <Card.Body>
+      <Card.Title>Special title treatment</Card.Title>
+      <Card.Text>With supporting text below as a natural lead-in to additional content.</Card.Text>
+      <Button href="#">Go somewhere</Button>
+    </Card.Body>
+  </Card>
+  <Card className="text-center" style={{ width: '18rem' }}>
+    <Card.Body>
+      <Card.Title>Special title treatment</Card.Title>
+      <Card.Text>With supporting text below as a natural lead-in to additional content.</Card.Text>
+      <Button href="#">Go somewhere</Button>
+    </Card.Body>
+  </Card>
+  <Card className="text-end" style={{ width: '18rem' }}>
+    <Card.Body>
+      <Card.Title>Special title treatment</Card.Title>
+      <Card.Text>With supporting text below as a natural lead-in to additional content.</Card.Text>
+      <Button href="#">Go somewhere</Button>
+    </Card.Body>
+  </Card>
 </Example>
 
 ## Navigation
 
-Add some navigation to a `<CxCardHeader>` with our `<CxNav>` component.
+Add some navigation to a `<Card.Header>` with our `<Nav>` component.
 
 <Example>
-  <CxCard className="text-center">
-    <CxCardHeader>
-      <CxNav variant="tabs" className="card-header-tabs">
-        <CxNavItem>
-          <CxNavLink href="#" active>
+  <Card className="text-center">
+    <Card.Header>
+      <Nav variant="tabs" className="card-header-tabs">
+        <Nav.Item>
+          <Nav.Link href="#" active>
             Active
-          </CxNavLink>
-        </CxNavItem>
-        <CxNavItem>
-          <CxNavLink href="#">Link</CxNavLink>
-        </CxNavItem>
-        <CxNavItem>
-          <CxNavLink href="#" disabled>
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link href="#">Link</Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link href="#" disabled>
             Disabled
-          </CxNavLink>
-        </CxNavItem>
-      </CxNav>
-    </CxCardHeader>
-    <CxCardBody>
-      <CxCardTitle>Special title treatment</CxCardTitle>
-      <CxCardText>With supporting text below as a natural lead-in to additional content.</CxCardText>
-      <CxButton href="#">Go somewhere</CxButton>
-    </CxCardBody>
-  </CxCard>
+          </Nav.Link>
+        </Nav.Item>
+      </Nav>
+    </Card.Header>
+    <Card.Body>
+      <Card.Title>Special title treatment</Card.Title>
+      <Card.Text>With supporting text below as a natural lead-in to additional content.</Card.Text>
+      <Button href="#">Go somewhere</Button>
+    </Card.Body>
+  </Card>
 </Example>
 
 <Example>
-  <CxCard className="text-center">
-    <CxCardHeader>
-      <CxNav variant="pills" className="card-header-pills">
-        <CxNavItem>
-          <CxNavLink href="#" active>
+  <Card className="text-center">
+    <Card.Header>
+      <Nav variant="pills" className="card-header-pills">
+        <Nav.Item>
+          <Nav.Link href="#" active>
             Active
-          </CxNavLink>
-        </CxNavItem>
-        <CxNavItem>
-          <CxNavLink href="#">Link</CxNavLink>
-        </CxNavItem>
-        <CxNavItem>
-          <CxNavLink href="#" disabled>
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link href="#">Link</Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link href="#" disabled>
             Disabled
-          </CxNavLink>
-        </CxNavItem>
-      </CxNav>
-    </CxCardHeader>
-    <CxCardBody>
-      <CxCardTitle>Special title treatment</CxCardTitle>
-      <CxCardText>With supporting text below as a natural lead-in to additional content.</CxCardText>
-      <CxButton href="#">Go somewhere</CxButton>
-    </CxCardBody>
-  </CxCard>
+          </Nav.Link>
+        </Nav.Item>
+      </Nav>
+    </Card.Header>
+    <Card.Body>
+      <Card.Title>Special title treatment</Card.Title>
+      <Card.Text>With supporting text below as a natural lead-in to additional content.</Card.Text>
+      <Button href="#">Go somewhere</Button>
+    </Card.Body>
+  </Card>
 </Example>
 
 ## Images
@@ -387,32 +374,32 @@ Cards introduce several options for acting with images. Pick from appending "ima
 Similar to headers and footers, cards can include top and bottom "image caps"—images at the top or bottom of a card.
 
 <Example>
-  <CxCard className="mb-medium">
-    <CxCardImage orientation="top" src="https://placehold.co/800x400" />
-    <CxCardBody>
-      <CxCardTitle>Card title</CxCardTitle>
-      <CxCardText>
+  <Card className="mb-medium">
+    <Card.Image orientation="top" src="https://placehold.co/800x400" />
+    <Card.Body>
+      <Card.Title>Card title</Card.Title>
+      <Card.Text>
         This is a wider card with supporting text below as a natural lead-in to additional content.
         This content is a little bit longer.
-      </CxCardText>
-      <CxCardText>
+      </Card.Text>
+      <Card.Text>
         <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-      </CxCardText>
-    </CxCardBody>
-  </CxCard>
-  <CxCard className="mb-medium">
-    <CxCardBody>
-      <CxCardTitle>Card title</CxCardTitle>
-      <CxCardText>
+      </Card.Text>
+    </Card.Body>
+  </Card>
+  <Card className="mb-medium">
+    <Card.Body>
+      <Card.Title>Card title</Card.Title>
+      <Card.Text>
         This is a wider card with supporting text below as a natural lead-in to additional content.
         This content is a little bit longer.
-      </CxCardText>
-      <CxCardText>
+      </Card.Text>
+      <Card.Text>
         <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-      </CxCardText>
-    </CxCardBody>
-    <CxCardImage orientation="bottom" src="https://placehold.co/800x400" />
-  </CxCard>
+      </Card.Text>
+    </Card.Body>
+    <Card.Image orientation="bottom" src="https://placehold.co/800x400" />
+  </Card>
 </Example>
 
 ### Image overlays
@@ -420,17 +407,17 @@ Similar to headers and footers, cards can include top and bottom "image caps"—
 Adapt an image into a background and overlay your text. Depending on the image, you may need additional styles or utilities.
 
 <Example>
-  <CxCard className="mb-medium bg-dark text-white">
-    <CxCardImage src="https://placehold.co/800x400" />
-    <CxCardImageOverlay>
-      <CxCardTitle>Card title</CxCardTitle>
-      <CxCardText>
+  <Card className="mb-medium bg-dark text-white">
+    <Card.Image src="https://placehold.co/800x400" />
+    <Card.ImageOverlay>
+      <Card.Title>Card title</Card.Title>
+      <Card.Text>
         This is a wider card with supporting text below as a natural lead-in to additional content.
         This content is a little bit longer.
-      </CxCardText>
-      <CxCardText>Last updated 3 mins ago</CxCardText>
-    </CxCardImageOverlay>
-  </CxCard>
+      </Card.Text>
+      <Card.Text>Last updated 3 mins ago</Card.Text>
+    </Card.ImageOverlay>
+  </Card>
 </Example>
 
 ## Horizontal
@@ -438,25 +425,25 @@ Adapt an image into a background and overlay your text. Depending on the image, 
 Using a combination of grid and utility classes, cards can be made horizontal in a mobile-friendly and responsive way. In the example below, we remove the grid gutters with `.g-0` and use `.medium:col-*` classes to make the card horizontal at the `medium` breakpoint. Further adjustments may be needed depending on your card content.
 
 <Example>
-  <CxCard className="mb-medium" style={{ maxWidth: '540px' }}>
-    <CxRow className="g-0">
-      <CxCol md={4}>
-        <CxCardImage src="https://placehold.co/800x400" />
-      </CxCol>
-      <CxCol md={8}>
-        <CxCardBody>
-          <CxCardTitle>Card title</CxCardTitle>
-          <CxCardText>
+  <Card className="mb-medium" style={{ maxWidth: '540px' }}>
+    <Row className="g-0">
+      <Col md={4}>
+        <Card.Image src="https://placehold.co/800x400" />
+      </Col>
+      <Col md={8}>
+        <Card.Body>
+          <Card.Title>Card title</Card.Title>
+          <Card.Text>
             This is a wider card with supporting text below as a natural lead-in to additional
             content. This content is a little bit longer.
-          </CxCardText>
-          <CxCardText>
+          </Card.Text>
+          <Card.Text>
             <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-          </CxCardText>
-        </CxCardBody>
-      </CxCol>
-    </CxRow>
-  </CxCard>
+          </Card.Text>
+        </Card.Body>
+      </Col>
+    </Row>
+  </Card>
 </Example>
 
 ## Card styles
@@ -479,22 +466,22 @@ Use `color` property to change the appearance of a card.
       { color: 'light' },
       { color: 'dark', textColor: 'white' },
     ].map((item, index) => (
-      <CxCard
+      <Card
         color={item.color}
         textColor={item.textColor}
         className="mb-medium"
         style={{ maxWidth: '18rem' }}
         key={index}
       >
-        <CxCardHeader>Header</CxCardHeader>
-        <CxCardBody>
-          <CxCardTitle>{item.color} card title</CxCardTitle>
-          <CxCardText>
+        <Card.Header>Header</Card.Header>
+        <Card.Body>
+          <Card.Title>{item.color} card title</Card.Title>
+          <Card.Text>
             Some quick example text to build on the card title and make up the bulk of the card's
             content.
-          </CxCardText>
-        </CxCardBody>
-      </CxCard>
+          </Card.Text>
+        </Card.Body>
+      </Card>
     ))}
   </>
 </Example>
@@ -511,7 +498,7 @@ Use `color` property to change the appearance of a card.
 
 ### Border
 
-Use border utilities to change just the `border-context` of a card. Note that you can set `textColor` property on the `<CxCard>` or a subset of the card's contents as shown below.
+Use border utilities to change just the `border-context` of a card. Note that you can set `textColor` property on the `<Card>` or a subset of the card's contents as shown below.
 
 <Example>
   <>
@@ -525,21 +512,21 @@ Use border utilities to change just the `border-context` of a card. Note that yo
       { color: 'light' },
       { color: 'dark' },
     ].map((item, index) => (
-      <CxCard
+      <Card
         textColor={item.textColor}
         className={`mb-medium border-${item.color}`}
         style={{ maxWidth: '18rem' }}
         key={index}
       >
-        <CxCardHeader>Header</CxCardHeader>
-        <CxCardBody>
-          <CxCardTitle>{item.color} card title</CxCardTitle>
-          <CxCardText>
+        <Card.Header>Header</Card.Header>
+        <Card.Body>
+          <Card.Title>{item.color} card title</Card.Title>
+          <Card.Text>
             Some quick example text to build on the card title and make up the bulk of the card's
             content.
-          </CxCardText>
-        </CxCardBody>
-      </CxCard>
+          </Card.Text>
+        </Card.Body>
+      </Card>
     ))}
   </>
 </Example>
@@ -558,21 +545,21 @@ Use border utilities to change just the `border-context` of a card. Note that yo
       { color: 'light' },
       { color: 'dark' },
     ].map((item, index) => (
-      <CxCard
+      <Card
         textColor={item.textColor}
         className={`mb-medium border-top-${item.color} border-top-3`}
         style={{ maxWidth: '18rem' }}
         key={index}
       >
-        <CxCardHeader>Header</CxCardHeader>
-        <CxCardBody>
-          <CxCardTitle>{item.color} card title</CxCardTitle>
-          <CxCardText>
+        <Card.Header>Header</Card.Header>
+        <Card.Body>
+          <Card.Title>{item.color} card title</Card.Title>
+          <Card.Text>
             Some quick example text to build on the card title and make up the bulk of the card's
             content.
-          </CxCardText>
-        </CxCardBody>
-      </CxCard>
+          </Card.Text>
+        </Card.Body>
+      </Card>
     ))}
   </>
 </Example>
@@ -586,370 +573,370 @@ In addition to styling the content within cards, Chassis includes a few options 
 Use card groups to render cards as a single, attached element with equal width and height columns. Card groups start off stacked and use `display: flex;` to become attached with uniform dimensions starting at the `sm` breakpoint.
 
 <Example>
-  <CxCardGroup>
-    <CxCard>
-      <CxCardImage orientation="top" src="https://placehold.co/800x400" />
-      <CxCardBody>
-        <CxCardTitle>Card title</CxCardTitle>
-        <CxCardText>
+  <Card.Group>
+    <Card>
+      <Card.Image orientation="top" src="https://placehold.co/800x400" />
+      <Card.Body>
+        <Card.Title>Card title</Card.Title>
+        <Card.Text>
           This is a wider card with supporting text below as a natural lead-in to additional
           content. This content is a little bit longer.
-        </CxCardText>
-        <CxCardText>
+        </Card.Text>
+        <Card.Text>
           <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </CxCardText>
-      </CxCardBody>
-    </CxCard>
-    <CxCard>
-      <CxCardImage orientation="top" src="https://placehold.co/800x400" />
-      <CxCardBody>
-        <CxCardTitle>Card title</CxCardTitle>
-        <CxCardText>
+        </Card.Text>
+      </Card.Body>
+    </Card>
+    <Card>
+      <Card.Image orientation="top" src="https://placehold.co/800x400" />
+      <Card.Body>
+        <Card.Title>Card title</Card.Title>
+        <Card.Text>
           This card has supporting text below as a natural lead-in to additional content.
-        </CxCardText>
-        <CxCardText>
+        </Card.Text>
+        <Card.Text>
           <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </CxCardText>
-      </CxCardBody>
-    </CxCard>
-    <CxCard>
-      <CxCardImage orientation="top" src="https://placehold.co/800x400" />
-      <CxCardBody>
-        <CxCardTitle>Card title</CxCardTitle>
-        <CxCardText>
+        </Card.Text>
+      </Card.Body>
+    </Card>
+    <Card>
+      <Card.Image orientation="top" src="https://placehold.co/800x400" />
+      <Card.Body>
+        <Card.Title>Card title</Card.Title>
+        <Card.Text>
           This is a wider card with supporting text below as a natural lead-in to additional
           content. This card has even longer content than the first to show that equal height
           action.
-        </CxCardText>
-        <CxCardText>
+        </Card.Text>
+        <Card.Text>
           <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </CxCardText>
-      </CxCardBody>
-    </CxCard>
-  </CxCardGroup>
+        </Card.Text>
+      </Card.Body>
+    </Card>
+  </Card.Group>
 </Example>
 
 When using card groups with footers, their content will automatically line up.
 
 <Example>
-  <CxCardGroup>
-    <CxCard>
-      <CxCardImage orientation="top" src="https://placehold.co/800x400" />
-      <CxCardBody>
-        <CxCardTitle>Card title</CxCardTitle>
-        <CxCardText>
+  <Card.Group>
+    <Card>
+      <Card.Image orientation="top" src="https://placehold.co/800x400" />
+      <Card.Body>
+        <Card.Title>Card title</Card.Title>
+        <Card.Text>
           This is a wider card with supporting text below as a natural lead-in to additional
           content. This content is a little bit longer.
-        </CxCardText>
-      </CxCardBody>
-      <CxCardFooter>
+        </Card.Text>
+      </Card.Body>
+      <Card.Footer>
         <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-      </CxCardFooter>
-    </CxCard>
-    <CxCard>
-      <CxCardImage orientation="top" src="https://placehold.co/800x400" />
-      <CxCardBody>
-        <CxCardTitle>Card title</CxCardTitle>
-        <CxCardText>
+      </Card.Footer>
+    </Card>
+    <Card>
+      <Card.Image orientation="top" src="https://placehold.co/800x400" />
+      <Card.Body>
+        <Card.Title>Card title</Card.Title>
+        <Card.Text>
           This card has supporting text below as a natural lead-in to additional content.
-        </CxCardText>
-      </CxCardBody>
-      <CxCardFooter>
+        </Card.Text>
+      </Card.Body>
+      <Card.Footer>
         <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-      </CxCardFooter>
-    </CxCard>
-    <CxCard>
-      <CxCardImage orientation="top" src="https://placehold.co/800x400" />
-      <CxCardBody>
-        <CxCardTitle>Card title</CxCardTitle>
-        <CxCardText>
+      </Card.Footer>
+    </Card>
+    <Card>
+      <Card.Image orientation="top" src="https://placehold.co/800x400" />
+      <Card.Body>
+        <Card.Title>Card title</Card.Title>
+        <Card.Text>
           This is a wider card with supporting text below as a natural lead-in to additional
           content. This card has even longer content than the first to show that equal height
           action.
-        </CxCardText>
-      </CxCardBody>
-      <CxCardFooter>
+        </Card.Text>
+      </Card.Body>
+      <Card.Footer>
         <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-      </CxCardFooter>
-    </CxCard>
-  </CxCardGroup>
+      </Card.Footer>
+    </Card>
+  </Card.Group>
 </Example>
 
 ### Grid cards
 
-Use the `CxRow` component and set `xs|sm|md|lg|xl|xxl}={{ cols: * }}` property to control how many grid columns (wrapped around your cards) you show per row. For example, here's `xs={{cols: 1}}` laying out the cards on one column, and `md={{cols: 1}}` splitting four cards to equal width across multiple rows, from the medium breakpoint up.
+Use the `Row` component and set `xs|sm|md|lg|xl|xxl}={{ cols: * }}` property to control how many grid columns (wrapped around your cards) you show per row. For example, here's `xs={{cols: 1}}` laying out the cards on one column, and `md={{cols: 1}}` splitting four cards to equal width across multiple rows, from the medium breakpoint up.
 
 <Example>
-  <CxRow xs={{ cols: 1, gutter: 4 }} md={{ cols: 2 }}>
-    <CxCol xs>
-      <CxCard>
-        <CxCardImage orientation="top" src="https://placehold.co/800x400" />
-        <CxCardBody>
-          <CxCardTitle>Card title</CxCardTitle>
-          <CxCardText>
+  <Row xs={{ cols: 1, gutter: 4 }} md={{ cols: 2 }}>
+    <Col xs>
+      <Card>
+        <Card.Image orientation="top" src="https://placehold.co/800x400" />
+        <Card.Body>
+          <Card.Title>Card title</Card.Title>
+          <Card.Text>
             This is a wider card with supporting text below as a natural lead-in to additional
             content. This content is a little bit longer.
-          </CxCardText>
-        </CxCardBody>
-        <CxCardFooter>
+          </Card.Text>
+        </Card.Body>
+        <Card.Footer>
           <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </CxCardFooter>
-      </CxCard>
-    </CxCol>
-    <CxCol xs>
-      <CxCard>
-        <CxCardImage orientation="top" src="https://placehold.co/800x400" />
-        <CxCardBody>
-          <CxCardTitle>Card title</CxCardTitle>
-          <CxCardText>
+        </Card.Footer>
+      </Card>
+    </Col>
+    <Col xs>
+      <Card>
+        <Card.Image orientation="top" src="https://placehold.co/800x400" />
+        <Card.Body>
+          <Card.Title>Card title</Card.Title>
+          <Card.Text>
             This is a wider card with supporting text below as a natural lead-in to additional
             content. This content is a little bit longer.
-          </CxCardText>
-        </CxCardBody>
-        <CxCardFooter>
+          </Card.Text>
+        </Card.Body>
+        <Card.Footer>
           <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </CxCardFooter>
-      </CxCard>
-    </CxCol>
-    <CxCol xs>
-      <CxCard>
-        <CxCardImage orientation="top" src="https://placehold.co/800x400" />
-        <CxCardBody>
-          <CxCardTitle>Card title</CxCardTitle>
-          <CxCardText>
+        </Card.Footer>
+      </Card>
+    </Col>
+    <Col xs>
+      <Card>
+        <Card.Image orientation="top" src="https://placehold.co/800x400" />
+        <Card.Body>
+          <Card.Title>Card title</Card.Title>
+          <Card.Text>
             This is a wider card with supporting text below as a natural lead-in to additional
             content. This content is a little bit longer.
-          </CxCardText>
-        </CxCardBody>
-        <CxCardFooter>
+          </Card.Text>
+        </Card.Body>
+        <Card.Footer>
           <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </CxCardFooter>
-      </CxCard>
-    </CxCol>
-    <CxCol xs>
-      <CxCard>
-        <CxCardImage orientation="top" src="https://placehold.co/800x400" />
-        <CxCardBody>
-          <CxCardTitle>Card title</CxCardTitle>
-          <CxCardText>
+        </Card.Footer>
+      </Card>
+    </Col>
+    <Col xs>
+      <Card>
+        <Card.Image orientation="top" src="https://placehold.co/800x400" />
+        <Card.Body>
+          <Card.Title>Card title</Card.Title>
+          <Card.Text>
             This is a wider card with supporting text below as a natural lead-in to additional
             content. This content is a little bit longer.
-          </CxCardText>
-        </CxCardBody>
-        <CxCardFooter>
+          </Card.Text>
+        </Card.Body>
+        <Card.Footer>
           <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </CxCardFooter>
-      </CxCard>
-    </CxCol>
-  </CxRow>
+        </Card.Footer>
+      </Card>
+    </Col>
+  </Row>
 </Example>
 
 Change it to `md={{ cols: 3}}` and you'll see the fourth card wrap.
 
 <Example>
-  <CxRow xs={{ cols: 1, gutter: 4 }} md={{ cols: 3 }}>
-    <CxCol xs>
-      <CxCard>
-        <CxCardImage orientation="top" src="https://placehold.co/800x400" />
-        <CxCardBody>
-          <CxCardTitle>Card title</CxCardTitle>
-          <CxCardText>
+  <Row xs={{ cols: 1, gutter: 4 }} md={{ cols: 3 }}>
+    <Col xs>
+      <Card>
+        <Card.Image orientation="top" src="https://placehold.co/800x400" />
+        <Card.Body>
+          <Card.Title>Card title</Card.Title>
+          <Card.Text>
             This is a wider card with supporting text below as a natural lead-in to additional
             content. This content is a little bit longer.
-          </CxCardText>
-        </CxCardBody>
-        <CxCardFooter>
+          </Card.Text>
+        </Card.Body>
+        <Card.Footer>
           <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </CxCardFooter>
-      </CxCard>
-    </CxCol>
-    <CxCol xs>
-      <CxCard>
-        <CxCardImage orientation="top" src="https://placehold.co/800x400" />
-        <CxCardBody>
-          <CxCardTitle>Card title</CxCardTitle>
-          <CxCardText>
+        </Card.Footer>
+      </Card>
+    </Col>
+    <Col xs>
+      <Card>
+        <Card.Image orientation="top" src="https://placehold.co/800x400" />
+        <Card.Body>
+          <Card.Title>Card title</Card.Title>
+          <Card.Text>
             This is a wider card with supporting text below as a natural lead-in to additional
             content. This content is a little bit longer.
-          </CxCardText>
-        </CxCardBody>
-        <CxCardFooter>
+          </Card.Text>
+        </Card.Body>
+        <Card.Footer>
           <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </CxCardFooter>
-      </CxCard>
-    </CxCol>
-    <CxCol xs>
-      <CxCard>
-        <CxCardImage orientation="top" src="https://placehold.co/800x400" />
-        <CxCardBody>
-          <CxCardTitle>Card title</CxCardTitle>
-          <CxCardText>
+        </Card.Footer>
+      </Card>
+    </Col>
+    <Col xs>
+      <Card>
+        <Card.Image orientation="top" src="https://placehold.co/800x400" />
+        <Card.Body>
+          <Card.Title>Card title</Card.Title>
+          <Card.Text>
             This is a wider card with supporting text below as a natural lead-in to additional
             content. This content is a little bit longer.
-          </CxCardText>
-        </CxCardBody>
-        <CxCardFooter>
+          </Card.Text>
+        </Card.Body>
+        <Card.Footer>
           <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </CxCardFooter>
-      </CxCard>
-    </CxCol>
-    <CxCol xs>
-      <CxCard>
-        <CxCardImage orientation="top" src="https://placehold.co/800x400" />
-        <CxCardBody>
-          <CxCardTitle>Card title</CxCardTitle>
-          <CxCardText>
+        </Card.Footer>
+      </Card>
+    </Col>
+    <Col xs>
+      <Card>
+        <Card.Image orientation="top" src="https://placehold.co/800x400" />
+        <Card.Body>
+          <Card.Title>Card title</Card.Title>
+          <Card.Text>
             This is a wider card with supporting text below as a natural lead-in to additional
             content. This content is a little bit longer.
-          </CxCardText>
-        </CxCardBody>
-        <CxCardFooter>
+          </Card.Text>
+        </Card.Body>
+        <Card.Footer>
           <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </CxCardFooter>
-      </CxCard>
-    </CxCol>
-  </CxRow>
+        </Card.Footer>
+      </Card>
+    </Col>
+  </Row>
 </Example>
 
 When you need equal height, add `.h-100` to the cards. If you want equal heights by default, you can set `$card-height: 100%` in Sass.
 
 <Example>
-  <CxRow xs={{ cols: 1 }} md={{ cols: 3 }} className="g-4">
-    <CxCol xs>
-      <CxCard className="h-100">
-        <CxCardImage orientation="top" src="https://placehold.co/800x400" />
-        <CxCardBody>
-          <CxCardTitle>Card title</CxCardTitle>
-          <CxCardText>
+  <Row xs={{ cols: 1 }} md={{ cols: 3 }} className="g-4">
+    <Col xs>
+      <Card className="h-100">
+        <Card.Image orientation="top" src="https://placehold.co/800x400" />
+        <Card.Body>
+          <Card.Title>Card title</Card.Title>
+          <Card.Text>
             This is a wider card with supporting text below as a natural lead-in to additional
             content. This content is a little bit longer.
-          </CxCardText>
-        </CxCardBody>
-      </CxCard>
-    </CxCol>
-    <CxCol xs>
-      <CxCard className="h-100">
-        <CxCardImage orientation="top" src="https://placehold.co/800x400" />
-        <CxCardBody>
-          <CxCardTitle>Card title</CxCardTitle>
-          <CxCardText>
+          </Card.Text>
+        </Card.Body>
+      </Card>
+    </Col>
+    <Col xs>
+      <Card className="h-100">
+        <Card.Image orientation="top" src="https://placehold.co/800x400" />
+        <Card.Body>
+          <Card.Title>Card title</Card.Title>
+          <Card.Text>
             This card has supporting text below as a natural lead-in to additional content.
-          </CxCardText>
-        </CxCardBody>
-      </CxCard>
-    </CxCol>
-    <CxCol xs>
-      <CxCard className="h-100">
-        <CxCardImage orientation="top" src="https://placehold.co/800x400" />
-        <CxCardBody>
-          <CxCardTitle>Card title</CxCardTitle>
-          <CxCardText>
+          </Card.Text>
+        </Card.Body>
+      </Card>
+    </Col>
+    <Col xs>
+      <Card className="h-100">
+        <Card.Image orientation="top" src="https://placehold.co/800x400" />
+        <Card.Body>
+          <Card.Title>Card title</Card.Title>
+          <Card.Text>
             This is a wider card with supporting text below as a natural lead-in to additional
             content. This card has even longer content than the first to show that equal height
             action.
-          </CxCardText>
-        </CxCardBody>
-      </CxCard>
-    </CxCol>
-    <CxCol xs>
-      <CxCard className="h-100">
-        <CxCardImage orientation="top" src="https://placehold.co/800x400" />
-        <CxCardBody>
-          <CxCardTitle>Card title</CxCardTitle>
-          <CxCardText>
+          </Card.Text>
+        </Card.Body>
+      </Card>
+    </Col>
+    <Col xs>
+      <Card className="h-100">
+        <Card.Image orientation="top" src="https://placehold.co/800x400" />
+        <Card.Body>
+          <Card.Title>Card title</Card.Title>
+          <Card.Text>
             This is a wider card with supporting text below as a natural lead-in to additional
             content. This content is a little bit longer.
-          </CxCardText>
-        </CxCardBody>
-      </CxCard>
-    </CxCol>
-  </CxRow>
+          </Card.Text>
+        </Card.Body>
+      </Card>
+    </Col>
+  </Row>
 </Example>
 
 Just like with card groups, card footers will automatically line up.
 
 <Example>
-  <CxRow xs={{ cols: 1 }} md={{ cols: 3 }} className="g-4">
-    <CxCol xs>
-      <CxCard className="h-100">
-        <CxCardImage orientation="top" src="https://placehold.co/800x400" />
-        <CxCardBody>
-          <CxCardTitle>Card title</CxCardTitle>
-          <CxCardText>
+  <Row xs={{ cols: 1 }} md={{ cols: 3 }} className="g-4">
+    <Col xs>
+      <Card className="h-100">
+        <Card.Image orientation="top" src="https://placehold.co/800x400" />
+        <Card.Body>
+          <Card.Title>Card title</Card.Title>
+          <Card.Text>
             This is a wider card with supporting text below as a natural lead-in to additional
             content. This content is a little bit longer.
-          </CxCardText>
-        </CxCardBody>
-        <CxCardFooter>
+          </Card.Text>
+        </Card.Body>
+        <Card.Footer>
           <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </CxCardFooter>
-      </CxCard>
-    </CxCol>
-    <CxCol xs>
-      <CxCard className="h-100">
-        <CxCardImage orientation="top" src="https://placehold.co/800x400" />
-        <CxCardBody>
-          <CxCardTitle>Card title</CxCardTitle>
-          <CxCardText>
+        </Card.Footer>
+      </Card>
+    </Col>
+    <Col xs>
+      <Card className="h-100">
+        <Card.Image orientation="top" src="https://placehold.co/800x400" />
+        <Card.Body>
+          <Card.Title>Card title</Card.Title>
+          <Card.Text>
             This card has supporting text below as a natural lead-in to additional content.
-          </CxCardText>
-        </CxCardBody>
-        <CxCardFooter>
+          </Card.Text>
+        </Card.Body>
+        <Card.Footer>
           <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </CxCardFooter>
-      </CxCard>
-    </CxCol>
-    <CxCol xs>
-      <CxCard className="h-100">
-        <CxCardImage orientation="top" src="https://placehold.co/800x400" />
-        <CxCardBody>
-          <CxCardTitle>Card title</CxCardTitle>
-          <CxCardText>
+        </Card.Footer>
+      </Card>
+    </Col>
+    <Col xs>
+      <Card className="h-100">
+        <Card.Image orientation="top" src="https://placehold.co/800x400" />
+        <Card.Body>
+          <Card.Title>Card title</Card.Title>
+          <Card.Text>
             This is a wider card with supporting text below as a natural lead-in to additional
             content. This card has even longer content than the first to show that equal height
             action.
-          </CxCardText>
-        </CxCardBody>
-        <CxCardFooter>
+          </Card.Text>
+        </Card.Body>
+        <Card.Footer>
           <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </CxCardFooter>
-      </CxCard>
-    </CxCol>
-  </CxRow>
+        </Card.Footer>
+      </Card>
+    </Col>
+  </Row>
 </Example>
 
 ## API
 
-### CxCard
+### Card
 
-<PropTable component="CxCard" />
-### CxCardBody
+<PropTable component="Card" />
+### Card.Body
 
-<PropTable component="CxCardBody" />
-### CxCardFooter
+<PropTable component="CardBody" />
+### Card.Footer
 
-<PropTable component="CxCardFooter" />
-### CxCardGroup
+<PropTable component="CardFooter" />
+### Card.Group
 
-<PropTable component="CxCardGroup" />
-### CxCardHeader
+<PropTable component="CardGroup" />
+### Card.Header
 
-<PropTable component="CxCardHeader" />
-### CxCardImage
+<PropTable component="CardHeader" />
+### Card.Image
 
-<PropTable component="CxCardImage" />
-### CxCardImageOverlay
+<PropTable component="CardImage" />
+### Card.ImageOverlay
 
-<PropTable component="CxCardImageOverlay" />
-### CxCardLink
+<PropTable component="CardImageOverlay" />
+### Card.Link
 
-<PropTable component="CxCardLink" />
-### CxCardSubtitle
+<PropTable component="CardLink" />
+### Card.Subtitle
 
-<PropTable component="CxCardSubtitle" />
-### CxCardText
+<PropTable component="CardSubtitle" />
+### Card.Text
 
-<PropTable component="CxCardText" />
-### CxCardTitle
+<PropTable component="CardText" />
+### Card.Title
 
-<PropTable component="CxCardTitle" />
+<PropTable component="CardTitle" />

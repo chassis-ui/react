@@ -1,0 +1,30 @@
+{
+  "tags": {
+    "deprecated": "AccordionHeader already renders its own `.accordion-title` wrapper around its\nchildren, so nesting this component inside it produces a duplicate wrapper. Kept for API\ncompatibility; pass content directly to AccordionHeader instead."
+  },
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/accordion/AccordionButton.tsx",
+  "description": "",
+  "displayName": "AccordionButton",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/accordion/AccordionButton.tsx",
+        "name": "AccordionButtonProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/accordion/AccordionButton.tsx",
+          "name": "AccordionButtonProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    }
+  }
+}

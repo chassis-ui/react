@@ -10,15 +10,8 @@ import { StackingExample } from '../../src/examples/toast/StackingExample.tsx'
 
 
 import { useState, useRef } from 'react'
-import {
-  CxButton,
-  CxToast,
-  CxToastBody,
-  CxToastClose,
-  CxToastFooter,
-  CxToastHeader,
-  CxToaster,
-} from '@chassis-ui/react'
+import { Button, Toast, Toaster } from '@chassis-ui/react'
+import DocsPlaceholder from '@chassis-ui/docs/shortcodes/Placeholder.astro'
 
 React toasts are lightweight notifications designed to mimic the push notifications that have been popularized by mobile and desktop operating systems. They're built with flexbox, so they're easy to align and position.
 
@@ -26,7 +19,7 @@ React toasts are lightweight notifications designed to mimic the push notificati
 
 Things to know when using the toast plugin:
 
-- Toasts are opt-in — nothing renders until you flip `visible` to `true` directly, or call `addToast()` to push one into a `CxToaster`'s queue.
+- Toasts are opt-in — nothing renders until you flip `visible` to `true` directly, or call `addToast()` to push one into a `Toaster`'s queue.
 - Toasts will automatically hide after `delay` milliseconds unless you set `autohide={false}`. The countdown pauses while the pointer is over the toast or focus is within it, and only resumes once both leave.
 - Use `role="status"` (the default) for routine confirmations and informational updates. Reserve `role="alert"` for errors and messages requiring immediate attention. Both roles carry implicit live-region semantics, so no separate `aria-live` prop is needed.
 
@@ -39,18 +32,18 @@ To encourage extensible and predictable toasts, we recommend a header and body. 
 Toasts are as flexible as you need and have very little required markup. At a minimum, we require a single element to contain your "toasted" content and strongly encourage a dismiss button.
 
 <Example>
-  <CxToast client:load animation={false} autohide={false} visible={true}>
-    <CxToastHeader closeButton>
-      <Placeholder width="20" height="20" background="#007aff" class="rounded me-xsmall" text={false} title={false} />
+  <Toast client:load animation={false} autohide={false} visible={true}>
+    <Toast.Header closeButton>
+      <DocsPlaceholder width="20" height="20" background="#007aff" class="rounded me-xsmall" text={false} title={false} />
       <strong className="me-auto">Chassis</strong>
       <small>7 min ago</small>
-    </CxToastHeader>
-    <CxToastBody>Hello, world! This is a toast message.</CxToastBody>
-  </CxToast>
+    </Toast.Header>
+    <Toast.Body>Hello, world! This is a toast message.</Toast.Body>
+  </Toast>
 </Example>
 
 
-For dynamic notifications, call `addToast()` from anywhere — an event handler, an async callback — to push a toast into a `CxToaster`'s queue. `CxToaster` renders whatever's currently queued; nothing else needs to know about it.
+For dynamic notifications, call `addToast()` from anywhere — an event handler, an async callback — to push a toast into a `Toaster`'s queue. `Toaster` renders whatever's currently queued; nothing else needs to know about it.
 
 <Example>
   <BasicExample client:load />
@@ -58,20 +51,20 @@ For dynamic notifications, call `addToast()` from anywhere — an event handler,
 
 ### Action footer
 
-Add a `CxToastFooter` below the body to hold acknowledgement or follow-up actions. It renders `.toast-footer`, separated from the body by a border that matches the header rule.
+Add a `Toast.Footer` below the body to hold acknowledgement or follow-up actions. It renders `.toast-footer`, separated from the body by a border that matches the header rule.
 
 <Example>
-  <CxToast client:load autohide={false} visible={true}>
-    <CxToastBody>Hello, world! This is a toast message.</CxToastBody>
-    <CxToastFooter>
-      <CxButton type="button" color="primary" size="small">
+  <Toast client:load autohide={false} visible={true}>
+    <Toast.Body>Hello, world! This is a toast message.</Toast.Body>
+    <Toast.Footer>
+      <Button type="button" color="primary" size="small">
         Take action
-      </CxButton>
-      <CxToastClose component={CxButton} color="secondary" size="small">
+      </Button>
+      <Toast.Close component={Button} color="secondary" size="small">
         Close
-      </CxToastClose>
-    </CxToastFooter>
-  </CxToast>
+      </Toast.Close>
+    </Toast.Footer>
+  </Toast>
 </Example>
 
 ### Translucent
@@ -79,8 +72,8 @@ Add a `CxToastFooter` below the body to hold acknowledgement or follow-up action
 Add `translucent` to blend the toast in with what's below it.
 
 <Example className="bg-dark">
-  <CxToast client:load translucent autohide={false} visible={true}>
-    <CxToastHeader closeButton>
+  <Toast client:load translucent autohide={false} visible={true}>
+    <Toast.Header closeButton>
       <svg
         className="rounded me-small"
         width="20"
@@ -94,14 +87,14 @@ Add `translucent` to blend the toast in with what's below it.
       </svg>
       <strong className="me-auto">Chassis</strong>
       <small>7 min ago</small>
-    </CxToastHeader>
-    <CxToastBody>Hello, world! This is a toast message.</CxToastBody>
-  </CxToast>
+    </Toast.Header>
+    <Toast.Body>Hello, world! This is a toast message.</Toast.Body>
+  </Toast>
 </Example>
 
 ### Stacking
 
-You can stack toasts by wrapping them in a `CxToaster`, which will vertically add some spacing between them.
+You can stack toasts by wrapping them in a `Toaster`, which will vertically add some spacing between them.
 
 <Example>
   <StackingExample client:load />
@@ -109,47 +102,47 @@ You can stack toasts by wrapping them in a `CxToaster`, which will vertically ad
 
 ### Simplified layout
 
-Customize your toasts by removing sub-components, tweaking them with utilities, or by adding your own markup. Here we've created a simpler toast by removing the default `<CxToastHeader>`, adding a custom hide icon from Chassis Icons, and using some flexbox utilities to adjust the layout.
+Customize your toasts by removing sub-components, tweaking them with utilities, or by adding your own markup. Here we've created a simpler toast by removing the default `<Toast.Header>`, adding a custom hide icon from Chassis Icons, and using some flexbox utilities to adjust the layout.
 
 <Example>
-  <CxToast client:load autohide={false} visible={true} className="align-items-center">
+  <Toast client:load autohide={false} visible={true} className="align-items-center">
     <div className="d-flex">
-      <CxToastBody>Hello, world! This is a toast message.</CxToastBody>
-      <CxToastClose className="me-small m-auto" />
+      <Toast.Body>Hello, world! This is a toast message.</Toast.Body>
+      <Toast.Close className="me-small m-auto" />
     </div>
-  </CxToast>
+  </Toast>
 </Example>
 
 ### Color schemes
 
-Apply `color` and add `solid` for a full-color background with inverted text. Here we've set `color="primary"` and `solid` on the `<CxToast>`.
+Apply `color` and add `solid` for a full-color background with inverted text. Here we've set `color="primary"` and `solid` on the `<Toast>`.
 
 <Example>
-  <CxToast client:load autohide={false} visible={true} color="primary" solid className="align-items-center">
+  <Toast client:load autohide={false} visible={true} color="primary" solid className="align-items-center">
     <div className="d-flex">
-      <CxToastBody>Hello, world! This is a toast message.</CxToastBody>
-      <CxToastClose className="me-small m-auto" />
+      <Toast.Body>Hello, world! This is a toast message.</Toast.Body>
+      <Toast.Close className="me-small m-auto" />
     </div>
-  </CxToast>
+  </Toast>
 </Example>
 
 ## API
 
-### CxToast
+### Toast
 
-<PropTable component="CxToast" />
-### CxToastHeader
+<PropTable component="Toast" />
+### Toast.Header
 
-<PropTable component="CxToastHeader" />
-### CxToastBody
+<PropTable component="ToastHeader" />
+### Toast.Body
 
-<PropTable component="CxToastBody" />
-### CxToastFooter
+<PropTable component="ToastBody" />
+### Toast.Footer
 
-<PropTable component="CxToastFooter" />
-### CxToastClose
+<PropTable component="ToastFooter" />
+### Toast.Close
 
-<PropTable component="CxToastClose" />
-### CxToaster
+<PropTable component="ToastClose" />
+### Toaster
 
-<PropTable component="CxToaster" />
+<PropTable component="Toaster" />

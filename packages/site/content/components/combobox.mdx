@@ -14,9 +14,9 @@ import { Example as FormFieldExample } from '../../src/examples/combobox/FormFie
 
 ## Overview
 
-`CxCombobox` combines a text input with a filterable list of options — type to narrow the list, arrow keys to move through it, Enter to select. It replaces hand-wiring a `CxMenu` to a text input with real combobox semantics: `role="combobox"` on the input, `role="listbox"`/`role="option"` on the list, and `aria-expanded`/`aria-controls`/`aria-activedescendant` kept in sync automatically. For a display-only toggle that opens the option list instead of typing directly into it, see [Autocomplete]([[docsref:/forms/autocomplete]]).
+`Combobox` combines a text input with a filterable list of options — type to narrow the list, arrow keys to move through it, Enter to select. It replaces hand-wiring a `Menu` to a text input with real combobox semantics: `role="combobox"` on the input, `role="listbox"`/`role="option"` on the list, and `aria-expanded`/`aria-controls`/`aria-activedescendant` kept in sync automatically. For a display-only toggle that opens the option list instead of typing directly into it, see [Autocomplete]([[docsref:/components/autocomplete]]).
 
-Compose a `CxComboboxItem` per option, each identified by an `id`.
+Compose a `Combobox.Item` per option, each identified by an `id`.
 
 <Example>
   <BasicExample client:load />
@@ -24,7 +24,7 @@ Compose a `CxComboboxItem` per option, each identified by an `id`.
 
 ## Rich item content
 
-Add `icon`/`description` to a `CxComboboxItem` for a leading icon and a secondary line of text below the label. Content still filters and renders as plain text when neither is set.
+Add `icon`/`description` to a `Combobox.Item` for a leading icon and a secondary line of text below the label. Content still filters and renders as plain text when neither is set.
 
 <Example>
   <RichContentExample client:load />
@@ -32,7 +32,7 @@ Add `icon`/`description` to a `CxComboboxItem` for a leading icon and a secondar
 
 ## Grouped items
 
-Wrap related `CxComboboxItem` elements in a `CxComboboxGroup` to render them under a shared header. Filtering a query out of every item in a group hides that group's header along with it.
+Wrap related `Combobox.Item` elements in a `Combobox.Group` to render them under a shared header. Filtering a query out of every item in a group hides that group's header along with it.
 
 <Example>
   <GroupedExample client:load />
@@ -40,7 +40,7 @@ Wrap related `CxComboboxItem` elements in a `CxComboboxGroup` to render them und
 
 ## Disabled options
 
-Add `disabled` to a `CxComboboxItem` to remove it from keyboard navigation and prevent it from being selected. The combobox itself stays usable.
+Add `disabled` to a `Combobox.Item` to remove it from keyboard navigation and prevent it from being selected. The combobox itself stays usable.
 
 <Example>
   <DisabledExample client:load />
@@ -56,7 +56,7 @@ Pass an `items` array instead of composing children to build the option list fro
 
 ## As a form field
 
-Pass `label`/`help` to wrap the combobox in a `.form-field` with an associated `CxFormLabel` and `CxFormHelp`. Pass `name` to have `CxCombobox` create and manage a hidden `<input>` for native form submission — its value stays in sync with the selection.
+Pass `label`/`help` to wrap the combobox in a `.form-field` with an associated `FormLabel` and `FormHelp`. Pass `name` to have `Combobox` create and manage a hidden `<input>` for native form submission — its value stays in sync with the selection.
 
 <Example>
   <FormFieldExample client:load />
@@ -64,27 +64,27 @@ Pass `label`/`help` to wrap the combobox in a `.form-field` with an associated `
 
 ## Controlled selection
 
-Pass `value`/`onChange` to `CxCombobox` to control the selected option yourself. Omit them (use `defaultValue` instead) to let `CxCombobox` manage selection internally.
+Pass `value`/`onChange` to `Combobox` to control the selected option yourself. Omit them (use `defaultValue` instead) to let `Combobox` manage selection internally.
 
 ## Scope
 
 This is the single-select, type-to-filter combobox — the strong-fit case for React Aria's combobox hooks, and the most common combobox pattern. Two related patterns live in other components instead:
 
-- **A button-trigger toggle with its own search field** — see [Autocomplete]([[docsref:/forms/autocomplete]]).
-- **Multiple selection** — also [Autocomplete]([[docsref:/forms/autocomplete]]), via its `multiple` prop, built on the same button-trigger composition.
+- **A button-trigger toggle with its own search field** — see [Autocomplete]([[docsref:/components/autocomplete]]).
+- **Multiple selection** — also [Autocomplete]([[docsref:/components/autocomplete]]), via its `multiple` prop, built on the same button-trigger composition.
 
 **No async filtering.** Matching happens entirely client-side against the options already passed as `children`/`items`; there's no controlled input value or `onInputChange` callback to drive a server-side search.
 
 ## API
 
-### CxCombobox
+### Combobox
 
-<PropTable component="CxCombobox" />
+<PropTable component="Combobox" />
 
-### CxComboboxItem
+### Combobox.Item
 
-<PropTable component="CxComboboxItem" />
+<PropTable component="ComboboxItem" />
 
-### CxComboboxGroup
+### Combobox.Group
 
-<PropTable component="CxComboboxGroup" />
+<PropTable component="ComboboxGroup" />

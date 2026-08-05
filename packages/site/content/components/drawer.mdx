@@ -121,7 +121,7 @@ Add `fullscreen` to expand the panel to fill the viewport, animating in and out 
 
 ## Footer layout
 
-`<CxDrawerFooter>` uses `flex-direction: row-reverse`, so buttons are right-aligned without extra props — write the **primary action first** in source, it renders on the right. At the small breakpoint, buttons stretch to equal widths. Add `stacked` to stack them as full-width columns instead.
+`<Drawer.Footer>` uses `flex-direction: row-reverse`, so buttons are right-aligned without extra props — write the **primary action first** in source, it renders on the right. At the small breakpoint, buttons stretch to equal widths. Add `stacked` to stack them as full-width columns instead.
 
 <Example>
   <FooterExample client:load />
@@ -133,24 +133,24 @@ Set `responsive` to a breakpoint (`'small' | 'medium' | 'large' | 'xlarge' | '2x
 
 ## Accessibility
 
-The `<dialog>` element carries an implicit `role="dialog"` when opened with `showModal()`. Provide an accessible name with `aria-labelledby` on `<CxDrawer>` pointing at the `<CxDrawerTitle>` element's `id`.
+The `<dialog>` element carries an implicit `role="dialog"` when opened with `showModal()`. Provide an accessible name with `aria-labelledby` on `<Drawer>` pointing at the `<Drawer.Title>` element's `id`.
 
 Focus moves to the drawer on open — to a specific element if it has `autofocus`, otherwise to the drawer itself. After the drawer closes, focus returns to whichever element was focused when it opened. Opening a second drawer while one is already open automatically closes the first.
 
 ## API
 
-### CxDrawer
+### Drawer
 
-<PropTable component="CxDrawer" />
-### CxDrawerBody
+<PropTable component="Drawer" />
+### Drawer.Body
 
-<PropTable component="CxDrawerBody" />
-### CxDrawerFooter
+<PropTable component="DrawerBody" />
+### Drawer.Footer
 
-<PropTable component="CxDrawerFooter" />
-### CxDrawerHeader
+<PropTable component="DrawerFooter" />
+### Drawer.Header
 
-<PropTable component="CxDrawerHeader" />
-### CxDrawerTitle
+<PropTable component="DrawerHeader" />
+### Drawer.Title
 
-<PropTable component="CxDrawerTitle" />
+<PropTable component="DrawerTitle" />

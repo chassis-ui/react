@@ -1,13 +1,6 @@
 import { useMemo, useState } from 'react'
 import type { SortDescriptor } from 'react-stately'
-import {
-  CxTable,
-  CxTableBody,
-  CxTableCell,
-  CxTableColumn,
-  CxTableHeader,
-  CxTableRow
-} from '@chassis-ui/react'
+import { Table } from '@chassis-ui/react'
 
 const rows = [
   { id: 1, name: 'Mark Otto', role: 'Engineer' },
@@ -29,22 +22,22 @@ export const SortingExample = () => {
   }, [sortDescriptor])
 
   return (
-    <CxTable aria-label="Team" onSortChange={setSortDescriptor} sortDescriptor={sortDescriptor}>
-      <CxTableHeader>
-        <CxTableColumn key="name" allowsSorting>
+    <Table aria-label="Team" onSortChange={setSortDescriptor} sortDescriptor={sortDescriptor}>
+      <Table.Header>
+        <Table.Column key="name" allowsSorting>
           Name
-        </CxTableColumn>
-        <CxTableColumn key="role" allowsSorting>
+        </Table.Column>
+        <Table.Column key="role" allowsSorting>
           Role
-        </CxTableColumn>
-      </CxTableHeader>
-      <CxTableBody items={sortedRows}>
+        </Table.Column>
+      </Table.Header>
+      <Table.Body items={sortedRows}>
         {(row) => (
-          <CxTableRow key={row.id}>
-            {(columnKey) => <CxTableCell>{row[columnKey as keyof typeof row]}</CxTableCell>}
-          </CxTableRow>
+          <Table.Row key={row.id}>
+            {(columnKey) => <Table.Cell>{row[columnKey as keyof typeof row]}</Table.Cell>}
+          </Table.Row>
         )}
-      </CxTableBody>
-    </CxTable>
+      </Table.Body>
+    </Table>
   )
 }

@@ -16,7 +16,7 @@ import { Example as ControlledValueExample } from '../../src/examples/textarea/C
 
 ## Overview
 
-`CxTextarea` is a styled, accessible replacement for a native multi-line `<textarea>`. It's built on React Aria's `useTextField` hook, which wires `aria-describedby` / `aria-labelledby` to the ids generated for an associated label, help text, and validation feedback — the same wiring [Text Input]([[docsref:/forms/text-input]]) uses.
+`Textarea` is a styled, accessible replacement for a native multi-line `<textarea>`. It's built on React Aria's `useTextField` hook, which wires `aria-describedby` / `aria-labelledby` to the ids generated for an associated label, help text, and validation feedback — the same wiring [Text Input]([[docsref:/components/text-input]]) uses.
 
 <Example>
   <BasicExample client:load />
@@ -24,7 +24,7 @@ import { Example as ControlledValueExample } from '../../src/examples/textarea/C
 
 ## As a form field
 
-Pass `label` / `help` / `invalid` / `invalidFeedback` / `valid` / `validFeedback` directly to `CxTextarea` to render it together with an associated `CxFormLabel`, `CxFormHelp`, and `CxFormFeedback`, already wired up — see [Form Field]([[docsref:/forms/form-field]]) instead when a control needs to be grouped with companion content under one label.
+Pass `label` / `help` / `invalid` / `invalidFeedback` / `valid` / `validFeedback` directly to `Textarea` to render it together with an associated `FormLabel`, `FormHelp`, and `FormFeedback`, already wired up — see [Form Field]([[docsref:/components/form-field]]) instead when a control needs to be grouped with companion content under one label.
 
 <Example>
   <FormFieldExample client:load />
@@ -46,7 +46,7 @@ Set the native `rows` attribute to control how many lines show before the contro
   <RowsExample client:load />
 </Example>
 
-Regardless of `rows`, the control never renders shorter than a single-line `CxTextInput` — the underlying `.form-input` class applies the same minimum height floor to both.
+Regardless of `rows`, the control never renders shorter than a single-line `TextInput` — the underlying `.form-input` class applies the same minimum height floor to both.
 
 ## Disabled
 
@@ -83,11 +83,11 @@ Pass `value` and `onChange` to control the value from external state. `onChange`
 ```tsx
 const [value, setValue] = useState('')
 
-<CxTextarea value={value} onChange={setValue} />
+<Textarea value={value} onChange={setValue} />
 ```
 
 ## API
 
-### CxTextarea
+### Textarea
 
-<PropTable component="CxTextarea" />
+<PropTable component="Textarea" />

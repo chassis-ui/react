@@ -5,15 +5,15 @@ description: Chassis File Input component. Use our custom file inputs for consis
 toc: true
 ---
 
-import { CxFileInput, CxFormLabel } from '@chassis-ui/react'
+import { FileInput, FormLabel } from '@chassis-ui/react'
 
 ## Overview
 
-`<CxFileInput>` wraps `<input type="file">` with the same `.form-input` styling as `<CxTextInput>`, including a themed file-selector button.
+`<FileInput>` wraps `<input type="file">` with the same `.form-input` styling as `<TextInput>`, including a themed file-selector button.
 
 <Example>
-  <CxFormLabel htmlFor="formFile">Default file input</CxFormLabel>
-  <CxFileInput id="formFile" />
+  <FormLabel htmlFor="formFile">Default file input</FormLabel>
+  <FileInput id="formFile" />
 </Example>
 
 ## Multiple files
@@ -21,8 +21,8 @@ import { CxFileInput, CxFormLabel } from '@chassis-ui/react'
 Add the `multiple` boolean attribute to allow selecting more than one file.
 
 <Example>
-  <CxFormLabel htmlFor="formFileMultiple">Multiple files input</CxFormLabel>
-  <CxFileInput id="formFileMultiple" multiple />
+  <FormLabel htmlFor="formFileMultiple">Multiple files input</FormLabel>
+  <FileInput id="formFileMultiple" multiple />
 </Example>
 
 ## Disabled
@@ -30,8 +30,8 @@ Add the `multiple` boolean attribute to allow selecting more than one file.
 Add the `disabled` boolean attribute to give the input a grayed-out appearance and remove pointer events.
 
 <Example>
-  <CxFormLabel htmlFor="formFileDisabled">Disabled file input</CxFormLabel>
-  <CxFileInput id="formFileDisabled" disabled />
+  <FormLabel htmlFor="formFileDisabled">Disabled file input</FormLabel>
+  <FileInput id="formFileDisabled" disabled />
 </Example>
 
 ## Sizing
@@ -39,14 +39,14 @@ Add the `disabled` boolean attribute to give the input a grayed-out appearance a
 Apply the `size` property (`small` or `large`) to change the size of the input and its file-selector button.
 
 <Example>
-  <CxFormLabel htmlFor="formFileSm">Small file input</CxFormLabel>
-  <CxFileInput id="formFileSm" size="small" className="mb-medium" />
-  <CxFormLabel htmlFor="formFileLg">Large file input</CxFormLabel>
-  <CxFileInput id="formFileLg" size="large" />
+  <FormLabel htmlFor="formFileSm">Small file input</FormLabel>
+  <FileInput id="formFileSm" size="small" className="mb-medium" />
+  <FormLabel htmlFor="formFileLg">Large file input</FormLabel>
+  <FileInput id="formFileLg" size="large" />
 </Example>
 
 ## API
 
-### CxFileInput
+### FileInput
 
-<PropTable component="CxFileInput" />
+<PropTable component="FileInput" />

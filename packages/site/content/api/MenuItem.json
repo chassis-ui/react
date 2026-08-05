@@ -1,0 +1,163 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/menu/MenuItem.tsx",
+  "description": "",
+  "displayName": "MenuItem",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/menu/MenuItem.tsx",
+        "name": "MenuItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/MenuItem.tsx",
+          "name": "MenuItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "component": {
+      "defaultValue": {
+        "value": "a"
+      },
+      "description": "Component used for the root node. Either a string to use a HTML element or a component.",
+      "name": "component",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/menu/MenuItem.tsx",
+        "name": "MenuItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/MenuItem.tsx",
+          "name": "MenuItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | ComponentClass<any, any> | FunctionComponent<any>"
+      }
+    },
+    "description": {
+      "defaultValue": null,
+      "description": "Secondary line of text rendered below `children` (`.menu-item-description`).",
+      "name": "description",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/menu/MenuItem.tsx",
+        "name": "MenuItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/MenuItem.tsx",
+          "name": "MenuItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "icon": {
+      "defaultValue": null,
+      "description": "Icon rendered at the item's leading edge (`.menu-item-icon`).",
+      "name": "icon",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/menu/MenuItem.tsx",
+        "name": "MenuItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/MenuItem.tsx",
+          "name": "MenuItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "selected": {
+      "defaultValue": null,
+      "description": "Marks the item as the current selection in a choice list. Renders in a heavier font weight.\nCombine with a manually-composed `.menu-item-check` icon (in `children`, or via `icon` on a\nplain, non-selection item) to also show a checkmark — this prop alone doesn't add one, so\nexisting font-weight-only usage keeps rendering unchanged.",
+      "name": "selected",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/menu/MenuItem.tsx",
+        "name": "MenuItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/MenuItem.tsx",
+          "name": "MenuItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "active": {
+      "defaultValue": null,
+      "description": "Toggle the active state for the component.",
+      "name": "active",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/link/Link.tsx",
+        "name": "LinkProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/link/Link.tsx",
+          "name": "LinkProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "disabled": {
+      "defaultValue": null,
+      "description": "Toggle the disabled state for the component.",
+      "name": "disabled",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/link/Link.tsx",
+        "name": "LinkProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/link/Link.tsx",
+          "name": "LinkProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "href": {
+      "defaultValue": null,
+      "description": "The href attribute specifies the URL of the page the link goes to.",
+      "name": "href",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/link/Link.tsx",
+        "name": "LinkProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/link/Link.tsx",
+          "name": "LinkProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    }
+  }
+}

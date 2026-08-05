@@ -15,7 +15,7 @@ import { Example as FormFieldExample } from '../../src/examples/autocomplete/For
 
 ## Overview
 
-`CxAutocomplete` is chassis-css's button-trigger combobox — a display-only toggle that opens a panel containing its own search field, rather than a text input that's itself the trigger. That's the difference from [Combobox]([[docsref:/forms/combobox]]): there, the text input is the combobox; here, the toggle just opens one. Compose a `CxAutocompleteItem` per option, each identified by an `id`, optionally grouped with `CxAutocompleteGroup`. Pass `placeholder` for the toggle's empty-state text and `searchPlaceholder` for the search field inside the panel.
+`Autocomplete` is chassis-css's button-trigger combobox — a display-only toggle that opens a panel containing its own search field, rather than a text input that's itself the trigger. That's the difference from [Combobox]([[docsref:/components/combobox]]): there, the text input is the combobox; here, the toggle just opens one. Compose a `Autocomplete.Item` per option, each identified by an `id`, optionally grouped with `Autocomplete.Group`. Pass `placeholder` for the toggle's empty-state text and `searchPlaceholder` for the search field inside the panel.
 
 <Example>
   <BasicExample client:load />
@@ -31,7 +31,7 @@ Set `multiple` to allow more than one option to be selected. The toggle shows th
 
 ## Rich item content
 
-Add `icon`/`description` to a `CxAutocompleteItem` for a leading icon and a secondary line of text below the label.
+Add `icon`/`description` to a `Autocomplete.Item` for a leading icon and a secondary line of text below the label.
 
 <Example>
   <RichContentExample client:load />
@@ -39,7 +39,7 @@ Add `icon`/`description` to a `CxAutocompleteItem` for a leading icon and a seco
 
 ## Grouped items
 
-Wrap related `CxAutocompleteItem` elements in a `CxAutocompleteGroup` to render them under a shared header.
+Wrap related `Autocomplete.Item` elements in a `Autocomplete.Group` to render them under a shared header.
 
 <Example>
   <GroupedExample client:load />
@@ -47,7 +47,7 @@ Wrap related `CxAutocompleteItem` elements in a `CxAutocompleteGroup` to render 
 
 ## Disabled options
 
-Add `disabled` to a `CxAutocompleteItem` to remove it from keyboard navigation and prevent it from being selected.
+Add `disabled` to a `Autocomplete.Item` to remove it from keyboard navigation and prevent it from being selected.
 
 <Example>
   <DisabledExample client:load />
@@ -63,7 +63,7 @@ Pass an `items` array instead of composing children to build the option list fro
 
 ## As a form field
 
-Pass `label`/`help` to wrap the autocomplete in a `.form-field` with an associated `CxFormLabel` and `CxFormHelp`. Pass `name` to have `CxAutocomplete` create and manage hidden `<input>`s for native form submission — one in single-select mode, one per selected key in `multiple` mode.
+Pass `label`/`help` to wrap the autocomplete in a `.form-field` with an associated `FormLabel` and `FormHelp`. Pass `name` to have `Autocomplete` create and manage hidden `<input>`s for native form submission — one in single-select mode, one per selected key in `multiple` mode.
 
 <Example>
   <FormFieldExample client:load />
@@ -71,7 +71,7 @@ Pass `label`/`help` to wrap the autocomplete in a `.form-field` with an associat
 
 ## Controlled selection
 
-Pass `value`/`onChange` to control the selection directly — an array when `multiple` is set, a single id otherwise. Omit them (use `defaultValue` instead) to let `CxAutocomplete` manage selection internally.
+Pass `value`/`onChange` to control the selection directly — an array when `multiple` is set, a single id otherwise. Omit them (use `defaultValue` instead) to let `Autocomplete` manage selection internally.
 
 ## Accessibility
 
@@ -84,14 +84,14 @@ Opening the panel moves focus to the search field; closing it — via Escape, a 
 
 ## API
 
-### CxAutocomplete
+### Autocomplete
 
-<PropTable component="CxAutocomplete" />
+<PropTable component="Autocomplete" />
 
-### CxAutocompleteItem
+### Autocomplete.Item
 
-<PropTable component="CxAutocompleteItem" />
+<PropTable component="AutocompleteItem" />
 
-### CxAutocompleteGroup
+### Autocomplete.Group
 
-<PropTable component="CxAutocompleteGroup" />
+<PropTable component="AutocompleteGroup" />

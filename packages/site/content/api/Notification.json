@@ -1,0 +1,169 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/notification/Notification.tsx",
+  "description": "",
+  "displayName": "Notification",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+        "name": "NotificationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+          "name": "NotificationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "color": {
+      "defaultValue": {
+        "value": "primary"
+      },
+      "description": "Sets the color of the component to one of Chassis context colors.",
+      "name": "color",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+        "name": "NotificationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+          "name": "NotificationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "ContextColor",
+        "value": [
+          {
+            "value": "\"default\""
+          },
+          {
+            "value": "\"alternate\""
+          },
+          {
+            "value": "\"primary\""
+          },
+          {
+            "value": "\"secondary\""
+          },
+          {
+            "value": "\"neutral\""
+          },
+          {
+            "value": "\"success\""
+          },
+          {
+            "value": "\"danger\""
+          },
+          {
+            "value": "\"warning\""
+          },
+          {
+            "value": "\"info\""
+          },
+          {
+            "value": "\"black\""
+          },
+          {
+            "value": "\"white\""
+          }
+        ]
+      }
+    },
+    "dismissible": {
+      "defaultValue": null,
+      "description": "Optionally add a close button to the notification and allow it to self dismiss.",
+      "name": "dismissible",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+        "name": "NotificationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+          "name": "NotificationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "variant": {
+      "defaultValue": null,
+      "description": "Style variant for the notification.",
+      "name": "variant",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+        "name": "NotificationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+          "name": "NotificationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"solid\"",
+        "value": [
+          {
+            "value": "\"solid\""
+          }
+        ]
+      }
+    },
+    "onClose": {
+      "defaultValue": null,
+      "description": "Callback fired when the component requests to be closed.",
+      "name": "onClose",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+        "name": "NotificationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+          "name": "NotificationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "visible": {
+      "defaultValue": {
+        "value": true
+      },
+      "description": "Toggle the visibility of component.",
+      "name": "visible",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+        "name": "NotificationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+          "name": "NotificationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    }
+  }
+}

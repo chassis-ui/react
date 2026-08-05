@@ -1,6 +1,6 @@
 ---
 title: Pagination
-description: Chassis React Pagination supports both a smart data-driven mode (pass total pages and current page) and manual markup with CxPaginationItem.
+description: Chassis React Pagination supports both a smart data-driven mode (pass total pages and current page) and manual markup with Pagination.Item.
 
 toc: true
 ---
@@ -10,11 +10,11 @@ import { MaxVisibleExample } from '../../src/examples/pagination/MaxVisibleExamp
 
 
 import { useState } from 'react'
-import { CxPagination, CxPaginationItem } from '@chassis-ui/react'
+import { Pagination } from '@chassis-ui/react'
 
 ## Smart pagination
 
-Pass `pages`, `activePage`, and `onActivePageChange` to let `<CxPagination>` render the full control automatically — Prev/Next buttons, page numbers, and ellipsis for large ranges.
+Pass `pages`, `activePage`, and `onActivePageChange` to let `<Pagination>` render the full control automatically — Prev/Next buttons, page numbers, and ellipsis for large ranges.
 
 
 <Example>
@@ -32,73 +32,73 @@ Use `maxVisiblePages` to control how many page buttons appear before collapsing 
 
 ## Manual markup
 
-For full control, compose the pagination using `<CxPaginationItem>` directly.
+For full control, compose the pagination using `<Pagination.Item>` directly.
 
 <Example>
-  <CxPagination aria-label="Page navigation example">
-    <CxPaginationItem aria-label="Previous">&laquo;</CxPaginationItem>
-    <CxPaginationItem>1</CxPaginationItem>
-    <CxPaginationItem active>2</CxPaginationItem>
-    <CxPaginationItem>3</CxPaginationItem>
-    <CxPaginationItem aria-label="Next">&raquo;</CxPaginationItem>
-  </CxPagination>
+  <Pagination aria-label="Page navigation example">
+    <Pagination.Item aria-label="Previous">&laquo;</Pagination.Item>
+    <Pagination.Item>1</Pagination.Item>
+    <Pagination.Item active>2</Pagination.Item>
+    <Pagination.Item>3</Pagination.Item>
+    <Pagination.Item aria-label="Next">&raquo;</Pagination.Item>
+  </Pagination>
 </Example>
 
 ### Disabled and active states
 
 <Example>
-  <CxPagination aria-label="...">
-    <CxPaginationItem disabled>&laquo;</CxPaginationItem>
-    <CxPaginationItem active>1</CxPaginationItem>
-    <CxPaginationItem>2</CxPaginationItem>
-    <CxPaginationItem>3</CxPaginationItem>
-    <CxPaginationItem>&raquo;</CxPaginationItem>
-  </CxPagination>
+  <Pagination aria-label="...">
+    <Pagination.Item disabled>&laquo;</Pagination.Item>
+    <Pagination.Item active>1</Pagination.Item>
+    <Pagination.Item>2</Pagination.Item>
+    <Pagination.Item>3</Pagination.Item>
+    <Pagination.Item>&raquo;</Pagination.Item>
+  </Pagination>
 </Example>
 
 ## Sizing
 
 <Example>
-  <CxPagination size="large" aria-label="Large pagination example">
-    <CxPaginationItem>&laquo;</CxPaginationItem>
-    <CxPaginationItem>1</CxPaginationItem>
-    <CxPaginationItem active>2</CxPaginationItem>
-    <CxPaginationItem>3</CxPaginationItem>
-    <CxPaginationItem>&raquo;</CxPaginationItem>
-  </CxPagination>
-  <CxPagination size="small" aria-label="Small pagination example">
-    <CxPaginationItem>&laquo;</CxPaginationItem>
-    <CxPaginationItem>1</CxPaginationItem>
-    <CxPaginationItem active>2</CxPaginationItem>
-    <CxPaginationItem>3</CxPaginationItem>
-    <CxPaginationItem>&raquo;</CxPaginationItem>
-  </CxPagination>
+  <Pagination size="large" aria-label="Large pagination example">
+    <Pagination.Item>&laquo;</Pagination.Item>
+    <Pagination.Item>1</Pagination.Item>
+    <Pagination.Item active>2</Pagination.Item>
+    <Pagination.Item>3</Pagination.Item>
+    <Pagination.Item>&raquo;</Pagination.Item>
+  </Pagination>
+  <Pagination size="small" aria-label="Small pagination example">
+    <Pagination.Item>&laquo;</Pagination.Item>
+    <Pagination.Item>1</Pagination.Item>
+    <Pagination.Item active>2</Pagination.Item>
+    <Pagination.Item>3</Pagination.Item>
+    <Pagination.Item>&raquo;</Pagination.Item>
+  </Pagination>
 </Example>
 
 ## Alignment
 
 <Example>
-  <CxPagination align="center" aria-label="Centered pagination">
-    <CxPaginationItem>&laquo;</CxPaginationItem>
-    <CxPaginationItem>1</CxPaginationItem>
-    <CxPaginationItem active>2</CxPaginationItem>
-    <CxPaginationItem>3</CxPaginationItem>
-    <CxPaginationItem>&raquo;</CxPaginationItem>
-  </CxPagination>
-  <CxPagination align="end" aria-label="Right-aligned pagination">
-    <CxPaginationItem>&laquo;</CxPaginationItem>
-    <CxPaginationItem>1</CxPaginationItem>
-    <CxPaginationItem active>2</CxPaginationItem>
-    <CxPaginationItem>3</CxPaginationItem>
-    <CxPaginationItem>&raquo;</CxPaginationItem>
-  </CxPagination>
+  <Pagination align="center" aria-label="Centered pagination">
+    <Pagination.Item>&laquo;</Pagination.Item>
+    <Pagination.Item>1</Pagination.Item>
+    <Pagination.Item active>2</Pagination.Item>
+    <Pagination.Item>3</Pagination.Item>
+    <Pagination.Item>&raquo;</Pagination.Item>
+  </Pagination>
+  <Pagination align="end" aria-label="Right-aligned pagination">
+    <Pagination.Item>&laquo;</Pagination.Item>
+    <Pagination.Item>1</Pagination.Item>
+    <Pagination.Item active>2</Pagination.Item>
+    <Pagination.Item>3</Pagination.Item>
+    <Pagination.Item>&raquo;</Pagination.Item>
+  </Pagination>
 </Example>
 
 ## API
 
-### CxPagination
+### Pagination
 
-<PropTable component="CxPagination" />
-### CxPaginationItem
+<PropTable component="Pagination" />
+### Pagination.Item
 
-<PropTable component="CxPaginationItem" />
+<PropTable component="PaginationItem" />

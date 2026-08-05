@@ -12,25 +12,24 @@ import { RadioToggleButtonGroupExample } from '../../src/examples/button-group/R
 import { VerticalRadioToggleButtonGroupExample } from '../../src/examples/button-group/VerticalRadioToggleButtonGroupExample.tsx'
 
 import {
-  CxButtonGroup,
-  CxButtonToolbar,
-  CxButton,
-  CxCheckbox,
-  CxTextInput,
-  CxInputGroup,
-  CxInputAddon,
+  ButtonGroup,
+  ButtonToolbar,
+  Button,
+  Checkbox,
+  TextInput,
+  InputGroup,
 } from '@chassis-ui/react'
 
 ## Basic example
 
-Wrap a series of `<CxButton>` components in `<CxButtonGroup>`.
+Wrap a series of `<Button>` components in `<ButtonGroup>`.
 
 <Example>
-  <CxButtonGroup role="group" aria-label="Basic example">
-    <CxButton color="primary">Left</CxButton>
-    <CxButton color="primary">Middle</CxButton>
-    <CxButton color="primary">Right</CxButton>
-  </CxButtonGroup>
+  <ButtonGroup role="group" aria-label="Basic example">
+    <Button color="primary">Left</Button>
+    <Button color="primary">Middle</Button>
+    <Button color="primary">Right</Button>
+  </ButtonGroup>
 </Example>
 
 ##### Ensure the correct `role` and provide a label
@@ -39,46 +38,46 @@ For assistive technologies (ex. screen readers) to communicate that a series of 
 
 Besides, groups and toolbars should be provided an understandable label, as most assistive technologies will otherwise not declare them, despite the appearance of the specific role attribute. In the following examples provided here, we apply `aria-label`, but options such as `aria-labelledby` can also be used.
 
-These classes can also be added to groups of links, as an alternative to the `<CxNav>` components.
+These classes can also be added to groups of links, as an alternative to the `<Nav>` components.
 
 <Example>
-  <CxButtonGroup>
-    <CxButton href="#" color="primary" active>
+  <ButtonGroup>
+    <Button href="#" color="primary" active>
       Active link
-    </CxButton>
-    <CxButton href="#" color="primary">
+    </Button>
+    <Button href="#" color="primary">
       Link
-    </CxButton>
-    <CxButton href="#" color="primary">
+    </Button>
+    <Button href="#" color="primary">
       Link
-    </CxButton>
-  </CxButtonGroup>
+    </Button>
+  </ButtonGroup>
 </Example>
 
 ## Mixed styles
 
 <Example>
-  <CxButtonGroup role="group" aria-label="Basic mixed styles example">
-    <CxButton color="danger">Left</CxButton>
-    <CxButton color="warning">Middle</CxButton>
-    <CxButton color="success">Right</CxButton>
-  </CxButtonGroup>
+  <ButtonGroup role="group" aria-label="Basic mixed styles example">
+    <Button color="danger">Left</Button>
+    <Button color="warning">Middle</Button>
+    <Button color="success">Right</Button>
+  </ButtonGroup>
 </Example>
 
 ## Outlined styles
 
 <Example>
-  <CxButtonGroup role="group" aria-label="Basic outlined example">
-    <CxButton color="primary" variant="outline">
+  <ButtonGroup role="group" aria-label="Basic outlined example">
+    <Button color="primary" variant="outline">
       Left
-    </CxButton>
-    <CxButton color="primary" variant="outline">
+    </Button>
+    <Button color="primary" variant="outline">
       Middle
-    </CxButton>
-    <CxButton color="primary" variant="outline">
+    </Button>
+    <Button color="primary" variant="outline">
       Right
-    </CxButton>
-  </CxButtonGroup>
+    </Button>
+  </ButtonGroup>
 </Example>
 
 ## Checkbox and radio button groups
@@ -86,26 +85,26 @@ These classes can also be added to groups of links, as an alternative to the `<C
 Combine button-like checkbox and radio toggle buttons into a seamless looking button group.
 
 <Example>
-  <CxButtonGroup role="group" aria-label="Basic checkbox toggle button group">
-    <CxCheckbox
+  <ButtonGroup role="group" aria-label="Basic checkbox toggle button group">
+    <Checkbox
       button={{ color: 'primary', variant: 'outline' }}
       id="btncheck1"
       autoComplete="off"
       label="Checkbox 1"
     />
-    <CxCheckbox
+    <Checkbox
       button={{ color: 'primary', variant: 'outline' }}
       id="btncheck2"
       autoComplete="off"
       label="Checkbox 2"
     />
-    <CxCheckbox
+    <Checkbox
       button={{ color: 'primary', variant: 'outline' }}
       id="btncheck3"
       autoComplete="off"
       label="Checkbox 3"
     />
-  </CxButtonGroup>
+  </ButtonGroup>
 </Example>
 
 <Example>
@@ -117,126 +116,126 @@ Combine button-like checkbox and radio toggle buttons into a seamless looking bu
 Join sets of button groups into button toolbars for more complicated components. Use utility classes as needed to space out groups, buttons, and more.
 
 <Example>
-  <CxButtonToolbar role="group" aria-label="Toolbar with button groups">
-    <CxButtonGroup className="me-small" role="group" aria-label="First group">
-      <CxButton color="primary">1</CxButton>
-      <CxButton color="primary">2</CxButton>
-      <CxButton color="primary">3</CxButton>
-      <CxButton color="primary">4</CxButton>
-    </CxButtonGroup>
-    <CxButtonGroup className="me-small" role="group" aria-label="Second group">
-      <CxButton color="secondary">5</CxButton>
-      <CxButton color="secondary">6</CxButton>
-      <CxButton color="secondary">7</CxButton>
-    </CxButtonGroup>
-    <CxButtonGroup className="me-small" role="group" aria-label="Third group">
-      <CxButton color="info">8</CxButton>
-    </CxButtonGroup>
-  </CxButtonToolbar>
+  <ButtonToolbar role="group" aria-label="Toolbar with button groups">
+    <ButtonGroup className="me-small" role="group" aria-label="First group">
+      <Button color="primary">1</Button>
+      <Button color="primary">2</Button>
+      <Button color="primary">3</Button>
+      <Button color="primary">4</Button>
+    </ButtonGroup>
+    <ButtonGroup className="me-small" role="group" aria-label="Second group">
+      <Button color="secondary">5</Button>
+      <Button color="secondary">6</Button>
+      <Button color="secondary">7</Button>
+    </ButtonGroup>
+    <ButtonGroup className="me-small" role="group" aria-label="Third group">
+      <Button color="info">8</Button>
+    </ButtonGroup>
+  </ButtonToolbar>
 </Example>
 
 Feel free to combine input groups with button groups in your toolbars. Similar to the example above, you'll likely need some utilities through to space items correctly.
 
 <Example>
-  <CxButtonToolbar className="mb-medium" role="group" aria-label="Toolbar with button groups">
-    <CxButtonGroup className="me-small" role="group" aria-label="First group">
-      <CxButton color="secondary" variant="outline">
+  <ButtonToolbar className="mb-medium" role="group" aria-label="Toolbar with button groups">
+    <ButtonGroup className="me-small" role="group" aria-label="First group">
+      <Button color="secondary" variant="outline">
         1
-      </CxButton>
-      <CxButton color="secondary" variant="outline">
+      </Button>
+      <Button color="secondary" variant="outline">
         2
-      </CxButton>
-      <CxButton color="secondary" variant="outline">
+      </Button>
+      <Button color="secondary" variant="outline">
         3
-      </CxButton>
-      <CxButton color="secondary" variant="outline">
+      </Button>
+      <Button color="secondary" variant="outline">
         4
-      </CxButton>
-    </CxButtonGroup>
-    <CxInputGroup>
-      <CxInputAddon>@</CxInputAddon>
-      <CxTextInput
+      </Button>
+    </ButtonGroup>
+    <InputGroup>
+      <InputGroup.Addon>@</InputGroup.Addon>
+      <TextInput
         placeholder="Input group example"
         aria-label="Input group example"
         aria-describedby="btnGroupAddon"
       />
-    </CxInputGroup>
-  </CxButtonToolbar>
-  <CxButtonToolbar
+    </InputGroup>
+  </ButtonToolbar>
+  <ButtonToolbar
     className="justify-content-between"
     role="group"
     aria-label="Toolbar with button groups"
   >
-    <CxButtonGroup className="me-small" role="group" aria-label="First group">
-      <CxButton color="secondary" variant="outline">
+    <ButtonGroup className="me-small" role="group" aria-label="First group">
+      <Button color="secondary" variant="outline">
         1
-      </CxButton>
-      <CxButton color="secondary" variant="outline">
+      </Button>
+      <Button color="secondary" variant="outline">
         2
-      </CxButton>
-      <CxButton color="secondary" variant="outline">
+      </Button>
+      <Button color="secondary" variant="outline">
         3
-      </CxButton>
-      <CxButton color="secondary" variant="outline">
+      </Button>
+      <Button color="secondary" variant="outline">
         4
-      </CxButton>
-    </CxButtonGroup>
-    <CxInputGroup>
-      <CxInputAddon>@</CxInputAddon>
-      <CxTextInput
+      </Button>
+    </ButtonGroup>
+    <InputGroup>
+      <InputGroup.Addon>@</InputGroup.Addon>
+      <TextInput
         placeholder="Input group example"
         aria-label="Input group example"
         aria-describedby="btnGroupAddon"
       />
-    </CxInputGroup>
-  </CxButtonToolbar>
+    </InputGroup>
+  </ButtonToolbar>
 </Example>
 
 ## Sizing
 
-Alternatively, of implementing button sizing classes to each button in a group, set `size` property to all `<CxButtonGroup>`'s, including each one when nesting multiple groups.
+Alternatively, of implementing button sizing classes to each button in a group, set `size` property to all `<ButtonGroup>`'s, including each one when nesting multiple groups.
 
 <Example>
-  <CxButtonGroup size="large" role="group" aria-label="Large button group">
-    <CxButton variant="outline">
+  <ButtonGroup size="large" role="group" aria-label="Large button group">
+    <Button variant="outline">
       Left
-    </CxButton>
-    <CxButton variant="outline">
+    </Button>
+    <Button variant="outline">
       Middle
-    </CxButton>
-    <CxButton variant="outline">
+    </Button>
+    <Button variant="outline">
       Right
-    </CxButton>
-  </CxButtonGroup>
+    </Button>
+  </ButtonGroup>
   <br />
-  <CxButtonGroup role="group" aria-label="Default button group">
-    <CxButton variant="outline">
+  <ButtonGroup role="group" aria-label="Default button group">
+    <Button variant="outline">
       Left
-    </CxButton>
-    <CxButton variant="outline">
+    </Button>
+    <Button variant="outline">
       Middle
-    </CxButton>
-    <CxButton variant="outline">
+    </Button>
+    <Button variant="outline">
       Right
-    </CxButton>
-  </CxButtonGroup>
+    </Button>
+  </ButtonGroup>
   <br />
-  <CxButtonGroup size="small" role="group" aria-label="Small button group">
-    <CxButton variant="outline">
+  <ButtonGroup size="small" role="group" aria-label="Small button group">
+    <Button variant="outline">
       Left
-    </CxButton>
-    <CxButton variant="outline">
+    </Button>
+    <Button variant="outline">
       Middle
-    </CxButton>
-    <CxButton variant="outline">
+    </Button>
+    <Button variant="outline">
       Right
-    </CxButton>
-  </CxButtonGroup>
+    </Button>
+  </ButtonGroup>
 </Example>
 
 ## Nesting
 
-Put a `<CxButtonGroup>` inside another `<CxButtonGroup>` when you need menus combined with a series of buttons.
+Put a `<ButtonGroup>` inside another `<ButtonGroup>` when you need menus combined with a series of buttons.
 
 <Example>
   <NestedMenuExample client:load />
@@ -247,15 +246,15 @@ Put a `<CxButtonGroup>` inside another `<CxButtonGroup>` when you need menus com
 Create a set of buttons that appear vertically stacked rather than horizontally.
 
 <Example>
-  <CxButtonGroup vertical role="group" aria-label="Vertical button group">
-    <CxButton color="dark">Button</CxButton>
-    <CxButton color="dark">Button</CxButton>
-    <CxButton color="dark">Button</CxButton>
-    <CxButton color="dark">Button</CxButton>
-    <CxButton color="dark">Button</CxButton>
-    <CxButton color="dark">Button</CxButton>
-    <CxButton color="dark">Button</CxButton>
-  </CxButtonGroup>
+  <ButtonGroup vertical role="group" aria-label="Vertical button group">
+    <Button color="dark">Button</Button>
+    <Button color="dark">Button</Button>
+    <Button color="dark">Button</Button>
+    <Button color="dark">Button</Button>
+    <Button color="dark">Button</Button>
+    <Button color="dark">Button</Button>
+    <Button color="dark">Button</Button>
+  </ButtonGroup>
 </Example>
 
 <Example>
@@ -268,9 +267,9 @@ Create a set of buttons that appear vertically stacked rather than horizontally.
 
 ## API
 
-### CxButtonGroup
+### ButtonGroup
 
-<PropTable component="CxButtonGroup" />
-### CxButtonToolbar
+<PropTable component="ButtonGroup" />
+### ButtonToolbar
 
-<PropTable component="CxButtonToolbar" />
+<PropTable component="ButtonToolbar" />

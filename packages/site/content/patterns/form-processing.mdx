@@ -9,15 +9,15 @@ import { RegistrationForm } from '../../src/examples/form-processing/Registratio
 
 import { useState } from 'react'
 import {
-  CxButton,
-  CxForm,
-  CxTextInput,
-  CxFormLabel,
-  CxSelect,
-  CxFormFeedback,
-  CxNotification,
-  CxRow,
-  CxCol,
+  Button,
+  Form,
+  TextInput,
+  FormLabel,
+  Select,
+  FormFeedback,
+  Notification,
+  Row,
+  Col,
 } from '@chassis-ui/react'
 
 This pattern shows a registration form with controlled inputs, real-time validation feedback, and a success notification on submit.
@@ -30,6 +30,6 @@ This pattern shows a registration form with controlled inputs, real-time validat
 ## Key points
 
 - Validation runs on every render but feedback only shows after the first submit attempt (`submitted` flag).
-- `valid` and `invalid` props on inputs add visual state and expose `<CxFormFeedback>` messages.
-- The success `<CxNotification>` is dismissible — closing it calls `handleReset` which clears all state.
-- `noValidate` on `<CxForm>` disables the browser's built-in validation UI so custom feedback is shown instead.
+- `valid` and `invalid` props on inputs add visual state and expose `<FormFeedback>` messages.
+- The success `<Notification>` is dismissible — closing it calls `handleReset` which clears all state.
+- `noValidate` on `<Form>` disables the browser's built-in validation UI so custom feedback is shown instead.

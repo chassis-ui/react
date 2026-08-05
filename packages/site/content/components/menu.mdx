@@ -23,11 +23,11 @@ import { Example as ContextVariantsExample } from '../../src/examples/menu/Conte
 
 ## Overview
 
-`CxMenu` is a toggleable contextual overlay for links, buttons, and inline forms. It replaces the old `CxDropdown` family, is positioned using [React Aria](https://react-spectrum.adobe.com/react-aria/)'s `useOverlayPosition`, and handles keyboard navigation and multi-level submenus. Menus open on click by default.
+`Menu` is a toggleable contextual overlay for links, buttons, and inline forms. It replaces the old `CxDropdown` family, is positioned using [React Aria](https://react-spectrum.adobe.com/react-aria/)'s `useOverlayPosition`, and handles keyboard navigation and multi-level submenus. Menus open on click by default.
 
 ## Examples
 
-Compose `CxMenu` around a `CxMenuToggle` and a `CxMenuList`. `CxMenuToggle` renders the trigger button and `CxMenuList` renders the panel — Chassis positions it relative to the toggle automatically.
+Compose `Menu` around a `Menu.Toggle` and a `Menu.List`. `Menu.Toggle` renders the trigger button and `Menu.List` renders the panel — Chassis positions it relative to the toggle automatically.
 
 <Example>
   <BasicUsageExample client:load />
@@ -35,7 +35,7 @@ Compose `CxMenu` around a `CxMenuToggle` and a `CxMenuList`. `CxMenuToggle` rend
 
 ### Menu items
 
-Both links and buttons work as `CxMenuItem` elements. Add `active` to mark the current selection, or `disabled` to prevent interaction.
+Both links and buttons work as `Menu.Item` elements. Add `active` to mark the current selection, or `disabled` to prevent interaction.
 
 <Example>
   <MenuItemsExample client:load />
@@ -43,7 +43,7 @@ Both links and buttons work as `CxMenuItem` elements. Add `active` to mark the c
 
 ### Selected
 
-Add `selected` to a `CxMenuItem` to indicate the current choice in a selection list. Pair it with a checkmark icon styled with the `menu-item-check` class, which is only shown on the selected item.
+Add `selected` to a `Menu.Item` to indicate the current choice in a selection list. Pair it with a checkmark icon styled with the `menu-item-check` class, which is only shown on the selected item.
 
 <Example>
   <SelectedExample client:load />
@@ -51,7 +51,7 @@ Add `selected` to a `CxMenuItem` to indicate the current choice in a selection l
 
 ### Rich content
 
-Add `icon`/`description` to a `CxMenuItem` for a leading icon and a secondary line of text below the label.
+Add `icon`/`description` to a `Menu.Item` for a leading icon and a secondary line of text below the label.
 
 <Example>
   <RichContentExample client:load />
@@ -61,7 +61,7 @@ Add `icon`/`description` to a `CxMenuItem` for a leading icon and a secondary li
 
 ### Headers
 
-Use `CxMenuHeader` to label a group of items.
+Use `Menu.Header` to label a group of items.
 
 <Example>
   <HeadersExample client:load />
@@ -69,7 +69,7 @@ Use `CxMenuHeader` to label a group of items.
 
 ### Dividers
 
-Place `CxMenuDivider` between groups of related items.
+Place `Menu.Divider` between groups of related items.
 
 <Example>
   <DividersExample client:load />
@@ -77,7 +77,7 @@ Place `CxMenuDivider` between groups of related items.
 
 ### Text
 
-`CxMenuText` applies header padding to non-interactive content, letting it sit flush with adjacent items.
+`Menu.Text` applies header padding to non-interactive content, letting it sit flush with adjacent items.
 
 <Example>
   <TextExample client:load />
@@ -93,7 +93,7 @@ A menu list can contain any form content.
 
 ## Data-driven items
 
-Pass an `items` array to `CxMenuList` instead of composing children to build a flat list from data — items, headers, and dividers interleaved in authoring order. Covers flat items, headers, and dividers only; compose with `children` and `CxSubmenu` directly for nested submenus.
+Pass an `items` array to `Menu.List` instead of composing children to build a flat list from data — items, headers, and dividers interleaved in authoring order. Covers flat items, headers, and dividers only; compose with `children` and `Menu.Submenu` directly for nested submenus.
 
 <Example>
   <ItemsExample client:load />
@@ -117,7 +117,7 @@ The `autoClose` prop controls which clicks close the menu. The default (`true`) 
 
 ## Submenus
 
-Wrap a trigger and nested items in `CxSubmenu` to create a flyout. Submenus close sibling submenus automatically when a new one opens, and close along with their ancestor menu. Set `activation` to `'hover'` or `'click'` to restrict which interaction opens it on hover-capable devices — the default, `'both'`, accepts either; touch devices always use tap regardless of this setting.
+Wrap a trigger and nested items in `Menu.Submenu` to create a flyout. Submenus close sibling submenus automatically when a new one opens, and close along with their ancestor menu. Set `activation` to `'hover'` or `'click'` to restrict which interaction opens it on hover-capable devices — the default, `'both'`, accepts either; touch devices always use tap regardless of this setting.
 
 <Example>
   <SubmenuExample client:load />
@@ -125,7 +125,7 @@ Wrap a trigger and nested items in `CxSubmenu` to create a flyout. Submenus clos
 
 ### Submenus on mobile
 
-Set `stacked` on a `CxSubmenu` to switch to a view-replacement pattern below the `small` breakpoint, and add `CxSubmenuBack` as the first item to let people navigate back to the parent level.
+Set `stacked` on a `Menu.Submenu` to switch to a view-replacement pattern below the `small` breakpoint, and add `Menu.Submenu.Back` as the first item to let people navigate back to the parent level.
 
 <Example>
   <StackedSubmenuExample client:load />
@@ -133,7 +133,7 @@ Set `stacked` on a `CxSubmenu` to switch to a view-replacement pattern below the
 
 ## Dark mode
 
-Apply `data-cx-theme="dark"` to a `CxMenu` or any ancestor element to opt the menu into the dark theme.
+Apply `data-cx-theme="dark"` to a `Menu` or any ancestor element to opt the menu into the dark theme.
 
 <Example>
   <DarkModeExample client:load />
@@ -141,7 +141,7 @@ Apply `data-cx-theme="dark"` to a `CxMenu` or any ancestor element to opt the me
 
 ## Context variants
 
-Add `context` classes (e.g. `context info`, `context danger`) to a `CxMenuList` or an individual `CxMenuItem` to remap colors to a semantic palette.
+Add `context` classes (e.g. `context info`, `context danger`) to a `Menu.List` or an individual `Menu.Item` to remap colors to a semantic palette.
 
 <Example className="hstack gap-medium">
   <ContextVariantsExample client:load />
@@ -149,38 +149,38 @@ Add `context` classes (e.g. `context info`, `context danger`) to a `CxMenuList` 
 
 ## API
 
-### CxMenu
+### Menu
 
-<PropTable component="CxMenu" />
+<PropTable component="Menu" />
 
-### CxMenuToggle
+### Menu.Toggle
 
-<PropTable component="CxMenuToggle" />
+<PropTable component="MenuToggle" />
 
-### CxMenuList
+### Menu.List
 
-<PropTable component="CxMenuList" />
+<PropTable component="MenuList" />
 
-### CxMenuItem
+### Menu.Item
 
-<PropTable component="CxMenuItem" />
+<PropTable component="MenuItem" />
 
-### CxMenuDivider
+### Menu.Divider
 
-<PropTable component="CxMenuDivider" />
+<PropTable component="MenuDivider" />
 
-### CxMenuHeader
+### Menu.Header
 
-<PropTable component="CxMenuHeader" />
+<PropTable component="MenuHeader" />
 
-### CxMenuText
+### Menu.Text
 
-<PropTable component="CxMenuText" />
+<PropTable component="MenuText" />
 
-### CxSubmenu
+### Menu.Submenu
 
-<PropTable component="CxSubmenu" />
+<PropTable component="Submenu" />
 
-### CxSubmenuBack
+### Menu.Submenu.Back
 
-<PropTable component="CxSubmenuBack" />
+<PropTable component="SubmenuBack" />

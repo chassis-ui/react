@@ -1,0 +1,47 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/toast/Toaster.tsx",
+  "description": "",
+  "displayName": "Toaster",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/Toaster.tsx",
+        "name": "ToasterProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/Toaster.tsx",
+          "name": "ToasterProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "placement": {
+      "defaultValue": null,
+      "description": "Describes the placement of your component.",
+      "name": "placement",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/Toaster.tsx",
+        "name": "ToasterProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/Toaster.tsx",
+          "name": "ToasterProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "'top-start' | 'top' | 'top-end' | 'middle-start' | 'middle' | 'middle-end' | 'bottom-start' | 'bottom' | 'bottom-end' | string"
+      }
+    }
+  }
+}

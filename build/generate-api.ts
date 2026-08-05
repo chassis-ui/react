@@ -27,22 +27,33 @@ const parser = withCustomConfig(path.resolve(__dirname, '../packages/react/tscon
   }
 })
 
+// Public component files are exactly the ones a folder's `index.ts` barrel wires into the
+// package's public API (see packages/react/CONVENTIONS.md) — value imports feeding a compound
+// family's `Object.assign` (`import { X } from './Y'`) or a flat re-export (`export { X } from
+// './Y'`). Deliberately excludes `export type { ... } from './Y'` lines: those point at
+// data-shape types (`DateRangePreset`, item-def interfaces), not components, and are picked up
+// separately by `generateItemDefDocs` below. This replaces the old `Cx`-filename-prefix filter,
+// which stopped matching anything once the migration to unprefixed names/barrels landed.
+const VALUE_IMPORT_LINE = /^(?:import|export)\s*\{[^}]*\}\s*from\s*'\.\/([A-Za-z0-9_]+)'/
+
 function findComponentFiles(dir: string): string[] {
   const results: string[] = []
   if (!fs.existsSync(dir)) return results
   const entries = fs.readdirSync(dir, { withFileTypes: true })
   for (const entry of entries) {
-    const fullPath = path.join(dir, entry.name)
-    if (entry.isDirectory()) {
-      results.push(...findComponentFiles(fullPath))
-    } else if (
-      entry.isFile() &&
-      entry.name.startsWith('Cx') &&
-      entry.name.endsWith('.tsx') &&
-      !entry.name.includes('spec') &&
-      !entry.name.includes('test')
-    ) {
-      results.push(fullPath)
+    if (!entry.isDirectory()) continue
+    const folderPath = path.join(dir, entry.name)
+    const indexPath = path.join(folderPath, 'index.ts')
+    if (!fs.existsSync(indexPath)) continue
+
+    const fileNames = new Set<string>()
+    for (const line of fs.readFileSync(indexPath, 'utf8').split('\n')) {
+      const match = VALUE_IMPORT_LINE.exec(line.trim())
+      if (match) fileNames.add(match[1])
+    }
+    for (const fileName of fileNames) {
+      const tsxPath = path.join(folderPath, `${fileName}.tsx`)
+      if (fs.existsSync(tsxPath)) results.push(tsxPath)
     }
   }
   return results
@@ -133,15 +144,31 @@ function generateItemDefDocs(componentFiles: string[], componentDocs: Map<string
   const program = ts.createProgram(componentFiles, compilerOptions)
   const checker = program.getTypeChecker()
 
+  // Every exported interface/type alias declared anywhere under COMPONENTS_DIR (including files
+  // pulled in only transitively, e.g. `dateRangePresets.ts`) — used below to tell a real
+  // component-owned data-shape type (`SelectOptionDef`, `DateRangePreset`, ...) apart from an
+  // array-typed prop of some unrelated type (`string[]`, `ReactNode[]`, ...). Replaces the old
+  // `Cx`-prefix check, which stopped matching anything once names dropped that prefix.
+  const declaredTypeNames = new Set<string>()
+  for (const sourceFile of program.getSourceFiles()) {
+    if (sourceFile.isDeclarationFile || !sourceFile.fileName.startsWith(COMPONENTS_DIR)) continue
+    ts.forEachChild(sourceFile, (node) => {
+      if (!ts.isInterfaceDeclaration(node) && !ts.isTypeAliasDeclaration(node)) return
+      if (ts.getModifiers(node)?.some((m) => m.kind === ts.SyntaxKind.ExportKeyword)) {
+        declaredTypeNames.add(node.name.text)
+      }
+    })
+  }
+
   const candidates = new Set<string>()
   for (const doc of componentDocs.values()) {
     for (const prop of Object.values<any>(doc.props)) {
-      // Split on union members so a prop typed e.g. `CxSelectOptionDef[] | string[]` still
+      // Split on union members so a prop typed e.g. `SelectOptionDef[] | string[]` still
       // surfaces its "Def" array member as a candidate, not just a prop typed as a bare array.
       const parts = (prop.type?.name ?? '').split(' | ')
       for (const part of parts) {
         const match = /^([A-Za-z_$][\w$]*)\[\]$/.exec(part.trim())
-        if (match && match[1].startsWith('Cx') && !componentDocs.has(match[1])) {
+        if (match && declaredTypeNames.has(match[1]) && !componentDocs.has(match[1])) {
           candidates.add(match[1])
         }
       }

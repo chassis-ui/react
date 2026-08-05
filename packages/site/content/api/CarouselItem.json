@@ -1,0 +1,87 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/carousel/CarouselItem.tsx",
+  "description": "",
+  "displayName": "CarouselItem",
+  "methods": [],
+  "props": {
+    "active": {
+      "defaultValue": null,
+      "description": "@ignore",
+      "name": "active",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/carousel/CarouselItem.tsx",
+        "name": "CarouselItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/carousel/CarouselItem.tsx",
+          "name": "CarouselItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/carousel/CarouselItem.tsx",
+        "name": "CarouselItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/carousel/CarouselItem.tsx",
+          "name": "CarouselItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "direction": {
+      "defaultValue": null,
+      "description": "@ignore",
+      "name": "direction",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/carousel/CarouselItem.tsx",
+        "name": "CarouselItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/carousel/CarouselItem.tsx",
+          "name": "CarouselItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "interval": {
+      "defaultValue": {
+        "value": false
+      },
+      "description": "The amount of time to delay between automatically cycling an item.",
+      "name": "interval",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/carousel/CarouselItem.tsx",
+        "name": "CarouselItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/carousel/CarouselItem.tsx",
+          "name": "CarouselItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number | boolean"
+      }
+    }
+  }
+}

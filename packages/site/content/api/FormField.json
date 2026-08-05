@@ -1,0 +1,180 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/form-field/FormField.tsx",
+  "description": "",
+  "displayName": "FormField",
+  "methods": [],
+  "props": {
+    "children": {
+      "defaultValue": null,
+      "description": "The form control(s) this field wraps.",
+      "name": "children",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form-field/FormField.tsx",
+        "name": "FormFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form-field/FormField.tsx",
+          "name": "FormFieldProps"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form-field/FormField.tsx",
+        "name": "FormFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form-field/FormField.tsx",
+          "name": "FormFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "help": {
+      "defaultValue": null,
+      "description": "A description for the field, rendered below the control(s).",
+      "name": "help",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form-field/FormField.tsx",
+        "name": "FormFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form-field/FormField.tsx",
+          "name": "FormFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "ids": {
+      "defaultValue": null,
+      "description": "The DOM ids of the wrapped control(s), used to associate the label (`htmlFor`) and\npoint your control's own `aria-describedby` at the rendered help/feedback text.",
+      "name": "ids",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form-field/FormField.tsx",
+        "name": "FormFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form-field/FormField.tsx",
+          "name": "FormFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "FormFieldIds"
+      }
+    },
+    "invalid": {
+      "defaultValue": null,
+      "description": "Set field validation state to invalid.",
+      "name": "invalid",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form-field/FormField.tsx",
+        "name": "FormFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form-field/FormField.tsx",
+          "name": "FormFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "invalidFeedback": {
+      "defaultValue": null,
+      "description": "An error message for the field, rendered below the control(s) when `invalid` is set.",
+      "name": "invalidFeedback",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form-field/FormField.tsx",
+        "name": "FormFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form-field/FormField.tsx",
+          "name": "FormFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "label": {
+      "defaultValue": null,
+      "description": "The field's caption, rendered as a `FormLabel` associated with `ids.input`.",
+      "name": "label",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form-field/FormField.tsx",
+        "name": "FormFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form-field/FormField.tsx",
+          "name": "FormFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "valid": {
+      "defaultValue": null,
+      "description": "Set field validation state to valid.",
+      "name": "valid",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form-field/FormField.tsx",
+        "name": "FormFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form-field/FormField.tsx",
+          "name": "FormFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "validFeedback": {
+      "defaultValue": null,
+      "description": "A success message for the field, rendered below the control(s) when `valid` is set.",
+      "name": "validFeedback",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form-field/FormField.tsx",
+        "name": "FormFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form-field/FormField.tsx",
+          "name": "FormFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    }
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/card/CardLink.tsx",
+  "description": "",
+  "displayName": "CardLink",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/card/CardLink.tsx",
+        "name": "CardLinkProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/card/CardLink.tsx",
+          "name": "CardLinkProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "href": {
+      "defaultValue": null,
+      "description": "The href attribute specifies the URL of the page the link goes to.",
+      "name": "href",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/card/CardLink.tsx",
+        "name": "CardLinkProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/card/CardLink.tsx",
+          "name": "CardLinkProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    }
+  }
+}

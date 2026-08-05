@@ -1,0 +1,542 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+  "description": "",
+  "displayName": "DateRangePicker",
+  "methods": [],
+  "props": {
+    "aria-label": {
+      "defaultValue": null,
+      "description": "An accessible label for the date range picker, used when there's no visible `<label>`.",
+      "name": "aria-label",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+        "name": "DateRangePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+          "name": "DateRangePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "aria-labelledby": {
+      "defaultValue": null,
+      "description": "Identifies a visible `<label>` element for the date range picker.",
+      "name": "aria-labelledby",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+        "name": "DateRangePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+          "name": "DateRangePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+        "name": "DateRangePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+          "name": "DateRangePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "defaultOpen": {
+      "defaultValue": {
+        "value": "false"
+      },
+      "description": "Whether the calendar popover is open by default (uncontrolled).",
+      "name": "defaultOpen",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+        "name": "DateRangePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+          "name": "DateRangePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "defaultValue": {
+      "defaultValue": null,
+      "description": "The initial selected date range (uncontrolled).",
+      "name": "defaultValue",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+        "name": "DateRangePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+          "name": "DateRangePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "RangeValue<DateValue> | null"
+      }
+    },
+    "disabled": {
+      "defaultValue": null,
+      "description": "Prevents the date range picker from being focused or interacted with.",
+      "name": "disabled",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+        "name": "DateRangePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+          "name": "DateRangePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "firstDayOfWeek": {
+      "defaultValue": {
+        "value": "'mon'"
+      },
+      "description": "The day that starts the week in the calendar overlay, overriding the default set by the\nactive locale.",
+      "name": "firstDayOfWeek",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+        "name": "DateRangePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+          "name": "DateRangePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"sun\" | \"mon\" | \"tue\" | \"wed\" | \"thu\" | \"fri\" | \"sat\"",
+        "value": [
+          {
+            "value": "\"sun\""
+          },
+          {
+            "value": "\"mon\""
+          },
+          {
+            "value": "\"tue\""
+          },
+          {
+            "value": "\"wed\""
+          },
+          {
+            "value": "\"thu\""
+          },
+          {
+            "value": "\"fri\""
+          },
+          {
+            "value": "\"sat\""
+          }
+        ]
+      }
+    },
+    "help": {
+      "defaultValue": null,
+      "description": "A description for the field, rendered below the date range picker.",
+      "name": "help",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+        "name": "DateRangePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+          "name": "DateRangePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "id": {
+      "defaultValue": null,
+      "description": "`id` forwarded to the field's grouping element — useful for pairing with a `<label for>`.",
+      "name": "id",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+        "name": "DateRangePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+          "name": "DateRangePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "invalid": {
+      "defaultValue": null,
+      "description": "Set component validation state to invalid.",
+      "name": "invalid",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+        "name": "DateRangePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+          "name": "DateRangePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "invalidFeedback": {
+      "defaultValue": null,
+      "description": "An error message for the field, rendered below the date range picker when `invalid` is set.",
+      "name": "invalidFeedback",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+        "name": "DateRangePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+          "name": "DateRangePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "isDateUnavailable": {
+      "defaultValue": null,
+      "description": "Callback that is called for each date in the calendar. If it returns `true`, that date is\nshown but cannot be selected.",
+      "name": "isDateUnavailable",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+        "name": "DateRangePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+          "name": "DateRangePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((date: DateValue) => boolean)"
+      }
+    },
+    "isOpen": {
+      "defaultValue": null,
+      "description": "Whether the calendar popover is open (controlled).",
+      "name": "isOpen",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+        "name": "DateRangePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+          "name": "DateRangePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "label": {
+      "defaultValue": null,
+      "description": "The field's caption, rendered as a `FormLabel` associated with the field group.",
+      "name": "label",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+        "name": "DateRangePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+          "name": "DateRangePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "maxValue": {
+      "defaultValue": null,
+      "description": "The maximum allowed date that a user may select.",
+      "name": "maxValue",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+        "name": "DateRangePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+          "name": "DateRangePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "DateValue | null"
+      }
+    },
+    "minValue": {
+      "defaultValue": null,
+      "description": "The minimum allowed date that a user may select.",
+      "name": "minValue",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+        "name": "DateRangePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+          "name": "DateRangePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "DateValue | null"
+      }
+    },
+    "name": {
+      "defaultValue": null,
+      "description": "Base `name` for a pair of auto-created hidden inputs, kept in sync with the selection, for\nnative form submission — rendered as `${name}Start` and `${name}End`. Omit to skip creating\nthem.",
+      "name": "name",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+        "name": "DateRangePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+          "name": "DateRangePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "onChange": {
+      "defaultValue": null,
+      "description": "Callback fired when the selected date range changes.",
+      "name": "onChange",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+        "name": "DateRangePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+          "name": "DateRangePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((value: RangeValue<DateValue> | null) => void)"
+      }
+    },
+    "onOpenChange": {
+      "defaultValue": null,
+      "description": "Callback fired when the calendar popover's open state changes.",
+      "name": "onOpenChange",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+        "name": "DateRangePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+          "name": "DateRangePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((isOpen: boolean) => void)"
+      }
+    },
+    "presets": {
+      "defaultValue": null,
+      "description": "A list of quick-select range presets shown in the overlay next to the calendar. Selecting a\npreset commits its range immediately, the same as picking a start and end date from the\ncalendar. The preset matching the current selection (if any) is marked selected. Omit to not\nshow a preset list.",
+      "name": "presets",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+        "name": "DateRangePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+          "name": "DateRangePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "DateRangePreset[]"
+      }
+    },
+    "size": {
+      "defaultValue": null,
+      "description": "Size the component small or large.",
+      "name": "size",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+        "name": "DateRangePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+          "name": "DateRangePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"small\" | \"large\"",
+        "value": [
+          {
+            "value": "\"small\""
+          },
+          {
+            "value": "\"large\""
+          }
+        ]
+      }
+    },
+    "unavailableDates": {
+      "defaultValue": null,
+      "description": "ISO 8601 dates (`YYYY-MM-DD`) to mark unselectable, as a convenience alternative to\n`isDateUnavailable` for data-driven cases (e.g. booked dates fetched from an API). Composed\nwith `isDateUnavailable` when both are given — a date unavailable by either is unavailable.\nApplies to both the calendar overlay and typing a date directly into either field.",
+      "name": "unavailableDates",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+        "name": "DateRangePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+          "name": "DateRangePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string[]"
+      }
+    },
+    "valid": {
+      "defaultValue": null,
+      "description": "Set component validation state to valid.",
+      "name": "valid",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+        "name": "DateRangePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+          "name": "DateRangePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "validFeedback": {
+      "defaultValue": null,
+      "description": "A success message for the field, rendered below the date range picker when `valid` is set.",
+      "name": "validFeedback",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+        "name": "DateRangePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+          "name": "DateRangePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "value": {
+      "defaultValue": null,
+      "description": "The selected date range (controlled).",
+      "name": "value",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+        "name": "DateRangePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+          "name": "DateRangePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "RangeValue<DateValue> | null"
+      }
+    },
+    "visibleMonths": {
+      "defaultValue": {
+        "value": "1"
+      },
+      "description": "Number of months to display side by side in the calendar overlay.",
+      "name": "visibleMonths",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+        "name": "DateRangePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+          "name": "DateRangePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number"
+      }
+    }
+  }
+}

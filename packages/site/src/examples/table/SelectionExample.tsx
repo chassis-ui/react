@@ -1,13 +1,6 @@
 import { useState } from 'react'
 import type { Selection } from 'react-stately'
-import {
-  CxTable,
-  CxTableBody,
-  CxTableCell,
-  CxTableColumn,
-  CxTableHeader,
-  CxTableRow
-} from '@chassis-ui/react'
+import { Table } from '@chassis-ui/react'
 
 const rows = [
   { id: 1, name: 'Mark Otto', role: 'Engineer' },
@@ -19,23 +12,23 @@ export const SelectionExample = () => {
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set())
 
   return (
-    <CxTable
+    <Table
       aria-label="Team"
       onSelectionChange={setSelectedKeys}
       selectedKeys={selectedKeys}
       selectionMode="multiple"
     >
-      <CxTableHeader>
-        <CxTableColumn key="name">Name</CxTableColumn>
-        <CxTableColumn key="role">Role</CxTableColumn>
-      </CxTableHeader>
-      <CxTableBody items={rows}>
+      <Table.Header>
+        <Table.Column key="name">Name</Table.Column>
+        <Table.Column key="role">Role</Table.Column>
+      </Table.Header>
+      <Table.Body items={rows}>
         {(row) => (
-          <CxTableRow key={row.id}>
-            {(columnKey) => <CxTableCell>{row[columnKey as keyof typeof row]}</CxTableCell>}
-          </CxTableRow>
+          <Table.Row key={row.id}>
+            {(columnKey) => <Table.Cell>{row[columnKey as keyof typeof row]}</Table.Cell>}
+          </Table.Row>
         )}
-      </CxTableBody>
-    </CxTable>
+      </Table.Body>
+    </Table>
   )
 }
