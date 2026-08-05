@@ -31,53 +31,54 @@ Every component folder gets its own `index.ts`. The central `src/index.ts` re-ex
 barrels instead of reaching into component files directly — `import { Button } from
 './components/button'`, not `from './components/button/Button'`.
 
-## Compound-component API: namespace-only
+## Compound-component API: flat, prefixed exports
 
-Sub-parts of a compound family are exposed as properties on the root component, not as separate
-top-level exports. `Accordion.Item`, not `AccordionItem` — and `AccordionItem` is **not**
-separately exported from the package.
-
-Implemented via `Object.assign` on the root component, inside the folder's `index.ts` barrel (not
-inside the component file itself):
+Sub-parts of a compound family are exported as their own top-level named export, prefixed with the
+root's name — `AccordionItem`, not `Accordion.Item`. Both the root and every part are separately
+importable:
 
 ```ts
-import { Avatar as AvatarRoot } from './Avatar'
-import { AvatarImage } from './AvatarImage'
-import { AvatarStack } from './AvatarStack'
-// plop:sub-import
-
-export const Avatar = Object.assign(AvatarRoot, {
-  // plop:sub-entry
-  Image: AvatarImage,
-  Stack: AvatarStack
-})
-export type { AvatarProps } from './Avatar'
-export type { AvatarImageProps } from './AvatarImage'
-export type { AvatarStackProps } from './AvatarStack'
-// plop:sub-type
+import { Accordion, AccordionItem } from '@chassis-ui/react'
 ```
 
-The three `// plop:sub-*` comments are markers `pnpm generate:sub` appends after — write them by hand
-on the family's first sub-part (as shown above) so every part after that can be generated. The
-entry marker goes right after the opening `{` of the `Object.assign` object, not at the end —
-this repo's Prettier config (`trailingComma: "none"`) forbids a trailing comma on the last key, so
-appending new keys at the *top* keeps every existing line's comma valid without reformatting it.
+Implemented as flat re-exports in the folder's `index.ts` barrel (not inside the component file
+itself):
+
+```ts
+export { Avatar } from './Avatar'
+export type { AvatarProps } from './Avatar'
+export { AvatarImage } from './AvatarImage'
+export type { AvatarImageProps } from './AvatarImage'
+export { AvatarStack } from './AvatarStack'
+export type { AvatarStackProps, AvatarStackItemDef } from './AvatarStack'
+// plop:sub-export
+```
+
+The `// plop:sub-export` comment is the marker `pnpm generate:sub` appends after — write it by
+hand on the family's first sub-part (as shown above) so every part after that can be generated.
+Unlike the old namespace shape, there's no trailing-comma constraint to work around: these are
+independent top-level `export` statements, not entries in an object literal, so order doesn't
+matter and new parts are simply appended after the marker.
+
+The central `src/index.ts` also imports and re-exports every sub-part by name, same as any other
+top-level export — `pnpm generate:sub` wires this automatically via the same `// plop:import` /
+`// plop:export` markers the root-level `pnpm generate` generator already uses.
 
 Notes:
 
-- Props types stay flat-named (`AvatarImageProps`, not `Avatar.ImageProps`) — TypeScript has no
-  clean namespaced-type equivalent, and this matches how Radix/Ark do it.
 - Internal cross-references between sibling files (e.g. `Avatar.tsx` rendering `<AvatarImage>`
-  internally) keep importing directly from the sibling file, not through the namespace — the
-  namespace is assembled once, in `index.ts`, as a public-API concern only.
+  internally) keep importing directly from the sibling file, not through the package's public
+  barrel.
 - Applies only to genuine root+parts families. See the migration plan's "Compound-family
-  inventory" (Ground Truth section) for which folders qualify as-is, which need a closer read
-  before deciding, and which are documented flat exceptions.
-- Documented flat exceptions (not an oversight, don't namespace these): `Grid`
-  (`Container`/`Row`/`Col` — no natural root), `Form` (`Form`/`FormLabel`/`FormHelp`/
+  inventory" (Ground Truth section) for which folders qualify.
+- Documented flat exceptions — these were never compound in the first place, nothing to convert:
+  `Grid` (`Container`/`Row`/`Col` — no natural root), `Form` (`Form`/`FormLabel`/`FormHelp`/
   `FormFeedback` — `Form` is each component's own identity, not a namespace marker for shared
-  pieces). `CheckboxGroup`/`RadioGroup` and `Toast`'s `Toaster` are candidates for the same
-  bucket — confirmed one way or the other during their Phase 1 batch, not assumed here.
+  pieces), `CheckboxGroup`/`RadioGroup`, `Toast`'s `Toaster`, `ButtonGroup`'s `ButtonToolbar`,
+  `Tabs`' `TabPane`/`TabContent` pairing.
+- History: this library briefly used a namespace-only API (`Accordion.Item`, via `Object.assign`)
+  between Phase 1 and Phase 1b of the migration plan, then reverted to flat exports — see the
+  plan's "Amendment (post Phase 1)" section for the reasoning.
 
 ## Sass usage policy
 

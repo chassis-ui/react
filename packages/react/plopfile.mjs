@@ -53,10 +53,10 @@ export default function (plop) {
 
   plop.setGenerator('sub', {
     description:
-      'Scaffold a sub-part for an existing compound family (e.g. Avatar + "Badge" -> Avatar.Badge). ' +
-      'Requires the root folder\'s index.ts to already have the // plop:sub-import, ' +
-      '// plop:sub-entry, // plop:sub-type markers — see CONVENTIONS.md. The first sub-part of a ' +
-      'new family is written by hand (including those markers); every part after that is generated.',
+      'Scaffold a sub-part for an existing compound family (e.g. Avatar + "Badge" -> AvatarBadge, ' +
+      'a flat named export from the avatar/ folder). Requires the root folder\'s index.ts to ' +
+      'already have the // plop:sub-export marker — see CONVENTIONS.md. The first sub-part of a ' +
+      'new family is written by hand (including that marker); every part after that is generated.',
     prompts: [
       {
         type: 'input',
@@ -93,21 +93,18 @@ export default function (plop) {
             throw new Error(
               `${rootIndexPath} doesn't exist. "sub" only adds a part to an existing compound ` +
                 `family — scaffold the family's root (and its first sub-part, by hand, with the ` +
-                `three plop:sub-* markers) before generating additional parts. See CONVENTIONS.md.`
+                `plop:sub-export marker) before generating additional parts. See CONVENTIONS.md.`
             )
           }
           const contents = fs.readFileSync(rootIndexPath, 'utf8')
-          const missing = ['// plop:sub-import', '// plop:sub-entry', '// plop:sub-type'].filter(
-            (marker) => !contents.includes(marker)
-          )
-          if (missing.length > 0) {
+          if (!contents.includes('// plop:sub-export')) {
             throw new Error(
-              `${rootIndexPath} is missing marker(s): ${missing.join(', ')}. The first sub-part ` +
-                `of a compound family is written by hand, including these three markers — see ` +
+              `${rootIndexPath} is missing the // plop:sub-export marker. The first sub-part of ` +
+                `a compound family is written by hand, including that marker — see ` +
                 `CONVENTIONS.md's compound-component section for the exact shape.`
             )
           }
-          return `${rootIndexPath} has all required markers.`
+          return `${rootIndexPath} has the required marker.`
         },
         {
           type: 'add',
@@ -122,22 +119,23 @@ export default function (plop) {
         {
           type: 'append',
           path: 'src/components/{{kebabCase root}}/index.ts',
-          pattern: '// plop:sub-import',
+          pattern: '// plop:sub-export',
           template:
-            "import { {{pascalCase root}}{{pascalCase part}} } from './{{pascalCase root}}{{pascalCase part}}'"
-        },
-        {
-          type: 'append',
-          path: 'src/components/{{kebabCase root}}/index.ts',
-          pattern: '// plop:sub-entry',
-          template: '  {{pascalCase part}}: {{pascalCase root}}{{pascalCase part}},'
-        },
-        {
-          type: 'append',
-          path: 'src/components/{{kebabCase root}}/index.ts',
-          pattern: '// plop:sub-type',
-          template:
+            "export { {{pascalCase root}}{{pascalCase part}} } from './{{pascalCase root}}{{pascalCase part}}'\n" +
             "export type { {{pascalCase root}}{{pascalCase part}}Props } from './{{pascalCase root}}{{pascalCase part}}'"
+        },
+        {
+          type: 'append',
+          path: 'src/index.ts',
+          pattern: '// plop:import',
+          template:
+            "import { {{pascalCase root}}{{pascalCase part}} } from './components/{{kebabCase root}}'"
+        },
+        {
+          type: 'append',
+          path: 'src/index.ts',
+          pattern: '// plop:export',
+          template: '  {{pascalCase root}}{{pascalCase part}},'
         }
       ]
     }
