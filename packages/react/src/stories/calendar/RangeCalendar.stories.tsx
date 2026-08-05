@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { CalendarDate } from '@internationalized/date'
 
-import type { DateRangePreset } from './dateRangePresets'
-import { RangeCalendar } from './RangeCalendar'
+import type { DateRangePreset } from '../../components/calendar/dateRangePresets'
+import { RangeCalendar } from '../../components/calendar/RangeCalendar'
 
 // Fixed, past dates rather than `today()` (as the docs-site examples use) — a visual-regression
 // screenshot needs to render identically no matter what day it's run.
