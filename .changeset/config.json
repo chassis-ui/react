@@ -7,5 +7,5 @@
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["chassis-react-site"]
+  "ignore": ["chassis-react-site", "smoke-test-nextjs-app-router"]
 }

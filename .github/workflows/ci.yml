@@ -88,3 +88,30 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
       - run: pnpm test:visual
+
+  # Confirms @chassis-ui/react actually installs and builds inside a real consuming app's own
+  # build pipeline (Next.js App Router's Turbopack), not just this repo's own synthetic
+  # `renderToString` unit test (see the "SSR" item in packages/react/AGENTS.md) or Rollup build.
+  # A separate job (not a step in `test` above) for the same reason as `visual-regression`: a
+  # distinct concern from this repo's own lint/test/build, checked against a different tool's
+  # pipeline. smoke-tests/nextjs-app-router is a real, minimal app (not published, not
+  # user-facing — see its own AGENTS.md/README.md) depending on @chassis-ui/react via
+  # `workspace:*`, so it always builds against this PR's actual source, not a published version.
+  smoke-test-nextjs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # dist/ is gitignored and has to exist before the smoke app's own build can resolve
+      # @chassis-ui/react's `main`/`module`/`types` package.json fields through the workspace link.
+      - run: pnpm lib:build
+      - run: pnpm --filter smoke-test-nextjs-app-router build
