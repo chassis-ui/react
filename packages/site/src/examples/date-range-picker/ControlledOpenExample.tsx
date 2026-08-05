@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, CxDateRangePicker } from '@chassis-ui/react'
+import { Button, DateRangePicker } from '@chassis-ui/react'
 
 export const ControlledOpenExample = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -7,7 +7,7 @@ export const ControlledOpenExample = () => {
   return (
     <div className="vstack gap-small">
       <div className="d-flex align-items-center gap-2">
-        <CxDateRangePicker aria-label="Trip dates" isOpen={isOpen} onOpenChange={setIsOpen} />
+        <DateRangePicker aria-label="Trip dates" isOpen={isOpen} onOpenChange={setIsOpen} />
         <Button color="secondary" onClick={() => setIsOpen(true)} type="button">
           Open calendar
         </Button>

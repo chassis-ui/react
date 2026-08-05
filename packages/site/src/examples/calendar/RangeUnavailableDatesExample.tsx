@@ -1,4 +1,4 @@
-import { CxRangeCalendar } from '@chassis-ui/react'
+import { RangeCalendar } from '@chassis-ui/react'
 import { today, getLocalTimeZone } from '@internationalized/date'
 
 export const RangeUnavailableDatesExample = () => {
@@ -8,7 +8,7 @@ export const RangeUnavailableDatesExample = () => {
   )
 
   return (
-    <CxRangeCalendar
+    <RangeCalendar
       aria-label="Trip dates"
       defaultValue={{ start: now, end: now.add({ days: 7 }) }}
       unavailableDates={unavailableDates}

@@ -1,9 +1,9 @@
-import { CxCalendar } from '@chassis-ui/react'
+import { Calendar } from '@chassis-ui/react'
 import { isWeekend } from '@internationalized/date'
 
 export const UnavailableExample = () => {
   return (
-    <CxCalendar
+    <Calendar
       aria-label="Appointment date"
       isDateUnavailable={(date) => isWeekend(date, 'en-US')}
     />

@@ -4,22 +4,22 @@ import userEvent from '@testing-library/user-event'
 import { CalendarDate } from '@internationalized/date'
 import { axe } from 'jest-axe'
 
-import { CxDateRangePicker } from '../../../index'
+import { DateRangePicker } from '../../../index'
 
 const openCalendar = () => {
   fireEvent.click(screen.getByRole('button', { name: /calendar/i }))
 }
 
-// Same rationale as `CxDatePicker.spec.tsx`: the popover wrapper only toggles a `hidden` attribute
+// Same rationale as `DatePicker.spec.tsx`: the popover wrapper only toggles a `hidden` attribute
 // and has no role of its own, and is the first `.datepicker` in document order.
 const getCalendarWrapper = () =>
   // eslint-disable-next-line testing-library/no-node-access
   document.querySelector('.datepicker') as HTMLElement
 
-describe('CxDateRangePicker', () => {
+describe('DateRangePicker', () => {
   describe('rendering', () => {
     test('renders a labeled group with two segmented date fields', () => {
-      render(<CxDateRangePicker aria-label="Trip dates" />)
+      render(<DateRangePicker aria-label="Trip dates" />)
       expect(screen.getByRole('group', { name: 'Trip dates' })).toBeInTheDocument()
       expect(screen.getAllByRole('spinbutton').length).toBeGreaterThan(3)
     })
@@ -27,7 +27,7 @@ describe('CxDateRangePicker', () => {
     test('supports a controlled value reflected in both fields', () => {
       const onChange = vi.fn()
       render(
-        <CxDateRangePicker
+        <DateRangePicker
           aria-label="Trip dates"
           onChange={onChange}
           value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 7, 15) }}
@@ -40,7 +40,7 @@ describe('CxDateRangePicker', () => {
 
   describe('open/close behavior', () => {
     test('the calendar dialog is hidden until the toggle button is pressed', () => {
-      render(<CxDateRangePicker aria-label="Trip dates" />)
+      render(<DateRangePicker aria-label="Trip dates" />)
       const dialog = getCalendarWrapper()
       expect(dialog).toHaveAttribute('hidden')
       openCalendar()
@@ -49,7 +49,7 @@ describe('CxDateRangePicker', () => {
     })
 
     test('re-clicking the toggle button closes an open calendar', () => {
-      render(<CxDateRangePicker aria-label="Trip dates" />)
+      render(<DateRangePicker aria-label="Trip dates" />)
       const toggle = screen.getByRole('button', { name: /calendar/i })
       const dialog = getCalendarWrapper()
       fireEvent.click(toggle)
@@ -59,7 +59,7 @@ describe('CxDateRangePicker', () => {
     })
 
     test('pressing Escape while the calendar is open closes it', () => {
-      render(<CxDateRangePicker aria-label="Trip dates" />)
+      render(<DateRangePicker aria-label="Trip dates" />)
       const dialog = getCalendarWrapper()
       openCalendar()
       expect(dialog).not.toHaveAttribute('hidden')
@@ -67,7 +67,7 @@ describe('CxDateRangePicker', () => {
       expect(dialog).toHaveAttribute('hidden')
     })
 
-    // Regression coverage: see `CxDatePicker.spec.tsx`'s identical test for why `userEvent.click`
+    // Regression coverage: see `DatePicker.spec.tsx`'s identical test for why `userEvent.click`
     // (not `fireEvent.click`) is required — it's the one that simulates the browser's real
     // focus-shifting-to-body behavior on a click, which is what `useOverlay`'s `isDismissable`
     // outside-click listener depends on to fire for a plain, non-focusable click target.
@@ -75,7 +75,7 @@ describe('CxDateRangePicker', () => {
       const user = userEvent.setup()
       render(
         <div>
-          <CxDateRangePicker aria-label="Trip dates" />
+          <DateRangePicker aria-label="Trip dates" />
           <p>Some page content</p>
         </div>
       )
@@ -86,11 +86,11 @@ describe('CxDateRangePicker', () => {
       expect(dialog).toHaveAttribute('hidden')
     })
 
-    // Regression coverage: see `CxDatePicker.spec.tsx`'s identical test — both share
+    // Regression coverage: see `DatePicker.spec.tsx`'s identical test — both share
     // `useOverlayPlacement`, which opts out of `useOverlayPosition`'s close-on-any-window-scroll
     // listener so the popover repositions with its trigger instead of vanishing on scroll.
     test('scrolling the window while the calendar is open does not close it', () => {
-      render(<CxDateRangePicker aria-label="Trip dates" />)
+      render(<DateRangePicker aria-label="Trip dates" />)
       const dialog = getCalendarWrapper()
       openCalendar()
       expect(dialog).not.toHaveAttribute('hidden')
@@ -99,34 +99,34 @@ describe('CxDateRangePicker', () => {
     })
 
     test('defaultOpen renders the calendar already open', () => {
-      render(<CxDateRangePicker aria-label="Trip dates" defaultOpen />)
+      render(<DateRangePicker aria-label="Trip dates" defaultOpen />)
       expect(getCalendarWrapper()).not.toHaveAttribute('hidden')
     })
 
     test('isOpen controls the calendar and onOpenChange reports toggle attempts without opening it', () => {
       const onOpenChange = vi.fn()
       const { rerender } = render(
-        <CxDateRangePicker aria-label="Trip dates" isOpen={false} onOpenChange={onOpenChange} />
+        <DateRangePicker aria-label="Trip dates" isOpen={false} onOpenChange={onOpenChange} />
       )
       fireEvent.click(screen.getByRole('button', { name: /calendar/i }))
       expect(onOpenChange).toHaveBeenCalledWith(true)
       expect(getCalendarWrapper()).toHaveAttribute('hidden')
 
-      rerender(<CxDateRangePicker aria-label="Trip dates" isOpen onOpenChange={onOpenChange} />)
+      rerender(<DateRangePicker aria-label="Trip dates" isOpen onOpenChange={onOpenChange} />)
       expect(getCalendarWrapper()).not.toHaveAttribute('hidden')
     })
   })
 
   describe('clearing', () => {
     test('no clear button when nothing is selected', () => {
-      render(<CxDateRangePicker aria-label="Trip dates" />)
+      render(<DateRangePicker aria-label="Trip dates" />)
       expect(screen.queryByRole('button', { name: 'Clear' })).not.toBeInTheDocument()
     })
 
     test('clicking the clear button resets the range and fires onChange with null', () => {
       const onChange = vi.fn()
       render(
-        <CxDateRangePicker
+        <DateRangePicker
           aria-label="Trip dates"
           onChange={onChange}
           value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 7, 15) }}
@@ -138,7 +138,7 @@ describe('CxDateRangePicker', () => {
 
     test('no clear button when disabled, even with a value', () => {
       render(
-        <CxDateRangePicker
+        <DateRangePicker
           aria-label="Trip dates"
           disabled
           value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 7, 15) }}
@@ -147,13 +147,13 @@ describe('CxDateRangePicker', () => {
       expect(screen.queryByRole('button', { name: 'Clear' })).not.toBeInTheDocument()
     })
 
-    // Regression coverage: see `CxDatePicker.spec.tsx`'s identical test — the clear button
+    // Regression coverage: see `DatePicker.spec.tsx`'s identical test — the clear button
     // unmounts itself on press, which drops focus to `document.body` without an explicit refocus.
     // Needs an actually-clearing (uncontrolled) picker, unlike the tests above.
     test('clicking the clear button moves focus to the calendar toggle button, not the document body', async () => {
       const user = userEvent.setup()
       render(
-        <CxDateRangePicker
+        <DateRangePicker
           aria-label="Trip dates"
           defaultValue={{
             start: new CalendarDate(2026, 7, 10),
@@ -172,14 +172,14 @@ describe('CxDateRangePicker', () => {
   describe('focus management', () => {
     test('closing the calendar restores focus to the toggle button', async () => {
       const user = userEvent.setup()
-      render(<CxDateRangePicker aria-label="Trip dates" />)
+      render(<DateRangePicker aria-label="Trip dates" />)
       const toggle = screen.getByRole('button', { name: /calendar/i })
 
-      // eslint-disable-next-line testing-library/no-unnecessary-act -- see CxDatePicker.spec.tsx
+      // eslint-disable-next-line testing-library/no-unnecessary-act -- see DatePicker.spec.tsx
       await act(async () => {
         await user.click(toggle)
       })
-      // eslint-disable-next-line testing-library/no-unnecessary-act -- see CxDatePicker.spec.tsx
+      // eslint-disable-next-line testing-library/no-unnecessary-act -- see DatePicker.spec.tsx
       await act(async () => {
         await user.keyboard('{Escape}')
       })
@@ -193,7 +193,7 @@ describe('CxDateRangePicker', () => {
     test('clicking a start then an end date commits the range, fires onChange, and closes the calendar', () => {
       const onChange = vi.fn()
       render(
-        <CxDateRangePicker
+        <DateRangePicker
           aria-label="Trip dates"
           defaultValue={{ start: new CalendarDate(2026, 7, 1), end: new CalendarDate(2026, 7, 1) }}
           onChange={onChange}
@@ -216,7 +216,7 @@ describe('CxDateRangePicker', () => {
     test('dates outside minValue/maxValue are disabled and cannot be selected', () => {
       const onChange = vi.fn()
       render(
-        <CxDateRangePicker
+        <DateRangePicker
           aria-label="Trip dates"
           defaultValue={{
             start: new CalendarDate(2026, 7, 15),
@@ -239,7 +239,7 @@ describe('CxDateRangePicker', () => {
     test('dates listed in unavailableDates cannot be selected from the calendar', () => {
       const onChange = vi.fn()
       render(
-        <CxDateRangePicker
+        <DateRangePicker
           aria-label="Trip dates"
           defaultValue={{ start: new CalendarDate(2026, 7, 1), end: new CalendarDate(2026, 7, 1) }}
           onChange={onChange}
@@ -259,7 +259,7 @@ describe('CxDateRangePicker', () => {
     test('picking only a start date does not fire onChange or close the calendar', () => {
       const onChange = vi.fn()
       render(
-        <CxDateRangePicker
+        <DateRangePicker
           aria-label="Trip dates"
           defaultValue={{ start: new CalendarDate(2026, 7, 1), end: new CalendarDate(2026, 7, 1) }}
           onChange={onChange}
@@ -276,7 +276,7 @@ describe('CxDateRangePicker', () => {
 
     test('a controlled value can be cleared back to null', () => {
       const { rerender } = render(
-        <CxDateRangePicker
+        <DateRangePicker
           aria-label="Trip dates"
           name="tripDates"
           value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 7, 15) }}
@@ -284,7 +284,7 @@ describe('CxDateRangePicker', () => {
       )
       expect(screen.getByText('10')).toBeInTheDocument()
 
-      rerender(<CxDateRangePicker aria-label="Trip dates" name="tripDates" value={null} />)
+      rerender(<DateRangePicker aria-label="Trip dates" name="tripDates" value={null} />)
 
       // eslint-disable-next-line testing-library/no-node-access
       const startInput = document.querySelector(
@@ -303,7 +303,7 @@ describe('CxDateRangePicker', () => {
   describe('visibleMonths', () => {
     test('passes through to the popover calendar', () => {
       render(
-        <CxDateRangePicker
+        <DateRangePicker
           aria-label="Trip dates"
           value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 8, 5) }}
           visibleMonths={2}
@@ -317,7 +317,7 @@ describe('CxDateRangePicker', () => {
   describe('firstDayOfWeek', () => {
     test('is forwarded to the popover calendar, defaulting to Monday', () => {
       render(
-        <CxDateRangePicker
+        <DateRangePicker
           aria-label="Trip dates"
           value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 7, 15) }}
         />
@@ -329,7 +329,7 @@ describe('CxDateRangePicker', () => {
 
     test('can be overridden', () => {
       render(
-        <CxDateRangePicker
+        <DateRangePicker
           aria-label="Trip dates"
           firstDayOfWeek="sun"
           value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 7, 15) }}
@@ -343,10 +343,10 @@ describe('CxDateRangePicker', () => {
 
   describe('presets', () => {
     test('no presets prop renders no preset list', () => {
-      render(<CxDateRangePicker aria-label="Trip dates" />)
+      render(<DateRangePicker aria-label="Trip dates" />)
       openCalendar()
       // eslint-disable-next-line testing-library/no-node-access
-      expect(document.querySelector('.cx-calendar-presets')).toBeNull()
+      expect(document.querySelector('.calendar-presets')).toBeNull()
     })
 
     test('renders each preset as a button', () => {
@@ -356,7 +356,7 @@ describe('CxDateRangePicker', () => {
           range: { start: new CalendarDate(2026, 7, 1), end: new CalendarDate(2026, 7, 10) }
         }
       ]
-      render(<CxDateRangePicker aria-label="Trip dates" presets={customPresets} />)
+      render(<DateRangePicker aria-label="Trip dates" presets={customPresets} />)
       openCalendar()
       expect(screen.getByRole('button', { name: 'Custom Range' })).toBeInTheDocument()
     })
@@ -370,7 +370,7 @@ describe('CxDateRangePicker', () => {
         }
       ]
       render(
-        <CxDateRangePicker aria-label="Trip dates" onChange={onChange} presets={customPresets} />
+        <DateRangePicker aria-label="Trip dates" onChange={onChange} presets={customPresets} />
       )
       openCalendar()
       fireEvent.click(screen.getByRole('button', { name: 'Custom Range' }))
@@ -390,7 +390,7 @@ describe('CxDateRangePicker', () => {
         }
       ]
       render(
-        <CxDateRangePicker
+        <DateRangePicker
           aria-label="Trip dates"
           presets={customPresets}
           value={{ start: new CalendarDate(2026, 7, 1), end: new CalendarDate(2026, 7, 10) }}
@@ -410,7 +410,7 @@ describe('CxDateRangePicker', () => {
         }
       ]
       render(
-        <CxDateRangePicker
+        <DateRangePicker
           aria-label="Trip dates"
           presets={customPresets}
           value={{ start: new CalendarDate(2026, 7, 1), end: new CalendarDate(2026, 7, 10) }}
@@ -426,7 +426,7 @@ describe('CxDateRangePicker', () => {
   describe('form integration', () => {
     test('creates a pair of hidden inputs for form submission when name is provided', () => {
       const { rerender } = render(
-        <CxDateRangePicker
+        <DateRangePicker
           aria-label="Trip dates"
           name="tripDates"
           value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 7, 15) }}
@@ -444,7 +444,7 @@ describe('CxDateRangePicker', () => {
       expect(endInput.value).toBe('2026-07-15')
 
       rerender(
-        <CxDateRangePicker
+        <DateRangePicker
           aria-label="Trip dates"
           name="tripDates"
           value={{ start: new CalendarDate(2026, 8, 1), end: new CalendarDate(2026, 8, 5) }}
@@ -457,13 +457,13 @@ describe('CxDateRangePicker', () => {
 
   describe('field wrapping', () => {
     test('renders no wrapper when label/help/feedback are all unset', () => {
-      const { container } = render(<CxDateRangePicker aria-label="Trip dates" />)
+      const { container } = render(<DateRangePicker aria-label="Trip dates" />)
       // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
       expect(container.querySelector('.form-field')).toBeNull()
     })
 
     test('wraps in .form-field and associates the label via htmlFor when label is set', () => {
-      render(<CxDateRangePicker label="Trip dates" />)
+      render(<DateRangePicker label="Trip dates" />)
       const group = screen.getByRole('group', { name: 'Trip dates' })
       // eslint-disable-next-line testing-library/no-node-access
       expect(group.closest('.form-field')).not.toBeNull()
@@ -472,11 +472,11 @@ describe('CxDateRangePicker', () => {
 
     test('renders invalid feedback and applies the is-invalid class only when invalid', () => {
       const { rerender } = render(
-        <CxDateRangePicker aria-label="Trip dates" invalidFeedback="Required" />
+        <DateRangePicker aria-label="Trip dates" invalidFeedback="Required" />
       )
       expect(screen.queryByText('Required')).toBeNull()
 
-      rerender(<CxDateRangePicker aria-label="Trip dates" invalid invalidFeedback="Required" />)
+      rerender(<DateRangePicker aria-label="Trip dates" invalid invalidFeedback="Required" />)
       const group = screen.getByRole('group', { name: 'Trip dates' })
       expect(screen.getByText('Required')).toHaveClass('invalid-feedback')
       expect(group).toHaveClass('is-invalid')
@@ -486,7 +486,7 @@ describe('CxDateRangePicker', () => {
   describe('accessibility', () => {
     test('has no axe violations with the calendar open', async () => {
       render(
-        <CxDateRangePicker
+        <DateRangePicker
           aria-label="Trip dates"
           value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 7, 15) }}
         />

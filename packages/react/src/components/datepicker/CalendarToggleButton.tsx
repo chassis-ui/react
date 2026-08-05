@@ -9,7 +9,7 @@ interface CalendarToggleButtonProps {
   state: OverlayTriggerState
 }
 
-// Shared by `CxDatePicker` and `CxDateRangePicker` — both trigger their calendar overlay with an
+// Shared by `DatePicker` and `DateRangePicker` — both trigger their calendar overlay with an
 // identical calendar-icon button. `buttonProps.onPress` (from that caller's own `useDatePicker`/
 // `useDateRangePicker`) only ever opens the overlay (matches upstream react-aria), so re-clicking
 // the button while it's already open would otherwise do nothing — overridden here to actually

@@ -1,5 +1,5 @@
-import { CxCalendar } from '@chassis-ui/react'
+import { Calendar } from '@chassis-ui/react'
 
 export const FirstDayOfWeekExample = () => {
-  return <CxCalendar aria-label="Event date" firstDayOfWeek="sun" />
+  return <Calendar aria-label="Event date" firstDayOfWeek="sun" />
 }

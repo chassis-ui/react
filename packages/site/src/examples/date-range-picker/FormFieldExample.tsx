@@ -1,8 +1,8 @@
-import { CxDateRangePicker } from '@chassis-ui/react'
+import { DateRangePicker } from '@chassis-ui/react'
 
 export const FormFieldExample = () => {
   return (
-    <CxDateRangePicker
+    <DateRangePicker
       label="Trip dates"
       help="We’ll send a reminder the day before you leave."
       name="tripDates"

@@ -1,5 +1,5 @@
 /*
- * `CxCalendar`'s grid uses chassis-css's real `.datepicker-*` class names and structure, so
+ * `Calendar`'s grid uses chassis-css's real `.datepicker-*` class names and structure, so
  * anything chassis-css already styles from that — layout, arrows, header, `[aria-current="date"]`
  * "today", `[aria-disabled="true"]` disabled dates, `:focus-visible` — is left alone here; it's
  * owned by `@chassis-ui/css`'s datepicker component wherever that's loaded. What's below is
@@ -136,8 +136,8 @@
     text-decoration: line-through;
   }
 
-  /* Selected (single-date `CxCalendar` only — `CxRangeCalendar` has its own start/end/in-range
-     styling in `CxRangeCalendar.css`). */
+  /* Selected (single-date `Calendar` only — `RangeCalendar` has its own start/end/in-range
+     styling in `RangeCalendar.css`). */
   .datepicker-date-selected > .datepicker-date-btn {
     color: var(--cx-primary-contrast);
     background-color: var(--cx-primary);

@@ -7,8 +7,7 @@ import { Backdrop } from './components/backdrop'
 import { Breadcrumb } from './components/breadcrumb'
 import { Button } from './components/button'
 import { ButtonGroup, ButtonToolbar } from './components/button-group'
-import { CxCalendar } from './components/calendar/CxCalendar'
-import { CxRangeCalendar } from './components/calendar/CxRangeCalendar'
+import { Calendar, RangeCalendar } from './components/calendar'
 import { Card } from './components/card'
 import { Carousel } from './components/carousel'
 import { Collapse } from './components/collapse'
@@ -17,8 +16,7 @@ import { CloseButton } from './components/close-button'
 import { ColorInput } from './components/color-input'
 import { FileInput } from './components/file-input'
 import { Combobox } from './components/combobox'
-import { CxDatePicker } from './components/datepicker/CxDatePicker'
-import { CxDateRangePicker } from './components/datepicker/CxDateRangePicker'
+import { DatePicker, DateRangePicker } from './components/datepicker'
 import { OtpInput } from './components/otp-input'
 import { PasswordStrength } from './components/password-strength'
 import { I18nProvider } from 'react-aria'
@@ -72,8 +70,8 @@ export {
   Button,
   ButtonGroup,
   ButtonToolbar,
-  CxCalendar,
-  CxRangeCalendar,
+  Calendar,
+  RangeCalendar,
   Card,
   Carousel,
   ChipInput,
@@ -81,14 +79,14 @@ export {
   Collapse,
   ColorInput,
   Combobox,
-  CxDatePicker,
-  CxDateRangePicker,
+  DatePicker,
+  DateRangePicker,
   FileInput,
-  // Re-exported (not a `Cx*` component): react-aria is a bundled dependency, not a peer, so its
-  // module — including the `I18nProvider` context `CxDatePicker` reads locale from via
+  // Re-exported (not a component from this package): react-aria is a bundled dependency, not a
+  // peer, so its module — including the `I18nProvider` context `DatePicker` reads locale from via
   // `useLocale()` — is inlined into this package's own build output, distinct from any react-aria
   // copy a consumer might separately install. A consumer's own `<I18nProvider>` would set a
-  // *different* context instance and silently have no effect on `CxDatePicker`; this re-export is
+  // *different* context instance and silently have no effect on `DatePicker`; this re-export is
   // the one that actually reaches it.
   I18nProvider,
   OtpInput,

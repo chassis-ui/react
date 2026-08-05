@@ -175,7 +175,7 @@ describe('TextInput', () => {
       // react-aria's internal validation-state effect updates state as a direct consequence of
       // `user.type`'s own dispatch, outside whatever act-environment userEvent itself toggles
       // (confirmed by capturing `IS_REACT_ACT_ENVIRONMENT` at warning time for the equivalent
-      // CxDatePicker case) - needs an explicit `act(...)` around the interaction.
+      // DatePicker case) - needs an explicit `act(...)` around the interaction.
       // eslint-disable-next-line testing-library/no-unnecessary-act -- see comment above
       await act(async () => {
         await user.type(input, 'hi')

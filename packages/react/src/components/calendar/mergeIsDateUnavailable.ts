@@ -1,8 +1,8 @@
 import { DateValue } from 'react-stately'
 
-// `date.toString()` on a `CalendarDate` (the only `DateValue` variant `CxCalendar`/`CxDatePicker`
+// `date.toString()` on a `CalendarDate` (the only `DateValue` variant `Calendar`/`DatePicker`
 // ever produce — both are date-only, no time segments) yields the same ISO 8601 `YYYY-MM-DD`
-// string already used elsewhere for form submission (see `CxDatePicker`'s hidden input), so
+// string already used elsewhere for form submission (see `DatePicker`'s hidden input), so
 // `unavailableDates` entries are expected in that same format.
 export const mergeIsDateUnavailable = (
   unavailableDates: string[] | undefined,

@@ -1,4 +1,4 @@
-import { CxRangeCalendar } from '@chassis-ui/react'
+import { RangeCalendar } from '@chassis-ui/react'
 import { getLocalTimeZone, startOfMonth, startOfWeek, today } from '@internationalized/date'
 
 export const PresetsExample = () => {
@@ -22,7 +22,7 @@ export const PresetsExample = () => {
   ]
 
   return (
-    <CxRangeCalendar
+    <RangeCalendar
       aria-label="Trip dates"
       defaultValue={presets[1].range}
       presets={presets}

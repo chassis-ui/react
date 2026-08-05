@@ -5,17 +5,17 @@ import { DateValue, useDateRangePickerState } from 'react-stately'
 
 import { useFormField } from '../../hooks'
 import { renderFormField } from '../form-field/renderFormField'
-import { CxDateRangePreset } from '../calendar/dateRangePresets'
-import { CxRangeCalendar } from '../calendar/CxRangeCalendar'
+import { DateRangePreset } from '../calendar/dateRangePresets'
+import { RangeCalendar } from '../calendar/RangeCalendar'
 import { mergeIsDateUnavailable } from '../calendar/mergeIsDateUnavailable'
 import { CalendarToggleButton } from './CalendarToggleButton'
 import { ClearButton } from './ClearButton'
 import { DateField } from './DateField'
 import { useOverlayPlacement } from './useOverlayPlacement'
-import './CxDatePicker.css'
-import './CxDateRangePicker.css'
+import './DatePicker.css'
+import './DateRangePicker.css'
 
-export interface CxDateRangePickerProps extends Omit<
+export interface DateRangePickerProps extends Omit<
   HTMLAttributes<HTMLDivElement>,
   'onChange' | 'defaultValue'
 > {
@@ -109,7 +109,7 @@ export interface CxDateRangePickerProps extends Omit<
    * calendar. The preset matching the current selection (if any) is marked selected. Omit to not
    * show a preset list.
    */
-  presets?: CxDateRangePreset[]
+  presets?: DateRangePreset[]
   /**
    * Size the component small or large.
    */
@@ -141,14 +141,14 @@ export interface CxDateRangePickerProps extends Omit<
   visibleMonths?: number
 }
 
-// Mirrors `CxDatePicker` closely — same field/overlay/dialog composition, just with two
+// Mirrors `DatePicker` closely — same field/overlay/dialog composition, just with two
 // segmented fields (`startFieldProps`/`endFieldProps` in place of a single `fieldProps`) and
-// `CxRangeCalendar` in place of `CxCalendar` in the overlay, dialog role/ref landing directly on
-// it exactly as `CxCalendar` does for `CxDatePicker`. `presets` is passed straight through —
-// `CxRangeCalendar` owns rendering and selecting them (it's also usable standalone), so completing
+// `RangeCalendar` in place of `Calendar` in the overlay, dialog role/ref landing directly on
+// it exactly as `Calendar` does for `DatePicker`. `presets` is passed straight through —
+// `RangeCalendar` owns rendering and selecting them (it's also usable standalone), so completing
 // one goes through the same `state.setValue`/`onChange` path a two-click grid selection does,
 // which is what closes this overlay automatically.
-export const CxDateRangePicker = ({
+export const DateRangePicker = ({
   className,
   defaultOpen,
   defaultValue,
@@ -174,7 +174,7 @@ export const CxDateRangePicker = ({
   value,
   visibleMonths,
   ...rest
-}: CxDateRangePickerProps) => {
+}: DateRangePickerProps) => {
   const combinedIsDateUnavailable = useMemo(
     () => mergeIsDateUnavailable(unavailableDates, isDateUnavailable),
     [unavailableDates, isDateUnavailable]
@@ -261,7 +261,7 @@ export const CxDateRangePicker = ({
         >
           <div className="d-flex w-100">
             <DateField fieldProps={startFieldProps} />
-            <span aria-hidden="true" className="cx-daterangepicker-separator">
+            <span aria-hidden="true" className="daterangepicker-separator">
               –
             </span>
             <DateField fieldProps={endFieldProps} />
@@ -273,7 +273,7 @@ export const CxDateRangePicker = ({
             <ClearButton
               onPress={() => {
                 state.setValue(null)
-                // See `CxDatePicker`'s identical `ClearButton` usage for why this is needed —
+                // See `DatePicker`'s identical `ClearButton` usage for why this is needed —
                 // this button unmounts itself once cleared, so focus needs somewhere to land.
                 toggleButtonRef.current?.focus()
               }}
@@ -291,7 +291,7 @@ export const CxDateRangePicker = ({
         >
           {state.isOpen && (
             <FocusScope contain restoreFocus>
-              <CxRangeCalendar
+              <RangeCalendar
                 {...domDialogProps}
                 autoFocus
                 disabled={disabled}
@@ -336,4 +336,4 @@ export const CxDateRangePicker = ({
   })
 }
 
-CxDateRangePicker.displayName = 'CxDateRangePicker'
+DateRangePicker.displayName = 'DateRangePicker'

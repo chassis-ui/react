@@ -8,19 +8,19 @@ import { CalendarYearGrid } from './CalendarYearGrid'
 import { setVisibleRangeStart } from './setVisibleRangeStart'
 
 interface CalendarMonthYearPickerProps {
-  // The day grid, shown in the default 'days' view — owned by the caller (`CxCalendar` and
-  // `CxRangeCalendar` render genuinely different cells: single-date vs. range pill styling), so
+  // The day grid, shown in the default 'days' view — owned by the caller (`Calendar` and
+  // `RangeCalendar` render genuinely different cells: single-date vs. range pill styling), so
   // this only decides *whether* it's showing, never how it's built.
   children: ReactNode
   monthIndex?: number
   monthStart: CalendarDate
   // `null` when a global prev/next pair elsewhere is paging every visible month block at once
-  // (`CxRangeCalendar` with `visibleMonths > 1`) rather than this block having its own — see that
+  // (`RangeCalendar` with `visibleMonths > 1`) rather than this block having its own — see that
   // component's own `arrows` prop. Only ever rendered in the 'days' view; the month/year views page
   // themselves independently (`CalendarYearGrid`) or don't page at all (`CalendarMonthGrid`).
   nextArrow?: ReactNode
   // Reports this block's own view whenever it changes, so a parent rendering several blocks
-  // (`CxRangeCalendar` with `visibleMonths > 1`) can tell when one of them has switched to the
+  // (`RangeCalendar` with `visibleMonths > 1`) can tell when one of them has switched to the
   // year view — `CalendarYearGrid` owns its own prev/next pager in that view, which would
   // otherwise sit right underneath the parent's global `.datepicker-controls` overlay.
   onViewChange?: (view: 'days' | 'months' | 'years') => void
@@ -37,7 +37,7 @@ interface CalendarMonthYearPickerProps {
 // pointerup-vs-click target check for whatever the user clicked next — a page bug specific to
 // native form controls, not present here since a grid button is a plain, ordinary press.
 //
-// Shared by `CxCalendar` and `CxRangeCalendar` — `monthIndex` is the offset of this block's own
+// Shared by `Calendar` and `RangeCalendar` — `monthIndex` is the offset of this block's own
 // month from `state.focusedDate` (`0` for a single-month calendar), letting `setVisibleRangeStart`
 // land a pick correctly regardless of which visible block it came from.
 export const CalendarMonthYearPicker = ({
@@ -63,7 +63,7 @@ export const CalendarMonthYearPicker = ({
   // Switching `view` swaps in a whole new subtree, unmounting whatever was focused (the month/
   // year trigger button, or the month/year grid button just picked) — React has no reason to move
   // focus anywhere on its own, so without this it drops to `document.body`, breaking out of
-  // `FocusScope`'s containment in `CxDatePicker`/`CxDateRangePicker`'s popover entirely. Lands
+  // `FocusScope`'s containment in `DatePicker`/`DateRangePicker`'s popover entirely. Lands
   // focus on the selected month/year button when entering the month/year view (falling back to
   // the first option if nothing is selected on the currently visible page), or back onto the
   // day grid's own roving-tabindex cell when returning to 'days'.

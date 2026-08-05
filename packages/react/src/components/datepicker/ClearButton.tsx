@@ -6,7 +6,7 @@ interface ClearButtonProps {
   onPress: () => void
 }
 
-// Shared by `CxDatePicker` and `CxDateRangePicker` — a trailing "×" adornment that resets the
+// Shared by `DatePicker` and `DateRangePicker` — a trailing "×" adornment that resets the
 // current selection to empty. Rendered only while there's something to clear (see each caller's
 // own conditional). `useButton` for the same reason `CalendarToggleButton` uses it: proper
 // press/keyboard semantics consistent with the rest of this library, rather than a raw `onClick`.

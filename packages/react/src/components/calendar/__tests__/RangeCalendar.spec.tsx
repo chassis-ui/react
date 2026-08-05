@@ -3,7 +3,7 @@ import { render, screen, fireEvent, within } from '@testing-library/react'
 import { CalendarDate } from '@internationalized/date'
 import { axe } from 'jest-axe'
 
-import { CxRangeCalendar, I18nProvider } from '../../../index'
+import { RangeCalendar, I18nProvider } from '../../../index'
 
 // State classes (`weekend`, `unavailable`, range endpoints, etc.) live on the `.datepicker-date`
 // wrapper, not the `.datepicker-date-btn` button itself — matching chassis-css's own
@@ -12,11 +12,11 @@ const getDateCell = (button: HTMLElement) =>
   // eslint-disable-next-line testing-library/no-node-access
   button.closest('.datepicker-date') as HTMLElement
 
-describe('CxRangeCalendar', () => {
+describe('RangeCalendar', () => {
   describe('rendering', () => {
     test('renders a grid with the accessible label applied', () => {
       render(
-        <CxRangeCalendar
+        <RangeCalendar
           aria-label="Trip dates"
           value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 7, 15) }}
         />
@@ -29,7 +29,7 @@ describe('CxRangeCalendar', () => {
     test('clicking a start then an end date commits the range and fires onChange once', () => {
       const onChange = vi.fn()
       render(
-        <CxRangeCalendar
+        <RangeCalendar
           aria-label="Trip dates"
           defaultValue={{ start: new CalendarDate(2026, 7, 1), end: new CalendarDate(2026, 7, 1) }}
           onChange={onChange}
@@ -50,7 +50,7 @@ describe('CxRangeCalendar', () => {
     test('reversing the click order still produces a normalized start-before-end range', () => {
       const onChange = vi.fn()
       render(
-        <CxRangeCalendar
+        <RangeCalendar
           aria-label="Trip dates"
           defaultValue={{ start: new CalendarDate(2026, 7, 1), end: new CalendarDate(2026, 7, 1) }}
           onChange={onChange}
@@ -70,7 +70,7 @@ describe('CxRangeCalendar', () => {
     test('dates outside minValue/maxValue are disabled and cannot start a selection', () => {
       const onChange = vi.fn()
       render(
-        <CxRangeCalendar
+        <RangeCalendar
           aria-label="Trip dates"
           defaultValue={{
             start: new CalendarDate(2026, 7, 15),
@@ -94,7 +94,7 @@ describe('CxRangeCalendar', () => {
     test('blocks a range endpoint from landing on a listed date', () => {
       const onChange = vi.fn()
       render(
-        <CxRangeCalendar
+        <RangeCalendar
           aria-label="Trip dates"
           defaultValue={{ start: new CalendarDate(2026, 7, 1), end: new CalendarDate(2026, 7, 1) }}
           onChange={onChange}
@@ -112,7 +112,7 @@ describe('CxRangeCalendar', () => {
     test('Enter key selects a start and end date, mirroring click', () => {
       const onChange = vi.fn()
       render(
-        <CxRangeCalendar
+        <RangeCalendar
           aria-label="Trip dates"
           defaultValue={{ start: new CalendarDate(2026, 7, 1), end: new CalendarDate(2026, 7, 1) }}
           onChange={onChange}
@@ -140,7 +140,7 @@ describe('CxRangeCalendar', () => {
   describe('pill styling', () => {
     test('marks the start and end cells distinctly from the days in between', () => {
       render(
-        <CxRangeCalendar
+        <RangeCalendar
           aria-label="Trip dates"
           value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 7, 15) }}
         />
@@ -169,7 +169,7 @@ describe('CxRangeCalendar', () => {
   describe('navigation', () => {
     test('renders month and year buttons reflecting the visible month', () => {
       render(
-        <CxRangeCalendar
+        <RangeCalendar
           aria-label="Trip dates"
           value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 7, 15) }}
         />
@@ -179,7 +179,7 @@ describe('CxRangeCalendar', () => {
 
     test('the next/previous buttons advance and rewind the visible month', () => {
       render(
-        <CxRangeCalendar
+        <RangeCalendar
           aria-label="Trip dates"
           value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 7, 15) }}
         />
@@ -192,7 +192,7 @@ describe('CxRangeCalendar', () => {
 
     test('picking a year from the year grid moves the visible range', () => {
       render(
-        <CxRangeCalendar
+        <RangeCalendar
           aria-label="Trip dates"
           value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 7, 15) }}
         />
@@ -209,7 +209,7 @@ describe('CxRangeCalendar', () => {
     test('defaults to Monday regardless of locale', () => {
       render(
         <I18nProvider locale="en-US">
-          <CxRangeCalendar
+          <RangeCalendar
             aria-label="Trip dates"
             value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 7, 15) }}
           />
@@ -222,7 +222,7 @@ describe('CxRangeCalendar', () => {
 
     test('can be overridden, e.g. to Sunday', () => {
       render(
-        <CxRangeCalendar
+        <RangeCalendar
           aria-label="Trip dates"
           firstDayOfWeek="sun"
           value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 7, 15) }}
@@ -235,7 +235,7 @@ describe('CxRangeCalendar', () => {
 
     test('applies consistently across every visible month', () => {
       render(
-        <CxRangeCalendar
+        <RangeCalendar
           aria-label="Trip dates"
           firstDayOfWeek="sun"
           value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 8, 15) }}
@@ -256,7 +256,7 @@ describe('CxRangeCalendar', () => {
     test('marks Saturday/Sunday as weekends under en-US', () => {
       render(
         <I18nProvider locale="en-US">
-          <CxRangeCalendar
+          <RangeCalendar
             aria-label="Trip dates"
             defaultValue={{
               start: new CalendarDate(2026, 7, 24),
@@ -278,7 +278,7 @@ describe('CxRangeCalendar', () => {
   describe('visibleMonths', () => {
     test('defaults to a single month with prev/next arrows in its own header', () => {
       render(
-        <CxRangeCalendar
+        <RangeCalendar
           aria-label="Trip dates"
           value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 7, 15) }}
         />
@@ -291,7 +291,7 @@ describe('CxRangeCalendar', () => {
 
     test('renders the requested number of months, each with its own synced month/year picker', () => {
       render(
-        <CxRangeCalendar
+        <RangeCalendar
           aria-label="Trip dates"
           value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 8, 15) }}
           visibleMonths={2}
@@ -304,7 +304,7 @@ describe('CxRangeCalendar', () => {
 
     test('a single global prev/next pair pages every visible month at once, with none in the per-month headers', () => {
       render(
-        <CxRangeCalendar
+        <RangeCalendar
           aria-label="Trip dates"
           value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 8, 15) }}
           visibleMonths={2}
@@ -327,7 +327,7 @@ describe('CxRangeCalendar', () => {
 
     test('paging across a year boundary slides by one month, not by the full visible span', () => {
       render(
-        <CxRangeCalendar
+        <RangeCalendar
           aria-label="Trip dates"
           value={{ start: new CalendarDate(2026, 11, 10), end: new CalendarDate(2026, 11, 15) }}
           visibleMonths={2}
@@ -352,7 +352,7 @@ describe('CxRangeCalendar', () => {
 
     test('picking a month from the second block moves both months in sync', () => {
       render(
-        <CxRangeCalendar
+        <RangeCalendar
           aria-label="Trip dates"
           value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 8, 15) }}
           visibleMonths={2}
@@ -374,7 +374,7 @@ describe('CxRangeCalendar', () => {
     // (the test below) used to overshoot by an extra month. See `setVisibleRangeStart`.
     test('picking the immediately next month in the first block advances by one month', () => {
       render(
-        <CxRangeCalendar
+        <RangeCalendar
           aria-label="Trip dates"
           value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 8, 15) }}
           visibleMonths={2}
@@ -390,7 +390,7 @@ describe('CxRangeCalendar', () => {
 
     test('picking the immediately previous month in the second block retreats by one month', () => {
       render(
-        <CxRangeCalendar
+        <RangeCalendar
           aria-label="Trip dates"
           value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 8, 15) }}
           visibleMonths={2}
@@ -407,7 +407,7 @@ describe('CxRangeCalendar', () => {
     test('a range spanning both visible months is selectable and pills continuously', () => {
       const onChange = vi.fn()
       render(
-        <CxRangeCalendar
+        <RangeCalendar
           aria-label="Trip dates"
           defaultValue={{ start: new CalendarDate(2026, 7, 1), end: new CalendarDate(2026, 7, 1) }}
           onChange={onChange}
@@ -431,7 +431,7 @@ describe('CxRangeCalendar', () => {
     // overlay must step aside whenever any visible month block has switched to its year view.
     test('the global prev/next overlay hides while any visible month is in year-selection mode', () => {
       render(
-        <CxRangeCalendar
+        <RangeCalendar
           aria-label="Trip dates"
           value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 8, 15) }}
           visibleMonths={2}
@@ -460,7 +460,7 @@ describe('CxRangeCalendar', () => {
     // as it doing nothing.
     test('the global prev/next overlay hides while any visible month is in month-selection mode', () => {
       render(
-        <CxRangeCalendar
+        <RangeCalendar
           aria-label="Trip dates"
           value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 8, 15) }}
           visibleMonths={2}
@@ -482,9 +482,9 @@ describe('CxRangeCalendar', () => {
 
   describe('presets', () => {
     test('no presets prop renders no preset list', () => {
-      render(<CxRangeCalendar aria-label="Trip dates" />)
+      render(<RangeCalendar aria-label="Trip dates" />)
       // eslint-disable-next-line testing-library/no-node-access
-      expect(document.querySelector('.cx-calendar-presets')).toBeNull()
+      expect(document.querySelector('.calendar-presets')).toBeNull()
     })
 
     test('renders each preset as a button', () => {
@@ -498,7 +498,7 @@ describe('CxRangeCalendar', () => {
           range: { start: new CalendarDate(2026, 8, 1), end: new CalendarDate(2026, 8, 10) }
         }
       ]
-      render(<CxRangeCalendar aria-label="Trip dates" presets={customPresets} />)
+      render(<RangeCalendar aria-label="Trip dates" presets={customPresets} />)
       expect(screen.getByRole('button', { name: 'Custom Range' })).toBeInTheDocument()
       expect(screen.getByRole('button', { name: 'Another Range' })).toBeInTheDocument()
     })
@@ -512,7 +512,7 @@ describe('CxRangeCalendar', () => {
         }
       ]
       render(
-        <CxRangeCalendar aria-label="Trip dates" onChange={onChange} presets={customPresets} />
+        <RangeCalendar aria-label="Trip dates" onChange={onChange} presets={customPresets} />
       )
       fireEvent.click(screen.getByRole('button', { name: 'Custom Range' }))
 
@@ -531,7 +531,7 @@ describe('CxRangeCalendar', () => {
         }
       ]
       const { rerender } = render(
-        <CxRangeCalendar
+        <RangeCalendar
           aria-label="Trip dates"
           onChange={onChange}
           presets={customPresets}
@@ -545,7 +545,7 @@ describe('CxRangeCalendar', () => {
       })
 
       rerender(
-        <CxRangeCalendar
+        <RangeCalendar
           aria-label="Trip dates"
           onChange={onChange}
           presets={customPresets}
@@ -570,7 +570,7 @@ describe('CxRangeCalendar', () => {
         }
       ]
       render(
-        <CxRangeCalendar
+        <RangeCalendar
           aria-label="Trip dates"
           presets={customPresets}
           value={{ start: new CalendarDate(2026, 7, 1), end: new CalendarDate(2026, 7, 10) }}
@@ -589,7 +589,7 @@ describe('CxRangeCalendar', () => {
         }
       ]
       render(
-        <CxRangeCalendar
+        <RangeCalendar
           aria-label="Trip dates"
           presets={customPresets}
           value={{ start: new CalendarDate(2026, 7, 20), end: new CalendarDate(2026, 7, 22) }}
@@ -608,7 +608,7 @@ describe('CxRangeCalendar', () => {
         }
       ]
       render(
-        <CxRangeCalendar
+        <RangeCalendar
           aria-label="Trip dates"
           presets={customPresets}
           value={{ start: new CalendarDate(2026, 7, 1), end: new CalendarDate(2026, 7, 10) }}
@@ -623,7 +623,7 @@ describe('CxRangeCalendar', () => {
   describe('accessibility', () => {
     test('has no axe violations', async () => {
       render(
-        <CxRangeCalendar
+        <RangeCalendar
           aria-label="Trip dates"
           value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 7, 15) }}
         />
@@ -633,7 +633,7 @@ describe('CxRangeCalendar', () => {
 
     test('has no axe violations with two months visible', async () => {
       render(
-        <CxRangeCalendar
+        <RangeCalendar
           aria-label="Trip dates"
           value={{ start: new CalendarDate(2026, 7, 10), end: new CalendarDate(2026, 8, 5) }}
           visibleMonths={2}

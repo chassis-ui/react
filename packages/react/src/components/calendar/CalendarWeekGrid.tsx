@@ -10,7 +10,7 @@ interface CalendarWeekGridProps {
   state: CalendarState<'single' | 'multiple'> | RangeCalendarState
 }
 
-// Shared week-day header + date-rows grid, used by both `CxCalendar` and `CxRangeCalendar` —
+// Shared week-day header + date-rows grid, used by both `Calendar` and `RangeCalendar` —
 // `startDate` lets a range calendar anchor this to one of several visible months (see
 // `useCalendarGrid`'s own docs); omitted, it defaults to the calendar's own visible start. Only the
 // individual cell differs between the two callers (range selection needs start/end/in-between pill

@@ -8,7 +8,7 @@ interface DateFieldProps {
   fieldProps: AriaDateFieldProps<DateValue>
 }
 
-// Builds its own segment state from the `fieldProps` `CxDatePicker` hands down — mirrors react
+// Builds its own segment state from the `fieldProps` `DatePicker` hands down — mirrors react
 // aria's own documented composition (the top-level `useDatePickerState`/`useDatePicker` pair
 // manages the *selected value*; the field's individually-editable segments are a separate piece
 // of state derived from `locale`/`createCalendar`, owned here).
@@ -24,7 +24,7 @@ export const DateField = ({ fieldProps }: DateFieldProps) => {
   const { fieldProps: domFieldProps } = useDateField(fieldProps, state, ref)
 
   return (
-    <div {...domFieldProps} className="cx-datepicker-field" ref={ref}>
+    <div {...domFieldProps} className="datepicker-field" ref={ref}>
       {state.segments.map((segment, index) => (
         // eslint-disable-next-line react/no-array-index-key
         <DateSegment key={index} segment={segment} state={state} />
@@ -45,7 +45,7 @@ const DateSegment = ({ segment, state }: DateSegmentProps) => {
   return (
     <span
       {...segmentProps}
-      className={classNames('cx-datepicker-segment', { placeholder: segment.isPlaceholder })}
+      className={classNames('datepicker-segment', { placeholder: segment.isPlaceholder })}
       ref={ref}
     >
       {segment.text}

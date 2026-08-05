@@ -1,4 +1,4 @@
-import { CxDateRangePicker } from '@chassis-ui/react'
+import { DateRangePicker } from '@chassis-ui/react'
 import { getLocalTimeZone, startOfMonth, startOfWeek, today } from '@internationalized/date'
 
 export const PresetsExample = () => {
@@ -22,6 +22,6 @@ export const PresetsExample = () => {
   ]
 
   return (
-    <CxDateRangePicker aria-label="Trip dates" defaultValue={presets[1].range} presets={presets} />
+    <DateRangePicker aria-label="Trip dates" defaultValue={presets[1].range} presets={presets} />
   )
 }

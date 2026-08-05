@@ -21,12 +21,12 @@ import {
 import { useForkedRef } from '../../hooks'
 import { CalendarMonthBlock } from './CalendarMonthBlock'
 import { CalendarNavButton } from './CalendarNavButton'
-import { CxDateRangePreset } from './dateRangePresets'
+import { DateRangePreset } from './dateRangePresets'
 import { mergeIsDateUnavailable } from './mergeIsDateUnavailable'
-import './CxCalendar.css'
-import './CxRangeCalendar.css'
+import './Calendar.css'
+import './RangeCalendar.css'
 
-export interface CxRangeCalendarProps extends Omit<
+export interface RangeCalendarProps extends Omit<
   HTMLAttributes<HTMLDivElement>,
   'onChange' | 'defaultValue'
 > {
@@ -83,7 +83,7 @@ export interface CxRangeCalendarProps extends Omit<
    * its range immediately, the same as picking a start and end date from the grid. The preset
    * matching the current selection (if any) is marked selected. Omit to not show a preset list.
    */
-  presets?: CxDateRangePreset[]
+  presets?: DateRangePreset[]
   /**
    * ISO 8601 dates (`YYYY-MM-DD`) to mark unselectable, as a convenience alternative to
    * `isDateUnavailable` for data-driven cases (e.g. booked dates fetched from an API). Composed
@@ -105,14 +105,14 @@ export interface CxRangeCalendarProps extends Omit<
   visibleMonths?: number
 }
 
-// Range counterpart to `CxCalendar` — same dialog-agnostic composition boundary (see that
+// Range counterpart to `Calendar` — same dialog-agnostic composition boundary (see that
 // component's own comment) and the same header/month-year-picker/grid visual language, reusing
-// `CxCalendar.css`'s shared classes directly. Kept as its own component rather than a `mode` prop
-// on `CxCalendar`: the underlying react-stately/react-aria hooks are a genuinely different pair
+// `Calendar.css`'s shared classes directly. Kept as its own component rather than a `mode` prop
+// on `Calendar`: the underlying react-stately/react-aria hooks are a genuinely different pair
 // (`useRangeCalendarState`/`useRangeCalendar` vs `useCalendarState`/`useCalendar`), and the cell
 // rendering has range-only concerns (start/end/in-between pill styling) with no single-date
 // equivalent.
-export const CxRangeCalendar = forwardRef<HTMLDivElement, CxRangeCalendarProps>(
+export const RangeCalendar = forwardRef<HTMLDivElement, RangeCalendarProps>(
   (
     {
       autoFocus,
@@ -197,7 +197,7 @@ export const CxRangeCalendar = forwardRef<HTMLDivElement, CxRangeCalendarProps>(
 
     // Goes through the same `state.setValue` path a two-click grid selection does (rather than
     // calling `onChange` directly), so it behaves identically whether `value` is controlled or
-    // uncontrolled — including `CxDateRangePicker`, which relies on this to auto-close its popover
+    // uncontrolled — including `DateRangePicker`, which relies on this to auto-close its popover
     // the same way completing a range in the grid already does.
     const handlePresetSelect = (range: RangeValue<DateValue>) => {
       state.setValue(range)
@@ -218,7 +218,7 @@ export const CxRangeCalendar = forwardRef<HTMLDivElement, CxRangeCalendarProps>(
               value={state.value}
             />
           )}
-          <div className="datepicker-column cx-calendar-body">
+          <div className="datepicker-column calendar-body">
             {visibleMonths > 1 && !hasPickerView && (
               <div className="datepicker-controls">
                 {prevButton}
@@ -255,7 +255,7 @@ export const CxRangeCalendar = forwardRef<HTMLDivElement, CxRangeCalendarProps>(
   }
 )
 
-CxRangeCalendar.displayName = 'CxRangeCalendar'
+RangeCalendar.displayName = 'RangeCalendar'
 
 interface CalendarCellProps {
   date: CalendarDate
@@ -316,7 +316,7 @@ const CalendarCell = ({ date, isFirstInRow, isLastInRow, locale, state }: Calend
 
 interface DateRangePresetsProps {
   onSelect: (range: RangeValue<DateValue>) => void
-  presets: CxDateRangePreset[]
+  presets: DateRangePreset[]
   value: RangeValue<DateValue> | null
 }
 
@@ -330,7 +330,7 @@ const isSameRange = (a: RangeValue<DateValue>, b: RangeValue<DateValue>) =>
 // immediately) rather than a single-selection widget, so native Tab/Enter/Space is the right
 // interaction model without extra roving-tabindex/arrow-key wiring.
 const DateRangePresets = ({ onSelect, presets, value }: DateRangePresetsProps) => (
-  <ul className="cx-calendar-presets">
+  <ul className="calendar-presets">
     {presets.map((preset) => {
       const isSelected = Boolean(value && isSameRange(value, preset.range))
 
@@ -338,7 +338,7 @@ const DateRangePresets = ({ onSelect, presets, value }: DateRangePresetsProps) =
         <li key={preset.label}>
           <button
             aria-current={isSelected ? 'true' : undefined}
-            className={classNames('cx-calendar-preset', { selected: isSelected })}
+            className={classNames('calendar-preset', { selected: isSelected })}
             onClick={() => onSelect(preset.range)}
             type="button"
           >

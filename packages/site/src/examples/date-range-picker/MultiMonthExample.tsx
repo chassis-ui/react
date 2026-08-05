@@ -1,5 +1,5 @@
-import { CxDateRangePicker } from '@chassis-ui/react'
+import { DateRangePicker } from '@chassis-ui/react'
 
 export const MultiMonthExample = () => {
-  return <CxDateRangePicker aria-label="Trip dates" visibleMonths={2} />
+  return <DateRangePicker aria-label="Trip dates" visibleMonths={2} />
 }

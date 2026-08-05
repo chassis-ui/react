@@ -3,7 +3,7 @@ import { render, screen, fireEvent, within } from '@testing-library/react'
 import { CalendarDate } from '@internationalized/date'
 import { axe } from 'jest-axe'
 
-import { CxCalendar, I18nProvider } from '../../../index'
+import { Calendar, I18nProvider } from '../../../index'
 
 // State classes (`selected`, `weekend`, `unavailable`, etc.) live on the `.datepicker-date`
 // wrapper, not the `.datepicker-date-btn` button itself — matching chassis-css's own
@@ -17,23 +17,23 @@ const getDateCell = (button: HTMLElement) =>
 const getMonthButton = () => screen.getByRole('button', { name: /^Month:/ })
 const getYearButton = () => screen.getByRole('button', { name: /^Year:/ })
 
-describe('CxCalendar', () => {
+describe('Calendar', () => {
   describe('rendering', () => {
     test('renders a grid with the accessible label applied', () => {
-      render(<CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
+      render(<Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
       expect(screen.getByRole('grid')).toBeInTheDocument()
     })
 
     test('supports controlled value reflected in the grid selection', () => {
       const { rerender } = render(
-        <CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />
+        <Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />
       )
       const grid = screen.getByRole('grid')
       expect(getDateCell(within(grid).getByRole('button', { name: /24/ }))).toHaveClass(
         'datepicker-date-selected'
       )
 
-      rerender(<CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 25)} />)
+      rerender(<Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 25)} />)
       expect(getDateCell(within(grid).getByRole('button', { name: /25/ }))).toHaveClass(
         'datepicker-date-selected'
       )
@@ -44,7 +44,7 @@ describe('CxCalendar', () => {
     test('clicking a day cell selects it and fires onChange', () => {
       const onChange = vi.fn()
       render(
-        <CxCalendar
+        <Calendar
           aria-label="Event date"
           onChange={onChange}
           value={new CalendarDate(2026, 7, 24)}
@@ -60,7 +60,7 @@ describe('CxCalendar', () => {
     test('dates outside minValue/maxValue are disabled and cannot be selected', () => {
       const onChange = vi.fn()
       render(
-        <CxCalendar
+        <Calendar
           aria-label="Event date"
           maxValue={new CalendarDate(2026, 7, 20)}
           minValue={new CalendarDate(2026, 7, 10)}
@@ -79,7 +79,7 @@ describe('CxCalendar', () => {
     test('unavailable dates are styled distinctly and cannot be selected', () => {
       const onChange = vi.fn()
       render(
-        <CxCalendar
+        <Calendar
           aria-label="Event date"
           isDateUnavailable={(date) => date.day === 25}
           onChange={onChange}
@@ -98,7 +98,7 @@ describe('CxCalendar', () => {
 
   describe('navigation', () => {
     test('the next button advances the visible month', () => {
-      render(<CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
+      render(<Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
       expect(getMonthButton()).toHaveTextContent('July')
 
       fireEvent.click(screen.getByRole('button', { name: /next/i }))
@@ -106,19 +106,19 @@ describe('CxCalendar', () => {
     })
 
     test('the previous button retreats the visible month', () => {
-      render(<CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
+      render(<Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
       fireEvent.click(screen.getByRole('button', { name: /previous/i }))
       expect(getMonthButton()).toHaveTextContent('June')
     })
 
     test('renders month and year buttons reflecting the visible month', () => {
-      render(<CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
+      render(<Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
       expect(getMonthButton()).toHaveTextContent('July')
       expect(getYearButton()).toHaveTextContent('2026')
     })
 
     test('picking a month from the month grid jumps the visible month and returns to the day grid', () => {
-      render(<CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
+      render(<Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
 
       fireEvent.click(getMonthButton())
       fireEvent.click(screen.getByRole('option', { name: 'Jan' }))
@@ -134,7 +134,7 @@ describe('CxCalendar', () => {
     })
 
     test('picking a year from the year grid jumps the visible year and returns to the day grid', () => {
-      render(<CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
+      render(<Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
 
       fireEvent.click(getYearButton())
       fireEvent.click(screen.getByRole('option', { name: '2027' }))
@@ -144,7 +144,7 @@ describe('CxCalendar', () => {
     })
 
     test('the year grid pages forward and back by its own arrows', () => {
-      render(<CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
+      render(<Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
 
       fireEvent.click(getYearButton())
       expect(screen.getByRole('option', { name: '2026' })).toBeInTheDocument()
@@ -157,7 +157,7 @@ describe('CxCalendar', () => {
     })
 
     test('the back button in the month/year grid returns to the day grid without changing anything', () => {
-      render(<CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
+      render(<Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
 
       fireEvent.click(getMonthButton())
       // The month grid's own header button is the current year — doubles as "back".
@@ -168,27 +168,27 @@ describe('CxCalendar', () => {
     })
 
     test('the month and year buttons are disabled when the calendar is disabled', () => {
-      render(<CxCalendar aria-label="Event date" disabled value={new CalendarDate(2026, 7, 24)} />)
+      render(<Calendar aria-label="Event date" disabled value={new CalendarDate(2026, 7, 24)} />)
       expect(getMonthButton()).toBeDisabled()
       expect(getYearButton()).toBeDisabled()
     })
 
     test('switching to the month grid moves focus onto it instead of dropping to the document body', () => {
-      render(<CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
+      render(<Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
       fireEvent.click(getMonthButton())
       expect(document.body).not.toHaveFocus()
       expect(screen.getByRole('option', { name: 'Jul' })).toHaveFocus()
     })
 
     test('switching to the year grid moves focus onto it instead of dropping to the document body', () => {
-      render(<CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
+      render(<Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
       fireEvent.click(getYearButton())
       expect(document.body).not.toHaveFocus()
       expect(screen.getByRole('option', { name: '2026' })).toHaveFocus()
     })
 
     test('returning to the day grid restores focus onto it instead of dropping to the document body', () => {
-      render(<CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
+      render(<Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
       fireEvent.click(getMonthButton())
       fireEvent.click(screen.getByRole('option', { name: 'Jan' }))
       expect(document.body).not.toHaveFocus()
@@ -204,7 +204,7 @@ describe('CxCalendar', () => {
     test('defaults to Monday regardless of locale', () => {
       render(
         <I18nProvider locale="en-US">
-          <CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />
+          <Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />
         </I18nProvider>
       )
       // The header row is `aria-hidden` (see react-aria's `useCalendarGrid`), so its
@@ -229,7 +229,7 @@ describe('CxCalendar', () => {
 
     test('can be overridden, e.g. to Sunday', () => {
       render(
-        <CxCalendar
+        <Calendar
           aria-label="Event date"
           firstDayOfWeek="sun"
           value={new CalendarDate(2026, 7, 24)}
@@ -257,7 +257,7 @@ describe('CxCalendar', () => {
     test('marks Saturday/Sunday as weekends under en-US', () => {
       render(
         <I18nProvider locale="en-US">
-          <CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />
+          <Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />
         </I18nProvider>
       )
       const grid = screen.getByRole('grid')
@@ -272,7 +272,7 @@ describe('CxCalendar', () => {
     test('follows the active locale — ar-SA treats Friday/Saturday as the weekend instead', () => {
       render(
         <I18nProvider locale="ar-SA">
-          <CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />
+          <Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />
         </I18nProvider>
       )
       // ar-SA renders day numbers as Arabic-Indic numerals ("٢٤"), so text-based queries can't
@@ -291,7 +291,7 @@ describe('CxCalendar', () => {
     test('blocks selection of dates listed as ISO strings', () => {
       const onChange = vi.fn()
       render(
-        <CxCalendar
+        <Calendar
           aria-label="Event date"
           onChange={onChange}
           unavailableDates={['2026-07-25']}
@@ -309,7 +309,7 @@ describe('CxCalendar', () => {
     test('composes with isDateUnavailable — either marks a date unavailable', () => {
       const onChange = vi.fn()
       render(
-        <CxCalendar
+        <Calendar
           aria-label="Event date"
           isDateUnavailable={(date) => date.day === 12}
           onChange={onChange}
@@ -335,7 +335,7 @@ describe('CxCalendar', () => {
 
   describe('visibleMonths', () => {
     test('defaults to a single month with prev/next arrows in its own header', () => {
-      render(<CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
+      render(<Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
       expect(screen.getAllByRole('grid')).toHaveLength(1)
       expect(screen.getAllByRole('button', { name: /^Month:/ })).toHaveLength(1)
       expect(screen.getByRole('button', { name: /next/i })).toBeInTheDocument()
@@ -344,7 +344,7 @@ describe('CxCalendar', () => {
 
     test('renders the requested number of months, each with its own synced month/year picker', () => {
       render(
-        <CxCalendar
+        <Calendar
           aria-label="Event date"
           value={new CalendarDate(2026, 7, 24)}
           visibleMonths={2}
@@ -357,7 +357,7 @@ describe('CxCalendar', () => {
 
     test('a single global prev/next pair pages every visible month at once, with none in the per-month headers', () => {
       render(
-        <CxCalendar
+        <Calendar
           aria-label="Event date"
           value={new CalendarDate(2026, 7, 24)}
           visibleMonths={2}
@@ -377,7 +377,7 @@ describe('CxCalendar', () => {
 
     test('picking a month from the second block moves both months in sync', () => {
       render(
-        <CxCalendar
+        <Calendar
           aria-label="Event date"
           value={new CalendarDate(2026, 7, 24)}
           visibleMonths={2}
@@ -394,7 +394,7 @@ describe('CxCalendar', () => {
     test('clicking a date in the second visible month selects it', () => {
       const onChange = vi.fn()
       render(
-        <CxCalendar
+        <Calendar
           aria-label="Event date"
           onChange={onChange}
           value={new CalendarDate(2026, 7, 1)}
@@ -409,11 +409,11 @@ describe('CxCalendar', () => {
     })
 
     // Regression coverage: the global prev/next overlay and `CalendarYearGrid`'s own prev/next
-    // pager both render in the same spot — see `CxRangeCalendar`'s identical test for the full
+    // pager both render in the same spot — see `RangeCalendar`'s identical test for the full
     // reasoning.
     test('the global prev/next overlay hides while any visible month is in year-selection mode', () => {
       render(
-        <CxCalendar
+        <Calendar
           aria-label="Event date"
           value={new CalendarDate(2026, 7, 24)}
           visibleMonths={2}
@@ -440,7 +440,7 @@ describe('CxCalendar', () => {
     test('defaults to single selection — picking a new date replaces the old one', () => {
       const onChange = vi.fn()
       render(
-        <CxCalendar
+        <Calendar
           aria-label="Event date"
           onChange={onChange}
           value={new CalendarDate(2026, 7, 24)}
@@ -456,7 +456,7 @@ describe('CxCalendar', () => {
     test('multiple selection: clicking several dates selects all of them independently', () => {
       const onChange = vi.fn()
       render(
-        <CxCalendar
+        <Calendar
           aria-label="Event date"
           onChange={onChange}
           selectionMode="multiple"
@@ -479,7 +479,7 @@ describe('CxCalendar', () => {
     test('multiple selection: clicking an already-selected date deselects it', () => {
       const onChange = vi.fn()
       render(
-        <CxCalendar
+        <Calendar
           aria-label="Event date"
           onChange={onChange}
           selectionMode="multiple"
@@ -495,7 +495,7 @@ describe('CxCalendar', () => {
 
     test('multiple selection: supports uncontrolled defaultValue', () => {
       render(
-        <CxCalendar
+        <Calendar
           aria-label="Event date"
           defaultValue={[new CalendarDate(2026, 7, 5), new CalendarDate(2026, 7, 12)]}
           selectionMode="multiple"
@@ -518,28 +518,28 @@ describe('CxCalendar', () => {
     // by falling back to today only when the value is nullish — an empty array is truthy, so
     // without `defaultFocusedValue` it instead indexes the (nonexistent) first element and
     // throws trying to call `.subtract` on the resulting `undefined`. This is the actual shape
-    // `CxDatePicker`'s multi-select mode starts with (a real `[]`, not `undefined`) before any
+    // `DatePicker`'s multi-select mode starts with (a real `[]`, not `undefined`) before any
     // date is picked.
     test('multiple selection: renders without an initial value, controlled as an empty array', () => {
-      render(<CxCalendar aria-label="Event date" selectionMode="multiple" value={[]} />)
+      render(<Calendar aria-label="Event date" selectionMode="multiple" value={[]} />)
       expect(screen.getByRole('grid')).toBeInTheDocument()
     })
 
     test('multiple selection: renders without an initial value, uncontrolled as an empty array', () => {
-      render(<CxCalendar aria-label="Event date" defaultValue={[]} selectionMode="multiple" />)
+      render(<Calendar aria-label="Event date" defaultValue={[]} selectionMode="multiple" />)
       expect(screen.getByRole('grid')).toBeInTheDocument()
     })
   })
 
   describe('accessibility', () => {
     test('has no axe violations', async () => {
-      render(<CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
+      render(<Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
       expect(await axe(document.body)).toHaveNoViolations()
     })
 
     test('has no axe violations in multiple selection mode', async () => {
       render(
-        <CxCalendar
+        <Calendar
           aria-label="Event date"
           selectionMode="multiple"
           value={[new CalendarDate(2026, 7, 5), new CalendarDate(2026, 7, 12)]}
@@ -549,13 +549,13 @@ describe('CxCalendar', () => {
     })
 
     test('has no axe violations with the month grid open', async () => {
-      render(<CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
+      render(<Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
       fireEvent.click(getMonthButton())
       expect(await axe(document.body)).toHaveNoViolations()
     })
 
     test('has no axe violations with the year grid open', async () => {
-      render(<CxCalendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
+      render(<Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
       fireEvent.click(getYearButton())
       expect(await axe(document.body)).toHaveNoViolations()
     })

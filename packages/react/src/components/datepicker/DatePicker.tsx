@@ -18,15 +18,15 @@ import { getLocalTimeZone } from '@internationalized/date'
 
 import { useFormField } from '../../hooks'
 import { renderFormField } from '../form-field/renderFormField'
-import { CxCalendar } from '../calendar/CxCalendar'
+import { Calendar } from '../calendar/Calendar'
 import { mergeIsDateUnavailable } from '../calendar/mergeIsDateUnavailable'
 import { CalendarToggleButton } from './CalendarToggleButton'
 import { ClearButton } from './ClearButton'
 import { DateField } from './DateField'
 import { useOverlayPlacement } from './useOverlayPlacement'
-import './CxDatePicker.css'
+import './DatePicker.css'
 
-interface CxDatePickerBaseProps extends Omit<
+interface DatePickerBaseProps extends Omit<
   HTMLAttributes<HTMLDivElement>,
   'onChange' | 'defaultValue'
 > {
@@ -134,7 +134,7 @@ interface CxDatePickerBaseProps extends Omit<
   visibleMonths?: number
 }
 
-export interface CxDatePickerSingleProps extends CxDatePickerBaseProps {
+export interface DatePickerSingleProps extends DatePickerBaseProps {
   /**
    * The initial selected date (uncontrolled).
    */
@@ -158,7 +158,7 @@ export interface CxDatePickerSingleProps extends CxDatePickerBaseProps {
   value?: DateValue | null
 }
 
-export interface CxDatePickerMultipleProps extends CxDatePickerBaseProps {
+export interface DatePickerMultipleProps extends DatePickerBaseProps {
   /**
    * The initial selected dates (uncontrolled).
    */
@@ -182,20 +182,20 @@ export interface CxDatePickerMultipleProps extends CxDatePickerBaseProps {
   value?: DateValue[] | null
 }
 
-export type CxDatePickerProps = CxDatePickerSingleProps | CxDatePickerMultipleProps
+export type DatePickerProps = DatePickerSingleProps | DatePickerMultipleProps
 
 // Dispatches on `selectionMode` between two internal implementations that share little beyond
 // the field/overlay shell and `useFormField` — `selectionMode: 'multiple'` has no
-// `useDatePickerState`/`useDatePicker` equivalent to build on (see `CxDatePickerMultiple`'s own
+// `useDatePickerState`/`useDatePicker` equivalent to build on (see `DatePickerMultiple`'s own
 // comment), so bolting an array value onto the single-value hook pair isn't an option.
-export const CxDatePicker = (props: CxDatePickerProps) => {
-  if (props.selectionMode === 'multiple') return <CxDatePickerMultiple {...props} />
-  return <CxDatePickerSingle {...props} />
+export const DatePicker = (props: DatePickerProps) => {
+  if (props.selectionMode === 'multiple') return <DatePickerMultiple {...props} />
+  return <DatePickerSingle {...props} />
 }
 
-CxDatePicker.displayName = 'CxDatePicker'
+DatePicker.displayName = 'DatePicker'
 
-const CxDatePickerSingle = ({
+const DatePickerSingle = ({
   className,
   defaultOpen,
   defaultValue,
@@ -221,7 +221,7 @@ const CxDatePickerSingle = ({
   value,
   visibleMonths,
   ...rest
-}: CxDatePickerSingleProps) => {
+}: DatePickerSingleProps) => {
   const combinedIsDateUnavailable = useMemo(
     () => mergeIsDateUnavailable(unavailableDates, isDateUnavailable),
     [unavailableDates, isDateUnavailable]
@@ -288,9 +288,9 @@ const CxDatePickerSingle = ({
     triggerRef: groupRef
   })
 
-  // `CxCalendar` is dialog-agnostic by design (see its own comment) — applying `role="dialog"`
+  // `Calendar` is dialog-agnostic by design (see its own comment) — applying `role="dialog"`
   // etc. is this component's concern, layered on via the generic HTML-attribute passthrough
-  // `CxCalendar` merges onto its root.
+  // `Calendar` merges onto its root.
   const { dialogProps: domDialogProps } = useDialog(dialogProps, calendarRef)
 
   return renderFormField({
@@ -334,7 +334,7 @@ const CxDatePickerSingle = ({
         >
           {state.isOpen && (
             <FocusScope contain restoreFocus>
-              <CxCalendar
+              <Calendar
                 {...domDialogProps}
                 autoFocus
                 disabled={disabled}
@@ -370,9 +370,9 @@ const CxDatePickerSingle = ({
   })
 }
 
-CxDatePickerSingle.displayName = 'CxDatePickerSingle'
+DatePickerSingle.displayName = 'DatePickerSingle'
 
-// `selectionMode: 'multiple'` counterpart to `CxDatePickerSingle` — deliberately not built on
+// `selectionMode: 'multiple'` counterpart to `DatePickerSingle` — deliberately not built on
 // `useDatePickerState`/`useDatePicker`, since neither has any multi-value concept (a single
 // `DateValue`, edited through one segmented day/month/year field that has no way to represent
 // more than one date — see react-stately's own `useDatePickerState` types). Instead this is
@@ -381,7 +381,7 @@ CxDatePickerSingle.displayName = 'CxDatePickerSingle'
 // `useOverlayPlacement`/`CalendarToggleButton` already expect, so both are reused unchanged), the
 // manual controlled/uncontrolled pattern `ChipInput` already uses for its own array value, and
 // a read-only comma-separated field in place of `DateField`'s editable segments.
-const CxDatePickerMultiple = ({
+const DatePickerMultiple = ({
   className,
   defaultOpen,
   defaultValue,
@@ -407,7 +407,7 @@ const CxDatePickerMultiple = ({
   value,
   visibleMonths,
   ...rest
-}: CxDatePickerMultipleProps) => {
+}: DatePickerMultipleProps) => {
   const combinedIsDateUnavailable = useMemo(
     () => mergeIsDateUnavailable(unavailableDates, isDateUnavailable),
     [unavailableDates, isDateUnavailable]
@@ -508,7 +508,7 @@ const CxDatePickerMultiple = ({
         >
           {state.isOpen && (
             <FocusScope contain restoreFocus>
-              <CxCalendar
+              <Calendar
                 {...domDialogProps}
                 autoFocus
                 disabled={disabled}
@@ -547,7 +547,7 @@ const CxDatePickerMultiple = ({
   })
 }
 
-CxDatePickerMultiple.displayName = 'CxDatePickerMultiple'
+DatePickerMultiple.displayName = 'DatePickerMultiple'
 
 interface MultiDateFieldProps {
   values: DateValue[]
@@ -565,7 +565,7 @@ const MultiDateField = ({ values }: MultiDateFieldProps) => {
   const formatter = useDateFormatter({ dateStyle: 'medium' })
 
   return (
-    <div className="cx-datepicker-field">
+    <div className="datepicker-field">
       {values.length > 0 && (
         <>
           {values

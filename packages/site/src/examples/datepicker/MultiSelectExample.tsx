@@ -1,5 +1,5 @@
-import { CxDatePicker } from '@chassis-ui/react'
+import { DatePicker } from '@chassis-ui/react'
 
 export const MultiSelectExample = () => {
-  return <CxDatePicker aria-label="Event dates" selectionMode="multiple" />
+  return <DatePicker aria-label="Event dates" selectionMode="multiple" />
 }

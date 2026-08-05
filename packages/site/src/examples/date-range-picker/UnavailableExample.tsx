@@ -1,4 +1,4 @@
-import { CxDateRangePicker } from '@chassis-ui/react'
+import { DateRangePicker } from '@chassis-ui/react'
 import { today, getLocalTimeZone } from '@internationalized/date'
 
 export const UnavailableExample = () => {
@@ -7,5 +7,5 @@ export const UnavailableExample = () => {
     date.toString()
   )
 
-  return <CxDateRangePicker aria-label="Trip dates" unavailableDates={unavailableDates} />
+  return <DateRangePicker aria-label="Trip dates" unavailableDates={unavailableDates} />
 }

@@ -1,4 +1,4 @@
-import { CxCalendar } from '@chassis-ui/react'
+import { Calendar } from '@chassis-ui/react'
 import { today, getLocalTimeZone } from '@internationalized/date'
 
 export const UnavailableDatesExample = () => {
@@ -7,5 +7,5 @@ export const UnavailableDatesExample = () => {
     (date) => date.toString()
   )
 
-  return <CxCalendar aria-label="Appointment date" unavailableDates={unavailableDates} />
+  return <Calendar aria-label="Appointment date" unavailableDates={unavailableDates} />
 }

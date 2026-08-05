@@ -4,7 +4,7 @@
  * now driven by real selection state instead of a manual prop). Only the pieces with no
  * chassis-css equivalent are new here: the sort indicator and the selection-checkbox column,
  * both built on `@chassis-ui/tokens`' public `--cx-*` tokens for the same reason as
- * CxDatePicker's calendar grid.
+ * DatePicker's calendar grid.
  */
 
 .table-sort-icon {

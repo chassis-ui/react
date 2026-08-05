@@ -19,7 +19,7 @@ interface UseOverlayPlacementResult {
   overlayDismissProps: HTMLAttributes<HTMLElement>
 }
 
-// Shared by `CxDatePicker` and `CxDateRangePicker` — both position their calendar overlay the same
+// Shared by `DatePicker` and `DateRangePicker` — both position their calendar overlay the same
 // way (`bottom-start`, 2px offset, closing on Escape, on any click outside it, or when focus leaves
 // the trigger group).
 //
