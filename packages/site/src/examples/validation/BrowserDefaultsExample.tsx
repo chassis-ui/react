@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
-import { Button, CxForm, CxCheckbox, CxTextInput, CxFormFeedback, CxFormLabel, CxSelect, CxInputGroup, CxInputAddon, Col } from '@chassis-ui/react'
+import { Button, CxForm, CxCheckbox, CxTextInput, CxFormFeedback, CxFormLabel, Select, CxInputGroup, CxInputAddon, Col } from '@chassis-ui/react'
 
 export const BrowserDefaultsExample = () => {
   const [validated, setValidated] = useState(false)
@@ -45,10 +45,10 @@ export const BrowserDefaultsExample = () => {
       </Col>
       <Col md={3}>
         <CxFormLabel htmlFor="validationDefault04">City</CxFormLabel>
-        <CxSelect id="validationDefault04">
+        <Select id="validationDefault04">
           <option disabled>Choose...</option>
           <option>...</option>
-        </CxSelect>
+        </Select>
         <CxFormFeedback invalid>Please provide a valid city.</CxFormFeedback>
       </Col>
       <Col md={3}>

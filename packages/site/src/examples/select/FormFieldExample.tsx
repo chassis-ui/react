@@ -1,8 +1,8 @@
-import { CxSelect } from '@chassis-ui/react'
+import { Select } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
-    <CxSelect
+    <Select
       label="Country"
       help="Used to calculate shipping costs."
       options={[

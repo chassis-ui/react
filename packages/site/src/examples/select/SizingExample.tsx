@@ -1,4 +1,4 @@
-import { CxSelect } from '@chassis-ui/react'
+import { Select } from '@chassis-ui/react'
 
 export const Example = () => {
   const options = [
@@ -9,9 +9,9 @@ export const Example = () => {
   ]
   return (
     <>
-      <CxSelect size="large" aria-label="Large select example" options={options} />
-      <CxSelect aria-label="Default select example" options={options} />
-      <CxSelect size="small" aria-label="Small select example" options={options} />
+      <Select size="large" aria-label="Large select example" options={options} />
+      <Select aria-label="Default select example" options={options} />
+      <Select size="small" aria-label="Small select example" options={options} />
     </>
   )
 }

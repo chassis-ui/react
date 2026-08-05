@@ -1,8 +1,8 @@
-import { CxAutocomplete } from '@chassis-ui/react'
+import { Autocomplete } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
-    <CxAutocomplete
+    <Autocomplete
       aria-label="Timezone"
       placeholder="Choose a timezone…"
       items={[

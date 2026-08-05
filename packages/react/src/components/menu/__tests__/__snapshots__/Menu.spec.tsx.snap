@@ -1,0 +1,46 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Menu > rendering > matches the baseline markup snapshot 1`] = `
+<div>
+  Test
+</div>
+`;
+
+exports[`Menu > rendering > matches the baseline markup snapshot when open 1`] = `
+<div>
+  <button
+    aria-controls="react-aria-:r5:"
+    aria-expanded="true"
+    aria-haspopup="true"
+    class="button primary caret"
+    data-react-aria-pressable="true"
+    id="react-aria-:r4:"
+    tabindex="0"
+    type="button"
+  >
+    Test
+  </button>
+  <div
+    aria-hidden="false"
+    aria-labelledby="react-aria-:r4:"
+    class="menu show"
+    data-cx-placement="bottom-start"
+    id="react-aria-:r5:"
+    role="menu"
+    style="position: absolute; max-height: 0px; left: 8px; top: 2px;"
+  >
+    <a
+      class="menu-item"
+      role="menuitem"
+    >
+      A
+    </a>
+    <a
+      class="menu-item"
+      role="menuitem"
+    >
+      B
+    </a>
+  </div>
+</div>
+`;

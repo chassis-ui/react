@@ -32,8 +32,8 @@ interface UseOverlayPlacementResult {
 // effect. That's wrong here: the calendar should reposition with its trigger when the page scrolls,
 // not disappear. Calling the two lower-level hooks directly, with `onClose: null` passed to
 // `useOverlayPosition` alone, gets the positioning and Escape/blur dismissal this calendar needs
-// without arming that listener — the same fix already applied to `CxAutocomplete`/`CxCombobox`/
-// `CxMenu`/`CxSubmenu`/`Popover`, none of which use `usePopover` either, all for this same reason.
+// without arming that listener — the same fix already applied to `Autocomplete`/`Combobox`/
+// `Menu`/`Submenu`/`Popover`, none of which use `usePopover` either, all for this same reason.
 export const useOverlayPlacement = ({
   overlayRef,
   state,

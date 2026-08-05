@@ -34,7 +34,7 @@ export const useSubmenuGroupProvider = (): SubmenuGroupContextValue => {
   return ref.current
 }
 
-// Exposes the current `.submenu`'s own close-and-refocus action to a nested `CxSubmenuBack`
+// Exposes the current `.submenu`'s own close-and-refocus action to a nested `SubmenuBack`
 // button, without threading it through the sibling-group registry above.
 export interface SubmenuActionsContextValue {
   close: () => void

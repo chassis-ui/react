@@ -1,0 +1,13 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Menu.Item > rendering > matches the baseline markup snapshot 1`] = `
+<div>
+  <a
+    class="menu-item"
+    href="#"
+    role="menuitem"
+  >
+    Test
+  </a>
+</div>
+`;

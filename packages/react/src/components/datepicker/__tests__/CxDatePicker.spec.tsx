@@ -101,7 +101,7 @@ describe('CxDatePicker', () => {
     // Regression coverage: `useOverlayPosition` (which `useOverlayPlacement` calls to position
     // the popover) also offers to close the overlay on any window scroll via `useCloseOnScroll`,
     // armed whenever a non-null `onClose` is passed. The popover should instead just reposition
-    // with its trigger as the page scrolls, the same as `CxAutocomplete`'s panel.
+    // with its trigger as the page scrolls, the same as `Autocomplete`'s panel.
     test('scrolling the window while the calendar is open does not close it', () => {
       render(<CxDatePicker aria-label="Event date" />)
       const dialog = getCalendarWrapper()

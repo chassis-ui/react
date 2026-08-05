@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, Container, Drawer, CxForm, CxTextInput, CxMenu, CxMenuDivider, CxMenuItem, CxMenuList, CxMenuToggle, Nav, Navbar } from '@chassis-ui/react'
+import { Button, Container, Drawer, CxForm, CxTextInput, Menu, Nav, Navbar } from '@chassis-ui/react'
 
 export const DrawerExample2 = () => {
   const [visible, setVisible] = useState(false)
@@ -30,15 +30,15 @@ export const DrawerExample2 = () => {
               <Nav.Item>
                 <Nav.Link href="#">Link</Nav.Link>
               </Nav.Item>
-              <CxMenu component="li" className="nav-item">
-                <CxMenuToggle color="secondary">Menu button</CxMenuToggle>
-                <CxMenuList>
-                  <CxMenuItem href="#">Action</CxMenuItem>
-                  <CxMenuItem href="#">Another action</CxMenuItem>
-                  <CxMenuDivider />
-                  <CxMenuItem href="#">Something else here</CxMenuItem>
-                </CxMenuList>
-              </CxMenu>
+              <Menu component="li" className="nav-item">
+                <Menu.Toggle color="secondary">Menu button</Menu.Toggle>
+                <Menu.List>
+                  <Menu.Item href="#">Action</Menu.Item>
+                  <Menu.Item href="#">Another action</Menu.Item>
+                  <Menu.Divider />
+                  <Menu.Item href="#">Something else here</Menu.Item>
+                </Menu.List>
+              </Menu>
               <Nav.Item>
                 <Nav.Link href="#" disabled>
                   Disabled

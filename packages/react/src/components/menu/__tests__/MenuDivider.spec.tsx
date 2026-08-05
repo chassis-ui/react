@@ -1,0 +1,39 @@
+import * as React from 'react'
+import { render, screen } from '@testing-library/react'
+import { axe } from 'jest-axe'
+
+import { Menu } from '../../../index'
+
+describe('Menu.Divider', () => {
+  describe('rendering', () => {
+    test('renders an hr with the base class', () => {
+      render(<Menu.Divider />)
+      expect(screen.getByRole('separator')).toHaveClass('menu-divider')
+    })
+
+    test('matches the baseline markup snapshot', () => {
+      const { container } = render(<Menu.Divider />)
+      expect(container).toMatchSnapshot()
+    })
+
+    test('applies a custom className', () => {
+      render(<Menu.Divider className="bazinga" />)
+      expect(screen.getByRole('separator')).toHaveClass('bazinga')
+    })
+  })
+
+  describe('ref forwarding', () => {
+    test('forwards a ref to the underlying hr', () => {
+      const ref = React.createRef<HTMLHRElement>()
+      render(<Menu.Divider ref={ref} />)
+      expect(ref.current).toBeInstanceOf(HTMLHRElement)
+    })
+  })
+
+  describe('accessibility', () => {
+    test('has no axe violations', async () => {
+      const { container } = render(<Menu.Divider />)
+      expect(await axe(container)).toHaveNoViolations()
+    })
+  })
+})

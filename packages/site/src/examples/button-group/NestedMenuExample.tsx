@@ -1,20 +1,20 @@
-import { Button, ButtonGroup, CxMenu, CxMenuDivider, CxMenuItem, CxMenuList, CxMenuToggle } from '@chassis-ui/react'
+import { Button, ButtonGroup, Menu } from '@chassis-ui/react'
 
 export const NestedMenuExample = () => {
   return (
     <ButtonGroup role="group" aria-label="Button group with nested menu">
       <Button color="primary">1</Button>
       <Button color="primary">2</Button>
-      <CxMenu>
-        <CxMenuToggle color="primary">Menu</CxMenuToggle>
-        <CxMenuList>
-          <CxMenuItem href="#">Action</CxMenuItem>
-          <CxMenuItem href="#">Another action</CxMenuItem>
-          <CxMenuItem href="#">Something else here</CxMenuItem>
-          <CxMenuDivider />
-          <CxMenuItem href="#">Separated link</CxMenuItem>
-        </CxMenuList>
-      </CxMenu>
+      <Menu>
+        <Menu.Toggle color="primary">Menu</Menu.Toggle>
+        <Menu.List>
+          <Menu.Item href="#">Action</Menu.Item>
+          <Menu.Item href="#">Another action</Menu.Item>
+          <Menu.Item href="#">Something else here</Menu.Item>
+          <Menu.Divider />
+          <Menu.Item href="#">Separated link</Menu.Item>
+        </Menu.List>
+      </Menu>
     </ButtonGroup>
   )
 }

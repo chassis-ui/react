@@ -1,4 +1,4 @@
-import { Button, CxTextInput, CxInputGroup, CxMenu, CxMenuDivider, CxMenuItem, CxMenuList, CxMenuToggle } from '@chassis-ui/react'
+import { Button, CxTextInput, CxInputGroup, Menu } from '@chassis-ui/react'
 
 export const SegmentedButtonsExample = () => {
   return (
@@ -7,18 +7,18 @@ export const SegmentedButtonsExample = () => {
         <Button type="button" color="secondary" variant="outline">
           Action
         </Button>
-        <CxMenu>
-          <CxMenuToggle color="secondary" variant="outline">
+        <Menu>
+          <Menu.Toggle color="secondary" variant="outline">
             <span className="visually-hidden">Toggle menu</span>
-          </CxMenuToggle>
-          <CxMenuList>
-            <CxMenuItem href="#">Action</CxMenuItem>
-            <CxMenuItem href="#">Another action</CxMenuItem>
-            <CxMenuItem href="#">Something else here</CxMenuItem>
-            <CxMenuDivider />
-            <CxMenuItem href="#">Separated link</CxMenuItem>
-          </CxMenuList>
-        </CxMenu>
+          </Menu.Toggle>
+          <Menu.List>
+            <Menu.Item href="#">Action</Menu.Item>
+            <Menu.Item href="#">Another action</Menu.Item>
+            <Menu.Item href="#">Something else here</Menu.Item>
+            <Menu.Divider />
+            <Menu.Item href="#">Separated link</Menu.Item>
+          </Menu.List>
+        </Menu>
         <CxTextInput aria-label="Text input with segmented menu button" />
       </CxInputGroup>
 
@@ -27,18 +27,18 @@ export const SegmentedButtonsExample = () => {
         <Button type="button" color="secondary" variant="outline">
           Action
         </Button>
-        <CxMenu placement="bottom-end">
-          <CxMenuToggle color="secondary" variant="outline">
+        <Menu placement="bottom-end">
+          <Menu.Toggle color="secondary" variant="outline">
             <span className="visually-hidden">Toggle menu</span>
-          </CxMenuToggle>
-          <CxMenuList>
-            <CxMenuItem href="#">Action</CxMenuItem>
-            <CxMenuItem href="#">Another action</CxMenuItem>
-            <CxMenuItem href="#">Something else here</CxMenuItem>
-            <CxMenuDivider />
-            <CxMenuItem href="#">Separated link</CxMenuItem>
-          </CxMenuList>
-        </CxMenu>
+          </Menu.Toggle>
+          <Menu.List>
+            <Menu.Item href="#">Action</Menu.Item>
+            <Menu.Item href="#">Another action</Menu.Item>
+            <Menu.Item href="#">Something else here</Menu.Item>
+            <Menu.Divider />
+            <Menu.Item href="#">Separated link</Menu.Item>
+          </Menu.List>
+        </Menu>
       </CxInputGroup>
     </>
   )

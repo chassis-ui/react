@@ -1,18 +1,18 @@
-import { CxCombobox, CxComboboxItem } from '@chassis-ui/react'
+import { Combobox } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
-    <CxCombobox
+    <Combobox
       label="Country"
       help="The billing region."
       name="country"
       placeholder="Pick a country…"
     >
-      <CxComboboxItem id="us">United States</CxComboboxItem>
-      <CxComboboxItem id="uk">United Kingdom</CxComboboxItem>
-      <CxComboboxItem id="ca">Canada</CxComboboxItem>
-      <CxComboboxItem id="au">Australia</CxComboboxItem>
-      <CxComboboxItem id="de">Germany</CxComboboxItem>
-    </CxCombobox>
+      <Combobox.Item id="us">United States</Combobox.Item>
+      <Combobox.Item id="uk">United Kingdom</Combobox.Item>
+      <Combobox.Item id="ca">Canada</Combobox.Item>
+      <Combobox.Item id="au">Australia</Combobox.Item>
+      <Combobox.Item id="de">Germany</Combobox.Item>
+    </Combobox>
   )
 }

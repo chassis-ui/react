@@ -1,4 +1,4 @@
-import { Icon, CxInputAdorn, CxSelect } from '@chassis-ui/react'
+import { Icon, CxInputAdorn, Select } from '@chassis-ui/react'
 
 export const Example = () => {
   const options = [
@@ -7,7 +7,7 @@ export const Example = () => {
     { label: 'Python', value: 'py' }
   ]
   return (
-    <CxSelect
+    <Select
       aria-label="Language"
       placeholder="Choose a language"
       options={options}

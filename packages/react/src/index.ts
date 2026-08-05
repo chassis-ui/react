@@ -1,7 +1,5 @@
 import { Accordion } from './components/accordion'
-import { CxAutocomplete } from './components/autocomplete/CxAutocomplete'
-import { CxAutocompleteGroup } from './components/autocomplete/CxAutocompleteGroup'
-import { CxAutocompleteItem } from './components/autocomplete/CxAutocompleteItem'
+import { Autocomplete } from './components/autocomplete'
 import { Avatar } from './components/avatar'
 import { Notification } from './components/notification'
 import { Badge } from './components/badge'
@@ -18,23 +16,13 @@ import { CxChipInput } from './components/chip-input/CxChipInput'
 import { CloseButton } from './components/close-button'
 import { CxColorInput } from './components/color-input/CxColorInput'
 import { CxFileInput } from './components/file-input/CxFileInput'
-import { CxCombobox } from './components/combobox/CxCombobox'
-import { CxComboboxGroup } from './components/combobox/CxComboboxGroup'
-import { CxComboboxItem } from './components/combobox/CxComboboxItem'
+import { Combobox } from './components/combobox'
 import { CxDatePicker } from './components/datepicker/CxDatePicker'
 import { CxDateRangePicker } from './components/datepicker/CxDateRangePicker'
 import { CxOtpInput } from './components/otp-input/CxOtpInput'
 import { CxPasswordStrength } from './components/password-strength/CxPasswordStrength'
 import { I18nProvider } from 'react-aria'
-import { CxMenu } from './components/menu/CxMenu'
-import { CxMenuDivider } from './components/menu/CxMenuDivider'
-import { CxMenuHeader } from './components/menu/CxMenuHeader'
-import { CxMenuItem } from './components/menu/CxMenuItem'
-import { CxMenuList } from './components/menu/CxMenuList'
-import { CxMenuText } from './components/menu/CxMenuText'
-import { CxMenuToggle } from './components/menu/CxMenuToggle'
-import { CxSubmenu } from './components/menu/CxSubmenu'
-import { CxSubmenuBack } from './components/menu/CxSubmenuBack'
+import { Menu } from './components/menu'
 import { Col, Container, Row } from './components/grid'
 import { CxCheckbox } from './components/checkbox/CxCheckbox'
 import { CxCheckboxGroup } from './components/checkbox/CxCheckboxGroup'
@@ -50,7 +38,7 @@ import { CxInputAdorn } from './components/input-adorn/CxInputAdorn'
 import { CxRadio } from './components/radio/CxRadio'
 import { CxRadioGroup } from './components/radio/CxRadioGroup'
 import { CxRangeInput } from './components/range-input/CxRangeInput'
-import { CxSelect } from './components/select/CxSelect'
+import { Select } from './components/select'
 import { CxSwitch } from './components/switch/CxSwitch'
 import { CxTextInput } from './components/text-input/CxTextInput'
 import { CxTextarea } from './components/textarea/CxTextarea'
@@ -81,9 +69,7 @@ import { Tooltip } from './components/tooltip'
 export {
   // plop:export
   Accordion,
-  CxAutocomplete,
-  CxAutocompleteGroup,
-  CxAutocompleteItem,
+  Autocomplete,
   Avatar,
   Notification,
   Badge,
@@ -100,9 +86,7 @@ export {
   CloseButton,
   Collapse,
   CxColorInput,
-  CxCombobox,
-  CxComboboxGroup,
-  CxComboboxItem,
+  Combobox,
   CxDatePicker,
   CxDateRangePicker,
   CxFileInput,
@@ -115,15 +99,7 @@ export {
   I18nProvider,
   CxOtpInput,
   CxPasswordStrength,
-  CxMenu,
-  CxMenuDivider,
-  CxMenuHeader,
-  CxMenuItem,
-  CxMenuList,
-  CxMenuText,
-  CxMenuToggle,
-  CxSubmenu,
-  CxSubmenuBack,
+  Menu,
   Col,
   Container,
   Row,
@@ -153,7 +129,7 @@ export {
   CxRadioGroup,
   CxRangeInput,
   Drawer,
-  CxSelect,
+  Select,
   Spinner,
   CxSwitch,
   CxTable,

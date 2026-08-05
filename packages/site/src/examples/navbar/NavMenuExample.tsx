@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Container, Collapse, CxMenu, CxMenuDivider, CxMenuItem, CxMenuList, CxMenuToggle, Nav, Navbar } from '@chassis-ui/react'
+import { Container, Collapse, Menu, Nav, Navbar } from '@chassis-ui/react'
 
 export const NavMenuExample = () => {
   const [visible, setVisible] = useState(false)
@@ -26,15 +26,15 @@ export const NavMenuExample = () => {
               <Nav.Item>
                 <Nav.Link href="#">Pricing</Nav.Link>
               </Nav.Item>
-              <CxMenu component="li" className="nav-item">
-                <CxMenuToggle>Menu link</CxMenuToggle>
-                <CxMenuList>
-                  <CxMenuItem href="#">Action</CxMenuItem>
-                  <CxMenuItem href="#">Another action</CxMenuItem>
-                  <CxMenuDivider />
-                  <CxMenuItem href="#">Something else here</CxMenuItem>
-                </CxMenuList>
-              </CxMenu>
+              <Menu component="li" className="nav-item">
+                <Menu.Toggle>Menu link</Menu.Toggle>
+                <Menu.List>
+                  <Menu.Item href="#">Action</Menu.Item>
+                  <Menu.Item href="#">Another action</Menu.Item>
+                  <Menu.Divider />
+                  <Menu.Item href="#">Something else here</Menu.Item>
+                </Menu.List>
+              </Menu>
             </Navbar.Nav>
           </Collapse>
         </Container>

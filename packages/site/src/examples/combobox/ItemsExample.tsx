@@ -1,8 +1,8 @@
-import { CxCombobox } from '@chassis-ui/react'
+import { Combobox } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
-    <CxCombobox
+    <Combobox
       aria-label="Timezone"
       placeholder="Choose a timezone…"
       items={[

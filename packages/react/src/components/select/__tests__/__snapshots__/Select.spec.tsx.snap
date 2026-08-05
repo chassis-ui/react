@@ -1,0 +1,47 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Select > adorns > matches the adorned markup snapshot 1`] = `
+<div>
+  <div
+    class="form-input form-caret"
+  >
+    <span
+      class="input-adorn"
+    >
+      Lang
+    </span>
+    <select
+      aria-label="Language"
+      class="ghost-input"
+      id=":rk:"
+    >
+      <option>
+        js
+      </option>
+    </select>
+    <span
+      class="input-adorn"
+    >
+      Choose one
+    </span>
+  </div>
+</div>
+`;
+
+exports[`Select > rendering > matches the baseline markup snapshot 1`] = `
+<div>
+  <select
+    class="form-input"
+    id=":r1:"
+  >
+    <option
+      value="A"
+    >
+      B
+    </option>
+    <option>
+      C
+    </option>
+  </select>
+</div>
+`;

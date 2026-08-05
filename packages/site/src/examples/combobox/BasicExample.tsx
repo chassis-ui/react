@@ -1,16 +1,16 @@
-import { CxCombobox, CxComboboxItem } from '@chassis-ui/react'
+import { Combobox } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
-    <CxCombobox aria-label="Fruit" placeholder="Select a fruit…">
-      <CxComboboxItem id="apple">Apple</CxComboboxItem>
-      <CxComboboxItem id="banana">Banana</CxComboboxItem>
-      <CxComboboxItem id="cherry">Cherry</CxComboboxItem>
-      <CxComboboxItem id="grape">Grape</CxComboboxItem>
-      <CxComboboxItem id="mango">Mango</CxComboboxItem>
-      <CxComboboxItem id="orange">Orange</CxComboboxItem>
-      <CxComboboxItem id="peach">Peach</CxComboboxItem>
-      <CxComboboxItem id="strawberry">Strawberry</CxComboboxItem>
-    </CxCombobox>
+    <Combobox aria-label="Fruit" placeholder="Select a fruit…">
+      <Combobox.Item id="apple">Apple</Combobox.Item>
+      <Combobox.Item id="banana">Banana</Combobox.Item>
+      <Combobox.Item id="cherry">Cherry</Combobox.Item>
+      <Combobox.Item id="grape">Grape</Combobox.Item>
+      <Combobox.Item id="mango">Mango</Combobox.Item>
+      <Combobox.Item id="orange">Orange</Combobox.Item>
+      <Combobox.Item id="peach">Peach</Combobox.Item>
+      <Combobox.Item id="strawberry">Strawberry</Combobox.Item>
+    </Combobox>
   )
 }

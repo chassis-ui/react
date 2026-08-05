@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, CxFileInput, CxForm, CxCheckbox, CxFormFeedback, CxFormLabel, CxRadio, CxRadioGroup, CxSelect, CxTextarea } from '@chassis-ui/react'
+import { Button, CxFileInput, CxForm, CxCheckbox, CxFormFeedback, CxFormLabel, CxRadio, CxRadioGroup, Select, CxTextarea } from '@chassis-ui/react'
 
 export const SupportedElementsExample = () => {
   return (
@@ -29,12 +29,12 @@ export const SupportedElementsExample = () => {
       </CxRadioGroup>
       <CxFormFeedback invalid>More example invalid feedback text</CxFormFeedback>
       <div className="mb-medium">
-        <CxSelect required aria-label="select example">
+        <Select required aria-label="select example">
           <option>Open this select menu</option>
           <option value="1">One</option>
           <option value="2">Two</option>
           <option value="3">Three</option>
-        </CxSelect>
+        </Select>
         <CxFormFeedback invalid>Example invalid select feedback</CxFormFeedback>
       </div>
       <div className="mb-medium">

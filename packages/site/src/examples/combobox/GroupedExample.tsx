@@ -1,18 +1,18 @@
-import { CxCombobox, CxComboboxGroup, CxComboboxItem } from '@chassis-ui/react'
+import { Combobox } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
-    <CxCombobox aria-label="Language" placeholder="Choose a language…">
-      <CxComboboxGroup label="Frontend">
-        <CxComboboxItem id="html">HTML</CxComboboxItem>
-        <CxComboboxItem id="css">CSS</CxComboboxItem>
-        <CxComboboxItem id="js">JavaScript</CxComboboxItem>
-      </CxComboboxGroup>
-      <CxComboboxGroup label="Backend">
-        <CxComboboxItem id="python">Python</CxComboboxItem>
-        <CxComboboxItem id="ruby">Ruby</CxComboboxItem>
-      </CxComboboxGroup>
-      <CxComboboxItem id="sql">SQL</CxComboboxItem>
-    </CxCombobox>
+    <Combobox aria-label="Language" placeholder="Choose a language…">
+      <Combobox.Group label="Frontend">
+        <Combobox.Item id="html">HTML</Combobox.Item>
+        <Combobox.Item id="css">CSS</Combobox.Item>
+        <Combobox.Item id="js">JavaScript</Combobox.Item>
+      </Combobox.Group>
+      <Combobox.Group label="Backend">
+        <Combobox.Item id="python">Python</Combobox.Item>
+        <Combobox.Item id="ruby">Ruby</Combobox.Item>
+      </Combobox.Group>
+      <Combobox.Item id="sql">SQL</Combobox.Item>
+    </Combobox>
   )
 }

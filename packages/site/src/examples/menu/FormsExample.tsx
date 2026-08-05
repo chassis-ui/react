@@ -1,10 +1,10 @@
-import { Button, CxForm, CxCheckbox, CxTextInput, CxFormLabel, CxMenu, CxMenuToggle, CxMenuList } from '@chassis-ui/react'
+import { Button, CxForm, CxCheckbox, CxTextInput, CxFormLabel, Menu } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
-    <CxMenu>
-      <CxMenuToggle color="secondary">Toggle menu</CxMenuToggle>
-      <CxMenuList style={{ '--cx-menu-min-width': '300px' } as React.CSSProperties}>
+    <Menu>
+      <Menu.Toggle color="secondary">Toggle menu</Menu.Toggle>
+      <Menu.List style={{ '--cx-menu-min-width': '300px' } as React.CSSProperties}>
         <CxForm className="vstack gap-medium p-medium">
           <div>
             <CxFormLabel htmlFor="menuFormEmail">Email address</CxFormLabel>
@@ -19,7 +19,7 @@ export const Example = () => {
             Sign in
           </Button>
         </CxForm>
-      </CxMenuList>
-    </CxMenu>
+      </Menu.List>
+    </Menu>
   )
 }

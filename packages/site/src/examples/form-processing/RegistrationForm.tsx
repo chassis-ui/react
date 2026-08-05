@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, CxForm, CxTextInput, CxFormLabel, CxSelect, CxFormFeedback, Notification, Row, Col } from '@chassis-ui/react'
+import { Button, CxForm, CxTextInput, CxFormLabel, Select, CxFormFeedback, Notification, Row, Col } from '@chassis-ui/react'
 
 export const RegistrationForm = () => {
   const [name, setName] = useState('')
@@ -71,7 +71,7 @@ export const RegistrationForm = () => {
         <Row className="mb-3">
           <Col>
             <CxFormLabel htmlFor="reg-role">Role</CxFormLabel>
-            <CxSelect
+            <Select
               id="reg-role"
               placeholder="Select a role…"
               value={role}

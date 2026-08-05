@@ -1,4 +1,4 @@
-import { Nav, CxMenu, CxMenuToggle, CxMenuList, CxMenuItem } from '@chassis-ui/react'
+import { Nav, Menu } from '@chassis-ui/react'
 
 export const PillsWithMenuExample = () => {
   return (
@@ -8,14 +8,14 @@ export const PillsWithMenuExample = () => {
           Active
         </Nav.Link>
       </Nav.Item>
-      <CxMenu component="li" className="nav-item">
-        <CxMenuToggle color="secondary">Menu button</CxMenuToggle>
-        <CxMenuList>
-          <CxMenuItem href="#">Action</CxMenuItem>
-          <CxMenuItem href="#">Another action</CxMenuItem>
-          <CxMenuItem href="#">Something else here</CxMenuItem>
-        </CxMenuList>
-      </CxMenu>
+      <Menu component="li" className="nav-item">
+        <Menu.Toggle color="secondary">Menu button</Menu.Toggle>
+        <Menu.List>
+          <Menu.Item href="#">Action</Menu.Item>
+          <Menu.Item href="#">Another action</Menu.Item>
+          <Menu.Item href="#">Something else here</Menu.Item>
+        </Menu.List>
+      </Menu>
       <Nav.Item>
         <Nav.Link href="#">Link</Nav.Link>
       </Nav.Item>

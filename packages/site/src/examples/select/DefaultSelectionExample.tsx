@@ -1,9 +1,9 @@
-import { CxSelect } from '@chassis-ui/react'
+import { Select } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
     <>
-      <CxSelect
+      <Select
         aria-label="Single selection example"
         options={[
           { label: 'One', value: '1' },
@@ -11,7 +11,7 @@ export const Example = () => {
           { label: 'Three', value: '3' }
         ]}
       />
-      <CxSelect
+      <Select
         aria-label="Multiple selection example"
         multiple
         options={[

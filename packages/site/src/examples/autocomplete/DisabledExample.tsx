@@ -1,13 +1,13 @@
-import { CxAutocomplete, CxAutocompleteItem } from '@chassis-ui/react'
+import { Autocomplete } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
-    <CxAutocomplete aria-label="Role" placeholder="Choose a role…">
-      <CxAutocompleteItem id="admin">Admin</CxAutocompleteItem>
-      <CxAutocompleteItem id="editor" disabled>
+    <Autocomplete aria-label="Role" placeholder="Choose a role…">
+      <Autocomplete.Item id="admin">Admin</Autocomplete.Item>
+      <Autocomplete.Item id="editor" disabled>
         Editor (unavailable)
-      </CxAutocompleteItem>
-      <CxAutocompleteItem id="viewer">Viewer</CxAutocompleteItem>
-    </CxAutocomplete>
+      </Autocomplete.Item>
+      <Autocomplete.Item id="viewer">Viewer</Autocomplete.Item>
+    </Autocomplete>
   )
 }

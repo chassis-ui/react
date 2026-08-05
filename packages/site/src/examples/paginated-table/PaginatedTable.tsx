@@ -1,5 +1,5 @@
 import { useState, type ChangeEvent } from 'react'
-import { CxTable, CxTableHeader, CxTableBody, CxTableColumn, CxTableRow, CxTableCell, Pagination, CxSelect, Badge } from '@chassis-ui/react'
+import { CxTable, CxTableHeader, CxTableBody, CxTableColumn, CxTableRow, CxTableCell, Pagination, Select, Badge } from '@chassis-ui/react'
 
 export const PaginatedTable = () => {
   const allUsers = [
@@ -44,7 +44,7 @@ export const PaginatedTable = () => {
           <label htmlFor="pg-size" className="form-label mb-0">
             Rows per page
           </label>
-          <CxSelect
+          <Select
             id="pg-size"
             style={{ width: 'auto' }}
             value={String(pageSize)}

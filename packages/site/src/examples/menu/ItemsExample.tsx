@@ -1,10 +1,10 @@
-import { Icon, CxMenu, CxMenuList, CxMenuToggle } from '@chassis-ui/react'
+import { Icon, Menu } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
-    <CxMenu>
-      <CxMenuToggle color="secondary">Recent files</CxMenuToggle>
-      <CxMenuList
+    <Menu>
+      <Menu.Toggle color="secondary">Recent files</Menu.Toggle>
+      <Menu.List
         items={[
           { id: 'new', label: 'New file', href: '#' },
           { id: 'open', label: 'Open…', href: '#' },
@@ -24,6 +24,6 @@ export const Example = () => {
           }
         ]}
       />
-    </CxMenu>
+    </Menu>
   )
 }

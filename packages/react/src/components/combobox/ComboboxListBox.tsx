@@ -13,8 +13,8 @@ interface ComboboxListBoxProps<M extends ComboboxSelectionMode = 'single'> {
   state: ComboBoxState<ComboboxEntry, M>
 }
 
-// Generic over `M` (single- vs multi-select) purely so both `CxCombobox` (always single) and
-// `CxAutocomplete` (either) can pass their own `ComboBoxState` here without a cast — nothing in
+// Generic over `M` (single- vs multi-select) purely so both `Combobox` (always single) and
+// `Autocomplete` (either) can pass their own `ComboBoxState` here without a cast — nothing in
 // this file's rendering logic actually depends on which mode is active.
 export const ComboboxListBox = <M extends ComboboxSelectionMode = 'single'>({
   listBoxProps,

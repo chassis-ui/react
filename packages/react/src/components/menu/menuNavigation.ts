@@ -6,8 +6,8 @@ import React from 'react'
 //
 // Walks `children` directly rather than a `:scope`-based `querySelectorAll` — jsdom's selector
 // engine (nwsapi) mis-parses `:scope` queries against an element whose `id` contains a colon,
-// which is exactly the shape of React 18's default `useId()` output now that `CxMenuList`/
-// `CxSubmenu` set a real `id` for `aria-controls`/`aria-labelledby` linking. Real browsers don't
+// which is exactly the shape of React 18's default `useId()` output now that `MenuList`/
+// `Submenu` set a real `id` for `aria-controls`/`aria-labelledby` linking. Real browsers don't
 // have this bug, but walking children is just as correct and sidesteps it either way.
 const VISIBLE_ITEMS_SELECTOR = ':is(.menu-item, .submenu-back):not(.disabled):not(:disabled)'
 

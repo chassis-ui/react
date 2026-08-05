@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
-import { Button, CxForm, CxCheckbox, CxTextInput, CxFormFeedback, CxFormLabel, CxSelect, CxInputGroup, CxInputAddon, Col } from '@chassis-ui/react'
+import { Button, CxForm, CxCheckbox, CxTextInput, CxFormFeedback, CxFormLabel, Select, CxInputGroup, CxInputAddon, Col } from '@chassis-ui/react'
 
 export const CustomStylesExample = () => {
   const [validated, setValidated] = useState(false)
@@ -50,10 +50,10 @@ export const CustomStylesExample = () => {
       </Col>
       <Col md={3}>
         <CxFormLabel htmlFor="validationCustom04">City</CxFormLabel>
-        <CxSelect id="validationCustom04">
+        <Select id="validationCustom04">
           <option disabled>Choose...</option>
           <option>...</option>
-        </CxSelect>
+        </Select>
         <CxFormFeedback invalid>Please provide a valid city.</CxFormFeedback>
       </Col>
       <Col md={3}>
