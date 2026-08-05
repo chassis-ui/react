@@ -3,7 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 
-import { Menu } from '../../../index'
+import { Menu, MenuToggle, MenuList, MenuItem } from '../../../index'
 
 describe('Menu', () => {
   describe('rendering', () => {
@@ -24,11 +24,11 @@ describe('Menu', () => {
     test('matches the baseline markup snapshot when open', () => {
       const { container } = render(
         <Menu visible>
-          <Menu.Toggle>Test</Menu.Toggle>
-          <Menu.List>
-            <Menu.Item>A</Menu.Item>
-            <Menu.Item>B</Menu.Item>
-          </Menu.List>
+          <MenuToggle>Test</MenuToggle>
+          <MenuList>
+            <MenuItem>A</MenuItem>
+            <MenuItem>B</MenuItem>
+          </MenuList>
         </Menu>
       )
       expect(container).toMatchSnapshot()
@@ -39,10 +39,10 @@ describe('Menu', () => {
     test('reflects the visible prop on the menu panel', () => {
       render(
         <Menu visible={false}>
-          <Menu.Toggle>Toggle</Menu.Toggle>
-          <Menu.List>
-            <Menu.Item>A</Menu.Item>
-          </Menu.List>
+          <MenuToggle>Toggle</MenuToggle>
+          <MenuList>
+            <MenuItem>A</MenuItem>
+          </MenuList>
         </Menu>
       )
       expect(screen.getByRole('menu', { hidden: true })).not.toHaveClass('show')
@@ -52,11 +52,11 @@ describe('Menu', () => {
       vi.useFakeTimers()
       render(
         <Menu>
-          <Menu.Toggle>Toggle</Menu.Toggle>
-          <Menu.List>
-            <Menu.Item>A</Menu.Item>
-            <Menu.Item>B</Menu.Item>
-          </Menu.List>
+          <MenuToggle>Toggle</MenuToggle>
+          <MenuList>
+            <MenuItem>A</MenuItem>
+            <MenuItem>B</MenuItem>
+          </MenuList>
         </Menu>
       )
       const toggle = screen.getByText('Toggle')
@@ -76,10 +76,10 @@ describe('Menu', () => {
       const user = userEvent.setup()
       render(
         <Menu>
-          <Menu.Toggle>Toggle</Menu.Toggle>
-          <Menu.List>
-            <Menu.Item>A</Menu.Item>
-          </Menu.List>
+          <MenuToggle>Toggle</MenuToggle>
+          <MenuList>
+            <MenuItem>A</MenuItem>
+          </MenuList>
         </Menu>
       )
       const toggle = screen.getByText('Toggle')
@@ -95,10 +95,10 @@ describe('Menu', () => {
       vi.useFakeTimers()
       render(
         <Menu autoClose="inside">
-          <Menu.Toggle>Toggle</Menu.Toggle>
-          <Menu.List>
-            <Menu.Item>A</Menu.Item>
-          </Menu.List>
+          <MenuToggle>Toggle</MenuToggle>
+          <MenuList>
+            <MenuItem>A</MenuItem>
+          </MenuList>
         </Menu>
       )
       fireEvent.click(screen.getByText('Toggle'))
@@ -116,10 +116,10 @@ describe('Menu', () => {
       vi.useFakeTimers()
       render(
         <Menu autoClose={false}>
-          <Menu.Toggle>Toggle</Menu.Toggle>
-          <Menu.List>
-            <Menu.Item>A</Menu.Item>
-          </Menu.List>
+          <MenuToggle>Toggle</MenuToggle>
+          <MenuList>
+            <MenuItem>A</MenuItem>
+          </MenuList>
         </Menu>
       )
       fireEvent.click(screen.getByText('Toggle'))
@@ -134,11 +134,11 @@ describe('Menu', () => {
     test('has no axe violations when open', async () => {
       const { container } = render(
         <Menu visible>
-          <Menu.Toggle>Test</Menu.Toggle>
-          <Menu.List>
-            <Menu.Item href="#">A</Menu.Item>
-            <Menu.Item href="#">B</Menu.Item>
-          </Menu.List>
+          <MenuToggle>Test</MenuToggle>
+          <MenuList>
+            <MenuItem href="#">A</MenuItem>
+            <MenuItem href="#">B</MenuItem>
+          </MenuList>
         </Menu>
       )
       expect(await axe(container)).toHaveNoViolations()

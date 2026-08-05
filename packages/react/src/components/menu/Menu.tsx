@@ -106,7 +106,7 @@ export interface MenuContextProps {
   visible: boolean
 }
 
-// A fully-shaped no-op default so a `MenuToggle`/`MenuList`/`Submenu` rendered without a
+// A fully-shaped no-op default so a `MenuToggle`/`MenuList`/`MenuSubmenu` rendered without a
 // `Menu` ancestor (or in an environment where context can't cross a component boundary, e.g.
 // some static-site prerenderers) degrades to an inert, always-closed menu instead of throwing.
 const noop = () => undefined

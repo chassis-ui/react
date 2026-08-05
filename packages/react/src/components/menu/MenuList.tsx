@@ -31,7 +31,7 @@ export interface MenuListProps extends HTMLAttributes<HTMLElement> {
   /**
    * Array of item/header/divider definitions for data-driven rendering. When provided, children
    * are ignored. Covers flat items, headers, and dividers only — for nested submenus, compose
-   * with `children` and `Submenu` instead.
+   * with `children` and `MenuSubmenu` instead.
    */
   items?: MenuItemsDef
 }

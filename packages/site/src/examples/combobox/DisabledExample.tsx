@@ -1,13 +1,13 @@
-import { Combobox } from '@chassis-ui/react'
+import { Combobox, ComboboxItem } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
     <Combobox aria-label="Role" placeholder="Choose a role…">
-      <Combobox.Item id="admin">Admin</Combobox.Item>
-      <Combobox.Item id="editor" disabled>
+      <ComboboxItem id="admin">Admin</ComboboxItem>
+      <ComboboxItem id="editor" disabled>
         Editor (unavailable)
-      </Combobox.Item>
-      <Combobox.Item id="viewer">Viewer</Combobox.Item>
+      </ComboboxItem>
+      <ComboboxItem id="viewer">Viewer</ComboboxItem>
     </Combobox>
   )
 }

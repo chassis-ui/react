@@ -1,10 +1,19 @@
-import { Button, Form, Checkbox, TextInput, FormLabel, Menu } from '@chassis-ui/react'
+import {
+  Button,
+  Form,
+  Checkbox,
+  TextInput,
+  FormLabel,
+  Menu,
+  MenuToggle,
+  MenuList
+} from '@chassis-ui/react'
 
 export const Example = () => {
   return (
     <Menu>
-      <Menu.Toggle color="secondary">Toggle menu</Menu.Toggle>
-      <Menu.List style={{ '--cx-menu-min-width': '300px' } as React.CSSProperties}>
+      <MenuToggle color="secondary">Toggle menu</MenuToggle>
+      <MenuList style={{ '--cx-menu-min-width': '300px' } as React.CSSProperties}>
         <Form className="vstack gap-medium p-medium">
           <div>
             <FormLabel htmlFor="menuFormEmail">Email address</FormLabel>
@@ -19,7 +28,7 @@ export const Example = () => {
             Sign in
           </Button>
         </Form>
-      </Menu.List>
+      </MenuList>
     </Menu>
   )
 }

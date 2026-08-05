@@ -1,27 +1,27 @@
-import { Menu } from '@chassis-ui/react'
+import { Menu, MenuSubmenu, MenuToggle, MenuList, MenuItem, MenuDivider } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
     <Menu>
-      <Menu.Toggle color="secondary">Submenus</Menu.Toggle>
-      <Menu.List>
-        <Menu.Submenu trigger="File">
-          <Menu.Item href="#">New</Menu.Item>
-          <Menu.Item href="#">Open</Menu.Item>
-          <Menu.Item href="#">Save</Menu.Item>
-        </Menu.Submenu>
-        <Menu.Submenu trigger="Edit">
-          <Menu.Item href="#">Cut</Menu.Item>
-          <Menu.Item href="#">Copy</Menu.Item>
-          <Menu.Item href="#">Paste</Menu.Item>
-        </Menu.Submenu>
-        <Menu.Submenu trigger="View">
-          <Menu.Item href="#">Zoom in</Menu.Item>
-          <Menu.Item href="#">Zoom out</Menu.Item>
-        </Menu.Submenu>
-        <Menu.Divider />
-        <Menu.Item href="#">Preferences</Menu.Item>
-      </Menu.List>
+      <MenuToggle color="secondary">Submenus</MenuToggle>
+      <MenuList>
+        <MenuSubmenu trigger="File">
+          <MenuItem href="#">New</MenuItem>
+          <MenuItem href="#">Open</MenuItem>
+          <MenuItem href="#">Save</MenuItem>
+        </MenuSubmenu>
+        <MenuSubmenu trigger="Edit">
+          <MenuItem href="#">Cut</MenuItem>
+          <MenuItem href="#">Copy</MenuItem>
+          <MenuItem href="#">Paste</MenuItem>
+        </MenuSubmenu>
+        <MenuSubmenu trigger="View">
+          <MenuItem href="#">Zoom in</MenuItem>
+          <MenuItem href="#">Zoom out</MenuItem>
+        </MenuSubmenu>
+        <MenuDivider />
+        <MenuItem href="#">Preferences</MenuItem>
+      </MenuList>
     </Menu>
   )
 }

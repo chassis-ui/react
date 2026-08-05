@@ -15,7 +15,7 @@ import { Example as FormFieldExample } from '../../src/examples/autocomplete/For
 
 ## Overview
 
-`Autocomplete` is chassis-css's button-trigger combobox — a display-only toggle that opens a panel containing its own search field, rather than a text input that's itself the trigger. That's the difference from [Combobox]([[docsref:/components/combobox]]): there, the text input is the combobox; here, the toggle just opens one. Compose a `Autocomplete.Item` per option, each identified by an `id`, optionally grouped with `Autocomplete.Group`. Pass `placeholder` for the toggle's empty-state text and `searchPlaceholder` for the search field inside the panel.
+`Autocomplete` is chassis-css's button-trigger combobox — a display-only toggle that opens a panel containing its own search field, rather than a text input that's itself the trigger. That's the difference from [Combobox]([[docsref:/components/combobox]]): there, the text input is the combobox; here, the toggle just opens one. Compose an `AutocompleteItem` per option, each identified by an `id`, optionally grouped with `AutocompleteGroup`. Pass `placeholder` for the toggle's empty-state text and `searchPlaceholder` for the search field inside the panel.
 
 <Example>
   <BasicExample client:load />
@@ -31,7 +31,7 @@ Set `multiple` to allow more than one option to be selected. The toggle shows th
 
 ## Rich item content
 
-Add `icon`/`description` to a `Autocomplete.Item` for a leading icon and a secondary line of text below the label.
+Add `icon`/`description` to an `AutocompleteItem` for a leading icon and a secondary line of text below the label.
 
 <Example>
   <RichContentExample client:load />
@@ -39,7 +39,7 @@ Add `icon`/`description` to a `Autocomplete.Item` for a leading icon and a secon
 
 ## Grouped items
 
-Wrap related `Autocomplete.Item` elements in a `Autocomplete.Group` to render them under a shared header.
+Wrap related `AutocompleteItem` elements in an `AutocompleteGroup` to render them under a shared header.
 
 <Example>
   <GroupedExample client:load />
@@ -47,7 +47,7 @@ Wrap related `Autocomplete.Item` elements in a `Autocomplete.Group` to render th
 
 ## Disabled options
 
-Add `disabled` to a `Autocomplete.Item` to remove it from keyboard navigation and prevent it from being selected.
+Add `disabled` to an `AutocompleteItem` to remove it from keyboard navigation and prevent it from being selected.
 
 <Example>
   <DisabledExample client:load />
@@ -88,10 +88,10 @@ Opening the panel moves focus to the search field; closing it — via Escape, a 
 
 <PropTable component="Autocomplete" />
 
-### Autocomplete.Item
+### AutocompleteItem
 
 <PropTable component="AutocompleteItem" />
 
-### Autocomplete.Group
+### AutocompleteGroup
 
 <PropTable component="AutocompleteGroup" />

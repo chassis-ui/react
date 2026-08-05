@@ -2,17 +2,17 @@ import * as React from 'react'
 import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Menu } from '../../../index'
+import { Menu, MenuToggle, MenuList, MenuItem } from '../../../index'
 
-describe('Menu.Toggle', () => {
+describe('MenuToggle', () => {
   describe('rendering', () => {
     test('renders a button with the caret class and aria-expanded', () => {
       render(
         <Menu>
-          <Menu.Toggle>Test</Menu.Toggle>
-          <Menu.List>
-            <Menu.Item>A</Menu.Item>
-          </Menu.List>
+          <MenuToggle>Test</MenuToggle>
+          <MenuList>
+            <MenuItem>A</MenuItem>
+          </MenuList>
         </Menu>
       )
       const toggle = screen.getByRole('button', { name: 'Test' })
@@ -23,12 +23,12 @@ describe('Menu.Toggle', () => {
     test('forwards custom props to the underlying button', () => {
       render(
         <Menu>
-          <Menu.Toggle color="secondary" className="bazinga">
+          <MenuToggle color="secondary" className="bazinga">
             Test
-          </Menu.Toggle>
-          <Menu.List>
-            <Menu.Item>A</Menu.Item>
-          </Menu.List>
+          </MenuToggle>
+          <MenuList>
+            <MenuItem>A</MenuItem>
+          </MenuList>
         </Menu>
       )
       const toggle = screen.getByRole('button', { name: 'Test' })
@@ -41,10 +41,10 @@ describe('Menu.Toggle', () => {
       const ref = React.createRef<HTMLButtonElement>()
       render(
         <Menu>
-          <Menu.Toggle ref={ref}>Test</Menu.Toggle>
-          <Menu.List>
-            <Menu.Item>A</Menu.Item>
-          </Menu.List>
+          <MenuToggle ref={ref}>Test</MenuToggle>
+          <MenuList>
+            <MenuItem>A</MenuItem>
+          </MenuList>
         </Menu>
       )
       expect(ref.current).toBeInstanceOf(HTMLButtonElement)
@@ -56,10 +56,10 @@ describe('Menu.Toggle', () => {
     test('has no axe violations', async () => {
       const { container } = render(
         <Menu>
-          <Menu.Toggle>Test</Menu.Toggle>
-          <Menu.List>
-            <Menu.Item href="#">A</Menu.Item>
-          </Menu.List>
+          <MenuToggle>Test</MenuToggle>
+          <MenuList>
+            <MenuItem href="#">A</MenuItem>
+          </MenuList>
         </Menu>
       )
       expect(await axe(container)).toHaveNoViolations()

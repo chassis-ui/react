@@ -11,7 +11,11 @@ import {
   NavLink,
   NavbarBrand,
   NavbarNav,
-  NavbarToggler
+  NavbarToggler,
+  MenuToggle,
+  MenuList,
+  MenuItem,
+  MenuDivider
 } from '@chassis-ui/react'
 
 export const ColorSchemesExample = () => {
@@ -37,13 +41,13 @@ export const ColorSchemesExample = () => {
                 <NavLink href="#">Link</NavLink>
               </NavItem>
               <Menu component="li" className="nav-item">
-                <Menu.Toggle color="secondary">Menu button</Menu.Toggle>
-                <Menu.List>
-                  <Menu.Item href="#">Action</Menu.Item>
-                  <Menu.Item href="#">Another action</Menu.Item>
-                  <Menu.Divider />
-                  <Menu.Item href="#">Something else here</Menu.Item>
-                </Menu.List>
+                <MenuToggle color="secondary">Menu button</MenuToggle>
+                <MenuList>
+                  <MenuItem href="#">Action</MenuItem>
+                  <MenuItem href="#">Another action</MenuItem>
+                  <MenuDivider />
+                  <MenuItem href="#">Something else here</MenuItem>
+                </MenuList>
               </Menu>
               <NavItem>
                 <NavLink href="#" disabled>
@@ -80,13 +84,13 @@ export const ColorSchemesExample = () => {
                 <NavLink href="#">Link</NavLink>
               </NavItem>
               <Menu component="li" className="nav-item">
-                <Menu.Toggle color="secondary">Menu button</Menu.Toggle>
-                <Menu.List>
-                  <Menu.Item href="#">Action</Menu.Item>
-                  <Menu.Item href="#">Another action</Menu.Item>
-                  <Menu.Divider />
-                  <Menu.Item href="#">Something else here</Menu.Item>
-                </Menu.List>
+                <MenuToggle color="secondary">Menu button</MenuToggle>
+                <MenuList>
+                  <MenuItem href="#">Action</MenuItem>
+                  <MenuItem href="#">Another action</MenuItem>
+                  <MenuDivider />
+                  <MenuItem href="#">Something else here</MenuItem>
+                </MenuList>
               </Menu>
               <NavItem>
                 <NavLink href="#" disabled>
@@ -123,13 +127,13 @@ export const ColorSchemesExample = () => {
                 <NavLink href="#">Link</NavLink>
               </NavItem>
               <Menu component="li" className="nav-item">
-                <Menu.Toggle color="secondary">Menu button</Menu.Toggle>
-                <Menu.List>
-                  <Menu.Item href="#">Action</Menu.Item>
-                  <Menu.Item href="#">Another action</Menu.Item>
-                  <Menu.Divider />
-                  <Menu.Item href="#">Something else here</Menu.Item>
-                </Menu.List>
+                <MenuToggle color="secondary">Menu button</MenuToggle>
+                <MenuList>
+                  <MenuItem href="#">Action</MenuItem>
+                  <MenuItem href="#">Another action</MenuItem>
+                  <MenuDivider />
+                  <MenuItem href="#">Something else here</MenuItem>
+                </MenuList>
               </Menu>
               <NavItem>
                 <NavLink href="#" disabled>

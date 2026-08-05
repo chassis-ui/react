@@ -2,15 +2,15 @@ import * as React from 'react'
 import { act, render, screen, fireEvent } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Combobox } from '../../../index'
+import { Combobox, ComboboxGroup, ComboboxItem } from '../../../index'
 
 const BasicCombobox = (props: Partial<React.ComponentProps<typeof Combobox>> = {}) => (
   <Combobox aria-label="Fruit" {...props}>
-    <Combobox.Item id="apple">Apple</Combobox.Item>
-    <Combobox.Item id="banana">Banana</Combobox.Item>
-    <Combobox.Item id="cherry" disabled>
+    <ComboboxItem id="apple">Apple</ComboboxItem>
+    <ComboboxItem id="banana">Banana</ComboboxItem>
+    <ComboboxItem id="cherry" disabled>
       Cherry
-    </Combobox.Item>
+    </ComboboxItem>
   </Combobox>
 )
 
@@ -104,10 +104,10 @@ describe('Combobox', () => {
   describe('rich item content', () => {
     const RichCombobox = (props: Partial<React.ComponentProps<typeof Combobox>> = {}) => (
       <Combobox aria-label="Role" {...props}>
-        <Combobox.Item id="admin" icon={<span data-testid="icon" />} description="Full access">
+        <ComboboxItem id="admin" icon={<span data-testid="icon" />} description="Full access">
           Admin
-        </Combobox.Item>
-        <Combobox.Item id="viewer">Viewer</Combobox.Item>
+        </ComboboxItem>
+        <ComboboxItem id="viewer">Viewer</ComboboxItem>
       </Combobox>
     )
 
@@ -145,15 +145,15 @@ describe('Combobox', () => {
   describe('grouped items', () => {
     const GroupedCombobox = (props: Partial<React.ComponentProps<typeof Combobox>> = {}) => (
       <Combobox aria-label="Language" {...props}>
-        <Combobox.Group label="Frontend">
-          <Combobox.Item id="html">HTML</Combobox.Item>
-          <Combobox.Item id="css">CSS</Combobox.Item>
-        </Combobox.Group>
-        <Combobox.Group label="Backend">
-          <Combobox.Item id="python">Python</Combobox.Item>
-          <Combobox.Item id="ruby">Ruby</Combobox.Item>
-        </Combobox.Group>
-        <Combobox.Item id="other">Other</Combobox.Item>
+        <ComboboxGroup label="Frontend">
+          <ComboboxItem id="html">HTML</ComboboxItem>
+          <ComboboxItem id="css">CSS</ComboboxItem>
+        </ComboboxGroup>
+        <ComboboxGroup label="Backend">
+          <ComboboxItem id="python">Python</ComboboxItem>
+          <ComboboxItem id="ruby">Ruby</ComboboxItem>
+        </ComboboxGroup>
+        <ComboboxItem id="other">Other</ComboboxItem>
       </Combobox>
     )
 
@@ -200,7 +200,7 @@ describe('Combobox', () => {
             { id: 'python', label: 'Python' }
           ]}
         >
-          <Combobox.Item id="ignored">Ignored</Combobox.Item>
+          <ComboboxItem id="ignored">Ignored</ComboboxItem>
         </Combobox>
       )
       focusInput(screen.getByRole('combobox'))

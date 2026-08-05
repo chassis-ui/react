@@ -18,9 +18,9 @@ import { Placement, resolveDataPlacement, toAriaPlacement } from '../../utils/ov
 import { focusMenuItem, getMenuItems, handleMenuKeyDown } from './menuNavigation'
 import { SubmenuActionsContext, SubmenuGroupContext, useSubmenuGroupProvider } from './submenuGroup'
 
-export interface SubmenuProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onSelect'> {
+export interface MenuSubmenuProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onSelect'> {
   /**
-   * Submenu activation mode on hover-capable devices. `'click'` activates on click only.
+   * MenuSubmenu activation mode on hover-capable devices. `'click'` activates on click only.
    * `'hover'` activates on hover only. `'both'` (the default) activates on both. Touch
    * devices always use tap regardless of this setting.
    */
@@ -43,7 +43,7 @@ export interface SubmenuProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onSe
   placement?: Placement
   /**
    * Switches to a view-replacement pattern below the `small` breakpoint. Pair with a
-   * `SubmenuBack` as the first item of the nested menu.
+   * `MenuSubmenuBack` as the first item of the nested menu.
    */
   stacked?: boolean
   /**
@@ -56,7 +56,7 @@ export interface SubmenuProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onSe
   trigger: ReactNode
 }
 
-export const Submenu = forwardRef<HTMLDivElement, SubmenuProps>(
+export const MenuSubmenu = forwardRef<HTMLDivElement, MenuSubmenuProps>(
   (
     {
       children,
@@ -237,4 +237,4 @@ export const Submenu = forwardRef<HTMLDivElement, SubmenuProps>(
   }
 )
 
-Submenu.displayName = 'Submenu'
+MenuSubmenu.displayName = 'MenuSubmenu'

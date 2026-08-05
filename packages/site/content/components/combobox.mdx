@@ -16,7 +16,7 @@ import { Example as FormFieldExample } from '../../src/examples/combobox/FormFie
 
 `Combobox` combines a text input with a filterable list of options — type to narrow the list, arrow keys to move through it, Enter to select. It replaces hand-wiring a `Menu` to a text input with real combobox semantics: `role="combobox"` on the input, `role="listbox"`/`role="option"` on the list, and `aria-expanded`/`aria-controls`/`aria-activedescendant` kept in sync automatically. For a display-only toggle that opens the option list instead of typing directly into it, see [Autocomplete]([[docsref:/components/autocomplete]]).
 
-Compose a `Combobox.Item` per option, each identified by an `id`.
+Compose a `ComboboxItem` per option, each identified by an `id`.
 
 <Example>
   <BasicExample client:load />
@@ -24,7 +24,7 @@ Compose a `Combobox.Item` per option, each identified by an `id`.
 
 ## Rich item content
 
-Add `icon`/`description` to a `Combobox.Item` for a leading icon and a secondary line of text below the label. Content still filters and renders as plain text when neither is set.
+Add `icon`/`description` to a `ComboboxItem` for a leading icon and a secondary line of text below the label. Content still filters and renders as plain text when neither is set.
 
 <Example>
   <RichContentExample client:load />
@@ -32,7 +32,7 @@ Add `icon`/`description` to a `Combobox.Item` for a leading icon and a secondary
 
 ## Grouped items
 
-Wrap related `Combobox.Item` elements in a `Combobox.Group` to render them under a shared header. Filtering a query out of every item in a group hides that group's header along with it.
+Wrap related `ComboboxItem` elements in a `ComboboxGroup` to render them under a shared header. Filtering a query out of every item in a group hides that group's header along with it.
 
 <Example>
   <GroupedExample client:load />
@@ -40,7 +40,7 @@ Wrap related `Combobox.Item` elements in a `Combobox.Group` to render them under
 
 ## Disabled options
 
-Add `disabled` to a `Combobox.Item` to remove it from keyboard navigation and prevent it from being selected. The combobox itself stays usable.
+Add `disabled` to a `ComboboxItem` to remove it from keyboard navigation and prevent it from being selected. The combobox itself stays usable.
 
 <Example>
   <DisabledExample client:load />
@@ -81,10 +81,10 @@ This is the single-select, type-to-filter combobox — the strong-fit case for R
 
 <PropTable component="Combobox" />
 
-### Combobox.Item
+### ComboboxItem
 
 <PropTable component="ComboboxItem" />
 
-### Combobox.Group
+### ComboboxGroup
 
 <PropTable component="ComboboxGroup" />

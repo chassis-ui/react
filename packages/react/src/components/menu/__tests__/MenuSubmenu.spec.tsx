@@ -2,9 +2,9 @@ import * as React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Menu } from '../../../index'
+import { Menu, MenuList, MenuItem, MenuSubmenu, MenuSubmenuBack } from '../../../index'
 
-// The nested submenu panel is a `.menu` div with role="menu" (see Menu.List), but a menu can
+// The nested submenu panel is a `.menu` div with role="menu" (see MenuList), but a menu can
 // have several nested submenus open/closed at once, each with that same role — disambiguating
 // "the panel that contains this item" needs a class-scoped traversal from the item's text, not
 // an ambiguous getByRole('menu').
@@ -12,17 +12,17 @@ const getNestedMenu = (itemText: string) =>
   // eslint-disable-next-line testing-library/no-node-access
   screen.getByText(itemText).closest('.menu') as HTMLElement
 
-describe('Menu.Submenu', () => {
+describe('MenuSubmenu', () => {
   describe('rendering', () => {
     test('matches the baseline markup snapshot and renders the submenu wrapper', () => {
       const { container } = render(
         <Menu visible>
-          <Menu.List>
-            <Menu.Submenu trigger="File">
-              <Menu.Item>New</Menu.Item>
-              <Menu.Item>Open</Menu.Item>
-            </Menu.Submenu>
-          </Menu.List>
+          <MenuList>
+            <MenuSubmenu trigger="File">
+              <MenuItem>New</MenuItem>
+              <MenuItem>Open</MenuItem>
+            </MenuSubmenu>
+          </MenuList>
         </Menu>
       )
       expect(container).toMatchSnapshot()
@@ -36,11 +36,11 @@ describe('Menu.Submenu', () => {
     test('opens and closes on trigger click', () => {
       render(
         <Menu visible>
-          <Menu.List>
-            <Menu.Submenu trigger="File">
-              <Menu.Item>New</Menu.Item>
-            </Menu.Submenu>
-          </Menu.List>
+          <MenuList>
+            <MenuSubmenu trigger="File">
+              <MenuItem>New</MenuItem>
+            </MenuSubmenu>
+          </MenuList>
         </Menu>
       )
       const trigger = screen.getByText('File')
@@ -58,11 +58,11 @@ describe('Menu.Submenu', () => {
     test('closes when its ancestor Menu closes', () => {
       const { rerender } = render(
         <Menu visible>
-          <Menu.List>
-            <Menu.Submenu trigger="File">
-              <Menu.Item>New</Menu.Item>
-            </Menu.Submenu>
-          </Menu.List>
+          <MenuList>
+            <MenuSubmenu trigger="File">
+              <MenuItem>New</MenuItem>
+            </MenuSubmenu>
+          </MenuList>
         </Menu>
       )
       const nestedMenu = getNestedMenu('New')
@@ -72,11 +72,11 @@ describe('Menu.Submenu', () => {
 
       rerender(
         <Menu visible={false}>
-          <Menu.List>
-            <Menu.Submenu trigger="File">
-              <Menu.Item>New</Menu.Item>
-            </Menu.Submenu>
-          </Menu.List>
+          <MenuList>
+            <MenuSubmenu trigger="File">
+              <MenuItem>New</MenuItem>
+            </MenuSubmenu>
+          </MenuList>
         </Menu>
       )
       expect(nestedMenu).not.toHaveClass('show')
@@ -85,14 +85,14 @@ describe('Menu.Submenu', () => {
     test('closes sibling submenus when a new one opens', () => {
       render(
         <Menu visible>
-          <Menu.List>
-            <Menu.Submenu trigger="File">
-              <Menu.Item>New</Menu.Item>
-            </Menu.Submenu>
-            <Menu.Submenu trigger="Edit">
-              <Menu.Item>Cut</Menu.Item>
-            </Menu.Submenu>
-          </Menu.List>
+          <MenuList>
+            <MenuSubmenu trigger="File">
+              <MenuItem>New</MenuItem>
+            </MenuSubmenu>
+            <MenuSubmenu trigger="Edit">
+              <MenuItem>Cut</MenuItem>
+            </MenuSubmenu>
+          </MenuList>
         </Menu>
       )
       const fileMenu = getNestedMenu('New')
@@ -106,15 +106,15 @@ describe('Menu.Submenu', () => {
       expect(fileMenu).not.toHaveClass('show')
     })
 
-    test('Menu.Submenu.Back closes the submenu and refocuses its trigger', () => {
+    test('MenuSubmenuBack closes the submenu and refocuses its trigger', () => {
       render(
         <Menu visible>
-          <Menu.List>
-            <Menu.Submenu trigger="File" stacked>
-              <Menu.Submenu.Back>Back</Menu.Submenu.Back>
-              <Menu.Item>New</Menu.Item>
-            </Menu.Submenu>
-          </Menu.List>
+          <MenuList>
+            <MenuSubmenu trigger="File" stacked>
+              <MenuSubmenuBack>Back</MenuSubmenuBack>
+              <MenuItem>New</MenuItem>
+            </MenuSubmenu>
+          </MenuList>
         </Menu>
       )
       const trigger = screen.getByText('File')
@@ -134,11 +134,11 @@ describe('Menu.Submenu', () => {
       const ref = React.createRef<HTMLDivElement>()
       render(
         <Menu visible>
-          <Menu.List>
-            <Menu.Submenu ref={ref} trigger="File">
-              <Menu.Item>New</Menu.Item>
-            </Menu.Submenu>
-          </Menu.List>
+          <MenuList>
+            <MenuSubmenu ref={ref} trigger="File">
+              <MenuItem>New</MenuItem>
+            </MenuSubmenu>
+          </MenuList>
         </Menu>
       )
       expect(ref.current).toBeInstanceOf(HTMLDivElement)
@@ -150,12 +150,12 @@ describe('Menu.Submenu', () => {
     test('has no axe violations when open', async () => {
       const { container } = render(
         <Menu visible>
-          <Menu.List>
-            <Menu.Submenu trigger="File">
-              <Menu.Item href="#">New</Menu.Item>
-              <Menu.Item href="#">Open</Menu.Item>
-            </Menu.Submenu>
-          </Menu.List>
+          <MenuList>
+            <MenuSubmenu trigger="File">
+              <MenuItem href="#">New</MenuItem>
+              <MenuItem href="#">Open</MenuItem>
+            </MenuSubmenu>
+          </MenuList>
         </Menu>
       )
       fireEvent.click(screen.getByText('File'))

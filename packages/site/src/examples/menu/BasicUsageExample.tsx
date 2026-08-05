@@ -1,15 +1,15 @@
-import { Menu } from '@chassis-ui/react'
+import { Menu, MenuToggle, MenuList, MenuItem, MenuDivider } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
     <Menu>
-      <Menu.Toggle color="secondary">Toggle menu</Menu.Toggle>
-      <Menu.List>
-        <Menu.Item href="#">Action</Menu.Item>
-        <Menu.Item href="#">Another action</Menu.Item>
-        <Menu.Divider />
-        <Menu.Item href="#">Something else here</Menu.Item>
-      </Menu.List>
+      <MenuToggle color="secondary">Toggle menu</MenuToggle>
+      <MenuList>
+        <MenuItem href="#">Action</MenuItem>
+        <MenuItem href="#">Another action</MenuItem>
+        <MenuDivider />
+        <MenuItem href="#">Something else here</MenuItem>
+      </MenuList>
     </Menu>
   )
 }

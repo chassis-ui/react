@@ -8,7 +8,11 @@ import {
   NavLink,
   NavbarBrand,
   NavbarNav,
-  NavbarToggler
+  NavbarToggler,
+  MenuToggle,
+  MenuList,
+  MenuItem,
+  MenuDivider
 } from '@chassis-ui/react'
 
 export const NavMenuExample = () => {
@@ -37,13 +41,13 @@ export const NavMenuExample = () => {
                 <NavLink href="#">Pricing</NavLink>
               </NavItem>
               <Menu component="li" className="nav-item">
-                <Menu.Toggle>Menu link</Menu.Toggle>
-                <Menu.List>
-                  <Menu.Item href="#">Action</Menu.Item>
-                  <Menu.Item href="#">Another action</Menu.Item>
-                  <Menu.Divider />
-                  <Menu.Item href="#">Something else here</Menu.Item>
-                </Menu.List>
+                <MenuToggle>Menu link</MenuToggle>
+                <MenuList>
+                  <MenuItem href="#">Action</MenuItem>
+                  <MenuItem href="#">Another action</MenuItem>
+                  <MenuDivider />
+                  <MenuItem href="#">Something else here</MenuItem>
+                </MenuList>
               </Menu>
             </NavbarNav>
           </Collapse>

@@ -2,22 +2,22 @@ import * as React from 'react'
 import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Menu } from '../../../index'
+import { MenuDivider } from '../../../index'
 
-describe('Menu.Divider', () => {
+describe('MenuDivider', () => {
   describe('rendering', () => {
     test('renders an hr with the base class', () => {
-      render(<Menu.Divider />)
+      render(<MenuDivider />)
       expect(screen.getByRole('separator')).toHaveClass('menu-divider')
     })
 
     test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Menu.Divider />)
+      const { container } = render(<MenuDivider />)
       expect(container).toMatchSnapshot()
     })
 
     test('applies a custom className', () => {
-      render(<Menu.Divider className="bazinga" />)
+      render(<MenuDivider className="bazinga" />)
       expect(screen.getByRole('separator')).toHaveClass('bazinga')
     })
   })
@@ -25,14 +25,14 @@ describe('Menu.Divider', () => {
   describe('ref forwarding', () => {
     test('forwards a ref to the underlying hr', () => {
       const ref = React.createRef<HTMLHRElement>()
-      render(<Menu.Divider ref={ref} />)
+      render(<MenuDivider ref={ref} />)
       expect(ref.current).toBeInstanceOf(HTMLHRElement)
     })
   })
 
   describe('accessibility', () => {
     test('has no axe violations', async () => {
-      const { container } = render(<Menu.Divider />)
+      const { container } = render(<MenuDivider />)
       expect(await axe(container)).toHaveNoViolations()
     })
   })

@@ -1,14 +1,7 @@
-import { Combobox as ComboboxRoot } from './Combobox'
-import { ComboboxGroup } from './ComboboxGroup'
-import { ComboboxItem } from './ComboboxItem'
-// plop:sub-import
-
-export const Combobox = Object.assign(ComboboxRoot, {
-  // plop:sub-entry
-  Group: ComboboxGroup,
-  Item: ComboboxItem
-})
+export { Combobox } from './Combobox'
 export type { ComboboxProps } from './Combobox'
+export { ComboboxGroup } from './ComboboxGroup'
 export type { ComboboxGroupProps } from './ComboboxGroup'
+export { ComboboxItem } from './ComboboxItem'
 export type { ComboboxItemProps } from './ComboboxItem'
-// plop:sub-type
+// plop:sub-export

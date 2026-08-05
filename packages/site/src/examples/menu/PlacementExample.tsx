@@ -1,4 +1,4 @@
-import { Menu } from '@chassis-ui/react'
+import { Menu, MenuToggle, MenuList, MenuItem } from '@chassis-ui/react'
 
 const placements = ['top', 'bottom', 'left', 'right'] as const
 
@@ -7,12 +7,12 @@ export const Example = () => {
     <div className="d-flex flex-wrap gap-small">
       {placements.map((placement) => (
         <Menu key={placement} placement={placement}>
-          <Menu.Toggle color="secondary">{placement}</Menu.Toggle>
-          <Menu.List>
-            <Menu.Item href="#">Action</Menu.Item>
-            <Menu.Item href="#">Another action</Menu.Item>
-            <Menu.Item href="#">Something else here</Menu.Item>
-          </Menu.List>
+          <MenuToggle color="secondary">{placement}</MenuToggle>
+          <MenuList>
+            <MenuItem href="#">Action</MenuItem>
+            <MenuItem href="#">Another action</MenuItem>
+            <MenuItem href="#">Something else here</MenuItem>
+          </MenuList>
         </Menu>
       ))}
     </div>

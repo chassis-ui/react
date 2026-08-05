@@ -1,16 +1,16 @@
 import * as React from 'react'
 import { render, screen } from '@testing-library/react'
 
-import { Menu } from '../../../index'
+import { Menu, MenuList, MenuItem } from '../../../index'
 
-describe('Menu.List', () => {
+describe('MenuList', () => {
   describe('rendering', () => {
     test('renders a hidden menu with the base class and className merged', () => {
       render(
         <Menu>
-          <Menu.List className="bazinga">
-            <Menu.Item>A</Menu.Item>
-          </Menu.List>
+          <MenuList className="bazinga">
+            <MenuItem>A</MenuItem>
+          </MenuList>
         </Menu>
       )
       const menu = screen.getByRole('menu', { hidden: true })
@@ -21,9 +21,9 @@ describe('Menu.List', () => {
     test('reflects the menu visibility', () => {
       render(
         <Menu visible>
-          <Menu.List>
-            <Menu.Item>A</Menu.Item>
-          </Menu.List>
+          <MenuList>
+            <MenuItem>A</MenuItem>
+          </MenuList>
         </Menu>
       )
       const menu = screen.getByRole('menu')
@@ -36,7 +36,7 @@ describe('Menu.List', () => {
     test('renders items as menu items', () => {
       render(
         <Menu visible>
-          <Menu.List
+          <MenuList
             items={[
               { id: 'a', label: 'Alpha' },
               { id: 'b', label: 'Beta' }
@@ -51,9 +51,9 @@ describe('Menu.List', () => {
     test('items wins over children when both are given', () => {
       render(
         <Menu visible>
-          <Menu.List items={[{ id: 'a', label: 'From items' }]}>
-            <Menu.Item>From children</Menu.Item>
-          </Menu.List>
+          <MenuList items={[{ id: 'a', label: 'From items' }]}>
+            <MenuItem>From children</MenuItem>
+          </MenuList>
         </Menu>
       )
       expect(screen.getByRole('menuitem', { name: 'From items' })).toBeInTheDocument()
@@ -63,7 +63,7 @@ describe('Menu.List', () => {
     test('renders a button item without href, and a link item with href', () => {
       render(
         <Menu visible>
-          <Menu.List
+          <MenuList
             items={[
               { id: 'a', label: 'Action' },
               { id: 'b', label: 'Link', href: '#' }
@@ -81,7 +81,7 @@ describe('Menu.List', () => {
       const onClick = vi.fn()
       render(
         <Menu visible>
-          <Menu.List items={[{ id: 'a', label: 'Action', onClick }]} />
+          <MenuList items={[{ id: 'a', label: 'Action', onClick }]} />
         </Menu>
       )
       screen.getByRole('menuitem', { name: 'Action' }).click()
@@ -91,7 +91,7 @@ describe('Menu.List', () => {
     test('applies disabled and selected state from an item def', () => {
       render(
         <Menu visible>
-          <Menu.List
+          <MenuList
             items={[
               { id: 'a', label: 'Disabled', disabled: true },
               { id: 'b', label: 'Selected', selected: true }
@@ -108,7 +108,7 @@ describe('Menu.List', () => {
     test('renders a header def as a non-interactive MenuHeader', () => {
       render(
         <Menu visible>
-          <Menu.List items={[{ type: 'header', id: 'h', label: 'Group' }]} />
+          <MenuList items={[{ type: 'header', id: 'h', label: 'Group' }]} />
         </Menu>
       )
       expect(screen.getByText('Group').tagName).toBe('H4')
@@ -119,7 +119,7 @@ describe('Menu.List', () => {
     test('renders a divider def as an hr.menu-divider', () => {
       const { container } = render(
         <Menu visible>
-          <Menu.List items={[{ type: 'divider', id: 'd' }]} />
+          <MenuList items={[{ type: 'divider', id: 'd' }]} />
         </Menu>
       )
       // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
@@ -130,7 +130,7 @@ describe('Menu.List', () => {
     test('renders icon/description rich content from an item def', () => {
       render(
         <Menu visible>
-          <Menu.List
+          <MenuList
             items={[
               { id: 'a', label: 'Admin', icon: <span data-testid="icon" />, description: 'Full access' }
             ]}
@@ -149,9 +149,9 @@ describe('Menu.List', () => {
     test('portals to a container when requested', () => {
       render(
         <Menu container>
-          <Menu.List>
-            <Menu.Item>A</Menu.Item>
-          </Menu.List>
+          <MenuList>
+            <MenuItem>A</MenuItem>
+          </MenuList>
         </Menu>
       )
       // Verifying the portal actually landed on document.body requires checking direct DOM

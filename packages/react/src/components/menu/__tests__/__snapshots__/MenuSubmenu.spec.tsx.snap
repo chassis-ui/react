@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Menu.Submenu > rendering > matches the baseline markup snapshot and renders the submenu wrapper 1`] = `
+exports[`MenuSubmenu > rendering > matches the baseline markup snapshot and renders the submenu wrapper 1`] = `
 <div>
   <div
     aria-hidden="false"

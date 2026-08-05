@@ -78,6 +78,6 @@ export interface MenuDividerDef {
  * renders grouped items (flat DOM siblings under `.menu`, no wrapping element per group).
  *
  * Covers flat items, headers, and dividers only — nested/recursive submenus aren't
- * representable here. Compose with `children`/`Submenu` directly for those.
+ * representable here. Compose with `children`/`MenuSubmenu` directly for those.
  */
 export type MenuItemsDef = (MenuItemDef | MenuHeaderDef | MenuDividerDef)[]

@@ -1,42 +1,42 @@
-import { Menu } from '@chassis-ui/react'
+import { Menu, MenuToggle, MenuList, MenuItem } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
     <div className="d-flex flex-wrap gap-small">
       <Menu autoClose>
-        <Menu.Toggle color="secondary">Default</Menu.Toggle>
-        <Menu.List>
-          <Menu.Item href="#">Copy</Menu.Item>
-          <Menu.Item href="#">Paste</Menu.Item>
-          <Menu.Item href="#">Delete</Menu.Item>
-        </Menu.List>
+        <MenuToggle color="secondary">Default</MenuToggle>
+        <MenuList>
+          <MenuItem href="#">Copy</MenuItem>
+          <MenuItem href="#">Paste</MenuItem>
+          <MenuItem href="#">Delete</MenuItem>
+        </MenuList>
       </Menu>
 
       <Menu autoClose="inside">
-        <Menu.Toggle color="secondary">Close inside</Menu.Toggle>
-        <Menu.List>
-          <Menu.Item href="#">New file</Menu.Item>
-          <Menu.Item href="#">Open</Menu.Item>
-          <Menu.Item href="#">Save</Menu.Item>
-        </Menu.List>
+        <MenuToggle color="secondary">Close inside</MenuToggle>
+        <MenuList>
+          <MenuItem href="#">New file</MenuItem>
+          <MenuItem href="#">Open</MenuItem>
+          <MenuItem href="#">Save</MenuItem>
+        </MenuList>
       </Menu>
 
       <Menu autoClose="outside">
-        <Menu.Toggle color="secondary">Close outside</Menu.Toggle>
-        <Menu.List>
-          <Menu.Item href="#">Rename</Menu.Item>
-          <Menu.Item href="#">Duplicate</Menu.Item>
-          <Menu.Item href="#">Move to</Menu.Item>
-        </Menu.List>
+        <MenuToggle color="secondary">Close outside</MenuToggle>
+        <MenuList>
+          <MenuItem href="#">Rename</MenuItem>
+          <MenuItem href="#">Duplicate</MenuItem>
+          <MenuItem href="#">Move to</MenuItem>
+        </MenuList>
       </Menu>
 
       <Menu autoClose={false}>
-        <Menu.Toggle color="secondary">Manual close</Menu.Toggle>
-        <Menu.List>
-          <Menu.Item href="#">Cut</Menu.Item>
-          <Menu.Item href="#">Copy</Menu.Item>
-          <Menu.Item href="#">Paste</Menu.Item>
-        </Menu.List>
+        <MenuToggle color="secondary">Manual close</MenuToggle>
+        <MenuList>
+          <MenuItem href="#">Cut</MenuItem>
+          <MenuItem href="#">Copy</MenuItem>
+          <MenuItem href="#">Paste</MenuItem>
+        </MenuList>
       </Menu>
     </div>
   )

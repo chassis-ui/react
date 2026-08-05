@@ -1,18 +1,25 @@
-import { Menu } from '@chassis-ui/react'
+import {
+  Menu,
+  MenuSubmenuBack,
+  MenuSubmenu,
+  MenuToggle,
+  MenuList,
+  MenuItem
+} from '@chassis-ui/react'
 
 export const Example = () => {
   return (
     <Menu>
-      <Menu.Toggle color="secondary">Stacked submenus</Menu.Toggle>
-      <Menu.List>
-        <Menu.Item href="#">Level 1 action</Menu.Item>
-        <Menu.Submenu trigger="Level 1 submenu" stacked>
-          <Menu.Submenu.Back>Level 1</Menu.Submenu.Back>
-          <Menu.Item href="#">Level 2 action</Menu.Item>
-          <Menu.Item href="#">Another level 2</Menu.Item>
-        </Menu.Submenu>
-        <Menu.Item href="#">Another level 1</Menu.Item>
-      </Menu.List>
+      <MenuToggle color="secondary">Stacked submenus</MenuToggle>
+      <MenuList>
+        <MenuItem href="#">Level 1 action</MenuItem>
+        <MenuSubmenu trigger="Level 1 submenu" stacked>
+          <MenuSubmenuBack>Level 1</MenuSubmenuBack>
+          <MenuItem href="#">Level 2 action</MenuItem>
+          <MenuItem href="#">Another level 2</MenuItem>
+        </MenuSubmenu>
+        <MenuItem href="#">Another level 1</MenuItem>
+      </MenuList>
     </Menu>
   )
 }

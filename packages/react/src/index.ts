@@ -6,7 +6,7 @@ import {
   AccordionHeader,
   AccordionItem
 } from './components/accordion'
-import { Autocomplete } from './components/autocomplete'
+import { Autocomplete, AutocompleteGroup, AutocompleteItem } from './components/autocomplete'
 import { Avatar, AvatarImage, AvatarStack } from './components/avatar'
 import { Notification, NotificationHeading, NotificationLink } from './components/notification'
 import { Badge } from './components/badge'
@@ -34,12 +34,22 @@ import { ChipInput } from './components/chip-input'
 import { CloseButton } from './components/close-button'
 import { ColorInput } from './components/color-input'
 import { FileInput } from './components/file-input'
-import { Combobox } from './components/combobox'
+import { Combobox, ComboboxGroup, ComboboxItem } from './components/combobox'
 import { DatePicker, DateRangePicker } from './components/datepicker'
 import { OtpInput } from './components/otp-input'
 import { PasswordStrength } from './components/password-strength'
 import { I18nProvider } from 'react-aria'
-import { Menu } from './components/menu'
+import {
+  Menu,
+  MenuDivider,
+  MenuHeader,
+  MenuItem,
+  MenuList,
+  MenuText,
+  MenuToggle,
+  MenuSubmenu,
+  MenuSubmenuBack
+} from './components/menu'
 import { Col, Container, Row } from './components/grid'
 import { Checkbox, CheckboxGroup } from './components/checkbox'
 import { Form, FormFeedback, FormHelp, FormLabel } from './components/form'
@@ -98,6 +108,8 @@ export {
   AccordionHeader,
   AccordionItem,
   Autocomplete,
+  AutocompleteGroup,
+  AutocompleteItem,
   Avatar,
   AvatarImage,
   AvatarStack,
@@ -132,6 +144,8 @@ export {
   Collapse,
   ColorInput,
   Combobox,
+  ComboboxGroup,
+  ComboboxItem,
   DatePicker,
   DateRangePicker,
   FileInput,
@@ -145,6 +159,14 @@ export {
   OtpInput,
   PasswordStrength,
   Menu,
+  MenuDivider,
+  MenuHeader,
+  MenuItem,
+  MenuList,
+  MenuText,
+  MenuToggle,
+  MenuSubmenu,
+  MenuSubmenuBack,
   Col,
   Container,
   Row,

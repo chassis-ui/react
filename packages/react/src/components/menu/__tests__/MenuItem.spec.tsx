@@ -2,42 +2,42 @@ import * as React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Menu } from '../../../index'
+import { MenuItem } from '../../../index'
 
-describe('Menu.Item', () => {
+describe('MenuItem', () => {
   describe('rendering', () => {
     test('renders an anchor with menuitem role by default', () => {
-      render(<Menu.Item href="#">Test</Menu.Item>)
+      render(<MenuItem href="#">Test</MenuItem>)
       const item = screen.getByRole('menuitem', { name: 'Test' })
       expect(item).toHaveClass('menu-item')
       expect(item.tagName).toBe('A')
     })
 
     test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Menu.Item href="#">Test</Menu.Item>)
+      const { container } = render(<MenuItem href="#">Test</MenuItem>)
       expect(container).toMatchSnapshot()
     })
 
     test('renders as a button while keeping menuitem role', () => {
-      render(<Menu.Item component="button">Test</Menu.Item>)
+      render(<MenuItem component="button">Test</MenuItem>)
       const item = screen.getByRole('menuitem', { name: 'Test' })
       expect(item.tagName).toBe('BUTTON')
     })
 
     test('applies the selected class', () => {
       render(
-        <Menu.Item component="button" selected>
+        <MenuItem component="button" selected>
           Test
-        </Menu.Item>
+        </MenuItem>
       )
       expect(screen.getByRole('menuitem')).toHaveClass('selected')
     })
 
     test('applies disabled styling and aria-disabled', () => {
       render(
-        <Menu.Item href="#" disabled>
+        <MenuItem href="#" disabled>
           Test
-        </Menu.Item>
+        </MenuItem>
       )
       const item = screen.getByRole('menuitem')
       expect(item).toHaveClass('disabled')
@@ -45,7 +45,7 @@ describe('Menu.Item', () => {
     })
 
     test('renders plain children unchanged when icon/description are omitted', () => {
-      render(<Menu.Item href="#">Test</Menu.Item>)
+      render(<MenuItem href="#">Test</MenuItem>)
       const item = screen.getByRole('menuitem')
       // eslint-disable-next-line testing-library/no-node-access
       expect(item.querySelector('.menu-item-icon')).not.toBeInTheDocument()
@@ -55,9 +55,9 @@ describe('Menu.Item', () => {
 
     test('renders an icon and description', () => {
       render(
-        <Menu.Item href="#" icon={<span data-testid="icon" />} description="More info">
+        <MenuItem href="#" icon={<span data-testid="icon" />} description="More info">
           Test
-        </Menu.Item>
+        </MenuItem>
       )
       const item = screen.getByRole('menuitem', { name: 'TestMore info' })
       // eslint-disable-next-line testing-library/no-node-access
@@ -68,9 +68,9 @@ describe('Menu.Item', () => {
 
     test('selected alone does not render a check icon (font-weight only)', () => {
       render(
-        <Menu.Item component="button" selected>
+        <MenuItem component="button" selected>
           Test
-        </Menu.Item>
+        </MenuItem>
       )
       const item = screen.getByRole('menuitem')
       expect(item).toHaveClass('selected')
@@ -83,9 +83,9 @@ describe('Menu.Item', () => {
     test('prevents default navigation for placeholder href="#" so the page does not jump to top', () => {
       const handleClick = vi.fn()
       render(
-        <Menu.Item href="#" onClick={handleClick}>
+        <MenuItem href="#" onClick={handleClick}>
           Test
-        </Menu.Item>
+        </MenuItem>
       )
       const notCancelled = fireEvent.click(screen.getByRole('menuitem'))
       expect(notCancelled).toBe(false)
@@ -93,7 +93,7 @@ describe('Menu.Item', () => {
     })
 
     test('leaves a real same-page anchor href free to navigate', () => {
-      render(<Menu.Item href="#section">Test</Menu.Item>)
+      render(<MenuItem href="#section">Test</MenuItem>)
       const notCancelled = fireEvent.click(screen.getByRole('menuitem'))
       expect(notCancelled).toBe(true)
     })
@@ -103,9 +103,9 @@ describe('Menu.Item', () => {
     test('forwards a ref to the underlying anchor by default', () => {
       const ref = React.createRef<HTMLAnchorElement>()
       render(
-        <Menu.Item ref={ref} href="#">
+        <MenuItem ref={ref} href="#">
           Test
-        </Menu.Item>
+        </MenuItem>
       )
       expect(ref.current).toBeInstanceOf(HTMLAnchorElement)
     })
@@ -113,9 +113,9 @@ describe('Menu.Item', () => {
     test('forwards a ref to the underlying button', () => {
       const ref = React.createRef<HTMLButtonElement>()
       render(
-        <Menu.Item ref={ref} component="button">
+        <MenuItem ref={ref} component="button">
           Test
-        </Menu.Item>
+        </MenuItem>
       )
       expect(ref.current).toBeInstanceOf(HTMLButtonElement)
     })
@@ -125,7 +125,7 @@ describe('Menu.Item', () => {
     test('has no axe violations inside a menu', async () => {
       const { container } = render(
         <div role="menu">
-          <Menu.Item href="#">Test</Menu.Item>
+          <MenuItem href="#">Test</MenuItem>
         </div>
       )
       expect(await axe(container)).toHaveNoViolations()

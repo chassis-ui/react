@@ -27,7 +27,7 @@ import { Example as ContextVariantsExample } from '../../src/examples/menu/Conte
 
 ## Examples
 
-Compose `Menu` around a `Menu.Toggle` and a `Menu.List`. `Menu.Toggle` renders the trigger button and `Menu.List` renders the panel — Chassis positions it relative to the toggle automatically.
+Compose `Menu` around a `MenuToggle` and a `MenuList`. `MenuToggle` renders the trigger button and `MenuList` renders the panel — Chassis positions it relative to the toggle automatically.
 
 <Example>
   <BasicUsageExample client:load />
@@ -35,7 +35,7 @@ Compose `Menu` around a `Menu.Toggle` and a `Menu.List`. `Menu.Toggle` renders t
 
 ### Menu items
 
-Both links and buttons work as `Menu.Item` elements. Add `active` to mark the current selection, or `disabled` to prevent interaction.
+Both links and buttons work as `MenuItem` elements. Add `active` to mark the current selection, or `disabled` to prevent interaction.
 
 <Example>
   <MenuItemsExample client:load />
@@ -43,7 +43,7 @@ Both links and buttons work as `Menu.Item` elements. Add `active` to mark the cu
 
 ### Selected
 
-Add `selected` to a `Menu.Item` to indicate the current choice in a selection list. Pair it with a checkmark icon styled with the `menu-item-check` class, which is only shown on the selected item.
+Add `selected` to a `MenuItem` to indicate the current choice in a selection list. Pair it with a checkmark icon styled with the `menu-item-check` class, which is only shown on the selected item.
 
 <Example>
   <SelectedExample client:load />
@@ -51,7 +51,7 @@ Add `selected` to a `Menu.Item` to indicate the current choice in a selection li
 
 ### Rich content
 
-Add `icon`/`description` to a `Menu.Item` for a leading icon and a secondary line of text below the label.
+Add `icon`/`description` to a `MenuItem` for a leading icon and a secondary line of text below the label.
 
 <Example>
   <RichContentExample client:load />
@@ -61,7 +61,7 @@ Add `icon`/`description` to a `Menu.Item` for a leading icon and a secondary lin
 
 ### Headers
 
-Use `Menu.Header` to label a group of items.
+Use `MenuHeader` to label a group of items.
 
 <Example>
   <HeadersExample client:load />
@@ -69,7 +69,7 @@ Use `Menu.Header` to label a group of items.
 
 ### Dividers
 
-Place `Menu.Divider` between groups of related items.
+Place `MenuDivider` between groups of related items.
 
 <Example>
   <DividersExample client:load />
@@ -77,7 +77,7 @@ Place `Menu.Divider` between groups of related items.
 
 ### Text
 
-`Menu.Text` applies header padding to non-interactive content, letting it sit flush with adjacent items.
+`MenuText` applies header padding to non-interactive content, letting it sit flush with adjacent items.
 
 <Example>
   <TextExample client:load />
@@ -93,7 +93,7 @@ A menu list can contain any form content.
 
 ## Data-driven items
 
-Pass an `items` array to `Menu.List` instead of composing children to build a flat list from data — items, headers, and dividers interleaved in authoring order. Covers flat items, headers, and dividers only; compose with `children` and `Menu.Submenu` directly for nested submenus.
+Pass an `items` array to `MenuList` instead of composing children to build a flat list from data — items, headers, and dividers interleaved in authoring order. Covers flat items, headers, and dividers only; compose with `children` and `MenuSubmenu` directly for nested submenus.
 
 <Example>
   <ItemsExample client:load />
@@ -117,7 +117,7 @@ The `autoClose` prop controls which clicks close the menu. The default (`true`) 
 
 ## Submenus
 
-Wrap a trigger and nested items in `Menu.Submenu` to create a flyout. Submenus close sibling submenus automatically when a new one opens, and close along with their ancestor menu. Set `activation` to `'hover'` or `'click'` to restrict which interaction opens it on hover-capable devices — the default, `'both'`, accepts either; touch devices always use tap regardless of this setting.
+Wrap a trigger and nested items in `MenuSubmenu` to create a flyout. Submenus close sibling submenus automatically when a new one opens, and close along with their ancestor menu. Set `activation` to `'hover'` or `'click'` to restrict which interaction opens it on hover-capable devices — the default, `'both'`, accepts either; touch devices always use tap regardless of this setting.
 
 <Example>
   <SubmenuExample client:load />
@@ -125,7 +125,7 @@ Wrap a trigger and nested items in `Menu.Submenu` to create a flyout. Submenus c
 
 ### Submenus on mobile
 
-Set `stacked` on a `Menu.Submenu` to switch to a view-replacement pattern below the `small` breakpoint, and add `Menu.Submenu.Back` as the first item to let people navigate back to the parent level.
+Set `stacked` on a `MenuSubmenu` to switch to a view-replacement pattern below the `small` breakpoint, and add `MenuSubmenuBack` as the first item to let people navigate back to the parent level.
 
 <Example>
   <StackedSubmenuExample client:load />
@@ -141,7 +141,7 @@ Apply `data-cx-theme="dark"` to a `Menu` or any ancestor element to opt the menu
 
 ## Context variants
 
-Add `context` classes (e.g. `context info`, `context danger`) to a `Menu.List` or an individual `Menu.Item` to remap colors to a semantic palette.
+Add `context` classes (e.g. `context info`, `context danger`) to a `MenuList` or an individual `MenuItem` to remap colors to a semantic palette.
 
 <Example className="hstack gap-medium">
   <ContextVariantsExample client:load />
@@ -153,34 +153,34 @@ Add `context` classes (e.g. `context info`, `context danger`) to a `Menu.List` o
 
 <PropTable component="Menu" />
 
-### Menu.Toggle
+### MenuToggle
 
 <PropTable component="MenuToggle" />
 
-### Menu.List
+### MenuList
 
 <PropTable component="MenuList" />
 
-### Menu.Item
+### MenuItem
 
 <PropTable component="MenuItem" />
 
-### Menu.Divider
+### MenuDivider
 
 <PropTable component="MenuDivider" />
 
-### Menu.Header
+### MenuHeader
 
 <PropTable component="MenuHeader" />
 
-### Menu.Text
+### MenuText
 
 <PropTable component="MenuText" />
 
-### Menu.Submenu
+### MenuSubmenu
 
-<PropTable component="Submenu" />
+<PropTable component="MenuSubmenu" />
 
-### Menu.Submenu.Back
+### MenuSubmenuBack
 
-<PropTable component="SubmenuBack" />
+<PropTable component="MenuSubmenuBack" />

@@ -1,4 +1,4 @@
-import { Autocomplete } from '@chassis-ui/react'
+import { Autocomplete, AutocompleteItem } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
@@ -8,11 +8,11 @@ export const Example = () => {
       name="country"
       placeholder="Pick a country…"
     >
-      <Autocomplete.Item id="us">United States</Autocomplete.Item>
-      <Autocomplete.Item id="uk">United Kingdom</Autocomplete.Item>
-      <Autocomplete.Item id="ca">Canada</Autocomplete.Item>
-      <Autocomplete.Item id="au">Australia</Autocomplete.Item>
-      <Autocomplete.Item id="de">Germany</Autocomplete.Item>
+      <AutocompleteItem id="us">United States</AutocompleteItem>
+      <AutocompleteItem id="uk">United Kingdom</AutocompleteItem>
+      <AutocompleteItem id="ca">Canada</AutocompleteItem>
+      <AutocompleteItem id="au">Australia</AutocompleteItem>
+      <AutocompleteItem id="de">Germany</AutocompleteItem>
     </Autocomplete>
   )
 }

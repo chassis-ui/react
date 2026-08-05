@@ -1,4 +1,4 @@
-import { Nav, NavItem, NavLink, Menu } from '@chassis-ui/react'
+import { Nav, NavItem, NavLink, Menu, MenuToggle, MenuList, MenuItem } from '@chassis-ui/react'
 
 export const PillsWithMenuExample = () => {
   return (
@@ -9,12 +9,12 @@ export const PillsWithMenuExample = () => {
         </NavLink>
       </NavItem>
       <Menu component="li" className="nav-item">
-        <Menu.Toggle color="secondary">Menu button</Menu.Toggle>
-        <Menu.List>
-          <Menu.Item href="#">Action</Menu.Item>
-          <Menu.Item href="#">Another action</Menu.Item>
-          <Menu.Item href="#">Something else here</Menu.Item>
-        </Menu.List>
+        <MenuToggle color="secondary">Menu button</MenuToggle>
+        <MenuList>
+          <MenuItem href="#">Action</MenuItem>
+          <MenuItem href="#">Another action</MenuItem>
+          <MenuItem href="#">Something else here</MenuItem>
+        </MenuList>
       </Menu>
       <NavItem>
         <NavLink href="#">Link</NavLink>

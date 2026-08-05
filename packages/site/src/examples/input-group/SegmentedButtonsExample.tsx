@@ -1,4 +1,13 @@
-import { Button, TextInput, InputGroup, Menu } from '@chassis-ui/react'
+import {
+  Button,
+  TextInput,
+  InputGroup,
+  Menu,
+  MenuToggle,
+  MenuList,
+  MenuItem,
+  MenuDivider
+} from '@chassis-ui/react'
 
 export const SegmentedButtonsExample = () => {
   return (
@@ -8,16 +17,16 @@ export const SegmentedButtonsExample = () => {
           Action
         </Button>
         <Menu>
-          <Menu.Toggle color="secondary" variant="outline">
+          <MenuToggle color="secondary" variant="outline">
             <span className="visually-hidden">Toggle menu</span>
-          </Menu.Toggle>
-          <Menu.List>
-            <Menu.Item href="#">Action</Menu.Item>
-            <Menu.Item href="#">Another action</Menu.Item>
-            <Menu.Item href="#">Something else here</Menu.Item>
-            <Menu.Divider />
-            <Menu.Item href="#">Separated link</Menu.Item>
-          </Menu.List>
+          </MenuToggle>
+          <MenuList>
+            <MenuItem href="#">Action</MenuItem>
+            <MenuItem href="#">Another action</MenuItem>
+            <MenuItem href="#">Something else here</MenuItem>
+            <MenuDivider />
+            <MenuItem href="#">Separated link</MenuItem>
+          </MenuList>
         </Menu>
         <TextInput aria-label="Text input with segmented menu button" />
       </InputGroup>
@@ -28,16 +37,16 @@ export const SegmentedButtonsExample = () => {
           Action
         </Button>
         <Menu placement="bottom-end">
-          <Menu.Toggle color="secondary" variant="outline">
+          <MenuToggle color="secondary" variant="outline">
             <span className="visually-hidden">Toggle menu</span>
-          </Menu.Toggle>
-          <Menu.List>
-            <Menu.Item href="#">Action</Menu.Item>
-            <Menu.Item href="#">Another action</Menu.Item>
-            <Menu.Item href="#">Something else here</Menu.Item>
-            <Menu.Divider />
-            <Menu.Item href="#">Separated link</Menu.Item>
-          </Menu.List>
+          </MenuToggle>
+          <MenuList>
+            <MenuItem href="#">Action</MenuItem>
+            <MenuItem href="#">Another action</MenuItem>
+            <MenuItem href="#">Something else here</MenuItem>
+            <MenuDivider />
+            <MenuItem href="#">Separated link</MenuItem>
+          </MenuList>
         </Menu>
       </InputGroup>
     </>

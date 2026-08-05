@@ -1,29 +1,29 @@
-import { Combobox, Icon } from '@chassis-ui/react'
+import { Combobox, Icon, ComboboxItem } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
     <Combobox aria-label="Role" placeholder="Choose a role…">
-      <Combobox.Item
+      <ComboboxItem
         id="admin"
         icon={<Icon name="shield-outline" size={16} />}
         description="Full access to every setting"
       >
         Admin
-      </Combobox.Item>
-      <Combobox.Item
+      </ComboboxItem>
+      <ComboboxItem
         id="editor"
         icon={<Icon name="gear-outline" size={16} />}
         description="Can edit content, not settings"
       >
         Editor
-      </Combobox.Item>
-      <Combobox.Item
+      </ComboboxItem>
+      <ComboboxItem
         id="viewer"
         icon={<Icon name="eye-outline" size={16} />}
         description="Read-only access"
       >
         Viewer
-      </Combobox.Item>
+      </ComboboxItem>
     </Combobox>
   )
 }

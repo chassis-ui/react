@@ -7,6 +7,7 @@ toc: true
 import {
   ChipInput,
   Combobox,
+  ComboboxItem,
   FormField,
   PasswordStrength,
   TextInput,
@@ -37,9 +38,9 @@ Renders nothing but its `children` bare when none of `label`/`help`/`validFeedba
 <Example>
   <FormField label="Country" help="The billing region." ids={{ input: 'ffCountry' }}>
     <Combobox id="ffCountry" name="country" placeholder="Pick a country…">
-      <Combobox.Item id="us">United States</Combobox.Item>
-      <Combobox.Item id="uk">United Kingdom</Combobox.Item>
-      <Combobox.Item id="ca">Canada</Combobox.Item>
+      <ComboboxItem id="us">United States</ComboboxItem>
+      <ComboboxItem id="uk">United Kingdom</ComboboxItem>
+      <ComboboxItem id="ca">Canada</ComboboxItem>
     </Combobox>
   </FormField>
 </Example>

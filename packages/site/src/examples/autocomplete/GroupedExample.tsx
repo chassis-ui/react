@@ -1,18 +1,18 @@
-import { Autocomplete } from '@chassis-ui/react'
+import { Autocomplete, AutocompleteGroup, AutocompleteItem } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
     <Autocomplete aria-label="Language" placeholder="Choose a language…">
-      <Autocomplete.Group label="Frontend">
-        <Autocomplete.Item id="html">HTML</Autocomplete.Item>
-        <Autocomplete.Item id="css">CSS</Autocomplete.Item>
-        <Autocomplete.Item id="js">JavaScript</Autocomplete.Item>
-      </Autocomplete.Group>
-      <Autocomplete.Group label="Backend">
-        <Autocomplete.Item id="python">Python</Autocomplete.Item>
-        <Autocomplete.Item id="ruby">Ruby</Autocomplete.Item>
-      </Autocomplete.Group>
-      <Autocomplete.Item id="sql">SQL</Autocomplete.Item>
+      <AutocompleteGroup label="Frontend">
+        <AutocompleteItem id="html">HTML</AutocompleteItem>
+        <AutocompleteItem id="css">CSS</AutocompleteItem>
+        <AutocompleteItem id="js">JavaScript</AutocompleteItem>
+      </AutocompleteGroup>
+      <AutocompleteGroup label="Backend">
+        <AutocompleteItem id="python">Python</AutocompleteItem>
+        <AutocompleteItem id="ruby">Ruby</AutocompleteItem>
+      </AutocompleteGroup>
+      <AutocompleteItem id="sql">SQL</AutocompleteItem>
     </Autocomplete>
   )
 }

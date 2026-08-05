@@ -2,15 +2,15 @@ import * as React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Autocomplete } from '../../../index'
+import { Autocomplete, AutocompleteGroup, AutocompleteItem } from '../../../index'
 
 const BasicAutocomplete = (props: Partial<React.ComponentProps<typeof Autocomplete>> = {}) => (
   <Autocomplete aria-label="Fruit" {...props}>
-    <Autocomplete.Item id="apple">Apple</Autocomplete.Item>
-    <Autocomplete.Item id="banana">Banana</Autocomplete.Item>
-    <Autocomplete.Item id="cherry" disabled>
+    <AutocompleteItem id="apple">Apple</AutocompleteItem>
+    <AutocompleteItem id="banana">Banana</AutocompleteItem>
+    <AutocompleteItem id="cherry" disabled>
       Cherry
-    </Autocomplete.Item>
+    </AutocompleteItem>
   </Autocomplete>
 )
 
@@ -130,9 +130,9 @@ describe('Autocomplete', () => {
       props: Partial<React.ComponentProps<typeof Autocomplete>> = {}
     ) => (
       <Autocomplete aria-label="Fruit" multiple {...props}>
-        <Autocomplete.Item id="apple">Apple</Autocomplete.Item>
-        <Autocomplete.Item id="banana">Banana</Autocomplete.Item>
-        <Autocomplete.Item id="cherry">Cherry</Autocomplete.Item>
+        <AutocompleteItem id="apple">Apple</AutocompleteItem>
+        <AutocompleteItem id="banana">Banana</AutocompleteItem>
+        <AutocompleteItem id="cherry">Cherry</AutocompleteItem>
       </Autocomplete>
     )
 
@@ -209,8 +209,8 @@ describe('Autocomplete', () => {
     test('creates one hidden input per selected key in multi-select mode', () => {
       const { container } = render(
         <Autocomplete aria-label="Fruit" multiple name="fruit" value={['apple', 'banana']}>
-          <Autocomplete.Item id="apple">Apple</Autocomplete.Item>
-          <Autocomplete.Item id="banana">Banana</Autocomplete.Item>
+          <AutocompleteItem id="apple">Apple</AutocompleteItem>
+          <AutocompleteItem id="banana">Banana</AutocompleteItem>
         </Autocomplete>
       )
 
@@ -229,11 +229,11 @@ describe('Autocomplete', () => {
       props: Partial<React.ComponentProps<typeof Autocomplete>> = {}
     ) => (
       <Autocomplete aria-label="Language" {...props}>
-        <Autocomplete.Group label="Frontend">
-          <Autocomplete.Item id="html">HTML</Autocomplete.Item>
-          <Autocomplete.Item id="css">CSS</Autocomplete.Item>
-        </Autocomplete.Group>
-        <Autocomplete.Item id="python">Python</Autocomplete.Item>
+        <AutocompleteGroup label="Frontend">
+          <AutocompleteItem id="html">HTML</AutocompleteItem>
+          <AutocompleteItem id="css">CSS</AutocompleteItem>
+        </AutocompleteGroup>
+        <AutocompleteItem id="python">Python</AutocompleteItem>
       </Autocomplete>
     )
 
@@ -254,7 +254,7 @@ describe('Autocomplete', () => {
             { id: 'html', label: 'HTML' }
           ]}
         >
-          <Autocomplete.Item id="ignored">Ignored</Autocomplete.Item>
+          <AutocompleteItem id="ignored">Ignored</AutocompleteItem>
         </Autocomplete>
       )
       openMenu()
@@ -291,8 +291,8 @@ describe('Autocomplete', () => {
     test('has no axe violations in multi-select mode with a selection and the listbox open', async () => {
       const { container } = render(
         <Autocomplete aria-label="Fruit" multiple value={['apple', 'banana']}>
-          <Autocomplete.Item id="apple">Apple</Autocomplete.Item>
-          <Autocomplete.Item id="banana">Banana</Autocomplete.Item>
+          <AutocompleteItem id="apple">Apple</AutocompleteItem>
+          <AutocompleteItem id="banana">Banana</AutocompleteItem>
         </Autocomplete>
       )
       fireEvent.click(screen.getByRole('button', { name: 'Fruit' }))

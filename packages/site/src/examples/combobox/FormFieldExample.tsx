@@ -1,4 +1,4 @@
-import { Combobox } from '@chassis-ui/react'
+import { Combobox, ComboboxItem } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
@@ -8,11 +8,11 @@ export const Example = () => {
       name="country"
       placeholder="Pick a country…"
     >
-      <Combobox.Item id="us">United States</Combobox.Item>
-      <Combobox.Item id="uk">United Kingdom</Combobox.Item>
-      <Combobox.Item id="ca">Canada</Combobox.Item>
-      <Combobox.Item id="au">Australia</Combobox.Item>
-      <Combobox.Item id="de">Germany</Combobox.Item>
+      <ComboboxItem id="us">United States</ComboboxItem>
+      <ComboboxItem id="uk">United Kingdom</ComboboxItem>
+      <ComboboxItem id="ca">Canada</ComboboxItem>
+      <ComboboxItem id="au">Australia</ComboboxItem>
+      <ComboboxItem id="de">Germany</ComboboxItem>
     </Combobox>
   )
 }
