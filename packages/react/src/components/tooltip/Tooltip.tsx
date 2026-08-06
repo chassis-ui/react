@@ -59,7 +59,10 @@ export const Tooltip: FC<TooltipProps> = ({
   const triggerRef = useRef<HTMLElement | null>(null)
   const floatingRef = useRef<HTMLDivElement>(null)
 
-  const state = useTooltipTriggerState({ trigger })
+  // react-stately defaults to a 1500ms warmup delay (and 500ms cooldown) before a first tooltip
+  // shows, spectrum-style — chassis-css's own JS plugin defaults to instant (`delay: 0`), so
+  // match that here rather than leaving new adopters to wonder why the first hover lags.
+  const state = useTooltipTriggerState({ trigger, delay: 0, closeDelay: 0 })
   const { triggerProps, tooltipProps: tooltipTriggerProps } = useTooltipTrigger(
     { trigger },
     state,
@@ -167,7 +170,27 @@ export const Tooltip: FC<TooltipProps> = ({
                   {...mergeProps(tooltipTriggerProps, tooltipProps)}
                   {...rest}
                 >
-                  <div className="tooltip-arrow" {...arrowProps}></div>
+                  {/* `useOverlayPosition`'s `arrowProps.style` sets a single cross-axis offset
+                  (`top` for a left/right tooltip, `left` for a top/bottom one) to the trigger's
+                  center point, not the arrow element's top-left corner — so it must be recentered
+                  by half the arrow's own size on that axis. Chassis-css's JS plugin never has
+                  this problem since Floating UI's `arrow` middleware returns a top-left-corner
+                  coordinate directly; react-aria's is center-based. Unlike the chassis-css JS
+                  plugin, react-aria also never sets `position: absolute` on the arrow element
+                  itself, so without it the offset has no effect and the arrow renders in normal
+                  document flow. */}
+                  <div
+                    className="tooltip-arrow"
+                    {...arrowProps}
+                    style={{
+                      position: 'absolute',
+                      ...arrowProps.style,
+                      transform:
+                        arrowProps.style?.top !== undefined
+                          ? 'translateY(-50%)'
+                          : 'translateX(-50%)'
+                    }}
+                  ></div>
                   <div className="tooltip-inner">{content}</div>
                 </div>
               )
