@@ -4,7 +4,8 @@ The component library itself, published from `dist/` (built by Rollup) with sour
 `src/`. Styling comes entirely from the sibling `@chassis-ui/css` framework (a peer dependency in
 consuming apps) — components apply chassis-css class names, they don't ship their own styles,
 except for the handful of components with no chassis-css visual equivalent (e.g. `DatePicker`'s
-calendar grid), which inject scoped CSS via `rollup-plugin-postcss`.
+calendar grid), which inject scoped CSS via a custom Rollup plugin
+(`build/rollup-plugin-inline-sass.mjs`).
 
 ## Layout
 
