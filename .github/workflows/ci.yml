@@ -61,9 +61,10 @@ jobs:
       # `dependencies`/`peerDependencies`/`optionalDependencies` by default (confirmed by grepping
       # the built dist/index.js — no explicit config needed, unlike Rollup's `includeDependencies:
       # true`), but this check stays as the regression guard regardless of which bundler is doing
-      # the externalizing. Thresholds in packages/react/.bundlewatch.config.json carry ~15%
-      # headroom over the tsdown-era baseline (36.11 kB / 4.75 kB gzip, see the Phase 1 migration
-      # plan's spike findings).
+      # the externalizing. Thresholds in packages/react/.bundlewatch.config.json carry headroom
+      # over the minified baseline (27.69 kB JS / 1.18 kB CSS gzip, once `tsdown.config.ts` turned
+      # on `minify`/`css.minify` — previously-unminified baseline was 36.11 kB / 4.75 kB gzip, see
+      # the Phase 1 migration plan's spike findings).
       - run: pnpm check:bundle
 
       # Blocking: a vulnerable *runtime* dependency would ship to every consumer of

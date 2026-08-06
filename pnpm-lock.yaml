@@ -181,6 +181,12 @@ importers:
       plop:
         specifier: ^4.0.5
         version: 4.0.5(@types/node@24.12.4)
+      postcss:
+        specifier: '>=8.5.23'
+        version: 8.5.23
+      postcss-prefix-custom-properties:
+        specifier: ^0.1.0
+        version: 0.1.0(postcss@8.5.23)
       publint:
         specifier: ^0.3.23
         version: 0.3.23

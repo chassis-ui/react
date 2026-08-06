@@ -1,5 +1,6 @@
 import path from 'path'
 import { defineConfig } from 'tsdown'
+import postcssPrefixCustomProperties from 'postcss-prefix-custom-properties'
 
 export default defineConfig({
   entry: ['src/index.ts'],
@@ -8,6 +9,10 @@ export default defineConfig({
   platform: 'neutral',
   exports: true,
   publint: true,
+  // Published dist is what every consumer downloads — minify the JS/CSS output instead of
+  // shipping it pretty-printed. `dts` isn't affected: tsdown bundles declarations through a
+  // separate pass that this flag doesn't touch, so `dist/index.d.ts` stays readable.
+  minify: true,
   // Matches `pnpm check:package`'s standalone `attw` invocation (see ci.yml): `esm-only` because
   // this package ships ESM-only by design, and `./style.css` is excluded because attw type-checks
   // JS/TS entrypoints and a plain CSS subpath export has no types for it to resolve. Keeping the
@@ -15,6 +20,19 @@ export default defineConfig({
   // decided aren't bugs.
   attw: { profile: 'esm-only', excludeEntrypoints: ['./style.css'] },
   css: {
+    minify: true,
+    // Sass here compiles `@chassis-ui/css`'s raw SCSS sources directly (see `loadPaths` below),
+    // not its already-postcss-processed dist — so this build needs the same safety net
+    // chassis-css's own `build/postcss.config.js` runs: prefixing every custom property that
+    // isn't already `--cx-` (defends against a future contributor forgetting the prefix; nothing
+    // to actually rewrite today since the current sources already namespace everything by hand).
+    // `transformer: 'postcss'` is required to run PostCSS plugins at all — lightningcss (the
+    // default) has no plugin API — and still handles final target lowering/minification per
+    // `@tsdown/css`'s docs, so this doesn't give up that pass.
+    transformer: 'postcss',
+    postcss: {
+      plugins: [postcssPrefixCustomProperties({ prefix: 'cx-', ignore: [/^--cx-/] })]
+    },
     preprocessorOptions: {
       scss: {
         // Same two resolution gaps `rollup.config.mjs`'s `includePaths` used to close (see the

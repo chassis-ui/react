@@ -53,8 +53,8 @@ export default function (plop) {
 
   plop.setGenerator('sub', {
     description:
-      'Scaffold a sub-part for an existing compound family (e.g. Avatar + "Badge" -> AvatarBadge, ' +
-      'a flat named export from the avatar/ folder). Requires the root folder\'s index.ts to ' +
+      'Scaffold a sub-part for an existing compound family (e.g. Avatar + Badge -> AvatarBadge, ' +
+      "a flat named export from the avatar/ folder). Requires the root folder's index.ts to " +
       'already have the // plop:sub-export marker — see CONVENTIONS.md. The first sub-part of a ' +
       'new family is written by hand (including that marker); every part after that is generated.',
     prompts: [

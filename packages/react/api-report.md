@@ -481,7 +481,7 @@ interface AvatarProps extends HTMLAttributes<HTMLSpanElement | HTMLButtonElement
    */
   statusLabel?: string;
 }
-declare const Avatar: React.ForwardRefExoticComponent<AvatarProps & React.RefAttributes<HTMLButtonElement | HTMLAnchorElement | HTMLSpanElement>>;
+declare const Avatar: React.ForwardRefExoticComponent<AvatarProps & React.RefAttributes<HTMLSpanElement | HTMLAnchorElement | HTMLButtonElement>>;
 //#endregion
 //#region src/components/avatar/AvatarImage.d.ts
 interface AvatarImageProps extends ImgHTMLAttributes<HTMLImageElement> {
@@ -730,7 +730,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
    */
   variant?: ContextStyle;
 }
-declare const Button: React.ForwardRefExoticComponent<ButtonProps & React.RefAttributes<HTMLButtonElement | HTMLAnchorElement>>;
+declare const Button: React.ForwardRefExoticComponent<ButtonProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement>>;
 //#endregion
 //#region src/components/button-group/ButtonGroup.d.ts
 interface ButtonGroupProps extends HTMLAttributes<HTMLDivElement> {
@@ -2049,7 +2049,7 @@ interface LinkProps extends AllHTMLAttributes<HTMLElement> {
    */
   href?: string;
 }
-declare const Link: React.ForwardRefExoticComponent<LinkProps & React.RefAttributes<HTMLButtonElement | HTMLAnchorElement>>;
+declare const Link: React.ForwardRefExoticComponent<LinkProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement>>;
 //#endregion
 //#region src/components/menu/MenuItem.d.ts
 interface MenuItemProps extends LinkProps {
@@ -2077,7 +2077,7 @@ interface MenuItemProps extends LinkProps {
    */
   selected?: boolean;
 }
-declare const MenuItem: React.ForwardRefExoticComponent<MenuItemProps & React.RefAttributes<HTMLButtonElement | HTMLAnchorElement>>;
+declare const MenuItem: React.ForwardRefExoticComponent<MenuItemProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement>>;
 //#endregion
 //#region src/components/menu/MenuList.d.ts
 interface MenuListProps extends HTMLAttributes<HTMLElement> {
@@ -2113,7 +2113,7 @@ declare const MenuText: React.ForwardRefExoticComponent<MenuTextProps & React.Re
 //#endregion
 //#region src/components/menu/MenuToggle.d.ts
 type MenuToggleProps = Omit<ButtonProps, 'type'>;
-declare const MenuToggle: React.ForwardRefExoticComponent<MenuToggleProps & React.RefAttributes<HTMLButtonElement | HTMLAnchorElement>>;
+declare const MenuToggle: React.ForwardRefExoticComponent<MenuToggleProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement>>;
 //#endregion
 //#region src/components/menu/MenuSubmenu.d.ts
 interface MenuSubmenuProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onSelect'> {
@@ -2599,7 +2599,7 @@ interface InputGroupAddonProps extends HTMLAttributes<HTMLLabelElement | HTMLSpa
    */
   component?: string | ElementType;
 }
-declare const InputGroupAddon: React.ForwardRefExoticComponent<InputGroupAddonProps & React.RefAttributes<HTMLLabelElement | HTMLSpanElement>>;
+declare const InputGroupAddon: React.ForwardRefExoticComponent<InputGroupAddonProps & React.RefAttributes<HTMLSpanElement | HTMLLabelElement>>;
 //#endregion
 //#region src/components/input-adorn/InputAdorn.d.ts
 interface InputAdornProps extends HTMLAttributes<HTMLElement>, Pick<AnchorHTMLAttributes<HTMLAnchorElement>, 'href' | 'rel' | 'target'>, Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
@@ -3210,7 +3210,7 @@ interface ListItemProps extends HTMLAttributes<HTMLLIElement | HTMLAnchorElement
    */
   component?: string | ElementType;
 }
-declare const ListItem: React.ForwardRefExoticComponent<ListItemProps & React.RefAttributes<HTMLButtonElement | HTMLAnchorElement | HTMLLIElement>>;
+declare const ListItem: React.ForwardRefExoticComponent<ListItemProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement | HTMLLIElement>>;
 //#endregion
 //#region src/components/modal/Modal.d.ts
 interface ModalProps extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'onCancel' | 'onClose'> {
@@ -3390,7 +3390,7 @@ interface NavLinkProps extends LinkProps {
    */
   to?: string;
 }
-declare const NavLink: React.ForwardRefExoticComponent<NavLinkProps & React.RefAttributes<HTMLButtonElement | HTMLAnchorElement>>;
+declare const NavLink: React.ForwardRefExoticComponent<NavLinkProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement>>;
 //#endregion
 //#region src/components/nav/NavItem.d.ts
 declare const NavItem: React.ForwardRefExoticComponent<NavLinkProps & React.RefAttributes<HTMLLIElement>>;
@@ -3453,7 +3453,7 @@ interface NavbarBrandProps extends HTMLAttributes<HTMLAnchorElement | HTMLSpanEl
    */
   href?: string;
 }
-declare const NavbarBrand: React.ForwardRefExoticComponent<NavbarBrandProps & React.RefAttributes<HTMLAnchorElement | HTMLSpanElement>>;
+declare const NavbarBrand: React.ForwardRefExoticComponent<NavbarBrandProps & React.RefAttributes<HTMLSpanElement | HTMLAnchorElement>>;
 //#endregion
 //#region src/components/navbar/NavbarNav.d.ts
 interface NavbarNavProps extends HTMLAttributes<HTMLDivElement | HTMLUListElement> {
