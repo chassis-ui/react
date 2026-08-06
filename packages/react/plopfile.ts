@@ -1,9 +1,10 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import type { NodePlopAPI } from 'plop'
 
 const PASCAL_RE = /^[A-Z][A-Za-z0-9]*$/
 
-export default function (plop) {
+export default function (plop: NodePlopAPI) {
   plop.setGenerator('component', {
     description:
       'Scaffold a standalone component: <Name>.tsx + index.ts + spec, wired into src/index.ts',
@@ -12,7 +13,7 @@ export default function (plop) {
         type: 'input',
         name: 'name',
         message: 'Component name (PascalCase, no Cx prefix, e.g. "Chip"):',
-        validate: (value) => {
+        validate: (value: string) => {
           if (!value) return 'Name is required'
           if (!PASCAL_RE.test(value)) return 'Use PascalCase, e.g. "Chip"'
           if (value.startsWith('Cx')) return 'No Cx prefix — see CONVENTIONS.md'
@@ -62,7 +63,7 @@ export default function (plop) {
         type: 'input',
         name: 'root',
         message: 'Root component name (existing compound family, PascalCase, e.g. "Avatar"):',
-        validate: (value) => {
+        validate: (value: string) => {
           if (!value) return 'Root is required'
           if (!PASCAL_RE.test(value)) return 'Use PascalCase, e.g. "Avatar"'
           return true
@@ -72,18 +73,18 @@ export default function (plop) {
         type: 'input',
         name: 'part',
         message: 'Sub-part name (PascalCase, e.g. "Badge" -> Avatar.Badge):',
-        validate: (value) => {
+        validate: (value: string) => {
           if (!value) return 'Part name is required'
           if (!PASCAL_RE.test(value)) return 'Use PascalCase, e.g. "Badge"'
           return true
         }
       }
     ],
-    actions: (data) => {
+    actions: (data: Record<string, string> | undefined) => {
       const rootIndexPath = path.join(
         plop.getPlopfilePath(),
         'src/components',
-        plop.getHelper('kebabCase')(data.root),
+        plop.getHelper('kebabCase')(data?.root ?? ''),
         'index.ts'
       )
 
