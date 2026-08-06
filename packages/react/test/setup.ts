@@ -7,7 +7,6 @@ import { vi } from 'vitest'
 // this, waitFor takes the "real timers" branch and hangs forever waiting on a fake setInterval
 // that nothing advances. https://github.com/testing-library/dom-testing-library/issues/830
 declare global {
-  // eslint-disable-next-line no-var
   var jest: typeof vi | undefined
 }
 globalThis.jest = vi
