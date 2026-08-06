@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 import { ToastQueue } from 'react-stately'
 
-import { ContextColor } from '../Types'
+import { ContextColor } from '../../types'
 
 export interface ToastContent {
   /**

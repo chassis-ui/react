@@ -9,7 +9,7 @@ import {
 import { CheckboxGroupState, useToggleState } from 'react-stately'
 
 import { useForkedRef } from '../../hooks'
-import { ContextColor } from '../Types'
+import { ContextColor } from '../../types'
 
 import { CheckboxGroupContext } from './context'
 import { ButtonObject, renderFormCheck } from '../form/renderFormCheck'

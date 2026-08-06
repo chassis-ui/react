@@ -4,17 +4,17 @@ import { mergeProps, useButton, useComboBox, useFilter, useOverlayPosition } fro
 import { Item, Key, Section, useComboBoxState } from 'react-stately'
 
 import { useFormField } from '../../hooks'
-import { resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
 import {
   ComboboxEntry,
   ComboboxGroupEntry,
   ComboboxItemElement,
   isComboboxGroupEntry
-} from '../combobox/comboboxCollection'
+} from '../../utils/comboboxCollection'
+import { resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
+import { renderMenuItemContent } from '../../utils/renderMenuItemContent'
 import { ComboboxListBox } from '../combobox/ComboboxListBox'
 import { renderFormField } from '../form-field/renderFormField'
 import { MenuItemsDef } from '../menu/MenuItemDef'
-import { renderMenuItemContent } from '../menu/renderMenuItemContent'
 import { AutocompleteGroup, AutocompleteGroupProps } from './AutocompleteGroup'
 import { AutocompleteItem, AutocompleteItemProps } from './AutocompleteItem'
 
@@ -24,7 +24,7 @@ type AutocompleteItemElement = React.ReactElement<AutocompleteItemProps>
 // and `AutocompleteGroup`-wrapped clusters of them. `AutocompleteItemProps`/
 // `AutocompleteGroupProps` are structurally identical to `Combobox`'s own item/group props,
 // so the built elements are assignable to the shared `ComboboxEntry` shape from
-// `combobox/comboboxCollection` without needing a parallel type — only the entry-building logic
+// `utils/comboboxCollection` without needing a parallel type — only the entry-building logic
 // (which keys off `AutocompleteItem`/`AutocompleteGroup`'s runtime identity) needs its own
 // copy, mirroring Combobox.tsx's own private helpers.
 const buildEntriesFromChildren = (children: ReactNode): ComboboxEntry[] => {

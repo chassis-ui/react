@@ -4,16 +4,16 @@ import { useComboBox, useFilter, useOverlayPosition } from 'react-aria'
 import { Item, Key, Section, useComboBoxState } from 'react-stately'
 
 import { useFormField } from '../../hooks'
-import { resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
-import { renderFormField } from '../form-field/renderFormField'
-import { MenuItemsDef } from '../menu/MenuItemDef'
-import { renderMenuItemContent } from '../menu/renderMenuItemContent'
 import {
   ComboboxEntry,
   ComboboxGroupEntry,
   ComboboxItemElement,
   isComboboxGroupEntry
-} from './comboboxCollection'
+} from '../../utils/comboboxCollection'
+import { resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
+import { renderMenuItemContent } from '../../utils/renderMenuItemContent'
+import { renderFormField } from '../form-field/renderFormField'
+import { MenuItemsDef } from '../menu/MenuItemDef'
 import { ComboboxGroup, ComboboxGroupProps } from './ComboboxGroup'
 import { ComboboxItem } from './ComboboxItem'
 import { ComboboxListBox } from './ComboboxListBox'

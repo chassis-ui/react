@@ -1,7 +1,7 @@
 import React, { forwardRef, HTMLAttributes, ReactNode } from 'react'
 import classNames from 'classnames'
 
-import { ContextColor, ExtendedSizing } from '../Types'
+import { ContextColor, ExtendedSizing } from '../../types'
 import { Avatar } from './Avatar'
 
 export interface AvatarStackItemDef {

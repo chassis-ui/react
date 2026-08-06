@@ -16,7 +16,7 @@ import { CalendarMonthBlock } from './CalendarMonthBlock'
 import { CalendarMonthYearPicker } from './CalendarMonthYearPicker'
 import { CalendarNavButton } from './CalendarNavButton'
 import { CalendarWeekGrid } from './CalendarWeekGrid'
-import { mergeIsDateUnavailable } from './mergeIsDateUnavailable'
+import { mergeIsDateUnavailable } from '../../utils/mergeIsDateUnavailable'
 import './Calendar.scss'
 
 interface CalendarBaseProps extends Omit<

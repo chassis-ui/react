@@ -11,9 +11,10 @@ own styles, except for the handful of components with no chassis-css visual equi
 ## Layout
 
 - `src/components/<kebab-name>/<PascalName>.tsx` — one folder per component (or a compound
-  family's root + sub-parts), plus that folder's `index.ts` barrel. Nothing else lives here —
-  tests and stories are centralized in their own trees (below), not colocated. See
-  `CONVENTIONS.md` for the naming/barrel/compound-API rules this layout follows.
+  family's root + sub-parts), plus that folder's `index.ts` barrel, and (narrow exception) a
+  private helper module never exported or used outside the folder — tests and stories are
+  centralized in their own trees (below), not colocated. See `CONVENTIONS.md` for the naming/
+  barrel/compound-API rules this layout follows, including that exception's exact boundary.
 - `test/components/<kebab-name>/<PascalName>.spec.tsx`, plus `test/components/<kebab-name>/
   __snapshots__/` for that component's snapshot files — mirrors `src/components/`, under the
   top-level `test/` folder that also holds shared setup (`test/setup.ts`, `test/dialogPolyfill.js`,

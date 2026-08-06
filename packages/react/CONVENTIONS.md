@@ -28,7 +28,17 @@ Don't introduce it as a synonym; also flagged as an error.
 ## Folder layout: three separate trees, not colocation
 
 - `src/components/<kebab-name>/` — only the component file(s) (`<PascalName>.tsx`) and the
-  folder's `index.ts` barrel. Nothing else lives here.
+  folder's `index.ts` barrel, with one narrow exception: a private, non-`.tsx`-or-lowercase-`.tsx`
+  helper module (state/context, a pure algorithm, internal keyboard-nav logic, ...) that is never
+  exported from the folder's `index.ts` and never imported from outside the folder — e.g. each of
+  `accordion/context.ts`, `checkbox/context.ts`, `radio/context.ts`, `tabs/context.ts` (compound-
+  family-shared React context), `menu/submenuGroup.ts`, `menu/menuNavigation.ts`, and
+  `password-strength/strengthScore.ts`. The moment a helper like this gets a second consumer
+  outside its own folder, it stops qualifying for this exception and moves out: a hook (`useXxx`)
+  goes to `src/hooks/`, anything else goes to `src/utils/` — regardless of how many folders end up
+  using it there (`src/hooks/useFormField.ts` and `src/utils/virtualFocusStyle.ts` are both single-
+  or few-consumer today and still live there, not colocated with their caller, because "is it a
+  hook / is it a component" decides the folder, not consumer count).
 - `src/stories/<family>/<Component>.stories.tsx` — Storybook stories, centralized separately from
   the component they document (matched by `.storybook/main.ts`'s glob against anywhere under
   `src/`, so this is an organizational choice, not something the glob requires).

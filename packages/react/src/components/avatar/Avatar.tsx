@@ -1,7 +1,7 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-import { ContextColor, ExtendedSizing } from '../Types'
+import { ContextColor, ExtendedSizing } from '../../types'
 import { Link } from '../link/Link'
 import { Badge } from '../badge'
 import { AvatarImage } from './AvatarImage'

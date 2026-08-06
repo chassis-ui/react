@@ -2,7 +2,7 @@ import React, { forwardRef, InputHTMLAttributes, ReactNode, useContext, useRef }
 import { AriaRadioProps, useRadio } from 'react-aria'
 
 import { useForkedRef } from '../../hooks'
-import { ContextColor } from '../Types'
+import { ContextColor } from '../../types'
 
 import { RadioGroupContext } from './context'
 import { ButtonObject, renderFormCheck } from '../form/renderFormCheck'

@@ -2,7 +2,7 @@ import React, { ButtonHTMLAttributes, ElementType, forwardRef, RefObject, useRef
 import classNames from 'classnames'
 import { AriaButtonProps, mergeProps, useButton } from 'react-aria'
 
-import { ContextColor, ContextStyle, Shapes } from '../Types'
+import { ContextColor, ContextStyle, Shapes } from '../../types'
 import { Link } from '../link/Link'
 import { useForkedRef } from '../../hooks'
 

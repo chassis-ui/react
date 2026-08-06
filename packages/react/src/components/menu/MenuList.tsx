@@ -10,13 +10,13 @@ import { createPortal } from 'react-dom'
 import classNames from 'classnames'
 
 import { useForkedRef } from '../../hooks'
+import { renderMenuItemContent } from '../../utils/renderMenuItemContent'
 import { MenuContext } from './Menu'
 import { MenuDivider } from './MenuDivider'
 import { MenuHeader } from './MenuHeader'
 import { MenuItem } from './MenuItem'
 import { MenuItemsDef } from './MenuItemDef'
 import { focusMenuItem, getMenuItems, handleMenuKeyDown } from './menuNavigation'
-import { renderMenuItemContent } from './renderMenuItemContent'
 import { SubmenuGroupContext, useSubmenuGroupProvider } from './submenuGroup'
 
 export interface MenuListProps extends HTMLAttributes<HTMLElement> {

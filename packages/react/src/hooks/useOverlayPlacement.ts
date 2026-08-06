@@ -2,7 +2,7 @@ import { CSSProperties, HTMLAttributes, RefObject } from 'react'
 import { mergeProps, useOverlay, useOverlayPosition } from 'react-aria'
 import { OverlayTriggerState } from 'react-stately'
 
-import { resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
+import { resolveDataPlacement, toAriaPlacement } from '../utils/overlayPlacement'
 
 interface UseOverlayPlacementProps {
   overlayRef: RefObject<HTMLElement | null>
@@ -21,7 +21,9 @@ interface UseOverlayPlacementResult {
 
 // Shared by `DatePicker` and `DateRangePicker` — both position their calendar overlay the same
 // way (`bottom-start`, 2px offset, closing on Escape, on any click outside it, or when focus leaves
-// the trigger group).
+// the trigger group). Lives in `hooks/` rather than `components/datepicker/` like every other hook
+// in this library, regardless of how many components use it — see `useFormField` for the same
+// treatment despite having many more callers.
 //
 // Built directly on `useOverlay` + `useOverlayPosition` rather than the higher-level `usePopover`
 // combo hook. `usePopover` computes its own internal `onClose` for `useOverlayPosition` from

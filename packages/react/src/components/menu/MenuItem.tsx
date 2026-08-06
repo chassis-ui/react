@@ -1,8 +1,8 @@
 import React, { ElementType, forwardRef, ReactNode } from 'react'
 import classNames from 'classnames'
 
+import { renderMenuItemContent } from '../../utils/renderMenuItemContent'
 import { LinkProps, Link } from '../link/Link'
-import { renderMenuItemContent } from './renderMenuItemContent'
 
 export interface MenuItemProps extends LinkProps {
   /**

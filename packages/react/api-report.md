@@ -346,7 +346,7 @@ interface AutocompleteProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChan
   value?: Key$2 | Key$2[] | null;
 }
 declare const Autocomplete: {
-  ({ children, className, defaultValue, disabled, help, id, invalid, invalidFeedback, items, label, multiple, name, noResultsText, onChange, placeholder, searchPlaceholder, size, valid, validFeedback, value, ...rest }: AutocompleteProps): string | number | boolean | Iterable<React.ReactNode> | React.JSX.Element | null | undefined;
+  ({ children, className, defaultValue, disabled, help, id, invalid, invalidFeedback, items, label, multiple, name, noResultsText, onChange, placeholder, searchPlaceholder, size, valid, validFeedback, value, ...rest }: AutocompleteProps): string | number | boolean | React.JSX.Element | Iterable<React.ReactNode> | null | undefined;
   displayName: string;
 };
 //#endregion
@@ -410,7 +410,7 @@ declare const AutocompleteItem: {
   displayName: string;
 };
 //#endregion
-//#region src/components/Types.d.ts
+//#region src/types.d.ts
 /**
  * Context colors
  */
@@ -481,7 +481,7 @@ interface AvatarProps extends HTMLAttributes<HTMLSpanElement | HTMLButtonElement
    */
   statusLabel?: string;
 }
-declare const Avatar: React.ForwardRefExoticComponent<AvatarProps & React.RefAttributes<HTMLSpanElement | HTMLAnchorElement | HTMLButtonElement>>;
+declare const Avatar: React.ForwardRefExoticComponent<AvatarProps & React.RefAttributes<HTMLButtonElement | HTMLAnchorElement | HTMLSpanElement>>;
 //#endregion
 //#region src/components/avatar/AvatarImage.d.ts
 interface AvatarImageProps extends ImgHTMLAttributes<HTMLImageElement> {
@@ -730,7 +730,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
    */
   variant?: ContextStyle;
 }
-declare const Button: React.ForwardRefExoticComponent<ButtonProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement>>;
+declare const Button: React.ForwardRefExoticComponent<ButtonProps & React.RefAttributes<HTMLButtonElement | HTMLAnchorElement>>;
 //#endregion
 //#region src/components/button-group/ButtonGroup.d.ts
 interface ButtonGroupProps extends HTMLAttributes<HTMLDivElement> {
@@ -860,7 +860,7 @@ interface CalendarMultipleProps extends CalendarBaseProps {
 type CalendarProps = CalendarSingleProps | CalendarMultipleProps;
 declare const Calendar: React.ForwardRefExoticComponent<CalendarProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
-//#region src/components/calendar/dateRangePresets.d.ts
+//#region src/utils/dateRangePresets.d.ts
 interface DateRangePreset {
   label: string;
   range: RangeValue<DateValue>;
@@ -1251,7 +1251,7 @@ interface ChipInputProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'
   value?: string[];
 }
 declare const ChipInput: {
-  ({ allowDuplicates, chipVariant, className, defaultValue, disabled, help, id, invalid, invalidFeedback, label, maxChips, name, onChange, placeholder, separator, size, valid, validFeedback, value, ...rest }: ChipInputProps): string | number | boolean | Iterable<React.ReactNode> | React.JSX.Element | null | undefined;
+  ({ allowDuplicates, chipVariant, className, defaultValue, disabled, help, id, invalid, invalidFeedback, label, maxChips, name, onChange, placeholder, separator, size, valid, validFeedback, value, ...rest }: ChipInputProps): string | number | boolean | React.JSX.Element | Iterable<React.ReactNode> | null | undefined;
   displayName: string;
 };
 //#endregion
@@ -1462,7 +1462,7 @@ interface ComboboxProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' 
   value?: Key$2 | null;
 }
 declare const Combobox: {
-  ({ children, className, defaultValue, disabled, help, id, invalid, invalidFeedback, items, label, name, noResultsText, onChange, placeholder, size, valid, validFeedback, value, ...rest }: ComboboxProps): string | number | boolean | Iterable<React.ReactNode> | React.JSX.Element | null | undefined;
+  ({ children, className, defaultValue, disabled, help, id, invalid, invalidFeedback, items, label, name, noResultsText, onChange, placeholder, size, valid, validFeedback, value, ...rest }: ComboboxProps): string | number | boolean | React.JSX.Element | Iterable<React.ReactNode> | null | undefined;
   displayName: string;
 };
 //#endregion
@@ -1747,7 +1747,7 @@ interface DateRangePickerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onC
   visibleMonths?: number;
 }
 declare const DateRangePicker: {
-  ({ className, defaultOpen, defaultValue, disabled, firstDayOfWeek, help, id, invalid, invalidFeedback, isDateUnavailable, isOpen, label, maxValue, minValue, name, onChange, onOpenChange, presets, size, unavailableDates, valid, validFeedback, value, visibleMonths, ...rest }: DateRangePickerProps): string | number | boolean | Iterable<React.ReactNode> | React.JSX.Element | null | undefined;
+  ({ className, defaultOpen, defaultValue, disabled, firstDayOfWeek, help, id, invalid, invalidFeedback, isDateUnavailable, isOpen, label, maxValue, minValue, name, onChange, onOpenChange, presets, size, unavailableDates, valid, validFeedback, value, visibleMonths, ...rest }: DateRangePickerProps): string | number | boolean | React.JSX.Element | Iterable<React.ReactNode> | null | undefined;
   displayName: string;
 };
 //#endregion
@@ -1852,7 +1852,7 @@ interface OtpInputProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' 
   value?: string;
 }
 declare const OtpInput: {
-  ({ className, defaultValue, disabled, groupSizes, help, id, inputGroup, invalid, invalidFeedback, label, length, mask, name, onChange, onComplete, separator, size, valid, validFeedback, value, ...rest }: OtpInputProps): string | number | boolean | Iterable<React.ReactNode> | React.JSX.Element | null | undefined;
+  ({ className, defaultValue, disabled, groupSizes, help, id, inputGroup, invalid, invalidFeedback, label, length, mask, name, onChange, onComplete, separator, size, valid, validFeedback, value, ...rest }: OtpInputProps): string | number | boolean | React.JSX.Element | Iterable<React.ReactNode> | null | undefined;
   displayName: string;
 };
 //#endregion
@@ -2049,7 +2049,7 @@ interface LinkProps extends AllHTMLAttributes<HTMLElement> {
    */
   href?: string;
 }
-declare const Link: React.ForwardRefExoticComponent<LinkProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement>>;
+declare const Link: React.ForwardRefExoticComponent<LinkProps & React.RefAttributes<HTMLButtonElement | HTMLAnchorElement>>;
 //#endregion
 //#region src/components/menu/MenuItem.d.ts
 interface MenuItemProps extends LinkProps {
@@ -2077,7 +2077,7 @@ interface MenuItemProps extends LinkProps {
    */
   selected?: boolean;
 }
-declare const MenuItem: React.ForwardRefExoticComponent<MenuItemProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement>>;
+declare const MenuItem: React.ForwardRefExoticComponent<MenuItemProps & React.RefAttributes<HTMLButtonElement | HTMLAnchorElement>>;
 //#endregion
 //#region src/components/menu/MenuList.d.ts
 interface MenuListProps extends HTMLAttributes<HTMLElement> {
@@ -2113,7 +2113,7 @@ declare const MenuText: React.ForwardRefExoticComponent<MenuTextProps & React.Re
 //#endregion
 //#region src/components/menu/MenuToggle.d.ts
 type MenuToggleProps = Omit<ButtonProps, 'type'>;
-declare const MenuToggle: React.ForwardRefExoticComponent<MenuToggleProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement>>;
+declare const MenuToggle: React.ForwardRefExoticComponent<MenuToggleProps & React.RefAttributes<HTMLButtonElement | HTMLAnchorElement>>;
 //#endregion
 //#region src/components/menu/MenuSubmenu.d.ts
 interface MenuSubmenuProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onSelect'> {
@@ -2571,7 +2571,7 @@ interface FormFieldProps {
   validFeedback?: ReactNode;
 }
 declare const FormField: {
-  ({ children, className, help, ids, invalid, invalidFeedback, label, valid, validFeedback }: FormFieldProps): string | number | boolean | Iterable<ReactNode> | import("react").JSX.Element | null | undefined;
+  ({ children, className, help, ids, invalid, invalidFeedback, label, valid, validFeedback }: FormFieldProps): string | number | boolean | import("react").JSX.Element | Iterable<ReactNode> | null | undefined;
   displayName: string;
 };
 //#endregion
@@ -2599,7 +2599,7 @@ interface InputGroupAddonProps extends HTMLAttributes<HTMLLabelElement | HTMLSpa
    */
   component?: string | ElementType;
 }
-declare const InputGroupAddon: React.ForwardRefExoticComponent<InputGroupAddonProps & React.RefAttributes<HTMLSpanElement | HTMLLabelElement>>;
+declare const InputGroupAddon: React.ForwardRefExoticComponent<InputGroupAddonProps & React.RefAttributes<HTMLLabelElement | HTMLSpanElement>>;
 //#endregion
 //#region src/components/input-adorn/InputAdorn.d.ts
 interface InputAdornProps extends HTMLAttributes<HTMLElement>, Pick<AnchorHTMLAttributes<HTMLAnchorElement>, 'href' | 'rel' | 'target'>, Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
@@ -3210,7 +3210,7 @@ interface ListItemProps extends HTMLAttributes<HTMLLIElement | HTMLAnchorElement
    */
   component?: string | ElementType;
 }
-declare const ListItem: React.ForwardRefExoticComponent<ListItemProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement | HTMLLIElement>>;
+declare const ListItem: React.ForwardRefExoticComponent<ListItemProps & React.RefAttributes<HTMLButtonElement | HTMLAnchorElement | HTMLLIElement>>;
 //#endregion
 //#region src/components/modal/Modal.d.ts
 interface ModalProps extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'onCancel' | 'onClose'> {
@@ -3390,7 +3390,7 @@ interface NavLinkProps extends LinkProps {
    */
   to?: string;
 }
-declare const NavLink: React.ForwardRefExoticComponent<NavLinkProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement>>;
+declare const NavLink: React.ForwardRefExoticComponent<NavLinkProps & React.RefAttributes<HTMLButtonElement | HTMLAnchorElement>>;
 //#endregion
 //#region src/components/nav/NavItem.d.ts
 declare const NavItem: React.ForwardRefExoticComponent<NavLinkProps & React.RefAttributes<HTMLLIElement>>;
@@ -3453,7 +3453,7 @@ interface NavbarBrandProps extends HTMLAttributes<HTMLAnchorElement | HTMLSpanEl
    */
   href?: string;
 }
-declare const NavbarBrand: React.ForwardRefExoticComponent<NavbarBrandProps & React.RefAttributes<HTMLSpanElement | HTMLAnchorElement>>;
+declare const NavbarBrand: React.ForwardRefExoticComponent<NavbarBrandProps & React.RefAttributes<HTMLAnchorElement | HTMLSpanElement>>;
 //#endregion
 //#region src/components/navbar/NavbarNav.d.ts
 interface NavbarNavProps extends HTMLAttributes<HTMLDivElement | HTMLUListElement> {

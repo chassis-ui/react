@@ -1,7 +1,7 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-import { ContextColor, ContextStyle, Sizing } from '../Types'
+import { ContextColor, ContextStyle, Sizing } from '../../types'
 
 export interface BadgeProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElement> {
   /**

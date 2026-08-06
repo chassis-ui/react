@@ -1,10 +1,12 @@
 import { Key, ReactElement, ReactNode } from 'react'
 
-import { ComboboxItemProps } from './ComboboxItem'
+import { ComboboxItemProps } from '../components/combobox/ComboboxItem'
 
-// Shared between Combobox.tsx (which builds this collection from children/items) and
-// ComboboxListBox.tsx (which renders it) — kept in its own file to avoid a circular import
-// between the two.
+// Shared between Combobox.tsx/ComboboxListBox.tsx (which build/render this collection) and
+// Autocomplete.tsx (which reuses the same entry shape — see the comment on
+// `buildEntriesFromChildren` there). Lives in `utils/` rather than `components/combobox/` because
+// it crosses that folder boundary; kept in its own file to also avoid a circular import between
+// Combobox.tsx and ComboboxListBox.tsx.
 
 export type ComboboxItemElement = ReactElement<ComboboxItemProps>
 

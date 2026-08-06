@@ -21,8 +21,8 @@ import {
 import { useForkedRef } from '../../hooks'
 import { CalendarMonthBlock } from './CalendarMonthBlock'
 import { CalendarNavButton } from './CalendarNavButton'
-import { DateRangePreset } from './dateRangePresets'
-import { mergeIsDateUnavailable } from './mergeIsDateUnavailable'
+import { DateRangePreset } from '../../utils/dateRangePresets'
+import { mergeIsDateUnavailable } from '../../utils/mergeIsDateUnavailable'
 import './Calendar.scss'
 import './RangeCalendar.scss'
 

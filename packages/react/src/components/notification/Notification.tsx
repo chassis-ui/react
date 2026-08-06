@@ -2,7 +2,7 @@ import React, { forwardRef, HTMLAttributes, useEffect, useRef, useState } from '
 import classNames from 'classnames'
 import { Transition } from 'react-transition-group'
 
-import { ContextColor } from '../Types'
+import { ContextColor } from '../../types'
 import { CloseButton } from '../close-button/CloseButton'
 import { useForkedRef } from '../../hooks'
 

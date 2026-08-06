@@ -1,7 +1,7 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-import { ContextColor } from '../Types'
+import { ContextColor } from '../../types'
 
 export interface CardProps extends HTMLAttributes<HTMLDivElement> {
   /**

@@ -4,7 +4,7 @@ import { useDateFormatter } from 'react-aria'
 import { CalendarState, RangeCalendarState } from 'react-stately'
 import { CalendarDate, toCalendarDate } from '@internationalized/date'
 
-import { isWholeUnitDisabled } from './isWholeUnitDisabled'
+import { isWholeUnitDisabled } from '../../utils/isWholeUnitDisabled'
 
 interface CalendarYearGridProps {
   monthStart: CalendarDate

@@ -1,7 +1,7 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-import { ContextColor, ContextStyle } from '../Types'
+import { ContextColor, ContextStyle } from '../../types'
 
 export interface ListItemDef {
   /**

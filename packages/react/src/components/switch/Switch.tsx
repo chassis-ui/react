@@ -4,7 +4,7 @@ import { AriaSwitchProps, useSwitch } from 'react-aria'
 import { useToggleState } from 'react-stately'
 
 import { useForkedRef } from '../../hooks'
-import { ContextColor } from '../Types'
+import { ContextColor } from '../../types'
 
 import { FormLabel } from '../form/FormLabel'
 

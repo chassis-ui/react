@@ -1,7 +1,7 @@
 import React, { ElementType, HTMLAttributes, forwardRef } from 'react'
 import classNames from 'classnames'
 
-import { ContextColor } from '../Types'
+import { ContextColor } from '../../types'
 import { Link } from '../link/Link'
 
 export interface ListItemProps extends HTMLAttributes<

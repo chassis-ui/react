@@ -1,7 +1,7 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-import { ContextColor } from '../Types'
+import { ContextColor } from '../../types'
 
 export interface PlaceholderProps extends HTMLAttributes<HTMLSpanElement> {
   /**

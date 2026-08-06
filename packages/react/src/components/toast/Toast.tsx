@@ -9,7 +9,7 @@ import React, {
 import { Transition } from 'react-transition-group'
 import classNames from 'classnames'
 
-import { ContextColor } from '../Types'
+import { ContextColor } from '../../types'
 import { useForkedRef } from '../../hooks'
 
 export interface ToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {

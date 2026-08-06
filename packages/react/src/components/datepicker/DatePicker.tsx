@@ -16,14 +16,13 @@ import {
 } from 'react-stately'
 import { getLocalTimeZone } from '@internationalized/date'
 
-import { useFormField } from '../../hooks'
+import { useFormField, useOverlayPlacement } from '../../hooks'
+import { mergeIsDateUnavailable } from '../../utils/mergeIsDateUnavailable'
 import { renderFormField } from '../form-field/renderFormField'
 import { Calendar } from '../calendar/Calendar'
-import { mergeIsDateUnavailable } from '../calendar/mergeIsDateUnavailable'
 import { CalendarToggleButton } from './CalendarToggleButton'
 import { ClearButton } from './ClearButton'
 import { DateField } from './DateField'
-import { useOverlayPlacement } from './useOverlayPlacement'
 import './DatePicker.scss'
 
 interface DatePickerBaseProps extends Omit<

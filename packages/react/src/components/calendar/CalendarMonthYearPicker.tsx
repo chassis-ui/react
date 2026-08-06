@@ -5,7 +5,7 @@ import { CalendarDate } from '@internationalized/date'
 
 import { CalendarMonthGrid } from './CalendarMonthGrid'
 import { CalendarYearGrid } from './CalendarYearGrid'
-import { setVisibleRangeStart } from './setVisibleRangeStart'
+import { setVisibleRangeStart } from '../../utils/setVisibleRangeStart'
 
 interface CalendarMonthYearPickerProps {
   // The day grid, shown in the default 'days' view — owned by the caller (`Calendar` and

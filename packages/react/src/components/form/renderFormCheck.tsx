@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import classNames from 'classnames'
 
-import { ContextColor, Shapes } from '../Types'
+import { ContextColor, Shapes } from '../../types'
 
 import { FormLabel } from './FormLabel'
 

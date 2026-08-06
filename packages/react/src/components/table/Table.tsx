@@ -23,7 +23,7 @@ import {
   useToggleState
 } from 'react-stately'
 
-import { ContextColor } from '../Types'
+import { ContextColor } from '../../types'
 import './Table.css'
 
 // `GridNode<T>` (from `@react-types/shared`) isn't re-exported by either package's public
