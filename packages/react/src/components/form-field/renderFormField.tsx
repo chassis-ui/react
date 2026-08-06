@@ -42,7 +42,7 @@ export const renderFormField = ({
   label,
   valid,
   validFeedback
-}: RenderFormFieldOptions) => {
+}: RenderFormFieldOptions): ReactNode => {
   const showInvalidFeedback = invalid && invalidFeedback
   const showValidFeedback = valid && validFeedback
 

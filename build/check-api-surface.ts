@@ -1,11 +1,63 @@
 import * as path from 'path'
 import * as fs from 'fs'
 import { fileURLToPath } from 'url'
+import * as ts from 'typescript'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const DTS_PATH = path.resolve(__dirname, '../packages/react/dist/index.d.ts')
 const REPORT_PATH = path.resolve(__dirname, '../packages/react/api-report.md')
+
+// tsdown's dts bundler (rolldown-plugin-dts, via the TS checker) inlines some function return
+// types as a raw structural union instead of a named alias — e.g. a component that can return
+// either `children` as-is or a wrapping `<div>` gets `string | number | boolean |
+// React.JSX.Element | Iterable<React.ReactNode> | null | undefined` instead of `ReactNode`, and a
+// polymorphic-ref component's `RefAttributes<HTMLDivElement | HTMLSpanElement>` inlines that
+// union too. The member order for these anonymous unions comes from the checker's internal type
+// ids, which aren't stable across separate `tsc`/build invocations — running `pnpm lib:build`
+// twice with zero source changes can flip `A | B` to `B | A`. The union is semantically identical
+// either way, but it makes this check's textual diff flap on unrelated PRs. Fix at the source
+// where practical (annotate an explicit return type so the checker prints a named alias instead
+// of expanding one), but sort every union's members here too so any remaining case — including
+// ones introduced later — can't cause a false-positive diff.
+function sortUnions(text: string): string {
+  const sourceFile = ts.createSourceFile('api-surface.d.ts', text, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS)
+
+  function canonicalize(node: ts.Node): string {
+    const start = node.getStart(sourceFile)
+    const end = node.getEnd()
+    const original = text.slice(start, end)
+
+    const children: ts.Node[] = []
+    node.forEachChild((child) => {
+      // JSDoc precedes its declaration, so `child.getStart()` can fall *before* `start` (getStart
+      // excludes leading JSDoc by default) — splicing that in below would corrupt offsets, and
+      // there's nothing here worth canonicalizing anyway.
+      if (child.kind !== ts.SyntaxKind.JSDoc) children.push(child)
+    })
+    if (children.length === 0) return original
+
+    // Recurse first (innermost unions canonicalize independently of their container).
+    const childTexts = children.map((child) => canonicalize(child))
+
+    if (ts.isUnionTypeNode(node)) {
+      return [...childTexts].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0)).join(' | ')
+    }
+
+    // Not a union itself: splice each (possibly-rewritten) child back into this node's own
+    // original text, right-to-left so earlier offsets stay valid. Everything outside a child's
+    // span — punctuation, whitespace, comments between siblings — is left untouched.
+    let spliced = original
+    for (let i = children.length - 1; i >= 0; i--) {
+      const relStart = children[i].getStart(sourceFile) - start
+      const relEnd = children[i].getEnd() - start
+      spliced = spliced.slice(0, relStart) + childTexts[i] + spliced.slice(relEnd)
+    }
+    return spliced
+  }
+
+  return canonicalize(sourceFile)
+}
 
 const HEADER = `<!--
 This file is a checked-in snapshot of @chassis-ui/react's public type surface — the exact,
@@ -31,7 +83,7 @@ function readDts(): string {
     )
     process.exit(1)
   }
-  return fs.readFileSync(DTS_PATH, 'utf8').trim()
+  return sortUnions(fs.readFileSync(DTS_PATH, 'utf8').trim())
 }
 
 function buildReport(dts: string): string {

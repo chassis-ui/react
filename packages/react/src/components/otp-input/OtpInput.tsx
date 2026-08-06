@@ -145,7 +145,7 @@ export const OtpInput = ({
   validFeedback,
   value,
   ...rest
-}: OtpInputProps) => {
+}: OtpInputProps): ReactNode => {
   const total = groupSizes && groupSizes.length > 0 ? groupSizes.reduce((a, b) => a + b, 0) : length
 
   const [rawValue, setRawValue] = useControllableState(value, defaultValue ?? '', onChange)

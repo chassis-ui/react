@@ -261,7 +261,7 @@ export const Autocomplete = ({
   validFeedback,
   value,
   ...rest
-}: AutocompleteProps) => {
+}: AutocompleteProps): ReactNode => {
   const entries = items ? buildEntriesFromItemsDef(items) : buildEntriesFromChildren(children)
 
   // Case- and accent-insensitive substring matching, mirroring chassis-css's own

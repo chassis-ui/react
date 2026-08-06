@@ -121,7 +121,7 @@ export const ChipInput = ({
   validFeedback,
   value,
   ...rest
-}: ChipInputProps) => {
+}: ChipInputProps): ReactNode => {
   const [tags, updateTags] = useControllableState<string[]>(value, defaultValue ?? [], onChange)
 
   const addTag = (raw: string) => {

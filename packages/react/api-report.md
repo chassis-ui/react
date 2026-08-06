@@ -74,7 +74,7 @@ interface AccordionProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * Size the component small or large.
    */
-  size?: 'small' | 'large';
+  size?: 'large' | 'small';
 }
 declare const Accordion: React.ForwardRefExoticComponent<AccordionProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
@@ -244,10 +244,10 @@ interface MenuDividerDef {
  * Covers flat items, headers, and dividers only — nested/recursive submenus aren't
  * representable here. Compose with `children`/`MenuSubmenu` directly for those.
  */
-type MenuItemsDef = (MenuItemDef | MenuHeaderDef | MenuDividerDef)[];
+type MenuItemsDef = (MenuDividerDef | MenuHeaderDef | MenuItemDef)[];
 //#endregion
 //#region src/components/autocomplete/Autocomplete.d.ts
-interface AutocompleteProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue'> {
+interface AutocompleteProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultValue' | 'onChange'> {
   /**
    * An accessible label for the autocomplete, used when there's no visible `<label>`.
    */
@@ -331,7 +331,7 @@ interface AutocompleteProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChan
   /**
    * Size the component small or large.
    */
-  size?: 'small' | 'large';
+  size?: 'large' | 'small';
   /**
    * Set component validation state to valid.
    */
@@ -346,7 +346,7 @@ interface AutocompleteProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChan
   value?: Key$2 | Key$2[] | null;
 }
 declare const Autocomplete: {
-  ({ children, className, defaultValue, disabled, help, id, invalid, invalidFeedback, items, label, multiple, name, noResultsText, onChange, placeholder, searchPlaceholder, size, valid, validFeedback, value, ...rest }: AutocompleteProps): string | number | boolean | React.JSX.Element | Iterable<React.ReactNode> | null | undefined;
+  ({ children, className, defaultValue, disabled, help, id, invalid, invalidFeedback, items, label, multiple, name, noResultsText, onChange, placeholder, searchPlaceholder, size, valid, validFeedback, value, ...rest }: AutocompleteProps): ReactNode;
   displayName: string;
 };
 //#endregion
@@ -414,26 +414,26 @@ declare const AutocompleteItem: {
 /**
  * Context colors
  */
-type ContextColor = 'default' | 'alternate' | 'primary' | 'secondary' | 'neutral' | 'success' | 'danger' | 'warning' | 'info' | 'black' | 'white';
+type ContextColor = 'alternate' | 'black' | 'danger' | 'default' | 'info' | 'neutral' | 'primary' | 'secondary' | 'success' | 'warning' | 'white';
 /**
  * Context styles
  */
-type ContextStyle = 'basic' | 'solid' | 'outline' | 'smooth';
+type ContextStyle = 'basic' | 'outline' | 'smooth' | 'solid';
 /**
  * Component sizes
  */
-type Sizing = 'small' | 'medium' | 'large';
+type Sizing = 'large' | 'medium' | 'small';
 /**
  * Extended sizes
  */
-type ExtendedSizing = '2xsmall' | 'xsmall' | Sizing | 'xlarge' | '2xlarge';
+type ExtendedSizing = '2xlarge' | '2xsmall' | 'xlarge' | 'xsmall' | Sizing;
 /**
  * Component shapes
  */
-type Shapes = 'rounded' | 'rounded-top' | 'rounded-end' | 'rounded-bottom' | 'rounded-start' | 'rounded-circle' | 'rounded-pill' | 'rounded-0' | 'rounded-1' | 'rounded-2' | 'rounded-3';
+type Shapes = 'rounded' | 'rounded-0' | 'rounded-1' | 'rounded-2' | 'rounded-3' | 'rounded-bottom' | 'rounded-circle' | 'rounded-end' | 'rounded-pill' | 'rounded-start' | 'rounded-top';
 //#endregion
 //#region src/components/avatar/Avatar.d.ts
-interface AvatarProps extends HTMLAttributes<HTMLSpanElement | HTMLButtonElement | HTMLAnchorElement> {
+interface AvatarProps extends HTMLAttributes<HTMLAnchorElement | HTMLButtonElement | HTMLSpanElement> {
   /**
    * A string of all className you want applied to the component.
    */
@@ -458,7 +458,7 @@ interface AvatarProps extends HTMLAttributes<HTMLSpanElement | HTMLButtonElement
    * Component used for the root node. Either a string to use a HTML element or a component.
    * Defaults to `button`, or `a` when `href` is set.
    */
-  component?: string | ElementType;
+  component?: ElementType | string;
   /**
    * Image source. When set, renders an `AvatarImage` in place of `children`.
    */
@@ -481,7 +481,7 @@ interface AvatarProps extends HTMLAttributes<HTMLSpanElement | HTMLButtonElement
    */
   statusLabel?: string;
 }
-declare const Avatar: React.ForwardRefExoticComponent<AvatarProps & React.RefAttributes<HTMLButtonElement | HTMLAnchorElement | HTMLSpanElement>>;
+declare const Avatar: React.ForwardRefExoticComponent<AvatarProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement | HTMLSpanElement>>;
 //#endregion
 //#region src/components/avatar/AvatarImage.d.ts
 interface AvatarImageProps extends ImgHTMLAttributes<HTMLImageElement> {
@@ -497,7 +497,7 @@ interface AvatarStackItemDef {
   /**
    * React key for the rendered `Avatar`. Falls back to the item's index in `data`.
    */
-  key?: string | number;
+  key?: number | string;
   /**
    * Image source, rendered via `AvatarImage`.
    */
@@ -525,7 +525,7 @@ interface AvatarStackItemDef {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | React.ElementType;
+  component?: React.ElementType | string;
 }
 interface AvatarStackProps extends HTMLAttributes<HTMLDivElement> {
   /**
@@ -582,7 +582,7 @@ interface NotificationHeadingProps extends HTMLAttributes<HTMLHeadingElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType;
+  component?: ElementType | string;
 }
 declare const NotificationHeading: React.ForwardRefExoticComponent<NotificationHeadingProps & React.RefAttributes<HTMLHeadingElement>>;
 //#endregion
@@ -612,11 +612,11 @@ interface BadgeProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType;
+  component?: ElementType | string;
   /**
    * Position badge in one of the corners of a link or button.
    */
-  position?: 'top-start' | 'top-end' | 'bottom-end' | 'bottom-start';
+  position?: 'bottom-end' | 'bottom-start' | 'top-end' | 'top-start';
   /**
    * Select the shape of the component.
    */
@@ -699,7 +699,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType;
+  component?: ElementType | string;
   /**
    * Toggle the disabled state for the component.
    */
@@ -719,18 +719,18 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /**
    * Size the component small or large.
    */
-  size?: 'small' | 'large';
+  size?: 'large' | 'small';
   /**
    * Specifies the type of button. Always specify the type attribute for the `<button>` element.
    * Different browsers may use different default types for the `<button>` element.
    */
-  type?: 'button' | 'submit' | 'reset';
+  type?: 'button' | 'reset' | 'submit';
   /**
    * Set the button style variant.
    */
   variant?: ContextStyle;
 }
-declare const Button: React.ForwardRefExoticComponent<ButtonProps & React.RefAttributes<HTMLButtonElement | HTMLAnchorElement>>;
+declare const Button: React.ForwardRefExoticComponent<ButtonProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement>>;
 //#endregion
 //#region src/components/button-group/ButtonGroup.d.ts
 interface ButtonGroupProps extends HTMLAttributes<HTMLDivElement> {
@@ -741,7 +741,7 @@ interface ButtonGroupProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * Size the component small or large.
    */
-  size?: 'small' | 'large';
+  size?: 'large' | 'small';
   /**
    * Create a set of buttons that appear vertically stacked rather than horizontally. Split button dropdowns are not supported here.
    */
@@ -759,7 +759,7 @@ interface ButtonToolbarProps extends HTMLAttributes<HTMLDivElement> {
 declare const ButtonToolbar: React.ForwardRefExoticComponent<ButtonToolbarProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
 //#region src/components/calendar/Calendar.d.ts
-interface CalendarBaseProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue'> {
+interface CalendarBaseProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultValue' | 'onChange'> {
   /**
    * An accessible label for the calendar, used when there's no visible label. Required for
    * standalone use — a calendar grid has no other accessible name of its own.
@@ -786,7 +786,7 @@ interface CalendarBaseProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChan
    *
    * @default 'mon'
    */
-  firstDayOfWeek?: 'sun' | 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat';
+  firstDayOfWeek?: 'fri' | 'mon' | 'sat' | 'sun' | 'thu' | 'tue' | 'wed';
   /**
    * Callback that is called for each date in the calendar. If it returns `true`, that date is
    * shown but cannot be selected.
@@ -857,7 +857,7 @@ interface CalendarMultipleProps extends CalendarBaseProps {
    */
   value?: DateValue$1[] | null;
 }
-type CalendarProps = CalendarSingleProps | CalendarMultipleProps;
+type CalendarProps = CalendarMultipleProps | CalendarSingleProps;
 declare const Calendar: React.ForwardRefExoticComponent<CalendarProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
 //#region src/utils/dateRangePresets.d.ts
@@ -867,7 +867,7 @@ interface DateRangePreset {
 }
 //#endregion
 //#region src/components/calendar/RangeCalendar.d.ts
-interface RangeCalendarProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue'> {
+interface RangeCalendarProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultValue' | 'onChange'> {
   /**
    * An accessible label for the calendar, used when there's no visible label. Required for
    * standalone use — a calendar grid has no other accessible name of its own.
@@ -898,7 +898,7 @@ interface RangeCalendarProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onCha
    *
    * @default 'mon'
    */
-  firstDayOfWeek?: 'sun' | 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat';
+  firstDayOfWeek?: 'fri' | 'mon' | 'sat' | 'sun' | 'thu' | 'tue' | 'wed';
   /**
    * Callback that is called for each date in the calendar. If it returns `true`, that date is
    * shown but cannot be selected.
@@ -999,7 +999,7 @@ interface CardHeaderProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType;
+  component?: ElementType | string;
 }
 declare const CardHeader: React.ForwardRefExoticComponent<CardHeaderProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
@@ -1012,13 +1012,13 @@ interface CardImageProps extends HTMLAttributes<HTMLImageElement | HTMLOrSVGElem
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType;
+  component?: ElementType | string;
   /**
    * Optionally orientate the image to the top, bottom, or make it overlaid across the card.
    */
-  orientation?: 'top' | 'bottom';
+  orientation?: 'bottom' | 'top';
 }
-declare const CardImage: React.ForwardRefExoticComponent<CardImageProps & React.RefAttributes<HTMLOrSVGImageElement | HTMLOrSVGElement>>;
+declare const CardImage: React.ForwardRefExoticComponent<CardImageProps & React.RefAttributes<HTMLOrSVGElement | HTMLOrSVGImageElement>>;
 //#endregion
 //#region src/components/card/CardImageOverlay.d.ts
 interface CardImageOverlayProps extends HTMLAttributes<HTMLDivElement> {
@@ -1051,7 +1051,7 @@ interface CardSubtitleProps extends HTMLAttributes<HTMLHeadingElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType;
+  component?: ElementType | string;
 }
 declare const CardSubtitle: React.ForwardRefExoticComponent<CardSubtitleProps & React.RefAttributes<HTMLHeadingElement>>;
 //#endregion
@@ -1064,7 +1064,7 @@ interface CardTextProps extends HTMLAttributes<HTMLParagraphElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType;
+  component?: ElementType | string;
 }
 declare const CardText: React.ForwardRefExoticComponent<CardTextProps & React.RefAttributes<HTMLParagraphElement>>;
 //#endregion
@@ -1077,7 +1077,7 @@ interface CardTitleProps extends HTMLAttributes<HTMLHeadingElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType;
+  component?: ElementType | string;
 }
 declare const CardTitle: React.ForwardRefExoticComponent<CardTitleProps & React.RefAttributes<HTMLHeadingElement>>;
 //#endregion
@@ -1118,11 +1118,11 @@ interface CarouselProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * If set to 'hover', pauses the cycling of the carousel on mouseenter and resumes the cycling of the carousel on mouseleave. If set to false, hovering over the carousel won't pause it.
    */
-  pause?: boolean | 'hover';
+  pause?: 'hover' | boolean;
   /**
    * Set type of the transition.
    */
-  transition?: 'slide' | 'crossfade';
+  transition?: 'crossfade' | 'slide';
   /**
    * Set whether the carousel should cycle continuously or have hard stops.
    */
@@ -1161,7 +1161,7 @@ interface CarouselItemProps extends HTMLAttributes<HTMLDivElement> {
 declare const CarouselItem: React.ForwardRefExoticComponent<CarouselItemProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
 //#region src/components/chip-input/ChipInput.d.ts
-interface ChipInputProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue'> {
+interface ChipInputProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultValue' | 'onChange'> {
   /**
    * An accessible label for the chip group, used when there's no visible `<label>`.
    */
@@ -1232,11 +1232,11 @@ interface ChipInputProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'
    * Character that creates a new chip when typed, or pasted text is split on. Set to `null` to
    * disable. Defaults to `,`.
    */
-  separator?: string | null;
+  separator?: null | string;
   /**
    * Size the component small or large.
    */
-  size?: 'small' | 'large';
+  size?: 'large' | 'small';
   /**
    * Set component validation state to valid.
    */
@@ -1251,7 +1251,7 @@ interface ChipInputProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'
   value?: string[];
 }
 declare const ChipInput: {
-  ({ allowDuplicates, chipVariant, className, defaultValue, disabled, help, id, invalid, invalidFeedback, label, maxChips, name, onChange, placeholder, separator, size, valid, validFeedback, value, ...rest }: ChipInputProps): string | number | boolean | React.JSX.Element | Iterable<React.ReactNode> | null | undefined;
+  ({ allowDuplicates, chipVariant, className, defaultValue, disabled, help, id, invalid, invalidFeedback, label, maxChips, name, onChange, placeholder, separator, size, valid, validFeedback, value, ...rest }: ChipInputProps): ReactNode;
   displayName: string;
 };
 //#endregion
@@ -1360,7 +1360,7 @@ interface FileInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'si
   /**
    * Size the component small or large.
    */
-  size?: 'small' | 'large';
+  size?: 'large' | 'small';
   /**
    * Set component validation state to valid.
    */
@@ -1373,7 +1373,7 @@ interface FileInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'si
 declare const FileInput: React.ForwardRefExoticComponent<FileInputProps & React.RefAttributes<HTMLInputElement>>;
 //#endregion
 //#region src/components/combobox/Combobox.d.ts
-interface ComboboxProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue'> {
+interface ComboboxProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultValue' | 'onChange'> {
   /**
    * An accessible label for the combobox, used when there's no visible `<label>`.
    */
@@ -1447,7 +1447,7 @@ interface ComboboxProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' 
   /**
    * Size the component small or large.
    */
-  size?: 'small' | 'large';
+  size?: 'large' | 'small';
   /**
    * Set component validation state to valid.
    */
@@ -1462,12 +1462,12 @@ interface ComboboxProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' 
   value?: Key$2 | null;
 }
 declare const Combobox: {
-  ({ children, className, defaultValue, disabled, help, id, invalid, invalidFeedback, items, label, name, noResultsText, onChange, placeholder, size, valid, validFeedback, value, ...rest }: ComboboxProps): string | number | boolean | React.JSX.Element | Iterable<React.ReactNode> | null | undefined;
+  ({ children, className, defaultValue, disabled, help, id, invalid, invalidFeedback, items, label, name, noResultsText, onChange, placeholder, size, valid, validFeedback, value, ...rest }: ComboboxProps): ReactNode;
   displayName: string;
 };
 //#endregion
 //#region src/components/datepicker/DatePicker.d.ts
-interface DatePickerBaseProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue'> {
+interface DatePickerBaseProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultValue' | 'onChange'> {
   /**
    * An accessible label for the date picker, used when there's no visible `<label>`.
    */
@@ -1496,7 +1496,7 @@ interface DatePickerBaseProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onCh
    *
    * @default 'mon'
    */
-  firstDayOfWeek?: 'sun' | 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat';
+  firstDayOfWeek?: 'fri' | 'mon' | 'sat' | 'sun' | 'thu' | 'tue' | 'wed';
   /**
    * A description for the field, rendered below the date picker.
    */
@@ -1548,7 +1548,7 @@ interface DatePickerBaseProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onCh
   /**
    * Size the component small or large.
    */
-  size?: 'small' | 'large';
+  size?: 'large' | 'small';
   /**
    * ISO 8601 dates (`YYYY-MM-DD`) to mark unselectable, as a convenience alternative to
    * `isDateUnavailable` for data-driven cases (e.g. booked dates fetched from an API). Composed
@@ -1617,14 +1617,14 @@ interface DatePickerMultipleProps extends DatePickerBaseProps {
    */
   value?: DateValue$1[] | null;
 }
-type DatePickerProps = DatePickerSingleProps | DatePickerMultipleProps;
+type DatePickerProps = DatePickerMultipleProps | DatePickerSingleProps;
 declare const DatePicker: {
   (props: DatePickerProps): React.JSX.Element;
   displayName: string;
 };
 //#endregion
 //#region src/components/datepicker/DateRangePicker.d.ts
-interface DateRangePickerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue'> {
+interface DateRangePickerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultValue' | 'onChange'> {
   /**
    * An accessible label for the date range picker, used when there's no visible `<label>`.
    */
@@ -1657,7 +1657,7 @@ interface DateRangePickerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onC
    *
    * @default 'mon'
    */
-  firstDayOfWeek?: 'sun' | 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat';
+  firstDayOfWeek?: 'fri' | 'mon' | 'sat' | 'sun' | 'thu' | 'tue' | 'wed';
   /**
    * A description for the field, rendered below the date range picker.
    */
@@ -1719,7 +1719,7 @@ interface DateRangePickerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onC
   /**
    * Size the component small or large.
    */
-  size?: 'small' | 'large';
+  size?: 'large' | 'small';
   /**
    * ISO 8601 dates (`YYYY-MM-DD`) to mark unselectable, as a convenience alternative to
    * `isDateUnavailable` for data-driven cases (e.g. booked dates fetched from an API). Composed
@@ -1747,12 +1747,12 @@ interface DateRangePickerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onC
   visibleMonths?: number;
 }
 declare const DateRangePicker: {
-  ({ className, defaultOpen, defaultValue, disabled, firstDayOfWeek, help, id, invalid, invalidFeedback, isDateUnavailable, isOpen, label, maxValue, minValue, name, onChange, onOpenChange, presets, size, unavailableDates, valid, validFeedback, value, visibleMonths, ...rest }: DateRangePickerProps): string | number | boolean | React.JSX.Element | Iterable<React.ReactNode> | null | undefined;
+  ({ className, defaultOpen, defaultValue, disabled, firstDayOfWeek, help, id, invalid, invalidFeedback, isDateUnavailable, isOpen, label, maxValue, minValue, name, onChange, onOpenChange, presets, size, unavailableDates, valid, validFeedback, value, visibleMonths, ...rest }: DateRangePickerProps): ReactNode;
   displayName: string;
 };
 //#endregion
 //#region src/components/otp-input/OtpInput.d.ts
-interface OtpInputProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue'> {
+interface OtpInputProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultValue' | 'onChange'> {
   /**
    * Identifies the element that describes the group, e.g. a `FormHelp` help element.
    */
@@ -1837,7 +1837,7 @@ interface OtpInputProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' 
   /**
    * Size the boxes small or large.
    */
-  size?: 'small' | 'large';
+  size?: 'large' | 'small';
   /**
    * Set component validation state to valid.
    */
@@ -1852,12 +1852,12 @@ interface OtpInputProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' 
   value?: string;
 }
 declare const OtpInput: {
-  ({ className, defaultValue, disabled, groupSizes, help, id, inputGroup, invalid, invalidFeedback, label, length, mask, name, onChange, onComplete, separator, size, valid, validFeedback, value, ...rest }: OtpInputProps): string | number | boolean | React.JSX.Element | Iterable<React.ReactNode> | null | undefined;
+  ({ className, defaultValue, disabled, groupSizes, help, id, inputGroup, invalid, invalidFeedback, label, length, mask, name, onChange, onComplete, separator, size, valid, validFeedback, value, ...rest }: OtpInputProps): ReactNode;
   displayName: string;
 };
 //#endregion
 //#region src/components/password-strength/strengthScore.d.ts
-type StrengthLevel = 'weak' | 'fair' | 'good' | 'strong';
+type StrengthLevel = 'fair' | 'good' | 'strong' | 'weak';
 interface StrengthWeights {
   extraLength: number;
   lowercase: number;
@@ -1933,10 +1933,10 @@ declare const PasswordStrength: {
 };
 //#endregion
 //#region src/utils/overlayPlacement.d.ts
-type Placement = 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end' | 'right' | 'right-start' | 'right-end';
+type Placement = 'bottom' | 'bottom-end' | 'bottom-start' | 'left' | 'left-end' | 'left-start' | 'right' | 'right-end' | 'right-start' | 'top' | 'top-end' | 'top-start';
 //#endregion
 //#region src/components/menu/Menu.d.ts
-type MenuAutoClose = boolean | 'inside' | 'outside';
+type MenuAutoClose = 'inside' | 'outside' | boolean;
 interface MenuProps extends HTMLAttributes<HTMLElement> {
   /**
    * Controls which clicks close the menu. `true` closes on any click inside or outside.
@@ -1960,12 +1960,12 @@ interface MenuProps extends HTMLAttributes<HTMLElement> {
    * around the whole menu, for semantic wrapping like a nav `<li>`, or for `reference="parent"`,
    * which positions off this wrapper and has nothing to measure against without one.
    */
-  component?: string | ElementType;
+  component?: ElementType | string;
   /**
    * Teleports the menu panel to a container element on open. Accepts an element reference, or
    * `true` to append to `document.body`.
    */
-  container?: boolean | Element;
+  container?: Element | boolean;
   /**
    * Distance between the menu and its reference element, as `[skidding, distance]` in pixels.
    */
@@ -1996,7 +1996,7 @@ interface MenuProps extends HTMLAttributes<HTMLElement> {
    * Reference element used for positioning. `'toggle'` uses the trigger. `'parent'` uses this
    * component's own rendered element, useful for split buttons and button groups.
    */
-  reference?: 'toggle' | 'parent';
+  reference?: 'parent' | 'toggle';
   /**
    * Toggle the visibility of the menu component.
    */
@@ -2022,7 +2022,7 @@ interface MenuHeaderProps extends HTMLAttributes<HTMLHeadingElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType;
+  component?: ElementType | string;
 }
 declare const MenuHeader: React.ForwardRefExoticComponent<MenuHeaderProps & React.RefAttributes<HTMLHeadingElement>>;
 //#endregion
@@ -2039,7 +2039,7 @@ interface LinkProps extends AllHTMLAttributes<HTMLElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType;
+  component?: ElementType | string;
   /**
    * Toggle the disabled state for the component.
    */
@@ -2049,7 +2049,7 @@ interface LinkProps extends AllHTMLAttributes<HTMLElement> {
    */
   href?: string;
 }
-declare const Link: React.ForwardRefExoticComponent<LinkProps & React.RefAttributes<HTMLButtonElement | HTMLAnchorElement>>;
+declare const Link: React.ForwardRefExoticComponent<LinkProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement>>;
 //#endregion
 //#region src/components/menu/MenuItem.d.ts
 interface MenuItemProps extends LinkProps {
@@ -2060,7 +2060,7 @@ interface MenuItemProps extends LinkProps {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType;
+  component?: ElementType | string;
   /**
    * Secondary line of text rendered below `children` (`.menu-item-description`).
    */
@@ -2077,7 +2077,7 @@ interface MenuItemProps extends LinkProps {
    */
   selected?: boolean;
 }
-declare const MenuItem: React.ForwardRefExoticComponent<MenuItemProps & React.RefAttributes<HTMLButtonElement | HTMLAnchorElement>>;
+declare const MenuItem: React.ForwardRefExoticComponent<MenuItemProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement>>;
 //#endregion
 //#region src/components/menu/MenuList.d.ts
 interface MenuListProps extends HTMLAttributes<HTMLElement> {
@@ -2088,7 +2088,7 @@ interface MenuListProps extends HTMLAttributes<HTMLElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType;
+  component?: ElementType | string;
   /**
    * Array of item/header/divider definitions for data-driven rendering. When provided, children
    * are ignored. Covers flat items, headers, and dividers only — for nested submenus, compose
@@ -2107,13 +2107,13 @@ interface MenuTextProps extends HTMLAttributes<HTMLSpanElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType;
+  component?: ElementType | string;
 }
 declare const MenuText: React.ForwardRefExoticComponent<MenuTextProps & React.RefAttributes<HTMLSpanElement>>;
 //#endregion
 //#region src/components/menu/MenuToggle.d.ts
 type MenuToggleProps = Omit<ButtonProps, 'type'>;
-declare const MenuToggle: React.ForwardRefExoticComponent<MenuToggleProps & React.RefAttributes<HTMLButtonElement | HTMLAnchorElement>>;
+declare const MenuToggle: React.ForwardRefExoticComponent<MenuToggleProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement>>;
 //#endregion
 //#region src/components/menu/MenuSubmenu.d.ts
 interface MenuSubmenuProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onSelect'> {
@@ -2122,7 +2122,7 @@ interface MenuSubmenuProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onSelec
    * `'hover'` activates on hover only. `'both'` (the default) activates on both. Touch
    * devices always use tap regardless of this setting.
    */
-  activation?: 'click' | 'hover' | 'both';
+  activation?: 'both' | 'click' | 'hover';
   /**
    * A string of all className you want applied to the base component.
    */
@@ -2168,13 +2168,13 @@ interface MenuSubmenuBackProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 declare const MenuSubmenuBack: React.ForwardRefExoticComponent<MenuSubmenuBackProps & React.RefAttributes<HTMLButtonElement>>;
 //#endregion
 //#region src/components/grid/Col.d.ts
-type Span = 'auto' | number | string | boolean | null;
+type Span = 'auto' | boolean | null | number | string;
 type BPObject$1 = {
   span?: Span;
-  offset?: number | string | null;
-  order?: 'first' | 'last' | number | string | null;
+  offset?: null | number | string;
+  order?: 'first' | 'last' | null | number | string;
 };
-type Col = Span | BPObject$1;
+type Col = BPObject$1 | Span;
 interface ColProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * A string of all className you want applied to the base component.
@@ -2254,10 +2254,10 @@ declare const Container: React.ForwardRefExoticComponent<ContainerProps & React.
 //#endregion
 //#region src/components/grid/Row.d.ts
 type BPObject = {
-  cols?: 'auto' | number | string | null;
-  gutter?: number | string | null;
-  gutterX?: number | string | null;
-  gutterY?: number | string | null;
+  cols?: 'auto' | null | number | string;
+  gutter?: null | number | string;
+  gutterX?: null | number | string;
+  gutterY?: null | number | string;
 };
 interface RowProps extends HTMLAttributes<HTMLDivElement> {
   /**
@@ -2316,11 +2316,11 @@ type ButtonObject = {
   /**
    * Size the component small or large.
    */
-  size?: 'small' | 'large';
+  size?: 'large' | 'small';
   /**
    * Set the button variant to an outlined button or a ghost button.
    */
-  variant?: 'outline' | 'ghost';
+  variant?: 'ghost' | 'outline';
 };
 //#endregion
 //#region src/components/checkbox/Checkbox.d.ts
@@ -2362,7 +2362,7 @@ interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'che
   /**
    * The element represents a caption for a component.
    */
-  label?: string | ReactNode;
+  label?: ReactNode | string;
   /**
    * Callback fired when the selected state changes. Ignored when rendered inside a `<CheckboxGroup>` —
    * use the group's `onChange` instead.
@@ -2371,7 +2371,7 @@ interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'che
   /**
    * Size the component small or large.
    */
-  size?: 'small' | 'large';
+  size?: 'large' | 'small';
   /**
    * Set component validation state to valid.
    */
@@ -2480,7 +2480,7 @@ interface FormHelpProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElement>
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType;
+  component?: ElementType | string;
 }
 declare const FormHelp: React.ForwardRefExoticComponent<FormHelpProps & React.RefAttributes<HTMLDivElement | HTMLSpanElement>>;
 //#endregion
@@ -2493,7 +2493,7 @@ interface FormFeedbackProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElem
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType;
+  component?: ElementType | string;
   /**
    * Set component validation state to invalid.
    */
@@ -2571,7 +2571,7 @@ interface FormFieldProps {
   validFeedback?: ReactNode;
 }
 declare const FormField: {
-  ({ children, className, help, ids, invalid, invalidFeedback, label, valid, validFeedback }: FormFieldProps): string | number | boolean | import("react").JSX.Element | Iterable<ReactNode> | null | undefined;
+  ({ children, className, help, ids, invalid, invalidFeedback, label, valid, validFeedback }: FormFieldProps): ReactNode;
   displayName: string;
 };
 //#endregion
@@ -2584,7 +2584,7 @@ interface InputGroupProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * Size the component small or large.
    */
-  size?: 'small' | 'large';
+  size?: 'large' | 'small';
 }
 declare const InputGroup: React.ForwardRefExoticComponent<InputGroupProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
@@ -2597,7 +2597,7 @@ interface InputGroupAddonProps extends HTMLAttributes<HTMLLabelElement | HTMLSpa
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType;
+  component?: ElementType | string;
 }
 declare const InputGroupAddon: React.ForwardRefExoticComponent<InputGroupAddonProps & React.RefAttributes<HTMLLabelElement | HTMLSpanElement>>;
 //#endregion
@@ -2611,7 +2611,7 @@ interface InputAdornProps extends HTMLAttributes<HTMLElement>, Pick<AnchorHTMLAt
    * Component used for the root node. Either a string to use a HTML element or a component. Use
    * `"button"` or `"a"` for an actionable adorn, e.g. a password reveal toggle or a clear button.
    */
-  component?: string | ElementType;
+  component?: ElementType | string;
 }
 declare const InputAdorn: React.ForwardRefExoticComponent<InputAdornProps & React.RefAttributes<HTMLElement>>;
 //#endregion
@@ -2636,11 +2636,11 @@ interface RadioProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'checke
   /**
    * The element represents a caption for a component.
    */
-  label?: string | ReactNode;
+  label?: ReactNode | string;
   /**
    * Size the component small or large.
    */
-  size?: 'small' | 'large';
+  size?: 'large' | 'small';
   /**
    * The value of the radio button, used to identify it within its `<RadioGroup>`.
    */
@@ -2768,7 +2768,7 @@ interface RangeInputProps extends InputHTMLAttributes<HTMLInputElement> {
    *
    * @controllable onChange
    * */
-  value?: string | string[] | number;
+  value?: number | string | string[];
 }
 declare const RangeInput: React.ForwardRefExoticComponent<RangeInputProps & React.RefAttributes<HTMLInputElement>>;
 //#endregion
@@ -2793,7 +2793,7 @@ interface SelectOptionDef {
   /**
    * The option's value attribute.
    */
-  value?: string | number;
+  value?: number | string;
 }
 interface SelectProps extends Omit<InputHTMLAttributes<HTMLSelectElement>, 'size'> {
   /**
@@ -2861,7 +2861,7 @@ interface SelectProps extends Omit<InputHTMLAttributes<HTMLSelectElement>, 'size
   /**
    * Size the component small or large.
    */
-  size?: 'small' | 'large';
+  size?: 'large' | 'small';
   /**
    * Set component validation state to valid.
    */
@@ -2875,7 +2875,7 @@ interface SelectProps extends Omit<InputHTMLAttributes<HTMLSelectElement>, 'size
    *
    * @controllable onChange
    * */
-  value?: string | string[] | number;
+  value?: number | string | string[];
 }
 declare const Select: React.ForwardRefExoticComponent<SelectProps & React.RefAttributes<HTMLSelectElement>>;
 //#endregion
@@ -2908,7 +2908,7 @@ interface SwitchProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'check
   /**
    * The element represents a caption for a component.
    */
-  label?: string | ReactNode;
+  label?: ReactNode | string;
   /**
    * Callback fired when the selected state changes.
    */
@@ -2916,7 +2916,7 @@ interface SwitchProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'check
   /**
    * Size the component small or large.
    */
-  size?: 'small' | 'large';
+  size?: 'large' | 'small';
   /**
    * Specifies the type of component.
    */
@@ -2985,7 +2985,7 @@ interface TextInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'de
   /**
    * Size the component small or large.
    */
-  size?: 'small' | 'large';
+  size?: 'large' | 'small';
   /**
    * Specifies the type of component. For `color` or `file` inputs, use the dedicated `ColorInput` or `FileInput` components instead.
    */
@@ -3054,7 +3054,7 @@ interface TextareaProps extends Omit<TextareaHTMLAttributes<HTMLTextAreaElement>
   /**
    * Size the component small or large.
    */
-  size?: 'small' | 'large';
+  size?: 'large' | 'small';
   /**
    * Set component validation state to valid.
    */
@@ -3104,7 +3104,7 @@ interface ImageProps extends ImgHTMLAttributes<HTMLOrSVGImageElement> {
   /**
    * Set the horizontal aligment.
    */
-  align?: 'start' | 'center' | 'end';
+  align?: 'center' | 'end' | 'start';
   /**
    * A string of all className you want applied to the component.
    */
@@ -3155,7 +3155,7 @@ interface ListProps extends HTMLAttributes<HTMLDivElement | HTMLUListElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType;
+  component?: ElementType | string;
   /**
    * Sets the color of the component to one of Chassis context colors.
    */
@@ -3171,7 +3171,7 @@ interface ListProps extends HTMLAttributes<HTMLDivElement | HTMLUListElement> {
   /**
    * Specify a layout type.
    */
-  layout?: 'horizontal' | 'small:horizontal' | 'medium:horizontal' | 'large:horizontal' | 'xlarge:horizontal' | '2xlarge:horizontal';
+  layout?: '2xlarge:horizontal' | 'horizontal' | 'large:horizontal' | 'medium:horizontal' | 'small:horizontal' | 'xlarge:horizontal';
   /**
    * Number list items sequentially using CSS counters. Pair with `component="ol"` for semantic correctness.
    */
@@ -3188,7 +3188,7 @@ interface ListProps extends HTMLAttributes<HTMLDivElement | HTMLUListElement> {
 declare const List: React.ForwardRefExoticComponent<ListProps & React.RefAttributes<HTMLDivElement | HTMLUListElement>>;
 //#endregion
 //#region src/components/list/ListItem.d.ts
-interface ListItemProps extends HTMLAttributes<HTMLLIElement | HTMLAnchorElement | HTMLButtonElement> {
+interface ListItemProps extends HTMLAttributes<HTMLAnchorElement | HTMLButtonElement | HTMLLIElement> {
   /**
    * Toggle the active state for the component.
    */
@@ -3208,9 +3208,9 @@ interface ListItemProps extends HTMLAttributes<HTMLLIElement | HTMLAnchorElement
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType;
+  component?: ElementType | string;
 }
-declare const ListItem: React.ForwardRefExoticComponent<ListItemProps & React.RefAttributes<HTMLButtonElement | HTMLAnchorElement | HTMLLIElement>>;
+declare const ListItem: React.ForwardRefExoticComponent<ListItemProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement | HTMLLIElement>>;
 //#endregion
 //#region src/components/modal/Modal.d.ts
 interface ModalProps extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'onCancel' | 'onClose'> {
@@ -3218,7 +3218,7 @@ interface ModalProps extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'onCa
    * Show a backdrop while the modal is open. `'static'` blocks closing on backdrop click
    * (the modal bounces instead).
    */
-  backdrop?: boolean | 'static';
+  backdrop?: 'static' | boolean;
   /**
    * A string of all className you want applied to the base component.
    */
@@ -3227,7 +3227,7 @@ interface ModalProps extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'onCa
    * Set modal to cover the entire user viewport. A breakpoint value goes fullscreen only
    * below that breakpoint.
    */
-  fullscreen?: boolean | 'small' | 'medium' | 'large' | 'xlarge' | '2xlarge';
+  fullscreen?: '2xlarge' | 'large' | 'medium' | 'small' | 'xlarge' | boolean;
   /**
    * Disable the open/close transition entirely.
    */
@@ -3268,7 +3268,7 @@ interface ModalProps extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'onCa
   /**
    * Size the component small, large, or extra large.
    */
-  size?: 'small' | 'large' | 'xlarge';
+  size?: 'large' | 'small' | 'xlarge';
   /**
    * Toggle the visibility of modal component.
    */
@@ -3320,7 +3320,7 @@ interface ModalTitleProps extends HTMLAttributes<HTMLHeadingElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType;
+  component?: ElementType | string;
 }
 declare const ModalTitle: React.ForwardRefExoticComponent<ModalTitleProps & React.RefAttributes<HTMLHeadElement>>;
 //#endregion
@@ -3343,7 +3343,7 @@ interface NavItemDef {
    */
   disabled?: boolean;
 }
-interface NavProps extends HTMLAttributes<HTMLDivElement | HTMLUListElement | HTMLOListElement> {
+interface NavProps extends HTMLAttributes<HTMLDivElement | HTMLOListElement | HTMLUListElement> {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -3351,7 +3351,7 @@ interface NavProps extends HTMLAttributes<HTMLDivElement | HTMLUListElement | HT
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType;
+  component?: ElementType | string;
   /**
    * Array of nav item definitions for data-driven rendering. When provided, children are ignored.
    */
@@ -3363,7 +3363,7 @@ interface NavProps extends HTMLAttributes<HTMLDivElement | HTMLUListElement | HT
   /**
    * Set the nav variant to tabs or pills.
    */
-  variant?: 'tabs' | 'pills';
+  variant?: 'pills' | 'tabs';
 }
 declare const Nav: React.ForwardRefExoticComponent<NavProps & React.RefAttributes<HTMLDivElement | HTMLOListElement | HTMLUListElement>>;
 //#endregion
@@ -3380,7 +3380,7 @@ interface NavLinkProps extends LinkProps {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType;
+  component?: ElementType | string;
   /**
    * Toggle the disabled state for the component.
    */
@@ -3390,7 +3390,7 @@ interface NavLinkProps extends LinkProps {
    */
   to?: string;
 }
-declare const NavLink: React.ForwardRefExoticComponent<NavLinkProps & React.RefAttributes<HTMLButtonElement | HTMLAnchorElement>>;
+declare const NavLink: React.ForwardRefExoticComponent<NavLinkProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement>>;
 //#endregion
 //#region src/components/nav/NavItem.d.ts
 declare const NavItem: React.ForwardRefExoticComponent<NavLinkProps & React.RefAttributes<HTMLLIElement>>;
@@ -3421,19 +3421,19 @@ interface NavbarProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType;
+  component?: ElementType | string;
   /**
    * Defines optional container wrapping children elements.
    */
-  container?: boolean | 'small' | 'medium' | 'large' | 'xlarge' | '2xlarge' | 'fluid';
+  container?: '2xlarge' | 'fluid' | 'large' | 'medium' | 'small' | 'xlarge' | boolean;
   /**
    * Defines the responsive breakpoint to determine when content collapses.
    */
-  expand?: boolean | 'small' | 'medium' | 'large' | 'xlarge' | '2xlarge';
+  expand?: '2xlarge' | 'large' | 'medium' | 'small' | 'xlarge' | boolean;
   /**
    * Place component in non-static positions.
    */
-  placement?: 'fixed-top' | 'fixed-bottom' | 'sticky-top';
+  placement?: 'fixed-bottom' | 'fixed-top' | 'sticky-top';
 }
 declare const Navbar: React.ForwardRefExoticComponent<NavbarProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
@@ -3447,7 +3447,7 @@ interface NavbarBrandProps extends HTMLAttributes<HTMLAnchorElement | HTMLSpanEl
    * Component used for the root node. Either a string to use a HTML element or a component.
    *
    */
-  component?: string | ElementType;
+  component?: ElementType | string;
   /**
    * The href attribute specifies the URL of the page the link goes to.
    */
@@ -3464,7 +3464,7 @@ interface NavbarNavProps extends HTMLAttributes<HTMLDivElement | HTMLUListElemen
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType;
+  component?: ElementType | string;
 }
 declare const NavbarNav: React.ForwardRefExoticComponent<NavbarNavProps & React.RefAttributes<HTMLDivElement | HTMLUListElement>>;
 //#endregion
@@ -3495,7 +3495,7 @@ interface PaginationProps extends HTMLAttributes<HTMLUListElement> {
   /**
    * Set the alignment of pagination components.
    */
-  align?: 'start' | 'center' | 'end';
+  align?: 'center' | 'end' | 'start';
   /**
    * A string of all className you want applied to the base component.
    */
@@ -3516,7 +3516,7 @@ interface PaginationProps extends HTMLAttributes<HTMLUListElement> {
   /**
    * Size the component small or large.
    */
-  size?: 'small' | 'large';
+  size?: 'large' | 'small';
 }
 declare const Pagination: React.ForwardRefExoticComponent<PaginationProps & React.RefAttributes<HTMLUListElement>>;
 //#endregion
@@ -3529,7 +3529,7 @@ interface PaginationItemProps extends HTMLAttributes<HTMLAnchorElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType;
+  component?: ElementType | string;
   /**
    * Toggle the disabled state for the component.
    */
@@ -3558,11 +3558,11 @@ interface PlaceholderProps extends HTMLAttributes<HTMLSpanElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType;
+  component?: ElementType | string;
   /**
    * Size the component extra small, small, or large.
    */
-  size?: 'xsmall' | 'small' | 'large';
+  size?: 'large' | 'small' | 'xsmall';
   /**
    * The number of columns on extra small devices (<576px).
    */
@@ -3618,7 +3618,7 @@ interface TooltipProps {
    * Tooltips always show on focus, since keyboard/screen-reader users need them too. Set to
    * `'focus'` to disable the hover trigger and show on focus only.
    */
-  trigger?: 'hover' | 'focus';
+  trigger?: 'focus' | 'hover';
   /**
    * Toggle the visibility of the tooltip component.
    */
@@ -3717,7 +3717,7 @@ interface DrawerProps extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'onC
    * Show a backdrop while the drawer is open. `'static'` blocks closing on backdrop click
    * (the drawer nudges instead).
    */
-  backdrop?: boolean | 'static';
+  backdrop?: 'static' | boolean;
   /**
    * A string of all className you want applied to the base component.
    */
@@ -3764,11 +3764,11 @@ interface DrawerProps extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'onC
    * Which viewport edge the panel slides in from. Always required — there is no default
    * off-screen transform without one.
    */
-  placement: 'start' | 'end' | 'top' | 'bottom';
+  placement: 'bottom' | 'end' | 'start' | 'top';
   /**
    * Renders as a drawer only below this breakpoint — inline as a flex container above it.
    */
-  responsive?: 'small' | 'medium' | 'large' | 'xlarge' | '2xlarge';
+  responsive?: '2xlarge' | 'large' | 'medium' | 'small' | 'xlarge';
   /**
    * Allow the page behind the drawer to scroll while it's open.
    */
@@ -3833,7 +3833,7 @@ interface DrawerTitleProps extends HTMLAttributes<HTMLHeadingElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType;
+  component?: ElementType | string;
 }
 declare const DrawerTitle: React.ForwardRefExoticComponent<DrawerTitleProps & React.RefAttributes<HTMLHeadElement>>;
 //#endregion
@@ -3850,7 +3850,7 @@ interface SpinnerProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElement> 
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType;
+  component?: ElementType | string;
   /**
    * Size the component small.
    */
@@ -3933,7 +3933,7 @@ interface TableProps<T extends object> {
   /**
    * Make any table responsive across all viewports or pick a maximum breakpoint.
    */
-  responsive?: boolean | 'small' | 'medium' | 'large' | 'xlarge' | '2xlarge';
+  responsive?: '2xlarge' | 'large' | 'medium' | 'small' | 'xlarge' | boolean;
   /**
    * The currently selected row keys (controlled).
    */
@@ -3941,7 +3941,7 @@ interface TableProps<T extends object> {
   /**
    * The type of selection that is allowed.
    */
-  selectionMode?: 'none' | 'single' | 'multiple';
+  selectionMode?: 'multiple' | 'none' | 'single';
   /**
    * Make table more compact by cutting all cell padding.
    */
@@ -3965,7 +3965,7 @@ interface TableBodyProps$1<T> {
   /**
    * `TableRow` elements, or a render function paired with `items` for dynamic row generation.
    */
-  children: ReactElement | ReactElement[] | ((item: T) => ReactElement);
+  children: ((item: T) => ReactElement) | ReactElement | ReactElement[];
   /**
    * A list of row data objects, rendered via the function form of `children`.
    */
@@ -4022,7 +4022,7 @@ interface TableHeaderProps$1<T> {
    * `TableColumn` elements, or a render function paired with `columns` for dynamic column
    * generation.
    */
-  children: ReactElement | ReactElement[] | ((column: T) => ReactElement);
+  children: ((column: T) => ReactElement) | ReactElement | ReactElement[];
   /**
    * A list of column data objects, rendered via the function form of `children`.
    */
@@ -4040,7 +4040,7 @@ interface TableRowProps {
    * `TableCell` elements, or a render function called once per column with that column's key —
    * required when the row's parent `TableBody` uses the `items`/render-function form.
    */
-  children: ReactElement | ReactElement[] | ((columnKey: Key) => ReactElement);
+  children: ((columnKey: Key) => ReactElement) | ReactElement | ReactElement[];
   /**
    * A string representation of the row's contents, used for typeahead.
    */
@@ -4124,7 +4124,7 @@ interface TabsListProps extends AriaAttributes {
   /**
    * Set the tab list variant to tabs or pills.
    */
-  variant?: 'tabs' | 'pills';
+  variant?: 'pills' | 'tabs';
 }
 declare const TabsList: {
   ({ className, variant, ...rest }: TabsListProps): React.JSX.Element;
@@ -4241,7 +4241,7 @@ interface ToastCloseProps extends CloseButtonProps {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType;
+  component?: ElementType | string;
 }
 declare const ToastClose: React.ForwardRefExoticComponent<ToastCloseProps & React.RefAttributes<HTMLButtonElement>>;
 //#endregion
@@ -4278,7 +4278,7 @@ interface ToasterProps extends HTMLAttributes<HTMLDivElement> {
    *
    * @type 'top-start' | 'top' | 'top-end' | 'middle-start' | 'middle' | 'middle-end' | 'bottom-start' | 'bottom' | 'bottom-end' | string
    */
-  placement?: 'top-start' | 'top-center' | 'top-end' | 'middle-start' | 'middle-center' | 'middle-end' | 'bottom-start' | 'bottom-center' | 'bottom-end' | string;
+  placement?: 'bottom-center' | 'bottom-end' | 'bottom-start' | 'middle-center' | 'middle-end' | 'middle-start' | 'top-center' | 'top-end' | 'top-start' | string;
 }
 declare const Toaster: React.ForwardRefExoticComponent<ToasterProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion

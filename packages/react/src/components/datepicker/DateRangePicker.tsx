@@ -173,7 +173,7 @@ export const DateRangePicker = ({
   value,
   visibleMonths,
   ...rest
-}: DateRangePickerProps) => {
+}: DateRangePickerProps): ReactNode => {
   const combinedIsDateUnavailable = useMemo(
     () => mergeIsDateUnavailable(unavailableDates, isDateUnavailable),
     [unavailableDates, isDateUnavailable]

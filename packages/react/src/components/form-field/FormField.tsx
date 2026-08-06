@@ -58,7 +58,7 @@ export const FormField = ({
   label,
   valid,
   validFeedback
-}: FormFieldProps) =>
+}: FormFieldProps): ReactNode =>
   renderFormField({
     children,
     className,

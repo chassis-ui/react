@@ -209,7 +209,7 @@ export const Combobox = ({
   validFeedback,
   value,
   ...rest
-}: ComboboxProps) => {
+}: ComboboxProps): ReactNode => {
   const entries = items ? buildEntriesFromItemsDef(items) : buildEntriesFromChildren(children)
 
   // Case- and accent-insensitive substring matching, mirroring chassis-css's own
