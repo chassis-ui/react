@@ -45,6 +45,7 @@
     "test": "vitest run --coverage",
     "test:update": "vitest run --coverage -u",
     "check:bundle": "bundlewatch --config .bundlewatch.config.json",
+    "check:package": "publint && attw --pack . --profile esm-only --exclude-entrypoints ./style.css",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test:visual": "pnpm build-storybook --quiet && playwright test",
@@ -58,6 +59,7 @@
     "react-transition-group": "^4.4.2"
   },
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.5",
     "@arethetypeswrong/core": "^0.18.5",
     "@chassis-ui/css": "^0.3.5",
     "@chassis-ui/tokens": "^0.3.0",
