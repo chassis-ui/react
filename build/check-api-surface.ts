@@ -9,10 +9,10 @@ const REPORT_PATH = path.resolve(__dirname, '../packages/react/api-report.md')
 
 const HEADER = `<!--
 This file is a checked-in snapshot of @chassis-ui/react's public type surface — the exact,
-rolled-up \`.d.ts\` a consumer's editor sees, generated from \`dist/index.d.ts\` (built by
-\`rollup-plugin-dts\`, see rollup.config.mjs). It exists to make an accidental breaking change to
-props/types show up as an ordinary, reviewable diff on this file, instead of only being
-discovered by a consumer after publish.
+bundled \`.d.ts\` a consumer's editor sees, generated from \`dist/index.d.ts\` (built directly by
+tsdown, see tsdown.config.ts). It exists to make an accidental breaking change to props/types
+show up as an ordinary, reviewable diff on this file, instead of only being discovered by a
+consumer after publish.
 
 Regenerate with \`pnpm api:report:update\` after any *intentional* public API change (new prop,
 renamed export, ...) and review the diff like any other code change. \`pnpm api:report\` (no

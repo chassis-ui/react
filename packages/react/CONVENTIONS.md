@@ -101,7 +101,7 @@ Notes:
 component-local `.scss` file is only justified when:
 
 - chassis-css has no equivalent class at all (documented exception: the calendar/datepicker
-  family), or
+  family and `Table`'s sort/selection UI — see `THEMING.md`'s "Component-scoped CSS"), or
 - chassis-css has partial coverage that would otherwise be duplicated as hardcoded values in the
   component.
 

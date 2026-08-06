@@ -6,9 +6,9 @@ if the build ever changes.
 
 ## Why a single directive, not per-component
 
-The build is a single bundle (`src/index.ts` → `dist/index.js` / `dist/index.es.js` — see
-`AGENTS.md`'s "Build" section), not per-component chunks, so a per-component directive has nowhere
-to attach to in the output even if every source file had one.
+The build is a single bundle (`src/index.ts` → `dist/index.js` — see `AGENTS.md`'s "Build"
+section), not per-component chunks, so a per-component directive has nowhere to attach to in the
+output even if every source file had one.
 
 That single-bundle shape happens to be the right call anyway: audited 2026-08-05, ~90% of the
 package's component files (129 of 143) either call a React or react-aria/react-stately hook
@@ -18,9 +18,9 @@ files that don't are almost entirely collection-item renderers (`TableCell`, `Co
 `AutocompleteGroup`, ...) that only ever render as a child read by their hook-using parent's
 collection API — not something a consumer imports and renders standalone. There's no meaningful
 subset of the public API left to carve out as server-safe, so per-component chunking would add real
-build complexity (multi-entry Rollup output, `sideEffects`/`exports` map changes) for close to zero
-practical benefit. Re-audit this if the component mix changes significantly — see "How to verify"
-below for the exact check.
+build complexity (multi-entry tsdown/Rolldown output, `sideEffects`/`exports` map changes) for close
+to zero practical benefit. Re-audit this if the component mix changes significantly — see "How to
+verify" below for the exact check.
 
 ## What this means for a consuming app
 
@@ -59,16 +59,22 @@ React 19) depending on this package via `file:`, not committed to this repo:
   directly builds and prerenders successfully; `.next/server/app/page_client-reference-manifest.js`
   lists `@chassis-ui/react` as a client reference, and the prerendered HTML contains the real
   rendered markup.
-- **Without it** (temporarily strip the `banner` from `rollup.config.mjs`'s two outputs, rebuild,
-  reinstall into the smoke app): the same page fails with `TypeError:
+- **Without it** (temporarily strip `output.banner` from `tsdown.config.ts`, rebuild, reinstall
+  into the smoke app): the same page fails with `TypeError:
   i.default.createContext is not a function` during `next build`'s page-data collection — an
   unhelpful crash, not a clean "needs a Client Component" message, which is exactly why shipping
   the directive ourselves (rather than leaving it to every consumer to wrap things) matters.
 
-Rollup silently drops a source-level `'use client'` directive when bundling (`src/index.ts`'s own
-directive triggers a `MODULE_LEVEL_DIRECTIVE` warning, deliberately silenced in
-`rollup.config.mjs`'s `onwarn` — directives aren't preserved across module concatenation). The
-directive that actually ships comes from each output's `banner: "'use client';"` option, not from
-the source file. If you ever change the build (multi-entry output, a different bundler, etc.),
-don't assume the directive survives — grep the built `dist/index.js`/`dist/index.es.js` output
-directly to confirm it's still the literal first line.
+Rolldown (the bundler tsdown is built on) silently drops a source-level `'use client'` directive
+when bundling — directives only survive automatically for entry modules or with
+`preserveModules: true`, neither of which applies to this package's deliberate single-bundle
+shape (see [Rolldown's own directive docs](https://rolldown.rs/in-depth/directives)). This is the
+same behavior Rollup had; switching build tools (Phase 1 of the tsdown migration) didn't change
+this constraint, only which config file expresses the workaround. The directive that actually
+ships comes from `tsdown.config.ts`'s `output.banner: "'use client';"` option, not from the source
+file. If you ever change the build (multi-entry output, a different bundler, etc.), don't assume
+the directive survives — grep the built `dist/index.js` output directly to confirm it's still the
+literal first line, and check that it hasn't leaked into `dist/index.d.ts` too (a known open
+upstream issue, [rolldown-plugin-dts#174](https://github.com/sxzz/rolldown-plugin-dts/issues/174),
+that hasn't reproduced with the version combination this package currently pins, but re-verify
+after any tsdown/rolldown-plugin-dts version bump).

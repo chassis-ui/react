@@ -1,11 +1,12 @@
 # `@chassis-ui/react`
 
-The component library itself, published from `dist/` (built by Rollup) with source living in
-`src/`. Styling comes entirely from the sibling `@chassis-ui/css` framework (a peer dependency in
-consuming apps) — components apply chassis-css class names, they don't ship their own styles,
-except for the handful of components with no chassis-css visual equivalent (e.g. `DatePicker`'s
-calendar grid), which inject scoped CSS via a custom Rollup plugin
-(`build/rollup-plugin-inline-sass.mjs`).
+The component library itself, published from `dist/` (built by tsdown, ESM-only) with source
+living in `src/`. Styling comes entirely from the sibling `@chassis-ui/css` framework (a peer
+dependency in consuming apps) — components apply chassis-css class names, they don't ship their
+own styles, except for the handful of components with no chassis-css visual equivalent (e.g.
+`DatePicker`'s calendar grid), whose Sass compiles via tsdown's own CSS pipeline into a single
+`dist/style.css` a consumer imports explicitly (`import '@chassis-ui/react/style.css'` — see
+`THEMING.md`), not injected at runtime by the JS.
 
 ## Layout
 
@@ -36,8 +37,8 @@ calendar grid), which inject scoped CSS via a custom Rollup plugin
   minor release before a breaking removal). Read this before deprecating or removing any exported
   component/prop, or before publishing a release.
 - `RSC.md` — why the package ships one `'use client'` directive for the whole bundle (not
-  per-component), what that means for a consumer, and how to re-verify it survives the Rollup build
-  if that build ever changes. Read this before touching `rollup.config.mjs`'s output config or
+  per-component), what that means for a consumer, and how to re-verify it survives the tsdown build
+  if that build ever changes. Read this before touching `tsdown.config.ts`'s `output.banner` or
   reconsidering the single-bundle build shape.
 - `src/index.ts` — the public API surface. Every exported component/helper needs **two** entries
   here: an `import` line (from the component's folder barrel, not the component file) and a
@@ -48,15 +49,20 @@ calendar grid), which inject scoped CSS via a custom Rollup plugin
 
 ## Build
 
-`rollup.config.mjs` produces CJS (`dist/index.js`) and ESM (`dist/index.es.js`) bundles from
-`src/index.ts`, plus a bundled `dist/index.d.ts` via `rollup-plugin-dts` (this last step reads
-`dist/src/index.d.ts` — i.e. it depends on `tsc`'s own declaration output already existing from
-the first build step, which is why `dist/src`/`dist/test` get removed afterward as
-build-intermediate cruft, not shipped output).
+`tsdown.config.ts` produces a single ESM bundle (`dist/index.js`) from `src/index.ts`, a bundled
+`dist/index.d.ts` (tsdown bundles types directly — no intermediate `tsc` declaration-output pass,
+unlike the prior Rollup setup), and `dist/style.css` (tsdown's own CSS pipeline, compiling the
+`Calendar`/`RangeCalendar`/`DatePicker`/`DateRangePicker`/`Table` Sass/CSS side-effect imports into
+one file rather than injecting them via JS). No CJS output — this package is ESM-only, with no
+consumers to preserve dual-format compatibility for. `exports: true` auto-generates
+`package.json`'s `exports` map on every build; `publint: true`/`attw: true` run non-blockingly as
+part of the same build for fast local feedback (the actual CI gate is `pnpm check:package`, a
+separate, blocking step — see `.github/workflows/ci.yml`). `output.banner` adds the `'use client'`
+directive Rolldown would otherwise strip during bundling — see `RSC.md`.
 
 ```bash
 pnpm build       # one-shot build (also run via `pnpm lib:build` from the repo root)
-pnpm dev         # rollup --watch, for local development against packages/site
+pnpm dev         # tsdown --watch, for local development against packages/site
 ```
 
 ## Tests
@@ -66,7 +72,7 @@ pnpm test         # vitest run --coverage
 pnpm test:update  # same, plus -u to update snapshots
 ```
 
-- Test files matched by `src/**/*.spec.tsx` only (see `vitest.config.ts`); environment is jsdom.
+- Test files matched by `test/**/*.spec.tsx` only (see `vitest.config.ts`); environment is jsdom.
 - Coverage provider is **istanbul**, not v8 — kept intentionally to match the branch/statement
   counting the existing thresholds were tuned against. Current thresholds: statements 91%,
   branches 79%, functions 93%, lines 93% (`vitest.config.ts`). A change that drops coverage below
@@ -75,8 +81,9 @@ pnpm test:update  # same, plus -u to update snapshots
   modern fake timers don't do this by default, unlike the prior ts-jest runner) — react-aria's
   hover/press interactions schedule state updates via rAF, so `vi.useFakeTimers()` +
   `vi.runAllTimers()` needs this to actually flush them.
-- Import components under test from the package's own public entry point (`'../../../index'`),
-  not directly from the component file — this keeps tests honest about what's actually exported.
+- Import components under test from the package's own public entry point
+  (`'../../../src/index'`), not directly from the component file — this keeps tests honest about
+  what's actually exported.
 - Every interactive component's spec file gets a jest-axe accessibility assertion
   (`expect(await axe(container)).toHaveNoViolations()`), rendered in a realistic composed state
   (visible/open, with the sub-parts a real usage would include) rather than the emptiest possible
