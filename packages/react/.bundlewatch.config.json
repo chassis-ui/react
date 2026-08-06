@@ -2,11 +2,11 @@
   "files": [
     {
       "path": "./dist/index.js",
-      "maxSize": "75 kB"
+      "maxSize": "42 kB"
     },
     {
-      "path": "./dist/index.es.js",
-      "maxSize": "75 kB"
+      "path": "./dist/style.css",
+      "maxSize": "6 kB"
     }
   ],
   "ci": {
