@@ -3,7 +3,8 @@
   "compilerOptions": {
     "outDir": "dist",
     "declarationDir": "dist",
-    "noUncheckedIndexedAccess": true
+    "noUncheckedIndexedAccess": true,
+    "types": ["vitest/globals"]
   },
   "include": ["src/**/*", "test/**/*"]
 }

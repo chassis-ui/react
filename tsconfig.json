@@ -17,8 +17,7 @@
     "strictNullChecks": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "esModuleInterop": true,
-    "types": ["vitest/globals"]
+    "esModuleInterop": true
   },
   "exclude": ["**/node_modules", "**/dist"]
 }
