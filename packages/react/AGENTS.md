@@ -10,9 +10,13 @@ calendar grid), which inject scoped CSS via a custom Rollup plugin
 ## Layout
 
 - `src/components/<kebab-name>/<PascalName>.tsx` — one folder per component (or a compound
-  family's root + sub-parts), plus `__tests__/<PascalName>.spec.tsx` and a
-  `__tests__/__snapshots__/` snapshot file. See `CONVENTIONS.md` for the naming/barrel/compound-API
-  rules this layout follows.
+  family's root + sub-parts), plus that folder's `index.ts` barrel. Nothing else lives here —
+  tests and stories are centralized in their own trees (below), not colocated. See
+  `CONVENTIONS.md` for the naming/barrel/compound-API rules this layout follows.
+- `test/components/<kebab-name>/<PascalName>.spec.tsx`, plus `test/components/<kebab-name>/
+  __snapshots__/` for that component's snapshot files — mirrors `src/components/`, under the
+  top-level `test/` folder that also holds shared setup (`test/setup.ts`, `test/dialogPolyfill.js`,
+  `test/axeMatchers.js`).
 - `src/components/<kebab-name>/index.ts` — every component folder's barrel: re-exports the root
   component and, for compound families, every sub-part as its own flat, root-prefixed named export
   (`AccordionItem`, not `Accordion.Item` — see `CONVENTIONS.md`). The central `src/index.ts`

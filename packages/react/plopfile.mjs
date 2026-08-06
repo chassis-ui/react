@@ -33,7 +33,7 @@ export default function (plop) {
       },
       {
         type: 'add',
-        path: 'src/components/{{kebabCase name}}/__tests__/{{pascalCase name}}.spec.tsx',
+        path: 'test/components/{{kebabCase name}}/{{pascalCase name}}.spec.tsx',
         templateFile: 'plop-templates/Component.spec.tsx.hbs'
       },
       {
@@ -113,7 +113,7 @@ export default function (plop) {
         },
         {
           type: 'add',
-          path: 'src/components/{{kebabCase root}}/__tests__/{{pascalCase root}}{{pascalCase part}}.spec.tsx',
+          path: 'test/components/{{kebabCase root}}/{{pascalCase root}}{{pascalCase part}}.spec.tsx',
           templateFile: 'plop-templates/RootPart.spec.tsx.hbs'
         },
         {

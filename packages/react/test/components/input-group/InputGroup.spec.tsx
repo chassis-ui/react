@@ -1,0 +1,45 @@
+import * as React from 'react'
+import { render, screen } from '@testing-library/react'
+import { axe } from 'jest-axe'
+
+import { InputGroup } from '../../../src/index'
+
+describe('InputGroup', () => {
+  describe('rendering', () => {
+    test('renders a div with the base class by default', () => {
+      render(<InputGroup>Test</InputGroup>)
+      const group = screen.getByText('Test')
+      expect(group).toHaveClass('input-group')
+      expect(group.tagName).toBe('DIV')
+    })
+
+    test('matches the baseline markup snapshot', () => {
+      const { container } = render(<InputGroup>Test</InputGroup>)
+      expect(container).toMatchSnapshot()
+    })
+
+    test('applies size class and className together', () => {
+      render(
+        <InputGroup className="bazinga" size="large">
+          Test
+        </InputGroup>
+      )
+      expect(screen.getByText('Test')).toHaveClass('input-group', 'large', 'bazinga')
+    })
+  })
+
+  describe('ref forwarding', () => {
+    test('forwards a ref to the underlying div', () => {
+      const ref = React.createRef<HTMLDivElement>()
+      render(<InputGroup ref={ref}>Test</InputGroup>)
+      expect(ref.current).toBeInstanceOf(HTMLDivElement)
+    })
+  })
+
+  describe('accessibility', () => {
+    test('has no axe violations', async () => {
+      const { container } = render(<InputGroup>Test</InputGroup>)
+      expect(await axe(container)).toHaveNoViolations()
+    })
+  })
+})

@@ -25,6 +25,21 @@ Don't introduce it as a synonym; also flagged as an error.
 
 `Component.tsx` (drop `Cx` from filenames too). Test files: `Component.spec.tsx`.
 
+## Folder layout: three separate trees, not colocation
+
+- `src/components/<kebab-name>/` — only the component file(s) (`<PascalName>.tsx`) and the
+  folder's `index.ts` barrel. Nothing else lives here.
+- `src/stories/<family>/<Component>.stories.tsx` — Storybook stories, centralized separately from
+  the component they document (matched by `.storybook/main.ts`'s glob against anywhere under
+  `src/`, so this is an organizational choice, not something the glob requires).
+- `test/components/<kebab-name>/<PascalName>.spec.tsx` (plus `test/components/<kebab-name>/
+  __snapshots__/` for snapshot files) — mirrors `src/components/` the same way `src/stories/`
+  does, under the top-level `test/` folder that also holds shared setup (`test/setup.ts`, etc.).
+
+Colocating tests or stories beside the component (`__tests__/` inside `src/components/<kebab>/`)
+is the pre-migration shape and no longer used — several components have multiple files/sub-parts,
+which colocation made messy once the library grew past a handful of simple components.
+
 ## Per-component barrels
 
 Every component folder gets its own `index.ts`. The central `src/index.ts` re-exports from these

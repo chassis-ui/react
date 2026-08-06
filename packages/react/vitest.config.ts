@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   test: {
-    include: ['src/**/*.spec.tsx'],
+    include: ['test/**/*.spec.tsx'],
     environment: 'jsdom',
     globals: true,
     setupFiles: ['./test/setup.ts', './test/dialogPolyfill.js', './test/axeMatchers.js'],
@@ -31,8 +31,10 @@ export default defineConfig({
       include: ['src/**/*.ts', 'src/**/*.tsx'],
       // Storybook story files are never executed by this test suite (Playwright's own visual
       // tests exercise them separately, against a built Storybook, not through vitest) — counting
-      // them here would drag coverage down purely from being unexecuted, not undertested.
-      exclude: ['src/**/*.spec.tsx', 'src/**/*.stories.tsx'],
+      // them here would drag coverage down purely from being unexecuted, not undertested. Spec
+      // files now live entirely under test/, outside this src/**-scoped coverage.include glob,
+      // so there's nothing under src/ left to exclude for them.
+      exclude: ['src/**/*.stories.tsx'],
       // Re-baselined after the CxButton-pattern test modernization pass (see the plan at
       // .claude/plans/abstract-snacking-tome.md): behavioral coverage across the suite pushed
       // real numbers up from the ts-jest-era baseline (statements 89.49%, branches 74.74%,
