@@ -3,10 +3,7 @@ import { Tooltip, Button } from '@chassis-ui/react'
 export const DirectionsExample = () => {
   return (
     <>
-      <Tooltip
-        content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
-        placement="top"
-      >
+      <Tooltip content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." placement="top">
         <Button color="secondary">Tooltip on top</Button>
       </Tooltip>
       <Tooltip
@@ -21,10 +18,7 @@ export const DirectionsExample = () => {
       >
         <Button color="secondary">Tooltip on bottom</Button>
       </Tooltip>
-      <Tooltip
-        content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
-        placement="left"
-      >
+      <Tooltip content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." placement="left">
         <Button color="secondary">Tooltip on left</Button>
       </Tooltip>
     </>

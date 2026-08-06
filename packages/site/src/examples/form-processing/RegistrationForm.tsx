@@ -1,5 +1,15 @@
 import { useState } from 'react'
-import { Button, Form, TextInput, FormLabel, Select, FormFeedback, Notification, Row, Col } from '@chassis-ui/react'
+import {
+  Button,
+  Form,
+  TextInput,
+  FormLabel,
+  Select,
+  FormFeedback,
+  Notification,
+  Row,
+  Col
+} from '@chassis-ui/react'
 
 export const RegistrationForm = () => {
   const [name, setName] = useState('')

@@ -31,7 +31,10 @@ export interface MenuItemProps extends LinkProps {
 }
 
 export const MenuItem = forwardRef<HTMLButtonElement | HTMLAnchorElement, MenuItemProps>(
-  ({ children, className, component = 'a', description, href, icon, onClick, selected, ...rest }, ref) => {
+  (
+    { children, className, component = 'a', description, href, icon, onClick, selected, ...rest },
+    ref
+  ) => {
     const _className = classNames('menu-item', { selected }, className)
 
     // `href="#"` is a common placeholder for menu items that act via `onClick` rather than

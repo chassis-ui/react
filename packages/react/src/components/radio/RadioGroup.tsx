@@ -120,9 +120,7 @@ export const RadioGroup = forwardRef<HTMLFieldSetElement, RadioGroupProps>(
       className
     )
 
-    const items = (
-      <RadioGroupContext.Provider value={state}>{children}</RadioGroupContext.Provider>
-    )
+    const items = <RadioGroupContext.Provider value={state}>{children}</RadioGroupContext.Provider>
 
     return (
       <fieldset {...rest} {...radioGroupProps} className={_className} ref={ref}>

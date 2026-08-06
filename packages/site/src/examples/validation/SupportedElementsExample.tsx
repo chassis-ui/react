@@ -1,5 +1,16 @@
 import React from 'react'
-import { Button, FileInput, Form, Checkbox, FormFeedback, FormLabel, Radio, RadioGroup, Select, Textarea } from '@chassis-ui/react'
+import {
+  Button,
+  FileInput,
+  Form,
+  Checkbox,
+  FormFeedback,
+  FormLabel,
+  Radio,
+  RadioGroup,
+  Select,
+  Textarea
+} from '@chassis-ui/react'
 
 export const SupportedElementsExample = () => {
   return (

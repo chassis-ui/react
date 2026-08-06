@@ -45,9 +45,7 @@ export const ListItem = forwardRef<
     className
   )
 
-  const Component = (
-    component === 'a' || component === 'button' ? Link : component
-  ) as ElementType
+  const Component = (component === 'a' || component === 'button' ? Link : component) as ElementType
 
   rest = {
     ...((component === 'a' || component === 'button') && {

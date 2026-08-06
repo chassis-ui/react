@@ -40,8 +40,8 @@
   "scripts": {
     "build": "tsdown",
     "dev": "tsdown --watch",
-    "generate": "plop --plopfile plopfile.mjs component",
-    "generate:sub": "plop --plopfile plopfile.mjs sub",
+    "generate": "plop --plopfile plopfile.ts component",
+    "generate:sub": "plop --plopfile plopfile.ts sub",
     "test": "vitest run --coverage",
     "test:update": "vitest run --coverage -u",
     "check:bundle": "bundlewatch --config .bundlewatch.config.json",

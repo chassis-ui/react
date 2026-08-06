@@ -165,9 +165,7 @@ const CheckboxGroupItem = forwardRef<HTMLInputElement, CheckboxGroupItemProps>(
     const forkedRef = useForkedRef(ref, inputRef)
 
     if (!rest.value) {
-      console.error(
-        'Checkbox: a `value` prop is required when rendered inside a CheckboxGroup.'
-      )
+      console.error('Checkbox: a `value` prop is required when rendered inside a CheckboxGroup.')
     }
     if (_defaultSelected !== undefined || _isSelected !== undefined || _onChange !== undefined) {
       console.warn(

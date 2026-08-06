@@ -8,7 +8,12 @@ export default defineConfig({
   platform: 'neutral',
   exports: true,
   publint: true,
-  attw: true,
+  // Matches `pnpm check:package`'s standalone `attw` invocation (see ci.yml): `esm-only` because
+  // this package ships ESM-only by design, and `./style.css` is excluded because attw type-checks
+  // JS/TS entrypoints and a plain CSS subpath export has no types for it to resolve. Keeping the
+  // two in sync means this non-blocking local run doesn't nag about failures CI has already
+  // decided aren't bugs.
+  attw: { profile: 'esm-only', excludeEntrypoints: ['./style.css'] },
   css: {
     preprocessorOptions: {
       scss: {
@@ -23,10 +28,10 @@ export default defineConfig({
       }
     }
   },
-  output: {
-    // Rolldown strips module-level directives when bundling (directives only survive automatically
-    // for entry modules or with `preserveModules: true`) — re-added here as a literal banner so it
-    // survives as the first line of the emitted file, which is what RSC-aware bundlers scan for.
-    banner: "'use client';"
-  }
+  // Rolldown strips module-level directives when bundling (directives only survive automatically
+  // for entry modules or with `preserveModules: true`) — re-added here as a literal banner so it
+  // survives as the first line of the emitted file, which is what RSC-aware bundlers scan for.
+  // Scoped to `js` only: a bare string banner applies to every output tsdown emits, including
+  // `dist/index.d.ts`, and `'use client';` has no business prefixing a type declaration file.
+  banner: { js: "'use client';" }
 })

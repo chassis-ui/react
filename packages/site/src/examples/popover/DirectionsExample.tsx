@@ -3,10 +3,7 @@ import { Popover, Button } from '@chassis-ui/react'
 export const DirectionsExample = () => {
   return (
     <>
-      <Popover
-        content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
-        placement="top"
-      >
+      <Popover content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." placement="top">
         <Button color="secondary">Popover on top</Button>
       </Popover>
       <Popover
@@ -21,10 +18,7 @@ export const DirectionsExample = () => {
       >
         <Button color="secondary">Popover on bottom</Button>
       </Popover>
-      <Popover
-        content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
-        placement="left"
-      >
+      <Popover content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." placement="left">
         <Button color="secondary">Popover on left</Button>
       </Popover>
     </>

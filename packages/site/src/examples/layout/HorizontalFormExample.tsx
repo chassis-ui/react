@@ -1,4 +1,14 @@
-import { Button, Col, Form, Checkbox, TextInput, FormLabel, Radio, RadioGroup, Row } from '@chassis-ui/react'
+import {
+  Button,
+  Col,
+  Form,
+  Checkbox,
+  TextInput,
+  FormLabel,
+  Radio,
+  RadioGroup,
+  Row
+} from '@chassis-ui/react'
 
 export const HorizontalFormExample = () => {
   return (

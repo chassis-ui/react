@@ -6,12 +6,7 @@ export const ControlledExample = () => {
 
   return (
     <div className="vstack gap-small">
-      <ChipInput
-        aria-label="Skills"
-        onChange={setValues}
-        placeholder="Add skill…"
-        value={values}
-      />
+      <ChipInput aria-label="Skills" onChange={setValues} placeholder="Add skill…" value={values} />
       <div className="form-text">Current values: {values.join(', ') || '(none)'}</div>
     </div>
   )
