@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode, useRef } from 'react'
+import React, { ReactElement, ReactNode, Ref, forwardRef, useRef } from 'react'
 import classNames from 'classnames'
 import {
   AriaCheckboxProps,
@@ -23,6 +23,7 @@ import {
   useToggleState
 } from 'react-stately'
 
+import { useForkedRef } from '../../hooks/useForkedRef'
 import { ContextColor } from '../../types'
 import './Table.css'
 
@@ -122,28 +123,31 @@ export interface TableProps<T extends object> {
   striped?: boolean
 }
 
-export const Table = <T extends object>({
-  align,
-  bordered,
-  borderless,
-  caption,
-  children,
-  className,
-  color,
-  disabledKeys,
-  footer,
-  hover,
-  id,
-  onSelectionChange,
-  onSortChange,
-  responsive,
-  selectedKeys,
-  selectionMode = 'none',
-  small,
-  sortDescriptor,
-  striped,
-  ...rest
-}: TableProps<T>) => {
+const TableInner = <T extends object>(
+  {
+    align,
+    bordered,
+    borderless,
+    caption,
+    children,
+    className,
+    color,
+    disabledKeys,
+    footer,
+    hover,
+    id,
+    onSelectionChange,
+    onSortChange,
+    responsive,
+    selectedKeys,
+    selectionMode = 'none',
+    small,
+    sortDescriptor,
+    striped,
+    ...rest
+  }: TableProps<T>,
+  forwardedRef: Ref<HTMLTableElement>
+) => {
   const state = useTableState<T>({
     children,
     disabledKeys,
@@ -155,11 +159,12 @@ export const Table = <T extends object>({
     sortDescriptor
   })
 
-  const ref = useRef<HTMLTableElement>(null)
+  const internalRef = useRef<HTMLTableElement>(null)
+  const ref = useForkedRef(internalRef, forwardedRef)
   const { gridProps } = useTable(
     { 'aria-label': rest['aria-label'], 'aria-labelledby': rest['aria-labelledby'], id },
     state,
-    ref
+    internalRef
   )
 
   const _className = classNames(
@@ -222,7 +227,13 @@ export const Table = <T extends object>({
   )
 }
 
-Table.displayName = 'Table'
+// `forwardRef` erases type parameters, so the generic component is cast back to a generic
+// signature for callers — same reasoning as `TableHeader`/`TableBody`'s casts above.
+export const Table = forwardRef(TableInner) as <T extends object>(
+  props: TableProps<T> & { ref?: Ref<HTMLTableElement> }
+) => ReactElement
+
+;(Table as { displayName?: string }).displayName = 'Table'
 
 const TableRowGroup = ({
   type: Element,

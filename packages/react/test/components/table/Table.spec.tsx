@@ -214,6 +214,23 @@ describe('Table', () => {
     })
   })
 
+  describe('ref forwarding', () => {
+    test('forwards a ref to the underlying table', () => {
+      const ref = React.createRef<HTMLTableElement>()
+      render(
+        <Table aria-label="Ref test" ref={ref}>
+          <TableHeader>
+            <TableColumn key="name">Name</TableColumn>
+          </TableHeader>
+          <TableBody items={rows}>
+            {(row) => <TableRow key={row.id}>{() => <TableCell>{row.name}</TableCell>}</TableRow>}
+          </TableBody>
+        </Table>
+      )
+      expect(ref.current).toBeInstanceOf(HTMLTableElement)
+    })
+  })
+
   describe('accessibility', () => {
     test('has no axe violations', async () => {
       const { container } = render(<BasicTable />)
