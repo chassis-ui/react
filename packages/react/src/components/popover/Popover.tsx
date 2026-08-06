@@ -42,7 +42,23 @@ const PopoverPanel = ({
 
   return (
     <div {...mergeProps(overlayTriggerProps, dialogProps, rest)} ref={overlayRef}>
-      <div className="popover-arrow" {...arrowProps}></div>
+      {/* `useOverlayPosition`'s `arrowProps.style` sets a single cross-axis offset (`top` for a
+      left/right popover, `left` for a top/bottom one) to the trigger's center point, not the
+      arrow element's top-left corner — so it must be recentered by half the arrow's own size on
+      that axis. Chassis-css's JS plugin never has this problem since Floating UI's `arrow`
+      middleware returns a top-left-corner coordinate directly; react-aria's is center-based.
+      Unlike the chassis-css JS plugin, react-aria also never sets `position: absolute` on the
+      arrow element itself, so without it the offset has no effect and the arrow renders in
+      normal document flow. */}
+      <div
+        className="popover-arrow"
+        {...arrowProps}
+        style={{
+          position: 'absolute',
+          ...arrowProps.style,
+          transform: arrowProps.style?.top !== undefined ? 'translateY(-50%)' : 'translateX(-50%)'
+        }}
+      ></div>
       {title && (
         <div className="popover-header" {...titleProps}>
           {title}

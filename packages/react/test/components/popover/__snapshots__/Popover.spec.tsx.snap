@@ -37,7 +37,7 @@ exports[`Popover > rendering > renders title, content, placement and arrow once 
       aria-hidden="true"
       class="popover-arrow"
       role="presentation"
-      style="top: -4px;"
+      style="position: absolute; transform: translateY(-50%); top: -4px;"
     />
     <div
       class="popover-header"
