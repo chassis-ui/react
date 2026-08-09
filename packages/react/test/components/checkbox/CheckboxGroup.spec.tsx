@@ -56,7 +56,7 @@ describe('CheckboxGroup', () => {
       const email = screen.getByRole('checkbox', { name: 'Email' })
       // The flex-row wrapper is a plain div with no role/name - no accessible query reaches it.
       // eslint-disable-next-line testing-library/no-node-access
-      expect(email.closest('.hstack')).not.toBeNull()
+      expect(email.closest('.d-flex')).not.toBeNull()
     })
   })
 

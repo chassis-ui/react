@@ -6,7 +6,7 @@ import { RadioGroupProps as StatelyRadioGroupProps, useRadioGroupState } from 'r
 import { RadioGroupContext } from './context'
 import { FormFeedback } from '../form/FormFeedback'
 import { FormHelp } from '../form/FormHelp'
-import { Stack } from '../stack'
+import { Flex } from '../flex'
 
 export interface RadioGroupProps extends Omit<
   HTMLAttributes<HTMLFieldSetElement>,
@@ -130,7 +130,7 @@ export const RadioGroup = forwardRef<HTMLFieldSetElement, RadioGroupProps>(
             {label}
           </legend>
         )}
-        {orientation === 'horizontal' ? <Stack gap="medium">{items}</Stack> : items}
+        {orientation === 'horizontal' ? <Flex gap="medium">{items}</Flex> : items}
         {description && <FormHelp {...descriptionProps}>{description}</FormHelp>}
         {invalid && errorMessage && (
           <FormFeedback invalid {...errorMessageProps}>

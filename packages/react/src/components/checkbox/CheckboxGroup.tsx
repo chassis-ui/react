@@ -6,7 +6,7 @@ import { useCheckboxGroupState } from 'react-stately'
 import { CheckboxGroupContext } from './context'
 import { FormFeedback } from '../form/FormFeedback'
 import { FormHelp } from '../form/FormHelp'
-import { Stack } from '../stack'
+import { Flex } from '../flex'
 
 export interface CheckboxGroupProps extends Omit<
   HTMLAttributes<HTMLFieldSetElement>,
@@ -133,7 +133,7 @@ export const CheckboxGroup = forwardRef<HTMLFieldSetElement, CheckboxGroupProps>
             {label}
           </legend>
         )}
-        {orientation === 'horizontal' ? <Stack gap="medium">{items}</Stack> : items}
+        {orientation === 'horizontal' ? <Flex gap="medium">{items}</Flex> : items}
         {description && <FormHelp {...descriptionProps}>{description}</FormHelp>}
         {invalid && errorMessage && (
           <FormFeedback invalid {...errorMessageProps}>
