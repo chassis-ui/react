@@ -1,87 +1,63 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-import { BREAKPOINT_NAME, SHORT_BREAKPOINTS } from '../../utils/breakpoints'
-import { Spacing } from '../../types'
+import { buildResponsiveClassNames } from '../../utils/breakpoints'
+import { Breakpoint, Spacing } from '../../types'
 
-export type BPObject = {
-  cols?: 'auto' | number | string | null
-  gutter?: Spacing | 0 | null
-  gutterX?: Spacing | 0 | null
-  gutterY?: Spacing | 0 | null
+export interface RowLayout {
+  /**
+   * Equal-width columns per row, or `'auto'` for content-sized columns.
+   *
+   * @type { 'auto' | number | string }
+   */
+  cols?: 'auto' | number | string
+  /**
+   * Gutter width on both axes.
+   *
+   * @type { Spacing | 0 }
+   */
+  gutter?: Spacing | 0
+  /**
+   * Horizontal gutter width.
+   *
+   * @type { Spacing | 0 }
+   */
+  gutterX?: Spacing | 0
+  /**
+   * Vertical gutter width.
+   *
+   * @type { Spacing | 0 }
+   */
+  gutterY?: Spacing | 0
 }
 
-export interface RowProps extends HTMLAttributes<HTMLDivElement> {
+export interface RowProps extends HTMLAttributes<HTMLDivElement>, RowLayout {
   /**
    * A string of all className you want applied to the base component.
    */
   className?: string
   /**
-   * The number of columns/offset/order on extra small devices (<576px).
+   * Overrides `cols`/`gutter`/`gutterX`/`gutterY` at a breakpoint and up.
    *
-   * @type {{ cols: 'auto' | number | string } | { gutter: Spacing | 0 } | { gutterX: Spacing | 0 } | { gutterY: Spacing | 0 }}
+   * @type { Partial<Record<'small' | 'medium' | 'large' | 'xlarge' | '2xlarge', { cols?: 'auto' | number | string, gutter?: Spacing | 0, gutterX?: Spacing | 0, gutterY?: Spacing | 0 }>> }
    */
-  xs?: BPObject
-  /**
-   * The number of columns/offset/order on small devices (<768px).
-   *
-   * @type {{ cols: 'auto' | number | string } | { gutter: Spacing | 0 } | { gutterX: Spacing | 0 } | { gutterY: Spacing | 0 }}
-   */
-  sm?: BPObject
-  /**
-   * The number of columns/offset/order on medium devices (<992px).
-   *
-   * @type {{ cols: 'auto' | number | string } | { gutter: Spacing | 0 } | { gutterX: Spacing | 0 } | { gutterY: Spacing | 0 }}
-   */
-  md?: BPObject
-  /**
-   * The number of columns/offset/order on large devices (<1200px).
-   *
-   * @type {{ cols: 'auto' | number | string } | { gutter: Spacing | 0 } | { gutterX: Spacing | 0 } | { gutterY: Spacing | 0 }}
-   */
-  lg?: BPObject
-  /**
-   * The number of columns/offset/order on X-Large devices (<1400px).
-   *
-   * @type {{ cols: 'auto' | number | string } | { gutter: Spacing | 0 } | { gutterX: Spacing | 0 } | { gutterY: Spacing | 0 }}
-   */
-  xl?: BPObject
-  /**
-   * The number of columns/offset/order on XX-Large devices (≥1400px).
-   *
-   * @type {{ cols: 'auto' | number | string } | { gutter: Spacing | 0 } | { gutterX: Spacing | 0 } | { gutterY: Spacing | 0 }}
-   */
-  xxl?: BPObject
+  responsive?: Partial<Record<Breakpoint, RowLayout>>
 }
 
+const layoutClassNames = ({ cols, gutter, gutterX, gutterY }: RowLayout, prefix: string) => [
+  cols ? `${prefix}row-cols-${cols}` : null,
+  typeof gutter === 'string' || typeof gutter === 'number' ? `${prefix}g-${gutter}` : null,
+  typeof gutterX === 'string' || typeof gutterX === 'number' ? `${prefix}gx-${gutterX}` : null,
+  typeof gutterY === 'string' || typeof gutterY === 'number' ? `${prefix}gy-${gutterY}` : null
+]
+
 export const Row = forwardRef<HTMLDivElement, RowProps>(
-  ({ children, className, xs, sm, md, lg, xl, xxl, ...rest }, ref) => {
-    const breakpointProps = { xs, sm, md, lg, xl, xxl }
-    const responsiveClassNames: string[] = []
-
-    ;[...SHORT_BREAKPOINTS].reverse().forEach((bp) => {
-      const breakpoint = breakpointProps[bp]
-
-      const bpName = BREAKPOINT_NAME[bp]
-      const prefix = bpName ? `${bpName}:` : ''
-
-      if (typeof breakpoint === 'object') {
-        if (breakpoint.cols) {
-          responsiveClassNames.push(`${prefix}row-cols-${breakpoint.cols}`)
-        }
-        if (typeof breakpoint.gutter === 'string' || typeof breakpoint.gutter === 'number') {
-          responsiveClassNames.push(`${prefix}g-${breakpoint.gutter}`)
-        }
-        if (typeof breakpoint.gutterX === 'string' || typeof breakpoint.gutterX === 'number') {
-          responsiveClassNames.push(`${prefix}gx-${breakpoint.gutterX}`)
-        }
-        if (typeof breakpoint.gutterY === 'string' || typeof breakpoint.gutterY === 'number') {
-          responsiveClassNames.push(`${prefix}gy-${breakpoint.gutterY}`)
-        }
-      }
-    })
-
-    const _className = classNames('row', responsiveClassNames, className)
+  ({ children, className, cols, gutter, gutterX, gutterY, responsive, ...rest }, ref) => {
+    const _className = classNames(
+      'row',
+      buildResponsiveClassNames(layoutClassNames, { cols, gutter, gutterX, gutterY }, responsive),
+      className
+    )
 
     return (
       <div className={_className} {...rest} ref={ref}>

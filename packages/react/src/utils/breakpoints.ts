@@ -1,27 +1,33 @@
 import { Breakpoint } from '../types'
 
-// Short, JSX-attribute-safe breakpoint keys (Bootstrap-derived shorthand) used as prop names by
-// `Row`/`Col`/`Container`, mapped to the real chassis-css breakpoint name used as a class prefix.
-// `Breakpoint`'s `'2xlarge'` can't be used as a literal JSX prop name (invalid JSX identifier),
-// which is why this shorthand exists as public API instead of the literal breakpoint strings.
-export type ShortBreakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl'
+// Mobile-first ascending order. Every responsive layout prop (`Flex`/`Stack`/`Row`/`Col`/
+// `Placeholder`'s `responsive`) keys its overrides by these literal chassis-css breakpoint names.
+export const BREAKPOINTS: Breakpoint[] = ['small', 'medium', 'large', 'xlarge', '2xlarge']
 
-// Mobile-first ascending order.
-export const SHORT_BREAKPOINTS: ShortBreakpoint[] = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl']
+// A column/width span: a track count, `'auto'` for a natural-width track, or `true` for the bare
+// (no explicit width) case. Shared by `Col` and `Placeholder`, both of which map it to the same
+// `col-{n}` / `col` chassis-css classes.
+export type Span = 'auto' | number | string | boolean
 
-// '' for `xs`: the base/unprefixed breakpoint has no chassis-css class prefix.
-export const BREAKPOINT_NAME: Record<ShortBreakpoint, Breakpoint | ''> = {
-  xs: '',
-  sm: 'small',
-  md: 'medium',
-  lg: 'large',
-  xl: 'xlarge',
-  xxl: '2xlarge'
+/**
+ * Builds the class list for a component's base layout plus per-breakpoint overrides supplied via
+ * a `responsive` prop — the pattern shared by `Flex`, `Stack`, and (from Phase 2) `Row`/`Col`.
+ *
+ * `toClassNames` maps one breakpoint's layout value to class name fragments for a given prefix
+ * (`''` for the base/unprefixed case, `` `${breakpoint}:` `` otherwise). Falsy entries in its
+ * return value are fine — `classnames` drops them at the call site — so fields the layout object
+ * doesn't set can just map to `undefined`/`false`.
+ */
+export function buildResponsiveClassNames<TLayout>(
+  toClassNames: (layout: TLayout, prefix: string) => Array<string | false | null | undefined>,
+  base: TLayout,
+  responsive?: Partial<Record<Breakpoint, TLayout>>
+): Array<string | false | null | undefined> {
+  const responsiveClassNames = responsive
+    ? BREAKPOINTS.filter((bp) => responsive[bp]).flatMap((bp) =>
+        toClassNames(responsive[bp] as TLayout, `${bp}:`)
+      )
+    : []
+
+  return [...toClassNames(base, ''), ...responsiveClassNames]
 }
-
-// Ascending, mobile-first, derived from BREAKPOINT_NAME rather than hand-typed so it can't drift.
-// For components (e.g. `Stack`) that take `Breakpoint`'s literal names directly as prop values,
-// unlike Row/Col/Container's short-key shorthand above.
-export const BREAKPOINTS: Breakpoint[] = SHORT_BREAKPOINTS.map((bp) => BREAKPOINT_NAME[bp]).filter(
-  (name): name is Breakpoint => name !== ''
-)

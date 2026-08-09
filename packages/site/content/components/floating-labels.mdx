@@ -95,14 +95,14 @@ Other than `<TextInput>`, floating labels are only available on `<Select>`s. The
 When working with the Chassis grid system, be sure to place form elements within column classes.
 
 <Example>
-  <Row xs={{ gutter: 'small' }}>
-    <Col md>
+  <Row gutter="small">
+    <Col responsive={{ medium: { span: true } }}>
       <FloatingInput>
         <TextInput type="email" id="floatingInputGrid" placeholder="name@example.com" defaultValue="email@example.com" />
         <FormLabel htmlFor="floatingInputGrid">Email address</FormLabel>
       </FloatingInput>
     </Col>
-    <Col md>
+    <Col responsive={{ medium: { span: true } }}>
       <FloatingInput>
         <Select id="floatingSelectGrid" aria-label="Floating label select example">
           <option>Open this select menu</option>

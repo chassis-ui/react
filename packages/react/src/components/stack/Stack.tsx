@@ -1,8 +1,12 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-import { BREAKPOINTS } from '../../utils/breakpoints'
+import { buildResponsiveClassNames } from '../../utils/breakpoints'
 import { Breakpoint, Spacing } from '../../types'
+
+const directionClassName = (direction: 'horizontal' | 'vertical', prefix: string) => [
+  `${prefix}${direction === 'vertical' ? 'vstack' : 'hstack'}`
+]
 
 export interface StackProps extends HTMLAttributes<HTMLDivElement> {
   /**
@@ -43,15 +47,8 @@ export const Stack = forwardRef<HTMLDivElement, StackProps>(
     },
     ref
   ) => {
-    const responsiveClassNames = responsive
-      ? BREAKPOINTS.filter((bp) => responsive[bp]).map(
-          (bp) => `${bp}:${responsive[bp] === 'vertical' ? 'vstack' : 'hstack'}`
-        )
-      : []
-
     const _className = classNames(
-      direction === 'vertical' ? 'vstack' : 'hstack',
-      responsiveClassNames,
+      buildResponsiveClassNames(directionClassName, direction, responsive),
       typeof gap === 'string' || typeof gap === 'number' ? `gap-${gap}` : null,
       className
     )

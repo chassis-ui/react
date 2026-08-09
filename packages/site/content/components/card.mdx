@@ -232,7 +232,7 @@ Using the grid, wrap cards in columns and rows as needed.
 
 <Example>
   <Row>
-    <Col sm={6}>
+    <Col responsive={{ small: { span: 6 } }}>
       <Card>
         <CardBody>
           <CardTitle>Special title treatment</CardTitle>
@@ -243,7 +243,7 @@ Using the grid, wrap cards in columns and rows as needed.
         </CardBody>
       </Card>
     </Col>
-    <Col sm={6}>
+    <Col responsive={{ small: { span: 6 } }}>
       <Card>
         <CardBody>
           <CardTitle>Special title treatment</CardTitle>
@@ -440,10 +440,10 @@ Using a combination of grid and utility classes, cards can be made horizontal in
 <Example>
   <Card className="mb-medium" style={{ maxWidth: '540px' }}>
     <Row className="g-0">
-      <Col md={4}>
+      <Col responsive={{ medium: { span: 4 } }}>
         <CardImage src="https://placehold.co/800x400" />
       </Col>
-      <Col md={8}>
+      <Col responsive={{ medium: { span: 8 } }}>
         <CardBody>
           <CardTitle>Card title</CardTitle>
           <CardText>
@@ -677,11 +677,11 @@ When using card groups with footers, their content will automatically line up.
 
 ### Grid cards
 
-Use the `Row` component and set `xs|sm|md|lg|xl|xxl}={{ cols: * }}` property to control how many grid columns (wrapped around your cards) you show per row. For example, here's `xs={{cols: 1}}` laying out the cards on one column, and `md={{cols: 1}}` splitting four cards to equal width across multiple rows, from the medium breakpoint up.
+Use the `Row` component's `cols` prop (with `responsive` for breakpoint overrides) to control how many grid columns (wrapped around your cards) you show per row. For example, here's `cols={1}` laying out the cards on one column, and `responsive={{ medium: { cols: 2 } }}` splitting four cards into two per row from the medium breakpoint up.
 
 <Example>
-  <Row xs={{ cols: 1, gutter: 'medium' }} md={{ cols: 2 }}>
-    <Col xs>
+  <Row cols={1} gutter="medium" responsive={{ medium: { cols: 2 } }}>
+    <Col span>
       <Card>
         <CardImage orientation="top" src="https://placehold.co/800x400" />
         <CardBody>
@@ -696,7 +696,7 @@ Use the `Row` component and set `xs|sm|md|lg|xl|xxl}={{ cols: * }}` property to 
         </CardFooter>
       </Card>
     </Col>
-    <Col xs>
+    <Col span>
       <Card>
         <CardImage orientation="top" src="https://placehold.co/800x400" />
         <CardBody>
@@ -711,7 +711,7 @@ Use the `Row` component and set `xs|sm|md|lg|xl|xxl}={{ cols: * }}` property to 
         </CardFooter>
       </Card>
     </Col>
-    <Col xs>
+    <Col span>
       <Card>
         <CardImage orientation="top" src="https://placehold.co/800x400" />
         <CardBody>
@@ -726,7 +726,7 @@ Use the `Row` component and set `xs|sm|md|lg|xl|xxl}={{ cols: * }}` property to 
         </CardFooter>
       </Card>
     </Col>
-    <Col xs>
+    <Col span>
       <Card>
         <CardImage orientation="top" src="https://placehold.co/800x400" />
         <CardBody>
@@ -744,11 +744,11 @@ Use the `Row` component and set `xs|sm|md|lg|xl|xxl}={{ cols: * }}` property to 
   </Row>
 </Example>
 
-Change it to `md={{ cols: 3}}` and you'll see the fourth card wrap.
+Change it to `responsive={{ medium: { cols: 3 } }}` and you'll see the fourth card wrap.
 
 <Example>
-  <Row xs={{ cols: 1, gutter: 'medium' }} md={{ cols: 3 }}>
-    <Col xs>
+  <Row cols={1} gutter="medium" responsive={{ medium: { cols: 3 } }}>
+    <Col span>
       <Card>
         <CardImage orientation="top" src="https://placehold.co/800x400" />
         <CardBody>
@@ -763,7 +763,7 @@ Change it to `md={{ cols: 3}}` and you'll see the fourth card wrap.
         </CardFooter>
       </Card>
     </Col>
-    <Col xs>
+    <Col span>
       <Card>
         <CardImage orientation="top" src="https://placehold.co/800x400" />
         <CardBody>
@@ -778,7 +778,7 @@ Change it to `md={{ cols: 3}}` and you'll see the fourth card wrap.
         </CardFooter>
       </Card>
     </Col>
-    <Col xs>
+    <Col span>
       <Card>
         <CardImage orientation="top" src="https://placehold.co/800x400" />
         <CardBody>
@@ -793,7 +793,7 @@ Change it to `md={{ cols: 3}}` and you'll see the fourth card wrap.
         </CardFooter>
       </Card>
     </Col>
-    <Col xs>
+    <Col span>
       <Card>
         <CardImage orientation="top" src="https://placehold.co/800x400" />
         <CardBody>
@@ -814,8 +814,8 @@ Change it to `md={{ cols: 3}}` and you'll see the fourth card wrap.
 When you need equal height, add `.h-100` to the cards. If you want equal heights by default, you can set `$card-height: 100%` in Sass.
 
 <Example>
-  <Row xs={{ cols: 1 }} md={{ cols: 3 }} className="g-4">
-    <Col xs>
+  <Row cols={1} responsive={{ medium: { cols: 3 } }} className="g-4">
+    <Col span>
       <Card className="h-100">
         <CardImage orientation="top" src="https://placehold.co/800x400" />
         <CardBody>
@@ -827,7 +827,7 @@ When you need equal height, add `.h-100` to the cards. If you want equal heights
         </CardBody>
       </Card>
     </Col>
-    <Col xs>
+    <Col span>
       <Card className="h-100">
         <CardImage orientation="top" src="https://placehold.co/800x400" />
         <CardBody>
@@ -838,7 +838,7 @@ When you need equal height, add `.h-100` to the cards. If you want equal heights
         </CardBody>
       </Card>
     </Col>
-    <Col xs>
+    <Col span>
       <Card className="h-100">
         <CardImage orientation="top" src="https://placehold.co/800x400" />
         <CardBody>
@@ -851,7 +851,7 @@ When you need equal height, add `.h-100` to the cards. If you want equal heights
         </CardBody>
       </Card>
     </Col>
-    <Col xs>
+    <Col span>
       <Card className="h-100">
         <CardImage orientation="top" src="https://placehold.co/800x400" />
         <CardBody>
@@ -869,8 +869,8 @@ When you need equal height, add `.h-100` to the cards. If you want equal heights
 Just like with card groups, card footers will automatically line up.
 
 <Example>
-  <Row xs={{ cols: 1 }} md={{ cols: 3 }} className="g-4">
-    <Col xs>
+  <Row cols={1} responsive={{ medium: { cols: 3 } }} className="g-4">
+    <Col span>
       <Card className="h-100">
         <CardImage orientation="top" src="https://placehold.co/800x400" />
         <CardBody>
@@ -885,7 +885,7 @@ Just like with card groups, card footers will automatically line up.
         </CardFooter>
       </Card>
     </Col>
-    <Col xs>
+    <Col span>
       <Card className="h-100">
         <CardImage orientation="top" src="https://placehold.co/800x400" />
         <CardBody>
@@ -899,7 +899,7 @@ Just like with card groups, card footers will automatically line up.
         </CardFooter>
       </Card>
     </Col>
-    <Col xs>
+    <Col span>
       <Card className="h-100">
         <CardImage orientation="top" src="https://placehold.co/800x400" />
         <CardBody>

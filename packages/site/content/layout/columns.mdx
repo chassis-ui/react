@@ -9,7 +9,7 @@ import { Col, Container, Row } from '@chassis-ui/react'
 
 ## How they work
 
-- **Columns build on the grid's flexbox architecture.** Flexbox means we have options for changing individual columns and [modifying groups of columns at the row level](./grid#row-columns). You choose how columns grow, shrink, or otherwise change.
+- **Columns build on the grid's flexbox architecture.** Flexbox means we have options for changing individual columns and [modifying groups of columns at the row level](./row#row-columns). You choose how columns grow, shrink, or otherwise change.
 
 - **When building grid layouts, all content goes in columns.** The hierarchy of Chassis grid goes from [container](./containers) to row to column to your content. On rare occasions, you may combine content and column, but be aware there can be unintended consequences.
 
@@ -56,28 +56,28 @@ Use flexbox alignment utilities to vertically and horizontally align columns.
 <Example className="docs-example-row">
   <Container>
     <Row className="justify-content-start">
-      <Col xs={4}>One of two columns</Col>
-      <Col xs={4}>One of two columns</Col>
+      <Col span={4}>One of two columns</Col>
+      <Col span={4}>One of two columns</Col>
     </Row>
     <Row className="justify-content-center">
-      <Col xs={4}>One of two columns</Col>
-      <Col xs={4}>One of two columns</Col>
+      <Col span={4}>One of two columns</Col>
+      <Col span={4}>One of two columns</Col>
     </Row>
     <Row className="justify-content-end">
-      <Col xs={4}>One of two columns</Col>
-      <Col xs={4}>One of two columns</Col>
+      <Col span={4}>One of two columns</Col>
+      <Col span={4}>One of two columns</Col>
     </Row>
     <Row className="justify-content-around">
-      <Col xs={4}>One of two columns</Col>
-      <Col xs={4}>One of two columns</Col>
+      <Col span={4}>One of two columns</Col>
+      <Col span={4}>One of two columns</Col>
     </Row>
     <Row className="justify-content-between">
-      <Col xs={4}>One of two columns</Col>
-      <Col xs={4}>One of two columns</Col>
+      <Col span={4}>One of two columns</Col>
+      <Col span={4}>One of two columns</Col>
     </Row>
     <Row className="justify-content-evenly">
-      <Col xs={4}>One of two columns</Col>
-      <Col xs={4}>One of two columns</Col>
+      <Col span={4}>One of two columns</Col>
+      <Col span={4}>One of two columns</Col>
     </Row>
   </Container>
 </Example>
@@ -89,14 +89,14 @@ If more than 12 columns are placed within a single row, each group of extra colu
 <Example className="docs-example-row">
   <Container>
     <Row>
-      <Col xs={9}>.col-9</Col>
-      <Col xs={4}>
+      <Col span={9}>.col-9</Col>
+      <Col span={4}>
         .col-4
         <br />
         Since 9 + 4 = 13 &gt; 12, this 4-column-wide div gets wrapped onto a new line as one
         contiguous unit.
       </Col>
-      <Col xs={6}>
+      <Col span={6}>
         .col-6
         <br />
         Subsequent columns continue along the new line.
@@ -112,17 +112,17 @@ Breaking columns to a new line in flexbox requires a small hack: add an element 
 <Example className="docs-example-row">
   <Container>
     <Row>
-      <Col xs={6} sm={3}>
+      <Col span={6} responsive={{ small: { span: 3 } }}>
         .col-6 .small:col-3
       </Col>
-      <Col xs={6} sm={3}>
+      <Col span={6} responsive={{ small: { span: 3 } }}>
         .col-6 .small:col-3
       </Col>
       <div className="w-100"></div>
-      <Col xs={6} sm={3}>
+      <Col span={6} responsive={{ small: { span: 3 } }}>
         .col-6 .small:col-3
       </Col>
-      <Col xs={6} sm={3}>
+      <Col span={6} responsive={{ small: { span: 3 } }}>
         .col-6 .small:col-3
       </Col>
     </Row>
@@ -134,17 +134,17 @@ You may also apply this break at specific breakpoints with our responsive displa
 <Example className="docs-example-row">
   <Container>
     <Row>
-      <Col xs={6} sm={4}>
+      <Col span={6} responsive={{ small: { span: 4 } }}>
         .col-6 .small:col-4
       </Col>
-      <Col xs={6} sm={4}>
+      <Col span={6} responsive={{ small: { span: 4 } }}>
         .col-6 .small:col-4
       </Col>
       <div className="w-100 d-none medium:d-block"></div>
-      <Col xs={6} sm={4}>
+      <Col span={6} responsive={{ small: { span: 4 } }}>
         .col-6 .small:col-4
       </Col>
-      <Col xs={6} sm={4}>
+      <Col span={6} responsive={{ small: { span: 4 } }}>
         .col-6 .small:col-4
       </Col>
     </Row>
@@ -155,50 +155,50 @@ You may also apply this break at specific breakpoints with our responsive displa
 
 ### Order props
 
-Use `xs|sm|md|lg|xl|xxl={{ order: 1-5 }}` props for controlling the **visual order** of your content. These props are responsive, so you can set the `order` by breakpoint (e.g., `xs={{ order: 1}} md={{ order: 2}}`). Includes support for `1` through `5` across all six grid tiers.
+Use `order` (or `responsive={{ {breakpoint}: { order: 1-5 } }}` for overrides) to control the **visual order** of your content. These props are responsive, so you can set the `order` by breakpoint (e.g., `order={1}` with `responsive={{ medium: { order: 2 } }}`). Includes support for `1` through `5` across all six grid tiers.
 
 <Example className="docs-example-row">
   <Container>
     <Row>
       <Col>First in DOM, no order applied</Col>
-      <Col xs={{ span: true, order: 5 }}>Second in DOM, with a larger order</Col>
-      <Col xs={{ span: true, order: 1 }}>Third in DOM, with an order of 1</Col>
+      <Col span order={5}>Second in DOM, with a larger order</Col>
+      <Col span order={1}>Third in DOM, with an order of 1</Col>
     </Row>
   </Container>
 </Example>
 
-There are also responsive `xs|sm|md|lg|xl|xxl={{ order: 'first' }}` and `xs|sm|md|lg|xl|xxl={{ order: 'last' }}` props that change the `order` of an element by applying `order: -1` and `order: 6`, respectively. These values can also be intermixed with the numbered `xs|sm|md|lg|xl|xxl={{ order: 1-5 }}` values as needed.
+There are also `order="first"` and `order="last"` values that change the `order` of an element by applying `order: -1` and `order: 6`, respectively. These values can also be intermixed with the numbered `order={1-5}` values as needed.
 
 <Example className="docs-example-row">
   <Container>
     <Row>
-      <Col xs={{ span: true, order: 'last' }}>First in DOM, ordered last</Col>
+      <Col span order="last">First in DOM, ordered last</Col>
       <Col>Second in DOM, unordered</Col>
-      <Col xs={{ span: true, order: 'first' }}>Third in DOM, ordered first</Col>
+      <Col span order="first">Third in DOM, ordered first</Col>
     </Row>
   </Container>
 </Example>
 
 ### Offsetting columns
 
-You can offset grid columns in two ways: our responsive `xs|sm|md|lg|xl|xxl={{ offset: 0-12 }}` grid props and our margin utilities. Grid props are sized to match columns while margins are more useful for quick layouts where the width of the offset is variable.
+You can offset grid columns in two ways: our responsive `offset` grid prop (`0-12`, or `responsive={{ {breakpoint}: { offset: 0-12 } }}` for overrides) and our margin utilities. Grid props are sized to match columns while margins are more useful for quick layouts where the width of the offset is variable.
 
 #### Offset prop
 
-Move columns to the right using `md={{ offset: * }}` props. These props increase the left margin of a column by `*` columns. For example, `md={{ offset: 4 }}` moves `.medium:col-4` over four columns.
+Move columns to the right using `responsive={{ {breakpoint}: { offset: * } }}` overrides. These increase the left margin of a column by `*` columns. For example, `responsive={{ medium: { offset: 4 } }}` moves `.medium:col-4` over four columns.
 
 <Example className="docs-example-row">
   <Container>
     <Row>
-      <Col md={4}>.medium:col-4</Col>
-      <Col md={{ span: 4, offset: 4 }}>.medium:col-4 .medium:offset-4</Col>
+      <Col responsive={{ medium: { span: 4 } }}>.medium:col-4</Col>
+      <Col responsive={{ medium: { span: 4, offset: 4 } }}>.medium:col-4 .medium:offset-4</Col>
     </Row>
     <Row>
-      <Col md={{ span: 3, offset: 3 }}>.medium:col-3 .medium:offset-3</Col>
-      <Col md={{ span: 3, offset: 3 }}>.medium:col-3 .medium:offset-3</Col>
+      <Col responsive={{ medium: { span: 3, offset: 3 } }}>.medium:col-3 .medium:offset-3</Col>
+      <Col responsive={{ medium: { span: 3, offset: 3 } }}>.medium:col-3 .medium:offset-3</Col>
     </Row>
     <Row>
-      <Col md={{ span: 6, offset: 3 }}>.medium:col-6 .medium:offset-3</Col>
+      <Col responsive={{ medium: { span: 6, offset: 3 } }}>.medium:col-6 .medium:offset-3</Col>
     </Row>
   </Container>
 </Example>
@@ -206,18 +206,24 @@ Move columns to the right using `md={{ offset: * }}` props. These props increase
 <Example className="docs-example-row">
   <Container>
     <Row>
-      <Col sm={5} md={6}>
+      <Col responsive={{ small: { span: 5 }, medium: { span: 6 } }}>
         .small:col-5 .medium:col-6
       </Col>
-      <Col sm={{ span: 5, offset: 2 }} md={{ span: 6, offset: 0 }}>
+      <Col responsive={{ small: { span: 5, offset: 2 }, medium: { span: 6, offset: 0 } }}>
         .small:col-5 .small:offset-2 .medium:col-6 .medium:offset-0
       </Col>
     </Row>
     <Row>
-      <Col sm={6} md={5} lg={6}>
+      <Col responsive={{ small: { span: 6 }, medium: { span: 5 }, large: { span: 6 } }}>
         .small:col-6 .medium:col-5 .large:col-6
       </Col>
-      <Col sm={6} md={{ span: 5, offset: 2 }} lg={{ span: 6, offset: 0 }}>
+      <Col
+        responsive={{
+          small: { span: 6 },
+          medium: { span: 5, offset: 2 },
+          large: { span: 6, offset: 0 }
+        }}
+      >
         .small:col-6 .medium:col-5 .medium:offset-2 .large:col-6 .large:offset-0
       </Col>
     </Row>
@@ -231,24 +237,24 @@ You can use margin utilities like `.me-auto` to force sibling columns away from 
 <Example className="docs-example-row">
   <Container>
     <Row>
-      <Col md={4}>.medium:col-4</Col>
-      <Col md={4} className="ms-auto">
+      <Col responsive={{ medium: { span: 4 } }}>.medium:col-4</Col>
+      <Col responsive={{ medium: { span: 4 } }} className="ms-auto">
         .medium:col-4 .ms-auto
       </Col>
     </Row>
     <Row>
-      <Col md={3} className="medium:ms-auto">
+      <Col responsive={{ medium: { span: 3 } }} className="medium:ms-auto">
         .medium:col-3 .medium:ms-auto
       </Col>
-      <Col md={3} className="medium:ms-auto">
+      <Col responsive={{ medium: { span: 3 } }} className="medium:ms-auto">
         .medium:col-3 .medium:ms-auto
       </Col>
     </Row>
     <Row>
-      <Col xs="auto" className="me-auto">
+      <Col span="auto" className="me-auto">
         .col-auto .me-auto
       </Col>
-      <Col xs="auto">.col-auto</Col>
+      <Col span="auto">.col-auto</Col>
     </Row>
   </Container>
 </Example>
@@ -258,10 +264,10 @@ You can use margin utilities like `.me-auto` to force sibling columns away from 
 The `<Col>` component can also be used outside a `<Row>` to give an element a specific width. Whenever column component are used as non direct children of a row, the paddings are omitted.
 
 <Example>
-  <Col xs={3} className="bg-light p-3 border">
+  <Col span={3} className="bg-light p-3 border">
     .col-3: width of 25%
   </Col>
-  <Col sm={9} className="bg-light p-3 border">
+  <Col responsive={{ small: { span: 9 } }} className="bg-light p-3 border">
     .small:col-9: width of 75% above sm breakpoint
   </Col>
 </Example>

@@ -24,10 +24,10 @@
         "name": "string"
       }
     },
-    "xs": {
+    "responsive": {
       "defaultValue": null,
-      "description": "The number of columns/offset/order on extra small devices (<576px).",
-      "name": "xs",
+      "description": "Overrides `span`/`offset`/`order` at a breakpoint and up.",
+      "name": "responsive",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/grid/Col.tsx",
         "name": "ColProps"
@@ -40,102 +40,64 @@
       ],
       "required": false,
       "type": {
-        "name": "{ 'auto' | number | string | boolean | { span: 'auto' | number | string | boolean } | { offset: number | string } | { order: 'first' | 'last' | number | string }}"
+        "name": "{ Partial<Record<'small' | 'medium' | 'large' | 'xlarge' | '2xlarge', { span?: 'auto' | number | string | boolean, offset?: number | string, order?: 'first' | 'last' | number | string }>> }"
       }
     },
-    "sm": {
+    "span": {
       "defaultValue": null,
-      "description": "The number of columns/offset/order on small devices (<768px).",
-      "name": "sm",
+      "description": "Columns (of 12) this Col spans, or `'auto'`/`true` for a natural-width column.",
+      "name": "span",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/grid/Col.tsx",
-        "name": "ColProps"
+        "name": "ColLayout"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/grid/Col.tsx",
-          "name": "ColProps"
+          "name": "ColLayout"
         }
       ],
       "required": false,
       "type": {
-        "name": "{ 'auto' | number | string | boolean | { span: 'auto' | number | string | boolean } | { offset: number | string } | { order: 'first' | 'last' | number | string }}"
+        "name": "{ 'auto' | number | string | boolean }"
       }
     },
-    "md": {
+    "offset": {
       "defaultValue": null,
-      "description": "The number of columns/offset/order on medium devices (<992px).",
-      "name": "md",
+      "description": "Columns to offset the start of this Col by.",
+      "name": "offset",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/grid/Col.tsx",
-        "name": "ColProps"
+        "name": "ColLayout"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/grid/Col.tsx",
-          "name": "ColProps"
+          "name": "ColLayout"
         }
       ],
       "required": false,
       "type": {
-        "name": "{ 'auto' | number | string | boolean | { span: 'auto' | number | string | boolean } | { offset: number | string } | { order: 'first' | 'last' | number | string }}"
+        "name": "string | number"
       }
     },
-    "lg": {
+    "order": {
       "defaultValue": null,
-      "description": "The number of columns/offset/order on large devices (<1200px).",
-      "name": "lg",
+      "description": "Visual order relative to sibling columns.",
+      "name": "order",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/grid/Col.tsx",
-        "name": "ColProps"
+        "name": "ColLayout"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/grid/Col.tsx",
-          "name": "ColProps"
+          "name": "ColLayout"
         }
       ],
       "required": false,
       "type": {
-        "name": "{ 'auto' | number | string | boolean | { span: 'auto' | number | string | boolean } | { offset: number | string } | { order: 'first' | 'last' | number | string }}"
-      }
-    },
-    "xl": {
-      "defaultValue": null,
-      "description": "The number of columns/offset/order on X-Large devices (<1400px).",
-      "name": "xl",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/grid/Col.tsx",
-        "name": "ColProps"
-      },
-      "declarations": [
-        {
-          "fileName": "chassis-react/packages/react/src/components/grid/Col.tsx",
-          "name": "ColProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "{ 'auto' | number | string | boolean | { span: 'auto' | number | string | boolean } | { offset: number | string } | { order: 'first' | 'last' | number | string }}"
-      }
-    },
-    "xxl": {
-      "defaultValue": null,
-      "description": "The number of columns/offset/order on XX-Large devices (≥1400px).",
-      "name": "xxl",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/grid/Col.tsx",
-        "name": "ColProps"
-      },
-      "declarations": [
-        {
-          "fileName": "chassis-react/packages/react/src/components/grid/Col.tsx",
-          "name": "ColProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "{ 'auto' | number | string | boolean | { span: 'auto' | number | string | boolean } | { offset: number | string } | { order: 'first' | 'last' | number | string }}"
+        "name": "{ 'first' | 'last' | number | string }"
       }
     }
   }

@@ -1,0 +1,103 @@
+---
+title: Row
+description: Row is the flexbox wrapper that establishes the row context Col children lay out within, plus row-level column-count and gutter overrides.
+
+toc: true
+---
+
+
+import { Col, Container, Row } from '@chassis-ui/react'
+
+`<Row>` wraps [`<Col>`](./columns) children in the flexbox context the [flexbox grid](./grid) relies on — negative margins that offset each column's gutter padding, keeping content aligned down the left side. Every `<Row>` needs a [`<Container>`](./containers) (or `<Container fluid>`) ancestor when used as part of the grid system.
+
+<Example className="docs-example-row">
+  <Container>
+    <Row>
+      <Col>1 of 3</Col>
+      <Col>2 of 3</Col>
+      <Col>3 of 3</Col>
+    </Row>
+  </Container>
+</Example>
+
+## Row columns
+
+Use the `cols` prop (or `responsive={{ {breakpoint}: { cols: * } }}` overrides) to quickly set the number of columns that best render your content and layout. Whereas normal `span` props apply to individual columns (e.g., `<Col span={4}>`), the row columns prop is set on the parent `<Row>` as a shortcut. With `cols="auto"` you can give the columns their natural width.
+
+Use these row columns props to quickly create basic grid layouts or to control your card layouts.
+
+<Example className="docs-example-row">
+  <Container>
+    <Row cols={2}>
+      <Col>Column</Col>
+      <Col>Column</Col>
+      <Col>Column</Col>
+      <Col>Column</Col>
+    </Row>
+  </Container>
+</Example>
+
+<Example className="docs-example-row">
+  <Container>
+    <Row cols={3}>
+      <Col>Column</Col>
+      <Col>Column</Col>
+      <Col>Column</Col>
+      <Col>Column</Col>
+    </Row>
+  </Container>
+</Example>
+
+<Example className="docs-example-row">
+  <Container>
+    <Row cols="auto">
+      <Col>Column</Col>
+      <Col>Column</Col>
+      <Col>Column</Col>
+      <Col>Column</Col>
+    </Row>
+  </Container>
+</Example>
+
+<Example className="docs-example-row">
+  <Container>
+    <Row cols={4}>
+      <Col>Column</Col>
+      <Col>Column</Col>
+      <Col>Column</Col>
+      <Col>Column</Col>
+    </Row>
+  </Container>
+</Example>
+
+<Example className="docs-example-row">
+  <Container>
+    <Row cols={4}>
+      <Col>Column</Col>
+      <Col>Column</Col>
+      <Col span={6}>Column</Col>
+      <Col>Column</Col>
+    </Row>
+  </Container>
+</Example>
+
+<Example className="docs-example-row">
+  <Container>
+    <Row cols={1} responsive={{ small: { cols: 2 }, medium: { cols: 4 } }}>
+      <Col>Column</Col>
+      <Col>Column</Col>
+      <Col>Column</Col>
+      <Col>Column</Col>
+    </Row>
+  </Container>
+</Example>
+
+## Gutters
+
+`<Row>` also controls the horizontal and vertical spacing between its columns via `gutter`/`gutterX`/`gutterY` (each overridable per breakpoint via `responsive`). See the [Gutters](./gutters) page for the full set of examples.
+
+## API
+
+### Row
+
+<PropTable component="Row" />

@@ -17,7 +17,7 @@ export const HorizontalFormExample = () => {
         <FormLabel htmlFor="inputEmail3" className="small:col-2 col-form-label">
           Email
         </FormLabel>
-        <Col sm={10}>
+        <Col responsive={{ small: { span: 10 } }}>
           <TextInput type="email" id="inputEmail3" />
         </Col>
       </Row>
@@ -25,12 +25,12 @@ export const HorizontalFormExample = () => {
         <FormLabel htmlFor="inputPassword3" className="small:col-2 col-form-label">
           Password
         </FormLabel>
-        <Col sm={10}>
+        <Col responsive={{ small: { span: 10 } }}>
           <TextInput type="password" id="inputPassword3" />
         </Col>
       </Row>
       <RadioGroup className="row mb-medium" label="Radios" defaultValue="option1">
-        <Col sm={10}>
+        <Col responsive={{ small: { span: 10 } }}>
           <Radio value="option1" label="First radio" />
           <Radio value="option2" label="Second radio" />
           <Radio value="option3" label="Third disabled radio" disabled />

@@ -26,7 +26,7 @@ Chassis includes six default breakpoints, sometimes referred to as _grid tiers_,
   </thead>
   <tbody>
     <tr>
-      <td>X-smallall</td>
+      <td>X-small</td>
       <td><em>None</em></td>
       <td>&lt;576px</td>
     </tr>
@@ -109,7 +109,7 @@ Chassis primarily uses the following media query ranges—or breakpoints—in ou
 These Sass mixins translate in our compiled CSS using the values declared in our Sass variables. For example:
 
 ```scss
-// X-smallall devices (portrait phones, less than 576px)
+// X-small devices (portrait phones, less than 576px)
 // No media query for `xs` since this is the default in Chassis
 
 // Small devices (landscape phones, 576px and up)
@@ -151,7 +151,7 @@ We occasionally use media queries that go in the other direction (the given scre
 These mixins take those declared breakpoints, subtract `.02px` from them, and use them as our `max-width` values. For example:
 
 ```scss
-// X-smallall devices (portrait phones, less than 576px)
+// X-small devices (portrait phones, less than 576px)
 @media (max-width: 575.98px) { ... }
 
 // Small devices (landscape phones, less than 768px)

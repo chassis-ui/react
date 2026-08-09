@@ -18,11 +18,11 @@ import { Col, Container, Row } from '@chassis-ui/react'
 
 ## Horizontal gutters
 
-`{breakpoint}={{ gutterX: * }}` props can be used to control the horizontal gutter widths. The `<Container>` or `<Container fluid>` parent may need to be adjusted if larger gutters are used too to avoid unwanted overflow, using a matching padding utility. For example, in the following example we've increased the padding with `.px-xlarge`:
+`gutterX` (and `responsive={{ {breakpoint}: { gutterX: * } }}` for overrides) controls the horizontal gutter widths. The `<Container>` or `<Container fluid>` parent may need to be adjusted if larger gutters are used too to avoid unwanted overflow, using a matching padding utility. For example, in the following example we've increased the padding with `.px-xlarge`:
 
 <Example>
   <Container className="px-xlarge">
-    <Row xs={{ gutterX: 'xlarge' }}>
+    <Row gutterX="xlarge">
       <Col>
         <div className="border p-medium text-center">Custom column padding</div>
       </Col>
@@ -37,7 +37,7 @@ An alternative solution is to add a wrapper around the `<Row>` with the `.overfl
 
 <Example>
   <Container className="overflow-hidden">
-    <Row xs={{ gutterX: 'xlarge' }}>
+    <Row gutterX="xlarge">
       <Col>
         <div className="border p-medium text-center">Custom column padding</div>
       </Col>
@@ -50,21 +50,21 @@ An alternative solution is to add a wrapper around the `<Row>` with the `.overfl
 
 ## Vertical gutters
 
-`{breakpoint}={{ gutterY: * }}` props can be used to control the vertical gutter widths. Like the horizontal gutters, the vertical gutters can cause some overflow below the `<Row>` at the end of a page. If this occurs, you add a wrapper around `<Row>` with the `.overflow-hidden` class:
+`gutterY` (and `responsive={{ {breakpoint}: { gutterY: * } }}` for overrides) controls the vertical gutter widths. Like the horizontal gutters, the vertical gutters can cause some overflow below the `<Row>` at the end of a page. If this occurs, you add a wrapper around `<Row>` with the `.overflow-hidden` class:
 
 <Example>
   <Container className="overflow-hidden">
-    <Row xs={{ gutterY: 'xlarge' }}>
-      <Col xs={{ span: 6 }}>
+    <Row gutterY="xlarge">
+      <Col span={6}>
         <div className="border p-medium text-center">Custom column padding</div>
       </Col>
-      <Col xs={{ span: 6 }}>
+      <Col span={6}>
         <div className="border p-medium text-center">Custom column padding</div>
       </Col>
-      <Col xs={{ span: 6 }}>
+      <Col span={6}>
         <div className="border p-medium text-center">Custom column padding</div>
       </Col>
-      <Col xs={{ span: 6 }}>
+      <Col span={6}>
         <div className="border p-medium text-center">Custom column padding</div>
       </Col>
     </Row>
@@ -73,21 +73,21 @@ An alternative solution is to add a wrapper around the `<Row>` with the `.overfl
 
 ## Horizontal & vertical gutters
 
-`{breakpoint}={{ gutter: * }}` props can be used to control the horizontal gutter widths, for the following example we use a smaller gutter width, so there won't be a need to add the `.overflow-hidden` wrapper class.
+`gutter` (and `responsive={{ {breakpoint}: { gutter: * } }}` for overrides) controls both horizontal and vertical gutter widths at once; for the following example we use a smaller gutter width, so there won't be a need to add the `.overflow-hidden` wrapper class.
 
 <Example>
   <Container>
-    <Row xs={{ gutter: 'small' }}>
-      <Col xs={{ span: 6 }}>
+    <Row gutter="small">
+      <Col span={6}>
         <div className="border p-medium text-center">Custom column padding</div>
       </Col>
-      <Col xs={{ span: 6 }}>
+      <Col span={6}>
         <div className="border p-medium text-center">Custom column padding</div>
       </Col>
-      <Col xs={{ span: 6 }}>
+      <Col span={6}>
         <div className="border p-medium text-center">Custom column padding</div>
       </Col>
-      <Col xs={{ span: 6 }}>
+      <Col span={6}>
         <div className="border p-medium text-center">Custom column padding</div>
       </Col>
     </Row>
@@ -96,11 +96,11 @@ An alternative solution is to add a wrapper around the `<Row>` with the `.overfl
 
 ## Row columns gutters
 
-Gutter props can also be added to [row columns](./grid#row-columns). In the following example, we use responsive row columns and responsive gutter props.
+Gutter props can also be added to [row columns](./row#row-columns). In the following example, we use responsive row columns and responsive gutter props.
 
 <Example>
   <Container>
-    <Row xs={{ cols: 2, gutter: 'small' }} lg={{ cols: 5, gutter: 'medium' }}>
+    <Row cols={2} gutter="small" responsive={{ large: { cols: 5, gutter: 'medium' } }}>
       <Col>
         <div className="border p-medium text-center">Row column</div>
       </Col>
@@ -137,7 +137,7 @@ Gutter props can also be added to [row columns](./grid#row-columns). In the foll
 
 ## No gutters
 
-The gutters between columns in our predefined grid props can be removed with `{breakpoint}={{ gutter: 0 }}`. This removes the negative `margin`s from `<Row>` and the horizontal `padding` from all immediate children columns.
+The gutters between columns in our predefined grid props can be removed with `gutter={0}`. This removes the negative `margin`s from `<Row>` and the horizontal `padding` from all immediate children columns.
 
 **Need an edge-to-edge design?** Drop the parent `<Container>` or `<Container fluid>`.
 
@@ -145,9 +145,9 @@ In practice, here's how it looks. Note you can continue to use this with all oth
 
 <Example>
   <div className="docs-example-row">
-    <Row xs={{ gutter: 0 }}>
-      <Col sm={6} md={8}>.small:col-6 .medium:col-8</Col>
-      <Col xs={6} md={4}>.col-6 .medium:col-4</Col>
+    <Row gutter={0}>
+      <Col responsive={{ small: { span: 6 }, medium: { span: 8 } }}>.small:col-6 .medium:col-8</Col>
+      <Col span={6} responsive={{ medium: { span: 4 } }}>.col-6 .medium:col-4</Col>
     </Row>
   </div>
 </Example>

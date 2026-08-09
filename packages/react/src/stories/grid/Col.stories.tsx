@@ -19,11 +19,11 @@ export const Span: Story = {
   render: () => (
     <Container>
       <Row>
-        <Col xs={8} className={boxClass}>
-          xs=8
+        <Col span={8} className={boxClass}>
+          span=8
         </Col>
-        <Col xs={4} className={boxClass}>
-          xs=4
+        <Col span={4} className={boxClass}>
+          span=4
         </Col>
       </Row>
     </Container>
@@ -34,14 +34,14 @@ export const ResponsiveSpan: Story = {
   render: () => (
     <Container>
       <Row>
-        <Col xs={6} sm={4} className={boxClass}>
-          xs=6 sm=4
+        <Col span={6} responsive={{ small: { span: 4 } }} className={boxClass}>
+          span=6, small:span=4
         </Col>
-        <Col xs={6} sm={4} className={boxClass}>
-          xs=6 sm=4
+        <Col span={6} responsive={{ small: { span: 4 } }} className={boxClass}>
+          span=6, small:span=4
         </Col>
-        <Col xs={6} sm={4} className={boxClass}>
-          xs=6 sm=4
+        <Col span={6} responsive={{ small: { span: 4 } }} className={boxClass}>
+          span=6, small:span=4
         </Col>
       </Row>
     </Container>
@@ -52,11 +52,11 @@ export const Offset: Story = {
   render: () => (
     <Container>
       <Row>
-        <Col md={4} className={boxClass}>
-          md=4
+        <Col responsive={{ medium: { span: 4 } }} className={boxClass}>
+          medium:span=4
         </Col>
-        <Col md={{ span: 4, offset: 4 }} className={boxClass}>
-          md=4 offset=4
+        <Col responsive={{ medium: { span: 4, offset: 4 } }} className={boxClass}>
+          medium:span=4 medium:offset=4
         </Col>
       </Row>
     </Container>
@@ -67,11 +67,11 @@ export const Order: Story = {
   render: () => (
     <Container>
       <Row>
-        <Col xs={{ span: true, order: 'last' }} className={boxClass}>
+        <Col span order="last" className={boxClass}>
           First in DOM, ordered last
         </Col>
         <Col className={boxClass}>Second in DOM, unordered</Col>
-        <Col xs={{ span: true, order: 'first' }} className={boxClass}>
+        <Col span order="first" className={boxClass}>
           Third in DOM, ordered first
         </Col>
       </Row>

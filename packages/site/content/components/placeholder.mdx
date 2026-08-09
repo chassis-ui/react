@@ -36,32 +36,32 @@ In the example below, we take a typical card component and recreate it with plac
       <title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect>
     </CardImage>  
     <CardBody>
-      <Placeholder component={CardTitle} animation="glow" xs={7}>
-        <Placeholder xs={6} />
+      <Placeholder component={CardTitle} animation="glow" span={7}>
+        <Placeholder span={6} />
       </Placeholder>
       <Placeholder component={CardText} animation="glow">
-        <Placeholder xs={7} />
-        <Placeholder xs={4} />
-        <Placeholder xs={4} />
-        <Placeholder xs={6} />
-        <Placeholder xs={8} />
+        <Placeholder span={7} />
+        <Placeholder span={4} />
+        <Placeholder span={4} />
+        <Placeholder span={6} />
+        <Placeholder span={8} />
       </Placeholder>
-      <Placeholder component={Button} disabled href="#" tabIndex={-1} xs={6}></Placeholder>
+      <Placeholder component={Button} disabled href="#" tabIndex={-1} span={6}></Placeholder>
     </CardBody>
   </Card>
 </Example>
 
 ## How it works
 
-Create placeholders with the `<Placeholder>` component and a grid column propx (e.g., `xs={6}`) to set the `width`. They can replace the text inside an element or be added as a modifier class to an existing component.
+Create placeholders with the `<Placeholder>` component and a `span` prop (e.g., `span={6}`) to set the `width`. They can replace the text inside an element or be added as a modifier class to an existing component.
 
 We apply additional styling to `Button`s via `::before` to ensure the `height` is respected. You may extend this pattern for other situations as needed, or add a `&nbsp;` within the element to reflect the height when actual text is rendered in its place.
 
 <Example>
   <p aria-hidden="true">
-    <Placeholder xs={6} />
+    <Placeholder span={6} />
   </p>
-  <Placeholder component={Button} aria-hidden="true" disabled href="#" tabIndex={-1} xs={4}></Placeholder>
+  <Placeholder component={Button} aria-hidden="true" disabled href="#" tabIndex={-1} span={4}></Placeholder>
 </Example>
 
 <Callout className="mb-4" context="info">
@@ -70,10 +70,10 @@ We apply additional styling to `Button`s via `::before` to ensure the `height` i
 
 ### Width
 
-You can change the `width` through grid column classes, width utilities, or inline styles.
+You can change the `width` through the `span` prop, width utilities, or inline styles.
 
 <Example>
-  <Placeholder xs={6} />
+  <Placeholder span={6} />
   <Placeholder className="w-75" />
   <Placeholder style={{ width: '30%'}} />
 </Example>
@@ -83,16 +83,16 @@ You can change the `width` through grid column classes, width utilities, or inli
 By default, the `<Placeholder>` uses `currentColor`. This can be overridden with a custom context or utility class.
 
 <Example>
-  <Placeholder xs={12} />
+  <Placeholder span={12} />
 
-  <Placeholder color="primary" xs={12} />
-  <Placeholder color="secondary" xs={12} />
-  <Placeholder color="success" xs={12} />
-  <Placeholder color="danger" xs={12} />
-  <Placeholder color="warning" xs={12} />
-  <Placeholder color="info" xs={12} />
-  <Placeholder color="light" xs={12} />
-  <Placeholder color="dark" xs={12} />
+  <Placeholder color="primary" span={12} />
+  <Placeholder color="secondary" span={12} />
+  <Placeholder color="success" span={12} />
+  <Placeholder color="danger" span={12} />
+  <Placeholder color="warning" span={12} />
+  <Placeholder color="info" span={12} />
+  <Placeholder color="light" span={12} />
+  <Placeholder color="dark" span={12} />
 </Example>
 
 ### Sizing
@@ -100,10 +100,10 @@ By default, the `<Placeholder>` uses `currentColor`. This can be overridden with
 The size of `<Placeholder>`s are based on the typographic style of the parent element. Customize them with `size` prop: `lg`, `sm`, or `xs`.
 
 <Example>
-  <Placeholder xs={12} size="large"/>
-  <Placeholder xs={12}/>
-  <Placeholder xs={12} size="small"/>
-  <Placeholder xs={12} size="xsmall"/>
+  <Placeholder span={12} size="large"/>
+  <Placeholder span={12}/>
+  <Placeholder span={12} size="small"/>
+  <Placeholder span={12} size="xsmall"/>
 </Example>
 
 ### Animation
@@ -112,10 +112,10 @@ Animate placeholders with `animation="glow"` or `animation="wave"` to better con
 
 <Example>
   <Placeholder component="p" animation="glow">
-    <Placeholder xs={12} />
+    <Placeholder span={12} />
   </Placeholder>  
   <Placeholder component="p" animation="wave">
-    <Placeholder xs={12} />
+    <Placeholder span={12} />
   </Placeholder> 
 </Example>
 

@@ -29,21 +29,21 @@ export const TooltipsExample = () => {
       validated={validated}
       onSubmit={handleSubmit}
     >
-      <Col md={4} className="position-relative">
+      <Col responsive={{ medium: { span: 4 } }} className="position-relative">
         <FormLabel htmlFor="validationTooltip01">Email</FormLabel>
         <TextInput type="text" id="validationTooltip01" defaultValue="Mark" required />
         <FormFeedback tooltip valid>
           Looks good!
         </FormFeedback>
       </Col>
-      <Col md={4} className="position-relative">
+      <Col responsive={{ medium: { span: 4 } }} className="position-relative">
         <FormLabel htmlFor="validationTooltip02">Email</FormLabel>
         <TextInput type="text" id="validationTooltip02" defaultValue="Otto" required />
         <FormFeedback tooltip valid>
           Looks good!
         </FormFeedback>
       </Col>
-      <Col md={4} className="position-relative">
+      <Col responsive={{ medium: { span: 4 } }} className="position-relative">
         <FormLabel htmlFor="validationTooltipUsername">Username</FormLabel>
         <InputGroup className="has-validation">
           <InputGroupAddon id="inputGroupPrepend">@</InputGroupAddon>
@@ -59,14 +59,14 @@ export const TooltipsExample = () => {
           </FormFeedback>
         </InputGroup>
       </Col>
-      <Col md={6} className="position-relative">
+      <Col responsive={{ medium: { span: 6 } }} className="position-relative">
         <FormLabel htmlFor="validationTooltip03">City</FormLabel>
         <TextInput type="text" id="validationTooltip03" required />
         <FormFeedback tooltip invalid>
           Please provide a valid city.
         </FormFeedback>
       </Col>
-      <Col md={3} className="position-relative">
+      <Col responsive={{ medium: { span: 3 } }} className="position-relative">
         <FormLabel htmlFor="validationTooltip04">City</FormLabel>
         <Select id="validationTooltip04" required>
           <option disabled value="">
@@ -78,14 +78,14 @@ export const TooltipsExample = () => {
           Please provide a valid city.
         </FormFeedback>
       </Col>
-      <Col md={3} className="position-relative">
+      <Col responsive={{ medium: { span: 3 } }} className="position-relative">
         <FormLabel htmlFor="validationTooltip05">City</FormLabel>
         <TextInput type="text" id="validationTooltip05" required />
         <FormFeedback tooltip invalid>
           Please provide a valid zip.
         </FormFeedback>
       </Col>
-      <Col xs={12} className="position-relative">
+      <Col span={12} className="position-relative">
         <Button color="primary" type="submit">
           Submit form
         </Button>

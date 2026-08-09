@@ -30,7 +30,7 @@ export const EqualWidth: Story = {
 export const RowCols: Story = {
   render: () => (
     <Container>
-      <Row xs={{ cols: 3 }}>
+      <Row cols={3}>
         <Col className={boxClass}>Column</Col>
         <Col className={boxClass}>Column</Col>
         <Col className={boxClass}>Column</Col>
@@ -45,7 +45,7 @@ export const RowCols: Story = {
 export const ResponsiveRowCols: Story = {
   render: () => (
     <Container>
-      <Row xs={{ cols: 1 }} sm={{ cols: 2 }} md={{ cols: 4 }}>
+      <Row cols={1} responsive={{ small: { cols: 2 }, medium: { cols: 4 } }}>
         <Col className={boxClass}>Column</Col>
         <Col className={boxClass}>Column</Col>
         <Col className={boxClass}>Column</Col>

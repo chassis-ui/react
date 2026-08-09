@@ -1,7 +1,7 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-import { BREAKPOINTS } from '../../utils/breakpoints'
+import { buildResponsiveClassNames } from '../../utils/breakpoints'
 import { Breakpoint, Spacing } from '../../types'
 
 export interface FlexLayout {
@@ -67,7 +67,7 @@ export interface FlexProps extends HTMLAttributes<HTMLDivElement>, FlexLayout {
 
 const layoutClassNames = (
   { direction, wrap, justify, align, alignContent, gap, rowGap, columnGap }: FlexLayout,
-  prefix = ''
+  prefix: string
 ) => [
   direction && `${prefix}flex-${direction}`,
   wrap && `${prefix}flex-${wrap}`,
@@ -101,16 +101,13 @@ export const Flex = forwardRef<HTMLDivElement, FlexProps>(
     },
     ref
   ) => {
-    const responsiveClassNames = responsive
-      ? BREAKPOINTS.filter((bp) => responsive[bp]).flatMap((bp) =>
-          layoutClassNames(responsive[bp]!, `${bp}:`)
-        )
-      : []
-
     const _className = classNames(
       inline ? 'd-inline-flex' : 'd-flex',
-      layoutClassNames({ direction, wrap, justify, align, alignContent, gap, rowGap, columnGap }),
-      responsiveClassNames,
+      buildResponsiveClassNames(
+        layoutClassNames,
+        { direction, wrap, justify, align, alignContent, gap, rowGap, columnGap },
+        responsive
+      ),
       className
     )
 

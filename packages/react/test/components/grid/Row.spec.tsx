@@ -24,12 +24,14 @@ describe('Row', () => {
       render(
         <Row
           className="bazinga"
-          xs={{ cols: 1 }}
-          sm={{ cols: 2 }}
-          md={{ cols: 3 }}
-          lg={{ cols: 4 }}
-          xl={{ cols: 5 }}
-          xxl={{ cols: 6 }}
+          cols={1}
+          responsive={{
+            small: { cols: 2 },
+            medium: { cols: 3 },
+            large: { cols: 4 },
+            xlarge: { cols: 5 },
+            '2xlarge': { cols: 6 }
+          }}
         >
           Test
         </Row>
@@ -48,12 +50,14 @@ describe('Row', () => {
     test('applies gutter, gutterX and gutterY classes per breakpoint', () => {
       render(
         <Row
-          xs={{ gutter: 'small' }}
-          sm={{ gutterX: 'medium' }}
-          md={{ gutterY: 'large' }}
-          lg={{ gutter: 'xlarge' }}
-          xl={{ gutterX: '2xlarge' }}
-          xxl={{ gutterY: 'zero' }}
+          gutter="small"
+          responsive={{
+            small: { gutterX: 'medium' },
+            medium: { gutterY: 'large' },
+            large: { gutter: 'xlarge' },
+            xlarge: { gutterX: '2xlarge' },
+            '2xlarge': { gutterY: 'zero' }
+          }}
         >
           Test
         </Row>
@@ -70,7 +74,7 @@ describe('Row', () => {
 
     test('applies the literal 0 gutter shorthand', () => {
       render(
-        <Row xs={{ gutter: 0 }} sm={{ gutterX: 0 }} md={{ gutterY: 0 }}>
+        <Row gutter={0} responsive={{ small: { gutterX: 0 }, medium: { gutterY: 0 } }}>
           Test
         </Row>
       )

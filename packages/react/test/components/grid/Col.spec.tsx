@@ -22,7 +22,17 @@ describe('Col', () => {
   describe('breakpoint props', () => {
     test('applies numeric span classes per breakpoint', () => {
       render(
-        <Col className="bazinga" xs={1} sm={2} md={3} lg={4} xl={5} xxl={6}>
+        <Col
+          className="bazinga"
+          span={1}
+          responsive={{
+            small: { span: 2 },
+            medium: { span: 3 },
+            large: { span: 4 },
+            xlarge: { span: 5 },
+            '2xlarge': { span: 6 }
+          }}
+        >
           Test
         </Col>
       )
@@ -39,22 +49,31 @@ describe('Col', () => {
 
     test('applies boolean auto-width classes per breakpoint', () => {
       render(
-        <Col xs={true} sm={true} md={true} lg={true} xl={true} xxl={true}>
+        <Col
+          span
+          responsive={{
+            small: { span: true },
+            medium: { span: true },
+            large: { span: true },
+            xlarge: { span: true },
+            '2xlarge': { span: true }
+          }}
+        >
           Test
         </Col>
       )
       expect(screen.getByText('Test')).toHaveClass(
         'col',
-        'col-small',
-        'col-medium',
-        'col-large',
-        'col-xlarge',
-        'col-2xlarge'
+        'small:col',
+        'medium:col',
+        'large:col',
+        'xlarge:col',
+        '2xlarge:col'
       )
     })
 
-    test('applies span/order/offset from a breakpoint object', () => {
-      render(<Col md={{ span: 6, order: 'first', offset: 2 }}>Test</Col>)
+    test('applies span/order/offset from a responsive breakpoint override', () => {
+      render(<Col responsive={{ medium: { span: 6, order: 'first', offset: 2 } }}>Test</Col>)
       expect(screen.getByText('Test')).toHaveClass(
         'medium:col-6',
         'medium:order-first',

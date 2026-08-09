@@ -1,7 +1,8 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-import { ContextColor } from '../../types'
+import { Span, buildResponsiveClassNames } from '../../utils/breakpoints'
+import { Breakpoint, ContextColor } from '../../types'
 
 export interface PlaceholderProps extends HTMLAttributes<HTMLSpanElement> {
   /**
@@ -25,80 +26,47 @@ export interface PlaceholderProps extends HTMLAttributes<HTMLSpanElement> {
    */
   size?: 'xsmall' | 'small' | 'large'
   /**
-   * The number of columns on extra small devices (<576px).
+   * Width of the placeholder, expressed as a column span (of 12), or `'auto'`/`true` for a
+   * natural-width placeholder.
+   *
+   * @type { 'auto' | number | string | boolean }
    */
-  xs?: number
+  span?: Span
   /**
-   * The number of columns on small devices (<768px).
+   * Overrides `span` at a breakpoint and up.
+   *
+   * @type { Partial<Record<'small' | 'medium' | 'large' | 'xlarge' | '2xlarge', 'auto' | number | string | boolean>> }
    */
-  sm?: number
-  /**
-   * The number of columns on medium devices (<992px).
-   */
-  md?: number
-  /**
-   * The number of columns on large devices (<1200px).
-   */
-  lg?: number
-  /**
-   * The number of columns on X-Large devices (<1400px).
-   */
-  xl?: number
-  /**
-   * The number of columns on XX-Large devices (≥1400px).
-   */
-  xxl?: number
+  responsive?: Partial<Record<Breakpoint, Span>>
 }
 
-const BREAKPOINTS = [
-  'xxl' as const,
-  'xl' as const,
-  'lg' as const,
-  'md' as const,
-  'sm' as const,
-  'xs' as const
+const spanClassNames = (span: Span | undefined, prefix: string) => [
+  typeof span === 'number' || typeof span === 'string' ? `${prefix}col-${span}` : null,
+  span === true ? `${prefix}col` : null
 ]
-
-const BP_NAME: Record<string, string> = {
-  xxl: '2xlarge',
-  xl: 'xlarge',
-  lg: 'large',
-  md: 'medium',
-  sm: 'small',
-  xs: ''
-}
 
 export const Placeholder = forwardRef<HTMLSpanElement, PlaceholderProps>(
   (
-    { children, animation, className, color, component: Component = 'span', size, ...rest },
+    {
+      children,
+      animation,
+      className,
+      color,
+      component: Component = 'span',
+      size,
+      span,
+      responsive,
+      ...rest
+    },
     ref
   ) => {
-    const repsonsiveClassNames: string[] = []
-
-    BREAKPOINTS.forEach((bp) => {
-      const breakpoint = rest[bp]
-      delete rest[bp]
-
-      const bpName = BP_NAME[bp]
-      const prefix = bpName ? `${bpName}:` : ''
-      const suffix = bpName ? `-${bpName}` : ''
-
-      if (typeof breakpoint === 'number') {
-        repsonsiveClassNames.push(`${prefix}col-${breakpoint}`)
-      }
-
-      if (typeof breakpoint === 'boolean') {
-        repsonsiveClassNames.push(`col${suffix}`)
-      }
-    })
-
     const _className = classNames(
       animation ? `placeholder-${animation}` : 'placeholder',
       {
         [`bg-${color}`]: color,
         [`placeholder-${size}`]: size
       },
-      repsonsiveClassNames,
+      buildResponsiveClassNames(spanClassNames, span, responsive),
       className
     )
 

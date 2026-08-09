@@ -17,7 +17,7 @@ export const MultipleTargetsExample = () => {
         Toggle both elements
       </Button>
       <Row>
-        <Col xs={6}>
+        <Col span={6}>
           <Collapse visible={visibleA}>
             <Card className="mt-3">
               <CardBody>
@@ -28,7 +28,7 @@ export const MultipleTargetsExample = () => {
             </Card>
           </Collapse>
         </Col>
-        <Col xs={6}>
+        <Col span={6}>
           <Collapse visible={visibleB}>
             <Card className="mt-3">
               <CardBody>

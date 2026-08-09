@@ -25,17 +25,17 @@ export const BrowserDefaultsExample = () => {
   }
   return (
     <Form className="row g-3 needs-validation" validated={validated} onSubmit={handleSubmit}>
-      <Col md={4}>
+      <Col responsive={{ medium: { span: 4 } }}>
         <FormLabel htmlFor="validationDefault01">Email</FormLabel>
         <TextInput type="text" id="validationDefault01" defaultValue="Mark" required />
         <FormFeedback valid>Looks good!</FormFeedback>
       </Col>
-      <Col md={4}>
+      <Col responsive={{ medium: { span: 4 } }}>
         <FormLabel htmlFor="validationDefault02">Email</FormLabel>
         <TextInput type="text" id="validationDefault02" defaultValue="Otto" required />
         <FormFeedback valid>Looks good!</FormFeedback>
       </Col>
-      <Col md={4}>
+      <Col responsive={{ medium: { span: 4 } }}>
         <FormLabel htmlFor="validationDefaultUsername">Username</FormLabel>
         <InputGroup className="has-validation">
           <InputGroupAddon id="inputGroupPrepend02">@</InputGroupAddon>
@@ -49,12 +49,12 @@ export const BrowserDefaultsExample = () => {
           <FormFeedback invalid>Please choose a username.</FormFeedback>
         </InputGroup>
       </Col>
-      <Col md={6}>
+      <Col responsive={{ medium: { span: 6 } }}>
         <FormLabel htmlFor="validationDefault03">City</FormLabel>
         <TextInput type="text" id="validationDefault03" required />
         <FormFeedback invalid>Please provide a valid city.</FormFeedback>
       </Col>
-      <Col md={3}>
+      <Col responsive={{ medium: { span: 3 } }}>
         <FormLabel htmlFor="validationDefault04">City</FormLabel>
         <Select id="validationDefault04">
           <option disabled>Choose...</option>
@@ -62,12 +62,12 @@ export const BrowserDefaultsExample = () => {
         </Select>
         <FormFeedback invalid>Please provide a valid city.</FormFeedback>
       </Col>
-      <Col md={3}>
+      <Col responsive={{ medium: { span: 3 } }}>
         <FormLabel htmlFor="validationDefault05">City</FormLabel>
         <TextInput type="text" id="validationDefault05" required />
         <FormFeedback invalid>Please provide a valid zip.</FormFeedback>
       </Col>
-      <Col xs={12}>
+      <Col span={12}>
         <Checkbox
           type="checkbox"
           id="invalidCheck"
@@ -76,7 +76,7 @@ export const BrowserDefaultsExample = () => {
         />
         <FormFeedback invalid>You must agree before submitting.</FormFeedback>
       </Col>
-      <Col xs={12}>
+      <Col span={12}>
         <Button color="primary" type="submit">
           Submit form
         </Button>

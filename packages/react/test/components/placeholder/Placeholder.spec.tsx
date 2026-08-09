@@ -28,7 +28,13 @@ describe('Placeholder', () => {
   describe('styling props', () => {
     test('applies animation, size, breakpoint and className together', () => {
       const { container } = render(
-        <Placeholder animation="glow" className="bazinga" color="secondary" size="large" sm={7} />
+        <Placeholder
+          animation="glow"
+          className="bazinga"
+          color="secondary"
+          size="large"
+          responsive={{ small: 7 }}
+        />
       )
       expect(container.firstChild).toHaveClass(
         'placeholder-glow',

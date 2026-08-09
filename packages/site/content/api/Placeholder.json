@@ -159,10 +159,10 @@
         ]
       }
     },
-    "xs": {
+    "span": {
       "defaultValue": null,
-      "description": "The number of columns on extra small devices (<576px).",
-      "name": "xs",
+      "description": "Width of the placeholder, expressed as a column span (of 12), or `'auto'`/`true` for a\nnatural-width placeholder.",
+      "name": "span",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
         "name": "PlaceholderProps"
@@ -175,13 +175,13 @@
       ],
       "required": false,
       "type": {
-        "name": "number"
+        "name": "{ 'auto' | number | string | boolean }"
       }
     },
-    "sm": {
+    "responsive": {
       "defaultValue": null,
-      "description": "The number of columns on small devices (<768px).",
-      "name": "sm",
+      "description": "Overrides `span` at a breakpoint and up.",
+      "name": "responsive",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
         "name": "PlaceholderProps"
@@ -194,83 +194,7 @@
       ],
       "required": false,
       "type": {
-        "name": "number"
-      }
-    },
-    "md": {
-      "defaultValue": null,
-      "description": "The number of columns on medium devices (<992px).",
-      "name": "md",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
-        "name": "PlaceholderProps"
-      },
-      "declarations": [
-        {
-          "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
-          "name": "PlaceholderProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "number"
-      }
-    },
-    "lg": {
-      "defaultValue": null,
-      "description": "The number of columns on large devices (<1200px).",
-      "name": "lg",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
-        "name": "PlaceholderProps"
-      },
-      "declarations": [
-        {
-          "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
-          "name": "PlaceholderProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "number"
-      }
-    },
-    "xl": {
-      "defaultValue": null,
-      "description": "The number of columns on X-Large devices (<1400px).",
-      "name": "xl",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
-        "name": "PlaceholderProps"
-      },
-      "declarations": [
-        {
-          "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
-          "name": "PlaceholderProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "number"
-      }
-    },
-    "xxl": {
-      "defaultValue": null,
-      "description": "The number of columns on XX-Large devices (≥1400px).",
-      "name": "xxl",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
-        "name": "PlaceholderProps"
-      },
-      "declarations": [
-        {
-          "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
-          "name": "PlaceholderProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "number"
+        "name": "{ Partial<Record<'small' | 'medium' | 'large' | 'xlarge' | '2xlarge', 'auto' | number | string | boolean>> }"
       }
     }
   }

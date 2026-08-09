@@ -24,10 +24,10 @@
         "name": "string"
       }
     },
-    "xs": {
+    "responsive": {
       "defaultValue": null,
-      "description": "The number of columns/offset/order on extra small devices (<576px).",
-      "name": "xs",
+      "description": "Overrides `cols`/`gutter`/`gutterX`/`gutterY` at a breakpoint and up.",
+      "name": "responsive",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
         "name": "RowProps"
@@ -40,102 +40,83 @@
       ],
       "required": false,
       "type": {
-        "name": "{{ cols: 'auto' | number | string } | { gutter: Spacing | 0 } | { gutterX: Spacing | 0 } | { gutterY: Spacing | 0 }}"
+        "name": "{ Partial<Record<'small' | 'medium' | 'large' | 'xlarge' | '2xlarge', { cols?: 'auto' | number | string, gutter?: Spacing | 0, gutterX?: Spacing | 0, gutterY?: Spacing | 0 }>> }"
       }
     },
-    "sm": {
+    "cols": {
       "defaultValue": null,
-      "description": "The number of columns/offset/order on small devices (<768px).",
-      "name": "sm",
+      "description": "Equal-width columns per row, or `'auto'` for content-sized columns.",
+      "name": "cols",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
-        "name": "RowProps"
+        "name": "RowLayout"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
-          "name": "RowProps"
+          "name": "RowLayout"
         }
       ],
       "required": false,
       "type": {
-        "name": "{{ cols: 'auto' | number | string } | { gutter: Spacing | 0 } | { gutterX: Spacing | 0 } | { gutterY: Spacing | 0 }}"
+        "name": "{ 'auto' | number | string }"
       }
     },
-    "md": {
+    "gutter": {
       "defaultValue": null,
-      "description": "The number of columns/offset/order on medium devices (<992px).",
-      "name": "md",
+      "description": "Gutter width on both axes.",
+      "name": "gutter",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
-        "name": "RowProps"
+        "name": "RowLayout"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
-          "name": "RowProps"
+          "name": "RowLayout"
         }
       ],
       "required": false,
       "type": {
-        "name": "{{ cols: 'auto' | number | string } | { gutter: Spacing | 0 } | { gutterX: Spacing | 0 } | { gutterY: Spacing | 0 }}"
+        "name": "{ Spacing | 0 }"
       }
     },
-    "lg": {
+    "gutterX": {
       "defaultValue": null,
-      "description": "The number of columns/offset/order on large devices (<1200px).",
-      "name": "lg",
+      "description": "Horizontal gutter width.",
+      "name": "gutterX",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
-        "name": "RowProps"
+        "name": "RowLayout"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
-          "name": "RowProps"
+          "name": "RowLayout"
         }
       ],
       "required": false,
       "type": {
-        "name": "{{ cols: 'auto' | number | string } | { gutter: Spacing | 0 } | { gutterX: Spacing | 0 } | { gutterY: Spacing | 0 }}"
+        "name": "{ Spacing | 0 }"
       }
     },
-    "xl": {
+    "gutterY": {
       "defaultValue": null,
-      "description": "The number of columns/offset/order on X-Large devices (<1400px).",
-      "name": "xl",
+      "description": "Vertical gutter width.",
+      "name": "gutterY",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
-        "name": "RowProps"
+        "name": "RowLayout"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
-          "name": "RowProps"
+          "name": "RowLayout"
         }
       ],
       "required": false,
       "type": {
-        "name": "{{ cols: 'auto' | number | string } | { gutter: Spacing | 0 } | { gutterX: Spacing | 0 } | { gutterY: Spacing | 0 }}"
-      }
-    },
-    "xxl": {
-      "defaultValue": null,
-      "description": "The number of columns/offset/order on XX-Large devices (≥1400px).",
-      "name": "xxl",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
-        "name": "RowProps"
-      },
-      "declarations": [
-        {
-          "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
-          "name": "RowProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "{{ cols: 'auto' | number | string } | { gutter: Spacing | 0 } | { gutterX: Spacing | 0 } | { gutterY: Spacing | 0 }}"
+        "name": "{ Spacing | 0 }"
       }
     }
   }
