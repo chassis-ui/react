@@ -18,3 +18,10 @@ export const BREAKPOINT_NAME: Record<ShortBreakpoint, Breakpoint | ''> = {
   xl: 'xlarge',
   xxl: '2xlarge'
 }
+
+// Ascending, mobile-first, derived from BREAKPOINT_NAME rather than hand-typed so it can't drift.
+// For components (e.g. `Stack`) that take `Breakpoint`'s literal names directly as prop values,
+// unlike Row/Col/Container's short-key shorthand above.
+export const BREAKPOINTS: Breakpoint[] = SHORT_BREAKPOINTS.map((bp) => BREAKPOINT_NAME[bp]).filter(
+  (name): name is Breakpoint => name !== ''
+)

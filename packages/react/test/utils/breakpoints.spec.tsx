@@ -1,8 +1,12 @@
-import { BREAKPOINT_NAME, SHORT_BREAKPOINTS } from '../../src/utils/breakpoints'
+import { BREAKPOINT_NAME, BREAKPOINTS, SHORT_BREAKPOINTS } from '../../src/utils/breakpoints'
 
 describe('breakpoints', () => {
   test('SHORT_BREAKPOINTS is ascending, mobile-first', () => {
     expect(SHORT_BREAKPOINTS).toEqual(['xs', 'sm', 'md', 'lg', 'xl', 'xxl'])
+  })
+
+  test('BREAKPOINTS is the ascending, mobile-first list of full breakpoint names', () => {
+    expect(BREAKPOINTS).toEqual(['small', 'medium', 'large', 'xlarge', '2xlarge'])
   })
 
   test('BREAKPOINT_NAME maps every short key to its chassis-css breakpoint name', () => {

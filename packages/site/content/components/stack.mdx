@@ -1,0 +1,68 @@
+---
+title: Stack
+description: Compose flexbox properties into two one-dimensional layout primitives — Stack for vertical and horizontal arrangements, with responsive direction switching.
+
+toc: true
+---
+
+
+import { Stack } from '@chassis-ui/react'
+
+`<Stack>` composes flexbox properties into two layout primitives: `direction="horizontal"` (the default, wraps `.hstack`) for row arrangements and `direction="vertical"` (wraps `.vstack`) for column arrangements. The concept originates from the open source [Pylon project](https://almonk.github.io/pylon/).
+
+## Vertical
+
+`direction="vertical"` arranges children in a column. Items stretch to full width by default; `gap` controls the spacing between them.
+
+<Example>
+  <Stack direction="vertical" gap="medium">
+    <div className="p-xsmall">First item</div>
+    <div className="p-xsmall">Second item</div>
+    <div className="p-xsmall">Third item</div>
+  </Stack>
+</Example>
+
+## Horizontal
+
+The default `direction="horizontal"` arranges children in a row, aligned to the start of the cross axis. Items take only their natural width; `gap` controls the spacing between them.
+
+<Example>
+  <Stack gap="medium">
+    <div className="p-xsmall">First item</div>
+    <div className="p-xsmall">Second item</div>
+    <div className="p-xsmall">Third item</div>
+  </Stack>
+</Example>
+
+`.ms-auto` acts as a spacer, pushing following items to the far end:
+
+<Example>
+  <Stack gap="medium">
+    <div className="p-xsmall">First item</div>
+    <div className="p-xsmall ms-auto">Second item</div>
+    <div className="p-xsmall">Third item</div>
+  </Stack>
+</Example>
+
+## Responsive direction
+
+The `responsive` prop switches `direction` at one or more breakpoints, using [container queries](./breakpoints) rather than viewport media queries — it accepts an object keyed by the full breakpoint names (`small`/`medium`/`large`/`xlarge`/`2xlarge`), each mapped to `'horizontal'` or `'vertical'`.
+
+Responsive direction switching requires a `.contains-inline` ancestor to establish the container query context — `<Stack>` doesn't apply this itself, since the containment has to live on a *parent* of the element whose own layout is switching. Resize your browser to preview the transition between column and row layouts below:
+
+<Example>
+  <div className="contains-inline">
+    <Stack direction="vertical" gap="medium" responsive={{ small: 'horizontal' }}>
+      <button type="button" className="button primary">
+        Primary action
+      </button>
+      <button type="button" className="button primary outline">
+        Cancel
+      </button>
+    </Stack>
+  </div>
+</Example>
+
+## API
+
+<PropTable component="Stack" />
