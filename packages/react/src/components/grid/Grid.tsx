@@ -1,12 +1,20 @@
 import React, { CSSProperties, ElementType, forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
+import { Spacing, SPACING } from '../../types'
+
 type GridStyle = CSSProperties & {
   '--cx-grid-columns'?: number
   '--cx-grid-rows'?: number
   '--cx-grid-gap'?: string
   '--cx-gap'?: string
 }
+
+const SPACING_TOKENS = new Set<string>(SPACING)
+
+// `Spacing` tokens map to the matching `--cx-space-*` custom property; anything else (a raw CSS
+// value, e.g. `"1rem"` or `".25rem 1rem"`) passes through unchanged.
+const resolveGap = (gap: string) => (SPACING_TOKENS.has(gap) ? `var(--cx-space-${gap})` : gap)
 
 export interface GridProps extends HTMLAttributes<HTMLDivElement> {
   /**
@@ -29,9 +37,12 @@ export interface GridProps extends HTMLAttributes<HTMLDivElement> {
   rows?: number
   /**
    * Gap between grid items, set via the `--cx-grid-gap` custom property (or `--cx-gap` when
-   * `fill` is set). Accepts any CSS `gap` value, including a `"{row} {column}"` pair.
+   * `fill` is set). Accepts a `Spacing` token (mapped to the matching `--cx-space-*` custom
+   * property) or any raw CSS `gap` value, including a `"{row} {column}"` pair.
+   *
+   * @type { Spacing | string }
    */
-  gap?: string
+  gap?: Spacing | (string & {})
   /**
    * Renders `.grid-fill` instead of `.grid` — columns expand equally to fill the available
    * width, with the column count determined by the number of children rather than `columns`.
@@ -69,11 +80,11 @@ export const Grid = forwardRef<HTMLDivElement, GridProps>(
     const _style: GridStyle = { ...style }
 
     if (fill) {
-      if (gap !== undefined) _style['--cx-gap'] = gap
+      if (gap !== undefined) _style['--cx-gap'] = resolveGap(gap)
     } else {
       if (columns !== undefined) _style['--cx-grid-columns'] = columns
       if (rows !== undefined) _style['--cx-grid-rows'] = rows
-      if (gap !== undefined) _style['--cx-grid-gap'] = gap
+      if (gap !== undefined) _style['--cx-grid-gap'] = resolveGap(gap)
     }
 
     return (

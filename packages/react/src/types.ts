@@ -35,23 +35,28 @@ export type Sizing = 'small' | 'medium' | 'large'
 export type ExtendedSizing = '2xsmall' | 'xsmall' | Sizing | 'xlarge' | '2xlarge'
 
 /**
- * Spacing values
+ * Spacing values. `SPACING` is the runtime source of truth — `Spacing` is derived from it so the
+ * two can't drift apart; anything needing the values at runtime (e.g. validating a string against
+ * the scale) should import `SPACING`, not hand-copy the list.
  */
-export type Spacing =
-  | 'zero'
-  | '4xsmall'
-  | '3xsmall'
-  | '2xsmall'
-  | 'xsmall'
-  | 'small'
-  | 'medium'
-  | 'large'
-  | 'xlarge'
-  | '2xlarge'
-  | '3xlarge'
-  | '4xlarge'
-  | '5xlarge'
-  | '6xlarge'
+export const SPACING = [
+  'zero',
+  '4xsmall',
+  '3xsmall',
+  '2xsmall',
+  'xsmall',
+  'small',
+  'medium',
+  'large',
+  'xlarge',
+  '2xlarge',
+  '3xlarge',
+  '4xlarge',
+  '5xlarge',
+  '6xlarge'
+] as const
+
+export type Spacing = (typeof SPACING)[number]
 
 /**
  * Font families

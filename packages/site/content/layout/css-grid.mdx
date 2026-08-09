@@ -41,7 +41,7 @@ Add breakpoint-prefixed classes to children to change their span at specific vie
 - **No negative margins.** `<Grid>` uses the CSS `gap` property instead of padding-and-negative-margin gutters, so there's no row-edge bleed and no `.overflow-hidden` wrapper is required.
 - **Gap applies to both axes.** `gap` sets horizontal and vertical spacing simultaneously. Use an inline `style` with `rowGap`/`columnGap` to control axes independently.
 - **Flex utilities have no effect** on `<Grid>`'s children — `align-items`, `justify-content`, and similar flex properties don't apply to CSS Grid items.
-- **`columns`/`rows`/`gap` are runtime-configurable properties**, not modifier props per breakpoint — unlike `<Row>`'s `xs`/`sm`/`md`/`lg`/`xl`/`xxl` object props, `<Grid>` has a single, fixed column/row/gap configuration.
+- **`columns`/`rows`/`gap` are runtime-configurable properties**, not modifier props per breakpoint — unlike `<Row>`'s `responsive` prop, `<Grid>` has a single, fixed column/row/gap configuration. Chassis-css itself has no breakpoint-scoped equivalent for the grid *container* (only for item placement, via `g-col-{n}`/`g-start-{n}`'s breakpoint-prefixed variants — see [Responsive classes](#responsive-classes) below), so a responsive `<Grid>` container isn't offered; reach for [`<Row>`/`<Col>`](./grid) when you need responsive column counts.
 
 ## Customizing columns and gap
 
@@ -62,6 +62,16 @@ Add breakpoint-prefixed classes to children to change their span at specific vie
     <div className="g-col-6 border p-medium text-center">.g-col-6</div>
     <div className="g-col-6 border p-medium text-center">.g-col-6</div>
     <div className="g-col-6 border p-medium text-center">.g-col-6</div>
+  </Grid>
+</Example>
+
+`gap` also accepts a `Spacing` token (the same named scale `<Row>`'s `gutter`/`<Stack>`'s `gap`/`<Flex>`'s `gap` use), resolved to the matching `--cx-space-*` custom property — a convenient way to stay on the design system's spacing scale without hardcoding a raw value:
+
+<Example>
+  <Grid gap="large">
+    <div className="g-col-4 border p-medium text-center">.g-col-4</div>
+    <div className="g-col-4 border p-medium text-center">.g-col-4</div>
+    <div className="g-col-4 border p-medium text-center">.g-col-4</div>
   </Grid>
 </Example>
 

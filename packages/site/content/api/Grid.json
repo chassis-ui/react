@@ -85,7 +85,7 @@
     },
     "gap": {
       "defaultValue": null,
-      "description": "Gap between grid items, set via the `--cx-grid-gap` custom property (or `--cx-gap` when\n`fill` is set). Accepts any CSS `gap` value, including a `\"{row} {column}\"` pair.",
+      "description": "Gap between grid items, set via the `--cx-grid-gap` custom property (or `--cx-gap` when\n`fill` is set). Accepts a `Spacing` token (mapped to the matching `--cx-space-*` custom\nproperty) or any raw CSS `gap` value, including a `\"{row} {column}\"` pair.",
       "name": "gap",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/grid/Grid.tsx",
@@ -99,7 +99,7 @@
       ],
       "required": false,
       "type": {
-        "name": "string"
+        "name": "{ Spacing | string }"
       }
     },
     "fill": {

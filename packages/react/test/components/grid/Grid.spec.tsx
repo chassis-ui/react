@@ -47,6 +47,11 @@ describe('Grid', () => {
       expect(screen.getByText('Test')).toHaveStyle({ '--cx-grid-gap': '1rem' })
     })
 
+    test('resolves a Spacing token to the matching --cx-space-* custom property', () => {
+      render(<Grid gap="medium">Test</Grid>)
+      expect(screen.getByText('Test')).toHaveStyle({ '--cx-grid-gap': 'var(--cx-space-medium)' })
+    })
+
     test('sets no custom properties when props are omitted', () => {
       const { container } = render(<Grid>Test</Grid>)
       expect(container.firstChild).not.toHaveAttribute('style')
@@ -79,6 +84,15 @@ describe('Grid', () => {
       const el = screen.getByText('Test')
       expect(el).toHaveStyle({ '--cx-gap': '2rem' })
       expect(el.style.getPropertyValue('--cx-grid-gap')).toBe('')
+    })
+
+    test('resolves a Spacing token to --cx-space-* on --cx-gap too', () => {
+      render(
+        <Grid fill gap="small">
+          Test
+        </Grid>
+      )
+      expect(screen.getByText('Test')).toHaveStyle({ '--cx-gap': 'var(--cx-space-small)' })
     })
 
     test('ignores columns/rows when fill is set', () => {
