@@ -104,3 +104,32 @@ export const Wrap: Story = {
     gap: 'small'
   }
 }
+
+// row-gap and column-gap only visibly differ from a single gap once the container wraps onto
+// multiple lines — a single-row flex container has only one axis of gap to show.
+export const RowAndColumnGap: Story = {
+  render: (args) => (
+    <Flex {...args} style={{ width: 160 }}>
+      {items}
+      {items}
+    </Flex>
+  ),
+  args: {
+    wrap: 'wrap',
+    rowGap: 'xlarge',
+    columnGap: 'xsmall'
+  }
+}
+
+// Resize the Storybook canvas to preview the breakpoint-driven layout switch — these are regular
+// viewport media queries, unlike Stack's responsive prop, so no .contains-inline wrapper needed.
+export const Responsive: Story = {
+  args: {
+    direction: 'column',
+    gap: 'small',
+    responsive: {
+      medium: { direction: 'row', gap: 'medium', justify: 'between' }
+    },
+    children: items
+  }
+}

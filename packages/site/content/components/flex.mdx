@@ -8,7 +8,7 @@ toc: true
 
 import { Flex } from '@chassis-ui/react'
 
-`<Flex>` turns an element into a flexbox container (`.d-flex`, or `.d-inline-flex` with `inline`) and exposes the underlying flex properties as props: `direction`, `wrap`, `justify`, `align`, `alignContent`, and `gap`.
+`<Flex>` turns an element into a flexbox container (`.d-flex`, or `.d-inline-flex` with `inline`) and exposes the underlying flex properties as props: `direction`, `wrap`, `justify`, `align`, `alignContent`, `gap`/`rowGap`/`columnGap`, plus a `responsive` prop for overriding any of these at specific breakpoints.
 
 Reach for [`<Stack>`](./stack) first for simple one-dimensional arrangements — it wraps `.hstack`/`.vstack` with sensible alignment defaults baked in. Reach for `<Flex>` when you need more control than Stack's defaults give you: wrapping, main-axis justification, cross-axis alignment other than Stack's fixed default, or no default flex/align behavior at all (a bare `.d-flex` with nothing else set).
 
@@ -77,6 +77,36 @@ With no props, `<Flex>` is a plain flexbox row using the browser's defaults (`fl
 ## Align content
 
 `alignContent` sets `align-content`, distributing wrapped lines along the cross axis. It has no effect on single-line (non-wrapping) containers.
+
+## Row and column gaps
+
+`gap` sets spacing on both axes at once. `rowGap`/`columnGap` control each axis independently, and take precedence over `gap` on their own axis — useful once a wrapped container needs different spacing between lines than between items on the same line.
+
+<Example>
+  <Flex wrap="wrap" rowGap="xlarge" columnGap="xsmall" style={{ width: 200 }}>
+    <div className="p-xsmall">One</div>
+    <div className="p-xsmall">Two</div>
+    <div className="p-xsmall">Three</div>
+    <div className="p-xsmall">Four</div>
+    <div className="p-xsmall">Five</div>
+  </Flex>
+</Example>
+
+## Responsive
+
+The `responsive` prop overrides any of `direction`/`wrap`/`justify`/`align`/`alignContent`/`gap`/`rowGap`/`columnGap` at one or more breakpoints, keyed by the full breakpoint names (`small`/`medium`/`large`/`xlarge`/`2xlarge`). Unlike [`<Stack>`'s `responsive` prop](./stack#responsive-direction), which relies on container queries, `Flex`'s responsive classes are plain viewport `min-width` media queries — no `.contains-inline` ancestor needed. Resize your browser to see the layout switch from a stacked column to a row at the `medium` breakpoint:
+
+<Example>
+  <Flex
+    direction="column"
+    gap="small"
+    responsive={{ medium: { direction: 'row', gap: 'medium', justify: 'between' } }}
+  >
+    <div className="p-xsmall">First item</div>
+    <div className="p-xsmall">Second item</div>
+    <div className="p-xsmall">Third item</div>
+  </Flex>
+</Example>
 
 ## Item-level utilities
 

@@ -64,10 +64,10 @@
         "name": "boolean"
       }
     },
-    "direction": {
+    "responsive": {
       "defaultValue": null,
-      "description": "Sets `flex-direction`. Omit for the browser default (`row`).",
-      "name": "direction",
+      "description": "Overrides any of `direction`/`wrap`/`justify`/`align`/`alignContent`/`gap`/`rowGap`/\n`columnGap` at one or more breakpoints, via regular viewport media queries (unlike `Stack`'s\n`responsive` prop, this doesn't require a `.contains-inline` ancestor).",
+      "name": "responsive",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
         "name": "FlexProps"
@@ -76,6 +76,25 @@
         {
           "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
           "name": "FlexProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Partial<Record<Breakpoint, FlexLayout>>"
+      }
+    },
+    "direction": {
+      "defaultValue": null,
+      "description": "Sets `flex-direction`. Omit for the browser default (`row`).",
+      "name": "direction",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+        "name": "FlexLayout"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+          "name": "FlexLayout"
         }
       ],
       "required": false,
@@ -104,12 +123,12 @@
       "name": "wrap",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
-        "name": "FlexProps"
+        "name": "FlexLayout"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
-          "name": "FlexProps"
+          "name": "FlexLayout"
         }
       ],
       "required": false,
@@ -135,12 +154,12 @@
       "name": "justify",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
-        "name": "FlexProps"
+        "name": "FlexLayout"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
-          "name": "FlexProps"
+          "name": "FlexLayout"
         }
       ],
       "required": false,
@@ -175,12 +194,12 @@
       "name": "align",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
-        "name": "FlexProps"
+        "name": "FlexLayout"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
-          "name": "FlexProps"
+          "name": "FlexLayout"
         }
       ],
       "required": false,
@@ -212,12 +231,12 @@
       "name": "alignContent",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
-        "name": "FlexProps"
+        "name": "FlexLayout"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
-          "name": "FlexProps"
+          "name": "FlexLayout"
         }
       ],
       "required": false,
@@ -248,16 +267,150 @@
     },
     "gap": {
       "defaultValue": null,
-      "description": "Spacing between children, mapped to the `gap-*` utility classes.",
+      "description": "Spacing between children on both axes, mapped to the `gap-*` utility classes. Overridden per\naxis by `rowGap`/`columnGap` where set.",
       "name": "gap",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
-        "name": "FlexProps"
+        "name": "FlexLayout"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
-          "name": "FlexProps"
+          "name": "FlexLayout"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "0 | Spacing",
+        "value": [
+          {
+            "value": "0"
+          },
+          {
+            "value": "\"small\""
+          },
+          {
+            "value": "\"zero\""
+          },
+          {
+            "value": "\"4xsmall\""
+          },
+          {
+            "value": "\"3xsmall\""
+          },
+          {
+            "value": "\"2xsmall\""
+          },
+          {
+            "value": "\"xsmall\""
+          },
+          {
+            "value": "\"medium\""
+          },
+          {
+            "value": "\"large\""
+          },
+          {
+            "value": "\"xlarge\""
+          },
+          {
+            "value": "\"2xlarge\""
+          },
+          {
+            "value": "\"3xlarge\""
+          },
+          {
+            "value": "\"4xlarge\""
+          },
+          {
+            "value": "\"5xlarge\""
+          },
+          {
+            "value": "\"6xlarge\""
+          }
+        ]
+      }
+    },
+    "rowGap": {
+      "defaultValue": null,
+      "description": "Spacing between rows (the cross axis when wrapped), mapped to the `row-gap-*` utility\nclasses. Independent of `gap`/`columnGap`.",
+      "name": "rowGap",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+        "name": "FlexLayout"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+          "name": "FlexLayout"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "0 | Spacing",
+        "value": [
+          {
+            "value": "0"
+          },
+          {
+            "value": "\"small\""
+          },
+          {
+            "value": "\"zero\""
+          },
+          {
+            "value": "\"4xsmall\""
+          },
+          {
+            "value": "\"3xsmall\""
+          },
+          {
+            "value": "\"2xsmall\""
+          },
+          {
+            "value": "\"xsmall\""
+          },
+          {
+            "value": "\"medium\""
+          },
+          {
+            "value": "\"large\""
+          },
+          {
+            "value": "\"xlarge\""
+          },
+          {
+            "value": "\"2xlarge\""
+          },
+          {
+            "value": "\"3xlarge\""
+          },
+          {
+            "value": "\"4xlarge\""
+          },
+          {
+            "value": "\"5xlarge\""
+          },
+          {
+            "value": "\"6xlarge\""
+          }
+        ]
+      }
+    },
+    "columnGap": {
+      "defaultValue": null,
+      "description": "Spacing between columns (the main axis), mapped to the `column-gap-*` utility classes.\nIndependent of `gap`/`rowGap`.",
+      "name": "columnGap",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+        "name": "FlexLayout"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+          "name": "FlexLayout"
         }
       ],
       "required": false,
