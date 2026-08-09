@@ -1,0 +1,115 @@
+---
+title: CSS Grid
+description: A native CSS Grid layout primitive with runtime-configurable columns, rows, and gap, plus auto-fill and subgrid variants.
+
+toc: true
+---
+
+
+import { Grid } from '@chassis-ui/react'
+
+`<Grid>` wraps chassis-css's native CSS Grid system (`.grid`) — a twelve-column `display: grid` layout, distinct from the [flexbox grid](./grid) built by `<Row>`/`<Col>`. Column spans and placement are applied to children via plain `className` (`g-col-{n}`/`g-start-{n}`, with breakpoint-prefixed variants across all six breakpoints) — `<Grid>` itself only manages the container.
+
+## Basic usage
+
+Three equal-width columns in a 12-column grid each span 4 tracks (3 × 4 = 12):
+
+<Example>
+  <Grid>
+    <div className="g-col-4 border p-medium text-center">.g-col-4</div>
+    <div className="g-col-4 border p-medium text-center">.g-col-4</div>
+    <div className="g-col-4 border p-medium text-center">.g-col-4</div>
+  </Grid>
+</Example>
+
+## Responsive classes
+
+Add breakpoint-prefixed classes to children to change their span at specific viewport widths. Below, two `.g-col-6` columns narrow to three `.medium:g-col-4` columns at the `medium` breakpoint and above:
+
+<Example>
+  <Grid>
+    <div className="g-col-6 medium:g-col-4 border p-medium text-center">.g-col-6 .medium:g-col-4</div>
+    <div className="g-col-6 medium:g-col-4 border p-medium text-center">.g-col-6 .medium:g-col-4</div>
+    <div className="g-col-6 medium:g-col-4 border p-medium text-center">.g-col-6 .medium:g-col-4</div>
+  </Grid>
+</Example>
+
+## Compared to the flexbox grid
+
+`<Grid>` differs from `<Row>`/`<Col>` in a few important ways:
+
+- **No negative margins.** `<Grid>` uses the CSS `gap` property instead of padding-and-negative-margin gutters, so there's no row-edge bleed and no `.overflow-hidden` wrapper is required.
+- **Gap applies to both axes.** `gap` sets horizontal and vertical spacing simultaneously. Use an inline `style` with `rowGap`/`columnGap` to control axes independently.
+- **Flex utilities have no effect** on `<Grid>`'s children — `align-items`, `justify-content`, and similar flex properties don't apply to CSS Grid items.
+- **`columns`/`rows`/`gap` are runtime-configurable properties**, not modifier props per breakpoint — unlike `<Row>`'s `xs`/`sm`/`md`/`lg`/`xl`/`xxl` object props, `<Grid>` has a single, fixed column/row/gap configuration.
+
+## Customizing columns and gap
+
+`columns` and `gap` set the underlying `--cx-grid-columns`/`--cx-grid-gap` custom properties directly:
+
+<Example>
+  <Grid columns={4} gap="1rem">
+    <div className="g-col-2 border p-medium text-center">.g-col-2</div>
+    <div className="g-col-2 border p-medium text-center">.g-col-2</div>
+  </Grid>
+</Example>
+
+`gap` accepts any CSS `gap` value, including a `"{row} {column}"` pair for asymmetric spacing:
+
+<Example>
+  <Grid gap=".25rem 1rem">
+    <div className="g-col-6 border p-medium text-center">.g-col-6</div>
+    <div className="g-col-6 border p-medium text-center">.g-col-6</div>
+    <div className="g-col-6 border p-medium text-center">.g-col-6</div>
+    <div className="g-col-6 border p-medium text-center">.g-col-6</div>
+  </Grid>
+</Example>
+
+## Adding rows
+
+`rows` sets `--cx-grid-rows`, which extends the grid template. Use an inline `style={{ gridRow: n }}` on a child to assign it to a specific row:
+
+<Example>
+  <Grid rows={3} columns={3}>
+    <div className="border p-medium text-center">Auto-column</div>
+    <div className="g-start-2 border p-medium text-center" style={{ gridRow: 2 }}>
+      Auto-column
+    </div>
+    <div className="g-start-3 border p-medium text-center" style={{ gridRow: 3 }}>
+      Auto-column
+    </div>
+  </Grid>
+</Example>
+
+## Auto-fill layout
+
+`fill` renders `.grid-fill` instead of `.grid` — columns expand equally to fill the available width (`grid-template-columns: repeat(auto-fit, minmax(0, 1fr))`), with the count determined by the number of children rather than `columns`. `gap` on a `fill` grid sets `--cx-gap` instead of `--cx-grid-gap`:
+
+<Example>
+  <Grid fill>
+    <div className="border p-medium text-center">Column</div>
+    <div className="border p-medium text-center">Column</div>
+    <div className="border p-medium text-center">Column</div>
+    <div className="border p-medium text-center">Column</div>
+  </Grid>
+</Example>
+
+## Subgrid
+
+`subgrid` adds `.grid-cols-subgrid` alongside `.grid`, causing the element to inherit its parent grid's column tracks instead of defining its own. Apply it to a multi-column child to align its contents to the outer grid's tracks:
+
+<Example>
+  <Grid>
+    <div className="g-col-8 border p-medium text-center">
+      <Grid subgrid>
+        <div className="g-col-4 border p-medium text-center">Subgrid .g-col-4</div>
+        <div className="g-col-4 border p-medium text-center">Subgrid .g-col-4</div>
+      </Grid>
+    </div>
+    <div className="g-col-4 border p-medium text-center">.g-col-4</div>
+  </Grid>
+</Example>
+
+## API
+
+<PropTable component="Grid" />

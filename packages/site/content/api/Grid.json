@@ -1,0 +1,144 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/grid/Grid.tsx",
+  "description": "",
+  "displayName": "Grid",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/grid/Grid.tsx",
+        "name": "GridProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Grid.tsx",
+          "name": "GridProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "component": {
+      "defaultValue": {
+        "value": "div"
+      },
+      "description": "Component used for the root node. Either a string to use a HTML element or a component.",
+      "name": "component",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/grid/Grid.tsx",
+        "name": "GridProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Grid.tsx",
+          "name": "GridProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | ComponentClass<any, any> | FunctionComponent<any>"
+      }
+    },
+    "columns": {
+      "defaultValue": null,
+      "description": "Number of columns in the grid template, set via the `--cx-grid-columns` custom property\n(defaults to `12` in CSS when omitted). Has no effect when `fill` is set.",
+      "name": "columns",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/grid/Grid.tsx",
+        "name": "GridProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Grid.tsx",
+          "name": "GridProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number"
+      }
+    },
+    "rows": {
+      "defaultValue": null,
+      "description": "Number of rows in the grid template, set via the `--cx-grid-rows` custom property (defaults\nto `1` in CSS when omitted). Has no effect when `fill` is set.",
+      "name": "rows",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/grid/Grid.tsx",
+        "name": "GridProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Grid.tsx",
+          "name": "GridProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number"
+      }
+    },
+    "gap": {
+      "defaultValue": null,
+      "description": "Gap between grid items, set via the `--cx-grid-gap` custom property (or `--cx-gap` when\n`fill` is set). Accepts any CSS `gap` value, including a `\"{row} {column}\"` pair.",
+      "name": "gap",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/grid/Grid.tsx",
+        "name": "GridProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Grid.tsx",
+          "name": "GridProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "fill": {
+      "defaultValue": null,
+      "description": "Renders `.grid-fill` instead of `.grid` — columns expand equally to fill the available\nwidth, with the column count determined by the number of children rather than `columns`.",
+      "name": "fill",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/grid/Grid.tsx",
+        "name": "GridProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Grid.tsx",
+          "name": "GridProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "subgrid": {
+      "defaultValue": null,
+      "description": "Adds `.grid-cols-subgrid` alongside the base class, causing this grid to inherit its parent\ngrid's column tracks instead of defining its own.",
+      "name": "subgrid",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/grid/Grid.tsx",
+        "name": "GridProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Grid.tsx",
+          "name": "GridProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    }
+  }
+}
