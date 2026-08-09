@@ -37,7 +37,9 @@ Breaking it down, here's how the grid system comes together:
 
 - **Gutters are also responsive and customizable.** [Gutter classes are available](../gutters) across all breakpoints, with all the same sizes as our margin and padding spacing. Change horizontal gutters with `xs|sm|md|lg|xl|xxl={{ gutterX: * }}` classes, vertical gutters with `xs|sm|md|lg|xl|xxl={{ gutterY: * }}`, or all gutters with `xs|sm|md|lg|xl|xxl={{ gutter: * }}` classes. `xs|sm|md|lg|xl|xxl={{ gutter: 0 }}` is also available to remove gutters.
 
-
+<Callout context="info">
+  **Why `xs`/`sm`/`md`/`lg`/`xl`/`xxl` and not the full breakpoint names?** `<Row>` and `<Col>` are the one place in Chassis's React components that use these short breakpoint keys instead of the full names (`small`/`medium`/`large`/`xlarge`/`2xlarge`) used everywhere else. This is intentional, not leftover naming debris: JSX prop names can't start with a digit, so the full name for `xxl` (`2xlarge`) can't be written as a literal prop key. The shorthand keeps all six breakpoints consistent with each other on these two components specifically.
+</Callout>
 
 Be aware of the limitations and [bugs around flexbox](https://github.com/philipwalton/flexbugs), like the [inability to use some HTML elements as flex containers](https://github.com/philipwalton/flexbugs#flexbug-9).
 

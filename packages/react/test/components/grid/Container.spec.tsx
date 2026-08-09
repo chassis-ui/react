@@ -20,22 +20,22 @@ describe('Container', () => {
   })
 
   describe('breakpoint props', () => {
-    test('applies the fluid class', () => {
+    test('applies the fluid class alongside the base class', () => {
       render(
         <Container className="bazinga" fluid>
           Test
         </Container>
       )
-      expect(screen.getByText('Test')).toHaveClass('bazinga', 'container-fluid')
+      expect(screen.getByText('Test')).toHaveClass('bazinga', 'container', 'fluid')
     })
 
-    test('applies a breakpoint class via fluidUntil', () => {
+    test('applies a breakpoint class via fluidUntil alongside the base class', () => {
       render(
         <Container fluidUntil="medium" className="bazinga">
           Test
         </Container>
       )
-      expect(screen.getByText('Test')).toHaveClass('bazinga', 'container-medium')
+      expect(screen.getByText('Test')).toHaveClass('bazinga', 'container', 'medium')
     })
 
     test('applies each fluidUntil breakpoint value', () => {
@@ -43,7 +43,7 @@ describe('Container', () => {
 
       breakpoints.forEach((breakpoint) => {
         const { unmount } = render(<Container fluidUntil={breakpoint}>Test</Container>)
-        expect(screen.getByText('Test')).toHaveClass(`container-${breakpoint}`)
+        expect(screen.getByText('Test')).toHaveClass('container', breakpoint)
         unmount()
       })
     })

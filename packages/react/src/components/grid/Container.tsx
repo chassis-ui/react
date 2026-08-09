@@ -23,15 +23,7 @@ export interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
 
 export const Container = forwardRef<HTMLDivElement, ContainerProps>(
   ({ children, className, fluidUntil, fluid, ...rest }, ref) => {
-    const responsiveClassNames: string[] = []
-
-    fluid && responsiveClassNames.push('container-fluid')
-    fluidUntil && responsiveClassNames.push(`container-${fluidUntil}`)
-
-    const _className = classNames(
-      responsiveClassNames.length ? responsiveClassNames : 'container',
-      className
-    )
+    const _className = classNames('container', fluid && 'fluid', fluidUntil, className)
 
     return (
       <div className={_className} {...rest} ref={ref}>
