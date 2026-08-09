@@ -23,6 +23,15 @@ Chassis grid system uses a series of containers, rows, and columns to layout and
 
 The above example creates three equal-width columns across all devices and viewports using our predefined grid classes. Those columns are centered in the page with the parent `<Container>`.
 
+## Choosing a layout primitive
+
+This flexbox grid isn't the only layout system available — two others cover cases it isn't the best fit for:
+
+- **[`<Stack>`](./stack)** for simple one-dimensional arrangements (a single row or column of items, like a button toolbar or a form's field list) — no `<Container>`/`<Row>`/`<Col>` nesting required.
+- **[`<Grid>`](./css-grid)** (native CSS Grid) for two-dimensional layouts needing explicit row *and* column placement, or gutters without the negative-margin technique this flexbox grid relies on.
+
+Reach for `<Row>`/`<Col>`/`<Container>` when you need this system's responsive column-span props, offsets, and ordering — most existing layouts and forms already use it.
+
 ## How it works
 
 Breaking it down, here's how the grid system comes together:
@@ -31,11 +40,11 @@ Breaking it down, here's how the grid system comes together:
 
 - **Containers center and horizontally pad your content.** Use `<Container>` for a responsive pixel width, `<Container fluid>` for `width: 100%` across all viewports and devices, or a responsive container (e.g., `<Container fluidUntil="medium">`) for a combination of fluid and pixel widths.
 
-- **Rows are wrappers for columns.** Each column has horizontal `padding` (called a gutter) for controlling the space between them. This `padding` is then counteracted on the rows with negative margins to ensure the content in your columns is visually aligned down the left side. Rows also support modifier classes to [uniformly apply column sizing](#row-columns) and [gutter classes](../gutters) to change the spacing of your content.
+- **Rows are wrappers for columns.** Each column has horizontal `padding` (called a gutter) for controlling the space between them. This `padding` is then counteracted on the rows with negative margins to ensure the content in your columns is visually aligned down the left side. Rows also support modifier classes to [uniformly apply column sizing](#row-columns) and [gutter classes](./gutters) to change the spacing of your content.
 
 - **Columns are incredibly flexible.** There are 12 template columns available per row, allowing you to create different combinations of elements that span any number of columns. Column classes indicate the number of template columns to span (e.g., `Col xs={4}` spans four). `width`s are set in percentages so you always have the same relative sizing.
 
-- **Gutters are also responsive and customizable.** [Gutter classes are available](../gutters) across all breakpoints, with all the same sizes as our margin and padding spacing. Change horizontal gutters with `xs|sm|md|lg|xl|xxl={{ gutterX: * }}` classes, vertical gutters with `xs|sm|md|lg|xl|xxl={{ gutterY: * }}`, or all gutters with `xs|sm|md|lg|xl|xxl={{ gutter: * }}` classes. `xs|sm|md|lg|xl|xxl={{ gutter: 0 }}` is also available to remove gutters.
+- **Gutters are also responsive and customizable.** [Gutter classes are available](./gutters) across all breakpoints, with all the same sizes as our margin and padding spacing. Change horizontal gutters with `xs|sm|md|lg|xl|xxl={{ gutterX: * }}` classes, vertical gutters with `xs|sm|md|lg|xl|xxl={{ gutterY: * }}`, or all gutters with `xs|sm|md|lg|xl|xxl={{ gutter: * }}` classes. `xs|sm|md|lg|xl|xxl={{ gutter: 0 }}` is also available to remove gutters.
 
 <Callout context="info">
   **Why `xs`/`sm`/`md`/`lg`/`xl`/`xxl` and not the full breakpoint names?** `<Row>` and `<Col>` are the one place in Chassis's React components that use these short breakpoint keys instead of the full names (`small`/`medium`/`large`/`xlarge`/`2xlarge`) used everywhere else. This is intentional, not leftover naming debris: JSX prop names can't start with a digit, so the full name for `xxl` (`2xlarge`) can't be written as a literal prop key. The shorthand keeps all six breakpoints consistent with each other on these two components specifically.
@@ -144,7 +153,7 @@ As noted above, each of these breakpoints have their own container, unique class
         Custom gutters
       </th>
       <td colspan="6">
-        <a href="./layout/gutters">Yes</a>
+        <a href="./gutters">Yes</a>
       </td>
     </tr>
     <tr>
@@ -160,7 +169,7 @@ As noted above, each of these breakpoints have their own container, unique class
         Column ordering
       </th>
       <td colspan="6">
-        <a href="./layout/columns">Yes</a>
+        <a href="./columns">Yes</a>
       </td>
     </tr>
   </tbody>
