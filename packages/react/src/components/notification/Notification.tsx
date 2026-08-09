@@ -20,13 +20,19 @@ export interface NotificationProps extends HTMLAttributes<HTMLDivElement> {
    */
   dismissible?: boolean
   /**
-   * Style variant for the notification.
+   * Applies the solid context style to the notification.
    */
-  variant?: 'solid'
+  solid?: boolean
   /**
    * Callback fired when the component requests to be closed.
    */
   onClose?: () => void
+  /**
+   * ARIA live-region role. Use `status` (the default) for confirmation, progress, and
+   * informational messages, which announce politely. Use `alert` for messages that need
+   * immediate attention — validation errors, failed operations — which interrupt speech.
+   */
+  role?: 'status' | 'alert'
   /**
    * Toggle the visibility of component.
    */
@@ -40,7 +46,8 @@ export const Notification = forwardRef<HTMLDivElement, NotificationProps>(
       className,
       color = 'primary',
       dismissible,
-      variant,
+      solid,
+      role = 'status',
       visible = true,
       onClose,
       ...rest
@@ -57,10 +64,9 @@ export const Notification = forwardRef<HTMLDivElement, NotificationProps>(
 
     const _className = classNames(
       'notification',
-      color && !variant ? color : null,
+      color,
       {
-        [`bg-${color}`]: color && variant === 'solid',
-        'fg-white': variant === 'solid'
+        solid
       },
       className
     )
@@ -83,7 +89,7 @@ export const Notification = forwardRef<HTMLDivElement, NotificationProps>(
           return (
             <div
               className={classNames(_className, transitionClass)}
-              role="alert"
+              role={role}
               {...rest}
               ref={forkedRef}
             >

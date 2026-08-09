@@ -1,16 +1,22 @@
-import { useState } from 'react'
-import { Notification, Button } from '@chassis-ui/react'
+import { Button, NotificationStack, NotificationTitle, addNotification } from '@chassis-ui/react'
 
-export const LiveExample = () => {
-  const [visible, setVisible] = useState(false)
+export const Example = () => {
+  const handleSave = () => {
+    addNotification(
+      <>
+        <NotificationTitle>Saved!</NotificationTitle>
+        Your changes have been saved successfully.
+      </>,
+      { color: 'success', dismissible: true }
+    )
+  }
+
   return (
     <>
-      <Notification color="primary" dismissible visible={visible} onClose={() => setVisible(false)}>
-        A simple primary notification—check it out!
-      </Notification>
-      <Button color="primary" onClick={() => setVisible(true)}>
-        Show live notification
+      <Button color="primary" onClick={handleSave}>
+        Save changes
       </Button>
+      <NotificationStack aria-label="Notifications" className="mt-medium" />
     </>
   )
 }

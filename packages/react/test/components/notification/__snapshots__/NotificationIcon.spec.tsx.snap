@@ -1,0 +1,16 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`NotificationIcon > rendering > matches the baseline markup snapshot 1`] = `
+<div>
+  <svg
+    aria-hidden="true"
+    class="icon notification-icon"
+    height="24"
+    width="24"
+  >
+    <use
+      href="/static/icons/chassis-icons.svg#info-circle-solid"
+    />
+  </svg>
+</div>
+`;

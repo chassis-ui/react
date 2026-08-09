@@ -1,7 +1,7 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-export interface NotificationHeadingProps extends HTMLAttributes<HTMLHeadingElement> {
+export interface NotificationTitleProps extends HTMLAttributes<HTMLHeadingElement> {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -12,9 +12,9 @@ export interface NotificationHeadingProps extends HTMLAttributes<HTMLHeadingElem
   component?: string | ElementType
 }
 
-export const NotificationHeading = forwardRef<HTMLHeadingElement, NotificationHeadingProps>(
+export const NotificationTitle = forwardRef<HTMLHeadingElement, NotificationTitleProps>(
   ({ children, className, component: Component = 'h4', ...rest }, ref) => {
-    const _className = classNames('notification-heading', className)
+    const _className = classNames('notification-title', className)
 
     return (
       <Component className={_className} {...rest} ref={ref}>
@@ -24,4 +24,4 @@ export const NotificationHeading = forwardRef<HTMLHeadingElement, NotificationHe
   }
 )
 
-NotificationHeading.displayName = 'NotificationHeading'
+NotificationTitle.displayName = 'NotificationTitle'

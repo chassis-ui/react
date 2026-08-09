@@ -7,9 +7,9 @@ import { Notification } from '../../../src/index'
 
 describe('Notification', () => {
   describe('rendering', () => {
-    test('renders a div with the base class and an alert role', () => {
+    test('renders a div with the base class and a status role by default', () => {
       render(<Notification color="primary">Test</Notification>)
-      const notification = screen.getByRole('alert')
+      const notification = screen.getByRole('status')
       expect(notification).toHaveClass('notification', 'primary')
     })
 
@@ -18,14 +18,23 @@ describe('Notification', () => {
       expect(container).toMatchSnapshot()
     })
 
-    test('applies the solid variant background/foreground classes with className', () => {
+    test('applies the solid style with className', () => {
       render(
-        <Notification color="secondary" className="bazinga" variant="solid">
+        <Notification color="secondary" className="bazinga" solid>
           Test
         </Notification>
       )
-      const notification = screen.getByRole('alert')
-      expect(notification).toHaveClass('bg-secondary', 'fg-white', 'bazinga')
+      const notification = screen.getByRole('status')
+      expect(notification).toHaveClass('solid', 'bazinga')
+    })
+
+    test('overrides the default role for urgent messages', () => {
+      render(
+        <Notification color="danger" role="alert">
+          Test
+        </Notification>
+      )
+      expect(screen.getByRole('alert')).toBeInTheDocument()
     })
   })
 

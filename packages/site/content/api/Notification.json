@@ -100,10 +100,10 @@
         "name": "boolean"
       }
     },
-    "variant": {
+    "solid": {
       "defaultValue": null,
-      "description": "Style variant for the notification.",
-      "name": "variant",
+      "description": "Applies the solid context style to the notification.",
+      "name": "solid",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
         "name": "NotificationProps"
@@ -116,13 +116,7 @@
       ],
       "required": false,
       "type": {
-        "name": "enum",
-        "raw": "\"solid\"",
-        "value": [
-          {
-            "value": "\"solid\""
-          }
-        ]
+        "name": "boolean"
       }
     },
     "onClose": {
@@ -142,6 +136,36 @@
       "required": false,
       "type": {
         "name": "(() => void)"
+      }
+    },
+    "role": {
+      "defaultValue": {
+        "value": "status"
+      },
+      "description": "ARIA live-region role. Use `status` (the default) for confirmation, progress, and\ninformational messages, which announce politely. Use `alert` for messages that need\nimmediate attention — validation errors, failed operations — which interrupt speech.",
+      "name": "role",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+        "name": "NotificationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+          "name": "NotificationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"status\" | \"alert\"",
+        "value": [
+          {
+            "value": "\"status\""
+          },
+          {
+            "value": "\"alert\""
+          }
+        ]
       }
     },
     "visible": {

@@ -10,7 +10,16 @@ import {
 } from './components/accordion'
 import { Autocomplete, AutocompleteGroup, AutocompleteItem } from './components/autocomplete'
 import { Avatar, AvatarImage, AvatarStack } from './components/avatar'
-import { Notification, NotificationHeading, NotificationLink } from './components/notification'
+import {
+  Notification,
+  NotificationTitle,
+  NotificationIcon,
+  NotificationText,
+  NotificationStack,
+  addNotification,
+  closeNotification,
+  notificationQueue
+} from './components/notification'
 import { Badge } from './components/badge'
 import { Backdrop } from './components/backdrop'
 import { Breadcrumb, BreadcrumbItem } from './components/breadcrumb'
@@ -109,8 +118,13 @@ export {
   AvatarImage,
   AvatarStack,
   Notification,
-  NotificationHeading,
-  NotificationLink,
+  NotificationTitle,
+  NotificationIcon,
+  NotificationText,
+  NotificationStack,
+  addNotification,
+  closeNotification,
+  notificationQueue,
   Badge,
   Backdrop,
   Breadcrumb,
