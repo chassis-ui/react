@@ -48,24 +48,33 @@ describe('Row', () => {
     test('applies gutter, gutterX and gutterY classes per breakpoint', () => {
       render(
         <Row
-          xs={{ gutter: 1 }}
-          sm={{ gutterX: 2 }}
-          md={{ gutterY: 3 }}
-          lg={{ gutter: 4 }}
-          xl={{ gutterX: 5 }}
-          xxl={{ gutterY: 6 }}
+          xs={{ gutter: 'small' }}
+          sm={{ gutterX: 'medium' }}
+          md={{ gutterY: 'large' }}
+          lg={{ gutter: 'xlarge' }}
+          xl={{ gutterX: '2xlarge' }}
+          xxl={{ gutterY: 'zero' }}
         >
           Test
         </Row>
       )
       expect(screen.getByText('Test')).toHaveClass(
-        'g-1',
-        'small:gx-2',
-        'medium:gy-3',
-        'large:g-4',
-        'xlarge:gx-5',
-        '2xlarge:gy-6'
+        'g-small',
+        'small:gx-medium',
+        'medium:gy-large',
+        'large:g-xlarge',
+        'xlarge:gx-2xlarge',
+        '2xlarge:gy-zero'
       )
+    })
+
+    test('applies the literal 0 gutter shorthand', () => {
+      render(
+        <Row xs={{ gutter: 0 }} sm={{ gutterX: 0 }} md={{ gutterY: 0 }}>
+          Test
+        </Row>
+      )
+      expect(screen.getByText('Test')).toHaveClass('g-0', 'small:gx-0', 'medium:gy-0')
     })
   })
 

@@ -40,7 +40,7 @@
       ],
       "required": false,
       "type": {
-        "name": "{{ cols: 'auto' | number | string } | { gutter: number | string } | { gutterX: number | string } | { gutterY: number | string }}"
+        "name": "{{ cols: 'auto' | number | string } | { gutter: Spacing | 0 } | { gutterX: Spacing | 0 } | { gutterY: Spacing | 0 }}"
       }
     },
     "sm": {
@@ -59,7 +59,7 @@
       ],
       "required": false,
       "type": {
-        "name": "{{ cols: 'auto' | number | string } | { gutter: number | string } | { gutterX: number | string } | { gutterY: number | string }}"
+        "name": "{{ cols: 'auto' | number | string } | { gutter: Spacing | 0 } | { gutterX: Spacing | 0 } | { gutterY: Spacing | 0 }}"
       }
     },
     "md": {
@@ -78,7 +78,7 @@
       ],
       "required": false,
       "type": {
-        "name": "{{ cols: 'auto' | number | string } | { gutter: number | string } | { gutterX: number | string } | { gutterY: number | string }}"
+        "name": "{{ cols: 'auto' | number | string } | { gutter: Spacing | 0 } | { gutterX: Spacing | 0 } | { gutterY: Spacing | 0 }}"
       }
     },
     "lg": {
@@ -97,7 +97,7 @@
       ],
       "required": false,
       "type": {
-        "name": "{{ cols: 'auto' | number | string } | { gutter: number | string } | { gutterX: number | string } | { gutterY: number | string }}"
+        "name": "{{ cols: 'auto' | number | string } | { gutter: Spacing | 0 } | { gutterX: Spacing | 0 } | { gutterY: Spacing | 0 }}"
       }
     },
     "xl": {
@@ -116,7 +116,7 @@
       ],
       "required": false,
       "type": {
-        "name": "{{ cols: 'auto' | number | string } | { gutter: number | string } | { gutterX: number | string } | { gutterY: number | string }}"
+        "name": "{{ cols: 'auto' | number | string } | { gutter: Spacing | 0 } | { gutterX: Spacing | 0 } | { gutterY: Spacing | 0 }}"
       }
     },
     "xxl": {
@@ -135,7 +135,7 @@
       ],
       "required": false,
       "type": {
-        "name": "{{ cols: 'auto' | number | string } | { gutter: number | string } | { gutterX: number | string } | { gutterY: number | string }}"
+        "name": "{{ cols: 'auto' | number | string } | { gutter: Spacing | 0 } | { gutterX: Spacing | 0 } | { gutterY: Spacing | 0 }}"
       }
     }
   }

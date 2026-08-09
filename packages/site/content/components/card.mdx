@@ -680,7 +680,7 @@ When using card groups with footers, their content will automatically line up.
 Use the `Row` component and set `xs|sm|md|lg|xl|xxl}={{ cols: * }}` property to control how many grid columns (wrapped around your cards) you show per row. For example, here's `xs={{cols: 1}}` laying out the cards on one column, and `md={{cols: 1}}` splitting four cards to equal width across multiple rows, from the medium breakpoint up.
 
 <Example>
-  <Row xs={{ cols: 1, gutter: 4 }} md={{ cols: 2 }}>
+  <Row xs={{ cols: 1, gutter: 'medium' }} md={{ cols: 2 }}>
     <Col xs>
       <Card>
         <CardImage orientation="top" src="https://placehold.co/800x400" />
@@ -747,7 +747,7 @@ Use the `Row` component and set `xs|sm|md|lg|xl|xxl}={{ cols: * }}` property to 
 Change it to `md={{ cols: 3}}` and you'll see the fourth card wrap.
 
 <Example>
-  <Row xs={{ cols: 1, gutter: 4 }} md={{ cols: 3 }}>
+  <Row xs={{ cols: 1, gutter: 'medium' }} md={{ cols: 3 }}>
     <Col xs>
       <Card>
         <CardImage orientation="top" src="https://placehold.co/800x400" />

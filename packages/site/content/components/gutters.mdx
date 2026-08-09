@@ -18,16 +18,16 @@ import { Col, Container, Row } from '@chassis-ui/react'
 
 ## Horizontal gutters
 
-`{breakpoint}={{ gutterX: * }}` props can be used to control the horizontal gutter widths. The `<Container>` or `<Container fluid>` parent may need to be adjusted if larger gutters are used too to avoid unwanted overflow, using a matching padding utility. For example, in the following example we've increased the padding with `.px-4`:
+`{breakpoint}={{ gutterX: * }}` props can be used to control the horizontal gutter widths. The `<Container>` or `<Container fluid>` parent may need to be adjusted if larger gutters are used too to avoid unwanted overflow, using a matching padding utility. For example, in the following example we've increased the padding with `.px-xlarge`:
 
 <Example>
-  <Container className="px-4">
-    <Row xs={{ gutterX: 5 }}>
+  <Container className="px-xlarge">
+    <Row xs={{ gutterX: 'xlarge' }}>
       <Col>
-        <div className="p-3 border bg-light">Custom column padding</div>
+        <div className="border p-medium text-center">Custom column padding</div>
       </Col>
       <Col>
-        <div className="p-3 border bg-light">Custom column padding</div>
+        <div className="border p-medium text-center">Custom column padding</div>
       </Col>
     </Row>
   </Container>
@@ -37,12 +37,12 @@ An alternative solution is to add a wrapper around the `<Row>` with the `.overfl
 
 <Example>
   <Container className="overflow-hidden">
-    <Row xs={{ gutterX: 5 }}>
+    <Row xs={{ gutterX: 'xlarge' }}>
       <Col>
-        <div className="p-3 border bg-light">Custom column padding</div>
+        <div className="border p-medium text-center">Custom column padding</div>
       </Col>
       <Col>
-        <div className="p-3 border bg-light">Custom column padding</div>
+        <div className="border p-medium text-center">Custom column padding</div>
       </Col>
     </Row>
   </Container>
@@ -54,18 +54,18 @@ An alternative solution is to add a wrapper around the `<Row>` with the `.overfl
 
 <Example>
   <Container className="overflow-hidden">
-    <Row xs={{ gutterY: 5 }}>
+    <Row xs={{ gutterY: 'xlarge' }}>
       <Col xs={{ span: 6 }}>
-        <div className="p-3 border bg-light">Custom column padding</div>
+        <div className="border p-medium text-center">Custom column padding</div>
       </Col>
       <Col xs={{ span: 6 }}>
-        <div className="p-3 border bg-light">Custom column padding</div>
+        <div className="border p-medium text-center">Custom column padding</div>
       </Col>
       <Col xs={{ span: 6 }}>
-        <div className="p-3 border bg-light">Custom column padding</div>
+        <div className="border p-medium text-center">Custom column padding</div>
       </Col>
       <Col xs={{ span: 6 }}>
-        <div className="p-3 border bg-light">Custom column padding</div>
+        <div className="border p-medium text-center">Custom column padding</div>
       </Col>
     </Row>
   </Container>
@@ -77,18 +77,18 @@ An alternative solution is to add a wrapper around the `<Row>` with the `.overfl
 
 <Example>
   <Container>
-    <Row xs={{ gutter: 2 }}>
+    <Row xs={{ gutter: 'small' }}>
       <Col xs={{ span: 6 }}>
-        <div className="p-3 border bg-light">Custom column padding</div>
+        <div className="border p-medium text-center">Custom column padding</div>
       </Col>
       <Col xs={{ span: 6 }}>
-        <div className="p-3 border bg-light">Custom column padding</div>
+        <div className="border p-medium text-center">Custom column padding</div>
       </Col>
       <Col xs={{ span: 6 }}>
-        <div className="p-3 border bg-light">Custom column padding</div>
+        <div className="border p-medium text-center">Custom column padding</div>
       </Col>
       <Col xs={{ span: 6 }}>
-        <div className="p-3 border bg-light">Custom column padding</div>
+        <div className="border p-medium text-center">Custom column padding</div>
       </Col>
     </Row>
   </Container>
@@ -100,36 +100,36 @@ Gutter props can also be added to [row columns](../layout/grid#row-columns). In 
 
 <Example>
   <Container>
-    <Row xs={{ cols:2, gutter: 2 }} lg={{ cols: 5, gutter: 3}}>
+    <Row xs={{ cols: 2, gutter: 'small' }} lg={{ cols: 5, gutter: 'medium' }}>
       <Col>
-        <div className="p-3 border bg-light">Row column</div>
+        <div className="border p-medium text-center">Row column</div>
       </Col>
       <Col>
-        <div className="p-3 border bg-light">Row column</div>
+        <div className="border p-medium text-center">Row column</div>
       </Col>
       <Col>
-        <div className="p-3 border bg-light">Row column</div>
+        <div className="border p-medium text-center">Row column</div>
       </Col>
       <Col>
-        <div className="p-3 border bg-light">Row column</div>
+        <div className="border p-medium text-center">Row column</div>
       </Col>
       <Col>
-        <div className="p-3 border bg-light">Row column</div>
+        <div className="border p-medium text-center">Row column</div>
       </Col>
       <Col>
-        <div className="p-3 border bg-light">Row column</div>
+        <div className="border p-medium text-center">Row column</div>
       </Col>
       <Col>
-        <div className="p-3 border bg-light">Row column</div>
+        <div className="border p-medium text-center">Row column</div>
       </Col>
       <Col>
-        <div className="p-3 border bg-light">Row column</div>
+        <div className="border p-medium text-center">Row column</div>
       </Col>
       <Col>
-        <div className="p-3 border bg-light">Row column</div>
+        <div className="border p-medium text-center">Row column</div>
       </Col>
       <Col>
-        <div className="p-3 border bg-light">Row column</div>
+        <div className="border p-medium text-center">Row column</div>
       </Col>
     </Row>
   </Container>
