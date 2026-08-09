@@ -10,7 +10,7 @@ import { Stack } from '@chassis-ui/react'
 
 `<Stack>` composes flexbox properties into two layout primitives: `direction="horizontal"` (the default, wraps `.hstack`) for row arrangements and `direction="vertical"` (wraps `.vstack`) for column arrangements. The concept originates from the open source [Pylon project](https://almonk.github.io/pylon/).
 
-For simple one-dimensional arrangements — a toolbar, a form's field list — `<Stack>` needs no `<Container>`/`<Row>`/`<Col>` nesting. Reach for the [flexbox grid](./grid) instead once you need responsive column spans, offsets, or ordering, or [`<Grid>`](./css-grid) for two-dimensional row-and-column layouts.
+For simple one-dimensional arrangements — a toolbar, a form's field list — `<Stack>` needs no `<Container>`/`<Row>`/`<Col>` nesting. Reach for [`<Flex>`](./flex) instead once you need more control than Stack's fixed alignment defaults give you — wrapping, main-axis justification, or no default alignment at all. Reach for the [flexbox grid](./grid) once you need responsive column spans, offsets, or ordering, or [`<Grid>`](./css-grid) for two-dimensional row-and-column layouts.
 
 ## Vertical
 

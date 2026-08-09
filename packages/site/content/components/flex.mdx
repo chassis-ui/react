@@ -1,0 +1,95 @@
+---
+title: Flex
+description: A general-purpose flexbox container for direction, wrapping, alignment, and spacing — the escape hatch when Stack's opinionated defaults aren't enough.
+
+toc: true
+---
+
+
+import { Flex } from '@chassis-ui/react'
+
+`<Flex>` turns an element into a flexbox container (`.d-flex`, or `.d-inline-flex` with `inline`) and exposes the underlying flex properties as props: `direction`, `wrap`, `justify`, `align`, `alignContent`, and `gap`.
+
+Reach for [`<Stack>`](./stack) first for simple one-dimensional arrangements — it wraps `.hstack`/`.vstack` with sensible alignment defaults baked in. Reach for `<Flex>` when you need more control than Stack's defaults give you: wrapping, main-axis justification, cross-axis alignment other than Stack's fixed default, or no default flex/align behavior at all (a bare `.d-flex` with nothing else set).
+
+## Basic usage
+
+With no props, `<Flex>` is a plain flexbox row using the browser's defaults (`flex-direction: row`, no wrap, items stretched to the container's cross-axis size).
+
+<Example>
+  <Flex gap="medium">
+    <div className="p-xsmall">First item</div>
+    <div className="p-xsmall">Second item</div>
+    <div className="p-xsmall">Third item</div>
+  </Flex>
+</Example>
+
+## Direction
+
+`direction` sets `flex-direction`. Omit it for the browser default (`row`).
+
+<Example>
+  <Flex direction="column" gap="medium">
+    <div className="p-xsmall">First item</div>
+    <div className="p-xsmall">Second item</div>
+    <div className="p-xsmall">Third item</div>
+  </Flex>
+</Example>
+
+## Justify content
+
+`justify` sets `justify-content`, aligning items along the main axis.
+
+<Example>
+  <Flex justify="between">
+    <div className="p-xsmall">First item</div>
+    <div className="p-xsmall">Second item</div>
+    <div className="p-xsmall">Third item</div>
+  </Flex>
+</Example>
+
+## Align items
+
+`align` sets `align-items`, aligning items along the cross axis.
+
+<Example>
+  <Flex align="center" style={{ height: 100 }}>
+    <div className="p-xsmall">First item</div>
+    <div className="p-xsmall">Second item</div>
+    <div className="p-xsmall">Third item</div>
+  </Flex>
+</Example>
+
+## Wrap
+
+`wrap` sets `flex-wrap`. Combine with `align` for per-item cross-axis alignment.
+
+<Example>
+  <Flex wrap="wrap" gap="small" style={{ width: 200 }}>
+    <div className="p-xsmall">One</div>
+    <div className="p-xsmall">Two</div>
+    <div className="p-xsmall">Three</div>
+    <div className="p-xsmall">Four</div>
+    <div className="p-xsmall">Five</div>
+  </Flex>
+</Example>
+
+## Align content
+
+`alignContent` sets `align-content`, distributing wrapped lines along the cross axis. It has no effect on single-line (non-wrapping) containers.
+
+## Item-level utilities
+
+`<Flex>` covers container-level properties only. Per-item concerns — `align-self`, `order`, `flex-grow`/`flex-shrink`, `flex-fill`, or auto-margin spacers like `.ms-auto` — apply directly via `className` on a child, the same as with plain chassis-css markup:
+
+<Example>
+  <Flex gap="medium">
+    <div className="p-xsmall">First item</div>
+    <div className="p-xsmall ms-auto">Second item</div>
+    <div className="p-xsmall">Third item</div>
+  </Flex>
+</Example>
+
+## API
+
+<PropTable component="Flex" />

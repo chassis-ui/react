@@ -102,10 +102,12 @@ import {
 } from './components/toast'
 import { Tooltip } from './components/tooltip'
 // plop:import
+import { Flex } from './components/flex'
 import { Stack } from './components/stack'
 
 export {
   // plop:export
+  Flex,
   Stack,
   Accordion,
   AccordionBody,
