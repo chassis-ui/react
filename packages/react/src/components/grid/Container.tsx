@@ -1,6 +1,8 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
+import { BREAKPOINT_NAME, SHORT_BREAKPOINTS } from '../../utils/breakpoints'
+
 export interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * A string of all className you want applied to the base component.
@@ -32,37 +34,23 @@ export interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
   fluid?: boolean
 }
 
-const BREAKPOINTS = [
-  'xxl' as const,
-  'xl' as const,
-  'lg' as const,
-  'md' as const,
-  'sm' as const,
-  'fluid' as const
-]
-
-const BP_NAME: Record<string, string> = {
-  xxl: '2xlarge',
-  xl: 'xlarge',
-  lg: 'large',
-  md: 'medium',
-  sm: 'small',
-  fluid: 'fluid'
-}
+// `Container` doesn't use `xs` (there's no "100% wide until xs" variant — that's just the plain
+// `.container` default), so the shared breakpoint list is sliced down to `sm`..`xxl`.
+const CONTAINER_BREAKPOINTS = SHORT_BREAKPOINTS.filter((bp) => bp !== 'xs')
 
 export const Container = forwardRef<HTMLDivElement, ContainerProps>(
-  ({ children, className, ...rest }, ref) => {
-    const repsonsiveClassNames: string[] = []
+  ({ children, className, sm, md, lg, xl, xxl, fluid, ...rest }, ref) => {
+    const breakpointProps = { sm, md, lg, xl, xxl }
+    const responsiveClassNames: string[] = []
 
-    BREAKPOINTS.forEach((bp) => {
-      const breakpoint = rest[bp]
-      delete rest[bp]
+    fluid && responsiveClassNames.push('container-fluid')
 
-      breakpoint && repsonsiveClassNames.push(`container-${BP_NAME[bp]}`)
+    ;[...CONTAINER_BREAKPOINTS].reverse().forEach((bp) => {
+      breakpointProps[bp] && responsiveClassNames.push(`container-${BREAKPOINT_NAME[bp]}`)
     })
 
     const _className = classNames(
-      repsonsiveClassNames.length ? repsonsiveClassNames : 'container',
+      responsiveClassNames.length ? responsiveClassNames : 'container',
       className
     )
 

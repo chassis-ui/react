@@ -1,6 +1,8 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
+import { BREAKPOINT_NAME, SHORT_BREAKPOINTS } from '../../utils/breakpoints'
+
 type Span = 'auto' | number | string | boolean | null
 
 type BPObject = {
@@ -54,72 +56,56 @@ export interface ColProps extends HTMLAttributes<HTMLDivElement> {
   xxl?: Col
 }
 
-const BREAKPOINTS = [
-  'xxl' as const,
-  'xl' as const,
-  'lg' as const,
-  'md' as const,
-  'sm' as const,
-  'xs' as const
-]
+export const Col = forwardRef<HTMLDivElement, ColProps>(
+  ({ children, className, xs, sm, md, lg, xl, xxl, ...rest }, ref) => {
+    const breakpointProps = { xs, sm, md, lg, xl, xxl }
+    const responsiveClassNames: string[] = []
 
-const BP_NAME: Record<string, string> = {
-  xxl: '2xlarge',
-  xl: 'xlarge',
-  lg: 'large',
-  md: 'medium',
-  sm: 'small',
-  xs: ''
-}
+    ;[...SHORT_BREAKPOINTS].reverse().forEach((bp) => {
+      const breakpoint = breakpointProps[bp]
 
-export const Col = forwardRef<HTMLDivElement, ColProps>(({ children, className, ...rest }, ref) => {
-  const repsonsiveClassNames: string[] = []
+      const bpName = BREAKPOINT_NAME[bp]
+      const prefix = bpName ? `${bpName}:` : ''
+      const suffix = bpName ? `-${bpName}` : ''
 
-  BREAKPOINTS.forEach((bp) => {
-    const breakpoint = rest[bp]
-    delete rest[bp]
-
-    const bpName = BP_NAME[bp]
-    const prefix = bpName ? `${bpName}:` : ''
-    const suffix = bpName ? `-${bpName}` : ''
-
-    if (typeof breakpoint === 'number' || typeof breakpoint === 'string') {
-      repsonsiveClassNames.push(`${prefix}col-${breakpoint}`)
-    }
-
-    if (typeof breakpoint === 'boolean') {
-      repsonsiveClassNames.push(`col${suffix}`)
-    }
-
-    if (breakpoint && typeof breakpoint === 'object') {
-      if (typeof breakpoint.span === 'number' || typeof breakpoint.span === 'string') {
-        repsonsiveClassNames.push(`${prefix}col-${breakpoint.span}`)
+      if (typeof breakpoint === 'number' || typeof breakpoint === 'string') {
+        responsiveClassNames.push(`${prefix}col-${breakpoint}`)
       }
 
-      if (typeof breakpoint.span === 'boolean') {
-        repsonsiveClassNames.push(`col${suffix}`)
+      if (typeof breakpoint === 'boolean') {
+        responsiveClassNames.push(`col${suffix}`)
       }
 
-      if (typeof breakpoint.order === 'number' || typeof breakpoint.order === 'string') {
-        repsonsiveClassNames.push(`${prefix}order-${breakpoint.order}`)
+      if (breakpoint && typeof breakpoint === 'object') {
+        if (typeof breakpoint.span === 'number' || typeof breakpoint.span === 'string') {
+          responsiveClassNames.push(`${prefix}col-${breakpoint.span}`)
+        }
+
+        if (typeof breakpoint.span === 'boolean') {
+          responsiveClassNames.push(`col${suffix}`)
+        }
+
+        if (typeof breakpoint.order === 'number' || typeof breakpoint.order === 'string') {
+          responsiveClassNames.push(`${prefix}order-${breakpoint.order}`)
+        }
+
+        if (typeof breakpoint.offset === 'number') {
+          responsiveClassNames.push(`${prefix}offset-${breakpoint.offset}`)
+        }
       }
+    })
 
-      if (typeof breakpoint.offset === 'number') {
-        repsonsiveClassNames.push(`${prefix}offset-${breakpoint.offset}`)
-      }
-    }
-  })
+    const _className = classNames(
+      responsiveClassNames.length ? responsiveClassNames : 'col',
+      className
+    )
 
-  const _className = classNames(
-    repsonsiveClassNames.length ? repsonsiveClassNames : 'col',
-    className
-  )
-
-  return (
-    <div className={_className} {...rest} ref={ref}>
-      {children}
-    </div>
-  )
-})
+    return (
+      <div className={_className} {...rest} ref={ref}>
+        {children}
+      </div>
+    )
+  }
+)
 
 Col.displayName = 'Col'

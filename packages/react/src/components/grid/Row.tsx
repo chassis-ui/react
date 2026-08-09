@@ -1,6 +1,8 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
+import { BREAKPOINT_NAME, SHORT_BREAKPOINTS } from '../../utils/breakpoints'
+
 export type BPObject = {
   cols?: 'auto' | number | string | null
   gutter?: number | string | null
@@ -51,57 +53,41 @@ export interface RowProps extends HTMLAttributes<HTMLDivElement> {
   xxl?: BPObject
 }
 
-const BREAKPOINTS = [
-  'xxl' as const,
-  'xl' as const,
-  'lg' as const,
-  'md' as const,
-  'sm' as const,
-  'xs' as const
-]
+export const Row = forwardRef<HTMLDivElement, RowProps>(
+  ({ children, className, xs, sm, md, lg, xl, xxl, ...rest }, ref) => {
+    const breakpointProps = { xs, sm, md, lg, xl, xxl }
+    const responsiveClassNames: string[] = []
 
-const BP_NAME: Record<string, string> = {
-  xxl: '2xlarge',
-  xl: 'xlarge',
-  lg: 'large',
-  md: 'medium',
-  sm: 'small',
-  xs: ''
-}
+    ;[...SHORT_BREAKPOINTS].reverse().forEach((bp) => {
+      const breakpoint = breakpointProps[bp]
 
-export const Row = forwardRef<HTMLDivElement, RowProps>(({ children, className, ...rest }, ref) => {
-  const repsonsiveClassNames: string[] = []
+      const bpName = BREAKPOINT_NAME[bp]
+      const prefix = bpName ? `${bpName}:` : ''
 
-  BREAKPOINTS.forEach((bp) => {
-    const breakpoint = rest[bp]
-    delete rest[bp]
-
-    const bpName = BP_NAME[bp]
-    const prefix = bpName ? `${bpName}:` : ''
-
-    if (typeof breakpoint === 'object') {
-      if (breakpoint.cols) {
-        repsonsiveClassNames.push(`${prefix}row-cols-${breakpoint.cols}`)
+      if (typeof breakpoint === 'object') {
+        if (breakpoint.cols) {
+          responsiveClassNames.push(`${prefix}row-cols-${breakpoint.cols}`)
+        }
+        if (typeof breakpoint.gutter === 'number') {
+          responsiveClassNames.push(`${prefix}g-${breakpoint.gutter}`)
+        }
+        if (typeof breakpoint.gutterX === 'number') {
+          responsiveClassNames.push(`${prefix}gx-${breakpoint.gutterX}`)
+        }
+        if (typeof breakpoint.gutterY === 'number') {
+          responsiveClassNames.push(`${prefix}gy-${breakpoint.gutterY}`)
+        }
       }
-      if (typeof breakpoint.gutter === 'number') {
-        repsonsiveClassNames.push(`${prefix}g-${breakpoint.gutter}`)
-      }
-      if (typeof breakpoint.gutterX === 'number') {
-        repsonsiveClassNames.push(`${prefix}gx-${breakpoint.gutterX}`)
-      }
-      if (typeof breakpoint.gutterY === 'number') {
-        repsonsiveClassNames.push(`${prefix}gy-${breakpoint.gutterY}`)
-      }
-    }
-  })
+    })
 
-  const _className = classNames('row', repsonsiveClassNames, className)
+    const _className = classNames('row', responsiveClassNames, className)
 
-  return (
-    <div className={_className} {...rest} ref={ref}>
-      {children}
-    </div>
-  )
-})
+    return (
+      <div className={_className} {...rest} ref={ref}>
+        {children}
+      </div>
+    )
+  }
+)
 
 Row.displayName = 'Row'
