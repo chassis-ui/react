@@ -1,9 +1,9 @@
 import React, { forwardRef, HTMLAttributes, useRef } from 'react'
-import classNames from 'classnames'
 import { useToastRegion } from 'react-aria'
 import { useToastQueue } from 'react-stately'
 
 import { useForkedRef } from '../../hooks'
+import { Stack } from '../stack'
 import { Notification } from './Notification'
 import { notificationQueue } from './notificationQueue'
 
@@ -33,8 +33,6 @@ export const NotificationStack = forwardRef<HTMLDivElement, NotificationStackPro
     const { regionProps } = useToastRegion({}, state, regionRef)
     const forkedRef = useForkedRef(ref, regionRef)
 
-    const _className = classNames('vstack gap-small', className)
-
     if (state.visibleToasts.length === 0 && !children) {
       return null
     }
@@ -44,7 +42,14 @@ export const NotificationStack = forwardRef<HTMLDivElement, NotificationStackPro
     const queued = reverse ? [...state.visibleToasts].reverse() : state.visibleToasts
 
     return (
-      <div className={_className} {...regionProps} {...rest} ref={forkedRef}>
+      <Stack
+        direction="vertical"
+        gap="small"
+        className={className}
+        {...regionProps}
+        {...rest}
+        ref={forkedRef}
+      >
         {children}
         {queued.map((item) => {
           const { children: notificationChildren, ...notificationProps } = item.content
@@ -58,7 +63,7 @@ export const NotificationStack = forwardRef<HTMLDivElement, NotificationStackPro
             </Notification>
           )
         })}
-      </div>
+      </Stack>
     )
   }
 )

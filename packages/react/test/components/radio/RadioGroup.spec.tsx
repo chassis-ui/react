@@ -52,7 +52,7 @@ describe('RadioGroup', () => {
       const radioA = screen.getByRole('radio', { name: 'Option A' })
       // The flex-row wrapper is a plain div with no role/name - no accessible query reaches it.
       // eslint-disable-next-line testing-library/no-node-access
-      expect(radioA.closest('.d-flex')).not.toBeNull()
+      expect(radioA.closest('.hstack')).not.toBeNull()
     })
   })
 
