@@ -48,7 +48,11 @@ const apiSchema = z.object({
     z.object({
       name: z.string(),
       description: z.string(),
-      type: z.object({ name: z.string() }),
+      type: z.object({
+        name: z.string(),
+        raw: z.string().optional(),
+        value: z.array(z.object({ value: z.string() })).optional()
+      }),
       defaultValue: z
         .object({
           value: z.union([z.string(), z.boolean(), z.number()]).transform((v) => String(v))

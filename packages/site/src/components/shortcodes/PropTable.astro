@@ -23,6 +23,16 @@ function renderDescription(description: string): string {
   const escaped = description.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
   return escaped.replace(/`([^`]+)`/g, '<code>$1</code>')
 }
+
+// react-docgen-typescript collapses any union of string literals to `type.name === 'enum'`,
+// keeping the actual literal values in `type.value`. Render those instead, so e.g. `ContextColor`
+// shows its allowed values rather than the vague word "enum".
+function formatType(type: { name: string; raw?: string; value?: { value: string }[] }): string {
+  if (type.name === 'enum' && Array.isArray(type.value)) {
+    return type.raw ? type.raw : type.value.map((v) => v.value).join(' | ')
+  }
+  return type.name
+}
 ---
 
 {
@@ -46,7 +56,7 @@ function renderDescription(description: string): string {
                 </code>
               </td>
               <td class="border-0 pb-0">
-                <code>{prop.type.name}</code>
+                <code>{formatType(prop.type)}</code>
               </td>
               <td class="border-0 pb-0">{prop.defaultValue ? <code>{prop.defaultValue.value}</code> : <span>—</span>}</td>
             </tr>
