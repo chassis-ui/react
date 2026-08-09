@@ -24,10 +24,10 @@
         "name": "string"
       }
     },
-    "sm": {
+    "fluidUntil": {
       "defaultValue": null,
-      "description": "Set container 100% wide until small breakpoint.",
-      "name": "sm",
+      "description": "Set container 100% wide until the given breakpoint, after which it scales up with `max-width`\nat every larger breakpoint.",
+      "name": "fluidUntil",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/grid/Container.tsx",
         "name": "ContainerProps"
@@ -40,83 +40,7 @@
       ],
       "required": false,
       "type": {
-        "name": "boolean"
-      }
-    },
-    "md": {
-      "defaultValue": null,
-      "description": "Set container 100% wide until medium breakpoint.",
-      "name": "md",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/grid/Container.tsx",
-        "name": "ContainerProps"
-      },
-      "declarations": [
-        {
-          "fileName": "chassis-react/packages/react/src/components/grid/Container.tsx",
-          "name": "ContainerProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "boolean"
-      }
-    },
-    "lg": {
-      "defaultValue": null,
-      "description": "Set container 100% wide until large breakpoint.",
-      "name": "lg",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/grid/Container.tsx",
-        "name": "ContainerProps"
-      },
-      "declarations": [
-        {
-          "fileName": "chassis-react/packages/react/src/components/grid/Container.tsx",
-          "name": "ContainerProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "boolean"
-      }
-    },
-    "xl": {
-      "defaultValue": null,
-      "description": "Set container 100% wide until X-large breakpoint.",
-      "name": "xl",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/grid/Container.tsx",
-        "name": "ContainerProps"
-      },
-      "declarations": [
-        {
-          "fileName": "chassis-react/packages/react/src/components/grid/Container.tsx",
-          "name": "ContainerProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "boolean"
-      }
-    },
-    "xxl": {
-      "defaultValue": null,
-      "description": "Set container 100% wide until XX-large breakpoint.",
-      "name": "xxl",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/grid/Container.tsx",
-        "name": "ContainerProps"
-      },
-      "declarations": [
-        {
-          "fileName": "chassis-react/packages/react/src/components/grid/Container.tsx",
-          "name": "ContainerProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "boolean"
+        "name": "Breakpoint"
       }
     },
     "fluid": {

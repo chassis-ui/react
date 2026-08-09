@@ -29,13 +29,23 @@ describe('Container', () => {
       expect(screen.getByText('Test')).toHaveClass('bazinga', 'container-fluid')
     })
 
-    test('applies a breakpoint class', () => {
+    test('applies a breakpoint class via fluidUntil', () => {
       render(
-        <Container md className="bazinga">
+        <Container fluidUntil="medium" className="bazinga">
           Test
         </Container>
       )
       expect(screen.getByText('Test')).toHaveClass('bazinga', 'container-medium')
+    })
+
+    test('applies each fluidUntil breakpoint value', () => {
+      const breakpoints = ['small', 'medium', 'large', 'xlarge', '2xlarge'] as const
+
+      breakpoints.forEach((breakpoint) => {
+        const { unmount } = render(<Container fluidUntil={breakpoint}>Test</Container>)
+        expect(screen.getByText('Test')).toHaveClass(`container-${breakpoint}`)
+        unmount()
+      })
     })
   })
 

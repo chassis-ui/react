@@ -16,7 +16,7 @@ Chassis comes with three different containers:
 
 - `<Container>`, which sets a `max-width` at each responsive breakpoint
 - `<Container fluid>`, which is `width: 100%` at all breakpoints
-- `<Container {sm|md|lg|xl|xxl}>`, which is `width: 100%` until the specified breakpoint
+- `<Container fluidUntil={breakpoint}>`, which is `width: 100%` until the specified breakpoint
 
 The table below illustrates how each container's `max-width` compares to the original `<Container>` and `<Container fluid>` across each breakpoint.
 
@@ -61,7 +61,7 @@ The table below illustrates how each container's `max-width` compares to the ori
       <td>1320px</td>
     </tr>
     <tr>
-      <th scope="row" className="fw-normal"><code>&lt;Container sm&gt;</code></th>
+      <th scope="row" className="fw-normal"><code>&lt;Container fluidUntil="small"&gt;</code></th>
       <td className="medium:text-emphasis">100%</td>
       <td>540px</td>
       <td>720px</td>
@@ -70,7 +70,7 @@ The table below illustrates how each container's `max-width` compares to the ori
       <td>1320px</td>
     </tr>
     <tr>
-      <th scope="row" className="fw-normal"><code>&lt;Container md&gt;</code></th>
+      <th scope="row" className="fw-normal"><code>&lt;Container fluidUntil="medium"&gt;</code></th>
       <td className="medium:text-emphasis">100%</td>
       <td className="medium:text-emphasis">100%</td>
       <td>720px</td>
@@ -79,7 +79,7 @@ The table below illustrates how each container's `max-width` compares to the ori
       <td>1320px</td>
     </tr>
     <tr>
-      <th scope="row" className="fw-normal"><code>&lt;Container lg&gt;</code></th>
+      <th scope="row" className="fw-normal"><code>&lt;Container fluidUntil="large"&gt;</code></th>
       <td className="medium:text-emphasis">100%</td>
       <td className="medium:text-emphasis">100%</td>
       <td className="medium:text-emphasis">100%</td>
@@ -88,7 +88,7 @@ The table below illustrates how each container's `max-width` compares to the ori
       <td>1320px</td>
     </tr>
     <tr>
-      <th scope="row" className="fw-normal"><code>&lt;Container xl&gt;</code></th>
+      <th scope="row" className="fw-normal"><code>&lt;Container fluidUntil="xlarge"&gt;</code></th>
       <td className="medium:text-emphasis">100%</td>
       <td className="medium:text-emphasis">100%</td>
       <td className="medium:text-emphasis">100%</td>
@@ -97,7 +97,7 @@ The table below illustrates how each container's `max-width` compares to the ori
       <td>1320px</td>
     </tr>
     <tr>
-      <th scope="row" className="fw-normal"><code>&lt;Container xxl&gt;</code></th>
+      <th scope="row" className="fw-normal"><code>&lt;Container fluidUntil="2xlarge"&gt;</code></th>
       <td className="medium:text-emphasis">100%</td>
       <td className="medium:text-emphasis">100%</td>
       <td className="medium:text-emphasis">100%</td>
@@ -129,14 +129,14 @@ Our default `<Container>` class is a responsive, fixed-width container, meaning 
 
 ## Responsive containers
 
-Responsive containers allow you to specify a class that is 100% wide until the specified breakpoint is reached, after which we apply `max-width`s for each of the higher breakpoints. For example, `<Container sm>` is 100% wide to start until the `sm` breakpoint is reached, where it will scale up with `md`, `lg`, `xl`, and `xxl`.
+Responsive containers allow you to specify a class that is 100% wide until the specified breakpoint is reached, after which we apply `max-width`s for each of the higher breakpoints. For example, `<Container fluidUntil="small">` is 100% wide to start until the `small` breakpoint is reached, where it will scale up with `medium`, `large`, `xlarge`, and `2xlarge`.
 
 <Example>
-  <Container sm>100% wide until small breakpoint</Container>
-  <Container md>100% wide until medium breakpoint</Container>
-  <Container lg>100% wide until large breakpoint</Container>
-  <Container xl>100% wide until extra large breakpoint</Container>
-  <Container xxl>100% wide until extra extra large breakpoint</Container>
+  <Container fluidUntil="small">100% wide until small breakpoint</Container>
+  <Container fluidUntil="medium">100% wide until medium breakpoint</Container>
+  <Container fluidUntil="large">100% wide until large breakpoint</Container>
+  <Container fluidUntil="xlarge">100% wide until extra large breakpoint</Container>
+  <Container fluidUntil="2xlarge">100% wide until extra extra large breakpoint</Container>
 </Example>
 
 ## Fluid containers

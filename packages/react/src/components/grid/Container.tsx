@@ -1,7 +1,7 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-import { BREAKPOINT_NAME, SHORT_BREAKPOINTS } from '../../utils/breakpoints'
+import { Breakpoint } from '../../types'
 
 export interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
   /**
@@ -9,45 +9,24 @@ export interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
    */
   className?: string
   /**
-   * Set container 100% wide until small breakpoint.
+   * Set container 100% wide until the given breakpoint, after which it scales up with `max-width`
+   * at every larger breakpoint.
+   *
+   * @type Breakpoint
    */
-  sm?: boolean
-  /**
-   * Set container 100% wide until medium breakpoint.
-   */
-  md?: boolean
-  /**
-   * Set container 100% wide until large breakpoint.
-   */
-  lg?: boolean
-  /**
-   * Set container 100% wide until X-large breakpoint.
-   */
-  xl?: boolean
-  /**
-   * Set container 100% wide until XX-large breakpoint.
-   */
-  xxl?: boolean
+  fluidUntil?: Breakpoint
   /**
    * Set container 100% wide, spanning the entire width of the viewport.
    */
   fluid?: boolean
 }
 
-// `Container` doesn't use `xs` (there's no "100% wide until xs" variant — that's just the plain
-// `.container` default), so the shared breakpoint list is sliced down to `sm`..`xxl`.
-const CONTAINER_BREAKPOINTS = SHORT_BREAKPOINTS.filter((bp) => bp !== 'xs')
-
 export const Container = forwardRef<HTMLDivElement, ContainerProps>(
-  ({ children, className, sm, md, lg, xl, xxl, fluid, ...rest }, ref) => {
-    const breakpointProps = { sm, md, lg, xl, xxl }
+  ({ children, className, fluidUntil, fluid, ...rest }, ref) => {
     const responsiveClassNames: string[] = []
 
     fluid && responsiveClassNames.push('container-fluid')
-
-    ;[...CONTAINER_BREAKPOINTS].reverse().forEach((bp) => {
-      breakpointProps[bp] && responsiveClassNames.push(`container-${BREAKPOINT_NAME[bp]}`)
-    })
+    fluidUntil && responsiveClassNames.push(`container-${fluidUntil}`)
 
     const _className = classNames(
       responsiveClassNames.length ? responsiveClassNames : 'container',
