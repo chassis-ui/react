@@ -27,8 +27,8 @@ The above example creates three equal-width columns across all devices and viewp
 
 This flexbox grid isn't the only layout system available — two others cover cases it isn't the best fit for:
 
-- **[`<Stack>`](./stack)** for simple one-dimensional arrangements (a single row or column of items, like a button toolbar or a form's field list) — no `<Container>`/`<Row>`/`<Col>` nesting required.
-- **[`<Grid>`](./css-grid)** (native CSS Grid) for two-dimensional layouts needing explicit row *and* column placement, or gutters without the negative-margin technique this flexbox grid relies on.
+- **[`<Stack>`](../components/stack)** for simple one-dimensional arrangements (a single row or column of items, like a button toolbar or a form's field list) — no `<Container>`/`<Row>`/`<Col>` nesting required.
+- **[`<Grid>`](../components/grid)** (native CSS Grid) for two-dimensional layouts needing explicit row *and* column placement, or gutters without the negative-margin technique this flexbox grid relies on.
 
 Reach for `<Row>`/`<Col>`/`<Container>` when you need this system's responsive column-span props, offsets, and ordering — most existing layouts and forms already use it.
 
@@ -40,7 +40,7 @@ Breaking it down, here's how the grid system comes together:
 
 - **Containers center and horizontally pad your content.** Use `<Container>` for a responsive pixel width, `<Container fluid>` for `width: 100%` across all viewports and devices, or a responsive container (e.g., `<Container fluidUntil="medium">`) for a combination of fluid and pixel widths.
 
-- **Rows are wrappers for columns.** Each column has horizontal `padding` (called a gutter) for controlling the space between them. This `padding` is then counteracted on the rows with negative margins to ensure the content in your columns is visually aligned down the left side. [`<Row>`](./row) also supports [uniformly sizing its columns](./row#row-columns) and [gutter overrides](./gutters) to change the spacing of your content.
+- **Rows are wrappers for columns.** Each column has horizontal `padding` (called a gutter) for controlling the space between them. This `padding` is then counteracted on the rows with negative margins to ensure the content in your columns is visually aligned down the left side. [`<Row>`](../components/row) also supports [uniformly sizing its columns](../components/row#row-columns) and [gutter overrides](./gutters) to change the spacing of your content.
 
 - **Columns are incredibly flexible.** There are 12 template columns available per row, allowing you to create different combinations of elements that span any number of columns. The `span` prop indicates the number of template columns to span (e.g., `<Col span={4}>` spans four). `width`s are set in percentages so you always have the same relative sizing.
 
@@ -165,7 +165,7 @@ As noted above, each of these breakpoints have their own container, unique class
         Column ordering
       </th>
       <td colspan="6">
-        <a href="./columns">Yes</a>
+        <a href="../components/column">Yes</a>
       </td>
     </tr>
   </tbody>
@@ -310,7 +310,7 @@ Don't want your columns to simply stack in some grid tiers? Use a combination of
 
 ### Row columns
 
-Beyond sizing individual `<Col>`s, [`<Row>`'s `cols` prop](./row#row-columns) uniformly sets the number of columns per row — see the [Row](./row) page for the full set of examples.
+Beyond sizing individual `<Col>`s, [`<Row>`'s `cols` prop](../components/row#row-columns) uniformly sets the number of columns per row — see the [Row](../components/row) page for the full set of examples.
 
 ## API
 

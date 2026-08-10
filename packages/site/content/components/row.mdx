@@ -8,7 +8,7 @@ toc: true
 
 import { Col, Container, Row } from '@chassis-ui/react'
 
-`<Row>` wraps [`<Col>`](./columns) children in the flexbox context the [flexbox grid](./grid) relies on — negative margins that offset each column's gutter padding, keeping content aligned down the left side. Every `<Row>` needs a [`<Container>`](./containers) (or `<Container fluid>`) ancestor when used as part of the grid system.
+`<Row>` wraps [`<Col>`](./column) children in the flexbox context the [flexbox grid](../patterns/responsive-grid) relies on — negative margins that offset each column's gutter padding, keeping content aligned down the left side. Every `<Row>` needs a [`<Container>`](./container) (or `<Container fluid>`) ancestor when used as part of the grid system.
 
 <Example class="cxd-example-row">
   <Container>
@@ -94,7 +94,7 @@ Use these row columns props to quickly create basic grid layouts or to control y
 
 ## Gutters
 
-`<Row>` also controls the horizontal and vertical spacing between its columns via `gutter`/`gutterX`/`gutterY` (each overridable per breakpoint via `responsive`). See the [Gutters](./gutters) page for the full set of examples.
+`<Row>` also controls the horizontal and vertical spacing between its columns via `gutter`/`gutterX`/`gutterY` (each overridable per breakpoint via `responsive`). See the [Gutters](../patterns/gutters) page for the full set of examples.
 
 ## API
 

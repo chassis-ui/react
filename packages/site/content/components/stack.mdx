@@ -10,7 +10,7 @@ import { Stack } from '@chassis-ui/react'
 
 `<Stack>` composes flexbox properties into two layout primitives: `direction="horizontal"` (the default, wraps `.hstack`) for row arrangements and `direction="vertical"` (wraps `.vstack`) for column arrangements. The concept originates from the open source [Pylon project](https://almonk.github.io/pylon/).
 
-For simple one-dimensional arrangements — a toolbar, a form's field list — `<Stack>` needs no `<Container>`/`<Row>`/`<Col>` nesting. Reach for [`<Flex>`](./flex) instead once you need more control than Stack's fixed alignment defaults give you — wrapping, main-axis justification, or no default alignment at all. Reach for the [flexbox grid](./grid) once you need responsive column spans, offsets, or ordering, or [`<Grid>`](./css-grid) for two-dimensional row-and-column layouts.
+For simple one-dimensional arrangements — a toolbar, a form's field list — `<Stack>` needs no `<Container>`/`<Row>`/`<Col>` nesting. Reach for [`<Flex>`](./flex) instead once you need more control than Stack's fixed alignment defaults give you — wrapping, main-axis justification, or no default alignment at all. Reach for the [flexbox grid](../patterns/responsive-grid) once you need responsive column spans, offsets, or ordering, or [`<Grid>`](./grid) for two-dimensional row-and-column layouts.
 
 ## Vertical
 
@@ -48,7 +48,7 @@ The default `direction="horizontal"` arranges children in a row, aligned to the 
 
 ## Responsive direction
 
-The `responsive` prop switches `direction` at one or more breakpoints, using [container queries](./breakpoints) rather than viewport media queries — it accepts an object keyed by the full breakpoint names (`small`/`medium`/`large`/`xlarge`/`2xlarge`), each mapped to `'horizontal'` or `'vertical'`.
+The `responsive` prop switches `direction` at one or more breakpoints, using [container queries](../patterns/breakpoints) rather than viewport media queries — it accepts an object keyed by the full breakpoint names (`small`/`medium`/`large`/`xlarge`/`2xlarge`), each mapped to `'horizontal'` or `'vertical'`.
 
 Responsive direction switching requires a `.contains-inline` ancestor to establish the container query context — `<Stack>` doesn't apply this itself, since the containment has to live on a *parent* of the element whose own layout is switching. Resize your browser to preview the transition between column and row layouts below:
 

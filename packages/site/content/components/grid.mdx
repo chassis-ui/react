@@ -1,5 +1,5 @@
 ---
-title: CSS Grid
+title: Grid
 description: A native CSS Grid layout primitive with runtime-configurable columns, rows, and gap, plus auto-fill and subgrid variants.
 
 toc: true
@@ -8,7 +8,7 @@ toc: true
 
 import { Grid } from '@chassis-ui/react'
 
-`<Grid>` wraps chassis-css's native CSS Grid system (`.grid`) — a twelve-column `display: grid` layout, distinct from the [flexbox grid](./grid) built by `<Row>`/`<Col>`. Column spans and placement are applied to children via plain `className` (`g-col-{n}`/`g-start-{n}`, with breakpoint-prefixed variants across all six breakpoints) — `<Grid>` itself only manages the container. For a simple one-dimensional row or column, [`<Stack>`](./stack) is a lighter fit.
+`<Grid>` wraps chassis-css's native CSS Grid system (`.grid`) — a twelve-column `display: grid` layout, distinct from the [flexbox grid](../patterns/responsive-grid) built by `<Row>`/`<Col>`. Column spans and placement are applied to children via plain `className` (`g-col-{n}`/`g-start-{n}`, with breakpoint-prefixed variants across all six breakpoints) — `<Grid>` itself only manages the container. For a simple one-dimensional row or column, [`<Stack>`](./stack) is a lighter fit.
 
 ## Basic usage
 
@@ -41,7 +41,7 @@ Add breakpoint-prefixed classes to children to change their span at specific vie
 - **No negative margins.** `<Grid>` uses the CSS `gap` property instead of padding-and-negative-margin gutters, so there's no row-edge bleed and no `.overflow-hidden` wrapper is required.
 - **Gap applies to both axes.** `gap` sets horizontal and vertical spacing simultaneously. Use an inline `style` with `rowGap`/`columnGap` to control axes independently.
 - **Flex utilities have no effect** on `<Grid>`'s children — `align-items`, `justify-content`, and similar flex properties don't apply to CSS Grid items.
-- **`columns`/`rows`/`gap` are runtime-configurable properties**, not modifier props per breakpoint — unlike `<Row>`'s `responsive` prop, `<Grid>` has a single, fixed column/row/gap configuration. Chassis-css itself has no breakpoint-scoped equivalent for the grid *container* (only for item placement, via `g-col-{n}`/`g-start-{n}`'s breakpoint-prefixed variants — see [Responsive classes](#responsive-classes) below), so a responsive `<Grid>` container isn't offered; reach for [`<Row>`/`<Col>`](./grid) when you need responsive column counts.
+- **`columns`/`rows`/`gap` are runtime-configurable properties**, not modifier props per breakpoint — unlike `<Row>`'s `responsive` prop, `<Grid>` has a single, fixed column/row/gap configuration. Chassis-css itself has no breakpoint-scoped equivalent for the grid *container* (only for item placement, via `g-col-{n}`/`g-start-{n}`'s breakpoint-prefixed variants — see [Responsive classes](#responsive-classes) below), so a responsive `<Grid>` container isn't offered; reach for [`<Row>`/`<Col>`](../patterns/responsive-grid) when you need responsive column counts.
 
 ## Customizing columns and gap
 
