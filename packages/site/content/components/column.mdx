@@ -12,7 +12,6 @@ import { Example as WrapExample } from '../../src/examples/column/WrapExample.ts
 import { Example as BreakExample } from '../../src/examples/column/BreakExample.tsx'
 import { Example as OffsetExample } from '../../src/examples/column/OffsetExample.tsx'
 import { Example as OrderExample } from '../../src/examples/column/OrderExample.tsx'
-import { Example as OrderExtremesExample } from '../../src/examples/column/OrderExtremesExample.tsx'
 import { Example as ResponsiveExample } from '../../src/examples/column/ResponsiveExample.tsx'
 import { Example as RevertToEqualWidthExample } from '../../src/examples/column/RevertToEqualWidthExample.tsx'
 import { Example as StandaloneExample } from '../../src/examples/column/StandaloneExample.tsx'
@@ -41,7 +40,7 @@ Set `span="auto"` to size a column to its content's natural width instead of an 
   <AutoExample client:load />
 </Example>
 
-`span={true}` is a different value from `span="auto"` — it applies the same equal-width class a `<Col>` gets by default when `span` is omitted, not a content-sized one. Setting it explicitly is only useful inside `responsive` (see below), to revert a column to equal-width at a given breakpoint and up.
+`span={true}` is a different value from `span="auto"` — it applies the same equal-width class a `<Col>` gets by default when `span` is omitted, not a content-sized one. Setting it explicitly is only useful inside `responsive` (see [Responsive overrides](#responsive-overrides)), to revert a column to equal-width at a given breakpoint and up.
 
 ## Wrapping
 
@@ -49,7 +48,7 @@ Columns can move to a new line two ways: automatically, once combined spans exce
 
 ### Overflow wrap
 
-Columns whose combined `span` exceeds 12 wrap onto a new line as a group, not just the column that pushes past the limit — every numbered column has a fixed width rather than a flexible one, so the whole surplus set moves down together.
+A numbered span is a fixed width, not a flexible one. Once a column no longer fits in the space left on the current line, it drops to the next line — and every column after it keeps filling from there, wrapping again itself if it runs out of room too.
 
 <Example class="cxd-example-row text-center">
   <WrapExample client:load />
@@ -65,7 +64,7 @@ Add a `width: 100%` element between columns to force a break at an arbitrary poi
 
 ## Offsetting columns
 
-Set `offset` to a number from `0` to `11` to push a column's start edge over by that many grid columns. Unlike an empty sibling column, the offset is a margin, so it doesn't count toward the row's 12-column total.
+Set `offset` to a number from `1` to `11` to push a column's start edge over by that many grid columns. Unlike an empty sibling column, the offset is a margin, so it doesn't count toward the row's 12-column total. `offset={0}` has no effect at the base breakpoint — it's only meaningful inside a `responsive` override, to cancel an offset set at a smaller breakpoint.
 
 <Example class="cxd-example-row text-center">
   <OffsetExample client:load />
@@ -73,16 +72,10 @@ Set `offset` to a number from `0` to `11` to push a column's start edge over by 
 
 ## Reordering columns
 
-Set `order` to a number from `1` to `5` to move a column ahead of or behind its unordered siblings — a column without an `order` renders in between, at its natural document position.
+Set `order` to a number from `1` to `5` to move a column ahead of or behind unordered siblings, which default to `0`. `order="first"` and `order="last"` move a column further than any numbered value can reach, to the very start or end of the row — all three forms mix freely on the same row, independent of each column's position in the DOM.
 
 <Example class="cxd-example-row text-center">
   <OrderExample client:load />
-</Example>
-
-`order="first"` and `order="last"` move a column further than any numbered value can, to the very start or end of the row, and can be mixed with numbered `order` values on sibling columns.
-
-<Example class="cxd-example-row text-center">
-  <OrderExtremesExample client:load />
 </Example>
 
 ## Responsive overrides

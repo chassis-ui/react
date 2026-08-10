@@ -1,27 +1,30 @@
 ---
 title: Flex
-description: A general-purpose flexbox container for direction, wrapping, alignment, and spacing — the escape hatch when Stack's opinionated defaults aren't enough.
+description: A flexbox container exposing direction, wrap, justification, alignment, and gap as props — the escape hatch when Stack's fixed defaults aren't enough.
 
 toc: true
 ---
 
+import { Example as BasicExample } from '../../src/examples/flex/BasicExample.tsx'
+import { Example as DirectionExample } from '../../src/examples/flex/DirectionExample.tsx'
+import { Example as JustifyExample } from '../../src/examples/flex/JustifyExample.tsx'
+import { Example as AlignExample } from '../../src/examples/flex/AlignExample.tsx'
+import { Example as WrapExample } from '../../src/examples/flex/WrapExample.tsx'
+import { Example as AlignContentExample } from '../../src/examples/flex/AlignContentExample.tsx'
+import { Example as RowColumnGapExample } from '../../src/examples/flex/RowColumnGapExample.tsx'
+import { Example as ResponsiveExample } from '../../src/examples/flex/ResponsiveExample.tsx'
+import { Example as ItemUtilitiesExample } from '../../src/examples/flex/ItemUtilitiesExample.tsx'
 
-import { Flex } from '@chassis-ui/react'
+`<Flex>` turns an element into a flexbox container (`.d-flex`, or `.d-inline-flex` when `inline` is set) and exposes the underlying flex properties as props: `direction`, `wrap`, `justify`, `align`, `alignContent`, `gap`/`rowGap`/`columnGap`, plus a `responsive` prop for overriding any of these at specific breakpoints.
 
-`<Flex>` turns an element into a flexbox container (`.d-flex`, or `.d-inline-flex` with `inline`) and exposes the underlying flex properties as props: `direction`, `wrap`, `justify`, `align`, `alignContent`, `gap`/`rowGap`/`columnGap`, plus a `responsive` prop for overriding any of these at specific breakpoints.
-
-Reach for [`<Stack>`](./stack) first for simple one-dimensional arrangements — it wraps `.hstack`/`.vstack` with sensible alignment defaults baked in. Reach for `<Flex>` when you need more control than Stack's defaults give you: wrapping, main-axis justification, cross-axis alignment other than Stack's fixed default, or no default flex/align behavior at all (a bare `.d-flex` with nothing else set).
+Reach for [`<Stack>`]([[docsref:/components/stack]]) first for simple one-dimensional arrangements — it wraps `.hstack`/`.vstack` with alignment defaults baked in. Reach for `<Flex>` instead once more control is needed than Stack's defaults give: wrapping, main-axis justification, cross-axis alignment other than Stack's fixed default, or no default flex/align behavior at all (a bare `.d-flex` with nothing else set).
 
 ## Basic usage
 
-With no props, `<Flex>` is a plain flexbox row using the browser's defaults (`flex-direction: row`, no wrap, items stretched to the container's cross-axis size).
+With no props, `<Flex>` is a plain flexbox row using the browser's defaults (`flex-direction: row`, no wrap, items stretched to the container's cross-axis size):
 
 <Example class="cxd-example-flex">
-  <Flex gap="medium">
-    <div className="p-xsmall">First item</div>
-    <div className="p-xsmall">Second item</div>
-    <div className="p-xsmall">Third item</div>
-  </Flex>
+  <BasicExample client:load />
 </Example>
 
 ## Direction
@@ -29,11 +32,7 @@ With no props, `<Flex>` is a plain flexbox row using the browser's defaults (`fl
 `direction` sets `flex-direction`. Omit it for the browser default (`row`).
 
 <Example class="cxd-example-flex">
-  <Flex direction="column" gap="medium">
-    <div className="p-xsmall">First item</div>
-    <div className="p-xsmall">Second item</div>
-    <div className="p-xsmall">Third item</div>
-  </Flex>
+  <DirectionExample client:load />
 </Example>
 
 ## Justify content
@@ -41,11 +40,7 @@ With no props, `<Flex>` is a plain flexbox row using the browser's defaults (`fl
 `justify` sets `justify-content`, aligning items along the main axis.
 
 <Example class="cxd-example-flex">
-  <Flex justify="between">
-    <div className="p-xsmall">First item</div>
-    <div className="p-xsmall">Second item</div>
-    <div className="p-xsmall">Third item</div>
-  </Flex>
+  <JustifyExample client:load />
 </Example>
 
 ## Align items
@@ -53,71 +48,47 @@ With no props, `<Flex>` is a plain flexbox row using the browser's defaults (`fl
 `align` sets `align-items`, aligning items along the cross axis.
 
 <Example class="cxd-example-flex">
-  <Flex align="center" style={{ height: 100 }}>
-    <div className="p-xsmall">First item</div>
-    <div className="p-xsmall">Second item</div>
-    <div className="p-xsmall">Third item</div>
-  </Flex>
+  <AlignExample client:load />
 </Example>
 
 ## Wrap
 
-`wrap` sets `flex-wrap`. Combine with `align` for per-item cross-axis alignment.
+`wrap` sets `flex-wrap`, letting items move onto new lines instead of overflowing or shrinking to fit. Once a container wraps, `align` still governs how each item sits within its own line; `alignContent` (below) governs how the lines themselves are spaced.
 
 <Example class="cxd-example-flex">
-  <Flex wrap="wrap" gap="small" style={{ width: 200 }}>
-    <div className="p-xsmall">One</div>
-    <div className="p-xsmall">Two</div>
-    <div className="p-xsmall">Three</div>
-    <div className="p-xsmall">Four</div>
-    <div className="p-xsmall">Five</div>
-  </Flex>
+  <WrapExample client:load />
 </Example>
 
 ## Align content
 
-`alignContent` sets `align-content`, distributing wrapped lines along the cross axis. It has no effect on single-line (non-wrapping) containers.
+`alignContent` sets `align-content`, distributing wrapped lines along the cross axis. It has no effect on single-line (non-wrapping) containers, so it only does something combined with `wrap`:
+
+<Example class="cxd-example-flex">
+  <AlignContentExample client:load />
+</Example>
 
 ## Row and column gaps
 
 `gap` sets spacing on both axes at once. `rowGap`/`columnGap` control each axis independently, and take precedence over `gap` on their own axis — useful once a wrapped container needs different spacing between lines than between items on the same line.
 
 <Example class="cxd-example-flex">
-  <Flex wrap="wrap" rowGap="xlarge" columnGap="xsmall" style={{ width: 200 }}>
-    <div className="p-xsmall">One</div>
-    <div className="p-xsmall">Two</div>
-    <div className="p-xsmall">Three</div>
-    <div className="p-xsmall">Four</div>
-    <div className="p-xsmall">Five</div>
-  </Flex>
+  <RowColumnGapExample client:load />
 </Example>
 
 ## Responsive
 
-The `responsive` prop overrides any of `direction`/`wrap`/`justify`/`align`/`alignContent`/`gap`/`rowGap`/`columnGap` at one or more breakpoints, keyed by the full breakpoint names (`small`/`medium`/`large`/`xlarge`/`2xlarge`). Unlike [`<Stack>`'s `responsive` prop](./stack#responsive-direction), which relies on container queries, `Flex`'s responsive classes are plain viewport `min-width` media queries — no `.contains-inline` ancestor needed. Resize your browser to see the layout switch from a stacked column to a row at the `medium` breakpoint:
+The `responsive` prop overrides any of `direction`/`wrap`/`justify`/`align`/`alignContent`/`gap`/`rowGap`/`columnGap` at one or more breakpoints, keyed by the full breakpoint names (`small`/`medium`/`large`/`xlarge`/`2xlarge`). Unlike [`<Stack>`'s `responsive` prop]([[docsref:/components/stack#responsive-direction]]), which relies on container queries, `Flex`'s responsive classes are plain viewport `min-width` media queries — no `.contains-inline` ancestor needed. Below the `medium` breakpoint the container stacks its children in a column; at `medium` and above it switches to a row with items spaced apart:
 
 <Example class="cxd-example-flex">
-  <Flex
-    direction="column"
-    gap="small"
-    responsive={{ medium: { direction: 'row', gap: 'medium', justify: 'between' } }}
-  >
-    <div className="p-xsmall">First item</div>
-    <div className="p-xsmall">Second item</div>
-    <div className="p-xsmall">Third item</div>
-  </Flex>
+  <ResponsiveExample client:load />
 </Example>
 
 ## Item-level utilities
 
-`<Flex>` covers container-level properties only. Per-item concerns — `align-self`, `order`, `flex-grow`/`flex-shrink`, `flex-fill`, or auto-margin spacers like `.ms-auto` — apply directly via `className` on a child, the same as with plain chassis-css markup:
+`<Flex>` covers container-level properties only. Per-item concerns — `align-self`, `order`, `flex-grow`/`flex-shrink`, `flex-fill`, or an auto-margin spacer like `.ms-auto` — apply directly via `className` on a child, the same as with plain chassis-css markup. Below, `.ms-auto` pushes everything after it to the end of the row:
 
 <Example class="cxd-example-flex">
-  <Flex gap="medium">
-    <div className="p-xsmall">First item</div>
-    <div className="p-xsmall ms-auto">Second item</div>
-    <div className="p-xsmall">Third item</div>
-  </Flex>
+  <ItemUtilitiesExample client:load />
 </Example>
 
 ## API

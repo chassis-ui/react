@@ -4,9 +4,10 @@ export const Example = () => {
   return (
     <Container>
       <Row>
-        <Col>First in the DOM, no order set</Col>
-        <Col order={5}>Second in the DOM, order 5</Col>
-        <Col order={1}>Third in the DOM, order 1</Col>
+        <Col order="last">Ordered last, first in the DOM</Col>
+        <Col>Unordered, second in the DOM</Col>
+        <Col order={2}>Order 2, third in the DOM</Col>
+        <Col order="first">Ordered first, fourth in the DOM</Col>
       </Row>
     </Container>
   )

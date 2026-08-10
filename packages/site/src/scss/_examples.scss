@@ -7,26 +7,26 @@
   // Copy-to-clipboard button in the local `Example` shortcode's toolbar. Named
   // separately from `.button-clipboard` (see `components/shortcodes/Example.astro`
   // for why) but should look identical to the shared toolbar buttons.
-  .button-clipboard-example {
-    --cx-icon-color: var(--cx-fg-subtle);
-    --cx-icon-size: var(--cx-icon-small);
-    position: relative;
-    z-index: 2;
-    display: block;
-    padding: .25em;
-    line-height: 1;
-    background-color: transparent;
-    border: 0;
-    @include border-radius(.25rem);
+  // .button-clipboard-example {
+  //   --cx-icon-color: var(--cx-fg-subtle);
+  //   --cx-icon-size: var(--cx-icon-small);
+  //   position: relative;
+  //   z-index: 2;
+  //   display: block;
+  //   padding: .25em;
+  //   line-height: 1;
+  //   background-color: transparent;
+  //   border: 0;
+  //   @include border-radius(.25rem);
 
-    &:hover {
-      color: var(--cx-hover-color);
-    }
+  //   &:hover {
+  //     color: var(--cx-hover-color);
+  //   }
 
-    &:focus {
-      z-index: 3;
-    }
-  }
+  //   &:focus {
+  //     z-index: 3;
+  //   }
+  // }
 
   //
   // Grid examples
@@ -41,6 +41,9 @@
     padding-block: .75rem;
     background-color: #{to-opacity(var(--cxd-subtle), .2)};
     border: 1px solid #{to-opacity(var(--cxd-subtle), .4)};
+  }
+  .cxd-example-grid [class*="grid"] {
+    padding: 0;
   }
 
   // .cxd-example-row .row + .row,
