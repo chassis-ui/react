@@ -5,7 +5,10 @@ description: Containers are a fundamental building block of Chassis that contain
 toc: true
 ---
 
-
+import { sassBreakpointSize, sassContainerSize } from '@libs/sass'
+import { Example as BasicExample } from '../../src/examples/container/BasicExample.tsx'
+import { Example as ResponsiveExample } from '../../src/examples/container/ResponsiveExample.tsx'
+import { Example as FluidExample } from '../../src/examples/container/FluidExample.tsx'
 import { Col, Container, Row } from '@chassis-ui/react'
 
 ## How they work
@@ -20,133 +23,40 @@ Chassis comes with three different containers:
 
 The table below illustrates how each container's `max-width` compares to the original `<Container>` and `<Container fluid>` across each breakpoint.
 
-<table className="table">
-  <thead>
-    <tr>
-      <td className="border-dark"></td>
-      <th scope="col">
-        Extra small<br/>
-        <span className="fw-normal">&lt;576px</span>
-      </th>
-      <th scope="col">
-        Small<br/>
-        <span className="fw-normal">&ge;576px</span>
-      </th>
-      <th scope="col">
-        Medium<br/>
-        <span className="fw-normal">&ge;768px</span>
-      </th>
-      <th scope="col">
-        Large<br/>
-        <span className="fw-normal">&ge;992px</span>
-      </th>
-      <th scope="col">
-        X-Large<br/>
-        <span className="fw-normal">&ge;1200px</span>
-      </th>
-      <th scope="col">
-        XX-Large<br/>
-        <span className="fw-normal">&ge;1400px</span>
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row" className="fw-normal"><code>&lt;Container&gt;</code></th>
-      <td className="medium:text-emphasis">100%</td>
-      <td>540px</td>
-      <td>720px</td>
-      <td>960px</td>
-      <td>1140px</td>
-      <td>1320px</td>
-    </tr>
-    <tr>
-      <th scope="row" className="fw-normal"><code>&lt;Container fluidUntil="small"&gt;</code></th>
-      <td className="medium:text-emphasis">100%</td>
-      <td>540px</td>
-      <td>720px</td>
-      <td>960px</td>
-      <td>1140px</td>
-      <td>1320px</td>
-    </tr>
-    <tr>
-      <th scope="row" className="fw-normal"><code>&lt;Container fluidUntil="medium"&gt;</code></th>
-      <td className="medium:text-emphasis">100%</td>
-      <td className="medium:text-emphasis">100%</td>
-      <td>720px</td>
-      <td>960px</td>
-      <td>1140px</td>
-      <td>1320px</td>
-    </tr>
-    <tr>
-      <th scope="row" className="fw-normal"><code>&lt;Container fluidUntil="large"&gt;</code></th>
-      <td className="medium:text-emphasis">100%</td>
-      <td className="medium:text-emphasis">100%</td>
-      <td className="medium:text-emphasis">100%</td>
-      <td>960px</td>
-      <td>1140px</td>
-      <td>1320px</td>
-    </tr>
-    <tr>
-      <th scope="row" className="fw-normal"><code>&lt;Container fluidUntil="xlarge"&gt;</code></th>
-      <td className="medium:text-emphasis">100%</td>
-      <td className="medium:text-emphasis">100%</td>
-      <td className="medium:text-emphasis">100%</td>
-      <td className="medium:text-emphasis">100%</td>
-      <td>1140px</td>
-      <td>1320px</td>
-    </tr>
-    <tr>
-      <th scope="row" className="fw-normal"><code>&lt;Container fluidUntil="2xlarge"&gt;</code></th>
-      <td className="medium:text-emphasis">100%</td>
-      <td className="medium:text-emphasis">100%</td>
-      <td className="medium:text-emphasis">100%</td>
-      <td className="medium:text-emphasis">100%</td>
-      <td className="medium:text-emphasis">100%</td>
-      <td>1320px</td>
-    </tr>
-    <tr>
-      <th scope="row" className="fw-normal"><code>&lt;Container fluid&gt;</code></th>
-      <td className="medium:text-emphasis">100%</td>
-      <td className="medium:text-emphasis">100%</td>
-      <td className="medium:text-emphasis">100%</td>
-      <td className="medium:text-emphasis">100%</td>
-      <td className="medium:text-emphasis">100%</td>
-      <td className="medium:text-emphasis">100%</td>
-    </tr>
-  </tbody>
-</table>
+<CxTable>
+|  | Extra small<div class="font-normal">&lt;{sassBreakpointSize('small')}</div> | Small<div class="font-normal">&ge;{sassBreakpointSize('small')}</div> | Medium<div class="font-normal">&ge;{sassBreakpointSize('medium')}</div> | Large<div class="font-normal">&ge;{sassBreakpointSize('large')}</div> | X-Large<div class="font-normal">&ge;{sassBreakpointSize('xlarge')}</div> | 2x-Large<div class="font-normal">&ge;{sassBreakpointSize('2xlarge')}</div> |
+| --- | --- | --- | --- | --- | --- | --- |
+| `<Container>` | <span class="fg-subtle">100%</span> | {sassContainerSize('small')} | {sassContainerSize('medium')} | {sassContainerSize('large')} | {sassContainerSize('xlarge')} | {sassContainerSize('2xlarge')} |
+| `<Container fluidUntil="small">` | <span class="fg-subtle">100%</span> | {sassContainerSize('small')} | {sassContainerSize('medium')} | {sassContainerSize('large')} | {sassContainerSize('xlarge')} | {sassContainerSize('2xlarge')} |
+| `<Container fluidUntil="medium">` | <span class="fg-subtle">100%</span> | <span class="fg-subtle">100%</span> | {sassContainerSize('medium')} | {sassContainerSize('large')} | {sassContainerSize('xlarge')} | {sassContainerSize('2xlarge')} |
+| `<Container fluidUntil="large">` | <span class="fg-subtle">100%</span> | <span class="fg-subtle">100%</span> | <span class="fg-subtle">100%</span> | {sassContainerSize('large')} | {sassContainerSize('xlarge')} | {sassContainerSize('2xlarge')} |
+| `<Container fluidUntil="xlarge">` | <span class="fg-subtle">100%</span> | <span class="fg-subtle">100%</span> | <span class="fg-subtle">100%</span> | <span class="fg-subtle">100%</span> | {sassContainerSize('xlarge')} | {sassContainerSize('2xlarge')} |
+| `<Container fluidUntil="2xlarge">` | <span class="fg-subtle">100%</span> | <span class="fg-subtle">100%</span> | <span class="fg-subtle">100%</span> | <span class="fg-subtle">100%</span> | <span class="fg-subtle">100%</span> | {sassContainerSize('2xlarge')} |
+| `<Container fluid>` | <span class="fg-subtle">100%</span> | <span class="fg-subtle">100%</span> | <span class="fg-subtle">100%</span> | <span class="fg-subtle">100%</span> | <span class="fg-subtle">100%</span> | <span class="fg-subtle">100%</span> |
+</CxTable>
 
 ## Default container
 
 Our default `<Container>` class is a responsive, fixed-width container, meaning its `max-width` changes at each breakpoint.
 
-<Example>
-  <Container>
-    Content here
-  </Container>
+<Example class="cxd-example-container">
+  <BasicExample client:load />
 </Example>
 
 ## Responsive containers
 
 Responsive containers allow you to specify a class that is 100% wide until the specified breakpoint is reached, after which we apply `max-width`s for each of the higher breakpoints. For example, `<Container fluidUntil="small">` is 100% wide to start until the `small` breakpoint is reached, where it will scale up with `medium`, `large`, `xlarge`, and `2xlarge`.
 
-<Example>
-  <Container fluidUntil="small">100% wide until small breakpoint</Container>
-  <Container fluidUntil="medium">100% wide until medium breakpoint</Container>
-  <Container fluidUntil="large">100% wide until large breakpoint</Container>
-  <Container fluidUntil="xlarge">100% wide until extra large breakpoint</Container>
-  <Container fluidUntil="2xlarge">100% wide until extra extra large breakpoint</Container>
+<Example class="cxd-example-container">
+  <ResponsiveExample client:load />
 </Example>
 
 ## Fluid containers
 
 Use `<Container fluid>` for a full width container, spanning the entire width of the viewport.
 
-<Example>
-  <Container fluid>
-    Content here
-  </Container>
+<Example class="cxd-example-container">
+  <FluidExample client:load />
 </Example>
 
 ## API

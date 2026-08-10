@@ -1,275 +1,110 @@
 ---
-description: Learn how to modify columns with a handful of options for alignment, ordering, and offsetting thanks to our flexbox grid system.
+title: Column
+description: Col sizes, offsets, and reorders an individual grid column inside a Row, with per-breakpoint overrides for span, offset, and order.
 
 toc: true
 ---
 
+import { Example as BasicExample } from '../../src/examples/column/BasicExample.tsx'
+import { Example as SpanExample } from '../../src/examples/column/SpanExample.tsx'
+import { Example as AutoExample } from '../../src/examples/column/AutoExample.tsx'
+import { Example as WrapExample } from '../../src/examples/column/WrapExample.tsx'
+import { Example as BreakExample } from '../../src/examples/column/BreakExample.tsx'
+import { Example as OffsetExample } from '../../src/examples/column/OffsetExample.tsx'
+import { Example as OrderExample } from '../../src/examples/column/OrderExample.tsx'
+import { Example as OrderExtremesExample } from '../../src/examples/column/OrderExtremesExample.tsx'
+import { Example as ResponsiveExample } from '../../src/examples/column/ResponsiveExample.tsx'
+import { Example as RevertToEqualWidthExample } from '../../src/examples/column/RevertToEqualWidthExample.tsx'
+import { Example as StandaloneExample } from '../../src/examples/column/StandaloneExample.tsx'
 
-import { Col, Container, Row } from '@chassis-ui/react'
+`<Col>` sizes, offsets, and reorders an individual column inside a [`<Row>`]([[docsref:/components/row]]) — width via `span`, position via `offset`, and stacking order via `order`. Each of the three accepts a `responsive` override for per-breakpoint control. See [the flexbox grid pattern]([[docsref:/patterns/responsive-grid]]) for how `<Container>`, `<Row>`, and `<Col>` compose.
 
-## How they work
+Without an explicit `span`, sibling `<Col>`s split a `<Row>`'s width evenly between them.
 
-- **Columns build on the grid's flexbox architecture.** Flexbox means we have options for changing individual columns and [modifying groups of columns at the row level](./row#row-columns). You choose how columns grow, shrink, or otherwise change.
-
-- **When building grid layouts, all content goes in columns.** The hierarchy of Chassis grid goes from [container](./container) to row to column to your content. On rare occasions, you may combine content and column, but be aware there can be unintended consequences.
-
-- **Chassis includes predefined components for creating fast, responsive layouts.** With [six breakpoints](../patterns/breakpoints) and a dozen columns at each grid tier, we have dozens of components already built for you to create your desired layouts. This can be disabled via Sass if you wish.
-
-## Alignment
-
-Use flexbox alignment utilities to vertically and horizontally align columns.
-
-### Vertical alignment
-
-<Example className="docs-example-row docs-example-row-flex-cols">
-  <Container>
-    <Row className="align-items-start">
-      <Col>One of three columns</Col>
-      <Col>One of three columns</Col>
-      <Col>One of three columns</Col>
-    </Row>
-    <Row className="align-items-center">
-      <Col>One of three columns</Col>
-      <Col>One of three columns</Col>
-      <Col>One of three columns</Col>
-    </Row>
-    <Row className="align-items-end">
-      <Col>One of three columns</Col>
-      <Col>One of three columns</Col>
-      <Col>One of three columns</Col>
-    </Row>
-  </Container>
+<Example class="cxd-example-row text-center">
+  <BasicExample client:load />
 </Example>
 
-<Example className="docs-example-row docs-example-row-flex-cols">
-  <Container>
-    <Row>
-      <Col className="align-self-start">One of three columns</Col>
-      <Col className="align-self-center">One of three columns</Col>
-      <Col className="align-self-end">One of three columns</Col>
-    </Row>
-  </Container>
+## Numbered spans
+
+Set `span` to a number from `1` to `12` to size a column to that many of the grid's twelve columns. Sibling columns without an explicit `span` still divide whatever width is left evenly among themselves.
+
+<Example class="cxd-example-row text-center">
+  <SpanExample client:load />
 </Example>
 
-### Horizontal alignment
+## Auto-width columns
 
-<Example className="docs-example-row">
-  <Container>
-    <Row className="justify-content-start">
-      <Col span={4}>One of two columns</Col>
-      <Col span={4}>One of two columns</Col>
-    </Row>
-    <Row className="justify-content-center">
-      <Col span={4}>One of two columns</Col>
-      <Col span={4}>One of two columns</Col>
-    </Row>
-    <Row className="justify-content-end">
-      <Col span={4}>One of two columns</Col>
-      <Col span={4}>One of two columns</Col>
-    </Row>
-    <Row className="justify-content-around">
-      <Col span={4}>One of two columns</Col>
-      <Col span={4}>One of two columns</Col>
-    </Row>
-    <Row className="justify-content-between">
-      <Col span={4}>One of two columns</Col>
-      <Col span={4}>One of two columns</Col>
-    </Row>
-    <Row className="justify-content-evenly">
-      <Col span={4}>One of two columns</Col>
-      <Col span={4}>One of two columns</Col>
-    </Row>
-  </Container>
+Set `span="auto"` to size a column to its content's natural width instead of an even or numbered share of the row — useful for a fixed-width element like an icon or button next to a column that should fill the rest of the space.
+
+<Example class="cxd-example-row text-center">
+  <AutoExample client:load />
 </Example>
 
-### Column wrapping
+`span={true}` is a different value from `span="auto"` — it applies the same equal-width class a `<Col>` gets by default when `span` is omitted, not a content-sized one. Setting it explicitly is only useful inside `responsive` (see below), to revert a column to equal-width at a given breakpoint and up.
 
-If more than 12 columns are placed within a single row, each group of extra columns will, as one unit, wrap onto a new line.
+## Wrapping
 
-<Example className="docs-example-row">
-  <Container>
-    <Row>
-      <Col span={9}>.col-9</Col>
-      <Col span={4}>
-        .col-4
-        <br />
-        Since 9 + 4 = 13 &gt; 12, this 4-column-wide div gets wrapped onto a new line as one
-        contiguous unit.
-      </Col>
-      <Col span={6}>
-        .col-6
-        <br />
-        Subsequent columns continue along the new line.
-      </Col>
-    </Row>
-  </Container>
+Columns can move to a new line two ways: automatically, once combined spans exceed 12, or forced, at an arbitrary point chosen by the implementation.
+
+### Overflow wrap
+
+Columns whose combined `span` exceeds 12 wrap onto a new line as a group, not just the column that pushes past the limit — every numbered column has a fixed width rather than a flexible one, so the whole surplus set moves down together.
+
+<Example class="cxd-example-row text-center">
+  <WrapExample client:load />
 </Example>
 
-### Column breaks
+### Forced breaks
 
-Breaking columns to a new line in flexbox requires a small hack: add an element with `width: 100%` wherever you want to wrap your columns to a new line. Normally this is accomplished with multiple `<Row>`s, but not every implementation method can account for this.
+Add a `width: 100%` element between columns to force a break at an arbitrary point. This is normally handled by starting a new `<Row>`, but is useful when an implementation can only render one flat list of columns.
 
-<Example className="docs-example-row">
-  <Container>
-    <Row>
-      <Col span={6} responsive={{ small: { span: 3 } }}>
-        .col-6 .small:col-3
-      </Col>
-      <Col span={6} responsive={{ small: { span: 3 } }}>
-        .col-6 .small:col-3
-      </Col>
-      <div className="w-100"></div>
-      <Col span={6} responsive={{ small: { span: 3 } }}>
-        .col-6 .small:col-3
-      </Col>
-      <Col span={6} responsive={{ small: { span: 3 } }}>
-        .col-6 .small:col-3
-      </Col>
-    </Row>
-  </Container>
+<Example class="cxd-example-row text-center">
+  <BreakExample client:load />
 </Example>
 
-You may also apply this break at specific breakpoints with our responsive display utilities.
+## Offsetting columns
 
-<Example className="docs-example-row">
-  <Container>
-    <Row>
-      <Col span={6} responsive={{ small: { span: 4 } }}>
-        .col-6 .small:col-4
-      </Col>
-      <Col span={6} responsive={{ small: { span: 4 } }}>
-        .col-6 .small:col-4
-      </Col>
-      <div className="w-100 d-none medium:d-block"></div>
-      <Col span={6} responsive={{ small: { span: 4 } }}>
-        .col-6 .small:col-4
-      </Col>
-      <Col span={6} responsive={{ small: { span: 4 } }}>
-        .col-6 .small:col-4
-      </Col>
-    </Row>
-  </Container>
+Set `offset` to a number from `0` to `11` to push a column's start edge over by that many grid columns. Unlike an empty sibling column, the offset is a margin, so it doesn't count toward the row's 12-column total.
+
+<Example class="cxd-example-row text-center">
+  <OffsetExample client:load />
 </Example>
 
-## Reordering
+## Reordering columns
 
-### Order props
+Set `order` to a number from `1` to `5` to move a column ahead of or behind its unordered siblings — a column without an `order` renders in between, at its natural document position.
 
-Use `order` (or `responsive={{ {breakpoint}: { order: 1-5 } }}` for overrides) to control the **visual order** of your content. These props are responsive, so you can set the `order` by breakpoint (e.g., `order={1}` with `responsive={{ medium: { order: 2 } }}`). Includes support for `1` through `5` across all six grid tiers.
-
-<Example className="docs-example-row">
-  <Container>
-    <Row>
-      <Col>First in DOM, no order applied</Col>
-      <Col span order={5}>Second in DOM, with a larger order</Col>
-      <Col span order={1}>Third in DOM, with an order of 1</Col>
-    </Row>
-  </Container>
+<Example class="cxd-example-row text-center">
+  <OrderExample client:load />
 </Example>
 
-There are also `order="first"` and `order="last"` values that change the `order` of an element by applying `order: -1` and `order: 6`, respectively. These values can also be intermixed with the numbered `order={1-5}` values as needed.
+`order="first"` and `order="last"` move a column further than any numbered value can, to the very start or end of the row, and can be mixed with numbered `order` values on sibling columns.
 
-<Example className="docs-example-row">
-  <Container>
-    <Row>
-      <Col span order="last">First in DOM, ordered last</Col>
-      <Col>Second in DOM, unordered</Col>
-      <Col span order="first">Third in DOM, ordered first</Col>
-    </Row>
-  </Container>
+<Example class="cxd-example-row text-center">
+  <OrderExtremesExample client:load />
 </Example>
 
-### Offsetting columns
+## Responsive overrides
 
-You can offset grid columns in two ways: our responsive `offset` grid prop (`0-12`, or `responsive={{ {breakpoint}: { offset: 0-12 } }}` for overrides) and our margin utilities. Grid props are sized to match columns while margins are more useful for quick layouts where the width of the offset is variable.
+Pass a `responsive` object keyed by breakpoint (`small`, `medium`, `large`, `xlarge`, `2xlarge`) to override `span`, `offset`, and `order` together from that breakpoint up — each breakpoint's object accepts any combination of the three, independent of what the base (unprefixed) props set.
 
-#### Offset prop
-
-Move columns to the right using `responsive={{ {breakpoint}: { offset: * } }}` overrides. These increase the left margin of a column by `*` columns. For example, `responsive={{ medium: { offset: 4 } }}` moves `.medium:col-4` over four columns.
-
-<Example className="docs-example-row">
-  <Container>
-    <Row>
-      <Col responsive={{ medium: { span: 4 } }}>.medium:col-4</Col>
-      <Col responsive={{ medium: { span: 4, offset: 4 } }}>.medium:col-4 .medium:offset-4</Col>
-    </Row>
-    <Row>
-      <Col responsive={{ medium: { span: 3, offset: 3 } }}>.medium:col-3 .medium:offset-3</Col>
-      <Col responsive={{ medium: { span: 3, offset: 3 } }}>.medium:col-3 .medium:offset-3</Col>
-    </Row>
-    <Row>
-      <Col responsive={{ medium: { span: 6, offset: 3 } }}>.medium:col-6 .medium:offset-3</Col>
-    </Row>
-  </Container>
+<Example class="cxd-example-row text-center">
+  <ResponsiveExample client:load />
 </Example>
 
-<Example className="docs-example-row">
-  <Container>
-    <Row>
-      <Col responsive={{ small: { span: 5 }, medium: { span: 6 } }}>
-        .small:col-5 .medium:col-6
-      </Col>
-      <Col responsive={{ small: { span: 5, offset: 2 }, medium: { span: 6, offset: 0 } }}>
-        .small:col-5 .small:offset-2 .medium:col-6 .medium:offset-0
-      </Col>
-    </Row>
-    <Row>
-      <Col responsive={{ small: { span: 6 }, medium: { span: 5 }, large: { span: 6 } }}>
-        .small:col-6 .medium:col-5 .large:col-6
-      </Col>
-      <Col
-        responsive={{
-          small: { span: 6 },
-          medium: { span: 5, offset: 2 },
-          large: { span: 6, offset: 0 }
-        }}
-      >
-        .small:col-6 .medium:col-5 .medium:offset-2 .large:col-6 .large:offset-0
-      </Col>
-    </Row>
-  </Container>
+`{ span: true }` inside a breakpoint's override reverts a column from a numbered `span` back to equal-width at that breakpoint and up.
+
+<Example class="cxd-example-row text-center">
+  <RevertToEqualWidthExample client:load />
 </Example>
 
-#### Margin utilities
+## Standalone usage
 
-You can use margin utilities like `.me-auto` to force sibling columns away from one another.
+`<Col>` also renders outside a `<Row>`, as a general-purpose way to give any element a percentage width from the grid scale. Gutter padding comes from being a direct child of `<Row>`, not from the column classes themselves, so a standalone `<Col>` has no horizontal padding of its own.
 
-<Example className="docs-example-row">
-  <Container>
-    <Row>
-      <Col responsive={{ medium: { span: 4 } }}>.medium:col-4</Col>
-      <Col responsive={{ medium: { span: 4 } }} className="ms-auto">
-        .medium:col-4 .ms-auto
-      </Col>
-    </Row>
-    <Row>
-      <Col responsive={{ medium: { span: 3 } }} className="medium:ms-auto">
-        .medium:col-3 .medium:ms-auto
-      </Col>
-      <Col responsive={{ medium: { span: 3 } }} className="medium:ms-auto">
-        .medium:col-3 .medium:ms-auto
-      </Col>
-    </Row>
-    <Row>
-      <Col span="auto" className="me-auto">
-        .col-auto .me-auto
-      </Col>
-      <Col span="auto">.col-auto</Col>
-    </Row>
-  </Container>
-</Example>
-
-## Standalone column component
-
-The `<Col>` component can also be used outside a `<Row>` to give an element a specific width. Whenever column component are used as non direct children of a row, the paddings are omitted.
-
-<Example>
-  <Col span={3} className="bg-light p-3 border">
-    .col-3: width of 25%
-  </Col>
-  <Col responsive={{ small: { span: 9 } }} className="bg-light p-3 border">
-    .small:col-9: width of 75% above sm breakpoint
-  </Col>
+<Example class="cxd-example-row text-center">
+  <StandaloneExample client:load />
 </Example>
 
 ## API
