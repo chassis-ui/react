@@ -14,7 +14,7 @@ import { Grid } from '@chassis-ui/react'
 
 Three equal-width columns in a 12-column grid each span 4 tracks (3 × 4 = 12):
 
-<Example>
+<Example class="cxd-example-grid">
   <Grid>
     <div className="g-col-4 border p-medium text-center">.g-col-4</div>
     <div className="g-col-4 border p-medium text-center">.g-col-4</div>
@@ -26,7 +26,7 @@ Three equal-width columns in a 12-column grid each span 4 tracks (3 × 4 = 12):
 
 Add breakpoint-prefixed classes to children to change their span at specific viewport widths. Below, two `.g-col-6` columns narrow to three `.medium:g-col-4` columns at the `medium` breakpoint and above:
 
-<Example>
+<Example class="cxd-example-grid">
   <Grid>
     <div className="g-col-6 medium:g-col-4 border p-medium text-center">.g-col-6 .medium:g-col-4</div>
     <div className="g-col-6 medium:g-col-4 border p-medium text-center">.g-col-6 .medium:g-col-4</div>
@@ -47,7 +47,7 @@ Add breakpoint-prefixed classes to children to change their span at specific vie
 
 `columns` and `gap` set the underlying `--cx-grid-columns`/`--cx-grid-gap` custom properties directly:
 
-<Example>
+<Example class="cxd-example-grid">
   <Grid columns={4} gap="1rem">
     <div className="g-col-2 border p-medium text-center">.g-col-2</div>
     <div className="g-col-2 border p-medium text-center">.g-col-2</div>
@@ -56,7 +56,7 @@ Add breakpoint-prefixed classes to children to change their span at specific vie
 
 `gap` accepts any CSS `gap` value, including a `"{row} {column}"` pair for asymmetric spacing:
 
-<Example>
+<Example class="cxd-example-grid">
   <Grid gap=".25rem 1rem">
     <div className="g-col-6 border p-medium text-center">.g-col-6</div>
     <div className="g-col-6 border p-medium text-center">.g-col-6</div>
@@ -67,7 +67,7 @@ Add breakpoint-prefixed classes to children to change their span at specific vie
 
 `gap` also accepts a `Spacing` token (the same named scale `<Row>`'s `gutter`/`<Stack>`'s `gap`/`<Flex>`'s `gap` use), resolved to the matching `--cx-space-*` custom property — a convenient way to stay on the design system's spacing scale without hardcoding a raw value:
 
-<Example>
+<Example class="cxd-example-grid">
   <Grid gap="large">
     <div className="g-col-4 border p-medium text-center">.g-col-4</div>
     <div className="g-col-4 border p-medium text-center">.g-col-4</div>
@@ -79,7 +79,7 @@ Add breakpoint-prefixed classes to children to change their span at specific vie
 
 `rows` sets `--cx-grid-rows`, which extends the grid template. Use an inline `style={{ gridRow: n }}` on a child to assign it to a specific row:
 
-<Example>
+<Example class="cxd-example-grid">
   <Grid rows={3} columns={3}>
     <div className="border p-medium text-center">Auto-column</div>
     <div className="g-start-2 border p-medium text-center" style={{ gridRow: 2 }}>
@@ -95,7 +95,7 @@ Add breakpoint-prefixed classes to children to change their span at specific vie
 
 `fill` renders `.grid-fill` instead of `.grid` — columns expand equally to fill the available width (`grid-template-columns: repeat(auto-fit, minmax(0, 1fr))`), with the count determined by the number of children rather than `columns`. `gap` on a `fill` grid sets `--cx-gap` instead of `--cx-grid-gap`:
 
-<Example>
+<Example class="cxd-example-grid">
   <Grid fill>
     <div className="border p-medium text-center">Column</div>
     <div className="border p-medium text-center">Column</div>
@@ -108,7 +108,7 @@ Add breakpoint-prefixed classes to children to change their span at specific vie
 
 `subgrid` adds `.grid-cols-subgrid` alongside `.grid`, causing the element to inherit its parent grid's column tracks instead of defining its own. Apply it to a multi-column child to align its contents to the outer grid's tracks:
 
-<Example>
+<Example class="cxd-example-grid">
   <Grid>
     <div className="g-col-8 border p-medium text-center">
       <Grid subgrid>

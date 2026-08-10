@@ -10,7 +10,7 @@ import { Col, Container, Row } from '@chassis-ui/react'
 
 `<Row>` wraps [`<Col>`](./columns) children in the flexbox context the [flexbox grid](./grid) relies on — negative margins that offset each column's gutter padding, keeping content aligned down the left side. Every `<Row>` needs a [`<Container>`](./containers) (or `<Container fluid>`) ancestor when used as part of the grid system.
 
-<Example className="docs-example-row">
+<Example class="cxd-example-row">
   <Container>
     <Row>
       <Col>1 of 3</Col>
@@ -26,7 +26,7 @@ Use the `cols` prop (or `responsive={{ {breakpoint}: { cols: * } }}` overrides) 
 
 Use these row columns props to quickly create basic grid layouts or to control your card layouts.
 
-<Example className="docs-example-row">
+<Example class="cxd-example-row">
   <Container>
     <Row cols={2}>
       <Col>Column</Col>
@@ -37,7 +37,7 @@ Use these row columns props to quickly create basic grid layouts or to control y
   </Container>
 </Example>
 
-<Example className="docs-example-row">
+<Example class="cxd-example-row">
   <Container>
     <Row cols={3}>
       <Col>Column</Col>
@@ -48,7 +48,7 @@ Use these row columns props to quickly create basic grid layouts or to control y
   </Container>
 </Example>
 
-<Example className="docs-example-row">
+<Example class="cxd-example-row">
   <Container>
     <Row cols="auto">
       <Col>Column</Col>
@@ -59,7 +59,7 @@ Use these row columns props to quickly create basic grid layouts or to control y
   </Container>
 </Example>
 
-<Example className="docs-example-row">
+<Example class="cxd-example-row">
   <Container>
     <Row cols={4}>
       <Col>Column</Col>
@@ -70,7 +70,7 @@ Use these row columns props to quickly create basic grid layouts or to control y
   </Container>
 </Example>
 
-<Example className="docs-example-row">
+<Example class="cxd-example-row">
   <Container>
     <Row cols={4}>
       <Col>Column</Col>
@@ -81,7 +81,7 @@ Use these row columns props to quickly create basic grid layouts or to control y
   </Container>
 </Example>
 
-<Example className="docs-example-row">
+<Example class="cxd-example-row">
   <Container>
     <Row cols={1} responsive={{ small: { cols: 2 }, medium: { cols: 4 } }}>
       <Col>Column</Col>

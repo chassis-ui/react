@@ -5,19 +5,6 @@
   pages:
     - title: Introduction
 
-- title: Layout
-  icon: object-group-solid
-  pages:
-    - title: Breakpoints
-    - title: Containers
-    - title: Grid
-    - title: Row
-    - title: Columns
-    - title: Gutters
-    - title: CSS Grid
-    - title: Stack
-    - title: Flex
-
 - title: Components
   icon: box-open-solid
   pages:
@@ -50,12 +37,10 @@
         - title: Password Strength
     - group: Form Layout
       pages:
-        - title: Overview
+        - title: Form
         - title: Form Field
         - title: Input Group
         - title: Floating Labels
-        - title: Form Grid
-        - title: Validation
     - group: Navigation
       pages:
         - title: Navbar
@@ -89,10 +74,23 @@
       pages:
         - title: Accordion
         - title: Collapse
+    - group: Layout
+      pages:
+        - title: Container
+        - title: Column
+        - title: Flex
+        - title: Grid
+        - title: Row
+        - title: Stack
 
 - title: Patterns
   icon: grid-solid
   pages:
+    - title: Breakpoints
+    - title: Responsive Grid
+    - title: Form Grid
+    - title: Form Validation
+    - title: Gutters
     - title: Dashboard Widgets
     - title: Form Processing
     - title: Paginated Table
