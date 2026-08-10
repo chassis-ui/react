@@ -75,10 +75,30 @@ describe('Col', () => {
     test('applies span/order/offset from a responsive breakpoint override', () => {
       render(<Col responsive={{ medium: { span: 6, order: 'first', offset: 2 } }}>Test</Col>)
       expect(screen.getByText('Test')).toHaveClass(
+        'col',
         'medium:col-6',
         'medium:order-first',
         'medium:offset-2'
       )
+    })
+  })
+
+  describe('base class fallback', () => {
+    test('keeps the base col class when only offset is set (no span)', () => {
+      render(<Col offset={2}>Test</Col>)
+      expect(screen.getByText('Test')).toHaveClass('col', 'offset-2')
+    })
+
+    test('keeps the base col class when only order is set (no span)', () => {
+      render(<Col order="first">Test</Col>)
+      expect(screen.getByText('Test')).toHaveClass('col', 'order-first')
+    })
+
+    test('omits the base col class once a base span is set', () => {
+      render(<Col span={6}>Test</Col>)
+      const col = screen.getByText('Test')
+      expect(col).toHaveClass('col-6')
+      expect(col).not.toHaveClass('col')
     })
   })
 

@@ -51,10 +51,12 @@ export const Col = forwardRef<HTMLDivElement, ColProps>(
       responsive
     )
 
-    const _className = classNames(
-      layoutClassList.some(Boolean) ? layoutClassList : 'col',
-      className
-    )
+    // The base breakpoint only gets its equal-width flex sizing from an explicit `span` (base or
+    // `col`'s own class) or from the fallback bare `col` below — `offset`/`order` alone (or a
+    // `span` set only inside `responsive`) don't provide it, so without this the column would
+    // render at `flex: 0 1 auto` instead of a proper flexible column below the first tier that
+    // sets a span.
+    const _className = classNames(span === undefined && 'col', layoutClassList, className)
 
     return (
       <div className={_className} {...rest} ref={ref}>
