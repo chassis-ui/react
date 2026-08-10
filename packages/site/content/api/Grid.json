@@ -120,25 +120,6 @@
       "type": {
         "name": "boolean"
       }
-    },
-    "subgrid": {
-      "defaultValue": null,
-      "description": "Adds `.grid-cols-subgrid` alongside the base class, causing this grid to inherit its parent\ngrid's column tracks instead of defining its own.",
-      "name": "subgrid",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/grid/Grid.tsx",
-        "name": "GridProps"
-      },
-      "declarations": [
-        {
-          "fileName": "chassis-react/packages/react/src/components/grid/Grid.tsx",
-          "name": "GridProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "boolean"
-      }
     }
   }
 }

@@ -61,7 +61,7 @@ import {
   MenuSubmenu,
   MenuSubmenuBack
 } from './components/menu'
-import { Col, Container, Grid, Row } from './components/grid'
+import { Col, Container, Grid, GridItem, Row } from './components/grid'
 import { Checkbox, CheckboxGroup } from './components/checkbox'
 import { Form, FormFeedback, FormHelp, FormLabel } from './components/form'
 import { FloatingInput } from './components/floating-input'
@@ -183,6 +183,7 @@ export {
   Col,
   Container,
   Grid,
+  GridItem,
   Row,
   Checkbox,
   CheckboxGroup,

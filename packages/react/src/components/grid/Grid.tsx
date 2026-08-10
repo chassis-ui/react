@@ -1,7 +1,8 @@
 import React, { CSSProperties, ElementType, forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-import { Spacing, SPACING } from '../../types'
+import { Spacing } from '../../types'
+import { resolveGap } from './gap'
 
 type GridStyle = CSSProperties & {
   '--cx-grid-columns'?: number
@@ -9,12 +10,6 @@ type GridStyle = CSSProperties & {
   '--cx-grid-gap'?: string
   '--cx-gap'?: string
 }
-
-const SPACING_TOKENS = new Set<string>(SPACING)
-
-// `Spacing` tokens map to the matching `--cx-space-*` custom property; anything else (a raw CSS
-// value, e.g. `"1rem"` or `".25rem 1rem"`) passes through unchanged.
-const resolveGap = (gap: string) => (SPACING_TOKENS.has(gap) ? `var(--cx-space-${gap})` : gap)
 
 export interface GridProps extends HTMLAttributes<HTMLDivElement> {
   /**
@@ -48,34 +43,14 @@ export interface GridProps extends HTMLAttributes<HTMLDivElement> {
    * width, with the column count determined by the number of children rather than `columns`.
    */
   fill?: boolean
-  /**
-   * Adds `.grid-cols-subgrid` alongside the base class, causing this grid to inherit its parent
-   * grid's column tracks instead of defining its own.
-   */
-  subgrid?: boolean
 }
 
 export const Grid = forwardRef<HTMLDivElement, GridProps>(
   (
-    {
-      children,
-      className,
-      component: Component = 'div',
-      columns,
-      rows,
-      gap,
-      fill,
-      subgrid,
-      style,
-      ...rest
-    },
+    { children, className, component: Component = 'div', columns, rows, gap, fill, style, ...rest },
     ref
   ) => {
-    const _className = classNames(
-      fill ? 'grid-fill' : 'grid',
-      subgrid && 'grid-cols-subgrid',
-      className
-    )
+    const _className = classNames(fill ? 'grid-fill' : 'grid', className)
 
     const _style: GridStyle = { ...style }
 

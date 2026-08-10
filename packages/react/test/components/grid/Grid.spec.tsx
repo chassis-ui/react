@@ -63,7 +63,10 @@ describe('Grid', () => {
           Test
         </Grid>
       )
-      expect(screen.getByText('Test')).toHaveStyle({ '--cx-grid-columns': '4', color: 'rgb(255, 0, 0)' })
+      expect(screen.getByText('Test')).toHaveStyle({
+        '--cx-grid-columns': '4',
+        color: 'rgb(255, 0, 0)'
+      })
     })
   })
 
@@ -104,13 +107,6 @@ describe('Grid', () => {
       const el = screen.getByText('Test')
       expect(el.style.getPropertyValue('--cx-grid-columns')).toBe('')
       expect(el.style.getPropertyValue('--cx-grid-rows')).toBe('')
-    })
-  })
-
-  describe('subgrid', () => {
-    test('adds grid-cols-subgrid alongside grid', () => {
-      render(<Grid subgrid>Test</Grid>)
-      expect(screen.getByText('Test')).toHaveClass('grid', 'grid-cols-subgrid')
     })
   })
 
