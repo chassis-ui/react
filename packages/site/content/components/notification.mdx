@@ -9,6 +9,8 @@ import { Example as BasicExample } from '../../src/examples/notification/BasicEx
 import { Example as LiveExample } from '../../src/examples/notification/LiveExample.tsx'
 import { Example as ColorExample } from '../../src/examples/notification/ColorExample.tsx'
 import { Example as SolidExample } from '../../src/examples/notification/SolidExample.tsx'
+import { Example as ShorthandExample } from '../../src/examples/notification/ShorthandExample.tsx'
+import { Example as AutohideExample } from '../../src/examples/notification/AutohideExample.tsx'
 import { Example as IconExample } from '../../src/examples/notification/IconExample.tsx'
 import { Example as TitleExample } from '../../src/examples/notification/TitleExample.tsx'
 import { Example as TextExample } from '../../src/examples/notification/TextExample.tsx'
@@ -22,6 +24,7 @@ Things to know when using `Notification`:
 - It works standalone — render `<Notification>` directly and control it with `visible`/`onClose`, same as any other component.
 - Or push it into a stack — call `addNotification()` from anywhere to queue one, and render a `<NotificationStack>` wherever it should appear. See [Stacking](#stacking).
 - `role="status"` (the default) suits routine confirmations and informational updates. Reserve `role="alert"` for errors and messages requiring immediate attention. See [Accessibility](#accessibility).
+- The `icon`/`title`/`text`/`actions` props are shorthand for the manual `NotificationIcon`/`NotificationTitle`/`NotificationText` composition — reach for manual composition only when a notification needs more than one block of body content. See [Shorthand props](#shorthand-props).
 
 ## Examples
 
@@ -30,6 +33,18 @@ Use `<Notification>` to give users feedback about common operations in a way tha
 <Example>
   <BasicExample client:load />
 </Example>
+
+### Shorthand props
+
+For the common case — an icon, a heading, one block of message text — `icon`/`title`/`text` render the same markup as composing `NotificationIcon`/`NotificationTitle`/`NotificationText` by hand, without the wiring. `icon` accepts an icon name string (rendered via `NotificationIcon`) or any other node for a fully custom icon; `title` renders through `NotificationTitle` (pass `titleComponent` to change its tag, default `h4`); `text` renders through a single `NotificationText`. When both `title` and `text` are set, the notification's `aria-labelledby`/`aria-describedby` are wired to them automatically.
+
+<Example>
+  <ShorthandExample client:load />
+</Example>
+
+`text` wraps everything in *one* `NotificationText` — for multi-block content (more than one paragraph, or content mixing paragraphs with other elements), compose `children` manually instead, as shown in the sections below. `actions` is unstyled passthrough markup rendered after `text`/`children`, e.g. a row of buttons — see [Actions](#actions).
+
+The rest of this page documents the manual composition these props are shorthand for.
 
 ### Colors
 
@@ -88,10 +103,18 @@ When a notification carries action buttons, use flex utilities to compose them w
 
 ### Dismissing
 
-Add the `dismissible` prop to render a close button and let users dismiss the notification. `onClose` fires once the fade-out transition finishes.
+Add the `dismissible` prop to render a close button and let users dismiss the notification. `onClose` fires once the fade-out transition finishes. The close button's accessible name defaults to `'Close'` — override it with `closeLabel` for non-English UIs.
 
 <Example>
   <DismissibleExample client:load />
+</Example>
+
+### Auto-dismiss
+
+Set `autohide` to dismiss the notification on its own after `delay` (defaults to `5000`ms). Unlike `Toast`, `Notification` does **not** auto-hide by default — it's documented as a persistent banner, so opt in explicitly. The timer pauses while the pointer or keyboard focus is on the notification, and resumes when it leaves.
+
+<Example>
+  <AutohideExample client:load />
 </Example>
 
 ## Stacking

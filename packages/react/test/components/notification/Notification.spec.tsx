@@ -58,6 +58,128 @@ describe('Notification', () => {
       render(<Notification color="primary">Test</Notification>)
       expect(screen.queryByRole('button', { name: 'Close' })).not.toBeInTheDocument()
     })
+
+    test('closeLabel overrides the dismiss button accessible name', () => {
+      render(
+        <Notification dismissible closeLabel="Kapat">
+          Test
+        </Notification>
+      )
+      expect(screen.getByRole('button', { name: 'Kapat' })).toBeInTheDocument()
+      expect(screen.queryByRole('button', { name: 'Close' })).not.toBeInTheDocument()
+    })
+  })
+
+  describe('shorthand content', () => {
+    test('icon renders a NotificationIcon when given a name', () => {
+      render(<Notification icon="check-solid">Test</Notification>)
+      expect(document.querySelector('.notification-icon')).toBeInTheDocument()
+    })
+
+    test('icon aligns to the start of the block when a title is also set', () => {
+      render(
+        <Notification icon="check-solid" title="Done">
+          Test
+        </Notification>
+      )
+      expect(document.querySelector('.notification-icon')).toHaveClass('align-self-start')
+    })
+
+    test('a custom icon node is rendered as-is, without automatic alignment', () => {
+      render(
+        <Notification icon={<span data-testid="custom-icon" />} title="Done">
+          Test
+        </Notification>
+      )
+      expect(screen.getByTestId('custom-icon')).not.toHaveClass('align-self-start')
+    })
+
+    test('title renders via NotificationTitle with the default h4 tag', () => {
+      render(<Notification title="Well done!">Test</Notification>)
+      const title = screen.getByText('Well done!')
+      expect(title.tagName).toBe('H4')
+      expect(title).toHaveClass('notification-title')
+    })
+
+    test('titleComponent overrides the rendered tag', () => {
+      render(
+        <Notification title="Well done!" titleComponent="p">
+          Test
+        </Notification>
+      )
+      expect(screen.getByText('Well done!').tagName).toBe('P')
+    })
+
+    test('text renders via a single NotificationText', () => {
+      render(<Notification text="This is a message" />)
+      const text = screen.getByText('This is a message')
+      expect(text).toHaveClass('notification-text')
+    })
+
+    test('actions render as passed-through markup after the body content', () => {
+      render(<Notification text="Message" actions={<button type="button">Undo</button>} />)
+      expect(screen.getByRole('button', { name: 'Undo' })).toBeInTheDocument()
+    })
+
+    test('title and text wire up aria-labelledby/aria-describedby', () => {
+      render(<Notification title="Well done!" text="This is a message" />)
+      const notification = screen.getByRole('status')
+      const titleId = notification.getAttribute('aria-labelledby')
+      const textId = notification.getAttribute('aria-describedby')
+      expect(titleId).toBeTruthy()
+      expect(textId).toBeTruthy()
+      expect(document.getElementById(titleId as string)).toHaveTextContent('Well done!')
+      expect(document.getElementById(textId as string)).toHaveTextContent('This is a message')
+    })
+
+    test('does not set aria-describedby without a title', () => {
+      render(<Notification text="This is a message" />)
+      expect(screen.getByRole('status')).not.toHaveAttribute('aria-describedby')
+    })
+  })
+
+  describe('auto-dismiss', () => {
+    test('is not auto-dismissed by default', () => {
+      vi.useFakeTimers()
+      render(<Notification delay={100}>Test</Notification>)
+      act(() => vi.advanceTimersByTime(5000))
+      expect(screen.getByRole('status')).toBeInTheDocument()
+      vi.useRealTimers()
+    })
+
+    test('autohide dismisses the notification after delay and fires onClose', () => {
+      vi.useFakeTimers()
+      const onClose = vi.fn()
+      render(
+        <Notification autohide delay={1000} onClose={onClose}>
+          Test
+        </Notification>
+      )
+      act(() => vi.advanceTimersByTime(1000))
+      act(() => vi.runAllTimers())
+      expect(onClose).toHaveBeenCalledTimes(1)
+      expect(screen.queryByRole('status')).not.toBeInTheDocument()
+      vi.useRealTimers()
+    })
+
+    test('pauses the autohide timer on hover and resumes on leave', () => {
+      vi.useFakeTimers()
+      render(
+        <Notification autohide delay={1000}>
+          Test
+        </Notification>
+      )
+      const notification = screen.getByRole('status')
+      fireEvent.mouseEnter(notification)
+      act(() => vi.advanceTimersByTime(1000))
+      expect(screen.getByRole('status')).toBeInTheDocument()
+
+      fireEvent.mouseLeave(notification)
+      act(() => vi.advanceTimersByTime(1000))
+      act(() => vi.runAllTimers())
+      expect(screen.queryByRole('status')).not.toBeInTheDocument()
+      vi.useRealTimers()
+    })
   })
 
   describe('ref forwarding', () => {

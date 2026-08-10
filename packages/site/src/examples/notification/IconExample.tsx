@@ -1,20 +1,20 @@
-import { Notification, NotificationIcon } from '@chassis-ui/react'
+import { Notification, NotificationIcon, NotificationText } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
     <>
       <Notification color="info">
         <NotificationIcon name="info-circle-solid" />
-        <p>
+        <NotificationText>
           An example notification with an icon and <a href="#">a link</a>.
-        </p>
+        </NotificationText>
       </Notification>
 
       <Notification color="info" solid>
         <NotificationIcon name="info-circle-solid" />
-        <p>
+        <NotificationText>
           An example notification with an icon and <a href="#">a link</a>.
-        </p>
+        </NotificationText>
       </Notification>
     </>
   )

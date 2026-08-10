@@ -5,13 +5,25 @@ import { NotificationProps } from './Notification'
 
 export interface NotificationContent extends Pick<
   NotificationProps,
-  'color' | 'solid' | 'role' | 'dismissible'
+  | 'actions'
+  | 'autohide'
+  | 'closeLabel'
+  | 'color'
+  | 'delay'
+  | 'dismissible'
+  | 'icon'
+  | 'role'
+  | 'solid'
+  | 'text'
+  | 'title'
+  | 'titleComponent'
 > {
   /**
-   * Content of the notification — typically a `NotificationIcon`/`NotificationTitle`/
-   * `NotificationText`.
+   * Content of the notification. Compose manually (typically a `NotificationIcon`/
+   * `NotificationTitle`/`NotificationText`), or leave empty and use the `icon`/`title`/`text`
+   * shorthand options instead.
    */
-  children: ReactNode
+  children?: ReactNode
 }
 
 // The queue backing `NotificationStack` — a module-level singleton so `addNotification()` is
@@ -21,9 +33,10 @@ export interface NotificationContent extends Pick<
 export const notificationQueue = new ToastQueue<NotificationContent>()
 
 // Adds a notification to the queue. Returns the notification's key, which can be passed to
-// `closeNotification` to dismiss it programmatically.
+// `closeNotification` to dismiss it programmatically. `children` is optional — omit it for a
+// notification composed entirely from the `icon`/`title`/`text` shorthand options.
 export function addNotification(
-  children: ReactNode,
+  children?: ReactNode,
   options: Omit<NotificationContent, 'children'> = {}
 ): string {
   return notificationQueue.add({ children, ...options })

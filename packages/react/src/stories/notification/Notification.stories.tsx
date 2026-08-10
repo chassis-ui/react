@@ -4,6 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Notification } from '../../components/notification/Notification'
 import { NotificationTitle } from '../../components/notification/NotificationTitle'
 import { NotificationIcon } from '../../components/notification/NotificationIcon'
+import { NotificationText } from '../../components/notification/NotificationText'
 
 const meta: Meta<typeof Notification> = {
   component: Notification,
@@ -28,9 +29,9 @@ export const WithIcon: Story = {
     children: (
       <>
         <NotificationIcon name="info-circle-solid" />
-        <p>
+        <NotificationText>
           An example notification with an icon and <a href="#">a link</a>.
-        </p>
+        </NotificationText>
       </>
     )
   }
@@ -43,14 +44,54 @@ export const WithTitle: Story = {
       <>
         <NotificationIcon name="check-solid" className="align-self-start" />
         <NotificationTitle component="h4">Well done!</NotificationTitle>
-        <p>
+        <NotificationText>
           Aww yeah, you successfully read this important notification message. This example text is
           going to run a bit longer so that you can see how spacing within a notification works with
           this kind of content.
-        </p>
-        <p>Adjust the gap with --notification-text-gap.</p>
+        </NotificationText>
+        <NotificationText>Adjust the gap with --notification-text-gap.</NotificationText>
       </>
     )
+  }
+}
+
+// The `icon`/`title`/`text` props are convenience sugar over the manual composition shown in
+// `WithTitle` above — same markup, no `NotificationIcon`/`NotificationTitle`/`NotificationText`
+// wiring required for the common case.
+export const Shorthand: Story = {
+  args: {
+    color: 'success',
+    icon: 'check-solid',
+    title: 'Well done!',
+    text: 'Aww yeah, you successfully read this important notification message.',
+    dismissible: true
+  }
+}
+
+export const ShorthandWithActions: Story = {
+  args: {
+    color: 'danger',
+    role: 'alert',
+    icon: 'exclamation-triangle-solid',
+    title: 'Something went wrong',
+    text: 'We couldn’t save your changes. Check your connection and try again.',
+    actions: (
+      <div className="hstack gap-small justify-content-end">
+        <button type="button" className="button danger small">
+          Retry
+        </button>
+      </div>
+    ),
+    dismissible: true
+  }
+}
+
+export const Autohide: Story = {
+  args: {
+    color: 'info',
+    icon: 'info-circle-solid',
+    text: 'This notification dismisses itself after 5 seconds — hover or focus it to pause the timer.',
+    autohide: true
   }
 }
 
