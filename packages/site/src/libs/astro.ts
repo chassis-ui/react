@@ -61,6 +61,13 @@ export function chassis(): AstroIntegration[] {
               ? fs.realpathSync(docsPackagePath)
               : undefined
 
+            // Explicitly setting `server.fs.allow` replaces Vite's own default (which
+            // walks up from `process.cwd()` to the pnpm workspace root). Without also
+            // including that workspace root here, every dependency hoisted to the
+            // monorepo's top-level `node_modules` (e.g. `@astrojs/react/dist/client.js`,
+            // the hydration runtime every interactive island depends on) gets 403'd.
+            const workspaceRoot = findPnpmWorkspaceRoot(process.cwd())
+
             updateConfig({
               vite: {
                 resolve: {
@@ -79,13 +86,13 @@ export function chassis(): AstroIntegration[] {
                 optimizeDeps: {
                   exclude: ['@chassis-ui/docs']
                 },
-                server: docsRealPath
-                  ? {
-                      fs: {
-                        allow: [process.cwd(), docsRealPath]
-                      }
-                    }
-                  : undefined
+                server: {
+                  fs: {
+                    allow: docsRealPath
+                      ? [workspaceRoot, docsRealPath]
+                      : [workspaceRoot]
+                  }
+                }
               }
             })
           }
@@ -141,6 +148,20 @@ export function chassis(): AstroIntegration[] {
       filter: (page) => !sitemapExcludedUrls.includes(page)
     })
   ]
+}
+
+/**
+ * Walks up from `dir` to find the pnpm workspace root (mirrors Vite's own
+ * `searchForWorkspaceRoot` default), stopping at the filesystem root if none is found.
+ */
+function findPnpmWorkspaceRoot(dir: string): string {
+  let current = dir
+  while (true) {
+    if (fs.existsSync(path.join(current, 'pnpm-workspace.yaml'))) return current
+    const parent = path.dirname(current)
+    if (parent === current) return dir
+    current = parent
+  }
 }
 
 /**
