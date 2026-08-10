@@ -11,6 +11,7 @@ export declare global {
   export const CSSOnly: typeof import('@chassis-ui/docs/shortcodes/CSSOnly.astro').default
   export const Callout: typeof import('@chassis-ui/docs/shortcodes/Callout.astro').default
   export const Code: typeof import('@chassis-ui/docs/shortcodes/Code.astro').default
+  export const CxTable: typeof import('@chassis-ui/docs/shortcodes/CxTable.astro').default
   export const DeprecatedIn: typeof import('@chassis-ui/docs/shortcodes/DeprecatedIn.astro').default
   export const InFigma: typeof import('@chassis-ui/docs/shortcodes/InFigma.astro').default
   export const JsDocs: typeof import('@chassis-ui/docs/shortcodes/JsDocs.astro').default

@@ -52,6 +52,15 @@ export function chassis(): AstroIntegration[] {
           // optimizer can load separate instances of it, multiplying any module-scope
           // state and event listeners it registers.
           if (cmd === 'dev') {
+            // `@chassis-ui/docs` is a pnpm workspace `link:` override that resolves to a
+            // symlink outside this repo. Its layouts serve raw script files (e.g.
+            // `search.js`) by relative path, and Vite checks its allowlist against the
+            // symlink's real target, which sits outside the detected project root.
+            const docsPackagePath = path.join(process.cwd(), 'node_modules/@chassis-ui/docs')
+            const docsRealPath = fs.existsSync(docsPackagePath)
+              ? fs.realpathSync(docsPackagePath)
+              : undefined
+
             updateConfig({
               vite: {
                 resolve: {
@@ -69,7 +78,14 @@ export function chassis(): AstroIntegration[] {
                 },
                 optimizeDeps: {
                   exclude: ['@chassis-ui/docs']
-                }
+                },
+                server: docsRealPath
+                  ? {
+                      fs: {
+                        allow: [process.cwd(), docsRealPath]
+                      }
+                    }
+                  : undefined
               }
             })
           }
