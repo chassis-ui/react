@@ -3,8 +3,10 @@ import Code from '@chassis-ui/docs/shortcodes/Code.astro'
 import { replacePlaceholdersInHtml } from '@chassis-ui/docs'
 
 interface Props {
+  /**
+   * The CSS class(es) to be added to the preview wrapping `div` element.
+   */
   class?: string
-  id?: string
   /**
    * The source code to display below the live preview.
    * Auto-derived at build time by the `remarkCxExample` remark plugin unless `customMarkup` is set.
@@ -15,6 +17,10 @@ interface Props {
    * actual children still render live in the preview above.
    */
   customMarkup?: string
+  /**
+   * The preview wrapping `div` element ID.
+   */
+  id?: string
   /**
    * Language used to highlight the displayed source.
    * @default 'jsx'
