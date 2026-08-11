@@ -29,6 +29,11 @@ describe('DrawerHeader', () => {
       render(<DrawerHeader closeButton={false}>Test</DrawerHeader>)
       expect(screen.queryByRole('button', { name: 'Close' })).not.toBeInTheDocument()
     })
+
+    test('closeLabel overrides the close button accessible name', () => {
+      render(<DrawerHeader closeLabel="Fermer">Test</DrawerHeader>)
+      expect(screen.getByRole('button', { name: 'Fermer' })).toBeInTheDocument()
+    })
   })
 
   describe('close behavior', () => {

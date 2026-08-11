@@ -24,6 +24,82 @@
         "name": "string"
       }
     },
+    "color": {
+      "defaultValue": null,
+      "description": "Sets the color of the component to one of Chassis context colors. Applies the\n`context` class alongside it, so the icon picks up that color without needing\nan ancestor `.context` wrapper.",
+      "name": "color",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/close-button/CloseButton.tsx",
+        "name": "CloseButtonProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/close-button/CloseButton.tsx",
+          "name": "CloseButtonProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "ContextColor",
+        "value": [
+          {
+            "value": "\"default\""
+          },
+          {
+            "value": "\"alternate\""
+          },
+          {
+            "value": "\"primary\""
+          },
+          {
+            "value": "\"secondary\""
+          },
+          {
+            "value": "\"neutral\""
+          },
+          {
+            "value": "\"success\""
+          },
+          {
+            "value": "\"danger\""
+          },
+          {
+            "value": "\"warning\""
+          },
+          {
+            "value": "\"info\""
+          },
+          {
+            "value": "\"black\""
+          },
+          {
+            "value": "\"white\""
+          }
+        ]
+      }
+    },
+    "component": {
+      "defaultValue": {
+        "value": "button"
+      },
+      "description": "Component used for the root node. Either a string to use a HTML element or a component.\nA custom HTML tag (e.g. `'span'`) gets button semantics — role, focus, Enter/Space\nactivation — filled in automatically. A component is trusted to handle its own semantics,\nso pass one that's already interactive (e.g. `Button`).",
+      "name": "component",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/close-button/CloseButton.tsx",
+        "name": "CloseButtonProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/close-button/CloseButton.tsx",
+          "name": "CloseButtonProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | ComponentClass<any, any> | FunctionComponent<any>"
+      }
+    },
     "disabled": {
       "defaultValue": null,
       "description": "Toggle the disabled state for the component.",
@@ -43,10 +119,10 @@
         "name": "boolean"
       }
     },
-    "white": {
+    "label": {
       "defaultValue": null,
-      "description": "Change the default context to white.",
-      "name": "white",
+      "description": "The accessible label announced by assistive technology. Override this to\nlocalize the button for non-English contexts.",
+      "name": "label",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/close-button/CloseButton.tsx",
         "name": "CloseButtonProps"
@@ -59,7 +135,102 @@
       ],
       "required": false,
       "type": {
-        "name": "boolean"
+        "name": "string"
+      }
+    },
+    "size": {
+      "defaultValue": null,
+      "description": "Size the component small or large.",
+      "name": "size",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/close-button/CloseButton.tsx",
+        "name": "CloseButtonProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/close-button/CloseButton.tsx",
+          "name": "CloseButtonProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"small\" | \"large\"",
+        "value": [
+          {
+            "value": "\"small\""
+          },
+          {
+            "value": "\"large\""
+          }
+        ]
+      }
+    },
+    "type": {
+      "defaultValue": {
+        "value": "button"
+      },
+      "description": "Specifies the type of button. Always specify the type attribute for the `<button>` element.\nDifferent browsers may use different default types for the `<button>` element.",
+      "name": "type",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/close-button/CloseButton.tsx",
+        "name": "CloseButtonProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/close-button/CloseButton.tsx",
+          "name": "CloseButtonProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"button\" | \"submit\" | \"reset\"",
+        "value": [
+          {
+            "value": "\"button\""
+          },
+          {
+            "value": "\"submit\""
+          },
+          {
+            "value": "\"reset\""
+          }
+        ]
+      }
+    },
+    "variant": {
+      "defaultValue": null,
+      "description": "Set the close button's context style variant. Applies the `context` class\nalongside it, same as `color`.",
+      "name": "variant",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/close-button/CloseButton.tsx",
+        "name": "CloseButtonProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/close-button/CloseButton.tsx",
+          "name": "CloseButtonProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "ContextStyle",
+        "value": [
+          {
+            "value": "\"basic\""
+          },
+          {
+            "value": "\"solid\""
+          },
+          {
+            "value": "\"outline\""
+          },
+          {
+            "value": "\"smooth\""
+          }
+        ]
       }
     }
   }

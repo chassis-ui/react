@@ -183,7 +183,7 @@ export const Notification = forwardRef<HTMLDivElement, NotificationProps>(
               {text && <NotificationText id={textId}>{text}</NotificationText>}
               {children}
               {actions}
-              {dismissible && <CloseButton aria-label={closeLabel} onClick={hide} />}
+              {dismissible && <CloseButton label={closeLabel} onClick={hide} />}
             </div>
           )
         }}

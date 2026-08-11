@@ -1,28 +1,23 @@
-import React, { ElementType, forwardRef, useContext } from 'react'
+import React, { forwardRef, useContext } from 'react'
 import { ToastContext } from './Toast'
 import { CloseButton, CloseButtonProps } from '../close-button/CloseButton'
 
-export interface ToastCloseProps extends CloseButtonProps {
-  /**
-   * Component used for the root node. Either a string to use a HTML element or a component.
-   */
-  component?: string | ElementType
-}
+// `color`/`variant`/`size` are omitted: Toast already applies its own `context`/color classes
+// to the `.toast` ancestor, which the default icon inherits for free. The only place these
+// props ever meant anything on `ToastClose` was as a passthrough to a `component` reference
+// (e.g. `Button`) — but that's the wrapped component's own styling, not ToastClose's, so it
+// belongs on that component directly rather than being typed (and documented) here as if it
+// were ToastClose's own concern.
+export type ToastCloseProps = Omit<CloseButtonProps, 'color' | 'variant' | 'size'>
 
-export const ToastClose = forwardRef<HTMLButtonElement, ToastCloseProps>(
-  ({ children, component: Component, onClick, ...rest }, ref) => {
+export const ToastClose = forwardRef<HTMLButtonElement | HTMLAnchorElement, ToastCloseProps>(
+  ({ onClick, ...rest }, ref) => {
     const { setVisible } = useContext(ToastContext)
     const handleClick: typeof onClick = (event) => {
       onClick?.(event)
       setVisible(false)
     }
-    return Component ? (
-      <Component onClick={handleClick} {...rest} ref={ref}>
-        {children}
-      </Component>
-    ) : (
-      <CloseButton onClick={handleClick} {...rest} ref={ref} />
-    )
+    return <CloseButton onClick={handleClick} {...rest} ref={ref} />
   }
 )
 

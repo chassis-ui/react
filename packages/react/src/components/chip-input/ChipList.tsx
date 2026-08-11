@@ -57,7 +57,12 @@ const Chip = ({ chipVariant, item, state }: ChipProps) => {
     >
       <div {...gridCellProps}>
         {item.rendered}
-        {allowsRemoving && <CloseButton {...buttonProps} ref={buttonRef} />}
+        {allowsRemoving && (
+          // react-aria's generic ButtonHTMLAttributes typing includes a legacy `color?: string`
+          // attribute that's wider than CloseButton's `color?: ContextColor` prop; buttonProps
+          // never actually sets it, so it's safe to omit from the spread's type.
+          <CloseButton {...(buttonProps as Omit<typeof buttonProps, 'color'>)} ref={buttonRef} />
+        )}
       </div>
     </div>
   )

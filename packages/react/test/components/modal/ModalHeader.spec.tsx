@@ -29,6 +29,11 @@ describe('ModalHeader', () => {
       render(<ModalHeader closeButton={false}>Test</ModalHeader>)
       expect(screen.queryByRole('button', { name: 'Close' })).not.toBeInTheDocument()
     })
+
+    test('closeLabel overrides the close button accessible name', () => {
+      render(<ModalHeader closeLabel="Fermer">Test</ModalHeader>)
+      expect(screen.getByRole('button', { name: 'Fermer' })).toBeInTheDocument()
+    })
   })
 
   describe('close behavior', () => {

@@ -12,17 +12,22 @@ export interface ModalHeaderProps extends HTMLAttributes<HTMLDivElement> {
    * Add a close button component to the header.
    */
   closeButton?: boolean
+  /**
+   * Overrides the close button's accessible name (defaults to `'Close'`). Set this for
+   * non-English UIs.
+   */
+  closeLabel?: string
 }
 
 export const ModalHeader = forwardRef<HTMLDivElement, ModalHeaderProps>(
-  ({ children, className, closeButton = true, ...rest }, ref) => {
+  ({ children, className, closeButton = true, closeLabel, ...rest }, ref) => {
     const { requestClose } = useContext(ModalContext)
     const _className = classNames('modal-header', className)
 
     return (
       <div className={_className} {...rest} ref={ref}>
         {children}
-        {closeButton && <CloseButton onClick={() => requestClose?.()} />}
+        {closeButton && <CloseButton label={closeLabel} onClick={() => requestClose?.()} />}
       </div>
     )
   }

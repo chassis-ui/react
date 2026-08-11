@@ -4,16 +4,20 @@ description: A generic Chassis Close Button component for dismissing content lik
 
 toc: true
 ---
-
-
-import { CloseButton } from '@chassis-ui/react'
+import { Example as BasicExample } from '../../src/examples/close-button/BasicExample.tsx'
+import { Example as DisabledExample } from '../../src/examples/close-button/DisabledExample.tsx'
+import { Example as SizeExample } from '../../src/examples/close-button/SizeExample.tsx'
+import { Example as ContextExample } from '../../src/examples/close-button/ContextExample.tsx'
+import { Example as ColorExample } from '../../src/examples/close-button/ColorExample.tsx'
+import { Example as LabelExample } from '../../src/examples/close-button/LabelExample.tsx'
+import { Example as IconExample } from '../../src/examples/close-button/IconExample.tsx'
 
 ## Example
 
 Provide an option to dismiss or close a component with `<CloseButton>`. Default styling is limited, but highly customizable. Modify the Sass variables to replace the default `background-image`.
 
 <Example>
-  <CloseButton />
+  <BasicExample client:load />
 </Example>
 
 ## Disabled state
@@ -21,16 +25,45 @@ Provide an option to dismiss or close a component with `<CloseButton>`. Default 
 Disabled close buttons change their `opacity`. We've also applied `pointer-events: none` and `user-select: none` to preventing hover and active states from triggering.
 
 <Example>
-  <CloseButton disabled />
+  <DisabledExample client:load />
 </Example>
 
-## White variant
+## Sizes
 
-Change the default `<CloseButton>` to be white with the `white` boolean property.
+Use the `size` property to match surrounding component sizes.
 
-<Example className="bg-dark border-0">
-  <CloseButton white />
-  <CloseButton white disabled />
+<Example class="d-flex align-items-center">
+  <SizeExample client:load />
+</Example>
+
+## Contextual colors
+
+The close button inherits its icon color from the nearest context class.
+
+<Example class="d-flex flex-wrap gap-medium">
+  <ContextExample client:load />
+</Example>
+
+Use the `color` and `variant` properties to apply a custom context style directly to the close button.
+
+<Example class="d-flex gap-medium">
+  <ColorExample client:load />
+</Example>
+
+## Localizing the label
+
+`<CloseButton>` renders with an accessible name of "Close" by default. Use the `label` property to localize it for non-English contexts.
+
+<Example>
+  <LabelExample client:load />
+</Example>
+
+## Custom icon
+
+Place a custom icon inside `<CloseButton>` to replace the default "X" icon. The icon will inherit the button's color and size.
+
+<Example>
+  <IconExample client:load />
 </Example>
 
 ## API

@@ -16,6 +16,7 @@ const configSchema = z.object({
   authors: z.string(),
   baseURL: z.url(),
   blog: z.url(),
+  cssDocsPath: z.url(),
   current_version: zVersionSemver,
   description: z.string(),
   docs_version: zVersionMajorMinor,

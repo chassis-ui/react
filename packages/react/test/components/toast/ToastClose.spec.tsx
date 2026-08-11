@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 
@@ -33,6 +33,24 @@ describe('ToastClose', () => {
         </ToastContext.Provider>
       )
       expect(screen.getByText('Dismiss').tagName).toBe('SPAN')
+    })
+
+    test('a custom span component is keyboard-operable, not just clickable', async () => {
+      const user = userEvent.setup()
+      const setVisible = vi.fn()
+      render(
+        <ToastContext.Provider value={{ setVisible }}>
+          <ToastClose component="span">Dismiss</ToastClose>
+        </ToastContext.Provider>
+      )
+      const button = screen.getByRole('button', { name: 'Dismiss' })
+      expect(button).toHaveAttribute('tabIndex', '0')
+
+      await act(() => user.keyboard('{Tab}'))
+      expect(button).toHaveFocus()
+
+      await act(() => user.keyboard('{Enter}'))
+      expect(setVisible).toHaveBeenCalledWith(false)
     })
   })
 
