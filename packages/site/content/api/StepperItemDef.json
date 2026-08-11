@@ -1,0 +1,45 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/stepper/Stepper.tsx",
+  "description": "",
+  "displayName": "StepperItemDef",
+  "methods": [],
+  "props": {
+    "label": {
+      "name": "label",
+      "required": true,
+      "description": "Step label content.",
+      "defaultValue": null,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "active": {
+      "name": "active",
+      "required": false,
+      "description": "Marks the item as the current step.",
+      "defaultValue": null,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "color": {
+      "name": "color",
+      "required": false,
+      "description": "Sets the color of the item.",
+      "defaultValue": null,
+      "type": {
+        "name": "ContextColor"
+      }
+    },
+    "href": {
+      "name": "href",
+      "required": false,
+      "description": "Renders the item as a link to the given URL.",
+      "defaultValue": null,
+      "type": {
+        "name": "string"
+      }
+    }
+  }
+}

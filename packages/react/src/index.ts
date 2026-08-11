@@ -87,6 +87,7 @@ import { Popover } from './components/popover'
 import { Progress, ProgressBar } from './components/progress'
 import { Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerTitle } from './components/drawer'
 import { Spinner } from './components/spinner'
+import { Stepper, StepperItem } from './components/stepper'
 import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from './components/table'
 import { Tabs, TabsTab, TabsList, TabsPanel, TabContent, TabPane } from './components/tabs'
 import {
@@ -231,6 +232,8 @@ export {
   DrawerTitle,
   Select,
   Spinner,
+  Stepper,
+  StepperItem,
   Switch,
   Table,
   TableBody,

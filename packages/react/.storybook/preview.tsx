@@ -8,6 +8,7 @@ import '@chassis-ui/react/style.css'
 
 const preview: Preview = {
   parameters: {
+    layout: 'centered',
     controls: {
       matchers: {
         color: /(background|color)$/i,

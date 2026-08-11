@@ -282,7 +282,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "0 | Spacing",
+        "raw": "0 | \"small\" | \"zero\" | \"4xsmall\" | \"3xsmall\" | \"2xsmall\" | \"xsmall\" | \"medium\" | \"large\" | \"xlarge\" | \"2xlarge\" | \"3xlarge\" | \"4xlarge\" | \"5xlarge\" | \"6xlarge\"",
         "value": [
           {
             "value": "0"
@@ -349,7 +349,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "0 | Spacing",
+        "raw": "0 | \"small\" | \"zero\" | \"4xsmall\" | \"3xsmall\" | \"2xsmall\" | \"xsmall\" | \"medium\" | \"large\" | \"xlarge\" | \"2xlarge\" | \"3xlarge\" | \"4xlarge\" | \"5xlarge\" | \"6xlarge\"",
         "value": [
           {
             "value": "0"
@@ -416,7 +416,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "0 | Spacing",
+        "raw": "0 | \"small\" | \"zero\" | \"4xsmall\" | \"3xsmall\" | \"2xsmall\" | \"xsmall\" | \"medium\" | \"large\" | \"xlarge\" | \"2xlarge\" | \"3xlarge\" | \"4xlarge\" | \"5xlarge\" | \"6xlarge\"",
         "value": [
           {
             "value": "0"

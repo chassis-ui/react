@@ -60,6 +60,7 @@
         - title: Toast
         - title: Notification
         - title: Progress
+        - title: Stepper
         - title: Spinner
         - title: Placeholder
     - group: Data Display
