@@ -6,6 +6,12 @@ import { axe } from 'jest-axe'
 import { Toast, ToastBody, ToastHeader } from '../../../src/index'
 
 describe('Toast', () => {
+  // A safety net for the fake-timer tests below: if one fails an assertion before reaching its
+  // own `vi.useRealTimers()`, fake timers would otherwise stay active and hang every later test.
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
   describe('rendering', () => {
     test('matches the baseline markup snapshot', () => {
       const { container } = render(<Toast>Test</Toast>)
@@ -139,6 +145,141 @@ describe('Toast', () => {
         }
       )
     }, 10000)
+
+    test('turning autohide off mid-display cancels the pending hide, instead of hiding on the original schedule', async () => {
+      const { rerender, container } = render(
+        <Toast autohide delay={500} visible={true}>
+          Test
+        </Toast>
+      )
+      await waitFor(() => {
+        expect(screen.getByRole('status')).toHaveClass('show')
+      })
+
+      rerender(
+        <Toast autohide={false} delay={500} visible={true}>
+          Test
+        </Toast>
+      )
+
+      // Would have autohidden by now (delay is 500ms) if turning autohide off didn't cancel
+      // the timer that was already pending from before the rerender.
+      await new Promise((resolve) => setTimeout(resolve, 900))
+      expect(container).not.toBeEmptyDOMElement()
+      expect(screen.getByRole('status')).toHaveClass('show')
+    }, 10000)
+
+    test('a delay change mid-display reschedules the hide against the new delay', async () => {
+      const { rerender, container } = render(
+        <Toast autohide delay={5000} visible={true}>
+          Test
+        </Toast>
+      )
+      await waitFor(() => {
+        expect(screen.getByRole('status')).toHaveClass('show')
+      })
+
+      rerender(
+        <Toast autohide delay={500} visible={true}>
+          Test
+        </Toast>
+      )
+
+      // Well under the original 5000ms delay — only reachable if the reschedule picked up the
+      // new 500ms delay instead of keeping the stale 5000ms timer from before the rerender.
+      await waitFor(
+        () => {
+          expect(container).toBeEmptyDOMElement()
+        },
+        { timeout: 3000 }
+      )
+    }, 10000)
+  })
+
+  describe('shorthand props', () => {
+    test('composes header, body and footer from image/title/time/message/footer', async () => {
+      render(
+        <Toast
+          autohide={false}
+          visible={true}
+          image={<svg data-testid="logo" />}
+          title="Chassis"
+          time="7 min ago"
+          message="Hello, world!"
+          footer={<button type="button">Take action</button>}
+        >
+          Test
+        </Toast>
+      )
+      await waitFor(() => {
+        expect(screen.getByRole('status')).toHaveClass('show')
+      })
+      expect(screen.getByTestId('logo')).toBeInTheDocument()
+      expect(screen.getByText('Chassis')).toBeInTheDocument()
+      expect(screen.getByText('7 min ago')).toBeInTheDocument()
+      expect(screen.getByText('Hello, world!')).toBeInTheDocument()
+      expect(screen.getByText('Test')).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'Take action' })).toBeInTheDocument()
+    })
+
+    test('renders a header for closeButton alone, with no image/title/time', async () => {
+      render(
+        <Toast autohide={false} visible={true} closeButton>
+          Test
+        </Toast>
+      )
+      await waitFor(() => {
+        expect(screen.getByRole('status')).toHaveClass('show')
+      })
+      expect(document.querySelector('.toast-header')).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'Close' })).toBeInTheDocument()
+    })
+
+    test('closeLabel overrides the shorthand close button accessible name', async () => {
+      render(
+        <Toast autohide={false} visible={true} title="Chassis" closeButton closeLabel="Fermer">
+          Test
+        </Toast>
+      )
+      await waitFor(() => {
+        expect(screen.getByRole('status')).toHaveClass('show')
+      })
+      expect(screen.getByRole('button', { name: 'Fermer' })).toBeInTheDocument()
+    })
+
+    test('wires aria-labelledby/aria-describedby when title and message are both set', async () => {
+      render(
+        <Toast autohide={false} visible={true} title="Chassis" message="Hello, world!">
+          Test
+        </Toast>
+      )
+      const toast = await waitFor(() => {
+        const el = screen.getByRole('status')
+        expect(el).toHaveClass('show')
+        return el
+      })
+      const labelledby = toast.getAttribute('aria-labelledby')
+      const describedby = toast.getAttribute('aria-describedby')
+      expect(labelledby).toBeTruthy()
+      expect(describedby).toBeTruthy()
+      expect(document.getElementById(labelledby as string)).toHaveTextContent('Chassis')
+      expect(document.getElementById(describedby as string)).toHaveTextContent('Hello, world!')
+    })
+
+    test('does not set aria-describedby when only title is set', async () => {
+      render(
+        <Toast autohide={false} visible={true} title="Chassis">
+          Test
+        </Toast>
+      )
+      const toast = await waitFor(() => {
+        const el = screen.getByRole('status')
+        expect(el).toHaveClass('show')
+        return el
+      })
+      expect(toast).toHaveAttribute('aria-labelledby')
+      expect(toast).not.toHaveAttribute('aria-describedby')
+    })
   })
 
   describe('accessibility', () => {
@@ -151,6 +292,30 @@ describe('Toast', () => {
           </ToastHeader>
           <ToastBody>Hello, world! This is a toast message.</ToastBody>
         </Toast>
+      )
+      await waitFor(() => {
+        expect(screen.getByRole('status')).toHaveClass('show')
+      })
+      expect(await axe(container)).toHaveNoViolations()
+    })
+
+    test('has no axe violations with shorthand props (image/title/time/message/footer)', async () => {
+      const { container } = render(
+        <Toast
+          autohide={false}
+          color="warning"
+          visible={true}
+          image={<svg aria-hidden="true" width="20" height="20" />}
+          title="Chassis"
+          time="7 min ago"
+          message="Hello, world! This is a toast message."
+          footer={
+            <button type="button" className="button primary small">
+              Take action
+            </button>
+          }
+          closeButton
+        />
       )
       await waitFor(() => {
         expect(screen.getByRole('status')).toHaveClass('show')

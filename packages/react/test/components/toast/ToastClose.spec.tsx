@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 
 import { ToastClose } from '../../../src/index'
-import { ToastContext } from '../../../src/components/toast/Toast'
+import { ToastContext } from '../../../src/components/toast/context'
 
 describe('ToastClose', () => {
   describe('rendering', () => {

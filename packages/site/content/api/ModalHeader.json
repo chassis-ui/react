@@ -44,6 +44,25 @@
       "type": {
         "name": "boolean"
       }
+    },
+    "closeLabel": {
+      "defaultValue": null,
+      "description": "Overrides the close button's accessible name (defaults to `'Close'`). Set this for\nnon-English UIs.",
+      "name": "closeLabel",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/modal/ModalHeader.tsx",
+        "name": "ModalHeaderProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/modal/ModalHeader.tsx",
+          "name": "ModalHeaderProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
     }
   }
 }

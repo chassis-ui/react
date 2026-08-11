@@ -1,5 +1,5 @@
 import React, { forwardRef, useContext } from 'react'
-import { ToastContext } from './Toast'
+import { ToastContext } from './context'
 import { CloseButton, CloseButtonProps } from '../close-button/CloseButton'
 
 // `color`/`variant`/`size` are omitted: Toast already applies its own `context`/color classes

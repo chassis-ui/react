@@ -1,8 +1,9 @@
 import React, {
-  createContext,
   forwardRef,
   HTMLAttributes,
+  ReactNode,
   useEffect,
+  useId,
   useRef,
   useState
 } from 'react'
@@ -11,6 +12,10 @@ import classNames from 'classnames'
 
 import { ContextColor } from '../../types'
 import { useForkedRef } from '../../hooks'
+import { ToastContext } from './context'
+import { ToastBody } from './ToastBody'
+import { ToastFooter } from './ToastFooter'
+import { ToastHeader } from './ToastHeader'
 
 export interface ToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
   /**
@@ -27,6 +32,17 @@ export interface ToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'
    */
   className?: string
   /**
+   * Adds a close button to the auto-rendered header — shorthand for `ToastHeader`'s
+   * `closeButton` prop. Renders a header containing only the close button if `image`/`title`/
+   * `time` are all unset.
+   */
+  closeButton?: boolean
+  /**
+   * Overrides the close button's accessible name (defaults to `'Close'`). Set this for
+   * non-English UIs. Shorthand for `ToastHeader`'s `closeLabel` prop.
+   */
+  closeLabel?: string
+  /**
    * Sets the color of the component to one of Chassis context colors.
    */
   color?: ContextColor
@@ -34,6 +50,32 @@ export interface ToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'
    * Delay hiding the toast (ms).
    */
   delay?: number
+  /**
+   * Trailing content — typically a row of `Button`s — rendered via a single `ToastFooter`,
+   * after `message`/`children`.
+   */
+  footer?: ReactNode
+  /**
+   * Leading visual for the header — typically a logo or avatar. Shorthand for `ToastHeader`'s
+   * `image` prop; hidden from assistive technology by default, since it duplicates `title`
+   * visually.
+   */
+  image?: ReactNode
+  /**
+   * Message body, rendered via a single `ToastBody`. For multi-block content, compose
+   * `children` manually instead — `message` wraps everything in one element.
+   */
+  message?: ReactNode
+  /**
+   * Header timestamp, rendered after `title`. Shorthand for `ToastHeader`'s `time` prop.
+   */
+  time?: ReactNode
+  /**
+   * Header heading, rendered before `time`. Shorthand for `ToastHeader`'s `title` prop. When
+   * set alongside `message`, wires the toast's `aria-labelledby`/`aria-describedby` to them
+   * automatically.
+   */
+  title?: ReactNode
   /**
    * Callback fired when the component requests to be closed.
    */
@@ -56,13 +98,6 @@ export interface ToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'
   visible?: boolean
 }
 
-interface ContextProps extends ToastProps {
-  visible?: boolean
-  setVisible: React.Dispatch<React.SetStateAction<boolean>>
-}
-
-export const ToastContext = createContext({} as ContextProps)
-
 export const Toast = forwardRef<HTMLDivElement, ToastProps>(
   (
     {
@@ -70,10 +105,17 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
       animation = true,
       autohide = true,
       className,
+      closeButton,
+      closeLabel,
       color,
       delay = 5000,
+      footer,
+      image,
+      message,
       role = 'status',
       solid,
+      time,
+      title,
       translucent,
       visible = false,
       onClose,
@@ -88,6 +130,8 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
     const hasKeyboardInteraction = useRef(false)
     const nodeRef = useRef<HTMLDivElement>(null)
     const forkedRef = useForkedRef(ref, nodeRef)
+    const titleId = useId()
+    const textId = useId()
 
     useEffect(() => {
       setVisible(visible)
@@ -101,10 +145,12 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
     // triggered on mount and destroy
     useEffect(() => () => _clearAutohideTimeout(), [])
 
+    // Re-evaluates whenever `_visible`, `autohide` or `delay` change, so a mid-display change to
+    // `autohide`/`delay` reschedules (or cancels) the pending timer immediately, instead of only
+    // taking effect on the next `_visible` toggle.
     useEffect(() => {
       _maybeScheduleHide()
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [_visible])
+    }, [_visible, autohide, delay]) // eslint-disable-line react-hooks/exhaustive-deps
 
     const _clearAutohideTimeout = () => {
       clearTimeout(timeout.current)
@@ -114,10 +160,10 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
     // The autohide timer only starts once neither the pointer nor focus is
     // interacting with the toast, mirroring Chassis CSS's toast.js behavior.
     const _maybeScheduleHide = () => {
+      _clearAutohideTimeout()
       if (!autohide || hasMouseInteraction.current || hasKeyboardInteraction.current) {
         return
       }
-      _clearAutohideTimeout()
       timeout.current = window.setTimeout(() => {
         setVisible(false)
       }, delay)
@@ -156,14 +202,14 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
     )
 
     const getTransitionClass = (state: string) => {
-      return state === 'entering'
+      return state === 'entering' || state === 'exiting'
         ? 'showing'
         : state === 'entered'
           ? 'show'
-          : state === 'exiting'
-            ? 'showing'
-            : 'fade'
+          : undefined
     }
+
+    const hasHeaderContent = image != null || title != null || time != null || closeButton
 
     return (
       <Transition
@@ -181,6 +227,8 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
               <div
                 className={classNames(_className, transitionClass)}
                 role={role}
+                aria-labelledby={title != null ? titleId : undefined}
+                aria-describedby={title != null && message != null ? textId : undefined}
                 onMouseEnter={_onMouseEnter}
                 onMouseLeave={_onMouseLeave}
                 onFocus={_onFocus}
@@ -188,7 +236,23 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
                 {...rest}
                 ref={forkedRef}
               >
+                {hasHeaderContent && (
+                  <ToastHeader
+                    image={image}
+                    title={title}
+                    time={time}
+                    titleId={title != null ? titleId : undefined}
+                    closeButton={closeButton}
+                    closeLabel={closeLabel}
+                  />
+                )}
+                {message != null && (
+                  <ToastBody id={title != null && message != null ? textId : undefined}>
+                    {message}
+                  </ToastBody>
+                )}
                 {children}
+                {footer != null && <ToastFooter>{footer}</ToastFooter>}
               </div>
             </ToastContext.Provider>
           )

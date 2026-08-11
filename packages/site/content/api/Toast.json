@@ -66,6 +66,44 @@
         "name": "string"
       }
     },
+    "closeButton": {
+      "defaultValue": null,
+      "description": "Adds a close button to the auto-rendered header — shorthand for `ToastHeader`'s\n`closeButton` prop. Renders a header containing only the close button if `image`/`title`/\n`time` are all unset.",
+      "name": "closeButton",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+        "name": "ToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+          "name": "ToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "closeLabel": {
+      "defaultValue": null,
+      "description": "Overrides the close button's accessible name (defaults to `'Close'`). Set this for\nnon-English UIs. Shorthand for `ToastHeader`'s `closeLabel` prop.",
+      "name": "closeLabel",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+        "name": "ToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+          "name": "ToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
     "color": {
       "defaultValue": null,
       "description": "Sets the color of the component to one of Chassis context colors.",
@@ -140,6 +178,101 @@
       "required": false,
       "type": {
         "name": "number"
+      }
+    },
+    "footer": {
+      "defaultValue": null,
+      "description": "Trailing content — typically a row of `Button`s — rendered via a single `ToastFooter`,\nafter `message`/`children`.",
+      "name": "footer",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+        "name": "ToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+          "name": "ToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "image": {
+      "defaultValue": null,
+      "description": "Leading visual for the header — typically a logo or avatar. Shorthand for `ToastHeader`'s\n`image` prop; hidden from assistive technology by default, since it duplicates `title`\nvisually.",
+      "name": "image",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+        "name": "ToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+          "name": "ToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "message": {
+      "defaultValue": null,
+      "description": "Message body, rendered via a single `ToastBody`. For multi-block content, compose\n`children` manually instead — `message` wraps everything in one element.",
+      "name": "message",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+        "name": "ToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+          "name": "ToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "time": {
+      "defaultValue": null,
+      "description": "Header timestamp, rendered after `title`. Shorthand for `ToastHeader`'s `time` prop.",
+      "name": "time",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+        "name": "ToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+          "name": "ToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "title": {
+      "defaultValue": null,
+      "description": "Header heading, rendered before `time`. Shorthand for `ToastHeader`'s `title` prop. When\nset alongside `message`, wires the toast's `aria-labelledby`/`aria-describedby` to them\nautomatically.",
+      "name": "title",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+        "name": "ToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+          "name": "ToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
       }
     },
     "onClose": {

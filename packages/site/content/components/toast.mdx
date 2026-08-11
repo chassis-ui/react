@@ -5,13 +5,14 @@ description: Push notifications to your visitors with a Chassis Toast, a lightwe
 toc: true
 ---
 
-import { BasicExample } from '../../src/examples/toast/BasicExample.tsx'
-import { StackingExample } from '../../src/examples/toast/StackingExample.tsx'
-
-
-import { useState, useRef } from 'react'
-import { Button, Toast, ToastBody, ToastClose, ToastFooter, ToastHeader, Toaster } from '@chassis-ui/react'
-import DocsPlaceholder from '@chassis-ui/docs/shortcodes/Placeholder.astro'
+import { Example as CompositionExample } from '../../src/examples/toast/CompositionExample.tsx'
+import { Example as BasicExample } from '../../src/examples/toast/BasicExample.tsx'
+import { Example as ShorthandExample } from '../../src/examples/toast/ShorthandExample.tsx'
+import { Example as ActionFooterExample } from '../../src/examples/toast/ActionFooterExample.tsx'
+import { Example as TranslucentExample } from '../../src/examples/toast/TranslucentExample.tsx'
+import { Example as StackingExample } from '../../src/examples/toast/StackingExample.tsx'
+import { Example as SimplifiedExample } from '../../src/examples/toast/SimplifiedExample.tsx'
+import { Example as ColorExample } from '../../src/examples/toast/ColorExample.tsx'
 
 React toasts are lightweight notifications designed to mimic the push notifications that have been popularized by mobile and desktop operating systems. They're built with flexbox, so they're easy to align and position.
 
@@ -22,6 +23,7 @@ Things to know when using the toast plugin:
 - Toasts are opt-in — nothing renders until you flip `visible` to `true` directly, or call `addToast()` to push one into a `Toaster`'s queue.
 - Toasts will automatically hide after `delay` milliseconds unless you set `autohide={false}`. The countdown pauses while the pointer is over the toast or focus is within it, and only resumes once both leave.
 - Use `role="status"` (the default) for routine confirmations and informational updates. Reserve `role="alert"` for errors and messages requiring immediate attention. Both roles carry implicit live-region semantics, so no separate `aria-live` prop is needed.
+- The `image`/`title`/`time`/`message`/`footer`/`closeButton` props are shorthand for the manual `ToastHeader`/`ToastBody`/`ToastFooter` composition — reach for manual composition only when a toast needs more than one header/body/footer block. See [Shorthand props](#shorthand-props).
 
 ## Examples
 
@@ -32,16 +34,8 @@ To encourage extensible and predictable toasts, we recommend a header and body. 
 Toasts are as flexible as you need and have very little required markup. At a minimum, we require a single element to contain your "toasted" content and strongly encourage a dismiss button.
 
 <Example>
-  <Toast client:load animation={false} autohide={false} visible={true}>
-    <ToastHeader closeButton>
-      <DocsPlaceholder width="20" height="20" background="#007aff" class="rounded me-xsmall" text={false} title={false} />
-      <strong className="me-auto">Chassis</strong>
-      <small>7 min ago</small>
-    </ToastHeader>
-    <ToastBody>Hello, world! This is a toast message.</ToastBody>
-  </Toast>
+  <CompositionExample client:load />
 </Example>
-
 
 For dynamic notifications, call `addToast()` from anywhere — an event handler, an async callback — to push a toast into a `Toaster`'s queue. `Toaster` renders whatever's currently queued; nothing else needs to know about it.
 
@@ -49,20 +43,22 @@ For dynamic notifications, call `addToast()` from anywhere — an event handler,
   <BasicExample client:load />
 </Example>
 
+### Shorthand props
+
+For the common case — an image, a heading, a timestamp, one block of message text — `image`/`title`/`time`/`message` render the same markup as composing `ToastHeader`/`ToastBody` by hand, without the wiring. Add `footer` for a single row of trailing content (shorthand for `ToastFooter`), and `closeButton`/`closeLabel` for the dismiss control and its accessible name. When both `title` and `message` are set, the toast's `aria-labelledby`/`aria-describedby` are wired to them automatically. `image` is hidden from assistive technology by default, since it duplicates `title` visually.
+
+<Example>
+  <ShorthandExample client:load />
+</Example>
+
+`image`/`title`/`time`/`message`/`footer` are additive with `children` — for multi-block content (more than one header, body, or footer region), compose `ToastHeader`/`ToastBody`/`ToastFooter` manually instead, as in the sections below.
+
 ### Action footer
 
 Add a `ToastFooter` below the body to hold acknowledgement or follow-up actions. It renders `.toast-footer`, separated from the body by a border that matches the header rule.
 
 <Example>
-  <Toast client:load autohide={false} visible={true}>
-    <ToastBody>Hello, world! This is a toast message.</ToastBody>
-    <ToastFooter>
-      <Button type="button" color="primary" size="small">
-        Take action
-      </Button>
-      <ToastClose component={Button}>Close</ToastClose>
-    </ToastFooter>
-  </Toast>
+  <ActionFooterExample client:load />
 </Example>
 
 ### Translucent
@@ -70,24 +66,7 @@ Add a `ToastFooter` below the body to hold acknowledgement or follow-up actions.
 Add `translucent` to blend the toast in with what's below it.
 
 <Example className="bg-dark">
-  <Toast client:load translucent autohide={false} visible={true}>
-    <ToastHeader closeButton>
-      <svg
-        className="rounded me-small"
-        width="20"
-        height="20"
-        xmlns="http://www.w3.org/2000/svg"
-        preserveAspectRatio="xMidYMid slice"
-        focusable="false"
-        role="img"
-      >
-        <rect width="100%" height="100%" fill="#007aff"></rect>
-      </svg>
-      <strong className="me-auto">Chassis</strong>
-      <small>7 min ago</small>
-    </ToastHeader>
-    <ToastBody>Hello, world! This is a toast message.</ToastBody>
-  </Toast>
+  <TranslucentExample client:load />
 </Example>
 
 ### Stacking
@@ -103,12 +82,7 @@ You can stack toasts by wrapping them in a `Toaster`, which will vertically add 
 Customize your toasts by removing sub-components, tweaking them with utilities, or by adding your own markup. Here we've created a simpler toast by removing the default `<ToastHeader>`, adding a custom hide icon from Chassis Icons, and using some flexbox utilities to adjust the layout.
 
 <Example>
-  <Toast client:load autohide={false} visible={true} className="align-items-center">
-    <div className="d-flex">
-      <ToastBody>Hello, world! This is a toast message.</ToastBody>
-      <ToastClose className="me-small m-auto" />
-    </div>
-  </Toast>
+  <SimplifiedExample client:load />
 </Example>
 
 ### Color schemes
@@ -116,12 +90,7 @@ Customize your toasts by removing sub-components, tweaking them with utilities, 
 Apply `color` and add `solid` for a full-color background with inverted text. Here we've set `color="primary"` and `solid` on the `<Toast>`.
 
 <Example>
-  <Toast client:load autohide={false} visible={true} color="primary" solid className="align-items-center">
-    <div className="d-flex">
-      <ToastBody>Hello, world! This is a toast message.</ToastBody>
-      <ToastClose className="me-small m-auto" />
-    </div>
-  </Toast>
+  <ColorExample client:load />
 </Example>
 
 ## API

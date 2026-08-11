@@ -49,6 +49,20 @@ export const Basic: Story = {
   }
 }
 
+// Same result as `Basic`, composed from shorthand props (image/title/time/message/closeButton)
+// instead of hand-composing `ToastHeader`/`ToastBody`.
+export const PropsOnly: Story = {
+  args: {
+    autohide: false,
+    visible: true,
+    image: logo,
+    title: 'Chassis',
+    time: '7 min ago',
+    message: 'Hello, world! This is a toast message.',
+    closeButton: true
+  }
+}
+
 export const Solid: Story = {
   args: {
     autohide: false,

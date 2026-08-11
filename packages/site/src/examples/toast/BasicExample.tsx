@@ -1,6 +1,6 @@
 import { Button, ToastBody, ToastHeader, Toaster, addToast } from '@chassis-ui/react'
 
-export const BasicExample = () => {
+export const Example = () => {
   const handleClick = () => {
     addToast(
       <>

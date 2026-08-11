@@ -10,13 +10,19 @@ import { toastQueue } from './toastQueue'
 
 export interface ToasterProps extends HTMLAttributes<HTMLDivElement> {
   /**
+   * Overrides the toast region's accessible name (defaults to `'Notifications'`, per
+   * react-aria). Set this for non-English UIs, or to distinguish multiple toasters on the
+   * same page.
+   */
+  'aria-label'?: string
+  /**
    * A string of all className you want applied to the base component.
    */
   className?: string
   /**
    * Describes the placement of your component.
    *
-   * @type 'top-start' | 'top' | 'top-end' | 'middle-start' | 'middle' | 'middle-end' | 'bottom-start' | 'bottom' | 'bottom-end' | string
+   * @type 'top-start' | 'top-center' | 'top-end' | 'middle-start' | 'middle-center' | 'middle-end' | 'bottom-start' | 'bottom-center' | 'bottom-end' | string
    */
   placement?:
     | 'top-start'

@@ -1,6 +1,6 @@
 import { Toast, ToastBody, ToastHeader, Toaster } from '@chassis-ui/react'
 
-export const StackingExample = () => {
+export const Example = () => {
   return (
     <Toaster>
       <Toast autohide={false} visible={true}>

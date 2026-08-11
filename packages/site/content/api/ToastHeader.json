@@ -42,6 +42,101 @@
       "type": {
         "name": "boolean"
       }
+    },
+    "closeLabel": {
+      "defaultValue": null,
+      "description": "Overrides the close button's accessible name (defaults to `'Close'`). Set this for\nnon-English UIs.",
+      "name": "closeLabel",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/ToastHeader.tsx",
+        "name": "ToastHeaderProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/ToastHeader.tsx",
+          "name": "ToastHeaderProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "image": {
+      "defaultValue": null,
+      "description": "Leading visual — typically a logo or avatar. Rendered before `title`/`time` and hidden\nfrom assistive technology by default, since it duplicates `title` visually.",
+      "name": "image",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/ToastHeader.tsx",
+        "name": "ToastHeaderProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/ToastHeader.tsx",
+          "name": "ToastHeaderProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "time": {
+      "defaultValue": null,
+      "description": "Trailing timestamp, rendered after `title`.",
+      "name": "time",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/ToastHeader.tsx",
+        "name": "ToastHeaderProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/ToastHeader.tsx",
+          "name": "ToastHeaderProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "title": {
+      "defaultValue": null,
+      "description": "Heading, rendered before `time`. Shorthand for hand-composing a `<strong>` — same markup,\nwithout the wiring.",
+      "name": "title",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/ToastHeader.tsx",
+        "name": "ToastHeaderProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/ToastHeader.tsx",
+          "name": "ToastHeaderProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "titleId": {
+      "defaultValue": null,
+      "description": "Sets the `id` on the rendered `title` element, for `aria-labelledby` wiring. Set\nautomatically by `Toast` when both `title` and `message` are used together; only needed\nhere for manual wiring in a fully custom composition.",
+      "name": "titleId",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/ToastHeader.tsx",
+        "name": "ToastHeaderProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/ToastHeader.tsx",
+          "name": "ToastHeaderProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
     }
   }
 }
