@@ -5,6 +5,25 @@
   "displayName": "ToastHeader",
   "methods": [],
   "props": {
+    "children": {
+      "defaultValue": null,
+      "description": "Heading, rendered before `time` as a `<strong>`.",
+      "name": "children",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/ToastHeader.tsx",
+        "name": "ToastHeaderProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/ToastHeader.tsx",
+          "name": "ToastHeaderProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
     "className": {
       "defaultValue": null,
       "description": "A string of all className you want applied to the base component.",
@@ -62,10 +81,10 @@
         "name": "string"
       }
     },
-    "image": {
+    "icon": {
       "defaultValue": null,
-      "description": "Leading visual — typically a logo or avatar. Rendered before `title`/`time` and hidden\nfrom assistive technology by default, since it duplicates `title` visually.",
-      "name": "image",
+      "description": "Leading icon. A string is rendered as `<ToastIcon name={icon} />`; pass any other node\nfor a fully custom icon (typically a logo or avatar). Hidden from assistive technology by\ndefault, since it duplicates the heading visually.",
+      "name": "icon",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/toast/ToastHeader.tsx",
         "name": "ToastHeaderProps"
@@ -83,27 +102,8 @@
     },
     "time": {
       "defaultValue": null,
-      "description": "Trailing timestamp, rendered after `title`.",
+      "description": "Trailing timestamp, rendered after the heading.",
       "name": "time",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/toast/ToastHeader.tsx",
-        "name": "ToastHeaderProps"
-      },
-      "declarations": [
-        {
-          "fileName": "chassis-react/packages/react/src/components/toast/ToastHeader.tsx",
-          "name": "ToastHeaderProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "ReactNode"
-      }
-    },
-    "title": {
-      "defaultValue": null,
-      "description": "Heading, rendered before `time`. Shorthand for hand-composing a `<strong>` — same markup,\nwithout the wiring.",
-      "name": "title",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/toast/ToastHeader.tsx",
         "name": "ToastHeaderProps"
@@ -121,7 +121,7 @@
     },
     "titleId": {
       "defaultValue": null,
-      "description": "Sets the `id` on the rendered `title` element, for `aria-labelledby` wiring. Set\nautomatically by `Toast` when both `title` and `message` are used together; only needed\nhere for manual wiring in a fully custom composition.",
+      "description": "Sets the `id` on the rendered heading element, for `aria-labelledby` wiring. Set\nautomatically by `Toast` when both `title` and `message` are used together; only needed\nhere for manual wiring in a fully custom composition.",
       "name": "titleId",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/toast/ToastHeader.tsx",

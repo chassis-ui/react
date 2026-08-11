@@ -2,7 +2,14 @@ import * as React from 'react'
 import { act, render, screen, fireEvent } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Drawer, DrawerBody, DrawerHeader, DrawerTitle } from '../../../src/index'
+import {
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  useDrawer
+} from '../../../src/index'
 
 // The dialog only gets an accessible role="dialog" once open (closed <dialog> elements have no
 // exposed role, verified directly), and several tests need the same stable node reference across
@@ -167,6 +174,33 @@ describe('Drawer', () => {
       fireEvent.click(screen.getByText('Content'))
       expect(onClose).toHaveBeenCalledTimes(0)
       fireEvent.click(dialog)
+      expect(onClose).toHaveBeenCalledTimes(1)
+      act(() => {
+        vi.runAllTimers()
+      })
+      vi.useRealTimers()
+    })
+
+    test('a plain button in the footer wired via useDrawer closes the drawer', () => {
+      vi.useFakeTimers()
+      const onClose = vi.fn()
+      const Footer = () => {
+        const { close } = useDrawer()
+        return (
+          <DrawerFooter>
+            <button type="button" onClick={close}>
+              Cancel
+            </button>
+          </DrawerFooter>
+        )
+      }
+      render(
+        <Drawer onClose={onClose} placement="start" visible>
+          <DrawerBody>Content</DrawerBody>
+          <Footer />
+        </Drawer>
+      )
+      fireEvent.click(screen.getByRole('button', { name: 'Cancel' }))
       expect(onClose).toHaveBeenCalledTimes(1)
       act(() => {
         vi.runAllTimers()

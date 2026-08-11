@@ -77,11 +77,15 @@ export interface ModalProps extends Omit<
   visible?: boolean
 }
 
-interface ModalContextProps {
-  requestClose?: () => void
+export interface ModalContextProps {
+  /**
+   * Requests the modal be closed — fires `onClose`. Wire this to any element's `onClick`; see
+   * `useModal`.
+   */
+  close: () => void
 }
 
-export const ModalContext = createContext<ModalContextProps>({})
+export const ModalContext = createContext<ModalContextProps>({ close: () => {} })
 
 export const Modal = forwardRef<HTMLDialogElement, ModalProps>(
   (
@@ -123,7 +127,7 @@ export const Modal = forwardRef<HTMLDialogElement, ModalProps>(
       setVisible(visible)
     }, [visible])
 
-    const requestClose = () => {
+    const close = () => {
       onClose?.()
     }
 
@@ -210,7 +214,7 @@ export const Modal = forwardRef<HTMLDialogElement, ModalProps>(
         if (event.key !== 'Escape' || openedAsModalRef.current) return
         event.preventDefault()
         if (!keyboard) return
-        requestClose()
+        close()
       }
 
       dialog.addEventListener('keydown', handleKeyDown)
@@ -224,7 +228,7 @@ export const Modal = forwardRef<HTMLDialogElement, ModalProps>(
         triggerStaticBounce()
         return
       }
-      requestClose()
+      close()
     }
 
     const handleBackdropClick = (event: React.MouseEvent<HTMLDialogElement>) => {
@@ -233,7 +237,7 @@ export const Modal = forwardRef<HTMLDialogElement, ModalProps>(
         triggerStaticBounce()
         return
       }
-      requestClose()
+      close()
     }
 
     const _className = classNames(
@@ -253,7 +257,7 @@ export const Modal = forwardRef<HTMLDialogElement, ModalProps>(
     )
 
     return (
-      <ModalContext.Provider value={{ requestClose }}>
+      <ModalContext.Provider value={{ close }}>
         <dialog
           {...rest}
           className={_className}

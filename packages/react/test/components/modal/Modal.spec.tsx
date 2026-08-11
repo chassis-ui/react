@@ -2,7 +2,14 @@ import * as React from 'react'
 import { act, render, screen, fireEvent } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Modal, ModalBody, ModalHeader, ModalTitle } from '../../../src/index'
+import {
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  ModalTitle,
+  useModal
+} from '../../../src/index'
 
 // The dialog only gets an accessible role="dialog" once open (closed <dialog> elements have no
 // exposed role, verified directly), and several tests need the same stable node reference across
@@ -148,6 +155,33 @@ describe('Modal', () => {
         vi.runAllTimers()
       })
       expect(onClose).toHaveBeenCalledTimes(0)
+      vi.useRealTimers()
+    })
+
+    test('a plain button in the footer wired via useModal closes the modal', () => {
+      vi.useFakeTimers()
+      const onClose = vi.fn()
+      const Footer = () => {
+        const { close } = useModal()
+        return (
+          <ModalFooter>
+            <button type="button" onClick={close}>
+              Cancel
+            </button>
+          </ModalFooter>
+        )
+      }
+      render(
+        <Modal onClose={onClose} visible>
+          <ModalBody>Content</ModalBody>
+          <Footer />
+        </Modal>
+      )
+      fireEvent.click(screen.getByRole('button', { name: 'Cancel' }))
+      act(() => {
+        vi.runAllTimers()
+      })
+      expect(onClose).toHaveBeenCalledTimes(1)
       vi.useRealTimers()
     })
   })

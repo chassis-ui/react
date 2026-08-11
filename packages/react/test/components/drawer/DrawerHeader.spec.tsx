@@ -37,16 +37,16 @@ describe('DrawerHeader', () => {
   })
 
   describe('close behavior', () => {
-    test('calls requestClose from context when the close button is clicked', async () => {
+    test('calls close from context when the close button is clicked', async () => {
       const user = userEvent.setup()
-      const requestClose = vi.fn()
+      const close = vi.fn()
       render(
-        <DrawerContext.Provider value={{ requestClose }}>
+        <DrawerContext.Provider value={{ close }}>
           <DrawerHeader>Test</DrawerHeader>
         </DrawerContext.Provider>
       )
       await user.click(screen.getByRole('button', { name: 'Close' }))
-      expect(requestClose).toHaveBeenCalledTimes(1)
+      expect(close).toHaveBeenCalledTimes(1)
     })
   })
 

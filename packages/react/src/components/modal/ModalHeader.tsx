@@ -1,5 +1,5 @@
-import React, { forwardRef, HTMLAttributes, useContext } from 'react'
-import { ModalContext } from './Modal'
+import React, { forwardRef, HTMLAttributes } from 'react'
+import { useModal } from '../../hooks'
 import { CloseButton } from '../close-button/CloseButton'
 import classNames from 'classnames'
 
@@ -21,13 +21,13 @@ export interface ModalHeaderProps extends HTMLAttributes<HTMLDivElement> {
 
 export const ModalHeader = forwardRef<HTMLDivElement, ModalHeaderProps>(
   ({ children, className, closeButton = true, closeLabel, ...rest }, ref) => {
-    const { requestClose } = useContext(ModalContext)
+    const { close } = useModal()
     const _className = classNames('modal-header', className)
 
     return (
       <div className={_className} {...rest} ref={ref}>
         {children}
-        {closeButton && <CloseButton label={closeLabel} onClick={() => requestClose?.()} />}
+        {closeButton && <CloseButton label={closeLabel} onClick={close} />}
       </div>
     )
   }

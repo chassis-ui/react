@@ -1,22 +1,11 @@
-import { Toast, ToastBody, ToastHeader } from '@chassis-ui/react'
+import { Toast, ToastBody, ToastHeader, Icon } from '@chassis-ui/react'
 
 export const Example = () => {
+  const icon = <Icon name="info-circle-solid" />
   return (
     <Toast translucent autohide={false} visible={true}>
-      <ToastHeader closeButton>
-        <svg
-          className="rounded me-small"
-          width="20"
-          height="20"
-          xmlns="http://www.w3.org/2000/svg"
-          preserveAspectRatio="xMidYMid slice"
-          focusable="false"
-          role="img"
-        >
-          <rect width="100%" height="100%" fill="#007aff"></rect>
-        </svg>
-        <strong className="me-auto">Chassis</strong>
-        <small>7 min ago</small>
+      <ToastHeader icon={icon} time="7 min ago" closeButton>
+        Chassis
       </ToastHeader>
       <ToastBody>Hello, world! This is a toast message.</ToastBody>
     </Toast>

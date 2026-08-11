@@ -1,9 +1,15 @@
 import React, { forwardRef, HTMLAttributes, ReactNode } from 'react'
 import classNames from 'classnames'
 
-import { ToastClose } from './ToastClose'
+import { CloseButton } from '../close-button/CloseButton'
+import { useToast } from '../../hooks'
+import { ToastIcon } from './ToastIcon'
 
-export interface ToastHeaderProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
+export interface ToastHeaderProps extends HTMLAttributes<HTMLDivElement> {
+  /**
+   * Heading, rendered before `time` as a `<strong>`.
+   */
+  children?: ReactNode
   /**
    * A string of all className you want applied to the base component.
    */
@@ -18,21 +24,17 @@ export interface ToastHeaderProps extends Omit<HTMLAttributes<HTMLDivElement>, '
    */
   closeLabel?: string
   /**
-   * Leading visual — typically a logo or avatar. Rendered before `title`/`time` and hidden
-   * from assistive technology by default, since it duplicates `title` visually.
+   * Leading icon. A string is rendered as `<ToastIcon name={icon} />`; pass any other node
+   * for a fully custom icon (typically a logo or avatar). Hidden from assistive technology by
+   * default, since it duplicates the heading visually.
    */
-  image?: ReactNode
+  icon?: string | ReactNode
   /**
-   * Trailing timestamp, rendered after `title`.
+   * Trailing timestamp, rendered after the heading.
    */
   time?: ReactNode
   /**
-   * Heading, rendered before `time`. Shorthand for hand-composing a `<strong>` — same markup,
-   * without the wiring.
-   */
-  title?: ReactNode
-  /**
-   * Sets the `id` on the rendered `title` element, for `aria-labelledby` wiring. Set
+   * Sets the `id` on the rendered heading element, for `aria-labelledby` wiring. Set
    * automatically by `Toast` when both `title` and `message` are used together; only needed
    * here for manual wiring in a fully custom composition.
    */
@@ -40,26 +42,23 @@ export interface ToastHeaderProps extends Omit<HTMLAttributes<HTMLDivElement>, '
 }
 
 export const ToastHeader = forwardRef<HTMLDivElement, ToastHeaderProps>(
-  (
-    { children, className, closeButton, closeLabel, image, time, title, titleId, ...rest },
-    ref
-  ) => {
+  ({ children, className, closeButton, closeLabel, icon, time, titleId, ...rest }, ref) => {
+    const { close } = useToast()
     const _className = classNames('toast-header', className)
     return (
       <div className={_className} {...rest} ref={ref}>
-        {image != null && (
+        {icon != null && (
           <span aria-hidden="true" className="me-small">
-            {image}
+            {typeof icon === 'string' ? <ToastIcon name={icon} /> : icon}
           </span>
         )}
-        {title != null && (
+        {children != null && (
           <strong id={titleId} className="me-auto">
-            {title}
+            {children}
           </strong>
         )}
         {time != null && <small>{time}</small>}
-        {children}
-        {closeButton && <ToastClose label={closeLabel} />}
+        {closeButton && <CloseButton label={closeLabel} onClick={close} />}
       </div>
     )
   }

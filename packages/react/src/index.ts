@@ -93,15 +93,16 @@ import { Tabs, TabsTab, TabsList, TabsPanel, TabContent, TabPane } from './compo
 import {
   Toast,
   ToastBody,
-  ToastClose,
   ToastFooter,
   ToastHeader,
+  ToastIcon,
   Toaster,
   addToast,
   closeToast,
   toastQueue
 } from './components/toast'
 import { Tooltip } from './components/tooltip'
+import { useDrawer, useModal, useNotification, useToast } from './hooks'
 // plop:import
 import { Flex } from './components/flex'
 import { Stack } from './components/stack'
@@ -130,6 +131,7 @@ export {
   addNotification,
   closeNotification,
   notificationQueue,
+  useNotification,
   Badge,
   Backdrop,
   Breadcrumb,
@@ -207,6 +209,7 @@ export {
   ModalFooter,
   ModalHeader,
   ModalTitle,
+  useModal,
   Nav,
   NavItem,
   NavLink,
@@ -230,6 +233,7 @@ export {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
+  useDrawer,
   Select,
   Spinner,
   Stepper,
@@ -251,12 +255,13 @@ export {
   Textarea,
   Toast,
   ToastBody,
-  ToastClose,
   ToastFooter,
   ToastHeader,
+  ToastIcon,
   Toaster,
   addToast,
   closeToast,
   toastQueue,
+  useToast,
   Tooltip
 }

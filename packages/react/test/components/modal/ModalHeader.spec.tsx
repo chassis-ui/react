@@ -37,16 +37,16 @@ describe('ModalHeader', () => {
   })
 
   describe('close behavior', () => {
-    test('calls requestClose from context when the close button is clicked', async () => {
+    test('calls close from context when the close button is clicked', async () => {
       const user = userEvent.setup()
-      const requestClose = vi.fn()
+      const close = vi.fn()
       render(
-        <ModalContext.Provider value={{ requestClose }}>
+        <ModalContext.Provider value={{ close }}>
           <ModalHeader>Test</ModalHeader>
         </ModalContext.Provider>
       )
       await user.click(screen.getByRole('button', { name: 'Close' }))
-      expect(requestClose).toHaveBeenCalledTimes(1)
+      expect(close).toHaveBeenCalledTimes(1)
     })
   })
 

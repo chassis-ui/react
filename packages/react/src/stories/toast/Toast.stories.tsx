@@ -38,10 +38,8 @@ export const Basic: Story = {
     visible: true,
     children: (
       <>
-        <ToastHeader closeButton>
-          {logo}
-          <strong className="me-auto">Chassis</strong>
-          <small>7 min ago</small>
+        <ToastHeader icon={logo} time="7 min ago" closeButton>
+          Chassis
         </ToastHeader>
         <ToastBody>Hello, world! This is a toast message.</ToastBody>
       </>
@@ -49,13 +47,13 @@ export const Basic: Story = {
   }
 }
 
-// Same result as `Basic`, composed from shorthand props (image/title/time/message/closeButton)
-// instead of hand-composing `ToastHeader`/`ToastBody`.
+// Same result as `Basic`, composed from Toast's own shorthand props (icon/title/time/message/
+// closeButton) instead of hand-composing `ToastHeader`/`ToastBody`.
 export const PropsOnly: Story = {
   args: {
     autohide: false,
     visible: true,
-    image: logo,
+    icon: logo,
     title: 'Chassis',
     time: '7 min ago',
     message: 'Hello, world! This is a toast message.',
@@ -71,10 +69,8 @@ export const Solid: Story = {
     solid: true,
     children: (
       <>
-        <ToastHeader closeButton>
-          {logo}
-          <strong className="me-auto">Chassis</strong>
-          <small>7 min ago</small>
+        <ToastHeader icon={logo} time="7 min ago" closeButton>
+          Chassis
         </ToastHeader>
         <ToastBody>Hello, world! This is a toast message.</ToastBody>
       </>
@@ -88,18 +84,14 @@ export const Stacked: Story = {
   render: () => (
     <Toaster>
       <Toast autohide={false} visible={true}>
-        <ToastHeader closeButton>
-          {logo}
-          <strong className="me-auto">Chassis</strong>
-          <small>7 min ago</small>
+        <ToastHeader icon={logo} time="7 min ago" closeButton>
+          Chassis
         </ToastHeader>
         <ToastBody>Hello, world! This is a toast message.</ToastBody>
       </Toast>
       <Toast autohide={false} visible={true}>
-        <ToastHeader closeButton>
-          {logo}
-          <strong className="me-auto">Chassis</strong>
-          <small>7 min ago</small>
+        <ToastHeader icon={logo} time="7 min ago" closeButton>
+          Chassis
         </ToastHeader>
         <ToastBody>Hello, world! This is a toast message.</ToastBody>
       </Toast>
@@ -117,10 +109,8 @@ export const PlacementBottomEnd: Story = {
   render: () => (
     <Toaster placement="bottom-end">
       <Toast autohide={false} visible={true}>
-        <ToastHeader closeButton>
-          {logo}
-          <strong className="me-auto">Chassis</strong>
-          <small>7 min ago</small>
+        <ToastHeader icon={logo} time="7 min ago" closeButton>
+          Chassis
         </ToastHeader>
         <ToastBody>Hello, world! This is a toast message.</ToastBody>
       </Toast>

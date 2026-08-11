@@ -15,6 +15,7 @@ import { Example as IconExample } from '../../src/examples/notification/IconExam
 import { Example as TitleExample } from '../../src/examples/notification/TitleExample.tsx'
 import { Example as TextExample } from '../../src/examples/notification/TextExample.tsx'
 import { Example as ActionsExample } from '../../src/examples/notification/ActionsExample.tsx'
+import { Example as ActionsDismissExample } from '../../src/examples/notification/ActionsDismissExample.tsx'
 import { Example as DismissibleExample } from '../../src/examples/notification/DismissibleExample.tsx'
 
 ## Overview
@@ -25,6 +26,7 @@ Things to know when using `Notification`:
 - Or push it into a stack — call `addNotification()` from anywhere to queue one, and render a `<NotificationStack>` wherever it should appear. See [Stacking](#stacking).
 - `role="status"` (the default) suits routine confirmations and informational updates. Reserve `role="alert"` for errors and messages requiring immediate attention. See [Accessibility](#accessibility).
 - The `icon`/`title`/`text`/`actions` props are shorthand for the manual `NotificationIcon`/`NotificationTitle`/`NotificationText` composition — reach for manual composition only when a notification needs more than one block of body content. See [Shorthand props](#shorthand-props).
+- To dismiss a notification from markup you compose yourself — a labeled button in `actions`, instead of (or alongside) the `dismissible` close icon — call `useNotification()` and wire its `close` to any element's `onClick`. See [Dismissing](#dismissing).
 
 ## Examples
 
@@ -107,6 +109,12 @@ Add the `dismissible` prop to render a close button and let users dismiss the no
 
 <Example>
   <DismissibleExample client:load />
+</Example>
+
+Not every notification should be dismissed via the icon-only close button — sometimes a labeled action ("Dismiss", "Got it") in the `actions` row is the better fit, without `dismissible`'s close icon at all. Call `useNotification()` from a child of `Notification` and wire its `close` to any element's `onClick`; there's no separate close subcomponent to reach for, the same normal `Button` works.
+
+<Example>
+  <ActionsDismissExample client:load />
 </Example>
 
 ### Auto-dismiss

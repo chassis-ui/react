@@ -5,8 +5,8 @@ description: Push notifications to your visitors with a Chassis Toast, a lightwe
 toc: true
 ---
 
-import { Example as CompositionExample } from '../../src/examples/toast/CompositionExample.tsx'
 import { Example as BasicExample } from '../../src/examples/toast/BasicExample.tsx'
+import { Example as LiveExample } from '../../src/examples/toast/LiveExample.tsx'
 import { Example as ShorthandExample } from '../../src/examples/toast/ShorthandExample.tsx'
 import { Example as ActionFooterExample } from '../../src/examples/toast/ActionFooterExample.tsx'
 import { Example as TranslucentExample } from '../../src/examples/toast/TranslucentExample.tsx'
@@ -23,7 +23,8 @@ Things to know when using the toast plugin:
 - Toasts are opt-in — nothing renders until you flip `visible` to `true` directly, or call `addToast()` to push one into a `Toaster`'s queue.
 - Toasts will automatically hide after `delay` milliseconds unless you set `autohide={false}`. The countdown pauses while the pointer is over the toast or focus is within it, and only resumes once both leave.
 - Use `role="status"` (the default) for routine confirmations and informational updates. Reserve `role="alert"` for errors and messages requiring immediate attention. Both roles carry implicit live-region semantics, so no separate `aria-live` prop is needed.
-- The `image`/`title`/`time`/`message`/`footer`/`closeButton` props are shorthand for the manual `ToastHeader`/`ToastBody`/`ToastFooter` composition — reach for manual composition only when a toast needs more than one header/body/footer block. See [Shorthand props](#shorthand-props).
+- The `icon`/`title`/`time`/`message`/`footer`/`closeButton` props are shorthand for the manual `ToastHeader`/`ToastBody`/`ToastFooter` composition — reach for manual composition only when a toast needs more than one header/body/footer block. See [Shorthand props](#shorthand-props).
+- To dismiss a toast from markup you compose yourself — a "Close" button in the footer, a custom icon in the header — call `useToast()` and wire its `close` to any element's `onClick`. See [Action footer](#action-footer).
 
 ## Examples
 
@@ -34,28 +35,30 @@ To encourage extensible and predictable toasts, we recommend a header and body. 
 Toasts are as flexible as you need and have very little required markup. At a minimum, we require a single element to contain your "toasted" content and strongly encourage a dismiss button.
 
 <Example>
-  <CompositionExample client:load />
+  <BasicExample client:load />
 </Example>
 
 For dynamic notifications, call `addToast()` from anywhere — an event handler, an async callback — to push a toast into a `Toaster`'s queue. `Toaster` renders whatever's currently queued; nothing else needs to know about it.
 
 <Example>
-  <BasicExample client:load />
+  <LiveExample client:load />
 </Example>
 
 ### Shorthand props
 
-For the common case — an image, a heading, a timestamp, one block of message text — `image`/`title`/`time`/`message` render the same markup as composing `ToastHeader`/`ToastBody` by hand, without the wiring. Add `footer` for a single row of trailing content (shorthand for `ToastFooter`), and `closeButton`/`closeLabel` for the dismiss control and its accessible name. When both `title` and `message` are set, the toast's `aria-labelledby`/`aria-describedby` are wired to them automatically. `image` is hidden from assistive technology by default, since it duplicates `title` visually.
+For the common case — an icon, a heading, a timestamp, one block of message text — `icon`/`title`/`time`/`message` render the same markup as composing `ToastHeader`/`ToastBody` by hand, without the wiring. `icon` accepts an icon name (rendered via `ToastIcon`) or any other node for a fully custom icon, such as a logo or avatar. Add `footer` for a single row of trailing content (shorthand for `ToastFooter`), and `closeButton`/`closeLabel` for the dismiss control and its accessible name. When both `title` and `message` are set, the toast's `aria-labelledby`/`aria-describedby` are wired to them automatically. `icon` is hidden from assistive technology by default, since it duplicates `title` visually.
 
 <Example>
   <ShorthandExample client:load />
 </Example>
 
-`image`/`title`/`time`/`message`/`footer` are additive with `children` — for multi-block content (more than one header, body, or footer region), compose `ToastHeader`/`ToastBody`/`ToastFooter` manually instead, as in the sections below.
+`icon`/`title`/`time`/`message`/`footer` are additive with `children` — for multi-block content (more than one header, body, or footer region), compose `ToastHeader`/`ToastBody`/`ToastFooter` manually instead, as in the sections below. `ToastHeader` itself takes the same shorthand shape — `icon`/`time` as props, the heading as `children` — so manual composition never requires hand-writing the `<strong>`/`<span>` markup.
 
 ### Action footer
 
 Add a `ToastFooter` below the body to hold acknowledgement or follow-up actions. It renders `.toast-footer`, separated from the body by a border that matches the header rule.
+
+A "Close" action is just a normal `Button` — call `useToast()` from a child of `Toast` and wire its `close` to the button's `onClick`. There's no dedicated close subcomponent to reach for; `useToast` works the same way for a plain icon-only dismiss control (pair it with `CloseButton`, as in [Simplified layout](#simplified-layout)) or a labeled action button like the one below.
 
 <Example>
   <ActionFooterExample client:load />
@@ -65,7 +68,7 @@ Add a `ToastFooter` below the body to hold acknowledgement or follow-up actions.
 
 Add `translucent` to blend the toast in with what's below it.
 
-<Example className="bg-dark">
+<Example class="primary-bg-even cxd-pattern-dots">
   <TranslucentExample client:load />
 </Example>
 
@@ -101,15 +104,15 @@ Apply `color` and add `solid` for a full-color background with inverted text. He
 ### ToastHeader
 
 <PropTable component="ToastHeader" />
+### ToastIcon
+
+<PropTable component="ToastIcon" />
 ### ToastBody
 
 <PropTable component="ToastBody" />
 ### ToastFooter
 
 <PropTable component="ToastFooter" />
-### ToastClose
-
-<PropTable component="ToastClose" />
 ### Toaster
 
 <PropTable component="Toaster" />

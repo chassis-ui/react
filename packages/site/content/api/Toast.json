@@ -68,7 +68,7 @@
     },
     "closeButton": {
       "defaultValue": null,
-      "description": "Adds a close button to the auto-rendered header — shorthand for `ToastHeader`'s\n`closeButton` prop. Renders a header containing only the close button if `image`/`title`/\n`time` are all unset.",
+      "description": "Adds a close button to the auto-rendered header — shorthand for `ToastHeader`'s\n`closeButton` prop. Renders a header containing only the close button if `icon`/`title`/\n`time` are all unset.",
       "name": "closeButton",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
@@ -199,10 +199,10 @@
         "name": "ReactNode"
       }
     },
-    "image": {
+    "icon": {
       "defaultValue": null,
-      "description": "Leading visual for the header — typically a logo or avatar. Shorthand for `ToastHeader`'s\n`image` prop; hidden from assistive technology by default, since it duplicates `title`\nvisually.",
-      "name": "image",
+      "description": "Leading icon for the header. A string is rendered as `<ToastIcon name={icon} />`; pass\nany other node for a fully custom icon (typically a logo or avatar). Shorthand for\n`ToastHeader`'s `icon` prop; hidden from assistive technology by default, since it\nduplicates `title` visually.",
+      "name": "icon",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
         "name": "ToastProps"
@@ -258,7 +258,7 @@
     },
     "title": {
       "defaultValue": null,
-      "description": "Header heading, rendered before `time`. Shorthand for `ToastHeader`'s `title` prop. When\nset alongside `message`, wires the toast's `aria-labelledby`/`aria-describedby` to them\nautomatically.",
+      "description": "Header heading, rendered before `time`. Shorthand for `ToastHeader`'s children. When set\nalongside `message`, wires the toast's `aria-labelledby`/`aria-describedby` to them\nautomatically.",
       "name": "title",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",

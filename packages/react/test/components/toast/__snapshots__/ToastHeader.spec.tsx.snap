@@ -5,7 +5,11 @@ exports[`ToastHeader > rendering > matches the baseline markup snapshot 1`] = `
   <div
     class="toast-header"
   >
-    Test
+    <strong
+      class="me-auto"
+    >
+      Test
+    </strong>
   </div>
 </div>
 `;

@@ -1,7 +1,7 @@
-import React, { forwardRef, HTMLAttributes, useContext } from 'react'
+import React, { forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-import { DrawerContext } from './Drawer'
+import { useDrawer } from '../../hooks'
 import { CloseButton } from '../close-button/CloseButton'
 
 export interface DrawerHeaderProps extends HTMLAttributes<HTMLDivElement> {
@@ -22,13 +22,13 @@ export interface DrawerHeaderProps extends HTMLAttributes<HTMLDivElement> {
 
 export const DrawerHeader = forwardRef<HTMLDivElement, DrawerHeaderProps>(
   ({ children, className, closeButton = true, closeLabel, ...rest }, ref) => {
-    const { requestClose } = useContext(DrawerContext)
+    const { close } = useDrawer()
     const _className = classNames('drawer-header', className)
 
     return (
       <div className={_className} {...rest} ref={ref}>
         {children}
-        {closeButton && <CloseButton label={closeLabel} onClick={() => requestClose?.()} />}
+        {closeButton && <CloseButton label={closeLabel} onClick={close} />}
       </div>
     )
   }

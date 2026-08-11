@@ -3,7 +3,7 @@ import { act } from 'react'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Toast, ToastBody, ToastHeader } from '../../../src/index'
+import { Toast, ToastBody, ToastFooter, ToastHeader, useToast } from '../../../src/index'
 
 describe('Toast', () => {
   // A safety net for the fake-timer tests below: if one fails an assertion before reaching its
@@ -63,20 +63,24 @@ describe('Toast', () => {
           visible={true}
           onClose={onClose}
         >
-          <ToastHeader closeButton>
-            <svg
-              className="rounded me-2"
-              width="20"
-              height="20"
-              xmlns="http://www.w3.org/2000/svg"
-              preserveAspectRatio="xMidYMid slice"
-              focusable="false"
-              role="img"
-            >
-              <rect width="100%" height="100%" fill="#007aff"></rect>
-            </svg>
-            <strong className="me-auto">Chassis</strong>
-            <small>7 min ago</small>
+          <ToastHeader
+            icon={
+              <svg
+                className="rounded me-2"
+                width="20"
+                height="20"
+                xmlns="http://www.w3.org/2000/svg"
+                preserveAspectRatio="xMidYMid slice"
+                focusable="false"
+                role="img"
+              >
+                <rect width="100%" height="100%" fill="#007aff"></rect>
+              </svg>
+            }
+            time="7 min ago"
+            closeButton
+          >
+            Chassis
           </ToastHeader>
           <ToastBody>Hello, world! This is a toast message.</ToastBody>
         </Toast>
@@ -90,6 +94,36 @@ describe('Toast', () => {
       act(() => vi.runAllTimers())
       expect(onClose).toHaveBeenCalledTimes(1)
       expect(container).toBeEmptyDOMElement()
+      vi.useRealTimers()
+    })
+
+    test('a plain button in the footer wired via useToast closes the toast', async () => {
+      vi.useFakeTimers()
+      const onClose = vi.fn()
+      const Footer = () => {
+        const { close } = useToast()
+        return (
+          <ToastFooter>
+            <button type="button" onClick={close}>
+              Close
+            </button>
+          </ToastFooter>
+        )
+      }
+      render(
+        <Toast autohide={false} delay={100} visible={true} onClose={onClose}>
+          <ToastBody>Hello, world! This is a toast message.</ToastBody>
+          <Footer />
+        </Toast>
+      )
+      await waitFor(() => {
+        expect(screen.getByRole('status')).toHaveClass('show')
+      })
+
+      expect(onClose).toHaveBeenCalledTimes(0)
+      fireEvent.click(screen.getByRole('button', { name: 'Close' }))
+      act(() => vi.runAllTimers())
+      expect(onClose).toHaveBeenCalledTimes(1)
       vi.useRealTimers()
     })
   })
@@ -197,12 +231,12 @@ describe('Toast', () => {
   })
 
   describe('shorthand props', () => {
-    test('composes header, body and footer from image/title/time/message/footer', async () => {
+    test('composes header, body and footer from icon/title/time/message/footer', async () => {
       render(
         <Toast
           autohide={false}
           visible={true}
-          image={<svg data-testid="logo" />}
+          icon={<svg data-testid="logo" />}
           title="Chassis"
           time="7 min ago"
           message="Hello, world!"
@@ -222,7 +256,7 @@ describe('Toast', () => {
       expect(screen.getByRole('button', { name: 'Take action' })).toBeInTheDocument()
     })
 
-    test('renders a header for closeButton alone, with no image/title/time', async () => {
+    test('renders a header for closeButton alone, with no icon/title/time', async () => {
       render(
         <Toast autohide={false} visible={true} closeButton>
           Test
@@ -286,9 +320,8 @@ describe('Toast', () => {
     test('has no axe violations once shown', async () => {
       const { container } = render(
         <Toast autohide={false} color="warning" visible={true}>
-          <ToastHeader closeButton>
-            <strong className="me-auto">Chassis</strong>
-            <small>7 min ago</small>
+          <ToastHeader time="7 min ago" closeButton>
+            Chassis
           </ToastHeader>
           <ToastBody>Hello, world! This is a toast message.</ToastBody>
         </Toast>
@@ -299,13 +332,13 @@ describe('Toast', () => {
       expect(await axe(container)).toHaveNoViolations()
     })
 
-    test('has no axe violations with shorthand props (image/title/time/message/footer)', async () => {
+    test('has no axe violations with shorthand props (icon/title/time/message/footer)', async () => {
       const { container } = render(
         <Toast
           autohide={false}
           color="warning"
           visible={true}
-          image={<svg aria-hidden="true" width="20" height="20" />}
+          icon={<svg aria-hidden="true" width="20" height="20" />}
           title="Chassis"
           time="7 min ago"
           message="Hello, world! This is a toast message."

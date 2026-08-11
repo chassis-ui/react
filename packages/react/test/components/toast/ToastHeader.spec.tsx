@@ -8,10 +8,10 @@ import { ToastContext } from '../../../src/components/toast/context'
 describe('ToastHeader', () => {
   describe('rendering', () => {
     test('renders a div with the base class and className merged', () => {
-      render(<ToastHeader className="bazinga">Test</ToastHeader>)
-      const header = screen.getByText('Test')
+      const { container } = render(<ToastHeader className="bazinga">Test</ToastHeader>)
+      const header = container.firstElementChild
       expect(header).toHaveClass('toast-header', 'bazinga')
-      expect(header.tagName).toBe('DIV')
+      expect(header?.tagName).toBe('DIV')
     })
 
     test('matches the baseline markup snapshot', () => {
@@ -26,7 +26,7 @@ describe('ToastHeader', () => {
 
     test('renders a close button when closeButton is set', () => {
       render(
-        <ToastContext.Provider value={{ setVisible: vi.fn() }}>
+        <ToastContext.Provider value={{ close: vi.fn() }}>
           <ToastHeader closeButton>Test</ToastHeader>
         </ToastContext.Provider>
       )
@@ -35,9 +35,11 @@ describe('ToastHeader', () => {
   })
 
   describe('shorthand props', () => {
-    test('renders image, title and time in the same order as manual composition', () => {
+    test('renders icon, children as the heading, and time in that order', () => {
       render(
-        <ToastHeader image={<svg data-testid="logo" />} title="Chassis" time="7 min ago" />
+        <ToastHeader icon={<svg data-testid="logo" />} time="7 min ago">
+          Chassis
+        </ToastHeader>
       )
       expect(screen.getByTestId('logo')).toBeInTheDocument()
       const title = screen.getByText('Chassis')
@@ -46,36 +48,28 @@ describe('ToastHeader', () => {
       expect(screen.getByText('7 min ago').tagName).toBe('SMALL')
     })
 
-    test('hides image from assistive technology by default', () => {
-      render(<ToastHeader image={<svg data-testid="logo" />} title="Chassis" />)
+    test('renders a string icon via ToastIcon', () => {
+      render(<ToastHeader icon="check-solid">Chassis</ToastHeader>)
+      expect(document.querySelector('.toast-icon')).toBeInTheDocument()
+    })
+
+    test('hides icon from assistive technology by default', () => {
+      render(<ToastHeader icon={<svg data-testid="logo" />}>Chassis</ToastHeader>)
       expect(screen.getByTestId('logo').parentElement).toHaveAttribute('aria-hidden', 'true')
     })
 
     test('sets the title id when titleId is passed, for aria-labelledby wiring', () => {
-      render(<ToastHeader title="Chassis" titleId="custom-title-id" />)
+      render(<ToastHeader titleId="custom-title-id">Chassis</ToastHeader>)
       expect(screen.getByText('Chassis')).toHaveAttribute('id', 'custom-title-id')
     })
 
     test('closeLabel overrides the close button accessible name', () => {
       render(
-        <ToastContext.Provider value={{ setVisible: vi.fn() }}>
+        <ToastContext.Provider value={{ close: vi.fn() }}>
           <ToastHeader closeButton closeLabel="Fermer" />
         </ToastContext.Provider>
       )
       expect(screen.getByRole('button', { name: 'Fermer' })).toBeInTheDocument()
-    })
-
-    test('renders shorthand props and children together, children in between time and the close button', () => {
-      render(
-        <ToastContext.Provider value={{ setVisible: vi.fn() }}>
-          <ToastHeader title="Chassis" closeButton>
-            <span data-testid="extra">Extra</span>
-          </ToastHeader>
-        </ToastContext.Provider>
-      )
-      expect(screen.getByText('Chassis')).toBeInTheDocument()
-      expect(screen.getByTestId('extra')).toBeInTheDocument()
-      expect(screen.getByRole('button', { name: 'Close' })).toBeInTheDocument()
     })
   })
 
@@ -90,7 +84,7 @@ describe('ToastHeader', () => {
   describe('accessibility', () => {
     test('has no axe violations', async () => {
       const { container } = render(
-        <ToastContext.Provider value={{ setVisible: vi.fn() }}>
+        <ToastContext.Provider value={{ close: vi.fn() }}>
           <ToastHeader closeButton>Test</ToastHeader>
         </ToastContext.Provider>
       )

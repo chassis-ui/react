@@ -7,11 +7,12 @@ import React, {
   useRef,
   useState
 } from 'react'
+import { mergeProps } from 'react-aria'
 import { Transition } from 'react-transition-group'
 import classNames from 'classnames'
 
 import { ContextColor } from '../../types'
-import { useForkedRef } from '../../hooks'
+import { useAutoDismiss, useForkedRef } from '../../hooks'
 import { ToastContext } from './context'
 import { ToastBody } from './ToastBody'
 import { ToastFooter } from './ToastFooter'
@@ -33,7 +34,7 @@ export interface ToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'
   className?: string
   /**
    * Adds a close button to the auto-rendered header — shorthand for `ToastHeader`'s
-   * `closeButton` prop. Renders a header containing only the close button if `image`/`title`/
+   * `closeButton` prop. Renders a header containing only the close button if `icon`/`title`/
    * `time` are all unset.
    */
   closeButton?: boolean
@@ -56,11 +57,12 @@ export interface ToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'
    */
   footer?: ReactNode
   /**
-   * Leading visual for the header — typically a logo or avatar. Shorthand for `ToastHeader`'s
-   * `image` prop; hidden from assistive technology by default, since it duplicates `title`
-   * visually.
+   * Leading icon for the header. A string is rendered as `<ToastIcon name={icon} />`; pass
+   * any other node for a fully custom icon (typically a logo or avatar). Shorthand for
+   * `ToastHeader`'s `icon` prop; hidden from assistive technology by default, since it
+   * duplicates `title` visually.
    */
-  image?: ReactNode
+  icon?: string | ReactNode
   /**
    * Message body, rendered via a single `ToastBody`. For multi-block content, compose
    * `children` manually instead — `message` wraps everything in one element.
@@ -71,8 +73,8 @@ export interface ToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'
    */
   time?: ReactNode
   /**
-   * Header heading, rendered before `time`. Shorthand for `ToastHeader`'s `title` prop. When
-   * set alongside `message`, wires the toast's `aria-labelledby`/`aria-describedby` to them
+   * Header heading, rendered before `time`. Shorthand for `ToastHeader`'s children. When set
+   * alongside `message`, wires the toast's `aria-labelledby`/`aria-describedby` to them
    * automatically.
    */
   title?: ReactNode
@@ -110,7 +112,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
       color,
       delay = 5000,
       footer,
-      image,
+      icon,
       message,
       role = 'status',
       solid,
@@ -125,9 +127,6 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
     ref
   ) => {
     const [_visible, setVisible] = useState(false)
-    const timeout = useRef<number>()
-    const hasMouseInteraction = useRef(false)
-    const hasKeyboardInteraction = useRef(false)
     const nodeRef = useRef<HTMLDivElement>(null)
     const forkedRef = useForkedRef(ref, nodeRef)
     const titleId = useId()
@@ -137,56 +136,18 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
       setVisible(visible)
     }, [visible])
 
+    const close = () => setVisible(false)
+
+    const autoDismissProps = useAutoDismiss({
+      enabled: autohide,
+      delay,
+      visible: _visible,
+      onHide: close
+    })
+
     const contextValues = {
       visible: _visible,
-      setVisible
-    }
-
-    // triggered on mount and destroy
-    useEffect(() => () => _clearAutohideTimeout(), [])
-
-    // Re-evaluates whenever `_visible`, `autohide` or `delay` change, so a mid-display change to
-    // `autohide`/`delay` reschedules (or cancels) the pending timer immediately, instead of only
-    // taking effect on the next `_visible` toggle.
-    useEffect(() => {
-      _maybeScheduleHide()
-    }, [_visible, autohide, delay]) // eslint-disable-line react-hooks/exhaustive-deps
-
-    const _clearAutohideTimeout = () => {
-      clearTimeout(timeout.current)
-      timeout.current = undefined
-    }
-
-    // The autohide timer only starts once neither the pointer nor focus is
-    // interacting with the toast, mirroring Chassis CSS's toast.js behavior.
-    const _maybeScheduleHide = () => {
-      _clearAutohideTimeout()
-      if (!autohide || hasMouseInteraction.current || hasKeyboardInteraction.current) {
-        return
-      }
-      timeout.current = window.setTimeout(() => {
-        setVisible(false)
-      }, delay)
-    }
-
-    const _onMouseEnter = () => {
-      hasMouseInteraction.current = true
-      _clearAutohideTimeout()
-    }
-
-    const _onMouseLeave = () => {
-      hasMouseInteraction.current = false
-      _maybeScheduleHide()
-    }
-
-    const _onFocus = () => {
-      hasKeyboardInteraction.current = true
-      _clearAutohideTimeout()
-    }
-
-    const _onBlur = () => {
-      hasKeyboardInteraction.current = false
-      _maybeScheduleHide()
+      close
     }
 
     const _className = classNames(
@@ -209,7 +170,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
           : undefined
     }
 
-    const hasHeaderContent = image != null || title != null || time != null || closeButton
+    const hasHeaderContent = icon != null || title != null || time != null || closeButton
 
     return (
       <Transition
@@ -229,22 +190,19 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
                 role={role}
                 aria-labelledby={title != null ? titleId : undefined}
                 aria-describedby={title != null && message != null ? textId : undefined}
-                onMouseEnter={_onMouseEnter}
-                onMouseLeave={_onMouseLeave}
-                onFocus={_onFocus}
-                onBlur={_onBlur}
-                {...rest}
+                {...mergeProps(rest, autoDismissProps)}
                 ref={forkedRef}
               >
                 {hasHeaderContent && (
                   <ToastHeader
-                    image={image}
-                    title={title}
+                    icon={icon}
                     time={time}
                     titleId={title != null ? titleId : undefined}
                     closeButton={closeButton}
                     closeLabel={closeLabel}
-                  />
+                  >
+                    {title}
+                  </ToastHeader>
                 )}
                 {message != null && (
                   <ToastBody id={title != null && message != null ? textId : undefined}>

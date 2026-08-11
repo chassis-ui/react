@@ -3,7 +3,7 @@ import { act } from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Notification } from '../../../src/index'
+import { Notification, useNotification } from '../../../src/index'
 
 describe('Notification', () => {
   describe('rendering', () => {
@@ -67,6 +67,29 @@ describe('Notification', () => {
       )
       expect(screen.getByRole('button', { name: 'Kapat' })).toBeInTheDocument()
       expect(screen.queryByRole('button', { name: 'Close' })).not.toBeInTheDocument()
+    })
+
+    test('a plain button wired via useNotification closes the notification without dismissible', () => {
+      vi.useFakeTimers()
+      const onClose = vi.fn()
+      const Actions = () => {
+        const { close } = useNotification()
+        return (
+          <button type="button" onClick={close}>
+            Dismiss
+          </button>
+        )
+      }
+      render(
+        <Notification color="primary" onClose={onClose} actions={<Actions />}>
+          Test
+        </Notification>
+      )
+      expect(screen.queryByRole('button', { name: 'Close' })).not.toBeInTheDocument()
+      fireEvent.click(screen.getByRole('button', { name: 'Dismiss' }))
+      act(() => vi.runAllTimers())
+      expect(onClose).toHaveBeenCalledTimes(1)
+      vi.useRealTimers()
     })
   })
 

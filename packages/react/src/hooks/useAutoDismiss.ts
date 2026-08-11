@@ -46,10 +46,10 @@ export function useAutoDismiss({
   }, [])
 
   const maybeScheduleHide = useCallback(() => {
+    clearAutoDismissTimeout()
     if (!enabled || hasMouseInteraction.current || hasKeyboardInteraction.current) {
       return
     }
-    clearAutoDismissTimeout()
     timeout.current = window.setTimeout(onHide, delay)
   }, [enabled, delay, onHide, clearAutoDismissTimeout])
 

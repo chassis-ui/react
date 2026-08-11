@@ -2,12 +2,12 @@ export { Toast } from './Toast'
 export type { ToastProps } from './Toast'
 export { ToastBody } from './ToastBody'
 export type { ToastBodyProps } from './ToastBody'
-export { ToastClose } from './ToastClose'
-export type { ToastCloseProps } from './ToastClose'
 export { ToastFooter } from './ToastFooter'
 export type { ToastFooterProps } from './ToastFooter'
 export { ToastHeader } from './ToastHeader'
 export type { ToastHeaderProps } from './ToastHeader'
+export { ToastIcon } from './ToastIcon'
+export type { ToastIconProps } from './ToastIcon'
 // plop:sub-export
 
 // Toaster is an independent manager/container component (react-hot-toast-style), not a Toast

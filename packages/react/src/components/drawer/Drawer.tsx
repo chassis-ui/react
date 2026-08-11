@@ -91,15 +91,19 @@ export interface DrawerProps extends Omit<
   visible?: boolean
 }
 
-interface DrawerContextProps {
-  requestClose?: () => void
+export interface DrawerContextProps {
+  /**
+   * Requests the drawer be closed — fires `onClose`. Wire this to any element's `onClick`; see
+   * `useDrawer`.
+   */
+  close: () => void
 }
 
-export const DrawerContext = createContext<DrawerContextProps>({})
+export const DrawerContext = createContext<DrawerContextProps>({ close: () => {} })
 
 // Currently-open drawers, so opening one can auto-close any other open drawer
 // ("When a second drawer opens while one is already open, the first closes automatically").
-const openDrawers = new Set<{ dialog: HTMLDialogElement; requestClose: () => void }>()
+const openDrawers = new Set<{ dialog: HTMLDialogElement; close: () => void }>()
 
 export const Drawer = forwardRef<HTMLDialogElement, DrawerProps>(
   (
@@ -142,18 +146,18 @@ export const Drawer = forwardRef<HTMLDialogElement, DrawerProps>(
       setVisible(visible)
     }, [visible])
 
-    const requestClose = () => {
+    const close = () => {
       onClose?.()
     }
 
-    const requestCloseRef = useRef(requestClose)
-    requestCloseRef.current = requestClose
+    const closeRef = useRef(close)
+    closeRef.current = close
 
     // Register in the cross-instance registry so other drawers can auto-close this one.
     useEffect(() => {
       const dialog = dialogRef.current
       if (!dialog) return undefined
-      const entry = { dialog, requestClose: () => requestCloseRef.current() }
+      const entry = { dialog, close: () => closeRef.current() }
       openDrawers.add(entry)
       return () => {
         openDrawers.delete(entry)
@@ -176,7 +180,7 @@ export const Drawer = forwardRef<HTMLDialogElement, DrawerProps>(
         if (dialog.open) return undefined
 
         for (const entry of openDrawers) {
-          if (entry.dialog !== dialog) entry.requestClose()
+          if (entry.dialog !== dialog) entry.close()
         }
 
         triggerRef.current =
@@ -238,7 +242,7 @@ export const Drawer = forwardRef<HTMLDialogElement, DrawerProps>(
         if (event.key !== 'Escape' || openedAsModalRef.current) return
         event.preventDefault()
         if (!keyboard) return
-        requestClose()
+        close()
       }
 
       dialog.addEventListener('keydown', handleKeyDown)
@@ -252,7 +256,7 @@ export const Drawer = forwardRef<HTMLDialogElement, DrawerProps>(
         triggerStaticBounce()
         return
       }
-      requestClose()
+      close()
     }
 
     const handleBackdropClick = (event: React.MouseEvent<HTMLDialogElement>) => {
@@ -261,7 +265,7 @@ export const Drawer = forwardRef<HTMLDialogElement, DrawerProps>(
         triggerStaticBounce()
         return
       }
-      requestClose()
+      close()
     }
 
     const _className = classNames(
@@ -280,7 +284,7 @@ export const Drawer = forwardRef<HTMLDialogElement, DrawerProps>(
     )
 
     return (
-      <DrawerContext.Provider value={{ requestClose }}>
+      <DrawerContext.Provider value={{ close }}>
         <dialog
           {...rest}
           className={_className}
