@@ -2,6 +2,7 @@ import React, { forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
 import { ContextColor } from '../../types'
+
 export interface ProgressBarProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * Use to animate the stripes right to left via CSS3 animations.
@@ -16,39 +17,30 @@ export interface ProgressBarProps extends HTMLAttributes<HTMLDivElement> {
    */
   color?: ContextColor
   /**
+   * Adds a diagonal stripe pattern over the bar's background.
+   */
+  striped?: boolean
+  /**
    * The percent to progress the ProgressBar.
    */
   value?: number
-  /**
-   * Set the progress bar variant to optional striped.
-   */
-  variant?: 'striped'
 }
 
 export const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
-  ({ children, animated, className, color, value = 0, variant, ...rest }, ref) => {
+  ({ children, animated, className, color, striped, style, value = 0, ...rest }, ref) => {
     const _className = classNames(
       'progress-bar',
-      color,
+      color && `bg-${color} fg-contrast`,
       {
-        [`progress-bar-${variant}`]: variant,
-        'progress-bar-animated': animated
+        striped,
+        animated
       },
       className
     )
 
     return (
-      <div
-        className={_className}
-        role="progressbar"
-        style={{ width: `${value}%` }}
-        aria-valuenow={value}
-        aria-valuemin={0}
-        aria-valuemax={100}
-        {...rest}
-        ref={ref}
-      >
-        {children}
+      <div {...rest} className={_className} style={{ width: `${value}%`, ...style }} ref={ref}>
+        <span className="mx-2xsmall">{children}</span>
       </div>
     )
   }

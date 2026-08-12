@@ -1,51 +1,115 @@
-import React, { forwardRef, HTMLAttributes } from 'react'
+import React, { CSSProperties, forwardRef, HTMLAttributes, ReactNode } from 'react'
 import classNames from 'classnames'
-import { ProgressBar, ProgressBarProps } from './ProgressBar'
+import { ProgressBar } from './ProgressBar'
+import { ContextColor } from '../../types'
 
-export interface ProgressProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'color'>, ProgressBarProps {
+type ProgressStyle = CSSProperties & {
+  '--cx-height'?: string
+}
+
+export interface ProgressProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color'> {
+  /**
+   * Use to animate the stripes right to left via CSS3 animations.
+   */
+  animated?: boolean
   /**
    * A string of all className you want applied to the component.
    */
   className?: string
   /**
-   * Sets the height of the component. If you set that value the inner `<ProgressBar>` will automatically resize accordingly.
+   * Sets the color of the component to one of Chassis context colors.
+   */
+  color?: ContextColor
+  /**
+   * Sets the height of the component, via the `--cx-height` custom property. If you set that
+   * value the inner bar (and the striped pattern's tile size) automatically resizes accordingly.
    */
   height?: number
   /**
-   * Makes progress bar thinner.
+   * Shows the current value as text inside the bar, independently of `showValue` — combine both
+   * to get a `label` + `showValue` caption above the bar alongside an `inlineValue` reading
+   * inside it.
    */
-  thin?: boolean
+  inlineValue?: boolean
+  /**
+   * A text label describing the progress. Rendered in a caption row above the bar. Also used as
+   * the default accessible name when no `aria-label`/`aria-labelledby` is supplied.
+   */
+  label?: ReactNode
+  /**
+   * Shows the current value as text in the caption row above the bar, alongside `label` when
+   * both are set, or alone otherwise. Use `inlineValue` to show it inside the bar instead.
+   */
+  showValue?: boolean
+  /**
+   * Adds a diagonal stripe pattern over the bar's background.
+   */
+  striped?: boolean
   /**
    * The percent to progress the ProgressBar (out of 100).
    */
   value?: number
-  /**
-   * Change the default context to white.
-   */
-  white?: boolean
 }
 
 export const Progress = forwardRef<HTMLDivElement, ProgressProps>(
-  ({ children, className, height, thin, value = 0, white, ...rest }, ref) => {
-    const _className = classNames(
-      'progress',
-      {
-        'progress-thin': thin,
-        'progress-white': white
-      },
-      className
+  (
+    {
+      'aria-label': ariaLabel,
+      animated,
+      children,
+      className,
+      color,
+      height,
+      inlineValue,
+      label,
+      showValue,
+      striped,
+      style,
+      value = 0,
+      ...rest
+    },
+    ref
+  ) => {
+    const _className = classNames('progress', className)
+
+    const barChildren = children !== undefined ? children : inlineValue ? `${value}%` : undefined
+    const hasCaption = Boolean(label || showValue)
+
+    const _style: ProgressStyle = { ...style }
+    if (height !== undefined) _style['--cx-height'] = `${height}px`
+
+    const progressElement = (
+      <div
+        {...rest}
+        className={_className}
+        role="progressbar"
+        aria-valuenow={value}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-label={ariaLabel ?? (typeof label === 'string' ? label : undefined)}
+        style={_style}
+        ref={ref}
+      >
+        <ProgressBar animated={animated} color={color} striped={striped} value={value}>
+          {barChildren}
+        </ProgressBar>
+      </div>
     )
 
+    if (!hasCaption) return progressElement
+
     return (
-      <div className={_className} style={height ? { height: `${height}px` } : {}} ref={ref}>
-        {value ? (
-          <ProgressBar value={value} {...rest}>
-            {children}
-          </ProgressBar>
-        ) : (
-          children
-        )}
+      <div className="d-flex flex-column gap-xsmall">
+        <div
+          className={classNames(
+            'd-flex',
+            label ? 'justify-content-between' : 'justify-content-end'
+          )}
+        >
+          {label ? <span className="font-strong">{label}</span> : null}
+          {showValue ? <span className="font-strong">{value}%</span> : null}
+        </div>
+        {progressElement}
       </div>
     )
   }

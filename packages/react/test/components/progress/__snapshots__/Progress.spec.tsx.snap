@@ -3,16 +3,21 @@
 exports[`Progress > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <div
+    aria-label="Test"
+    aria-valuemax="100"
+    aria-valuemin="0"
+    aria-valuenow="50"
     class="progress"
+    role="progressbar"
   >
     <div
-      aria-valuemax="100"
-      aria-valuemin="0"
-      aria-valuenow="50"
-      class="progress-bar warning"
-      role="progressbar"
+      class="progress-bar bg-warning fg-contrast"
       style="width: 50%;"
-    />
+    >
+      <span
+        class="mx-2xsmall"
+      />
+    </div>
   </div>
 </div>
 `;

@@ -6,123 +6,68 @@ description: Documentation and examples for using Chassis Progress bars featurin
 toc: true
 ---
 
-
-import { Progress, ProgressBar, Button } from '@chassis-ui/react'
+import { Example as BasicExample } from '../../src/examples/progress/BasicExample.tsx'
+import { Example as InlineValueExample } from '../../src/examples/progress/InlineValueExample.tsx'
+import { Example as HeightExample } from '../../src/examples/progress/HeightExample.tsx'
+import { Example as ColorExample } from '../../src/examples/progress/ColorExample.tsx'
+import { Example as StripedExample } from '../../src/examples/progress/StripedExample.tsx'
+import { Example as AnimatedExample } from '../../src/examples/progress/AnimatedExample.tsx'
+import { Example as CustomExample } from '../../src/examples/progress/CustomExample.tsx'
 
 ## Example
 
-Progress components are built with two HTML elements, some CSS to set the width, and a few attributes. We don't use [the HTML5 `<progress>` element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/progress), ensuring you can stack progress bars, animate them, and place text labels over them.
+`<Progress>` renders both the wrapper and the inner bar for you — just pass a `value`. We don't use [the HTML5 `<progress>` element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/progress), so you get full control over color, stripes, animation, and text labels.
 
 ## Basic usage
 
-<Example>
-  <Progress className="mb-medium">
-    <ProgressBar value={0} />
-  </Progress>
-  <Progress className="mb-medium">
-    <ProgressBar value={25} />
-  </Progress>
-  <Progress className="mb-medium">
-    <ProgressBar value={50} />
-  </Progress>
-  <Progress className="mb-medium">
-    <ProgressBar value={75} />
-  </Progress>
-  <Progress className="mb-medium">
-    <ProgressBar value={100} />
-  </Progress>
+<Example class="vstack gap-medium">
+  <BasicExample client:load />
 </Example>
 
-## Labels
+## Inline Value
 
-Add labels to your progress bars by placing text within the `<ProgressBar>`.
+Set `inlineValue` to display the current percentage inside the bar.
 
-<Example>
-  <Progress className="mb-medium">
-    <ProgressBar value={25}>25%</ProgressBar>
-  </Progress>
+<Example class="vstack gap-medium">
+  <InlineValueExample client:load />
 </Example>
 
 ## Height
 
-We only set a `height` value on the `<Progress>`, so if you change that value the inner `<ProgressBar>` will automatically resize accordingly.
+We only set a `height` value on the `<Progress>`, so if you change that value the inner bar will automatically resize accordingly.
 
-<Example>
-  <Progress height={1} className="mb-medium">
-    <ProgressBar value={25}></ProgressBar>
-  </Progress>
-  <Progress height={20} className="mb-medium">
-    <ProgressBar value={25}></ProgressBar>
-  </Progress>
+<Example class="vstack gap-medium">
+  <HeightExample client:load />
 </Example>
 
-## Backgrounds
+## Colors
 
-Use `color` prop to change the appearance of individual progress bars.
+Use `color` prop to change the appearance of the progress bar.
 
-<Example>
-  <Progress className="mb-medium">
-    <ProgressBar color="success" value={25} />
-  </Progress>
-  <Progress className="mb-medium">
-    <ProgressBar color="info" value={50} />
-  </Progress>
-  <Progress className="mb-medium">
-    <ProgressBar color="warning" value={75} />
-  </Progress>
-  <Progress className="mb-medium">
-    <ProgressBar color="danger" value={100} />
-  </Progress>
-</Example>
-
-## Multiple bars
-
-Include multiple progress bars in a progress component if you need.
-
-<Example>
-  <Progress className="mb-medium">
-    <ProgressBar value={15} />
-    <ProgressBar color="success" value={30} />
-    <ProgressBar color="info" value={20} />
-  </Progress>
+<Example class="vstack gap-medium">
+  <ColorExample client:load />
 </Example>
 
 ## Striped
 
-Add `variant="striped"` to any `<ProgressBar>` to apply a stripe via CSS gradient over the progress bar's background context.
+Add the `striped` prop to apply a stripe via CSS gradient over the progress bar's background context.
 
-<Example>
-  <Progress className="mb-medium">
-    <ProgressBar color="success" variant="striped" value={25} />
-  </Progress>
-  <Progress className="mb-medium">
-    <ProgressBar color="info" variant="striped" value={50} />
-  </Progress>
-  <Progress className="mb-medium">
-    <ProgressBar color="warning" variant="striped" value={75} />
-  </Progress>
-  <Progress className="mb-medium">
-    <ProgressBar color="danger" variant="striped" value={100} />
-  </Progress>
+<Example class="vstack gap-medium">
+  <StripedExample client:load />
 </Example>
 
 ## Animated stripes
 
-The striped gradient can also be animated. Add `animated` property to `<ProgressBar>` to animate the stripes right to left via CSS3 animations.
+The striped gradient can also be animated. Add the `animated` prop alongside `striped` to animate the stripes right to left via CSS3 animations.
 
-<Example>
-  <Progress className="mb-medium">
-    <ProgressBar color="success" variant="striped" animated value={25} />
-  </Progress>
-  <Progress className="mb-medium">
-    <ProgressBar color="info" variant="striped" animated value={50} />
-  </Progress>
-  <Progress className="mb-medium">
-    <ProgressBar color="warning" variant="striped" animated value={75} />
-  </Progress>
-  <Progress className="mb-medium">
-    <ProgressBar color="danger" variant="striped" animated value={100} />
-  </Progress>
+<Example class="vstack gap-medium">
+  <AnimatedExample client:load />
+</Example>
+
+## Custom compositions
+
+<Example class="vstack gap-medium">
+  <CustomExample client:load />
 </Example>
 
 ## API
@@ -131,5 +76,7 @@ The striped gradient can also be animated. Add `animated` property to `<Progress
 
 <PropTable component="Progress" />
 ### ProgressBar
+
+`<ProgressBar>` is the presentational inner element `<Progress>` renders automatically. It's exported for advanced, manual compositions (for example custom stacked layouts) — for typical use, `<Progress>` alone is enough.
 
 <PropTable component="ProgressBar" />

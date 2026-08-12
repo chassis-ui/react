@@ -98,6 +98,25 @@
         ]
       }
     },
+    "striped": {
+      "defaultValue": null,
+      "description": "Adds a diagonal stripe pattern over the bar's background.",
+      "name": "striped",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/progress/ProgressBar.tsx",
+        "name": "ProgressBarProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/progress/ProgressBar.tsx",
+          "name": "ProgressBarProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
     "value": {
       "defaultValue": {
         "value": 0
@@ -117,31 +136,6 @@
       "required": false,
       "type": {
         "name": "number"
-      }
-    },
-    "variant": {
-      "defaultValue": null,
-      "description": "Set the progress bar variant to optional striped.",
-      "name": "variant",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/progress/ProgressBar.tsx",
-        "name": "ProgressBarProps"
-      },
-      "declarations": [
-        {
-          "fileName": "chassis-react/packages/react/src/components/progress/ProgressBar.tsx",
-          "name": "ProgressBarProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"striped\"",
-        "value": [
-          {
-            "value": "\"striped\""
-          }
-        ]
       }
     }
   }
