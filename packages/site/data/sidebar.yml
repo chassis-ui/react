@@ -65,11 +65,12 @@
         - title: Skeleton
     - group: Data Display
       pages:
-        - title: Table
-        - title: Card
-        - title: List
-        - title: Carousel
+        - title: Avatar
         - title: Badge
+        - title: Card
+        - title: Carousel
+        - title: List
+        - title: Table
         - title: Image
     - group: Disclosure
       pages:
