@@ -11,7 +11,7 @@ renamed export, ...) and review the diff like any other code change. `pnpm api:r
 -->
 
 ```ts
-import React, { AllHTMLAttributes, AnchorHTMLAttributes, AriaAttributes, ButtonHTMLAttributes, ChangeEventHandler, DialogHTMLAttributes, ElementType, FC, FormHTMLAttributes, HTMLAttributes, ImgHTMLAttributes, InputHTMLAttributes, Key, ReactElement, ReactNode, TextareaHTMLAttributes } from "react";
+import React, { AllHTMLAttributes, AnchorHTMLAttributes, AriaAttributes, ButtonHTMLAttributes, ChangeEventHandler, DialogHTMLAttributes, ElementType, FC, FormHTMLAttributes, HTMLAttributes, ImgHTMLAttributes, InputHTMLAttributes, Key, ReactElement, ReactNode, Ref, TextareaHTMLAttributes, useEffect } from "react";
 import { DateValue, I18nProvider, Key as Key$1, RangeValue } from "react-aria";
 import { DateValue as DateValue$1, Key as Key$2, Selection, SortDescriptor, TableBodyProps, TableHeaderProps, ToastQueue } from "react-stately";
 //#region src/components/accordion/Accordion.d.ts
@@ -412,6 +412,10 @@ declare const AutocompleteItem: {
 //#endregion
 //#region src/types.d.ts
 /**
+ * Breakpoints
+ */
+type Breakpoint = '2xlarge' | 'large' | 'medium' | 'small' | 'xlarge';
+/**
  * Context colors
  */
 type ContextColor = 'alternate' | 'black' | 'danger' | 'default' | 'info' | 'neutral' | 'primary' | 'secondary' | 'success' | 'warning' | 'white';
@@ -427,6 +431,13 @@ type Sizing = 'large' | 'medium' | 'small';
  * Extended sizes
  */
 type ExtendedSizing = '2xlarge' | '2xsmall' | 'xlarge' | 'xsmall' | Sizing;
+/**
+ * Spacing values. `SPACING` is the runtime source of truth — `Spacing` is derived from it so the
+ * two can't drift apart; anything needing the values at runtime (e.g. validating a string against
+ * the scale) should import `SPACING`, not hand-copy the list.
+ */
+declare const SPACING: readonly ["zero", "4xsmall", "3xsmall", "2xsmall", "xsmall", "small", "medium", "large", "xlarge", "2xlarge", "3xlarge", "4xlarge", "5xlarge", "6xlarge"];
+type Spacing = (typeof SPACING)[number];
 /**
  * Component shapes
  */
@@ -545,27 +556,72 @@ interface AvatarStackProps extends HTMLAttributes<HTMLDivElement> {
 declare const AvatarStack: React.ForwardRefExoticComponent<AvatarStackProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
 //#region src/components/notification/Notification.d.ts
-interface NotificationProps extends HTMLAttributes<HTMLDivElement> {
+interface NotificationProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
+  /**
+   * Optional trailing content — e.g. a row of `Button`s — rendered after `text`/`children`.
+   */
+  actions?: ReactNode;
+  /**
+   * Automatically dismiss the notification after `delay`. The timer pauses while the pointer
+   * or focus is on the notification, and only starts once the notification is visible.
+   * Defaults to `false` — unlike `Toast`, notifications are persistent banners by default.
+   */
+  autohide?: boolean;
   /**
    * A string of all className you want applied to the component.
    */
   className?: string;
   /**
+   * Overrides the dismiss button's accessible name (defaults to `'Close'`). Set this for
+   * non-English UIs.
+   */
+  closeLabel?: string;
+  /**
    * Sets the color of the component to one of Chassis context colors.
    */
   color?: ContextColor;
+  /**
+   * Delay in ms before an `autohide` notification dismisses itself.
+   */
+  delay?: number;
   /**
    * Optionally add a close button to the notification and allow it to self dismiss.
    */
   dismissible?: boolean;
   /**
-   * Style variant for the notification.
+   * Leading icon. A string is rendered as `<NotificationIcon name={icon} />`; pass any other
+   * node for a fully custom icon. Automatically top-aligns with `title` when both are set —
+   * a custom icon node is responsible for its own alignment.
    */
-  variant?: 'solid';
+  icon?: ReactNode | string;
+  /**
+   * Applies the solid context style to the notification.
+   */
+  solid?: boolean;
+  /**
+   * Message body, rendered via a single `<NotificationText>`. For multi-block content, compose
+   * `children` manually instead — `text` wraps everything in one element.
+   */
+  text?: ReactNode;
+  /**
+   * Heading, rendered via `<NotificationTitle>`.
+   */
+  title?: ReactNode;
+  /**
+   * Element or component used for the `title` heading. Passed through to `NotificationTitle`'s
+   * own `component` prop. Defaults to `'h4'`.
+   */
+  titleComponent?: ElementType | string;
   /**
    * Callback fired when the component requests to be closed.
    */
   onClose?: () => void;
+  /**
+   * ARIA live-region role. Use `status` (the default) for confirmation, progress, and
+   * informational messages, which announce politely. Use `alert` for messages that need
+   * immediate attention — validation errors, failed operations — which interrupt speech.
+   */
+  role?: 'alert' | 'status';
   /**
    * Toggle the visibility of component.
    */
@@ -573,8 +629,8 @@ interface NotificationProps extends HTMLAttributes<HTMLDivElement> {
 }
 declare const Notification: React.ForwardRefExoticComponent<NotificationProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
-//#region src/components/notification/NotificationHeading.d.ts
-interface NotificationHeadingProps extends HTMLAttributes<HTMLHeadingElement> {
+//#region src/components/notification/NotificationTitle.d.ts
+interface NotificationTitleProps extends HTMLAttributes<HTMLHeadingElement> {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -584,16 +640,85 @@ interface NotificationHeadingProps extends HTMLAttributes<HTMLHeadingElement> {
    */
   component?: ElementType | string;
 }
-declare const NotificationHeading: React.ForwardRefExoticComponent<NotificationHeadingProps & React.RefAttributes<HTMLHeadingElement>>;
+declare const NotificationTitle: React.ForwardRefExoticComponent<NotificationTitleProps & React.RefAttributes<HTMLHeadingElement>>;
 //#endregion
-//#region src/components/notification/NotificationLink.d.ts
-interface NotificationLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
+//#region src/components/icon/Icon.d.ts
+interface IconProps extends HTMLAttributes<HTMLSpanElement | SVGSVGElement> {
+  /**
+   * Icon name, e.g. `folder-tree`. Matches a `cx-{name}` font glyph class or an id in the SVG sprite.
+   */
+  name: string;
+  /**
+   * A string of all className you want applied to the component.
+   */
+  className?: string;
+  /**
+   * Width/height (in px) applied to the SVG. Ignored in `font` mode.
+   */
+  size?: number;
+  /**
+   * Render as a `cx-{name}` font glyph `<span>` instead of an SVG `<use>` reference.
+   */
+  font?: boolean;
+  /**
+   * Accessible name. When set, the icon is exposed to assistive tech instead of hidden.
+   */
+  title?: string;
+  /**
+   * Path to the SVG sprite file. Ignored in `font` mode.
+   */
+  sprite?: string;
+}
+declare const Icon: React.ForwardRefExoticComponent<IconProps & React.RefAttributes<HTMLSpanElement | SVGSVGElement>>;
+//#endregion
+//#region src/components/notification/NotificationIcon.d.ts
+interface NotificationIconProps extends IconProps {
   /**
    * A string of all className you want applied to the base component.
    */
   className?: string;
 }
-declare const NotificationLink: React.ForwardRefExoticComponent<NotificationLinkProps & React.RefAttributes<HTMLAnchorElement>>;
+declare const NotificationIcon: React.ForwardRefExoticComponent<NotificationIconProps & React.RefAttributes<HTMLSpanElement | SVGSVGElement>>;
+//#endregion
+//#region src/components/notification/NotificationText.d.ts
+interface NotificationTextProps extends HTMLAttributes<HTMLDivElement> {
+  /**
+   * A string of all className you want applied to the component.
+   */
+  className?: string;
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: ElementType | string;
+}
+declare const NotificationText: React.ForwardRefExoticComponent<NotificationTextProps & React.RefAttributes<HTMLDivElement>>;
+//#endregion
+//#region src/components/notification/NotificationStack.d.ts
+interface NotificationStackProps extends HTMLAttributes<HTMLDivElement> {
+  /**
+   * A string of all className you want applied to the base component.
+   */
+  className?: string;
+  /**
+   * Queued notifications show newest-first by default — the typical toast pattern. Set
+   * `reverse` for a chronological transcript instead, oldest-first.
+   */
+  reverse?: boolean;
+}
+declare const NotificationStack: React.ForwardRefExoticComponent<NotificationStackProps & React.RefAttributes<HTMLDivElement>>;
+//#endregion
+//#region src/components/notification/notificationQueue.d.ts
+interface NotificationContent extends Pick<NotificationProps, 'actions' | 'autohide' | 'closeLabel' | 'color' | 'delay' | 'dismissible' | 'icon' | 'role' | 'solid' | 'text' | 'title' | 'titleComponent'> {
+  /**
+   * Content of the notification. Compose manually (typically a `NotificationIcon`/
+   * `NotificationTitle`/`NotificationText`), or leave empty and use the `icon`/`title`/`text`
+   * shorthand options instead.
+   */
+  children?: ReactNode;
+}
+declare const notificationQueue: ToastQueue<NotificationContent>;
+declare function addNotification(children?: ReactNode, options?: Omit<NotificationContent, 'children'>): string;
+declare function closeNotification(key: string): void;
 //#endregion
 //#region src/components/badge/Badge.d.ts
 interface BadgeProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElement> {
@@ -1256,21 +1381,49 @@ declare const ChipInput: {
 };
 //#endregion
 //#region src/components/close-button/CloseButton.d.ts
-interface CloseButtonProps extends HTMLAttributes<HTMLButtonElement> {
+interface CloseButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /**
    * A string of all className you want applied to the base component.
    */
   className?: string;
   /**
+   * Sets the color of the component to one of Chassis context colors. Applies the
+   * `context` class alongside it, so the icon picks up that color without needing
+   * an ancestor `.context` wrapper.
+   */
+  color?: ContextColor;
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   * A custom HTML tag (e.g. `'span'`) gets button semantics — role, focus, Enter/Space
+   * activation — filled in automatically. A component is trusted to handle its own semantics,
+   * so pass one that's already interactive (e.g. `Button`).
+   */
+  component?: ElementType | string;
+  /**
    * Toggle the disabled state for the component.
    */
   disabled?: boolean;
   /**
-   * Change the default context to white.
+   * The accessible label announced by assistive technology. Override this to
+   * localize the button for non-English contexts.
    */
-  white?: boolean;
+  label?: string;
+  /**
+   * Size the component small or large.
+   */
+  size?: 'large' | 'small';
+  /**
+   * Specifies the type of button. Always specify the type attribute for the `<button>` element.
+   * Different browsers may use different default types for the `<button>` element.
+   */
+  type?: 'button' | 'reset' | 'submit';
+  /**
+   * Set the close button's context style variant. Applies the `context` class
+   * alongside it, same as `color`.
+   */
+  variant?: ContextStyle;
 }
-declare const CloseButton: React.ForwardRefExoticComponent<CloseButtonProps & React.RefAttributes<HTMLButtonElement>>;
+declare const CloseButton: React.ForwardRefExoticComponent<CloseButtonProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement>>;
 //#endregion
 //#region src/components/color-input/ColorInput.d.ts
 interface ColorInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
@@ -2167,55 +2320,39 @@ interface MenuSubmenuBackProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 declare const MenuSubmenuBack: React.ForwardRefExoticComponent<MenuSubmenuBackProps & React.RefAttributes<HTMLButtonElement>>;
 //#endregion
+//#region src/utils/breakpoints.d.ts
+type Span = 'auto' | boolean | number | string;
+//#endregion
 //#region src/components/grid/Col.d.ts
-type Span = 'auto' | boolean | null | number | string;
-type BPObject$1 = {
+interface ColLayout {
+  /**
+   * Columns (of 12) this Col spans, or `'auto'`/`true` for a natural-width column.
+   *
+   * @type { 'auto' | number | string | boolean }
+   */
   span?: Span;
-  offset?: null | number | string;
-  order?: 'first' | 'last' | null | number | string;
-};
-type Col = BPObject$1 | Span;
-interface ColProps extends HTMLAttributes<HTMLDivElement> {
+  /**
+   * Columns to offset the start of this Col by.
+   */
+  offset?: number | string;
+  /**
+   * Visual order relative to sibling columns.
+   *
+   * @type { 'first' | 'last' | number | string }
+   */
+  order?: 'first' | 'last' | number | string;
+}
+interface ColProps extends HTMLAttributes<HTMLDivElement>, ColLayout {
   /**
    * A string of all className you want applied to the base component.
    */
   className?: string;
   /**
-   * The number of columns/offset/order on extra small devices (<576px).
+   * Overrides `span`/`offset`/`order` at a breakpoint and up.
    *
-   * @type { 'auto' | number | string | boolean | { span: 'auto' | number | string | boolean } | { offset: number | string } | { order: 'first' | 'last' | number | string }}
+   * @type { Partial<Record<'small' | 'medium' | 'large' | 'xlarge' | '2xlarge', { span?: 'auto' | number | string | boolean, offset?: number | string, order?: 'first' | 'last' | number | string }>> }
    */
-  xs?: Col;
-  /**
-   * The number of columns/offset/order on small devices (<768px).
-   *
-   * @type { 'auto' | number | string | boolean | { span: 'auto' | number | string | boolean } | { offset: number | string } | { order: 'first' | 'last' | number | string }}
-   */
-  sm?: Col;
-  /**
-   * The number of columns/offset/order on medium devices (<992px).
-   *
-   * @type { 'auto' | number | string | boolean | { span: 'auto' | number | string | boolean } | { offset: number | string } | { order: 'first' | 'last' | number | string }}
-   */
-  md?: Col;
-  /**
-   * The number of columns/offset/order on large devices (<1200px).
-   *
-   * @type { 'auto' | number | string | boolean | { span: 'auto' | number | string | boolean } | { offset: number | string } | { order: 'first' | 'last' | number | string }}
-   */
-  lg?: Col;
-  /**
-   * The number of columns/offset/order on X-Large devices (<1400px).
-   *
-   * @type { 'auto' | number | string | boolean | { span: 'auto' | number | string | boolean } | { offset: number | string } | { order: 'first' | 'last' | number | string }}
-   */
-  xl?: Col;
-  /**
-   * The number of columns/offset/order on XX-Large devices (≥1400px).
-   *
-   * @type { 'auto' | number | string | boolean | { span: 'auto' | number | string | boolean } | { offset: number | string } | { order: 'first' | 'last' | number | string }}
-   */
-  xxl?: Col;
+  responsive?: Partial<Record<Breakpoint, ColLayout>>;
 }
 declare const Col: React.ForwardRefExoticComponent<ColProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
@@ -2226,25 +2363,12 @@ interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
    */
   className?: string;
   /**
-   * Set container 100% wide until small breakpoint.
+   * Set container 100% wide until the given breakpoint, after which it scales up with `max-width`
+   * at every larger breakpoint.
+   *
+   * @type Breakpoint
    */
-  sm?: boolean;
-  /**
-   * Set container 100% wide until medium breakpoint.
-   */
-  md?: boolean;
-  /**
-   * Set container 100% wide until large breakpoint.
-   */
-  lg?: boolean;
-  /**
-   * Set container 100% wide until X-large breakpoint.
-   */
-  xl?: boolean;
-  /**
-   * Set container 100% wide until XX-large breakpoint.
-   */
-  xxl?: boolean;
+  fluidUntil?: Breakpoint;
   /**
    * Set container 100% wide, spanning the entire width of the viewport.
    */
@@ -2252,54 +2376,132 @@ interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
 }
 declare const Container: React.ForwardRefExoticComponent<ContainerProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
-//#region src/components/grid/Row.d.ts
-type BPObject = {
-  cols?: 'auto' | null | number | string;
-  gutter?: null | number | string;
-  gutterX?: null | number | string;
-  gutterY?: null | number | string;
-};
-interface RowProps extends HTMLAttributes<HTMLDivElement> {
+//#region src/components/grid/Grid.d.ts
+interface GridProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * A string of all className you want applied to the base component.
    */
   className?: string;
   /**
-   * The number of columns/offset/order on extra small devices (<576px).
-   *
-   * @type {{ cols: 'auto' | number | string } | { gutter: number | string } | { gutterX: number | string } | { gutterY: number | string }}
+   * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  xs?: BPObject;
+  component?: ElementType | string;
   /**
-   * The number of columns/offset/order on small devices (<768px).
-   *
-   * @type {{ cols: 'auto' | number | string } | { gutter: number | string } | { gutterX: number | string } | { gutterY: number | string }}
+   * Number of columns in the grid template, set via the `--cx-grid-columns` custom property
+   * (defaults to `12` in CSS when omitted). Has no effect when `fill` is set.
    */
-  sm?: BPObject;
+  columns?: number;
   /**
-   * The number of columns/offset/order on medium devices (<992px).
-   *
-   * @type {{ cols: 'auto' | number | string } | { gutter: number | string } | { gutterX: number | string } | { gutterY: number | string }}
+   * Number of rows in the grid template, set via the `--cx-grid-rows` custom property (defaults
+   * to `1` in CSS when omitted). Has no effect when `fill` is set.
    */
-  md?: BPObject;
+  rows?: number;
   /**
-   * The number of columns/offset/order on large devices (<1200px).
+   * Gap between grid items, set via the `--cx-grid-gap` custom property (or `--cx-gap` when
+   * `fill` is set). Accepts a `Spacing` token (mapped to the matching `--cx-space-*` custom
+   * property) or any raw CSS `gap` value, including a `"{row} {column}"` pair.
    *
-   * @type {{ cols: 'auto' | number | string } | { gutter: number | string } | { gutterX: number | string } | { gutterY: number | string }}
+   * @type { Spacing | string }
    */
-  lg?: BPObject;
+  gap?: (string & {}) | Spacing;
   /**
-   * The number of columns/offset/order on X-Large devices (<1400px).
-   *
-   * @type {{ cols: 'auto' | number | string } | { gutter: number | string } | { gutterX: number | string } | { gutterY: number | string }}
+   * Renders `.grid-fill` instead of `.grid` — columns expand equally to fill the available
+   * width, with the column count determined by the number of children rather than `columns`.
    */
-  xl?: BPObject;
+  fill?: boolean;
+}
+declare const Grid: React.ForwardRefExoticComponent<GridProps & React.RefAttributes<HTMLDivElement>>;
+//#endregion
+//#region src/components/grid/GridItem.d.ts
+interface GridItemLayout {
   /**
-   * The number of columns/offset/order on XX-Large devices (≥1400px).
-   *
-   * @type {{ cols: 'auto' | number | string } | { gutter: number | string } | { gutterX: number | string } | { gutterY: number | string }}
+   * Number of grid column tracks (of the parent `<Grid>`'s `columns`) this item spans, mapped to
+   * the `g-col-{n}` class.
    */
-  xxl?: BPObject;
+  span?: number;
+  /**
+   * Grid column line to start this item at, mapped to the `g-start-{n}` class.
+   */
+  start?: number;
+}
+interface GridItemProps extends HTMLAttributes<HTMLDivElement>, GridItemLayout {
+  /**
+   * A string of all className you want applied to the base component.
+   */
+  className?: string;
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: ElementType | string;
+  /**
+   * Overrides `span`/`start` at a breakpoint and up.
+   *
+   * @type { Partial<Record<'small' | 'medium' | 'large' | 'xlarge' | '2xlarge', { span?: number, start?: number }>> }
+   */
+  responsive?: Partial<Record<Breakpoint, GridItemLayout>>;
+  /**
+   * Turns this item into a nested subgrid: adds `.grid`/`.grid-cols-subgrid` alongside its
+   * `g-col-{n}`/`g-start-{n}` placement classes, so its own children inherit the parent
+   * `<Grid>`'s column tracks instead of defining new ones. Combine with `span` — a subgrid
+   * item must itself be a grid item of the parent for `grid-template-columns: subgrid` to take
+   * effect, which is why `subgrid` lives on `<GridItem>` (the element actually placed as a grid
+   * item) rather than on a `<Grid>` nested inside it.
+   */
+  subgrid?: boolean;
+  /**
+   * Number of rows in the subgrid's own row template, set via the `--cx-grid-rows` custom
+   * property (defaults to `1` in CSS when omitted). Only relevant when `subgrid` is set —
+   * subgrid only inherits the parent's column tracks, not its rows.
+   */
+  rows?: number;
+  /**
+   * Gap between the subgrid's children, set via the `--cx-grid-gap` custom property. Only
+   * relevant when `subgrid` is set — a subgrid doesn't inherit its parent's gap.
+   *
+   * @type { Spacing | string }
+   */
+  gap?: (string & {}) | Spacing;
+}
+declare const GridItem: React.ForwardRefExoticComponent<GridItemProps & React.RefAttributes<HTMLDivElement>>;
+//#endregion
+//#region src/components/grid/Row.d.ts
+interface RowLayout {
+  /**
+   * Equal-width columns per row, or `'auto'` for content-sized columns.
+   *
+   * @type { 'auto' | number | string }
+   */
+  cols?: 'auto' | number | string;
+  /**
+   * Gutter width on both axes.
+   *
+   * @type { Spacing | 0 }
+   */
+  gutter?: 0 | Spacing;
+  /**
+   * Horizontal gutter width.
+   *
+   * @type { Spacing | 0 }
+   */
+  gutterX?: 0 | Spacing;
+  /**
+   * Vertical gutter width.
+   *
+   * @type { Spacing | 0 }
+   */
+  gutterY?: 0 | Spacing;
+}
+interface RowProps extends HTMLAttributes<HTMLDivElement>, RowLayout {
+  /**
+   * A string of all className you want applied to the base component.
+   */
+  className?: string;
+  /**
+   * Overrides `cols`/`gutter`/`gutterX`/`gutterY` at a breakpoint and up.
+   *
+   * @type { Partial<Record<'small' | 'medium' | 'large' | 'xlarge' | '2xlarge', { cols?: 'auto' | number | string, gutter?: Spacing | 0, gutterX?: Spacing | 0, gutterY?: Spacing | 0 }>> }
+   */
+  responsive?: Partial<Record<Breakpoint, RowLayout>>;
 }
 declare const Row: React.ForwardRefExoticComponent<RowProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
@@ -3070,35 +3272,6 @@ interface TextareaProps extends Omit<TextareaHTMLAttributes<HTMLTextAreaElement>
 }
 declare const Textarea: React.ForwardRefExoticComponent<TextareaProps & React.RefAttributes<HTMLTextAreaElement>>;
 //#endregion
-//#region src/components/icon/Icon.d.ts
-interface IconProps extends HTMLAttributes<HTMLSpanElement | SVGSVGElement> {
-  /**
-   * Icon name, e.g. `folder-tree`. Matches a `cx-{name}` font glyph class or an id in the SVG sprite.
-   */
-  name: string;
-  /**
-   * A string of all className you want applied to the component.
-   */
-  className?: string;
-  /**
-   * Width/height (in px) applied to the SVG. Ignored in `font` mode.
-   */
-  size?: number;
-  /**
-   * Render as a `cx-{name}` font glyph `<span>` instead of an SVG `<use>` reference.
-   */
-  font?: boolean;
-  /**
-   * Accessible name. When set, the icon is exposed to assistive tech instead of hidden.
-   */
-  title?: string;
-  /**
-   * Path to the SVG sprite file. Ignored in `font` mode.
-   */
-  sprite?: string;
-}
-declare const Icon: React.ForwardRefExoticComponent<IconProps & React.RefAttributes<HTMLSpanElement | SVGSVGElement>>;
-//#endregion
 //#region src/components/image/Image.d.ts
 interface ImageProps extends ImgHTMLAttributes<HTMLOrSVGImageElement> {
   /**
@@ -3274,6 +3447,13 @@ interface ModalProps extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'onCa
    */
   visible?: boolean;
 }
+interface ModalContextProps {
+  /**
+   * Requests the modal be closed — fires `onClose`. Wire this to any element's `onClick`; see
+   * `useModal`.
+   */
+  close: () => void;
+}
 declare const Modal: React.ForwardRefExoticComponent<ModalProps & React.RefAttributes<HTMLDialogElement>>;
 //#endregion
 //#region src/components/modal/ModalBody.d.ts
@@ -3308,6 +3488,11 @@ interface ModalHeaderProps extends HTMLAttributes<HTMLDivElement> {
    * Add a close button component to the header.
    */
   closeButton?: boolean;
+  /**
+   * Overrides the close button's accessible name (defaults to `'Close'`). Set this for
+   * non-English UIs.
+   */
+  closeLabel?: string;
 }
 declare const ModalHeader: React.ForwardRefExoticComponent<ModalHeaderProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
@@ -3541,55 +3726,6 @@ interface PaginationItemProps extends HTMLAttributes<HTMLAnchorElement> {
 }
 declare const PaginationItem: React.ForwardRefExoticComponent<PaginationItemProps & React.RefAttributes<HTMLAnchorElement>>;
 //#endregion
-//#region src/components/placeholder/Placeholder.d.ts
-interface PlaceholderProps extends HTMLAttributes<HTMLSpanElement> {
-  /**
-   * Set animation type to better convey the perception of something being actively loaded.
-   */
-  animation?: 'glow' | 'wave';
-  /**
-   * A string of all className you want applied to the component.
-   */
-  className?: string;
-  /**
-   * Sets the color of the component to one of Chassis context colors.
-   */
-  color?: ContextColor;
-  /**
-   * Component used for the root node. Either a string to use a HTML element or a component.
-   */
-  component?: ElementType | string;
-  /**
-   * Size the component extra small, small, or large.
-   */
-  size?: 'large' | 'small' | 'xsmall';
-  /**
-   * The number of columns on extra small devices (<576px).
-   */
-  xs?: number;
-  /**
-   * The number of columns on small devices (<768px).
-   */
-  sm?: number;
-  /**
-   * The number of columns on medium devices (<992px).
-   */
-  md?: number;
-  /**
-   * The number of columns on large devices (<1200px).
-   */
-  lg?: number;
-  /**
-   * The number of columns on X-Large devices (<1400px).
-   */
-  xl?: number;
-  /**
-   * The number of columns on XX-Large devices (≥1400px).
-   */
-  xxl?: number;
-}
-declare const Placeholder: React.ForwardRefExoticComponent<PlaceholderProps & React.RefAttributes<HTMLSpanElement>>;
-//#endregion
 //#region src/components/tooltip/Tooltip.d.ts
 interface TooltipProps {
   children: ReactElement;
@@ -3661,6 +3797,52 @@ interface PopoverProps {
 }
 declare const Popover: FC<PopoverProps>;
 //#endregion
+//#region src/components/progress/Progress.d.ts
+interface ProgressProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color'> {
+  /**
+   * Use to animate the stripes right to left via CSS3 animations.
+   */
+  animated?: boolean;
+  /**
+   * A string of all className you want applied to the component.
+   */
+  className?: string;
+  /**
+   * Sets the color of the component to one of Chassis context colors.
+   */
+  color?: ContextColor;
+  /**
+   * Sets the height of the component, via the `--cx-height` custom property. If you set that
+   * value the inner bar (and the striped pattern's tile size) automatically resizes accordingly.
+   */
+  height?: number;
+  /**
+   * Shows the current value as text inside the bar, independently of `showValue` — combine both
+   * to get a `label` + `showValue` caption above the bar alongside an `inlineValue` reading
+   * inside it.
+   */
+  inlineValue?: boolean;
+  /**
+   * A text label describing the progress. Rendered in a caption row above the bar. Also used as
+   * the default accessible name when no `aria-label`/`aria-labelledby` is supplied.
+   */
+  label?: ReactNode;
+  /**
+   * Shows the current value as text in the caption row above the bar, alongside `label` when
+   * both are set, or alone otherwise. Use `inlineValue` to show it inside the bar instead.
+   */
+  showValue?: boolean;
+  /**
+   * Adds a diagonal stripe pattern over the bar's background.
+   */
+  striped?: boolean;
+  /**
+   * The percent to progress the ProgressBar (out of 100).
+   */
+  value?: number;
+}
+declare const Progress: React.ForwardRefExoticComponent<ProgressProps & React.RefAttributes<HTMLDivElement>>;
+//#endregion
 //#region src/components/progress/ProgressBar.d.ts
 interface ProgressBarProps extends HTMLAttributes<HTMLDivElement> {
   /**
@@ -3676,40 +3858,15 @@ interface ProgressBarProps extends HTMLAttributes<HTMLDivElement> {
    */
   color?: ContextColor;
   /**
+   * Adds a diagonal stripe pattern over the bar's background.
+   */
+  striped?: boolean;
+  /**
    * The percent to progress the ProgressBar.
    */
   value?: number;
-  /**
-   * Set the progress bar variant to optional striped.
-   */
-  variant?: 'striped';
 }
 declare const ProgressBar: React.ForwardRefExoticComponent<ProgressBarProps & React.RefAttributes<HTMLDivElement>>;
-//#endregion
-//#region src/components/progress/Progress.d.ts
-interface ProgressProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color'>, ProgressBarProps {
-  /**
-   * A string of all className you want applied to the component.
-   */
-  className?: string;
-  /**
-   * Sets the height of the component. If you set that value the inner `<ProgressBar>` will automatically resize accordingly.
-   */
-  height?: number;
-  /**
-   * Makes progress bar thinner.
-   */
-  thin?: boolean;
-  /**
-   * The percent to progress the ProgressBar (out of 100).
-   */
-  value?: number;
-  /**
-   * Change the default context to white.
-   */
-  white?: boolean;
-}
-declare const Progress: React.ForwardRefExoticComponent<ProgressProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
 //#region src/components/drawer/Drawer.d.ts
 interface DrawerProps extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'onCancel' | 'onClose'> {
@@ -3787,6 +3944,13 @@ interface DrawerProps extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'onC
    */
   visible?: boolean;
 }
+interface DrawerContextProps {
+  /**
+   * Requests the drawer be closed — fires `onClose`. Wire this to any element's `onClick`; see
+   * `useDrawer`.
+   */
+  close: () => void;
+}
 declare const Drawer: React.ForwardRefExoticComponent<DrawerProps & React.RefAttributes<HTMLDialogElement>>;
 //#endregion
 //#region src/components/drawer/DrawerBody.d.ts
@@ -3821,6 +3985,11 @@ interface DrawerHeaderProps extends HTMLAttributes<HTMLDivElement> {
    * Add a close button component to the header.
    */
   closeButton?: boolean;
+  /**
+   * Overrides the close button's accessible name (defaults to `'Close'`). Set this for
+   * non-English UIs.
+   */
+  closeLabel?: string;
 }
 declare const DrawerHeader: React.ForwardRefExoticComponent<DrawerHeaderProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
@@ -3836,6 +4005,42 @@ interface DrawerTitleProps extends HTMLAttributes<HTMLHeadingElement> {
   component?: ElementType | string;
 }
 declare const DrawerTitle: React.ForwardRefExoticComponent<DrawerTitleProps & React.RefAttributes<HTMLHeadElement>>;
+//#endregion
+//#region src/components/skeleton/Skeleton.d.ts
+interface SkeletonProps extends HTMLAttributes<HTMLSpanElement> {
+  /**
+   * Renders `skeleton-{animation}` on this element instead of the bare `skeleton` class. Nest
+   * plain `<Skeleton>` children inside it for the glow pulse to reach them, or apply `wave`
+   * directly to a container of one or more `<Skeleton>` children for a directional sweep.
+   */
+  animation?: 'glow' | 'wave';
+  /**
+   * A string of all className you want applied to the component.
+   */
+  className?: string;
+  /**
+   * Sets the color of the component to one of Chassis context colors.
+   */
+  color?: ContextColor;
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: ElementType | string;
+  /**
+   * Width of the skeleton, expressed as a column span (of 12), or `'auto'`/`true` for a
+   * natural-width skeleton.
+   *
+   * @type { 'auto' | number | string | boolean }
+   */
+  span?: Span;
+  /**
+   * Overrides `span` at a breakpoint and up.
+   *
+   * @type { Partial<Record<'small' | 'medium' | 'large' | 'xlarge' | '2xlarge', 'auto' | number | string | boolean>> }
+   */
+  responsive?: Partial<Record<Breakpoint, Span>>;
+}
+declare const Skeleton: React.ForwardRefExoticComponent<SkeletonProps & React.RefAttributes<HTMLSpanElement>>;
 //#endregion
 //#region src/components/spinner/Spinner.d.ts
 interface SpinnerProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElement> {
@@ -3865,6 +4070,84 @@ interface SpinnerProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElement> 
   visuallyHiddenLabel?: string;
 }
 declare const Spinner: React.ForwardRefExoticComponent<SpinnerProps & React.RefAttributes<HTMLDivElement | HTMLSpanElement>>;
+//#endregion
+//#region src/components/stepper/Stepper.d.ts
+interface StepperItemDef {
+  /**
+   * Step label content.
+   */
+  label: React.ReactNode;
+  /**
+   * Marks the item as the current step.
+   */
+  active?: boolean;
+  /**
+   * Sets the color of the item.
+   */
+  color?: ContextColor;
+  /**
+   * Renders the item as a link to the given URL.
+   */
+  href?: string;
+}
+interface StepperProps extends HTMLAttributes<HTMLDivElement | HTMLOListElement> {
+  /**
+   * A string of all className you want applied to the component.
+   */
+  className?: string;
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: ElementType | string;
+  /**
+   * Sets the color of the component to one of Chassis context colors.
+   */
+  color?: ContextColor;
+  /**
+   * Replaces the step counters with icons, driven by the `--status-icon` custom property.
+   */
+  icon?: boolean;
+  /**
+   * Array of step definitions for data-driven rendering. When provided, children are ignored.
+   */
+  items?: StepperItemDef[];
+  /**
+   * Lays out steps side-by-side instead of stacking them vertically, either unconditionally or
+   * from a given breakpoint up.
+   */
+  layout?: '2xlarge:horizontal' | 'horizontal' | 'large:horizontal' | 'medium:horizontal' | 'small:horizontal' | 'xlarge:horizontal';
+  /**
+   * Wraps the stepper in a horizontally scrollable container so steps keep their natural width
+   * instead of shrinking to fit.
+   */
+  overflow?: boolean;
+}
+declare const Stepper: React.ForwardRefExoticComponent<StepperProps & React.RefAttributes<HTMLDivElement | HTMLOListElement>>;
+//#endregion
+//#region src/components/stepper/StepperItem.d.ts
+interface StepperItemProps extends HTMLAttributes<HTMLAnchorElement | HTMLButtonElement | HTMLLIElement> {
+  /**
+   * Marks the item as the current step.
+   */
+  active?: boolean;
+  /**
+   * A string of all className you want applied to the component.
+   */
+  className?: string;
+  /**
+   * Sets the color of the component to one of Chassis context colors.
+   */
+  color?: ContextColor;
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: ElementType | string;
+  /**
+   * The `href` attribute for an interactive step rendered as a link.
+   */
+  href?: string;
+}
+declare const StepperItem: React.ForwardRefExoticComponent<StepperItemProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement | HTMLLIElement>>;
 //#endregion
 //#region src/components/table/Table.d.ts
 interface TableProps<T extends object> {
@@ -3955,10 +4238,9 @@ interface TableProps<T extends object> {
    */
   striped?: boolean;
 }
-declare const Table: {
-  <T extends object>({ align, bordered, borderless, caption, children, className, color, disabledKeys, footer, hover, id, onSelectionChange, onSortChange, responsive, selectedKeys, selectionMode, small, sortDescriptor, striped, ...rest }: TableProps<T>): React.JSX.Element;
-  displayName: string;
-};
+declare const Table: <T extends object>(props: TableProps<T> & {
+  ref?: Ref<HTMLTableElement>;
+}) => ReactElement;
 //#endregion
 //#region src/components/table/TableBody.d.ts
 interface TableBodyProps$1<T> {
@@ -4197,6 +4479,18 @@ interface ToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
    */
   className?: string;
   /**
+   * Adds a close button — shorthand for `ToastHeader`'s/`ToastBody`'s `closeButton` prop.
+   * Placed in the header when `icon`/`title`/`time` is set; otherwise placed in the body
+   * alongside `message`, or in a header containing only the close button if `message` is
+   * also unset.
+   */
+  closeButton?: boolean;
+  /**
+   * Overrides the close button's accessible name (defaults to `'Close'`). Set this for
+   * non-English UIs. Shorthand for `ToastHeader`'s `closeLabel` prop.
+   */
+  closeLabel?: string;
+  /**
    * Sets the color of the component to one of Chassis context colors.
    */
   color?: ContextColor;
@@ -4204,6 +4498,34 @@ interface ToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
    * Delay hiding the toast (ms).
    */
   delay?: number;
+  /**
+   * Trailing content — typically a row of `Button`s — rendered via a single `ToastFooter`,
+   * after `message`/`children`. Pass a function to receive `close` directly, instead of
+   * calling `useToast()` from a child component to wire up a "Close" action.
+   */
+  footer?: ((close: () => void) => ReactNode) | ReactNode;
+  /**
+   * Leading icon for the header. A string is rendered as `<ToastIcon name={icon} />`; pass
+   * any other node for a fully custom icon (typically a logo or avatar). Shorthand for
+   * `ToastHeader`'s `icon` prop; hidden from assistive technology by default, since it
+   * duplicates `title` visually.
+   */
+  icon?: ReactNode | string;
+  /**
+   * Message body, rendered via a single `ToastBody`. For multi-block content, compose
+   * `children` manually instead — `message` wraps everything in one element.
+   */
+  message?: ReactNode;
+  /**
+   * Header timestamp, rendered after `title`. Shorthand for `ToastHeader`'s `time` prop.
+   */
+  time?: ReactNode;
+  /**
+   * Header heading, rendered before `time`. Shorthand for `ToastHeader`'s children. When set
+   * alongside `message`, wires the toast's `aria-labelledby`/`aria-describedby` to them
+   * automatically.
+   */
+  title?: ReactNode;
   /**
    * Callback fired when the component requests to be closed.
    */
@@ -4233,17 +4555,18 @@ interface ToastBodyProps extends HTMLAttributes<HTMLDivElement> {
    * A string of all className you want applied to the base component.
    */
   className?: string;
+  /**
+   * Adds a close button alongside the body content, so a toast composed without a
+   * `ToastHeader` still gets a dismiss control without any manual layout markup.
+   */
+  closeButton?: boolean;
+  /**
+   * Overrides the close button's accessible name (defaults to `'Close'`). Set this for
+   * non-English UIs.
+   */
+  closeLabel?: string;
 }
 declare const ToastBody: React.ForwardRefExoticComponent<ToastBodyProps & React.RefAttributes<HTMLDivElement>>;
-//#endregion
-//#region src/components/toast/ToastClose.d.ts
-interface ToastCloseProps extends CloseButtonProps {
-  /**
-   * Component used for the root node. Either a string to use a HTML element or a component.
-   */
-  component?: ElementType | string;
-}
-declare const ToastClose: React.ForwardRefExoticComponent<ToastCloseProps & React.RefAttributes<HTMLButtonElement>>;
 //#endregion
 //#region src/components/toast/ToastFooter.d.ts
 interface ToastFooterProps extends HTMLAttributes<HTMLDivElement> {
@@ -4255,7 +4578,11 @@ interface ToastFooterProps extends HTMLAttributes<HTMLDivElement> {
 declare const ToastFooter: React.ForwardRefExoticComponent<ToastFooterProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
 //#region src/components/toast/ToastHeader.d.ts
-interface ToastHeaderProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
+interface ToastHeaderProps extends HTMLAttributes<HTMLDivElement> {
+  /**
+   * Heading, rendered before `time` as a `<strong>`.
+   */
+  children?: ReactNode;
   /**
    * A string of all className you want applied to the base component.
    */
@@ -4264,11 +4591,47 @@ interface ToastHeaderProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'>
    * Automatically add a close button to the header.
    */
   closeButton?: boolean;
+  /**
+   * Overrides the close button's accessible name (defaults to `'Close'`). Set this for
+   * non-English UIs.
+   */
+  closeLabel?: string;
+  /**
+   * Leading icon. A string is rendered as `<ToastIcon name={icon} />`; pass any other node
+   * for a fully custom icon (typically a logo or avatar). Hidden from assistive technology by
+   * default, since it duplicates the heading visually.
+   */
+  icon?: ReactNode | string;
+  /**
+   * Trailing timestamp, rendered after the heading.
+   */
+  time?: ReactNode;
+  /**
+   * Sets the `id` on the rendered heading element, for `aria-labelledby` wiring. Set
+   * automatically by `Toast` when both `title` and `message` are used together; only needed
+   * here for manual wiring in a fully custom composition.
+   */
+  titleId?: string;
 }
 declare const ToastHeader: React.ForwardRefExoticComponent<ToastHeaderProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
+//#region src/components/toast/ToastIcon.d.ts
+interface ToastIconProps extends IconProps {
+  /**
+   * A string of all className you want applied to the base component.
+   */
+  className?: string;
+}
+declare const ToastIcon: React.ForwardRefExoticComponent<ToastIconProps & React.RefAttributes<HTMLSpanElement | SVGSVGElement>>;
+//#endregion
 //#region src/components/toast/Toaster.d.ts
 interface ToasterProps extends HTMLAttributes<HTMLDivElement> {
+  /**
+   * Overrides the toast region's accessible name (defaults to `'Notifications'`, per
+   * react-aria). Set this for non-English UIs, or to distinguish multiple toasters on the
+   * same page.
+   */
+  'aria-label'?: string;
   /**
    * A string of all className you want applied to the base component.
    */
@@ -4276,7 +4639,7 @@ interface ToasterProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * Describes the placement of your component.
    *
-   * @type 'top-start' | 'top' | 'top-end' | 'middle-start' | 'middle' | 'middle-end' | 'bottom-start' | 'bottom' | 'bottom-end' | string
+   * @type 'top-start' | 'top-center' | 'top-end' | 'middle-start' | 'middle-center' | 'middle-end' | 'bottom-start' | 'bottom-center' | 'bottom-end' | string
    */
   placement?: 'bottom-center' | 'bottom-end' | 'bottom-start' | 'middle-center' | 'middle-end' | 'middle-start' | 'top-center' | 'top-end' | 'top-start' | string;
 }
@@ -4318,5 +4681,135 @@ declare const toastQueue: ToastQueue<ToastContent>;
 declare function addToast(children: ReactNode, options?: Omit<ToastContent, 'children'>): string;
 declare function closeToast(key: string): void;
 //#endregion
-export { Accordion, AccordionBody, AccordionButton, AccordionCollapse, AccordionHeader, AccordionItem, Autocomplete, AutocompleteGroup, AutocompleteItem, Avatar, AvatarImage, AvatarStack, Backdrop, Badge, Breadcrumb, BreadcrumbItem, Button, ButtonGroup, ButtonToolbar, Calendar, Card, CardBody, CardFooter, CardGroup, CardHeader, CardImage, CardImageOverlay, CardLink, CardSubtitle, CardText, CardTitle, Carousel, CarouselCaption, CarouselItem, Checkbox, CheckboxGroup, ChipInput, CloseButton, Col, Collapse, ColorInput, Combobox, ComboboxGroup, ComboboxItem, Container, DatePicker, DateRangePicker, Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerTitle, FileInput, FloatingInput, Form, FormFeedback, FormField, FormHelp, FormLabel, I18nProvider, Icon, Image, InputAdorn, InputGroup, InputGroupAddon, Link, List, ListItem, Menu, MenuDivider, MenuHeader, MenuItem, MenuList, MenuSubmenu, MenuSubmenuBack, MenuText, MenuToggle, Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle, Nav, NavItem, NavLink, NavTitle, Navbar, NavbarBrand, NavbarNav, NavbarText, NavbarToggler, Notification, NotificationHeading, NotificationLink, OtpInput, Pagination, PaginationItem, PasswordStrength, Placeholder, Popover, Progress, ProgressBar, Radio, RadioGroup, RangeCalendar, RangeInput, Row, Select, Spinner, Switch, TabContent, TabPane, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tabs, TabsList, TabsPanel, TabsTab, TextInput, Textarea, Toast, ToastBody, ToastClose, ToastFooter, ToastHeader, Toaster, Tooltip, addToast, closeToast, toastQueue };
+//#region src/hooks/useDrawer.d.ts
+type UseDrawerResult = DrawerContextProps;
+declare const useDrawer: () => UseDrawerResult;
+//#endregion
+//#region src/hooks/useModal.d.ts
+type UseModalResult = ModalContextProps;
+declare const useModal: () => UseModalResult;
+//#endregion
+//#region src/components/notification/context.d.ts
+interface NotificationContextProps {
+  /**
+   * Whether the notification is currently visible.
+   */
+  visible?: boolean;
+  /**
+   * Dismisses the notification. Wire this to any element's `onClick` — see `useNotification`.
+   */
+  close: () => void;
+}
+//#endregion
+//#region src/hooks/useNotification.d.ts
+type UseNotificationResult = NotificationContextProps;
+declare const useNotification: () => UseNotificationResult;
+//#endregion
+//#region src/components/toast/context.d.ts
+interface ToastContextProps {
+  /**
+   * Whether the toast is currently visible.
+   */
+  visible?: boolean;
+  /**
+   * Dismisses the toast. Wire this to any element's `onClick` — see `useToast`.
+   */
+  close: () => void;
+}
+//#endregion
+//#region src/hooks/useToast.d.ts
+type UseToastResult = ToastContextProps;
+declare const useToast: () => UseToastResult;
+//#endregion
+//#region src/components/flex/Flex.d.ts
+interface FlexLayout {
+  /**
+   * Sets `flex-direction`. Omit for the browser default (`row`).
+   */
+  direction?: 'column' | 'column-reverse' | 'row' | 'row-reverse';
+  /**
+   * Sets `flex-wrap`. Omit for the browser default (`nowrap`).
+   */
+  wrap?: 'nowrap' | 'wrap' | 'wrap-reverse';
+  /**
+   * Sets `justify-content`, aligning items along the main axis.
+   */
+  justify?: 'around' | 'between' | 'center' | 'end' | 'evenly' | 'start';
+  /**
+   * Sets `align-items`, aligning items along the cross axis.
+   */
+  align?: 'baseline' | 'center' | 'end' | 'start' | 'stretch';
+  /**
+   * Sets `align-content`, distributing wrapped lines along the cross axis. Has no effect on
+   * single-line (non-wrapping) containers.
+   */
+  alignContent?: 'around' | 'between' | 'center' | 'end' | 'start' | 'stretch';
+  /**
+   * Spacing between children on both axes, mapped to the `gap-*` utility classes. Overridden per
+   * axis by `rowGap`/`columnGap` where set.
+   */
+  gap?: 0 | Spacing;
+  /**
+   * Spacing between rows (the cross axis when wrapped), mapped to the `row-gap-*` utility
+   * classes. Independent of `gap`/`columnGap`.
+   */
+  rowGap?: 0 | Spacing;
+  /**
+   * Spacing between columns (the main axis), mapped to the `column-gap-*` utility classes.
+   * Independent of `gap`/`rowGap`.
+   */
+  columnGap?: 0 | Spacing;
+}
+interface FlexProps extends HTMLAttributes<HTMLDivElement>, FlexLayout {
+  /**
+   * A string of all className you want applied to the component.
+   */
+  className?: string;
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: ElementType | string;
+  /**
+   * Renders an inline flex container (`.d-inline-flex`) instead of a block-level one (`.d-flex`,
+   * the default).
+   */
+  inline?: boolean;
+  /**
+   * Overrides any of `direction`/`wrap`/`justify`/`align`/`alignContent`/`gap`/`rowGap`/
+   * `columnGap` at one or more breakpoints, via regular viewport media queries (unlike `Stack`'s
+   * `responsive` prop, this doesn't require a `.contains-inline` ancestor).
+   */
+  responsive?: Partial<Record<Breakpoint, FlexLayout>>;
+}
+declare const Flex: React.ForwardRefExoticComponent<FlexProps & React.RefAttributes<HTMLDivElement>>;
+//#endregion
+//#region src/components/stack/Stack.d.ts
+interface StackProps extends HTMLAttributes<HTMLDivElement> {
+  /**
+   * A string of all className you want applied to the component.
+   */
+  className?: string;
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: ElementType | string;
+  /**
+   * Lays children out in a row (`horizontal`, the default, maps to `.hstack`) or a column
+   * (`vertical`, maps to `.vstack`).
+   */
+  direction?: 'horizontal' | 'vertical';
+  /**
+   * Spacing between children, mapped to the `gap-*` utility classes.
+   */
+  gap?: 0 | Spacing;
+  /**
+   * Switches `direction` at one or more breakpoints via container queries. Requires a
+   * `.contains-inline` ancestor (not applied by `Stack` itself — see the docs) to establish the
+   * container context these queries evaluate against.
+   */
+  responsive?: Partial<Record<Breakpoint, 'horizontal' | 'vertical'>>;
+}
+declare const Stack: React.ForwardRefExoticComponent<StackProps & React.RefAttributes<HTMLDivElement>>;
+//#endregion
+export { Accordion, AccordionBody, AccordionButton, AccordionCollapse, AccordionHeader, AccordionItem, Autocomplete, AutocompleteGroup, AutocompleteItem, Avatar, AvatarImage, AvatarStack, Backdrop, Badge, Breadcrumb, BreadcrumbItem, Button, ButtonGroup, ButtonToolbar, Calendar, Card, CardBody, CardFooter, CardGroup, CardHeader, CardImage, CardImageOverlay, CardLink, CardSubtitle, CardText, CardTitle, Carousel, CarouselCaption, CarouselItem, Checkbox, CheckboxGroup, ChipInput, CloseButton, Col, Collapse, ColorInput, Combobox, ComboboxGroup, ComboboxItem, Container, DatePicker, DateRangePicker, Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerTitle, FileInput, Flex, FloatingInput, Form, FormFeedback, FormField, FormHelp, FormLabel, Grid, GridItem, I18nProvider, Icon, Image, InputAdorn, InputGroup, InputGroupAddon, Link, List, ListItem, Menu, MenuDivider, MenuHeader, MenuItem, MenuList, MenuSubmenu, MenuSubmenuBack, MenuText, MenuToggle, Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle, Nav, NavItem, NavLink, NavTitle, Navbar, NavbarBrand, NavbarNav, NavbarText, NavbarToggler, Notification, NotificationIcon, NotificationStack, NotificationText, NotificationTitle, OtpInput, Pagination, PaginationItem, PasswordStrength, Popover, Progress, ProgressBar, Radio, RadioGroup, RangeCalendar, RangeInput, Row, Select, Skeleton, Spinner, Stack, Stepper, StepperItem, Switch, TabContent, TabPane, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tabs, TabsList, TabsPanel, TabsTab, TextInput, Textarea, Toast, ToastBody, ToastFooter, ToastHeader, ToastIcon, Toaster, Tooltip, addNotification, addToast, closeNotification, closeToast, notificationQueue, toastQueue, useDrawer, useModal, useNotification, useToast };
 ```

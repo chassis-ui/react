@@ -82,10 +82,10 @@ import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from './compon
 import { Nav, NavItem, NavLink, NavTitle } from './components/nav'
 import { Navbar, NavbarBrand, NavbarNav, NavbarText, NavbarToggler } from './components/navbar'
 import { Pagination, PaginationItem } from './components/pagination'
-import { Placeholder } from './components/placeholder'
 import { Popover } from './components/popover'
 import { Progress, ProgressBar } from './components/progress'
 import { Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerTitle } from './components/drawer'
+import { Skeleton } from './components/skeleton'
 import { Spinner } from './components/spinner'
 import { Stepper, StepperItem } from './components/stepper'
 import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from './components/table'
@@ -221,7 +221,6 @@ export {
   NavbarToggler,
   Pagination,
   PaginationItem,
-  Placeholder,
   Popover,
   Progress,
   ProgressBar,
@@ -235,6 +234,7 @@ export {
   DrawerTitle,
   useDrawer,
   Select,
+  Skeleton,
   Spinner,
   Stepper,
   StepperItem,

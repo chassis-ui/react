@@ -4,9 +4,11 @@ import classNames from 'classnames'
 import { Span, buildResponsiveClassNames } from '../../utils/breakpoints'
 import { Breakpoint, ContextColor } from '../../types'
 
-export interface PlaceholderProps extends HTMLAttributes<HTMLSpanElement> {
+export interface SkeletonProps extends HTMLAttributes<HTMLSpanElement> {
   /**
-   * Set animation type to better convey the perception of something being actively loaded.
+   * Renders `skeleton-{animation}` on this element instead of the bare `skeleton` class. Nest
+   * plain `<Skeleton>` children inside it for the glow pulse to reach them, or apply `wave`
+   * directly to a container of one or more `<Skeleton>` children for a directional sweep.
    */
   animation?: 'glow' | 'wave'
   /**
@@ -22,12 +24,8 @@ export interface PlaceholderProps extends HTMLAttributes<HTMLSpanElement> {
    */
   component?: string | ElementType
   /**
-   * Size the component extra small, small, or large.
-   */
-  size?: 'xsmall' | 'small' | 'large'
-  /**
-   * Width of the placeholder, expressed as a column span (of 12), or `'auto'`/`true` for a
-   * natural-width placeholder.
+   * Width of the skeleton, expressed as a column span (of 12), or `'auto'`/`true` for a
+   * natural-width skeleton.
    *
    * @type { 'auto' | number | string | boolean }
    */
@@ -45,7 +43,7 @@ const spanClassNames = (span: Span | undefined, prefix: string) => [
   span === true ? `${prefix}col` : null
 ]
 
-export const Placeholder = forwardRef<HTMLSpanElement, PlaceholderProps>(
+export const Skeleton = forwardRef<HTMLSpanElement, SkeletonProps>(
   (
     {
       children,
@@ -53,7 +51,6 @@ export const Placeholder = forwardRef<HTMLSpanElement, PlaceholderProps>(
       className,
       color,
       component: Component = 'span',
-      size,
       span,
       responsive,
       ...rest
@@ -61,10 +58,9 @@ export const Placeholder = forwardRef<HTMLSpanElement, PlaceholderProps>(
     ref
   ) => {
     const _className = classNames(
-      animation ? `placeholder-${animation}` : 'placeholder',
+      animation ? `skeleton-${animation}` : 'skeleton',
       {
-        [`bg-${color}`]: color,
-        [`placeholder-${size}`]: size
+        [`bg-${color}`]: color
       },
       buildResponsiveClassNames(spanClassNames, span, responsive),
       className
@@ -78,4 +74,4 @@ export const Placeholder = forwardRef<HTMLSpanElement, PlaceholderProps>(
   }
 )
 
-Placeholder.displayName = 'Placeholder'
+Skeleton.displayName = 'Skeleton'

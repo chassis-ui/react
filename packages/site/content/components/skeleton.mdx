@@ -1,0 +1,107 @@
+---
+title: Skeleton
+description: Loading placeholder that mimics a piece of content's shape while it's still loading, to prevent layout shift.
+
+toc: true
+---
+
+import { Example as BasicExample } from '../../src/examples/skeleton/BasicExample.tsx'
+import { Example as WidthExample } from '../../src/examples/skeleton/WidthExample.tsx'
+import { Example as ColorExample } from '../../src/examples/skeleton/ColorExample.tsx'
+import { Example as AnimationExample } from '../../src/examples/skeleton/AnimationExample.tsx'
+import { Example as CustomElementsExample } from '../../src/examples/skeleton/CustomElementsExample.tsx'
+
+## Overview
+
+`<Skeleton>` renders a loading placeholder shaped like the content it stands in for, holding a
+layout's size steady while data loads. It always renders whatever is passed to it — swapping a
+skeleton for its real content once data arrives is left to application state, not a prop on the
+component itself. It renders a `<span>` by default, and every other prop is optional: width,
+color, and animation are opt-in on top of the bare shape.
+
+- `span` and `responsive` size a skeleton with the same `col-{n}` grid classes as
+  [`<Col>`]([[docsref:/components/column]]).
+- `color` overrides the default `currentColor` background with one of the context colors.
+- `animation` swaps the base `skeleton` class for `skeleton-glow` or `skeleton-wave` on the
+  element it's set on — nesting plain `<Skeleton>` children inside an animated one animates the
+  whole group together.
+- `component` renders the skeleton as another element or component, for matching the shape of
+  whatever it's standing in for.
+
+## Examples
+
+### Basic usage
+
+A single `<Skeleton span={n}>` mimics one line of content. Stack several inside a flowing
+container for a paragraph-shaped block — each one wraps like an inline word once a row fills, so
+the ragged trailing edge falls out naturally.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+<Callout type="warning">
+`aria-hidden="true"` only hides a skeleton from assistive technology — it doesn't manage the
+loading state itself. Toggle between the skeleton and its real content with application code, and
+pair the swap with an `aria-live` announcement (or a live region already present in the real
+content) so assistive technology users learn when the data has finished loading.
+</Callout>
+
+### Width
+
+Set `span` to size a skeleton like a grid column out of 12, or reach for `className`/inline
+`style` for any other width.
+
+<Example>
+  <WidthExample client:load />
+</Example>
+
+### Color
+
+A skeleton's background is `currentColor` by default. Set `color` to any context color to match a
+branded or role-specific loading state.
+
+<Example>
+  <ColorExample client:load />
+</Example>
+
+### Animation
+
+Set `animation` on a wrapping `<Skeleton component="p">` (or any other element) to convey that
+content is actively loading rather than merely present. The animated element swaps its own
+`skeleton` class for `skeleton-glow`/`skeleton-wave`, and plain `<Skeleton>` children nested inside
+it inherit the effect.
+
+<Example>
+  <AnimationExample client:load />
+</Example>
+
+### Custom elements
+
+Pass `component` to render the skeleton as another element or component instead of the default
+`<span>` — pair it with the `.disabled` class and `aria-disabled="true"` to hold a button's height
+steady while its label is still loading.
+
+<Example>
+  <CustomElementsExample client:load />
+</Example>
+
+<Callout type="info">
+chassis-css applies extra styling to `.button` elements via `::before` so a button's height holds
+steady once a skeleton replaces its label. Extend the same `::before` pattern for other
+components, or add a non-breaking space inside an element to preserve its height once real content
+renders in place of the skeleton.
+</Callout>
+
+## Scope
+
+**No reduced-motion handling.** The `glow` and `wave` animations run at a fixed rate regardless of
+a visitor's reduced-motion preference — chassis-css doesn't gate either behind
+`prefers-reduced-motion` today. Wrap an animated `<Skeleton>` in that media query, or an equivalent
+JavaScript check, to disable the animation where it matters.
+
+## API
+
+### Skeleton
+
+<PropTable component="Skeleton" />

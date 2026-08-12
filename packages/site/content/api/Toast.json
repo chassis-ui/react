@@ -68,7 +68,7 @@
     },
     "closeButton": {
       "defaultValue": null,
-      "description": "Adds a close button to the auto-rendered header — shorthand for `ToastHeader`'s\n`closeButton` prop. Renders a header containing only the close button if `icon`/`title`/\n`time` are all unset.",
+      "description": "Adds a close button — shorthand for `ToastHeader`'s/`ToastBody`'s `closeButton` prop.\nPlaced in the header when `icon`/`title`/`time` is set; otherwise placed in the body\nalongside `message`, or in a header containing only the close button if `message` is\nalso unset.",
       "name": "closeButton",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
@@ -182,7 +182,7 @@
     },
     "footer": {
       "defaultValue": null,
-      "description": "Trailing content — typically a row of `Button`s — rendered via a single `ToastFooter`,\nafter `message`/`children`.",
+      "description": "Trailing content — typically a row of `Button`s — rendered via a single `ToastFooter`,\nafter `message`/`children`. Pass a function to receive `close` directly, instead of\ncalling `useToast()` from a child component to wire up a \"Close\" action.",
       "name": "footer",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
@@ -196,7 +196,7 @@
       ],
       "required": false,
       "type": {
-        "name": "ReactNode"
+        "name": "ReactNode | ((close: () => void) => ReactNode)"
       }
     },
     "icon": {

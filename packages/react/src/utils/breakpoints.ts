@@ -1,11 +1,11 @@
 import { Breakpoint } from '../types'
 
 // Mobile-first ascending order. Every responsive layout prop (`Flex`/`Stack`/`Row`/`Col`/
-// `Placeholder`'s `responsive`) keys its overrides by these literal chassis-css breakpoint names.
+// `Skeleton`'s `responsive`) keys its overrides by these literal chassis-css breakpoint names.
 export const BREAKPOINTS: Breakpoint[] = ['small', 'medium', 'large', 'xlarge', '2xlarge']
 
 // A column/width span: a track count, `'auto'` for a natural-width track, or `true` for the bare
-// (no explicit width) case. Shared by `Col` and `Placeholder`, both of which map it to the same
+// (no explicit width) case. Shared by `Col` and `Skeleton`, both of which map it to the same
 // `col-{n}` / `col` chassis-css classes.
 export type Span = 'auto' | number | string | boolean
 

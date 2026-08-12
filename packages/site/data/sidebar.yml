@@ -62,7 +62,7 @@
         - title: Progress
         - title: Stepper
         - title: Spinner
-        - title: Placeholder
+        - title: Skeleton
     - group: Data Display
       pages:
         - title: Table

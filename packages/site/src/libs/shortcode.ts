@@ -9,7 +9,6 @@ import { getDocsFsPath } from './path'
 // The local/react version always wins.
 const excludedDocsShortcodes = new Set([
   'Icon.astro', // conflicts with the `Icon` export from `@chassis-ui/react`
-  'Placeholder.astro', // conflicts with the `Placeholder` export from `@chassis-ui/react`
   'Example.astro' // chassis-react has its own live-JSX `Example`, see `components/shortcodes/Example.astro`
 ])
 
