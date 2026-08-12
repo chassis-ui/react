@@ -23,6 +23,120 @@
       "type": {
         "name": "string"
       }
+    },
+    "direction": {
+      "defaultValue": null,
+      "description": "Switches the body from its default stacked (column) layout to a side-by-side (row) layout —\nfor placing an image beside text within a single padded region. Wrap the image and text in\n`Col` to control each side's width, and nest another `CardBody` (with `.p-0`) for the text\nside so it doesn't receive double padding.",
+      "name": "direction",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/card/CardBody.tsx",
+        "name": "CardBodyProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/card/CardBody.tsx",
+          "name": "CardBodyProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "CardBodyDirection",
+        "value": [
+          {
+            "value": "\"row\""
+          },
+          {
+            "value": "\"column\""
+          }
+        ]
+      }
+    },
+    "gap": {
+      "defaultValue": null,
+      "description": "Spacing between children, mapped to the `gap-*` utility classes. Overrides the card's default\ngap between body children.",
+      "name": "gap",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/card/CardBody.tsx",
+        "name": "CardBodyProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/card/CardBody.tsx",
+          "name": "CardBodyProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "0 | \"zero\" | \"4xsmall\" | \"3xsmall\" | \"2xsmall\" | \"xsmall\" | \"small\" | \"medium\" | \"large\" | \"xlarge\" | \"2xlarge\" | \"3xlarge\" | \"4xlarge\" | \"5xlarge\" | \"6xlarge\"",
+        "value": [
+          {
+            "value": "0"
+          },
+          {
+            "value": "\"zero\""
+          },
+          {
+            "value": "\"4xsmall\""
+          },
+          {
+            "value": "\"3xsmall\""
+          },
+          {
+            "value": "\"2xsmall\""
+          },
+          {
+            "value": "\"xsmall\""
+          },
+          {
+            "value": "\"small\""
+          },
+          {
+            "value": "\"medium\""
+          },
+          {
+            "value": "\"large\""
+          },
+          {
+            "value": "\"xlarge\""
+          },
+          {
+            "value": "\"2xlarge\""
+          },
+          {
+            "value": "\"3xlarge\""
+          },
+          {
+            "value": "\"4xlarge\""
+          },
+          {
+            "value": "\"5xlarge\""
+          },
+          {
+            "value": "\"6xlarge\""
+          }
+        ]
+      }
+    },
+    "responsive": {
+      "defaultValue": null,
+      "description": "Overrides `direction` at one or more breakpoints.",
+      "name": "responsive",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/card/CardBody.tsx",
+        "name": "CardBodyProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/card/CardBody.tsx",
+          "name": "CardBodyProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Partial<Record<Breakpoint, CardBodyDirection>>"
+      }
     }
   }
 }

@@ -1,34 +1,69 @@
-import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
 import classNames from 'classnames'
 
-export interface CardImageProps extends HTMLAttributes<
-  HTMLImageElement | HTMLOrSVGElement | HTMLOrSVGImageElement
-> {
+import { Breakpoint } from '../../types'
+import { buildResponsiveClassNames } from '../../utils/breakpoints'
+import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+
+type CardImageOrientation = 'top' | 'bottom' | 'start' | 'end'
+
+type CardImageOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
   className?: string
   /**
-   * Component used for the root node. Either a string to use a HTML element or a component.
+   * Component used for the root node. Either a string to use a HTML element or a component —
+   * e.g. a framework's own `Image` component. Its own props (`src`, `fill`, `priority`, etc.)
+   * are type-checked at the call site once passed here.
    */
-  component?: string | ElementType
+  component?: C
   /**
-   * Optionally orientate the image to the top, bottom, or make it overlaid across the card.
+   * Orientates the image to the top or bottom of the card as an "image cap", or to the start/end
+   * for a horizontal layout. Omit to round all four corners for use inside `CardBody`.
    */
-  orientation?: 'top' | 'bottom'
+  orientation?: CardImageOrientation
+  /**
+   * Overrides `orientation` at one or more breakpoints — e.g. `{ large: 'start' }` to switch an
+   * image cap from `top` to `start` once the card lays out horizontally.
+   */
+  responsive?: Partial<Record<Breakpoint, CardImageOrientation>>
 }
 
-export const CardImage = forwardRef<
-  HTMLImageElement | HTMLOrSVGElement | HTMLOrSVGImageElement,
-  CardImageProps
->(({ children, className, component: Component = 'img', orientation, ...rest }, ref) => {
-  const _className = classNames(orientation ? `card-image-${orientation}` : 'card-image', className)
+export type CardImageProps<C extends ElementType = 'img'> = PolymorphicComponentProps<
+  C,
+  CardImageOwnProps<C>
+>
+
+type CardImageComponent = (<C extends ElementType = 'img'>(
+  props: CardImageProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
+
+const layoutClassNames = (orientation: CardImageOrientation | undefined, prefix: string) => [
+  orientation ? `${prefix}card-image-${orientation}` : prefix === '' ? 'card-image' : null
+]
+
+function CardImageRender<C extends ElementType = 'img'>(
+  { children, className, component, orientation, responsive, ...rest }: CardImageProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  const Component = component || 'img'
+  const _className = classNames(
+    buildResponsiveClassNames(layoutClassNames, orientation, responsive),
+    className
+  )
 
   return (
     <Component className={_className} {...rest} ref={ref}>
       {children}
     </Component>
   )
-})
+}
+
+// `forwardRef` only accepts a non-generic render function, so it's cast to a concrete instance
+// for the call itself and back to the fully-generic `CardImageComponent` shape for consumers.
+export const CardImage = forwardRef(
+  CardImageRender as ForwardRefRenderFunction<Element, CardImageProps<ElementType>>
+) as CardImageComponent
 
 CardImage.displayName = 'CardImage'

@@ -23,6 +23,16 @@ describe('CardImage', () => {
       expect(screen.getByRole('img')).toHaveClass('card-image-top')
     })
 
+    test('applies a start/end orientation class', () => {
+      render(<CardImage alt="" orientation="start" />)
+      expect(screen.getByRole('img')).toHaveClass('card-image-start')
+    })
+
+    test('applies responsive orientation overrides alongside the base orientation', () => {
+      render(<CardImage alt="" orientation="top" responsive={{ large: 'start' }} />)
+      expect(screen.getByRole('img')).toHaveClass('card-image-top', 'large:card-image-start')
+    })
+
     test('applies a bottom orientation class and renders as a custom component', () => {
       const { container } = render(
         <CardImage className="bazinga" component="div" orientation="bottom" />

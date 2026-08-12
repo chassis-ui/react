@@ -8,6 +8,10 @@ export interface CardGroupProps extends HTMLAttributes<HTMLDivElement> {
   className?: string
 }
 
+// Arranges direct-child Cards as an equal-width row, joined edge-to-edge, once its container
+// reaches the small container breakpoint — below that, cards stack vertically. Requires a
+// `.contains-inline` ancestor (not applied by CardGroup itself, e.g. a wrapping
+// `<div className="contains-inline">`) to establish the container query context.
 export const CardGroup = forwardRef<HTMLDivElement, CardGroupProps>(
   ({ children, className, ...rest }, ref) => {
     const _className = classNames('card-group', className)

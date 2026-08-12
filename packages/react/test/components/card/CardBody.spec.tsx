@@ -19,6 +19,22 @@ describe('CardBody', () => {
     })
   })
 
+  describe('layout props', () => {
+    test('applies direction, responsive and gap as classes', () => {
+      render(
+        <CardBody direction="row" responsive={{ large: 'column' }} gap="medium">
+          Test
+        </CardBody>
+      )
+      expect(screen.getByText('Test')).toHaveClass(
+        'card-body',
+        'flex-row',
+        'large:flex-column',
+        'gap-medium'
+      )
+    })
+  })
+
   describe('ref forwarding', () => {
     test('forwards a ref to the underlying div', () => {
       const ref = React.createRef<HTMLDivElement>()

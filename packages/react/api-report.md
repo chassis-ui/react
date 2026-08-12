@@ -11,7 +11,7 @@ renamed export, ...) and review the diff like any other code change. `pnpm api:r
 -->
 
 ```ts
-import React, { AllHTMLAttributes, AnchorHTMLAttributes, AriaAttributes, ButtonHTMLAttributes, ChangeEventHandler, DialogHTMLAttributes, ElementType, FC, FormHTMLAttributes, HTMLAttributes, ImgHTMLAttributes, InputHTMLAttributes, Key, ReactElement, ReactNode, Ref, TextareaHTMLAttributes, useEffect } from "react";
+import React, { AllHTMLAttributes, AnchorHTMLAttributes, AriaAttributes, ButtonHTMLAttributes, ChangeEventHandler, ComponentPropsWithRef, ComponentPropsWithoutRef, DialogHTMLAttributes, ElementType, FC, FormHTMLAttributes, HTMLAttributes, ImgHTMLAttributes, InputHTMLAttributes, Key, ReactElement, ReactNode, Ref, TextareaHTMLAttributes, useEffect } from "react";
 import { DateValue, I18nProvider, Key as Key$1, RangeValue } from "react-aria";
 import { DateValue as DateValue$1, Key as Key$2, Selection, SortDescriptor, TableBodyProps, TableHeaderProps, ToastQueue } from "react-stately";
 //#region src/components/accordion/Accordion.d.ts
@@ -1070,7 +1070,8 @@ interface RangeCalendarProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defau
 declare const RangeCalendar: React.ForwardRefExoticComponent<RangeCalendarProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
 //#region src/components/card/Card.d.ts
-interface CardProps extends HTMLAttributes<HTMLDivElement> {
+type CardDirection = 'column' | 'row';
+interface CardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -1080,20 +1081,85 @@ interface CardProps extends HTMLAttributes<HTMLDivElement> {
    */
   color?: ContextColor;
   /**
-   * Sets the text context color of the component to one of Chassis context colors.
-   *
-   * @type ContextColor | 'main' | 'subtle' | 'slight' | 'inverse' | 'solid' | 'highlight' | 'idle' | 'disabled' | 'hover' | 'press' | string
+   * Switches the card from its default stacked (column) layout to a side-by-side (row) layout.
+   * Wrap the image and body in `Col` to control each side's width.
    */
-  textColor?: string;
+  direction?: CardDirection;
+  /**
+   * Shorthand for a `CardFooter`, rendered after the image/title/subtitle/text/`children` block.
+   */
+  footer?: ReactNode;
+  /**
+   * Shorthand for a `CardImage` — pass a `src`. Combine with `imageAlt`/`imageOrientation`. For
+   * anything beyond a single top/bottom image cap (overlays, a horizontal layout, a custom
+   * `component`), omit this and compose `CardImage` directly as a child instead.
+   */
+  image?: string;
+  /**
+   * Accessible alt text for `image`. Ignored unless `image` is set.
+   */
+  imageAlt?: string;
+  /**
+   * Orientates `image` to the top (default) or bottom of the card.
+   */
+  imageOrientation?: 'bottom' | 'top';
+  /**
+   * Overrides `direction` at one or more breakpoints — e.g. `{ large: 'row' }` to lay the card
+   * out horizontally from `large` up while stacking below it.
+   */
+  responsive?: Partial<Record<Breakpoint, CardDirection>>;
+  /**
+   * Sets the size of the component to one of Chassis component sizes.
+   */
+  size?: Sizing;
+  /**
+   * Shorthand for a `CardSubtitle`, rendered directly after `title`.
+   */
+  subtitle?: ReactNode;
+  /**
+   * Shorthand for a `CardText`, rendered after `title`/`subtitle`.
+   */
+  text?: ReactNode;
+  /**
+   * Shorthand for a `CardTitle`. Set alongside `subtitle`/`text` (or plain `children`, e.g. a
+   * `Button`) to build a standard card without composing `CardBody`/`CardTitle` yourself — all
+   * render together inside a single `CardBody`, in that order. Only takes effect when at least
+   * one of `image`/`title`/`subtitle`/`text`/`footer` is set; otherwise `children` render as-is,
+   * so full manual composition (`CardHeader`, lists, overlays, nav headers, …) keeps working
+   * unchanged. Mixing shorthand props with a manually-composed `children` tree isn't supported —
+   * pick one approach per card.
+   */
+  title?: ReactNode;
+  /**
+   * Sets the context style of the component. `basic` (the default) renders with no extra class.
+   */
+  variant?: ContextStyle;
 }
 declare const Card: React.ForwardRefExoticComponent<CardProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
 //#region src/components/card/CardBody.d.ts
+type CardBodyDirection = 'column' | 'row';
 interface CardBodyProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * A string of all className you want applied to the base component.
    */
   className?: string;
+  /**
+   * Switches the body from its default stacked (column) layout to a side-by-side (row) layout —
+   * for placing an image beside text within a single padded region. Wrap the image and text in
+   * `Col` to control each side's width, and nest another `CardBody` (with `.p-0`) for the text
+   * side so it doesn't receive double padding.
+   */
+  direction?: CardBodyDirection;
+  /**
+   * Spacing between children, mapped to the `gap-*` utility classes. Overrides the card's default
+   * gap between body children.
+   */
+  gap?: 0 | Spacing;
+  /**
+   * Overrides `direction` at one or more breakpoints.
+   */
+  responsive?: Partial<Record<Breakpoint, CardBodyDirection>>;
 }
 declare const CardBody: React.ForwardRefExoticComponent<CardBodyProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
@@ -1128,22 +1194,47 @@ interface CardHeaderProps extends HTMLAttributes<HTMLDivElement> {
 }
 declare const CardHeader: React.ForwardRefExoticComponent<CardHeaderProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
+//#region src/utils/polymorphic.d.ts
+type PolymorphicRef<C extends ElementType> = ComponentPropsWithRef<C>['ref'];
+/**
+ * Props for a polymorphic component: `OwnProps` (which must declare `component?: C`) plus
+ * whatever props `C` itself accepts, minus any name already claimed by `OwnProps` so the two
+ * don't conflict. Lets consumers swap `component` for e.g. a framework's `Image` and get full
+ * type-checking/autocomplete for that component's own props at the call site.
+ */
+type PolymorphicComponentProps<C extends ElementType, OwnProps extends object> = OwnProps & Omit<ComponentPropsWithoutRef<C>, keyof OwnProps>;
+//#endregion
 //#region src/components/card/CardImage.d.ts
-interface CardImageProps extends HTMLAttributes<HTMLImageElement | HTMLOrSVGElement | HTMLOrSVGImageElement> {
+type CardImageOrientation = 'bottom' | 'end' | 'start' | 'top';
+type CardImageOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
   className?: string;
   /**
-   * Component used for the root node. Either a string to use a HTML element or a component.
+   * Component used for the root node. Either a string to use a HTML element or a component —
+   * e.g. a framework's own `Image` component. Its own props (`src`, `fill`, `priority`, etc.)
+   * are type-checked at the call site once passed here.
    */
-  component?: ElementType | string;
+  component?: C;
   /**
-   * Optionally orientate the image to the top, bottom, or make it overlaid across the card.
+   * Orientates the image to the top or bottom of the card as an "image cap", or to the start/end
+   * for a horizontal layout. Omit to round all four corners for use inside `CardBody`.
    */
-  orientation?: 'bottom' | 'top';
-}
-declare const CardImage: React.ForwardRefExoticComponent<CardImageProps & React.RefAttributes<HTMLOrSVGElement | HTMLOrSVGImageElement>>;
+  orientation?: CardImageOrientation;
+  /**
+   * Overrides `orientation` at one or more breakpoints — e.g. `{ large: 'start' }` to switch an
+   * image cap from `top` to `start` once the card lays out horizontally.
+   */
+  responsive?: Partial<Record<Breakpoint, CardImageOrientation>>;
+};
+type CardImageProps<C extends ElementType = 'img'> = PolymorphicComponentProps<C, CardImageOwnProps<C>>;
+type CardImageComponent = (<C extends ElementType = 'img'>(props: CardImageProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const CardImage: CardImageComponent;
 //#endregion
 //#region src/components/card/CardImageOverlay.d.ts
 interface CardImageOverlayProps extends HTMLAttributes<HTMLDivElement> {
