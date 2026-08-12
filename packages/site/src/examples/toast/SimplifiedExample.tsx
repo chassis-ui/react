@@ -1,19 +1,9 @@
-import { CloseButton, Toast, ToastBody, useToast } from '@chassis-ui/react'
-
-const Body = () => {
-  const { close } = useToast()
-  return (
-    <div className="d-flex">
-      <ToastBody>Hello, world! This is a toast message.</ToastBody>
-      <CloseButton className="ms-auto m-small" onClick={close} />
-    </div>
-  )
-}
+import { Toast, ToastBody } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
     <Toast autohide={false} visible={true}>
-      <Body />
+      Hello, world! This is a toast message.
     </Toast>
   )
 }

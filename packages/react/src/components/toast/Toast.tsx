@@ -33,9 +33,10 @@ export interface ToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'
    */
   className?: string
   /**
-   * Adds a close button to the auto-rendered header — shorthand for `ToastHeader`'s
-   * `closeButton` prop. Renders a header containing only the close button if `icon`/`title`/
-   * `time` are all unset.
+   * Adds a close button — shorthand for `ToastHeader`'s/`ToastBody`'s `closeButton` prop.
+   * Placed in the header when `icon`/`title`/`time` is set; otherwise placed in the body
+   * alongside `message`, or in a header containing only the close button if `message` is
+   * also unset.
    */
   closeButton?: boolean
   /**
@@ -53,9 +54,10 @@ export interface ToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'
   delay?: number
   /**
    * Trailing content — typically a row of `Button`s — rendered via a single `ToastFooter`,
-   * after `message`/`children`.
+   * after `message`/`children`. Pass a function to receive `close` directly, instead of
+   * calling `useToast()` from a child component to wire up a "Close" action.
    */
-  footer?: ReactNode
+  footer?: ReactNode | ((close: () => void) => ReactNode)
   /**
    * Leading icon for the header. A string is rendered as `<ToastIcon name={icon} />`; pass
    * any other node for a fully custom icon (typically a logo or avatar). Shorthand for
@@ -170,7 +172,10 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
           : undefined
     }
 
-    const hasHeaderContent = icon != null || title != null || time != null || closeButton
+    const hasHeaderShorthand = icon != null || title != null || time != null
+    const headerGetsCloseButton = closeButton && (hasHeaderShorthand || message == null)
+    const bodyGetsCloseButton = closeButton && !hasHeaderShorthand && message != null
+    const hasHeaderContent = hasHeaderShorthand || headerGetsCloseButton
 
     return (
       <Transition
@@ -198,19 +203,25 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
                     icon={icon}
                     time={time}
                     titleId={title != null ? titleId : undefined}
-                    closeButton={closeButton}
+                    closeButton={headerGetsCloseButton}
                     closeLabel={closeLabel}
                   >
                     {title}
                   </ToastHeader>
                 )}
                 {message != null && (
-                  <ToastBody id={title != null && message != null ? textId : undefined}>
+                  <ToastBody
+                    id={title != null && message != null ? textId : undefined}
+                    closeButton={bodyGetsCloseButton}
+                    closeLabel={closeLabel}
+                  >
                     {message}
                   </ToastBody>
                 )}
                 {children}
-                {footer != null && <ToastFooter>{footer}</ToastFooter>}
+                {footer != null && (
+                  <ToastFooter>{typeof footer === 'function' ? footer(close) : footer}</ToastFooter>
+                )}
               </div>
             </ToastContext.Provider>
           )

@@ -24,11 +24,11 @@ Things to know when using the toast plugin:
 - Toasts will automatically hide after `delay` milliseconds unless you set `autohide={false}`. The countdown pauses while the pointer is over the toast or focus is within it, and only resumes once both leave.
 - Use `role="status"` (the default) for routine confirmations and informational updates. Reserve `role="alert"` for errors and messages requiring immediate attention. Both roles carry implicit live-region semantics, so no separate `aria-live` prop is needed.
 - The `icon`/`title`/`time`/`message`/`footer`/`closeButton` props are shorthand for the manual `ToastHeader`/`ToastBody`/`ToastFooter` composition — reach for manual composition only when a toast needs more than one header/body/footer block. See [Shorthand props](#shorthand-props).
-- To dismiss a toast from markup you compose yourself — a "Close" button in the footer, a custom icon in the header — call `useToast()` and wire its `close` to any element's `onClick`. See [Action footer](#action-footer).
+- To dismiss a toast from markup you compose yourself — a "Close" button in the footer, a custom icon in the header — either pass a function to `footer` to receive `close` directly (see [Action footer](#action-footer)), or call `useToast()` from any child component and wire its `close` to an element's `onClick`.
 
 ## Examples
 
-### Basic
+### Basic Layout
 
 To encourage extensible and predictable toasts, we recommend a header and body. Toast headers use `display: flex`, allowing easy alignment of content thanks to our margin and flexbox utilities.
 
@@ -46,7 +46,7 @@ For dynamic notifications, call `addToast()` from anywhere — an event handler,
 
 ### Shorthand props
 
-For the common case — an icon, a heading, a timestamp, one block of message text — `icon`/`title`/`time`/`message` render the same markup as composing `ToastHeader`/`ToastBody` by hand, without the wiring. `icon` accepts an icon name (rendered via `ToastIcon`) or any other node for a fully custom icon, such as a logo or avatar. Add `footer` for a single row of trailing content (shorthand for `ToastFooter`), and `closeButton`/`closeLabel` for the dismiss control and its accessible name. When both `title` and `message` are set, the toast's `aria-labelledby`/`aria-describedby` are wired to them automatically. `icon` is hidden from assistive technology by default, since it duplicates `title` visually.
+For the common case — an icon, a heading, a timestamp, one block of message text — `icon`/`title`/`time`/`message` render the same markup as composing `ToastHeader`/`ToastBody` by hand, without the wiring. `icon` accepts an icon name (rendered via `ToastIcon`) or any other node for a fully custom icon, such as a logo or avatar. Add `footer` for a single row of trailing content (shorthand for `ToastFooter`), and `closeButton`/`closeLabel` for the dismiss control and its accessible name. `closeButton` follows whatever header content you've set: it lands in the header when `icon`/`title`/`time` is present, otherwise alongside `message` in the body — so a title-less toast never gets a header that exists only to hold a close button. When both `title` and `message` are set, the toast's `aria-labelledby`/`aria-describedby` are wired to them automatically. `icon` is hidden from assistive technology by default, since it duplicates `title` visually.
 
 <Example>
   <ShorthandExample client:load />
@@ -56,9 +56,9 @@ For the common case — an icon, a heading, a timestamp, one block of message te
 
 ### Action footer
 
-Add a `ToastFooter` below the body to hold acknowledgement or follow-up actions. It renders `.toast-footer`, separated from the body by a border that matches the header rule.
+Add a `ToastFooter` below the body to hold acknowledgement or follow-up actions, or pass `footer` for the same result without composing `ToastFooter` by hand — it renders `.toast-footer`, separated from the body by a border that matches the header rule.
 
-A "Close" action is just a normal `Button` — call `useToast()` from a child of `Toast` and wire its `close` to the button's `onClick`. There's no dedicated close subcomponent to reach for; `useToast` works the same way for a plain icon-only dismiss control (pair it with `CloseButton`, as in [Simplified layout](#simplified-layout)) or a labeled action button like the one below.
+A "Close" action is just a normal `Button`. Passing a function to `footer` hands you `close` as its argument, so a button can wire it straight to `onClick` without a child component calling `useToast()` itself — useful when the footer's only "custom" need is the close handler. For anything with its own local state or logic, calling `useToast()` from a child component works the same way, and is the only option outside `footer` (a custom icon in the header, for example).
 
 <Example>
   <ActionFooterExample client:load />
@@ -82,7 +82,7 @@ You can stack toasts by wrapping them in a `Toaster`, which will vertically add 
 
 ### Simplified layout
 
-Customize your toasts by removing sub-components, tweaking them with utilities, or by adding your own markup. Here we've created a simpler toast by removing the default `<ToastHeader>`, adding a custom hide icon from Chassis Icons, and using some flexbox utilities to adjust the layout.
+Customize your toasts by removing sub-components or tweaking them with props. Here we've created a simpler toast by removing the default `<ToastHeader>` and adding `closeButton` directly to `<ToastBody>`, so no manual markup is needed to lay out the dismiss control.
 
 <Example>
   <SimplifiedExample client:load />

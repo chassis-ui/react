@@ -126,6 +126,35 @@ describe('Toast', () => {
       expect(onClose).toHaveBeenCalledTimes(1)
       vi.useRealTimers()
     })
+
+    test('a button in a footer render function receives close directly, no useToast needed', async () => {
+      vi.useFakeTimers()
+      const onClose = vi.fn()
+      render(
+        <Toast
+          autohide={false}
+          delay={100}
+          visible={true}
+          onClose={onClose}
+          footer={(close) => (
+            <button type="button" onClick={close}>
+              Close
+            </button>
+          )}
+        >
+          <ToastBody>Hello, world! This is a toast message.</ToastBody>
+        </Toast>
+      )
+      await waitFor(() => {
+        expect(screen.getByRole('status')).toHaveClass('show')
+      })
+
+      expect(onClose).toHaveBeenCalledTimes(0)
+      fireEvent.click(screen.getByRole('button', { name: 'Close' }))
+      act(() => vi.runAllTimers())
+      expect(onClose).toHaveBeenCalledTimes(1)
+      vi.useRealTimers()
+    })
   })
 
   describe('autohide behavior', () => {
@@ -256,7 +285,7 @@ describe('Toast', () => {
       expect(screen.getByRole('button', { name: 'Take action' })).toBeInTheDocument()
     })
 
-    test('renders a header for closeButton alone, with no icon/title/time', async () => {
+    test('renders a header for closeButton alone, with no icon/title/time/message', async () => {
       render(
         <Toast autohide={false} visible={true} closeButton>
           Test
@@ -267,6 +296,36 @@ describe('Toast', () => {
       })
       expect(document.querySelector('.toast-header')).toBeInTheDocument()
       expect(screen.getByRole('button', { name: 'Close' })).toBeInTheDocument()
+    })
+
+    test('places closeButton in the body instead of a bare header when message is set but icon/title/time are not', async () => {
+      render(<Toast autohide={false} visible={true} message="Hello, world!" closeButton />)
+      await waitFor(() => {
+        expect(screen.getByRole('status')).toHaveClass('show')
+      })
+      expect(document.querySelector('.toast-header')).not.toBeInTheDocument()
+      const body = document.querySelector('.toast-body')
+      expect(body).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'Close' }).closest('.toast-body')).toBe(body)
+    })
+
+    test('keeps closeButton in the header when icon/title/time is set alongside message', async () => {
+      render(
+        <Toast
+          autohide={false}
+          visible={true}
+          title="Chassis"
+          message="Hello, world!"
+          closeButton
+        />
+      )
+      await waitFor(() => {
+        expect(screen.getByRole('status')).toHaveClass('show')
+      })
+      expect(
+        screen.getByRole('button', { name: 'Close' }).closest('.toast-header')
+      ).toBeInTheDocument()
+      expect(document.querySelector('.toast-body .close-button')).not.toBeInTheDocument()
     })
 
     test('closeLabel overrides the shorthand close button accessible name', async () => {
