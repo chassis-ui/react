@@ -75,7 +75,7 @@ import { Switch } from './components/switch'
 import { TextInput } from './components/text-input'
 import { Textarea } from './components/textarea'
 import { Icon } from './components/icon'
-import { Image } from './components/image'
+import { Placeholder } from './components/placeholder'
 import { Link } from './components/link'
 import { List, ListItem } from './components/list'
 import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from './components/modal'
@@ -197,7 +197,7 @@ export {
   FormHelp,
   FormLabel,
   Icon,
-  Image,
+  Placeholder,
   InputGroup,
   InputGroupAddon,
   InputAdorn,

@@ -71,7 +71,7 @@
         - title: Carousel
         - title: List
         - title: Table
-        - title: Image
+        - title: Placeholder
     - group: Disclosure
       pages:
         - title: Accordion

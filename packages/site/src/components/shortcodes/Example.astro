@@ -31,8 +31,8 @@ interface Props {
 const { class: className, id, code, customMarkup, lang = 'jsx' } = Astro.props
 const markup = customMarkup ?? code
 
-const sourceMarkup = replacePlaceholdersInHtml(markup).replace(' client:load', '')
-const simplifiedMarkup = sourceMarkup
+// const sourceMarkup = replacePlaceholdersInHtml(markup).replace(' client:load', '')
+const simplifiedMarkup = markup
   .replace(
     /<svg.*class="cxd-placeholder-image(?:-large)?(?: *?cxd-placeholder-image-large)? ?(.*?)".*?<\/svg>/g,
     (_match, classes) => `<img src="..."${classes ? ` class="${classes}"` : ''} alt="...">`
