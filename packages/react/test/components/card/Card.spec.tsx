@@ -2,7 +2,7 @@ import * as React from 'react'
 import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Card, CardBody, CardHeader } from '../../../src/index'
+import { Card, CardBody, CardHeader, CardImage } from '../../../src/index'
 
 describe('Card', () => {
   describe('rendering', () => {
@@ -82,6 +82,17 @@ describe('Card', () => {
       const bottomChildren = Array.from(bottom.firstElementChild?.children ?? [])
       expect(bottomChildren[0]).toHaveClass('card-body')
       expect(bottomChildren[1]).toHaveClass('card-image-bottom')
+    })
+
+    test('renders a non-string image as-is, alongside other shorthand props', () => {
+      render(
+        <Card
+          image={<CardImage orientation="top" component="div" aria-label="Loading image" />}
+          title="Card title"
+        />
+      )
+      expect(screen.getByLabelText('Loading image')).toHaveClass('card-image-top')
+      expect(screen.getByText('Card title')).toHaveClass('card-title')
     })
 
     test('renders footer after the body', () => {

@@ -85,7 +85,7 @@ import { Pagination, PaginationItem } from './components/pagination'
 import { Popover } from './components/popover'
 import { Progress, ProgressBar } from './components/progress'
 import { Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerTitle } from './components/drawer'
-import { Skeleton } from './components/skeleton'
+import { Skeleton, SkeletonLoader } from './components/skeleton'
 import { Spinner } from './components/spinner'
 import { Stepper, StepperItem } from './components/stepper'
 import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from './components/table'
@@ -235,6 +235,7 @@ export {
   useDrawer,
   Select,
   Skeleton,
+  SkeletonLoader,
   Spinner,
   Stepper,
   StepperItem,

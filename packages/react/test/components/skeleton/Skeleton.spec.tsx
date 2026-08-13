@@ -33,16 +33,24 @@ describe('Skeleton', () => {
       expect(container.firstChild).toHaveClass('skeleton', 'bg-secondary', 'small:col-7', 'bazinga')
     })
 
-    test('renders the glow animation class instead of the base class', () => {
-      const { container } = render(<Skeleton animation="glow" />)
-      expect(container.firstChild).toHaveClass('skeleton-glow')
-      expect(container.firstChild).not.toHaveClass('skeleton')
+    test('adds no width class when span is unset, leaving intrinsic sizing to the element', () => {
+      const { container } = render(<Skeleton />)
+      expect(container.firstChild).not.toHaveClass('w-100', 'col')
     })
 
-    test('renders the wave animation class instead of the base class', () => {
+    test('adds a column class when span is set to a number', () => {
+      const { container } = render(<Skeleton span={4} />)
+      expect(container.firstChild).toHaveClass('col-4')
+    })
+
+    test('renders the glow animation class alongside the base class', () => {
+      const { container } = render(<Skeleton animation="glow" />)
+      expect(container.firstChild).toHaveClass('skeleton', 'skeleton-glow')
+    })
+
+    test('renders the wave animation class alongside the base class', () => {
       const { container } = render(<Skeleton animation="wave" />)
-      expect(container.firstChild).toHaveClass('skeleton-wave')
-      expect(container.firstChild).not.toHaveClass('skeleton')
+      expect(container.firstChild).toHaveClass('skeleton', 'skeleton-wave')
     })
   })
   /* eslint-enable testing-library/no-node-access */

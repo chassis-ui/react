@@ -1,0 +1,122 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/skeleton/SkeletonLoader.tsx",
+  "description": "",
+  "displayName": "SkeletonLoader",
+  "methods": [],
+  "props": {
+    "children": {
+      "defaultValue": null,
+      "description": "The real content, rendered unchanged (no wrapping element) once `loading` is `false`.",
+      "name": "children",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/skeleton/SkeletonLoader.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "color": {
+      "defaultValue": null,
+      "description": "Sets the color of the generated skeleton lines to one of Chassis context colors.",
+      "name": "color",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/skeleton/SkeletonLoader.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "ContextColor",
+        "value": [
+          {
+            "value": "\"default\""
+          },
+          {
+            "value": "\"alternate\""
+          },
+          {
+            "value": "\"primary\""
+          },
+          {
+            "value": "\"secondary\""
+          },
+          {
+            "value": "\"neutral\""
+          },
+          {
+            "value": "\"success\""
+          },
+          {
+            "value": "\"danger\""
+          },
+          {
+            "value": "\"warning\""
+          },
+          {
+            "value": "\"info\""
+          },
+          {
+            "value": "\"black\""
+          },
+          {
+            "value": "\"white\""
+          }
+        ]
+      }
+    },
+    "component": {
+      "defaultValue": {
+        "value": "'span'"
+      },
+      "description": "Component used for the generated skeleton(s) — e.g. `Avatar` or `Button` — for swapping\nnon-text content, not just text runs. Its own props are type-checked at the call site once\npassed here, same as `Skeleton`'s own `component` prop.",
+      "name": "component",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/skeleton/SkeletonLoader.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ElementType"
+      }
+    },
+    "loading": {
+      "defaultValue": null,
+      "description": "Swaps `children` for one `<Skeleton>` per entry in `spans` while `true`.",
+      "name": "loading",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/skeleton/SkeletonLoader.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "spans": {
+      "defaultValue": null,
+      "description": "One skeleton line per entry, using the same values as `Skeleton`'s `span` prop — e.g.\n`[12, 6]` for a full-width line followed by a half-width one. A single value (e.g. `6`) is\nshorthand for a single line, equivalent to `[6]`. Leave unset for a single skeleton sized by\n`component`'s own intrinsic width instead — e.g. an `Avatar`'s `size` prop. Rendered instead\nof `children` while `loading` is `true`; ignored once `loading` is `false`.",
+      "name": "spans",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/skeleton/SkeletonLoader.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "{ 'auto' | number | string | boolean | Array<'auto' | number | string | boolean> }"
+      }
+    }
+  }
+}

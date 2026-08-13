@@ -128,7 +128,7 @@
     },
     "image": {
       "defaultValue": null,
-      "description": "Shorthand for a `CardImage` — pass a `src`. Combine with `imageAlt`/`imageOrientation`. For\nanything beyond a single top/bottom image cap (overlays, a horizontal layout, a custom\n`component`), omit this and compose `CardImage` directly as a child instead.",
+      "description": "Shorthand for a `CardImage` — pass either a `src` URL (combine with `imageAlt`/\n`imageOrientation`) or a fully-formed element — a `<CardImage>`, `<Skeleton>`,\n`<Placeholder>`, or anything else — rendered as-is in its place. `imageAlt`/`imageOrientation`\nonly apply to the `src` form; set them directly on your own element otherwise. For a\nhorizontal layout or an overlay, omit this and compose `CardImage` directly as a child\ninstead.",
       "name": "image",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/card/Card.tsx",
@@ -142,7 +142,7 @@
       ],
       "required": false,
       "type": {
-        "name": "string"
+        "name": "ReactNode"
       }
     },
     "imageAlt": {

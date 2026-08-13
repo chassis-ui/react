@@ -80,6 +80,15 @@ shorthand props with a manually-composed `children` tree (e.g. a raw `CardHeader
 supported — pick one approach per card, falling back to composing `CardBody`/`CardTitle`/etc.
 directly for anything the shorthand props don't cover.
 
+`image` also accepts a full element instead of a `src` string — a `<CardImage>` composed by hand,
+a [`<Placeholder>`]([[docsref:/components/placeholder]]), a loading
+[`<Skeleton>`]([[docsref:/components/skeleton]]) — rendered as-is in the image slot, so the rest of
+`title`/`subtitle`/`text`/`footer` don't have to give up their shorthand just because the image
+needs something other than a plain URL. `imageAlt`/`imageOrientation` only apply to the `src` form;
+set them directly on your own element otherwise. See
+[Loading states]([[docsref:/patterns/loading-states]]) for a worked example swapping the image for
+a skeleton while data loads.
+
 ## Content types
 
 Chassis card supports a wide variety of content, including images, text, lists, links, and more. Below are examples of those elements.

@@ -48,9 +48,7 @@
       }
     },
     "color": {
-      "defaultValue": {
-        "value": "'neutral'"
-      },
+      "defaultValue": null,
       "description": "Sets the color of the generated placeholder graphic to one of Chassis context colors. Has no\neffect when `src` is set.",
       "name": "color",
       "declarations": [
@@ -96,6 +94,30 @@
           },
           {
             "value": "\"white\""
+          }
+        ]
+      }
+    },
+    "variant": {
+      "defaultValue": null,
+      "description": "Sets the variant of the generated placeholder graphic to one of Chassis context styles. Has no\neffect when `src` is set.",
+      "name": "variant",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"solid\" | \"smooth\"",
+        "value": [
+          {
+            "value": "\"solid\""
+          },
+          {
+            "value": "\"smooth\""
           }
         ]
       }

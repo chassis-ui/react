@@ -1,14 +1,16 @@
-import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
 import classNames from 'classnames'
 
 import { Span, buildResponsiveClassNames } from '../../utils/breakpoints'
 import { Breakpoint, ContextColor } from '../../types'
+import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
 
-export interface SkeletonProps extends HTMLAttributes<HTMLSpanElement> {
+type SkeletonOwnProps<C extends ElementType> = {
   /**
-   * Renders `skeleton-{animation}` on this element instead of the bare `skeleton` class. Nest
-   * plain `<Skeleton>` children inside it for the glow pulse to reach them, or apply `wave`
-   * directly to a container of one or more `<Skeleton>` children for a directional sweep.
+   * Adds `skeleton-{animation}` alongside the base `skeleton` class, so the element animates
+   * itself as well as any nested `<Skeleton>` children. Nest plain `<Skeleton>` children inside
+   * it for the glow pulse to reach them too, or apply `wave` to a container of one or more
+   * `<Skeleton>` children for a directional sweep across the whole group.
    */
   animation?: 'glow' | 'wave'
   /**
@@ -20,12 +22,17 @@ export interface SkeletonProps extends HTMLAttributes<HTMLSpanElement> {
    */
   color?: ContextColor
   /**
-   * Component used for the root node. Either a string to use a HTML element or a component.
+   * Component used for the root node. Either a string to use an HTML element or a component —
+   * e.g. `Avatar` or `Button`. Its own props are type-checked at the call site once passed here.
+   *
+   * @default 'span'
    */
-  component?: string | ElementType
+  component?: C
   /**
    * Width of the skeleton, expressed as a column span (of 12), or `'auto'`/`true` for a
-   * natural-width skeleton.
+   * natural-width skeleton. Unset by default, so the rendered element's own intrinsic width
+   * applies — set it explicitly (e.g. `span={12}`) for a full-width text line; leave it unset
+   * when `component` is something that sizes itself, like `Avatar` or `Button`.
    *
    * @type { 'auto' | number | string | boolean }
    */
@@ -38,40 +45,44 @@ export interface SkeletonProps extends HTMLAttributes<HTMLSpanElement> {
   responsive?: Partial<Record<Breakpoint, Span>>
 }
 
+export type SkeletonProps<C extends ElementType = 'span'> = PolymorphicComponentProps<
+  C,
+  SkeletonOwnProps<C>
+>
+
+type SkeletonComponent = (<C extends ElementType = 'span'>(
+  props: SkeletonProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
+
 const spanClassNames = (span: Span | undefined, prefix: string) => [
   typeof span === 'number' || typeof span === 'string' ? `${prefix}col-${span}` : null,
   span === true ? `${prefix}col` : null
 ]
 
-export const Skeleton = forwardRef<HTMLSpanElement, SkeletonProps>(
-  (
-    {
-      children,
-      animation,
-      className,
-      color,
-      component: Component = 'span',
-      span,
-      responsive,
-      ...rest
-    },
-    ref
-  ) => {
-    const _className = classNames(
-      animation ? `skeleton-${animation}` : 'skeleton',
-      {
-        [`bg-${color}`]: color
-      },
-      buildResponsiveClassNames(spanClassNames, span, responsive),
-      className
-    )
+function SkeletonRender<C extends ElementType = 'span'>(
+  { children, animation, className, color, component, span, responsive, ...rest }: SkeletonProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  const Component = component || 'span'
+  const _className = classNames(
+    'skeleton',
+    animation && `skeleton-${animation}`,
+    { [`bg-${color}`]: color },
+    buildResponsiveClassNames(spanClassNames, span, responsive),
+    className
+  )
 
-    return (
-      <Component className={_className} {...rest} ref={ref}>
-        {children}
-      </Component>
-    )
-  }
-)
+  return (
+    <Component className={_className} {...rest} ref={ref}>
+      {children}
+    </Component>
+  )
+}
+
+// `forwardRef` only accepts a non-generic render function, so it's cast to a concrete instance
+// for the call itself and back to the fully-generic `SkeletonComponent` shape for consumers.
+export const Skeleton = forwardRef(
+  SkeletonRender as ForwardRefRenderFunction<Element, SkeletonProps<ElementType>>
+) as SkeletonComponent
 
 Skeleton.displayName = 'Skeleton'

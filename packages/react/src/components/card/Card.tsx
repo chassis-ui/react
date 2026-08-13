@@ -35,11 +35,14 @@ export interface CardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'>
    */
   footer?: ReactNode
   /**
-   * Shorthand for a `CardImage` — pass a `src`. Combine with `imageAlt`/`imageOrientation`. For
-   * anything beyond a single top/bottom image cap (overlays, a horizontal layout, a custom
-   * `component`), omit this and compose `CardImage` directly as a child instead.
+   * Shorthand for a `CardImage` — pass either a `src` URL (combine with `imageAlt`/
+   * `imageOrientation`) or a fully-formed element — a `<CardImage>`, `<Skeleton>`,
+   * `<Placeholder>`, or anything else — rendered as-is in its place. `imageAlt`/`imageOrientation`
+   * only apply to the `src` form; set them directly on your own element otherwise. For a
+   * horizontal layout or an overlay, omit this and compose `CardImage` directly as a child
+   * instead.
    */
-  image?: string
+  image?: ReactNode
   /**
    * Accessible alt text for `image`. Ignored unless `image` is set.
    */
@@ -120,14 +123,18 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
     const hasShorthand =
       image != null || title != null || subtitle != null || footer != null || text != null
     const hasBodyContent = title != null || subtitle != null || text != null || children != null
+    const renderedImage =
+      typeof image === 'string' ? (
+        <CardImage orientation={imageOrientation} src={image} alt={imageAlt ?? ''} />
+      ) : (
+        image
+      )
 
     return (
       <div className={_className} {...rest} ref={ref}>
         {hasShorthand ? (
           <>
-            {image != null && imageOrientation === 'top' && (
-              <CardImage orientation="top" src={image} alt={imageAlt ?? ''} />
-            )}
+            {image != null && imageOrientation === 'top' && renderedImage}
             {hasBodyContent && (
               <CardBody>
                 {title != null && <CardTitle>{title}</CardTitle>}
@@ -136,9 +143,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
                 {children}
               </CardBody>
             )}
-            {image != null && imageOrientation === 'bottom' && (
-              <CardImage orientation="bottom" src={image} alt={imageAlt ?? ''} />
-            )}
+            {image != null && imageOrientation === 'bottom' && renderedImage}
             {footer != null && <CardFooter>{footer}</CardFooter>}
           </>
         ) : (
