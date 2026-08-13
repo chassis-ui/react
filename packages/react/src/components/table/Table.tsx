@@ -63,7 +63,10 @@ export interface TableProps<T extends object> {
    * A `TableHeader` and a `TableBody`, each built from `TableColumn`/`TableRow`/
    * `TableCell` — read as data to build the table's collection. Not rendered directly.
    */
-  children: [ReactElement<TableHeaderProps<T>>, ReactElement<TableBodyProps<T>>]
+  children: [
+    ReactElement<TableHeaderProps<T> & { className?: string }>,
+    ReactElement<TableBodyProps<T> & { className?: string }>
+  ]
   /**
    * A string of all className you want applied to the component.
    */
@@ -184,7 +187,7 @@ const TableInner = <T extends object>(
   const tableEl = (
     <table {...gridProps} className={_className || undefined} ref={ref}>
       {caption && <caption>{caption}</caption>}
-      <TableRowGroup type="thead">
+      <TableRowGroup className={children[0].props.className} type="thead">
         {state.collection.headerRows.map((headerRow) => (
           <TableHeaderRow key={headerRow.key} item={headerRow} state={state}>
             {[...(state.collection.getChildren?.(headerRow.key) ?? [])].map((column) =>
@@ -197,7 +200,7 @@ const TableInner = <T extends object>(
           </TableHeaderRow>
         ))}
       </TableRowGroup>
-      <TableRowGroup type="tbody">
+      <TableRowGroup className={children[1].props.className} type="tbody">
         {[...state.collection.body.childNodes].map((row) => (
           <TableRow key={row.key} item={row} state={state}>
             {[...(state.collection.getChildren?.(row.key) ?? [])].map((cell) =>
@@ -236,14 +239,20 @@ export const Table = forwardRef(TableInner) as <T extends object>(
 ;(Table as { displayName?: string }).displayName = 'Table'
 
 const TableRowGroup = ({
+  className,
   type: Element,
   children
 }: {
   children: ReactNode
+  className?: string
   type: 'thead' | 'tbody'
 }) => {
   const { rowGroupProps } = useTableRowGroup()
-  return <Element {...rowGroupProps}>{children}</Element>
+  return (
+    <Element {...rowGroupProps} className={className || undefined}>
+      {children}
+    </Element>
+  )
 }
 
 interface TableHeaderRowProps<T> {
@@ -274,7 +283,12 @@ const TableColumnHeader = <T extends object>({ column, state }: TableColumnHeade
   const sortIcon = state.sortDescriptor?.direction === 'ascending' ? '▲' : '▼'
 
   return (
-    <th {...columnHeaderProps} colSpan={column.colSpan ?? undefined} ref={ref}>
+    <th
+      {...columnHeaderProps}
+      className={column.props?.className || undefined}
+      colSpan={column.colSpan ?? undefined}
+      ref={ref}
+    >
       {column.rendered}
       {column.props?.allowsSorting && (
         <span aria-hidden="true" className="table-sort-icon">
@@ -314,7 +328,11 @@ const TableRow = <T extends object>({ children, item, state }: TableRowProps<T>)
   const isSelected = state.selectionManager.isSelected(item.key)
 
   return (
-    <tr {...rowProps} className={classNames({ active: isSelected })} ref={ref}>
+    <tr
+      {...rowProps}
+      className={classNames({ active: isSelected }, item.props?.className)}
+      ref={ref}
+    >
       {children}
     </tr>
   )
@@ -330,7 +348,7 @@ const TableCell = <T extends object>({ cell, state }: TableCellProps<T>) => {
   const { gridCellProps } = useTableCell({ node: cell }, state, ref)
 
   return (
-    <td {...gridCellProps} ref={ref}>
+    <td {...gridCellProps} className={cell.props?.className || undefined} ref={ref}>
       {cell.rendered}
     </td>
   )

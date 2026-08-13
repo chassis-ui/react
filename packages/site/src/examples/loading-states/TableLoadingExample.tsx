@@ -51,7 +51,11 @@ export const TableLoadingExample = () => {
         key={String(loading)}
       >
         <TableHeader columns={columns}>
-          {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
+          {(column) => (
+            <TableColumn className={`col-${column.width}`} key={column.key}>
+              {column.label}
+            </TableColumn>
+          )}
         </TableHeader>
         <TableBody items={orders}>
           {(row) => (

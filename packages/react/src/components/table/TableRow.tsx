@@ -8,6 +8,10 @@ export interface TableRowProps {
    */
   children: ReactElement | ReactElement[] | ((columnKey: Key) => ReactElement)
   /**
+   * A string of all className you want applied to the row.
+   */
+  className?: string
+  /**
    * A string representation of the row's contents, used for typeahead.
    */
   textValue?: string

@@ -7,6 +7,10 @@ export interface TableCellProps {
    */
   children: ReactNode
   /**
+   * A string of all className you want applied to the cell.
+   */
+  className?: string
+  /**
    * Indicates how many columns the cell spans.
    */
   colSpan?: number

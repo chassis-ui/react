@@ -8,6 +8,10 @@ export interface TableHeaderProps<T> {
    */
   children: ReactElement | ReactElement[] | ((column: T) => ReactElement)
   /**
+   * A string of all className you want applied to the `<thead>` element.
+   */
+  className?: string
+  /**
    * A list of column data objects, rendered via the function form of `children`.
    */
   columns?: readonly T[]

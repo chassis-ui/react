@@ -11,6 +11,10 @@ export interface TableColumnProps {
    * Rendered contents of the column header.
    */
   children: ReactNode
+  /**
+   * A string of all className you want applied to the column header.
+   */
+  className?: string
 }
 
 /**

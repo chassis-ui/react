@@ -7,6 +7,10 @@ export interface TableBodyProps<T> {
    */
   children: ReactElement | ReactElement[] | ((item: T) => ReactElement)
   /**
+   * A string of all className you want applied to the `<tbody>` element.
+   */
+  className?: string
+  /**
    * A list of row data objects, rendered via the function form of `children`.
    */
   items?: Iterable<T>

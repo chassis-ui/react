@@ -125,6 +125,33 @@ describe('Table', () => {
         'bazinga'
       )
     })
+
+    test('applies className to TableHeader, TableBody, TableColumn, TableRow, and TableCell', () => {
+      render(
+        <Table aria-label="Styled sub-components">
+          <TableHeader className="head-class">
+            <TableColumn key="name" className="column-class">
+              Name
+            </TableColumn>
+          </TableHeader>
+          <TableBody className="body-class" items={rows}>
+            {(row) => (
+              <TableRow className="row-class" key={row.id}>
+                {() => <TableCell className="cell-class">{row.name}</TableCell>}
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      )
+      // `<thead>`/`<tbody>` have no accessible role query - structural containers only.
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(screen.getByRole('grid').querySelector('thead')).toHaveClass('head-class')
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(screen.getByRole('grid').querySelector('tbody')).toHaveClass('body-class')
+      expect(screen.getByRole('columnheader', { name: 'Name' })).toHaveClass('column-class')
+      expect(screen.getByRole('row', { name: /Mark/ })).toHaveClass('row-class')
+      expect(screen.getByRole('rowheader', { name: 'Mark' })).toHaveClass('cell-class')
+    })
   })
 
   describe('sorting', () => {
