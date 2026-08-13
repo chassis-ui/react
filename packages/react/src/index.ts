@@ -39,7 +39,16 @@ import {
   CardText,
   CardTitle
 } from './components/card'
-import { Carousel, CarouselCaption, CarouselItem } from './components/carousel'
+import {
+  Carousel,
+  CarouselControlNext,
+  CarouselControlPrev,
+  CarouselIndicators,
+  CarouselInner,
+  CarouselItem,
+  CarouselOverlay,
+  CarouselPlayPause
+} from './components/carousel'
 import { Collapse } from './components/collapse'
 import { ChipInput } from './components/chip-input'
 import { CloseButton } from './components/close-button'
@@ -153,8 +162,13 @@ export {
   CardText,
   CardTitle,
   Carousel,
-  CarouselCaption,
+  CarouselControlNext,
+  CarouselControlPrev,
+  CarouselIndicators,
+  CarouselInner,
   CarouselItem,
+  CarouselOverlay,
+  CarouselPlayPause,
   ChipInput,
   CloseButton,
   Collapse,

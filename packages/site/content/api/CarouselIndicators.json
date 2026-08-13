@@ -1,0 +1,49 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/carousel/CarouselIndicators.tsx",
+  "description": "",
+  "displayName": "CarouselIndicators",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/carousel/CarouselIndicators.tsx",
+        "name": "CarouselIndicatorsProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/carousel/CarouselIndicators.tsx",
+          "name": "CarouselIndicatorsProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "label": {
+      "defaultValue": {
+        "value": "(position) => `Slide ${position}`"
+      },
+      "description": "Accessible label for each indicator button. Receives the slide's 1-based position.",
+      "name": "label",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/carousel/CarouselIndicators.tsx",
+        "name": "CarouselIndicatorsProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/carousel/CarouselIndicators.tsx",
+          "name": "CarouselIndicatorsProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((position: number) => string)"
+      }
+    }
+  }
+}

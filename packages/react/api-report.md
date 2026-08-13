@@ -1090,11 +1090,14 @@ interface CardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
    */
   footer?: ReactNode;
   /**
-   * Shorthand for a `CardImage` — pass a `src`. Combine with `imageAlt`/`imageOrientation`. For
-   * anything beyond a single top/bottom image cap (overlays, a horizontal layout, a custom
-   * `component`), omit this and compose `CardImage` directly as a child instead.
+   * Shorthand for a `CardImage` — pass either a `src` URL (combine with `imageAlt`/
+   * `imageOrientation`) or a fully-formed element — a `<CardImage>`, `<Skeleton>`,
+   * `<Placeholder>`, or anything else — rendered as-is in its place. `imageAlt`/`imageOrientation`
+   * only apply to the `src` form; set them directly on your own element otherwise. For a
+   * horizontal layout or an overlay, omit this and compose `CardImage` directly as a child
+   * instead.
    */
-  image?: string;
+  image?: ReactNode;
   /**
    * Accessible alt text for `image`. Ignored unless `image` is set.
    */
@@ -1297,84 +1300,193 @@ interface CardTitleProps extends HTMLAttributes<HTMLHeadingElement> {
 }
 declare const CardTitle: React.ForwardRefExoticComponent<CardTitleProps & React.RefAttributes<HTMLHeadingElement>>;
 //#endregion
+//#region src/components/carousel/context.d.ts
+type CarouselEnds = 'loop' | 'stop' | 'wrap';
+//#endregion
 //#region src/components/carousel/Carousel.d.ts
+type CarouselTransition = 'fade' | 'scroll';
+interface CarouselSlideDetail {
+  /**
+   * Direction of travel, mirrored in RTL.
+   */
+  direction: 'left' | 'right';
+  /**
+   * Index of the outgoing slide.
+   */
+  from: number;
+  /**
+   * Index of the incoming slide.
+   */
+  to: number;
+}
 interface CarouselProps extends HTMLAttributes<HTMLDivElement> {
   /**
-   * index of the active item.
+   * The active slide's index, for controlled usage.
    */
   activeIndex?: number;
   /**
+   * Let each CarouselItem size itself instead of dividing the track evenly; snap points still land on every slide.
+   */
+  auto?: boolean;
+  /**
+   * Cycle through slides automatically on mount.
+   */
+  autoplay?: boolean;
+  /**
+   * Snap the active slide to the center of the viewport instead of its start.
+   */
+  center?: boolean;
+  /**
    * A string of all className you want applied to the base component.
    */
   className?: string;
   /**
-   * Adding in the previous and next controls.
+   * The active slide's index, for uncontrolled usage.
    */
-  controls?: boolean;
+  defaultActiveIndex?: number;
   /**
-   * Add darker controls, indicators, and captions.
+   * Behavior at the first/last slide. `loop` continues seamlessly past the ends for a single-slide layout, falling back to `wrap` for multi-item, peek, centered, or variable-width layouts, and under reduced motion. `wrap` jumps from the last slide back to the first, and vice versa. `stop` hard-stops and disables the previous/next controls at each end.
    */
-  dark?: boolean;
+  ends?: CarouselEnds;
   /**
-   * The amount of time to delay between automatically cycling an item. If false, carousel will not automatically cycle.
+   * Milliseconds to wait before automatically advancing to the next slide. Override per slide with CarouselItem's own `interval` prop.
    */
-  interval?: boolean | number;
+  interval?: number;
   /**
-   * Adding indicators at the bottom of the carousel for each item.
+   * Number of whole slides visible per view, applied as the `--cx-carousel-items` custom property.
    */
-  indicators?: boolean;
+  items?: number;
   /**
-   * Callback fired when a slide transition end.
+   * Space between slides, applied as the `--cx-carousel-items-gap` custom property.
    */
-  onSlid?: (active: number, direction: string) => void;
+  itemsGap?: string;
   /**
-   * Callback fired when a slide transition starts.
+   * How much of the neighboring slides to reveal, applied as the `--cx-carousel-items-peek` custom property.
    */
-  onSlide?: (active: number, direction: string) => void;
+  itemsPeek?: string;
   /**
-   * If set to 'hover', pauses the cycling of the carousel on mouseenter and resumes the cycling of the carousel on mouseleave. If set to false, hovering over the carousel won't pause it.
+   * Move to the previous/next slide with the Left/Right arrow keys while focus is inside the carousel.
    */
-  pause?: 'hover' | boolean;
+  keyboard?: boolean;
   /**
-   * Set type of the transition.
+   * Callback fired once a slide transition completes.
    */
-  transition?: 'crossfade' | 'slide';
+  onSlid?: (detail: CarouselSlideDetail) => void;
   /**
-   * Set whether the carousel should cycle continuously or have hard stops.
+   * Callback fired when a slide transition begins.
    */
-  wrap?: boolean;
+  onSlide?: (detail: CarouselSlideDetail) => void;
+  /**
+   * Pause autoplay on `mouseenter`, resuming on `mouseleave`. Set to `false` to disable pause-on-hover.
+   */
+  pause?: 'hover' | false;
+  /**
+   * Replace the scroll transition with a crossfade.
+   */
+  transition?: CarouselTransition;
 }
 declare const Carousel: React.ForwardRefExoticComponent<CarouselProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
-//#region src/components/carousel/CarouselCaption.d.ts
-interface CarouselCaptionProps extends HTMLAttributes<HTMLDivElement> {
+//#region src/components/carousel/CarouselControlNext.d.ts
+interface CarouselControlNextProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /**
-   * A string of all className you want applied to the base component.
+   * A string of all className you want applied to the component.
+   */
+  className?: string;
+  /**
+   * The accessible label announced by assistive technology.
+   */
+  label?: string;
+}
+declare const CarouselControlNext: React.ForwardRefExoticComponent<CarouselControlNextProps & React.RefAttributes<HTMLButtonElement>>;
+//#endregion
+//#region src/components/carousel/CarouselControlPrev.d.ts
+interface CarouselControlPrevProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  /**
+   * A string of all className you want applied to the component.
+   */
+  className?: string;
+  /**
+   * The accessible label announced by assistive technology.
+   */
+  label?: string;
+}
+declare const CarouselControlPrev: React.ForwardRefExoticComponent<CarouselControlPrevProps & React.RefAttributes<HTMLButtonElement>>;
+//#endregion
+//#region src/components/carousel/CarouselIndicators.d.ts
+interface CarouselIndicatorsProps extends HTMLAttributes<HTMLDivElement> {
+  /**
+   * A string of all className you want applied to the component.
+   */
+  className?: string;
+  /**
+   * Accessible label for each indicator button. Receives the slide's 1-based position.
+   */
+  label?: (position: number) => string;
+}
+declare const CarouselIndicators: React.ForwardRefExoticComponent<CarouselIndicatorsProps & React.RefAttributes<HTMLDivElement>>;
+//#endregion
+//#region src/components/carousel/CarouselInner.d.ts
+interface CarouselInnerProps extends HTMLAttributes<HTMLDivElement> {
+  /**
+   * A string of all className you want applied to the component.
    */
   className?: string;
 }
-declare const CarouselCaption: React.ForwardRefExoticComponent<CarouselCaptionProps & React.RefAttributes<HTMLDivElement>>;
+/**
+ * The scroll viewport — a real horizontally-scrolling container using CSS scroll-snap. Wrap
+ * CarouselItem children in this rather than passing them directly to Carousel, so controls and
+ * indicators can sit alongside it (above, below, or overlaid) instead of inside the scroll track.
+ */
+declare const CarouselInner: React.ForwardRefExoticComponent<CarouselInnerProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
 //#region src/components/carousel/CarouselItem.d.ts
 interface CarouselItemProps extends HTMLAttributes<HTMLDivElement> {
   /**
-   * @ignore
-   */
-  active?: boolean;
-  /**
-   * A string of all className you want applied to the base component.
+   * A string of all className you want applied to the component.
    */
   className?: string;
   /**
-   * @ignore
+   * Milliseconds to wait before autoplay advances past this slide, overriding the carousel's own `interval`.
    */
-  direction?: string;
-  /**
-   * The amount of time to delay between automatically cycling an item.
-   */
-  interval?: boolean | number;
+  interval?: number;
 }
 declare const CarouselItem: React.ForwardRefExoticComponent<CarouselItemProps & React.RefAttributes<HTMLDivElement>>;
+//#endregion
+//#region src/components/carousel/CarouselOverlay.d.ts
+interface CarouselOverlayProps extends HTMLAttributes<HTMLDivElement> {
+  /**
+   * A string of all className you want applied to the component.
+   */
+  className?: string;
+}
+/**
+ * Overlays its children (typically controls and indicators) on top of the slides instead of
+ * stacking them in the flow.
+ */
+declare const CarouselOverlay: React.ForwardRefExoticComponent<CarouselOverlayProps & React.RefAttributes<HTMLDivElement>>;
+//#endregion
+//#region src/components/carousel/CarouselPlayPause.d.ts
+interface CarouselPlayPauseProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  /**
+   * A string of all className you want applied to the component.
+   */
+  className?: string;
+  /**
+   * The accessible label announced while autoplay is running.
+   */
+  pauseLabel?: string;
+  /**
+   * The accessible label announced while autoplay is stopped.
+   */
+  playLabel?: string;
+}
+/**
+ * A discoverable toggle so a viewer can stop an autoplaying carousel, as required by WCAG 2.2
+ * Success Criterion 2.2.2 (Pause, Stop, Hide). Reflects the current state automatically — a pause
+ * icon while playing, a play icon once stopped.
+ */
+declare const CarouselPlayPause: React.ForwardRefExoticComponent<CarouselPlayPauseProps & React.RefAttributes<HTMLButtonElement>>;
 //#endregion
 //#region src/components/chip-input/ChipInput.d.ts
 interface ChipInputProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultValue' | 'onChange'> {
@@ -3363,30 +3475,80 @@ interface TextareaProps extends Omit<TextareaHTMLAttributes<HTMLTextAreaElement>
 }
 declare const Textarea: React.ForwardRefExoticComponent<TextareaProps & React.RefAttributes<HTMLTextAreaElement>>;
 //#endregion
-//#region src/components/image/Image.d.ts
-interface ImageProps extends ImgHTMLAttributes<HTMLOrSVGImageElement> {
+//#region src/components/placeholder/Placeholder.d.ts
+type PlaceholderAlign = 'center' | 'end' | 'start';
+type PlaceholderOwnProps<C extends ElementType> = {
   /**
-   * Set the horizontal aligment.
+   * Set the horizontal alignment. Only applies when `src` is set.
    */
-  align?: 'center' | 'end' | 'start';
+  align?: PlaceholderAlign;
   /**
    * A string of all className you want applied to the component.
    */
   className?: string;
   /**
-   * Make image responsive.
+   * Sets the color of the generated placeholder graphic to one of Chassis context colors. Has no
+   * effect when `src` is set.
+   */
+  color?: ContextColor;
+  /**
+   * Sets the variant of the generated placeholder graphic to one of Chassis context styles. Has no
+   * effect when `src` is set.
+   */
+  variant?: Exclude<ContextStyle, 'basic' | 'outline'>;
+  /**
+   * Component used for the root node when `src` is set. Either a string to use an HTML element
+   * or a component — e.g. a framework's own `Image` component. Its own props (`src`, `fill`,
+   * `priority`, etc.) are type-checked at the call site once passed here.
+   */
+  component?: C;
+  /**
+   * Make the image responsive, so it never grows larger than its parent. Only applies when `src`
+   * is set.
    */
   fluid?: boolean;
   /**
-   * Make image rounded.
+   * Placeholder height.
+   */
+  height?: number | string;
+  /**
+   * Give the image a rounded border-radius. Only applies when `src` is set.
    */
   rounded?: boolean;
   /**
-   * Give an image a rounded 1px border appearance.
+   * Renders a real image instead of the generated placeholder graphic, e.g. a default asset or a
+   * `placehold.co` URL.
+   */
+  src?: string;
+  /**
+   * Text shown in the generated placeholder graphic. Defaults to `{width}x{height}`. Pass `false`
+   * to hide it. Has no effect when `src` is set.
+   */
+  text?: false | string;
+  /**
+   * Give the image a thumbnail appearance (padding, background, border, box-shadow). Only
+   * applies when `src` is set.
    */
   thumbnail?: boolean;
-}
-declare const Image: React.ForwardRefExoticComponent<ImageProps & React.RefAttributes<HTMLImageElement>>;
+  /**
+   * Accessible title for the generated placeholder graphic, rendered as an SVG `<title>`. Pass
+   * `false` to hide it. Has no effect when `src` is set.
+   *
+   * @default 'Placeholder'
+   */
+  title?: false | string;
+  /**
+   * Placeholder width.
+   */
+  width?: number | string;
+};
+type PlaceholderProps<C extends ElementType = 'img'> = PolymorphicComponentProps<C, PlaceholderOwnProps<C>>;
+type PlaceholderComponent = (<C extends ElementType = 'img'>(props: PlaceholderProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const Placeholder: PlaceholderComponent;
 //#endregion
 //#region src/components/list/List.d.ts
 interface ListItemDef {
@@ -4098,11 +4260,12 @@ interface DrawerTitleProps extends HTMLAttributes<HTMLHeadingElement> {
 declare const DrawerTitle: React.ForwardRefExoticComponent<DrawerTitleProps & React.RefAttributes<HTMLHeadElement>>;
 //#endregion
 //#region src/components/skeleton/Skeleton.d.ts
-interface SkeletonProps extends HTMLAttributes<HTMLSpanElement> {
+type SkeletonOwnProps<C extends ElementType> = {
   /**
-   * Renders `skeleton-{animation}` on this element instead of the bare `skeleton` class. Nest
-   * plain `<Skeleton>` children inside it for the glow pulse to reach them, or apply `wave`
-   * directly to a container of one or more `<Skeleton>` children for a directional sweep.
+   * Adds `skeleton-{animation}` alongside the base `skeleton` class, so the element animates
+   * itself as well as any nested `<Skeleton>` children. Nest plain `<Skeleton>` children inside
+   * it for the glow pulse to reach them too, or apply `wave` to a container of one or more
+   * `<Skeleton>` children for a directional sweep across the whole group.
    */
   animation?: 'glow' | 'wave';
   /**
@@ -4114,12 +4277,17 @@ interface SkeletonProps extends HTMLAttributes<HTMLSpanElement> {
    */
   color?: ContextColor;
   /**
-   * Component used for the root node. Either a string to use a HTML element or a component.
+   * Component used for the root node. Either a string to use an HTML element or a component —
+   * e.g. `Avatar` or `Button`. Its own props are type-checked at the call site once passed here.
+   *
+   * @default 'span'
    */
-  component?: ElementType | string;
+  component?: C;
   /**
    * Width of the skeleton, expressed as a column span (of 12), or `'auto'`/`true` for a
-   * natural-width skeleton.
+   * natural-width skeleton. Unset by default, so the rendered element's own intrinsic width
+   * applies — set it explicitly (e.g. `span={12}`) for a full-width text line; leave it unset
+   * when `component` is something that sizes itself, like `Avatar` or `Button`.
    *
    * @type { 'auto' | number | string | boolean }
    */
@@ -4130,8 +4298,53 @@ interface SkeletonProps extends HTMLAttributes<HTMLSpanElement> {
    * @type { Partial<Record<'small' | 'medium' | 'large' | 'xlarge' | '2xlarge', 'auto' | number | string | boolean>> }
    */
   responsive?: Partial<Record<Breakpoint, Span>>;
-}
-declare const Skeleton: React.ForwardRefExoticComponent<SkeletonProps & React.RefAttributes<HTMLSpanElement>>;
+};
+type SkeletonProps<C extends ElementType = 'span'> = PolymorphicComponentProps<C, SkeletonOwnProps<C>>;
+type SkeletonComponent = (<C extends ElementType = 'span'>(props: SkeletonProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const Skeleton: SkeletonComponent;
+//#endregion
+//#region src/components/skeleton/SkeletonLoader.d.ts
+type SkeletonLoaderOwnProps<C extends ElementType> = {
+  /**
+   * The real content, rendered unchanged (no wrapping element) once `loading` is `false`.
+   */
+  children: ReactNode;
+  /**
+   * Sets the color of the generated skeleton lines to one of Chassis context colors.
+   */
+  color?: ContextColor;
+  /**
+   * Component used for the generated skeleton(s) — e.g. `Avatar` or `Button` — for swapping
+   * non-text content, not just text runs. Its own props are type-checked at the call site once
+   * passed here, same as `Skeleton`'s own `component` prop.
+   *
+   * @default 'span'
+   */
+  component?: C;
+  /**
+   * Swaps `children` for one `<Skeleton>` per entry in `spans` while `true`.
+   */
+  loading: boolean;
+  /**
+   * One skeleton line per entry, using the same values as `Skeleton`'s `span` prop — e.g.
+   * `[12, 6]` for a full-width line followed by a half-width one. A single value (e.g. `6`) is
+   * shorthand for a single line, equivalent to `[6]`. Leave unset for a single skeleton sized by
+   * `component`'s own intrinsic width instead — e.g. an `Avatar`'s `size` prop. Rendered instead
+   * of `children` while `loading` is `true`; ignored once `loading` is `false`.
+   *
+   * @type { 'auto' | number | string | boolean | Array<'auto' | number | string | boolean> }
+   */
+  spans?: Span | Span[];
+};
+type SkeletonLoaderProps<C extends ElementType = 'span'> = PolymorphicComponentProps<C, SkeletonLoaderOwnProps<C>>;
+type SkeletonLoaderComponent = (<C extends ElementType = 'span'>(props: SkeletonLoaderProps<C>) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const SkeletonLoader: SkeletonLoaderComponent;
 //#endregion
 //#region src/components/spinner/Spinner.d.ts
 interface SpinnerProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElement> {
@@ -4270,7 +4483,11 @@ interface TableProps<T extends object> {
    * A `TableHeader` and a `TableBody`, each built from `TableColumn`/`TableRow`/
    * `TableCell` — read as data to build the table's collection. Not rendered directly.
    */
-  children: [ReactElement<TableHeaderProps<T>>, ReactElement<TableBodyProps<T>>];
+  children: [ReactElement<TableHeaderProps<T> & {
+    className?: string;
+  }>, ReactElement<TableBodyProps<T> & {
+    className?: string;
+  }>];
   /**
    * A string of all className you want applied to the component.
    */
@@ -4340,6 +4557,10 @@ interface TableBodyProps$1<T> {
    */
   children: ((item: T) => ReactElement) | ReactElement | ReactElement[];
   /**
+   * A string of all className you want applied to the `<tbody>` element.
+   */
+  className?: string;
+  /**
    * A list of row data objects, rendered via the function form of `children`.
    */
   items?: Iterable<T>;
@@ -4356,6 +4577,10 @@ interface TableCellProps {
    * The contents of the cell.
    */
   children: ReactNode;
+  /**
+   * A string of all className you want applied to the cell.
+   */
+  className?: string;
   /**
    * Indicates how many columns the cell spans.
    */
@@ -4382,6 +4607,10 @@ interface TableColumnProps {
    * Rendered contents of the column header.
    */
   children: ReactNode;
+  /**
+   * A string of all className you want applied to the column header.
+   */
+  className?: string;
 }
 /**
  * Collection node, data-only — see `TableHeader`. Read by `Table` to build a column in the
@@ -4396,6 +4625,10 @@ interface TableHeaderProps$1<T> {
    * generation.
    */
   children: ((column: T) => ReactElement) | ReactElement | ReactElement[];
+  /**
+   * A string of all className you want applied to the `<thead>` element.
+   */
+  className?: string;
   /**
    * A list of column data objects, rendered via the function form of `children`.
    */
@@ -4414,6 +4647,10 @@ interface TableRowProps {
    * required when the row's parent `TableBody` uses the `items`/render-function form.
    */
   children: ((columnKey: Key) => ReactElement) | ReactElement | ReactElement[];
+  /**
+   * A string of all className you want applied to the row.
+   */
+  className?: string;
   /**
    * A string representation of the row's contents, used for typeahead.
    */
@@ -4902,5 +5139,5 @@ interface StackProps extends HTMLAttributes<HTMLDivElement> {
 }
 declare const Stack: React.ForwardRefExoticComponent<StackProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
-export { Accordion, AccordionBody, AccordionButton, AccordionCollapse, AccordionHeader, AccordionItem, Autocomplete, AutocompleteGroup, AutocompleteItem, Avatar, AvatarImage, AvatarStack, Backdrop, Badge, Breadcrumb, BreadcrumbItem, Button, ButtonGroup, ButtonToolbar, Calendar, Card, CardBody, CardFooter, CardGroup, CardHeader, CardImage, CardImageOverlay, CardLink, CardSubtitle, CardText, CardTitle, Carousel, CarouselCaption, CarouselItem, Checkbox, CheckboxGroup, ChipInput, CloseButton, Col, Collapse, ColorInput, Combobox, ComboboxGroup, ComboboxItem, Container, DatePicker, DateRangePicker, Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerTitle, FileInput, Flex, FloatingInput, Form, FormFeedback, FormField, FormHelp, FormLabel, Grid, GridItem, I18nProvider, Icon, Image, InputAdorn, InputGroup, InputGroupAddon, Link, List, ListItem, Menu, MenuDivider, MenuHeader, MenuItem, MenuList, MenuSubmenu, MenuSubmenuBack, MenuText, MenuToggle, Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle, Nav, NavItem, NavLink, NavTitle, Navbar, NavbarBrand, NavbarNav, NavbarText, NavbarToggler, Notification, NotificationIcon, NotificationStack, NotificationText, NotificationTitle, OtpInput, Pagination, PaginationItem, PasswordStrength, Popover, Progress, ProgressBar, Radio, RadioGroup, RangeCalendar, RangeInput, Row, Select, Skeleton, Spinner, Stack, Stepper, StepperItem, Switch, TabContent, TabPane, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tabs, TabsList, TabsPanel, TabsTab, TextInput, Textarea, Toast, ToastBody, ToastFooter, ToastHeader, ToastIcon, Toaster, Tooltip, addNotification, addToast, closeNotification, closeToast, notificationQueue, toastQueue, useDrawer, useModal, useNotification, useToast };
+export { Accordion, AccordionBody, AccordionButton, AccordionCollapse, AccordionHeader, AccordionItem, Autocomplete, AutocompleteGroup, AutocompleteItem, Avatar, AvatarImage, AvatarStack, Backdrop, Badge, Breadcrumb, BreadcrumbItem, Button, ButtonGroup, ButtonToolbar, Calendar, Card, CardBody, CardFooter, CardGroup, CardHeader, CardImage, CardImageOverlay, CardLink, CardSubtitle, CardText, CardTitle, Carousel, CarouselControlNext, CarouselControlPrev, CarouselIndicators, CarouselInner, CarouselItem, CarouselOverlay, CarouselPlayPause, Checkbox, CheckboxGroup, ChipInput, CloseButton, Col, Collapse, ColorInput, Combobox, ComboboxGroup, ComboboxItem, Container, DatePicker, DateRangePicker, Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerTitle, FileInput, Flex, FloatingInput, Form, FormFeedback, FormField, FormHelp, FormLabel, Grid, GridItem, I18nProvider, Icon, InputAdorn, InputGroup, InputGroupAddon, Link, List, ListItem, Menu, MenuDivider, MenuHeader, MenuItem, MenuList, MenuSubmenu, MenuSubmenuBack, MenuText, MenuToggle, Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle, Nav, NavItem, NavLink, NavTitle, Navbar, NavbarBrand, NavbarNav, NavbarText, NavbarToggler, Notification, NotificationIcon, NotificationStack, NotificationText, NotificationTitle, OtpInput, Pagination, PaginationItem, PasswordStrength, Placeholder, Popover, Progress, ProgressBar, Radio, RadioGroup, RangeCalendar, RangeInput, Row, Select, Skeleton, SkeletonLoader, Spinner, Stack, Stepper, StepperItem, Switch, TabContent, TabPane, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tabs, TabsList, TabsPanel, TabsTab, TextInput, Textarea, Toast, ToastBody, ToastFooter, ToastHeader, ToastIcon, Toaster, Tooltip, addNotification, addToast, closeNotification, closeToast, notificationQueue, toastQueue, useDrawer, useModal, useNotification, useToast };
 ```

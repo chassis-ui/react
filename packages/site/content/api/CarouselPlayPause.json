@@ -1,0 +1,70 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/carousel/CarouselPlayPause.tsx",
+  "description": "A discoverable toggle so a viewer can stop an autoplaying carousel, as required by WCAG 2.2\nSuccess Criterion 2.2.2 (Pause, Stop, Hide). Reflects the current state automatically — a pause\nicon while playing, a play icon once stopped.",
+  "displayName": "CarouselPlayPause",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/carousel/CarouselPlayPause.tsx",
+        "name": "CarouselPlayPauseProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/carousel/CarouselPlayPause.tsx",
+          "name": "CarouselPlayPauseProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "pauseLabel": {
+      "defaultValue": {
+        "value": "Pause"
+      },
+      "description": "The accessible label announced while autoplay is running.",
+      "name": "pauseLabel",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/carousel/CarouselPlayPause.tsx",
+        "name": "CarouselPlayPauseProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/carousel/CarouselPlayPause.tsx",
+          "name": "CarouselPlayPauseProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "playLabel": {
+      "defaultValue": {
+        "value": "Play"
+      },
+      "description": "The accessible label announced while autoplay is stopped.",
+      "name": "playLabel",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/carousel/CarouselPlayPause.tsx",
+        "name": "CarouselPlayPauseProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/carousel/CarouselPlayPause.tsx",
+          "name": "CarouselPlayPauseProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    }
+  }
+}

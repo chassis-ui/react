@@ -6,10 +6,8 @@
   "methods": [],
   "props": {
     "activeIndex": {
-      "defaultValue": {
-        "value": 0
-      },
-      "description": "index of the active item.",
+      "defaultValue": null,
+      "description": "The active slide's index, for controlled usage.",
       "name": "activeIndex",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/carousel/Carousel.tsx",
@@ -24,6 +22,65 @@
       "required": false,
       "type": {
         "name": "number"
+      }
+    },
+    "auto": {
+      "defaultValue": null,
+      "description": "Let each CarouselItem size itself instead of dividing the track evenly; snap points still land on every slide.",
+      "name": "auto",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/carousel/Carousel.tsx",
+        "name": "CarouselProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/carousel/Carousel.tsx",
+          "name": "CarouselProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "autoplay": {
+      "defaultValue": {
+        "value": false
+      },
+      "description": "Cycle through slides automatically on mount.",
+      "name": "autoplay",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/carousel/Carousel.tsx",
+        "name": "CarouselProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/carousel/Carousel.tsx",
+          "name": "CarouselProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "center": {
+      "defaultValue": null,
+      "description": "Snap the active slide to the center of the viewport instead of its start.",
+      "name": "center",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/carousel/Carousel.tsx",
+        "name": "CarouselProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/carousel/Carousel.tsx",
+          "name": "CarouselProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
       }
     },
     "className": {
@@ -45,10 +102,12 @@
         "name": "string"
       }
     },
-    "controls": {
-      "defaultValue": null,
-      "description": "Adding in the previous and next controls.",
-      "name": "controls",
+    "defaultActiveIndex": {
+      "defaultValue": {
+        "value": 0
+      },
+      "description": "The active slide's index, for uncontrolled usage.",
+      "name": "defaultActiveIndex",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/carousel/Carousel.tsx",
         "name": "CarouselProps"
@@ -61,13 +120,15 @@
       ],
       "required": false,
       "type": {
-        "name": "boolean"
+        "name": "number"
       }
     },
-    "dark": {
-      "defaultValue": null,
-      "description": "Add darker controls, indicators, and captions.",
-      "name": "dark",
+    "ends": {
+      "defaultValue": {
+        "value": "loop"
+      },
+      "description": "Behavior at the first/last slide. `loop` continues seamlessly past the ends for a single-slide layout, falling back to `wrap` for multi-item, peek, centered, or variable-width layouts, and under reduced motion. `wrap` jumps from the last slide back to the first, and vice versa. `stop` hard-stops and disables the previous/next controls at each end.",
+      "name": "ends",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/carousel/Carousel.tsx",
         "name": "CarouselProps"
@@ -80,14 +141,26 @@
       ],
       "required": false,
       "type": {
-        "name": "boolean"
+        "name": "enum",
+        "raw": "CarouselEnds",
+        "value": [
+          {
+            "value": "\"loop\""
+          },
+          {
+            "value": "\"wrap\""
+          },
+          {
+            "value": "\"stop\""
+          }
+        ]
       }
     },
     "interval": {
       "defaultValue": {
         "value": 5000
       },
-      "description": "The amount of time to delay between automatically cycling an item. If false, carousel will not automatically cycle.",
+      "description": "Milliseconds to wait before automatically advancing to the next slide. Override per slide with CarouselItem's own `interval` prop.",
       "name": "interval",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/carousel/Carousel.tsx",
@@ -101,13 +174,72 @@
       ],
       "required": false,
       "type": {
-        "name": "number | boolean"
+        "name": "number"
       }
     },
-    "indicators": {
+    "items": {
       "defaultValue": null,
-      "description": "Adding indicators at the bottom of the carousel for each item.",
-      "name": "indicators",
+      "description": "Number of whole slides visible per view, applied as the `--cx-carousel-items` custom property.",
+      "name": "items",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/carousel/Carousel.tsx",
+        "name": "CarouselProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/carousel/Carousel.tsx",
+          "name": "CarouselProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number"
+      }
+    },
+    "itemsGap": {
+      "defaultValue": null,
+      "description": "Space between slides, applied as the `--cx-carousel-items-gap` custom property.",
+      "name": "itemsGap",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/carousel/Carousel.tsx",
+        "name": "CarouselProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/carousel/Carousel.tsx",
+          "name": "CarouselProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "itemsPeek": {
+      "defaultValue": null,
+      "description": "How much of the neighboring slides to reveal, applied as the `--cx-carousel-items-peek` custom property.",
+      "name": "itemsPeek",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/carousel/Carousel.tsx",
+        "name": "CarouselProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/carousel/Carousel.tsx",
+          "name": "CarouselProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "keyboard": {
+      "defaultValue": {
+        "value": true
+      },
+      "description": "Move to the previous/next slide with the Left/Right arrow keys while focus is inside the carousel.",
+      "name": "keyboard",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/carousel/Carousel.tsx",
         "name": "CarouselProps"
@@ -125,7 +257,7 @@
     },
     "onSlid": {
       "defaultValue": null,
-      "description": "Callback fired when a slide transition end.",
+      "description": "Callback fired once a slide transition completes.",
       "name": "onSlid",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/carousel/Carousel.tsx",
@@ -139,12 +271,12 @@
       ],
       "required": false,
       "type": {
-        "name": "((active: number, direction: string) => void)"
+        "name": "((detail: CarouselSlideDetail) => void)"
       }
     },
     "onSlide": {
       "defaultValue": null,
-      "description": "Callback fired when a slide transition starts.",
+      "description": "Callback fired when a slide transition begins.",
       "name": "onSlide",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/carousel/Carousel.tsx",
@@ -158,14 +290,14 @@
       ],
       "required": false,
       "type": {
-        "name": "((active: number, direction: string) => void)"
+        "name": "((detail: CarouselSlideDetail) => void)"
       }
     },
     "pause": {
       "defaultValue": {
         "value": "hover"
       },
-      "description": "If set to 'hover', pauses the cycling of the carousel on mouseenter and resumes the cycling of the carousel on mouseleave. If set to false, hovering over the carousel won't pause it.",
+      "description": "Pause autoplay on `mouseenter`, resuming on `mouseleave`. Set to `false` to disable pause-on-hover.",
       "name": "pause",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/carousel/Carousel.tsx",
@@ -179,12 +311,14 @@
       ],
       "required": false,
       "type": {
-        "name": "boolean | \"hover\""
+        "name": "false | \"hover\""
       }
     },
     "transition": {
-      "defaultValue": null,
-      "description": "Set type of the transition.",
+      "defaultValue": {
+        "value": "scroll"
+      },
+      "description": "Replace the scroll transition with a crossfade.",
       "name": "transition",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/carousel/Carousel.tsx",
@@ -199,36 +333,15 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"slide\" | \"crossfade\"",
+        "raw": "CarouselTransition",
         "value": [
           {
-            "value": "\"slide\""
+            "value": "\"scroll\""
           },
           {
-            "value": "\"crossfade\""
+            "value": "\"fade\""
           }
         ]
-      }
-    },
-    "wrap": {
-      "defaultValue": {
-        "value": true
-      },
-      "description": "Set whether the carousel should cycle continuously or have hard stops.",
-      "name": "wrap",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/carousel/Carousel.tsx",
-        "name": "CarouselProps"
-      },
-      "declarations": [
-        {
-          "fileName": "chassis-react/packages/react/src/components/carousel/Carousel.tsx",
-          "name": "CarouselProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "boolean"
       }
     }
   }

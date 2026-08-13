@@ -1,0 +1,28 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/carousel/CarouselOverlay.tsx",
+  "description": "Overlays its children (typically controls and indicators) on top of the slides instead of\nstacking them in the flow.",
+  "displayName": "CarouselOverlay",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/carousel/CarouselOverlay.tsx",
+        "name": "CarouselOverlayProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/carousel/CarouselOverlay.tsx",
+          "name": "CarouselOverlayProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    }
+  }
+}

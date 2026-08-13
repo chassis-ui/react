@@ -5,28 +5,9 @@
   "displayName": "CarouselItem",
   "methods": [],
   "props": {
-    "active": {
-      "defaultValue": null,
-      "description": "@ignore",
-      "name": "active",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/carousel/CarouselItem.tsx",
-        "name": "CarouselItemProps"
-      },
-      "declarations": [
-        {
-          "fileName": "chassis-react/packages/react/src/components/carousel/CarouselItem.tsx",
-          "name": "CarouselItemProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "boolean"
-      }
-    },
     "className": {
       "defaultValue": null,
-      "description": "A string of all className you want applied to the base component.",
+      "description": "A string of all className you want applied to the component.",
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/carousel/CarouselItem.tsx",
@@ -43,30 +24,9 @@
         "name": "string"
       }
     },
-    "direction": {
-      "defaultValue": null,
-      "description": "@ignore",
-      "name": "direction",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/carousel/CarouselItem.tsx",
-        "name": "CarouselItemProps"
-      },
-      "declarations": [
-        {
-          "fileName": "chassis-react/packages/react/src/components/carousel/CarouselItem.tsx",
-          "name": "CarouselItemProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "string"
-      }
-    },
     "interval": {
-      "defaultValue": {
-        "value": false
-      },
-      "description": "The amount of time to delay between automatically cycling an item.",
+      "defaultValue": null,
+      "description": "Milliseconds to wait before autoplay advances past this slide, overriding the carousel's own `interval`.",
       "name": "interval",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/carousel/CarouselItem.tsx",
@@ -80,7 +40,7 @@
       ],
       "required": false,
       "type": {
-        "name": "number | boolean"
+        "name": "number"
       }
     }
   }

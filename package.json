@@ -13,7 +13,7 @@
     "site:build": "pnpm api:generate && pnpm sync-submodules && pnpm astro:build && pnpm site:pagefind",
     "site:pagefind": "pagefind --site _site --output-subdir react/pagefind",
     "site:clean": "rm -rf _site packages/site/node_modules packages/site/.astro packages/site/public",
-    "astro:dev": "pnpm --filter chassis-react-site dev --port 4327",
+    "astro:dev": "pnpm --filter chassis-react-site dev --port 4327 --host",
     "astro:build": "pnpm --filter chassis-react-site build",
     "astro:preview": "pnpm --filter chassis-react-site preview",
     "api:generate": "ts-node --project build/tsconfig.json build/generate-api.ts",

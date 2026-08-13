@@ -1,0 +1,49 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/carousel/CarouselControlNext.tsx",
+  "description": "",
+  "displayName": "CarouselControlNext",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/carousel/CarouselControlNext.tsx",
+        "name": "CarouselControlNextProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/carousel/CarouselControlNext.tsx",
+          "name": "CarouselControlNextProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "label": {
+      "defaultValue": {
+        "value": "Next slide"
+      },
+      "description": "The accessible label announced by assistive technology.",
+      "name": "label",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/carousel/CarouselControlNext.tsx",
+        "name": "CarouselControlNextProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/carousel/CarouselControlNext.tsx",
+          "name": "CarouselControlNextProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    }
+  }
+}

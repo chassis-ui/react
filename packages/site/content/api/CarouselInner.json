@@ -1,0 +1,28 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/carousel/CarouselInner.tsx",
+  "description": "The scroll viewport — a real horizontally-scrolling container using CSS scroll-snap. Wrap\nCarouselItem children in this rather than passing them directly to Carousel, so controls and\nindicators can sit alongside it (above, below, or overlaid) instead of inside the scroll track.",
+  "displayName": "CarouselInner",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/carousel/CarouselInner.tsx",
+        "name": "CarouselInnerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/carousel/CarouselInner.tsx",
+          "name": "CarouselInnerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    }
+  }
+}
