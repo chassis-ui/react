@@ -1414,7 +1414,7 @@ interface CarouselControlPrevProps extends ButtonHTMLAttributes<HTMLButtonElemen
 declare const CarouselControlPrev: React.ForwardRefExoticComponent<CarouselControlPrevProps & React.RefAttributes<HTMLButtonElement>>;
 //#endregion
 //#region src/components/carousel/CarouselIndicators.d.ts
-interface CarouselIndicatorsProps extends HTMLAttributes<HTMLDivElement> {
+interface CarouselIndicatorsProps extends HTMLAttributes<HTMLOListElement> {
   /**
    * A string of all className you want applied to the component.
    */
@@ -1424,7 +1424,7 @@ interface CarouselIndicatorsProps extends HTMLAttributes<HTMLDivElement> {
    */
   label?: (position: number) => string;
 }
-declare const CarouselIndicators: React.ForwardRefExoticComponent<CarouselIndicatorsProps & React.RefAttributes<HTMLDivElement>>;
+declare const CarouselIndicators: React.ForwardRefExoticComponent<CarouselIndicatorsProps & React.RefAttributes<HTMLOListElement>>;
 //#endregion
 //#region src/components/carousel/CarouselInner.d.ts
 interface CarouselInnerProps extends HTMLAttributes<HTMLDivElement> {
@@ -3925,7 +3925,7 @@ interface NavbarTogglerProps extends HTMLAttributes<HTMLButtonElement> {
 declare const NavbarToggler: React.ForwardRefExoticComponent<NavbarTogglerProps & React.RefAttributes<HTMLButtonElement>>;
 //#endregion
 //#region src/components/pagination/Pagination.d.ts
-interface PaginationProps extends HTMLAttributes<HTMLUListElement> {
+interface PaginationProps extends HTMLAttributes<HTMLElement> {
   /**
    * Current active page (1-indexed). Used with `pages` for data-driven mode.
    */
@@ -3943,6 +3943,13 @@ interface PaginationProps extends HTMLAttributes<HTMLUListElement> {
    */
   maxVisiblePages?: number;
   /**
+   * Accessible label for the "next page" control, used in smart pagination mode. Override for
+   * non-English locales.
+   *
+   * @default 'Next'
+   */
+  nextLabel?: string;
+  /**
    * Callback fired when the active page changes.
    */
   onActivePageChange?: (page: number) => void;
@@ -3952,11 +3959,18 @@ interface PaginationProps extends HTMLAttributes<HTMLUListElement> {
    */
   pages?: number;
   /**
+   * Accessible label for the "previous page" control, used in smart pagination mode. Override
+   * for non-English locales.
+   *
+   * @default 'Previous'
+   */
+  previousLabel?: string;
+  /**
    * Size the component small or large.
    */
   size?: 'large' | 'small';
 }
-declare const Pagination: React.ForwardRefExoticComponent<PaginationProps & React.RefAttributes<HTMLUListElement>>;
+declare const Pagination: React.ForwardRefExoticComponent<PaginationProps & React.RefAttributes<HTMLElement>>;
 //#endregion
 //#region src/components/pagination/PaginationItem.d.ts
 interface PaginationItemProps extends HTMLAttributes<HTMLAnchorElement> {

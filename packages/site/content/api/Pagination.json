@@ -57,6 +57,27 @@
         ]
       }
     },
+    "aria-label": {
+      "defaultValue": {
+        "value": "Pagination"
+      },
+      "description": "Accessible label for the pagination `<nav>` landmark. Override for non-English locales,\nor when multiple paginators appear on the same page.",
+      "name": "aria-label",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/pagination/Pagination.tsx",
+        "name": "PaginationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/pagination/Pagination.tsx",
+          "name": "PaginationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
     "className": {
       "defaultValue": null,
       "description": "A string of all className you want applied to the base component.",
@@ -97,6 +118,27 @@
         "name": "number"
       }
     },
+    "nextLabel": {
+      "defaultValue": {
+        "value": "Next"
+      },
+      "description": "Accessible label for the \"next page\" control, used in smart pagination mode. Override for\nnon-English locales.",
+      "name": "nextLabel",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/pagination/Pagination.tsx",
+        "name": "PaginationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/pagination/Pagination.tsx",
+          "name": "PaginationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
     "onActivePageChange": {
       "defaultValue": null,
       "description": "Callback fired when the active page changes.",
@@ -133,6 +175,27 @@
       "required": false,
       "type": {
         "name": "number"
+      }
+    },
+    "previousLabel": {
+      "defaultValue": {
+        "value": "Previous"
+      },
+      "description": "Accessible label for the \"previous page\" control, used in smart pagination mode. Override\nfor non-English locales.",
+      "name": "previousLabel",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/pagination/Pagination.tsx",
+        "name": "PaginationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/pagination/Pagination.tsx",
+          "name": "PaginationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
       }
     },
     "size": {

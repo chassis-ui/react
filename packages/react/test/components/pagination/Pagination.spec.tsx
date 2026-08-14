@@ -118,18 +118,25 @@ describe('Pagination', () => {
   })
 
   describe('RTL locale', () => {
-    // Prev/Next are labeled "Previous"/"Next" (logical, chassis-css-driven `.page-link` styling)
-    // rather than hardcoded to a physical side — nothing in this component's own logic is
-    // direction-dependent. Documents that audit finding as an executable check.
-    test('renders and paginates the same way as under LTR', async () => {
+    // Prev/Next controls use logical, chassis-css-driven `.pagination-link` styling rather than
+    // hardcoded to a physical side — nothing in this component's own layout logic is
+    // direction-dependent. `previousLabel`/`nextLabel` default to English but can be overridden
+    // (here, with Arabic) so the accessible name is translated too, not just the layout.
+    test('renders and paginates the same way as under LTR, using caller-supplied translations', async () => {
       const user = userEvent.setup()
       const onActivePageChange = vi.fn()
       render(
         <I18nProvider locale="ar-SA">
-          <Pagination activePage={1} pages={3} onActivePageChange={onActivePageChange} />
+          <Pagination
+            activePage={1}
+            pages={3}
+            onActivePageChange={onActivePageChange}
+            previousLabel="السابق"
+            nextLabel="التالي"
+          />
         </I18nProvider>
       )
-      await user.click(screen.getByRole('button', { name: 'Next' }))
+      await user.click(screen.getByRole('button', { name: 'التالي' }))
       expect(onActivePageChange).toHaveBeenCalledWith(2)
     })
   })

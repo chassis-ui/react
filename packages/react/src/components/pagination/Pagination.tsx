@@ -1,9 +1,10 @@
-import React, { forwardRef, HTMLAttributes } from 'react'
+import React, { forwardRef, HTMLAttributes, useEffect, useRef } from 'react'
+import { Icon } from '../icon'
 import classNames from 'classnames'
 
 import { PaginationItem } from './PaginationItem'
 
-export interface PaginationProps extends HTMLAttributes<HTMLUListElement> {
+export interface PaginationProps extends HTMLAttributes<HTMLElement> {
   /**
    * Current active page (1-indexed). Used with `pages` for data-driven mode.
    */
@@ -13,6 +14,13 @@ export interface PaginationProps extends HTMLAttributes<HTMLUListElement> {
    */
   align?: 'start' | 'center' | 'end'
   /**
+   * Accessible label for the pagination `<nav>` landmark. Override for non-English locales,
+   * or when multiple paginators appear on the same page.
+   *
+   * @default 'Pagination'
+   */
+  'aria-label'?: string
+  /**
    * A string of all className you want applied to the base component.
    */
   className?: string
@@ -20,6 +28,13 @@ export interface PaginationProps extends HTMLAttributes<HTMLUListElement> {
    * Maximum number of visible page buttons (default: 5). Flanking pages are collapsed to ellipsis.
    */
   maxVisiblePages?: number
+  /**
+   * Accessible label for the "next page" control, used in smart pagination mode. Override for
+   * non-English locales.
+   *
+   * @default 'Next'
+   */
+  nextLabel?: string
   /**
    * Callback fired when the active page changes.
    */
@@ -30,22 +45,31 @@ export interface PaginationProps extends HTMLAttributes<HTMLUListElement> {
    */
   pages?: number
   /**
+   * Accessible label for the "previous page" control, used in smart pagination mode. Override
+   * for non-English locales.
+   *
+   * @default 'Previous'
+   */
+  previousLabel?: string
+  /**
    * Size the component small or large.
    */
   size?: 'small' | 'large'
 }
 
 function getPageRange(activePage: number, pages: number, maxVisible: number): (number | '...')[] {
-  if (pages <= maxVisible) {
+  const safeMaxVisible = Math.max(1, maxVisible)
+
+  if (pages <= safeMaxVisible) {
     return Array.from({ length: pages }, (_, i) => i + 1)
   }
 
-  const half = Math.floor(maxVisible / 2)
+  const half = Math.floor(safeMaxVisible / 2)
   let start = Math.max(1, activePage - half)
-  const end = Math.min(pages, start + maxVisible - 1)
+  const end = Math.min(pages, start + safeMaxVisible - 1)
 
-  if (end - start < maxVisible - 1) {
-    start = Math.max(1, end - maxVisible + 1)
+  if (end - start < safeMaxVisible - 1) {
+    start = Math.max(1, end - safeMaxVisible + 1)
   }
 
   const result: (number | '...')[] = []
@@ -67,16 +91,19 @@ function getPageRange(activePage: number, pages: number, maxVisible: number): (n
   return result
 }
 
-export const Pagination = forwardRef<HTMLUListElement, PaginationProps>(
+export const Pagination = forwardRef<HTMLElement, PaginationProps>(
   (
     {
       activePage = 1,
       align,
+      'aria-label': ariaLabel = 'Pagination',
       children,
       className,
       maxVisiblePages = 5,
+      nextLabel = 'Next',
       onActivePageChange,
       pages,
+      previousLabel = 'Previous',
       size,
       ...rest
     },
@@ -91,25 +118,49 @@ export const Pagination = forwardRef<HTMLUListElement, PaginationProps>(
       className
     )
 
+    const clampedActivePage = pages ? Math.min(Math.max(activePage, 1), pages) : activePage
+
+    const prevRef = useRef<HTMLAnchorElement>(null)
+    const nextRef = useRef<HTMLAnchorElement>(null)
+    const pendingFocusFix = useRef<'prev' | 'next' | null>(null)
+
+    // Native `disabled` buttons are blurred by the browser the moment they're disabled. Clicking
+    // Prev/Next into the first/last page disables that very button, silently dropping focus to
+    // <body>. Redirect focus to the still-enabled sibling when that happens.
+    useEffect(() => {
+      if (!pages || !pendingFocusFix.current) return
+      const from = pendingFocusFix.current
+      pendingFocusFix.current = null
+      if (from === 'prev' && clampedActivePage <= 1) {
+        nextRef.current?.focus()
+      } else if (from === 'next' && clampedActivePage >= pages) {
+        prevRef.current?.focus()
+      }
+    }, [clampedActivePage, pages])
+
     const smartContent = pages ? (
       <>
         <PaginationItem
-          disabled={activePage <= 1}
-          onClick={() => onActivePageChange && onActivePageChange(activePage - 1)}
-          aria-label="Previous"
+          ref={prevRef}
+          disabled={clampedActivePage <= 1}
+          onClick={() => {
+            pendingFocusFix.current = 'prev'
+            onActivePageChange && onActivePageChange(clampedActivePage - 1)
+          }}
+          aria-label={previousLabel}
         >
-          &laquo;
+          <Icon name="chevron-left-solid" className="directional-icon" />
         </PaginationItem>
-        {getPageRange(activePage, pages, maxVisiblePages).map((page, idx) =>
+        {getPageRange(clampedActivePage, pages, maxVisiblePages).map((page, idx) =>
           page === '...' ? (
             // eslint-disable-next-line react/no-array-index-key
-            <PaginationItem key={`ellipsis-${idx}`} disabled>
+            <PaginationItem key={`ellipsis-${idx}`} disabled component="span" aria-hidden="true">
               &hellip;
             </PaginationItem>
           ) : (
             <PaginationItem
               key={page}
-              active={page === activePage}
+              active={page === clampedActivePage}
               onClick={() => onActivePageChange && onActivePageChange(page)}
             >
               {page}
@@ -117,17 +168,21 @@ export const Pagination = forwardRef<HTMLUListElement, PaginationProps>(
           )
         )}
         <PaginationItem
-          disabled={activePage >= pages}
-          onClick={() => onActivePageChange && onActivePageChange(activePage + 1)}
-          aria-label="Next"
+          ref={nextRef}
+          disabled={clampedActivePage >= pages}
+          onClick={() => {
+            pendingFocusFix.current = 'next'
+            onActivePageChange && onActivePageChange(clampedActivePage + 1)
+          }}
+          aria-label={nextLabel}
         >
-          &raquo;
+          <Icon name="chevron-right-solid" className="directional-icon" />
         </PaginationItem>
       </>
     ) : null
 
     return (
-      <nav ref={ref} {...rest}>
+      <nav aria-label={ariaLabel} ref={ref} {...rest}>
         <ul className={_className}>{smartContent ?? children}</ul>
       </nav>
     )

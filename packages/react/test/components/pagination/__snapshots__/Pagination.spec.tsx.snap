@@ -2,33 +2,38 @@
 
 exports[`Pagination > rendering > matches the baseline markup snapshot 1`] = `
 <div>
-  <nav>
+  <nav
+    aria-label="Pagination"
+  >
     <ul
       class="pagination"
     >
       <li
-        class="page-item"
+        class="pagination-item"
       >
         <button
-          class="page-link"
+          class="pagination-link"
+          type="button"
         >
           A
         </button>
       </li>
       <li
-        class="page-item"
+        class="pagination-item"
       >
         <button
-          class="page-link"
+          class="pagination-link"
+          type="button"
         >
           B
         </button>
       </li>
       <li
-        class="page-item"
+        class="pagination-item"
       >
         <button
-          class="page-link"
+          class="pagination-link"
+          type="button"
         >
           C
         </button>

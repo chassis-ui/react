@@ -23,26 +23,35 @@ export interface PaginationItemProps extends HTMLAttributes<HTMLAnchorElement> {
 }
 
 export const PaginationItem = forwardRef<HTMLAnchorElement, PaginationItemProps>(
-  ({ children, className, component, ...rest }, ref) => {
+  ({ active, children, className, component, disabled, href, ...rest }, ref) => {
     const _className = classNames(
-      'page-item',
+      'pagination-item',
       {
-        active: rest.active,
-        disabled: rest.disabled
+        active,
+        disabled
       },
       className
     )
 
-    const Component = component ? component : rest.active ? 'span' : rest.href ? 'a' : 'button'
+    const Component = component ? component : active ? 'span' : href ? 'a' : 'button'
 
     return (
-      <li className={_className} {...(rest.active && { 'aria-current': 'page' })}>
+      <li className={_className} {...(active && { 'aria-current': 'page' })}>
         {Component === 'a' || Component === 'button' ? (
-          <Link className="page-link" component={Component} {...rest} ref={ref}>
+          <Link
+            className="pagination-link"
+            component={Component}
+            active={active}
+            disabled={disabled}
+            href={href}
+            {...(Component === 'button' && { type: 'button' })}
+            {...rest}
+            ref={ref}
+          >
             {children}
           </Link>
         ) : (
-          <Component className="page-link" ref={ref}>
+          <Component className="pagination-link" {...rest} ref={ref}>
             {children}
           </Component>
         )}

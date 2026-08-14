@@ -10,10 +10,10 @@ describe('PaginationItem', () => {
     test('renders a li wrapping a button by default', () => {
       render(<PaginationItem>Test</PaginationItem>)
       const item = screen.getByRole('listitem')
-      expect(item).toHaveClass('page-item')
+      expect(item).toHaveClass('pagination-item')
       expect(item.tagName).toBe('LI')
       const button = screen.getByRole('button', { name: 'Test' })
-      expect(button).toHaveClass('page-link')
+      expect(button).toHaveClass('pagination-link')
     })
 
     test('matches the baseline markup snapshot', () => {
@@ -24,7 +24,7 @@ describe('PaginationItem', () => {
     test('renders an anchor when href is provided', () => {
       render(<PaginationItem href="/bazinga">Test</PaginationItem>)
       const link = screen.getByRole('link', { name: 'Test' })
-      expect(link).toHaveClass('page-link')
+      expect(link).toHaveClass('pagination-link')
       expect(link).toHaveAttribute('href', '/bazinga')
     })
 
@@ -35,12 +35,12 @@ describe('PaginationItem', () => {
         </PaginationItem>
       )
       const item = screen.getByRole('listitem')
-      expect(item).toHaveClass('page-item', 'active')
+      expect(item).toHaveClass('pagination-item', 'active')
       expect(item).toHaveAttribute('aria-current', 'page')
       expect(screen.queryByRole('link')).not.toBeInTheDocument()
       const span = screen.getByText('Test')
       expect(span.tagName).toBe('SPAN')
-      expect(span).toHaveClass('page-link')
+      expect(span).toHaveClass('pagination-link')
     })
 
     test('renders a disabled button when disabled with no href', () => {
@@ -56,10 +56,10 @@ describe('PaginationItem', () => {
           Test
         </PaginationItem>
       )
-      expect(screen.getByRole('listitem')).toHaveClass('page-item', 'bazinga')
+      expect(screen.getByRole('listitem')).toHaveClass('pagination-item', 'bazinga')
       const heading = screen.getByText('Test')
       expect(heading.tagName).toBe('H3')
-      expect(heading).toHaveClass('page-link')
+      expect(heading).toHaveClass('pagination-link')
     })
   })
 

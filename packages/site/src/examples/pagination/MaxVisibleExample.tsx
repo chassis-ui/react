@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Pagination } from '@chassis-ui/react'
 
-export const MaxVisibleExample = () => {
+export const Example = () => {
   const [page, setPage] = useState(5)
   return (
     <Pagination

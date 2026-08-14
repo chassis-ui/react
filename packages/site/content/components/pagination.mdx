@@ -5,16 +5,16 @@ description: Chassis React Pagination supports both a smart data-driven mode (pa
 toc: true
 ---
 
-import { SmartExample } from '../../src/examples/pagination/SmartExample.tsx'
-import { MaxVisibleExample } from '../../src/examples/pagination/MaxVisibleExample.tsx'
-
-
-import { useState } from 'react'
-import { Pagination, PaginationItem } from '@chassis-ui/react'
+import { Example as SmartExample } from '../../src/examples/pagination/SmartExample.tsx'
+import { Example as MaxVisibleExample } from '../../src/examples/pagination/MaxVisibleExample.tsx'
+import { Example as ManualExample } from '../../src/examples/pagination/ManualExample.tsx'
+import { Example as DisabledActiveExample } from '../../src/examples/pagination/DisabledActiveExample.tsx'
+import { Example as SizingExample } from '../../src/examples/pagination/SizingExample.tsx'
+import { Example as AlignmentExample } from '../../src/examples/pagination/AlignmentExample.tsx'
 
 ## Smart pagination
 
-Pass `pages`, `activePage`, and `onActivePageChange` to let `<Pagination>` render the full control automatically — Prev/Next buttons, page numbers, and ellipsis for large ranges.
+Pass `pages`, `activePage`, and `onActivePageChange` to let `<Pagination>` render the full control automatically — Prev/Next buttons, page numbers, and ellipsis for large ranges. The Prev/Next controls default to English accessible names ("Previous"/"Next"); override them with `previousLabel`/`nextLabel` for other locales.
 
 
 <Example>
@@ -35,63 +35,25 @@ Use `maxVisiblePages` to control how many page buttons appear before collapsing 
 For full control, compose the pagination using `<PaginationItem>` directly.
 
 <Example>
-  <Pagination aria-label="Page navigation example">
-    <PaginationItem aria-label="Previous">&laquo;</PaginationItem>
-    <PaginationItem>1</PaginationItem>
-    <PaginationItem active>2</PaginationItem>
-    <PaginationItem>3</PaginationItem>
-    <PaginationItem aria-label="Next">&raquo;</PaginationItem>
-  </Pagination>
+  <ManualExample client:load />
 </Example>
 
 ### Disabled and active states
 
 <Example>
-  <Pagination aria-label="...">
-    <PaginationItem disabled>&laquo;</PaginationItem>
-    <PaginationItem active>1</PaginationItem>
-    <PaginationItem>2</PaginationItem>
-    <PaginationItem>3</PaginationItem>
-    <PaginationItem>&raquo;</PaginationItem>
-  </Pagination>
+  <DisabledActiveExample client:load />
 </Example>
 
 ## Sizing
 
 <Example>
-  <Pagination size="large" aria-label="Large pagination example">
-    <PaginationItem>&laquo;</PaginationItem>
-    <PaginationItem>1</PaginationItem>
-    <PaginationItem active>2</PaginationItem>
-    <PaginationItem>3</PaginationItem>
-    <PaginationItem>&raquo;</PaginationItem>
-  </Pagination>
-  <Pagination size="small" aria-label="Small pagination example">
-    <PaginationItem>&laquo;</PaginationItem>
-    <PaginationItem>1</PaginationItem>
-    <PaginationItem active>2</PaginationItem>
-    <PaginationItem>3</PaginationItem>
-    <PaginationItem>&raquo;</PaginationItem>
-  </Pagination>
+  <SizingExample client:load />
 </Example>
 
 ## Alignment
 
 <Example>
-  <Pagination align="center" aria-label="Centered pagination">
-    <PaginationItem>&laquo;</PaginationItem>
-    <PaginationItem>1</PaginationItem>
-    <PaginationItem active>2</PaginationItem>
-    <PaginationItem>3</PaginationItem>
-    <PaginationItem>&raquo;</PaginationItem>
-  </Pagination>
-  <Pagination align="end" aria-label="Right-aligned pagination">
-    <PaginationItem>&laquo;</PaginationItem>
-    <PaginationItem>1</PaginationItem>
-    <PaginationItem active>2</PaginationItem>
-    <PaginationItem>3</PaginationItem>
-    <PaginationItem>&raquo;</PaginationItem>
-  </Pagination>
+  <AlignmentExample client:load />
 </Example>
 
 ## API
