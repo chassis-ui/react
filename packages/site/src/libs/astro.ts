@@ -119,13 +119,13 @@ export function chassis(): AstroIntegration[] {
             })
           }
 
-          // `remarkCxExample` reads `src/examples/**/*.tsx` files directly off disk to derive
+          // `remarkCxExample` reads `examples/**/*.tsx` files directly off disk to derive
           // each `<Example>`'s displayed source. Astro's content-collection loader only
           // reprocesses an `.mdx` file when that file's own content changes, so it has no way
           // to know an example file it read via `fs.readFileSync` changed too. Rewriting every
           // `.mdx` file with its own (unchanged) content forces a genuine reload of each entry,
           // re-running the remark plugins against the now-current example source.
-          const examplesDir = path.join(getDocsFsPath(), 'src/examples')
+          const examplesDir = path.join(getDocsFsPath(), 'examples')
           const contentDir = path.join(getDocsFsPath(), 'content')
           server.watcher.add(examplesDir)
 

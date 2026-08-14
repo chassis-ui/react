@@ -24,7 +24,7 @@ site.
 - `data/sidebar.yml` — the site nav structure. Adding an `.mdx` file under `content/` does **not**
   automatically add it to the sidebar; add a matching `title:` entry under the right section here
   too, or the page is only reachable by direct URL.
-- `src/examples/<component>/*Example.tsx` — real React components used inside `<Example>` in
+- `examples/<component>/*Example.tsx` — real React components used inside `<Example>` in
   `.mdx` files. These render live (via `client:load`) and their source is also auto-extracted and
   displayed as a code snippet below the preview by the `remarkCxExample` plugin
   (`src/libs/remark.ts`) — write these as if they're both a demo and documentation-quality

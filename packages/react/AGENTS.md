@@ -119,7 +119,7 @@ pnpm test:visual:update  # same, plus --update-snapshots to regenerate baselines
   supply that peer dependency itself (see `THEMING.md`), so without it every story would render
   unstyled.
 - Story `args` use fixed, past `CalendarDate`s (e.g. `new CalendarDate(2024, 3, 15)`), not
-  `today()` like the docs-site examples in `packages/site/src/examples/` do — a screenshot has to
+  `today()` like the docs-site examples in `packages/site/examples/` do — a screenshot has to
   render identically no matter what day it's actually run, and `today()` would shift both the
   visible month and the `.datepicker-date-today` highlight on every run.
 - `visual-tests/*.visual.spec.ts` reads `storybook-static/index.json` (Storybook's own build

@@ -205,7 +205,7 @@ interface ExampleImportBinding {
 // fence) so `Example.astro` can render the preview and the code together in a single box with
 // one shared toolbar, matching `@chassis-ui/docs`'s `<Example>`.
 //
-// - If `<Example>`'s only child is a bare reference to a `src/examples/**/*.tsx` component
+// - If `<Example>`'s only child is a bare reference to a `examples/**/*.tsx` component
 //   (e.g. `<BasicUsageExample client:load />`), the derived source is that component file's
 //   content, verbatim (imports, exports, everything — nothing is stripped).
 // - Otherwise, the derived source is the literal JSX written between `<Example>` and
@@ -299,7 +299,7 @@ function sliceExampleChildrenSource(node: MdxJsxFlowElement, raw: string): strin
   return dedentInlineSlice(raw.slice(first.position.start.offset, last.position.end.offset))
 }
 
-// Reads a `src/examples/**/*.tsx` component file and returns its content verbatim — imports,
+// Reads a `examples/**/*.tsx` component file and returns its content verbatim — imports,
 // exports, and all — so the docs always show exactly what's on disk.
 function resolveExampleComponentSource(importPath: string, dirname: string): string | undefined {
   const filePath = path.resolve(dirname, importPath)

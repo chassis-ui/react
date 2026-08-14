@@ -97,7 +97,7 @@ rename isn't a series of ad hoc judgment calls.
 Mechanical, scripted rename (codemod / careful `git mv` + find-replace, not hand-editing 272
 files). One batch = one commit. Each batch includes: component file(s), test file, snapshot
 file, the central `src/index.ts` entries for that batch, and any in-repo usage inside
-`packages/site/src/examples/**` for that batch's components.
+`packages/site/examples/**` for that batch's components.
 
 Batches, grouped to keep each commit reviewable and independently revertable:
 

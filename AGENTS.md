@@ -87,6 +87,6 @@ process and what a repo admin still needs to configure before it can actually pu
   [`packages/react/FORMS.md`](packages/react/FORMS.md) before
   touching any of the form-related components it lists.
 - Docs prose (`.mdx`) + generated API JSON: `packages/site/content/**`
-- Live docs examples (imported into `.mdx` via `<Example>`): `packages/site/src/examples/**`
+- Live docs examples (imported into `.mdx` via `<Example>`): `packages/site/examples/**`
 - Sidebar nav structure: `packages/site/data/sidebar.yml` — new docs pages must be added here or
   they won't appear in the site nav even though the route exists.
