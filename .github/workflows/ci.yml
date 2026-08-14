@@ -77,13 +77,13 @@ jobs:
       - run: pnpm audit
         continue-on-error: true
 
-  # Screenshot regression tests against a built Storybook (packages/react/visual-tests/,
+  # Screenshot regression tests against a built Storybook (packages/react/test/visual/,
   # packages/react/.storybook/), starting with the calendar/datepicker family — Phase 2 of the
   # enterprise migration touched that family's CSS output directly, and snapshot tests alone don't
   # catch a visual regression. A separate job (not a step in `test` above) because it needs a
   # different runtime: real Chromium, not just Node. Runs inside the official Playwright container
   # image so the rendered pixels match what the checked-in
-  # `visual-tests/*-snapshots/*-chromium-linux.png` baselines were generated against — the image
+  # `test/visual/*-snapshots/*-chromium-linux.png` baselines were generated against — the image
   # tag's Playwright version must stay in lockstep with the `@playwright/test` devDependency
   # version in packages/react/package.json; bumping one without the other risks font/rendering
   # drift that has nothing to do with a real regression. If that happens, regenerate baselines with
