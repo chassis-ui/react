@@ -128,6 +128,22 @@ describe('Menu', () => {
       expect(screen.getByRole('menu')).toHaveClass('show')
       vi.useRealTimers()
     })
+
+    test('puts a rendered wrapper component into the show class while open', () => {
+      render(
+        <Menu component="li" className="nav-item" data-testid="wrapper">
+          <MenuToggle>Toggle</MenuToggle>
+          <MenuList>
+            <MenuItem>A</MenuItem>
+          </MenuList>
+        </Menu>
+      )
+      const wrapper = screen.getByTestId('wrapper')
+      expect(wrapper).not.toHaveClass('show')
+
+      fireEvent.click(screen.getByText('Toggle'))
+      expect(wrapper).toHaveClass('show')
+    })
   })
 
   describe('accessibility', () => {

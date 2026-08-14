@@ -291,7 +291,14 @@ export const Menu = forwardRef<HTMLElement, MenuProps>(
         {Component === Fragment ? (
           children
         ) : (
-          <Component className={classNames(className)} {...rest} ref={forkedRef}>
+          // `show` mirrors vanilla menu.js's `this._parent.classList.add('show')` — needed for
+          // e.g. `.nav-item.show .nav-link` to put a `NavLink`-rooted `MenuToggle` into its
+          // pressed look while open, since a bare `.nav-link.show` has no styling of its own.
+          <Component
+            className={classNames(className, { show: state.isOpen })}
+            {...rest}
+            ref={forkedRef}
+          >
             {children}
           </Component>
         )}
