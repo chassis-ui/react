@@ -11,7 +11,7 @@ interface StoryIndexEntry {
   type: string
 }
 
-const indexPath = path.join(process.cwd(), 'storybook-static/index.json')
+const indexPath = path.join(process.cwd(), '_storybook/index.json')
 const index = JSON.parse(readFileSync(indexPath, 'utf-8')) as {
   entries: Record<string, StoryIndexEntry>
 }

@@ -106,7 +106,7 @@ filter, not a widened version of an existing one.
 
 ```bash
 pnpm storybook          # storybook dev -p 6006, for authoring stories interactively
-pnpm build-storybook     # static build to storybook-static/ (gitignored)
+pnpm build-storybook     # static build to _storybook/ (gitignored)
 pnpm test:visual         # build-storybook, then run test/visual/**/*.visual.spec.ts against it
 pnpm test:visual:update  # same, plus --update-snapshots to regenerate baselines
 ```
@@ -122,7 +122,7 @@ pnpm test:visual:update  # same, plus --update-snapshots to regenerate baselines
   `today()` like the docs-site examples in `packages/site/examples/` do — a screenshot has to
   render identically no matter what day it's actually run, and `today()` would shift both the
   visible month and the `.datepicker-date-today` highlight on every run.
-- `test/visual/*.visual.spec.ts` reads `storybook-static/index.json` (Storybook's own build
+- `test/visual/*.visual.spec.ts` reads `_storybook/index.json` (Storybook's own build
   manifest) at collection time to enumerate stories, rather than hardcoding story IDs — a new story
   on an already-covered component is picked up automatically. This is also why `test:visual` runs
   `build-storybook` as an explicit, separate step before `playwright test`, not inside

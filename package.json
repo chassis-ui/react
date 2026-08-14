@@ -35,6 +35,8 @@
     "site:lint:prettier": "prettier -c --cache packages/site",
     "site:lint:html": "node build/html-validate.js",
     "site:lint:vnu": "node build/vnu-jar.js",
+    "storybook": "pnpm --filter @chassis-ui/react storybook",
+    "storybook:build": "pnpm --filter @chassis-ui/react storybook:build",
     "test": "pnpm --filter @chassis-ui/react test",
     "test:update": "pnpm --filter @chassis-ui/react test:update",
     "test:visual": "pnpm --filter @chassis-ui/react test:visual",

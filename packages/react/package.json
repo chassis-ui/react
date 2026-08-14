@@ -47,9 +47,9 @@
     "check:bundle": "bundlewatch --config .bundlewatch.config.json",
     "check:package": "publint && attw --pack . --profile esm-only --exclude-entrypoints ./style.css",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
-    "test:visual": "pnpm build-storybook --quiet && playwright test",
-    "test:visual:update": "pnpm build-storybook --quiet && playwright test --update-snapshots"
+    "storybook:build": "storybook build -o ../../_storybook",
+    "test:visual": "pnpm storybook:build --quiet && playwright test",
+    "test:visual:update": "pnpm storybook:build --quiet && playwright test --update-snapshots"
   },
   "dependencies": {
     "@internationalized/date": "^3.12.2",

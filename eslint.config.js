@@ -35,11 +35,10 @@ export default defineConfig([
   // Global ignores
   {
     ignores: [
-      '**/*.min.js',
       '**/dist/',
-      '**/storybook-static/',
       '**/coverage/',
       '_site/',
+      '_storybook/',
       'site/.astro/',
       'site/public/',
       'vendor/'

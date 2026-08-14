@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test'
 
 // Visual regression tests against a built Storybook (see test/visual/). The spec file reads
-// storybook-static/index.json synchronously at collection time to enumerate stories, which needs
+// _storybook/index.json synchronously at collection time to enumerate stories, which needs
 // to already exist on disk before Playwright even starts loading spec files — so building
 // Storybook is a separate, prior step (the `test:visual` script: `build-storybook && playwright
 // test`), not something this config's `webServer` does. `webServer` here only serves the
@@ -17,7 +17,7 @@ export default defineConfig({
     trace: 'retain-on-failure'
   },
   webServer: {
-    command: 'npx http-server storybook-static -p 6006 -s',
+    command: 'npx http-server ../../_storybook -p 6006 -s',
     url: 'http://127.0.0.1:6006',
     reuseExistingServer: !process.env.CI,
     timeout: 30_000
