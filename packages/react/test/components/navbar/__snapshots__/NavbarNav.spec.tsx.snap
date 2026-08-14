@@ -4,7 +4,6 @@ exports[`NavbarNav > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <ul
     class="navbar-nav"
-    role="navigation"
   >
     Test
   </ul>

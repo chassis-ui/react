@@ -5,11 +5,6 @@ import {
   DrawerBody,
   DrawerHeader,
   DrawerTitle,
-  Menu,
-  MenuDivider,
-  MenuItem,
-  MenuList,
-  MenuToggle,
   Navbar,
   NavbarBrand,
   NavbarNav,
@@ -18,21 +13,21 @@ import {
   NavLink
 } from '@chassis-ui/react'
 
-export const NavMenuExample = () => {
+export const DrawerTopExample = () => {
   const [visible, setVisible] = useState(false)
   return (
-    <Navbar expand="medium" className="bg-even">
+    <Navbar className="bg-even">
       <Container fluid>
-        <NavbarBrand href="#">Navbar</NavbarBrand>
+        <NavbarBrand href="#">Top drawer</NavbarBrand>
         <NavbarToggler
-          aria-controls="navbarNavMenu"
+          aria-controls="navbarTopDrawer"
           aria-expanded={visible}
           aria-label="Toggle navigation"
           onClick={() => setVisible(!visible)}
         />
         <Drawer
-          id="navbarNavMenu"
-          placement="end"
+          id="navbarTopDrawer"
+          placement="top"
           visible={visible}
           onClose={() => setVisible(false)}
         >
@@ -40,7 +35,7 @@ export const NavMenuExample = () => {
             <DrawerTitle>Menu</DrawerTitle>
           </DrawerHeader>
           <DrawerBody>
-            <NavbarNav>
+            <NavbarNav className="me-auto mb-small medium:mb-0">
               <NavItem>
                 <NavLink href="#" active>
                   Home
@@ -50,17 +45,8 @@ export const NavMenuExample = () => {
                 <NavLink href="#">Link</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="#">About</NavLink>
+                <NavLink disabled>Disabled</NavLink>
               </NavItem>
-              <Menu component="li" className="nav-item">
-                <MenuToggle component={NavLink}>Menu</MenuToggle>
-                <MenuList>
-                  <MenuItem href="#">Action</MenuItem>
-                  <MenuItem href="#">Another action</MenuItem>
-                  <MenuDivider />
-                  <MenuItem href="#">Something else here</MenuItem>
-                </MenuList>
-              </Menu>
             </NavbarNav>
           </DrawerBody>
         </Drawer>

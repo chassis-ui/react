@@ -79,34 +79,6 @@
         ]
       }
     },
-    "colorScheme": {
-      "defaultValue": null,
-      "description": "Sets if the context of text should be colored for a light or dark dark background.",
-      "name": "colorScheme",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/navbar/Navbar.tsx",
-        "name": "NavbarProps"
-      },
-      "declarations": [
-        {
-          "fileName": "chassis-react/packages/react/src/components/navbar/Navbar.tsx",
-          "name": "NavbarProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"dark\" | \"light\"",
-        "value": [
-          {
-            "value": "\"dark\""
-          },
-          {
-            "value": "\"light\""
-          }
-        ]
-      }
-    },
     "component": {
       "defaultValue": {
         "value": "nav"
@@ -147,9 +119,37 @@
         "name": "boolean | \"small\" | \"medium\" | \"large\" | \"xlarge\" | \"2xlarge\" | \"fluid\""
       }
     },
+    "data-cx-theme": {
+      "defaultValue": null,
+      "description": "Opts this navbar into the framework's dark or light theming, independent of the page's own\ntheme.",
+      "name": "data-cx-theme",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/navbar/Navbar.tsx",
+        "name": "NavbarProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/navbar/Navbar.tsx",
+          "name": "NavbarProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"dark\" | \"light\"",
+        "value": [
+          {
+            "value": "\"dark\""
+          },
+          {
+            "value": "\"light\""
+          }
+        ]
+      }
+    },
     "expand": {
       "defaultValue": null,
-      "description": "Defines the responsive breakpoint to determine when content collapses.",
+      "description": "Renders inline at and above this breakpoint, as a drawer below it. `true` renders inline at\nevery width; omit to keep the drawer at every width.",
       "name": "expand",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/navbar/Navbar.tsx",
@@ -163,7 +163,7 @@
       ],
       "required": false,
       "type": {
-        "name": "boolean | \"small\" | \"medium\" | \"large\" | \"xlarge\" | \"2xlarge\""
+        "name": "boolean | Breakpoint"
       }
     },
     "placement": {
@@ -183,7 +183,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"fixed-top\" | \"fixed-bottom\" | \"sticky-top\"",
+        "raw": "\"fixed-top\" | \"fixed-bottom\" | \"sticky-top\" | \"sticky-bottom\"",
         "value": [
           {
             "value": "\"fixed-top\""
@@ -193,6 +193,62 @@
           },
           {
             "value": "\"sticky-top\""
+          },
+          {
+            "value": "\"sticky-bottom\""
+          }
+        ]
+      }
+    },
+    "translucent": {
+      "defaultValue": null,
+      "description": "Blurs and saturates whatever sits behind the navbar — useful when it's positioned over a\nhero image, video, or scrollable content.",
+      "name": "translucent",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/navbar/Navbar.tsx",
+        "name": "NavbarProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/navbar/Navbar.tsx",
+          "name": "NavbarProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "variant": {
+      "defaultValue": null,
+      "description": "Sets the context style of the component. `basic` (the default) renders with no extra class.",
+      "name": "variant",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/navbar/Navbar.tsx",
+        "name": "NavbarProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/navbar/Navbar.tsx",
+          "name": "NavbarProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "ContextStyle",
+        "value": [
+          {
+            "value": "\"basic\""
+          },
+          {
+            "value": "\"solid\""
+          },
+          {
+            "value": "\"outline\""
+          },
+          {
+            "value": "\"smooth\""
           }
         ]
       }

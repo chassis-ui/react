@@ -1,9 +1,9 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-import { ContextColor } from '../../types'
+import { Breakpoint, ContextColor, ContextStyle } from '../../types'
 
-export interface NavbarProps extends HTMLAttributes<HTMLDivElement> {
+export interface NavbarProps extends HTMLAttributes<HTMLElement> {
   /**
    * A string of all className you want applied to the component.
    */
@@ -13,10 +13,6 @@ export interface NavbarProps extends HTMLAttributes<HTMLDivElement> {
    */
   color?: ContextColor
   /**
-   * Sets if the context of text should be colored for a light or dark dark background.
-   */
-  colorScheme?: 'dark' | 'light'
-  /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
   component?: string | ElementType
@@ -25,36 +21,56 @@ export interface NavbarProps extends HTMLAttributes<HTMLDivElement> {
    */
   container?: boolean | 'small' | 'medium' | 'large' | 'xlarge' | '2xlarge' | 'fluid'
   /**
-   * Defines the responsive breakpoint to determine when content collapses.
+   * Opts this navbar into the framework's dark or light theming, independent of the page's own
+   * theme.
    */
-  expand?: boolean | 'small' | 'medium' | 'large' | 'xlarge' | '2xlarge'
+  'data-cx-theme'?: 'dark' | 'light'
+  /**
+   * Renders inline at and above this breakpoint, as a drawer below it. `true` renders inline at
+   * every width; omit to keep the drawer at every width.
+   */
+  expand?: boolean | Breakpoint
   /**
    * Place component in non-static positions.
    */
-  placement?: 'fixed-top' | 'fixed-bottom' | 'sticky-top'
+  placement?: 'fixed-top' | 'fixed-bottom' | 'sticky-top' | 'sticky-bottom'
+  /**
+   * Blurs and saturates whatever sits behind the navbar — useful when it's positioned over a
+   * hero image, video, or scrollable content.
+   */
+  translucent?: boolean
+  /**
+   * Sets the context style of the component. `basic` (the default) renders with no extra class.
+   */
+  variant?: ContextStyle
 }
 
-export const Navbar = forwardRef<HTMLDivElement, NavbarProps>(
+export const Navbar = forwardRef<HTMLElement, NavbarProps>(
   (
     {
       children,
       className,
       color,
-      colorScheme,
       component: Component = 'nav',
       container,
       expand,
       placement,
+      translucent,
+      variant,
       ...rest
     },
     ref
   ) => {
     const _className = classNames(
       'navbar',
+      color,
       {
-        [`bg-${color}`]: color,
-        [`navbar-${colorScheme}`]: colorScheme,
-        [typeof expand === 'boolean' ? 'navbar-expand' : `navbar-expand-${expand}`]: expand
+        context: !!color,
+        solid: variant === 'solid',
+        smooth: variant === 'smooth',
+        outline: variant === 'outline',
+        translucent,
+        [typeof expand === 'boolean' ? 'navbar-expand' : `${expand}:navbar-expand`]: expand
       },
       placement,
       className

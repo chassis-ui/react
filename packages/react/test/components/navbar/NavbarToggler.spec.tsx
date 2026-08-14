@@ -10,7 +10,7 @@ describe('NavbarToggler', () => {
     test('renders a button with the base class', () => {
       render(<NavbarToggler>Test</NavbarToggler>)
       const button = screen.getByRole('button', { name: 'Test' })
-      expect(button).toHaveClass('navbar-toggler')
+      expect(button).toHaveClass('button', 'icon-only', 'navbar-toggler')
       expect(button).toHaveAttribute('type', 'button')
     })
 

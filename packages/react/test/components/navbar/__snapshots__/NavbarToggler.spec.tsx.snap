@@ -3,12 +3,19 @@
 exports[`NavbarToggler > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <button
-    class="navbar-toggler"
+    class="button icon-only navbar-toggler"
     type="button"
   >
-    <span
-      class="navbar-toggler-icon"
-    />
+    <svg
+      aria-hidden="true"
+      class="icon navbar-toggler-icon"
+      height="24"
+      width="24"
+    >
+      <use
+        href="/static/icons/chassis-icons.svg#bars-outline"
+      />
+    </svg>
   </button>
 </div>
 `;

@@ -11,7 +11,7 @@ renamed export, ...) and review the diff like any other code change. `pnpm api:r
 -->
 
 ```ts
-import React, { AllHTMLAttributes, AnchorHTMLAttributes, AriaAttributes, ButtonHTMLAttributes, ChangeEventHandler, ComponentPropsWithRef, ComponentPropsWithoutRef, DialogHTMLAttributes, ElementType, FC, FormHTMLAttributes, HTMLAttributes, ImgHTMLAttributes, InputHTMLAttributes, Key, ReactElement, ReactNode, Ref, RefObject, TextareaHTMLAttributes, useEffect } from "react";
+import React, { AllHTMLAttributes, AnchorHTMLAttributes, AriaAttributes, ButtonHTMLAttributes, ChangeEventHandler, ComponentPropsWithRef, ComponentPropsWithoutRef, DialogHTMLAttributes, ElementType, FC, FormHTMLAttributes, HTMLAttributes, ImgHTMLAttributes, InputHTMLAttributes, Key, MouseEvent, ReactElement, ReactNode, Ref, RefObject, TextareaHTMLAttributes, useEffect } from "react";
 import { DateValue, I18nProvider, Key as Key$1, RangeValue } from "react-aria";
 import { DateValue as DateValue$1, Key as Key$2, Selection, SortDescriptor, TableBodyProps, TableHeaderProps, ToastQueue } from "react-stately";
 //#region src/components/accordion/Accordion.d.ts
@@ -2468,8 +2468,55 @@ interface MenuTextProps extends HTMLAttributes<HTMLSpanElement> {
 declare const MenuText: React.ForwardRefExoticComponent<MenuTextProps & React.RefAttributes<HTMLSpanElement>>;
 //#endregion
 //#region src/components/menu/MenuToggle.d.ts
-type MenuToggleProps = Omit<ButtonProps, 'type'>;
-declare const MenuToggle: React.ForwardRefExoticComponent<MenuToggleProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement>>;
+type MenuToggleOwnProps<C extends ElementType> = {
+  /**
+   * Toggle the active state for the component.
+   */
+  active?: boolean;
+  /**
+   * A string of all className you want applied to the base component.
+   */
+  className?: string;
+  /**
+   * Sets the color of the component to one of Chassis context colors. Only applies to the
+   * default `Button` root.
+   */
+  color?: ContextColor;
+  /**
+   * Component used for the root node — the trigger element the menu opens from. Defaults to
+   * `Button`; swap for e.g. `NavLink` to render a nav-item-style trigger (`.nav-link.caret`)
+   * instead of a `.button.caret`. Its own props are type-checked at the call site once passed
+   * here.
+   */
+  component?: C;
+  /**
+   * Toggle the disabled state for the component.
+   */
+  disabled?: boolean;
+  /**
+   * The href attribute specifies the URL of the page the link goes to.
+   */
+  href?: string;
+  /**
+   * Select the shape of the component. Only applies to the default `Button` root.
+   */
+  shape?: Shapes;
+  /**
+   * Size the component small or large. Only applies to the default `Button` root.
+   */
+  size?: 'large' | 'small';
+  /**
+   * Sets the context style of the component. Only applies to the default `Button` root.
+   */
+  variant?: ContextStyle;
+};
+type MenuToggleProps<C extends ElementType = typeof Button> = PolymorphicComponentProps<C, MenuToggleOwnProps<C>>;
+type MenuToggleComponent = (<C extends ElementType = typeof Button>(props: MenuToggleProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const MenuToggle: MenuToggleComponent;
 //#endregion
 //#region src/components/menu/MenuSubmenu.d.ts
 interface MenuSubmenuProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onSelect'> {
@@ -3843,7 +3890,7 @@ interface NavTitleProps extends HTMLAttributes<HTMLLIElement> {
 declare const NavTitle: React.ForwardRefExoticComponent<NavTitleProps & React.RefAttributes<HTMLLIElement>>;
 //#endregion
 //#region src/components/navbar/Navbar.d.ts
-interface NavbarProps extends HTMLAttributes<HTMLDivElement> {
+interface NavbarProps extends HTMLAttributes<HTMLElement> {
   /**
    * A string of all className you want applied to the component.
    */
@@ -3853,10 +3900,6 @@ interface NavbarProps extends HTMLAttributes<HTMLDivElement> {
    */
   color?: ContextColor;
   /**
-   * Sets if the context of text should be colored for a light or dark dark background.
-   */
-  colorScheme?: 'dark' | 'light';
-  /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
   component?: ElementType | string;
@@ -3865,15 +3908,30 @@ interface NavbarProps extends HTMLAttributes<HTMLDivElement> {
    */
   container?: '2xlarge' | 'fluid' | 'large' | 'medium' | 'small' | 'xlarge' | boolean;
   /**
-   * Defines the responsive breakpoint to determine when content collapses.
+   * Opts this navbar into the framework's dark or light theming, independent of the page's own
+   * theme.
    */
-  expand?: '2xlarge' | 'large' | 'medium' | 'small' | 'xlarge' | boolean;
+  'data-cx-theme'?: 'dark' | 'light';
+  /**
+   * Renders inline at and above this breakpoint, as a drawer below it. `true` renders inline at
+   * every width; omit to keep the drawer at every width.
+   */
+  expand?: Breakpoint | boolean;
   /**
    * Place component in non-static positions.
    */
-  placement?: 'fixed-bottom' | 'fixed-top' | 'sticky-top';
+  placement?: 'fixed-bottom' | 'fixed-top' | 'sticky-bottom' | 'sticky-top';
+  /**
+   * Blurs and saturates whatever sits behind the navbar — useful when it's positioned over a
+   * hero image, video, or scrollable content.
+   */
+  translucent?: boolean;
+  /**
+   * Sets the context style of the component. `basic` (the default) renders with no extra class.
+   */
+  variant?: ContextStyle;
 }
-declare const Navbar: React.ForwardRefExoticComponent<NavbarProps & React.RefAttributes<HTMLDivElement>>;
+declare const Navbar: React.ForwardRefExoticComponent<NavbarProps & React.RefAttributes<HTMLElement>>;
 //#endregion
 //#region src/components/navbar/NavbarBrand.d.ts
 interface NavbarBrandProps extends HTMLAttributes<HTMLAnchorElement | HTMLSpanElement> {
@@ -5069,13 +5127,31 @@ type UseNotificationResult = NotificationContextProps;
 declare const useNotification: () => UseNotificationResult;
 //#endregion
 //#region src/hooks/usePagination.d.ts
+interface UsePaginationOptions {
+  /**
+   * Whether the Previous control is currently disabled.
+   */
+  prevDisabled: boolean;
+  /**
+   * Whether the Next control is currently disabled.
+   */
+  nextDisabled: boolean;
+  /**
+   * Called when Previous is clicked, before the state change that may disable it.
+   */
+  onPrev: () => void;
+  /**
+   * Called when Next is clicked, before the state change that may disable it.
+   */
+  onNext: () => void;
+}
 interface UsePaginationResult<T extends HTMLElement = HTMLAnchorElement> {
   prevRef: RefObject<T>;
   nextRef: RefObject<T>;
-  markPrevClicked: () => void;
-  markNextClicked: () => void;
+  handlePrevClick: (event: MouseEvent<T>) => void;
+  handleNextClick: (event: MouseEvent<T>) => void;
 }
-declare function usePagination<T extends HTMLElement = HTMLAnchorElement>(prevDisabled: boolean, nextDisabled: boolean): UsePaginationResult<T>;
+declare function usePagination<T extends HTMLElement = HTMLAnchorElement>({ prevDisabled, nextDisabled, onPrev, onNext }: UsePaginationOptions): UsePaginationResult<T>;
 //#endregion
 //#region src/components/toast/context.d.ts
 interface ToastContextProps {

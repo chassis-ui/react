@@ -9,24 +9,23 @@ import {
   NavbarBrand,
   NavbarNav,
   NavbarToggler,
-  NavItem,
   NavLink
 } from '@chassis-ui/react'
 
-export const NavExample = () => {
+export const NavAltMarkupExample = () => {
   const [visible, setVisible] = useState(false)
   return (
     <Navbar expand="small" className="bg-even">
       <Container fluid>
         <NavbarBrand href="#">Navbar</NavbarBrand>
         <NavbarToggler
-          aria-controls="navbarNav"
+          aria-controls="navbarNavAltMarkup"
           aria-expanded={visible}
           aria-label="Toggle navigation"
           onClick={() => setVisible(!visible)}
         />
         <Drawer
-          id="navbarNav"
+          id="navbarNavAltMarkup"
           placement="end"
           visible={visible}
           onClose={() => setVisible(false)}
@@ -35,21 +34,13 @@ export const NavExample = () => {
             <DrawerTitle>Menu</DrawerTitle>
           </DrawerHeader>
           <DrawerBody>
-            <NavbarNav>
-              <NavItem>
-                <NavLink href="#" active>
-                  Home
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink href="#">Link</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink href="#">About</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink disabled>Disabled</NavLink>
-              </NavItem>
+            <NavbarNav component="div" className="nav-pills">
+              <NavLink href="#" active>
+                Home
+              </NavLink>
+              <NavLink href="#">Link</NavLink>
+              <NavLink href="#">About</NavLink>
+              <NavLink disabled>Disabled</NavLink>
             </NavbarNav>
           </DrawerBody>
         </Drawer>

@@ -6,9 +6,9 @@ import { NavbarNav } from '../../../src/index'
 
 describe('NavbarNav', () => {
   describe('rendering', () => {
-    test('renders a ul with the base class and navigation role by default', () => {
+    test('renders a ul with the base class', () => {
       render(<NavbarNav>Test</NavbarNav>)
-      const nav = screen.getByRole('navigation')
+      const nav = screen.getByRole('list')
       expect(nav).toHaveClass('navbar-nav')
       expect(nav.tagName).toBe('UL')
     })
@@ -18,13 +18,13 @@ describe('NavbarNav', () => {
       expect(container).toMatchSnapshot()
     })
 
-    test('renders as a custom component keeping the navigation role', () => {
+    test('renders as a custom component', () => {
       render(
         <NavbarNav className="bazinga" component="h3">
           Test
         </NavbarNav>
       )
-      const nav = screen.getByRole('navigation')
+      const nav = screen.getByText('Test')
       expect(nav).toHaveClass('navbar-nav', 'bazinga')
       expect(nav.tagName).toBe('H3')
     })
@@ -39,11 +39,16 @@ describe('NavbarNav', () => {
   })
 
   describe('accessibility', () => {
-    // The default `ul` root keeps the hardcoded `role="navigation"` from the component, which
-    // axe flags as an invalid landmark-on-list role (aria-allowed-role) — a pre-existing issue,
-    // not something to paper over here. Rendering as a `div` sidesteps it for this check.
     test('has no axe violations', async () => {
-      const { container } = render(<NavbarNav component="div">Test</NavbarNav>)
+      const { container } = render(
+        <NavbarNav>
+          <li className="nav-item">
+            <a className="nav-link" href="#">
+              Home
+            </a>
+          </li>
+        </NavbarNav>
+      )
       expect(await axe(container)).toHaveNoViolations()
     })
   })

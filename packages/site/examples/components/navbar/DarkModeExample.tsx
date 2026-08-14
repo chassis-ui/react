@@ -1,46 +1,46 @@
 import { useState } from 'react'
 import {
-  Button,
   Container,
   Drawer,
   DrawerBody,
   DrawerHeader,
   DrawerTitle,
-  Form,
-  TextInput,
   Menu,
+  MenuDivider,
+  MenuItem,
+  MenuList,
+  MenuToggle,
   Navbar,
-  NavItem,
-  NavLink,
+  NavbarBrand,
   NavbarNav,
   NavbarToggler,
-  MenuToggle,
-  MenuList,
-  MenuItem,
-  MenuDivider
+  NavItem,
+  NavLink
 } from '@chassis-ui/react'
 
-export const DrawerExample = () => {
+export const DarkModeExample = () => {
   const [visible, setVisible] = useState(false)
   return (
-    <Navbar colorScheme="light" className="bg-light">
+    <Navbar expand="medium" className="bg-even" data-cx-theme="dark">
       <Container fluid>
+        <NavbarBrand href="#">Dark navbar</NavbarBrand>
         <NavbarToggler
-          aria-controls="drawerNavbar"
+          aria-controls="navbarDark"
+          aria-expanded={visible}
           aria-label="Toggle navigation"
           onClick={() => setVisible(!visible)}
         />
         <Drawer
-          id="drawerNavbar"
+          id="navbarDark"
           placement="end"
           visible={visible}
           onClose={() => setVisible(false)}
         >
           <DrawerHeader>
-            <DrawerTitle>Drawer</DrawerTitle>
+            <DrawerTitle>Menu</DrawerTitle>
           </DrawerHeader>
-          <DrawerBody>
-            <NavbarNav>
+          <DrawerBody className="mb-small medium:mb-0">
+            <NavbarNav className="me-auto">
               <NavItem>
                 <NavLink href="#" active>
                   Home
@@ -50,7 +50,7 @@ export const DrawerExample = () => {
                 <NavLink href="#">Link</NavLink>
               </NavItem>
               <Menu component="li" className="nav-item">
-                <MenuToggle color="secondary">Menu button</MenuToggle>
+                <MenuToggle component={NavLink}>Menu</MenuToggle>
                 <MenuList>
                   <MenuItem href="#">Action</MenuItem>
                   <MenuItem href="#">Another action</MenuItem>
@@ -59,17 +59,9 @@ export const DrawerExample = () => {
                 </MenuList>
               </Menu>
               <NavItem>
-                <NavLink href="#" disabled>
-                  Disabled
-                </NavLink>
+                <NavLink disabled>Disabled</NavLink>
               </NavItem>
             </NavbarNav>
-            <Form className="d-flex">
-              <TextInput type="search" className="me-2" placeholder="Search" />
-              <Button type="submit" color="success" variant="outline">
-                Search
-              </Button>
-            </Form>
           </DrawerBody>
         </Drawer>
       </Container>

@@ -18,16 +18,16 @@ describe('Navbar', () => {
       expect(container).toMatchSnapshot()
     })
 
-    test('renders as a custom component with color, colorScheme, container and placement', () => {
+    test('renders as a custom component with color, variant, container and placement', () => {
       render(
         <Navbar
           className="bazinga"
-          color="warning"
-          colorScheme="dark"
+          color="primary"
+          variant="solid"
           component="h3"
           container="xlarge"
           expand="large"
-          placement="fixed-bottom"
+          placement="sticky-bottom"
         >
           Test
         </Navbar>
@@ -36,10 +36,11 @@ describe('Navbar', () => {
       expect(navbar).toHaveClass(
         'bazinga',
         'navbar',
-        'bg-warning',
-        'navbar-dark',
-        'navbar-expand-large',
-        'fixed-bottom'
+        'primary',
+        'context',
+        'solid',
+        'large:navbar-expand',
+        'sticky-bottom'
       )
       expect(screen.getByText('Test')).toHaveClass('container-xlarge')
     })
@@ -53,11 +54,22 @@ describe('Navbar', () => {
       expect(screen.getByRole('navigation')).toHaveClass('navbar-expand')
       expect(screen.getByText('Test')).toHaveClass('container')
     })
+
+    test('applies translucent and data-cx-theme', () => {
+      render(
+        <Navbar translucent data-cx-theme="dark">
+          Test
+        </Navbar>
+      )
+      const nav = screen.getByRole('navigation')
+      expect(nav).toHaveClass('translucent')
+      expect(nav).toHaveAttribute('data-cx-theme', 'dark')
+    })
   })
 
   describe('ref forwarding', () => {
     test('forwards a ref to the underlying nav', () => {
-      const ref = React.createRef<HTMLDivElement>()
+      const ref = React.createRef<HTMLElement>()
       render(<Navbar ref={ref}>Test</Navbar>)
       expect(ref.current).toBeInstanceOf(HTMLElement)
       expect(ref.current?.tagName).toBe('NAV')

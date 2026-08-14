@@ -5,33 +5,29 @@ import {
   DrawerBody,
   DrawerHeader,
   DrawerTitle,
-  Menu,
-  MenuDivider,
-  MenuItem,
-  MenuList,
-  MenuToggle,
   Navbar,
   NavbarBrand,
   NavbarNav,
+  NavbarText,
   NavbarToggler,
   NavItem,
   NavLink
 } from '@chassis-ui/react'
 
-export const NavMenuExample = () => {
+export const TextWithNavExample = () => {
   const [visible, setVisible] = useState(false)
   return (
     <Navbar expand="medium" className="bg-even">
       <Container fluid>
-        <NavbarBrand href="#">Navbar</NavbarBrand>
+        <NavbarBrand href="#">Navbar w/ text</NavbarBrand>
         <NavbarToggler
-          aria-controls="navbarNavMenu"
+          aria-controls="navbarText"
           aria-expanded={visible}
           aria-label="Toggle navigation"
           onClick={() => setVisible(!visible)}
         />
         <Drawer
-          id="navbarNavMenu"
+          id="navbarText"
           placement="end"
           visible={visible}
           onClose={() => setVisible(false)}
@@ -40,7 +36,7 @@ export const NavMenuExample = () => {
             <DrawerTitle>Menu</DrawerTitle>
           </DrawerHeader>
           <DrawerBody>
-            <NavbarNav>
+            <NavbarNav className="me-auto mb-small medium:mb-0">
               <NavItem>
                 <NavLink href="#" active>
                   Home
@@ -52,16 +48,8 @@ export const NavMenuExample = () => {
               <NavItem>
                 <NavLink href="#">About</NavLink>
               </NavItem>
-              <Menu component="li" className="nav-item">
-                <MenuToggle component={NavLink}>Menu</MenuToggle>
-                <MenuList>
-                  <MenuItem href="#">Action</MenuItem>
-                  <MenuItem href="#">Another action</MenuItem>
-                  <MenuDivider />
-                  <MenuItem href="#">Something else here</MenuItem>
-                </MenuList>
-              </Menu>
             </NavbarNav>
+            <NavbarText>Navbar text with an inline element</NavbarText>
           </DrawerBody>
         </Drawer>
       </Container>

@@ -1,6 +1,8 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
+import { Icon } from '../icon/Icon'
+
 export interface NavbarTogglerProps extends HTMLAttributes<HTMLButtonElement> {
   /**
    * A string of all className you want applied to the base component.
@@ -10,11 +12,11 @@ export interface NavbarTogglerProps extends HTMLAttributes<HTMLButtonElement> {
 
 export const NavbarToggler = forwardRef<HTMLButtonElement, NavbarTogglerProps>(
   ({ children, className, ...rest }, ref) => {
-    const _className = classNames('navbar-toggler', className)
+    const _className = classNames('button icon-only navbar-toggler', className)
 
     return (
       <button type="button" className={_className} {...rest} ref={ref}>
-        {children ? children : <span className="navbar-toggler-icon"></span>}
+        {children ? children : <Icon name="bars-outline" className="navbar-toggler-icon" />}
       </button>
     )
   }

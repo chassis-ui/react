@@ -1,20 +1,29 @@
 import { useState } from 'react'
-import { Container, Collapse, Navbar, NavbarToggler } from '@chassis-ui/react'
+import { Container, Drawer, DrawerBody, DrawerHeader, DrawerTitle, Navbar, NavbarToggler } from '@chassis-ui/react'
 
 export const ExternalContentExample = () => {
   const [visible, setVisible] = useState(false)
   return (
     <>
-      <Collapse id="navbarToggleExternalContent" visible={visible}>
-        <div className="bg-dark p-4">
-          <h5 className="text-white h4">Collapsed content</h5>
-          <span className="medium:text-emphasis-inverse">Toggleable via the navbar brand.</span>
-        </div>
-      </Collapse>
-      <Navbar colorScheme="dark" className="bg-dark">
+      <Drawer
+        id="navbarToggleExternalContent"
+        placement="top"
+        data-cx-theme="dark"
+        visible={visible}
+        onClose={() => setVisible(false)}
+      >
+        <DrawerHeader>
+          <DrawerTitle>Collapsed content</DrawerTitle>
+        </DrawerHeader>
+        <DrawerBody>
+          <span className="fg-main">Toggleable via the navbar toggler.</span>
+        </DrawerBody>
+      </Drawer>
+      <Navbar className="bg-body" data-cx-theme="dark">
         <Container fluid>
           <NavbarToggler
             aria-controls="navbarToggleExternalContent"
+            aria-expanded={visible}
             aria-label="Toggle navigation"
             onClick={() => setVisible(!visible)}
           />

@@ -7,40 +7,38 @@ import {
   DrawerHeader,
   DrawerTitle,
   Form,
-  TextInput,
-  Menu,
   Navbar,
-  NavItem,
-  NavLink,
+  NavbarBrand,
   NavbarNav,
   NavbarToggler,
-  MenuToggle,
-  MenuList,
-  MenuItem,
-  MenuDivider
+  NavItem,
+  NavLink,
+  TextInput
 } from '@chassis-ui/react'
 
-export const DrawerExample2 = () => {
+export const TogglerPlacementExample = () => {
   const [visible, setVisible] = useState(false)
   return (
-    <Navbar colorScheme="light" className="bg-light" expand="2xlarge">
+    <Navbar expand="medium" className="bg-even">
       <Container fluid>
         <NavbarToggler
-          aria-controls="drawerNavbar2"
+          aria-controls="navbarTogglerNoBrand"
+          aria-expanded={visible}
           aria-label="Toggle navigation"
           onClick={() => setVisible(!visible)}
         />
         <Drawer
-          id="drawerNavbar2"
+          id="navbarTogglerNoBrand"
           placement="end"
           visible={visible}
           onClose={() => setVisible(false)}
         >
           <DrawerHeader>
-            <DrawerTitle>Drawer</DrawerTitle>
+            <DrawerTitle>Hidden brand</DrawerTitle>
           </DrawerHeader>
           <DrawerBody>
-            <NavbarNav>
+            <NavbarBrand href="#">Hidden brand</NavbarBrand>
+            <NavbarNav className="me-auto mb-small medium:mb-0">
               <NavItem>
                 <NavLink href="#" active>
                   Home
@@ -49,23 +47,12 @@ export const DrawerExample2 = () => {
               <NavItem>
                 <NavLink href="#">Link</NavLink>
               </NavItem>
-              <Menu component="li" className="nav-item">
-                <MenuToggle color="secondary">Menu button</MenuToggle>
-                <MenuList>
-                  <MenuItem href="#">Action</MenuItem>
-                  <MenuItem href="#">Another action</MenuItem>
-                  <MenuDivider />
-                  <MenuItem href="#">Something else here</MenuItem>
-                </MenuList>
-              </Menu>
               <NavItem>
-                <NavLink href="#" disabled>
-                  Disabled
-                </NavLink>
+                <NavLink disabled>Disabled</NavLink>
               </NavItem>
             </NavbarNav>
-            <Form className="d-flex">
-              <TextInput type="search" className="me-2" placeholder="Search" />
+            <Form className="d-flex" role="search">
+              <TextInput type="search" className="me-small" placeholder="Search" aria-label="Search" />
               <Button type="submit" color="success" variant="outline">
                 Search
               </Button>

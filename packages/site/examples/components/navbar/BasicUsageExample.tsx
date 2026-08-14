@@ -2,32 +2,49 @@ import { useState } from 'react'
 import {
   Button,
   Container,
-  Collapse,
+  Drawer,
+  DrawerBody,
+  DrawerHeader,
+  DrawerTitle,
   Form,
-  TextInput,
+  Icon,
   Menu,
+  MenuDivider,
+  MenuItem,
+  MenuList,
+  MenuToggle,
   Navbar,
-  NavItem,
-  NavLink,
   NavbarBrand,
   NavbarNav,
   NavbarToggler,
-  MenuToggle,
-  MenuList,
-  MenuItem,
-  MenuDivider
+  NavItem,
+  NavLink,
+  TextInput
 } from '@chassis-ui/react'
 
 export const BasicUsageExample = () => {
   const [visible, setVisible] = useState(false)
   return (
-    <>
-      <Navbar expand="large" colorScheme="light" className="bg-light">
-        <Container fluid>
-          <NavbarBrand href="#">Navbar</NavbarBrand>
-          <NavbarToggler onClick={() => setVisible(!visible)} />
-          <Collapse className="navbar-collapse" visible={visible}>
-            <NavbarNav>
+    <Navbar expand="medium" className="bg-even">
+      <Container fluid>
+        <NavbarBrand href="#">Navbar</NavbarBrand>
+        <NavbarToggler
+          aria-controls="navbarBasicUsage"
+          aria-expanded={visible}
+          aria-label="Toggle navigation"
+          onClick={() => setVisible(!visible)}
+        />
+        <Drawer
+          id="navbarBasicUsage"
+          placement="end"
+          visible={visible}
+          onClose={() => setVisible(false)}
+        >
+          <DrawerHeader>
+            <DrawerTitle>Menu</DrawerTitle>
+          </DrawerHeader>
+          <DrawerBody className="mb-small medium:mb-0">
+            <NavbarNav className="me-auto">
               <NavItem>
                 <NavLink href="#" active>
                   Home
@@ -37,7 +54,7 @@ export const BasicUsageExample = () => {
                 <NavLink href="#">Link</NavLink>
               </NavItem>
               <Menu component="li" className="nav-item">
-                <MenuToggle color="secondary">Menu button</MenuToggle>
+                <MenuToggle component={NavLink}>Menu</MenuToggle>
                 <MenuList>
                   <MenuItem href="#">Action</MenuItem>
                   <MenuItem href="#">Another action</MenuItem>
@@ -46,20 +63,24 @@ export const BasicUsageExample = () => {
                 </MenuList>
               </Menu>
               <NavItem>
-                <NavLink href="#" disabled>
-                  Disabled
-                </NavLink>
+                <NavLink disabled>Disabled</NavLink>
               </NavItem>
             </NavbarNav>
-            <Form className="d-flex">
-              <TextInput type="search" className="me-2" placeholder="Search" />
-              <Button type="submit" color="success" variant="outline">
-                Search
+            <Form className="hstack gap-small" role="search">
+              <TextInput type="search" placeholder="Search" aria-label="Search" />
+              <Button
+                type="submit"
+                color="neutral"
+                variant="smooth"
+                className="icon-only"
+                aria-label="Search"
+              >
+                <Icon name="search-solid" />
               </Button>
             </Form>
-          </Collapse>
-        </Container>
-      </Navbar>
-    </>
+          </DrawerBody>
+        </Drawer>
+      </Container>
+    </Navbar>
   )
 }

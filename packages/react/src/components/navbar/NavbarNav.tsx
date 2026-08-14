@@ -17,7 +17,7 @@ export const NavbarNav = forwardRef<HTMLDivElement | HTMLUListElement, NavbarNav
     const _className = classNames('navbar-nav', className)
 
     return (
-      <Component className={_className} role="navigation" {...rest} ref={ref}>
+      <Component className={_className} {...rest} ref={ref}>
         {children}
       </Component>
     )
