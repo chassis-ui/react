@@ -198,6 +198,48 @@
         "name": "string"
       }
     },
+    "showPageNumbers": {
+      "defaultValue": {
+        "value": true
+      },
+      "description": "Show the numbered page buttons in smart pagination mode. Set `false` alongside\n`showPrevNext` to build a Prev/Next-only paginator.",
+      "name": "showPageNumbers",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/pagination/Pagination.tsx",
+        "name": "PaginationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/pagination/Pagination.tsx",
+          "name": "PaginationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "showPrevNext": {
+      "defaultValue": {
+        "value": true
+      },
+      "description": "Show the Prev/Next controls in smart pagination mode. Set `false` alongside\n`showPageNumbers` to build a page-numbers-only paginator.",
+      "name": "showPrevNext",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/pagination/Pagination.tsx",
+        "name": "PaginationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/pagination/Pagination.tsx",
+          "name": "PaginationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
     "size": {
       "defaultValue": null,
       "description": "Size the component small or large.",

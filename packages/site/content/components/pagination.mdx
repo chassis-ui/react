@@ -7,8 +7,10 @@ toc: true
 
 import { Example as SmartExample } from '../../src/examples/pagination/SmartExample.tsx'
 import { Example as MaxVisibleExample } from '../../src/examples/pagination/MaxVisibleExample.tsx'
+import { Example as PartialControlsExample } from '../../src/examples/pagination/PartialControlsExample.tsx'
 import { Example as ManualExample } from '../../src/examples/pagination/ManualExample.tsx'
-import { Example as DisabledActiveExample } from '../../src/examples/pagination/DisabledActiveExample.tsx'
+import { Example as LinksExample } from '../../src/examples/pagination/LinksExample.tsx'
+import { Example as LoadingExample } from '../../src/examples/pagination/LoadingExample.tsx'
 import { Example as SizingExample } from '../../src/examples/pagination/SizingExample.tsx'
 import { Example as AlignmentExample } from '../../src/examples/pagination/AlignmentExample.tsx'
 
@@ -30,27 +32,49 @@ Use `maxVisiblePages` to control how many page buttons appear before collapsing 
   <MaxVisibleExample client:load />
 </Example>
 
+### Partial controls
+
+Set `showPageNumbers={false}` for a Prev/Next-only paginator, or `showPrevNext={false}` for a page-numbers-only one. Both default to `true`.
+
+<Example>
+  <PartialControlsExample client:load />
+</Example>
+
 ## Manual markup
 
-For full control, compose the pagination using `<PaginationItem>` directly.
+For sets smart mode's contiguous-range-plus-ellipsis algorithm can't produce — like a fixed list of bookmarked pages — compose the pagination using `<PaginationItem>` directly.
 
 <Example>
   <ManualExample client:load />
 </Example>
 
-### Disabled and active states
+### Real links
+
+Smart mode always renders buttons. Pass `href` to `PaginationItem` for real anchors instead — e.g. server-rendered pages where each link is a full page load to a URL like `?page=2`.
 
 <Example>
-  <DisabledActiveExample client:load />
+  <LinksExample client:load />
+</Example>
+
+### Loading state
+
+Disable every item while the paginated data is fetching, so the control visibly reflects the loading state instead of accepting clicks that only queue up once the fetch resolves.
+
+<Example>
+  <LoadingExample client:load />
 </Example>
 
 ## Sizing
+
+Set `size` to `small` or `large` to scale the page links and Prev/Next controls together.
 
 <Example>
   <SizingExample client:load />
 </Example>
 
 ## Alignment
+
+Set `align` to `center` or `end` to position the pagination list within its container; the default is start-aligned.
 
 <Example>
   <AlignmentExample client:load />

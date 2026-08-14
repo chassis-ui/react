@@ -24,6 +24,25 @@
         "name": "ReactElement<any, string | JSXElementConstructor<any>> | ReactElement<any, string | JSXElementConstructor<any>>[] | ((column: T) => ReactElement<...>)"
       }
     },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the `<thead>` element.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/TableHeader.tsx",
+        "name": "TableHeaderProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/TableHeader.tsx",
+          "name": "TableHeaderProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
     "columns": {
       "defaultValue": null,
       "description": "A list of column data objects, rendered via the function form of `children`.",

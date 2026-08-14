@@ -1,22 +1,26 @@
-import { Pagination, PaginationItem } from '@chassis-ui/react'
+import { useState } from 'react'
+import { Pagination } from '@chassis-ui/react'
 
 export const Example = () => {
+  const [centerPage, setCenterPage] = useState(2)
+  const [endPage, setEndPage] = useState(2)
+
   return (
     <>
-      <Pagination align="center" aria-label="Centered pagination">
-        <PaginationItem>&laquo;</PaginationItem>
-        <PaginationItem>1</PaginationItem>
-        <PaginationItem active>2</PaginationItem>
-        <PaginationItem>3</PaginationItem>
-        <PaginationItem>&raquo;</PaginationItem>
-      </Pagination>
-      <Pagination align="end" aria-label="Right-aligned pagination">
-        <PaginationItem>&laquo;</PaginationItem>
-        <PaginationItem>1</PaginationItem>
-        <PaginationItem active>2</PaginationItem>
-        <PaginationItem>3</PaginationItem>
-        <PaginationItem>&raquo;</PaginationItem>
-      </Pagination>
+      <Pagination
+        align="center"
+        pages={3}
+        activePage={centerPage}
+        onActivePageChange={setCenterPage}
+        aria-label="Centered pagination"
+      />
+      <Pagination
+        align="end"
+        pages={3}
+        activePage={endPage}
+        onActivePageChange={setEndPage}
+        aria-label="Right-aligned pagination"
+      />
     </>
   )
 }

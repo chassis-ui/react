@@ -147,7 +147,7 @@
       ],
       "required": true,
       "type": {
-        "name": "[ReactElement<TableHeaderProps<T>, string | JSXElementConstructor<any>>, ReactElement<TableBodyProps<T>, string | JSXElementConstructor<...>>]"
+        "name": "[ReactElement<TableHeaderProps<T> & { className?: string | undefined; }, string | JSXElementConstructor<any>>, ReactElement<...>]"
       }
     },
     "className": {

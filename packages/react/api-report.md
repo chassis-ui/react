@@ -11,7 +11,7 @@ renamed export, ...) and review the diff like any other code change. `pnpm api:r
 -->
 
 ```ts
-import React, { AllHTMLAttributes, AnchorHTMLAttributes, AriaAttributes, ButtonHTMLAttributes, ChangeEventHandler, ComponentPropsWithRef, ComponentPropsWithoutRef, DialogHTMLAttributes, ElementType, FC, FormHTMLAttributes, HTMLAttributes, ImgHTMLAttributes, InputHTMLAttributes, Key, ReactElement, ReactNode, Ref, TextareaHTMLAttributes, useEffect } from "react";
+import React, { AllHTMLAttributes, AnchorHTMLAttributes, AriaAttributes, ButtonHTMLAttributes, ChangeEventHandler, ComponentPropsWithRef, ComponentPropsWithoutRef, DialogHTMLAttributes, ElementType, FC, FormHTMLAttributes, HTMLAttributes, ImgHTMLAttributes, InputHTMLAttributes, Key, ReactElement, ReactNode, Ref, RefObject, TextareaHTMLAttributes, useEffect } from "react";
 import { DateValue, I18nProvider, Key as Key$1, RangeValue } from "react-aria";
 import { DateValue as DateValue$1, Key as Key$2, Selection, SortDescriptor, TableBodyProps, TableHeaderProps, ToastQueue } from "react-stately";
 //#region src/components/accordion/Accordion.d.ts
@@ -3935,6 +3935,13 @@ interface PaginationProps extends HTMLAttributes<HTMLElement> {
    */
   align?: 'center' | 'end' | 'start';
   /**
+   * Accessible label for the pagination `<nav>` landmark. Override for non-English locales,
+   * or when multiple paginators appear on the same page.
+   *
+   * @default 'Pagination'
+   */
+  'aria-label'?: string;
+  /**
    * A string of all className you want applied to the base component.
    */
   className?: string;
@@ -3965,6 +3972,20 @@ interface PaginationProps extends HTMLAttributes<HTMLElement> {
    * @default 'Previous'
    */
   previousLabel?: string;
+  /**
+   * Show the numbered page buttons in smart pagination mode. Set `false` alongside
+   * `showPrevNext` to build a Prev/Next-only paginator.
+   *
+   * @default true
+   */
+  showPageNumbers?: boolean;
+  /**
+   * Show the Prev/Next controls in smart pagination mode. Set `false` alongside
+   * `showPageNumbers` to build a page-numbers-only paginator.
+   *
+   * @default true
+   */
+  showPrevNext?: boolean;
   /**
    * Size the component small or large.
    */
@@ -5047,6 +5068,15 @@ interface NotificationContextProps {
 type UseNotificationResult = NotificationContextProps;
 declare const useNotification: () => UseNotificationResult;
 //#endregion
+//#region src/hooks/usePaginationFocusGuard.d.ts
+interface UsePaginationFocusGuardResult<T extends HTMLElement = HTMLAnchorElement> {
+  prevRef: RefObject<T>;
+  nextRef: RefObject<T>;
+  markPrevClicked: () => void;
+  markNextClicked: () => void;
+}
+declare function usePaginationFocusGuard<T extends HTMLElement = HTMLAnchorElement>(prevDisabled: boolean, nextDisabled: boolean): UsePaginationFocusGuardResult<T>;
+//#endregion
 //#region src/components/toast/context.d.ts
 interface ToastContextProps {
   /**
@@ -5153,5 +5183,5 @@ interface StackProps extends HTMLAttributes<HTMLDivElement> {
 }
 declare const Stack: React.ForwardRefExoticComponent<StackProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
-export { Accordion, AccordionBody, AccordionButton, AccordionCollapse, AccordionHeader, AccordionItem, Autocomplete, AutocompleteGroup, AutocompleteItem, Avatar, AvatarImage, AvatarStack, Backdrop, Badge, Breadcrumb, BreadcrumbItem, Button, ButtonGroup, ButtonToolbar, Calendar, Card, CardBody, CardFooter, CardGroup, CardHeader, CardImage, CardImageOverlay, CardLink, CardSubtitle, CardText, CardTitle, Carousel, CarouselControlNext, CarouselControlPrev, CarouselIndicators, CarouselInner, CarouselItem, CarouselOverlay, CarouselPlayPause, Checkbox, CheckboxGroup, ChipInput, CloseButton, Col, Collapse, ColorInput, Combobox, ComboboxGroup, ComboboxItem, Container, DatePicker, DateRangePicker, Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerTitle, FileInput, Flex, FloatingInput, Form, FormFeedback, FormField, FormHelp, FormLabel, Grid, GridItem, I18nProvider, Icon, InputAdorn, InputGroup, InputGroupAddon, Link, List, ListItem, Menu, MenuDivider, MenuHeader, MenuItem, MenuList, MenuSubmenu, MenuSubmenuBack, MenuText, MenuToggle, Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle, Nav, NavItem, NavLink, NavTitle, Navbar, NavbarBrand, NavbarNav, NavbarText, NavbarToggler, Notification, NotificationIcon, NotificationStack, NotificationText, NotificationTitle, OtpInput, Pagination, PaginationItem, PasswordStrength, Placeholder, Popover, Progress, ProgressBar, Radio, RadioGroup, RangeCalendar, RangeInput, Row, Select, Skeleton, SkeletonLoader, Spinner, Stack, Stepper, StepperItem, Switch, TabContent, TabPane, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tabs, TabsList, TabsPanel, TabsTab, TextInput, Textarea, Toast, ToastBody, ToastFooter, ToastHeader, ToastIcon, Toaster, Tooltip, addNotification, addToast, closeNotification, closeToast, notificationQueue, toastQueue, useDrawer, useModal, useNotification, useToast };
+export { Accordion, AccordionBody, AccordionButton, AccordionCollapse, AccordionHeader, AccordionItem, Autocomplete, AutocompleteGroup, AutocompleteItem, Avatar, AvatarImage, AvatarStack, Backdrop, Badge, Breadcrumb, BreadcrumbItem, Button, ButtonGroup, ButtonToolbar, Calendar, Card, CardBody, CardFooter, CardGroup, CardHeader, CardImage, CardImageOverlay, CardLink, CardSubtitle, CardText, CardTitle, Carousel, CarouselControlNext, CarouselControlPrev, CarouselIndicators, CarouselInner, CarouselItem, CarouselOverlay, CarouselPlayPause, Checkbox, CheckboxGroup, ChipInput, CloseButton, Col, Collapse, ColorInput, Combobox, ComboboxGroup, ComboboxItem, Container, DatePicker, DateRangePicker, Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerTitle, FileInput, Flex, FloatingInput, Form, FormFeedback, FormField, FormHelp, FormLabel, Grid, GridItem, I18nProvider, Icon, InputAdorn, InputGroup, InputGroupAddon, Link, List, ListItem, Menu, MenuDivider, MenuHeader, MenuItem, MenuList, MenuSubmenu, MenuSubmenuBack, MenuText, MenuToggle, Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle, Nav, NavItem, NavLink, NavTitle, Navbar, NavbarBrand, NavbarNav, NavbarText, NavbarToggler, Notification, NotificationIcon, NotificationStack, NotificationText, NotificationTitle, OtpInput, Pagination, PaginationItem, PasswordStrength, Placeholder, Popover, Progress, ProgressBar, Radio, RadioGroup, RangeCalendar, RangeInput, Row, Select, Skeleton, SkeletonLoader, Spinner, Stack, Stepper, StepperItem, Switch, TabContent, TabPane, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tabs, TabsList, TabsPanel, TabsTab, TextInput, Textarea, Toast, ToastBody, ToastFooter, ToastHeader, ToastIcon, Toaster, Tooltip, addNotification, addToast, closeNotification, closeToast, notificationQueue, toastQueue, useDrawer, useModal, useNotification, usePaginationFocusGuard, useToast };
 ```

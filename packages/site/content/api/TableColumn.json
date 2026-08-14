@@ -42,6 +42,25 @@
       "type": {
         "name": "ReactNode"
       }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the column header.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/TableColumn.tsx",
+        "name": "TableColumnProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/TableColumn.tsx",
+          "name": "TableColumnProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
     }
   }
 }

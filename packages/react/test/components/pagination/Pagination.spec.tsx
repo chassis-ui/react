@@ -93,6 +93,81 @@ describe('Pagination', () => {
       await user.click(screen.getByRole('button', { name: 'Next' }))
       expect(onActivePageChange).toHaveBeenCalledWith(2)
     })
+
+    test('moves focus to Previous when clicking Next disables it on the last page', async () => {
+      const user = userEvent.setup()
+      function Wrapper() {
+        const [page, setPage] = React.useState(2)
+        return <Pagination activePage={page} pages={3} onActivePageChange={setPage} />
+      }
+      render(<Wrapper />)
+
+      const next = screen.getByRole('button', { name: 'Next' })
+      next.focus()
+      await user.click(next)
+
+      expect(next).toBeDisabled()
+      expect(screen.getByRole('button', { name: 'Previous' })).toHaveFocus()
+    })
+
+    test('does not steal focus when jumping to the last page via a page number after a non-boundary Next click', async () => {
+      const user = userEvent.setup()
+      function Wrapper() {
+        const [page, setPage] = React.useState(5)
+        return <Pagination activePage={page} pages={10} onActivePageChange={setPage} />
+      }
+      render(<Wrapper />)
+
+      // Advance one page without crossing a Prev/Next disabled boundary — this used to leave a
+      // stale focus-redirect pending internally, since neither control's disabled state changes.
+      await user.click(screen.getByRole('button', { name: 'Next' }))
+
+      // Jump straight to the last page via its number button, not Next — this flips `nextDisabled`
+      // and used to wrongly consume the stale pending mark, moving focus to Previous.
+      const lastPage = screen.getByRole('button', { name: '10' })
+      await user.click(lastPage)
+
+      expect(screen.getByRole('button', { name: 'Next' })).toBeDisabled()
+      expect(screen.getByRole('button', { name: 'Previous' })).not.toHaveFocus()
+    })
+
+    test('renders only Prev/Next when showPageNumbers is false', () => {
+      render(
+        <Pagination activePage={2} pages={3} onActivePageChange={vi.fn()} showPageNumbers={false} />
+      )
+
+      expect(screen.getByRole('button', { name: 'Previous' })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'Next' })).toBeInTheDocument()
+      expect(screen.queryByRole('button', { name: '1' })).not.toBeInTheDocument()
+      expect(screen.queryByText('2')).not.toBeInTheDocument()
+    })
+
+    test('renders only page numbers when showPrevNext is false', () => {
+      render(
+        <Pagination activePage={2} pages={3} onActivePageChange={vi.fn()} showPrevNext={false} />
+      )
+
+      expect(screen.queryByRole('button', { name: 'Previous' })).not.toBeInTheDocument()
+      expect(screen.queryByRole('button', { name: 'Next' })).not.toBeInTheDocument()
+      expect(screen.getByRole('button', { name: '1' })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: '3' })).toBeInTheDocument()
+    })
+
+    test('moves focus to Next when clicking Previous disables it on the first page', async () => {
+      const user = userEvent.setup()
+      function Wrapper() {
+        const [page, setPage] = React.useState(2)
+        return <Pagination activePage={page} pages={3} onActivePageChange={setPage} />
+      }
+      render(<Wrapper />)
+
+      const previous = screen.getByRole('button', { name: 'Previous' })
+      previous.focus()
+      await user.click(previous)
+
+      expect(previous).toBeDisabled()
+      expect(screen.getByRole('button', { name: 'Next' })).toHaveFocus()
+    })
   })
 
   describe('ref forwarding', () => {

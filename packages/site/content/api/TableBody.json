@@ -24,6 +24,25 @@
         "name": "ReactElement<any, string | JSXElementConstructor<any>> | ReactElement<any, string | JSXElementConstructor<any>>[] | ((item: T) => ReactElement<...>)"
       }
     },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the `<tbody>` element.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/TableBody.tsx",
+        "name": "TableBodyProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/TableBody.tsx",
+          "name": "TableBodyProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
     "items": {
       "defaultValue": null,
       "description": "A list of row data objects, rendered via the function form of `children`.",

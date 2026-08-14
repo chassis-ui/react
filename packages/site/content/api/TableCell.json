@@ -24,6 +24,25 @@
         "name": "ReactNode"
       }
     },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the cell.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/TableCell.tsx",
+        "name": "TableCellProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/TableCell.tsx",
+          "name": "TableCellProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
     "colSpan": {
       "defaultValue": null,
       "description": "Indicates how many columns the cell spans.",

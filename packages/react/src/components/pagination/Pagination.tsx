@@ -1,8 +1,9 @@
-import React, { forwardRef, HTMLAttributes, useEffect, useRef } from 'react'
+import React, { forwardRef, HTMLAttributes } from 'react'
 import { Icon } from '../icon'
 import classNames from 'classnames'
 
 import { PaginationItem } from './PaginationItem'
+import { usePaginationFocusGuard } from '../../hooks'
 
 export interface PaginationProps extends HTMLAttributes<HTMLElement> {
   /**
@@ -51,6 +52,20 @@ export interface PaginationProps extends HTMLAttributes<HTMLElement> {
    * @default 'Previous'
    */
   previousLabel?: string
+  /**
+   * Show the numbered page buttons in smart pagination mode. Set `false` alongside
+   * `showPrevNext` to build a Prev/Next-only paginator.
+   *
+   * @default true
+   */
+  showPageNumbers?: boolean
+  /**
+   * Show the Prev/Next controls in smart pagination mode. Set `false` alongside
+   * `showPageNumbers` to build a page-numbers-only paginator.
+   *
+   * @default true
+   */
+  showPrevNext?: boolean
   /**
    * Size the component small or large.
    */
@@ -104,6 +119,8 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
       onActivePageChange,
       pages,
       previousLabel = 'Previous',
+      showPageNumbers = true,
+      showPrevNext = true,
       size,
       ...rest
     },
@@ -111,73 +128,63 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
   ) => {
     const _className = classNames(
       'pagination',
+      size,
       {
         [`justify-content-${align}`]: align,
-        [`pagination-${size}`]: size
       },
       className
     )
 
     const clampedActivePage = pages ? Math.min(Math.max(activePage, 1), pages) : activePage
+    const prevDisabled = pages ? clampedActivePage <= 1 : false
+    const nextDisabled = pages ? clampedActivePage >= pages : false
 
-    const prevRef = useRef<HTMLAnchorElement>(null)
-    const nextRef = useRef<HTMLAnchorElement>(null)
-    const pendingFocusFix = useRef<'prev' | 'next' | null>(null)
-
-    // Native `disabled` buttons are blurred by the browser the moment they're disabled. Clicking
-    // Prev/Next into the first/last page disables that very button, silently dropping focus to
-    // <body>. Redirect focus to the still-enabled sibling when that happens.
-    useEffect(() => {
-      if (!pages || !pendingFocusFix.current) return
-      const from = pendingFocusFix.current
-      pendingFocusFix.current = null
-      if (from === 'prev' && clampedActivePage <= 1) {
-        nextRef.current?.focus()
-      } else if (from === 'next' && clampedActivePage >= pages) {
-        prevRef.current?.focus()
-      }
-    }, [clampedActivePage, pages])
+    const { prevRef, nextRef, handlePrevClick, handleNextClick } = usePaginationFocusGuard({
+      prevDisabled,
+      nextDisabled,
+      onPrev: () => onActivePageChange && onActivePageChange(clampedActivePage - 1),
+      onNext: () => onActivePageChange && onActivePageChange(clampedActivePage + 1)
+    })
 
     const smartContent = pages ? (
       <>
-        <PaginationItem
-          ref={prevRef}
-          disabled={clampedActivePage <= 1}
-          onClick={() => {
-            pendingFocusFix.current = 'prev'
-            onActivePageChange && onActivePageChange(clampedActivePage - 1)
-          }}
-          aria-label={previousLabel}
-        >
-          <Icon name="chevron-left-solid" className="directional-icon" />
-        </PaginationItem>
-        {getPageRange(clampedActivePage, pages, maxVisiblePages).map((page, idx) =>
-          page === '...' ? (
-            // eslint-disable-next-line react/no-array-index-key
-            <PaginationItem key={`ellipsis-${idx}`} disabled component="span" aria-hidden="true">
-              &hellip;
-            </PaginationItem>
-          ) : (
-            <PaginationItem
-              key={page}
-              active={page === clampedActivePage}
-              onClick={() => onActivePageChange && onActivePageChange(page)}
-            >
-              {page}
-            </PaginationItem>
-          )
+        {showPrevNext && (
+          <PaginationItem
+            ref={prevRef}
+            disabled={prevDisabled}
+            onClick={handlePrevClick}
+            aria-label={previousLabel}
+          >
+            <Icon name="chevron-left-solid" className="directional-icon" />
+          </PaginationItem>
         )}
-        <PaginationItem
-          ref={nextRef}
-          disabled={clampedActivePage >= pages}
-          onClick={() => {
-            pendingFocusFix.current = 'next'
-            onActivePageChange && onActivePageChange(clampedActivePage + 1)
-          }}
-          aria-label={nextLabel}
-        >
-          <Icon name="chevron-right-solid" className="directional-icon" />
-        </PaginationItem>
+        {showPageNumbers &&
+          getPageRange(clampedActivePage, pages, maxVisiblePages).map((page, idx) =>
+            page === '...' ? (
+              // eslint-disable-next-line react/no-array-index-key
+              <PaginationItem key={`ellipsis-${idx}`} disabled component="span" aria-hidden="true">
+                &hellip;
+              </PaginationItem>
+            ) : (
+              <PaginationItem
+                key={page}
+                active={page === clampedActivePage}
+                onClick={() => onActivePageChange && onActivePageChange(page)}
+              >
+                {page}
+              </PaginationItem>
+            )
+          )}
+        {showPrevNext && (
+          <PaginationItem
+            ref={nextRef}
+            disabled={nextDisabled}
+            onClick={handleNextClick}
+            aria-label={nextLabel}
+          >
+            <Icon name="chevron-right-solid" className="directional-icon" />
+          </PaginationItem>
+        )}
       </>
     ) : null
 

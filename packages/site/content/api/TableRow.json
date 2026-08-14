@@ -24,6 +24,25 @@
         "name": "ReactElement<any, string | JSXElementConstructor<any>> | ReactElement<any, string | JSXElementConstructor<any>>[] | ((columnKey: Key) => ReactElement<...>)"
       }
     },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the row.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/TableRow.tsx",
+        "name": "TableRowProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/TableRow.tsx",
+          "name": "TableRowProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
     "textValue": {
       "defaultValue": null,
       "description": "A string representation of the row's contents, used for typeahead.",
