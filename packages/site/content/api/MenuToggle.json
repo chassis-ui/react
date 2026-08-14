@@ -9,14 +9,10 @@
       "defaultValue": null,
       "description": "Toggle the active state for the component.",
       "name": "active",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-        "name": "ButtonProps"
-      },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-          "name": "ButtonProps"
+          "fileName": "chassis-react/packages/react/src/components/menu/MenuToggle.tsx",
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -28,14 +24,10 @@
       "defaultValue": null,
       "description": "A string of all className you want applied to the base component.",
       "name": "className",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-        "name": "ButtonProps"
-      },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-          "name": "ButtonProps"
+          "fileName": "chassis-react/packages/react/src/components/menu/MenuToggle.tsx",
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -45,16 +37,12 @@
     },
     "color": {
       "defaultValue": null,
-      "description": "Sets the color of the component to one of Chassis context colors.",
+      "description": "Sets the color of the component to one of Chassis context colors. Only applies to the\ndefault `Button` root.",
       "name": "color",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-        "name": "ButtonProps"
-      },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-          "name": "ButtonProps"
+          "fileName": "chassis-react/packages/react/src/components/menu/MenuToggle.tsx",
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -100,35 +88,27 @@
     },
     "component": {
       "defaultValue": null,
-      "description": "Component used for the root node. Either a string to use a HTML element or a component.",
+      "description": "Component used for the root node — the trigger element the menu opens from. Defaults to\n`Button`; swap for e.g. `NavLink` to render a nav-item-style trigger (`.nav-link.caret`)\ninstead of a `.button.caret`. Its own props are type-checked at the call site once passed\nhere.",
       "name": "component",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-        "name": "ButtonProps"
-      },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-          "name": "ButtonProps"
+          "fileName": "chassis-react/packages/react/src/components/menu/MenuToggle.tsx",
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
       "type": {
-        "name": "string | ComponentClass<any, any> | FunctionComponent<any>"
+        "name": "ElementType"
       }
     },
     "disabled": {
       "defaultValue": null,
       "description": "Toggle the disabled state for the component.",
       "name": "disabled",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-        "name": "ButtonProps"
-      },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-          "name": "ButtonProps"
+          "fileName": "chassis-react/packages/react/src/components/menu/MenuToggle.tsx",
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -140,33 +120,10 @@
       "defaultValue": null,
       "description": "The href attribute specifies the URL of the page the link goes to.",
       "name": "href",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-        "name": "ButtonProps"
-      },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-          "name": "ButtonProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "string"
-      }
-    },
-    "role": {
-      "defaultValue": null,
-      "description": "The role attribute describes the role of an element in programs that can make use of it, such as screen readers or magnifiers.",
-      "name": "role",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-        "name": "ButtonProps"
-      },
-      "declarations": [
-        {
-          "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-          "name": "ButtonProps"
+          "fileName": "chassis-react/packages/react/src/components/menu/MenuToggle.tsx",
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -176,16 +133,12 @@
     },
     "shape": {
       "defaultValue": null,
-      "description": "Select the shape of the component.",
+      "description": "Select the shape of the component. Only applies to the default `Button` root.",
       "name": "shape",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-        "name": "ButtonProps"
-      },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-          "name": "ButtonProps"
+          "fileName": "chassis-react/packages/react/src/components/menu/MenuToggle.tsx",
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -231,16 +184,12 @@
     },
     "size": {
       "defaultValue": null,
-      "description": "Size the component small or large.",
+      "description": "Size the component small or large. Only applies to the default `Button` root.",
       "name": "size",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-        "name": "ButtonProps"
-      },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-          "name": "ButtonProps"
+          "fileName": "chassis-react/packages/react/src/components/menu/MenuToggle.tsx",
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -259,16 +208,12 @@
     },
     "variant": {
       "defaultValue": null,
-      "description": "Set the button style variant.",
+      "description": "Sets the context style of the component. Only applies to the default `Button` root.",
       "name": "variant",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-        "name": "ButtonProps"
-      },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-          "name": "ButtonProps"
+          "fileName": "chassis-react/packages/react/src/components/menu/MenuToggle.tsx",
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -289,6 +234,21 @@
             "value": "\"smooth\""
           }
         ]
+      }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/MenuToggle.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "any"
       }
     }
   }

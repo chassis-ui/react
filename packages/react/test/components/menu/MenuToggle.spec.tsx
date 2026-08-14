@@ -2,7 +2,7 @@ import * as React from 'react'
 import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Menu, MenuToggle, MenuList, MenuItem } from '../../../src/index'
+import { Menu, MenuToggle, MenuList, MenuItem, NavLink } from '../../../src/index'
 
 describe('MenuToggle', () => {
   describe('rendering', () => {
@@ -33,6 +33,23 @@ describe('MenuToggle', () => {
       )
       const toggle = screen.getByRole('button', { name: 'Test' })
       expect(toggle).toHaveClass('secondary', 'bazinga')
+    })
+
+    test('renders as a NavLink when component is overridden', () => {
+      render(
+        <Menu>
+          <MenuToggle component={NavLink} className="nav-link">
+            Test
+          </MenuToggle>
+          <MenuList>
+            <MenuItem>A</MenuItem>
+          </MenuList>
+        </Menu>
+      )
+      const toggle = screen.getByRole('button', { name: 'Test' })
+      expect(toggle.tagName).toBe('A')
+      expect(toggle).toHaveClass('nav-link', 'caret')
+      expect(toggle).not.toHaveClass('button')
     })
   })
 
