@@ -3,7 +3,7 @@ import { Icon } from '../icon'
 import classNames from 'classnames'
 
 import { PaginationItem } from './PaginationItem'
-import { usePaginationFocusGuard } from '../../hooks'
+import { usePagination } from '../../hooks'
 
 export interface PaginationProps extends HTMLAttributes<HTMLElement> {
   /**
@@ -130,7 +130,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
       'pagination',
       size,
       {
-        [`justify-content-${align}`]: align,
+        [`justify-content-${align}`]: align
       },
       className
     )
@@ -139,7 +139,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
     const prevDisabled = pages ? clampedActivePage <= 1 : false
     const nextDisabled = pages ? clampedActivePage >= pages : false
 
-    const { prevRef, nextRef, handlePrevClick, handleNextClick } = usePaginationFocusGuard({
+    const { prevRef, nextRef, handlePrevClick, handleNextClick } = usePagination({
       prevDisabled,
       nextDisabled,
       onPrev: () => onActivePageChange && onActivePageChange(clampedActivePage - 1),

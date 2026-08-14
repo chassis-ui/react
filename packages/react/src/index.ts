@@ -111,7 +111,7 @@ import {
   toastQueue
 } from './components/toast'
 import { Tooltip } from './components/tooltip'
-import { useDrawer, useModal, useNotification, usePaginationFocusGuard, useToast } from './hooks'
+import { useDrawer, useModal, useNotification, usePagination, useToast } from './hooks'
 // plop:import
 import { Flex } from './components/flex'
 import { Stack } from './components/stack'
@@ -235,7 +235,7 @@ export {
   NavbarToggler,
   Pagination,
   PaginationItem,
-  usePaginationFocusGuard,
+  usePagination,
   Popover,
   Progress,
   ProgressBar,

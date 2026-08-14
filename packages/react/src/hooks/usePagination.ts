@@ -1,6 +1,6 @@
 import { MouseEvent, RefObject, useEffect, useRef } from 'react'
 
-export interface UsePaginationFocusGuardOptions {
+export interface UsePaginationOptions {
   /**
    * Whether the Previous control is currently disabled.
    */
@@ -19,7 +19,7 @@ export interface UsePaginationFocusGuardOptions {
   onNext: () => void
 }
 
-export interface UsePaginationFocusGuardResult<T extends HTMLElement = HTMLAnchorElement> {
+export interface UsePaginationResult<T extends HTMLElement = HTMLAnchorElement> {
   prevRef: RefObject<T>
   nextRef: RefObject<T>
   handlePrevClick: (event: MouseEvent<T>) => void
@@ -67,12 +67,12 @@ function focusRedirect(el: HTMLElement | null, viaPointer: boolean) {
 // Works for `Pagination`'s built-in smart mode and for hand-composed Prev/Next controls alike —
 // pass the element type of whatever you're attaching the refs to (`PaginationItem` renders an
 // `HTMLAnchorElement`, a plain `Button` an `HTMLButtonElement`, etc).
-export function usePaginationFocusGuard<T extends HTMLElement = HTMLAnchorElement>({
+export function usePagination<T extends HTMLElement = HTMLAnchorElement>({
   prevDisabled,
   nextDisabled,
   onPrev,
   onNext
-}: UsePaginationFocusGuardOptions): UsePaginationFocusGuardResult<T> {
+}: UsePaginationOptions): UsePaginationResult<T> {
   const prevRef = useRef<T>(null)
   const nextRef = useRef<T>(null)
   const pending = useRef<Pending | null>(null)

@@ -1,5 +1,5 @@
 import { useState, type ChangeEvent } from 'react'
-import { Button, Icon, Select, usePaginationFocusGuard } from '@chassis-ui/react'
+import { Button, Icon, Select, usePagination } from '@chassis-ui/react'
 
 export const CompactPagination = () => {
   const total = 100
@@ -12,7 +12,7 @@ export const CompactPagination = () => {
   const prevDisabled = page <= 1
   const nextDisabled = page >= totalPages
   const { prevRef, nextRef, handlePrevClick, handleNextClick } =
-    usePaginationFocusGuard<HTMLButtonElement>({
+    usePagination<HTMLButtonElement>({
       prevDisabled,
       nextDisabled,
       onPrev: () => setPage((p) => p - 1),

@@ -37,7 +37,7 @@ describe('Pagination', () => {
       expect(screen.getByRole('list')).toHaveClass(
         'bazinga',
         'pagination',
-        'pagination-large',
+        'large',
         'justify-content-end'
       )
     })

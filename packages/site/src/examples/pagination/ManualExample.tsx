@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Pagination, PaginationItem, usePaginationFocusGuard } from '@chassis-ui/react'
+import { Pagination, PaginationItem, usePagination } from '@chassis-ui/react'
 
 // Smart mode always shows a contiguous range around the active page. Manual mode is for sets
 // smart mode can't produce — like jumping between a fixed list of bookmarked pages. Prev/Next
@@ -12,7 +12,7 @@ export const Example = () => {
 
   const prevDisabled = index <= 0
   const nextDisabled = index >= bookmarkedPages.length - 1
-  const { prevRef, nextRef, handlePrevClick, handleNextClick } = usePaginationFocusGuard({
+  const { prevRef, nextRef, handlePrevClick, handleNextClick } = usePagination({
     prevDisabled,
     nextDisabled,
     onPrev: () => setIndex((i) => i - 1),

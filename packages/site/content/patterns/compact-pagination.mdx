@@ -21,7 +21,7 @@ control, a "1-10 of 100" range summary, and Prev/Next flanking a page picker. Th
   the [Paginated Table](/react/docs/patterns/paginated-table) example's page size control.
 - Prev/Next are plain `Button`s with the `icon-only` class, not `<Pagination>`/`PaginationItem` —
   there's no numbered-button list here for that markup to join into.
-- `usePaginationFocusGuard` is what makes the Prev/Next buttons safe to disable at the range's
+- `usePagination` is what makes the Prev/Next buttons safe to disable at the range's
   edges. Browsers blur a button the instant it's disabled, so clicking Next into the last page
   would otherwise silently drop keyboard focus to `<body>`. The hook redirects focus to the
   still-enabled sibling instead — pass it the element type your buttons render as (`Button`
