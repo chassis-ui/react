@@ -80,12 +80,11 @@ describe('Drawer', () => {
           Test
         </Drawer>
       )
-      // Drawer closes immediately (no deferred/.hiding step, unlike Modal)
-      expect(closeSpy).toHaveBeenCalledTimes(1)
-      expect(document.documentElement).not.toHaveStyle({ overflow: 'hidden' })
       act(() => {
         vi.runAllTimers()
       })
+      expect(closeSpy).toHaveBeenCalledTimes(1)
+      expect(document.documentElement).not.toHaveStyle({ overflow: 'hidden' })
       vi.useRealTimers()
     })
 

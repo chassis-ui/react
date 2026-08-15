@@ -134,6 +134,7 @@ export const Drawer = forwardRef<HTMLDialogElement, DrawerProps>(
     const forkedRef = useForkedRef(ref, dialogRef)
 
     const [_visible, setVisible] = useState(visible)
+    const [hiding, setHiding] = useState(false)
     const [staticBounce, setStaticBounce] = useState(false)
     const [scrollLocked, setScrollLocked] = useState(false)
     const openedAsModalRef = useRef(false)
@@ -204,23 +205,37 @@ export const Drawer = forwardRef<HTMLDialogElement, DrawerProps>(
         }
 
         onShow?.()
+        setHiding(false)
 
         return executeAfterTransition(dialog, () => onShown?.(), !instant)
       }
 
       if (!dialog.open) return undefined
+      setHiding(true)
+      return undefined
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [_visible])
 
-      // Closing a drawer is safe to do immediately (unlike Modal) — the CSS keeps the
-      // element rendered (display: flex) and animates the exit purely via transform /
-      // delayed visibility, regardless of the native `open` attribute.
-      dialog.close()
-      if (openedAsModalRef.current) {
-        setScrollLocked(false)
-      }
+    // Finish hide once the exit transition (or lack thereof) completes. The native `open`
+    // attribute — and with it, the `[class*="drawer"]:not([open], .hiding)` escape hatch
+    // chassis-css's navbar styles use to suppress the drawer-flash transition when the navbar
+    // itself crosses its `expand` breakpoint — has to stay put for the whole transition, or
+    // that same rule strips the *intentional* close transition too, the instant `open` is
+    // removed. `.hiding` (via `_className` below) is what keeps this close from tripping it.
+    useEffect(() => {
+      const dialog = dialogRef.current
+      if (!hiding || !dialog) return undefined
 
       return executeAfterTransition(
         dialog,
         () => {
+          if (dialog.open) {
+            dialog.close()
+          }
+          if (openedAsModalRef.current) {
+            setScrollLocked(false)
+          }
+          setHiding(false)
           onHidden?.()
           const trigger = triggerRef.current
           if (trigger && document.contains(trigger)) {
@@ -230,7 +245,7 @@ export const Drawer = forwardRef<HTMLDialogElement, DrawerProps>(
         !instant
       )
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [_visible])
+    }, [hiding])
 
     // Escape key for non-modal (show()) drawers — the native `cancel` event below only
     // fires for dialogs opened with showModal().
@@ -278,7 +293,8 @@ export const Drawer = forwardRef<HTMLDialogElement, DrawerProps>(
         instant,
         'drawer-fit-content': fitContent,
         nonmodal: !(Boolean(backdrop) || !scroll),
-        static: staticBounce
+        static: staticBounce,
+        hiding
       },
       className
     )
