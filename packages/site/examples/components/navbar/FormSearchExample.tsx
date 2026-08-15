@@ -1,6 +1,6 @@
 import { Button, Container, Form, Navbar, TextInput } from '@chassis-ui/react'
 
-export const FormSearchExample = () => {
+export const Example = () => {
   return (
     <Navbar className="bg-even">
       <Container fluid>

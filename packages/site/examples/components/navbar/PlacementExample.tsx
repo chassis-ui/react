@@ -1,28 +1,30 @@
-import { Container, Navbar, NavbarBrand } from '@chassis-ui/react'
+import { useState, type ChangeEvent } from 'react'
+import { Container, Navbar, NavbarBrand, Select } from '@chassis-ui/react'
 
-export const PlacementExample = () => {
+type Placement = 'fixed-top' | 'fixed-bottom' | 'sticky-top' | 'sticky-bottom'
+
+export const Example = () => {
+  const [placement, setPlacement] = useState<Placement>('fixed-top')
+  const handlePlacementChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setPlacement(e.target.value as Placement)
+  }
   return (
-    <div className="d-flex flex-column gap-small">
-      <Navbar className="bg-even" placement="fixed-top">
-        <Container fluid>
-          <NavbarBrand href="#">Fixed top</NavbarBrand>
-        </Container>
-      </Navbar>
-      <Navbar className="bg-even" placement="fixed-bottom">
-        <Container fluid>
-          <NavbarBrand href="#">Fixed bottom</NavbarBrand>
-        </Container>
-      </Navbar>
-      <Navbar className="bg-even" placement="sticky-top">
-        <Container fluid>
-          <NavbarBrand href="#">Sticky top</NavbarBrand>
-        </Container>
-      </Navbar>
-      <Navbar className="bg-even" placement="sticky-bottom">
-        <Container fluid>
-          <NavbarBrand href="#">Sticky bottom</NavbarBrand>
-        </Container>
-      </Navbar>
-    </div>
+    <Navbar className="bg-even" placement={placement}>
+      <Container fluid>
+        <NavbarBrand>Navbar</NavbarBrand>
+        <Select
+          id="navbar-placement"
+          className="w-auto"
+          value={placement}
+          onChange={handlePlacementChange}
+          options={[
+            { label: 'Fixed top', value: 'fixed-top' },
+            { label: 'Fixed bottom', value: 'fixed-bottom' },
+            { label: 'Sticky top', value: 'sticky-top' },
+            { label: 'Sticky bottom', value: 'sticky-bottom' }
+          ]}
+        />
+      </Container>
+    </Navbar>
   )
 }

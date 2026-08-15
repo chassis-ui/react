@@ -16,7 +16,7 @@ import {
   TextInput
 } from '@chassis-ui/react'
 
-export const TogglerPlacementExample = () => {
+export const Example = () => {
   const [visible, setVisible] = useState(false)
   return (
     <Navbar expand="medium" className="bg-even">
@@ -52,7 +52,12 @@ export const TogglerPlacementExample = () => {
               </NavItem>
             </NavbarNav>
             <Form className="d-flex" role="search">
-              <TextInput type="search" className="me-small" placeholder="Search" aria-label="Search" />
+              <TextInput
+                type="search"
+                className="me-small"
+                placeholder="Search"
+                aria-label="Search"
+              />
               <Button type="submit" color="success" variant="outline">
                 Search
               </Button>

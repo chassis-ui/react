@@ -18,7 +18,7 @@ import {
   NavLink
 } from '@chassis-ui/react'
 
-export const NavMenuExample = () => {
+export const Example = () => {
   const [visible, setVisible] = useState(false)
   return (
     <Navbar expand="medium" className="bg-even">

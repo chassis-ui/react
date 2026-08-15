@@ -1,6 +1,6 @@
 import { Button, Container, Form, Navbar, NavbarBrand, TextInput } from '@chassis-ui/react'
 
-export const FormWithBrandExample = () => {
+export const Example = () => {
   return (
     <Navbar className="bg-even">
       <Container fluid>

@@ -13,7 +13,7 @@ import {
   NavLink
 } from '@chassis-ui/react'
 
-export const DrawerStartExample = () => {
+export const Example = () => {
   const [visible, setVisible] = useState(false)
   return (
     <Navbar className="bg-even">

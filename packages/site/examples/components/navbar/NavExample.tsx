@@ -13,7 +13,7 @@ import {
   NavLink
 } from '@chassis-ui/react'
 
-export const NavExample = () => {
+export const Example = () => {
   const [visible, setVisible] = useState(false)
   return (
     <Navbar expand="small" className="bg-even">
@@ -25,12 +25,7 @@ export const NavExample = () => {
           aria-label="Toggle navigation"
           onClick={() => setVisible(!visible)}
         />
-        <Drawer
-          id="navbarNav"
-          placement="end"
-          visible={visible}
-          onClose={() => setVisible(false)}
-        >
+        <Drawer id="navbarNav" placement="end" visible={visible} onClose={() => setVisible(false)}>
           <DrawerHeader>
             <DrawerTitle>Menu</DrawerTitle>
           </DrawerHeader>

@@ -35,7 +35,7 @@ const NavLinks = () => (
   </NavbarNav>
 )
 
-export const ContextVariantsExample = () => {
+export const Example = () => {
   const [visibleSolid, setVisibleSolid] = useState(false)
   const [visibleDark, setVisibleDark] = useState(false)
   const [visibleLight, setVisibleLight] = useState(false)
@@ -63,7 +63,12 @@ export const ContextVariantsExample = () => {
             <DrawerBody>
               <NavLinks />
               <Form className="d-flex" role="search">
-                <TextInput type="search" className="me-small" placeholder="Search" aria-label="Search" />
+                <TextInput
+                  type="search"
+                  className="me-small"
+                  placeholder="Search"
+                  aria-label="Search"
+                />
                 <Button type="submit" color="default">
                   Search
                 </Button>
@@ -131,7 +136,12 @@ export const ContextVariantsExample = () => {
             <DrawerBody>
               <NavLinks />
               <Form className="d-flex" role="search">
-                <TextInput type="search" className="me-small" placeholder="Search" aria-label="Search" />
+                <TextInput
+                  type="search"
+                  className="me-small"
+                  placeholder="Search"
+                  aria-label="Search"
+                />
                 <Button type="submit" color="primary" variant="outline">
                   Search
                 </Button>

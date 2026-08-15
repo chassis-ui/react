@@ -1,7 +1,15 @@
 import { useState } from 'react'
-import { Container, Drawer, DrawerBody, DrawerHeader, DrawerTitle, Navbar, NavbarToggler } from '@chassis-ui/react'
+import {
+  Container,
+  Drawer,
+  DrawerBody,
+  DrawerHeader,
+  DrawerTitle,
+  Navbar,
+  NavbarToggler
+} from '@chassis-ui/react'
 
-export const ExternalContentExample = () => {
+export const Example = () => {
   const [visible, setVisible] = useState(false)
   return (
     <>

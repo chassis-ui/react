@@ -18,7 +18,7 @@ import {
   NavLink
 } from '@chassis-ui/react'
 
-export const DarkModeExample = () => {
+export const Example = () => {
   const [visible, setVisible] = useState(false)
   return (
     <Navbar expand="medium" className="bg-even" data-cx-theme="dark">
@@ -30,12 +30,7 @@ export const DarkModeExample = () => {
           aria-label="Toggle navigation"
           onClick={() => setVisible(!visible)}
         />
-        <Drawer
-          id="navbarDark"
-          placement="end"
-          visible={visible}
-          onClose={() => setVisible(false)}
-        >
+        <Drawer id="navbarDark" placement="end" visible={visible} onClose={() => setVisible(false)}>
           <DrawerHeader>
             <DrawerTitle>Menu</DrawerTitle>
           </DrawerHeader>

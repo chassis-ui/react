@@ -22,7 +22,7 @@ import {
   TextInput
 } from '@chassis-ui/react'
 
-export const BasicUsageExample = () => {
+export const Example = () => {
   const [visible, setVisible] = useState(false)
   return (
     <Navbar expand="medium" className="bg-even">

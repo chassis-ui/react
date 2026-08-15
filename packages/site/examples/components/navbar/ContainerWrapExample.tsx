@@ -1,6 +1,6 @@
 import { Container, Navbar, NavbarBrand } from '@chassis-ui/react'
 
-export const ContainerWrapExample = () => {
+export const Example = () => {
   return (
     <Container>
       <Navbar expand="large" className="bg-even">

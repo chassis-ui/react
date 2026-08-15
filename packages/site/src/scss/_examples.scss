@@ -4,33 +4,26 @@
 @use "@chassis-ui/css/scss/mixins" as *;
 
 @layer custom {
-  // Copy-to-clipboard button in the local `Example` shortcode's toolbar. Named
-  // separately from `.button-clipboard` (see `components/shortcodes/Example.astro`
-  // for why) but should look identical to the shared toolbar buttons.
-  // .button-clipboard-example {
-  //   --cx-icon-color: var(--cx-fg-subtle);
-  //   --cx-icon-size: var(--cx-icon-small);
-  //   position: relative;
-  //   z-index: 2;
-  //   display: block;
-  //   padding: .25em;
-  //   line-height: 1;
-  //   background-color: transparent;
-  //   border: 0;
-  //   @include border-radius(.25rem);
+  .cxd-example {
+    // Navbars
+    // stylelint-disable declaration-no-important
+    .fixed-top,
+    .sticky-top {
+      position: static !important;
+      margin: calc(var(--cxd-example-padding) * -1) calc(var(--cxd-example-padding) * -1) var(--cxd-example-padding) !important;
+    }
 
-  //   &:hover {
-  //     color: var(--cx-hover-color);
-  //   }
+    .fixed-bottom,
+    .sticky-bottom {
+      position: static !important;
+      margin: var(--cxd-example-padding) calc(var(--cxd-example-padding) * -1) calc(var(--cxd-example-padding) * -1) !important;
 
-  //   &:focus {
-  //     z-index: 3;
-  //   }
-  // }
-
+    }
+  }
   //
   // Grid examples
   //
+
 
   .cxd-example-container .container,
   .cxd-example-row [class^="col"],

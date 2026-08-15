@@ -12,7 +12,7 @@ import {
   NavLink
 } from '@chassis-ui/react'
 
-export const NavAltMarkupExample = () => {
+export const Example = () => {
   const [visible, setVisible] = useState(false)
   return (
     <Navbar expand="small" className="bg-even">

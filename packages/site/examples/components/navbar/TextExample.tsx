@@ -1,6 +1,6 @@
 import { Container, Navbar, NavbarText } from '@chassis-ui/react'
 
-export const TextExample = () => {
+export const Example = () => {
   return (
     <Navbar className="bg-even">
       <Container fluid>
