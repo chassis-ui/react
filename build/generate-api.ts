@@ -84,7 +84,11 @@ interface ItemDefDoc {
 
 function loadCompilerOptions(tsconfigPath: string): ts.CompilerOptions {
   const configFile = ts.readConfigFile(tsconfigPath, ts.sys.readFile)
-  const parsed = ts.parseJsonConfigFileContent(configFile.config, ts.sys, path.dirname(tsconfigPath))
+  const parsed = ts.parseJsonConfigFileContent(
+    configFile.config,
+    ts.sys,
+    path.dirname(tsconfigPath)
+  )
   return parsed.options
 }
 
@@ -97,7 +101,11 @@ function removeUndefinedFromOptional(typeName: string): string {
     .join(' | ')
 }
 
-function extractInterfaceDoc(name: string, program: ts.Program, checker: ts.TypeChecker): ItemDefDoc | null {
+function extractInterfaceDoc(
+  name: string,
+  program: ts.Program,
+  checker: ts.TypeChecker
+): ItemDefDoc | null {
   for (const sourceFile of program.getSourceFiles()) {
     if (sourceFile.isDeclarationFile || !sourceFile.fileName.startsWith(COMPONENTS_DIR)) continue
 
@@ -105,7 +113,9 @@ function extractInterfaceDoc(name: string, program: ts.Program, checker: ts.Type
     ts.forEachChild(sourceFile, (node) => {
       if (found) return
       if (!ts.isInterfaceDeclaration(node) && !ts.isTypeAliasDeclaration(node)) return
-      const isExported = !!ts.getModifiers(node)?.some((m) => m.kind === ts.SyntaxKind.ExportKeyword)
+      const isExported = !!ts
+        .getModifiers(node)
+        ?.some((m) => m.kind === ts.SyntaxKind.ExportKeyword)
       if (isExported && node.name.text === name) {
         found = node
       }

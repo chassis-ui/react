@@ -111,8 +111,8 @@ pnpm test:visual         # build-storybook, then run test/visual/**/*.visual.spe
 pnpm test:visual:update  # same, plus --update-snapshots to regenerate baselines
 ```
 
-- Story files are collected under `src/stories/<family>/<Component>.stories.tsx` (e.g.
-  `src/stories/calendar/Calendar.stories.tsx`), not colocated beside the component they document —
+- Story files are collected under `stories/<family>/<Component>.stories.tsx` (e.g.
+  `stories/calendar/Calendar.stories.tsx`), not colocated beside the component they document —
   matched by `.storybook/main.ts`'s glob against anywhere under `src/`, so this is purely an
   organizational choice, not something the glob requires. `.storybook/preview.tsx` imports
   the real compiled `@chassis-ui/css/dist/css/chassis.min.css` — Storybook has no consuming app to

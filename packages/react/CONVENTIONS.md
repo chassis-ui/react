@@ -39,11 +39,11 @@ Don't introduce it as a synonym; also flagged as an error.
   using it there (`src/hooks/useFormField.ts` and `src/utils/virtualFocusStyle.ts` are both single-
   or few-consumer today and still live there, not colocated with their caller, because "is it a
   hook / is it a component" decides the folder, not consumer count).
-- `src/stories/<family>/<Component>.stories.tsx` — Storybook stories, centralized separately from
+- `stories/<family>/<Component>.stories.tsx` — Storybook stories, centralized separately from
   the component they document (matched by `.storybook/main.ts`'s glob against anywhere under
   `src/`, so this is an organizational choice, not something the glob requires).
 - `test/components/<kebab-name>/<PascalName>.spec.tsx` (plus `test/components/<kebab-name>/
-  __snapshots__/` for snapshot files) — mirrors `src/components/` the same way `src/stories/`
+  __snapshots__/` for snapshot files) — mirrors `src/components/` the same way `stories/`
   does, under the top-level `test/` folder that also holds shared setup (`test/setup.ts`, etc.).
 
 Colocating tests or stories beside the component (`__tests__/` inside `src/components/<kebab>/`)
