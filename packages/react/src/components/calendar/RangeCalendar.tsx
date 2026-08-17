@@ -18,7 +18,7 @@ import {
   isWeekend
 } from '@internationalized/date'
 
-import { useForkedRef } from '../../hooks'
+import { useForkedRef, useSuppressFocusRingOnPointerDown } from '../../hooks'
 import { CalendarMonthBlock } from './CalendarMonthBlock'
 import { CalendarNavButton } from './CalendarNavButton'
 import { DateRangePreset } from '../../utils/dateRangePresets'
@@ -284,6 +284,7 @@ const CalendarCell = ({ date, isFirstInRow, isLastInRow, locale, state }: Calend
   const isRangeStart = Boolean(highlightedRange && isSameDay(date, highlightedRange.start))
   const isRangeEnd = Boolean(highlightedRange && isSameDay(date, highlightedRange.end))
   const isCurrentDate = isToday(date, getLocalTimeZone())
+  const suppressFocusRing = useSuppressFocusRingOnPointerDown<HTMLDivElement>()
 
   return (
     <div
@@ -301,7 +302,7 @@ const CalendarCell = ({ date, isFirstInRow, isLastInRow, locale, state }: Calend
       })}
     >
       <div
-        {...buttonProps}
+        {...mergeProps(buttonProps, { onPointerDown: suppressFocusRing })}
         className={classNames('datepicker-date-btn', {
           'datepicker-date-range-start': isRangeStart,
           'datepicker-date-range-end': isRangeEnd
@@ -329,23 +330,28 @@ const isSameRange = (a: RangeValue<DateValue>, b: RangeValue<DateValue>) =>
 // Plain buttons in a list, not a listbox — a group of independent actions (each one commits
 // immediately) rather than a single-selection widget, so native Tab/Enter/Space is the right
 // interaction model without extra roving-tabindex/arrow-key wiring.
-const DateRangePresets = ({ onSelect, presets, value }: DateRangePresetsProps) => (
-  <ul className="calendar-presets">
-    {presets.map((preset) => {
-      const isSelected = Boolean(value && isSameRange(value, preset.range))
+const DateRangePresets = ({ onSelect, presets, value }: DateRangePresetsProps) => {
+  const suppressFocusRing = useSuppressFocusRingOnPointerDown<HTMLButtonElement>()
 
-      return (
-        <li key={preset.label}>
-          <button
-            aria-current={isSelected ? 'true' : undefined}
-            className={classNames('calendar-preset', { selected: isSelected })}
-            onClick={() => onSelect(preset.range)}
-            type="button"
-          >
-            {preset.label}
-          </button>
-        </li>
-      )
-    })}
-  </ul>
-)
+  return (
+    <ul className="calendar-presets">
+      {presets.map((preset) => {
+        const isSelected = Boolean(value && isSameRange(value, preset.range))
+
+        return (
+          <li key={preset.label}>
+            <button
+              aria-current={isSelected ? 'true' : undefined}
+              className={classNames('calendar-preset', { selected: isSelected })}
+              onClick={() => onSelect(preset.range)}
+              onPointerDown={suppressFocusRing}
+              type="button"
+            >
+              {preset.label}
+            </button>
+          </li>
+        )
+      })}
+    </ul>
+  )
+}

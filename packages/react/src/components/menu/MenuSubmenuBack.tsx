@@ -1,6 +1,7 @@
 import React, { ButtonHTMLAttributes, forwardRef, useContext } from 'react'
 import classNames from 'classnames'
 
+import { useSuppressFocusRingOnPointerDown } from '../../hooks'
 import { SubmenuActionsContext } from './submenuGroup'
 
 export interface MenuSubmenuBackProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -13,8 +14,9 @@ export interface MenuSubmenuBackProps extends ButtonHTMLAttributes<HTMLButtonEle
 // First item of a stacked submenu's nested menu (see `MenuSubmenu`'s `stacked` prop). Closes
 // the submenu and returns focus to its trigger — visible only below the `small` breakpoint.
 export const MenuSubmenuBack = forwardRef<HTMLButtonElement, MenuSubmenuBackProps>(
-  ({ children, className, onClick, type = 'button', ...rest }, ref) => {
+  ({ children, className, onClick, onPointerDown, type = 'button', ...rest }, ref) => {
     const actions = useContext(SubmenuActionsContext)
+    const suppressFocusRing = useSuppressFocusRingOnPointerDown<HTMLButtonElement>()
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
       onClick?.(event)
@@ -28,6 +30,10 @@ export const MenuSubmenuBack = forwardRef<HTMLButtonElement, MenuSubmenuBackProp
         className={classNames('submenu-back', 'menu-item', className)}
         {...rest}
         onClick={handleClick}
+        onPointerDown={(event) => {
+          suppressFocusRing(event)
+          onPointerDown?.(event)
+        }}
         ref={ref}
       >
         {children}

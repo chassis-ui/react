@@ -13,6 +13,7 @@ import { createPortal } from 'react-dom'
 import classNames from 'classnames'
 import { useLocale, useOverlayPosition } from 'react-aria'
 
+import { useSuppressFocusRingOnPointerDown } from '../../hooks'
 import { MenuContext } from './Menu'
 import { Placement, resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
 import { focusMenuItem, getMenuItems, handleMenuKeyDown } from './menuNavigation'
@@ -189,6 +190,7 @@ export const MenuSubmenu = forwardRef<HTMLDivElement, MenuSubmenuProps>(
     }
 
     const actionsValue = { close: closeAndRefocusTrigger }
+    const suppressFocusRing = useSuppressFocusRingOnPointerDown<HTMLButtonElement>()
 
     return (
       <div className={classNames('submenu', { show: visible }, className)} {...rest} ref={ref}>
@@ -205,6 +207,7 @@ export const MenuSubmenu = forwardRef<HTMLDivElement, MenuSubmenuProps>(
           onKeyDown={handleTriggerKeyDown}
           onMouseEnter={hoverEnabled ? open : undefined}
           onMouseLeave={hoverEnabled ? scheduleClose : undefined}
+          onPointerDown={suppressFocusRing}
           ref={(node) => {
             triggerRef.current = node
           }}

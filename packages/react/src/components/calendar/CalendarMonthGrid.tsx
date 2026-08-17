@@ -4,6 +4,7 @@ import { useDateFormatter } from 'react-aria'
 import { CalendarState, RangeCalendarState } from 'react-stately'
 import { CalendarDate } from '@internationalized/date'
 
+import { useSuppressFocusRingOnPointerDown } from '../../hooks'
 import { isWholeUnitDisabled } from '../../utils/isWholeUnitDisabled'
 
 interface CalendarMonthGridProps {
@@ -32,6 +33,7 @@ export const CalendarMonthGrid = ({
     year: 'numeric'
   })
 
+  const suppressFocusRing = useSuppressFocusRingOnPointerDown<HTMLButtonElement>()
   const numMonths = monthStart.calendar.getMonthsInYear(monthStart)
   const months = [...new Array(numMonths).keys()].map((i) => {
     const date = monthStart.set({ day: 1, month: i + 1 })
@@ -42,7 +44,12 @@ export const CalendarMonthGrid = ({
     <>
       <div className="datepicker-header">
         <div className="datepicker-header-content">
-          <button className="datepicker-month" onClick={onBack} type="button">
+          <button
+            className="datepicker-month"
+            onClick={onBack}
+            onPointerDown={suppressFocusRing}
+            type="button"
+          >
             {yearFormatter.format(monthStart.toDate(state.timeZone))}
           </button>
         </div>
@@ -68,6 +75,7 @@ export const CalendarMonthGrid = ({
                 disabled={isDisabled}
                 key={month.date.month}
                 onClick={() => onSelect(month.date)}
+                onPointerDown={suppressFocusRing}
                 role="option"
                 type="button"
               >

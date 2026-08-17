@@ -1,7 +1,8 @@
 import React, { ButtonHTMLAttributes, forwardRef, useContext, useEffect, useRef } from 'react'
 import classNames from 'classnames'
 
-import { useForkedRef } from '../../hooks'
+import { useForkedRef, useSuppressFocusRingOnPointerDown } from '../../hooks'
+import { markPointerClick } from '../../utils/pointerInteraction'
 import { Icon } from '../icon'
 import { CarouselContext } from './context'
 
@@ -17,10 +18,14 @@ export interface CarouselControlPrevProps extends ButtonHTMLAttributes<HTMLButto
 }
 
 export const CarouselControlPrev = forwardRef<HTMLButtonElement, CarouselControlPrevProps>(
-  ({ children, className, disabled, label = 'Previous slide', onClick, ...rest }, ref) => {
+  (
+    { children, className, disabled, label = 'Previous slide', onClick, onPointerDown, ...rest },
+    ref
+  ) => {
     const { atStart, ends, prev, registerControl } = useContext(CarouselContext)
     const buttonRef = useRef<HTMLButtonElement>(null)
     const forkedRef = useForkedRef(ref, buttonRef)
+    const suppressFocusRing = useSuppressFocusRingOnPointerDown<HTMLButtonElement>()
 
     useEffect(() => {
       const element = buttonRef.current
@@ -34,6 +39,7 @@ export const CarouselControlPrev = forwardRef<HTMLButtonElement, CarouselControl
     const isDisabled = disabled || (ends === 'stop' && atStart)
     const handleClick: typeof onClick = (event) => {
       onClick?.(event)
+      if (event.detail !== 0) markPointerClick(event.currentTarget)
       prev()
     }
 
@@ -44,6 +50,10 @@ export const CarouselControlPrev = forwardRef<HTMLButtonElement, CarouselControl
         disabled={isDisabled}
         onClick={handleClick}
         {...rest}
+        onPointerDown={(event) => {
+          suppressFocusRing(event)
+          onPointerDown?.(event)
+        }}
         ref={forkedRef}
       >
         {children ?? (

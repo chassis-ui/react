@@ -85,33 +85,6 @@ function MenuToggleRender<C extends ElementType = typeof Button>(
   )
   const wasOpenRef = useRef(false)
 
-  // Chromium's `:focus-visible` heuristic can't yet tell mouse-modality apart from keyboard-
-  // modality the very first time anything on the page receives focus — before any prior
-  // interaction has been observed, a genuine pointer press can still paint the focus ring (a
-  // dropdown trigger like this is often the first thing a visitor clicks). Suppress it here, in
-  // `pointerdown`, *before* the browser's own default action grants focus and paints the ring for
-  // it — same ordering `usePagination.ts`'s `focusRedirect` relies on for its own (script-
-  // triggered) case. Waiting until `click` is too late: focus already happened on `mousedown`, so
-  // the ring would flash on before this code has a chance to turn it back off.
-  // `suppressedOutlineRef` guards re-entrancy: re-pressing the trigger while it's still focused
-  // (e.g. the open → close re-click `wasOpenRef` handles below) would otherwise stack a second
-  // blur listener that clobbers the first restoration and leaves the ring permanently suppressed.
-  const suppressedOutlineRef = useRef<string | null>(null)
-
-  const suppressFocusRingOnce = (el: HTMLButtonElement) => {
-    if (suppressedOutlineRef.current !== null) return
-    suppressedOutlineRef.current = el.style.outline
-    el.style.outline = 'none'
-    el.addEventListener(
-      'blur',
-      () => {
-        el.style.outline = suppressedOutlineRef.current ?? ''
-        suppressedOutlineRef.current = null
-      },
-      { once: true }
-    )
-  }
-
   const setRefs = (node: HTMLButtonElement | null) => {
     buttonRef.current = node
     toggleNodeRef.current = node
@@ -129,7 +102,6 @@ function MenuToggleRender<C extends ElementType = typeof Button>(
   // down on click. Touch is exempt: react-aria's `onPress` already toggles it correctly there.
   const handlePointerDown = (event: React.PointerEvent<HTMLButtonElement>) => {
     wasOpenRef.current = event.pointerType !== 'touch' && visible
-    suppressFocusRingOnce(event.currentTarget)
   }
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {

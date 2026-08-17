@@ -10,6 +10,8 @@ import React, {
 import classNames from 'classnames'
 
 import { useControllableState, useForkedRef, useIsomorphicLayoutEffect } from '../../hooks'
+import { focusRedirect } from '../../utils/focusRedirect'
+import { consumePointerClick } from '../../utils/pointerInteraction'
 import { CarouselContext, CarouselContextProps, CarouselEnds } from './context'
 import {
   animateScrollTo,
@@ -591,15 +593,21 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       const oppositeSet = focusedIsPrev ? nextControlsRef.current : prevControlsRef.current
       const oppositeStaysEnabled = focusedIsPrev ? !atEnd : !atStart
       const fallback = oppositeStaysEnabled ? Array.from(oppositeSet)[0] : null
+      // `focused` is the control whose click (if any) just drove this redirect — `consumePointerClick`
+      // reads (and clears) the pointer-vs-keyboard mark left on it, if `CarouselControlPrev`/
+      // `CarouselControlNext` left one, so a stale mark from an earlier, unrelated interaction can't
+      // leak into this one. See `focusRedirect`'s own comment for why this distinction matters
+      // (Safari-only: a script-focused element still shows a ring there, unlike Chromium/Firefox).
+      const viaPointer = consumePointerClick(focused)
 
       if (fallback) {
-        fallback.focus({ preventScroll: true })
+        focusRedirect(fallback, viaPointer, { preventScroll: true })
         return
       }
 
       if (viewportEl) {
         if (!viewportEl.hasAttribute('tabindex')) viewportEl.setAttribute('tabindex', '-1')
-        viewportEl.focus({ preventScroll: true })
+        focusRedirect(viewportEl, viaPointer, { preventScroll: true })
       }
     }, [atStart, atEnd, ends, viewportEl])
 

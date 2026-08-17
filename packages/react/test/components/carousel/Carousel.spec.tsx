@@ -279,6 +279,29 @@ describe('Carousel', () => {
         uninstallGeometry()
       }
     })
+
+    test('suppresses the focus-ring outline and forwards a caller onPointerDown on press', () => {
+      const onPointerDown = vi.fn()
+      render(
+        <Carousel>
+          <CarouselControlPrev onPointerDown={onPointerDown} style={{ outline: '2px solid red' }} />
+          <CarouselControlNext onPointerDown={onPointerDown} style={{ outline: '2px solid red' }} />
+          <CarouselInner>
+            <CarouselItem>Item-1</CarouselItem>
+            <CarouselItem>Item-2</CarouselItem>
+          </CarouselInner>
+        </Carousel>
+      )
+      const prev = screen.getByRole('button', { name: 'Previous slide' })
+      const next = screen.getByRole('button', { name: 'Next slide' })
+
+      fireEvent.pointerDown(prev)
+      expect(prev.style.outline).toBe('none')
+      fireEvent.pointerDown(next)
+      expect(next.style.outline).toBe('none')
+
+      expect(onPointerDown).toHaveBeenCalledTimes(2)
+    })
   })
 
   describe('play/pause control', () => {
@@ -296,6 +319,25 @@ describe('Carousel', () => {
       const toggle = screen.getByRole('button', { name: 'Pause' })
       fireEvent.click(toggle)
       expect(screen.getByRole('button', { name: 'Play' })).toBeInTheDocument()
+    })
+
+    test('suppresses the focus-ring outline and forwards a caller onPointerDown on press', () => {
+      const onPointerDown = vi.fn()
+      render(
+        <Carousel autoplay>
+          <CarouselPlayPause onPointerDown={onPointerDown} style={{ outline: '2px solid red' }} />
+          <CarouselInner>
+            <CarouselItem>Item-1</CarouselItem>
+            <CarouselItem>Item-2</CarouselItem>
+          </CarouselInner>
+        </Carousel>
+      )
+
+      const toggle = screen.getByRole('button', { name: 'Pause' })
+      fireEvent.pointerDown(toggle)
+
+      expect(toggle.style.outline).toBe('none')
+      expect(onPointerDown).toHaveBeenCalledTimes(1)
     })
   })
 

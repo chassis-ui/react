@@ -1,5 +1,7 @@
 import { MouseEvent, RefObject, useEffect, useRef } from 'react'
 
+import { focusRedirect } from '../utils/focusRedirect'
+
 export interface UsePaginationOptions {
   /**
    * Whether the Previous control is currently disabled.
@@ -31,32 +33,6 @@ interface Pending {
   // A `click` fired by real pointer activation has `detail >= 1`; one fired by keyboard
   // activation (Enter/Space on a focused button) has `detail === 0`.
   viaPointer: boolean
-}
-
-// Safari shows a `:focus-visible` ring on an element focused via script even when the
-// interaction that triggered the script was a real pointer click — unlike Chromium/Firefox,
-// which correctly suppress it in that case. Force the ring off for a pointer-triggered redirect,
-// then let normal focus-visible behavior resume the next time this element is genuinely
-// (re)focused, e.g. via Tab.
-function focusRedirect(el: HTMLElement | null, viaPointer: boolean) {
-  if (!el) return
-  if (!viaPointer) {
-    el.focus()
-    return
-  }
-  const prevOutline = el.style.outline
-  const prevBoxShadow = el.style.boxShadow
-  el.style.outline = 'none'
-  el.style.boxShadow = 'none'
-  el.focus()
-  el.addEventListener(
-    'blur',
-    () => {
-      el.style.outline = prevOutline
-      el.style.boxShadow = prevBoxShadow
-    },
-    { once: true }
-  )
 }
 
 // Native `disabled` buttons are blurred by the browser the instant they're disabled. Clicking a

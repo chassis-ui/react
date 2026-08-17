@@ -1,8 +1,8 @@
 import React, { forwardRef, useRef } from 'react'
-import { AriaButtonProps, useButton } from 'react-aria'
+import { AriaButtonProps, mergeProps, useButton } from 'react-aria'
 import { OverlayTriggerState } from 'react-stately'
 
-import { useForkedRef } from '../../hooks'
+import { useForkedRef, useSuppressFocusRingOnPointerDown } from '../../hooks'
 
 interface CalendarToggleButtonProps {
   buttonProps: AriaButtonProps
@@ -23,9 +23,15 @@ export const CalendarToggleButton = forwardRef<HTMLButtonElement, CalendarToggle
       { ...buttonProps, onPress: () => state.toggle() },
       internalRef
     )
+    const suppressFocusRing = useSuppressFocusRingOnPointerDown<HTMLButtonElement>()
 
     return (
-      <button {...toggleProps} className="input-adorn" ref={ref} type="button">
+      <button
+        {...mergeProps(toggleProps, { onPointerDown: suppressFocusRing })}
+        className="input-adorn"
+        ref={ref}
+        type="button"
+      >
         <svg
           fill="none"
           height="16"

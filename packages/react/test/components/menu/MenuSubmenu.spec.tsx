@@ -146,6 +146,28 @@ describe('MenuSubmenu', () => {
       expect(nestedMenu).not.toHaveClass('show')
       expect(trigger).toHaveFocus()
     })
+
+    test('MenuSubmenuBack suppresses the focus-ring outline and forwards a caller onPointerDown', () => {
+      const onPointerDown = vi.fn()
+      render(
+        <Menu visible>
+          <MenuList>
+            <MenuSubmenu trigger="File" stacked>
+              <MenuSubmenuBack onPointerDown={onPointerDown} style={{ outline: '2px solid red' }}>
+                Back
+              </MenuSubmenuBack>
+              <MenuItem>New</MenuItem>
+            </MenuSubmenu>
+          </MenuList>
+        </Menu>
+      )
+      const back = screen.getByText('Back')
+
+      fireEvent.pointerDown(back)
+
+      expect(back.style.outline).toBe('none')
+      expect(onPointerDown).toHaveBeenCalledTimes(1)
+    })
   })
 
   describe('keyboard navigation', () => {

@@ -4,6 +4,7 @@ import { useDateFormatter } from 'react-aria'
 import { CalendarState, RangeCalendarState } from 'react-stately'
 import { CalendarDate, toCalendarDate } from '@internationalized/date'
 
+import { useSuppressFocusRingOnPointerDown } from '../../hooks'
 import { isWholeUnitDisabled } from '../../utils/isWholeUnitDisabled'
 
 interface CalendarYearGridProps {
@@ -33,6 +34,7 @@ export const CalendarYearGrid = ({
   // Lazy initializer only — this view unmounts on every exit, so there's no case where `monthStart`
   // changes while it's still mounted that this would need to react to.
   const [pageStart, setPageStart] = useState(() => monthStart.year)
+  const suppressFocusRing = useSuppressFocusRingOnPointerDown<HTMLButtonElement>()
 
   // `date` preserves `monthStart`'s own month/day, changing only the year — picking a year should
   // land on the same month it started from, not reset to January (`yearStart`/`yearEnd` are the
@@ -74,10 +76,16 @@ export const CalendarYearGrid = ({
           className="datepicker-arrow datepicker-arrow-prev"
           disabled={isPrevDisabled}
           onClick={() => setPageStart((start) => start - YEARS_PER_PAGE)}
+          onPointerDown={suppressFocusRing}
           type="button"
         />
         <div className="datepicker-header-content">
-          <button className="datepicker-year" onClick={onBack} type="button">
+          <button
+            className="datepicker-year"
+            onClick={onBack}
+            onPointerDown={suppressFocusRing}
+            type="button"
+          >
             {rangeLabel}
           </button>
         </div>
@@ -86,6 +94,7 @@ export const CalendarYearGrid = ({
           className="datepicker-arrow datepicker-arrow-next"
           disabled={isNextDisabled}
           onClick={() => setPageStart((start) => start + YEARS_PER_PAGE)}
+          onPointerDown={suppressFocusRing}
           type="button"
         />
       </div>
@@ -102,6 +111,7 @@ export const CalendarYearGrid = ({
                 disabled={isDisabled}
                 key={year.date.year}
                 onClick={() => onSelect(year.date)}
+                onPointerDown={suppressFocusRing}
                 role="option"
                 type="button"
               >
