@@ -11,7 +11,10 @@ interface StoryIndexEntry {
   type: string
 }
 
-const indexPath = path.join(process.cwd(), '_storybook/index.json')
+// `storybook:build` writes to the repo root's `_storybook/` (`storybook build -o ../../_storybook`,
+// run with cwd=packages/react — see that script and playwright.config.ts's `webServer`), two
+// levels up from this file's own `process.cwd()`.
+const indexPath = path.join(process.cwd(), '../../_storybook/index.json')
 const index = JSON.parse(readFileSync(indexPath, 'utf-8')) as {
   entries: Record<string, StoryIndexEntry>
 }
