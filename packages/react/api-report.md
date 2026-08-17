@@ -2373,6 +2373,14 @@ interface LinkProps extends AllHTMLAttributes<HTMLElement> {
    */
   className?: string;
   /**
+   * Sets the link color to one of Chassis context colors, including its interactive
+   * (`:hover`/`:focus`/`:active`/`:visited`) states. Typed as `ContextColor | (string & {})`,
+   * rather than plain `ContextColor`, so it stays compatible with the generic, legacy
+   * `color?: string` HTML attribute other components (e.g. `CardLink`, `CloseButton`,
+   * `PaginationItem`) inherit and pass through via their own rest-spread into `<Link>`.
+   */
+  color?: (string & {}) | ContextColor;
+  /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
   component?: ElementType | string;
@@ -2384,6 +2392,23 @@ interface LinkProps extends AllHTMLAttributes<HTMLElement> {
    * The href attribute specifies the URL of the page the link goes to.
    */
   href?: string;
+  /**
+   * Aligns a leading or trailing icon with the link text using flexbox, with a gap between
+   * them and an offset underline. Icons need to be passed as `children` alongside the text.
+   * Named `iconLink` rather than `icon` to avoid colliding with components (e.g. `MenuItem`)
+   * that already have their own, differently-typed `icon` prop for the icon content itself.
+   */
+  iconLink?: boolean;
+  /**
+   * Removes the foreground color override, so the link inherits its color from the nearest
+   * ancestor instead of the default link color.
+   */
+  reset?: boolean;
+  /**
+   * Expands the link's click target to fill its positioned ancestor (the nearest ancestor with
+   * a `position` other than `static`).
+   */
+  stretched?: boolean;
 }
 declare const Link: React.ForwardRefExoticComponent<LinkProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement>>;
 //#endregion

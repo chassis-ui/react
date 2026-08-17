@@ -13,6 +13,7 @@
         - title: Button
         - title: Button Group
         - title: Close Button
+        - title: Link
     - group: Dates
       pages:
         - title: Calendar

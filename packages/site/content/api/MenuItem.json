@@ -121,6 +121,25 @@
         "name": "boolean"
       }
     },
+    "color": {
+      "defaultValue": null,
+      "description": "Sets the link color to one of Chassis context colors, including its interactive\n(`:hover`/`:focus`/`:active`/`:visited`) states. Typed as `ContextColor | (string & {})`,\nrather than plain `ContextColor`, so it stays compatible with the generic, legacy\n`color?: string` HTML attribute other components (e.g. `CardLink`, `CloseButton`,\n`PaginationItem`) inherit and pass through via their own rest-spread into `<Link>`.",
+      "name": "color",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/link/Link.tsx",
+        "name": "LinkProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/link/Link.tsx",
+          "name": "LinkProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ContextColor | (string & {})"
+      }
+    },
     "disabled": {
       "defaultValue": null,
       "description": "Toggle the disabled state for the component.",
@@ -157,6 +176,63 @@
       "required": false,
       "type": {
         "name": "string"
+      }
+    },
+    "iconLink": {
+      "defaultValue": null,
+      "description": "Aligns a leading or trailing icon with the link text using flexbox, with a gap between\nthem and an offset underline. Icons need to be passed as `children` alongside the text.\nNamed `iconLink` rather than `icon` to avoid colliding with components (e.g. `MenuItem`)\nthat already have their own, differently-typed `icon` prop for the icon content itself.",
+      "name": "iconLink",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/link/Link.tsx",
+        "name": "LinkProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/link/Link.tsx",
+          "name": "LinkProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "reset": {
+      "defaultValue": null,
+      "description": "Removes the foreground color override, so the link inherits its color from the nearest\nancestor instead of the default link color.",
+      "name": "reset",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/link/Link.tsx",
+        "name": "LinkProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/link/Link.tsx",
+          "name": "LinkProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "stretched": {
+      "defaultValue": null,
+      "description": "Expands the link's click target to fill its positioned ancestor (the nearest ancestor with\na `position` other than `static`).",
+      "name": "stretched",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/link/Link.tsx",
+        "name": "LinkProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/link/Link.tsx",
+          "name": "LinkProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
       }
     }
   }

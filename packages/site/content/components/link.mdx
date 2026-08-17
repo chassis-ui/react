@@ -1,0 +1,122 @@
+---
+title: Link
+description: Renders a hyperlink or button-like control with context colors, an icon-aligned layout, and a stretched click target.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/link/BasicExample.tsx'
+import { Example as ColorExample } from '../../examples/components/link/ColorExample.tsx'
+import { Example as ResetExample } from '../../examples/components/link/ResetExample.tsx'
+import { Example as IconExample } from '../../examples/components/link/IconExample.tsx'
+import { Example as StretchedExample } from '../../examples/components/link/StretchedExample.tsx'
+import { Example as ComponentExample } from '../../examples/components/link/ComponentExample.tsx'
+import { Example as ActiveExample } from '../../examples/components/link/ActiveExample.tsx'
+import { Example as DisabledExample } from '../../examples/components/link/DisabledExample.tsx'
+import { Example as DisabledButtonExample } from '../../examples/components/link/DisabledButtonExample.tsx'
+
+## Examples
+
+`<Link>` renders a native `<a>` by default, picking up Chassis's default link color and
+interactive underline states.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## Colors
+
+Set `color` to one of Chassis's context colors to change a link's color, including its
+`:hover`/`:focus`/`:active`/`:visited` states.
+
+<Example>
+  <ColorExample client:load />
+</Example>
+
+<Callout type="info">
+  Color alone doesn't convey meaning to assistive technology. Pair a context color with visible
+  text describing the destination, or add hidden text via the `.visually-hidden` class when the
+  color itself carries information.
+</Callout>
+
+## Reset color
+
+Set `reset` to remove the link's color override, so it inherits color from its nearest ancestor
+instead — useful for a link embedded in already-colored text.
+
+<Example>
+  <ResetExample client:load />
+</Example>
+
+## Icon
+
+Set `iconLink` to align an icon with the link text using flexbox, with a gap between them and an
+offset underline. Pass the icon as `children` alongside the text — before it for a leading icon,
+after it for a trailing one.
+
+<Example>
+  <IconExample client:load />
+</Example>
+
+<Callout type="info">
+  Decorative icons need `aria-hidden="true"`. An icon that conveys meaning on its own needs
+  `role="img"` and an `aria-label` instead.
+</Callout>
+
+## Stretched
+
+Set `stretched` to expand a link's click target to fill its containing block — the nearest
+ancestor with a `position` other than `static`. Useful for making an entire card or list row
+clickable through a single link.
+
+<Example>
+  <StretchedExample client:load />
+</Example>
+
+## Root element
+
+Set `component` to render `<Link>` as a `<button>` instead of an anchor, for an action that
+doesn't navigate but should still look like a link (see [Icon](#icon) and the other style props
+above). `href` implies the default `<a>`.
+
+<Example>
+  <ComponentExample client:load />
+</Example>
+
+## Active state
+
+Set `active` to mark a link as the current page or selection. It sets `aria-current="page"` so
+assistive technology recognizes it as the current item, alongside an `.active` class for styling.
+
+<Example>
+  <ActiveExample client:load />
+</Example>
+
+## Disabled state
+
+Set `disabled` to make a link non-interactive. `<a>` has no `disabled` attribute, so a disabled
+anchor sets `aria-disabled="true"` and `tabindex="-1"` instead, and blocks its own click handler
+and navigation.
+
+<Example>
+  <DisabledExample client:load />
+</Example>
+
+Rendered as `component="button"`, `disabled` uses the real `disabled` attribute, which blocks
+keyboard and pointer interaction on its own.
+
+<Example>
+  <DisabledButtonExample client:load />
+</Example>
+
+## Scope
+
+**No automatic keyboard activation on a custom `component`.** Unlike `Button`, `Link` doesn't
+synthesize `role="button"`, focus handling, or Enter/Space activation for a `component` other than
+`"a"` or `"button"` — pick `Link` for content that's already one of those two, or `Button` for a
+control that needs another element to behave like one.
+
+## API
+
+### Link
+
+<PropTable component="Link" />

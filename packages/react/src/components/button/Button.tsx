@@ -3,6 +3,8 @@ import React, {
   ElementType,
   forwardRef,
   MouseEvent,
+  MouseEventHandler,
+  Ref,
   RefObject,
   useRef
 } from 'react'
@@ -12,11 +14,7 @@ import { AriaButtonProps, mergeProps, useButton } from 'react-aria'
 import { ContextColor, ContextStyle, Shapes } from '../../types'
 import { useForkedRef } from '../../hooks'
 
-// Elements with real native button/link semantics — keyboard activation, focus handling and
-// (for button/input) a working `disabled` attribute all come for free from the browser here.
-const NATIVE_ELEMENTS = new Set(['button', 'a', 'input'])
-
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -37,6 +35,11 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
    * The href attribute specifies the URL of the page the link goes to.
    */
   href?: string
+  /**
+   * Fires on click. Typed for every element `component` can actually render (`button`, `a`,
+   * `input`, or a custom component), rather than narrowed to `HTMLButtonElement` alone.
+   */
+  onClick?: MouseEventHandler<HTMLButtonElement | HTMLAnchorElement | HTMLInputElement>
   /**
    * Marks the button as pressed for toggle-style usage (e.g. a formatting toolbar button).
    * Applies the `.active` class and sets `aria-pressed` so assistive technology announces
@@ -64,7 +67,10 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Exclude<ContextStyle, 'solid'> | 'link'
 }
 
-export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
+export const Button = forwardRef<
+  HTMLButtonElement | HTMLAnchorElement | HTMLInputElement,
+  ButtonProps
+>(
   (
     {
       children,
@@ -84,7 +90,6 @@ export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPr
   ) => {
     const Component = rest.href ? 'a' : component
     const isAnchor = Component === 'a'
-    const isNative = typeof Component === 'string' && NATIVE_ELEMENTS.has(Component)
 
     const _className = classNames(
       'button',
@@ -104,12 +109,14 @@ export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPr
     // `<a>` has no real `disabled` attribute, so a disabled link button still fires click
     // (and still navigates) unless it's blocked here. Native `button`/`input` already stop
     // clicks on their own once the `disabled` attribute below is set.
-    const handleClick = (event: MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+    const handleClick = (
+      event: MouseEvent<HTMLButtonElement | HTMLAnchorElement | HTMLInputElement>
+    ) => {
       if (isAnchor && disabled) {
         event.preventDefault()
         return
       }
-      onClick?.(event as unknown as MouseEvent<HTMLButtonElement>)
+      onClick?.(event)
     }
 
     // Native `button`/`a`/`input` elements get keyboard activation, focus and disabled
@@ -127,19 +134,65 @@ export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPr
       buttonRef as RefObject<HTMLDivElement | null>
     )
 
-    if (isNative) {
+    // Rendered as three separate, literal JSX tags (rather than one `<Component>` tag driven
+    // by a `'button' | 'a' | 'input'`-typed variable) because a union-typed tag makes JSX
+    // intersect all three elements' prop types — `onClick`/`ref` would then need to satisfy
+    // `button`, `a` *and* `input` simultaneously, which `handleClick`/`ref`'s real, narrower
+    // types can't. `ref` is cast per branch since it's declared for the `button | a | input`
+    // union this component exposes publicly, not the specific element each branch actually
+    // renders (true by construction — each branch's ref only ever populates with a matching
+    // instance). The props common to all three (className/aria-pressed/onClick) are factored
+    // out here so a future addition only needs to change one place, not three.
+    const sharedProps = {
+      className: _className,
+      'aria-pressed': pressed,
+      onClick: handleClick
+    }
+
+    if (Component === 'button') {
       return (
-        <Component
+        <button
           {...rest}
-          className={_className}
-          {...(!isAnchor && { type, disabled })}
-          {...(isAnchor && disabled && { 'aria-disabled': true, tabIndex: -1 })}
-          aria-pressed={pressed}
-          onClick={handleClick}
-          ref={ref}
+          {...sharedProps}
+          type={type}
+          disabled={disabled}
+          ref={ref as Ref<HTMLButtonElement>}
         >
           {children}
-        </Component>
+        </button>
+      )
+    }
+
+    if (Component === 'input') {
+      return (
+        // `rest` is cast because it's typed as `ButtonHTMLAttributes`, whose `onChange`
+        // (button semantics) collides with `<input>`'s own `onChange` (value-change semantics)
+        // — `component="input"` is a fixed set of documented attributes (`type`, `value`,
+        // `disabled`, ...), not a general-purpose input, so this is a safe, deliberate escape.
+        <input
+          {...(rest as Record<string, unknown>)}
+          {...sharedProps}
+          type={type}
+          disabled={disabled}
+          ref={ref as Ref<HTMLInputElement>}
+        />
+      )
+    }
+
+    if (Component === 'a') {
+      return (
+        // `rest` is cast for the same reason as the `input` branch above — it's typed as
+        // `ButtonHTMLAttributes`, whose DOM event handlers are parameterized for
+        // `HTMLButtonElement`, which don't structurally match `<a>`'s own `HTMLAnchorElement`
+        // ones (e.g. `onCopy`), even though both accept a real DOM event at runtime.
+        <a
+          {...(rest as Record<string, unknown>)}
+          {...sharedProps}
+          {...(disabled && { 'aria-disabled': true, tabIndex: -1 })}
+          ref={ref as Ref<HTMLAnchorElement>}
+        >
+          {children}
+        </a>
       )
     }
 
