@@ -39,9 +39,7 @@ describe('OtpInput', () => {
     test('calls onChange with the combined value and onComplete once every box is filled', () => {
       const onChange = vi.fn()
       const onComplete = vi.fn()
-      render(
-        <OtpInput aria-label="Code" length={3} onChange={onChange} onComplete={onComplete} />
-      )
+      render(<OtpInput aria-label="Code" length={3} onChange={onChange} onComplete={onComplete} />)
       fireEvent.change(screen.getByRole('textbox', { name: 'Digit 1' }), {
         target: { value: '1' }
       })

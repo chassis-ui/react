@@ -75,9 +75,7 @@ describe('FileInput', () => {
     })
 
     test('renders invalid feedback and wires it into aria-describedby, and sets aria-invalid, only when invalid', () => {
-      const { rerender } = render(
-        <FileInput aria-label="Attachment" invalidFeedback="Required" />
-      )
+      const { rerender } = render(<FileInput aria-label="Attachment" invalidFeedback="Required" />)
       expect(screen.queryByText('Required')).toBeNull()
 
       rerender(<FileInput aria-label="Attachment" invalid invalidFeedback="Required" />)

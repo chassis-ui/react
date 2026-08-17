@@ -61,7 +61,7 @@ React 19) depending on this package via `file:`, not committed to this repo:
   rendered markup.
 - **Without it** (temporarily strip `output.banner` from `tsdown.config.ts`, rebuild, reinstall
   into the smoke app): the same page fails with `TypeError:
-  i.default.createContext is not a function` during `next build`'s page-data collection — an
+i.default.createContext is not a function` during `next build`'s page-data collection — an
   unhelpful crash, not a clean "needs a Client Component" message, which is exactly why shipping
   the directive ourselves (rather than leaving it to every consumer to wrap things) matters.
 

@@ -27,6 +27,11 @@ export interface ListItemProps extends HTMLAttributes<
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
   component?: string | ElementType
+  /**
+   * The href attribute specifies the URL of the page the link goes to. Only applicable when
+   * `component` is `"a"`.
+   */
+  href?: string
 }
 
 export const ListItem = forwardRef<

@@ -10,6 +10,20 @@ const dirname =
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
   plugins: [react()],
+  css: {
+    // Same resolution gap `tsdown.config.ts`'s build config and `.storybook/main.ts`'s
+    // `viteFinal` close: component .scss files that `@use "@chassis-ui/css/scss/..."` directly
+    // (e.g. DatePicker, Calendar, RangeCalendar) need this to resolve `@chassis-ui/css`'s own
+    // bare-specifier `@forward`s (`chassis-tokens`, `@chassis-ui/tokens/...`).
+    preprocessorOptions: {
+      scss: {
+        loadPaths: [
+          path.resolve(dirname, 'node_modules/@chassis-ui/css/scss/vendor'),
+          path.resolve(dirname, 'node_modules')
+        ]
+      }
+    }
+  },
   test: {
     coverage: {
       // istanbul (not v8) to match the source-level branch/statement counting the existing
@@ -41,7 +55,7 @@ export default defineConfig({
           include: ['test/**/*.spec.tsx'],
           environment: 'jsdom',
           globals: true,
-          setupFiles: ['./test/setup.ts', './test/dialogPolyfill.js', './test/axeMatchers.js'],
+          setupFiles: ['./test/setup.ts', './test/dialogPolyfill.ts', './test/axeMatchers.ts'],
           // Jest's "modern" fake timers (the prior runner) fake requestAnimationFrame by default;
           // Vitest's don't. react-aria's hover/press interactions schedule state updates via rAF, so
           // without this, `vi.useFakeTimers()` + `vi.runAllTimers()` never flushes them.

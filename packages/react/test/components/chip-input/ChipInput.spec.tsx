@@ -65,12 +65,7 @@ describe('ChipInput', () => {
     test('maxChips prevents adding beyond the limit', () => {
       const onChange = vi.fn()
       render(
-        <ChipInput
-          aria-label="Skills"
-          defaultValue={['React']}
-          maxChips={1}
-          onChange={onChange}
-        />
+        <ChipInput aria-label="Skills" defaultValue={['React']} maxChips={1} onChange={onChange} />
       )
       const input = screen.getByRole('textbox')
       fireEvent.change(input, { target: { value: 'CSS' } })
@@ -83,11 +78,7 @@ describe('ChipInput', () => {
     test('clicking a chip close button removes it', () => {
       const onChange = vi.fn()
       render(
-        <ChipInput
-          aria-label="Skills"
-          defaultValue={['React', 'TypeScript']}
-          onChange={onChange}
-        />
+        <ChipInput aria-label="Skills" defaultValue={['React', 'TypeScript']} onChange={onChange} />
       )
       const row = screen.getByRole('row', { name: /React/ })
       const removeButton = within(row).getByRole('button')
@@ -106,11 +97,7 @@ describe('ChipInput', () => {
     test('pressing Backspace with a chip focused removes it', () => {
       const onChange = vi.fn()
       render(
-        <ChipInput
-          aria-label="Skills"
-          defaultValue={['React', 'TypeScript']}
-          onChange={onChange}
-        />
+        <ChipInput aria-label="Skills" defaultValue={['React', 'TypeScript']} onChange={onChange} />
       )
       const input = screen.getByRole('textbox')
       fireEvent.keyDown(input, { key: 'Backspace' })

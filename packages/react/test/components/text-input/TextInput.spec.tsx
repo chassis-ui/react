@@ -114,12 +114,7 @@ describe('TextInput', () => {
 
     test('keeps is-invalid/is-valid on the ghost-input, not the wrapper', () => {
       const { container } = render(
-        <TextInput
-          aria-label="Amount"
-          adornStart={<InputAdorn>$</InputAdorn>}
-          invalid
-          valid
-        />
+        <TextInput aria-label="Amount" adornStart={<InputAdorn>$</InputAdorn>} invalid valid />
       )
       // eslint-disable-next-line testing-library/no-node-access
       const wrapper = container.firstChild as HTMLElement

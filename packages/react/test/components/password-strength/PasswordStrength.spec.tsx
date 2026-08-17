@@ -67,9 +67,7 @@ describe('PasswordStrength', () => {
   describe('callbacks', () => {
     test('onStrengthChange fires only when the strength level changes', () => {
       const onStrengthChange = vi.fn()
-      const { rerender } = render(
-        <PasswordStrength onStrengthChange={onStrengthChange} value="" />
-      )
+      const { rerender } = render(<PasswordStrength onStrengthChange={onStrengthChange} value="" />)
       expect(onStrengthChange).not.toHaveBeenCalled()
 
       rerender(<PasswordStrength onStrengthChange={onStrengthChange} value="abc" />)

@@ -16,9 +16,9 @@ own styles, except for the handful of components with no chassis-css visual equi
   centralized in their own trees (below), not colocated. See `CONVENTIONS.md` for the naming/
   barrel/compound-API rules this layout follows, including that exception's exact boundary.
 - `test/components/<kebab-name>/<PascalName>.spec.tsx`, plus `test/components/<kebab-name>/
-  __snapshots__/` for that component's snapshot files — mirrors `src/components/`, under the
-  top-level `test/` folder that also holds shared setup (`test/setup.ts`, `test/dialogPolyfill.js`,
-  `test/axeMatchers.js`).
+__snapshots__/` for that component's snapshot files — mirrors `src/components/`, under the
+  top-level `test/` folder that also holds shared setup (`test/setup.ts`, `test/dialogPolyfill.ts`,
+  `test/axeMatchers.ts`).
 - `src/components/<kebab-name>/index.ts` — every component folder's barrel: re-exports the root
   component and, for compound families, every sub-part as its own flat, root-prefixed named export
   (`AccordionItem`, not `Accordion.Item` — see `CONVENTIONS.md`). The central `src/index.ts`
@@ -45,7 +45,7 @@ own styles, except for the handful of components with no chassis-css visual equi
   here: an `import` line (from the component's folder barrel, not the component file) and a
   matching entry in the trailing `export { ... }` block. Forgetting either means it silently isn't
   part of the published package even though it works in local dev.
-- `test/setup.ts`, `test/dialogPolyfill.js`, `test/axeMatchers.js` — shared Vitest setup
+- `test/setup.ts`, `test/dialogPolyfill.ts`, `test/axeMatchers.ts` — shared Vitest setup
   (jest-axe matchers, a `<dialog>` polyfill for jsdom, global test config).
 
 ## Build
@@ -135,7 +135,7 @@ pnpm test:visual:update  # same, plus --update-snapshots to regenerate baselines
   contributor on a Mac gets a meaningful local pass/fail from `pnpm test:visual` too. If you only
   have a Mac, regenerating the Linux baselines needs a matching container — run
   `pnpm test:visual:update` inside `mcr.microsoft.com/playwright:<version matching
-  @playwright/test's own devDependency version>-noble`, not on your host OS.
+@playwright/test's own devDependency version>-noble`, not on your host OS.
 - A popover-based story (`DatePicker`/`DateRangePicker`'s `Open*` variants) screenshots the whole
   iframe page rather than a specific element, because `Popover` portals to `document.body` (see
   `Popover.tsx`), outside Storybook's `#storybook-root`.
@@ -155,7 +155,7 @@ pnpm test:visual:update  # same, plus --update-snapshots to regenerate baselines
   fully custom markup (e.g. `useSelect`, `useSlider`) won't pick up that styling.
 - After adding/changing a component's exported props, run `pnpm api:generate` from the repo root
   so `packages/site/content/api/` (prop-table JSON, consumed by the docs site) stays in sync.
-- After any *intentional* public API change (new/renamed/removed export, changed prop type), run
+- After any _intentional_ public API change (new/renamed/removed export, changed prop type), run
   `pnpm lib:build && pnpm api:report:update` from the repo root and commit the resulting
   `api-report.md` diff alongside the code change — `pnpm api:report` (no `:update`) is a CI check
   that fails the build if this snapshot has drifted from what `dist/index.d.ts` actually exports,

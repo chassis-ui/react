@@ -80,9 +80,15 @@ describe('DateRangePicker', () => {
         </div>
       )
       const dialog = getCalendarWrapper()
-      await user.click(screen.getByRole('button', { name: /calendar/i }))
+      // eslint-disable-next-line testing-library/no-unnecessary-act -- see DatePicker.spec.tsx
+      await act(async () => {
+        await user.click(screen.getByRole('button', { name: /calendar/i }))
+      })
       expect(dialog).not.toHaveAttribute('hidden')
-      await user.click(screen.getByText('Some page content'))
+      // eslint-disable-next-line testing-library/no-unnecessary-act -- see DatePicker.spec.tsx
+      await act(async () => {
+        await user.click(screen.getByText('Some page content'))
+      })
       expect(dialog).toHaveAttribute('hidden')
     })
 
@@ -161,7 +167,10 @@ describe('DateRangePicker', () => {
           }}
         />
       )
-      await user.click(screen.getByRole('button', { name: 'Clear' }))
+      // eslint-disable-next-line testing-library/no-unnecessary-act -- see DatePicker.spec.tsx
+      await act(async () => {
+        await user.click(screen.getByRole('button', { name: 'Clear' }))
+      })
       await waitFor(() => {
         expect(screen.queryByRole('button', { name: 'Clear' })).not.toBeInTheDocument()
       })

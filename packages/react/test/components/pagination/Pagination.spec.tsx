@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 
@@ -104,7 +104,14 @@ describe('Pagination', () => {
 
       const next = screen.getByRole('button', { name: 'Next' })
       next.focus()
-      await user.click(next)
+      // The focus-redirect this asserts on happens in a layout effect that runs off the click's
+      // state update — `user.click`'s own act-environment tracking doesn't catch it, so it needs
+      // an explicit act(...) wrapper (same pattern as DatePicker.spec.tsx's "focus management"
+      // describe block).
+      // eslint-disable-next-line testing-library/no-unnecessary-act
+      await act(async () => {
+        await user.click(next)
+      })
 
       expect(next).toBeDisabled()
       expect(screen.getByRole('button', { name: 'Previous' })).toHaveFocus()
@@ -120,12 +127,18 @@ describe('Pagination', () => {
 
       // Advance one page without crossing a Prev/Next disabled boundary — this used to leave a
       // stale focus-redirect pending internally, since neither control's disabled state changes.
-      await user.click(screen.getByRole('button', { name: 'Next' }))
+      // eslint-disable-next-line testing-library/no-unnecessary-act
+      await act(async () => {
+        await user.click(screen.getByRole('button', { name: 'Next' }))
+      })
 
       // Jump straight to the last page via its number button, not Next — this flips `nextDisabled`
       // and used to wrongly consume the stale pending mark, moving focus to Previous.
       const lastPage = screen.getByRole('button', { name: '10' })
-      await user.click(lastPage)
+      // eslint-disable-next-line testing-library/no-unnecessary-act
+      await act(async () => {
+        await user.click(lastPage)
+      })
 
       expect(screen.getByRole('button', { name: 'Next' })).toBeDisabled()
       expect(screen.getByRole('button', { name: 'Previous' })).not.toHaveFocus()
@@ -163,7 +176,10 @@ describe('Pagination', () => {
 
       const previous = screen.getByRole('button', { name: 'Previous' })
       previous.focus()
-      await user.click(previous)
+      // eslint-disable-next-line testing-library/no-unnecessary-act
+      await act(async () => {
+        await user.click(previous)
+      })
 
       expect(previous).toBeDisabled()
       expect(screen.getByRole('button', { name: 'Next' })).toHaveFocus()

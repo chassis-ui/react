@@ -62,11 +62,7 @@ describe('suppressFocusRingGlobally', () => {
     // on) — this call is the redundant one the guard exists for.
     install()
 
-    expect(addEventListenerSpy).not.toHaveBeenCalledWith(
-      'pointerdown',
-      expect.any(Function),
-      true
-    )
+    expect(addEventListenerSpy).not.toHaveBeenCalledWith('pointerdown', expect.any(Function), true)
 
     addEventListenerSpy.mockRestore()
   })

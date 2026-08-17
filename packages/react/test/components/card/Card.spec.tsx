@@ -54,6 +54,7 @@ describe('Card', () => {
       // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
       const body = container.querySelector('.card-body')
       expect(body).not.toBeNull()
+      // eslint-disable-next-line testing-library/no-node-access
       const bodyChildren = body?.children ?? []
       expect(bodyChildren).toHaveLength(4)
       expect(bodyChildren[0]).toHaveClass('card-title')

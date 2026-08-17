@@ -51,6 +51,9 @@ export const Open: Story = {
 export const OpenNoTitle: Story = {
   args: {
     content: 'Content with no title.',
+    // A dialog needs an accessible name; with no visible `title` to point `aria-labelledby`
+    // at, `aria-label` is the only way to give it one.
+    'aria-label': 'Content with no title.',
     placement: 'top',
     visible: true,
     children: <Button color="secondary">Trigger</Button>

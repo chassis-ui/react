@@ -36,7 +36,7 @@ describe('SSR', () => {
     ).not.toThrow()
     expect(() =>
       renderToString(
-        <Drawer visible>
+        <Drawer visible placement="end">
           <DrawerBody>Hello</DrawerBody>
         </Drawer>
       )

@@ -9,6 +9,9 @@ describe('ToastHeader', () => {
   describe('rendering', () => {
     test('renders a div with the base class and className merged', () => {
       const { container } = render(<ToastHeader className="bazinga">Test</ToastHeader>)
+      // The outer div has no accessible role of its own (children render inside a nested
+      // `<strong>`), so there's no query but direct access to reach it.
+      // eslint-disable-next-line testing-library/no-node-access
       const header = container.firstElementChild
       expect(header).toHaveClass('toast-header', 'bazinga')
       expect(header?.tagName).toBe('DIV')
@@ -50,11 +53,15 @@ describe('ToastHeader', () => {
 
     test('renders a string icon via ToastIcon', () => {
       render(<ToastHeader icon="check-solid">Chassis</ToastHeader>)
+      // A decorative icon with no title renders `aria-hidden`, so it has no accessible query.
+      // eslint-disable-next-line testing-library/no-node-access
       expect(document.querySelector('.toast-icon')).toBeInTheDocument()
     })
 
     test('hides icon from assistive technology by default', () => {
       render(<ToastHeader icon={<svg data-testid="logo" />}>Chassis</ToastHeader>)
+      // No accessible query for the icon's wrapper itself, so this walks up from the icon.
+      // eslint-disable-next-line testing-library/no-node-access
       expect(screen.getByTestId('logo').parentElement).toHaveAttribute('aria-hidden', 'true')
     })
 

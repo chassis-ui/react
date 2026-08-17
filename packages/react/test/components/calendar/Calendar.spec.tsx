@@ -344,11 +344,7 @@ describe('Calendar', () => {
 
     test('renders the requested number of months, each with its own synced month/year picker', () => {
       render(
-        <Calendar
-          aria-label="Event date"
-          value={new CalendarDate(2026, 7, 24)}
-          visibleMonths={2}
-        />
+        <Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} visibleMonths={2} />
       )
       expect(screen.getAllByRole('grid')).toHaveLength(2)
       const monthButtons = screen.getAllByRole('button', { name: /^Month:/ })
@@ -357,11 +353,7 @@ describe('Calendar', () => {
 
     test('a single global prev/next pair pages every visible month at once, with none in the per-month headers', () => {
       render(
-        <Calendar
-          aria-label="Event date"
-          value={new CalendarDate(2026, 7, 24)}
-          visibleMonths={2}
-        />
+        <Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} visibleMonths={2} />
       )
       expect(screen.getAllByRole('button', { name: /next/i })).toHaveLength(1)
       expect(screen.getAllByRole('button', { name: /previous/i })).toHaveLength(1)
@@ -377,11 +369,7 @@ describe('Calendar', () => {
 
     test('picking a month from the second block moves both months in sync', () => {
       render(
-        <Calendar
-          aria-label="Event date"
-          value={new CalendarDate(2026, 7, 24)}
-          visibleMonths={2}
-        />
+        <Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} visibleMonths={2} />
       )
       const [, secondMonthButton] = screen.getAllByRole('button', { name: /^Month:/ })
       fireEvent.click(secondMonthButton!)
@@ -413,11 +401,7 @@ describe('Calendar', () => {
     // reasoning.
     test('the global prev/next overlay hides while any visible month is in year-selection mode', () => {
       render(
-        <Calendar
-          aria-label="Event date"
-          value={new CalendarDate(2026, 7, 24)}
-          visibleMonths={2}
-        />
+        <Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} visibleMonths={2} />
       )
 
       expect(screen.getByRole('button', { name: /^next$/i })).toBeInTheDocument()

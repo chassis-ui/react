@@ -126,9 +126,7 @@ describe('Autocomplete', () => {
   })
 
   describe('multi-select behavior', () => {
-    const MultiAutocomplete = (
-      props: Partial<React.ComponentProps<typeof Autocomplete>> = {}
-    ) => (
+    const MultiAutocomplete = (props: Partial<React.ComponentProps<typeof Autocomplete>> = {}) => (
       <Autocomplete aria-label="Fruit" multiple {...props}>
         <AutocompleteItem id="apple">Apple</AutocompleteItem>
         <AutocompleteItem id="banana">Banana</AutocompleteItem>

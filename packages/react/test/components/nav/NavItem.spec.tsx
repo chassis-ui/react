@@ -2,7 +2,7 @@ import * as React from 'react'
 import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { NavItem, NavLink } from '../../../src/index'
+import { NavItem } from '../../../src/index'
 
 describe('NavItem', () => {
   describe('rendering', () => {

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { Menu, MenuList, MenuItem } from '../../../src/index'
@@ -85,7 +85,7 @@ describe('MenuList', () => {
           <MenuList items={[{ id: 'a', label: 'Action', onClick }]} />
         </Menu>
       )
-      screen.getByRole('menuitem', { name: 'Action' }).click()
+      fireEvent.click(screen.getByRole('menuitem', { name: 'Action' }))
       expect(onClick).toHaveBeenCalledTimes(1)
     })
 

@@ -32,7 +32,9 @@
     "./package.json": "./package.json",
     "./style.css": "./dist/style.css"
   },
-  "sideEffects": ["./src/utils/suppressFocusRingGlobally.ts"],
+  "sideEffects": [
+    "./src/utils/suppressFocusRingGlobally.ts"
+  ],
   "files": [
     "dist/",
     "src/"
@@ -73,7 +75,6 @@
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.6.1",
     "@tsdown/css": "^0.22.14",
-    "@types/jest-axe": "^3.5.9",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@types/react-transition-group": "^4.4.11",

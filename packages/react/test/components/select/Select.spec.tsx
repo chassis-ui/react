@@ -121,11 +121,7 @@ describe('Select', () => {
 
     test('wraps in .form-input.form-caret with a .ghost-input select', () => {
       const { container } = render(
-        <Select
-          aria-label="Language"
-          options={['js']}
-          adornStart={<InputAdorn>Lang</InputAdorn>}
-        />
+        <Select aria-label="Language" options={['js']} adornStart={<InputAdorn>Lang</InputAdorn>} />
       )
       const select = screen.getByRole('combobox', { name: 'Language' })
       expect(select).toHaveClass('ghost-input')
@@ -370,9 +366,7 @@ describe('Select', () => {
       )
       expect(screen.queryByText('Required')).toBeNull()
 
-      rerender(
-        <Select aria-label="Language" invalid invalidFeedback="Required" options={['js']} />
-      )
+      rerender(<Select aria-label="Language" invalid invalidFeedback="Required" options={['js']} />)
       const select = screen.getByRole('combobox', { name: 'Language' })
       const feedback = screen.getByText('Required')
       expect(feedback).toHaveClass('invalid-feedback')

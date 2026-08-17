@@ -2,14 +2,7 @@ import React from 'react'
 import { act, render, screen, fireEvent } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import {
-  ToastBody,
-  ToastHeader,
-  Toaster,
-  Button,
-  addToast,
-  toastQueue
-} from '../../../src/index'
+import { ToastBody, ToastHeader, Toaster, Button, addToast, toastQueue } from '../../../src/index'
 
 afterEach(() => {
   act(() => toastQueue.clear())
@@ -42,22 +35,24 @@ describe('Toaster', () => {
       ['bottom-end', ['position-fixed', 'bottom-0', 'end-0']]
     ])('placement="%s" applies %j', (placement, expectedClasses) => {
       render(<Toaster placement={placement}>Test</Toaster>)
-      const region = document.body.querySelector('.toaster') as HTMLElement
+      const region = screen.getByRole('region')
       expect(region).toHaveClass(...expectedClasses)
     })
 
     test('renders as a static (non-portaled) container without a placement', () => {
-      const { container } = render(<Toaster>Test</Toaster>)
-      const region = container.querySelector('.toaster') as HTMLElement
+      render(<Toaster>Test</Toaster>)
+      const region = screen.getByRole('region')
       expect(region).toHaveClass('position-static')
       expect(region).not.toHaveClass('position-fixed')
     })
 
     test('a custom placement string only applies position-fixed, no alignment classes', () => {
       render(<Toaster placement="custom-corner">Test</Toaster>)
-      const region = document.body.querySelector('.toaster') as HTMLElement
+      const region = screen.getByRole('region')
       expect(region).toHaveClass('position-fixed')
-      expect(region.className).not.toMatch(/\btop-0\b|\bbottom-0\b|\bstart-0\b|\bend-0\b|translate-middle/)
+      expect(region.className).not.toMatch(
+        /\btop-0\b|\bbottom-0\b|\bstart-0\b|\bend-0\b|translate-middle/
+      )
     })
 
     test('applies a custom className alongside the base classes', () => {

@@ -83,6 +83,10 @@ describe('DatePicker', () => {
     // pointerdown-outside listener that `useOverlay` only wires up when `isDismissable` is true.
     // `userEvent.click` (not `fireEvent.click`) is required here — it's the one that actually
     // simulates the browser's real focus-shifting-to-body behavior on a click.
+    //
+    // Both clicks need an explicit `act(...)` wrapper — the same `usePress`/overlay-position
+    // state updates flagged in the "focus management" describe block below escape user-event's
+    // own act-environment tracking here too.
     test('a real click on plain page content outside the calendar closes it', async () => {
       const user = userEvent.setup()
       render(
@@ -92,9 +96,15 @@ describe('DatePicker', () => {
         </div>
       )
       const dialog = getCalendarWrapper()
-      await user.click(screen.getByRole('button', { name: /calendar/i }))
+      // eslint-disable-next-line testing-library/no-unnecessary-act -- see comment above
+      await act(async () => {
+        await user.click(screen.getByRole('button', { name: /calendar/i }))
+      })
       expect(dialog).not.toHaveAttribute('hidden')
-      await user.click(screen.getByText('Some page content'))
+      // eslint-disable-next-line testing-library/no-unnecessary-act -- see comment above
+      await act(async () => {
+        await user.click(screen.getByText('Some page content'))
+      })
       expect(dialog).toHaveAttribute('hidden')
     })
 
@@ -150,9 +160,7 @@ describe('DatePicker', () => {
     })
 
     test('no clear button when disabled, even with a value', () => {
-      render(
-        <DatePicker aria-label="Event date" disabled value={new CalendarDate(2026, 7, 24)} />
-      )
+      render(<DatePicker aria-label="Event date" disabled value={new CalendarDate(2026, 7, 24)} />)
       expect(screen.queryByRole('button', { name: 'Clear' })).not.toBeInTheDocument()
     })
 
@@ -178,7 +186,10 @@ describe('DatePicker', () => {
     test('clicking the clear button moves focus to the calendar toggle button, not the document body', async () => {
       const user = userEvent.setup()
       render(<DatePicker aria-label="Event date" defaultValue={new CalendarDate(2026, 7, 24)} />)
-      await user.click(screen.getByRole('button', { name: 'Clear' }))
+      // eslint-disable-next-line testing-library/no-unnecessary-act -- see the "focus management" describe block's comment above
+      await act(async () => {
+        await user.click(screen.getByRole('button', { name: 'Clear' }))
+      })
       await waitFor(() => {
         expect(screen.queryByRole('button', { name: 'Clear' })).not.toBeInTheDocument()
       })
@@ -194,7 +205,10 @@ describe('DatePicker', () => {
           selectionMode="multiple"
         />
       )
-      await user.click(screen.getByRole('button', { name: 'Clear' }))
+      // eslint-disable-next-line testing-library/no-unnecessary-act -- see the "focus management" describe block's comment above
+      await act(async () => {
+        await user.click(screen.getByRole('button', { name: 'Clear' }))
+      })
       await waitFor(() => {
         expect(screen.queryByRole('button', { name: 'Clear' })).not.toBeInTheDocument()
       })
@@ -478,11 +492,7 @@ describe('DatePicker', () => {
       expect(hidden.value).toBe('2026-07-24')
 
       rerender(
-        <DatePicker
-          aria-label="Event date"
-          name="eventDate"
-          value={new CalendarDate(2026, 8, 1)}
-        />
+        <DatePicker aria-label="Event date" name="eventDate" value={new CalendarDate(2026, 8, 1)} />
       )
       expect(hidden.value).toBe('2026-08-01')
     })
@@ -524,9 +534,7 @@ describe('DatePicker', () => {
     })
 
     test('renders invalid feedback and wires it into aria-describedby and the is-invalid class only when invalid', () => {
-      const { rerender } = render(
-        <DatePicker aria-label="Event date" invalidFeedback="Required" />
-      )
+      const { rerender } = render(<DatePicker aria-label="Event date" invalidFeedback="Required" />)
       expect(screen.queryByText('Required')).toBeNull()
 
       rerender(<DatePicker aria-label="Event date" invalid invalidFeedback="Required" />)

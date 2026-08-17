@@ -113,7 +113,11 @@ describe('Flex', () => {
           Test
         </Flex>
       )
-      expect(screen.getByText('Test')).toHaveClass('gap-medium', 'row-gap-small', 'column-gap-large')
+      expect(screen.getByText('Test')).toHaveClass(
+        'gap-medium',
+        'row-gap-small',
+        'column-gap-large'
+      )
     })
   })
 
@@ -148,7 +152,9 @@ describe('Flex', () => {
       // ascending mobile-first order regardless of the object's key order
       const classes = el.className.split(' ')
       expect(classes.indexOf('small:flex-row')).toBeLessThan(classes.indexOf('medium:flex-wrap'))
-      expect(classes.indexOf('medium:flex-wrap')).toBeLessThan(classes.indexOf('large:align-items-center'))
+      expect(classes.indexOf('medium:flex-wrap')).toBeLessThan(
+        classes.indexOf('large:align-items-center')
+      )
       expect(classes.indexOf('large:align-items-center')).toBeLessThan(
         classes.indexOf('xlarge:align-content-stretch')
       )

@@ -43,7 +43,7 @@ Don't introduce it as a synonym; also flagged as an error.
   the component they document (matched by `.storybook/main.ts`'s glob against anywhere under
   `src/`, so this is an organizational choice, not something the glob requires).
 - `test/components/<kebab-name>/<PascalName>.spec.tsx` (plus `test/components/<kebab-name>/
-  __snapshots__/` for snapshot files) — mirrors `src/components/` the same way `stories/`
+__snapshots__/` for snapshot files) — mirrors `src/components/` the same way `stories/`
   does, under the top-level `test/` folder that also holds shared setup (`test/setup.ts`, etc.).
 
 Colocating tests or stories beside the component (`__tests__/` inside `src/components/<kebab>/`)
@@ -120,7 +120,7 @@ colors, spacing, or radii; only write component-scoped CSS as a last resort.
 
 ## What isn't caught by lint
 
-`eslint.config.js` flags `Cx`-prefixed *identifiers* (warn during Phase 1, error from Batch G
+`eslint.config.js` flags `Cx`-prefixed _identifiers_ (warn during Phase 1, error from Batch G
 onward) and `onValueChange`/`tone` identifiers (error). Neither rule catches string literals:
 internal-only `cx-*` CSS class-name strings and `data-cx-*` HTML attributes both need an explicit
 grep, not a lint pass — see the migration plan's Ground Truth section for which of those are in

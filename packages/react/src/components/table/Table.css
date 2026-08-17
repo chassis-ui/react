@@ -10,8 +10,8 @@
 .table-sort-icon {
   display: inline-block;
   margin-inline-start: var(--cx-space-2xsmall);
-  font-size: 0.75em;
-  opacity: 0.6;
+  font-size: .75em;
+  opacity: .6;
 }
 
 [aria-sort="ascending"] .table-sort-icon,

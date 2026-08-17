@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { act, render, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 
@@ -82,7 +82,12 @@ describe('MenuToggle', () => {
         </Menu>
       )
       const toggle = screen.getByRole('button', { name: 'Test' })
-      await user.click(toggle)
+      // See Menu.spec.tsx's "clicking the toggle again..." test for why this needs an explicit
+      // act(...) wrapper.
+      // eslint-disable-next-line testing-library/no-unnecessary-act
+      await act(async () => {
+        await user.click(toggle)
+      })
       expect(toggle).toHaveFocus()
       expect(toggle.style.outline).toBe('none')
       toggle.blur()
@@ -100,7 +105,11 @@ describe('MenuToggle', () => {
       )
       const toggle = screen.getByRole('button', { name: 'Test' })
       toggle.focus()
-      toggle.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, detail: 0 }))
+      act(() => {
+        toggle.dispatchEvent(
+          new MouseEvent('click', { bubbles: true, cancelable: true, detail: 0 })
+        )
+      })
       expect(toggle.style.outline).toBe('')
     })
 
@@ -117,8 +126,14 @@ describe('MenuToggle', () => {
       const toggle = screen.getByRole('button', { name: 'Test' })
       // Opens, then re-clicking while still focused closes it again — the exact re-click-while-
       // focused case `wasOpenRef` handles, and the one that used to stack a second blur listener.
-      await user.click(toggle)
-      await user.click(toggle)
+      // eslint-disable-next-line testing-library/no-unnecessary-act
+      await act(async () => {
+        await user.click(toggle)
+      })
+      // eslint-disable-next-line testing-library/no-unnecessary-act
+      await act(async () => {
+        await user.click(toggle)
+      })
       expect(toggle.style.outline).toBe('none')
       toggle.blur()
       expect(toggle.style.outline).toBe('')

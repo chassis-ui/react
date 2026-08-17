@@ -1,5 +1,6 @@
 *.css
 *.scss
+*.hbs
 packages/site/config.yml
 packages/site/src/assets
 /source

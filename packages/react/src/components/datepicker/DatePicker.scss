@@ -13,6 +13,8 @@
  * that one internal-token exception was kept anyway.
  */
 
+@use "@chassis-ui/css/scss/mixins" as *;
+
 /*
  * chassis-css's own `.datepicker` rule sets `display: flex` unconditionally, which — same-
  * specificity, later-declared-layer concerns aside — otherwise wins over the browser's default
@@ -34,8 +36,8 @@
 
 .datepicker-segment {
   padding-inline: var(--cx-space-3xsmall);
-  border-radius: var(--cx-border-radius-small);
-  outline: none;
+  @include border-radius(var(--cx-border-radius-small));
+  outline: 0;
 }
 
 .datepicker-segment.placeholder {

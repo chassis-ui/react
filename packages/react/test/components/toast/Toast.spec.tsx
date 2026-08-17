@@ -294,6 +294,9 @@ describe('Toast', () => {
       await waitFor(() => {
         expect(screen.getByRole('status')).toHaveClass('show')
       })
+      // `.toast-header`/`.toast-body` are plain layout divs with no accessible role, so there's
+      // no query but a class selector to tell them apart structurally.
+      // eslint-disable-next-line testing-library/no-node-access
       expect(document.querySelector('.toast-header')).toBeInTheDocument()
       expect(screen.getByRole('button', { name: 'Close' })).toBeInTheDocument()
     })
@@ -303,9 +306,12 @@ describe('Toast', () => {
       await waitFor(() => {
         expect(screen.getByRole('status')).toHaveClass('show')
       })
+      // eslint-disable-next-line testing-library/no-node-access
       expect(document.querySelector('.toast-header')).not.toBeInTheDocument()
+      // eslint-disable-next-line testing-library/no-node-access
       const body = document.querySelector('.toast-body')
       expect(body).toBeInTheDocument()
+      // eslint-disable-next-line testing-library/no-node-access
       expect(screen.getByRole('button', { name: 'Close' }).closest('.toast-body')).toBe(body)
     })
 
@@ -322,9 +328,12 @@ describe('Toast', () => {
       await waitFor(() => {
         expect(screen.getByRole('status')).toHaveClass('show')
       })
+
       expect(
+        // eslint-disable-next-line testing-library/no-node-access
         screen.getByRole('button', { name: 'Close' }).closest('.toast-header')
       ).toBeInTheDocument()
+      // eslint-disable-next-line testing-library/no-node-access
       expect(document.querySelector('.toast-body .close-button')).not.toBeInTheDocument()
     })
 
@@ -355,8 +364,8 @@ describe('Toast', () => {
       const describedby = toast.getAttribute('aria-describedby')
       expect(labelledby).toBeTruthy()
       expect(describedby).toBeTruthy()
-      expect(document.getElementById(labelledby as string)).toHaveTextContent('Chassis')
-      expect(document.getElementById(describedby as string)).toHaveTextContent('Hello, world!')
+      expect(screen.getByText('Chassis')).toHaveAttribute('id', labelledby as string)
+      expect(screen.getByText('Hello, world!')).toHaveAttribute('id', describedby as string)
     })
 
     test('does not set aria-describedby when only title is set', async () => {

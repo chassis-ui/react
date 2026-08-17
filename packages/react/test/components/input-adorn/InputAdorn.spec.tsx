@@ -55,7 +55,12 @@ describe('InputAdorn', () => {
     test('still invokes a consumer-provided onMouseDown handler', () => {
       const handleMouseDown = vi.fn()
       render(
-        <InputAdorn component="button" type="button" aria-label="Toggle" onMouseDown={handleMouseDown}>
+        <InputAdorn
+          component="button"
+          type="button"
+          aria-label="Toggle"
+          onMouseDown={handleMouseDown}
+        >
           Test
         </InputAdorn>
       )

@@ -53,8 +53,8 @@ describe('Grid', () => {
     })
 
     test('sets no custom properties when props are omitted', () => {
-      const { container } = render(<Grid>Test</Grid>)
-      expect(container.firstChild).not.toHaveAttribute('style')
+      render(<Grid>Test</Grid>)
+      expect(screen.getByText('Test')).not.toHaveAttribute('style')
     })
 
     test('preserves a caller-supplied style alongside the custom properties', () => {

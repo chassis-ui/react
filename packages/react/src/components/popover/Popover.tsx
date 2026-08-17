@@ -69,7 +69,10 @@ const PopoverPanel = ({
   )
 }
 
-export interface PopoverProps {
+export interface PopoverProps extends Pick<
+  HTMLAttributes<HTMLDivElement>,
+  'aria-label' | 'aria-labelledby'
+> {
   children: ReactElement
   /**
    * Content node for your component.

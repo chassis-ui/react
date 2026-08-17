@@ -21,7 +21,7 @@ two ways:
 
 - **Build-time**: swap which `@chassis-ui/tokens` brand file gets compiled ahead of
   `@chassis-ui/css`'s own Sass (see chassis-css's own README — `@import
-  '@chassis-ui/tokens/dist/web/<app>/<brand>.scss'` before `@import '@chassis-ui/css/scss/chassis.scss'`).
+'@chassis-ui/tokens/dist/web/<app>/<brand>.scss'` before `@import '@chassis-ui/css/scss/chassis.scss'`).
   This is a chassis-css-level build step, not something `@chassis-ui/react` has any part in.
 - **Runtime**: because they're plain CSS custom properties, any of them can be overridden directly
   — `:root { --cx-primary: #... }` in a consuming app's own stylesheet, or set inline on a
@@ -38,14 +38,14 @@ go stale immediately if copied into this file.
 
 ## Not part of the supported surface
 
-These are all real, inspectable things a consumer *could* target, but none of them are a stability
+These are all real, inspectable things a consumer _could_ target, but none of them are a stability
 contract — they can change shape without a major-version signal from this package, because they're
 either chassis-css's own internal implementation or an internal wire protocol between the two
 packages:
 
 - **`--cx-*` custom properties declared only inside a component-class selector, not at `:root`.**
   Chassis-css's "context re-declaration" system (see chassis-css's README) re-declares many
-  `--cx-*` variable *names* inside component-scoped selector blocks (e.g. inside `.btn`, `.card`)
+  `--cx-*` variable _names_ inside component-scoped selector blocks (e.g. inside `.btn`, `.card`)
   to implement its context-color system — the same custom-property naming convention chassis-css
   uses for its public `:root` tokens is also its own internal implementation vocabulary. A
   component-scoped re-declaration isn't itself an override point; overriding the `:root` token it

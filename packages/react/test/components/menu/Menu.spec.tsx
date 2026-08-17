@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { act, render, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 
@@ -84,10 +84,20 @@ describe('Menu', () => {
       )
       const toggle = screen.getByText('Toggle')
 
-      await user.click(toggle)
+      // react-aria's `useMenuTrigger` opens on pointerdown, so a full `userEvent.click` press
+      // sequence updates `Menu`/`MenuToggle` state outside `user.click`'s own act-environment
+      // tracking — an explicit `act(...)` wrapper is needed to catch it. See DatePicker.spec.tsx's
+      // "focus management" describe block for the same pattern with a longer explanation.
+      // eslint-disable-next-line testing-library/no-unnecessary-act
+      await act(async () => {
+        await user.click(toggle)
+      })
       expect(toggle).toHaveAttribute('aria-expanded', 'true')
 
-      await user.click(toggle)
+      // eslint-disable-next-line testing-library/no-unnecessary-act
+      await act(async () => {
+        await user.click(toggle)
+      })
       expect(toggle).toHaveAttribute('aria-expanded', 'false')
     })
 

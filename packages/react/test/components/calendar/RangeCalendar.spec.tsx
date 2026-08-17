@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render, screen, fireEvent, within } from '@testing-library/react'
+import { act, render, screen, fireEvent, within } from '@testing-library/react'
 import { CalendarDate } from '@internationalized/date'
 import { axe } from 'jest-axe'
 
@@ -142,12 +142,14 @@ describe('RangeCalendar', () => {
       const start = within(grid).getByRole('button', { name: /July 10, 2026/ })
       const end = within(grid).getByRole('button', { name: /July 15, 2026/ })
 
-      start.focus()
+      // `.focus()` is a raw DOM call, not a Testing Library dispatch — it isn't act-wrapped on
+      // its own, and react-aria's focus-ring tracking updates state in response to it.
+      act(() => start.focus())
       fireEvent.keyDown(start, { key: 'Enter' })
       fireEvent.keyUp(start, { key: 'Enter' })
       expect(onChange).not.toHaveBeenCalled()
 
-      end.focus()
+      act(() => end.focus())
       fireEvent.keyDown(end, { key: 'Enter' })
       fireEvent.keyUp(end, { key: 'Enter' })
       expect(onChange).toHaveBeenCalledWith({

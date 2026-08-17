@@ -3691,6 +3691,11 @@ interface ListItemProps extends HTMLAttributes<HTMLAnchorElement | HTMLButtonEle
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
   component?: ElementType | string;
+  /**
+   * The href attribute specifies the URL of the page the link goes to. Only applicable when
+   * `component` is `"a"`.
+   */
+  href?: string;
 }
 declare const ListItem: React.ForwardRefExoticComponent<ListItemProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement | HTMLLIElement>>;
 //#endregion
@@ -4118,7 +4123,7 @@ interface TooltipProps {
 declare const Tooltip: FC<TooltipProps>;
 //#endregion
 //#region src/components/popover/Popover.d.ts
-interface PopoverProps {
+interface PopoverProps extends Pick<HTMLAttributes<HTMLDivElement>, 'aria-label' | 'aria-labelledby'> {
   children: ReactElement;
   /**
    * Content node for your component.

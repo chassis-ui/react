@@ -96,6 +96,8 @@ describe('Notification', () => {
   describe('shorthand content', () => {
     test('icon renders a NotificationIcon when given a name', () => {
       render(<Notification icon="check-solid">Test</Notification>)
+      // A decorative icon with no title renders `aria-hidden`, so it has no accessible query.
+      // eslint-disable-next-line testing-library/no-node-access
       expect(document.querySelector('.notification-icon')).toBeInTheDocument()
     })
 
@@ -105,6 +107,8 @@ describe('Notification', () => {
           Test
         </Notification>
       )
+      // A decorative icon with no title renders `aria-hidden`, so it has no accessible query.
+      // eslint-disable-next-line testing-library/no-node-access
       expect(document.querySelector('.notification-icon')).toHaveClass('align-self-start')
     })
 
@@ -151,8 +155,8 @@ describe('Notification', () => {
       const textId = notification.getAttribute('aria-describedby')
       expect(titleId).toBeTruthy()
       expect(textId).toBeTruthy()
-      expect(document.getElementById(titleId as string)).toHaveTextContent('Well done!')
-      expect(document.getElementById(textId as string)).toHaveTextContent('This is a message')
+      expect(screen.getByText('Well done!')).toHaveAttribute('id', titleId as string)
+      expect(screen.getByText('This is a message')).toHaveAttribute('id', textId as string)
     })
 
     test('does not set aria-describedby without a title', () => {

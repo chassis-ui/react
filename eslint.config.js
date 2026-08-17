@@ -63,15 +63,15 @@ export default defineConfig([
       globals: globals.node
     }
   },
-  // Plain-JS shared Vitest support files (packages/react/test/*.js, e.g. axeMatchers.js,
-  // dialogPolyfill.js) reference DOM globals (`HTMLDialogElement`) and Vitest's injected test
+  // Plain-JS shared Vitest support files (packages/react/test/*.ts, e.g. axeMatchers.ts,
+  // dialogPolyfill.ts) reference DOM globals (`HTMLDialogElement`) and Vitest's injected test
   // globals (`expect`, via vitest.config.ts's `test.globals: true`). `.spec.tsx` files don't need
   // this block — `tseslint.configs.eslintRecommended` already turns `no-undef` off for TS-parsed
   // files, since TS's own type checker (not ESLint) is the real authority there — but these are
   // plain `.js`, still checked by core `no-undef`, and the generic `**/*.js` block above only
   // grants Node globals.
   {
-    files: ['packages/react/test/*.js'],
+    files: ['packages/react/test/*.ts'],
     languageOptions: {
       globals: { ...globals.node, ...globals.browser, ...globals.vitest }
     }

@@ -164,9 +164,6 @@ importers:
       '@tsdown/css':
         specifier: ^0.22.14
         version: 0.22.14(postcss@8.5.23)(sass@1.101.0)(tsdown@0.22.14)(yaml@2.9.0)
-      '@types/jest-axe':
-        specifier: ^3.5.9
-        version: 3.5.9
       '@types/react':
         specifier: ^18.0.0
         version: 18.3.28
@@ -2706,12 +2703,6 @@ packages:
   '@types/istanbul-reports@3.0.4':
     resolution: {integrity: sha512-pk2B1NWalF9toCRu6gjBzR69syFjP4Od8WRAX+0mmf9lAjCRicLOWc+ZrxZHx/0XRjotgkF9t6iaMJ+aXcOdZQ==}
 
-  '@types/jest-axe@3.5.9':
-    resolution: {integrity: sha512-z98CzR0yVDalCEuhGXXO4/zN4HHuSebAukXDjTLJyjEAgoUf1H1i+sr7SUB/mz8CRS/03/XChsx0dcLjHkndoQ==}
-
-  '@types/jest@29.5.14':
-    resolution: {integrity: sha512-ZN+4sdnLUbo8EVvVc2ao0GFW6oVrQRPn4K2lglySj7APvSrgzxHiNNK99us4WDMi57xxA2yggblIAMNhXOotLQ==}
-
   '@types/js-yaml@4.0.9':
     resolution: {integrity: sha512-k4MGaQl5TGo/iipqb2UDG2UwjXziSWkh0uysQelTlJpX1qGlpUZYm8PnO4DxG1qBomtJUdYJ6qR6xdIah10JLg==}
 
@@ -3334,10 +3325,6 @@ packages:
   available-typed-arrays@1.0.7:
     resolution: {integrity: sha512-wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ==}
     engines: {node: '>= 0.4'}
-
-  axe-core@3.5.6:
-    resolution: {integrity: sha512-LEUDjgmdJoA3LqklSTwKYqkjcZ4HKc4ddIYGSAiSkr46NTjzg2L9RNB+lekO9P7Dlpa87+hBtzc2Fzn/+GUWMQ==}
-    engines: {node: '>=4'}
 
   axe-core@4.12.1:
     resolution: {integrity: sha512-s7iGf5GaVMxEG0ENN9x+xTr7GFZCb1ZP/1uATUpCEK2X78nDB3RwbtFCo9pGAf9ru+VwoQ464DkaLEeRM08wJA==}
@@ -9038,6 +9025,7 @@ snapshots:
   '@jest/expect-utils@29.7.0':
     dependencies:
       jest-get-type: 29.6.3
+    optional: true
 
   '@jest/expect@29.7.0':
     dependencies:
@@ -9102,6 +9090,7 @@ snapshots:
   '@jest/schemas@29.6.3':
     dependencies:
       '@sinclair/typebox': 0.27.10
+    optional: true
 
   '@jest/schemas@30.4.1':
     dependencies:
@@ -9156,9 +9145,10 @@ snapshots:
       '@jest/schemas': 29.6.3
       '@types/istanbul-lib-coverage': 2.0.6
       '@types/istanbul-reports': 3.0.4
-      '@types/node': 22.19.19
+      '@types/node': 22.20.1
       '@types/yargs': 17.0.35
       chalk: 4.1.2
+    optional: true
 
   '@joshwooding/vite-plugin-react-docgen-typescript@0.7.0(typescript@6.0.3)(vite@8.1.3(@types/node@24.12.4)(esbuild@0.28.1)(sass@1.101.0)(terser@5.47.1)(yaml@2.9.0))':
     dependencies:
@@ -9804,7 +9794,8 @@ snapshots:
     dependencies:
       ajv: 8.20.0
 
-  '@sinclair/typebox@0.27.10': {}
+  '@sinclair/typebox@0.27.10':
+    optional: true
 
   '@sinclair/typebox@0.34.52': {}
 
@@ -10105,25 +10096,18 @@ snapshots:
       '@types/through': 0.0.33
       rxjs: 7.8.2
 
-  '@types/istanbul-lib-coverage@2.0.6': {}
+  '@types/istanbul-lib-coverage@2.0.6':
+    optional: true
 
   '@types/istanbul-lib-report@3.0.3':
     dependencies:
       '@types/istanbul-lib-coverage': 2.0.6
+    optional: true
 
   '@types/istanbul-reports@3.0.4':
     dependencies:
       '@types/istanbul-lib-report': 3.0.3
-
-  '@types/jest-axe@3.5.9':
-    dependencies:
-      '@types/jest': 29.5.14
-      axe-core: 3.5.6
-
-  '@types/jest@29.5.14':
-    dependencies:
-      expect: 29.7.0
-      pretty-format: 29.7.0
+    optional: true
 
   '@types/js-yaml@4.0.9': {}
 
@@ -10203,7 +10187,8 @@ snapshots:
     dependencies:
       '@types/node': 22.19.19
 
-  '@types/stack-utils@2.0.3': {}
+  '@types/stack-utils@2.0.3':
+    optional: true
 
   '@types/through@0.0.33':
     dependencies:
@@ -10213,11 +10198,13 @@ snapshots:
 
   '@types/unist@3.0.3': {}
 
-  '@types/yargs-parser@21.0.3': {}
+  '@types/yargs-parser@21.0.3':
+    optional: true
 
   '@types/yargs@17.0.35':
     dependencies:
       '@types/yargs-parser': 21.0.3
+    optional: true
 
   '@typescript-eslint/eslint-plugin@8.65.0(@typescript-eslint/parser@8.65.0(eslint@10.8.0)(typescript@6.0.3))(eslint@10.8.0)(typescript@6.0.3)':
     dependencies:
@@ -10403,7 +10390,7 @@ snapshots:
       magicast: 0.5.2
       obug: 2.1.3
       tinyrainbow: 3.1.0
-      vitest: 4.1.10(@types/node@22.19.19)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(@vitest/coverage-v8@4.1.10)(jsdom@30.0.0)(vite@8.1.3(@types/node@22.19.19)(esbuild@0.28.1)(sass@1.101.0)(terser@5.47.1)(yaml@2.9.0))
+      vitest: 4.1.10(@types/node@24.12.4)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(@vitest/coverage-v8@4.1.10)(jsdom@30.0.0)(vite@8.1.3(@types/node@24.12.4)(esbuild@0.28.1)(sass@1.101.0)(terser@5.47.1)(yaml@2.9.0))
     transitivePeerDependencies:
       - supports-color
 
@@ -10419,9 +10406,9 @@ snapshots:
       obug: 2.1.4
       std-env: 4.2.0
       tinyrainbow: 3.1.1
-      vitest: 4.1.10(@types/node@22.19.19)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(@vitest/coverage-v8@4.1.10)(jsdom@30.0.0)(vite@8.1.3(@types/node@22.19.19)(esbuild@0.28.1)(sass@1.101.0)(terser@5.47.1)(yaml@2.9.0))
+      vitest: 4.1.10(@types/node@24.12.4)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(@vitest/coverage-v8@4.1.10)(jsdom@30.0.0)(vite@8.1.3(@types/node@24.12.4)(esbuild@0.28.1)(sass@1.101.0)(terser@5.47.1)(yaml@2.9.0))
     optionalDependencies:
-      '@vitest/browser': 4.1.10(vite@8.1.3(@types/node@22.19.19)(esbuild@0.28.1)(sass@1.101.0)(terser@5.47.1)(yaml@2.9.0))(vitest@4.1.10)
+      '@vitest/browser': 4.1.10(vite@8.1.3(@types/node@24.12.4)(esbuild@0.28.1)(sass@1.101.0)(terser@5.47.1)(yaml@2.9.0))(vitest@4.1.10)
     optional: true
 
   '@vitest/expect@3.2.4':
@@ -10448,6 +10435,7 @@ snapshots:
       magic-string: 0.30.21
     optionalDependencies:
       vite: 8.1.3(@types/node@22.19.19)(esbuild@0.28.1)(sass@1.101.0)(terser@5.47.1)(yaml@2.9.0)
+    optional: true
 
   '@vitest/mocker@4.1.10(vite@8.1.3(@types/node@24.12.4)(esbuild@0.28.1)(sass@1.101.0)(terser@5.47.1)(yaml@2.9.0))':
     dependencies:
@@ -10936,8 +10924,6 @@ snapshots:
     dependencies:
       possible-typed-array-names: 1.1.0
 
-  axe-core@3.5.6: {}
-
   axe-core@4.12.1: {}
 
   axios@0.31.1:
@@ -11194,7 +11180,8 @@ snapshots:
 
   ci-env@1.17.0: {}
 
-  ci-info@3.9.0: {}
+  ci-info@3.9.0:
+    optional: true
 
   ci-info@4.4.0: {}
 
@@ -11500,7 +11487,8 @@ snapshots:
     dependencies:
       dequal: 2.0.3
 
-  diff-sequences@29.6.3: {}
+  diff-sequences@29.6.3:
+    optional: true
 
   diff@4.0.4: {}
 
@@ -11758,7 +11746,8 @@ snapshots:
 
   escalade@3.2.0: {}
 
-  escape-string-regexp@2.0.0: {}
+  escape-string-regexp@2.0.0:
+    optional: true
 
   escape-string-regexp@4.0.0: {}
 
@@ -12067,6 +12056,7 @@ snapshots:
       jest-matcher-utils: 29.7.0
       jest-message-util: 29.7.0
       jest-util: 29.7.0
+    optional: true
 
   extend@3.0.2: {}
 
@@ -13075,6 +13065,7 @@ snapshots:
       diff-sequences: 29.6.3
       jest-get-type: 29.6.3
       pretty-format: 29.7.0
+    optional: true
 
   jest-diff@30.4.1:
     dependencies:
@@ -13107,7 +13098,8 @@ snapshots:
       jest-util: 29.7.0
     optional: true
 
-  jest-get-type@29.6.3: {}
+  jest-get-type@29.6.3:
+    optional: true
 
   jest-haste-map@29.7.0:
     dependencies:
@@ -13138,6 +13130,7 @@ snapshots:
       jest-diff: 29.7.0
       jest-get-type: 29.6.3
       pretty-format: 29.7.0
+    optional: true
 
   jest-matcher-utils@30.4.1:
     dependencies:
@@ -13148,7 +13141,7 @@ snapshots:
 
   jest-message-util@29.7.0:
     dependencies:
-      '@babel/code-frame': 7.29.0
+      '@babel/code-frame': 7.29.7
       '@jest/types': 29.6.3
       '@types/stack-utils': 2.0.3
       chalk: 4.1.2
@@ -13157,6 +13150,7 @@ snapshots:
       pretty-format: 29.7.0
       slash: 3.0.0
       stack-utils: 2.0.6
+    optional: true
 
   jest-mock@29.7.0:
     dependencies:
@@ -13278,11 +13272,12 @@ snapshots:
   jest-util@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 22.19.19
+      '@types/node': 22.20.1
       chalk: 4.1.2
       ci-info: 3.9.0
       graceful-fs: 4.2.11
       picomatch: 2.3.2
+    optional: true
 
   jest-validate@29.7.0:
     dependencies:
@@ -14664,6 +14659,7 @@ snapshots:
       '@jest/schemas': 29.6.3
       ansi-styles: 5.2.0
       react-is: 18.3.1
+    optional: true
 
   pretty-format@30.4.1:
     dependencies:
@@ -15476,6 +15472,7 @@ snapshots:
   stack-utils@2.0.6:
     dependencies:
       escape-string-regexp: 2.0.0
+    optional: true
 
   stackback@0.0.2: {}
 
@@ -16266,6 +16263,7 @@ snapshots:
       jsdom: 30.0.0
     transitivePeerDependencies:
       - msw
+    optional: true
 
   vitest@4.1.10(@types/node@24.12.4)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(@vitest/coverage-v8@4.1.10)(jsdom@30.0.0)(vite@8.1.3(@types/node@24.12.4)(esbuild@0.28.1)(sass@1.101.0)(terser@5.47.1)(yaml@2.9.0)):
     dependencies:
