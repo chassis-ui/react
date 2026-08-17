@@ -1,12 +1,20 @@
-import React, { ButtonHTMLAttributes, ElementType, forwardRef, RefObject, useRef } from 'react'
+import React, {
+  ButtonHTMLAttributes,
+  ElementType,
+  forwardRef,
+  MouseEvent,
+  MouseEventHandler,
+  Ref,
+  RefObject,
+  useRef
+} from 'react'
 import classNames from 'classnames'
 import { AriaButtonProps, mergeProps, useButton } from 'react-aria'
 
 import { ContextColor, ContextStyle } from '../../types'
-import { Link } from '../link/Link'
 import { useForkedRef } from '../../hooks'
 
-export interface CloseButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface CloseButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -33,6 +41,12 @@ export interface CloseButtonProps extends ButtonHTMLAttributes<HTMLButtonElement
    * localize the button for non-English contexts.
    */
   label?: string
+  /**
+   * Fires on click. Typed for every element `component` can actually render (`button` or `a`
+   * natively, plus whatever a custom `component` renders), rather than narrowed to
+   * `HTMLButtonElement` alone.
+   */
+  onClick?: MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>
   /**
    * Size the component small or large.
    */
@@ -78,18 +92,22 @@ export const CloseButton = forwardRef<HTMLButtonElement | HTMLAnchorElement, Clo
       ? className
       : classNames('close-button', { context: color || variant }, color, variant, size, className)
 
-    // Only a bare HTML tag needs synthesized button semantics. A component reference is
-    // trusted to already be interactive — wrapping it in useButton too would double up
-    // keyboard activation (native Enter/Space plus useButton's synthetic handling).
-    const needsAccessibleRole =
-      typeof component === 'string' && component !== 'button' && component !== 'a'
-
     // The default icon-only close button has no visible text, so it needs the 'Close' fallback
     // as its accessible name. Once `children` renders visible content (e.g. custom text passed
     // through `component`), let that content be the accessible name instead — forcing the
     // fallback label here would silently override it (a Label-in-Name accessibility failure).
     // An explicit `label` always wins either way, same as an explicit `aria-label` always did.
     const _label = label ?? (children == null ? 'Close' : undefined)
+
+    // `<a>` has no real `disabled` attribute, so a disabled link close-button still fires
+    // click (and still navigates) unless it's blocked here, same guard `Button` applies.
+    const handleClick = (event: MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+      if (component === 'a' && disabled) {
+        event.preventDefault()
+        return
+      }
+      onClick?.(event)
+    }
 
     const buttonRef = useRef<HTMLButtonElement | HTMLAnchorElement | null>(null)
     const forkedRef = useForkedRef(ref, buttonRef)
@@ -103,26 +121,60 @@ export const CloseButton = forwardRef<HTMLButtonElement | HTMLAnchorElement, Clo
       buttonRef as RefObject<HTMLDivElement | null>
     )
 
+    // Rendered as explicit branches, same as `Button`, rather than one `<Component>` tag
+    // driven by a `'button' | 'a' | ElementType`-typed variable — a union-typed tag would
+    // make JSX intersect all of `button`/`a`/custom prop types at once.
+    // `aria-label={_label}` comes before `...rest` in every branch below so that an explicit
+    // `aria-label` (not destructured above, so it lands in `rest`) overrides the computed
+    // fallback via JSX's last-attribute-wins rule, rather than the other way around.
+    if (component === 'button') {
+      return (
+        <button
+          className={_className}
+          aria-label={_label}
+          {...rest}
+          type={type}
+          disabled={disabled}
+          onClick={handleClick}
+          ref={ref as Ref<HTMLButtonElement>}
+        >
+          {children}
+        </button>
+      )
+    }
+
+    if (component === 'a') {
+      return (
+        <a
+          className={_className}
+          aria-label={_label}
+          {...(rest as Record<string, unknown>)}
+          onClick={handleClick}
+          {...(disabled && { 'aria-disabled': true, tabIndex: -1 })}
+          ref={ref as Ref<HTMLAnchorElement>}
+        >
+          {children}
+        </a>
+      )
+    }
+
+    const Component = component
+
+    // Only a bare, non-`button`/`a` HTML tag (e.g. `'span'`) reaches here needing synthesized
+    // button semantics — a component reference is trusted to already be interactive, so it
+    // skips `buttonProps` (double keyboard activation) and instead gets `color`/`size`/`variant`
+    // passed through untouched, per the comment on `isComponentReference` above.
     return (
-      <Link
-        component={component}
-        // `type` only has button semantics; on an anchor it means something else entirely
-        // (a MIME-type hint), so skip it there. A dismiss control has no reason to navigate,
-        // but `component` still technically allows `'a'`, so this stays a deliberate guard
-        // rather than an assumption.
-        {...(component !== 'a' && { type })}
+      <Component
         className={_className}
         aria-label={_label}
-        {...(needsAccessibleRole ? mergeProps(rest, buttonProps) : { onClick, ...rest })}
-        // `LinkProps.size`/`color` come from generic HTML attribute typing (a numeric
-        // `<input size>`, a legacy `color` string) — irrelevant here, since these only ever
-        // reach a component reference that defines its own `size`/`color`/`variant` meaning.
-        {...(isComponentReference && ({ color, size, variant } as Record<string, unknown>))}
-        disabled={disabled}
-        ref={needsAccessibleRole ? forkedRef : ref}
+        {...(isComponentReference
+          ? ({ color, size, variant, disabled, onClick, ...rest } as Record<string, unknown>)
+          : mergeProps(rest, buttonProps))}
+        ref={isComponentReference ? ref : forkedRef}
       >
         {children}
-      </Link>
+      </Component>
     )
   }
 )

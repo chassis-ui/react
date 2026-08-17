@@ -11,7 +11,7 @@ renamed export, ...) and review the diff like any other code change. `pnpm api:r
 -->
 
 ```ts
-import React, { AllHTMLAttributes, AnchorHTMLAttributes, AriaAttributes, ButtonHTMLAttributes, ChangeEventHandler, ComponentPropsWithRef, ComponentPropsWithoutRef, DialogHTMLAttributes, ElementType, FC, FormHTMLAttributes, HTMLAttributes, ImgHTMLAttributes, InputHTMLAttributes, Key, MouseEvent, ReactElement, ReactNode, Ref, RefObject, TextareaHTMLAttributes, useEffect } from "react";
+import React, { AllHTMLAttributes, AnchorHTMLAttributes, AriaAttributes, ButtonHTMLAttributes, ChangeEventHandler, ComponentPropsWithRef, ComponentPropsWithoutRef, DialogHTMLAttributes, ElementType, FC, FormHTMLAttributes, HTMLAttributes, ImgHTMLAttributes, InputHTMLAttributes, Key, MouseEvent, MouseEventHandler, ReactElement, ReactNode, Ref, RefObject, TextareaHTMLAttributes, useEffect } from "react";
 import { DateValue, I18nProvider, Key as Key$1, RangeValue } from "react-aria";
 import { DateValue as DateValue$1, Key as Key$2, Selection, SortDescriptor, TableBodyProps, TableHeaderProps, ToastQueue } from "react-stately";
 //#region src/components/accordion/Accordion.d.ts
@@ -86,51 +86,6 @@ interface AccordionBodyProps extends HTMLAttributes<HTMLDivElement> {
   className?: string;
 }
 declare const AccordionBody: React.ForwardRefExoticComponent<AccordionBodyProps & React.RefAttributes<HTMLDivElement>>;
-//#endregion
-//#region src/components/accordion/AccordionButton.d.ts
-interface AccordionButtonProps extends HTMLAttributes<HTMLSpanElement> {
-  /**
-   * A string of all className you want applied to the base component.
-   */
-  className?: string;
-}
-/**
- * @deprecated AccordionHeader already renders its own `.accordion-title` wrapper around its
- * children, so nesting this component inside it produces a duplicate wrapper. Kept for API
- * compatibility; pass content directly to AccordionHeader instead.
- */
-declare const AccordionButton: React.ForwardRefExoticComponent<AccordionButtonProps & React.RefAttributes<HTMLSpanElement>>;
-//#endregion
-//#region src/components/collapse/Collapse.d.ts
-interface CollapseProps extends HTMLAttributes<HTMLDivElement> {
-  /**
-   * A string of all className you want applied to the base component.
-   */
-  className?: string;
-  /**
-   * Set horizontal collapsing to transition the width instead of height.
-   */
-  horizontal?: boolean;
-  /**
-   * Callback fired when the component requests to be hidden.
-   */
-  onHide?: () => void;
-  /**
-   * Callback fired when the component requests to be shown.
-   */
-  onShow?: () => void;
-  /**
-   * Toggle the visibility of component.
-   */
-  visible?: boolean;
-}
-declare const Collapse: React.ForwardRefExoticComponent<CollapseProps & React.RefAttributes<HTMLDivElement>>;
-//#endregion
-//#region src/components/accordion/AccordionCollapse.d.ts
-/**
- * @deprecated Native <details>/<summary> handles collapse. This component is a no-op passthrough kept for API compatibility.
- */
-declare const AccordionCollapse: React.ForwardRefExoticComponent<Omit<CollapseProps, "horizontal"> & React.RefAttributes<HTMLDivElement>>;
 //#endregion
 //#region src/components/accordion/AccordionHeader.d.ts
 interface AccordionHeaderProps extends HTMLAttributes<HTMLElement> {
@@ -808,11 +763,7 @@ interface BreadcrumbItemProps extends HTMLAttributes<HTMLLIElement> {
 declare const BreadcrumbItem: React.ForwardRefExoticComponent<BreadcrumbItemProps & React.RefAttributes<HTMLLIElement>>;
 //#endregion
 //#region src/components/button/Button.d.ts
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  /**
-   * Toggle the active state for the component.
-   */
-  active?: boolean;
+interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -834,9 +785,16 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
    */
   href?: string;
   /**
-   * The role attribute describes the role of an element in programs that can make use of it, such as screen readers or magnifiers.
+   * Fires on click. Typed for every element `component` can actually render (`button`, `a`,
+   * `input`, or a custom component), rather than narrowed to `HTMLButtonElement` alone.
    */
-  role?: string;
+  onClick?: MouseEventHandler<HTMLAnchorElement | HTMLButtonElement | HTMLInputElement>;
+  /**
+   * Marks the button as pressed for toggle-style usage (e.g. a formatting toolbar button).
+   * Applies the `.active` class and sets `aria-pressed` so assistive technology announces
+   * "button, pressed" rather than treating the button as a navigation link.
+   */
+  pressed?: boolean;
   /**
    * Select the shape of the component.
    */
@@ -851,11 +809,13 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
    */
   type?: 'button' | 'reset' | 'submit';
   /**
-   * Set the button style variant.
+   * Set the button style variant. Same as `ContextStyle`, but `solid` (the unmodified default
+   * look) doesn't apply as a class, and `link` — button-specific, not a context color — makes
+   * the button look and behave like a hyperlink while keeping its `color`.
    */
-  variant?: ContextStyle;
+  variant?: 'link' | Exclude<ContextStyle, 'solid'>;
 }
-declare const Button: React.ForwardRefExoticComponent<ButtonProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement>>;
+declare const Button: React.ForwardRefExoticComponent<ButtonProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement | HTMLInputElement>>;
 //#endregion
 //#region src/components/button-group/ButtonGroup.d.ts
 interface ButtonGroupProps extends HTMLAttributes<HTMLDivElement> {
@@ -1248,18 +1208,61 @@ interface CardImageOverlayProps extends HTMLAttributes<HTMLDivElement> {
 }
 declare const CardImageOverlay: React.ForwardRefExoticComponent<CardImageOverlayProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
-//#region src/components/card/CardLink.d.ts
-interface CardLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
+//#region src/components/link/Link.d.ts
+interface LinkProps extends AllHTMLAttributes<HTMLElement> {
   /**
-   * A string of all className you want applied to the base component.
+   * Toggle the active state for the component.
+   */
+  active?: boolean;
+  /**
+   * A string of all className you want applied to the component.
    */
   className?: string;
+  /**
+   * Sets the link color to one of Chassis context colors, including its interactive
+   * (`:hover`/`:focus`/`:active`/`:visited`) states.
+   */
+  color?: ContextColor;
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: ElementType | string;
+  /**
+   * Toggle the disabled state for the component.
+   */
+  disabled?: boolean;
   /**
    * The href attribute specifies the URL of the page the link goes to.
    */
   href?: string;
+  /**
+   * Aligns a leading or trailing icon with the link text using flexbox, with a gap between
+   * them and an offset underline. Icons need to be passed as `children` alongside the text.
+   * Named `iconLink` rather than `icon` to avoid colliding with components (e.g. `MenuItem`)
+   * that already have their own, differently-typed `icon` prop for the icon content itself.
+   */
+  iconLink?: boolean;
+  /**
+   * Removes the foreground color override, so the link inherits its color from the nearest
+   * ancestor instead of the default link color.
+   */
+  reset?: boolean;
+  /**
+   * Expands the link's click target to fill its positioned ancestor (the nearest ancestor with
+   * a `position` other than `static`).
+   */
+  stretched?: boolean;
 }
-declare const CardLink: React.ForwardRefExoticComponent<CardLinkProps & React.RefAttributes<HTMLAnchorElement>>;
+declare const Link: React.ForwardRefExoticComponent<LinkProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement>>;
+//#endregion
+//#region src/components/card/CardLink.d.ts
+interface CardLinkProps extends LinkProps {
+  /**
+   * A string of all className you want applied to the base component.
+   */
+  className?: string;
+}
+declare const CardLink: React.ForwardRefExoticComponent<CardLinkProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement>>;
 //#endregion
 //#region src/components/card/CardSubtitle.d.ts
 interface CardSubtitleProps extends HTMLAttributes<HTMLHeadingElement> {
@@ -1488,6 +1491,31 @@ interface CarouselPlayPauseProps extends ButtonHTMLAttributes<HTMLButtonElement>
  */
 declare const CarouselPlayPause: React.ForwardRefExoticComponent<CarouselPlayPauseProps & React.RefAttributes<HTMLButtonElement>>;
 //#endregion
+//#region src/components/collapse/Collapse.d.ts
+interface CollapseProps extends HTMLAttributes<HTMLDivElement> {
+  /**
+   * A string of all className you want applied to the base component.
+   */
+  className?: string;
+  /**
+   * Set horizontal collapsing to transition the width instead of height.
+   */
+  horizontal?: boolean;
+  /**
+   * Callback fired when the component requests to be hidden.
+   */
+  onHide?: () => void;
+  /**
+   * Callback fired when the component requests to be shown.
+   */
+  onShow?: () => void;
+  /**
+   * Toggle the visibility of component.
+   */
+  visible?: boolean;
+}
+declare const Collapse: React.ForwardRefExoticComponent<CollapseProps & React.RefAttributes<HTMLDivElement>>;
+//#endregion
 //#region src/components/chip-input/ChipInput.d.ts
 interface ChipInputProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultValue' | 'onChange'> {
   /**
@@ -1584,7 +1612,7 @@ declare const ChipInput: {
 };
 //#endregion
 //#region src/components/close-button/CloseButton.d.ts
-interface CloseButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface CloseButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -1611,6 +1639,12 @@ interface CloseButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
    * localize the button for non-English contexts.
    */
   label?: string;
+  /**
+   * Fires on click. Typed for every element `component` can actually render (`button` or `a`
+   * natively, plus whatever a custom `component` renders), rather than narrowed to
+   * `HTMLButtonElement` alone.
+   */
+  onClick?: MouseEventHandler<HTMLAnchorElement | HTMLButtonElement>;
   /**
    * Size the component small or large.
    */
@@ -2381,31 +2415,6 @@ interface MenuHeaderProps extends HTMLAttributes<HTMLHeadingElement> {
   component?: ElementType | string;
 }
 declare const MenuHeader: React.ForwardRefExoticComponent<MenuHeaderProps & React.RefAttributes<HTMLHeadingElement>>;
-//#endregion
-//#region src/components/link/Link.d.ts
-interface LinkProps extends AllHTMLAttributes<HTMLElement> {
-  /**
-   * Toggle the active state for the component.
-   */
-  active?: boolean;
-  /**
-   * A string of all className you want applied to the component.
-   */
-  className?: string;
-  /**
-   * Component used for the root node. Either a string to use a HTML element or a component.
-   */
-  component?: ElementType | string;
-  /**
-   * Toggle the disabled state for the component.
-   */
-  disabled?: boolean;
-  /**
-   * The href attribute specifies the URL of the page the link goes to.
-   */
-  href?: string;
-}
-declare const Link: React.ForwardRefExoticComponent<LinkProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement>>;
 //#endregion
 //#region src/components/menu/MenuItem.d.ts
 interface MenuItemProps extends LinkProps {
@@ -4052,7 +4061,7 @@ interface PaginationProps extends HTMLAttributes<HTMLElement> {
 declare const Pagination: React.ForwardRefExoticComponent<PaginationProps & React.RefAttributes<HTMLElement>>;
 //#endregion
 //#region src/components/pagination/PaginationItem.d.ts
-interface PaginationItemProps extends HTMLAttributes<HTMLAnchorElement> {
+interface PaginationItemProps extends HTMLAttributes<HTMLAnchorElement | HTMLButtonElement> {
   /**
    * Toggle the active state for the component.
    */
@@ -4070,7 +4079,7 @@ interface PaginationItemProps extends HTMLAttributes<HTMLAnchorElement> {
    */
   href?: string;
 }
-declare const PaginationItem: React.ForwardRefExoticComponent<PaginationItemProps & React.RefAttributes<HTMLAnchorElement>>;
+declare const PaginationItem: React.ForwardRefExoticComponent<PaginationItemProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement>>;
 //#endregion
 //#region src/components/tooltip/Tooltip.d.ts
 interface TooltipProps {
@@ -5259,5 +5268,5 @@ interface StackProps extends HTMLAttributes<HTMLDivElement> {
 }
 declare const Stack: React.ForwardRefExoticComponent<StackProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
-export { Accordion, AccordionBody, AccordionButton, AccordionCollapse, AccordionHeader, AccordionItem, Autocomplete, AutocompleteGroup, AutocompleteItem, Avatar, AvatarImage, AvatarStack, Backdrop, Badge, Breadcrumb, BreadcrumbItem, Button, ButtonGroup, ButtonToolbar, Calendar, Card, CardBody, CardFooter, CardGroup, CardHeader, CardImage, CardImageOverlay, CardLink, CardSubtitle, CardText, CardTitle, Carousel, CarouselControlNext, CarouselControlPrev, CarouselIndicators, CarouselInner, CarouselItem, CarouselOverlay, CarouselPlayPause, Checkbox, CheckboxGroup, ChipInput, CloseButton, Col, Collapse, ColorInput, Combobox, ComboboxGroup, ComboboxItem, Container, DatePicker, DateRangePicker, Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerTitle, FileInput, Flex, FloatingInput, Form, FormFeedback, FormField, FormHelp, FormLabel, Grid, GridItem, I18nProvider, Icon, InputAdorn, InputGroup, InputGroupAddon, Link, List, ListItem, Menu, MenuDivider, MenuHeader, MenuItem, MenuList, MenuSubmenu, MenuSubmenuBack, MenuText, MenuToggle, Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle, Nav, NavItem, NavLink, NavTitle, Navbar, NavbarBrand, NavbarNav, NavbarText, NavbarToggler, Notification, NotificationIcon, NotificationStack, NotificationText, NotificationTitle, OtpInput, Pagination, PaginationItem, PasswordStrength, Placeholder, Popover, Progress, ProgressBar, Radio, RadioGroup, RangeCalendar, RangeInput, Row, Select, Skeleton, SkeletonLoader, Spinner, Stack, Stepper, StepperItem, Switch, TabContent, TabPane, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tabs, TabsList, TabsPanel, TabsTab, TextInput, Textarea, Toast, ToastBody, ToastFooter, ToastHeader, ToastIcon, Toaster, Tooltip, addNotification, addToast, closeNotification, closeToast, notificationQueue, toastQueue, useDrawer, useModal, useNotification, usePagination, useToast };
+export { Accordion, AccordionBody, AccordionHeader, AccordionItem, Autocomplete, AutocompleteGroup, AutocompleteItem, Avatar, AvatarImage, AvatarStack, Backdrop, Badge, Breadcrumb, BreadcrumbItem, Button, ButtonGroup, ButtonToolbar, Calendar, Card, CardBody, CardFooter, CardGroup, CardHeader, CardImage, CardImageOverlay, CardLink, CardSubtitle, CardText, CardTitle, Carousel, CarouselControlNext, CarouselControlPrev, CarouselIndicators, CarouselInner, CarouselItem, CarouselOverlay, CarouselPlayPause, Checkbox, CheckboxGroup, ChipInput, CloseButton, Col, Collapse, ColorInput, Combobox, ComboboxGroup, ComboboxItem, Container, DatePicker, DateRangePicker, Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerTitle, FileInput, Flex, FloatingInput, Form, FormFeedback, FormField, FormHelp, FormLabel, Grid, GridItem, I18nProvider, Icon, InputAdorn, InputGroup, InputGroupAddon, Link, List, ListItem, Menu, MenuDivider, MenuHeader, MenuItem, MenuList, MenuSubmenu, MenuSubmenuBack, MenuText, MenuToggle, Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle, Nav, NavItem, NavLink, NavTitle, Navbar, NavbarBrand, NavbarNav, NavbarText, NavbarToggler, Notification, NotificationIcon, NotificationStack, NotificationText, NotificationTitle, OtpInput, Pagination, PaginationItem, PasswordStrength, Placeholder, Popover, Progress, ProgressBar, Radio, RadioGroup, RangeCalendar, RangeInput, Row, Select, Skeleton, SkeletonLoader, Spinner, Stack, Stepper, StepperItem, Switch, TabContent, TabPane, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tabs, TabsList, TabsPanel, TabsTab, TextInput, Textarea, Toast, ToastBody, ToastFooter, ToastHeader, ToastIcon, Toaster, Tooltip, addNotification, addToast, closeNotification, closeToast, notificationQueue, toastQueue, useDrawer, useModal, useNotification, usePagination, useToast };
 ```

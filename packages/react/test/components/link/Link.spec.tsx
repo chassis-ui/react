@@ -60,6 +60,26 @@ describe('Link', () => {
       const link = screen.getByRole('link')
       expect(link).toHaveAttribute('aria-disabled', 'true')
       expect(link).toHaveAttribute('tabIndex', '-1')
+      expect(link).not.toHaveAttribute('disabled')
+    })
+
+    test('disables a native button with the real disabled attribute', () => {
+      render(
+        <Link component="button" disabled>
+          Test
+        </Link>
+      )
+      expect(screen.getByRole('button')).toBeDisabled()
+    })
+
+    test('applies color, iconLink, reset and stretched as their own classes', () => {
+      render(
+        <Link href="/bazinga" color="primary" iconLink reset stretched>
+          Test
+        </Link>
+      )
+      const link = screen.getByRole('link')
+      expect(link).toHaveClass('link-primary', 'icon-link', 'fg-reset', 'stretched-link')
     })
   })
 

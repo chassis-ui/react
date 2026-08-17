@@ -138,6 +138,25 @@
         "name": "string"
       }
     },
+    "onClick": {
+      "defaultValue": null,
+      "description": "Fires on click. Typed for every element `component` can actually render (`button` or `a`\nnatively, plus whatever a custom `component` renders), rather than narrowed to\n`HTMLButtonElement` alone.",
+      "name": "onClick",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/close-button/CloseButton.tsx",
+        "name": "CloseButtonProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/close-button/CloseButton.tsx",
+          "name": "CloseButtonProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>"
+      }
+    },
     "size": {
       "defaultValue": null,
       "description": "Size the component small or large.",
