@@ -5,25 +5,6 @@
   "displayName": "Button",
   "methods": [],
   "props": {
-    "active": {
-      "defaultValue": null,
-      "description": "Toggle the active state for the component.",
-      "name": "active",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-        "name": "ButtonProps"
-      },
-      "declarations": [
-        {
-          "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-          "name": "ButtonProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "boolean"
-      }
-    },
     "className": {
       "defaultValue": null,
       "description": "A string of all className you want applied to the base component.",
@@ -159,10 +140,10 @@
         "name": "string"
       }
     },
-    "role": {
+    "pressed": {
       "defaultValue": null,
-      "description": "The role attribute describes the role of an element in programs that can make use of it, such as screen readers or magnifiers.",
-      "name": "role",
+      "description": "Marks the button as pressed for toggle-style usage (e.g. a formatting toolbar button).\nApplies the `.active` class and sets `aria-pressed` so assistive technology announces\n\"button, pressed\" rather than treating the button as a navigation link.",
+      "name": "pressed",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
         "name": "ButtonProps"
@@ -175,7 +156,7 @@
       ],
       "required": false,
       "type": {
-        "name": "string"
+        "name": "boolean"
       }
     },
     "shape": {
@@ -296,7 +277,7 @@
     },
     "variant": {
       "defaultValue": null,
-      "description": "Set the button style variant.",
+      "description": "Set the button style variant. Same as `ContextStyle`, but `solid` (the unmodified default\nlook) doesn't apply as a class, and `link` — button-specific, not a context color — makes\nthe button look and behave like a hyperlink while keeping its `color`.",
       "name": "variant",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
@@ -311,13 +292,13 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "ContextStyle",
+        "raw": "\"link\" | \"basic\" | \"outline\" | \"smooth\"",
         "value": [
           {
-            "value": "\"basic\""
+            "value": "\"link\""
           },
           {
-            "value": "\"solid\""
+            "value": "\"basic\""
           },
           {
             "value": "\"outline\""

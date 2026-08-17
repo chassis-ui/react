@@ -87,51 +87,6 @@ interface AccordionBodyProps extends HTMLAttributes<HTMLDivElement> {
 }
 declare const AccordionBody: React.ForwardRefExoticComponent<AccordionBodyProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
-//#region src/components/accordion/AccordionButton.d.ts
-interface AccordionButtonProps extends HTMLAttributes<HTMLSpanElement> {
-  /**
-   * A string of all className you want applied to the base component.
-   */
-  className?: string;
-}
-/**
- * @deprecated AccordionHeader already renders its own `.accordion-title` wrapper around its
- * children, so nesting this component inside it produces a duplicate wrapper. Kept for API
- * compatibility; pass content directly to AccordionHeader instead.
- */
-declare const AccordionButton: React.ForwardRefExoticComponent<AccordionButtonProps & React.RefAttributes<HTMLSpanElement>>;
-//#endregion
-//#region src/components/collapse/Collapse.d.ts
-interface CollapseProps extends HTMLAttributes<HTMLDivElement> {
-  /**
-   * A string of all className you want applied to the base component.
-   */
-  className?: string;
-  /**
-   * Set horizontal collapsing to transition the width instead of height.
-   */
-  horizontal?: boolean;
-  /**
-   * Callback fired when the component requests to be hidden.
-   */
-  onHide?: () => void;
-  /**
-   * Callback fired when the component requests to be shown.
-   */
-  onShow?: () => void;
-  /**
-   * Toggle the visibility of component.
-   */
-  visible?: boolean;
-}
-declare const Collapse: React.ForwardRefExoticComponent<CollapseProps & React.RefAttributes<HTMLDivElement>>;
-//#endregion
-//#region src/components/accordion/AccordionCollapse.d.ts
-/**
- * @deprecated Native <details>/<summary> handles collapse. This component is a no-op passthrough kept for API compatibility.
- */
-declare const AccordionCollapse: React.ForwardRefExoticComponent<Omit<CollapseProps, "horizontal"> & React.RefAttributes<HTMLDivElement>>;
-//#endregion
 //#region src/components/accordion/AccordionHeader.d.ts
 interface AccordionHeaderProps extends HTMLAttributes<HTMLElement> {
   /**
@@ -810,10 +765,6 @@ declare const BreadcrumbItem: React.ForwardRefExoticComponent<BreadcrumbItemProp
 //#region src/components/button/Button.d.ts
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /**
-   * Toggle the active state for the component.
-   */
-  active?: boolean;
-  /**
    * A string of all className you want applied to the base component.
    */
   className?: string;
@@ -834,9 +785,11 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
    */
   href?: string;
   /**
-   * The role attribute describes the role of an element in programs that can make use of it, such as screen readers or magnifiers.
+   * Marks the button as pressed for toggle-style usage (e.g. a formatting toolbar button).
+   * Applies the `.active` class and sets `aria-pressed` so assistive technology announces
+   * "button, pressed" rather than treating the button as a navigation link.
    */
-  role?: string;
+  pressed?: boolean;
   /**
    * Select the shape of the component.
    */
@@ -851,9 +804,11 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
    */
   type?: 'button' | 'reset' | 'submit';
   /**
-   * Set the button style variant.
+   * Set the button style variant. Same as `ContextStyle`, but `solid` (the unmodified default
+   * look) doesn't apply as a class, and `link` — button-specific, not a context color — makes
+   * the button look and behave like a hyperlink while keeping its `color`.
    */
-  variant?: ContextStyle;
+  variant?: 'link' | Exclude<ContextStyle, 'solid'>;
 }
 declare const Button: React.ForwardRefExoticComponent<ButtonProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement>>;
 //#endregion
@@ -1487,6 +1442,31 @@ interface CarouselPlayPauseProps extends ButtonHTMLAttributes<HTMLButtonElement>
  * icon while playing, a play icon once stopped.
  */
 declare const CarouselPlayPause: React.ForwardRefExoticComponent<CarouselPlayPauseProps & React.RefAttributes<HTMLButtonElement>>;
+//#endregion
+//#region src/components/collapse/Collapse.d.ts
+interface CollapseProps extends HTMLAttributes<HTMLDivElement> {
+  /**
+   * A string of all className you want applied to the base component.
+   */
+  className?: string;
+  /**
+   * Set horizontal collapsing to transition the width instead of height.
+   */
+  horizontal?: boolean;
+  /**
+   * Callback fired when the component requests to be hidden.
+   */
+  onHide?: () => void;
+  /**
+   * Callback fired when the component requests to be shown.
+   */
+  onShow?: () => void;
+  /**
+   * Toggle the visibility of component.
+   */
+  visible?: boolean;
+}
+declare const Collapse: React.ForwardRefExoticComponent<CollapseProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
 //#region src/components/chip-input/ChipInput.d.ts
 interface ChipInputProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultValue' | 'onChange'> {
@@ -5259,5 +5239,5 @@ interface StackProps extends HTMLAttributes<HTMLDivElement> {
 }
 declare const Stack: React.ForwardRefExoticComponent<StackProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
-export { Accordion, AccordionBody, AccordionButton, AccordionCollapse, AccordionHeader, AccordionItem, Autocomplete, AutocompleteGroup, AutocompleteItem, Avatar, AvatarImage, AvatarStack, Backdrop, Badge, Breadcrumb, BreadcrumbItem, Button, ButtonGroup, ButtonToolbar, Calendar, Card, CardBody, CardFooter, CardGroup, CardHeader, CardImage, CardImageOverlay, CardLink, CardSubtitle, CardText, CardTitle, Carousel, CarouselControlNext, CarouselControlPrev, CarouselIndicators, CarouselInner, CarouselItem, CarouselOverlay, CarouselPlayPause, Checkbox, CheckboxGroup, ChipInput, CloseButton, Col, Collapse, ColorInput, Combobox, ComboboxGroup, ComboboxItem, Container, DatePicker, DateRangePicker, Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerTitle, FileInput, Flex, FloatingInput, Form, FormFeedback, FormField, FormHelp, FormLabel, Grid, GridItem, I18nProvider, Icon, InputAdorn, InputGroup, InputGroupAddon, Link, List, ListItem, Menu, MenuDivider, MenuHeader, MenuItem, MenuList, MenuSubmenu, MenuSubmenuBack, MenuText, MenuToggle, Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle, Nav, NavItem, NavLink, NavTitle, Navbar, NavbarBrand, NavbarNav, NavbarText, NavbarToggler, Notification, NotificationIcon, NotificationStack, NotificationText, NotificationTitle, OtpInput, Pagination, PaginationItem, PasswordStrength, Placeholder, Popover, Progress, ProgressBar, Radio, RadioGroup, RangeCalendar, RangeInput, Row, Select, Skeleton, SkeletonLoader, Spinner, Stack, Stepper, StepperItem, Switch, TabContent, TabPane, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tabs, TabsList, TabsPanel, TabsTab, TextInput, Textarea, Toast, ToastBody, ToastFooter, ToastHeader, ToastIcon, Toaster, Tooltip, addNotification, addToast, closeNotification, closeToast, notificationQueue, toastQueue, useDrawer, useModal, useNotification, usePagination, useToast };
+export { Accordion, AccordionBody, AccordionHeader, AccordionItem, Autocomplete, AutocompleteGroup, AutocompleteItem, Avatar, AvatarImage, AvatarStack, Backdrop, Badge, Breadcrumb, BreadcrumbItem, Button, ButtonGroup, ButtonToolbar, Calendar, Card, CardBody, CardFooter, CardGroup, CardHeader, CardImage, CardImageOverlay, CardLink, CardSubtitle, CardText, CardTitle, Carousel, CarouselControlNext, CarouselControlPrev, CarouselIndicators, CarouselInner, CarouselItem, CarouselOverlay, CarouselPlayPause, Checkbox, CheckboxGroup, ChipInput, CloseButton, Col, Collapse, ColorInput, Combobox, ComboboxGroup, ComboboxItem, Container, DatePicker, DateRangePicker, Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerTitle, FileInput, Flex, FloatingInput, Form, FormFeedback, FormField, FormHelp, FormLabel, Grid, GridItem, I18nProvider, Icon, InputAdorn, InputGroup, InputGroupAddon, Link, List, ListItem, Menu, MenuDivider, MenuHeader, MenuItem, MenuList, MenuSubmenu, MenuSubmenuBack, MenuText, MenuToggle, Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle, Nav, NavItem, NavLink, NavTitle, Navbar, NavbarBrand, NavbarNav, NavbarText, NavbarToggler, Notification, NotificationIcon, NotificationStack, NotificationText, NotificationTitle, OtpInput, Pagination, PaginationItem, PasswordStrength, Placeholder, Popover, Progress, ProgressBar, Radio, RadioGroup, RangeCalendar, RangeInput, Row, Select, Skeleton, SkeletonLoader, Spinner, Stack, Stepper, StepperItem, Switch, TabContent, TabPane, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tabs, TabsList, TabsPanel, TabsTab, TextInput, Textarea, Toast, ToastBody, ToastFooter, ToastHeader, ToastIcon, Toaster, Tooltip, addNotification, addToast, closeNotification, closeToast, notificationQueue, toastQueue, useDrawer, useModal, useNotification, usePagination, useToast };
 ```
