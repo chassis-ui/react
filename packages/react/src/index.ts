@@ -6,14 +6,7 @@
 // from any individual component.
 import './utils/suppressFocusRingGlobally'
 
-import {
-  Accordion,
-  AccordionBody,
-  AccordionButton,
-  AccordionCollapse,
-  AccordionHeader,
-  AccordionItem
-} from './components/accordion'
+import { Accordion, AccordionBody, AccordionHeader, AccordionItem } from './components/accordion'
 import { Autocomplete, AutocompleteGroup, AutocompleteItem } from './components/autocomplete'
 import { Avatar, AvatarImage, AvatarStack } from './components/avatar'
 import {
@@ -128,8 +121,6 @@ export {
   Stack,
   Accordion,
   AccordionBody,
-  AccordionButton,
-  AccordionCollapse,
   AccordionHeader,
   AccordionItem,
   Autocomplete,
