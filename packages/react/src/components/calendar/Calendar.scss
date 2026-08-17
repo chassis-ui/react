@@ -1,166 +1,57 @@
+@use "@chassis-ui/css/scss/config" as *;
+@use "@chassis-ui/css/scss/mixins" as *;
+
 /*
- * `Calendar`'s grid uses chassis-css's real `.datepicker-*` class names and structure, so
- * anything chassis-css already styles from that — layout, arrows, header, `[aria-current="date"]`
- * "today", `[aria-disabled="true"]` disabled dates, `:focus-visible` — is left alone here; it's
- * owned by `@chassis-ui/css`'s datepicker component wherever that's loaded. What's below is
- * adapted from chassis-css's own `_datepicker.scss` (see that file's `[data-vc-date-*]` rules) for
- * the two kinds of gaps adopting its class names doesn't close:
- *
- * - States vanilla-calendar-pro conveys via `data-vc-date-*` attributes, which only its own JS
- *   sets — react-aria has no equivalent, so these are re-expressed as classes on `.datepicker-date`
- *   instead, following the same `.datepicker-date-X > .datepicker-date-btn` shape.
- * - The month/year trigger buttons and the grids they switch to (`CalendarMonthYearPicker`) —
- *   chassis-css's real datepicker (vanilla-calendar-pro's own `[data-vc="months"]`/`[data-vc=
- *   "years"]`, per its `_datepicker.scss`) uses attribute selectors this component has no
- *   equivalent of, so these get their own class-based rules below instead of relying on any
- *   chassis-css declaration for them. `.datepicker-month`/`.datepicker-year` (the trigger buttons)
- *   do reuse chassis's own class names, since those already belong to buttons there too.
- *
- * Colors mostly use chassis-css's globally-defined `--cx-*` tokens (`--cx-primary`, `--cx-fg-main`,
- * `--cx-border-radius-medium`, etc. — set once at `:root`, documented, semver-stable) rather than
- * the unprefixed `--day-*`/`--weekday-*` custom properties `_datepicker.scss` sets locally on
- * `.datepicker` for vanilla-calendar-pro's own use. Note the `cx-` prefix itself doesn't signal
- * that distinction — chassis-css's PostCSS build (`build/postcss.config.js`) applies it uniformly
- * to every custom property it emits, `:root` globals and internal per-component ones alike. Four
- * properties here are a deliberate, accepted exception to the "globals only" rule:
- * `--cx-day-disabled-fg-color`, `--cx-day-range-bg-color`, `--cx-day-range-fg-color` (this file/
- * `RangeCalendar.scss`) and `--cx-form-idle-fg-inactive` (`DatePicker.scss`) are only ever defined
- * inside chassis-css's own `.datepicker`/`.form-input` blocks — no `:root` fallback — so they carry
- * the same "could be renamed without notice" risk `--day-*`/`--weekday-*` would. Kept anyway
- * because each already resolves to a stable-looking global default in the current chassis-css
- * source (e.g. `--cx-day-disabled-fg-color` falls back to `--cx-default-fg-slight`) and swapping
- * them is a live design decision, not a mechanical rename — revisit if chassis-css's in-progress
- * `.datepicker` refactor (see the sibling `../chassis-css` checkout) changes that fallback shape.
- *
- * The `.datepicker-date-*` rules below are wrapped in `@layer components` to land in the same
- * cascade layer chassis-css itself uses (its layer order is `colors, theme, config, root, reboot,
- * layout, content, components, custom, helpers, utilities` — declared once, wherever chassis-css's
- * own stylesheet is loaded). Un-layered CSS always beats every layer regardless of specificity, so
- * without this, any of these rules would unconditionally override chassis-css's own more-specific
- * ones (e.g. `[aria-current="date"]` "today") instead of losing to them as intended.
+ * `Calendar` reuses chassis-css's `.datepicker-*` classes, so layout/arrows/header/today/disabled/
+ * focus styling already comes from `@chassis-ui/css`. This file only covers the gaps: states
+ * vanilla-calendar-pro exposes via `data-vc-date-*` (no react-aria equivalent, re-expressed as
+ * `.datepicker-date-*` classes) and the month/year picker, which chassis-css styles via attribute
+ * selectors this component doesn't have.
  */
 
-.datepicker-month,
-.datepicker-year {
-  appearance: none;
-  padding: var(--cx-space-2xsmall) var(--cx-space-xsmall);
-  field-sizing: content;
-  font-weight: 600;
-  color: var(--cx-fg-main);
-  cursor: pointer;
-  background-color: transparent;
-  border: 0;
-  border-radius: var(--cx-border-radius-medium);
-  outline: none;
-}
-
-.datepicker-month:hover:not(:disabled),
-.datepicker-year:hover:not(:disabled) {
-  background-color: var(--cx-bg-hover);
-}
-
-.datepicker-month:focus-visible,
-.datepicker-year:focus-visible {
-  outline: var(--cx-border-width-xlarge) solid var(--cx-primary);
-  outline-offset: -1px;
-}
-
-.datepicker-month:disabled,
-.datepicker-year:disabled {
-  color: var(--cx-day-disabled-fg-color);
-  cursor: default;
-}
-
-.datepicker-months,
-.datepicker-years {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--cx-space-xsmall);
-}
-
-.datepicker-months-month,
-.datepicker-years-year {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 2.5rem;
-  padding: var(--cx-space-2xsmall);
-  font-weight: 600;
-  color: var(--cx-fg-main);
-  text-align: center;
-  cursor: pointer;
-  background-color: transparent;
-  border: 0;
-  border-radius: var(--cx-border-radius-medium);
-}
-
-.datepicker-months-month:hover:not(:disabled),
-.datepicker-years-year:hover:not(:disabled) {
-  background-color: var(--cx-bg-hover);
-}
-
-.datepicker-months-month:focus-visible,
-.datepicker-years-year:focus-visible {
-  outline: var(--cx-border-width-xlarge) solid var(--cx-primary);
-  outline-offset: -1px;
-}
-
-.datepicker-months-month:disabled,
-.datepicker-years-year:disabled {
-  color: var(--cx-day-disabled-fg-color);
-  cursor: default;
-}
-
-.datepicker-months-month.selected,
-.datepicker-years-year.selected {
-  color: var(--cx-primary-contrast);
-  background-color: var(--cx-primary);
-}
-
-.datepicker-months-month.selected:hover,
-.datepicker-years-year.selected:hover {
-  background-color: var(--cx-primary);
-}
-
 @layer components {
-  /* Outside the visible month (leading/trailing days from the adjacent month) */
+  .datepicker-body {
+    position: relative;
+  }
+
+  .datepicker-months-month.selected,
+  .datepicker-years-year.selected {
+    color: var(--primary-contrast);
+    background-color: var(--primary);
+  }
+
+  .datepicker-months-month.selected:hover,
+  .datepicker-years-year.selected:hover {
+    background-color: var(--primary);
+  }
+
+  /* Leading/trailing days from the adjacent month */
   .datepicker-date-outside > .datepicker-date-btn {
-    color: var(--cx-day-disabled-fg-color);
+    color: var(--day-disabled-fg-color);
   }
 
-  /* Weekend, per the active locale — muted unless something more important (selection,
-     unavailability, or the native disabled state chassis-css's own `[aria-disabled="true"]` rule
-     already handles) is also true. Guards are wrapped in `:where()` so they stay functional
-     without adding specificity — otherwise stacking `:not()`s here would outweigh and override
-     chassis-css's own (lower-specificity, single-selector) `[aria-current="date"]` "today" rule on
-     a day that's both. */
-  .datepicker-date-weekend:where(:not(.datepicker-date-selected):not(.datepicker-date-unavailable))
-    > .datepicker-date-btn:where(:not([aria-disabled='true'])) {
-    color: var(--cx-fg-subtle);
+  /* Weekend, muted unless selected/unavailable/disabled takes priority. `:where()` keeps these
+     guards from adding specificity over chassis-css's "today" rule. */
+  .datepicker-date-weekend:where(:not(.datepicker-date-selected):not(.datepicker-date-unavailable)) > .datepicker-date-btn:where(:not([aria-disabled="true"])) {
+    color: var(--fg-subtle);
   }
 
-  /* Unavailable — focusable and announced (see `isDateUnavailable`'s docs) but not selectable, so
-     distinct from the native disabled state entirely. */
+  /* Unavailable (`isDateUnavailable`) — focusable and announced, unlike native disabled. */
   .datepicker-date-unavailable:where(:not(.datepicker-date-selected)) > .datepicker-date-btn {
-    color: var(--cx-day-disabled-fg-color);
+    color: var(--day-disabled-fg-color);
     text-decoration: line-through;
   }
 
-  /* Selected (single-date `Calendar` only — `RangeCalendar` has its own start/end/in-range
-     styling in `RangeCalendar.scss`). */
+  /* Selected (single-date only; `RangeCalendar.scss` handles start/end/in-range). */
   .datepicker-date-selected > .datepicker-date-btn {
-    color: var(--cx-primary-contrast);
-    background-color: var(--cx-primary);
+    color: var(--primary-contrast);
+    background-color: var(--primary);
   }
 
-  /*
-   * Wins over chassis-css's own `.datepicker-date[aria-current="date"] > .datepicker-date-btn`
-   * "today" styling when a date is both selected and today — that rule and the plain `.datepicker-
-   * date-selected` one above tie on specificity, so the repeated `.datepicker-date` qualifier here
-   * bumps this one just enough to win within the shared layer.
-   */
-  .datepicker-date-selected.datepicker-date[aria-current='date'] > .datepicker-date-btn {
-    color: var(--cx-primary-contrast);
-    background-color: var(--cx-primary);
+  /* Extra `.datepicker-date` qualifier wins the specificity tie with chassis-css's "today" rule
+     when a date is both selected and today. */
+  .datepicker-date-selected.datepicker-date[aria-current="date"] > .datepicker-date-btn {
+    color: var(--primary-contrast);
+    background-color: var(--primary);
   }
 }

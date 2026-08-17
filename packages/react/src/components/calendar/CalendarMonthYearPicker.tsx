@@ -104,7 +104,7 @@ export const CalendarMonthYearPicker = ({
   }
 
   return (
-    <div ref={containerRef}>
+    <div className="datepicker-column" ref={containerRef}>
       {view === 'months' && (
         <CalendarMonthGrid
           monthStart={monthStart}

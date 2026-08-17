@@ -346,7 +346,7 @@ describe('DateRangePicker', () => {
       render(<DateRangePicker aria-label="Trip dates" />)
       openCalendar()
       // eslint-disable-next-line testing-library/no-node-access
-      expect(document.querySelector('.calendar-presets')).toBeNull()
+      expect(document.querySelector('.datepicker-presets')).toBeNull()
     })
 
     test('renders each preset as a button', () => {

@@ -36,7 +36,7 @@ export const CalendarMonthBlock = ({
   const monthStart = state.visibleRange.start.add({ months: monthIndex })
 
   return (
-    <div className="datepicker-column">
+    <>
       <CalendarMonthYearPicker
         monthIndex={monthIndex}
         monthStart={monthStart}
@@ -52,6 +52,6 @@ export const CalendarMonthBlock = ({
           state={state}
         />
       </CalendarMonthYearPicker>
-    </div>
+    </>
   )
 }

@@ -504,7 +504,7 @@ describe('RangeCalendar', () => {
     test('no presets prop renders no preset list', () => {
       render(<RangeCalendar aria-label="Trip dates" />)
       // eslint-disable-next-line testing-library/no-node-access
-      expect(document.querySelector('.calendar-presets')).toBeNull()
+      expect(document.querySelector('.datepicker-presets')).toBeNull()
     })
 
     test('renders each preset as a button', () => {
@@ -531,9 +531,7 @@ describe('RangeCalendar', () => {
           range: { start: new CalendarDate(2026, 7, 1), end: new CalendarDate(2026, 7, 10) }
         }
       ]
-      render(
-        <RangeCalendar aria-label="Trip dates" onChange={onChange} presets={customPresets} />
-      )
+      render(<RangeCalendar aria-label="Trip dates" onChange={onChange} presets={customPresets} />)
       fireEvent.click(screen.getByRole('button', { name: 'Custom Range' }))
 
       expect(onChange).toHaveBeenCalledWith({

@@ -255,7 +255,7 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>((props, forwar
           {/* `.datepicker[data-cx-inline]` (the root above) is already `position: relative` in
               chassis-css, so this overlay needs no extra positioning wrapper of its own — unlike
               `RangeCalendar`, which has a `presets` column sharing that root and so scopes its
-              own copy of this overlay to a nested `.calendar-body` instead. */}
+              own copy of this overlay to a nested `.datepicker-body` instead. */}
           {!hasPickerView && (
             <div className="datepicker-controls">
               {prevButton}

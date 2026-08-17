@@ -219,7 +219,7 @@ export const RangeCalendar = forwardRef<HTMLDivElement, RangeCalendarProps>(
               value={state.value}
             />
           )}
-          <div className="datepicker-column calendar-body">
+          <div className="datepicker-body">
             {visibleMonths > 1 && !hasPickerView && (
               <div className="datepicker-controls">
                 {prevButton}
@@ -340,7 +340,7 @@ const isSameRange = (a: RangeValue<DateValue>, b: RangeValue<DateValue>) =>
 // immediately) rather than a single-selection widget, so native Tab/Enter/Space is the right
 // interaction model without extra roving-tabindex/arrow-key wiring.
 const DateRangePresets = ({ onSelect, presets, value }: DateRangePresetsProps) => (
-  <ul className="calendar-presets">
+  <ul className="datepicker-presets">
     {presets.map((preset) => {
       const isSelected = Boolean(value && isSameRange(value, preset.range))
 
@@ -348,7 +348,7 @@ const DateRangePresets = ({ onSelect, presets, value }: DateRangePresetsProps) =
         <li key={preset.label}>
           <button
             aria-current={isSelected ? 'true' : undefined}
-            className={classNames('calendar-preset', { selected: isSelected })}
+            className={classNames('datepicker-preset', { selected: isSelected })}
             onClick={() => onSelect(preset.range)}
             type="button"
           >
