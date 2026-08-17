@@ -20,14 +20,14 @@ const FOCUSABLE_SELECTOR = 'a[href], button, input, select, textarea, [tabindex]
 
 const suppressed = new WeakSet<HTMLElement>()
 
-function handlePointerDown(event: PointerEvent) {
-  const target = event.target
-  if (!(target instanceof Element)) return
-  const el = target.closest<HTMLElement>(FOCUSABLE_SELECTOR)
-  // `suppressed` guards re-entrancy: a second pointerdown on the same element before it blurs
-  // (e.g. a rapid re-press) would otherwise stack a second blur listener that clobbers the first
-  // restoration and leaves the ring permanently suppressed.
-  if (!el || suppressed.has(el)) return
+// Shared by the global `pointerdown` listener below and by call sites that move focus themselves
+// via script (e.g. `RangeCalendar`'s hover-to-preview-a-range, which calls `element.focus()` from
+// a `pointerenter` handler — outside the `pointerdown` this module otherwise listens for).
+export function suppressFocusRing(el: HTMLElement): void {
+  // `suppressed` guards re-entrancy: a second call for the same element before it blurs (e.g. a
+  // rapid re-press, or the pointer re-entering a cell) would otherwise stack a second blur
+  // listener that clobbers the first restoration and leaves the ring permanently suppressed.
+  if (suppressed.has(el)) return
 
   suppressed.add(el)
   const prevOutline = el.style.outline
@@ -40,6 +40,14 @@ function handlePointerDown(event: PointerEvent) {
     },
     { once: true }
   )
+}
+
+function handlePointerDown(event: PointerEvent) {
+  const target = event.target
+  if (!(target instanceof Element)) return
+  const el = target.closest<HTMLElement>(FOCUSABLE_SELECTOR)
+  if (!el) return
+  suppressFocusRing(el)
 }
 
 let installed = false

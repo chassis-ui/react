@@ -67,6 +67,26 @@ describe('RangeCalendar', () => {
       })
     })
 
+    test('hovering a date while choosing the end date suppresses its focus ring', () => {
+      render(
+        <RangeCalendar
+          aria-label="Trip dates"
+          defaultValue={{ start: new CalendarDate(2026, 7, 1), end: new CalendarDate(2026, 7, 1) }}
+        />
+      )
+
+      const grid = screen.getByRole('grid')
+      // Starts a selection (sets `state.anchorDate`) without committing an end date yet — the
+      // state react-aria's `onPointerEnter` moves real DOM focus in, to live-preview the range
+      // as the pointer moves (see useCalendarCell's `onPointerEnter` -> `highlightDate`).
+      fireEvent.click(within(grid).getByRole('button', { name: /July 10, 2026/ }))
+
+      const hovered = within(grid).getByRole('button', { name: /July 15, 2026/ })
+      fireEvent.pointerEnter(hovered, { pointerType: 'mouse' })
+
+      expect(hovered.style.outline).toBe('none')
+    })
+
     test('dates outside minValue/maxValue are disabled and cannot start a selection', () => {
       const onChange = vi.fn()
       render(

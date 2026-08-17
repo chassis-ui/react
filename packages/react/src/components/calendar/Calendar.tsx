@@ -291,7 +291,7 @@ interface CalendarCellProps {
 }
 
 const CalendarCell = ({ date, locale, state }: CalendarCellProps) => {
-  const ref = useRef<HTMLDivElement>(null)
+  const ref = useRef<HTMLButtonElement>(null)
   const {
     cellProps,
     buttonProps,
@@ -316,9 +316,9 @@ const CalendarCell = ({ date, locale, state }: CalendarCellProps) => {
         'datepicker-date-weekend': isWeekend(date, locale)
       })}
     >
-      <div {...buttonProps} className="datepicker-date-btn" ref={ref}>
+      <button {...buttonProps} type="button" className="datepicker-date-btn" ref={ref}>
         {formattedDate}
-      </div>
+      </button>
     </div>
   )
 }

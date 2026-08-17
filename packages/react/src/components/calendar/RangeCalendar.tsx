@@ -23,6 +23,7 @@ import { CalendarMonthBlock } from './CalendarMonthBlock'
 import { CalendarNavButton } from './CalendarNavButton'
 import { DateRangePreset } from '../../utils/dateRangePresets'
 import { mergeIsDateUnavailable } from '../../utils/mergeIsDateUnavailable'
+import { suppressFocusRing } from '../../utils/suppressFocusRingGlobally'
 import './Calendar.scss'
 import './RangeCalendar.scss'
 
@@ -266,7 +267,7 @@ interface CalendarCellProps {
 }
 
 const CalendarCell = ({ date, isFirstInRow, isLastInRow, locale, state }: CalendarCellProps) => {
-  const ref = useRef<HTMLDivElement>(null)
+  const ref = useRef<HTMLButtonElement>(null)
   const {
     cellProps,
     buttonProps,
@@ -300,8 +301,17 @@ const CalendarCell = ({ date, isFirstInRow, isLastInRow, locale, state }: Calend
         'datepicker-date-weekend': isWeekend(date, locale)
       })}
     >
-      <div
-        {...buttonProps}
+      <button
+        {...mergeProps(buttonProps, {
+          // Hovering to preview a range's end date moves real DOM focus via `element.focus()`
+          // (`useCalendarCell`'s `onPointerEnter` -> `state.highlightDate`), which browsers can
+          // paint as a visible focus ring even though the input modality is a pointer, not a
+          // keyboard — suppress it the same way a mouse press does elsewhere in the library.
+          onPointerEnter: () => {
+            if (state.anchorDate && ref.current) suppressFocusRing(ref.current)
+          }
+        })}
+        type="button"
         className={classNames('datepicker-date-btn', {
           'datepicker-date-range-start': isRangeStart,
           'datepicker-date-range-end': isRangeEnd
@@ -309,7 +319,7 @@ const CalendarCell = ({ date, isFirstInRow, isLastInRow, locale, state }: Calend
         ref={ref}
       >
         {formattedDate}
-      </div>
+      </button>
     </div>
   )
 }
