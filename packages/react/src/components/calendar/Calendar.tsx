@@ -11,7 +11,7 @@ import {
   today
 } from '@internationalized/date'
 
-import { useForkedRef, useSuppressFocusRingOnPointerDown } from '../../hooks'
+import { useForkedRef } from '../../hooks'
 import { CalendarMonthBlock } from './CalendarMonthBlock'
 import { CalendarMonthYearPicker } from './CalendarMonthYearPicker'
 import { CalendarNavButton } from './CalendarNavButton'
@@ -302,7 +302,6 @@ const CalendarCell = ({ date, locale, state }: CalendarCellProps) => {
     formattedDate
   } = useCalendarCell({ date }, state, ref)
   const isCurrentDate = isToday(date, getLocalTimeZone())
-  const suppressFocusRing = useSuppressFocusRingOnPointerDown<HTMLDivElement>()
 
   return (
     <div
@@ -317,11 +316,7 @@ const CalendarCell = ({ date, locale, state }: CalendarCellProps) => {
         'datepicker-date-weekend': isWeekend(date, locale)
       })}
     >
-      <div
-        {...mergeProps(buttonProps, { onPointerDown: suppressFocusRing })}
-        className="datepicker-date-btn"
-        ref={ref}
-      >
+      <div {...buttonProps} className="datepicker-date-btn" ref={ref}>
         {formattedDate}
       </div>
     </div>

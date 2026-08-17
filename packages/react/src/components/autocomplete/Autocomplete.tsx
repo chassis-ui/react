@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { mergeProps, useButton, useComboBox, useFilter, useOverlayPosition } from 'react-aria'
 import { Item, Key, Section, useComboBoxState } from 'react-stately'
 
-import { useFormField, useSuppressFocusRingOnPointerDown } from '../../hooks'
+import { useFormField } from '../../hooks'
 import {
   ComboboxEntry,
   ComboboxGroupEntry,
@@ -339,7 +339,6 @@ export const Autocomplete = ({
     { ...buttonProps, elementType: 'div', isDisabled: disabled, excludeFromTabOrder: false },
     triggerRef
   )
-  const suppressFocusRing = useSuppressFocusRingOnPointerDown<HTMLDivElement>()
 
   // The search field autofocuses once the panel is actually open (chassis-css docs: "When the
   // menu opens, focus jumps to the search field"), and focus returns to the toggle once it
@@ -433,7 +432,7 @@ export const Autocomplete = ({
             className
           )}
           {...rest}
-          {...mergeProps(triggerButtonProps, { onPointerDown: suppressFocusRing })}
+          {...triggerButtonProps}
           // `useComboBox`'s own `buttonProps` defaults to a generic "Show suggestions" label,
           // since its primary a11y attention goes to the search input — override with the same
           // label the input gets, so the toggle (the element actually reachable via Tab, since

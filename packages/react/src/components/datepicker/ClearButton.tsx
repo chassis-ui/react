@@ -1,7 +1,5 @@
 import React, { useRef } from 'react'
-import { mergeProps, useButton } from 'react-aria'
-
-import { useSuppressFocusRingOnPointerDown } from '../../hooks'
+import { useButton } from 'react-aria'
 
 interface ClearButtonProps {
   isDisabled?: boolean
@@ -15,15 +13,9 @@ interface ClearButtonProps {
 export const ClearButton = ({ isDisabled, onPress }: ClearButtonProps) => {
   const ref = useRef<HTMLButtonElement>(null)
   const { buttonProps } = useButton({ 'aria-label': 'Clear', isDisabled, onPress }, ref)
-  const suppressFocusRing = useSuppressFocusRingOnPointerDown<HTMLButtonElement>()
 
   return (
-    <button
-      {...mergeProps(buttonProps, { onPointerDown: suppressFocusRing })}
-      className="input-adorn"
-      ref={ref}
-      type="button"
-    >
+    <button {...buttonProps} className="input-adorn" ref={ref} type="button">
       <svg
         fill="none"
         height="16"

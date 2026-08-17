@@ -1,7 +1,5 @@
-import React, { AllHTMLAttributes, ElementType, forwardRef, MouseEvent, PointerEvent } from 'react'
+import React, { AllHTMLAttributes, ElementType, forwardRef, MouseEvent } from 'react'
 import classNames from 'classnames'
-
-import { useSuppressFocusRingOnPointerDown } from '../../hooks'
 
 export interface LinkProps extends AllHTMLAttributes<HTMLElement> {
   /**
@@ -28,16 +26,7 @@ export interface LinkProps extends AllHTMLAttributes<HTMLElement> {
 
 export const Link = forwardRef<HTMLButtonElement | HTMLAnchorElement, LinkProps>(
   (
-    {
-      children,
-      active,
-      className,
-      component: Component = 'a',
-      disabled,
-      onClick,
-      onPointerDown,
-      ...rest
-    },
+    { children, active, className, component: Component = 'a', disabled, onClick, ...rest },
     ref
   ) => {
     const _className = classNames(className, { active, disabled })
@@ -53,17 +42,6 @@ export const Link = forwardRef<HTMLButtonElement | HTMLAnchorElement, LinkProps>
         }
       : onClick
 
-    // Every `Button`/`NavLink`/`MenuItem`/etc. renders through here, so fixing the browser's
-    // `:focus-visible` first-click misfire once at this shared root covers all of them at once —
-    // see the hook's own comment for why.
-    const suppressFocusRing = useSuppressFocusRingOnPointerDown<HTMLElement>()
-    const handlePointerDown = isInteractive
-      ? (event: PointerEvent<HTMLElement>) => {
-          suppressFocusRing(event)
-          onPointerDown?.(event)
-        }
-      : onPointerDown
-
     return (
       <Component
         {...rest}
@@ -71,7 +49,6 @@ export const Link = forwardRef<HTMLButtonElement | HTMLAnchorElement, LinkProps>
         {...(active && { 'aria-current': 'page' })}
         {...(Component === 'a' && disabled && { 'aria-disabled': true, tabIndex: -1 })}
         onClick={handleClick}
-        onPointerDown={handlePointerDown}
         disabled={disabled}
         ref={ref}
       >

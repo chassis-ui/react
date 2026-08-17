@@ -1,7 +1,6 @@
 import React, { ButtonHTMLAttributes, forwardRef, useContext } from 'react'
 import classNames from 'classnames'
 
-import { useSuppressFocusRingOnPointerDown } from '../../hooks'
 import { Icon } from '../icon'
 import { CarouselContext } from './context'
 
@@ -26,20 +25,8 @@ export interface CarouselPlayPauseProps extends ButtonHTMLAttributes<HTMLButtonE
  * icon while playing, a play icon once stopped.
  */
 export const CarouselPlayPause = forwardRef<HTMLButtonElement, CarouselPlayPauseProps>(
-  (
-    {
-      children,
-      className,
-      onClick,
-      onPointerDown,
-      pauseLabel = 'Pause',
-      playLabel = 'Play',
-      ...rest
-    },
-    ref
-  ) => {
+  ({ children, className, onClick, pauseLabel = 'Pause', playLabel = 'Play', ...rest }, ref) => {
     const { playing, togglePlayPause } = useContext(CarouselContext)
-    const suppressFocusRing = useSuppressFocusRingOnPointerDown<HTMLButtonElement>()
     const _className = classNames(
       'carousel-control-play-pause button small icon-only',
       { paused: !playing },
@@ -58,10 +45,6 @@ export const CarouselPlayPause = forwardRef<HTMLButtonElement, CarouselPlayPause
         aria-label={playing ? pauseLabel : playLabel}
         onClick={handleClick}
         {...rest}
-        onPointerDown={(event) => {
-          suppressFocusRing(event)
-          onPointerDown?.(event)
-        }}
         ref={ref}
       >
         {children ?? (

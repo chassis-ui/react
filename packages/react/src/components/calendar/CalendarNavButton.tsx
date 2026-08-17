@@ -1,7 +1,5 @@
 import React, { useRef } from 'react'
-import { AriaButtonProps, mergeProps, useButton } from 'react-aria'
-
-import { useSuppressFocusRingOnPointerDown } from '../../hooks'
+import { AriaButtonProps, useButton } from 'react-aria'
 
 interface CalendarNavButtonProps {
   buttonProps: AriaButtonProps
@@ -14,11 +12,10 @@ interface CalendarNavButtonProps {
 export const CalendarNavButton = ({ buttonProps, direction }: CalendarNavButtonProps) => {
   const ref = useRef<HTMLButtonElement>(null)
   const { buttonProps: domButtonProps } = useButton(buttonProps, ref)
-  const suppressFocusRing = useSuppressFocusRingOnPointerDown<HTMLButtonElement>()
 
   return (
     <button
-      {...mergeProps(domButtonProps, { onPointerDown: suppressFocusRing })}
+      {...domButtonProps}
       className={`datepicker-arrow datepicker-arrow-${direction}`}
       ref={ref}
       type="button"

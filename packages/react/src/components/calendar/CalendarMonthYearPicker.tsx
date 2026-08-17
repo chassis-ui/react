@@ -3,7 +3,6 @@ import { useDateFormatter } from 'react-aria'
 import { CalendarState, RangeCalendarState } from 'react-stately'
 import { CalendarDate } from '@internationalized/date'
 
-import { useSuppressFocusRingOnPointerDown } from '../../hooks'
 import { CalendarMonthGrid } from './CalendarMonthGrid'
 import { CalendarYearGrid } from './CalendarYearGrid'
 import { setVisibleRangeStart } from '../../utils/setVisibleRangeStart'
@@ -52,7 +51,6 @@ export const CalendarMonthYearPicker = ({
 }: CalendarMonthYearPickerProps) => {
   const [view, setView] = useState<'days' | 'months' | 'years'>('days')
   const containerRef = useRef<HTMLDivElement>(null)
-  const suppressFocusRing = useSuppressFocusRingOnPointerDown<HTMLButtonElement>()
   // Skipped on mount — there's no prior view to restore focus from yet, and stealing focus
   // as soon as the calendar renders would fight `autoFocus`/the caller's own focus management.
   const isFirstRender = useRef(true)
@@ -133,7 +131,6 @@ export const CalendarMonthYearPicker = ({
                 className="datepicker-month"
                 disabled={state.isDisabled}
                 onClick={() => changeView('months')}
-                onPointerDown={suppressFocusRing}
                 type="button"
               >
                 {monthFormatter.format(monthStart.toDate(state.timeZone))}
@@ -143,7 +140,6 @@ export const CalendarMonthYearPicker = ({
                 className="datepicker-year"
                 disabled={state.isDisabled}
                 onClick={() => changeView('years')}
-                onPointerDown={suppressFocusRing}
                 type="button"
               >
                 {yearFormatter.format(monthStart.toDate(state.timeZone))}

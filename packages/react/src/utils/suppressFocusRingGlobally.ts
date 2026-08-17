@@ -1,0 +1,53 @@
+// Chromium/WebKit's `:focus-visible` heuristic has no interaction history to consult on the very
+// first focus event of a page load, so a genuine pointer press can still paint a focus ring as if
+// it came from the keyboard — most visible on whatever element happens to be the first thing a
+// visitor clicks. A single capture-phase `pointerdown` listener on `document`, installed once (see
+// `install` below, called for its side effect from `index.ts`), preemptively suppresses the
+// outline on whatever focusable element the press is about to focus — before the browser's own
+// default action grants focus and paints the ring for it — then restores it on blur. Safe to run
+// on every press, not just the page's first: if the browser was already going to correctly
+// withhold the ring, this suppress/restore cycle is a no-op within the same frame.
+//
+// Mirrors react-aria's own `@react-aria/interactions` global modality tracking (one document-level
+// listener rather than one per component/instance) without switching this library's focus rings
+// from chassis-css's native `:focus-visible` CSS to JS-driven state — react-aria's `isFocusVisible`
+// is consumed by applying a class/attribute, which would fork focus-ring styling from the vanilla,
+// non-React product chassis-css also ships. Deliberately unscoped to this library's own markup, for
+// the same reason react-aria's own fix is unscoped: the browser bug isn't specific to any one
+// component library, and a page generally wants one consistent focus-ring policy for every
+// focusable element on it, not just the subset a component library happens to own.
+const FOCUSABLE_SELECTOR = 'a[href], button, input, select, textarea, [tabindex]'
+
+const suppressed = new WeakSet<HTMLElement>()
+
+function handlePointerDown(event: PointerEvent) {
+  const target = event.target
+  if (!(target instanceof Element)) return
+  const el = target.closest<HTMLElement>(FOCUSABLE_SELECTOR)
+  // `suppressed` guards re-entrancy: a second pointerdown on the same element before it blurs
+  // (e.g. a rapid re-press) would otherwise stack a second blur listener that clobbers the first
+  // restoration and leaves the ring permanently suppressed.
+  if (!el || suppressed.has(el)) return
+
+  suppressed.add(el)
+  const prevOutline = el.style.outline
+  el.style.outline = 'none'
+  el.addEventListener(
+    'blur',
+    () => {
+      el.style.outline = prevOutline
+      suppressed.delete(el)
+    },
+    { once: true }
+  )
+}
+
+let installed = false
+
+export function install(): void {
+  if (installed || typeof document === 'undefined') return
+  installed = true
+  document.addEventListener('pointerdown', handlePointerDown, true)
+}
+
+install()

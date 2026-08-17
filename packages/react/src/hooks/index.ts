@@ -8,7 +8,6 @@ import { useModal } from './useModal'
 import { useNotification } from './useNotification'
 import { useOverlayPlacement } from './useOverlayPlacement'
 import { usePagination } from './usePagination'
-import { useSuppressFocusRingOnPointerDown } from './useSuppressFocusRingOnPointerDown'
 import { useToast } from './useToast'
 
 export {
@@ -22,7 +21,6 @@ export {
   useNotification,
   useOverlayPlacement,
   usePagination,
-  useSuppressFocusRingOnPointerDown,
   useToast
 }
 export type { UseAutoDismissOptions, UseAutoDismissResult } from './useAutoDismiss'

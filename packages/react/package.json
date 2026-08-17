@@ -32,7 +32,7 @@
     "./package.json": "./package.json",
     "./style.css": "./dist/style.css"
   },
-  "sideEffects": false,
+  "sideEffects": ["./src/utils/suppressFocusRingGlobally.ts"],
   "files": [
     "dist/",
     "src/"

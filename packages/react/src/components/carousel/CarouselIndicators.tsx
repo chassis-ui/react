@@ -1,7 +1,6 @@
 import React, { forwardRef, HTMLAttributes, useContext } from 'react'
 import classNames from 'classnames'
 
-import { useSuppressFocusRingOnPointerDown } from '../../hooks'
 import { CarouselContext } from './context'
 
 export interface CarouselIndicatorsProps extends HTMLAttributes<HTMLOListElement> {
@@ -23,7 +22,6 @@ export const CarouselIndicators = forwardRef<HTMLOListElement, CarouselIndicator
     // an indicator never targets an index the carousel can't actually land on (e.g. with
     // `items > 1`, the last few slides only ever appear alongside an earlier one).
     const indicatorCount = itemCount === 0 ? 0 : Math.max(1, itemCount - itemsVisible + 1)
-    const suppressFocusRing = useSuppressFocusRingOnPointerDown<HTMLButtonElement>()
 
     return (
       <ol className={_className} {...rest} ref={ref}>
@@ -35,7 +33,6 @@ export const CarouselIndicators = forwardRef<HTMLOListElement, CarouselIndicator
               aria-current={index === activeIndex ? 'true' : undefined}
               aria-label={label(index + 1)}
               onClick={() => to(index)}
-              onPointerDown={suppressFocusRing}
             />
           </li>
         ))}
