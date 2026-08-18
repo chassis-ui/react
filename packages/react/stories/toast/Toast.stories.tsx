@@ -8,8 +8,7 @@ import { Toaster } from '../../src/components/toast/Toaster'
 
 const meta: Meta<typeof Toast> = {
   component: Toast,
-  title: 'toast/Toast',
-  tags: ['autodocs']
+  title: 'toast/Toast'
 }
 export default meta
 

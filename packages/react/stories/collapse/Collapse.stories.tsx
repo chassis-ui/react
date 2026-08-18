@@ -5,8 +5,7 @@ import { Collapse } from '../../src/components/collapse/Collapse'
 
 const meta: Meta<typeof Collapse> = {
   component: Collapse,
-  title: 'collapse/Collapse',
-  tags: ['autodocs']
+  title: 'collapse/Collapse'
 }
 export default meta
 

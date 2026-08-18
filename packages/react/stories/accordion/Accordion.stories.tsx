@@ -8,8 +8,7 @@ import { AccordionBody } from '../../src/components/accordion/AccordionBody'
 
 const meta: Meta<typeof Accordion> = {
   component: Accordion,
-  title: 'accordion/Accordion',
-  tags: ['autodocs']
+  title: 'accordion/Accordion'
 }
 export default meta
 

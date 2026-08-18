@@ -6,8 +6,7 @@ import { StepperItem } from '../../src/components/stepper/StepperItem'
 
 const meta: Meta<typeof Stepper> = {
   component: Stepper,
-  title: 'stepper/Stepper',
-  tags: ['autodocs']
+  title: 'stepper/Stepper'
 }
 export default meta
 

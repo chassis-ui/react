@@ -13,6 +13,13 @@ const config: StorybookConfig = {
     '@storybook/addon-themes'
   ],
   framework: '@storybook/react-vite',
+  typescript: {
+    reactDocgen: 'react-docgen-typescript',
+    reactDocgenTypescriptOptions: {
+      shouldExtractLiteralValuesFromEnum: true,
+      shouldRemoveUndefinedFromOptional: true
+    }
+  },
   // Some component .scss files (e.g. Calendar, RangeCalendar) `@use "@chassis-ui/css/scss/config"`
   // directly, which forwards bare specifiers (`chassis-tokens`) that Sass can only resolve via an
   // explicit load path — same gap `tsdown.config.ts`'s `css.preprocessorOptions.scss.loadPaths`

@@ -6,7 +6,6 @@ import { Flex } from '../../src/components/flex/Flex'
 const meta: Meta<typeof Flex> = {
   component: Flex,
   title: 'flex/Flex',
-  tags: ['autodocs'],
   argTypes: {
     direction: {
       control: 'select',

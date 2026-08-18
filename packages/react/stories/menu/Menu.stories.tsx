@@ -10,8 +10,7 @@ import { MenuHeader } from '../../src/components/menu/MenuHeader'
 
 const meta: Meta<typeof Menu> = {
   component: Menu,
-  title: 'menu/Menu',
-  tags: ['autodocs']
+  title: 'menu/Menu'
 }
 export default meta
 

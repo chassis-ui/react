@@ -18,8 +18,7 @@ const presets: DateRangePreset[] = [
 
 const meta: Meta<typeof DateRangePicker> = {
   component: DateRangePicker,
-  title: 'datepicker/DateRangePicker',
-  tags: ['autodocs']
+  title: 'datepicker/DateRangePicker'
 }
 export default meta
 

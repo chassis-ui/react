@@ -7,7 +7,6 @@ import { Button } from '../../src/components/button/Button'
 const meta: Meta<typeof Tooltip> = {
   component: Tooltip,
   title: 'tooltip/Tooltip',
-  tags: ['autodocs'],
   // Storybook's canvas renders the story flush against the top-left corner of the viewport —
   // without room on every side, `useOverlayPosition`'s collision detection has nowhere to place
   // a `top`/`left` tooltip and silently flips it to `bottom`/`right` instead, which would make

@@ -5,9 +5,9 @@ import { Button } from '../../src/components/button/Button'
 
 const meta: Meta<typeof Button> = {
   component: Button,
-  title: 'button/Button',
-  tags: ['autodocs']
+  title: 'button/Button'
 }
+
 export default meta
 
 type Story = StoryObj<typeof Button>

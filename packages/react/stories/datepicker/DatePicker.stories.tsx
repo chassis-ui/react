@@ -9,8 +9,7 @@ const anchor = new CalendarDate(2024, 3, 15)
 
 const meta: Meta<typeof DatePicker> = {
   component: DatePicker,
-  title: 'datepicker/DatePicker',
-  tags: ['autodocs']
+  title: 'datepicker/DatePicker'
 }
 export default meta
 

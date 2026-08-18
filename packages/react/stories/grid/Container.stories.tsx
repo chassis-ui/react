@@ -6,7 +6,6 @@ import { Container } from '../../src/components/grid/Container'
 const meta: Meta<typeof Container> = {
   component: Container,
   title: 'grid/Container',
-  tags: ['autodocs'],
   argTypes: {
     fluidUntil: {
       control: 'select',

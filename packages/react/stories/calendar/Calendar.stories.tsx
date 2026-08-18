@@ -10,8 +10,7 @@ const anchor = new CalendarDate(2024, 3, 15)
 
 const meta: Meta<typeof Calendar> = {
   component: Calendar,
-  title: 'calendar/Calendar',
-  tags: ['autodocs']
+  title: 'calendar/Calendar'
 }
 export default meta
 

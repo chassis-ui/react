@@ -6,31 +6,12 @@ import { Stack } from '../../src/components/stack/Stack'
 const meta: Meta<typeof Stack> = {
   component: Stack,
   title: 'stack/Stack',
-  tags: ['autodocs'],
   argTypes: {
     direction: {
-      control: 'select',
-      options: ['horizontal', 'vertical']
+      control: 'select'
     },
     gap: {
-      control: 'select',
-      options: [
-        0,
-        'zero',
-        '4xsmall',
-        '3xsmall',
-        '2xsmall',
-        'xsmall',
-        'small',
-        'medium',
-        'large',
-        'xlarge',
-        '2xlarge',
-        '3xlarge',
-        '4xlarge',
-        '5xlarge',
-        '6xlarge'
-      ]
+      control: 'select'
     }
   }
 }

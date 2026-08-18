@@ -6,8 +6,7 @@ import { GridItem } from '../../src/components/grid/GridItem'
 
 const meta: Meta<typeof GridItem> = {
   component: GridItem,
-  title: 'grid/GridItem',
-  tags: ['autodocs']
+  title: 'grid/GridItem'
 }
 export default meta
 

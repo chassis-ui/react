@@ -19,8 +19,7 @@ const presets: DateRangePreset[] = [
 
 const meta: Meta<typeof RangeCalendar> = {
   component: RangeCalendar,
-  title: 'calendar/RangeCalendar',
-  tags: ['autodocs']
+  title: 'calendar/RangeCalendar'
 }
 export default meta
 

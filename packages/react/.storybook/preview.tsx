@@ -8,6 +8,7 @@ import '@chassis-ui/css/dist/css/chassis.min.css'
 import '@chassis-ui/react/style.css'
 
 const preview: Preview = {
+  tags: ['autodocs'],
   parameters: {
     // layout: 'centered',
     controls: {
@@ -16,7 +17,18 @@ const preview: Preview = {
         date: /Date$/i
       }
     },
-
+    docs: {
+      codePanel: true,
+      source: {
+        excludeDecorators: true,
+        transform: (code: string) => {
+          // Removes <React.Fragment key={...}> and its closing tag </React.Fragment>
+          return code
+            .replace(/.*<React\.Fragment[^>]*>.*\n/gm, '')
+            .replace(/<\/React\.Fragment>\n/gm, '')
+        }
+      }
+    },
     a11y: {
       // 'todo' - show a11y violations in the test UI only
       // 'error' - fail CI on a11y violations
