@@ -58,8 +58,17 @@ export const FormField = ({
   label,
   valid,
   validFeedback
-}: FormFieldProps): ReactNode =>
-  renderFormField({
+}: FormFieldProps): ReactNode => {
+  if (label && !ids?.input && !ids?.label) {
+    console.warn(
+      'FormField: `label` is set but `ids.input`/`ids.label` are not — the rendered label ' +
+        "won't be associated with your control (no `htmlFor`, no `aria-labelledby` target). " +
+        'Pass `ids={{ input: yourControlId }}` (or `ids.label` for a group with no single ' +
+        'input) so the label has something to point at.'
+    )
+  }
+
+  return renderFormField({
     children,
     className,
     help,
@@ -70,5 +79,6 @@ export const FormField = ({
     valid,
     validFeedback
   })
+}
 
 FormField.displayName = 'FormField'

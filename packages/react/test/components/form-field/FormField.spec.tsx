@@ -92,4 +92,39 @@ describe('FormField', () => {
       expect(await axe(container)).toHaveNoViolations()
     })
   })
+
+  describe('dev warnings', () => {
+    test('warns when label is set but ids.input/ids.label are both missing', () => {
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      render(
+        <FormField label="Name">
+          <input aria-label="Name" />
+        </FormField>
+      )
+      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('`ids.input`/`ids.label`'))
+      warnSpy.mockRestore()
+    })
+
+    test('does not warn when ids.input is provided', () => {
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      render(
+        <FormField label="Name" ids={{ input: 'name' }}>
+          <input id="name" />
+        </FormField>
+      )
+      expect(warnSpy).not.toHaveBeenCalled()
+      warnSpy.mockRestore()
+    })
+
+    test('does not warn when label is not set', () => {
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      render(
+        <FormField>
+          <input aria-label="Name" />
+        </FormField>
+      )
+      expect(warnSpy).not.toHaveBeenCalled()
+      warnSpy.mockRestore()
+    })
+  })
 })

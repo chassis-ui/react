@@ -5,7 +5,48 @@ exports[`FloatingInput > rendering > matches the baseline markup snapshot 1`] = 
   <div
     class="form-floating"
   >
-    Test
+    <label
+      class="form-label"
+      for="floatingInput"
+    >
+      Email address
+    </label>
+    <input
+      class="form-input"
+      id="floatingInput"
+      placeholder="name@example.com"
+    />
+  </div>
+</div>
+`;
+
+exports[`FloatingInput > rendering > matches the wrapped markup snapshot 1`] = `
+<div>
+  <div
+    class="form-field"
+  >
+    <div
+      class="form-floating"
+    >
+      <label
+        class="form-label"
+        for="floatingInput"
+      >
+        Email address
+      </label>
+      <input
+        aria-describedby="floatingInput-help"
+        class="form-input"
+        id="floatingInput"
+        placeholder="name@example.com"
+      />
+    </div>
+    <div
+      class="form-help"
+      id="floatingInput-help"
+    >
+      We'll never share it.
+    </div>
   </div>
 </div>
 `;

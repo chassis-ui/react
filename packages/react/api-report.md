@@ -2970,15 +2970,6 @@ interface FormFeedbackProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElem
 }
 declare const FormFeedback: React.ForwardRefExoticComponent<FormFeedbackProps & React.RefAttributes<HTMLDivElement | HTMLSpanElement>>;
 //#endregion
-//#region src/components/floating-input/FloatingInput.d.ts
-interface FloatingInputProps extends HTMLAttributes<HTMLDivElement> {
-  /**
-   * A string of all className you want applied to the component.
-   */
-  className?: string;
-}
-declare const FloatingInput: React.ForwardRefExoticComponent<FloatingInputProps & React.RefAttributes<HTMLDivElement>>;
-//#endregion
 //#region src/components/form-field/renderFormField.d.ts
 interface FormFieldIds {
   feedback?: string;
@@ -2990,6 +2981,51 @@ interface FormFieldIds {
    */
   label?: string;
 }
+//#endregion
+//#region src/components/floating-input/FloatingInput.d.ts
+interface FloatingInputProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
+  /**
+   * The form control (e.g. a `TextInput`, `Select`, or `Textarea`) the floating label attaches
+   * to. Chassis-css's floating-label CSS relies on a `label:has(~ .form-input)` selector, so this
+   * must render an element carrying the `form-input` class as a direct child.
+   */
+  children: ReactNode;
+  /**
+   * A string of all className you want applied to the `.form-floating` element.
+   */
+  className?: string;
+  /**
+   * A description for the field, rendered below the control. Setting this (or `invalidFeedback`/
+   * `validFeedback`) wraps the floating input in a `.form-field`.
+   */
+  help?: ReactNode;
+  /**
+   * The DOM ids of the wrapped control, used to associate the label (`htmlFor`) and point your
+   * control's own `aria-describedby` at the rendered help/feedback text.
+   */
+  ids?: FormFieldIds;
+  /**
+   * Set field validation state to invalid.
+   */
+  invalid?: boolean;
+  /**
+   * An error message for the field, rendered below the control when `invalid` is set.
+   */
+  invalidFeedback?: ReactNode;
+  /**
+   * The field's caption, rendered as a floating `FormLabel` associated with `ids.input`.
+   */
+  label: ReactNode;
+  /**
+   * Set field validation state to valid.
+   */
+  valid?: boolean;
+  /**
+   * A success message for the field, rendered below the control when `valid` is set.
+   */
+  validFeedback?: ReactNode;
+}
+declare const FloatingInput: React.ForwardRefExoticComponent<FloatingInputProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
 //#region src/components/form-field/FormField.d.ts
 interface FormFieldProps {
