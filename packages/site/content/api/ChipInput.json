@@ -65,8 +65,10 @@
       }
     },
     "chipVariant": {
-      "defaultValue": null,
-      "description": "Space-separated chassis-css chip modifier classes (e.g. `\"primary smooth\"`) applied to every\nchip.",
+      "defaultValue": {
+        "value": "default"
+      },
+      "description": "Space-separated chassis-css chip modifier classes (e.g. `\"primary smooth\"`) applied to every\nchip. Defaults to `\"default\"`.",
       "name": "chipVariant",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",

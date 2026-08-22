@@ -112,11 +112,13 @@ import {
 import { Tooltip } from './components/tooltip'
 import { useDrawer, useModal, useNotification, usePagination, useToast } from './hooks'
 // plop:import
+import { Chip } from './components/chip'
 import { Flex } from './components/flex'
 import { Stack } from './components/stack'
 
 export {
   // plop:export
+  Chip,
   Flex,
   Stack,
   Accordion,

@@ -7,6 +7,20 @@ import { useControllableState, useFormField } from '../../hooks'
 import { renderFormField } from '../form-field/renderFormField'
 import { ChipList, ChipItem } from './ChipList'
 
+// `allowDuplicates` means two tags can share a value, but react-stately's collection needs a
+// unique key per item — keying on the value alone collapses duplicates into the same node, so
+// selecting or removing one affects all of them. Key on (value, occurrence-within-the-array)
+// instead, recomputed fresh from `tags` on every call rather than cached, so it stays correct
+// whether the array changed via our own add/remove or via an externally-controlled `value` prop.
+const buildTagIds = (list: string[]): string[] => {
+  const seen = new Map<string, number>()
+  return list.map((tag) => {
+    const occurrence = seen.get(tag) ?? 0
+    seen.set(tag, occurrence + 1)
+    return occurrence === 0 ? tag : `${tag}\u0000${occurrence}`
+  })
+}
+
 export interface ChipInputProps extends Omit<
   HTMLAttributes<HTMLDivElement>,
   'onChange' | 'defaultValue'
@@ -25,7 +39,7 @@ export interface ChipInputProps extends Omit<
   allowDuplicates?: boolean
   /**
    * Space-separated chassis-css chip modifier classes (e.g. `"primary smooth"`) applied to every
-   * chip.
+   * chip. Defaults to `"default"`.
    */
   chipVariant?: string
   /**
@@ -102,7 +116,7 @@ export interface ChipInputProps extends Omit<
 
 export const ChipInput = ({
   allowDuplicates = false,
-  chipVariant,
+  chipVariant = 'default',
   className,
   defaultValue,
   disabled,
@@ -124,20 +138,30 @@ export const ChipInput = ({
 }: ChipInputProps): ReactNode => {
   const [tags, updateTags] = useControllableState<string[]>(value, defaultValue ?? [], onChange)
 
+  // Shared by `addTag` and the paste handler's loop: whether `raw` (already trimmed) is
+  // addable to `list` given `allowDuplicates`. `maxChips` is deliberately not part of this
+  // predicate — the paste loop needs to `break` (stop entirely) on hitting the limit, while an
+  // empty/duplicate value should just be skipped and the loop should keep going.
+  const isAddableValue = (list: string[], trimmed: string) =>
+    trimmed !== '' && (allowDuplicates || !list.includes(trimmed))
+
   const addTag = (raw: string) => {
     const trimmed = raw.trim()
-    if (!trimmed) return
-    if (!allowDuplicates && tags.includes(trimmed)) return
+    if (!isAddableValue(tags, trimmed)) return
     if (maxChips != null && tags.length >= maxChips) return
     updateTags([...tags, trimmed])
   }
 
   const removeTags = (keys: Iterable<Key>) => {
     const toRemove = new Set(keys)
-    updateTags(tags.filter((tag) => !toRemove.has(tag)))
+    const ids = buildTagIds(tags)
+    updateTags(tags.filter((_tag, index) => !toRemove.has(ids[index]!)))
   }
 
-  const items = useMemo<ChipItem[]>(() => tags.map((tag) => ({ id: tag, value: tag })), [tags])
+  const items = useMemo<ChipItem[]>(() => {
+    const ids = buildTagIds(tags)
+    return tags.map((tag, index) => ({ id: ids[index]!, value: tag }))
+  }, [tags])
 
   const listState = useListState<ChipItem>({
     children: (item: ChipItem) => (
@@ -145,7 +169,7 @@ export const ChipInput = ({
         {item.value}
       </Item>
     ),
-    disabledKeys: disabled ? tags : undefined,
+    disabledKeys: disabled ? items.map((item) => item.id) : undefined,
     items,
     selectionMode: 'multiple'
   })
@@ -156,7 +180,8 @@ export const ChipInput = ({
 
   const focusLastChip = (extend: boolean) => {
     if (tags.length === 0) return
-    const lastKey = tags[tags.length - 1]!
+    const ids = buildTagIds(tags)
+    const lastKey = ids[ids.length - 1]!
     if (extend) {
       listState.selectionManager.extendSelection(lastKey)
     } else {
@@ -211,7 +236,7 @@ export const ChipInput = ({
   }
 
   const handlePaste = (event: React.ClipboardEvent<HTMLInputElement>) => {
-    if (!separator) return
+    if (disabled || !separator) return
     const pasted = event.clipboardData.getData('text')
     if (!pasted.includes(separator)) return
 
@@ -222,15 +247,17 @@ export const ChipInput = ({
     // `tags` from this render's closure, so several calls in a row within one event would all
     // start from the same stale array instead of building on each other.
     let next = tags
-    for (const part of parts.slice(0, -1)) {
-      const trimmed = part.trim()
-      if (!trimmed) continue
-      if (!allowDuplicates && next.includes(trimmed)) continue
+    // `i` tracks how far the loop got, so a `maxChips` cutoff can leave everything from that
+    // point on (not just the final unsplit part) in the input instead of silently dropping it.
+    let i = 0
+    for (; i < parts.length - 1; i++) {
       if (maxChips != null && next.length >= maxChips) break
+      const trimmed = parts[i]!.trim()
+      if (!isAddableValue(next, trimmed)) continue
       next = [...next, trimmed]
     }
     if (next !== tags) updateTags(next)
-    setInputValue(parts[parts.length - 1] ?? '')
+    setInputValue(parts.slice(i).join(separator))
   }
 
   const { describedBy, feedbackId, helpId, inputId, labelId, labelledBy } = useFormField({
@@ -277,16 +304,19 @@ export const ChipInput = ({
       >
         <ChipList
           chipVariant={chipVariant}
+          disabled={disabled}
           groupRef={groupRef}
           props={{
             'aria-label': rest['aria-label'],
             'aria-labelledby': labelledBy,
             onRemove: disabled ? undefined : removeTags
           }}
+          size={size}
           state={listState}
         />
         <input {...inputProps} className="ghost-input" onPaste={handlePaste} ref={inputRef} />
-        {name && tags.map((tag) => <input key={tag} name={name} type="hidden" value={tag} />)}
+        {name &&
+          items.map((item) => <input key={item.id} name={name} type="hidden" value={item.value} />)}
       </div>
     ),
     help,

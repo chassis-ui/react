@@ -1532,7 +1532,7 @@ interface ChipInputProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultVa
   allowDuplicates?: boolean;
   /**
    * Space-separated chassis-css chip modifier classes (e.g. `"primary smooth"`) applied to every
-   * chip.
+   * chip. Defaults to `"default"`.
    */
   chipVariant?: string;
   /**
@@ -5183,6 +5183,52 @@ interface ToastContextProps {
 type UseToastResult = ToastContextProps;
 declare const useToast: () => UseToastResult;
 //#endregion
+//#region src/components/chip/Chip.d.ts
+interface ChipProps extends HTMLAttributes<HTMLElement> {
+  /**
+   * A string of all className you want applied to the component.
+   */
+  className?: string;
+  /**
+   * Sets the color of the component to one of Chassis context colors.
+   */
+  color?: ContextColor;
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   * Defaults to `span`, or `a` when `href` is set.
+   */
+  component?: ElementType | string;
+  /**
+   * Toggle the disabled state for the component. Applied as the native `disabled` attribute when
+   * `component` is `button`, or the `.disabled` class for every other element (a bare `<span>`/
+   * `<a>` has no real `disabled` attribute).
+   */
+  disabled?: boolean;
+  /**
+   * Renders the chip as a link to this URL. Defaults `component` to `a`.
+   */
+  href?: string;
+  /**
+   * Marks the chip as pressed for toggle-style usage (e.g. a filter chip). Applies the `.active`
+   * class and sets `aria-pressed` so assistive technology announces the toggle state.
+   */
+  pressed?: boolean;
+  /**
+   * Size the component small or large.
+   */
+  size?: 'large' | 'small';
+  /**
+   * Specifies the type of button. Only applies when `component` is `button`. Different browsers
+   * may use different default types for the `<button>` element, so always specify it explicitly.
+   */
+  type?: 'button' | 'reset' | 'submit';
+  /**
+   * Set the chip style variant. `solid`/`basic` render the default look with no extra class.
+   */
+  variant?: ContextStyle;
+}
+declare const Chip: React.ForwardRefExoticComponent<ChipProps & React.RefAttributes<HTMLElement>>;
+//#endregion
 //#region src/components/flex/Flex.d.ts
 interface FlexLayout {
   /**
@@ -5273,5 +5319,5 @@ interface StackProps extends HTMLAttributes<HTMLDivElement> {
 }
 declare const Stack: React.ForwardRefExoticComponent<StackProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
-export { Accordion, AccordionBody, AccordionHeader, AccordionItem, Autocomplete, AutocompleteGroup, AutocompleteItem, Avatar, AvatarImage, AvatarStack, Backdrop, Badge, Breadcrumb, BreadcrumbItem, Button, ButtonGroup, ButtonToolbar, Calendar, Card, CardBody, CardFooter, CardGroup, CardHeader, CardImage, CardImageOverlay, CardLink, CardSubtitle, CardText, CardTitle, Carousel, CarouselControlNext, CarouselControlPrev, CarouselIndicators, CarouselInner, CarouselItem, CarouselOverlay, CarouselPlayPause, Checkbox, CheckboxGroup, ChipInput, CloseButton, Col, Collapse, ColorInput, Combobox, ComboboxGroup, ComboboxItem, Container, DatePicker, DateRangePicker, Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerTitle, FileInput, Flex, FloatingInput, Form, FormFeedback, FormField, FormHelp, FormLabel, Grid, GridItem, I18nProvider, Icon, InputAdorn, InputGroup, InputGroupAddon, Link, List, ListItem, Menu, MenuDivider, MenuHeader, MenuItem, MenuList, MenuSubmenu, MenuSubmenuBack, MenuText, MenuToggle, Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle, Nav, NavItem, NavLink, NavTitle, Navbar, NavbarBrand, NavbarNav, NavbarText, NavbarToggler, Notification, NotificationIcon, NotificationStack, NotificationText, NotificationTitle, OtpInput, Pagination, PaginationItem, PasswordStrength, Placeholder, Popover, Progress, ProgressBar, Radio, RadioGroup, RangeCalendar, RangeInput, Row, Select, Skeleton, SkeletonLoader, Spinner, Stack, Stepper, StepperItem, Switch, TabContent, TabPane, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tabs, TabsList, TabsPanel, TabsTab, TextInput, Textarea, Toast, ToastBody, ToastFooter, ToastHeader, ToastIcon, Toaster, Tooltip, addNotification, addToast, closeNotification, closeToast, notificationQueue, toastQueue, useDrawer, useModal, useNotification, usePagination, useToast };
+export { Accordion, AccordionBody, AccordionHeader, AccordionItem, Autocomplete, AutocompleteGroup, AutocompleteItem, Avatar, AvatarImage, AvatarStack, Backdrop, Badge, Breadcrumb, BreadcrumbItem, Button, ButtonGroup, ButtonToolbar, Calendar, Card, CardBody, CardFooter, CardGroup, CardHeader, CardImage, CardImageOverlay, CardLink, CardSubtitle, CardText, CardTitle, Carousel, CarouselControlNext, CarouselControlPrev, CarouselIndicators, CarouselInner, CarouselItem, CarouselOverlay, CarouselPlayPause, Checkbox, CheckboxGroup, Chip, ChipInput, CloseButton, Col, Collapse, ColorInput, Combobox, ComboboxGroup, ComboboxItem, Container, DatePicker, DateRangePicker, Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerTitle, FileInput, Flex, FloatingInput, Form, FormFeedback, FormField, FormHelp, FormLabel, Grid, GridItem, I18nProvider, Icon, InputAdorn, InputGroup, InputGroupAddon, Link, List, ListItem, Menu, MenuDivider, MenuHeader, MenuItem, MenuList, MenuSubmenu, MenuSubmenuBack, MenuText, MenuToggle, Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle, Nav, NavItem, NavLink, NavTitle, Navbar, NavbarBrand, NavbarNav, NavbarText, NavbarToggler, Notification, NotificationIcon, NotificationStack, NotificationText, NotificationTitle, OtpInput, Pagination, PaginationItem, PasswordStrength, Placeholder, Popover, Progress, ProgressBar, Radio, RadioGroup, RangeCalendar, RangeInput, Row, Select, Skeleton, SkeletonLoader, Spinner, Stack, Stepper, StepperItem, Switch, TabContent, TabPane, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tabs, TabsList, TabsPanel, TabsTab, TextInput, Textarea, Toast, ToastBody, ToastFooter, ToastHeader, ToastIcon, Toaster, Tooltip, addNotification, addToast, closeNotification, closeToast, notificationQueue, toastQueue, useDrawer, useModal, useNotification, usePagination, useToast };
 ```

@@ -6,6 +6,7 @@ export const BasicExample = () => {
       aria-label="Skills"
       defaultValue={['React', 'TypeScript']}
       placeholder="Add skill…"
+      chipVariant="primary smooth"
     />
   )
 }

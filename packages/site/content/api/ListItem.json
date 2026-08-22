@@ -137,6 +137,25 @@
       "type": {
         "name": "string | ComponentClass<any, any> | FunctionComponent<any>"
       }
+    },
+    "href": {
+      "defaultValue": null,
+      "description": "The href attribute specifies the URL of the page the link goes to. Only applicable when\n`component` is `\"a\"`.",
+      "name": "href",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/list/ListItem.tsx",
+        "name": "ListItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/list/ListItem.tsx",
+          "name": "ListItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
     }
   }
 }

@@ -70,6 +70,7 @@
         - title: Badge
         - title: Card
         - title: Carousel
+        - title: Chip
         - title: List
         - title: Table
         - title: Placeholder

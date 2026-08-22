@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import { AriaTagGroupOptions, useButton, useTag, useTagGroup } from 'react-aria'
 import { ListState, Node } from 'react-stately'
 
+import { Chip } from '../chip/Chip'
 import { CloseButton } from '../close-button/CloseButton'
 
 // react-stately's collection builder caches nodes in a WeakMap keyed by each item's own
@@ -14,30 +15,54 @@ export interface ChipItem {
 
 interface ChipListProps {
   chipVariant?: string
+  disabled?: boolean
   groupRef: RefObject<HTMLDivElement | null>
   props: AriaTagGroupOptions<ChipItem>
+  size?: 'small' | 'large'
   state: ListState<ChipItem>
 }
 
-export const ChipList = ({ chipVariant, groupRef, props, state }: ChipListProps) => {
+export const ChipList = ({
+  chipVariant,
+  disabled,
+  groupRef,
+  props,
+  size,
+  state
+}: ChipListProps) => {
   const { gridProps } = useTagGroup(props, state, groupRef)
 
   return (
-    <div {...gridProps} ref={groupRef as RefObject<HTMLDivElement>}>
+    <div {...gridProps} style={{ display: 'contents' }} ref={groupRef as RefObject<HTMLDivElement>}>
       {[...state.collection].map((item) => (
-        <Chip chipVariant={chipVariant} item={item} key={item.key} state={state} />
+        <ChipRow
+          chipVariant={chipVariant}
+          disabled={disabled}
+          item={item}
+          key={item.key}
+          size={size}
+          state={state}
+        />
       ))}
     </div>
   )
 }
 
-interface ChipProps {
+interface ChipRowProps {
   chipVariant?: string
+  disabled?: boolean
   item: Node<ChipItem>
+  size?: 'small' | 'large'
   state: ListState<ChipItem>
 }
 
-const Chip = ({ chipVariant, item, state }: ChipProps) => {
+// Renders one tag as the shared `Chip` component, wrapped in the row/gridcell markup
+// `useTag`'s grid semantics require — see FORMS.md-adjacent notes in ChipInput.tsx for why the
+// grid role lives on `ChipList`'s own wrapper rather than `.chip-input` itself. The `active`
+// class communicates selection directly (react-aria's `aria-selected`, from `rowProps`, is the
+// actual ARIA signal); `Chip`'s own `pressed`/`aria-pressed` prop is deliberately left unset
+// here since `aria-pressed` isn't a valid property on a `role="row"` element.
+const ChipRow = ({ chipVariant, disabled, item, size, state }: ChipRowProps) => {
   const ref = useRef<HTMLDivElement>(null)
   const { rowProps, gridCellProps, removeButtonProps, allowsRemoving } = useTag(
     { item },
@@ -48,14 +73,15 @@ const Chip = ({ chipVariant, item, state }: ChipProps) => {
   const { buttonProps } = useButton(removeButtonProps, buttonRef)
 
   return (
-    <div
+    <Chip
       {...rowProps}
-      className={classNames('chip', chipVariant, {
-        active: state.selectionManager.isSelected(item.key)
-      })}
+      className={classNames(chipVariant, { active: state.selectionManager.isSelected(item.key) })}
+      component="div"
+      disabled={disabled}
       ref={ref}
+      size={size}
     >
-      <div {...gridCellProps}>
+      <div {...gridCellProps} style={{ display: 'contents' }}>
         {item.rendered}
         {allowsRemoving && (
           // react-aria's generic ButtonHTMLAttributes typing includes a legacy `color?: string`
@@ -64,6 +90,6 @@ const Chip = ({ chipVariant, item, state }: ChipProps) => {
           <CloseButton {...(buttonProps as Omit<typeof buttonProps, 'color'>)} ref={buttonRef} />
         )}
       </div>
-    </div>
+    </Chip>
   )
 }

@@ -72,6 +72,37 @@ describe('ChipInput', () => {
       fireEvent.keyDown(input, { key: 'Enter' })
       expect(onChange).not.toHaveBeenCalled()
     })
+
+    test('pasting beyond maxChips keeps the untaken values in the input instead of discarding them', () => {
+      const onChange = vi.fn()
+      render(
+        <ChipInput aria-label="Skills" maxChips={2} onChange={onChange} />
+      )
+      const input = screen.getByRole('textbox') as HTMLInputElement
+      fireEvent.paste(input, {
+        clipboardData: { getData: () => 'React,TypeScript,CSS,HTML' }
+      })
+      expect(onChange).toHaveBeenCalledWith(['React', 'TypeScript'])
+      // CSS and HTML couldn't fit — they stay in the input rather than being silently dropped.
+      expect(input.value).toBe('CSS,HTML')
+    })
+
+    test('allowDuplicates lets the same value be added more than once', () => {
+      const onChange = vi.fn()
+      render(
+        <ChipInput
+          aria-label="Skills"
+          allowDuplicates
+          defaultValue={['React']}
+          onChange={onChange}
+        />
+      )
+      const input = screen.getByRole('textbox')
+      fireEvent.change(input, { target: { value: 'React' } })
+      fireEvent.keyDown(input, { key: 'Enter' })
+      expect(onChange).toHaveBeenCalledWith(['React', 'React'])
+      expect(screen.getAllByRole('row', { name: 'React' })).toHaveLength(2)
+    })
   })
 
   describe('removing chips', () => {
@@ -104,6 +135,112 @@ describe('ChipInput', () => {
       const lastRow = screen.getByRole('row', { name: /TypeScript/ })
       fireEvent.keyDown(lastRow, { key: 'Backspace' })
       expect(onChange).toHaveBeenCalledWith(['React'])
+    })
+
+    test('removing one duplicate-valued chip only removes that instance, not every chip with the same value', () => {
+      const onChange = vi.fn()
+      render(
+        <ChipInput
+          aria-label="Skills"
+          allowDuplicates
+          defaultValue={['React', 'React', 'CSS']}
+          onChange={onChange}
+        />
+      )
+      const rows = screen.getAllByRole('row', { name: 'React' })
+      expect(rows).toHaveLength(2)
+      fireEvent.click(within(rows[0]!).getByRole('button'))
+      expect(onChange).toHaveBeenCalledWith(['React', 'CSS'])
+    })
+  })
+
+  describe('chip-focused keyboard navigation', () => {
+    test('ArrowLeft/ArrowRight move focus between chips', () => {
+      render(<ChipInput aria-label="Skills" defaultValue={['React', 'TypeScript', 'CSS']} />)
+      const input = screen.getByRole('textbox')
+      fireEvent.keyDown(input, { key: 'Backspace' })
+      const cssRow = screen.getByRole('row', { name: 'CSS' })
+      fireEvent.keyDown(cssRow, { key: 'ArrowLeft' })
+      expect(screen.getByRole('row', { name: 'TypeScript' })).toHaveFocus()
+      fireEvent.keyDown(screen.getByRole('row', { name: 'TypeScript' }), { key: 'ArrowRight' })
+      expect(screen.getByRole('row', { name: 'CSS' })).toHaveFocus()
+    })
+
+    test('Shift+ArrowLeft extends selection across multiple chips, and Backspace removes them all', () => {
+      const onChange = vi.fn()
+      render(
+        <ChipInput
+          aria-label="Skills"
+          defaultValue={['React', 'TypeScript', 'CSS']}
+          onChange={onChange}
+        />
+      )
+      const input = screen.getByRole('textbox')
+      fireEvent.keyDown(input, { key: 'Backspace' })
+      const cssRow = screen.getByRole('row', { name: 'CSS' })
+      fireEvent.keyDown(cssRow, { key: 'ArrowLeft', shiftKey: true })
+      expect(screen.getByRole('row', { name: 'TypeScript' })).toHaveAttribute(
+        'aria-selected',
+        'true'
+      )
+      expect(screen.getByRole('row', { name: 'CSS' })).toHaveAttribute('aria-selected', 'true')
+
+      fireEvent.keyDown(screen.getByRole('row', { name: 'TypeScript' }), { key: 'Backspace' })
+      expect(onChange).toHaveBeenCalledWith(['React'])
+    })
+
+    test('Ctrl+A selects all chips, and Backspace removes them all', () => {
+      const onChange = vi.fn()
+      render(
+        <ChipInput
+          aria-label="Skills"
+          defaultValue={['React', 'TypeScript', 'CSS']}
+          onChange={onChange}
+        />
+      )
+      const input = screen.getByRole('textbox')
+      fireEvent.keyDown(input, { key: 'Backspace' })
+      const cssRow = screen.getByRole('row', { name: 'CSS' })
+      fireEvent.keyDown(cssRow, { key: 'a', ctrlKey: true })
+      for (const row of screen.getAllByRole('row')) {
+        expect(row).toHaveAttribute('aria-selected', 'true')
+      }
+      fireEvent.keyDown(cssRow, { key: 'Backspace' })
+      expect(onChange).toHaveBeenCalledWith([])
+    })
+
+    test('Escape on a focused chip clears its selection', () => {
+      render(<ChipInput aria-label="Skills" defaultValue={['React', 'TypeScript']} />)
+      const input = screen.getByRole('textbox')
+      fireEvent.keyDown(input, { key: 'Backspace' })
+      const lastRow = screen.getByRole('row', { name: /TypeScript/ })
+      expect(lastRow).toHaveAttribute('aria-selected', 'true')
+      fireEvent.keyDown(lastRow, { key: 'Escape' })
+      expect(lastRow).toHaveAttribute('aria-selected', 'false')
+    })
+  })
+
+  describe('disabled state', () => {
+    test('applies the disabled class to existing chips, not just the container', () => {
+      render(<ChipInput aria-label="Skills" defaultValue={['React']} disabled />)
+      const row = screen.getByRole('row', { name: /React/ })
+      expect(row).toHaveClass('disabled')
+    })
+
+    test('omits the remove button from existing chips', () => {
+      render(<ChipInput aria-label="Skills" defaultValue={['React']} disabled />)
+      const row = screen.getByRole('row', { name: /React/ })
+      expect(within(row).queryByRole('button')).toBeNull()
+    })
+
+    test('disables every duplicate-valued chip, not just the first occurrence', () => {
+      render(
+        <ChipInput aria-label="Skills" allowDuplicates defaultValue={['React', 'React']} disabled />
+      )
+      for (const row of screen.getAllByRole('row', { name: 'React' })) {
+        expect(row).toHaveClass('disabled')
+        expect(row).toHaveAttribute('tabIndex', '-1')
+      }
     })
   })
 

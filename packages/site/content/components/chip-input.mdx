@@ -15,7 +15,7 @@ import { DisabledExample } from '../../examples/components/chip-input/DisabledEx
 
 ## Overview
 
-`ChipInput` combines a text field with a focusable, removable list of chips — type a value and press <kbd>Enter</kbd> or the separator character (`,` by default) to turn it into a chip. Arrow keys move focus between chips, and <kbd>Backspace</kbd>/<kbd>Delete</kbd> removes a focused (or selected) chip.
+`ChipInput` combines a text field with a focusable, removable list of chips — type a value and press <kbd>Enter</kbd> or the separator character (`,` by default) to turn it into a chip. Arrow keys move focus between chips, and <kbd>Backspace</kbd>/<kbd>Delete</kbd> removes a focused (or selected) chip. Each chip renders as a [`Chip`]([[docsref:/components/chip]]) internally, so `chipVariant` accepts the same `color`/`variant` class names `Chip` documents.
 
 <Example>
   <BasicExample client:load />
