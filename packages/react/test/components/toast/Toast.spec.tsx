@@ -259,6 +259,66 @@ describe('Toast', () => {
     }, 10000)
   })
 
+  describe('show/hide transition', () => {
+    test('carries both show and showing classes while entering, so it stays laid out mid-transition', () => {
+      vi.useFakeTimers()
+      const { rerender } = render(
+        <Toast autohide={false} visible={false}>
+          Test
+        </Toast>
+      )
+      expect(screen.queryByRole('status')).not.toBeInTheDocument()
+
+      rerender(
+        <Toast autohide={false} visible={true}>
+          Test
+        </Toast>
+      )
+      const toast = screen.getByRole('status')
+      expect(toast).toHaveClass('show', 'showing')
+
+      act(() => vi.advanceTimersByTime(250))
+      expect(toast).toHaveClass('show')
+      expect(toast).not.toHaveClass('showing')
+      vi.useRealTimers()
+    })
+
+    test('carries both show and showing classes while exiting, before unmounting', () => {
+      vi.useFakeTimers()
+      const { rerender } = render(
+        <Toast autohide={false} visible={true}>
+          Test
+        </Toast>
+      )
+      const toast = screen.getByRole('status')
+      act(() => vi.advanceTimersByTime(250))
+      expect(toast).toHaveClass('show')
+      expect(toast).not.toHaveClass('showing')
+
+      rerender(
+        <Toast autohide={false} visible={false}>
+          Test
+        </Toast>
+      )
+      expect(toast).toHaveClass('show', 'showing')
+
+      act(() => vi.advanceTimersByTime(250))
+      expect(screen.queryByRole('status')).not.toBeInTheDocument()
+      vi.useRealTimers()
+    })
+
+    test('mounting already visible renders settled, without playing the entrance transition', () => {
+      render(
+        <Toast autohide={false} visible={true}>
+          Test
+        </Toast>
+      )
+      const toast = screen.getByRole('status')
+      expect(toast).toHaveClass('show')
+      expect(toast).not.toHaveClass('showing')
+    })
+  })
+
   describe('shorthand props', () => {
     test('composes header, body and footer from icon/title/time/message/footer', async () => {
       render(

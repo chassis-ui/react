@@ -128,7 +128,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
     },
     ref
   ) => {
-    const [_visible, setVisible] = useState(false)
+    const [_visible, setVisible] = useState(visible)
     const nodeRef = useRef<HTMLDivElement>(null)
     const forkedRef = useForkedRef(ref, nodeRef)
     const titleId = useId()
@@ -166,7 +166,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
 
     const getTransitionClass = (state: string) => {
       return state === 'entering' || state === 'exiting'
-        ? 'showing'
+        ? 'show showing'
         : state === 'entered'
           ? 'show'
           : undefined
