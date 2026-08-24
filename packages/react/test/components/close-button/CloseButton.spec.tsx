@@ -121,6 +121,7 @@ describe('CloseButton', () => {
       const button = screen.getByRole('button', { name: 'Close' })
 
       expect(button).toHaveAttribute('aria-disabled', 'true')
+      expect(button).toHaveClass('disabled')
       await user.click(button)
       expect(onClick).not.toHaveBeenCalled()
     })
@@ -132,6 +133,21 @@ describe('CloseButton', () => {
       render(<CloseButton component={Custom} />)
       const button = screen.getByRole('button', { name: 'Close' })
       expect(button.tagName).toBe('BUTTON')
+    })
+  })
+
+  describe('component="a"', () => {
+    test('a disabled anchor gets the disabled class, aria-disabled and tabIndex=-1, and blocks clicks', async () => {
+      const user = userEvent.setup()
+      const onClick = vi.fn()
+      render(<CloseButton component="a" href="/bazinga" disabled onClick={onClick} />)
+      const link = screen.getByRole('link', { name: 'Close' })
+
+      expect(link).toHaveClass('close-button', 'disabled')
+      expect(link).toHaveAttribute('aria-disabled', 'true')
+      expect(link).toHaveAttribute('tabIndex', '-1')
+      await user.click(link)
+      expect(onClick).not.toHaveBeenCalled()
     })
   })
 

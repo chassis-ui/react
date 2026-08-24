@@ -99,7 +99,7 @@ export const Button = forwardRef<
         smooth: variant === 'smooth',
         link: variant === 'link',
         active: pressed,
-        disabled: isAnchor && disabled
+        disabled: Component !== 'button' && disabled
       },
       size,
       shape,

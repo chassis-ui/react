@@ -11,7 +11,7 @@ exports[`Nav > rendering > matches the baseline markup snapshot 1`] = `
     >
       <a
         aria-current="page"
-        class="nav-link active"
+        class="active nav-link"
         href="#"
       >
         Active

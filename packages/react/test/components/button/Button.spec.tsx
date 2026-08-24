@@ -178,6 +178,7 @@ describe('Button', () => {
       const button = screen.getByRole('button', { name: 'Save' })
 
       expect(button).toHaveAttribute('aria-disabled', 'true')
+      expect(button).toHaveClass('disabled')
       await user.click(button)
       expect(onClick).not.toHaveBeenCalled()
     })

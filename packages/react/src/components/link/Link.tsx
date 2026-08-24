@@ -1,7 +1,16 @@
-import React, { AllHTMLAttributes, ElementType, forwardRef, MouseEvent } from 'react'
+import React, {
+  AllHTMLAttributes,
+  ElementType,
+  forwardRef,
+  MouseEvent,
+  RefObject,
+  useRef
+} from 'react'
 import classNames from 'classnames'
+import { AriaButtonProps, mergeProps, useButton } from 'react-aria'
 
 import { ContextColor } from '../../types'
+import { useForkedRef } from '../../hooks'
 
 export interface LinkProps extends AllHTMLAttributes<HTMLElement> {
   /**
@@ -66,10 +75,10 @@ export const Link = forwardRef<HTMLButtonElement | HTMLAnchorElement, LinkProps>
     ref
   ) => {
     const _className = classNames(
-      className,
       color && `link-${color}`,
       { 'icon-link': iconLink, 'fg-reset': reset, 'stretched-link': stretched },
-      { active, disabled }
+      { active, disabled },
+      className
     )
 
     const isInteractive = Component === 'a' || Component === 'button'
@@ -83,15 +92,31 @@ export const Link = forwardRef<HTMLButtonElement | HTMLAnchorElement, LinkProps>
         }
       : onClick
 
+    // A `component` that isn't a native interactive element gets a raw onClick with no
+    // keyboard semantics otherwise — mouse-only, unlike `Button`/`CloseButton`, which
+    // synthesize this via `useButton` for exactly this "arbitrary component" case.
+    const needsButtonSemantics = !isInteractive && !!onClick
+    const buttonRef = useRef<HTMLElement | null>(null)
+    const forkedRef = useForkedRef(ref, buttonRef)
+    const buttonAriaProps: AriaButtonProps<'div'> = {
+      elementType: 'div',
+      isDisabled: disabled,
+      onClick: onClick as unknown as AriaButtonProps<'div'>['onClick']
+    }
+    const { buttonProps } = useButton(
+      buttonAriaProps,
+      buttonRef as RefObject<HTMLDivElement | null>
+    )
+
     return (
       <Component
-        {...rest}
+        {...mergeProps(rest, needsButtonSemantics ? buttonProps : {})}
         className={_className}
         {...(active && { 'aria-current': 'page' })}
         {...(Component === 'a' && disabled && { 'aria-disabled': true, tabIndex: -1 })}
-        onClick={handleClick}
+        {...(!needsButtonSemantics && { onClick: handleClick })}
         {...(Component === 'button' && { disabled })}
-        ref={ref}
+        ref={needsButtonSemantics ? forkedRef : ref}
       >
         {children}
       </Component>

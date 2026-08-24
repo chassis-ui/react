@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 
@@ -81,6 +81,15 @@ describe('Link', () => {
       const link = screen.getByRole('link')
       expect(link).toHaveClass('link-primary', 'icon-link', 'fg-reset', 'stretched-link')
     })
+
+    test('places className last so caller overrides win over the built-in classes', () => {
+      render(
+        <Link href="/bazinga" color="primary" active className="bazinga">
+          Test
+        </Link>
+      )
+      expect(screen.getByRole('link').className).toBe('link-primary active bazinga')
+    })
   })
 
   describe('click behavior', () => {
@@ -106,6 +115,46 @@ describe('Link', () => {
       )
       await user.click(screen.getByRole('button', { name: 'Test' }))
       expect(onClick).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('custom component (keyboard activation via react-aria)', () => {
+    test('exposes role="button" and keyboard focus on a non-interactive component with onClick', () => {
+      render(
+        <Link component="span" onClick={() => undefined}>
+          Test
+        </Link>
+      )
+      const link = screen.getByRole('button', { name: 'Test' })
+      expect(link.tagName).toBe('SPAN')
+      expect(link).toHaveAttribute('tabIndex', '0')
+    })
+
+    test('activates on click, Enter and Space, matching native button semantics', async () => {
+      const user = userEvent.setup()
+      const onClick = vi.fn()
+      render(
+        <Link component="span" onClick={onClick}>
+          Test
+        </Link>
+      )
+      const link = screen.getByRole('button', { name: 'Test' })
+
+      await act(() => user.click(link))
+      expect(onClick).toHaveBeenCalledTimes(1)
+
+      await act(() => user.keyboard('{Enter}'))
+      expect(onClick).toHaveBeenCalledTimes(2)
+
+      await act(() => user.keyboard('[Space]'))
+      expect(onClick).toHaveBeenCalledTimes(3)
+    })
+
+    test('does not get button semantics without an onClick, staying a plain non-interactive element', () => {
+      render(<Link component="span">Test</Link>)
+      const link = screen.getByText('Test')
+      expect(link).not.toHaveAttribute('role')
+      expect(link).not.toHaveAttribute('tabIndex')
     })
   })
 

@@ -88,9 +88,20 @@ export const CloseButton = forwardRef<HTMLButtonElement | HTMLAnchorElement, Clo
     // through untouched, same as `className`, letting the component interpret them itself.
     const isComponentReference = typeof component !== 'string'
 
+    // Only a bare, non-`button` HTML tag needs the `.disabled` class applied by hand — a real
+    // `<button>` gets native `:disabled` styling for free (chassis-css matches both selectors,
+    // `&:disabled, &.disabled`), and a component reference isn't styled by CloseButton at all
+    // (see `isComponentReference` above).
     const _className = isComponentReference
       ? className
-      : classNames('close-button', { context: color || variant }, color, variant, size, className)
+      : classNames(
+          'close-button',
+          { context: color || variant, disabled: component !== 'button' && disabled },
+          color,
+          variant,
+          size,
+          className
+        )
 
     // The default icon-only close button has no visible text, so it needs the 'Close' fallback
     // as its accessible name. Once `children` renders visible content (e.g. custom text passed

@@ -28,6 +28,18 @@ describe('NavItem', () => {
       expect(link).toHaveClass('nav-link', 'active', 'disabled')
       expect(screen.getByRole('listitem')).toHaveClass('nav-item', 'bazinga')
     })
+
+    test('applies the caller className only to the outer li, not the inner NavLink', () => {
+      render(
+        <NavItem className="bazinga" href="/bazinga">
+          Test
+        </NavItem>
+      )
+      const link = screen.getByRole('link', { name: 'Test' })
+      const item = screen.getByRole('listitem')
+      expect(item.className.split(' ')).toContain('bazinga')
+      expect(link.className.split(' ')).not.toContain('bazinga')
+    })
   })
 
   describe('ref forwarding', () => {
