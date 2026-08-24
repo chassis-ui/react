@@ -1,10 +1,9 @@
 # Versioning, deprecation, and release process
 
-Everything in `packages/react/src` up to the [enterprise migration
-plan](../../.claude/plans/chassis-react-enterprise-migration.md)'s Phase 5 assumed there were no
-published consumers, so a rename or removal could happen directly, with no deprecation path. That
-assumption ends the moment this ships a first published version to npm — this doc is the process
-for handling changes safely after that point.
+Everything in `packages/react/src` prior to this package's first published npm version assumed
+there were no external consumers, so a rename or removal could happen directly, with no
+deprecation path. That assumption no longer holds once this ships a published version to npm —
+this doc is the process for handling changes safely from that point on.
 
 ## Release mechanics: Changesets
 

@@ -97,7 +97,7 @@ Don't try to unify these with the `renderFormField` family — the props are nam
 
 - One component (or a tightly-coupled family like a group + its item) per folder, named after the folder in kebab-case: `text-input/TextInput.tsx`, `range-input/RangeInput.tsx`.
 - No `Form*` prefix except the handful of genuinely shared, generic pieces that live in `form/`: `Form`, `FormLabel`, `FormHelp`, `FormFeedback`, plus the `renderFormCheck` helper itself (not a component, but colocated there since it's `FormLabel`'s only non-leaf consumer). Everything else is named after what it _is_ (`Select`, not `FormSelect`; `Checkbox`, not `FormCheck`).
-- `className` builders always list the chassis-css base class first, then size, then `is-invalid`/`is-valid`, then the caller's `className` last (so caller overrides win). Match this order in any new component — chassis-css and existing snapshot tests both assume it.
+- `className` builder ordering — see [`CONVENTIONS.md`](CONVENTIONS.md#classname-builder-ordering).
 - Every native-input leaf keeps the underlying element genuinely native (`<input>`, `<select>`, `<textarea>`) — no custom widget replaces a form control chassis-css itself only ever targets via a native attribute selector (`select.form-input`, `.form-input[type="file"]`, `.form-input[type="color"]`). Don't introduce a react-aria hook for `Select`/`RangeInput`/`FileInput`/`ColorInput`; there isn't one that preserves the native element (`useSelect`/`useSlider` render fully custom markup chassis-css doesn't style).
 
 ## Gotchas found the hard way

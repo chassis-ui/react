@@ -39,8 +39,8 @@ export default defineConfig([
       '**/coverage/',
       '_site/',
       '_storybook/',
-      'site/.astro/',
-      'site/public/',
+      'packages/site/.astro/',
+      'packages/site/public/',
       'vendor/'
     ]
   },
@@ -158,7 +158,7 @@ export default defineConfig([
     }
   },
   {
-    files: ['site/**/*.js', 'site/**/*.mjs'],
+    files: ['packages/site/**/*.js', 'packages/site/**/*.mjs'],
     languageOptions: {
       globals: { ...globals.browser }
     }

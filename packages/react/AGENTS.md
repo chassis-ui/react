@@ -96,19 +96,20 @@ pnpm test:update  # same, plus -u to update snapshots
 
 Storybook (`.storybook/`, config framework `@storybook/react-vite`) plus Playwright screenshot
 tests (`test/visual/`) catch pixel-level regressions that `vitest`'s DOM snapshots can't — e.g. a
-CSS change that doesn't alter markup at all. Coverage today (Phase 10 of the enterprise migration)
-spans four batches, each its own spec file: `calendar-datepicker.visual.spec.ts` (calendar,
-datepicker — Phase 2 touched this family's CSS output directly), `menu-popover-tooltip.visual.spec.ts`
+CSS change that doesn't alter markup at all. Coverage today spans four batches, each its own spec
+file: `calendar-datepicker.visual.spec.ts` (calendar, datepicker — this family has component-scoped
+CSS, see `THEMING.md`, so it needs pixel coverage the other families don't),
+`menu-popover-tooltip.visual.spec.ts`
 (positioning-heavy, portal-based), `toast-notification.visual.spec.ts` (transition-heavy), and
 `accordion-collapse.visual.spec.ts` (native `<details>` / `CSSTransition`-driven open-close state).
 A future family gets its own `test/visual/<family>.visual.spec.ts` with its own story-title
 filter, not a widened version of an existing one.
 
 ```bash
-pnpm storybook          # storybook dev -p 6006, for authoring stories interactively
-pnpm build-storybook     # static build to _storybook/ (gitignored)
-pnpm test:visual         # build-storybook, then run test/visual/**/*.visual.spec.ts against it
-pnpm test:visual:update  # same, plus --update-snapshots to regenerate baselines
+pnpm storybook            # storybook dev -p 6006, for authoring stories interactively
+pnpm storybook:build      # static build to _storybook/ (gitignored)
+pnpm test:visual          # build-storybook, then run test/visual/**/*.visual.spec.ts against it
+pnpm test:visual:update   # same, plus --update-snapshots to regenerate baselines
 ```
 
 - Story files are collected under `stories/<family>/<Component>.stories.tsx` (e.g.
@@ -146,9 +147,8 @@ pnpm test:visual:update  # same, plus --update-snapshots to regenerate baselines
   [`FORMS.md`](FORMS.md#adding-a-new-form-component) for form
   components specifically; for non-form components, follow the same folder/test/index.ts-export
   shape without the render-helper-engine decision.
-- `className` builders: chassis-css base class first, then size, then `is-invalid`/`is-valid`,
-  then the caller's `className` last (so caller overrides win) — existing snapshot tests assume
-  this order.
+- `className` builder ordering (base class, then size, then validation state, then caller's
+  `className` last) — see `CONVENTIONS.md`.
 - Prefer native elements (`<input>`, `<select>`, `<textarea>`) wired up with react-aria hooks over
   fully custom widgets, wherever chassis-css targets the native element directly via attribute
   selectors (`select.form-input`, `.form-input[type="file"]`) — a react-aria hook that renders

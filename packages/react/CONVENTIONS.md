@@ -1,29 +1,16 @@
 # Conventions
 
-Rules for the naming/architecture migration tracked in
-`.claude/plans/chassis-react-enterprise-migration.md`. Phase 1 onward executes these mechanically
-— this file is what makes the rename a series of mechanical batches instead of ad hoc judgment
-calls made 52 times. When in doubt during a batch, this file wins over whatever the pre-migration
-code did.
+Naming, folder-layout, and architecture rules for this package. When in doubt, this file wins over
+whatever an existing component happens to do.
 
-## Component naming
+## Naming
 
-`PascalCase`, no prefix: `CxButton` → `Button`, `CxAvatarStack` → `AvatarStack`.
-
-## Prop/interface naming
-
-`<Component>Props`: `CxButtonProps` → `ButtonProps`.
-
-Change-event props are `onChange` — every component in this library already uses this spelling
-(41 components audited, zero uses of `onValueChange`). Don't introduce `onValueChange` as an
-alternate spelling; the ESLint rule in `eslint.config.js` flags it as an error.
-
-`tone` isn't part of this library's vocabulary (colors/variants are named `color`/`variant`).
-Don't introduce it as a synonym; also flagged as an error.
-
-## File naming
-
-`Component.tsx` (drop `Cx` from filenames too). Test files: `Component.spec.tsx`.
+- **Components**: `PascalCase`, no prefix — e.g. `Button`, `AvatarStack`.
+- **Props/interfaces**: `<Component>Props` — e.g. `ButtonProps`.
+- **Files**: `Component.tsx`. Test files: `Component.spec.tsx`.
+- **Change-event props are always `onChange`**, never `onValueChange` — the ESLint rule in
+  `eslint.config.js` flags `onValueChange` as an error.
+- **Colors/variants are named `color`/`variant`**, never `tone` — also flagged as an error.
 
 ## Folder layout: three separate trees, not colocation
 
@@ -46,9 +33,9 @@ Don't introduce it as a synonym; also flagged as an error.
 __snapshots__/` for snapshot files) — mirrors `src/components/` the same way `stories/`
   does, under the top-level `test/` folder that also holds shared setup (`test/setup.ts`, etc.).
 
-Colocating tests or stories beside the component (`__tests__/` inside `src/components/<kebab>/`)
-is the pre-migration shape and no longer used — several components have multiple files/sub-parts,
-which colocation made messy once the library grew past a handful of simple components.
+Don't colocate tests or stories beside the component (e.g. a `__tests__/` folder inside
+`src/components/<kebab-name>/`) — keep them in the separate `stories/`/`test/` trees above. Once a
+component has multiple files or sub-parts, colocation gets messy fast.
 
 ## Per-component barrels
 
@@ -81,9 +68,8 @@ export type { AvatarStackProps, AvatarStackItemDef } from './AvatarStack'
 
 The `// plop:sub-export` comment is the marker `pnpm generate:sub` appends after — write it by
 hand on the family's first sub-part (as shown above) so every part after that can be generated.
-Unlike the old namespace shape, there's no trailing-comma constraint to work around: these are
-independent top-level `export` statements, not entries in an object literal, so order doesn't
-matter and new parts are simply appended after the marker.
+These are independent top-level `export` statements, not object-literal entries, so order doesn't
+matter — new parts are simply appended after the marker.
 
 The central `src/index.ts` also imports and re-exports every sub-part by name, same as any other
 top-level export — `pnpm generate:sub` wires this automatically via the same `// plop:import` /
@@ -94,22 +80,21 @@ Notes:
 - Internal cross-references between sibling files (e.g. `Avatar.tsx` rendering `<AvatarImage>`
   internally) keep importing directly from the sibling file, not through the package's public
   barrel.
-- Applies only to genuine root+parts families. See the migration plan's "Compound-family
-  inventory" (Ground Truth section) for which folders qualify.
-- Documented flat exceptions — these were never compound in the first place, nothing to convert:
-  `Grid` (`Container`/`Row`/`Col` — no natural root), `Form` (`Form`/`FormLabel`/`FormHelp`/
-  `FormFeedback` — `Form` is each component's own identity, not a namespace marker for shared
-  pieces), `CheckboxGroup`/`RadioGroup`, `Toast`'s `Toaster`, `ButtonGroup`'s `ButtonToolbar`.
-- A second, narrower exception: `Tabs`' own parts are `TabList`/`Tab`/`TabPanel`, not
-  `TabsList`/`TabsTab`/`TabsPanel`. Mechanically prefixing with the root name would produce
+- Applies only to genuine root+parts families — check the component's own folder and `index.ts`
+  barrel to tell whether it's a root+parts family or a standalone component; there's no separate
+  inventory tracking this.
+- Not every family with a shared name prefix is compound — these don't have a "root+parts"
+  relationship, so this pattern doesn't apply to them: `Grid` (`Container`/`Row`/`Col` — no
+  natural root), `Form` (`Form`/`FormLabel`/`FormHelp`/`FormFeedback` — `Form` is each component's
+  own identity, not a namespace marker for shared pieces), `CheckboxGroup`/`RadioGroup`, `Toast`'s
+  `Toaster`, `ButtonGroup`'s `ButtonToolbar`.
+- `Tabs` is a deliberate exception to the prefixing rule: its parts are `TabList`/`Tab`/`TabPanel`,
+  not `TabsList`/`TabsTab`/`TabsPanel`. Mechanically prefixing with the root name would produce
   `TabsTab` — the root and the part repeating the same word (`Tab`) right next to each other.
   Instead these three mirror, name-for-name, the react-aria hooks each one wraps (`useTabList`,
-  `useTab`, `useTabPanel`) and the equivalent components in `react-aria-components` itself — a
-  deliberate exception, not an oversight, and not a precedent for dropping the parent-name prefix
-  elsewhere. `Tabs` (the root) keeps the family's own identity same as every other family's root.
-- History: this library briefly used a namespace-only API (`Accordion.Item`, via `Object.assign`)
-  between Phase 1 and Phase 1b of the migration plan, then reverted to flat exports — see the
-  plan's "Amendment (post Phase 1)" section for the reasoning.
+  `useTab`, `useTabPanel`) and the equivalent components in `react-aria-components` itself. Don't
+  generalize this to other families — `Tabs` (the root) still keeps the family's own identity same
+  as every other family's root.
 
 ## Sass usage policy
 
@@ -126,9 +111,15 @@ colors, spacing, or radii; only write component-scoped CSS as a last resort.
 
 ## What isn't caught by lint
 
-`eslint.config.js` flags `Cx`-prefixed _identifiers_ (warn during Phase 1, error from Batch G
-onward) and `onValueChange`/`tone` identifiers (error). Neither rule catches string literals:
-internal-only `cx-*` CSS class-name strings and `data-cx-*` HTML attributes both need an explicit
-grep, not a lint pass — see the migration plan's Ground Truth section for which of those are in
-scope for renaming (`cx-*` class strings) and which are staying as-is (`data-cx-*` attributes,
-because `@chassis-ui/css` selects on them directly).
+`eslint.config.js` flags `Cx`-prefixed _identifiers_ as an error, plus `onValueChange`/`tone`
+identifiers. Neither rule catches string literals: internal-only `cx-*` CSS class-name strings and
+`data-cx-*` HTML attributes both need an explicit grep (`grep -rn "cx-" src/`), not a lint pass —
+there's no separate inventory tracking which is which. `cx-*` class-name strings are in scope for
+renaming like any other `Cx` reference; `data-cx-*` attributes stay as-is, because
+`@chassis-ui/css` selects on them directly.
+
+## `className` builder ordering
+
+chassis-css base class first, then size, then `is-invalid`/`is-valid`, then the caller's
+`className` last (so caller overrides win) — existing snapshot tests across the library assume
+this order. Match it in any new component.

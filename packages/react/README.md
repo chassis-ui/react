@@ -46,10 +46,10 @@ import '@chassis-ui/css/dist/css/chassis.min.css'
 ## Usage
 
 ```jsx
-import { CxButton } from '@chassis-ui/react'
+import { Button } from '@chassis-ui/react'
 
 export function Example() {
-  return <CxButton context="primary">Click me</CxButton>
+  return <Button color="primary">Click me</Button>
 }
 ```
 

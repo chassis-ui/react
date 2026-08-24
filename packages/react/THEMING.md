@@ -53,8 +53,8 @@ packages:
 - **`data-cx-*` attributes that aren't `data-cx-theme`** — `data-cx-placement`, `data-cx-inline`,
   `data-cx-target`, `data-cx-strength`, etc. These are a wire protocol between
   `@chassis-ui/react`'s components and `@chassis-ui/css`'s attribute selectors (see
-  `CONVENTIONS.md`'s Ground Truth notes and the migration plan), not a theming hook — don't set or
-  rely on their values from outside this package.
+  `CONVENTIONS.md`'s "What isn't caught by lint" note), not a theming hook — don't set or rely on
+  their values from outside this package.
 - **Internal `cx-*`/plain class name strings the calendar/datepicker family's own `.scss` files use
   for their own layout** (e.g. `.datepicker-field`, `.datepicker-segment`) — implementation detail
   of those four components, not a documented public class API. Style through the props those
@@ -80,8 +80,8 @@ chassis-css has one (documented in each file's own header comment, which also na
 exceptions above) — treat that as the reference implementation for what "component-scoped CSS
 built on the token system" looks like if a future component needs the same treatment. Before
 adding a new one, read `../chassis-css/scss/` for an existing partial that already covers the
-need — don't reimplement first and tokenize later (see the migration plan's Phase 2 notes for how
-this was done for calendar/datepicker).
+need — don't reimplement first and tokenize later. `Calendar.scss`/`DatePicker.scss`'s own header
+comments are the reference example for how this was done for the calendar/datepicker family.
 
 Every other component ships zero CSS of its own — there's nothing in this package for a consuming
 app to override beyond the chassis-css classes it applies, which is exactly the point: theming
