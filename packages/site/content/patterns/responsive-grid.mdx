@@ -1,4 +1,5 @@
 ---
+title: Responsive Grid
 description: Use our powerful mobile-first flexbox grid to build layouts of all shapes and sizes thanks to a twelve column system, six default responsive tiers, Sass variables and mixins, and dozens of predefined classes.
 
 toc: true
@@ -26,8 +27,8 @@ The above example creates three equal-width columns across all devices and viewp
 
 This flexbox grid isn't the only layout system available — two others cover cases it isn't the best fit for:
 
-- **[`<Stack>`](../components/stack)** for simple one-dimensional arrangements (a single row or column of items, like a button toolbar or a form's field list) — no `<Container>`/`<Row>`/`<Col>` nesting required.
-- **[`<Grid>`](../components/grid)** (native CSS Grid) for two-dimensional layouts needing explicit row _and_ column placement, or gutters without the negative-margin technique this flexbox grid relies on.
+- **[`<Stack>`]([[docsref:/components/stack]])** for simple one-dimensional arrangements (a single row or column of items, like a button toolbar or a form's field list) — no `<Container>`/`<Row>`/`<Col>` nesting required.
+- **[`<Grid>`]([[docsref:/components/grid]])** (native CSS Grid) for two-dimensional layouts needing explicit row _and_ column placement, or gutters without the negative-margin technique this flexbox grid relies on.
 
 Reach for `<Row>`/`<Col>`/`<Container>` when you need this system's responsive column-span props, offsets, and ordering — most existing layouts and forms already use it.
 
@@ -35,140 +36,74 @@ Reach for `<Row>`/`<Col>`/`<Container>` when you need this system's responsive c
 
 Breaking it down, here's how the grid system comes together:
 
-- **Our grid supports [six responsive breakpoints](./breakpoints).** Breakpoints are based on `min-width` media queries, meaning they affect that breakpoint and all those above it (e.g., `responsive={{ small: { span: 4 } }}` applies to `small` and every breakpoint above it). This means you can control container and column sizing and behavior by each breakpoint.
+- **Our grid supports [six responsive breakpoints](https://chassis-ui.com/css/docs/layout/breakpoints).** Breakpoints are based on `min-width` media queries, meaning they affect that breakpoint and all those above it (e.g., `responsive={{ small: { span: 4 } }}` applies to `small` and every breakpoint above it). This means you can control container and column sizing and behavior by each breakpoint.
 
 - **Containers center and horizontally pad your content.** Use `<Container>` for a responsive pixel width, `<Container fluid>` for `width: 100%` across all viewports and devices, or a responsive container (e.g., `<Container fluidUntil="medium">`) for a combination of fluid and pixel widths.
 
-- **Rows are wrappers for columns.** Each column has horizontal `padding` (called a gutter) for controlling the space between them. This `padding` is then counteracted on the rows with negative margins to ensure the content in your columns is visually aligned down the left side. [`<Row>`](../components/row) also supports [uniformly sizing its columns](../components/row#row-columns) and [gutter overrides](./gutters) to change the spacing of your content.
+- **Rows are wrappers for columns.** Each column has horizontal `padding` (called a gutter) for controlling the space between them. This `padding` is then counteracted on the rows with negative margins to ensure the content in your columns is visually aligned down the left side. [`<Row>`]([[docsref:/components/row]]) also supports [uniformly sizing its columns]([[docsref:/components/row#row-columns]]) and [gutter overrides](#gutters) to change the spacing of your content.
 
 - **Columns are incredibly flexible.** There are 12 template columns available per row, allowing you to create different combinations of elements that span any number of columns. The `span` prop indicates the number of template columns to span (e.g., `<Col span={4}>` spans four). `width`s are set in percentages so you always have the same relative sizing.
 
-- **Gutters are also responsive and customizable.** [Gutter classes are available](./gutters) across all breakpoints, with all the same sizes as our margin and padding spacing. Change horizontal gutters with the `gutterX` prop, vertical gutters with `gutterY`, or all gutters with `gutter` — each also available inside `responsive={{ {breakpoint}: { ... } }}` for breakpoint-specific overrides. `gutter={0}` is also available to remove gutters.
+- **Gutters are also responsive and customizable.** [Gutter classes are available](#gutters) across all breakpoints, with all the same sizes as our margin and padding spacing. Change horizontal gutters with the `gutterX` prop, vertical gutters with `gutterY`, or all gutters with `gutter` — each also available inside `responsive={{ {breakpoint}: { ... } }}` for breakpoint-specific overrides. `gutter={0}` is also available to remove gutters.
 
 Be aware of the limitations and [bugs around flexbox](https://github.com/philipwalton/flexbugs), like the [inability to use some HTML elements as flex containers](https://github.com/philipwalton/flexbugs#flexbug-9).
 
 ## Grid options
 
-Chassis grid system can adapt across all six default breakpoints, and any breakpoints you customize. The six default grid tiers are as follow:
-
-- Extra small (xs)
-- Small (sm)
-- Medium (md)
-- Large (lg)
-- Extra large (xl)
-- Extra extra large (xxl)
-
-As noted above, each of these breakpoints have their own container, unique class prefix, and modifiers. Here's how the grid changes across these breakpoints:
+Chassis's grid system adapts across six breakpoints, each mapped to a `responsive` prop key — see
+[Breakpoints](https://chassis-ui.com/css/docs/layout/breakpoints) on the CSS site for the current
+pixel threshold each one represents.
 
 <table className="table mb-4">
   <thead>
     <tr>
-      <th scope="col"></th>
-      <th scope="col">
-        xs
-        <br />
-        <span className="fw-normal">&lt;576px</span>
-      </th>
-      <th scope="col">
-        sm
-        <br />
-        <span className="fw-normal">&ge;576px</span>
-      </th>
-      <th scope="col">
-        md
-        <br />
-        <span className="fw-normal">&ge;768px</span>
-      </th>
-      <th scope="col">
-        lg
-        <br />
-        <span className="fw-normal">&ge;992px</span>
-      </th>
-      <th scope="col">
-        xl
-        <br />
-        <span className="fw-normal">&ge;1200px</span>
-      </th>
-      <th scope="col">
-        xxl
-        <br />
-        <span className="fw-normal">&ge;1400px</span>
-      </th>
+      <th scope="col">Breakpoint</th>
+      <th scope="col">responsive key</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th className="text-nowrap" scope="row">
-        Container <code className="fw-normal">max-width</code>
-      </th>
-      <td>None (auto)</td>
-      <td>540px</td>
-      <td>720px</td>
-      <td>960px</td>
-      <td>1140px</td>
-      <td>1320px</td>
-    </tr>
-    <tr>
-      <th className="text-nowrap" scope="row">
-        Prop
-      </th>
+      <th scope="row">Extra small</th>
       <td>
-        <code>span</code>
-      </td>
-      <td>
-        <code>responsive.small</code>
-      </td>
-      <td>
-        <code>responsive.medium</code>
-      </td>
-      <td>
-        <code>responsive.large</code>
-      </td>
-      <td>
-        <code>responsive.xlarge</code>
-      </td>
-      <td>
-        <code>responsive['2xlarge']</code>
+        unprefixed <code>span</code>, applies to every size
       </td>
     </tr>
     <tr>
-      <th className="text-nowrap" scope="row">
-        # of columns
-      </th>
-      <td colspan="6">12</td>
-    </tr>
-    <tr>
-      <th className="text-nowrap" scope="row">
-        Gutter width
-      </th>
-      <td colspan="6">1.5rem (.75rem on left and right)</td>
-    </tr>
-    <tr>
-      <th className="text-nowrap" scope="row">
-        Custom gutters
-      </th>
-      <td colspan="6">
-        <a href="./gutters">Yes</a>
+      <th scope="row">Small</th>
+      <td>
+        <code>small</code>
       </td>
     </tr>
     <tr>
-      <th className="text-nowrap" scope="row">
-        Nestable
-      </th>
-      <td colspan="6">
-        <a href="#nesting">Yes</a>
+      <th scope="row">Medium</th>
+      <td>
+        <code>medium</code>
       </td>
     </tr>
     <tr>
-      <th className="text-nowrap" scope="row">
-        Column ordering
-      </th>
-      <td colspan="6">
-        <a href="../components/column">Yes</a>
+      <th scope="row">Large</th>
+      <td>
+        <code>large</code>
+      </td>
+    </tr>
+    <tr>
+      <th scope="row">Extra large</th>
+      <td>
+        <code>xlarge</code>
+      </td>
+    </tr>
+    <tr>
+      <th scope="row">Extra extra large</th>
+      <td>
+        <code>2xlarge</code>
       </td>
     </tr>
   </tbody>
 </table>
+
+Every breakpoint provides twelve template columns and a customizable gutter — see
+[Gutters](#gutters) below — and columns can be reordered independently of DOM order, covered on the
+[Column]([[docsref:/components/column]]) page.
 
 ## Auto-layout columns
 
@@ -309,7 +244,153 @@ Don't want your columns to simply stack in some grid tiers? Use a combination of
 
 ### Row columns
 
-Beyond sizing individual `<Col>`s, [`<Row>`'s `cols` prop](../components/row#row-columns) uniformly sets the number of columns per row — see the [Row](../components/row) page for the full set of examples.
+Beyond sizing individual `<Col>`s, [`<Row>`'s `cols` prop]([[docsref:/components/row#row-columns]]) uniformly sets the number of columns per row — see the [Row]([[docsref:/components/row]]) page for the full set of examples.
+
+## Gutters
+
+Gutters are the padding between columns, used to responsively space and align content in the grid
+system.
+
+- **Gutters are the gaps between column content, created by horizontal `padding`.** `padding-right` and `padding-left` are set on each column, with a negative `margin` offsetting that at the start and end of each row to keep content aligned.
+- **Gutters start at `1.5rem` (`24px`) wide.** This matches the grid to the padding and margin spacers scale.
+- **Gutters can be responsively adjusted.** Use breakpoint-specific gutter props to modify horizontal gutters, vertical gutters, and all gutters.
+
+### Horizontal
+
+`gutterX` (and `responsive={{ {breakpoint}: { gutterX: * } }}` for overrides) controls the horizontal gutter widths. The `<Container>` or `<Container fluid>` parent may need to be adjusted if larger gutters are used too to avoid unwanted overflow, using a matching padding utility. For example, in the following example the padding is increased with `.px-xlarge`:
+
+<Example>
+  <Container className="px-xlarge">
+    <Row gutterX="xlarge">
+      <Col>
+        <div className="border p-medium text-center">Custom column padding</div>
+      </Col>
+      <Col>
+        <div className="border p-medium text-center">Custom column padding</div>
+      </Col>
+    </Row>
+  </Container>
+</Example>
+
+An alternative solution is to add a wrapper around the `<Row>` with the `.overflow-hidden` class:
+
+<Example>
+  <Container className="overflow-hidden">
+    <Row gutterX="xlarge">
+      <Col>
+        <div className="border p-medium text-center">Custom column padding</div>
+      </Col>
+      <Col>
+        <div className="border p-medium text-center">Custom column padding</div>
+      </Col>
+    </Row>
+  </Container>
+</Example>
+
+### Vertical
+
+`gutterY` (and `responsive={{ {breakpoint}: { gutterY: * } }}` for overrides) controls the vertical gutter widths. Like the horizontal gutters, the vertical gutters can cause some overflow below the `<Row>` at the end of a page. If this occurs, add a wrapper around `<Row>` with the `.overflow-hidden` class:
+
+<Example>
+  <Container className="overflow-hidden">
+    <Row gutterY="xlarge">
+      <Col span={6}>
+        <div className="border p-medium text-center">Custom column padding</div>
+      </Col>
+      <Col span={6}>
+        <div className="border p-medium text-center">Custom column padding</div>
+      </Col>
+      <Col span={6}>
+        <div className="border p-medium text-center">Custom column padding</div>
+      </Col>
+      <Col span={6}>
+        <div className="border p-medium text-center">Custom column padding</div>
+      </Col>
+    </Row>
+  </Container>
+</Example>
+
+### Horizontal and vertical
+
+`gutter` (and `responsive={{ {breakpoint}: { gutter: * } }}` for overrides) controls both horizontal and vertical gutter widths at once; the following example uses a smaller gutter width, so there's no need for the `.overflow-hidden` wrapper class.
+
+<Example>
+  <Container>
+    <Row gutter="small">
+      <Col span={6}>
+        <div className="border p-medium text-center">Custom column padding</div>
+      </Col>
+      <Col span={6}>
+        <div className="border p-medium text-center">Custom column padding</div>
+      </Col>
+      <Col span={6}>
+        <div className="border p-medium text-center">Custom column padding</div>
+      </Col>
+      <Col span={6}>
+        <div className="border p-medium text-center">Custom column padding</div>
+      </Col>
+    </Row>
+  </Container>
+</Example>
+
+### With row columns
+
+Gutter props can also be added to [row columns]([[docsref:/components/row#row-columns]]). The
+following example uses responsive row columns alongside responsive gutter props.
+
+<Example>
+  <Container>
+    <Row cols={2} gutter="small" responsive={{ large: { cols: 5, gutter: 'medium' } }}>
+      <Col>
+        <div className="border p-medium text-center">Row column</div>
+      </Col>
+      <Col>
+        <div className="border p-medium text-center">Row column</div>
+      </Col>
+      <Col>
+        <div className="border p-medium text-center">Row column</div>
+      </Col>
+      <Col>
+        <div className="border p-medium text-center">Row column</div>
+      </Col>
+      <Col>
+        <div className="border p-medium text-center">Row column</div>
+      </Col>
+      <Col>
+        <div className="border p-medium text-center">Row column</div>
+      </Col>
+      <Col>
+        <div className="border p-medium text-center">Row column</div>
+      </Col>
+      <Col>
+        <div className="border p-medium text-center">Row column</div>
+      </Col>
+      <Col>
+        <div className="border p-medium text-center">Row column</div>
+      </Col>
+      <Col>
+        <div className="border p-medium text-center">Row column</div>
+      </Col>
+    </Row>
+  </Container>
+</Example>
+
+### No gutters
+
+The gutters between columns in the predefined grid props can be removed with `gutter={0}`. This removes the negative `margin`s from `<Row>` and the horizontal `padding` from all immediate children columns.
+
+**Need an edge-to-edge design?** Drop the parent `<Container>` or `<Container fluid>`.
+
+In practice, here's how it looks. This continues to work with all other predefined grid props (including column widths, responsive tiers, reorders, and more).
+
+<Example>
+  <div className="docs-example-row">
+    <Row gutter={0}>
+      <Col responsive={{ small: { span: 6 }, medium: { span: 8 } }}>.small:col-6 .medium:col-8</Col>
+      <Col span={6} responsive={{ medium: { span: 4 } }}>.col-6 .medium:col-4</Col>
+    </Row>
+  </div>
+</Example>
 
 ## API
 

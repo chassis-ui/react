@@ -106,7 +106,7 @@ export const Dashboard = () => {
           <Card>
             <CardBody>
               <h5 className="mb-medium">Recent Activity</h5>
-              <List flush items={activity} />
+              <List plain items={activity} />
             </CardBody>
           </Card>
         </Col>
@@ -120,9 +120,7 @@ export const Dashboard = () => {
                     <small>{src.label}</small>
                     <small>{src.value}%</small>
                   </div>
-                  <Progress>
-                    <ProgressBar color={src.color} value={src.value} />
-                  </Progress>
+                  <Progress color={src.color} value={src.value} />
                 </div>
               ))}
             </CardBody>

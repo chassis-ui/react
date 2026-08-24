@@ -47,7 +47,7 @@ The default `direction="horizontal"` arranges children in a row, aligned to the 
 
 ## Responsive direction
 
-The `responsive` prop switches `direction` at one or more breakpoints, using [container queries](../patterns/breakpoints) rather than viewport media queries — it accepts an object keyed by the full breakpoint names (`small`/`medium`/`large`/`xlarge`/`2xlarge`), each mapped to `'horizontal'` or `'vertical'`.
+The `responsive` prop switches `direction` at one or more breakpoints, using [container queries](https://chassis-ui.com/css/docs/layout/breakpoints) rather than viewport media queries — it accepts an object keyed by the full breakpoint names (`small`/`medium`/`large`/`xlarge`/`2xlarge`), each mapped to `'horizontal'` or `'vertical'`.
 
 Responsive direction switching requires a `.contains-inline` ancestor to establish the container query context — `<Stack>` doesn't apply this itself, since the containment has to live on a _parent_ of the element whose own layout is switching. Resize your browser to preview the transition between column and row layouts below:
 

@@ -6,9 +6,9 @@
     - title: Introduction
     - title: Theming
     - title: Accessibility
-    - title: TypeScript & Polymorphic Components
+    - title: TypeScript
     - title: Working with Forms
-    - title: Server-Side Rendering
+    - title: SSR
     - title: Upgrading
 
 - title: Components
@@ -96,13 +96,11 @@
 - title: Patterns
   icon: grid-solid
   pages:
-    - title: Breakpoints
     - title: Responsive Grid
     - title: Form Grid
     - title: Form Validation
-    - title: Gutters
+    - title: Form Processing
     - title: Loading States
     - title: Dashboard Widgets
-    - title: Form Processing
     - title: Paginated Table
     - title: Compact Pagination
