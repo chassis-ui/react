@@ -32,10 +32,10 @@ Run from the repo root (delegates into the relevant package via `pnpm --filter`)
 pnpm dev          # lib watch build + astro dev server, together
 pnpm test         # @chassis-ui/react's vitest suite
 pnpm lint         # eslint across packages/**/src
-pnpm site:build   # api:generate + sync-submodules + astro build + pagefind index
+pnpm site:build   # react:generate + sync-submodules + astro build + pagefind index
 ```
 
-`pnpm api:generate` (`build/generate-api.ts`) walks `packages/react/src/components`, extracts
+`pnpm react:generate` (`build/generate-api.ts`) walks `packages/react/src/components`, extracts
 prop tables with `react-docgen-typescript`, and writes JSON into `packages/site/content/api/` —
 run this after changing any component's exported props so the docs site picks up the change.
 `pnpm sync-submodules` (`build/sync-submodules.js`) updates the `vendor/assets` submodule the
@@ -53,7 +53,7 @@ resolve, check the sibling checkout exists rather than assuming a registry/versi
 `.github/workflows/ci.yml` runs on push to `main`/`develop` and on PRs: `pnpm install
 --frozen-lockfile`, then `pnpm lint`, then `pnpm test` (the react package's vitest suite,
 including coverage thresholds — see [`packages/react/AGENTS.md`](packages/react/AGENTS.md)), then
-`pnpm lib:build` + `pnpm api:report` (fails if the public props/types surface drifted from the
+`pnpm react:build` + `pnpm react:report` (fails if the public props/types surface drifted from the
 checked-in `packages/react/api-report.md` — see that package's `AGENTS.md`), then
 `pnpm check:astro` (Astro/MDX type-checking — deliberately not the full `pnpm site:build`/
 `astro build`, which currently fails on a pre-existing, external issue in the sibling

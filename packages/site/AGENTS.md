@@ -17,7 +17,7 @@ site.
   sidebar's `Form Controls`/`Form Layout`/`Layout`/etc. groupings (`data/sidebar.yml`) are a nav
   presentation concern layered on top, not a filesystem split. Frontmatter needs `title` and
   `description`; `toc: true` enables the page's table of contents.
-- `content/api/*.json` — **generated, not hand-written**. Produced by `pnpm api:generate`
+- `content/api/*.json` — **generated, not hand-written**. Produced by `pnpm react:generate`
   (`build/generate-api.ts`, run from the repo root) via `react-docgen-typescript` over
   `packages/react/src/components`. Re-run it after changing any component's exported props —
   otherwise `<PropTable component="Whatever" />` on the docs page silently shows stale props.
@@ -65,6 +65,6 @@ pnpm preview
 ```
 
 Building this package directly (`pnpm --filter chassis-react-site build`) without first running
-`pnpm api:generate` and `pnpm sync-submodules` from the root will build against whatever
+`pnpm react:generate` and `pnpm sync-submodules` from the root will build against whatever
 `content/api/` and `vendor/assets` already happen to contain on disk — fine for iterating on
 prose, not representative of a real `site:build`.

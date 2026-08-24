@@ -14,7 +14,7 @@ const REPORT_PATH = path.resolve(__dirname, '../packages/react/api-report.md')
 // React.JSX.Element | Iterable<React.ReactNode> | null | undefined` instead of `ReactNode`, and a
 // polymorphic-ref component's `RefAttributes<HTMLDivElement | HTMLSpanElement>` inlines that
 // union too. The member order for these anonymous unions comes from the checker's internal type
-// ids, which aren't stable across separate `tsc`/build invocations — running `pnpm lib:build`
+// ids, which aren't stable across separate `tsc`/build invocations — running `pnpm react:build`
 // twice with zero source changes can flip `A | B` to `B | A`. The union is semantically identical
 // either way, but it makes this check's textual diff flap on unrelated PRs. Fix at the source
 // where practical (annotate an explicit return type so the checker prints a named alias instead
@@ -66,8 +66,8 @@ tsdown, see tsdown.config.ts). It exists to make an accidental breaking change t
 show up as an ordinary, reviewable diff on this file, instead of only being discovered by a
 consumer after publish.
 
-Regenerate with \`pnpm api:report:update\` after any *intentional* public API change (new prop,
-renamed export, ...) and review the diff like any other code change. \`pnpm api:report\` (no
+Regenerate with \`pnpm react:report:update\` after any *intentional* public API change (new prop,
+renamed export, ...) and review the diff like any other code change. \`pnpm react:report\` (no
 \`:update\`) is the check that fails CI/local runs when this file and the real build have drifted.
 -->
 
@@ -79,7 +79,7 @@ const FOOTER = '\n```\n'
 function readDts(): string {
   if (!fs.existsSync(DTS_PATH)) {
     console.error(
-      `Missing ${path.relative(process.cwd(), DTS_PATH)} — run \`pnpm lib:build\` first, then re-run this check.`
+      `Missing ${path.relative(process.cwd(), DTS_PATH)} — run \`pnpm react:build\` first, then re-run this check.`
     )
     process.exit(1)
   }
@@ -108,7 +108,7 @@ if (existing === report) {
 
 if (existing === null) {
   console.error(
-    `${path.relative(process.cwd(), REPORT_PATH)} doesn't exist yet. Run \`pnpm api:report:update\` and commit it.`
+    `${path.relative(process.cwd(), REPORT_PATH)} doesn't exist yet. Run \`pnpm react:report:update\` and commit it.`
   )
   process.exit(1)
 }
@@ -128,6 +128,6 @@ for (let i = 0; i < maxLines; i++) {
 console.error(
   `api-report.md is out of date with the current build: ${diffCount} line(s) differ, first at line ${firstDiffLine}.`
 )
-console.error('If this change is intentional, run `pnpm api:report:update` and commit the result.')
+console.error('If this change is intentional, run `pnpm react:report:update` and commit the result.')
 console.error('If not, it means a component/type change accidentally altered the public API surface.')
 process.exit(1)

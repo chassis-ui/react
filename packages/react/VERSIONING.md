@@ -55,7 +55,7 @@ see `CONVENTIONS.md`; there is no namespaced/dotted API to reason about):
 - **Adding a new optional prop, or a new value to an existing union-typed prop** (e.g. a new
   `color` variant) — **minor**.
 - **Renaming or removing an exported component, sub-part, or hook** — **major**. Every export in
-  `src/index.ts` is part of the public API surface (`pnpm api:report` — see below — exists
+  `src/index.ts` is part of the public API surface (`pnpm react:report` — see below — exists
   specifically to catch this kind of change turning up unintentionally).
 - **Renaming or removing a prop, narrowing a prop's accepted type, or changing a prop from
   optional to required** — **major**.
@@ -69,7 +69,7 @@ see `CONVENTIONS.md`; there is no namespaced/dotted API to reason about):
   still works) or **patch** (if the change is purely adding the warning, no behavior change at
   all) — never major on its own; the major bump happens later, at actual removal.
 
-`pnpm api:report` (see `AGENTS.md`) is the mechanical backstop for the "renaming/removing an
+`pnpm react:report` (see `AGENTS.md`) is the mechanical backstop for the "renaming/removing an
 export or narrowing a prop type" cases above — it fails CI if `dist/index.d.ts`'s public type
 surface drifted from the checked-in `api-report.md` snapshot, so an unintentional breaking change
 is caught before merge, not just relied on this policy's judgment calls at PR-review time.

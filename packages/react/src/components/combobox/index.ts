@@ -4,4 +4,3 @@ export { ComboboxGroup } from './ComboboxGroup'
 export type { ComboboxGroupProps } from './ComboboxGroup'
 export { ComboboxItem } from './ComboboxItem'
 export type { ComboboxItemProps } from './ComboboxItem'
-// plop:sub-export

@@ -6,4 +6,3 @@ export { AccordionHeader } from './AccordionHeader'
 export type { AccordionHeaderProps } from './AccordionHeader'
 export { AccordionItem } from './AccordionItem'
 export type { AccordionItemProps } from './AccordionItem'
-// plop:sub-export

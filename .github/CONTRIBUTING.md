@@ -52,12 +52,12 @@ wrong sibling component.
 After adding or changing a component's exported props, regenerate the docs site's prop tables:
 
 ```bash
-pnpm api:generate
+pnpm react:generate
 ```
 
 ## What a PR needs before merge
 
-- **Passing CI**: lint, tests (with coverage gates), a clean library build, `pnpm api:report`
+- **Passing CI**: lint, tests (with coverage gates), a clean library build, `pnpm react:report`
   (fails if the public props/types surface drifted from the checked-in
   `packages/react/api-report.md`), `astro check`, and `pnpm check:bundle` (bundle-size regression
   guard). See the root [`AGENTS.md`](../AGENTS.md#ci) for the exact gate list.

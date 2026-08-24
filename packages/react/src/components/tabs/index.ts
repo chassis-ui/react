@@ -6,4 +6,3 @@ export { TabList } from './TabList'
 export type { TabListProps } from './TabList'
 export { TabPanel } from './TabPanel'
 export type { TabPanelProps } from './TabPanel'
-// plop:sub-export

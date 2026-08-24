@@ -36,7 +36,7 @@ jobs:
       # dist/ is gitignored — has to be rebuilt here before `changeset publish` can ship it.
       # (When this step runs for the "open/update the Version Packages PR" case instead of an
       # actual publish, the build output is simply unused — cheap enough not to special-case.)
-      - run: pnpm lib:build
+      - run: pnpm react:build
 
       - name: Create Version Packages PR or publish to npm
         uses: changesets/action@v1

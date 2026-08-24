@@ -8,7 +8,6 @@ export { ToastHeader } from './ToastHeader'
 export type { ToastHeaderProps } from './ToastHeader'
 export { ToastIcon } from './ToastIcon'
 export type { ToastIconProps } from './ToastIcon'
-// plop:sub-export
 
 // Toaster is an independent manager/container component (react-hot-toast-style), not a Toast
 // sub-part — it subscribes to the shared toastQueue and renders Toast instances from it, rather

@@ -27,8 +27,8 @@ jobs:
       # checked-in packages/react/api-report.md snapshot, so an accidental breaking change to the
       # public props/types surface is caught here instead of only being discovered by a consumer
       # after publish. See build/check-api-surface.ts.
-      - run: pnpm lib:build
-      - run: pnpm api:report
+      - run: pnpm react:build
+      - run: pnpm react:report
 
       # Validates the actual published package shape — the `exports` map tsdown generates,
       # whether every entrypoint's files really exist (publint), and whether the `.d.ts` each
@@ -135,5 +135,5 @@ jobs:
       # dist/ is gitignored and has to exist before the smoke app's own build can resolve
       # @chassis-ui/react's `exports` map (ESM-only — no `main`/`module` fields to fall back to)
       # through the workspace link.
-      - run: pnpm lib:build
+      - run: pnpm react:build
       - run: pnpm --filter smoke-test-nextjs-app-router build

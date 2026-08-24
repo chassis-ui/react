@@ -16,5 +16,4 @@ export { MenuSubmenu } from './MenuSubmenu'
 export type { MenuSubmenuProps } from './MenuSubmenu'
 export { MenuSubmenuBack } from './MenuSubmenuBack'
 export type { MenuSubmenuBackProps } from './MenuSubmenuBack'
-// plop:sub-export
 export type { MenuItemDef, MenuHeaderDef, MenuDividerDef, MenuItemsDef } from './MenuItemDef'

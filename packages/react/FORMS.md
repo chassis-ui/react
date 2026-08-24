@@ -117,6 +117,6 @@ These are real bugs hit while building this system — re-reading them before wi
 3. If it wraps a native element with a real react-aria hook (text-like input) — check whether that hook already supports `isInvalid`/`description`/`errorMessage` before writing your own `aria-describedby` plumbing; if it does, prefer it, but keep using `useFormField` for the `ids`/describedBy shape, identical to the rest of the family for consistency (see gotcha #3).
 4. If it's a native element with no applicable hook (`Select`/`RangeInput`/`FileInput`/`ColorInput` are the precedent), use the `useFormField` + `renderFormField` template above verbatim.
 5. Export from `packages/react/src/index.ts` (both the import and the `export { }` block — see existing entries for placement).
-6. Regenerate API docs (`pnpm api:generate` from repo root) and add a
+6. Regenerate API docs (`pnpm react:generate` from repo root) and add a
    `packages/site/content/components/<kebab-name>.mdx` page + a `packages/site/data/sidebar.yml`
    entry under the `Form Controls` or `Form Layout` group.

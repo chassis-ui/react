@@ -5,8 +5,8 @@ tsdown, see tsdown.config.ts). It exists to make an accidental breaking change t
 show up as an ordinary, reviewable diff on this file, instead of only being discovered by a
 consumer after publish.
 
-Regenerate with `pnpm api:report:update` after any *intentional* public API change (new prop,
-renamed export, ...) and review the diff like any other code change. `pnpm api:report` (no
+Regenerate with `pnpm react:report:update` after any *intentional* public API change (new prop,
+renamed export, ...) and review the diff like any other code change. `pnpm react:report` (no
 `:update`) is the check that fails CI/local runs when this file and the real build have drifted.
 -->
 

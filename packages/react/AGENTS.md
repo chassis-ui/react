@@ -62,7 +62,7 @@ separate, blocking step — see `.github/workflows/ci.yml`). `output.banner` add
 directive Rolldown would otherwise strip during bundling — see `RSC.md`.
 
 ```bash
-pnpm build       # one-shot build (also run via `pnpm lib:build` from the repo root)
+pnpm build       # one-shot build (also run via `pnpm react:build` from the repo root)
 pnpm dev         # tsdown --watch, for local development against packages/site
 ```
 
@@ -153,11 +153,11 @@ pnpm test:visual:update   # same, plus --update-snapshots to regenerate baseline
   fully custom widgets, wherever chassis-css targets the native element directly via attribute
   selectors (`select.form-input`, `.form-input[type="file"]`) — a react-aria hook that renders
   fully custom markup (e.g. `useSelect`, `useSlider`) won't pick up that styling.
-- After adding/changing a component's exported props, run `pnpm api:generate` from the repo root
+- After adding/changing a component's exported props, run `pnpm react:generate` from the repo root
   so `packages/site/content/api/` (prop-table JSON, consumed by the docs site) stays in sync.
 - After any _intentional_ public API change (new/renamed/removed export, changed prop type), run
-  `pnpm lib:build && pnpm api:report:update` from the repo root and commit the resulting
-  `api-report.md` diff alongside the code change — `pnpm api:report` (no `:update`) is a CI check
+  `pnpm react:build && pnpm react:report:update` from the repo root and commit the resulting
+  `api-report.md` diff alongside the code change — `pnpm react:report` (no `:update`) is a CI check
   that fails the build if this snapshot has drifted from what `dist/index.d.ts` actually exports,
   so an unintentional breaking change gets caught before merge instead of after publish. See
   `build/check-api-surface.ts`.

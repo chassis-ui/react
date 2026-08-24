@@ -6,7 +6,6 @@ export { NotificationIcon } from './NotificationIcon'
 export type { NotificationIconProps } from './NotificationIcon'
 export { NotificationText } from './NotificationText'
 export type { NotificationTextProps } from './NotificationText'
-// plop:sub-export
 
 // NotificationStack is an independent manager/container component (react-hot-toast-style), not
 // a Notification sub-part — it subscribes to the shared notificationQueue and renders

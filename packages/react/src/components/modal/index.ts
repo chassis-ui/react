@@ -8,4 +8,3 @@ export { ModalHeader } from './ModalHeader'
 export type { ModalHeaderProps } from './ModalHeader'
 export { ModalTitle } from './ModalTitle'
 export type { ModalTitleProps } from './ModalTitle'
-// plop:sub-export

@@ -63,17 +63,15 @@ export { AvatarImage } from './AvatarImage'
 export type { AvatarImageProps } from './AvatarImage'
 export { AvatarStack } from './AvatarStack'
 export type { AvatarStackProps, AvatarStackItemDef } from './AvatarStack'
-// plop:sub-export
 ```
 
-The `// plop:sub-export` comment is the marker `pnpm generate:sub` appends after — write it by
-hand on the family's first sub-part (as shown above) so every part after that can be generated.
-These are independent top-level `export` statements, not object-literal entries, so order doesn't
-matter — new parts are simply appended after the marker.
+New sub-parts are added by copying an existing part's `.tsx` file and export lines for the
+closest similar component, not generated. These are independent top-level `export` statements,
+not object-literal entries, so order doesn't matter — new parts can be added anywhere in the
+barrel.
 
 The central `src/index.ts` also imports and re-exports every sub-part by name, same as any other
-top-level export — `pnpm generate:sub` wires this automatically via the same `// plop:import` /
-`// plop:export` markers the root-level `pnpm generate` generator already uses.
+top-level export — add the import and the export line there by hand alongside the barrel export.
 
 Notes:
 

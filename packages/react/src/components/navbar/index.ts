@@ -8,4 +8,3 @@ export { NavbarText } from './NavbarText'
 export type { NavbarTextProps } from './NavbarText'
 export { NavbarToggler } from './NavbarToggler'
 export type { NavbarTogglerProps } from './NavbarToggler'
-// plop:sub-export

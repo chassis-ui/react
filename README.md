@@ -101,9 +101,9 @@ The documentation for the Chassis React is hosted at our website [Chassis React]
 | `pnpm astro:dev` | Start only the Astro dev server |
 | `pnpm site:build` | Generate API data, sync submodules, and build the static docs site |
 | `pnpm astro:preview` | Preview the built docs site locally |
-| `pnpm api:generate` | Re-generate prop table JSON from TypeScript source |
+| `pnpm react:generate` | Re-generate prop table JSON from TypeScript source |
 | `pnpm test` | Run component tests with coverage |
-| `pnpm lib:build` | Build the component library |
+| `pnpm react:build` | Build the component library |
 
 ## Contributing
 

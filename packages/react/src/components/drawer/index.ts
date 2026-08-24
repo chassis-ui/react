@@ -8,4 +8,3 @@ export { DrawerHeader } from './DrawerHeader'
 export type { DrawerHeaderProps } from './DrawerHeader'
 export { DrawerTitle } from './DrawerTitle'
 export type { DrawerTitleProps } from './DrawerTitle'
-// plop:sub-export

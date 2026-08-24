@@ -4,4 +4,3 @@ export { AutocompleteGroup } from './AutocompleteGroup'
 export type { AutocompleteGroupProps } from './AutocompleteGroup'
 export { AutocompleteItem } from './AutocompleteItem'
 export type { AutocompleteItemProps } from './AutocompleteItem'
-// plop:sub-export

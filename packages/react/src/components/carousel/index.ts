@@ -19,4 +19,3 @@ export { CarouselOverlay } from './CarouselOverlay'
 export type { CarouselOverlayProps } from './CarouselOverlay'
 export { CarouselPlayPause } from './CarouselPlayPause'
 export type { CarouselPlayPauseProps } from './CarouselPlayPause'
-// plop:sub-export

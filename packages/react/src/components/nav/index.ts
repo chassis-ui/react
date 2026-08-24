@@ -5,4 +5,3 @@ export { NavLink } from './NavLink'
 export type { NavLinkProps } from './NavLink'
 export { NavTitle } from './NavTitle'
 export type { NavTitleProps } from './NavTitle'
-// plop:sub-export
