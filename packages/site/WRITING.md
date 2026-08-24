@@ -22,10 +22,10 @@ content, build tooling) live in this package's [`AGENTS.md`](AGENTS.md).
 
 The right prose voice depends on what kind of doc it is, not which folder it lives in.
 
-| Doc is... | Voice | Second-person `you/your` | First-person `we/our` |
-| --- | --- | --- | --- |
-| A component reference doc (ends in an API section listing that component's props) | Instructive | ✗ Avoid | ✗ Avoid |
-| A conceptual or walkthrough doc (getting started, layout guidance, patterns, cross-cutting overviews with no props to document) | Tutorial | ✓ Appropriate | ✗ Avoid |
+| Doc is...                                                                                                                       | Voice       | Second-person `you/your` | First-person `we/our` |
+| ------------------------------------------------------------------------------------------------------------------------------- | ----------- | ------------------------ | --------------------- |
+| A component reference doc (ends in an API section listing that component's props)                                               | Instructive | ✗ Avoid                  | ✗ Avoid               |
+| A conceptual or walkthrough doc (getting started, layout guidance, patterns, cross-cutting overviews with no props to document) | Tutorial    | ✓ Appropriate            | ✗ Avoid               |
 
 The test for "is this a component doc" is mechanical: does it end in a props reference section? If
 yes, it's documenting a specific component's behavior and props — instructive voice. If a doc
@@ -92,8 +92,8 @@ table, table, or bullet list. The paragraph names what the section is about and 
 
 **Floor:** one full sentence is enough. Don't pad to a paragraph if a sentence does the job.
 
-**Why:** a bare heading immediately followed by a live example tells the reader *what* exists but
-not *when to reach for it*.
+**Why:** a bare heading immediately followed by a live example tells the reader _what_ exists but
+not _when to reach for it_.
 
 **Good:**
 
@@ -140,8 +140,8 @@ Docs explain how a component works, not why it's great. Skip "powerful", "flexib
 **Bad:** "Our incredibly flexible component adapts beautifully to any screen size."
 
 **Exception:** the frontmatter `description` field (used as the docs meta description) may include
-a light positioning phrase and concrete use-case list, e.g. *"Visualize multi-step processes —
-suitable for wizards, timelines, and sign-up flows."* Keep it accurate to what the component does;
+a light positioning phrase and concrete use-case list, e.g. _"Visualize multi-step processes —
+suitable for wizards, timelines, and sign-up flows."_ Keep it accurate to what the component does;
 avoid superlatives.
 
 ### 4. Active voice over passive where natural
@@ -188,14 +188,14 @@ toc: true
 The schema accepts several more fields, none of which most docs actually set — use them when they
 genuinely apply rather than treating the list below as boilerplate to fill in:
 
-| Field | Shape | Effect |
-| --- | --- | --- |
-| `added` | `{ version: string, show_badge?: boolean }` | Records when the component/prop set shipped; `show_badge` renders an "Added in vX" indicator. |
-| `deps` | `{ title: string, url?: string }[]` | Lists sibling components this one composes with. |
-| `direction` | `'rtl'` | Flags a doc as covering right-to-left-specific behavior. |
-| `aliases` | `string \| string[]` | Redirects from old slugs after a page rename. |
-| `mdn` | `string` | Link to the relevant MDN reference for the underlying native element/API. |
-| `thumbnail` | `string` | Social/preview card image. |
+| Field       | Shape                                       | Effect                                                                                        |
+| ----------- | ------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `added`     | `{ version: string, show_badge?: boolean }` | Records when the component/prop set shipped; `show_badge` renders an "Added in vX" indicator. |
+| `deps`      | `{ title: string, url?: string }[]`         | Lists sibling components this one composes with.                                              |
+| `direction` | `'rtl'`                                     | Flags a doc as covering right-to-left-specific behavior.                                      |
+| `aliases`   | `string \| string[]`                        | Redirects from old slugs after a page rename.                                                 |
+| `mdn`       | `string`                                    | Link to the relevant MDN reference for the underlying native element/API.                     |
+| `thumbnail` | `string`                                    | Social/preview card image.                                                                    |
 
 **Good `description`:**
 
@@ -210,7 +210,7 @@ genuinely apply rather than treating the list below as boilerplate to fill in:
 
 Docs are organized around what the component actually needs — opener headings like "About",
 "Overview", "How it works", or "Data-driven usage" all legitimately open different docs depending
-on whether the component needs conceptual framing before its first example. What *is* consistent
+on whether the component needs conceptual framing before its first example. What _is_ consistent
 across nearly every doc, and worth treating as the fixed points:
 
 ```
@@ -458,12 +458,12 @@ form so the reference is clickable.
 
 ### 17. Fenced code language tags
 
-| Block kind | Language tag | Notes |
-| --- | --- | --- |
-| JSX/React usage outside a live example | `` ```jsx `` or `` ```tsx `` | Use `tsx` when the snippet includes type annotations. |
-| Plain JS (imports, config) | `` ```js `` | E.g. an import snippet in a getting-started doc. |
-| Shell commands | `` ```bash `` | Install/build/CLI commands. |
-| MDX/Markdown | `` ```mdx `` / `` ```md `` | When this guide (or a meta-doc) shows authoring patterns. |
+| Block kind                             | Language tag             | Notes                                                     |
+| -------------------------------------- | ------------------------ | --------------------------------------------------------- |
+| JSX/React usage outside a live example | ` ```jsx ` or ` ```tsx ` | Use `tsx` when the snippet includes type annotations.     |
+| Plain JS (imports, config)             | ` ```js `                | E.g. an import snippet in a getting-started doc.          |
+| Shell commands                         | ` ```bash `              | Install/build/CLI commands.                               |
+| MDX/Markdown                           | ` ```mdx ` / ` ```md `   | When this guide (or a meta-doc) shows authoring patterns. |
 
 Untagged fenced blocks display without highlighting — never ship one. A live example handles its
 own source-block highlighting automatically (default language `jsx`); the table above is for
@@ -472,7 +472,7 @@ fenced blocks written by hand, outside a live example.
 ### 18. Partial vs full code
 
 Live example blocks (whether inline JSX or an extracted file) should be standalone and runnable.
-Inline `` ```jsx `` snippets in narrative sections can be partial — show only the prop or pattern
+Inline ` ```jsx ` snippets in narrative sections can be partial — show only the prop or pattern
 under discussion, assume the reader has the surrounding setup from earlier in the doc.
 
 ### 19. Inline code vs code blocks

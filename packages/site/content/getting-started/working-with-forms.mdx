@@ -1,0 +1,63 @@
+---
+title: Working with Forms
+description: The shared label, help, and validation props every form component accepts, and where to find layout, validation, and full submit-handling examples.
+
+toc: true
+---
+
+`TextInput`, `Select`, `Checkbox`, `Combobox`, `DatePicker`, and every other form component wrap
+their control in the same `label`/`help`/validation markup, so they compose the same way no matter
+which one is in use. This page covers that shared surface; for layout, validation styling, and a
+full worked example, see the linked pattern pages below.
+
+## The Form element
+
+Every group of form fields belongs inside a `<Form>` element. Chassis applies no default styling
+to `<Form>` itself, but a few native behaviors carry over from it:
+
+- A `<Button>` inside a `<Form>` defaults to `type="submit"` — set `type` explicitly on any button
+  that shouldn't submit the form.
+- Setting `disabled` on `<Form>` disables every form control nested inside it.
+- Chassis applies `display: block` and `width: 100%` to most form controls, so a form stacks
+  vertically by default — see [Form Grid]([[docsref:/patterns/form-grid]]) for grid-based layouts.
+
+## Labels and help text
+
+Pass `label` to render an associated `<label>`, wired to the control automatically regardless of
+whether it's a single native input or a multi-part control like `DatePicker` — see
+[Labeling form controls]([[docsref:/getting-started/accessibility#labeling-form-controls]]) for how
+that association is chosen. Pass `help` to render supporting text under the control, associated the
+same way via `aria-describedby`.
+
+```tsx
+<TextInput label="Email" help="We'll never share your email." type="email" />
+```
+
+## Validation state
+
+`invalid`/`valid` boolean props switch a control's visual state and, alongside
+`invalidFeedback`/`validFeedback`, render an associated `<FormFeedback>` message:
+
+```tsx
+<TextInput label="Username" invalid invalidFeedback="This username is already taken." />
+```
+
+See [Form Validation]([[docsref:/patterns/form-validation]]) for the full range of validation UI —
+browser-default feedback tooltips versus custom Chassis styles, and which components support each.
+
+## Escape hatches
+
+`FormField` wraps a control that has no field props of its own, or groups more than one element
+under a single label — for example, a `TextInput` and a `PasswordStrength` meter as siblings.
+`FloatingInput` follows the same shape but always renders its own label as a floating label rather
+than a static one above the control. Reach for either only when the component being wrapped
+doesn't already accept `label`/`help`/validation props directly — every one of the components
+listed at the top of this page does, and wrapping one of them in `FormField` produces a redundant,
+empty extra wrapper.
+
+## Layout and full examples
+
+[Form Grid]([[docsref:/patterns/form-grid]]) covers structuring a form with the grid system,
+including horizontal and inline layouts. [Form Processing]([[docsref:/patterns/form-processing]])
+walks through a complete registration form with controlled inputs, real-time validation feedback,
+and a submit-triggered notification.

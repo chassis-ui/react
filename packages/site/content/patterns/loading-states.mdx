@@ -4,6 +4,7 @@ description: Build a component's loading state the same way as its real content 
 
 toc: true
 ---
+
 import { CardLoadingExample } from '../../examples/patterns/loading-states/CardLoadingExample.tsx'
 import { ProfileLoadingExample } from '../../examples/patterns/loading-states/ProfileLoadingExample.tsx'
 import { TableLoadingExample } from '../../examples/patterns/loading-states/TableLoadingExample.tsx'
@@ -52,7 +53,7 @@ so the same swap-in-place pattern covers an avatar and a button too, not just th
   example instead passes a ternary straight into `Card`'s `image` prop, which accepts either a
   `src` string or a full element (a `<CardImage component={Skeleton}>`, a `<Placeholder>`,
   anything) rendered as-is.
-- `animation="glow"`/`.skeleton-glow` goes on a *container* you already have (`<Card>`, the profile
+- `animation="glow"`/`.skeleton-glow` goes on a _container_ you already have (`<Card>`, the profile
   row, `<Table>` itself), not on `SkeletonLoader` — it has no element of its own to put a class on.
   `.skeleton-glow` pulses via a descendant selector (`.skeleton-glow .skeleton { animation }`), so
   one class on an ancestor reaches every generated skeleton inside, at any depth. `.skeleton-wave`

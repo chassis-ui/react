@@ -11,13 +11,12 @@ export const CompactPagination = () => {
 
   const prevDisabled = page <= 1
   const nextDisabled = page >= totalPages
-  const { prevRef, nextRef, handlePrevClick, handleNextClick } =
-    usePagination<HTMLButtonElement>({
-      prevDisabled,
-      nextDisabled,
-      onPrev: () => setPage((p) => p - 1),
-      onNext: () => setPage((p) => p + 1)
-    })
+  const { prevRef, nextRef, handlePrevClick, handleNextClick } = usePagination<HTMLButtonElement>({
+    prevDisabled,
+    nextDisabled,
+    onPrev: () => setPage((p) => p - 1),
+    onNext: () => setPage((p) => p + 1)
+  })
 
   const handlePageSizeChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setPageSize(Number(e.target.value))

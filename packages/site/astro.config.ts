@@ -28,6 +28,15 @@ export default defineConfig({
   }),
   site: getSiteUrl(getConfig()),
   vite: {
+    resolve: {
+      // `@chassis-ui/react`'s `./style.css` export has to go through Vite's CSS pipeline, not
+      // Node's own ESM loader — externalizing the package for SSR (Vite's default for a
+      // node_modules dependency) makes the dev server import `dist/style.css` directly via
+      // Node, which has no loader for `.css` and throws ERR_UNKNOWN_FILE_EXTENSION. `astro
+      // build`'s static output doesn't hit this path (everything renders through Vite's build
+      // pipeline up front), so this only ever surfaces in `astro dev`.
+      noExternal: ['@chassis-ui/react']
+    },
     environments: {
       client: {
         build: {

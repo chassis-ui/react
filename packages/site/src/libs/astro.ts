@@ -88,9 +88,7 @@ export function chassis(): AstroIntegration[] {
                 },
                 server: {
                   fs: {
-                    allow: docsRealPath
-                      ? [workspaceRoot, docsRealPath]
-                      : [workspaceRoot]
+                    allow: docsRealPath ? [workspaceRoot, docsRealPath] : [workspaceRoot]
                   }
                 }
               }

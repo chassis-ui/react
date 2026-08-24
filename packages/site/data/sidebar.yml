@@ -4,6 +4,12 @@
   icon: book-open-solid
   pages:
     - title: Introduction
+    - title: Theming
+    - title: Accessibility
+    - title: TypeScript & Polymorphic Components
+    - title: Working with Forms
+    - title: Server-Side Rendering
+    - title: Upgrading
 
 - title: Components
   icon: box-open-solid

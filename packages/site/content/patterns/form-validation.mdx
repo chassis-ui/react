@@ -4,11 +4,11 @@ description: Provide valuable, actionable feedback to your users with HTML5 form
 
 toc: true
 ---
+
 import { CustomStylesExample } from '../../examples/patterns/validation/CustomStylesExample.tsx'
 import { BrowserDefaultsExample } from '../../examples/patterns/validation/BrowserDefaultsExample.tsx'
 import { TooltipsExample } from '../../examples/patterns/validation/TooltipsExample.tsx'
 import { SupportedElementsExample } from '../../examples/patterns/validation/SupportedElementsExample.tsx'
-
 
 import { useState } from 'react'
 
@@ -32,7 +32,6 @@ For custom Chassis form validation messages, you'll need to add the `noValidate`
 
 Custom feedback styles apply custom colors, borders, focus styles, and background icons to better communicate feedback.
 
-
 <Example>
   <CustomStylesExample client:load />
 </Example>
@@ -42,7 +41,6 @@ Custom feedback styles apply custom colors, borders, focus styles, and backgroun
 Not interested in custom validation feedback messages or writing JavaScript to change form behaviors? All good, you can use the browser defaults. Try submitting the form below. Depending on your browser and OS, you'll see a slightly different style of feedback.
 
 While these feedback styles cannot be styled with CSS, you can still customize the feedback text through JavaScript.
-
 
 <Example>
   <BrowserDefaultsExample client:load />
@@ -134,8 +132,6 @@ Validation styles are available for the following form controls and components:
 
 If your form layout allows it, you can swap the text for the tooltip to display validation feedback in a styled tooltip. Be sure to have a parent with `position: relative` on it for tooltip positioning. In the example below, our column classes have this already, but your project may require an alternative setup.
 
-
 <Example>
   <TooltipsExample client:load />
 </Example>
-

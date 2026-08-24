@@ -48,21 +48,25 @@ function formatType(type: { name: string; raw?: string; value?: { value: string 
         </thead>
         <tbody>
           {sortedProps.map((prop) => (
-            <tr>
-              <td class="border-0 pb-0">
-                <code>
-                  {prop.name}
-                  {prop.required ? '' : '?'}
-                </code>
-              </td>
-              <td class="border-0 pb-0">
-                <code>{formatType(prop.type)}</code>
-              </td>
-              <td class="border-0 pb-0">{prop.defaultValue ? <code>{prop.defaultValue.value}</code> : <span>—</span>}</td>
-            </tr>
-            <tr>
-              <td colspan="3" set:html={renderDescription(prop.description)} />
-            </tr>
+            <>
+              <tr>
+                <td class="border-0 pb-0">
+                  <code>
+                    {prop.name}
+                    {prop.required ? '' : '?'}
+                  </code>
+                </td>
+                <td class="border-0 pb-0">
+                  <code>{formatType(prop.type)}</code>
+                </td>
+                <td class="border-0 pb-0">
+                  {prop.defaultValue ? <code>{prop.defaultValue.value}</code> : <span>—</span>}
+                </td>
+              </tr>
+              <tr>
+                <td colspan="3" set:html={renderDescription(prop.description)} />
+              </tr>
+            </>
           ))}
         </tbody>
       </table>

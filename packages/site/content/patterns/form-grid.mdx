@@ -20,15 +20,9 @@ import {
   Row,
 } from '@chassis-ui/react'
 
-## Forms
-
-Every group of form fields should reside in a `<Form>` element. Chassis provides no default styling for the `<Form>` element, but there are some powerful browser features that are provided by default.
-
-- New to browser forms? Consider reviewing [the MDN form docs](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form) for an overview and complete list of available attributes.
-- `<Button>`s within a `<Form>` default to `type="submit"`, so strive to be specific and always include a `type`.
-- You can disable every form element within a form with the `disabled` attribute on the `<Form>`.
-
-Since Chassis applies `display: block` and `width: 100%` to almost all our form controls, forms will by default stack vertically. Additional classes can be used to vary this layout on a per-form basis.
+For the `<Form>` element's own default behaviors and the `label`/`help`/validation props shared
+across every form component, see [Working with Forms]([[docsref:/getting-started/working-with-forms]]).
+This page covers structuring a form's layout with the grid system once those pieces are in place.
 
 ## Utilities
 
@@ -259,4 +253,3 @@ Use `<Col span="auto">` to create horizontal layouts. By adding gutter modifier 
     </Col>
   </Form>
 </Example>
-

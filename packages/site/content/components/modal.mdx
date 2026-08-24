@@ -13,7 +13,6 @@ import { Example as TooltipsAndPopoversExample } from '../../examples/components
 import { Example as OptionalSizesExample } from '../../examples/components/modal/OptionalSizesExample.tsx'
 import { Example as FullscreenExample } from '../../examples/components/modal/FullscreenExample.tsx'
 
-
 import { useState } from 'react'
 import {
   Button,
@@ -59,7 +58,6 @@ Below is a static modal example, with the backdrop and keyboard dismissal disabl
 
 Toggle a working modal demo by clicking the button below. It will slide down and fade in from the top of the page.
 
-
 <Example>
   <LiveDemoExample client:load />
 </Example>
@@ -67,7 +65,6 @@ Toggle a working modal demo by clicking the button below. It will slide down and
 ### Static backdrop
 
 If you set a `backdrop` to `static`, your modal will behave as though the backdrop is static, meaning it will not close when clicking outside it. Click the button below to try it.
-
 
 <Example>
   <StaticBackdropExample client:load />
@@ -77,13 +74,11 @@ If you set a `backdrop` to `static`, your modal will behave as though the backdr
 
 When modals become too long for the user's viewport or device, they scroll independent of the page itself. Try the demo below to see what we mean.
 
-
 <Example>
   <ScrollingLongContentExample client:load />
 </Example>
 
 You can also create a scrollable modal that allows scroll the modal body by adding `scrollable` prop.
-
 
 <Example>
   <ScrollingLongContentExample2 client:load />
@@ -92,7 +87,6 @@ You can also create a scrollable modal that allows scroll the modal body by addi
 ### Tooltips and popovers
 
 `<CTooltips>` and `<CPopovers>` can be placed within modals as needed. When modals are closed, any tooltips and popovers within are also automatically dismissed.
-
 
 <Example>
   <TooltipsAndPopoversExample client:load />
@@ -147,7 +141,6 @@ Modals have three optional sizes, available via modifier classes to be placed on
     </tr>
   </tbody>
 </table>
-
 
 <Example>
   <OptionalSizesExample client:load />
@@ -213,7 +206,6 @@ Another override is the option to pop up a modal that covers the user viewport, 
     </tr>
   </tbody>
 </table>
-
 
 <Example>
   <FullscreenExample client:load />

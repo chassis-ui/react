@@ -1,0 +1,65 @@
+---
+title: TypeScript & Polymorphic Components
+description: How component prop types are exported for reuse, and how some components accept a component prop that keeps type-checking after swapping the rendered element.
+
+toc: true
+---
+
+`@chassis-ui/react` is written in TypeScript, and every component's prop type is exported
+alongside the component itself — there's no separate `@types` package and nothing to install.
+
+## Prop types
+
+Import a component's prop type directly from `@chassis-ui/react` to type a wrapper around it, or a
+`forwardRef`-based custom component that forwards the same props:
+
+```tsx
+import { Button, ButtonProps } from '@chassis-ui/react'
+
+function SubmitButton(props: ButtonProps) {
+  return <Button type="submit" {...props} />
+}
+```
+
+## The component prop
+
+A handful of components — `Placeholder`, `CardImage`, `Skeleton`, `SkeletonLoader`, and
+`MenuToggle` — accept a `component` prop that swaps the element rendered at their root while
+keeping the rest of that element's own props type-checked at the call site. Passing a framework's
+own `Image` component, for example, exposes its `fill`/`priority`/`loader` props with full
+autocomplete, on top of the props `Placeholder` already defines:
+
+```tsx
+import Image from 'next/image'
+import { Placeholder } from '@chassis-ui/react'
+
+<Placeholder component={Image} src="/hero.jpg" width={800} height={400} alt="" fill priority />
+```
+
+## Supported components
+
+Every component listed above uses the same generic pattern, typed against
+[`ElementType`](https://react.dev/reference/react/createElement) — passing a string renders that
+HTML tag with its native attributes typed, passing a component renders it with its own declared
+props typed. `Link`'s `component` prop is narrower by comparison: it swaps the rendered
+tag or component (e.g. a router's own `Link`) without also changing which props are accepted,
+since `Link`'s own prop set already covers the common case.
+
+## Typing a custom target
+
+Passing a custom component to `component` still enforces that component's own required props —
+omitting one is a type error at the call site, the same as calling that component directly:
+
+```tsx
+function BrandedImage(props: { src: string; alt: string; caption: string }) {
+  return (
+    <figure>
+      <img src={props.src} alt={props.alt} />
+      <figcaption>{props.caption}</figcaption>
+    </figure>
+  )
+}
+
+// Error: Property 'caption' is missing
+<Placeholder component={BrandedImage} src="/hero.jpg" alt="" />
+```

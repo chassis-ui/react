@@ -44,7 +44,7 @@ Three equal-width columns in a 12-column grid each span 4 tracks (3 × 4 = 12):
 - **No negative margins.** `<Grid>` uses the CSS `gap` property instead of padding-and-negative-margin gutters, so there's no row-edge bleed and no `.overflow-hidden` wrapper is required.
 - **Gap applies to both axes.** `gap` sets horizontal and vertical spacing simultaneously. Use an inline `style` with `rowGap`/`columnGap` to control axes independently.
 - **Flex utilities have no effect** on `<Grid>`'s children — `align-items`, `justify-content`, and similar flex properties don't apply to CSS Grid items.
-- **`columns`/`rows`/`gap` are runtime-configurable properties**, not modifier props per breakpoint — unlike `<Row>`'s `responsive` prop, `<Grid>` has a single, fixed column/row/gap configuration. Chassis-css itself has no breakpoint-scoped equivalent for the grid *container* (only for item placement, via [`<GridItem>`](#item-placement)'s `responsive` prop), so a responsive `<Grid>` container isn't offered — [`<Row>`/`<Col>`]([[docsref:/patterns/responsive-grid]]) is the better fit for layouts that need responsive column counts.
+- **`columns`/`rows`/`gap` are runtime-configurable properties**, not modifier props per breakpoint — unlike `<Row>`'s `responsive` prop, `<Grid>` has a single, fixed column/row/gap configuration. Chassis-css itself has no breakpoint-scoped equivalent for the grid _container_ (only for item placement, via [`<GridItem>`](#item-placement)'s `responsive` prop), so a responsive `<Grid>` container isn't offered — [`<Row>`/`<Col>`]([[docsref:/patterns/responsive-grid]]) is the better fit for layouts that need responsive column counts.
 
 ## Columns and gap
 
