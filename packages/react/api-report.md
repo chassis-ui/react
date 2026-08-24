@@ -4886,10 +4886,7 @@ interface TabsPanelProps extends Omit<HTMLAttributes<HTMLDivElement>, 'id'> {
    */
   id: Key$2;
 }
-declare const TabsPanel: {
-  ({ children, className, id, ...rest }: TabsPanelProps): React.JSX.Element | null;
-  displayName: string;
-};
+declare const TabsPanel: React.ForwardRefExoticComponent<TabsPanelProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
 //#region src/components/tabs/TabContent.d.ts
 interface TabContentProps extends HTMLAttributes<HTMLDivElement> {

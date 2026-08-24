@@ -1,14 +1,15 @@
 import * as React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { Icon } from '../../../src/index'
 
 describe('Icon', () => {
-  // The icon is decorative by default (aria-hidden) and, even with a title/aria-label set,
-  // neither an SVG <title> nor a plain aria-labelled <span> resolve to role="img" in this test
-  // environment (verified directly) - there is no accessible query for any of its states, so
-  // these assertions all need raw node access.
+  // The icon is decorative by default (aria-hidden), and even with a title set, jsdom's
+  // accessibility tree (unlike a real browser's) doesn't map a bare `<svg>` with a `<title>` to
+  // role="img" - verified directly, and a jsdom/dom-testing-library limitation, not a real bug
+  // (see the `font mode` block below, whose `role="img"` span *does* resolve there since that
+  // mapping doesn't depend on SVG-AAM). So the SVG-mode assertions below need raw node access.
   /* eslint-disable testing-library/no-node-access */
   describe('rendering', () => {
     test('renders an SVG with the base class and a sprite reference by default', () => {
@@ -50,22 +51,25 @@ describe('Icon', () => {
       expect(container.firstChild).toHaveClass('icon', 'bazinga')
     })
   })
+  /* eslint-enable testing-library/no-node-access */
 
   describe('font mode', () => {
     test('renders a span with the base and cx-{name} classes', () => {
       const { container } = render(<Icon name="folder-tree" font />)
-      expect(container.firstChild).toHaveClass('icon', 'cx-folder-tree')
-      expect(container.firstChild?.nodeName).toBe('SPAN')
-      expect(container.firstChild).toHaveAttribute('aria-hidden', 'true')
+      // Decorative (aria-hidden, no role) - no accessible query reaches it.
+      // eslint-disable-next-line testing-library/no-node-access
+      const span = container.firstChild
+      expect(span).toHaveClass('icon', 'cx-folder-tree')
+      expect(span?.nodeName).toBe('SPAN')
+      expect(span).toHaveAttribute('aria-hidden', 'true')
     })
 
-    test('exposes an accessible name via aria-label when a title is given', () => {
-      const { container } = render(<Icon name="folder-tree" font title="Folder tree" />)
-      expect(container.firstChild).not.toHaveAttribute('aria-hidden')
-      expect(container.firstChild).toHaveAttribute('aria-label', 'Folder tree')
+    test('exposes an accessible name via role="img" and aria-label when a title is given', () => {
+      render(<Icon name="folder-tree" font title="Folder tree" />)
+      const icon = screen.getByRole('img', { name: 'Folder tree' })
+      expect(icon).not.toHaveAttribute('aria-hidden')
     })
   })
-  /* eslint-enable testing-library/no-node-access */
 
   describe('ref forwarding', () => {
     test('forwards a ref to the underlying svg by default', () => {
@@ -84,6 +88,11 @@ describe('Icon', () => {
   describe('accessibility', () => {
     test('has no axe violations', async () => {
       const { container } = render(<Icon name="folder-tree" title="Folder tree" />)
+      expect(await axe(container)).toHaveNoViolations()
+    })
+
+    test('has no axe violations in font mode with a title', async () => {
+      const { container } = render(<Icon name="folder-tree" font title="Folder tree" />)
       expect(await axe(container)).toHaveNoViolations()
     })
   })

@@ -263,5 +263,12 @@ describe('Table', () => {
       const { container } = render(<BasicTable />)
       expect(await axe(container)).toHaveNoViolations()
     })
+
+    test('has no axe violations with multiple selection (row checkboxes + select-all)', async () => {
+      const { container } = render(
+        <BasicTable selectedKeys={new Set(['1'])} selectionMode="multiple" />
+      )
+      expect(await axe(container)).toHaveNoViolations()
+    })
   })
 })

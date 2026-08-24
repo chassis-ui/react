@@ -1,8 +1,9 @@
-import React, { HTMLAttributes, ReactNode, useRef } from 'react'
+import React, { forwardRef, HTMLAttributes, ReactNode, useRef } from 'react'
 import classNames from 'classnames'
 import { useTabPanel } from 'react-aria'
 import { Key } from 'react-stately'
 
+import { useForkedRef } from '../../hooks'
 import { useTabsContext } from './context'
 
 export interface TabsPanelProps extends Omit<HTMLAttributes<HTMLDivElement>, 'id'> {
@@ -22,23 +23,26 @@ export interface TabsPanelProps extends Omit<HTMLAttributes<HTMLDivElement>, 'id
 
 // The counterpart to `TabsTab` — unlike `TabsTab`, `TabsPanel` renders for real, but only while
 // its `id` matches the currently selected tab.
-export const TabsPanel = ({ children, className, id, ...rest }: TabsPanelProps) => {
-  const { state } = useTabsContext()
-  const ref = useRef<HTMLDivElement>(null)
-  const { tabPanelProps } = useTabPanel({ id }, state, ref)
+export const TabsPanel = forwardRef<HTMLDivElement, TabsPanelProps>(
+  ({ children, className, id, ...rest }, ref) => {
+    const { state } = useTabsContext()
+    const panelRef = useRef<HTMLDivElement>(null)
+    const forkedRef = useForkedRef(ref, panelRef)
+    const { tabPanelProps } = useTabPanel({ id }, state, panelRef)
 
-  if (state.selectedKey !== id) return null
+    if (state.selectedKey !== id) return null
 
-  return (
-    <div
-      className={classNames('tab-pane', 'fade', 'show', 'active', className)}
-      {...tabPanelProps}
-      {...rest}
-      ref={ref}
-    >
-      {children}
-    </div>
-  )
-}
+    return (
+      <div
+        className={classNames('tab-pane', 'fade', 'show', 'active', className)}
+        {...tabPanelProps}
+        {...rest}
+        ref={forkedRef}
+      >
+        {children}
+      </div>
+    )
+  }
+)
 
 TabsPanel.displayName = 'TabsPanel'

@@ -60,6 +60,46 @@ describe('CheckboxGroup', () => {
     })
   })
 
+  describe('dev diagnostics', () => {
+    test('warns about ignored props once per mount, not on every re-render', () => {
+      const consoleWarn = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
+      const { rerender } = render(
+        <CheckboxGroup label="Notifications" defaultValue={[]}>
+          <Checkbox value="email" label="Email" isSelected onChange={() => {}} />
+        </CheckboxGroup>
+      )
+      expect(consoleWarn).toHaveBeenCalledTimes(1)
+
+      rerender(
+        <CheckboxGroup label="Notifications" defaultValue={[]}>
+          <Checkbox value="email" label="Email" isSelected onChange={() => {}} />
+        </CheckboxGroup>
+      )
+      expect(consoleWarn).toHaveBeenCalledTimes(1)
+
+      consoleWarn.mockRestore()
+    })
+
+    test('errors about a missing value once per mount, not on every re-render', () => {
+      const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined)
+      const { rerender } = render(
+        <CheckboxGroup label="Notifications" defaultValue={[]}>
+          <Checkbox label="Email" />
+        </CheckboxGroup>
+      )
+      expect(consoleError).toHaveBeenCalledTimes(1)
+
+      rerender(
+        <CheckboxGroup label="Notifications" defaultValue={[]}>
+          <Checkbox label="Email" />
+        </CheckboxGroup>
+      )
+      expect(consoleError).toHaveBeenCalledTimes(1)
+
+      consoleError.mockRestore()
+    })
+  })
+
   describe('ref forwarding', () => {
     test('forwards a ref to the underlying fieldset', () => {
       const ref = React.createRef<HTMLFieldSetElement>()

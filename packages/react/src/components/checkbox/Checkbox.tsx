@@ -1,4 +1,11 @@
-import React, { forwardRef, InputHTMLAttributes, ReactNode, useContext, useRef } from 'react'
+import React, {
+  forwardRef,
+  InputHTMLAttributes,
+  ReactNode,
+  useContext,
+  useEffect,
+  useRef
+} from 'react'
 import classNames from 'classnames'
 import {
   AriaCheckboxGroupItemProps,
@@ -165,15 +172,20 @@ const CheckboxGroupItem = forwardRef<HTMLInputElement, CheckboxGroupItemProps>(
     const inputRef = useRef<HTMLInputElement>(null)
     const forkedRef = useForkedRef(ref, inputRef)
 
-    if (!rest.value) {
-      console.error('Checkbox: a `value` prop is required when rendered inside a CheckboxGroup.')
-    }
-    if (_defaultSelected !== undefined || _isSelected !== undefined || _onChange !== undefined) {
-      console.warn(
-        'Checkbox: `defaultSelected`, `isSelected`, and `onChange` are ignored inside a ' +
-          "CheckboxGroup — selection is owned by the group's `value`/`defaultValue`/`onChange`."
-      )
-    }
+    // Once per mount, not on every render — these are dev-time misuse warnings, not something
+    // that needs to re-fire for every keystroke a parent's re-render happens to cause.
+    useEffect(() => {
+      if (!rest.value) {
+        console.error('Checkbox: a `value` prop is required when rendered inside a CheckboxGroup.')
+      }
+      if (_defaultSelected !== undefined || _isSelected !== undefined || _onChange !== undefined) {
+        console.warn(
+          'Checkbox: `defaultSelected`, `isSelected`, and `onChange` are ignored inside a ' +
+            "CheckboxGroup — selection is owned by the group's `value`/`defaultValue`/`onChange`."
+        )
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const { inputProps } = useCheckboxGroupItem(
       {

@@ -20,6 +20,8 @@ Renders the **nested** `.form-check`/`.check-input` markup — everything lives 
 
 `CheckboxGroup`/`RadioGroup` don't use this helper either. They render their own `<fieldset>`/`<legend>` directly and call `FormHelp`/`FormFeedback` themselves, wired through react-aria's own `useCheckboxGroup`/`useRadioGroup` — see [Group components are a third pattern](#group-components-are-a-third-pattern) below.
 
+`Radio` intentionally has no `invalid`/`valid`/`invalidFeedback`/`validFeedback` props at the item level, unlike `Checkbox` (which shares this same engine and does have them) — a lone radio's validity isn't a meaningful concept on its own, it's a group-level one already carried by `RadioGroup`. Don't "fix" this asymmetry by adding those props to `Radio`.
+
 ### 2. `renderFormField` (`form-field/renderFormField.tsx`)
 
 Used by: `text-input/TextInput.tsx`, `textarea/Textarea.tsx`, `select/Select.tsx`, `range-input/RangeInput.tsx`, `file-input/FileInput.tsx`, `color-input/ColorInput.tsx`, `combobox/Combobox.tsx`, `datepicker/DatePicker.tsx`, `chip-input/ChipInput.tsx`, `otp-input/OtpInput.tsx`.

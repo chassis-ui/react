@@ -47,6 +47,10 @@ export const Icon = forwardRef<HTMLSpanElement | SVGSVGElement, IconProps>(
       return (
         <span
           className={_className}
+          // A plain `<span>`'s implicit "generic" role doesn't support naming, so `aria-label`
+          // alone is dropped by browsers/assistive tech - `role="img"` (matching the SVG path's
+          // own implicit role) is what actually makes the accessible name stick.
+          role={title ? 'img' : undefined}
           aria-hidden={title ? undefined : true}
           aria-label={title}
           ref={ref as React.Ref<HTMLSpanElement>}
