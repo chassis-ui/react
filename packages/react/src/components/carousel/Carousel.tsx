@@ -182,6 +182,8 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
     const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
     const scrollSyncedRef = useRef(false)
     const mountedForSlidRef = useRef(false)
+    const mountedForLiveRegionRef = useRef(false)
+    const [liveMessage, setLiveMessage] = useState('')
     // Set while the scroll-sync effect below owns firing `onSlid` for the in-flight
     // `animateScrollTo` animation, so the generic effect doesn't fire it early — before the slide
     // has actually finished sliding into place.
@@ -318,10 +320,16 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
     // `activeIndex` is the source of truth for which slide is active — applied directly to the
     // DOM here rather than through per-item props, so it stays correct even when there's no real
     // layout to scroll (SSR, jsdom tests). Fade mode's crossfade is driven entirely by this class.
+    // The WAI-ARIA carousel pattern's per-slide `aria-roledescription`/positional `aria-label` are
+    // applied the same imperative way, for the same reason — `CarouselItem` itself has no idea
+    // where it sits among its siblings or how many there are.
     useIsomorphicLayoutEffect(() => {
       if (!viewportEl) return
-      for (const [index, node] of getCarouselItems(viewportEl).entries()) {
+      const nodes = getCarouselItems(viewportEl)
+      for (const [index, node] of nodes.entries()) {
         node.classList.toggle('active', index === activeIndex)
+        node.setAttribute('aria-roledescription', 'slide')
+        node.setAttribute('aria-label', `${index + 1} of ${nodes.length}`)
       }
     }, [viewportEl, activeIndex, itemCount])
 
@@ -385,6 +393,18 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       }
       if (deferOnSlidRef.current) return
       onSlid?.(lastTransitionRef.current)
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [activeIndex])
+
+    // Announces the active slide's position to assistive tech, per the WAI-ARIA carousel pattern.
+    // Gated the same way as the `onSlid` effect above so mounting with a non-zero
+    // `defaultActiveIndex`/`activeIndex` doesn't announce anything before the user has interacted.
+    useEffect(() => {
+      if (!mountedForLiveRegionRef.current) {
+        mountedForLiveRegionRef.current = true
+        return
+      }
+      setLiveMessage(`Slide ${activeIndex + 1} of ${itemCount}`)
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activeIndex])
 
@@ -686,6 +706,8 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
 
     return (
       <div
+        role="region"
+        aria-roledescription="carousel"
         className={_className}
         style={_style}
         onKeyDown={handleKeyDown}
@@ -695,6 +717,9 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
         ref={forkedRef}
       >
         <CarouselContext.Provider value={contextValue}>{children}</CarouselContext.Provider>
+        <span role="status" className="visually-hidden">
+          {liveMessage}
+        </span>
       </div>
     )
   }

@@ -102,6 +102,20 @@ function installCarouselGeometry() {
   }
 }
 
+// `scheduleAutoplay` only advances when `isElementVisible(carouselRef.current)` is true, which
+// reads the carousel root's real `getBoundingClientRect()` - jsdom's default (an all-zero rect,
+// since it never lays anything out) reads as "not visible" and silently reschedules instead of
+// advancing. Autoplay tests need a non-zero rect on every element to get past that check.
+function stubVisibleGeometry() {
+  const original = HTMLElement.prototype.getBoundingClientRect
+  HTMLElement.prototype.getBoundingClientRect = function () {
+    return { top: 0, bottom: 100, left: 0, right: 100, width: 100, height: 100 } as DOMRect
+  }
+  return function uninstall() {
+    HTMLElement.prototype.getBoundingClientRect = original
+  }
+}
+
 class FakeIntersectionObserver {
   static last: FakeIntersectionObserver
   callback: IntersectionObserverCallback
@@ -177,6 +191,29 @@ describe('Carousel', () => {
     test('matches the baseline markup snapshot', () => {
       const { container } = render(<ThreeItemCarousel />)
       expect(container).toMatchSnapshot()
+    })
+
+    test('applies the WAI-ARIA carousel/slide roles and positional slide labels', () => {
+      render(<ThreeItemCarousel />)
+      // eslint-disable-next-line testing-library/no-node-access
+      const carousel = document.querySelector('.carousel') as HTMLElement
+      expect(carousel).toHaveAttribute('role', 'region')
+      expect(carousel).toHaveAttribute('aria-roledescription', 'carousel')
+
+      expect(screen.getByText('Item-1')).toHaveAttribute('aria-roledescription', 'slide')
+      expect(screen.getByText('Item-1')).toHaveAttribute('aria-label', '1 of 3')
+      expect(screen.getByText('Item-3')).toHaveAttribute('aria-label', '3 of 3')
+    })
+  })
+
+  describe('live region announcements', () => {
+    test('announces the newly active slide but stays silent on initial mount', async () => {
+      render(<ThreeItemCarousel defaultActiveIndex={1} />)
+      const liveRegion = screen.getByRole('status')
+      expect(liveRegion).toHaveTextContent('')
+
+      fireEvent.click(screen.getByRole('button', { name: 'Next slide' }))
+      await waitFor(() => expect(liveRegion).toHaveTextContent('Slide 3 of 3'))
     })
   })
 
@@ -305,7 +342,80 @@ describe('Carousel', () => {
     })
   })
 
-  describe('play/pause control', () => {
+  describe('keyboard navigation', () => {
+    test('ArrowRight/ArrowLeft move the active item forward and back', async () => {
+      const { container } = render(<ThreeItemCarousel />)
+      // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
+      const carousel = container.querySelector('.carousel') as HTMLElement
+      const item1 = screen.getByText('Item-1')
+      const item2 = screen.getByText('Item-2')
+
+      fireEvent.keyDown(carousel, { key: 'ArrowRight' })
+      await waitFor(() => expect(item2).toHaveClass('active'))
+      expect(item1).not.toHaveClass('active')
+
+      fireEvent.keyDown(carousel, { key: 'ArrowLeft' })
+      await waitFor(() => expect(item1).toHaveClass('active'))
+      expect(item2).not.toHaveClass('active')
+    })
+
+    test('is disabled entirely when keyboard={false}', () => {
+      const { container } = render(<ThreeItemCarousel keyboard={false} />)
+      // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
+      const carousel = container.querySelector('.carousel') as HTMLElement
+      const item1 = screen.getByText('Item-1')
+
+      fireEvent.keyDown(carousel, { key: 'ArrowRight' })
+      expect(item1).toHaveClass('active')
+    })
+
+    test('ignores arrow keys originating from a form field inside the carousel', () => {
+      const { container } = render(
+        <Carousel>
+          <CarouselInner>
+            <CarouselItem>
+              <input aria-label="Note" />
+            </CarouselItem>
+            <CarouselItem>Item-2</CarouselItem>
+          </CarouselInner>
+        </Carousel>
+      )
+      // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
+      const firstItem = container.querySelector('.carousel-item') as HTMLElement
+
+      fireEvent.keyDown(screen.getByRole('textbox', { name: 'Note' }), { key: 'ArrowRight' })
+
+      expect(firstItem).toHaveClass('active')
+    })
+  })
+
+  describe('autoplay', () => {
+    test('advances the active slide on each interval', () => {
+      vi.useFakeTimers()
+      const uninstallVisibility = stubVisibleGeometry()
+      try {
+        render(
+          <Carousel autoplay interval={1000}>
+            <CarouselInner>
+              <CarouselItem>Item-1</CarouselItem>
+              <CarouselItem>Item-2</CarouselItem>
+              <CarouselItem>Item-3</CarouselItem>
+            </CarouselInner>
+          </Carousel>
+        )
+        expect(screen.getByText('Item-1')).toHaveClass('active')
+
+        act(() => vi.advanceTimersByTime(1000))
+        expect(screen.getByText('Item-2')).toHaveClass('active')
+
+        act(() => vi.advanceTimersByTime(1000))
+        expect(screen.getByText('Item-3')).toHaveClass('active')
+      } finally {
+        vi.useRealTimers()
+        uninstallVisibility()
+      }
+    })
+
     test('reflects autoplay state and toggles on click', () => {
       render(
         <Carousel autoplay>
@@ -320,6 +430,34 @@ describe('Carousel', () => {
       const toggle = screen.getByRole('button', { name: 'Pause' })
       fireEvent.click(toggle)
       expect(screen.getByRole('button', { name: 'Play' })).toBeInTheDocument()
+    })
+
+    test('pause="hover" pauses on mouseenter and resumes on mouseleave', () => {
+      vi.useFakeTimers()
+      const uninstallVisibility = stubVisibleGeometry()
+      try {
+        const { container } = render(
+          <Carousel autoplay interval={1000}>
+            <CarouselInner>
+              <CarouselItem>Item-1</CarouselItem>
+              <CarouselItem>Item-2</CarouselItem>
+            </CarouselInner>
+          </Carousel>
+        )
+        // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
+        const carousel = container.querySelector('.carousel') as HTMLElement
+
+        fireEvent.mouseEnter(carousel)
+        act(() => vi.advanceTimersByTime(2000))
+        expect(screen.getByText('Item-1')).toHaveClass('active')
+
+        fireEvent.mouseLeave(carousel)
+        act(() => vi.advanceTimersByTime(1000))
+        expect(screen.getByText('Item-2')).toHaveClass('active')
+      } finally {
+        vi.useRealTimers()
+        uninstallVisibility()
+      }
     })
   })
 
@@ -342,6 +480,23 @@ describe('Carousel', () => {
       const { container } = render(<ThreeItemCarousel />)
       expect(await axe(container)).toHaveNoViolations()
     })
+
+    test('has no axe violations with autoplay active', async () => {
+      const { container } = render(
+        <Carousel autoplay aria-label="Featured content">
+          <CarouselControlPrev />
+          <CarouselControlNext />
+          <CarouselIndicators />
+          <CarouselPlayPause />
+          <CarouselInner>
+            <CarouselItem>Item-1</CarouselItem>
+            <CarouselItem>Item-2</CarouselItem>
+            <CarouselItem>Item-3</CarouselItem>
+          </CarouselInner>
+        </Carousel>
+      )
+      expect(await axe(container)).toHaveNoViolations()
+    })
   })
 
   describe('RTL locale', () => {
@@ -361,6 +516,37 @@ describe('Carousel', () => {
       fireEvent.click(screen.getByRole('button', { name: 'Next slide' }))
       await waitFor(() => expect(item2).toHaveClass('active'))
       expect(item1).not.toHaveClass('active')
+    })
+  })
+
+  describe('seamless loop transition', () => {
+    test('looping past the last item with the default ends="loop" settles on the first item and leaves no clone nodes behind', () => {
+      const uninstallGeometry = installCarouselGeometry()
+      vi.useFakeTimers()
+      try {
+        render(<ThreeItemCarousel />)
+        // Settle the mount pass first (see the note in the scroll-sync tests below).
+        act(() => vi.runAllTimers())
+
+        const next = screen.getByRole('button', { name: 'Next slide' })
+        fireEvent.click(next)
+        act(() => vi.runAllTimers())
+        fireEvent.click(next)
+        act(() => vi.runAllTimers())
+        // This third Next crosses the loop boundary (index 2 -> "3"), which `canLoop` routes
+        // through `performLoopTransition` instead of a plain wrap jump.
+        fireEvent.click(next)
+        act(() => vi.runAllTimers())
+
+        expect(screen.getByText('Item-1')).toHaveClass('active')
+        // eslint-disable-next-line testing-library/no-node-access
+        expect(document.querySelectorAll('.carousel-item-clone')).toHaveLength(0)
+        // eslint-disable-next-line testing-library/no-node-access
+        expect(document.querySelectorAll('.carousel-item')).toHaveLength(3)
+      } finally {
+        vi.useRealTimers()
+        uninstallGeometry()
+      }
     })
   })
 

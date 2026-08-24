@@ -3,7 +3,9 @@
 exports[`Carousel > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <div
+    aria-roledescription="carousel"
     class="carousel"
+    role="region"
   >
     <button
       class="button small icon-only"
@@ -73,21 +75,31 @@ exports[`Carousel > rendering > matches the baseline markup snapshot 1`] = `
       class="carousel-inner"
     >
       <div
+        aria-label="1 of 3"
+        aria-roledescription="slide"
         class="carousel-item active"
       >
         Item-1
       </div>
       <div
+        aria-label="2 of 3"
+        aria-roledescription="slide"
         class="carousel-item"
       >
         Item-2
       </div>
       <div
+        aria-label="3 of 3"
+        aria-roledescription="slide"
         class="carousel-item"
       >
         Item-3
       </div>
     </div>
+    <span
+      class="visually-hidden"
+      role="status"
+    />
   </div>
 </div>
 `;
