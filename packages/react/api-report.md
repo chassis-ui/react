@@ -3844,7 +3844,7 @@ interface ModalTitleProps extends HTMLAttributes<HTMLHeadingElement> {
    */
   component?: ElementType | string;
 }
-declare const ModalTitle: React.ForwardRefExoticComponent<ModalTitleProps & React.RefAttributes<HTMLHeadElement>>;
+declare const ModalTitle: React.ForwardRefExoticComponent<ModalTitleProps & React.RefAttributes<HTMLHeadingElement>>;
 //#endregion
 //#region src/components/nav/Nav.d.ts
 interface NavItemDef {
@@ -4387,7 +4387,7 @@ interface DrawerTitleProps extends HTMLAttributes<HTMLHeadingElement> {
    */
   component?: ElementType | string;
 }
-declare const DrawerTitle: React.ForwardRefExoticComponent<DrawerTitleProps & React.RefAttributes<HTMLHeadElement>>;
+declare const DrawerTitle: React.ForwardRefExoticComponent<DrawerTitleProps & React.RefAttributes<HTMLHeadingElement>>;
 //#endregion
 //#region src/components/skeleton/Skeleton.d.ts
 type SkeletonOwnProps<C extends ElementType> = {

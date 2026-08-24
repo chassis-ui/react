@@ -12,7 +12,7 @@ export interface ModalTitleProps extends HTMLAttributes<HTMLHeadingElement> {
   component?: string | ElementType
 }
 
-export const ModalTitle = forwardRef<HTMLHeadElement, ModalTitleProps>(
+export const ModalTitle = forwardRef<HTMLHeadingElement, ModalTitleProps>(
   ({ children, component: Component = 'h2', className, ...rest }, ref) => {
     const _className = classNames('modal-title', className)
 

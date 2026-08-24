@@ -216,6 +216,12 @@ export const Popover: FC<PopoverProps> = ({
             in={state.isOpen}
             mountOnEnter
             nodeRef={floatingRef}
+            onExited={() => {
+              const trigger = triggerRef.current
+              if (trigger && document.contains(trigger)) {
+                trigger.focus()
+              }
+            }}
             timeout={{
               enter: 0,
               exit: 200

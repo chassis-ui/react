@@ -6,7 +6,7 @@ exports[`List > data-driven items > matches the baseline markup snapshot for dat
     class="list"
   >
     <a
-      aria-current="true"
+      aria-current="page"
       class="list-item list-action active"
       href="#"
     >

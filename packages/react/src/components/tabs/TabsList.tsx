@@ -53,7 +53,9 @@ const TabItem = ({ item }: TabItemProps) => {
   const { tabProps, isSelected, isDisabled } = useTab({ key: item.key }, state, ref)
 
   return (
-    <li className="nav-item">
+    // ARIA's `tablist` role only permits `tab`-role children — `role="presentation"` opts this
+    // `<li>` wrapper out without hiding its content, same pattern as `MenuHeader`.
+    <li className="nav-item" role="presentation">
       <a
         className={classNames('nav-link', { active: isSelected, disabled: isDisabled })}
         {...tabProps}

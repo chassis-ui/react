@@ -116,7 +116,7 @@ export const List = forwardRef<HTMLDivElement | HTMLUListElement, ListProps>(
               key={idx}
               className={itemClass}
               {...(item.href ? { href: item.href } : {})}
-              {...(item.active ? { 'aria-current': true } : {})}
+              {...(item.active ? { 'aria-current': 'page' } : {})}
               {...(item.disabled ? { 'aria-disabled': true } : {})}
             >
               {item.label}

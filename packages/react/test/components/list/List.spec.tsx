@@ -79,7 +79,7 @@ describe('List', () => {
 
       const dashboard = screen.getByRole('link', { name: 'Dashboard' })
       expect(dashboard).toHaveClass('list-action')
-      expect(dashboard).toHaveAttribute('aria-current', 'true')
+      expect(dashboard).toHaveAttribute('aria-current', 'page')
 
       const billing = screen.getByRole('link', { name: 'Billing' })
       expect(billing).toHaveClass('warning')

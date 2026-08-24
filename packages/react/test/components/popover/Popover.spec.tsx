@@ -123,6 +123,28 @@ describe('Popover', () => {
       expect(document.activeElement).toBe(screen.getByRole('dialog'))
       vi.useRealTimers()
     })
+
+    test('restores focus to the trigger once the close transition finishes', () => {
+      vi.useFakeTimers()
+      render(
+        <Popover content="content" title="title">
+          <Button>Test</Button>
+        </Popover>
+      )
+      const trigger = screen.getByRole('button', { name: 'Test' })
+      openPopover()
+      act(() => vi.runAllTimers())
+      expect(screen.getByRole('dialog')).toBeInTheDocument()
+
+      fireEvent.click(trigger)
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(document.activeElement).not.toBe(trigger)
+      act(() => vi.runAllTimers())
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(document.activeElement).toBe(trigger)
+      vi.useRealTimers()
+    })
   })
 
   describe('accessibility', () => {

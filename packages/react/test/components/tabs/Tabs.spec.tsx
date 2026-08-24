@@ -27,6 +27,12 @@ describe('Tabs', () => {
       const tabs = screen.getAllByRole('tab')
       expect(tabs).toHaveLength(3)
       expect(screen.getByRole('tabpanel')).toHaveTextContent('Home content')
+
+      // The `<li>` wrapper around each tab must opt out of the tablist's accessibility tree
+      // (only `tab`-role children are ARIA-allowed under `role="tablist"`).
+      // eslint-disable-next-line testing-library/no-node-access
+      const listItem = tabs[0]!.closest('li')
+      expect(listItem).toHaveAttribute('role', 'presentation')
     })
 
     test('only renders the panel for the selected tab', async () => {
@@ -114,21 +120,7 @@ describe('Tabs', () => {
   describe('accessibility', () => {
     test('has no axe violations', async () => {
       const { container } = render(<BasicTabs />)
-      // TabList wraps each tab in a plain <li class="nav-item"> (Bootstrap's nav-tabs visual
-      // structure) with role="tab" on the inner <a>, not the <li> itself. Same finding class as
-      // Nav/NavbarNav (Phase 2): a bare <li> isn't an ARIA-allowed child of role="tablist",
-      // which trips aria-required-children/aria-required-parent/listitem — a real, pre-existing
-      // structural mismatch, not something to paper over. Left unchanged here; disabling only
-      // for this check.
-      expect(
-        await axe(container, {
-          rules: {
-            'aria-required-children': { enabled: false },
-            'aria-required-parent': { enabled: false },
-            listitem: { enabled: false }
-          }
-        })
-      ).toHaveNoViolations()
+      expect(await axe(container)).toHaveNoViolations()
     })
   })
 })

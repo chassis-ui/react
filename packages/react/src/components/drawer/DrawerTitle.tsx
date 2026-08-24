@@ -12,7 +12,7 @@ export interface DrawerTitleProps extends HTMLAttributes<HTMLHeadingElement> {
   component?: string | ElementType
 }
 
-export const DrawerTitle = forwardRef<HTMLHeadElement, DrawerTitleProps>(
+export const DrawerTitle = forwardRef<HTMLHeadingElement, DrawerTitleProps>(
   ({ children, component: Component = 'h2', className, ...rest }, ref) => {
     const _className = classNames('drawer-title', className)
 
