@@ -41,6 +41,12 @@ describe('RangeInput', () => {
       expect(range).toHaveValue('80')
       expect(range).toBeDisabled()
     })
+
+    test('applies is-invalid/is-valid classes', () => {
+      render(<RangeInput aria-label="Volume" invalid valid />)
+      const range = screen.getByRole('slider', { name: 'Volume' })
+      expect(range).toHaveClass('form-range', 'is-invalid', 'is-valid')
+    })
   })
 
   describe('change behavior', () => {

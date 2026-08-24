@@ -80,7 +80,14 @@ export const RangeInput = forwardRef<HTMLInputElement, RangeInputProps>(
       validFeedback
     })
 
-    const _className = classNames('form-range', className)
+    const _className = classNames(
+      'form-range',
+      {
+        'is-invalid': invalid,
+        'is-valid': valid
+      },
+      className
+    )
 
     return renderFormField({
       children: (

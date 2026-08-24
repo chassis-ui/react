@@ -1,86 +1,53 @@
 import React from 'react'
-import { useState } from 'react'
 import {
   Button,
-  Form,
   Checkbox,
-  TextInput,
-  FormFeedback,
-  FormLabel,
-  Select,
-  InputGroup,
   Col,
-  InputGroupAddon
+  Form,
+  FormLabel,
+  InputGroup,
+  InputGroupAddon,
+  Select,
+  TextInput
 } from '@chassis-ui/react'
 
-export const BrowserDefaultsExample = () => {
-  const [validated, setValidated] = useState(false)
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    const form = event.currentTarget
-    if (form.checkValidity() === false) {
-      event.preventDefault()
-      event.stopPropagation()
-    }
-    setValidated(true)
-  }
-  return (
-    <Form className="row g-3 needs-validation" validated={validated} onSubmit={handleSubmit}>
-      <Col responsive={{ medium: { span: 4 } }}>
-        <FormLabel htmlFor="validationDefault01">Email</FormLabel>
-        <TextInput type="text" id="validationDefault01" defaultValue="Mark" required />
-        <FormFeedback valid>Looks good!</FormFeedback>
-      </Col>
-      <Col responsive={{ medium: { span: 4 } }}>
-        <FormLabel htmlFor="validationDefault02">Email</FormLabel>
-        <TextInput type="text" id="validationDefault02" defaultValue="Otto" required />
-        <FormFeedback valid>Looks good!</FormFeedback>
-      </Col>
-      <Col responsive={{ medium: { span: 4 } }}>
-        <FormLabel htmlFor="validationDefaultUsername">Username</FormLabel>
-        <InputGroup className="has-validation">
-          <InputGroupAddon id="inputGroupPrepend02">@</InputGroupAddon>
-          <TextInput
-            type="text"
-            id="validationDefaultUsername"
-            defaultValue=""
-            aria-describedby="inputGroupPrepend02"
-            required
-          />
-          <FormFeedback invalid>Please choose a username.</FormFeedback>
-        </InputGroup>
-      </Col>
-      <Col responsive={{ medium: { span: 6 } }}>
-        <FormLabel htmlFor="validationDefault03">City</FormLabel>
-        <TextInput type="text" id="validationDefault03" required />
-        <FormFeedback invalid>Please provide a valid city.</FormFeedback>
-      </Col>
-      <Col responsive={{ medium: { span: 3 } }}>
-        <FormLabel htmlFor="validationDefault04">City</FormLabel>
-        <Select id="validationDefault04">
-          <option disabled>Choose...</option>
-          <option>...</option>
-        </Select>
-        <FormFeedback invalid>Please provide a valid city.</FormFeedback>
-      </Col>
-      <Col responsive={{ medium: { span: 3 } }}>
-        <FormLabel htmlFor="validationDefault05">City</FormLabel>
-        <TextInput type="text" id="validationDefault05" required />
-        <FormFeedback invalid>Please provide a valid zip.</FormFeedback>
-      </Col>
-      <Col span={12}>
-        <Checkbox
-          type="checkbox"
-          id="invalidCheck"
-          label="Agree to terms and conditions"
-          required
-        />
-        <FormFeedback invalid>You must agree before submitting.</FormFeedback>
-      </Col>
-      <Col span={12}>
-        <Button color="primary" type="submit">
-          Submit form
-        </Button>
-      </Col>
-    </Form>
-  )
-}
+export const BrowserDefaultsExample = () => (
+  <Form className="row g-3">
+    <Col responsive={{ medium: { span: 4 } }}>
+      <TextInput label="First name" defaultValue="Mark" required />
+    </Col>
+    <Col responsive={{ medium: { span: 4 } }}>
+      <TextInput label="Last name" defaultValue="Otto" required />
+    </Col>
+    <Col responsive={{ medium: { span: 4 } }}>
+      <FormLabel htmlFor="validationDefaultUsername">Username</FormLabel>
+      <InputGroup>
+        <InputGroupAddon>@</InputGroupAddon>
+        <TextInput id="validationDefaultUsername" required />
+      </InputGroup>
+    </Col>
+    <Col responsive={{ medium: { span: 6 } }}>
+      <TextInput label="City" required />
+    </Col>
+    <Col responsive={{ medium: { span: 3 } }}>
+      <Select label="State" required>
+        <option disabled value="">
+          Choose...
+        </option>
+        <option>California</option>
+        <option>New York</option>
+      </Select>
+    </Col>
+    <Col responsive={{ medium: { span: 3 } }}>
+      <TextInput label="Zip" required />
+    </Col>
+    <Col span={12}>
+      <Checkbox label="Agree to terms and conditions" required />
+    </Col>
+    <Col span={12}>
+      <Button color="primary" type="submit">
+        Submit form
+      </Button>
+    </Col>
+  </Form>
+)

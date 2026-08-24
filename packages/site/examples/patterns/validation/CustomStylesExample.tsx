@@ -1,20 +1,20 @@
-import React from 'react'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import {
   Button,
-  Form,
   Checkbox,
-  TextInput,
+  Col,
+  Form,
   FormFeedback,
   FormLabel,
-  Select,
   InputGroup,
-  Col,
-  InputGroupAddon
+  InputGroupAddon,
+  Select,
+  TextInput
 } from '@chassis-ui/react'
 
 export const CustomStylesExample = () => {
   const [validated, setValidated] = useState(false)
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     const form = event.currentTarget
     if (form.checkValidity() === false) {
@@ -23,63 +23,53 @@ export const CustomStylesExample = () => {
     }
     setValidated(true)
   }
+
   return (
-    <Form
-      className="row g-3 needs-validation"
-      noValidate
-      validated={validated}
-      onSubmit={handleSubmit}
-    >
+    <Form className="row g-3" noValidate validated={validated} onSubmit={handleSubmit}>
       <Col responsive={{ medium: { span: 4 } }}>
-        <FormLabel htmlFor="validationCustom01">Email</FormLabel>
-        <TextInput type="text" id="validationCustom01" defaultValue="Mark" required />
-        <FormFeedback valid>Looks good!</FormFeedback>
+        <TextInput label="First name" defaultValue="Mark" validFeedback="Looks good!" required />
       </Col>
       <Col responsive={{ medium: { span: 4 } }}>
-        <FormLabel htmlFor="validationCustom02">Email</FormLabel>
-        <TextInput type="text" id="validationCustom02" defaultValue="Otto" required />
-        <FormFeedback valid>Looks good!</FormFeedback>
+        <TextInput label="Last name" defaultValue="Otto" validFeedback="Looks good!" required />
       </Col>
       <Col responsive={{ medium: { span: 4 } }}>
         <FormLabel htmlFor="validationCustomUsername">Username</FormLabel>
         <InputGroup className="has-validation">
           <InputGroupAddon id="inputGroupPrepend">@</InputGroupAddon>
           <TextInput
-            type="text"
             id="validationCustomUsername"
-            defaultValue=""
-            aria-describedby="inputGroupPrepend"
+            aria-describedby="inputGroupPrepend usernameFeedback"
             required
           />
-          <FormFeedback invalid>Please choose a username.</FormFeedback>
         </InputGroup>
+        <FormFeedback id="usernameFeedback" invalid>
+          Please choose a username.
+        </FormFeedback>
       </Col>
       <Col responsive={{ medium: { span: 6 } }}>
-        <FormLabel htmlFor="validationCustom03">City</FormLabel>
-        <TextInput type="text" id="validationCustom03" required />
-        <FormFeedback invalid>Please provide a valid city.</FormFeedback>
+        <TextInput label="City" invalidFeedback="Please provide a valid city." required />
       </Col>
       <Col responsive={{ medium: { span: 3 } }}>
-        <FormLabel htmlFor="validationCustom04">City</FormLabel>
-        <Select id="validationCustom04">
-          <option disabled>Choose...</option>
-          <option>...</option>
+        <Select label="State" invalidFeedback="Please select a valid state." required>
+          <option disabled value="">
+            Choose...
+          </option>
+          <option>California</option>
+          <option>New York</option>
         </Select>
-        <FormFeedback invalid>Please provide a valid city.</FormFeedback>
       </Col>
       <Col responsive={{ medium: { span: 3 } }}>
-        <FormLabel htmlFor="validationCustom05">City</FormLabel>
-        <TextInput type="text" id="validationCustom05" required />
-        <FormFeedback invalid>Please provide a valid zip.</FormFeedback>
+        <TextInput label="Zip" invalidFeedback="Please provide a valid zip." required />
       </Col>
       <Col span={12}>
         <Checkbox
-          type="checkbox"
-          id="invalidCheck"
           label="Agree to terms and conditions"
+          aria-describedby="agreeFeedback"
           required
         />
-        <FormFeedback invalid>You must agree before submitting.</FormFeedback>
+        <FormFeedback id="agreeFeedback" invalid>
+          You must agree before submitting.
+        </FormFeedback>
       </Col>
       <Col span={12}>
         <Button color="primary" type="submit">

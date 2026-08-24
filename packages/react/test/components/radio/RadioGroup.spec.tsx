@@ -39,6 +39,26 @@ describe('RadioGroup', () => {
       expect(screen.getByText('Pick one to continue.')).toHaveClass('invalid-feedback')
       expect(screen.getByRole('radiogroup')).toHaveClass('is-invalid')
     })
+
+    test('propagates invalid to every Radio item', () => {
+      render(
+        <RadioGroup label="Choose an option" invalid errorMessage="Pick one to continue.">
+          <Radio value="a" label="Option A" />
+          <Radio value="b" label="Option B" />
+        </RadioGroup>
+      )
+      expect(screen.getByRole('radio', { name: 'Option A' })).toHaveClass('is-invalid')
+      expect(screen.getByRole('radio', { name: 'Option B' })).toHaveClass('is-invalid')
+    })
+
+    test('propagates valid to every Radio item', () => {
+      render(
+        <RadioGroup label="Choose an option" valid>
+          <Radio value="a" label="Option A" />
+        </RadioGroup>
+      )
+      expect(screen.getByRole('radio', { name: 'Option A' })).toHaveClass('is-valid')
+    })
   })
 
   describe('orientation', () => {

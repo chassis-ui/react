@@ -1,19 +1,19 @@
-import React from 'react'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import {
   Button,
+  Col,
   Form,
-  TextInput,
   FormFeedback,
   FormLabel,
-  Select,
   InputGroup,
-  Col,
-  InputGroupAddon
+  InputGroupAddon,
+  Select,
+  TextInput
 } from '@chassis-ui/react'
 
 export const TooltipsExample = () => {
   const [validated, setValidated] = useState(false)
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     const form = event.currentTarget
     if (form.checkValidity() === false) {
@@ -22,23 +22,19 @@ export const TooltipsExample = () => {
     }
     setValidated(true)
   }
+
   return (
-    <Form
-      className="row g-3 needs-validation"
-      noValidate
-      validated={validated}
-      onSubmit={handleSubmit}
-    >
+    <Form className="row g-3" noValidate validated={validated} onSubmit={handleSubmit}>
       <Col responsive={{ medium: { span: 4 } }} className="position-relative">
-        <FormLabel htmlFor="validationTooltip01">Email</FormLabel>
-        <TextInput type="text" id="validationTooltip01" defaultValue="Mark" required />
+        <FormLabel htmlFor="validationTooltip01">First name</FormLabel>
+        <TextInput id="validationTooltip01" defaultValue="Mark" required />
         <FormFeedback tooltip valid>
           Looks good!
         </FormFeedback>
       </Col>
       <Col responsive={{ medium: { span: 4 } }} className="position-relative">
-        <FormLabel htmlFor="validationTooltip02">Email</FormLabel>
-        <TextInput type="text" id="validationTooltip02" defaultValue="Otto" required />
+        <FormLabel htmlFor="validationTooltip02">Last name</FormLabel>
+        <TextInput id="validationTooltip02" defaultValue="Otto" required />
         <FormFeedback tooltip valid>
           Looks good!
         </FormFeedback>
@@ -48,44 +44,43 @@ export const TooltipsExample = () => {
         <InputGroup className="has-validation">
           <InputGroupAddon id="inputGroupPrepend">@</InputGroupAddon>
           <TextInput
-            type="text"
             id="validationTooltipUsername"
-            defaultValue=""
             aria-describedby="inputGroupPrepend"
             required
           />
-          <FormFeedback tooltip invalid>
-            Please choose a username.
-          </FormFeedback>
         </InputGroup>
+        <FormFeedback tooltip invalid>
+          Please choose a username.
+        </FormFeedback>
       </Col>
       <Col responsive={{ medium: { span: 6 } }} className="position-relative">
         <FormLabel htmlFor="validationTooltip03">City</FormLabel>
-        <TextInput type="text" id="validationTooltip03" required />
+        <TextInput id="validationTooltip03" required />
         <FormFeedback tooltip invalid>
           Please provide a valid city.
         </FormFeedback>
       </Col>
       <Col responsive={{ medium: { span: 3 } }} className="position-relative">
-        <FormLabel htmlFor="validationTooltip04">City</FormLabel>
+        <FormLabel htmlFor="validationTooltip04">State</FormLabel>
         <Select id="validationTooltip04" required>
           <option disabled value="">
             Choose...
           </option>
-          <option>...</option>
+          <option>California</option>
+          <option>New York</option>
         </Select>
         <FormFeedback tooltip invalid>
-          Please provide a valid city.
+          Please select a valid state.
         </FormFeedback>
       </Col>
       <Col responsive={{ medium: { span: 3 } }} className="position-relative">
-        <FormLabel htmlFor="validationTooltip05">City</FormLabel>
-        <TextInput type="text" id="validationTooltip05" required />
+        <FormLabel htmlFor="validationTooltip05">Zip</FormLabel>
+        <TextInput id="validationTooltip05" required />
         <FormFeedback tooltip invalid>
           Please provide a valid zip.
         </FormFeedback>
       </Col>
-      <Col span={12} className="position-relative">
+      <Col span={12}>
         <Button color="primary" type="submit">
           Submit form
         </Button>

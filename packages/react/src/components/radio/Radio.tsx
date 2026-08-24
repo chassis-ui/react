@@ -1,4 +1,5 @@
 import React, { forwardRef, InputHTMLAttributes, ReactNode, useContext, useRef } from 'react'
+import classNames from 'classnames'
 import { AriaRadioProps, useRadio } from 'react-aria'
 
 import { useForkedRef } from '../../hooks'
@@ -46,11 +47,14 @@ export interface RadioProps extends Omit<
 // not a meaningful accessible control (see https://chassis-ui.com/css/docs/forms/checkbox-radio).
 export const Radio = forwardRef<HTMLInputElement, RadioProps>(
   ({ button, className, color, disabled, id, label, size, ...rest }, ref) => {
-    const groupState = useContext(RadioGroupContext)
+    const group = useContext(RadioGroupContext)
 
-    if (!groupState) {
+    if (!group) {
       throw new Error('Radio must be rendered inside a RadioGroup.')
     }
+
+    const { state: groupState, valid } = group
+    const invalid = groupState.isInvalid
 
     const inputRef = useRef<HTMLInputElement>(null)
     const forkedRef = useForkedRef(ref, inputRef)
@@ -65,13 +69,17 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
       inputRef
     )
 
+    const inputClassName = classNames({ 'is-invalid': invalid, 'is-valid': valid })
+
     return renderFormCheck({
       button,
       className,
       color,
-      input: <input {...inputProps} id={id} ref={forkedRef} />,
+      input: <input {...inputProps} className={inputClassName} id={id} ref={forkedRef} />,
+      invalid,
       label,
-      size
+      size,
+      valid
     })
   }
 )
