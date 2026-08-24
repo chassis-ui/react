@@ -79,6 +79,23 @@ describe('Switch', () => {
     })
   })
 
+  describe('validation state', () => {
+    test('sets aria-invalid on the checkbox-backed switch when invalid', () => {
+      render(<Switch aria-label="Notifications" invalid />)
+      expect(screen.getByRole('switch')).toHaveAttribute('aria-invalid', 'true')
+    })
+
+    test('does not set aria-invalid when not invalid', () => {
+      render(<Switch aria-label="Notifications" />)
+      expect(screen.getByRole('switch')).not.toHaveAttribute('aria-invalid')
+    })
+
+    test('sets aria-invalid on the radio-backed switch when invalid', () => {
+      render(<Switch aria-label="Notifications" type="radio" invalid />)
+      expect(screen.getByRole('switch')).toHaveAttribute('aria-invalid', 'true')
+    })
+  })
+
   describe('ref forwarding', () => {
     test('forwards a ref to the underlying input', () => {
       const ref = React.createRef<HTMLInputElement>()

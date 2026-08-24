@@ -30,6 +30,7 @@ exports[`Switch > styling props > applies color, size, invalid/valid classes tog
       class="check-input secondary is-invalid is-valid"
     >
       <input
+        aria-invalid="true"
         class="is-invalid is-valid"
         id="2"
         role="switch"

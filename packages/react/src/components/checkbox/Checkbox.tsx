@@ -114,6 +114,7 @@ const CheckboxStandalone = forwardRef<HTMLInputElement, CheckboxProps>(
         children: label,
         isDisabled: disabled,
         isIndeterminate: indeterminate,
+        isInvalid: invalid,
         value: rest.value as string | undefined
       } as AriaCheckboxProps,
       toggleState,
@@ -180,6 +181,7 @@ const CheckboxGroupItem = forwardRef<HTMLInputElement, CheckboxGroupItemProps>(
         children: label,
         isDisabled: disabled,
         isIndeterminate: indeterminate,
+        isInvalid: invalid,
         value: rest.value as string
       } as AriaCheckboxGroupItemProps,
       groupState,

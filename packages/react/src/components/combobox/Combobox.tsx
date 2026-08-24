@@ -310,7 +310,6 @@ export const Combobox = ({
         </div>
         <div
           className={classNames('menu', { show: state.isOpen })}
-          role="listbox"
           data-cx-placement={placementAttr}
           style={overlayStyle}
           hidden={!state.isOpen}

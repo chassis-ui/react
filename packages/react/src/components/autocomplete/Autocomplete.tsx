@@ -450,8 +450,6 @@ export const Autocomplete = ({
         </div>
         <div
           className={classNames('menu', { show: state.isOpen })}
-          role="listbox"
-          aria-multiselectable={multiple || undefined}
           data-cx-placement={placementAttr}
           style={overlayStyle}
           hidden={!state.isOpen}

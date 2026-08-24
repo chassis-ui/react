@@ -94,6 +94,30 @@ describe('Checkbox', () => {
     })
   })
 
+  describe('validation state', () => {
+    test('sets aria-invalid on the input when invalid', () => {
+      render(<Checkbox aria-label="Terms" invalid />)
+      expect(screen.getByRole('checkbox')).toHaveAttribute('aria-invalid', 'true')
+    })
+
+    test('does not set aria-invalid when not invalid', () => {
+      render(<Checkbox aria-label="Terms" />)
+      expect(screen.getByRole('checkbox')).not.toHaveAttribute('aria-invalid')
+    })
+
+    test('sets aria-invalid on a CheckboxGroup item when invalid', () => {
+      render(
+        <CheckboxGroup aria-label="Notifications">
+          <Checkbox value="email" label="Email" invalid />
+        </CheckboxGroup>
+      )
+      expect(screen.getByRole('checkbox', { name: 'Email' })).toHaveAttribute(
+        'aria-invalid',
+        'true'
+      )
+    })
+  })
+
   describe('ref forwarding', () => {
     test('forwards a ref to the underlying input', () => {
       const ref = React.createRef<HTMLInputElement>()

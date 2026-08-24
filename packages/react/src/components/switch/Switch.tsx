@@ -96,6 +96,7 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
         ...rest,
         children: label,
         isDisabled: disabled,
+        isInvalid: invalid,
         value: rest.value as string | undefined
       } as AriaSwitchProps,
       toggleState,
@@ -104,6 +105,7 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
 
     const radioProps = {
       ...rest,
+      'aria-invalid': invalid,
       checked: isSelected,
       defaultChecked: defaultSelected,
       disabled,

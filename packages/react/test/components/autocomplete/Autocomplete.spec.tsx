@@ -18,12 +18,13 @@ const openMenu = () => {
   fireEvent.click(screen.getByRole('button'))
 }
 
-// Same duplicate-listbox-role shape as Combobox.tsx (see its spec for the full explanation) —
-// the `.menu` wrapper hardcodes its own role="listbox" alongside the one react-aria's
-// useListBox renders inside it.
+// The `.menu` panel is a plain wrapper `<div>` with no role/name of its own (the real
+// role="listbox" lives one level inside, on ComboboxListBox's own element via react-aria's
+// useListBox) — so there's no accessible query that reaches the panel itself to check things
+// like its `hidden` attribute.
 const getListboxWrapper = () =>
   // eslint-disable-next-line testing-library/no-node-access
-  document.querySelector('[role="listbox"]') as HTMLElement
+  document.querySelector('.menu') as HTMLElement
 
 describe('Autocomplete', () => {
   describe('rendering', () => {
@@ -184,7 +185,7 @@ describe('Autocomplete', () => {
     test('the listbox is aria-multiselectable', () => {
       render(<MultiAutocomplete />)
       openMultiMenu()
-      expect(getListboxWrapper()).toHaveAttribute('aria-multiselectable', 'true')
+      expect(screen.getByRole('listbox')).toHaveAttribute('aria-multiselectable', 'true')
     })
   })
 
@@ -276,14 +277,7 @@ describe('Autocomplete', () => {
     test('has no axe violations with the listbox open', async () => {
       const { container } = render(<BasicAutocomplete />)
       openMenu()
-      expect(
-        await axe(container, {
-          rules: {
-            'aria-input-field-name': { enabled: false },
-            'aria-required-children': { enabled: false }
-          }
-        })
-      ).toHaveNoViolations()
+      expect(await axe(container)).toHaveNoViolations()
     })
 
     test('has no axe violations in multi-select mode with a selection and the listbox open', async () => {
@@ -294,14 +288,7 @@ describe('Autocomplete', () => {
         </Autocomplete>
       )
       fireEvent.click(screen.getByRole('button', { name: 'Fruit' }))
-      expect(
-        await axe(container, {
-          rules: {
-            'aria-input-field-name': { enabled: false },
-            'aria-required-children': { enabled: false }
-          }
-        })
-      ).toHaveNoViolations()
+      expect(await axe(container)).toHaveNoViolations()
     })
   })
 })

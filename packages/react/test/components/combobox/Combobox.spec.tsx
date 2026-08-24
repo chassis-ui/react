@@ -21,14 +21,13 @@ const focusInput = (input: HTMLElement) => {
   fireEvent.focus(input)
 }
 
-// Combobox.tsx's `.menu` wrapper hardcodes its own role="listbox", while ComboboxListBox
-// already renders a correctly-labeled role="listbox" inside it via react-aria's useListBox — two
-// nested listbox roles once open, so `getByRole('listbox')` is ambiguous. That's a real
-// duplicate-role bug worth fixing in the component (see the axe test below), not something to
-// paper over here; raw access to the outer wrapper is the only way to target it specifically.
+// The `.menu` panel is a plain wrapper `<div>` with no role/name of its own (the real
+// role="listbox" lives one level inside, on ComboboxListBox's own element via react-aria's
+// useListBox) — so there's no accessible query that reaches the panel itself to check things
+// like its `hidden` attribute.
 const getListboxWrapper = () =>
   // eslint-disable-next-line testing-library/no-node-access
-  document.querySelector('[role="listbox"]') as HTMLElement
+  document.querySelector('.menu') as HTMLElement
 
 describe('Combobox', () => {
   describe('rendering', () => {
@@ -281,21 +280,7 @@ describe('Combobox', () => {
     test('has no axe violations with the listbox open', async () => {
       const { container } = render(<BasicCombobox />)
       focusInput(screen.getByRole('combobox'))
-      // Found while adding this check: the `.menu` wrapper in Combobox.tsx hardcodes its own
-      // role="listbox", but ComboboxListBox already renders a correctly-labeled role="listbox"
-      // inside it (from react-aria's useListBox) — so there are two nested listbox roles, the
-      // outer one unlabeled and containing a non-option child (aria-input-field-name,
-      // aria-required-children). That's a real duplicate-role bug worth fixing in
-      // Combobox.tsx (drop the hardcoded role from the wrapper div), not something to paper
-      // over — disabling the two rules here only unblocks this test-modernization pass.
-      expect(
-        await axe(container, {
-          rules: {
-            'aria-input-field-name': { enabled: false },
-            'aria-required-children': { enabled: false }
-          }
-        })
-      ).toHaveNoViolations()
+      expect(await axe(container)).toHaveNoViolations()
     })
   })
 })
