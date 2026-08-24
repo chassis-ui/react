@@ -96,7 +96,7 @@ import { Skeleton, SkeletonLoader } from './components/skeleton'
 import { Spinner } from './components/spinner'
 import { Stepper, StepperItem } from './components/stepper'
 import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from './components/table'
-import { Tabs, TabsTab, TabsList, TabsPanel, TabContent, TabPane } from './components/tabs'
+import { Tabs, Tab, TabList, TabPanel } from './components/tabs'
 import {
   Toast,
   ToastBody,
@@ -259,11 +259,9 @@ export {
   TableHeader,
   TableRow,
   Tabs,
-  TabsTab,
-  TabsList,
-  TabsPanel,
-  TabContent,
-  TabPane,
+  Tab,
+  TabList,
+  TabPanel,
   TextInput,
   Textarea,
   Toast,

@@ -1,22 +1,22 @@
 {
   "tags": {},
-  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/tabs/TabsList.tsx",
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/tabs/TabList.tsx",
   "description": "",
-  "displayName": "TabsList",
+  "displayName": "TabList",
   "methods": [],
   "props": {
     "children": {
       "defaultValue": null,
-      "description": "`TabsTab` elements — read as data by `Tabs` to build the tab collection (see `Tabs.tsx`).\nNot rendered directly.",
+      "description": "`Tab` elements — read as data by `Tabs` to build the tab collection (see `Tabs.tsx`). Not\nrendered directly.",
       "name": "children",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/tabs/TabsList.tsx",
-        "name": "TabsListProps"
+        "fileName": "chassis-react/packages/react/src/components/tabs/TabList.tsx",
+        "name": "TabListProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/tabs/TabsList.tsx",
-          "name": "TabsListProps"
+          "fileName": "chassis-react/packages/react/src/components/tabs/TabList.tsx",
+          "name": "TabListProps"
         }
       ],
       "required": true,
@@ -29,13 +29,13 @@
       "description": "A string of all className you want applied to the base component.",
       "name": "className",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/tabs/TabsList.tsx",
-        "name": "TabsListProps"
+        "fileName": "chassis-react/packages/react/src/components/tabs/TabList.tsx",
+        "name": "TabListProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/tabs/TabsList.tsx",
-          "name": "TabsListProps"
+          "fileName": "chassis-react/packages/react/src/components/tabs/TabList.tsx",
+          "name": "TabListProps"
         }
       ],
       "required": false,
@@ -50,13 +50,13 @@
       "description": "Set the tab list variant to tabs or pills.",
       "name": "variant",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/tabs/TabsList.tsx",
-        "name": "TabsListProps"
+        "fileName": "chassis-react/packages/react/src/components/tabs/TabList.tsx",
+        "name": "TabListProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/tabs/TabsList.tsx",
-          "name": "TabsListProps"
+          "fileName": "chassis-react/packages/react/src/components/tabs/TabList.tsx",
+          "name": "TabListProps"
         }
       ],
       "required": false,

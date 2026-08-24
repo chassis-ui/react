@@ -1,0 +1,66 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/tabs/TabPanel.tsx",
+  "description": "",
+  "displayName": "TabPanel",
+  "methods": [],
+  "props": {
+    "children": {
+      "defaultValue": null,
+      "description": "Content of the panel, shown while the `Tab` of the same `id` is selected.",
+      "name": "children",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/tabs/TabPanel.tsx",
+        "name": "TabPanelProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/tabs/TabPanel.tsx",
+          "name": "TabPanelProps"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/tabs/TabPanel.tsx",
+        "name": "TabPanelProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/tabs/TabPanel.tsx",
+          "name": "TabPanelProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "id": {
+      "defaultValue": null,
+      "description": "Pairs this panel with the `Tab` of the same `id`.",
+      "name": "id",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/tabs/TabPanel.tsx",
+        "name": "TabPanelProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/tabs/TabPanel.tsx",
+          "name": "TabPanelProps"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "Key"
+      }
+    }
+  }
+}

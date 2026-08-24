@@ -1,20 +1,20 @@
 import * as React from 'react'
 import { render } from '@testing-library/react'
 
-import { TabsTab } from '../../../src/index'
+import { Tab } from '../../../src/index'
 
-describe('TabsTab', () => {
+describe('Tab', () => {
   describe('rendering', () => {
     test('renders nothing itself - it is read as data by Tabs, not mounted directly', () => {
-      const { container } = render(<TabsTab id="home">Home</TabsTab>)
+      const { container } = render(<Tab id="home">Home</Tab>)
       expect(container).toBeEmptyDOMElement()
     })
 
     test('renders nothing regardless of the disabled prop', () => {
       const { container } = render(
-        <TabsTab id="home" disabled>
+        <Tab id="home" disabled>
           Home
-        </TabsTab>
+        </Tab>
       )
       expect(container).toBeEmptyDOMElement()
     })

@@ -7,7 +7,7 @@
   "props": {
     "children": {
       "defaultValue": null,
-      "description": "A `TabsList` (containing `TabsTab` children) followed by one `TabsPanel` per tab.",
+      "description": "A `TabList` (containing `Tab` children) followed by one `TabPanel` per tab.",
       "name": "children",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",

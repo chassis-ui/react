@@ -4795,7 +4795,7 @@ declare const TableRow: (props: TableRowProps) => ReactElement;
 //#region src/components/tabs/Tabs.d.ts
 interface TabsProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onSelect'> {
   /**
-   * A `TabsList` (containing `TabsTab` children) followed by one `TabsPanel` per tab.
+   * A `TabList` (containing `Tab` children) followed by one `TabPanel` per tab.
    */
   children: ReactNode;
   /**
@@ -4830,10 +4830,11 @@ interface TabsProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onSelect'> {
 }
 declare const Tabs: React.ForwardRefExoticComponent<TabsProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
-//#region src/components/tabs/TabsTab.d.ts
-interface TabsTabProps {
+//#region src/components/tabs/Tab.d.ts
+interface TabProps {
   /**
-   * Label content for the tab. Must be a plain string for the tab to participate in typeahead.
+   * Label content for the tab. Must be a plain string for it to be used as the tab's accessible
+   * name when the rendered content itself doesn't expose one (e.g. an icon-only tab).
    */
   children: ReactNode;
   /**
@@ -4841,20 +4842,20 @@ interface TabsTabProps {
    */
   disabled?: boolean;
   /**
-   * Identifies this tab and pairs it with the `TabsPanel` of the same `id`.
+   * Identifies this tab and pairs it with the `TabPanel` of the same `id`.
    */
   id: Key$2;
 }
-declare const TabsTab: {
-  (_props: TabsTabProps): null;
+declare const Tab: {
+  (_props: TabProps): null;
   displayName: string;
 };
 //#endregion
-//#region src/components/tabs/TabsList.d.ts
-interface TabsListProps extends AriaAttributes {
+//#region src/components/tabs/TabList.d.ts
+interface TabListProps extends AriaAttributes {
   /**
-   * `TabsTab` elements — read as data by `Tabs` to build the tab collection (see `Tabs.tsx`).
-   * Not rendered directly.
+   * `Tab` elements — read as data by `Tabs` to build the tab collection (see `Tabs.tsx`). Not
+   * rendered directly.
    */
   children: ReactNode;
   /**
@@ -4866,15 +4867,12 @@ interface TabsListProps extends AriaAttributes {
    */
   variant?: 'pills' | 'tabs';
 }
-declare const TabsList: {
-  ({ className, variant, ...rest }: TabsListProps): React.JSX.Element;
-  displayName: string;
-};
+declare const TabList: React.ForwardRefExoticComponent<TabListProps & React.RefAttributes<HTMLUListElement>>;
 //#endregion
-//#region src/components/tabs/TabsPanel.d.ts
-interface TabsPanelProps extends Omit<HTMLAttributes<HTMLDivElement>, 'id'> {
+//#region src/components/tabs/TabPanel.d.ts
+interface TabPanelProps extends Omit<HTMLAttributes<HTMLDivElement>, 'id'> {
   /**
-   * Content of the panel, shown while the `TabsTab` of the same `id` is selected.
+   * Content of the panel, shown while the `Tab` of the same `id` is selected.
    */
   children: ReactNode;
   /**
@@ -4882,41 +4880,11 @@ interface TabsPanelProps extends Omit<HTMLAttributes<HTMLDivElement>, 'id'> {
    */
   className?: string;
   /**
-   * Pairs this panel with the `TabsTab` of the same `id`.
+   * Pairs this panel with the `Tab` of the same `id`.
    */
   id: Key$2;
 }
-declare const TabsPanel: React.ForwardRefExoticComponent<TabsPanelProps & React.RefAttributes<HTMLDivElement>>;
-//#endregion
-//#region src/components/tabs/TabContent.d.ts
-interface TabContentProps extends HTMLAttributes<HTMLDivElement> {
-  /**
-   * A string of all className you want applied to the base component.
-   */
-  className?: string;
-}
-declare const TabContent: React.ForwardRefExoticComponent<TabContentProps & React.RefAttributes<HTMLDivElement>>;
-//#endregion
-//#region src/components/tabs/TabPane.d.ts
-interface TabPaneProps extends HTMLAttributes<HTMLDivElement> {
-  /**
-   * A string of all className you want applied to the base component.
-   */
-  className?: string;
-  /**
-   * Callback fired when the component requests to be hidden.
-   */
-  onHide?: () => void;
-  /**
-   * Callback fired when the component requests to be shown.
-   */
-  onShow?: () => void;
-  /**
-   * Toggle the visibility of component.
-   */
-  visible?: boolean;
-}
-declare const TabPane: React.ForwardRefExoticComponent<TabPaneProps & React.RefAttributes<HTMLDivElement>>;
+declare const TabPanel: React.ForwardRefExoticComponent<TabPanelProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
 //#region src/components/toast/Toast.d.ts
 interface ToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
@@ -5339,5 +5307,5 @@ interface StackProps extends HTMLAttributes<HTMLDivElement> {
 }
 declare const Stack: React.ForwardRefExoticComponent<StackProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
-export { Accordion, AccordionBody, AccordionHeader, AccordionItem, Autocomplete, AutocompleteGroup, AutocompleteItem, Avatar, AvatarImage, AvatarStack, Badge, Breadcrumb, BreadcrumbItem, Button, ButtonGroup, ButtonToolbar, Calendar, Card, CardBody, CardFooter, CardGroup, CardHeader, CardImage, CardImageOverlay, CardLink, CardSubtitle, CardText, CardTitle, Carousel, CarouselControlNext, CarouselControlPrev, CarouselIndicators, CarouselInner, CarouselItem, CarouselOverlay, CarouselPlayPause, Checkbox, CheckboxGroup, Chip, ChipInput, CloseButton, Col, Collapse, ColorInput, Combobox, ComboboxGroup, ComboboxItem, Container, DatePicker, DateRangePicker, Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerTitle, FileInput, Flex, FloatingInput, Form, FormFeedback, FormField, FormHelp, FormLabel, Grid, GridItem, I18nProvider, Icon, InputAdorn, InputGroup, InputGroupAddon, Link, List, ListItem, Menu, MenuDivider, MenuHeader, MenuItem, MenuList, MenuSubmenu, MenuSubmenuBack, MenuText, MenuToggle, Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle, Nav, NavItem, NavLink, NavTitle, Navbar, NavbarBrand, NavbarNav, NavbarText, NavbarToggler, Notification, NotificationIcon, NotificationStack, NotificationText, NotificationTitle, OtpInput, Pagination, PaginationItem, PasswordStrength, Placeholder, Popover, Progress, ProgressBar, Radio, RadioGroup, RangeCalendar, RangeInput, Row, Select, Skeleton, SkeletonLoader, Spinner, Stack, Stepper, StepperItem, Switch, TabContent, TabPane, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tabs, TabsList, TabsPanel, TabsTab, TextInput, Textarea, Toast, ToastBody, ToastFooter, ToastHeader, ToastIcon, Toaster, Tooltip, addNotification, addToast, closeNotification, closeToast, notificationQueue, toastQueue, useDrawer, useModal, useNotification, usePagination, useToast };
+export { Accordion, AccordionBody, AccordionHeader, AccordionItem, Autocomplete, AutocompleteGroup, AutocompleteItem, Avatar, AvatarImage, AvatarStack, Badge, Breadcrumb, BreadcrumbItem, Button, ButtonGroup, ButtonToolbar, Calendar, Card, CardBody, CardFooter, CardGroup, CardHeader, CardImage, CardImageOverlay, CardLink, CardSubtitle, CardText, CardTitle, Carousel, CarouselControlNext, CarouselControlPrev, CarouselIndicators, CarouselInner, CarouselItem, CarouselOverlay, CarouselPlayPause, Checkbox, CheckboxGroup, Chip, ChipInput, CloseButton, Col, Collapse, ColorInput, Combobox, ComboboxGroup, ComboboxItem, Container, DatePicker, DateRangePicker, Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerTitle, FileInput, Flex, FloatingInput, Form, FormFeedback, FormField, FormHelp, FormLabel, Grid, GridItem, I18nProvider, Icon, InputAdorn, InputGroup, InputGroupAddon, Link, List, ListItem, Menu, MenuDivider, MenuHeader, MenuItem, MenuList, MenuSubmenu, MenuSubmenuBack, MenuText, MenuToggle, Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle, Nav, NavItem, NavLink, NavTitle, Navbar, NavbarBrand, NavbarNav, NavbarText, NavbarToggler, Notification, NotificationIcon, NotificationStack, NotificationText, NotificationTitle, OtpInput, Pagination, PaginationItem, PasswordStrength, Placeholder, Popover, Progress, ProgressBar, Radio, RadioGroup, RangeCalendar, RangeInput, Row, Select, Skeleton, SkeletonLoader, Spinner, Stack, Stepper, StepperItem, Switch, Tab, TabList, TabPanel, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tabs, TextInput, Textarea, Toast, ToastBody, ToastFooter, ToastHeader, ToastIcon, Toaster, Tooltip, addNotification, addToast, closeNotification, closeToast, notificationQueue, toastQueue, useDrawer, useModal, useNotification, usePagination, useToast };
 ```

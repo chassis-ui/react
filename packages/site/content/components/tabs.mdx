@@ -13,9 +13,9 @@ import { Tabs } from '@chassis-ui/react'
 
 ## Overview
 
-`Tabs` organizes content into sections, showing one at a time. Unlike hand-wiring a `Nav` to a set of manually-toggled panels, `Tabs` handles keyboard navigation (arrow keys, Home/End), roving tab focus, and the `role="tablist"`/`role="tab"`/`role="tabpanel"` + `aria-selected`/`aria-controls`/`aria-labelledby` wiring between them for you.
+`Tabs` organizes content into sections, showing one at a time. Unlike hand-wiring a `Nav` to a set of manually-toggled panels, `Tabs` handles keyboard navigation (arrow keys, Home/End), roving tab focus, and the `role="tablist"`/`role="tab"`/`role="tabpanel"` + `aria-selected`/`aria-controls`/`aria-labelledby` wiring between them for you. Switching tabs also cross-fades their panels automatically.
 
-Compose a `TabsList` of `TabsTab`s, followed by one `TabsPanel` per tab. A tab and its panel are paired by a matching `id` — not by position, and not by React's own `key` (though you should still give each a `key`, as with any list).
+Compose a `TabList` of `Tab`s, followed by one `TabPanel` per tab. A tab and its panel are paired by a matching `id` — not by position, and not by React's own `key` (though you should still give each a `key`, as with any list). `Tabs`/`TabList`/`Tab`/`TabPanel` mirror the names of the react-aria hooks they're built on (`useTabList`, `useTab`, `useTabPanel`).
 
 <Example>
   <BasicExample client:load />
@@ -23,7 +23,7 @@ Compose a `TabsList` of `TabsTab`s, followed by one `TabsPanel` per tab. A tab a
 
 ## Pills
 
-Pass `variant="pills"` to `TabsList` for a pill-styled tab list instead of the default underlined tabs.
+Pass `variant="pills"` to `TabList` for a pill-styled tab list instead of the default underlined tabs.
 
 <Example>
   <PillsExample client:load />
@@ -31,7 +31,7 @@ Pass `variant="pills"` to `TabsList` for a pill-styled tab list instead of the d
 
 ## Disabled tabs
 
-Add `disabled` to a `TabsTab` to remove it from keyboard navigation and prevent it from being selected.
+Add `disabled` to a `Tab` to remove it from keyboard navigation and prevent it from being selected.
 
 <Example>
   <DisabledExample client:load />
@@ -47,14 +47,14 @@ Pass `selectedKey`/`onSelectionChange` to `Tabs` to control which tab is selecte
 
 <PropTable component="Tabs" />
 
-### TabsList
+### TabList
 
-<PropTable component="TabsList" />
+<PropTable component="TabList" />
 
-### TabsTab
+### Tab
 
-<PropTable component="TabsTab" />
+<PropTable component="Tab" />
 
-### TabsPanel
+### TabPanel
 
-<PropTable component="TabsPanel" />
+<PropTable component="TabPanel" />

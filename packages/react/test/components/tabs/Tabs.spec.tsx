@@ -2,20 +2,20 @@ import * as React from 'react'
 import { act, render, screen, fireEvent } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Tabs, TabsList, TabsTab, TabsPanel } from '../../../src/index'
+import { Tabs, TabList, Tab, TabPanel } from '../../../src/index'
 
 const BasicTabs = (props: Partial<React.ComponentProps<typeof Tabs>> = {}) => (
   <Tabs defaultSelectedKey="home" {...props}>
-    <TabsList aria-label="Example tabs">
-      <TabsTab id="home">Home</TabsTab>
-      <TabsTab id="profile">Profile</TabsTab>
-      <TabsTab id="contact" disabled>
+    <TabList aria-label="Example tabs">
+      <Tab id="home">Home</Tab>
+      <Tab id="profile">Profile</Tab>
+      <Tab id="contact" disabled>
         Contact
-      </TabsTab>
-    </TabsList>
-    <TabsPanel id="home">Home content</TabsPanel>
-    <TabsPanel id="profile">Profile content</TabsPanel>
-    <TabsPanel id="contact">Contact content</TabsPanel>
+      </Tab>
+    </TabList>
+    <TabPanel id="home">Home content</TabPanel>
+    <TabPanel id="profile">Profile content</TabPanel>
+    <TabPanel id="contact">Contact content</TabPanel>
   </Tabs>
 )
 
@@ -92,10 +92,10 @@ describe('Tabs', () => {
 
       rerender(
         <Tabs defaultSelectedKey="home">
-          <TabsList aria-label="Pills" variant="pills">
-            <TabsTab id="home">Home</TabsTab>
-          </TabsList>
-          <TabsPanel id="home">Home content</TabsPanel>
+          <TabList aria-label="Pills" variant="pills">
+            <Tab id="home">Home</Tab>
+          </TabList>
+          <TabPanel id="home">Home content</TabPanel>
         </Tabs>
       )
       expect(screen.getByRole('tablist')).toHaveClass('nav', 'nav-pills')
@@ -107,10 +107,10 @@ describe('Tabs', () => {
       const ref = React.createRef<HTMLDivElement>()
       render(
         <Tabs ref={ref} defaultSelectedKey="home">
-          <TabsList aria-label="Example tabs">
-            <TabsTab id="home">Home</TabsTab>
-          </TabsList>
-          <TabsPanel id="home">Home content</TabsPanel>
+          <TabList aria-label="Example tabs">
+            <Tab id="home">Home</Tab>
+          </TabList>
+          <TabPanel id="home">Home content</TabPanel>
         </Tabs>
       )
       expect(ref.current).toBeInstanceOf(HTMLDivElement)

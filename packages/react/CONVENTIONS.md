@@ -99,8 +99,14 @@ Notes:
 - Documented flat exceptions — these were never compound in the first place, nothing to convert:
   `Grid` (`Container`/`Row`/`Col` — no natural root), `Form` (`Form`/`FormLabel`/`FormHelp`/
   `FormFeedback` — `Form` is each component's own identity, not a namespace marker for shared
-  pieces), `CheckboxGroup`/`RadioGroup`, `Toast`'s `Toaster`, `ButtonGroup`'s `ButtonToolbar`,
-  `Tabs`' `TabPane`/`TabContent` pairing.
+  pieces), `CheckboxGroup`/`RadioGroup`, `Toast`'s `Toaster`, `ButtonGroup`'s `ButtonToolbar`.
+- A second, narrower exception: `Tabs`' own parts are `TabList`/`Tab`/`TabPanel`, not
+  `TabsList`/`TabsTab`/`TabsPanel`. Mechanically prefixing with the root name would produce
+  `TabsTab` — the root and the part repeating the same word (`Tab`) right next to each other.
+  Instead these three mirror, name-for-name, the react-aria hooks each one wraps (`useTabList`,
+  `useTab`, `useTabPanel`) and the equivalent components in `react-aria-components` itself — a
+  deliberate exception, not an oversight, and not a precedent for dropping the parent-name prefix
+  elsewhere. `Tabs` (the root) keeps the family's own identity same as every other family's root.
 - History: this library briefly used a namespace-only API (`Accordion.Item`, via `Object.assign`)
   between Phase 1 and Phase 1b of the migration plan, then reverted to flat exports — see the
   plan's "Amendment (post Phase 1)" section for the reasoning.
