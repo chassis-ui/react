@@ -20,7 +20,6 @@ import {
   notificationQueue
 } from './components/notification'
 import { Badge } from './components/badge'
-import { Backdrop } from './components/backdrop'
 import { Breadcrumb, BreadcrumbItem } from './components/breadcrumb'
 import { Button } from './components/button'
 import { ButtonGroup, ButtonToolbar } from './components/button-group'
@@ -141,7 +140,6 @@ export {
   notificationQueue,
   useNotification,
   Badge,
-  Backdrop,
   Breadcrumb,
   BreadcrumbItem,
   Button,
