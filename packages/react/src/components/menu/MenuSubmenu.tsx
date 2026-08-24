@@ -243,7 +243,13 @@ export const MenuSubmenu = forwardRef<HTMLDivElement, MenuSubmenuProps>(
             </div>
           )
 
-          return mounted ? createPortal(panel, document.body) : panel
+          // `stacked`'s small-breakpoint CSS (`.menu:has(.submenu-stacked.show) ...`) needs the
+          // panel to be a real DOM descendant of `.menu`/`.submenu` to match — portaling would
+          // break that ancestor relationship, so it renders inline instead. Trade-off: above the
+          // `small` breakpoint a `stacked` submenu no longer escapes ancestor overflow/stacking-
+          // context clipping the way a portaled one does; accepted since `stacked` targets mobile
+          // nav/drawer usage, not floating dropdowns.
+          return mounted && !stacked ? createPortal(panel, document.body) : panel
         })()}
       </div>
     )

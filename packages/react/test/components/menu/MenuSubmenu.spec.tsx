@@ -148,6 +148,44 @@ describe('MenuSubmenu', () => {
     })
   })
 
+  describe('stacked mode (mobile view-replacement pattern)', () => {
+    test('a stacked submenu panel stays inline as a DOM descendant of its wrapper, not portaled to document.body', () => {
+      const { container } = render(
+        <Menu visible>
+          <MenuList>
+            <MenuSubmenu trigger="File" stacked>
+              <MenuItem>New</MenuItem>
+            </MenuSubmenu>
+          </MenuList>
+        </Menu>
+      )
+      fireEvent.click(screen.getByText('File'))
+      const nestedMenu = getNestedMenu('New')
+
+      // chassis-css's small-breakpoint `.menu:has(.submenu-stacked.show) ...` rule requires the
+      // panel to be a real DOM descendant of `.menu`/`.submenu` — a portal would break that.
+      expect(container.contains(nestedMenu)).toBe(true)
+      expect(nestedMenu.closest('.submenu')).not.toBeNull()
+    })
+
+    test('a non-stacked submenu panel is still portaled to document.body', () => {
+      const { container } = render(
+        <Menu visible>
+          <MenuList>
+            <MenuSubmenu trigger="File">
+              <MenuItem>New</MenuItem>
+            </MenuSubmenu>
+          </MenuList>
+        </Menu>
+      )
+      fireEvent.click(screen.getByText('File'))
+      const nestedMenu = getNestedMenu('New')
+
+      expect(container.contains(nestedMenu)).toBe(false)
+      expect(document.body.contains(nestedMenu)).toBe(true)
+    })
+  })
+
   describe('keyboard navigation', () => {
     test('ArrowRight on the trigger opens the submenu and focuses its first item; ArrowLeft on an item closes it and refocuses the trigger', async () => {
       render(

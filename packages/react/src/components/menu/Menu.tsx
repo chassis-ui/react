@@ -266,6 +266,27 @@ export const Menu = forwardRef<HTMLElement, MenuProps>(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [state.isOpen, autoClose])
 
+    // Escape should always close the menu, independent of `autoClose`'s inside/outside/false
+    // modes. `MenuList`'s own `onKeyDown` handling only fires when focus is already inside the
+    // panel (e.g. opened via ArrowDown) — a mouse-press open via `useMenuTrigger` leaves focus on
+    // the trigger button, where that handler is unreachable. Listening on `window` catches Escape
+    // regardless of where focus currently is.
+    useEffect(() => {
+      if (!state.isOpen) return undefined
+
+      const handleEscape = (event: KeyboardEvent) => {
+        if (event.key !== 'Escape') return
+        close()
+      }
+
+      window.addEventListener('keydown', handleEscape)
+
+      return () => {
+        window.removeEventListener('keydown', handleEscape)
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [state.isOpen])
+
     const contextValue: MenuContextProps = {
       autoClose,
       close,

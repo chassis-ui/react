@@ -72,6 +72,26 @@ describe('Menu', () => {
       vi.useRealTimers()
     })
 
+    test('Escape closes a menu opened via click, even though focus stays on the toggle', () => {
+      render(
+        <Menu>
+          <MenuToggle>Toggle</MenuToggle>
+          <MenuList>
+            <MenuItem>A</MenuItem>
+          </MenuList>
+        </Menu>
+      )
+      const toggle = screen.getByText('Toggle')
+
+      fireEvent.click(toggle)
+      expect(screen.getByRole('menu')).toHaveClass('show')
+      // react-aria's mouse-press open path leaves focus on the trigger, not the panel.
+      expect(document.activeElement).toBe(toggle)
+
+      fireEvent.keyDown(window, { key: 'Escape' })
+      expect(screen.getByRole('menu', { hidden: true })).not.toHaveClass('show')
+    })
+
     test('clicking the toggle again while open closes the menu', async () => {
       const user = userEvent.setup()
       render(
