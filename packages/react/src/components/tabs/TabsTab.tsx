@@ -3,7 +3,8 @@ import { Key } from 'react-stately'
 
 export interface TabsTabProps {
   /**
-   * Label content for the tab. Must be a plain string for the tab to participate in typeahead.
+   * Label content for the tab. Must be a plain string for it to be used as the tab's accessible
+   * name when the rendered content itself doesn't expose one (e.g. an icon-only tab).
    */
   children: ReactNode
   /**
