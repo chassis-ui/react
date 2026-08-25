@@ -12,6 +12,7 @@ import { AriaButtonProps, useMenuTrigger, useOverlayPosition } from 'react-aria'
 import { useMenuTriggerState } from 'react-stately'
 
 import { useForkedRef, useIsomorphicLayoutEffect } from '../../hooks'
+import { executeAfterTransition } from '../../utils/dialogTransition'
 import { Placement, resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
 
 export type { Placement }
@@ -97,6 +98,13 @@ export interface MenuContextProps {
   overlayRef: React.MutableRefObject<HTMLElement | null>
   placementAttr: string
   reference: 'toggle' | 'parent'
+  /**
+   * Registers (or, passing `null`, unregisters) a nested `MenuSubmenu`'s own portaled panel
+   * element, so this `Menu`'s outside/inside click-dismiss logic recognizes clicks landing in it
+   * as "inside" the menu — see `MenuSubmenu`'s own use for why this is necessary: its panel
+   * portals straight to `document.body`, structurally detached from this menu's own DOM subtree.
+   */
+  registerOverlay: (id: string, node: HTMLElement | null) => void
   show: (focusStrategy?: MenuFocusStrategy | null) => void
   targetRef: React.MutableRefObject<HTMLElement | null>
   toggle: (focusStrategy?: MenuFocusStrategy | null) => void
@@ -121,6 +129,7 @@ const defaultMenuContext: MenuContextProps = {
   overlayRef: { current: null },
   placementAttr: 'bottom-start',
   reference: 'toggle',
+  registerOverlay: noop,
   show: noop,
   targetRef: { current: null },
   toggle: noop,
@@ -156,6 +165,14 @@ export const Menu = forwardRef<HTMLElement, MenuProps>(
     const toggleNodeRef = useRef<HTMLElement | null>(null)
     const targetRef = useRef<HTMLElement | null>(null)
     const overlayRef = useRef<HTMLElement | null>(null)
+    // Portaled `MenuSubmenu` panels register themselves here (see `registerOverlay` below and
+    // `MenuSubmenu`'s own ref callback) so `handleDismiss` can recognize clicks inside them as
+    // "inside" this menu despite living outside `overlayRef.current`'s own DOM subtree.
+    const submenuOverlaysRef = useRef<Map<string, HTMLElement>>(new Map())
+    const registerOverlay = (id: string, node: HTMLElement | null) => {
+      if (node) submenuOverlaysRef.current.set(id, node)
+      else submenuOverlaysRef.current.delete(id)
+    }
 
     const state = useMenuTriggerState({ defaultOpen: !!visible })
     const { menuTriggerProps, menuProps } = useMenuTrigger<unknown>({}, state, toggleNodeRef)
@@ -177,14 +194,31 @@ export const Menu = forwardRef<HTMLElement, MenuProps>(
       }
     }, [reference])
 
+    // `onShown`/`onHidden` wait for chassis-css's own opacity/transform transition on `.menu`
+    // (see `_menu.scss`) to actually finish, matching `Modal`'s identically-worded "requests to
+    // be shown" vs "finishes showing" contract (`Modal.tsx`'s own `executeAfterTransition` use).
+    // `overlayRef.current` is `MenuList`'s root element — already in the DOM and already
+    // reflecting the new `.show` class by the time this effect runs, since React commits the
+    // render before passive effects execute. Falls back to firing synchronously when no
+    // `MenuList` is mounted to measure (nothing to transition, so nothing to wait for).
     useEffect(() => {
+      const overlay = overlayRef.current
+
       if (state.isOpen) {
         onShow?.()
-        onShown?.()
-      } else {
-        onHide?.()
-        onHidden?.()
+        if (!overlay) {
+          onShown?.()
+          return undefined
+        }
+        return executeAfterTransition(overlay, () => onShown?.(), true)
       }
+
+      onHide?.()
+      if (!overlay) {
+        onHidden?.()
+        return undefined
+      }
+      return executeAfterTransition(overlay, () => onHidden?.(), true)
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [state.isOpen])
 
@@ -237,7 +271,9 @@ export const Menu = forwardRef<HTMLElement, MenuProps>(
 
         if (toggleNode?.contains(target)) return
 
-        const isMenuTarget = !!menuNode?.contains(target)
+        const isMenuTarget =
+          !!menuNode?.contains(target) ||
+          Array.from(submenuOverlaysRef.current.values()).some((node) => node.contains(target))
 
         if (autoClose === 'inside' && !isMenuTarget) return
         if (autoClose === 'outside' && isMenuTarget) return
@@ -299,6 +335,7 @@ export const Menu = forwardRef<HTMLElement, MenuProps>(
       overlayRef,
       placementAttr,
       reference,
+      registerOverlay,
       show,
       targetRef,
       toggle: toggleVisible,

@@ -233,7 +233,10 @@ interface AutocompleteProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaul
    */
   help?: ReactNode;
   /**
-   * `id` forwarded to the toggle — useful for pairing with a `<label for>`.
+   * `id` forwarded to the search input inside the popover. The toggle — the field's real,
+   * always-focusable surface — has no single labelable element `<label for>` can target (it's a
+   * `role="button"` `<div>`, and the search input itself is hidden until open), so `label` is
+   * associated via `aria-labelledby` on the toggle instead. See FORMS.md's "role=group" pattern.
    */
   id?: string;
   /**
@@ -331,9 +334,9 @@ declare const AutocompleteGroup: {
 //#region src/components/combobox/ComboboxItem.d.ts
 interface ComboboxItemProps {
   /**
-   * Content of the option. Must be a plain string for the option to participate in filtering
-   * and typeahead — this holds even when `icon`/`description` are also set, since those are
-   * purely presentational additions layered on top.
+   * Content of the option. Used as the filter/typeahead text when `textValue` isn't set — pass
+   * `textValue` explicitly whenever `children` isn't a plain string (e.g. it wraps an icon or
+   * other rich markup), since it can't otherwise be derived from rich content.
    */
   children: ReactNode;
   /**
@@ -352,6 +355,11 @@ interface ComboboxItemProps {
    * Identifies this option. Submitted as the value when this option is selected.
    */
   id: Key$2;
+  /**
+   * Text used for filtering and typeahead. Required when `children` isn't a plain string —
+   * falls back to `children` itself when omitted and `children` is a string.
+   */
+  textValue?: string;
 }
 declare const ComboboxItem: {
   (_props: ComboboxItemProps): null;

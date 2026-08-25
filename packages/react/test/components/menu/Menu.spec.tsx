@@ -3,7 +3,7 @@ import { act, render, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 
-import { Menu, MenuToggle, MenuList, MenuItem } from '../../../src/index'
+import { Menu, MenuToggle, MenuList, MenuItem, MenuSubmenu } from '../../../src/index'
 
 describe('Menu', () => {
   describe('rendering', () => {
@@ -159,6 +159,58 @@ describe('Menu', () => {
       vi.useRealTimers()
     })
 
+    // Regression test: a `MenuSubmenu` panel portals straight to `document.body`, structurally
+    // detached from the top-level menu's own DOM subtree — without `registerOverlay` (see
+    // `MenuContext`), a click on a submenu item would be misclassified as "outside" the menu,
+    // breaking both `autoClose` modes below in opposite ways.
+    test('autoClose="inside" closes the menu when a submenu item is clicked, despite the submenu panel being portaled outside the menu\'s own DOM subtree', () => {
+      vi.useFakeTimers()
+      render(
+        <Menu autoClose="inside">
+          <MenuToggle>Toggle</MenuToggle>
+          <MenuList>
+            <MenuSubmenu trigger="File">
+              <MenuItem>New</MenuItem>
+            </MenuSubmenu>
+          </MenuList>
+        </Menu>
+      )
+      fireEvent.click(screen.getByText('Toggle'))
+      vi.runAllTimers()
+      // Captured while still open — once closed the panel gets `aria-hidden="true"`, and an
+      // aria-hidden element's accessible name computes as empty, so `getByRole(..., { name })`
+      // can no longer find it by name at that point (only by role, via `hidden: true`).
+      const topMenu = screen.getByRole('menu', { name: 'Toggle' })
+
+      fireEvent.click(screen.getByText('File'))
+      fireEvent.click(screen.getByText('New'))
+
+      expect(topMenu).not.toHaveClass('show')
+      vi.useRealTimers()
+    })
+
+    test('autoClose="outside" leaves the menu open when a submenu item is clicked', () => {
+      vi.useFakeTimers()
+      render(
+        <Menu autoClose="outside">
+          <MenuToggle>Toggle</MenuToggle>
+          <MenuList>
+            <MenuSubmenu trigger="File">
+              <MenuItem>New</MenuItem>
+            </MenuSubmenu>
+          </MenuList>
+        </Menu>
+      )
+      fireEvent.click(screen.getByText('Toggle'))
+      vi.runAllTimers()
+
+      fireEvent.click(screen.getByText('File'))
+      fireEvent.click(screen.getByText('New'))
+
+      expect(screen.getByRole('menu', { name: 'Toggle' })).toHaveClass('show')
+      vi.useRealTimers()
+    })
+
     test('puts a rendered wrapper component into the show class while open', () => {
       render(
         <Menu component="li" className="nav-item" data-testid="wrapper">
@@ -173,6 +225,49 @@ describe('Menu', () => {
 
       fireEvent.click(screen.getByText('Toggle'))
       expect(wrapper).toHaveClass('show')
+    })
+  })
+
+  describe('show/hide callbacks', () => {
+    // Regression test: `onShown`/`onHidden` must wait for the `.menu` panel's CSS transition
+    // (see `_menu.scss`) to finish, matching `Modal`'s identically-worded contract — they used
+    // to fire synchronously alongside `onShow`/`onHide`, before any fade actually completed.
+    test('onShow/onHide fire immediately; onShown/onHidden wait for the transition to finish', () => {
+      vi.useFakeTimers()
+      const onShow = vi.fn()
+      const onShown = vi.fn()
+      const onHide = vi.fn()
+      const onHidden = vi.fn()
+      render(
+        <Menu onShow={onShow} onShown={onShown} onHide={onHide} onHidden={onHidden}>
+          <MenuToggle>Toggle</MenuToggle>
+          <MenuList>
+            <MenuItem>A</MenuItem>
+          </MenuList>
+        </Menu>
+      )
+      // Mounting while already closed fires the same `onHide` (and schedules `onHidden`) once,
+      // as a pre-existing side effect of the callback effect running on mount regardless of
+      // dependency changes — unrelated to what's under test here, so start counts fresh.
+      onShow.mockClear()
+      onShown.mockClear()
+      onHide.mockClear()
+      onHidden.mockClear()
+
+      fireEvent.click(screen.getByText('Toggle'))
+      expect(onShow).toHaveBeenCalledTimes(1)
+      expect(onShown).not.toHaveBeenCalled()
+
+      vi.runAllTimers()
+      expect(onShown).toHaveBeenCalledTimes(1)
+
+      fireEvent.click(document.body)
+      expect(onHide).toHaveBeenCalledTimes(1)
+      expect(onHidden).not.toHaveBeenCalled()
+
+      vi.runAllTimers()
+      expect(onHidden).toHaveBeenCalledTimes(1)
+      vi.useRealTimers()
     })
   })
 

@@ -7,7 +7,7 @@
   "props": {
     "children": {
       "defaultValue": null,
-      "description": "Content of the option. Must be a plain string for the option to participate in filtering\nand typeahead — this holds even when `icon`/`description` are also set, since those are\npurely presentational additions layered on top.",
+      "description": "Content of the option. Used as the filter/typeahead text when `textValue` isn't set — pass\n`textValue` explicitly whenever `children` isn't a plain string (e.g. it wraps an icon or\nother rich markup), since it can't otherwise be derived from rich content.",
       "name": "children",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/combobox/ComboboxItem.tsx",
@@ -98,6 +98,25 @@
       "required": true,
       "type": {
         "name": "Key"
+      }
+    },
+    "textValue": {
+      "defaultValue": null,
+      "description": "Text used for filtering and typeahead. Required when `children` isn't a plain string —\nfalls back to `children` itself when omitted and `children` is a string.",
+      "name": "textValue",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/combobox/ComboboxItem.tsx",
+        "name": "ComboboxItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/combobox/ComboboxItem.tsx",
+          "name": "ComboboxItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
       }
     }
   }

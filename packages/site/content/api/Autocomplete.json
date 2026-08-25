@@ -140,7 +140,7 @@
     },
     "id": {
       "defaultValue": null,
-      "description": "`id` forwarded to the toggle — useful for pairing with a `<label for>`.",
+      "description": "`id` forwarded to the search input inside the popover. The toggle — the field's real,\nalways-focusable surface — has no single labelable element `<label for>` can target (it's a\n`role=\"button\"` `<div>`, and the search input itself is hidden until open), so `label` is\nassociated via `aria-labelledby` on the toggle instead. See FORMS.md's \"role=group\" pattern.",
       "name": "id",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",

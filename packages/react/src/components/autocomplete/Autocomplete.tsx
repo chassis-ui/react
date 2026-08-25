@@ -70,6 +70,7 @@ const buildEntriesFromItemsDef = (defs: MenuItemsDef): ComboboxEntry[] => {
         disabled={def.disabled}
         icon={def.icon}
         description={def.description}
+        textValue={def.textValue}
       >
         {def.label}
       </AutocompleteItem>
@@ -90,7 +91,10 @@ const getDisabledKeys = (entries: ComboboxEntry[]): Key[] =>
 const renderAutocompleteItem = (item: ComboboxItemElement) => (
   <Item
     key={item.props.id}
-    textValue={typeof item.props.children === 'string' ? item.props.children : undefined}
+    textValue={
+      item.props.textValue ??
+      (typeof item.props.children === 'string' ? item.props.children : undefined)
+    }
   >
     {renderMenuItemContent({
       icon: item.props.icon,
@@ -155,7 +159,10 @@ export interface AutocompleteProps extends Omit<
    */
   help?: ReactNode
   /**
-   * `id` forwarded to the toggle — useful for pairing with a `<label for>`.
+   * `id` forwarded to the search input inside the popover. The toggle — the field's real,
+   * always-focusable surface — has no single labelable element `<label for>` can target (it's a
+   * `role="button"` `<div>`, and the search input itself is hidden until open), so `label` is
+   * associated via `aria-labelledby` on the toggle instead. See FORMS.md's "role=group" pattern.
    */
   id?: string
   /**
@@ -484,7 +491,12 @@ export const Autocomplete = ({
       </>
     ),
     help,
-    ids: { feedback: feedbackId, help: helpId, input: inputId, label: labelId },
+    // No `input` id: the toggle is a `role="button"` `<div>`, not a labelable element, so
+    // `htmlFor` can't target it — `aria-labelledby={labelledBy}` on the toggle above (fed by
+    // `labelId`) is what actually associates the label, matching DatePicker/OtpInput's
+    // `role="group"` pattern in FORMS.md. Passing `inputId` here would point `<label for>` at
+    // the hidden search input instead, which sits inert until the popover opens.
+    ids: { feedback: feedbackId, help: helpId, label: labelId },
     invalid,
     invalidFeedback,
     label,

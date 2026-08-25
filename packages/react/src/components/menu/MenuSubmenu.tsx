@@ -88,7 +88,7 @@ export const MenuSubmenu = forwardRef<HTMLDivElement, MenuSubmenuProps>(
     const overlayRef = useRef<HTMLElement | null>(null)
     const parentGroup = useContext(SubmenuGroupContext)
     const ownGroup = useSubmenuGroupProvider()
-    const { visible: parentMenuVisible } = useContext(MenuContext)
+    const { registerOverlay, visible: parentMenuVisible } = useContext(MenuContext)
     const { direction } = useLocale()
     const isRtl = direction === 'rtl'
     const effectivePlacement = placement ?? (isRtl ? 'left-start' : 'right-start')
@@ -231,8 +231,13 @@ export const MenuSubmenu = forwardRef<HTMLDivElement, MenuSubmenuProps>(
               }
               onMouseEnter={hoverEnabled ? clearCloseTimeout : undefined}
               onMouseLeave={hoverEnabled ? scheduleClose : undefined}
+              // Registers this panel with the ancestor `Menu` (see `MenuContext.registerOverlay`)
+              // so its own click-dismiss logic recognizes clicks here as "inside" the menu — the
+              // panel portals straight to `document.body` when not `stacked`, so plain DOM
+              // containment against the top-level menu's own element wouldn't otherwise see it.
               ref={(node) => {
                 overlayRef.current = node
+                registerOverlay(menuId, node)
               }}
             >
               <SubmenuActionsContext.Provider value={actionsValue}>

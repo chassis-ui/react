@@ -3,9 +3,9 @@ import { Key } from 'react-stately'
 
 export interface ComboboxItemProps {
   /**
-   * Content of the option. Must be a plain string for the option to participate in filtering
-   * and typeahead — this holds even when `icon`/`description` are also set, since those are
-   * purely presentational additions layered on top.
+   * Content of the option. Used as the filter/typeahead text when `textValue` isn't set — pass
+   * `textValue` explicitly whenever `children` isn't a plain string (e.g. it wraps an icon or
+   * other rich markup), since it can't otherwise be derived from rich content.
    */
   children: ReactNode
   /**
@@ -24,6 +24,11 @@ export interface ComboboxItemProps {
    * Identifies this option. Submitted as the value when this option is selected.
    */
   id: Key
+  /**
+   * Text used for filtering and typeahead. Required when `children` isn't a plain string —
+   * falls back to `children` itself when omitted and `children` is a string.
+   */
+  textValue?: string
 }
 
 // `ComboboxItem` is never actually mounted — like `Tab`, it's read as data by `Combobox`,

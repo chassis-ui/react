@@ -78,6 +78,39 @@ describe('Autocomplete', () => {
     })
   })
 
+  describe('rich item content', () => {
+    test('an explicit textValue filters non-string children', () => {
+      render(
+        <Autocomplete aria-label="Role">
+          <AutocompleteItem id="admin" textValue="Administrator">
+            <strong>Admin</strong>
+          </AutocompleteItem>
+          <AutocompleteItem id="viewer">Viewer</AutocompleteItem>
+        </Autocomplete>
+      )
+      openMenu()
+      fireEvent.change(screen.getByRole('combobox'), { target: { value: 'Admin' } })
+      expect(screen.getByRole('option', { name: 'Admin' })).toBeInTheDocument()
+      expect(screen.queryByRole('option', { name: 'Viewer' })).not.toBeInTheDocument()
+    })
+
+    test('items prop textValue filters non-string labels the same way', () => {
+      render(
+        <Autocomplete
+          aria-label="Role"
+          items={[
+            { id: 'admin', label: <strong>Admin</strong>, textValue: 'Administrator' },
+            { id: 'viewer', label: 'Viewer' }
+          ]}
+        />
+      )
+      openMenu()
+      fireEvent.change(screen.getByRole('combobox'), { target: { value: 'Admin' } })
+      expect(screen.getByRole('option', { name: 'Admin' })).toBeInTheDocument()
+      expect(screen.queryByRole('option', { name: 'Viewer' })).not.toBeInTheDocument()
+    })
+  })
+
   describe('single-select behavior', () => {
     test('clicking an option selects it, updates the toggle text, and closes the listbox', () => {
       const onChange = vi.fn()
@@ -264,12 +297,18 @@ describe('Autocomplete', () => {
   })
 
   describe('field wrapping', () => {
-    test('wraps in .form-field and associates the label via htmlFor when label is set', () => {
+    // The toggle is a `role="button"` `<div>`, not a labelable element — `<label for>` can't
+    // target it (and shouldn't target the hidden search input either, which sits inert until
+    // the popover opens). Association goes through `aria-labelledby` instead, so the accessible
+    // name query below is the real assertion: it only finds the toggle if that association
+    // actually works, the same way DatePicker/OtpInput's `role="group"` pattern is verified.
+    test('wraps in .form-field and associates the label via aria-labelledby when label is set', () => {
       render(<BasicAutocomplete aria-label={undefined} label="Fruit" />)
-      const button = screen.getByRole('button')
+      const button = screen.getByRole('button', { name: 'Fruit' })
       // eslint-disable-next-line testing-library/no-node-access
       expect(button.closest('.form-field')).not.toBeNull()
       expect(screen.getByText('Fruit').tagName).toBe('LABEL')
+      expect(screen.getByText('Fruit')).not.toHaveAttribute('for')
     })
   })
 

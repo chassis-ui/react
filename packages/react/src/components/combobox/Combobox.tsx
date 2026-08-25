@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, InputHTMLAttributes, ReactNode, useRef } from 'react'
+import React, { HTMLAttributes, InputHTMLAttributes, ReactNode, useId, useRef } from 'react'
 import classNames from 'classnames'
 import { useComboBox, useFilter, useOverlayPosition } from 'react-aria'
 import { Item, Key, Section, useComboBoxState } from 'react-stately'
@@ -67,6 +67,7 @@ const buildEntriesFromItemsDef = (defs: MenuItemsDef): ComboboxEntry[] => {
         disabled={def.disabled}
         icon={def.icon}
         description={def.description}
+        textValue={def.textValue}
       >
         {def.label}
       </ComboboxItem>
@@ -87,7 +88,10 @@ const getDisabledKeys = (entries: ComboboxEntry[]): Key[] =>
 const renderComboboxItem = (item: ComboboxItemElement) => (
   <Item
     key={item.props.id}
-    textValue={typeof item.props.children === 'string' ? item.props.children : undefined}
+    textValue={
+      item.props.textValue ??
+      (typeof item.props.children === 'string' ? item.props.children : undefined)
+    }
   >
     {renderMenuItemContent({
       icon: item.props.icon,
@@ -241,6 +245,7 @@ export const Combobox = ({
   const inputRef = useRef<HTMLInputElement>(null)
   const listBoxRef = useRef<HTMLElement>(null)
   const popoverRef = useRef<HTMLDivElement>(null)
+  const noResultsId = useId()
 
   const { describedBy, feedbackId, helpId, inputId, labelId, labelledBy } = useFormField({
     ariaDescribedBy: rest['aria-describedby'],
@@ -284,6 +289,13 @@ export const Combobox = ({
   const placementAttr = resolveDataPlacement('bottom-start', resolvedPlacement)
 
   const inputHtmlProps = inputProps as InputHTMLAttributes<HTMLInputElement>
+  const showNoResults = state.collection.size === 0
+  // Merges the no-results message into the input's own description (for AT that reads
+  // descriptions on demand) in addition to the `aria-live` region below (for AT that announces
+  // live-region changes proactively as the user types) — belt and braces, since screen reader
+  // support for announcing a freshly-mounted live region is inconsistent.
+  const inputDescribedBy =
+    [describedBy, showNoResults && noResultsId].filter(Boolean).join(' ') || undefined
 
   return renderFormField({
     children: (
@@ -303,7 +315,7 @@ export const Combobox = ({
             autoComplete="off"
             className="combobox-value"
             {...inputHtmlProps}
-            aria-describedby={describedBy}
+            aria-describedby={inputDescribedBy}
             aria-invalid={invalid || undefined}
             ref={inputRef}
           />
@@ -316,13 +328,13 @@ export const Combobox = ({
           ref={popoverRef}
         >
           <ComboboxListBox state={state} listBoxProps={listBoxProps} listBoxRef={listBoxRef} />
-          {state.collection.size === 0 && (
-            <div className="combobox-no-results">{noResultsText}</div>
+          {showNoResults && (
+            <div className="combobox-no-results" id={noResultsId} role="status">
+              {noResultsText}
+            </div>
           )}
         </div>
-        {name && (
-          <input type="hidden" name={name} value={state.selectedKey ?? ''} disabled={disabled} />
-        )}
+        {name && <input type="hidden" name={name} value={state.value ?? ''} disabled={disabled} />}
       </>
     ),
     help,

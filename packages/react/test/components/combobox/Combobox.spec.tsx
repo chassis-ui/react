@@ -64,6 +64,23 @@ describe('Combobox', () => {
       fireEvent.change(input, { target: { value: 'zzz' } })
       expect(screen.getByText('No results found')).toBeInTheDocument()
     })
+
+    // Regression test: the no-results message must be exposed to screen readers, not just
+    // sighted users — via an `aria-live` region (so it's announced as it appears) and via the
+    // input's own `aria-describedby` (so it's also discoverable on demand).
+    test('the no-results message is announced: a live region, and referenced by the input', () => {
+      render(<BasicCombobox />)
+      const input = screen.getByRole('combobox')
+      focusInput(input)
+      fireEvent.change(input, { target: { value: 'zzz' } })
+
+      const status = screen.getByRole('status')
+      expect(status).toHaveTextContent('No results found')
+      expect(input).toHaveAttribute('aria-describedby', expect.stringContaining(status.id))
+
+      fireEvent.change(input, { target: { value: 'ban' } })
+      expect(screen.queryByRole('status')).not.toBeInTheDocument()
+    })
   })
 
   describe('selection behavior', () => {
@@ -138,6 +155,39 @@ describe('Combobox', () => {
       expect(admin.querySelector('.menu-item-check')).toBeInTheDocument()
       // eslint-disable-next-line testing-library/no-node-access
       expect(viewer.querySelector('.menu-item-check')).not.toBeInTheDocument()
+    })
+
+    test('an explicit textValue filters and drives typeahead for non-string children', () => {
+      render(
+        <Combobox aria-label="Role">
+          <ComboboxItem id="admin" textValue="Administrator">
+            <strong>Admin</strong>
+          </ComboboxItem>
+          <ComboboxItem id="viewer">Viewer</ComboboxItem>
+        </Combobox>
+      )
+      const input = screen.getByRole('combobox')
+      focusInput(input)
+      fireEvent.change(input, { target: { value: 'Admin' } })
+      expect(screen.getByRole('option', { name: 'Admin' })).toBeInTheDocument()
+      expect(screen.queryByRole('option', { name: 'Viewer' })).not.toBeInTheDocument()
+    })
+
+    test('items prop textValue filters non-string labels the same way', () => {
+      render(
+        <Combobox
+          aria-label="Role"
+          items={[
+            { id: 'admin', label: <strong>Admin</strong>, textValue: 'Administrator' },
+            { id: 'viewer', label: 'Viewer' }
+          ]}
+        />
+      )
+      const input = screen.getByRole('combobox')
+      focusInput(input)
+      fireEvent.change(input, { target: { value: 'Admin' } })
+      expect(screen.getByRole('option', { name: 'Admin' })).toBeInTheDocument()
+      expect(screen.queryByRole('option', { name: 'Viewer' })).not.toBeInTheDocument()
     })
   })
 
@@ -224,6 +274,15 @@ describe('Combobox', () => {
 
       rerender(<BasicCombobox name="fruit" value="banana" />)
       expect(hidden.value).toBe('banana')
+    })
+
+    test('the hidden input is empty when nothing is selected', () => {
+      const { container } = render(<BasicCombobox name="fruit" />)
+      // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+      const hidden = container.querySelector(
+        'input[type="hidden"][name="fruit"]'
+      ) as HTMLInputElement
+      expect(hidden.value).toBe('')
     })
   })
 
