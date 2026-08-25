@@ -1,10 +1,11 @@
 import * as React from 'react'
-import { act, render, screen, fireEvent, waitFor, within } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { CalendarDate } from '@internationalized/date'
 import { axe } from 'jest-axe'
 
 import { DatePicker } from '../../../src/index'
+import { actUserEvent } from '../../actUserEvent'
 
 const openCalendar = () => {
   fireEvent.click(screen.getByRole('button', { name: /calendar/i }))
@@ -84,9 +85,10 @@ describe('DatePicker', () => {
     // `userEvent.click` (not `fireEvent.click`) is required here — it's the one that actually
     // simulates the browser's real focus-shifting-to-body behavior on a click.
     //
-    // Both clicks need an explicit `act(...)` wrapper — the same `usePress`/overlay-position
-    // state updates flagged in the "focus management" describe block below escape user-event's
-    // own act-environment tracking here too.
+    // Both clicks go through `actUserEvent` (see `actUserEvent.ts`) — the same `usePress`/overlay-
+    // position state updates flagged in the "focus management" describe block below land outside
+    // `act()`'s tracked environment here too, and a plain `act()` wrapper isn't enough to catch
+    // them.
     test('a real click on plain page content outside the calendar closes it', async () => {
       const user = userEvent.setup()
       render(
@@ -96,15 +98,9 @@ describe('DatePicker', () => {
         </div>
       )
       const dialog = getCalendarWrapper()
-      // eslint-disable-next-line testing-library/no-unnecessary-act -- see comment above
-      await act(async () => {
-        await user.click(screen.getByRole('button', { name: /calendar/i }))
-      })
+      await actUserEvent(() => user.click(screen.getByRole('button', { name: /calendar/i })))
       expect(dialog).not.toHaveAttribute('hidden')
-      // eslint-disable-next-line testing-library/no-unnecessary-act -- see comment above
-      await act(async () => {
-        await user.click(screen.getByText('Some page content'))
-      })
+      await actUserEvent(() => user.click(screen.getByText('Some page content')))
       expect(dialog).toHaveAttribute('hidden')
     })
 
@@ -186,10 +182,7 @@ describe('DatePicker', () => {
     test('clicking the clear button moves focus to the calendar toggle button, not the document body', async () => {
       const user = userEvent.setup()
       render(<DatePicker aria-label="Event date" defaultValue={new CalendarDate(2026, 7, 24)} />)
-      // eslint-disable-next-line testing-library/no-unnecessary-act -- see the "focus management" describe block's comment above
-      await act(async () => {
-        await user.click(screen.getByRole('button', { name: 'Clear' }))
-      })
+      await actUserEvent(() => user.click(screen.getByRole('button', { name: 'Clear' })))
       await waitFor(() => {
         expect(screen.queryByRole('button', { name: 'Clear' })).not.toBeInTheDocument()
       })
@@ -205,10 +198,7 @@ describe('DatePicker', () => {
           selectionMode="multiple"
         />
       )
-      // eslint-disable-next-line testing-library/no-unnecessary-act -- see the "focus management" describe block's comment above
-      await act(async () => {
-        await user.click(screen.getByRole('button', { name: 'Clear' }))
-      })
+      await actUserEvent(() => user.click(screen.getByRole('button', { name: 'Clear' })))
       await waitFor(() => {
         expect(screen.queryByRole('button', { name: 'Clear' })).not.toBeInTheDocument()
       })
@@ -219,11 +209,11 @@ describe('DatePicker', () => {
   describe('focus management', () => {
     // Tabbing inside the calendar triggers focus-ring bookkeeping in react-aria's
     // `useCalendarGrid`/`useFocus` (each hold their own `isFocusWithin`/`isFocused` state) as a
-    // *direct* consequence of `user.tab`'s blur/focus dispatch - confirmed by capturing
-    // `IS_REACT_ACT_ENVIRONMENT` at the exact moment React's warning fires: it read `true`, i.e.
-    // user-event's own internal act-environment toggle (which only wraps `waitFor`, not this)
-    // was not in effect here. `user.tab`/`user.click`/`user.keyboard` need an explicit `act(...)`
-    // around them for these specific hooks' updates to be captured.
+    // *direct* consequence of `user.tab`'s blur/focus dispatch. A plain `act()` wrapper around
+    // `user.tab`/`user.click`/`user.keyboard` isn't enough to catch these specific hooks' updates
+    // — see `actUserEvent.ts` for why (`@testing-library/dom`'s `asyncWrapper`, which every
+    // `userEvent` method routes through, force-disables `act()`'s environment flag for its own
+    // duration; `actUserEvent` neutralizes that just for the call).
     test('focus moves into the calendar on open and is trapped there until it closes', async () => {
       const user = userEvent.setup()
       render(<DatePicker aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
@@ -238,10 +228,7 @@ describe('DatePicker', () => {
       // Shift+Tabbing past the first focusable element should wrap back inside the calendar
       // instead of escaping to the toggle button or the page behind it.
       for (let i = 0; i < 6; i += 1) {
-        // eslint-disable-next-line testing-library/no-unnecessary-act -- see comment above
-        await act(async () => {
-          await user.tab({ shift: true })
-        })
+        await actUserEvent(() => user.tab({ shift: true }))
         // eslint-disable-next-line testing-library/no-node-access
         expect(dialog.contains(document.activeElement)).toBe(true)
       }
@@ -254,14 +241,8 @@ describe('DatePicker', () => {
 
       // `userEvent.click` (unlike `fireEvent.click`) focuses the element first, matching a real
       // click — required for `FocusScope`'s `restoreFocus` to have a toggle button to return to.
-      // eslint-disable-next-line testing-library/no-unnecessary-act -- see comment above
-      await act(async () => {
-        await user.click(toggle)
-      })
-      // eslint-disable-next-line testing-library/no-unnecessary-act -- see comment above
-      await act(async () => {
-        await user.keyboard('{Escape}')
-      })
+      await actUserEvent(() => user.click(toggle))
+      await actUserEvent(() => user.keyboard('{Escape}'))
 
       // document.activeElement is the standard way to read current focus; no Testing Library
       // query surfaces it.

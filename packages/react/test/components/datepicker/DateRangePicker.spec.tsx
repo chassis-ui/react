@@ -1,10 +1,11 @@
 import * as React from 'react'
-import { act, render, screen, fireEvent, waitFor, within } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { CalendarDate } from '@internationalized/date'
 import { axe } from 'jest-axe'
 
 import { DateRangePicker } from '../../../src/index'
+import { actUserEvent } from '../../actUserEvent'
 
 const openCalendar = () => {
   fireEvent.click(screen.getByRole('button', { name: /calendar/i }))
@@ -80,15 +81,10 @@ describe('DateRangePicker', () => {
         </div>
       )
       const dialog = getCalendarWrapper()
-      // eslint-disable-next-line testing-library/no-unnecessary-act -- see DatePicker.spec.tsx
-      await act(async () => {
-        await user.click(screen.getByRole('button', { name: /calendar/i }))
-      })
+      // See `actUserEvent.ts` / `DatePicker.spec.tsx` for why this needs `actUserEvent`.
+      await actUserEvent(() => user.click(screen.getByRole('button', { name: /calendar/i })))
       expect(dialog).not.toHaveAttribute('hidden')
-      // eslint-disable-next-line testing-library/no-unnecessary-act -- see DatePicker.spec.tsx
-      await act(async () => {
-        await user.click(screen.getByText('Some page content'))
-      })
+      await actUserEvent(() => user.click(screen.getByText('Some page content')))
       expect(dialog).toHaveAttribute('hidden')
     })
 
@@ -167,10 +163,7 @@ describe('DateRangePicker', () => {
           }}
         />
       )
-      // eslint-disable-next-line testing-library/no-unnecessary-act -- see DatePicker.spec.tsx
-      await act(async () => {
-        await user.click(screen.getByRole('button', { name: 'Clear' }))
-      })
+      await actUserEvent(() => user.click(screen.getByRole('button', { name: 'Clear' })))
       await waitFor(() => {
         expect(screen.queryByRole('button', { name: 'Clear' })).not.toBeInTheDocument()
       })
@@ -184,14 +177,8 @@ describe('DateRangePicker', () => {
       render(<DateRangePicker aria-label="Trip dates" />)
       const toggle = screen.getByRole('button', { name: /calendar/i })
 
-      // eslint-disable-next-line testing-library/no-unnecessary-act -- see DatePicker.spec.tsx
-      await act(async () => {
-        await user.click(toggle)
-      })
-      // eslint-disable-next-line testing-library/no-unnecessary-act -- see DatePicker.spec.tsx
-      await act(async () => {
-        await user.keyboard('{Escape}')
-      })
+      await actUserEvent(() => user.click(toggle))
+      await actUserEvent(() => user.keyboard('{Escape}'))
 
       // eslint-disable-next-line testing-library/no-node-access
       await waitFor(() => expect(document.activeElement).toBe(toggle))

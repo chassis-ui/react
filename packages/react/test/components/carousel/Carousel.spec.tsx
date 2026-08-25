@@ -520,7 +520,7 @@ describe('Carousel', () => {
   })
 
   describe('seamless loop transition', () => {
-    test('looping past the last item with the default ends="loop" settles on the first item and leaves no clone nodes behind', () => {
+    test('looping past the last item with the default ends="loop" settles on the first item and leaves no clone nodes behind', async () => {
       const uninstallGeometry = installCarouselGeometry()
       vi.useFakeTimers()
       try {
@@ -534,9 +534,17 @@ describe('Carousel', () => {
         fireEvent.click(next)
         act(() => vi.runAllTimers())
         // This third Next crosses the loop boundary (index 2 -> "3"), which `canLoop` routes
-        // through `performLoopTransition` instead of a plain wrap jump.
+        // through `performLoopTransition` instead of a plain wrap jump. Unlike a plain
+        // `setActiveIndexInternal`, the loop transition mutates real DOM children (appends then
+        // removes a clone node), which the scroll-sync effect's `MutationObserver` picks up and
+        // reacts to (`setItemCount`) on its own microtask, outside of `vi.runAllTimers()` — an
+        // `await Promise.resolve()` inside `act` flushes that microtask before `act` returns, so
+        // the update stays wrapped instead of landing after the test's synchronous body finishes.
         fireEvent.click(next)
-        act(() => vi.runAllTimers())
+        await act(async () => {
+          vi.runAllTimers()
+          await Promise.resolve()
+        })
 
         expect(screen.getByText('Item-1')).toHaveClass('active')
         // eslint-disable-next-line testing-library/no-node-access
