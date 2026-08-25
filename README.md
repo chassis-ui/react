@@ -1,101 +1,94 @@
-<p align="center">
-  <a href="https://chassis-ui.com/react">
-    <img
-      src="https://chassis-ui.com/static/images/site-logo.svg"
-      alt="Chassis UI Logo"
-      width="300"
-    />
-  </a>
-</p>
+# Chassis React
 
-<p align="center">
-  React.js Components Library built on top of Chassis CSS and TypeScript backed by the professional team.
-  <br>
-  <a href="https://chassis-ui.com/react/getting-started/introduction"><strong>Explore Chassis React docs »</strong></a>
-  <br>
-  <br>
-  <a href="https://github.com/chassis-ui/react/issues/new?template=bug_report.md">Report bug</a>
-  ·
-  <a href="https://github.com/chassis-ui/react/issues/new?template=feature_request.md">Request feature</a>
-  ·
-  <a href="https://blog.coreui.io/">Blog</a>
-</p>
+> React component library for the Chassis Design System, built on Chassis CSS and TypeScript.
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![npm version](https://img.shields.io/npm/v/@chassis-ui/react)](https://www.npmjs.com/package/@chassis-ui/react)
+[![CI](https://github.com/chassis-ui/react/workflows/CI/badge.svg?branch=main)](https://github.com/chassis-ui/react/actions?query=workflow%3ACI+branch%3Amain)
 
-## Table of contents
+## Overview
 
-- [Quick start](#quick-start)
-- [Status](#status)
-- [What's included](#whats-included)
-- [Bugs and feature requests](#bugs-and-feature-requests)
-- [Documentation](#documentation)
-- [Contributing](#contributing)
-- [Community](#community)
-- [Versioning](#versioning)
-- [Creators](#creators)
-- [Copyright and license](#copyright-and-license)
+Chassis React is the React implementation of the Chassis Design System — a set of accessible,
+fully-typed components styled with `@chassis-ui/css` and driven by `@chassis-ui/tokens`. It
+pairs with the [Chassis React docs site](https://chassis-ui.com/react/), an Astro-based reference
+of live examples and API tables generated from the library's own TypeScript source.
 
-## Quick start
+## Features
 
-### Instalation
+- **Accessible by default**: components are built on [React Aria](https://react-spectrum.adobe.com/react-aria/) and [React Stately](https://react-spectrum.adobe.com/react-stately/), covering keyboard interaction, focus management, and ARIA out of the box.
+- **Token-driven styling**: components style themselves through Chassis CSS and design tokens rather than component-scoped CSS, so brand and theme changes apply without touching component code.
+- **Fully typed**: written in strict TypeScript, with prop tables for the docs site generated directly from source via `react-docgen-typescript`.
+- **Tested and covered**: a Vitest suite with coverage thresholds, plus Storybook + Playwright visual regression for the calendar/datepicker family.
 
-Several quick start options are available:
+## Getting Started
 
-- [Download the latest release](https://github.com/chassis-ui/react/archive/v0.1.0.zip)
-- Clone the repo: `git clone https://github.com/chassis-ui/react.git`
-- Install with [npm](https://www.npmjs.com/): `npm install @chassis-ui/react`
-- Install with [yarn](https://yarnpkg.com/): `yarn add @chassis-ui/react`
+### Installation
 
-Read the [Getting started page](https://chassis-ui.com/react/getting-started/introduction/) for information on the framework contents, templates and examples, and more.
+Requires React and React DOM 18 or later:
 
-### Stylesheets
-
-React components are styled using `Chassis` CSS library.
-
-#### Installation
-
-```bash
-yarn add @chassis-ui/css
+```shell
+npm install @chassis-ui/react @chassis-ui/css
 ```
 
-or
-
-```bash
-npm install @chassis-ui/css
-```
-
-##### Basic usage
+### Usage
 
 ```js
 import "@chassis-ui/css/dist/css/chassis.min.css";
+import { Button } from "@chassis-ui/react";
+
+function App() {
+  return <Button color="primary">Submit</Button>;
+}
 ```
 
-## Status
+A handful of components — `Calendar`, `RangeCalendar`, `DatePicker`, `DateRangePicker`, and
+`Table`'s sort/selection UI — have no `@chassis-ui/css` visual equivalent, so `@chassis-ui/react`
+ships its own compiled stylesheet for just those pieces. Import it once alongside the
+`@chassis-ui/css` stylesheet above:
 
-[![Build Status](https://github.com/chassis-ui/react/workflows/JS%20Tests/badge.svg?branch=main)](https://github.com/chassis-ui/react/actions?query=workflow%3AJS+Tests+branch%3Amain)
-[![npm version](https://img.shields.io/npm/v/@chassis-ui/react)](https://www.npmjs.com/package/@chassis-ui/react)
-[![peerDependencies Status](https://img.shields.io/david/peer/coreui/coreui)](https://david-dm.org/coreui/coreui?type=peer)
-[![devDependency Status](https://img.shields.io/david/dev/coreui/coreui)](https://david-dm.org/coreui/coreui?type=dev)
-[![Coverage Status](https://img.shields.io/coveralls/github/coreui/coreui-react/main)](https://coveralls.io/github/coreui/coreui-react?branch=main)
+```js
+import "@chassis-ui/react/style.css";
+```
 
-## Bugs and feature requests
+Skipping this import doesn't error — those specific pieces will just render unstyled. Every other
+component is styled entirely through `@chassis-ui/css` and needs nothing extra.
 
-Have a bug or a feature request? Please first read the [issue guidelines](https://github.com/chassis-ui/react/blob/main/.github/CONTRIBUTING.md#using-the-issue-tracker) and search for existing and closed issues. If your problem or idea is not addressed yet, [please open a new issue](https://github.com/chassis-ui/react/issues/new).
+Read the [Getting Started guide](https://chassis-ui.com/react/getting-started/introduction/) for
+setup details, theming, and per-component usage.
 
 ## Documentation
 
-The documentation for the Chassis React is hosted at our website [Chassis React](https://chassis-ui.com/react/)
+Component docs, live examples, and API reference are published at
+[chassis-ui.com/react](https://chassis-ui.com/react/).
 
-### Running documentation locally
+### Running the docs site locally
 
-1. Run `pnpm install` to install all dependencies.
-2. From the root directory, run `pnpm start` to build the library, start the library in watch mode, and start the Astro dev server.
-3. Open `http://localhost:4327/react/` in your browser.
+This is a `pnpm` workspace monorepo — its own source, not the published npm package — so it's
+only relevant if you're contributing to Chassis React itself.
+
+**Prerequisites:** Node 24 and pnpm 10 or later.
+
+```shell
+git clone https://github.com/chassis-ui/react.git
+cd react
+pnpm install
+pnpm start
+```
+
+Open `http://localhost:4327/react/` in your browser.
+
+`pnpm-workspace.yaml` links a few sibling `@chassis-ui/*` packages (`css`, `docs`, `icons`,
+`tokens`) to local checkouts next to this repo instead of the npm registry, so they can be
+developed against in lockstep before each is published. This only affects working in this repo
+from source — if an install fails to resolve one of them, check that the sibling checkout exists
+next to `react/` rather than assuming a registry or version problem. It has no bearing on
+installing `@chassis-ui/react` itself, which is published to npm as an ordinary package with
+`@chassis-ui/css` as a regular dependency, per the [Installation](#installation) section above.
 
 ### Available scripts
 
 | Script | Description |
-|---|---|
+| --- | --- |
 | `pnpm start` | Sync submodules, build the library, then watch the library and Astro site together |
 | `pnpm dev` | Watch the library and Astro site without rebuilding submodules |
 | `pnpm astro:dev` | Start only the Astro dev server |
@@ -105,43 +98,38 @@ The documentation for the Chassis React is hosted at our website [Chassis React]
 | `pnpm test` | Run component tests with coverage |
 | `pnpm react:build` | Build the component library |
 
+## Chassis Ecosystem
+
+This project is part of the Chassis Design System's multi-repository architecture:
+
+| Project | Description |
+| --- | --- |
+| [chassis-website](https://github.com/chassis-ui/website) | Main website and shared documentation package |
+| [chassis-css](https://github.com/chassis-ui/css) | CSS framework and component library |
+| **chassis-react** | **React component library (this repository)** |
+| [chassis-tokens](https://github.com/chassis-ui/tokens) | Design token generation and management |
+| [chassis-icons](https://github.com/chassis-ui/icons) | Icon library and build toolkit |
+| [chassis-assets](https://github.com/chassis-ui/assets) | Multi-platform asset management |
+| [chassis-figma](https://github.com/chassis-ui/figma) | Figma component documentation |
+
+All documentation sites share the `@chassis-ui/docs` package for consistent layouts, components,
+and styling.
+
 ## Contributing
 
-Please read through our [contributing guidelines](https://github.com/chassis-ui/react/blob/main/.github/CONTRIBUTING.md). Included are directions for opening issues, coding standards, and notes on development.
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/my-feature`
+3. Make your changes
+4. Test the build: `pnpm react:build && pnpm test`
+5. Commit your changes: `git commit -m "feat: add my feature"`
+6. Push to the branch: `git push origin feature/my-feature`
+7. Open a Pull Request
 
-Editor preferences are available in the [editor config](https://github.com/chassis-ui/react/blob/main/.editorconfig) for easy use in common text editors. Read more and download plugins at <https://editorconfig.org/>.
+Please read through our [contributing guidelines](.github/CONTRIBUTING.md) for coding standards
+and development notes. Everyone participating in this project is expected to follow our
+[Code of Conduct](.github/CODE_OF_CONDUCT.md). Found a security vulnerability? Please don't open a
+public issue — see our [security policy](.github/SECURITY.md) for private disclosure instead.
 
-Everyone participating in this project is expected to follow our [Code of Conduct](https://github.com/chassis-ui/react/blob/main/.github/CODE_OF_CONDUCT.md). Found a security vulnerability? Please don't open a public issue — see our [security policy](https://github.com/chassis-ui/react/blob/main/.github/SECURITY.md) for private disclosure instead.
+## License
 
-## Community
-
-Stay up to date on the development of Chassis React and reach out to the community with these helpful resources.
-
-- Read and subscribe to [The Official CoreUI Blog](https://blog.coreui.io/).
-
-You can also follow [@core_ui on Twitter](https://twitter.com/core_ui).
-
-## Versioning
-
-For transparency into our release cycle and in striving to maintain backward compatibility, Chassis React is maintained under [the Semantic Versioning guidelines](http://semver.org/).
-
-See [the Releases section of our project](https://github.com/chassis-ui/react/releases) for changelogs for each release version.
-
-## Creators
-
-**Łukasz Holeczek**
-
-- <https://twitter.com/lukaszholeczek>
-- <https://github.com/mrholek>
-
-**Andrzej Kopański**
-
-- <https://github.com/xidedix>
-
-**The CoreUI Team**
-
-- <https://github.com/orgs/coreui/people>
-
-## Copyright and license
-
-Copyright 2021 creativeLabs Łukasz Holeczek. Code released under the [MIT License](https://github.com/chassis-ui/react/blob/main/LICENSE). Docs released under [Creative Commons](https://creativecommons.org/licenses/by/3.0/).
+MIT License — see [LICENSE](LICENSE) file for details.
