@@ -1,0 +1,39 @@
+---
+title: useModal
+description: Reads the enclosing Modal's close handler from any component composed inside it, without prop-drilling a close callback down through the tree.
+
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/hooks/use-modal/BasicExample.tsx'
+
+## Overview
+
+`useModal()` reads a close handler from React context, provided by the nearest enclosing
+[`<Modal>`]([[docsref:/components/modal]]). Call it from any component rendered inside that
+`<Modal>` — a plain `Button` in a `ModalFooter`, a link inside `ModalBody`, anything — instead of
+threading a close callback down through props from wherever `visible`/`onClose` are managed.
+
+Outside a `<Modal>`, `useModal()` returns a no-op `close` rather than throwing, so a component that
+calls it doesn't have to guard against rendering outside one.
+
+## Basic usage
+
+Both footer buttons below close the modal by calling `close` from `useModal()`, not by receiving
+it as a prop from the component managing `visible`.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## API
+
+### useModal
+
+```ts
+function useModal(): { close: () => void }
+```
+
+`useModal` takes no arguments. Its return value is a single `close` function that requests the
+enclosing `<Modal>` close, running the same close transition and `onClose` callback as dismissing
+it via the backdrop, the Escape key, or a built-in close control would.

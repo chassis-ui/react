@@ -19,6 +19,10 @@ npm install @chassis-ui/react
 yarn add @chassis-ui/react
 ```
 
+Installation is the same regardless of build tool — Vite, webpack, Next.js, Remix, and similar all
+resolve `@chassis-ui/react` as a normal package, with no bundler-specific configuration of its own
+to add.
+
 ## Using components
 
 ```jsx
@@ -60,3 +64,22 @@ import '@chassis-ui/react/style.css'
 
 Skipping this import doesn't error — those specific pieces will just render unstyled. Every other
 component is styled entirely through `@chassis-ui/css` and needs nothing extra.
+
+## The wider Chassis ecosystem
+
+`@chassis-ui/react` is one package in a set that shares the same design system:
+
+- **[`@chassis-ui/css`](#stylesheets)**, above, is the styling foundation every component's class
+  names target.
+- **`@chassis-ui/tokens`** compiles the color, spacing, radius, and typography values
+  `@chassis-ui/css` declares as `--cx-*` custom properties — re-theming a brand or switching
+  light/dark mode happens at this layer, not in `@chassis-ui/react`. See
+  [Theming]([[docsref:/getting-started/theming]]) for the supported override surface.
+- **`@chassis-ui/icons`** is the source of the SVG sprite (or icon font) [`<Icon>`]([[docsref:/components/icon]])
+  renders by name — every icon-carrying component in this library, from `CloseButton` to the
+  calendar navigation, composes `<Icon>` internally rather than inlining its own markup.
+
+None of these are peer dependencies of `@chassis-ui/react` — nothing errors if the application
+never installs them — but component output assumes their conventions: unstyled markup without
+`@chassis-ui/css`, default token values without `@chassis-ui/tokens`, and empty icon references
+without an icon sprite reachable at the path `<Icon>`'s `sprite` prop points to.

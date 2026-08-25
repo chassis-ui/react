@@ -77,6 +77,7 @@
         - title: Card
         - title: Carousel
         - title: Chip
+        - title: Icon
         - title: List
         - title: Table
         - title: Placeholder
@@ -92,6 +93,15 @@
         - title: Grid
         - title: Row
         - title: Stack
+
+- title: Hooks
+  icon: code-solid
+  pages:
+    - title: useModal
+    - title: useDrawer
+    - title: useToast
+    - title: useNotification
+    - title: usePagination
 
 - title: Patterns
   icon: grid-solid

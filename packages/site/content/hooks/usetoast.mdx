@@ -1,0 +1,44 @@
+---
+title: useToast
+description: Reads the enclosing Toast's dismiss handler from any component composed inside it, without prop-drilling a close callback down through the tree.
+
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/hooks/use-toast/BasicExample.tsx'
+
+## Overview
+
+`useToast()` reads a close handler from React context, provided by the nearest enclosing
+[`<Toast>`]([[docsref:/components/toast]]). Call it from any component composed inside that
+`<Toast>` — a link inside `ToastBody`, a custom icon in `ToastHeader` — instead of threading a
+close callback down through props from wherever `visible`/`onClose` are managed.
+
+`<Toast>`'s own `footer` prop already hands `close` directly to a function passed there, which
+covers the common case of a footer action closing the toast. Reach for `useToast()` instead when
+the element that should close the toast lives outside `footer` — anywhere else in the toast's
+composed markup.
+
+Outside a `<Toast>`, `useToast()` returns a no-op `close` rather than throwing, so a component that
+calls it doesn't have to guard against rendering outside one.
+
+## Basic usage
+
+The "Undo" link below, composed inside `ToastBody` rather than passed through `footer`, closes the
+toast by calling `close` from `useToast()`.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## API
+
+### useToast
+
+```ts
+function useToast(): { close: () => void }
+```
+
+`useToast` takes no arguments. Its return value is a single `close` function that requests the
+enclosing `<Toast>` close, running the same close transition and `onClose` callback as dismissing
+it via auto-hide or a built-in close control would.
