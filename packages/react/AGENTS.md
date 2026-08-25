@@ -89,8 +89,7 @@ pnpm test:update  # same, plus -u to update snapshots
   (`expect(await axe(container)).toHaveNoViolations()`), rendered in a realistic composed state
   (visible/open, with the sub-parts a real usage would include) rather than the emptiest possible
   markup — an axe check against a bare shell can pass while the actual documented usage still
-  violates. Deliberate exception: `AccordionCollapse` (a `@deprecated` no-op passthrough that
-  renders only its children, unwrapped — no markup of its own to check).
+  violates.
 
 ## Visual regression
 

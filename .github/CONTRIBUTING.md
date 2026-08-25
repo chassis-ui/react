@@ -33,14 +33,8 @@ Branch names aren't templated — name yours descriptively (e.g. `fix/tooltip-pl
 
 ## Adding or changing a component
 
-Don't hand-write a new component folder from scratch — scaffold it:
-
-```bash
-pnpm generate       # new standalone component (folder, index.ts barrel, spec file, src/index.ts wiring)
-pnpm generate:sub    # new sub-part of an existing compound family (e.g. a new Accordion.* part)
-```
-
-Then follow [`packages/react/CONVENTIONS.md`](../packages/react/CONVENTIONS.md) for naming, file
+There's no scaffolding command for a new component folder. Follow 
+[`packages/react/CONVENTIONS.md`](../packages/react/CONVENTIONS.md) for naming, file
 layout, and the flat-export compound-API shape, and
 [`packages/react/AGENTS.md`](../packages/react/AGENTS.md) for where things live and how the build/
 test/docs pipeline fits together. If you're touching any form-related component (text inputs,

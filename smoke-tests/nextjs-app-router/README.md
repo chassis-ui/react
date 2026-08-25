@@ -4,11 +4,9 @@ Not a real app — a framework integration smoke test for `@chassis-ui/react`. I
 prove the package actually installs and builds cleanly inside a real Next.js App Router
 application, via a real `next build`, not a synthetic `renderToString` unit test.
 
-See [`../../.claude/plans/chassis-react-enterprise-migration.md`](../../.claude/plans/chassis-react-enterprise-migration.md)
-Phase 9 for why this exists. `app/page.tsx` is a Server Component (no local `'use client'`)
-importing components straight from `@chassis-ui/react` — see
-[`../../packages/react/RSC.md`](../../packages/react/RSC.md) for why that works without a
-consumer-side directive.
+`app/page.tsx` is a Server Component (no local `'use client'`) importing components straight from
+`@chassis-ui/react` — see [`../../packages/react/RSC.md`](../../packages/react/RSC.md) for why that
+works without a consumer-side directive.
 
 ```bash
 pnpm --filter smoke-test-nextjs-app-router build   # from the repo root — what CI runs

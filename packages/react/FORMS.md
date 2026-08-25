@@ -1,6 +1,6 @@
 # Form component system
 
-`src/components/` holds every component, one folder per component (`components/<kebab-name>/<PascalName>.tsx` + `__tests__/`). Most folders there are unrelated to forms (accordion, card, modal, ...) and need no special knowledge beyond that convention. This doc is scoped to the **form component family**: `checkbox/`, `radio/`, `switch/`, `text-input/`, `textarea/`, `select/`, `range-input/`, `file-input/`, `color-input/`, `combobox/`, `datepicker/`, `chip-input/`, `otp-input/`, `form/`, `form-field/`, `floating-input/` — because they share two internal render-helper engines and a handful of non-obvious rules that are easy to violate by copy-pasting from the wrong sibling.
+`src/components/` holds every component, one folder per component (`components/<kebab-name>/<PascalName>.tsx`; tests live separately under `test/components/<kebab-name>/`, not colocated). Most folders there are unrelated to forms (accordion, card, modal, ...) and need no special knowledge beyond that convention. This doc is scoped to the **form component family**: `checkbox/`, `radio/`, `switch/`, `text-input/`, `textarea/`, `select/`, `range-input/`, `file-input/`, `color-input/`, `combobox/`, `datepicker/`, `chip-input/`, `otp-input/`, `form/`, `form-field/`, `floating-input/` — because they share two internal render-helper engines and a handful of non-obvious rules that are easy to violate by copy-pasting from the wrong sibling.
 
 It lives here, at the package root, rather than inside `src/components/`, so it isn't picked up just by proximity when editing an unrelated component (accordion, card, modal, ...) — [`AGENTS.md`](AGENTS.md) points here explicitly for anyone touching the form family instead, the same way `README.md`/`LICENSE` already sit at this level.
 
@@ -113,7 +113,7 @@ These are real bugs hit while building this system — re-reading them before wi
 ## Adding a new form component
 
 1. Decide which of the two engines it needs (a toggle control → `renderFormCheck`; anything else with a label/help/validation → `renderFormField`). If it's neither (a fieldset-style group), model it on `CheckboxGroup`/`RadioGroup` instead of inventing a fourth pattern.
-2. New folder: `components/<kebab-name>/<PascalName>.tsx`, plus `__tests__/<PascalName>.spec.tsx` (+ snapshot).
+2. New folder: `components/<kebab-name>/<PascalName>.tsx`, plus `test/components/<kebab-name>/<PascalName>.spec.tsx` (+ snapshot).
 3. If it wraps a native element with a real react-aria hook (text-like input) — check whether that hook already supports `isInvalid`/`description`/`errorMessage` before writing your own `aria-describedby` plumbing; if it does, prefer it, but keep using `useFormField` for the `ids`/describedBy shape, identical to the rest of the family for consistency (see gotcha #3).
 4. If it's a native element with no applicable hook (`Select`/`RangeInput`/`FileInput`/`ColorInput` are the precedent), use the `useFormField` + `renderFormField` template above verbatim.
 5. Export from `packages/react/src/index.ts` (both the import and the `export { }` block — see existing entries for placement).

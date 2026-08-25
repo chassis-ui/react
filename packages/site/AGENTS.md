@@ -37,7 +37,7 @@ Per `packages/react/FORMS.md`'s checklist: the doc page goes in `content/compone
 Controls`/`Form Layout` groups in `data/sidebar.yml`, matching where the existing form components
 are already listed there.
 
-## Astro-specific shortcodes/plugins (`astro.config.mjs`, `src/libs/`)
+## Astro-specific shortcodes/plugins (`astro.config.ts`, `src/libs/`)
 
 - `<Example>` (`src/components/shortcodes/Example.astro`) — live preview + auto-derived source
   snippet, used pervasively instead of hand-pasting a `<Code>` block next to a demo.
@@ -58,7 +58,7 @@ are already listed there.
 ## Scripts
 
 ```bash
-pnpm dev            # astro dev on :4327 (via root `pnpm dev`, alongside the lib's rollup --watch)
+pnpm dev            # astro dev on :4327 (via root `pnpm dev`, alongside the lib's tsdown --watch)
 pnpm build          # astro build alone — for the full pipeline, use root `pnpm site:build`,
                      # which also regenerates content/api and syncs the vendor/assets submodule first
 pnpm preview

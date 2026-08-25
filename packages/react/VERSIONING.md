@@ -82,10 +82,9 @@ A breaking removal doesn't happen in one PR. The minimum path from "we want to r
    warnings (no `NODE_ENV` gating, no once-per-key dedup — this codebase's existing console-warning
    convention already warns unconditionally on every render, and deprecation warnings follow the
    same shape for consistency rather than introducing a second convention). Concrete precedent:
-   `accordion/AccordionButton.tsx`, `accordion/AccordionCollapse.tsx` (whole-component
-   deprecations, warn unconditionally), and `accordion/AccordionItem.tsx`'s `itemKey` prop
-   (deprecated-prop case, warn only when the prop is actually passed) — all three were retrofitted
-   with a warning as part of adopting this policy, since they predate it and had none.
+   `accordion/AccordionItem.tsx`'s `itemKey` prop (deprecated-prop case, warn only when the prop is
+   actually passed), retrofitted with a warning as part of adopting this policy since it predates
+   it and had none.
 2. **Give it at least one minor release cycle** before removing it, so a consumer pinned to
    `^x.y.0` sees the warning in their own dev console before the breaking major lands, not only in
    a changelog they may not read.
