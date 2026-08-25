@@ -5,7 +5,7 @@ exports[`Textarea > rendering > matches the baseline markup snapshot 1`] = `
   <textarea
     aria-label="Bio"
     class="form-input"
-    id=":r6:"
+    id="_r_6_"
     tabindex="0"
   >
     Some value

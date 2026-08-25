@@ -14,7 +14,7 @@ exports[`Tooltip > rendering > renders placement, arrow and content once shown o
 <body>
   <div>
     <a
-      aria-describedby="react-aria-:r1:"
+      aria-describedby="react-aria-_r_1_"
       class="link"
     >
       Test
@@ -23,7 +23,7 @@ exports[`Tooltip > rendering > renders placement, arrow and content once shown o
   <div
     class="tooltip cx-tooltip-auto fade show"
     data-cx-placement="right"
-    id="react-aria-:r1:"
+    id="react-aria-_r_1_"
     role="tooltip"
     style="position: absolute; max-height: 0px; top: 12px; left: 6px;"
   >

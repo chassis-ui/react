@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import '@chassis-ui/react/style.css'
 
 export const metadata: Metadata = {
   title: '@chassis-ui/react Next.js App Router smoke test',

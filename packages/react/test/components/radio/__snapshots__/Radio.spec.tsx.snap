@@ -6,7 +6,7 @@ exports[`Radio > rendering > matches the baseline markup snapshot inside a Radio
     aria-label="Options"
     aria-orientation="vertical"
     class="form-field"
-    id="react-aria-:r0:"
+    id="react-aria-_r_0_"
     role="radiogroup"
   >
     <label
@@ -19,7 +19,7 @@ exports[`Radio > rendering > matches the baseline markup snapshot inside a Radio
           checked=""
           class=""
           data-react-aria-pressable="true"
-          name="react-aria-:r5:"
+          name="react-aria-_r_5_"
           tabindex="0"
           type="radio"
           value="a"
@@ -36,7 +36,7 @@ exports[`Radio > rendering > matches the baseline markup snapshot inside a Radio
         <input
           class=""
           data-react-aria-pressable="true"
-          name="react-aria-:r5:"
+          name="react-aria-_r_5_"
           tabindex="-1"
           type="radio"
           value="b"

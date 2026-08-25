@@ -13,7 +13,7 @@ exports[`Select > adorns > matches the adorned markup snapshot 1`] = `
     <select
       aria-label="Language"
       class="ghost-input"
-      id=":rk:"
+      id="_r_k_"
     >
       <option>
         js
@@ -32,7 +32,7 @@ exports[`Select > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <select
     class="form-input"
-    id=":r1:"
+    id="_r_1_"
   >
     <option
       value="A"

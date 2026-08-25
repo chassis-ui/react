@@ -16,7 +16,7 @@ exports[`Popover > rendering > renders title, content, placement and arrow once 
 <body>
   <div>
     <button
-      aria-controls="react-aria-:r1:"
+      aria-controls="react-aria-_r_1_"
       aria-expanded="true"
       class="button primary"
       type="button"
@@ -25,10 +25,10 @@ exports[`Popover > rendering > renders title, content, placement and arrow once 
     </button>
   </div>
   <div
-    aria-labelledby="react-aria-:r2:"
+    aria-labelledby="react-aria-_r_2_"
     class="popover cx-popover-auto fade show"
     data-cx-placement="right"
-    id="react-aria-:r1:"
+    id="react-aria-_r_1_"
     role="dialog"
     style="position: absolute; max-height: 0px; top: 12px; left: 8px;"
     tabindex="-1"
@@ -41,7 +41,7 @@ exports[`Popover > rendering > renders title, content, placement and arrow once 
     />
     <div
       class="popover-header"
-      id="react-aria-:r2:"
+      id="react-aria-_r_2_"
     >
       title
     </div>

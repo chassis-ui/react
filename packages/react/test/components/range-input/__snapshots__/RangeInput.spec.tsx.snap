@@ -4,7 +4,7 @@ exports[`RangeInput > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <input
     class="form-range"
-    id=":r1:"
+    id="_r_1_"
     step="3"
     type="range"
   />

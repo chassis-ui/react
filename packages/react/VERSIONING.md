@@ -11,11 +11,13 @@ Version bumps and `CHANGELOG.md` are generated from `.changeset/*.md` files, not
 after the fact:
 
 ```bash
-pnpm changeset          # add a changeset describing this PR's change and its bump type
-pnpm changeset:version   # consume pending changesets: bump packages/react/package.json,
-                         # write packages/react/CHANGELOG.md, sync README.md/site config
-pnpm changeset:publish   # build, then `changeset publish` (npm publish for any bumped,
-                         # non-private workspace package — only @chassis-ui/react today)
+pnpm changeset            # add a changeset describing this PR's change and its bump type
+
+pnpm changeset:version    # consume pending changesets: bump packages/react/package.json,
+                          # write packages/react/CHANGELOG.md, sync README.md/site config
+
+pnpm changeset:publish    # build, then `changeset publish` (npm publish for any bumped,
+                          # non-private workspace package — only @chassis-ui/react today)
 ```
 
 Every PR that changes `packages/react`'s published behavior needs a changeset (`pnpm changeset`,
@@ -35,13 +37,6 @@ The actual publish pipeline (`.github/workflows/release.yml`) uses the standard
 pending changesets, it opens/updates a "Version Packages" PR; merging that PR triggers the publish
 step. See that workflow file's comments for the npm token/provenance setup a repo admin needs to
 complete once, outside what this session can do (see "What still needs a human" below).
-
-Note: the sibling `chassis-css`/`chassis-tokens`/`chassis-icons` repos use a different,
-simpler mechanism (a hand-rolled version-diff-detection step on push to `main`, not Changesets) —
-this is a known inconsistency across the org's repos, not something this doc's adoption of
-Changesets tries to unify. If those repos ever adopt Changesets too, their own changelogs would
-start being real per-PR changelogs instead of hand-maintained ones, but that's each repo's own
-call to make.
 
 ## Semver policy
 
@@ -100,10 +95,9 @@ A breaking removal doesn't happen in one PR. The minimum path from "we want to r
 4. **Consider a codemod for mechanical, high-call-site renames** (`jscodeshift` is the standard
    tool for this; not currently a dependency anywhere in this workspace) — worth authoring when a
    rename would otherwise mean hand-editing many call sites across many consumers with an
-   otherwise-mechanical find/replace (the shape of change this library's own Phase 1 `Cx`-prefix
-   removal was, at 272 in-repo files, before there were external consumers to codemod for). Not
-   worth it for a one-off prop removal or a component few consumers likely use — the TSDoc +
-   runtime warning + changelog entry is sufficient signal on its own for those.
+   otherwise-mechanical find/replace. Not worth it for a one-off prop removal or a component few 
+   consumers likely use — the TSDoc + runtime warning + changelog entry is sufficient signal on its 
+   own for those.
 
 ## What still needs a human
 

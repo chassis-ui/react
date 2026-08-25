@@ -7,7 +7,7 @@ import { CardImage } from '../../../src/index'
 describe('CardImage', () => {
   describe('rendering', () => {
     test('renders an img with the base class by default', () => {
-      render(<CardImage alt="" />)
+      render(<CardImage alt="test" />)
       const image = screen.getByRole('img')
       expect(image).toHaveClass('card-image')
       expect(image.tagName).toBe('IMG')
@@ -19,17 +19,17 @@ describe('CardImage', () => {
     })
 
     test('applies a top orientation class', () => {
-      render(<CardImage alt="" orientation="top" />)
+      render(<CardImage alt="test" orientation="top" />)
       expect(screen.getByRole('img')).toHaveClass('card-image-top')
     })
 
     test('applies a start/end orientation class', () => {
-      render(<CardImage alt="" orientation="start" />)
+      render(<CardImage alt="test" orientation="start" />)
       expect(screen.getByRole('img')).toHaveClass('card-image-start')
     })
 
     test('applies responsive orientation overrides alongside the base orientation', () => {
-      render(<CardImage alt="" orientation="top" responsive={{ large: 'start' }} />)
+      render(<CardImage alt="test" orientation="top" responsive={{ large: 'start' }} />)
       expect(screen.getByRole('img')).toHaveClass('card-image-top', 'large:card-image-start')
     })
 

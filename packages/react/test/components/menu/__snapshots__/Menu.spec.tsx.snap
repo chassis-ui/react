@@ -9,12 +9,12 @@ exports[`Menu > rendering > matches the baseline markup snapshot 1`] = `
 exports[`Menu > rendering > matches the baseline markup snapshot when open 1`] = `
 <div>
   <button
-    aria-controls="react-aria-:r5:"
+    aria-controls="react-aria-_r_5_"
     aria-expanded="true"
     aria-haspopup="true"
     class="button primary caret show"
     data-react-aria-pressable="true"
-    id="react-aria-:r4:"
+    id="react-aria-_r_4_"
     tabindex="0"
     type="button"
   >
@@ -22,10 +22,10 @@ exports[`Menu > rendering > matches the baseline markup snapshot when open 1`] =
   </button>
   <div
     aria-hidden="false"
-    aria-labelledby="react-aria-:r4:"
+    aria-labelledby="react-aria-_r_4_"
     class="menu show"
     data-cx-placement="bottom-start"
-    id="react-aria-:r5:"
+    id="react-aria-_r_5_"
     role="menu"
     style="position: absolute; max-height: 0px; left: 8px; top: 2px;"
   >

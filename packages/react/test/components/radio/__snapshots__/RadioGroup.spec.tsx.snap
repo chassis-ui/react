@@ -3,15 +3,15 @@
 exports[`RadioGroup > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <fieldset
-    aria-labelledby="react-aria-:r1:"
+    aria-labelledby="react-aria-_r_1_"
     aria-orientation="vertical"
     class="form-field"
-    id="react-aria-:r0:"
+    id="react-aria-_r_0_"
     role="radiogroup"
   >
     <legend
       class="form-label"
-      id="react-aria-:r1:"
+      id="react-aria-_r_1_"
     >
       Choose an option
     </legend>
@@ -25,7 +25,7 @@ exports[`RadioGroup > rendering > matches the baseline markup snapshot 1`] = `
           checked=""
           class=""
           data-react-aria-pressable="true"
-          name="react-aria-:r5:"
+          name="react-aria-_r_5_"
           tabindex="0"
           type="radio"
           value="a"
@@ -42,7 +42,7 @@ exports[`RadioGroup > rendering > matches the baseline markup snapshot 1`] = `
         <input
           class=""
           data-react-aria-pressable="true"
-          name="react-aria-:r5:"
+          name="react-aria-_r_5_"
           tabindex="-1"
           type="radio"
           value="b"

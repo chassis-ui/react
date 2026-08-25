@@ -4,7 +4,7 @@ exports[`ColorInput > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <input
     class="form-input"
-    id=":r1:"
+    id="_r_1_"
     type="color"
     value="#ff0000"
   />

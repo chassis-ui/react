@@ -68,25 +68,25 @@ describe('Placeholder', () => {
 
   describe('styling props (src mode only)', () => {
     test('applies fluid and thumbnail alongside the image base class', () => {
-      render(<Placeholder src="https://placehold.co/200x100" alt="" fluid thumbnail />)
+      render(<Placeholder src="https://placehold.co/200x100" alt="test" fluid thumbnail />)
       expect(screen.getByRole('img')).toHaveClass('image', 'fluid', 'thumbnail')
     })
 
     test('applies rounded and start/end/center alignment', () => {
       const { rerender } = render(
-        <Placeholder src="https://placehold.co/200x100" alt="" rounded align="start" />
+        <Placeholder src="https://placehold.co/200x100" alt="test" rounded align="start" />
       )
       expect(screen.getByRole('img')).toHaveClass('rounded', 'float-start')
 
-      rerender(<Placeholder src="https://placehold.co/200x100" alt="" align="end" />)
+      rerender(<Placeholder src="https://placehold.co/200x100" alt="test" align="end" />)
       expect(screen.getByRole('img')).toHaveClass('float-end')
 
-      rerender(<Placeholder src="https://placehold.co/200x100" alt="" align="center" />)
+      rerender(<Placeholder src="https://placehold.co/200x100" alt="test" align="center" />)
       expect(screen.getByRole('img')).toHaveClass('d-block', 'mx-auto')
     })
 
     test('does not apply the image base class when neither fluid nor thumbnail is set', () => {
-      render(<Placeholder src="https://placehold.co/200x100" alt="" rounded />)
+      render(<Placeholder src="https://placehold.co/200x100" alt="test" rounded />)
       expect(screen.getByRole('img')).not.toHaveClass('image')
     })
   })

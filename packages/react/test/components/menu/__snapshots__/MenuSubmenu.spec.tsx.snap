@@ -4,10 +4,10 @@ exports[`MenuSubmenu > rendering > matches the baseline markup snapshot and rend
 <div>
   <div
     aria-hidden="false"
-    aria-labelledby="react-aria-:r0:"
+    aria-labelledby="react-aria-_r_0_"
     class="menu show"
     data-cx-placement="bottom-start"
-    id="react-aria-:r1:"
+    id="react-aria-_r_1_"
     role="menu"
     style="position: fixed; top: 0px; left: 0px;"
   >
@@ -18,7 +18,7 @@ exports[`MenuSubmenu > rendering > matches the baseline markup snapshot and rend
         aria-expanded="false"
         aria-haspopup="true"
         class="menu-item"
-        id=":r2:-trigger"
+        id="_r_2_-trigger"
         role="menuitem"
         type="button"
       >
