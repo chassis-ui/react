@@ -3090,6 +3090,10 @@ interface InputGroupAddonProps extends HTMLAttributes<HTMLLabelElement | HTMLSpa
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
   component?: ElementType | string;
+  /**
+   * The id of the form control this addon labels, when rendered as `component="label"`.
+   */
+  htmlFor?: string;
 }
 declare const InputGroupAddon: React.ForwardRefExoticComponent<InputGroupAddonProps & React.RefAttributes<HTMLLabelElement | HTMLSpanElement>>;
 //#endregion

@@ -10,6 +10,10 @@ export interface InputGroupAddonProps extends HTMLAttributes<HTMLLabelElement | 
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
   component?: string | ElementType
+  /**
+   * The id of the form control this addon labels, when rendered as `component="label"`.
+   */
+  htmlFor?: string
 }
 
 export const InputGroupAddon = forwardRef<HTMLLabelElement | HTMLSpanElement, InputGroupAddonProps>(
