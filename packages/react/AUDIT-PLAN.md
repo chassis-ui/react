@@ -326,23 +326,45 @@ Bigger, optional, no urgent bug attached — do this only once Phases 1–6 are 
 splitting into 7a/7b/7c sub-commits rather than one large diff. Get explicit user sign-off on scope
 before starting, since "extract a shared hook" can balloon in review size.
 
-- [ ] **7a** Extract the button-semantics block duplicated in `link/Link.tsx:99-109`,
+- [x] **7a** Extract the button-semantics block duplicated in `link/Link.tsx:99-109`,
   `button/Button.tsx:125-135`, `close-button/CloseButton.tsx:123-133` (ref setup + `useForkedRef` +
-  `useButton` call) into a shared hook in `src/hooks/`.
-- [ ] **7b** Extract the ~150-200 duplicated lines of dialog machinery in `modal/Modal.tsx` and
+  `useButton` call) into a shared hook in `src/hooks/`. Added `useButtonSemantics` — all three
+  components now call it instead of hand-building the same `useRef`/`useForkedRef`/
+  `AriaButtonProps<'div'>`/`useButton` block. `Button.tsx`'s call needed one `Ref<...>` cast (its
+  forwarded ref type is the wider `button | a | input` union; this hook path only ever populates a
+  button/anchor-shaped instance) — same justification already given for the file's other per-branch
+  ref casts.
+- [x] **7b** Extract the ~150-200 duplicated lines of dialog machinery in `modal/Modal.tsx` and
   `drawer/Drawer.tsx` (forked ref, show/hide effects, static-bounce handling, non-modal Escape
-  handling) into a shared `useDialogElement`-style hook.
-- [ ] **7c** Extract the duplicated `.form-input` adorn-wrapper shell and popover-overlay shell
+  handling) into a shared `useDialogElement`-style hook. Added `useDialogElement`; `Drawer`'s one
+  genuinely distinct behavior (auto-closing every other open drawer) hooks in via a new
+  `onBeforeShow` callback invoked at the one precise point in the show effect it needs, rather than
+  being duplicated. Verified live (open/close, focus into/back-out-of the dialog, default vs.
+  `backdrop="static"` click) plus the full `Modal`/`Drawer` suites, which exercise the transient
+  bounce class and cross-instance auto-close under fake timers — both passed unmodified.
+- [x] **7c** Extract the duplicated `.form-input` adorn-wrapper shell and popover-overlay shell
   repeated three times across `datepicker/DatePicker.tsx` (×2 variants) and
-  `datepicker/DateRangePicker.tsx` into a shared internal render helper.
-- [ ] **7d** Extract the spacing-class guard (`typeof x === 'string' || 'number' ? ... : null`)
+  `datepicker/DateRangePicker.tsx` into a shared internal render helper. Added
+  `renderDatePickerShell` (private to `components/datepicker/`, same pattern as
+  `renderFormField`) — each caller now only supplies the genuinely variant-specific pieces (which
+  field(s), which calendar, each variant's own `groupProps`/hidden inputs). Verified live: all
+  three variants' popovers open, render their calendar grid, and commit a selection back to the
+  field(s); the manually-built multi-select `groupProps` path (the most divergent of the three)
+  confirmed correct via its `role="group"`/`aria-labelledby` making it through unchanged.
+- [x] **7d** Extract the spacing-class guard (`typeof x === 'string' || 'number' ? ... : null`)
   duplicated in `flex/Flex.tsx:77-81`, `stack/Stack.tsx:52`, `grid/Row.tsx:49-51`,
-  `card/CardBody.tsx:41` into one shared helper alongside `utils/breakpoints.ts`.
-- [ ] **7e** Memoize `combobox/Combobox.tsx:217-233`'s entry-building/disabled-key computation
+  `card/CardBody.tsx:41` into one shared helper alongside `utils/breakpoints.ts`. Added
+  `spacingClassName` in `utils/spacingClassName.ts` (a sibling file, not folded into
+  `breakpoints.ts` itself — different-enough concern to keep separate) — all 8 call sites
+  (`gap`/`rowGap`/`columnGap`/`gutter`/`gutterX`/`gutterY` across the four components) now call it.
+- [x] **7e** Memoize `combobox/Combobox.tsx:217-233`'s entry-building/disabled-key computation
   (currently re-runs every render including every keystroke) with `useMemo` keyed on
-  `children`/`items`.
-- [ ] **7f** Dedupe `chip-input/ChipInput.tsx:15,157-192`'s three independent `buildTagIds`
-  recomputations down to the one already-memoized array.
+  `children`/`items`. Wrapped `entries` (keyed on `[items, children]`) and `disabledKeys` (keyed on
+  `[entries]`) in `useMemo`.
+- [x] **7f** Dedupe `chip-input/ChipInput.tsx:15,157-192`'s three independent `buildTagIds`
+  recomputations down to the one already-memoized array. Hoisted a single `const ids =
+  useMemo(() => buildTagIds(tags), [tags])` above `removeTags`/`items`/`focusLastChip`, which all
+  now read it instead of each calling `buildTagIds(tags)` themselves.
 - [ ] **NOT IN SCOPE (document only)** Layout-primitive naming divergence (`row`/`column` vs
   `horizontal`/`vertical`; `gap` vs `gutter`) across `Flex`/`Stack`/`Row` — this is a public-API
   naming question, not a refactor a session should do unilaterally. Leave a short note in
