@@ -1,13 +1,18 @@
-import React, { forwardRef, HTMLAttributes } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
 import classNames from 'classnames'
 
+import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
 import { Breakpoint } from '../../types'
 
-export interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
+type ContainerOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
   className?: string
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C
   /**
    * Set container 100% wide until the given breakpoint, after which it scales up with `max-width`
    * at every larger breakpoint.
@@ -21,16 +26,31 @@ export interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
   fluid?: boolean
 }
 
-export const Container = forwardRef<HTMLDivElement, ContainerProps>(
-  ({ children, className, fluidUntil, fluid, ...rest }, ref) => {
-    const _className = classNames('container', fluid && 'fluid', fluidUntil, className)
+export type ContainerProps<C extends ElementType = 'div'> = PolymorphicComponentProps<
+  C,
+  ContainerOwnProps<C>
+>
 
-    return (
-      <div className={_className} {...rest} ref={ref}>
-        {children}
-      </div>
-    )
-  }
-)
+type ContainerComponent = (<C extends ElementType = 'div'>(
+  props: ContainerProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
+
+function ContainerRender<C extends ElementType = 'div'>(
+  { children, className, component, fluidUntil, fluid, ...rest }: ContainerProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  const Component = component || 'div'
+  const _className = classNames('container', fluid && 'fluid', fluidUntil, className)
+
+  return (
+    <Component className={_className} {...rest} ref={ref}>
+      {children}
+    </Component>
+  )
+}
+
+export const Container = forwardRef(
+  ContainerRender as ForwardRefRenderFunction<Element, ContainerProps<ElementType>>
+) as ContainerComponent
 
 Container.displayName = 'Container'

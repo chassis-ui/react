@@ -1,6 +1,13 @@
-import React, { CSSProperties, ElementType, forwardRef, HTMLAttributes } from 'react'
+import React, {
+  CSSProperties,
+  ElementType,
+  ForwardRefRenderFunction,
+  forwardRef,
+  ReactElement
+} from 'react'
 import classNames from 'classnames'
 
+import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
 import { buildResponsiveClassNames } from '../../utils/breakpoints'
 import { Breakpoint, Spacing } from '../../types'
 import { resolveGap } from './gap'
@@ -22,7 +29,7 @@ export interface GridItemLayout {
   start?: number
 }
 
-export interface GridItemProps extends HTMLAttributes<HTMLDivElement>, GridItemLayout {
+type GridItemOwnProps<C extends ElementType> = GridItemLayout & {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -30,7 +37,7 @@ export interface GridItemProps extends HTMLAttributes<HTMLDivElement>, GridItemL
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType
+  component?: C
   /**
    * Overrides `span`/`start` at a breakpoint and up.
    *
@@ -61,47 +68,59 @@ export interface GridItemProps extends HTMLAttributes<HTMLDivElement>, GridItemL
   gap?: Spacing | (string & {})
 }
 
+export type GridItemProps<C extends ElementType = 'div'> = PolymorphicComponentProps<
+  C,
+  GridItemOwnProps<C>
+>
+
+type GridItemComponent = (<C extends ElementType = 'div'>(
+  props: GridItemProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
+
 const layoutClassNames = ({ span, start }: GridItemLayout, prefix: string) => [
   typeof span === 'number' ? `${prefix}g-col-${span}` : null,
   typeof start === 'number' ? `${prefix}g-start-${start}` : null
 ]
 
-export const GridItem = forwardRef<HTMLDivElement, GridItemProps>(
-  (
-    {
-      children,
-      className,
-      component: Component = 'div',
-      span,
-      start,
-      responsive,
-      subgrid,
-      rows,
-      gap,
-      style,
-      ...rest
-    },
-    ref
-  ) => {
-    const _className = classNames(
-      buildResponsiveClassNames(layoutClassNames, { span, start }, responsive),
-      subgrid && 'grid grid-cols-subgrid',
-      className
-    )
+function GridItemRender<C extends ElementType = 'div'>(
+  {
+    children,
+    className,
+    component,
+    span,
+    start,
+    responsive,
+    subgrid,
+    rows,
+    gap,
+    style,
+    ...rest
+  }: GridItemProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  const Component = component || 'div'
+  const _className = classNames(
+    buildResponsiveClassNames(layoutClassNames, { span, start }, responsive),
+    subgrid && 'grid grid-cols-subgrid',
+    className
+  )
 
-    const _style: GridItemStyle = { ...style }
+  const _style: GridItemStyle = { ...style }
 
-    if (subgrid) {
-      if (rows !== undefined) _style['--cx-grid-rows'] = rows
-      if (gap !== undefined) _style['--cx-grid-gap'] = resolveGap(gap)
-    }
-
-    return (
-      <Component className={_className} style={_style} {...rest} ref={ref}>
-        {children}
-      </Component>
-    )
+  if (subgrid) {
+    if (rows !== undefined) _style['--cx-grid-rows'] = rows
+    if (gap !== undefined) _style['--cx-grid-gap'] = resolveGap(gap)
   }
-)
+
+  return (
+    <Component className={_className} style={_style} {...rest} ref={ref}>
+      {children}
+    </Component>
+  )
+}
+
+export const GridItem = forwardRef(
+  GridItemRender as ForwardRefRenderFunction<Element, GridItemProps<ElementType>>
+) as GridItemComponent
 
 GridItem.displayName = 'GridItem'

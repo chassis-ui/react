@@ -2777,11 +2777,15 @@ interface ColProps extends HTMLAttributes<HTMLDivElement>, ColLayout {
 declare const Col: React.ForwardRefExoticComponent<ColProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
 //#region src/components/grid/Container.d.ts
-interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
+type ContainerOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
   className?: string;
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C;
   /**
    * Set container 100% wide until the given breakpoint, after which it scales up with `max-width`
    * at every larger breakpoint.
@@ -2793,11 +2797,17 @@ interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
    * Set container 100% wide, spanning the entire width of the viewport.
    */
   fluid?: boolean;
-}
-declare const Container: React.ForwardRefExoticComponent<ContainerProps & React.RefAttributes<HTMLDivElement>>;
+};
+type ContainerProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, ContainerOwnProps<C>>;
+type ContainerComponent = (<C extends ElementType = 'div'>(props: ContainerProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const Container: ContainerComponent;
 //#endregion
 //#region src/components/grid/Grid.d.ts
-interface GridProps extends HTMLAttributes<HTMLDivElement> {
+type GridOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -2805,7 +2815,7 @@ interface GridProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: ElementType | string;
+  component?: C;
   /**
    * Number of columns in the grid template, set via the `--cx-grid-columns` custom property
    * (defaults to `12` in CSS when omitted). Has no effect when `fill` is set.
@@ -2829,8 +2839,14 @@ interface GridProps extends HTMLAttributes<HTMLDivElement> {
    * width, with the column count determined by the number of children rather than `columns`.
    */
   fill?: boolean;
-}
-declare const Grid: React.ForwardRefExoticComponent<GridProps & React.RefAttributes<HTMLDivElement>>;
+};
+type GridProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, GridOwnProps<C>>;
+type GridComponent = (<C extends ElementType = 'div'>(props: GridProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const Grid: GridComponent;
 //#endregion
 //#region src/components/grid/GridItem.d.ts
 interface GridItemLayout {
@@ -2844,7 +2860,7 @@ interface GridItemLayout {
    */
   start?: number;
 }
-interface GridItemProps extends HTMLAttributes<HTMLDivElement>, GridItemLayout {
+type GridItemOwnProps<C extends ElementType> = GridItemLayout & {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -2852,7 +2868,7 @@ interface GridItemProps extends HTMLAttributes<HTMLDivElement>, GridItemLayout {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: ElementType | string;
+  component?: C;
   /**
    * Overrides `span`/`start` at a breakpoint and up.
    *
@@ -2881,8 +2897,14 @@ interface GridItemProps extends HTMLAttributes<HTMLDivElement>, GridItemLayout {
    * @type { Spacing | string }
    */
   gap?: (string & {}) | Spacing;
-}
-declare const GridItem: React.ForwardRefExoticComponent<GridItemProps & React.RefAttributes<HTMLDivElement>>;
+};
+type GridItemProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, GridItemOwnProps<C>>;
+type GridItemComponent = (<C extends ElementType = 'div'>(props: GridItemProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const GridItem: GridItemComponent;
 //#endregion
 //#region src/components/grid/Row.d.ts
 interface RowLayout {
@@ -5613,7 +5635,7 @@ interface FlexLayout {
    */
   columnGap?: 0 | Spacing;
 }
-interface FlexProps extends HTMLAttributes<HTMLDivElement>, FlexLayout {
+type FlexOwnProps<C extends ElementType> = FlexLayout & {
   /**
    * A string of all className you want applied to the component.
    */
@@ -5621,7 +5643,7 @@ interface FlexProps extends HTMLAttributes<HTMLDivElement>, FlexLayout {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: ElementType | string;
+  component?: C;
   /**
    * Renders an inline flex container (`.d-inline-flex`) instead of a block-level one (`.d-flex`,
    * the default).
@@ -5633,8 +5655,14 @@ interface FlexProps extends HTMLAttributes<HTMLDivElement>, FlexLayout {
    * `responsive` prop, this doesn't require a `.contains-inline` ancestor).
    */
   responsive?: Partial<Record<Breakpoint, FlexLayout>>;
-}
-declare const Flex: React.ForwardRefExoticComponent<FlexProps & React.RefAttributes<HTMLDivElement>>;
+};
+type FlexProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, FlexOwnProps<C>>;
+type FlexComponent = (<C extends ElementType = 'div'>(props: FlexProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const Flex: FlexComponent;
 //#endregion
 //#region src/components/stack/Stack.d.ts
 type StackOwnProps<C extends ElementType> = {

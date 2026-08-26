@@ -1,6 +1,13 @@
-import React, { CSSProperties, ElementType, forwardRef, HTMLAttributes } from 'react'
+import React, {
+  CSSProperties,
+  ElementType,
+  ForwardRefRenderFunction,
+  forwardRef,
+  ReactElement
+} from 'react'
 import classNames from 'classnames'
 
+import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
 import { Spacing } from '../../types'
 import { resolveGap } from './gap'
 
@@ -11,7 +18,7 @@ type GridStyle = CSSProperties & {
   '--cx-gap'?: string
 }
 
-export interface GridProps extends HTMLAttributes<HTMLDivElement> {
+type GridOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -19,7 +26,7 @@ export interface GridProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType
+  component?: C
   /**
    * Number of columns in the grid template, set via the `--cx-grid-columns` custom property
    * (defaults to `12` in CSS when omitted). Has no effect when `fill` is set.
@@ -45,29 +52,38 @@ export interface GridProps extends HTMLAttributes<HTMLDivElement> {
   fill?: boolean
 }
 
-export const Grid = forwardRef<HTMLDivElement, GridProps>(
-  (
-    { children, className, component: Component = 'div', columns, rows, gap, fill, style, ...rest },
-    ref
-  ) => {
-    const _className = classNames(fill ? 'grid-fill' : 'grid', className)
+export type GridProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, GridOwnProps<C>>
 
-    const _style: GridStyle = { ...style }
+type GridComponent = (<C extends ElementType = 'div'>(
+  props: GridProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
 
-    if (fill) {
-      if (gap !== undefined) _style['--cx-gap'] = resolveGap(gap)
-    } else {
-      if (columns !== undefined) _style['--cx-grid-columns'] = columns
-      if (rows !== undefined) _style['--cx-grid-rows'] = rows
-      if (gap !== undefined) _style['--cx-grid-gap'] = resolveGap(gap)
-    }
+function GridRender<C extends ElementType = 'div'>(
+  { children, className, component, columns, rows, gap, fill, style, ...rest }: GridProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  const Component = component || 'div'
+  const _className = classNames(fill ? 'grid-fill' : 'grid', className)
 
-    return (
-      <Component className={_className} style={_style} {...rest} ref={ref}>
-        {children}
-      </Component>
-    )
+  const _style: GridStyle = { ...style }
+
+  if (fill) {
+    if (gap !== undefined) _style['--cx-gap'] = resolveGap(gap)
+  } else {
+    if (columns !== undefined) _style['--cx-grid-columns'] = columns
+    if (rows !== undefined) _style['--cx-grid-rows'] = rows
+    if (gap !== undefined) _style['--cx-grid-gap'] = resolveGap(gap)
   }
-)
+
+  return (
+    <Component className={_className} style={_style} {...rest} ref={ref}>
+      {children}
+    </Component>
+  )
+}
+
+export const Grid = forwardRef(
+  GridRender as ForwardRefRenderFunction<Element, GridProps<ElementType>>
+) as GridComponent
 
 Grid.displayName = 'Grid'

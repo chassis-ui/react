@@ -1,6 +1,7 @@
-import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
 import classNames from 'classnames'
 
+import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
 import { buildResponsiveClassNames } from '../../utils/breakpoints'
 import { spacingClassName } from '../../utils/spacingClassName'
 import { Breakpoint, Spacing } from '../../types'
@@ -44,7 +45,7 @@ export interface FlexLayout {
   columnGap?: Spacing | 0
 }
 
-export interface FlexProps extends HTMLAttributes<HTMLDivElement>, FlexLayout {
+type FlexOwnProps<C extends ElementType> = FlexLayout & {
   /**
    * A string of all className you want applied to the component.
    */
@@ -52,7 +53,7 @@ export interface FlexProps extends HTMLAttributes<HTMLDivElement>, FlexLayout {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType
+  component?: C
   /**
    * Renders an inline flex container (`.d-inline-flex`) instead of a block-level one (`.d-flex`,
    * the default).
@@ -65,6 +66,12 @@ export interface FlexProps extends HTMLAttributes<HTMLDivElement>, FlexLayout {
    */
   responsive?: Partial<Record<Breakpoint, FlexLayout>>
 }
+
+export type FlexProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, FlexOwnProps<C>>
+
+type FlexComponent = (<C extends ElementType = 'div'>(
+  props: FlexProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
 
 const layoutClassNames = (
   { direction, wrap, justify, align, alignContent, gap, rowGap, columnGap }: FlexLayout,
@@ -80,42 +87,45 @@ const layoutClassNames = (
   spacingClassName('column-gap', columnGap, prefix)
 ]
 
-export const Flex = forwardRef<HTMLDivElement, FlexProps>(
-  (
-    {
-      children,
-      className,
-      component: Component = 'div',
-      inline,
-      direction,
-      wrap,
-      justify,
-      align,
-      alignContent,
-      gap,
-      rowGap,
-      columnGap,
-      responsive,
-      ...rest
-    },
-    ref
-  ) => {
-    const _className = classNames(
-      inline ? 'd-inline-flex' : 'd-flex',
-      buildResponsiveClassNames(
-        layoutClassNames,
-        { direction, wrap, justify, align, alignContent, gap, rowGap, columnGap },
-        responsive
-      ),
-      className
-    )
+function FlexRender<C extends ElementType = 'div'>(
+  {
+    children,
+    className,
+    component,
+    inline,
+    direction,
+    wrap,
+    justify,
+    align,
+    alignContent,
+    gap,
+    rowGap,
+    columnGap,
+    responsive,
+    ...rest
+  }: FlexProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  const Component = component || 'div'
+  const _className = classNames(
+    inline ? 'd-inline-flex' : 'd-flex',
+    buildResponsiveClassNames(
+      layoutClassNames,
+      { direction, wrap, justify, align, alignContent, gap, rowGap, columnGap },
+      responsive
+    ),
+    className
+  )
 
-    return (
-      <Component className={_className} {...rest} ref={ref}>
-        {children}
-      </Component>
-    )
-  }
-)
+  return (
+    <Component className={_className} {...rest} ref={ref}>
+      {children}
+    </Component>
+  )
+}
+
+export const Flex = forwardRef(
+  FlexRender as ForwardRefRenderFunction<Element, FlexProps<ElementType>>
+) as FlexComponent
 
 Flex.displayName = 'Flex'

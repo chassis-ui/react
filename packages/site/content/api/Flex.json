@@ -5,84 +5,6 @@
   "displayName": "Flex",
   "methods": [],
   "props": {
-    "className": {
-      "defaultValue": null,
-      "description": "A string of all className you want applied to the component.",
-      "name": "className",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
-        "name": "FlexProps"
-      },
-      "declarations": [
-        {
-          "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
-          "name": "FlexProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "string"
-      }
-    },
-    "component": {
-      "defaultValue": {
-        "value": "div"
-      },
-      "description": "Component used for the root node. Either a string to use a HTML element or a component.",
-      "name": "component",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
-        "name": "FlexProps"
-      },
-      "declarations": [
-        {
-          "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
-          "name": "FlexProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "string | ComponentClass<any, any> | FunctionComponent<any>"
-      }
-    },
-    "inline": {
-      "defaultValue": null,
-      "description": "Renders an inline flex container (`.d-inline-flex`) instead of a block-level one (`.d-flex`,\nthe default).",
-      "name": "inline",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
-        "name": "FlexProps"
-      },
-      "declarations": [
-        {
-          "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
-          "name": "FlexProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "boolean"
-      }
-    },
-    "responsive": {
-      "defaultValue": null,
-      "description": "Overrides any of `direction`/`wrap`/`justify`/`align`/`alignContent`/`gap`/`rowGap`/\n`columnGap` at one or more breakpoints, via regular viewport media queries (unlike `Stack`'s\n`responsive` prop, this doesn't require a `.contains-inline` ancestor).",
-      "name": "responsive",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
-        "name": "FlexProps"
-      },
-      "declarations": [
-        {
-          "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
-          "name": "FlexProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "Partial<Record<Breakpoint, FlexLayout>>"
-      }
-    },
     "direction": {
       "defaultValue": null,
       "description": "Sets `flex-direction`. Omit for the browser default (`row`).",
@@ -464,6 +386,81 @@
             "value": "\"6xlarge\""
           }
         ]
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "component": {
+      "defaultValue": null,
+      "description": "Component used for the root node. Either a string to use a HTML element or a component.",
+      "name": "component",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ElementType"
+      }
+    },
+    "inline": {
+      "defaultValue": null,
+      "description": "Renders an inline flex container (`.d-inline-flex`) instead of a block-level one (`.d-flex`,\nthe default).",
+      "name": "inline",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "responsive": {
+      "defaultValue": null,
+      "description": "Overrides any of `direction`/`wrap`/`justify`/`align`/`alignContent`/`gap`/`rowGap`/\n`columnGap` at one or more breakpoints, via regular viewport media queries (unlike `Stack`'s\n`responsive` prop, this doesn't require a `.contains-inline` ancestor).",
+      "name": "responsive",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Partial<Record<Breakpoint, FlexLayout>>"
+      }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "any"
       }
     }
   }
