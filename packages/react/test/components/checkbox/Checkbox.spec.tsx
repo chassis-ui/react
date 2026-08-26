@@ -107,6 +107,28 @@ describe('Checkbox', () => {
       expect(onChange).toHaveBeenCalledWith(['email', 'sms'])
       expect(sms).toBeChecked()
     })
+
+    test('disabling a single checkbox only disables that option', () => {
+      render(
+        <CheckboxGroup aria-label="Notifications" defaultValue={[]}>
+          <Checkbox value="email" label="Email" />
+          <Checkbox value="sms" label="SMS" disabled />
+        </CheckboxGroup>
+      )
+      expect(screen.getByRole('checkbox', { name: 'Email' })).toBeEnabled()
+      expect(screen.getByRole('checkbox', { name: 'SMS' })).toBeDisabled()
+    })
+
+    test('disabling the group disables every checkbox', () => {
+      render(
+        <CheckboxGroup aria-label="Notifications" defaultValue={[]} disabled>
+          <Checkbox value="email" label="Email" />
+          <Checkbox value="sms" label="SMS" />
+        </CheckboxGroup>
+      )
+      expect(screen.getByRole('checkbox', { name: 'Email' })).toBeDisabled()
+      expect(screen.getByRole('checkbox', { name: 'SMS' })).toBeDisabled()
+    })
   })
 
   describe('validation state', () => {

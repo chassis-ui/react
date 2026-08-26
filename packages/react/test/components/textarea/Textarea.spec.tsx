@@ -142,5 +142,18 @@ describe('Textarea', () => {
       render(<Textarea aria-label="Bio" invalid />)
       expect(screen.getByRole('textbox', { name: 'Bio' })).toHaveAttribute('aria-invalid', 'true')
     })
+
+    test('has no axe violations in a realistic composed state (label, help, invalidFeedback)', async () => {
+      const { container } = render(
+        <Textarea
+          label="Bio"
+          help="Tell us about yourself"
+          invalid
+          invalidFeedback="Required"
+          defaultValue="Some value"
+        />
+      )
+      expect(await axe(container)).toHaveNoViolations()
+    })
   })
 })

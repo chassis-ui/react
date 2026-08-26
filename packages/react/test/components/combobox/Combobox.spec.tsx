@@ -117,6 +117,22 @@ describe('Combobox', () => {
     })
   })
 
+  describe('keyboard navigation', () => {
+    test('ArrowDown highlights the first option and Enter selects it', () => {
+      const onChange = vi.fn()
+      render(<BasicCombobox onChange={onChange} />)
+      const input = screen.getByRole('combobox') as HTMLInputElement
+      focusInput(input)
+
+      fireEvent.keyDown(input, { key: 'ArrowDown' })
+      fireEvent.keyDown(input, { key: 'Enter' })
+
+      expect(onChange).toHaveBeenCalledWith('apple')
+      expect(input.value).toBe('Apple')
+      expect(getListboxWrapper()).toHaveAttribute('hidden')
+    })
+  })
+
   describe('rich item content', () => {
     const RichCombobox = (props: Partial<React.ComponentProps<typeof Combobox>> = {}) => (
       <Combobox aria-label="Role" {...props}>

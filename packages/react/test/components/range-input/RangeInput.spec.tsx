@@ -127,5 +127,18 @@ describe('RangeInput', () => {
       const { container } = render(<RangeInput aria-label="Volume" />)
       expect(await axe(container)).toHaveNoViolations()
     })
+
+    test('has no axe violations in a realistic composed state (label, help, invalidFeedback)', async () => {
+      const { container } = render(
+        <RangeInput
+          label="Volume"
+          help="Adjust the playback volume"
+          invalid
+          invalidFeedback="Required"
+          value={50}
+        />
+      )
+      expect(await axe(container)).toHaveNoViolations()
+    })
   })
 })

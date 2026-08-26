@@ -378,21 +378,29 @@ before starting, since "extract a shared hook" can balloon in review size.
 
 Only the gaps not already covered by a fix above.
 
-- [ ] `text-input/`, `textarea/`, `range-input/` — existing jest-axe assertions only render the
+- [x] `text-input/`, `textarea/`, `range-input/` — existing jest-axe assertions only render the
   emptiest state; add at least one per component exercising the realistic composed state
   (`label`+`help`+`invalidFeedback`, plus adorns for `TextInput`) per `AGENTS.md`'s own explicit
-  rule against bare-shell-only axe checks.
-- [ ] `input-group/InputGroupAddon.spec.tsx` — add a runtime assertion that `htmlFor` actually
-  renders the attribute (currently type-only coverage).
-- [ ] `input-group/` — add one composed test: `InputGroup` + `InputGroupAddon` (as `component="label"`)
-  + a real input with a matching `id`, asserting the accessible name resolves.
-- [ ] `hooks/useFormField.ts` — add a dedicated unit test for the id-generation/`describedBy`/
-  `labelledBy` merge logic, independent of any one consumer.
-- [ ] `checkbox/Checkbox.spec.tsx`, `checkbox/CheckboxGroup.spec.tsx` — add `disabled` assertions
+  rule against bare-shell-only axe checks. Added one `accessibility` test per component.
+- [x] `input-group/InputGroupAddon.spec.tsx` — add a runtime assertion that `htmlFor` actually
+  renders the attribute (currently type-only coverage). Added a `rendering` test asserting the
+  `for` attribute on a `component="label"` addon.
+- [x] `input-group/` — add one composed test: `InputGroup` + `InputGroupAddon` (as `component="label"`)
+  + a real input with a matching `id`, asserting the accessible name resolves. Added a `composed
+  with InputGroupAddon` describe block to `InputGroup.spec.tsx`.
+- [x] `hooks/useFormField.ts` — add a dedicated unit test for the id-generation/`describedBy`/
+  `labelledBy` merge logic, independent of any one consumer. Added
+  `test/hooks/useFormField.spec.tsx` via `renderHook`.
+- [x] `checkbox/Checkbox.spec.tsx`, `checkbox/CheckboxGroup.spec.tsx` — add `disabled` assertions
   (item-level and group-level), matching what `Radio.spec.tsx`/`RadioGroup.spec.tsx` already do.
-- [ ] `carousel/Carousel.spec.tsx` — add an unmount-during-autoplay test asserting the pending timer
-  is cleared and no `act()` warning leaks.
-- [ ] `combobox/Combobox.spec.tsx` — add a pure-keyboard option-selection test (ArrowDown + Enter).
+  Added both (single-item-disabled, group-disabled-disables-all) to `Checkbox.spec.tsx`'s
+  `selection behavior` block, mirroring `Radio.spec.tsx` exactly — `RadioGroup.spec.tsx` itself
+  has no disabled test to mirror into `CheckboxGroup.spec.tsx`.
+- [x] `carousel/Carousel.spec.tsx` — add an unmount-during-autoplay test asserting the pending timer
+  is cleared and no `act()` warning leaks. Added, asserting `vi.getTimerCount()` drops to 0 on
+  unmount and `console.error` stays silent after advancing timers past the interval.
+- [x] `combobox/Combobox.spec.tsx` — add a pure-keyboard option-selection test (ArrowDown + Enter).
+  Added to a new `keyboard navigation` describe block.
 
 ---
 

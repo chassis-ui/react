@@ -2,7 +2,7 @@ import * as React from 'react'
 import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { InputGroup } from '../../../src/index'
+import { InputGroup, InputGroupAddon } from '../../../src/index'
 
 describe('InputGroup', () => {
   describe('rendering', () => {
@@ -33,6 +33,20 @@ describe('InputGroup', () => {
       const ref = React.createRef<HTMLDivElement>()
       render(<InputGroup ref={ref}>Test</InputGroup>)
       expect(ref.current).toBeInstanceOf(HTMLDivElement)
+    })
+  })
+
+  describe('composed with InputGroupAddon', () => {
+    test('an InputGroupAddon rendered as a label with a matching htmlFor resolves the input accessible name', () => {
+      render(
+        <InputGroup>
+          <InputGroupAddon component="label" htmlFor="username">
+            Username
+          </InputGroupAddon>
+          <input id="username" />
+        </InputGroup>
+      )
+      expect(screen.getByRole('textbox', { name: 'Username' })).toHaveAttribute('id', 'username')
     })
   })
 

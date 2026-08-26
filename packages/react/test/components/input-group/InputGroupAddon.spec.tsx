@@ -28,6 +28,15 @@ describe('InputGroupAddon', () => {
       expect(addon).toHaveClass('input-addon', 'bazinga')
       expect(addon.tagName).toBe('LABEL')
     })
+
+    test('renders htmlFor as the for attribute when rendered as a label', () => {
+      render(
+        <InputGroupAddon component="label" htmlFor="username">
+          Username
+        </InputGroupAddon>
+      )
+      expect(screen.getByText('Username')).toHaveAttribute('for', 'username')
+    })
   })
 
   describe('ref forwarding', () => {

@@ -459,6 +459,33 @@ describe('Carousel', () => {
         uninstallVisibility()
       }
     })
+
+    test('clears the pending autoplay timer on unmount, leaving nothing to fire or warn afterward', () => {
+      vi.useFakeTimers()
+      const uninstallVisibility = stubVisibleGeometry()
+      const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined)
+      try {
+        const { unmount } = render(
+          <Carousel autoplay interval={1000}>
+            <CarouselInner>
+              <CarouselItem>Item-1</CarouselItem>
+              <CarouselItem>Item-2</CarouselItem>
+            </CarouselInner>
+          </Carousel>
+        )
+        expect(vi.getTimerCount()).toBeGreaterThan(0)
+
+        unmount()
+        expect(vi.getTimerCount()).toBe(0)
+
+        act(() => vi.advanceTimersByTime(5000))
+        expect(consoleError).not.toHaveBeenCalled()
+      } finally {
+        consoleError.mockRestore()
+        vi.useRealTimers()
+        uninstallVisibility()
+      }
+    })
   })
 
   describe('ref forwarding', () => {

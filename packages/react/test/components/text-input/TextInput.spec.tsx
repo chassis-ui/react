@@ -252,5 +252,19 @@ describe('TextInput', () => {
       expect(input).toHaveAttribute('aria-invalid', 'true')
       expect(await axe(container)).toHaveNoViolations()
     })
+
+    test('has no axe violations in a realistic composed state (label, help, invalidFeedback, adorns)', async () => {
+      const { container } = render(
+        <TextInput
+          label="Amount"
+          help="Enter the amount in USD"
+          invalid
+          invalidFeedback="Required"
+          adornStart={<InputAdorn>$</InputAdorn>}
+          adornEnd={<InputAdorn>USD</InputAdorn>}
+        />
+      )
+      expect(await axe(container)).toHaveNoViolations()
+    })
   })
 })
