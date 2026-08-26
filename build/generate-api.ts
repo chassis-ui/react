@@ -13,6 +13,15 @@ const TSCONFIG_PATH = path.resolve(__dirname, '../packages/react/tsconfig.json')
 const parser = withCustomConfig(path.resolve(__dirname, '../packages/react/tsconfig.json'), {
   shouldExtractLiteralValuesFromEnum: true,
   shouldRemoveUndefinedFromOptional: true,
+  // react-docgen-typescript's own displayName inference (computeComponentName in its parser.js)
+  // has a fallback that, when a file exports more than one value with a `.displayName = '...'`
+  // assignment nearby (e.g. a component alongside a same-file `XContext = createContext(...)`),
+  // can misattribute one export's assignment to a totally different export — silently merging
+  // e.g. Drawer.tsx's unrelated `DrawerContext` export into a doc labeled "Drawer" and discarding
+  // the real one (first-registered wins). Every component here already sets its own
+  // `X.displayName = 'X'` matching its export name (see CONVENTIONS.md), so resolving the name
+  // directly from the exported symbol sidesteps that heuristic entirely instead of relying on it.
+  componentNameResolver: (exp) => exp.getName(),
   propFilter: (prop) => {
     if (prop.parent) {
       if (
@@ -207,10 +216,16 @@ const componentDocs = new Map<string, any>()
 let generated = 0
 
 for (const file of componentFiles) {
+  // The file's own barrel-matched name (see findComponentFiles) is the only display name this
+  // file is allowed to produce a doc for. react-docgen-typescript's auto-discovery documents
+  // every plausible export it finds in the file — e.g. a same-file `XContext = createContext(...)`
+  // alongside the real component — so without this filter, a component whose file also exports a
+  // context (Drawer, Menu, Modal, ...) would spam an extra, spurious `XContext.json`.
+  const expectedName = path.basename(file, '.tsx')
   try {
     const docs = parser.parse(file)
     for (const doc of docs) {
-      if (!doc.displayName) continue
+      if (!doc.displayName || doc.displayName !== expectedName) continue
       const outputFile = path.join(OUTPUT_DIR, `${doc.displayName}.json`)
       fs.writeFileSync(outputFile, JSON.stringify(doc, null, 2))
       console.log(`Generated: ${doc.displayName}.json`)

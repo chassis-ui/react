@@ -21,7 +21,7 @@
       ],
       "required": true,
       "type": {
-        "name": "ReactElement<any, string | JSXElementConstructor<any>> | ReactElement<any, string | JSXElementConstructor<any>>[] | ((column: T) => ReactElement<...>)"
+        "name": "ReactElement<unknown, string | JSXElementConstructor<any>> | ReactElement<unknown, string | JSXElementConstructor<any>>[] | ((column: T) => ReactElement<...>)"
       }
     },
     "className": {

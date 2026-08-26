@@ -44,6 +44,25 @@
       "type": {
         "name": "string | ComponentClass<any, any> | FunctionComponent<any>"
       }
+    },
+    "htmlFor": {
+      "defaultValue": null,
+      "description": "The id of the form control this addon labels, when rendered as `component=\"label\"`.",
+      "name": "htmlFor",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/input-group/InputGroupAddon.tsx",
+        "name": "InputGroupAddonProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/input-group/InputGroupAddon.tsx",
+          "name": "InputGroupAddonProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
     }
   }
 }
