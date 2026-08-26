@@ -38,6 +38,16 @@ describe('AvatarStack', () => {
       // eslint-disable-next-line testing-library/no-node-access
       expect(container.firstChild).toHaveClass('avatar-stack', 'small', 'bazinga')
     })
+
+    test('renders as a custom element via component', () => {
+      const { container } = render(
+        <AvatarStack component="ul">
+          <Avatar>CX</Avatar>
+        </AvatarStack>
+      )
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(container.firstChild?.nodeName).toBe('UL')
+    })
   })
 
   describe('data', () => {

@@ -1,9 +1,18 @@
-import React, { ElementType, forwardRef, HTMLAttributes, MouseEvent, Ref } from 'react'
+import React, {
+  ElementType,
+  ForwardRefRenderFunction,
+  forwardRef,
+  MouseEventHandler,
+  ReactElement,
+  Ref
+} from 'react'
 import classNames from 'classnames'
 
 import { ContextColor, ContextStyle } from '../../types'
+import { useDisabledAnchorGuard } from '../../hooks'
+import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
 
-export interface ChipProps extends HTMLAttributes<HTMLElement> {
+type ChipOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the component.
    */
@@ -16,7 +25,7 @@ export interface ChipProps extends HTMLAttributes<HTMLElement> {
    * Component used for the root node. Either a string to use a HTML element or a component.
    * Defaults to `span`, or `a` when `href` is set.
    */
-  component?: string | ElementType
+  component?: C
   /**
    * Toggle the disabled state for the component. Applied as the native `disabled` attribute when
    * `component` is `button`, or the `.disabled` class for every other element (a bare `<span>`/
@@ -27,6 +36,11 @@ export interface ChipProps extends HTMLAttributes<HTMLElement> {
    * Renders the chip as a link to this URL. Defaults `component` to `a`.
    */
   href?: string
+  /**
+   * Fires on click. Typed for every element `component` can actually render, rather than
+   * narrowed to whichever element `C` happens to be.
+   */
+  onClick?: MouseEventHandler<HTMLElement>
   /**
    * Marks the chip as pressed for toggle-style usage (e.g. a filter chip). Applies the `.active`
    * class and sets `aria-pressed` so assistive technology announces the toggle state.
@@ -47,92 +61,107 @@ export interface ChipProps extends HTMLAttributes<HTMLElement> {
   variant?: ContextStyle
 }
 
-export const Chip = forwardRef<HTMLElement, ChipProps>(
-  (
+export type ChipProps<C extends ElementType = 'span'> = PolymorphicComponentProps<
+  C,
+  ChipOwnProps<C>
+>
+
+type ChipComponent = (<C extends ElementType = 'span'>(
+  props: ChipProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
+
+function ChipRender<C extends ElementType = 'span'>(
+  {
+    children,
+    className,
+    color,
+    component,
+    disabled,
+    href,
+    onClick,
+    pressed,
+    size,
+    type = 'button',
+    variant,
+    ...rest
+  }: ChipProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  // Only defaults to `a` when `component` wasn't explicitly passed — an explicit `component`
+  // (even alongside `href`) always wins.
+  const Component = (component ?? (href ? 'a' : 'span')) as ElementType
+  const isButton = Component === 'button'
+  const isAnchor = Component === 'a'
+
+  const _className = classNames(
+    'chip',
+    color,
     {
-      children,
-      className,
-      color,
-      component = 'span',
-      disabled,
-      href,
-      onClick,
-      pressed,
-      size,
-      type = 'button',
-      variant,
-      ...rest
+      outline: variant === 'outline',
+      smooth: variant === 'smooth',
+      active: pressed,
+      disabled: !isButton && disabled
     },
-    ref
-  ) => {
-    const Component = href ? 'a' : component
-    const isButton = Component === 'button'
-    const isAnchor = Component === 'a'
+    size,
+    className
+  )
 
-    const _className = classNames(
-      'chip',
-      color,
-      {
-        outline: variant === 'outline',
-        smooth: variant === 'smooth',
-        active: pressed,
-        disabled: !isButton && disabled
-      },
-      size,
-      className
-    )
+  // `<a>`/`<span>`/`<div>` have no real `disabled` attribute, so a disabled non-button chip
+  // still fires click (and an anchor still navigates) unless it's blocked here, same guard
+  // `Button`/`CloseButton` apply.
+  const handleClick = useDisabledAnchorGuard<HTMLElement>(!isButton, disabled, onClick)
 
-    // `<a>`/`<span>`/`<div>` have no real `disabled` attribute, so a disabled non-button chip
-    // still fires click (and an anchor still navigates) unless it's blocked here, same guard
-    // `Button`/`CloseButton` apply.
-    const handleClick = (event: MouseEvent<HTMLElement>) => {
-      if (!isButton && disabled) {
-        event.preventDefault()
-        return
-      }
-      onClick?.(event)
-    }
-
-    if (isButton) {
-      return (
-        <button
-          {...(rest as Record<string, unknown>)}
-          aria-pressed={pressed}
-          className={_className}
-          disabled={disabled}
-          onClick={handleClick as React.MouseEventHandler<HTMLButtonElement>}
-          ref={ref as Ref<HTMLButtonElement>}
-          type={type}
-        >
-          {children}
-        </button>
-      )
-    }
-
-    if (isAnchor) {
-      return (
-        <a
-          {...(rest as Record<string, unknown>)}
-          aria-pressed={pressed}
-          className={_className}
-          href={href}
-          onClick={handleClick as React.MouseEventHandler<HTMLAnchorElement>}
-          {...(disabled && { 'aria-disabled': true, tabIndex: -1 })}
-          ref={ref as Ref<HTMLAnchorElement>}
-        >
-          {children}
-        </a>
-      )
-    }
-
-    const Tag = Component as ElementType
-
+  if (isButton) {
     return (
-      <Tag {...rest} aria-pressed={pressed} className={_className} onClick={handleClick} ref={ref}>
+      <button
+        {...(rest as Record<string, unknown>)}
+        aria-pressed={pressed}
+        className={_className}
+        disabled={disabled}
+        onClick={handleClick as MouseEventHandler<HTMLButtonElement>}
+        ref={ref as Ref<HTMLButtonElement>}
+        type={type}
+      >
         {children}
-      </Tag>
+      </button>
     )
   }
-)
+
+  if (isAnchor) {
+    return (
+      <a
+        {...(rest as Record<string, unknown>)}
+        aria-pressed={pressed}
+        className={_className}
+        href={href}
+        onClick={handleClick as MouseEventHandler<HTMLAnchorElement>}
+        {...(disabled && { 'aria-disabled': true, tabIndex: -1 })}
+        ref={ref as Ref<HTMLAnchorElement>}
+      >
+        {children}
+      </a>
+    )
+  }
+
+  return (
+    <Component
+      {...(rest as Record<string, unknown>)}
+      aria-pressed={pressed}
+      className={_className}
+      onClick={handleClick}
+      // `href` was only ever forwarded when it also forced `Component` to `'a'` — now that an
+      // explicit `component` wins over that default (see above), it needs to keep reaching a
+      // custom `component`/HTML tag directly, same as `Avatar`'s equivalent fix.
+      {...(href && { href })}
+      ref={ref}
+    >
+      {children}
+    </Component>
+  )
+}
+
+export const Chip = forwardRef(
+  ChipRender as ForwardRefRenderFunction<Element, ChipProps<ElementType>>
+) as ChipComponent
 
 Chip.displayName = 'Chip'

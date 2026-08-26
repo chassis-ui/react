@@ -9,14 +9,10 @@
       "defaultValue": null,
       "description": "A string of all className you want applied to the base component.",
       "name": "className",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-        "name": "ButtonProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-          "name": "ButtonProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -25,19 +21,13 @@
       }
     },
     "color": {
-      "defaultValue": {
-        "value": "primary"
-      },
+      "defaultValue": null,
       "description": "Sets the color of the component to one of Chassis context colors.",
       "name": "color",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-        "name": "ButtonProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-          "name": "ButtonProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -82,38 +72,28 @@
       }
     },
     "component": {
-      "defaultValue": {
-        "value": "button"
-      },
+      "defaultValue": null,
       "description": "Component used for the root node. Either a string to use a HTML element or a component.",
       "name": "component",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-        "name": "ButtonProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-          "name": "ButtonProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
       "type": {
-        "name": "string | ComponentClass<any, any> | FunctionComponent<any>"
+        "name": "ElementType"
       }
     },
     "disabled": {
       "defaultValue": null,
       "description": "Toggle the disabled state for the component.",
       "name": "disabled",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-        "name": "ButtonProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-          "name": "ButtonProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -125,14 +105,10 @@
       "defaultValue": null,
       "description": "The href attribute specifies the URL of the page the link goes to.",
       "name": "href",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-        "name": "ButtonProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-          "name": "ButtonProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -144,33 +120,25 @@
       "defaultValue": null,
       "description": "Fires on click. Typed for every element `component` can actually render (`button`, `a`,\n`input`, or a custom component), rather than narrowed to `HTMLButtonElement` alone.",
       "name": "onClick",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-        "name": "ButtonProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-          "name": "ButtonProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
       "type": {
-        "name": "MouseEventHandler<HTMLButtonElement | HTMLAnchorElement | HTMLInputElement>"
+        "name": "MouseEventHandler<HTMLAnchorElement | HTMLButtonElement | HTMLInputElement>"
       }
     },
     "pressed": {
       "defaultValue": null,
       "description": "Marks the button as pressed for toggle-style usage (e.g. a formatting toolbar button).\nApplies the `.active` class and sets `aria-pressed` so assistive technology announces\n\"button, pressed\" rather than treating the button as a navigation link.",
       "name": "pressed",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-        "name": "ButtonProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-          "name": "ButtonProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -182,14 +150,10 @@
       "defaultValue": null,
       "description": "Select the shape of the component.",
       "name": "shape",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-        "name": "ButtonProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-          "name": "ButtonProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -237,14 +201,10 @@
       "defaultValue": null,
       "description": "Size the component small or large.",
       "name": "size",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-        "name": "ButtonProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-          "name": "ButtonProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -262,19 +222,13 @@
       }
     },
     "type": {
-      "defaultValue": {
-        "value": "button"
-      },
+      "defaultValue": null,
       "description": "Specifies the type of button. Always specify the type attribute for the `<button>` element.\nDifferent browsers may use different default types for the `<button>` element.",
       "name": "type",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-        "name": "ButtonProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-          "name": "ButtonProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -298,14 +252,10 @@
       "defaultValue": null,
       "description": "Set the button style variant. Same as `ContextStyle`, but `solid` (the unmodified default\nlook) doesn't apply as a class, and `link` — button-specific, not a context color — makes\nthe button look and behave like a hyperlink while keeping its `color`.",
       "name": "variant",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-        "name": "ButtonProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
-          "name": "ButtonProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -326,6 +276,21 @@
             "value": "\"smooth\""
           }
         ]
+      }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/button/Button.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "any"
       }
     }
   }

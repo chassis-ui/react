@@ -2,6 +2,7 @@ import { useAutoDismiss } from './useAutoDismiss'
 import { useButtonSemantics } from './useButtonSemantics'
 import { useControllableState } from './useControllableState'
 import { useDialogElement } from './useDialogElement'
+import { useDisabledAnchorGuard } from './useDisabledAnchorGuard'
 import { useDrawer } from './useDrawer'
 import { useForkedRef } from './useForkedRef'
 import { useFormField } from './useFormField'
@@ -17,6 +18,7 @@ export {
   useButtonSemantics,
   useControllableState,
   useDialogElement,
+  useDisabledAnchorGuard,
   useDrawer,
   useForkedRef,
   useFormField,

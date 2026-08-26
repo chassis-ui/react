@@ -406,8 +406,18 @@ type Spacing = (typeof SPACING)[number];
  */
 type Shapes = 'rounded' | 'rounded-0' | 'rounded-1' | 'rounded-2' | 'rounded-3' | 'rounded-bottom' | 'rounded-circle' | 'rounded-end' | 'rounded-pill' | 'rounded-start' | 'rounded-top';
 //#endregion
+//#region src/utils/polymorphic.d.ts
+type PolymorphicRef<C extends ElementType> = ComponentPropsWithRef<C>['ref'];
+/**
+ * Props for a polymorphic component: `OwnProps` (which must declare `component?: C`) plus
+ * whatever props `C` itself accepts, minus any name already claimed by `OwnProps` so the two
+ * don't conflict. Lets consumers swap `component` for e.g. a framework's `Image` and get full
+ * type-checking/autocomplete for that component's own props at the call site.
+ */
+type PolymorphicComponentProps<C extends ElementType, OwnProps extends object> = OwnProps & Omit<ComponentPropsWithoutRef<C>, keyof OwnProps>;
+//#endregion
 //#region src/components/avatar/Avatar.d.ts
-interface AvatarProps extends HTMLAttributes<HTMLAnchorElement | HTMLButtonElement | HTMLSpanElement> {
+type AvatarOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the component.
    */
@@ -433,7 +443,7 @@ interface AvatarProps extends HTMLAttributes<HTMLAnchorElement | HTMLButtonEleme
    * Defaults to `span`, or `a` when `href` is set. Set explicitly to `button` (or another
    * interactive element/component) to make a non-link avatar focusable and clickable.
    */
-  component?: ElementType | string;
+  component?: C;
   /**
    * Image source. When set, renders an `AvatarImage` in place of `children`.
    */
@@ -443,7 +453,8 @@ interface AvatarProps extends HTMLAttributes<HTMLAnchorElement | HTMLButtonEleme
    */
   alt?: string;
   /**
-   * Renders the avatar as a link to this URL. Defaults `component` to `a`.
+   * Renders the avatar as a link to this URL. Defaults `component` to `a`. Passed through to a
+   * custom `component` too, regardless of whether it resolves to a native `a`/`button`.
    */
   href?: string;
   /**
@@ -455,8 +466,14 @@ interface AvatarProps extends HTMLAttributes<HTMLAnchorElement | HTMLButtonEleme
    * Falls back to the `status` value itself.
    */
   statusLabel?: string;
-}
-declare const Avatar: React.ForwardRefExoticComponent<AvatarProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement | HTMLSpanElement>>;
+};
+type AvatarProps<C extends ElementType = 'span'> = PolymorphicComponentProps<C, AvatarOwnProps<C>>;
+type AvatarComponent = (<C extends ElementType = 'span'>(props: AvatarProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const Avatar: AvatarComponent;
 //#endregion
 //#region src/components/avatar/AvatarImage.d.ts
 interface AvatarImageProps extends ImgHTMLAttributes<HTMLImageElement> {
@@ -502,11 +519,15 @@ interface AvatarStackItemDef {
    */
   component?: React.ElementType | string;
 }
-interface AvatarStackProps extends HTMLAttributes<HTMLDivElement> {
+type AvatarStackOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the component.
    */
   className?: string;
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C;
   /**
    * Sets the size of every `Avatar` in the stack to one of Chassis component sizes.
    */
@@ -516,8 +537,14 @@ interface AvatarStackProps extends HTMLAttributes<HTMLDivElement> {
    * overflow avatar).
    */
   items?: AvatarStackItemDef[];
-}
-declare const AvatarStack: React.ForwardRefExoticComponent<AvatarStackProps & React.RefAttributes<HTMLDivElement>>;
+};
+type AvatarStackProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, AvatarStackOwnProps<C>>;
+type AvatarStackComponent = (<C extends ElementType = 'div'>(props: AvatarStackProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const AvatarStack: AvatarStackComponent;
 //#endregion
 //#region src/components/notification/Notification.d.ts
 interface NotificationProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
@@ -763,7 +790,7 @@ interface BreadcrumbItemProps extends HTMLAttributes<HTMLLIElement> {
 declare const BreadcrumbItem: React.ForwardRefExoticComponent<BreadcrumbItemProps & React.RefAttributes<HTMLLIElement>>;
 //#endregion
 //#region src/components/button/Button.d.ts
-interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> {
+type ButtonOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -775,7 +802,7 @@ interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onC
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: ElementType | string;
+  component?: C;
   /**
    * Toggle the disabled state for the component.
    */
@@ -814,8 +841,14 @@ interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onC
    * the button look and behave like a hyperlink while keeping its `color`.
    */
   variant?: 'link' | Exclude<ContextStyle, 'solid'>;
-}
-declare const Button: React.ForwardRefExoticComponent<ButtonProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement | HTMLInputElement>>;
+};
+type ButtonProps<C extends ElementType = 'button'> = PolymorphicComponentProps<C, ButtonOwnProps<C>>;
+type ButtonComponent = (<C extends ElementType = 'button'>(props: ButtonProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const Button: ButtonComponent;
 //#endregion
 //#region src/components/button-group/ButtonGroup.d.ts
 interface ButtonGroupProps extends HTMLAttributes<HTMLDivElement> {
@@ -1156,16 +1189,6 @@ interface CardHeaderProps extends HTMLAttributes<HTMLDivElement> {
   component?: ElementType | string;
 }
 declare const CardHeader: React.ForwardRefExoticComponent<CardHeaderProps & React.RefAttributes<HTMLDivElement>>;
-//#endregion
-//#region src/utils/polymorphic.d.ts
-type PolymorphicRef<C extends ElementType> = ComponentPropsWithRef<C>['ref'];
-/**
- * Props for a polymorphic component: `OwnProps` (which must declare `component?: C`) plus
- * whatever props `C` itself accepts, minus any name already claimed by `OwnProps` so the two
- * don't conflict. Lets consumers swap `component` for e.g. a framework's `Image` and get full
- * type-checking/autocomplete for that component's own props at the call site.
- */
-type PolymorphicComponentProps<C extends ElementType, OwnProps extends object> = OwnProps & Omit<ComponentPropsWithoutRef<C>, keyof OwnProps>;
 //#endregion
 //#region src/components/card/CardImage.d.ts
 type CardImageOrientation = 'bottom' | 'end' | 'start' | 'top';
@@ -1612,7 +1635,7 @@ declare const ChipInput: {
 };
 //#endregion
 //#region src/components/close-button/CloseButton.d.ts
-interface CloseButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> {
+type CloseButtonOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -1629,11 +1652,16 @@ interface CloseButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>,
    * activation — filled in automatically. A component is trusted to handle its own semantics,
    * so pass one that's already interactive (e.g. `Button`).
    */
-  component?: ElementType | string;
+  component?: C;
   /**
    * Toggle the disabled state for the component.
    */
   disabled?: boolean;
+  /**
+   * The href attribute specifies the URL of the page the link goes to. Only meaningful when
+   * `component` is `'a'`.
+   */
+  href?: string;
   /**
    * The accessible label announced by assistive technology. Override this to
    * localize the button for non-English contexts.
@@ -1659,8 +1687,14 @@ interface CloseButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>,
    * alongside it, same as `color`.
    */
   variant?: ContextStyle;
-}
-declare const CloseButton: React.ForwardRefExoticComponent<CloseButtonProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement>>;
+};
+type CloseButtonProps<C extends ElementType = 'button'> = PolymorphicComponentProps<C, CloseButtonOwnProps<C>>;
+type CloseButtonComponent = (<C extends ElementType = 'button'>(props: CloseButtonProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const CloseButton: CloseButtonComponent;
 //#endregion
 //#region src/components/color-input/ColorInput.d.ts
 interface ColorInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
@@ -5202,7 +5236,7 @@ type UseToastResult = ToastContextProps;
 declare const useToast: () => UseToastResult;
 //#endregion
 //#region src/components/chip/Chip.d.ts
-interface ChipProps extends HTMLAttributes<HTMLElement> {
+type ChipOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the component.
    */
@@ -5215,7 +5249,7 @@ interface ChipProps extends HTMLAttributes<HTMLElement> {
    * Component used for the root node. Either a string to use a HTML element or a component.
    * Defaults to `span`, or `a` when `href` is set.
    */
-  component?: ElementType | string;
+  component?: C;
   /**
    * Toggle the disabled state for the component. Applied as the native `disabled` attribute when
    * `component` is `button`, or the `.disabled` class for every other element (a bare `<span>`/
@@ -5226,6 +5260,11 @@ interface ChipProps extends HTMLAttributes<HTMLElement> {
    * Renders the chip as a link to this URL. Defaults `component` to `a`.
    */
   href?: string;
+  /**
+   * Fires on click. Typed for every element `component` can actually render, rather than
+   * narrowed to whichever element `C` happens to be.
+   */
+  onClick?: MouseEventHandler<HTMLElement>;
   /**
    * Marks the chip as pressed for toggle-style usage (e.g. a filter chip). Applies the `.active`
    * class and sets `aria-pressed` so assistive technology announces the toggle state.
@@ -5244,8 +5283,14 @@ interface ChipProps extends HTMLAttributes<HTMLElement> {
    * Set the chip style variant. `solid`/`basic` render the default look with no extra class.
    */
   variant?: ContextStyle;
-}
-declare const Chip: React.ForwardRefExoticComponent<ChipProps & React.RefAttributes<HTMLElement>>;
+};
+type ChipProps<C extends ElementType = 'span'> = PolymorphicComponentProps<C, ChipOwnProps<C>>;
+type ChipComponent = (<C extends ElementType = 'span'>(props: ChipProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const Chip: ChipComponent;
 //#endregion
 //#region src/components/flex/Flex.d.ts
 interface FlexLayout {

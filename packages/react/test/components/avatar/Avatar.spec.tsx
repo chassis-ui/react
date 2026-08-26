@@ -74,6 +74,20 @@ describe('Avatar', () => {
       )
       expect(screen.getByRole('button', { name: 'CX' })).toBeInTheDocument()
     })
+
+    test('forwards href to a custom component reference, not just the native "a"/"button" strings', () => {
+      const CustomLink = React.forwardRef<
+        HTMLAnchorElement,
+        React.AnchorHTMLAttributes<HTMLAnchorElement>
+      >((props, ref) => <a ref={ref} {...props} />)
+
+      render(
+        <Avatar component={CustomLink} href="/profile">
+          CX
+        </Avatar>
+      )
+      expect(screen.getByRole('link', { name: 'CX' })).toHaveAttribute('href', '/profile')
+    })
   })
 
   describe('status badge', () => {

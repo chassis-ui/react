@@ -34,13 +34,15 @@ describe('Button', () => {
       expect(link).toHaveAttribute('href', '/bazinga')
     })
 
-    test('href takes precedence over an explicit component', () => {
+    test('an explicit component wins over href, instead of href forcing an anchor', () => {
       render(
         <Button href="/bazinga" component="span">
           Go
         </Button>
       )
-      expect(screen.getByRole('link', { name: 'Go' }).tagName).toBe('A')
+      const button = screen.getByRole('button', { name: 'Go' })
+      expect(button.tagName).toBe('SPAN')
+      expect(button).toHaveAttribute('href', '/bazinga')
     })
 
     test('renders as an input and keeps its type', () => {

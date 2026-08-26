@@ -1,7 +1,14 @@
-import React, { forwardRef, HTMLAttributes, ReactNode } from 'react'
+import React, {
+  ElementType,
+  ForwardRefRenderFunction,
+  forwardRef,
+  ReactElement,
+  ReactNode
+} from 'react'
 import classNames from 'classnames'
 
 import { ContextColor, ExtendedSizing } from '../../types'
+import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
 import { Avatar } from './Avatar'
 
 export interface AvatarStackItemDef {
@@ -39,11 +46,15 @@ export interface AvatarStackItemDef {
   component?: string | React.ElementType
 }
 
-export interface AvatarStackProps extends HTMLAttributes<HTMLDivElement> {
+type AvatarStackOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the component.
    */
   className?: string
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C
   /**
    * Sets the size of every `Avatar` in the stack to one of Chassis component sizes.
    */
@@ -55,21 +66,36 @@ export interface AvatarStackProps extends HTMLAttributes<HTMLDivElement> {
   items?: AvatarStackItemDef[]
 }
 
-export const AvatarStack = forwardRef<HTMLDivElement, AvatarStackProps>(
-  ({ children, className, size, items, ...rest }, ref) => {
-    const _className = classNames('avatar-stack', size, className)
+export type AvatarStackProps<C extends ElementType = 'div'> = PolymorphicComponentProps<
+  C,
+  AvatarStackOwnProps<C>
+>
 
-    return (
-      <div className={_className} {...rest} ref={ref}>
-        {items?.map(({ key, content, ...item }, index) => (
-          <Avatar key={key ?? index} {...item}>
-            {content}
-          </Avatar>
-        ))}
-        {children}
-      </div>
-    )
-  }
-)
+type AvatarStackComponent = (<C extends ElementType = 'div'>(
+  props: AvatarStackProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
+
+function AvatarStackRender<C extends ElementType = 'div'>(
+  { children, className, component, items, size, ...rest }: AvatarStackProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  const Component = (component ?? 'div') as ElementType
+  const _className = classNames('avatar-stack', size, className)
+
+  return (
+    <Component className={_className} {...rest} ref={ref}>
+      {items?.map(({ key, content, ...item }, index) => (
+        <Avatar key={key ?? index} {...item}>
+          {content}
+        </Avatar>
+      ))}
+      {children}
+    </Component>
+  )
+}
+
+export const AvatarStack = forwardRef(
+  AvatarStackRender as ForwardRefRenderFunction<Element, AvatarStackProps<ElementType>>
+) as AvatarStackComponent
 
 AvatarStack.displayName = 'AvatarStack'
