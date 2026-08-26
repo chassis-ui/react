@@ -209,6 +209,26 @@ describe('Notification', () => {
     })
   })
 
+  describe('show/hide transition', () => {
+    test('mounting already visible (the queue-mount path) still reaches the settled state, and dismissing mid-transition still fires onClose', () => {
+      vi.useFakeTimers()
+      const onClose = vi.fn()
+      render(
+        <Notification color="primary" dismissible onClose={onClose}>
+          Test
+        </Notification>
+      )
+      // Reaches the fully-entered state without needing a rerender to trigger the transition.
+      act(() => vi.advanceTimersByTime(150))
+      expect(screen.getByRole('status')).toHaveClass('show')
+
+      fireEvent.click(screen.getByRole('button', { name: 'Close' }))
+      act(() => vi.runAllTimers())
+      expect(onClose).toHaveBeenCalledTimes(1)
+      vi.useRealTimers()
+    })
+  })
+
   describe('ref forwarding', () => {
     test('forwards a ref to the underlying div', () => {
       const ref = React.createRef<HTMLDivElement>()

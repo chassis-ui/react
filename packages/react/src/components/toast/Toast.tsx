@@ -179,6 +179,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
 
     return (
       <Transition
+        appear
         in={_visible}
         nodeRef={nodeRef}
         onEnter={() => onShow?.()}

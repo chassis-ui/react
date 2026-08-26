@@ -149,6 +149,7 @@ export const Notification = forwardRef<HTMLDivElement, NotificationProps>(
 
     return (
       <Transition
+        appear
         in={_visible}
         mountOnEnter
         nodeRef={nodeRef}

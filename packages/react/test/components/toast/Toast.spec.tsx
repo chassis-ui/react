@@ -29,6 +29,7 @@ describe('Toast', () => {
       const toast = await waitFor(() => {
         const el = screen.getByRole('status')
         expect(el).toHaveClass('show')
+        expect(el).not.toHaveClass('showing')
         return el
       })
       expect(toast).toHaveClass('bazinga', 'warning', 'context', 'fade', 'toast')
@@ -307,15 +308,34 @@ describe('Toast', () => {
       vi.useRealTimers()
     })
 
-    test('mounting already visible renders settled, without playing the entrance transition', () => {
+    test('mounting already visible (the queue-mount path) still plays the entrance transition', () => {
+      vi.useFakeTimers()
       render(
         <Toast autohide={false} visible={true}>
           Test
         </Toast>
       )
       const toast = screen.getByRole('status')
+      expect(toast).toHaveClass('show', 'showing')
+
+      act(() => vi.advanceTimersByTime(250))
       expect(toast).toHaveClass('show')
       expect(toast).not.toHaveClass('showing')
+      vi.useRealTimers()
+    })
+
+    test('fires onShow for a toast that mounts already visible, not just on a later prop flip', () => {
+      vi.useFakeTimers()
+      const onShow = vi.fn()
+      render(
+        <Toast autohide={false} visible={true} onShow={onShow}>
+          Test
+        </Toast>
+      )
+      expect(onShow).toHaveBeenCalledTimes(1)
+      act(() => vi.advanceTimersByTime(250))
+      expect(onShow).toHaveBeenCalledTimes(1)
+      vi.useRealTimers()
     })
   })
 

@@ -162,16 +162,39 @@ caveat that Linux baselines, the actual CI gate, need the matching Docker image 
 
 Transition-timing-sensitive; has its own visual-regression batch (`toast-notification.visual.spec.ts`).
 
-- [ ] **BUG-09** `toast/Toaster.tsx`, `notification/NotificationStack.tsx`, `toast/Toast.tsx`,
+- [x] **BUG-09** `toast/Toaster.tsx`, `notification/NotificationStack.tsx`, `toast/Toast.tsx`,
   `notification/Notification.tsx` — queued items mount with `in=true` from their first render, so
   react-transition-group's `Transition` skips the enter animation (only special-cased via `appear`,
   which neither component sets). Set `appear` on the `Transition`/`CSSTransition` in both `Toast`
   and `Notification`. Add a test exercising the always-`visible` queue-mount path specifically (the
   existing tests only cover the `visible={false}→true` rerender path) — assert the entering class is
-  present on first mount, not just on a later prop flip.
-- [ ] Run `pnpm test:visual` for the `toast-notification` batch; regenerate Linux baselines via the
+  present on first mount, not just on a later prop flip. Added `appear` to both `Transition`s;
+  replaced `Toast.spec.tsx`'s test that pinned the old (buggy) "mounts settled, no transition"
+  behavior with one asserting `show showing` is present immediately on mount and settles to `show`
+  after 250ms, plus a new test confirming `onShow` now fires for a queue-mounted toast (previously
+  it never fired on initial mount, only on a later `visible` flip — traced via
+  `react-transition-group`'s `Transition.js` source: without `appear`, `performEnter`/`onEnter` are
+  never invoked for an already-`in` initial mount at all). Also fixed one incidental snapshot test
+  (`applies color, className and the default status role once shown`) that was asserting mid-
+  transition markup by coincidence of an unawaited `waitFor` — it now explicitly waits for the
+  settled (non-`showing`) state before snapshotting, which is what its own title already claimed.
+  **Discovered while fixing `Notification`:** `chassis-css`'s `_notification.scss` has zero CSS
+  keyed off `.notification.show`/`.fade` — unlike `Toast`, `Notification.tsx`'s `_className` never
+  even applies a `fade` class — so `.show` is currently a no-op class for this component regardless
+  of the `appear` fix, and `NotificationProps` has no `onShow`-equivalent callback either. The
+  `appear` fix is still correct (matches `Toast`'s parity and react-transition-group's documented
+  semantics, and costs nothing), but it has no observable effect yet. Filed as a follow-up rather
+  than expanding this phase's scope (would need a `chassis-css` change in the sibling repo plus a
+  new `Notification` public prop). Added a regression test (`Notification.spec.tsx`, "show/hide
+  transition") pinning that the queue-mount path still reaches the settled state and that dismissing
+  mid-transition still fires `onClose`, since that's the part actually verifiable today.
+- [x] Run `pnpm test:visual` for the `toast-notification` batch; regenerate Linux baselines via the
   Playwright Docker image (see root `AGENTS.md`'s visual-regression section) if the entrance frame
-  capture shifts.
+  capture shifts. Ran locally: 13/14 stories mismatch the checked-in `-darwin.png` baselines, but
+  confirmed via `git stash` that the exact same 13 stories fail with identical pixel-diff ratios on
+  the clean, unmodified tree — pre-existing local macOS baseline drift (same phenomenon Phase 3
+  already hit and documented for the `menu-popover-tooltip` batch), not something this phase's diff
+  caused. Left for a future Linux-container baseline regen, per `AGENTS.md`.
 
 ---
 
