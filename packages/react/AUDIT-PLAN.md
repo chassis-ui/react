@@ -365,12 +365,14 @@ before starting, since "extract a shared hook" can balloon in review size.
   recomputations down to the one already-memoized array. Hoisted a single `const ids =
   useMemo(() => buildTagIds(tags), [tags])` above `removeTags`/`items`/`focusLastChip`, which all
   now read it instead of each calling `buildTagIds(tags)` themselves.
-- [ ] **NOT IN SCOPE (document only)** Layout-primitive naming divergence (`row`/`column` vs
+- [x] **NOT IN SCOPE (document only)** Layout-primitive naming divergence (`row`/`column` vs
   `horizontal`/`vertical`; `gap` vs `gutter`) across `Flex`/`Stack`/`Row` — this is a public-API
   naming question, not a refactor a session should do unilaterally. Leave a short note in
   `CONVENTIONS.md` or `FORMS.md`-equivalent doc explaining the split is intentional (CSS gap vs.
   Bootstrap-style grid gutters are genuinely different mechanisms) rather than silently
   unreconciled, and stop there unless the user asks for an actual rename (which would be breaking).
+  Added a "Layout-primitive naming divergence" section to `CONVENTIONS.md`. No code change — this
+  is documentation only, per scope.
 
 ---
 

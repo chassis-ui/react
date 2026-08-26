@@ -121,3 +121,20 @@ renaming like any other `Cx` reference; `data-cx-*` attributes stay as-is, becau
 chassis-css base class first, then size, then `is-invalid`/`is-valid`, then the caller's
 `className` last (so caller overrides win) — existing snapshot tests across the library assume
 this order. Match it in any new component.
+
+## Layout-primitive naming divergence (`Flex`/`Stack`/`Row`)
+
+`Flex`, `Stack` and `Row` each name their axis/direction and spacing props differently —
+`Flex.direction` is `'row' | 'column' | 'row-reverse' | 'column-reverse'` (mirrors CSS
+`flex-direction` directly), `Stack.direction` is `'horizontal' | 'vertical'` (mirrors chassis-css's
+own `.hstack`/`.vstack` classes), and `Row` has no direction prop at all (a grid row is always
+horizontal). Spacing follows the same split: `Flex`/`Stack` take `gap`/`rowGap`/`columnGap` (CSS
+`gap` semantics, mapped to chassis-css's `gap-*`/`row-gap-*`/`column-gap-*` utilities), while `Row`
+takes `gutter`/`gutterX`/`gutterY` (Bootstrap-style grid gutters, mapped to `g-*`/`gx-*`/`gy-*`).
+
+This is intentional, not an oversight: `Flex`/`Stack` are thin wrappers over real CSS flexbox
+layout, so their prop names mirror the CSS/chassis-css primitives they map to 1:1; `Row` is a
+12-column grid primitive with its own Bootstrap-derived vocabulary (`gutter`, not `gap`) that
+predates and is conceptually distinct from CSS `gap`. Reconciling the three into one shared
+vocabulary would be a breaking public-API rename with no functional benefit, since the underlying
+mechanisms genuinely differ — don't unify them without an explicit user decision to do so.
