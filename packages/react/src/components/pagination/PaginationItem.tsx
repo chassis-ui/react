@@ -1,7 +1,16 @@
-import React, { ElementType, forwardRef, HTMLAttributes, MouseEvent, Ref } from 'react'
+import React, {
+  ElementType,
+  ForwardRefRenderFunction,
+  forwardRef,
+  MouseEvent,
+  ReactElement,
+  Ref
+} from 'react'
 import classNames from 'classnames'
 
-export interface PaginationItemProps extends HTMLAttributes<HTMLAnchorElement | HTMLButtonElement> {
+import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+
+type PaginationItemOwnProps<C extends ElementType> = {
   /**
    * Toggle the active state for the component.
    */
@@ -9,7 +18,7 @@ export interface PaginationItemProps extends HTMLAttributes<HTMLAnchorElement | 
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType
+  component?: C
   /**
    * Toggle the disabled state for the component.
    */
@@ -20,10 +29,28 @@ export interface PaginationItemProps extends HTMLAttributes<HTMLAnchorElement | 
   href?: string
 }
 
-export const PaginationItem = forwardRef<
-  HTMLAnchorElement | HTMLButtonElement,
-  PaginationItemProps
->(({ active, children, className, component, disabled, href, onClick, ...rest }, ref) => {
+export type PaginationItemProps<C extends ElementType = 'button'> = PolymorphicComponentProps<
+  C,
+  PaginationItemOwnProps<C>
+>
+
+type PaginationItemComponent = (<C extends ElementType = 'button'>(
+  props: PaginationItemProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
+
+function PaginationItemRender<C extends ElementType = 'button'>(
+  {
+    active,
+    children,
+    className,
+    component,
+    disabled,
+    href,
+    onClick,
+    ...rest
+  }: PaginationItemProps<C>,
+  ref: PolymorphicRef<C>
+) {
   const _className = classNames(
     'pagination-item',
     {
@@ -33,7 +60,7 @@ export const PaginationItem = forwardRef<
     className
   )
 
-  const Component = component ? component : active ? 'span' : href ? 'a' : 'button'
+  const Component = (component ?? (active ? 'span' : href ? 'a' : 'button')) as ElementType
 
   // `<a>` has no real `disabled` attribute, so a disabled anchor pagination item still fires
   // click (and still navigates) unless it's blocked here, same guard `Button` applies.
@@ -42,7 +69,7 @@ export const PaginationItem = forwardRef<
       event.preventDefault()
       return
     }
-    onClick?.(event)
+    onClick?.(event as never)
   }
 
   return (
@@ -76,6 +103,10 @@ export const PaginationItem = forwardRef<
       )}
     </li>
   )
-})
+}
+
+export const PaginationItem = forwardRef(
+  PaginationItemRender as ForwardRefRenderFunction<Element, PaginationItemProps<ElementType>>
+) as PaginationItemComponent
 
 PaginationItem.displayName = 'PaginationItem'

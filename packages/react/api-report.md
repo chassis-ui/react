@@ -728,7 +728,7 @@ declare function addNotification(children?: ReactNode, options?: Omit<Notificati
 declare function closeNotification(key: string): void;
 //#endregion
 //#region src/components/badge/Badge.d.ts
-interface BadgeProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElement> {
+type BadgeOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the component.
    */
@@ -744,7 +744,7 @@ interface BadgeProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: ElementType | string;
+  component?: C;
   /**
    * Position badge in one of the corners of a link or button.
    */
@@ -757,8 +757,14 @@ interface BadgeProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElement> {
    * Sets the size of the component to one of Chassis component sizes.
    */
   size?: Sizing;
-}
-declare const Badge: React.ForwardRefExoticComponent<BadgeProps & React.RefAttributes<HTMLDivElement | HTMLSpanElement>>;
+};
+type BadgeProps<C extends ElementType = 'span'> = PolymorphicComponentProps<C, BadgeOwnProps<C>>;
+type BadgeComponent = (<C extends ElementType = 'span'>(props: BadgeProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const Badge: BadgeComponent;
 //#endregion
 //#region src/components/breadcrumb/Breadcrumb.d.ts
 interface BreadcrumbItemDef {
@@ -4411,7 +4417,7 @@ interface PaginationProps extends HTMLAttributes<HTMLElement> {
 declare const Pagination: React.ForwardRefExoticComponent<PaginationProps & React.RefAttributes<HTMLElement>>;
 //#endregion
 //#region src/components/pagination/PaginationItem.d.ts
-interface PaginationItemProps extends HTMLAttributes<HTMLAnchorElement | HTMLButtonElement> {
+type PaginationItemOwnProps<C extends ElementType> = {
   /**
    * Toggle the active state for the component.
    */
@@ -4419,7 +4425,7 @@ interface PaginationItemProps extends HTMLAttributes<HTMLAnchorElement | HTMLBut
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: ElementType | string;
+  component?: C;
   /**
    * Toggle the disabled state for the component.
    */
@@ -4428,8 +4434,14 @@ interface PaginationItemProps extends HTMLAttributes<HTMLAnchorElement | HTMLBut
    * The href attribute. When provided the item renders as an `<a>` tag; otherwise as a `<button>`.
    */
   href?: string;
-}
-declare const PaginationItem: React.ForwardRefExoticComponent<PaginationItemProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement>>;
+};
+type PaginationItemProps<C extends ElementType = 'button'> = PolymorphicComponentProps<C, PaginationItemOwnProps<C>>;
+type PaginationItemComponent = (<C extends ElementType = 'button'>(props: PaginationItemProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const PaginationItem: PaginationItemComponent;
 //#endregion
 //#region src/components/popover/Popover.d.ts
 interface PopoverProps extends Pick<HTMLAttributes<HTMLDivElement>, 'aria-label' | 'aria-labelledby'> {
@@ -5515,13 +5527,13 @@ interface UsePaginationOptions {
    */
   onNext: () => void;
 }
-interface UsePaginationResult<T extends HTMLElement = HTMLAnchorElement> {
+interface UsePaginationResult<T extends HTMLElement = HTMLButtonElement> {
   prevRef: RefObject<T>;
   nextRef: RefObject<T>;
   handlePrevClick: (event: MouseEvent<T>) => void;
   handleNextClick: (event: MouseEvent<T>) => void;
 }
-declare function usePagination<T extends HTMLElement = HTMLAnchorElement>({ prevDisabled, nextDisabled, onPrev, onNext }: UsePaginationOptions): UsePaginationResult<T>;
+declare function usePagination<T extends HTMLElement = HTMLButtonElement>({ prevDisabled, nextDisabled, onPrev, onNext }: UsePaginationOptions): UsePaginationResult<T>;
 //#endregion
 //#region src/components/toast/context.d.ts
 interface ToastContextProps {

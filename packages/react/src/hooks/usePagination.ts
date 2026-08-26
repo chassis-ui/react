@@ -21,7 +21,7 @@ export interface UsePaginationOptions {
   onNext: () => void
 }
 
-export interface UsePaginationResult<T extends HTMLElement = HTMLAnchorElement> {
+export interface UsePaginationResult<T extends HTMLElement = HTMLButtonElement> {
   prevRef: RefObject<T>
   nextRef: RefObject<T>
   handlePrevClick: (event: MouseEvent<T>) => void
@@ -41,9 +41,9 @@ interface Pending {
 // `onPrev`/`onNext` and redirect focus to the still-enabled sibling in one step, so callers don't
 // hand-wrap their own click handler around a separate mark-then-focus call.
 // Works for `Pagination`'s built-in smart mode and for hand-composed Prev/Next controls alike —
-// pass the element type of whatever you're attaching the refs to (`PaginationItem` renders an
-// `HTMLAnchorElement`, a plain `Button` an `HTMLButtonElement`, etc).
-export function usePagination<T extends HTMLElement = HTMLAnchorElement>({
+// pass the element type of whatever you're attaching the refs to (`PaginationItem` defaults to
+// an `HTMLButtonElement`, but renders an `HTMLAnchorElement` when given `href` or `component`).
+export function usePagination<T extends HTMLElement = HTMLButtonElement>({
   prevDisabled,
   nextDisabled,
   onPrev,

@@ -1,9 +1,10 @@
-import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
 import classNames from 'classnames'
 
 import { ContextColor, ContextStyle, Sizing } from '../../types'
+import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
 
-export interface BadgeProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElement> {
+type BadgeOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the component.
    */
@@ -19,7 +20,7 @@ export interface BadgeProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElem
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType
+  component?: C
   /**
    * Position badge in one of the corners of a link or button.
    */
@@ -33,44 +34,58 @@ export interface BadgeProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElem
    */
   size?: Sizing
 }
-export const Badge = forwardRef<HTMLDivElement | HTMLSpanElement, BadgeProps>(
-  (
-    {
-      children,
-      className,
-      color,
-      variant,
-      component: Component = 'span',
-      position,
-      circle,
-      size,
-      ...rest
-    },
-    ref
-  ) => {
-    const _className = classNames(
-      'badge',
-      color,
-      size,
-      {
-        outline: variant === 'outline',
-        smooth: variant === 'smooth',
-        'position-absolute translate-middle': position,
-        'top-0': position?.includes('top'),
-        'top-100': position?.includes('bottom'),
-        'start-100': position?.includes('end'),
-        'start-0': position?.includes('start')
-      },
-      { circle },
-      className
-    )
 
-    return (
-      <Component className={_className} {...rest} ref={ref}>
-        {children}
-      </Component>
-    )
-  }
-)
+export type BadgeProps<C extends ElementType = 'span'> = PolymorphicComponentProps<
+  C,
+  BadgeOwnProps<C>
+>
+
+type BadgeComponent = (<C extends ElementType = 'span'>(
+  props: BadgeProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
+
+function BadgeRender<C extends ElementType = 'span'>(
+  {
+    children,
+    className,
+    color,
+    variant,
+    component,
+    position,
+    circle,
+    size,
+    ...rest
+  }: BadgeProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  const Component = component || 'span'
+
+  const _className = classNames(
+    'badge',
+    color,
+    size,
+    {
+      outline: variant === 'outline',
+      smooth: variant === 'smooth',
+      'position-absolute translate-middle': position,
+      'top-0': position?.includes('top'),
+      'top-100': position?.includes('bottom'),
+      'start-100': position?.includes('end'),
+      'start-0': position?.includes('start')
+    },
+    { circle },
+    className
+  )
+
+  return (
+    <Component className={_className} {...rest} ref={ref}>
+      {children}
+    </Component>
+  )
+}
+
+export const Badge = forwardRef(
+  BadgeRender as ForwardRefRenderFunction<Element, BadgeProps<ElementType>>
+) as BadgeComponent
 
 Badge.displayName = 'Badge'

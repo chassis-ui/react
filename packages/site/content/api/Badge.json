@@ -9,14 +9,10 @@
       "defaultValue": null,
       "description": "A string of all className you want applied to the component.",
       "name": "className",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/badge/Badge.tsx",
-        "name": "BadgeProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/badge/Badge.tsx",
-          "name": "BadgeProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -28,14 +24,10 @@
       "defaultValue": null,
       "description": "Sets the color of the component to one of Chassis context colors.",
       "name": "color",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/badge/Badge.tsx",
-        "name": "BadgeProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/badge/Badge.tsx",
-          "name": "BadgeProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -83,14 +75,10 @@
       "defaultValue": null,
       "description": "Sets the context style of the component. `solid`/`basic` render the default look with no extra class.",
       "name": "variant",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/badge/Badge.tsx",
-        "name": "BadgeProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/badge/Badge.tsx",
-          "name": "BadgeProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -114,38 +102,28 @@
       }
     },
     "component": {
-      "defaultValue": {
-        "value": "span"
-      },
+      "defaultValue": null,
       "description": "Component used for the root node. Either a string to use a HTML element or a component.",
       "name": "component",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/badge/Badge.tsx",
-        "name": "BadgeProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/badge/Badge.tsx",
-          "name": "BadgeProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
       "type": {
-        "name": "string | ComponentClass<any, any> | FunctionComponent<any>"
+        "name": "ElementType"
       }
     },
     "position": {
       "defaultValue": null,
       "description": "Position badge in one of the corners of a link or button.",
       "name": "position",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/badge/Badge.tsx",
-        "name": "BadgeProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/badge/Badge.tsx",
-          "name": "BadgeProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -172,14 +150,10 @@
       "defaultValue": null,
       "description": "Select the shape of the component.",
       "name": "circle",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/badge/Badge.tsx",
-        "name": "BadgeProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/badge/Badge.tsx",
-          "name": "BadgeProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -191,14 +165,10 @@
       "defaultValue": null,
       "description": "Sets the size of the component to one of Chassis component sizes.",
       "name": "size",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/badge/Badge.tsx",
-        "name": "BadgeProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/badge/Badge.tsx",
-          "name": "BadgeProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -216,6 +186,21 @@
             "value": "\"large\""
           }
         ]
+      }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/badge/Badge.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "any"
       }
     }
   }
