@@ -298,6 +298,25 @@
         "name": "(() => void)"
       }
     },
+    "onShow": {
+      "defaultValue": null,
+      "description": "Callback fired when the component requests to be shown.",
+      "name": "onShow",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+        "name": "NotificationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+          "name": "NotificationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
     "role": {
       "defaultValue": {
         "value": "status"

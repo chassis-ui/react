@@ -19,6 +19,7 @@ import { NotificationContext } from './context'
 import { NotificationIcon } from './NotificationIcon'
 import { NotificationText } from './NotificationText'
 import { NotificationTitle } from './NotificationTitle'
+import './Notification.scss'
 
 export interface NotificationProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
   /**
@@ -81,6 +82,10 @@ export interface NotificationProps extends Omit<HTMLAttributes<HTMLDivElement>, 
    */
   onClose?: () => void
   /**
+   * Callback fired when the component requests to be shown.
+   */
+  onShow?: () => void
+  /**
    * ARIA live-region role. Use `status` (the default) for confirmation, progress, and
    * informational messages, which announce politely. Use `alert` for messages that need
    * immediate attention — validation errors, failed operations — which interrupt speech.
@@ -111,6 +116,7 @@ export const Notification = forwardRef<HTMLDivElement, NotificationProps>(
       role = 'status',
       visible = true,
       onClose,
+      onShow,
       ...rest
     },
     ref
@@ -136,6 +142,7 @@ export const Notification = forwardRef<HTMLDivElement, NotificationProps>(
 
     const _className = classNames(
       'notification',
+      'fade',
       color,
       {
         solid
@@ -144,7 +151,11 @@ export const Notification = forwardRef<HTMLDivElement, NotificationProps>(
     )
 
     const getTransitionClass = (state: string) => {
-      return (state === 'entering' || state === 'entered') && 'show'
+      return state === 'entering' || state === 'exiting'
+        ? 'show showing'
+        : state === 'entered'
+          ? 'show'
+          : undefined
     }
 
     return (
@@ -153,6 +164,7 @@ export const Notification = forwardRef<HTMLDivElement, NotificationProps>(
         in={_visible}
         mountOnEnter
         nodeRef={nodeRef}
+        onEnter={() => onShow?.()}
         onExited={onClose}
         timeout={150}
         unmountOnExit

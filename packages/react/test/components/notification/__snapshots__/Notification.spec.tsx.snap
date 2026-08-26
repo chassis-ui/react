@@ -3,7 +3,7 @@
 exports[`Notification > rendering > matches the baseline markup snapshot 1`] = `
 <div>
   <div
-    class="notification primary show"
+    class="notification fade primary show showing"
     role="status"
   >
     Test

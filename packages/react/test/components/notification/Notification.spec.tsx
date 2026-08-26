@@ -227,6 +227,66 @@ describe('Notification', () => {
       expect(onClose).toHaveBeenCalledTimes(1)
       vi.useRealTimers()
     })
+
+    test('carries both show and showing classes while entering, so the fade has an opacity state to animate from', () => {
+      vi.useFakeTimers()
+      const { rerender } = render(
+        <Notification autohide={false} visible={false}>
+          Test
+        </Notification>
+      )
+      expect(screen.queryByRole('status')).not.toBeInTheDocument()
+
+      rerender(
+        <Notification autohide={false} visible={true}>
+          Test
+        </Notification>
+      )
+      const notification = screen.getByRole('status')
+      expect(notification).toHaveClass('fade', 'show', 'showing')
+
+      act(() => vi.advanceTimersByTime(150))
+      expect(notification).toHaveClass('show')
+      expect(notification).not.toHaveClass('showing')
+      vi.useRealTimers()
+    })
+
+    test('carries both show and showing classes while exiting, before unmounting', () => {
+      vi.useFakeTimers()
+      const { rerender } = render(
+        <Notification autohide={false} visible={true}>
+          Test
+        </Notification>
+      )
+      const notification = screen.getByRole('status')
+      act(() => vi.advanceTimersByTime(150))
+      expect(notification).toHaveClass('show')
+      expect(notification).not.toHaveClass('showing')
+
+      rerender(
+        <Notification autohide={false} visible={false}>
+          Test
+        </Notification>
+      )
+      expect(notification).toHaveClass('show', 'showing')
+
+      act(() => vi.advanceTimersByTime(150))
+      expect(screen.queryByRole('status')).not.toBeInTheDocument()
+      vi.useRealTimers()
+    })
+
+    test('fires onShow when the entrance transition starts', () => {
+      vi.useFakeTimers()
+      const onShow = vi.fn()
+      render(
+        <Notification autohide={false} onShow={onShow}>
+          Test
+        </Notification>
+      )
+      expect(onShow).toHaveBeenCalledTimes(1)
+      act(() => vi.advanceTimersByTime(150))
+      vi.useRealTimers()
+    })
   })
 
   describe('ref forwarding', () => {

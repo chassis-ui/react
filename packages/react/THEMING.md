@@ -73,15 +73,17 @@ packages:
 
 The calendar/datepicker family (`Calendar`, `RangeCalendar`, `DatePicker`, `DateRangePicker`) plus
 `Table` (its sort indicator and selection-checkbox column — see `Table.css`'s own header comment)
-are the only places in this package with component-scoped CSS/Sass — chassis-css has no visual
-equivalent for a calendar grid/segmented date field or those two `Table` pieces, so there was
-nothing to reuse. These files already build on the supported `--cx-*` token surface above wherever
-chassis-css has one (documented in each file's own header comment, which also names the four
-exceptions above) — treat that as the reference implementation for what "component-scoped CSS
-built on the token system" looks like if a future component needs the same treatment. Before
-adding a new one, read `../chassis-css/scss/` for an existing partial that already covers the
-need — don't reimplement first and tokenize later. `Calendar.scss`/`DatePicker.scss`'s own header
-comments are the reference example for how this was done for the calendar/datepicker family.
+and `Notification` (its `.showing` mid-transition opacity state — see `Notification.scss`'s own
+header comment) are the only places in this package with component-scoped CSS/Sass — chassis-css
+has no visual equivalent for a calendar grid/segmented date field, those two `Table` pieces, or
+`Notification`'s Toast-parity fade-in/out, so there was nothing to reuse. These files already build
+on the supported `--cx-*` token surface above wherever chassis-css has one (documented in each
+file's own header comment, which also names the four exceptions above) — treat that as the
+reference implementation for what "component-scoped CSS built on the token system" looks like if a
+future component needs the same treatment. Before adding a new one, read `../chassis-css/scss/`
+for an existing partial that already covers the need — don't reimplement first and tokenize later.
+`Calendar.scss`/`DatePicker.scss`'s own header comments are the reference example for how this was
+done for the calendar/datepicker family.
 
 Every other component ships zero CSS of its own — there's nothing in this package for a consuming
 app to override beyond the chassis-css classes it applies, which is exactly the point: theming
@@ -89,11 +91,11 @@ those goes entirely through the `--cx-*` surface described above.
 
 ### Consuming this package's own emitted stylesheet
 
-Each of these five files' CSS/Sass side-effect imports (`import './Calendar.scss'`, `import
-'./Table.css'`, ...) is compiled by tsdown's build into a single real `dist/style.css` file,
-rather than injected into the page via a JS-created `<style>` tag at import time. A consuming app
-must import it explicitly — it isn't bundled into `dist/index.js` and won't reach the page for
-free:
+Each of these six files' CSS/Sass side-effect imports (`import './Calendar.scss'`, `import
+'./Table.css'`, `import './Notification.scss'`, ...) is compiled by tsdown's build into a single
+real `dist/style.css` file, rather than injected into the page via a JS-created `<style>` tag at
+import time. A consuming app must import it explicitly — it isn't bundled into `dist/index.js` and
+won't reach the page for free:
 
 ```ts
 import '@chassis-ui/react/style.css'
@@ -101,6 +103,7 @@ import '@chassis-ui/react/style.css'
 
 Import it once, anywhere in the app's own global/root stylesheet entry point (alongside the
 `@chassis-ui/css` stylesheet import — see `packages/site/content/getting-started/introduction.mdx`
-for the pattern this repo's own docs site follows). Skipping this import doesn't error — `Calendar`,
-`DatePicker`, and `Table`'s sort/selection UI will simply render unstyled for those specific
-pieces, since every other component's chassis-css-only styling is unaffected.
+for the pattern this repo's own docs site follows). Skipping this import doesn't error —
+`Calendar`, `DatePicker`, and `Table`'s sort/selection UI will simply render unstyled for those
+specific pieces, and `Notification` will snap in/out at full opacity instead of fading, since every
+other component's chassis-css-only styling is unaffected.

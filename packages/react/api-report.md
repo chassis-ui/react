@@ -581,6 +581,10 @@ interface NotificationProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'
    */
   onClose?: () => void;
   /**
+   * Callback fired when the component requests to be shown.
+   */
+  onShow?: () => void;
+  /**
    * ARIA live-region role. Use `status` (the default) for confirmation, progress, and
    * informational messages, which announce politely. Use `alert` for messages that need
    * immediate attention — validation errors, failed operations — which interrupt speech.
