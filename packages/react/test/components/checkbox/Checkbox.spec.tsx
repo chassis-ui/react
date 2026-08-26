@@ -46,6 +46,21 @@ describe('Checkbox', () => {
       // eslint-disable-next-line testing-library/no-node-access
       expect(container.firstChild).toHaveClass('primary')
     })
+
+    test('applies the invalid/valid class to the button-variant wrapper too', () => {
+      const { container: invalidContainer } = render(
+        <Checkbox button={{}} id="invalid-id" invalid label="label" />
+      )
+      // Same unlabeled wrapper as above.
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(invalidContainer.firstChild).toHaveClass('is-invalid')
+
+      const { container: validContainer } = render(
+        <Checkbox button={{}} id="valid-id" label="label" valid />
+      )
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(validContainer.firstChild).toHaveClass('is-valid')
+    })
   })
 
   describe('selection behavior', () => {

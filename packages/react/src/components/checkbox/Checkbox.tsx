@@ -146,6 +146,7 @@ CheckboxStandalone.displayName = 'CheckboxStandalone'
 
 interface CheckboxGroupItemProps extends CheckboxProps {
   groupState: CheckboxGroupState
+  groupValid?: boolean
 }
 
 const CheckboxGroupItem = forwardRef<HTMLInputElement, CheckboxGroupItemProps>(
@@ -157,18 +158,24 @@ const CheckboxGroupItem = forwardRef<HTMLInputElement, CheckboxGroupItemProps>(
       defaultSelected: _defaultSelected,
       disabled,
       groupState,
+      groupValid,
       id,
       indeterminate,
-      invalid,
+      invalid: itemInvalid,
       isSelected: _isSelected,
       label,
       onChange: _onChange,
       size,
-      valid,
+      valid: itemValid,
       ...rest
     },
     ref
   ) => {
+    // The group's own invalid/valid cascades to every item, same as RadioGroup does for Radio —
+    // but an item can still override it with its own invalid/valid, since (unlike a lone Radio) a
+    // lone Checkbox's validity is independently meaningful (see FORMS.md).
+    const invalid = itemInvalid ?? groupState.isInvalid
+    const valid = itemValid ?? groupValid
     const inputRef = useRef<HTMLInputElement>(null)
     const forkedRef = useForkedRef(ref, inputRef)
 
@@ -217,9 +224,9 @@ const CheckboxGroupItem = forwardRef<HTMLInputElement, CheckboxGroupItemProps>(
 CheckboxGroupItem.displayName = 'CheckboxGroupItem'
 
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>((props, ref) => {
-  const groupState = useContext(CheckboxGroupContext)
-  return groupState ? (
-    <CheckboxGroupItem {...props} groupState={groupState} ref={ref} />
+  const group = useContext(CheckboxGroupContext)
+  return group ? (
+    <CheckboxGroupItem {...props} groupState={group.state} groupValid={group.valid} ref={ref} />
   ) : (
     <CheckboxStandalone {...props} ref={ref} />
   )

@@ -43,6 +43,41 @@ describe('CheckboxGroup', () => {
       expect(screen.getByText('Choose at least one.')).toHaveClass('invalid-feedback')
       expect(screen.getByRole('group')).toHaveClass('is-invalid')
     })
+
+    test('propagates invalid to every Checkbox item', () => {
+      render(
+        <CheckboxGroup label="Notifications" invalid errorMessage="Choose at least one.">
+          <Checkbox value="email" label="Email" />
+          <Checkbox value="sms" label="SMS" />
+        </CheckboxGroup>
+      )
+      expect(screen.getByRole('checkbox', { name: 'Email' })).toHaveClass('is-invalid')
+      expect(screen.getByRole('checkbox', { name: 'SMS' })).toHaveClass('is-invalid')
+    })
+
+    test('propagates valid to every Checkbox item', () => {
+      render(
+        <CheckboxGroup label="Notifications" valid>
+          <Checkbox value="email" label="Email" />
+          <Checkbox value="sms" label="SMS" />
+        </CheckboxGroup>
+      )
+      expect(screen.getByRole('checkbox', { name: 'Email' })).toHaveClass('is-valid')
+      expect(screen.getByRole('checkbox', { name: 'SMS' })).toHaveClass('is-valid')
+    })
+
+    test("an item's own invalid/valid overrides the group's", () => {
+      render(
+        <CheckboxGroup label="Notifications" invalid>
+          <Checkbox value="email" label="Email" invalid={false} valid />
+          <Checkbox value="sms" label="SMS" />
+        </CheckboxGroup>
+      )
+      const email = screen.getByRole('checkbox', { name: 'Email' })
+      expect(email).toHaveClass('is-valid')
+      expect(email).not.toHaveClass('is-invalid')
+      expect(screen.getByRole('checkbox', { name: 'SMS' })).toHaveClass('is-invalid')
+    })
   })
 
   describe('orientation', () => {

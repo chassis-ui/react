@@ -79,35 +79,43 @@ Independent, one-file, low-risk bugs plus trivial cleanup. Safe to land as a sin
 Touches the shared `renderFormCheck` helper and `Switch`'s hand-inlined copy of it — same family,
 one coherent review pass.
 
-- [ ] **BUG-04** `switch/Switch.tsx:139-150` — unlabeled `Switch` always wraps in an empty
+- [x] **BUG-04** `switch/Switch.tsx:139-150` — unlabeled `Switch` always wraps in an empty
   `<label class="form-check form-switch">`; `renderFormCheck` returns a bare
   `<span class="check-input">` in the equivalent case. Align `Switch`'s markup to match (render the
   bare span shape when there's no `label`). Update `Switch.spec.tsx`'s snapshot for the unlabeled
   case.
-- [ ] **BUG-05** `form/renderFormCheck.tsx:52-68` — the `button`-variant wrapper className never
+- [x] **BUG-05** `form/renderFormCheck.tsx:52-68` — the `button`-variant wrapper className never
   incorporates `invalid`/`valid`, so a button-styled checkbox/radio has no visible invalid
   indication (only the hidden native input gets the class). Fold `invalid`/`valid` into the
   button-branch className builder, respecting the documented base→size→validation→caller-className
   order from `CONVENTIONS.md`. Add a test rendering `<Checkbox button={{...}} invalid />` and
   asserting the visible class.
-- [ ] **BUG-03** `otp-input/OtpInput.tsx` (~line 309), `otp-input/OtpBox.tsx:53` — `is-invalid`/
+- [x] **BUG-03** `otp-input/OtpInput.tsx` (~line 309), `otp-input/OtpBox.tsx:53` — `is-invalid`/
   `is-valid` land only on the outer `.form-otp` wrapper; forward them into each `OtpBox`'s own
   className too, since chassis-css has no descendant rule bridging the two. Add a test asserting
-  each digit box carries the class when the group is invalid.
-- [ ] **REFACTOR** `switch/Switch.tsx:87-117` — the `type="radio"` path hand-builds props and
+  each digit box carries the class when the group is invalid. Also added `valid` forwarding to
+  `OtpBox` (it only had `invalid` before) for the same reason.
+- [x] **REFACTOR** `switch/Switch.tsx:87-117` — the `type="radio"` path hand-builds props and
   bypasses react-aria, while `useToggleState`/`useSwitch` are still called unconditionally with an
   unused result (risk of a misleading "controlled without onChange" dev warning). Either wire the
   hook's result through properly for this branch or restructure so the unused call doesn't happen.
-- [ ] **DECIDE + FIX** `checkbox/Checkbox.tsx` vs `radio/RadioGroup.tsx` — `CheckboxGroup`'s
+  Split `Switch` into internal `SwitchCheckbox`/`SwitchRadio` components (picked by the outer
+  `Switch` based on `type`) so the radio path never calls `useToggleState`/`useSwitch` at all,
+  instead of calling them unconditionally and discarding the result.
+- [x] **DECIDE + FIX** `checkbox/Checkbox.tsx` vs `radio/RadioGroup.tsx` — `CheckboxGroup`'s
   `invalid` doesn't cascade to child items' `aria-invalid`/class, unlike `RadioGroup`. Decide
   whether this asymmetry is intentional (FORMS.md notes a lone checkbox's validity is meaningful on
   its own, unlike a lone radio); if not intentional, cascade it the same way `RadioGroup` does and
   add the equivalent test coverage `RadioGroup.spec.tsx` already has. If intentional, add a one-line
-  comment in `CheckboxGroup.tsx` saying so, so the next reviewer doesn't re-flag it.
+  comment in `CheckboxGroup.tsx` saying so, so the next reviewer doesn't re-flag it. Decided: not
+  intentional — a lone checkbox's independently-meaningful validity (why the per-item prop exists)
+  doesn't mean the group's own `invalid`/`valid` shouldn't still cascade as a default; cascaded both
+  (mirroring `RadioGroupContext`'s `valid` passthrough), with the item's own `invalid`/`valid`
+  still winning when explicitly set on that item.
 
-Run `pnpm test:visual` if any of the above changed the DOM shape of a component covered by
-`accordion-collapse.visual.spec.ts` or similar — check whether Switch/Checkbox have Storybook
-visual coverage before assuming a plain `pnpm test` is sufficient.
+Checked: none of the components touched in this phase (Switch, Checkbox, OtpInput) have Storybook
+visual-regression coverage (`test/visual/` only covers calendar-datepicker, menu-popover-tooltip,
+toast-notification, accordion-collapse), so `pnpm test:visual` wasn't needed.
 
 ---
 

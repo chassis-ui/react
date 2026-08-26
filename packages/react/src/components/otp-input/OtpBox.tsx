@@ -11,6 +11,7 @@ interface OtpBoxProps {
   onKeyDownBox: (event: KeyboardEvent<HTMLInputElement>) => void
   onPasteBox: (event: ClipboardEvent<HTMLInputElement>) => void
   size?: 'small' | 'large'
+  valid?: boolean
   value: string
 }
 
@@ -25,6 +26,7 @@ export const OtpBox = forwardRef(
       onKeyDownBox,
       onPasteBox,
       size,
+      valid,
       value
     }: OtpBoxProps,
     forwardedRef: ForwardedRef<HTMLInputElement>
@@ -50,7 +52,7 @@ export const OtpBox = forwardRef(
     return (
       <input
         {...mergeProps(inputProps, focusProps)}
-        className={classNames('form-input', size)}
+        className={classNames('form-input', size, { 'is-invalid': invalid, 'is-valid': valid })}
         data-focus-visible={isFocusVisible || undefined}
         inputMode="numeric"
         onPaste={onPasteBox}

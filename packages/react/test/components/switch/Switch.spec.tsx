@@ -15,6 +15,15 @@ describe('Switch', () => {
       render(<Switch aria-label="Notifications" />)
       expect(screen.getByRole('switch')).toBeInTheDocument()
     })
+
+    test('renders a bare check-input span, not an empty label wrapper, when unlabeled', () => {
+      render(<Switch aria-label="Notifications" />)
+      const input = screen.getByRole('switch')
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(input.parentElement).toHaveClass('check-input')
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(input.closest('label')).toBeNull()
+    })
   })
 
   describe('styling props', () => {

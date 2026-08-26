@@ -58,7 +58,36 @@ export interface SwitchProps extends Omit<
   valid?: boolean
 }
 
-export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
+type SwitchVariantProps = Omit<SwitchProps, 'type'>
+
+interface RenderSwitchOptions {
+  checkInputClassName: string
+  className: string
+  input: ReactNode
+  label?: string | ReactNode
+}
+
+// Mirrors renderFormCheck's nested-label/bare-span shape — Switch inlines its own markup (see
+// FORMS.md) rather than sharing that helper directly, since `role="switch"` placement didn't fit
+// it cleanly. Keep this in sync with renderFormCheck by eye if either changes.
+const renderSwitch = ({ checkInputClassName, className, input, label }: RenderSwitchOptions) => {
+  if (!label) {
+    return <span className={checkInputClassName}>{input}</span>
+  }
+  return (
+    <FormLabel customClassName={className}>
+      <span className={checkInputClassName}>{input}</span>
+      {label}
+    </FormLabel>
+  )
+}
+
+// Checkbox-backed switch: a real toggle, so it goes through react-aria's useSwitch/useToggleState
+// like Checkbox does. Split into its own component (rather than branching inside one Switch on
+// `type`) so SwitchRadio below never has to call these hooks just to discard their result —
+// calling them unconditionally and ignoring the output risked react-aria's own dev-mode warnings
+// (e.g. its missing-accessible-name check) firing for state that was never actually rendered.
+const SwitchCheckbox = forwardRef<HTMLInputElement, SwitchVariantProps>(
   (
     {
       className,
@@ -71,7 +100,6 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
       label,
       onChange,
       size,
-      type = 'checkbox',
       valid,
       ...rest
     },
@@ -79,16 +107,12 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
   ) => {
     const inputRef = useRef<HTMLInputElement>(null)
     const forkedRef = useForkedRef(ref, inputRef)
-    const isCheckbox = type === 'checkbox'
 
-    // Same split as Checkbox: react-aria's radio hooks need a grouped API this flat component
-    // doesn't have, so radio-type switches stay native, translated to the same
-    // isSelected/defaultSelected/onChange(boolean) shape as the checkbox path.
     const toggleState = useToggleState({
       defaultSelected,
       isDisabled: disabled,
       isSelected,
-      onChange: isCheckbox ? onChange : undefined
+      onChange
     })
 
     const { inputProps: switchProps } = useSwitch(
@@ -103,6 +127,52 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
       inputRef
     )
 
+    const inputClassName = classNames({ 'is-invalid': invalid, 'is-valid': valid })
+    const checkInputClassName = classNames('check-input', color, {
+      'is-invalid': invalid,
+      'is-valid': valid
+    })
+    const _className = classNames(
+      'form-check form-switch',
+      size,
+      { 'is-invalid': invalid, 'is-valid': valid },
+      className
+    )
+
+    return renderSwitch({
+      checkInputClassName,
+      className: _className,
+      input: <input {...switchProps} className={inputClassName} id={id} ref={forkedRef} />,
+      label
+    })
+  }
+)
+SwitchCheckbox.displayName = 'SwitchCheckbox'
+
+// Radio-backed switch: react-aria has no ungrouped radio hook (see Checkbox's own split for the
+// same reason), so this stays a native, hand-wired `<input type="radio" role="switch">` — no
+// react-aria hook to call here at all.
+const SwitchRadio = forwardRef<HTMLInputElement, SwitchVariantProps>(
+  (
+    {
+      className,
+      color,
+      defaultSelected,
+      disabled,
+      id,
+      invalid,
+      isSelected,
+      label,
+      onChange,
+      size,
+      valid,
+      ...rest
+    },
+    ref
+  ) => {
+    const inputRef = useRef<HTMLInputElement>(null)
+    const forkedRef = useForkedRef(ref, inputRef)
+
     const radioProps = {
       ...rest,
       'aria-invalid': invalid,
@@ -116,39 +186,31 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
       type: 'radio' as const
     }
 
-    const inputClassName = classNames({
-      'is-invalid': invalid,
-      'is-valid': valid
-    })
-
-    const _className = classNames(
-      'form-check form-switch',
-      size,
-      {
-        'is-invalid': invalid,
-        'is-valid': valid
-      },
-      className
-    )
-
+    const inputClassName = classNames({ 'is-invalid': invalid, 'is-valid': valid })
     const checkInputClassName = classNames('check-input', color, {
       'is-invalid': invalid,
       'is-valid': valid
     })
-
-    return (
-      <FormLabel customClassName={_className}>
-        <span className={checkInputClassName}>
-          {isCheckbox ? (
-            <input {...switchProps} className={inputClassName} id={id} ref={forkedRef} />
-          ) : (
-            <input {...radioProps} className={inputClassName} id={id} ref={forkedRef} />
-          )}
-        </span>
-        {label}
-      </FormLabel>
+    const _className = classNames(
+      'form-check form-switch',
+      size,
+      { 'is-invalid': invalid, 'is-valid': valid },
+      className
     )
+
+    return renderSwitch({
+      checkInputClassName,
+      className: _className,
+      input: <input {...radioProps} className={inputClassName} id={id} ref={forkedRef} />,
+      label
+    })
   }
+)
+SwitchRadio.displayName = 'SwitchRadio'
+
+export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
+  ({ type = 'checkbox', ...rest }, ref) =>
+    type === 'radio' ? <SwitchRadio {...rest} ref={ref} /> : <SwitchCheckbox {...rest} ref={ref} />
 )
 
 Switch.displayName = 'Switch'

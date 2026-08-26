@@ -2,22 +2,18 @@
 
 exports[`Switch > rendering > matches the baseline markup snapshot 1`] = `
 <div>
-  <label
-    class="form-check form-switch"
+  <span
+    class="check-input"
   >
-    <span
-      class="check-input"
-    >
-      <input
-        aria-label="Notifications"
-        class=""
-        data-react-aria-pressable="true"
-        role="switch"
-        tabindex="0"
-        type="checkbox"
-      />
-    </span>
-  </label>
+    <input
+      aria-label="Notifications"
+      class=""
+      data-react-aria-pressable="true"
+      role="switch"
+      tabindex="0"
+      type="checkbox"
+    />
+  </span>
 </div>
 `;
 

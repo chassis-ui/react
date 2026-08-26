@@ -175,6 +175,18 @@ describe('OtpInput', () => {
       render(<OtpInput aria-label="Code" length={3} valid validFeedback="Looks good" />)
       expect(screen.getByText('Looks good')).toHaveClass('valid-feedback')
     })
+
+    test('forwards the invalid/valid class onto each digit box, not just the wrapper', () => {
+      const { rerender } = render(<OtpInput aria-label="Code" invalid length={3} />)
+      screen
+        .getAllByRole('textbox')
+        .forEach((box) => expect(box).toHaveClass('form-input', 'is-invalid'))
+
+      rerender(<OtpInput aria-label="Code" length={3} valid />)
+      screen
+        .getAllByRole('textbox')
+        .forEach((box) => expect(box).toHaveClass('form-input', 'is-valid'))
+    })
   })
 
   describe('accessibility', () => {

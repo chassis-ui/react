@@ -57,6 +57,7 @@ export const renderFormCheck = ({
       button.variant,
       button.size,
       button.shape,
+      { 'is-invalid': invalid, 'is-valid': valid },
       className
     )
     return (

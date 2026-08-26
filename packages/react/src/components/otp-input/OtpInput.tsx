@@ -252,6 +252,7 @@ export const OtpInput = ({
           boxRefs.current[i] = el
         }}
         size={size}
+        valid={valid}
         value={boxes[i] ?? ''}
       />
     ))

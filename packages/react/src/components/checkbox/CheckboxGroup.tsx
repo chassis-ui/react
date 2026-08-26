@@ -123,7 +123,9 @@ export const CheckboxGroup = forwardRef<HTMLFieldSetElement, CheckboxGroupProps>
     )
 
     const items = (
-      <CheckboxGroupContext.Provider value={state}>{children}</CheckboxGroupContext.Provider>
+      <CheckboxGroupContext.Provider value={{ state, valid }}>
+        {children}
+      </CheckboxGroupContext.Provider>
     )
 
     return (
