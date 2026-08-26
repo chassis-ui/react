@@ -4145,7 +4145,7 @@ interface NavTitleProps extends HTMLAttributes<HTMLLIElement> {
 declare const NavTitle: React.ForwardRefExoticComponent<NavTitleProps & React.RefAttributes<HTMLLIElement>>;
 //#endregion
 //#region src/components/navbar/Navbar.d.ts
-interface NavbarProps extends HTMLAttributes<HTMLElement> {
+type NavbarOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the component.
    */
@@ -4157,7 +4157,7 @@ interface NavbarProps extends HTMLAttributes<HTMLElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: ElementType | string;
+  component?: C;
   /**
    * Defines optional container wrapping children elements.
    */
@@ -4185,29 +4185,42 @@ interface NavbarProps extends HTMLAttributes<HTMLElement> {
    * Sets the context style of the component. `basic` (the default) renders with no extra class.
    */
   variant?: ContextStyle;
-}
-declare const Navbar: React.ForwardRefExoticComponent<NavbarProps & React.RefAttributes<HTMLElement>>;
+};
+type NavbarProps<C extends ElementType = 'nav'> = PolymorphicComponentProps<C, NavbarOwnProps<C>>;
+type NavbarComponent = (<C extends ElementType = 'nav'>(props: NavbarProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const Navbar: NavbarComponent;
 //#endregion
 //#region src/components/navbar/NavbarBrand.d.ts
-interface NavbarBrandProps extends HTMLAttributes<HTMLAnchorElement | HTMLSpanElement> {
+type NavbarBrandOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the component.
    */
   className?: string;
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
-   *
+   * Defaults to `span`, or `a` when `href` is set.
    */
-  component?: ElementType | string;
+  component?: C;
   /**
-   * The href attribute specifies the URL of the page the link goes to.
+   * The href attribute specifies the URL of the page the link goes to. Defaults `component` to
+   * `a`.
    */
   href?: string;
-}
-declare const NavbarBrand: React.ForwardRefExoticComponent<NavbarBrandProps & React.RefAttributes<HTMLAnchorElement | HTMLSpanElement>>;
+};
+type NavbarBrandProps<C extends ElementType = 'span'> = PolymorphicComponentProps<C, NavbarBrandOwnProps<C>>;
+type NavbarBrandComponent = (<C extends ElementType = 'span'>(props: NavbarBrandProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const NavbarBrand: NavbarBrandComponent;
 //#endregion
 //#region src/components/navbar/NavbarNav.d.ts
-interface NavbarNavProps extends HTMLAttributes<HTMLDivElement | HTMLUListElement> {
+type NavbarNavOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the component.
    */
@@ -4215,18 +4228,34 @@ interface NavbarNavProps extends HTMLAttributes<HTMLDivElement | HTMLUListElemen
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: ElementType | string;
-}
-declare const NavbarNav: React.ForwardRefExoticComponent<NavbarNavProps & React.RefAttributes<HTMLDivElement | HTMLUListElement>>;
+  component?: C;
+};
+type NavbarNavProps<C extends ElementType = 'ul'> = PolymorphicComponentProps<C, NavbarNavOwnProps<C>>;
+type NavbarNavComponent = (<C extends ElementType = 'ul'>(props: NavbarNavProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const NavbarNav: NavbarNavComponent;
 //#endregion
 //#region src/components/navbar/NavbarText.d.ts
-interface NavbarTextProps extends HTMLAttributes<HTMLSpanElement> {
+type NavbarTextOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
   className?: string;
-}
-declare const NavbarText: React.ForwardRefExoticComponent<NavbarTextProps & React.RefAttributes<HTMLSpanElement>>;
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C;
+};
+type NavbarTextProps<C extends ElementType = 'span'> = PolymorphicComponentProps<C, NavbarTextOwnProps<C>>;
+type NavbarTextComponent = (<C extends ElementType = 'span'>(props: NavbarTextProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const NavbarText: NavbarTextComponent;
 //#endregion
 //#region src/components/navbar/NavbarToggler.d.ts
 interface NavbarTogglerProps extends HTMLAttributes<HTMLButtonElement> {

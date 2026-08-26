@@ -9,14 +9,10 @@
       "defaultValue": null,
       "description": "A string of all className you want applied to the component.",
       "name": "className",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/navbar/Navbar.tsx",
-        "name": "NavbarProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/navbar/Navbar.tsx",
-          "name": "NavbarProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -28,14 +24,10 @@
       "defaultValue": null,
       "description": "Sets the color of the component to one of Chassis context colors.",
       "name": "color",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/navbar/Navbar.tsx",
-        "name": "NavbarProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/navbar/Navbar.tsx",
-          "name": "NavbarProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -80,38 +72,28 @@
       }
     },
     "component": {
-      "defaultValue": {
-        "value": "nav"
-      },
+      "defaultValue": null,
       "description": "Component used for the root node. Either a string to use a HTML element or a component.",
       "name": "component",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/navbar/Navbar.tsx",
-        "name": "NavbarProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/navbar/Navbar.tsx",
-          "name": "NavbarProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
       "type": {
-        "name": "string | ComponentClass<any, any> | FunctionComponent<any>"
+        "name": "ElementType"
       }
     },
     "container": {
       "defaultValue": null,
       "description": "Defines optional container wrapping children elements.",
       "name": "container",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/navbar/Navbar.tsx",
-        "name": "NavbarProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/navbar/Navbar.tsx",
-          "name": "NavbarProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -123,14 +105,10 @@
       "defaultValue": null,
       "description": "Opts this navbar into the framework's dark or light theming, independent of the page's own\ntheme.",
       "name": "data-cx-theme",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/navbar/Navbar.tsx",
-        "name": "NavbarProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/navbar/Navbar.tsx",
-          "name": "NavbarProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -151,14 +129,10 @@
       "defaultValue": null,
       "description": "Renders inline at and above this breakpoint, as a drawer below it. `true` renders inline at\nevery width; omit to keep the drawer at every width.",
       "name": "expand",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/navbar/Navbar.tsx",
-        "name": "NavbarProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/navbar/Navbar.tsx",
-          "name": "NavbarProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -170,14 +144,10 @@
       "defaultValue": null,
       "description": "Place component in non-static positions.",
       "name": "placement",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/navbar/Navbar.tsx",
-        "name": "NavbarProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/navbar/Navbar.tsx",
-          "name": "NavbarProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -204,14 +174,10 @@
       "defaultValue": null,
       "description": "Blurs and saturates whatever sits behind the navbar — useful when it's positioned over a\nhero image, video, or scrollable content.",
       "name": "translucent",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/navbar/Navbar.tsx",
-        "name": "NavbarProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/navbar/Navbar.tsx",
-          "name": "NavbarProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -223,14 +189,10 @@
       "defaultValue": null,
       "description": "Sets the context style of the component. `basic` (the default) renders with no extra class.",
       "name": "variant",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/navbar/Navbar.tsx",
-        "name": "NavbarProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/navbar/Navbar.tsx",
-          "name": "NavbarProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -251,6 +213,21 @@
             "value": "\"smooth\""
           }
         ]
+      }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/navbar/Navbar.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "any"
       }
     }
   }

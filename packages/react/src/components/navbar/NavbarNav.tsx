@@ -1,7 +1,9 @@
-import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
 import classNames from 'classnames'
 
-export interface NavbarNavProps extends HTMLAttributes<HTMLDivElement | HTMLUListElement> {
+import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+
+type NavbarNavOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the component.
    */
@@ -9,19 +11,34 @@ export interface NavbarNavProps extends HTMLAttributes<HTMLDivElement | HTMLULis
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType
+  component?: C
 }
 
-export const NavbarNav = forwardRef<HTMLDivElement | HTMLUListElement, NavbarNavProps>(
-  ({ children, component: Component = 'ul', className, ...rest }, ref) => {
-    const _className = classNames('navbar-nav', className)
+export type NavbarNavProps<C extends ElementType = 'ul'> = PolymorphicComponentProps<
+  C,
+  NavbarNavOwnProps<C>
+>
 
-    return (
-      <Component className={_className} {...rest} ref={ref}>
-        {children}
-      </Component>
-    )
-  }
-)
+type NavbarNavComponent = (<C extends ElementType = 'ul'>(
+  props: NavbarNavProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
+
+function NavbarNavRender<C extends ElementType = 'ul'>(
+  { children, component, className, ...rest }: NavbarNavProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  const Component = component || 'ul'
+  const _className = classNames('navbar-nav', className)
+
+  return (
+    <Component className={_className} {...rest} ref={ref}>
+      {children}
+    </Component>
+  )
+}
+
+export const NavbarNav = forwardRef(
+  NavbarNavRender as ForwardRefRenderFunction<Element, NavbarNavProps<ElementType>>
+) as NavbarNavComponent
 
 NavbarNav.displayName = 'NavbarNav'

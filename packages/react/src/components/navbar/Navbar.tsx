@@ -1,9 +1,10 @@
-import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
 import classNames from 'classnames'
 
+import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
 import { Breakpoint, ContextColor, ContextStyle } from '../../types'
 
-export interface NavbarProps extends HTMLAttributes<HTMLElement> {
+type NavbarOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the component.
    */
@@ -15,7 +16,7 @@ export interface NavbarProps extends HTMLAttributes<HTMLElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType
+  component?: C
   /**
    * Defines optional container wrapping children elements.
    */
@@ -45,52 +46,64 @@ export interface NavbarProps extends HTMLAttributes<HTMLElement> {
   variant?: ContextStyle
 }
 
-export const Navbar = forwardRef<HTMLElement, NavbarProps>(
-  (
+export type NavbarProps<C extends ElementType = 'nav'> = PolymorphicComponentProps<
+  C,
+  NavbarOwnProps<C>
+>
+
+type NavbarComponent = (<C extends ElementType = 'nav'>(
+  props: NavbarProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
+
+function NavbarRender<C extends ElementType = 'nav'>(
+  {
+    children,
+    className,
+    color,
+    component,
+    container,
+    expand,
+    placement,
+    translucent,
+    variant,
+    ...rest
+  }: NavbarProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  const Component = component || 'nav'
+  const _className = classNames(
+    'navbar',
+    color,
     {
-      children,
-      className,
-      color,
-      component: Component = 'nav',
-      container,
-      expand,
-      placement,
+      context: !!color,
+      solid: variant === 'solid',
+      smooth: variant === 'smooth',
+      outline: variant === 'outline',
       translucent,
-      variant,
-      ...rest
+      [typeof expand === 'boolean' ? 'navbar-expand' : `${expand}:navbar-expand`]: expand
     },
-    ref
-  ) => {
-    const _className = classNames(
-      'navbar',
-      color,
-      {
-        context: !!color,
-        solid: variant === 'solid',
-        smooth: variant === 'smooth',
-        outline: variant === 'outline',
-        translucent,
-        [typeof expand === 'boolean' ? 'navbar-expand' : `${expand}:navbar-expand`]: expand
-      },
-      placement,
-      className
-    )
+    placement,
+    className
+  )
 
-    let content
-    if (container) {
-      content = (
-        <div className={`container${container !== true ? '-' + container : ''}`}>{children}</div>
-      )
-    } else {
-      content = children
-    }
-
-    return (
-      <Component className={_className} {...rest} ref={ref}>
-        {content}
-      </Component>
+  let content
+  if (container) {
+    content = (
+      <div className={`container${container !== true ? '-' + container : ''}`}>{children}</div>
     )
+  } else {
+    content = children
   }
-)
+
+  return (
+    <Component className={_className} {...rest} ref={ref}>
+      {content}
+    </Component>
+  )
+}
+
+export const Navbar = forwardRef(
+  NavbarRender as ForwardRefRenderFunction<Element, NavbarProps<ElementType>>
+) as NavbarComponent
 
 Navbar.displayName = 'Navbar'

@@ -1,23 +1,44 @@
-import React, { forwardRef, HTMLAttributes } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
 import classNames from 'classnames'
 
-export interface NavbarTextProps extends HTMLAttributes<HTMLSpanElement> {
+import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+
+type NavbarTextOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
   className?: string
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C
 }
 
-export const NavbarText = forwardRef<HTMLSpanElement, NavbarTextProps>(
-  ({ children, className, ...rest }, ref) => {
-    const _className = classNames('navbar-text', className)
+export type NavbarTextProps<C extends ElementType = 'span'> = PolymorphicComponentProps<
+  C,
+  NavbarTextOwnProps<C>
+>
 
-    return (
-      <span className={_className} {...rest} ref={ref}>
-        {children}
-      </span>
-    )
-  }
-)
+type NavbarTextComponent = (<C extends ElementType = 'span'>(
+  props: NavbarTextProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
+
+function NavbarTextRender<C extends ElementType = 'span'>(
+  { children, className, component, ...rest }: NavbarTextProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  const Component = component || 'span'
+  const _className = classNames('navbar-text', className)
+
+  return (
+    <Component className={_className} {...rest} ref={ref}>
+      {children}
+    </Component>
+  )
+}
+
+export const NavbarText = forwardRef(
+  NavbarTextRender as ForwardRefRenderFunction<Element, NavbarTextProps<ElementType>>
+) as NavbarTextComponent
 
 NavbarText.displayName = 'NavbarText'
