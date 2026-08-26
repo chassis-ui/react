@@ -1,11 +1,10 @@
-import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
 import classNames from 'classnames'
 
 import { ContextColor } from '../../types'
+import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
 
-export interface StepperItemProps extends HTMLAttributes<
-  HTMLLIElement | HTMLAnchorElement | HTMLButtonElement
-> {
+type StepperItemOwnProps<C extends ElementType> = {
   /**
    * Marks the item as the current step.
    */
@@ -21,30 +20,44 @@ export interface StepperItemProps extends HTMLAttributes<
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType
+  component?: C
   /**
    * The `href` attribute for an interactive step rendered as a link.
    */
   href?: string
 }
 
-export const StepperItem = forwardRef<
-  HTMLLIElement | HTMLAnchorElement | HTMLButtonElement,
-  StepperItemProps
->(({ children, active, className, color, component: Component = 'li', href, ...rest }, ref) => {
+export type StepperItemProps<C extends ElementType = 'li'> = PolymorphicComponentProps<
+  C,
+  StepperItemOwnProps<C>
+>
+
+type StepperItemComponent = (<C extends ElementType = 'li'>(
+  props: StepperItemProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
+
+function StepperItemRender<C extends ElementType = 'li'>(
+  { active, children, className, color, component, href, ...rest }: StepperItemProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  const Component = (component || 'li') as ElementType
   const _className = classNames('stepper-item', color && 'context', color, { active }, className)
 
-  rest = {
+  const mergedProps = {
     ...(href ? { href } : {}),
     ...(active ? { 'aria-current': 'step' } : {}),
     ...rest
   }
 
   return (
-    <Component className={_className} {...rest} ref={ref}>
+    <Component className={_className} {...mergedProps} ref={ref}>
       {children}
     </Component>
   )
-})
+}
+
+export const StepperItem = forwardRef(
+  StepperItemRender as ForwardRefRenderFunction<Element, StepperItemProps<ElementType>>
+) as StepperItemComponent
 
 StepperItem.displayName = 'StepperItem'

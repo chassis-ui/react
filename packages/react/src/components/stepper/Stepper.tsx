@@ -1,7 +1,15 @@
-import React, { Children, ElementType, forwardRef, HTMLAttributes, isValidElement } from 'react'
+import React, {
+  Children,
+  ElementType,
+  ForwardRefRenderFunction,
+  forwardRef,
+  isValidElement,
+  ReactElement
+} from 'react'
 import classNames from 'classnames'
 
 import { ContextColor } from '../../types'
+import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
 import { StepperItem } from './StepperItem'
 
 export interface StepperItemDef {
@@ -23,7 +31,7 @@ export interface StepperItemDef {
   href?: string
 }
 
-export interface StepperProps extends HTMLAttributes<HTMLOListElement | HTMLDivElement> {
+type StepperOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the component.
    */
@@ -35,7 +43,7 @@ export interface StepperProps extends HTMLAttributes<HTMLOListElement | HTMLDivE
    * `<button>` isn't a valid direct child of `<ol>`, so the default switches to `'div'` instead.
    * Pass `component` explicitly to opt out of this.
    */
-  component?: string | ElementType
+  component?: C
   /**
    * Sets the color of the component to one of Chassis context colors.
    */
@@ -66,79 +74,102 @@ export interface StepperProps extends HTMLAttributes<HTMLOListElement | HTMLDivE
   overflow?: boolean
 }
 
-export const Stepper = forwardRef<HTMLOListElement | HTMLDivElement, StepperProps>(
-  ({ children, className, component, color, icon, items, layout, overflow, ...rest }, ref) => {
-    // A linked step (data-driven `href`, or a `<StepperItem component="a"|"button">` child) can't
-    // render as a bare `<a>`/`<button>` inside the default `<ol>` root — only `<li>`/`script`/
-    // `template` are valid children there. Default to `<div>` instead when that's the case
-    // (unless the caller already chose their own `component`) — matching the
-    // `<Stepper component="div">` pattern already documented for composed interactive usage.
-    const hasInteractiveItem = items
-      ? items.some((item) => !!item.href)
-      : Children.toArray(children).some(
-          (child) =>
-            isValidElement<{ component?: string | ElementType }>(child) &&
-            child.type === StepperItem &&
-            (child.props.component === 'a' || child.props.component === 'button')
-        )
-    const Component = component ?? (hasInteractiveItem ? 'div' : 'ol')
-    const isListSemantic = Component === 'ol' || Component === 'ul'
+export type StepperProps<C extends ElementType = 'ol'> = PolymorphicComponentProps<
+  C,
+  StepperOwnProps<C>
+>
 
-    const _className = classNames(
-      'stepper',
-      color && 'context',
-      color,
-      layout,
-      { 'icon-stepper': icon },
-      className
-    )
+type StepperComponent = (<C extends ElementType = 'ol'>(
+  props: StepperProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
 
-    const autoContent = items
-      ? items.map((item, idx) => {
-          const itemClass = classNames('stepper-item', item.color && 'context', item.color, {
-            active: item.active
-          })
-          const Tag = item.href ? 'a' : isListSemantic ? 'li' : 'div'
-          return (
-            <Tag
-              // eslint-disable-next-line react/no-array-index-key
-              key={idx}
-              className={itemClass}
-              {...(item.href ? { href: item.href } : {})}
-              {...(item.active ? { 'aria-current': 'step' } : {})}
-            >
-              {item.label}
-            </Tag>
-          )
+function StepperRender<C extends ElementType = 'ol'>(
+  {
+    children,
+    className,
+    component,
+    color,
+    icon,
+    items,
+    layout,
+    overflow,
+    ...rest
+  }: StepperProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  // A linked step (data-driven `href`, or a `<StepperItem component="a"|"button">` child) can't
+  // render as a bare `<a>`/`<button>` inside the default `<ol>` root — only `<li>`/`script`/
+  // `template` are valid children there. Default to `<div>` instead when that's the case
+  // (unless the caller already chose their own `component`) — matching the
+  // `<Stepper component="div">` pattern already documented for composed interactive usage.
+  const hasInteractiveItem = items
+    ? items.some((item) => !!item.href)
+    : Children.toArray(children).some(
+        (child) =>
+          isValidElement<{ component?: ElementType }>(child) &&
+          child.type === StepperItem &&
+          (child.props.component === 'a' || child.props.component === 'button')
+      )
+  const Component = (component ?? (hasInteractiveItem ? 'div' : 'ol')) as ElementType
+  const isListSemantic = Component === 'ol' || Component === 'ul'
+
+  const _className = classNames(
+    'stepper',
+    color && 'context',
+    color,
+    layout,
+    { 'icon-stepper': icon },
+    className
+  )
+
+  const autoContent = items
+    ? items.map((item, idx) => {
+        const itemClass = classNames('stepper-item', item.color && 'context', item.color, {
+          active: item.active
         })
-      : null
+        const Tag = item.href ? 'a' : isListSemantic ? 'li' : 'div'
+        return (
+          <Tag
+            // eslint-disable-next-line react/no-array-index-key
+            key={idx}
+            className={itemClass}
+            {...(item.href ? { href: item.href } : {})}
+            {...(item.active ? { 'aria-current': 'step' } : {})}
+          >
+            {item.label}
+          </Tag>
+        )
+      })
+    : null
 
-    // When the root switched to `div` because of an interactive step, every plain `<StepperItem>`
-    // sibling defaulting to `<li>` would be just as invalid (only valid inside `<ul>`/`<ol>`/
-    // `<menu>`) — so give each `StepperItem` child the same `div` treatment the auto-generated
-    // steps above already get, unless it set its own `component`. Other child types are left
-    // untouched — this is only meaningful for `Stepper`'s own steps.
-    const renderedChildren =
-      autoContent ??
-      (isListSemantic
-        ? children
-        : Children.map(children, (child) =>
-            isValidElement<{ component?: string | ElementType }>(child) &&
-            child.type === StepperItem
-              ? React.cloneElement(child, { component: child.props.component ?? 'div' })
-              : child
-          ))
+  // When the root switched to `div` because of an interactive step, every plain `<StepperItem>`
+  // sibling defaulting to `<li>` would be just as invalid (only valid inside `<ul>`/`<ol>`/
+  // `<menu>`) — so give each `StepperItem` child the same `div` treatment the auto-generated
+  // steps above already get, unless it set its own `component`. Other child types are left
+  // untouched — this is only meaningful for `Stepper`'s own steps.
+  const renderedChildren =
+    autoContent ??
+    (isListSemantic
+      ? children
+      : Children.map(children, (child) =>
+          isValidElement<{ component?: ElementType }>(child) && child.type === StepperItem
+            ? React.cloneElement(child, { component: child.props.component ?? 'div' })
+            : child
+        ))
 
-    const stepperEl = (
-      <Component className={_className} {...rest} ref={ref}>
-        {renderedChildren}
-      </Component>
-    )
+  const stepperEl = (
+    <Component className={_className} {...rest} ref={ref}>
+      {renderedChildren}
+    </Component>
+  )
 
-    if (!overflow) return stepperEl
+  if (!overflow) return stepperEl
 
-    return <div className="stepper-overflow">{stepperEl}</div>
-  }
-)
+  return <div className="stepper-overflow">{stepperEl}</div>
+}
+
+export const Stepper = forwardRef(
+  StepperRender as ForwardRefRenderFunction<Element, StepperProps<ElementType>>
+) as StepperComponent
 
 Stepper.displayName = 'Stepper'

@@ -4864,7 +4864,7 @@ interface StepperItemDef {
    */
   href?: string;
 }
-interface StepperProps extends HTMLAttributes<HTMLDivElement | HTMLOListElement> {
+type StepperOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the component.
    */
@@ -4876,7 +4876,7 @@ interface StepperProps extends HTMLAttributes<HTMLDivElement | HTMLOListElement>
    * `<button>` isn't a valid direct child of `<ol>`, so the default switches to `'div'` instead.
    * Pass `component` explicitly to opt out of this.
    */
-  component?: ElementType | string;
+  component?: C;
   /**
    * Sets the color of the component to one of Chassis context colors.
    */
@@ -4899,11 +4899,17 @@ interface StepperProps extends HTMLAttributes<HTMLDivElement | HTMLOListElement>
    * instead of shrinking to fit.
    */
   overflow?: boolean;
-}
-declare const Stepper: React.ForwardRefExoticComponent<StepperProps & React.RefAttributes<HTMLDivElement | HTMLOListElement>>;
+};
+type StepperProps<C extends ElementType = 'ol'> = PolymorphicComponentProps<C, StepperOwnProps<C>>;
+type StepperComponent = (<C extends ElementType = 'ol'>(props: StepperProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const Stepper: StepperComponent;
 //#endregion
 //#region src/components/stepper/StepperItem.d.ts
-interface StepperItemProps extends HTMLAttributes<HTMLAnchorElement | HTMLButtonElement | HTMLLIElement> {
+type StepperItemOwnProps<C extends ElementType> = {
   /**
    * Marks the item as the current step.
    */
@@ -4919,13 +4925,19 @@ interface StepperItemProps extends HTMLAttributes<HTMLAnchorElement | HTMLButton
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: ElementType | string;
+  component?: C;
   /**
    * The `href` attribute for an interactive step rendered as a link.
    */
   href?: string;
-}
-declare const StepperItem: React.ForwardRefExoticComponent<StepperItemProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement | HTMLLIElement>>;
+};
+type StepperItemProps<C extends ElementType = 'li'> = PolymorphicComponentProps<C, StepperItemOwnProps<C>>;
+type StepperItemComponent = (<C extends ElementType = 'li'>(props: StepperItemProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const StepperItem: StepperItemComponent;
 //#endregion
 //#region src/components/table/Table.d.ts
 interface TableProps<T extends object> {
