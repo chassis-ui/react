@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import { AriaTextFieldProps, useTextField } from 'react-aria'
 
 import { useForkedRef, useFormField } from '../../hooks'
+import { validationClassName } from '../../utils/validationClassName'
 import { renderFormField } from '../form-field/renderFormField'
 
 export interface TextInputProps extends Omit<
@@ -155,7 +156,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       hasAdorn ? 'ghost-input' : 'form-input',
       !hasAdorn && plainText && 'plaintext',
       !hasAdorn && size,
-      { 'is-invalid': invalid, 'is-valid': valid },
+      validationClassName(invalid, valid),
       !hasAdorn && className
     )
 

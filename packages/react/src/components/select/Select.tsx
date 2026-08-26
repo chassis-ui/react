@@ -9,6 +9,7 @@ import React, {
 import classNames from 'classnames'
 
 import { useForkedRef, useFormField } from '../../hooks'
+import { validationClassName } from '../../utils/validationClassName'
 import { renderFormField } from '../form-field/renderFormField'
 
 export interface SelectOptionDef {
@@ -189,7 +190,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
     const selectClassName = classNames(
       hasAdorn ? 'ghost-input' : 'form-input',
       !hasAdorn && size,
-      { 'is-invalid': invalid, 'is-valid': valid },
+      validationClassName(invalid, valid),
       !hasAdorn && className
     )
 

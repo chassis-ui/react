@@ -2,6 +2,7 @@ import React, { ChangeEventHandler, forwardRef, InputHTMLAttributes, ReactNode }
 import classNames from 'classnames'
 
 import { useFormField } from '../../hooks'
+import { validationClassName } from '../../utils/validationClassName'
 import { renderFormField } from '../form-field/renderFormField'
 
 export interface RangeInputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -80,14 +81,7 @@ export const RangeInput = forwardRef<HTMLInputElement, RangeInputProps>(
       validFeedback
     })
 
-    const _className = classNames(
-      'form-range',
-      {
-        'is-invalid': invalid,
-        'is-valid': valid
-      },
-      className
-    )
+    const _className = classNames('form-range', validationClassName(invalid, valid), className)
 
     return renderFormField({
       children: (

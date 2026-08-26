@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import { AriaTextFieldOptions, useTextField } from 'react-aria'
 
 import { useForkedRef, useFormField } from '../../hooks'
+import { validationClassName } from '../../utils/validationClassName'
 import { renderFormField } from '../form-field/renderFormField'
 
 export interface TextareaProps extends Omit<
@@ -124,10 +125,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       'form-input',
       plainText && 'plaintext',
       size,
-      {
-        'is-invalid': invalid,
-        'is-valid': valid
-      },
+      validationClassName(invalid, valid),
       className
     )
 

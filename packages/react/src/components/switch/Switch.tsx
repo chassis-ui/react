@@ -5,6 +5,7 @@ import { useToggleState } from 'react-stately'
 
 import { useForkedRef } from '../../hooks'
 import { ContextColor } from '../../types'
+import { validationClassName } from '../../utils/validationClassName'
 
 import { FormLabel } from '../form/FormLabel'
 
@@ -82,6 +83,49 @@ const renderSwitch = ({ checkInputClassName, className, input, label }: RenderSw
   )
 }
 
+interface RenderSwitchInputOptions {
+  className?: string
+  color?: ContextColor
+  forkedRef: React.Ref<HTMLInputElement>
+  id?: string
+  inputProps: InputHTMLAttributes<HTMLInputElement>
+  invalid?: boolean
+  label?: string | ReactNode
+  size?: 'small' | 'large'
+  valid?: boolean
+}
+
+// Shared className-building/markup for `SwitchCheckbox`/`SwitchRadio` — the two variants only
+// differ in how `inputProps` gets built (a react-aria hook vs. a hand-wired radio), everything
+// after that is identical.
+const renderSwitchInput = ({
+  className,
+  color,
+  forkedRef,
+  id,
+  inputProps,
+  invalid,
+  label,
+  size,
+  valid
+}: RenderSwitchInputOptions) => {
+  const inputClassName = classNames(validationClassName(invalid, valid))
+  const checkInputClassName = classNames('check-input', color, validationClassName(invalid, valid))
+  const _className = classNames(
+    'form-check form-switch',
+    size,
+    validationClassName(invalid, valid),
+    className
+  )
+
+  return renderSwitch({
+    checkInputClassName,
+    className: _className,
+    input: <input {...inputProps} className={inputClassName} id={id} ref={forkedRef} />,
+    label
+  })
+}
+
 // Checkbox-backed switch: a real toggle, so it goes through react-aria's useSwitch/useToggleState
 // like Checkbox does. Split into its own component (rather than branching inside one Switch on
 // `type`) so SwitchRadio below never has to call these hooks just to discard their result —
@@ -127,23 +171,16 @@ const SwitchCheckbox = forwardRef<HTMLInputElement, SwitchVariantProps>(
       inputRef
     )
 
-    const inputClassName = classNames({ 'is-invalid': invalid, 'is-valid': valid })
-    const checkInputClassName = classNames('check-input', color, {
-      'is-invalid': invalid,
-      'is-valid': valid
-    })
-    const _className = classNames(
-      'form-check form-switch',
+    return renderSwitchInput({
+      className,
+      color,
+      forkedRef,
+      id,
+      inputProps: switchProps,
+      invalid,
+      label,
       size,
-      { 'is-invalid': invalid, 'is-valid': valid },
-      className
-    )
-
-    return renderSwitch({
-      checkInputClassName,
-      className: _className,
-      input: <input {...switchProps} className={inputClassName} id={id} ref={forkedRef} />,
-      label
+      valid
     })
   }
 )
@@ -186,23 +223,16 @@ const SwitchRadio = forwardRef<HTMLInputElement, SwitchVariantProps>(
       type: 'radio' as const
     }
 
-    const inputClassName = classNames({ 'is-invalid': invalid, 'is-valid': valid })
-    const checkInputClassName = classNames('check-input', color, {
-      'is-invalid': invalid,
-      'is-valid': valid
-    })
-    const _className = classNames(
-      'form-check form-switch',
+    return renderSwitchInput({
+      className,
+      color,
+      forkedRef,
+      id,
+      inputProps: radioProps,
+      invalid,
+      label,
       size,
-      { 'is-invalid': invalid, 'is-valid': valid },
-      className
-    )
-
-    return renderSwitch({
-      checkInputClassName,
-      className: _className,
-      input: <input {...radioProps} className={inputClassName} id={id} ref={forkedRef} />,
-      label
+      valid
     })
   }
 )

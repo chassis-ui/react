@@ -4,6 +4,7 @@ import { AriaRadioProps, useRadio } from 'react-aria'
 
 import { useForkedRef } from '../../hooks'
 import { ContextColor } from '../../types'
+import { validationClassName } from '../../utils/validationClassName'
 
 import { RadioGroupContext } from './context'
 import { ButtonObject, renderFormCheck } from '../form/renderFormCheck'
@@ -69,7 +70,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
       inputRef
     )
 
-    const inputClassName = classNames({ 'is-invalid': invalid, 'is-valid': valid })
+    const inputClassName = classNames(validationClassName(invalid, valid))
 
     return renderFormCheck({
       button,
