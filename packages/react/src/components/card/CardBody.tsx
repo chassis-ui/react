@@ -1,8 +1,9 @@
-import React, { forwardRef, HTMLAttributes } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
 import classNames from 'classnames'
 
 import { Breakpoint, Spacing } from '../../types'
 import { buildResponsiveClassNames } from '../../utils/breakpoints'
+import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
 import { spacingClassName } from '../../utils/spacingClassName'
 
 type CardBodyDirection = 'row' | 'column'
@@ -11,11 +12,15 @@ const directionClassNames = (direction: CardBodyDirection | undefined, prefix: s
   direction && `${prefix}flex-${direction}`
 ]
 
-export interface CardBodyProps extends HTMLAttributes<HTMLDivElement> {
+type CardBodyOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
   className?: string
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C
   /**
    * Switches the body from its default stacked (column) layout to a side-by-side (row) layout —
    * for placing an image beside text within a single padded region. Wrap the image and text in
@@ -34,21 +39,36 @@ export interface CardBodyProps extends HTMLAttributes<HTMLDivElement> {
   responsive?: Partial<Record<Breakpoint, CardBodyDirection>>
 }
 
-export const CardBody = forwardRef<HTMLDivElement, CardBodyProps>(
-  ({ children, className, direction, gap, responsive, ...rest }, ref) => {
-    const _className = classNames(
-      'card-body',
-      buildResponsiveClassNames(directionClassNames, direction, responsive),
-      spacingClassName('gap', gap),
-      className
-    )
+export type CardBodyProps<C extends ElementType = 'div'> = PolymorphicComponentProps<
+  C,
+  CardBodyOwnProps<C>
+>
 
-    return (
-      <div className={_className} {...rest} ref={ref}>
-        {children}
-      </div>
-    )
-  }
-)
+type CardBodyComponent = (<C extends ElementType = 'div'>(
+  props: CardBodyProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
+
+function CardBodyRender<C extends ElementType = 'div'>(
+  { children, className, component, direction, gap, responsive, ...rest }: CardBodyProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  const Component = component || 'div'
+  const _className = classNames(
+    'card-body',
+    buildResponsiveClassNames(directionClassNames, direction, responsive),
+    spacingClassName('gap', gap),
+    className
+  )
+
+  return (
+    <Component className={_className} {...rest} ref={ref}>
+      {children}
+    </Component>
+  )
+}
+
+export const CardBody = forwardRef(
+  CardBodyRender as ForwardRefRenderFunction<Element, CardBodyProps<ElementType>>
+) as CardBodyComponent
 
 CardBody.displayName = 'CardBody'

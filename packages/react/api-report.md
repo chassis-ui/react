@@ -1135,11 +1135,15 @@ declare const Card: React.ForwardRefExoticComponent<CardProps & React.RefAttribu
 //#endregion
 //#region src/components/card/CardBody.d.ts
 type CardBodyDirection = 'column' | 'row';
-interface CardBodyProps extends HTMLAttributes<HTMLDivElement> {
+type CardBodyOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
   className?: string;
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C;
   /**
    * Switches the body from its default stacked (column) layout to a side-by-side (row) layout —
    * for placing an image beside text within a single padded region. Wrap the image and text in
@@ -1156,29 +1160,17 @@ interface CardBodyProps extends HTMLAttributes<HTMLDivElement> {
    * Overrides `direction` at one or more breakpoints.
    */
   responsive?: Partial<Record<Breakpoint, CardBodyDirection>>;
-}
-declare const CardBody: React.ForwardRefExoticComponent<CardBodyProps & React.RefAttributes<HTMLDivElement>>;
+};
+type CardBodyProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, CardBodyOwnProps<C>>;
+type CardBodyComponent = (<C extends ElementType = 'div'>(props: CardBodyProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const CardBody: CardBodyComponent;
 //#endregion
 //#region src/components/card/CardFooter.d.ts
-interface CardFooterProps extends HTMLAttributes<HTMLDivElement> {
-  /**
-   * A string of all className you want applied to the base component.
-   */
-  className?: string;
-}
-declare const CardFooter: React.ForwardRefExoticComponent<CardFooterProps & React.RefAttributes<HTMLDivElement>>;
-//#endregion
-//#region src/components/card/CardGroup.d.ts
-interface CardGroupProps extends HTMLAttributes<HTMLDivElement> {
-  /**
-   * A string of all className you want applied to the base component.
-   */
-  className?: string;
-}
-declare const CardGroup: React.ForwardRefExoticComponent<CardGroupProps & React.RefAttributes<HTMLDivElement>>;
-//#endregion
-//#region src/components/card/CardHeader.d.ts
-interface CardHeaderProps extends HTMLAttributes<HTMLDivElement> {
+type CardFooterOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -1186,9 +1178,53 @@ interface CardHeaderProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: ElementType | string;
-}
-declare const CardHeader: React.ForwardRefExoticComponent<CardHeaderProps & React.RefAttributes<HTMLDivElement>>;
+  component?: C;
+};
+type CardFooterProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, CardFooterOwnProps<C>>;
+type CardFooterComponent = (<C extends ElementType = 'div'>(props: CardFooterProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const CardFooter: CardFooterComponent;
+//#endregion
+//#region src/components/card/CardGroup.d.ts
+type CardGroupOwnProps<C extends ElementType> = {
+  /**
+   * A string of all className you want applied to the base component.
+   */
+  className?: string;
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C;
+};
+type CardGroupProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, CardGroupOwnProps<C>>;
+type CardGroupComponent = (<C extends ElementType = 'div'>(props: CardGroupProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const CardGroup: CardGroupComponent;
+//#endregion
+//#region src/components/card/CardHeader.d.ts
+type CardHeaderOwnProps<C extends ElementType> = {
+  /**
+   * A string of all className you want applied to the base component.
+   */
+  className?: string;
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C;
+};
+type CardHeaderProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, CardHeaderOwnProps<C>>;
+type CardHeaderComponent = (<C extends ElementType = 'div'>(props: CardHeaderProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const CardHeader: CardHeaderComponent;
 //#endregion
 //#region src/components/card/CardImage.d.ts
 type CardImageOrientation = 'bottom' | 'end' | 'start' | 'top';
@@ -1223,13 +1259,23 @@ type CardImageComponent = (<C extends ElementType = 'img'>(props: CardImageProps
 declare const CardImage: CardImageComponent;
 //#endregion
 //#region src/components/card/CardImageOverlay.d.ts
-interface CardImageOverlayProps extends HTMLAttributes<HTMLDivElement> {
+type CardImageOverlayOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
   className?: string;
-}
-declare const CardImageOverlay: React.ForwardRefExoticComponent<CardImageOverlayProps & React.RefAttributes<HTMLDivElement>>;
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C;
+};
+type CardImageOverlayProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, CardImageOverlayOwnProps<C>>;
+type CardImageOverlayComponent = (<C extends ElementType = 'div'>(props: CardImageOverlayProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const CardImageOverlay: CardImageOverlayComponent;
 //#endregion
 //#region src/components/link/Link.d.ts
 type LinkOwnProps<C extends ElementType> = {
@@ -1307,7 +1353,7 @@ type CardLinkComponent = (<C extends ElementType = 'a'>(props: CardLinkProps<C> 
 declare const CardLink: CardLinkComponent;
 //#endregion
 //#region src/components/card/CardSubtitle.d.ts
-interface CardSubtitleProps extends HTMLAttributes<HTMLHeadingElement> {
+type CardSubtitleOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the component.
    */
@@ -1315,12 +1361,18 @@ interface CardSubtitleProps extends HTMLAttributes<HTMLHeadingElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: ElementType | string;
-}
-declare const CardSubtitle: React.ForwardRefExoticComponent<CardSubtitleProps & React.RefAttributes<HTMLHeadingElement>>;
+  component?: C;
+};
+type CardSubtitleProps<C extends ElementType = 'h6'> = PolymorphicComponentProps<C, CardSubtitleOwnProps<C>>;
+type CardSubtitleComponent = (<C extends ElementType = 'h6'>(props: CardSubtitleProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const CardSubtitle: CardSubtitleComponent;
 //#endregion
 //#region src/components/card/CardText.d.ts
-interface CardTextProps extends HTMLAttributes<HTMLParagraphElement> {
+type CardTextOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the component.
    */
@@ -1328,12 +1380,18 @@ interface CardTextProps extends HTMLAttributes<HTMLParagraphElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: ElementType | string;
-}
-declare const CardText: React.ForwardRefExoticComponent<CardTextProps & React.RefAttributes<HTMLParagraphElement>>;
+  component?: C;
+};
+type CardTextProps<C extends ElementType = 'p'> = PolymorphicComponentProps<C, CardTextOwnProps<C>>;
+type CardTextComponent = (<C extends ElementType = 'p'>(props: CardTextProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const CardText: CardTextComponent;
 //#endregion
 //#region src/components/card/CardTitle.d.ts
-interface CardTitleProps extends HTMLAttributes<HTMLHeadingElement> {
+type CardTitleOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the component.
    */
@@ -1341,9 +1399,15 @@ interface CardTitleProps extends HTMLAttributes<HTMLHeadingElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: ElementType | string;
-}
-declare const CardTitle: React.ForwardRefExoticComponent<CardTitleProps & React.RefAttributes<HTMLHeadingElement>>;
+  component?: C;
+};
+type CardTitleProps<C extends ElementType = 'h5'> = PolymorphicComponentProps<C, CardTitleOwnProps<C>>;
+type CardTitleComponent = (<C extends ElementType = 'h5'>(props: CardTitleProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const CardTitle: CardTitleComponent;
 //#endregion
 //#region src/components/carousel/context.d.ts
 type CarouselEnds = 'loop' | 'stop' | 'wrap';

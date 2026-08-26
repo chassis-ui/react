@@ -1,7 +1,9 @@
-import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
 import classNames from 'classnames'
 
-export interface CardTextProps extends HTMLAttributes<HTMLParagraphElement> {
+import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+
+type CardTextOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the component.
    */
@@ -9,19 +11,34 @@ export interface CardTextProps extends HTMLAttributes<HTMLParagraphElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType
+  component?: C
 }
 
-export const CardText = forwardRef<HTMLParagraphElement, CardTextProps>(
-  ({ children, component: Component = 'p', className, ...rest }, ref) => {
-    const _className = classNames('card-text', className)
+export type CardTextProps<C extends ElementType = 'p'> = PolymorphicComponentProps<
+  C,
+  CardTextOwnProps<C>
+>
 
-    return (
-      <Component className={_className} {...rest} ref={ref}>
-        {children}
-      </Component>
-    )
-  }
-)
+type CardTextComponent = (<C extends ElementType = 'p'>(
+  props: CardTextProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
+
+function CardTextRender<C extends ElementType = 'p'>(
+  { children, component, className, ...rest }: CardTextProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  const Component = component || 'p'
+  const _className = classNames('card-text', className)
+
+  return (
+    <Component className={_className} {...rest} ref={ref}>
+      {children}
+    </Component>
+  )
+}
+
+export const CardText = forwardRef(
+  CardTextRender as ForwardRefRenderFunction<Element, CardTextProps<ElementType>>
+) as CardTextComponent
 
 CardText.displayName = 'CardText'

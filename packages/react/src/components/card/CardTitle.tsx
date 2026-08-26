@@ -1,7 +1,9 @@
-import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
 import classNames from 'classnames'
 
-export interface CardTitleProps extends HTMLAttributes<HTMLHeadingElement> {
+import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+
+type CardTitleOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the component.
    */
@@ -9,19 +11,34 @@ export interface CardTitleProps extends HTMLAttributes<HTMLHeadingElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType
+  component?: C
 }
 
-export const CardTitle = forwardRef<HTMLHeadingElement, CardTitleProps>(
-  ({ children, component: Component = 'h5', className, ...rest }, ref) => {
-    const _className = classNames('card-title', className)
+export type CardTitleProps<C extends ElementType = 'h5'> = PolymorphicComponentProps<
+  C,
+  CardTitleOwnProps<C>
+>
 
-    return (
-      <Component className={_className} {...rest} ref={ref}>
-        {children}
-      </Component>
-    )
-  }
-)
+type CardTitleComponent = (<C extends ElementType = 'h5'>(
+  props: CardTitleProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
+
+function CardTitleRender<C extends ElementType = 'h5'>(
+  { children, component, className, ...rest }: CardTitleProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  const Component = component || 'h5'
+  const _className = classNames('card-title', className)
+
+  return (
+    <Component className={_className} {...rest} ref={ref}>
+      {children}
+    </Component>
+  )
+}
+
+export const CardTitle = forwardRef(
+  CardTitleRender as ForwardRefRenderFunction<Element, CardTitleProps<ElementType>>
+) as CardTitleComponent
 
 CardTitle.displayName = 'CardTitle'
