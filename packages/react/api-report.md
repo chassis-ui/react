@@ -3673,6 +3673,10 @@ interface ListProps extends HTMLAttributes<HTMLDivElement | HTMLUListElement> {
   className?: string;
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
+   * Defaults to `'ul'`, unless an item (a data-driven item with `href`, or a `<ListItem
+   * component="a">`/`<ListItem component="button">` child) is interactive — a bare `<a>`/
+   * `<button>` isn't a valid direct child of `<ul>`/`<ol>`, so the default switches to `'div'`
+   * instead. Pass `component` explicitly to opt out of this.
    */
   component?: ElementType | string;
   /**
@@ -4513,6 +4517,10 @@ interface StepperProps extends HTMLAttributes<HTMLDivElement | HTMLOListElement>
   className?: string;
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
+   * Defaults to `'ol'`, unless a step (a data-driven item with `href`, or a `<StepperItem
+   * component="a">`/`<StepperItem component="button">` child) is interactive — a bare `<a>`/
+   * `<button>` isn't a valid direct child of `<ol>`, so the default switches to `'div'` instead.
+   * Pass `component` explicitly to opt out of this.
    */
   component?: ElementType | string;
   /**

@@ -87,6 +87,11 @@ from standard read-only items. Use `component="a"` when the action navigates to 
 attribute both visually styles the element and prevents interaction, while an `<a>` only gets the
 visual `.disabled` styling and needs additional JavaScript to fully prevent interaction.
 
+Because `<a>`/`<button>` elements aren't valid children of a `<ul>`/`<ol>`, `<List>` automatically
+renders its root as a `<div>` instead whenever an item is interactive (an interactive data-driven
+item, or a `<ListItem component="a">`/`<ListItem component="button">` child) — pass `component`
+explicitly if you need to override that.
+
 <Example>
   <LinksExample client:load />
 </Example>

@@ -1,7 +1,8 @@
-import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
+import React, { Children, ElementType, forwardRef, HTMLAttributes, isValidElement } from 'react'
 import classNames from 'classnames'
 
 import { ContextColor, ContextStyle } from '../../types'
+import { ListItem } from './ListItem'
 
 export interface ListItemDef {
   /**
@@ -33,6 +34,10 @@ export interface ListProps extends HTMLAttributes<HTMLDivElement | HTMLUListElem
   className?: string
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
+   * Defaults to `'ul'`, unless an item (a data-driven item with `href`, or a `<ListItem
+   * component="a">`/`<ListItem component="button">` child) is interactive — a bare `<a>`/
+   * `<button>` isn't a valid direct child of `<ul>`/`<ol>`, so the default switches to `'div'`
+   * instead. Pass `component` explicitly to opt out of this.
    */
   component?: string | ElementType
   /**
@@ -76,7 +81,7 @@ export const List = forwardRef<HTMLDivElement | HTMLUListElement, ListProps>(
     {
       children,
       className,
-      component: Component = 'ul',
+      component,
       color,
       variant,
       flush,
@@ -88,6 +93,22 @@ export const List = forwardRef<HTMLDivElement | HTMLUListElement, ListProps>(
     },
     ref
   ) => {
+    // A linked item (data-driven `href`, or a `<ListItem component="a"|"button">` child) can't
+    // render as a bare `<a>`/`<button>` inside the default `<ul>`/`<ol>` root — only `<li>`/
+    // `script`/`template` are valid children there. Default to `<div>` instead when that's the
+    // case (unless the caller already chose their own `component`), matching the same
+    // `component="div"` pattern already documented for `Stepper`'s composed interactive usage.
+    const hasInteractiveItem = items
+      ? items.some((item) => !!item.href)
+      : Children.toArray(children).some(
+          (child) =>
+            isValidElement<{ component?: string | ElementType }>(child) &&
+            child.type === ListItem &&
+            (child.props.component === 'a' || child.props.component === 'button')
+        )
+    const Component = component ?? (hasInteractiveItem ? 'div' : 'ul')
+    const isListSemantic = Component === 'ul' || Component === 'ol'
+
     const _className = classNames(
       'list',
       color && 'context',
@@ -109,7 +130,7 @@ export const List = forwardRef<HTMLDivElement | HTMLUListElement, ListProps>(
             active: item.active,
             disabled: item.disabled
           })
-          const Tag = item.href ? 'a' : 'li'
+          const Tag = item.href ? 'a' : isListSemantic ? 'li' : 'div'
           return (
             <Tag
               // eslint-disable-next-line react/no-array-index-key
@@ -125,9 +146,24 @@ export const List = forwardRef<HTMLDivElement | HTMLUListElement, ListProps>(
         })
       : null
 
+    // When the root switched to `div` because of an interactive child, every plain `<ListItem>`
+    // sibling defaulting to `<li>` would be just as invalid (only valid inside `<ul>`/`<ol>`/
+    // `<menu>`) — so give each `ListItem` child the same `div` treatment the auto-generated items
+    // above already get, unless it set its own `component`. Other child types are left untouched
+    // — this is only meaningful for `List`'s own list items.
+    const renderedChildren =
+      autoContent ??
+      (isListSemantic
+        ? children
+        : Children.map(children, (child) =>
+            isValidElement<{ component?: string | ElementType }>(child) && child.type === ListItem
+              ? React.cloneElement(child, { component: child.props.component ?? 'div' })
+              : child
+          ))
+
     return (
       <Component className={_className} {...rest} ref={ref}>
-        {autoContent ?? children}
+        {renderedChildren}
       </Component>
     )
   }

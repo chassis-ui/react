@@ -105,6 +105,56 @@ describe('Stepper', () => {
       )
       expect(container).toMatchSnapshot()
     })
+
+    test('defaults the root to div (not ol) when a step has href, avoiding a bare <a> inside <ol>', () => {
+      const { container } = render(
+        <Stepper items={[{ label: 'Account', href: '#' }, { label: 'Shipping' }]} />
+      )
+      const stepper = screen.getByRole('link', { name: 'Account' }).parentElement
+      expect(stepper?.tagName).toBe('DIV')
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(container.querySelector('ol')).not.toBeInTheDocument()
+    })
+
+    test('an explicit component prop opts out of the div default even with a linked step', () => {
+      render(<Stepper component="ol" items={[{ label: 'Account', href: '#' }]} />)
+      expect(screen.getByRole('link', { name: 'Account' }).parentElement?.tagName).toBe('OL')
+    })
+
+    test('stays an ol when no step has href', () => {
+      render(<Stepper items={[{ label: 'Account' }, { label: 'Shipping' }]} />)
+      expect(screen.getByText('Account').parentElement?.tagName).toBe('OL')
+    })
+  })
+
+  describe('composed interactive steps', () => {
+    test('defaults the root to div (not ol) when a StepperItem child is interactive, avoiding a bare <a> inside <ol>', () => {
+      const { container } = render(
+        <Stepper>
+          <StepperItem component="a" href="#">
+            Account
+          </StepperItem>
+          <StepperItem>Shipping</StepperItem>
+        </Stepper>
+      )
+      const stepper = screen.getByRole('link', { name: 'Account' }).parentElement
+      expect(stepper?.tagName).toBe('DIV')
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(container.querySelector('ol')).not.toBeInTheDocument()
+      // The plain sibling can no longer render as <li> either, once the parent isn't a list.
+      expect(screen.getByText('Shipping').tagName).toBe('DIV')
+    })
+
+    test('an explicit component prop opts out of the div default even with an interactive child', () => {
+      render(
+        <Stepper component="ol">
+          <StepperItem component="a" href="#">
+            Account
+          </StepperItem>
+        </Stepper>
+      )
+      expect(screen.getByRole('link', { name: 'Account' }).parentElement?.tagName).toBe('OL')
+    })
   })
 
   describe('ref forwarding', () => {
@@ -132,6 +182,25 @@ describe('Stepper', () => {
           <StepperItem>First</StepperItem>
           <StepperItem active>Current</StepperItem>
           <StepperItem>Last</StepperItem>
+        </Stepper>
+      )
+      expect(await axe(container)).toHaveNoViolations()
+    })
+
+    test('has no axe violations with a data-driven linked step', async () => {
+      const { container } = render(
+        <Stepper items={[{ label: 'Account', href: '#' }, { label: 'Shipping', active: true }]} />
+      )
+      expect(await axe(container)).toHaveNoViolations()
+    })
+
+    test('has no axe violations with a composed interactive StepperItem', async () => {
+      const { container } = render(
+        <Stepper>
+          <StepperItem component="a" href="#">
+            Account
+          </StepperItem>
+          <StepperItem active>Shipping</StepperItem>
         </Stepper>
       )
       expect(await axe(container)).toHaveNoViolations()

@@ -97,6 +97,56 @@ describe('List', () => {
       )
       expect(container).toMatchSnapshot()
     })
+
+    test('defaults the root to div (not ul) when an item has href, avoiding a bare <a> inside <ul>', () => {
+      const { container } = render(
+        <List items={[{ label: 'Dashboard', href: '#' }, { label: 'Profile' }]} />
+      )
+      const list = screen.getByRole('link', { name: 'Dashboard' }).parentElement
+      expect(list?.tagName).toBe('DIV')
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(container.querySelector('ul')).not.toBeInTheDocument()
+    })
+
+    test('an explicit component prop opts out of the div default even with a linked item', () => {
+      render(<List component="ul" items={[{ label: 'Dashboard', href: '#' }]} />)
+      expect(screen.getByRole('link', { name: 'Dashboard' }).parentElement?.tagName).toBe('UL')
+    })
+
+    test('stays a ul when no item has href', () => {
+      render(<List items={[{ label: 'Dashboard' }, { label: 'Profile' }]} />)
+      expect(screen.getByText('Dashboard').parentElement?.tagName).toBe('UL')
+    })
+  })
+
+  describe('composed interactive items', () => {
+    test('defaults the root to div (not ul) when a ListItem child is interactive, avoiding a bare <a> inside <ul>', () => {
+      const { container } = render(
+        <List>
+          <ListItem component="a" href="#">
+            Dashboard
+          </ListItem>
+          <ListItem>Profile</ListItem>
+        </List>
+      )
+      const list = screen.getByRole('link', { name: 'Dashboard' }).parentElement
+      expect(list?.tagName).toBe('DIV')
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(container.querySelector('ul')).not.toBeInTheDocument()
+      // The plain sibling can no longer render as <li> either, once the parent isn't a list.
+      expect(screen.getByText('Profile').tagName).toBe('DIV')
+    })
+
+    test('an explicit component prop opts out of the div default even with an interactive child', () => {
+      render(
+        <List component="ul">
+          <ListItem component="a" href="#">
+            Dashboard
+          </ListItem>
+        </List>
+      )
+      expect(screen.getByRole('link', { name: 'Dashboard' }).parentElement?.tagName).toBe('UL')
+    })
   })
 
   describe('ref forwarding', () => {
@@ -113,6 +163,25 @@ describe('List', () => {
         <List>
           <ListItem>A</ListItem>
           <ListItem>B</ListItem>
+        </List>
+      )
+      expect(await axe(container)).toHaveNoViolations()
+    })
+
+    test('has no axe violations with a data-driven linked item', async () => {
+      const { container } = render(
+        <List items={[{ label: 'Dashboard', href: '#', active: true }, { label: 'Profile' }]} />
+      )
+      expect(await axe(container)).toHaveNoViolations()
+    })
+
+    test('has no axe violations with a composed interactive ListItem', async () => {
+      const { container } = render(
+        <List>
+          <ListItem component="a" href="#" active>
+            Dashboard
+          </ListItem>
+          <ListItem>Profile</ListItem>
         </List>
       )
       expect(await axe(container)).toHaveNoViolations()

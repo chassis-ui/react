@@ -3,7 +3,7 @@ import { Stepper, StepperItem } from '@chassis-ui/react'
 export const Example = () => {
   return (
     <nav aria-label="Progress">
-      <Stepper component="div">
+      <Stepper>
         <StepperItem component="a" href="#">
           Account
         </StepperItem>

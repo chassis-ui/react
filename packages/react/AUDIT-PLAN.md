@@ -204,17 +204,61 @@ Same root pattern (an `items`-driven auto-content path duplicating the sub-compo
 markup instead of delegating to it) across three components — fix together, and note the shared
 duplication for Phase 7 to actually resolve.
 
-- [ ] **BUG-11** `list/List.tsx:105-126`, `list/ListItem.tsx:53` — `items`+`href` shorthand renders
+- [x] **BUG-11** `list/List.tsx:105-126`, `list/ListItem.tsx:53` — `items`+`href` shorthand renders
   a bare `<a>` as a direct child of the default `<ul>` root (invalid; only `<li>`/`script`/
   `template` are permitted children), and `ListItem`'s own root swaps to `<a>` instead of wrapping
   one inside `<li>`. Fix both to always render an `<li>` wrapper around the link.
-- [ ] **BUG-12** `stepper/Stepper.tsx:93-104` — `items` path renders linked steps as a bare `<a>`
+  **Investigated and implemented differently than prescribed above** (confirmed with the user
+  before proceeding): wrapping the anchor in an `<li>` while keeping `.list-item`/`.list-action` on
+  the `<a>` would make that class a grandchild, not a direct child, of `.list` — silently breaking
+  chassis-css's `.list > .list-item.list-action` selector (and every other direct-child selector:
+  first/last-child border-radius, `+ .list-item` border collapsing) for every linked item, since
+  `%interactive`'s `:hover`/`:focus-visible`/`:active` must live on the actual `<a>`, not a
+  non-focusable wrapper. Also discovered the same invalid-nesting bug already exists — and ships on
+  the live docs site today — in the fully-documented **composed** usage
+  (`<List><ListItem component="a" href="#">`, used by `LinksExample.tsx`, `ButtonsExample.tsx`,
+  `ContextualLinksExample.tsx`, `CustomContentExample.tsx`), not just the `items` shorthand named
+  above. Fixed both by having `List` auto-default its own root to `'div'` instead of `'ul'`
+  whenever an item/child is interactive (a linked data-driven item, or a `<ListItem
+  component="a"|"button">` child) — matching the pattern already documented for `Stepper`'s
+  composed interactive usage (`<Stepper component="div">`) — and, for the composed-children path,
+  cloning each plain `ListItem` sibling to `component="div"` too (a bare `<li>` inside a `<div>` is
+  just as invalid). `component` stays a full caller override. Considered also adding
+  `role="list"`/`role="listitem"` to restore the lost `<ul>`/`<li>` semantics, but reverted it after
+  it broke the native `link`/`button` role on interactive items (an explicit `role` replaces an
+  element's implicit one, so `role="listitem"` on an `<a>` — the WAI-ARIA-correct annotation for a
+  role="list" child — silently un-announces it as a link, which several existing tests caught via
+  `getByRole('link', ...)` failing); dropped the role work entirely rather than ship that
+  regression — same trade-off Bootstrap's own `list-group` (`<div class="list-group"><a
+  class="list-group-item list-group-item-action">`, no `role="list"`/`listitem"` either) already
+  makes. Updated `list.mdx`'s "Links and buttons" section to document the automatic `<div>` default.
+  Filed a follow-up (not fixed here, outside BUG-11's named scope) for a third, separate instance of
+  the same invalid-nesting pattern: `ChecksListItemExample.tsx`'s `<List><Checkbox
+  className="list-item">` renders a bare `<label>` inside `<ul>`, since `List`'s interactive
+  detection only recognizes `ListItem` children, not arbitrary components with a non-`<li>` root.
+- [x] **BUG-12** `stepper/Stepper.tsx:93-104` — `items` path renders linked steps as a bare `<a>`
   sibling to the surrounding `<li>` steps inside the `<ol>`. Fix to nest the anchor inside an `<li>`,
-  matching `nav/Nav.tsx:62-70`'s correct pattern for the equivalent case.
-- [ ] Add the missing axe assertions that would have caught these: `List.spec.tsx`/
+  matching `nav/Nav.tsx:62-70`'s correct pattern for the equivalent case. **Implemented with the
+  same auto-div-default approach as BUG-11** (same user decision covers both — Stepper has the
+  identical conflict: `.stepper-item:not(.active):has(~ .stepper-item.active)`'s progress-line
+  styling is a sibling-combinator selector that an `<li>` wrapper would just as surely break).
+  `Stepper`'s `items` path and composed `StepperItem` children now both default the root to `'div'`
+  when a step is interactive; simplified `packages/site/examples/components/stepper/
+  InteractiveExample.tsx` to drop its now-redundant explicit `component="div"` (demonstrating the
+  new automatic behavior) and updated `stepper.mdx` accordingly.
+- [x] Add the missing axe assertions that would have caught these: `List.spec.tsx`/
   `ListItem.spec.tsx` need a test rendering the `items`+`href` shorthand (and a `ListItem`
   actually nested in a `<ul>`), and `Stepper.spec.tsx` needs one rendering the `items` variant, not
-  just manual `StepperItem` children.
+  just manual `StepperItem` children. Added, adapted to the actual fix shape: for both `List` and
+  `Stepper`, a data-driven-linked-item test and a composed-interactive-child test each asserting the
+  root is `div` (not `ul`/`ol`) with no invalid tag anywhere in the tree, an explicit-`component`
+  override test for each, a stays-`ul`/`ol`-when-nothing-is-linked test for each, and axe checks for
+  both the data-driven and composed interactive shapes (four new axe assertions total). Verified
+  live against the docs site (`pnpm --filter chassis-react-site dev` already running on :4327,
+  `/react/docs/components/list` and `/react/docs/components/stepper`): every existing composed
+  example (`LinksExample`, `ButtonsExample`, `ContextualLinksExample`, `CustomContentExample`,
+  `InteractiveExample`) now renders a valid `<div><a>`/`<div><button>` tree with no `component`
+  changes needed in the example source itself — the auto-detection fixed them transparently.
 
 ---
 

@@ -2,7 +2,7 @@
 
 exports[`Stepper > data-driven items > matches the baseline markup snapshot for data-driven items 1`] = `
 <div>
-  <ol
+  <div
     class="stepper"
   >
     <a
@@ -11,13 +11,13 @@ exports[`Stepper > data-driven items > matches the baseline markup snapshot for 
     >
       Account
     </a>
-    <li
+    <div
       aria-current="step"
       class="stepper-item active"
     >
       Shipping
-    </li>
-  </ol>
+    </div>
+  </div>
 </div>
 `;
 

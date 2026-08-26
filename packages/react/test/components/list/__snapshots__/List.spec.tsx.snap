@@ -2,7 +2,7 @@
 
 exports[`List > data-driven items > matches the baseline markup snapshot for data-driven items 1`] = `
 <div>
-  <ul
+  <div
     class="list"
   >
     <a
@@ -18,7 +18,7 @@ exports[`List > data-driven items > matches the baseline markup snapshot for dat
     >
       Profile
     </a>
-  </ul>
+  </div>
 </div>
 `;
 
