@@ -7,6 +7,11 @@ import { CalendarDate, toCalendarDate } from '@internationalized/date'
 import { isWholeUnitDisabled } from '../../utils/isWholeUnitDisabled'
 
 interface CalendarYearGridProps {
+  // Whether to render the visually-hidden `aria-live` announcement of this view's current header
+  // (see `CalendarMonthYearPicker`'s own equivalent gate) — `false` for every visible month block
+  // but the first when `visibleMonths > 1`, so switching into this view (or paging within it)
+  // doesn't fire one simultaneous announcement per block.
+  announce?: boolean
   monthStart: CalendarDate
   onBack: () => void
   onSelect: (date: CalendarDate) => void
@@ -20,6 +25,7 @@ const YEARS_PER_PAGE = 15
 // on one screen, so this owns its own prev/next paging (independent of the day grid's own
 // prev/next, which keep paging by month underneath whenever this view isn't showing).
 export const CalendarYearGrid = ({
+  announce = true,
   monthStart,
   onBack,
   onSelect,
@@ -89,20 +95,24 @@ export const CalendarYearGrid = ({
           type="button"
         />
       </div>
+      {announce && (
+        <span role="status" className="visually-hidden">
+          {`Select year, ${rangeLabel}`}
+        </span>
+      )}
       <div className="datepicker-content">
-        <div aria-label={rangeLabel} className="datepicker-years" role="listbox">
+        <div aria-label={rangeLabel} className="datepicker-years" role="group">
           {years.map((year) => {
             const isSelected = year.date.year === monthStart.year
             const isDisabled = isWholeUnitDisabled(state, year.yearStart, year.yearEnd)
 
             return (
               <button
-                aria-selected={isSelected}
+                aria-current={isSelected ? 'true' : undefined}
                 className={classNames('datepicker-years-year', { selected: isSelected })}
                 disabled={isDisabled}
                 key={year.date.year}
                 onClick={() => onSelect(year.date)}
-                role="option"
                 type="button"
               >
                 {year.formatted}

@@ -107,6 +107,7 @@ export const CalendarMonthYearPicker = ({
     <div className="datepicker-column" ref={containerRef}>
       {view === 'months' && (
         <CalendarMonthGrid
+          announce={monthIndex === 0}
           monthStart={monthStart}
           onBack={() => changeView('days')}
           onSelect={commitAndReturn}
@@ -115,6 +116,7 @@ export const CalendarMonthYearPicker = ({
       )}
       {view === 'years' && (
         <CalendarYearGrid
+          announce={monthIndex === 0}
           monthStart={monthStart}
           onBack={() => changeView('days')}
           onSelect={commitAndReturn}
@@ -147,6 +149,11 @@ export const CalendarMonthYearPicker = ({
             </div>
             {nextArrow}
           </div>
+          {monthIndex === 0 && (
+            <span role="status" className="visually-hidden">
+              {`${monthFormatter.format(monthStart.toDate(state.timeZone))} ${yearFormatter.format(monthStart.toDate(state.timeZone))}`}
+            </span>
+          )}
           {children}
         </>
       )}

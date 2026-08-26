@@ -7,6 +7,11 @@ import { CalendarDate } from '@internationalized/date'
 import { isWholeUnitDisabled } from '../../utils/isWholeUnitDisabled'
 
 interface CalendarMonthGridProps {
+  // Whether to render the visually-hidden `aria-live` announcement of this view's current header
+  // (see `CalendarMonthYearPicker`'s own equivalent gate) — `false` for every visible month block
+  // but the first when `visibleMonths > 1`, so switching into this view doesn't fire one
+  // simultaneous announcement per block.
+  announce?: boolean
   monthStart: CalendarDate
   onBack: () => void
   onSelect: (date: CalendarDate) => void
@@ -16,6 +21,7 @@ interface CalendarMonthGridProps {
 // The month view of `CalendarMonthYearPicker` — every month in `monthStart`'s own year, laid out
 // as a static 3-column grid (no paging; picking a different year is the year view's job).
 export const CalendarMonthGrid = ({
+  announce = true,
   monthStart,
   onBack,
   onSelect,
@@ -47,11 +53,16 @@ export const CalendarMonthGrid = ({
           </button>
         </div>
       </div>
+      {announce && (
+        <span role="status" className="visually-hidden">
+          {`Select month, ${yearFormatter.format(monthStart.toDate(state.timeZone))}`}
+        </span>
+      )}
       <div className="datepicker-content">
         <div
           aria-label={yearFormatter.format(monthStart.toDate(state.timeZone))}
           className="datepicker-months"
-          role="listbox"
+          role="group"
         >
           {months.map((month) => {
             const isSelected = month.date.month === monthStart.month
@@ -63,12 +74,11 @@ export const CalendarMonthGrid = ({
 
             return (
               <button
-                aria-selected={isSelected}
+                aria-current={isSelected ? 'true' : undefined}
                 className={classNames('datepicker-months-month', { selected: isSelected })}
                 disabled={isDisabled}
                 key={month.date.month}
                 onClick={() => onSelect(month.date)}
-                role="option"
                 type="button"
               >
                 {month.formatted}

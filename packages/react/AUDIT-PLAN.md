@@ -267,22 +267,56 @@ duplication for Phase 7 to actually resolve.
 Isolated, complex family with its own component-scoped CSS and its own visual-regression batch
 (`calendar-datepicker.visual.spec.ts`) — keep separate from everything else.
 
-- [ ] **A11Y-01** `calendar/`, `datepicker/` — no `aria-live` region anywhere in either folder
-  announcing the visible month/year when it changes via paging or the month/year picker. Add a
-  visually-hidden `aria-live="polite"` announcer, following react-aria's documented calendar
-  pattern.
-- [ ] **A11Y-02** `CalendarMonthGrid.tsx:51-79`, `CalendarYearGrid.tsx:92-113` — marked
+- [x] **A11Y-01** `calendar/`, `datepicker/` — no `aria-live` region anywhere in either folder
+  announcing the visible month/year when it changes via paging or the month/year picker. Added a
+  visually-hidden `role="status"` announcer (implicit `aria-live="polite"`/`aria-atomic="true"`,
+  matching the existing pattern already used in `Carousel.tsx:720`, rather than a bare
+  `aria-live="polite"` attribute) to each of the three header views shared by `Calendar` and
+  `RangeCalendar` via `CalendarMonthYearPicker`/`CalendarMonthGrid`/`CalendarYearGrid`: the day
+  grid's header announces `"<Month> <Year>"` (updates on prev/next paging), the month grid's header
+  announces `"Select month, <Year>"` (updates on entering that view), and the year grid's header
+  announces `"Select year, <range>"` (updates on entering that view and on its own internal
+  prev/next-years paging). Since `CalendarMonthYearPicker` is reused per visible month block for
+  `visibleMonths > 1`, threaded a new `announce` prop (`CalendarMonthGrid`/`CalendarYearGrid`) gated
+  to `monthIndex === 0` so only the first block renders its announcer — otherwise every block would
+  fire its own simultaneous, differently-worded announcement on every page. Verified live against
+  the docs site (`pnpm --filter chassis-react-site dev` already running on :4327 — required an
+  `pnpm --filter @chassis-ui/react build` first per this repo's dist/docs-preview gotcha) via DOM
+  introspection: paging, opening the month/year picker, and paging within the year grid all update
+  the live `role="status"` text correctly.
+- [x] **A11Y-02** `CalendarMonthGrid.tsx:51-79`, `CalendarYearGrid.tsx:92-113` — marked
   `role="listbox"`/`role="option"` without the roving-tabindex/arrow-key behavior that role implies.
-  Add proper listbox keyboard navigation (roving `tabIndex`, arrow-key handling) or drop the
-  listbox/option roles if a simpler pattern (e.g. a plain button grid with `aria-current`) is a
-  better fit — decide which before implementing, since retrofitting real listbox semantics onto an
-  existing button grid is nontrivial.
-- [ ] Add the calendar test-coverage gaps identified in the audit while in this file anyway:
+  Decided to drop the listbox/option roles rather than retrofit real listbox keyboard semantics —
+  same call already made for the analogous case in Phase 5 (dropping a mismatched ARIA role rather
+  than building out full semantics for a plain button grid). Wrapper `<div>`s now use `role="group"`
+  (matching `DatePicker.tsx:484`/`OtpInput.tsx:314`'s existing use of the same role for a labeled
+  group of controls); each month/year button is now a plain, unadorned `<button>` (native
+  role, natural Tab order — each was already independently focusable, so nothing about the actual
+  keyboard behavior changed) marked with `aria-current="true"` when it's the currently-showing
+  month/year, replacing `aria-selected` (which requires an `option`/similar role context to be
+  valid) — mirrors the exact pattern `RangeCalendar.tsx:350`'s `DateRangePresets` and
+  `CarouselIndicators.tsx:33` already use for "the currently active choice among several buttons."
+  Updated `Calendar.spec.tsx`/`RangeCalendar.spec.tsx`'s `getByRole('option', ...)` queries to
+  `getByRole('button', ...)` accordingly, and replaced one `queryByRole('option')` presence check
+  (which would've become vacuously true post-fix, since no element anywhere carries that role
+  now) with `queryByRole('group')`, which still meaningfully confirms the picker view closed.
+- [x] Add the calendar test-coverage gaps identified in the audit while in this file anyway:
   keyboard paging across a month boundary, a single-day range (same date clicked twice), and an
-  unavailable date falling strictly between a selected start/end.
-- [ ] Re-run `pnpm test:visual` for the `calendar-datepicker` batch and regenerate baselines if the
+  unavailable date falling strictly between a selected start/end. Added two `Calendar.spec.tsx`
+  tests (arrow-key paging past the last/before the first day of the month auto-advances/retreats
+  the visible month) and two `RangeCalendar.spec.tsx` tests (clicking the same date twice selects a
+  single-day range; an unavailable date between the anchor and a candidate end disables every date
+  past it rather than silently clamping or completing past it — confirmed the actual react-stately
+  behavior by probing the DOM rather than assuming, since the initial guess — that it clamps the
+  end to the day before the unavailable date — was wrong: react-stately instead disables every date
+  beyond the unavailable one once an anchor is set, so an out-of-range click is a no-op).
+- [x] Re-run `pnpm test:visual` for the `calendar-datepicker` batch and regenerate baselines if the
   new announcer or grid markup changes any screenshot (a visually-hidden announcer shouldn't, but
-  confirm).
+  confirm). Ran it: all 14/14 stories mismatch the checked-in `-darwin.png` baselines, but confirmed
+  via `git stash` that the exact same 14 stories fail with identical results on the clean,
+  unmodified tree — pre-existing local macOS baseline drift (same phenomenon Phase 3/4 already hit
+  and documented), not something this phase's diff caused. Left for a future Linux-container
+  baseline regen, per `AGENTS.md`.
 
 ---
 

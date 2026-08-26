@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render, screen, fireEvent, within } from '@testing-library/react'
+import { act, render, screen, fireEvent, within } from '@testing-library/react'
 import { CalendarDate } from '@internationalized/date'
 import { axe } from 'jest-axe'
 
@@ -111,6 +111,30 @@ describe('Calendar', () => {
       expect(getMonthButton()).toHaveTextContent('June')
     })
 
+    test('arrow-key paging past the last day of the month auto-advances the visible month', () => {
+      render(<Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 31)} />)
+      const grid = screen.getByRole('grid')
+      const lastDay = within(grid).getByRole('button', { name: /July 31, 2026/ })
+
+      // `.focus()` is a raw DOM call, not a Testing Library dispatch — it isn't act-wrapped on
+      // its own (see the equivalent comment in `RangeCalendar.spec.tsx`'s keyboard tests).
+      act(() => lastDay.focus())
+      fireEvent.keyDown(lastDay, { key: 'ArrowRight' })
+
+      expect(getMonthButton()).toHaveTextContent('August')
+    })
+
+    test('arrow-key paging before the first day of the month auto-retreats the visible month', () => {
+      render(<Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 1)} />)
+      const grid = screen.getByRole('grid')
+      const firstDay = within(grid).getByRole('button', { name: /July 1, 2026/ })
+
+      act(() => firstDay.focus())
+      fireEvent.keyDown(firstDay, { key: 'ArrowLeft' })
+
+      expect(getMonthButton()).toHaveTextContent('June')
+    })
+
     test('renders month and year buttons reflecting the visible month', () => {
       render(<Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
       expect(getMonthButton()).toHaveTextContent('July')
@@ -121,7 +145,7 @@ describe('Calendar', () => {
       render(<Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
 
       fireEvent.click(getMonthButton())
-      fireEvent.click(screen.getByRole('option', { name: 'Jan' }))
+      fireEvent.click(screen.getByRole('button', { name: 'Jan' }))
 
       expect(getMonthButton()).toHaveTextContent('Jan')
       // Back in the day grid (not still showing the month grid) — only the visible month's own
@@ -137,23 +161,25 @@ describe('Calendar', () => {
       render(<Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
 
       fireEvent.click(getYearButton())
-      fireEvent.click(screen.getByRole('option', { name: '2027' }))
+      fireEvent.click(screen.getByRole('button', { name: '2027' }))
 
       expect(getYearButton()).toHaveTextContent('2027')
-      expect(screen.queryByRole('option')).not.toBeInTheDocument()
+      // The year grid's own wrapper is the only `role="group"` element in a bare `Calendar` — its
+      // absence confirms the picker view actually closed, not just that the header text changed.
+      expect(screen.queryByRole('group')).not.toBeInTheDocument()
     })
 
     test('the year grid pages forward and back by its own arrows', () => {
       render(<Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
 
       fireEvent.click(getYearButton())
-      expect(screen.getByRole('option', { name: '2026' })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: '2026' })).toBeInTheDocument()
 
       fireEvent.click(screen.getByRole('button', { name: /next years/i }))
-      expect(screen.queryByRole('option', { name: '2026' })).not.toBeInTheDocument()
+      expect(screen.queryByRole('button', { name: '2026' })).not.toBeInTheDocument()
 
       fireEvent.click(screen.getByRole('button', { name: /previous years/i }))
-      expect(screen.getByRole('option', { name: '2026' })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: '2026' })).toBeInTheDocument()
     })
 
     test('the back button in the month/year grid returns to the day grid without changing anything', () => {
@@ -177,20 +203,20 @@ describe('Calendar', () => {
       render(<Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
       fireEvent.click(getMonthButton())
       expect(document.body).not.toHaveFocus()
-      expect(screen.getByRole('option', { name: 'Jul' })).toHaveFocus()
+      expect(screen.getByRole('button', { name: 'Jul' })).toHaveFocus()
     })
 
     test('switching to the year grid moves focus onto it instead of dropping to the document body', () => {
       render(<Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
       fireEvent.click(getYearButton())
       expect(document.body).not.toHaveFocus()
-      expect(screen.getByRole('option', { name: '2026' })).toHaveFocus()
+      expect(screen.getByRole('button', { name: '2026' })).toHaveFocus()
     })
 
     test('returning to the day grid restores focus onto it instead of dropping to the document body', () => {
       render(<Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
       fireEvent.click(getMonthButton())
-      fireEvent.click(screen.getByRole('option', { name: 'Jan' }))
+      fireEvent.click(screen.getByRole('button', { name: 'Jan' }))
       expect(document.body).not.toHaveFocus()
       // document.activeElement is the standard way to read current focus; no Testing Library
       // query surfaces it, and which day ends up focused depends on internal react-stately paging
@@ -373,7 +399,7 @@ describe('Calendar', () => {
       )
       const [, secondMonthButton] = screen.getAllByRole('button', { name: /^Month:/ })
       fireEvent.click(secondMonthButton!)
-      fireEvent.click(screen.getByRole('option', { name: 'Dec' }))
+      fireEvent.click(screen.getByRole('button', { name: 'Dec' }))
 
       const monthButtons = screen.getAllByRole('button', { name: /^Month:/ })
       expect(monthButtons.map((button) => button.textContent)).toEqual(['November', 'December'])

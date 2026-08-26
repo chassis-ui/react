@@ -87,6 +87,28 @@ describe('RangeCalendar', () => {
       expect(hovered.style.outline).toBe('none')
     })
 
+    test('clicking the same date twice selects a single-day range', () => {
+      const onChange = vi.fn()
+      render(
+        <RangeCalendar
+          aria-label="Trip dates"
+          defaultValue={{ start: new CalendarDate(2026, 7, 1), end: new CalendarDate(2026, 7, 1) }}
+          onChange={onChange}
+        />
+      )
+
+      const grid = screen.getByRole('grid')
+      const day = within(grid).getByRole('button', { name: /July 10, 2026/ })
+      fireEvent.click(day)
+      expect(onChange).not.toHaveBeenCalled()
+
+      fireEvent.click(day)
+      expect(onChange).toHaveBeenCalledWith({
+        start: new CalendarDate(2026, 7, 10),
+        end: new CalendarDate(2026, 7, 10)
+      })
+    })
+
     test('dates outside minValue/maxValue are disabled and cannot start a selection', () => {
       const onChange = vi.fn()
       render(
@@ -125,6 +147,37 @@ describe('RangeCalendar', () => {
       const grid = screen.getByRole('grid')
       const unavailable = within(grid).getByRole('button', { name: /July 15, 2026/ })
       expect(getDateCell(unavailable)).toHaveClass('datepicker-date-unavailable')
+    })
+
+    test('an unavailable date strictly between start and a candidate end disables every date past it', () => {
+      const onChange = vi.fn()
+      render(
+        <RangeCalendar
+          aria-label="Trip dates"
+          defaultValue={{ start: new CalendarDate(2026, 7, 1), end: new CalendarDate(2026, 7, 1) }}
+          onChange={onChange}
+          unavailableDates={['2026-07-15']}
+        />
+      )
+
+      const grid = screen.getByRole('grid')
+      fireEvent.click(within(grid).getByRole('button', { name: /July 10, 2026/ }))
+
+      // Once a start anchor is set, react-stately constrains the selectable range to stop just
+      // short of the nearest unavailable date on either side — a date past it becomes disabled
+      // rather than selectable-but-silently-clamped, so a range can never straddle it.
+      const pastUnavailable = within(grid).getByRole('button', { name: /July 20, 2026/ })
+      expect(pastUnavailable).toHaveAttribute('aria-disabled', 'true')
+      fireEvent.click(pastUnavailable)
+      expect(onChange).not.toHaveBeenCalled()
+
+      const lastAvailable = within(grid).getByRole('button', { name: /July 14, 2026/ })
+      expect(lastAvailable).not.toHaveAttribute('aria-disabled', 'true')
+      fireEvent.click(lastAvailable)
+      expect(onChange).toHaveBeenCalledWith({
+        start: new CalendarDate(2026, 7, 10),
+        end: new CalendarDate(2026, 7, 14)
+      })
     })
   })
 
@@ -220,7 +273,7 @@ describe('RangeCalendar', () => {
         />
       )
       fireEvent.click(screen.getByRole('button', { name: /^Year:/ }))
-      fireEvent.click(screen.getByRole('option', { name: '2027' }))
+      fireEvent.click(screen.getByRole('button', { name: '2027' }))
 
       expect(screen.getByRole('button', { name: /^Year:/ })).toHaveTextContent('2027')
       expect(screen.getByRole('button', { name: /^Month:/ })).toHaveTextContent('July')
@@ -382,7 +435,7 @@ describe('RangeCalendar', () => {
       )
       const [, secondMonthButton] = screen.getAllByRole('button', { name: /^Month:/ })
       fireEvent.click(secondMonthButton!)
-      fireEvent.click(screen.getByRole('option', { name: 'Dec' }))
+      fireEvent.click(screen.getByRole('button', { name: 'Dec' }))
 
       const monthButtons = screen.getAllByRole('button', { name: /^Month:/ })
       expect(monthButtons.map((button) => button.textContent)).toEqual(['November', 'December'])
@@ -404,7 +457,7 @@ describe('RangeCalendar', () => {
       )
       const [firstMonthButton] = screen.getAllByRole('button', { name: /^Month:/ })
       fireEvent.click(firstMonthButton!)
-      fireEvent.click(screen.getByRole('option', { name: 'Aug' }))
+      fireEvent.click(screen.getByRole('button', { name: 'Aug' }))
 
       const monthButtons = screen.getAllByRole('button', { name: /^Month:/ })
       expect(monthButtons.map((button) => button.textContent)).toEqual(['August', 'September'])
@@ -420,7 +473,7 @@ describe('RangeCalendar', () => {
       )
       const [, secondMonthButton] = screen.getAllByRole('button', { name: /^Month:/ })
       fireEvent.click(secondMonthButton!)
-      fireEvent.click(screen.getByRole('option', { name: 'Jul' }))
+      fireEvent.click(screen.getByRole('button', { name: 'Jul' }))
 
       const monthButtons = screen.getAllByRole('button', { name: /^Month:/ })
       expect(monthButtons.map((button) => button.textContent)).toEqual(['June', 'July'])
