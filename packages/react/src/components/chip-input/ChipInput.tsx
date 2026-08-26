@@ -138,6 +138,11 @@ export const ChipInput = ({
 }: ChipInputProps): ReactNode => {
   const [tags, updateTags] = useControllableState<string[]>(value, defaultValue ?? [], onChange)
 
+  // The one memoized computation of `tags`' ids — `removeTags`, `items`, and `focusLastChip`
+  // below all used to independently recompute this same array from scratch (fresh on every
+  // render, not just when `tags` actually changed); they now all read this instead.
+  const ids = useMemo(() => buildTagIds(tags), [tags])
+
   // Shared by `addTag` and the paste handler's loop: whether `raw` (already trimmed) is
   // addable to `list` given `allowDuplicates`. `maxChips` is deliberately not part of this
   // predicate — the paste loop needs to `break` (stop entirely) on hitting the limit, while an
@@ -154,14 +159,13 @@ export const ChipInput = ({
 
   const removeTags = (keys: Iterable<Key>) => {
     const toRemove = new Set(keys)
-    const ids = buildTagIds(tags)
     updateTags(tags.filter((_tag, index) => !toRemove.has(ids[index]!)))
   }
 
-  const items = useMemo<ChipItem[]>(() => {
-    const ids = buildTagIds(tags)
-    return tags.map((tag, index) => ({ id: ids[index]!, value: tag }))
-  }, [tags])
+  const items = useMemo<ChipItem[]>(
+    () => tags.map((tag, index) => ({ id: ids[index]!, value: tag })),
+    [tags, ids]
+  )
 
   const listState = useListState<ChipItem>({
     children: (item: ChipItem) => (
@@ -180,7 +184,6 @@ export const ChipInput = ({
 
   const focusLastChip = (extend: boolean) => {
     if (tags.length === 0) return
-    const ids = buildTagIds(tags)
     const lastKey = ids[ids.length - 1]!
     if (extend) {
       listState.selectionManager.extendSelection(lastKey)
