@@ -1,4 +1,11 @@
-import React, { HTMLAttributes, InputHTMLAttributes, ReactNode, useId, useRef } from 'react'
+import React, {
+  HTMLAttributes,
+  InputHTMLAttributes,
+  ReactNode,
+  useId,
+  useMemo,
+  useRef
+} from 'react'
 import classNames from 'classnames'
 import { useComboBox, useFilter, useOverlayPosition } from 'react-aria'
 import { Item, Key, Section, useComboBoxState } from 'react-stately'
@@ -214,7 +221,13 @@ export const Combobox = ({
   value,
   ...rest
 }: ComboboxProps): ReactNode => {
-  const entries = items ? buildEntriesFromItemsDef(items) : buildEntriesFromChildren(children)
+  // `entries`/`disabledKeys` only need to change when the data driving them does — without this,
+  // both re-derive from scratch on every render, including every keystroke while typing.
+  const entries = useMemo(
+    () => (items ? buildEntriesFromItemsDef(items) : buildEntriesFromChildren(children)),
+    [items, children]
+  )
+  const disabledKeys = useMemo(() => getDisabledKeys(entries), [entries])
 
   // Case- and accent-insensitive substring matching, mirroring chassis-css's own
   // always-case-insensitive combobox.js filtering.
@@ -230,7 +243,7 @@ export const Combobox = ({
         renderComboboxItem(entry)
       ),
     defaultItems: entries,
-    disabledKeys: getDisabledKeys(entries),
+    disabledKeys,
     defaultFilter: contains,
     defaultValue,
     value,
