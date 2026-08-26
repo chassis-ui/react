@@ -1,10 +1,11 @@
-import React, { FC, ReactElement, ReactNode, useEffect, useRef, useState } from 'react'
+import React, { FC, ReactElement, ReactNode, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import classNames from 'classnames'
 import { mergeProps, useOverlayPosition, useTooltip, useTooltipTrigger } from 'react-aria'
 import { useTooltipTriggerState } from 'react-stately'
 import { Transition } from 'react-transition-group'
 
+import { getOverlayArrowStyle, getOverlayTransitionClass, useFloatingOverlay } from '../../hooks'
 import { Placement, resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
 
 export type { Placement }
@@ -54,7 +55,6 @@ export const Tooltip: FC<TooltipProps> = ({
   visible,
   ...rest
 }) => {
-  const [portalContainer, setPortalContainer] = useState<Element | null>(null)
   const arrowRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLElement | null>(null)
   const floatingRef = useRef<HTMLDivElement>(null)
@@ -70,42 +70,18 @@ export const Tooltip: FC<TooltipProps> = ({
   )
   const { tooltipProps } = useTooltip({}, state)
 
-  // Tooltips inside an open `<dialog>` are appended to that dialog instead of
-  // `document.body`, so they render in its top layer and close with it automatically.
-  const resolvePortalContainer = () => triggerRef.current?.closest('dialog[open]') ?? document.body
-
-  // Sync-on-change, not strictly controlled — matches `Menu`/`Modal`'s `visible` semantics.
   // Bypasses the hook's hover-warmup delay (`open`/`close`'s `immediate` argument) since a
-  // programmatic `visible` change should apply right away, same as before.
-  useEffect(() => {
-    if (visible === undefined) return
-    setPortalContainer(resolvePortalContainer())
-    if (visible) state.open(true)
-    else state.close(true)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [visible])
-
-  useEffect(() => {
-    if (state.isOpen) {
-      setPortalContainer(resolvePortalContainer())
-      onShow?.()
-    } else {
-      onHide?.()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.isOpen])
-
-  // A dialog fires a native `close` event on ESC, backdrop click, or `.close()`, so
-  // resetting on it keeps a reopened dialog from showing a stale, already-open tooltip.
-  useEffect(() => {
-    const dialog = portalContainer?.closest('dialog')
-    if (!state.isOpen || !dialog) return
-
-    const hide = () => state.close(true)
-    dialog.addEventListener('close', hide)
-    return () => dialog.removeEventListener('close', hide)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.isOpen, portalContainer])
+  // programmatic `visible` change, an `onShow`/`onHide` sync, or a containing dialog closing
+  // should all apply right away, same as before.
+  const portalContainer = useFloatingOverlay({
+    close: () => state.close(true),
+    isOpen: state.isOpen,
+    open: () => state.open(true),
+    onHide,
+    onShow,
+    triggerRef,
+    visible
+  })
 
   const {
     overlayProps,
@@ -129,16 +105,6 @@ export const Tooltip: FC<TooltipProps> = ({
   }
   const placementAttr = resolveDataPlacement(placement, resolvedPlacement)
 
-  const getTransitionClass = (transitionState: string) => {
-    return transitionState === 'entering'
-      ? 'fade'
-      : transitionState === 'entered'
-        ? 'fade show'
-        : transitionState === 'exiting'
-          ? 'fade'
-          : 'fade'
-  }
-
   return (
     <>
       {React.cloneElement(children, {
@@ -160,7 +126,7 @@ export const Tooltip: FC<TooltipProps> = ({
             unmountOnExit
           >
             {(transitionState) => {
-              const transitionClass = getTransitionClass(transitionState)
+              const transitionClass = getOverlayTransitionClass(transitionState)
               return (
                 <div
                   className={classNames('tooltip cx-tooltip-auto', transitionClass)}
@@ -170,26 +136,10 @@ export const Tooltip: FC<TooltipProps> = ({
                   {...mergeProps(tooltipTriggerProps, tooltipProps)}
                   {...rest}
                 >
-                  {/* `useOverlayPosition`'s `arrowProps.style` sets a single cross-axis offset
-                  (`top` for a left/right tooltip, `left` for a top/bottom one) to the trigger's
-                  center point, not the arrow element's top-left corner — so it must be recentered
-                  by half the arrow's own size on that axis. Chassis-css's JS plugin never has
-                  this problem since Floating UI's `arrow` middleware returns a top-left-corner
-                  coordinate directly; react-aria's is center-based. Unlike the chassis-css JS
-                  plugin, react-aria also never sets `position: absolute` on the arrow element
-                  itself, so without it the offset has no effect and the arrow renders in normal
-                  document flow. */}
                   <div
                     className="tooltip-arrow"
                     {...arrowProps}
-                    style={{
-                      position: 'absolute',
-                      ...arrowProps.style,
-                      transform:
-                        arrowProps.style?.top !== undefined
-                          ? 'translateY(-50%)'
-                          : 'translateX(-50%)'
-                    }}
+                    style={getOverlayArrowStyle(arrowProps)}
                   ></div>
                   <div className="tooltip-inner">{content}</div>
                 </div>

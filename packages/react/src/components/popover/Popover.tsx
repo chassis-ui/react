@@ -5,8 +5,7 @@ import React, {
   ReactNode,
   RefObject,
   useEffect,
-  useRef,
-  useState
+  useRef
 } from 'react'
 import { createPortal } from 'react-dom'
 import classNames from 'classnames'
@@ -14,6 +13,7 @@ import { mergeProps, useDialog, useOverlayPosition, useOverlayTrigger } from 're
 import { useOverlayTriggerState } from 'react-stately'
 import { Transition } from 'react-transition-group'
 
+import { getOverlayArrowStyle, getOverlayTransitionClass, useFloatingOverlay } from '../../hooks'
 import { Placement, resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
 
 interface PopoverPanelProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'content'> {
@@ -41,23 +41,7 @@ const PopoverPanel = ({
 
   return (
     <div {...mergeProps(overlayTriggerProps, dialogProps, rest)} ref={overlayRef}>
-      {/* `useOverlayPosition`'s `arrowProps.style` sets a single cross-axis offset (`top` for a
-      left/right popover, `left` for a top/bottom one) to the trigger's center point, not the
-      arrow element's top-left corner — so it must be recentered by half the arrow's own size on
-      that axis. Chassis-css's JS plugin never has this problem since Floating UI's `arrow`
-      middleware returns a top-left-corner coordinate directly; react-aria's is center-based.
-      Unlike the chassis-css JS plugin, react-aria also never sets `position: absolute` on the
-      arrow element itself, so without it the offset has no effect and the arrow renders in
-      normal document flow. */}
-      <div
-        className="popover-arrow"
-        {...arrowProps}
-        style={{
-          position: 'absolute',
-          ...arrowProps.style,
-          transform: arrowProps.style?.top !== undefined ? 'translateY(-50%)' : 'translateX(-50%)'
-        }}
-      ></div>
+      <div className="popover-arrow" {...arrowProps} style={getOverlayArrowStyle(arrowProps)}></div>
       {title && (
         <div className="popover-header" {...titleProps}>
           {title}
@@ -115,7 +99,6 @@ export const Popover: FC<PopoverProps> = ({
   visible,
   ...rest
 }) => {
-  const [portalContainer, setPortalContainer] = useState<Element | null>(null)
   const arrowRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLElement | null>(null)
   const floatingRef = useRef<HTMLDivElement>(null)
@@ -127,38 +110,15 @@ export const Popover: FC<PopoverProps> = ({
     overlayProps: overlayTriggerProps
   } = useOverlayTrigger({ type: 'dialog' }, state, triggerRef)
 
-  // Popovers inside an open `<dialog>` are appended to that dialog instead of
-  // `document.body`, so they render in its top layer and close with it automatically.
-  const resolvePortalContainer = () => triggerRef.current?.closest('dialog[open]') ?? document.body
-
-  // Sync-on-change, not strictly controlled — matches `Menu`/`Tooltip`'s `visible` semantics.
-  useEffect(() => {
-    if (visible === undefined) return
-    setPortalContainer(resolvePortalContainer())
-    if (visible) state.open()
-    else state.close()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [visible])
-
-  useEffect(() => {
-    if (state.isOpen) {
-      setPortalContainer(resolvePortalContainer())
-      onShow?.()
-    } else {
-      onHide?.()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.isOpen])
-
-  // A dialog fires a native `close` event on ESC, backdrop click, or `.close()`, so
-  // resetting on it keeps a reopened dialog from showing a stale, already-open popover.
-  useEffect(() => {
-    const dialog = portalContainer?.closest('dialog')
-    if (!state.isOpen || !dialog) return
-
-    dialog.addEventListener('close', state.close)
-    return () => dialog.removeEventListener('close', state.close)
-  }, [state.isOpen, portalContainer, state.close])
+  const portalContainer = useFloatingOverlay({
+    close: state.close,
+    isOpen: state.isOpen,
+    open: state.open,
+    onHide,
+    onShow,
+    triggerRef,
+    visible
+  })
 
   // Escape should always close the popover, regardless of where focus currently is — a
   // mouse-opened popover leaves focus on the trigger, not inside the panel. Mirrors
@@ -227,16 +187,6 @@ export const Popover: FC<PopoverProps> = ({
   }
   const placementAttr = resolveDataPlacement(placement, resolvedPlacement)
 
-  const getTransitionClass = (transitionState: string) => {
-    return transitionState === 'entering'
-      ? 'fade'
-      : transitionState === 'entered'
-        ? 'fade show'
-        : transitionState === 'exiting'
-          ? 'fade'
-          : 'fade'
-  }
-
   return (
     <>
       {React.cloneElement(children, {
@@ -268,7 +218,7 @@ export const Popover: FC<PopoverProps> = ({
             unmountOnExit
           >
             {(transitionState) => {
-              const transitionClass = getTransitionClass(transitionState)
+              const transitionClass = getOverlayTransitionClass(transitionState)
               return (
                 <PopoverPanel
                   className={classNames('popover cx-popover-auto', transitionClass)}
