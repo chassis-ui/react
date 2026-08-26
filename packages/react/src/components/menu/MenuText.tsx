@@ -1,7 +1,9 @@
-import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
 import classNames from 'classnames'
 
-export interface MenuTextProps extends HTMLAttributes<HTMLSpanElement> {
+import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+
+type MenuTextOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the component.
    */
@@ -9,19 +11,34 @@ export interface MenuTextProps extends HTMLAttributes<HTMLSpanElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType
+  component?: C
 }
 
-export const MenuText = forwardRef<HTMLSpanElement, MenuTextProps>(
-  ({ children, className, component: Component = 'span', ...rest }, ref) => {
-    const _className = classNames('menu-text', className)
+export type MenuTextProps<C extends ElementType = 'span'> = PolymorphicComponentProps<
+  C,
+  MenuTextOwnProps<C>
+>
 
-    return (
-      <Component className={_className} {...rest} ref={ref}>
-        {children}
-      </Component>
-    )
-  }
-)
+type MenuTextComponent = (<C extends ElementType = 'span'>(
+  props: MenuTextProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
+
+function MenuTextRender<C extends ElementType = 'span'>(
+  { children, className, component, ...rest }: MenuTextProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  const Component = component || 'span'
+  const _className = classNames('menu-text', className)
+
+  return (
+    <Component className={_className} {...rest} ref={ref}>
+      {children}
+    </Component>
+  )
+}
+
+export const MenuText = forwardRef(
+  MenuTextRender as ForwardRefRenderFunction<Element, MenuTextProps<ElementType>>
+) as MenuTextComponent
 
 MenuText.displayName = 'MenuText'

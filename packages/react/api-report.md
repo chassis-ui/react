@@ -11,7 +11,7 @@ renamed export, ...) and review the diff like any other code change. `pnpm react
 -->
 
 ```ts
-import React, { AllHTMLAttributes, AriaAttributes, ButtonHTMLAttributes, ChangeEventHandler, ComponentPropsWithRef, ComponentPropsWithoutRef, DialogHTMLAttributes, ElementType, FC, FormHTMLAttributes, HTMLAttributes, ImgHTMLAttributes, InputHTMLAttributes, Key, MouseEvent, MouseEventHandler, ReactElement, ReactNode, Ref, RefObject, TextareaHTMLAttributes, useEffect } from "react";
+import React, { AllHTMLAttributes, AriaAttributes, ButtonHTMLAttributes, ChangeEventHandler, ComponentPropsWithRef, ComponentPropsWithoutRef, DialogHTMLAttributes, ElementType, FC, FormHTMLAttributes, Fragment, HTMLAttributes, ImgHTMLAttributes, InputHTMLAttributes, Key, MouseEvent, MouseEventHandler, ReactElement, ReactNode, Ref, RefObject, TextareaHTMLAttributes, useEffect } from "react";
 import { DateValue, I18nProvider, Key as Key$1, RangeValue } from "react-aria";
 import { DateValue as DateValue$1, Key as Key$2, Selection, SortDescriptor, TableBodyProps, TableHeaderProps, ToastQueue } from "react-stately";
 //#region src/components/accordion/Accordion.d.ts
@@ -2445,7 +2445,7 @@ type Placement = 'bottom' | 'bottom-end' | 'bottom-start' | 'left' | 'left-end' 
 //#endregion
 //#region src/components/menu/Menu.d.ts
 type MenuAutoClose = 'inside' | 'outside' | boolean;
-interface MenuProps extends HTMLAttributes<HTMLElement> {
+type MenuOwnProps<C extends ElementType> = {
   /**
    * Controls which clicks close the menu. `true` closes on any click inside or outside.
    * `false` requires a programmatic `visible` change. `'inside'` closes only on click inside
@@ -2468,7 +2468,7 @@ interface MenuProps extends HTMLAttributes<HTMLElement> {
    * around the whole menu, for semantic wrapping like a nav `<li>`, or for `reference="parent"`,
    * which positions off this wrapper and has nothing to measure against without one.
    */
-  component?: ElementType | string;
+  component?: C;
   /**
    * Teleports the menu panel to a container element on open. Accepts an element reference, or
    * `true` to append to `document.body`.
@@ -2509,8 +2509,14 @@ interface MenuProps extends HTMLAttributes<HTMLElement> {
    * Toggle the visibility of the menu component.
    */
   visible?: boolean;
-}
-declare const Menu: React.ForwardRefExoticComponent<MenuProps & React.RefAttributes<HTMLElement>>;
+};
+type MenuProps<C extends ElementType = typeof Fragment> = PolymorphicComponentProps<C, MenuOwnProps<C>>;
+type MenuComponent = (<C extends ElementType = typeof Fragment>(props: MenuProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const Menu: MenuComponent;
 //#endregion
 //#region src/components/menu/MenuDivider.d.ts
 interface MenuDividerProps extends HTMLAttributes<HTMLHRElement> {
@@ -2522,7 +2528,7 @@ interface MenuDividerProps extends HTMLAttributes<HTMLHRElement> {
 declare const MenuDivider: React.ForwardRefExoticComponent<MenuDividerProps & React.RefAttributes<HTMLHRElement>>;
 //#endregion
 //#region src/components/menu/MenuHeader.d.ts
-interface MenuHeaderProps extends HTMLAttributes<HTMLHeadingElement> {
+type MenuHeaderOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the component.
    */
@@ -2530,9 +2536,20 @@ interface MenuHeaderProps extends HTMLAttributes<HTMLHeadingElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: ElementType | string;
-}
-declare const MenuHeader: React.ForwardRefExoticComponent<MenuHeaderProps & React.RefAttributes<HTMLHeadingElement>>;
+  component?: C;
+  /**
+   * ARIA role applied to the root node. Defaults to `'presentation'` — see the render function
+   * for why.
+   */
+  role?: React.AriaRole;
+};
+type MenuHeaderProps<C extends ElementType = 'h4'> = PolymorphicComponentProps<C, MenuHeaderOwnProps<C>>;
+type MenuHeaderComponent = (<C extends ElementType = 'h4'>(props: MenuHeaderProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const MenuHeader: MenuHeaderComponent;
 //#endregion
 //#region src/components/menu/MenuItem.d.ts
 type MenuItemOwnProps = {
@@ -2565,7 +2582,7 @@ type MenuItemComponent = (<C extends ElementType = 'a'>(props: MenuItemProps<C> 
 declare const MenuItem: MenuItemComponent;
 //#endregion
 //#region src/components/menu/MenuList.d.ts
-interface MenuListProps extends HTMLAttributes<HTMLElement> {
+type MenuListOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -2573,18 +2590,24 @@ interface MenuListProps extends HTMLAttributes<HTMLElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: ElementType | string;
+  component?: C;
   /**
    * Array of item/header/divider definitions for data-driven rendering. When provided, children
    * are ignored. Covers flat items, headers, and dividers only — for nested submenus, compose
    * with `children` and `MenuSubmenu` instead.
    */
   items?: MenuItemsDef;
-}
-declare const MenuList: React.ForwardRefExoticComponent<MenuListProps & React.RefAttributes<HTMLElement>>;
+};
+type MenuListProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, MenuListOwnProps<C>>;
+type MenuListComponent = (<C extends ElementType = 'div'>(props: MenuListProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const MenuList: MenuListComponent;
 //#endregion
 //#region src/components/menu/MenuText.d.ts
-interface MenuTextProps extends HTMLAttributes<HTMLSpanElement> {
+type MenuTextOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the component.
    */
@@ -2592,9 +2615,15 @@ interface MenuTextProps extends HTMLAttributes<HTMLSpanElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: ElementType | string;
-}
-declare const MenuText: React.ForwardRefExoticComponent<MenuTextProps & React.RefAttributes<HTMLSpanElement>>;
+  component?: C;
+};
+type MenuTextProps<C extends ElementType = 'span'> = PolymorphicComponentProps<C, MenuTextOwnProps<C>>;
+type MenuTextComponent = (<C extends ElementType = 'span'>(props: MenuTextProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const MenuText: MenuTextComponent;
 //#endregion
 //#region src/components/menu/MenuToggle.d.ts
 type MenuToggleOwnProps<C extends ElementType> = {

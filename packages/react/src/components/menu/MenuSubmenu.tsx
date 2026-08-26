@@ -14,8 +14,9 @@ import classNames from 'classnames'
 import { useLocale, useOverlayPosition } from 'react-aria'
 
 import { MenuContext } from './Menu'
-import { Placement, resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
+import { Placement, toAriaPlacement } from '../../utils/overlayPlacement'
 import { focusMenuItem, getMenuItems, handleMenuKeyDown } from './menuNavigation'
+import { resolveMenuOverlayPositioning } from './menuOverlayPosition'
 import { SubmenuActionsContext, SubmenuGroupContext, useSubmenuGroupProvider } from './submenuGroup'
 
 export interface MenuSubmenuProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onSelect'> {
@@ -108,12 +109,11 @@ export const MenuSubmenu = forwardRef<HTMLDivElement, MenuSubmenuProps>(
       isOpen: visible
     })
 
-    const menuStyle: React.CSSProperties = {
-      position: overlayProps.style?.position as React.CSSProperties['position'],
-      top: overlayProps.style?.top,
-      left: overlayProps.style?.left
-    }
-    const placementAttr = resolveDataPlacement(effectivePlacement, resolvedPlacement)
+    const { menuStyle, placementAttr } = resolveMenuOverlayPositioning(
+      overlayProps.style,
+      effectivePlacement,
+      resolvedPlacement
+    )
 
     const clearCloseTimeout = useCallback(() => {
       if (closeTimeoutRef.current !== undefined) {

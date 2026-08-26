@@ -1,10 +1,12 @@
 import React, {
   createContext,
   ElementType,
+  ForwardRefRenderFunction,
   forwardRef,
   Fragment,
-  HTMLAttributes,
+  ReactElement,
   useEffect,
+  useMemo,
   useRef
 } from 'react'
 import classNames from 'classnames'
@@ -13,14 +15,16 @@ import { useMenuTriggerState } from 'react-stately'
 
 import { useForkedRef, useIsomorphicLayoutEffect } from '../../hooks'
 import { executeAfterTransition } from '../../utils/dialogTransition'
-import { Placement, resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
+import { Placement, toAriaPlacement } from '../../utils/overlayPlacement'
+import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import { resolveMenuOverlayPositioning } from './menuOverlayPosition'
 
 export type { Placement }
 export type MenuFocusStrategy = 'first' | 'last'
 
 export type MenuAutoClose = boolean | 'inside' | 'outside'
 
-export interface MenuProps extends HTMLAttributes<HTMLElement> {
+type MenuOwnProps<C extends ElementType> = {
   /**
    * Controls which clicks close the menu. `true` closes on any click inside or outside.
    * `false` requires a programmatic `visible` change. `'inside'` closes only on click inside
@@ -43,7 +47,7 @@ export interface MenuProps extends HTMLAttributes<HTMLElement> {
    * around the whole menu, for semantic wrapping like a nav `<li>`, or for `reference="parent"`,
    * which positions off this wrapper and has nothing to measure against without one.
    */
-  component?: string | ElementType
+  component?: C
   /**
    * Teleports the menu panel to a container element on open. Accepts an element reference, or
    * `true` to append to `document.body`.
@@ -85,6 +89,15 @@ export interface MenuProps extends HTMLAttributes<HTMLElement> {
    */
   visible?: boolean
 }
+
+export type MenuProps<C extends ElementType = typeof Fragment> = PolymorphicComponentProps<
+  C,
+  MenuOwnProps<C>
+>
+
+type MenuComponent = (<C extends ElementType = typeof Fragment>(
+  props: MenuProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
 
 export interface MenuContextProps {
   autoClose: MenuAutoClose
@@ -140,190 +153,186 @@ const defaultMenuContext: MenuContextProps = {
 
 export const MenuContext = createContext(defaultMenuContext)
 
-export const Menu = forwardRef<HTMLElement, MenuProps>(
-  (
-    {
-      children,
-      autoClose = true,
-      className,
-      component: Component = Fragment as ElementType,
-      container,
-      offset: offsetProp = [0, 2],
-      onHide,
-      onHidden,
-      onShow,
-      onShown,
-      placement = 'bottom-start',
-      reference = 'toggle',
-      visible,
-      ...rest
-    },
-    ref
-  ) => {
-    const wrapperRef = useRef<HTMLElement>(null)
-    const forkedRef = useForkedRef(ref, wrapperRef)
-    const toggleNodeRef = useRef<HTMLElement | null>(null)
-    const targetRef = useRef<HTMLElement | null>(null)
-    const overlayRef = useRef<HTMLElement | null>(null)
-    // Portaled `MenuSubmenu` panels register themselves here (see `registerOverlay` below and
-    // `MenuSubmenu`'s own ref callback) so `handleDismiss` can recognize clicks inside them as
-    // "inside" this menu despite living outside `overlayRef.current`'s own DOM subtree.
-    const submenuOverlaysRef = useRef<Map<string, HTMLElement>>(new Map())
-    const registerOverlay = (id: string, node: HTMLElement | null) => {
-      if (node) submenuOverlaysRef.current.set(id, node)
-      else submenuOverlaysRef.current.delete(id)
+function MenuRender<C extends ElementType = typeof Fragment>(
+  {
+    children,
+    autoClose = true,
+    className,
+    component,
+    container,
+    offset: offsetProp = [0, 2],
+    onHide,
+    onHidden,
+    onShow,
+    onShown,
+    placement = 'bottom-start',
+    reference = 'toggle',
+    visible,
+    ...rest
+  }: MenuProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  const Component = component || (Fragment as ElementType)
+  const wrapperRef = useRef<HTMLElement>(null)
+  const forkedRef = useForkedRef(ref, wrapperRef)
+  const toggleNodeRef = useRef<HTMLElement | null>(null)
+  const targetRef = useRef<HTMLElement | null>(null)
+  const overlayRef = useRef<HTMLElement | null>(null)
+  // Portaled `MenuSubmenu` panels register themselves here (see `registerOverlay` below and
+  // `MenuSubmenu`'s own ref callback) so `handleDismiss` can recognize clicks inside them as
+  // "inside" this menu despite living outside `overlayRef.current`'s own DOM subtree.
+  const submenuOverlaysRef = useRef<Map<string, HTMLElement>>(new Map())
+  const registerOverlay = (id: string, node: HTMLElement | null) => {
+    if (node) submenuOverlaysRef.current.set(id, node)
+    else submenuOverlaysRef.current.delete(id)
+  }
+
+  const state = useMenuTriggerState({ defaultOpen: !!visible })
+  const { menuTriggerProps, menuProps } = useMenuTrigger<unknown>({}, state, toggleNodeRef)
+
+  // Sync-on-change, not strictly controlled — matches `Modal`'s `visible` semantics.
+  // Internal `show`/`hide`/`toggle` calls (from `MenuToggle`, autoClose dismissal, etc.)
+  // still work freely between prop changes; `visible` only re-asserts the open state when
+  // its own value actually changes.
+  useEffect(() => {
+    if (visible === undefined) return
+    if (visible) state.open()
+    else state.close()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [visible])
+
+  useIsomorphicLayoutEffect(() => {
+    if (reference === 'parent') {
+      targetRef.current = wrapperRef.current
     }
+  }, [reference])
 
-    const state = useMenuTriggerState({ defaultOpen: !!visible })
-    const { menuTriggerProps, menuProps } = useMenuTrigger<unknown>({}, state, toggleNodeRef)
+  // `onShown`/`onHidden` wait for chassis-css's own opacity/transform transition on `.menu`
+  // (see `_menu.scss`) to actually finish, matching `Modal`'s identically-worded "requests to
+  // be shown" vs "finishes showing" contract (`Modal.tsx`'s own `executeAfterTransition` use).
+  // `overlayRef.current` is `MenuList`'s root element — already in the DOM and already
+  // reflecting the new `.show` class by the time this effect runs, since React commits the
+  // render before passive effects execute. Falls back to firing synchronously when no
+  // `MenuList` is mounted to measure (nothing to transition, so nothing to wait for).
+  useEffect(() => {
+    const overlay = overlayRef.current
 
-    // Sync-on-change, not strictly controlled — matches `Modal`'s `visible` semantics.
-    // Internal `show`/`hide`/`toggle` calls (from `MenuToggle`, autoClose dismissal, etc.)
-    // still work freely between prop changes; `visible` only re-asserts the open state when
-    // its own value actually changes.
-    useEffect(() => {
-      if (visible === undefined) return
-      if (visible) state.open()
-      else state.close()
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [visible])
-
-    useIsomorphicLayoutEffect(() => {
-      if (reference === 'parent') {
-        targetRef.current = wrapperRef.current
-      }
-    }, [reference])
-
-    // `onShown`/`onHidden` wait for chassis-css's own opacity/transform transition on `.menu`
-    // (see `_menu.scss`) to actually finish, matching `Modal`'s identically-worded "requests to
-    // be shown" vs "finishes showing" contract (`Modal.tsx`'s own `executeAfterTransition` use).
-    // `overlayRef.current` is `MenuList`'s root element — already in the DOM and already
-    // reflecting the new `.show` class by the time this effect runs, since React commits the
-    // render before passive effects execute. Falls back to firing synchronously when no
-    // `MenuList` is mounted to measure (nothing to transition, so nothing to wait for).
-    useEffect(() => {
-      const overlay = overlayRef.current
-
-      if (state.isOpen) {
-        onShow?.()
-        if (!overlay) {
-          onShown?.()
-          return undefined
-        }
-        return executeAfterTransition(overlay, () => onShown?.(), true)
-      }
-
-      onHide?.()
+    if (state.isOpen) {
+      onShow?.()
       if (!overlay) {
-        onHidden?.()
+        onShown?.()
         return undefined
       }
-      return executeAfterTransition(overlay, () => onHidden?.(), true)
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [state.isOpen])
+      return executeAfterTransition(overlay, () => onShown?.(), true)
+    }
 
-    const { overlayProps, placement: resolvedPlacement } = useOverlayPosition({
-      targetRef,
-      overlayRef,
-      placement: toAriaPlacement(placement),
-      offset: offsetProp[1],
-      crossOffset: offsetProp[0],
-      containerPadding: 8,
-      isOpen: state.isOpen,
-      // `useOverlayPosition` closes on any window scroll via a backward-compat `WeakMap` that
-      // `useMenuTrigger` populates for `targetRef.current` (see `MenuToggle`'s `setRefs`).
-      // Passing `null` opts out so the menu repositions with its trigger instead of vanishing —
-      // matching `Autocomplete`/`Combobox`, neither of which is wired into that map.
-      onClose: null
+    onHide?.()
+    if (!overlay) {
+      onHidden?.()
+      return undefined
+    }
+    return executeAfterTransition(overlay, () => onHidden?.(), true)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.isOpen])
+
+  const { overlayProps, placement: resolvedPlacement } = useOverlayPosition({
+    targetRef,
+    overlayRef,
+    placement: toAriaPlacement(placement),
+    offset: offsetProp[1],
+    crossOffset: offsetProp[0],
+    containerPadding: 8,
+    isOpen: state.isOpen,
+    // `useOverlayPosition` closes on any window scroll via a backward-compat `WeakMap` that
+    // `useMenuTrigger` populates for `targetRef.current` (see `MenuToggle`'s `setRefs`).
+    // Passing `null` opts out so the menu repositions with its trigger instead of vanishing —
+    // matching `Autocomplete`/`Combobox`, neither of which is wired into that map.
+    onClose: null
+  })
+
+  const { menuStyle, placementAttr } = resolveMenuOverlayPositioning(
+    overlayProps.style,
+    placement,
+    resolvedPlacement
+  )
+
+  const show = (focusStrategy?: MenuFocusStrategy | null) => state.open(focusStrategy)
+  const hide = () => state.close()
+  const toggleVisible = (focusStrategy?: MenuFocusStrategy | null) => state.toggle(focusStrategy)
+  const close = () => {
+    state.close()
+    toggleNodeRef.current?.focus()
+  }
+
+  // Deferred so the click that opened the menu doesn't immediately close it, and scoped
+  // to match menu.js's `clearMenus`: skip the toggle itself, honor `inside`/`outside`
+  // modes, and let Tab or clicks on form controls inside the menu pass through untouched.
+  useEffect(() => {
+    if (!state.isOpen || autoClose === false) return undefined
+
+    const handleDismiss = (event: MouseEvent | KeyboardEvent) => {
+      if (event instanceof KeyboardEvent && event.key !== 'Tab') return
+
+      const target = event.target as Node
+      const toggleNode = toggleNodeRef.current
+      const menuNode = overlayRef.current
+
+      if (toggleNode?.contains(target)) return
+
+      const isMenuTarget =
+        !!menuNode?.contains(target) ||
+        Array.from(submenuOverlaysRef.current.values()).some((node) => node.contains(target))
+
+      if (autoClose === 'inside' && !isMenuTarget) return
+      if (autoClose === 'outside' && isMenuTarget) return
+
+      if (
+        isMenuTarget &&
+        ((event instanceof KeyboardEvent && event.key === 'Tab') ||
+          /input|select|option|textarea|form/i.test((target as HTMLElement).tagName ?? ''))
+      ) {
+        return
+      }
+
+      hide()
+    }
+
+    const id = window.setTimeout(() => {
+      window.addEventListener('click', handleDismiss)
+      window.addEventListener('keyup', handleDismiss)
     })
 
-    // Only `position`/`top`/`left` are taken from the hook's computed style — `zIndex` and
-    // `maxHeight` stay owned by chassis-css's own `--zindex`/`--max-height` tokens (see
-    // `_menu.scss`), the same reasoning the old `@floating-ui/react-dom`-based implementation
-    // already followed for `top`/`left` over its `floatingStyles` convenience.
-    const menuStyle: React.CSSProperties = {
-      position: overlayProps.style?.position as React.CSSProperties['position'],
-      top: overlayProps.style?.top,
-      left: overlayProps.style?.left
+    return () => {
+      window.clearTimeout(id)
+      window.removeEventListener('click', handleDismiss)
+      window.removeEventListener('keyup', handleDismiss)
     }
-    const placementAttr = resolveDataPlacement(placement, resolvedPlacement)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.isOpen, autoClose])
 
-    const show = (focusStrategy?: MenuFocusStrategy | null) => state.open(focusStrategy)
-    const hide = () => state.close()
-    const toggleVisible = (focusStrategy?: MenuFocusStrategy | null) => state.toggle(focusStrategy)
-    const close = () => {
-      state.close()
-      toggleNodeRef.current?.focus()
+  // Escape should always close the menu, independent of `autoClose`'s inside/outside/false
+  // modes. `MenuList`'s own `onKeyDown` handling only fires when focus is already inside the
+  // panel (e.g. opened via ArrowDown) — a mouse-press open via `useMenuTrigger` leaves focus on
+  // the trigger button, where that handler is unreachable. Listening on `window` catches Escape
+  // regardless of where focus currently is.
+  useEffect(() => {
+    if (!state.isOpen) return undefined
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return
+      close()
     }
 
-    // Deferred so the click that opened the menu doesn't immediately close it, and scoped
-    // to match menu.js's `clearMenus`: skip the toggle itself, honor `inside`/`outside`
-    // modes, and let Tab or clicks on form controls inside the menu pass through untouched.
-    useEffect(() => {
-      if (!state.isOpen || autoClose === false) return undefined
+    window.addEventListener('keydown', handleEscape)
 
-      const handleDismiss = (event: MouseEvent | KeyboardEvent) => {
-        if (event instanceof KeyboardEvent && event.key !== 'Tab') return
+    return () => {
+      window.removeEventListener('keydown', handleEscape)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.isOpen])
 
-        const target = event.target as Node
-        const toggleNode = toggleNodeRef.current
-        const menuNode = overlayRef.current
-
-        if (toggleNode?.contains(target)) return
-
-        const isMenuTarget =
-          !!menuNode?.contains(target) ||
-          Array.from(submenuOverlaysRef.current.values()).some((node) => node.contains(target))
-
-        if (autoClose === 'inside' && !isMenuTarget) return
-        if (autoClose === 'outside' && isMenuTarget) return
-
-        if (
-          isMenuTarget &&
-          ((event instanceof KeyboardEvent && event.key === 'Tab') ||
-            /input|select|option|textarea|form/i.test((target as HTMLElement).tagName ?? ''))
-        ) {
-          return
-        }
-
-        hide()
-      }
-
-      const id = window.setTimeout(() => {
-        window.addEventListener('click', handleDismiss)
-        window.addEventListener('keyup', handleDismiss)
-      })
-
-      return () => {
-        window.clearTimeout(id)
-        window.removeEventListener('click', handleDismiss)
-        window.removeEventListener('keyup', handleDismiss)
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [state.isOpen, autoClose])
-
-    // Escape should always close the menu, independent of `autoClose`'s inside/outside/false
-    // modes. `MenuList`'s own `onKeyDown` handling only fires when focus is already inside the
-    // panel (e.g. opened via ArrowDown) — a mouse-press open via `useMenuTrigger` leaves focus on
-    // the trigger button, where that handler is unreachable. Listening on `window` catches Escape
-    // regardless of where focus currently is.
-    useEffect(() => {
-      if (!state.isOpen) return undefined
-
-      const handleEscape = (event: KeyboardEvent) => {
-        if (event.key !== 'Escape') return
-        close()
-      }
-
-      window.addEventListener('keydown', handleEscape)
-
-      return () => {
-        window.removeEventListener('keydown', handleEscape)
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [state.isOpen])
-
-    const contextValue: MenuContextProps = {
+  const contextValue: MenuContextProps = useMemo(
+    () => ({
       autoClose,
       close,
       container,
@@ -342,27 +351,43 @@ export const Menu = forwardRef<HTMLElement, MenuProps>(
       toggleNodeRef,
       triggerId: menuTriggerProps.id ?? '',
       visible: state.isOpen
-    }
+    }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
+      autoClose,
+      container,
+      state.focusStrategy,
+      menuProps.id,
+      menuStyle,
+      menuTriggerProps,
+      placementAttr,
+      reference,
+      state.isOpen
+    ]
+  )
 
-    return (
-      <MenuContext.Provider value={contextValue}>
-        {Component === Fragment ? (
-          children
-        ) : (
-          // `show` mirrors vanilla menu.js's `this._parent.classList.add('show')` — needed for
-          // e.g. `.nav-item.show .nav-link` to put a `NavLink`-rooted `MenuToggle` into its
-          // pressed look while open, since a bare `.nav-link.show` has no styling of its own.
-          <Component
-            className={classNames(className, { show: state.isOpen })}
-            {...rest}
-            ref={forkedRef}
-          >
-            {children}
-          </Component>
-        )}
-      </MenuContext.Provider>
-    )
-  }
-)
+  return (
+    <MenuContext.Provider value={contextValue}>
+      {Component === Fragment ? (
+        children
+      ) : (
+        // `show` mirrors vanilla menu.js's `this._parent.classList.add('show')` — needed for
+        // e.g. `.nav-item.show .nav-link` to put a `NavLink`-rooted `MenuToggle` into its
+        // pressed look while open, since a bare `.nav-link.show` has no styling of its own.
+        <Component
+          className={classNames(className, { show: state.isOpen })}
+          {...rest}
+          ref={forkedRef}
+        >
+          {children}
+        </Component>
+      )}
+    </MenuContext.Provider>
+  )
+}
+
+export const Menu = forwardRef(
+  MenuRender as ForwardRefRenderFunction<Element, MenuProps<ElementType>>
+) as MenuComponent
 
 Menu.displayName = 'Menu'

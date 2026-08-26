@@ -1,7 +1,8 @@
 import React, {
   ElementType,
+  ForwardRefRenderFunction,
   forwardRef,
-  HTMLAttributes,
+  ReactElement,
   ReactNode,
   useContext,
   useEffect
@@ -11,6 +12,7 @@ import classNames from 'classnames'
 
 import { useForkedRef } from '../../hooks'
 import { renderMenuItemContent } from '../../utils/renderMenuItemContent'
+import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
 import { MenuContext } from './Menu'
 import { MenuDivider } from './MenuDivider'
 import { MenuHeader } from './MenuHeader'
@@ -19,7 +21,7 @@ import { MenuItemsDef } from './MenuItemDef'
 import { focusMenuItem, getMenuItems, handleMenuKeyDown } from './menuNavigation'
 import { SubmenuGroupContext, useSubmenuGroupProvider } from './submenuGroup'
 
-export interface MenuListProps extends HTMLAttributes<HTMLElement> {
+type MenuListOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -27,7 +29,7 @@ export interface MenuListProps extends HTMLAttributes<HTMLElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType
+  component?: C
   /**
    * Array of item/header/divider definitions for data-driven rendering. When provided, children
    * are ignored. Covers flat items, headers, and dividers only — for nested submenus, compose
@@ -35,6 +37,15 @@ export interface MenuListProps extends HTMLAttributes<HTMLElement> {
    */
   items?: MenuItemsDef
 }
+
+export type MenuListProps<C extends ElementType = 'div'> = PolymorphicComponentProps<
+  C,
+  MenuListOwnProps<C>
+>
+
+type MenuListComponent = (<C extends ElementType = 'div'>(
+  props: MenuListProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
 
 const renderMenuItemDef = (def: MenuItemsDef[number]): ReactNode => {
   if (def.type === 'header') {
@@ -62,62 +73,68 @@ const renderMenuItemDef = (def: MenuItemsDef[number]): ReactNode => {
   )
 }
 
-export const MenuList = forwardRef<HTMLElement, MenuListProps>(
-  ({ children, className, component: Component = 'div', items, onKeyDown, ...rest }, ref) => {
-    const {
-      close,
-      container,
-      focusStrategy,
-      menuId,
-      menuStyle,
-      overlayRef,
-      placementAttr,
-      triggerId,
-      visible
-    } = useContext(MenuContext)
-    const forkedRef = useForkedRef(ref, overlayRef)
-    const submenuGroup = useSubmenuGroupProvider()
+function MenuListRender<C extends ElementType = 'div'>(
+  { children, className, component, items, onKeyDown, ...rest }: MenuListProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  const Component = component || 'div'
+  const {
+    close,
+    container,
+    focusStrategy,
+    menuId,
+    menuStyle,
+    overlayRef,
+    placementAttr,
+    triggerId,
+    visible
+  } = useContext(MenuContext)
+  const forkedRef = useForkedRef(ref, overlayRef)
+  const submenuGroup = useSubmenuGroupProvider()
 
-    // ArrowDown/ArrowUp on the trigger opens the menu with a focus strategy (see `Menu`'s
-    // `useMenuTrigger` wiring) — this is where that intent actually lands, since we're not
-    // adopting `useMenu`'s own collection-aware auto-focus.
-    useEffect(() => {
-      if (!visible || !focusStrategy) return
-      focusMenuItem(getMenuItems(overlayRef.current), focusStrategy === 'last' ? 'last' : 'first')
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [visible, focusStrategy])
+  // ArrowDown/ArrowUp on the trigger opens the menu with a focus strategy (see `Menu`'s
+  // `useMenuTrigger` wiring) — this is where that intent actually lands, since we're not
+  // adopting `useMenu`'s own collection-aware auto-focus.
+  useEffect(() => {
+    if (!visible || !focusStrategy) return
+    focusMenuItem(getMenuItems(overlayRef.current), focusStrategy === 'last' ? 'last' : 'first')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [visible, focusStrategy])
 
-    const handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
-      handleMenuKeyDown(event, { onEscape: close })
-      onKeyDown?.(event as React.KeyboardEvent<HTMLDivElement>)
-    }
-
-    const content = (
-      <Component
-        role="menu"
-        id={menuId}
-        aria-labelledby={triggerId}
-        className={classNames('menu', { show: visible }, className)}
-        style={menuStyle}
-        data-cx-placement={placementAttr}
-        aria-hidden={!visible}
-        {...rest}
-        onKeyDown={handleKeyDown}
-        ref={forkedRef}
-      >
-        <SubmenuGroupContext.Provider value={submenuGroup}>
-          {items ? items.map(renderMenuItemDef) : children}
-        </SubmenuGroupContext.Provider>
-      </Component>
-    )
-
-    if (container) {
-      if (typeof window === 'undefined') return null
-      return createPortal(content, container === true ? document.body : container)
-    }
-
-    return content
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
+    handleMenuKeyDown(event, { onEscape: close })
+    onKeyDown?.(event as React.KeyboardEvent<HTMLDivElement>)
   }
-)
+
+  const content = (
+    <Component
+      role="menu"
+      id={menuId}
+      aria-labelledby={triggerId}
+      className={classNames('menu', { show: visible }, className)}
+      style={menuStyle}
+      data-cx-placement={placementAttr}
+      aria-hidden={!visible}
+      {...rest}
+      onKeyDown={handleKeyDown}
+      ref={forkedRef}
+    >
+      <SubmenuGroupContext.Provider value={submenuGroup}>
+        {items ? items.map(renderMenuItemDef) : children}
+      </SubmenuGroupContext.Provider>
+    </Component>
+  )
+
+  if (container) {
+    if (typeof window === 'undefined') return null
+    return createPortal(content, container === true ? document.body : container)
+  }
+
+  return content
+}
+
+export const MenuList = forwardRef(
+  MenuListRender as ForwardRefRenderFunction<Element, MenuListProps<ElementType>>
+) as MenuListComponent
 
 MenuList.displayName = 'MenuList'
