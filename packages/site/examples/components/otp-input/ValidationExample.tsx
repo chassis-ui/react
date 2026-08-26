@@ -1,6 +1,6 @@
 import { OtpInput } from '@chassis-ui/react'
 
-export const ValidationExample = () => {
+export const Example = () => {
   return (
     <div className="vstack gap-medium">
       <OtpInput aria-label="Verified code" defaultValue="123456" inputGroup valid />

@@ -1,6 +1,6 @@
 import { Radio, RadioGroup } from '@chassis-ui/react'
 
-export const RadiosInlineExample = () => {
+export const Example = () => {
   return (
     <RadioGroup label="Options" defaultValue="option1" orientation="horizontal">
       <Radio value="option1" label="1" />

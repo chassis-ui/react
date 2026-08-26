@@ -7,7 +7,7 @@ import {
   CarouselItem
 } from '@chassis-ui/react'
 
-export const CustomContentExample = () => (
+export const Example = () => (
   <Carousel>
     <CarouselInner>
       <CarouselItem>

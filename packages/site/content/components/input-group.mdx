@@ -1,108 +1,55 @@
 ---
 title: Input Group
-description: Easily extend form controls by adding text, buttons, or button groups on either side of textual inputs, custom selects, and custom file inputs.
-
+description: Extend form controls by adding text, buttons, or button groups on either side of textual inputs, custom selects, and custom file inputs.
 toc: true
 ---
 
-import { ButtonsWithMenusExample } from '../../examples/components/input-group/ButtonsWithMenusExample.tsx'
-import { SegmentedButtonsExample } from '../../examples/components/input-group/SegmentedButtonsExample.tsx'
-import { CheckboxRadioAddonsExample } from '../../examples/components/input-group/CheckboxRadioAddonsExample.tsx'
+import { Example as BasicExample } from '../../examples/components/input-group/BasicExample.tsx'
+import { Example as WrappingExample } from '../../examples/components/input-group/WrappingExample.tsx'
+import { Example as SizingExample } from '../../examples/components/input-group/SizingExample.tsx'
+import { Example as CheckboxRadioAddonsExample } from '../../examples/components/input-group/CheckboxRadioAddonsExample.tsx'
+import { Example as MultipleInputsExample } from '../../examples/components/input-group/MultipleInputsExample.tsx'
+import { Example as MultipleAddonsExample } from '../../examples/components/input-group/MultipleAddonsExample.tsx'
+import { Example as ButtonAddonsExample } from '../../examples/components/input-group/ButtonAddonsExample.tsx'
+import { Example as ButtonsWithMenusExample } from '../../examples/components/input-group/ButtonsWithMenusExample.tsx'
+import { Example as SegmentedButtonsExample } from '../../examples/components/input-group/SegmentedButtonsExample.tsx'
+import { Example as CustomSelectExample } from '../../examples/components/input-group/CustomSelectExample.tsx'
+import { Example as CustomFileInputExample } from '../../examples/components/input-group/CustomFileInputExample.tsx'
 
-import {
-  Button,
-  FileInput,
-  Form,
-  TextInput,
-  FormLabel,
-  Select,
-  Textarea,
-  InputGroup,
-  InputGroupAddon,
-  Col,
-  Row,
-} from '@chassis-ui/react'
+## Basic usage
 
-## Basic example
-
-Place one add-on or button on either side of an input. You may also place one on both sides of an input. Remember to place `<FormLabel>`s outside the input group.
+Place one add-on or button on either side of an input, or on both sides at once. Place
+`<FormLabel>`s outside the input group, rather than inside it.
 
 <Example class="vstack gap-medium">
-  <InputGroup className="mb-medium">
-    <InputGroupAddon id="basic-addon1">@</InputGroupAddon>
-    <TextInput placeholder="Username" aria-label="Username" aria-describedby="basic-addon1"/>
-  </InputGroup>
-
-  <InputGroup className="mb-medium">
-    <TextInput
-      placeholder="Recipient's username"
-      aria-label="Recipient's username"
-      aria-describedby="basic-addon2"
-    />
-    <InputGroupAddon id="basic-addon2">@example.com</InputGroupAddon>
-  </InputGroup>
-
-  <FormLabel htmlFor="basic-url">Your vanity URL</FormLabel>
-  <InputGroup className="mb-medium">
-    <InputGroupAddon id="basic-addon3">https://example.com/users/</InputGroupAddon>
-    <TextInput id="basic-url" aria-describedby="basic-addon3" />
-  </InputGroup>
-
-  <InputGroup className="mb-medium">
-    <InputGroupAddon>$</InputGroupAddon>
-    <TextInput aria-label="Amount (to the nearest dollar)" />
-    <InputGroupAddon>.00</InputGroupAddon>
-  </InputGroup>
-
-  <InputGroup className="mb-medium">
-    <TextInput placeholder="Username" aria-label="Username" />
-    <InputGroupAddon>@</InputGroupAddon>
-    <TextInput placeholder="Server" aria-label="Server" />
-  </InputGroup>
-
-  <InputGroup>
-    <InputGroupAddon>With textarea</InputGroupAddon>
-    <Textarea aria-label="With textarea"></Textarea>
-  </InputGroup>
+  <BasicExample client:load />
 </Example>
 
 ## Wrapping
 
-Input groups wrap by default via `flex-wrap: wrap` in order to accommodate custom form field validation within an input group. You may disable this with `.flex-nowrap`.
+An input group wraps by default via `flex-wrap: wrap`, accommodating custom form field validation
+within the group. Disable this with the `.flex-nowrap` class.
 
 <Example>
-  <InputGroup className="flex-nowrap">
-    <InputGroupAddon id="addon-wrapping">@</InputGroupAddon>
-    <TextInput placeholder="Username" aria-label="Username" aria-describedby="addon-wrapping" />
-  </InputGroup>
+  <WrappingExample client:load />
 </Example>
 
 ## Sizing
 
-Add the relative form sizing classes to the `<InputGroup>` itself and contents within will automatically resize—no need for repeating the form control size classes on each element.
+Add the relative form sizing classes to `<InputGroup>` itself, and its contents resize
+automatically — no need to repeat the form control size classes on each element.
 
-**Sizing on the individual input group elements isn't supported.**
+<Callout type="warning">
+  Sizing on the individual input group elements isn't supported.
+</Callout>
 
 <Example>
-  <InputGroup size="small" className="mb-medium">
-    <InputGroupAddon id="inputGroup-sizing-small">Small</InputGroupAddon>
-    <TextInput aria-label="Sizing example input" aria-describedby="inputGroup-sizing-small"/>
-  </InputGroup>
-
-  <InputGroup className="mb-medium">
-    <InputGroupAddon id="inputGroup-sizing-default">Default</InputGroupAddon>
-    <TextInput aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
-  </InputGroup>
-
-  <InputGroup size="large">
-    <InputGroupAddon id="inputGroup-sizing-large">Large</InputGroupAddon>
-    <TextInput aria-label="Sizing example input" aria-describedby="inputGroup-sizing-large"/>
-  </InputGroup>
+  <SizingExample client:load />
 </Example>
 
 ## Checkboxes and radios
 
-Place any checkbox or radio option within an input group's addon instead of text.
+Place a checkbox or radio option within an input group's addon instead of text.
 
 <Example>
   <CheckboxRadioAddonsExample client:load />
@@ -110,14 +57,11 @@ Place any checkbox or radio option within an input group's addon instead of text
 
 ## Multiple inputs
 
-While multiple `<TextInput>`s are supported visually, validation styles are only available for input groups with a single `<TextInput>`.
+Multiple `<TextInput>`s are supported visually, though validation styles are only available for
+input groups with a single `<TextInput>`.
 
 <Example>
-  <InputGroup>
-    <InputGroupAddon>First and last name</InputGroupAddon>
-    <TextInput aria-label="First name" />
-    <TextInput aria-label="Last name" />
-  </InputGroup>
+  <MultipleInputsExample client:load />
 </Example>
 
 ## Multiple addons
@@ -125,56 +69,20 @@ While multiple `<TextInput>`s are supported visually, validation styles are only
 Multiple add-ons are supported and can be mixed with checkbox and radio input versions.
 
 <Example>
-  <InputGroup className="mb-medium">
-    <InputGroupAddon>$</InputGroupAddon>
-    <InputGroupAddon>0.00</InputGroupAddon>
-    <TextInput aria-label="Dollar amount (with dot and two decimal places)"/>
-  </InputGroup>
-
-  <InputGroup>
-    <TextInput aria-label="Dollar amount (with dot and two decimal places)"/>
-    <InputGroupAddon>$</InputGroupAddon>
-    <InputGroupAddon>0.00</InputGroupAddon>
-  </InputGroup>
+  <MultipleAddonsExample client:load />
 </Example>
 
 ## Button addons
 
+Buttons work as addons in place of text, on either side of the input or on both.
+
 <Example>
-  <InputGroup className="mb-medium">
-    <Button type="button" color="secondary" variant="outline" id="button-addon1">Button</Button>
-    <TextInput placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1"/>
-  </InputGroup>
-
-  <InputGroup className="mb-medium">
-    <TextInput
-      placeholder="Recipient's username"
-      aria-label="Recipient's username"
-      aria-describedby="button-addon2"
-    />
-    <Button type="button" color="secondary" variant="outline" id="button-addon2">
-      Button
-    </Button>
-  </InputGroup>
-
-  <InputGroup className="mb-medium">
-    <Button type="button" color="secondary" variant="outline">
-      Button
-    </Button>
-    <Button type="button" color="secondary" variant="outline">
-      Button
-    </Button>
-    <TextInput placeholder="" aria-label="Example text with two button addons" />
-  </InputGroup>
-
-  <InputGroup>
-    <TextInput placeholder="Recipient's username" aria-label="Recipient's username with two button addons"/>
-    <Button type="button" color="secondary" variant="outline">Button</Button>
-    <Button type="button" color="secondary" variant="outline">Button</Button>
-  </InputGroup>
+  <ButtonAddonsExample client:load />
 </Example>
 
 ## Buttons with menus
+
+A `<Menu>` composes into an input group the same way a plain button addon does.
 
 <Example>
   <ButtonsWithMenusExample client:load />
@@ -182,92 +90,34 @@ Multiple add-ons are supported and can be mixed with checkbox and radio input ve
 
 ## Segmented buttons
 
+Pair a button addon with an icon-only `<Menu>` toggle to split a primary action from a menu of
+related ones.
+
 <Example>
   <SegmentedButtonsExample client:load />
 </Example>
 
 ## Custom forms
 
-Input groups include support for custom selects and custom file inputs. Browser default versions of these are not supported.
+Input groups support custom selects and custom file inputs. Browser default versions of these
+controls aren't supported.
 
 ### Custom select
 
+A `<Select>` composes into an input group the same way a `<TextInput>` does, with an addon on
+either side.
+
 <Example>
-  <InputGroup className="mb-medium">
-    <InputGroupAddon component="label" htmlFor="inputGroupSelect01">Options</InputGroupAddon>
-    <Select id="inputGroupSelect01">
-      <option>Choose...</option>
-      <option value="1">One</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
-    </Select>
-  </InputGroup>
-
-  <InputGroup className="mb-medium">
-    <Select id="inputGroupSelect02">
-      <option>Choose...</option>
-      <option value="1">One</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
-    </Select>
-    <InputGroupAddon component="label" htmlFor="inputGroupSelect02">
-      Options
-    </InputGroupAddon>
-  </InputGroup>
-
-  <InputGroup className="mb-medium">
-    <Button type="button" color="secondary" variant="outline">
-      Button
-    </Button>
-    <Select id="inputGroupSelect03" aria-label="Example select with button addon">
-      <option>Choose...</option>
-      <option value="1">One</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
-    </Select>
-  </InputGroup>
-
-  <InputGroup>
-    <Select id="inputGroupSelect04" aria-label="Example select with button addon">
-      <option>Choose...</option>
-      <option value="1">One</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
-    </Select>
-    <Button type="button" color="secondary" variant="outline">Button</Button>
-  </InputGroup>
+  <CustomSelectExample client:load />
 </Example>
 
 ### Custom file input
 
+A `<FileInput>` composes into an input group the same way, pairing with a label-style addon or a
+button.
+
 <Example>
-  <InputGroup className="mb-medium">
-    <InputGroupAddon component="label" htmlFor="inputGroupFile01">Upload</InputGroupAddon>
-    <FileInput id="inputGroupFile01"/>
-  </InputGroup>
-
-  <InputGroup className="mb-medium">
-    <FileInput id="inputGroupFile02" />
-    <InputGroupAddon component="label" htmlFor="inputGroupFile02">
-      Upload
-    </InputGroupAddon>
-  </InputGroup>
-
-  <InputGroup className="mb-medium">
-    <Button type="button" color="secondary" variant="outline" id="inputGroupFileAddon03">
-      Button
-    </Button>
-    <FileInput
-      id="inputGroupFile03"
-      aria-describedby="inputGroupFileAddon03"
-      aria-label="Upload"
-    />
-  </InputGroup>
-
-  <InputGroup>
-    <FileInput id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload"/>
-    <Button type="button" color="secondary" variant="outline" id="inputGroupFileAddon04">Button</Button>
-  </InputGroup>
+  <CustomFileInputExample client:load />
 </Example>
 
 ## API
@@ -275,6 +125,7 @@ Input groups include support for custom selects and custom file inputs. Browser 
 ### InputGroup
 
 <PropTable component="InputGroup" />
+
 ### InputGroupAddon
 
 <PropTable component="InputGroupAddon" />

@@ -1,53 +1,36 @@
 ---
 title: Floating labels
-description: Chassis floating label component. Create beautifully simple form labels that float over your input fields.
-
+description: Float labels above textual form fields when a value is present or the field is focused.
 toc: true
 ---
 
-import { 
-  Button,
-  Form,
-  FloatingInput,
-  TextInput,
-  Select,
-  Textarea,
-  Col,
-  Row 
-} from '@chassis-ui/react'
+import { Example as TextInputsExample } from '../../examples/components/floating-labels/TextInputsExample.tsx'
+import { Example as ExistingValueExample } from '../../examples/components/floating-labels/ExistingValueExample.tsx'
+import { Example as HelpAndValidationExample } from '../../examples/components/floating-labels/HelpAndValidationExample.tsx'
+import { Example as TextareaExample } from '../../examples/components/floating-labels/TextareaExample.tsx'
+import { Example as TextareaHeightExample } from '../../examples/components/floating-labels/TextareaHeightExample.tsx'
+import { Example as SelectExample } from '../../examples/components/floating-labels/SelectExample.tsx'
+import { Example as LayoutExample } from '../../examples/components/floating-labels/LayoutExample.tsx'
 
-## Example
+## Examples
 
 Pass `label` and `ids={{ input: yourControlId }}` to `FloatingInput` and wrap a `TextInput`,
 `Select`, or `Textarea` (matched on the same `id`) to enable floating labels with textual form
 fields — `FloatingInput` renders the floating `<label>` itself, so don't also pass `label` to the
-wrapped control. A `placeholder` is required on each `<TextInput>` as our method of CSS-only
-floating labels uses the `:placeholder-shown` pseudo-element.
+wrapped control. A `placeholder` is required on each `<TextInput>`, since this CSS-only technique
+relies on the `:placeholder-shown` pseudo-class.
 
 <Example>
-  <FloatingInput className="mb-medium" label="Email address" ids={{ input: 'floatingInput' }}>
-    <TextInput type="email" id="floatingInput" placeholder="name@example.com" />
-  </FloatingInput>
-  <FloatingInput label="Password" ids={{ input: 'floatingPassword' }}>
-    <TextInput type="password" id="floatingPassword" placeholder="Password" />
-  </FloatingInput>
+  <TextInputsExample client:load />
 </Example>
 
-When there's a `value` already defined, the label will automatically adjust to its floated
-position.
+The label floats automatically when the wrapped control already has a `value`.
 
 <Example>
-  <FloatingInput label="Input with value" ids={{ input: 'floatingInputValue' }}>
-    <TextInput
-      type="email"
-      id="floatingInputValue"
-      placeholder="name@example.com"
-      defaultValue="test@example.com"
-    />
-  </FloatingInput>
+  <ExistingValueExample client:load />
 </Example>
 
-## Help and validation feedback
+## Help and feedback
 
 Passing `help`, `invalid`/`invalidFeedback`, or `valid`/`validFeedback` wraps the floating input
 in a `.form-field` and renders the corresponding text below it, same as the other form components
@@ -55,82 +38,40 @@ in a `.form-field` and renders the corresponding text below it, same as the othe
 stays associated.
 
 <Example>
-  <FloatingInput
-    help="We'll never share your email."
-    ids={{ help: 'floatingInputHelp', input: 'floatingInputHelpExample' }}
-    label="Email address"
-  >
-    <TextInput
-      type="email"
-      id="floatingInputHelpExample"
-      aria-describedby="floatingInputHelp"
-      placeholder="name@example.com"
-    />
-  </FloatingInput>
+  <HelpAndValidationExample client:load />
 </Example>
 
 ## Textareas
 
-By default, `<Textarea>`s will be the same height as `<TextInput>`s.
+A `<Textarea>` renders at the same height as a `<TextInput>` by default.
 
 <Example>
-  <FloatingInput label="Comments" ids={{ input: 'floatingTextarea' }}>
-    <Textarea
-      id="floatingTextarea"
-      placeholder="Leave a comment here"
-    ></Textarea>
-  </FloatingInput>
+  <TextareaExample client:load />
 </Example>
 
-To set a custom height on your `<Textarea>`, do not use the `rows` attribute. Instead, set an explicit `height` (either inline or via custom CSS).
+Set an explicit `height` (inline or via custom CSS) for a custom `<Textarea>` height instead of the
+`rows` attribute, which floating labels don't account for.
 
 <Example>
-  <FloatingInput label="Comments" ids={{ input: 'floatingTextarea2' }}>
-    <Textarea
-      placeholder="Leave a comment here"
-      id="floatingTextarea2"
-      style={{ height: '100px' }}
-    ></Textarea>
-  </FloatingInput>
+  <TextareaHeightExample client:load />
 </Example>
 
 ## Selects
 
-Other than `<TextInput>`, floating labels are only available on `<Select>`s. They work in the same way, but unlike `<TextInput>`s, they'll always show the label in its floated state. **Selects with `size` and `multiple` are not supported.**
+Floating labels also work with `<Select>`, though a select's label always renders in its floated
+state rather than overlapping the value. **Selects with `size` or `multiple` set aren't supported.**
 
 <Example>
-  <FloatingInput label="Works with selects" ids={{ input: 'floatingSelect' }}>
-    <Select id="floatingSelect">
-      <option>Open this select menu</option>
-      <option value="1">One</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
-    </Select>
-  </FloatingInput>
+  <SelectExample client:load />
 </Example>
 
 ## Layout
 
-When working with the Chassis grid system, be sure to place form elements within column classes.
+Place floating inputs inside `<Row>`/`<Col>` column classes when combining them with the Chassis
+grid system.
 
 <Example>
-  <Row gutter="small">
-    <Col responsive={{ medium: { span: true } }}>
-      <FloatingInput label="Email address" ids={{ input: 'floatingInputGrid' }}>
-        <TextInput type="email" id="floatingInputGrid" placeholder="name@example.com" defaultValue="email@example.com" />
-      </FloatingInput>
-    </Col>
-    <Col responsive={{ medium: { span: true } }}>
-      <FloatingInput label="Works with selects" ids={{ input: 'floatingSelectGrid' }}>
-        <Select id="floatingSelectGrid">
-          <option>Open this select menu</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-        </Select>
-      </FloatingInput>
-    </Col>
-  </Row>
+  <LayoutExample client:load />
 </Example>
 
 ## API

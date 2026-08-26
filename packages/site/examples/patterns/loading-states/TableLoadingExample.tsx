@@ -28,7 +28,7 @@ const columns = [
 
 const statusColor = { Paid: 'success', Pending: 'warning' } as const
 
-export const TableLoadingExample = () => {
+export const Example = () => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {

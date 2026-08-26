@@ -22,7 +22,7 @@ import {
   TextInput
 } from '@chassis-ui/react'
 
-export const SupportedElementsExample = () => (
+export const Example = () => (
   <Stack gap="medium" direction="vertical">
     <TextInput label="Text input" invalid invalidFeedback="Example invalid feedback text." />
 

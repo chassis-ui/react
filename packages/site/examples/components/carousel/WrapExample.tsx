@@ -7,7 +7,7 @@ import {
   Placeholder
 } from '@chassis-ui/react'
 
-export const WrapExample = () => (
+export const Example = () => (
   <Carousel ends="wrap">
     <CarouselInner>
       <CarouselItem>

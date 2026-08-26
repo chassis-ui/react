@@ -7,7 +7,7 @@ const samples: { label: string; password: string }[] = [
   { label: 'Strong', password: 'Sup3r!Secret!Passphrase99' }
 ]
 
-export const LevelsExample = () => {
+export const Example = () => {
   return (
     <div className="vstack gap-medium">
       {samples.map(({ label, password }) => (

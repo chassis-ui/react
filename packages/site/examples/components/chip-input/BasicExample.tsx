@@ -1,6 +1,6 @@
 import { ChipInput } from '@chassis-ui/react'
 
-export const BasicExample = () => {
+export const Example = () => {
   return (
     <ChipInput
       aria-label="Skills"

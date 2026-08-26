@@ -1,7 +1,7 @@
 import { RangeCalendar } from '@chassis-ui/react'
 import { today, getLocalTimeZone } from '@internationalized/date'
 
-export const RangeMinMaxExample = () => {
+export const Example = () => {
   const now = today(getLocalTimeZone())
 
   return (

@@ -8,7 +8,7 @@ import {
   Placeholder
 } from '@chassis-ui/react'
 
-export const BottomControlsExample = () => (
+export const Example = () => (
   <Carousel>
     <CarouselInner>
       <CarouselItem>

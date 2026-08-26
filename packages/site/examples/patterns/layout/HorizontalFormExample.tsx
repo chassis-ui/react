@@ -10,7 +10,7 @@ import {
   Row
 } from '@chassis-ui/react'
 
-export const HorizontalFormExample = () => {
+export const Example = () => {
   return (
     <Form>
       <Row className="mb-medium">

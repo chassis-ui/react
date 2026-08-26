@@ -1,24 +1,19 @@
 ---
 title: Form Grid
-description: Give your forms some structure—from inline to horizontal to custom grid implementations—with our form layout options.
+description: Structure a form's layout with margin utilities, grid classes, and gutter modifiers — from a simple two-column row to a full horizontal form.
 
 toc: true
 ---
 
-import { HorizontalFormExample } from '../../examples/patterns/layout/HorizontalFormExample.tsx'
-
-import {
-  Button,
-  Form,
-  Checkbox,
-  TextInput,
-  FormLabel,
-  Select,
-  InputGroup,
-  InputGroupAddon,
-  Col,
-  Row,
-} from '@chassis-ui/react'
+import { Example as FormGridExample } from '../../examples/patterns/layout/FormGridExample.tsx'
+import { Example as GuttersExample } from '../../examples/patterns/layout/GuttersExample.tsx'
+import { Example as ComplexGridExample } from '../../examples/patterns/layout/ComplexGridExample.tsx'
+import { Example as HorizontalFormExample } from '../../examples/patterns/layout/HorizontalFormExample.tsx'
+import { Example as LabelSizingExample } from '../../examples/patterns/layout/LabelSizingExample.tsx'
+import { Example as ColumnSizingExample } from '../../examples/patterns/layout/ColumnSizingExample.tsx'
+import { Example as AutoSizingExample } from '../../examples/patterns/layout/AutoSizingExample.tsx'
+import { Example as AutoSizingSizedExample } from '../../examples/patterns/layout/AutoSizingSizedExample.tsx'
+import { Example as InlineFormsExample } from '../../examples/patterns/layout/InlineFormsExample.tsx'
 
 For the `<Form>` element's own default behaviors and the `label`/`help`/validation props shared
 across every form component, see [Working with Forms]([[docsref:/getting-started/working-with-forms]]).
@@ -26,230 +21,87 @@ This page covers structuring a form's layout with the grid system once those pie
 
 ## Utilities
 
-Margin utilities are the easiest way to add some structure to forms. They provide basic grouping of labels, controls, optional form text, and form validation messaging. We recommend sticking to `margin-bottom` utilities, and using a single direction throughout the form for consistency.
+Margin utilities add basic structure to a form — grouping labels, controls, optional help text,
+and validation messaging. Stick to `margin-bottom` utilities in a single direction throughout a
+form for consistent spacing.
 
 ## Form grid
 
-More complex forms can be built using our grid classes. Use these for form layouts that require multiple columns, varied widths, and additional alignment options.
+Build more complex forms with the grid classes for layouts that need multiple columns, varied
+widths, or additional alignment options.
 
 <Example>
-  <Row>
-    <Col span>
-      <TextInput placeholder="First name" aria-label="First name"/>
-    </Col>
-    <Col span>
-      <TextInput placeholder="Last name" aria-label="Last name"/>
-    </Col>
-  </Row>
+  <FormGridExample client:load />
 </Example>
 
 ## Gutters
 
-By adding gutter modifier classes, you can have control over the gutter width in as well the inline as block direction.
+Add gutter modifier classes to control the gutter width in the inline and block directions
+independently.
 
 <Example>
-  <Row className="g-3">
-    <Col span>
-      <TextInput placeholder="First name" aria-label="First name"/>
-    </Col>
-    <Col span>
-      <TextInput placeholder="Last name" aria-label="Last name"/>
-    </Col>
-  </Row>
+  <GuttersExample client:load />
 </Example>
 
-More complex layouts can also be created with the grid system.
+The grid system also composes into more complex layouts, like a full address form spanning
+several breakpoints.
 
 <Example>
-  <Form className="row g-3">
-    <Col responsive={{ medium: { span: 6 } }}>
-      <FormLabel htmlFor="inputEmail4">Email</FormLabel>
-      <TextInput type="email" id="inputEmail4"/>
-    </Col>
-    <Col responsive={{ medium: { span: 6 } }}>
-      <FormLabel htmlFor="inputPassword4">Password</FormLabel>
-      <TextInput type="password" id="inputPassword4"/>
-    </Col>
-    <Col span={12}>
-      <FormLabel htmlFor="inputAddress">Address</FormLabel>
-      <TextInput id="inputAddress" placeholder="1234 Main St"/>
-    </Col>
-    <Col span={12}>
-      <FormLabel htmlFor="inputAddress2">Address 2</FormLabel>
-      <TextInput id="inputAddress2" placeholder="Apartment, studio, or floor"/>
-    </Col>
-    <Col responsive={{ medium: { span: 6 } }}>
-      <FormLabel htmlFor="inputCity">City</FormLabel>
-      <TextInput id="inputCity"/>
-    </Col>
-    <Col responsive={{ medium: { span: 4 } }}>
-      <FormLabel htmlFor="inputState">State</FormLabel>
-      <Select id="inputState">
-        <option>Choose...</option>
-        <option>...</option>
-      </Select>
-    </Col>
-    <Col responsive={{ medium: { span: 2 } }}>
-      <FormLabel htmlFor="inputZip">Zip</FormLabel>
-      <TextInput id="inputZip"/>
-    </Col>
-    <Col span={12}>
-      <Checkbox id="gridCheck" label="Check me out"/>
-    </Col>
-    <Col span={12}>
-      <Button type="submit">Sign in</Button>
-    </Col>
-  </Form>
+  <ComplexGridExample client:load />
 </Example>
 
 ## Horizontal form
 
-Create horizontal forms with the grid by adding the `.row` class to form groups and using the `.col-*-*` classes to specify the width of your labels and controls. Be sure to add `.col-form-label` to your `<FormLabel>`s as well so they're vertically centered with their associated form controls.
+Create horizontal forms with the grid by adding the `.row` class to form groups and using the
+`.col-*-*` classes to specify the width of labels and controls. Add `.col-form-label` to a
+`<FormLabel>` as well, so it's vertically centered with its associated form control.
 
-At times, you maybe need to use margin or padding utilities to create that perfect alignment you need.
+Margin or padding utilities may still be needed to fine-tune alignment.
 
 <Example>
   <HorizontalFormExample client:load />
 </Example>
 
-### Horizontal form label sizing
+### Label sizing
 
-Be sure to use `.col-form-label-small` or `.col-form-label-large` to your `<FormLabel>`s or `<legend>`s to correctly follow the size of `.large` and `.small`.
+Add `.col-form-label-small` or `.col-form-label-large` on a `<FormLabel>` or `<legend>` to match
+the size of a `.small` or `.large` control.
 
 <Example>
-  <Row className="mb-medium">
-    <FormLabel htmlFor="colFormLabelSm" className="small:col-2 col-form-label col-form-label-small">Email</FormLabel>
-    <Col responsive={{ small: { span: 10 } }}>
-      <TextInput type="email" className="form-input small" id="colFormLabelSm" placeholder="col-form-label-small"/>
-    </Col>
-  </Row>
-  <Row className="mb-medium">
-    <FormLabel htmlFor="colFormLabel" className="small:col-2 col-form-label">Email</FormLabel>
-    <Col responsive={{ small: { span: 10 } }}>
-      <TextInput type="email" id="colFormLabel" placeholder="col-form-label"/>
-    </Col>
-  </Row>
-  <Row>
-    <FormLabel htmlFor="colFormLabelLg" className="small:col-2 col-form-label col-form-label-large">Email</FormLabel>
-    <Col responsive={{ small: { span: 10 } }}>
-      <TextInput type="email" className="form-input large" id="colFormLabelLg" placeholder="col-form-label-large"/>
-    </Col>
-  </Row>
+  <LabelSizingExample client:load />
 </Example>
 
 ## Column sizing
 
-As shown in the previous examples, our grid system allows you to place any number of `<Col>`s within a `<Row>`. They'll split the available width equally between them. You may also pick a subset of your columns to take up more or less space, while the remaining `<Col>`s equally split the rest, with specific column props like `<Col responsive={{ small: { span: 7 } }}>`.
+Any number of `<Col>`s can go inside a `<Row>`, splitting the available width equally between
+them by default. Assign a numbered `span` — like `<Col responsive={{ small: { span: 7 } }}>` — to
+a subset of columns, and the remaining `<Col>`s split what's left equally.
 
 <Example>
-  <Row className="g-3">
-    <Col responsive={{ small: { span: 7 } }}>
-      <TextInput placeholder="City" aria-label="City"/>
-    </Col>
-    <Col responsive={{ small: { span: true } }}>
-      <TextInput placeholder="State" aria-label="State"/>
-    </Col>
-    <Col responsive={{ small: { span: true } }}>
-      <TextInput placeholder="Zip" aria-label="Zip"/>
-    </Col>
-  </Row>
+  <ColumnSizingExample client:load />
 </Example>
 
 ## Auto-sizing
 
-The example below uses a flexbox utility to vertically center the contents and changes `<Col>` to `<Col span="auto">` so that your columns only take up as much space as needed. Put another way, the column sizes itself based on the contents.
+Add a flexbox utility to vertically center a row's contents, and change `<Col>` to
+`<Col span="auto">` so a column takes up only as much space as its content needs.
 
 <Example>
-  <Form className="row gy-2 gx-3 align-items-center">
-    <Col span="auto">
-      <FormLabel className="visually-hidden" htmlFor="autoSizingInput">Name</FormLabel>
-      <TextInput id="autoSizingInput" placeholder="Jane Doe"/>
-    </Col>
-    <Col span="auto">
-      <FormLabel className="visually-hidden" htmlFor="autoSizingInputGroup">Username</FormLabel>
-      <InputGroup>
-        <InputGroupAddon>@</InputGroupAddon>
-        <TextInput id="autoSizingInputGroup" placeholder="Username"/>
-      </InputGroup>
-    </Col>
-    <Col span="auto">
-      <FormLabel className="visually-hidden" htmlFor="autoSizingSelect">Preference</FormLabel>
-      <Select id="autoSizingSelect">
-        <option>Choose...</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-      </Select>
-    </Col>
-    <Col span="auto">
-      <Checkbox id="autoSizingCheck" label="Remember me"/>
-    </Col>
-    <Col span="auto">
-      <Button type="submit">Submit</Button>
-    </Col>
-  </Form>
+  <AutoSizingExample client:load />
 </Example>
 
-You can then remix that once again with size-specific column classes.
+Combine `span="auto"` with size-specific column classes on the remaining columns for more control.
 
 <Example>
-  <Form className="row gx-3 gy-2 align-items-center">
-    <Col responsive={{ small: { span: 3 } }}>
-      <FormLabel className="visually-hidden" htmlFor="specificSizeInputName">Name</FormLabel>
-      <TextInput id="specificSizeInputName" placeholder="Jane Doe"/>
-    </Col>
-    <Col responsive={{ small: { span: 3 } }}>
-      <FormLabel className="visually-hidden" htmlFor="specificSizeInputGroupUsername">Username</FormLabel>
-      <InputGroup>
-        <InputGroupAddon>@</InputGroupAddon>
-        <TextInput id="specificSizeInputGroupUsername" placeholder="Username"/>
-      </InputGroup>
-    </Col>
-    <Col responsive={{ small: { span: 3 } }}>
-      <FormLabel className="visually-hidden" htmlFor="specificSizeSelect">Preference</FormLabel>
-      <Select id="specificSizeSelect">
-        <option>Choose...</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-      </Select>
-    </Col>
-    <Col span="auto">
-      <Checkbox id="autoSizingCheck2" label="Remember me"/>
-    </Col>
-    <Col span="auto">
-      <Button type="submit">Submit</Button>
-    </Col>
-  </Form>
+  <AutoSizingSizedExample client:load />
 </Example>
 
 ## Inline forms
 
-Use `<Col span="auto">` to create horizontal layouts. By adding gutter modifier classes, we will have gutters in horizontal and vertical directions. The `.align-items-center` aligns the form elements to the middle, making the `<Checkbox>` align properly.
+Use `<Col span="auto">` to build horizontal layouts. Gutter modifier classes add spacing in both
+horizontal and vertical directions, and `.align-items-center` vertically centers the form
+elements so the `<Checkbox>` aligns properly.
 
 <Example>
-  <Form className="row large:row-cols-auto g-3 align-items-center">
-    <Col span={12}>
-      <FormLabel className="visually-hidden" htmlFor="inlineFormInputGroupUsername">Username</FormLabel>
-      <InputGroup>
-        <InputGroupAddon>@</InputGroupAddon>
-        <TextInput id="inlineFormInputGroupUsername" placeholder="Username"/>
-      </InputGroup>
-    </Col>
-    <Col span={12}>
-      <FormLabel className="visually-hidden" htmlFor="inlineFormSelectPref">Preference</FormLabel>
-      <Select id="inlineFormSelectPref">
-        <option>Choose...</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-      </Select>
-    </Col>
-    <Col span={12}>
-      <Checkbox id="inlineFormCheck" label="Remember me"/>
-    </Col>
-    <Col span={12}>
-      <Button type="submit">Submit</Button>
-    </Col>
-  </Form>
+  <InlineFormsExample client:load />
 </Example>

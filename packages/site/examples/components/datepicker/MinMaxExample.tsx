@@ -1,7 +1,7 @@
 import { DatePicker } from '@chassis-ui/react'
 import { today, getLocalTimeZone } from '@internationalized/date'
 
-export const MinMaxExample = () => {
+export const Example = () => {
   const now = today(getLocalTimeZone())
 
   return (

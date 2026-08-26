@@ -17,9 +17,9 @@ import { Example as StatusExample } from '../../examples/components/avatar/Statu
 import { Example as StackExample } from '../../examples/components/avatar/StackExample.tsx'
 import { Example as StackAltExample } from '../../examples/components/avatar/StackAltExample.tsx'
 
-## About
+## Overview
 
-Avatars are typically used to display a user profile as a picture or short text. They can be used in various contexts, such as in lists, groups, or as buttons.
+An `<Avatar>` displays a user profile as a picture, initials, or an icon, in lists, groups, or as a standalone button.
 
 ## Basic usage
 
@@ -29,7 +29,7 @@ Render a `<Avatar>` with text content for initials, or set the `src` prop to dis
   <BasicExample client:load />
 </Example>
 
-Passing a `src` renders an `AvatarImage` automatically. Nest one directly instead if you need more control over the image itself.
+Passing a `src` renders an `AvatarImage` automatically. Nest one directly for more control over the image itself.
 
 <Example class="d-flex gap-small">
   <AvatarImageExample client:load />
@@ -43,18 +43,10 @@ Set the `size` prop to one of the Chassis component sizes to adjust the avatar's
   <SizeExample client:load />
 </Example>
 
-You can also use the `--cx-avatar-size` CSS variable to set a custom size.
+The `--cx-avatar-size` CSS variable sets a custom size directly.
 
 <Example class="d-flex gap-small align-items-center">
   <SizeVariableExample client:load />
-</Example>
-
-## Custom components
-
-`<Avatar>` renders a `<button>` by default. Set the `href` prop to render an anchor instead, or set `component` to render any other tag or custom component. Use the `disabled` prop to disable a button or anchor avatar.
-
-<Example class="d-flex gap-small">
-  <CustomComponentsExample client:load />
 </Example>
 
 ## Colors
@@ -73,6 +65,14 @@ Set the `smooth` prop to create avatars with a subdued background color and matc
   <SmoothExample client:load />
 </Example>
 
+## Custom components
+
+`<Avatar>` renders a `<button>` by default. Set the `href` prop to render an anchor instead, or set `component` to render any other tag or custom component. Use the `disabled` prop to disable a button or anchor avatar.
+
+<Example class="d-flex gap-small">
+  <CustomComponentsExample client:load />
+</Example>
+
 ## Badges
 
 Set the `status` prop to one of the Chassis themed colors to show a status indicator in the bottom-end corner. It scales with the avatar's `size` automatically.
@@ -81,10 +81,10 @@ Set the `status` prop to one of the Chassis themed colors to show a status indic
   <StatusExample client:load />
 </Example>
 
-<Callout context="info">
-  <p>
-    Status colors alone can be confusing for screen reader users. Set <code>statusLabel</code> to describe what the badge conveys &mdash; it's rendered as visually hidden text on the badge. Without it, the <code>status</code> value itself (e.g. <code>"success"</code>) is used as a fallback.
-  </p>
+<Callout type="info">
+  Status colors alone can be confusing for screen reader users. Set `statusLabel` to describe what
+  the badge conveys — it's rendered as visually hidden text on the badge. Without it, the `status`
+  value itself (e.g. `"success"`) is used as a fallback.
 </Callout>
 
 ## Stacks

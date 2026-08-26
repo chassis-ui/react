@@ -9,7 +9,7 @@ import {
   Placeholder
 } from '@chassis-ui/react'
 
-export const OverlayControlsExample = () => (
+export const Example = () => (
   <Carousel autoplay>
     <CarouselInner>
       <CarouselItem>

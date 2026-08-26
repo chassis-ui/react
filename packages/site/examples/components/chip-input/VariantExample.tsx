@@ -1,6 +1,6 @@
 import { ChipInput } from '@chassis-ui/react'
 
-export const VariantExample = () => {
+export const Example = () => {
   return (
     <div className="vstack gap-medium">
       <ChipInput

@@ -1,126 +1,68 @@
 ---
 title: Forms
-description: Examples and usage guidelines for form control styles, layout options, and custom components for creating a wide variety of forms.
-
+description: Usage guidance for form control styles, layout, help text, and disabled states across Chassis form components.
 toc: true
 ---
 
-import {
-  Button,
-  Form,
-  Checkbox,
-  TextInput,
-  FormLabel,
-  Select,
-  FormHelp,
-  Col,
-  Row,
-} from '@chassis-ui/react'
+import { Example as BasicExample } from '../../examples/components/form/BasicExample.tsx'
+import { Example as BlockHelpExample } from '../../examples/components/form/BlockHelpExample.tsx'
+import { Example as InlineHelpExample } from '../../examples/components/form/InlineHelpExample.tsx'
+import { Example as DisabledFieldsetExample } from '../../examples/components/form/DisabledFieldsetExample.tsx'
 
 ## Overview
 
-Chassis form controls expand on our Rebooted form styles with classes. Use these classes to opt into their customized displays for a more consistent rendering across browsers and devices.
+Chassis form controls expand on Rebooted native form styles with classes, opting into consistent
+rendering across browsers and devices.
 
-Be sure to use an appropriate `type` attribute on all inputs (e.g., `email` for email address or `number` for numerical information) to take advantage of newer input controls like email verification, number selection, and more.
+Set an appropriate `type` attribute on every input (e.g., `email` for an email address, `number`
+for numerical information) to take advantage of the browser's native input controls, like email
+verification and number selection.
 
-Here's a quick example to demonstrate Chassis form styles. Keep reading for documentation on required classes, form layout, and more.
+A form combining a labeled email input, a password input, and a checkbox demonstrates the base
+building blocks — `<FormLabel>`, `<TextInput>`, `<FormHelp>`, and `<Checkbox>` — that the rest of
+this doc covers individually.
 
 <Example>
-  <Form>
-    <div className="mb-medium">
-      <FormLabel htmlFor="exampleInputEmail1">Email address</FormLabel>
-      <TextInput type="email" id="exampleInputEmail1" aria-describedby="emailHelp" />
-      <FormHelp id="emailHelp">We'll never share your email with anyone else.</FormHelp>
-    </div>
-    <div className="mb-medium">
-      <FormLabel htmlFor="exampleInputPassword1">Email Password</FormLabel>
-      <TextInput type="password" id="exampleInputPassword1" />
-    </div>
-    <Checkbox
-      className="mb-medium"
-      label="Check me out"
-      onChange={(isSelected) => {
-        console.log(isSelected)
-      }}
-    />
-    <Button type="submit" color="primary">
-      Submit
-    </Button>
-  </Form>
+  <BasicExample client:load />
 </Example>
 
 ## Form text
 
-Block-level or inline-level form text can be created using `<FormHelp>`.
+`<FormHelp>` renders block-level or inline-level help text alongside a form control. Point the
+control's `aria-describedby` at the same id as the `<FormHelp>` so assistive technology — screen
+readers in particular — announces the help text when the control receives focus.
 
-Associating form text with form controls
-Form text should be explicitly associated with the form control it relates to using the aria-describedby attribute. This will ensure that assistive technologies—such as screen readers—will announce this form text when the user focuses or enters the control.
-
-Form text below inputs can be styled with `<FormHelp>`. If a block-level element will be used, a top margin is added for easy spacing from the inputs above.
+A block-level `<FormHelp>` gets a top margin for spacing from the input above it.
 
 <Example>
-  <Form>
-    <div className="mb-medium">
-      <FormLabel htmlFor="inputPassword5">Password</FormLabel>
-      <TextInput type="password" id="inputPassword5" aria-describedby="passwordHelpBlock" />
-      <FormHelp id="passwordHelpBlock">
-        Your password must be 8-20 characters long, contain letters and numbers, and must not
-        contain spaces, special characters, or emoji.
-      </FormHelp>
-    </div>
-  </Form>
+  <BlockHelpExample client:load />
 </Example>
 
-Inline text can use any typical inline HTML element (be it a `<span>`, `<small>`, or something else) with nothing more than the `.form-text` class.
+An inline `<FormHelp>` renders as any typical inline element (`component="span"`, or similar) with
+just the `.form-text` class applied.
 
 <Example>
-  <Row className="g-3 align-items-center">
-    <Col span="auto">
-      <FormLabel htmlFor="inputPassword6" className="col-form-label">
-        Password
-      </FormLabel>
-    </Col>
-    <Col span="auto">
-      <TextInput type="password" id="inputPassword6" aria-describedby="passwordHelpInline" />
-    </Col>
-    <Col span="auto">
-      <FormHelp component="span" id="passwordHelpInline">
-        Must be 8-20 characters long.
-      </FormHelp>
-    </Col>
-  </Row>
+  <InlineHelpExample client:load />
 </Example>
 
 ## Disabled forms
 
-Add the `disabled` boolean attribute on an input to prevent user interactions and make it appear lighter.
+Add the `disabled` boolean attribute on an input to prevent interaction and render it with a
+lighter appearance:
 
 ```jsx
-<FormLabel id="disabledInput" type="text" placeholder="Disabled input here..." disabled />
+<TextInput type="text" placeholder="Disabled input here..." disabled />
 ```
 
-Add the `disabled` attribute to a `<fieldset>` to disable all the controls within. Browsers treat all native form controls (`<input>`, `<select>`, and `<button>` elements) inside a `<fieldset disabled>` as disabled, preventing both keyboard and mouse interactions on them.
+Add `disabled` to a `<fieldset>` to disable every control within it. Browsers treat native form
+controls (`<input>`, `<select>`, `<button>`) inside a `<fieldset disabled>` as disabled, blocking
+both keyboard and mouse interaction.
 
-However, if your form also includes custom button-like elements such as `<Button>...</Button>`, these will only be given a style of `pointer-events: none`, meaning they are still focusable and operable using the keyboard. In this case, you must manually modify these controls by adding `tabindex="-1"` to prevent them from receiving focus and `aria-disabled="disabled"` to signal their state to assistive technologies.
+A custom button-like element such as `<Button>` inside a disabled fieldset only receives
+`pointer-events: none` styling, so it stays focusable and operable via keyboard. Add `tabindex="-1"`
+to remove it from the tab order and `aria-disabled="true"` to signal its state to assistive
+technology.
 
 <Example>
-  <Form>
-    <fieldset disabled>
-      <legend>Disabled fieldset example</legend>
-      <div className="mb-medium">
-        <FormLabel htmlFor="disabledTextInput">Disabled input</FormLabel>
-        <TextInput id="disabledTextInput" placeholder="Disabled input" />
-      </div>
-      <div className="mb-medium">
-        <FormLabel htmlFor="disabledSelect">Disabled select menu</FormLabel>
-        <Select id="disabledSelect">
-          <option>Disabled select</option>
-        </Select>
-      </div>
-      <div className="mb-medium">
-        <Checkbox id="disabledFieldsetCheck" label="Can't check this" disabled />
-      </div>
-      <Button type="submit">Submit</Button>
-    </fieldset>
-  </Form>
+  <DisabledFieldsetExample client:load />
 </Example>

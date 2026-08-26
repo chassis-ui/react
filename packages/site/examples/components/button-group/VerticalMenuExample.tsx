@@ -8,7 +8,7 @@ import {
   MenuDivider
 } from '@chassis-ui/react'
 
-export const VerticalMenuExample = () => {
+export const Example = () => {
   return (
     <ButtonGroup vertical role="group" aria-label="Vertical button group">
       <Button color="primary">Button</Button>

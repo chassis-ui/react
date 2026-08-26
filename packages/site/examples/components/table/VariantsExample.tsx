@@ -6,7 +6,7 @@ const rows = [
   { id: 3, name: 'Larry Bird', role: 'Engineer' }
 ]
 
-export const VariantsExample = () => (
+export const Example = () => (
   <Table aria-label="Team" bordered hover small striped>
     <TableHeader>
       <TableColumn key="name">Name</TableColumn>

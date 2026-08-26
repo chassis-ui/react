@@ -1,6 +1,6 @@
 import { ChipInput } from '@chassis-ui/react'
 
-export const FormFieldExample = () => {
+export const Example = () => {
   return (
     <ChipInput
       label="Skills"

@@ -1,44 +1,37 @@
 ---
-title: Switch Component
-description: Create consistent cross-browser and cross-device toggle switches with our Chassis Switch component.
-
+title: Switch
+description: Toggle switch styled consistently across browsers and devices, built on custom checkbox markup with size and context color variants.
 toc: true
 ---
 
-import { Switch } from '@chassis-ui/react'
+import { Example as BasicExample } from '../../examples/components/switch/BasicExample.tsx'
+import { Example as SizeExample } from '../../examples/components/switch/SizeExample.tsx'
+import { Example as ColorExample } from '../../examples/components/switch/ColorExample.tsx'
 
-## Approach
+## Overview
 
-A switch has the markup of a custom checkbox but renders as a toggle switch via `<Switch>`. Switches also support the `disabled` attribute.
+A switch has the markup of a custom checkbox but renders as a toggle switch via `<Switch>`. It
+supports the native `disabled` attribute, same as any checkbox input.
 
 <Example>
-  <Switch label="Default switch checkbox input" id="formSwitchCheckDefault" />
-  <Switch label="Checked switch checkbox input" id="formSwitchCheckChecked" defaultSelected />
-  <Switch label="Disabled switch checkbox input" id="formSwitchCheckDisabled" disabled />
-  <Switch
-    label="Disabled checked switch checkbox input"
-    id="formSwitchCheckCheckedDisabled"
-    defaultSelected
-    disabled
-  />
+  <BasicExample client:load />
 </Example>
 
 ## Sizes
 
-Apply the `size` property (`small` or `large`) to change the size of a switch.
+Set `size` to `"small"` or `"large"` to change a switch's dimensions; the default renders at
+medium size.
 
 <Example>
-  <Switch size="small" label="Small switch checkbox input" id="formSwitchCheckDefaultSm" />
-  <Switch label="Default switch checkbox input" id="formSwitchCheckDefault" />
-  <Switch size="large" label="Large switch checkbox input" id="formSwitchCheckDefaultLg" />
+  <SizeExample client:load />
 </Example>
 
 ## Context colors
 
-Switches accept a `color` property to color the switch indicator with any of the Chassis contextual colors.
+Set `color` to any of the Chassis context colors to tint the switch indicator when selected.
 
 <Example>
-  <Switch color="danger" id="switchDanger" label="Danger switch" defaultSelected />
+  <ColorExample client:load />
 </Example>
 
 ## API

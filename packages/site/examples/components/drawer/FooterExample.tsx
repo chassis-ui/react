@@ -8,7 +8,7 @@ import {
   DrawerTitle
 } from '@chassis-ui/react'
 
-export const FooterExample = () => {
+export const Example = () => {
   const [visible, setVisible] = useState(false)
   return (
     <>

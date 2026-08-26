@@ -1,6 +1,6 @@
 import { Radio, RadioGroup } from '@chassis-ui/react'
 
-export const RadioGroupValidationExample = () => {
+export const Example = () => {
   return (
     <RadioGroup label="Select a plan" invalid errorMessage="Please choose a plan to continue.">
       <Radio value="basic" label="Basic" />

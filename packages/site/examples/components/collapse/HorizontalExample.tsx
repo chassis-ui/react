@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Card, CardBody, Button, Collapse } from '@chassis-ui/react'
 
-export const HorizontalExample = () => {
+export const Example = () => {
   const [visible, setVisible] = useState(false)
   return (
     <>

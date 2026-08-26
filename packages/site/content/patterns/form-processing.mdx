@@ -5,22 +5,10 @@ description: A complete example of building a validated, accessible form with su
 toc: true
 ---
 
-import { RegistrationForm } from '../../examples/patterns/form-processing/RegistrationForm.tsx'
+import { Example as RegistrationForm } from '../../examples/patterns/form-processing/RegistrationForm.tsx'
 
-import { useState } from 'react'
-import {
-  Button,
-  Form,
-  TextInput,
-  FormLabel,
-  Select,
-  FormFeedback,
-  Notification,
-  Row,
-  Col,
-} from '@chassis-ui/react'
-
-This pattern shows a registration form with controlled inputs, real-time validation feedback, and a success notification on submit.
+This pattern combines a registration form with controlled inputs, real-time validation feedback,
+and a success notification on submit.
 
 <Example>
   <RegistrationForm client:load />

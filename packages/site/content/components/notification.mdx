@@ -1,7 +1,6 @@
 ---
 title: Notification
 description: Chassis React Notification component gives contextual feedback for common user operations across the six semantic contexts.
-
 toc: true
 ---
 
@@ -26,7 +25,7 @@ Things to know when using `Notification`:
 - Or push it into a stack — call `addNotification()` from anywhere to queue one, and render a `<NotificationStack>` wherever it should appear. See [Stacking](#stacking).
 - `role="status"` (the default) suits routine confirmations and informational updates. Reserve `role="alert"` for errors and messages requiring immediate attention. See [Accessibility](#accessibility).
 - The `icon`/`title`/`text`/`actions` props are shorthand for the manual `NotificationIcon`/`NotificationTitle`/`NotificationText` composition — reach for manual composition only when a notification needs more than one block of body content. See [Shorthand props](#shorthand-props).
-- To dismiss a notification from markup you compose yourself — a labeled button in `actions`, instead of (or alongside) the `dismissible` close icon — call `useNotification()` and wire its `close` to any element's `onClick`. See [Dismissing](#dismissing).
+- To dismiss a notification from hand-composed markup — a labeled button in `actions`, instead of (or alongside) the `dismissible` close icon — call `useNotification()` and wire its `close` to any element's `onClick`. See [Dismissing](#dismissing).
 
 ## Examples
 
@@ -56,11 +55,10 @@ Use one of the required contextual `color` props (e.g., `primary`) for styling. 
   <ColorExample client:load />
 </Example>
 
-<Callout context="info">
-  <h5>Conveying meaning to assistive technologies</h5>
-  <p>
-    Using context to add meaning only provides a visual indication, which will not be conveyed to users of assistive technologies – such as screen readers. Ensure that information denoted by the context is either obvious from the content itself (e.g. the visible text), or is included through alternative means, such as additional text hidden with the <code>.visually-hidden</code> class.
-  </p>
+<Callout type="info">
+  Color alone doesn't convey meaning to assistive technology. Ensure information denoted by color is
+  either obvious from the visible text, or included through alternative means, such as additional
+  text hidden with the `.visually-hidden` class.
 </Callout>
 
 ### Solid style
@@ -127,7 +125,7 @@ Set `autohide` to dismiss the notification on its own after `delay` (defaults to
 
 ## Stacking
 
-For notifications created at runtime — in response to a save, an upload, an error — call `addNotification()` from anywhere: an event handler, an async callback. It returns a key you can pass to `closeNotification()` to dismiss it programmatically. `NotificationStack` subscribes to the same shared queue and renders whatever's currently in it; nothing else needs to know about it — pass `dismissible` in the options and its close button removes it from the queue on click, same as any other notification.
+For notifications created at runtime — in response to a save, an upload, an error — call `addNotification()` from anywhere: an event handler, an async callback. It returns a key that can be passed to `closeNotification()` to dismiss it programmatically. `NotificationStack` subscribes to the same shared queue and renders whatever's currently in it; nothing else needs to know about it — pass `dismissible` in the options and its close button removes it from the queue on click, same as any other notification.
 
 <Example>
   <LiveExample client:load />
@@ -143,7 +141,7 @@ By default, the most recently queued notification renders first — the typical 
 
 `<NotificationIcon>` is hidden from assistive technology (`aria-hidden`) by default, since it duplicates the adjacent text visually and shouldn't be announced separately. Pass a `title` if the icon ever needs to convey information the text doesn't.
 
-Place the close button as the **last** child even when it's visually pinned to the top-right corner — `dismissible` already does this for you, appending its `CloseButton` after `children`. Because `status` and `alert` are both implicitly `aria-atomic`, the whole notification is announced as one unit, so close-last means the message is read before the dismiss control, and it's also the last stop in tab order.
+Place the close button as the **last** child even when it's visually pinned to the top-right corner — `dismissible` already does this automatically, appending its `CloseButton` after `children`. Because `status` and `alert` are both implicitly `aria-atomic`, the whole notification is announced as one unit, so close-last means the message is read before the dismiss control, and it's also the last stop in tab order.
 
 Dismissing a notification unmounts it, which can leave keyboard focus orphaned. Move focus in `onClose` — to the control that triggered the notification, the next one in a stack, or the main content landmark.
 

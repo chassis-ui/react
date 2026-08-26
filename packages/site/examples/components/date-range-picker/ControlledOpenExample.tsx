@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Button, DateRangePicker } from '@chassis-ui/react'
 
-export const ControlledOpenExample = () => {
+export const Example = () => {
   const [isOpen, setIsOpen] = useState(false)
 
   return (

@@ -11,7 +11,7 @@ import {
   TextInput
 } from '@chassis-ui/react'
 
-export const TooltipsExample = () => {
+export const Example = () => {
   const [validated, setValidated] = useState(false)
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -43,11 +43,7 @@ export const TooltipsExample = () => {
         <FormLabel htmlFor="validationTooltipUsername">Username</FormLabel>
         <InputGroup className="has-validation">
           <InputGroupAddon id="inputGroupPrepend">@</InputGroupAddon>
-          <TextInput
-            id="validationTooltipUsername"
-            aria-describedby="inputGroupPrepend"
-            required
-          />
+          <TextInput id="validationTooltipUsername" aria-describedby="inputGroupPrepend" required />
         </InputGroup>
         <FormFeedback tooltip invalid>
           Please choose a username.

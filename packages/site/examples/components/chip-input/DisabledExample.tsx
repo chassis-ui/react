@@ -1,5 +1,5 @@
 import { ChipInput } from '@chassis-ui/react'
 
-export const DisabledExample = () => {
+export const Example = () => {
   return <ChipInput aria-label="Skills" defaultValue={['React', 'CSS']} disabled />
 }

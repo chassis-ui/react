@@ -9,7 +9,7 @@ import {
   MenuDivider
 } from '@chassis-ui/react'
 
-export const SegmentedButtonsExample = () => {
+export const Example = () => {
   return (
     <>
       <InputGroup className="mb-3">

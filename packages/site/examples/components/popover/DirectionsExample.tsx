@@ -1,6 +1,6 @@
 import { Popover, Button } from '@chassis-ui/react'
 
-export const DirectionsExample = () => {
+export const Example = () => {
   return (
     <>
       <Popover content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." placement="top">

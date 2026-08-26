@@ -1,74 +1,64 @@
 ---
 title: Card
-description: Chassis card component provides a flexible and extensible container for displaying content. Card is delivered with a bunch of variants and options.
-
+description: Flexible content container with image, header, footer, and layout options, plus contextual background colors.
 toc: true
 ---
 
-import {
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardGroup,
-  CardHeader,
-  CardImage,
-  CardImageOverlay,
-  CardLink,
-  CardSubtitle,
-  CardText,
-  CardTitle,
-  List,
-  ListItem,
-  Col,
-  Nav,
-  NavItem,
-  NavLink,
-  Row,
-} from '@chassis-ui/react'
+import { Example as BasicExample } from '../../examples/components/card/BasicExample.tsx'
+import { Example as ShorthandExample } from '../../examples/components/card/ShorthandExample.tsx'
+import { Example as BodyExample } from '../../examples/components/card/BodyExample.tsx'
+import { Example as TitleTextLinksExample } from '../../examples/components/card/TitleTextLinksExample.tsx'
+import { Example as ImageExample } from '../../examples/components/card/ImageExample.tsx'
+import { Example as ListExample } from '../../examples/components/card/ListExample.tsx'
+import { Example as ListHeaderExample } from '../../examples/components/card/ListHeaderExample.tsx'
+import { Example as ListFooterExample } from '../../examples/components/card/ListFooterExample.tsx'
+import { Example as KitchenSinkExample } from '../../examples/components/card/KitchenSinkExample.tsx'
+import { Example as HeaderFooterExample } from '../../examples/components/card/HeaderFooterExample.tsx'
+import { Example as HeaderComponentExample } from '../../examples/components/card/HeaderComponentExample.tsx'
+import { Example as QuoteExample } from '../../examples/components/card/QuoteExample.tsx'
+import { Example as HeaderFooterCenteredExample } from '../../examples/components/card/HeaderFooterCenteredExample.tsx'
+import { Example as GridExample } from '../../examples/components/card/GridExample.tsx'
+import { Example as UtilitiesSizingExample } from '../../examples/components/card/UtilitiesSizingExample.tsx'
+import { Example as CustomCssSizingExample } from '../../examples/components/card/CustomCssSizingExample.tsx'
+import { Example as TextAlignExample } from '../../examples/components/card/TextAlignExample.tsx'
+import { Example as NavTabsExample } from '../../examples/components/card/NavTabsExample.tsx'
+import { Example as NavPillsExample } from '../../examples/components/card/NavPillsExample.tsx'
+import { Example as ImageCapsExample } from '../../examples/components/card/ImageCapsExample.tsx'
+import { Example as ImageOverlayExample } from '../../examples/components/card/ImageOverlayExample.tsx'
+import { Example as HorizontalExample } from '../../examples/components/card/HorizontalExample.tsx'
+import { Example as HorizontalBodyExample } from '../../examples/components/card/HorizontalBodyExample.tsx'
+import { Example as ContextColorsExample } from '../../examples/components/card/ContextColorsExample.tsx'
+import { Example as VariantExample } from '../../examples/components/card/VariantExample.tsx'
+import { Example as UtilityStylingExample } from '../../examples/components/card/UtilityStylingExample.tsx'
+import { Example as SizeExample } from '../../examples/components/card/SizeExample.tsx'
+import { Example as CardGroupExample } from '../../examples/components/card/CardGroupExample.tsx'
+import { Example as CardGroupFooterExample } from '../../examples/components/card/CardGroupFooterExample.tsx'
+import { Example as GridCardsExample } from '../../examples/components/card/GridCardsExample.tsx'
+import { Example as GridCardsThreeColExample } from '../../examples/components/card/GridCardsThreeColExample.tsx'
+import { Example as GridCardsEqualHeightExample } from '../../examples/components/card/GridCardsEqualHeightExample.tsx'
+import { Example as GridCardsEqualHeightFooterExample } from '../../examples/components/card/GridCardsEqualHeightFooterExample.tsx'
 
-## About
+## Overview
 
-A react card component is a content container. It incorporates options for images, headers, and footers, a wide variety of content, contextual background colors, and excellent display options.
+A `<Card>` is a flexible content container built with flexbox, composing options for images, headers, footers, and a wide variety of body content. A card has no top, left, or right margin by default — spacing utilities apply as needed — and no fixed width to start, so it fills the full width of its parent.
 
-## Example
+## Basic usage
 
-Cards are built with as little markup and styles as possible but still manage to deliver a bunch of control and customization. Built with flexbox, they offer easy alignment and mix well with other Chassis components. Cards have no top, left, and right margins by default, so use spacing utilities as needed. They have no fixed width to start, so they'll fill the full width of its parent.
-
-Below is an example of a basic card with mixed content and a fixed width. Cards have no fixed width to start, so they'll naturally fill the full width of its parent element.
+A basic card mixes an image, a title, body text, and a button inside a fixed width.
 
 <Example>
-  <Card style={{ width: '18rem' }}>
-    <CardImage orientation="top" src="https://placehold.co/800x400" />
-    <CardBody>
-      <CardTitle>Card title</CardTitle>
-      <CardText>
-        Some quick example text to build on the card title and make up the bulk of the card's
-        content.
-      </CardText>
-      <Button href="#">Go somewhere</Button>
-    </CardBody>
-  </Card>
+  <BasicExample client:load />
 </Example>
-
-## Standard cards
 
 For the common case — a single image, a title, some text, maybe a footer — `<Card>` accepts
 `image`/`imageAlt`/`imageOrientation`, `title`, `subtitle`, `text`, and `footer` shorthand props
 directly, instead of composing `CardImage`/`CardBody`/`CardTitle`/`CardText`/`CardFooter`
-yourself. `title`/`subtitle`/`text`/`children` render together inside a single `CardBody`, in that
+directly. `title`/`subtitle`/`text`/`children` render together inside a single `CardBody`, in that
 order, so `children` still works for trailing content like a button. This example produces the
 same markup as the one above:
 
 <Example>
-  <Card
-    style={{ width: '18rem' }}
-    image="https://placehold.co/800x400"
-    title="Card title"
-    text="Some quick example text to build on the card title and make up the bulk of the card's content."
-  >
-    <Button href="#">Go somewhere</Button>
-  </Card>
+  <ShorthandExample client:load />
 </Example>
 
 Shorthand props only take effect once at least one of `image`/`title`/`subtitle`/`text`/`footer`
@@ -83,66 +73,44 @@ a [`<Placeholder>`]([[docsref:/components/placeholder]]), a loading
 [`<Skeleton>`]([[docsref:/components/skeleton]]) — rendered as-is in the image slot, so the rest of
 `title`/`subtitle`/`text`/`footer` don't have to give up their shorthand just because the image
 needs something other than a plain URL. `imageAlt`/`imageOrientation` only apply to the `src` form;
-set them directly on your own element otherwise. See
+set them directly on the passed element otherwise. See
 [Loading states]([[docsref:/patterns/loading-states]]) for a worked example swapping the image for
 a skeleton while data loads.
 
 ## Content types
 
-Chassis card supports a wide variety of content, including images, text, lists, links, and more. Below are examples of those elements.
+`<Card>` supports a wide variety of content, including images, text, lists, and links.
 
 ### Body
 
-The main block of a card is the `<CardBody>`. Use it whenever you need a padded section within a card.
+`<CardBody>` is the main padded content region of a card.
 
 <Example>
-  <Card>
-    <CardBody>This is some text within a card body.</CardBody>
-  </Card>
+  <BodyExample client:load />
 </Example>
 
 ### Titles, text, and links
 
-Card titles are managed by `<CardTitle>` component. Identically, links are attached and collected next to each other by `<CardLink>` component.
-
-Subtitles are managed by `<CardSubtitle>` component. If the `<CardTitle>` also, the `<CardSubtitle>` items are stored in a `<CardBody>` item, the card title, and subtitle are arranged rightly.
+`<CardTitle>` renders a card's title, and `<CardLink>` renders links positioned next to each
+other. `<CardSubtitle>` renders a subtitle — when both `<CardTitle>` and `<CardSubtitle>` sit
+inside the same `<CardBody>`, their spacing lines up automatically.
 
 <Example>
-  <Card style={{ width: '18rem' }}>
-    <CardBody>
-      <CardTitle>Card title</CardTitle>
-      <CardSubtitle className="mb-medium medium:text-emphasis">Card subtitle</CardSubtitle>
-      <CardText>
-        Some quick example text to build on the card title and make up the bulk of the card's
-        content.
-      </CardText>
-      <CardText>
-        <CardLink href="#">Card link</CardLink>
-        <CardLink href="#">Another link</CardLink>
-      </CardText>
-    </CardBody>
-  </Card>
+  <TitleTextLinksExample client:load />
 </Example>
 
 ### Images
 
-`orientation="top"` places a picture to the top of the card. With `<CardText>`, text can be added to the card. Text within `<CardText>` can additionally be styled with the regular HTML tags.
+`orientation="top"` places an image at the top of the card. `<CardText>` renders text content,
+styled with regular HTML tags as needed.
 
 <Example>
-  <Card style={{ width: '18rem' }}>
-    <CardImage orientation="top" src="https://placehold.co/800x400" />
-    <CardBody>
-      <CardText>
-        Some quick example text to build on the card title and make up the bulk of the card's
-        content.
-      </CardText>
-    </CardBody>
-  </Card>
+  <ImageExample client:load />
 </Example>
 
 `<CardImage>` renders an `<img>` by default, but its `component` prop accepts any element or
-component — including a framework's own `Image` (Next.js, Gatsby, Remix, etc.). Whatever you pass
-is fully type-checked at the call site, so a component's own props (`fill`, `priority`, `loader`,
+component — including a framework's own `Image` (Next.js, Gatsby, Remix, etc.). The passed
+component is fully type-checked at the call site, so its own props (`fill`, `priority`, `loader`,
 and so on) are available and validated alongside `src`/`alt`:
 
 ```tsx
@@ -153,329 +121,121 @@ import Image from 'next/image'
 
 ### Lists
 
-Create lists of content in a card with a flush list.
+A flush `<List>` renders a list of content inside a card without its own padding.
 
 <Example>
-  <Card style={{ width: '18rem' }}>
-    <List flush>
-      <ListItem>Cras justo odio</ListItem>
-      <ListItem>Dapibus ac facilisis in</ListItem>
-      <ListItem>Vestibulum at eros</ListItem>
-    </List>
-  </Card>
+  <ListExample client:load />
 </Example>
 
 <Example>
-  <Card style={{ width: '18rem' }}>
-    <CardHeader>Header</CardHeader>
-    <List flush>
-      <ListItem>Cras justo odio</ListItem>
-      <ListItem>Dapibus ac facilisis in</ListItem>
-      <ListItem>Vestibulum at eros</ListItem>
-    </List>
-  </Card>
+  <ListHeaderExample client:load />
 </Example>
 
 <Example>
-  <Card style={{ width: '18rem' }}>
-    <List flush>
-      <ListItem>Cras justo odio</ListItem>
-      <ListItem>Dapibus ac facilisis in</ListItem>
-      <ListItem>Vestibulum at eros</ListItem>
-    </List>
-    <CardFooter>Footer</CardFooter>
-  </Card>
+  <ListFooterExample client:load />
 </Example>
 
 ### Kitchen sink
 
-Combine and match many content types to build the card you need, or throw everything in there. Shown below are image styles, blocks, text styles, and a list—all wrapped in a fixed-width card.
+Image styles, body content, and a list combine inside a single fixed-width card.
 
 <Example>
-  <Card style={{ width: '18rem' }}>
-    <CardImage orientation="top" src="https://placehold.co/800x400" />
-    <CardBody>
-      <CardTitle>Card title</CardTitle>
-      <CardText>
-        Some quick example text to build on the card title and make up the bulk of the card's
-        content.
-      </CardText>
-    </CardBody>
-    <List flush>
-      <ListItem>Cras justo odio</ListItem>
-      <ListItem>Dapibus ac facilisis in</ListItem>
-      <ListItem>Vestibulum at eros</ListItem>
-    </List>
-    <CardBody>
-      <CardLink href="#">Card link</CardLink>
-      <CardLink href="#">Another link</CardLink>
-    </CardBody>
-  </Card>
+  <KitchenSinkExample client:load />
 </Example>
 
 ### Header and footer
 
-Add an optional header and/or footer within a card.
+`<CardHeader>` and `<CardFooter>` add an optional header and/or footer to a card.
 
 <Example>
-  <Card>
-    <CardHeader>Header</CardHeader>
-    <CardBody>
-      <CardTitle>Special title treatment</CardTitle>
-      <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-      <Button href="#">Go somewhere</Button>
-    </CardBody>
-  </Card>
+  <HeaderFooterExample client:load />
 </Example>
 
-Card headers can be styled by adding ex. `component="h5"`.
+`<CardHeader>` accepts a `component` prop — `component="h5"`, for example — to change its
+rendered element.
 
 <Example>
-  <Card>
-    <CardHeader component="h5">Header</CardHeader>
-    <CardBody>
-      <CardTitle>Special title treatment</CardTitle>
-      <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-      <Button href="#">Go somewhere</Button>
-    </CardBody>
-  </Card>
+  <HeaderComponentExample client:load />
 </Example>
 
 <Example>
-  <Card>
-    <CardHeader>Quote</CardHeader>
-    <CardBody>
-      <blockquote className="blockquote mb-0">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-        <footer className="blockquote-footer">
-          Someone famous in <cite title="Source Title">Source Title</cite>
-        </footer>
-      </blockquote>
-    </CardBody>
-  </Card>
+  <QuoteExample client:load />
 </Example>
 
 <Example>
-  <Card className="text-center">
-    <CardHeader>Header</CardHeader>
-    <CardBody>
-      <CardTitle>Special title treatment</CardTitle>
-      <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-      <Button href="#">Go somewhere</Button>
-    </CardBody>
-    <CardFooter className="medium:text-emphasis">2 days ago</CardFooter>
-  </Card>
+  <HeaderFooterCenteredExample client:load />
 </Example>
 
 ## Sizing
 
-Cards assume no specific `width` to start, so they'll be 100% wide unless otherwise stated. You can adjust this as required with custom CSS, grid classes, grid Sass mixins, or services.
+A card has no specific `width` set by default, so it renders at 100% width unless otherwise
+stated. Custom CSS, grid classes, and grid Sass mixins all adjust this as needed.
 
 ### Using grid markup
 
-Using the grid, wrap cards in columns and rows as needed.
+The grid wraps cards in columns and rows.
 
 <Example>
-  <Row>
-    <Col responsive={{ small: { span: 6 } }}>
-      <Card>
-        <CardBody>
-          <CardTitle>Special title treatment</CardTitle>
-          <CardText>
-            With supporting text below as a natural lead-in to additional content.
-          </CardText>
-          <Button href="#">Go somewhere</Button>
-        </CardBody>
-      </Card>
-    </Col>
-    <Col responsive={{ small: { span: 6 } }}>
-      <Card>
-        <CardBody>
-          <CardTitle>Special title treatment</CardTitle>
-          <CardText>
-            With supporting text below as a natural lead-in to additional content.
-          </CardText>
-          <Button href="#">Go somewhere</Button>
-        </CardBody>
-      </Card>
-    </Col>
-  </Row>
+  <GridExample client:load />
 </Example>
 
 ### Using utilities
 
-Use some of available sizing utilities to rapidly set a card's width.
+Sizing utilities set a card's width directly.
 
 <Example>
-  <Card className="w-75">
-    <CardBody>
-      <CardTitle>Card title</CardTitle>
-      <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-      <Button href="#">Go somewhere</Button>
-    </CardBody>
-  </Card>
-  <Card className="w-50">
-    <CardBody>
-      <CardTitle>Card title</CardTitle>
-      <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-      <Button href="#">Go somewhere</Button>
-    </CardBody>
-  </Card>
+  <UtilitiesSizingExample client:load />
 </Example>
 
 ### Using custom CSS
 
-Use custom CSS in your stylesheets or as inline styles to set a width.
+Custom CSS in a stylesheet or as an inline style also sets a card's width.
 
 <Example>
-  <Card style={{ width: '18rem' }}>
-    <CardBody>
-      <CardTitle>Special title treatment</CardTitle>
-      <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-      <Button href="#">Go somewhere</Button>
-    </CardBody>
-  </Card>
+  <CustomCssSizingExample client:load />
 </Example>
 
 ## Text alignment
 
-You can instantly change the text arrangement of any card—in its whole or specific parts—with text align classes.
+Text align classes change the text arrangement of a card, in whole or in specific parts.
 
 <Example>
-  <Card style={{ width: '18rem' }}>
-    <CardBody>
-      <CardTitle>Special title treatment</CardTitle>
-      <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-      <Button href="#">Go somewhere</Button>
-    </CardBody>
-  </Card>
-  <Card className="text-center" style={{ width: '18rem' }}>
-    <CardBody>
-      <CardTitle>Special title treatment</CardTitle>
-      <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-      <Button href="#">Go somewhere</Button>
-    </CardBody>
-  </Card>
-  <Card className="text-end" style={{ width: '18rem' }}>
-    <CardBody>
-      <CardTitle>Special title treatment</CardTitle>
-      <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-      <Button href="#">Go somewhere</Button>
-    </CardBody>
-  </Card>
+  <TextAlignExample client:load />
 </Example>
 
 ## Navigation
 
-Add some navigation to a `<CardHeader>` with our `<Nav>` component.
+A `<Nav>` composed inside `<CardHeader>` adds navigation to a card.
 
 <Example>
-  <Card className="text-center">
-    <CardHeader>
-      <Nav variant="tabs" className="card-header-tabs">
-        <NavItem>
-          <NavLink href="#" active>
-            Active
-          </NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink href="#">Link</NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink href="#" disabled>
-            Disabled
-          </NavLink>
-        </NavItem>
-      </Nav>
-    </CardHeader>
-    <CardBody>
-      <CardTitle>Special title treatment</CardTitle>
-      <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-      <Button href="#">Go somewhere</Button>
-    </CardBody>
-  </Card>
+  <NavTabsExample client:load />
 </Example>
 
 <Example>
-  <Card className="text-center">
-    <CardHeader>
-      <Nav variant="pills" className="card-header-pills">
-        <NavItem>
-          <NavLink href="#" active>
-            Active
-          </NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink href="#">Link</NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink href="#" disabled>
-            Disabled
-          </NavLink>
-        </NavItem>
-      </Nav>
-    </CardHeader>
-    <CardBody>
-      <CardTitle>Special title treatment</CardTitle>
-      <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-      <Button href="#">Go somewhere</Button>
-    </CardBody>
-  </Card>
+  <NavPillsExample client:load />
 </Example>
 
 ## Images
 
-Cards introduce several options for acting with images. Pick from appending "image caps" at either end of a card, overlaying images with content, or just inserting the image in a card.
+Beyond a plain image inside a card, images support two more placements: "image caps" at either
+end of a card, or an overlay behind the card's content.
 
 ### Image caps
 
-Similar to headers and footers, cards can include top and bottom "image caps"—images at the top or bottom of a card.
+Similar to headers and footers, a card renders top and bottom "image caps" — images at the top or
+bottom of a card.
 
 <Example>
-  <Card className="mb-medium">
-    <CardImage orientation="top" src="https://placehold.co/800x400" />
-    <CardBody>
-      <CardTitle>Card title</CardTitle>
-      <CardText>
-        This is a wider card with supporting text below as a natural lead-in to additional content.
-        This content is a little bit longer.
-      </CardText>
-      <CardText>
-        <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-      </CardText>
-    </CardBody>
-  </Card>
-  <Card className="mb-medium">
-    <CardBody>
-      <CardTitle>Card title</CardTitle>
-      <CardText>
-        This is a wider card with supporting text below as a natural lead-in to additional content.
-        This content is a little bit longer.
-      </CardText>
-      <CardText>
-        <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-      </CardText>
-    </CardBody>
-    <CardImage orientation="bottom" src="https://placehold.co/800x400" />
-  </Card>
+  <ImageCapsExample client:load />
 </Example>
 
 ### Image overlays
 
-Adapt an image into a background and overlay your text. Depending on the image, you may need additional styles or utilities.
+An image serves as a background with content overlaid on top of it. Depending on the image,
+additional styles or utilities may be needed for legibility.
 
 <Example>
-  <Card className="mb-medium bg-dark text-white">
-    <CardImage src="https://placehold.co/800x400" />
-    <CardImageOverlay>
-      <CardTitle>Card title</CardTitle>
-      <CardText>
-        This is a wider card with supporting text below as a natural lead-in to additional content.
-        This content is a little bit longer.
-      </CardText>
-      <CardText>Last updated 3 mins ago</CardText>
-    </CardImageOverlay>
-  </Card>
+  <ImageOverlayExample client:load />
 </Example>
 
 ## Horizontal
@@ -487,28 +247,7 @@ corners switch from the top edge to the start edge at the same breakpoint the ca
 row.
 
 <Example>
-  <Card responsive={{ large: 'row' }}>
-    <Col responsive={{ large: { span: 4 } }}>
-      <CardImage
-        orientation="top"
-        responsive={{ large: 'start' }}
-        src="https://placehold.co/800x400"
-        style={{ height: '100%', objectFit: 'cover' }}
-      />
-    </Col>
-    <Col responsive={{ large: { span: 8 } }}>
-      <CardBody>
-        <CardTitle>Card title</CardTitle>
-        <CardText>
-          This is a wider card with supporting text below as a natural lead-in to additional
-          content. This content is a little bit longer.
-        </CardText>
-        <CardText>
-          <small className="fg-subtle">Last updated 3 mins ago</small>
-        </CardText>
-      </CardBody>
-    </Col>
-  </Card>
+  <HorizontalExample client:load />
 </Example>
 
 To place the image inside a padded body region instead of flush against the card edge, apply
@@ -516,30 +255,12 @@ To place the image inside a padded body region instead of flush against the card
 the text side so it doesn't get double padding.
 
 <Example>
-  <Card>
-    <CardBody responsive={{ large: 'row' }} gap="medium">
-      <Col responsive={{ large: { span: 4 } }}>
-        <CardImage src="https://placehold.co/800x400" />
-      </Col>
-      <Col responsive={{ large: { span: 8 } }}>
-        <CardBody className="p-0">
-          <CardTitle>Card title</CardTitle>
-          <CardText>
-            This is a wider card with supporting text below as a natural lead-in to additional
-            content. This content is a little bit longer.
-          </CardText>
-          <CardText className="mb-0">
-            <small className="fg-subtle">Last updated 3 mins ago</small>
-          </CardText>
-        </CardBody>
-      </Col>
-    </CardBody>
-  </Card>
+  <HorizontalBodyExample client:load />
 </Example>
 
 ## Card styles
 
-Cards include various options for customizing their backgrounds, borders, and context.
+A card supports several options for customizing its backgrounds, borders, and context.
 
 ### Context colors
 
@@ -548,79 +269,27 @@ to control the intensity — omit `variant` for the default (a tinted border and
 the `basic` chassis-css style).
 
 <Example>
-  <>
-    {['primary', 'secondary', 'neutral', 'success', 'danger', 'warning', 'info'].map(
-      (color) => (
-        <Card color={color} className="mb-medium" style={{ maxWidth: '18rem' }} key={color}>
-          <CardHeader>Header</CardHeader>
-          <CardBody>
-            <CardTitle>{color} card title</CardTitle>
-            <CardText>
-              Some quick example text to build on the card title and make up the bulk of the
-              card's content.
-            </CardText>
-          </CardBody>
-        </Card>
-      )
-    )}
-  </>
+  <ContextColorsExample client:load />
 </Example>
 
 <Example>
-  <>
-    {['solid', 'smooth', 'outline'].map((variant) => (
-      <Card color="primary" variant={variant} className="mb-medium" style={{ maxWidth: '18rem' }} key={variant}>
-        <CardHeader>Header</CardHeader>
-        <CardBody>
-          <CardTitle>{variant} card title</CardTitle>
-          <CardText>
-            Some quick example text to build on the card title and make up the bulk of the card's
-            content.
-          </CardText>
-        </CardBody>
-      </Card>
-    ))}
-  </>
+  <VariantExample client:load />
 </Example>
 
-<Callout context="info">
-  <h5>Conveying meaning to assistive technologies</h5>
-  <p>
-    Using context to add meaning only provides a visual indication, which will not be conveyed to
-    users of assistive technologies – such as screen readers. Ensure that information denoted by the
-    context is either obvious from the content itself (e.g. the visible text), or is included through
-    alternative means, such as additional text hidden with the `.visually-hidden` class.
-  </p>
+<Callout type="info">
+  Using context to add meaning only provides a visual indication, which isn't conveyed to users of
+  assistive technologies such as screen readers. Ensure that information denoted by the context is
+  either obvious from the content itself (e.g. the visible text), or is included through
+  alternative means, such as additional text hidden with the `.visually-hidden` class.
 </Callout>
 
 ### Utility styling
 
-For finer-grained control than `color`/`variant` gives you, target individual regions directly
-with background, foreground, and border utility classes via each sub-component's `className`.
+For finer-grained control than `color`/`variant` provides, background, foreground, and border
+utility classes applied via each sub-component's `className` target individual regions directly.
 
 <Example>
-  <Card className="border-primary mb-medium" style={{ maxWidth: '18rem' }}>
-    <CardHeader className="primary-bg-evident">Header</CardHeader>
-    <CardBody className="primary-bg-main">
-      <CardTitle>Primary background</CardTitle>
-      <CardText>
-        Some quick example text to build on the card title and make up the bulk of the card's
-        content.
-      </CardText>
-    </CardBody>
-    <CardFooter className="primary-bg-even">Footer</CardFooter>
-  </Card>
-  <Card style={{ maxWidth: '18rem' }}>
-    <CardHeader className="fg-primary border-primary">Header</CardHeader>
-    <CardBody className="fg-secondary">
-      <CardTitle>Custom text color</CardTitle>
-      <CardText>
-        Some quick example text to build on the card title and make up the bulk of the card's
-        content.
-      </CardText>
-    </CardBody>
-    <CardFooter className="fg-subtle primary-border-main">Footer</CardFooter>
-  </Card>
+  <UtilityStylingExample client:load />
 </Example>
 
 ### Size variants
@@ -629,378 +298,59 @@ Set `size` to `small` or `large` to re-scale a card's padding, gaps, and typogra
 omit it for the medium default.
 
 <Example>
-  <Card size="small" style={{ width: '16rem' }}>
-    <CardImage orientation="top" src="https://placehold.co/800x400" />
-    <CardBody>
-      <CardTitle>Card title</CardTitle>
-      <CardSubtitle>Card subtitle</CardSubtitle>
-      <CardText>
-        Some quick example text to build on the card title and make up the bulk of the card's
-        content.
-      </CardText>
-      <Button href="#" color="primary" className="me-auto">Go somewhere</Button>
-    </CardBody>
-  </Card>
-  <Card size="large" style={{ width: '22rem' }}>
-    <CardImage orientation="top" src="https://placehold.co/800x400" />
-    <CardBody>
-      <CardTitle>Card title</CardTitle>
-      <CardSubtitle>Card subtitle</CardSubtitle>
-      <CardText>
-        Some quick example text to build on the card title and make up the bulk of the card's
-        content.
-      </CardText>
-      <Button href="#" color="primary" className="me-auto">Go somewhere</Button>
-    </CardBody>
-  </Card>
+  <SizeExample client:load />
 </Example>
 
 ## Card layout
 
-In addition to styling the content within cards, Chassis includes a few options for laying out series of cards.
+Beyond styling the content within a card, Chassis includes a few options for laying out series of
+cards.
 
 ### Card groups
 
-Use card groups to render cards as a single, attached element with equal width and height columns.
-`<CardGroup>` uses a container query to switch from stacked to a row once its container reaches
-the small container breakpoint, so it must be wrapped in an element carrying `.contains-inline` to
-establish that container context. Resize the example below to see the transition.
+`<CardGroup>` renders cards as a single, attached element with equal-width and equal-height
+columns. `<CardGroup>` uses a container query to switch from stacked to a row once its container
+reaches the small container breakpoint, so it must be wrapped in an element carrying
+`.contains-inline` to establish that container context.
 
 <Example>
-  <div className="contains-inline">
-    <CardGroup>
-      <Card>
-        <CardImage orientation="top" src="https://placehold.co/800x400" />
-        <CardBody>
-          <CardTitle>Card title</CardTitle>
-          <CardText>
-            This is a wider card with supporting text below as a natural lead-in to additional
-            content. This content is a little bit longer.
-          </CardText>
-          <CardText>
-            <small className="fg-subtle">Last updated 3 mins ago</small>
-          </CardText>
-        </CardBody>
-      </Card>
-      <Card>
-        <CardImage orientation="top" src="https://placehold.co/800x400" />
-        <CardBody>
-          <CardTitle>Card title</CardTitle>
-          <CardText>
-            This card has supporting text below as a natural lead-in to additional content.
-          </CardText>
-          <CardText>
-            <small className="fg-subtle">Last updated 3 mins ago</small>
-          </CardText>
-        </CardBody>
-      </Card>
-      <Card>
-        <CardImage orientation="top" src="https://placehold.co/800x400" />
-        <CardBody>
-          <CardTitle>Card title</CardTitle>
-          <CardText>
-            This is a wider card with supporting text below as a natural lead-in to additional
-            content. This card has even longer content than the first to show that equal height
-            action.
-          </CardText>
-          <CardText>
-            <small className="fg-subtle">Last updated 3 mins ago</small>
-          </CardText>
-        </CardBody>
-      </Card>
-    </CardGroup>
-  </div>
+  <CardGroupExample client:load />
 </Example>
 
-When using card groups with footers, their content will automatically line up.
+Card footers line up automatically within a card group.
 
 <Example>
-  <div className="contains-inline">
-    <CardGroup>
-      <Card>
-        <CardImage orientation="top" src="https://placehold.co/800x400" />
-        <CardBody>
-          <CardTitle>Card title</CardTitle>
-          <CardText>
-            This is a wider card with supporting text below as a natural lead-in to additional
-            content. This content is a little bit longer.
-          </CardText>
-        </CardBody>
-        <CardFooter>
-          <small className="fg-subtle">Last updated 3 mins ago</small>
-        </CardFooter>
-      </Card>
-      <Card>
-        <CardImage orientation="top" src="https://placehold.co/800x400" />
-        <CardBody>
-          <CardTitle>Card title</CardTitle>
-          <CardText>
-            This card has supporting text below as a natural lead-in to additional content.
-          </CardText>
-        </CardBody>
-        <CardFooter>
-          <small className="fg-subtle">Last updated 3 mins ago</small>
-        </CardFooter>
-      </Card>
-      <Card>
-        <CardImage orientation="top" src="https://placehold.co/800x400" />
-        <CardBody>
-          <CardTitle>Card title</CardTitle>
-          <CardText>
-            This is a wider card with supporting text below as a natural lead-in to additional
-            content. This card has even longer content than the first to show that equal height
-            action.
-          </CardText>
-        </CardBody>
-        <CardFooter>
-          <small className="fg-subtle">Last updated 3 mins ago</small>
-        </CardFooter>
-      </Card>
-    </CardGroup>
-  </div>
+  <CardGroupFooterExample client:load />
 </Example>
 
 ### Grid cards
 
-Use the `Row` component's `cols` prop (with `responsive` for breakpoint overrides) to control how many grid columns (wrapped around your cards) you show per row. For example, here's `cols={1}` laying out the cards on one column, and `responsive={{ medium: { cols: 2 } }}` splitting four cards into two per row from the medium breakpoint up.
+The `Row` component's `cols` prop (with `responsive` for breakpoint overrides) controls how many
+grid columns wrap around a set of cards per row. `cols={1}` lays the cards out on one column, and
+`responsive={{ medium: { cols: 2 } }}` splits four cards into two per row from the medium
+breakpoint up.
 
 <Example>
-  <Row cols={1} gutter="medium" responsive={{ medium: { cols: 2 } }}>
-    <Col span>
-      <Card>
-        <CardImage orientation="top" src="https://placehold.co/800x400" />
-        <CardBody>
-          <CardTitle>Card title</CardTitle>
-          <CardText>
-            This is a wider card with supporting text below as a natural lead-in to additional
-            content. This content is a little bit longer.
-          </CardText>
-        </CardBody>
-        <CardFooter>
-          <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </CardFooter>
-      </Card>
-    </Col>
-    <Col span>
-      <Card>
-        <CardImage orientation="top" src="https://placehold.co/800x400" />
-        <CardBody>
-          <CardTitle>Card title</CardTitle>
-          <CardText>
-            This is a wider card with supporting text below as a natural lead-in to additional
-            content. This content is a little bit longer.
-          </CardText>
-        </CardBody>
-        <CardFooter>
-          <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </CardFooter>
-      </Card>
-    </Col>
-    <Col span>
-      <Card>
-        <CardImage orientation="top" src="https://placehold.co/800x400" />
-        <CardBody>
-          <CardTitle>Card title</CardTitle>
-          <CardText>
-            This is a wider card with supporting text below as a natural lead-in to additional
-            content. This content is a little bit longer.
-          </CardText>
-        </CardBody>
-        <CardFooter>
-          <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </CardFooter>
-      </Card>
-    </Col>
-    <Col span>
-      <Card>
-        <CardImage orientation="top" src="https://placehold.co/800x400" />
-        <CardBody>
-          <CardTitle>Card title</CardTitle>
-          <CardText>
-            This is a wider card with supporting text below as a natural lead-in to additional
-            content. This content is a little bit longer.
-          </CardText>
-        </CardBody>
-        <CardFooter>
-          <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </CardFooter>
-      </Card>
-    </Col>
-  </Row>
+  <GridCardsExample client:load />
 </Example>
 
-Change it to `responsive={{ medium: { cols: 3 } }}` and you'll see the fourth card wrap.
+Changing `responsive={{ medium: { cols: 3 } }}` wraps the fourth card onto a second row.
 
 <Example>
-  <Row cols={1} gutter="medium" responsive={{ medium: { cols: 3 } }}>
-    <Col span>
-      <Card>
-        <CardImage orientation="top" src="https://placehold.co/800x400" />
-        <CardBody>
-          <CardTitle>Card title</CardTitle>
-          <CardText>
-            This is a wider card with supporting text below as a natural lead-in to additional
-            content. This content is a little bit longer.
-          </CardText>
-        </CardBody>
-        <CardFooter>
-          <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </CardFooter>
-      </Card>
-    </Col>
-    <Col span>
-      <Card>
-        <CardImage orientation="top" src="https://placehold.co/800x400" />
-        <CardBody>
-          <CardTitle>Card title</CardTitle>
-          <CardText>
-            This is a wider card with supporting text below as a natural lead-in to additional
-            content. This content is a little bit longer.
-          </CardText>
-        </CardBody>
-        <CardFooter>
-          <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </CardFooter>
-      </Card>
-    </Col>
-    <Col span>
-      <Card>
-        <CardImage orientation="top" src="https://placehold.co/800x400" />
-        <CardBody>
-          <CardTitle>Card title</CardTitle>
-          <CardText>
-            This is a wider card with supporting text below as a natural lead-in to additional
-            content. This content is a little bit longer.
-          </CardText>
-        </CardBody>
-        <CardFooter>
-          <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </CardFooter>
-      </Card>
-    </Col>
-    <Col span>
-      <Card>
-        <CardImage orientation="top" src="https://placehold.co/800x400" />
-        <CardBody>
-          <CardTitle>Card title</CardTitle>
-          <CardText>
-            This is a wider card with supporting text below as a natural lead-in to additional
-            content. This content is a little bit longer.
-          </CardText>
-        </CardBody>
-        <CardFooter>
-          <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </CardFooter>
-      </Card>
-    </Col>
-  </Row>
+  <GridCardsThreeColExample client:load />
 </Example>
 
-When you need equal height, add `.h-100` to the cards. If you want equal heights by default, you can set `$card-height: 100%` in Sass.
+Adding `.h-100` to each card gives every card in a row equal height; setting `$card-height: 100%`
+in Sass applies equal heights by default.
 
 <Example>
-  <Row cols={1} responsive={{ medium: { cols: 3 } }} className="g-4">
-    <Col span>
-      <Card className="h-100">
-        <CardImage orientation="top" src="https://placehold.co/800x400" />
-        <CardBody>
-          <CardTitle>Card title</CardTitle>
-          <CardText>
-            This is a wider card with supporting text below as a natural lead-in to additional
-            content. This content is a little bit longer.
-          </CardText>
-        </CardBody>
-      </Card>
-    </Col>
-    <Col span>
-      <Card className="h-100">
-        <CardImage orientation="top" src="https://placehold.co/800x400" />
-        <CardBody>
-          <CardTitle>Card title</CardTitle>
-          <CardText>
-            This card has supporting text below as a natural lead-in to additional content.
-          </CardText>
-        </CardBody>
-      </Card>
-    </Col>
-    <Col span>
-      <Card className="h-100">
-        <CardImage orientation="top" src="https://placehold.co/800x400" />
-        <CardBody>
-          <CardTitle>Card title</CardTitle>
-          <CardText>
-            This is a wider card with supporting text below as a natural lead-in to additional
-            content. This card has even longer content than the first to show that equal height
-            action.
-          </CardText>
-        </CardBody>
-      </Card>
-    </Col>
-    <Col span>
-      <Card className="h-100">
-        <CardImage orientation="top" src="https://placehold.co/800x400" />
-        <CardBody>
-          <CardTitle>Card title</CardTitle>
-          <CardText>
-            This is a wider card with supporting text below as a natural lead-in to additional
-            content. This content is a little bit longer.
-          </CardText>
-        </CardBody>
-      </Card>
-    </Col>
-  </Row>
+  <GridCardsEqualHeightExample client:load />
 </Example>
 
-Just like with card groups, card footers will automatically line up.
+Card footers line up automatically within an equal-height row, the same as inside a card group.
 
 <Example>
-  <Row cols={1} responsive={{ medium: { cols: 3 } }} className="g-4">
-    <Col span>
-      <Card className="h-100">
-        <CardImage orientation="top" src="https://placehold.co/800x400" />
-        <CardBody>
-          <CardTitle>Card title</CardTitle>
-          <CardText>
-            This is a wider card with supporting text below as a natural lead-in to additional
-            content. This content is a little bit longer.
-          </CardText>
-        </CardBody>
-        <CardFooter>
-          <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </CardFooter>
-      </Card>
-    </Col>
-    <Col span>
-      <Card className="h-100">
-        <CardImage orientation="top" src="https://placehold.co/800x400" />
-        <CardBody>
-          <CardTitle>Card title</CardTitle>
-          <CardText>
-            This card has supporting text below as a natural lead-in to additional content.
-          </CardText>
-        </CardBody>
-        <CardFooter>
-          <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </CardFooter>
-      </Card>
-    </Col>
-    <Col span>
-      <Card className="h-100">
-        <CardImage orientation="top" src="https://placehold.co/800x400" />
-        <CardBody>
-          <CardTitle>Card title</CardTitle>
-          <CardText>
-            This is a wider card with supporting text below as a natural lead-in to additional
-            content. This card has even longer content than the first to show that equal height
-            action.
-          </CardText>
-        </CardBody>
-        <CardFooter>
-          <small className="medium:text-emphasis">Last updated 3 mins ago</small>
-        </CardFooter>
-      </Card>
-    </Col>
-  </Row>
+  <GridCardsEqualHeightFooterExample client:load />
 </Example>
 
 ## API
@@ -1008,33 +358,43 @@ Just like with card groups, card footers will automatically line up.
 ### Card
 
 <PropTable component="Card" />
+
 ### CardBody
 
 <PropTable component="CardBody" />
+
 ### CardFooter
 
 <PropTable component="CardFooter" />
+
 ### CardGroup
 
 <PropTable component="CardGroup" />
+
 ### CardHeader
 
 <PropTable component="CardHeader" />
+
 ### CardImage
 
 <PropTable component="CardImage" />
+
 ### CardImageOverlay
 
 <PropTable component="CardImageOverlay" />
+
 ### CardLink
 
 <PropTable component="CardLink" />
+
 ### CardSubtitle
 
 <PropTable component="CardSubtitle" />
+
 ### CardText
 
 <PropTable component="CardText" />
+
 ### CardTitle
 
 <PropTable component="CardTitle" />

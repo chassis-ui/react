@@ -1,6 +1,6 @@
 import { Nav, NavItem, NavLink, Menu, MenuToggle, MenuList, MenuItem } from '@chassis-ui/react'
 
-export const TabsWithMenuExample = () => {
+export const Example = () => {
   return (
     <Nav>
       <NavItem>

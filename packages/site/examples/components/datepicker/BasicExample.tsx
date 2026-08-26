@@ -1,5 +1,5 @@
 import { DatePicker } from '@chassis-ui/react'
 
-export const BasicExample = () => {
+export const Example = () => {
   return <DatePicker aria-label="Event date" />
 }

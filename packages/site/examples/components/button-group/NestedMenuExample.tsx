@@ -8,7 +8,7 @@ import {
   MenuDivider
 } from '@chassis-ui/react'
 
-export const NestedMenuExample = () => {
+export const Example = () => {
   return (
     <ButtonGroup role="group" aria-label="Button group with nested menu">
       <Button color="primary">1</Button>

@@ -9,7 +9,7 @@ const rows = [
   { id: 4, name: 'Ashley Grant', role: 'Product' }
 ]
 
-export const SortingExample = () => {
+export const Example = () => {
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
     column: 'name',
     direction: 'ascending'

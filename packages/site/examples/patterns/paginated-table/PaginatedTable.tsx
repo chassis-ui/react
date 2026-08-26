@@ -11,7 +11,7 @@ import {
   TableCell
 } from '@chassis-ui/react'
 
-export const PaginatedTable = () => {
+export const Example = () => {
   const allUsers = [
     { id: 1, name: 'Alice Martin', role: 'Admin', status: 'Active' },
     { id: 2, name: 'Bob Chen', role: 'Editor', status: 'Active' },

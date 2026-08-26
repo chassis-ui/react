@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { OtpInput } from '@chassis-ui/react'
 
-export const ControlledExample = () => {
+export const Example = () => {
   const [value, setValue] = useState('')
   const [complete, setComplete] = useState<string | null>(null)
 

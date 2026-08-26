@@ -1,7 +1,7 @@
 import { Calendar } from '@chassis-ui/react'
 import { isWeekend } from '@internationalized/date'
 
-export const UnavailableExample = () => {
+export const Example = () => {
   return (
     <Calendar
       aria-label="Appointment date"

@@ -12,7 +12,7 @@ import {
   TextInput
 } from '@chassis-ui/react'
 
-export const ServerSideExample = () => (
+export const Example = () => (
   <Form className="row g-3">
     <Col responsive={{ medium: { span: 4 } }}>
       <TextInput label="First name" defaultValue="Mark" validFeedback="Looks good!" valid />

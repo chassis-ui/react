@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { ChipInput } from '@chassis-ui/react'
 
-export const ControlledExample = () => {
+export const Example = () => {
   const [values, setValues] = useState<string[]>(['React'])
 
   return (

@@ -1,6 +1,6 @@
 import { Checkbox, CheckboxGroup } from '@chassis-ui/react'
 
-export const CheckGroupExample = () => {
+export const Example = () => {
   return (
     <CheckboxGroup
       label="Notifications"

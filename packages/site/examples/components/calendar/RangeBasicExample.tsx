@@ -1,7 +1,7 @@
 import { RangeCalendar } from '@chassis-ui/react'
 import { CalendarDate } from '@internationalized/date'
 
-export const RangeBasicExample = () => {
+export const Example = () => {
   return (
     <RangeCalendar
       aria-label="Trip dates"

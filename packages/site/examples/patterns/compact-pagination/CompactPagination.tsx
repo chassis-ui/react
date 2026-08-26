@@ -1,7 +1,7 @@
 import { useState, type ChangeEvent } from 'react'
 import { Button, Icon, Select, usePagination } from '@chassis-ui/react'
 
-export const CompactPagination = () => {
+export const Example = () => {
   const total = 100
   const [pageSize, setPageSize] = useState(10)
   const [page, setPage] = useState(1)

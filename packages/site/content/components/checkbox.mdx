@@ -1,146 +1,115 @@
 ---
-title: Checkbox Component
-description: Create consistent cross-browser and cross-device checkboxes with our Chassis Checkbox component.
+title: Checkbox
+description: Cross-browser, cross-device checkbox built on React Aria, standalone or grouped into a managed CheckboxGroup.
 
 toc: true
 ---
 
-import { CheckGroupExample } from '../../examples/components/checkbox/CheckGroupExample.tsx'
-import { CheckGroupOrientationExample } from '../../examples/components/checkbox/CheckGroupOrientationExample.tsx'
-import { Checkbox } from '@chassis-ui/react'
+import { Example as ChecksExample } from '../../examples/components/checkbox/ChecksExample.tsx'
+import { Example as IndeterminateExample } from '../../examples/components/checkbox/IndeterminateExample.tsx'
+import { Example as DisabledExample } from '../../examples/components/checkbox/DisabledExample.tsx'
+import { Example as StackedExample } from '../../examples/components/checkbox/StackedExample.tsx'
+import { Example as InlineExample } from '../../examples/components/checkbox/InlineExample.tsx'
+import { Example as SizeExample } from '../../examples/components/checkbox/SizeExample.tsx'
+import { Example as ColorExample } from '../../examples/components/checkbox/ColorExample.tsx'
+import { Example as NoLabelExample } from '../../examples/components/checkbox/NoLabelExample.tsx'
+import { Example as ToggleButtonExample } from '../../examples/components/checkbox/ToggleButtonExample.tsx'
+import { Example as ToggleButtonCheckedExample } from '../../examples/components/checkbox/ToggleButtonCheckedExample.tsx'
+import { Example as ToggleButtonDisabledExample } from '../../examples/components/checkbox/ToggleButtonDisabledExample.tsx'
+import { Example as OutlinedToggleExample } from '../../examples/components/checkbox/OutlinedToggleExample.tsx'
+import { Example as CheckGroupExample } from '../../examples/components/checkbox/CheckGroupExample.tsx'
+import { Example as CheckGroupOrientationExample } from '../../examples/components/checkbox/CheckGroupOrientationExample.tsx'
 
-## Approach
+## Overview
 
-Browser default checkboxes are replaced with the help of `<Checkbox>`, for selecting one or several options in a list. It renders the modern, wrapper-based `.check-input` markup nested inside a single `<label>` — passing `label` gives you an accessible, fully-clickable control with no extra markup required.
+`<Checkbox>` replaces the browser's default checkbox for selecting one or several options in a list. It renders the wrapper-based `.check-input` markup nested inside a single `<label>` — passing `label` produces an accessible, fully-clickable control with no extra markup.
 
-`<Checkbox>` is built on [React Aria](https://react-spectrum.adobe.com/react-aria/) for full keyboard and screen-reader support. It works standalone, or inside a `<CheckboxGroup>` when you want to manage a set of related checkboxes as a single array of selected values.
+`<Checkbox>` is built on [React Aria](https://react-spectrum.adobe.com/react-aria/) for keyboard and screen-reader support. It works standalone, or inside a `<CheckboxGroup>` to manage a set of related checkboxes as a single array of selected values.
 
 ## Checks
 
 <Example>
-  <Checkbox id="flexCheckDefault" label="Default checkbox" />
-  <Checkbox id="flexCheckChecked" label="Checked checkbox" defaultSelected />
+  <ChecksExample client:load />
 </Example>
 
 ## Indeterminate
 
-Checkboxes can utilize the `:indeterminate` pseudo-class when manually set via `indeterminate` property.
+A checkbox renders the `:indeterminate` pseudo-class when `indeterminate` is set manually.
 
 <Example>
-  <Checkbox id="flexCheckIndeterminate" label="Indeterminate checkbox" indeterminate />
+  <IndeterminateExample client:load />
 </Example>
 
-### Disabled
+## Disabled
 
-Add the `disabled` attribute and the associated `<label>`s are automatically styled to match with a lighter context to help indicate the input's state.
+Set `disabled` and the associated `<label>` styles to a lighter context to indicate the input's state.
 
 <Example>
-  <Checkbox label="Disabled checkbox" disabled />
-  <Checkbox label="Disabled checked checkbox" defaultSelected disabled />
+  <DisabledExample client:load />
 </Example>
 
 ## Default (stacked)
 
-By default, any number of checkboxes that are immediate siblings will be vertically stacked and appropriately spaced.
+Any number of checkboxes that are immediate siblings stack vertically with appropriate spacing by default.
 
 <Example>
-  <Checkbox id="defaultCheck1" label="Default checkbox" />
-  <Checkbox id="defaultCheck2" label="Disabled checkbox" disabled />
+  <StackedExample client:load />
 </Example>
 
 ## Inline
 
-Group checkboxes on the same horizontal row by wrapping them with the `d-flex` and `gap-medium` flex utilities.
+Wrap checkboxes with the `d-flex` and `gap-medium` flex utilities to lay them out on the same horizontal row.
 
 <Example>
-  <div className="d-flex gap-medium">
-    <Checkbox id="inlineCheckbox1" value="option1" label="1" />
-    <Checkbox id="inlineCheckbox2" value="option2" label="2" />
-    <Checkbox id="inlineCheckbox3" value="option3" label="3 (disabled)" disabled />
-  </div>
+  <InlineExample client:load />
 </Example>
 
 ## Sizing
 
-Apply the `size` property (`small` or `large`) to change the size of a checkbox.
+Set `size` to `"small"` or `"large"` to change a checkbox's size.
 
 <Example>
-  <Checkbox size="large" id="checkLarge" label="Large checkbox" />
-  <Checkbox id="checkMedium" label="Default checkbox" />
-  <Checkbox size="small" id="checkSmall" label="Small checkbox" />
+  <SizeExample client:load />
 </Example>
 
 ## Context colors
 
-Checkboxes accept a `color` property to color the check indicator with any of the Chassis contextual colors.
+Set `color` to color the check indicator with any of the Chassis contextual colors.
 
 <Example>
-  <Checkbox color="secondary" id="checkSecondary" label="Secondary checkbox" defaultSelected />
+  <ColorExample client:load />
 </Example>
 
 ## Without labels
 
-Remember to still provide some form of accessible name for assistive technologies (for instance, using `aria-label`).
+An accessible name is still required for assistive technologies when no visible label is rendered — provide one via `aria-label`.
 
 <Example>
-  <Checkbox id="checkboxNoLabel" value="" aria-label="..." />
+  <NoLabelExample client:load />
 </Example>
 
 ## Toggle buttons
 
-Create button-like checkboxes by using the `button` property on `<Checkbox>`. These toggle buttons can further be grouped in a button group if needed.
+Set the `button` prop on `<Checkbox>` to render a button-like toggle instead of the default check mark. Toggle buttons can be grouped in a button group.
 
 <Example>
-  <Checkbox
-    button={{ color: 'primary' }}
-    id="button-check"
-    autoComplete="off"
-    label="Single toggle"
-  />
+  <ToggleButtonExample client:load />
 </Example>
 
 <Example>
-  <Checkbox
-    button={{ color: 'primary' }}
-    id="button-check-2"
-    autoComplete="off"
-    label="Checked"
-    defaultSelected
-  />
+  <ToggleButtonCheckedExample client:load />
 </Example>
 
 <Example>
-  <Checkbox
-    button={{ color: 'primary' }}
-    id="button-check-3"
-    autoComplete="off"
-    label="Disabled"
-    disabled
-  />
+  <ToggleButtonDisabledExample client:load />
 </Example>
 
 ### Outlined styles
 
-Different variants of button, such at the various outlined styles, are supported.
+`button` accepts the same `variant` values as `<Button>`, including `outline`.
 
 <Example>
-  <div>
-    <Checkbox
-      button={{ color: 'primary', variant: 'outline' }}
-      id="button-check-outlined"
-      autoComplete="off"
-      label="Single toggle"
-    />
-  </div>
-  <div>
-    <Checkbox
-      button={{ color: 'secondary', variant: 'outline' }}
-      id="button-check-2-outlined"
-      autoComplete="off"
-      label="Checked"
-      defaultSelected
-    />
-  </div>
+  <OutlinedToggleExample client:load />
 </Example>
 
 ## Groups

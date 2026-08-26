@@ -8,7 +8,7 @@ import {
   Placeholder
 } from '@chassis-ui/react'
 
-export const FadeExample = () => (
+export const Example = () => (
   <Carousel transition="fade">
     <CarouselInner>
       <CarouselItem>

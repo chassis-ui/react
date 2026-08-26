@@ -12,7 +12,7 @@ const rows = [
   { id: 3, firstName: 'Larry', lastName: 'Bird', handle: '@twitter' }
 ]
 
-export const DynamicExample = () => (
+export const Example = () => (
   <Table aria-label="Users">
     <TableHeader columns={columns}>
       {(column) => <TableColumn key={column.id}>{column.name}</TableColumn>}

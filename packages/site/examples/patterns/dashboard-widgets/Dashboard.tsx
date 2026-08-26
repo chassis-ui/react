@@ -15,7 +15,7 @@ import {
   TableCell
 } from '@chassis-ui/react'
 
-export const Dashboard = () => {
+export const Example = () => {
   const stats = [
     { label: 'Total Users', value: '12,540', delta: '+8%', color: 'primary' },
     { label: 'Active Sessions', value: '342', delta: '+12%', color: 'success' },

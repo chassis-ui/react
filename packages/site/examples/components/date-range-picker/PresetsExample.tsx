@@ -1,7 +1,7 @@
 import { DateRangePicker } from '@chassis-ui/react'
 import { getLocalTimeZone, startOfMonth, startOfWeek, today } from '@internationalized/date'
 
-export const PresetsExample = () => {
+export const Example = () => {
   const now = today(getLocalTimeZone())
 
   const thisWeekStart = startOfWeek(now, 'en-US')

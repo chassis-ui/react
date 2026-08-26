@@ -1,13 +1,13 @@
 ---
 title: Loading States
-description: Build a component's loading state the same way as its real content — same structure, each piece of text, avatar, or button swapped for a Skeleton via SkeletonLoader — and let application state decide which version renders.
+description: Swap each piece of a component's real content for a Skeleton via SkeletonLoader, keeping the same structure and props for the loading state.
 
 toc: true
 ---
 
-import { CardLoadingExample } from '../../examples/patterns/loading-states/CardLoadingExample.tsx'
-import { ProfileLoadingExample } from '../../examples/patterns/loading-states/ProfileLoadingExample.tsx'
-import { TableLoadingExample } from '../../examples/patterns/loading-states/TableLoadingExample.tsx'
+import { Example as CardLoadingExample } from '../../examples/patterns/loading-states/CardLoadingExample.tsx'
+import { Example as ProfileLoadingExample } from '../../examples/patterns/loading-states/ProfileLoadingExample.tsx'
+import { Example as TableLoadingExample } from '../../examples/patterns/loading-states/TableLoadingExample.tsx'
 
 Neither `<Card>` nor `<Table>` has a `loading` prop of its own, and
 [`<Skeleton>`]([[docsref:/components/skeleton]]) doesn't wrap or replace a whole component either
@@ -19,6 +19,9 @@ Application state (here, a `loading` boolean) decides which each one renders —
 skeleton tree, and no manual composition, to keep in sync by hand.
 
 ## Card
+
+The card example passes a `SkeletonLoader` straight into `Card`'s `title`, `subtitle`, and `text`
+shorthand props, so the same prop-driven markup renders both the loading and loaded states.
 
 <Example>
   <CardLoadingExample client:load />
@@ -34,6 +37,9 @@ so the same swap-in-place pattern covers an avatar and a button too, not just th
 </Example>
 
 ## Table
+
+The table example applies the same swap-in-place pattern per cell, rendering one `SkeletonLoader`
+in each `TableCell` in place of that cell's real value.
 
 <Example>
   <TableLoadingExample client:load />

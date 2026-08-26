@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Button, Drawer, DrawerBody, DrawerHeader, DrawerTitle } from '@chassis-ui/react'
 
-export const BodyScrollExample = () => {
+export const Example = () => {
   const [visibleScrolling, setVisibleScrolling] = useState(false)
   const [visibleScrollBackdrop, setVisibleScrollBackdrop] = useState(false)
   return (

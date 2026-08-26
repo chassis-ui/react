@@ -1,7 +1,6 @@
 ---
 title: Placeholder
 description: Generates an inline SVG placeholder graphic for content that isn't ready yet, or swaps in a real image once it is.
-
 toc: true
 ---
 
@@ -34,11 +33,15 @@ once one is available — no need to swap components as content comes online.
 
 ### Basic usage
 
+With no other props, `<Placeholder>` renders a generated graphic sized to `width`/`height`.
+
 <Example>
   <BasicExample client:load />
 </Example>
 
 ### Color
+
+Pass `color` to set the generated graphic's background and foreground to one of the context colors.
 
 <Example>
   <ColorExample client:load />
@@ -76,7 +79,7 @@ components.
 
 `<Placeholder>` renders a plain `<img>` in `src` mode by default, but its `component` prop accepts
 any element or component — including a framework's own `Image` (Next.js, Gatsby, Remix, etc.).
-Whatever you pass is fully type-checked at the call site, so a component's own props (`fill`,
+Whatever is passed is fully type-checked at the call site, so a component's own props (`fill`,
 `priority`, `loader`, and so on) are available and validated alongside `src`/`alt`:
 
 ```tsx

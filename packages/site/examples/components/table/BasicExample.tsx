@@ -1,6 +1,6 @@
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from '@chassis-ui/react'
 
-export const BasicExample = () => (
+export const Example = () => (
   <Table aria-label="Users">
     <TableHeader>
       <TableColumn key="firstName">First name</TableColumn>

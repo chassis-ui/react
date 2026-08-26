@@ -1,5 +1,5 @@
 import { DateRangePicker } from '@chassis-ui/react'
 
-export const BasicExample = () => {
+export const Example = () => {
   return <DateRangePicker aria-label="Trip dates" />
 }

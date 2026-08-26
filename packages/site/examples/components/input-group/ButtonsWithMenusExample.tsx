@@ -8,7 +8,7 @@ import {
   MenuDivider
 } from '@chassis-ui/react'
 
-export const ButtonsWithMenusExample = () => {
+export const Example = () => {
   return (
     <>
       <InputGroup className="mb-3">

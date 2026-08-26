@@ -1,6 +1,6 @@
 import { Popover, Button } from '@chassis-ui/react'
 
-export const BasicExample = () => {
+export const Example = () => {
   return (
     <Popover
       title="Popover title"

@@ -5,13 +5,13 @@ description: Chassis Calendar is a standalone date grid — the same calendar Da
 toc: true
 ---
 
-import { BasicExample } from '../../examples/components/calendar/BasicExample.tsx'
-import { MinMaxExample } from '../../examples/components/calendar/MinMaxExample.tsx'
-import { UnavailableExample } from '../../examples/components/calendar/UnavailableExample.tsx'
-import { UnavailableDatesExample } from '../../examples/components/calendar/UnavailableDatesExample.tsx'
-import { FirstDayOfWeekExample } from '../../examples/components/calendar/FirstDayOfWeekExample.tsx'
-import { MultiSelectExample } from '../../examples/components/calendar/MultiSelectExample.tsx'
-import { MultiMonthExample } from '../../examples/components/calendar/MultiMonthExample.tsx'
+import { Example as BasicExample } from '../../examples/components/calendar/BasicExample.tsx'
+import { Example as MinMaxExample } from '../../examples/components/calendar/MinMaxExample.tsx'
+import { Example as UnavailableExample } from '../../examples/components/calendar/UnavailableExample.tsx'
+import { Example as UnavailableDatesExample } from '../../examples/components/calendar/UnavailableDatesExample.tsx'
+import { Example as FirstDayOfWeekExample } from '../../examples/components/calendar/FirstDayOfWeekExample.tsx'
+import { Example as MultiSelectExample } from '../../examples/components/calendar/MultiSelectExample.tsx'
+import { Example as MultiMonthExample } from '../../examples/components/calendar/MultiMonthExample.tsx'
 
 import { Calendar } from '@chassis-ui/react'
 
@@ -79,17 +79,17 @@ Pass `visibleMonths` to show more than one month side by side, sharing one selec
   <MultiMonthExample client:load />
 </Example>
 
-## Accessible name
+## Styling
+
+Like `DatePicker`, `Calendar` isn't styled by `@chassis-ui/css` — chassis-css's own datepicker styling is built entirely around [Vanilla Calendar Pro](https://vanilla-calendar.pro/)'s specific DOM output, which React Aria's calendar hooks don't produce. `Calendar` instead ships its own scoped CSS (built on `@chassis-ui/tokens`' public design tokens, so it still matches the current theme and light/dark mode) that's automatically injected the first time the component is imported — no separate stylesheet to add.
+
+## Accessibility
 
 `Calendar` has no visible label of its own — pass `aria-label` or `aria-labelledby` any time it's used standalone (as in every example above). When composed inside `DatePicker`'s popover, the accessible name instead comes from the picker's own label.
 
 ## Scope
 
 - **Contiguous ranges** — `Calendar` selects independent dates or none at all; for a start/end range, see [`RangeCalendar`](/forms/range-calendar).
-
-## Styling
-
-Like `DatePicker`, `Calendar` isn't styled by `@chassis-ui/css` — chassis-css's own datepicker styling is built entirely around [Vanilla Calendar Pro](https://vanilla-calendar.pro/)'s specific DOM output, which React Aria's calendar hooks don't produce. `Calendar` instead ships its own scoped CSS (built on `@chassis-ui/tokens`' public design tokens, so it still matches the current theme and light/dark mode) that's automatically injected the first time the component is imported — no separate stylesheet to add.
 
 ## API
 

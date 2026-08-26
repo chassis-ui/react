@@ -18,7 +18,7 @@ import { Example as JsonContentExample } from '../../examples/components/accordi
 Click the accordions below to expand/collapse the accordion content. Items sharing the same `name` form a group where only one item can be open at a time — set `name` on `Accordion` to apply it to the whole group.
 
 <Example>
- <BasicExample client:load />
+  <BasicExample client:load />
 </Example>
 
 ### Flush
@@ -26,7 +26,7 @@ Click the accordions below to expand/collapse the accordion content. Items shari
 Add `flush` to render accordions edge-to-edge with their parent container.
 
 <Example>
- <FlushExample client:load />
+  <FlushExample client:load />
 </Example>
 
 ### Always open
@@ -34,7 +34,7 @@ Add `flush` to render accordions edge-to-edge with their parent container.
 Add `alwaysOpen` to let multiple items stay open at the same time.
 
 <Example>
- <AlwaysOpenExample client:load />
+  <AlwaysOpenExample client:load />
 </Example>
 
 ### Sizes
@@ -42,7 +42,7 @@ Add `alwaysOpen` to let multiple items stay open at the same time.
 Add `size="large"` or `size="small"` for additional sizes.
 
 <Example>
- <SizeExample client:load />
+  <SizeExample client:load />
 </Example>
 
 ### Caret position
@@ -50,15 +50,15 @@ Add `size="large"` or `size="small"` for additional sizes.
 Add `caretEnd` to move the caret icon to the end of the header.
 
 <Example>
- <CaretEndExample client:load />
+  <CaretEndExample client:load />
 </Example>
 
-### Per-item name and always-open
+### Per-item overrides
 
 `name` and `alwaysOpen` can be set on `Accordion` as shared defaults, and overridden on individual `AccordionItem`s — items without their own value fall back to the accordion's setting.
 
 <Example>
- <MixedGroupsExample client:load />
+  <MixedGroupsExample client:load />
 </Example>
 
 ### JSON content
@@ -66,7 +66,7 @@ Add `caretEnd` to move the caret icon to the end of the header.
 Pass an `items` array to render an accordion from data instead of composed children. Each item accepts `header`, `body`, and optional `open`, `name`, and `alwaysOpen` overrides.
 
 <Example>
- <JsonContentExample client:load />
+  <JsonContentExample client:load />
 </Example>
 
 ## API
@@ -74,14 +74,21 @@ Pass an `items` array to render an accordion from data instead of composed child
 ### Accordion
 
 <PropTable component="Accordion" />
+
 ### AccordionItemDef
 
 Shape of each entry in `Accordion`'s `items` array (data-driven rendering).
 
 <PropTable component="AccordionItemDef" />
+
 ### AccordionItem
+
 <PropTable component="AccordionItem" />
+
 ### AccordionHeader
+
 <PropTable component="AccordionHeader" />
+
 ### AccordionBody
+
 <PropTable component="AccordionBody" />

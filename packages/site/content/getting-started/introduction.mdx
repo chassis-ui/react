@@ -1,9 +1,13 @@
 ---
 title: Introduction
-description: Chassis is UI Component library written in TypeScript, and ready for your next React.js project. Learn how to include Chassis in your project.
-
+description: Install @chassis-ui/react, a TypeScript React component library, and pair it with its companion stylesheet.
 toc: true
 ---
+
+`@chassis-ui/react` provides the interactive building blocks for a Chassis UI application — form
+controls, overlays, navigation, and layout primitives — written in TypeScript and built on
+`react-aria`/`react-stately` for accessible-by-default behavior. This page covers installing the
+package, importing components, and wiring up the companion stylesheet each one renders against.
 
 ## Installation
 
@@ -33,7 +37,7 @@ import { Button } from '@chassis-ui/react'
 
 React components are styled with the `@chassis-ui/css` library.
 
-### Installation
+### Install chassis-css
 
 ```bash
 npm install @chassis-ui/css
@@ -65,7 +69,7 @@ import '@chassis-ui/react/style.css'
 Skipping this import doesn't error — those specific pieces will just render unstyled. Every other
 component is styled entirely through `@chassis-ui/css` and needs nothing extra.
 
-## The wider Chassis ecosystem
+## Wider Chassis ecosystem
 
 `@chassis-ui/react` is one package in a set that shares the same design system:
 

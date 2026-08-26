@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { TextInput, FormField, PasswordStrength } from '@chassis-ui/react'
 
-export const BasicExample = () => {
+export const Example = () => {
   const [password, setPassword] = useState('')
 
   return (

@@ -1,417 +1,224 @@
 ---
 title: List
-description: Chassis List component provides structured containers for related content with consistent styling and behavior. Learn how to use react list to build complex list structures on your website.
+description: Structured containers for related content, with flush, plain, numbered, and horizontal layout variants.
 
 toc: true
 ---
 
-import {
-  Badge,
-  Col,
-  Checkbox,
-  List,
-  ListItem,
-  Row,
-} from '@chassis-ui/react'
+import { Example as BasicExample } from '../../examples/components/list/BasicExample.tsx'
+import { Example as DataDrivenExample } from '../../examples/components/list/DataDrivenExample.tsx'
+import { Example as DataDrivenColorsExample } from '../../examples/components/list/DataDrivenColorsExample.tsx'
+import { Example as ActiveExample } from '../../examples/components/list/ActiveExample.tsx'
+import { Example as DisabledExample } from '../../examples/components/list/DisabledExample.tsx'
+import { Example as LinksExample } from '../../examples/components/list/LinksExample.tsx'
+import { Example as ButtonsExample } from '../../examples/components/list/ButtonsExample.tsx'
+import { Example as FlushExample } from '../../examples/components/list/FlushExample.tsx'
+import { Example as PlainExample } from '../../examples/components/list/PlainExample.tsx'
+import { Example as NumberedExample } from '../../examples/components/list/NumberedExample.tsx'
+import { Example as HorizontalExample } from '../../examples/components/list/HorizontalExample.tsx'
+import { Example as HorizontalFillExample } from '../../examples/components/list/HorizontalFillExample.tsx'
+import { Example as ContextualExample } from '../../examples/components/list/ContextualExample.tsx'
+import { Example as ContextualLinksExample } from '../../examples/components/list/ContextualLinksExample.tsx'
+import { Example as ContextStylesExample } from '../../examples/components/list/ContextStylesExample.tsx'
+import { Example as BadgesExample } from '../../examples/components/list/BadgesExample.tsx'
+import { Example as CustomContentExample } from '../../examples/components/list/CustomContentExample.tsx'
+import { Example as ChecksExample } from '../../examples/components/list/ChecksExample.tsx'
+import { Example as ChecksListItemExample } from '../../examples/components/list/ChecksListItemExample.tsx'
 
-## About
+## Overview
 
-Lists in Chassis CSS provide structured containers for related content with consistent styling and behavior. Beyond simple lists, they support interactive elements, custom content, and integration with other components—all while maintaining design token consistency with your broader interface.
+`<List>` renders a structured container for related content, with consistent spacing, borders, and
+typography through Chassis's design token system. Beyond plain items, it supports interactive
+elements, custom content, and composition with other components.
+
+## Basic usage
+
+`<List>` and `<ListItem>` build an unordered list, establishing the spacing, borders, and
+typography the rest of this doc builds on.
+
+<Example>
+  <BasicExample client:load />
+</Example>
 
 ## Data-driven usage
 
-Pass an `items` array to render the list from data. Each item accepts `label`, `href`, `color`, `active`, and `disabled`.
+Pass an `items` array to render the list from data instead of composing `<ListItem>` children.
+Each item accepts `label`, `href`, `color`, `active`, and `disabled`.
 
 <Example>
-  <List
-    items={[
-      { label: 'Dashboard', href: '#', active: true },
-      { label: 'Profile', href: '#' },
-      { label: 'Settings', href: '#' },
-      { label: 'Billing', href: '#', disabled: true },
-    ]}
-  />
+  <DataDrivenExample client:load />
 </Example>
 
-With context colors:
+Each item's `color` remaps it to one of the context colors below.
 
 <Example>
-  <List
-    items={[
-      { label: 'Default item' },
-      { label: 'Primary item', color: 'primary' },
-      { label: 'Success item', color: 'success' },
-      { label: 'Danger item', color: 'danger' },
-      { label: 'Warning item', color: 'warning' },
-    ]}
-  />
-</Example>
-
-## Basic example
-
-The foundation of the list component is an unordered list built with `<List>` and `<ListItem>`. This structure establishes consistent spacing, borders, and typography through Chassis's design token system.
-
-<Example>
-  <List>
-    <ListItem>Cras justo odio</ListItem>
-    <ListItem>Dapibus ac facilisis in</ListItem>
-    <ListItem>Morbi leo risus</ListItem>
-    <ListItem>Porta ac consectetur ac</ListItem>
-    <ListItem>Vestibulum at eros</ListItem>
-  </List>
+  <DataDrivenColorsExample client:load />
 </Example>
 
 ## Active items
 
-Add `active` boolean property to a `<ListItem>` to show the current active selection. For better accessibility, active items automatically get an `aria-current="true"` attribute.
+Add the `active` boolean prop to a `<ListItem>` to mark it as the current selection. An active
+item gets an `aria-current="true"` attribute automatically.
 
 <Example>
-  <List>
-    <ListItem active>Cras justo odio</ListItem>
-    <ListItem>Dapibus ac facilisis in</ListItem>
-    <ListItem>Morbi leo risus</ListItem>
-    <ListItem>Porta ac consectetur ac</ListItem>
-    <ListItem>Vestibulum at eros</ListItem>
-  </List>
+  <ActiveExample client:load />
 </Example>
 
 ## Disabled items
 
-Add `disabled` boolean property to a `<ListItem>` to make it appear disabled. Disabled items automatically get an `aria-disabled="true"` attribute.
+Add the `disabled` boolean prop to a `<ListItem>` to render it disabled. A disabled item gets an
+`aria-disabled="true"` attribute automatically.
 
-<Callout context="info">
-  <p>
-    The disabled state only changes the visual appearance. For interactive elements like links, additional JavaScript is needed to fully disable interaction behavior.
-  </p>
+<Callout type="info">
+  The disabled state only changes the visual appearance. For interactive elements like links,
+  additional JavaScript is needed to fully disable interaction behavior.
 </Callout>
 
 <Example>
-  <List>
-    <ListItem disabled>Cras justo odio</ListItem>
-    <ListItem>Dapibus ac facilisis in</ListItem>
-    <ListItem>Morbi leo risus</ListItem>
-    <ListItem>Porta ac consectetur ac</ListItem>
-    <ListItem>Vestibulum at eros</ListItem>
-  </List>
+  <DisabledExample client:load />
 </Example>
 
 ## Links and buttons
 
-Use `<a>`s or `<button>`s to create _actionable_ list items with hover, disabled, and active states by adding `component="a|button"`. This applies the `.list-action` modifier class, which separates interactive states from standard read-only items, ensuring users receive the appropriate visual affordances.
-
-Use `component="a"` when the action navigates to a new location, and `component="button"` when the action triggers an in-page behavior. Native `<button>`s support the `disabled` attribute, which both visually styles the element and prevents interaction; `<a>`s only get the visual `.disabled` styling and require additional JavaScript to fully prevent interaction.
+Set `component="a"` or `component="button"` to create actionable list items with hover, disabled,
+and active states. This applies the `.list-action` modifier class, separating interactive states
+from standard read-only items. Use `component="a"` when the action navigates to a new location, and
+`component="button"` when it triggers an in-page behavior — a native `<button>`'s `disabled`
+attribute both visually styles the element and prevents interaction, while an `<a>` only gets the
+visual `.disabled` styling and needs additional JavaScript to fully prevent interaction.
 
 <Example>
-  <List>
-    <ListItem component="a" href="#" active>
-      Cras justo odio
-    </ListItem>
-    <ListItem component="a" href="#">
-      Dapibus ac facilisis in
-    </ListItem>
-    <ListItem component="a" href="#">
-      Morbi leo risus
-    </ListItem>
-    <ListItem component="a" href="#">
-      Porta ac consectetur ac
-    </ListItem>
-    <ListItem component="a" href="#" disabled>
-      Vestibulum at eros
-    </ListItem>
-  </List>
+  <LinksExample client:load />
 </Example>
 
+The same markup with `component="button"` instead:
+
 <Example>
-  <List>
-    <ListItem component="button" active>
-      Cras justo odio
-    </ListItem>
-    <ListItem component="button">Dapibus ac facilisis in</ListItem>
-    <ListItem component="button">Morbi leo risus</ListItem>
-    <ListItem component="button">Porta ac consectetur ac</ListItem>
-    <ListItem component="button" disabled>
-      Vestibulum at eros
-    </ListItem>
-  </List>
+  <ButtonsExample client:load />
 </Example>
 
 ## Layout variations
 
 ### Flush list
 
-Add `flush` boolean property to remove outer borders and rounded corners, rendering list items edge-to-edge in a parent container (e.g., cards).
+Add the `flush` boolean prop to remove outer borders and rounded corners, rendering list items
+edge-to-edge in a parent container (e.g., a card).
 
 <Example>
-  <List flush>
-    <ListItem>Cras justo odio</ListItem>
-    <ListItem>Dapibus ac facilisis in</ListItem>
-    <ListItem>Morbi leo risus</ListItem>
-    <ListItem>Porta ac consectetur ac</ListItem>
-    <ListItem>Vestibulum at eros</ListItem>
-  </List>
+  <FlushExample client:load />
 </Example>
 
 ### Plain layout
 
-Add `plain` boolean property for a minimal list that removes outer borders, rounded corners, and horizontal padding. Creates a sleek appearance suitable for main content areas like search results or content feeds.
+Add the `plain` boolean prop for a minimal list that removes outer borders, rounded corners, and
+horizontal padding — a compact fit for content areas like search results or content feeds.
 
 <Example>
-  <List plain>
-    <ListItem>Cras justo odio</ListItem>
-    <ListItem>Dapibus ac facilisis in</ListItem>
-    <ListItem>Morbi leo risus</ListItem>
-    <ListItem>Porta ac consectetur ac</ListItem>
-    <ListItem>Vestibulum at eros</ListItem>
-  </List>
+  <PlainExample client:load />
 </Example>
 
-<Callout context="info">
-  <p>
-    Both `flush` and `plain` remove outer borders and rounded corners. The key difference is that `plain` also removes horizontal padding for a more compact appearance.
-  </p>
+<Callout type="info">
+  Both `flush` and `plain` remove outer borders and rounded corners. `plain` also removes
+  horizontal padding, for a more compact appearance.
 </Callout>
 
 ### Numbered lists
 
-Add `numbered` boolean property to sequentially number list items. For semantic correctness, pair this with `component="ol"`, though the numbering is generated through CSS counters rather than browser defaults.
+Add the `numbered` boolean prop to sequentially number list items via CSS counters rather than
+browser defaults. Pair it with `component="ol"` for semantic correctness.
 
 <Example>
-  <List component="ol" numbered>
-    <ListItem>A list item</ListItem>
-    <ListItem>A list item</ListItem>
-    <ListItem>A list item</ListItem>
-  </List>
+  <NumberedExample client:load />
 </Example>
 
 ### Horizontal layout
 
-Add `layout="horizontal"` to switch a list from column to row layout across all breakpoints. Adjacent items share a single border edge, and outer corners remain rounded while inner corners are squared off.
+Add `layout="horizontal"` to switch a list from column to row layout across all breakpoints.
+Adjacent items share a single border edge, and outer corners stay rounded while inner corners are
+squared off.
 
-Responsive variants use [container queries](/react/docs/layout/breakpoints#container-queries) — each `layout="{breakpoint}:horizontal"` value activates at or above the specified container width. Wrap the list in a `.contains-inline` container to establish the container context.
+Responsive variants use [container queries](https://chassis-ui.com/css/docs/layout/breakpoints) —
+each `layout="{breakpoint}:horizontal"` value activates at or above the specified container width.
+Wrap the list in a `.contains-inline` container to establish the container context.
 
-<Callout context="warning">
-  <p>`layout="horizontal"` cannot be combined with `flush` — the flush variant removes inline borders that separate items in the horizontal layout.</p>
+<Callout type="warning">
+  `layout="horizontal"` cannot be combined with `flush` — the flush variant removes the inline
+  borders that separate items in the horizontal layout.
 </Callout>
 
 <Example>
-  <div className="contains-inline">
-    <List className="mb-medium" layout="horizontal">
-      <ListItem>Cras justo odio</ListItem>
-      <ListItem>Dapibus ac facilisis in</ListItem>
-      <ListItem>Morbi leo risus</ListItem>
-    </List>
-    <List className="mb-medium" layout="small:horizontal">
-      <ListItem>Cras justo odio</ListItem>
-      <ListItem>Dapibus ac facilisis in</ListItem>
-      <ListItem>Morbi leo risus</ListItem>
-    </List>
-    <List className="mb-medium" layout="medium:horizontal">
-      <ListItem>Cras justo odio</ListItem>
-      <ListItem>Dapibus ac facilisis in</ListItem>
-      <ListItem>Morbi leo risus</ListItem>
-    </List>
-    <List layout="large:horizontal">
-      <ListItem>Cras justo odio</ListItem>
-      <ListItem>Dapibus ac facilisis in</ListItem>
-      <ListItem>Morbi leo risus</ListItem>
-    </List>
-  </div>
+  <HorizontalExample client:load />
 </Example>
 
-Apply `.flex-fill` or `.flex-grow-1` utility classes to list items to stretch them across the full list width — `.flex-fill` shares the available width equally, while `.flex-grow-1` grows from each item's natural content width.
+Apply the `.flex-fill` or `.flex-grow-1` utility classes to list items to stretch them across the
+full list width — `.flex-fill` shares the available width equally, while `.flex-grow-1` grows from
+each item's natural content width.
 
 <Example>
-  <List layout="horizontal">
-    <ListItem className="flex-fill">Cras justo odio</ListItem>
-    <ListItem className="flex-fill">Dapibus ac facilisis in</ListItem>
-    <ListItem className="flex-fill">Vestibulum at eros</ListItem>
-  </List>
+  <HorizontalFillExample client:load />
 </Example>
 
 ## Contextual classes
 
-Use the `color` property to style list items with a stateful background and color.
+Use the `color` prop to style list items with a stateful background and color.
 
 <Example>
-  <List>
-    <ListItem>Dapibus ac facilisis in</ListItem>
-    {['primary', 'secondary', 'success', 'danger', 'warning', 'info'].map(
-      (color, index) => (
-        <ListItem color={color} key={index}>
-          A simple {color} list item
-        </ListItem>
-      ),
-    )}
-  </List>
+  <ContextualExample client:load />
 </Example>
 
-Contextual classes also work with `<a>`s or `<button>`s. Note the addition of the hover styles here not present in the previous example. Also supported is the `active` state; apply it to indicate an active selection on a contextual interactive item.
+The same `color` prop works on `<a>`/`<button>` list items, adding hover styles not present on
+plain items, alongside `active` to mark a current selection among them.
 
 <Example>
-  <List>
-    <ListItem component="a" href="#">
-      Dapibus ac facilisis in
-    </ListItem>
-    {['primary', 'secondary', 'success', 'danger', 'warning', 'info'].map(
-      (color, index) => (
-        <ListItem component="a" href="#" color={color} key={index}>
-          A simple {color} list action
-        </ListItem>
-      ),
-    )}
-  </List>
+  <ContextualLinksExample client:load />
 </Example>
 
-<Callout context="info">
-  <h5>Conveying meaning to assistive technologies</h5>
-  <p>
-    Using context to add meaning only provides a visual indication, which will not be conveyed to
-    users of assistive technologies – such as screen readers. Ensure that information denoted by the
-    context is either obvious from the content itself (e.g. the visible text), or is included through
-    alternative means, such as additional text hidden with the `.visually-hidden` class.
-  </p>
+<Callout type="info">
+  Context color alone provides only a visual indication, which isn't conveyed to assistive
+  technology users. Make sure information denoted by the color is either obvious from the content
+  itself (e.g. the visible text), or included through alternative means, such as additional text
+  hidden with the `.visually-hidden` class.
 </Callout>
 
 ### Context styles
 
-`<List>` also accepts `color` together with a `variant` of `solid`, `outline`, or `smooth` to color the whole list container based on your design system's color palette.
+`<List>` also accepts `color` together with a `variant` of `solid`, `outline`, or `smooth` to
+color the whole list container based on the design system's color palette.
 
 <Example>
-  <Row className="medium:row-cols-2 g-large">
-    <Col>
-      <List color="primary">
-        <ListItem>Cras justo odio</ListItem>
-        <ListItem>Dapibus ac facilisis in</ListItem>
-        <ListItem>Vestibulum at eros</ListItem>
-      </List>
-    </Col>
-    <Col>
-      <List color="primary" variant="solid" flush className="rounded">
-        <ListItem>Cras justo odio</ListItem>
-        <ListItem>Dapibus ac facilisis in</ListItem>
-        <ListItem>Vestibulum at eros</ListItem>
-      </List>
-    </Col>
-    <Col>
-      <List color="primary" variant="smooth" flush className="rounded">
-        <ListItem>Cras justo odio</ListItem>
-        <ListItem>Dapibus ac facilisis in</ListItem>
-        <ListItem>Vestibulum at eros</ListItem>
-      </List>
-    </Col>
-    <Col>
-      <List color="primary" variant="outline">
-        <ListItem>Cras justo odio</ListItem>
-        <ListItem>Dapibus ac facilisis in</ListItem>
-        <ListItem>Vestibulum at eros</ListItem>
-      </List>
-    </Col>
-  </Row>
+  <ContextStylesExample client:load />
 </Example>
 
 ## With badges
 
-Add badges to any list item to show unread counts, activity, and more.
+Add badges to a list item to show unread counts, activity, and more.
 
 <Example>
-  <List>
-    <ListItem className="d-flex justify-content-between align-items-center">
-      Cras justo odio
-      <Badge color="primary" className="rounded-full">
-        14
-      </Badge>
-    </ListItem>
-    <ListItem className="d-flex justify-content-between align-items-center">
-      Dapibus ac facilisis in
-      <Badge color="primary" className="rounded-full">
-        2
-      </Badge>
-    </ListItem>
-    <ListItem className="d-flex justify-content-between align-items-center">
-      Morbi leo risus
-      <Badge color="primary" className="rounded-full">
-        1
-      </Badge>
-    </ListItem>
-  </List>
+  <BadgesExample client:load />
 </Example>
 
 ## Custom content
 
-Add nearly any HTML within, even for linked list items like the one below, with the help of flexbox utilities.
+A list item accepts nearly any content, including for linked items, with the help of flexbox
+utilities.
 
 <Example>
-  <List>
-    <ListItem component="a" href="#" active>
-      <div className="d-flex w-100 justify-content-between">
-        <h5 className="mb-1">List item heading</h5>
-        <small>3 days ago</small>
-      </div>
-      <p className="mb-1">
-        Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius
-        blandit.
-      </p>
-      <small>Donec id elit non mi porta.</small>
-    </ListItem>
-    <ListItem component="a" href="#">
-      <div className="d-flex w-100 justify-content-between">
-        <h5 className="mb-1">List item heading</h5>
-        <small className="medium:text-emphasis">3 days ago</small>
-      </div>
-      <p className="mb-1">
-        Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius
-        blandit.
-      </p>
-      <small className="medium:text-emphasis">Donec id elit non mi porta.</small>
-    </ListItem>
-    <ListItem component="a" href="#">
-      <div className="d-flex w-100 justify-content-between">
-        <h5 className="mb-1">List item heading</h5>
-        <small className="medium:text-emphasis">3 days ago</small>
-      </div>
-      <p className="mb-1">
-        Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius
-        blandit.
-      </p>
-      <small className="medium:text-emphasis">Donec id elit non mi porta.</small>
-    </ListItem>
-  </List>
+  <CustomContentExample client:load />
 </Example>
 
 ## Checkboxes and radios
 
-Place Chassis checkboxes and radios within list items and customize as needed.
+Place a checkbox or radio within a list item and customize it as needed.
 
 <Example>
-  <List>
-    <ListItem>
-      <Checkbox label="Cras justo odio" />
-    </ListItem>
-    <ListItem>
-      <Checkbox label="Dapibus ac facilisis in" defaultSelected />
-    </ListItem>
-    <ListItem>
-      <Checkbox label="Morbi leo risus" defaultSelected />
-    </ListItem>
-    <ListItem>
-      <Checkbox label="orta ac consectetur ac" />
-    </ListItem>
-    <ListItem>
-      <Checkbox label="Vestibulum at eros" />
-    </ListItem>
-  </List>
+  <ChecksExample client:load />
 </Example>
 
-And since `<Checkbox>` always renders a `<label>` as its root element, you can apply `.list-item` directly to it for large hit areas, too.
+Since `<Checkbox>` always renders a `<label>` as its root element, the `.list-item` class applies
+directly to it too, for a large hit area.
 
 <Example>
-  <List>
-    <Checkbox className="list-item" label="Cras justo odio" />
-    <Checkbox className="list-item" label="Dapibus ac facilisis in" defaultSelected />
-    <Checkbox className="list-item" label="Morbi leo risus" defaultSelected />
-    <Checkbox className="list-item" label="orta ac consectetur ac" />
-    <Checkbox className="list-item" label="Vestibulum at eros" />
-  </List>
+  <ChecksListItemExample client:load />
 </Example>
 
 ## API
@@ -419,6 +226,7 @@ And since `<Checkbox>` always renders a `<label>` as its root element, you can a
 ### List
 
 <PropTable component="List" />
+
 ### ListItem
 
 <PropTable component="ListItem" />

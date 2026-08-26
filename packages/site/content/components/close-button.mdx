@@ -1,7 +1,6 @@
 ---
 title: Close Button
-description: A generic Chassis Close Button component for dismissing content like modals and alerts.
-
+description: Generic dismiss control for closing content like modals and alerts.
 toc: true
 ---
 
@@ -13,9 +12,11 @@ import { Example as ColorExample } from '../../examples/components/close-button/
 import { Example as LabelExample } from '../../examples/components/close-button/LabelExample.tsx'
 import { Example as IconExample } from '../../examples/components/close-button/IconExample.tsx'
 
-## Example
+## Examples
 
-Provide an option to dismiss or close a component with `<CloseButton>`. Default styling is limited, but highly customizable. Modify the Sass variables to replace the default `background-image`.
+`<CloseButton>` renders a dismiss control for closing a component like a modal or an alert. Its
+default styling is minimal — an X icon with no border or background — so it composes cleanly into
+whatever surface it sits on.
 
 <Example>
   <BasicExample client:load />
@@ -23,7 +24,8 @@ Provide an option to dismiss or close a component with `<CloseButton>`. Default 
 
 ## Disabled state
 
-Disabled close buttons change their `opacity`. We've also applied `pointer-events: none` and `user-select: none` to preventing hover and active states from triggering.
+Set `disabled` to lower the button's `opacity` and block interaction. `pointer-events: none` and
+`user-select: none` also apply, so hover and active states never trigger.
 
 <Example>
   <DisabledExample client:load />
@@ -31,7 +33,7 @@ Disabled close buttons change their `opacity`. We've also applied `pointer-event
 
 ## Sizes
 
-Use the `size` property to match surrounding component sizes.
+Set `size` to `"small"` or `"large"` to match `<CloseButton>` to surrounding component sizes.
 
 <Example class="d-flex align-items-center">
   <SizeExample client:load />
@@ -39,13 +41,14 @@ Use the `size` property to match surrounding component sizes.
 
 ## Contextual colors
 
-The close button inherits its icon color from the nearest context class.
+`<CloseButton>` inherits its icon color from the nearest context class by default.
 
 <Example class="d-flex flex-wrap gap-medium">
   <ContextExample client:load />
 </Example>
 
-Use the `color` and `variant` properties to apply a custom context style directly to the close button.
+Set `color` and `variant` to apply a context style directly to `<CloseButton>`, independent of any
+ancestor context class.
 
 <Example class="d-flex gap-medium">
   <ColorExample client:load />
@@ -61,7 +64,8 @@ Use the `color` and `variant` properties to apply a custom context style directl
 
 ## Custom icon
 
-Place a custom icon inside `<CloseButton>` to replace the default "X" icon. The icon will inherit the button's color and size.
+Place a custom icon inside `<CloseButton>` to replace the default X icon — the icon inherits the
+button's color and size.
 
 <Example>
   <IconExample client:load />

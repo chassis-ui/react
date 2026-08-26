@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Card, CardBody, Button, Col, Collapse, Row } from '@chassis-ui/react'
 
-export const MultipleTargetsExample = () => {
+export const Example = () => {
   const [visibleA, setVisibleA] = useState(false)
   const [visibleB, setVisibleB] = useState(false)
   return (

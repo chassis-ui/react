@@ -1,6 +1,6 @@
 import { ButtonGroup, Radio, RadioGroup } from '@chassis-ui/react'
 
-export const VerticalRadioToggleButtonGroupExample = () => {
+export const Example = () => {
   return (
     <RadioGroup aria-label="Vertical radio toggle button group" defaultValue="vbtnradio1">
       <ButtonGroup vertical>

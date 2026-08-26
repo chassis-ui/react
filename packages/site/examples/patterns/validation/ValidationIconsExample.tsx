@@ -11,7 +11,7 @@ import {
   TextInput
 } from '@chassis-ui/react'
 
-export const ValidationIconsExample = () => (
+export const Example = () => (
   <Form className="validation-icons">
     <Stack gap="medium">
       <TextInput label="Text input" defaultValue="John" valid validFeedback="Looks good!" />

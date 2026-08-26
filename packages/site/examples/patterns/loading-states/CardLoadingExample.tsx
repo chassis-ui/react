@@ -3,7 +3,7 @@ import { Button, Card, CardImage, Skeleton, SkeletonLoader } from '@chassis-ui/r
 
 const FETCH_DELAY = 1500
 
-export const CardLoadingExample = () => {
+export const Example = () => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {

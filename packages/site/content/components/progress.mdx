@@ -1,8 +1,6 @@
 ---
 title: Progress
-description: Documentation and examples for using Chassis Progress bars featuring support for stacked bars, animated backgrounds, and text labels.
-
-
+description: Custom progress bar with color, striped, and animated variants, plus inline-value and custom compositions.
 toc: true
 ---
 
@@ -14,17 +12,19 @@ import { Example as StripedExample } from '../../examples/components/progress/St
 import { Example as AnimatedExample } from '../../examples/components/progress/AnimatedExample.tsx'
 import { Example as CustomExample } from '../../examples/components/progress/CustomExample.tsx'
 
-## Example
+## Overview
 
-`<Progress>` renders both the wrapper and the inner bar for you — just pass a `value`. We don't use [the HTML5 `<progress>` element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/progress), so you get full control over color, stripes, animation, and text labels.
+`<Progress>` renders both the wrapper and the inner bar from a single `value` prop, using its own markup instead of [the HTML5 `<progress>` element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/progress) for full control over color, stripes, animation, and text labels.
 
 ## Basic usage
+
+Pass `label` and `showValue` alongside `value` to render a caption and the current percentage above the bar.
 
 <Example class="vstack gap-medium">
   <BasicExample client:load />
 </Example>
 
-## Inline Value
+## Inline value
 
 Set `inlineValue` to display the current percentage inside the bar.
 
@@ -34,7 +34,7 @@ Set `inlineValue` to display the current percentage inside the bar.
 
 ## Height
 
-We only set a `height` value on the `<Progress>`, so if you change that value the inner bar will automatically resize accordingly.
+Setting a `height` value on `<Progress>` resizes the inner bar automatically.
 
 <Example class="vstack gap-medium">
   <HeightExample client:load />
@@ -42,7 +42,7 @@ We only set a `height` value on the `<Progress>`, so if you change that value th
 
 ## Colors
 
-Use `color` prop to change the appearance of the progress bar.
+Use the `color` prop to change the appearance of the progress bar.
 
 <Example class="vstack gap-medium">
   <ColorExample client:load />
@@ -65,6 +65,8 @@ The striped gradient can also be animated. Add the `animated` prop alongside `st
 </Example>
 
 ## Custom compositions
+
+Combine `<Progress>` with flex utilities to build layouts beyond the built-in `inlineValue` placement, like a leading label and a trailing percentage flanking the bar.
 
 <Example class="vstack gap-medium">
   <CustomExample client:load />

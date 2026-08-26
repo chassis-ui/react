@@ -8,7 +8,7 @@ const rows = [
   { id: 3, name: 'Larry Bird', role: 'Engineer' }
 ]
 
-export const SelectionExample = () => {
+export const Example = () => {
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set())
 
   return (

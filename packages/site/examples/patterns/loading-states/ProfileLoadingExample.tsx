@@ -8,7 +8,7 @@ const user = {
   avatar: 'https://i.pravatar.cc/80'
 }
 
-export const ProfileLoadingExample = () => {
+export const Example = () => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {

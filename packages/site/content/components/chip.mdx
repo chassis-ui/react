@@ -81,7 +81,7 @@ rather than an interactive button.
 ## Dismissible chips
 
 Nest a `CloseButton` to add a removal action — `Chip` doesn't manage its own list state, so pair
-it with your own `onClick` handler to remove the value from whatever collection you're rendering
+it with an `onClick` handler that removes the value from whatever collection is being rendered
 from.
 
 <Example class="d-flex flex-wrap gap-small">
@@ -101,7 +101,7 @@ at medium size.
 
 Set `pressed` to mark a toggle-style chip as active — e.g. a filter pill that stays highlighted
 while selected. It applies the `.active` class and sets `aria-pressed`, so assistive technology
-announces the toggle state. `Chip` doesn't toggle itself; flip `pressed` in your own `onClick`
+announces the toggle state. `Chip` doesn't toggle itself; flip `pressed` from an `onClick`
 handler.
 
 <Example>

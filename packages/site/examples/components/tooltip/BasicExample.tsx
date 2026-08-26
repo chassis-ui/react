@@ -1,6 +1,6 @@
 import { Tooltip, Link } from '@chassis-ui/react'
 
-export const BasicExample = () => {
+export const Example = () => {
   return (
     <p className="medium:text-emphasis">
       Tight pants next level keffiyeh

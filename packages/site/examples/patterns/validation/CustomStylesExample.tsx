@@ -12,7 +12,7 @@ import {
   TextInput
 } from '@chassis-ui/react'
 
-export const CustomStylesExample = () => {
+export const Example = () => {
   const [validated, setValidated] = useState(false)
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -62,11 +62,7 @@ export const CustomStylesExample = () => {
         <TextInput label="Zip" invalidFeedback="Please provide a valid zip." required />
       </Col>
       <Col span={12}>
-        <Checkbox
-          label="Agree to terms and conditions"
-          aria-describedby="agreeFeedback"
-          required
-        />
+        <Checkbox label="Agree to terms and conditions" aria-describedby="agreeFeedback" required />
         <FormFeedback id="agreeFeedback" invalid>
           You must agree before submitting.
         </FormFeedback>

@@ -1,5 +1,5 @@
 import { DatePicker } from '@chassis-ui/react'
 
-export const MultiMonthExample = () => {
+export const Example = () => {
   return <DatePicker aria-label="Event date" visibleMonths={2} />
 }

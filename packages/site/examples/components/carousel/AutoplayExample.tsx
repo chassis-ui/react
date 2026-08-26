@@ -9,7 +9,7 @@ import {
   Placeholder
 } from '@chassis-ui/react'
 
-export const AutoplayExample = () => (
+export const Example = () => (
   <Carousel autoplay>
     <div className="d-flex justify-content-between align-items-center">
       <div>

@@ -1,6 +1,6 @@
 import { Radio, RadioGroup } from '@chassis-ui/react'
 
-export const RadiosStackedExample = () => {
+export const Example = () => {
   return (
     <RadioGroup label="Options" defaultValue="option1">
       <Radio value="option1" label="Default radio" />

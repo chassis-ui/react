@@ -4,54 +4,43 @@ description: A universal layout wrapper that handles label, help text, and valid
 toc: true
 ---
 
-import {
-  ChipInput,
-  Combobox,
-  ComboboxItem,
-  FormField,
-  PasswordStrength,
-  TextInput,
-} from '@chassis-ui/react'
+import { Example as OwnFieldPropsExample } from '../../examples/components/form-field/OwnFieldPropsExample.tsx'
+import { Example as WrappedControlExample } from '../../examples/components/form-field/WrappedControlExample.tsx'
+import { Example as CompanionContentExample } from '../../examples/components/form-field/CompanionContentExample.tsx'
+import { Example as ValidationFeedbackExample } from '../../examples/components/form-field/ValidationFeedbackExample.tsx'
 
-## Approach
+## Overview
 
 `<FormField>` wraps a form control (or a small group of them) with a `.form-field` grid layout, along with an associated `FormLabel`, `FormHelp`, and `FormFeedback` — see [chassis-css's Form Field docs](https://chassis-ui.com/css/docs/forms/form-field) for the underlying CSS.
 
-Every form leaf (`TextInput`, `Select`, `Textarea`, `RangeInput`, `Combobox`, `DatePicker`, `ChipInput`, `OtpInput`, ...) already accepts `label`/`help`/`invalidFeedback`/`validFeedback` props directly and wraps itself — reach for those first. Use `<FormField>` when you need to group more than one element — like an input alongside a `PasswordStrength` meter — under a single label and help text.
+Every form leaf (`TextInput`, `Select`, `Textarea`, `RangeInput`, `Combobox`, `DatePicker`, `ChipInput`, `OtpInput`, ...) already accepts `label`/`help`/`invalidFeedback`/`validFeedback` props directly and wraps itself — reach for those first. Use `<FormField>` to group more than one element — like an input alongside a `PasswordStrength` meter — under a single label and help text.
 
-Renders nothing but its `children` bare when none of `label`/`help`/`validFeedback`/`invalidFeedback` are set, so it's always safe to reach for.
+`<FormField>` renders nothing but its `children` bare when none of `label`/`help`/`validFeedback`/`invalidFeedback` are set, so it's always safe to reach for.
 
 ## Examples
 
-### Using a leaf's own field props
+### Own field props
+
+A leaf component that already accepts `label`/`help` needs no `<FormField>` wrapper at all.
 
 <Example>
-  <TextInput
-    label="Email address"
-    help="We'll never share your email with anyone else."
-    id="ffEmail"
-  />
+  <OwnFieldPropsExample client:load />
 </Example>
 
-### Wrapping a control with no field props of its own
+### Wrapping a control
+
+A control with no `label`/`help` props of its own — like `<Combobox>` — still gets the same layout wrapped in `<FormField>`.
 
 <Example>
-  <FormField label="Country" help="The billing region." ids={{ input: 'ffCountry' }}>
-    <Combobox id="ffCountry" name="country" placeholder="Pick a country…">
-      <ComboboxItem id="us">United States</ComboboxItem>
-      <ComboboxItem id="uk">United Kingdom</ComboboxItem>
-      <ComboboxItem id="ca">Canada</ComboboxItem>
-    </Combobox>
-  </FormField>
+  <WrappedControlExample client:load />
 </Example>
 
-### Grouping a control with companion content
+### Companion content
+
+Group a control with related content, like a `<PasswordStrength>` meter, under one label.
 
 <Example>
-  <FormField label="Password" ids={{ input: 'ffPassword' }}>
-    <TextInput autoComplete="new-password" id="ffPassword" type="password" />
-    <PasswordStrength value="" />
-  </FormField>
+  <CompanionContentExample client:load />
 </Example>
 
 ### Validation feedback
@@ -59,19 +48,12 @@ Renders nothing but its `children` bare when none of `label`/`help`/`validFeedba
 `invalidFeedback`/`validFeedback` render only alongside a truthy `invalid`/`valid`, matching the leaf components' own validation props.
 
 <Example>
-  <FormField
-    label="Username"
-    invalid
-    invalidFeedback="This username is already taken."
-    ids={{ input: 'ffUsername' }}
-  >
-    <ChipInput id="ffUsername" name="username" />
-  </FormField>
+  <ValidationFeedbackExample client:load />
 </Example>
 
 ## Manual id wiring
 
-`<FormField>` doesn't clone its children, so it can't wire ids onto a control it doesn't own. Pass matching values through the `ids` prop — `input` for `htmlFor` (or `label` for a group with no single input to target, wired via the control's own `aria-labelledby`) — and set `aria-describedby`/`aria-labelledby` on your control yourself, pointing at the same id.
+`<FormField>` doesn't clone its children, so it can't wire ids onto a control it doesn't own. Pass matching values through the `ids` prop — `input` for `htmlFor` (or `label` for a group with no single input to target, wired via the control's own `aria-labelledby`) — and set `aria-describedby`/`aria-labelledby` on the control directly, pointing at the same id.
 
 ## API
 

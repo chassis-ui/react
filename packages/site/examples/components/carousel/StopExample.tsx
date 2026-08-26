@@ -7,7 +7,7 @@ import {
   Placeholder
 } from '@chassis-ui/react'
 
-export const StopExample = () => (
+export const Example = () => (
   <Carousel ends="stop">
     <CarouselInner>
       <CarouselItem>

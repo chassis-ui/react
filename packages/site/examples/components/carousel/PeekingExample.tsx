@@ -9,7 +9,7 @@ import {
 
 const slides = ['First slide', 'Second slide', 'Third slide', 'Fourth slide', 'Fifth slide']
 
-export const PeekingExample = () => (
+export const Example = () => (
   <Carousel itemsPeek="3rem" itemsGap="1rem" ends="stop">
     <CarouselInner>
       {slides.map((label) => (

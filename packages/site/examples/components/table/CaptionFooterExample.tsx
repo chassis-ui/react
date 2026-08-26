@@ -5,7 +5,7 @@ const rows = [
   { id: 2, name: 'Jacob Thornton', amount: '$80' }
 ]
 
-export const CaptionFooterExample = () => (
+export const Example = () => (
   <Table
     aria-label="Invoices"
     caption="Recent invoices"

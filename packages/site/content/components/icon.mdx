@@ -5,7 +5,9 @@ description: Renders one icon from a Chassis SVG sprite or icon font — the sam
 toc: true
 ---
 
-import { Icon } from '@chassis-ui/react'
+import { Example as BasicUsageExample } from '../../examples/components/icon/BasicUsageExample.tsx'
+import { Example as SizingExample } from '../../examples/components/icon/SizingExample.tsx'
+import { Example as AccessibleNameExample } from '../../examples/components/icon/AccessibleNameExample.tsx'
 
 ## Overview
 
@@ -20,9 +22,7 @@ underlying icon set here applies everywhere at once.
 Pass a `name` matching an id in the sprite referenced by the `sprite` prop.
 
 <Example>
-  <Icon name="check-solid" />
-  <Icon name="gear-outline" />
-  <Icon name="search-solid" />
+  <BasicUsageExample client:load />
 </Example>
 
 ## Sizing
@@ -32,10 +32,7 @@ Pass a `name` matching an id in the sprite referenced by the `sprite` prop.
 character.
 
 <Example>
-  <Icon name="check-solid" size={16} />
-  <Icon name="check-solid" size={24} />
-  <Icon name="check-solid" size={32} />
-  <Icon name="check-solid" size={48} />
+  <SizingExample client:load />
 </Example>
 
 ## Accessible name
@@ -46,7 +43,7 @@ assistive technology instead — for an icon-only control where nothing else in 
 markup states its purpose.
 
 <Example>
-  <Icon name="exclamation-triangle-solid" title="Warning" />
+  <AccessibleNameExample client:load />
 </Example>
 
 Setting `title` alone is only correct when `<Icon>` is the sole content of its own accessible

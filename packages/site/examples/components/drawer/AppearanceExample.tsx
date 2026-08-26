@@ -8,7 +8,7 @@ import {
   DrawerTitle
 } from '@chassis-ui/react'
 
-export const AppearanceExample = () => {
+export const Example = () => {
   const [visibleSheet, setVisibleSheet] = useState(false)
   const [visibleTranslucent, setVisibleTranslucent] = useState(false)
   return (

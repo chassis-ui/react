@@ -1,7 +1,6 @@
 ---
 title: Modal
-description: Chassis Modal component offers a lightweight, multi-purpose popup to add dialogs to yours. Learn how to customize React Chassis Modals easily. Multiple examples and tutorial.
-
+description: Renders a popup dialog with header, body, and footer sections, configurable sizing, scrollable content, and an optional fullscreen mode.
 toc: true
 ---
 
@@ -28,9 +27,11 @@ import {
 
 ## Examples
 
+`<Modal>` composes `<ModalHeader>`, `<ModalBody>`, and `<ModalFooter>` sub-components around its dialog content.
+
 ### Modal components
 
-Below is a static modal example, with the backdrop and keyboard dismissal disabled so it stays open for illustration. Included are the modal header, modal body (required for `padding`), and modal footer (optional). We ask that you include modal headers with dismiss actions whenever possible, or provide another explicit dismiss action.
+This static example disables the backdrop and keyboard dismissal so the modal stays open for illustration. It includes a modal header, a modal body (required for `padding`), and an optional modal footer. Include a modal header with a dismiss action whenever possible, or provide another explicit dismiss action.
 
 <Example customMarkup={`<Modal backdrop={false} keyboard={false} open>
     <ModalHeader>
@@ -56,7 +57,7 @@ Below is a static modal example, with the backdrop and keyboard dismissal disabl
 
 ### Live demo
 
-Toggle a working modal demo by clicking the button below. It will slide down and fade in from the top of the page.
+Toggling the button below opens a working modal that slides down and fades in from the top of the page.
 
 <Example>
   <LiveDemoExample client:load />
@@ -64,7 +65,7 @@ Toggle a working modal demo by clicking the button below. It will slide down and
 
 ### Static backdrop
 
-If you set a `backdrop` to `static`, your modal will behave as though the backdrop is static, meaning it will not close when clicking outside it. Click the button below to try it.
+Set `backdrop` to `"static"` to prevent the modal from closing when the backdrop is clicked.
 
 <Example>
   <StaticBackdropExample client:load />
@@ -72,13 +73,13 @@ If you set a `backdrop` to `static`, your modal will behave as though the backdr
 
 ### Scrolling long content
 
-When modals become too long for the user's viewport or device, they scroll independent of the page itself. Try the demo below to see what we mean.
+A modal too long for the viewport or device scrolls independently of the page itself.
 
 <Example>
   <ScrollingLongContentExample client:load />
 </Example>
 
-You can also create a scrollable modal that allows scroll the modal body by adding `scrollable` prop.
+Set `scrollable` to scroll the modal body instead, keeping the header and footer fixed in place.
 
 <Example>
   <ScrollingLongContentExample2 client:load />
@@ -86,7 +87,7 @@ You can also create a scrollable modal that allows scroll the modal body by addi
 
 ### Tooltips and popovers
 
-`<CTooltips>` and `<CPopovers>` can be placed within modals as needed. When modals are closed, any tooltips and popovers within are also automatically dismissed.
+`<Tooltip>` and `<Popover>` can be placed within modals as needed. Closing a modal automatically dismisses any tooltips and popovers it contains.
 
 <Example>
   <TooltipsAndPopoversExample client:load />
@@ -146,9 +147,9 @@ Modals have three optional sizes, available via modifier classes to be placed on
   <OptionalSizesExample client:load />
 </Example>
 
-## Fullscreen Modal
+## Fullscreen modal
 
-Another override is the option to pop up a modal that covers the user viewport, available via the `fullscreen` property.
+Set `fullscreen` to render a modal that covers the entire viewport, either always or below a given breakpoint.
 
 <table className="table">
   <thead>

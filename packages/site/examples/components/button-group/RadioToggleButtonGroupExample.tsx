@@ -1,6 +1,6 @@
 import { ButtonGroup, Radio, RadioGroup } from '@chassis-ui/react'
 
-export const RadioToggleButtonGroupExample = () => {
+export const Example = () => {
   return (
     <RadioGroup aria-label="Basic radio toggle button group" defaultValue="btnradio1">
       <ButtonGroup>

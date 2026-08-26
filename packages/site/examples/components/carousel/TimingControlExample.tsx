@@ -7,7 +7,7 @@ import {
   Placeholder
 } from '@chassis-ui/react'
 
-export const TimingControlExample = () => (
+export const Example = () => (
   <Carousel autoplay>
     <CarouselInner>
       <CarouselItem interval={2000}>

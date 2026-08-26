@@ -11,7 +11,7 @@ import {
   Col
 } from '@chassis-ui/react'
 
-export const RegistrationForm = () => {
+export const Example = () => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [role, setRole] = useState('')

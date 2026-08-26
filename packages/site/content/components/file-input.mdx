@@ -1,19 +1,20 @@
 ---
 title: File Input
-description: Chassis File Input component. Use our custom file inputs for consistent cross-browser styling.
-
+description: Styled wrapper around a native file input, with a themed file-selector button for consistent cross-browser styling.
 toc: true
 ---
 
-import { FileInput, FormLabel } from '@chassis-ui/react'
+import { Example as BasicExample } from '../../examples/components/file-input/BasicExample.tsx'
+import { Example as MultipleExample } from '../../examples/components/file-input/MultipleExample.tsx'
+import { Example as DisabledExample } from '../../examples/components/file-input/DisabledExample.tsx'
+import { Example as SizingExample } from '../../examples/components/file-input/SizingExample.tsx'
 
 ## Overview
 
 `<FileInput>` wraps `<input type="file">` with the same `.form-input` styling as `<TextInput>`, including a themed file-selector button.
 
 <Example>
-  <FormLabel htmlFor="formFile">Default file input</FormLabel>
-  <FileInput id="formFile" />
+  <BasicExample client:load />
 </Example>
 
 ## Multiple files
@@ -21,8 +22,7 @@ import { FileInput, FormLabel } from '@chassis-ui/react'
 Add the `multiple` boolean attribute to allow selecting more than one file.
 
 <Example>
-  <FormLabel htmlFor="formFileMultiple">Multiple files input</FormLabel>
-  <FileInput id="formFileMultiple" multiple />
+  <MultipleExample client:load />
 </Example>
 
 ## Disabled
@@ -30,19 +30,15 @@ Add the `multiple` boolean attribute to allow selecting more than one file.
 Add the `disabled` boolean attribute to give the input a grayed-out appearance and remove pointer events.
 
 <Example>
-  <FormLabel htmlFor="formFileDisabled">Disabled file input</FormLabel>
-  <FileInput id="formFileDisabled" disabled />
+  <DisabledExample client:load />
 </Example>
 
 ## Sizing
 
-Apply the `size` property (`small` or `large`) to change the size of the input and its file-selector button.
+Set `size` to `"small"` or `"large"` to change the size of the input and its file-selector button.
 
 <Example>
-  <FormLabel htmlFor="formFileSm">Small file input</FormLabel>
-  <FileInput id="formFileSm" size="small" className="mb-medium" />
-  <FormLabel htmlFor="formFileLg">Large file input</FormLabel>
-  <FileInput id="formFileLg" size="large" />
+  <SizingExample client:load />
 </Example>
 
 ## API

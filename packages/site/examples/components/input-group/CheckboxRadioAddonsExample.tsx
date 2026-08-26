@@ -7,7 +7,7 @@ import {
   InputGroupAddon
 } from '@chassis-ui/react'
 
-export const CheckboxRadioAddonsExample = () => {
+export const Example = () => {
   return (
     <>
       <InputGroup className="mb-medium">

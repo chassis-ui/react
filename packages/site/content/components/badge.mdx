@@ -1,47 +1,46 @@
 ---
 title: Badge
-description: Chassis Badge component is a compact labeling element for counters, indicators, and status markers with multiple styles and sizes.
-
+description: Compact labeling element for counters, indicators, and status markers, with color, outline/smooth, and size variants.
 toc: true
 ---
 
-import { Badge, Button } from '@chassis-ui/react'
+import { Example as HeadingsExample } from '../../examples/components/badge/HeadingsExample.tsx'
+import { Example as ButtonCounterExample } from '../../examples/components/badge/ButtonCounterExample.tsx'
+import { Example as StatusBadgeExample } from '../../examples/components/badge/StatusBadgeExample.tsx'
+import { Example as ColorExample } from '../../examples/components/badge/ColorExample.tsx'
+import { Example as OutlineExample } from '../../examples/components/badge/OutlineExample.tsx'
+import { Example as SmoothExample } from '../../examples/components/badge/SmoothExample.tsx'
+import { Example as SizeExample } from '../../examples/components/badge/SizeExample.tsx'
+import { Example as WithComponentsExample } from '../../examples/components/badge/WithComponentsExample.tsx'
+import { Example as PositionedExample } from '../../examples/components/badge/PositionedExample.tsx'
+import { Example as CustomCornersExample } from '../../examples/components/badge/CustomCornersExample.tsx'
 
-## About
+## Overview
 
-Badges are lightweight components used to add counts, labels, or status indicators to content. They highlight new items, display notification counts, and provide supplementary information. Badges work with any content or component and are available in multiple styles and colors.
+A `<Badge>` adds counts, labels, or status indicators to content — highlighting new items, notification counts, or other supplementary information alongside any content or component.
 
 ## Basic usage
 
 A `<Badge>` scales to suit the size of the parent element by using relative font sizing and `em` units.
 
 <Example>
-  <h1>Example heading <Badge color="secondary">New</Badge></h1>
-  <h2>Example heading <Badge color="secondary">New</Badge></h2>
-  <h3>Example heading <Badge color="secondary">New</Badge></h3>
-  <h4>Example heading <Badge color="secondary">New</Badge></h4>
-  <h5>Example heading <Badge color="secondary">New</Badge></h5>
-  <h6>Example heading <Badge color="secondary">New</Badge></h6>
+  <HeadingsExample client:load />
 </Example>
 
-Badges can be used as part of links or buttons to provide a counter.
+A badge composes as part of a link or button to provide a counter.
 
 <Example>
-  <Button color="primary">
-    Notifications <Badge color="secondary">4</Badge>
-  </Button>
+  <ButtonCounterExample client:load />
 </Example>
 
-<Callout context="info">
-  <p>
-    Badge content can be confusing for screen reader users without proper context. Use semantic roles by adding <code>role="status"</code> for counters or <code>role="presentation"</code> for decorative badges, and provide descriptions with <code>aria-label</code> to explain the badge's meaning.
-  </p>
+<Callout type="info">
+  Badge content can be confusing for screen reader users without proper context. Use semantic
+  roles by adding `role="status"` for counters or `role="presentation"` for decorative badges, and
+  provide descriptions with `aria-label` to explain the badge's meaning.
 </Callout>
 
 <Example>
-  <Button color="primary">
-    Profile <Badge color="secondary" role="status" aria-label="unread messages">9</Badge>
-  </Button>
+  <StatusBadgeExample client:load />
 </Example>
 
 ## Color variants
@@ -49,76 +48,47 @@ Badges can be used as part of links or buttons to provide a counter.
 Set the `color` prop to one of the Chassis themed colors to apply the appropriate background and text colors.
 
 <Example>
-  <Badge color="default">Default</Badge>
-  <Badge color="alternate">Alternate</Badge>
-  <Badge color="primary">Primary</Badge>
-  <Badge color="secondary">Secondary</Badge>
-  <Badge color="neutral">Neutral</Badge>
-  <Badge color="danger">Danger</Badge>
-  <Badge color="success">Success</Badge>
-  <Badge color="warning">Warning</Badge>
-  <Badge color="info">Info</Badge>
-  <Badge color="black">Black</Badge>
-  <Badge color="white">White</Badge>
+  <ColorExample client:load />
 </Example>
 
-<Callout context="info">
-  <p>
-    Color alone shouldn't convey meaning as it's not perceived by assistive technology users. Ensure clarity through text with adequate contrast, ARIA attributes where needed, and consider using the <code>.visually-hidden</code> class for screen reader content.
-  </p>
+<Callout type="info">
+  Color alone doesn't convey meaning to assistive technology users. Ensure clarity through text
+  with adequate contrast, ARIA attributes where needed, and the `.visually-hidden` class for
+  screen reader content when color is the only indicator.
 </Callout>
 
 ### Outline style
 
-Set `variant="outline"` to create badges with a transparent background, colored border and text.
+Set `variant="outline"` for badges with a transparent background, colored border, and text.
 
 <Example>
-  <Badge color="default" variant="outline">Default</Badge>
-  <Badge color="primary" variant="outline">Primary</Badge>
-  <Badge color="secondary" variant="outline">Secondary</Badge>
-  <Badge color="danger" variant="outline">Danger</Badge>
-  <Badge color="success" variant="outline">Success</Badge>
-  <Badge color="warning" variant="outline">Warning</Badge>
-  <Badge color="info" variant="outline">Info</Badge>
+  <OutlineExample client:load />
 </Example>
 
 ### Smooth style
 
-Set `variant="smooth"` to create badges with a subdued background color and matching text color, for a softer, more subtle appearance.
+Set `variant="smooth"` for badges with a subdued background color and matching text color, for a softer appearance.
 
 <Example>
-  <Badge color="default" variant="smooth">Default</Badge>
-  <Badge color="primary" variant="smooth">Primary</Badge>
-  <Badge color="secondary" variant="smooth">Secondary</Badge>
-  <Badge color="danger" variant="smooth">Danger</Badge>
-  <Badge color="success" variant="smooth">Success</Badge>
-  <Badge color="warning" variant="smooth">Warning</Badge>
-  <Badge color="info" variant="smooth">Info</Badge>
+  <SmoothExample client:load />
 </Example>
 
 ## Size variants
 
-Set `size="small"` or `size="large"` to adjust the size of the badge for compact spaces or greater emphasis. Combine with `circle` for round counters.
+Set `size="small"` or `size="large"` to adjust a badge's size for compact spaces or greater emphasis. Combine with `circle` for round counters.
 
 <Example>
-  <Badge color="primary" size="small">Small</Badge>
-  <Badge color="primary">Medium</Badge>
-  <Badge color="primary" size="large">Large</Badge>
-  <Badge color="primary" size="small" circle>2</Badge>
-  <Badge color="primary" circle>2</Badge>
-  <Badge color="primary" size="large" circle>2</Badge>
+  <SizeExample client:load />
 </Example>
 
 ## Use cases
 
 ### With components
 
-Badges work well inside buttons and other components to indicate counts, status, or other supplementary information.
+A badge nests inside buttons and other components to indicate counts, status, or other supplementary information.
 
 <Example>
-  <Button color="primary">
-    Notifications <Badge color="secondary" circle role="status" aria-label="new notifications">2</Badge>
-  </Button>
+  <WithComponentsExample client:load />
 </Example>
 
 ### Positioned badges
@@ -126,42 +96,15 @@ Badges work well inside buttons and other components to indicate counts, status,
 Set the `position` prop to place a badge in one of the corners of a link or button. The parent needs `position-relative` (or another positioning context) for this to work.
 
 <Example>
-  <Button color="primary" className="position-relative">
-    Profile
-    <Badge color="danger" position="top-start" circle>
-      99+ <span className="visually-hidden">unread messages</span>
-    </Badge>
-  </Button>
-  <Button color="primary" className="position-relative ms-xsmall">
-    Profile
-    <Badge color="danger" position="top-end" circle>
-      99+ <span className="visually-hidden">unread messages</span>
-    </Badge>
-  </Button>
-  <br/>
-  <Button color="primary" className="position-relative">
-    Profile
-    <Badge color="danger" position="bottom-start" circle>
-      99+ <span className="visually-hidden">unread messages</span>
-    </Badge>
-  </Button>
-  <Button color="primary" className="position-relative ms-xsmall">
-    Profile
-    <Badge color="danger" position="bottom-end" circle>
-      99+ <span className="visually-hidden">unread messages</span>
-    </Badge>
-  </Button>
+  <PositionedExample client:load />
 </Example>
 
 ### Custom corners
 
-Beyond the default rounded appearance and the `circle` prop, apply border-radius utility classes through `className` for precise control over corners.
+Beyond the default rounded appearance and the `circle` prop, border-radius utility classes applied through `className` give precise control over corners.
 
 <Example>
-  <Badge color="primary" className="rounded-zero">Sharp</Badge>
-  <Badge color="primary" className="rounded-small">Blunt</Badge>
-  <Badge color="primary" className="rounded-medium">Soft</Badge>
-  <Badge color="primary" className="rounded-full">Pill</Badge>
+  <CustomCornersExample client:load />
 </Example>
 
 ## API

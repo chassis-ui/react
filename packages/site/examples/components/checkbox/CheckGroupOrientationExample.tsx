@@ -1,6 +1,6 @@
 import { Checkbox, CheckboxGroup } from '@chassis-ui/react'
 
-export const CheckGroupOrientationExample = () => {
+export const Example = () => {
   return (
     <CheckboxGroup label="Notifications" defaultValue={['email']} orientation="horizontal">
       <Checkbox value="email" label="Email" />

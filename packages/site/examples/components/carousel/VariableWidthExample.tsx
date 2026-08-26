@@ -16,7 +16,7 @@ const slides = [
   { label: 'F', width: 300 }
 ]
 
-export const VariableWidthExample = () => (
+export const Example = () => (
   <Carousel auto itemsGap="1rem" ends="stop">
     <CarouselInner>
       {slides.map(({ label, width }) => (

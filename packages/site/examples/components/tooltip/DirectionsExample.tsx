@@ -1,6 +1,6 @@
 import { Tooltip, Button } from '@chassis-ui/react'
 
-export const DirectionsExample = () => {
+export const Example = () => {
   return (
     <>
       <Tooltip content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." placement="top">

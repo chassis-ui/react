@@ -1,6 +1,6 @@
 import { DateRangePicker } from '@chassis-ui/react'
 
-export const FormFieldExample = () => {
+export const Example = () => {
   return (
     <DateRangePicker
       label="Trip dates"

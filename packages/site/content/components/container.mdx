@@ -1,7 +1,6 @@
 ---
 title: Container
-description: Containers are a fundamental building block of Chassis that contain, pad, and align your content within a given device or viewport.
-
+description: Fundamental layout element that contains, pads, and centers content within a given viewport.
 toc: true
 ---
 
@@ -9,19 +8,18 @@ import { sassBreakpointSize, sassContainerSize } from '@libs/sass'
 import { Example as BasicExample } from '../../examples/components/container/BasicExample.tsx'
 import { Example as ResponsiveExample } from '../../examples/components/container/ResponsiveExample.tsx'
 import { Example as FluidExample } from '../../examples/components/container/FluidExample.tsx'
-import { Col, Container, Row } from '@chassis-ui/react'
 
-## How they work
+## Overview
 
-Containers are the most basic layout element in Chassis and are **required when using our default grid system**. Containers are used to contain, pad, and (sometimes) center the content within them. While containers _can_ be nested, most layouts do not require a nested container.
+`<Container>` is the most basic layout element in Chassis, and is **required when using the default grid system**. It contains, pads, and (sometimes) centers the content inside it. Containers can be nested, though most layouts don't need a nested container.
 
-Chassis comes with three different containers:
+Chassis comes with three container variants:
 
 - `<Container>`, which sets a `max-width` at each responsive breakpoint
 - `<Container fluid>`, which is `width: 100%` at all breakpoints
 - `<Container fluidUntil={breakpoint}>`, which is `width: 100%` until the specified breakpoint
 
-The table below illustrates how each container's `max-width` compares to the original `<Container>` and `<Container fluid>` across each breakpoint.
+Each variant's `max-width` follows a different pattern across breakpoints, shown here against the plain `<Container>` and `<Container fluid>` baselines.
 
 <CxTable>
 |  | Extra small<div class="font-normal">&lt;{sassBreakpointSize('small')}</div> | Small<div class="font-normal">&ge;{sassBreakpointSize('small')}</div> | Medium<div class="font-normal">&ge;{sassBreakpointSize('medium')}</div> | Large<div class="font-normal">&ge;{sassBreakpointSize('large')}</div> | X-Large<div class="font-normal">&ge;{sassBreakpointSize('xlarge')}</div> | 2x-Large<div class="font-normal">&ge;{sassBreakpointSize('2xlarge')}</div> |
@@ -37,7 +35,7 @@ The table below illustrates how each container's `max-width` compares to the ori
 
 ## Default container
 
-Our default `<Container>` class is a responsive, fixed-width container, meaning its `max-width` changes at each breakpoint.
+The default `<Container>` class is a responsive, fixed-width container — its `max-width` changes at each breakpoint.
 
 <Example class="cxd-example-container">
   <BasicExample client:load />
@@ -45,7 +43,7 @@ Our default `<Container>` class is a responsive, fixed-width container, meaning 
 
 ## Responsive containers
 
-Responsive containers allow you to specify a class that is 100% wide until the specified breakpoint is reached, after which we apply `max-width`s for each of the higher breakpoints. For example, `<Container fluidUntil="small">` is 100% wide to start until the `small` breakpoint is reached, where it will scale up with `medium`, `large`, `xlarge`, and `2xlarge`.
+`<Container fluidUntil={breakpoint}>` renders full width until the given breakpoint is reached, then applies a `max-width` at that breakpoint and every larger one. `<Container fluidUntil="small">`, for example, stays 100% wide until the `small` breakpoint, then scales up through `medium`, `large`, `xlarge`, and `2xlarge`.
 
 <Example class="cxd-example-container">
   <ResponsiveExample client:load />

@@ -1,6 +1,6 @@
 import { Radio, RadioGroup } from '@chassis-ui/react'
 
-export const OutlinedTogglesExample = () => {
+export const Example = () => {
   return (
     <RadioGroup
       aria-label="Outlined radio toggle buttons"

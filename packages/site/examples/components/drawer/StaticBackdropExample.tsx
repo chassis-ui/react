@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Button, Drawer, DrawerBody, DrawerHeader, DrawerTitle } from '@chassis-ui/react'
 
-export const StaticBackdropExample = () => {
+export const Example = () => {
   const [visible, setVisible] = useState(false)
   return (
     <>

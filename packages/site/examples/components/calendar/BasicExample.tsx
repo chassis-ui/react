@@ -1,5 +1,5 @@
 import { Calendar } from '@chassis-ui/react'
 
-export const BasicExample = () => {
+export const Example = () => {
   return <Calendar aria-label="Event date" />
 }

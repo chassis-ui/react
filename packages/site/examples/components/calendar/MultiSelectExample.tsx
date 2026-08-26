@@ -1,7 +1,7 @@
 import { Calendar } from '@chassis-ui/react'
 import { today, getLocalTimeZone } from '@internationalized/date'
 
-export const MultiSelectExample = () => {
+export const Example = () => {
   const now = today(getLocalTimeZone())
 
   return (

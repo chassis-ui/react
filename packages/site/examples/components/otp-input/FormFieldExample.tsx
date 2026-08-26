@@ -1,6 +1,6 @@
 import { OtpInput } from '@chassis-ui/react'
 
-export const FormFieldExample = () => {
+export const Example = () => {
   return (
     <OtpInput
       label="Verification code"
