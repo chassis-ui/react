@@ -1584,44 +1584,65 @@ interface CarouselIndicatorsProps extends HTMLAttributes<HTMLOListElement> {
 declare const CarouselIndicators: React.ForwardRefExoticComponent<CarouselIndicatorsProps & React.RefAttributes<HTMLOListElement>>;
 //#endregion
 //#region src/components/carousel/CarouselInner.d.ts
-interface CarouselInnerProps extends HTMLAttributes<HTMLDivElement> {
+type CarouselInnerOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the component.
    */
   className?: string;
-}
-/**
- * The scroll viewport — a real horizontally-scrolling container using CSS scroll-snap. Wrap
- * CarouselItem children in this rather than passing them directly to Carousel, so controls and
- * indicators can sit alongside it (above, below, or overlaid) instead of inside the scroll track.
- */
-declare const CarouselInner: React.ForwardRefExoticComponent<CarouselInnerProps & React.RefAttributes<HTMLDivElement>>;
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C;
+};
+type CarouselInnerProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, CarouselInnerOwnProps<C>>;
+type CarouselInnerComponent = (<C extends ElementType = 'div'>(props: CarouselInnerProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const CarouselInner: CarouselInnerComponent;
 //#endregion
 //#region src/components/carousel/CarouselItem.d.ts
-interface CarouselItemProps extends HTMLAttributes<HTMLDivElement> {
+type CarouselItemOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the component.
    */
   className?: string;
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C;
   /**
    * Milliseconds to wait before autoplay advances past this slide, overriding the carousel's own `interval`.
    */
   interval?: number;
-}
-declare const CarouselItem: React.ForwardRefExoticComponent<CarouselItemProps & React.RefAttributes<HTMLDivElement>>;
+};
+type CarouselItemProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, CarouselItemOwnProps<C>>;
+type CarouselItemComponent = (<C extends ElementType = 'div'>(props: CarouselItemProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const CarouselItem: CarouselItemComponent;
 //#endregion
 //#region src/components/carousel/CarouselOverlay.d.ts
-interface CarouselOverlayProps extends HTMLAttributes<HTMLDivElement> {
+type CarouselOverlayOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the component.
    */
   className?: string;
-}
-/**
- * Overlays its children (typically controls and indicators) on top of the slides instead of
- * stacking them in the flow.
- */
-declare const CarouselOverlay: React.ForwardRefExoticComponent<CarouselOverlayProps & React.RefAttributes<HTMLDivElement>>;
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C;
+};
+type CarouselOverlayProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, CarouselOverlayOwnProps<C>>;
+type CarouselOverlayComponent = (<C extends ElementType = 'div'>(props: CarouselOverlayProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const CarouselOverlay: CarouselOverlayComponent;
 //#endregion
 //#region src/components/carousel/CarouselPlayPause.d.ts
 interface CarouselPlayPauseProps extends ButtonHTMLAttributes<HTMLButtonElement> {

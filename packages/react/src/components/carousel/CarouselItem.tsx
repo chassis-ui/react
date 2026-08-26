@@ -1,27 +1,48 @@
-import React, { forwardRef, HTMLAttributes } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
 import classNames from 'classnames'
 
-export interface CarouselItemProps extends HTMLAttributes<HTMLDivElement> {
+import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+
+type CarouselItemOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the component.
    */
   className?: string
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C
   /**
    * Milliseconds to wait before autoplay advances past this slide, overriding the carousel's own `interval`.
    */
   interval?: number
 }
 
-export const CarouselItem = forwardRef<HTMLDivElement, CarouselItemProps>(
-  ({ children, className, interval, ...rest }, ref) => {
-    const _className = classNames('carousel-item', className)
+export type CarouselItemProps<C extends ElementType = 'div'> = PolymorphicComponentProps<
+  C,
+  CarouselItemOwnProps<C>
+>
 
-    return (
-      <div className={_className} data-interval={interval} {...rest} ref={ref}>
-        {children}
-      </div>
-    )
-  }
-)
+type CarouselItemComponent = (<C extends ElementType = 'div'>(
+  props: CarouselItemProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
+
+function CarouselItemRender<C extends ElementType = 'div'>(
+  { children, className, component, interval, ...rest }: CarouselItemProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  const Component = component || 'div'
+  const _className = classNames('carousel-item', className)
+
+  return (
+    <Component className={_className} data-interval={interval} {...rest} ref={ref}>
+      {children}
+    </Component>
+  )
+}
+
+export const CarouselItem = forwardRef(
+  CarouselItemRender as ForwardRefRenderFunction<Element, CarouselItemProps<ElementType>>
+) as CarouselItemComponent
 
 CarouselItem.displayName = 'CarouselItem'

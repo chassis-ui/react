@@ -9,14 +9,10 @@
       "defaultValue": null,
       "description": "A string of all className you want applied to the component.",
       "name": "className",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/carousel/CarouselItem.tsx",
-        "name": "CarouselItemProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/carousel/CarouselItem.tsx",
-          "name": "CarouselItemProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -24,23 +20,49 @@
         "name": "string"
       }
     },
+    "component": {
+      "defaultValue": null,
+      "description": "Component used for the root node. Either a string to use a HTML element or a component.",
+      "name": "component",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/carousel/CarouselItem.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ElementType"
+      }
+    },
     "interval": {
       "defaultValue": null,
       "description": "Milliseconds to wait before autoplay advances past this slide, overriding the carousel's own `interval`.",
       "name": "interval",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/carousel/CarouselItem.tsx",
-        "name": "CarouselItemProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/carousel/CarouselItem.tsx",
-          "name": "CarouselItemProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
       "type": {
         "name": "number"
+      }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/carousel/CarouselItem.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "any"
       }
     }
   }

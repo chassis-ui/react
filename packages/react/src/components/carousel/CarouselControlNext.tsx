@@ -1,10 +1,6 @@
-import React, { ButtonHTMLAttributes, forwardRef, useEffect, useRef } from 'react'
-import classNames from 'classnames'
+import React, { ButtonHTMLAttributes, forwardRef } from 'react'
 
-import { useForkedRef } from '../../hooks'
-import { markPointerClick } from '../../utils/pointerInteraction'
-import { Icon } from '../icon'
-import { useCarouselContext } from './context'
+import { CarouselControlButton } from './CarouselControlButton'
 
 export interface CarouselControlNextProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /**
@@ -18,45 +14,9 @@ export interface CarouselControlNextProps extends ButtonHTMLAttributes<HTMLButto
 }
 
 export const CarouselControlNext = forwardRef<HTMLButtonElement, CarouselControlNextProps>(
-  ({ children, className, disabled, label = 'Next slide', onClick, ...rest }, ref) => {
-    const { atEnd, ends, next, registerControl } = useCarouselContext()
-    const buttonRef = useRef<HTMLButtonElement>(null)
-    const forkedRef = useForkedRef(ref, buttonRef)
-
-    useEffect(() => {
-      const element = buttonRef.current
-      if (!element) return undefined
-      return registerControl('next', element)
-    }, [registerControl])
-
-    // Compose rather than let a caller's `onClick`/`disabled` silently replace navigation: the
-    // carousel's own end-of-track state can only ever add a disable, and the click handler always
-    // still advances the carousel alongside whatever the caller's handler does.
-    const isDisabled = disabled || (ends === 'stop' && atEnd)
-    const handleClick: typeof onClick = (event) => {
-      onClick?.(event)
-      if (event.detail !== 0) markPointerClick(event.currentTarget)
-      next()
-    }
-
-    return (
-      <button
-        type="button"
-        className={classNames('button small icon-only', className)}
-        disabled={isDisabled}
-        onClick={handleClick}
-        {...rest}
-        ref={forkedRef}
-      >
-        {children ?? (
-          <>
-            <Icon name="chevron-right-outline" className="directional-icon" />
-            <span className="visually-hidden">{label}</span>
-          </>
-        )}
-      </button>
-    )
-  }
+  ({ label = 'Next slide', ...rest }, ref) => (
+    <CarouselControlButton {...rest} direction="next" label={label} ref={ref} />
+  )
 )
 
 CarouselControlNext.displayName = 'CarouselControlNext'

@@ -1,7 +1,7 @@
 {
   "tags": {},
   "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/carousel/CarouselOverlay.tsx",
-  "description": "Overlays its children (typically controls and indicators) on top of the slides instead of\nstacking them in the flow.",
+  "description": "",
   "displayName": "CarouselOverlay",
   "methods": [],
   "props": {
@@ -9,19 +9,45 @@
       "defaultValue": null,
       "description": "A string of all className you want applied to the component.",
       "name": "className",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/carousel/CarouselOverlay.tsx",
-        "name": "CarouselOverlayProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/carousel/CarouselOverlay.tsx",
-          "name": "CarouselOverlayProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
       "type": {
         "name": "string"
+      }
+    },
+    "component": {
+      "defaultValue": null,
+      "description": "Component used for the root node. Either a string to use a HTML element or a component.",
+      "name": "component",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/carousel/CarouselOverlay.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ElementType"
+      }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/carousel/CarouselOverlay.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "any"
       }
     }
   }

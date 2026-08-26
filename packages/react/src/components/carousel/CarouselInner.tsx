@@ -1,33 +1,53 @@
-import React, { forwardRef, HTMLAttributes } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
 import classNames from 'classnames'
 
 import { useForkedRef } from '../../hooks'
+import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
 import { useCarouselContext } from './context'
 
-export interface CarouselInnerProps extends HTMLAttributes<HTMLDivElement> {
+type CarouselInnerOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the component.
    */
   className?: string
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C
 }
+
+export type CarouselInnerProps<C extends ElementType = 'div'> = PolymorphicComponentProps<
+  C,
+  CarouselInnerOwnProps<C>
+>
+
+type CarouselInnerComponent = (<C extends ElementType = 'div'>(
+  props: CarouselInnerProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
 
 /**
  * The scroll viewport — a real horizontally-scrolling container using CSS scroll-snap. Wrap
  * CarouselItem children in this rather than passing them directly to Carousel, so controls and
  * indicators can sit alongside it (above, below, or overlaid) instead of inside the scroll track.
  */
-export const CarouselInner = forwardRef<HTMLDivElement, CarouselInnerProps>(
-  ({ children, className, ...rest }, ref) => {
-    const { registerViewport } = useCarouselContext()
-    const forkedRef = useForkedRef(ref, registerViewport)
-    const _className = classNames('carousel-inner', className)
+function CarouselInnerRender<C extends ElementType = 'div'>(
+  { children, className, component, ...rest }: CarouselInnerProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  const { registerViewport } = useCarouselContext()
+  const Component = component || 'div'
+  const forkedRef = useForkedRef(ref, registerViewport)
+  const _className = classNames('carousel-inner', className)
 
-    return (
-      <div className={_className} {...rest} ref={forkedRef}>
-        {children}
-      </div>
-    )
-  }
-)
+  return (
+    <Component className={_className} {...rest} ref={forkedRef}>
+      {children}
+    </Component>
+  )
+}
+
+export const CarouselInner = forwardRef(
+  CarouselInnerRender as ForwardRefRenderFunction<Element, CarouselInnerProps<ElementType>>
+) as CarouselInnerComponent
 
 CarouselInner.displayName = 'CarouselInner'
