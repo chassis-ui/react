@@ -5,12 +5,11 @@ exports[`AvatarStack > rendering > matches the baseline markup snapshot 1`] = `
   <div
     class="avatar-stack"
   >
-    <button
+    <span
       class="avatar"
-      type="button"
     >
       CX
-    </button>
+    </span>
   </div>
 </div>
 `;

@@ -268,7 +268,7 @@
       ],
       "required": false,
       "type": {
-        "name": "string | number | string[]"
+        "name": "string | number"
       }
     }
   }

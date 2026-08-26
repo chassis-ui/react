@@ -6,12 +6,12 @@ import { Avatar } from '../../../src/index'
 
 describe('Avatar', () => {
   describe('rendering', () => {
-    test('renders a button with the base class and type="button" by default', () => {
+    test('renders a non-interactive span with the base class by default', () => {
       render(<Avatar>CX</Avatar>)
-      const avatar = screen.getByRole('button', { name: 'CX' })
+      const avatar = screen.getByText('CX')
       expect(avatar).toHaveClass('avatar')
-      expect(avatar.tagName).toBe('BUTTON')
-      expect(avatar).toHaveAttribute('type', 'button')
+      expect(avatar.tagName).toBe('SPAN')
+      expect(screen.queryByRole('button')).not.toBeInTheDocument()
     })
 
     test('matches the baseline markup snapshot', () => {
@@ -25,13 +25,7 @@ describe('Avatar', () => {
           CX
         </Avatar>
       )
-      expect(screen.getByRole('button', { name: 'CX' })).toHaveClass(
-        'avatar',
-        'primary',
-        'small',
-        'smooth',
-        'bazinga'
-      )
+      expect(screen.getByText('CX')).toHaveClass('avatar', 'primary', 'small', 'smooth', 'bazinga')
     })
 
     test('applies the disabled class when component is a non-interactive tag', () => {
@@ -110,8 +104,12 @@ describe('Avatar', () => {
   })
 
   describe('polymorphic component', () => {
-    test('disables the underlying button', () => {
-      render(<Avatar disabled>CX</Avatar>)
+    test('disables the underlying button when rendered as one', () => {
+      render(
+        <Avatar component="button" disabled>
+          CX
+        </Avatar>
+      )
       expect(screen.getByRole('button', { name: 'CX' })).toBeDisabled()
     })
 
@@ -127,10 +125,10 @@ describe('Avatar', () => {
   })
 
   describe('ref forwarding', () => {
-    test('forwards a ref to the underlying button by default', () => {
-      const ref = React.createRef<HTMLButtonElement>()
+    test('forwards a ref to the underlying span by default', () => {
+      const ref = React.createRef<HTMLSpanElement>()
       render(<Avatar ref={ref}>CX</Avatar>)
-      expect(ref.current).toBeInstanceOf(HTMLButtonElement)
+      expect(ref.current).toBeInstanceOf(HTMLSpanElement)
     })
   })
 

@@ -2,11 +2,10 @@
 
 exports[`Avatar > rendering > matches the baseline markup snapshot 1`] = `
 <div>
-  <button
+  <span
     class="avatar"
-    type="button"
   >
     CX
-  </button>
+  </span>
 </div>
 `;

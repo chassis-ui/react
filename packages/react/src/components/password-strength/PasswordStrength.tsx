@@ -35,7 +35,8 @@ export interface PasswordStrengthProps extends Omit<HTMLAttributes<HTMLDivElemen
    */
   messages?: Partial<Record<StrengthLevel, string>>
   /**
-   * Callback fired whenever the strength level changes.
+   * Callback fired whenever the strength level changes, including once on mount with the
+   * initial `value`'s strength.
    */
   onStrengthChange?: (result: { score: number; strength: StrengthLevel | null }) => void
   /**
@@ -96,7 +97,10 @@ export const PasswordStrength = ({
     [mergedWeights]
   )
 
-  const previousStrength = useRef(strength)
+  // Deliberately not initialized to `strength` — that would make the effect below skip firing
+  // for the mount-time value, and a consumer using this to gate e.g. a submit button needs the
+  // real initial state, not just subsequent changes.
+  const previousStrength = useRef<StrengthLevel | null | undefined>(undefined)
   useEffect(() => {
     if (previousStrength.current !== strength) {
       previousStrength.current = strength

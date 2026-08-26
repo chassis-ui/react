@@ -66,6 +66,25 @@ describe('Select', () => {
       expect(screen.getByRole('option', { name: 'HTML' })).toBeDisabled()
     })
 
+    test('renders an option with value 0 instead of dropping it', () => {
+      render(
+        <Select
+          aria-label="Language"
+          options={[
+            { value: 0, label: 'Zero' },
+            { value: 1, label: 'One' }
+          ]}
+        />
+      )
+      expect(screen.getByRole('option', { name: 'Zero' })).toHaveValue('0')
+    })
+
+    test('falls back to the stringified value when an object option omits label', () => {
+      render(<Select aria-label="Language" options={[{ value: 'js' }, { value: 0 }]} />)
+      expect(screen.getByRole('option', { name: 'js' })).toBeInTheDocument()
+      expect(screen.getByRole('option', { name: '0' })).toBeInTheDocument()
+    })
+
     test('renders a disabled placeholder option before the given options', () => {
       render(<Select aria-label="Language" placeholder="Select a language…" options={['js']} />)
       const placeholderOption = screen.getByRole('option', { name: 'Select a language…' })

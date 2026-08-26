@@ -65,18 +65,32 @@ describe('PasswordStrength', () => {
   })
 
   describe('callbacks', () => {
-    test('onStrengthChange fires only when the strength level changes', () => {
+    test('onStrengthChange fires once on mount with the initial (null) strength', () => {
+      const onStrengthChange = vi.fn()
+      render(<PasswordStrength onStrengthChange={onStrengthChange} value="" />)
+      expect(onStrengthChange).toHaveBeenCalledTimes(1)
+      expect(onStrengthChange).toHaveBeenLastCalledWith({ score: 0, strength: null })
+    })
+
+    test('onStrengthChange fires on mount with a pre-filled value, not just null', () => {
+      const onStrengthChange = vi.fn()
+      render(<PasswordStrength onStrengthChange={onStrengthChange} value="abc" />)
+      expect(onStrengthChange).toHaveBeenCalledTimes(1)
+      expect(onStrengthChange).toHaveBeenLastCalledWith({ score: 1, strength: 'weak' })
+    })
+
+    test('onStrengthChange fires again only when the strength level subsequently changes', () => {
       const onStrengthChange = vi.fn()
       const { rerender } = render(<PasswordStrength onStrengthChange={onStrengthChange} value="" />)
-      expect(onStrengthChange).not.toHaveBeenCalled()
+      expect(onStrengthChange).toHaveBeenCalledTimes(1)
 
       rerender(<PasswordStrength onStrengthChange={onStrengthChange} value="abc" />)
-      expect(onStrengthChange).toHaveBeenCalledTimes(1)
+      expect(onStrengthChange).toHaveBeenCalledTimes(2)
       expect(onStrengthChange).toHaveBeenLastCalledWith({ score: 1, strength: 'weak' })
 
       // Still weak, so no additional call.
       rerender(<PasswordStrength onStrengthChange={onStrengthChange} value="xyz" />)
-      expect(onStrengthChange).toHaveBeenCalledTimes(1)
+      expect(onStrengthChange).toHaveBeenCalledTimes(2)
     })
   })
 

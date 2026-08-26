@@ -62,7 +62,7 @@ export interface RangeInputProps extends InputHTMLAttributes<HTMLInputElement> {
    *
    * @controllable onChange
    * */
-  value?: string | string[] | number
+  value?: string | number
 }
 
 export const RangeInput = forwardRef<HTMLInputElement, RangeInputProps>(

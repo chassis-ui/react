@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 
 import { NavItem } from '../../../src/index'
@@ -11,6 +12,21 @@ describe('NavItem', () => {
       const item = screen.getByText('Test')
       expect(item).toHaveClass('nav-item')
       expect(item.tagName).toBe('LI')
+    })
+
+    test('forwards onClick/id/data-*/aria-* to the li when no href/to is given', async () => {
+      const user = userEvent.setup()
+      const onClick = vi.fn()
+      render(
+        <NavItem id="bazinga" data-testid="nav-item" aria-label="Test item" onClick={onClick}>
+          Test
+        </NavItem>
+      )
+      const item = screen.getByTestId('nav-item')
+      expect(item).toHaveAttribute('id', 'bazinga')
+      expect(item).toHaveAttribute('aria-label', 'Test item')
+      await user.click(item)
+      expect(onClick).toHaveBeenCalledTimes(1)
     })
 
     test('matches the baseline markup snapshot', () => {

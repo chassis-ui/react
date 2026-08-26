@@ -1,8 +1,8 @@
-import React, { forwardRef, HTMLAttributes, useContext } from 'react'
+import React, { forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
 import { useForkedRef } from '../../hooks'
-import { CarouselContext } from './context'
+import { useCarouselContext } from './context'
 
 export interface CarouselInnerProps extends HTMLAttributes<HTMLDivElement> {
   /**
@@ -18,7 +18,7 @@ export interface CarouselInnerProps extends HTMLAttributes<HTMLDivElement> {
  */
 export const CarouselInner = forwardRef<HTMLDivElement, CarouselInnerProps>(
   ({ children, className, ...rest }, ref) => {
-    const { registerViewport } = useContext(CarouselContext)
+    const { registerViewport } = useCarouselContext()
     const forkedRef = useForkedRef(ref, registerViewport)
     const _className = classNames('carousel-inner', className)
 

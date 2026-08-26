@@ -24,8 +24,11 @@ export default defineConfig({
     // Sass here compiles `@chassis-ui/css`'s raw SCSS sources directly (see `loadPaths` below),
     // not its already-postcss-processed dist — so this build needs the same safety net
     // chassis-css's own `build/postcss.config.js` runs: prefixing every custom property that
-    // isn't already `--cx-` (defends against a future contributor forgetting the prefix; nothing
-    // to actually rewrite today since the current sources already namespace everything by hand).
+    // isn't already `--cx-`. This isn't a no-op today: `Calendar.scss`/`RangeCalendar.scss` use
+    // bare `var(--primary)`-style references and rely on this plugin to rewrite them, while
+    // `DatePicker.scss`/`DateRangePicker.scss` already prefix by hand (`var(--cx-primary)`) — an
+    // inconsistent-but-working split across the component-scoped Sass, not a project-wide
+    // convention this plugin merely guards.
     // `transformer: 'postcss'` is required to run PostCSS plugins at all — lightningcss (the
     // default) has no plugin API — and still handles final target lowering/minification per
     // `@tsdown/css`'s docs, so this doesn't give up that pass.

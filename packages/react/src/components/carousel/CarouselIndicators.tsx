@@ -1,7 +1,7 @@
-import React, { forwardRef, HTMLAttributes, useContext } from 'react'
+import React, { forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-import { CarouselContext } from './context'
+import { useCarouselContext } from './context'
 
 export interface CarouselIndicatorsProps extends HTMLAttributes<HTMLOListElement> {
   /**
@@ -16,7 +16,7 @@ export interface CarouselIndicatorsProps extends HTMLAttributes<HTMLOListElement
 
 export const CarouselIndicators = forwardRef<HTMLOListElement, CarouselIndicatorsProps>(
   ({ className, label = (position) => `Slide ${position}`, ...rest }, ref) => {
-    const { activeIndex, itemCount, itemsVisible, to } = useContext(CarouselContext)
+    const { activeIndex, itemCount, itemsVisible, to } = useCarouselContext()
     const _className = classNames('carousel-indicators', className)
     // One indicator per reachable position, not per item — mirrors `navigate()`'s own clamping so
     // an indicator never targets an index the carousel can't actually land on (e.g. with

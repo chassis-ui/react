@@ -430,7 +430,8 @@ interface AvatarProps extends HTMLAttributes<HTMLAnchorElement | HTMLButtonEleme
   size?: ExtendedSizing;
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
-   * Defaults to `button`, or `a` when `href` is set.
+   * Defaults to `span`, or `a` when `href` is set. Set explicitly to `button` (or another
+   * interactive element/component) to make a non-link avatar focusable and clickable.
    */
   component?: ElementType | string;
   /**
@@ -2277,7 +2278,8 @@ interface PasswordStrengthProps extends Omit<HTMLAttributes<HTMLDivElement>, 'on
    */
   messages?: Partial<Record<StrengthLevel, string>>;
   /**
-   * Callback fired whenever the strength level changes.
+   * Callback fired whenever the strength level changes, including once on mount with the
+   * initial `value`'s strength.
    */
   onStrengthChange?: (result: {
     score: number;
@@ -3264,7 +3266,7 @@ interface RangeInputProps extends InputHTMLAttributes<HTMLInputElement> {
    *
    * @controllable onChange
    * */
-  value?: number | string | string[];
+  value?: number | string;
 }
 declare const RangeInput: React.ForwardRefExoticComponent<RangeInputProps & React.RefAttributes<HTMLInputElement>>;
 //#endregion

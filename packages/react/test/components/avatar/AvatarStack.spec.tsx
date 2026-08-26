@@ -58,12 +58,15 @@ describe('AvatarStack', () => {
     })
 
     test('renders data items ahead of any JSX children', () => {
-      render(
+      const { container } = render(
         <AvatarStack items={[{ content: 'CX' }]}>
           <Avatar>+5</Avatar>
         </AvatarStack>
       )
-      const avatars = screen.getAllByRole('button')
+      // The Avatar wrapper has no role/name of its own by default (see BUG-10) - only checkable
+      // by class/order.
+      // eslint-disable-next-line testing-library/no-node-access
+      const avatars = Array.from(container.querySelectorAll('.avatar'))
       expect(avatars.map((el) => el.textContent)).toEqual(['CX', '+5'])
     })
   })

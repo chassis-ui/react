@@ -162,7 +162,7 @@
     },
     "component": {
       "defaultValue": null,
-      "description": "Component used for the root node. Either a string to use a HTML element or a component.\nDefaults to `button`, or `a` when `href` is set.",
+      "description": "Component used for the root node. Either a string to use a HTML element or a component.\nDefaults to `span`, or `a` when `href` is set. Set explicitly to `button` (or another\ninteractive element/component) to make a non-link avatar focusable and clickable.",
       "name": "component",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/avatar/Avatar.tsx",

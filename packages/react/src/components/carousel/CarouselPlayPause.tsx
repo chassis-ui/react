@@ -1,8 +1,8 @@
-import React, { ButtonHTMLAttributes, forwardRef, useContext } from 'react'
+import React, { ButtonHTMLAttributes, forwardRef } from 'react'
 import classNames from 'classnames'
 
 import { Icon } from '../icon'
-import { CarouselContext } from './context'
+import { useCarouselContext } from './context'
 
 export interface CarouselPlayPauseProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /**
@@ -26,7 +26,7 @@ export interface CarouselPlayPauseProps extends ButtonHTMLAttributes<HTMLButtonE
  */
 export const CarouselPlayPause = forwardRef<HTMLButtonElement, CarouselPlayPauseProps>(
   ({ children, className, onClick, pauseLabel = 'Pause', playLabel = 'Play', ...rest }, ref) => {
-    const { playing, togglePlayPause } = useContext(CarouselContext)
+    const { playing, togglePlayPause } = useCarouselContext()
     const _className = classNames(
       'carousel-control-play-pause button small icon-only',
       { paused: !playing },

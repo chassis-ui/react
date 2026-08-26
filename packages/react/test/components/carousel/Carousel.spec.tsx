@@ -658,3 +658,39 @@ describe('Carousel', () => {
     })
   })
 })
+
+describe('Carousel sub-components rendered outside a Carousel', () => {
+  const expectThrows = (element: React.ReactElement, message: string) => {
+    const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined)
+    // React's dev-mode guarded-callback replay dispatches this render error as a real DOM
+    // "error" event so jsdom can report it; suppress it here since the throw is expected and
+    // already asserted below.
+    const onWindowError = (event: ErrorEvent) => event.preventDefault()
+    window.addEventListener('error', onWindowError)
+
+    expect(() => render(element)).toThrow(message)
+
+    window.removeEventListener('error', onWindowError)
+    consoleError.mockRestore()
+  }
+
+  test('CarouselControlNext throws a clear error', () => {
+    expectThrows(<CarouselControlNext />, 'Carousel sub-components must be rendered inside a Carousel')
+  })
+
+  test('CarouselControlPrev throws a clear error', () => {
+    expectThrows(<CarouselControlPrev />, 'Carousel sub-components must be rendered inside a Carousel')
+  })
+
+  test('CarouselIndicators throws a clear error', () => {
+    expectThrows(<CarouselIndicators />, 'Carousel sub-components must be rendered inside a Carousel')
+  })
+
+  test('CarouselInner throws a clear error', () => {
+    expectThrows(<CarouselInner>Item</CarouselInner>, 'Carousel sub-components must be rendered inside a Carousel')
+  })
+
+  test('CarouselPlayPause throws a clear error', () => {
+    expectThrows(<CarouselPlayPause />, 'Carousel sub-components must be rendered inside a Carousel')
+  })
+})

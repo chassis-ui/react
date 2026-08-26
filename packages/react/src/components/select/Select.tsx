@@ -232,11 +232,14 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
                 <option
                   {...(typeof option === 'object' &&
                     option.disabled && { disabled: option.disabled })}
-                  {...(typeof option === 'object' && option.value && { value: option.value })}
+                  {...(typeof option === 'object' &&
+                    option.value != null && { value: option.value })}
                   // eslint-disable-next-line react/no-array-index-key
                   key={index}
                 >
-                  {typeof option === 'string' ? option : option.label}
+                  {typeof option === 'string'
+                    ? option
+                    : (option.label ?? String(option.value ?? ''))}
                 </option>
               )
             })

@@ -1,10 +1,10 @@
-import React, { ButtonHTMLAttributes, forwardRef, useContext, useEffect, useRef } from 'react'
+import React, { ButtonHTMLAttributes, forwardRef, useEffect, useRef } from 'react'
 import classNames from 'classnames'
 
 import { useForkedRef } from '../../hooks'
 import { markPointerClick } from '../../utils/pointerInteraction'
 import { Icon } from '../icon'
-import { CarouselContext } from './context'
+import { useCarouselContext } from './context'
 
 export interface CarouselControlNextProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /**
@@ -19,7 +19,7 @@ export interface CarouselControlNextProps extends ButtonHTMLAttributes<HTMLButto
 
 export const CarouselControlNext = forwardRef<HTMLButtonElement, CarouselControlNextProps>(
   ({ children, className, disabled, label = 'Next slide', onClick, ...rest }, ref) => {
-    const { atEnd, ends, next, registerControl } = useContext(CarouselContext)
+    const { atEnd, ends, next, registerControl } = useCarouselContext()
     const buttonRef = useRef<HTMLButtonElement>(null)
     const forkedRef = useForkedRef(ref, buttonRef)
 

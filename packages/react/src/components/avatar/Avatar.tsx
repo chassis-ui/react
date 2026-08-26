@@ -31,7 +31,8 @@ export interface AvatarProps extends HTMLAttributes<
   size?: ExtendedSizing
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
-   * Defaults to `button`, or `a` when `href` is set.
+   * Defaults to `span`, or `a` when `href` is set. Set explicitly to `button` (or another
+   * interactive element/component) to make a non-link avatar focusable and clickable.
    */
   component?: string | ElementType
   /**
@@ -79,7 +80,7 @@ export const Avatar = forwardRef<
     },
     ref
   ) => {
-    const tag = component ?? (href ? 'a' : 'button')
+    const tag = component ?? (href ? 'a' : 'span')
     const isInteractive = tag === 'a' || tag === 'button'
 
     const _className = classNames(
