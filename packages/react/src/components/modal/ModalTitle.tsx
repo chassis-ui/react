@@ -1,7 +1,9 @@
-import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
 import classNames from 'classnames'
 
-export interface ModalTitleProps extends HTMLAttributes<HTMLHeadingElement> {
+import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+
+type ModalTitleOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -9,19 +11,34 @@ export interface ModalTitleProps extends HTMLAttributes<HTMLHeadingElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType
+  component?: C
 }
 
-export const ModalTitle = forwardRef<HTMLHeadingElement, ModalTitleProps>(
-  ({ children, component: Component = 'h2', className, ...rest }, ref) => {
-    const _className = classNames('modal-title', className)
+export type ModalTitleProps<C extends ElementType = 'h2'> = PolymorphicComponentProps<
+  C,
+  ModalTitleOwnProps<C>
+>
 
-    return (
-      <Component className={_className} {...rest} ref={ref}>
-        {children}
-      </Component>
-    )
-  }
-)
+type ModalTitleComponent = (<C extends ElementType = 'h2'>(
+  props: ModalTitleProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
+
+function ModalTitleRender<C extends ElementType = 'h2'>(
+  { children, component, className, ...rest }: ModalTitleProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  const Component = component || 'h2'
+  const _className = classNames('modal-title', className)
+
+  return (
+    <Component className={_className} {...rest} ref={ref}>
+      {children}
+    </Component>
+  )
+}
+
+export const ModalTitle = forwardRef(
+  ModalTitleRender as ForwardRefRenderFunction<Element, ModalTitleProps<ElementType>>
+) as ModalTitleComponent
 
 ModalTitle.displayName = 'ModalTitle'

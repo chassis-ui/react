@@ -3973,29 +3973,49 @@ interface ModalContextProps {
 declare const Modal: React.ForwardRefExoticComponent<ModalProps & React.RefAttributes<HTMLDialogElement>>;
 //#endregion
 //#region src/components/modal/ModalBody.d.ts
-interface ModalBodyProps extends HTMLAttributes<HTMLDivElement> {
+type ModalBodyOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
   className?: string;
-}
-declare const ModalBody: React.ForwardRefExoticComponent<ModalBodyProps & React.RefAttributes<HTMLDivElement>>;
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C;
+};
+type ModalBodyProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, ModalBodyOwnProps<C>>;
+type ModalBodyComponent = (<C extends ElementType = 'div'>(props: ModalBodyProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const ModalBody: ModalBodyComponent;
 //#endregion
 //#region src/components/modal/ModalFooter.d.ts
-interface ModalFooterProps extends HTMLAttributes<HTMLDivElement> {
+type ModalFooterOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
   className?: string;
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C;
   /**
    * Stack the footer actions as full-width columns instead of a right-aligned row.
    */
   stacked?: boolean;
-}
-declare const ModalFooter: React.ForwardRefExoticComponent<ModalFooterProps & React.RefAttributes<HTMLDivElement>>;
+};
+type ModalFooterProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, ModalFooterOwnProps<C>>;
+type ModalFooterComponent = (<C extends ElementType = 'div'>(props: ModalFooterProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const ModalFooter: ModalFooterComponent;
 //#endregion
 //#region src/components/modal/ModalHeader.d.ts
-interface ModalHeaderProps extends HTMLAttributes<HTMLDivElement> {
+type ModalHeaderOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -4009,11 +4029,21 @@ interface ModalHeaderProps extends HTMLAttributes<HTMLDivElement> {
    * non-English UIs.
    */
   closeLabel?: string;
-}
-declare const ModalHeader: React.ForwardRefExoticComponent<ModalHeaderProps & React.RefAttributes<HTMLDivElement>>;
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C;
+};
+type ModalHeaderProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, ModalHeaderOwnProps<C>>;
+type ModalHeaderComponent = (<C extends ElementType = 'div'>(props: ModalHeaderProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const ModalHeader: ModalHeaderComponent;
 //#endregion
 //#region src/components/modal/ModalTitle.d.ts
-interface ModalTitleProps extends HTMLAttributes<HTMLHeadingElement> {
+type ModalTitleOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -4021,9 +4051,15 @@ interface ModalTitleProps extends HTMLAttributes<HTMLHeadingElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: ElementType | string;
-}
-declare const ModalTitle: React.ForwardRefExoticComponent<ModalTitleProps & React.RefAttributes<HTMLHeadingElement>>;
+  component?: C;
+};
+type ModalTitleProps<C extends ElementType = 'h2'> = PolymorphicComponentProps<C, ModalTitleOwnProps<C>>;
+type ModalTitleComponent = (<C extends ElementType = 'h2'>(props: ModalTitleProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const ModalTitle: ModalTitleComponent;
 //#endregion
 //#region src/components/nav/Nav.d.ts
 interface NavItemDef {
