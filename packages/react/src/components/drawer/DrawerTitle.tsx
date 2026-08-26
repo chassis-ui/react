@@ -1,7 +1,9 @@
-import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
 import classNames from 'classnames'
 
-export interface DrawerTitleProps extends HTMLAttributes<HTMLHeadingElement> {
+import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+
+type DrawerTitleOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -9,19 +11,34 @@ export interface DrawerTitleProps extends HTMLAttributes<HTMLHeadingElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType
+  component?: C
 }
 
-export const DrawerTitle = forwardRef<HTMLHeadingElement, DrawerTitleProps>(
-  ({ children, component: Component = 'h2', className, ...rest }, ref) => {
-    const _className = classNames('drawer-title', className)
+export type DrawerTitleProps<C extends ElementType = 'h2'> = PolymorphicComponentProps<
+  C,
+  DrawerTitleOwnProps<C>
+>
 
-    return (
-      <Component className={_className} {...rest} ref={ref}>
-        {children}
-      </Component>
-    )
-  }
-)
+type DrawerTitleComponent = (<C extends ElementType = 'h2'>(
+  props: DrawerTitleProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
+
+function DrawerTitleRender<C extends ElementType = 'h2'>(
+  { children, component, className, ...rest }: DrawerTitleProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  const Component = component || 'h2'
+  const _className = classNames('drawer-title', className)
+
+  return (
+    <Component className={_className} {...rest} ref={ref}>
+      {children}
+    </Component>
+  )
+}
+
+export const DrawerTitle = forwardRef(
+  DrawerTitleRender as ForwardRefRenderFunction<Element, DrawerTitleProps<ElementType>>
+) as DrawerTitleComponent
 
 DrawerTitle.displayName = 'DrawerTitle'

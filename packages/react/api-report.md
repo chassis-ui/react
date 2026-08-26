@@ -4519,29 +4519,49 @@ interface DrawerContextProps {
 declare const Drawer: React.ForwardRefExoticComponent<DrawerProps & React.RefAttributes<HTMLDialogElement>>;
 //#endregion
 //#region src/components/drawer/DrawerBody.d.ts
-interface DrawerBodyProps extends HTMLAttributes<HTMLDivElement> {
+type DrawerBodyOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
   className?: string;
-}
-declare const DrawerBody: React.ForwardRefExoticComponent<DrawerBodyProps & React.RefAttributes<HTMLDivElement>>;
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C;
+};
+type DrawerBodyProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, DrawerBodyOwnProps<C>>;
+type DrawerBodyComponent = (<C extends ElementType = 'div'>(props: DrawerBodyProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const DrawerBody: DrawerBodyComponent;
 //#endregion
 //#region src/components/drawer/DrawerFooter.d.ts
-interface DrawerFooterProps extends HTMLAttributes<HTMLDivElement> {
+type DrawerFooterOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
   className?: string;
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C;
   /**
    * Stack the footer actions as full-width columns instead of a right-aligned row.
    */
   stacked?: boolean;
-}
-declare const DrawerFooter: React.ForwardRefExoticComponent<DrawerFooterProps & React.RefAttributes<HTMLDivElement>>;
+};
+type DrawerFooterProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, DrawerFooterOwnProps<C>>;
+type DrawerFooterComponent = (<C extends ElementType = 'div'>(props: DrawerFooterProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const DrawerFooter: DrawerFooterComponent;
 //#endregion
 //#region src/components/drawer/DrawerHeader.d.ts
-interface DrawerHeaderProps extends HTMLAttributes<HTMLDivElement> {
+type DrawerHeaderOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -4555,11 +4575,21 @@ interface DrawerHeaderProps extends HTMLAttributes<HTMLDivElement> {
    * non-English UIs.
    */
   closeLabel?: string;
-}
-declare const DrawerHeader: React.ForwardRefExoticComponent<DrawerHeaderProps & React.RefAttributes<HTMLDivElement>>;
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C;
+};
+type DrawerHeaderProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, DrawerHeaderOwnProps<C>>;
+type DrawerHeaderComponent = (<C extends ElementType = 'div'>(props: DrawerHeaderProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const DrawerHeader: DrawerHeaderComponent;
 //#endregion
 //#region src/components/drawer/DrawerTitle.d.ts
-interface DrawerTitleProps extends HTMLAttributes<HTMLHeadingElement> {
+type DrawerTitleOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -4567,9 +4597,15 @@ interface DrawerTitleProps extends HTMLAttributes<HTMLHeadingElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: ElementType | string;
-}
-declare const DrawerTitle: React.ForwardRefExoticComponent<DrawerTitleProps & React.RefAttributes<HTMLHeadingElement>>;
+  component?: C;
+};
+type DrawerTitleProps<C extends ElementType = 'h2'> = PolymorphicComponentProps<C, DrawerTitleOwnProps<C>>;
+type DrawerTitleComponent = (<C extends ElementType = 'h2'>(props: DrawerTitleProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const DrawerTitle: DrawerTitleComponent;
 //#endregion
 //#region src/components/skeleton/Skeleton.d.ts
 type SkeletonOwnProps<C extends ElementType> = {

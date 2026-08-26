@@ -1,27 +1,48 @@
-import React, { forwardRef, HTMLAttributes } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
 import classNames from 'classnames'
 
-export interface DrawerFooterProps extends HTMLAttributes<HTMLDivElement> {
+import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+
+type DrawerFooterOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
   className?: string
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C
   /**
    * Stack the footer actions as full-width columns instead of a right-aligned row.
    */
   stacked?: boolean
 }
 
-export const DrawerFooter = forwardRef<HTMLDivElement, DrawerFooterProps>(
-  ({ children, className, stacked, ...rest }, ref) => {
-    const _className = classNames('drawer-footer', { stacked }, className)
+export type DrawerFooterProps<C extends ElementType = 'div'> = PolymorphicComponentProps<
+  C,
+  DrawerFooterOwnProps<C>
+>
 
-    return (
-      <div className={_className} {...rest} ref={ref}>
-        {children}
-      </div>
-    )
-  }
-)
+type DrawerFooterComponent = (<C extends ElementType = 'div'>(
+  props: DrawerFooterProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
+
+function DrawerFooterRender<C extends ElementType = 'div'>(
+  { children, className, component, stacked, ...rest }: DrawerFooterProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  const Component = component || 'div'
+  const _className = classNames('drawer-footer', { stacked }, className)
+
+  return (
+    <Component className={_className} {...rest} ref={ref}>
+      {children}
+    </Component>
+  )
+}
+
+export const DrawerFooter = forwardRef(
+  DrawerFooterRender as ForwardRefRenderFunction<Element, DrawerFooterProps<ElementType>>
+) as DrawerFooterComponent
 
 DrawerFooter.displayName = 'DrawerFooter'

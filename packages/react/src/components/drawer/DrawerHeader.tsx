@@ -1,10 +1,11 @@
-import React, { forwardRef, HTMLAttributes } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
 import classNames from 'classnames'
 
 import { useDrawer } from '../../hooks'
+import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
 import { CloseButton } from '../close-button/CloseButton'
 
-export interface DrawerHeaderProps extends HTMLAttributes<HTMLDivElement> {
+type DrawerHeaderOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -18,20 +19,39 @@ export interface DrawerHeaderProps extends HTMLAttributes<HTMLDivElement> {
    * non-English UIs.
    */
   closeLabel?: string
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C
 }
 
-export const DrawerHeader = forwardRef<HTMLDivElement, DrawerHeaderProps>(
-  ({ children, className, closeButton = true, closeLabel, ...rest }, ref) => {
-    const { close } = useDrawer()
-    const _className = classNames('drawer-header', className)
+export type DrawerHeaderProps<C extends ElementType = 'div'> = PolymorphicComponentProps<
+  C,
+  DrawerHeaderOwnProps<C>
+>
 
-    return (
-      <div className={_className} {...rest} ref={ref}>
-        {children}
-        {closeButton && <CloseButton label={closeLabel} onClick={close} />}
-      </div>
-    )
-  }
-)
+type DrawerHeaderComponent = (<C extends ElementType = 'div'>(
+  props: DrawerHeaderProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
+
+function DrawerHeaderRender<C extends ElementType = 'div'>(
+  { children, className, closeButton = true, closeLabel, component, ...rest }: DrawerHeaderProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  const Component = component || 'div'
+  const { close } = useDrawer()
+  const _className = classNames('drawer-header', className)
+
+  return (
+    <Component className={_className} {...rest} ref={ref}>
+      {children}
+      {closeButton && <CloseButton label={closeLabel} onClick={close} />}
+    </Component>
+  )
+}
+
+export const DrawerHeader = forwardRef(
+  DrawerHeaderRender as ForwardRefRenderFunction<Element, DrawerHeaderProps<ElementType>>
+) as DrawerHeaderComponent
 
 DrawerHeader.displayName = 'DrawerHeader'
