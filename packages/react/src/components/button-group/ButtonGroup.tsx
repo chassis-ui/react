@@ -1,11 +1,17 @@
-import React, { forwardRef, HTMLAttributes } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
 import classNames from 'classnames'
 
-export interface ButtonGroupProps extends HTMLAttributes<HTMLDivElement> {
+import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+
+type ButtonGroupOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
   className?: string
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C
   /**
    * Size the component small or large.
    */
@@ -16,16 +22,31 @@ export interface ButtonGroupProps extends HTMLAttributes<HTMLDivElement> {
   vertical?: boolean
 }
 
-export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
-  ({ children, className, size, vertical, ...rest }, ref) => {
-    const _className = classNames('button-group', { vertical }, size, className)
+export type ButtonGroupProps<C extends ElementType = 'div'> = PolymorphicComponentProps<
+  C,
+  ButtonGroupOwnProps<C>
+>
 
-    return (
-      <div className={_className} {...rest} ref={ref}>
-        {children}
-      </div>
-    )
-  }
-)
+type ButtonGroupComponent = (<C extends ElementType = 'div'>(
+  props: ButtonGroupProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
+
+function ButtonGroupRender<C extends ElementType = 'div'>(
+  { children, className, component, size, vertical, ...rest }: ButtonGroupProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  const Component = component || 'div'
+  const _className = classNames('button-group', { vertical }, size, className)
+
+  return (
+    <Component className={_className} {...rest} ref={ref}>
+      {children}
+    </Component>
+  )
+}
+
+export const ButtonGroup = forwardRef(
+  ButtonGroupRender as ForwardRefRenderFunction<Element, ButtonGroupProps<ElementType>>
+) as ButtonGroupComponent
 
 ButtonGroup.displayName = 'ButtonGroup'

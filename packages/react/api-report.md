@@ -78,14 +78,34 @@ interface AccordionProps extends HTMLAttributes<HTMLDivElement> {
 }
 declare const Accordion: React.ForwardRefExoticComponent<AccordionProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
+//#region src/utils/polymorphic.d.ts
+type PolymorphicRef<C extends ElementType> = ComponentPropsWithRef<C>['ref'];
+/**
+ * Props for a polymorphic component: `OwnProps` (which must declare `component?: C`) plus
+ * whatever props `C` itself accepts, minus any name already claimed by `OwnProps` so the two
+ * don't conflict. Lets consumers swap `component` for e.g. a framework's `Image` and get full
+ * type-checking/autocomplete for that component's own props at the call site.
+ */
+type PolymorphicComponentProps<C extends ElementType, OwnProps extends object> = OwnProps & Omit<ComponentPropsWithoutRef<C>, keyof OwnProps>;
+//#endregion
 //#region src/components/accordion/AccordionBody.d.ts
-interface AccordionBodyProps extends HTMLAttributes<HTMLDivElement> {
+type AccordionBodyOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
   className?: string;
-}
-declare const AccordionBody: React.ForwardRefExoticComponent<AccordionBodyProps & React.RefAttributes<HTMLDivElement>>;
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C;
+};
+type AccordionBodyProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, AccordionBodyOwnProps<C>>;
+type AccordionBodyComponent = (<C extends ElementType = 'div'>(props: AccordionBodyProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const AccordionBody: AccordionBodyComponent;
 //#endregion
 //#region src/components/accordion/AccordionHeader.d.ts
 interface AccordionHeaderProps extends HTMLAttributes<HTMLElement> {
@@ -405,16 +425,6 @@ type Spacing = (typeof SPACING)[number];
  * Component shapes
  */
 type Shapes = 'rounded' | 'rounded-0' | 'rounded-1' | 'rounded-2' | 'rounded-3' | 'rounded-bottom' | 'rounded-circle' | 'rounded-end' | 'rounded-pill' | 'rounded-start' | 'rounded-top';
-//#endregion
-//#region src/utils/polymorphic.d.ts
-type PolymorphicRef<C extends ElementType> = ComponentPropsWithRef<C>['ref'];
-/**
- * Props for a polymorphic component: `OwnProps` (which must declare `component?: C`) plus
- * whatever props `C` itself accepts, minus any name already claimed by `OwnProps` so the two
- * don't conflict. Lets consumers swap `component` for e.g. a framework's `Image` and get full
- * type-checking/autocomplete for that component's own props at the call site.
- */
-type PolymorphicComponentProps<C extends ElementType, OwnProps extends object> = OwnProps & Omit<ComponentPropsWithoutRef<C>, keyof OwnProps>;
 //#endregion
 //#region src/components/avatar/Avatar.d.ts
 type AvatarOwnProps<C extends ElementType> = {
@@ -869,11 +879,15 @@ type ButtonComponent = (<C extends ElementType = 'button'>(props: ButtonProps<C>
 declare const Button: ButtonComponent;
 //#endregion
 //#region src/components/button-group/ButtonGroup.d.ts
-interface ButtonGroupProps extends HTMLAttributes<HTMLDivElement> {
+type ButtonGroupOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
   className?: string;
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C;
   /**
    * Size the component small or large.
    */
@@ -882,17 +896,33 @@ interface ButtonGroupProps extends HTMLAttributes<HTMLDivElement> {
    * Create a set of buttons that appear vertically stacked rather than horizontally. Split button dropdowns are not supported here.
    */
   vertical?: boolean;
-}
-declare const ButtonGroup: React.ForwardRefExoticComponent<ButtonGroupProps & React.RefAttributes<HTMLDivElement>>;
+};
+type ButtonGroupProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, ButtonGroupOwnProps<C>>;
+type ButtonGroupComponent = (<C extends ElementType = 'div'>(props: ButtonGroupProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const ButtonGroup: ButtonGroupComponent;
 //#endregion
 //#region src/components/button-group/ButtonToolbar.d.ts
-interface ButtonToolbarProps extends HTMLAttributes<HTMLDivElement> {
+type ButtonToolbarOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
   className?: string;
-}
-declare const ButtonToolbar: React.ForwardRefExoticComponent<ButtonToolbarProps & React.RefAttributes<HTMLDivElement>>;
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C;
+};
+type ButtonToolbarProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, ButtonToolbarOwnProps<C>>;
+type ButtonToolbarComponent = (<C extends ElementType = 'div'>(props: ButtonToolbarProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const ButtonToolbar: ButtonToolbarComponent;
 //#endregion
 //#region src/components/calendar/Calendar.d.ts
 interface CalendarBaseProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultValue' | 'onChange'> {
@@ -4479,7 +4509,7 @@ interface PopoverProps extends Pick<HTMLAttributes<HTMLDivElement>, 'aria-label'
 declare const Popover: FC<PopoverProps>;
 //#endregion
 //#region src/components/progress/Progress.d.ts
-interface ProgressProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color'> {
+type ProgressOwnProps<C extends ElementType> = {
   /**
    * Use to animate the stripes right to left via CSS3 animations.
    */
@@ -4492,6 +4522,10 @@ interface ProgressProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color'> {
    * Sets the color of the component to one of Chassis context colors.
    */
   color?: ContextColor;
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C;
   /**
    * Sets the height of the component, via the `--cx-height` custom property. If you set that
    * value the inner bar (and the striped pattern's tile size) automatically resizes accordingly.
@@ -4521,11 +4555,17 @@ interface ProgressProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color'> {
    * The percent to progress the ProgressBar (out of 100).
    */
   value?: number;
-}
-declare const Progress: React.ForwardRefExoticComponent<ProgressProps & React.RefAttributes<HTMLDivElement>>;
+};
+type ProgressProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, ProgressOwnProps<C>>;
+type ProgressComponent = (<C extends ElementType = 'div'>(props: ProgressProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const Progress: ProgressComponent;
 //#endregion
 //#region src/components/progress/ProgressBar.d.ts
-interface ProgressBarProps extends HTMLAttributes<HTMLDivElement> {
+type ProgressBarOwnProps<C extends ElementType> = {
   /**
    * Use to animate the stripes right to left via CSS3 animations.
    */
@@ -4539,6 +4579,10 @@ interface ProgressBarProps extends HTMLAttributes<HTMLDivElement> {
    */
   color?: ContextColor;
   /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C;
+  /**
    * Adds a diagonal stripe pattern over the bar's background.
    */
   striped?: boolean;
@@ -4546,8 +4590,14 @@ interface ProgressBarProps extends HTMLAttributes<HTMLDivElement> {
    * The percent to progress the ProgressBar.
    */
   value?: number;
-}
-declare const ProgressBar: React.ForwardRefExoticComponent<ProgressBarProps & React.RefAttributes<HTMLDivElement>>;
+};
+type ProgressBarProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, ProgressBarOwnProps<C>>;
+type ProgressBarComponent = (<C extends ElementType = 'div'>(props: ProgressBarProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const ProgressBar: ProgressBarComponent;
 //#endregion
 //#region src/components/drawer/Drawer.d.ts
 interface DrawerProps extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'onCancel' | 'onClose'> {

@@ -1,13 +1,22 @@
-import React, { CSSProperties, forwardRef, HTMLAttributes, ReactNode } from 'react'
+import React, {
+  CSSProperties,
+  ElementType,
+  ForwardRefRenderFunction,
+  forwardRef,
+  ReactElement,
+  ReactNode
+} from 'react'
 import classNames from 'classnames'
-import { ProgressBar } from './ProgressBar'
+
 import { ContextColor } from '../../types'
+import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import { ProgressBar } from './ProgressBar'
 
 type ProgressStyle = CSSProperties & {
   '--cx-height'?: string
 }
 
-export interface ProgressProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color'> {
+type ProgressOwnProps<C extends ElementType> = {
   /**
    * Use to animate the stripes right to left via CSS3 animations.
    */
@@ -20,6 +29,10 @@ export interface ProgressProps extends Omit<HTMLAttributes<HTMLDivElement>, 'col
    * Sets the color of the component to one of Chassis context colors.
    */
   color?: ContextColor
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C
   /**
    * Sets the height of the component, via the `--cx-height` custom property. If you set that
    * value the inner bar (and the striped pattern's tile size) automatically resizes accordingly.
@@ -51,68 +64,78 @@ export interface ProgressProps extends Omit<HTMLAttributes<HTMLDivElement>, 'col
   value?: number
 }
 
-export const Progress = forwardRef<HTMLDivElement, ProgressProps>(
-  (
-    {
-      'aria-label': ariaLabel,
-      animated,
-      children,
-      className,
-      color,
-      height,
-      inlineValue,
-      label,
-      showValue,
-      striped,
-      style,
-      value = 0,
-      ...rest
-    },
-    ref
-  ) => {
-    const _className = classNames('progress', className)
+export type ProgressProps<C extends ElementType = 'div'> = PolymorphicComponentProps<
+  C,
+  ProgressOwnProps<C>
+>
 
-    const barChildren = children !== undefined ? children : inlineValue ? `${value}%` : undefined
-    const hasCaption = Boolean(label || showValue)
+type ProgressComponent = (<C extends ElementType = 'div'>(
+  props: ProgressProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
 
-    const _style: ProgressStyle = { ...style }
-    if (height !== undefined) _style['--cx-height'] = `${height}px`
+function ProgressRender<C extends ElementType = 'div'>(
+  {
+    'aria-label': ariaLabel,
+    animated,
+    children,
+    className,
+    color,
+    component,
+    height,
+    inlineValue,
+    label,
+    showValue,
+    striped,
+    style,
+    value = 0,
+    ...rest
+  }: ProgressProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  const Component = component || 'div'
+  const _className = classNames('progress', className)
 
-    const progressElement = (
+  const barChildren = children !== undefined ? children : inlineValue ? `${value}%` : undefined
+  const hasCaption = Boolean(label || showValue)
+
+  const _style: ProgressStyle = { ...style }
+  if (height !== undefined) _style['--cx-height'] = `${height}px`
+
+  const progressElement = (
+    <Component
+      {...rest}
+      className={_className}
+      role="progressbar"
+      aria-valuenow={value}
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-label={ariaLabel ?? (typeof label === 'string' ? label : undefined)}
+      style={_style}
+      ref={ref}
+    >
+      <ProgressBar animated={animated} color={color} striped={striped} value={value}>
+        {barChildren}
+      </ProgressBar>
+    </Component>
+  )
+
+  if (!hasCaption) return progressElement
+
+  return (
+    <div className="d-flex flex-column gap-xsmall">
       <div
-        {...rest}
-        className={_className}
-        role="progressbar"
-        aria-valuenow={value}
-        aria-valuemin={0}
-        aria-valuemax={100}
-        aria-label={ariaLabel ?? (typeof label === 'string' ? label : undefined)}
-        style={_style}
-        ref={ref}
+        className={classNames('d-flex', label ? 'justify-content-between' : 'justify-content-end')}
       >
-        <ProgressBar animated={animated} color={color} striped={striped} value={value}>
-          {barChildren}
-        </ProgressBar>
+        {label ? <span className="font-strong">{label}</span> : null}
+        {showValue ? <span className="font-strong">{value}%</span> : null}
       </div>
-    )
+      {progressElement}
+    </div>
+  )
+}
 
-    if (!hasCaption) return progressElement
-
-    return (
-      <div className="d-flex flex-column gap-xsmall">
-        <div
-          className={classNames(
-            'd-flex',
-            label ? 'justify-content-between' : 'justify-content-end'
-          )}
-        >
-          {label ? <span className="font-strong">{label}</span> : null}
-          {showValue ? <span className="font-strong">{value}%</span> : null}
-        </div>
-        {progressElement}
-      </div>
-    )
-  }
-)
+export const Progress = forwardRef(
+  ProgressRender as ForwardRefRenderFunction<Element, ProgressProps<ElementType>>
+) as ProgressComponent
 
 Progress.displayName = 'Progress'

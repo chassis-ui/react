@@ -1,9 +1,10 @@
-import React, { forwardRef, HTMLAttributes } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
 import classNames from 'classnames'
 
 import { ContextColor } from '../../types'
+import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
 
-export interface ProgressBarProps extends HTMLAttributes<HTMLDivElement> {
+type ProgressBarOwnProps<C extends ElementType> = {
   /**
    * Use to animate the stripes right to left via CSS3 animations.
    */
@@ -17,6 +18,10 @@ export interface ProgressBarProps extends HTMLAttributes<HTMLDivElement> {
    */
   color?: ContextColor
   /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C
+  /**
    * Adds a diagonal stripe pattern over the bar's background.
    */
   striped?: boolean
@@ -26,23 +31,49 @@ export interface ProgressBarProps extends HTMLAttributes<HTMLDivElement> {
   value?: number
 }
 
-export const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
-  ({ children, animated, className, color, striped, style, value = 0, ...rest }, ref) => {
-    const _className = classNames(
-      'progress-bar',
-      color && `bg-${color} fg-contrast`,
-      {
-        striped,
-        animated
-      },
-      className
-    )
+export type ProgressBarProps<C extends ElementType = 'div'> = PolymorphicComponentProps<
+  C,
+  ProgressBarOwnProps<C>
+>
 
-    return (
-      <div {...rest} className={_className} style={{ width: `${value}%`, ...style }} ref={ref}>
-        <span className="mx-2xsmall">{children}</span>
-      </div>
-    )
-  }
-)
+type ProgressBarComponent = (<C extends ElementType = 'div'>(
+  props: ProgressBarProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
+
+function ProgressBarRender<C extends ElementType = 'div'>(
+  {
+    children,
+    animated,
+    className,
+    color,
+    component,
+    striped,
+    style,
+    value = 0,
+    ...rest
+  }: ProgressBarProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  const Component = component || 'div'
+  const _className = classNames(
+    'progress-bar',
+    color && `bg-${color} fg-contrast`,
+    {
+      striped,
+      animated
+    },
+    className
+  )
+
+  return (
+    <Component {...rest} className={_className} style={{ width: `${value}%`, ...style }} ref={ref}>
+      <span className="mx-2xsmall">{children}</span>
+    </Component>
+  )
+}
+
+export const ProgressBar = forwardRef(
+  ProgressBarRender as ForwardRefRenderFunction<Element, ProgressBarProps<ElementType>>
+) as ProgressBarComponent
+
 ProgressBar.displayName = 'ProgressBar'
