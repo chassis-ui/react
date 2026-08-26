@@ -76,7 +76,7 @@ export interface NotificationProps extends Omit<HTMLAttributes<HTMLDivElement>, 
    * Element or component used for the `title` heading. Passed through to `NotificationTitle`'s
    * own `component` prop. Defaults to `'h4'`.
    */
-  titleComponent?: string | ElementType
+  titleComponent?: ElementType
   /**
    * Callback fired when the component requests to be closed.
    */

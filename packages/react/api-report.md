@@ -602,7 +602,7 @@ interface NotificationProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'
    * Element or component used for the `title` heading. Passed through to `NotificationTitle`'s
    * own `component` prop. Defaults to `'h4'`.
    */
-  titleComponent?: ElementType | string;
+  titleComponent?: ElementType;
   /**
    * Callback fired when the component requests to be closed.
    */
@@ -625,7 +625,7 @@ interface NotificationProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'
 declare const Notification: React.ForwardRefExoticComponent<NotificationProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
 //#region src/components/notification/NotificationTitle.d.ts
-interface NotificationTitleProps extends HTMLAttributes<HTMLHeadingElement> {
+type NotificationTitleOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -633,9 +633,15 @@ interface NotificationTitleProps extends HTMLAttributes<HTMLHeadingElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: ElementType | string;
-}
-declare const NotificationTitle: React.ForwardRefExoticComponent<NotificationTitleProps & React.RefAttributes<HTMLHeadingElement>>;
+  component?: C;
+};
+type NotificationTitleProps<C extends ElementType = 'h4'> = PolymorphicComponentProps<C, NotificationTitleOwnProps<C>>;
+type NotificationTitleComponent = (<C extends ElementType = 'h4'>(props: NotificationTitleProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const NotificationTitle: NotificationTitleComponent;
 //#endregion
 //#region src/components/icon/Icon.d.ts
 interface IconProps extends HTMLAttributes<HTMLSpanElement | SVGSVGElement> {
@@ -676,7 +682,7 @@ interface NotificationIconProps extends IconProps {
 declare const NotificationIcon: React.ForwardRefExoticComponent<NotificationIconProps & React.RefAttributes<HTMLSpanElement | SVGSVGElement>>;
 //#endregion
 //#region src/components/notification/NotificationText.d.ts
-interface NotificationTextProps extends HTMLAttributes<HTMLDivElement> {
+type NotificationTextOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the component.
    */
@@ -684,9 +690,15 @@ interface NotificationTextProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: ElementType | string;
-}
-declare const NotificationText: React.ForwardRefExoticComponent<NotificationTextProps & React.RefAttributes<HTMLDivElement>>;
+  component?: C;
+};
+type NotificationTextProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, NotificationTextOwnProps<C>>;
+type NotificationTextComponent = (<C extends ElementType = 'div'>(props: NotificationTextProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const NotificationText: NotificationTextComponent;
 //#endregion
 //#region src/components/notification/NotificationStack.d.ts
 interface NotificationStackProps extends HTMLAttributes<HTMLDivElement> {
@@ -3082,7 +3094,7 @@ interface FormLabelProps extends AllHTMLAttributes<HTMLLabelElement> {
 declare const FormLabel: React.ForwardRefExoticComponent<FormLabelProps & React.RefAttributes<HTMLLabelElement>>;
 //#endregion
 //#region src/components/form/FormHelp.d.ts
-interface FormHelpProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElement> {
+type FormHelpOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the component.
    */
@@ -3090,12 +3102,18 @@ interface FormHelpProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElement>
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: ElementType | string;
-}
-declare const FormHelp: React.ForwardRefExoticComponent<FormHelpProps & React.RefAttributes<HTMLDivElement | HTMLSpanElement>>;
+  component?: C;
+};
+type FormHelpProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, FormHelpOwnProps<C>>;
+type FormHelpComponent = (<C extends ElementType = 'div'>(props: FormHelpProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const FormHelp: FormHelpComponent;
 //#endregion
 //#region src/components/form/FormFeedback.d.ts
-interface FormFeedbackProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElement> {
+type FormFeedbackOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the component.
    */
@@ -3103,7 +3121,7 @@ interface FormFeedbackProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElem
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: ElementType | string;
+  component?: C;
   /**
    * Set component validation state to invalid.
    */
@@ -3116,8 +3134,14 @@ interface FormFeedbackProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElem
    * Set component validation state to valid.
    */
   valid?: boolean;
-}
-declare const FormFeedback: React.ForwardRefExoticComponent<FormFeedbackProps & React.RefAttributes<HTMLDivElement | HTMLSpanElement>>;
+};
+type FormFeedbackProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, FormFeedbackOwnProps<C>>;
+type FormFeedbackComponent = (<C extends ElementType = 'div'>(props: FormFeedbackProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const FormFeedback: FormFeedbackComponent;
 //#endregion
 //#region src/components/form-field/renderFormField.d.ts
 interface FormFieldIds {

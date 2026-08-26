@@ -1,7 +1,9 @@
-import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
 import classNames from 'classnames'
 
-export interface FormFeedbackProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElement> {
+import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+
+type FormFeedbackOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the component.
    */
@@ -9,7 +11,7 @@ export interface FormFeedbackProps extends HTMLAttributes<HTMLDivElement | HTMLS
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType
+  component?: C
   /**
    * Set component validation state to invalid.
    */
@@ -24,24 +26,36 @@ export interface FormFeedbackProps extends HTMLAttributes<HTMLDivElement | HTMLS
   valid?: boolean
 }
 
-export const FormFeedback = forwardRef<HTMLDivElement | HTMLSpanElement, FormFeedbackProps>(
-  (
-    { children, className, component: Component = 'div', invalid, tooltip, valid, ...rest },
-    ref
-  ) => {
-    const _className = classNames(
-      {
-        [`invalid-${tooltip ? 'tooltip' : 'feedback'}`]: invalid,
-        [`valid-${tooltip ? 'tooltip' : 'feedback'}`]: valid
-      },
-      className
-    )
-    return (
-      <Component className={_className} {...rest} ref={ref}>
-        {children}
-      </Component>
-    )
-  }
-)
+export type FormFeedbackProps<C extends ElementType = 'div'> = PolymorphicComponentProps<
+  C,
+  FormFeedbackOwnProps<C>
+>
+
+type FormFeedbackComponent = (<C extends ElementType = 'div'>(
+  props: FormFeedbackProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
+
+function FormFeedbackRender<C extends ElementType = 'div'>(
+  { children, className, component, invalid, tooltip, valid, ...rest }: FormFeedbackProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  const Component = component || 'div'
+  const _className = classNames(
+    {
+      [`invalid-${tooltip ? 'tooltip' : 'feedback'}`]: invalid,
+      [`valid-${tooltip ? 'tooltip' : 'feedback'}`]: valid
+    },
+    className
+  )
+  return (
+    <Component className={_className} {...rest} ref={ref}>
+      {children}
+    </Component>
+  )
+}
+
+export const FormFeedback = forwardRef(
+  FormFeedbackRender as ForwardRefRenderFunction<Element, FormFeedbackProps<ElementType>>
+) as FormFeedbackComponent
 
 FormFeedback.displayName = 'FormFeedback'

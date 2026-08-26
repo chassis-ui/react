@@ -276,7 +276,7 @@
       ],
       "required": false,
       "type": {
-        "name": "string | ComponentClass<any, any> | FunctionComponent<any>"
+        "name": "ElementType"
       }
     },
     "onClose": {

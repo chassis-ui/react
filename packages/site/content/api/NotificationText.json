@@ -9,14 +9,10 @@
       "defaultValue": null,
       "description": "A string of all className you want applied to the component.",
       "name": "className",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/notification/NotificationText.tsx",
-        "name": "NotificationTextProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/notification/NotificationText.tsx",
-          "name": "NotificationTextProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -25,24 +21,33 @@
       }
     },
     "component": {
-      "defaultValue": {
-        "value": "div"
-      },
+      "defaultValue": null,
       "description": "Component used for the root node. Either a string to use a HTML element or a component.",
       "name": "component",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/notification/NotificationText.tsx",
-        "name": "NotificationTextProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/notification/NotificationText.tsx",
-          "name": "NotificationTextProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
       "type": {
-        "name": "string | ComponentClass<any, any> | FunctionComponent<any>"
+        "name": "ElementType"
+      }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/notification/NotificationText.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "any"
       }
     }
   }
