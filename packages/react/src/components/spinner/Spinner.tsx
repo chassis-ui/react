@@ -1,9 +1,10 @@
-import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
 import classNames from 'classnames'
 
+import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
 import { ContextColor } from '../../types'
 
-export interface SpinnerProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElement> {
+type SpinnerOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the component.
    */
@@ -15,7 +16,7 @@ export interface SpinnerProps extends HTMLAttributes<HTMLDivElement | HTMLSpanEl
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType
+  component?: C
   /**
    * Size the component small.
    */
@@ -30,32 +31,44 @@ export interface SpinnerProps extends HTMLAttributes<HTMLDivElement | HTMLSpanEl
   visuallyHiddenLabel?: string
 }
 
-export const Spinner = forwardRef<HTMLDivElement | HTMLSpanElement, SpinnerProps>(
-  (
-    {
-      className,
-      color,
-      component: Component = 'div',
-      size,
-      variant = 'border',
-      visuallyHiddenLabel = 'Loading...',
-      ...rest
-    },
-    ref
-  ) => {
-    const _className = classNames(
-      `spinner-${variant}`,
-      color ? `fg-${color}` : null,
-      size && `spinner-${variant}-${size}`,
-      className
-    )
+export type SpinnerProps<C extends ElementType = 'div'> = PolymorphicComponentProps<
+  C,
+  SpinnerOwnProps<C>
+>
 
-    return (
-      <Component className={_className} role="status" {...rest} ref={ref}>
-        <span className="visually-hidden">{visuallyHiddenLabel}</span>
-      </Component>
-    )
-  }
-)
+type SpinnerComponent = (<C extends ElementType = 'div'>(
+  props: SpinnerProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
+
+function SpinnerRender<C extends ElementType = 'div'>(
+  {
+    className,
+    color,
+    component,
+    size,
+    variant = 'border',
+    visuallyHiddenLabel = 'Loading...',
+    ...rest
+  }: SpinnerProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  const Component = component || 'div'
+  const _className = classNames(
+    `spinner-${variant}`,
+    color ? `fg-${color}` : null,
+    size && `spinner-${variant}-${size}`,
+    className
+  )
+
+  return (
+    <Component className={_className} role="status" {...rest} ref={ref}>
+      <span className="visually-hidden">{visuallyHiddenLabel}</span>
+    </Component>
+  )
+}
+
+export const Spinner = forwardRef(
+  SpinnerRender as ForwardRefRenderFunction<Element, SpinnerProps<ElementType>>
+) as SpinnerComponent
 
 Spinner.displayName = 'Spinner'

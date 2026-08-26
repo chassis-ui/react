@@ -4559,7 +4559,7 @@ type SkeletonLoaderComponent = (<C extends ElementType = 'span'>(props: Skeleton
 declare const SkeletonLoader: SkeletonLoaderComponent;
 //#endregion
 //#region src/components/spinner/Spinner.d.ts
-interface SpinnerProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElement> {
+type SpinnerOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the component.
    */
@@ -4571,7 +4571,7 @@ interface SpinnerProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElement> 
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: ElementType | string;
+  component?: C;
   /**
    * Size the component small.
    */
@@ -4584,8 +4584,14 @@ interface SpinnerProps extends HTMLAttributes<HTMLDivElement | HTMLSpanElement> 
    * Set visually hidden label for accessibility purposes.
    */
   visuallyHiddenLabel?: string;
-}
-declare const Spinner: React.ForwardRefExoticComponent<SpinnerProps & React.RefAttributes<HTMLDivElement | HTMLSpanElement>>;
+};
+type SpinnerProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, SpinnerOwnProps<C>>;
+type SpinnerComponent = (<C extends ElementType = 'div'>(props: SpinnerProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const Spinner: SpinnerComponent;
 //#endregion
 //#region src/components/stepper/Stepper.d.ts
 interface StepperItemDef {
@@ -5413,7 +5419,7 @@ interface FlexProps extends HTMLAttributes<HTMLDivElement>, FlexLayout {
 declare const Flex: React.ForwardRefExoticComponent<FlexProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
 //#region src/components/stack/Stack.d.ts
-interface StackProps extends HTMLAttributes<HTMLDivElement> {
+type StackOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the component.
    */
@@ -5421,7 +5427,7 @@ interface StackProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: ElementType | string;
+  component?: C;
   /**
    * Lays children out in a row (`horizontal`, the default, maps to `.hstack`) or a column
    * (`vertical`, maps to `.vstack`).
@@ -5437,8 +5443,14 @@ interface StackProps extends HTMLAttributes<HTMLDivElement> {
    * container context these queries evaluate against.
    */
   responsive?: Partial<Record<Breakpoint, 'horizontal' | 'vertical'>>;
-}
-declare const Stack: React.ForwardRefExoticComponent<StackProps & React.RefAttributes<HTMLDivElement>>;
+};
+type StackProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, StackOwnProps<C>>;
+type StackComponent = (<C extends ElementType = 'div'>(props: StackProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const Stack: StackComponent;
 //#endregion
 export { Accordion, AccordionBody, AccordionHeader, AccordionItem, Autocomplete, AutocompleteGroup, AutocompleteItem, Avatar, AvatarImage, AvatarStack, Badge, Breadcrumb, BreadcrumbItem, Button, ButtonGroup, ButtonToolbar, Calendar, Card, CardBody, CardFooter, CardGroup, CardHeader, CardImage, CardImageOverlay, CardLink, CardSubtitle, CardText, CardTitle, Carousel, CarouselControlNext, CarouselControlPrev, CarouselIndicators, CarouselInner, CarouselItem, CarouselOverlay, CarouselPlayPause, Checkbox, CheckboxGroup, Chip, ChipInput, CloseButton, Col, Collapse, ColorInput, Combobox, ComboboxGroup, ComboboxItem, Container, DatePicker, DateRangePicker, Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerTitle, FileInput, Flex, FloatingInput, Form, FormFeedback, FormField, FormHelp, FormLabel, Grid, GridItem, I18nProvider, Icon, InputAdorn, InputGroup, InputGroupAddon, Link, List, ListItem, Menu, MenuDivider, MenuHeader, MenuItem, MenuList, MenuSubmenu, MenuSubmenuBack, MenuText, MenuToggle, Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle, Nav, NavItem, NavLink, NavTitle, Navbar, NavbarBrand, NavbarNav, NavbarText, NavbarToggler, Notification, NotificationIcon, NotificationStack, NotificationText, NotificationTitle, OtpInput, Pagination, PaginationItem, PasswordStrength, Placeholder, Popover, Progress, ProgressBar, Radio, RadioGroup, RangeCalendar, RangeInput, Row, Select, Skeleton, SkeletonLoader, Spinner, Stack, Stepper, StepperItem, Switch, Tab, TabList, TabPanel, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tabs, TextInput, Textarea, Toast, ToastBody, ToastFooter, ToastHeader, ToastIcon, Toaster, Tooltip, addNotification, addToast, closeNotification, closeToast, notificationQueue, toastQueue, useDrawer, useModal, useNotification, usePagination, useToast };
 ```
