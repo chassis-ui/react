@@ -1,8 +1,10 @@
-import React, { ElementType, forwardRef } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
 import classNames from 'classnames'
 
+import { PolymorphicRef } from '../../utils/polymorphic'
 import { LinkProps, Link } from '../link/Link'
-export interface NavLinkProps extends LinkProps {
+
+type NavLinkOwnProps = {
   /**
    * Toggle the active state for the component.
    */
@@ -12,29 +14,36 @@ export interface NavLinkProps extends LinkProps {
    */
   className?: string
   /**
-   * Component used for the root node. Either a string to use a HTML element or a component.
-   */
-  component?: string | ElementType
-  /**
    * Toggle the disabled state for the component.
    */
   disabled?: boolean
-  /**
-   * @ignore
-   */
-  to?: string
 }
 
-export const NavLink = forwardRef<HTMLButtonElement | HTMLAnchorElement, NavLinkProps>(
-  ({ children, className, ...rest }, ref) => {
-    const _className = classNames('nav-link', className)
+export type NavLinkProps<C extends ElementType = 'a'> = LinkProps<C> & NavLinkOwnProps
 
-    return (
-      <Link className={_className} {...rest} ref={ref}>
-        {children}
-      </Link>
-    )
-  }
-)
+type NavLinkComponent = (<C extends ElementType = 'a'>(
+  props: NavLinkProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
+
+function NavLinkRender<C extends ElementType = 'a'>(
+  { children, className, ...rest }: NavLinkProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  const _className = classNames('nav-link', className)
+
+  return (
+    <Link
+      className={_className}
+      {...(rest as Record<string, unknown>)}
+      ref={ref as PolymorphicRef<ElementType>}
+    >
+      {children}
+    </Link>
+  )
+}
+
+export const NavLink = forwardRef(
+  NavLinkRender as ForwardRefRenderFunction<Element, NavLinkProps<ElementType>>
+) as NavLinkComponent
 
 NavLink.displayName = 'NavLink'

@@ -188,7 +188,7 @@ function CloseButtonRender<C extends ElementType = 'button'>(
       aria-label={_label}
       {...(isComponentReference
         ? ({ color, size, variant, disabled, onClick, ...rest } as Record<string, unknown>)
-        : mergeProps(rest, buttonProps))}
+        : (mergeProps(rest, buttonProps) as Record<string, unknown>))}
       ref={isComponentReference ? ref : forkedRef}
     >
       {children}

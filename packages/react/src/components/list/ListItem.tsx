@@ -1,12 +1,11 @@
-import React, { ElementType, HTMLAttributes, forwardRef } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
 import classNames from 'classnames'
 
 import { ContextColor } from '../../types'
+import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
 import { Link } from '../link/Link'
 
-export interface ListItemProps extends HTMLAttributes<
-  HTMLLIElement | HTMLAnchorElement | HTMLButtonElement
-> {
+type ListItemOwnProps<C extends ElementType> = {
   /**
    * Toggle the active state for the component.
    */
@@ -26,7 +25,7 @@ export interface ListItemProps extends HTMLAttributes<
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | ElementType
+  component?: C
   /**
    * The href attribute specifies the URL of the page the link goes to. Only applicable when
    * `component` is `"a"`.
@@ -34,29 +33,41 @@ export interface ListItemProps extends HTMLAttributes<
   href?: string
 }
 
-export const ListItem = forwardRef<
-  HTMLLIElement | HTMLAnchorElement | HTMLButtonElement,
-  ListItemProps
->(({ children, active, className, disabled, color, component = 'li', ...rest }, ref) => {
+export type ListItemProps<C extends ElementType = 'li'> = PolymorphicComponentProps<
+  C,
+  ListItemOwnProps<C>
+>
+
+type ListItemComponent = (<C extends ElementType = 'li'>(
+  props: ListItemProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
+
+function ListItemRender<C extends ElementType = 'li'>(
+  { children, active, className, disabled, color, component, ...rest }: ListItemProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  const tag = component ?? 'li'
+  const isInteractive = tag === 'a' || tag === 'button'
+
   const _className = classNames(
     'list-item',
     color && 'context',
     color,
     {
-      'list-action': component === 'a' || component === 'button',
+      'list-action': isInteractive,
       active,
       disabled
     },
     className
   )
 
-  const Component = (component === 'a' || component === 'button' ? Link : component) as ElementType
+  const Component = (isInteractive ? Link : tag) as ElementType
 
-  rest = {
-    ...((component === 'a' || component === 'button') && {
+  const finalRest = {
+    ...(isInteractive && {
       active,
       disabled,
-      component
+      component: tag
     }),
     ...(active && { 'aria-current': 'page' }),
     ...(disabled && { 'aria-disabled': true }),
@@ -64,10 +75,14 @@ export const ListItem = forwardRef<
   }
 
   return (
-    <Component className={_className} {...rest} ref={ref}>
+    <Component className={_className} {...finalRest} ref={ref}>
       {children}
     </Component>
   )
-})
+}
+
+export const ListItem = forwardRef(
+  ListItemRender as ForwardRefRenderFunction<Element, ListItemProps<ElementType>>
+) as ListItemComponent
 
 ListItem.displayName = 'ListItem'

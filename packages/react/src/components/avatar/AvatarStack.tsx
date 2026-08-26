@@ -43,7 +43,7 @@ export interface AvatarStackItemDef {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: string | React.ElementType
+  component?: ElementType
 }
 
 type AvatarStackOwnProps<C extends ElementType> = {

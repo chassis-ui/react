@@ -9,14 +9,10 @@
       "defaultValue": null,
       "description": "Toggle the active state for the component.",
       "name": "active",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/list/ListItem.tsx",
-        "name": "ListItemProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/list/ListItem.tsx",
-          "name": "ListItemProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -28,14 +24,10 @@
       "defaultValue": null,
       "description": "A string of all className you want applied to the component.",
       "name": "className",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/list/ListItem.tsx",
-        "name": "ListItemProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/list/ListItem.tsx",
-          "name": "ListItemProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -47,14 +39,10 @@
       "defaultValue": null,
       "description": "Sets the color of the component to one of Chassis context colors.",
       "name": "color",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/list/ListItem.tsx",
-        "name": "ListItemProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/list/ListItem.tsx",
-          "name": "ListItemProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -102,14 +90,10 @@
       "defaultValue": null,
       "description": "Toggle the disabled state for the component.",
       "name": "disabled",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/list/ListItem.tsx",
-        "name": "ListItemProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/list/ListItem.tsx",
-          "name": "ListItemProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -118,43 +102,48 @@
       }
     },
     "component": {
-      "defaultValue": {
-        "value": "li"
-      },
+      "defaultValue": null,
       "description": "Component used for the root node. Either a string to use a HTML element or a component.",
       "name": "component",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/list/ListItem.tsx",
-        "name": "ListItemProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/list/ListItem.tsx",
-          "name": "ListItemProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
       "type": {
-        "name": "string | ComponentClass<any, any> | FunctionComponent<any>"
+        "name": "ElementType"
       }
     },
     "href": {
       "defaultValue": null,
       "description": "The href attribute specifies the URL of the page the link goes to. Only applicable when\n`component` is `\"a\"`.",
       "name": "href",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/list/ListItem.tsx",
-        "name": "ListItemProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/list/ListItem.tsx",
-          "name": "ListItemProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
       "type": {
         "name": "string"
+      }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/list/ListItem.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "any"
       }
     }
   }

@@ -196,7 +196,7 @@ function ButtonRender<C extends ElementType = 'button'>(
 
   return (
     <Component
-      {...mergeProps(rest, buttonProps)}
+      {...(mergeProps(rest, buttonProps) as Record<string, unknown>)}
       className={_className}
       aria-pressed={pressed}
       // `href` was only ever forwarded when it also forced `Component` to `'a'` — now that an

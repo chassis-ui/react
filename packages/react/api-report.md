@@ -517,7 +517,7 @@ interface AvatarStackItemDef {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: React.ElementType | string;
+  component?: ElementType;
 }
 type AvatarStackOwnProps<C extends ElementType> = {
   /**
@@ -1232,7 +1232,7 @@ interface CardImageOverlayProps extends HTMLAttributes<HTMLDivElement> {
 declare const CardImageOverlay: React.ForwardRefExoticComponent<CardImageOverlayProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
 //#region src/components/link/Link.d.ts
-interface LinkProps extends AllHTMLAttributes<HTMLElement> {
+type LinkOwnProps<C extends ElementType> = {
   /**
    * Toggle the active state for the component.
    */
@@ -1249,15 +1249,22 @@ interface LinkProps extends AllHTMLAttributes<HTMLElement> {
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: ElementType | string;
+  component?: C;
   /**
    * Toggle the disabled state for the component.
    */
   disabled?: boolean;
   /**
-   * The href attribute specifies the URL of the page the link goes to.
+   * The href attribute specifies the URL of the page the link goes to. Only meaningful when
+   * `component` resolves to (or accepts) `'a'`. Declared explicitly here — rather than left to
+   * flow through generically from whatever `C` is — so consumers that wrap `Link` (`MenuItem`,
+   * `ListItem`, `NavLink`) can read it with a concrete type regardless of `component`.
    */
   href?: string;
+  /**
+   * Fires on click.
+   */
+  onClick?: MouseEventHandler<HTMLElement>;
   /**
    * Aligns a leading or trailing icon with the link text using flexbox, with a gap between
    * them and an offset underline. Icons need to be passed as `children` alongside the text.
@@ -1275,17 +1282,29 @@ interface LinkProps extends AllHTMLAttributes<HTMLElement> {
    * a `position` other than `static`).
    */
   stretched?: boolean;
-}
-declare const Link: React.ForwardRefExoticComponent<LinkProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement>>;
+};
+type LinkProps<C extends ElementType = 'a'> = PolymorphicComponentProps<C, LinkOwnProps<C>>;
+type LinkComponent = (<C extends ElementType = 'a'>(props: LinkProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const Link: LinkComponent;
 //#endregion
 //#region src/components/card/CardLink.d.ts
-interface CardLinkProps extends LinkProps {
+type CardLinkOwnProps = {
   /**
    * A string of all className you want applied to the base component.
    */
   className?: string;
-}
-declare const CardLink: React.ForwardRefExoticComponent<CardLinkProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement>>;
+};
+type CardLinkProps<C extends ElementType = 'a'> = LinkProps<C> & CardLinkOwnProps;
+type CardLinkComponent = (<C extends ElementType = 'a'>(props: CardLinkProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const CardLink: CardLinkComponent;
 //#endregion
 //#region src/components/card/CardSubtitle.d.ts
 interface CardSubtitleProps extends HTMLAttributes<HTMLHeadingElement> {
@@ -2452,15 +2471,11 @@ interface MenuHeaderProps extends HTMLAttributes<HTMLHeadingElement> {
 declare const MenuHeader: React.ForwardRefExoticComponent<MenuHeaderProps & React.RefAttributes<HTMLHeadingElement>>;
 //#endregion
 //#region src/components/menu/MenuItem.d.ts
-interface MenuItemProps extends LinkProps {
+type MenuItemOwnProps = {
   /**
    * A string of all className you want applied to the component.
    */
   className?: string;
-  /**
-   * Component used for the root node. Either a string to use a HTML element or a component.
-   */
-  component?: ElementType | string;
   /**
    * Secondary line of text rendered below `children` (`.menu-item-description`).
    */
@@ -2476,8 +2491,14 @@ interface MenuItemProps extends LinkProps {
    * existing font-weight-only usage keeps rendering unchanged.
    */
   selected?: boolean;
-}
-declare const MenuItem: React.ForwardRefExoticComponent<MenuItemProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement>>;
+};
+type MenuItemProps<C extends ElementType = 'a'> = LinkProps<C> & MenuItemOwnProps;
+type MenuItemComponent = (<C extends ElementType = 'a'>(props: MenuItemProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const MenuItem: MenuItemComponent;
 //#endregion
 //#region src/components/menu/MenuList.d.ts
 interface MenuListProps extends HTMLAttributes<HTMLElement> {
@@ -3704,7 +3725,7 @@ interface ListItemDef {
    */
   disabled?: boolean;
 }
-interface ListProps extends HTMLAttributes<HTMLDivElement | HTMLUListElement> {
+type ListOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the component.
    */
@@ -3716,7 +3737,7 @@ interface ListProps extends HTMLAttributes<HTMLDivElement | HTMLUListElement> {
    * `<button>` isn't a valid direct child of `<ul>`/`<ol>`, so the default switches to `'div'`
    * instead. Pass `component` explicitly to opt out of this.
    */
-  component?: ElementType | string;
+  component?: C;
   /**
    * Sets the color of the component to one of Chassis context colors.
    */
@@ -3745,11 +3766,17 @@ interface ListProps extends HTMLAttributes<HTMLDivElement | HTMLUListElement> {
    * Applies a `.solid`, `.outline`, or `.smooth` context style. Only meaningful together with `color`.
    */
   variant?: ContextStyle;
-}
-declare const List: React.ForwardRefExoticComponent<ListProps & React.RefAttributes<HTMLDivElement | HTMLUListElement>>;
+};
+type ListProps<C extends ElementType = 'ul'> = PolymorphicComponentProps<C, ListOwnProps<C>>;
+type ListComponent = (<C extends ElementType = 'ul'>(props: ListProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const List: ListComponent;
 //#endregion
 //#region src/components/list/ListItem.d.ts
-interface ListItemProps extends HTMLAttributes<HTMLAnchorElement | HTMLButtonElement | HTMLLIElement> {
+type ListItemOwnProps<C extends ElementType> = {
   /**
    * Toggle the active state for the component.
    */
@@ -3769,14 +3796,20 @@ interface ListItemProps extends HTMLAttributes<HTMLAnchorElement | HTMLButtonEle
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: ElementType | string;
+  component?: C;
   /**
    * The href attribute specifies the URL of the page the link goes to. Only applicable when
    * `component` is `"a"`.
    */
   href?: string;
-}
-declare const ListItem: React.ForwardRefExoticComponent<ListItemProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement | HTMLLIElement>>;
+};
+type ListItemProps<C extends ElementType = 'li'> = PolymorphicComponentProps<C, ListItemOwnProps<C>>;
+type ListItemComponent = (<C extends ElementType = 'li'>(props: ListItemProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const ListItem: ListItemComponent;
 //#endregion
 //#region src/components/modal/Modal.d.ts
 interface ModalProps extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'onCancel' | 'onClose'> {
@@ -3950,7 +3983,7 @@ interface NavProps extends HTMLAttributes<HTMLDivElement | HTMLOListElement | HT
 declare const Nav: React.ForwardRefExoticComponent<NavProps & React.RefAttributes<HTMLDivElement | HTMLOListElement | HTMLUListElement>>;
 //#endregion
 //#region src/components/nav/NavLink.d.ts
-interface NavLinkProps extends LinkProps {
+type NavLinkOwnProps = {
   /**
    * Toggle the active state for the component.
    */
@@ -3960,22 +3993,25 @@ interface NavLinkProps extends LinkProps {
    */
   className?: string;
   /**
-   * Component used for the root node. Either a string to use a HTML element or a component.
-   */
-  component?: ElementType | string;
-  /**
    * Toggle the disabled state for the component.
    */
   disabled?: boolean;
-  /**
-   * @ignore
-   */
-  to?: string;
-}
-declare const NavLink: React.ForwardRefExoticComponent<NavLinkProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement>>;
+};
+type NavLinkProps<C extends ElementType = 'a'> = LinkProps<C> & NavLinkOwnProps;
+type NavLinkComponent = (<C extends ElementType = 'a'>(props: NavLinkProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const NavLink: NavLinkComponent;
 //#endregion
 //#region src/components/nav/NavItem.d.ts
-declare const NavItem: React.ForwardRefExoticComponent<NavLinkProps & React.RefAttributes<HTMLLIElement>>;
+type NavItemComponent = (<C extends ElementType = 'a'>(props: NavLinkProps<C> & {
+  ref?: Ref<HTMLLIElement>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const NavItem: NavItemComponent;
 //#endregion
 //#region src/components/nav/NavTitle.d.ts
 interface NavTitleProps extends HTMLAttributes<HTMLLIElement> {

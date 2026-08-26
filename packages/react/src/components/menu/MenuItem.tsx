@@ -1,18 +1,22 @@
-import React, { ElementType, forwardRef, ReactNode } from 'react'
+import React, {
+  ElementType,
+  ForwardRefRenderFunction,
+  forwardRef,
+  MouseEvent,
+  ReactElement,
+  ReactNode
+} from 'react'
 import classNames from 'classnames'
 
+import { PolymorphicRef } from '../../utils/polymorphic'
 import { renderMenuItemContent } from '../../utils/renderMenuItemContent'
 import { LinkProps, Link } from '../link/Link'
 
-export interface MenuItemProps extends LinkProps {
+type MenuItemOwnProps = {
   /**
    * A string of all className you want applied to the component.
    */
   className?: string
-  /**
-   * Component used for the root node. Either a string to use a HTML element or a component.
-   */
-  component?: string | ElementType
   /**
    * Secondary line of text rendered below `children` (`.menu-item-description`).
    */
@@ -30,36 +34,54 @@ export interface MenuItemProps extends LinkProps {
   selected?: boolean
 }
 
-export const MenuItem = forwardRef<HTMLButtonElement | HTMLAnchorElement, MenuItemProps>(
-  (
-    { children, className, component = 'a', description, href, icon, onClick, selected, ...rest },
-    ref
-  ) => {
-    const _className = classNames('menu-item', { selected }, className)
+export type MenuItemProps<C extends ElementType = 'a'> = LinkProps<C> & MenuItemOwnProps
 
-    // `href="#"` is a common placeholder for menu items that act via `onClick` rather than
-    // real navigation. Left alone, a plain anchor click still navigates to the empty fragment,
-    // which scrolls the page to the top — so we suppress that default for the placeholder case
-    // only, leaving real same-page anchors (`href="#some-id"`) free to navigate as expected.
-    const handleClick = (event: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => {
-      if (href === '#') event.preventDefault()
-      onClick?.(event)
-    }
+type MenuItemComponent = (<C extends ElementType = 'a'>(
+  props: MenuItemProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
 
-    return (
-      <Link
-        role="menuitem"
-        component={component}
-        href={href}
-        onClick={handleClick}
-        {...rest}
-        className={_className}
-        ref={ref}
-      >
-        {renderMenuItemContent({ icon, label: children, description })}
-      </Link>
-    )
+function MenuItemRender<C extends ElementType = 'a'>(
+  {
+    children,
+    className,
+    component,
+    description,
+    href,
+    icon,
+    onClick,
+    selected,
+    ...rest
+  }: MenuItemProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  const _className = classNames('menu-item', { selected }, className)
+
+  // `href="#"` is a common placeholder for menu items that act via `onClick` rather than
+  // real navigation. Left alone, a plain anchor click still navigates to the empty fragment,
+  // which scrolls the page to the top — so we suppress that default for the placeholder case
+  // only, leaving real same-page anchors (`href="#some-id"`) free to navigate as expected.
+  const handleClick = (event: MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => {
+    if (href === '#') event.preventDefault()
+    onClick?.(event)
   }
-)
+
+  return (
+    <Link
+      role="menuitem"
+      component={component as ElementType}
+      href={href}
+      onClick={handleClick}
+      {...(rest as Record<string, unknown>)}
+      className={_className}
+      ref={ref as PolymorphicRef<ElementType>}
+    >
+      {renderMenuItemContent({ icon, label: children, description })}
+    </Link>
+  )
+}
+
+export const MenuItem = forwardRef(
+  MenuItemRender as ForwardRefRenderFunction<Element, MenuItemProps<ElementType>>
+) as MenuItemComponent
 
 MenuItem.displayName = 'MenuItem'

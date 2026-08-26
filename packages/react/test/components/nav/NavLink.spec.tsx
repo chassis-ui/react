@@ -29,9 +29,24 @@ describe('NavLink', () => {
       expect(link.tagName).toBe('H3')
     })
 
-    test('accepts an arbitrary "to" attribute without affecting the base class', () => {
-      render(<NavLink to="/bazinga">Test</NavLink>)
-      expect(screen.getByText('Test')).toHaveClass('nav-link')
+    test('forwards a router-style "to" prop to a custom component reference', () => {
+      const CustomRouterLink = React.forwardRef<
+        HTMLAnchorElement,
+        { to: string; children?: React.ReactNode; className?: string }
+      >(({ to, children, ...rest }, ref) => (
+        <a ref={ref} href={to} {...rest}>
+          {children}
+        </a>
+      ))
+
+      render(
+        <NavLink component={CustomRouterLink} to="/bazinga">
+          Test
+        </NavLink>
+      )
+      const link = screen.getByRole('link', { name: 'Test' })
+      expect(link).toHaveClass('nav-link')
+      expect(link).toHaveAttribute('href', '/bazinga')
     })
   })
 

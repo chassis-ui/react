@@ -1,25 +1,41 @@
-import React, { forwardRef } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
 import classNames from 'classnames'
 
+import { PolymorphicRef } from '../../utils/polymorphic'
 import { Link, LinkProps } from '../link/Link'
 
-export interface CardLinkProps extends LinkProps {
+type CardLinkOwnProps = {
   /**
    * A string of all className you want applied to the base component.
    */
   className?: string
 }
 
-export const CardLink = forwardRef<HTMLButtonElement | HTMLAnchorElement, CardLinkProps>(
-  ({ children, className, ...rest }, ref) => {
-    const _className = classNames('card-link', className)
+export type CardLinkProps<C extends ElementType = 'a'> = LinkProps<C> & CardLinkOwnProps
 
-    return (
-      <Link className={_className} {...rest} ref={ref}>
-        {children}
-      </Link>
-    )
-  }
-)
+type CardLinkComponent = (<C extends ElementType = 'a'>(
+  props: CardLinkProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
+
+function CardLinkRender<C extends ElementType = 'a'>(
+  { children, className, ...rest }: CardLinkProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  const _className = classNames('card-link', className)
+
+  return (
+    <Link
+      className={_className}
+      {...(rest as Record<string, unknown>)}
+      ref={ref as PolymorphicRef<ElementType>}
+    >
+      {children}
+    </Link>
+  )
+}
+
+export const CardLink = forwardRef(
+  CardLinkRender as ForwardRefRenderFunction<Element, CardLinkProps<ElementType>>
+) as CardLinkComponent
 
 CardLink.displayName = 'CardLink'
