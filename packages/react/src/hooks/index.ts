@@ -1,6 +1,7 @@
 import { useAutoDismiss } from './useAutoDismiss'
 import { useButtonSemantics } from './useButtonSemantics'
 import { useControllableState } from './useControllableState'
+import { useDialogElement } from './useDialogElement'
 import { useDrawer } from './useDrawer'
 import { useForkedRef } from './useForkedRef'
 import { useFormField } from './useFormField'
@@ -15,6 +16,7 @@ export {
   useAutoDismiss,
   useButtonSemantics,
   useControllableState,
+  useDialogElement,
   useDrawer,
   useForkedRef,
   useFormField,
@@ -26,6 +28,7 @@ export {
   useToast
 }
 export type { UseAutoDismissOptions, UseAutoDismissResult } from './useAutoDismiss'
+export type { UseDialogElementOptions } from './useDialogElement'
 export type { UseDrawerResult } from './useDrawer'
 export type { UseFormFieldOptions, UseFormFieldResult } from './useFormField'
 export type { UseModalResult } from './useModal'

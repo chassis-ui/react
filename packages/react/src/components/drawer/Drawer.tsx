@@ -1,16 +1,7 @@
-import React, {
-  createContext,
-  DialogHTMLAttributes,
-  forwardRef,
-  useEffect,
-  useRef,
-  useState
-} from 'react'
+import React, { createContext, DialogHTMLAttributes, forwardRef, useEffect, useRef } from 'react'
 import classNames from 'classnames'
-import { usePreventScroll } from 'react-aria'
 
-import { useForkedRef, useIsomorphicLayoutEffect } from '../../hooks'
-import { executeAfterTransition } from '../../utils/dialogTransition'
+import { useDialogElement } from '../../hooks'
 
 export interface DrawerProps extends Omit<
   DialogHTMLAttributes<HTMLDialogElement>,
@@ -130,26 +121,25 @@ export const Drawer = forwardRef<HTMLDialogElement, DrawerProps>(
     },
     ref
   ) => {
-    const dialogRef = useRef<HTMLDialogElement>(null)
-    const forkedRef = useForkedRef(ref, dialogRef)
-
-    const [_visible, setVisible] = useState(visible)
-    const [hiding, setHiding] = useState(false)
-    const [staticBounce, setStaticBounce] = useState(false)
-    const [scrollLocked, setScrollLocked] = useState(false)
-    const openedAsModalRef = useRef(false)
-    const triggerRef = useRef<HTMLElement | null>(null)
-
-    // usePreventScroll releases the lock automatically on unmount too, even while still open.
-    usePreventScroll({ isDisabled: !scrollLocked })
-
-    useEffect(() => {
-      setVisible(visible)
-    }, [visible])
-
-    const close = () => {
-      onClose?.()
-    }
+    const { close, dialogRef, forkedRef, handleBackdropClick, handleCancel, hiding, staticBounce } =
+      useDialogElement({
+        backdrop,
+        instant,
+        isModal: Boolean(backdrop) || !scroll,
+        keyboard,
+        onBeforeShow: (dialog) => {
+          for (const entry of openDrawers) {
+            if (entry.dialog !== dialog) entry.close()
+          }
+        },
+        onClose,
+        onClosePrevented,
+        onHidden,
+        onShow,
+        onShown,
+        ref,
+        visible
+      })
 
     const closeRef = useRef(close)
     closeRef.current = close
@@ -163,126 +153,14 @@ export const Drawer = forwardRef<HTMLDialogElement, DrawerProps>(
       return () => {
         openDrawers.delete(entry)
       }
-    }, [])
+    }, [dialogRef])
 
-    const triggerStaticBounce = () => {
-      onClosePrevented?.()
-      const dialog = dialogRef.current
-      if (!dialog) return
-      setStaticBounce(true)
-      executeAfterTransition(dialog, () => setStaticBounce(false), !instant)
-    }
-
-    useIsomorphicLayoutEffect(() => {
-      const dialog = dialogRef.current
-      if (!dialog) return undefined
-
-      if (_visible) {
-        if (dialog.open) return undefined
-
-        for (const entry of openDrawers) {
-          if (entry.dialog !== dialog) entry.close()
-        }
-
-        triggerRef.current =
-          document.activeElement instanceof HTMLElement ? document.activeElement : null
-
-        const isModal = Boolean(backdrop) || !scroll
-        openedAsModalRef.current = isModal
-        if (isModal) {
-          dialog.showModal()
-          setScrollLocked(true)
-        } else {
-          dialog.show()
-        }
-
-        const autofocusEl = dialog.querySelector<HTMLElement>('[autofocus]')
-        if (autofocusEl) {
-          autofocusEl.focus()
-        } else {
-          dialog.setAttribute('tabindex', '-1')
-          dialog.focus()
-        }
-
-        onShow?.()
-        setHiding(false)
-
-        return executeAfterTransition(dialog, () => onShown?.(), !instant)
-      }
-
-      if (!dialog.open) return undefined
-      setHiding(true)
-      return undefined
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [_visible])
-
-    // Finish hide once the exit transition (or lack thereof) completes. The native `open`
+    // `hiding` has to stay on the class list for the whole exit transition: the native `open`
     // attribute — and with it, the `[class*="drawer"]:not([open], .hiding)` escape hatch
     // chassis-css's navbar styles use to suppress the drawer-flash transition when the navbar
-    // itself crosses its `expand` breakpoint — has to stay put for the whole transition, or
-    // that same rule strips the *intentional* close transition too, the instant `open` is
-    // removed. `.hiding` (via `_className` below) is what keeps this close from tripping it.
-    useEffect(() => {
-      const dialog = dialogRef.current
-      if (!hiding || !dialog) return undefined
-
-      return executeAfterTransition(
-        dialog,
-        () => {
-          if (dialog.open) {
-            dialog.close()
-          }
-          if (openedAsModalRef.current) {
-            setScrollLocked(false)
-          }
-          setHiding(false)
-          onHidden?.()
-          const trigger = triggerRef.current
-          if (trigger && document.contains(trigger)) {
-            trigger.focus()
-          }
-        },
-        !instant
-      )
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [hiding])
-
-    // Escape key for non-modal (show()) drawers — the native `cancel` event below only
-    // fires for dialogs opened with showModal().
-    useEffect(() => {
-      const dialog = dialogRef.current
-      if (!dialog) return undefined
-
-      const handleKeyDown = (event: KeyboardEvent) => {
-        if (event.key !== 'Escape' || openedAsModalRef.current) return
-        event.preventDefault()
-        if (!keyboard) return
-        close()
-      }
-
-      dialog.addEventListener('keydown', handleKeyDown)
-      return () => dialog.removeEventListener('keydown', handleKeyDown)
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [keyboard])
-
-    const handleCancel = (event: React.SyntheticEvent<HTMLDialogElement>) => {
-      event.preventDefault()
-      if (!keyboard) {
-        triggerStaticBounce()
-        return
-      }
-      close()
-    }
-
-    const handleBackdropClick = (event: React.MouseEvent<HTMLDialogElement>) => {
-      if (event.target !== dialogRef.current || !openedAsModalRef.current) return
-      if (backdrop === 'static') {
-        triggerStaticBounce()
-        return
-      }
-      close()
-    }
-
+    // itself crosses its `expand` breakpoint — would otherwise get stripped the instant `open`
+    // is removed, which would also strip the *intentional* close transition this class exists
+    // to protect.
     const _className = classNames(
       responsive ? `max-${responsive}:drawer` : 'drawer',
       `drawer-${placement}`,
