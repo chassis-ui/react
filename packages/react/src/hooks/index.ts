@@ -1,4 +1,5 @@
 import { useAutoDismiss } from './useAutoDismiss'
+import { useButtonSemantics } from './useButtonSemantics'
 import { useControllableState } from './useControllableState'
 import { useDrawer } from './useDrawer'
 import { useForkedRef } from './useForkedRef'
@@ -12,6 +13,7 @@ import { useToast } from './useToast'
 
 export {
   useAutoDismiss,
+  useButtonSemantics,
   useControllableState,
   useDrawer,
   useForkedRef,

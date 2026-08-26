@@ -4,15 +4,13 @@ import React, {
   forwardRef,
   MouseEvent,
   MouseEventHandler,
-  Ref,
-  RefObject,
-  useRef
+  Ref
 } from 'react'
 import classNames from 'classnames'
-import { AriaButtonProps, mergeProps, useButton } from 'react-aria'
+import { mergeProps } from 'react-aria'
 
 import { ContextColor, ContextStyle, Shapes } from '../../types'
-import { useForkedRef } from '../../hooks'
+import { useButtonSemantics } from '../../hooks'
 
 export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> {
   /**
@@ -120,18 +118,14 @@ export const Button = forwardRef<
     }
 
     // Native `button`/`a`/`input` elements get keyboard activation, focus and disabled
-    // handling for free from the browser. A custom `component` doesn't, so useButton fills in
-    // role, tabIndex and Enter/Space activation for it, matching native button behavior.
-    const buttonRef = useRef<HTMLButtonElement | HTMLAnchorElement | null>(null)
-    const forkedRef = useForkedRef(ref, buttonRef)
-    const buttonAriaProps: AriaButtonProps<'div'> = {
-      elementType: 'div',
-      isDisabled: disabled,
-      onClick: onClick as unknown as AriaButtonProps<'div'>['onClick']
-    }
-    const { buttonProps } = useButton(
-      buttonAriaProps,
-      buttonRef as RefObject<HTMLDivElement | null>
+    // handling for free from the browser. A custom `component` doesn't, so useButtonSemantics
+    // fills in role, tabIndex and Enter/Space activation for it, matching native button behavior.
+    // `ref` is cast for the same reason as the branches below — it's declared for the
+    // `button | a | input` union this component exposes publicly, but this path (a non-native
+    // `component`) only ever populates it with a button/anchor-shaped instance.
+    const { buttonProps, forkedRef } = useButtonSemantics<HTMLButtonElement | HTMLAnchorElement>(
+      ref as Ref<HTMLButtonElement | HTMLAnchorElement>,
+      { disabled, onClick }
     )
 
     // Rendered as three separate, literal JSX tags (rather than one `<Component>` tag driven

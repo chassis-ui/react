@@ -1,16 +1,9 @@
-import React, {
-  AllHTMLAttributes,
-  ElementType,
-  forwardRef,
-  MouseEvent,
-  RefObject,
-  useRef
-} from 'react'
+import React, { AllHTMLAttributes, ElementType, forwardRef, MouseEvent } from 'react'
 import classNames from 'classnames'
-import { AriaButtonProps, mergeProps, useButton } from 'react-aria'
+import { mergeProps } from 'react-aria'
 
 import { ContextColor } from '../../types'
-import { useForkedRef } from '../../hooks'
+import { useButtonSemantics } from '../../hooks'
 
 export interface LinkProps extends AllHTMLAttributes<HTMLElement> {
   /**
@@ -94,19 +87,9 @@ export const Link = forwardRef<HTMLButtonElement | HTMLAnchorElement, LinkProps>
 
     // A `component` that isn't a native interactive element gets a raw onClick with no
     // keyboard semantics otherwise — mouse-only, unlike `Button`/`CloseButton`, which
-    // synthesize this via `useButton` for exactly this "arbitrary component" case.
+    // synthesize this via `useButtonSemantics` for exactly this "arbitrary component" case.
     const needsButtonSemantics = !isInteractive && !!onClick
-    const buttonRef = useRef<HTMLElement | null>(null)
-    const forkedRef = useForkedRef(ref, buttonRef)
-    const buttonAriaProps: AriaButtonProps<'div'> = {
-      elementType: 'div',
-      isDisabled: disabled,
-      onClick: onClick as unknown as AriaButtonProps<'div'>['onClick']
-    }
-    const { buttonProps } = useButton(
-      buttonAriaProps,
-      buttonRef as RefObject<HTMLDivElement | null>
-    )
+    const { buttonProps, forkedRef } = useButtonSemantics<HTMLElement>(ref, { disabled, onClick })
 
     return (
       <Component

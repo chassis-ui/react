@@ -4,15 +4,13 @@ import React, {
   forwardRef,
   MouseEvent,
   MouseEventHandler,
-  Ref,
-  RefObject,
-  useRef
+  Ref
 } from 'react'
 import classNames from 'classnames'
-import { AriaButtonProps, mergeProps, useButton } from 'react-aria'
+import { mergeProps } from 'react-aria'
 
 import { ContextColor, ContextStyle } from '../../types'
-import { useForkedRef } from '../../hooks'
+import { useButtonSemantics } from '../../hooks'
 
 export interface CloseButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> {
   /**
@@ -120,16 +118,9 @@ export const CloseButton = forwardRef<HTMLButtonElement | HTMLAnchorElement, Clo
       onClick?.(event)
     }
 
-    const buttonRef = useRef<HTMLButtonElement | HTMLAnchorElement | null>(null)
-    const forkedRef = useForkedRef(ref, buttonRef)
-    const buttonAriaProps: AriaButtonProps<'div'> = {
-      elementType: 'div',
-      isDisabled: disabled,
-      onClick: onClick as unknown as AriaButtonProps<'div'>['onClick']
-    }
-    const { buttonProps } = useButton(
-      buttonAriaProps,
-      buttonRef as RefObject<HTMLDivElement | null>
+    const { buttonProps, forkedRef } = useButtonSemantics<HTMLButtonElement | HTMLAnchorElement>(
+      ref,
+      { disabled, onClick }
     )
 
     // Rendered as explicit branches, same as `Button`, rather than one `<Component>` tag
