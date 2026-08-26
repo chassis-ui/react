@@ -1,13 +1,5 @@
 import React, { HTMLAttributes, ReactNode, useMemo, useRef, useState } from 'react'
-import classNames from 'classnames'
-import {
-  AriaButtonProps,
-  FocusScope,
-  mergeProps,
-  useDateFormatter,
-  useDatePicker,
-  useDialog
-} from 'react-aria'
+import { AriaButtonProps, mergeProps, useDateFormatter, useDatePicker, useDialog } from 'react-aria'
 import {
   DateValue,
   OverlayTriggerState,
@@ -23,6 +15,7 @@ import { Calendar } from '../calendar/Calendar'
 import { CalendarToggleButton } from './CalendarToggleButton'
 import { ClearButton } from './ClearButton'
 import { DateField } from './DateField'
+import { renderDatePickerShell } from './renderDatePickerShell'
 import './DatePicker.scss'
 
 interface DatePickerBaseProps extends Omit<
@@ -295,22 +288,24 @@ const DatePickerSingle = ({
   return renderFormField({
     children: (
       <>
-        <div
-          className={classNames(
-            'form-input',
-            { small: size === 'small', large: size === 'large', disabled },
-            { 'is-invalid': invalid, 'is-valid': valid },
-            className
-          )}
-          {...mergeProps(groupProps, rest)}
-          aria-describedby={describedBy}
-          aria-labelledby={labelledBy}
-          ref={groupRef}
-        >
-          <div className="w-100 overflow-x-scroll">
-            <DateField fieldProps={fieldProps} />
-          </div>
-          {state.value && !disabled && (
+        {renderDatePickerShell({
+          calendar: (
+            <Calendar
+              {...domDialogProps}
+              autoFocus
+              disabled={disabled}
+              firstDayOfWeek={firstDayOfWeek}
+              isDateUnavailable={combinedIsDateUnavailable}
+              maxValue={maxValue}
+              minValue={minValue}
+              onChange={calendarProps.onChange}
+              ref={calendarRef}
+              value={calendarProps.value}
+              visibleMonths={visibleMonths}
+            />
+          ),
+          className,
+          clearButton: state.value && !disabled && (
             <ClearButton
               onPress={() => {
                 state.setValue(null)
@@ -320,35 +315,28 @@ const DatePickerSingle = ({
                 toggleButtonRef.current?.focus()
               }}
             />
-          )}
-          <CalendarToggleButton buttonProps={buttonProps} ref={toggleButtonRef} state={state} />
-        </div>
-        <div
-          className="datepicker"
-          data-cx-placement={placementAttr}
-          hidden={!state.isOpen}
-          ref={overlayRef}
-          {...overlayDismissProps}
-          style={overlayStyle}
-        >
-          {state.isOpen && (
-            <FocusScope contain restoreFocus>
-              <Calendar
-                {...domDialogProps}
-                autoFocus
-                disabled={disabled}
-                firstDayOfWeek={firstDayOfWeek}
-                isDateUnavailable={combinedIsDateUnavailable}
-                maxValue={maxValue}
-                minValue={minValue}
-                onChange={calendarProps.onChange}
-                ref={calendarRef}
-                value={calendarProps.value}
-                visibleMonths={visibleMonths}
-              />
-            </FocusScope>
-          )}
-        </div>
+          ),
+          disabled,
+          field: <DateField fieldProps={fieldProps} />,
+          fieldClassName: 'w-100 overflow-x-scroll',
+          groupProps: {
+            ...mergeProps(groupProps, rest),
+            'aria-describedby': describedBy,
+            'aria-labelledby': labelledBy
+          },
+          groupRef,
+          invalid,
+          isOpen: state.isOpen,
+          overlayDismissProps,
+          overlayRef,
+          overlayStyle,
+          placementAttr,
+          size,
+          toggleButton: (
+            <CalendarToggleButton buttonProps={buttonProps} ref={toggleButtonRef} state={state} />
+          ),
+          valid
+        })}
         {name && (
           <input
             disabled={disabled}
@@ -468,25 +456,25 @@ const DatePickerMultiple = ({
   return renderFormField({
     children: (
       <>
-        <div
-          className={classNames(
-            'form-input',
-            { small: size === 'small', large: size === 'large', disabled },
-            { 'is-invalid': invalid, 'is-valid': valid },
-            className
-          )}
-          {...mergeProps(rest)}
-          aria-describedby={describedBy}
-          aria-disabled={disabled || undefined}
-          aria-labelledby={labelledBy}
-          id={groupId}
-          ref={groupRef}
-          role="group"
-        >
-          <div className="w-100 overflow-x-scroll">
-            <MultiDateField values={values} />
-          </div>
-          {values.length > 0 && !disabled && (
+        {renderDatePickerShell({
+          calendar: (
+            <Calendar
+              {...domDialogProps}
+              autoFocus
+              disabled={disabled}
+              firstDayOfWeek={firstDayOfWeek}
+              isDateUnavailable={combinedIsDateUnavailable}
+              maxValue={maxValue}
+              minValue={minValue}
+              onChange={setValues}
+              ref={calendarRef}
+              selectionMode="multiple"
+              value={values}
+              visibleMonths={visibleMonths}
+            />
+          ),
+          className,
+          clearButton: values.length > 0 && !disabled && (
             <ClearButton
               onPress={() => {
                 setValues([])
@@ -494,36 +482,31 @@ const DatePickerMultiple = ({
                 toggleButtonRef.current?.focus()
               }}
             />
-          )}
-          <CalendarToggleButton buttonProps={buttonProps} ref={toggleButtonRef} state={state} />
-        </div>
-        <div
-          className="datepicker"
-          data-cx-placement={placementAttr}
-          hidden={!state.isOpen}
-          ref={overlayRef}
-          {...overlayDismissProps}
-          style={overlayStyle}
-        >
-          {state.isOpen && (
-            <FocusScope contain restoreFocus>
-              <Calendar
-                {...domDialogProps}
-                autoFocus
-                disabled={disabled}
-                firstDayOfWeek={firstDayOfWeek}
-                isDateUnavailable={combinedIsDateUnavailable}
-                maxValue={maxValue}
-                minValue={minValue}
-                onChange={setValues}
-                ref={calendarRef}
-                selectionMode="multiple"
-                value={values}
-                visibleMonths={visibleMonths}
-              />
-            </FocusScope>
-          )}
-        </div>
+          ),
+          disabled,
+          field: <MultiDateField values={values} />,
+          fieldClassName: 'w-100 overflow-x-scroll',
+          groupProps: {
+            ...mergeProps(rest),
+            'aria-describedby': describedBy,
+            'aria-disabled': disabled || undefined,
+            'aria-labelledby': labelledBy,
+            id: groupId,
+            role: 'group'
+          },
+          groupRef,
+          invalid,
+          isOpen: state.isOpen,
+          overlayDismissProps,
+          overlayRef,
+          overlayStyle,
+          placementAttr,
+          size,
+          toggleButton: (
+            <CalendarToggleButton buttonProps={buttonProps} ref={toggleButtonRef} state={state} />
+          ),
+          valid
+        })}
         {name &&
           values.map((date) => (
             <input

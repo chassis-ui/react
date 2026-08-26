@@ -1,6 +1,5 @@
 import React, { HTMLAttributes, ReactNode, useMemo, useRef } from 'react'
-import classNames from 'classnames'
-import { FocusScope, mergeProps, RangeValue, useDateRangePicker, useDialog } from 'react-aria'
+import { mergeProps, RangeValue, useDateRangePicker, useDialog } from 'react-aria'
 import { DateValue, useDateRangePickerState } from 'react-stately'
 
 import { useFormField, useOverlayPlacement } from '../../hooks'
@@ -11,6 +10,7 @@ import { RangeCalendar } from '../calendar/RangeCalendar'
 import { CalendarToggleButton } from './CalendarToggleButton'
 import { ClearButton } from './ClearButton'
 import { DateField } from './DateField'
+import { renderDatePickerShell } from './renderDatePickerShell'
 import './DatePicker.scss'
 import './DateRangePicker.scss'
 
@@ -246,29 +246,28 @@ export const DateRangePicker = ({
   return renderFormField({
     children: (
       <>
-        <div
-          className={classNames(
-            'form-input',
-            { small: size === 'small', large: size === 'large', disabled },
-            { 'is-invalid': invalid, 'is-valid': valid },
-            className
-          )}
-          {...mergeProps(groupProps, rest)}
-          aria-describedby={describedBy}
-          aria-labelledby={labelledBy}
-          ref={groupRef}
-        >
-          <div className="d-flex w-100">
-            <DateField fieldProps={startFieldProps} />
-            <span aria-hidden="true" className="daterangepicker-separator">
-              –
-            </span>
-            <DateField fieldProps={endFieldProps} />
-          </div>
-          {/* `state.value` is always a `{ start, end }` object, never `null` itself — even with
-              nothing picked yet — so the endpoints are what actually indicate a selection to
-              clear (matching the hidden-input `value`s below, which check the same way). */}
-          {(state.value?.start || state.value?.end) && !disabled && (
+        {renderDatePickerShell({
+          calendar: (
+            <RangeCalendar
+              {...domDialogProps}
+              autoFocus
+              disabled={disabled}
+              firstDayOfWeek={firstDayOfWeek}
+              isDateUnavailable={combinedIsDateUnavailable}
+              maxValue={maxValue}
+              minValue={minValue}
+              onChange={calendarProps.onChange}
+              presets={presets}
+              ref={calendarRef}
+              value={calendarProps.value}
+              visibleMonths={visibleMonths}
+            />
+          ),
+          className,
+          // `state.value` is always a `{ start, end }` object, never `null` itself — even with
+          // nothing picked yet — so the endpoints are what actually indicate a selection to
+          // clear (matching the hidden-input `value`s below, which check the same way).
+          clearButton: (state.value?.start || state.value?.end) && !disabled && (
             <ClearButton
               onPress={() => {
                 state.setValue(null)
@@ -277,36 +276,36 @@ export const DateRangePicker = ({
                 toggleButtonRef.current?.focus()
               }}
             />
-          )}
-          <CalendarToggleButton buttonProps={buttonProps} ref={toggleButtonRef} state={state} />
-        </div>
-        <div
-          className="datepicker"
-          data-cx-placement={placementAttr}
-          hidden={!state.isOpen}
-          ref={overlayRef}
-          {...overlayDismissProps}
-          style={overlayStyle}
-        >
-          {state.isOpen && (
-            <FocusScope contain restoreFocus>
-              <RangeCalendar
-                {...domDialogProps}
-                autoFocus
-                disabled={disabled}
-                firstDayOfWeek={firstDayOfWeek}
-                isDateUnavailable={combinedIsDateUnavailable}
-                maxValue={maxValue}
-                minValue={minValue}
-                onChange={calendarProps.onChange}
-                presets={presets}
-                ref={calendarRef}
-                value={calendarProps.value}
-                visibleMonths={visibleMonths}
-              />
-            </FocusScope>
-          )}
-        </div>
+          ),
+          disabled,
+          field: (
+            <>
+              <DateField fieldProps={startFieldProps} />
+              <span aria-hidden="true" className="daterangepicker-separator">
+                –
+              </span>
+              <DateField fieldProps={endFieldProps} />
+            </>
+          ),
+          fieldClassName: 'd-flex w-100',
+          groupProps: {
+            ...mergeProps(groupProps, rest),
+            'aria-describedby': describedBy,
+            'aria-labelledby': labelledBy
+          },
+          groupRef,
+          invalid,
+          isOpen: state.isOpen,
+          overlayDismissProps,
+          overlayRef,
+          overlayStyle,
+          placementAttr,
+          size,
+          toggleButton: (
+            <CalendarToggleButton buttonProps={buttonProps} ref={toggleButtonRef} state={state} />
+          ),
+          valid
+        })}
         {name && (
           <>
             <input
