@@ -2,6 +2,7 @@ import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
 import { buildResponsiveClassNames } from '../../utils/breakpoints'
+import { spacingClassName } from '../../utils/spacingClassName'
 import { Breakpoint, Spacing } from '../../types'
 
 const directionClassName = (direction: 'horizontal' | 'vertical', prefix: string) => [
@@ -49,7 +50,7 @@ export const Stack = forwardRef<HTMLDivElement, StackProps>(
   ) => {
     const _className = classNames(
       buildResponsiveClassNames(directionClassName, direction, responsive),
-      typeof gap === 'string' || typeof gap === 'number' ? `gap-${gap}` : null,
+      spacingClassName('gap', gap),
       className
     )
 

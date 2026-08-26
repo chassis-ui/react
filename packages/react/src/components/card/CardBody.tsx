@@ -3,6 +3,7 @@ import classNames from 'classnames'
 
 import { Breakpoint, Spacing } from '../../types'
 import { buildResponsiveClassNames } from '../../utils/breakpoints'
+import { spacingClassName } from '../../utils/spacingClassName'
 
 type CardBodyDirection = 'row' | 'column'
 
@@ -38,7 +39,7 @@ export const CardBody = forwardRef<HTMLDivElement, CardBodyProps>(
     const _className = classNames(
       'card-body',
       buildResponsiveClassNames(directionClassNames, direction, responsive),
-      typeof gap === 'string' || typeof gap === 'number' ? `gap-${gap}` : null,
+      spacingClassName('gap', gap),
       className
     )
 

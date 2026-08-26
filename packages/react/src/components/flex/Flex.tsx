@@ -2,6 +2,7 @@ import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
 import { buildResponsiveClassNames } from '../../utils/breakpoints'
+import { spacingClassName } from '../../utils/spacingClassName'
 import { Breakpoint, Spacing } from '../../types'
 
 export interface FlexLayout {
@@ -74,11 +75,9 @@ const layoutClassNames = (
   justify && `${prefix}justify-content-${justify}`,
   align && `${prefix}align-items-${align}`,
   alignContent && `${prefix}align-content-${alignContent}`,
-  typeof gap === 'string' || typeof gap === 'number' ? `${prefix}gap-${gap}` : null,
-  typeof rowGap === 'string' || typeof rowGap === 'number' ? `${prefix}row-gap-${rowGap}` : null,
-  typeof columnGap === 'string' || typeof columnGap === 'number'
-    ? `${prefix}column-gap-${columnGap}`
-    : null
+  spacingClassName('gap', gap, prefix),
+  spacingClassName('row-gap', rowGap, prefix),
+  spacingClassName('column-gap', columnGap, prefix)
 ]
 
 export const Flex = forwardRef<HTMLDivElement, FlexProps>(

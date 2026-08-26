@@ -2,6 +2,7 @@ import React, { forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
 import { buildResponsiveClassNames } from '../../utils/breakpoints'
+import { spacingClassName } from '../../utils/spacingClassName'
 import { Breakpoint, Spacing } from '../../types'
 
 export interface RowLayout {
@@ -46,9 +47,9 @@ export interface RowProps extends HTMLAttributes<HTMLDivElement>, RowLayout {
 
 const layoutClassNames = ({ cols, gutter, gutterX, gutterY }: RowLayout, prefix: string) => [
   cols ? `${prefix}row-cols-${cols}` : null,
-  typeof gutter === 'string' || typeof gutter === 'number' ? `${prefix}g-${gutter}` : null,
-  typeof gutterX === 'string' || typeof gutterX === 'number' ? `${prefix}gx-${gutterX}` : null,
-  typeof gutterY === 'string' || typeof gutterY === 'number' ? `${prefix}gy-${gutterY}` : null
+  spacingClassName('g', gutter, prefix),
+  spacingClassName('gx', gutterX, prefix),
+  spacingClassName('gy', gutterY, prefix)
 ]
 
 export const Row = forwardRef<HTMLDivElement, RowProps>(
