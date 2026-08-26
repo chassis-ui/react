@@ -11,7 +11,7 @@ renamed export, ...) and review the diff like any other code change. `pnpm react
 -->
 
 ```ts
-import React, { AllHTMLAttributes, AnchorHTMLAttributes, AriaAttributes, ButtonHTMLAttributes, ChangeEventHandler, ComponentPropsWithRef, ComponentPropsWithoutRef, DialogHTMLAttributes, ElementType, FC, FormHTMLAttributes, HTMLAttributes, ImgHTMLAttributes, InputHTMLAttributes, Key, MouseEvent, MouseEventHandler, ReactElement, ReactNode, Ref, RefObject, TextareaHTMLAttributes, useEffect } from "react";
+import React, { AllHTMLAttributes, AriaAttributes, ButtonHTMLAttributes, ChangeEventHandler, ComponentPropsWithRef, ComponentPropsWithoutRef, DialogHTMLAttributes, ElementType, FC, FormHTMLAttributes, HTMLAttributes, ImgHTMLAttributes, InputHTMLAttributes, Key, MouseEvent, MouseEventHandler, ReactElement, ReactNode, Ref, RefObject, TextareaHTMLAttributes, useEffect } from "react";
 import { DateValue, I18nProvider, Key as Key$1, RangeValue } from "react-aria";
 import { DateValue as DateValue$1, Key as Key$2, Selection, SortDescriptor, TableBodyProps, TableHeaderProps, ToastQueue } from "react-stately";
 //#region src/components/accordion/Accordion.d.ts
@@ -3129,20 +3129,7 @@ declare const FormField: {
 };
 //#endregion
 //#region src/components/input-group/InputGroup.d.ts
-interface InputGroupProps extends HTMLAttributes<HTMLDivElement> {
-  /**
-   * A string of all className you want applied to the component.
-   */
-  className?: string;
-  /**
-   * Size the component small or large.
-   */
-  size?: 'large' | 'small';
-}
-declare const InputGroup: React.ForwardRefExoticComponent<InputGroupProps & React.RefAttributes<HTMLDivElement>>;
-//#endregion
-//#region src/components/input-group/InputGroupAddon.d.ts
-interface InputGroupAddonProps extends HTMLAttributes<HTMLLabelElement | HTMLSpanElement> {
+type InputGroupOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the component.
    */
@@ -3150,16 +3137,45 @@ interface InputGroupAddonProps extends HTMLAttributes<HTMLLabelElement | HTMLSpa
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: ElementType | string;
+  component?: C;
+  /**
+   * Size the component small or large.
+   */
+  size?: 'large' | 'small';
+};
+type InputGroupProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, InputGroupOwnProps<C>>;
+type InputGroupComponent = (<C extends ElementType = 'div'>(props: InputGroupProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const InputGroup: InputGroupComponent;
+//#endregion
+//#region src/components/input-group/InputGroupAddon.d.ts
+type InputGroupAddonOwnProps<C extends ElementType> = {
+  /**
+   * A string of all className you want applied to the component.
+   */
+  className?: string;
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C;
   /**
    * The id of the form control this addon labels, when rendered as `component="label"`.
    */
   htmlFor?: string;
-}
-declare const InputGroupAddon: React.ForwardRefExoticComponent<InputGroupAddonProps & React.RefAttributes<HTMLLabelElement | HTMLSpanElement>>;
+};
+type InputGroupAddonProps<C extends ElementType = 'span'> = PolymorphicComponentProps<C, InputGroupAddonOwnProps<C>>;
+type InputGroupAddonComponent = (<C extends ElementType = 'span'>(props: InputGroupAddonProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const InputGroupAddon: InputGroupAddonComponent;
 //#endregion
 //#region src/components/input-adorn/InputAdorn.d.ts
-interface InputAdornProps extends HTMLAttributes<HTMLElement>, Pick<AnchorHTMLAttributes<HTMLAnchorElement>, 'href' | 'rel' | 'target'>, Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
+type InputAdornOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the component.
    */
@@ -3168,9 +3184,15 @@ interface InputAdornProps extends HTMLAttributes<HTMLElement>, Pick<AnchorHTMLAt
    * Component used for the root node. Either a string to use a HTML element or a component. Use
    * `"button"` or `"a"` for an actionable adorn, e.g. a password reveal toggle or a clear button.
    */
-  component?: ElementType | string;
-}
-declare const InputAdorn: React.ForwardRefExoticComponent<InputAdornProps & React.RefAttributes<HTMLElement>>;
+  component?: C;
+};
+type InputAdornProps<C extends ElementType = 'span'> = PolymorphicComponentProps<C, InputAdornOwnProps<C>>;
+type InputAdornComponent = (<C extends ElementType = 'span'>(props: InputAdornProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const InputAdorn: InputAdornComponent;
 //#endregion
 //#region src/components/radio/Radio.d.ts
 interface RadioProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'checked' | 'defaultChecked' | 'onChange' | 'size'> {

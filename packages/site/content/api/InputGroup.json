@@ -9,14 +9,10 @@
       "defaultValue": null,
       "description": "A string of all className you want applied to the component.",
       "name": "className",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/input-group/InputGroup.tsx",
-        "name": "InputGroupProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/input-group/InputGroup.tsx",
-          "name": "InputGroupProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -24,18 +20,29 @@
         "name": "string"
       }
     },
+    "component": {
+      "defaultValue": null,
+      "description": "Component used for the root node. Either a string to use a HTML element or a component.",
+      "name": "component",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/input-group/InputGroup.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ElementType"
+      }
+    },
     "size": {
       "defaultValue": null,
       "description": "Size the component small or large.",
       "name": "size",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/input-group/InputGroup.tsx",
-        "name": "InputGroupProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/input-group/InputGroup.tsx",
-          "name": "InputGroupProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -50,6 +57,21 @@
             "value": "\"large\""
           }
         ]
+      }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/input-group/InputGroup.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "any"
       }
     }
   }
