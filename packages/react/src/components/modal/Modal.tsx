@@ -18,7 +18,11 @@ export interface ModalProps extends Omit<
 > {
   /**
    * Show a backdrop while the modal is open. `'static'` blocks closing on backdrop click
-   * (the modal bounces instead).
+   * (the modal bounces instead). `false` is intentionally not equivalent to `modal={false}` —
+   * unlike `Drawer`, whose vanilla chassis-css counterpart derives modality from `backdrop`,
+   * chassis-css's vanilla `Dialog` only ever reads `backdrop` to distinguish `'static'` from
+   * everything else; `modal` alone decides `showModal()`/`show()`. This mirrors that faithfully
+   * rather than reintroducing an inconsistency with the vendored behavior.
    */
   backdrop?: boolean | 'static'
   /**

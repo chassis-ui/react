@@ -90,6 +90,62 @@ describe('Popover', () => {
     })
   })
 
+  describe('dismissal', () => {
+    test('Escape closes the popover and returns focus to the trigger', () => {
+      vi.useFakeTimers()
+      render(
+        <Popover content="content" title="title">
+          <Button>Test</Button>
+        </Popover>
+      )
+      const trigger = screen.getByRole('button', { name: 'Test' })
+      openPopover()
+      act(() => vi.runAllTimers())
+      expect(screen.getByRole('dialog')).toBeInTheDocument()
+
+      fireEvent.keyDown(window, { key: 'Escape' })
+      act(() => vi.runAllTimers())
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(document.activeElement).toBe(trigger)
+      vi.useRealTimers()
+    })
+
+    test('a click outside the trigger and panel closes the popover', () => {
+      vi.useFakeTimers()
+      render(
+        <Popover content="content" title="title">
+          <Button>Test</Button>
+        </Popover>
+      )
+      openPopover()
+      act(() => vi.runAllTimers())
+      expect(screen.getByRole('dialog')).toBeInTheDocument()
+
+      fireEvent.click(document.body)
+      act(() => vi.runAllTimers())
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+      vi.useRealTimers()
+    })
+
+    test('a click inside the panel does not close the popover', () => {
+      vi.useFakeTimers()
+      render(
+        <Popover content="content" title="title">
+          <Button>Test</Button>
+        </Popover>
+      )
+      openPopover()
+      act(() => vi.runAllTimers())
+      const popover = screen.getByRole('dialog')
+
+      fireEvent.click(screen.getByText('content'))
+      act(() => vi.runAllTimers())
+      expect(popover).toBeInTheDocument()
+      vi.useRealTimers()
+    })
+  })
+
   describe('trigger behavior', () => {
     test("preserves the trigger child's own onClick handler", () => {
       vi.useFakeTimers()

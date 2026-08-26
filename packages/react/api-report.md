@@ -3740,7 +3740,11 @@ declare const ListItem: React.ForwardRefExoticComponent<ListItemProps & React.Re
 interface ModalProps extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'onCancel' | 'onClose'> {
   /**
    * Show a backdrop while the modal is open. `'static'` blocks closing on backdrop click
-   * (the modal bounces instead).
+   * (the modal bounces instead). `false` is intentionally not equivalent to `modal={false}` —
+   * unlike `Drawer`, whose vanilla chassis-css counterpart derives modality from `backdrop`,
+   * chassis-css's vanilla `Dialog` only ever reads `backdrop` to distinguish `'static'` from
+   * everything else; `modal` alone decides `showModal()`/`show()`. This mirrors that faithfully
+   * rather than reintroducing an inconsistency with the vendored behavior.
    */
   backdrop?: 'static' | boolean;
   /**
@@ -4122,42 +4126,6 @@ interface PaginationItemProps extends HTMLAttributes<HTMLAnchorElement | HTMLBut
   href?: string;
 }
 declare const PaginationItem: React.ForwardRefExoticComponent<PaginationItemProps & React.RefAttributes<HTMLAnchorElement | HTMLButtonElement>>;
-//#endregion
-//#region src/components/tooltip/Tooltip.d.ts
-interface TooltipProps {
-  children: ReactElement;
-  /**
-   * Content node for your component.
-   */
-  content: ReactNode | string;
-  /**
-   * Offset of the tooltip relative to its target, as `[crossAxis, mainAxis]`.
-   */
-  offset?: [number, number];
-  /**
-   * Callback fired when the component requests to be hidden.
-   */
-  onHide?: () => void;
-  /**
-   * Callback fired when the component requests to be shown.
-   */
-  onShow?: () => void;
-  /**
-   * Describes the preferred placement of your component. Chassis will flip it to keep it in
-   * view.
-   */
-  placement?: Placement;
-  /**
-   * Tooltips always show on focus, since keyboard/screen-reader users need them too. Set to
-   * `'focus'` to disable the hover trigger and show on focus only.
-   */
-  trigger?: 'focus' | 'hover';
-  /**
-   * Toggle the visibility of the tooltip component.
-   */
-  visible?: boolean;
-}
-declare const Tooltip: FC<TooltipProps>;
 //#endregion
 //#region src/components/popover/Popover.d.ts
 interface PopoverProps extends Pick<HTMLAttributes<HTMLDivElement>, 'aria-label' | 'aria-labelledby'> {
@@ -5117,6 +5085,42 @@ interface ToastContent {
 declare const toastQueue: ToastQueue<ToastContent>;
 declare function addToast(children: ReactNode, options?: Omit<ToastContent, 'children'>): string;
 declare function closeToast(key: string): void;
+//#endregion
+//#region src/components/tooltip/Tooltip.d.ts
+interface TooltipProps {
+  children: ReactElement;
+  /**
+   * Content node for your component.
+   */
+  content: ReactNode | string;
+  /**
+   * Offset of the tooltip relative to its target, as `[crossAxis, mainAxis]`.
+   */
+  offset?: [number, number];
+  /**
+   * Callback fired when the component requests to be hidden.
+   */
+  onHide?: () => void;
+  /**
+   * Callback fired when the component requests to be shown.
+   */
+  onShow?: () => void;
+  /**
+   * Describes the preferred placement of your component. Chassis will flip it to keep it in
+   * view.
+   */
+  placement?: Placement;
+  /**
+   * Tooltips always show on focus, since keyboard/screen-reader users need them too. Set to
+   * `'focus'` to disable the hover trigger and show on focus only.
+   */
+  trigger?: 'focus' | 'hover';
+  /**
+   * Toggle the visibility of the tooltip component.
+   */
+  visible?: boolean;
+}
+declare const Tooltip: FC<TooltipProps>;
 //#endregion
 //#region src/hooks/useDrawer.d.ts
 type UseDrawerResult = DrawerContextProps;

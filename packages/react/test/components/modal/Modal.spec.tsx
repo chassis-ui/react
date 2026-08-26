@@ -138,6 +138,27 @@ describe('Modal', () => {
       vi.useRealTimers()
     })
 
+    test('backdrop={false} still closes on backdrop click, same as the default — only "static" bounces', () => {
+      // Intentional: chassis-css's vanilla Dialog only reads `backdrop` to distinguish 'static'
+      // from everything else; `modal` alone decides showModal()/show(). Unlike Drawer (whose own
+      // vanilla counterpart derives modality from backdrop), Modal's backdrop={false} is not a
+      // "go non-modal" shorthand — see the backdrop prop's own doc comment in Modal.tsx.
+      vi.useFakeTimers()
+      const onClose = vi.fn()
+      render(
+        <Modal backdrop={false} onClose={onClose} visible>
+          Test
+        </Modal>
+      )
+      const dialog = getDialog()
+      fireEvent.click(dialog)
+      act(() => {
+        vi.runAllTimers()
+      })
+      expect(onClose).toHaveBeenCalledTimes(1)
+      vi.useRealTimers()
+    })
+
     test('backdrop="static" bounces instead of closing on backdrop click', () => {
       vi.useFakeTimers()
       const onClose = vi.fn()

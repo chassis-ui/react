@@ -9,7 +9,7 @@
       "defaultValue": {
         "value": true
       },
-      "description": "Show a backdrop while the modal is open. `'static'` blocks closing on backdrop click\n(the modal bounces instead).",
+      "description": "Show a backdrop while the modal is open. `'static'` blocks closing on backdrop click\n(the modal bounces instead). `false` is intentionally not equivalent to `modal={false}` —\nunlike `Drawer`, whose vanilla chassis-css counterpart derives modality from `backdrop`,\nchassis-css's vanilla `Dialog` only ever reads `backdrop` to distinguish `'static'` from\neverything else; `modal` alone decides `showModal()`/`show()`. This mirrors that faithfully\nrather than reintroducing an inconsistency with the vendored behavior.",
       "name": "backdrop",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/modal/Modal.tsx",

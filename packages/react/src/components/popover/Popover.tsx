@@ -14,8 +14,7 @@ import { mergeProps, useDialog, useOverlayPosition, useOverlayTrigger } from 're
 import { useOverlayTriggerState } from 'react-stately'
 import { Transition } from 'react-transition-group'
 
-import { Placement } from '../tooltip/Tooltip'
-import { resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
+import { Placement, resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
 
 interface PopoverPanelProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'content'> {
   arrowProps: HTMLAttributes<HTMLDivElement>
@@ -160,6 +159,46 @@ export const Popover: FC<PopoverProps> = ({
     dialog.addEventListener('close', state.close)
     return () => dialog.removeEventListener('close', state.close)
   }, [state.isOpen, portalContainer, state.close])
+
+  // Escape should always close the popover, regardless of where focus currently is — a
+  // mouse-opened popover leaves focus on the trigger, not inside the panel. Mirrors
+  // `Menu.tsx`'s own window-level Escape handling. `onExited` below already returns focus to the
+  // trigger once the exit transition finishes, so this doesn't need to do that itself.
+  useEffect(() => {
+    if (!state.isOpen) return undefined
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return
+      state.close()
+    }
+
+    window.addEventListener('keydown', handleEscape)
+    return () => window.removeEventListener('keydown', handleEscape)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.isOpen, state.close])
+
+  // Deferred so the click that opened the popover doesn't immediately close it again — mirrors
+  // `Menu.tsx`'s own outside-click handling.
+  useEffect(() => {
+    if (!state.isOpen) return undefined
+
+    const handleDismiss = (event: MouseEvent) => {
+      const target = event.target as Node
+      if (triggerRef.current?.contains(target)) return
+      if (floatingRef.current?.contains(target)) return
+      state.close()
+    }
+
+    const id = window.setTimeout(() => {
+      window.addEventListener('click', handleDismiss)
+    })
+
+    return () => {
+      window.clearTimeout(id)
+      window.removeEventListener('click', handleDismiss)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.isOpen, state.close])
 
   const {
     overlayProps,

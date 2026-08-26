@@ -123,22 +123,38 @@ toast-notification, accordion-collapse), so `pnpm test:visual` wasn't needed.
 
 Higher-risk, interaction-heavy — isolate for careful manual + automated testing.
 
-- [ ] **BUG-07 / A11Y-03** `popover/Popover.tsx` — no Escape-key or outside-click dismissal at all.
+- [x] **BUG-07 / A11Y-03** `popover/Popover.tsx` — no Escape-key or outside-click dismissal at all.
   Bring to parity with `menu/Menu.tsx:262-324`'s existing implementation of both. Add
-  `Popover.spec.tsx` tests for Escape-to-close and outside-click-to-close.
-- [ ] **BUG-08** `modal/Modal.tsx:234,243-257` — `backdrop={false}` is a no-op; neither the
+  `Popover.spec.tsx` tests for Escape-to-close and outside-click-to-close. Verified live in
+  Storybook: Escape closes and refocuses the trigger, an outside click closes it, a click inside
+  the panel does not.
+- [x] **BUG-08** `modal/Modal.tsx:234,243-257` — `backdrop={false}` is a no-op; neither the
   backdrop-click handler nor the className builder branches on it. Compare
   `drawer/Drawer.tsx:190`'s correct handling of the same-named prop
   (`isModal = Boolean(backdrop) || !scroll`) and mirror the intent for Modal. Add the equivalent
-  test `Drawer.spec.tsx:91` already has.
-- [ ] **REFACTOR** `popover/Popover.tsx:17` — imports `Placement` from `../tooltip/Tooltip` instead
+  test `Drawer.spec.tsx:91` already has. **Investigated and closed as not-a-bug** (confirmed with
+  the user before proceeding): traced chassis-css's vanilla JS — Drawer's own vanilla class derives
+  modality from `backdrop`+`scroll`, but Dialog/Modal's vanilla class does not; its `backdrop`
+  config is read only to distinguish `'static'` from everything else, and `modal` alone decides
+  `showModal()`/`show()`. The React `Modal.tsx`'s `backdrop={false}` no-op (beyond the `'static'`
+  check) already matches vanilla `Dialog` exactly — Drawer and Dialog have genuinely different
+  upstream backdrop semantics, not a divergence to reconcile. Added a comment on the `backdrop` prop
+  in `Modal.tsx` explaining this, plus a regression test pinning that `backdrop={false}` still
+  closes on backdrop click (same as the default) so this isn't silently untested.
+- [x] **REFACTOR** `popover/Popover.tsx:17` — imports `Placement` from `../tooltip/Tooltip` instead
   of the canonical `../../utils/overlayPlacement.ts` that `Menu`/`Tooltip` both import from
   directly. Fix the import while touching this file for BUG-07 anyway.
 
-Manually verify in a live preview (Popover and Modal stories in Storybook, or the docs site) before
-committing — these are exactly the components `pnpm test:visual`'s `menu-popover-tooltip` batch
-screenshots, so re-run `pnpm test:visual` and check whether new interaction states need baseline
-screenshots (they likely don't, since dismissal doesn't change static appearance, but confirm).
+Manually verified in a live preview: Popover's dismissal in Storybook (see above), and Modal's
+default backdrop-click-to-close on the live docs site (`pnpm --filter chassis-react-site dev`,
+`/react/docs/components/modal`'s Live demo — confirmed via DOM introspection that the dialog closes
+after the transition; the Browser pane's screenshot capture has an unrelated rendering quirk with
+native `<dialog>` top-layer + `backdrop-filter`, so this was checked via JS rather than pixels).
+Ran `pnpm test:visual` for the `menu-popover-tooltip` batch: all stories (including ones this phase
+never touched, e.g. `menu/Menu — Closed`) already mismatch the checked-in `-darwin.png` baselines
+on a clean `git stash`d tree with the exact same pixel-diff ratios — pre-existing local macOS
+baseline drift unrelated to this phase's diff, not something to fix here (see `AGENTS.md`'s own
+caveat that Linux baselines, the actual CI gate, need the matching Docker image to regenerate).
 
 ---
 
