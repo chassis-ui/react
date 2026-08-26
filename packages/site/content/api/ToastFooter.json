@@ -9,19 +9,45 @@
       "defaultValue": null,
       "description": "A string of all className you want applied to the base component.",
       "name": "className",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/toast/ToastFooter.tsx",
-        "name": "ToastFooterProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/toast/ToastFooter.tsx",
-          "name": "ToastFooterProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
       "type": {
         "name": "string"
+      }
+    },
+    "component": {
+      "defaultValue": null,
+      "description": "Component used for the root node. Either a string to use a HTML element or a component.",
+      "name": "component",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/ToastFooter.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ElementType"
+      }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/ToastFooter.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "any"
       }
     }
   }

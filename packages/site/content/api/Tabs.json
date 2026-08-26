@@ -9,17 +9,13 @@
       "defaultValue": null,
       "description": "A `TabList` (containing `Tab` children) followed by one `TabPanel` per tab.",
       "name": "children",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",
-        "name": "TabsProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",
-          "name": "TabsProps"
+          "name": "TypeLiteral"
         }
       ],
-      "required": true,
+      "required": false,
       "type": {
         "name": "ReactNode"
       }
@@ -28,14 +24,10 @@
       "defaultValue": null,
       "description": "A string of all className you want applied to the base component.",
       "name": "className",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",
-        "name": "TabsProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",
-          "name": "TabsProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -43,18 +35,29 @@
         "name": "string"
       }
     },
+    "component": {
+      "defaultValue": null,
+      "description": "Component used for the root node. Either a string to use a HTML element or a component.",
+      "name": "component",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ElementType"
+      }
+    },
     "defaultSelectedKey": {
       "defaultValue": null,
       "description": "The initially selected tab's key (uncontrolled).",
       "name": "defaultSelectedKey",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",
-        "name": "TabsProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",
-          "name": "TabsProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -66,14 +69,10 @@
       "defaultValue": null,
       "description": "The keys of tabs that cannot be selected, focused, or otherwise interacted with.",
       "name": "disabledKeys",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",
-        "name": "TabsProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",
-          "name": "TabsProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -85,14 +84,10 @@
       "defaultValue": null,
       "description": "Whether tabs are selected automatically on arrow-key focus (`'automatic'`, the default) or\nonly on explicit activation — Enter/Space or click (`'manual'`).",
       "name": "keyboardActivation",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",
-        "name": "TabsProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",
-          "name": "TabsProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -113,14 +108,10 @@
       "defaultValue": null,
       "description": "Callback fired when the selected tab changes.",
       "name": "onSelectionChange",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",
-        "name": "TabsProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",
-          "name": "TabsProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -132,14 +123,10 @@
       "defaultValue": null,
       "description": "The orientation of the tab list.",
       "name": "orientation",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",
-        "name": "TabsProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",
-          "name": "TabsProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -160,19 +147,30 @@
       "defaultValue": null,
       "description": "The selected tab's key (controlled).",
       "name": "selectedKey",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",
-        "name": "TabsProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",
-          "name": "TabsProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
       "type": {
         "name": "Key"
+      }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "any"
       }
     }
   }

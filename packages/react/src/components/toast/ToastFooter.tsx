@@ -1,22 +1,44 @@
-import React, { forwardRef, HTMLAttributes } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
 import classNames from 'classnames'
 
-export interface ToastFooterProps extends HTMLAttributes<HTMLDivElement> {
+import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+
+type ToastFooterOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
   className?: string
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C
 }
 
-export const ToastFooter = forwardRef<HTMLDivElement, ToastFooterProps>(
-  ({ children, className, ...rest }, ref) => {
-    const _className = classNames('toast-footer', className)
-    return (
-      <div className={_className} {...rest} ref={ref}>
-        {children}
-      </div>
-    )
-  }
-)
+export type ToastFooterProps<C extends ElementType = 'div'> = PolymorphicComponentProps<
+  C,
+  ToastFooterOwnProps<C>
+>
+
+type ToastFooterComponent = (<C extends ElementType = 'div'>(
+  props: ToastFooterProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
+
+function ToastFooterRender<C extends ElementType = 'div'>(
+  { children, className, component, ...rest }: ToastFooterProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  const Component = component || 'div'
+  const _className = classNames('toast-footer', className)
+
+  return (
+    <Component className={_className} {...rest} ref={ref}>
+      {children}
+    </Component>
+  )
+}
+
+export const ToastFooter = forwardRef(
+  ToastFooterRender as ForwardRefRenderFunction<Element, ToastFooterProps<ElementType>>
+) as ToastFooterComponent
 
 ToastFooter.displayName = 'ToastFooter'

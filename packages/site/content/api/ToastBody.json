@@ -9,14 +9,10 @@
       "defaultValue": null,
       "description": "A string of all className you want applied to the base component.",
       "name": "className",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/toast/ToastBody.tsx",
-        "name": "ToastBodyProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/toast/ToastBody.tsx",
-          "name": "ToastBodyProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -28,14 +24,10 @@
       "defaultValue": null,
       "description": "Adds a close button alongside the body content, so a toast composed without a\n`ToastHeader` still gets a dismiss control without any manual layout markup.",
       "name": "closeButton",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/toast/ToastBody.tsx",
-        "name": "ToastBodyProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/toast/ToastBody.tsx",
-          "name": "ToastBodyProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
@@ -47,19 +39,45 @@
       "defaultValue": null,
       "description": "Overrides the close button's accessible name (defaults to `'Close'`). Set this for\nnon-English UIs.",
       "name": "closeLabel",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/toast/ToastBody.tsx",
-        "name": "ToastBodyProps"
-      },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/toast/ToastBody.tsx",
-          "name": "ToastBodyProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
       "type": {
         "name": "string"
+      }
+    },
+    "component": {
+      "defaultValue": null,
+      "description": "Component used for the root node. Either a string to use a HTML element or a component.",
+      "name": "component",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/ToastBody.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ElementType"
+      }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/ToastBody.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "any"
       }
     }
   }

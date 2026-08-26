@@ -1,10 +1,11 @@
-import React, { forwardRef, HTMLAttributes } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
 import classNames from 'classnames'
 
 import { CloseButton } from '../close-button/CloseButton'
 import { useToast } from '../../hooks'
+import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
 
-export interface ToastBodyProps extends HTMLAttributes<HTMLDivElement> {
+type ToastBodyOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -19,23 +20,42 @@ export interface ToastBodyProps extends HTMLAttributes<HTMLDivElement> {
    * non-English UIs.
    */
   closeLabel?: string
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C
 }
 
-export const ToastBody = forwardRef<HTMLDivElement, ToastBodyProps>(
-  ({ children, className, closeButton, closeLabel, ...rest }, ref) => {
-    const { close } = useToast()
-    const _className = classNames(
-      'toast-body',
-      { 'd-flex align-items-start justify-content-between gap-small': closeButton },
-      className
-    )
-    return (
-      <div className={_className} {...rest} ref={ref}>
-        {closeButton ? <div>{children}</div> : children}
-        {closeButton && <CloseButton label={closeLabel} onClick={close} />}
-      </div>
-    )
-  }
-)
+export type ToastBodyProps<C extends ElementType = 'div'> = PolymorphicComponentProps<
+  C,
+  ToastBodyOwnProps<C>
+>
+
+type ToastBodyComponent = (<C extends ElementType = 'div'>(
+  props: ToastBodyProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
+
+function ToastBodyRender<C extends ElementType = 'div'>(
+  { children, className, closeButton, closeLabel, component, ...rest }: ToastBodyProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  const { close } = useToast()
+  const Component = component || 'div'
+  const _className = classNames(
+    'toast-body',
+    { 'd-flex align-items-start justify-content-between gap-small': closeButton },
+    className
+  )
+  return (
+    <Component className={_className} {...rest} ref={ref}>
+      {closeButton ? <div>{children}</div> : children}
+      {closeButton && <CloseButton label={closeLabel} onClick={close} />}
+    </Component>
+  )
+}
+
+export const ToastBody = forwardRef(
+  ToastBodyRender as ForwardRefRenderFunction<Element, ToastBodyProps<ElementType>>
+) as ToastBodyComponent
 
 ToastBody.displayName = 'ToastBody'

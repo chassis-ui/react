@@ -5220,15 +5220,19 @@ interface TableRowProps {
 declare const TableRow: (props: TableRowProps) => ReactElement;
 //#endregion
 //#region src/components/tabs/Tabs.d.ts
-interface TabsProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onSelect'> {
+type TabsOwnProps<C extends ElementType> = {
   /**
    * A `TabList` (containing `Tab` children) followed by one `TabPanel` per tab.
    */
-  children: ReactNode;
+  children?: ReactNode;
   /**
    * A string of all className you want applied to the base component.
    */
   className?: string;
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C;
   /**
    * The initially selected tab's key (uncontrolled).
    */
@@ -5254,8 +5258,14 @@ interface TabsProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onSelect'> {
    * The selected tab's key (controlled).
    */
   selectedKey?: Key$2;
-}
-declare const Tabs: React.ForwardRefExoticComponent<TabsProps & React.RefAttributes<HTMLDivElement>>;
+};
+type TabsProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, TabsOwnProps<C>>;
+type TabsComponent = (<C extends ElementType = 'div'>(props: TabsProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const Tabs: TabsComponent;
 //#endregion
 //#region src/components/tabs/Tab.d.ts
 interface TabProps {
@@ -5400,7 +5410,7 @@ interface ToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
 declare const Toast: React.ForwardRefExoticComponent<ToastProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
 //#region src/components/toast/ToastBody.d.ts
-interface ToastBodyProps extends HTMLAttributes<HTMLDivElement> {
+type ToastBodyOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -5415,20 +5425,40 @@ interface ToastBodyProps extends HTMLAttributes<HTMLDivElement> {
    * non-English UIs.
    */
   closeLabel?: string;
-}
-declare const ToastBody: React.ForwardRefExoticComponent<ToastBodyProps & React.RefAttributes<HTMLDivElement>>;
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C;
+};
+type ToastBodyProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, ToastBodyOwnProps<C>>;
+type ToastBodyComponent = (<C extends ElementType = 'div'>(props: ToastBodyProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const ToastBody: ToastBodyComponent;
 //#endregion
 //#region src/components/toast/ToastFooter.d.ts
-interface ToastFooterProps extends HTMLAttributes<HTMLDivElement> {
+type ToastFooterOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
   className?: string;
-}
-declare const ToastFooter: React.ForwardRefExoticComponent<ToastFooterProps & React.RefAttributes<HTMLDivElement>>;
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C;
+};
+type ToastFooterProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, ToastFooterOwnProps<C>>;
+type ToastFooterComponent = (<C extends ElementType = 'div'>(props: ToastFooterProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const ToastFooter: ToastFooterComponent;
 //#endregion
 //#region src/components/toast/ToastHeader.d.ts
-interface ToastHeaderProps extends HTMLAttributes<HTMLDivElement> {
+type ToastHeaderOwnProps<C extends ElementType> = {
   /**
    * Heading, rendered before `time` as a `<strong>`.
    */
@@ -5447,6 +5477,10 @@ interface ToastHeaderProps extends HTMLAttributes<HTMLDivElement> {
    */
   closeLabel?: string;
   /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C;
+  /**
    * Leading icon. A string is rendered as `<ToastIcon name={icon} />`; pass any other node
    * for a fully custom icon (typically a logo or avatar). Hidden from assistive technology by
    * default, since it duplicates the heading visually.
@@ -5462,8 +5496,14 @@ interface ToastHeaderProps extends HTMLAttributes<HTMLDivElement> {
    * here for manual wiring in a fully custom composition.
    */
   titleId?: string;
-}
-declare const ToastHeader: React.ForwardRefExoticComponent<ToastHeaderProps & React.RefAttributes<HTMLDivElement>>;
+};
+type ToastHeaderProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, ToastHeaderOwnProps<C>>;
+type ToastHeaderComponent = (<C extends ElementType = 'div'>(props: ToastHeaderProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const ToastHeader: ToastHeaderComponent;
 //#endregion
 //#region src/components/toast/ToastIcon.d.ts
 interface ToastIconProps extends IconProps {
