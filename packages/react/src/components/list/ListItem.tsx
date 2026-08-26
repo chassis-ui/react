@@ -58,7 +58,7 @@ export const ListItem = forwardRef<
       disabled,
       component
     }),
-    ...(active && { 'aria-current': true }),
+    ...(active && { 'aria-current': 'page' }),
     ...(disabled && { 'aria-disabled': true }),
     ...rest
   }

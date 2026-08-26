@@ -84,6 +84,7 @@ export const MenuSubmenu = forwardRef<HTMLDivElement, MenuSubmenuProps>(
     // to its trigger, then moves to `document.body` on the next render once this flips to true.
     const [mounted, setMounted] = useState(false)
     const closeTimeoutRef = useRef<number | undefined>(undefined)
+    const focusFirstRafRef = useRef<number | undefined>(undefined)
     const triggerRef = useRef<HTMLButtonElement | null>(null)
     const overlayRef = useRef<HTMLElement | null>(null)
     const parentGroup = useContext(SubmenuGroupContext)
@@ -121,10 +122,18 @@ export const MenuSubmenu = forwardRef<HTMLDivElement, MenuSubmenuProps>(
       }
     }, [])
 
+    const cancelFocusFirstRaf = useCallback(() => {
+      if (focusFirstRafRef.current !== undefined) {
+        cancelAnimationFrame(focusFirstRafRef.current)
+        focusFirstRafRef.current = undefined
+      }
+    }, [])
+
     const close = useCallback(() => {
       clearCloseTimeout()
+      cancelFocusFirstRaf()
       setVisible(false)
-    }, [clearCloseTimeout])
+    }, [clearCloseTimeout, cancelFocusFirstRaf])
 
     const open = () => {
       if (disabled || visible) return
@@ -140,6 +149,7 @@ export const MenuSubmenu = forwardRef<HTMLDivElement, MenuSubmenuProps>(
 
     useEffect(() => parentGroup?.register(id, close), [parentGroup, id, close])
     useEffect(() => clearCloseTimeout, [clearCloseTimeout])
+    useEffect(() => cancelFocusFirstRaf, [cancelFocusFirstRaf])
     useEffect(() => setMounted(true), [])
 
     // The submenu's own open state is local and doesn't otherwise hear about its ancestor
@@ -159,7 +169,11 @@ export const MenuSubmenu = forwardRef<HTMLDivElement, MenuSubmenuProps>(
 
     const openAndFocusFirst = () => {
       open()
-      requestAnimationFrame(() => focusMenuItem(getMenuItems(overlayRef.current), 'first'))
+      cancelFocusFirstRaf()
+      focusFirstRafRef.current = requestAnimationFrame(() => {
+        focusFirstRafRef.current = undefined
+        focusMenuItem(getMenuItems(overlayRef.current), 'first')
+      })
     }
 
     const closeAndRefocusTrigger = () => {

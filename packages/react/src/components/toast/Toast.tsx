@@ -129,6 +129,10 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
     ref
   ) => {
     const [_visible, setVisible] = useState(visible)
+    // The autohide timer is only meaningful once the show transition has actually finished (see
+    // `autohide`'s JSDoc) — gating on `_visible` alone would start it the instant `visible` flips
+    // true, while the toast is still fading/sliding in.
+    const [entered, setEntered] = useState(false)
     const nodeRef = useRef<HTMLDivElement>(null)
     const forkedRef = useForkedRef(ref, nodeRef)
     const titleId = useId()
@@ -143,7 +147,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
     const autoDismissProps = useAutoDismiss({
       enabled: autohide,
       delay,
-      visible: _visible,
+      visible: _visible && entered,
       onHide: close
     })
 
@@ -183,6 +187,8 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
         in={_visible}
         nodeRef={nodeRef}
         onEnter={() => onShow?.()}
+        onEntered={() => setEntered(true)}
+        onExit={() => setEntered(false)}
         onExited={() => onClose?.()}
         timeout={250}
         unmountOnExit

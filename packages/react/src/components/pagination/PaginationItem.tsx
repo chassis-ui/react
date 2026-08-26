@@ -70,7 +70,7 @@ export const PaginationItem = forwardRef<
           {children}
         </a>
       ) : (
-        <Component className="pagination-link" onClick={onClick} {...rest} ref={ref}>
+        <Component className="pagination-link" onClick={handleClick} {...rest} ref={ref}>
           {children}
         </Component>
       )}

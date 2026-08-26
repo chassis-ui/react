@@ -1,4 +1,11 @@
-import React, { HTMLAttributes, InputHTMLAttributes, ReactNode, useEffect, useRef } from 'react'
+import React, {
+  HTMLAttributes,
+  InputHTMLAttributes,
+  ReactNode,
+  useEffect,
+  useMemo,
+  useRef
+} from 'react'
 import classNames from 'classnames'
 import { mergeProps, useButton, useComboBox, useFilter, useOverlayPosition } from 'react-aria'
 import { Item, Key, Section, useComboBoxState } from 'react-stately'
@@ -269,7 +276,13 @@ export const Autocomplete = ({
   value,
   ...rest
 }: AutocompleteProps): ReactNode => {
-  const entries = items ? buildEntriesFromItemsDef(items) : buildEntriesFromChildren(children)
+  // `entries`/`disabledKeys` only need to change when the data driving them does — without this,
+  // both re-derive from scratch on every render, including every keystroke while typing.
+  const entries = useMemo(
+    () => (items ? buildEntriesFromItemsDef(items) : buildEntriesFromChildren(children)),
+    [items, children]
+  )
+  const disabledKeys = useMemo(() => getDisabledKeys(entries), [entries])
 
   // Case- and accent-insensitive substring matching, mirroring chassis-css's own
   // always-case-insensitive combobox.js filtering.
@@ -285,7 +298,7 @@ export const Autocomplete = ({
         renderAutocompleteItem(entry)
       ),
     defaultItems: entries,
-    disabledKeys: getDisabledKeys(entries),
+    disabledKeys,
     defaultFilter: contains,
     // Cast: the actual runtime string ('single' or 'multiple') is what drives behavior — see the
     // `toMultiValue` comment above for why the *type* parameter above is fixed at 'multiple'.
