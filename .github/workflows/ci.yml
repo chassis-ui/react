@@ -20,14 +20,6 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      # dist/ is gitignored, and `.storybook/preview.tsx` imports the real compiled
-      # `dist/style.css` (see that file's own comment) so stories render with their actual,
-      # intended appearance — the `storybook` vitest project below (real Chromium, not jsdom) needs
-      # that file to physically exist, so the build has to happen before `pnpm test`, not after it
-      # (this also builds the real dist/index.d.ts that `react:check:api` diffs below).
-      - run: pnpm react:build
-      - run: pnpm react:check:api
-
       # `pnpm test` runs the `storybook` vitest project in real Chromium via
       # @vitest/browser-playwright (see packages/react/vitest.config.ts) — unlike the jsdom
       # project, this needs an actual browser binary on disk, which `pnpm install` alone doesn't
@@ -38,6 +30,13 @@ jobs:
 
       - run: pnpm lint:eslint
       - run: pnpm test
+
+      # Builds the real dist/index.d.ts (bundled directly by tsdown) and diffs it against the
+      # checked-in packages/react/api-report.md snapshot, so an accidental breaking change to the
+      # public props/types surface is caught here instead of only being discovered by a consumer
+      # after publish. See packages/react/scripts/check-api-surface.ts.
+      - run: pnpm react:build
+      - run: pnpm react:check:api
 
       # Validates the actual published package shape — the `exports` map tsdown generates,
       # whether every entrypoint's files really exist (publint), and whether the `.d.ts` each
@@ -115,11 +114,6 @@ jobs:
           cache: pnpm
 
       - run: pnpm install --frozen-lockfile
-
-      # Same reason as the `test` job above: `dist/` is gitignored, and `storybook build` (which
-      # `test:visual` runs before Playwright) needs the real `dist/style.css`
-      # `.storybook/preview.tsx` imports to exist on disk.
-      - run: pnpm react:build
       - run: pnpm test:visual
 
   # Confirms @chassis-ui/react actually installs and builds inside a real consuming app's own

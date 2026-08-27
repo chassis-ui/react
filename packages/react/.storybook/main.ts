@@ -1,6 +1,7 @@
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import type { StorybookConfig } from '@storybook/react-vite'
+import postcssPrefixCustomProperties from 'postcss-prefix-custom-properties'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -36,6 +37,17 @@ const config: StorybookConfig = {
             path.resolve(dirname, '../node_modules')
           ]
         }
+      },
+      // Stories import components straight from `src/`, so each component's own side-effect
+      // Sass import (e.g. Calendar.tsx's `import './Calendar.scss'`) gets compiled live by this
+      // Vite instance rather than by tsdown — without this plugin, `Calendar.scss`/
+      // `RangeCalendar.scss`'s bare `var(--primary)`-style references (see the identical comment
+      // in `tsdown.config.ts`) never get rewritten to `--cx-primary`, so custom-property lookups
+      // silently resolve to nothing (e.g. the selected-date highlight renders with a transparent
+      // background instead of `--cx-primary`) even though the equivalent production build looks
+      // correct. Must exactly match tsdown.config.ts's `css.postcss.plugins` or the two drift.
+      postcss: {
+        plugins: [postcssPrefixCustomProperties({ prefix: 'cx-', ignore: [/^--cx-/] })]
       }
     }
     return viteConfig

@@ -1,13 +1,15 @@
 import type { Preview } from '@storybook/react-vite'
 import { withThemeByDataAttribute } from '@storybook/addon-themes'
-// A consuming app is expected to load both stylesheets itself (@chassis-ui/css is a peer
-// dependency, and this package's own compiled CSS isn't bundled into dist/index.js — see
-// THEMING.md) — Storybook has no such consumer, so they're imported directly here to render
-// components with their real, intended appearance instead of unstyled markup. The second import
-// uses a relative path rather than the package's own bare specifier ('@chassis-ui/react/...') —
-// this package doesn't depend on itself, so node_modules has nothing to resolve that against.
+// A consuming app is expected to load @chassis-ui/css itself (a peer dependency — see
+// THEMING.md); Storybook has no such consumer, so it's imported directly here to render
+// components with their real, intended appearance instead of unstyled markup. This package's own
+// component-scoped CSS (Calendar/DatePicker/Notification/Table, etc.) needs no equivalent import:
+// stories import components straight from `src/`, and each one already side-effect-imports its
+// own source Sass/CSS file (e.g. Calendar.tsx's `import './Calendar.scss'`), which main.ts's
+// `viteFinal` compiles live — importing the built `dist/style.css` on top would be redundant, and
+// depends on a build having already run (see git history for why that's a real problem, not just
+// a style nit).
 import '@chassis-ui/css/dist/css/chassis.min.css'
-import '../dist/style.css'
 
 const preview: Preview = {
   tags: ['autodocs'],
