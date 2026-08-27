@@ -3,6 +3,7 @@ import { useButtonSemantics } from './useButtonSemantics'
 import { useControllableState } from './useControllableState'
 import { useDialogElement } from './useDialogElement'
 import { useDisabledAnchorGuard } from './useDisabledAnchorGuard'
+import { useDismissibleTransition } from './useDismissibleTransition'
 import { useDrawer } from './useDrawer'
 import {
   getOverlayArrowStyle,
@@ -17,6 +18,7 @@ import { useNotification } from './useNotification'
 import { useOverlayPlacement } from './useOverlayPlacement'
 import { usePagination } from './usePagination'
 import { useToast } from './useToast'
+import { useToastRegionQueue } from './useToastRegionQueue'
 
 export {
   getOverlayArrowStyle,
@@ -26,6 +28,7 @@ export {
   useControllableState,
   useDialogElement,
   useDisabledAnchorGuard,
+  useDismissibleTransition,
   useDrawer,
   useFloatingOverlay,
   useForkedRef,
@@ -35,10 +38,15 @@ export {
   useNotification,
   useOverlayPlacement,
   usePagination,
-  useToast
+  useToast,
+  useToastRegionQueue
 }
 export type { UseAutoDismissOptions, UseAutoDismissResult } from './useAutoDismiss'
 export type { UseDialogElementOptions } from './useDialogElement'
+export type {
+  UseDismissibleTransitionOptions,
+  UseDismissibleTransitionResult
+} from './useDismissibleTransition'
 export type { UseDrawerResult } from './useDrawer'
 export type { UseFloatingOverlayOptions } from './useFloatingOverlay'
 export type { UseFormFieldOptions, UseFormFieldResult } from './useFormField'
@@ -46,3 +54,4 @@ export type { UseModalResult } from './useModal'
 export type { UseNotificationResult } from './useNotification'
 export type { UsePaginationResult } from './usePagination'
 export type { UseToastResult } from './useToast'
+export type { UseToastRegionQueueResult } from './useToastRegionQueue'

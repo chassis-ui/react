@@ -313,6 +313,36 @@
         "name": "(() => void)"
       }
     },
+    "role": {
+      "defaultValue": {
+        "value": "status"
+      },
+      "description": "ARIA live-region role. Use `status` (the default) for confirmation, progress, and\ninformational messages, which announce politely. Use `alert` for messages that need\nimmediate attention — validation errors, failed operations — which interrupt speech.",
+      "name": "role",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+        "name": "ToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+          "name": "ToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"status\" | \"alert\"",
+        "value": [
+          {
+            "value": "\"status\""
+          },
+          {
+            "value": "\"alert\""
+          }
+        ]
+      }
+    },
     "solid": {
       "defaultValue": null,
       "description": "Apply a full-color background with inverted text. Only meaningful alongside `color`.",

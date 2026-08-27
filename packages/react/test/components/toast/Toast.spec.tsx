@@ -237,6 +237,47 @@ describe('Toast', () => {
       expect(screen.getByRole('status')).toHaveClass('show')
     }, 10000)
 
+    test('a sibling toast mounting does not restart this toast\'s pending autohide timer', () => {
+      // BUG-12 regression: `Toaster` re-renders every mounted toast whenever the shared queue
+      // changes (a toast arriving or being dismissed), since `useToastQueue` triggers one state
+      // update covering the whole list. A `close` callback that isn't stable across re-renders
+      // (previously an unmemoized `() => setVisible(false)` built fresh every render) would
+      // silently restart the autohide countdown of every *other* visible toast too.
+      vi.useFakeTimers()
+      const onCloseA = vi.fn()
+      function Wrapper() {
+        const [showB, setShowB] = React.useState(false)
+        return (
+          <>
+            <Toast autohide delay={1000} visible onClose={onCloseA}>
+              A
+            </Toast>
+            {showB && (
+              <Toast autohide={false} visible>
+                B
+              </Toast>
+            )}
+            <button type="button" onClick={() => setShowB(true)}>
+              show b
+            </button>
+          </>
+        )
+      }
+      render(<Wrapper />)
+
+      // Let A's entrance transition finish so its autohide timer actually starts.
+      act(() => vi.advanceTimersByTime(250))
+      // Most of the way through A's 1000ms delay.
+      act(() => vi.advanceTimersByTime(900))
+      // Mounting sibling toast B re-renders Wrapper — and, with it, A — with unchanged props.
+      fireEvent.click(screen.getByText('show b'))
+      // The remaining 100ms of A's delay, plus its exit transition.
+      act(() => vi.advanceTimersByTime(100))
+      act(() => vi.runAllTimers())
+
+      expect(onCloseA).toHaveBeenCalledTimes(1)
+    })
+
     test('a delay change mid-display reschedules the hide against the new delay', async () => {
       const { rerender, container } = render(
         <Toast autohide delay={5000} visible={true}>

@@ -182,10 +182,79 @@ describe('Notification', () => {
           Test
         </Notification>
       )
+      // The autohide timer only starts once the entrance transition finishes (150ms) — see
+      // useDismissibleTransition's `entered` gating.
+      act(() => vi.advanceTimersByTime(150))
       act(() => vi.advanceTimersByTime(1000))
       act(() => vi.runAllTimers())
       expect(onClose).toHaveBeenCalledTimes(1)
       expect(screen.queryByRole('status')).not.toBeInTheDocument()
+      vi.useRealTimers()
+    })
+
+    test('BUG-13 regression: the autohide timer only starts once the entrance transition finishes, not the instant it mounts', () => {
+      vi.useFakeTimers()
+      const setTimeoutSpy = vi.spyOn(window, 'setTimeout')
+      render(
+        <Notification autohide delay={1000}>
+          Test
+        </Notification>
+      )
+      const scheduledAutohide = () =>
+        setTimeoutSpy.mock.calls.some(([, ms]) => ms === 1000)
+
+      // Immediately at mount, before the 150ms entrance transition finishes, the autohide
+      // countdown must not have been scheduled yet — gating on `visible` alone (as before this
+      // fix) would schedule it here instead.
+      expect(scheduledAutohide()).toBe(false)
+
+      act(() => vi.advanceTimersByTime(150))
+
+      // Once the entrance transition finishes and `entered` flips true, the countdown is now
+      // scheduled.
+      expect(scheduledAutohide()).toBe(true)
+
+      setTimeoutSpy.mockRestore()
+      vi.useRealTimers()
+    })
+
+    test('a sibling notification mounting does not restart this notification\'s pending autohide timer', () => {
+      // BUG-12 regression: `NotificationStack` re-renders every mounted notification whenever
+      // the shared queue changes (a notification arriving or being dismissed), since
+      // `useToastQueue` triggers one state update covering the whole list. A `close` callback
+      // that isn't stable across re-renders (previously an unmemoized `() => setVisible(false)`
+      // built fresh every render) would silently restart the autohide countdown of every
+      // *other* visible notification too.
+      vi.useFakeTimers()
+      const onCloseA = vi.fn()
+      function Wrapper() {
+        const [showB, setShowB] = React.useState(false)
+        return (
+          <>
+            <Notification autohide delay={1000} onClose={onCloseA}>
+              A
+            </Notification>
+            {showB && <Notification autohide={false}>B</Notification>}
+            <button type="button" onClick={() => setShowB(true)}>
+              show b
+            </button>
+          </>
+        )
+      }
+      render(<Wrapper />)
+
+      // Let A's entrance transition finish so its autohide timer actually starts.
+      act(() => vi.advanceTimersByTime(150))
+      // Most of the way through A's 1000ms delay.
+      act(() => vi.advanceTimersByTime(900))
+      // Mounting sibling notification B re-renders Wrapper — and, with it, A — with unchanged
+      // props.
+      fireEvent.click(screen.getByText('show b'))
+      // The remaining 100ms of A's delay, plus its exit transition.
+      act(() => vi.advanceTimersByTime(100))
+      act(() => vi.runAllTimers())
+
+      expect(onCloseA).toHaveBeenCalledTimes(1)
       vi.useRealTimers()
     })
 

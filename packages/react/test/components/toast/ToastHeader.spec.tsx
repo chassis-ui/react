@@ -58,11 +58,20 @@ describe('ToastHeader', () => {
       expect(document.querySelector('.toast-icon')).toBeInTheDocument()
     })
 
-    test('hides icon from assistive technology by default', () => {
+    test('hides a string icon from assistive technology by default', () => {
+      render(<ToastHeader icon="check-solid">Chassis</ToastHeader>)
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(document.querySelector('.toast-icon')?.parentElement).toHaveAttribute(
+        'aria-hidden',
+        'true'
+      )
+    })
+
+    test('leaves a custom icon node as-is — no forced aria-hidden — since it may carry its own meaningful accessible name', () => {
       render(<ToastHeader icon={<svg data-testid="logo" />}>Chassis</ToastHeader>)
       // No accessible query for the icon's wrapper itself, so this walks up from the icon.
       // eslint-disable-next-line testing-library/no-node-access
-      expect(screen.getByTestId('logo').parentElement).toHaveAttribute('aria-hidden', 'true')
+      expect(screen.getByTestId('logo').parentElement).not.toHaveAttribute('aria-hidden')
     })
 
     test('sets the title id when titleId is passed, for aria-labelledby wiring', () => {

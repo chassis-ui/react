@@ -162,7 +162,7 @@ Shared hook, interaction-heavy — isolate for careful manual + automated testin
 This is the highest-confidence *silent* bug in the whole review: real, currently invisible to the
 test suite, and reachable under completely normal multi-toast usage. Isolate for careful testing.
 
-- [ ] **BUG-12** `toast/Toast.tsx` (~line 145), `notification/Notification.tsx` (~line 134) — both
+- [x] **BUG-12** `toast/Toast.tsx` (~line 145), `notification/Notification.tsx` (~line 134) — both
   pass an unmemoized `() => setVisible(false)` into `hooks/useAutoDismiss.ts`, whose scheduling
   effect depends on that closure's identity. Since `Toaster`/`NotificationStack` re-render every
   mounted item whenever the shared queue changes (`ToastQueue.add()`/`.close()` notify all
@@ -171,19 +171,19 @@ test suite, and reachable under completely normal multi-toast usage. Isolate for
   indefinitely under normal multi-item churn. Not caught today because existing tests only rerender
   with deliberately *changed* props. Add a test rendering two toasts (and two notifications) and
   asserting the first's timer survives the second's arrival/dismissal.
-- [ ] **REFACTOR-02** Extract the ~30 lines of duplicated dismiss/transition machinery between
+- [x] **REFACTOR-02** Extract the ~30 lines of duplicated dismiss/transition machinery between
   `Toast.tsx` and `Notification.tsx` (visible-state + prop-sync effect, forked ref, `getTransitionClass`
   — currently byte-for-byte duplicated per `git show 545012b` — `titleId`/`textId` via `useId()`,
   the `Transition` boilerplate, and the close callback + `useAutoDismiss` wiring) into a shared
   hook, e.g. `useDismissibleTransition` in `src/hooks/`. Fixing BUG-12 as part of this extraction
   (memoize the close callback once, inside the shared hook) is preferable to patching both files
   separately — do BUG-12 and REFACTOR-02 as one combined change.
-- [ ] **BUG-13** `notification/Notification.tsx` (~lines 136-141) — the autohide timer isn't gated
+- [x] **BUG-13** `notification/Notification.tsx` (~lines 136-141) — the autohide timer isn't gated
   on the entrance transition having finished, unlike `Toast.tsx` (~lines 132-135, 150), which
   explicitly gates on an `entered` state with a comment explaining why ("gating on `_visible` alone
   would start it the instant `visible` flips true, while still fading/sliding in"). Apply the same
   gating to `Notification`, or fold this into REFACTOR-02's shared hook so both get it uniformly.
-- [ ] **DECIDE-02** `toast/ToastHeader.tsx` (~lines 83-87) vs `notification/Notification.tsx`
+- [x] **DECIDE-02** `toast/ToastHeader.tsx` (~lines 83-87) vs `notification/Notification.tsx`
   (~lines 184-192) — `ToastHeader` unconditionally wraps *any* icon, including a caller-supplied
   custom `ReactNode`, in `aria-hidden="true"`; `Notification` never does this for a custom node.
   Both JSDocs describe the same "pass a custom node, typically a logo or avatar" use case
@@ -191,15 +191,21 @@ test suite, and reachable under completely normal multi-toast usage. Isolate for
   `Icon` already handles its own `aria-hidden` default — and leave a genuinely meaningful custom
   icon, e.g. an avatar, to the caller) and align both. Update whichever spec file's existing test
   currently pins the behavior being changed.
-- [ ] **CLEANUP-05** `toast/Toast.tsx` — `role` prop is untyped beyond the generic inherited
+  **Decided: only auto-hide the string/`ToastIcon` shorthand.** `ToastHeader` now only wraps the
+  icon in `aria-hidden="true"` when `icon` is a string (rendered via `ToastIcon`); a custom
+  `ReactNode` is rendered as-is, matching `Notification`'s existing behavior. Updated
+  `ToastHeader.spec.tsx`'s pinned test accordingly and added a matching test for the string case.
+- [x] **CLEANUP-05** `toast/Toast.tsx` — `role` prop is untyped beyond the generic inherited
   `AriaRole`, unlike `notification/Notification.tsx` (~lines 88-93), which explicitly types and
   documents `role?: 'status' | 'alert'`. Give `Toast` the same explicit type + doc, since its
   fade/live-region behavior is only really meaningful for those two values.
-- [ ] **REFACTOR-03** `toast/Toaster.tsx` (~lines 45-48) vs `notification/NotificationStack.tsx`
+- [x] **REFACTOR-03** `toast/Toaster.tsx` (~lines 45-48) vs `notification/NotificationStack.tsx`
   (~lines 31-34) — identical region-setup boilerplate (`useToastQueue`/equivalent + ref + region
   hook + forked ref), differing only in which queue. Extract a shared helper if convenient while in
   these files for the above; skip if it complicates REFACTOR-02's extraction rather than
   simplifying it.
+  Extracted `useToastRegionQueue` in `src/hooks/` — both `Toaster`/`NotificationStack` now call it
+  with their own queue and the forwarded `ref`.
 
 ---
 

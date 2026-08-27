@@ -1,10 +1,8 @@
-import React, { forwardRef, HTMLAttributes, useRef } from 'react'
+import React, { forwardRef, HTMLAttributes } from 'react'
 import { createPortal } from 'react-dom'
 import classNames from 'classnames'
-import { useToastRegion } from 'react-aria'
-import { useToastQueue } from 'react-stately'
 
-import { useForkedRef } from '../../hooks'
+import { useToastRegionQueue } from '../../hooks'
 import { Toast } from './Toast'
 import { toastQueue } from './toastQueue'
 
@@ -42,10 +40,7 @@ export interface ToasterProps extends HTMLAttributes<HTMLDivElement> {
 // pinned toast alongside dynamic ones.
 export const Toaster = forwardRef<HTMLDivElement, ToasterProps>(
   ({ children, className, placement, ...rest }, ref) => {
-    const state = useToastQueue(toastQueue)
-    const regionRef = useRef<HTMLDivElement>(null)
-    const { regionProps } = useToastRegion({}, state, regionRef)
-    const forkedRef = useForkedRef(ref, regionRef)
+    const { forkedRef, regionProps, state } = useToastRegionQueue(toastQueue, ref)
 
     const _className = classNames(
       'toaster toast-container p-medium',

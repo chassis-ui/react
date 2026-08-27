@@ -5422,6 +5422,12 @@ interface ToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
    */
   onShow?: () => void;
   /**
+   * ARIA live-region role. Use `status` (the default) for confirmation, progress, and
+   * informational messages, which announce politely. Use `alert` for messages that need
+   * immediate attention — validation errors, failed operations — which interrupt speech.
+   */
+  role?: 'alert' | 'status';
+  /**
    * Apply a full-color background with inverted text. Only meaningful alongside `color`.
    */
   solid?: boolean;
@@ -5508,9 +5514,10 @@ type ToastHeaderOwnProps<C extends ElementType> = {
    */
   component?: C;
   /**
-   * Leading icon. A string is rendered as `<ToastIcon name={icon} />`; pass any other node
-   * for a fully custom icon (typically a logo or avatar). Hidden from assistive technology by
-   * default, since it duplicates the heading visually.
+   * Leading icon. A string is rendered as `<ToastIcon name={icon} />` and hidden from
+   * assistive technology by default, since it duplicates the heading visually. Pass any other
+   * node for a fully custom icon (typically a logo or avatar) — a custom node is left as-is,
+   * since it may carry its own meaningful accessible name (e.g. an avatar's `alt` text).
    */
   icon?: ReactNode | string;
   /**

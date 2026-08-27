@@ -1,18 +1,10 @@
-import React, {
-  forwardRef,
-  HTMLAttributes,
-  ReactNode,
-  useEffect,
-  useId,
-  useRef,
-  useState
-} from 'react'
+import React, { forwardRef, HTMLAttributes, ReactNode } from 'react'
 import { mergeProps } from 'react-aria'
 import { Transition } from 'react-transition-group'
 import classNames from 'classnames'
 
 import { ContextColor } from '../../types'
-import { useAutoDismiss, useForkedRef } from '../../hooks'
+import { useAutoDismiss, useDismissibleTransition } from '../../hooks'
 import { ToastContext } from './context'
 import { ToastBody } from './ToastBody'
 import { ToastFooter } from './ToastFooter'
@@ -89,6 +81,12 @@ export interface ToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'
    */
   onShow?: () => void
   /**
+   * ARIA live-region role. Use `status` (the default) for confirmation, progress, and
+   * informational messages, which announce politely. Use `alert` for messages that need
+   * immediate attention — validation errors, failed operations — which interrupt speech.
+   */
+  role?: 'status' | 'alert'
+  /**
    * Apply a full-color background with inverted text. Only meaningful alongside `color`.
    */
   solid?: boolean
@@ -128,22 +126,20 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
     },
     ref
   ) => {
-    const [_visible, setVisible] = useState(visible)
+    const {
+      close,
+      entered,
+      forkedRef,
+      getTransitionClass,
+      textId,
+      titleId,
+      transitionProps,
+      visible: _visible
+    } = useDismissibleTransition({ onClose, onShow, ref, visible })
+
     // The autohide timer is only meaningful once the show transition has actually finished (see
     // `autohide`'s JSDoc) — gating on `_visible` alone would start it the instant `visible` flips
     // true, while the toast is still fading/sliding in.
-    const [entered, setEntered] = useState(false)
-    const nodeRef = useRef<HTMLDivElement>(null)
-    const forkedRef = useForkedRef(ref, nodeRef)
-    const titleId = useId()
-    const textId = useId()
-
-    useEffect(() => {
-      setVisible(visible)
-    }, [visible])
-
-    const close = () => setVisible(false)
-
     const autoDismissProps = useAutoDismiss({
       enabled: autohide,
       delay,
@@ -168,31 +164,13 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
       className
     )
 
-    const getTransitionClass = (state: string) => {
-      return state === 'entering' || state === 'exiting'
-        ? 'show showing'
-        : state === 'entered'
-          ? 'show'
-          : undefined
-    }
-
     const hasHeaderShorthand = icon != null || title != null || time != null
     const headerGetsCloseButton = closeButton && (hasHeaderShorthand || message == null)
     const bodyGetsCloseButton = closeButton && !hasHeaderShorthand && message != null
     const hasHeaderContent = hasHeaderShorthand || headerGetsCloseButton
 
     return (
-      <Transition
-        appear
-        in={_visible}
-        nodeRef={nodeRef}
-        onEnter={() => onShow?.()}
-        onEntered={() => setEntered(true)}
-        onExit={() => setEntered(false)}
-        onExited={() => onClose?.()}
-        timeout={250}
-        unmountOnExit
-      >
+      <Transition {...transitionProps} timeout={250}>
         {(state) => {
           const transitionClass = getTransitionClass(state)
           return (

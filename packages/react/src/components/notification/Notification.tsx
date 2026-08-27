@@ -1,20 +1,11 @@
-import React, {
-  ElementType,
-  forwardRef,
-  HTMLAttributes,
-  ReactNode,
-  useEffect,
-  useId,
-  useRef,
-  useState
-} from 'react'
+import React, { ElementType, forwardRef, HTMLAttributes, ReactNode } from 'react'
 import classNames from 'classnames'
 import { mergeProps } from 'react-aria'
 import { Transition } from 'react-transition-group'
 
 import { ContextColor } from '../../types'
 import { CloseButton } from '../close-button/CloseButton'
-import { useAutoDismiss, useForkedRef } from '../../hooks'
+import { useAutoDismiss, useDismissibleTransition } from '../../hooks'
 import { NotificationContext } from './context'
 import { NotificationIcon } from './NotificationIcon'
 import { NotificationText } from './NotificationText'
@@ -121,23 +112,25 @@ export const Notification = forwardRef<HTMLDivElement, NotificationProps>(
     },
     ref
   ) => {
-    const [_visible, setVisible] = useState(visible)
-    const nodeRef = useRef<HTMLDivElement>(null)
-    const forkedRef = useForkedRef(ref, nodeRef)
-    const titleId = useId()
-    const textId = useId()
+    const {
+      close,
+      entered,
+      forkedRef,
+      getTransitionClass,
+      textId,
+      titleId,
+      transitionProps,
+      visible: _visible
+    } = useDismissibleTransition({ onClose, onShow, ref, visible })
 
-    useEffect(() => {
-      setVisible(visible)
-    }, [visible])
-
-    const hide = () => setVisible(false)
-
+    // Gated on `entered`, not just `_visible` (see `Toast`'s identical comment) — the entrance
+    // transition finishing is what `autohide`'s JSDoc means by "the timer starts once the
+    // notification is visible".
     const autoDismissProps = useAutoDismiss({
       enabled: autohide,
       delay,
-      visible: _visible,
-      onHide: hide
+      visible: _visible && entered,
+      onHide: close
     })
 
     const _className = classNames(
@@ -150,29 +143,12 @@ export const Notification = forwardRef<HTMLDivElement, NotificationProps>(
       className
     )
 
-    const getTransitionClass = (state: string) => {
-      return state === 'entering' || state === 'exiting'
-        ? 'show showing'
-        : state === 'entered'
-          ? 'show'
-          : undefined
-    }
-
     return (
-      <Transition
-        appear
-        in={_visible}
-        mountOnEnter
-        nodeRef={nodeRef}
-        onEnter={() => onShow?.()}
-        onExited={onClose}
-        timeout={150}
-        unmountOnExit
-      >
+      <Transition {...transitionProps} mountOnEnter timeout={150}>
         {(state) => {
           const transitionClass = getTransitionClass(state)
           return (
-            <NotificationContext.Provider value={{ visible: _visible, close: hide }}>
+            <NotificationContext.Provider value={{ visible: _visible, close }}>
               <div
                 className={classNames(_className, transitionClass)}
                 role={role}
@@ -198,7 +174,7 @@ export const Notification = forwardRef<HTMLDivElement, NotificationProps>(
                 {text && <NotificationText id={textId}>{text}</NotificationText>}
                 {children}
                 {actions}
-                {dismissible && <CloseButton label={closeLabel} onClick={hide} />}
+                {dismissible && <CloseButton label={closeLabel} onClick={close} />}
               </div>
             </NotificationContext.Provider>
           )

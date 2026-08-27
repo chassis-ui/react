@@ -35,9 +35,10 @@ type ToastHeaderOwnProps<C extends ElementType> = {
    */
   component?: C
   /**
-   * Leading icon. A string is rendered as `<ToastIcon name={icon} />`; pass any other node
-   * for a fully custom icon (typically a logo or avatar). Hidden from assistive technology by
-   * default, since it duplicates the heading visually.
+   * Leading icon. A string is rendered as `<ToastIcon name={icon} />` and hidden from
+   * assistive technology by default, since it duplicates the heading visually. Pass any other
+   * node for a fully custom icon (typically a logo or avatar) — a custom node is left as-is,
+   * since it may carry its own meaningful accessible name (e.g. an avatar's `alt` text).
    */
   icon?: string | ReactNode
   /**
@@ -80,11 +81,14 @@ function ToastHeaderRender<C extends ElementType = 'div'>(
   const _className = classNames('toast-header', className)
   return (
     <Component className={_className} {...rest} ref={ref}>
-      {icon != null && (
-        <span aria-hidden="true" className="me-small">
-          {typeof icon === 'string' ? <ToastIcon name={icon} /> : icon}
-        </span>
-      )}
+      {icon != null &&
+        (typeof icon === 'string' ? (
+          <span aria-hidden="true" className="me-small">
+            <ToastIcon name={icon} />
+          </span>
+        ) : (
+          <span className="me-small">{icon}</span>
+        ))}
       {children != null && (
         <strong id={titleId} className="me-auto">
           {children}

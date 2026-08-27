@@ -1,8 +1,6 @@
-import React, { forwardRef, HTMLAttributes, useRef } from 'react'
-import { useToastRegion } from 'react-aria'
-import { useToastQueue } from 'react-stately'
+import React, { forwardRef, HTMLAttributes } from 'react'
 
-import { useForkedRef } from '../../hooks'
+import { useToastRegionQueue } from '../../hooks'
 import { Stack } from '../stack'
 import { Notification } from './Notification'
 import { notificationQueue } from './notificationQueue'
@@ -28,10 +26,7 @@ export interface NotificationStackProps extends HTMLAttributes<HTMLDivElement> {
 // banners, not floating toasts.
 export const NotificationStack = forwardRef<HTMLDivElement, NotificationStackProps>(
   ({ children, className, reverse, ...rest }, ref) => {
-    const state = useToastQueue(notificationQueue)
-    const regionRef = useRef<HTMLDivElement>(null)
-    const { regionProps } = useToastRegion({}, state, regionRef)
-    const forkedRef = useForkedRef(ref, regionRef)
+    const { forkedRef, regionProps, state } = useToastRegionQueue(notificationQueue, ref)
 
     if (state.visibleToasts.length === 0 && !children) {
       return null
