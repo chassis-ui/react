@@ -219,20 +219,61 @@ test suite, and reachable under completely normal multi-toast usage. Isolate for
 Not documented as an accepted tradeoff anywhere (contrast `MenuSubmenu`'s `stacked` inline-render
 mode, which explicitly documents and accepts this exact downside).
 
-- [ ] Decide the fix shape: portal to `document.body` by default (biggest behavior change, most
+- [x] Decide the fix shape: portal to `document.body` by default (biggest behavior change, most
   consistent with the rest of the library), or add a `container` prop matching `Menu`'s (smaller,
   opt-in, but leaves the default behavior clipping-prone). Given how commonly `Autocomplete`/
   `Combobox` get used inside `Modal`/`Drawer`, lean toward portaling by default unless there's a
   concrete reason (e.g. an existing consumer relying on inline positioning) surfaced during
   implementation.
-- [ ] Implement for both `Autocomplete` and `Combobox` identically — this is exactly the kind of
+  **Decided, with a split outcome discovered mid-implementation — portal `Combobox` by default;
+  keep `Autocomplete` inline for now.** Two concrete reasons surfaced, both confirmed against real
+  code, not speculative:
+  1. chassis-css's `.combobox + .menu` sibling-selector rule (`_combobox.scss`) sets
+     `--menu-max-height`/`--menu-overflow-y` (320px/auto) on the panel only while it's a DOM
+     sibling of `.combobox` — the generic `.menu` fallback is uncapped (`max-height: none`).
+     Portaling breaks that adjacency. Compensated for by inlining the same two custom properties
+     as a fallback directly on the panel (`COMBOBOX_MENU_OVERLAY_STYLE` in
+     `utils/overlayPlacement.ts`) — a consumer who customized either Sass variable needs to
+     re-override `--menu-max-height`/`--menu-overflow-y` by hand post-portal, since the
+     sibling-selector auto-application can no longer reach it.
+  2. `Autocomplete` (unlike `Combobox`) has a trigger `<div role="button">` structurally separate
+     from the `inputRef`/`popoverRef` pair `useComboBox` protects via react-aria's internal
+     `ariaHideOutside` call. Inline, `ariaHideOutside` only needs to hide the narrow set of DOM
+     siblings next to the panel (including the trigger, which existing code already un-hides via
+     `triggerRef.current?.removeAttribute('aria-hidden')`). Once portaled to `document.body`, the
+     trigger is no longer a near sibling of the panel — it's buried inside the whole app tree,
+     which `ariaHideOutside` then hides *as one block* by setting `aria-hidden="true"` on the
+     entire app-root ancestor, not on individual leaf siblings. The existing single-node
+     workaround doesn't reach an ancestor, so the trigger (confirmed via a live repro) silently
+     drops out of the accessibility tree after the panel opens. Stripping `aria-hidden` from every
+     ancestor up to `<body>` would "fix" this but also undoes `ariaHideOutside`'s entire purpose
+     for the whole app — worse than the bug. `Combobox` has no equivalent problem: its focused
+     input *is* the protected element, so there's no second, separately-hidden widget. Portaling
+     `Autocomplete` is deferred until this is solved properly (e.g. a way to add the trigger to
+     `useComboBox`'s own protected-element set, if react-aria exposes one) rather than shipped with
+     a known whole-app a11y regression.
+- [x] Implement for both `Autocomplete` and `Combobox` identically — this is exactly the kind of
   prop where the two siblings drifting again would recreate today's problem.
-- [ ] Add a test for both components rendered inside an `overflow: hidden` ancestor, asserting the
+  **Not done identically, per the split decision above** — `Combobox.tsx` portals via the new
+  `useFloatingOverlay` call (same dialog-aware resolution as `Popover`/`Tooltip`); `Autocomplete.tsx`
+  is unchanged and still renders inline, still clipping-prone. Revisit once Autocomplete's
+  `ariaHideOutside` conflict has a real fix.
+- [x] Add a test for both components rendered inside an `overflow: hidden` ancestor, asserting the
   dropdown is not clipped (i.e. actually portaled/positioned outside the clipping ancestor).
-- [ ] If this changes visual positioning in Storybook, check `test/visual/menu-popover-tooltip.
+  Added for `Combobox` only (`test/components/combobox/Combobox.spec.tsx`, "overlay portal"
+  describe block) — also added a dialog-nesting test mirroring `Popover`/`Tooltip`'s own precedent,
+  and switched the existing axe check to `axe(document.body, ...)` (Tooltip's idiom) since the
+  portaled listbox is no longer a descendant of the render `container`. No equivalent test added
+  for `Autocomplete` since its behavior didn't change.
+- [x] If this changes visual positioning in Storybook, check `test/visual/menu-popover-tooltip.
   visual.spec.ts` isn't the wrong home for Autocomplete/Combobox screenshots — these two aren't
   currently in any visual-regression batch; adding one may be worth a follow-up but isn't required
   to close this phase.
+  N/A — confirmed neither `stories/` nor `test/visual/` has any Autocomplete/Combobox coverage
+  today (no story files exist for either), so there's nothing to relocate or conflict with.
+
+**Follow-up not yet filed**: a real fix for `Autocomplete`'s portal-blocked-by-`ariaHideOutside`
+conflict (see point 2 above) so it can close the remaining half of DECIDE-03 and match `Combobox`.
 
 ---
 

@@ -6,18 +6,23 @@ import React, {
   useMemo,
   useRef
 } from 'react'
+import { createPortal } from 'react-dom'
 import classNames from 'classnames'
 import { useComboBox, useFilter, useOverlayPosition } from 'react-aria'
 import { Item, Key, Section, useComboBoxState } from 'react-stately'
 
-import { useFormField } from '../../hooks'
+import { useFloatingOverlay, useFormField } from '../../hooks'
 import {
   ComboboxEntry,
   ComboboxGroupEntry,
   ComboboxItemElement,
   isComboboxGroupEntry
 } from '../../utils/comboboxCollection'
-import { resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
+import {
+  COMBOBOX_MENU_OVERLAY_STYLE,
+  resolveDataPlacement,
+  toAriaPlacement
+} from '../../utils/overlayPlacement'
 import { renderMenuItemContent } from '../../utils/renderMenuItemContent'
 import { renderFormField } from '../form-field/renderFormField'
 import { MenuItemsDef } from '../menu/MenuItemDef'
@@ -298,7 +303,20 @@ export const Combobox = ({
     onClose: null
   })
 
+  // Portals the panel to `document.body` (or an enclosing open `<dialog>`) instead of rendering
+  // it inline, matching `Popover`/`Tooltip` — an inline-rendered panel gets clipped by any
+  // ancestor with `overflow: hidden`/`auto` (a `ModalBody`, a scrollable card, a table cell), and
+  // `Combobox` is commonly composed inside exactly those. See `COMBOBOX_MENU_OVERLAY_STYLE` for
+  // the styling this trades away by leaving the DOM position `.combobox + .menu` relies on.
+  const portalContainer = useFloatingOverlay({
+    close: state.close,
+    isOpen: state.isOpen,
+    open: state.open,
+    triggerRef: wrapperRef
+  })
+
   const overlayStyle: React.CSSProperties = {
+    ...COMBOBOX_MENU_OVERLAY_STYLE,
     position: overlayProps.style?.position as React.CSSProperties['position'],
     top: overlayProps.style?.top,
     left: overlayProps.style?.left
@@ -337,20 +355,24 @@ export const Combobox = ({
             ref={inputRef}
           />
         </div>
-        <div
-          className={classNames('menu', { show: state.isOpen })}
-          data-cx-placement={placementAttr}
-          style={overlayStyle}
-          hidden={!state.isOpen}
-          ref={popoverRef}
-        >
-          <ComboboxListBox state={state} listBoxProps={listBoxProps} listBoxRef={listBoxRef} />
-          {showNoResults && (
-            <div className="combobox-no-results" id={noResultsId} role="status">
-              {noResultsText}
-            </div>
+        {typeof window !== 'undefined' &&
+          createPortal(
+            <div
+              className={classNames('menu', { show: state.isOpen })}
+              data-cx-placement={placementAttr}
+              style={overlayStyle}
+              hidden={!state.isOpen}
+              ref={popoverRef}
+            >
+              <ComboboxListBox state={state} listBoxProps={listBoxProps} listBoxRef={listBoxRef} />
+              {showNoResults && (
+                <div className="combobox-no-results" id={noResultsId} role="status">
+                  {noResultsText}
+                </div>
+              )}
+            </div>,
+            portalContainer ?? document.body
           )}
-        </div>
         {name && <input type="hidden" name={name} value={state.value ?? ''} disabled={disabled} />}
       </>
     ),

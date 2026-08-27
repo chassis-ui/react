@@ -351,11 +351,42 @@ describe('Combobox', () => {
     })
   })
 
+  describe('overlay portal', () => {
+    test('the listbox portals to document.body, not clipped by an overflow:hidden ancestor', () => {
+      const { container } = render(
+        <div style={{ overflow: 'hidden', height: 40 }}>
+          <BasicCombobox />
+        </div>
+      )
+      focusInput(screen.getByRole('combobox'))
+      const listbox = screen.getByRole('listbox')
+      // The clipping ancestor is a plain, role-less wrapper `<div>` - no accessible query reaches
+      // it, so this checks containment via the render container instead.
+      // eslint-disable-next-line testing-library/no-container
+      expect(container.contains(listbox)).toBe(false)
+      expect(document.body.contains(listbox)).toBe(true)
+    })
+
+    test('scopes itself to an open dialog ancestor instead of document.body', () => {
+      render(
+        <dialog open>
+          <BasicCombobox />
+        </dialog>
+      )
+      focusInput(screen.getByRole('combobox'))
+      const dialog = screen.getByRole('dialog')
+      const listbox = screen.getByRole('listbox')
+      expect(dialog.contains(listbox)).toBe(true)
+    })
+  })
+
   describe('accessibility', () => {
     test('has no axe violations with the listbox open', async () => {
-      const { container } = render(<BasicCombobox />)
+      render(<BasicCombobox />)
       focusInput(screen.getByRole('combobox'))
-      expect(await axe(container)).toHaveNoViolations()
+      expect(
+        await axe(document.body, { rules: { region: { enabled: false } } })
+      ).toHaveNoViolations()
     })
   })
 })

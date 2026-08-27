@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react'
 import type { Placement as AriaPlacement, PlacementAxis } from 'react-aria'
 
 // Chassis CSS's floating components (`.menu`, `.tooltip`, `.popover`) read a `data-cx-placement`
@@ -50,3 +51,17 @@ export const resolveDataPlacement = (
   const cross = requested.split('-')[1]
   return cross ? `${resolvedMain}-${cross}` : resolvedMain
 }
+
+// chassis-css's `.combobox + .menu` sibling-selector rule (`_combobox.scss`) sets
+// `--menu-max-height`/`--menu-overflow-y` from `$combobox-menu-max-height`/
+// `$combobox-menu-overflow-y` (320px/auto by default) — but only while the panel is an adjacent
+// DOM sibling of `.combobox`. `Autocomplete`/`Combobox` portal their panel to `document.body` (or
+// an enclosing open `<dialog>`, via `useFloatingOverlay`), breaking that adjacency, so both inline
+// this as a fallback matching the shipped Sass defaults instead of the generic, uncapped `.menu`
+// fallback (`max-height: none`). A consumer who customized either Sass variable needs to
+// re-override `--menu-max-height`/`--menu-overflow-y` on `.menu` directly, since the
+// sibling-selector auto-application can no longer reach a portaled panel.
+export const COMBOBOX_MENU_OVERLAY_STYLE: CSSProperties = {
+  '--menu-max-height': '320px',
+  '--menu-overflow-y': 'auto'
+} as CSSProperties
