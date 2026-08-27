@@ -1,9 +1,9 @@
-import React, { forwardRef, HTMLAttributes, useContext } from 'react'
+import React, { forwardRef, DetailsHTMLAttributes, useContext } from 'react'
 import classNames from 'classnames'
 
 import { AccordionContext } from './context'
 
-export interface AccordionItemProps extends HTMLAttributes<HTMLDetailsElement> {
+export interface AccordionItemProps extends DetailsHTMLAttributes<HTMLDetailsElement> {
   /**
    * Let this item stay open when another item opens, overriding the accordion's `alwaysOpen` setting.
    */

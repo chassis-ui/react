@@ -110,6 +110,14 @@ describe('PasswordStrength', () => {
       expect(meter).toHaveAttribute('data-cx-strength', 'fair')
     })
 
+    test('a custom scorer paired with a custom maxScore drives aria-valuemax off the real scale', () => {
+      const scorer = (password: string) => password.length
+      render(<PasswordStrength maxScore={200} scorer={scorer} value="abcdefghij" />)
+      const meter = screen.getByRole('meter')
+      expect(meter).toHaveAttribute('aria-valuemax', '200')
+      expect(meter).toHaveAttribute('aria-valuenow', '10')
+    })
+
     test('disabling a weight via the weights prop excludes that criterion from scoring', () => {
       const onStrengthChange = vi.fn()
       render(

@@ -27,6 +27,13 @@ export interface PasswordStrengthProps extends Omit<HTMLAttributes<HTMLDivElemen
    */
   id?: string
   /**
+   * The maximum possible score, used to compute the meter's `aria-valuemax`. Defaults to the sum
+   * of `weights`' values — set this explicitly when pairing a custom `scorer` whose scale doesn't
+   * match the built-in criteria weights, otherwise `aria-valuenow`/`aria-valuemax` get silently
+   * clamped to the built-in max.
+   */
+  maxScore?: number
+  /**
    * Minimum password length required to earn the first strength point. Defaults to `8`.
    */
   minLength?: number
@@ -73,6 +80,7 @@ export const PasswordStrength = ({
   'aria-label': ariaLabel = 'Password strength',
   className,
   id,
+  maxScore,
   messages,
   minLength = 8,
   onStrengthChange,
@@ -92,9 +100,9 @@ export const PasswordStrength = ({
     [value, minLength, scorer, mergedWeights]
   )
   const strength = useMemo(() => scoreToStrength(score, thresholds), [score, thresholds])
-  const maxScore = useMemo(
-    () => Object.values(mergedWeights).reduce((total, weight) => total + weight, 0),
-    [mergedWeights]
+  const resolvedMaxScore = useMemo(
+    () => maxScore ?? Object.values(mergedWeights).reduce((total, weight) => total + weight, 0),
+    [maxScore, mergedWeights]
   )
 
   // Deliberately not initialized to `strength` — that would make the effect below skip firing
@@ -110,7 +118,7 @@ export const PasswordStrength = ({
 
   const { meterProps } = useMeter({
     'aria-label': ariaLabel,
-    maxValue: maxScore,
+    maxValue: resolvedMaxScore,
     minValue: 0,
     value: score,
     valueLabel: strength ? mergedMessages[strength] : undefined

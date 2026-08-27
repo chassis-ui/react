@@ -55,6 +55,7 @@ function ProgressBarRender<C extends ElementType = 'div'>(
   ref: PolymorphicRef<C>
 ) {
   const Component = component || 'div'
+  const clampedValue = Math.min(100, Math.max(0, value))
   const _className = classNames(
     'progress-bar',
     color && `bg-${color} fg-contrast`,
@@ -66,7 +67,12 @@ function ProgressBarRender<C extends ElementType = 'div'>(
   )
 
   return (
-    <Component {...rest} className={_className} style={{ width: `${value}%`, ...style }} ref={ref}>
+    <Component
+      {...rest}
+      className={_className}
+      style={{ width: `${clampedValue}%`, ...style }}
+      ref={ref}
+    >
       <span className="mx-2xsmall">{children}</span>
     </Component>
   )

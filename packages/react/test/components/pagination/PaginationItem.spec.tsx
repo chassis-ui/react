@@ -83,6 +83,26 @@ describe('PaginationItem', () => {
       await user.click(screen.getByRole('button', { name: 'Test' }))
       expect(onClick).not.toHaveBeenCalled()
     })
+
+    test('a custom component with onClick gets button keyboard semantics', async () => {
+      const user = userEvent.setup()
+      const onClick = vi.fn()
+      render(
+        <PaginationItem component="div" onClick={onClick}>
+          Test
+        </PaginationItem>
+      )
+      const button = screen.getByRole('button', { name: 'Test' })
+      expect(button.tagName).toBe('DIV')
+      expect(button).toHaveAttribute('tabIndex', '0')
+
+      button.focus()
+      await user.keyboard('{Enter}')
+      expect(onClick).toHaveBeenCalledTimes(1)
+
+      await user.keyboard(' ')
+      expect(onClick).toHaveBeenCalledTimes(2)
+    })
   })
 
   describe('ref forwarding', () => {

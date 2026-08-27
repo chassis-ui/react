@@ -5,6 +5,15 @@
   "displayName": "ListItemDef",
   "methods": [],
   "props": {
+    "id": {
+      "name": "id",
+      "required": false,
+      "description": "Stable key for the rendered item. Falls back to the item's index in `items`.",
+      "defaultValue": null,
+      "type": {
+        "name": "string | number"
+      }
+    },
     "label": {
       "name": "label",
       "required": true,

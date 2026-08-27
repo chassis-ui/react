@@ -3,7 +3,7 @@ import classNames from 'classnames'
 
 import { Icon, IconProps } from '../icon/Icon'
 
-export interface ToastIconProps extends IconProps {
+export type ToastIconProps = IconProps & {
   /**
    * A string of all className you want applied to the base component.
    */

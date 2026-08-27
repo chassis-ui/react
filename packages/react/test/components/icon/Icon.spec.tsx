@@ -46,9 +46,25 @@ describe('Icon', () => {
       expect(svg.querySelector('title')).toHaveTextContent('Folder tree')
     })
 
+    test('sets role="img" so a title actually sticks as the accessible name', () => {
+      const { container } = render(<Icon name="folder-tree" title="Folder tree" />)
+      const svg = container.firstChild as SVGSVGElement
+      expect(svg).toHaveAttribute('role', 'img')
+    })
+
+    test('has no role when there is no title', () => {
+      const { container } = render(<Icon name="folder-tree" />)
+      expect(container.firstChild).not.toHaveAttribute('role')
+    })
+
     test('applies the caller className alongside the base class', () => {
       const { container } = render(<Icon name="folder-tree" className="bazinga" />)
       expect(container.firstChild).toHaveClass('icon', 'bazinga')
+    })
+
+    test('forwards an SVG-only attribute in the default (svg) mode', () => {
+      const { container } = render(<Icon name="folder-tree" viewBox="0 0 1 1" />)
+      expect(container.firstChild).toHaveAttribute('viewBox', '0 0 1 1')
     })
   })
   /* eslint-enable testing-library/no-node-access */

@@ -11,12 +11,12 @@
       "name": "name",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/icon/Icon.tsx",
-        "name": "IconProps"
+        "name": "IconOwnProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/icon/Icon.tsx",
-          "name": "IconProps"
+          "name": "IconOwnProps"
         }
       ],
       "required": true,
@@ -30,12 +30,12 @@
       "name": "className",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/icon/Icon.tsx",
-        "name": "IconProps"
+        "name": "IconOwnProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/icon/Icon.tsx",
-          "name": "IconProps"
+          "name": "IconOwnProps"
         }
       ],
       "required": false,
@@ -51,38 +51,17 @@
       "name": "size",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/icon/Icon.tsx",
-        "name": "IconProps"
+        "name": "IconOwnProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/icon/Icon.tsx",
-          "name": "IconProps"
+          "name": "IconOwnProps"
         }
       ],
       "required": false,
       "type": {
         "name": "number"
-      }
-    },
-    "font": {
-      "defaultValue": {
-        "value": false
-      },
-      "description": "Render as a `cx-{name}` font glyph `<span>` instead of an SVG `<use>` reference.",
-      "name": "font",
-      "parent": {
-        "fileName": "chassis-react/packages/react/src/components/icon/Icon.tsx",
-        "name": "IconProps"
-      },
-      "declarations": [
-        {
-          "fileName": "chassis-react/packages/react/src/components/icon/Icon.tsx",
-          "name": "IconProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "boolean"
       }
     },
     "title": {
@@ -91,12 +70,12 @@
       "name": "title",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/icon/Icon.tsx",
-        "name": "IconProps"
+        "name": "IconOwnProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/icon/Icon.tsx",
-          "name": "IconProps"
+          "name": "IconOwnProps"
         }
       ],
       "required": false,
@@ -112,17 +91,36 @@
       "name": "sprite",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/icon/Icon.tsx",
-        "name": "IconProps"
+        "name": "IconOwnProps"
       },
       "declarations": [
         {
           "fileName": "chassis-react/packages/react/src/components/icon/Icon.tsx",
-          "name": "IconProps"
+          "name": "IconOwnProps"
         }
       ],
       "required": false,
       "type": {
         "name": "string"
+      }
+    },
+    "font": {
+      "defaultValue": null,
+      "description": "",
+      "name": "font",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/icon/Icon.tsx",
+          "name": "TypeLiteral"
+        },
+        {
+          "fileName": "chassis-react/packages/react/src/components/icon/Icon.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
       }
     }
   }

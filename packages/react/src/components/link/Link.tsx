@@ -2,7 +2,6 @@ import React, {
   ElementType,
   ForwardRefRenderFunction,
   forwardRef,
-  MouseEvent,
   MouseEventHandler,
   ReactElement,
   Ref
@@ -11,7 +10,7 @@ import classNames from 'classnames'
 import { mergeProps } from 'react-aria'
 
 import { ContextColor } from '../../types'
-import { useButtonSemantics } from '../../hooks'
+import { useButtonSemantics, useDisabledAnchorGuard } from '../../hooks'
 import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
 
 type LinkOwnProps<C extends ElementType> = {
@@ -64,6 +63,11 @@ type LinkOwnProps<C extends ElementType> = {
    * a `position` other than `static`).
    */
   stretched?: boolean
+  /**
+   * Specifies the type of button. Only applies when `component="button"`. Different browsers may
+   * use different default types for the `<button>` element, so always specify it explicitly.
+   */
+  type?: 'button' | 'submit' | 'reset'
 }
 
 export type LinkProps<C extends ElementType = 'a'> = PolymorphicComponentProps<C, LinkOwnProps<C>>
@@ -84,6 +88,7 @@ function LinkRender<C extends ElementType = 'a'>(
     onClick,
     reset,
     stretched,
+    type = 'button',
     ...rest
   }: LinkProps<C>,
   ref: PolymorphicRef<C>
@@ -98,15 +103,10 @@ function LinkRender<C extends ElementType = 'a'>(
   )
 
   const isInteractive = Component === 'a' || Component === 'button'
-  const handleClick = isInteractive
-    ? (event: MouseEvent<HTMLElement>) => {
-        if (disabled) {
-          event.preventDefault()
-          return
-        }
-        onClick && onClick(event)
-      }
-    : onClick
+  // `<a>` has no real `disabled` attribute, so a disabled anchor link still fires click (and
+  // still navigates) unless it's blocked here, same guard `Button`/`CloseButton` apply. A real
+  // `<button>` already stops clicks on its own once the `disabled` attribute below is set.
+  const handleClick = useDisabledAnchorGuard<HTMLElement>(Component === 'a', disabled, onClick)
 
   // A `component` that isn't a native interactive element gets a raw onClick with no
   // keyboard semantics otherwise — mouse-only, unlike `Button`/`CloseButton`, which
@@ -124,7 +124,7 @@ function LinkRender<C extends ElementType = 'a'>(
       {...(active && { 'aria-current': 'page' })}
       {...(Component === 'a' && disabled && { 'aria-disabled': true, tabIndex: -1 })}
       {...(!needsButtonSemantics && { onClick: handleClick })}
-      {...(Component === 'button' && { disabled })}
+      {...(Component === 'button' && { disabled, type })}
       ref={needsButtonSemantics ? forkedRef : ref}
     >
       {children}

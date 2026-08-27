@@ -11,7 +11,7 @@ renamed export, ...) and review the diff like any other code change. `pnpm react
 -->
 
 ```ts
-import React, { AllHTMLAttributes, AriaAttributes, ButtonHTMLAttributes, ChangeEventHandler, ComponentPropsWithRef, ComponentPropsWithoutRef, DialogHTMLAttributes, ElementType, FC, FormHTMLAttributes, Fragment, HTMLAttributes, ImgHTMLAttributes, InputHTMLAttributes, Key, MouseEvent, MouseEventHandler, ReactElement, ReactNode, Ref, RefObject, TextareaHTMLAttributes, useEffect } from "react";
+import React, { AriaAttributes, ButtonHTMLAttributes, ChangeEventHandler, ComponentPropsWithRef, ComponentPropsWithoutRef, DetailsHTMLAttributes, DialogHTMLAttributes, ElementType, FC, FormHTMLAttributes, Fragment, HTMLAttributes, ImgHTMLAttributes, InputHTMLAttributes, Key, LabelHTMLAttributes, MouseEvent, MouseEventHandler, ReactElement, ReactNode, Ref, RefObject, SVGAttributes, TextareaHTMLAttributes, useEffect } from "react";
 import { DateValue, I18nProvider, Key as Key$1, RangeValue } from "react-aria";
 import { DateValue as DateValue$1, Key as Key$2, Selection, SortDescriptor, TableBodyProps, TableHeaderProps, ToastQueue } from "react-stately";
 //#region src/components/accordion/Accordion.d.ts
@@ -117,7 +117,7 @@ interface AccordionHeaderProps extends HTMLAttributes<HTMLElement> {
 declare const AccordionHeader: React.ForwardRefExoticComponent<AccordionHeaderProps & React.RefAttributes<HTMLElement>>;
 //#endregion
 //#region src/components/accordion/AccordionItem.d.ts
-interface AccordionItemProps extends HTMLAttributes<HTMLDetailsElement> {
+interface AccordionItemProps extends DetailsHTMLAttributes<HTMLDetailsElement> {
   /**
    * Let this item stay open when another item opens, overriding the accordion's `alwaysOpen` setting.
    */
@@ -654,7 +654,7 @@ type NotificationTitleComponent = (<C extends ElementType = 'h4'>(props: Notific
 declare const NotificationTitle: NotificationTitleComponent;
 //#endregion
 //#region src/components/icon/Icon.d.ts
-interface IconProps extends HTMLAttributes<HTMLSpanElement | SVGSVGElement> {
+interface IconOwnProps {
   /**
    * Icon name, e.g. `folder-tree`. Matches a `cx-{name}` font glyph class or an id in the SVG sprite.
    */
@@ -668,10 +668,6 @@ interface IconProps extends HTMLAttributes<HTMLSpanElement | SVGSVGElement> {
    */
   size?: number;
   /**
-   * Render as a `cx-{name}` font glyph `<span>` instead of an SVG `<use>` reference.
-   */
-  font?: boolean;
-  /**
    * Accessible name. When set, the icon is exposed to assistive tech instead of hidden.
    */
   title?: string;
@@ -680,15 +676,20 @@ interface IconProps extends HTMLAttributes<HTMLSpanElement | SVGSVGElement> {
    */
   sprite?: string;
 }
+type IconProps = (IconOwnProps & {
+  font: true;
+} & Omit<HTMLAttributes<HTMLSpanElement>, keyof IconOwnProps>) | (IconOwnProps & {
+  font?: false;
+} & Omit<SVGAttributes<SVGSVGElement>, keyof IconOwnProps>);
 declare const Icon: React.ForwardRefExoticComponent<IconProps & React.RefAttributes<HTMLSpanElement | SVGSVGElement>>;
 //#endregion
 //#region src/components/notification/NotificationIcon.d.ts
-interface NotificationIconProps extends IconProps {
+type NotificationIconProps = IconProps & {
   /**
    * A string of all className you want applied to the base component.
    */
   className?: string;
-}
+};
 declare const NotificationIcon: React.ForwardRefExoticComponent<NotificationIconProps & React.RefAttributes<HTMLSpanElement | SVGSVGElement>>;
 //#endregion
 //#region src/components/notification/NotificationText.d.ts
@@ -1376,6 +1377,11 @@ type LinkOwnProps<C extends ElementType> = {
    * a `position` other than `static`).
    */
   stretched?: boolean;
+  /**
+   * Specifies the type of button. Only applies when `component="button"`. Different browsers may
+   * use different default types for the `<button>` element, so always specify it explicitly.
+   */
+  type?: 'button' | 'reset' | 'submit';
 };
 type LinkProps<C extends ElementType = 'a'> = PolymorphicComponentProps<C, LinkOwnProps<C>>;
 type LinkComponent = (<C extends ElementType = 'a'>(props: LinkProps<C> & {
@@ -2460,6 +2466,13 @@ interface PasswordStrengthProps extends Omit<HTMLAttributes<HTMLDivElement>, 'on
    */
   id?: string;
   /**
+   * The maximum possible score, used to compute the meter's `aria-valuemax`. Defaults to the sum
+   * of `weights`' values — set this explicitly when pairing a custom `scorer` whose scale doesn't
+   * match the built-in criteria weights, otherwise `aria-valuenow`/`aria-valuemax` get silently
+   * clamped to the built-in max.
+   */
+  maxScore?: number;
+  /**
    * Minimum password length required to earn the first strength point. Defaults to `8`.
    */
   minLength?: number;
@@ -2505,7 +2518,7 @@ interface PasswordStrengthProps extends Omit<HTMLAttributes<HTMLDivElement>, 'on
   weights?: Partial<StrengthWeights>;
 }
 declare const PasswordStrength: {
-  ({ "aria-label": ariaLabel, className, id, messages, minLength, onStrengthChange, scorer, showText, thresholds, value, variant, weights, ...rest }: PasswordStrengthProps): React.JSX.Element;
+  ({ "aria-label": ariaLabel, className, id, maxScore, messages, minLength, onStrengthChange, scorer, showText, thresholds, value, variant, weights, ...rest }: PasswordStrengthProps): React.JSX.Element;
   displayName: string;
 };
 //#endregion
@@ -3160,7 +3173,7 @@ interface FormProps extends FormHTMLAttributes<HTMLFormElement> {
 declare const Form: React.ForwardRefExoticComponent<FormProps & React.RefAttributes<HTMLFormElement>>;
 //#endregion
 //#region src/components/form/FormLabel.d.ts
-interface FormLabelProps extends AllHTMLAttributes<HTMLLabelElement> {
+interface FormLabelProps extends LabelHTMLAttributes<HTMLLabelElement> {
   /**
    * A string of all className you want applied to the component.
    */
@@ -3922,6 +3935,10 @@ declare const Placeholder: PlaceholderComponent;
 //#endregion
 //#region src/components/list/List.d.ts
 interface ListItemDef {
+  /**
+   * Stable key for the rendered item. Falls back to the item's index in `items`.
+   */
+  id?: number | string;
   /**
    * Item label content.
    */
@@ -5506,12 +5523,12 @@ type ToastHeaderComponent = (<C extends ElementType = 'div'>(props: ToastHeaderP
 declare const ToastHeader: ToastHeaderComponent;
 //#endregion
 //#region src/components/toast/ToastIcon.d.ts
-interface ToastIconProps extends IconProps {
+type ToastIconProps = IconProps & {
   /**
    * A string of all className you want applied to the base component.
    */
   className?: string;
-}
+};
 declare const ToastIcon: React.ForwardRefExoticComponent<ToastIconProps & React.RefAttributes<HTMLSpanElement | SVGSVGElement>>;
 //#endregion
 //#region src/components/toast/Toaster.d.ts

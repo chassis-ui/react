@@ -65,6 +65,20 @@ describe('Progress', () => {
       )
       expect(screen.getByText('Custom content')).toBeInTheDocument()
     })
+
+    test('clamps an out-of-range value so aria attributes and the bar width stay within bounds', () => {
+      render(<Progress aria-label="Test" value={150} />)
+      const progress = screen.getByRole('progressbar')
+      expect(progress).toHaveAttribute('aria-valuenow', '100')
+      expect(within(progress).getByText('', { selector: '.progress-bar' })).toHaveStyle(
+        'width: 100%'
+      )
+    })
+
+    test('clamps a negative value to 0', () => {
+      render(<Progress aria-label="Test" value={-10} />)
+      expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuenow', '0')
+    })
   })
 
   describe('label, showValue and inlineValue', () => {
@@ -113,6 +127,20 @@ describe('Progress', () => {
     test('an explicit aria-label takes precedence over label', () => {
       render(<Progress aria-label="Explicit label" label="Uploading" value={40} />)
       expect(screen.getByRole('progressbar')).toHaveAccessibleName('Explicit label')
+    })
+
+    test('a ReactNode label still resolves to an accessible name via aria-labelledby', () => {
+      render(
+        <Progress
+          label={
+            <span>
+              Uploading <strong>file.zip</strong>
+            </span>
+          }
+          value={40}
+        />
+      )
+      expect(screen.getByRole('progressbar')).toHaveAccessibleName('Uploading file.zip')
     })
   })
 

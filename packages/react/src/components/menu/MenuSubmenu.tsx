@@ -106,7 +106,10 @@ export const MenuSubmenu = forwardRef<HTMLDivElement, MenuSubmenuProps>(
       offset: offsetProp[1],
       crossOffset: offsetProp[0],
       containerPadding: 8,
-      isOpen: visible
+      isOpen: visible,
+      // See `useOverlayPlacement`'s comment for why this needs to be explicit `null`, not left
+      // unset — matches the same fix already applied to `Autocomplete`/`Combobox`/`Menu`/`Popover`.
+      onClose: null
     })
 
     const { menuStyle, placementAttr } = resolveMenuOverlayPositioning(

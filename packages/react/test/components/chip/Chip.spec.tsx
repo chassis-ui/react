@@ -140,6 +140,11 @@ describe('Chip', () => {
       expect(onClick).not.toHaveBeenCalled()
     })
 
+    test('marks a disabled default-element chip as aria-disabled', () => {
+      render(<Chip disabled>Static</Chip>)
+      expect(screen.getByText('Static')).toHaveAttribute('aria-disabled', 'true')
+    })
+
     test('marks a disabled anchor chip as aria-disabled and blocks clicks', async () => {
       const user = userEvent.setup()
       const onClick = vi.fn()
@@ -164,6 +169,36 @@ describe('Chip', () => {
       render(<Chip onClick={onClick}>Static</Chip>)
       await user.click(screen.getByText('Static'))
       expect(onClick).toHaveBeenCalledTimes(1)
+    })
+
+    test('a default-element chip with onClick (the pressed/filter-chip use case) gets button keyboard semantics', async () => {
+      const user = userEvent.setup()
+      const onClick = vi.fn()
+      render(
+        <Chip pressed onClick={onClick}>
+          Filter
+        </Chip>
+      )
+      const chip = screen.getByRole('button', { name: 'Filter' })
+      expect(chip.tagName).toBe('SPAN')
+      expect(chip).toHaveAttribute('tabIndex', '0')
+
+      chip.focus()
+      await user.keyboard('{Enter}')
+      expect(onClick).toHaveBeenCalledTimes(1)
+
+      await user.keyboard(' ')
+      expect(onClick).toHaveBeenCalledTimes(2)
+    })
+
+    test('a caller-supplied role (e.g. a custom grid/row composition) is left untouched', () => {
+      render(
+        <Chip component="div" role="row" onClick={vi.fn()}>
+          Row
+        </Chip>
+      )
+      expect(screen.getByRole('row', { name: 'Row' })).toBeInTheDocument()
+      expect(screen.queryByRole('button')).not.toBeInTheDocument()
     })
   })
 
@@ -205,6 +240,15 @@ describe('Chip', () => {
       const { container } = render(
         <Chip href="/bazinga" disabled>
           Link
+        </Chip>
+      )
+      expect(await axe(container)).toHaveNoViolations()
+    })
+
+    test('has no axe violations as a pressed filter chip', async () => {
+      const { container } = render(
+        <Chip pressed onClick={vi.fn()}>
+          Filter
         </Chip>
       )
       expect(await axe(container)).toHaveNoViolations()

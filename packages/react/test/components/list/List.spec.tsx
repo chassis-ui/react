@@ -117,6 +117,16 @@ describe('List', () => {
       render(<List items={[{ label: 'Dashboard' }, { label: 'Profile' }]} />)
       expect(screen.getByText('Dashboard').parentElement?.tagName).toBe('UL')
     })
+
+    test('keys items by id, preserving DOM node identity when items reorder', () => {
+      const alpha = { id: 'alpha', label: 'Alpha' }
+      const beta = { id: 'beta', label: 'Beta' }
+      const { rerender } = render(<List items={[alpha, beta]} />)
+      const alphaNodeBefore = screen.getByText('Alpha')
+
+      rerender(<List items={[beta, alpha]} />)
+      expect(screen.getByText('Alpha')).toBe(alphaNodeBefore)
+    })
   })
 
   describe('composed interactive items', () => {

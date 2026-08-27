@@ -2,7 +2,7 @@ import { createContext } from 'react'
 
 export interface AccordionContextProps {
   alwaysOpen?: boolean
-  name: string
+  name?: string
 }
 
-export const AccordionContext = createContext({} as AccordionContextProps)
+export const AccordionContext = createContext<AccordionContextProps>({})

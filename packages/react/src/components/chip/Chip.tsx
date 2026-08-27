@@ -7,9 +7,10 @@ import React, {
   Ref
 } from 'react'
 import classNames from 'classnames'
+import { mergeProps } from 'react-aria'
 
 import { ContextColor, ContextStyle } from '../../types'
-import { useDisabledAnchorGuard } from '../../hooks'
+import { useButtonSemantics, useDisabledAnchorGuard } from '../../hooks'
 import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
 
 type ChipOwnProps<C extends ElementType> = {
@@ -96,13 +97,13 @@ function ChipRender<C extends ElementType = 'span'>(
   const _className = classNames(
     'chip',
     color,
+    size,
     {
       outline: variant === 'outline',
       smooth: variant === 'smooth',
       active: pressed,
       disabled: !isButton && disabled
     },
-    size,
     className
   )
 
@@ -110,6 +111,18 @@ function ChipRender<C extends ElementType = 'span'>(
   // still fires click (and an anchor still navigates) unless it's blocked here, same guard
   // `Button`/`CloseButton` apply.
   const handleClick = useDisabledAnchorGuard<HTMLElement>(!isButton, disabled, onClick)
+
+  // A default (non-`button`/`a`) chip — the documented `pressed`/filter-chip use case — gets a
+  // raw `onClick` with no keyboard semantics otherwise, the same gap `Link` fills via
+  // `useButtonSemantics`. Skipped when the caller already supplied their own `role` via `rest`
+  // (e.g. `ChipList`'s `role="row"` grid semantics) — that caller is trusted to handle its own
+  // keyboard interaction, same as `CloseButton`'s `isComponentReference` escape hatch.
+  const hasExplicitRole = (rest as Record<string, unknown>).role !== undefined
+  const needsButtonSemantics = !isButton && !isAnchor && !!onClick && !hasExplicitRole
+  const { buttonProps, forkedRef } = useButtonSemantics<HTMLElement>(ref as Ref<HTMLElement>, {
+    disabled,
+    onClick
+  })
 
   if (isButton) {
     return (
@@ -145,15 +158,16 @@ function ChipRender<C extends ElementType = 'span'>(
 
   return (
     <Component
-      {...(rest as Record<string, unknown>)}
+      {...(mergeProps(rest, needsButtonSemantics ? buttonProps : {}) as Record<string, unknown>)}
       aria-pressed={pressed}
       className={_className}
-      onClick={handleClick}
+      {...(!needsButtonSemantics && { onClick: handleClick })}
+      {...(disabled && { 'aria-disabled': true })}
       // `href` was only ever forwarded when it also forced `Component` to `'a'` — now that an
       // explicit `component` wins over that default (see above), it needs to keep reaching a
       // custom `component`/HTML tag directly, same as `Avatar`'s equivalent fix.
       {...(href && { href })}
-      ref={ref}
+      ref={needsButtonSemantics ? forkedRef : ref}
     >
       {children}
     </Component>

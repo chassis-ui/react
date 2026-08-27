@@ -91,6 +91,20 @@ describe('AccordionItem', () => {
       await user.click(screen.getByText('Header'))
       expect(details.open).toBe(false)
     })
+
+    test('fires a caller-supplied onToggle when the item opens/closes - the only way to observe this uncontrolled state', async () => {
+      const user = userEvent.setup()
+      const onToggle = vi.fn()
+      render(
+        <AccordionItem onToggle={onToggle}>
+          <AccordionHeader>Header</AccordionHeader>
+          <AccordionBody>Body</AccordionBody>
+        </AccordionItem>
+      )
+
+      await user.click(screen.getByText('Header'))
+      expect(onToggle).toHaveBeenCalledTimes(1)
+    })
   })
 
   describe('ref forwarding', () => {

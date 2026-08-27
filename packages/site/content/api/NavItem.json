@@ -203,6 +203,33 @@
         "name": "boolean"
       }
     },
+    "type": {
+      "defaultValue": null,
+      "description": "Specifies the type of button. Only applies when `component=\"button\"`. Different browsers may\nuse different default types for the `<button>` element, so always specify it explicitly.",
+      "name": "type",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/link/Link.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"reset\" | \"button\" | \"submit\"",
+        "value": [
+          {
+            "value": "\"reset\""
+          },
+          {
+            "value": "\"button\""
+          },
+          {
+            "value": "\"submit\""
+          }
+        ]
+      }
+    },
     "ref": {
       "defaultValue": null,
       "description": "",

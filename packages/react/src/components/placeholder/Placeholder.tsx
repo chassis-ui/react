@@ -128,7 +128,7 @@ function PlaceholderRender<C extends ElementType = 'img'>(
         src={src}
         width={width}
         height={height}
-        alt={alt ?? label}
+        alt={alt ?? label ?? ''}
         className={_className}
         {...rest}
         ref={ref}

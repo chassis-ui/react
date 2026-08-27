@@ -1,7 +1,7 @@
-import React, { forwardRef, AllHTMLAttributes } from 'react'
+import React, { forwardRef, LabelHTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-export interface FormLabelProps extends AllHTMLAttributes<HTMLLabelElement> {
+export interface FormLabelProps extends LabelHTMLAttributes<HTMLLabelElement> {
   /**
    * A string of all className you want applied to the component.
    */

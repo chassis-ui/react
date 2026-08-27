@@ -14,6 +14,10 @@ import { ListItem } from './ListItem'
 
 export interface ListItemDef {
   /**
+   * Stable key for the rendered item. Falls back to the item's index in `items`.
+   */
+  id?: number | string
+  /**
    * Item label content.
    */
   label: React.ReactNode
@@ -146,8 +150,7 @@ function ListRender<C extends ElementType = 'ul'>(
         const Tag = item.href ? 'a' : isListSemantic ? 'li' : 'div'
         return (
           <Tag
-            // eslint-disable-next-line react/no-array-index-key
-            key={idx}
+            key={item.id ?? idx}
             className={itemClass}
             {...(item.href ? { href: item.href } : {})}
             {...(item.active ? { 'aria-current': 'page' } : {})}

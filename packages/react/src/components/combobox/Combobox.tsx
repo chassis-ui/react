@@ -291,7 +291,11 @@ export const Combobox = ({
     overlayRef: popoverRef,
     placement: toAriaPlacement('bottom-start'),
     offset: 2,
-    isOpen: state.isOpen
+    isOpen: state.isOpen,
+    // Leaving `onClose` unset doesn't actually disable react-aria's close-on-scroll listener —
+    // only an explicit `null` does. Matches the fix already applied to `Autocomplete`'s identical
+    // positioning call.
+    onClose: null
   })
 
   const overlayStyle: React.CSSProperties = {

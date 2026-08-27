@@ -1,7 +1,7 @@
 import React, { forwardRef, HTMLAttributes, SVGAttributes } from 'react'
 import classNames from 'classnames'
 
-export interface IconProps extends HTMLAttributes<HTMLSpanElement | SVGSVGElement> {
+interface IconOwnProps {
   /**
    * Icon name, e.g. `folder-tree`. Matches a `cx-{name}` font glyph class or an id in the SVG sprite.
    */
@@ -15,10 +15,6 @@ export interface IconProps extends HTMLAttributes<HTMLSpanElement | SVGSVGElemen
    */
   size?: number
   /**
-   * Render as a `cx-{name}` font glyph `<span>` instead of an SVG `<use>` reference.
-   */
-  font?: boolean
-  /**
    * Accessible name. When set, the icon is exposed to assistive tech instead of hidden.
    */
   title?: string
@@ -28,22 +24,19 @@ export interface IconProps extends HTMLAttributes<HTMLSpanElement | SVGSVGElemen
   sprite?: string
 }
 
+export type IconProps =
+  | (IconOwnProps & { font: true } & Omit<HTMLAttributes<HTMLSpanElement>, keyof IconOwnProps>)
+  | (IconOwnProps & { font?: false } & Omit<SVGAttributes<SVGSVGElement>, keyof IconOwnProps>)
+
 export const Icon = forwardRef<HTMLSpanElement | SVGSVGElement, IconProps>(
   (
-    {
-      name,
-      className,
-      size = 24,
-      font = false,
-      title,
-      sprite = '/static/icons/chassis-icons.svg',
-      ...rest
-    },
+    { name, className, size = 24, title, sprite = '/static/icons/chassis-icons.svg', ...props },
     ref
   ) => {
-    const _className = classNames('icon', { [`cx-${name}`]: font }, className)
+    const _className = classNames('icon', { [`cx-${name}`]: props.font }, className)
 
-    if (font) {
+    if (props.font) {
+      const { font: _, ...rest } = props
       return (
         <span
           className={_className}
@@ -59,14 +52,17 @@ export const Icon = forwardRef<HTMLSpanElement | SVGSVGElement, IconProps>(
       )
     }
 
+    const { font: _, ...rest } = props
+
     return (
       <svg
         className={_className}
         width={size}
         height={size}
+        role={title ? 'img' : undefined}
         aria-hidden={title ? undefined : true}
         ref={ref as React.Ref<SVGSVGElement>}
-        {...(rest as SVGAttributes<SVGSVGElement>)}
+        {...rest}
       >
         {title && <title>{title}</title>}
         <use href={`${sprite}#${name}`} />

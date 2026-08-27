@@ -24,6 +24,20 @@ describe('Link', () => {
       expect(screen.getByRole('button', { name: 'Test' }).tagName).toBe('BUTTON')
     })
 
+    test('defaults a button-rendered link to type="button" so it does not submit an ancestor form', () => {
+      render(<Link component="button">Test</Link>)
+      expect(screen.getByRole('button', { name: 'Test' })).toHaveAttribute('type', 'button')
+    })
+
+    test('respects an explicit type on a button-rendered link', () => {
+      render(
+        <Link component="button" type="submit">
+          Test
+        </Link>
+      )
+      expect(screen.getByRole('button', { name: 'Test' })).toHaveAttribute('type', 'submit')
+    })
+
     test('renders as an arbitrary non-interactive component', () => {
       const { container } = render(<Link component="span">Test</Link>)
       expect(container.firstChild?.nodeName).toBe('SPAN')

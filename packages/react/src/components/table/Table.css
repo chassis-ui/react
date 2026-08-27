@@ -30,10 +30,10 @@
   text-align: center;
 }
 
-[role="row"]:focus-visible,
-[role="gridcell"]:focus-visible,
-[role="columnheader"]:focus-visible,
-[role="rowheader"]:focus-visible {
+.table [role="row"]:focus-visible,
+.table [role="gridcell"]:focus-visible,
+.table [role="columnheader"]:focus-visible,
+.table [role="rowheader"]:focus-visible {
   outline: var(--cx-border-width-xlarge) solid var(--cx-primary);
   outline-offset: -2px;
 }

@@ -1,10 +1,13 @@
 # Component library audit — fix plan
 
-Tracks remediation of the findings from the 2026-08-26 senior-level review of all 51
-`packages/react/src/components/**` folders (checked against this package's own `CONVENTIONS.md`/
-`FORMS.md`/`THEMING.md` rather than generic style preference). Findings are grouped into phases
-by shared risk/blast-radius, not by severity alone, so each phase is one coherent, independently
-shippable commit.
+Tracks remediation of the findings from the 2026-08-27 senior-level review of all
+`packages/react/src/components/**` folders, done as 7 parallel batch reviews (form primitives;
+overlays/selection; navigation; data-display; feedback; layout/base primitives;
+calendar/datepicker/carousel), each checked against this package's own `CONVENTIONS.md`/
+`FORMS.md`/`THEMING.md` rather than generic style preference. This is the second full pass — the
+first (2026-08-26, `AUDIT-PLAN.md` history) is fully closed; this plan only covers what's newly
+found since. Findings are grouped into phases by shared risk/blast-radius, not by severity alone,
+so each phase is one coherent, independently shippable commit.
 
 ## How to work this plan (read this every session)
 
@@ -12,405 +15,389 @@ shippable commit.
 - After finishing a phase: run `pnpm lint` and `pnpm test` (and `pnpm react:build && pnpm
   react:report` if the phase touched exported props/types — see root `AGENTS.md`), check off every
   item in that phase below, commit with a message referencing the phase number
-  (e.g. `fix(react): phase 3 — popover/modal dismissal correctness`), then **stop and wait for the
-  user's go-ahead before starting the next phase.** Do not ask "should I continue?" as a rhetorical
-  flourish and proceed anyway — actually stop.
+  (e.g. `fix(react): phase 3 — toast/notification dismissal correctness`), then **stop and wait for
+  the user's go-ahead before starting the next phase.** Do not ask "should I continue?" as a
+  rhetorical flourish and proceed anyway — actually stop.
 - **Resuming in a new session/context window:** read this file top to bottom first. The first
-  phase with any unchecked box is the current phase. Do not re-do checked phases; do not skip
-  ahead of the first unchecked one without the user explicitly asking to reorder.
-- Each phase lists the finding IDs it closes (matching the published audit artifact) so a future
-  session can cross-reference the original reasoning without re-deriving it.
+  phase with any unchecked box is the current phase. Do not re-do checked phases; do not skip ahead
+  of the first unchecked one without the user explicitly asking to reorder.
+- Each phase lists the finding IDs it closes so a future session can cross-reference the original
+  reasoning without re-deriving it (IDs are local to this plan — no separate published artifact).
 - If a fix reveals the finding was wrong or already fixed, check the box anyway and note that in
   the commit message — don't leave it dangling because "nothing to do."
 - Every phase that changes behavior adds/updates a test for that behavior in the same commit —
-  don't defer test-writing to Phase 8 for anything with a dedicated phase below. Phase 8 is only
+  don't defer test-writing to Phase 10 for anything with a dedicated phase below. Phase 10 is only
   for coverage gaps that aren't attached to any specific fix.
+- Items tagged **DECIDE** need a judgment call, not just mechanical execution — surface the
+  tradeoff to the user (or state your reasoning and proceed if it's clearly low-stakes) before
+  implementing, and record the decision in the commit message so it doesn't get re-litigated later.
 
 ---
 
 ## Phase 1 — Isolated quick fixes (no shared-engine changes)
 
-Independent, one-file, low-risk bugs plus trivial cleanup. Safe to land as a single commit.
+Independent, single-file, low-risk bugs. Safe to land as one commit; order within the phase
+doesn't matter.
 
-- [x] **BUG-01** `select/Select.tsx:235` — default-value computation uses a truthy check
-  (`option.value &&`), silently drops `value: 0`. Use the same `?? ''`-style nullish check the
-  render path already uses a few lines below.
-- [x] **BUG-02** `select/Select.tsx:23,239` — `SelectOptionDef.label`'s doc comment promises a
-  fallback to the stringified value when omitted; no such fallback exists and an object option
-  without `label` renders blank. Either implement `option.label ?? String(option.value ?? '')` or
-  correct the doc comment (it ships verbatim into the generated API docs — check which one is the
-  actually-intended behavior before picking). Implemented the fallback (matches the doc).
-- [x] **BUG-06** `range-input/RangeInput.tsx:65` — `value` type wrongly includes `string[]`,
-  copy-pasted from `Select`'s legitimately-array multi-select value. Narrow to `string | number`.
-- [x] **BUG-10** `avatar/Avatar.tsx:82` — `tag = component ?? (href ? 'a' : 'button')` makes every
-  plain, non-interactive `<Avatar>` a focusable button by default. Default to `'span'` when neither
-  `href` nor `component` is set; keep `'a'`/explicit `component` as the opt-in for interactive
-  avatars. Check `AvatarStack`'s generated items inherit the corrected default. Update the snapshot
-  in `Avatar.spec.tsx` that currently asserts `getByRole('button')` for the bare case.
-  `AvatarStack` needed no source change (it just spreads item props into `Avatar`); its own tests/
-  snapshot were updated for the new default too.
-- [x] **BUG-13** `nav/NavItem.tsx:6-16` — `rest` (onClick/id/data-*/aria-*) is only forwarded inside
-  the `if (rest.href || rest.to)` branch; add a plain-`<li>` branch that still spreads `rest`.
-- [x] **BUG-14** `carousel/context.ts:21` — context defaults to `{}` instead of a throwing accessor.
-  Mirror `tabs/context.ts:18-24`'s pattern so a `Carousel*` sub-part rendered outside `<Carousel>`
-  fails with a clear error instead of an opaque "not a function." Added `useCarouselContext()` and
-  switched all 5 sub-parts (`CarouselControlNext/Prev`, `CarouselInner`, `CarouselPlayPause`,
-  `CarouselIndicators`) to it.
-- [x] **CLEANUP** `packages/site/content/api/AccordionCollapse.json`,
-  `packages/site/content/api/AccordionButton.json` — stale `pnpm react:generate` output referencing
-  deleted `.tsx` files. Delete both.
-- [x] **CLEANUP** `tsdown.config.ts:20-23` — comment claims the CSS custom-property prefix plugin
-  has "nothing to rewrite" since sources namespace by hand; `Calendar.scss`/`RangeCalendar.scss`
-  actually rely on the plugin (bare `var(--primary)`) while `DatePicker.scss`/
-  `DateRangePicker.scss` prefix by hand (`var(--cx-primary)`). Fix the comment to describe the real
-  (inconsistent-but-working) split so the next editor isn't misled. Do not change the Sass itself
-  in this phase — that's a bigger, separate call.
-- [x] **DECIDE** `password-strength/PasswordStrength.tsx:99-105` — `onStrengthChange` doesn't fire
-  for the initial mount value. Confirm with the user (or docs precedent) whether that's intentional;
-  either document it explicitly in the prop's JSDoc or fire it on mount. Add a test either way so
-  the behavior is pinned. Decided: fire on mount too (no docs precedent found either way; a
-  consumer gating e.g. a submit button on strength needs the true initial state, not just
-  subsequent changes) — updated the JSDoc and the ref-init so the mount-time value isn't skipped.
-
----
-
-## Phase 2 — Form validation-state & toggle-control consistency
-
-Touches the shared `renderFormCheck` helper and `Switch`'s hand-inlined copy of it — same family,
-one coherent review pass.
-
-- [x] **BUG-04** `switch/Switch.tsx:139-150` — unlabeled `Switch` always wraps in an empty
-  `<label class="form-check form-switch">`; `renderFormCheck` returns a bare
-  `<span class="check-input">` in the equivalent case. Align `Switch`'s markup to match (render the
-  bare span shape when there's no `label`). Update `Switch.spec.tsx`'s snapshot for the unlabeled
-  case.
-- [x] **BUG-05** `form/renderFormCheck.tsx:52-68` — the `button`-variant wrapper className never
-  incorporates `invalid`/`valid`, so a button-styled checkbox/radio has no visible invalid
-  indication (only the hidden native input gets the class). Fold `invalid`/`valid` into the
-  button-branch className builder, respecting the documented base→size→validation→caller-className
-  order from `CONVENTIONS.md`. Add a test rendering `<Checkbox button={{...}} invalid />` and
-  asserting the visible class.
-- [x] **BUG-03** `otp-input/OtpInput.tsx` (~line 309), `otp-input/OtpBox.tsx:53` — `is-invalid`/
-  `is-valid` land only on the outer `.form-otp` wrapper; forward them into each `OtpBox`'s own
-  className too, since chassis-css has no descendant rule bridging the two. Add a test asserting
-  each digit box carries the class when the group is invalid. Also added `valid` forwarding to
-  `OtpBox` (it only had `invalid` before) for the same reason.
-- [x] **REFACTOR** `switch/Switch.tsx:87-117` — the `type="radio"` path hand-builds props and
-  bypasses react-aria, while `useToggleState`/`useSwitch` are still called unconditionally with an
-  unused result (risk of a misleading "controlled without onChange" dev warning). Either wire the
-  hook's result through properly for this branch or restructure so the unused call doesn't happen.
-  Split `Switch` into internal `SwitchCheckbox`/`SwitchRadio` components (picked by the outer
-  `Switch` based on `type`) so the radio path never calls `useToggleState`/`useSwitch` at all,
-  instead of calling them unconditionally and discarding the result.
-- [x] **DECIDE + FIX** `checkbox/Checkbox.tsx` vs `radio/RadioGroup.tsx` — `CheckboxGroup`'s
-  `invalid` doesn't cascade to child items' `aria-invalid`/class, unlike `RadioGroup`. Decide
-  whether this asymmetry is intentional (FORMS.md notes a lone checkbox's validity is meaningful on
-  its own, unlike a lone radio); if not intentional, cascade it the same way `RadioGroup` does and
-  add the equivalent test coverage `RadioGroup.spec.tsx` already has. If intentional, add a one-line
-  comment in `CheckboxGroup.tsx` saying so, so the next reviewer doesn't re-flag it. Decided: not
-  intentional — a lone checkbox's independently-meaningful validity (why the per-item prop exists)
-  doesn't mean the group's own `invalid`/`valid` shouldn't still cascade as a default; cascaded both
-  (mirroring `RadioGroupContext`'s `valid` passthrough), with the item's own `invalid`/`valid`
-  still winning when explicitly set on that item.
-
-Checked: none of the components touched in this phase (Switch, Checkbox, OtpInput) have Storybook
-visual-regression coverage (`test/visual/` only covers calendar-datepicker, menu-popover-tooltip,
-toast-notification, accordion-collapse), so `pnpm test:visual` wasn't needed.
+- [x] **BUG-01** `link/Link.tsx` (~line 96) — the `component="button"` branch never defaults
+  `type`, unlike `button/Button.tsx`/`close-button/CloseButton.tsx` which both default
+  `type='button'` specifically to prevent accidental form submission. `<Link component="button">`
+  inside a `<form>` defaults to `type="submit"`. Add the same default.
+- [x] **REFACTOR-01** `link/Link.tsx` (~lines 101-109) — inline disabled/`preventDefault` anchor
+  guard duplicates `useDisabledAnchorGuard`, which `Button`/`CloseButton` already use for the same
+  problem. Switch to the shared hook while touching this file for BUG-01 anyway.
+- [x] **A11Y-01** `pagination/PaginationItem.tsx` (~lines 99-103) — the custom-`component`/default
+  branch attaches a raw `onClick` with no keyboard semantics (no `tabIndex`, no Enter/Space
+  handling) — the exact case `Link` already solves via `useButtonSemantics`. Wire the same hook in
+  here. Add a test covering `<PaginationItem component="div" onClick={...}>` keyboard activation
+  (currently untested — confirmed no existing test exercises a custom `component` + `onClick`
+  combination).
+- [x] **A11Y-02 / BUG-02** `chip/Chip.tsx` (~lines 146-159) — the generic (non-button/non-anchor)
+  branch, which is what a default `<Chip disabled>`/`<Chip pressed onClick>` actually renders
+  through, is missing both `aria-disabled` (present on the anchor branch) and keyboard semantics
+  for the documented `pressed`/filter-chip use case (present on `Link` via `useButtonSemantics`,
+  never wired into `Chip`). Fix both in this branch, mirroring `Link`/the anchor branch. Add tests
+  for `aria-disabled` and keyboard activation on the default-element branch.
+- [x] **CLEANUP-01** `chip/Chip.tsx` (~lines 96-107) — className build order (`base, color, state,
+  size, className`) diverges from sibling `Badge.tsx` (`base, color, size, state, className`,
+  matching `CONVENTIONS.md`'s documented order). Reorder to match.
+- [x] **BUG-03** `password-strength/PasswordStrength.tsx` (~lines 95-98) — `maxScore` is always
+  derived from the built-in criteria weights, ignoring a caller-supplied `scorer` on a different
+  scale; `useProgressBar` silently clamps `aria-valuenow`/`aria-valuemax` once a custom scorer's
+  values exceed the built-in max. Add an optional `maxScore` prop, documented as paired with
+  `scorer`, used instead of the weights-sum when provided. Add a test with a custom scorer + custom
+  `maxScore` on a different scale.
+- [x] **A11Y-03** `icon/Icon.tsx` (~lines 62-74, svg branch) — no `role="img"` fallback when
+  `title` is set, unlike the font-mode branch which defensively sets `role={title ? 'img' :
+  undefined}`. Add the same fallback to the svg branch.
+- [x] **BUG-04** `icon/Icon.tsx` (line 4) — `IconProps extends HTMLAttributes<HTMLSpanElement |
+  SVGSVGElement>` doesn't actually type the SVG render target, forcing an `as SVGAttributes<...>`
+  cast at the render site. Type as a discriminated union (`font: true` → `HTMLAttributes<
+  HTMLSpanElement>`; default → `SVGAttributes<SVGSVGElement>`), or at minimum union in
+  `SVGAttributes<SVGSVGElement>` so the existing cast becomes provably safe instead of an escape
+  hatch.
+- [x] **A11Y-04** `progress/Progress.tsx` (~line 112) — `aria-label` is only derived when `label`
+  is a plain string; a `ReactNode` label (which the prop type explicitly allows) renders visually
+  with no accessible name on the `role="progressbar"` element at all. Generate an id for the
+  caption and wire `aria-labelledby` when `label` is a non-string node, mirroring how
+  `Toast`/`Notification` handle their analogous `title` case. Add a test with a `ReactNode` label.
+- [x] **BUG-05** `progress/Progress.tsx`/`ProgressBar.tsx` — `value` isn't clamped to 0–100, so an
+  out-of-range value produces `aria-valuenow` outside `aria-valuemin`/`aria-valuemax` and a bar
+  that overflows its track. Clamp with `Math.min(100, Math.max(0, value))`.
+- [x] **A11Y-05** `placeholder/Placeholder.tsx` (~lines 118-137, `src`/real-`<img>` branch) —
+  `alt={alt ?? label}` resolves to `undefined` when both `alt` and `label` (via `title={false}`)
+  are absent, leaving the `<img>` with no `alt` attribute at all — most screen readers fall back to
+  announcing the file name/URL. The generated-SVG branch already degrades correctly
+  (`aria-hidden="true"`, no role) for the equivalent case. Default to `alt={alt ?? label ?? ''}`.
+  Add a test for `src` + `title={false}` + no explicit `alt`.
+- [x] **BUG-06** `combobox/Combobox.tsx` (~lines 289-295) — `useOverlayPosition` has no `onClose:
+  null`, unlike sibling `Autocomplete.tsx`'s identical positioning call, which has a comment
+  specifically noting the fix should also apply to `Combobox`. Add `onClose: null` here too.
+- [x] **BUG-07** `menu/MenuSubmenu.tsx` (~lines 98-110) — same missing `onClose: null` on its
+  `useOverlayPosition` call. Add it. While in this file, fix the stale claim in
+  `hooks/useOverlayPlacement.ts` (~lines 35-38) that `MenuSubmenu`/`Combobox` already have this fix
+  — it should now be true after BUG-06/BUG-07, so just verify the comment matches reality.
+- [x] **BUG-08** `list/List.tsx` (`ListItemDef`, ~lines 15-36) — no stable `id`/`key` field, unlike
+  sibling `*Def` shapes (`AccordionItemDef.id`, `AvatarStackItemDef.key`) which both exist
+  specifically as a stable-key escape hatch. Add an optional `id`/`key` field and use it when
+  present instead of always keying by array index (`List.tsx` ~line 150).
+- [x] **BUG-09** `accordion/AccordionItem.tsx` (line 6) — extends `HTMLAttributes<
+  HTMLDetailsElement>` instead of `DetailsHTMLAttributes<HTMLDetailsElement>`, so `onToggle` (the
+  *only* way to observe open/close on this intentionally-uncontrolled component) is untyped/
+  unreachable through the prop surface. Switch to `DetailsHTMLAttributes`.
+- [x] **CLEANUP-02** `accordion/context.ts` (~lines 3-8) — `AccordionContextProps.name` is typed
+  as required `string` but the context defaults to `{} as AccordionContextProps`, a cast masking
+  that `name` is genuinely `undefined` for a supported, tested standalone-`AccordionItem` case.
+  Type `name?: string` instead of casting around it.
+- [x] **CLEANUP-03** `form/FormLabel.tsx` (lines 1, 4) — the only use of `AllHTMLAttributes`
+  anywhere in `src/`, silently permitting attributes that don't belong on `<label>` with no type
+  error. Swap to `LabelHTMLAttributes<HTMLLabelElement>` (still carries `htmlFor`, which is all
+  that's used).
+- [x] **CLEANUP-04** `table/Table.css` (~lines 33-39) — `[role="row"]:focus-visible`/
+  `[role="gridcell"]:focus-visible`/etc. selectors are unscoped, so this focus-ring styling would
+  apply to any future element reusing those ARIA roles anywhere in the bundle. Prefix with a
+  `.table` ancestor selector.
 
 ---
 
-## Phase 3 — Overlay dismissal & modal backdrop correctness
+## Phase 2 — Modal/Drawer dialog-hook correctness (`useDialogElement`)
 
-Higher-risk, interaction-heavy — isolate for careful manual + automated testing.
+Shared hook, interaction-heavy — isolate for careful manual + automated testing.
 
-- [x] **BUG-07 / A11Y-03** `popover/Popover.tsx` — no Escape-key or outside-click dismissal at all.
-  Bring to parity with `menu/Menu.tsx:262-324`'s existing implementation of both. Add
-  `Popover.spec.tsx` tests for Escape-to-close and outside-click-to-close. Verified live in
-  Storybook: Escape closes and refocuses the trigger, an outside click closes it, a click inside
-  the panel does not.
-- [x] **BUG-08** `modal/Modal.tsx:234,243-257` — `backdrop={false}` is a no-op; neither the
-  backdrop-click handler nor the className builder branches on it. Compare
-  `drawer/Drawer.tsx:190`'s correct handling of the same-named prop
-  (`isModal = Boolean(backdrop) || !scroll`) and mirror the intent for Modal. Add the equivalent
-  test `Drawer.spec.tsx:91` already has. **Investigated and closed as not-a-bug** (confirmed with
-  the user before proceeding): traced chassis-css's vanilla JS — Drawer's own vanilla class derives
-  modality from `backdrop`+`scroll`, but Dialog/Modal's vanilla class does not; its `backdrop`
-  config is read only to distinguish `'static'` from everything else, and `modal` alone decides
-  `showModal()`/`show()`. The React `Modal.tsx`'s `backdrop={false}` no-op (beyond the `'static'`
-  check) already matches vanilla `Dialog` exactly — Drawer and Dialog have genuinely different
-  upstream backdrop semantics, not a divergence to reconcile. Added a comment on the `backdrop` prop
-  in `Modal.tsx` explaining this, plus a regression test pinning that `backdrop={false}` still
-  closes on backdrop click (same as the default) so this isn't silently untested.
-- [x] **REFACTOR** `popover/Popover.tsx:17` — imports `Placement` from `../tooltip/Tooltip` instead
-  of the canonical `../../utils/overlayPlacement.ts` that `Menu`/`Tooltip` both import from
-  directly. Fix the import while touching this file for BUG-07 anyway.
-
-Manually verified in a live preview: Popover's dismissal in Storybook (see above), and Modal's
-default backdrop-click-to-close on the live docs site (`pnpm --filter chassis-react-site dev`,
-`/react/docs/components/modal`'s Live demo — confirmed via DOM introspection that the dialog closes
-after the transition; the Browser pane's screenshot capture has an unrelated rendering quirk with
-native `<dialog>` top-layer + `backdrop-filter`, so this was checked via JS rather than pixels).
-Ran `pnpm test:visual` for the `menu-popover-tooltip` batch: all stories (including ones this phase
-never touched, e.g. `menu/Menu — Closed`) already mismatch the checked-in `-darwin.png` baselines
-on a clean `git stash`d tree with the exact same pixel-diff ratios — pre-existing local macOS
-baseline drift unrelated to this phase's diff, not something to fix here (see `AGENTS.md`'s own
-caveat that Linux baselines, the actual CI gate, need the matching Docker image to regenerate).
+- [ ] **BUG-10** `hooks/useDialogElement.ts` (~lines 170-183) — the non-modal Escape-key listener
+  (needed because native `cancel` only fires for `showModal()`) calls `preventDefault()` and
+  returns when `!keyboard`, but never calls `triggerStaticBounce()` — unlike the modal path's
+  `handleCancel`, which does. `<Modal modal={false} keyboard={false}>` (and the equivalent
+  `Drawer`) currently swallows Escape silently with no bounce and no `onClosePrevented`. Call
+  `triggerStaticBounce()` in this branch too. Add a test for `modal={false} keyboard={false}` +
+  Escape on both `Modal` and `Drawer` (confirmed missing today — existing tests only cover
+  `keyboard={false}` against the native `cancel` event).
+- [ ] **BUG-11** `hooks/useDialogElement.ts` (same listener) — reads `close`/`onClose` from the
+  enclosing closure directly rather than through a ref, with effect deps `[keyboard]` only; if
+  `onClose` changes identity without `keyboard` changing, Escape invokes a stale callback. Route
+  through a ref, matching `Drawer`'s own `closeRef` pattern (used for its cross-instance registry)
+  or `useFloatingOverlay`'s `closeRef`.
+- [ ] **A11Y-06 / DECIDE-01** `modal/ModalTitle.tsx`, `drawer/DrawerTitle.tsx` — neither generates
+  an `id`, and neither `Modal`/`Drawer` wires `aria-labelledby` to it automatically, unlike
+  `Popover` in the same overlay family (`useDialog` + `titleProps`). `drawer.mdx` documents the
+  manual `aria-labelledby` workaround; `modal.mdx` doesn't even have that. **Decide**: auto-wire
+  `id`/`aria-labelledby` like `Popover` does (bigger, more consistent fix), or at minimum add the
+  same manual-wiring doc note to `modal.mdx` that `drawer.mdx` already has (smaller, stopgap fix).
+  Either way, add a test asserting the dialog has a resolvable accessible name in the documented
+  usage.
 
 ---
 
-## Phase 4 — Toast/Notification entrance-transition fix
+## Phase 3 — Toast/Notification dismissal correctness & shared-hook extraction
 
-Transition-timing-sensitive; has its own visual-regression batch (`toast-notification.visual.spec.ts`).
+This is the highest-confidence *silent* bug in the whole review: real, currently invisible to the
+test suite, and reachable under completely normal multi-toast usage. Isolate for careful testing.
 
-- [x] **BUG-09** `toast/Toaster.tsx`, `notification/NotificationStack.tsx`, `toast/Toast.tsx`,
-  `notification/Notification.tsx` — queued items mount with `in=true` from their first render, so
-  react-transition-group's `Transition` skips the enter animation (only special-cased via `appear`,
-  which neither component sets). Set `appear` on the `Transition`/`CSSTransition` in both `Toast`
-  and `Notification`. Add a test exercising the always-`visible` queue-mount path specifically (the
-  existing tests only cover the `visible={false}→true` rerender path) — assert the entering class is
-  present on first mount, not just on a later prop flip. Added `appear` to both `Transition`s;
-  replaced `Toast.spec.tsx`'s test that pinned the old (buggy) "mounts settled, no transition"
-  behavior with one asserting `show showing` is present immediately on mount and settles to `show`
-  after 250ms, plus a new test confirming `onShow` now fires for a queue-mounted toast (previously
-  it never fired on initial mount, only on a later `visible` flip — traced via
-  `react-transition-group`'s `Transition.js` source: without `appear`, `performEnter`/`onEnter` are
-  never invoked for an already-`in` initial mount at all). Also fixed one incidental snapshot test
-  (`applies color, className and the default status role once shown`) that was asserting mid-
-  transition markup by coincidence of an unawaited `waitFor` — it now explicitly waits for the
-  settled (non-`showing`) state before snapshotting, which is what its own title already claimed.
-  **Discovered while fixing `Notification`:** `chassis-css`'s `_notification.scss` has zero CSS
-  keyed off `.notification.show`/`.fade` — unlike `Toast`, `Notification.tsx`'s `_className` never
-  even applies a `fade` class — so `.show` is currently a no-op class for this component regardless
-  of the `appear` fix, and `NotificationProps` has no `onShow`-equivalent callback either. The
-  `appear` fix is still correct (matches `Toast`'s parity and react-transition-group's documented
-  semantics, and costs nothing), but it has no observable effect yet. Filed as a follow-up rather
-  than expanding this phase's scope (would need a `chassis-css` change in the sibling repo plus a
-  new `Notification` public prop). Added a regression test (`Notification.spec.tsx`, "show/hide
-  transition") pinning that the queue-mount path still reaches the settled state and that dismissing
-  mid-transition still fires `onClose`, since that's the part actually verifiable today.
-- [x] Run `pnpm test:visual` for the `toast-notification` batch; regenerate Linux baselines via the
-  Playwright Docker image (see root `AGENTS.md`'s visual-regression section) if the entrance frame
-  capture shifts. Ran locally: 13/14 stories mismatch the checked-in `-darwin.png` baselines, but
-  confirmed via `git stash` that the exact same 13 stories fail with identical pixel-diff ratios on
-  the clean, unmodified tree — pre-existing local macOS baseline drift (same phenomenon Phase 3
-  already hit and documented for the `menu-popover-tooltip` batch), not something this phase's diff
-  caused. Left for a future Linux-container baseline regen, per `AGENTS.md`.
-
----
-
-## Phase 5 — List / Stepper / Nav invalid-markup fixes
-
-Same root pattern (an `items`-driven auto-content path duplicating the sub-component's own
-markup instead of delegating to it) across three components — fix together, and note the shared
-duplication for Phase 7 to actually resolve.
-
-- [x] **BUG-11** `list/List.tsx:105-126`, `list/ListItem.tsx:53` — `items`+`href` shorthand renders
-  a bare `<a>` as a direct child of the default `<ul>` root (invalid; only `<li>`/`script`/
-  `template` are permitted children), and `ListItem`'s own root swaps to `<a>` instead of wrapping
-  one inside `<li>`. Fix both to always render an `<li>` wrapper around the link.
-  **Investigated and implemented differently than prescribed above** (confirmed with the user
-  before proceeding): wrapping the anchor in an `<li>` while keeping `.list-item`/`.list-action` on
-  the `<a>` would make that class a grandchild, not a direct child, of `.list` — silently breaking
-  chassis-css's `.list > .list-item.list-action` selector (and every other direct-child selector:
-  first/last-child border-radius, `+ .list-item` border collapsing) for every linked item, since
-  `%interactive`'s `:hover`/`:focus-visible`/`:active` must live on the actual `<a>`, not a
-  non-focusable wrapper. Also discovered the same invalid-nesting bug already exists — and ships on
-  the live docs site today — in the fully-documented **composed** usage
-  (`<List><ListItem component="a" href="#">`, used by `LinksExample.tsx`, `ButtonsExample.tsx`,
-  `ContextualLinksExample.tsx`, `CustomContentExample.tsx`), not just the `items` shorthand named
-  above. Fixed both by having `List` auto-default its own root to `'div'` instead of `'ul'`
-  whenever an item/child is interactive (a linked data-driven item, or a `<ListItem
-  component="a"|"button">` child) — matching the pattern already documented for `Stepper`'s
-  composed interactive usage (`<Stepper component="div">`) — and, for the composed-children path,
-  cloning each plain `ListItem` sibling to `component="div"` too (a bare `<li>` inside a `<div>` is
-  just as invalid). `component` stays a full caller override. Considered also adding
-  `role="list"`/`role="listitem"` to restore the lost `<ul>`/`<li>` semantics, but reverted it after
-  it broke the native `link`/`button` role on interactive items (an explicit `role` replaces an
-  element's implicit one, so `role="listitem"` on an `<a>` — the WAI-ARIA-correct annotation for a
-  role="list" child — silently un-announces it as a link, which several existing tests caught via
-  `getByRole('link', ...)` failing); dropped the role work entirely rather than ship that
-  regression — same trade-off Bootstrap's own `list-group` (`<div class="list-group"><a
-  class="list-group-item list-group-item-action">`, no `role="list"`/`listitem"` either) already
-  makes. Updated `list.mdx`'s "Links and buttons" section to document the automatic `<div>` default.
-  Filed a follow-up (not fixed here, outside BUG-11's named scope) for a third, separate instance of
-  the same invalid-nesting pattern: `ChecksListItemExample.tsx`'s `<List><Checkbox
-  className="list-item">` renders a bare `<label>` inside `<ul>`, since `List`'s interactive
-  detection only recognizes `ListItem` children, not arbitrary components with a non-`<li>` root.
-- [x] **BUG-12** `stepper/Stepper.tsx:93-104` — `items` path renders linked steps as a bare `<a>`
-  sibling to the surrounding `<li>` steps inside the `<ol>`. Fix to nest the anchor inside an `<li>`,
-  matching `nav/Nav.tsx:62-70`'s correct pattern for the equivalent case. **Implemented with the
-  same auto-div-default approach as BUG-11** (same user decision covers both — Stepper has the
-  identical conflict: `.stepper-item:not(.active):has(~ .stepper-item.active)`'s progress-line
-  styling is a sibling-combinator selector that an `<li>` wrapper would just as surely break).
-  `Stepper`'s `items` path and composed `StepperItem` children now both default the root to `'div'`
-  when a step is interactive; simplified `packages/site/examples/components/stepper/
-  InteractiveExample.tsx` to drop its now-redundant explicit `component="div"` (demonstrating the
-  new automatic behavior) and updated `stepper.mdx` accordingly.
-- [x] Add the missing axe assertions that would have caught these: `List.spec.tsx`/
-  `ListItem.spec.tsx` need a test rendering the `items`+`href` shorthand (and a `ListItem`
-  actually nested in a `<ul>`), and `Stepper.spec.tsx` needs one rendering the `items` variant, not
-  just manual `StepperItem` children. Added, adapted to the actual fix shape: for both `List` and
-  `Stepper`, a data-driven-linked-item test and a composed-interactive-child test each asserting the
-  root is `div` (not `ul`/`ol`) with no invalid tag anywhere in the tree, an explicit-`component`
-  override test for each, a stays-`ul`/`ol`-when-nothing-is-linked test for each, and axe checks for
-  both the data-driven and composed interactive shapes (four new axe assertions total). Verified
-  live against the docs site (`pnpm --filter chassis-react-site dev` already running on :4327,
-  `/react/docs/components/list` and `/react/docs/components/stepper`): every existing composed
-  example (`LinksExample`, `ButtonsExample`, `ContextualLinksExample`, `CustomContentExample`,
-  `InteractiveExample`) now renders a valid `<div><a>`/`<div><button>` tree with no `component`
-  changes needed in the example source itself — the auto-detection fixed them transparently.
+- [ ] **BUG-12** `toast/Toast.tsx` (~line 145), `notification/Notification.tsx` (~line 134) — both
+  pass an unmemoized `() => setVisible(false)` into `hooks/useAutoDismiss.ts`, whose scheduling
+  effect depends on that closure's identity. Since `Toaster`/`NotificationStack` re-render every
+  mounted item whenever the shared queue changes (`ToastQueue.add()`/`.close()` notify all
+  subscribers synchronously), **adding or dismissing any one toast/notification silently restarts
+  every other visible one's autohide countdown** — an item can outlive its documented `delay`
+  indefinitely under normal multi-item churn. Not caught today because existing tests only rerender
+  with deliberately *changed* props. Add a test rendering two toasts (and two notifications) and
+  asserting the first's timer survives the second's arrival/dismissal.
+- [ ] **REFACTOR-02** Extract the ~30 lines of duplicated dismiss/transition machinery between
+  `Toast.tsx` and `Notification.tsx` (visible-state + prop-sync effect, forked ref, `getTransitionClass`
+  — currently byte-for-byte duplicated per `git show 545012b` — `titleId`/`textId` via `useId()`,
+  the `Transition` boilerplate, and the close callback + `useAutoDismiss` wiring) into a shared
+  hook, e.g. `useDismissibleTransition` in `src/hooks/`. Fixing BUG-12 as part of this extraction
+  (memoize the close callback once, inside the shared hook) is preferable to patching both files
+  separately — do BUG-12 and REFACTOR-02 as one combined change.
+- [ ] **BUG-13** `notification/Notification.tsx` (~lines 136-141) — the autohide timer isn't gated
+  on the entrance transition having finished, unlike `Toast.tsx` (~lines 132-135, 150), which
+  explicitly gates on an `entered` state with a comment explaining why ("gating on `_visible` alone
+  would start it the instant `visible` flips true, while still fading/sliding in"). Apply the same
+  gating to `Notification`, or fold this into REFACTOR-02's shared hook so both get it uniformly.
+- [ ] **DECIDE-02** `toast/ToastHeader.tsx` (~lines 83-87) vs `notification/Notification.tsx`
+  (~lines 184-192) — `ToastHeader` unconditionally wraps *any* icon, including a caller-supplied
+  custom `ReactNode`, in `aria-hidden="true"`; `Notification` never does this for a custom node.
+  Both JSDocs describe the same "pass a custom node, typically a logo or avatar" use case
+  near-verbatim. Decide which is correct (likely: only auto-hide the string/`ToastIcon` case —
+  `Icon` already handles its own `aria-hidden` default — and leave a genuinely meaningful custom
+  icon, e.g. an avatar, to the caller) and align both. Update whichever spec file's existing test
+  currently pins the behavior being changed.
+- [ ] **CLEANUP-05** `toast/Toast.tsx` — `role` prop is untyped beyond the generic inherited
+  `AriaRole`, unlike `notification/Notification.tsx` (~lines 88-93), which explicitly types and
+  documents `role?: 'status' | 'alert'`. Give `Toast` the same explicit type + doc, since its
+  fade/live-region behavior is only really meaningful for those two values.
+- [ ] **REFACTOR-03** `toast/Toaster.tsx` (~lines 45-48) vs `notification/NotificationStack.tsx`
+  (~lines 31-34) — identical region-setup boilerplate (`useToastQueue`/equivalent + ref + region
+  hook + forked ref), differing only in which queue. Extract a shared helper if convenient while in
+  these files for the above; skip if it complicates REFACTOR-02's extraction rather than
+  simplifying it.
 
 ---
 
-## Phase 6 — Calendar/DatePicker accessibility
+## Phase 4 — Autocomplete/Combobox overlay portal fix
 
-Isolated, complex family with its own component-scoped CSS and its own visual-regression batch
-(`calendar-datepicker.visual.spec.ts`) — keep separate from everything else.
+**DECIDE-03**: `autocomplete/Autocomplete.tsx` (~lines 471-490) and `combobox/Combobox.tsx`
+(~lines 336-349) render their floating listbox panel inline (positioned `absolute`/`fixed` via
+`useOverlayPosition`, but not portaled), unlike every other overlay in this library (`Popover`,
+`Tooltip`, `Menu` all portal to `document.body` or an explicit `container`). Any ancestor with
+`overflow: hidden`/`auto` — a `ModalBody`, a scrollable card, a table cell — will clip the dropdown.
+Not documented as an accepted tradeoff anywhere (contrast `MenuSubmenu`'s `stacked` inline-render
+mode, which explicitly documents and accepts this exact downside).
 
-- [x] **A11Y-01** `calendar/`, `datepicker/` — no `aria-live` region anywhere in either folder
-  announcing the visible month/year when it changes via paging or the month/year picker. Added a
-  visually-hidden `role="status"` announcer (implicit `aria-live="polite"`/`aria-atomic="true"`,
-  matching the existing pattern already used in `Carousel.tsx:720`, rather than a bare
-  `aria-live="polite"` attribute) to each of the three header views shared by `Calendar` and
-  `RangeCalendar` via `CalendarMonthYearPicker`/`CalendarMonthGrid`/`CalendarYearGrid`: the day
-  grid's header announces `"<Month> <Year>"` (updates on prev/next paging), the month grid's header
-  announces `"Select month, <Year>"` (updates on entering that view), and the year grid's header
-  announces `"Select year, <range>"` (updates on entering that view and on its own internal
-  prev/next-years paging). Since `CalendarMonthYearPicker` is reused per visible month block for
-  `visibleMonths > 1`, threaded a new `announce` prop (`CalendarMonthGrid`/`CalendarYearGrid`) gated
-  to `monthIndex === 0` so only the first block renders its announcer — otherwise every block would
-  fire its own simultaneous, differently-worded announcement on every page. Verified live against
-  the docs site (`pnpm --filter chassis-react-site dev` already running on :4327 — required an
-  `pnpm --filter @chassis-ui/react build` first per this repo's dist/docs-preview gotcha) via DOM
-  introspection: paging, opening the month/year picker, and paging within the year grid all update
-  the live `role="status"` text correctly.
-- [x] **A11Y-02** `CalendarMonthGrid.tsx:51-79`, `CalendarYearGrid.tsx:92-113` — marked
-  `role="listbox"`/`role="option"` without the roving-tabindex/arrow-key behavior that role implies.
-  Decided to drop the listbox/option roles rather than retrofit real listbox keyboard semantics —
-  same call already made for the analogous case in Phase 5 (dropping a mismatched ARIA role rather
-  than building out full semantics for a plain button grid). Wrapper `<div>`s now use `role="group"`
-  (matching `DatePicker.tsx:484`/`OtpInput.tsx:314`'s existing use of the same role for a labeled
-  group of controls); each month/year button is now a plain, unadorned `<button>` (native
-  role, natural Tab order — each was already independently focusable, so nothing about the actual
-  keyboard behavior changed) marked with `aria-current="true"` when it's the currently-showing
-  month/year, replacing `aria-selected` (which requires an `option`/similar role context to be
-  valid) — mirrors the exact pattern `RangeCalendar.tsx:350`'s `DateRangePresets` and
-  `CarouselIndicators.tsx:33` already use for "the currently active choice among several buttons."
-  Updated `Calendar.spec.tsx`/`RangeCalendar.spec.tsx`'s `getByRole('option', ...)` queries to
-  `getByRole('button', ...)` accordingly, and replaced one `queryByRole('option')` presence check
-  (which would've become vacuously true post-fix, since no element anywhere carries that role
-  now) with `queryByRole('group')`, which still meaningfully confirms the picker view closed.
-- [x] Add the calendar test-coverage gaps identified in the audit while in this file anyway:
-  keyboard paging across a month boundary, a single-day range (same date clicked twice), and an
-  unavailable date falling strictly between a selected start/end. Added two `Calendar.spec.tsx`
-  tests (arrow-key paging past the last/before the first day of the month auto-advances/retreats
-  the visible month) and two `RangeCalendar.spec.tsx` tests (clicking the same date twice selects a
-  single-day range; an unavailable date between the anchor and a candidate end disables every date
-  past it rather than silently clamping or completing past it — confirmed the actual react-stately
-  behavior by probing the DOM rather than assuming, since the initial guess — that it clamps the
-  end to the day before the unavailable date — was wrong: react-stately instead disables every date
-  beyond the unavailable one once an anchor is set, so an out-of-range click is a no-op).
-- [x] Re-run `pnpm test:visual` for the `calendar-datepicker` batch and regenerate baselines if the
-  new announcer or grid markup changes any screenshot (a visually-hidden announcer shouldn't, but
-  confirm). Ran it: all 14/14 stories mismatch the checked-in `-darwin.png` baselines, but confirmed
-  via `git stash` that the exact same 14 stories fail with identical results on the clean,
-  unmodified tree — pre-existing local macOS baseline drift (same phenomenon Phase 3/4 already hit
-  and documented), not something this phase's diff caused. Left for a future Linux-container
-  baseline regen, per `AGENTS.md`.
+- [ ] Decide the fix shape: portal to `document.body` by default (biggest behavior change, most
+  consistent with the rest of the library), or add a `container` prop matching `Menu`'s (smaller,
+  opt-in, but leaves the default behavior clipping-prone). Given how commonly `Autocomplete`/
+  `Combobox` get used inside `Modal`/`Drawer`, lean toward portaling by default unless there's a
+  concrete reason (e.g. an existing consumer relying on inline positioning) surfaced during
+  implementation.
+- [ ] Implement for both `Autocomplete` and `Combobox` identically — this is exactly the kind of
+  prop where the two siblings drifting again would recreate today's problem.
+- [ ] Add a test for both components rendered inside an `overflow: hidden` ancestor, asserting the
+  dropdown is not clipped (i.e. actually portaled/positioned outside the clipping ancestor).
+- [ ] If this changes visual positioning in Storybook, check `test/visual/menu-popover-tooltip.
+  visual.spec.ts` isn't the wrong home for Autocomplete/Combobox screenshots — these two aren't
+  currently in any visual-regression batch; adding one may be worth a follow-up but isn't required
+  to close this phase.
 
 ---
 
-## Phase 7 — Structural refactors (shared code, no behavior change)
+## Phase 5 — Form validation-class helper consistency sweep
 
-Bigger, optional, no urgent bug attached — do this only once Phases 1–6 are settled, and consider
-splitting into 7a/7b/7c sub-commits rather than one large diff. Get explicit user sign-off on scope
-before starting, since "extract a shared hook" can balloon in review size.
+Mechanical, but touches the shared `renderFormCheck` engine (used by both `Checkbox` and `Radio`),
+so keep it isolated rather than folding into Phase 1.
 
-- [x] **7a** Extract the button-semantics block duplicated in `link/Link.tsx:99-109`,
-  `button/Button.tsx:125-135`, `close-button/CloseButton.tsx:123-133` (ref setup + `useForkedRef` +
-  `useButton` call) into a shared hook in `src/hooks/`. Added `useButtonSemantics` — all three
-  components now call it instead of hand-building the same `useRef`/`useForkedRef`/
-  `AriaButtonProps<'div'>`/`useButton` block. `Button.tsx`'s call needed one `Ref<...>` cast (its
-  forwarded ref type is the wider `button | a | input` union; this hook path only ever populates a
-  button/anchor-shaped instance) — same justification already given for the file's other per-branch
-  ref casts.
-- [x] **7b** Extract the ~150-200 duplicated lines of dialog machinery in `modal/Modal.tsx` and
-  `drawer/Drawer.tsx` (forked ref, show/hide effects, static-bounce handling, non-modal Escape
-  handling) into a shared `useDialogElement`-style hook. Added `useDialogElement`; `Drawer`'s one
-  genuinely distinct behavior (auto-closing every other open drawer) hooks in via a new
-  `onBeforeShow` callback invoked at the one precise point in the show effect it needs, rather than
-  being duplicated. Verified live (open/close, focus into/back-out-of the dialog, default vs.
-  `backdrop="static"` click) plus the full `Modal`/`Drawer` suites, which exercise the transient
-  bounce class and cross-instance auto-close under fake timers — both passed unmodified.
-- [x] **7c** Extract the duplicated `.form-input` adorn-wrapper shell and popover-overlay shell
-  repeated three times across `datepicker/DatePicker.tsx` (×2 variants) and
-  `datepicker/DateRangePicker.tsx` into a shared internal render helper. Added
-  `renderDatePickerShell` (private to `components/datepicker/`, same pattern as
-  `renderFormField`) — each caller now only supplies the genuinely variant-specific pieces (which
-  field(s), which calendar, each variant's own `groupProps`/hidden inputs). Verified live: all
-  three variants' popovers open, render their calendar grid, and commit a selection back to the
-  field(s); the manually-built multi-select `groupProps` path (the most divergent of the three)
-  confirmed correct via its `role="group"`/`aria-labelledby` making it through unchanged.
-- [x] **7d** Extract the spacing-class guard (`typeof x === 'string' || 'number' ? ... : null`)
-  duplicated in `flex/Flex.tsx:77-81`, `stack/Stack.tsx:52`, `grid/Row.tsx:49-51`,
-  `card/CardBody.tsx:41` into one shared helper alongside `utils/breakpoints.ts`. Added
-  `spacingClassName` in `utils/spacingClassName.ts` (a sibling file, not folded into
-  `breakpoints.ts` itself — different-enough concern to keep separate) — all 8 call sites
-  (`gap`/`rowGap`/`columnGap`/`gutter`/`gutterX`/`gutterY` across the four components) now call it.
-- [x] **7e** Memoize `combobox/Combobox.tsx:217-233`'s entry-building/disabled-key computation
-  (currently re-runs every render including every keystroke) with `useMemo` keyed on
-  `children`/`items`. Wrapped `entries` (keyed on `[items, children]`) and `disabledKeys` (keyed on
-  `[entries]`) in `useMemo`.
-- [x] **7f** Dedupe `chip-input/ChipInput.tsx:15,157-192`'s three independent `buildTagIds`
-  recomputations down to the one already-memoized array. Hoisted a single `const ids =
-  useMemo(() => buildTagIds(tags), [tags])` above `removeTags`/`items`/`focusLastChip`, which all
-  now read it instead of each calling `buildTagIds(tags)` themselves.
-- [x] **NOT IN SCOPE (document only)** Layout-primitive naming divergence (`row`/`column` vs
-  `horizontal`/`vertical`; `gap` vs `gutter`) across `Flex`/`Stack`/`Row` — this is a public-API
-  naming question, not a refactor a session should do unilaterally. Leave a short note in
-  `CONVENTIONS.md` or `FORMS.md`-equivalent doc explaining the split is intentional (CSS gap vs.
-  Bootstrap-style grid gutters are genuinely different mechanisms) rather than silently
-  unreconciled, and stop there unless the user asks for an actual rename (which would be breaking).
-  Added a "Layout-primitive naming divergence" section to `CONVENTIONS.md`. No code change — this
-  is documentation only, per scope.
+- [ ] **CLEANUP-06** `src/utils/validationClassName.ts` exists specifically to centralize
+  `{ 'is-invalid': invalid, 'is-valid': valid }` and is already used by `Radio`/`Switch`/
+  `RangeInput`/`Select`/`TextInput`/`Textarea`, but 9 other call sites hand-roll the identical
+  literal instead: `form/renderFormCheck.tsx` (both the button-variant and default branches),
+  `checkbox/Checkbox.tsx` (`CheckboxStandalone` and `CheckboxGroupItem`), `otp-input/OtpBox.tsx`,
+  `otp-input/OtpInput.tsx`, `color-input/ColorInput.tsx`, `file-input/FileInput.tsx`. Replace every
+  literal with `validationClassName(invalid, valid)`. No behavior change expected — this is a pure
+  mechanical dedup — but re-run the full form-family test suite carefully since `renderFormCheck`
+  is shared infrastructure.
 
 ---
 
-## Phase 8 — Remaining test-coverage backfill
+## Phase 6 — Nav/Breadcrumb/Stepper item-rendering dedup refactor
+
+The prior (2026-08-26) audit's Phase 5 explicitly flagged this exact duplication ("note the shared
+duplication for Phase 7 to actually resolve") but its own Phase 7 sub-items never touched it — it's
+still outstanding, and it has since caused a real, confirmed bug (BUG-14 below), which is the
+clearest sign the duplication itself is the thing worth fixing, not just its current symptom.
+
+- [ ] **BUG-14** `nav/Nav.tsx` (~line 65) — the `items`-driven `autoContent` path always renders a
+  real, clickable `<a href="#">` when `NavItemDef.href` is omitted (a valid, optional field),
+  producing a dead link. Sibling `breadcrumb/Breadcrumb.tsx` (~lines 33-47) and
+  `stepper/Stepper.tsx` (~lines 125-143) both correctly fall back to non-anchor markup in the
+  equivalent case — `Nav` is the one outlier, because it's an independent reimplementation rather
+  than delegating to its own `NavItem` subcomponent.
+- [ ] **REFACTOR-04** `nav/Nav.tsx`, `breadcrumb/Breadcrumb.tsx`, `stepper/Stepper.tsx` — each
+  hand-rolls its own `<li>`/link markup (className building, `active`/`disabled`/`aria-current`
+  handling) in its `items`-driven `autoContent` path, instead of rendering its own existing
+  subcomponent (`NavItem`, `BreadcrumbItem`, `StepperItem`) which already implements the identical
+  logic correctly. `pagination/Pagination.tsx`'s smart mode already does this the right way — it
+  renders real `<PaginationItem>` elements. Refactor all three `autoContent` implementations to map
+  over `items` and render the sibling subcomponent instead of raw JSX. This closes BUG-14 as a
+  natural consequence (the subcomponent already has the correct `href`-optional fallback) rather
+  than patching it separately.
+- [ ] Add/update tests confirming `Nav`'s `items` path (with and without `href`) renders the same
+  markup shape as composing `NavItem` directly, and equivalent checks for `Breadcrumb`/`Stepper` if
+  not already covered.
+
+---
+
+## Phase 7 — Polymorphic-shape consistency decisions
+
+These are judgment calls about API surface, not mechanical fixes — get explicit sign-off on scope
+before implementing, since some of these are borderline breaking-API questions.
+
+- [ ] **DECIDE-04** `button/Button.tsx`/`link/Link.tsx` (~lines 100-118 in `Link.tsx`) vs
+  `close-button/CloseButton.tsx` (~lines 98-104) — Button/Link always synthesize `useButtonSemantics`
+  (`role="button"`, keyboard handling) onto *any* non-native `component`, including a component
+  reference (e.g. a router `Link`); CloseButton explicitly detects a component reference via
+  `isComponentReference` and trusts it to handle its own semantics — a deliberate, tested design
+  choice (`CloseButton.spec.tsx`). Neither `Button.spec.tsx` nor `Link.spec.tsx` test a real
+  component reference, so this divergence is currently unverified in either direction. A common
+  composition like `<Button component={NextLink} href="/x" onClick={fn}>` gets `role="button"`
+  stamped onto what renders as `<a>`, and Enter can double-fire (native anchor Enter→click, plus
+  the synthesized keydown→click). Decide: adopt CloseButton's `isComponentReference` guard in
+  Button/Link too (recommended — it's the safer default and already proven), or explicitly document
+  why Button/Link's behavior is intentionally different. Either way, add the same kind of
+  component-reference test CloseButton has, to lock in whichever choice is made.
+- [ ] **DECIDE-05** `card/Card.tsx` has no `component` polymorphism while all 8 of its sub-parts do
+  (confirmed deliberate — commit `7e8bbd2` left it out with no stated reason); `grid/Row.tsx`/
+  `grid/Col.tsx` have no `component` prop at all (confirmed deliberate — commit `48ed25b` states
+  "Row/Col are out of scope, unchanged"); `nav/Nav.tsx` still uses the pre-migration
+  `component?: string | ElementType` shape with a fixed ref-type union instead of the
+  `PolymorphicComponentProps<C, OwnProps<C>>` pattern every other root in its batch uses (also
+  confirmed deliberately deferred in the prior audit). None of these are bugs, but leaving three
+  different "still not migrated" asymmetries undocumented invites a future contributor to "fix" one
+  as a bug fix when it isn't, or to keep deferring it indefinitely with no record of why. Decide,
+  per case: pick it up now using the same established pattern (low risk — the pattern is proven
+  across a dozen other components), or add a short explanatory note (e.g. in `CONVENTIONS.md`)
+  saying it's deliberately out of scope and why. Card is the lowest-risk one to just finish, given
+  every sibling sub-part already has the pattern to copy from.
+- [ ] **CLEANUP-07** `card/Card.tsx`/`card/CardBody.tsx` (~lines 15-17 / 11-13) — byte-for-byte
+  duplicated `directionClassNames` helper. Extract one shared `flexDirectionClassNames` next to
+  `buildResponsiveClassNames` in `utils/breakpoints.ts` (this is the same class of fix Phase 7d of
+  the prior audit already did for the *spacing* guard — this is the *direction* guard that fix
+  didn't reach).
+
+---
+
+## Phase 8 — Polymorphic wrapper-boilerplate extraction (structural, no behavior change)
+
+Bigger, optional, no urgent bug attached — do this only once Phase 7's decisions are settled (it
+touches several of the same files), and consider splitting into sub-commits if the diff gets large.
+Get explicit user sign-off on scope before starting.
+
+- [ ] **REFACTOR-05** The polymorphic-component wrapper boilerplate (`forwardRef` + cast to a
+  named component type + `displayName` assignment) is duplicated verbatim across `button/Button.tsx`,
+  `link/Link.tsx`, `close-button/CloseButton.tsx`, `flex/Flex.tsx`, `stack/Stack.tsx`,
+  `grid/Container.tsx`, `grid/Grid.tsx`, `grid/GridItem.tsx`, `button-group/ButtonGroup.tsx`,
+  `button-group/ButtonToolbar.tsx` (10 files; likely also `Avatar`/`Chip`/others migrated in later
+  phases — grep for the pattern rather than trusting this list is exhaustive). `utils/
+  polymorphic.ts` already centralizes the *type* half (`PolymorphicComponentProps`/
+  `PolymorphicRef`) but not this runtime-wrapper half. Add a small generic helper (e.g.
+  `createPolymorphicComponent(render, displayName)`) there and migrate all call sites to use it.
+- [ ] **CLEANUP-08** While touching these files: standardize the "pick a default root element"
+  idiom, which is currently split three ways — destructured default (`Nav.tsx`), logical-OR
+  (`Navbar.tsx`, `NavbarNav.tsx`, `NavbarText.tsx`, `Tabs.tsx`, `StepperItem.tsx`, `Flex.tsx`,
+  `Stack.tsx`, `Container.tsx`, `Grid.tsx`, `GridItem.tsx`, `ButtonGroup.tsx`, `ButtonToolbar.tsx`,
+  all `component || <default>`), and nullish-coalescing (`NavbarBrand.tsx`, `PaginationItem.tsx`,
+  `Stepper.tsx`, `Button.tsx`, `Link.tsx`, `CloseButton.tsx`, all `component ?? <default>`).
+  Functionally near-equivalent given realistic inputs (an `ElementType` is never legitimately
+  falsy), but standardize on `??` everywhere while these files are already open for REFACTOR-05.
+- [ ] `grid/Container.spec.tsx` doesn't test the `component` prop, unlike `Flex.spec.tsx`/
+  `Stack.spec.tsx`/`Grid.spec.tsx`/`GridItem.spec.tsx`, all of which do. Add one `component="section"`
+  test for parity while in this file.
+
+---
+
+## Phase 9 — Carousel hardening
+
+Carousel just went through a full refactor (phase 16 of the prior migration effort: autoplay/loop/
+scroll-sync logic) but has no visual-regression coverage and a materially untested prop surface —
+close that gap before it drifts further from the rest of the library's coverage standard.
+
+- [ ] **TEST-01** Add `stories/carousel/Carousel.stories.tsx` (following the pattern of
+  `stories/calendar/`, etc.) and `test/visual/carousel.visual.spec.ts`, per `AGENTS.md`'s own rule
+  that a new family gets its own visual-regression spec file. This is CSS-scroll-snap-driven —
+  exactly the class of bug DOM snapshots can't catch (pixel-identical markup, broken layout).
+- [ ] **DECIDE-06** `carousel/Carousel.tsx` (~line 151) — `useControllableState(activeIndexProp,
+  defaultActiveIndex)` has no `onChange`, and `CarouselProps` has no `onChange`/
+  `onActiveIndexChange` prop at all; in controlled mode, `onSlide`/`onSlid` are the *only* way a
+  consumer can feed the new index back, undocumented as the required pairing, and unlike every
+  other controlled component in this library (`Calendar`/`DatePicker` use `value`+`onChange`).
+  CONVENTIONS.md mandates `onChange` naming for change events. A controlled `<Carousel
+  activeIndex={n}>` with no `onSlide` listener will visually freeze on click/swipe/autoplay — a
+  real, currently-untested footgun. Decide: document explicitly that `onSlide`/`onSlid` is the
+  required pairing for controlled `activeIndex` (smaller fix), or add a proper `onChange`-named
+  callback (bigger, more consistent with the rest of the library — recommended if this isn't a
+  breaking-API concern for existing consumers).
+- [ ] **TEST-02** Add test coverage for the currently-untested prop surface: controlled
+  `activeIndex`, `transition="fade"`, `center`, `auto`, multi-item layout (`items`/`itemsGap`/
+  `itemsPeek`), and `CarouselOverlay` — confirmed zero references to any of these in
+  `Carousel.spec.tsx` today.
+- [ ] **TEST-03** `carouselEngine.ts` (~lines 157-170, `canLoop`) — its own docblock says
+  multi-item/peek/centered/variable-width layouts fall back to a `wrap` jump instead of a true
+  loop transition, but nothing verifies that fallback actually runs the right code path (i.e. that
+  `navigate()`'s `normalizeIndex(..., wraps=true)` path, not `performLoopTransition`, is what fires
+  for `ends="loop"` + `items={2}`). Add a test for this specific interaction — likely follows
+  naturally from TEST-02's multi-item coverage.
+
+---
+
+## Phase 10 — Remaining test-coverage backfill
 
 Only the gaps not already covered by a fix above.
 
-- [x] `text-input/`, `textarea/`, `range-input/` — existing jest-axe assertions only render the
-  emptiest state; add at least one per component exercising the realistic composed state
-  (`label`+`help`+`invalidFeedback`, plus adorns for `TextInput`) per `AGENTS.md`'s own explicit
-  rule against bare-shell-only axe checks. Added one `accessibility` test per component.
-- [x] `input-group/InputGroupAddon.spec.tsx` — add a runtime assertion that `htmlFor` actually
-  renders the attribute (currently type-only coverage). Added a `rendering` test asserting the
-  `for` attribute on a `component="label"` addon.
-- [x] `input-group/` — add one composed test: `InputGroup` + `InputGroupAddon` (as `component="label"`)
-  + a real input with a matching `id`, asserting the accessible name resolves. Added a `composed
-  with InputGroupAddon` describe block to `InputGroup.spec.tsx`.
-- [x] `hooks/useFormField.ts` — add a dedicated unit test for the id-generation/`describedBy`/
-  `labelledBy` merge logic, independent of any one consumer. Added
-  `test/hooks/useFormField.spec.tsx` via `renderHook`.
-- [x] `checkbox/Checkbox.spec.tsx`, `checkbox/CheckboxGroup.spec.tsx` — add `disabled` assertions
-  (item-level and group-level), matching what `Radio.spec.tsx`/`RadioGroup.spec.tsx` already do.
-  Added both (single-item-disabled, group-disabled-disables-all) to `Checkbox.spec.tsx`'s
-  `selection behavior` block, mirroring `Radio.spec.tsx` exactly — `RadioGroup.spec.tsx` itself
-  has no disabled test to mirror into `CheckboxGroup.spec.tsx`.
-- [x] `carousel/Carousel.spec.tsx` — add an unmount-during-autoplay test asserting the pending timer
-  is cleared and no `act()` warning leaks. Added, asserting `vi.getTimerCount()` drops to 0 on
-  unmount and `console.error` stays silent after advancing timers past the interval.
-- [x] `combobox/Combobox.spec.tsx` — add a pure-keyboard option-selection test (ArrowDown + Enter).
-  Added to a new `keyboard navigation` describe block.
+- [ ] `otp-input/OtpInput.spec.tsx` — the `inputGroup` prop (`OtpInput.tsx`, non-trivial: it
+  conditionally wraps in `.input-group` and interacts with `groupSizes`) is never referenced in the
+  spec file. Add coverage.
+- [ ] `select/Select.spec.tsx` — the `htmlSize` prop (feeds the `isDropdown` branch documented in
+  `FORMS.md`'s adorn section — "skip the proxy-open when `htmlSize > 1`") is never referenced. Add
+  coverage.
 
 ---
 
 ## Findings intentionally not actioned
 
-- Carousel autoplay not pausing on generic focus-within (only hover/pointerdown/arrow-keydown) —
-  already meets the WCAG 2.2.2 minimum via `CarouselPlayPause`; polish only, no phase assigned
-  unless the user asks for it later.
-- Assorted naming/typing nitpicks from the underlying review (redundant `string | ReactNode` label
-  types, `component?: string | ElementType` redundancy, repeated `as X` casts bridging native props
-  into react-aria option shapes) — noted in the original review, not worth a phase on their own.
+- `switch/Switch.tsx` (~lines 12-15, 55) — `type?: 'checkbox' | 'radio'` selects the internal
+  variant to render, which collides in name (though not in practice) with the native `<input
+  type>` attribute `TextInput`/`ColorInput`/`FileInput` use for its real DOM meaning. A real smell,
+  but fixing it means a public prop rename (e.g. to `variant`), which is a breaking change with no
+  attached bug — not worth doing opportunistically. Revisit only if `Switch`'s API is being
+  touched for an unrelated reason anyway.
+- `carousel/Carousel.tsx` (~lines 216-220) — `atStart`/`atEnd` are computed from index math first,
+  then immediately re-derived from real scroll geometry once a real viewport exists; the two
+  sources can transiently disagree for one paint in a real browser. No user-visible symptom found;
+  flagging only because double-source-of-truth patterns tend to rot silently on the next refactor
+  — worth a second look if Carousel's scroll-sync logic is touched again, not a standalone fix.
+- `datepicker/renderDatePickerShell.tsx` (~lines 89-96) — overlay visibility is guarded both by
+  `hidden={!isOpen}` and by conditionally mounting `<FocusScope>`. Redundant but harmless (and
+  arguably intentional: `hidden` for CSS/AT, conditional render to avoid mounting `Calendar`'s
+  hooks while closed).
+- `form-field/FormField.tsx`/`floating-input/FloatingInput.tsx` — near-identical "missing
+  `ids.input`/`ids.label`" `console.warn` blocks. Only two consumers today; extract a shared
+  `warnMissingLabelIds` helper if a third form-render-engine consumer appears, not before.

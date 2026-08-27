@@ -4,7 +4,8 @@ import React, {
   ForwardRefRenderFunction,
   forwardRef,
   ReactElement,
-  ReactNode
+  ReactNode,
+  useId
 } from 'react'
 import classNames from 'classnames'
 
@@ -94,9 +95,14 @@ function ProgressRender<C extends ElementType = 'div'>(
 ) {
   const Component = component || 'div'
   const _className = classNames('progress', className)
+  const clampedValue = Math.min(100, Math.max(0, value))
 
-  const barChildren = children !== undefined ? children : inlineValue ? `${value}%` : undefined
+  const barChildren =
+    children !== undefined ? children : inlineValue ? `${clampedValue}%` : undefined
   const hasCaption = Boolean(label || showValue)
+
+  const labelId = useId()
+  const isNodeLabel = label != null && typeof label !== 'string'
 
   const _style: ProgressStyle = { ...style }
   if (height !== undefined) _style['--cx-height'] = `${height}px`
@@ -106,14 +112,15 @@ function ProgressRender<C extends ElementType = 'div'>(
       {...rest}
       className={_className}
       role="progressbar"
-      aria-valuenow={value}
+      aria-valuenow={clampedValue}
       aria-valuemin={0}
       aria-valuemax={100}
       aria-label={ariaLabel ?? (typeof label === 'string' ? label : undefined)}
+      aria-labelledby={!ariaLabel && isNodeLabel ? labelId : undefined}
       style={_style}
       ref={ref}
     >
-      <ProgressBar animated={animated} color={color} striped={striped} value={value}>
+      <ProgressBar animated={animated} color={color} striped={striped} value={clampedValue}>
         {barChildren}
       </ProgressBar>
     </Component>
@@ -126,8 +133,12 @@ function ProgressRender<C extends ElementType = 'div'>(
       <div
         className={classNames('d-flex', label ? 'justify-content-between' : 'justify-content-end')}
       >
-        {label ? <span className="font-strong">{label}</span> : null}
-        {showValue ? <span className="font-strong">{value}%</span> : null}
+        {label ? (
+          <span className="font-strong" id={isNodeLabel ? labelId : undefined}>
+            {label}
+          </span>
+        ) : null}
+        {showValue ? <span className="font-strong">{clampedValue}%</span> : null}
       </div>
       {progressElement}
     </div>

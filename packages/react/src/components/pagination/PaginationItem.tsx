@@ -3,11 +3,14 @@ import React, {
   ForwardRefRenderFunction,
   forwardRef,
   MouseEvent,
+  MouseEventHandler,
   ReactElement,
   Ref
 } from 'react'
 import classNames from 'classnames'
+import { mergeProps } from 'react-aria'
 
+import { useButtonSemantics } from '../../hooks'
 import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
 
 type PaginationItemOwnProps<C extends ElementType> = {
@@ -72,6 +75,14 @@ function PaginationItemRender<C extends ElementType = 'button'>(
     onClick?.(event as never)
   }
 
+  // A custom `component`/default (non-`button`/`a`) branch gets a raw `onClick` with no keyboard
+  // semantics otherwise — the same gap `Link` fills via `useButtonSemantics`.
+  const needsButtonSemantics = Component !== 'button' && Component !== 'a' && !!onClick
+  const { buttonProps, forkedRef } = useButtonSemantics<HTMLElement>(ref as Ref<HTMLElement>, {
+    disabled,
+    onClick: onClick as MouseEventHandler<HTMLElement> | undefined
+  })
+
   return (
     <li className={_className} {...(active && { 'aria-current': 'page' })}>
       {Component === 'button' ? (
@@ -97,7 +108,15 @@ function PaginationItemRender<C extends ElementType = 'button'>(
           {children}
         </a>
       ) : (
-        <Component className="pagination-link" onClick={handleClick} {...rest} ref={ref}>
+        <Component
+          className="pagination-link"
+          {...(mergeProps(rest, needsButtonSemantics ? buttonProps : {}) as Record<
+            string,
+            unknown
+          >)}
+          {...(!needsButtonSemantics && { onClick: handleClick })}
+          ref={needsButtonSemantics ? forkedRef : ref}
+        >
           {children}
         </Component>
       )}
