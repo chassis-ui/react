@@ -83,20 +83,32 @@ committing.
 
 ---
 
-## Phase 3 — `ColorInput` size-prop parity (investigate, then decide)
+## Phase 3 — `ColorInput` size-prop parity (investigate, then decide) ✅ (done — prop added)
 
-- [ ] **DECIDE-F04** `color-input/ColorInput.tsx` — every other native-input leaf in the family
+- [x] **DECIDE-F04** `color-input/ColorInput.tsx` — every other native-input leaf in the family
   (`TextInput`, `Select`, `FileInput`, `RangeInput` — via `.form-range`, styled separately) exposes
-  a `size?: 'small' | 'large'` prop; `ColorInput` doesn't. Check the sibling `chassis-css` repo
-  (`scss/forms/`) for whether `input[type="color"].form-input` has `.small`/`.large` modifier
-  support. If it does, add the prop the same way `FileInput` does (`classNames('form-input', size,
-  validationClassName(...), className)`) and add a test + a `packages/site/examples/` update. If
-  it genuinely doesn't (the native color swatch may be intentionally fixed-size across browsers),
-  leave the prop out but add a one-line comment in `ColorInput.tsx` explaining why, so the next
-  reviewer doesn't re-flag the asymmetry.
-- [ ] If the prop is added: run `pnpm react:generate` (API docs JSON) and
-  `pnpm react:build && pnpm react:check:api:update` (public surface snapshot), and commit both
-  alongside the code change per this package's `AGENTS.md`.
+  a `size?: 'small' | 'large'` prop; `ColorInput` didn't. Traced the sibling `chassis-css` repo's
+  compiled output (not just the Sass source — the first pass through the Sass placeholders alone
+  looked like `[type="color"]`'s `width`/`height: var(--min-height)` might be size-invariant, since
+  `%form-size-small`/`%form-size-large` don't touch `--min-height` directly; the compiled CSS
+  showed the real chain: `--cx-min-height`'s *default* is
+  `calc(var(--cx-line-height) + var(--cx-padding-y) * 2)`, and `.small.form-input`/
+  `.large.form-input` *do* override `--cx-input-line-height`/`--cx-input-padding-y`, which feed
+  that calc()). Confirmed `.form-input[type=color]` genuinely resizes with `.small`/`.large` — this
+  was a real feature-parity gap, not an intentional omission. Added `size?: 'small' | 'large'` to
+  `ColorInputProps` and wired it into the className builder exactly like `FileInput` does, folded a
+  `size="large"` assertion into the existing "applies invalid/valid classes" test (renamed to
+  "applies size, invalid/valid classes..."), added a `SizingExample.tsx` +
+  `content/components/color-input.mdx` "Sizing" section mirroring `FileInput`'s.
+- [x] Ran `pnpm react:generate`, `pnpm react:build`, and `pnpm react:check:api:update`; committed
+  the `api-report.md`/`content/api/ColorInput.json` diffs alongside the code change. The
+  `api-report.md` update also caught up two lines of drift left over from Phase 1 (`ChipInput`/
+  `Combobox`'s exported function signatures literally include their destructured parameter names
+  in the bundled `.d.ts`, so renaming `rest['aria-*']` reads to real destructured locals in Phase 1
+  *did* technically change the public surface snapshot, even though `ChipInputProps`/
+  `ComboboxProps` themselves didn't change — missed at the time since Phase 1 didn't touch a prop
+  type. Rolled into this commit rather than a separate one since it's a one-line-per-component,
+  self-evident catch-up.)
 
 ---
 

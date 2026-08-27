@@ -39,6 +39,10 @@ export interface ColorInputProps extends Omit<InputHTMLAttributes<HTMLInputEleme
    */
   onChange?: ChangeEventHandler<HTMLInputElement>
   /**
+   * Size the component small or large.
+   */
+  size?: 'small' | 'large'
+  /**
    * Set component validation state to valid.
    */
   valid?: boolean
@@ -56,7 +60,7 @@ export interface ColorInputProps extends Omit<InputHTMLAttributes<HTMLInputEleme
 
 export const ColorInput = forwardRef<HTMLInputElement, ColorInputProps>(
   (
-    { className, help, id, invalid, invalidFeedback, label, valid, validFeedback, ...rest },
+    { className, help, id, invalid, invalidFeedback, label, size, valid, validFeedback, ...rest },
     ref
   ) => {
     const { describedBy, feedbackId, helpId, inputId } = useFormField({
@@ -69,7 +73,12 @@ export const ColorInput = forwardRef<HTMLInputElement, ColorInputProps>(
       validFeedback
     })
 
-    const _className = classNames('form-input', validationClassName(invalid, valid), className)
+    const _className = classNames(
+      'form-input',
+      size,
+      validationClassName(invalid, valid),
+      className
+    )
 
     return renderFormField({
       children: (

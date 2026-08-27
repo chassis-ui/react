@@ -7,6 +7,7 @@ toc: true
 import { Example as BasicExample } from '../../examples/components/color-input/BasicExample.tsx'
 import { Example as DisabledExample } from '../../examples/components/color-input/DisabledExample.tsx'
 import { Example as FormFieldExample } from '../../examples/components/color-input/FormFieldExample.tsx'
+import { Example as SizingExample } from '../../examples/components/color-input/SizingExample.tsx'
 
 ## Overview
 
@@ -30,6 +31,14 @@ Use `label`/`help`/`invalidFeedback`/`validFeedback` directly on `<ColorInput>` 
 
 <Example>
   <FormFieldExample client:load />
+</Example>
+
+## Sizing
+
+Set `size` to `"small"` or `"large"` to change the size of the color swatch.
+
+<Example>
+  <SizingExample client:load />
 </Example>
 
 ## API

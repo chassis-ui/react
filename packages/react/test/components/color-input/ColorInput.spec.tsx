@@ -18,10 +18,19 @@ describe('ColorInput', () => {
       expect(container).toMatchSnapshot()
     })
 
-    test('applies invalid/valid classes and disabled attribute', () => {
-      render(<ColorInput aria-label="Accent color" className="bazinga" disabled invalid valid />)
+    test('applies size, invalid/valid classes and disabled attribute', () => {
+      render(
+        <ColorInput
+          aria-label="Accent color"
+          className="bazinga"
+          disabled
+          invalid
+          size="large"
+          valid
+        />
+      )
       const input = screen.getByLabelText('Accent color')
-      expect(input).toHaveClass('form-input', 'is-invalid', 'is-valid', 'bazinga')
+      expect(input).toHaveClass('form-input', 'large', 'is-invalid', 'is-valid', 'bazinga')
       expect(input).toBeDisabled()
     })
   })

@@ -1801,7 +1801,7 @@ interface ChipInputProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultVa
   value?: string[];
 }
 declare const ChipInput: {
-  ({ allowDuplicates, chipVariant, className, defaultValue, disabled, help, id, invalid, invalidFeedback, label, maxChips, name, onChange, placeholder, separator, size, valid, validFeedback, value, ...rest }: ChipInputProps): ReactNode;
+  ({ allowDuplicates, "aria-describedby": ariaDescribedBy, "aria-label": ariaLabel, "aria-labelledby": ariaLabelledBy, chipVariant, className, defaultValue, disabled, help, id, invalid, invalidFeedback, label, maxChips, name, onChange, placeholder, separator, size, valid, validFeedback, value, ...rest }: ChipInputProps): ReactNode;
   displayName: string;
 };
 //#endregion
@@ -1901,6 +1901,10 @@ interface ColorInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 's
    * Method called immediately after the `value` prop changes.
    */
   onChange?: ChangeEventHandler<HTMLInputElement>;
+  /**
+   * Size the component small or large.
+   */
+  size?: 'large' | 'small';
   /**
    * Set component validation state to valid.
    */
@@ -2057,7 +2061,7 @@ interface ComboboxProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultVal
   value?: Key$2 | null;
 }
 declare const Combobox: {
-  ({ children, className, defaultValue, disabled, help, id, invalid, invalidFeedback, items, label, name, noResultsText, onChange, placeholder, size, valid, validFeedback, value, ...rest }: ComboboxProps): ReactNode;
+  ({ "aria-describedby": ariaDescribedBy, "aria-label": ariaLabel, "aria-labelledby": ariaLabelledBy, children, className, defaultValue, disabled, help, id, invalid, invalidFeedback, items, label, name, noResultsText, onChange, placeholder, size, valid, validFeedback, value, ...rest }: ComboboxProps): ReactNode;
   displayName: string;
 };
 //#endregion

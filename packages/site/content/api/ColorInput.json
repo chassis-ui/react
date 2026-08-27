@@ -157,6 +157,34 @@
         "name": "ChangeEventHandler<HTMLInputElement>"
       }
     },
+    "size": {
+      "defaultValue": null,
+      "description": "Size the component small or large.",
+      "name": "size",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/color-input/ColorInput.tsx",
+        "name": "ColorInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/color-input/ColorInput.tsx",
+          "name": "ColorInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"small\" | \"large\"",
+        "value": [
+          {
+            "value": "\"small\""
+          },
+          {
+            "value": "\"large\""
+          }
+        ]
+      }
+    },
     "valid": {
       "defaultValue": null,
       "description": "Set component validation state to valid.",
