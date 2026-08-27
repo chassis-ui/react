@@ -2,6 +2,8 @@ import React, { ClipboardEvent, ForwardedRef, forwardRef, KeyboardEvent } from '
 import classNames from 'classnames'
 import { mergeProps, useFocusRing, useObjectRef, useTextField } from 'react-aria'
 
+import { validationClassName } from '../../utils/validationClassName'
+
 interface OtpBoxProps {
   disabled?: boolean
   index: number
@@ -52,7 +54,7 @@ export const OtpBox = forwardRef(
     return (
       <input
         {...mergeProps(inputProps, focusProps)}
-        className={classNames('form-input', size, { 'is-invalid': invalid, 'is-valid': valid })}
+        className={classNames('form-input', size, validationClassName(invalid, valid))}
         data-focus-visible={isFocusVisible || undefined}
         inputMode="numeric"
         onPaste={onPasteBox}

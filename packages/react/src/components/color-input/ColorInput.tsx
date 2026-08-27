@@ -2,6 +2,7 @@ import React, { ChangeEventHandler, forwardRef, InputHTMLAttributes, ReactNode }
 import classNames from 'classnames'
 
 import { useFormField } from '../../hooks'
+import { validationClassName } from '../../utils/validationClassName'
 import { renderFormField } from '../form-field/renderFormField'
 
 export interface ColorInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
@@ -68,14 +69,7 @@ export const ColorInput = forwardRef<HTMLInputElement, ColorInputProps>(
       validFeedback
     })
 
-    const _className = classNames(
-      'form-input',
-      {
-        'is-invalid': invalid,
-        'is-valid': valid
-      },
-      className
-    )
+    const _className = classNames('form-input', validationClassName(invalid, valid), className)
 
     return renderFormField({
       children: (

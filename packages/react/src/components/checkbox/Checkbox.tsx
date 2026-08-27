@@ -17,6 +17,7 @@ import { CheckboxGroupState, useToggleState } from 'react-stately'
 
 import { useForkedRef } from '../../hooks'
 import { ContextColor } from '../../types'
+import { validationClassName } from '../../utils/validationClassName'
 
 import { CheckboxGroupContext } from './context'
 import { ButtonObject, renderFormCheck } from '../form/renderFormCheck'
@@ -128,7 +129,7 @@ const CheckboxStandalone = forwardRef<HTMLInputElement, CheckboxProps>(
       inputRef
     )
 
-    const inputClassName = classNames({ 'is-invalid': invalid, 'is-valid': valid })
+    const inputClassName = classNames(validationClassName(invalid, valid))
 
     return renderFormCheck({
       button,
@@ -207,7 +208,7 @@ const CheckboxGroupItem = forwardRef<HTMLInputElement, CheckboxGroupItemProps>(
       inputRef
     )
 
-    const inputClassName = classNames({ 'is-invalid': invalid, 'is-valid': valid })
+    const inputClassName = classNames(validationClassName(invalid, valid))
 
     return renderFormCheck({
       button,

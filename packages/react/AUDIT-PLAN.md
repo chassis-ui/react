@@ -282,7 +282,7 @@ conflict (see point 2 above) so it can close the remaining half of DECIDE-03 and
 Mechanical, but touches the shared `renderFormCheck` engine (used by both `Checkbox` and `Radio`),
 so keep it isolated rather than folding into Phase 1.
 
-- [ ] **CLEANUP-06** `src/utils/validationClassName.ts` exists specifically to centralize
+- [x] **CLEANUP-06** `src/utils/validationClassName.ts` exists specifically to centralize
   `{ 'is-invalid': invalid, 'is-valid': valid }` and is already used by `Radio`/`Switch`/
   `RangeInput`/`Select`/`TextInput`/`Textarea`, but 9 other call sites hand-roll the identical
   literal instead: `form/renderFormCheck.tsx` (both the button-variant and default branches),
@@ -291,6 +291,10 @@ so keep it isolated rather than folding into Phase 1.
   literal with `validationClassName(invalid, valid)`. No behavior change expected — this is a pure
   mechanical dedup — but re-run the full form-family test suite carefully since `renderFormCheck`
   is shared infrastructure.
+  Done exactly as scoped — all 9 literals in those 6 files replaced; no behavior change (full
+  suite, 149 files / 1532 tests, still green). Left the other `{ 'is-invalid': ..., 'is-valid':
+  ... }` literals found elsewhere (`Autocomplete`, `Combobox`, `RadioGroup`, `CheckboxGroup`,
+  `ChipInput`, `renderDatePickerShell`) untouched — not in this item's enumerated scope.
 
 ---
 

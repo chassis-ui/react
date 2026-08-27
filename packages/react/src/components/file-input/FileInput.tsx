@@ -2,6 +2,7 @@ import React, { ChangeEventHandler, forwardRef, InputHTMLAttributes, ReactNode }
 import classNames from 'classnames'
 
 import { useFormField } from '../../hooks'
+import { validationClassName } from '../../utils/validationClassName'
 import { renderFormField } from '../form-field/renderFormField'
 
 export interface FileInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
@@ -69,10 +70,7 @@ export const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     const _className = classNames(
       'form-input',
       size,
-      {
-        'is-invalid': invalid,
-        'is-valid': valid
-      },
+      validationClassName(invalid, valid),
       className
     )
 

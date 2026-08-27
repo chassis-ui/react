@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react'
 import classNames from 'classnames'
 
 import { ContextColor, Shapes } from '../../types'
+import { validationClassName } from '../../utils/validationClassName'
 
 import { FormLabel } from './FormLabel'
 
@@ -57,7 +58,7 @@ export const renderFormCheck = ({
       button.variant,
       button.size,
       button.shape,
-      { 'is-invalid': invalid, 'is-valid': valid },
+      validationClassName(invalid, valid),
       className
     )
     return (
@@ -68,24 +69,13 @@ export const renderFormCheck = ({
     )
   }
 
-  const checkInputClassName = classNames('check-input', color, {
-    'is-invalid': invalid,
-    'is-valid': valid
-  })
+  const checkInputClassName = classNames('check-input', color, validationClassName(invalid, valid))
 
   if (!label) {
     return <span className={checkInputClassName}>{input}</span>
   }
 
-  const _className = classNames(
-    'form-check',
-    size,
-    {
-      'is-invalid': invalid,
-      'is-valid': valid
-    },
-    className
-  )
+  const _className = classNames('form-check', size, validationClassName(invalid, valid), className)
 
   return (
     <FormLabel customClassName={_className}>

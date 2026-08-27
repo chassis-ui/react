@@ -10,6 +10,7 @@ import React, {
 import classNames from 'classnames'
 
 import { useControllableState, useFormField } from '../../hooks'
+import { validationClassName } from '../../utils/validationClassName'
 import { renderFormField } from '../form-field/renderFormField'
 import { OtpBox } from './OtpBox'
 
@@ -307,7 +308,7 @@ export const OtpInput = ({
         className={classNames(
           'form-otp',
           { 'input-group': inputGroup && !(groupSizes && groupSizes.length > 0) },
-          { 'is-invalid': invalid, 'is-valid': valid },
+          validationClassName(invalid, valid),
           className
         )}
         id={groupId}
