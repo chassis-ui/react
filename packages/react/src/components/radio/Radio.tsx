@@ -32,7 +32,7 @@ export interface RadioProps extends Omit<
   /**
    * The element represents a caption for a component.
    */
-  label?: string | ReactNode
+  label?: ReactNode
   /**
    * Size the component small or large.
    */

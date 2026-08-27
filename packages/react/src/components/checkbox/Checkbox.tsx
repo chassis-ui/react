@@ -65,7 +65,7 @@ export interface CheckboxProps extends Omit<
   /**
    * The element represents a caption for a component.
    */
-  label?: string | ReactNode
+  label?: ReactNode
   /**
    * Callback fired when the selected state changes. Ignored when rendered inside a `<CheckboxGroup>` —
    * use the group's `onChange` instead.

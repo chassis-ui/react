@@ -40,7 +40,7 @@ export interface SwitchProps extends Omit<
   /**
    * The element represents a caption for a component.
    */
-  label?: string | ReactNode
+  label?: ReactNode
   /**
    * Callback fired when the selected state changes.
    */
@@ -65,7 +65,7 @@ interface RenderSwitchOptions {
   checkInputClassName: string
   className: string
   input: ReactNode
-  label?: string | ReactNode
+  label?: ReactNode
 }
 
 // Mirrors renderFormCheck's nested-label/bare-span shape — Switch inlines its own markup (see
@@ -90,7 +90,7 @@ interface RenderSwitchInputOptions {
   id?: string
   inputProps: InputHTMLAttributes<HTMLInputElement>
   invalid?: boolean
-  label?: string | ReactNode
+  label?: ReactNode
   size?: 'small' | 'large'
   valid?: boolean
 }

@@ -112,22 +112,25 @@ committing.
 
 ---
 
-## Phase 4 — `label` prop typing consistency across the family
+## Phase 4 — `label` prop typing consistency across the family ✅ (done)
 
-- [ ] **DECIDE-F05** `checkbox/Checkbox.tsx`, `radio/Radio.tsx`, `switch/Switch.tsx` type `label`
+- [x] **DECIDE-F05** `checkbox/Checkbox.tsx`, `radio/Radio.tsx`, `switch/Switch.tsx` type `label`
   as `string | ReactNode` (a redundant union — `ReactNode` already includes `string`), while every
   `renderFormField`-based component in the family (`TextInput`, `Select`, etc.) types it as plain
-  `ReactNode`. Determine whether the wider-looking union was a deliberate choice for the generated
-  docs table (`react-docgen-typescript` may render `string | ReactNode` more readably than the
-  fully-expanded `ReactNode` union — check `packages/site/content/api/Checkbox.json` after building
-  to see what actually renders today) before changing anything. If it's not buying anything in the
-  generated docs, standardize on plain `ReactNode` for these three to match the rest of the family;
-  if it is, leave the three as-is but add a short comment noting why they intentionally diverge, and
-  close this item either way.
-- [ ] Sweep in any other minor JSDoc/type inconsistencies noticed while executing Phases 1-3 rather
-  than fixing them ad hoc mid-phase — note them here first, fix in this phase.
-- [ ] Run `pnpm react:build && pnpm react:check:api:update` if any prop type actually changes, and
-  commit the `api-report.md` diff.
+  `ReactNode`. Checked `packages/site/content/api/Checkbox.json` vs. `TextInput.json` after a build:
+  `react-docgen-typescript` already collapses `string | ReactNode` down to the same `{"name":
+  "ReactNode"}` type entry as the plain-`ReactNode` components — the wider union wasn't buying
+  anything in the generated docs table. Standardized all three (plus `Switch.tsx`'s two internal
+  helper-prop re-declarations, `RenderSwitchOptions`/`RenderSwitchInputOptions`, which mirrored the
+  same redundant union) on plain `ReactNode` to match the rest of the family. Confirmed via
+  `pnpm react:generate` that the generated `content/api/*.json` for all three components is
+  byte-identical before/after — pure internal type cleanup, zero docs-facing change.
+- [x] Sweep in any other minor JSDoc/type inconsistencies noticed while executing Phases 1-3 — none
+  were flagged during those phases (checked back through Phase 1-3's write-ups above), so nothing
+  to carry forward here.
+- [x] Ran `pnpm react:build && pnpm react:check:api:update`; committed the `api-report.md` diff
+  alongside the code change (three `string | ReactNode` → `ReactNode` lines in the bundled
+  `dist/index.d.ts` snapshot).
 
 ---
 

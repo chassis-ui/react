@@ -3090,7 +3090,7 @@ interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'che
   /**
    * The element represents a caption for a component.
    */
-  label?: ReactNode | string;
+  label?: ReactNode;
   /**
    * Callback fired when the selected state changes. Ignored when rendered inside a `<CheckboxGroup>` —
    * use the group's `onChange` instead.
@@ -3438,7 +3438,7 @@ interface RadioProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'checke
   /**
    * The element represents a caption for a component.
    */
-  label?: ReactNode | string;
+  label?: ReactNode;
   /**
    * Size the component small or large.
    */
@@ -3710,7 +3710,7 @@ interface SwitchProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'check
   /**
    * The element represents a caption for a component.
    */
-  label?: ReactNode | string;
+  label?: ReactNode;
   /**
    * Callback fired when the selected state changes.
    */
