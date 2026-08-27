@@ -55,6 +55,16 @@ describe('suppressFocusRingGlobally', () => {
     expect(button.style.outline).toBe('2px solid red')
   })
 
+  test("leaves a .form-input element's outline untouched — chassis-css always rings it, click or keyboard", () => {
+    const input = document.createElement('input')
+    input.className = 'form-input'
+    input.style.outline = '2px solid red'
+    document.body.appendChild(input)
+
+    fireEvent.pointerDown(input)
+    expect(input.style.outline).toBe('2px solid red')
+  })
+
   test('install() is idempotent — calling it again does not attach a second listener', () => {
     const addEventListenerSpy = vi.spyOn(document, 'addEventListener')
 

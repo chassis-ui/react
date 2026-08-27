@@ -24,6 +24,14 @@ const suppressed = new WeakSet<HTMLElement>()
 // via script (e.g. `RangeCalendar`'s hover-to-preview-a-range, which calls `element.focus()` from
 // a `pointerenter` handler — outside the `pointerdown` this module otherwise listens for).
 export function suppressFocusRing(el: HTMLElement): void {
+  // chassis-css's `.form-input` placeholder deliberately grants its focus ring on `:focus-within`
+  // as well as `:focus-visible` (see `_form.scss`), unlike the `:focus-visible`-only policy this
+  // module otherwise mirrors for buttons/links/checks/etc. — a form field is meant to show its
+  // ring regardless of whether the focus came from a click or the keyboard, so the very
+  // first-press-of-page-load quirk this module works around isn't a bug for `.form-input` in the
+  // first place: forcing its outline off here would fight, then correctly-but-uselessly restore,
+  // an outline chassis-css wants visible the whole time the field is focused.
+  if (el.classList.contains('form-input')) return
   // `suppressed` guards re-entrancy: a second call for the same element before it blurs (e.g. a
   // rapid re-press, or the pointer re-entering a cell) would otherwise stack a second blur
   // listener that clobbers the first restoration and leaves the ring permanently suppressed.
