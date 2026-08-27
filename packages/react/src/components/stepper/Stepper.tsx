@@ -123,23 +123,18 @@ function StepperRender<C extends ElementType = 'ol'>(
   )
 
   const autoContent = items
-    ? items.map((item, idx) => {
-        const itemClass = classNames('stepper-item', item.color && 'context', item.color, {
-          active: item.active
-        })
-        const Tag = item.href ? 'a' : isListSemantic ? 'li' : 'div'
-        return (
-          <Tag
-            // eslint-disable-next-line react/no-array-index-key
-            key={idx}
-            className={itemClass}
-            {...(item.href ? { href: item.href } : {})}
-            {...(item.active ? { 'aria-current': 'step' } : {})}
-          >
-            {item.label}
-          </Tag>
-        )
-      })
+    ? items.map((item, idx) => (
+        <StepperItem
+          // eslint-disable-next-line react/no-array-index-key
+          key={idx}
+          active={item.active}
+          color={item.color}
+          component={item.href ? 'a' : isListSemantic ? 'li' : 'div'}
+          href={item.href}
+        >
+          {item.label}
+        </StepperItem>
+      ))
     : null
 
   // When the root switched to `div` because of an interactive step, every plain `<StepperItem>`

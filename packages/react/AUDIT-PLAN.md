@@ -305,13 +305,15 @@ duplication for Phase 7 to actually resolve") but its own Phase 7 sub-items neve
 still outstanding, and it has since caused a real, confirmed bug (BUG-14 below), which is the
 clearest sign the duplication itself is the thing worth fixing, not just its current symptom.
 
-- [ ] **BUG-14** `nav/Nav.tsx` (~line 65) — the `items`-driven `autoContent` path always renders a
+- [x] **BUG-14** `nav/Nav.tsx` (~line 65) — the `items`-driven `autoContent` path always renders a
   real, clickable `<a href="#">` when `NavItemDef.href` is omitted (a valid, optional field),
   producing a dead link. Sibling `breadcrumb/Breadcrumb.tsx` (~lines 33-47) and
   `stepper/Stepper.tsx` (~lines 125-143) both correctly fall back to non-anchor markup in the
   equivalent case — `Nav` is the one outlier, because it's an independent reimplementation rather
   than delegating to its own `NavItem` subcomponent.
-- [ ] **REFACTOR-04** `nav/Nav.tsx`, `breadcrumb/Breadcrumb.tsx`, `stepper/Stepper.tsx` — each
+  Closed as a consequence of REFACTOR-04 below — `Nav` now delegates to `NavItem`, which already
+  falls back to a bare `<li>` when `href` is omitted.
+- [x] **REFACTOR-04** `nav/Nav.tsx`, `breadcrumb/Breadcrumb.tsx`, `stepper/Stepper.tsx` — each
   hand-rolls its own `<li>`/link markup (className building, `active`/`disabled`/`aria-current`
   handling) in its `items`-driven `autoContent` path, instead of rendering its own existing
   subcomponent (`NavItem`, `BreadcrumbItem`, `StepperItem`) which already implements the identical
@@ -320,9 +322,22 @@ clearest sign the duplication itself is the thing worth fixing, not just its cur
   over `items` and render the sibling subcomponent instead of raw JSX. This closes BUG-14 as a
   natural consequence (the subcomponent already has the correct `href`-optional fallback) rather
   than patching it separately.
-- [ ] Add/update tests confirming `Nav`'s `items` path (with and without `href`) renders the same
+  Done for all three. One wrinkle found in `Stepper`: unlike `NavItem`/`BreadcrumbItem`,
+  `StepperItem` does *not* auto-promote to `<a>` when `href` is set (it defaults to `'li'`
+  regardless) — the tag-selection logic (`'a'` vs `isListSemantic ? 'li' : 'div'`) is a
+  `Stepper`-level concern (it depends on the *parent's* root element, which `StepperItem` has no
+  way to know on its own), so `Stepper.tsx` now computes and passes `component={item.href ? 'a' :
+  isListSemantic ? 'li' : 'div'}` explicitly at the call site, preserving the exact original
+  behavior. No exported prop/type changes; `pnpm react:report` confirms no API drift.
+- [x] Add/update tests confirming `Nav`'s `items` path (with and without `href`) renders the same
   markup shape as composing `NavItem` directly, and equivalent checks for `Breadcrumb`/`Stepper` if
   not already covered.
+  Added to `Nav.spec.tsx`/`Breadcrumb.spec.tsx`: a BUG-14 regression test (no-href item renders
+  plain text, not a dead link) and a direct items-path-vs-composed-`innerHTML` equivalence test,
+  for both components. `Stepper.spec.tsx` already had thorough items-path coverage (tag-selection
+  across `div`/`ol`/`li`, `href`, `color`, `active`) from before this refactor, including a
+  data-driven-items snapshot test that came out byte-identical post-refactor — no gap to fill
+  there. Full suite: 149 files / 1536 tests passing.
 
 ---
 

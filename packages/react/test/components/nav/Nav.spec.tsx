@@ -62,6 +62,34 @@ describe('Nav', () => {
       expect(contact).toHaveAttribute('aria-disabled', 'true')
       expect(contact).toHaveAttribute('tabIndex', '-1')
     })
+
+    // Regression test for a bug where an omitted href (a valid, optional field on
+    // NavItemDef) still rendered a real, clickable `<a href="#">` - a dead link. The items path
+    // now delegates to NavItem, which already falls back to plain (non-anchor) markup, matching
+    // Breadcrumb/Stepper's own equivalent fallback.
+    test('an item without href renders as plain text, not a dead link', () => {
+      render(<Nav items={[{ label: 'Plain' }]} />)
+      expect(screen.queryByRole('link')).not.toBeInTheDocument()
+      const item = screen.getByText('Plain')
+      expect(item.tagName).toBe('LI')
+      expect(item).toHaveClass('nav-item')
+    })
+
+    test('the items path renders the same markup as composing NavItem/NavLink directly', () => {
+      const { container: viaItems } = render(
+        <Nav items={[{ label: 'Home', href: '#', active: true }]} />
+      )
+      const { container: viaComposition } = render(
+        <Nav>
+          <NavItem>
+            <NavLink href="#" active>
+              Home
+            </NavLink>
+          </NavItem>
+        </Nav>
+      )
+      expect(viaItems.innerHTML).toBe(viaComposition.innerHTML)
+    })
   })
 
   describe('ref forwarding', () => {

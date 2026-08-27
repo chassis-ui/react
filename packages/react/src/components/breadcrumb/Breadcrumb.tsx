@@ -1,7 +1,7 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
-import { Link } from '../link/Link'
+import { BreadcrumbItem } from './BreadcrumbItem'
 
 export interface BreadcrumbItemDef {
   /**
@@ -34,14 +34,14 @@ export const Breadcrumb = forwardRef<HTMLOListElement, BreadcrumbProps>(
       ? items.map((item, idx) => {
           const isLast = idx === items.length - 1
           return (
-            <li
+            <BreadcrumbItem
               // eslint-disable-next-line react/no-array-index-key
               key={idx}
-              className={classNames('breadcrumb-item', { active: isLast })}
-              {...(isLast ? { 'aria-current': 'page' } : {})}
+              active={isLast}
+              href={isLast ? undefined : item.href}
             >
-              {!isLast && item.href ? <Link href={item.href}>{item.label}</Link> : item.label}
-            </li>
+              {item.label}
+            </BreadcrumbItem>
           )
         })
       : null

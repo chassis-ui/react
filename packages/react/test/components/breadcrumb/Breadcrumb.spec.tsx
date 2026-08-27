@@ -44,6 +44,25 @@ describe('Breadcrumb', () => {
       expect(current).toHaveClass('active')
       expect(current).toHaveAttribute('aria-current', 'page')
     })
+
+    test('a non-last item without href renders as plain text, not a link', () => {
+      render(<Breadcrumb items={[{ label: 'Plain' }, { label: 'Data' }]} />)
+      expect(screen.queryByRole('link')).not.toBeInTheDocument()
+      expect(screen.getByText('Plain')).toBeInTheDocument()
+    })
+
+    test('the items path renders the same markup as composing BreadcrumbItem directly', () => {
+      const { container: viaItems } = render(
+        <Breadcrumb items={[{ label: 'Home', href: '#' }, { label: 'Data' }]} />
+      )
+      const { container: viaComposition } = render(
+        <Breadcrumb>
+          <BreadcrumbItem href="#">Home</BreadcrumbItem>
+          <BreadcrumbItem active>Data</BreadcrumbItem>
+        </Breadcrumb>
+      )
+      expect(viaItems.innerHTML).toBe(viaComposition.innerHTML)
+    })
   })
 
   describe('ref forwarding', () => {

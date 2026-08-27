@@ -1,6 +1,8 @@
 import React, { ElementType, forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
+import { NavItem } from './NavItem'
+
 export interface NavItemDef {
   /**
    * Label content for the nav item.
@@ -58,17 +60,15 @@ export const Nav = forwardRef<HTMLDivElement | HTMLUListElement | HTMLOListEleme
 
     const autoContent = items
       ? items.map((item, idx) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <li key={idx} className="nav-item">
-            <a
-              className={classNames('nav-link', { active: item.active, disabled: item.disabled })}
-              href={item.href ?? '#'}
-              {...(item.active ? { 'aria-current': 'page' } : {})}
-              {...(item.disabled ? { tabIndex: -1, 'aria-disabled': true } : {})}
-            >
-              {item.label}
-            </a>
-          </li>
+          <NavItem
+            // eslint-disable-next-line react/no-array-index-key
+            key={idx}
+            active={item.active}
+            disabled={item.disabled}
+            href={item.href}
+          >
+            {item.label}
+          </NavItem>
         ))
       : null
 
