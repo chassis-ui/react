@@ -116,6 +116,9 @@ export interface ChipInputProps extends Omit<
 
 export const ChipInput = ({
   allowDuplicates = false,
+  'aria-describedby': ariaDescribedBy,
+  'aria-label': ariaLabel,
+  'aria-labelledby': ariaLabelledBy,
   chipVariant = 'default',
   className,
   defaultValue,
@@ -264,8 +267,8 @@ export const ChipInput = ({
   }
 
   const { describedBy, feedbackId, helpId, inputId, labelId, labelledBy } = useFormField({
-    ariaDescribedBy: rest['aria-describedby'],
-    ariaLabelledBy: rest['aria-labelledby'],
+    ariaDescribedBy,
+    ariaLabelledBy,
     help,
     id,
     invalid,
@@ -278,8 +281,7 @@ export const ChipInput = ({
   const { inputProps } = useTextField(
     {
       'aria-describedby': describedBy,
-      'aria-label':
-        rest['aria-label'] ?? (rest['aria-labelledby'] || label ? undefined : 'Add value'),
+      'aria-label': ariaLabel ?? (ariaLabelledBy || label ? undefined : 'Add value'),
       'aria-labelledby': labelledBy,
       id: inputId,
       isDisabled: disabled,
@@ -310,7 +312,7 @@ export const ChipInput = ({
           disabled={disabled}
           groupRef={groupRef}
           props={{
-            'aria-label': rest['aria-label'],
+            'aria-label': ariaLabel,
             'aria-labelledby': labelledBy,
             onRemove: disabled ? undefined : removeTags
           }}

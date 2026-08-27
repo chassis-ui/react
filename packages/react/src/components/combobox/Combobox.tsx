@@ -206,6 +206,9 @@ export interface ComboboxProps extends Omit<
 }
 
 export const Combobox = ({
+  'aria-describedby': ariaDescribedBy,
+  'aria-label': ariaLabel,
+  'aria-labelledby': ariaLabelledBy,
   children,
   className,
   defaultValue,
@@ -266,8 +269,8 @@ export const Combobox = ({
   const noResultsId = useId()
 
   const { describedBy, feedbackId, helpId, inputId, labelId, labelledBy } = useFormField({
-    ariaDescribedBy: rest['aria-describedby'],
-    ariaLabelledBy: rest['aria-labelledby'],
+    ariaDescribedBy,
+    ariaLabelledBy,
     help,
     id,
     invalid,
@@ -279,7 +282,7 @@ export const Combobox = ({
 
   const { inputProps, listBoxProps } = useComboBox<ComboboxEntry>(
     {
-      'aria-label': rest['aria-label'],
+      'aria-label': ariaLabel,
       'aria-labelledby': labelledBy,
       id: inputId,
       inputRef,

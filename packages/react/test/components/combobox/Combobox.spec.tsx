@@ -349,6 +349,27 @@ describe('Combobox', () => {
       // eslint-disable-next-line testing-library/no-node-access
       expect(input.closest('.combobox')).toHaveClass('is-valid')
     })
+
+    test('does not leak raw aria-describedby/aria-labelledby onto the .combobox wrapper', () => {
+      // Only the real focusable combobox input is the accessible-name/-description target - the
+      // wrapper div spreads the remaining native attributes and must not also carry these,
+      // duplicated and unmerged with the generated help/label ids.
+      render(
+        <BasicCombobox
+          aria-describedby="external-desc"
+          aria-label={undefined}
+          aria-labelledby="external-label"
+          help="Some help"
+        />
+      )
+      const input = screen.getByRole('combobox')
+      // eslint-disable-next-line testing-library/no-node-access
+      const wrapper = input.closest('.combobox')
+      expect(wrapper).not.toHaveAttribute('aria-describedby')
+      expect(wrapper).not.toHaveAttribute('aria-labelledby')
+      expect(input.getAttribute('aria-describedby')).toContain('external-desc')
+      expect(input).toHaveAttribute('aria-labelledby', 'external-label')
+    })
   })
 
   describe('overlay portal', () => {
