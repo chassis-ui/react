@@ -208,13 +208,13 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"reset\" | \"button\" | \"submit\"",
+        "raw": "\"button\" | \"reset\" | \"submit\"",
         "value": [
           {
-            "value": "\"reset\""
+            "value": "\"button\""
           },
           {
-            "value": "\"button\""
+            "value": "\"reset\""
           },
           {
             "value": "\"submit\""

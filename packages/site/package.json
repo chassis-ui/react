@@ -6,7 +6,7 @@
   "description": "Chassis React documentation site",
   "homepage": "https://chassis-ui.com/react/",
   "scripts": {
-    "dev": "astro dev",
+    "dev": "astro dev --port 4327 --host",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
@@ -19,11 +19,11 @@
     "clean": "rimraf ../../_site .astro"
   },
   "dependencies": {
-    "@chassis-ui/css": "^0.3.5",
-    "@chassis-ui/docs": "^0.3.10",
+    "@chassis-ui/css": "^0.4.0-0",
+    "@chassis-ui/docs": "^0.4.0-0",
     "@chassis-ui/icons": "^0.3.1",
     "@chassis-ui/react": "workspace:*",
-    "@chassis-ui/tokens": "^0.3.0",
+    "@chassis-ui/tokens": "^0.4.0",
     "@internationalized/date": "^3.12.2"
   },
   "devDependencies": {

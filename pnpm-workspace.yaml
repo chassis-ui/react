@@ -7,10 +7,6 @@ onlyBuiltDependencies:
   - esbuild
   - sharp
 overrides:
-  '@chassis-ui/css': link:../chassis-css
-  '@chassis-ui/docs': link:../chassis-website/packages/docs
-  '@chassis-ui/icons': link:../chassis-icons
-  '@chassis-ui/tokens': link:../chassis-tokens
   immutable: '>=5.1.8'
   '@babel/core': ^7.29.6
   svgo: '>=4.0.2'
