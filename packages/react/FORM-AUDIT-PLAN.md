@@ -56,7 +56,7 @@ correctness bug (not just style) — safe to land immediately.
 
 ---
 
-## Phase 2 — DRY cleanup: reuse `validationClassName`/`size` instead of reinventing them
+## Phase 2 — DRY cleanup: reuse `validationClassName`/`size` instead of reinventing them ✅ (done)
 
 Three call sites rebuild, by hand, exactly what the shared `utils/validationClassName.ts` helper
 and a plain `size` passthrough already do elsewhere in the same family. Pure refactor — output-
@@ -64,22 +64,22 @@ identical `classNames(...)` results, so this should not need any snapshot update
 that's a sign the object shape wasn't actually equivalent and needs a closer look before
 committing.
 
-- [ ] **CLEANUP-F02** `chip-input/ChipInput.tsx` (~line 300), `combobox/Combobox.tsx` (~line 340),
+- [x] **CLEANUP-F02** `chip-input/ChipInput.tsx` (~line 300), `combobox/Combobox.tsx` (~line 340),
   `datepicker/renderDatePickerShell.tsx` (~line 76) — each inlines its own
   `{ 'is-invalid': invalid, 'is-valid': valid }` object instead of calling
   `validationClassName(invalid, valid)`, the exact helper `TextInput`/`Select`/`RangeInput`/
-  `FileInput`/`ColorInput`/`OtpInput` already import for this. Replace the inline object with the
+  `FileInput`/`ColorInput`/`OtpInput` already import for this. Replaced the inline object with the
   helper call at all three sites.
-- [ ] **CLEANUP-F03** Same three call sites — each also expands `size` into
+- [x] **CLEANUP-F03** Same three call sites — each also expanded `size` into
   `{ small: size === 'small', large: size === 'large' }` before handing it to `classNames(...)`,
   where `TextInput`/`Select` just pass the `size` string straight through (`classNames('form-input',
   size, ...)`), relying on the prop's own `'small' | 'large' | undefined` type to make the two
-  forms produce an identical class list. Simplify all three to the direct passthrough. Do this in
-  the same commit as CLEANUP-F02 since it's the same three call sites and the same "stop
-  reinventing what's already correct nearby" reasoning.
-- [ ] Confirm no snapshot in `chip-input`/`combobox`/`datepicker` test dirs changes as a result: if
-  one does, treat it as a signal to re-check the object was truly equivalent before committing,
-  not as an expected update to wave through.
+  forms produce an identical class list. Simplified all three to the direct passthrough, in the
+  same commit as CLEANUP-F02 since it's the same three call sites and the same "stop reinventing
+  what's already correct nearby" reasoning.
+- [x] Confirmed no snapshot in `chip-input`/`combobox`/`datepicker` test dirs changed as a result
+  (ran both the three affected test dirs and the full 1645-test suite) — the object shapes were
+  truly equivalent, as expected.
 
 ---
 

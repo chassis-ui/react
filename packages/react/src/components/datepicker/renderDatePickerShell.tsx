@@ -2,6 +2,8 @@ import React, { CSSProperties, HTMLAttributes, ReactNode, Ref } from 'react'
 import classNames from 'classnames'
 import { FocusScope } from 'react-aria'
 
+import { validationClassName } from '../../utils/validationClassName'
+
 export interface RenderDatePickerShellOptions {
   /**
    * The fully-built calendar element (`Calendar`/`RangeCalendar`, with its own dialog role/ref
@@ -73,8 +75,9 @@ export const renderDatePickerShell = ({
       {...groupProps}
       className={classNames(
         'form-input',
-        { small: size === 'small', large: size === 'large', disabled },
-        { 'is-invalid': invalid, 'is-valid': valid },
+        size,
+        { disabled },
+        validationClassName(invalid, valid),
         className
       )}
       ref={groupRef}

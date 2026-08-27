@@ -4,6 +4,7 @@ import { useTextField } from 'react-aria'
 import { Item, Key, useListState } from 'react-stately'
 
 import { useControllableState, useFormField } from '../../hooks'
+import { validationClassName } from '../../utils/validationClassName'
 import { renderFormField } from '../form-field/renderFormField'
 import { ChipList, ChipItem } from './ChipList'
 
@@ -301,8 +302,9 @@ export const ChipInput = ({
         className={classNames(
           'form-input',
           'chip-input',
-          { small: size === 'small', large: size === 'large', disabled },
-          { 'is-invalid': invalid, 'is-valid': valid },
+          size,
+          { disabled },
+          validationClassName(invalid, valid),
           className
         )}
         {...rest}

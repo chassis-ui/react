@@ -24,6 +24,7 @@ import {
   toAriaPlacement
 } from '../../utils/overlayPlacement'
 import { renderMenuItemContent } from '../../utils/renderMenuItemContent'
+import { validationClassName } from '../../utils/validationClassName'
 import { renderFormField } from '../form-field/renderFormField'
 import { MenuItemsDef } from '../menu/MenuItemDef'
 import { ComboboxGroup, ComboboxGroupProps } from './ComboboxGroup'
@@ -342,8 +343,9 @@ export const Combobox = ({
           className={classNames(
             'form-input',
             'combobox',
-            { small: size === 'small', large: size === 'large', disabled },
-            { 'is-invalid': invalid, 'is-valid': valid },
+            size,
+            { disabled },
+            validationClassName(invalid, valid),
             className
           )}
           ref={wrapperRef}
