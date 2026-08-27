@@ -57,13 +57,6 @@ run this after changing any component's exported props so the docs site picks up
 `pnpm sync-submodules` (`build/sync-submodules.js`) updates the `vendor/assets` submodule the
 site's static assets come from.
 
-## Workspace linking
-
-`pnpm-workspace.yaml` pins several `@chassis-ui/*` packages (`css`, `docs`, `icons`, `tokens`) to
-sibling local checkouts via `overrides: 'link:../...'` — these are expected to exist as sibling
-directories next to this repo, not resolved from the registry. If one of those imports fails to
-resolve, check the sibling checkout exists rather than assuming a registry/version problem.
-
 ## CI
 
 `.github/workflows/ci.yml` runs on push to `main`/`develop` and on PRs: `pnpm install

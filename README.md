@@ -77,14 +77,6 @@ pnpm start
 
 Open `http://localhost:4327/react/` in your browser.
 
-`pnpm-workspace.yaml` links a few sibling `@chassis-ui/*` packages (`css`, `docs`, `icons`,
-`tokens`) to local checkouts next to this repo instead of the npm registry, so they can be
-developed against in lockstep before each is published. This only affects working in this repo
-from source — if an install fails to resolve one of them, check that the sibling checkout exists
-next to `react/` rather than assuming a registry or version problem. It has no bearing on
-installing `@chassis-ui/react` itself, which is published to npm as an ordinary package with
-`@chassis-ui/css` as a regular dependency, per the [Installation](#installation) section above.
-
 ### Available scripts
 
 | Script | Description |
