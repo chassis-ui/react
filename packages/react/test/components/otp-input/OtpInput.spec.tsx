@@ -110,6 +110,24 @@ describe('OtpInput', () => {
       expect(onChange).toHaveBeenCalledWith('1234')
       expect(screen.getByRole('textbox', { name: 'Digit 4' })).toHaveFocus()
     })
+
+    test('pasting content with no digits is a no-op', () => {
+      const onChange = vi.fn()
+      render(<OtpInput aria-label="Code" length={3} onChange={onChange} />)
+      fireEvent.paste(screen.getByRole('textbox', { name: 'Digit 1' }), {
+        clipboardData: { getData: () => 'abc' }
+      })
+      expect(onChange).not.toHaveBeenCalled()
+    })
+
+    test('paste is a no-op when disabled', () => {
+      const onChange = vi.fn()
+      render(<OtpInput aria-label="Code" disabled length={3} onChange={onChange} />)
+      fireEvent.paste(screen.getByRole('textbox', { name: 'Digit 1' }), {
+        clipboardData: { getData: () => '123' }
+      })
+      expect(onChange).not.toHaveBeenCalled()
+    })
   })
 
   describe('editing and keyboard navigation', () => {
@@ -128,6 +146,20 @@ describe('OtpInput', () => {
       render(<OtpInput aria-label="Code" defaultValue="123" length={3} onChange={onChange} />)
       fireEvent.keyDown(screen.getByRole('textbox', { name: 'Digit 1' }), { key: 'Delete' })
       expect(onChange).toHaveBeenCalledWith('23')
+    })
+
+    test('Delete on the last box only clears that box, with no out-of-bounds shift', () => {
+      const onChange = vi.fn()
+      render(<OtpInput aria-label="Code" defaultValue="123" length={3} onChange={onChange} />)
+      fireEvent.keyDown(screen.getByRole('textbox', { name: 'Digit 3' }), { key: 'Delete' })
+      expect(onChange).toHaveBeenCalledWith('12')
+    })
+
+    test('Backspace on the first box is a no-op (no previous box to clear)', () => {
+      const onChange = vi.fn()
+      render(<OtpInput aria-label="Code" length={3} onChange={onChange} />)
+      fireEvent.keyDown(screen.getByRole('textbox', { name: 'Digit 1' }), { key: 'Backspace' })
+      expect(onChange).not.toHaveBeenCalled()
     })
 
     test('arrow keys move focus between boxes', () => {

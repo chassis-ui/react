@@ -319,6 +319,16 @@ describe('Combobox', () => {
       expect(screen.getByText('Fruit').tagName).toBe('LABEL')
     })
 
+    // FORMS.md gotcha #5: useComboBox's own dev-mode check only sees the DOM node's own
+    // aria-label/aria-labelledby, not the separately-rendered <FormLabel htmlFor>, so it must be
+    // fed the merged labelledBy explicitly or it false-positives on every `label`-only render.
+    test('does not trigger the react-aria missing-accessible-name warning when only label is set', () => {
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
+      render(<BasicCombobox aria-label={undefined} label="Fruit" />)
+      expect(warnSpy).not.toHaveBeenCalled()
+      warnSpy.mockRestore()
+    })
+
     test('renders help text and wires it into aria-describedby', () => {
       render(<BasicCombobox help="Some help" />)
       const input = screen.getByRole('combobox', { name: 'Fruit' })

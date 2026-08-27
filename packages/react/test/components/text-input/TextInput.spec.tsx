@@ -215,6 +215,16 @@ describe('TextInput', () => {
       expect(screen.getByText('Name').tagName).toBe('LABEL')
     })
 
+    // FORMS.md gotcha #5: useTextField's own dev-mode check only sees the DOM node's own
+    // aria-label/aria-labelledby, not the separately-rendered <FormLabel htmlFor>, so it must be
+    // fed the merged labelledBy explicitly or it false-positives on every `label`-only render.
+    test('does not trigger the react-aria missing-accessible-name warning when only label is set', () => {
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
+      render(<TextInput label="Name" />)
+      expect(warnSpy).not.toHaveBeenCalled()
+      warnSpy.mockRestore()
+    })
+
     test('renders help text and wires it into aria-describedby', () => {
       render(<TextInput aria-label="Name" help="Some help" />)
       const input = screen.getByRole('textbox', { name: 'Name' })

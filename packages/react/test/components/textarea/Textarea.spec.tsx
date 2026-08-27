@@ -107,6 +107,16 @@ describe('Textarea', () => {
       expect(screen.getByText('Bio').tagName).toBe('LABEL')
     })
 
+    // FORMS.md gotcha #5: useTextField's own dev-mode check only sees the DOM node's own
+    // aria-label/aria-labelledby, not the separately-rendered <FormLabel htmlFor>, so it must be
+    // fed the merged labelledBy explicitly or it false-positives on every `label`-only render.
+    test('does not trigger the react-aria missing-accessible-name warning when only label is set', () => {
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
+      render(<Textarea label="Bio" />)
+      expect(warnSpy).not.toHaveBeenCalled()
+      warnSpy.mockRestore()
+    })
+
     test('renders help text and wires it into aria-describedby', () => {
       render(<Textarea aria-label="Bio" help="Some help" />)
       const textarea = screen.getByRole('textbox', { name: 'Bio' })

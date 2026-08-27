@@ -134,25 +134,56 @@ committing.
 
 ---
 
-## Phase 5 — Test-coverage audit against `FORMS.md`'s documented gotchas
+## Phase 5 — Test-coverage audit against `FORMS.md`'s documented gotchas ✅ (done)
 
 The broadest, most exploratory phase — save for last once the shared-engine code itself is settled
 from Phases 1-4, so this phase is testing the final shape rather than a moving target.
 
-- [ ] **AUDIT-F06** For each of the 5 components in `FORMS.md`'s "Gotchas found the hard way"
-  section (`TextInput`, `Textarea`, `Combobox`, `ChipInput`, `DatePicker`), confirm its spec file
+- [x] **AUDIT-F06** For each of the 5 components in `FORMS.md`'s "Gotchas found the hard way"
+  section (`TextInput`, `Textarea`, `Combobox`, `ChipInput`, `DatePicker`), confirmed its spec file
   has a test that would actually fail if that specific gotcha regressed — not just a smoke test
-  that the component renders. Phase 1 added this for gotcha #4 on `ChipInput`/`Combobox`; use the
-  same technique (write the test, temporarily revert the fix, confirm red, restore) for any gap
-  found. Document which components already had adequate coverage vs. which needed a new test, so
-  the reasoning isn't lost if this phase spans more than one session.
-- [ ] Spot-check the remaining components in the family (`Select`'s click-proxy skip conditions —
-  disabled/multiple/htmlSize>1/nested-actionable-adorn — and `OtpInput`'s paste/backspace/delete
-  edge cases are the two most non-trivial pieces of manual logic in the family) for the same
-  "renders vs. actually pins the behavior" gap. Not exhaustive line coverage — targeted at logic
-  dense enough that a future refactor could silently break it without a test noticing.
-- [ ] Run `pnpm test` (coverage thresholds are enforced — see this package's own `AGENTS.md`) after
-  each addition; this phase should net-increase coverage, not just hold it steady.
+  that the component renders, using the write-test/temporarily-revert-fix/confirm-red/restore
+  technique from Phase 1's gotcha #4 test throughout. Findings per component:
+  - `DatePicker` (gotcha #4, merged `labelledBy` reverted by a raw `rest` spread) — **already
+    adequately covered** by the existing "merges label association with a consumer-supplied
+    aria-labelledby instead of dropping it" test (`DatePicker.spec.tsx`); confirmed red when the
+    `'aria-labelledby': labelledBy` re-application after `mergeProps(groupProps, rest)` was
+    temporarily removed. The sibling multi-date-selection code path in the same file
+    (`mergeProps(rest)`, no `groupProps` hook object) isn't exposed to this bug's mechanism at all
+    (no hook-props object being spread that could carry a stale raw key), so it needed no test.
+  - `Combobox` (gotcha #3, `useComboBox` doesn't accept `isInvalid` so `aria-invalid`/
+    `aria-describedby` must be wired manually) — **already adequately covered** by the existing
+    "renders invalid feedback and wires it into aria-describedby, and sets aria-invalid..." test;
+    confirmed red when the manual `aria-invalid={invalid || undefined}` prop was temporarily
+    removed.
+  - `ChipInput` (gotcha #2, the `'Add value'` fallback `aria-label` must stop applying once `label`
+    is set) — **already adequately covered** by the existing "wraps in .form-field and associates
+    the label via htmlFor when label is set" test; confirmed red when the fallback condition's
+    `|| label` was temporarily dropped (the accessible name silently reverted to "Add value",
+    failing the `getByRole(..., { name: 'Skills' })` query).
+  - `TextInput`, `Textarea`, `Combobox`, `ChipInput` (gotcha #5, react-aria's own "no accessible
+    label" dev warning doesn't see an external `<label for>`, so `labelledBy` must be threaded into
+    the hook's own `aria-labelledby`) — **real gap, no coverage existed** (no spec file in the
+    family spied on `console.warn`/`console.error` at all). Added one
+    `vi.spyOn(console, 'warn')`-based test per component (in each `field wrapping` describe block)
+    asserting the warning is not called when only `label` is set; confirmed each goes red when that
+    component's `'aria-labelledby': labelledBy` wiring into its `useTextField`/`useComboBox` call is
+    temporarily removed, then restored.
+- [x] Spot-checked `Select`'s click-proxy skip conditions (disabled, multiple, `htmlSize > 1`, click
+  landing on the select itself, click landing on a nested actionable adorn) — **already thoroughly
+  covered**, one dedicated test per skip condition plus the positive "adorn click opens it" case, in
+  the `proxy-open behavior` describe block of `Select.spec.tsx`. No gap, no changes needed.
+- [x] Spot-checked `OtpInput`'s paste/backspace/delete edge cases. The happy paths (full-code paste,
+  mid-string backspace-on-empty, mid-string delete-shift) were already covered, but the boundary
+  conditions weren't: **real gaps found and fixed** — added 4 tests to `OtpInput.spec.tsx`: Delete on
+  the last box (loop-bounds safety around the `i + 1` read the source comment calls out), Backspace
+  on the first box (the `index > 0` guard), and paste-is-a-no-op both when `disabled` and when the
+  clipboard content has no digits. All 4 confirmed red against a temporarily-reverted guard, then
+  restored.
+- [x] Ran `pnpm test` after every addition; final full-suite run: 1653 tests passing (up from 1645 at
+  the end of Phase 4 — 8 new regression tests net-added, all confirmed to actually pin behavior via
+  the red/green technique above, not just padding the count), coverage held (97.4%/93.02%/98.25%/
+  98.92% statements/branches/functions/lines, all above the enforced thresholds).
 
 ---
 
