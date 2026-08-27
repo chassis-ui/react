@@ -195,7 +195,9 @@ describe('Toast', () => {
       fireEvent.focus(toast)
 
       // Would have autohidden by now (delay is 1000ms) if focus didn't pause the timer.
-      await new Promise((resolve) => setTimeout(resolve, 1200))
+      // Wrapped in act because the show->entered transition's own real timer (~250ms) fires
+      // during this wait and updates Transition/Toast state outside of any RTL query.
+      await act(() => new Promise((resolve) => setTimeout(resolve, 1200)))
       expect(container).not.toBeEmptyDOMElement()
 
       fireEvent.blur(toast)
@@ -227,8 +229,10 @@ describe('Toast', () => {
       )
 
       // Would have autohidden by now (delay is 500ms) if turning autohide off didn't cancel
-      // the timer that was already pending from before the rerender.
-      await new Promise((resolve) => setTimeout(resolve, 900))
+      // the timer that was already pending from before the rerender. Wrapped in act because the
+      // show->entered transition's own real timer (~250ms) fires during this wait and updates
+      // Transition/Toast state outside of any RTL query.
+      await act(() => new Promise((resolve) => setTimeout(resolve, 900)))
       expect(container).not.toBeEmptyDOMElement()
       expect(screen.getByRole('status')).toHaveClass('show')
     }, 10000)
