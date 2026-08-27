@@ -3,6 +3,7 @@
 exports[`Modal > rendering > applies size, fullscreen and scrollable classes with className 1`] = `
 <div>
   <dialog
+    aria-labelledby="_r_1_"
     class="modal dialog max-xlarge:fullscreen xlarge scrollable bazinga"
     open=""
     tabindex="-1"
@@ -15,6 +16,7 @@ exports[`Modal > rendering > applies size, fullscreen and scrollable classes wit
 exports[`Modal > rendering > renders a closed dialog with the base classes 1`] = `
 <div>
   <dialog
+    aria-labelledby="_r_0_"
     class="modal dialog"
   >
     Test

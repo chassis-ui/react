@@ -1,6 +1,7 @@
 import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
 import classNames from 'classnames'
 
+import { useModal } from '../../hooks'
 import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
 
 type ModalTitleOwnProps<C extends ElementType> = {
@@ -24,14 +25,15 @@ type ModalTitleComponent = (<C extends ElementType = 'h2'>(
 ) => ReactElement | null) & { displayName?: string }
 
 function ModalTitleRender<C extends ElementType = 'h2'>(
-  { children, component, className, ...rest }: ModalTitleProps<C>,
+  { children, component, className, id, ...rest }: ModalTitleProps<C>,
   ref: PolymorphicRef<C>
 ) {
+  const { titleId } = useModal()
   const Component = component || 'h2'
   const _className = classNames('modal-title', className)
 
   return (
-    <Component className={_className} {...rest} ref={ref}>
+    <Component className={_className} id={id ?? titleId} {...rest} ref={ref}>
       {children}
     </Component>
   )

@@ -132,7 +132,7 @@ Set `responsive` to a breakpoint (`'small' | 'medium' | 'large' | 'xlarge' | '2x
 
 ## Accessibility
 
-The `<dialog>` element carries an implicit `role="dialog"` when opened with `showModal()`. Provide an accessible name with `aria-labelledby` on `<Drawer>` pointing at the `<DrawerTitle>` element's `id`.
+The `<dialog>` element carries an implicit `role="dialog"` when opened with `showModal()`. `<Drawer>` generates an id and wires it to `aria-labelledby` automatically — render a `<DrawerTitle>` anywhere inside and it picks up that id, giving the drawer an accessible name with no manual wiring. Pass an explicit `id` to `<DrawerTitle>` to opt out, or set your own `aria-labelledby` on `<Drawer>` to point elsewhere.
 
 Focus moves to the drawer on open — to a specific element if it has `autofocus`, otherwise to the drawer itself. After the drawer closes, focus returns to whichever element was focused when it opened. Opening a second drawer while one is already open automatically closes the first.
 

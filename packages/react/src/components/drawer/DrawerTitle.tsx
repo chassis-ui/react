@@ -1,6 +1,7 @@
 import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
 import classNames from 'classnames'
 
+import { useDrawer } from '../../hooks'
 import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
 
 type DrawerTitleOwnProps<C extends ElementType> = {
@@ -24,14 +25,15 @@ type DrawerTitleComponent = (<C extends ElementType = 'h2'>(
 ) => ReactElement | null) & { displayName?: string }
 
 function DrawerTitleRender<C extends ElementType = 'h2'>(
-  { children, component, className, ...rest }: DrawerTitleProps<C>,
+  { children, component, className, id, ...rest }: DrawerTitleProps<C>,
   ref: PolymorphicRef<C>
 ) {
+  const { titleId } = useDrawer()
   const Component = component || 'h2'
   const _className = classNames('drawer-title', className)
 
   return (
-    <Component className={_className} {...rest} ref={ref}>
+    <Component className={_className} id={id ?? titleId} {...rest} ref={ref}>
       {children}
     </Component>
   )

@@ -100,6 +100,15 @@ export const useDialogElement = ({
     executeAfterTransition(dialog, () => setStaticBounce(false), !instant)
   }
 
+  // Read through refs, kept current every render, so the keydown listener below — which only
+  // resubscribes when `keyboard` changes — never invokes a stale `close`/`triggerStaticBounce`
+  // closure if `onClose`/`onClosePrevented`/`instant` change identity without `keyboard` also
+  // changing. Same pattern as `Drawer`'s own `closeRef` and `useFloatingOverlay`'s `closeRef`.
+  const closeRef = useRef(close)
+  closeRef.current = close
+  const triggerStaticBounceRef = useRef(triggerStaticBounce)
+  triggerStaticBounceRef.current = triggerStaticBounce
+
   // Show / begin-hide
   useIsomorphicLayoutEffect(() => {
     const dialog = dialogRef.current
@@ -174,8 +183,11 @@ export const useDialogElement = ({
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key !== 'Escape' || openedAsModalRef.current) return
       event.preventDefault()
-      if (!keyboard) return
-      close()
+      if (!keyboard) {
+        triggerStaticBounceRef.current()
+        return
+      }
+      closeRef.current()
     }
 
     dialog.addEventListener('keydown', handleKeyDown)

@@ -3,6 +3,7 @@
 exports[`Drawer > rendering > applies fullscreen, sheet, translucent and responsive classes with className 1`] = `
 <div>
   <dialog
+    aria-labelledby="_r_1_"
     class="max-large:drawer drawer-bottom fullscreen sheet translucent drawer-fit-content bazinga"
     open=""
     tabindex="-1"
@@ -15,6 +16,7 @@ exports[`Drawer > rendering > applies fullscreen, sheet, translucent and respons
 exports[`Drawer > rendering > renders a closed dialog with placement classes 1`] = `
 <div>
   <dialog
+    aria-labelledby="_r_0_"
     class="drawer drawer-start"
   >
     Test

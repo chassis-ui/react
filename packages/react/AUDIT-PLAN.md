@@ -124,7 +124,7 @@ doesn't matter.
 
 Shared hook, interaction-heavy — isolate for careful manual + automated testing.
 
-- [ ] **BUG-10** `hooks/useDialogElement.ts` (~lines 170-183) — the non-modal Escape-key listener
+- [x] **BUG-10** `hooks/useDialogElement.ts` (~lines 170-183) — the non-modal Escape-key listener
   (needed because native `cancel` only fires for `showModal()`) calls `preventDefault()` and
   returns when `!keyboard`, but never calls `triggerStaticBounce()` — unlike the modal path's
   `handleCancel`, which does. `<Modal modal={false} keyboard={false}>` (and the equivalent
@@ -132,12 +132,12 @@ Shared hook, interaction-heavy — isolate for careful manual + automated testin
   `triggerStaticBounce()` in this branch too. Add a test for `modal={false} keyboard={false}` +
   Escape on both `Modal` and `Drawer` (confirmed missing today — existing tests only cover
   `keyboard={false}` against the native `cancel` event).
-- [ ] **BUG-11** `hooks/useDialogElement.ts` (same listener) — reads `close`/`onClose` from the
+- [x] **BUG-11** `hooks/useDialogElement.ts` (same listener) — reads `close`/`onClose` from the
   enclosing closure directly rather than through a ref, with effect deps `[keyboard]` only; if
   `onClose` changes identity without `keyboard` changing, Escape invokes a stale callback. Route
   through a ref, matching `Drawer`'s own `closeRef` pattern (used for its cross-instance registry)
   or `useFloatingOverlay`'s `closeRef`.
-- [ ] **A11Y-06 / DECIDE-01** `modal/ModalTitle.tsx`, `drawer/DrawerTitle.tsx` — neither generates
+- [x] **A11Y-06 / DECIDE-01** `modal/ModalTitle.tsx`, `drawer/DrawerTitle.tsx` — neither generates
   an `id`, and neither `Modal`/`Drawer` wires `aria-labelledby` to it automatically, unlike
   `Popover` in the same overlay family (`useDialog` + `titleProps`). `drawer.mdx` documents the
   manual `aria-labelledby` workaround; `modal.mdx` doesn't even have that. **Decide**: auto-wire
@@ -145,6 +145,15 @@ Shared hook, interaction-heavy — isolate for careful manual + automated testin
   same manual-wiring doc note to `modal.mdx` that `drawer.mdx` already has (smaller, stopgap fix).
   Either way, add a test asserting the dialog has a resolvable accessible name in the documented
   usage.
+  **Decided: auto-wire.** `Modal`/`Drawer` each generate a `titleId` via `useId()`, put it on the
+  context (`ModalContextProps.titleId`/`DrawerContextProps.titleId`) alongside `close`, and set
+  `aria-labelledby={titleId}` on the `<dialog>` (overridable by a caller-supplied
+  `aria-labelledby`, since it's spread from `rest` after the default). `ModalTitle`/`DrawerTitle`
+  read `titleId` via `useModal`/`useDrawer` and apply it as their own `id` unless the caller passes
+  an explicit `id`. Non-breaking (an unused `aria-labelledby` pointing at a title that isn't
+  rendered is simply ignored by ATs, same as today's no-`aria-labelledby` case) and consistent with
+  `Popover`'s auto-id pattern. Updated `modal.mdx` (new Accessibility section) and `drawer.mdx`
+  (replaced the manual-wiring instruction) accordingly.
 
 ---
 

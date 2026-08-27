@@ -161,6 +161,35 @@ describe('Drawer', () => {
       vi.useRealTimers()
     })
 
+    test('non-modal keyboard=false blocks Escape and bounces instead (keydown fallback)', () => {
+      vi.useFakeTimers()
+      const onClose = vi.fn()
+      const onClosePrevented = vi.fn()
+      render(
+        <Drawer
+          backdrop={false}
+          keyboard={false}
+          onClose={onClose}
+          onClosePrevented={onClosePrevented}
+          placement="start"
+          scroll
+          visible
+        >
+          Test
+        </Drawer>
+      )
+      const dialog = getDialog()
+      fireEvent.keyDown(dialog, { key: 'Escape', code: 'Escape', keyCode: 27, charCode: 27 })
+      expect(onClosePrevented).toHaveBeenCalledTimes(1)
+      expect(dialog).toHaveClass('static')
+      act(() => {
+        vi.runAllTimers()
+      })
+      expect(onClose).toHaveBeenCalledTimes(0)
+      expect(dialog).not.toHaveClass('static')
+      vi.useRealTimers()
+    })
+
     test('closes on backdrop click', () => {
       vi.useFakeTimers()
       const onClose = vi.fn()
@@ -329,6 +358,31 @@ describe('Drawer', () => {
         </Drawer>
       )
       expect(await axe(container)).toHaveNoViolations()
+    })
+
+    test('has a resolvable accessible name from DrawerTitle via automatic aria-labelledby wiring', () => {
+      render(
+        <Drawer placement="start" visible>
+          <DrawerHeader>
+            <DrawerTitle>Filters</DrawerTitle>
+          </DrawerHeader>
+          <DrawerBody>Body</DrawerBody>
+        </Drawer>
+      )
+      const dialog = getDialog()
+      expect(dialog).toHaveAccessibleName('Filters')
+    })
+
+    test('a caller-supplied DrawerTitle id opts out of the generated one', () => {
+      render(
+        <Drawer placement="start" visible>
+          <DrawerHeader>
+            <DrawerTitle id="custom-title">Filters</DrawerTitle>
+          </DrawerHeader>
+          <DrawerBody>Body</DrawerBody>
+        </Drawer>
+      )
+      expect(screen.getByText('Filters')).toHaveAttribute('id', 'custom-title')
     })
   })
 })

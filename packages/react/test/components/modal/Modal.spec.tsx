@@ -119,6 +119,33 @@ describe('Modal', () => {
       vi.useRealTimers()
     })
 
+    test('modal={false} keyboard=false blocks Escape and bounces instead (keydown fallback)', () => {
+      vi.useFakeTimers()
+      const onClose = vi.fn()
+      const onClosePrevented = vi.fn()
+      render(
+        <Modal
+          keyboard={false}
+          modal={false}
+          onClose={onClose}
+          onClosePrevented={onClosePrevented}
+          visible
+        >
+          Test
+        </Modal>
+      )
+      const dialog = getDialog()
+      fireEvent.keyDown(dialog, { key: 'Escape', code: 'Escape', keyCode: 27, charCode: 27 })
+      expect(onClosePrevented).toHaveBeenCalledTimes(1)
+      expect(dialog).toHaveClass('dialog-static')
+      act(() => {
+        vi.runAllTimers()
+      })
+      expect(onClose).toHaveBeenCalledTimes(0)
+      expect(dialog).not.toHaveClass('dialog-static')
+      vi.useRealTimers()
+    })
+
     test('closes on backdrop click', () => {
       vi.useFakeTimers()
       const onClose = vi.fn()
@@ -255,6 +282,31 @@ describe('Modal', () => {
         </Modal>
       )
       expect(await axe(container)).toHaveNoViolations()
+    })
+
+    test('has a resolvable accessible name from ModalTitle via automatic aria-labelledby wiring', () => {
+      render(
+        <Modal visible>
+          <ModalHeader>
+            <ModalTitle>Delete item</ModalTitle>
+          </ModalHeader>
+          <ModalBody>Body</ModalBody>
+        </Modal>
+      )
+      const dialog = getDialog()
+      expect(dialog).toHaveAccessibleName('Delete item')
+    })
+
+    test('a caller-supplied ModalTitle id opts out of the generated one', () => {
+      render(
+        <Modal visible>
+          <ModalHeader>
+            <ModalTitle id="custom-title">Delete item</ModalTitle>
+          </ModalHeader>
+          <ModalBody>Body</ModalBody>
+        </Modal>
+      )
+      expect(screen.getByText('Delete item')).toHaveAttribute('id', 'custom-title')
     })
   })
 })
