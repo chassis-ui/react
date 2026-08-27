@@ -1,8 +1,12 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
 import { useModal } from '../../hooks'
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 import { CloseButton } from '../close-button/CloseButton'
 
 type ModalHeaderOwnProps<C extends ElementType> = {
@@ -38,7 +42,7 @@ function ModalHeaderRender<C extends ElementType = 'div'>(
   { children, className, closeButton = true, closeLabel, component, ...rest }: ModalHeaderProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'div'
+  const Component = component ?? 'div'
   const { close } = useModal()
   const _className = classNames('modal-header', className)
 
@@ -50,8 +54,7 @@ function ModalHeaderRender<C extends ElementType = 'div'>(
   )
 }
 
-export const ModalHeader = forwardRef(
-  ModalHeaderRender as ForwardRefRenderFunction<Element, ModalHeaderProps<ElementType>>
-) as ModalHeaderComponent
-
-ModalHeader.displayName = 'ModalHeader'
+export const ModalHeader = createPolymorphicComponent<ModalHeaderComponent>(
+  ModalHeaderRender as ForwardRefRenderFunction<Element, ModalHeaderProps<ElementType>>,
+  'ModalHeader'
+)

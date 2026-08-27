@@ -1,7 +1,11 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 import { ContextColor } from '../../types'
 
 type SpinnerOwnProps<C extends ElementType> = {
@@ -52,7 +56,7 @@ function SpinnerRender<C extends ElementType = 'div'>(
   }: SpinnerProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'div'
+  const Component = component ?? 'div'
   const _className = classNames(
     `spinner-${variant}`,
     color ? `fg-${color}` : null,
@@ -67,8 +71,7 @@ function SpinnerRender<C extends ElementType = 'div'>(
   )
 }
 
-export const Spinner = forwardRef(
-  SpinnerRender as ForwardRefRenderFunction<Element, SpinnerProps<ElementType>>
-) as SpinnerComponent
-
-Spinner.displayName = 'Spinner'
+export const Spinner = createPolymorphicComponent<SpinnerComponent>(
+  SpinnerRender as ForwardRefRenderFunction<Element, SpinnerProps<ElementType>>,
+  'Spinner'
+)

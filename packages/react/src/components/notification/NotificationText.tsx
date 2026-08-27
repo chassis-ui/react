@@ -1,7 +1,11 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 
 type NotificationTextOwnProps<C extends ElementType> = {
   /**
@@ -27,7 +31,7 @@ function NotificationTextRender<C extends ElementType = 'div'>(
   { children, component, className, ...rest }: NotificationTextProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'div'
+  const Component = component ?? 'div'
   const _className = classNames('notification-text', className)
 
   return (
@@ -37,8 +41,7 @@ function NotificationTextRender<C extends ElementType = 'div'>(
   )
 }
 
-export const NotificationText = forwardRef(
-  NotificationTextRender as ForwardRefRenderFunction<Element, NotificationTextProps<ElementType>>
-) as NotificationTextComponent
-
-NotificationText.displayName = 'NotificationText'
+export const NotificationText = createPolymorphicComponent<NotificationTextComponent>(
+  NotificationTextRender as ForwardRefRenderFunction<Element, NotificationTextProps<ElementType>>,
+  'NotificationText'
+)

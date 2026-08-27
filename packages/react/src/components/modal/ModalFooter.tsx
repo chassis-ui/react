@@ -1,7 +1,11 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 
 type ModalFooterOwnProps<C extends ElementType> = {
   /**
@@ -31,7 +35,7 @@ function ModalFooterRender<C extends ElementType = 'div'>(
   { children, className, component, stacked, ...rest }: ModalFooterProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'div'
+  const Component = component ?? 'div'
   const _className = classNames('modal-footer', { stacked }, className)
 
   return (
@@ -41,8 +45,7 @@ function ModalFooterRender<C extends ElementType = 'div'>(
   )
 }
 
-export const ModalFooter = forwardRef(
-  ModalFooterRender as ForwardRefRenderFunction<Element, ModalFooterProps<ElementType>>
-) as ModalFooterComponent
-
-ModalFooter.displayName = 'ModalFooter'
+export const ModalFooter = createPolymorphicComponent<ModalFooterComponent>(
+  ModalFooterRender as ForwardRefRenderFunction<Element, ModalFooterProps<ElementType>>,
+  'ModalFooter'
+)

@@ -1,9 +1,13 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
 import { Breakpoint } from '../../types'
 import { buildResponsiveClassNames } from '../../utils/breakpoints'
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 
 type CardImageOrientation = 'top' | 'bottom' | 'start' | 'end'
 
@@ -47,7 +51,7 @@ function CardImageRender<C extends ElementType = 'img'>(
   { children, className, component, orientation, responsive, ...rest }: CardImageProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'img'
+  const Component = component ?? 'img'
   const _className = classNames(
     buildResponsiveClassNames(layoutClassNames, orientation, responsive),
     className
@@ -60,10 +64,7 @@ function CardImageRender<C extends ElementType = 'img'>(
   )
 }
 
-// `forwardRef` only accepts a non-generic render function, so it's cast to a concrete instance
-// for the call itself and back to the fully-generic `CardImageComponent` shape for consumers.
-export const CardImage = forwardRef(
-  CardImageRender as ForwardRefRenderFunction<Element, CardImageProps<ElementType>>
-) as CardImageComponent
-
-CardImage.displayName = 'CardImage'
+export const CardImage = createPolymorphicComponent<CardImageComponent>(
+  CardImageRender as ForwardRefRenderFunction<Element, CardImageProps<ElementType>>,
+  'CardImage'
+)

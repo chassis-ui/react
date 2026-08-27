@@ -1,7 +1,11 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 import { NavItem } from './NavItem'
 
 export interface NavItemDef {
@@ -56,7 +60,7 @@ function NavRender<C extends ElementType = 'ul'>(
   { children, className, component, items, layout, variant, ...rest }: NavProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'ul'
+  const Component = component ?? 'ul'
   const _className = classNames(
     'nav',
     {
@@ -87,8 +91,7 @@ function NavRender<C extends ElementType = 'ul'>(
   )
 }
 
-export const Nav = forwardRef(
-  NavRender as ForwardRefRenderFunction<Element, NavProps<ElementType>>
-) as NavComponent
-
-Nav.displayName = 'Nav'
+export const Nav = createPolymorphicComponent<NavComponent>(
+  NavRender as ForwardRefRenderFunction<Element, NavProps<ElementType>>,
+  'Nav'
+)

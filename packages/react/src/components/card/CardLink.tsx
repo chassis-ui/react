@@ -1,7 +1,7 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { PolymorphicRef } from '../../utils/polymorphic'
+import { createPolymorphicComponent, PolymorphicRef } from '../../utils/polymorphic'
 import { Link, LinkProps } from '../link/Link'
 
 type CardLinkOwnProps = {
@@ -34,8 +34,7 @@ function CardLinkRender<C extends ElementType = 'a'>(
   )
 }
 
-export const CardLink = forwardRef(
-  CardLinkRender as ForwardRefRenderFunction<Element, CardLinkProps<ElementType>>
-) as CardLinkComponent
-
-CardLink.displayName = 'CardLink'
+export const CardLink = createPolymorphicComponent<CardLinkComponent>(
+  CardLinkRender as ForwardRefRenderFunction<Element, CardLinkProps<ElementType>>,
+  'CardLink'
+)

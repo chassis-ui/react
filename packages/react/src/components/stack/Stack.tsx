@@ -1,7 +1,11 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 import { buildResponsiveClassNames } from '../../utils/breakpoints'
 import { spacingClassName } from '../../utils/spacingClassName'
 import { Breakpoint, Spacing } from '../../types'
@@ -57,7 +61,7 @@ function StackRender<C extends ElementType = 'div'>(
   }: StackProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'div'
+  const Component = component ?? 'div'
   const _className = classNames(
     buildResponsiveClassNames(directionClassName, direction, responsive),
     spacingClassName('gap', gap),
@@ -71,8 +75,7 @@ function StackRender<C extends ElementType = 'div'>(
   )
 }
 
-export const Stack = forwardRef(
-  StackRender as ForwardRefRenderFunction<Element, StackProps<ElementType>>
-) as StackComponent
-
-Stack.displayName = 'Stack'
+export const Stack = createPolymorphicComponent<StackComponent>(
+  StackRender as ForwardRefRenderFunction<Element, StackProps<ElementType>>,
+  'Stack'
+)

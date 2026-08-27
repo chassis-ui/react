@@ -1,7 +1,11 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 
 type CardHeaderOwnProps<C extends ElementType> = {
   /**
@@ -27,7 +31,7 @@ function CardHeaderRender<C extends ElementType = 'div'>(
   { children, className, component, ...rest }: CardHeaderProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'div'
+  const Component = component ?? 'div'
   const _className = classNames('card-header', className)
 
   return (
@@ -37,8 +41,7 @@ function CardHeaderRender<C extends ElementType = 'div'>(
   )
 }
 
-export const CardHeader = forwardRef(
-  CardHeaderRender as ForwardRefRenderFunction<Element, CardHeaderProps<ElementType>>
-) as CardHeaderComponent
-
-CardHeader.displayName = 'CardHeader'
+export const CardHeader = createPolymorphicComponent<CardHeaderComponent>(
+  CardHeaderRender as ForwardRefRenderFunction<Element, CardHeaderProps<ElementType>>,
+  'CardHeader'
+)

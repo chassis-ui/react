@@ -1,13 +1,11 @@
-import React, {
-  CSSProperties,
-  ElementType,
-  ForwardRefRenderFunction,
-  forwardRef,
-  ReactElement
-} from 'react'
+import React, { CSSProperties, ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 import { buildResponsiveClassNames } from '../../utils/breakpoints'
 import { Breakpoint, Spacing } from '../../types'
 import { resolveGap } from './gap'
@@ -98,7 +96,7 @@ function GridItemRender<C extends ElementType = 'div'>(
   }: GridItemProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'div'
+  const Component = component ?? 'div'
   const _className = classNames(
     buildResponsiveClassNames(layoutClassNames, { span, start }, responsive),
     subgrid && 'grid grid-cols-subgrid',
@@ -119,8 +117,7 @@ function GridItemRender<C extends ElementType = 'div'>(
   )
 }
 
-export const GridItem = forwardRef(
-  GridItemRender as ForwardRefRenderFunction<Element, GridItemProps<ElementType>>
-) as GridItemComponent
-
-GridItem.displayName = 'GridItem'
+export const GridItem = createPolymorphicComponent<GridItemComponent>(
+  GridItemRender as ForwardRefRenderFunction<Element, GridItemProps<ElementType>>,
+  'GridItem'
+)

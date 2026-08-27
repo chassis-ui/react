@@ -1,7 +1,11 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 
 type InputAdornOwnProps<C extends ElementType> = {
   /**
@@ -28,7 +32,7 @@ function InputAdornRender<C extends ElementType = 'span'>(
   { children, className, component, onMouseDown, ...rest }: InputAdornProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'span'
+  const Component = component ?? 'span'
   const _className = classNames('input-adorn', className)
   const handleMouseDown: React.MouseEventHandler<Element> = (event) => {
     onMouseDown?.(event)
@@ -45,8 +49,7 @@ function InputAdornRender<C extends ElementType = 'span'>(
   )
 }
 
-export const InputAdorn = forwardRef(
-  InputAdornRender as ForwardRefRenderFunction<Element, InputAdornProps<ElementType>>
-) as InputAdornComponent
-
-InputAdorn.displayName = 'InputAdorn'
+export const InputAdorn = createPolymorphicComponent<InputAdornComponent>(
+  InputAdornRender as ForwardRefRenderFunction<Element, InputAdornProps<ElementType>>,
+  'InputAdorn'
+)

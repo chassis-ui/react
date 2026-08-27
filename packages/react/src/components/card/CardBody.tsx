@@ -1,4 +1,4 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
 import { Breakpoint, Spacing } from '../../types'
@@ -7,7 +7,11 @@ import {
   flexDirectionClassNames,
   FlexDirection
 } from '../../utils/breakpoints'
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 import { spacingClassName } from '../../utils/spacingClassName'
 
 type CardBodyOwnProps<C extends ElementType> = {
@@ -50,7 +54,7 @@ function CardBodyRender<C extends ElementType = 'div'>(
   { children, className, component, direction, gap, responsive, ...rest }: CardBodyProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'div'
+  const Component = component ?? 'div'
   const _className = classNames(
     'card-body',
     buildResponsiveClassNames(flexDirectionClassNames, direction, responsive),
@@ -65,8 +69,7 @@ function CardBodyRender<C extends ElementType = 'div'>(
   )
 }
 
-export const CardBody = forwardRef(
-  CardBodyRender as ForwardRefRenderFunction<Element, CardBodyProps<ElementType>>
-) as CardBodyComponent
-
-CardBody.displayName = 'CardBody'
+export const CardBody = createPolymorphicComponent<CardBodyComponent>(
+  CardBodyRender as ForwardRefRenderFunction<Element, CardBodyProps<ElementType>>,
+  'CardBody'
+)

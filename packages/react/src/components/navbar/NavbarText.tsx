@@ -1,7 +1,11 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 
 type NavbarTextOwnProps<C extends ElementType> = {
   /**
@@ -27,7 +31,7 @@ function NavbarTextRender<C extends ElementType = 'span'>(
   { children, className, component, ...rest }: NavbarTextProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'span'
+  const Component = component ?? 'span'
   const _className = classNames('navbar-text', className)
 
   return (
@@ -37,8 +41,7 @@ function NavbarTextRender<C extends ElementType = 'span'>(
   )
 }
 
-export const NavbarText = forwardRef(
-  NavbarTextRender as ForwardRefRenderFunction<Element, NavbarTextProps<ElementType>>
-) as NavbarTextComponent
-
-NavbarText.displayName = 'NavbarText'
+export const NavbarText = createPolymorphicComponent<NavbarTextComponent>(
+  NavbarTextRender as ForwardRefRenderFunction<Element, NavbarTextProps<ElementType>>,
+  'NavbarText'
+)

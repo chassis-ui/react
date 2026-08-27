@@ -1,7 +1,11 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 
 type CardSubtitleOwnProps<C extends ElementType> = {
   /**
@@ -27,7 +31,7 @@ function CardSubtitleRender<C extends ElementType = 'h6'>(
   { children, component, className, ...rest }: CardSubtitleProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'h6'
+  const Component = component ?? 'h6'
   const _className = classNames('card-subtitle', className)
 
   return (
@@ -37,8 +41,7 @@ function CardSubtitleRender<C extends ElementType = 'h6'>(
   )
 }
 
-export const CardSubtitle = forwardRef(
-  CardSubtitleRender as ForwardRefRenderFunction<Element, CardSubtitleProps<ElementType>>
-) as CardSubtitleComponent
-
-CardSubtitle.displayName = 'CardSubtitle'
+export const CardSubtitle = createPolymorphicComponent<CardSubtitleComponent>(
+  CardSubtitleRender as ForwardRefRenderFunction<Element, CardSubtitleProps<ElementType>>,
+  'CardSubtitle'
+)

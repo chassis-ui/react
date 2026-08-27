@@ -1,7 +1,11 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 
 type ToastFooterOwnProps<C extends ElementType> = {
   /**
@@ -27,7 +31,7 @@ function ToastFooterRender<C extends ElementType = 'div'>(
   { children, className, component, ...rest }: ToastFooterProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'div'
+  const Component = component ?? 'div'
   const _className = classNames('toast-footer', className)
 
   return (
@@ -37,8 +41,7 @@ function ToastFooterRender<C extends ElementType = 'div'>(
   )
 }
 
-export const ToastFooter = forwardRef(
-  ToastFooterRender as ForwardRefRenderFunction<Element, ToastFooterProps<ElementType>>
-) as ToastFooterComponent
-
-ToastFooter.displayName = 'ToastFooter'
+export const ToastFooter = createPolymorphicComponent<ToastFooterComponent>(
+  ToastFooterRender as ForwardRefRenderFunction<Element, ToastFooterProps<ElementType>>,
+  'ToastFooter'
+)

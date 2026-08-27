@@ -1,14 +1,12 @@
-import React, {
-  ElementType,
-  ForwardRefRenderFunction,
-  forwardRef,
-  ReactElement,
-  ReactNode
-} from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement, ReactNode } from 'react'
 import classNames from 'classnames'
 
 import { ContextColor, ExtendedSizing } from '../../types'
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 import { Avatar } from './Avatar'
 
 export interface AvatarStackItemDef {
@@ -94,8 +92,7 @@ function AvatarStackRender<C extends ElementType = 'div'>(
   )
 }
 
-export const AvatarStack = forwardRef(
-  AvatarStackRender as ForwardRefRenderFunction<Element, AvatarStackProps<ElementType>>
-) as AvatarStackComponent
-
-AvatarStack.displayName = 'AvatarStack'
+export const AvatarStack = createPolymorphicComponent<AvatarStackComponent>(
+  AvatarStackRender as ForwardRefRenderFunction<Element, AvatarStackProps<ElementType>>,
+  'AvatarStack'
+)

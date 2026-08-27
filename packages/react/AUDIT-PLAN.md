@@ -408,7 +408,7 @@ Bigger, optional, no urgent bug attached — do this only once Phase 7's decisio
 touches several of the same files), and consider splitting into sub-commits if the diff gets large.
 Get explicit user sign-off on scope before starting.
 
-- [ ] **REFACTOR-05** The polymorphic-component wrapper boilerplate (`forwardRef` + cast to a
+- [x] **REFACTOR-05** The polymorphic-component wrapper boilerplate (`forwardRef` + cast to a
   named component type + `displayName` assignment) is duplicated verbatim across `button/Button.tsx`,
   `link/Link.tsx`, `close-button/CloseButton.tsx`, `flex/Flex.tsx`, `stack/Stack.tsx`,
   `grid/Container.tsx`, `grid/Grid.tsx`, `grid/GridItem.tsx`, `button-group/ButtonGroup.tsx`,
@@ -417,7 +417,13 @@ Get explicit user sign-off on scope before starting.
   polymorphic.ts` already centralizes the *type* half (`PolymorphicComponentProps`/
   `PolymorphicRef`) but not this runtime-wrapper half. Add a small generic helper (e.g.
   `createPolymorphicComponent(render, displayName)`) there and migrate all call sites to use it.
-- [ ] **CLEANUP-08** While touching these files: standardize the "pick a default root element"
+  **Grepping the pattern (`as ForwardRefRenderFunction<Element,`) found 70 files, not 10** — the
+  list above was already stale before this phase started. Added `createPolymorphicComponent<T>` to
+  `utils/polymorphic.ts` and migrated all 70 call sites mechanically (verified every site follows
+  the identical wrapper shape before scripting the replacement). Two files (`CardImage.tsx`,
+  `Skeleton.tsx`) had a stale explanatory comment directly above the old wrapper describing exactly
+  what the new helper's own doc comment now says — removed as redundant rather than left to rot.
+- [x] **CLEANUP-08** While touching these files: standardize the "pick a default root element"
   idiom, which is currently split three ways — destructured default (`Nav.tsx`), logical-OR
   (`Navbar.tsx`, `NavbarNav.tsx`, `NavbarText.tsx`, `Tabs.tsx`, `StepperItem.tsx`, `Flex.tsx`,
   `Stack.tsx`, `Container.tsx`, `Grid.tsx`, `GridItem.tsx`, `ButtonGroup.tsx`, `ButtonToolbar.tsx`,
@@ -425,9 +431,14 @@ Get explicit user sign-off on scope before starting.
   `Stepper.tsx`, `Button.tsx`, `Link.tsx`, `CloseButton.tsx`, all `component ?? <default>`).
   Functionally near-equivalent given realistic inputs (an `ElementType` is never legitimately
   falsy), but standardize on `??` everywhere while these files are already open for REFACTOR-05.
-- [ ] `grid/Container.spec.tsx` doesn't test the `component` prop, unlike `Flex.spec.tsx`/
+  `Nav.tsx`'s "destructured default" case turned out to no longer exist — Phase 7's `DECIDE-04`
+  migration had already normalized it to the same `component || 'ul'` shape as its siblings.
+  Mechanically replaced all remaining `component ||` with `component ??` (56 sites) across the
+  codebase; the 13 sites already on `??` were left untouched.
+- [x] `grid/Container.spec.tsx` doesn't test the `component` prop, unlike `Flex.spec.tsx`/
   `Stack.spec.tsx`/`Grid.spec.tsx`/`GridItem.spec.tsx`, all of which do. Add one `component="section"`
   test for parity while in this file.
+  Added, matching `Grid.spec.tsx`'s existing test shape.
 
 ---
 

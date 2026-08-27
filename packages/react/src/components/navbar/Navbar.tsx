@@ -1,7 +1,11 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 import { Breakpoint, ContextColor, ContextStyle } from '../../types'
 
 type NavbarOwnProps<C extends ElementType> = {
@@ -70,7 +74,7 @@ function NavbarRender<C extends ElementType = 'nav'>(
   }: NavbarProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'nav'
+  const Component = component ?? 'nav'
   const _className = classNames(
     'navbar',
     color,
@@ -102,8 +106,7 @@ function NavbarRender<C extends ElementType = 'nav'>(
   )
 }
 
-export const Navbar = forwardRef(
-  NavbarRender as ForwardRefRenderFunction<Element, NavbarProps<ElementType>>
-) as NavbarComponent
-
-Navbar.displayName = 'Navbar'
+export const Navbar = createPolymorphicComponent<NavbarComponent>(
+  NavbarRender as ForwardRefRenderFunction<Element, NavbarProps<ElementType>>,
+  'Navbar'
+)

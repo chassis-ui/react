@@ -1,7 +1,11 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 
 type DrawerFooterOwnProps<C extends ElementType> = {
   /**
@@ -31,7 +35,7 @@ function DrawerFooterRender<C extends ElementType = 'div'>(
   { children, className, component, stacked, ...rest }: DrawerFooterProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'div'
+  const Component = component ?? 'div'
   const _className = classNames('drawer-footer', { stacked }, className)
 
   return (
@@ -41,8 +45,7 @@ function DrawerFooterRender<C extends ElementType = 'div'>(
   )
 }
 
-export const DrawerFooter = forwardRef(
-  DrawerFooterRender as ForwardRefRenderFunction<Element, DrawerFooterProps<ElementType>>
-) as DrawerFooterComponent
-
-DrawerFooter.displayName = 'DrawerFooter'
+export const DrawerFooter = createPolymorphicComponent<DrawerFooterComponent>(
+  DrawerFooterRender as ForwardRefRenderFunction<Element, DrawerFooterProps<ElementType>>,
+  'DrawerFooter'
+)

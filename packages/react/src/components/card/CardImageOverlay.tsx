@@ -1,7 +1,11 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 
 type CardImageOverlayOwnProps<C extends ElementType> = {
   /**
@@ -27,7 +31,7 @@ function CardImageOverlayRender<C extends ElementType = 'div'>(
   { children, className, component, ...rest }: CardImageOverlayProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'div'
+  const Component = component ?? 'div'
   const _className = classNames('card-overlay', className)
 
   return (
@@ -37,8 +41,7 @@ function CardImageOverlayRender<C extends ElementType = 'div'>(
   )
 }
 
-export const CardImageOverlay = forwardRef(
-  CardImageOverlayRender as ForwardRefRenderFunction<Element, CardImageOverlayProps<ElementType>>
-) as CardImageOverlayComponent
-
-CardImageOverlay.displayName = 'CardImageOverlay'
+export const CardImageOverlay = createPolymorphicComponent<CardImageOverlayComponent>(
+  CardImageOverlayRender as ForwardRefRenderFunction<Element, CardImageOverlayProps<ElementType>>,
+  'CardImageOverlay'
+)

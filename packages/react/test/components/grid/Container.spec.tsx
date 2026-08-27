@@ -17,6 +17,17 @@ describe('Container', () => {
       const { container } = render(<Container>Test</Container>)
       expect(container).toMatchSnapshot()
     })
+
+    test('renders as a custom component', () => {
+      render(
+        <Container className="bazinga" component="section">
+          Test
+        </Container>
+      )
+      const el = screen.getByText('Test')
+      expect(el).toHaveClass('container', 'bazinga')
+      expect(el.tagName).toBe('SECTION')
+    })
   })
 
   describe('breakpoint props', () => {

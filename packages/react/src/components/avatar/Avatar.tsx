@@ -1,8 +1,12 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
 import { ContextColor, ExtendedSizing } from '../../types'
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 import { Link } from '../link/Link'
 import { Badge } from '../badge'
 import { AvatarImage } from './AvatarImage'
@@ -124,8 +128,7 @@ function AvatarRender<C extends ElementType = 'span'>(
   )
 }
 
-export const Avatar = forwardRef(
-  AvatarRender as ForwardRefRenderFunction<Element, AvatarProps<ElementType>>
-) as AvatarComponent
-
-Avatar.displayName = 'Avatar'
+export const Avatar = createPolymorphicComponent<AvatarComponent>(
+  AvatarRender as ForwardRefRenderFunction<Element, AvatarProps<ElementType>>,
+  'Avatar'
+)

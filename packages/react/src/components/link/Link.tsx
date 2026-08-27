@@ -1,7 +1,6 @@
 import React, {
   ElementType,
   ForwardRefRenderFunction,
-  forwardRef,
   MouseEventHandler,
   ReactElement,
   Ref
@@ -11,7 +10,11 @@ import { mergeProps } from 'react-aria'
 
 import { ContextColor } from '../../types'
 import { useButtonSemantics, useDisabledAnchorGuard } from '../../hooks'
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 
 type LinkOwnProps<C extends ElementType> = {
   /**
@@ -139,8 +142,7 @@ function LinkRender<C extends ElementType = 'a'>(
   )
 }
 
-export const Link = forwardRef(
-  LinkRender as ForwardRefRenderFunction<Element, LinkProps<ElementType>>
-) as LinkComponent
-
-Link.displayName = 'Link'
+export const Link = createPolymorphicComponent<LinkComponent>(
+  LinkRender as ForwardRefRenderFunction<Element, LinkProps<ElementType>>,
+  'Link'
+)

@@ -1,7 +1,11 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 
 type CarouselItemOwnProps<C extends ElementType> = {
   /**
@@ -31,7 +35,7 @@ function CarouselItemRender<C extends ElementType = 'div'>(
   { children, className, component, interval, ...rest }: CarouselItemProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'div'
+  const Component = component ?? 'div'
   const _className = classNames('carousel-item', className)
 
   return (
@@ -41,8 +45,7 @@ function CarouselItemRender<C extends ElementType = 'div'>(
   )
 }
 
-export const CarouselItem = forwardRef(
-  CarouselItemRender as ForwardRefRenderFunction<Element, CarouselItemProps<ElementType>>
-) as CarouselItemComponent
-
-CarouselItem.displayName = 'CarouselItem'
+export const CarouselItem = createPolymorphicComponent<CarouselItemComponent>(
+  CarouselItemRender as ForwardRefRenderFunction<Element, CarouselItemProps<ElementType>>,
+  'CarouselItem'
+)

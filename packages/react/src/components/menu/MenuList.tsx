@@ -1,7 +1,6 @@
 import React, {
   ElementType,
   ForwardRefRenderFunction,
-  forwardRef,
   ReactElement,
   ReactNode,
   useContext,
@@ -12,7 +11,11 @@ import classNames from 'classnames'
 
 import { useForkedRef } from '../../hooks'
 import { renderMenuItemContent } from '../../utils/renderMenuItemContent'
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 import { MenuContext } from './Menu'
 import { MenuDivider } from './MenuDivider'
 import { MenuHeader } from './MenuHeader'
@@ -77,7 +80,7 @@ function MenuListRender<C extends ElementType = 'div'>(
   { children, className, component, items, onKeyDown, ...rest }: MenuListProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'div'
+  const Component = component ?? 'div'
   const {
     close,
     container,
@@ -133,8 +136,7 @@ function MenuListRender<C extends ElementType = 'div'>(
   return content
 }
 
-export const MenuList = forwardRef(
-  MenuListRender as ForwardRefRenderFunction<Element, MenuListProps<ElementType>>
-) as MenuListComponent
-
-MenuList.displayName = 'MenuList'
+export const MenuList = createPolymorphicComponent<MenuListComponent>(
+  MenuListRender as ForwardRefRenderFunction<Element, MenuListProps<ElementType>>,
+  'MenuList'
+)

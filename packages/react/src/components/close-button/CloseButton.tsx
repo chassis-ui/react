@@ -1,7 +1,6 @@
 import React, {
   ElementType,
   ForwardRefRenderFunction,
-  forwardRef,
   MouseEventHandler,
   ReactElement,
   Ref
@@ -11,7 +10,11 @@ import { mergeProps } from 'react-aria'
 
 import { ContextColor, ContextStyle } from '../../types'
 import { useButtonSemantics, useDisabledAnchorGuard } from '../../hooks'
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 
 type CloseButtonOwnProps<C extends ElementType> = {
   /**
@@ -196,8 +199,7 @@ function CloseButtonRender<C extends ElementType = 'button'>(
   )
 }
 
-export const CloseButton = forwardRef(
-  CloseButtonRender as ForwardRefRenderFunction<Element, CloseButtonProps<ElementType>>
-) as CloseButtonComponent
-
-CloseButton.displayName = 'CloseButton'
+export const CloseButton = createPolymorphicComponent<CloseButtonComponent>(
+  CloseButtonRender as ForwardRefRenderFunction<Element, CloseButtonProps<ElementType>>,
+  'CloseButton'
+)

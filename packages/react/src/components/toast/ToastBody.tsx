@@ -1,9 +1,13 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
 import { CloseButton } from '../close-button/CloseButton'
 import { useToast } from '../../hooks'
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 
 type ToastBodyOwnProps<C extends ElementType> = {
   /**
@@ -40,7 +44,7 @@ function ToastBodyRender<C extends ElementType = 'div'>(
   ref: PolymorphicRef<C>
 ) {
   const { close } = useToast()
-  const Component = component || 'div'
+  const Component = component ?? 'div'
   const _className = classNames(
     'toast-body',
     { 'd-flex align-items-start justify-content-between gap-small': closeButton },
@@ -54,8 +58,7 @@ function ToastBodyRender<C extends ElementType = 'div'>(
   )
 }
 
-export const ToastBody = forwardRef(
-  ToastBodyRender as ForwardRefRenderFunction<Element, ToastBodyProps<ElementType>>
-) as ToastBodyComponent
-
-ToastBody.displayName = 'ToastBody'
+export const ToastBody = createPolymorphicComponent<ToastBodyComponent>(
+  ToastBodyRender as ForwardRefRenderFunction<Element, ToastBodyProps<ElementType>>,
+  'ToastBody'
+)

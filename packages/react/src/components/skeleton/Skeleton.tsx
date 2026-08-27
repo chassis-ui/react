@@ -1,9 +1,13 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
 import { Span, buildResponsiveClassNames } from '../../utils/breakpoints'
 import { Breakpoint, ContextColor } from '../../types'
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 
 type SkeletonOwnProps<C extends ElementType> = {
   /**
@@ -63,7 +67,7 @@ function SkeletonRender<C extends ElementType = 'span'>(
   { children, animation, className, color, component, span, responsive, ...rest }: SkeletonProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'span'
+  const Component = component ?? 'span'
   const _className = classNames(
     'skeleton',
     animation && `skeleton-${animation}`,
@@ -79,10 +83,7 @@ function SkeletonRender<C extends ElementType = 'span'>(
   )
 }
 
-// `forwardRef` only accepts a non-generic render function, so it's cast to a concrete instance
-// for the call itself and back to the fully-generic `SkeletonComponent` shape for consumers.
-export const Skeleton = forwardRef(
-  SkeletonRender as ForwardRefRenderFunction<Element, SkeletonProps<ElementType>>
-) as SkeletonComponent
-
-Skeleton.displayName = 'Skeleton'
+export const Skeleton = createPolymorphicComponent<SkeletonComponent>(
+  SkeletonRender as ForwardRefRenderFunction<Element, SkeletonProps<ElementType>>,
+  'Skeleton'
+)

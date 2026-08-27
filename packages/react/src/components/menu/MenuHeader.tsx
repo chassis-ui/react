@@ -1,7 +1,11 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 
 type MenuHeaderOwnProps<C extends ElementType> = {
   /**
@@ -32,7 +36,7 @@ function MenuHeaderRender<C extends ElementType = 'h4'>(
   { children, className, component, role = 'presentation', ...rest }: MenuHeaderProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'h4'
+  const Component = component ?? 'h4'
   const _className = classNames('menu-header', className)
 
   // Always rendered as a direct child of `role="menu"` (see MenuList) — ARIA's menu role only
@@ -45,8 +49,7 @@ function MenuHeaderRender<C extends ElementType = 'h4'>(
   )
 }
 
-export const MenuHeader = forwardRef(
-  MenuHeaderRender as ForwardRefRenderFunction<Element, MenuHeaderProps<ElementType>>
-) as MenuHeaderComponent
-
-MenuHeader.displayName = 'MenuHeader'
+export const MenuHeader = createPolymorphicComponent<MenuHeaderComponent>(
+  MenuHeaderRender as ForwardRefRenderFunction<Element, MenuHeaderProps<ElementType>>,
+  'MenuHeader'
+)

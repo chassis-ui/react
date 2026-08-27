@@ -1,15 +1,13 @@
-import React, {
-  ElementType,
-  ForwardRefRenderFunction,
-  forwardRef,
-  ReactElement,
-  ReactNode
-} from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement, ReactNode } from 'react'
 import classNames from 'classnames'
 
 import { CloseButton } from '../close-button/CloseButton'
 import { useToast } from '../../hooks'
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 import { ToastIcon } from './ToastIcon'
 
 type ToastHeaderOwnProps<C extends ElementType> = {
@@ -77,7 +75,7 @@ function ToastHeaderRender<C extends ElementType = 'div'>(
   ref: PolymorphicRef<C>
 ) {
   const { close } = useToast()
-  const Component = component || 'div'
+  const Component = component ?? 'div'
   const _className = classNames('toast-header', className)
   return (
     <Component className={_className} {...rest} ref={ref}>
@@ -100,8 +98,7 @@ function ToastHeaderRender<C extends ElementType = 'div'>(
   )
 }
 
-export const ToastHeader = forwardRef(
-  ToastHeaderRender as ForwardRefRenderFunction<Element, ToastHeaderProps<ElementType>>
-) as ToastHeaderComponent
-
-ToastHeader.displayName = 'ToastHeader'
+export const ToastHeader = createPolymorphicComponent<ToastHeaderComponent>(
+  ToastHeaderRender as ForwardRefRenderFunction<Element, ToastHeaderProps<ElementType>>,
+  'ToastHeader'
+)

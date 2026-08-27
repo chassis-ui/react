@@ -2,14 +2,17 @@ import React, {
   Children,
   ElementType,
   ForwardRefRenderFunction,
-  forwardRef,
   isValidElement,
   ReactElement
 } from 'react'
 import classNames from 'classnames'
 
 import { ContextColor, ContextStyle } from '../../types'
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 import { ListItem } from './ListItem'
 
 export interface ListItemDef {
@@ -184,8 +187,7 @@ function ListRender<C extends ElementType = 'ul'>(
   )
 }
 
-export const List = forwardRef(
-  ListRender as ForwardRefRenderFunction<Element, ListProps<ElementType>>
-) as ListComponent
-
-List.displayName = 'List'
+export const List = createPolymorphicComponent<ListComponent>(
+  ListRender as ForwardRefRenderFunction<Element, ListProps<ElementType>>,
+  'List'
+)

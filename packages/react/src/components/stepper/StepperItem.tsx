@@ -1,8 +1,12 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
 import { ContextColor } from '../../types'
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 
 type StepperItemOwnProps<C extends ElementType> = {
   /**
@@ -40,7 +44,7 @@ function StepperItemRender<C extends ElementType = 'li'>(
   { active, children, className, color, component, href, ...rest }: StepperItemProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = (component || 'li') as ElementType
+  const Component = (component ?? 'li') as ElementType
   const _className = classNames('stepper-item', color && 'context', color, { active }, className)
 
   const mergedProps = {
@@ -56,8 +60,7 @@ function StepperItemRender<C extends ElementType = 'li'>(
   )
 }
 
-export const StepperItem = forwardRef(
-  StepperItemRender as ForwardRefRenderFunction<Element, StepperItemProps<ElementType>>
-) as StepperItemComponent
-
-StepperItem.displayName = 'StepperItem'
+export const StepperItem = createPolymorphicComponent<StepperItemComponent>(
+  StepperItemRender as ForwardRefRenderFunction<Element, StepperItemProps<ElementType>>,
+  'StepperItem'
+)

@@ -1,7 +1,11 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 
 type AccordionBodyOwnProps<C extends ElementType> = {
   /**
@@ -27,7 +31,7 @@ function AccordionBodyRender<C extends ElementType = 'div'>(
   { children, className, component, ...rest }: AccordionBodyProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'div'
+  const Component = component ?? 'div'
 
   return (
     <Component className={classNames('accordion-body', className)} {...rest} ref={ref}>
@@ -36,8 +40,7 @@ function AccordionBodyRender<C extends ElementType = 'div'>(
   )
 }
 
-export const AccordionBody = forwardRef(
-  AccordionBodyRender as ForwardRefRenderFunction<Element, AccordionBodyProps<ElementType>>
-) as AccordionBodyComponent
-
-AccordionBody.displayName = 'AccordionBody'
+export const AccordionBody = createPolymorphicComponent<AccordionBodyComponent>(
+  AccordionBodyRender as ForwardRefRenderFunction<Element, AccordionBodyProps<ElementType>>,
+  'AccordionBody'
+)

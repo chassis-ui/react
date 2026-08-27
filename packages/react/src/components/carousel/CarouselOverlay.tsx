@@ -1,7 +1,11 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 
 type CarouselOverlayOwnProps<C extends ElementType> = {
   /**
@@ -31,7 +35,7 @@ function CarouselOverlayRender<C extends ElementType = 'div'>(
   { children, className, component, ...rest }: CarouselOverlayProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'div'
+  const Component = component ?? 'div'
   const _className = classNames('carousel-overlay', className)
 
   return (
@@ -41,8 +45,7 @@ function CarouselOverlayRender<C extends ElementType = 'div'>(
   )
 }
 
-export const CarouselOverlay = forwardRef(
-  CarouselOverlayRender as ForwardRefRenderFunction<Element, CarouselOverlayProps<ElementType>>
-) as CarouselOverlayComponent
-
-CarouselOverlay.displayName = 'CarouselOverlay'
+export const CarouselOverlay = createPolymorphicComponent<CarouselOverlayComponent>(
+  CarouselOverlayRender as ForwardRefRenderFunction<Element, CarouselOverlayProps<ElementType>>,
+  'CarouselOverlay'
+)

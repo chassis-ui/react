@@ -2,14 +2,17 @@ import React, {
   Children,
   ElementType,
   ForwardRefRenderFunction,
-  forwardRef,
   isValidElement,
   ReactElement
 } from 'react'
 import classNames from 'classnames'
 
 import { ContextColor } from '../../types'
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 import { StepperItem } from './StepperItem'
 
 export interface StepperItemDef {
@@ -163,8 +166,7 @@ function StepperRender<C extends ElementType = 'ol'>(
   return <div className="stepper-overflow">{stepperEl}</div>
 }
 
-export const Stepper = forwardRef(
-  StepperRender as ForwardRefRenderFunction<Element, StepperProps<ElementType>>
-) as StepperComponent
-
-Stepper.displayName = 'Stepper'
+export const Stepper = createPolymorphicComponent<StepperComponent>(
+  StepperRender as ForwardRefRenderFunction<Element, StepperProps<ElementType>>,
+  'Stepper'
+)

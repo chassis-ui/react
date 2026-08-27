@@ -1,8 +1,12 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
 import { ContextColor, ContextStyle, Sizing } from '../../types'
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 
 type BadgeOwnProps<C extends ElementType> = {
   /**
@@ -58,7 +62,7 @@ function BadgeRender<C extends ElementType = 'span'>(
   }: BadgeProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'span'
+  const Component = component ?? 'span'
 
   const _className = classNames(
     'badge',
@@ -84,8 +88,7 @@ function BadgeRender<C extends ElementType = 'span'>(
   )
 }
 
-export const Badge = forwardRef(
-  BadgeRender as ForwardRefRenderFunction<Element, BadgeProps<ElementType>>
-) as BadgeComponent
-
-Badge.displayName = 'Badge'
+export const Badge = createPolymorphicComponent<BadgeComponent>(
+  BadgeRender as ForwardRefRenderFunction<Element, BadgeProps<ElementType>>,
+  'Badge'
+)

@@ -1,8 +1,12 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
 import { useDrawer } from '../../hooks'
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 
 type DrawerTitleOwnProps<C extends ElementType> = {
   /**
@@ -29,7 +33,7 @@ function DrawerTitleRender<C extends ElementType = 'h2'>(
   ref: PolymorphicRef<C>
 ) {
   const { titleId } = useDrawer()
-  const Component = component || 'h2'
+  const Component = component ?? 'h2'
   const _className = classNames('drawer-title', className)
 
   return (
@@ -39,8 +43,7 @@ function DrawerTitleRender<C extends ElementType = 'h2'>(
   )
 }
 
-export const DrawerTitle = forwardRef(
-  DrawerTitleRender as ForwardRefRenderFunction<Element, DrawerTitleProps<ElementType>>
-) as DrawerTitleComponent
-
-DrawerTitle.displayName = 'DrawerTitle'
+export const DrawerTitle = createPolymorphicComponent<DrawerTitleComponent>(
+  DrawerTitleRender as ForwardRefRenderFunction<Element, DrawerTitleProps<ElementType>>,
+  'DrawerTitle'
+)

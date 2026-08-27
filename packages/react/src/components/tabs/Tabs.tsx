@@ -1,7 +1,6 @@
 import React, {
   ElementType,
   ForwardRefRenderFunction,
-  forwardRef,
   ReactElement,
   ReactNode,
   useEffect,
@@ -9,7 +8,11 @@ import React, {
 } from 'react'
 import { Item, Key, useTabListState } from 'react-stately'
 
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 import { TabProps } from './Tab'
 import { TabList } from './TabList'
 import { TabsContext } from './context'
@@ -75,7 +78,7 @@ function TabsRender<C extends ElementType = 'div'>(
   }: TabsProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'div'
+  const Component = component ?? 'div'
   // `TabList`'s own children (the `Tab`s) are the source of truth for the collection —
   // `TabList` never renders them directly (see its own comment), it only reads them here,
   // at the point react-stately actually needs a collection to build `state` from. This keeps
@@ -127,8 +130,7 @@ function TabsRender<C extends ElementType = 'div'>(
   )
 }
 
-export const Tabs = forwardRef(
-  TabsRender as ForwardRefRenderFunction<Element, TabsProps<ElementType>>
-) as TabsComponent
-
-Tabs.displayName = 'Tabs'
+export const Tabs = createPolymorphicComponent<TabsComponent>(
+  TabsRender as ForwardRefRenderFunction<Element, TabsProps<ElementType>>,
+  'Tabs'
+)

@@ -1,14 +1,13 @@
 import React, {
   ElementType,
   ForwardRefRenderFunction,
-  forwardRef,
   MouseEvent,
   ReactElement,
   ReactNode
 } from 'react'
 import classNames from 'classnames'
 
-import { PolymorphicRef } from '../../utils/polymorphic'
+import { createPolymorphicComponent, PolymorphicRef } from '../../utils/polymorphic'
 import { renderMenuItemContent } from '../../utils/renderMenuItemContent'
 import { LinkProps, Link } from '../link/Link'
 
@@ -80,8 +79,7 @@ function MenuItemRender<C extends ElementType = 'a'>(
   )
 }
 
-export const MenuItem = forwardRef(
-  MenuItemRender as ForwardRefRenderFunction<Element, MenuItemProps<ElementType>>
-) as MenuItemComponent
-
-MenuItem.displayName = 'MenuItem'
+export const MenuItem = createPolymorphicComponent<MenuItemComponent>(
+  MenuItemRender as ForwardRefRenderFunction<Element, MenuItemProps<ElementType>>,
+  'MenuItem'
+)

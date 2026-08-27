@@ -1,7 +1,11 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 
 type NotificationTitleOwnProps<C extends ElementType> = {
   /**
@@ -27,7 +31,7 @@ function NotificationTitleRender<C extends ElementType = 'h4'>(
   { children, className, component, ...rest }: NotificationTitleProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'h4'
+  const Component = component ?? 'h4'
   const _className = classNames('notification-title', className)
 
   return (
@@ -37,8 +41,7 @@ function NotificationTitleRender<C extends ElementType = 'h4'>(
   )
 }
 
-export const NotificationTitle = forwardRef(
-  NotificationTitleRender as ForwardRefRenderFunction<Element, NotificationTitleProps<ElementType>>
-) as NotificationTitleComponent
-
-NotificationTitle.displayName = 'NotificationTitle'
+export const NotificationTitle = createPolymorphicComponent<NotificationTitleComponent>(
+  NotificationTitleRender as ForwardRefRenderFunction<Element, NotificationTitleProps<ElementType>>,
+  'NotificationTitle'
+)

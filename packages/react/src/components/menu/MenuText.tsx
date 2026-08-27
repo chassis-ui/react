@@ -1,7 +1,11 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 
 type MenuTextOwnProps<C extends ElementType> = {
   /**
@@ -27,7 +31,7 @@ function MenuTextRender<C extends ElementType = 'span'>(
   { children, className, component, ...rest }: MenuTextProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'span'
+  const Component = component ?? 'span'
   const _className = classNames('menu-text', className)
 
   return (
@@ -37,8 +41,7 @@ function MenuTextRender<C extends ElementType = 'span'>(
   )
 }
 
-export const MenuText = forwardRef(
-  MenuTextRender as ForwardRefRenderFunction<Element, MenuTextProps<ElementType>>
-) as MenuTextComponent
-
-MenuText.displayName = 'MenuText'
+export const MenuText = createPolymorphicComponent<MenuTextComponent>(
+  MenuTextRender as ForwardRefRenderFunction<Element, MenuTextProps<ElementType>>,
+  'MenuText'
+)

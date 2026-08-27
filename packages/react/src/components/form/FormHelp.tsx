@@ -1,7 +1,11 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 
 type FormHelpOwnProps<C extends ElementType> = {
   /**
@@ -27,7 +31,7 @@ function FormHelpRender<C extends ElementType = 'div'>(
   { children, className, component, ...rest }: FormHelpProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'div'
+  const Component = component ?? 'div'
   const _className = classNames('form-help', className)
   return (
     <Component className={_className} {...rest} ref={ref}>
@@ -36,8 +40,7 @@ function FormHelpRender<C extends ElementType = 'div'>(
   )
 }
 
-export const FormHelp = forwardRef(
-  FormHelpRender as ForwardRefRenderFunction<Element, FormHelpProps<ElementType>>
-) as FormHelpComponent
-
-FormHelp.displayName = 'FormHelp'
+export const FormHelp = createPolymorphicComponent<FormHelpComponent>(
+  FormHelpRender as ForwardRefRenderFunction<Element, FormHelpProps<ElementType>>,
+  'FormHelp'
+)

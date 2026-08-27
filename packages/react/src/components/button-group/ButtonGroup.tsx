@@ -1,7 +1,11 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 
 type ButtonGroupOwnProps<C extends ElementType> = {
   /**
@@ -35,7 +39,7 @@ function ButtonGroupRender<C extends ElementType = 'div'>(
   { children, className, component, size, vertical, ...rest }: ButtonGroupProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'div'
+  const Component = component ?? 'div'
   const _className = classNames('button-group', { vertical }, size, className)
 
   return (
@@ -45,8 +49,7 @@ function ButtonGroupRender<C extends ElementType = 'div'>(
   )
 }
 
-export const ButtonGroup = forwardRef(
-  ButtonGroupRender as ForwardRefRenderFunction<Element, ButtonGroupProps<ElementType>>
-) as ButtonGroupComponent
-
-ButtonGroup.displayName = 'ButtonGroup'
+export const ButtonGroup = createPolymorphicComponent<ButtonGroupComponent>(
+  ButtonGroupRender as ForwardRefRenderFunction<Element, ButtonGroupProps<ElementType>>,
+  'ButtonGroup'
+)

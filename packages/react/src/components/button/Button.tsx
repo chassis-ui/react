@@ -1,7 +1,6 @@
 import React, {
   ElementType,
   ForwardRefRenderFunction,
-  forwardRef,
   MouseEventHandler,
   ReactElement,
   Ref
@@ -11,7 +10,11 @@ import { mergeProps } from 'react-aria'
 
 import { ContextColor, ContextStyle, Shapes } from '../../types'
 import { useButtonSemantics, useDisabledAnchorGuard } from '../../hooks'
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 
 type ButtonOwnProps<C extends ElementType> = {
   /**
@@ -220,8 +223,7 @@ function ButtonRender<C extends ElementType = 'button'>(
   )
 }
 
-export const Button = forwardRef(
-  ButtonRender as ForwardRefRenderFunction<Element, ButtonProps<ElementType>>
-) as ButtonComponent
-
-Button.displayName = 'Button'
+export const Button = createPolymorphicComponent<ButtonComponent>(
+  ButtonRender as ForwardRefRenderFunction<Element, ButtonProps<ElementType>>,
+  'Button'
+)

@@ -1,7 +1,11 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 
 type CardGroupOwnProps<C extends ElementType> = {
   /**
@@ -31,7 +35,7 @@ function CardGroupRender<C extends ElementType = 'div'>(
   { children, className, component, ...rest }: CardGroupProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'div'
+  const Component = component ?? 'div'
   const _className = classNames('card-group', className)
 
   return (
@@ -41,8 +45,7 @@ function CardGroupRender<C extends ElementType = 'div'>(
   )
 }
 
-export const CardGroup = forwardRef(
-  CardGroupRender as ForwardRefRenderFunction<Element, CardGroupProps<ElementType>>
-) as CardGroupComponent
-
-CardGroup.displayName = 'CardGroup'
+export const CardGroup = createPolymorphicComponent<CardGroupComponent>(
+  CardGroupRender as ForwardRefRenderFunction<Element, CardGroupProps<ElementType>>,
+  'CardGroup'
+)

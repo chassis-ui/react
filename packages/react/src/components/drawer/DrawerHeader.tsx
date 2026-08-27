@@ -1,8 +1,12 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
 import { useDrawer } from '../../hooks'
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 import { CloseButton } from '../close-button/CloseButton'
 
 type DrawerHeaderOwnProps<C extends ElementType> = {
@@ -38,7 +42,7 @@ function DrawerHeaderRender<C extends ElementType = 'div'>(
   { children, className, closeButton = true, closeLabel, component, ...rest }: DrawerHeaderProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'div'
+  const Component = component ?? 'div'
   const { close } = useDrawer()
   const _className = classNames('drawer-header', className)
 
@@ -50,8 +54,7 @@ function DrawerHeaderRender<C extends ElementType = 'div'>(
   )
 }
 
-export const DrawerHeader = forwardRef(
-  DrawerHeaderRender as ForwardRefRenderFunction<Element, DrawerHeaderProps<ElementType>>
-) as DrawerHeaderComponent
-
-DrawerHeader.displayName = 'DrawerHeader'
+export const DrawerHeader = createPolymorphicComponent<DrawerHeaderComponent>(
+  DrawerHeaderRender as ForwardRefRenderFunction<Element, DrawerHeaderProps<ElementType>>,
+  'DrawerHeader'
+)

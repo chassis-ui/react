@@ -1,7 +1,11 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 
 type InputGroupAddonOwnProps<C extends ElementType> = {
   /**
@@ -31,7 +35,7 @@ function InputGroupAddonRender<C extends ElementType = 'span'>(
   { children, className, component, ...rest }: InputGroupAddonProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'span'
+  const Component = component ?? 'span'
   const _className = classNames('input-addon', className)
   return (
     <Component className={_className} {...rest} ref={ref}>
@@ -40,8 +44,7 @@ function InputGroupAddonRender<C extends ElementType = 'span'>(
   )
 }
 
-export const InputGroupAddon = forwardRef(
-  InputGroupAddonRender as ForwardRefRenderFunction<Element, InputGroupAddonProps<ElementType>>
-) as InputGroupAddonComponent
-
-InputGroupAddon.displayName = 'InputGroupAddon'
+export const InputGroupAddon = createPolymorphicComponent<InputGroupAddonComponent>(
+  InputGroupAddonRender as ForwardRefRenderFunction<Element, InputGroupAddonProps<ElementType>>,
+  'InputGroupAddon'
+)

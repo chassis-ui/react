@@ -2,7 +2,6 @@ import React, {
   ElementType,
   ForwardRefRenderFunction,
   ReactElement,
-  forwardRef,
   useContext,
   useRef
 } from 'react'
@@ -12,7 +11,11 @@ import { mergeProps, useButton } from 'react-aria'
 import { Button } from '../button/Button'
 import { MenuContext } from './Menu'
 import { ContextColor, ContextStyle, Shapes } from '../../types'
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 import { useForkedRef } from '../../hooks'
 
 type MenuToggleOwnProps<C extends ElementType> = {
@@ -73,7 +76,7 @@ function MenuToggleRender<C extends ElementType = typeof Button>(
 ) {
   const { hide, menuTriggerProps, reference, targetRef, toggleNodeRef, visible } =
     useContext(MenuContext)
-  const Component = component || Button
+  const Component = component ?? Button
   const buttonRef = useRef<HTMLButtonElement | null>(null)
   // `elementType` tells react-aria whether the rendered root already has native button
   // semantics (`Button`, defaulting to `<button>`) or needs them emulated (`role="button"`,
@@ -139,8 +142,7 @@ function MenuToggleRender<C extends ElementType = typeof Button>(
   )
 }
 
-export const MenuToggle = forwardRef(
-  MenuToggleRender as ForwardRefRenderFunction<Element, MenuToggleProps<ElementType>>
-) as MenuToggleComponent
-
-MenuToggle.displayName = 'MenuToggle'
+export const MenuToggle = createPolymorphicComponent<MenuToggleComponent>(
+  MenuToggleRender as ForwardRefRenderFunction<Element, MenuToggleProps<ElementType>>,
+  'MenuToggle'
+)

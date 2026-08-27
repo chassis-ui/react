@@ -1,7 +1,11 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 
 type FormFeedbackOwnProps<C extends ElementType> = {
   /**
@@ -39,7 +43,7 @@ function FormFeedbackRender<C extends ElementType = 'div'>(
   { children, className, component, invalid, tooltip, valid, ...rest }: FormFeedbackProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'div'
+  const Component = component ?? 'div'
   const _className = classNames(
     {
       [`invalid-${tooltip ? 'tooltip' : 'feedback'}`]: invalid,
@@ -54,8 +58,7 @@ function FormFeedbackRender<C extends ElementType = 'div'>(
   )
 }
 
-export const FormFeedback = forwardRef(
-  FormFeedbackRender as ForwardRefRenderFunction<Element, FormFeedbackProps<ElementType>>
-) as FormFeedbackComponent
-
-FormFeedback.displayName = 'FormFeedback'
+export const FormFeedback = createPolymorphicComponent<FormFeedbackComponent>(
+  FormFeedbackRender as ForwardRefRenderFunction<Element, FormFeedbackProps<ElementType>>,
+  'FormFeedback'
+)

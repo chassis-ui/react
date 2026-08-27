@@ -1,7 +1,11 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 import { buildResponsiveClassNames } from '../../utils/breakpoints'
 import { spacingClassName } from '../../utils/spacingClassName'
 import { Breakpoint, Spacing } from '../../types'
@@ -106,7 +110,7 @@ function FlexRender<C extends ElementType = 'div'>(
   }: FlexProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'div'
+  const Component = component ?? 'div'
   const _className = classNames(
     inline ? 'd-inline-flex' : 'd-flex',
     buildResponsiveClassNames(
@@ -124,8 +128,7 @@ function FlexRender<C extends ElementType = 'div'>(
   )
 }
 
-export const Flex = forwardRef(
-  FlexRender as ForwardRefRenderFunction<Element, FlexProps<ElementType>>
-) as FlexComponent
-
-Flex.displayName = 'Flex'
+export const Flex = createPolymorphicComponent<FlexComponent>(
+  FlexRender as ForwardRefRenderFunction<Element, FlexProps<ElementType>>,
+  'Flex'
+)

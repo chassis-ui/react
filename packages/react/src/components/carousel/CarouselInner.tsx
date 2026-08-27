@@ -1,8 +1,12 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
 import { useForkedRef } from '../../hooks'
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 import { useCarouselContext } from './context'
 
 type CarouselInnerOwnProps<C extends ElementType> = {
@@ -35,7 +39,7 @@ function CarouselInnerRender<C extends ElementType = 'div'>(
   ref: PolymorphicRef<C>
 ) {
   const { registerViewport } = useCarouselContext()
-  const Component = component || 'div'
+  const Component = component ?? 'div'
   const forkedRef = useForkedRef(ref, registerViewport)
   const _className = classNames('carousel-inner', className)
 
@@ -46,8 +50,7 @@ function CarouselInnerRender<C extends ElementType = 'div'>(
   )
 }
 
-export const CarouselInner = forwardRef(
-  CarouselInnerRender as ForwardRefRenderFunction<Element, CarouselInnerProps<ElementType>>
-) as CarouselInnerComponent
-
-CarouselInner.displayName = 'CarouselInner'
+export const CarouselInner = createPolymorphicComponent<CarouselInnerComponent>(
+  CarouselInnerRender as ForwardRefRenderFunction<Element, CarouselInnerProps<ElementType>>,
+  'CarouselInner'
+)

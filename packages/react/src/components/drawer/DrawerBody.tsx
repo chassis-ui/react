@@ -1,7 +1,11 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 
 type DrawerBodyOwnProps<C extends ElementType> = {
   /**
@@ -27,7 +31,7 @@ function DrawerBodyRender<C extends ElementType = 'div'>(
   { children, className, component, ...rest }: DrawerBodyProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'div'
+  const Component = component ?? 'div'
   const _className = classNames('drawer-body', className)
 
   return (
@@ -37,8 +41,7 @@ function DrawerBodyRender<C extends ElementType = 'div'>(
   )
 }
 
-export const DrawerBody = forwardRef(
-  DrawerBodyRender as ForwardRefRenderFunction<Element, DrawerBodyProps<ElementType>>
-) as DrawerBodyComponent
-
-DrawerBody.displayName = 'DrawerBody'
+export const DrawerBody = createPolymorphicComponent<DrawerBodyComponent>(
+  DrawerBodyRender as ForwardRefRenderFunction<Element, DrawerBodyProps<ElementType>>,
+  'DrawerBody'
+)

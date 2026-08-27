@@ -1,7 +1,11 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 import { Breakpoint } from '../../types'
 
 type ContainerOwnProps<C extends ElementType> = {
@@ -39,7 +43,7 @@ function ContainerRender<C extends ElementType = 'div'>(
   { children, className, component, fluidUntil, fluid, ...rest }: ContainerProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'div'
+  const Component = component ?? 'div'
   const _className = classNames('container', fluid && 'fluid', fluidUntil, className)
 
   return (
@@ -49,8 +53,7 @@ function ContainerRender<C extends ElementType = 'div'>(
   )
 }
 
-export const Container = forwardRef(
-  ContainerRender as ForwardRefRenderFunction<Element, ContainerProps<ElementType>>
-) as ContainerComponent
-
-Container.displayName = 'Container'
+export const Container = createPolymorphicComponent<ContainerComponent>(
+  ContainerRender as ForwardRefRenderFunction<Element, ContainerProps<ElementType>>,
+  'Container'
+)

@@ -1,8 +1,12 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
 import { ContextColor } from '../../types'
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 
 type ProgressBarOwnProps<C extends ElementType> = {
   /**
@@ -54,7 +58,7 @@ function ProgressBarRender<C extends ElementType = 'div'>(
   }: ProgressBarProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'div'
+  const Component = component ?? 'div'
   const clampedValue = Math.min(100, Math.max(0, value))
   const _className = classNames(
     'progress-bar',
@@ -78,8 +82,7 @@ function ProgressBarRender<C extends ElementType = 'div'>(
   )
 }
 
-export const ProgressBar = forwardRef(
-  ProgressBarRender as ForwardRefRenderFunction<Element, ProgressBarProps<ElementType>>
-) as ProgressBarComponent
-
-ProgressBar.displayName = 'ProgressBar'
+export const ProgressBar = createPolymorphicComponent<ProgressBarComponent>(
+  ProgressBarRender as ForwardRefRenderFunction<Element, ProgressBarProps<ElementType>>,
+  'ProgressBar'
+)

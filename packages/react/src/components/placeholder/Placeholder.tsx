@@ -1,8 +1,12 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
 import { ContextColor, ContextStyle } from '../../types'
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 
 type PlaceholderAlign = 'start' | 'center' | 'end'
 
@@ -116,7 +120,7 @@ function PlaceholderRender<C extends ElementType = 'img'>(
     [showTitle && title, showText && displayText].filter(Boolean).join(': ') || undefined
 
   if (src) {
-    const Component = component || 'img'
+    const Component = component ?? 'img'
     const _className = classNames(
       { image: fluid || thumbnail, fluid, rounded, thumbnail },
       alignClassNames(align),
@@ -168,8 +172,7 @@ function PlaceholderRender<C extends ElementType = 'img'>(
   )
 }
 
-export const Placeholder = forwardRef(
-  PlaceholderRender as ForwardRefRenderFunction<Element, PlaceholderProps<ElementType>>
-) as PlaceholderComponent
-
-Placeholder.displayName = 'Placeholder'
+export const Placeholder = createPolymorphicComponent<PlaceholderComponent>(
+  PlaceholderRender as ForwardRefRenderFunction<Element, PlaceholderProps<ElementType>>,
+  'Placeholder'
+)

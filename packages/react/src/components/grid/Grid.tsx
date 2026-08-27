@@ -1,13 +1,11 @@
-import React, {
-  CSSProperties,
-  ElementType,
-  ForwardRefRenderFunction,
-  forwardRef,
-  ReactElement
-} from 'react'
+import React, { CSSProperties, ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 import { Spacing } from '../../types'
 import { resolveGap } from './gap'
 
@@ -62,7 +60,7 @@ function GridRender<C extends ElementType = 'div'>(
   { children, className, component, columns, rows, gap, fill, style, ...rest }: GridProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'div'
+  const Component = component ?? 'div'
   const _className = classNames(fill ? 'grid-fill' : 'grid', className)
 
   const _style: GridStyle = { ...style }
@@ -82,8 +80,7 @@ function GridRender<C extends ElementType = 'div'>(
   )
 }
 
-export const Grid = forwardRef(
-  GridRender as ForwardRefRenderFunction<Element, GridProps<ElementType>>
-) as GridComponent
-
-Grid.displayName = 'Grid'
+export const Grid = createPolymorphicComponent<GridComponent>(
+  GridRender as ForwardRefRenderFunction<Element, GridProps<ElementType>>,
+  'Grid'
+)

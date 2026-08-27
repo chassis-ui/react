@@ -1,7 +1,6 @@
 import React, {
   ElementType,
   ForwardRefRenderFunction,
-  forwardRef,
   MouseEventHandler,
   ReactElement,
   Ref
@@ -11,7 +10,11 @@ import { mergeProps } from 'react-aria'
 
 import { ContextColor, ContextStyle } from '../../types'
 import { useButtonSemantics, useDisabledAnchorGuard } from '../../hooks'
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 
 type ChipOwnProps<C extends ElementType> = {
   /**
@@ -174,8 +177,7 @@ function ChipRender<C extends ElementType = 'span'>(
   )
 }
 
-export const Chip = forwardRef(
-  ChipRender as ForwardRefRenderFunction<Element, ChipProps<ElementType>>
-) as ChipComponent
-
-Chip.displayName = 'Chip'
+export const Chip = createPolymorphicComponent<ChipComponent>(
+  ChipRender as ForwardRefRenderFunction<Element, ChipProps<ElementType>>,
+  'Chip'
+)

@@ -1,7 +1,11 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 
 type InputGroupOwnProps<C extends ElementType> = {
   /**
@@ -31,7 +35,7 @@ function InputGroupRender<C extends ElementType = 'div'>(
   { children, className, component, size, ...rest }: InputGroupProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'div'
+  const Component = component ?? 'div'
   const _className = classNames('input-group', size, className)
   return (
     <Component className={_className} {...rest} ref={ref}>
@@ -40,8 +44,7 @@ function InputGroupRender<C extends ElementType = 'div'>(
   )
 }
 
-export const InputGroup = forwardRef(
-  InputGroupRender as ForwardRefRenderFunction<Element, InputGroupProps<ElementType>>
-) as InputGroupComponent
-
-InputGroup.displayName = 'InputGroup'
+export const InputGroup = createPolymorphicComponent<InputGroupComponent>(
+  InputGroupRender as ForwardRefRenderFunction<Element, InputGroupProps<ElementType>>,
+  'InputGroup'
+)

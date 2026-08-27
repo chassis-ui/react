@@ -1,7 +1,11 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 
 type ButtonToolbarOwnProps<C extends ElementType> = {
   /**
@@ -27,7 +31,7 @@ function ButtonToolbarRender<C extends ElementType = 'div'>(
   { children, className, component, ...rest }: ButtonToolbarProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'div'
+  const Component = component ?? 'div'
   const _className = classNames('button-toolbar', className)
 
   return (
@@ -37,8 +41,7 @@ function ButtonToolbarRender<C extends ElementType = 'div'>(
   )
 }
 
-export const ButtonToolbar = forwardRef(
-  ButtonToolbarRender as ForwardRefRenderFunction<Element, ButtonToolbarProps<ElementType>>
-) as ButtonToolbarComponent
-
-ButtonToolbar.displayName = 'ButtonToolbar'
+export const ButtonToolbar = createPolymorphicComponent<ButtonToolbarComponent>(
+  ButtonToolbarRender as ForwardRefRenderFunction<Element, ButtonToolbarProps<ElementType>>,
+  'ButtonToolbar'
+)

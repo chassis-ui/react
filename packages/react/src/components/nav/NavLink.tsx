@@ -1,7 +1,7 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { PolymorphicRef } from '../../utils/polymorphic'
+import { createPolymorphicComponent, PolymorphicRef } from '../../utils/polymorphic'
 import { LinkProps, Link } from '../link/Link'
 
 type NavLinkOwnProps = {
@@ -42,8 +42,7 @@ function NavLinkRender<C extends ElementType = 'a'>(
   )
 }
 
-export const NavLink = forwardRef(
-  NavLinkRender as ForwardRefRenderFunction<Element, NavLinkProps<ElementType>>
-) as NavLinkComponent
-
-NavLink.displayName = 'NavLink'
+export const NavLink = createPolymorphicComponent<NavLinkComponent>(
+  NavLinkRender as ForwardRefRenderFunction<Element, NavLinkProps<ElementType>>,
+  'NavLink'
+)

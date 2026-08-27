@@ -1,10 +1,4 @@
-import React, {
-  ElementType,
-  ForwardRefRenderFunction,
-  forwardRef,
-  ReactElement,
-  ReactNode
-} from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement, ReactNode } from 'react'
 import classNames from 'classnames'
 
 import { Breakpoint, ContextColor, ContextStyle, Sizing } from '../../types'
@@ -13,7 +7,11 @@ import {
   flexDirectionClassNames,
   FlexDirection
 } from '../../utils/breakpoints'
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 import { CardBody } from './CardBody'
 import { CardFooter } from './CardFooter'
 import { CardImage } from './CardImage'
@@ -120,7 +118,7 @@ function CardRender<C extends ElementType = 'div'>(
   }: CardProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'div'
+  const Component = component ?? 'div'
   const _className = classNames(
     'card',
     color,
@@ -169,8 +167,7 @@ function CardRender<C extends ElementType = 'div'>(
   )
 }
 
-export const Card = forwardRef(
-  CardRender as ForwardRefRenderFunction<Element, CardProps<ElementType>>
-) as CardComponent
-
-Card.displayName = 'Card'
+export const Card = createPolymorphicComponent<CardComponent>(
+  CardRender as ForwardRefRenderFunction<Element, CardProps<ElementType>>,
+  'Card'
+)

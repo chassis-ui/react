@@ -1,7 +1,6 @@
 import React, {
   ElementType,
   ForwardRefRenderFunction,
-  forwardRef,
   MouseEvent,
   MouseEventHandler,
   ReactElement,
@@ -11,7 +10,11 @@ import classNames from 'classnames'
 import { mergeProps } from 'react-aria'
 
 import { useButtonSemantics } from '../../hooks'
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 
 type PaginationItemOwnProps<C extends ElementType> = {
   /**
@@ -124,8 +127,7 @@ function PaginationItemRender<C extends ElementType = 'button'>(
   )
 }
 
-export const PaginationItem = forwardRef(
-  PaginationItemRender as ForwardRefRenderFunction<Element, PaginationItemProps<ElementType>>
-) as PaginationItemComponent
-
-PaginationItem.displayName = 'PaginationItem'
+export const PaginationItem = createPolymorphicComponent<PaginationItemComponent>(
+  PaginationItemRender as ForwardRefRenderFunction<Element, PaginationItemProps<ElementType>>,
+  'PaginationItem'
+)

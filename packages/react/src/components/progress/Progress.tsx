@@ -2,7 +2,6 @@ import React, {
   CSSProperties,
   ElementType,
   ForwardRefRenderFunction,
-  forwardRef,
   ReactElement,
   ReactNode,
   useId
@@ -10,7 +9,11 @@ import React, {
 import classNames from 'classnames'
 
 import { ContextColor } from '../../types'
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 import { ProgressBar } from './ProgressBar'
 
 type ProgressStyle = CSSProperties & {
@@ -93,7 +96,7 @@ function ProgressRender<C extends ElementType = 'div'>(
   }: ProgressProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'div'
+  const Component = component ?? 'div'
   const _className = classNames('progress', className)
   const clampedValue = Math.min(100, Math.max(0, value))
 
@@ -145,8 +148,7 @@ function ProgressRender<C extends ElementType = 'div'>(
   )
 }
 
-export const Progress = forwardRef(
-  ProgressRender as ForwardRefRenderFunction<Element, ProgressProps<ElementType>>
-) as ProgressComponent
-
-Progress.displayName = 'Progress'
+export const Progress = createPolymorphicComponent<ProgressComponent>(
+  ProgressRender as ForwardRefRenderFunction<Element, ProgressProps<ElementType>>,
+  'Progress'
+)

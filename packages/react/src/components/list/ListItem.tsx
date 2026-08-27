@@ -1,8 +1,12 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
 import { ContextColor } from '../../types'
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 import { Link } from '../link/Link'
 
 type ListItemOwnProps<C extends ElementType> = {
@@ -81,8 +85,7 @@ function ListItemRender<C extends ElementType = 'li'>(
   )
 }
 
-export const ListItem = forwardRef(
-  ListItemRender as ForwardRefRenderFunction<Element, ListItemProps<ElementType>>
-) as ListItemComponent
-
-ListItem.displayName = 'ListItem'
+export const ListItem = createPolymorphicComponent<ListItemComponent>(
+  ListItemRender as ForwardRefRenderFunction<Element, ListItemProps<ElementType>>,
+  'ListItem'
+)

@@ -2,7 +2,6 @@ import React, {
   createContext,
   ElementType,
   ForwardRefRenderFunction,
-  forwardRef,
   Fragment,
   ReactElement,
   useEffect,
@@ -16,7 +15,11 @@ import { useMenuTriggerState } from 'react-stately'
 import { useForkedRef, useIsomorphicLayoutEffect } from '../../hooks'
 import { executeAfterTransition } from '../../utils/dialogTransition'
 import { Placement, toAriaPlacement } from '../../utils/overlayPlacement'
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 import { resolveMenuOverlayPositioning } from './menuOverlayPosition'
 
 export type { Placement }
@@ -172,7 +175,7 @@ function MenuRender<C extends ElementType = typeof Fragment>(
   }: MenuProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || (Fragment as ElementType)
+  const Component = component ?? (Fragment as ElementType)
   const wrapperRef = useRef<HTMLElement>(null)
   const forkedRef = useForkedRef(ref, wrapperRef)
   const toggleNodeRef = useRef<HTMLElement | null>(null)
@@ -386,8 +389,7 @@ function MenuRender<C extends ElementType = typeof Fragment>(
   )
 }
 
-export const Menu = forwardRef(
-  MenuRender as ForwardRefRenderFunction<Element, MenuProps<ElementType>>
-) as MenuComponent
-
-Menu.displayName = 'Menu'
+export const Menu = createPolymorphicComponent<MenuComponent>(
+  MenuRender as ForwardRefRenderFunction<Element, MenuProps<ElementType>>,
+  'Menu'
+)

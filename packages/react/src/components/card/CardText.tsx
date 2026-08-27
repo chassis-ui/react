@@ -1,7 +1,11 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 
 type CardTextOwnProps<C extends ElementType> = {
   /**
@@ -27,7 +31,7 @@ function CardTextRender<C extends ElementType = 'p'>(
   { children, component, className, ...rest }: CardTextProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'p'
+  const Component = component ?? 'p'
   const _className = classNames('card-text', className)
 
   return (
@@ -37,8 +41,7 @@ function CardTextRender<C extends ElementType = 'p'>(
   )
 }
 
-export const CardText = forwardRef(
-  CardTextRender as ForwardRefRenderFunction<Element, CardTextProps<ElementType>>
-) as CardTextComponent
-
-CardText.displayName = 'CardText'
+export const CardText = createPolymorphicComponent<CardTextComponent>(
+  CardTextRender as ForwardRefRenderFunction<Element, CardTextProps<ElementType>>,
+  'CardText'
+)

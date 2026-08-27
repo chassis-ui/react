@@ -1,7 +1,11 @@
-import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
+import {
+  createPolymorphicComponent,
+  PolymorphicComponentProps,
+  PolymorphicRef
+} from '../../utils/polymorphic'
 
 type ModalBodyOwnProps<C extends ElementType> = {
   /**
@@ -27,7 +31,7 @@ function ModalBodyRender<C extends ElementType = 'div'>(
   { children, className, component, ...rest }: ModalBodyProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = component || 'div'
+  const Component = component ?? 'div'
   const _className = classNames('modal-body', className)
 
   return (
@@ -37,8 +41,7 @@ function ModalBodyRender<C extends ElementType = 'div'>(
   )
 }
 
-export const ModalBody = forwardRef(
-  ModalBodyRender as ForwardRefRenderFunction<Element, ModalBodyProps<ElementType>>
-) as ModalBodyComponent
-
-ModalBody.displayName = 'ModalBody'
+export const ModalBody = createPolymorphicComponent<ModalBodyComponent>(
+  ModalBodyRender as ForwardRefRenderFunction<Element, ModalBodyProps<ElementType>>,
+  'ModalBody'
+)
