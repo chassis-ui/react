@@ -23,7 +23,7 @@
     "react:check:package": "pnpm --filter @chassis-ui/react check:package",
     "react:clean": "rm -rf packages/react/dist packages/react/coverage",
     "site": "pnpm site:build && pnpm site:lint && pnpm lint:html && pnpm lint:vnu",
-    "site:setup": "pnpm sync-submodules && pnpm react:generate",
+    "site:setup": "pnpm sync-submodules && pnpm react:build && pnpm react:generate",
     "site:build": "pnpm --filter chassis-react-site build && pnpm site:pagefind",
     "site:check": "pnpm --filter chassis-react-site check",
     "site:clean": "rm -rf _site packages/site/node_modules packages/site/.astro packages/site/public",
