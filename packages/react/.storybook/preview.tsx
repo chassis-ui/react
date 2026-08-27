@@ -3,9 +3,11 @@ import { withThemeByDataAttribute } from '@storybook/addon-themes'
 // A consuming app is expected to load both stylesheets itself (@chassis-ui/css is a peer
 // dependency, and this package's own compiled CSS isn't bundled into dist/index.js — see
 // THEMING.md) — Storybook has no such consumer, so they're imported directly here to render
-// components with their real, intended appearance instead of unstyled markup.
+// components with their real, intended appearance instead of unstyled markup. The second import
+// uses a relative path rather than the package's own bare specifier ('@chassis-ui/react/...') —
+// this package doesn't depend on itself, so node_modules has nothing to resolve that against.
 import '@chassis-ui/css/dist/css/chassis.min.css'
-import '@chassis-ui/react/style.css'
+import '../dist/style.css'
 
 const preview: Preview = {
   tags: ['autodocs'],
