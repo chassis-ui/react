@@ -31,3 +31,13 @@ export function buildResponsiveClassNames<TLayout>(
 
   return [...toClassNames(base, ''), ...responsiveClassNames]
 }
+
+export type FlexDirection = 'row' | 'column'
+
+// A `buildResponsiveClassNames` `toClassNames` fn for the `flex-row`/`flex-column` direction
+// toggle shared by `Card` and `CardBody`, both of which map a `direction` prop to the same
+// chassis-css class.
+export const flexDirectionClassNames = (
+  direction: FlexDirection | undefined,
+  prefix: string
+): Array<string | false | undefined> => [direction && `${prefix}flex-${direction}`]

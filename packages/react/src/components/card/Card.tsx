@@ -1,8 +1,19 @@
-import React, { forwardRef, HTMLAttributes, ReactNode } from 'react'
+import React, {
+  ElementType,
+  ForwardRefRenderFunction,
+  forwardRef,
+  ReactElement,
+  ReactNode
+} from 'react'
 import classNames from 'classnames'
 
 import { Breakpoint, ContextColor, ContextStyle, Sizing } from '../../types'
-import { buildResponsiveClassNames } from '../../utils/breakpoints'
+import {
+  buildResponsiveClassNames,
+  flexDirectionClassNames,
+  FlexDirection
+} from '../../utils/breakpoints'
+import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
 import { CardBody } from './CardBody'
 import { CardFooter } from './CardFooter'
 import { CardImage } from './CardImage'
@@ -10,17 +21,15 @@ import { CardSubtitle } from './CardSubtitle'
 import { CardText } from './CardText'
 import { CardTitle } from './CardTitle'
 
-type CardDirection = 'row' | 'column'
-
-const directionClassNames = (direction: CardDirection | undefined, prefix: string) => [
-  direction && `${prefix}flex-${direction}`
-]
-
-export interface CardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
+type CardOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
   className?: string
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C
   /**
    * Sets the color of the component to one of Chassis context colors.
    */
@@ -29,7 +38,7 @@ export interface CardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'>
    * Switches the card from its default stacked (column) layout to a side-by-side (row) layout.
    * Wrap the image and body in `Col` to control each side's width.
    */
-  direction?: CardDirection
+  direction?: FlexDirection
   /**
    * Shorthand for a `CardFooter`, rendered after the image/title/subtitle/text/`children` block.
    */
@@ -55,7 +64,7 @@ export interface CardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'>
    * Overrides `direction` at one or more breakpoints — e.g. `{ large: 'row' }` to lay the card
    * out horizontally from `large` up while stacking below it.
    */
-  responsive?: Partial<Record<Breakpoint, CardDirection>>
+  responsive?: Partial<Record<Breakpoint, FlexDirection>>
   /**
    * Sets the size of the component to one of Chassis component sizes.
    */
@@ -84,74 +93,84 @@ export interface CardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'>
   variant?: ContextStyle
 }
 
-export const Card = forwardRef<HTMLDivElement, CardProps>(
-  (
+export type CardProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, CardOwnProps<C>>
+
+type CardComponent = (<C extends ElementType = 'div'>(
+  props: CardProps<C> & { ref?: PolymorphicRef<C> }
+) => ReactElement | null) & { displayName?: string }
+
+function CardRender<C extends ElementType = 'div'>(
+  {
+    children,
+    className,
+    color,
+    component,
+    direction,
+    footer,
+    image,
+    imageAlt,
+    imageOrientation = 'top',
+    responsive,
+    size,
+    subtitle,
+    text,
+    title,
+    variant,
+    ...rest
+  }: CardProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  const Component = component || 'div'
+  const _className = classNames(
+    'card',
+    color,
     {
-      children,
-      className,
-      color,
-      direction,
-      footer,
-      image,
-      imageAlt,
-      imageOrientation = 'top',
-      responsive,
-      size,
-      subtitle,
-      text,
-      title,
-      variant,
-      ...rest
+      context: !!color,
+      solid: variant === 'solid',
+      smooth: variant === 'smooth',
+      outline: variant === 'outline',
+      small: size === 'small',
+      large: size === 'large'
     },
-    ref
-  ) => {
-    const _className = classNames(
-      'card',
-      color,
-      {
-        context: !!color,
-        solid: variant === 'solid',
-        smooth: variant === 'smooth',
-        outline: variant === 'outline',
-        small: size === 'small',
-        large: size === 'large'
-      },
-      buildResponsiveClassNames(directionClassNames, direction, responsive),
-      className
+    buildResponsiveClassNames(flexDirectionClassNames, direction, responsive),
+    className
+  )
+
+  const hasShorthand =
+    image != null || title != null || subtitle != null || footer != null || text != null
+  const hasBodyContent = title != null || subtitle != null || text != null || children != null
+  const renderedImage =
+    typeof image === 'string' ? (
+      <CardImage orientation={imageOrientation} src={image} alt={imageAlt ?? ''} />
+    ) : (
+      image
     )
 
-    const hasShorthand =
-      image != null || title != null || subtitle != null || footer != null || text != null
-    const hasBodyContent = title != null || subtitle != null || text != null || children != null
-    const renderedImage =
-      typeof image === 'string' ? (
-        <CardImage orientation={imageOrientation} src={image} alt={imageAlt ?? ''} />
+  return (
+    <Component className={_className} {...rest} ref={ref}>
+      {hasShorthand ? (
+        <>
+          {image != null && imageOrientation === 'top' && renderedImage}
+          {hasBodyContent && (
+            <CardBody>
+              {title != null && <CardTitle>{title}</CardTitle>}
+              {subtitle != null && <CardSubtitle>{subtitle}</CardSubtitle>}
+              {text != null && <CardText>{text}</CardText>}
+              {children}
+            </CardBody>
+          )}
+          {image != null && imageOrientation === 'bottom' && renderedImage}
+          {footer != null && <CardFooter>{footer}</CardFooter>}
+        </>
       ) : (
-        image
-      )
+        children
+      )}
+    </Component>
+  )
+}
 
-    return (
-      <div className={_className} {...rest} ref={ref}>
-        {hasShorthand ? (
-          <>
-            {image != null && imageOrientation === 'top' && renderedImage}
-            {hasBodyContent && (
-              <CardBody>
-                {title != null && <CardTitle>{title}</CardTitle>}
-                {subtitle != null && <CardSubtitle>{subtitle}</CardSubtitle>}
-                {text != null && <CardText>{text}</CardText>}
-                {children}
-              </CardBody>
-            )}
-            {image != null && imageOrientation === 'bottom' && renderedImage}
-            {footer != null && <CardFooter>{footer}</CardFooter>}
-          </>
-        ) : (
-          children
-        )}
-      </div>
-    )
-  }
-)
+export const Card = forwardRef(
+  CardRender as ForwardRefRenderFunction<Element, CardProps<ElementType>>
+) as CardComponent
 
 Card.displayName = 'Card'

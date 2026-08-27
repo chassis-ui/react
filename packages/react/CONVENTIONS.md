@@ -138,3 +138,15 @@ layout, so their prop names mirror the CSS/chassis-css primitives they map to 1:
 predates and is conceptually distinct from CSS `gap`. Reconciling the three into one shared
 vocabulary would be a breaking public-API rename with no functional benefit, since the underlying
 mechanisms genuinely differ — don't unify them without an explicit user decision to do so.
+
+## `component` polymorphism: `Row`/`Col` deliberately don't have it
+
+Most components in this library take a `component` prop (`PolymorphicComponentProps<C, OwnProps<C>>`
+from `utils/polymorphic.ts`) letting the caller swap the rendered root element. `grid/Row.tsx` and
+`grid/Col.tsx` don't — confirmed deliberate (commit `48ed25b`, "Row/Col are out of scope,
+unchanged"), reaffirmed during the 2026-08-27 audit rather than picked up opportunistically. A grid
+row/column is conceptually tied to being a `<div>` in this library's 12-column grid model the same
+way `Flex`/`Stack` aren't — there's no established use case (unlike `Card`'s sub-parts, or `Nav`,
+both of which _were_ migrated to the polymorphic pattern in that same audit pass) pulling for a
+`Row`/`Col` consumer to need a different root element. Revisit only if a concrete need surfaces,
+not as a consistency sweep on its own — don't "fix" this as an accidental gap.

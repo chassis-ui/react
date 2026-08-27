@@ -346,7 +346,7 @@ clearest sign the duplication itself is the thing worth fixing, not just its cur
 These are judgment calls about API surface, not mechanical fixes — get explicit sign-off on scope
 before implementing, since some of these are borderline breaking-API questions.
 
-- [ ] **DECIDE-04** `button/Button.tsx`/`link/Link.tsx` (~lines 100-118 in `Link.tsx`) vs
+- [x] **DECIDE-04** `button/Button.tsx`/`link/Link.tsx` (~lines 100-118 in `Link.tsx`) vs
   `close-button/CloseButton.tsx` (~lines 98-104) — Button/Link always synthesize `useButtonSemantics`
   (`role="button"`, keyboard handling) onto *any* non-native `component`, including a component
   reference (e.g. a router `Link`); CloseButton explicitly detects a component reference via
@@ -359,7 +359,18 @@ before implementing, since some of these are borderline breaking-API questions.
   Button/Link too (recommended — it's the safer default and already proven), or explicitly document
   why Button/Link's behavior is intentionally different. Either way, add the same kind of
   component-reference test CloseButton has, to lock in whichever choice is made.
-- [ ] **DECIDE-05** `card/Card.tsx` has no `component` polymorphism while all 8 of its sub-parts do
+  **Decided: adopt CloseButton's guard exactly.** Both `Button.tsx`/`Link.tsx` now compute
+  `isComponentReference = typeof Component !== 'string'` and skip `useButtonSemantics`'s
+  `buttonProps` synthesis for it, forwarding `disabled`/`onClick` raw instead — same tradeoff
+  CloseButton already ships: a component reference is trusted to interpret `disabled` itself (true
+  for another Chassis component; for a typical router `Link` with no native `disabled` prop, it
+  becomes visual-only via the existing `.disabled` class, same as today). This was flagged as a
+  real, non-trivial wrinkle before implementing (the *only* prior `disabled`-blocks-click behavior
+  on that code path came from `useButtonSemantics` itself) and confirmed accepted rather than
+  discovered after the fact. Added a "component reference" describe block to both spec files
+  (role/tabIndex not stamped, `onClick` fires exactly once, `disabled` forwards raw) — full suite
+  still green.
+- [x] **DECIDE-05** `card/Card.tsx` has no `component` polymorphism while all 8 of its sub-parts do
   (confirmed deliberate — commit `7e8bbd2` left it out with no stated reason); `grid/Row.tsx`/
   `grid/Col.tsx` have no `component` prop at all (confirmed deliberate — commit `48ed25b` states
   "Row/Col are out of scope, unchanged"); `nav/Nav.tsx` still uses the pre-migration
@@ -372,11 +383,22 @@ before implementing, since some of these are borderline breaking-API questions.
   across a dozen other components), or add a short explanatory note (e.g. in `CONVENTIONS.md`)
   saying it's deliberately out of scope and why. Card is the lowest-risk one to just finish, given
   every sibling sub-part already has the pattern to copy from.
-- [ ] **CLEANUP-07** `card/Card.tsx`/`card/CardBody.tsx` (~lines 15-17 / 11-13) — byte-for-byte
+  **Decided per case: migrate Card and Nav now; leave Row/Col deferred.** `Card.tsx` and
+  `Nav.tsx` both migrated to the full `PolymorphicComponentProps<C, OwnProps<C>>` pattern (Nav's
+  `role="navigation"` hardcoding and `items`-driven `autoContent` from Phase 6 are unchanged).
+  Added a `component="section"` parity test to `Card.spec.tsx` (`Nav.spec.tsx` already had one).
+  `Row`/`Col` stay as-is — documented as a deliberate, reaffirmed deferral in `CONVENTIONS.md`
+  (new "`component` polymorphism: `Row`/`Col` deliberately don't have it" section) instead of
+  migrating opportunistically. Public API surface changed as intended (`CardProps<C>`/`NavProps<C>`
+  now generic) — `pnpm react:report:update` and `pnpm react:generate` both run, diffs committed.
+- [x] **CLEANUP-07** `card/Card.tsx`/`card/CardBody.tsx` (~lines 15-17 / 11-13) — byte-for-byte
   duplicated `directionClassNames` helper. Extract one shared `flexDirectionClassNames` next to
   `buildResponsiveClassNames` in `utils/breakpoints.ts` (this is the same class of fix Phase 7d of
   the prior audit already did for the *spacing* guard — this is the *direction* guard that fix
   didn't reach).
+  Done — `flexDirectionClassNames`/`FlexDirection` now live in `utils/breakpoints.ts`; both
+  `Card.tsx`/`CardBody.tsx` (the latter also touched by the Card migration above) use the shared
+  helper instead of a local copy. No behavior change.
 
 ---
 

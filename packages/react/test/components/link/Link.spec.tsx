@@ -172,6 +172,38 @@ describe('Link', () => {
     })
   })
 
+  describe('component reference (trusted to handle its own semantics)', () => {
+    const CustomLink = React.forwardRef<
+      HTMLAnchorElement,
+      React.AnchorHTMLAttributes<HTMLAnchorElement>
+    >((props, ref) => <a ref={ref} {...props} />)
+    CustomLink.displayName = 'CustomLink'
+
+    test('does not stamp role="button"/tabIndex onto a component reference (unlike a bare HTML tag)', () => {
+      render(
+        <Link component={CustomLink} href="/bazinga" onClick={() => undefined}>
+          Test
+        </Link>
+      )
+      const link = screen.getByRole('link', { name: 'Test' })
+      expect(link.tagName).toBe('A')
+      expect(link).not.toHaveAttribute('role')
+      expect(link).not.toHaveAttribute('tabIndex')
+    })
+
+    test('onClick fires exactly once on click (no synthesized handler stacked on top)', async () => {
+      const user = userEvent.setup()
+      const onClick = vi.fn()
+      render(
+        <Link component={CustomLink} href="/bazinga" onClick={onClick}>
+          Test
+        </Link>
+      )
+      await user.click(screen.getByRole('link', { name: 'Test' }))
+      expect(onClick).toHaveBeenCalledTimes(1)
+    })
+  })
+
   describe('ref forwarding', () => {
     test('forwards a ref to the underlying anchor by default', () => {
       const ref = React.createRef<HTMLAnchorElement>()

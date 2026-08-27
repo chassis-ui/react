@@ -103,6 +103,12 @@ function LinkRender<C extends ElementType = 'a'>(
   )
 
   const isInteractive = Component === 'a' || Component === 'button'
+  // A component reference (e.g. a router `Link`) has its own visual identity and is trusted to
+  // handle its own keyboard/role semantics, same as `CloseButton`'s `isComponentReference` escape
+  // hatch — synthesizing `role="button"` and Enter/Space handling on top of it would stamp the
+  // wrong ARIA role onto whatever it actually renders (e.g. an `<a>`) and can double-fire a click
+  // (native anchor Enter→click, plus the synthesized keydown→click).
+  const isComponentReference = typeof Component !== 'string'
   // `<a>` has no real `disabled` attribute, so a disabled anchor link still fires click (and
   // still navigates) unless it's blocked here, same guard `Button`/`CloseButton` apply. A real
   // `<button>` already stops clicks on its own once the `disabled` attribute below is set.
@@ -110,8 +116,9 @@ function LinkRender<C extends ElementType = 'a'>(
 
   // A `component` that isn't a native interactive element gets a raw onClick with no
   // keyboard semantics otherwise — mouse-only, unlike `Button`/`CloseButton`, which
-  // synthesize this via `useButtonSemantics` for exactly this "arbitrary component" case.
-  const needsButtonSemantics = !isInteractive && !!onClick
+  // synthesize this via `useButtonSemantics` for exactly this "arbitrary component" case. A
+  // component reference is excluded (see `isComponentReference` above).
+  const needsButtonSemantics = !isInteractive && !isComponentReference && !!onClick
   const { buttonProps, forkedRef } = useButtonSemantics<HTMLElement>(ref as Ref<HTMLElement>, {
     disabled,
     onClick

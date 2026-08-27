@@ -186,6 +186,52 @@ describe('Button', () => {
     })
   })
 
+  describe('component reference (trusted to handle its own semantics)', () => {
+    const CustomLink = React.forwardRef<
+      HTMLAnchorElement,
+      React.AnchorHTMLAttributes<HTMLAnchorElement>
+    >((props, ref) => <a ref={ref} {...props} />)
+    CustomLink.displayName = 'CustomLink'
+
+    test('does not stamp role="button"/tabIndex onto a component reference (unlike a bare HTML tag)', () => {
+      render(
+        <Button component={CustomLink} href="/bazinga">
+          Go
+        </Button>
+      )
+      const link = screen.getByRole('link', { name: 'Go' })
+      expect(link.tagName).toBe('A')
+      expect(link).not.toHaveAttribute('role')
+      expect(link).not.toHaveAttribute('tabIndex')
+    })
+
+    test('onClick fires exactly once on click (no synthesized handler stacked on top)', async () => {
+      const user = userEvent.setup()
+      const onClick = vi.fn()
+      render(
+        <Button component={CustomLink} href="/bazinga" onClick={onClick}>
+          Go
+        </Button>
+      )
+      await user.click(screen.getByRole('link', { name: 'Go' }))
+      expect(onClick).toHaveBeenCalledTimes(1)
+    })
+
+    test('forwards disabled raw instead of intercepting it, trusting the referenced component', () => {
+      render(
+        <Button component={CustomLink} href="/bazinga" disabled>
+          Go
+        </Button>
+      )
+      const link = screen.getByRole('link', { name: 'Go' })
+      // Visual styling still applies, but the synthesized aria-disabled/click-block a bare HTML
+      // tag would get doesn't - a bare <a> (standing in for `CustomLink`) has no native `disabled`
+      // handling of its own, so this is the accepted tradeoff of trusting a component reference.
+      expect(link).toHaveClass('disabled')
+      expect(link).not.toHaveAttribute('aria-disabled')
+    })
+  })
+
   describe('ref forwarding', () => {
     test('forwards a button ref for the default element', () => {
       const ref = React.createRef<HTMLButtonElement | HTMLAnchorElement>()

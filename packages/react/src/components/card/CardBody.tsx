@@ -2,15 +2,13 @@ import React, { ElementType, ForwardRefRenderFunction, forwardRef, ReactElement 
 import classNames from 'classnames'
 
 import { Breakpoint, Spacing } from '../../types'
-import { buildResponsiveClassNames } from '../../utils/breakpoints'
+import {
+  buildResponsiveClassNames,
+  flexDirectionClassNames,
+  FlexDirection
+} from '../../utils/breakpoints'
 import { PolymorphicComponentProps, PolymorphicRef } from '../../utils/polymorphic'
 import { spacingClassName } from '../../utils/spacingClassName'
-
-type CardBodyDirection = 'row' | 'column'
-
-const directionClassNames = (direction: CardBodyDirection | undefined, prefix: string) => [
-  direction && `${prefix}flex-${direction}`
-]
 
 type CardBodyOwnProps<C extends ElementType> = {
   /**
@@ -27,7 +25,7 @@ type CardBodyOwnProps<C extends ElementType> = {
    * `Col` to control each side's width, and nest another `CardBody` (with `.p-0`) for the text
    * side so it doesn't receive double padding.
    */
-  direction?: CardBodyDirection
+  direction?: FlexDirection
   /**
    * Spacing between children, mapped to the `gap-*` utility classes. Overrides the card's default
    * gap between body children.
@@ -36,7 +34,7 @@ type CardBodyOwnProps<C extends ElementType> = {
   /**
    * Overrides `direction` at one or more breakpoints.
    */
-  responsive?: Partial<Record<Breakpoint, CardBodyDirection>>
+  responsive?: Partial<Record<Breakpoint, FlexDirection>>
 }
 
 export type CardBodyProps<C extends ElementType = 'div'> = PolymorphicComponentProps<
@@ -55,7 +53,7 @@ function CardBodyRender<C extends ElementType = 'div'>(
   const Component = component || 'div'
   const _className = classNames(
     'card-body',
-    buildResponsiveClassNames(directionClassNames, direction, responsive),
+    buildResponsiveClassNames(flexDirectionClassNames, direction, responsive),
     spacingClassName('gap', gap),
     className
   )

@@ -1111,13 +1111,20 @@ interface RangeCalendarProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defau
 }
 declare const RangeCalendar: React.ForwardRefExoticComponent<RangeCalendarProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
+//#region src/utils/breakpoints.d.ts
+type Span = 'auto' | boolean | number | string;
+type FlexDirection = 'column' | 'row';
+//#endregion
 //#region src/components/card/Card.d.ts
-type CardDirection = 'column' | 'row';
-interface CardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
+type CardOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
   className?: string;
+  /**
+   * Component used for the root node. Either a string to use a HTML element or a component.
+   */
+  component?: C;
   /**
    * Sets the color of the component to one of Chassis context colors.
    */
@@ -1126,7 +1133,7 @@ interface CardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
    * Switches the card from its default stacked (column) layout to a side-by-side (row) layout.
    * Wrap the image and body in `Col` to control each side's width.
    */
-  direction?: CardDirection;
+  direction?: FlexDirection;
   /**
    * Shorthand for a `CardFooter`, rendered after the image/title/subtitle/text/`children` block.
    */
@@ -1152,7 +1159,7 @@ interface CardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
    * Overrides `direction` at one or more breakpoints — e.g. `{ large: 'row' }` to lay the card
    * out horizontally from `large` up while stacking below it.
    */
-  responsive?: Partial<Record<Breakpoint, CardDirection>>;
+  responsive?: Partial<Record<Breakpoint, FlexDirection>>;
   /**
    * Sets the size of the component to one of Chassis component sizes.
    */
@@ -1179,11 +1186,16 @@ interface CardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
    * Sets the context style of the component. `basic` (the default) renders with no extra class.
    */
   variant?: ContextStyle;
-}
-declare const Card: React.ForwardRefExoticComponent<CardProps & React.RefAttributes<HTMLDivElement>>;
+};
+type CardProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, CardOwnProps<C>>;
+type CardComponent = (<C extends ElementType = 'div'>(props: CardProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const Card: CardComponent;
 //#endregion
 //#region src/components/card/CardBody.d.ts
-type CardBodyDirection = 'column' | 'row';
 type CardBodyOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
@@ -1199,7 +1211,7 @@ type CardBodyOwnProps<C extends ElementType> = {
    * `Col` to control each side's width, and nest another `CardBody` (with `.p-0`) for the text
    * side so it doesn't receive double padding.
    */
-  direction?: CardBodyDirection;
+  direction?: FlexDirection;
   /**
    * Spacing between children, mapped to the `gap-*` utility classes. Overrides the card's default
    * gap between body children.
@@ -1208,7 +1220,7 @@ type CardBodyOwnProps<C extends ElementType> = {
   /**
    * Overrides `direction` at one or more breakpoints.
    */
-  responsive?: Partial<Record<Breakpoint, CardBodyDirection>>;
+  responsive?: Partial<Record<Breakpoint, FlexDirection>>;
 };
 type CardBodyProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, CardBodyOwnProps<C>>;
 type CardBodyComponent = (<C extends ElementType = 'div'>(props: CardBodyProps<C> & {
@@ -2810,9 +2822,6 @@ interface MenuSubmenuBackProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 declare const MenuSubmenuBack: React.ForwardRefExoticComponent<MenuSubmenuBackProps & React.RefAttributes<HTMLButtonElement>>;
 //#endregion
-//#region src/utils/breakpoints.d.ts
-type Span = 'auto' | boolean | number | string;
-//#endregion
 //#region src/components/grid/Col.d.ts
 interface ColLayout {
   /**
@@ -4234,7 +4243,7 @@ interface NavItemDef {
    */
   disabled?: boolean;
 }
-interface NavProps extends HTMLAttributes<HTMLDivElement | HTMLOListElement | HTMLUListElement> {
+type NavOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -4242,7 +4251,7 @@ interface NavProps extends HTMLAttributes<HTMLDivElement | HTMLOListElement | HT
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
    */
-  component?: ElementType | string;
+  component?: C;
   /**
    * Array of nav item definitions for data-driven rendering. When provided, children are ignored.
    */
@@ -4255,8 +4264,14 @@ interface NavProps extends HTMLAttributes<HTMLDivElement | HTMLOListElement | HT
    * Set the nav variant to tabs or pills.
    */
   variant?: 'pills' | 'tabs';
-}
-declare const Nav: React.ForwardRefExoticComponent<NavProps & React.RefAttributes<HTMLDivElement | HTMLOListElement | HTMLUListElement>>;
+};
+type NavProps<C extends ElementType = 'ul'> = PolymorphicComponentProps<C, NavOwnProps<C>>;
+type NavComponent = (<C extends ElementType = 'ul'>(props: NavProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+declare const Nav: NavComponent;
 //#endregion
 //#region src/components/nav/NavLink.d.ts
 type NavLinkOwnProps = {

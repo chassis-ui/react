@@ -48,7 +48,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "CardBodyDirection",
+        "raw": "FlexDirection",
         "value": [
           {
             "value": "\"row\""
@@ -134,7 +134,7 @@
       ],
       "required": false,
       "type": {
-        "name": "Partial<Record<Breakpoint, CardBodyDirection>>"
+        "name": "Partial<Record<Breakpoint, FlexDirection>>"
       }
     },
     "ref": {

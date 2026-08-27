@@ -17,6 +17,17 @@ describe('Card', () => {
       const { container } = render(<Card>Test</Card>)
       expect(container).toMatchSnapshot()
     })
+
+    test('renders as a custom component', () => {
+      render(
+        <Card className="bazinga" component="section">
+          Test
+        </Card>
+      )
+      const el = screen.getByText('Test')
+      expect(el).toHaveClass('card', 'bazinga')
+      expect(el.tagName).toBe('SECTION')
+    })
   })
 
   describe('styling props', () => {

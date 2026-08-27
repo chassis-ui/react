@@ -98,6 +98,14 @@ function ButtonRender<C extends ElementType = 'button'>(
   const Component = (component ?? (href ? 'a' : 'button')) as ElementType
   const isAnchor = Component === 'a'
 
+  // A component reference (e.g. a router `Link`) has its own visual identity and is trusted to
+  // handle its own keyboard/role semantics, same as `CloseButton`'s `isComponentReference` escape
+  // hatch — synthesizing `role="button"` and Enter/Space handling on top of it would stamp the
+  // wrong ARIA role onto whatever it actually renders (e.g. an `<a>`) and can double-fire a click
+  // (native anchor Enter→click, plus the synthesized keydown→click). Only a bare, non-native HTML
+  // tag string (e.g. `'div'`) still needs `useButtonSemantics`'s synthesis.
+  const isComponentReference = typeof Component !== 'string'
+
   const _className = classNames(
     'button',
     color,
@@ -196,14 +204,16 @@ function ButtonRender<C extends ElementType = 'button'>(
 
   return (
     <Component
-      {...(mergeProps(rest, buttonProps) as Record<string, unknown>)}
+      {...(isComponentReference
+        ? ({ disabled, onClick, ...rest } as Record<string, unknown>)
+        : (mergeProps(rest, buttonProps) as Record<string, unknown>))}
       className={_className}
       aria-pressed={pressed}
       // `href` was only ever forwarded when it also forced `Component` to `'a'` — now that an
       // explicit `component` wins over that default (see above), it needs to keep reaching a
       // custom `component`/HTML tag directly, same as `Avatar`'s equivalent fix.
       {...(href && { href })}
-      ref={forkedRef}
+      ref={isComponentReference ? ref : forkedRef}
     >
       {children}
     </Component>
