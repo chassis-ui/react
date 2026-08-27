@@ -28,15 +28,15 @@ jobs:
       # `--with-deps` also installs the OS-level libraries Chromium needs on a bare Ubuntu runner.
       - run: pnpm --filter @chassis-ui/react exec playwright install --with-deps chromium
 
-      - run: pnpm lint
+      - run: pnpm lint:eslint
       - run: pnpm test
 
       # Builds the real dist/index.d.ts (bundled directly by tsdown) and diffs it against the
       # checked-in packages/react/api-report.md snapshot, so an accidental breaking change to the
       # public props/types surface is caught here instead of only being discovered by a consumer
-      # after publish. See build/check-api-surface.ts.
+      # after publish. See packages/react/scripts/check-api-surface.ts.
       - run: pnpm react:build
-      - run: pnpm react:report
+      - run: pnpm react:check:api
 
       # Validates the actual published package shape — the `exports` map tsdown generates,
       # whether every entrypoint's files really exist (publint), and whether the `.d.ts` each
@@ -50,9 +50,9 @@ jobs:
       # make this gate chronically red for a decision that's already made. `--exclude-entrypoints
       # ./style.css` because attw type-checks JS/TS entrypoints; a plain CSS subpath export has no
       # types for it to resolve.
-      - run: pnpm check:package
+      - run: pnpm react:check:package
 
-      # `pnpm check:astro` (type-check only, no Sass compilation) rather than the full
+      # `pnpm site:check` (type-check only, no Sass compilation) rather than the full
       # `pnpm build`/`pnpm site:build`/`astro build` — the full static build currently fails on a
       # pre-existing, external issue in the sibling `../chassis-css` checkout's own in-progress
       # `_datepicker.scss` changes (undefined `$cx-color-date-picker-fg-idle`), unrelated to this
@@ -60,7 +60,7 @@ jobs:
       # batches. Wiring the full build here would make this gate chronically red for reasons
       # outside this repo's control. `astro check` doesn't compile Sass at all, so it isn't
       # affected and has stayed green throughout.
-      - run: pnpm check:astro
+      - run: pnpm site:check
 
       # Guards against the exact class of regression this repo already hit once (pre-tsdown, under
       # Rollup): react-aria/react-stately/etc. silently getting bundled into dist/ instead of
@@ -73,7 +73,7 @@ jobs:
       # over the minified baseline (27.69 kB JS / 1.18 kB CSS gzip, once `tsdown.config.ts` turned
       # on `minify`/`css.minify` — previously-unminified baseline was 36.11 kB / 4.75 kB gzip, see
       # the Phase 1 migration plan's spike findings).
-      - run: pnpm check:bundle
+      - run: pnpm react:check:bundle
 
       # Blocking: a vulnerable *runtime* dependency would ship to every consumer of
       # @chassis-ui/react, so this fails the build. Non-blocking: the same audit including
@@ -142,6 +142,6 @@ jobs:
 
       # dist/ is gitignored and has to exist before the smoke app's own build can resolve
       # @chassis-ui/react's `exports` map (ESM-only — no `main`/`module` fields to fall back to)
-      # through the workspace link.
-      - run: pnpm react:build
-      - run: pnpm --filter smoke-test-nextjs-app-router build
+      # through the workspace link. `smoke:build` builds it first, then builds every app under
+      # smoke-tests/* (just the Next.js one today).
+      - run: pnpm smoke:build

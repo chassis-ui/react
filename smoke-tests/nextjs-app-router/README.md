@@ -9,10 +9,10 @@ application, via a real `next build`, not a synthetic `renderToString` unit test
 works without a consumer-side directive.
 
 ```bash
-pnpm --filter smoke-test-nextjs-app-router build   # from the repo root — what CI runs
+pnpm smoke:build   # from the repo root — what CI runs; builds the library first, then this app
 ```
 
 `private: true`, excluded from Changesets (`.changeset/config.json`'s `ignore`) and from the root
-`pnpm lint` glob (`packages/**/src/**`, which this directory doesn't match) — it's not shipped,
-versioned, or held to this repo's own lint/prettier rules, since most of its files are
+`pnpm lint:eslint` glob (`packages/**/src/**`, which this directory doesn't match) — it's not
+shipped, versioned, or held to this repo's own lint/prettier rules, since most of its files are
 `create-next-app`'s own boilerplate.

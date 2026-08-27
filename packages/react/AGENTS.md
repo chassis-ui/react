@@ -57,14 +57,23 @@ unlike the prior Rollup setup), and `dist/style.css` (tsdown's own CSS pipeline,
 side-effect imports into one file rather than injecting them via JS). No CJS output — this package is ESM-only, with no
 consumers to preserve dual-format compatibility for. `exports: true` auto-generates
 `package.json`'s `exports` map on every build; `publint: true`/`attw: true` run non-blockingly as
-part of the same build for fast local feedback (the actual CI gate is `pnpm check:package`, a
-separate, blocking step — see `.github/workflows/ci.yml`). `output.banner` adds the `'use client'`
+part of the same build for fast local feedback (the actual CI gate is this package's own
+`pnpm check:package` script, run from the repo root as `pnpm react:check:package`, a separate,
+blocking step — see `.github/workflows/ci.yml`). `output.banner` adds the `'use client'`
 directive Rolldown would otherwise strip during bundling — see `RSC.md`.
 
 ```bash
-pnpm build       # one-shot build (also run via `pnpm react:build` from the repo root)
-pnpm dev         # tsdown --watch, for local development against packages/site
+pnpm build             # one-shot build (also run via `pnpm react:build` from the repo root)
+pnpm dev               # tsdown --watch, for local development against packages/site
+pnpm lint              # eslint + stylelint + prettier, scoped to this package
+pnpm format            # prettier --write, scoped to this package
+pnpm check:api         # diff dist/index.d.ts against the checked-in api-report.md snapshot
+pnpm check:api:update  # regenerate api-report.md from the current build
 ```
+
+`check:api`/`check:api:update` run `scripts/check-api-surface.ts` (see below) against this
+package's own `dist/index.d.ts` and `api-report.md` — from the repo root these are
+`pnpm react:check:api`/`pnpm react:check:api:update`.
 
 ## Tests
 
@@ -155,8 +164,8 @@ pnpm test:visual:update   # same, plus --update-snapshots to regenerate baseline
 - After adding/changing a component's exported props, run `pnpm react:generate` from the repo root
   so `packages/site/content/api/` (prop-table JSON, consumed by the docs site) stays in sync.
 - After any _intentional_ public API change (new/renamed/removed export, changed prop type), run
-  `pnpm react:build && pnpm react:report:update` from the repo root and commit the resulting
-  `api-report.md` diff alongside the code change — `pnpm react:report` (no `:update`) is a CI check
-  that fails the build if this snapshot has drifted from what `dist/index.d.ts` actually exports,
+  `pnpm react:build && pnpm react:check:api:update` from the repo root and commit the resulting
+  `api-report.md` diff alongside the code change — `pnpm react:check:api` (no `:update`) is a CI
+  check that fails the build if this snapshot has drifted from what `dist/index.d.ts` actually exports,
   so an unintentional breaking change gets caught before merge instead of after publish. See
-  `build/check-api-surface.ts`.
+  `scripts/check-api-surface.ts`.

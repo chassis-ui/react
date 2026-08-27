@@ -62,6 +62,9 @@ pnpm dev            # astro dev on :4327 (via root `pnpm dev`, alongside the lib
 pnpm build          # astro build alone — for the full pipeline, use root `pnpm site:build`,
                      # which also regenerates content/api and syncs the vendor/assets submodule first
 pnpm preview
+pnpm check          # astro check — type-checks .astro/.mdx (root: `pnpm site:check`)
+pnpm lint           # eslint + stylelint + prettier, scoped to this package (root: `pnpm site:lint`)
+pnpm format         # prettier --write, scoped to this package
 ```
 
 Building this package directly (`pnpm --filter chassis-react-site build`) without first running

@@ -10,6 +10,12 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "check": "astro check",
+    "lint": "pnpm lint:eslint && pnpm lint:stylelint && pnpm lint:prettier",
+    "lint:eslint": "eslint --cache --cache-location ../../.cache/site.eslintcache --report-unused-disable-directives .",
+    "lint:stylelint": "stylelint --cache --cache-location ../../.cache/site.stylelintcache \"**/*.{css,scss}\"",
+    "lint:prettier": "prettier -c --cache --ignore-path ../../.gitignore --ignore-path ../../.prettierignore .",
+    "format": "prettier --write --ignore-path ../../.gitignore --ignore-path ../../.prettierignore .",
     "clean": "rimraf ../../_site .astro"
   },
   "dependencies": {

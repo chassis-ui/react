@@ -51,10 +51,10 @@ pnpm react:generate
 
 ## What a PR needs before merge
 
-- **Passing CI**: lint, tests (with coverage gates), a clean library build, `pnpm react:report`
+- **Passing CI**: lint, tests (with coverage gates), a clean library build, `pnpm react:check:api`
   (fails if the public props/types surface drifted from the checked-in
-  `packages/react/api-report.md`), `astro check`, and `pnpm check:bundle` (bundle-size regression
-  guard). See the root [`AGENTS.md`](../AGENTS.md#ci) for the exact gate list.
+  `packages/react/api-report.md`), `astro check`, and `pnpm react:check:bundle` (bundle-size
+  regression guard). See the root [`AGENTS.md`](../AGENTS.md#ci) for the exact gate list.
 - **A changeset**, for anything touching `packages/react`'s published behavior (a new/changed/
   removed export, prop, or observable DOM/class output):
   ```bash

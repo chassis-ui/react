@@ -90,10 +90,11 @@ installing `@chassis-ui/react` itself, which is published to npm as an ordinary 
 | Script | Description |
 | --- | --- |
 | `pnpm start` | Sync submodules, build the library, then watch the library and Astro site together |
+| `pnpm setup` | Sync submodules and build the library once — the part of `start` worth running on its own |
 | `pnpm dev` | Watch the library and Astro site without rebuilding submodules |
-| `pnpm astro:dev` | Start only the Astro dev server |
+| `pnpm site:dev` | Start only the Astro dev server |
 | `pnpm site:build` | Generate API data, sync submodules, and build the static docs site |
-| `pnpm astro:preview` | Preview the built docs site locally |
+| `pnpm site:preview` | Preview the built docs site locally |
 | `pnpm react:generate` | Re-generate prop table JSON from TypeScript source |
 | `pnpm test` | Run component tests with coverage |
 | `pnpm react:build` | Build the component library |

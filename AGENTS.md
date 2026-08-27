@@ -26,14 +26,30 @@ what's shared across both.
 
 ## Root scripts
 
-Run from the repo root (delegates into the relevant package via `pnpm --filter`):
+Ownership rule: a script whose target files live entirely inside one workspace package (build,
+dev, test, lint, format, its own drift checks) is a real script on that package's own
+`package.json`, invoked from the repo root via `pnpm --filter`/the `react:*`/`site:*` alias below —
+not reimplemented at the root with the package path baked in as an argument. A script stays at the
+root only when it's genuinely cross-package (reads from one package and writes into the other,
+like `react:generate`) or operates on a repo-root-level artifact no single package owns (like
+`_site/`, this repo's Astro output directory).
 
 ```bash
+pnpm setup        # sync submodules + one-shot library build — run once after clone
 pnpm dev          # lib watch build + astro dev server, together
+pnpm start        # setup, then dev — the single command for a fresh clone
 pnpm test         # @chassis-ui/react's vitest suite
-pnpm lint         # eslint across packages/**/src
+pnpm lint         # react lint + site lint + HTML/vnu validation — the full local sweep
+pnpm lint:eslint  # eslint across packages/**/src only — narrower, what CI actually gates on
 pnpm site:build   # react:generate + sync-submodules + astro build + pagefind index
+pnpm smoke:build  # react:build, then build every app under smoke-tests/*
 ```
+
+`pnpm react:lint`/`pnpm site:lint` delegate to each package's own `lint` script (eslint + stylelint
++ prettier, scoped to that package); `pnpm react:check:api`/`:update`, `pnpm react:check:bundle`,
+`pnpm react:check:package`, and `pnpm site:check` likewise delegate to real scripts on
+`packages/react`/`packages/site`. `pnpm lint:html`/`pnpm lint:vnu` stay root-level because they
+validate the root `_site/` build output, not anything inside `packages/site` itself.
 
 `pnpm react:generate` (`build/generate-api.ts`) walks `packages/react/src/components`, extracts
 prop tables with `react-docgen-typescript`, and writes JSON into `packages/site/content/api/` —
@@ -51,15 +67,17 @@ resolve, check the sibling checkout exists rather than assuming a registry/versi
 ## CI
 
 `.github/workflows/ci.yml` runs on push to `main`/`develop` and on PRs: `pnpm install
---frozen-lockfile`, then `pnpm lint`, then `pnpm test` (the react package's vitest suite,
+--frozen-lockfile`, then `pnpm lint:eslint` (the narrow eslint-only pass — CI deliberately doesn't
+gate on the full `pnpm lint`, which also runs stylelint/Prettier/HTML validation and currently has
+pre-existing, unrelated findings), then `pnpm test` (the react package's vitest suite,
 including coverage thresholds — see [`packages/react/AGENTS.md`](packages/react/AGENTS.md)), then
-`pnpm react:build` + `pnpm react:report` (fails if the public props/types surface drifted from the
-checked-in `packages/react/api-report.md` — see that package's `AGENTS.md`), then
-`pnpm check:astro` (Astro/MDX type-checking — deliberately not the full `pnpm site:build`/
+`pnpm react:build` + `pnpm react:check:api` (fails if the public props/types surface drifted from
+the checked-in `packages/react/api-report.md` — see that package's `AGENTS.md`), then
+`pnpm site:check` (Astro/MDX type-checking — deliberately not the full `pnpm site:build`/
 `astro build`, which currently fails on a pre-existing, external issue in the sibling
 `../chassis-css` checkout's own in-progress Sass changes; `astro check` doesn't compile Sass so
-it's unaffected), then `pnpm check:bundle` (`packages/react/.bundlewatch.config.json` — fails if
-`dist/index.js`/`dist/index.es.js` grow past ~15% over their current gzip size, catching e.g. a
+it's unaffected), then `pnpm react:check:bundle` (`packages/react/.bundlewatch.config.json` — fails
+if `dist/index.js`/`dist/index.es.js` grow past ~15% over their current gzip size, catching e.g. a
 real dependency silently getting bundled instead of externalized again), then `pnpm audit --prod`
 (blocking — a vulnerable runtime dependency would ship to every consumer) and a non-blocking
 `pnpm audit` covering devDependencies too (real findings worth tracking, but failing CI on every

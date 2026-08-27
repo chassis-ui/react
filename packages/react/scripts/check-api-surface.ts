@@ -5,8 +5,8 @@ import * as ts from 'typescript'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
-const DTS_PATH = path.resolve(__dirname, '../packages/react/dist/index.d.ts')
-const REPORT_PATH = path.resolve(__dirname, '../packages/react/api-report.md')
+const DTS_PATH = path.resolve(__dirname, '../dist/index.d.ts')
+const REPORT_PATH = path.resolve(__dirname, '../api-report.md')
 
 // tsdown's dts bundler (rolldown-plugin-dts, via the TS checker) inlines some function return
 // types as a raw structural union instead of a named alias — e.g. a component that can return
@@ -66,8 +66,8 @@ tsdown, see tsdown.config.ts). It exists to make an accidental breaking change t
 show up as an ordinary, reviewable diff on this file, instead of only being discovered by a
 consumer after publish.
 
-Regenerate with \`pnpm react:report:update\` after any *intentional* public API change (new prop,
-renamed export, ...) and review the diff like any other code change. \`pnpm react:report\` (no
+Regenerate with \`pnpm react:check:api:update\` after any *intentional* public API change (new prop,
+renamed export, ...) and review the diff like any other code change. \`pnpm react:check:api\` (no
 \`:update\`) is the check that fails CI/local runs when this file and the real build have drifted.
 -->
 
@@ -108,7 +108,7 @@ if (existing === report) {
 
 if (existing === null) {
   console.error(
-    `${path.relative(process.cwd(), REPORT_PATH)} doesn't exist yet. Run \`pnpm react:report:update\` and commit it.`
+    `${path.relative(process.cwd(), REPORT_PATH)} doesn't exist yet. Run \`pnpm react:check:api:update\` and commit it.`
   )
   process.exit(1)
 }
@@ -128,6 +128,6 @@ for (let i = 0; i < maxLines; i++) {
 console.error(
   `api-report.md is out of date with the current build: ${diffCount} line(s) differ, first at line ${firstDiffLine}.`
 )
-console.error('If this change is intentional, run `pnpm react:report:update` and commit the result.')
+console.error('If this change is intentional, run `pnpm react:check:api:update` and commit the result.')
 console.error('If not, it means a component/type change accidentally altered the public API surface.')
 process.exit(1)
