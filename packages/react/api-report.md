@@ -1496,7 +1496,8 @@ interface CarouselSlideDetail {
 }
 interface CarouselProps extends HTMLAttributes<HTMLDivElement> {
   /**
-   * The active slide's index, for controlled usage.
+   * The active slide's index, for controlled usage. Pair with `onSlide` or `onSlid` to feed the
+   * new index back — they're the only way a controlled carousel's `activeIndex` gets updated.
    */
   activeIndex?: number;
   /**

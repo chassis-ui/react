@@ -7,7 +7,7 @@
   "props": {
     "activeIndex": {
       "defaultValue": null,
-      "description": "The active slide's index, for controlled usage.",
+      "description": "The active slide's index, for controlled usage. Pair with `onSlide` or `onSlid` to feed the\nnew index back — they're the only way a controlled carousel's `activeIndex` gets updated.",
       "name": "activeIndex",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/carousel/Carousel.tsx",

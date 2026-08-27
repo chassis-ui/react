@@ -9,6 +9,7 @@ import {
   CarouselIndicators,
   CarouselInner,
   CarouselItem,
+  CarouselOverlay,
   CarouselPlayPause,
   I18nProvider
 } from '../../../src/index'
@@ -682,6 +683,177 @@ describe('Carousel', () => {
         vi.useRealTimers()
         uninstallGeometry()
       }
+    })
+  })
+
+  describe('controlled activeIndex', () => {
+    test('warns in development when neither onSlide nor onSlid is provided', () => {
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
+      render(
+        <Carousel activeIndex={0}>
+          <CarouselInner>
+            <CarouselItem>Item-1</CarouselItem>
+            <CarouselItem>Item-2</CarouselItem>
+          </CarouselInner>
+        </Carousel>
+      )
+      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('onSlide` nor `onSlid`'))
+      warnSpy.mockRestore()
+    })
+
+    test('does not warn when onSlide is provided', () => {
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
+      render(
+        <Carousel activeIndex={0} onSlide={() => {}}>
+          <CarouselInner>
+            <CarouselItem>Item-1</CarouselItem>
+            <CarouselItem>Item-2</CarouselItem>
+          </CarouselInner>
+        </Carousel>
+      )
+      expect(warnSpy).not.toHaveBeenCalled()
+      warnSpy.mockRestore()
+    })
+
+    test('does not warn for uncontrolled usage', () => {
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
+      render(<ThreeItemCarousel />)
+      expect(warnSpy).not.toHaveBeenCalled()
+      warnSpy.mockRestore()
+    })
+
+    test('a properly paired activeIndex/onSlide advances like uncontrolled usage', async () => {
+      function Controlled() {
+        const [activeIndex, setActiveIndex] = React.useState(0)
+        return (
+          <Carousel activeIndex={activeIndex} onSlide={({ to }) => setActiveIndex(to)}>
+            <CarouselControlNext />
+            <CarouselInner>
+              <CarouselItem>Item-1</CarouselItem>
+              <CarouselItem>Item-2</CarouselItem>
+            </CarouselInner>
+          </Carousel>
+        )
+      }
+      render(<Controlled />)
+      expect(screen.getByText('Item-1')).toHaveClass('active')
+
+      fireEvent.click(screen.getByRole('button', { name: 'Next slide' }))
+      await waitFor(() => expect(screen.getByText('Item-2')).toHaveClass('active'))
+    })
+  })
+
+  describe('fade transition', () => {
+    test('applies the carousel-fade class on the root', () => {
+      const { container } = render(
+        <Carousel transition="fade">
+          <CarouselInner>
+            <CarouselItem>Item-1</CarouselItem>
+          </CarouselInner>
+        </Carousel>
+      )
+      // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
+      expect(container.querySelector('.carousel')).toHaveClass('carousel-fade')
+    })
+
+    test('toggles the active class instead of scrolling to navigate', async () => {
+      render(
+        <Carousel transition="fade">
+          <CarouselControlNext />
+          <CarouselInner>
+            <CarouselItem>Item-1</CarouselItem>
+            <CarouselItem>Item-2</CarouselItem>
+          </CarouselInner>
+        </Carousel>
+      )
+      const item1 = screen.getByText('Item-1')
+      const item2 = screen.getByText('Item-2')
+      expect(item1).toHaveClass('active')
+
+      fireEvent.click(screen.getByRole('button', { name: 'Next slide' }))
+      await waitFor(() => expect(item2).toHaveClass('active'))
+      expect(item1).not.toHaveClass('active')
+    })
+  })
+
+  describe('layout props', () => {
+    test('applies items/itemsGap/itemsPeek as custom properties on the root', () => {
+      const { container } = render(
+        <Carousel items={2} itemsGap="1rem" itemsPeek="2rem">
+          <CarouselInner>
+            <CarouselItem>Item-1</CarouselItem>
+            <CarouselItem>Item-2</CarouselItem>
+          </CarouselInner>
+        </Carousel>
+      )
+      // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
+      const carousel = container.querySelector('.carousel') as HTMLElement
+      expect(carousel.style.getPropertyValue('--cx-carousel-items')).toBe('2')
+      expect(carousel.style.getPropertyValue('--cx-carousel-items-gap')).toBe('1rem')
+      expect(carousel.style.getPropertyValue('--cx-carousel-items-peek')).toBe('2rem')
+    })
+
+    test('applies the carousel-center and carousel-auto classes', () => {
+      const { container } = render(
+        <Carousel center auto>
+          <CarouselInner>
+            <CarouselItem>Item-1</CarouselItem>
+          </CarouselInner>
+        </Carousel>
+      )
+      // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
+      expect(container.querySelector('.carousel')).toHaveClass('carousel-center', 'carousel-auto')
+    })
+  })
+
+  describe('CarouselOverlay', () => {
+    test('renders its children inside a .carousel-overlay wrapper', () => {
+      render(
+        <Carousel>
+          <CarouselInner>
+            <CarouselItem>Item-1</CarouselItem>
+          </CarouselInner>
+          <CarouselOverlay>
+            <CarouselControlNext />
+          </CarouselOverlay>
+        </Carousel>
+      )
+      const next = screen.getByRole('button', { name: 'Next slide' })
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(next.closest('.carousel-overlay')).toBeInTheDocument()
+    })
+  })
+
+  describe('multi-item loop fallback', () => {
+    // canLoop's own doc comment: multi-item layouts fall back to a `wrap` jump instead of the
+    // clone-based seamless loop transition. performLoopTransition always appends/prepends a
+    // `.carousel-item-clone` node before settling, so asserting one never appears across a full
+    // wrap-around confirms navigate()'s normalizeIndex(..., wraps=true) path fired instead.
+    test('ends="loop" with items={2} wraps via normalizeIndex instead of a clone-based transition', async () => {
+      render(
+        <Carousel items={2} ends="loop">
+          <CarouselControlNext />
+          <CarouselInner>
+            <CarouselItem>Item-1</CarouselItem>
+            <CarouselItem>Item-2</CarouselItem>
+            <CarouselItem>Item-3</CarouselItem>
+            <CarouselItem>Item-4</CarouselItem>
+          </CarouselInner>
+        </Carousel>
+      )
+      const next = screen.getByRole('button', { name: 'Next slide' })
+
+      fireEvent.click(next)
+      await waitFor(() => expect(screen.getByText('Item-2')).toHaveClass('active'))
+
+      fireEvent.click(next)
+      await waitFor(() => expect(screen.getByText('Item-3')).toHaveClass('active'))
+
+      fireEvent.click(next)
+      await waitFor(() => expect(screen.getByText('Item-1')).toHaveClass('active'))
+
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(document.querySelectorAll('.carousel-item-clone')).toHaveLength(0)
     })
   })
 })

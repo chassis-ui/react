@@ -47,7 +47,8 @@ export interface CarouselSlideDetail {
 
 export interface CarouselProps extends HTMLAttributes<HTMLDivElement> {
   /**
-   * The active slide's index, for controlled usage.
+   * The active slide's index, for controlled usage. Pair with `onSlide` or `onSlid` to feed the
+   * new index back — they're the only way a controlled carousel's `activeIndex` gets updated.
    */
   activeIndex?: number
   /**
@@ -139,6 +140,19 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
     },
     ref
   ) => {
+    // `onSlide`/`onSlid` — not a dedicated `onChange` — are the only way a controlled
+    // `activeIndex` gets fed back (see the CarouselProps `activeIndex` doc and carousel.mdx's
+    // "Controlled usage" section). Missing both means every click/swipe/autoplay advance updates
+    // internal state that `useControllableState` immediately discards (controlled mode always
+    // mirrors the prop), so the carousel silently freezes instead of erroring.
+    if (activeIndexProp !== undefined && !onSlide && !onSlid) {
+      console.warn(
+        'Carousel: `activeIndex` is set (controlled) but neither `onSlide` nor `onSlid` is — ' +
+          'nothing feeds the new index back to your state, so the carousel will visually freeze ' +
+          'on click/swipe/autoplay. Pass `onSlide` or `onSlid` and update `activeIndex` from it.'
+      )
+    }
+
     const carouselRef = useRef<HTMLDivElement>(null)
     const forkedRef = useForkedRef(ref, carouselRef)
 

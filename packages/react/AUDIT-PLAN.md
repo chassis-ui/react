@@ -448,11 +448,34 @@ Carousel just went through a full refactor (phase 16 of the prior migration effo
 scroll-sync logic) but has no visual-regression coverage and a materially untested prop surface —
 close that gap before it drifts further from the rest of the library's coverage standard.
 
-- [ ] **TEST-01** Add `stories/carousel/Carousel.stories.tsx` (following the pattern of
+- [x] **TEST-01** Add `stories/carousel/Carousel.stories.tsx` (following the pattern of
   `stories/calendar/`, etc.) and `test/visual/carousel.visual.spec.ts`, per `AGENTS.md`'s own rule
   that a new family gets its own visual-regression spec file. This is CSS-scroll-snap-driven —
   exactly the class of bug DOM snapshots can't catch (pixel-identical markup, broken layout).
-- [ ] **DECIDE-06** `carousel/Carousel.tsx` (~line 151) — `useControllableState(activeIndexProp,
+  Added 8 stories (Default, Multiple Items, Peeking, Centered, Variable Width, Fade, Overlay
+  Controls, Ends Stop) sourced from the docs site's own `examples/components/carousel/*.tsx` for
+  realistic markup, plus the matching visual spec (title-prefix-filtered, same pattern as the other
+  four families). No story enables autoplay, so every one settles on first paint with no
+  wait-for-transition step needed (`animations: 'disabled'` alone is enough — same treatment as
+  accordion/collapse's static stories, not toast/notification's wait-for-settled-class one).
+  Darwin baselines generated locally; Linux baselines generated inside
+  `mcr.microsoft.com/playwright:v1.62.1-noble` via Docker, scoped to only this spec file (a first
+  attempt piped through the `pnpm test:visual:update` script chain and accidentally regenerated —
+  and in a few cases fabricated brand-new — baselines for unrelated existing families; discarded
+  and redone with `playwright test test/visual/carousel.visual.spec.ts --update-snapshots` called
+  directly). Confirmed the icon-only prev/next control buttons render as empty (no chevron glyph)
+  in every baseline — Storybook has no `staticDirs` serving `/static/icons/chassis-icons.svg` (that
+  file is gitignored, populated by the docs site's own `sync-submodules` pipeline from a sibling
+  submodule checkout CI doesn't have), so this predates Carousel and would affect any family's
+  first icon-using story. Button geometry is unaffected (confirmed via computed layout — the SVG's
+  declared width/height reserves the box regardless of whether its sprite reference resolves), so
+  it doesn't undermine what these baselines actually protect against (scroll-snap layout
+  regressions); left unfixed as a pre-existing, unrelated environment gap rather than widening this
+  phase into a Storybook static-asset pipeline decision.
+  While generating the Docker baselines, discovered 7 pre-existing toast/notification stories with
+  a darwin baseline but no Linux one (dated 2026-08-15, from the original visual-regression setup)
+  — a real, unrelated CI gap. Flagged as a separate follow-up task rather than fixed here.
+- [x] **DECIDE-06** `carousel/Carousel.tsx` (~line 151) — `useControllableState(activeIndexProp,
   defaultActiveIndex)` has no `onChange`, and `CarouselProps` has no `onChange`/
   `onActiveIndexChange` prop at all; in controlled mode, `onSlide`/`onSlid` are the *only* way a
   consumer can feed the new index back, undocumented as the required pairing, and unlike every
@@ -463,16 +486,39 @@ close that gap before it drifts further from the rest of the library's coverage 
   required pairing for controlled `activeIndex` (smaller fix), or add a proper `onChange`-named
   callback (bigger, more consistent with the rest of the library — recommended if this isn't a
   breaking-API concern for existing consumers).
-- [ ] **TEST-02** Add test coverage for the currently-untested prop surface: controlled
+  **Decided: document the required pairing (smaller fix), plus a dev-time warning.** Re-checked the
+  "CONVENTIONS.md mandates `onChange`" premise: the actual rule only bans `onValueChange` in favor
+  of `onChange` (ESLint-enforced); `Tabs` already ships `onSelectionChange` for its own
+  index/key-driven controlled state with no lint error, so a domain-specific name is established
+  precedent, not a violation. Given `onSlide`/`onSlid` already carry the full transition detail
+  (`from`/`to`/`direction`) at two distinct lifecycle moments (start vs. settle), a third redundant
+  `onChange`-named callback would duplicate that information for marginal DX gain. Instead: (1)
+  `Carousel` now warns in development (unconditional `console.warn`, matching `FormField`'s
+  existing `ids.input`/`ids.label` warning precedent — no `NODE_ENV` gate, no shared helper, since
+  this is a different message/condition) when `activeIndex` is set but neither `onSlide` nor
+  `onSlid` is; (2) the `activeIndex` JSDoc now states the required pairing directly (feeds
+  `content/api/Carousel.json` via `react:generate`); (3) added a "Controlled usage" section to
+  `carousel.mdx` with a warning `Callout` and a new `ControlledExample.tsx`, both following
+  existing patterns (`otp-input`'s `ControlledExample.tsx`, the Autoplay section's own `Callout`
+  precedent).
+- [x] **TEST-02** Add test coverage for the currently-untested prop surface: controlled
   `activeIndex`, `transition="fade"`, `center`, `auto`, multi-item layout (`items`/`itemsGap`/
   `itemsPeek`), and `CarouselOverlay` — confirmed zero references to any of these in
   `Carousel.spec.tsx` today.
-- [ ] **TEST-03** `carouselEngine.ts` (~lines 157-170, `canLoop`) — its own docblock says
+  Added 4 new `describe` blocks (`controlled activeIndex` — including a warn/no-warn pair for the
+  new DECIDE-06 warning plus a full controlled-usage round-trip; `fade transition`; `layout props`
+  covering `items`/`itemsGap`/`itemsPeek`/`center`/`auto`; `CarouselOverlay`), 43 tests total in the
+  file (was 28), full suite still green (150 files / 1561 tests).
+- [x] **TEST-03** `carouselEngine.ts` (~lines 157-170, `canLoop`) — its own docblock says
   multi-item/peek/centered/variable-width layouts fall back to a `wrap` jump instead of a true
   loop transition, but nothing verifies that fallback actually runs the right code path (i.e. that
   `navigate()`'s `normalizeIndex(..., wraps=true)` path, not `performLoopTransition`, is what fires
   for `ends="loop"` + `items={2}`). Add a test for this specific interaction — likely follows
   naturally from TEST-02's multi-item coverage.
+  Added under `describe('multi-item loop fallback')`: a 4-item, `items={2}` carousel navigated a
+  full wrap-around (index 0 → 1 → 2 → 0), asserting no `.carousel-item-clone` node ever appears —
+  `performLoopTransition` always appends/prepends one before settling, so its total absence across
+  the wrap confirms the `wrap`-jump path fired instead.
 
 ---
 

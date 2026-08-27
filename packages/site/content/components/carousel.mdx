@@ -20,6 +20,7 @@ import { Example as CustomContentExample } from '../../examples/components/carou
 import { Example as MultipleItemsExample } from '../../examples/components/carousel/MultipleItemsExample.tsx'
 import { Example as PeekingExample } from '../../examples/components/carousel/PeekingExample.tsx'
 import { Example as VariableWidthExample } from '../../examples/components/carousel/VariableWidthExample.tsx'
+import { Example as ControlledExample } from '../../examples/components/carousel/ControlledExample.tsx'
 
 ## Overview
 
@@ -145,6 +146,20 @@ Set `auto` and size each `CarouselItem` individually with utilities or custom CS
 </Example>
 
 Set `center` to snap the active slide to the center of the viewport instead of its start — pairs well with `itemsPeek`.
+
+## Controlled usage
+
+A controlled `activeIndex` needs an `onSlide` or `onSlid` handler feeding the new index back — every click, swipe, or autoplay advance calls one of them with the destination index, and that's the only path a controlled carousel has for updating its own `activeIndex`.
+
+<Callout type="warning">
+  Omitting both `onSlide` and `onSlid` on a controlled `activeIndex` leaves the carousel visually
+  frozen after the first navigation attempt: internal state still advances, but the controlled
+  prop overrides it back on every render. `Carousel` warns about this pairing in development.
+</Callout>
+
+<Example>
+  <ControlledExample client:load />
+</Example>
 
 ## Accessibility
 
