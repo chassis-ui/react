@@ -526,12 +526,30 @@ close that gap before it drifts further from the rest of the library's coverage 
 
 Only the gaps not already covered by a fix above.
 
-- [ ] `otp-input/OtpInput.spec.tsx` — the `inputGroup` prop (`OtpInput.tsx`, non-trivial: it
+- [x] `otp-input/OtpInput.spec.tsx` — the `inputGroup` prop (`OtpInput.tsx`, non-trivial: it
   conditionally wraps in `.input-group` and interacts with `groupSizes`) is never referenced in the
   spec file. Add coverage.
-- [ ] `select/Select.spec.tsx` — the `htmlSize` prop (feeds the `isDropdown` branch documented in
+  Added 3 tests under a new `describe('inputGroup')`: `inputGroup` alone applies `.input-group` to
+  the root instead of wrapping boxes; `inputGroup` + `groupSizes` wraps each group in its own
+  `.input-group` instead of the root (verified via `within()` on each wrapper, not raw
+  `querySelectorAll` counts, to keep the file at zero `testing-library/no-node-access` warnings);
+  `groupSizes` alone (no `inputGroup`) renders no `.input-group` wrapper at all.
+- [x] `select/Select.spec.tsx` — the `htmlSize` prop (feeds the `isDropdown` branch documented in
   `FORMS.md`'s adorn section — "skip the proxy-open when `htmlSize > 1`") is never referenced. Add
   coverage.
+  Added 3 tests mirroring the existing `multiple`-based coverage of the same `isDropdown` branch:
+  `htmlSize` forwards as the native `size` attribute (asserted via the `listbox` role — HTML-AAM
+  maps a `size > 1` select to `listbox`, same as `multiple`); `htmlSize={4}` omits `.form-caret` on
+  the adorn wrapper; `htmlSize={4}` skips the `showPicker()` proxy-open on adorn click. One
+  pre-existing snapshot (`adorns > matches the adorned markup snapshot`) shifted its `useId()`
+  output since the new tests render earlier in the file and updated the counter — updated via `-u`,
+  confirmed the only diff is the id suffix.
+
+---
+
+**Plan closed.** Every phase above is checked off — see the file's own history (`git log
+--follow -- packages/react/AUDIT-PLAN.md`) for the second full pass this file tracked. A third pass
+would start a new `AUDIT-PLAN.md` the same way this one opened, scoped to whatever's found next.
 
 ---
 

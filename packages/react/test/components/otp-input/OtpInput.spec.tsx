@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent, within } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
 import { OtpInput } from '../../../src/index'
@@ -25,6 +25,35 @@ describe('OtpInput', () => {
     test('disabled boxes cannot be edited', () => {
       render(<OtpInput aria-label="Code" disabled length={3} />)
       expect(screen.getByRole('textbox', { name: 'Digit 1' })).toBeDisabled()
+    })
+  })
+
+  describe('inputGroup', () => {
+    test('without groupSizes, applies input-group to the root instead of wrapping boxes', () => {
+      render(<OtpInput aria-label="Code" inputGroup length={3} />)
+      const group = screen.getByRole('group', { name: 'Code' })
+      expect(group).toHaveClass('form-otp', 'input-group')
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(group.querySelector('.input-group')).toBeNull()
+    })
+
+    test('with groupSizes, wraps each group in its own input-group instead of the root', () => {
+      render(<OtpInput aria-label="Code" groupSizes={[3, 3]} inputGroup />)
+      const group = screen.getByRole('group', { name: 'Code' })
+      expect(group).not.toHaveClass('input-group')
+      // eslint-disable-next-line testing-library/no-node-access
+      const wrappers = group.querySelectorAll(':scope > .input-group')
+      expect(wrappers).toHaveLength(2)
+      expect(within(wrappers[0] as HTMLElement).getAllByRole('textbox')).toHaveLength(3)
+      expect(within(wrappers[1] as HTMLElement).getAllByRole('textbox')).toHaveLength(3)
+    })
+
+    test('groupSizes without inputGroup renders no input-group wrapper at all', () => {
+      render(<OtpInput aria-label="Code" groupSizes={[3, 3]} />)
+      const group = screen.getByRole('group', { name: 'Code' })
+      expect(group).not.toHaveClass('input-group')
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(group.querySelector('.input-group')).toBeNull()
     })
   })
 

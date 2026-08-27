@@ -111,6 +111,12 @@ describe('Select', () => {
       expect(screen.getByRole('listbox', { name: 'Language' })).toHaveAttribute('multiple')
     })
 
+    test('passes htmlSize through as the native size attribute', () => {
+      render(<Select aria-label="Language" htmlSize={4} options={['js', 'html']} />)
+      // A select with size > 1 maps to the listbox role (HTML-AAM), same as multiple.
+      expect(screen.getByRole('listbox', { name: 'Language' })).toHaveAttribute('size', '4')
+    })
+
     test('selects more than one option by default when multiple is set', () => {
       render(
         <Select
@@ -189,6 +195,20 @@ describe('Select', () => {
         <Select
           aria-label="Language"
           multiple
+          options={['js', 'html']}
+          adornStart={<InputAdorn>Lang</InputAdorn>}
+        />
+      )
+      // eslint-disable-next-line testing-library/no-node-access
+      const wrapper = container.firstChild as HTMLElement
+      expect(wrapper).not.toHaveClass('form-caret')
+    })
+
+    test('omits .form-caret and skips the proxy-open when htmlSize is greater than 1', () => {
+      const { container } = render(
+        <Select
+          aria-label="Language"
+          htmlSize={4}
           options={['js', 'html']}
           adornStart={<InputAdorn>Lang</InputAdorn>}
         />
@@ -279,6 +299,20 @@ describe('Select', () => {
           <Select
             aria-label="Language"
             multiple
+            options={['js', 'html']}
+            adornStart={<InputAdorn>Lang</InputAdorn>}
+          />
+        )
+        await user.click(screen.getByText('Lang'))
+        expect(showPicker).not.toHaveBeenCalled()
+      })
+
+      test('does not open a select with htmlSize greater than 1', async () => {
+        const user = userEvent.setup()
+        render(
+          <Select
+            aria-label="Language"
+            htmlSize={4}
             options={['js', 'html']}
             adornStart={<InputAdorn>Lang</InputAdorn>}
           />
