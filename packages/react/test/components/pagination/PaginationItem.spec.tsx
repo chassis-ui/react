@@ -84,6 +84,20 @@ describe('PaginationItem', () => {
       expect(onClick).not.toHaveBeenCalled()
     })
 
+    test('blocks navigation and onClick when a disabled anchor is clicked', async () => {
+      const user = userEvent.setup()
+      const onClick = vi.fn()
+      render(
+        <PaginationItem disabled href="/bazinga" onClick={onClick}>
+          Test
+        </PaginationItem>
+      )
+      const link = screen.getByRole('link', { name: 'Test' })
+      expect(link).toHaveAttribute('aria-disabled', 'true')
+      await user.click(link)
+      expect(onClick).not.toHaveBeenCalled()
+    })
+
     test('a custom component with onClick gets button keyboard semantics', async () => {
       const user = userEvent.setup()
       const onClick = vi.fn()

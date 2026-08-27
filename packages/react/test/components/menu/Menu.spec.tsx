@@ -224,6 +224,98 @@ describe('Menu', () => {
     })
   })
 
+  describe('keyboard navigation', () => {
+    // jsdom never runs real layout — offsetWidth/offsetHeight/getClientRects() are always zero,
+    // but menuNavigation's `isVisible` filter depends on non-zero dimensions to tell a hidden
+    // item from a shown one. Stub a non-zero offsetHeight so these assertions exercise the real
+    // focus call instead of silently seeing an always-empty items list (see MenuSubmenu.spec.tsx).
+    beforeEach(() => {
+      vi.spyOn(HTMLElement.prototype, 'offsetHeight', 'get').mockReturnValue(1)
+    })
+    afterEach(() => {
+      vi.restoreAllMocks()
+    })
+
+    test('ArrowDown/ArrowUp move focus between items and wrap at the ends', () => {
+      render(
+        <Menu visible>
+          <MenuToggle>Toggle</MenuToggle>
+          <MenuList>
+            <MenuItem href="#">A</MenuItem>
+            <MenuItem href="#">B</MenuItem>
+            <MenuItem href="#">C</MenuItem>
+          </MenuList>
+        </Menu>
+      )
+      const menu = screen.getByRole('menu')
+      const [a, b, c] = [screen.getByText('A'), screen.getByText('B'), screen.getByText('C')]
+
+      fireEvent.keyDown(menu, { key: 'ArrowDown' })
+      expect(a).toHaveFocus()
+
+      fireEvent.keyDown(a!, { key: 'ArrowDown' })
+      expect(b).toHaveFocus()
+
+      fireEvent.keyDown(b!, { key: 'ArrowUp' })
+      expect(a).toHaveFocus()
+
+      fireEvent.keyDown(a!, { key: 'ArrowUp' })
+      expect(c).toHaveFocus()
+
+      fireEvent.keyDown(c!, { key: 'ArrowDown' })
+      expect(a).toHaveFocus()
+    })
+
+    test('ArrowUp from no current focus lands on the last item', () => {
+      render(
+        <Menu visible>
+          <MenuToggle>Toggle</MenuToggle>
+          <MenuList>
+            <MenuItem href="#">A</MenuItem>
+            <MenuItem href="#">B</MenuItem>
+          </MenuList>
+        </Menu>
+      )
+      fireEvent.keyDown(screen.getByRole('menu'), { key: 'ArrowUp' })
+      expect(screen.getByText('B')).toHaveFocus()
+    })
+
+    test('Home/End jump focus to the first/last item', () => {
+      render(
+        <Menu visible>
+          <MenuToggle>Toggle</MenuToggle>
+          <MenuList>
+            <MenuItem href="#">A</MenuItem>
+            <MenuItem href="#">B</MenuItem>
+            <MenuItem href="#">C</MenuItem>
+          </MenuList>
+        </Menu>
+      )
+      const menu = screen.getByRole('menu')
+
+      fireEvent.keyDown(menu, { key: 'End' })
+      expect(screen.getByText('C')).toHaveFocus()
+
+      fireEvent.keyDown(menu, { key: 'Home' })
+      expect(screen.getByText('A')).toHaveFocus()
+    })
+
+    test('ArrowDown/Home/End on an empty menu is a no-op', () => {
+      render(
+        <Menu visible>
+          <MenuToggle>Toggle</MenuToggle>
+          <MenuList></MenuList>
+        </Menu>
+      )
+      const menu = screen.getByRole('menu')
+      expect(() => {
+        fireEvent.keyDown(menu, { key: 'ArrowDown' })
+        fireEvent.keyDown(menu, { key: 'Home' })
+        fireEvent.keyDown(menu, { key: 'End' })
+      }).not.toThrow()
+    })
+  })
+
   describe('show/hide callbacks', () => {
     // Regression test: `onShown`/`onHidden` must wait for the `.menu` panel's CSS transition
     // (see `_menu.scss`) to finish, matching `Modal`'s identically-worded contract — they used

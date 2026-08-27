@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { act } from 'react'
 import { render, screen, fireEvent, within } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
@@ -75,9 +76,7 @@ describe('ChipInput', () => {
 
     test('pasting beyond maxChips keeps the untaken values in the input instead of discarding them', () => {
       const onChange = vi.fn()
-      render(
-        <ChipInput aria-label="Skills" maxChips={2} onChange={onChange} />
-      )
+      render(<ChipInput aria-label="Skills" maxChips={2} onChange={onChange} />)
       const input = screen.getByRole('textbox') as HTMLInputElement
       fireEvent.paste(input, {
         clipboardData: { getData: () => 'React,TypeScript,CSS,HTML' }
@@ -216,6 +215,64 @@ describe('ChipInput', () => {
       const lastRow = screen.getByRole('row', { name: /TypeScript/ })
       expect(lastRow).toHaveAttribute('aria-selected', 'true')
       fireEvent.keyDown(lastRow, { key: 'Escape' })
+      expect(lastRow).toHaveAttribute('aria-selected', 'false')
+    })
+  })
+
+  describe('keyboard shortcuts on the input itself', () => {
+    test('ArrowLeft with the caret at the start focuses the last chip', () => {
+      render(<ChipInput aria-label="Skills" defaultValue={['React', 'TypeScript']} />)
+      const input = screen.getByRole('textbox') as HTMLInputElement
+      input.focus()
+      fireEvent.keyDown(input, { key: 'ArrowLeft' })
+      const lastRow = screen.getByRole('row', { name: /TypeScript/ })
+      expect(lastRow).toHaveFocus()
+      expect(lastRow).toHaveAttribute('aria-selected', 'true')
+    })
+
+    test('Shift+ArrowLeft with the caret at the start extends selection onto the last chip', () => {
+      render(<ChipInput aria-label="Skills" defaultValue={['React', 'TypeScript']} />)
+      const input = screen.getByRole('textbox') as HTMLInputElement
+      input.focus()
+      fireEvent.keyDown(input, { key: 'ArrowLeft', shiftKey: true })
+      const lastRow = screen.getByRole('row', { name: /TypeScript/ })
+      expect(lastRow).toHaveFocus()
+      expect(lastRow).toHaveAttribute('aria-selected', 'true')
+    })
+
+    test('ArrowLeft is ignored when the caret is not at the start', () => {
+      render(<ChipInput aria-label="Skills" defaultValue={['React', 'TypeScript']} />)
+      const input = screen.getByRole('textbox') as HTMLInputElement
+      input.focus()
+      fireEvent.change(input, { target: { value: 'abc' } })
+      input.setSelectionRange(1, 1)
+      fireEvent.keyDown(input, { key: 'ArrowLeft' })
+      expect(input).toHaveFocus()
+    })
+
+    test('Escape on the input clears its value without touching chip selection', () => {
+      render(<ChipInput aria-label="Skills" defaultValue={['React']} />)
+      const input = screen.getByRole('textbox') as HTMLInputElement
+      fireEvent.change(input, { target: { value: 'abc' } })
+      expect(input).toHaveValue('abc')
+      fireEvent.keyDown(input, { key: 'Escape' })
+      expect(input).toHaveValue('')
+    })
+
+    test('an unhandled key on the input is a no-op', () => {
+      render(<ChipInput aria-label="Skills" defaultValue={['React']} />)
+      const input = screen.getByRole('textbox')
+      expect(() => fireEvent.keyDown(input, { key: 'a' })).not.toThrow()
+    })
+
+    test('focusing the input clears any existing chip selection', () => {
+      render(<ChipInput aria-label="Skills" defaultValue={['React', 'TypeScript']} />)
+      const input = screen.getByRole('textbox')
+      fireEvent.keyDown(input, { key: 'Backspace' })
+      const lastRow = screen.getByRole('row', { name: /TypeScript/ })
+      expect(lastRow).toHaveAttribute('aria-selected', 'true')
+
+      act(() => input.focus())
       expect(lastRow).toHaveAttribute('aria-selected', 'false')
     })
   })

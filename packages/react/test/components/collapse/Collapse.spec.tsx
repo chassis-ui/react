@@ -45,6 +45,40 @@ describe('Collapse', () => {
       act(() => vi.runAllTimers())
       vi.useRealTimers()
     })
+
+    test('cycles collapse/collapsing/show classes as visible toggles when horizontal', () => {
+      vi.useFakeTimers()
+      const onShow = vi.fn()
+      const onHide = vi.fn()
+      const { rerender } = render(
+        <Collapse horizontal visible={false} onShow={onShow} onHide={onHide}>
+          Test
+        </Collapse>
+      )
+      expect(screen.getByText('Test')).toHaveClass('collapse', 'collapse-horizontal')
+
+      rerender(
+        <Collapse horizontal visible={true} onShow={onShow} onHide={onHide}>
+          Test
+        </Collapse>
+      )
+      expect(screen.getByText('Test')).toHaveClass('collapsing')
+      expect(onShow).toHaveBeenCalledTimes(1)
+      act(() => vi.runAllTimers())
+      expect(screen.getByText('Test')).toHaveClass('collapse', 'show')
+
+      rerender(
+        <Collapse horizontal visible={false} onShow={onShow} onHide={onHide}>
+          Test
+        </Collapse>
+      )
+      expect(screen.getByText('Test')).toHaveClass('collapsing')
+      expect(onHide).toHaveBeenCalledTimes(1)
+      act(() => vi.runAllTimers())
+      expect(screen.getByText('Test')).toHaveClass('collapse')
+      act(() => vi.runAllTimers())
+      vi.useRealTimers()
+    })
   })
 
   describe('ref forwarding', () => {
