@@ -116,7 +116,7 @@ The `autoClose` prop controls which clicks close the menu. The default (`true`) 
 
 ## Submenus
 
-Wrap a trigger and nested items in `MenuSubmenu` to create a flyout. Submenus close sibling submenus automatically when a new one opens, and close along with their ancestor menu. Set `activation` to `'hover'` or `'click'` to restrict which interaction opens it on hover-capable devices — the default, `'both'`, accepts either; touch devices always use tap regardless of this setting.
+Wrap a trigger and nested items in `MenuSubmenu` to create a flyout. Submenus close sibling submenus automatically when a new one opens, and close along with their ancestor menu. Set `activation` to `'hover'` or `'click'` to restrict which interaction opens it on hover-capable devices — the default, `'both'`, accepts either; touch devices always use tap regardless of this setting. Which side a submenu cascades toward follows the active locale's direction — see [Internationalization]([[docsref:/getting-started/internationalization#right-to-left]]).
 
 <Example>
   <SubmenuExample client:load />
