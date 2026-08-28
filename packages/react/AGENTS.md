@@ -142,9 +142,24 @@ pnpm test:visual:update   # same, plus --update-snapshots to regenerate baseline
   `visual-regression` job (running inside the official Playwright Docker image, see
   `.github/workflows/ci.yml`) actually checks against; the `-darwin.png` ones exist purely so a
   contributor on a Mac gets a meaningful local pass/fail from `pnpm test:visual` too. If you only
-  have a Mac, regenerating the Linux baselines needs a matching container — run
-  `pnpm test:visual:update` inside `mcr.microsoft.com/playwright:<version matching
-@playwright/test's own devDependency version>-noble`, not on your host OS.
+  have a Mac, regenerating the Linux baselines needs a matching container — use
+  `pnpm test:visual:update:linux [spec files...]` (`scripts/update-linux-snapshots.sh`) rather than
+  running `playwright test --update-snapshots` in a container by hand. That script exists because
+  the naive version of "run it in `mcr.microsoft.com/playwright:<version>-noble`" has three sharp
+  edges: bind-mounting the repo and running `pnpm install` in the container rebuilds native deps
+  (esbuild, sharp, `@parcel/watcher`) as Linux binaries directly over your host `node_modules`
+  (the script copies the repo in/out instead); the image is multi-arch, so Docker silently runs
+  native arm64 on Apple Silicon unless you force `--platform linux/amd64` to match CI's actual
+  `ubuntu-latest` (x86_64) runners; and macOS's `tar` embeds `._*` AppleDouble sidecar files that
+  Playwright's spec glob picks up as real `.spec.ts` files and crashes on (needs
+  `COPYFILE_DISABLE=1` plus an explicit exclude). The script also re-runs each regenerated spec
+  twice more in normal (non-`--update-snapshots`) mode before copying anything back — a screenshot
+  taken mid-transition/mid-animation can pass once with no baseline to compare against, then fail
+  immediately on the very next real run (this is exactly what happened to
+  `toast-notification.visual.spec.ts`'s `.show` wait — see its git history). Always pass the spec
+  file(s) for the family you actually touched; running with no args regenerates every family's
+  Linux baselines at once, which also means reviewing every diff for an unrelated font-rendering
+  drift instead of just the one you meant to change.
 - A popover-based story (`DatePicker`/`DateRangePicker`'s `Open*` variants) screenshots the whole
   iframe page rather than a specific element, because `Popover` portals to `document.body` (see
   `Popover.tsx`), outside Storybook's `#storybook-root`.

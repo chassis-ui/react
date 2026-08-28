@@ -56,7 +56,8 @@
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build -o ../../_storybook",
     "test:visual": "pnpm storybook:build --quiet && playwright test",
-    "test:visual:update": "pnpm storybook:build --quiet && playwright test --update-snapshots"
+    "test:visual:update": "pnpm storybook:build --quiet && playwright test --update-snapshots",
+    "test:visual:update:linux": "bash scripts/update-linux-snapshots.sh"
   },
   "dependencies": {
     "@internationalized/date": "^3.12.2",
