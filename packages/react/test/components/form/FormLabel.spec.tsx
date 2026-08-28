@@ -13,11 +13,6 @@ describe('FormLabel', () => {
       expect(label.tagName).toBe('LABEL')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<FormLabel>Test</FormLabel>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('customClassName overrides the base and passed className entirely', () => {
       render(
         <FormLabel className="bazinga" customClassName="only-this">

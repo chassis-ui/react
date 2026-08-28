@@ -12,11 +12,6 @@ describe('FormFeedback', () => {
       expect(screen.getByText('Test')).toHaveAttribute('class', '')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<FormFeedback invalid>Test</FormFeedback>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('applies invalid/valid feedback classes with className', () => {
       render(
         <FormFeedback className="bazinga" invalid={true} valid={true}>

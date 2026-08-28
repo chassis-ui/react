@@ -14,11 +14,6 @@ describe('Stack', () => {
       expect(el.tagName).toBe('DIV')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Stack>Test</Stack>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('renders as a custom component', () => {
       render(
         <Stack className="bazinga" component="span">

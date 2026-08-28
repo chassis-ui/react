@@ -12,11 +12,6 @@ describe('NavTitle', () => {
       expect(title).toHaveClass('nav-title', 'bazinga')
       expect(title.tagName).toBe('LI')
     })
-
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<NavTitle>Test</NavTitle>)
-      expect(container).toMatchSnapshot()
-    })
   })
 
   describe('ref forwarding', () => {

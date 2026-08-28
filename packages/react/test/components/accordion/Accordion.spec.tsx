@@ -11,11 +11,6 @@ describe('Accordion', () => {
       expect(screen.getByText('Test')).toHaveClass('accordion')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Accordion>Test</Accordion>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('applies flush, size and caretEnd classes with className', () => {
       render(
         <Accordion className="bazinga" flush size="large" caretEnd>

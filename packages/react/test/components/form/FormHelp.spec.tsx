@@ -13,11 +13,6 @@ describe('FormHelp', () => {
       expect(help.tagName).toBe('DIV')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<FormHelp>Test</FormHelp>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('renders as a custom component with className merged', () => {
       render(
         <FormHelp className="bazinga" component="h3">

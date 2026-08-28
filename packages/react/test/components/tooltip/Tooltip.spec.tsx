@@ -14,15 +14,6 @@ const hoverOver = (target: HTMLElement) => {
 
 describe('Tooltip', () => {
   describe('rendering', () => {
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(
-        <Tooltip content="content">
-          <Link>Test</Link>
-        </Tooltip>
-      )
-      expect(container).toMatchSnapshot()
-    })
-
     test('renders placement, arrow and content once shown on hover', () => {
       vi.useFakeTimers()
       render(

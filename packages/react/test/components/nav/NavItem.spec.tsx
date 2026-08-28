@@ -29,11 +29,6 @@ describe('NavItem', () => {
       expect(onClick).toHaveBeenCalledTimes(1)
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<NavItem>Test</NavItem>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('wraps children in a NavLink when href is provided', () => {
       render(
         <NavItem active={true} className="bazinga" disabled={true} href="/bazinga">

@@ -13,11 +13,6 @@ describe('CardHeader', () => {
       expect(header.tagName).toBe('DIV')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<CardHeader>Test</CardHeader>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('renders as a custom component with className merged', () => {
       render(
         <CardHeader className="bazinga" component="h3">

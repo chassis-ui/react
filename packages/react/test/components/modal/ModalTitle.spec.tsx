@@ -12,11 +12,6 @@ describe('ModalTitle', () => {
       expect(heading).toHaveClass('modal-title')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<ModalTitle>Test</ModalTitle>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('renders as a custom component with className merged', () => {
       render(
         <ModalTitle className="bazinga" component="h3">

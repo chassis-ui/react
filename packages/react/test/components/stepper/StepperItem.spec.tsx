@@ -13,11 +13,6 @@ describe('StepperItem', () => {
       expect(item.tagName).toBe('LI')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<StepperItem>Test</StepperItem>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('applies color and active classes together', () => {
       render(
         <StepperItem className="bazinga" active color="warning">

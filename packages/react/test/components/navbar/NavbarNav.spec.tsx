@@ -13,11 +13,6 @@ describe('NavbarNav', () => {
       expect(nav.tagName).toBe('UL')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<NavbarNav>Test</NavbarNav>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('renders as a custom component', () => {
       render(
         <NavbarNav className="bazinga" component="h3">

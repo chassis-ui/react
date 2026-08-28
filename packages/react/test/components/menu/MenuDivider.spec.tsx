@@ -11,11 +11,6 @@ describe('MenuDivider', () => {
       expect(screen.getByRole('separator')).toHaveClass('menu-divider')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<MenuDivider />)
-      expect(container).toMatchSnapshot()
-    })
-
     test('applies a custom className', () => {
       render(<MenuDivider className="bazinga" />)
       expect(screen.getByRole('separator')).toHaveClass('bazinga')

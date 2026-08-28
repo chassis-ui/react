@@ -874,22 +874,37 @@ describe('Carousel sub-components rendered outside a Carousel', () => {
   }
 
   test('CarouselControlNext throws a clear error', () => {
-    expectThrows(<CarouselControlNext />, 'Carousel sub-components must be rendered inside a Carousel')
+    expectThrows(
+      <CarouselControlNext />,
+      'Carousel sub-components must be rendered inside a Carousel'
+    )
   })
 
   test('CarouselControlPrev throws a clear error', () => {
-    expectThrows(<CarouselControlPrev />, 'Carousel sub-components must be rendered inside a Carousel')
+    expectThrows(
+      <CarouselControlPrev />,
+      'Carousel sub-components must be rendered inside a Carousel'
+    )
   })
 
   test('CarouselIndicators throws a clear error', () => {
-    expectThrows(<CarouselIndicators />, 'Carousel sub-components must be rendered inside a Carousel')
+    expectThrows(
+      <CarouselIndicators />,
+      'Carousel sub-components must be rendered inside a Carousel'
+    )
   })
 
   test('CarouselInner throws a clear error', () => {
-    expectThrows(<CarouselInner>Item</CarouselInner>, 'Carousel sub-components must be rendered inside a Carousel')
+    expectThrows(
+      <CarouselInner>Item</CarouselInner>,
+      'Carousel sub-components must be rendered inside a Carousel'
+    )
   })
 
   test('CarouselPlayPause throws a clear error', () => {
-    expectThrows(<CarouselPlayPause />, 'Carousel sub-components must be rendered inside a Carousel')
+    expectThrows(
+      <CarouselPlayPause />,
+      'Carousel sub-components must be rendered inside a Carousel'
+    )
   })
 })

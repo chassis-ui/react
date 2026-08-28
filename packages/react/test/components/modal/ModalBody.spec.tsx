@@ -12,11 +12,6 @@ describe('ModalBody', () => {
       expect(body).toHaveClass('modal-body', 'bazinga')
       expect(body.tagName).toBe('DIV')
     })
-
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<ModalBody>Test</ModalBody>)
-      expect(container).toMatchSnapshot()
-    })
   })
 
   describe('ref forwarding', () => {

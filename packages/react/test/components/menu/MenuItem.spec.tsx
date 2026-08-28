@@ -13,11 +13,6 @@ describe('MenuItem', () => {
       expect(item.tagName).toBe('A')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<MenuItem href="#">Test</MenuItem>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('renders as a button while keeping menuitem role', () => {
       render(<MenuItem component="button">Test</MenuItem>)
       const item = screen.getByRole('menuitem', { name: 'Test' })

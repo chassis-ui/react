@@ -23,7 +23,10 @@ describe('FloatingInput', () => {
           <input className="form-input" id="floatingInput" placeholder="name@example.com" />
         </FloatingInput>
       )
-      expect(screen.getByText('Email address').parentElement).toHaveClass('form-floating', 'bazinga')
+      expect(screen.getByText('Email address').parentElement).toHaveClass(
+        'form-floating',
+        'bazinga'
+      )
     })
 
     test('renders a label associated with the control via htmlFor', () => {
@@ -190,7 +193,11 @@ describe('FloatingInput', () => {
       const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
       render(
         <FloatingInput label="Email address" ids={{ label: 'floatingInput-label' }}>
-          <input className="form-input" aria-labelledby="floatingInput-label" placeholder="name@example.com" />
+          <input
+            className="form-input"
+            aria-labelledby="floatingInput-label"
+            placeholder="name@example.com"
+          />
         </FloatingInput>
       )
       expect(warnSpy).not.toHaveBeenCalled()

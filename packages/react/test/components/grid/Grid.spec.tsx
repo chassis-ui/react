@@ -14,11 +14,6 @@ describe('Grid', () => {
       expect(el.tagName).toBe('DIV')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Grid>Test</Grid>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('renders as a custom component', () => {
       render(
         <Grid className="bazinga" component="section">

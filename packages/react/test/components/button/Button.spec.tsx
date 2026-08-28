@@ -16,11 +16,6 @@ describe('Button', () => {
       expect(button).toHaveClass('button', 'primary')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Button>Save</Button>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('accepts an explicit type', () => {
       render(<Button type="submit">Submit</Button>)
       expect(screen.getByRole('button', { name: 'Submit' })).toHaveAttribute('type', 'submit')

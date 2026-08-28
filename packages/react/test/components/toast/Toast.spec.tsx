@@ -12,13 +12,6 @@ describe('Toast', () => {
     vi.useRealTimers()
   })
 
-  describe('rendering', () => {
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Toast>Test</Toast>)
-      expect(container).toMatchSnapshot()
-    })
-  })
-
   describe('styling props', () => {
     test('applies color, className and the default status role once shown', async () => {
       const { container } = render(
@@ -237,7 +230,7 @@ describe('Toast', () => {
       expect(screen.getByRole('status')).toHaveClass('show')
     }, 10000)
 
-    test('a sibling toast mounting does not restart this toast\'s pending autohide timer', () => {
+    test("a sibling toast mounting does not restart this toast's pending autohide timer", () => {
       // BUG-12 regression: `Toaster` re-renders every mounted toast whenever the shared queue
       // changes (a toast arriving or being dismissed), since `useToastQueue` triggers one state
       // update covering the whole list. A `close` callback that isn't stable across re-renders

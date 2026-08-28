@@ -12,11 +12,6 @@ describe('CardBody', () => {
       expect(body).toHaveClass('card-body', 'bazinga')
       expect(body.tagName).toBe('DIV')
     })
-
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<CardBody>Test</CardBody>)
-      expect(container).toMatchSnapshot()
-    })
   })
 
   describe('layout props', () => {

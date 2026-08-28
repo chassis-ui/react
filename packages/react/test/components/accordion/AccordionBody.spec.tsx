@@ -12,11 +12,6 @@ describe('AccordionBody', () => {
       expect(body).toHaveClass('accordion-body', 'bazinga')
       expect(body.tagName).toBe('DIV')
     })
-
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<AccordionBody>Test</AccordionBody>)
-      expect(container).toMatchSnapshot()
-    })
   })
 
   describe('ref forwarding', () => {

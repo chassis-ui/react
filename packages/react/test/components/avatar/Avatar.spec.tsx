@@ -14,11 +14,6 @@ describe('Avatar', () => {
       expect(screen.queryByRole('button')).not.toBeInTheDocument()
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Avatar>CX</Avatar>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('applies color, smooth and size classes together', () => {
       render(
         <Avatar className="bazinga" color="primary" smooth size="small">

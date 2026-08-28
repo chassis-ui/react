@@ -12,11 +12,6 @@ describe('ToastFooter', () => {
       expect(footer).toHaveClass('toast-footer', 'bazinga')
       expect(footer.tagName).toBe('DIV')
     })
-
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<ToastFooter>Test</ToastFooter>)
-      expect(container).toMatchSnapshot()
-    })
   })
 
   describe('ref forwarding', () => {

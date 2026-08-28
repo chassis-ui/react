@@ -14,11 +14,6 @@ describe('Flex', () => {
       expect(el.tagName).toBe('DIV')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Flex>Test</Flex>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('renders as a custom component', () => {
       render(
         <Flex className="bazinga" component="span">

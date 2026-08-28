@@ -189,7 +189,12 @@ describe('Stepper', () => {
 
     test('has no axe violations with a data-driven linked step', async () => {
       const { container } = render(
-        <Stepper items={[{ label: 'Account', href: '#' }, { label: 'Shipping', active: true }]} />
+        <Stepper
+          items={[
+            { label: 'Account', href: '#' },
+            { label: 'Shipping', active: true }
+          ]}
+        />
       )
       expect(await axe(container)).toHaveNoViolations()
     })

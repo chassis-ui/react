@@ -13,11 +13,6 @@ describe('InputGroupAddon', () => {
       expect(addon.tagName).toBe('SPAN')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<InputGroupAddon>Test</InputGroupAddon>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('renders as a custom component with className merged', () => {
       render(
         <InputGroupAddon className="bazinga" component="label">

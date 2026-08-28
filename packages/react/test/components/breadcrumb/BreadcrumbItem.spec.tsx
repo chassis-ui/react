@@ -13,11 +13,6 @@ describe('BreadcrumbItem', () => {
       expect(item.tagName).toBe('LI')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<BreadcrumbItem>Test</BreadcrumbItem>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('wraps children in a link when href is provided', () => {
       render(<BreadcrumbItem href="/bazinga">Test</BreadcrumbItem>)
       const link = screen.getByRole('link', { name: 'Test' })

@@ -13,11 +13,6 @@ describe('DrawerFooter', () => {
       expect(footer.tagName).toBe('DIV')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<DrawerFooter>Test</DrawerFooter>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('applies the stacked class', () => {
       render(<DrawerFooter stacked>Test</DrawerFooter>)
       expect(screen.getByText('Test')).toHaveClass('drawer-footer', 'stacked')

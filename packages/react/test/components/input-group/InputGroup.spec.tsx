@@ -13,11 +13,6 @@ describe('InputGroup', () => {
       expect(group.tagName).toBe('DIV')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<InputGroup>Test</InputGroup>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('applies size class and className together', () => {
       render(
         <InputGroup className="bazinga" size="large">

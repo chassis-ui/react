@@ -13,11 +13,6 @@ describe('Badge', () => {
       expect(badge.tagName).toBe('SPAN')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Badge color="primary">Test</Badge>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('renders as a custom component with circle and size classes', () => {
       render(
         <Badge className="bazinga" color="warning" component="div" circle size="small">

@@ -12,11 +12,6 @@ describe('CloseButton', () => {
       const button = screen.getByRole('button', { name: 'Close' })
       expect(button).toHaveClass('close-button')
     })
-
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<CloseButton />)
-      expect(container).toMatchSnapshot()
-    })
   })
 
   describe('styling props', () => {

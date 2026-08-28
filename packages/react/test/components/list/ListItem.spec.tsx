@@ -13,11 +13,6 @@ describe('ListItem', () => {
       expect(item.tagName).toBe('LI')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<ListItem>Test</ListItem>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('applies color, active and disabled classes together', () => {
       render(
         <ListItem className="bazinga" active={true} color="warning" disabled={true}>

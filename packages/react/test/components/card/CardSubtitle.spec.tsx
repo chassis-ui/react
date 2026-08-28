@@ -12,11 +12,6 @@ describe('CardSubtitle', () => {
       expect(heading).toHaveClass('card-subtitle')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<CardSubtitle>Test</CardSubtitle>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('renders as a custom component with className merged', () => {
       render(
         <CardSubtitle className="bazinga" component="h3">

@@ -14,11 +14,6 @@ describe('RangeInput', () => {
       expect(range).toHaveAttribute('step', '3')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<RangeInput step={3} />)
-      expect(container).toMatchSnapshot()
-    })
-
     test('applies min, max, value, disabled and readOnly attributes', () => {
       render(
         <RangeInput

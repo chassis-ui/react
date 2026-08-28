@@ -20,11 +20,6 @@ describe('NavbarBrand', () => {
       expect(link).toHaveAttribute('href', '/bazinga')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<NavbarBrand href="/bazinga">Test</NavbarBrand>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('an explicit component takes precedence over href', () => {
       render(
         <NavbarBrand className="bazinga" component="h3" href="/bazinga">

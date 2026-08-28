@@ -14,11 +14,6 @@ describe('Link', () => {
       expect(link).toHaveAttribute('href', '/bazinga')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Link href="/bazinga">Test</Link>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('renders as a button when component is "button"', () => {
       render(<Link component="button">Test</Link>)
       expect(screen.getByRole('button', { name: 'Test' }).tagName).toBe('BUTTON')

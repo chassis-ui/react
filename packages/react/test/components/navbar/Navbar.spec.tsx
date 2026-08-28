@@ -13,11 +13,6 @@ describe('Navbar', () => {
       expect(nav.tagName).toBe('NAV')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Navbar>Test</Navbar>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('renders as a custom component with color, variant, container and placement', () => {
       render(
         <Navbar

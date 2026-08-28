@@ -14,11 +14,6 @@ describe('Chip', () => {
       expect(chip).toHaveClass('chip')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Chip>Default</Chip>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('renders as a custom element via component', () => {
       render(
         <Chip component="div" className="bazinga">

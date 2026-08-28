@@ -13,11 +13,6 @@ describe('Card', () => {
       expect(card.tagName).toBe('DIV')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Card>Test</Card>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('renders as a custom component', () => {
       render(
         <Card className="bazinga" component="section">

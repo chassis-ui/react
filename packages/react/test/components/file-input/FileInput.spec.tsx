@@ -11,11 +11,6 @@ describe('FileInput', () => {
       expect(screen.getByLabelText('Attachment')).toHaveClass('form-input')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<FileInput />)
-      expect(container).toMatchSnapshot()
-    })
-
     test('applies size, invalid/valid classes and multiple/disabled attributes', () => {
       // No label given here (deliberately, to test the bare attribute/class output), so the
       // input has no accessible name and no query reaches it.

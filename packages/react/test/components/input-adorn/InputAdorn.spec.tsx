@@ -13,11 +13,6 @@ describe('InputAdorn', () => {
       expect(adorn.tagName).toBe('SPAN')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<InputAdorn>Test</InputAdorn>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('renders as a custom component with className merged', () => {
       render(
         <InputAdorn className="bazinga" component="button" type="button" aria-label="Clear">

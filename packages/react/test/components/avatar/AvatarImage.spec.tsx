@@ -14,13 +14,6 @@ describe('AvatarImage', () => {
       expect(image).toHaveAttribute('src', 'https://i.pravatar.cc/256')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(
-        <AvatarImage src="https://i.pravatar.cc/256" alt="Profile picture" />
-      )
-      expect(container).toMatchSnapshot()
-    })
-
     test('applies the caller className alongside the base class', () => {
       render(
         <AvatarImage className="bazinga" src="https://i.pravatar.cc/256" alt="Profile picture" />

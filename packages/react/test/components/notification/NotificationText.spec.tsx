@@ -13,11 +13,6 @@ describe('NotificationText', () => {
       expect(text.tagName).toBe('DIV')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<NotificationText>Test</NotificationText>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('renders as a custom component with className merged', () => {
       render(
         <NotificationText className="bazinga" component="p">

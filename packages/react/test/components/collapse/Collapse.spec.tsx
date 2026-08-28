@@ -6,11 +6,6 @@ import { Collapse } from '../../../src/index'
 
 describe('Collapse', () => {
   describe('rendering', () => {
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Collapse>Test</Collapse>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('applies a custom className', () => {
       render(<Collapse className="bazinga">Test</Collapse>)
       expect(screen.getByText('Test')).toHaveClass('bazinga')

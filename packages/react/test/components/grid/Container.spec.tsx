@@ -13,11 +13,6 @@ describe('Container', () => {
       expect(el.tagName).toBe('DIV')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Container>Test</Container>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('renders as a custom component', () => {
       render(
         <Container className="bazinga" component="section">

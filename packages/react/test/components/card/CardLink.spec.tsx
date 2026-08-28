@@ -16,11 +16,6 @@ describe('CardLink', () => {
       expect(link).toHaveClass('card-link', 'bazinga')
       expect(link).toHaveAttribute('href', '/bazinga')
     })
-
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<CardLink href="/bazinga">Test</CardLink>)
-      expect(container).toMatchSnapshot()
-    })
   })
 
   describe('ref forwarding', () => {

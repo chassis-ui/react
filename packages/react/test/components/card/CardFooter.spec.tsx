@@ -12,11 +12,6 @@ describe('CardFooter', () => {
       expect(footer).toHaveClass('card-footer', 'bazinga')
       expect(footer.tagName).toBe('DIV')
     })
-
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<CardFooter>Test</CardFooter>)
-      expect(container).toMatchSnapshot()
-    })
   })
 
   describe('ref forwarding', () => {

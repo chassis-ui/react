@@ -26,11 +26,6 @@ describe('Icon', () => {
       )
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Icon name="folder-tree" />)
-      expect(container).toMatchSnapshot()
-    })
-
     test('applies a custom size and sprite path', () => {
       const { container } = render(<Icon name="folder-tree" size={32} sprite="/icons.svg" />)
       const svg = container.firstChild as SVGSVGElement

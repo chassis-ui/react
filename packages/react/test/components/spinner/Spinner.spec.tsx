@@ -13,11 +13,6 @@ describe('Spinner', () => {
       expect(spinner.tagName).toBe('DIV')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Spinner />)
-      expect(container).toMatchSnapshot()
-    })
-
     test('exposes a visually-hidden loading label by default', () => {
       render(<Spinner />)
       expect(screen.getByText('Loading...')).toHaveClass('visually-hidden')

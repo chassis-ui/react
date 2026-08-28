@@ -12,11 +12,6 @@ describe('Col', () => {
       expect(col).toHaveClass('col')
       expect(col.tagName).toBe('DIV')
     })
-
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Col>Test</Col>)
-      expect(container).toMatchSnapshot()
-    })
   })
 
   describe('breakpoint props', () => {

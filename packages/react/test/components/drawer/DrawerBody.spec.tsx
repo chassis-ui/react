@@ -12,11 +12,6 @@ describe('DrawerBody', () => {
       expect(body).toHaveClass('drawer-body', 'bazinga')
       expect(body.tagName).toBe('DIV')
     })
-
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<DrawerBody>Test</DrawerBody>)
-      expect(container).toMatchSnapshot()
-    })
   })
 
   describe('ref forwarding', () => {

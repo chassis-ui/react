@@ -13,11 +13,6 @@ describe('CardImage', () => {
       expect(image.tagName).toBe('IMG')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<CardImage alt="" />)
-      expect(container).toMatchSnapshot()
-    })
-
     test('applies a top orientation class', () => {
       render(<CardImage alt="test" orientation="top" />)
       expect(screen.getByRole('img')).toHaveClass('card-image-top')

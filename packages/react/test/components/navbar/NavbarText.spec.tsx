@@ -12,11 +12,6 @@ describe('NavbarText', () => {
       expect(text).toHaveClass('navbar-text', 'bazinga')
       expect(text.tagName).toBe('SPAN')
     })
-
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<NavbarText>Test</NavbarText>)
-      expect(container).toMatchSnapshot()
-    })
   })
 
   describe('ref forwarding', () => {

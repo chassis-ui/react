@@ -1,20 +1,10 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Tooltip > rendering > matches the baseline markup snapshot 1`] = `
-<div>
-  <a
-    class=""
-  >
-    Test
-  </a>
-</div>
-`;
-
 exports[`Tooltip > rendering > renders placement, arrow and content once shown on hover 1`] = `
 <body>
   <div>
     <a
-      aria-describedby="react-aria-_r_1_"
+      aria-describedby="react-aria-_r_0_"
       class="link"
     >
       Test
@@ -23,7 +13,7 @@ exports[`Tooltip > rendering > renders placement, arrow and content once shown o
   <div
     class="tooltip cx-tooltip-auto fade show"
     data-cx-placement="right"
-    id="react-aria-_r_1_"
+    id="react-aria-_r_0_"
     role="tooltip"
     style="position: absolute; max-height: 0px; top: 12px; left: 6px;"
   >

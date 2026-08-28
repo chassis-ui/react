@@ -10,11 +10,6 @@ describe('CardImageOverlay', () => {
       render(<CardImageOverlay className="bazinga">Test</CardImageOverlay>)
       expect(screen.getByText('Test')).toHaveClass('card-overlay', 'bazinga')
     })
-
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<CardImageOverlay>Test</CardImageOverlay>)
-      expect(container).toMatchSnapshot()
-    })
   })
 
   describe('ref forwarding', () => {

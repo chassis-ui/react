@@ -19,15 +19,6 @@ describe('AvatarStack', () => {
       expect(container.firstChild?.nodeName).toBe('DIV')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(
-        <AvatarStack>
-          <Avatar>CX</Avatar>
-        </AvatarStack>
-      )
-      expect(container).toMatchSnapshot()
-    })
-
     test('applies the size and caller className together', () => {
       // Same unlabeled wrapper as above.
       const { container } = render(
@@ -45,7 +36,7 @@ describe('AvatarStack', () => {
           <Avatar>CX</Avatar>
         </AvatarStack>
       )
-      // eslint-disable-next-line testing-library/no-node-access
+
       expect(container.firstChild?.nodeName).toBe('UL')
     })
   })

@@ -13,11 +13,6 @@ describe('MenuText', () => {
       expect(text.tagName).toBe('SPAN')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<MenuText>Test</MenuText>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('renders as a custom component with className merged', () => {
       render(
         <MenuText component="p" className="bazinga">

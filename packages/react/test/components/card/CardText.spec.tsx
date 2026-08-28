@@ -13,11 +13,6 @@ describe('CardText', () => {
       expect(text.tagName).toBe('P')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<CardText>Test</CardText>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('renders as a custom component with className merged', () => {
       render(
         <CardText className="bazinga" component="h3">

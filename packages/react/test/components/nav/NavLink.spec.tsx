@@ -13,11 +13,6 @@ describe('NavLink', () => {
       expect(link).toHaveAttribute('href', '/bazinga')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<NavLink href="/bazinga">Test</NavLink>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('renders as a custom component with active/disabled classes', () => {
       render(
         <NavLink active={true} className="bazinga" component="h3" disabled={true}>

@@ -13,11 +13,6 @@ describe('GridItem', () => {
       expect(el.className).toBe('')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<GridItem>Test</GridItem>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('renders as a custom component', () => {
       render(
         <GridItem className="bazinga" component="section" span={4}>

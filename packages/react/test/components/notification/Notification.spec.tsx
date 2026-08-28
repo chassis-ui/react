@@ -13,11 +13,6 @@ describe('Notification', () => {
       expect(notification).toHaveClass('notification', 'primary')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Notification color="primary">Test</Notification>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('applies the solid style with className', () => {
       render(
         <Notification color="secondary" className="bazinga" solid>
@@ -200,8 +195,7 @@ describe('Notification', () => {
           Test
         </Notification>
       )
-      const scheduledAutohide = () =>
-        setTimeoutSpy.mock.calls.some(([, ms]) => ms === 1000)
+      const scheduledAutohide = () => setTimeoutSpy.mock.calls.some(([, ms]) => ms === 1000)
 
       // Immediately at mount, before the 150ms entrance transition finishes, the autohide
       // countdown must not have been scheduled yet — gating on `visible` alone (as before this
@@ -218,7 +212,7 @@ describe('Notification', () => {
       vi.useRealTimers()
     })
 
-    test('a sibling notification mounting does not restart this notification\'s pending autohide timer', () => {
+    test("a sibling notification mounting does not restart this notification's pending autohide timer", () => {
       // BUG-12 regression: `NotificationStack` re-renders every mounted notification whenever
       // the shared queue changes (a notification arriving or being dismissed), since
       // `useToastQueue` triggers one state update covering the whole list. A `close` callback

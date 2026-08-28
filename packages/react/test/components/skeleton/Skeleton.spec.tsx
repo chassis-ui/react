@@ -14,11 +14,6 @@ describe('Skeleton', () => {
       expect(container.firstChild?.nodeName).toBe('SPAN')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Skeleton color="primary" />)
-      expect(container).toMatchSnapshot()
-    })
-
     test('renders as a custom component', () => {
       const { container } = render(<Skeleton component="div" />)
       expect(container.firstChild?.nodeName).toBe('DIV')

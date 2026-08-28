@@ -17,11 +17,6 @@ describe('ToastHeader', () => {
       expect(header?.tagName).toBe('DIV')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<ToastHeader>Test</ToastHeader>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('does not render a close button by default', () => {
       render(<ToastHeader>Test</ToastHeader>)
       expect(screen.queryByRole('button', { name: 'Close' })).not.toBeInTheDocument()

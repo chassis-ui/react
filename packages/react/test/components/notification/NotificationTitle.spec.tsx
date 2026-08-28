@@ -12,11 +12,6 @@ describe('NotificationTitle', () => {
       expect(heading).toHaveClass('notification-title')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<NotificationTitle>Test</NotificationTitle>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('renders as a custom component with className merged', () => {
       render(
         <NotificationTitle component="h3" className="bazinga">

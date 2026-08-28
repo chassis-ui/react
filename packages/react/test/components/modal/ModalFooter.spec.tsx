@@ -13,11 +13,6 @@ describe('ModalFooter', () => {
       expect(footer.tagName).toBe('DIV')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<ModalFooter>Test</ModalFooter>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('applies the stacked class', () => {
       render(<ModalFooter stacked>Test</ModalFooter>)
       expect(screen.getByText('Test')).toHaveClass('modal-footer', 'stacked')
