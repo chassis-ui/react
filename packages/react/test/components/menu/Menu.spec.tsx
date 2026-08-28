@@ -17,20 +17,7 @@ describe('Menu', () => {
       expect(screen.getByText('Test')).toHaveClass('bazinga')
     })
 
-    test('matches the baseline markup snapshot when open', () => {
-      const { container } = render(
-        <Menu visible>
-          <MenuToggle>Test</MenuToggle>
-          <MenuList>
-            <MenuItem>A</MenuItem>
-            <MenuItem>B</MenuItem>
-          </MenuList>
-        </Menu>
-      )
-      expect(container).toMatchSnapshot()
-    })
-
-    test('exposes the toggle class and aria-haspopup, the item class/role, and the panel placement, when open', () => {
+    test('exposes the toggle class and aria wiring, the item class/role, and the panel placement/aria, when open', () => {
       render(
         <Menu visible>
           <MenuToggle>Test</MenuToggle>
@@ -43,11 +30,18 @@ describe('Menu', () => {
       const toggle = screen.getByRole('button', { name: 'Test' })
       expect(toggle).toHaveClass('button', 'primary', 'caret', 'show')
       expect(toggle).toHaveAttribute('aria-haspopup', 'true')
+      expect(toggle).toHaveAttribute('data-react-aria-pressable', 'true')
+      expect(toggle).toHaveAttribute('tabindex', '0')
+      expect(toggle).toHaveAttribute('type', 'button')
 
       const item = screen.getByRole('menuitem', { name: 'A' })
       expect(item).toHaveClass('menu-item')
 
-      expect(screen.getByRole('menu')).toHaveAttribute('data-cx-placement', 'bottom-start')
+      const menu = screen.getByRole('menu')
+      expect(menu).toHaveAttribute('data-cx-placement', 'bottom-start')
+      expect(menu).toHaveAttribute('aria-hidden', 'false')
+      expect(menu.getAttribute('aria-labelledby')).toBe(toggle.getAttribute('id'))
+      expect(toggle.getAttribute('aria-controls')).toBe(menu.getAttribute('id'))
     })
   })
 

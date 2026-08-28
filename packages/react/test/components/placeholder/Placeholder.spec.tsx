@@ -31,14 +31,15 @@ describe('Placeholder', () => {
     })
 
     test('hides text and title when explicitly disabled', () => {
-      // No role="img" is rendered here (nothing to label), so it can't be reached via getByRole;
-      // asserting on the full markup snapshot covers aria-hidden without direct node access.
       const { container } = render(
         <Placeholder width={100} height={100} text={false} title={false} />
       )
       expect(screen.queryByText('Placeholder', { selector: 'title' })).not.toBeInTheDocument()
       expect(screen.queryByText(/\d+x\d+/, { selector: 'text' })).not.toBeInTheDocument()
-      expect(container).toMatchSnapshot()
+      // No role="img" is rendered here (nothing to label), so it can't be reached via getByRole.
+      // eslint-disable-next-line testing-library/no-node-access
+      const svg = container.firstChild as SVGSVGElement
+      expect(svg).toHaveAttribute('aria-hidden', 'true')
     })
 
     test('supports custom text and title', () => {

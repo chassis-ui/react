@@ -90,24 +90,14 @@ describe('Stepper', () => {
 
       const account = screen.getByRole('link', { name: 'Account' })
       expect(account).toHaveAttribute('href', '#')
+      expect(account).toHaveClass('stepper-item')
+      expect(account).not.toHaveClass('active')
 
       const shipping = screen.getByText('Shipping')
       expect(shipping).toHaveClass('stepper-item', 'context', 'info', 'active')
       expect(shipping).toHaveAttribute('aria-current', 'step')
 
       expect(screen.queryByText('Ignored')).not.toBeInTheDocument()
-    })
-
-    test('matches the baseline markup snapshot for data-driven items', () => {
-      const { container } = render(
-        <Stepper
-          items={[
-            { label: 'Account', href: '#' },
-            { label: 'Shipping', active: true }
-          ]}
-        />
-      )
-      expect(container).toMatchSnapshot()
     })
 
     test('defaults the root to div (not ol) when a step has href, avoiding a bare <a> inside <ol>', () => {

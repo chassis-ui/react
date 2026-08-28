@@ -29,18 +29,31 @@ describe('Popover', () => {
           <Button>Test</Button>
         </Popover>
       )
+      const trigger = screen.getByRole('button', { name: 'Test' })
       openPopover()
       act(() => vi.runAllTimers())
-      expect(document.body).toMatchSnapshot()
+
+      expect(trigger).toHaveAttribute('aria-expanded', 'true')
 
       const popover = screen.getByRole('dialog')
-      expect(popover).toHaveClass('cx-popover-auto')
+      expect(popover).toHaveClass('popover', 'cx-popover-auto', 'fade', 'show')
       expect(popover).toHaveAttribute('data-cx-placement')
-      expect(screen.getByText('title')).toBeInTheDocument()
-      expect(screen.getByText('content')).toBeInTheDocument()
+      expect(popover).toHaveAttribute('tabindex', '-1')
+      expect(trigger.getAttribute('aria-controls')).toBe(popover.getAttribute('id'))
+
+      const header = screen.getByText('title')
+      expect(header).toHaveClass('popover-header')
+      expect(popover.getAttribute('aria-labelledby')).toBe(header.getAttribute('id'))
+
+      const body = screen.getByText('content')
+      expect(body).toHaveClass('popover-body')
+
       // The arrow is a decorative element with no role/name of its own.
       // eslint-disable-next-line testing-library/no-node-access
-      expect(popover.querySelector('.popover-arrow')).toBeInTheDocument()
+      const arrow = popover.querySelector('.popover-arrow')
+      expect(arrow).toBeInTheDocument()
+      expect(arrow).toHaveAttribute('aria-hidden', 'true')
+      expect(arrow).toHaveAttribute('role', 'presentation')
       vi.useRealTimers()
     })
   })

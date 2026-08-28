@@ -21,18 +21,23 @@ describe('Tooltip', () => {
           <Link className="link">Test</Link>
         </Tooltip>
       )
-      hoverOver(screen.getByText('Test'))
+      const trigger = screen.getByText('Test')
+      hoverOver(trigger)
       act(() => vi.runAllTimers())
       act(() => vi.runAllTimers())
-      expect(document.body).toMatchSnapshot()
 
       const tooltip = screen.getByRole('tooltip')
-      expect(tooltip).toHaveClass('cx-tooltip-auto')
+      expect(tooltip).toHaveClass('tooltip', 'cx-tooltip-auto', 'fade', 'show')
       expect(tooltip).toHaveAttribute('data-cx-placement')
-      expect(tooltip.innerHTML).toContain('content')
+      expect(trigger.getAttribute('aria-describedby')).toBe(tooltip.getAttribute('id'))
+      expect(screen.getByText('content')).toHaveClass('tooltip-inner')
+
       // The arrow is a decorative element with no role/name of its own.
       // eslint-disable-next-line testing-library/no-node-access
-      expect(tooltip.querySelector('.tooltip-arrow')).toBeInTheDocument()
+      const arrow = tooltip.querySelector('.tooltip-arrow')
+      expect(arrow).toBeInTheDocument()
+      expect(arrow).toHaveAttribute('aria-hidden', 'true')
+      expect(arrow).toHaveAttribute('role', 'presentation')
       vi.useRealTimers()
     })
   })

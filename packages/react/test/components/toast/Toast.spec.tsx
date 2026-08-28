@@ -14,7 +14,7 @@ describe('Toast', () => {
 
   describe('styling props', () => {
     test('applies color, className and the default status role once shown', async () => {
-      const { container } = render(
+      render(
         <Toast className="bazinga" autohide={false} color="warning" delay={100} visible={true}>
           Test
         </Toast>
@@ -26,7 +26,6 @@ describe('Toast', () => {
         return el
       })
       expect(toast).toHaveClass('bazinga', 'warning', 'context', 'fade', 'toast')
-      expect(container).toMatchSnapshot()
     })
 
     test('applies solid/translucent classes and a custom role', async () => {

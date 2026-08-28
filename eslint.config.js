@@ -145,20 +145,21 @@ export default defineConfig([
     rules: {
       'id-denylist': ['error', 'onValueChange', 'tone']
     }
-  }, // A markup-snapshot removal pass (see packages/react/AGENTS.md's Tests section) deleted the
-  // `test('matches the baseline markup snapshot', ...)` pattern from 105 spec files: every one
-  // turned out to be a blind-diffable duplicate of assertions already made explicitly a few lines
-  // above it, or was made so after a one-line backfill. This rule stops that specific pattern from
-  // creeping back in. Still `warn`, not `error` (unlike the Cx-prefix ban above, which flipped once
-  // its backlog actually hit zero): 11 files still call `toMatchSnapshot()` in a differently-named
-  // test the removal pass deliberately left alone (it targeted only the one named pattern above,
-  // not every snapshot call) — genuine remaining state, not backlog inertia, so flip this to
-  // `error` only once those are individually resolved one way or another.
+  }, // A markup-snapshot removal pass (see packages/react/AGENTS.md's Tests section) deleted every
+  // `toMatchSnapshot()` call from packages/react/test/components/**: first the 105 files carrying
+  // the named `test('matches the baseline markup snapshot', ...)` pattern, then a follow-up pass
+  // over 11 files that still called `toMatchSnapshot()` in a differently-named test the first pass
+  // deliberately left alone. Every single one turned out to be a blind-diffable duplicate of
+  // assertions already made explicitly a few lines away, or was made so after a one-line backfill —
+  // zero needed real visual-regression coverage instead, including the portal/positioning-heavy
+  // families (menu, popover, tooltip), which already have Storybook + Playwright coverage for the
+  // pixel-level concern a DOM snapshot can't validate anyway. `error`, not `warn` (matching the
+  // Cx-prefix ban above once its backlog hit zero) — there's no remaining exception to grandfather.
   {
     files: ['packages/react/test/components/**/*.spec.tsx'],
     rules: {
       'no-restricted-syntax': [
-        'warn',
+        'error',
         {
           selector: 'CallExpression[callee.property.name="toMatchSnapshot"]',
           message:

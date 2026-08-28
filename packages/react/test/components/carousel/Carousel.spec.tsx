@@ -190,6 +190,8 @@ describe('Carousel', () => {
         'href',
         '/static/icons/chassis-icons.svg#chevron-right-outline'
       )
+      expect(screen.getByText('Next slide')).toHaveClass('visually-hidden')
+      expect(screen.getByText('Previous slide')).toHaveClass('visually-hidden')
     })
 
     test('renders one indicator per item, marking the active one', () => {
@@ -199,6 +201,9 @@ describe('Carousel', () => {
       expect(indicators[0]).toHaveClass('active')
       expect(indicators[0]).toHaveAttribute('aria-current', 'true')
       expect(indicators[1]).not.toHaveClass('active')
+      // The <ol> wrapper is a plain list with no role/name of its own.
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(indicators[0].parentElement?.parentElement).toHaveClass('carousel-indicators')
     })
 
     test('applies the WAI-ARIA carousel/slide roles and positional slide labels', () => {
@@ -218,6 +223,7 @@ describe('Carousel', () => {
     test('announces the newly active slide but stays silent on initial mount', async () => {
       render(<ThreeItemCarousel defaultActiveIndex={1} />)
       const liveRegion = screen.getByRole('status')
+      expect(liveRegion).toHaveClass('visually-hidden')
       expect(liveRegion).toHaveTextContent('')
 
       fireEvent.click(screen.getByRole('button', { name: 'Next slide' }))

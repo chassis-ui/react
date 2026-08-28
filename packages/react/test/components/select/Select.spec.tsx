@@ -325,8 +325,8 @@ describe('Select', () => {
       })
     })
 
-    test('matches the adorned markup snapshot', () => {
-      const { container } = render(
+    test('renders both adornStart and adornEnd with the input-adorn class when set together', () => {
+      render(
         <Select
           aria-label="Language"
           options={['js']}
@@ -334,7 +334,8 @@ describe('Select', () => {
           adornEnd={<InputAdorn>Choose one</InputAdorn>}
         />
       )
-      expect(container).toMatchSnapshot()
+      expect(screen.getByText('Lang')).toHaveClass('input-adorn')
+      expect(screen.getByText('Choose one')).toHaveClass('input-adorn')
     })
   })
 

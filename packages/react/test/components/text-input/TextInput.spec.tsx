@@ -89,6 +89,8 @@ describe('TextInput', () => {
         'INPUT',
         'USD'
       ])
+      expect(screen.getByText('$')).toHaveClass('input-adorn')
+      expect(screen.getByText('USD')).toHaveClass('input-adorn')
     })
 
     test('moves size, plainText and the caller className to the wrapper, not the ghost-input', () => {
@@ -142,17 +144,6 @@ describe('TextInput', () => {
       const user = userEvent.setup()
       await user.click(button)
       expect(onClick).toHaveBeenCalledTimes(1)
-    })
-
-    test('matches the adorned markup snapshot', () => {
-      const { container } = render(
-        <TextInput
-          aria-label="Amount"
-          adornStart={<InputAdorn>$</InputAdorn>}
-          adornEnd={<InputAdorn>USD</InputAdorn>}
-        />
-      )
-      expect(container).toMatchSnapshot()
     })
   })
 

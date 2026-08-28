@@ -109,24 +109,6 @@ describe('FloatingInput', () => {
       )
       expect(screen.getByText('Looks good')).toHaveClass('valid-feedback')
     })
-
-    test('matches the wrapped markup snapshot', () => {
-      const { container } = render(
-        <FloatingInput
-          help="We'll never share it."
-          ids={{ help: 'floatingInput-help', input: 'floatingInput' }}
-          label="Email address"
-        >
-          <input
-            aria-describedby="floatingInput-help"
-            className="form-input"
-            id="floatingInput"
-            placeholder="name@example.com"
-          />
-        </FloatingInput>
-      )
-      expect(container).toMatchSnapshot()
-    })
   })
 
   describe('ref forwarding', () => {

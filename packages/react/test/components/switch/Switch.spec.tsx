@@ -26,7 +26,7 @@ describe('Switch', () => {
 
   describe('styling props', () => {
     test('applies color, size, invalid/valid classes together, as a radio-backed switch', () => {
-      const { container } = render(
+      render(
         <Switch
           className="bazinga"
           color="secondary"
@@ -38,7 +38,6 @@ describe('Switch', () => {
           valid={true}
         />
       )
-      expect(container).toMatchSnapshot()
 
       const input = screen.getByRole('switch', { name: 'Some label' })
       expect(input).toHaveAttribute('id', '2')

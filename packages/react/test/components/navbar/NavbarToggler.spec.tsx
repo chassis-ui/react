@@ -17,6 +17,7 @@ describe('NavbarToggler', () => {
     test('renders a default toggler icon with a default accessible name when no children are provided', () => {
       render(<NavbarToggler />)
       expect(screen.getByRole('button', { name: 'Toggle navigation' })).toBeInTheDocument()
+      expect(screen.getByText('Toggle navigation')).toHaveClass('visually-hidden')
     })
 
     test('accepts a custom label for the default icon', () => {

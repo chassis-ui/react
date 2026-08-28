@@ -83,21 +83,13 @@ describe('List', () => {
       expect(dashboard).toHaveClass('list-action', 'active')
       expect(dashboard).toHaveAttribute('aria-current', 'page')
 
+      const profile = screen.getByRole('link', { name: 'Profile' })
+      expect(profile).toHaveClass('list-item', 'list-action')
+      expect(profile).not.toHaveClass('active')
+
       const billing = screen.getByRole('link', { name: 'Billing' })
       expect(billing).toHaveClass('warning')
       expect(billing).toHaveAttribute('aria-disabled', 'true')
-    })
-
-    test('matches the baseline markup snapshot for data-driven items', () => {
-      const { container } = render(
-        <List
-          items={[
-            { label: 'Dashboard', href: '#', active: true },
-            { label: 'Profile', href: '#' }
-          ]}
-        />
-      )
-      expect(container).toMatchSnapshot()
     })
 
     test('defaults the root to div (not ul) when an item has href, avoiding a bare <a> inside <ul>', () => {
