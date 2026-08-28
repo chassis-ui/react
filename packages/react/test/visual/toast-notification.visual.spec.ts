@@ -47,9 +47,12 @@ test.describe('toast/notification visual regression', () => {
       // duration, but react-transition-group's own `entering` → `entered` state change is
       // wall-clock-timer-driven (`setTimeout`), not CSS — so a screenshot taken before that timer
       // fires intermittently catches the mid-transition class instead of the final `show` one.
-      // Waiting for the settled class to actually attach (rather than a blind sleep) made this
-      // flake disappear across repeated local runs.
-      await page.locator('.show').first().waitFor()
+      // `useDismissibleTransition.getTransitionClass` applies `'show showing'` while entering/
+      // exiting and only bare `'show'` once settled (see src/hooks/useDismissibleTransition.ts) —
+      // a plain `.show` selector matches the entering class list too (it's just a substring
+      // token), so it resolves at the *start* of the transition, not the end. `:not(.showing)`
+      // is what actually waits for the settled state.
+      await page.locator('.show:not(.showing)').first().waitFor()
       await expect(page).toHaveScreenshot(`${story.id}.png`, { animations: 'disabled' })
     })
   }
