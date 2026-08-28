@@ -2,6 +2,9 @@
   "name": "@chassis-ui/react",
   "version": "0.1.0",
   "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
   "description": "Chassis UI Components Library for React.js",
   "keywords": [
     "react",

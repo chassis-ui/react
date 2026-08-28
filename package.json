@@ -2,6 +2,9 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
   "scripts": {
     "build": "pnpm site:build",
     "clean": "pnpm react:clean && pnpm site:clean",

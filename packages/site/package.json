@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
   "description": "Chassis React documentation site",
   "homepage": "https://chassis-ui.com/react/",
   "scripts": {
