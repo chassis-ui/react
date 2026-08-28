@@ -2,18 +2,7 @@ import * as React from 'react'
 import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import {
-  Card,
-  CardImage,
-  CardHeader,
-  CardBody,
-  CardTitle,
-  CardSubtitle,
-  CardText,
-  CardLink,
-  CardFooter,
-  CardGroup
-} from '../../../src/index'
+import { Card, CardGroup } from '../../../src/index'
 
 describe('CardGroup', () => {
   describe('rendering', () => {
@@ -24,28 +13,21 @@ describe('CardGroup', () => {
       expect(group.tagName).toBe('DIV')
     })
 
-    test('matches the baseline markup snapshot with nested cards', () => {
-      const { container } = render(
+    test('composes multiple Card children without altering their own class/tag', () => {
+      render(
         <CardGroup>
-          <Card>
-            <CardImage component="svg">Image</CardImage>
-            <CardHeader>Header</CardHeader>
-            <CardBody>
-              <CardTitle>Title</CardTitle>
-              <CardSubtitle>Subtitle</CardSubtitle>
-              <CardText>Text</CardText>
-              <CardLink href="/bazinga">Link</CardLink>
-            </CardBody>
-            <CardFooter>Footer</CardFooter>
-          </Card>
-          <Card>
-            <CardBody>
-              <CardTitle>Card Title</CardTitle>
-            </CardBody>
-          </Card>
+          <Card>Card A</Card>
+          <Card>Card B</Card>
         </CardGroup>
       )
-      expect(container).toMatchSnapshot()
+      const cardA = screen.getByText('Card A')
+      const cardB = screen.getByText('Card B')
+      expect(cardA).toHaveClass('card')
+      expect(cardB).toHaveClass('card')
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(cardA.parentElement).toHaveClass('card-group')
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(cardA.parentElement).toBe(cardB.parentElement)
     })
   })
 

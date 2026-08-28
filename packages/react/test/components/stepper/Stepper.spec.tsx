@@ -13,15 +13,19 @@ describe('Stepper', () => {
       expect(stepper.tagName).toBe('OL')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(
+    test('composes StepperItem children with stepper-item classes and aria-current on the active step', () => {
+      render(
         <Stepper>
           <StepperItem>First</StepperItem>
           <StepperItem active>Current</StepperItem>
           <StepperItem>Last</StepperItem>
         </Stepper>
       )
-      expect(container).toMatchSnapshot()
+      expect(screen.getByText('First')).toHaveClass('stepper-item')
+      expect(screen.getByText('First')).not.toHaveClass('active')
+      const current = screen.getByText('Current')
+      expect(current).toHaveClass('stepper-item', 'active')
+      expect(current).toHaveAttribute('aria-current', 'step')
     })
 
     test('renders as a custom component with layout and icon classes', () => {

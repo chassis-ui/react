@@ -12,11 +12,7 @@ describe('TextInput', () => {
       const input = screen.getByRole('textbox', { name: 'Name' })
       expect(input).toHaveClass('form-input')
       expect(input).toHaveAttribute('type', 'text')
-    })
-
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<TextInput aria-label="Name" />)
-      expect(container).toMatchSnapshot()
+      expect(input).toHaveAttribute('tabindex', '0')
     })
 
     test('applies plainText, size and invalid/valid classes together', () => {

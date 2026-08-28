@@ -13,15 +13,17 @@ describe('List', () => {
       expect(list.tagName).toBe('UL')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(
+    test('renders each child ListItem with the list-item class', () => {
+      render(
         <List>
           <ListItem>A</ListItem>
           <ListItem>B</ListItem>
           <ListItem>C</ListItem>
         </List>
       )
-      expect(container).toMatchSnapshot()
+      expect(screen.getByText('A')).toHaveClass('list-item')
+      expect(screen.getByText('B')).toHaveClass('list-item')
+      expect(screen.getByText('C')).toHaveClass('list-item')
     })
 
     test('renders as a custom component with flush and layout classes', () => {
@@ -78,7 +80,7 @@ describe('List', () => {
       )
 
       const dashboard = screen.getByRole('link', { name: 'Dashboard' })
-      expect(dashboard).toHaveClass('list-action')
+      expect(dashboard).toHaveClass('list-action', 'active')
       expect(dashboard).toHaveAttribute('aria-current', 'page')
 
       const billing = screen.getByRole('link', { name: 'Billing' })
@@ -104,6 +106,7 @@ describe('List', () => {
       )
       const list = screen.getByRole('link', { name: 'Dashboard' }).parentElement
       expect(list?.tagName).toBe('DIV')
+      expect(list).toHaveClass('list')
       // eslint-disable-next-line testing-library/no-node-access
       expect(container.querySelector('ul')).not.toBeInTheDocument()
     })

@@ -6,14 +6,25 @@ import { Radio, RadioGroup } from '../../../src/index'
 
 describe('Radio', () => {
   describe('rendering', () => {
-    test('matches the baseline markup snapshot inside a RadioGroup', () => {
-      const { container } = render(
+    test('wraps each option in a labelled fieldset with the roving tabindex/pressable wiring', () => {
+      render(
         <RadioGroup aria-label="Options" defaultValue="a">
           <Radio value="a" label="Option A" />
           <Radio value="b" label="Option B" />
         </RadioGroup>
       )
-      expect(container).toMatchSnapshot()
+      const fieldset = screen.getByRole('radiogroup', { name: 'Options' })
+      expect(fieldset).toHaveClass('form-field')
+      expect(fieldset).toHaveAttribute('aria-orientation', 'vertical')
+
+      const a = screen.getByRole('radio', { name: 'Option A' })
+      const b = screen.getByRole('radio', { name: 'Option B' })
+      // The label wrapping each option is a plain element with no role/name of its own.
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(a.closest('label')).toHaveClass('form-check')
+      expect(a).toHaveAttribute('data-react-aria-pressable', 'true')
+      expect(a).toHaveAttribute('tabindex', '0')
+      expect(b).toHaveAttribute('tabindex', '-1')
     })
 
     test('throws when rendered outside a RadioGroup', () => {

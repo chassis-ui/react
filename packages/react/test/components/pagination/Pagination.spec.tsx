@@ -13,19 +13,16 @@ describe('Pagination', () => {
           <PaginationItem>A</PaginationItem>
         </Pagination>
       )
-      expect(screen.getByRole('navigation')).toBeInTheDocument()
+      const nav = screen.getByRole('navigation')
+      expect(nav).toBeInTheDocument()
+      expect(nav).toHaveAttribute('aria-label', 'Pagination')
       expect(screen.getByRole('list')).toHaveClass('pagination')
-    })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(
-        <Pagination>
-          <PaginationItem>A</PaginationItem>
-          <PaginationItem>B</PaginationItem>
-          <PaginationItem>C</PaginationItem>
-        </Pagination>
-      )
-      expect(container).toMatchSnapshot()
+      const item = screen.getByRole('button', { name: 'A' })
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(item.closest('li')).toHaveClass('pagination-item')
+      expect(item).toHaveClass('pagination-link')
+      expect(item).toHaveAttribute('type', 'button')
     })
 
     test('applies alignment, size and className to the inner ul', () => {

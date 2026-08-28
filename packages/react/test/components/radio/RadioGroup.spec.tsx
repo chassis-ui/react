@@ -6,16 +6,6 @@ import { Radio, RadioGroup } from '../../../src/index'
 
 describe('RadioGroup', () => {
   describe('rendering', () => {
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(
-        <RadioGroup label="Choose an option" defaultValue="a">
-          <Radio value="a" label="Option A" />
-          <Radio value="b" label="Option B" />
-        </RadioGroup>
-      )
-      expect(container).toMatchSnapshot()
-    })
-
     test('renders a fieldset/legend wired up with the group role and description', () => {
       render(
         <RadioGroup label="Choose an option" description="Pick one." defaultValue="a">
@@ -24,7 +14,11 @@ describe('RadioGroup', () => {
       )
       const group = screen.getByRole('radiogroup', { name: 'Choose an option' })
       expect(group.tagName).toBe('FIELDSET')
-      expect(screen.getByText('Choose an option').tagName).toBe('LEGEND')
+      expect(group).toHaveClass('form-field')
+      expect(group).toHaveAttribute('aria-orientation', 'vertical')
+      const legend = screen.getByText('Choose an option')
+      expect(legend.tagName).toBe('LEGEND')
+      expect(legend).toHaveClass('form-label')
       expect(group).toHaveAccessibleDescription('Pick one.')
     })
   })

@@ -14,11 +14,7 @@ describe('PaginationItem', () => {
       expect(item.tagName).toBe('LI')
       const button = screen.getByRole('button', { name: 'Test' })
       expect(button).toHaveClass('pagination-link')
-    })
-
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<PaginationItem>Test</PaginationItem>)
-      expect(container).toMatchSnapshot()
+      expect(button).toHaveAttribute('type', 'button')
     })
 
     test('renders an anchor when href is provided', () => {

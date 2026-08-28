@@ -13,8 +13,8 @@ describe('ButtonToolbar', () => {
       expect(toolbar.tagName).toBe('DIV')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(
+    test('forwards role and aria-label to the toolbar and nested groups, and renders nested buttons', () => {
+      render(
         <ButtonToolbar role="group" aria-label="Bazinga">
           <ButtonGroup role="group">
             <Button>1</Button>
@@ -26,7 +26,13 @@ describe('ButtonToolbar', () => {
           </ButtonGroup>
         </ButtonToolbar>
       )
-      expect(container).toMatchSnapshot()
+      const toolbar = screen.getByRole('group', { name: 'Bazinga' })
+      expect(toolbar).toHaveClass('button-toolbar')
+      expect(screen.getAllByRole('group')).toHaveLength(3)
+
+      const button = screen.getByRole('button', { name: '1' })
+      expect(button).toHaveClass('button', 'primary')
+      expect(button).toHaveAttribute('type', 'button')
     })
 
     test('applies className', () => {

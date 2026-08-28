@@ -6,11 +6,6 @@ import { Switch } from '../../../src/index'
 
 describe('Switch', () => {
   describe('rendering', () => {
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Switch aria-label="Notifications" />)
-      expect(container).toMatchSnapshot()
-    })
-
     test('renders role="switch" for the checkbox-backed default type', () => {
       render(<Switch aria-label="Notifications" />)
       expect(screen.getByRole('switch')).toBeInTheDocument()
@@ -23,6 +18,9 @@ describe('Switch', () => {
       expect(input.parentElement).toHaveClass('check-input')
       // eslint-disable-next-line testing-library/no-node-access
       expect(input.closest('label')).toBeNull()
+      expect(input).toHaveAttribute('type', 'checkbox')
+      expect(input).toHaveAttribute('data-react-aria-pressable', 'true')
+      expect(input).toHaveAttribute('tabindex', '0')
     })
   })
 

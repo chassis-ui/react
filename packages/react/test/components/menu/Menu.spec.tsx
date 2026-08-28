@@ -8,11 +8,6 @@ import { actUserEvent } from '../../actUserEvent'
 
 describe('Menu', () => {
   describe('rendering', () => {
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Menu>Test</Menu>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('renders as a custom component with className merged', () => {
       render(
         <Menu className="bazinga" component="h3" placement="right-end" visible={true}>
@@ -33,6 +28,26 @@ describe('Menu', () => {
         </Menu>
       )
       expect(container).toMatchSnapshot()
+    })
+
+    test('exposes the toggle class and aria-haspopup, the item class/role, and the panel placement, when open', () => {
+      render(
+        <Menu visible>
+          <MenuToggle>Test</MenuToggle>
+          <MenuList>
+            <MenuItem>A</MenuItem>
+            <MenuItem>B</MenuItem>
+          </MenuList>
+        </Menu>
+      )
+      const toggle = screen.getByRole('button', { name: 'Test' })
+      expect(toggle).toHaveClass('button', 'primary', 'caret', 'show')
+      expect(toggle).toHaveAttribute('aria-haspopup', 'true')
+
+      const item = screen.getByRole('menuitem', { name: 'A' })
+      expect(item).toHaveClass('menu-item')
+
+      expect(screen.getByRole('menu')).toHaveAttribute('data-cx-placement', 'bottom-start')
     })
   })
 

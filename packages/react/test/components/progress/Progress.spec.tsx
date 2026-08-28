@@ -11,14 +11,12 @@ describe('Progress', () => {
       const progress = screen.getByRole('progressbar')
       expect(progress).toHaveClass('progress')
       expect(progress.tagName).toBe('DIV')
-      expect(within(progress).getByText('', { selector: '.progress-bar' })).toHaveStyle(
-        'width: 50%'
-      )
-    })
-
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Progress aria-label="Test" color="warning" value={50} />)
-      expect(container).toMatchSnapshot()
+      expect(progress).toHaveAttribute('aria-valuemin', '0')
+      expect(progress).toHaveAttribute('aria-valuemax', '100')
+      const bar = within(progress).getByText('', { selector: '.progress-bar' })
+      expect(bar).toHaveStyle('width: 50%')
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(bar.querySelector('.mx-2xsmall')).toBeInTheDocument()
     })
 
     test('applies the height as the --cx-height custom property', () => {
@@ -38,7 +36,7 @@ describe('Progress', () => {
       const bar = within(screen.getByRole('progressbar')).getByText('', {
         selector: '.progress-bar'
       })
-      expect(bar).toHaveClass('bg-success', 'striped', 'animated')
+      expect(bar).toHaveClass('bg-success', 'fg-contrast', 'striped', 'animated')
     })
 
     test('forwards custom HTML attributes to the wrapper element that ref points to', () => {

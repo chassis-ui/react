@@ -13,15 +13,17 @@ describe('ButtonGroup', () => {
       expect(group.tagName).toBe('DIV')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(
+    test('renders nested Buttons with their default class and type', () => {
+      render(
         <ButtonGroup>
           <Button>A</Button>
           <Button>B</Button>
           <Button>C</Button>
         </ButtonGroup>
       )
-      expect(container).toMatchSnapshot()
+      const button = screen.getByRole('button', { name: 'A' })
+      expect(button).toHaveClass('button', 'primary')
+      expect(button).toHaveAttribute('type', 'button')
     })
 
     test('applies size and vertical classes with className', () => {

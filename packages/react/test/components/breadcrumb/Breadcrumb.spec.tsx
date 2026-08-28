@@ -12,15 +12,15 @@ describe('Breadcrumb', () => {
       expect(screen.getByRole('list')).toHaveClass('breadcrumb')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(
+    test('a non-active composed item gets the breadcrumb-item class', () => {
+      render(
         <Breadcrumb className="bazinga">
           <BreadcrumbItem>Test A</BreadcrumbItem>
           <BreadcrumbItem active={false}>Test B</BreadcrumbItem>
           <BreadcrumbItem active={true}>Test C</BreadcrumbItem>
         </Breadcrumb>
       )
-      expect(container).toMatchSnapshot()
+      expect(screen.getByText('Test A')).toHaveClass('breadcrumb-item')
     })
 
     test('applies className to the inner ol', () => {

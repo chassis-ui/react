@@ -15,14 +15,12 @@ describe('ModalHeader', () => {
       expect(header.tagName).toBe('DIV')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<ModalHeader>Test</ModalHeader>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('renders a close button by default', () => {
       render(<ModalHeader>Test</ModalHeader>)
-      expect(screen.getByRole('button', { name: 'Close' })).toBeInTheDocument()
+      const closeButton = screen.getByRole('button', { name: 'Close' })
+      expect(closeButton).toBeInTheDocument()
+      expect(closeButton).toHaveClass('close-button')
+      expect(closeButton).toHaveAttribute('type', 'button')
     })
 
     test('can hide the close button', () => {

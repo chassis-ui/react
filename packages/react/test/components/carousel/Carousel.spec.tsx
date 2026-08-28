@@ -173,11 +173,23 @@ describe('Carousel', () => {
       render(<ThreeItemCarousel />)
       const next = screen.getByRole('button', { name: 'Next slide' })
       const prev = screen.getByRole('button', { name: 'Previous slide' })
+      expect(next).toHaveClass('button', 'small', 'icon-only')
+      expect(next).toHaveAttribute('type', 'button')
       // The icon is aria-hidden and decorative - no accessible query reaches it.
       // eslint-disable-next-line testing-library/no-node-access
-      expect(next.firstChild).toHaveClass('directional-icon')
+      const nextIcon = next.firstChild as HTMLElement
       // eslint-disable-next-line testing-library/no-node-access
-      expect(prev.firstChild).toHaveClass('directional-icon')
+      const prevIcon = prev.firstChild as HTMLElement
+      expect(nextIcon).toHaveClass('icon', 'directional-icon')
+      expect(prevIcon).toHaveClass('directional-icon')
+      expect(nextIcon).toHaveAttribute('aria-hidden', 'true')
+      expect(nextIcon).toHaveAttribute('height', '24')
+      expect(nextIcon).toHaveAttribute('width', '24')
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(nextIcon.querySelector('use')).toHaveAttribute(
+        'href',
+        '/static/icons/chassis-icons.svg#chevron-right-outline'
+      )
     })
 
     test('renders one indicator per item, marking the active one', () => {
@@ -187,11 +199,6 @@ describe('Carousel', () => {
       expect(indicators[0]).toHaveClass('active')
       expect(indicators[0]).toHaveAttribute('aria-current', 'true')
       expect(indicators[1]).not.toHaveClass('active')
-    })
-
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<ThreeItemCarousel />)
-      expect(container).toMatchSnapshot()
     })
 
     test('applies the WAI-ARIA carousel/slide roles and positional slide labels', () => {

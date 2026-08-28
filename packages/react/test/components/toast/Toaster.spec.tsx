@@ -10,11 +10,6 @@ afterEach(() => {
 
 describe('Toaster', () => {
   describe('rendering', () => {
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Toaster>Test</Toaster>)
-      expect(container).toMatchSnapshot()
-    })
-
     test('renders nothing when the queue is empty and there are no children', () => {
       const { container } = render(<Toaster />)
       expect(container).toBeEmptyDOMElement()
@@ -42,8 +37,11 @@ describe('Toaster', () => {
     test('renders as a static (non-portaled) container without a placement', () => {
       render(<Toaster>Test</Toaster>)
       const region = screen.getByRole('region')
-      expect(region).toHaveClass('position-static')
+      expect(region).toHaveClass('position-static', 'p-medium')
       expect(region).not.toHaveClass('position-fixed')
+      expect(region).toHaveAttribute('aria-label', '0 notifications.')
+      expect(region).toHaveAttribute('data-react-aria-top-layer', 'true')
+      expect(region).toHaveAttribute('tabindex', '-1')
     })
 
     test('a custom placement string only applies position-fixed, no alignment classes', () => {

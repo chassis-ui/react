@@ -33,7 +33,7 @@ describe('MenuSubmenu', () => {
   })
 
   describe('rendering', () => {
-    test('matches the baseline markup snapshot and renders the submenu wrapper', () => {
+    test('renders the submenu wrapper and a menuitem trigger with aria-haspopup, collapsed by default', () => {
       const { container } = render(
         <Menu visible>
           <MenuList>
@@ -44,10 +44,15 @@ describe('MenuSubmenu', () => {
           </MenuList>
         </Menu>
       )
-      expect(container).toMatchSnapshot()
       // The outer .submenu wrapper is a plain div with no role/name of its own.
       // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
       expect(container.querySelector('.submenu')).not.toBeNull()
+
+      const trigger = screen.getByText('File')
+      expect(trigger).toHaveClass('menu-item')
+      expect(trigger).toHaveAttribute('role', 'menuitem')
+      expect(trigger).toHaveAttribute('aria-haspopup', 'true')
+      expect(trigger).toHaveAttribute('aria-expanded', 'false')
     })
   })
 

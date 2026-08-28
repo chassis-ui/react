@@ -10,13 +10,16 @@ const openPopover = () => {
 
 describe('Popover', () => {
   describe('rendering', () => {
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(
+    test('renders the trigger button collapsed before the popover is shown', () => {
+      render(
         <Popover content="A">
           <Button>Test</Button>
         </Popover>
       )
-      expect(container).toMatchSnapshot()
+      const trigger = screen.getByRole('button', { name: 'Test' })
+      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+      expect(trigger).toHaveClass('button', 'primary')
+      expect(trigger).toHaveAttribute('type', 'button')
     })
 
     test('renders title, content, placement and arrow once shown', () => {

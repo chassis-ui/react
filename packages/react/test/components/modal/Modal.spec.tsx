@@ -22,23 +22,23 @@ const getDialog = () =>
 describe('Modal', () => {
   describe('rendering', () => {
     test('renders a closed dialog with the base classes', () => {
-      const { container } = render(<Modal>Test</Modal>)
-      expect(container).toMatchSnapshot()
+      render(<Modal>Test</Modal>)
       const dialog = getDialog()
       expect(dialog).toHaveClass('modal', 'dialog')
       expect(dialog).not.toHaveAttribute('open')
     })
 
     test('applies size, fullscreen and scrollable classes with className', () => {
-      const { container } = render(
+      render(
         <Modal className="bazinga" fullscreen="xlarge" scrollable size="xlarge" visible>
           Test
         </Modal>
       )
-      expect(container).toMatchSnapshot()
       const dialog = getDialog()
       expect(dialog).toHaveClass('bazinga', 'xlarge', 'scrollable', 'max-xlarge:fullscreen')
       expect(dialog).not.toHaveClass('modal-xlarge', 'modal-dialog-scrollable', 'modal-fullscreen')
+      expect(dialog).toHaveAttribute('tabindex', '-1')
+      expect(dialog).toHaveAttribute('open', '')
     })
   })
 

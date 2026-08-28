@@ -11,11 +11,7 @@ describe('MenuHeader', () => {
       const header = screen.getByText('Test')
       expect(header).toHaveClass('menu-header')
       expect(header.tagName).toBe('H4')
-    })
-
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<MenuHeader>Test</MenuHeader>)
-      expect(container).toMatchSnapshot()
+      expect(header).toHaveAttribute('role', 'presentation')
     })
 
     test('renders as a custom component with className merged', () => {

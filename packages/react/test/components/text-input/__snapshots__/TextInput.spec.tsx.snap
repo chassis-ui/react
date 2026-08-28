@@ -13,7 +13,7 @@ exports[`TextInput > adorns > matches the adorned markup snapshot 1`] = `
     <input
       aria-label="Amount"
       class="ghost-input"
-      id="_r_1s_"
+      id="_r_1m_"
       tabindex="0"
       type="text"
       value=""
@@ -24,18 +24,5 @@ exports[`TextInput > adorns > matches the adorned markup snapshot 1`] = `
       USD
     </span>
   </div>
-</div>
-`;
-
-exports[`TextInput > rendering > matches the baseline markup snapshot 1`] = `
-<div>
-  <input
-    aria-label="Name"
-    class="form-input"
-    id="_r_6_"
-    tabindex="0"
-    type="text"
-    value=""
-  />
 </div>
 `;

@@ -16,14 +16,17 @@ describe('Select', () => {
       expect(screen.getByRole('combobox', { name: 'Language' })).toHaveClass('form-input')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(
-        <Select>
+    test('renders raw option children, including value and text-only options', () => {
+      render(
+        <Select aria-label="Language">
           <option value="A">B</option>
           <option>C</option>
         </Select>
       )
-      expect(container).toMatchSnapshot()
+      const select = screen.getByRole('combobox', { name: 'Language' }) as HTMLSelectElement
+      expect(screen.getByRole('option', { name: 'B' })).toHaveValue('A')
+      expect(screen.getByRole('option', { name: 'C' })).toHaveValue('C')
+      expect(Array.from(select.options).map((option) => option.value)).toEqual(['A', 'C'])
     })
 
     test('applies a bare size class and className together', () => {

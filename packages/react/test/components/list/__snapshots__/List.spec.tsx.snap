@@ -21,27 +21,3 @@ exports[`List > data-driven items > matches the baseline markup snapshot for dat
   </div>
 </div>
 `;
-
-exports[`List > rendering > matches the baseline markup snapshot 1`] = `
-<div>
-  <ul
-    class="list"
-  >
-    <li
-      class="list-item"
-    >
-      A
-    </li>
-    <li
-      class="list-item"
-    >
-      B
-    </li>
-    <li
-      class="list-item"
-    >
-      C
-    </li>
-  </ul>
-</div>
-`;

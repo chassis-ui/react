@@ -13,9 +13,12 @@ describe('ColorInput', () => {
       expect(input).toHaveAttribute('type', 'color')
     })
 
-    test('matches the baseline markup snapshot', () => {
+    test('defaultValue seeds the initial value attribute', () => {
       const { container } = render(<ColorInput defaultValue="#ff0000" />)
-      expect(container).toMatchSnapshot()
+      // No accessible name is set on this render - same unlabeled-input case as the snapshot it
+      // replaces, so the only way to reach the input is via the container.
+      // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+      expect(container.querySelector('input')).toHaveAttribute('value', '#ff0000')
     })
 
     test('applies size, invalid/valid classes and disabled attribute', () => {

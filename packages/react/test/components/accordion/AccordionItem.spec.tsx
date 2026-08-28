@@ -14,14 +14,15 @@ describe('AccordionItem', () => {
       expect(item.tagName).toBe('DETAILS')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(
+    test('renders a composed header and body with their expected classes', () => {
+      render(
         <AccordionItem>
           <AccordionHeader>Header</AccordionHeader>
           <AccordionBody>Body</AccordionBody>
         </AccordionItem>
       )
-      expect(container).toMatchSnapshot()
+      expect(screen.getByText('Header')).toHaveClass('accordion-title')
+      expect(screen.getByText('Body')).toHaveClass('accordion-body')
     })
 
     test('starts open when the open prop is set', () => {

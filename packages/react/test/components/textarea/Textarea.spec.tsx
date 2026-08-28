@@ -12,11 +12,7 @@ describe('Textarea', () => {
       const textarea = screen.getByRole('textbox', { name: 'Bio' })
       expect(textarea).toHaveClass('form-input')
       expect(textarea).toHaveValue('Some value')
-    })
-
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Textarea aria-label="Bio" defaultValue="Some value" />)
-      expect(container).toMatchSnapshot()
+      expect(textarea).toHaveAttribute('tabindex', '0')
     })
 
     test('forwards the rows attribute to the underlying textarea', () => {

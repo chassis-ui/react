@@ -22,15 +22,15 @@ const getDialog = () =>
 describe('Drawer', () => {
   describe('rendering', () => {
     test('renders a closed dialog with placement classes', () => {
-      const { container } = render(<Drawer placement="start">Test</Drawer>)
-      expect(container).toMatchSnapshot()
+      render(<Drawer placement="start">Test</Drawer>)
       const dialog = getDialog()
       expect(dialog).toHaveClass('drawer', 'drawer-start')
       expect(dialog).not.toHaveAttribute('open')
+      expect(dialog).toHaveAttribute('aria-labelledby')
     })
 
     test('applies fullscreen, sheet, translucent and responsive classes with className', () => {
-      const { container } = render(
+      render(
         <Drawer
           className="bazinga"
           fitContent
@@ -44,7 +44,6 @@ describe('Drawer', () => {
           Test
         </Drawer>
       )
-      expect(container).toMatchSnapshot()
       const dialog = getDialog()
       expect(dialog).toHaveClass(
         'bazinga',
@@ -56,6 +55,8 @@ describe('Drawer', () => {
         'drawer-fit-content'
       )
       expect(dialog).not.toHaveClass('drawer')
+      expect(dialog).toHaveAttribute('tabindex', '-1')
+      expect(dialog).toHaveAttribute('aria-labelledby')
     })
   })
 

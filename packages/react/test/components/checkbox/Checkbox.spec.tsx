@@ -6,9 +6,14 @@ import { Checkbox, CheckboxGroup } from '../../../src/index'
 
 describe('Checkbox', () => {
   describe('rendering', () => {
-    test('matches the baseline markup snapshot', () => {
+    test('renders a bare check-input span with no label prop', () => {
       const { container } = render(<Checkbox aria-label="Accept terms" />)
-      expect(container).toMatchSnapshot()
+      // The bare wrapper span has no role/name of its own - no accessible query reaches it.
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(container.firstChild).toHaveClass('check-input')
+      const input = screen.getByRole('checkbox')
+      expect(input).toHaveAttribute('data-react-aria-pressable', 'true')
+      expect(input).toHaveAttribute('tabindex', '0')
     })
   })
 

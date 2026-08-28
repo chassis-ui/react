@@ -14,6 +14,10 @@ describe('Placeholder', () => {
       expect(svg).not.toHaveClass('context')
       expect(screen.getByText('Placeholder', { selector: 'title' })).toBeInTheDocument()
       expect(screen.getByText('200x100', { selector: 'text' })).toBeInTheDocument()
+      expect(svg).toHaveAttribute('aria-label', 'Placeholder: 200x100')
+      expect(svg).toHaveAttribute('width', '200')
+      expect(svg).toHaveAttribute('height', '100')
+      expect(svg).toHaveAttribute('preserveAspectRatio', 'xMidYMid slice')
     })
 
     test('applies the color prop as bg/fg classes', () => {
@@ -43,11 +47,6 @@ describe('Placeholder', () => {
       expect(screen.getByText('Cover', { selector: 'title' })).toBeInTheDocument()
       expect(screen.getByText('No image yet', { selector: 'text' })).toBeInTheDocument()
       expect(svg).toHaveAttribute('aria-label', 'Cover: No image yet')
-    })
-
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<Placeholder width={200} height={100} />)
-      expect(container).toMatchSnapshot()
     })
   })
 

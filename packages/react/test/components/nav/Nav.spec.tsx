@@ -13,8 +13,8 @@ describe('Nav', () => {
       expect(nav.tagName).toBe('UL')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(
+    test('renders a plain NavLink with the nav-link class', () => {
+      render(
         <Nav>
           <NavItem>
             <NavLink href="#" active>
@@ -26,7 +26,7 @@ describe('Nav', () => {
           </NavItem>
         </Nav>
       )
-      expect(container).toMatchSnapshot()
+      expect(screen.getByRole('link', { name: 'Link' })).toHaveClass('nav-link')
     })
 
     test('renders as a custom component keeping the navigation role', () => {

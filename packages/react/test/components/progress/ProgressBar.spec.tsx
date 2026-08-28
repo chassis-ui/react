@@ -14,12 +14,10 @@ describe('ProgressBar', () => {
 
     test('applies the bg-{color} class', () => {
       render(<ProgressBar color="warning" value={50} data-testid="bar" />)
-      expect(screen.getByTestId('bar')).toHaveClass('bg-warning')
-    })
-
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<ProgressBar color="warning" value={50} />)
-      expect(container).toMatchSnapshot()
+      const bar = screen.getByTestId('bar')
+      expect(bar).toHaveClass('bg-warning', 'fg-contrast')
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(bar.querySelector('.mx-2xsmall')).toBeInTheDocument()
     })
 
     test('applies striped and animated classes with className', () => {

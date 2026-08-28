@@ -21,26 +21,16 @@ describe('FormField', () => {
     })
 
     test('renders the .form-field wrapper and a label associated via htmlFor', () => {
-      render(
+      const { container } = render(
         <FormField label="Name" ids={{ input: 'name' }}>
           <input id="name" />
         </FormField>
       )
+      // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+      expect(container.querySelector('.form-field')).not.toBeNull()
       expect(screen.getByRole('textbox', { name: 'Name' })).toHaveAttribute('id', 'name')
       expect(screen.getByText('Name').tagName).toBe('LABEL')
-    })
-
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(
-        <FormField
-          label="Email"
-          help="We'll never share it."
-          ids={{ input: 'email', help: 'email-help' }}
-        >
-          <input id="email" aria-describedby="email-help" />
-        </FormField>
-      )
-      expect(container).toMatchSnapshot()
+      expect(screen.getByText('Name')).toHaveClass('form-label')
     })
 
     test('renders help text', () => {
@@ -50,6 +40,21 @@ describe('FormField', () => {
         </FormField>
       )
       expect(screen.getByText('Some help text')).toHaveClass('form-help')
+    })
+
+    test("the rendered help text's id matches the caller-supplied aria-describedby", () => {
+      render(
+        <FormField
+          label="Email"
+          help="We'll never share it."
+          ids={{ input: 'email', help: 'email-help' }}
+        >
+          <input id="email" aria-describedby="email-help" />
+        </FormField>
+      )
+      const input = screen.getByRole('textbox', { name: 'Email' })
+      const help = screen.getByText("We'll never share it.")
+      expect(input.getAttribute('aria-describedby')).toContain(help.id)
     })
 
     test('renders invalid feedback only when invalid and invalidFeedback are both set', () => {

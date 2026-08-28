@@ -24,10 +24,22 @@ describe('NavbarToggler', () => {
       expect(screen.getByRole('button', { name: 'Open menu' })).toBeInTheDocument()
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<NavbarToggler />)
-      expect(container).toMatchSnapshot()
+    // Decorative by default (aria-hidden), so there's no accessible query — needs raw node access.
+    /* eslint-disable testing-library/no-node-access */
+    test('renders the default toggler icon as a decorative svg', () => {
+      render(<NavbarToggler />)
+      const button = screen.getByRole('button', { name: 'Toggle navigation' })
+      const svg = button.querySelector('svg') as SVGSVGElement
+      expect(svg).toHaveClass('icon', 'navbar-toggler-icon')
+      expect(svg).toHaveAttribute('aria-hidden', 'true')
+      expect(svg).toHaveAttribute('height', '24')
+      expect(svg).toHaveAttribute('width', '24')
+      expect(svg.querySelector('use')).toHaveAttribute(
+        'href',
+        '/static/icons/chassis-icons.svg#bars-outline'
+      )
     })
+    /* eslint-enable testing-library/no-node-access */
 
     test('applies a custom className', () => {
       render(<NavbarToggler className="bazinga" />)

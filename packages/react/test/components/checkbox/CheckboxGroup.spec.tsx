@@ -6,16 +6,6 @@ import { Checkbox, CheckboxGroup } from '../../../src/index'
 
 describe('CheckboxGroup', () => {
   describe('rendering', () => {
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(
-        <CheckboxGroup label="Notifications" defaultValue={['email']}>
-          <Checkbox value="email" label="Email" />
-          <Checkbox value="sms" label="SMS" />
-        </CheckboxGroup>
-      )
-      expect(container).toMatchSnapshot()
-    })
-
     test('renders a fieldset/legend wired up with the group role and description', () => {
       render(
         <CheckboxGroup
@@ -28,8 +18,27 @@ describe('CheckboxGroup', () => {
       )
       const group = screen.getByRole('group', { name: 'Notifications' })
       expect(group.tagName).toBe('FIELDSET')
+      expect(group).toHaveClass('form-field')
       expect(screen.getByText('Notifications').tagName).toBe('LEGEND')
+      expect(screen.getByText('Notifications')).toHaveClass('form-label')
       expect(group).toHaveAccessibleDescription('Choose as many as you like.')
+    })
+
+    test('renders each item wrapped in a form-check', () => {
+      render(
+        <CheckboxGroup label="Notifications" defaultValue={['email']}>
+          <Checkbox value="email" label="Email" />
+          <Checkbox value="sms" label="SMS" />
+        </CheckboxGroup>
+      )
+      // The .form-check wrapper is a plain label with no role/name of its own - no accessible
+      // query reaches it directly.
+      // eslint-disable-next-line testing-library/no-node-access
+      const emailWrapper = screen.getByRole('checkbox', { name: 'Email' }).closest('label')
+      // eslint-disable-next-line testing-library/no-node-access
+      const smsWrapper = screen.getByRole('checkbox', { name: 'SMS' }).closest('label')
+      expect(emailWrapper).toHaveClass('form-check')
+      expect(smsWrapper).toHaveClass('form-check')
     })
   })
 

@@ -39,6 +39,7 @@ describe('FloatingInput', () => {
         'id',
         'floatingInput'
       )
+      expect(screen.getByText('Email address')).toHaveClass('form-label')
     })
 
     test('wraps in .form-field when help is set', () => {
@@ -56,10 +57,14 @@ describe('FloatingInput', () => {
           />
         </FloatingInput>
       )
-      expect(screen.getByText("We'll never share it.")).toHaveClass('form-help')
+      const help = screen.getByText("We'll never share it.")
+      expect(help).toHaveClass('form-help')
       const floating = screen.getByText('Email address').parentElement
       expect(floating).toHaveClass('form-floating')
       expect(floating?.parentElement).toHaveClass('form-field')
+
+      const input = screen.getByRole('textbox', { name: 'Email address' })
+      expect(input.getAttribute('aria-describedby')).toContain(help.id)
     })
 
     test('wraps in .form-field when invalid feedback is shown', () => {
@@ -103,15 +108,6 @@ describe('FloatingInput', () => {
         </FloatingInput>
       )
       expect(screen.getByText('Looks good')).toHaveClass('valid-feedback')
-    })
-
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(
-        <FloatingInput label="Email address" ids={{ input: 'floatingInput' }}>
-          <input className="form-input" id="floatingInput" placeholder="name@example.com" />
-        </FloatingInput>
-      )
-      expect(container).toMatchSnapshot()
     })
 
     test('matches the wrapped markup snapshot', () => {

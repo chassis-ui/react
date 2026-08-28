@@ -20,28 +20,3 @@ exports[`Stepper > data-driven items > matches the baseline markup snapshot for 
   </div>
 </div>
 `;
-
-exports[`Stepper > rendering > matches the baseline markup snapshot 1`] = `
-<div>
-  <ol
-    class="stepper"
-  >
-    <li
-      class="stepper-item"
-    >
-      First
-    </li>
-    <li
-      aria-current="step"
-      class="stepper-item active"
-    >
-      Current
-    </li>
-    <li
-      class="stepper-item"
-    >
-      Last
-    </li>
-  </ol>
-</div>
-`;

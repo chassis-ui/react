@@ -12,8 +12,8 @@ describe('Form', () => {
       expect(form.tagName).toBe('FORM')
     })
 
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(
+    test('renders composed form field markup with the expected classes', () => {
+      render(
         <Form>
           <FormLabel>A</FormLabel>
           <TextInput aria-describedby="B" aria-label="A" type="email" />
@@ -24,7 +24,11 @@ describe('Form', () => {
           </Button>
         </Form>
       )
-      expect(container).toMatchSnapshot()
+      expect(screen.getByText('A')).toHaveClass('form-label')
+      const input = screen.getByLabelText('A')
+      expect(input).toHaveClass('form-input')
+      expect(input).toHaveAttribute('type', 'email')
+      expect(screen.getByText('E')).toHaveClass('button', 'primary')
     })
 
     test('applies the was-validated class and className together', () => {

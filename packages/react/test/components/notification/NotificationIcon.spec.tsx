@@ -14,15 +14,12 @@ describe('NotificationIcon', () => {
       expect(svg).toHaveClass('icon', 'notification-icon')
       expect(svg.nodeName).toBe('svg')
       expect(svg).toHaveAttribute('aria-hidden', 'true')
+      expect(svg).toHaveAttribute('height', '24')
+      expect(svg).toHaveAttribute('width', '24')
       expect(svg.querySelector('use')).toHaveAttribute(
         'href',
         '/static/icons/chassis-icons.svg#info-circle-solid'
       )
-    })
-
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<NotificationIcon name="info-circle-solid" />)
-      expect(container).toMatchSnapshot()
     })
 
     test('applies the caller className alongside the base classes', () => {

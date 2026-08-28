@@ -16,9 +16,12 @@ afterEach(() => {
 
 describe('NotificationStack', () => {
   describe('rendering', () => {
-    test('matches the baseline markup snapshot', () => {
-      const { container } = render(<NotificationStack>Test</NotificationStack>)
-      expect(container).toMatchSnapshot()
+    test('renders the region wrapper with its aria-label, top-layer marker, and tabindex', () => {
+      render(<NotificationStack>Test</NotificationStack>)
+      const region = screen.getByRole('region')
+      expect(region).toHaveAttribute('aria-label', '0 notifications.')
+      expect(region).toHaveAttribute('data-react-aria-top-layer', 'true')
+      expect(region).toHaveAttribute('tabindex', '-1')
     })
 
     test('renders nothing when the queue is empty and there are no children', () => {
