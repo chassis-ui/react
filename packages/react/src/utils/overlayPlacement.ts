@@ -52,6 +52,32 @@ export const resolveDataPlacement = (
   return cross ? `${resolvedMain}-${cross}` : resolvedMain
 }
 
+// Shared between `Menu`/`MenuSubmenu` and `Combobox`/`Autocomplete`, whose floating panels all
+// position via `useOverlayPosition` the same way: only `position`/`top`/`left` are taken from the
+// hook's computed style (`zIndex`/`maxHeight` stay owned by chassis-css's own `--zindex`/
+// `--max-height` tokens, see `_menu.scss`), and `data-cx-placement` needs the resolved main axis
+// reattached to the originally-requested cross-axis alignment. Lives here (rather than
+// `components/menu/`) for the same reason `renderMenuItemContent` does — `Combobox.tsx`/
+// `Autocomplete.tsx` need it too, and importing across that folder boundary from three call sites
+// is worse than housing it where none of the four has to reach into a sibling's folder.
+export interface MenuOverlayPositioning {
+  menuStyle: CSSProperties
+  placementAttr: string
+}
+
+export const resolveMenuOverlayPositioning = (
+  overlayStyle: CSSProperties | undefined,
+  requestedPlacement: Placement,
+  resolvedPlacement: PlacementAxis | null
+): MenuOverlayPositioning => ({
+  menuStyle: {
+    position: overlayStyle?.position,
+    top: overlayStyle?.top,
+    left: overlayStyle?.left
+  },
+  placementAttr: resolveDataPlacement(requestedPlacement, resolvedPlacement)
+})
+
 // chassis-css's `.combobox + .menu` sibling-selector rule (`_combobox.scss`) sets
 // `--menu-max-height`/`--menu-overflow-y` from `$combobox-menu-max-height`/
 // `$combobox-menu-overflow-y` (320px/auto by default) — but only while the panel is an adjacent

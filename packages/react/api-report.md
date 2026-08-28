@@ -271,7 +271,9 @@ interface AutocompleteProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaul
    * Array of item/header/divider definitions for data-driven rendering. When provided, children
    * are ignored. A `'header'` entry starts a group that all following items join until the next
    * header or the end of the array. `'divider'` entries are a no-op here — use
-   * `AutocompleteGroup` composition instead if you need finer control over grouping.
+   * `AutocompleteGroup` composition instead if you need finer control over grouping. An entry's
+   * `href`/`onClick` are `Menu`-only and are not read here — use `onChange` to react to the
+   * selection instead.
    */
   items?: MenuItemsDef;
   /**
@@ -2016,7 +2018,8 @@ interface ComboboxProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultVal
    * are ignored. A `'header'` entry starts a group that all following items join until the next
    * header or the end of the array. `'divider'` entries are a no-op here (dividers aren't
    * meaningful for a listbox/option collection) — use `ComboboxGroup` composition instead if
-   * you need finer control over grouping.
+   * you need finer control over grouping. An entry's `href`/`onClick` are `Menu`-only and are not
+   * read here — use `onChange` to react to the selection instead.
    */
   items?: MenuItemsDef;
   /**

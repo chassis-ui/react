@@ -197,7 +197,7 @@
     },
     "items": {
       "defaultValue": null,
-      "description": "Array of item/header/divider definitions for data-driven rendering. When provided, children\nare ignored. A `'header'` entry starts a group that all following items join until the next\nheader or the end of the array. `'divider'` entries are a no-op here (dividers aren't\nmeaningful for a listbox/option collection) — use `ComboboxGroup` composition instead if\nyou need finer control over grouping.",
+      "description": "Array of item/header/divider definitions for data-driven rendering. When provided, children\nare ignored. A `'header'` entry starts a group that all following items join until the next\nheader or the end of the array. `'divider'` entries are a no-op here (dividers aren't\nmeaningful for a listbox/option collection) — use `ComboboxGroup` composition instead if\nyou need finer control over grouping. An entry's `href`/`onClick` are `Menu`-only and are not\nread here — use `onChange` to react to the selection instead.",
       "name": "items",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",

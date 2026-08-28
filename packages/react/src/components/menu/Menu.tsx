@@ -14,13 +14,16 @@ import { useMenuTriggerState } from 'react-stately'
 
 import { useForkedRef, useIsomorphicLayoutEffect } from '../../hooks'
 import { executeAfterTransition } from '../../utils/dialogTransition'
-import { Placement, toAriaPlacement } from '../../utils/overlayPlacement'
+import {
+  Placement,
+  resolveMenuOverlayPositioning,
+  toAriaPlacement
+} from '../../utils/overlayPlacement'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
   PolymorphicRef
 } from '../../utils/polymorphic'
-import { resolveMenuOverlayPositioning } from './menuOverlayPosition'
 
 export type { Placement }
 export type MenuFocusStrategy = 'first' | 'last'

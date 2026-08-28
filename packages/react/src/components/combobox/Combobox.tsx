@@ -10,110 +10,27 @@ import React, {
 import { createPortal } from 'react-dom'
 import classNames from 'classnames'
 import { useComboBox, useFilter, useOverlayPosition } from 'react-aria'
-import { Item, Key, Section, useComboBoxState } from 'react-stately'
+import { Key, useComboBoxState } from 'react-stately'
 
 import { useFloatingOverlay, useForkedRef, useFormField } from '../../hooks'
 import {
+  buildEntriesFromChildren,
+  buildEntriesFromItemsDef,
   ComboboxEntry,
-  ComboboxGroupEntry,
-  ComboboxItemElement,
-  isComboboxGroupEntry
+  comboboxCollectionChildren,
+  getDisabledKeys
 } from '../../utils/comboboxCollection'
 import {
   COMBOBOX_MENU_OVERLAY_STYLE,
-  resolveDataPlacement,
+  resolveMenuOverlayPositioning,
   toAriaPlacement
 } from '../../utils/overlayPlacement'
-import { renderMenuItemContent } from '../../utils/renderMenuItemContent'
 import { validationClassName } from '../../utils/validationClassName'
 import { renderFormField } from '../form-field/renderFormField'
 import { MenuItemsDef } from '../menu/MenuItemDef'
-import { ComboboxGroup, ComboboxGroupProps } from './ComboboxGroup'
+import { ComboboxGroup } from './ComboboxGroup'
 import { ComboboxItem } from './ComboboxItem'
 import { ComboboxListBox } from './ComboboxListBox'
-
-// Splits `children` into a flat, ordered list of entries — bare `ComboboxItem` elements and
-// `ComboboxGroup`-wrapped clusters of them — mirroring how `useComboBoxState`'s dynamic
-// collection needs top-level nodes: some rendered as a plain `<Item>`, some as a `<Section>`
-// wrapping several `<Item>`s.
-const buildEntriesFromChildren = (children: ReactNode): ComboboxEntry[] => {
-  const entries: ComboboxEntry[] = []
-  React.Children.forEach(children, (child, index) => {
-    if (!React.isValidElement(child)) return
-    if (child.type === ComboboxGroup) {
-      const groupProps = child.props as ComboboxGroupProps
-      const items: ComboboxItemElement[] = []
-      React.Children.forEach(groupProps.children, (groupChild) => {
-        if (React.isValidElement(groupChild) && groupChild.type === ComboboxItem) {
-          items.push(groupChild as ComboboxItemElement)
-        }
-      })
-      entries.push({ entryType: 'group', key: `group-${index}`, label: groupProps.label, items })
-      return
-    }
-    if (child.type === ComboboxItem) {
-      entries.push(child as ComboboxItemElement)
-    }
-  })
-  return entries
-}
-
-// Same shape as `buildEntriesFromChildren`, from a flat `MenuItemsDef` instead. A `'header'`
-// entry opens a new group that all following items join until the next header (or the end of
-// the array) — matching how chassis-css itself renders grouped items (flat siblings, no
-// wrapping element per group). `'divider'` entries aren't meaningful for a listbox/option
-// collection and are skipped.
-const buildEntriesFromItemsDef = (defs: MenuItemsDef): ComboboxEntry[] => {
-  const entries: ComboboxEntry[] = []
-  let currentGroup: ComboboxGroupEntry | null = null
-
-  defs.forEach((def) => {
-    if (def.type === 'divider') return
-    if (def.type === 'header') {
-      currentGroup = { entryType: 'group', key: def.id, label: def.label, items: [] }
-      entries.push(currentGroup)
-      return
-    }
-    const item = (
-      <ComboboxItem
-        key={def.id}
-        id={def.id}
-        disabled={def.disabled}
-        icon={def.icon}
-        description={def.description}
-        textValue={def.textValue}
-      >
-        {def.label}
-      </ComboboxItem>
-    )
-    if (currentGroup) currentGroup.items.push(item)
-    else entries.push(item)
-  })
-
-  return entries
-}
-
-const getDisabledKeys = (entries: ComboboxEntry[]): Key[] =>
-  entries.reduce<Key[]>((keys, entry) => {
-    const items = isComboboxGroupEntry(entry) ? entry.items : [entry]
-    return keys.concat(items.filter((item) => item.props.disabled).map((item) => item.props.id))
-  }, [])
-
-const renderComboboxItem = (item: ComboboxItemElement) => (
-  <Item
-    key={item.props.id}
-    textValue={
-      item.props.textValue ??
-      (typeof item.props.children === 'string' ? item.props.children : undefined)
-    }
-  >
-    {renderMenuItemContent({
-      icon: item.props.icon,
-      label: item.props.children,
-      description: item.props.description
-    })}
-  </Item>
-)
 
 export interface ComboboxProps extends Omit<
   HTMLAttributes<HTMLDivElement>,
@@ -165,7 +82,8 @@ export interface ComboboxProps extends Omit<
    * are ignored. A `'header'` entry starts a group that all following items join until the next
    * header or the end of the array. `'divider'` entries are a no-op here (dividers aren't
    * meaningful for a listbox/option collection) — use `ComboboxGroup` composition instead if
-   * you need finer control over grouping.
+   * you need finer control over grouping. An entry's `href`/`onClick` are `Menu`-only and are not
+   * read here — use `onChange` to react to the selection instead.
    */
   items?: MenuItemsDef
   /**
@@ -238,7 +156,10 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
     // `entries`/`disabledKeys` only need to change when the data driving them does — without this,
     // both re-derive from scratch on every render, including every keystroke while typing.
     const entries = useMemo(
-      () => (items ? buildEntriesFromItemsDef(items) : buildEntriesFromChildren(children)),
+      () =>
+        items
+          ? buildEntriesFromItemsDef(items)
+          : buildEntriesFromChildren(children, { Group: ComboboxGroup, Item: ComboboxItem }),
       [items, children]
     )
     const disabledKeys = useMemo(() => getDisabledKeys(entries), [entries])
@@ -248,14 +169,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
     const { contains } = useFilter({ sensitivity: 'base' })
 
     const state = useComboBoxState<ComboboxEntry>({
-      children: (entry) =>
-        isComboboxGroupEntry(entry) ? (
-          <Section key={entry.key} title={entry.label} items={entry.items}>
-            {renderComboboxItem}
-          </Section>
-        ) : (
-          renderComboboxItem(entry)
-        ),
+      children: comboboxCollectionChildren,
       defaultItems: entries,
       disabledKeys,
       defaultFilter: contains,
@@ -325,13 +239,12 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       triggerRef: wrapperRef
     })
 
-    const overlayStyle: React.CSSProperties = {
-      ...COMBOBOX_MENU_OVERLAY_STYLE,
-      position: overlayProps.style?.position as React.CSSProperties['position'],
-      top: overlayProps.style?.top,
-      left: overlayProps.style?.left
-    }
-    const placementAttr = resolveDataPlacement('bottom-start', resolvedPlacement)
+    const { menuStyle, placementAttr } = resolveMenuOverlayPositioning(
+      overlayProps.style,
+      'bottom-start',
+      resolvedPlacement
+    )
+    const overlayStyle: React.CSSProperties = { ...COMBOBOX_MENU_OVERLAY_STYLE, ...menuStyle }
 
     const inputHtmlProps = inputProps as InputHTMLAttributes<HTMLInputElement>
     const showNoResults = state.collection.size === 0

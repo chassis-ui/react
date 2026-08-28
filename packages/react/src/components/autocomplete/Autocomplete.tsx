@@ -6,110 +6,29 @@ import React, {
   useMemo,
   useRef
 } from 'react'
+import { createPortal } from 'react-dom'
 import classNames from 'classnames'
 import { mergeProps, useButton, useComboBox, useFilter, useOverlayPosition } from 'react-aria'
-import { Item, Key, Section, useComboBoxState } from 'react-stately'
+import { Key, useComboBoxState } from 'react-stately'
 
-import { useFormField } from '../../hooks'
+import { useFloatingOverlay, useFormField } from '../../hooks'
 import {
+  buildEntriesFromChildren,
+  buildEntriesFromItemsDef,
   ComboboxEntry,
-  ComboboxGroupEntry,
-  ComboboxItemElement,
-  isComboboxGroupEntry
+  comboboxCollectionChildren,
+  getDisabledKeys
 } from '../../utils/comboboxCollection'
-import { resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
-import { renderMenuItemContent } from '../../utils/renderMenuItemContent'
+import {
+  COMBOBOX_MENU_OVERLAY_STYLE,
+  resolveMenuOverlayPositioning,
+  toAriaPlacement
+} from '../../utils/overlayPlacement'
 import { ComboboxListBox } from '../combobox/ComboboxListBox'
 import { renderFormField } from '../form-field/renderFormField'
 import { MenuItemsDef } from '../menu/MenuItemDef'
-import { AutocompleteGroup, AutocompleteGroupProps } from './AutocompleteGroup'
-import { AutocompleteItem, AutocompleteItemProps } from './AutocompleteItem'
-
-type AutocompleteItemElement = React.ReactElement<AutocompleteItemProps>
-
-// Splits `children` into a flat, ordered list of entries — bare `AutocompleteItem` elements
-// and `AutocompleteGroup`-wrapped clusters of them. `AutocompleteItemProps`/
-// `AutocompleteGroupProps` are structurally identical to `Combobox`'s own item/group props,
-// so the built elements are assignable to the shared `ComboboxEntry` shape from
-// `utils/comboboxCollection` without needing a parallel type — only the entry-building logic
-// (which keys off `AutocompleteItem`/`AutocompleteGroup`'s runtime identity) needs its own
-// copy, mirroring Combobox.tsx's own private helpers.
-const buildEntriesFromChildren = (children: ReactNode): ComboboxEntry[] => {
-  const entries: ComboboxEntry[] = []
-  React.Children.forEach(children, (child, index) => {
-    if (!React.isValidElement(child)) return
-    if (child.type === AutocompleteGroup) {
-      const groupProps = child.props as AutocompleteGroupProps
-      const items: AutocompleteItemElement[] = []
-      React.Children.forEach(groupProps.children, (groupChild) => {
-        if (React.isValidElement(groupChild) && groupChild.type === AutocompleteItem) {
-          items.push(groupChild as AutocompleteItemElement)
-        }
-      })
-      entries.push({ entryType: 'group', key: `group-${index}`, label: groupProps.label, items })
-      return
-    }
-    if (child.type === AutocompleteItem) {
-      entries.push(child as AutocompleteItemElement)
-    }
-  })
-  return entries
-}
-
-// Same shape as `buildEntriesFromChildren`, from a flat `MenuItemsDef` instead — see
-// Combobox.tsx's equivalent for the grouping rules (a `'header'` opens a group that following
-// items join until the next header/end; `'divider'` is a no-op).
-const buildEntriesFromItemsDef = (defs: MenuItemsDef): ComboboxEntry[] => {
-  const entries: ComboboxEntry[] = []
-  let currentGroup: ComboboxGroupEntry | null = null
-
-  defs.forEach((def) => {
-    if (def.type === 'divider') return
-    if (def.type === 'header') {
-      currentGroup = { entryType: 'group', key: def.id, label: def.label, items: [] }
-      entries.push(currentGroup)
-      return
-    }
-    const item = (
-      <AutocompleteItem
-        key={def.id}
-        id={def.id}
-        disabled={def.disabled}
-        icon={def.icon}
-        description={def.description}
-        textValue={def.textValue}
-      >
-        {def.label}
-      </AutocompleteItem>
-    )
-    if (currentGroup) currentGroup.items.push(item)
-    else entries.push(item)
-  })
-
-  return entries
-}
-
-const getDisabledKeys = (entries: ComboboxEntry[]): Key[] =>
-  entries.reduce<Key[]>((keys, entry) => {
-    const items = isComboboxGroupEntry(entry) ? entry.items : [entry]
-    return keys.concat(items.filter((item) => item.props.disabled).map((item) => item.props.id))
-  }, [])
-
-const renderAutocompleteItem = (item: ComboboxItemElement) => (
-  <Item
-    key={item.props.id}
-    textValue={
-      item.props.textValue ??
-      (typeof item.props.children === 'string' ? item.props.children : undefined)
-    }
-  >
-    {renderMenuItemContent({
-      icon: item.props.icon,
-      label: item.props.children,
-      description: item.props.description
-    })}
-  </Item>
-)
+import { AutocompleteGroup } from './AutocompleteGroup'
+import { AutocompleteItem } from './AutocompleteItem'
 
 // `useComboBoxState`/`useComboBox` are generic over a `SelectionMode` ('single' | 'multiple')
 // that only affects *types* — actual runtime behavior (whether a selection closes the menu,
@@ -184,7 +103,9 @@ export interface AutocompleteProps extends Omit<
    * Array of item/header/divider definitions for data-driven rendering. When provided, children
    * are ignored. A `'header'` entry starts a group that all following items join until the next
    * header or the end of the array. `'divider'` entries are a no-op here — use
-   * `AutocompleteGroup` composition instead if you need finer control over grouping.
+   * `AutocompleteGroup` composition instead if you need finer control over grouping. An entry's
+   * `href`/`onClick` are `Menu`-only and are not read here — use `onChange` to react to the
+   * selection instead.
    */
   items?: MenuItemsDef
   /**
@@ -279,7 +200,10 @@ export const Autocomplete = ({
   // `entries`/`disabledKeys` only need to change when the data driving them does — without this,
   // both re-derive from scratch on every render, including every keystroke while typing.
   const entries = useMemo(
-    () => (items ? buildEntriesFromItemsDef(items) : buildEntriesFromChildren(children)),
+    () =>
+      items
+        ? buildEntriesFromItemsDef(items)
+        : buildEntriesFromChildren(children, { Group: AutocompleteGroup, Item: AutocompleteItem }),
     [items, children]
   )
   const disabledKeys = useMemo(() => getDisabledKeys(entries), [entries])
@@ -289,14 +213,7 @@ export const Autocomplete = ({
   const { contains } = useFilter({ sensitivity: 'base' })
 
   const state = useComboBoxState<ComboboxEntry, 'multiple'>({
-    children: (entry) =>
-      isComboboxGroupEntry(entry) ? (
-        <Section key={entry.key} title={entry.label} items={entry.items}>
-          {renderAutocompleteItem}
-        </Section>
-      ) : (
-        renderAutocompleteItem(entry)
-      ),
+    children: comboboxCollectionChildren,
     defaultItems: entries,
     disabledKeys,
     defaultFilter: contains,
@@ -379,13 +296,22 @@ export const Autocomplete = ({
   // content out of screen readers' way — but it only knows to protect `inputRef`/`popoverRef`
   // (the elements it was given), not this separate toggle, so the toggle (and, in `multiple`
   // mode, its chips and their focusable remove buttons) would otherwise get `aria-hidden`
-  // applied to it too while the panel is open. `ariaHideOutside`'s own doc comment says it
-  // watches for *new* elements to hide, not attribute changes on existing ones, so removing it
-  // here (in an effect that necessarily runs after react-aria's own — declared later in this
-  // same component) doesn't get silently re-applied.
+  // applied to it too while the panel is open. Walking up to `document.body` (rather than
+  // clearing just `triggerRef.current` itself) matters now that the popover portals there too
+  // (see `useFloatingOverlay` below): `ariaHideOutside` hides the *first* ancestor level whose
+  // subtree contains no protected element, which — once the toggle and the popover no longer
+  // share a common non-`body` container — can land on one of the toggle's own ancestors instead
+  // of the toggle element itself. `ariaHideOutside`'s own doc comment says it watches for *new*
+  // elements to hide, not attribute changes on existing ones, so removing it here (in an effect
+  // that necessarily runs after react-aria's own — declared later in this same component)
+  // doesn't get silently re-applied.
   useEffect(() => {
     if (!state.isOpen) return
-    triggerRef.current?.removeAttribute('aria-hidden')
+    let node: HTMLElement | null = triggerRef.current
+    while (node && node !== document.body) {
+      node.removeAttribute('aria-hidden')
+      node = node.parentElement
+    }
   }, [state.isOpen])
 
   const { overlayProps, placement: resolvedPlacement } = useOverlayPosition({
@@ -403,12 +329,25 @@ export const Autocomplete = ({
     onClose: null
   })
 
-  const overlayStyle: React.CSSProperties = {
-    position: overlayProps.style?.position as React.CSSProperties['position'],
-    top: overlayProps.style?.top,
-    left: overlayProps.style?.left
-  }
-  const placementAttr = resolveDataPlacement('bottom-start', resolvedPlacement)
+  // Portals the panel to `document.body` (or an enclosing open `<dialog>`) instead of rendering
+  // it inline, matching `Popover`/`Tooltip`/`Combobox` — an inline-rendered panel gets clipped by
+  // any ancestor with `overflow: hidden`/`auto` (a `ModalBody`, a scrollable card, a table cell),
+  // and `Autocomplete` is commonly composed inside exactly those. See
+  // `COMBOBOX_MENU_OVERLAY_STYLE` for the styling this trades away by leaving the DOM position
+  // `.combobox + .menu` relies on.
+  const portalContainer = useFloatingOverlay({
+    close: state.close,
+    isOpen: state.isOpen,
+    open: state.open,
+    triggerRef
+  })
+
+  const { menuStyle, placementAttr } = resolveMenuOverlayPositioning(
+    overlayProps.style,
+    'bottom-start',
+    resolvedPlacement
+  )
+  const overlayStyle: React.CSSProperties = { ...COMBOBOX_MENU_OVERLAY_STYLE, ...menuStyle }
 
   const removeSelected = (key: Key) => state.selectionManager.toggleSelection(key)
 
@@ -468,26 +407,30 @@ export const Autocomplete = ({
             {triggerText}
           </span>
         </div>
-        <div
-          className={classNames('menu', { show: state.isOpen })}
-          data-cx-placement={placementAttr}
-          style={overlayStyle}
-          hidden={!state.isOpen}
-          ref={popoverRef}
-        >
-          <div className="combobox-search">
-            <input
-              autoComplete="off"
-              className="form-input combobox-search-input small"
-              {...inputHtmlProps}
-              ref={inputRef}
-            />
-          </div>
-          <ComboboxListBox state={state} listBoxProps={listBoxProps} listBoxRef={listBoxRef} />
-          {state.collection.size === 0 && (
-            <div className="combobox-no-results">{noResultsText}</div>
+        {typeof window !== 'undefined' &&
+          createPortal(
+            <div
+              className={classNames('menu', { show: state.isOpen })}
+              data-cx-placement={placementAttr}
+              style={overlayStyle}
+              hidden={!state.isOpen}
+              ref={popoverRef}
+            >
+              <div className="combobox-search">
+                <input
+                  autoComplete="off"
+                  className="form-input combobox-search-input small"
+                  {...inputHtmlProps}
+                  ref={inputRef}
+                />
+              </div>
+              <ComboboxListBox state={state} listBoxProps={listBoxProps} listBoxRef={listBoxRef} />
+              {state.collection.size === 0 && (
+                <div className="combobox-no-results">{noResultsText}</div>
+              )}
+            </div>,
+            portalContainer ?? document.body
           )}
-        </div>
         {name &&
           (multiple ? (
             asKeyArray(state.value).map((key) => (
