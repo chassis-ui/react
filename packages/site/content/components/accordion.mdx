@@ -12,6 +12,7 @@ import { Example as SizeExample } from '../../examples/components/accordion/Size
 import { Example as CaretEndExample } from '../../examples/components/accordion/CaretEndExample.tsx'
 import { Example as MixedGroupsExample } from '../../examples/components/accordion/MixedGroupsExample.tsx'
 import { Example as JsonContentExample } from '../../examples/components/accordion/JsonContentExample.tsx'
+import { Example as ControlledExample } from '../../examples/components/accordion/ControlledExample.tsx'
 
 ## Examples
 
@@ -67,6 +68,24 @@ Pass an `items` array to render an accordion from data instead of composed child
 
 <Example>
   <JsonContentExample client:load />
+</Example>
+
+### Controlled
+
+A composed `AccordionItem` already supports the native controlled `<details>` pattern directly —
+pass `open` and read the new state back from `onToggle`:
+
+```tsx
+<AccordionItem open={isOpen} onToggle={(e) => setIsOpen(e.currentTarget.open)}>
+```
+
+For the `items` data-driven API, `Accordion` offers the same thing at the group level:
+`expandedKeys`/`defaultExpandedKeys`/`onExpandedChange` track which item keys are open, reflecting
+the native `<details>` elements' actual state (including any the browser closes itself as part of
+a shared `name` group).
+
+<Example>
+  <ControlledExample client:load />
 </Example>
 
 ## API

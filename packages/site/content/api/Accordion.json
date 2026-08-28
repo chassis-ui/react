@@ -64,6 +64,44 @@
         "name": "string"
       }
     },
+    "defaultExpandedKeys": {
+      "defaultValue": null,
+      "description": "The keys of the initially expanded items (uncontrolled). Only applies to items rendered via\nthe `items` prop — a composed `AccordionItem` already supports native controlled `open`/\n`onToggle` directly.",
+      "name": "defaultExpandedKeys",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/accordion/Accordion.tsx",
+        "name": "AccordionProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/accordion/Accordion.tsx",
+          "name": "AccordionProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(string | number)[]"
+      }
+    },
+    "expandedKeys": {
+      "defaultValue": null,
+      "description": "The keys of the currently expanded items (controlled). Only applies to items rendered via the\n`items` prop — a composed `AccordionItem` already supports native controlled `open`/`onToggle`\ndirectly.",
+      "name": "expandedKeys",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/accordion/Accordion.tsx",
+        "name": "AccordionProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/accordion/Accordion.tsx",
+          "name": "AccordionProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(string | number)[]"
+      }
+    },
     "flush": {
       "defaultValue": null,
       "description": "Removes the default background-context, some borders, and some rounded corners to render accordions edge-to-edge with their parent container.",
@@ -119,6 +157,25 @@
       "required": false,
       "type": {
         "name": "string"
+      }
+    },
+    "onExpandedChange": {
+      "defaultValue": null,
+      "description": "Callback fired with the updated set of expanded item keys, reflecting the native `<details>`\nelements' actual open state (including items the browser closed itself via a shared `name`\ngroup). Only fires for items rendered via the `items` prop.",
+      "name": "onExpandedChange",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/accordion/Accordion.tsx",
+        "name": "AccordionProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/accordion/Accordion.tsx",
+          "name": "AccordionProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((keys: (string | number)[]) => void)"
       }
     },
     "size": {

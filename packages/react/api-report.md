@@ -42,7 +42,13 @@ interface AccordionItemDef {
    */
   name?: string;
   /**
-   * Start the item in the open state.
+   * Callback fired when this item's open state changes. Chained after `Accordion`'s own handling
+   * of `expandedKeys`/`onExpandedChange`, so it fires regardless of whether those are used.
+   */
+  onToggle?: (event: React.SyntheticEvent<HTMLDetailsElement>) => void;
+  /**
+   * Start the item in the open state (uncontrolled). Ignored for items whose key is included in
+   * `expandedKeys`/`defaultExpandedKeys` on the parent `Accordion`.
    */
   open?: boolean;
 }
@@ -60,6 +66,18 @@ interface AccordionProps extends HTMLAttributes<HTMLDivElement> {
    */
   className?: string;
   /**
+   * The keys of the initially expanded items (uncontrolled). Only applies to items rendered via
+   * the `items` prop — a composed `AccordionItem` already supports native controlled `open`/
+   * `onToggle` directly.
+   */
+  defaultExpandedKeys?: Array<number | string>;
+  /**
+   * The keys of the currently expanded items (controlled). Only applies to items rendered via the
+   * `items` prop — a composed `AccordionItem` already supports native controlled `open`/`onToggle`
+   * directly.
+   */
+  expandedKeys?: Array<number | string>;
+  /**
    * Removes the default background-context, some borders, and some rounded corners to render accordions edge-to-edge with their parent container.
    */
   flush?: boolean;
@@ -71,6 +89,12 @@ interface AccordionProps extends HTMLAttributes<HTMLDivElement> {
    * The shared group name used by items that don't set their own `name`. Defaults to an auto-generated id.
    */
   name?: string;
+  /**
+   * Callback fired with the updated set of expanded item keys, reflecting the native `<details>`
+   * elements' actual open state (including items the browser closed itself via a shared `name`
+   * group). Only fires for items rendered via the `items` prop.
+   */
+  onExpandedChange?: (keys: Array<number | string>) => void;
   /**
    * Size the component small or large.
    */

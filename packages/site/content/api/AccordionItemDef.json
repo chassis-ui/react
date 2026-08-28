@@ -59,10 +59,19 @@
         "name": "string"
       }
     },
+    "onToggle": {
+      "name": "onToggle",
+      "required": false,
+      "description": "Callback fired when this item's open state changes. Chained after `Accordion`'s own handling\nof `expandedKeys`/`onExpandedChange`, so it fires regardless of whether those are used.",
+      "defaultValue": null,
+      "type": {
+        "name": "((event: SyntheticEvent<HTMLDetailsElement, Event>) => void)"
+      }
+    },
     "open": {
       "name": "open",
       "required": false,
-      "description": "Start the item in the open state.",
+      "description": "Start the item in the open state (uncontrolled). Ignored for items whose key is included in\n`expandedKeys`/`defaultExpandedKeys` on the parent `Accordion`.",
       "defaultValue": null,
       "type": {
         "name": "boolean"
