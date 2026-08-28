@@ -104,14 +104,18 @@ pnpm test:update  # same, plus -u to update snapshots
 
 Storybook (`.storybook/`, config framework `@storybook/react-vite`) plus Playwright screenshot
 tests (`test/visual/`) catch pixel-level regressions that `vitest`'s DOM snapshots can't — e.g. a
-CSS change that doesn't alter markup at all. Coverage today spans four batches, each its own spec
+CSS change that doesn't alter markup at all. Coverage today spans five batches, each its own spec
 file: `calendar-datepicker.visual.spec.ts` (calendar, datepicker — this family has component-scoped
 CSS, see `THEMING.md`, so it needs pixel coverage the other families don't),
 `menu-popover-tooltip.visual.spec.ts`
-(positioning-heavy, portal-based), `toast-notification.visual.spec.ts` (transition-heavy), and
-`accordion-collapse.visual.spec.ts` (native `<details>` / `CSSTransition`-driven open-close state).
-A future family gets its own `test/visual/<family>.visual.spec.ts` with its own story-title
-filter, not a widened version of an existing one.
+(positioning-heavy, portal-based), `toast-notification.visual.spec.ts` (transition-heavy),
+`accordion-collapse.visual.spec.ts` (native `<details>` / `CSSTransition`-driven open-close state),
+and `carousel.visual.spec.ts` (CSS-scroll-snap-driven). A future family gets its own
+`test/visual/<family>.visual.spec.ts` with its own story-title filter, not a widened version of an
+existing one. All five call the shared `runVisualRegressionSuite` helper (`test/visual/
+visualSuite.ts`) rather than each re-reading and filtering Storybook's build manifest themselves —
+a spec file is just its title-prefix list plus, for the one family that needs it (toast/
+notification, see below), a `waitFor`.
 
 ```bash
 pnpm storybook            # storybook dev -p 6006, for authoring stories interactively
@@ -131,12 +135,17 @@ pnpm test:visual:update   # same, plus --update-snapshots to regenerate baseline
   `today()` like the docs-site examples in `packages/site/examples/` do — a screenshot has to
   render identically no matter what day it's actually run, and `today()` would shift both the
   visible month and the `.datepicker-date-today` highlight on every run.
-- `test/visual/*.visual.spec.ts` reads `_storybook/index.json` (Storybook's own build
-  manifest) at collection time to enumerate stories, rather than hardcoding story IDs — a new story
-  on an already-covered component is picked up automatically. This is also why `test:visual` runs
-  `build-storybook` as an explicit, separate step before `playwright test`, not inside
-  `playwright.config.ts`'s `webServer` — the manifest must already exist on disk before Playwright
-  starts loading spec files.
+- `runVisualRegressionSuite` (`test/visual/visualSuite.ts`) reads `_storybook/index.json`
+  (Storybook's own build manifest) at collection time to enumerate stories, rather than hardcoding
+  story IDs — a new story on an already-covered component is picked up automatically. This is also
+  why `test:visual` runs `build-storybook` as an explicit, separate step before `playwright test`,
+  not inside `playwright.config.ts`'s `webServer` — the manifest must already exist on disk before
+  Playwright starts loading spec files.
+- Baseline images live under `test/visual/__snapshots__/<spec-file-name>/`, not next to the spec
+  file (Playwright's own default) — `playwright.config.ts`'s `snapshotPathTemplate` collects every
+  family's baselines under one `__snapshots__/` directory, matching this repo's existing
+  `__snapshots__/` convention for vitest's own DOM snapshots, while still keeping each family in
+  its own subfolder so story-id filenames can't collide across families.
 - Playwright's snapshot filenames are platform-suffixed (`-chromium-darwin.png`,
   `-chromium-linux.png`) and both are checked in: the `-linux.png` ones are what CI's
   `visual-regression` job (running inside the official Playwright Docker image, see

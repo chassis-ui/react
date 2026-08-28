@@ -12,6 +12,19 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   reporter: 'list',
+  // Playwright's own default (`{testFileName}-snapshots/`, a sibling of the spec file) scatters
+  // one baseline folder per family alongside the specs. Collecting them all under a single
+  // `__snapshots__/` instead — still one subfolder per spec file, to keep families from colliding
+  // on story-id filenames — matches this repo's existing `__snapshots__/` convention for vitest's
+  // own DOM snapshots (see e.g. test/components/button/__snapshots__/). No `{testFileDir}` segment
+  // here (unlike Playwright's own default template) — every *.visual.spec.ts lives directly at
+  // this testDir's root, so that token always resolves empty; keeping it in would still work most
+  // of the time (it'd just collapse to a double slash), but omitting `{snapshotDir}` entirely does
+  // NOT degrade gracefully: with `{testFileDir}` empty, a template that starts with a bare
+  // `__snapshots__` after it collapses to an absolute path (`/__snapshots__/...`) instead of one
+  // relative to `snapshotDir`. Anchoring explicitly on `{snapshotDir}` avoids that trap.
+  snapshotPathTemplate:
+    '{snapshotDir}/__snapshots__/{testFileName}/{arg}{-projectName}{-platform}{ext}',
   use: {
     baseURL: 'http://127.0.0.1:6006',
     trace: 'retain-on-failure'

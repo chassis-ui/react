@@ -107,7 +107,7 @@ for spec in "${SPEC_ARGS[@]}"; do
   if [ "$spec" = "test/visual/" ]; then
     docker cp "$CONTAINER_NAME:/repo/packages/react/test/visual/." "$REACT_DIR/test/visual/"
   else
-    snap_dir="test/visual/$(basename "$spec")-snapshots"
+    snap_dir="test/visual/__snapshots__/$(basename "$spec")"
     docker cp "$CONTAINER_NAME:/repo/packages/react/$snap_dir/." "$REACT_DIR/$snap_dir/"
   fi
 done
