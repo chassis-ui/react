@@ -99,6 +99,22 @@ pnpm test:update  # same, plus -u to update snapshots
   (visible/open, with the sub-parts a real usage would include) rather than the emptiest possible
   markup — an axe check against a bare shell can pass while the actual documented usage still
   violates.
+- No raw DOM markup snapshots (`expect(container).toMatchSnapshot()`) under `test/components/**` —
+  assert structure and behavior explicitly instead (`toHaveClass`/`toHaveAttribute`/role queries),
+  and reach for Storybook + Playwright visual regression (below) for anything genuinely
+  pixel-level. `eslint.config.js` bans the pattern under this path via `no-restricted-syntax`
+  (currently `warn`, not `error` — see that block's comment for the handful of pre-existing
+  exceptions still being worked through). This wasn't always the convention: the suite used to
+  carry a `test('matches the baseline markup snapshot', ...)` in 105 of its 128 spec files, each a
+  raw `container`/`toMatchSnapshot()` dump living in an adjacent `__snapshots__/*.snap` file. An
+  audit found every one blind-diffable — pinning exactly the same tag/class/attribute list already
+  asserted a few lines above it in the same file (backfilling one or two explicit assertions where
+  it wasn't quite) — and zero of them stood in for a genuine rendering concern markup diffing can't
+  capture (animation state, portal placement, layout), the kind of thing that would have warranted
+  a Storybook + Playwright test instead. A snapshot like that isn't testing anything the explicit
+  assertions don't already cover; it's a blind-diffable duplicate someone can `-u` past a real
+  regression without reading, so all 105 were removed and replaced with the explicit assertions
+  they were shadowing.
 
 ## Visual regression
 
