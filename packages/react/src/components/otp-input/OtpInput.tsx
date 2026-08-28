@@ -1,5 +1,6 @@
 import React, {
   ClipboardEvent,
+  forwardRef,
   Fragment,
   HTMLAttributes,
   KeyboardEvent,
@@ -9,7 +10,7 @@ import React, {
 } from 'react'
 import classNames from 'classnames'
 
-import { useControllableState, useFormField } from '../../hooks'
+import { useControllableState, useForkedRef, useFormField } from '../../hooks'
 import { validationClassName } from '../../utils/validationClassName'
 import { renderFormField } from '../form-field/renderFormField'
 import { OtpBox } from './OtpBox'
@@ -124,208 +125,217 @@ const toBoxes = (raw: string, total: number): string[] => {
   return Array.from({ length: total }, (_, i) => digits[i] ?? '')
 }
 
-export const OtpInput = ({
-  className,
-  defaultValue,
-  disabled,
-  groupSizes,
-  help,
-  id,
-  inputGroup,
-  invalid,
-  invalidFeedback,
-  label,
-  length = 6,
-  mask,
-  name,
-  onChange,
-  onComplete,
-  separator = '–',
-  size,
-  valid,
-  validFeedback,
-  value,
-  ...rest
-}: OtpInputProps): ReactNode => {
-  const total = groupSizes && groupSizes.length > 0 ? groupSizes.reduce((a, b) => a + b, 0) : length
+export const OtpInput = forwardRef<HTMLDivElement, OtpInputProps>(
+  (
+    {
+      className,
+      defaultValue,
+      disabled,
+      groupSizes,
+      help,
+      id,
+      inputGroup,
+      invalid,
+      invalidFeedback,
+      label,
+      length = 6,
+      mask,
+      name,
+      onChange,
+      onComplete,
+      separator = '–',
+      size,
+      valid,
+      validFeedback,
+      value,
+      ...rest
+    }: OtpInputProps,
+    ref
+  ): ReactNode => {
+    const total =
+      groupSizes && groupSizes.length > 0 ? groupSizes.reduce((a, b) => a + b, 0) : length
 
-  const [rawValue, setRawValue] = useControllableState(value, defaultValue ?? '', onChange)
-  const boxes = useMemo(() => toBoxes(rawValue, total), [rawValue, total])
+    const [rawValue, setRawValue] = useControllableState(value, defaultValue ?? '', onChange)
+    const boxes = useMemo(() => toBoxes(rawValue, total), [rawValue, total])
 
-  const boxRefs = useRef<Array<HTMLInputElement | null>>([])
-  const focusBox = (index: number) => boxRefs.current[index]?.focus()
+    const boxRefs = useRef<Array<HTMLInputElement | null>>([])
+    const focusBox = (index: number) => boxRefs.current[index]?.focus()
+    const containerRef = useRef<HTMLDivElement>(null)
+    const forkedRef = useForkedRef(ref, containerRef)
 
-  const commit = (nextBoxes: string[]) => {
-    const next = nextBoxes.join('')
-    setRawValue(next)
-    if (nextBoxes.length === total && nextBoxes.every((box) => box !== '')) {
-      onComplete?.(next)
-    }
-  }
-
-  const handleChange = (index: number, raw: string) => {
-    const digits = onlyDigits(raw)
-
-    if (digits.length > 1) {
-      // Multi-character value landing in a single box (autofill, or a fast typist outrunning
-      // the auto-advance) — distribute across this and subsequent boxes, matching chassis-css's
-      // vanilla otp-input.js `_handleInput`.
-      const chars = [...digits]
-      const nextBoxes = [...boxes]
-      for (let i = 0; i < chars.length && index + i < total; i++) {
-        nextBoxes[index + i] = chars[i]!
+    const commit = (nextBoxes: string[]) => {
+      const next = nextBoxes.join('')
+      setRawValue(next)
+      if (nextBoxes.length === total && nextBoxes.every((box) => box !== '')) {
+        onComplete?.(next)
       }
-      commit(nextBoxes)
-      focusBox(Math.min(index + chars.length, total - 1))
-      return
     }
 
-    const nextBoxes = [...boxes]
-    nextBoxes[index] = digits
-    commit(nextBoxes)
-    if (digits && index < total - 1) focusBox(index + 1)
-  }
+    const handleChange = (index: number, raw: string) => {
+      const digits = onlyDigits(raw)
 
-  const handleKeyDown = (index: number, event: KeyboardEvent<HTMLInputElement>) => {
-    if (disabled) return
-
-    switch (event.key) {
-      case 'Backspace': {
-        if (!boxes[index] && index > 0) {
-          event.preventDefault()
-          const nextBoxes = [...boxes]
-          nextBoxes[index - 1] = ''
-          commit(nextBoxes)
-          focusBox(index - 1)
-        }
-        break
-      }
-      case 'Delete': {
-        event.preventDefault()
-        // `boxes` (and every copy derived from it) is always exactly `total` entries long — see
-        // `toBoxes` — so `i + 1` (bounded by `i < total - 1`) never reads past the end.
+      if (digits.length > 1) {
+        // Multi-character value landing in a single box (autofill, or a fast typist outrunning
+        // the auto-advance) — distribute across this and subsequent boxes, matching chassis-css's
+        // vanilla otp-input.js `_handleInput`.
+        const chars = [...digits]
         const nextBoxes = [...boxes]
-        for (let i = index; i < total - 1; i++) nextBoxes[i] = nextBoxes[i + 1]!
-        nextBoxes[total - 1] = ''
+        for (let i = 0; i < chars.length && index + i < total; i++) {
+          nextBoxes[index + i] = chars[i]!
+        }
         commit(nextBoxes)
-        break
+        focusBox(Math.min(index + chars.length, total - 1))
+        return
       }
-      case 'ArrowLeft': {
-        if (index > 0) {
-          event.preventDefault()
-          focusBox(index - 1)
-        }
-        break
-      }
-      case 'ArrowRight': {
-        if (index < total - 1) {
-          event.preventDefault()
-          focusBox(index + 1)
-        }
-        break
-      }
-      default:
-        break
+
+      const nextBoxes = [...boxes]
+      nextBoxes[index] = digits
+      commit(nextBoxes)
+      if (digits && index < total - 1) focusBox(index + 1)
     }
-  }
 
-  const handlePaste = (event: ClipboardEvent<HTMLInputElement>) => {
-    event.preventDefault()
-    if (disabled) return
-    const digits = onlyDigits(event.clipboardData.getData('text')).slice(0, total)
-    if (!digits) return
-    commit(toBoxes(digits, total))
-    focusBox(Math.min(digits.length, total) - 1)
-  }
+    const handleKeyDown = (index: number, event: KeyboardEvent<HTMLInputElement>) => {
+      if (disabled) return
 
-  const renderBoxes = (start: number, count: number) =>
-    Array.from({ length: count }, (_, i) => start + i).map((i) => (
-      <OtpBox
-        disabled={disabled}
-        index={i}
-        invalid={invalid}
-        key={i}
-        mask={mask}
-        onChangeValue={(next) => handleChange(i, next)}
-        onKeyDownBox={(event) => handleKeyDown(i, event)}
-        onPasteBox={handlePaste}
-        ref={(el) => {
-          boxRefs.current[i] = el
-        }}
-        size={size}
-        valid={valid}
-        value={boxes[i] ?? ''}
-      />
-    ))
+      switch (event.key) {
+        case 'Backspace': {
+          if (!boxes[index] && index > 0) {
+            event.preventDefault()
+            const nextBoxes = [...boxes]
+            nextBoxes[index - 1] = ''
+            commit(nextBoxes)
+            focusBox(index - 1)
+          }
+          break
+        }
+        case 'Delete': {
+          event.preventDefault()
+          // `boxes` (and every copy derived from it) is always exactly `total` entries long — see
+          // `toBoxes` — so `i + 1` (bounded by `i < total - 1`) never reads past the end.
+          const nextBoxes = [...boxes]
+          for (let i = index; i < total - 1; i++) nextBoxes[i] = nextBoxes[i + 1]!
+          nextBoxes[total - 1] = ''
+          commit(nextBoxes)
+          break
+        }
+        case 'ArrowLeft': {
+          if (index > 0) {
+            event.preventDefault()
+            focusBox(index - 1)
+          }
+          break
+        }
+        case 'ArrowRight': {
+          if (index < total - 1) {
+            event.preventDefault()
+            focusBox(index + 1)
+          }
+          break
+        }
+        default:
+          break
+      }
+    }
 
-  let content: ReactNode
-  if (groupSizes && groupSizes.length > 0) {
-    let cursor = 0
-    content = groupSizes.map((groupSize, groupIndex) => {
-      const start = cursor
-      cursor += groupSize
-      return (
-        // eslint-disable-next-line react/no-array-index-key
-        <Fragment key={groupIndex}>
-          {groupIndex > 0 && <span className="form-otp-separator">{separator}</span>}
-          {inputGroup ? (
-            <div className="input-group">{renderBoxes(start, groupSize)}</div>
-          ) : (
-            renderBoxes(start, groupSize)
-          )}
-        </Fragment>
-      )
+    const handlePaste = (event: ClipboardEvent<HTMLInputElement>) => {
+      event.preventDefault()
+      if (disabled) return
+      const digits = onlyDigits(event.clipboardData.getData('text')).slice(0, total)
+      if (!digits) return
+      commit(toBoxes(digits, total))
+      focusBox(Math.min(digits.length, total) - 1)
+    }
+
+    const renderBoxes = (start: number, count: number) =>
+      Array.from({ length: count }, (_, i) => start + i).map((i) => (
+        <OtpBox
+          disabled={disabled}
+          index={i}
+          invalid={invalid}
+          key={i}
+          mask={mask}
+          onChangeValue={(next) => handleChange(i, next)}
+          onKeyDownBox={(event) => handleKeyDown(i, event)}
+          onPasteBox={handlePaste}
+          ref={(el) => {
+            boxRefs.current[i] = el
+          }}
+          size={size}
+          valid={valid}
+          value={boxes[i] ?? ''}
+        />
+      ))
+
+    let content: ReactNode
+    if (groupSizes && groupSizes.length > 0) {
+      let cursor = 0
+      content = groupSizes.map((groupSize, groupIndex) => {
+        const start = cursor
+        cursor += groupSize
+        return (
+          // eslint-disable-next-line react/no-array-index-key
+          <Fragment key={groupIndex}>
+            {groupIndex > 0 && <span className="form-otp-separator">{separator}</span>}
+            {inputGroup ? (
+              <div className="input-group">{renderBoxes(start, groupSize)}</div>
+            ) : (
+              renderBoxes(start, groupSize)
+            )}
+          </Fragment>
+        )
+      })
+    } else {
+      content = renderBoxes(0, total)
+    }
+
+    const {
+      describedBy,
+      feedbackId,
+      helpId,
+      inputId: groupId,
+      labelId,
+      labelledBy
+    } = useFormField({
+      ariaDescribedBy: rest['aria-describedby'],
+      ariaLabelledBy: rest['aria-labelledby'],
+      help,
+      id,
+      invalid,
+      invalidFeedback,
+      label,
+      valid,
+      validFeedback
     })
-  } else {
-    content = renderBoxes(0, total)
+
+    return renderFormField({
+      children: (
+        <div
+          {...rest}
+          aria-describedby={describedBy}
+          aria-labelledby={labelledBy}
+          className={classNames(
+            'form-otp',
+            { 'input-group': inputGroup && !(groupSizes && groupSizes.length > 0) },
+            validationClassName(invalid, valid),
+            className
+          )}
+          id={groupId}
+          ref={forkedRef}
+          role="group"
+        >
+          {content}
+          {name && <input disabled={disabled} name={name} type="hidden" value={boxes.join('')} />}
+        </div>
+      ),
+      help,
+      ids: { feedback: feedbackId, help: helpId, label: labelId },
+      invalid,
+      invalidFeedback,
+      label,
+      valid,
+      validFeedback
+    })
   }
-
-  const {
-    describedBy,
-    feedbackId,
-    helpId,
-    inputId: groupId,
-    labelId,
-    labelledBy
-  } = useFormField({
-    ariaDescribedBy: rest['aria-describedby'],
-    ariaLabelledBy: rest['aria-labelledby'],
-    help,
-    id,
-    invalid,
-    invalidFeedback,
-    label,
-    valid,
-    validFeedback
-  })
-
-  return renderFormField({
-    children: (
-      <div
-        {...rest}
-        aria-describedby={describedBy}
-        aria-labelledby={labelledBy}
-        className={classNames(
-          'form-otp',
-          { 'input-group': inputGroup && !(groupSizes && groupSizes.length > 0) },
-          validationClassName(invalid, valid),
-          className
-        )}
-        id={groupId}
-        role="group"
-      >
-        {content}
-        {name && <input name={name} type="hidden" value={boxes.join('')} />}
-      </div>
-    ),
-    help,
-    ids: { feedback: feedbackId, help: helpId, label: labelId },
-    invalid,
-    invalidFeedback,
-    label,
-    valid,
-    validFeedback
-  })
-}
+)
 
 OtpInput.displayName = 'OtpInput'

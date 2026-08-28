@@ -3,6 +3,8 @@ import classNames from 'classnames'
 import { AriaRadioGroupProps, useRadioGroup } from 'react-aria'
 import { RadioGroupProps as StatelyRadioGroupProps, useRadioGroupState } from 'react-stately'
 
+import { validationClassName } from '../../utils/validationClassName'
+
 import { RadioGroupContext } from './context'
 import { FormFeedback } from '../form/FormFeedback'
 import { FormHelp } from '../form/FormHelp'
@@ -112,14 +114,7 @@ export const RadioGroup = forwardRef<HTMLFieldSetElement, RadioGroupProps>(
       state
     )
 
-    const _className = classNames(
-      'form-field',
-      {
-        'is-invalid': invalid,
-        'is-valid': valid
-      },
-      className
-    )
+    const _className = classNames('form-field', validationClassName(invalid, valid), className)
 
     const items = (
       <RadioGroupContext.Provider value={{ state, valid }}>{children}</RadioGroupContext.Provider>

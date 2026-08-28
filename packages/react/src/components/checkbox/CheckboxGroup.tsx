@@ -3,6 +3,8 @@ import classNames from 'classnames'
 import { AriaCheckboxGroupProps, useCheckboxGroup } from 'react-aria'
 import { useCheckboxGroupState } from 'react-stately'
 
+import { validationClassName } from '../../utils/validationClassName'
+
 import { CheckboxGroupContext } from './context'
 import { FormFeedback } from '../form/FormFeedback'
 import { FormHelp } from '../form/FormHelp'
@@ -113,14 +115,7 @@ export const CheckboxGroup = forwardRef<HTMLFieldSetElement, CheckboxGroupProps>
       errorMessageProps
     } = useCheckboxGroup(groupProps as AriaCheckboxGroupProps, state)
 
-    const _className = classNames(
-      'form-field',
-      {
-        'is-invalid': invalid,
-        'is-valid': valid
-      },
-      className
-    )
+    const _className = classNames('form-field', validationClassName(invalid, valid), className)
 
     const items = (
       <CheckboxGroupContext.Provider value={{ state, valid }}>

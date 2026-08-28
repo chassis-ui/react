@@ -1,9 +1,17 @@
-import React, { HTMLAttributes, KeyboardEvent, ReactNode, useMemo, useRef, useState } from 'react'
+import React, {
+  forwardRef,
+  HTMLAttributes,
+  KeyboardEvent,
+  ReactNode,
+  useMemo,
+  useRef,
+  useState
+} from 'react'
 import classNames from 'classnames'
 import { useTextField } from 'react-aria'
 import { Item, Key, useListState } from 'react-stately'
 
-import { useControllableState, useFormField } from '../../hooks'
+import { useControllableState, useForkedRef, useFormField } from '../../hooks'
 import { validationClassName } from '../../utils/validationClassName'
 import { renderFormField } from '../form-field/renderFormField'
 import { ChipList, ChipItem } from './ChipList'
@@ -115,225 +123,241 @@ export interface ChipInputProps extends Omit<
   value?: string[]
 }
 
-export const ChipInput = ({
-  allowDuplicates = false,
-  'aria-describedby': ariaDescribedBy,
-  'aria-label': ariaLabel,
-  'aria-labelledby': ariaLabelledBy,
-  chipVariant = 'default',
-  className,
-  defaultValue,
-  disabled,
-  help,
-  id,
-  invalid,
-  invalidFeedback,
-  label,
-  maxChips,
-  name,
-  onChange,
-  placeholder,
-  separator = ',',
-  size,
-  valid,
-  validFeedback,
-  value,
-  ...rest
-}: ChipInputProps): ReactNode => {
-  const [tags, updateTags] = useControllableState<string[]>(value, defaultValue ?? [], onChange)
+export const ChipInput = forwardRef<HTMLDivElement, ChipInputProps>(
+  (
+    {
+      allowDuplicates = false,
+      'aria-describedby': ariaDescribedBy,
+      'aria-label': ariaLabel,
+      'aria-labelledby': ariaLabelledBy,
+      chipVariant = 'default',
+      className,
+      defaultValue,
+      disabled,
+      help,
+      id,
+      invalid,
+      invalidFeedback,
+      label,
+      maxChips,
+      name,
+      onChange,
+      placeholder,
+      separator = ',',
+      size,
+      valid,
+      validFeedback,
+      value,
+      ...rest
+    }: ChipInputProps,
+    ref
+  ): ReactNode => {
+    const [tags, updateTags] = useControllableState<string[]>(value, defaultValue ?? [], onChange)
 
-  // The one memoized computation of `tags`' ids — `removeTags`, `items`, and `focusLastChip`
-  // below all used to independently recompute this same array from scratch (fresh on every
-  // render, not just when `tags` actually changed); they now all read this instead.
-  const ids = useMemo(() => buildTagIds(tags), [tags])
+    // The one memoized computation of `tags`' ids — `removeTags`, `items`, and `focusLastChip`
+    // below all used to independently recompute this same array from scratch (fresh on every
+    // render, not just when `tags` actually changed); they now all read this instead.
+    const ids = useMemo(() => buildTagIds(tags), [tags])
 
-  // Shared by `addTag` and the paste handler's loop: whether `raw` (already trimmed) is
-  // addable to `list` given `allowDuplicates`. `maxChips` is deliberately not part of this
-  // predicate — the paste loop needs to `break` (stop entirely) on hitting the limit, while an
-  // empty/duplicate value should just be skipped and the loop should keep going.
-  const isAddableValue = (list: string[], trimmed: string) =>
-    trimmed !== '' && (allowDuplicates || !list.includes(trimmed))
+    // Shared by `addTag` and the paste handler's loop: whether `raw` (already trimmed) is
+    // addable to `list` given `allowDuplicates`. `maxChips` is deliberately not part of this
+    // predicate — the paste loop needs to `break` (stop entirely) on hitting the limit, while an
+    // empty/duplicate value should just be skipped and the loop should keep going.
+    const isAddableValue = (list: string[], trimmed: string) =>
+      trimmed !== '' && (allowDuplicates || !list.includes(trimmed))
 
-  const addTag = (raw: string) => {
-    const trimmed = raw.trim()
-    if (!isAddableValue(tags, trimmed)) return
-    if (maxChips != null && tags.length >= maxChips) return
-    updateTags([...tags, trimmed])
-  }
-
-  const removeTags = (keys: Iterable<Key>) => {
-    const toRemove = new Set(keys)
-    updateTags(tags.filter((_tag, index) => !toRemove.has(ids[index]!)))
-  }
-
-  const items = useMemo<ChipItem[]>(
-    () => tags.map((tag, index) => ({ id: ids[index]!, value: tag })),
-    [tags, ids]
-  )
-
-  const listState = useListState<ChipItem>({
-    children: (item: ChipItem) => (
-      <Item key={item.id} textValue={item.value}>
-        {item.value}
-      </Item>
-    ),
-    disabledKeys: disabled ? items.map((item) => item.id) : undefined,
-    items,
-    selectionMode: 'multiple'
-  })
-
-  const groupRef = useRef<HTMLDivElement>(null)
-  const inputRef = useRef<HTMLInputElement>(null)
-  const [inputValue, setInputValue] = useState('')
-
-  const focusLastChip = (extend: boolean) => {
-    if (tags.length === 0) return
-    const lastKey = ids[ids.length - 1]!
-    if (extend) {
-      listState.selectionManager.extendSelection(lastKey)
-    } else {
-      listState.selectionManager.replaceSelection(lastKey)
-    }
-    const rows = groupRef.current?.querySelectorAll<HTMLElement>('[role="row"]')
-    rows?.[rows.length - 1]?.focus()
-  }
-
-  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (disabled) return
-
-    if (separator && event.key === separator) {
-      event.preventDefault()
-      addTag(inputValue)
-      setInputValue('')
-      return
+    const addTag = (raw: string) => {
+      const trimmed = raw.trim()
+      if (!isAddableValue(tags, trimmed)) return
+      if (maxChips != null && tags.length >= maxChips) return
+      updateTags([...tags, trimmed])
     }
 
-    switch (event.key) {
-      case 'Enter': {
+    const removeTags = (keys: Iterable<Key>) => {
+      const toRemove = new Set(keys)
+      updateTags(tags.filter((_tag, index) => !toRemove.has(ids[index]!)))
+    }
+
+    const items = useMemo<ChipItem[]>(
+      () => tags.map((tag, index) => ({ id: ids[index]!, value: tag })),
+      [tags, ids]
+    )
+
+    const listState = useListState<ChipItem>({
+      children: (item: ChipItem) => (
+        <Item key={item.id} textValue={item.value}>
+          {item.value}
+        </Item>
+      ),
+      disabledKeys: disabled ? items.map((item) => item.id) : undefined,
+      items,
+      selectionMode: 'multiple'
+    })
+
+    const groupRef = useRef<HTMLDivElement>(null)
+    const containerRef = useRef<HTMLDivElement>(null)
+    const forkedRef = useForkedRef(ref, containerRef)
+    const inputRef = useRef<HTMLInputElement>(null)
+    const [inputValue, setInputValue] = useState('')
+
+    const focusLastChip = (extend: boolean) => {
+      if (tags.length === 0) return
+      const lastKey = ids[ids.length - 1]!
+      if (extend) {
+        listState.selectionManager.extendSelection(lastKey)
+      } else {
+        listState.selectionManager.replaceSelection(lastKey)
+      }
+      const rows = groupRef.current?.querySelectorAll<HTMLElement>('[role="row"]')
+      rows?.[rows.length - 1]?.focus()
+    }
+
+    const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+      if (disabled) return
+
+      if (separator && event.key === separator) {
         event.preventDefault()
         addTag(inputValue)
         setInputValue('')
-        break
+        return
       }
-      case 'Backspace':
-      case 'Delete': {
-        if (inputValue === '') {
+
+      switch (event.key) {
+        case 'Enter': {
           event.preventDefault()
-          focusLastChip(false)
+          addTag(inputValue)
+          setInputValue('')
+          break
         }
-        break
-      }
-      case 'ArrowLeft': {
-        const input = inputRef.current
-        if (input && input.selectionStart === 0 && input.selectionEnd === 0) {
-          event.preventDefault()
-          focusLastChip(event.shiftKey)
+        case 'Backspace':
+        case 'Delete': {
+          if (inputValue === '') {
+            event.preventDefault()
+            focusLastChip(false)
+          }
+          break
         }
-        break
+        case 'ArrowLeft': {
+          const input = inputRef.current
+          if (input && input.selectionStart === 0 && input.selectionEnd === 0) {
+            event.preventDefault()
+            focusLastChip(event.shiftKey)
+          }
+          break
+        }
+        case 'Escape': {
+          setInputValue('')
+          listState.selectionManager.clearSelection()
+          inputRef.current?.blur()
+          break
+        }
+        default:
+          break
       }
-      case 'Escape': {
-        setInputValue('')
-        listState.selectionManager.clearSelection()
-        inputRef.current?.blur()
-        break
+    }
+
+    const handlePaste = (event: React.ClipboardEvent<HTMLInputElement>) => {
+      if (disabled || !separator) return
+      const pasted = event.clipboardData.getData('text')
+      if (!pasted.includes(separator)) return
+
+      event.preventDefault()
+      const parts = pasted.split(separator)
+
+      // Accumulate locally rather than calling `addTag` per part: each call to `addTag` reads
+      // `tags` from this render's closure, so several calls in a row within one event would all
+      // start from the same stale array instead of building on each other.
+      let next = tags
+      // `i` tracks how far the loop got, so a `maxChips` cutoff can leave everything from that
+      // point on (not just the final unsplit part) in the input instead of silently dropping it.
+      let i = 0
+      for (; i < parts.length - 1; i++) {
+        if (maxChips != null && next.length >= maxChips) break
+        const trimmed = parts[i]!.trim()
+        if (!isAddableValue(next, trimmed)) continue
+        next = [...next, trimmed]
       }
-      default:
-        break
+      if (next !== tags) updateTags(next)
+      setInputValue(parts.slice(i).join(separator))
     }
+
+    const { describedBy, feedbackId, helpId, inputId, labelId, labelledBy } = useFormField({
+      ariaDescribedBy,
+      ariaLabelledBy,
+      help,
+      id,
+      invalid,
+      invalidFeedback,
+      label,
+      valid,
+      validFeedback
+    })
+
+    const { inputProps } = useTextField(
+      {
+        'aria-describedby': describedBy,
+        'aria-label': ariaLabel ?? (ariaLabelledBy || label ? undefined : 'Add value'),
+        'aria-labelledby': labelledBy,
+        id: inputId,
+        isDisabled: disabled,
+        isInvalid: invalid,
+        onChange: setInputValue,
+        onFocus: () => listState.selectionManager.clearSelection(),
+        onKeyDown: handleKeyDown,
+        placeholder,
+        value: inputValue
+      },
+      inputRef
+    )
+
+    return renderFormField({
+      children: (
+        <div
+          className={classNames(
+            'form-input',
+            'chip-input',
+            size,
+            { disabled },
+            validationClassName(invalid, valid),
+            className
+          )}
+          {...rest}
+          ref={forkedRef}
+        >
+          <ChipList
+            chipVariant={chipVariant}
+            disabled={disabled}
+            groupRef={groupRef}
+            props={{
+              'aria-label': ariaLabel,
+              'aria-labelledby': labelledBy,
+              onRemove: disabled ? undefined : removeTags
+            }}
+            size={size}
+            state={listState}
+          />
+          <input {...inputProps} className="ghost-input" onPaste={handlePaste} ref={inputRef} />
+          {name &&
+            items.map((item) => (
+              <input
+                disabled={disabled}
+                key={item.id}
+                name={name}
+                type="hidden"
+                value={item.value}
+              />
+            ))}
+        </div>
+      ),
+      help,
+      ids: { feedback: feedbackId, help: helpId, input: inputId, label: labelId },
+      invalid,
+      invalidFeedback,
+      label,
+      valid,
+      validFeedback
+    })
   }
-
-  const handlePaste = (event: React.ClipboardEvent<HTMLInputElement>) => {
-    if (disabled || !separator) return
-    const pasted = event.clipboardData.getData('text')
-    if (!pasted.includes(separator)) return
-
-    event.preventDefault()
-    const parts = pasted.split(separator)
-
-    // Accumulate locally rather than calling `addTag` per part: each call to `addTag` reads
-    // `tags` from this render's closure, so several calls in a row within one event would all
-    // start from the same stale array instead of building on each other.
-    let next = tags
-    // `i` tracks how far the loop got, so a `maxChips` cutoff can leave everything from that
-    // point on (not just the final unsplit part) in the input instead of silently dropping it.
-    let i = 0
-    for (; i < parts.length - 1; i++) {
-      if (maxChips != null && next.length >= maxChips) break
-      const trimmed = parts[i]!.trim()
-      if (!isAddableValue(next, trimmed)) continue
-      next = [...next, trimmed]
-    }
-    if (next !== tags) updateTags(next)
-    setInputValue(parts.slice(i).join(separator))
-  }
-
-  const { describedBy, feedbackId, helpId, inputId, labelId, labelledBy } = useFormField({
-    ariaDescribedBy,
-    ariaLabelledBy,
-    help,
-    id,
-    invalid,
-    invalidFeedback,
-    label,
-    valid,
-    validFeedback
-  })
-
-  const { inputProps } = useTextField(
-    {
-      'aria-describedby': describedBy,
-      'aria-label': ariaLabel ?? (ariaLabelledBy || label ? undefined : 'Add value'),
-      'aria-labelledby': labelledBy,
-      id: inputId,
-      isDisabled: disabled,
-      isInvalid: invalid,
-      onChange: setInputValue,
-      onFocus: () => listState.selectionManager.clearSelection(),
-      onKeyDown: handleKeyDown,
-      placeholder,
-      value: inputValue
-    },
-    inputRef
-  )
-
-  return renderFormField({
-    children: (
-      <div
-        className={classNames(
-          'form-input',
-          'chip-input',
-          size,
-          { disabled },
-          validationClassName(invalid, valid),
-          className
-        )}
-        {...rest}
-      >
-        <ChipList
-          chipVariant={chipVariant}
-          disabled={disabled}
-          groupRef={groupRef}
-          props={{
-            'aria-label': ariaLabel,
-            'aria-labelledby': labelledBy,
-            onRemove: disabled ? undefined : removeTags
-          }}
-          size={size}
-          state={listState}
-        />
-        <input {...inputProps} className="ghost-input" onPaste={handlePaste} ref={inputRef} />
-        {name &&
-          items.map((item) => <input key={item.id} name={name} type="hidden" value={item.value} />)}
-      </div>
-    ),
-    help,
-    ids: { feedback: feedbackId, help: helpId, input: inputId, label: labelId },
-    invalid,
-    invalidFeedback,
-    label,
-    valid,
-    validFeedback
-  })
-}
+)
 
 ChipInput.displayName = 'ChipInput'

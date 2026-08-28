@@ -1800,10 +1800,7 @@ interface ChipInputProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultVa
    */
   value?: string[];
 }
-declare const ChipInput: {
-  ({ allowDuplicates, "aria-describedby": ariaDescribedBy, "aria-label": ariaLabel, "aria-labelledby": ariaLabelledBy, chipVariant, className, defaultValue, disabled, help, id, invalid, invalidFeedback, label, maxChips, name, onChange, placeholder, separator, size, valid, validFeedback, value, ...rest }: ChipInputProps): ReactNode;
-  displayName: string;
-};
+declare const ChipInput: React.ForwardRefExoticComponent<ChipInputProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
 //#region src/components/close-button/CloseButton.d.ts
 type CloseButtonOwnProps<C extends ElementType> = {
@@ -2060,10 +2057,7 @@ interface ComboboxProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultVal
    */
   value?: Key$2 | null;
 }
-declare const Combobox: {
-  ({ "aria-describedby": ariaDescribedBy, "aria-label": ariaLabel, "aria-labelledby": ariaLabelledBy, children, className, defaultValue, disabled, help, id, invalid, invalidFeedback, items, label, name, noResultsText, onChange, placeholder, size, valid, validFeedback, value, ...rest }: ComboboxProps): ReactNode;
-  displayName: string;
-};
+declare const Combobox: React.ForwardRefExoticComponent<ComboboxProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
 //#region src/components/datepicker/DatePicker.d.ts
 interface DatePickerBaseProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultValue' | 'onChange'> {
@@ -2217,10 +2211,7 @@ interface DatePickerMultipleProps extends DatePickerBaseProps {
   value?: DateValue$1[] | null;
 }
 type DatePickerProps = DatePickerMultipleProps | DatePickerSingleProps;
-declare const DatePicker: {
-  (props: DatePickerProps): React.JSX.Element;
-  displayName: string;
-};
+declare const DatePicker: React.ForwardRefExoticComponent<DatePickerProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
 //#region src/components/datepicker/DateRangePicker.d.ts
 interface DateRangePickerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultValue' | 'onChange'> {
@@ -2345,10 +2336,7 @@ interface DateRangePickerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'def
    */
   visibleMonths?: number;
 }
-declare const DateRangePicker: {
-  ({ className, defaultOpen, defaultValue, disabled, firstDayOfWeek, help, id, invalid, invalidFeedback, isDateUnavailable, isOpen, label, maxValue, minValue, name, onChange, onOpenChange, presets, size, unavailableDates, valid, validFeedback, value, visibleMonths, ...rest }: DateRangePickerProps): ReactNode;
-  displayName: string;
-};
+declare const DateRangePicker: React.ForwardRefExoticComponent<DateRangePickerProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
 //#region src/components/otp-input/OtpInput.d.ts
 interface OtpInputProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultValue' | 'onChange'> {
@@ -2450,10 +2438,7 @@ interface OtpInputProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultVal
    */
   value?: string;
 }
-declare const OtpInput: {
-  ({ className, defaultValue, disabled, groupSizes, help, id, inputGroup, invalid, invalidFeedback, label, length, mask, name, onChange, onComplete, separator, size, valid, validFeedback, value, ...rest }: OtpInputProps): ReactNode;
-  displayName: string;
-};
+declare const OtpInput: React.ForwardRefExoticComponent<OtpInputProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
 //#region src/components/password-strength/strengthScore.d.ts
 type StrengthLevel = 'fair' | 'good' | 'strong' | 'weak';

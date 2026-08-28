@@ -1,4 +1,5 @@
 import React, {
+  forwardRef,
   HTMLAttributes,
   InputHTMLAttributes,
   ReactNode,
@@ -11,7 +12,7 @@ import classNames from 'classnames'
 import { useComboBox, useFilter, useOverlayPosition } from 'react-aria'
 import { Item, Key, Section, useComboBoxState } from 'react-stately'
 
-import { useFloatingOverlay, useFormField } from '../../hooks'
+import { useFloatingOverlay, useForkedRef, useFormField } from '../../hooks'
 import {
   ComboboxEntry,
   ComboboxGroupEntry,
@@ -206,189 +207,201 @@ export interface ComboboxProps extends Omit<
   value?: Key | null
 }
 
-export const Combobox = ({
-  'aria-describedby': ariaDescribedBy,
-  'aria-label': ariaLabel,
-  'aria-labelledby': ariaLabelledBy,
-  children,
-  className,
-  defaultValue,
-  disabled,
-  help,
-  id,
-  invalid,
-  invalidFeedback,
-  items,
-  label,
-  name,
-  noResultsText = 'No results found',
-  onChange,
-  placeholder,
-  size,
-  valid,
-  validFeedback,
-  value,
-  ...rest
-}: ComboboxProps): ReactNode => {
-  // `entries`/`disabledKeys` only need to change when the data driving them does — without this,
-  // both re-derive from scratch on every render, including every keystroke while typing.
-  const entries = useMemo(
-    () => (items ? buildEntriesFromItemsDef(items) : buildEntriesFromChildren(children)),
-    [items, children]
-  )
-  const disabledKeys = useMemo(() => getDisabledKeys(entries), [entries])
-
-  // Case- and accent-insensitive substring matching, mirroring chassis-css's own
-  // always-case-insensitive combobox.js filtering.
-  const { contains } = useFilter({ sensitivity: 'base' })
-
-  const state = useComboBoxState<ComboboxEntry>({
-    children: (entry) =>
-      isComboboxGroupEntry(entry) ? (
-        <Section key={entry.key} title={entry.label} items={entry.items}>
-          {renderComboboxItem}
-        </Section>
-      ) : (
-        renderComboboxItem(entry)
-      ),
-    defaultItems: entries,
-    disabledKeys,
-    defaultFilter: contains,
-    defaultValue,
-    value,
-    onChange,
-    allowsEmptyCollection: true,
-    // Matches chassis-css's vanilla combobox.js: the menu opens on focus, not only once the
-    // user starts typing.
-    menuTrigger: 'focus'
-  })
-
-  const wrapperRef = useRef<HTMLDivElement>(null)
-  const inputRef = useRef<HTMLInputElement>(null)
-  const listBoxRef = useRef<HTMLElement>(null)
-  const popoverRef = useRef<HTMLDivElement>(null)
-  const noResultsId = useId()
-
-  const { describedBy, feedbackId, helpId, inputId, labelId, labelledBy } = useFormField({
-    ariaDescribedBy,
-    ariaLabelledBy,
-    help,
-    id,
-    invalid,
-    invalidFeedback,
-    label,
-    valid,
-    validFeedback
-  })
-
-  const { inputProps, listBoxProps } = useComboBox<ComboboxEntry>(
+export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
+  (
     {
+      'aria-describedby': ariaDescribedBy,
       'aria-label': ariaLabel,
-      'aria-labelledby': labelledBy,
-      id: inputId,
-      inputRef,
-      listBoxRef,
-      popoverRef,
-      isDisabled: disabled,
-      placeholder
-    },
-    state
-  )
+      'aria-labelledby': ariaLabelledBy,
+      children,
+      className,
+      defaultValue,
+      disabled,
+      help,
+      id,
+      invalid,
+      invalidFeedback,
+      items,
+      label,
+      name,
+      noResultsText = 'No results found',
+      onChange,
+      placeholder,
+      size,
+      valid,
+      validFeedback,
+      value,
+      ...rest
+    }: ComboboxProps,
+    ref
+  ): ReactNode => {
+    // `entries`/`disabledKeys` only need to change when the data driving them does — without this,
+    // both re-derive from scratch on every render, including every keystroke while typing.
+    const entries = useMemo(
+      () => (items ? buildEntriesFromItemsDef(items) : buildEntriesFromChildren(children)),
+      [items, children]
+    )
+    const disabledKeys = useMemo(() => getDisabledKeys(entries), [entries])
 
-  const { overlayProps, placement: resolvedPlacement } = useOverlayPosition({
-    targetRef: wrapperRef,
-    overlayRef: popoverRef,
-    placement: toAriaPlacement('bottom-start'),
-    offset: 2,
-    isOpen: state.isOpen,
-    // Leaving `onClose` unset doesn't actually disable react-aria's close-on-scroll listener —
-    // only an explicit `null` does. Matches the fix already applied to `Autocomplete`'s identical
-    // positioning call.
-    onClose: null
-  })
+    // Case- and accent-insensitive substring matching, mirroring chassis-css's own
+    // always-case-insensitive combobox.js filtering.
+    const { contains } = useFilter({ sensitivity: 'base' })
 
-  // Portals the panel to `document.body` (or an enclosing open `<dialog>`) instead of rendering
-  // it inline, matching `Popover`/`Tooltip` — an inline-rendered panel gets clipped by any
-  // ancestor with `overflow: hidden`/`auto` (a `ModalBody`, a scrollable card, a table cell), and
-  // `Combobox` is commonly composed inside exactly those. See `COMBOBOX_MENU_OVERLAY_STYLE` for
-  // the styling this trades away by leaving the DOM position `.combobox + .menu` relies on.
-  const portalContainer = useFloatingOverlay({
-    close: state.close,
-    isOpen: state.isOpen,
-    open: state.open,
-    triggerRef: wrapperRef
-  })
+    const state = useComboBoxState<ComboboxEntry>({
+      children: (entry) =>
+        isComboboxGroupEntry(entry) ? (
+          <Section key={entry.key} title={entry.label} items={entry.items}>
+            {renderComboboxItem}
+          </Section>
+        ) : (
+          renderComboboxItem(entry)
+        ),
+      defaultItems: entries,
+      disabledKeys,
+      defaultFilter: contains,
+      defaultValue,
+      value,
+      onChange,
+      allowsEmptyCollection: true,
+      // Matches chassis-css's vanilla combobox.js: the menu opens on focus, not only once the
+      // user starts typing.
+      menuTrigger: 'focus'
+    })
 
-  const overlayStyle: React.CSSProperties = {
-    ...COMBOBOX_MENU_OVERLAY_STYLE,
-    position: overlayProps.style?.position as React.CSSProperties['position'],
-    top: overlayProps.style?.top,
-    left: overlayProps.style?.left
+    const wrapperRef = useRef<HTMLDivElement>(null)
+    const forkedWrapperRef = useForkedRef(ref, wrapperRef)
+    const inputRef = useRef<HTMLInputElement>(null)
+    const listBoxRef = useRef<HTMLElement>(null)
+    const popoverRef = useRef<HTMLDivElement>(null)
+    const noResultsId = useId()
+
+    const { describedBy, feedbackId, helpId, inputId, labelId, labelledBy } = useFormField({
+      ariaDescribedBy,
+      ariaLabelledBy,
+      help,
+      id,
+      invalid,
+      invalidFeedback,
+      label,
+      valid,
+      validFeedback
+    })
+
+    const { inputProps, listBoxProps } = useComboBox<ComboboxEntry>(
+      {
+        'aria-label': ariaLabel,
+        'aria-labelledby': labelledBy,
+        id: inputId,
+        inputRef,
+        listBoxRef,
+        popoverRef,
+        isDisabled: disabled,
+        placeholder
+      },
+      state
+    )
+
+    const { overlayProps, placement: resolvedPlacement } = useOverlayPosition({
+      targetRef: wrapperRef,
+      overlayRef: popoverRef,
+      placement: toAriaPlacement('bottom-start'),
+      offset: 2,
+      isOpen: state.isOpen,
+      // Leaving `onClose` unset doesn't actually disable react-aria's close-on-scroll listener —
+      // only an explicit `null` does. Matches the fix already applied to `Autocomplete`'s identical
+      // positioning call.
+      onClose: null
+    })
+
+    // Portals the panel to `document.body` (or an enclosing open `<dialog>`) instead of rendering
+    // it inline, matching `Popover`/`Tooltip` — an inline-rendered panel gets clipped by any
+    // ancestor with `overflow: hidden`/`auto` (a `ModalBody`, a scrollable card, a table cell), and
+    // `Combobox` is commonly composed inside exactly those. See `COMBOBOX_MENU_OVERLAY_STYLE` for
+    // the styling this trades away by leaving the DOM position `.combobox + .menu` relies on.
+    const portalContainer = useFloatingOverlay({
+      close: state.close,
+      isOpen: state.isOpen,
+      open: state.open,
+      triggerRef: wrapperRef
+    })
+
+    const overlayStyle: React.CSSProperties = {
+      ...COMBOBOX_MENU_OVERLAY_STYLE,
+      position: overlayProps.style?.position as React.CSSProperties['position'],
+      top: overlayProps.style?.top,
+      left: overlayProps.style?.left
+    }
+    const placementAttr = resolveDataPlacement('bottom-start', resolvedPlacement)
+
+    const inputHtmlProps = inputProps as InputHTMLAttributes<HTMLInputElement>
+    const showNoResults = state.collection.size === 0
+    // Merges the no-results message into the input's own description (for AT that reads
+    // descriptions on demand) in addition to the `aria-live` region below (for AT that announces
+    // live-region changes proactively as the user types) — belt and braces, since screen reader
+    // support for announcing a freshly-mounted live region is inconsistent.
+    const inputDescribedBy =
+      [describedBy, showNoResults && noResultsId].filter(Boolean).join(' ') || undefined
+
+    return renderFormField({
+      children: (
+        <>
+          <div
+            className={classNames(
+              'form-input',
+              'combobox',
+              size,
+              { disabled },
+              validationClassName(invalid, valid),
+              className
+            )}
+            ref={forkedWrapperRef}
+            {...rest}
+          >
+            <input
+              autoComplete="off"
+              className="combobox-value"
+              {...inputHtmlProps}
+              aria-describedby={inputDescribedBy}
+              aria-invalid={invalid || undefined}
+              ref={inputRef}
+            />
+          </div>
+          {typeof window !== 'undefined' &&
+            createPortal(
+              <div
+                className={classNames('menu', { show: state.isOpen })}
+                data-cx-placement={placementAttr}
+                style={overlayStyle}
+                hidden={!state.isOpen}
+                ref={popoverRef}
+              >
+                <ComboboxListBox
+                  state={state}
+                  listBoxProps={listBoxProps}
+                  listBoxRef={listBoxRef}
+                />
+                {showNoResults && (
+                  <div className="combobox-no-results" id={noResultsId} role="status">
+                    {noResultsText}
+                  </div>
+                )}
+              </div>,
+              portalContainer ?? document.body
+            )}
+          {name && (
+            <input type="hidden" name={name} value={state.value ?? ''} disabled={disabled} />
+          )}
+        </>
+      ),
+      help,
+      ids: { feedback: feedbackId, help: helpId, input: inputId, label: labelId },
+      invalid,
+      invalidFeedback,
+      label,
+      valid,
+      validFeedback
+    })
   }
-  const placementAttr = resolveDataPlacement('bottom-start', resolvedPlacement)
-
-  const inputHtmlProps = inputProps as InputHTMLAttributes<HTMLInputElement>
-  const showNoResults = state.collection.size === 0
-  // Merges the no-results message into the input's own description (for AT that reads
-  // descriptions on demand) in addition to the `aria-live` region below (for AT that announces
-  // live-region changes proactively as the user types) — belt and braces, since screen reader
-  // support for announcing a freshly-mounted live region is inconsistent.
-  const inputDescribedBy =
-    [describedBy, showNoResults && noResultsId].filter(Boolean).join(' ') || undefined
-
-  return renderFormField({
-    children: (
-      <>
-        <div
-          className={classNames(
-            'form-input',
-            'combobox',
-            size,
-            { disabled },
-            validationClassName(invalid, valid),
-            className
-          )}
-          ref={wrapperRef}
-          {...rest}
-        >
-          <input
-            autoComplete="off"
-            className="combobox-value"
-            {...inputHtmlProps}
-            aria-describedby={inputDescribedBy}
-            aria-invalid={invalid || undefined}
-            ref={inputRef}
-          />
-        </div>
-        {typeof window !== 'undefined' &&
-          createPortal(
-            <div
-              className={classNames('menu', { show: state.isOpen })}
-              data-cx-placement={placementAttr}
-              style={overlayStyle}
-              hidden={!state.isOpen}
-              ref={popoverRef}
-            >
-              <ComboboxListBox state={state} listBoxProps={listBoxProps} listBoxRef={listBoxRef} />
-              {showNoResults && (
-                <div className="combobox-no-results" id={noResultsId} role="status">
-                  {noResultsText}
-                </div>
-              )}
-            </div>,
-            portalContainer ?? document.body
-          )}
-        {name && <input type="hidden" name={name} value={state.value ?? ''} disabled={disabled} />}
-      </>
-    ),
-    help,
-    ids: { feedback: feedbackId, help: helpId, input: inputId, label: labelId },
-    invalid,
-    invalidFeedback,
-    label,
-    valid,
-    validFeedback
-  })
-}
+)
 
 Combobox.displayName = 'Combobox'

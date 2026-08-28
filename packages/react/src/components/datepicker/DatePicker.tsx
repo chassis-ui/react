@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, ReactNode, useMemo, useRef, useState } from 'react'
+import React, { forwardRef, HTMLAttributes, ReactNode, useMemo, useRef, useState } from 'react'
 import { AriaButtonProps, mergeProps, useDateFormatter, useDatePicker, useDialog } from 'react-aria'
 import {
   DateValue,
@@ -8,7 +8,7 @@ import {
 } from 'react-stately'
 import { getLocalTimeZone } from '@internationalized/date'
 
-import { useFormField, useOverlayPlacement } from '../../hooks'
+import { useForkedRef, useFormField, useOverlayPlacement } from '../../hooks'
 import { mergeIsDateUnavailable } from '../../utils/mergeIsDateUnavailable'
 import { renderFormField } from '../form-field/renderFormField'
 import { Calendar } from '../calendar/Calendar'
@@ -180,182 +180,188 @@ export type DatePickerProps = DatePickerSingleProps | DatePickerMultipleProps
 // the field/overlay shell and `useFormField` — `selectionMode: 'multiple'` has no
 // `useDatePickerState`/`useDatePicker` equivalent to build on (see `DatePickerMultiple`'s own
 // comment), so bolting an array value onto the single-value hook pair isn't an option.
-export const DatePicker = (props: DatePickerProps) => {
-  if (props.selectionMode === 'multiple') return <DatePickerMultiple {...props} />
-  return <DatePickerSingle {...props} />
-}
+export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>((props, ref) => {
+  if (props.selectionMode === 'multiple') return <DatePickerMultiple {...props} ref={ref} />
+  return <DatePickerSingle {...props} ref={ref} />
+})
 
 DatePicker.displayName = 'DatePicker'
 
-const DatePickerSingle = ({
-  className,
-  defaultOpen,
-  defaultValue,
-  disabled,
-  firstDayOfWeek,
-  help,
-  id,
-  invalid,
-  invalidFeedback,
-  isDateUnavailable,
-  isOpen,
-  label,
-  maxValue,
-  minValue,
-  name,
-  onChange,
-  onOpenChange,
-  selectionMode: _selectionMode,
-  size,
-  unavailableDates,
-  valid,
-  validFeedback,
-  value,
-  visibleMonths,
-  ...rest
-}: DatePickerSingleProps) => {
-  const combinedIsDateUnavailable = useMemo(
-    () => mergeIsDateUnavailable(unavailableDates, isDateUnavailable),
-    [unavailableDates, isDateUnavailable]
-  )
-
-  const state = useDatePickerState({
-    defaultOpen,
-    defaultValue,
-    isDateUnavailable: combinedIsDateUnavailable,
-    isDisabled: disabled,
-    isOpen,
-    maxValue,
-    minValue,
-    onChange,
-    onOpenChange,
-    value
-  })
-
-  const groupRef = useRef<HTMLDivElement>(null)
-  const calendarRef = useRef<HTMLDivElement>(null)
-  const overlayRef = useRef<HTMLDivElement>(null)
-  const toggleButtonRef = useRef<HTMLButtonElement>(null)
-
-  const {
-    describedBy,
-    feedbackId,
-    helpId,
-    inputId: groupId,
-    labelId,
-    labelledBy
-  } = useFormField({
-    ariaDescribedBy: rest['aria-describedby'],
-    ariaLabelledBy: rest['aria-labelledby'],
-    help,
-    id,
-    invalid,
-    invalidFeedback,
-    label,
-    valid,
-    validFeedback
-  })
-
-  const { groupProps, fieldProps, buttonProps, calendarProps, dialogProps } = useDatePicker(
+const DatePickerSingle = forwardRef<HTMLDivElement, DatePickerSingleProps>(
+  (
     {
-      'aria-label': rest['aria-label'],
-      'aria-labelledby': labelledBy,
+      className,
+      defaultOpen,
       defaultValue,
-      id: groupId,
+      disabled,
+      firstDayOfWeek,
+      help,
+      id,
+      invalid,
+      invalidFeedback,
+      isDateUnavailable,
+      isOpen,
+      label,
+      maxValue,
+      minValue,
+      name,
+      onChange,
+      onOpenChange,
+      selectionMode: _selectionMode,
+      size,
+      unavailableDates,
+      valid,
+      validFeedback,
+      value,
+      visibleMonths,
+      ...rest
+    }: DatePickerSingleProps,
+    ref
+  ) => {
+    const combinedIsDateUnavailable = useMemo(
+      () => mergeIsDateUnavailable(unavailableDates, isDateUnavailable),
+      [unavailableDates, isDateUnavailable]
+    )
+
+    const state = useDatePickerState({
+      defaultOpen,
+      defaultValue,
       isDateUnavailable: combinedIsDateUnavailable,
       isDisabled: disabled,
-      isInvalid: invalid,
+      isOpen,
       maxValue,
       minValue,
       onChange,
+      onOpenChange,
       value
-    },
-    state,
-    groupRef
-  )
+    })
 
-  const { overlayStyle, placementAttr, overlayDismissProps } = useOverlayPlacement({
-    overlayRef,
-    state,
-    triggerRef: groupRef
-  })
+    const groupRef = useRef<HTMLDivElement>(null)
+    const forkedGroupRef = useForkedRef(ref, groupRef)
+    const calendarRef = useRef<HTMLDivElement>(null)
+    const overlayRef = useRef<HTMLDivElement>(null)
+    const toggleButtonRef = useRef<HTMLButtonElement>(null)
 
-  // `Calendar` is dialog-agnostic by design (see its own comment) — applying `role="dialog"`
-  // etc. is this component's concern, layered on via the generic HTML-attribute passthrough
-  // `Calendar` merges onto its root.
-  const { dialogProps: domDialogProps } = useDialog(dialogProps, calendarRef)
+    const {
+      describedBy,
+      feedbackId,
+      helpId,
+      inputId: groupId,
+      labelId,
+      labelledBy
+    } = useFormField({
+      ariaDescribedBy: rest['aria-describedby'],
+      ariaLabelledBy: rest['aria-labelledby'],
+      help,
+      id,
+      invalid,
+      invalidFeedback,
+      label,
+      valid,
+      validFeedback
+    })
 
-  return renderFormField({
-    children: (
-      <>
-        {renderDatePickerShell({
-          calendar: (
-            <Calendar
-              {...domDialogProps}
-              autoFocus
+    const { groupProps, fieldProps, buttonProps, calendarProps, dialogProps } = useDatePicker(
+      {
+        'aria-label': rest['aria-label'],
+        'aria-labelledby': labelledBy,
+        defaultValue,
+        id: groupId,
+        isDateUnavailable: combinedIsDateUnavailable,
+        isDisabled: disabled,
+        isInvalid: invalid,
+        maxValue,
+        minValue,
+        onChange,
+        value
+      },
+      state,
+      groupRef
+    )
+
+    const { overlayStyle, placementAttr, overlayDismissProps } = useOverlayPlacement({
+      overlayRef,
+      state,
+      triggerRef: groupRef
+    })
+
+    // `Calendar` is dialog-agnostic by design (see its own comment) — applying `role="dialog"`
+    // etc. is this component's concern, layered on via the generic HTML-attribute passthrough
+    // `Calendar` merges onto its root.
+    const { dialogProps: domDialogProps } = useDialog(dialogProps, calendarRef)
+
+    return renderFormField({
+      children: (
+        <>
+          {renderDatePickerShell({
+            calendar: (
+              <Calendar
+                {...domDialogProps}
+                autoFocus
+                disabled={disabled}
+                firstDayOfWeek={firstDayOfWeek}
+                isDateUnavailable={combinedIsDateUnavailable}
+                maxValue={maxValue}
+                minValue={minValue}
+                onChange={calendarProps.onChange}
+                ref={calendarRef}
+                value={calendarProps.value}
+                visibleMonths={visibleMonths}
+              />
+            ),
+            className,
+            clearButton: state.value && !disabled && (
+              <ClearButton
+                onPress={() => {
+                  state.setValue(null)
+                  // `ClearButton` unmounts itself once `state.value` clears — without this, focus
+                  // would otherwise drop to `document.body` (same failure mode fixed for the
+                  // calendar's own month/year view switch — see `CalendarMonthYearPicker`'s comment).
+                  toggleButtonRef.current?.focus()
+                }}
+              />
+            ),
+            disabled,
+            field: <DateField fieldProps={fieldProps} />,
+            fieldClassName: 'w-100 overflow-x-scroll',
+            groupProps: {
+              ...mergeProps(groupProps, rest),
+              'aria-describedby': describedBy,
+              'aria-labelledby': labelledBy
+            },
+            groupRef: forkedGroupRef,
+            invalid,
+            isOpen: state.isOpen,
+            overlayDismissProps,
+            overlayRef,
+            overlayStyle,
+            placementAttr,
+            size,
+            toggleButton: (
+              <CalendarToggleButton buttonProps={buttonProps} ref={toggleButtonRef} state={state} />
+            ),
+            valid
+          })}
+          {name && (
+            <input
               disabled={disabled}
-              firstDayOfWeek={firstDayOfWeek}
-              isDateUnavailable={combinedIsDateUnavailable}
-              maxValue={maxValue}
-              minValue={minValue}
-              onChange={calendarProps.onChange}
-              ref={calendarRef}
-              value={calendarProps.value}
-              visibleMonths={visibleMonths}
+              name={name}
+              type="hidden"
+              value={state.value ? state.value.toString() : ''}
             />
-          ),
-          className,
-          clearButton: state.value && !disabled && (
-            <ClearButton
-              onPress={() => {
-                state.setValue(null)
-                // `ClearButton` unmounts itself once `state.value` clears — without this, focus
-                // would otherwise drop to `document.body` (same failure mode fixed for the
-                // calendar's own month/year view switch — see `CalendarMonthYearPicker`'s comment).
-                toggleButtonRef.current?.focus()
-              }}
-            />
-          ),
-          disabled,
-          field: <DateField fieldProps={fieldProps} />,
-          fieldClassName: 'w-100 overflow-x-scroll',
-          groupProps: {
-            ...mergeProps(groupProps, rest),
-            'aria-describedby': describedBy,
-            'aria-labelledby': labelledBy
-          },
-          groupRef,
-          invalid,
-          isOpen: state.isOpen,
-          overlayDismissProps,
-          overlayRef,
-          overlayStyle,
-          placementAttr,
-          size,
-          toggleButton: (
-            <CalendarToggleButton buttonProps={buttonProps} ref={toggleButtonRef} state={state} />
-          ),
-          valid
-        })}
-        {name && (
-          <input
-            disabled={disabled}
-            name={name}
-            type="hidden"
-            value={state.value ? state.value.toString() : ''}
-          />
-        )}
-      </>
-    ),
-    help,
-    ids: { feedback: feedbackId, help: helpId, label: labelId },
-    invalid,
-    invalidFeedback,
-    label,
-    valid,
-    validFeedback
-  })
-}
+          )}
+        </>
+      ),
+      help,
+      ids: { feedback: feedbackId, help: helpId, label: labelId },
+      invalid,
+      invalidFeedback,
+      label,
+      valid,
+      validFeedback
+    })
+  }
+)
 
 DatePickerSingle.displayName = 'DatePickerSingle'
 
@@ -368,166 +374,172 @@ DatePickerSingle.displayName = 'DatePickerSingle'
 // `useOverlayPlacement`/`CalendarToggleButton` already expect, so both are reused unchanged), the
 // manual controlled/uncontrolled pattern `ChipInput` already uses for its own array value, and
 // a read-only comma-separated field in place of `DateField`'s editable segments.
-const DatePickerMultiple = ({
-  className,
-  defaultOpen,
-  defaultValue,
-  disabled,
-  firstDayOfWeek,
-  help,
-  id,
-  invalid,
-  invalidFeedback,
-  isDateUnavailable,
-  isOpen,
-  label,
-  maxValue,
-  minValue,
-  name,
-  onChange,
-  onOpenChange,
-  selectionMode: _selectionMode,
-  size,
-  unavailableDates,
-  valid,
-  validFeedback,
-  value,
-  visibleMonths,
-  ...rest
-}: DatePickerMultipleProps) => {
-  const combinedIsDateUnavailable = useMemo(
-    () => mergeIsDateUnavailable(unavailableDates, isDateUnavailable),
-    [unavailableDates, isDateUnavailable]
-  )
+const DatePickerMultiple = forwardRef<HTMLDivElement, DatePickerMultipleProps>(
+  (
+    {
+      className,
+      defaultOpen,
+      defaultValue,
+      disabled,
+      firstDayOfWeek,
+      help,
+      id,
+      invalid,
+      invalidFeedback,
+      isDateUnavailable,
+      isOpen,
+      label,
+      maxValue,
+      minValue,
+      name,
+      onChange,
+      onOpenChange,
+      selectionMode: _selectionMode,
+      size,
+      unavailableDates,
+      valid,
+      validFeedback,
+      value,
+      visibleMonths,
+      ...rest
+    }: DatePickerMultipleProps,
+    ref
+  ) => {
+    const combinedIsDateUnavailable = useMemo(
+      () => mergeIsDateUnavailable(unavailableDates, isDateUnavailable),
+      [unavailableDates, isDateUnavailable]
+    )
 
-  const isControlled = value !== undefined
-  const [uncontrolledValues, setUncontrolledValues] = useState<DateValue[]>(defaultValue ?? [])
-  const values = isControlled ? (value ?? []) : uncontrolledValues
+    const isControlled = value !== undefined
+    const [uncontrolledValues, setUncontrolledValues] = useState<DateValue[]>(defaultValue ?? [])
+    const values = isControlled ? (value ?? []) : uncontrolledValues
 
-  const setValues = (next: DateValue[]) => {
-    if (!isControlled) setUncontrolledValues(next)
-    onChange?.(next)
+    const setValues = (next: DateValue[]) => {
+      if (!isControlled) setUncontrolledValues(next)
+      onChange?.(next)
+    }
+
+    const state: OverlayTriggerState = useOverlayTriggerState({ defaultOpen, isOpen, onOpenChange })
+
+    const groupRef = useRef<HTMLDivElement>(null)
+    const forkedGroupRef = useForkedRef(ref, groupRef)
+    const calendarRef = useRef<HTMLDivElement>(null)
+    const overlayRef = useRef<HTMLDivElement>(null)
+    const toggleButtonRef = useRef<HTMLButtonElement>(null)
+
+    const {
+      describedBy,
+      feedbackId,
+      helpId,
+      inputId: groupId,
+      labelId,
+      labelledBy
+    } = useFormField({
+      ariaDescribedBy: rest['aria-describedby'],
+      ariaLabelledBy: rest['aria-labelledby'],
+      help,
+      id,
+      invalid,
+      invalidFeedback,
+      label,
+      valid,
+      validFeedback
+    })
+
+    const { overlayStyle, placementAttr, overlayDismissProps } = useOverlayPlacement({
+      overlayRef,
+      state,
+      triggerRef: groupRef
+    })
+
+    const { dialogProps: domDialogProps } = useDialog(
+      { 'aria-label': rest['aria-label'], 'aria-labelledby': labelledBy },
+      calendarRef
+    )
+
+    const buttonProps: AriaButtonProps = {
+      'aria-expanded': state.isOpen,
+      'aria-haspopup': 'dialog',
+      'aria-label': 'Calendar',
+      isDisabled: disabled
+    }
+
+    return renderFormField({
+      children: (
+        <>
+          {renderDatePickerShell({
+            calendar: (
+              <Calendar
+                {...domDialogProps}
+                autoFocus
+                disabled={disabled}
+                firstDayOfWeek={firstDayOfWeek}
+                isDateUnavailable={combinedIsDateUnavailable}
+                maxValue={maxValue}
+                minValue={minValue}
+                onChange={setValues}
+                ref={calendarRef}
+                selectionMode="multiple"
+                value={values}
+                visibleMonths={visibleMonths}
+              />
+            ),
+            className,
+            clearButton: values.length > 0 && !disabled && (
+              <ClearButton
+                onPress={() => {
+                  setValues([])
+                  // See the single-selection `ClearButton` usage above for why this is needed.
+                  toggleButtonRef.current?.focus()
+                }}
+              />
+            ),
+            disabled,
+            field: <MultiDateField values={values} />,
+            fieldClassName: 'w-100 overflow-x-scroll',
+            groupProps: {
+              ...mergeProps(rest),
+              'aria-describedby': describedBy,
+              'aria-disabled': disabled || undefined,
+              'aria-labelledby': labelledBy,
+              id: groupId,
+              role: 'group'
+            },
+            groupRef: forkedGroupRef,
+            invalid,
+            isOpen: state.isOpen,
+            overlayDismissProps,
+            overlayRef,
+            overlayStyle,
+            placementAttr,
+            size,
+            toggleButton: (
+              <CalendarToggleButton buttonProps={buttonProps} ref={toggleButtonRef} state={state} />
+            ),
+            valid
+          })}
+          {name &&
+            values.map((date) => (
+              <input
+                disabled={disabled}
+                key={date.toString()}
+                name={name}
+                type="hidden"
+                value={date.toString()}
+              />
+            ))}
+        </>
+      ),
+      help,
+      ids: { feedback: feedbackId, help: helpId, label: labelId },
+      invalid,
+      invalidFeedback,
+      label,
+      valid,
+      validFeedback
+    })
   }
-
-  const state: OverlayTriggerState = useOverlayTriggerState({ defaultOpen, isOpen, onOpenChange })
-
-  const groupRef = useRef<HTMLDivElement>(null)
-  const calendarRef = useRef<HTMLDivElement>(null)
-  const overlayRef = useRef<HTMLDivElement>(null)
-  const toggleButtonRef = useRef<HTMLButtonElement>(null)
-
-  const {
-    describedBy,
-    feedbackId,
-    helpId,
-    inputId: groupId,
-    labelId,
-    labelledBy
-  } = useFormField({
-    ariaDescribedBy: rest['aria-describedby'],
-    ariaLabelledBy: rest['aria-labelledby'],
-    help,
-    id,
-    invalid,
-    invalidFeedback,
-    label,
-    valid,
-    validFeedback
-  })
-
-  const { overlayStyle, placementAttr, overlayDismissProps } = useOverlayPlacement({
-    overlayRef,
-    state,
-    triggerRef: groupRef
-  })
-
-  const { dialogProps: domDialogProps } = useDialog(
-    { 'aria-label': rest['aria-label'], 'aria-labelledby': labelledBy },
-    calendarRef
-  )
-
-  const buttonProps: AriaButtonProps = {
-    'aria-expanded': state.isOpen,
-    'aria-haspopup': 'dialog',
-    'aria-label': 'Calendar',
-    isDisabled: disabled
-  }
-
-  return renderFormField({
-    children: (
-      <>
-        {renderDatePickerShell({
-          calendar: (
-            <Calendar
-              {...domDialogProps}
-              autoFocus
-              disabled={disabled}
-              firstDayOfWeek={firstDayOfWeek}
-              isDateUnavailable={combinedIsDateUnavailable}
-              maxValue={maxValue}
-              minValue={minValue}
-              onChange={setValues}
-              ref={calendarRef}
-              selectionMode="multiple"
-              value={values}
-              visibleMonths={visibleMonths}
-            />
-          ),
-          className,
-          clearButton: values.length > 0 && !disabled && (
-            <ClearButton
-              onPress={() => {
-                setValues([])
-                // See the single-selection `ClearButton` usage above for why this is needed.
-                toggleButtonRef.current?.focus()
-              }}
-            />
-          ),
-          disabled,
-          field: <MultiDateField values={values} />,
-          fieldClassName: 'w-100 overflow-x-scroll',
-          groupProps: {
-            ...mergeProps(rest),
-            'aria-describedby': describedBy,
-            'aria-disabled': disabled || undefined,
-            'aria-labelledby': labelledBy,
-            id: groupId,
-            role: 'group'
-          },
-          groupRef,
-          invalid,
-          isOpen: state.isOpen,
-          overlayDismissProps,
-          overlayRef,
-          overlayStyle,
-          placementAttr,
-          size,
-          toggleButton: (
-            <CalendarToggleButton buttonProps={buttonProps} ref={toggleButtonRef} state={state} />
-          ),
-          valid
-        })}
-        {name &&
-          values.map((date) => (
-            <input
-              disabled={disabled}
-              key={date.toString()}
-              name={name}
-              type="hidden"
-              value={date.toString()}
-            />
-          ))}
-      </>
-    ),
-    help,
-    ids: { feedback: feedbackId, help: helpId, label: labelId },
-    invalid,
-    invalidFeedback,
-    label,
-    valid,
-    validFeedback
-  })
-}
+)
 
 DatePickerMultiple.displayName = 'DatePickerMultiple'
 
