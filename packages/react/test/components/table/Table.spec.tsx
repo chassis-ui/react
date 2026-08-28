@@ -113,7 +113,7 @@ describe('Table', () => {
       )
       // The responsive wrapper is a plain div with no role/name - no accessible query reaches it.
       // eslint-disable-next-line testing-library/no-node-access
-      expect(container.firstChild).toHaveClass('table-responsive-xlarge')
+      expect(container.firstChild).toHaveClass('max-xlarge:table-responsive')
       const table = screen.getByRole('grid')
       expect(table).toHaveClass(
         'table',
@@ -151,6 +151,84 @@ describe('Table', () => {
       expect(screen.getByRole('columnheader', { name: 'Name' })).toHaveClass('column-class')
       expect(screen.getByRole('row', { name: /Mark/ })).toHaveClass('row-class')
       expect(screen.getByRole('rowheader', { name: 'Mark' })).toHaveClass('cell-class')
+    })
+  })
+
+  describe('stacked', () => {
+    test('true adds the stacked class and wraps in a responsive container with no breakpoint', () => {
+      const { container } = render(
+        <Table aria-label="Stacked" stacked>
+          <TableHeader>
+            <TableColumn key="name">Name</TableColumn>
+          </TableHeader>
+          <TableBody items={rows}>
+            {(row) => <TableRow key={row.id}>{() => <TableCell>{row.name}</TableCell>}</TableRow>}
+          </TableBody>
+        </Table>
+      )
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(container.firstChild).toHaveClass('table-responsive')
+      expect(screen.getByRole('grid')).toHaveClass('stacked')
+    })
+
+    test('a breakpoint name adds the max-{breakpoint}:stacked class', () => {
+      render(
+        <Table aria-label="Stacked" stacked="medium">
+          <TableHeader>
+            <TableColumn key="name">Name</TableColumn>
+          </TableHeader>
+          <TableBody items={rows}>
+            {(row) => <TableRow key={row.id}>{() => <TableCell>{row.name}</TableCell>}</TableRow>}
+          </TableBody>
+        </Table>
+      )
+      expect(screen.getByRole('grid')).toHaveClass('max-medium:stacked')
+    })
+
+    test('does not wrap in a responsive container or add data-cell when unset', () => {
+      const { container } = render(<BasicTable />)
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(container.firstChild).not.toHaveClass('table-responsive')
+      expect(screen.getByRole('rowheader', { name: 'Mark' })).not.toHaveAttribute('data-cell')
+    })
+
+    test('labels each cell with data-cell from its column header text', () => {
+      render(
+        <Table aria-label="Stacked" stacked>
+          <TableHeader>
+            <TableColumn key="name">Name</TableColumn>
+            <TableColumn key="username">Username</TableColumn>
+          </TableHeader>
+          <TableBody items={rows}>
+            {(row) => (
+              <TableRow key={row.id}>
+                {(columnKey) => <TableCell>{row[columnKey as keyof typeof row]}</TableCell>}
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      )
+      expect(screen.getByRole('rowheader', { name: 'Mark' })).toHaveAttribute('data-cell', 'Name')
+      expect(screen.getByRole('gridcell', { name: '@mdo' })).toHaveAttribute(
+        'data-cell',
+        'Username'
+      )
+    })
+
+    test('a non-string column header falls back to textValue for data-cell', () => {
+      render(
+        <Table aria-label="Stacked" stacked>
+          <TableHeader>
+            <TableColumn key="name" textValue="Name">
+              <strong>Name</strong>
+            </TableColumn>
+          </TableHeader>
+          <TableBody items={rows}>
+            {(row) => <TableRow key={row.id}>{() => <TableCell>{row.name}</TableCell>}</TableRow>}
+          </TableBody>
+        </Table>
+      )
+      expect(screen.getByRole('rowheader', { name: 'Mark' })).toHaveAttribute('data-cell', 'Name')
     })
   })
 

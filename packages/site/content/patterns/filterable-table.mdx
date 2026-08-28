@@ -1,0 +1,20 @@
+---
+title: Filterable Table
+description: A complete example of a search input filtering a Table's rows client-side.
+toc: true
+---
+
+import { Example as FilterableTable } from '../../examples/patterns/filterable-table/FilterableTable.tsx'
+
+`Table` already accepts any array via `items`, so filtering is just: keep the full data set in state, derive the visible subset from the query, and pass that to `TableBody`. No dedicated filter prop is needed.
+
+<Example>
+  <FilterableTable client:load />
+</Example>
+
+## Key points
+
+- `allUsers.filter(...)` computes the visible rows from the current query — swap in an API call for server-side filtering, the same way `paginated-table` swaps in `page`/`pageSize` query params.
+- `useMemo` avoids re-filtering on every render that isn't caused by `query` or the source data changing.
+- Matching against multiple fields (`name` and `role` here) keeps the search useful without needing per-column filters.
+- Showing a "no results" message when the filtered array is empty avoids a confusingly blank table.

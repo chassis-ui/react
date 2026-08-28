@@ -15,6 +15,13 @@ export interface TableColumnProps {
    * A string of all className you want applied to the column header.
    */
   className?: string
+  /**
+   * A string representation of the column header, used for accessibility announcements and,
+   * when `Table`'s `stacked` prop is set, as the label shown before each row's value for this
+   * column. Defaults to `children` when it's a plain string — set this explicitly when the
+   * header contains anything else (an icon, a `Tooltip`, etc.).
+   */
+  textValue?: string
 }
 
 /**

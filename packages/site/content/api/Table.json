@@ -447,6 +447,25 @@
         "name": "SortDescriptor"
       }
     },
+    "stacked": {
+      "defaultValue": null,
+      "description": "Convert rows into stacked label/value blocks below a container width, for tables with too\nmany columns to read comfortably even with horizontal scrolling. `true` always stacks; a\nbreakpoint name stacks only below it. Implies `responsive` when `responsive` isn't set\nseparately, since stacking needs the same `.table-responsive` container-query ancestor.\nLabels come from each `TableColumn`'s text (or its `textValue`, for non-text headers).",
+      "name": "stacked",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+        "name": "TableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+          "name": "TableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean | \"small\" | \"medium\" | \"large\" | \"xlarge\" | \"2xlarge\""
+      }
+    },
     "striped": {
       "defaultValue": null,
       "description": "Add zebra-striping to table rows.",

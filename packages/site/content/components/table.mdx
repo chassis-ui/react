@@ -11,6 +11,7 @@ import { Example as SelectionExample } from '../../examples/components/table/Sel
 import { Example as VariantsExample } from '../../examples/components/table/VariantsExample.tsx'
 import { Example as CaptionFooterExample } from '../../examples/components/table/CaptionFooterExample.tsx'
 import { Example as ResponsiveExample } from '../../examples/components/table/ResponsiveExample.tsx'
+import { Example as StackedExample } from '../../examples/components/table/StackedExample.tsx'
 
 ## Overview
 
@@ -72,6 +73,16 @@ Wrap in a responsive container with the `responsive` prop — `true` for all vie
 
 <Example>
   <ResponsiveExample client:load />
+</Example>
+
+## Stacked tables
+
+For tables with too many columns to read comfortably even with horizontal scrolling, set `stacked` to convert rows into stacked label/value blocks below a container width — `true` always stacks, or pass a breakpoint name to stack only below it. Resize the panel below to see it switch.
+
+Each `TableColumn`'s text becomes the label shown before that column's value; set `textValue` on a column explicitly when its header isn't plain text (an icon, a `Tooltip`, etc.).
+
+<Example>
+  <StackedExample client:load />
 </Example>
 
 ## Scope

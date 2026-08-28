@@ -5162,6 +5162,14 @@ interface TableProps<T extends object> {
    */
   sortDescriptor?: SortDescriptor;
   /**
+   * Convert rows into stacked label/value blocks below a container width, for tables with too
+   * many columns to read comfortably even with horizontal scrolling. `true` always stacks; a
+   * breakpoint name stacks only below it. Implies `responsive` when `responsive` isn't set
+   * separately, since stacking needs the same `.table-responsive` container-query ancestor.
+   * Labels come from each `TableColumn`'s text (or its `textValue`, for non-text headers).
+   */
+  stacked?: '2xlarge' | 'large' | 'medium' | 'small' | 'xlarge' | boolean;
+  /**
    * Add zebra-striping to table rows.
    */
   striped?: boolean;
@@ -5231,6 +5239,13 @@ interface TableColumnProps {
    * A string of all className you want applied to the column header.
    */
   className?: string;
+  /**
+   * A string representation of the column header, used for accessibility announcements and,
+   * when `Table`'s `stacked` prop is set, as the label shown before each row's value for this
+   * column. Defaults to `children` when it's a plain string — set this explicitly when the
+   * header contains anything else (an icon, a `Tooltip`, etc.).
+   */
+  textValue?: string;
 }
 /**
  * Collection node, data-only — see `TableHeader`. Read by `Table` to build a column in the

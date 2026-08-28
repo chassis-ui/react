@@ -121,6 +121,14 @@ export interface TableProps<T extends object> {
    */
   sortDescriptor?: SortDescriptor
   /**
+   * Convert rows into stacked label/value blocks below a container width, for tables with too
+   * many columns to read comfortably even with horizontal scrolling. `true` always stacks; a
+   * breakpoint name stacks only below it. Implies `responsive` when `responsive` isn't set
+   * separately, since stacking needs the same `.table-responsive` container-query ancestor.
+   * Labels come from each `TableColumn`'s text (or its `textValue`, for non-text headers).
+   */
+  stacked?: boolean | 'small' | 'medium' | 'large' | 'xlarge' | '2xlarge'
+  /**
    * Add zebra-striping to table rows.
    */
   striped?: boolean
@@ -146,6 +154,7 @@ const TableInner = <T extends object>(
     selectionMode = 'none',
     small,
     sortDescriptor,
+    stacked,
     striped,
     ...rest
   }: TableProps<T>,
@@ -179,8 +188,10 @@ const TableInner = <T extends object>(
       borderless,
       hoverable: hover,
       small,
+      stacked: stacked === true,
       striped
     },
+    typeof stacked === 'string' ? `max-${stacked}:stacked` : undefined,
     className
   )
 
@@ -207,7 +218,7 @@ const TableInner = <T extends object>(
               cell.props?.isSelectionCell ? (
                 <TableSelectionCell key={cell.key} cell={cell} state={state} />
               ) : (
-                <TableCell key={cell.key} cell={cell} state={state} />
+                <TableCell key={cell.key} cell={cell} stacked={!!stacked} state={state} />
               )
             )}
           </TableRow>
@@ -217,17 +228,15 @@ const TableInner = <T extends object>(
     </table>
   )
 
-  if (!responsive) return tableEl
+  if (!responsive && !stacked) return tableEl
 
-  return (
-    <div
-      className={
-        typeof responsive === 'boolean' ? 'table-responsive' : `table-responsive-${responsive}`
-      }
-    >
-      {tableEl}
-    </div>
-  )
+  const wrapperClassName = responsive
+    ? typeof responsive === 'boolean'
+      ? 'table-responsive'
+      : `max-${responsive}:table-responsive`
+    : 'table-responsive'
+
+  return <div className={wrapperClassName}>{tableEl}</div>
 }
 
 // `forwardRef` erases type parameters, so the generic component is cast back to a generic
@@ -340,15 +349,21 @@ const TableRow = <T extends object>({ children, item, state }: TableRowProps<T>)
 
 interface TableCellProps<T> {
   cell: CellNode<T>
+  stacked?: boolean
   state: TableState<T>
 }
 
-const TableCell = <T extends object>({ cell, state }: TableCellProps<T>) => {
+const TableCell = <T extends object>({ cell, stacked, state }: TableCellProps<T>) => {
   const ref = useRef<HTMLTableCellElement>(null)
   const { gridCellProps } = useTableCell({ node: cell }, state, ref)
 
   return (
-    <td {...gridCellProps} className={cell.props?.className || undefined} ref={ref}>
+    <td
+      {...gridCellProps}
+      className={cell.props?.className || undefined}
+      data-cell={stacked ? cell.column?.textValue || undefined : undefined}
+      ref={ref}
+    >
       {cell.rendered}
     </td>
   )
