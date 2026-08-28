@@ -16,6 +16,11 @@ exports[`NavbarToggler > rendering > matches the baseline markup snapshot 1`] = 
         href="/static/icons/chassis-icons.svg#bars-outline"
       />
     </svg>
+    <span
+      class="visually-hidden"
+    >
+      Toggle navigation
+    </span>
   </button>
 </div>
 `;

@@ -14,11 +14,14 @@ describe('NavbarToggler', () => {
       expect(button).toHaveAttribute('type', 'button')
     })
 
-    test('renders a default toggler icon when no children are provided', () => {
-      // Decorative default icon: no text, no role, so there's no accessible query for it.
-      const { container } = render(<NavbarToggler />)
-      // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-      expect(container.querySelectorAll('.navbar-toggler-icon')).toHaveLength(1)
+    test('renders a default toggler icon with a default accessible name when no children are provided', () => {
+      render(<NavbarToggler />)
+      expect(screen.getByRole('button', { name: 'Toggle navigation' })).toBeInTheDocument()
+    })
+
+    test('accepts a custom label for the default icon', () => {
+      render(<NavbarToggler label="Open menu" />)
+      expect(screen.getByRole('button', { name: 'Open menu' })).toBeInTheDocument()
     })
 
     test('matches the baseline markup snapshot', () => {
@@ -52,7 +55,7 @@ describe('NavbarToggler', () => {
 
   describe('accessibility', () => {
     test('has no axe violations', async () => {
-      const { container } = render(<NavbarToggler aria-label="Toggle navigation" />)
+      const { container } = render(<NavbarToggler />)
       expect(await axe(container)).toHaveNoViolations()
     })
   })

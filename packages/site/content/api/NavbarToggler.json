@@ -23,6 +23,27 @@
       "type": {
         "name": "string"
       }
+    },
+    "label": {
+      "defaultValue": {
+        "value": "Toggle navigation"
+      },
+      "description": "The accessible label announced by assistive technology when no children are provided.",
+      "name": "label",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/navbar/NavbarToggler.tsx",
+        "name": "NavbarTogglerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/navbar/NavbarToggler.tsx",
+          "name": "NavbarTogglerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
     }
   }
 }

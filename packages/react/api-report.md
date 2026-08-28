@@ -4425,6 +4425,10 @@ interface NavbarTogglerProps extends HTMLAttributes<HTMLButtonElement> {
    * A string of all className you want applied to the base component.
    */
   className?: string;
+  /**
+   * The accessible label announced by assistive technology when no children are provided.
+   */
+  label?: string;
 }
 declare const NavbarToggler: React.ForwardRefExoticComponent<NavbarTogglerProps & React.RefAttributes<HTMLButtonElement>>;
 //#endregion
