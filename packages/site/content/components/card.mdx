@@ -1,0 +1,400 @@
+---
+title: Card
+description: Flexible content container with image, header, footer, and layout options, plus contextual background colors.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/card/BasicExample.tsx'
+import { Example as ShorthandExample } from '../../examples/components/card/ShorthandExample.tsx'
+import { Example as BodyExample } from '../../examples/components/card/BodyExample.tsx'
+import { Example as TitleTextLinksExample } from '../../examples/components/card/TitleTextLinksExample.tsx'
+import { Example as ImageExample } from '../../examples/components/card/ImageExample.tsx'
+import { Example as ListExample } from '../../examples/components/card/ListExample.tsx'
+import { Example as ListHeaderExample } from '../../examples/components/card/ListHeaderExample.tsx'
+import { Example as ListFooterExample } from '../../examples/components/card/ListFooterExample.tsx'
+import { Example as KitchenSinkExample } from '../../examples/components/card/KitchenSinkExample.tsx'
+import { Example as HeaderFooterExample } from '../../examples/components/card/HeaderFooterExample.tsx'
+import { Example as HeaderComponentExample } from '../../examples/components/card/HeaderComponentExample.tsx'
+import { Example as QuoteExample } from '../../examples/components/card/QuoteExample.tsx'
+import { Example as HeaderFooterCenteredExample } from '../../examples/components/card/HeaderFooterCenteredExample.tsx'
+import { Example as GridExample } from '../../examples/components/card/GridExample.tsx'
+import { Example as UtilitiesSizingExample } from '../../examples/components/card/UtilitiesSizingExample.tsx'
+import { Example as CustomCssSizingExample } from '../../examples/components/card/CustomCssSizingExample.tsx'
+import { Example as TextAlignExample } from '../../examples/components/card/TextAlignExample.tsx'
+import { Example as NavTabsExample } from '../../examples/components/card/NavTabsExample.tsx'
+import { Example as NavPillsExample } from '../../examples/components/card/NavPillsExample.tsx'
+import { Example as ImageCapsExample } from '../../examples/components/card/ImageCapsExample.tsx'
+import { Example as ImageOverlayExample } from '../../examples/components/card/ImageOverlayExample.tsx'
+import { Example as HorizontalExample } from '../../examples/components/card/HorizontalExample.tsx'
+import { Example as HorizontalBodyExample } from '../../examples/components/card/HorizontalBodyExample.tsx'
+import { Example as ContextColorsExample } from '../../examples/components/card/ContextColorsExample.tsx'
+import { Example as VariantExample } from '../../examples/components/card/VariantExample.tsx'
+import { Example as UtilityStylingExample } from '../../examples/components/card/UtilityStylingExample.tsx'
+import { Example as SizeExample } from '../../examples/components/card/SizeExample.tsx'
+import { Example as CardGroupExample } from '../../examples/components/card/CardGroupExample.tsx'
+import { Example as CardGroupFooterExample } from '../../examples/components/card/CardGroupFooterExample.tsx'
+import { Example as GridCardsExample } from '../../examples/components/card/GridCardsExample.tsx'
+import { Example as GridCardsThreeColExample } from '../../examples/components/card/GridCardsThreeColExample.tsx'
+import { Example as GridCardsEqualHeightExample } from '../../examples/components/card/GridCardsEqualHeightExample.tsx'
+import { Example as GridCardsEqualHeightFooterExample } from '../../examples/components/card/GridCardsEqualHeightFooterExample.tsx'
+
+## Overview
+
+A `<Card>` is a flexible content container built with flexbox, composing options for images, headers, footers, and a wide variety of body content. A card has no top, left, or right margin by default — spacing utilities apply as needed — and no fixed width to start, so it fills the full width of its parent.
+
+## Basic usage
+
+A basic card mixes an image, a title, body text, and a button inside a fixed width.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+For the common case — a single image, a title, some text, maybe a footer — `<Card>` accepts
+`image`/`imageAlt`/`imageOrientation`, `title`, `subtitle`, `text`, and `footer` shorthand props
+directly, instead of composing `CardImage`/`CardBody`/`CardTitle`/`CardText`/`CardFooter`
+directly. `title`/`subtitle`/`text`/`children` render together inside a single `CardBody`, in that
+order, so `children` still works for trailing content like a button. This example produces the
+same markup as the one above:
+
+<Example>
+  <ShorthandExample client:load />
+</Example>
+
+Shorthand props only take effect once at least one of `image`/`title`/`subtitle`/`text`/`footer`
+is set — otherwise `children` render exactly as passed, so full manual composition (`CardHeader`,
+flush lists, image overlays, nav headers, horizontal layouts, …) keeps working unchanged. Mixing
+shorthand props with a manually-composed `children` tree (e.g. a raw `CardHeader`) isn't
+supported — pick one approach per card, falling back to composing `CardBody`/`CardTitle`/etc.
+directly for anything the shorthand props don't cover.
+
+`image` also accepts a full element instead of a `src` string — a `<CardImage>` composed by hand,
+a [`<Placeholder>`]([[docsref:/components/placeholder]]), a loading
+[`<Skeleton>`]([[docsref:/components/skeleton]]) — rendered as-is in the image slot, so the rest of
+`title`/`subtitle`/`text`/`footer` don't have to give up their shorthand just because the image
+needs something other than a plain URL. `imageAlt`/`imageOrientation` only apply to the `src` form;
+set them directly on the passed element otherwise. See
+[Loading states]([[docsref:/patterns/loading-states]]) for a worked example swapping the image for
+a skeleton while data loads.
+
+## Content types
+
+`<Card>` supports a wide variety of content, including images, text, lists, and links.
+
+### Body
+
+`<CardBody>` is the main padded content region of a card.
+
+<Example>
+  <BodyExample client:load />
+</Example>
+
+### Titles, text, and links
+
+`<CardTitle>` renders a card's title, and `<CardLink>` renders links positioned next to each
+other. `<CardSubtitle>` renders a subtitle — when both `<CardTitle>` and `<CardSubtitle>` sit
+inside the same `<CardBody>`, their spacing lines up automatically.
+
+<Example>
+  <TitleTextLinksExample client:load />
+</Example>
+
+### Images
+
+`orientation="top"` places an image at the top of the card. `<CardText>` renders text content,
+styled with regular HTML tags as needed.
+
+<Example>
+  <ImageExample client:load />
+</Example>
+
+`<CardImage>` renders an `<img>` by default, but its `component` prop accepts any element or
+component — including a framework's own `Image` (Next.js, Gatsby, Remix, etc.). The passed
+component is fully type-checked at the call site, so its own props (`fill`, `priority`, `loader`,
+and so on) are available and validated alongside `src`/`alt`:
+
+```tsx
+import Image from 'next/image'
+
+<CardImage component={Image} src="/hero.jpg" alt="" fill priority orientation="top" />
+```
+
+### Lists
+
+A flush `<List>` renders a list of content inside a card without its own padding.
+
+<Example>
+  <ListExample client:load />
+</Example>
+
+<Example>
+  <ListHeaderExample client:load />
+</Example>
+
+<Example>
+  <ListFooterExample client:load />
+</Example>
+
+### Kitchen sink
+
+Image styles, body content, and a list combine inside a single fixed-width card.
+
+<Example>
+  <KitchenSinkExample client:load />
+</Example>
+
+### Header and footer
+
+`<CardHeader>` and `<CardFooter>` add an optional header and/or footer to a card.
+
+<Example>
+  <HeaderFooterExample client:load />
+</Example>
+
+`<CardHeader>` accepts a `component` prop — `component="h5"`, for example — to change its
+rendered element.
+
+<Example>
+  <HeaderComponentExample client:load />
+</Example>
+
+<Example>
+  <QuoteExample client:load />
+</Example>
+
+<Example>
+  <HeaderFooterCenteredExample client:load />
+</Example>
+
+## Sizing
+
+A card has no specific `width` set by default, so it renders at 100% width unless otherwise
+stated. Custom CSS, grid classes, and grid Sass mixins all adjust this as needed.
+
+### Using grid markup
+
+The grid wraps cards in columns and rows.
+
+<Example>
+  <GridExample client:load />
+</Example>
+
+### Using utilities
+
+Sizing utilities set a card's width directly.
+
+<Example>
+  <UtilitiesSizingExample client:load />
+</Example>
+
+### Using custom CSS
+
+Custom CSS in a stylesheet or as an inline style also sets a card's width.
+
+<Example>
+  <CustomCssSizingExample client:load />
+</Example>
+
+## Text alignment
+
+Text align classes change the text arrangement of a card, in whole or in specific parts.
+
+<Example>
+  <TextAlignExample client:load />
+</Example>
+
+## Navigation
+
+A `<Nav>` composed inside `<CardHeader>` adds navigation to a card.
+
+<Example>
+  <NavTabsExample client:load />
+</Example>
+
+<Example>
+  <NavPillsExample client:load />
+</Example>
+
+## Images
+
+Beyond a plain image inside a card, images support two more placements: "image caps" at either
+end of a card, or an overlay behind the card's content.
+
+### Image caps
+
+Similar to headers and footers, a card renders top and bottom "image caps" — images at the top or
+bottom of a card.
+
+<Example>
+  <ImageCapsExample client:load />
+</Example>
+
+### Image overlays
+
+An image serves as a background with content overlaid on top of it. Depending on the image,
+additional styles or utilities may be needed for legibility.
+
+<Example>
+  <ImageOverlayExample client:load />
+</Example>
+
+## Horizontal
+
+Set `direction="row"` (or `responsive` for a breakpoint-gated switch) on `<Card>` to lay it out
+side-by-side instead of stacked. Wrap the image and body in `<Col>` to control each side's width,
+and pair `orientation="top"` with a `responsive` override on `<CardImage>` so the image's rounded
+corners switch from the top edge to the start edge at the same breakpoint the card switches to a
+row.
+
+<Example>
+  <HorizontalExample client:load />
+</Example>
+
+To place the image inside a padded body region instead of flush against the card edge, apply
+`direction`/`responsive` to `<CardBody>` itself and nest a second `<CardBody className="p-0">` for
+the text side so it doesn't get double padding.
+
+<Example>
+  <HorizontalBodyExample client:load />
+</Example>
+
+## Card styles
+
+A card supports several options for customizing its backgrounds, borders, and context.
+
+### Context colors
+
+Set `color` to one of the Chassis context colors, and `variant` to `solid`, `smooth`, or `outline`
+to control the intensity — omit `variant` for the default (a tinted border and heading, matching
+the `basic` chassis-css style).
+
+<Example>
+  <ContextColorsExample client:load />
+</Example>
+
+<Example>
+  <VariantExample client:load />
+</Example>
+
+<Callout type="info">
+  Using context to add meaning only provides a visual indication, which isn't conveyed to users of
+  assistive technologies such as screen readers. Ensure that information denoted by the context is
+  either obvious from the content itself (e.g. the visible text), or is included through
+  alternative means, such as additional text hidden with the `.visually-hidden` class.
+</Callout>
+
+### Utility styling
+
+For finer-grained control than `color`/`variant` provides, background, foreground, and border
+utility classes applied via each sub-component's `className` target individual regions directly.
+
+<Example>
+  <UtilityStylingExample client:load />
+</Example>
+
+### Size variants
+
+Set `size` to `small` or `large` to re-scale a card's padding, gaps, and typography together —
+omit it for the medium default.
+
+<Example>
+  <SizeExample client:load />
+</Example>
+
+## Card layout
+
+Beyond styling the content within a card, Chassis includes a few options for laying out series of
+cards.
+
+### Card groups
+
+`<CardGroup>` renders cards as a single, attached element with equal-width and equal-height
+columns. `<CardGroup>` uses a container query to switch from stacked to a row once its container
+reaches the small container breakpoint, so it must be wrapped in an element carrying
+`.contains-inline` to establish that container context.
+
+<Example>
+  <CardGroupExample client:load />
+</Example>
+
+Card footers line up automatically within a card group.
+
+<Example>
+  <CardGroupFooterExample client:load />
+</Example>
+
+### Grid cards
+
+The `Row` component's `cols` prop (with `responsive` for breakpoint overrides) controls how many
+grid columns wrap around a set of cards per row. `cols={1}` lays the cards out on one column, and
+`responsive={{ medium: { cols: 2 } }}` splits four cards into two per row from the medium
+breakpoint up.
+
+<Example>
+  <GridCardsExample client:load />
+</Example>
+
+Changing `responsive={{ medium: { cols: 3 } }}` wraps the fourth card onto a second row.
+
+<Example>
+  <GridCardsThreeColExample client:load />
+</Example>
+
+Adding `.h-100` to each card gives every card in a row equal height; setting `$card-height: 100%`
+in Sass applies equal heights by default.
+
+<Example>
+  <GridCardsEqualHeightExample client:load />
+</Example>
+
+Card footers line up automatically within an equal-height row, the same as inside a card group.
+
+<Example>
+  <GridCardsEqualHeightFooterExample client:load />
+</Example>
+
+## API
+
+### Card
+
+<PropTable component="Card" />
+
+### CardBody
+
+<PropTable component="CardBody" />
+
+### CardFooter
+
+<PropTable component="CardFooter" />
+
+### CardGroup
+
+<PropTable component="CardGroup" />
+
+### CardHeader
+
+<PropTable component="CardHeader" />
+
+### CardImage
+
+<PropTable component="CardImage" />
+
+### CardImageOverlay
+
+<PropTable component="CardImageOverlay" />
+
+### CardLink
+
+<PropTable component="CardLink" />
+
+### CardSubtitle
+
+<PropTable component="CardSubtitle" />
+
+### CardText
+
+<PropTable component="CardText" />
+
+### CardTitle
+
+<PropTable component="CardTitle" />

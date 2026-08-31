@@ -1,0 +1,66 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/toast/Toaster.tsx",
+  "description": "",
+  "displayName": "Toaster",
+  "methods": [],
+  "props": {
+    "aria-label": {
+      "defaultValue": null,
+      "description": "Overrides the toast region's accessible name (defaults to `'Notifications'`, per\nreact-aria). Set this for non-English UIs, or to distinguish multiple toasters on the\nsame page.",
+      "name": "aria-label",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/Toaster.tsx",
+        "name": "ToasterProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/Toaster.tsx",
+          "name": "ToasterProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/Toaster.tsx",
+        "name": "ToasterProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/Toaster.tsx",
+          "name": "ToasterProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "placement": {
+      "defaultValue": null,
+      "description": "Describes the placement of your component.",
+      "name": "placement",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/Toaster.tsx",
+        "name": "ToasterProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/Toaster.tsx",
+          "name": "ToasterProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "'top-start' | 'top-center' | 'top-end' | 'middle-start' | 'middle-center' | 'middle-end' | 'bottom-start' | 'bottom-center' | 'bottom-end' | string"
+      }
+    }
+  }
+}

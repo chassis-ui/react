@@ -1,0 +1,84 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/grid/Container.tsx",
+  "description": "",
+  "displayName": "Container",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Container.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "component": {
+      "defaultValue": null,
+      "description": "Component used for the root node. Either a string to use a HTML element or a component.",
+      "name": "component",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Container.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ElementType"
+      }
+    },
+    "fluidUntil": {
+      "defaultValue": null,
+      "description": "Set container 100% wide until the given breakpoint, after which it scales up with `max-width`\nat every larger breakpoint.",
+      "name": "fluidUntil",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Container.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Breakpoint"
+      }
+    },
+    "fluid": {
+      "defaultValue": null,
+      "description": "Set container 100% wide, spanning the entire width of the viewport.",
+      "name": "fluid",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Container.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Container.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "any"
+      }
+    }
+  }
+}

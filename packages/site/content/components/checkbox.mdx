@@ -1,0 +1,139 @@
+---
+title: Checkbox
+description: Cross-browser, cross-device checkbox built on React Aria, standalone or grouped into a managed CheckboxGroup.
+
+toc: true
+---
+
+import { Example as ChecksExample } from '../../examples/components/checkbox/ChecksExample.tsx'
+import { Example as IndeterminateExample } from '../../examples/components/checkbox/IndeterminateExample.tsx'
+import { Example as DisabledExample } from '../../examples/components/checkbox/DisabledExample.tsx'
+import { Example as StackedExample } from '../../examples/components/checkbox/StackedExample.tsx'
+import { Example as InlineExample } from '../../examples/components/checkbox/InlineExample.tsx'
+import { Example as SizeExample } from '../../examples/components/checkbox/SizeExample.tsx'
+import { Example as ColorExample } from '../../examples/components/checkbox/ColorExample.tsx'
+import { Example as NoLabelExample } from '../../examples/components/checkbox/NoLabelExample.tsx'
+import { Example as ToggleButtonExample } from '../../examples/components/checkbox/ToggleButtonExample.tsx'
+import { Example as ToggleButtonCheckedExample } from '../../examples/components/checkbox/ToggleButtonCheckedExample.tsx'
+import { Example as ToggleButtonDisabledExample } from '../../examples/components/checkbox/ToggleButtonDisabledExample.tsx'
+import { Example as OutlinedToggleExample } from '../../examples/components/checkbox/OutlinedToggleExample.tsx'
+import { Example as CheckGroupExample } from '../../examples/components/checkbox/CheckGroupExample.tsx'
+import { Example as CheckGroupOrientationExample } from '../../examples/components/checkbox/CheckGroupOrientationExample.tsx'
+
+## Overview
+
+`<Checkbox>` replaces the browser's default checkbox for selecting one or several options in a list. It renders the wrapper-based `.check-input` markup nested inside a single `<label>` — passing `label` produces an accessible, fully-clickable control with no extra markup.
+
+`<Checkbox>` is built on [React Aria](https://react-spectrum.adobe.com/react-aria/) for keyboard and screen-reader support. It works standalone, or inside a `<CheckboxGroup>` to manage a set of related checkboxes as a single array of selected values.
+
+## Checks
+
+<Example>
+  <ChecksExample client:load />
+</Example>
+
+## Indeterminate
+
+A checkbox renders the `:indeterminate` pseudo-class when `indeterminate` is set manually.
+
+<Example>
+  <IndeterminateExample client:load />
+</Example>
+
+## Disabled
+
+Set `disabled` and the associated `<label>` styles to a lighter context to indicate the input's state.
+
+<Example>
+  <DisabledExample client:load />
+</Example>
+
+## Default (stacked)
+
+Any number of checkboxes that are immediate siblings stack vertically with appropriate spacing by default.
+
+<Example>
+  <StackedExample client:load />
+</Example>
+
+## Inline
+
+Wrap checkboxes with the `d-flex` and `gap-medium` flex utilities to lay them out on the same horizontal row.
+
+<Example>
+  <InlineExample client:load />
+</Example>
+
+## Sizing
+
+Set `size` to `"small"` or `"large"` to change a checkbox's size.
+
+<Example>
+  <SizeExample client:load />
+</Example>
+
+## Context colors
+
+Set `color` to color the check indicator with any of the Chassis contextual colors.
+
+<Example>
+  <ColorExample client:load />
+</Example>
+
+## Without labels
+
+An accessible name is still required for assistive technologies when no visible label is rendered — provide one via `aria-label`.
+
+<Example>
+  <NoLabelExample client:load />
+</Example>
+
+## Toggle buttons
+
+Set the `button` prop on `<Checkbox>` to render a button-like toggle instead of the default check mark. Toggle buttons can be grouped in a button group.
+
+<Example>
+  <ToggleButtonExample client:load />
+</Example>
+
+<Example>
+  <ToggleButtonCheckedExample client:load />
+</Example>
+
+<Example>
+  <ToggleButtonDisabledExample client:load />
+</Example>
+
+### Outlined styles
+
+`button` accepts the same `variant` values as `<Button>`, including `outline`.
+
+<Example>
+  <OutlinedToggleExample client:load />
+</Example>
+
+## Groups
+
+`<CheckboxGroup>` manages a set of related checkboxes as a single array of selected values, with an optional shared description and validation feedback.
+
+<Example>
+  <CheckGroupExample client:load />
+</Example>
+
+### Orientation
+
+Like `<RadioGroup>`, `<CheckboxGroup>` accepts an `orientation` property to lay its checkboxes out on the same horizontal row instead of stacking them.
+
+<Example>
+  <CheckGroupOrientationExample client:load />
+</Example>
+
+## API
+
+### Checkbox
+
+<PropTable component="Checkbox" />
+
+### CheckboxGroup
+
+<PropTable component="CheckboxGroup" />

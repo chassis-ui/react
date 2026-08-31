@@ -1,0 +1,104 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/grid/Col.tsx",
+  "description": "",
+  "displayName": "Col",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/grid/Col.tsx",
+        "name": "ColProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Col.tsx",
+          "name": "ColProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "responsive": {
+      "defaultValue": null,
+      "description": "Overrides `span`/`offset`/`order` at a breakpoint and up.",
+      "name": "responsive",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/grid/Col.tsx",
+        "name": "ColProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Col.tsx",
+          "name": "ColProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "{ Partial<Record<'small' | 'medium' | 'large' | 'xlarge' | '2xlarge', { span?: 'auto' | number | string | boolean, offset?: number | string, order?: 'first' | 'last' | number | string }>> }"
+      }
+    },
+    "span": {
+      "defaultValue": null,
+      "description": "Columns (of 12) this Col spans, or `'auto'`/`true` for a natural-width column.",
+      "name": "span",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/grid/Col.tsx",
+        "name": "ColLayout"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Col.tsx",
+          "name": "ColLayout"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "{ 'auto' | number | string | boolean }"
+      }
+    },
+    "offset": {
+      "defaultValue": null,
+      "description": "Columns to offset the start of this Col by.",
+      "name": "offset",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/grid/Col.tsx",
+        "name": "ColLayout"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Col.tsx",
+          "name": "ColLayout"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | number"
+      }
+    },
+    "order": {
+      "defaultValue": null,
+      "description": "Visual order relative to sibling columns.",
+      "name": "order",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/grid/Col.tsx",
+        "name": "ColLayout"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Col.tsx",
+          "name": "ColLayout"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "{ 'first' | 'last' | number | string }"
+      }
+    }
+  }
+}

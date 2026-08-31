@@ -1,0 +1,117 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/nav/Nav.tsx",
+  "description": "",
+  "displayName": "Nav",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/nav/Nav.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "component": {
+      "defaultValue": null,
+      "description": "Component used for the root node. Either a string to use a HTML element or a component.",
+      "name": "component",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/nav/Nav.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ElementType"
+      }
+    },
+    "items": {
+      "defaultValue": null,
+      "description": "Array of nav item definitions for data-driven rendering. When provided, children are ignored.",
+      "name": "items",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/nav/Nav.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "NavItemDef[]"
+      }
+    },
+    "layout": {
+      "defaultValue": null,
+      "description": "Specify a layout type for component.",
+      "name": "layout",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/nav/Nav.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"fill\" | \"justified\"",
+        "value": [
+          {
+            "value": "\"fill\""
+          },
+          {
+            "value": "\"justified\""
+          }
+        ]
+      }
+    },
+    "variant": {
+      "defaultValue": null,
+      "description": "Set the nav variant to tabs or pills.",
+      "name": "variant",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/nav/Nav.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"tabs\" | \"pills\"",
+        "value": [
+          {
+            "value": "\"tabs\""
+          },
+          {
+            "value": "\"pills\""
+          }
+        ]
+      }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/nav/Nav.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "any"
+      }
+    }
+  }
+}

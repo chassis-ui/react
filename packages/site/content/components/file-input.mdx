@@ -1,0 +1,48 @@
+---
+title: File Input
+description: Styled wrapper around a native file input, with a themed file-selector button for consistent cross-browser styling.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/file-input/BasicExample.tsx'
+import { Example as MultipleExample } from '../../examples/components/file-input/MultipleExample.tsx'
+import { Example as DisabledExample } from '../../examples/components/file-input/DisabledExample.tsx'
+import { Example as SizingExample } from '../../examples/components/file-input/SizingExample.tsx'
+
+## Overview
+
+`<FileInput>` wraps `<input type="file">` with the same `.form-input` styling as `<TextInput>`, including a themed file-selector button.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## Multiple files
+
+Add the `multiple` boolean attribute to allow selecting more than one file.
+
+<Example>
+  <MultipleExample client:load />
+</Example>
+
+## Disabled
+
+Add the `disabled` boolean attribute to give the input a grayed-out appearance and remove pointer events.
+
+<Example>
+  <DisabledExample client:load />
+</Example>
+
+## Sizing
+
+Set `size` to `"small"` or `"large"` to change the size of the input and its file-selector button.
+
+<Example>
+  <SizingExample client:load />
+</Example>
+
+## API
+
+### FileInput
+
+<PropTable component="FileInput" />

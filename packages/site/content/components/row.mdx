@@ -1,0 +1,74 @@
+---
+title: Row
+description: Row is the flexbox wrapper that establishes the row context Col children lay out within, plus row-level column-count and gutter overrides.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/row/BasicExample.tsx'
+import { Example as ColsExample } from '../../examples/components/row/ColsExample.tsx'
+import { Example as AutoColsExample } from '../../examples/components/row/AutoColsExample.tsx'
+import { Example as ResponsiveColsExample } from '../../examples/components/row/ResponsiveColsExample.tsx'
+import { Example as GutterExample } from '../../examples/components/row/GutterExample.tsx'
+import { Example as NoGutterExample } from '../../examples/components/row/NoGutterExample.tsx'
+
+## Examples
+
+`<Row>` wraps [`<Col>`]([[docsref:/components/column]]) children in the flexbox context the [flexbox grid]([[docsref:/patterns/responsive-grid]]) relies on — negative margins that offset each column's gutter padding, keeping content aligned down the left side. Every `<Row>` needs a [`<Container>`]([[docsref:/components/container]]) (or `<Container fluid>`) ancestor when used as part of the grid system.
+
+<Example class="cxd-example-row text-center">
+  <BasicExample client:load />
+</Example>
+
+## Row columns
+
+Set a `cols` prop on `<Row>` (or `responsive={{ {breakpoint}: { cols: * } }}` for per-breakpoint overrides) to size every direct `<Col>` child equally, without setting a width on each column individually.
+
+### Equal-width columns
+
+`cols={2}` (or any other count) divides direct `<Col>` children into that many equal-width columns per row, wrapping extra columns onto additional rows.
+
+<Example class="cxd-example-cols text-center">
+  <ColsExample client:load />
+</Example>
+
+### Auto-width columns
+
+`cols="auto"` sizes every column to its content's natural width instead of splitting the row evenly.
+
+<Example class="cxd-example-cols text-center">
+  <AutoColsExample client:load />
+</Example>
+
+## Gutters
+
+`<Row>` also controls the spacing between its columns, called a gutter. `gutterX` sets the horizontal gutter (padding on each column) and `gutterY` the vertical one (margin above wrapped columns); `gutter` sets both at once. Like `cols`, each is overridable per breakpoint through `responsive`.
+
+### Custom gutter width
+
+Pass a spacing value to `gutter`, `gutterX`, or `gutterY` to change the gap between columns. A larger gutter can push column content past its `<Container>`'s horizontal edge, or leave extra space hanging below the last row — add the `.overflow-hidden` utility class to a wrapping element to clip either case.
+
+<Example class="cxd-example-cols text-center">
+  <GutterExample client:load />
+</Example>
+
+### Removing gutters
+
+Set `gutter={0}` to remove `<Row>`'s negative margins, the horizontal padding on its columns, and the vertical gap between wrapped rows — useful for an edge-to-edge layout without giving up the parent `<Container>`.
+
+<Example class="cxd-example-row text-center">
+  <NoGutterExample client:load />
+</Example>
+
+## Responsive overrides
+
+A per-breakpoint override object can combine `cols` and a gutter prop together, not just `cols` alone. Below, the row stacks into a single column with a small gutter until `small`, splits into two columns at `small` while keeping that same small gutter, then widens to four columns with a much larger gutter from `medium` up.
+
+<Example class="cxd-example-cols text-center">
+  <ResponsiveColsExample client:load />
+</Example>
+
+## API
+
+### Row
+
+<PropTable component="Row" />

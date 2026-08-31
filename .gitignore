@@ -6,15 +6,20 @@ public/
 
 # Site
 _site
+.astro
 site/dist
 site/node_modules
-site/.astro
 site/public
 
 # OS
 ._*
 .DS_Store
+**/.DS_Store
 Thumbs.db
+
+# Test artifacts
+test_output.log
+test_output.txt
 
 # IDE
 # .vscode
@@ -22,6 +27,7 @@ Thumbs.db
 .project
 .settings
 .tmproj
+.claude
 
 # Test coverage
 coverage/
@@ -55,3 +61,12 @@ lerna-debug.log*
 # deploy
 .vercel
 .netlify
+
+*storybook.log
+_storybook
+
+# Playwright (visual regression tests, see packages/react/test/visual/) — transient run output,
+# not the __snapshots__/ baseline images, which are checked in.
+test-results/
+playwright-report/
+playwright/.cache/

@@ -1,0 +1,237 @@
+---
+title: Modal
+description: Renders a popup dialog with header, body, and footer sections, configurable sizing, scrollable content, and an optional fullscreen mode.
+toc: true
+---
+
+import { Example as LiveDemoExample } from '../../examples/components/modal/LiveDemoExample.tsx'
+import { Example as StaticBackdropExample } from '../../examples/components/modal/StaticBackdropExample.tsx'
+import { Example as ScrollingLongContentExample } from '../../examples/components/modal/ScrollingLongContentExample.tsx'
+import { Example as ScrollingLongContentExample2 } from '../../examples/components/modal/ScrollingLongContentExample2.tsx'
+import { Example as TooltipsAndPopoversExample } from '../../examples/components/modal/TooltipsAndPopoversExample.tsx'
+import { Example as OptionalSizesExample } from '../../examples/components/modal/OptionalSizesExample.tsx'
+import { Example as FullscreenExample } from '../../examples/components/modal/FullscreenExample.tsx'
+
+import { useState } from 'react'
+import {
+  Button,
+  Link,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  ModalTitle,
+  Popover,
+  Tooltip,
+} from '@chassis-ui/react'
+
+## Examples
+
+`<Modal>` composes `<ModalHeader>`, `<ModalBody>`, and `<ModalFooter>` sub-components around its dialog content.
+
+### Modal components
+
+This static example disables the backdrop and keyboard dismissal so the modal stays open for illustration. It includes a modal header, a modal body (required for `padding`), and an optional modal footer. Include a modal header with a dismiss action whenever possible, or provide another explicit dismiss action.
+
+<Example customMarkup={`<Modal backdrop={false} keyboard={false} open>
+    <ModalHeader>
+      <ModalTitle>Modal title</ModalTitle>
+    </ModalHeader>
+    <ModalBody>Modal body text goes here.</ModalBody>
+    <ModalFooter>
+      <Button color="secondary">Close</Button>
+      <Button color="primary">Save changes</Button>
+    </ModalFooter>
+  </Modal>`}>
+  <Modal backdrop={false} keyboard={false} style={{ position: 'relative' }} open>
+    <ModalHeader>
+      <ModalTitle>Modal title</ModalTitle>
+    </ModalHeader>
+    <ModalBody>Modal body text goes here.</ModalBody>
+    <ModalFooter>
+      <Button color="secondary">Close</Button>
+      <Button color="primary">Save changes</Button>
+    </ModalFooter>
+  </Modal>
+</Example>
+
+### Live demo
+
+Toggling the button below opens a working modal that slides down and fades in from the top of the page.
+
+<Example>
+  <LiveDemoExample client:load />
+</Example>
+
+### Static backdrop
+
+Set `backdrop` to `"static"` to prevent the modal from closing when the backdrop is clicked.
+
+<Example>
+  <StaticBackdropExample client:load />
+</Example>
+
+### Scrolling long content
+
+A modal too long for the viewport or device scrolls independently of the page itself.
+
+<Example>
+  <ScrollingLongContentExample client:load />
+</Example>
+
+Set `scrollable` to scroll the modal body instead, keeping the header and footer fixed in place.
+
+<Example>
+  <ScrollingLongContentExample2 client:load />
+</Example>
+
+### Tooltips and popovers
+
+`<Tooltip>` and `<Popover>` can be placed within modals as needed. Closing a modal automatically dismisses any tooltips and popovers it contains.
+
+<Example>
+  <TooltipsAndPopoversExample client:load />
+</Example>
+
+## Optional sizes
+
+Modals have three optional sizes, available via modifier classes to be placed on a `<Modal>`. These sizes kick in at certain breakpoints to avoid horizontal scrollbars on narrower viewports.
+
+<table className="table">
+  <thead>
+    <tr>
+      <th>Size</th>
+      <th>Property size</th>
+      <th>Modal max-width</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Small</td>
+      <td>
+        <code>'small'</code>
+      </td>
+      <td>
+        <code>360px</code>
+      </td>
+    </tr>
+    <tr>
+      <td>Default</td>
+      <td className="medium:text-emphasis">None</td>
+      <td>
+        <code>560px</code>
+      </td>
+    </tr>
+    <tr>
+      <td>Large</td>
+      <td>
+        <code>'large'</code>
+      </td>
+      <td>
+        <code>800px</code>
+      </td>
+    </tr>
+    <tr>
+      <td>Extra large</td>
+      <td>
+        <code>'xlarge'</code>
+      </td>
+      <td>
+        <code>1140px</code>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<Example>
+  <OptionalSizesExample client:load />
+</Example>
+
+## Fullscreen modal
+
+Set `fullscreen` to render a modal that covers the entire viewport, either always or below a given breakpoint.
+
+<table className="table">
+  <thead>
+    <tr>
+      <th>Property fullscreen</th>
+      <th>Availability</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>true</code>
+      </td>
+      <td>Always</td>
+    </tr>
+    <tr>
+      <td>
+        <code>'small'</code>
+      </td>
+      <td>
+        Below <code>576px</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>'medium'</code>
+      </td>
+      <td>
+        Below <code>768px</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>'large'</code>
+      </td>
+      <td>
+        Below <code>1024px</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>'xlarge'</code>
+      </td>
+      <td>
+        Below <code>1280px</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>'2xlarge'</code>
+      </td>
+      <td>
+        Below <code>1536px</code>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<Example>
+  <FullscreenExample client:load />
+</Example>
+
+## Accessibility
+
+The `<dialog>` element carries an implicit `role="dialog"` when opened with `showModal()`. `<Modal>` generates an id and wires it to `aria-labelledby` automatically — render a `<ModalTitle>` anywhere inside and it picks up that id, giving the modal an accessible name with no manual wiring. Pass an explicit `id` to `<ModalTitle>` to opt out, or set your own `aria-labelledby` on `<Modal>` to point elsewhere.
+
+Focus moves to the modal on open — to a specific element if it has `autofocus`, otherwise to the modal itself. After the modal closes, focus returns to whichever element was focused when it opened.
+
+## API
+
+### Modal
+
+<PropTable component="Modal" />
+### ModalBody
+
+<PropTable component="ModalBody" />
+### ModalFooter
+
+<PropTable component="ModalFooter" />
+### ModalHeader
+
+<PropTable component="ModalHeader" />
+### ModalTitle
+
+<PropTable component="ModalTitle" />

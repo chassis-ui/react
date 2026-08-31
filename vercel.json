@@ -1,0 +1,6 @@
+{
+  "buildCommand": "pnpm site:setup && pnpm site:build",
+  "outputDirectory": "_site",
+  "installCommand": "pnpm install",
+  "framework": null
+}

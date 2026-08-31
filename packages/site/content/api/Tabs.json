@@ -1,0 +1,177 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/tabs/Tabs.tsx",
+  "description": "",
+  "displayName": "Tabs",
+  "methods": [],
+  "props": {
+    "children": {
+      "defaultValue": null,
+      "description": "A `TabList` (containing `Tab` children) followed by one `TabPanel` per tab.",
+      "name": "children",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "component": {
+      "defaultValue": null,
+      "description": "Component used for the root node. Either a string to use a HTML element or a component.",
+      "name": "component",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ElementType"
+      }
+    },
+    "defaultSelectedKey": {
+      "defaultValue": null,
+      "description": "The initially selected tab's key (uncontrolled).",
+      "name": "defaultSelectedKey",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Key"
+      }
+    },
+    "disabledKeys": {
+      "defaultValue": null,
+      "description": "The keys of tabs that cannot be selected, focused, or otherwise interacted with.",
+      "name": "disabledKeys",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Iterable<Key>"
+      }
+    },
+    "keyboardActivation": {
+      "defaultValue": null,
+      "description": "Whether tabs are selected automatically on arrow-key focus (`'automatic'`, the default) or\nonly on explicit activation — Enter/Space or click (`'manual'`).",
+      "name": "keyboardActivation",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"automatic\" | \"manual\"",
+        "value": [
+          {
+            "value": "\"automatic\""
+          },
+          {
+            "value": "\"manual\""
+          }
+        ]
+      }
+    },
+    "onSelectionChange": {
+      "defaultValue": null,
+      "description": "Callback fired when the selected tab changes.",
+      "name": "onSelectionChange",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((key: Key) => void)"
+      }
+    },
+    "orientation": {
+      "defaultValue": null,
+      "description": "The orientation of the tab list.",
+      "name": "orientation",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"horizontal\" | \"vertical\"",
+        "value": [
+          {
+            "value": "\"horizontal\""
+          },
+          {
+            "value": "\"vertical\""
+          }
+        ]
+      }
+    },
+    "selectedKey": {
+      "defaultValue": null,
+      "description": "The selected tab's key (controlled).",
+      "name": "selectedKey",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Key"
+      }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "any"
+      }
+    }
+  }
+}

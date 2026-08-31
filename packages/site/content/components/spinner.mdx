@@ -1,0 +1,70 @@
+---
+title: Spinner
+description: Loading indicator with border and growing variants, sized and colored via props, and built-in status role and screen-reader label.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/spinner/BasicExample.tsx'
+import { Example as GrowExample } from '../../examples/components/spinner/GrowExample.tsx'
+import { Example as ColorExample } from '../../examples/components/spinner/ColorExample.tsx'
+import { Example as SizeExample } from '../../examples/components/spinner/SizeExample.tsx'
+import { Example as ButtonExample } from '../../examples/components/spinner/ButtonExample.tsx'
+import { Example as ButtonGrowExample } from '../../examples/components/spinner/ButtonGrowExample.tsx'
+
+## Overview
+
+`<Spinner>` renders a loading indicator that animates with CSS alone once mounted — no timers or
+animation library involved. It renders `role="status"` and a visually hidden label ("Loading...",
+overridable via `visuallyHiddenLabel`) automatically, so a spinner is announced to assistive
+technology without any extra markup.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## Style variant
+
+Set `variant="grow"` for a spinner that pulses in size instead of spinning; the default
+`variant="border"` renders a rotating ring.
+
+<Example>
+  <GrowExample client:load />
+</Example>
+
+## Colors
+
+The spinner uses `currentColor`, so set `color` to any Chassis context color to change its
+appearance — this applies to either variant.
+
+<Example class="d-flex flex-wrap gap-small">
+  <ColorExample client:load />
+</Example>
+
+## Sizes
+
+Set `size="small"` for a smaller spinner sized to sit inline with compact UI, such as a button
+label; the default renders at the component's base size.
+
+<Example>
+  <SizeExample client:load />
+</Example>
+
+## In buttons
+
+Nest a spinner inside a disabled `<Button>` to indicate that an action is in progress. Add
+`aria-hidden="true"` to the spinner once visible loading text is already present in the button, so
+assistive technology doesn't announce the loading state twice.
+
+<Example>
+  <ButtonExample client:load />
+</Example>
+
+<Example>
+  <ButtonGrowExample client:load />
+</Example>
+
+## API
+
+### Spinner
+
+<PropTable component="Spinner" />

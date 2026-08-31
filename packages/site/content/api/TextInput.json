@@ -1,0 +1,343 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/text-input/TextInput.tsx",
+  "description": "",
+  "displayName": "TextInput",
+  "methods": [],
+  "props": {
+    "adornEnd": {
+      "defaultValue": null,
+      "description": "Content rendered at the input's trailing edge, e.g. a `InputAdorn` icon, text, or button.\nSetting either `adornStart` or `adornEnd` renders a `.form-input` wrapper around a\n`.ghost-input`, matching chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-adorn) pattern.",
+      "name": "adornEnd",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/text-input/TextInput.tsx",
+        "name": "TextInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/text-input/TextInput.tsx",
+          "name": "TextInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "adornStart": {
+      "defaultValue": null,
+      "description": "Content rendered at the input's leading edge, e.g. a `InputAdorn` icon, text, or button.\nSetting either `adornStart` or `adornEnd` renders a `.form-input` wrapper around a\n`.ghost-input`, matching chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-adorn) pattern.",
+      "name": "adornStart",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/text-input/TextInput.tsx",
+        "name": "TextInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/text-input/TextInput.tsx",
+          "name": "TextInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/text-input/TextInput.tsx",
+        "name": "TextInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/text-input/TextInput.tsx",
+          "name": "TextInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "defaultValue": {
+      "defaultValue": null,
+      "description": "The value of the input, uncontrolled.",
+      "name": "defaultValue",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/text-input/TextInput.tsx",
+        "name": "TextInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/text-input/TextInput.tsx",
+          "name": "TextInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "disabled": {
+      "defaultValue": null,
+      "description": "Toggle the disabled state for the component.",
+      "name": "disabled",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/text-input/TextInput.tsx",
+        "name": "TextInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/text-input/TextInput.tsx",
+          "name": "TextInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "help": {
+      "defaultValue": null,
+      "description": "A description for the field, rendered below the input.",
+      "name": "help",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/text-input/TextInput.tsx",
+        "name": "TextInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/text-input/TextInput.tsx",
+          "name": "TextInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "invalid": {
+      "defaultValue": null,
+      "description": "Set component validation state to invalid.",
+      "name": "invalid",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/text-input/TextInput.tsx",
+        "name": "TextInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/text-input/TextInput.tsx",
+          "name": "TextInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "invalidFeedback": {
+      "defaultValue": null,
+      "description": "An error message for the field, rendered below the input when `invalid` is set.",
+      "name": "invalidFeedback",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/text-input/TextInput.tsx",
+        "name": "TextInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/text-input/TextInput.tsx",
+          "name": "TextInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "label": {
+      "defaultValue": null,
+      "description": "The field's caption, rendered as a `FormLabel` associated with this input.",
+      "name": "label",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/text-input/TextInput.tsx",
+        "name": "TextInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/text-input/TextInput.tsx",
+          "name": "TextInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "onChange": {
+      "defaultValue": null,
+      "description": "Handler that is called when the value changes.",
+      "name": "onChange",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/text-input/TextInput.tsx",
+        "name": "TextInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/text-input/TextInput.tsx",
+          "name": "TextInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((value: string) => void)"
+      }
+    },
+    "plainText": {
+      "defaultValue": null,
+      "description": "Render the component styled as plain text. Removes the default form field styling and preserve the correct margin and padding. Recommend to use only along side `readonly` [docs]",
+      "name": "plainText",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/text-input/TextInput.tsx",
+        "name": "TextInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/text-input/TextInput.tsx",
+          "name": "TextInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "readOnly": {
+      "defaultValue": null,
+      "description": "Toggle the readonly state for the component.",
+      "name": "readOnly",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/text-input/TextInput.tsx",
+        "name": "TextInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/text-input/TextInput.tsx",
+          "name": "TextInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "size": {
+      "defaultValue": null,
+      "description": "Size the component small or large.",
+      "name": "size",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/text-input/TextInput.tsx",
+        "name": "TextInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/text-input/TextInput.tsx",
+          "name": "TextInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"small\" | \"large\"",
+        "value": [
+          {
+            "value": "\"small\""
+          },
+          {
+            "value": "\"large\""
+          }
+        ]
+      }
+    },
+    "type": {
+      "defaultValue": {
+        "value": "text"
+      },
+      "description": "Specifies the type of component. For `color` or `file` inputs, use the dedicated `ColorInput` or `FileInput` components instead.",
+      "name": "type",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/text-input/TextInput.tsx",
+        "name": "TextInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/text-input/TextInput.tsx",
+          "name": "TextInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "\"date\" | \"datetime-local\" | \"email\" | \"month\" | \"password\" | \"search\" | \"tel\" | \"text\" | \"time\" | \"url\" | \"week\" | (string & {})"
+      }
+    },
+    "valid": {
+      "defaultValue": null,
+      "description": "Set component validation state to valid.",
+      "name": "valid",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/text-input/TextInput.tsx",
+        "name": "TextInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/text-input/TextInput.tsx",
+          "name": "TextInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "validFeedback": {
+      "defaultValue": null,
+      "description": "A success message for the field, rendered below the input when `valid` is set.",
+      "name": "validFeedback",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/text-input/TextInput.tsx",
+        "name": "TextInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/text-input/TextInput.tsx",
+          "name": "TextInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "value": {
+      "defaultValue": null,
+      "description": "The value of the input, controlled.",
+      "name": "value",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/text-input/TextInput.tsx",
+        "name": "TextInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/text-input/TextInput.tsx",
+          "name": "TextInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    }
+  }
+}

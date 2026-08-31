@@ -1,0 +1,95 @@
+---
+title: Grid
+description: A native CSS Grid layout primitive with runtime-configurable columns, rows, and gap, plus auto-fill and subgrid variants.
+
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/grid/BasicExample.tsx'
+import { Example as ResponsiveExample } from '../../examples/components/grid/ResponsiveExample.tsx'
+import { Example as StartExample } from '../../examples/components/grid/StartExample.tsx'
+import { Example as ColumnsGapExample } from '../../examples/components/grid/ColumnsGapExample.tsx'
+import { Example as RowsExample } from '../../examples/components/grid/RowsExample.tsx'
+import { Example as FillExample } from '../../examples/components/grid/FillExample.tsx'
+import { Example as SubgridExample } from '../../examples/components/grid/SubgridExample.tsx'
+
+## Overview
+
+`<Grid>` wraps chassis-css's native CSS Grid system — a twelve-column `display: grid` layout, distinct from the [flexbox grid]([[docsref:/patterns/responsive-grid]]) built by [`<Row>`]([[docsref:/components/row]])/[`<Col>`]([[docsref:/components/column]]). Column placement is applied to children via [`<GridItem>`](#item-placement) — `<Grid>` itself only manages the container. For a simple one-dimensional row or column, [`<Stack>`]([[docsref:/components/stack]]) is a lighter fit.
+
+## Basic usage
+
+Three equal-width columns in a 12-column grid each span 4 tracks (3 × 4 = 12):
+
+<Example class="cxd-example-grid text-center">
+  <BasicExample client:load />
+</Example>
+
+## Item placement
+
+`<GridItem>` places a child within a `<Grid>`. Set `span` to a number from `1` to `12` to size an item to that many column tracks, and `start` to a number from `1` to `11` to position it at a specific column line, independent of DOM order. Unlike `<Grid>`'s `columns`, these aren't runtime-configurable — `g-col-{n}`/`g-start-{n}` are chassis-css utility classes generated up to `12` at build time, so `span`/`start` can't address tracks past `12` even if `<Grid columns={16}>` defines more. Both props accept a `responsive` prop, keyed the same way as [`<Col>`]([[docsref:/components/column]])'s, to change span/start at a breakpoint and up. Below, three `span={6}` items narrow to `span={4}` at the `medium` breakpoint and above:
+
+<Example class="cxd-example-grid text-center">
+  <ResponsiveExample client:load />
+</Example>
+
+`start` positions an item at a specific column line, independent of source order:
+
+<Example class="cxd-example-grid text-center">
+  <StartExample client:load />
+</Example>
+
+## Compared to Row/Col
+
+`<Grid>` differs from `<Row>`/`<Col>` in a few important ways:
+
+- **No negative margins.** `<Grid>` uses the CSS `gap` property instead of padding-and-negative-margin gutters, so there's no row-edge bleed and no `.overflow-hidden` wrapper is required.
+- **Gap applies to both axes.** `gap` sets horizontal and vertical spacing simultaneously. Use an inline `style` with `rowGap`/`columnGap` to control axes independently.
+- **Flex utilities have no effect** on `<Grid>`'s children — `align-items`, `justify-content`, and similar flex properties don't apply to CSS Grid items.
+- **`columns`/`rows`/`gap` are runtime-configurable properties**, not modifier props per breakpoint — unlike `<Row>`'s `responsive` prop, `<Grid>` has a single, fixed column/row/gap configuration. Chassis-css itself has no breakpoint-scoped equivalent for the grid _container_ (only for item placement, via [`<GridItem>`](#item-placement)'s `responsive` prop), so a responsive `<Grid>` container isn't offered — [`<Row>`/`<Col>`]([[docsref:/patterns/responsive-grid]]) is the better fit for layouts that need responsive column counts.
+
+## Columns and gap
+
+`columns` and `gap` set the underlying `--cx-grid-columns`/`--cx-grid-gap` custom properties directly. `gap` accepts any CSS `gap` value — a single value, a `"{row} {column}"` pair for asymmetric spacing, or a `Spacing` token (the same named scale `<Row>`'s `gutter`/`<Stack>`'s `gap`/`<Flex>`'s `gap` use) resolved to the matching `--cx-space-*` custom property:
+
+<Example class="cxd-example-grid text-center d-flex flex-column gap-medium">
+  <ColumnsGapExample client:load />
+</Example>
+
+## Adding rows
+
+`rows` sets the `--cx-grid-rows` custom property, extending the grid template. Assign a `<GridItem>` to a specific row with an inline `style={{ gridRow: n }}`:
+
+<Example class="cxd-example-grid text-center">
+  <RowsExample client:load />
+</Example>
+
+## Auto-fill layout
+
+Set `fill` to switch the grid to auto-fit columns that expand equally to fill the available width, with the column count determined by the number of children rather than `columns`. `gap` on a `fill` grid sets the `--cx-gap` custom property instead of `--cx-grid-gap`:
+
+<Example class="cxd-example-grid text-center">
+  <FillExample client:load />
+</Example>
+
+## Subgrid
+
+Set `subgrid` on a `<GridItem>` to make it inherit its parent `<Grid>`'s column tracks instead of defining its own, aligning its children to the outer grid regardless of how many tracks the item itself spans. `subgrid` lives on `<GridItem>` rather than `<Grid>` because CSS subgrid only takes effect on an element that is itself a grid item of the parent — nesting a separate `<Grid subgrid>` inside a `<GridItem>` puts the subgrid on the wrong element (a plain child of the item, not the item itself) and it silently falls back to an ordinary grid. Combine `subgrid` with `span`/`start` as usual, and `rows`/`gap` to size the nested grid's own row template and spacing — a subgrid only inherits its parent's column tracks, not its rows or gap:
+
+<Example class="cxd-example-grid text-center">
+  <SubgridExample client:load />
+</Example>
+
+## Scope
+
+**No row-placement prop.** `<GridItem>` only exposes column-axis placement (`span`/`start`) — chassis-css has no equivalent utility for the row axis, so assigning an item to a specific row needs a raw inline `style={{ gridRow: n }}` or `className`, as in [Adding rows](#adding-rows).
+
+## API
+
+### Grid
+
+<PropTable component="Grid" />
+
+### GridItem
+
+<PropTable component="GridItem" />

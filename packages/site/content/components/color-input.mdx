@@ -1,0 +1,48 @@
+---
+title: Color Input
+description: Styled wrapper around a native color input, for a consistent color picker across browsers.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/color-input/BasicExample.tsx'
+import { Example as DisabledExample } from '../../examples/components/color-input/DisabledExample.tsx'
+import { Example as FormFieldExample } from '../../examples/components/color-input/FormFieldExample.tsx'
+import { Example as SizingExample } from '../../examples/components/color-input/SizingExample.tsx'
+
+## Overview
+
+`<ColorInput>` wraps `<input type="color">` with the `.form-input` class, giving a consistently sized and rounded color swatch with no additional markup required.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## Disabled
+
+Add the `disabled` boolean attribute to give the input a grayed-out appearance and remove pointer events.
+
+<Example>
+  <DisabledExample client:load />
+</Example>
+
+## As a form field
+
+Use `label`/`help`/`invalidFeedback`/`validFeedback` directly on `<ColorInput>` to wrap it in a `.form-field` with an associated label and help text.
+
+<Example>
+  <FormFieldExample client:load />
+</Example>
+
+## Sizing
+
+Set `size` to `"small"` or `"large"` to change the size of the color swatch.
+
+<Example>
+  <SizingExample client:load />
+</Example>
+
+## API
+
+### ColorInput
+
+<PropTable component="ColorInput" />

@@ -1,0 +1,113 @@
+---
+title: Accordion
+description: Build vertically collapsing accordions using the native HTML details and summary elements.
+
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/accordion/BasicExample.tsx'
+import { Example as FlushExample } from '../../examples/components/accordion/FlushExample.tsx'
+import { Example as AlwaysOpenExample } from '../../examples/components/accordion/AlwaysOpenExample.tsx'
+import { Example as SizeExample } from '../../examples/components/accordion/SizeExample.tsx'
+import { Example as CaretEndExample } from '../../examples/components/accordion/CaretEndExample.tsx'
+import { Example as MixedGroupsExample } from '../../examples/components/accordion/MixedGroupsExample.tsx'
+import { Example as JsonContentExample } from '../../examples/components/accordion/JsonContentExample.tsx'
+import { Example as ControlledExample } from '../../examples/components/accordion/ControlledExample.tsx'
+
+## Examples
+
+Click the accordions below to expand/collapse the accordion content. Items sharing the same `name` form a group where only one item can be open at a time — set `name` on `Accordion` to apply it to the whole group.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+### Flush
+
+Add `flush` to render accordions edge-to-edge with their parent container.
+
+<Example>
+  <FlushExample client:load />
+</Example>
+
+### Always open
+
+Add `alwaysOpen` to let multiple items stay open at the same time.
+
+<Example>
+  <AlwaysOpenExample client:load />
+</Example>
+
+### Sizes
+
+Add `size="large"` or `size="small"` for additional sizes.
+
+<Example>
+  <SizeExample client:load />
+</Example>
+
+### Caret position
+
+Add `caretEnd` to move the caret icon to the end of the header.
+
+<Example>
+  <CaretEndExample client:load />
+</Example>
+
+### Per-item overrides
+
+`name` and `alwaysOpen` can be set on `Accordion` as shared defaults, and overridden on individual `AccordionItem`s — items without their own value fall back to the accordion's setting.
+
+<Example>
+  <MixedGroupsExample client:load />
+</Example>
+
+### JSON content
+
+Pass an `items` array to render an accordion from data instead of composed children. Each item accepts `header`, `body`, and optional `open`, `name`, and `alwaysOpen` overrides.
+
+<Example>
+  <JsonContentExample client:load />
+</Example>
+
+### Controlled
+
+A composed `AccordionItem` already supports the native controlled `<details>` pattern directly —
+pass `open` and read the new state back from `onToggle`:
+
+```tsx
+<AccordionItem open={isOpen} onToggle={(e) => setIsOpen(e.currentTarget.open)}>
+```
+
+For the `items` data-driven API, `Accordion` offers the same thing at the group level:
+`expandedKeys`/`defaultExpandedKeys`/`onExpandedChange` track which item keys are open, reflecting
+the native `<details>` elements' actual state (including any the browser closes itself as part of
+a shared `name` group).
+
+<Example>
+  <ControlledExample client:load />
+</Example>
+
+## API
+
+### Accordion
+
+<PropTable component="Accordion" />
+
+### AccordionItemDef
+
+Shape of each entry in `Accordion`'s `items` array (data-driven rendering).
+
+<PropTable component="AccordionItemDef" />
+
+### AccordionItem
+
+<PropTable component="AccordionItem" />
+
+### AccordionHeader
+
+<PropTable component="AccordionHeader" />
+
+### AccordionBody
+
+<PropTable component="AccordionBody" />

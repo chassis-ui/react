@@ -1,0 +1,57 @@
+---
+title: Tabs
+description: Chassis Tabs organize content into multiple sections and let users navigate between them with full keyboard support.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/tabs/BasicExample.tsx'
+import { Example as PillsExample } from '../../examples/components/tabs/PillsExample.tsx'
+import { Example as DisabledExample } from '../../examples/components/tabs/DisabledExample.tsx'
+
+## Overview
+
+`Tabs` organizes content into sections, showing one at a time. Unlike hand-wiring a `Nav` to a set of manually-toggled panels, `Tabs` handles keyboard navigation (arrow keys, Home/End), roving tab focus, and the `role="tablist"`/`role="tab"`/`role="tabpanel"` + `aria-selected`/`aria-controls`/`aria-labelledby` wiring between them. Switching tabs also cross-fades their panels automatically.
+
+Compose a `TabList` of `Tab`s, followed by one `TabPanel` per tab. A tab and its panel are paired by a matching `id` — not by position, and not by React's own `key` (each still needs its own `key`, as with any list). `Tabs`/`TabList`/`Tab`/`TabPanel` mirror the names of the react-aria hooks they're built on (`useTabList`, `useTab`, `useTabPanel`).
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## Pills
+
+Pass `variant="pills"` to `TabList` for a pill-styled tab list instead of the default underlined tabs.
+
+<Example>
+  <PillsExample client:load />
+</Example>
+
+## Disabled tabs
+
+Add `disabled` to a `Tab` to remove it from keyboard navigation and prevent it from being selected.
+
+<Example>
+  <DisabledExample client:load />
+</Example>
+
+## Controlled selection
+
+Pass `selectedKey`/`onSelectionChange` to `Tabs` to control which tab is selected externally, e.g. to sync it with the URL. Omit them (use `defaultSelectedKey` instead) to let `Tabs` manage selection internally.
+
+## API
+
+### Tabs
+
+<PropTable component="Tabs" />
+
+### TabList
+
+<PropTable component="TabList" />
+
+### Tab
+
+<PropTable component="Tab" />
+
+### TabPanel
+
+<PropTable component="TabPanel" />

@@ -1,0 +1,147 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # `pnpm test` runs the `storybook` vitest project in real Chromium via
+      # @vitest/browser-playwright (see packages/react/vitest.config.ts) — unlike the jsdom
+      # project, this needs an actual browser binary on disk, which `pnpm install` alone doesn't
+      # provide. Scoped to @chassis-ui/react (the only workspace package with this dependency) and
+      # to chromium only, matching the single browser instance configured in vitest.config.ts.
+      # `--with-deps` also installs the OS-level libraries Chromium needs on a bare Ubuntu runner.
+      - run: pnpm --filter @chassis-ui/react exec playwright install --with-deps chromium
+
+      - run: pnpm lint:eslint
+      - run: pnpm test
+
+      # Builds the real dist/index.d.ts (bundled directly by tsdown) and diffs it against the
+      # checked-in packages/react/api-report.md snapshot, so an accidental breaking change to the
+      # public props/types surface is caught here instead of only being discovered by a consumer
+      # after publish. See packages/react/scripts/check-api-surface.ts.
+      - run: pnpm react:build
+      - run: pnpm react:check:api
+
+      # Validates the actual published package shape — the `exports` map tsdown generates,
+      # whether every entrypoint's files really exist (publint), and whether the `.d.ts` each
+      # entrypoint resolves to actually matches what a consumer's bundler/Node would load (attw).
+      # tsdown's own tsdown.config.ts also runs both non-blockingly on every build for fast local
+      # feedback, but that run can't fail CI on its own — this is the same checks run standalone
+      # via their CLIs, with a real exit code, as their own visible step. `--profile esm-only`
+      # (attw) skips the node10/CJS-interop resolution profiles: this package ships ESM-only by
+      # design (see the Phase 1 migration plan), so failing those is the deliberate, permanent
+      # consequence of that decision, not a bug to chase — the default "strict" profile would
+      # make this gate chronically red for a decision that's already made. `--exclude-entrypoints
+      # ./style.css` because attw type-checks JS/TS entrypoints; a plain CSS subpath export has no
+      # types for it to resolve.
+      - run: pnpm react:check:package
+
+      # `pnpm site:check` (type-check only, no Sass compilation) rather than the full
+      # `pnpm build`/`pnpm site:build`/`astro build` — the full static build currently fails on a
+      # pre-existing, external issue in the sibling `../chassis-css` checkout's own in-progress
+      # `_datepicker.scss` changes (undefined `$cx-color-date-picker-fg-idle`), unrelated to this
+      # repo, documented across several `.claude/plans/chassis-react-enterprise-migration.md`
+      # batches. Wiring the full build here would make this gate chronically red for reasons
+      # outside this repo's control. `astro check` doesn't compile Sass at all, so it isn't
+      # affected and has stayed green throughout.
+      - run: pnpm site:check
+
+      # Guards against the exact class of regression this repo already hit once (pre-tsdown, under
+      # Rollup): react-aria/react-stately/etc. silently getting bundled into dist/ instead of
+      # resolved from a consumer's own node_modules — a bug that a Rollup Phase 4 item found and
+      # fixed, shrinking the gzip bundle from ~344KB to ~65KB. tsdown externalizes everything in
+      # `dependencies`/`peerDependencies`/`optionalDependencies` by default (confirmed by grepping
+      # the built dist/index.js — no explicit config needed, unlike Rollup's `includeDependencies:
+      # true`), but this check stays as the regression guard regardless of which bundler is doing
+      # the externalizing. Thresholds in packages/react/.bundlewatch.config.json carry headroom
+      # over the minified baseline (27.69 kB JS / 1.18 kB CSS gzip, once `tsdown.config.ts` turned
+      # on `minify`/`css.minify` — previously-unminified baseline was 36.11 kB / 4.75 kB gzip, see
+      # the Phase 1 migration plan's spike findings).
+      - run: pnpm react:check:bundle
+
+      # Blocking: a vulnerable *runtime* dependency would ship to every consumer of
+      # @chassis-ui/react, so this fails the build. Non-blocking: the same audit including
+      # devDependencies (build tooling — astro, eslint plugins, sharp, ...) surfaces real findings
+      # worth tracking, but failing CI on every disclosed dev-tooling CVE (routine, frequent, and
+      # never fully at zero across a repo this size) would make the gate chronically red and
+      # trained-to-ignore rather than actionable.
+      - run: pnpm audit --prod
+      - run: pnpm audit
+        continue-on-error: true
+
+  # Screenshot regression tests against a built Storybook (packages/react/test/visual/,
+  # packages/react/.storybook/), starting with the calendar/datepicker family — Phase 2 of the
+  # enterprise migration touched that family's CSS output directly, and snapshot tests alone don't
+  # catch a visual regression. A separate job (not a step in `test` above) because it needs a
+  # different runtime: real Chromium, not just Node. Runs inside the official Playwright container
+  # image so the rendered pixels match what the checked-in
+  # `test/visual/__snapshots__/*/*-chromium-linux.png` baselines were generated against — the image
+  # tag's Playwright version must stay in lockstep with the `@playwright/test` devDependency
+  # version in packages/react/package.json; bumping one without the other risks font/rendering
+  # drift that has nothing to do with a real regression. If that happens, regenerate baselines with
+  # `pnpm --filter @chassis-ui/react test:visual:update` run inside a matching container, not on a
+  # contributor's own OS (Playwright's snapshot names are platform-suffixed —
+  # `-chromium-darwin.png` baselines committed from a Mac are for local dev convenience only and
+  # are never what this job checks against).
+  visual-regression:
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.62.1-noble
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test:visual
+
+  # Confirms @chassis-ui/react actually installs and builds inside a real consuming app's own
+  # build pipeline (Next.js App Router's Turbopack), not just this repo's own synthetic
+  # `renderToString` unit test (see the "SSR" item in packages/react/AGENTS.md) or tsdown build.
+  # Also the one place that actually exercises ESM-only resolution (no `main`/`module` fields,
+  # `exports` map only — see the Phase 1 migration plan) through a real consumer's bundler.
+  # A separate job (not a step in `test` above) for the same reason as `visual-regression`: a
+  # distinct concern from this repo's own lint/test/build, checked against a different tool's
+  # pipeline. smoke-tests/nextjs-app-router is a real, minimal app (not published, not
+  # user-facing — see its own AGENTS.md/README.md) depending on @chassis-ui/react via
+  # `workspace:*`, so it always builds against this PR's actual source, not a published version.
+  smoke-test-nextjs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # dist/ is gitignored and has to exist before the smoke app's own build can resolve
+      # @chassis-ui/react's `exports` map (ESM-only — no `main`/`module` fields to fall back to)
+      # through the workspace link. `smoke:build` builds it first, then builds every app under
+      # smoke-tests/* (just the Next.js one today).
+      - run: pnpm smoke:build

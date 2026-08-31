@@ -1,0 +1,102 @@
+---
+title: Radio
+description: Create consistent cross-browser and cross-device radio buttons with the Chassis Radio component.
+toc: true
+---
+
+import { Example as RadiosExample } from '../../examples/components/radio/RadiosExample.tsx'
+import { Example as RadiosDisabledExample } from '../../examples/components/radio/RadiosDisabledExample.tsx'
+import { Example as RadiosStackedExample } from '../../examples/components/radio/RadiosStackedExample.tsx'
+import { Example as RadiosInlineExample } from '../../examples/components/radio/RadiosInlineExample.tsx'
+import { Example as ContextColorExample } from '../../examples/components/radio/ContextColorExample.tsx'
+import { Example as WithoutLabelExample } from '../../examples/components/radio/WithoutLabelExample.tsx'
+import { Example as RadioToggleButtonsExample } from '../../examples/components/radio/RadioToggleButtonsExample.tsx'
+import { Example as OutlinedTogglesExample } from '../../examples/components/radio/OutlinedTogglesExample.tsx'
+import { Example as RadioGroupValidationExample } from '../../examples/components/radio/RadioGroupValidationExample.tsx'
+
+## Overview
+
+`<Radio>` replaces the browser's default radio input, for selecting one option from many. It renders the modern, wrapper-based `.check-input` markup nested inside a single `<label>` — passing `label` renders an accessible, fully-clickable control with no extra markup required.
+
+`<Radio>` is built on [React Aria](https://react-spectrum.adobe.com/react-aria/) for full keyboard and screen-reader support. Radios have no meaningful standalone state — a radio only makes sense as part of a mutually-exclusive set — so `<Radio>` must always be rendered inside a `<RadioGroup>`, which manages selection and arrow-key navigation between options.
+
+## Radios
+
+Radios are always rendered inside a `<RadioGroup>`, which owns selection and gives the group a `<fieldset>`/`<legend>` so assistive technology announces the group's purpose alongside each option.
+
+<Example>
+  <RadiosExample client:load />
+</Example>
+
+### Disabled
+
+Disable a single option by adding `disabled` to that `<Radio>`, or disable the whole group by adding `disabled` to `<RadioGroup>`.
+
+<Example>
+  <RadiosDisabledExample client:load />
+</Example>
+
+## Stacked
+
+Any number of radios that are immediate siblings are vertically stacked and appropriately spaced by default.
+
+<Example>
+  <RadiosStackedExample client:load />
+</Example>
+
+## Inline
+
+Radio groups have a built-in `orientation` prop to lay options out on the same horizontal row, which also switches arrow-key navigation from vertical to horizontal.
+
+<Example>
+  <RadiosInlineExample client:load />
+</Example>
+
+## Context colors
+
+Radios accept a `color` prop to color the check indicator with any of the Chassis contextual colors.
+
+<Example>
+  <ContextColorExample client:load />
+</Example>
+
+## Without labels
+
+Omitting `label` still requires an accessible name for assistive technology — pass `aria-label` (or `aria-labelledby`) directly to the `<Radio>` instead.
+
+<Example>
+  <WithoutLabelExample client:load />
+</Example>
+
+## Toggle buttons
+
+Create button-like radios by using the `button` prop on `<Radio>`. These toggle buttons can further be grouped in a button group if needed.
+
+<Example>
+  <RadioToggleButtonsExample client:load />
+</Example>
+
+### Outlined styles
+
+`<Radio button>` accepts the same style variants as `<Button>`, including the various outlined styles.
+
+<Example>
+  <OutlinedTogglesExample client:load />
+</Example>
+
+## Validation
+
+`<RadioGroup>` accepts `invalid`/`valid` and an `errorMessage`, rendered below the options and linked via `aria-describedby`.
+
+<Example>
+  <RadioGroupValidationExample client:load />
+</Example>
+
+## API
+
+### Radio
+
+<PropTable component="Radio" />
+### RadioGroup
+
+<PropTable component="RadioGroup" />

@@ -1,0 +1,104 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/accordion/AccordionItem.tsx",
+  "description": "",
+  "displayName": "AccordionItem",
+  "methods": [],
+  "props": {
+    "alwaysOpen": {
+      "defaultValue": null,
+      "description": "Let this item stay open when another item opens, overriding the accordion's `alwaysOpen` setting.",
+      "name": "alwaysOpen",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/accordion/AccordionItem.tsx",
+        "name": "AccordionItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/accordion/AccordionItem.tsx",
+          "name": "AccordionItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/accordion/AccordionItem.tsx",
+        "name": "AccordionItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/accordion/AccordionItem.tsx",
+          "name": "AccordionItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "name": {
+      "defaultValue": null,
+      "description": "The group this item shares with other items so only one can be open at a time, overriding the\naccordion's shared `name`.",
+      "name": "name",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/accordion/AccordionItem.tsx",
+        "name": "AccordionItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/accordion/AccordionItem.tsx",
+          "name": "AccordionItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "open": {
+      "defaultValue": null,
+      "description": "Start the item in the open state.",
+      "name": "open",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/accordion/AccordionItem.tsx",
+        "name": "AccordionItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/accordion/AccordionItem.tsx",
+          "name": "AccordionItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "itemKey": {
+      "defaultValue": null,
+      "description": "@deprecated No longer used. The native details element manages its own state.",
+      "name": "itemKey",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/accordion/AccordionItem.tsx",
+        "name": "AccordionItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/accordion/AccordionItem.tsx",
+          "name": "AccordionItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | number"
+      }
+    }
+  }
+}

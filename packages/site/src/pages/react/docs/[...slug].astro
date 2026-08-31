@@ -1,0 +1,38 @@
+---
+import DocsLayout from '@chassis-ui/docs/layouts/DocsLayout.astro'
+import { docsPages } from '@libs/content'
+import Code from '@chassis-ui/docs/shortcodes/Code.astro'
+import PageMeta from '@components/PageMeta.astro'
+import { render } from 'astro:content'
+import type { CollectionEntry } from 'astro:content'
+import '@scss/docs.scss'
+// Calendar/DatePicker's scoped Sass used to reach every page for free via a JS-injected <style>
+// tag on import; tsdown's CSS pipeline now emits it as a real file instead (RSC/SSR-safe), so it
+// needs an explicit import here — the shared entry point every docs page (and its embedded
+// react component examples) already renders through.
+import '@chassis-ui/react/style.css'
+
+export async function getStaticPaths() {
+  return docsPages.map((docsPage: CollectionEntry<'docs'>) => {
+    return {
+      params: { slug: docsPage.id },
+      props: docsPage
+    }
+  })
+}
+
+const docsPage = Astro.props
+const { id, data } = docsPage
+const frontmatter = data
+const { Content, headings } = await render(docsPage)
+
+const parentDirectory = id.includes('/') ? id.split('/')[0] : ''
+---
+
+<DocsLayout frontmatter={frontmatter} headings={headings} id={id}>
+  <PageMeta frontmatter={frontmatter} id={id} parentDirectory={parentDirectory} />
+  <Content components={{ pre: Code }} />
+  <Fragment slot="scripts">
+    <script src="@chassis-ui/docs/js/example-mode.js"></script>
+  </Fragment>
+</DocsLayout>

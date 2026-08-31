@@ -1,0 +1,120 @@
+---
+title: Button Group
+description: Group a series of buttons into a single visual and semantic unit, with sizing, nesting, and toolbar composition.
+
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/button-group/BasicExample.tsx'
+import { Example as LinkGroupExample } from '../../examples/components/button-group/LinkGroupExample.tsx'
+import { Example as MixedStylesExample } from '../../examples/components/button-group/MixedStylesExample.tsx'
+import { Example as OutlinedExample } from '../../examples/components/button-group/OutlinedExample.tsx'
+import { Example as CheckboxToggleExample } from '../../examples/components/button-group/CheckboxToggleExample.tsx'
+import { Example as RadioToggleButtonGroupExample } from '../../examples/components/button-group/RadioToggleButtonGroupExample.tsx'
+import { Example as ToolbarExample } from '../../examples/components/button-group/ToolbarExample.tsx'
+import { Example as ToolbarInputGroupExample } from '../../examples/components/button-group/ToolbarInputGroupExample.tsx'
+import { Example as SizingExample } from '../../examples/components/button-group/SizingExample.tsx'
+import { Example as NestedMenuExample } from '../../examples/components/button-group/NestedMenuExample.tsx'
+import { Example as VerticalExample } from '../../examples/components/button-group/VerticalExample.tsx'
+import { Example as VerticalMenuExample } from '../../examples/components/button-group/VerticalMenuExample.tsx'
+import { Example as VerticalRadioToggleButtonGroupExample } from '../../examples/components/button-group/VerticalRadioToggleButtonGroupExample.tsx'
+
+## Basic example
+
+Wrap a series of `<Button>` components in `<ButtonGroup>` to render them as a single, connected unit.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+The same grouping works for a set of navigation links rendered as `<Button>` with `href` set, as an alternative to `<Nav>`.
+
+<Example>
+  <LinkGroupExample client:load />
+</Example>
+
+## Style variants
+
+`<ButtonGroup>` renders whatever `color`/`variant` combination each child `<Button>` sets, including a mix of colors within the same group.
+
+<Example>
+  <MixedStylesExample client:load />
+</Example>
+
+Every child can share `variant="outline"` the same way a standalone button does.
+
+<Example>
+  <OutlinedExample client:load />
+</Example>
+
+## Toggle button groups
+
+Combine `Checkbox` or `Radio` components with the `button` prop to render toggle-button-style controls, then wrap them in `<ButtonGroup>` for a seamless connected appearance.
+
+<Example>
+  <CheckboxToggleExample client:load />
+</Example>
+
+<Example>
+  <RadioToggleButtonGroupExample client:load />
+</Example>
+
+## Button toolbar
+
+Combine multiple `<ButtonGroup>`s into a `<ButtonToolbar>` for more complex compositions. Apply spacing utilities to `<ButtonGroup>` to separate the groups within the toolbar.
+
+<Example>
+  <ToolbarExample client:load />
+</Example>
+
+An `<InputGroup>` composes with button groups inside the same toolbar; spacing utilities keep the pieces apart.
+
+<Example>
+  <ToolbarInputGroupExample client:load />
+</Example>
+
+## Sizing
+
+Set `size` on `<ButtonGroup>` to size every button inside it at once, instead of setting `size` on each `<Button>` individually — including on each group when nesting multiple groups.
+
+<Example>
+  <SizingExample client:load />
+</Example>
+
+## Nesting
+
+Nest a `<ButtonGroup>` inside another `<ButtonGroup>` to combine a dropdown menu with a series of buttons.
+
+<Example>
+  <NestedMenuExample client:load />
+</Example>
+
+## Vertical variation
+
+Set `vertical` to stack a group's buttons vertically instead of horizontally.
+
+<Example>
+  <VerticalExample client:load />
+</Example>
+
+<Example>
+  <VerticalMenuExample client:load />
+</Example>
+
+<Example>
+  <VerticalRadioToggleButtonGroupExample client:load />
+</Example>
+
+## Accessibility
+
+Assistive technology only announces a set of buttons as grouped when the group carries an explicit `role` — `role="group"` for a button group, `role="toolbar"` for a `<ButtonToolbar>`. Every group and toolbar also needs an understandable label, since most assistive technologies don't otherwise announce the role attribute alone; `aria-label` is used throughout the examples above, though `aria-labelledby` works as well.
+
+## API
+
+### ButtonGroup
+
+<PropTable component="ButtonGroup" />
+
+### ButtonToolbar
+
+<PropTable component="ButtonToolbar" />

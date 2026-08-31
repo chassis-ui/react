@@ -1,0 +1,81 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/avatar/AvatarStack.tsx",
+  "description": "",
+  "displayName": "AvatarStackItemDef",
+  "methods": [],
+  "props": {
+    "key": {
+      "name": "key",
+      "required": false,
+      "description": "React key for the rendered `Avatar`. Falls back to the item's index in `data`.",
+      "defaultValue": null,
+      "type": {
+        "name": "string | number"
+      }
+    },
+    "src": {
+      "name": "src",
+      "required": false,
+      "description": "Image source, rendered via `AvatarImage`.",
+      "defaultValue": null,
+      "type": {
+        "name": "string"
+      }
+    },
+    "alt": {
+      "name": "alt",
+      "required": false,
+      "description": "Alt text for the image rendered when `src` is set.",
+      "defaultValue": null,
+      "type": {
+        "name": "string"
+      }
+    },
+    "href": {
+      "name": "href",
+      "required": false,
+      "description": "Renders the avatar as a link to this URL.",
+      "defaultValue": null,
+      "type": {
+        "name": "string"
+      }
+    },
+    "status": {
+      "name": "status",
+      "required": false,
+      "description": "Renders a status badge in one of the Chassis themed colors.",
+      "defaultValue": null,
+      "type": {
+        "name": "ContextColor"
+      }
+    },
+    "statusLabel": {
+      "name": "statusLabel",
+      "required": false,
+      "description": "Accessible label for the status badge.",
+      "defaultValue": null,
+      "type": {
+        "name": "string"
+      }
+    },
+    "content": {
+      "name": "content",
+      "required": false,
+      "description": "Content to render when `src` isn't set, e.g. initials or a \"+5\" overflow count.",
+      "defaultValue": null,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "component": {
+      "name": "component",
+      "required": false,
+      "description": "Component used for the root node. Either a string to use a HTML element or a component.",
+      "defaultValue": null,
+      "type": {
+        "name": "ElementType"
+      }
+    }
+  }
+}

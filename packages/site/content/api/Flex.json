@@ -1,0 +1,467 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/flex/Flex.tsx",
+  "description": "",
+  "displayName": "Flex",
+  "methods": [],
+  "props": {
+    "direction": {
+      "defaultValue": null,
+      "description": "Sets `flex-direction`. Omit for the browser default (`row`).",
+      "name": "direction",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+        "name": "FlexLayout"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+          "name": "FlexLayout"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"row\" | \"column\" | \"row-reverse\" | \"column-reverse\"",
+        "value": [
+          {
+            "value": "\"row\""
+          },
+          {
+            "value": "\"column\""
+          },
+          {
+            "value": "\"row-reverse\""
+          },
+          {
+            "value": "\"column-reverse\""
+          }
+        ]
+      }
+    },
+    "wrap": {
+      "defaultValue": null,
+      "description": "Sets `flex-wrap`. Omit for the browser default (`nowrap`).",
+      "name": "wrap",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+        "name": "FlexLayout"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+          "name": "FlexLayout"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"wrap\" | \"nowrap\" | \"wrap-reverse\"",
+        "value": [
+          {
+            "value": "\"wrap\""
+          },
+          {
+            "value": "\"nowrap\""
+          },
+          {
+            "value": "\"wrap-reverse\""
+          }
+        ]
+      }
+    },
+    "justify": {
+      "defaultValue": null,
+      "description": "Sets `justify-content`, aligning items along the main axis.",
+      "name": "justify",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+        "name": "FlexLayout"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+          "name": "FlexLayout"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"center\" | \"start\" | \"end\" | \"between\" | \"around\" | \"evenly\"",
+        "value": [
+          {
+            "value": "\"center\""
+          },
+          {
+            "value": "\"start\""
+          },
+          {
+            "value": "\"end\""
+          },
+          {
+            "value": "\"between\""
+          },
+          {
+            "value": "\"around\""
+          },
+          {
+            "value": "\"evenly\""
+          }
+        ]
+      }
+    },
+    "align": {
+      "defaultValue": null,
+      "description": "Sets `align-items`, aligning items along the cross axis.",
+      "name": "align",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+        "name": "FlexLayout"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+          "name": "FlexLayout"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"center\" | \"start\" | \"end\" | \"baseline\" | \"stretch\"",
+        "value": [
+          {
+            "value": "\"center\""
+          },
+          {
+            "value": "\"start\""
+          },
+          {
+            "value": "\"end\""
+          },
+          {
+            "value": "\"baseline\""
+          },
+          {
+            "value": "\"stretch\""
+          }
+        ]
+      }
+    },
+    "alignContent": {
+      "defaultValue": null,
+      "description": "Sets `align-content`, distributing wrapped lines along the cross axis. Has no effect on\nsingle-line (non-wrapping) containers.",
+      "name": "alignContent",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+        "name": "FlexLayout"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+          "name": "FlexLayout"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"center\" | \"start\" | \"end\" | \"between\" | \"around\" | \"stretch\"",
+        "value": [
+          {
+            "value": "\"center\""
+          },
+          {
+            "value": "\"start\""
+          },
+          {
+            "value": "\"end\""
+          },
+          {
+            "value": "\"between\""
+          },
+          {
+            "value": "\"around\""
+          },
+          {
+            "value": "\"stretch\""
+          }
+        ]
+      }
+    },
+    "gap": {
+      "defaultValue": null,
+      "description": "Spacing between children on both axes, mapped to the `gap-*` utility classes. Overridden per\naxis by `rowGap`/`columnGap` where set.",
+      "name": "gap",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+        "name": "FlexLayout"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+          "name": "FlexLayout"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "0 | \"small\" | \"zero\" | \"4xsmall\" | \"3xsmall\" | \"2xsmall\" | \"xsmall\" | \"medium\" | \"large\" | \"xlarge\" | \"2xlarge\" | \"3xlarge\" | \"4xlarge\" | \"5xlarge\" | \"6xlarge\"",
+        "value": [
+          {
+            "value": "0"
+          },
+          {
+            "value": "\"small\""
+          },
+          {
+            "value": "\"zero\""
+          },
+          {
+            "value": "\"4xsmall\""
+          },
+          {
+            "value": "\"3xsmall\""
+          },
+          {
+            "value": "\"2xsmall\""
+          },
+          {
+            "value": "\"xsmall\""
+          },
+          {
+            "value": "\"medium\""
+          },
+          {
+            "value": "\"large\""
+          },
+          {
+            "value": "\"xlarge\""
+          },
+          {
+            "value": "\"2xlarge\""
+          },
+          {
+            "value": "\"3xlarge\""
+          },
+          {
+            "value": "\"4xlarge\""
+          },
+          {
+            "value": "\"5xlarge\""
+          },
+          {
+            "value": "\"6xlarge\""
+          }
+        ]
+      }
+    },
+    "rowGap": {
+      "defaultValue": null,
+      "description": "Spacing between rows (the cross axis when wrapped), mapped to the `row-gap-*` utility\nclasses. Independent of `gap`/`columnGap`.",
+      "name": "rowGap",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+        "name": "FlexLayout"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+          "name": "FlexLayout"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "0 | \"small\" | \"zero\" | \"4xsmall\" | \"3xsmall\" | \"2xsmall\" | \"xsmall\" | \"medium\" | \"large\" | \"xlarge\" | \"2xlarge\" | \"3xlarge\" | \"4xlarge\" | \"5xlarge\" | \"6xlarge\"",
+        "value": [
+          {
+            "value": "0"
+          },
+          {
+            "value": "\"small\""
+          },
+          {
+            "value": "\"zero\""
+          },
+          {
+            "value": "\"4xsmall\""
+          },
+          {
+            "value": "\"3xsmall\""
+          },
+          {
+            "value": "\"2xsmall\""
+          },
+          {
+            "value": "\"xsmall\""
+          },
+          {
+            "value": "\"medium\""
+          },
+          {
+            "value": "\"large\""
+          },
+          {
+            "value": "\"xlarge\""
+          },
+          {
+            "value": "\"2xlarge\""
+          },
+          {
+            "value": "\"3xlarge\""
+          },
+          {
+            "value": "\"4xlarge\""
+          },
+          {
+            "value": "\"5xlarge\""
+          },
+          {
+            "value": "\"6xlarge\""
+          }
+        ]
+      }
+    },
+    "columnGap": {
+      "defaultValue": null,
+      "description": "Spacing between columns (the main axis), mapped to the `column-gap-*` utility classes.\nIndependent of `gap`/`rowGap`.",
+      "name": "columnGap",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+        "name": "FlexLayout"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+          "name": "FlexLayout"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "0 | \"small\" | \"zero\" | \"4xsmall\" | \"3xsmall\" | \"2xsmall\" | \"xsmall\" | \"medium\" | \"large\" | \"xlarge\" | \"2xlarge\" | \"3xlarge\" | \"4xlarge\" | \"5xlarge\" | \"6xlarge\"",
+        "value": [
+          {
+            "value": "0"
+          },
+          {
+            "value": "\"small\""
+          },
+          {
+            "value": "\"zero\""
+          },
+          {
+            "value": "\"4xsmall\""
+          },
+          {
+            "value": "\"3xsmall\""
+          },
+          {
+            "value": "\"2xsmall\""
+          },
+          {
+            "value": "\"xsmall\""
+          },
+          {
+            "value": "\"medium\""
+          },
+          {
+            "value": "\"large\""
+          },
+          {
+            "value": "\"xlarge\""
+          },
+          {
+            "value": "\"2xlarge\""
+          },
+          {
+            "value": "\"3xlarge\""
+          },
+          {
+            "value": "\"4xlarge\""
+          },
+          {
+            "value": "\"5xlarge\""
+          },
+          {
+            "value": "\"6xlarge\""
+          }
+        ]
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "component": {
+      "defaultValue": null,
+      "description": "Component used for the root node. Either a string to use a HTML element or a component.",
+      "name": "component",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ElementType"
+      }
+    },
+    "inline": {
+      "defaultValue": null,
+      "description": "Renders an inline flex container (`.d-inline-flex`) instead of a block-level one (`.d-flex`,\nthe default).",
+      "name": "inline",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "responsive": {
+      "defaultValue": null,
+      "description": "Overrides any of `direction`/`wrap`/`justify`/`align`/`alignContent`/`gap`/`rowGap`/\n`columnGap` at one or more breakpoints, via regular viewport media queries (unlike `Stack`'s\n`responsive` prop, this doesn't require a `.contains-inline` ancestor).",
+      "name": "responsive",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Partial<Record<Breakpoint, FlexLayout>>"
+      }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "any"
+      }
+    }
+  }
+}

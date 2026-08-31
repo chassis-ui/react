@@ -1,0 +1,123 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/autocomplete/AutocompleteItem.tsx",
+  "description": "",
+  "displayName": "AutocompleteItem",
+  "methods": [],
+  "props": {
+    "children": {
+      "defaultValue": null,
+      "description": "Content of the option. Used as the filter/typeahead text when `textValue` isn't set — pass\n`textValue` explicitly whenever `children` isn't a plain string (e.g. it wraps an icon or\nother rich markup), since it can't otherwise be derived from rich content.",
+      "name": "children",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/combobox/ComboboxItem.tsx",
+        "name": "ComboboxItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/combobox/ComboboxItem.tsx",
+          "name": "ComboboxItemProps"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "description": {
+      "defaultValue": null,
+      "description": "Secondary line of text rendered below `children` (`.menu-item-description`).",
+      "name": "description",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/combobox/ComboboxItem.tsx",
+        "name": "ComboboxItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/combobox/ComboboxItem.tsx",
+          "name": "ComboboxItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "disabled": {
+      "defaultValue": null,
+      "description": "Prevents the option from being selected, focused, or otherwise interacted with.",
+      "name": "disabled",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/combobox/ComboboxItem.tsx",
+        "name": "ComboboxItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/combobox/ComboboxItem.tsx",
+          "name": "ComboboxItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "icon": {
+      "defaultValue": null,
+      "description": "Icon rendered at the option's leading edge (`.menu-item-icon`).",
+      "name": "icon",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/combobox/ComboboxItem.tsx",
+        "name": "ComboboxItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/combobox/ComboboxItem.tsx",
+          "name": "ComboboxItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "id": {
+      "defaultValue": null,
+      "description": "Identifies this option. Submitted as the value when this option is selected.",
+      "name": "id",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/combobox/ComboboxItem.tsx",
+        "name": "ComboboxItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/combobox/ComboboxItem.tsx",
+          "name": "ComboboxItemProps"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "Key"
+      }
+    },
+    "textValue": {
+      "defaultValue": null,
+      "description": "Text used for filtering and typeahead. Required when `children` isn't a plain string —\nfalls back to `children` itself when omitted and `children` is a string.",
+      "name": "textValue",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/combobox/ComboboxItem.tsx",
+        "name": "ComboboxItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/combobox/ComboboxItem.tsx",
+          "name": "ComboboxItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    }
+  }
+}

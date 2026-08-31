@@ -1,0 +1,274 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/switch/Switch.tsx",
+  "description": "",
+  "displayName": "Switch",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+        "name": "SwitchProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+          "name": "SwitchProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "color": {
+      "defaultValue": null,
+      "description": "Sets the color of the switch indicator to one of Chassis context colors.",
+      "name": "color",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+        "name": "SwitchProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+          "name": "SwitchProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "ContextColor",
+        "value": [
+          {
+            "value": "\"default\""
+          },
+          {
+            "value": "\"alternate\""
+          },
+          {
+            "value": "\"primary\""
+          },
+          {
+            "value": "\"secondary\""
+          },
+          {
+            "value": "\"neutral\""
+          },
+          {
+            "value": "\"success\""
+          },
+          {
+            "value": "\"danger\""
+          },
+          {
+            "value": "\"warning\""
+          },
+          {
+            "value": "\"info\""
+          },
+          {
+            "value": "\"black\""
+          },
+          {
+            "value": "\"white\""
+          }
+        ]
+      }
+    },
+    "defaultSelected": {
+      "defaultValue": null,
+      "description": "Whether the switch is selected, uncontrolled.",
+      "name": "defaultSelected",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+        "name": "SwitchProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+          "name": "SwitchProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "id": {
+      "defaultValue": null,
+      "description": "The id global attribute defines an identifier (ID) that must be unique in the whole document.",
+      "name": "id",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+        "name": "SwitchProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+          "name": "SwitchProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "invalid": {
+      "defaultValue": null,
+      "description": "Set component validation state to invalid.",
+      "name": "invalid",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+        "name": "SwitchProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+          "name": "SwitchProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "isSelected": {
+      "defaultValue": null,
+      "description": "Whether the switch is selected, controlled.",
+      "name": "isSelected",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+        "name": "SwitchProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+          "name": "SwitchProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "label": {
+      "defaultValue": null,
+      "description": "The element represents a caption for a component.",
+      "name": "label",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+        "name": "SwitchProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+          "name": "SwitchProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "onChange": {
+      "defaultValue": null,
+      "description": "Callback fired when the selected state changes.",
+      "name": "onChange",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+        "name": "SwitchProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+          "name": "SwitchProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((isSelected: boolean) => void)"
+      }
+    },
+    "size": {
+      "defaultValue": null,
+      "description": "Size the component small or large.",
+      "name": "size",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+        "name": "SwitchProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+          "name": "SwitchProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"small\" | \"large\"",
+        "value": [
+          {
+            "value": "\"small\""
+          },
+          {
+            "value": "\"large\""
+          }
+        ]
+      }
+    },
+    "type": {
+      "defaultValue": {
+        "value": "checkbox"
+      },
+      "description": "Specifies the type of component.",
+      "name": "type",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+        "name": "SwitchProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+          "name": "SwitchProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"checkbox\" | \"radio\"",
+        "value": [
+          {
+            "value": "\"checkbox\""
+          },
+          {
+            "value": "\"radio\""
+          }
+        ]
+      }
+    },
+    "valid": {
+      "defaultValue": null,
+      "description": "Set component validation state to valid.",
+      "name": "valid",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+        "name": "SwitchProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+          "name": "SwitchProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    }
+  }
+}

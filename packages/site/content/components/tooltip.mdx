@@ -1,0 +1,36 @@
+---
+title: Tooltip
+description: Floating text that appears near a trigger element on hover or focus, positioned automatically relative to it.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/tooltip/BasicExample.tsx'
+import { Example as DirectionsExample } from '../../examples/components/tooltip/DirectionsExample.tsx'
+
+## Overview
+
+`<Tooltip>` wraps a single trigger element and shows floating `content` positioned relative to it
+on hover. It also shows on focus regardless of the `trigger` setting, so keyboard and
+screen-reader users reach the same content a pointer user gets on hover — set `trigger="focus"` to
+disable the hover trigger entirely, for a trigger whose hover state already means something else.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## Placement
+
+Set `placement` to one of the four cardinal directions, each with `-start`/`-end` variants for
+finer alignment along the trigger's edge. Chassis flips the requested direction automatically to
+keep the tooltip in view when there isn't enough room for it. Directions mirror automatically when
+Chassis renders in RTL.
+
+<Example class="d-flex flex-wrap gap-medium">
+  <DirectionsExample client:load />
+</Example>
+
+## API
+
+### Tooltip
+
+<PropTable component="Tooltip" />

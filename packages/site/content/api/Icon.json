@@ -1,0 +1,127 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/icon/Icon.tsx",
+  "description": "",
+  "displayName": "Icon",
+  "methods": [],
+  "props": {
+    "name": {
+      "defaultValue": null,
+      "description": "Icon name, e.g. `folder-tree`. Matches a `cx-{name}` font glyph class or an id in the SVG sprite.",
+      "name": "name",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/icon/Icon.tsx",
+        "name": "IconOwnProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/icon/Icon.tsx",
+          "name": "IconOwnProps"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "string"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/icon/Icon.tsx",
+        "name": "IconOwnProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/icon/Icon.tsx",
+          "name": "IconOwnProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "size": {
+      "defaultValue": {
+        "value": 24
+      },
+      "description": "Width/height (in px) applied to the SVG. Ignored in `font` mode.",
+      "name": "size",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/icon/Icon.tsx",
+        "name": "IconOwnProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/icon/Icon.tsx",
+          "name": "IconOwnProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number"
+      }
+    },
+    "title": {
+      "defaultValue": null,
+      "description": "Accessible name. When set, the icon is exposed to assistive tech instead of hidden.",
+      "name": "title",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/icon/Icon.tsx",
+        "name": "IconOwnProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/icon/Icon.tsx",
+          "name": "IconOwnProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "sprite": {
+      "defaultValue": {
+        "value": "/static/icons/chassis-icons.svg"
+      },
+      "description": "Path to the SVG sprite file. Ignored in `font` mode.",
+      "name": "sprite",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/icon/Icon.tsx",
+        "name": "IconOwnProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/icon/Icon.tsx",
+          "name": "IconOwnProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "font": {
+      "defaultValue": null,
+      "description": "",
+      "name": "font",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/icon/Icon.tsx",
+          "name": "TypeLiteral"
+        },
+        {
+          "fileName": "chassis-react/packages/react/src/components/icon/Icon.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    }
+  }
+}

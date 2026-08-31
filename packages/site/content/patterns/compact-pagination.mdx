@@ -1,0 +1,32 @@
+---
+title: Compact Pagination
+description: A dense table-footer pagination bar — page size, a range summary, and a page-number picker instead of a row of numbered buttons.
+
+toc: true
+---
+
+import { Example as CompactPagination } from '../../examples/patterns/compact-pagination/CompactPagination.tsx'
+
+Some data tables need a denser footer than `<Pagination>`'s numbered-button row: a page size
+control, a "1-10 of 100" range summary, and Prev/Next flanking a page picker. This isn't a mode of
+`<Pagination>` — the controls here (`Select`, `Button`) aren't grouped into one joined pill the way
+`<Pagination>`'s page-link list is, so it's composed directly from existing primitives instead.
+
+<Example>
+  <CompactPagination client:load />
+</Example>
+
+## Key points
+
+- `Select` handles both the page size and page number pickers — same component, same pattern as
+  the [Paginated Table]([[docsref:/patterns/paginated-table]]) example's page size control.
+- Prev/Next are plain `Button`s with the `icon-only` class, not `<Pagination>`/`PaginationItem` —
+  there's no numbered-button list here for that markup to join into.
+- `usePagination` is what makes the Prev/Next buttons safe to disable at the range's
+  edges. Browsers blur a button the instant it's disabled, so clicking Next into the last page
+  would otherwise silently drop keyboard focus to `<body>`. The hook redirects focus to the
+  still-enabled sibling instead — pass it the element type your buttons render as (`Button`
+  renders an `HTMLButtonElement`), call `markPrevClicked`/`markNextClicked` from each `onClick`
+  before changing state, and attach `prevRef`/`nextRef` to the two buttons.
+- Changing `pageSize` resets `page` to `1`, same reasoning as the Paginated Table pattern: avoid
+  landing on a page that no longer exists.

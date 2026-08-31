@@ -1,0 +1,68 @@
+---
+title: Forms
+description: Usage guidance for form control styles, layout, help text, and disabled states across Chassis form components.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/form/BasicExample.tsx'
+import { Example as BlockHelpExample } from '../../examples/components/form/BlockHelpExample.tsx'
+import { Example as InlineHelpExample } from '../../examples/components/form/InlineHelpExample.tsx'
+import { Example as DisabledFieldsetExample } from '../../examples/components/form/DisabledFieldsetExample.tsx'
+
+## Overview
+
+Chassis form controls expand on Rebooted native form styles with classes, opting into consistent
+rendering across browsers and devices.
+
+Set an appropriate `type` attribute on every input (e.g., `email` for an email address, `number`
+for numerical information) to take advantage of the browser's native input controls, like email
+verification and number selection.
+
+A form combining a labeled email input, a password input, and a checkbox demonstrates the base
+building blocks — `<FormLabel>`, `<TextInput>`, `<FormHelp>`, and `<Checkbox>` — that the rest of
+this doc covers individually.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## Form text
+
+`<FormHelp>` renders block-level or inline-level help text alongside a form control. Point the
+control's `aria-describedby` at the same id as the `<FormHelp>` so assistive technology — screen
+readers in particular — announces the help text when the control receives focus.
+
+A block-level `<FormHelp>` gets a top margin for spacing from the input above it.
+
+<Example>
+  <BlockHelpExample client:load />
+</Example>
+
+An inline `<FormHelp>` renders as any typical inline element (`component="span"`, or similar) with
+just the `.form-text` class applied.
+
+<Example>
+  <InlineHelpExample client:load />
+</Example>
+
+## Disabled forms
+
+Add the `disabled` boolean attribute on an input to prevent interaction and render it with a
+lighter appearance:
+
+```jsx
+<TextInput type="text" placeholder="Disabled input here..." disabled />
+```
+
+Add `disabled` to a `<fieldset>` to disable every control within it. Browsers treat native form
+controls (`<input>`, `<select>`, `<button>`) inside a `<fieldset disabled>` as disabled, blocking
+both keyboard and mouse interaction.
+
+A custom button-like element such as `<Button>` inside a disabled fieldset only receives
+`pointer-events: none` styling, so it stays focusable and operable via keyboard. Add `tabindex="-1"`
+to remove it from the tab order and `aria-disabled="true"` to signal its state to assistive
+technology.
+
+<Example>
+  <DisabledFieldsetExample client:load />
+</Example>

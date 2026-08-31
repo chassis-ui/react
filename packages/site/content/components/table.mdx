@@ -1,0 +1,117 @@
+---
+title: Table
+description: Chassis Table is a full interactive data grid with sorting, row selection, and arrow-key grid navigation, built on React Aria's table collection hooks.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/table/BasicExample.tsx'
+import { Example as DynamicExample } from '../../examples/components/table/DynamicExample.tsx'
+import { Example as SortingExample } from '../../examples/components/table/SortingExample.tsx'
+import { Example as SelectionExample } from '../../examples/components/table/SelectionExample.tsx'
+import { Example as VariantsExample } from '../../examples/components/table/VariantsExample.tsx'
+import { Example as CaptionFooterExample } from '../../examples/components/table/CaptionFooterExample.tsx'
+import { Example as ResponsiveExample } from '../../examples/components/table/ResponsiveExample.tsx'
+import { Example as StackedExample } from '../../examples/components/table/StackedExample.tsx'
+
+## Overview
+
+`Table` is a real ARIA grid (`role="grid"`) — arrow keys move focus between cells, columns can be sortable, and rows can be selectable, all handled by React Aria's table hooks. Composing it uses `TableHeader`/`TableColumn`/`TableBody`/`TableRow`/`TableCell` as data — read to build the table's collection — rather than plain `<thead>`/`<tbody>` JSX. `Table` renders the real `<table>` markup itself from that collection.
+
+This is a deliberate trade: the authoring model is less "just markup" than most of the rest of Chassis React, in exchange for real sorting, selection, and keyboard grid navigation that would otherwise need to be hand-rolled.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## Dynamic columns and rows
+
+Both `TableHeader` and `TableBody` also accept a `columns`/`items` array plus a render function, for columns and rows built from data rather than written out by hand.
+
+<Example>
+  <DynamicExample client:load />
+</Example>
+
+## Sorting
+
+Add `allowsSorting` to a `TableColumn` to make it clickable (and keyboard-activatable). `Table` doesn't sort the data itself — it reports the requested column/direction via `onSortChange`, so pair it with `sortDescriptor` and sort the array in that handler, as shown below.
+
+<Example>
+  <SortingExample client:load />
+</Example>
+
+## Selection
+
+Set `selectionMode="multiple"` for checkbox-based row selection (including a select-all checkbox in the header), or `selectionMode="single"` to select a row by clicking anywhere in it. Control the selection with `selectedKeys`/`onSelectionChange` — a selected row gets the same `.active` highlight the table's `active` variant applies.
+
+<Example>
+  <SelectionExample client:load />
+</Example>
+
+## Keyboard navigation
+
+Once a cell has focus, arrow keys move focus across the grid — no extra setup required. Typeahead, Home/End, and Page Up/Down navigation come from the same hooks.
+
+## Variants
+
+`bordered`, `borderless`, `hover`, `small`, `striped`, and `color` all apply to the `<table>` element itself, the same as any other table markup.
+
+<Example>
+  <VariantsExample client:load />
+</Example>
+
+## Caption and footer
+
+Pass `caption` for a `<caption>` above the table. Pass `footer` for a `<tfoot>` below it — footer content is rendered as plain markup, not part of the keyboard-navigable grid, since totals/summary rows don't need to participate in cell-by-cell navigation.
+
+<Example>
+  <CaptionFooterExample client:load />
+</Example>
+
+## Responsive tables
+
+Wrap in a responsive container with the `responsive` prop — `true` for all viewports, or a breakpoint name to scroll only below it.
+
+<Example>
+  <ResponsiveExample client:load />
+</Example>
+
+## Stacked tables
+
+For tables with too many columns to read comfortably even with horizontal scrolling, set `stacked` to convert rows into stacked label/value blocks below a container width — `true` always stacks, or pass a breakpoint name to stack only below it. Resize the panel below to see it switch.
+
+Each `TableColumn`'s text becomes the label shown before that column's value; set `textValue` on a column explicitly when its header isn't plain text (an icon, a `Tooltip`, etc.).
+
+<Example>
+  <StackedExample client:load />
+</Example>
+
+## Scope
+
+- **No virtualization.** Every row renders directly — there's no windowing for very large datasets. React Aria doesn't ship a public general-purpose virtualizer for Table (its internal one isn't meant for outside use), and layering in a separate library (e.g. `@tanstack/react-virtual`) is a substantial enough change — fixed/measured row heights, a scroll container, and interaction with React Aria's own keyboard navigation and focus management — that it's deferred rather than bundled into this first pass. Most large datasets are better served by server-side pagination anyway.
+- **No column resizing or reordering, no nested/expandable rows.** React Aria's table hooks support these, but they're not wired up here.
+
+## API
+
+### Table
+
+<PropTable component="Table" />
+
+### TableHeader
+
+<PropTable component="TableHeader" />
+
+### TableColumn
+
+<PropTable component="TableColumn" />
+
+### TableBody
+
+<PropTable component="TableBody" />
+
+### TableRow
+
+<PropTable component="TableRow" />
+
+### TableCell
+
+<PropTable component="TableCell" />

@@ -1,0 +1,51 @@
+/*
+ * DatePicker's segmented field reuses chassis-css's existing `.form-input`/`.input-adorn`/
+ * `.ghost-input` classes as-is (input chrome, trailing-button layout, sizing modifiers all come
+ * for free). The popover shell is chassis-css's real `.datepicker` class too now (not the custom
+ * `.datepicker-calendar` this used to be) — rendered *without* `data-cx-inline`, so it gets
+ * chassis-css's native popover treatment (position, z-index, padding, border, box-shadow)
+ * directly, while `Calendar` nested inside it stays `data-cx-inline` (no border/shadow of its
+ * own — see `Calendar.scss`'s comment) so there's only one bordered/shadowed box, not two. Only
+ * the segments themselves are genuinely new visual territory with no chassis-css equivalent.
+ * Built on chassis-css's globally-defined `--cx-*` tokens so it stays on the same design language
+ * (and adapts to light/dark) — except `--cx-form-idle-fg-inactive`, which is only ever defined
+ * inside chassis-css's own `.form-input` block, not `:root`; see `Calendar.scss`'s comment on why
+ * that one internal-token exception was kept anyway.
+ */
+
+@use "@chassis-ui/css/scss/mixins" as *;
+
+/*
+ * chassis-css's own `.datepicker` rule sets `display: flex` unconditionally, which — same-
+ * specificity, later-declared-layer concerns aside — otherwise wins over the browser's default
+ * `[hidden] { display: none }` UA rule (author styles always beat UA styles). Layered here to
+ * land in the same cascade layer as chassis-css's own rule (see `Calendar.scss`'s comment on
+ * why), with the `[hidden]` attribute bumping specificity enough to reliably win within it.
+ */
+@layer components {
+  .datepicker[hidden] {
+    display: none;
+  }
+}
+
+.datepicker-field {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+}
+
+.datepicker-segment {
+  padding-inline: var(--cx-space-3xsmall);
+  @include border-radius(var(--cx-border-radius-small));
+  outline: 0;
+}
+
+.datepicker-segment.placeholder {
+  color: var(--cx-form-idle-fg-inactive);
+}
+
+.datepicker-segment:focus {
+  color: var(--cx-primary-contrast);
+  background-color: var(--cx-primary);
+}
+

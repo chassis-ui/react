@@ -1,0 +1,77 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/tabs/TabList.tsx",
+  "description": "",
+  "displayName": "TabList",
+  "methods": [],
+  "props": {
+    "children": {
+      "defaultValue": null,
+      "description": "`Tab` elements — read as data by `Tabs` to build the tab collection (see `Tabs.tsx`). Not\nrendered directly.",
+      "name": "children",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/tabs/TabList.tsx",
+        "name": "TabListProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/tabs/TabList.tsx",
+          "name": "TabListProps"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/tabs/TabList.tsx",
+        "name": "TabListProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/tabs/TabList.tsx",
+          "name": "TabListProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "variant": {
+      "defaultValue": {
+        "value": "tabs"
+      },
+      "description": "Set the tab list variant to tabs or pills.",
+      "name": "variant",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/tabs/TabList.tsx",
+        "name": "TabListProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/tabs/TabList.tsx",
+          "name": "TabListProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"tabs\" | \"pills\"",
+        "value": [
+          {
+            "value": "\"tabs\""
+          },
+          {
+            "value": "\"pills\""
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+// Chassis CSS variables and mixins
+@use "@chassis-ui/css/scss/config" as * with (
+  $color-mode-type: data,
+  $enable-background-gradients: false,
+  $enable-component-shadows: false,
+  $enable-visited-links: false
+);
+@use "@chassis-ui/css/scss/functions" as *;
+@use "@chassis-ui/css/scss/maps" as *;
+@use "@chassis-ui/css/scss/mixins" as *;
+
+// Shared docs styles
+@use "@chassis-ui/docs/scss/main";
+@use "./examples";

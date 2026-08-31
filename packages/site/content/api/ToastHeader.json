@@ -1,0 +1,144 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/toast/ToastHeader.tsx",
+  "description": "",
+  "displayName": "ToastHeader",
+  "methods": [],
+  "props": {
+    "children": {
+      "defaultValue": null,
+      "description": "Heading, rendered before `time` as a `<strong>`.",
+      "name": "children",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/ToastHeader.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/ToastHeader.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "closeButton": {
+      "defaultValue": null,
+      "description": "Automatically add a close button to the header.",
+      "name": "closeButton",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/ToastHeader.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "closeLabel": {
+      "defaultValue": null,
+      "description": "Overrides the close button's accessible name (defaults to `'Close'`). Set this for\nnon-English UIs.",
+      "name": "closeLabel",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/ToastHeader.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "component": {
+      "defaultValue": null,
+      "description": "Component used for the root node. Either a string to use a HTML element or a component.",
+      "name": "component",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/ToastHeader.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ElementType"
+      }
+    },
+    "icon": {
+      "defaultValue": null,
+      "description": "Leading icon. A string is rendered as `<ToastIcon name={icon} />` and hidden from\nassistive technology by default, since it duplicates the heading visually. Pass any other\nnode for a fully custom icon (typically a logo or avatar) — a custom node is left as-is,\nsince it may carry its own meaningful accessible name (e.g. an avatar's `alt` text).",
+      "name": "icon",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/ToastHeader.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "time": {
+      "defaultValue": null,
+      "description": "Trailing timestamp, rendered after the heading.",
+      "name": "time",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/ToastHeader.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "titleId": {
+      "defaultValue": null,
+      "description": "Sets the `id` on the rendered heading element, for `aria-labelledby` wiring. Set\nautomatically by `Toast` when both `title` and `message` are used together; only needed\nhere for manual wiring in a fully custom composition.",
+      "name": "titleId",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/ToastHeader.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/ToastHeader.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "any"
+      }
+    }
+  }
+}

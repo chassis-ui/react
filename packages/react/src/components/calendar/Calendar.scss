@@ -1,0 +1,57 @@
+@use "@chassis-ui/css/scss/config" as *;
+@use "@chassis-ui/css/scss/mixins" as *;
+
+/*
+ * `Calendar` reuses chassis-css's `.datepicker-*` classes, so layout/arrows/header/today/disabled/
+ * focus styling already comes from `@chassis-ui/css`. This file only covers the gaps: states
+ * vanilla-calendar-pro exposes via `data-vc-date-*` (no react-aria equivalent, re-expressed as
+ * `.datepicker-date-*` classes) and the month/year picker, which chassis-css styles via attribute
+ * selectors this component doesn't have.
+ */
+
+@layer components {
+  .datepicker-body {
+    position: relative;
+  }
+
+  .datepicker-months-month.selected,
+  .datepicker-years-year.selected {
+    color: var(--primary-contrast);
+    background-color: var(--primary);
+  }
+
+  .datepicker-months-month.selected:hover,
+  .datepicker-years-year.selected:hover {
+    background-color: var(--primary);
+  }
+
+  /* Leading/trailing days from the adjacent month */
+  .datepicker-date-outside > .datepicker-date-btn {
+    color: var(--day-disabled-fg-color);
+  }
+
+  /* Weekend, muted unless selected/unavailable/disabled takes priority. `:where()` keeps these
+     guards from adding specificity over chassis-css's "today" rule. */
+  .datepicker-date-weekend:where(:not(.datepicker-date-selected):not(.datepicker-date-unavailable)) > .datepicker-date-btn:where(:not([aria-disabled="true"])) {
+    color: var(--fg-subtle);
+  }
+
+  /* Unavailable (`isDateUnavailable`) — focusable and announced, unlike native disabled. */
+  .datepicker-date-unavailable:where(:not(.datepicker-date-selected)) > .datepicker-date-btn {
+    color: var(--day-disabled-fg-color);
+    text-decoration: line-through;
+  }
+
+  /* Selected (single-date only; `RangeCalendar.scss` handles start/end/in-range). */
+  .datepicker-date-selected > .datepicker-date-btn {
+    color: var(--primary-contrast);
+    background-color: var(--primary);
+  }
+
+  /* Extra `.datepicker-date` qualifier wins the specificity tie with chassis-css's "today" rule
+     when a date is both selected and today. */
+  .datepicker-date-selected.datepicker-date[aria-current="date"] > .datepicker-date-btn {
+    color: var(--primary-contrast);
+    background-color: var(--primary);
+  }
+}

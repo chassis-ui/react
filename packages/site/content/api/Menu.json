@@ -1,0 +1,213 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/menu/Menu.tsx",
+  "description": "",
+  "displayName": "Menu",
+  "methods": [],
+  "props": {
+    "autoClose": {
+      "defaultValue": null,
+      "description": "Controls which clicks close the menu. `true` closes on any click inside or outside.\n`false` requires a programmatic `visible` change. `'inside'` closes only on click inside\nthe menu. `'outside'` closes only on click outside the menu.",
+      "name": "autoClose",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/Menu.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "MenuAutoClose"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/Menu.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "component": {
+      "defaultValue": null,
+      "description": "Component used for the root node. Either a string to use a HTML element or a component.\nDefaults to `Fragment` — `MenuToggle`/`MenuList` render with no wrapping element, so\nthey land as direct children of whatever contains the `Menu`. This matters inside\n`ButtonGroup`/`InputGroup`, whose CSS expects the toggle button and menu panel as direct\nchildren rather than nested inside an intermediate node.\n\nPass an actual element (e.g. `\"div\"`, or `\"li\"` for a navbar item) to opt back into a\nwrapper — needed if you want to apply `className`/`style`/other rest props to a container\naround the whole menu, for semantic wrapping like a nav `<li>`, or for `reference=\"parent\"`,\nwhich positions off this wrapper and has nothing to measure against without one.",
+      "name": "component",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/Menu.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ElementType"
+      }
+    },
+    "container": {
+      "defaultValue": null,
+      "description": "Teleports the menu panel to a container element on open. Accepts an element reference, or\n`true` to append to `document.body`.",
+      "name": "container",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/Menu.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean | Element"
+      }
+    },
+    "offset": {
+      "defaultValue": null,
+      "description": "Distance between the menu and its reference element, as `[skidding, distance]` in pixels.",
+      "name": "offset",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/Menu.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "[number, number]"
+      }
+    },
+    "onHide": {
+      "defaultValue": null,
+      "description": "Callback fired when the menu requests to be hidden.",
+      "name": "onHide",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/Menu.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "onHidden": {
+      "defaultValue": null,
+      "description": "Callback fired after the menu finishes hiding.",
+      "name": "onHidden",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/Menu.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "onShow": {
+      "defaultValue": null,
+      "description": "Callback fired when the menu requests to be shown.",
+      "name": "onShow",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/Menu.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "onShown": {
+      "defaultValue": null,
+      "description": "Callback fired after the menu finishes showing.",
+      "name": "onShown",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/Menu.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "placement": {
+      "defaultValue": null,
+      "description": "Initial placement. Chassis will flip it to keep the menu in view.",
+      "name": "placement",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/Menu.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end' | 'right' | 'right-start' | 'right-end'"
+      }
+    },
+    "reference": {
+      "defaultValue": null,
+      "description": "Reference element used for positioning. `'toggle'` uses the trigger. `'parent'` uses this\ncomponent's own rendered element, useful for split buttons and button groups.",
+      "name": "reference",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/Menu.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"toggle\" | \"parent\"",
+        "value": [
+          {
+            "value": "\"toggle\""
+          },
+          {
+            "value": "\"parent\""
+          }
+        ]
+      }
+    },
+    "visible": {
+      "defaultValue": null,
+      "description": "Toggle the visibility of the menu component.",
+      "name": "visible",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/Menu.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/Menu.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "any"
+      }
+    }
+  }
+}

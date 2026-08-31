@@ -1,0 +1,152 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/grid/GridItem.tsx",
+  "description": "",
+  "displayName": "GridItem",
+  "methods": [],
+  "props": {
+    "span": {
+      "defaultValue": null,
+      "description": "Number of grid column tracks (of the parent `<Grid>`'s `columns`) this item spans, mapped to\nthe `g-col-{n}` class.",
+      "name": "span",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/grid/GridItem.tsx",
+        "name": "GridItemLayout"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/GridItem.tsx",
+          "name": "GridItemLayout"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number"
+      }
+    },
+    "start": {
+      "defaultValue": null,
+      "description": "Grid column line to start this item at, mapped to the `g-start-{n}` class.",
+      "name": "start",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/grid/GridItem.tsx",
+        "name": "GridItemLayout"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/GridItem.tsx",
+          "name": "GridItemLayout"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/GridItem.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "component": {
+      "defaultValue": null,
+      "description": "Component used for the root node. Either a string to use a HTML element or a component.",
+      "name": "component",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/GridItem.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ElementType"
+      }
+    },
+    "responsive": {
+      "defaultValue": null,
+      "description": "Overrides `span`/`start` at a breakpoint and up.",
+      "name": "responsive",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/GridItem.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "{ Partial<Record<'small' | 'medium' | 'large' | 'xlarge' | '2xlarge', { span?: number, start?: number }>> }"
+      }
+    },
+    "subgrid": {
+      "defaultValue": null,
+      "description": "Turns this item into a nested subgrid: adds `.grid`/`.grid-cols-subgrid` alongside its\n`g-col-{n}`/`g-start-{n}` placement classes, so its own children inherit the parent\n`<Grid>`'s column tracks instead of defining new ones. Combine with `span` — a subgrid\nitem must itself be a grid item of the parent for `grid-template-columns: subgrid` to take\neffect, which is why `subgrid` lives on `<GridItem>` (the element actually placed as a grid\nitem) rather than on a `<Grid>` nested inside it.",
+      "name": "subgrid",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/GridItem.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "rows": {
+      "defaultValue": null,
+      "description": "Number of rows in the subgrid's own row template, set via the `--cx-grid-rows` custom\nproperty (defaults to `1` in CSS when omitted). Only relevant when `subgrid` is set —\nsubgrid only inherits the parent's column tracks, not its rows.",
+      "name": "rows",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/GridItem.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number"
+      }
+    },
+    "gap": {
+      "defaultValue": null,
+      "description": "Gap between the subgrid's children, set via the `--cx-grid-gap` custom property. Only\nrelevant when `subgrid` is set — a subgrid doesn't inherit its parent's gap.",
+      "name": "gap",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/GridItem.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "{ Spacing | string }"
+      }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/GridItem.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "any"
+      }
+    }
+  }
+}

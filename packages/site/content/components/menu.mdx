@@ -1,0 +1,185 @@
+---
+title: Menu
+description: A toggleable contextual overlay for links, buttons, and forms (formerly Dropdown), with dynamic placement, keyboard navigation, and submenu support.
+toc: true
+---
+
+import { Example as BasicUsageExample } from '../../examples/components/menu/BasicUsageExample.tsx'
+import { Example as MenuItemsExample } from '../../examples/components/menu/MenuItemsExample.tsx'
+import { Example as SelectedExample } from '../../examples/components/menu/SelectedExample.tsx'
+import { Example as RichContentExample } from '../../examples/components/menu/RichContentExample.tsx'
+import { Example as ItemsExample } from '../../examples/components/menu/ItemsExample.tsx'
+import { Example as HeadersExample } from '../../examples/components/menu/HeadersExample.tsx'
+import { Example as DividersExample } from '../../examples/components/menu/DividersExample.tsx'
+import { Example as TextExample } from '../../examples/components/menu/TextExample.tsx'
+import { Example as FormsExample } from '../../examples/components/menu/FormsExample.tsx'
+import { Example as PlacementExample } from '../../examples/components/menu/PlacementExample.tsx'
+import { Example as AutoCloseExample } from '../../examples/components/menu/AutoCloseExample.tsx'
+import { Example as SubmenuExample } from '../../examples/components/menu/SubmenuExample.tsx'
+import { Example as StackedSubmenuExample } from '../../examples/components/menu/StackedSubmenuExample.tsx'
+import { Example as DarkModeExample } from '../../examples/components/menu/DarkModeExample.tsx'
+import { Example as ContextVariantsExample } from '../../examples/components/menu/ContextVariantsExample.tsx'
+
+## Overview
+
+`Menu` is a toggleable contextual overlay for links, buttons, and inline forms. It replaces the old `CxDropdown` family, is positioned using [React Aria](https://react-spectrum.adobe.com/react-aria/)'s `useOverlayPosition`, and handles keyboard navigation and multi-level submenus. Menus open on click by default.
+
+## Examples
+
+Compose `Menu` around a `MenuToggle` and a `MenuList`. `MenuToggle` renders the trigger button and `MenuList` renders the panel — Chassis positions it relative to the toggle automatically.
+
+<Example>
+  <BasicUsageExample client:load />
+</Example>
+
+### Menu items
+
+Both links and buttons work as `MenuItem` elements. Add `active` to mark the current selection, or `disabled` to prevent interaction.
+
+<Example>
+  <MenuItemsExample client:load />
+</Example>
+
+### Selected
+
+Add `selected` to a `MenuItem` to indicate the current choice in a selection list. Pair it with a checkmark icon styled with the `menu-item-check` class, which is only shown on the selected item.
+
+<Example>
+  <SelectedExample client:load />
+</Example>
+
+### Rich content
+
+Add `icon`/`description` to a `MenuItem` for a leading icon and a secondary line of text below the label.
+
+<Example>
+  <RichContentExample client:load />
+</Example>
+
+## Menu content
+
+### Headers
+
+Use `MenuHeader` to label a group of items.
+
+<Example>
+  <HeadersExample client:load />
+</Example>
+
+### Dividers
+
+Place `MenuDivider` between groups of related items.
+
+<Example>
+  <DividersExample client:load />
+</Example>
+
+### Text
+
+`MenuText` applies header padding to non-interactive content, letting it sit flush with adjacent items.
+
+<Example>
+  <TextExample client:load />
+</Example>
+
+### Forms
+
+A menu list can contain any form content.
+
+<Example>
+  <FormsExample client:load />
+</Example>
+
+## Data-driven items
+
+Pass an `items` array to `MenuList` instead of composing children to build a flat list from data — items, headers, and dividers interleaved in authoring order. Covers flat items, headers, and dividers only; compose with `children` and `MenuSubmenu` directly for nested submenus.
+
+<Example>
+  <ItemsExample client:load />
+</Example>
+
+## Placement
+
+Pass a `placement` prop to control which side of the toggle the menu opens on. It flips automatically when viewport space is limited.
+
+<Example>
+  <PlacementExample client:load />
+</Example>
+
+## Close behavior
+
+The `autoClose` prop controls which clicks close the menu. The default (`true`) closes on any click inside or outside. Use `'inside'` or `'outside'` to restrict to one side, or `false` to require a programmatic `visible` change.
+
+<Example>
+  <AutoCloseExample client:load />
+</Example>
+
+## Submenus
+
+Wrap a trigger and nested items in `MenuSubmenu` to create a flyout. Submenus close sibling submenus automatically when a new one opens, and close along with their ancestor menu. Set `activation` to `'hover'` or `'click'` to restrict which interaction opens it on hover-capable devices — the default, `'both'`, accepts either; touch devices always use tap regardless of this setting. Which side a submenu cascades toward follows the active locale's direction — see [Internationalization]([[docsref:/getting-started/internationalization#right-to-left]]).
+
+<Example>
+  <SubmenuExample client:load />
+</Example>
+
+### Submenus on mobile
+
+Set `stacked` on a `MenuSubmenu` to switch to a view-replacement pattern below the `small` breakpoint, and add `MenuSubmenuBack` as the first item to let people navigate back to the parent level.
+
+<Example>
+  <StackedSubmenuExample client:load />
+</Example>
+
+## Dark mode
+
+Apply `data-cx-theme="dark"` to a `Menu` or any ancestor element to opt the menu into the dark theme.
+
+<Example>
+  <DarkModeExample client:load />
+</Example>
+
+## Context variants
+
+Add `context` classes (e.g. `context info`, `context danger`) to a `MenuList` or an individual `MenuItem` to remap colors to a semantic palette.
+
+<Example className="hstack gap-medium">
+  <ContextVariantsExample client:load />
+</Example>
+
+## API
+
+### Menu
+
+<PropTable component="Menu" />
+
+### MenuToggle
+
+<PropTable component="MenuToggle" />
+
+### MenuList
+
+<PropTable component="MenuList" />
+
+### MenuItem
+
+<PropTable component="MenuItem" />
+
+### MenuDivider
+
+<PropTable component="MenuDivider" />
+
+### MenuHeader
+
+<PropTable component="MenuHeader" />
+
+### MenuText
+
+<PropTable component="MenuText" />
+
+### MenuSubmenu
+
+<PropTable component="MenuSubmenu" />
+
+### MenuSubmenuBack
+
+<PropTable component="MenuSubmenuBack" />

@@ -1,0 +1,155 @@
+---
+title: Drawer
+description: Slide-in panel anchored to a viewport edge, for navigation, filters, and shopping carts.
+toc: true
+---
+
+import { Example as LiveDemoExample } from '../../examples/components/drawer/LiveDemoExample.tsx'
+import { Example as PlacementStartExample } from '../../examples/components/drawer/PlacementStartExample.tsx'
+import { Example as PlacementEndExample } from '../../examples/components/drawer/PlacementEndExample.tsx'
+import { Example as PlacementTopExample } from '../../examples/components/drawer/PlacementTopExample.tsx'
+import { Example as PlacementBottomExample } from '../../examples/components/drawer/PlacementBottomExample.tsx'
+import { Example as BodyScrollExample } from '../../examples/components/drawer/BodyScrollExample.tsx'
+import { Example as StaticBackdropExample } from '../../examples/components/drawer/StaticBackdropExample.tsx'
+import { Example as AppearanceExample } from '../../examples/components/drawer/AppearanceExample.tsx'
+import { Example as FullscreenExample } from '../../examples/components/drawer/FullscreenExample.tsx'
+import { Example as FooterExample } from '../../examples/components/drawer/FooterExample.tsx'
+
+## Examples
+
+### Live demo
+
+The button below opens a drawer anchored to the viewport's start edge.
+
+<Example>
+  <LiveDemoExample client:load />
+</Example>
+
+## Placement
+
+Always add a placement prop — the default off-screen transform without one is undefined.
+
+<table className="table">
+  <thead>
+    <tr>
+      <th>Placement</th>
+      <th>Edge</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>"start"</code>
+      </td>
+      <td>Left (LTR) / Right (RTL)</td>
+    </tr>
+    <tr>
+      <td>
+        <code>"end"</code>
+      </td>
+      <td>Right (LTR) / Left (RTL)</td>
+    </tr>
+    <tr>
+      <td>
+        <code>"top"</code>
+      </td>
+      <td>Top</td>
+    </tr>
+    <tr>
+      <td>
+        <code>"bottom"</code>
+      </td>
+      <td>Bottom</td>
+    </tr>
+  </tbody>
+</table>
+
+<Example>
+  <PlacementStartExample client:load />
+</Example>
+
+<Example>
+  <PlacementEndExample client:load />
+</Example>
+
+<Example>
+  <PlacementTopExample client:load />
+</Example>
+
+<Example>
+  <PlacementBottomExample client:load />
+</Example>
+
+## Behaviors
+
+### Body scroll
+
+By default, body scroll is locked while a drawer is open. Set `scroll` to allow the page to scroll while the drawer is open. Combine with `backdrop={false}` to remove the backdrop entirely.
+
+<Example>
+  <BodyScrollExample client:load />
+</Example>
+
+### Static backdrop
+
+Set `backdrop="static"` to prevent closing on backdrop click — the drawer nudges briefly to signal it requires explicit action. Add `keyboard={false}` to also disable Escape.
+
+<Example>
+  <StaticBackdropExample client:load />
+</Example>
+
+### Animation
+
+Drawers animate in and out by default. Add `instant` to skip all transitions.
+
+## Appearance
+
+`sheet` removes the inset gap, border radius, and border — the panel sits flush against the viewport edge. `translucent` applies a frosted-glass background. Both combine freely with placement and behavior props.
+
+<Example>
+  <AppearanceExample client:load />
+</Example>
+
+## Fullscreen
+
+Add `fullscreen` to expand the panel to fill the viewport, animating in and out from the direction of its placement.
+
+<Example>
+  <FullscreenExample client:load />
+</Example>
+
+## Footer layout
+
+`<DrawerFooter>` uses `flex-direction: row-reverse`, so buttons are right-aligned without extra props — write the **primary action first** in source, it renders on the right. At the small breakpoint, buttons stretch to equal widths. Add `stacked` to stack them as full-width columns instead.
+
+<Example>
+  <FooterExample client:load />
+</Example>
+
+## Responsive
+
+Set `responsive` to a breakpoint (`'small' | 'medium' | 'large' | 'xlarge' | '2xlarge'`) to render as a drawer only below that breakpoint — above it, the panel renders inline as a flex container instead (`.drawer-header` hidden, `.drawer-body` laid out as a row). This is the basis for navigation that collapses off-screen on narrow viewports and expands inline on wide ones, as used by [Navbar]([[docsref:/components/navbar]])'s collapsible menu region.
+
+## Accessibility
+
+The `<dialog>` element carries an implicit `role="dialog"` when opened with `showModal()`. `<Drawer>` generates an id and wires it to `aria-labelledby` automatically — render a `<DrawerTitle>` anywhere inside and it picks up that id, giving the drawer an accessible name with no manual wiring. Pass an explicit `id` to `<DrawerTitle>` to opt out, or set your own `aria-labelledby` on `<Drawer>` to point elsewhere.
+
+Focus moves to the drawer on open — to a specific element if it has `autofocus`, otherwise to the drawer itself. After the drawer closes, focus returns to whichever element was focused when it opened. Opening a second drawer while one is already open automatically closes the first.
+
+## API
+
+### Drawer
+
+<PropTable component="Drawer" />
+### DrawerBody
+
+<PropTable component="DrawerBody" />
+### DrawerFooter
+
+<PropTable component="DrawerFooter" />
+### DrawerHeader
+
+<PropTable component="DrawerHeader" />
+### DrawerTitle
+
+<PropTable component="DrawerTitle" />

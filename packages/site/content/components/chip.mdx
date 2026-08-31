@@ -1,0 +1,159 @@
+---
+title: Chip
+description: Compact, interactive element for tags, filters, and selections — rendered as a span, div, button, or link.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/chip/BasicExample.tsx'
+import { Example as ColorExample } from '../../examples/components/chip/ColorExample.tsx'
+import { Example as OutlineExample } from '../../examples/components/chip/OutlineExample.tsx'
+import { Example as SmoothExample } from '../../examples/components/chip/SmoothExample.tsx'
+import { Example as IconExample } from '../../examples/components/chip/IconExample.tsx'
+import { Example as AvatarExample } from '../../examples/components/chip/AvatarExample.tsx'
+import { Example as DismissibleExample } from '../../examples/components/chip/DismissibleExample.tsx'
+import { Example as SizeExample } from '../../examples/components/chip/SizeExample.tsx'
+import { Example as PressedExample } from '../../examples/components/chip/PressedExample.tsx'
+import { Example as ComponentExample } from '../../examples/components/chip/ComponentExample.tsx'
+import { Example as DisabledExample } from '../../examples/components/chip/DisabledExample.tsx'
+import { Example as DisabledLinkExample } from '../../examples/components/chip/DisabledLinkExample.tsx'
+
+## Examples
+
+`<Chip>` renders a `<span>` by default, styled with the `color` prop for one of Chassis's context
+colors. It's a compact, composable building block for tags, filters, and selections — combine it
+with `Icon`, `Avatar`, or `CloseButton` as plain children.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## Colors
+
+Set `color` to one of Chassis's context colors.
+
+<Example class="d-flex flex-wrap gap-small">
+  <ColorExample client:load />
+</Example>
+
+<Callout type="info">
+  Color alone doesn't convey meaning to assistive technology. Pair a context color with visible
+  text describing the chip's purpose.
+</Callout>
+
+## Style variants
+
+### Outline
+
+Set `variant="outline"` for a transparent background with a colored border and text — a
+lower-emphasis alternative to a solid chip in the same color.
+
+<Example class="d-flex flex-wrap gap-small">
+  <OutlineExample client:load />
+</Example>
+
+### Smooth
+
+Set `variant="smooth"` for a subdued, tinted background in the chip's color.
+
+<Example class="d-flex flex-wrap gap-small">
+  <SmoothExample client:load />
+</Example>
+
+## Icons
+
+Nest an `Icon` at the start or end of a chip's content to add visual meaning. Wrap the text in its
+own `<span>` so chassis-css's `:first-child`/`:last-child` spacing applies correctly.
+
+<Example class="d-flex flex-wrap gap-small">
+  <IconExample client:load />
+</Example>
+
+## Avatars
+
+Nest an `Avatar` to represent a person or entity — pair it with `CloseButton` for a removable
+"selected person" chip. Pass `component="span"` to `Avatar` so it renders as a decorative image
+rather than an interactive button.
+
+<Example>
+  <AvatarExample client:load />
+</Example>
+
+## Dismissible chips
+
+Nest a `CloseButton` to add a removal action — `Chip` doesn't manage its own list state, so pair
+it with an `onClick` handler that removes the value from whatever collection is being rendered
+from.
+
+<Example class="d-flex flex-wrap gap-small">
+  <DismissibleExample client:load />
+</Example>
+
+## Sizes
+
+Set `size` to `"small"` or `"large"` to adjust a chip's padding and font size; the default renders
+at medium size.
+
+<Example class="d-flex flex-wrap gap-small">
+  <SizeExample client:load />
+</Example>
+
+## Pressed state
+
+Set `pressed` to mark a toggle-style chip as active — e.g. a filter pill that stays highlighted
+while selected. It applies the `.active` class and sets `aria-pressed`, so assistive technology
+announces the toggle state. `Chip` doesn't toggle itself; flip `pressed` from an `onClick`
+handler.
+
+<Example>
+  <PressedExample client:load />
+</Example>
+
+## Root element
+
+Set `component` to render `<Chip>` as a different element — `"div"` for a non-interactive block,
+`"button"` for a toggle control, or any custom component. `href` implies `component="a"`
+automatically.
+
+<Example class="d-flex flex-wrap gap-small">
+  <ComponentExample client:load />
+</Example>
+
+<Callout type="info">
+  A chip rendered as `<a>` for something other than navigation — a toggle filter, for example —
+  needs an explicit `role="button"`; Chassis doesn't add it automatically, since not every
+  `component="a"` usage is a non-navigation action.
+</Callout>
+
+## Disabled state
+
+Set `disabled` to make a chip non-interactive. A `<button>` chip uses the real `disabled`
+attribute, which blocks keyboard and pointer interaction on its own.
+
+<Example>
+  <DisabledExample client:load />
+</Example>
+
+`<span>`, `<div>`, and `<a>` have no `disabled` attribute, so a disabled non-button chip gets the
+`.disabled` class instead, which sets `pointer-events: none`. A disabled `<a>` chip additionally
+gets `aria-disabled="true"` and `tabindex="-1"`, and blocks its own click handler and navigation.
+
+<Example>
+  <DisabledLinkExample client:load />
+</Example>
+
+## Scope
+
+**No automatic `role="button"` on non-navigation links.** Rendering `<Chip>` with `component="a"`
+for a toggle action rather than navigation (see [Root element](#root-element)) still needs an
+explicit `role="button"` — Chassis can't distinguish the two cases from `href` alone.
+
+**No built-in list management.** Unlike [`ChipInput`]([[docsref:/components/chip-input]]), `Chip`
+renders a single chip with no concept of a value collection — creation, removal, and keyboard
+navigation across a set of chips are the consumer's responsibility (or use `ChipInput`, which
+composes `Chip` internally for exactly that use case).
+
+## API
+
+### Chip
+
+<PropTable component="Chip" />

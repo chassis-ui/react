@@ -1,0 +1,156 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/stack/Stack.tsx",
+  "description": "",
+  "displayName": "Stack",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/stack/Stack.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "component": {
+      "defaultValue": null,
+      "description": "Component used for the root node. Either a string to use a HTML element or a component.",
+      "name": "component",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/stack/Stack.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ElementType"
+      }
+    },
+    "direction": {
+      "defaultValue": null,
+      "description": "Lays children out in a row (`horizontal`, the default, maps to `.hstack`) or a column\n(`vertical`, maps to `.vstack`).",
+      "name": "direction",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/stack/Stack.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"horizontal\" | \"vertical\"",
+        "value": [
+          {
+            "value": "\"horizontal\""
+          },
+          {
+            "value": "\"vertical\""
+          }
+        ]
+      }
+    },
+    "gap": {
+      "defaultValue": null,
+      "description": "Spacing between children, mapped to the `gap-*` utility classes.",
+      "name": "gap",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/stack/Stack.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "0 | \"small\" | \"zero\" | \"4xsmall\" | \"3xsmall\" | \"2xsmall\" | \"xsmall\" | \"medium\" | \"large\" | \"xlarge\" | \"2xlarge\" | \"3xlarge\" | \"4xlarge\" | \"5xlarge\" | \"6xlarge\"",
+        "value": [
+          {
+            "value": "0"
+          },
+          {
+            "value": "\"small\""
+          },
+          {
+            "value": "\"zero\""
+          },
+          {
+            "value": "\"4xsmall\""
+          },
+          {
+            "value": "\"3xsmall\""
+          },
+          {
+            "value": "\"2xsmall\""
+          },
+          {
+            "value": "\"xsmall\""
+          },
+          {
+            "value": "\"medium\""
+          },
+          {
+            "value": "\"large\""
+          },
+          {
+            "value": "\"xlarge\""
+          },
+          {
+            "value": "\"2xlarge\""
+          },
+          {
+            "value": "\"3xlarge\""
+          },
+          {
+            "value": "\"4xlarge\""
+          },
+          {
+            "value": "\"5xlarge\""
+          },
+          {
+            "value": "\"6xlarge\""
+          }
+        ]
+      }
+    },
+    "responsive": {
+      "defaultValue": null,
+      "description": "Switches `direction` at one or more breakpoints via container queries. Requires a\n`.contains-inline` ancestor (not applied by `Stack` itself — see the docs) to establish the\ncontainer context these queries evaluate against.",
+      "name": "responsive",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/stack/Stack.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Partial<Record<Breakpoint, \"horizontal\" | \"vertical\">>"
+      }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/stack/Stack.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "any"
+      }
+    }
+  }
+}

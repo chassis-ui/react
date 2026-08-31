@@ -1,0 +1,39 @@
+---
+title: useDrawer
+description: Reads the enclosing Drawer's close handler from any component composed inside it, without prop-drilling a close callback down through the tree.
+
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/hooks/use-drawer/BasicExample.tsx'
+
+## Overview
+
+`useDrawer()` reads a close handler from React context, provided by the nearest enclosing
+[`<Drawer>`]([[docsref:/components/drawer]]). Call it from any component rendered inside that
+`<Drawer>` — a plain `Button` in a `DrawerFooter`, custom body content — instead of threading a
+close callback down through props from wherever `visible`/`onClose` are managed.
+
+Outside a `<Drawer>`, `useDrawer()` returns a no-op `close` rather than throwing, so a component
+that calls it doesn't have to guard against rendering outside one.
+
+## Basic usage
+
+The footer button below closes the drawer by calling `close` from `useDrawer()`, not by receiving
+it as a prop from the component managing `visible`.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## API
+
+### useDrawer
+
+```ts
+function useDrawer(): { close: () => void }
+```
+
+`useDrawer` takes no arguments. Its return value is a single `close` function that requests the
+enclosing `<Drawer>` close, running the same close transition and `onClose` callback as dismissing
+it via the backdrop, the Escape key, or a built-in close control would.

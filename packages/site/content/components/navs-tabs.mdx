@@ -1,0 +1,190 @@
+---
+title: Nav
+description: Build tab and pill navigation with Nav, NavItem, and NavLink, or from a data array, with alignment, stacking, and fill/justify layout options.
+toc: true
+---
+
+import { Example as BaseNavExample } from '../../examples/components/navs-tabs/BaseNavExample.tsx'
+import { Example as NavElementExample } from '../../examples/components/navs-tabs/NavElementExample.tsx'
+import { Example as DataDrivenExample } from '../../examples/components/navs-tabs/DataDrivenExample.tsx'
+import { Example as DataDrivenTabsExample } from '../../examples/components/navs-tabs/DataDrivenTabsExample.tsx'
+import { Example as DataDrivenPillsExample } from '../../examples/components/navs-tabs/DataDrivenPillsExample.tsx'
+import { Example as TabsExample } from '../../examples/components/navs-tabs/TabsExample.tsx'
+import { Example as PillsExample } from '../../examples/components/navs-tabs/PillsExample.tsx'
+import { Example as CenteredExample } from '../../examples/components/navs-tabs/CenteredExample.tsx'
+import { Example as RightAlignedExample } from '../../examples/components/navs-tabs/RightAlignedExample.tsx'
+import { Example as VerticalExample } from '../../examples/components/navs-tabs/VerticalExample.tsx'
+import { Example as FillExample } from '../../examples/components/navs-tabs/FillExample.tsx'
+import { Example as JustifiedExample } from '../../examples/components/navs-tabs/JustifiedExample.tsx'
+import { Example as FlexUtilitiesExample } from '../../examples/components/navs-tabs/FlexUtilitiesExample.tsx'
+import { Example as TabsWithMenuExample } from '../../examples/components/navs-tabs/TabsWithMenuExample.tsx'
+import { Example as PillsWithMenuExample } from '../../examples/components/navs-tabs/PillsWithMenuExample.tsx'
+
+## Overview
+
+`<Nav>` shares its base markup and styling — the `.nav` class, active and disabled states — across
+plain, tabbed, and pilled navigation. Swap the `variant` prop to switch between styles without
+changing the surrounding markup.
+
+## Basic usage
+
+`<Nav>` is built with flexbox and provides the foundation every style variant below builds on: some
+style overrides for working with lists, link padding for larger hit areas, and disabled styling.
+Compose it from `<NavItem>`/`<NavLink>` pairs, mark the current link with `active`, and mark an
+unavailable one with `disabled`.
+
+<Example>
+  <BaseNavExample client:load />
+</Example>
+
+The `<NavItem>`/`<NavLink>` pairing is optional. Since `.nav` uses `display: flex`, rendering
+`<Nav component="nav">` with direct `<NavLink>` children behaves the same way, without the extra
+markup.
+
+<Example>
+  <NavElementExample client:load />
+</Example>
+
+## Data-driven usage
+
+Pass an `items` array to `<Nav>` to render navigation from data instead of composing children. Each
+item accepts `label`, `href`, `active`, and `disabled`.
+
+<Example>
+  <DataDrivenExample client:load />
+</Example>
+
+The same `items` array works with the `tabs` and `pills` variants below.
+
+<Example>
+  <DataDrivenTabsExample client:load />
+</Example>
+
+<Example>
+  <DataDrivenPillsExample client:load />
+</Example>
+
+## Style variants
+
+### Tabs
+
+Set `variant="tabs"` on the base nav from above to generate a tabbed interface.
+
+<Example>
+  <TabsExample client:load />
+</Example>
+
+### Pills
+
+Set `variant="pills"` instead for a pill-style interface, using the same markup.
+
+<Example>
+  <PillsExample client:load />
+</Example>
+
+## Alignment and layout
+
+Flexbox utilities control a nav's horizontal alignment, stacking, and how its items fill the
+available width. Mix and match as needed.
+
+### Horizontal alignment
+
+Navs are left-aligned by default. Apply `.justify-content-center` to center them:
+
+<Example>
+  <CenteredExample client:load />
+</Example>
+
+Or `.justify-content-end` to right-align them:
+
+<Example>
+  <RightAlignedExample client:load />
+</Example>
+
+### Vertical stacking
+
+Apply the `.flex-column` utility to stack nav items vertically instead of horizontally. Use a
+responsive variant (e.g. `.small:flex-column`) to stack only below a given breakpoint.
+
+<Example>
+  <VerticalExample client:load />
+</Example>
+
+### Fill and justify
+
+Two modifier classes extend a nav's contents to the full available width. `layout="fill"`
+proportionately fills all available space with `.nav-item`s — every item occupies the horizontal
+space, but not necessarily at equal widths.
+
+<Example>
+  <FillExample client:load />
+</Example>
+
+`layout="justified"` instead gives every nav item an equal width, filling the same available space.
+
+<Example>
+  <JustifiedExample client:load />
+</Example>
+
+## Flex utilities
+
+Responsive nav variations can also be built from a series of flexbox utilities directly. This is
+more verbose than the `layout` prop, but offers finer control across breakpoints. The example below
+stacks the nav at the lowest breakpoint, then switches to a horizontal layout filling the available
+width starting from the small breakpoint.
+
+<Example>
+  <FlexUtilitiesExample client:load />
+</Example>
+
+## Using menus
+
+A `<Menu>` composes into a nav alongside `<NavItem>`/`<NavLink>` pairs, adding a dropdown-style
+item to an otherwise flat navigation.
+
+### Tabs with menus
+
+<Example>
+  <TabsWithMenuExample client:load />
+</Example>
+
+### Pills with menus
+
+<Example>
+  <PillsWithMenuExample client:load />
+</Example>
+
+## Accessibility
+
+When using `<Nav>` to provide a navigation bar, add `role="navigation"` to the most logical parent
+container, or wrap a `<nav>` element around the whole navigation — not the `<ul>` itself, since that
+would prevent it from being announced as an actual list by assistive technology.
+
+A navigation bar, even one visually styled as tabs via `variant="tabs"`, shouldn't be given
+`role="tablist"`, `role="tab"`, or `role="tabpanel"` attributes. Those are only appropriate for
+dynamic tabbed interfaces, as described in the
+[<abbr title="Web Accessibility Initiative">WAI</abbr> <abbr title="Accessible Rich Internet Applications">ARIA</abbr> Authoring Practices](https://www.w3.org/TR/wai-aria-practices/#tabpanel).
+`<Nav>` itself only renders the `nav`/`nav-tabs`/`nav-pills` styling and has no notion of a selected
+panel to wire up — reach for [`Tabs`](./tabs) instead, which handles the full
+`role="tablist"`/`role="tab"`/`role="tabpanel"` + `aria-selected`/`aria-controls`/`aria-labelledby`
+pattern, keyboard navigation, and animated panel switching.
+
+## API
+
+### Nav
+
+<PropTable component="Nav" />
+
+### NavItemDef
+
+Shape of each entry in `Nav`'s `items` array (data-driven rendering).
+
+<PropTable component="NavItemDef" />
+
+### NavItem
+
+<PropTable component="NavItem" />
+
+### NavLink
+
+<PropTable component="NavLink" />

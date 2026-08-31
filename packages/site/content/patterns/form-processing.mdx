@@ -1,0 +1,22 @@
+---
+title: Form Processing
+description: A complete example of building a validated, accessible form with submit handling, inline feedback, and a success notification.
+
+toc: true
+---
+
+import { Example as RegistrationForm } from '../../examples/patterns/form-processing/RegistrationForm.tsx'
+
+This pattern combines a registration form with controlled inputs, real-time validation feedback,
+and a success notification on submit.
+
+<Example>
+  <RegistrationForm client:load />
+</Example>
+
+## Key points
+
+- Validation runs on every render but feedback only shows after the first submit attempt (`submitted` flag).
+- `valid` and `invalid` props on inputs add visual state and expose `<FormFeedback>` messages.
+- The success `<Notification>` is dismissible — closing it calls `handleReset` which clears all state.
+- `noValidate` on `<Form>` disables the browser's built-in validation UI so custom feedback is shown instead.

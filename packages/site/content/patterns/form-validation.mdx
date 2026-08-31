@@ -1,0 +1,110 @@
+---
+title: Form Validation
+description: Show validation feedback with browser defaults, custom styles, or compact tooltips — plus which form components support it and how to add validation icons.
+
+toc: true
+---
+
+import { Example as BrowserDefaultsExample } from '../../examples/patterns/validation/BrowserDefaultsExample.tsx'
+import { Example as CustomStylesExample } from '../../examples/patterns/validation/CustomStylesExample.tsx'
+import { Example as ServerSideExample } from '../../examples/patterns/validation/ServerSideExample.tsx'
+import { Example as SupportedElementsExample } from '../../examples/patterns/validation/SupportedElementsExample.tsx'
+import { Example as ValidationIconsExample } from '../../examples/patterns/validation/ValidationIconsExample.tsx'
+import { Example as TooltipsExample } from '../../examples/patterns/validation/TooltipsExample.tsx'
+
+Every form component accepts `invalid`/`valid` booleans plus `invalidFeedback`/`validFeedback` text
+— see [Working with Forms]([[docsref:/getting-started/working-with-forms]]) for that shared prop
+surface. This page covers the four ways that state actually reaches the screen — browser-default
+tooltips, custom Chassis styling, predetermined server-side state, and compact inline tooltips —
+plus the opt-in validation icon and which components support each.
+
+## Browser defaults
+
+With no extra configuration, a `<Form>` falls back to the browser's own validation UI on submit.
+Depending on browser and OS, this renders as a native tooltip pointing at the first invalid field;
+the message text comes from the browser, though it can still be customized in JavaScript via
+[`setCustomValidity()`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setCustomValidity).
+These styles can't be customized with CSS — reach for [Custom styles](#custom-styles) instead when
+a design needs Chassis's own feedback styling.
+
+<Example>
+  <BrowserDefaultsExample client:load />
+</Example>
+
+## Custom styles
+
+Set `noValidate` on `<Form>` to disable the browser's default feedback UI while still keeping the
+Constraint Validation API available in JavaScript. The example below intercepts `onSubmit`, checks
+`form.checkValidity()`, and sets `validated` on `<Form>` once the user has attempted to submit —
+`validated` adds the `.was-validated` class Chassis's CSS uses to gate when `:invalid`/`:valid`
+styling first appears, so a field isn't shown as invalid before the user has done anything.
+
+<Example>
+  <CustomStylesExample client:load />
+</Example>
+
+## Server-side
+
+When validity is already known ahead of time — a server response, a prior submit attempt — set
+`invalid`/`valid` directly instead of relying on native constraint validation. No `noValidate` or
+submit handler is needed; the state renders as soon as the props are set.
+
+<Callout type="warning">
+  A control's own `invalidFeedback`/`validFeedback` prop wires `aria-describedby` automatically.
+  Composing a control manually alongside an `InputGroup` or a standalone `FormFeedback` — as the
+  username and terms fields below do — means wiring `aria-describedby` to the feedback text's `id`
+  by hand instead. `aria-describedby` accepts more than one id, so reference an addon and a
+  feedback message together (see the username field).
+</Callout>
+
+<Example>
+  <ServerSideExample client:load />
+</Example>
+
+## Supported elements
+
+Base validation styling — state colors, border, focus ring, and feedback text — works on every
+form component: text-like inputs, `Select`, `Textarea`, the toggle family (`Checkbox`, `RadioGroup`,
+`Switch`), `FileInput`, `ColorInput`, `RangeInput`, `ChipInput`, `Combobox`, `InputGroup`-composed
+fields, adorned inputs, and `FloatingInput`. A `multiple` `Select` still picks up the color/border
+styling — only the [validation icon](#validation-icons) is narrower than this list.
+
+<Example>
+  <SupportedElementsExample client:load />
+</Example>
+
+## Validation icons
+
+Add the `validation-icons` class to any ancestor — typically `<Form>`, but a `.form-field`,
+`InputGroup`, or a single control works too — to render a success or error glyph inside every
+supported descendant once it enters a validation state. Without that ancestor class, inputs still
+pick up validation colors, border, and feedback text; only the icon is omitted.
+
+The icon renders on text-like inputs, a single-value `Select` (not `multiple`, and not a `size`
+greater than `1`), `ColorInput`, ghost-input-based controls (`ChipInput`, and any `TextInput`/
+`Select` using `adornStart`/`adornEnd`), and `Combobox`. `Textarea`, `Checkbox`, `RadioGroup`,
+`Switch`, `FileInput`, and `RangeInput` never render one, by design — and a disabled control never
+shows the icon even when it's otherwise eligible.
+
+<Example>
+  <ValidationIconsExample client:load />
+</Example>
+
+<Callout type="info">
+  Set the Sass option `$enable-validation-icons: false` (see chassis-css's
+  [Form Validation](https://chassis-ui.com/css/docs/forms/validation) page) to strip the icon rules
+  from the compiled stylesheet entirely — `validation-icons` becomes a no-op at that point.
+</Callout>
+
+## Tooltips
+
+For compact layouts, swap `FormFeedback`'s block-style feedback for a positioned tooltip by
+passing it `tooltip` instead of relying on a control's own `invalidFeedback`/`validFeedback` shorthand
+— that shorthand always renders the block style, so a tooltip needs `FormFeedback` composed
+manually alongside a bare control, the same way the username field on this page composes
+`InputGroup`. The tooltip positions itself against the nearest ancestor with `position: relative`
+— the grid's `Col` already provides this, but a custom layout may need to add it explicitly.
+
+<Example>
+  <TooltipsExample client:load />
+</Example>

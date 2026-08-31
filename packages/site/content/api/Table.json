@@ -1,0 +1,504 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/table/Table.tsx",
+  "description": "",
+  "displayName": "Table",
+  "methods": [],
+  "props": {
+    "aria-label": {
+      "defaultValue": null,
+      "description": "An accessible label for the table, used when there's no visible heading.",
+      "name": "aria-label",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+        "name": "TableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+          "name": "TableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "aria-labelledby": {
+      "defaultValue": null,
+      "description": "Identifies a visible heading element for the table.",
+      "name": "aria-labelledby",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+        "name": "TableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+          "name": "TableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "align": {
+      "defaultValue": null,
+      "description": "Set the vertical alignment of cell content.",
+      "name": "align",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+        "name": "TableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+          "name": "TableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"bottom\" | \"middle\" | \"top\"",
+        "value": [
+          {
+            "value": "\"bottom\""
+          },
+          {
+            "value": "\"middle\""
+          },
+          {
+            "value": "\"top\""
+          }
+        ]
+      }
+    },
+    "bordered": {
+      "defaultValue": null,
+      "description": "Add borders on all sides of the table and cells.",
+      "name": "bordered",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+        "name": "TableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+          "name": "TableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "borderless": {
+      "defaultValue": null,
+      "description": "Remove borders on all sides of the table and cells.",
+      "name": "borderless",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+        "name": "TableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+          "name": "TableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "caption": {
+      "defaultValue": null,
+      "description": "Content shown above the table, functioning as a heading for it.",
+      "name": "caption",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+        "name": "TableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+          "name": "TableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "children": {
+      "defaultValue": null,
+      "description": "A `TableHeader` and a `TableBody`, each built from `TableColumn`/`TableRow`/\n`TableCell` — read as data to build the table's collection. Not rendered directly.",
+      "name": "children",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+        "name": "TableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+          "name": "TableProps"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "[ReactElement<TableHeaderProps<T> & { className?: string | undefined; }, string | JSXElementConstructor<any>>, ReactElement<...>]"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+        "name": "TableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+          "name": "TableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "color": {
+      "defaultValue": null,
+      "description": "Sets the color of the component.",
+      "name": "color",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+        "name": "TableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+          "name": "TableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "ContextColor",
+        "value": [
+          {
+            "value": "\"default\""
+          },
+          {
+            "value": "\"alternate\""
+          },
+          {
+            "value": "\"primary\""
+          },
+          {
+            "value": "\"secondary\""
+          },
+          {
+            "value": "\"neutral\""
+          },
+          {
+            "value": "\"success\""
+          },
+          {
+            "value": "\"danger\""
+          },
+          {
+            "value": "\"warning\""
+          },
+          {
+            "value": "\"info\""
+          },
+          {
+            "value": "\"black\""
+          },
+          {
+            "value": "\"white\""
+          }
+        ]
+      }
+    },
+    "disabledKeys": {
+      "defaultValue": null,
+      "description": "A list of row keys to disable. Disabled rows cannot be selected, focused, or interacted with.",
+      "name": "disabledKeys",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+        "name": "TableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+          "name": "TableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Iterable<Key>"
+      }
+    },
+    "footer": {
+      "defaultValue": null,
+      "description": "Content shown below the table in a `<tfoot>`, e.g. a totals row. Rendered as plain markup —\nnot part of the keyboard-navigable grid.",
+      "name": "footer",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+        "name": "TableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+          "name": "TableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "hover": {
+      "defaultValue": null,
+      "description": "Enable a hover state on table rows.",
+      "name": "hover",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+        "name": "TableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+          "name": "TableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "id": {
+      "defaultValue": null,
+      "description": "`id` forwarded to the table element.",
+      "name": "id",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+        "name": "TableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+          "name": "TableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "onSelectionChange": {
+      "defaultValue": null,
+      "description": "Handler that is called when the selection changes.",
+      "name": "onSelectionChange",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+        "name": "TableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+          "name": "TableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((keys: Selection) => void)"
+      }
+    },
+    "onSortChange": {
+      "defaultValue": null,
+      "description": "Handler that is called when a column is sorted.",
+      "name": "onSortChange",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+        "name": "TableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+          "name": "TableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((descriptor: SortDescriptor) => void)"
+      }
+    },
+    "responsive": {
+      "defaultValue": null,
+      "description": "Make any table responsive across all viewports or pick a maximum breakpoint.",
+      "name": "responsive",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+        "name": "TableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+          "name": "TableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean | \"small\" | \"medium\" | \"large\" | \"xlarge\" | \"2xlarge\""
+      }
+    },
+    "selectedKeys": {
+      "defaultValue": null,
+      "description": "The currently selected row keys (controlled).",
+      "name": "selectedKeys",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+        "name": "TableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+          "name": "TableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Selection"
+      }
+    },
+    "selectionMode": {
+      "defaultValue": {
+        "value": "none"
+      },
+      "description": "The type of selection that is allowed.",
+      "name": "selectionMode",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+        "name": "TableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+          "name": "TableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"none\" | \"single\" | \"multiple\"",
+        "value": [
+          {
+            "value": "\"none\""
+          },
+          {
+            "value": "\"single\""
+          },
+          {
+            "value": "\"multiple\""
+          }
+        ]
+      }
+    },
+    "small": {
+      "defaultValue": null,
+      "description": "Make table more compact by cutting all cell padding.",
+      "name": "small",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+        "name": "TableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+          "name": "TableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "sortDescriptor": {
+      "defaultValue": null,
+      "description": "The current sort column and direction.",
+      "name": "sortDescriptor",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+        "name": "TableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+          "name": "TableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "SortDescriptor"
+      }
+    },
+    "stacked": {
+      "defaultValue": null,
+      "description": "Convert rows into stacked label/value blocks below a container width, for tables with too\nmany columns to read comfortably even with horizontal scrolling. `true` always stacks; a\nbreakpoint name stacks only below it. Implies `responsive` when `responsive` isn't set\nseparately, since stacking needs the same `.table-responsive` container-query ancestor.\nLabels come from each `TableColumn`'s text (or its `textValue`, for non-text headers).",
+      "name": "stacked",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+        "name": "TableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+          "name": "TableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean | \"small\" | \"medium\" | \"large\" | \"xlarge\" | \"2xlarge\""
+      }
+    },
+    "striped": {
+      "defaultValue": null,
+      "description": "Add zebra-striping to table rows.",
+      "name": "striped",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+        "name": "TableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+          "name": "TableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Ref<HTMLTableElement>"
+      }
+    }
+  }
+}

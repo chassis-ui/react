@@ -1,0 +1,43 @@
+---
+title: useNotification
+description: Reads the enclosing Notification's dismiss handler from any component composed inside it, without prop-drilling a close callback down through the tree.
+
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/notification/ActionsDismissExample.tsx'
+
+## Overview
+
+`useNotification()` reads a close handler from React context, provided by the nearest enclosing
+[`<Notification>`]([[docsref:/components/notification]]). Call it from any component composed
+inside that `<Notification>` — most commonly a labeled `Button` placed in `actions` — instead of
+threading a close callback down through props from wherever `visible`/`onClose` are managed.
+
+The `dismissible` prop already covers dismissing via a built-in icon-only close button. Reach for
+`useNotification()` when a labeled action ("Dismiss", "Got it") in `actions` should close the
+notification instead of, or alongside, that icon.
+
+Outside a `<Notification>`, `useNotification()` returns a no-op `close` rather than throwing, so a
+component that calls it doesn't have to guard against rendering outside one.
+
+## Basic usage
+
+The "Dismiss" button below is a plain `Button` in `actions` that closes the notification by
+calling `close` from `useNotification()`.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## API
+
+### useNotification
+
+```ts
+function useNotification(): { close: () => void }
+```
+
+`useNotification` takes no arguments. Its return value is a single `close` function that requests
+the enclosing `<Notification>` close, running the same close transition and `onClose` callback as
+dismissing it via auto-hide or a built-in close control would.

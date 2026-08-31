@@ -1,0 +1,41 @@
+---
+title: Switch
+description: Toggle switch styled consistently across browsers and devices, built on custom checkbox markup with size and context color variants.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/switch/BasicExample.tsx'
+import { Example as SizeExample } from '../../examples/components/switch/SizeExample.tsx'
+import { Example as ColorExample } from '../../examples/components/switch/ColorExample.tsx'
+
+## Overview
+
+A switch has the markup of a custom checkbox but renders as a toggle switch via `<Switch>`. It
+supports the native `disabled` attribute, same as any checkbox input.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## Sizes
+
+Set `size` to `"small"` or `"large"` to change a switch's dimensions; the default renders at
+medium size.
+
+<Example>
+  <SizeExample client:load />
+</Example>
+
+## Context colors
+
+Set `color` to any of the Chassis context colors to tint the switch indicator when selected.
+
+<Example>
+  <ColorExample client:load />
+</Example>
+
+## API
+
+### Switch
+
+<PropTable component="Switch" />

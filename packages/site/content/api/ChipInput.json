@@ -1,0 +1,423 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+  "description": "",
+  "displayName": "ChipInput",
+  "methods": [],
+  "props": {
+    "aria-label": {
+      "defaultValue": null,
+      "description": "An accessible label for the chip group, used when there's no visible `<label>`.",
+      "name": "aria-label",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+        "name": "ChipInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+          "name": "ChipInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "aria-labelledby": {
+      "defaultValue": null,
+      "description": "Identifies a visible `<label>` element for the chip group.",
+      "name": "aria-labelledby",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+        "name": "ChipInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+          "name": "ChipInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "allowDuplicates": {
+      "defaultValue": {
+        "value": false
+      },
+      "description": "Allow the same value to be added more than once. Defaults to `false`.",
+      "name": "allowDuplicates",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+        "name": "ChipInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+          "name": "ChipInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "chipVariant": {
+      "defaultValue": {
+        "value": "default"
+      },
+      "description": "Space-separated chassis-css chip modifier classes (e.g. `\"primary smooth\"`) applied to every\nchip. Defaults to `\"default\"`.",
+      "name": "chipVariant",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+        "name": "ChipInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+          "name": "ChipInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+        "name": "ChipInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+          "name": "ChipInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "defaultValue": {
+      "defaultValue": null,
+      "description": "The initial set of chip values (uncontrolled).",
+      "name": "defaultValue",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+        "name": "ChipInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+          "name": "ChipInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string[]"
+      }
+    },
+    "disabled": {
+      "defaultValue": null,
+      "description": "Prevents new chips from being added and makes existing chips non-interactive.",
+      "name": "disabled",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+        "name": "ChipInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+          "name": "ChipInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "help": {
+      "defaultValue": null,
+      "description": "A description for the field, rendered below the chips.",
+      "name": "help",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+        "name": "ChipInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+          "name": "ChipInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "id": {
+      "defaultValue": null,
+      "description": "`id` forwarded to the text input — useful for pairing with a `<label for>`.",
+      "name": "id",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+        "name": "ChipInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+          "name": "ChipInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "invalid": {
+      "defaultValue": null,
+      "description": "Set component validation state to invalid.",
+      "name": "invalid",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+        "name": "ChipInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+          "name": "ChipInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "invalidFeedback": {
+      "defaultValue": null,
+      "description": "An error message for the field, rendered below the chips when `invalid` is set.",
+      "name": "invalidFeedback",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+        "name": "ChipInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+          "name": "ChipInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "label": {
+      "defaultValue": null,
+      "description": "The field's caption, rendered as a `FormLabel` associated with the text input.",
+      "name": "label",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+        "name": "ChipInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+          "name": "ChipInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "maxChips": {
+      "defaultValue": null,
+      "description": "Maximum number of chips allowed. Omit for no limit.",
+      "name": "maxChips",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+        "name": "ChipInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+          "name": "ChipInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number"
+      }
+    },
+    "name": {
+      "defaultValue": null,
+      "description": "`name` of an auto-created hidden input per chip, kept in sync with the values, for native\nform submission. Omit to skip creating them.",
+      "name": "name",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+        "name": "ChipInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+          "name": "ChipInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "onChange": {
+      "defaultValue": null,
+      "description": "Callback fired whenever a chip is added or removed.",
+      "name": "onChange",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+        "name": "ChipInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+          "name": "ChipInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((values: string[]) => void)"
+      }
+    },
+    "placeholder": {
+      "defaultValue": null,
+      "description": "Placeholder shown in the input when empty.",
+      "name": "placeholder",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+        "name": "ChipInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+          "name": "ChipInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "separator": {
+      "defaultValue": {
+        "value": ","
+      },
+      "description": "Character that creates a new chip when typed, or pasted text is split on. Set to `null` to\ndisable. Defaults to `,`.",
+      "name": "separator",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+        "name": "ChipInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+          "name": "ChipInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | null"
+      }
+    },
+    "size": {
+      "defaultValue": null,
+      "description": "Size the component small or large.",
+      "name": "size",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+        "name": "ChipInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+          "name": "ChipInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"small\" | \"large\"",
+        "value": [
+          {
+            "value": "\"small\""
+          },
+          {
+            "value": "\"large\""
+          }
+        ]
+      }
+    },
+    "valid": {
+      "defaultValue": null,
+      "description": "Set component validation state to valid.",
+      "name": "valid",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+        "name": "ChipInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+          "name": "ChipInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "validFeedback": {
+      "defaultValue": null,
+      "description": "A success message for the field, rendered below the chips when `valid` is set.",
+      "name": "validFeedback",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+        "name": "ChipInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+          "name": "ChipInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "value": {
+      "defaultValue": null,
+      "description": "The set of chip values (controlled).",
+      "name": "value",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+        "name": "ChipInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/chip-input/ChipInput.tsx",
+          "name": "ChipInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string[]"
+      }
+    }
+  }
+}

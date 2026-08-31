@@ -1,0 +1,78 @@
+---
+title: Theming
+description: The supported override surface for re-theming @chassis-ui/react — custom properties, light/dark mode, and the one component family with its own stylesheet.
+
+toc: true
+---
+
+`@chassis-ui/react` owns almost no visual styling of its own — every component applies
+`@chassis-ui/css` class names, the same classes a hand-written page using chassis-css directly
+would use. Re-theming this library, for nearly every component, means re-theming
+`@chassis-ui/css`/`@chassis-ui/tokens` instead. The one exception is the calendar/datepicker
+family, covered under [Component-scoped styles](#component-scoped-styles) below.
+
+## Custom properties
+
+`@chassis-ui/tokens` compiles a brand's design tokens into `--cx-*` custom properties — colors,
+spacing, radii, typography — that chassis-css's compiled stylesheet declares at `:root`. These are
+the supported theming surface: override any of them directly in an application stylesheet, or set
+one inline on a scoping ancestor to theme a subtree differently.
+
+```css
+:root {
+  --cx-primary: #6d28d9;
+}
+```
+
+The full, up-to-date token list lives in chassis-css's own
+[Design Tokens](https://chassis-ui.com/css/docs/core-concepts/design-tokens) reference rather than
+duplicated here, since it's large and actively maintained.
+
+## Switching brand or mode
+
+A brand swap can happen at build time or at runtime. At build time, compile a different
+`@chassis-ui/tokens` brand file ahead of chassis-css's own Sass — a chassis-css-level build step
+with no `@chassis-ui/react` involvement. At runtime, since every token is a plain custom property,
+override it directly from application code.
+
+Light and dark mode work the same way. chassis-css re-declares its `:root`-level tokens under
+`[data-cx-theme="light"]`/`[data-cx-theme="dark"]` attribute selectors — setting that attribute,
+typically on `<html>`, switches modes:
+
+```js
+document.documentElement.setAttribute('data-cx-theme', 'dark')
+```
+
+`@chassis-ui/react` doesn't read or set this attribute itself anywhere — mode switching stays
+entirely in application code.
+
+## Component-scoped styles
+
+`Calendar`, `RangeCalendar`, `DatePicker`, `DateRangePicker`, and `Table`'s sort/selection UI have
+no chassis-css visual equivalent, so `@chassis-ui/react` ships its own compiled stylesheet for
+just those pieces — see
+[Component-specific styles]([[docsref:/getting-started/introduction#component-specific-styles]])
+for the import. That stylesheet already builds on the `--cx-*` token surface above wherever
+chassis-css has one, so overriding those tokens re-themes these components too.
+
+## Not a theming hook
+
+A few things are real, inspectable CSS but aren't a stability contract — they can change shape
+without a major-version signal, so don't target them directly:
+
+- **`--cx-*` properties declared only inside a component-class selector**, not at `:root`.
+  chassis-css's context-color system re-declares many `--cx-*` names inside selector blocks like
+  `.btn`/`.card` as its own internal implementation — overriding the `:root` token it derives from
+  is the supported path, not the re-declaration itself.
+- **`data-cx-*` attributes other than `data-cx-theme`** — `data-cx-placement`, `data-cx-inline`,
+  and similar are a wire protocol between `@chassis-ui/react` and chassis-css's own selectors, not
+  a theming hook.
+- **Internal class names the calendar/datepicker family's own stylesheet uses for its layout** —
+  implementation detail, not a documented public class API. Style through the props those
+  components expose (`className`, `size`, ...) instead.
+
+<Callout type="warning">
+  A component-scoped `--cx-*` re-declaration and a `:root`-level token can share the same name.
+  Confirm a property is declared at `:root` in the compiled stylesheet before relying on it —
+  overriding a name that only exists inside a component selector has no effect from outside.
+</Callout>

@@ -1,0 +1,69 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import { getConfig } from '@libs/config'
+import { getSlug } from '@chassis-ui/docs'
+import Icon from '@chassis-ui/docs/shortcodes/Icon.astro'
+
+interface Props {
+  frontmatter: CollectionEntry<'docs'>['data']
+  id: CollectionEntry<'docs'>['id']
+  parentDirectory: string
+}
+
+const { frontmatter } = Astro.props
+
+const deps = frontmatter.deps ?? []
+const depsCount = deps.length
+
+const hasContent =
+  depsCount > 0 ||
+  !!frontmatter.mdn ||
+  !!(frontmatter.added?.show_badge !== false && frontmatter.added)
+---
+
+{
+  hasContent && (
+    <div class="cxd-page-meta d-flex gap-medium row-gap-xsmall px-small py-xsmall bg-even icon-small font-small rounded">
+      {depsCount > 0 && (
+        <div>
+          <Icon name="box-solid" class="icon-info" /> Depends on
+          {deps.map((dep, i) => (
+            <Fragment>
+              {i > 0 && ', '}
+              {dep.url?.startsWith('http') ? (
+                <a class="text-decoration-none" href={dep.url} target="_blank" rel="noopener">
+                  {dep.title}
+                </a>
+              ) : dep.url ? (
+                <a class="text-decoration-none" href={dep.url}>
+                  {dep.title}
+                </a>
+              ) : (
+                <a
+                  class="text-decoration-none"
+                  href={`${getConfig().docsPath}/components/${getSlug(dep.title)}/`}
+                >
+                  {dep.title}
+                </a>
+              )}
+            </Fragment>
+          ))}
+        </div>
+      )}
+      {frontmatter.mdn && (
+        <div>
+          <Icon name="mdn-brand" class="icon-reset" />
+          <a class="text-decoration-none" href={frontmatter.mdn} target="_blank" rel="noopener">
+            MDN Reference
+          </a>
+        </div>
+      )}
+      {frontmatter.added &&
+        (frontmatter.added.show_badge === undefined || frontmatter.added.show_badge === true) && (
+          <div class="ms-auto">
+            <Icon name="plus-solid" class="icon-success" /> Added in v{frontmatter.added.version}
+          </div>
+        )}
+    </div>
+  )
+}

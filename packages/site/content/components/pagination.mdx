@@ -1,0 +1,87 @@
+---
+title: Pagination
+description: Chassis React Pagination supports both a smart data-driven mode (pass total pages and current page) and manual markup with PaginationItem.
+toc: true
+---
+
+import { Example as SmartExample } from '../../examples/components/pagination/SmartExample.tsx'
+import { Example as MaxVisibleExample } from '../../examples/components/pagination/MaxVisibleExample.tsx'
+import { Example as PartialControlsExample } from '../../examples/components/pagination/PartialControlsExample.tsx'
+import { Example as ManualExample } from '../../examples/components/pagination/ManualExample.tsx'
+import { Example as LinksExample } from '../../examples/components/pagination/LinksExample.tsx'
+import { Example as LoadingExample } from '../../examples/components/pagination/LoadingExample.tsx'
+import { Example as SizingExample } from '../../examples/components/pagination/SizingExample.tsx'
+import { Example as AlignmentExample } from '../../examples/components/pagination/AlignmentExample.tsx'
+
+## Smart pagination
+
+Pass `pages`, `activePage`, and `onActivePageChange` to let `<Pagination>` render the full control automatically — Prev/Next buttons, page numbers, and ellipsis for large ranges. The Prev/Next controls default to English accessible names ("Previous"/"Next"); override them with `previousLabel`/`nextLabel` for other locales — see [Internationalization]([[docsref:/getting-started/internationalization#labels-outside-the-locale-system]]) for why these labels aren't locale-driven automatically.
+
+<Example>
+  <SmartExample client:load />
+</Example>
+
+### Max visible pages
+
+Use `maxVisiblePages` to control how many page buttons appear before collapsing to ellipsis (default is `5`).
+
+<Example>
+  <MaxVisibleExample client:load />
+</Example>
+
+### Partial controls
+
+Set `showPageNumbers={false}` for a Prev/Next-only paginator, or `showPrevNext={false}` for a page-numbers-only one. Both default to `true`.
+
+<Example>
+  <PartialControlsExample client:load />
+</Example>
+
+## Manual markup
+
+For sets that smart mode's contiguous-range-plus-ellipsis algorithm can't produce — like a fixed list of bookmarked pages — compose the pagination using `<PaginationItem>` directly.
+
+<Example>
+  <ManualExample client:load />
+</Example>
+
+### Real links
+
+Smart mode always renders buttons. Pass `href` to `PaginationItem` for real anchors instead — e.g. server-rendered pages where each link is a full page load to a URL like `?page=2`.
+
+<Example>
+  <LinksExample client:load />
+</Example>
+
+### Loading state
+
+Disable every item while the paginated data is fetching, so the control visibly reflects the loading state instead of accepting clicks that only queue up once the fetch resolves.
+
+<Example>
+  <LoadingExample client:load />
+</Example>
+
+## Sizing
+
+Set `size` to `small` or `large` to scale the page links and Prev/Next controls together.
+
+<Example>
+  <SizingExample client:load />
+</Example>
+
+## Alignment
+
+Set `align` to `center` or `end` to position the pagination list within its container; the default is start-aligned.
+
+<Example>
+  <AlignmentExample client:load />
+</Example>
+
+## API
+
+### Pagination
+
+<PropTable component="Pagination" />
+### PaginationItem
+
+<PropTable component="PaginationItem" />

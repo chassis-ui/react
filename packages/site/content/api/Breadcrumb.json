@@ -1,0 +1,47 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/breadcrumb/Breadcrumb.tsx",
+  "description": "",
+  "displayName": "Breadcrumb",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/breadcrumb/Breadcrumb.tsx",
+        "name": "BreadcrumbProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/breadcrumb/Breadcrumb.tsx",
+          "name": "BreadcrumbProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "items": {
+      "defaultValue": null,
+      "description": "Array of breadcrumb items for data-driven rendering. The last item is automatically marked active.\nWhen provided, children are ignored.",
+      "name": "items",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/breadcrumb/Breadcrumb.tsx",
+        "name": "BreadcrumbProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/breadcrumb/Breadcrumb.tsx",
+          "name": "BreadcrumbProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "BreadcrumbItemDef[]"
+      }
+    }
+  }
+}

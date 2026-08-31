@@ -1,0 +1,114 @@
+---
+title: Badge
+description: Compact labeling element for counters, indicators, and status markers, with color, outline/smooth, and size variants.
+toc: true
+---
+
+import { Example as HeadingsExample } from '../../examples/components/badge/HeadingsExample.tsx'
+import { Example as ButtonCounterExample } from '../../examples/components/badge/ButtonCounterExample.tsx'
+import { Example as StatusBadgeExample } from '../../examples/components/badge/StatusBadgeExample.tsx'
+import { Example as ColorExample } from '../../examples/components/badge/ColorExample.tsx'
+import { Example as OutlineExample } from '../../examples/components/badge/OutlineExample.tsx'
+import { Example as SmoothExample } from '../../examples/components/badge/SmoothExample.tsx'
+import { Example as SizeExample } from '../../examples/components/badge/SizeExample.tsx'
+import { Example as WithComponentsExample } from '../../examples/components/badge/WithComponentsExample.tsx'
+import { Example as PositionedExample } from '../../examples/components/badge/PositionedExample.tsx'
+import { Example as CustomCornersExample } from '../../examples/components/badge/CustomCornersExample.tsx'
+
+## Overview
+
+A `<Badge>` adds counts, labels, or status indicators to content — highlighting new items, notification counts, or other supplementary information alongside any content or component.
+
+## Basic usage
+
+A `<Badge>` scales to suit the size of the parent element by using relative font sizing and `em` units.
+
+<Example>
+  <HeadingsExample client:load />
+</Example>
+
+A badge composes as part of a link or button to provide a counter.
+
+<Example>
+  <ButtonCounterExample client:load />
+</Example>
+
+<Callout type="info">
+  Badge content can be confusing for screen reader users without proper context. Use semantic
+  roles by adding `role="status"` for counters or `role="presentation"` for decorative badges, and
+  provide descriptions with `aria-label` to explain the badge's meaning.
+</Callout>
+
+<Example>
+  <StatusBadgeExample client:load />
+</Example>
+
+## Color variants
+
+Set the `color` prop to one of the Chassis themed colors to apply the appropriate background and text colors.
+
+<Example>
+  <ColorExample client:load />
+</Example>
+
+<Callout type="info">
+  Color alone doesn't convey meaning to assistive technology users. Ensure clarity through text
+  with adequate contrast, ARIA attributes where needed, and the `.visually-hidden` class for
+  screen reader content when color is the only indicator.
+</Callout>
+
+### Outline style
+
+Set `variant="outline"` for badges with a transparent background, colored border, and text.
+
+<Example>
+  <OutlineExample client:load />
+</Example>
+
+### Smooth style
+
+Set `variant="smooth"` for badges with a subdued background color and matching text color, for a softer appearance.
+
+<Example>
+  <SmoothExample client:load />
+</Example>
+
+## Size variants
+
+Set `size="small"` or `size="large"` to adjust a badge's size for compact spaces or greater emphasis. Combine with `circle` for round counters.
+
+<Example>
+  <SizeExample client:load />
+</Example>
+
+## Use cases
+
+### With components
+
+A badge nests inside buttons and other components to indicate counts, status, or other supplementary information.
+
+<Example>
+  <WithComponentsExample client:load />
+</Example>
+
+### Positioned badges
+
+Set the `position` prop to place a badge in one of the corners of a link or button. The parent needs `position-relative` (or another positioning context) for this to work.
+
+<Example>
+  <PositionedExample client:load />
+</Example>
+
+### Custom corners
+
+Beyond the default rounded appearance and the `circle` prop, border-radius utility classes applied through `className` give precise control over corners.
+
+<Example>
+  <CustomCornersExample client:load />
+</Example>
+
+## API
+
+### Badge
+
+<PropTable component="Badge" />

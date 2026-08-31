@@ -1,0 +1,119 @@
+---
+title: Text Input
+description: Single-line text input component with custom styles, sizing, read-only and plain-text display, and native browser input types like email, date, and password.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/text-input/BasicExample.tsx'
+import { Example as FormFieldExample } from '../../examples/components/text-input/FormFieldExample.tsx'
+import { Example as SizingExample } from '../../examples/components/text-input/SizingExample.tsx'
+import { Example as DisabledExample } from '../../examples/components/text-input/DisabledExample.tsx'
+import { Example as ReadonlyExample } from '../../examples/components/text-input/ReadonlyExample.tsx'
+import { Example as PlainTextExample } from '../../examples/components/text-input/PlainTextExample.tsx'
+import { Example as TypesExample } from '../../examples/components/text-input/TypesExample.tsx'
+import { Example as ControlledValueExample } from '../../examples/components/text-input/ControlledValueExample.tsx'
+import { Example as AdornsExample } from '../../examples/components/text-input/AdornsExample.tsx'
+import { Example as PasswordToggleExample } from '../../examples/components/text-input/PasswordToggleExample.tsx'
+
+## Overview
+
+`TextInput` is a styled, accessible replacement for a native single-line `<input>`. It's built on React Aria's `useTextField` hook, which wires `aria-describedby` / `aria-labelledby` to the ids generated for an associated label, help text, and validation feedback.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## As a form field
+
+Pass `label` / `help` / `invalid` / `invalidFeedback` / `valid` / `validFeedback` directly to `TextInput` to render it together with an associated `FormLabel`, `FormHelp`, and `FormFeedback`, already wired up — see [Form Field]([[docsref:/components/form-field]]) instead when a control needs to be grouped with companion content under one label.
+
+<Example>
+  <FormFieldExample client:load />
+</Example>
+
+## Types
+
+`TextInput` accepts any single-line, text-valued native `type`: `text`, `password`, `email`, `tel`, `url`, `search`, `date`, `datetime-local`, `month`, `week`, and `time`. The value is passed straight through to the underlying `<input>`, so browser-native behaviors like password reveal toggles, email validation, and date pickers all work as expected.
+
+<Example class="vstack gap-medium">
+  <TypesExample client:load />
+</Example>
+
+Color and file inputs need bespoke rendering (a swatch, a themed file-selector button) that a plain text field can't provide, so they have their own dedicated components instead — see [File Input]([[docsref:/components/file-input]]) and [Color Input]([[docsref:/components/color-input]]). For a richer date-picking experience with a calendar popup, see [Date Picker]([[docsref:/components/datepicker]]).
+
+## Sizing
+
+Set the `size` prop to `"large"` or `"small"` to change the control's height.
+
+<Example class="vstack gap-medium">
+  <SizingExample client:load />
+</Example>
+
+## Disabled
+
+Add the `disabled` boolean attribute to give the control a muted color. Browsers also remove disabled controls from the tab order and from form submission automatically.
+
+<Example class="vstack gap-medium">
+  <DisabledExample client:load />
+</Example>
+
+## Readonly
+
+Add the `readOnly` boolean attribute to prevent the value from being edited. Unlike `disabled`, a read-only control stays focusable and is still included in form submission — only typing into it is blocked — and it keeps the same appearance as an editable control.
+
+<Example class="vstack gap-medium">
+  <ReadonlyExample client:load />
+</Example>
+
+## Plain text
+
+Pair the `plainText` prop with `readOnly` to render the value as plain text instead of an editable-looking field — useful for read-only values that should still line up with the editable fields around them.
+
+<Example class="vstack gap-medium">
+  <PlainTextExample client:load />
+</Example>
+
+## Controlled value
+
+Pass `value` and `onChange` to control the value from external state. `onChange` receives the new string value directly rather than a change event, so it can be passed straight to a state setter. Omit them (optionally passing `defaultValue` instead) to let the component manage its own value.
+
+<Example class="vstack gap-medium">
+  <ControlledValueExample client:load />
+</Example>
+
+## Adorns
+
+Pass `adornStart` and/or `adornEnd` to render content — an icon, text, or an actionable button —
+at the leading or trailing edge of the input. Either prop switches the rendered markup from a bare
+`<input>` to chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-adorn) pattern:
+a `.form-input` wrapper containing the adorn(s) around a `.ghost-input`. Wrap adorn content in
+`InputAdorn` so it picks up the `.input-adorn` class the wrapper's flex layout targets.
+
+<Example class="vstack gap-medium">
+  <AdornsExample client:load />
+</Example>
+
+Set `component="button"` (or `component="a"`) on `InputAdorn` for an actionable adorn — a
+password reveal toggle, a clear button, or a "forgot password" link.
+
+<Example>
+  <PasswordToggleExample client:load />
+</Example>
+
+## Accessibility
+
+A decorative icon adorn (rendered via `Icon` without a `title`) is hidden from assistive
+technology automatically. A text adorn like `$` or `USD` is not announced by screen readers — when
+it's essential to understanding the field, include it in the input's own accessible name via
+`aria-label` rather than relying on the adorn alone. An icon-only actionable adorn (`InputAdorn`
+with `component="button"`) needs its own `aria-label` describing the action, since it has no text
+content for assistive technology to announce.
+
+## API
+
+### TextInput
+
+<PropTable component="TextInput" />
+### InputAdorn
+
+<PropTable component="InputAdorn" />

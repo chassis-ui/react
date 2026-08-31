@@ -1,0 +1,156 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/card/CardBody.tsx",
+  "description": "",
+  "displayName": "CardBody",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/card/CardBody.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "component": {
+      "defaultValue": null,
+      "description": "Component used for the root node. Either a string to use a HTML element or a component.",
+      "name": "component",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/card/CardBody.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ElementType"
+      }
+    },
+    "direction": {
+      "defaultValue": null,
+      "description": "Switches the body from its default stacked (column) layout to a side-by-side (row) layout —\nfor placing an image beside text within a single padded region. Wrap the image and text in\n`Col` to control each side's width, and nest another `CardBody` (with `.p-0`) for the text\nside so it doesn't receive double padding.",
+      "name": "direction",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/card/CardBody.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "FlexDirection",
+        "value": [
+          {
+            "value": "\"row\""
+          },
+          {
+            "value": "\"column\""
+          }
+        ]
+      }
+    },
+    "gap": {
+      "defaultValue": null,
+      "description": "Spacing between children, mapped to the `gap-*` utility classes. Overrides the card's default\ngap between body children.",
+      "name": "gap",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/card/CardBody.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "0 | \"small\" | \"zero\" | \"4xsmall\" | \"3xsmall\" | \"2xsmall\" | \"xsmall\" | \"medium\" | \"large\" | \"xlarge\" | \"2xlarge\" | \"3xlarge\" | \"4xlarge\" | \"5xlarge\" | \"6xlarge\"",
+        "value": [
+          {
+            "value": "0"
+          },
+          {
+            "value": "\"small\""
+          },
+          {
+            "value": "\"zero\""
+          },
+          {
+            "value": "\"4xsmall\""
+          },
+          {
+            "value": "\"3xsmall\""
+          },
+          {
+            "value": "\"2xsmall\""
+          },
+          {
+            "value": "\"xsmall\""
+          },
+          {
+            "value": "\"medium\""
+          },
+          {
+            "value": "\"large\""
+          },
+          {
+            "value": "\"xlarge\""
+          },
+          {
+            "value": "\"2xlarge\""
+          },
+          {
+            "value": "\"3xlarge\""
+          },
+          {
+            "value": "\"4xlarge\""
+          },
+          {
+            "value": "\"5xlarge\""
+          },
+          {
+            "value": "\"6xlarge\""
+          }
+        ]
+      }
+    },
+    "responsive": {
+      "defaultValue": null,
+      "description": "Overrides `direction` at one or more breakpoints.",
+      "name": "responsive",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/card/CardBody.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Partial<Record<Breakpoint, FlexDirection>>"
+      }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/card/CardBody.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "any"
+      }
+    }
+  }
+}

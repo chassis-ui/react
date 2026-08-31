@@ -1,0 +1,150 @@
+---
+title: Stepper
+description: Step-by-step progress tracker for multi-stage workflows, with vertical and horizontal layouts and data-driven rendering via the items prop.
+toc: true
+---
+
+import { Example as DataDrivenExample } from '../../examples/components/stepper/DataDrivenExample.tsx'
+import { Example as ManualMarkupExample } from '../../examples/components/stepper/ManualMarkupExample.tsx'
+import { Example as ComplexContentExample } from '../../examples/components/stepper/ComplexContentExample.tsx'
+import { Example as HorizontalExample } from '../../examples/components/stepper/HorizontalExample.tsx'
+import { Example as ResponsiveExample } from '../../examples/components/stepper/ResponsiveExample.tsx'
+import { Example as IconExample } from '../../examples/components/stepper/IconExample.tsx'
+import { Example as OverflowExample } from '../../examples/components/stepper/OverflowExample.tsx'
+import { Example as ContextColorExample } from '../../examples/components/stepper/ContextColorExample.tsx'
+import { Example as ItemColorExample } from '../../examples/components/stepper/ItemColorExample.tsx'
+import { Example as InteractiveExample } from '../../examples/components/stepper/InteractiveExample.tsx'
+
+## Overview
+
+A stepper communicates progress through a sequence of discrete stages, rendered as an ordered
+list by default. Each step carries one of three implicit states — past, current, or next —
+derived entirely from which item carries `active`; there's no need to set a status on every
+other step individually.
+
+## Data-driven usage
+
+Pass an `items` array to render steps from data. Mark the current step with `active` — items
+before it render as completed, items after it as upcoming.
+
+<Example>
+  <DataDrivenExample client:load />
+</Example>
+
+## Manual markup
+
+Build a stepper from `<StepperItem>` children for full control over each step's content.
+
+<Example>
+  <ManualMarkupExample client:load />
+</Example>
+
+### Complex content
+
+Steps aren't limited to a single line of text — nest additional markup inside a `<StepperItem>`
+for descriptions, helper text, or other content alongside the label.
+
+<Example>
+  <ComplexContentExample client:load />
+</Example>
+
+## Horizontal layout
+
+Set `layout="horizontal"` to lay out steps side-by-side instead of stacking them vertically. The
+connecting track and status indicator realign automatically for the row orientation.
+
+<Example>
+  <HorizontalExample client:load />
+</Example>
+
+### Responsive variants
+
+Pass a breakpoint-prefixed value — `small:horizontal` through `2xlarge:horizontal` — to switch
+from vertical to horizontal only from that breakpoint up. The stepper needs a parent carrying the
+`.contains-inline` utility class, since the modifier switches layout through a container query
+rather than a viewport media query.
+
+<Example>
+  <ResponsiveExample client:load />
+</Example>
+
+## Icon steps
+
+Set `icon` to replace the numeric counters with status icons. Past, current, and upcoming steps
+each render a different default icon, driven by the `--status-icon` custom property.
+
+<Example>
+  <IconExample client:load />
+</Example>
+
+## Overflow
+
+Set `overflow` to wrap the stepper in a horizontally scrollable container. Wide horizontal
+steppers with many or long-labeled steps keep each step's natural width instead of shrinking to
+fit their parent.
+
+<Example>
+  <OverflowExample client:load />
+</Example>
+
+## Context colors
+
+Set `color` on `<Stepper>` to tint every step with one of the Chassis context colors. The active
+step receives the strongest tint of that color family automatically.
+
+<Example>
+  <ContextColorExample client:load />
+</Example>
+
+Set `color` on an individual `<StepperItem>` (or `color` in a data-driven item definition) to
+give that one step its own semantic color, independent of its neighbors — useful when steps in a
+timeline represent distinct outcomes rather than one continuous sequence.
+
+<Example>
+  <ItemColorExample client:load />
+</Example>
+
+## Interactive steps
+
+Render each step as a link or button when it should navigate to another page or trigger an
+in-page action — set `component="a"` (with `href`) or `component="button"` on `<StepperItem>`, or
+`href` on a data-driven item definition. Because `<a>`/`<button>` elements aren't valid children of
+an `<ol>`, `<Stepper>` automatically renders its root as a `<div>` instead whenever a step is
+interactive — pass `component` explicitly if you need to override that.
+
+<Example>
+  <InteractiveExample client:load />
+</Example>
+
+## Accessibility
+
+The active step should carry `aria-current="step"` so its position is conveyed to assistive
+technology beyond color and layout alone — `<StepperItem active>` and a data-driven item with
+`active: true` set this automatically. Interactive steppers built from links or buttons
+additionally need a visually hidden prefix (such as "Current step: ") on the active item's label,
+since a pseudo-element counter and color alone aren't reliably announced by screen readers.
+
+Wrap an interactive stepper in a `<nav>` element with a descriptive `aria-label` (such as
+`"Progress"`) to expose the sequence as a landmark for screen reader navigation. The default,
+list-based stepper doesn't need this wrapper — an `<ol>`/`<li>` structure already carries native
+list semantics.
+
+See the
+[ARIA `aria-current` specification](https://www.w3.org/TR/wai-aria-1.2/#aria-current) and the
+[WAI-ARIA Authoring Practices Guide](https://www.w3.org/WAI/ARIA/apg/) for further guidance.
+
+## API
+
+### Stepper
+
+<PropTable component="Stepper" />
+
+### StepperItemDef
+
+Shape of each entry in `Stepper`'s `items` array (data-driven rendering).
+
+<PropTable component="StepperItemDef" />
+
+### StepperItem
+
+<PropTable component="StepperItem" />

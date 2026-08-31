@@ -1,0 +1,49 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/navbar/NavbarToggler.tsx",
+  "description": "",
+  "displayName": "NavbarToggler",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/navbar/NavbarToggler.tsx",
+        "name": "NavbarTogglerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/navbar/NavbarToggler.tsx",
+          "name": "NavbarTogglerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "label": {
+      "defaultValue": {
+        "value": "Toggle navigation"
+      },
+      "description": "The accessible label announced by assistive technology when no children are provided.",
+      "name": "label",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/navbar/NavbarToggler.tsx",
+        "name": "NavbarTogglerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/navbar/NavbarToggler.tsx",
+          "name": "NavbarTogglerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    }
+  }
+}

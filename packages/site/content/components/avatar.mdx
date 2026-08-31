@@ -1,0 +1,120 @@
+---
+title: Avatar
+description: Chassis Avatar component displays user identity through images, initials, or icons, with support for sizes, status badges, and stacked groups.
+
+toc: true
+---
+
+import { Avatar } from '@chassis-ui/react'
+import { Example as BasicExample } from '../../examples/components/avatar/BasicExample.tsx'
+import { Example as AvatarImageExample } from '../../examples/components/avatar/AvatarImageExample.tsx'
+import { Example as SizeExample } from '../../examples/components/avatar/SizeExample.tsx'
+import { Example as SizeVariableExample } from '../../examples/components/avatar/SizeVariableExample.tsx'
+import { Example as CustomComponentsExample } from '../../examples/components/avatar/CustomComponentsExample.tsx'
+import { Example as ColorsExample } from '../../examples/components/avatar/ColorsExample.tsx'
+import { Example as SmoothExample } from '../../examples/components/avatar/SmoothExample.tsx'
+import { Example as StatusExample } from '../../examples/components/avatar/StatusExample.tsx'
+import { Example as StackExample } from '../../examples/components/avatar/StackExample.tsx'
+import { Example as StackAltExample } from '../../examples/components/avatar/StackAltExample.tsx'
+
+## Overview
+
+An `<Avatar>` displays a user profile as a picture, initials, or an icon, in lists, groups, or as a standalone button.
+
+## Basic usage
+
+Render a `<Avatar>` with text content for initials, or set the `src` prop to display a profile picture (aliased to `alt="Profile Picture"` by default).
+
+<Example class="d-flex gap-small">
+  <BasicExample client:load />
+</Example>
+
+Passing a `src` renders an `AvatarImage` automatically. Nest one directly for more control over the image itself.
+
+<Example class="d-flex gap-small">
+  <AvatarImageExample client:load />
+</Example>
+
+## Sizes
+
+Set the `size` prop to one of the Chassis component sizes to adjust the avatar's dimensions.
+
+<Example class="d-flex gap-small align-items-center">
+  <SizeExample client:load />
+</Example>
+
+The `--cx-avatar-size` CSS variable sets a custom size directly.
+
+<Example class="d-flex gap-small align-items-center">
+  <SizeVariableExample client:load />
+</Example>
+
+## Colors
+
+Set the `color` prop to one of the Chassis themed colors to apply the appropriate background and text colors.
+
+<Example class="d-flex gap-small">
+  <ColorsExample client:load />
+</Example>
+
+### Smooth style
+
+Set the `smooth` prop to create avatars with a subdued background color and matching text color, for a softer, more subtle appearance.
+
+<Example class="d-flex gap-small">
+  <SmoothExample client:load />
+</Example>
+
+## Custom components
+
+`<Avatar>` renders a `<button>` by default. Set the `href` prop to render an anchor instead, or set `component` to render any other tag or custom component. Use the `disabled` prop to disable a button or anchor avatar.
+
+<Example class="d-flex gap-small">
+  <CustomComponentsExample client:load />
+</Example>
+
+## Badges
+
+Set the `status` prop to one of the Chassis themed colors to show a status indicator in the bottom-end corner. It scales with the avatar's `size` automatically.
+
+<Example class="d-flex gap-small">
+  <StatusExample client:load />
+</Example>
+
+<Callout type="info">
+  Status colors alone can be confusing for screen reader users. Set `statusLabel` to describe what
+  the badge conveys — it's rendered as visually hidden text on the badge. Without it, the `status`
+  value itself (e.g. `"success"`) is used as a fallback.
+</Callout>
+
+## Stacks
+
+Use `<AvatarStack>` to group related avatars together with a consistent overlap. Pass a `data` array to render a `Avatar` per item, or nest `<Avatar>` children directly &mdash; handy for a trailing "+N" overflow avatar. Set the `--cx-avatar-stack-spacing` CSS variable to adjust how much they overlap, and use the `size` prop to size every avatar in the stack at once.
+
+<Example class="d-flex gap-small">
+  <StackExample client:load />
+</Example>
+
+<Example class="d-flex gap-small">
+  <StackAltExample client:load />
+</Example>
+
+## API
+
+### Avatar
+
+<PropTable component="Avatar" />
+
+### AvatarImage
+
+<PropTable component="AvatarImage" />
+
+### AvatarStack
+
+<PropTable component="AvatarStack" />
+
+### AvatarStackItemDef
+
+Shape of each entry in `AvatarStack`'s `items` array.
+
+<PropTable component="AvatarStackItemDef" />

@@ -1,0 +1,84 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/pagination/PaginationItem.tsx",
+  "description": "",
+  "displayName": "PaginationItem",
+  "methods": [],
+  "props": {
+    "active": {
+      "defaultValue": null,
+      "description": "Toggle the active state for the component.",
+      "name": "active",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/pagination/PaginationItem.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "component": {
+      "defaultValue": null,
+      "description": "Component used for the root node. Either a string to use a HTML element or a component.",
+      "name": "component",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/pagination/PaginationItem.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ElementType"
+      }
+    },
+    "disabled": {
+      "defaultValue": null,
+      "description": "Toggle the disabled state for the component.",
+      "name": "disabled",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/pagination/PaginationItem.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "href": {
+      "defaultValue": null,
+      "description": "The href attribute. When provided the item renders as an `<a>` tag; otherwise as a `<button>`.",
+      "name": "href",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/pagination/PaginationItem.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/pagination/PaginationItem.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "any"
+      }
+    }
+  }
+}

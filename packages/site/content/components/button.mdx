@@ -1,0 +1,142 @@
+---
+title: Button
+description: Trigger an action or navigate. Renders as a native button, anchor, or input, or as any custom component via the `component` prop.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/button/BasicExample.tsx'
+import { Example as ColorExample } from '../../examples/components/button/ColorExample.tsx'
+import { Example as OutlineExample } from '../../examples/components/button/OutlineExample.tsx'
+import { Example as SmoothExample } from '../../examples/components/button/SmoothExample.tsx'
+import { Example as LinkExample } from '../../examples/components/button/LinkExample.tsx'
+import { Example as ComponentExample } from '../../examples/components/button/ComponentExample.tsx'
+import { Example as SizeExample } from '../../examples/components/button/SizeExample.tsx'
+import { Example as PressedExample } from '../../examples/components/button/PressedExample.tsx'
+import { Example as DisabledExample } from '../../examples/components/button/DisabledExample.tsx'
+import { Example as DisabledLinkExample } from '../../examples/components/button/DisabledLinkExample.tsx'
+
+## Examples
+
+`<Button>` renders a native `<button type="button">` by default, styled with the `color` prop for one of Chassis's context colors.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## Colors
+
+Set `color` to one of Chassis's context colors to change a button's background and foreground.
+
+<Example class="d-flex flex-wrap gap-small">
+  <ColorExample client:load />
+</Example>
+
+<Callout type="info">
+  Color alone doesn't convey meaning to assistive technology. Pair a context color with visible
+  text describing the action, or add hidden text via the `.visually-hidden` class when the color
+  itself carries information.
+</Callout>
+
+## Style variants
+
+Layer `variant` on top of `color` to change a button's fill instead of its palette.
+
+### Outline
+
+Set `variant="outline"` for a transparent background with a colored border and text — a
+lower-emphasis alternative to a solid button in the same color.
+
+<Example class="d-flex flex-wrap gap-small">
+  <OutlineExample client:load />
+</Example>
+
+<Callout type="info">
+  Some outline colors use a light foreground meant for a dark background — check contrast before
+  using them on a light surface.
+</Callout>
+
+### Smooth
+
+Set `variant="smooth"` for a subdued, tinted background in the button's color, softer than the
+default solid fill.
+
+<Example class="d-flex flex-wrap gap-small">
+  <SmoothExample client:load />
+</Example>
+
+### Link
+
+Set `variant="link"` to make a button look and behave like a hyperlink while keeping its `color`
+and click behavior — a lower-emphasis action inside a toolbar or form. `variant="link"` is a
+button-specific style, not a context color: pass it alongside `color`, not instead of it.
+
+<Example class="d-flex flex-wrap gap-small">
+  <LinkExample client:load />
+</Example>
+
+## Root element
+
+Set `component` to render `<Button>` as a different element — `"a"` for navigation, `"input"` for
+legacy form markup, or any custom component. `href` implies `component="a"` automatically, so
+setting `href` alone is enough for a link button.
+
+<Example class="d-flex flex-wrap gap-small">
+  <ComponentExample client:load />
+</Example>
+
+A button rendered as `<a>` for something other than navigation — collapsing content, for example —
+needs an explicit `role="button"`; Chassis doesn't add it automatically, since not every
+`component="a"` usage is a non-navigation action. `type` only affects `<button>` and `<input>`; it
+has no effect when rendered as `<a>`.
+
+A `component` other than `"button"`, `"a"`, or `"input"` — a plain tag like `"span"`, or a
+component reference — gets keyboard activation, focus handling, and `role="button"` synthesized
+automatically, matching native button behavior.
+
+## Sizes
+
+Set `size` to `"small"` or `"large"` to adjust a button's padding and font size; the default
+renders at medium size.
+
+<Example class="d-flex flex-wrap gap-small">
+  <SizeExample client:load />
+</Example>
+
+## Pressed state
+
+Set `pressed` to mark a toggle-style button as active — e.g. a formatting toolbar button that
+stays highlighted while its feature is on. It applies the `.active` class and sets `aria-pressed`,
+so assistive technology announces "button, pressed" instead of treating the button as a navigation
+link.
+
+<Example>
+  <PressedExample client:load />
+</Example>
+
+## Disabled state
+
+Set `disabled` to make a button non-interactive. A native `<button>` or `<input>` uses the real
+`disabled` attribute, which blocks keyboard and pointer interaction on its own.
+
+<Example>
+  <DisabledExample client:load />
+</Example>
+
+`<a>` has no `disabled` attribute, so a disabled link button sets `aria-disabled="true"` and
+`tabindex="-1"` instead, and blocks its own click handler and navigation.
+
+<Example>
+  <DisabledLinkExample client:load />
+</Example>
+
+## Scope
+
+**No automatic `role="button"` on non-navigation links.** Rendering `<Button>` with
+`component="a"` for an action rather than navigation (see [Root element](#root-element)) still
+needs an explicit `role="button"` — Chassis can't distinguish the two cases from `href` alone.
+
+## API
+
+### Button
+
+<PropTable component="Button" />

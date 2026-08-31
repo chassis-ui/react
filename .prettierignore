@@ -1,0 +1,7 @@
+*.css
+*.scss
+*.hbs
+packages/site/config.yml
+packages/site/src/assets
+packages/site/content/api/**/*.json
+/source

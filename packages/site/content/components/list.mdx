@@ -1,0 +1,245 @@
+---
+title: List
+description: Structured containers for related content, with flush, plain, numbered, and horizontal layout variants.
+
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/list/BasicExample.tsx'
+import { Example as DataDrivenExample } from '../../examples/components/list/DataDrivenExample.tsx'
+import { Example as DataDrivenColorsExample } from '../../examples/components/list/DataDrivenColorsExample.tsx'
+import { Example as ActiveExample } from '../../examples/components/list/ActiveExample.tsx'
+import { Example as DisabledExample } from '../../examples/components/list/DisabledExample.tsx'
+import { Example as LinksExample } from '../../examples/components/list/LinksExample.tsx'
+import { Example as ButtonsExample } from '../../examples/components/list/ButtonsExample.tsx'
+import { Example as FlushExample } from '../../examples/components/list/FlushExample.tsx'
+import { Example as PlainExample } from '../../examples/components/list/PlainExample.tsx'
+import { Example as NumberedExample } from '../../examples/components/list/NumberedExample.tsx'
+import { Example as HorizontalExample } from '../../examples/components/list/HorizontalExample.tsx'
+import { Example as HorizontalFillExample } from '../../examples/components/list/HorizontalFillExample.tsx'
+import { Example as ContextualExample } from '../../examples/components/list/ContextualExample.tsx'
+import { Example as ContextualLinksExample } from '../../examples/components/list/ContextualLinksExample.tsx'
+import { Example as ContextStylesExample } from '../../examples/components/list/ContextStylesExample.tsx'
+import { Example as BadgesExample } from '../../examples/components/list/BadgesExample.tsx'
+import { Example as CustomContentExample } from '../../examples/components/list/CustomContentExample.tsx'
+import { Example as ChecksExample } from '../../examples/components/list/ChecksExample.tsx'
+import { Example as ChecksListItemExample } from '../../examples/components/list/ChecksListItemExample.tsx'
+
+## Overview
+
+`<List>` renders a structured container for related content, with consistent spacing, borders, and
+typography through Chassis's design token system. Beyond plain items, it supports interactive
+elements, custom content, and composition with other components.
+
+## Basic usage
+
+`<List>` and `<ListItem>` build an unordered list, establishing the spacing, borders, and
+typography the rest of this doc builds on.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## Data-driven usage
+
+Pass an `items` array to render the list from data instead of composing `<ListItem>` children.
+Each item accepts `label`, `href`, `color`, `active`, and `disabled`.
+
+<Example>
+  <DataDrivenExample client:load />
+</Example>
+
+Each item's `color` remaps it to one of the context colors below.
+
+<Example>
+  <DataDrivenColorsExample client:load />
+</Example>
+
+## Active items
+
+Add the `active` boolean prop to a `<ListItem>` to mark it as the current selection. An active
+item gets an `aria-current="true"` attribute automatically.
+
+<Example>
+  <ActiveExample client:load />
+</Example>
+
+## Disabled items
+
+Add the `disabled` boolean prop to a `<ListItem>` to render it disabled. A disabled item gets an
+`aria-disabled="true"` attribute automatically.
+
+<Callout type="info">
+  The disabled state only changes the visual appearance. For interactive elements like links,
+  additional JavaScript is needed to fully disable interaction behavior.
+</Callout>
+
+<Example>
+  <DisabledExample client:load />
+</Example>
+
+## Links and buttons
+
+Set `component="a"` or `component="button"` to create actionable list items with hover, disabled,
+and active states. This applies the `.list-action` modifier class, separating interactive states
+from standard read-only items. Use `component="a"` when the action navigates to a new location, and
+`component="button"` when it triggers an in-page behavior — a native `<button>`'s `disabled`
+attribute both visually styles the element and prevents interaction, while an `<a>` only gets the
+visual `.disabled` styling and needs additional JavaScript to fully prevent interaction.
+
+Because `<a>`/`<button>` elements aren't valid children of a `<ul>`/`<ol>`, `<List>` automatically
+renders its root as a `<div>` instead whenever an item is interactive (an interactive data-driven
+item, or a `<ListItem component="a">`/`<ListItem component="button">` child) — pass `component`
+explicitly if you need to override that.
+
+<Example>
+  <LinksExample client:load />
+</Example>
+
+The same markup with `component="button"` instead:
+
+<Example>
+  <ButtonsExample client:load />
+</Example>
+
+## Layout variations
+
+### Flush list
+
+Add the `flush` boolean prop to remove outer borders and rounded corners, rendering list items
+edge-to-edge in a parent container (e.g., a card).
+
+<Example>
+  <FlushExample client:load />
+</Example>
+
+### Plain layout
+
+Add the `plain` boolean prop for a minimal list that removes outer borders, rounded corners, and
+horizontal padding — a compact fit for content areas like search results or content feeds.
+
+<Example>
+  <PlainExample client:load />
+</Example>
+
+<Callout type="info">
+  Both `flush` and `plain` remove outer borders and rounded corners. `plain` also removes
+  horizontal padding, for a more compact appearance.
+</Callout>
+
+### Numbered lists
+
+Add the `numbered` boolean prop to sequentially number list items via CSS counters rather than
+browser defaults. Pair it with `component="ol"` for semantic correctness.
+
+<Example>
+  <NumberedExample client:load />
+</Example>
+
+### Horizontal layout
+
+Add `layout="horizontal"` to switch a list from column to row layout across all breakpoints.
+Adjacent items share a single border edge, and outer corners stay rounded while inner corners are
+squared off.
+
+Responsive variants use [container queries](https://chassis-ui.com/css/docs/layout/breakpoints) —
+each `layout="{breakpoint}:horizontal"` value activates at or above the specified container width.
+Wrap the list in a `.contains-inline` container to establish the container context.
+
+<Callout type="warning">
+  `layout="horizontal"` cannot be combined with `flush` — the flush variant removes the inline
+  borders that separate items in the horizontal layout.
+</Callout>
+
+<Example>
+  <HorizontalExample client:load />
+</Example>
+
+Apply the `.flex-fill` or `.flex-grow-1` utility classes to list items to stretch them across the
+full list width — `.flex-fill` shares the available width equally, while `.flex-grow-1` grows from
+each item's natural content width.
+
+<Example>
+  <HorizontalFillExample client:load />
+</Example>
+
+## Contextual classes
+
+Use the `color` prop to style list items with a stateful background and color.
+
+<Example>
+  <ContextualExample client:load />
+</Example>
+
+The same `color` prop works on `<a>`/`<button>` list items, adding hover styles not present on
+plain items, alongside `active` to mark a current selection among them.
+
+<Example>
+  <ContextualLinksExample client:load />
+</Example>
+
+<Callout type="info">
+  Context color alone provides only a visual indication, which isn't conveyed to assistive
+  technology users. Make sure information denoted by the color is either obvious from the content
+  itself (e.g. the visible text), or included through alternative means, such as additional text
+  hidden with the `.visually-hidden` class.
+</Callout>
+
+### Context styles
+
+`<List>` also accepts `color` together with a `variant` of `solid`, `outline`, or `smooth` to
+color the whole list container based on the design system's color palette.
+
+<Example>
+  <ContextStylesExample client:load />
+</Example>
+
+## With badges
+
+Add badges to a list item to show unread counts, activity, and more.
+
+<Example>
+  <BadgesExample client:load />
+</Example>
+
+## Custom content
+
+A list item accepts nearly any content, including for linked items, with the help of flexbox
+utilities.
+
+<Example>
+  <CustomContentExample client:load />
+</Example>
+
+## Checkboxes and radios
+
+Place a checkbox or radio within a list item and customize it as needed.
+
+<Example>
+  <ChecksExample client:load />
+</Example>
+
+Since `<Checkbox>` always renders a `<label>` as its root element, the `.list-item` class applies
+directly to it too, for a large hit area. Because a bare `<label>` isn't a valid `<ul>` child either,
+pass `component="div"` to `<List>` here — the same rule covered in
+[Links and buttons](#links-and-buttons) above.
+
+<Example>
+  <ChecksListItemExample client:load />
+</Example>
+
+## API
+
+### List
+
+<PropTable component="List" />
+
+### ListItem
+
+<PropTable component="ListItem" />
+
+### ListItemDef
+
+Shape of each entry in `List`'s `items` array (data-driven rendering).
+
+<PropTable component="ListItemDef" />

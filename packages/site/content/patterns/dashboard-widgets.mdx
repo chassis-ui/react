@@ -1,0 +1,23 @@
+---
+title: Dashboard Widgets
+description: A real-world dashboard layout combining stat cards, a data table with badges, a list for recent activity, and progress bars — all from JSON data.
+
+toc: true
+---
+
+import { Example as Dashboard } from '../../examples/patterns/dashboard-widgets/Dashboard.tsx'
+
+A dashboard assembles several data-driven components side by side: stat cards, a data table with
+badges, an activity list, and progress bars. All data below is static for illustration — in
+practice each array would come from an API response.
+
+<Example>
+  <Dashboard client:load />
+</Example>
+
+## Key points
+
+- Stat cards use `<Badge>` for delta indicators — the `color` prop drives the color semantically.
+- The orders table uses a `render` function to replace raw status strings with `<Badge>` components.
+- `<List flush items={...} />` renders a borderless activity feed from a plain array.
+- Progress bars take `color` directly; `value` and `max` work like the native `<progress>` element.

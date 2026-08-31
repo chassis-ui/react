@@ -1,0 +1,131 @@
+---
+title: Input Group
+description: Extend form controls by adding text, buttons, or button groups on either side of textual inputs, custom selects, and custom file inputs.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/input-group/BasicExample.tsx'
+import { Example as WrappingExample } from '../../examples/components/input-group/WrappingExample.tsx'
+import { Example as SizingExample } from '../../examples/components/input-group/SizingExample.tsx'
+import { Example as CheckboxRadioAddonsExample } from '../../examples/components/input-group/CheckboxRadioAddonsExample.tsx'
+import { Example as MultipleInputsExample } from '../../examples/components/input-group/MultipleInputsExample.tsx'
+import { Example as MultipleAddonsExample } from '../../examples/components/input-group/MultipleAddonsExample.tsx'
+import { Example as ButtonAddonsExample } from '../../examples/components/input-group/ButtonAddonsExample.tsx'
+import { Example as ButtonsWithMenusExample } from '../../examples/components/input-group/ButtonsWithMenusExample.tsx'
+import { Example as SegmentedButtonsExample } from '../../examples/components/input-group/SegmentedButtonsExample.tsx'
+import { Example as CustomSelectExample } from '../../examples/components/input-group/CustomSelectExample.tsx'
+import { Example as CustomFileInputExample } from '../../examples/components/input-group/CustomFileInputExample.tsx'
+
+## Basic usage
+
+Place one add-on or button on either side of an input, or on both sides at once. Place
+`<FormLabel>`s outside the input group, rather than inside it.
+
+<Example class="vstack gap-medium">
+  <BasicExample client:load />
+</Example>
+
+## Wrapping
+
+An input group wraps by default via `flex-wrap: wrap`, accommodating custom form field validation
+within the group. Disable this with the `.flex-nowrap` class.
+
+<Example>
+  <WrappingExample client:load />
+</Example>
+
+## Sizing
+
+Add the relative form sizing classes to `<InputGroup>` itself, and its contents resize
+automatically — no need to repeat the form control size classes on each element.
+
+<Callout type="warning">
+  Sizing on the individual input group elements isn't supported.
+</Callout>
+
+<Example>
+  <SizingExample client:load />
+</Example>
+
+## Checkboxes and radios
+
+Place a checkbox or radio option within an input group's addon instead of text.
+
+<Example>
+  <CheckboxRadioAddonsExample client:load />
+</Example>
+
+## Multiple inputs
+
+Multiple `<TextInput>`s are supported visually, though validation styles are only available for
+input groups with a single `<TextInput>`.
+
+<Example>
+  <MultipleInputsExample client:load />
+</Example>
+
+## Multiple addons
+
+Multiple add-ons are supported and can be mixed with checkbox and radio input versions.
+
+<Example>
+  <MultipleAddonsExample client:load />
+</Example>
+
+## Button addons
+
+Buttons work as addons in place of text, on either side of the input or on both.
+
+<Example>
+  <ButtonAddonsExample client:load />
+</Example>
+
+## Buttons with menus
+
+A `<Menu>` composes into an input group the same way a plain button addon does.
+
+<Example>
+  <ButtonsWithMenusExample client:load />
+</Example>
+
+## Segmented buttons
+
+Pair a button addon with an icon-only `<Menu>` toggle to split a primary action from a menu of
+related ones.
+
+<Example>
+  <SegmentedButtonsExample client:load />
+</Example>
+
+## Custom forms
+
+Input groups support custom selects and custom file inputs. Browser default versions of these
+controls aren't supported.
+
+### Custom select
+
+A `<Select>` composes into an input group the same way a `<TextInput>` does, with an addon on
+either side.
+
+<Example>
+  <CustomSelectExample client:load />
+</Example>
+
+### Custom file input
+
+A `<FileInput>` composes into an input group the same way, pairing with a label-style addon or a
+button.
+
+<Example>
+  <CustomFileInputExample client:load />
+</Example>
+
+## API
+
+### InputGroup
+
+<PropTable component="InputGroup" />
+
+### InputGroupAddon
+
+<PropTable component="InputGroupAddon" />

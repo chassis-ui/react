@@ -1,0 +1,66 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/tabs/Tab.tsx",
+  "description": "",
+  "displayName": "Tab",
+  "methods": [],
+  "props": {
+    "children": {
+      "defaultValue": null,
+      "description": "Label content for the tab. Must be a plain string for it to be used as the tab's accessible\nname when the rendered content itself doesn't expose one (e.g. an icon-only tab).",
+      "name": "children",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/tabs/Tab.tsx",
+        "name": "TabProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/tabs/Tab.tsx",
+          "name": "TabProps"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "disabled": {
+      "defaultValue": null,
+      "description": "Prevents the tab from being selected, focused, or otherwise interacted with.",
+      "name": "disabled",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/tabs/Tab.tsx",
+        "name": "TabProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/tabs/Tab.tsx",
+          "name": "TabProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "id": {
+      "defaultValue": null,
+      "description": "Identifies this tab and pairs it with the `TabPanel` of the same `id`.",
+      "name": "id",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/tabs/Tab.tsx",
+        "name": "TabProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/tabs/Tab.tsx",
+          "name": "TabProps"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "Key"
+      }
+    }
+  }
+}

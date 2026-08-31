@@ -1,0 +1,108 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/avatar/AvatarStack.tsx",
+  "description": "",
+  "displayName": "AvatarStack",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/avatar/AvatarStack.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "component": {
+      "defaultValue": null,
+      "description": "Component used for the root node. Either a string to use a HTML element or a component.",
+      "name": "component",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/avatar/AvatarStack.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ElementType"
+      }
+    },
+    "size": {
+      "defaultValue": null,
+      "description": "Sets the size of every `Avatar` in the stack to one of Chassis component sizes.",
+      "name": "size",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/avatar/AvatarStack.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "ExtendedSizing",
+        "value": [
+          {
+            "value": "\"small\""
+          },
+          {
+            "value": "\"2xsmall\""
+          },
+          {
+            "value": "\"xsmall\""
+          },
+          {
+            "value": "\"medium\""
+          },
+          {
+            "value": "\"large\""
+          },
+          {
+            "value": "\"xlarge\""
+          },
+          {
+            "value": "\"2xlarge\""
+          }
+        ]
+      }
+    },
+    "items": {
+      "defaultValue": null,
+      "description": "Renders a `Avatar` for each item, ahead of any JSX `children` (handy for a trailing \"+N\"\noverflow avatar).",
+      "name": "items",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/avatar/AvatarStack.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "AvatarStackItemDef[]"
+      }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/avatar/AvatarStack.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "any"
+      }
+    }
+  }
+}

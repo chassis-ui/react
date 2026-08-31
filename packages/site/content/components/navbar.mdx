@@ -1,0 +1,244 @@
+---
+title: Navbar
+description: Build responsive site and application navigation with branding, nav links, forms, and a drawer-based mobile menu.
+toc: true
+deps:
+  - title: Drawer
+  - title: Nav
+---
+
+import { Example as BasicUsageExample } from '../../examples/components/navbar/BasicUsageExample.tsx'
+import { Example as BrandTextExample } from '../../examples/components/navbar/BrandTextExample.tsx'
+import { Example as BrandImageExample } from '../../examples/components/navbar/BrandImageExample.tsx'
+import { Example as BrandImageTextExample } from '../../examples/components/navbar/BrandImageTextExample.tsx'
+import { Example as NavExample } from '../../examples/components/navbar/NavExample.tsx'
+import { Example as NavAltMarkupExample } from '../../examples/components/navbar/NavAltMarkupExample.tsx'
+import { Example as NavMenuExample } from '../../examples/components/navbar/NavMenuExample.tsx'
+import { Example as FormSearchExample } from '../../examples/components/navbar/FormSearchExample.tsx'
+import { Example as FormWithBrandExample } from '../../examples/components/navbar/FormWithBrandExample.tsx'
+import { Example as FormInputGroupExample } from '../../examples/components/navbar/FormInputGroupExample.tsx'
+import { Example as FormButtonsExample } from '../../examples/components/navbar/FormButtonsExample.tsx'
+import { Example as TextExample } from '../../examples/components/navbar/TextExample.tsx'
+import { Example as TextWithNavExample } from '../../examples/components/navbar/TextWithNavExample.tsx'
+import { Example as DarkModeExample } from '../../examples/components/navbar/DarkModeExample.tsx'
+import { Example as ContextVariantsExample } from '../../examples/components/navbar/ContextVariantsExample.tsx'
+import { Example as TranslucentExample } from '../../examples/components/navbar/TranslucentExample.tsx'
+import { Example as ContainerWrapExample } from '../../examples/components/navbar/ContainerWrapExample.tsx'
+import { Example as ContainerResponsiveExample } from '../../examples/components/navbar/ContainerResponsiveExample.tsx'
+import { Example as PlacementExample } from '../../examples/components/navbar/PlacementExample.tsx'
+import { Example as DrawerStartExample } from '../../examples/components/navbar/DrawerStartExample.tsx'
+import { Example as DrawerTopExample } from '../../examples/components/navbar/DrawerTopExample.tsx'
+import { Example as TogglerPlacementExample } from '../../examples/components/navbar/TogglerPlacementExample.tsx'
+import { Example as ExternalContentExample } from '../../examples/components/navbar/ExternalContentExample.tsx'
+
+## Overview
+
+The navbar is the primary navigation surface for a site or application. It composes a branding area, a set of navigation links, optional forms or text, and a drawer-based mobile menu — all wrapped in a single `<nav>` element (rendered by `<Navbar>`) that is responsive by default.
+
+`<Navbar>` accepts a handful of sub-components as needed: `<NavbarBrand>` for a project or product name, `<NavbarNav>` for navigation links, `<NavbarToggler>` for opening the mobile `<Drawer>`, `<NavbarText>` for inline text, and standard form components for search boxes or other controls.
+
+## Basic usage
+
+A complete navbar combines a `<NavbarBrand>`, a `<NavbarToggler>`, and a `<Drawer>` that holds the navigation below the `expand` breakpoint. The `expand` prop controls when the drawer's contents flow inline instead — set on a container-query basis, so the transition responds to the navbar's own width rather than the viewport width.
+
+<Example>
+  <BasicUsageExample client:load />
+</Example>
+
+### Brand
+
+`<NavbarBrand>` sets the project or product identity at the start of the navbar. It works on any element, but an anchor is the most common choice since the brand typically links to the home page.
+
+<Example>
+  <BrandTextExample client:load />
+</Example>
+
+Replace the text with an `<img>` for an image-only brand.
+
+<Example>
+  <BrandImageExample client:load />
+</Example>
+
+Combine an image and text in the same brand element. The `d-inline-block` and `align-text-top` utilities keep the image aligned with the surrounding text baseline.
+
+<Example>
+  <BrandImageTextExample client:load />
+</Example>
+
+### Nav
+
+Navbar navigation uses `<NavbarNav>` wrapping `<NavItem>`/`<NavLink>` pairs. Its links grow to occupy the available horizontal space once the navbar expands inline. Mark the current link with `active`, which renders `aria-current="page"`.
+
+<Example>
+  <NavExample client:load />
+</Example>
+
+The `<NavItem>`/`<NavLink>` pairing is optional — rendering `<NavbarNav component="div">` with direct `<NavLink>` children produces the same result, and pairs naturally with the `nav-pills` class.
+
+<Example>
+  <NavAltMarkupExample client:load />
+</Example>
+
+`<Menu>` nests inside a `<NavbarNav>` with `component="li"` and `className="nav-item"`, so the toggle and menu share the same nav item wrapper. Set `<MenuToggle>`'s own `component` to `NavLink` so the trigger renders with `.nav-link` styling instead of its default `.button` look.
+
+<Example>
+  <NavMenuExample client:load />
+</Example>
+
+### Forms
+
+Form controls placed inside a navbar use the standard form components. The navbar's flex layout defaults to `justify-content: space-between`, so a brand at the start and a form at the end align automatically without additional utilities.
+
+<Example>
+  <FormSearchExample client:load />
+</Example>
+
+The same form alongside a brand — the flex layout pushes the form to the opposite edge.
+
+<Example>
+  <FormWithBrandExample client:load />
+</Example>
+
+Input groups work too. When the navbar is essentially a form, rendering `<Form>` as the inner container saves a level of markup.
+
+<Example>
+  <FormInputGroupExample client:load />
+</Example>
+
+Mixed button sizes inside a navbar form align via the same flex layout, with vertical alignment utilities available for finer adjustment.
+
+<Example>
+  <FormButtonsExample client:load />
+</Example>
+
+### Text
+
+`<NavbarText>` adjusts vertical alignment and horizontal spacing for inline strings of text inside the navbar.
+
+<Example>
+  <TextExample client:load />
+</Example>
+
+Text combines naturally with other navbar components inside the drawer body.
+
+<Example>
+  <TextWithNavExample client:load />
+</Example>
+
+## Dark mode
+
+Set `data-cx-theme="dark"` directly on `<Navbar>` to opt a single navbar into the dark theme regardless of the page's own color scheme.
+
+<Example>
+  <DarkModeExample client:load />
+</Example>
+
+## Context variants
+
+The `color` prop swaps the navbar's color palette to a semantic context, matching the `context` class family used across this library (`Card`, `List`, and others). Combine with `variant="solid"` for a saturated fill, `className="bg-*"` for a custom background, or `data-cx-theme` to mix theme and context independently.
+
+<Example>
+  <ContextVariantsExample client:load />
+</Example>
+
+## Translucent
+
+The `translucent` prop blurs and saturates whatever sits behind the navbar — useful when the navbar is positioned over a hero image, video, or scrollable content.
+
+<Example class="cxd-pattern-dots z-0 primary-bg-even">
+  <TranslucentExample client:load />
+</Example>
+
+## Containers
+
+Wrapping `<Navbar>` in a `<Container>` centers it on the page; the inner `<Container>` is still required for the navbar's own padding. Placing the inner container directly inside `<Navbar>` instead centers only the navbar's contents while keeping its background full-width.
+
+<Example>
+  <ContainerWrapExample client:load />
+</Example>
+
+Any responsive container variant is available to control how wide the navbar's contents appear.
+
+<Example>
+  <ContainerResponsiveExample client:load />
+</Example>
+
+## Placement
+
+The `placement` prop pulls the navbar out of normal flow or pins it during scroll: `fixed-top`/`fixed-bottom` use `position: fixed` and may require a compensating offset on the body (e.g. `padding-top`) to prevent content overlap; `sticky-top`/`sticky-bottom` use `position: sticky`.
+
+<Example>
+  <PlacementExample client:load />
+</Example>
+
+## Responsive behavior
+
+The `expand` prop controls when the navbar transitions between drawer mode and inline mode, implemented with container queries so the transition responds to the navbar's own width:
+
+- `expand="small"` — drawer below the small breakpoint, inline at small and above
+- `expand="medium"` — drawer below medium, inline at medium and above
+- `expand="large"` — drawer below large, inline at large and above
+- `expand="xlarge"` — drawer below xlarge, inline at xlarge and above
+- `expand="2xlarge"` — drawer below 2xlarge, inline at 2xlarge and above
+- `expand={true}` — inline at all widths (toggler hidden, drawer contents render flat inside the navbar)
+- `expand` omitted — drawer at all widths (toggler always visible, the drawer must be opened to access the nav)
+
+## Drawer placement
+
+`<Drawer>`'s `placement` prop slides the panel in from any side. The examples below omit `expand` so the drawer stays visible regardless of viewport width.
+
+<Example>
+  <DrawerStartExample client:load />
+</Example>
+
+<Example>
+  <DrawerTopExample client:load />
+</Example>
+
+## Toggle button
+
+`<NavbarToggler>` has no fixed position — its location within the navbar is determined by its order in the markup relative to other flex siblings. Placing it before `<NavbarBrand>` renders it on the left; placing it after renders it on the right. The flex container distributes spacing between siblings automatically, so no positioning utility classes are required.
+
+With no `<NavbarBrand>` visible (the brand lives inside the drawer):
+
+<Example>
+  <TogglerPlacementExample client:load />
+</Example>
+
+## External content
+
+`<Drawer>` and `<NavbarToggler>` are only linked by the `visible`/`onClose`/`onClick` state a consumer wires between them, so the controlled drawer can live anywhere in the document — not necessarily inside `<Navbar>`. Use this when the controlled content is structurally separate from the navigation surface.
+
+<Example>
+  <ExternalContentExample client:load />
+</Example>
+
+<Callout type="warning">
+  When the controlled drawer precedes its toggler in document order, keyboard and assistive technology users may have trouble locating the newly revealed content. Move focus into the drawer on open (`<Drawer>` does this automatically), and keep `aria-controls` pointing at the drawer's `id` so the toggler-to-content relationship is exposed.
+</Callout>
+
+## Accessibility
+
+An accessible navbar relies on semantic markup and ARIA attributes that assistive technologies can interpret.
+
+- `<Navbar>` renders a `<nav>` element by default, exposing it as a landmark region. Pass an `aria-label` when a page has more than one navbar.
+- Mark the current page with `active` on the relevant `<NavLink>`, which renders `aria-current="page"`.
+- `<NavbarToggler>` doesn't sync its ARIA attributes automatically — unlike the underlying CSS framework's vanilla JavaScript plugin, this component is a plain controlled button. Set `aria-label`, `aria-controls` (pointing at the drawer's `id`), and `aria-expanded` (kept in sync with the `Drawer`'s own `visible` state) explicitly, as every example above does.
+
+## API
+
+### Navbar
+
+<PropTable component="Navbar" />
+### NavbarBrand
+
+<PropTable component="NavbarBrand" />
+### NavbarNav
+
+<PropTable component="NavbarNav" />
+### NavbarText
+
+<PropTable component="NavbarText" />
+### NavbarToggler
+
+<PropTable component="NavbarToggler" />

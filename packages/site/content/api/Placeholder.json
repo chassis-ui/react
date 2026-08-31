@@ -1,0 +1,278 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
+  "description": "",
+  "displayName": "Placeholder",
+  "methods": [],
+  "props": {
+    "align": {
+      "defaultValue": null,
+      "description": "Set the horizontal alignment. Only applies when `src` is set.",
+      "name": "align",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "PlaceholderAlign",
+        "value": [
+          {
+            "value": "\"center\""
+          },
+          {
+            "value": "\"start\""
+          },
+          {
+            "value": "\"end\""
+          }
+        ]
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "color": {
+      "defaultValue": null,
+      "description": "Sets the color of the generated placeholder graphic to one of Chassis context colors. Has no\neffect when `src` is set.",
+      "name": "color",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "ContextColor",
+        "value": [
+          {
+            "value": "\"default\""
+          },
+          {
+            "value": "\"alternate\""
+          },
+          {
+            "value": "\"primary\""
+          },
+          {
+            "value": "\"secondary\""
+          },
+          {
+            "value": "\"neutral\""
+          },
+          {
+            "value": "\"success\""
+          },
+          {
+            "value": "\"danger\""
+          },
+          {
+            "value": "\"warning\""
+          },
+          {
+            "value": "\"info\""
+          },
+          {
+            "value": "\"black\""
+          },
+          {
+            "value": "\"white\""
+          }
+        ]
+      }
+    },
+    "variant": {
+      "defaultValue": null,
+      "description": "Sets the variant of the generated placeholder graphic to one of Chassis context styles. Has no\neffect when `src` is set.",
+      "name": "variant",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"solid\" | \"smooth\"",
+        "value": [
+          {
+            "value": "\"solid\""
+          },
+          {
+            "value": "\"smooth\""
+          }
+        ]
+      }
+    },
+    "component": {
+      "defaultValue": null,
+      "description": "Component used for the root node when `src` is set. Either a string to use an HTML element\nor a component — e.g. a framework's own `Image` component. Its own props (`src`, `fill`,\n`priority`, etc.) are type-checked at the call site once passed here.",
+      "name": "component",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ElementType"
+      }
+    },
+    "fluid": {
+      "defaultValue": null,
+      "description": "Make the image responsive, so it never grows larger than its parent. Only applies when `src`\nis set.",
+      "name": "fluid",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "height": {
+      "defaultValue": null,
+      "description": "Placeholder height.",
+      "name": "height",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | number"
+      }
+    },
+    "rounded": {
+      "defaultValue": null,
+      "description": "Give the image a rounded border-radius. Only applies when `src` is set.",
+      "name": "rounded",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "src": {
+      "defaultValue": null,
+      "description": "Renders a real image instead of the generated placeholder graphic, e.g. a default asset or a\n`placehold.co` URL.",
+      "name": "src",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "text": {
+      "defaultValue": null,
+      "description": "Text shown in the generated placeholder graphic. Defaults to `{width}x{height}`. Pass `false`\nto hide it. Has no effect when `src` is set.",
+      "name": "text",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | false"
+      }
+    },
+    "thumbnail": {
+      "defaultValue": null,
+      "description": "Give the image a thumbnail appearance (padding, background, border, box-shadow). Only\napplies when `src` is set.",
+      "name": "thumbnail",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "title": {
+      "defaultValue": {
+        "value": "'Placeholder'"
+      },
+      "description": "Accessible title for the generated placeholder graphic, rendered as an SVG `<title>`. Pass\n`false` to hide it. Has no effect when `src` is set.",
+      "name": "title",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | false"
+      }
+    },
+    "width": {
+      "defaultValue": null,
+      "description": "Placeholder width.",
+      "name": "width",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | number"
+      }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "any"
+      }
+    }
+  }
+}

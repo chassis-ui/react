@@ -1,0 +1,107 @@
+---
+title: Column
+description: Col sizes, offsets, and reorders an individual grid column inside a Row, with per-breakpoint overrides for span, offset, and order.
+
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/column/BasicExample.tsx'
+import { Example as SpanExample } from '../../examples/components/column/SpanExample.tsx'
+import { Example as AutoExample } from '../../examples/components/column/AutoExample.tsx'
+import { Example as WrapExample } from '../../examples/components/column/WrapExample.tsx'
+import { Example as BreakExample } from '../../examples/components/column/BreakExample.tsx'
+import { Example as OffsetExample } from '../../examples/components/column/OffsetExample.tsx'
+import { Example as OrderExample } from '../../examples/components/column/OrderExample.tsx'
+import { Example as ResponsiveExample } from '../../examples/components/column/ResponsiveExample.tsx'
+import { Example as RevertToEqualWidthExample } from '../../examples/components/column/RevertToEqualWidthExample.tsx'
+import { Example as StandaloneExample } from '../../examples/components/column/StandaloneExample.tsx'
+
+`<Col>` sizes, offsets, and reorders an individual column inside a [`<Row>`]([[docsref:/components/row]]) — width via `span`, position via `offset`, and stacking order via `order`. Each of the three accepts a `responsive` override for per-breakpoint control. See [the flexbox grid pattern]([[docsref:/patterns/responsive-grid]]) for how `<Container>`, `<Row>`, and `<Col>` compose.
+
+Without an explicit `span`, sibling `<Col>`s split a `<Row>`'s width evenly between them.
+
+<Example class="cxd-example-row text-center">
+  <BasicExample client:load />
+</Example>
+
+## Numbered spans
+
+Set `span` to a number from `1` to `12` to size a column to that many of the grid's twelve columns. Sibling columns without an explicit `span` still divide whatever width is left evenly among themselves.
+
+<Example class="cxd-example-row text-center">
+  <SpanExample client:load />
+</Example>
+
+## Auto-width columns
+
+Set `span="auto"` to size a column to its content's natural width instead of an even or numbered share of the row — useful for a fixed-width element like an icon or button next to a column that should fill the rest of the space.
+
+<Example class="cxd-example-row text-center">
+  <AutoExample client:load />
+</Example>
+
+`span={true}` is a different value from `span="auto"` — it applies the same equal-width class a `<Col>` gets by default when `span` is omitted, not a content-sized one. Setting it explicitly is only useful inside `responsive` (see [Responsive overrides](#responsive-overrides)), to revert a column to equal-width at a given breakpoint and up.
+
+## Wrapping
+
+Columns can move to a new line two ways: automatically, once combined spans exceed 12, or forced, at an arbitrary point chosen by the implementation.
+
+### Overflow wrap
+
+A numbered span is a fixed width, not a flexible one. Once a column no longer fits in the space left on the current line, it drops to the next line — and every column after it keeps filling from there, wrapping again itself if it runs out of room too.
+
+<Example class="cxd-example-row text-center">
+  <WrapExample client:load />
+</Example>
+
+### Forced breaks
+
+Add a `width: 100%` element between columns to force a break at an arbitrary point. This is normally handled by starting a new `<Row>`, but is useful when an implementation can only render one flat list of columns.
+
+<Example class="cxd-example-row text-center">
+  <BreakExample client:load />
+</Example>
+
+## Offsetting columns
+
+Set `offset` to a number from `1` to `11` to push a column's start edge over by that many grid columns. Unlike an empty sibling column, the offset is a margin, so it doesn't count toward the row's 12-column total. `offset={0}` has no effect at the base breakpoint — it's only meaningful inside a `responsive` override, to cancel an offset set at a smaller breakpoint.
+
+<Example class="cxd-example-row text-center">
+  <OffsetExample client:load />
+</Example>
+
+## Reordering columns
+
+Set `order` to a number from `1` to `5` to move a column ahead of or behind unordered siblings, which default to `0`. `order="first"` and `order="last"` move a column further than any numbered value can reach, to the very start or end of the row — all three forms mix freely on the same row, independent of each column's position in the DOM.
+
+<Example class="cxd-example-row text-center">
+  <OrderExample client:load />
+</Example>
+
+## Responsive overrides
+
+Pass a `responsive` object keyed by breakpoint (`small`, `medium`, `large`, `xlarge`, `2xlarge`) to override `span`, `offset`, and `order` together from that breakpoint up — each breakpoint's object accepts any combination of the three, independent of what the base (unprefixed) props set.
+
+<Example class="cxd-example-row text-center">
+  <ResponsiveExample client:load />
+</Example>
+
+`{ span: true }` inside a breakpoint's override reverts a column from a numbered `span` back to equal-width at that breakpoint and up.
+
+<Example class="cxd-example-row text-center">
+  <RevertToEqualWidthExample client:load />
+</Example>
+
+## Standalone usage
+
+`<Col>` also renders outside a `<Row>`, as a general-purpose way to give any element a percentage width from the grid scale. Gutter padding comes from being a direct child of `<Row>`, not from the column classes themselves, so a standalone `<Col>` has no horizontal padding of its own.
+
+<Example class="cxd-example-row text-center">
+  <StandaloneExample client:load />
+</Example>
+
+## API
+
+### Col
+
+<PropTable component="Col" />

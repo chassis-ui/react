@@ -1,0 +1,89 @@
+---
+title: Introduction
+description: Install @chassis-ui/react, a TypeScript React component library, and pair it with its companion stylesheet.
+toc: true
+---
+
+`@chassis-ui/react` provides the interactive building blocks for a Chassis UI application — form
+controls, overlays, navigation, and layout primitives — written in TypeScript and built on
+`react-aria`/`react-stately` for accessible-by-default behavior. This page covers installing the
+package, importing components, and wiring up the companion stylesheet each one renders against.
+
+## Installation
+
+### Npm
+
+```bash
+npm install @chassis-ui/react
+```
+
+### Yarn
+
+```bash
+yarn add @chassis-ui/react
+```
+
+Installation is the same regardless of build tool — Vite, webpack, Next.js, Remix, and similar all
+resolve `@chassis-ui/react` as a normal package, with no bundler-specific configuration of its own
+to add.
+
+## Using components
+
+```jsx
+import { Button } from '@chassis-ui/react'
+```
+
+## Stylesheets
+
+React components are styled with the `@chassis-ui/css` library.
+
+### Install chassis-css
+
+```bash
+npm install @chassis-ui/css
+```
+
+or
+
+```bash
+yarn add @chassis-ui/css
+```
+
+### Basic usage
+
+```js
+import '@chassis-ui/css/dist/css/chassis.min.css'
+```
+
+### Component-specific styles
+
+A handful of components — `Calendar`, `RangeCalendar`, `DatePicker`, `DateRangePicker`, and
+`Table`'s sort/selection UI — have no `@chassis-ui/css` visual equivalent, so `@chassis-ui/react`
+ships its own compiled stylesheet for just those pieces. Import it once alongside the
+`@chassis-ui/css` stylesheet above:
+
+```js
+import '@chassis-ui/react/style.css'
+```
+
+Skipping this import doesn't error — those specific pieces will just render unstyled. Every other
+component is styled entirely through `@chassis-ui/css` and needs nothing extra.
+
+## Wider Chassis ecosystem
+
+`@chassis-ui/react` is one package in a set that shares the same design system:
+
+- **[`@chassis-ui/css`](#stylesheets)**, above, is the styling foundation every component's class
+  names target.
+- **`@chassis-ui/tokens`** compiles the color, spacing, radius, and typography values
+  `@chassis-ui/css` declares as `--cx-*` custom properties — re-theming a brand or switching
+  light/dark mode happens at this layer, not in `@chassis-ui/react`. See
+  [Theming]([[docsref:/getting-started/theming]]) for the supported override surface.
+- **`@chassis-ui/icons`** is the source of the SVG sprite (or icon font) [`<Icon>`]([[docsref:/components/icon]])
+  renders by name — every icon-carrying component in this library, from `CloseButton` to the
+  calendar navigation, composes `<Icon>` internally rather than inlining its own markup.
+
+None of these are peer dependencies of `@chassis-ui/react` — nothing errors if the application
+never installs them — but component output assumes their conventions: unstyled markup without
+`@chassis-ui/css`, default token values without `@chassis-ui/tokens`, and empty icon references
+without an icon sprite reachable at the path `<Icon>`'s `sprite` prop points to.

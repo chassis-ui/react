@@ -1,0 +1,39 @@
+---
+title: Upgrading
+description: What a major, minor, or patch release of @chassis-ui/react means, and how a deprecation warning signals an upcoming breaking change.
+
+toc: true
+---
+
+`@chassis-ui/react` follows standard [semantic versioning](https://semver.org/), applied
+consistently across its flat, root-prefixed export surface — there's no namespaced or dotted API
+to reason about separately.
+
+## Semantic versioning
+
+A **minor** release adds something new without changing anything existing: a new component, a new
+sub-part on an existing compound family (e.g. a new `AccordionFooter` alongside
+`AccordionHeader`), a new optional prop, or a new value added to an existing union-typed prop.
+
+A **major** release changes or removes something already in use: renaming or removing an exported
+component, sub-part, or hook; renaming or removing a prop; narrowing a prop's accepted type;
+changing a prop from optional to required; or changing rendered markup/classes that were part of
+the supported surface — see [Not a theming hook]([[docsref:/getting-started/theming#not-a-theming-hook]])
+for which classes and attributes are internal rather than part of that surface.
+
+A **patch** release is a fix with no API change.
+
+## Deprecation warnings
+
+A breaking removal doesn't happen in a single release. Before something is removed, it's marked
+`@deprecated` in its TSDoc comment — surfaced automatically by most editors' IntelliSense — and
+logs a `console.warn` at the point of use describing what to migrate to. That warning ships for at
+least one full minor release before the deprecated export or prop is actually removed in a major
+version, so upgrading through minors surfaces the warning in a development console well before a
+major bump forces the change.
+
+## Release notes
+
+Each release's exact changes are recorded in the package's changelog, generated from the PRs that
+shipped it — see the [GitHub releases](https://github.com/chassis-ui/react/releases) page for the
+current history.

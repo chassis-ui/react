@@ -1,0 +1,84 @@
+---
+title: Progress
+description: Custom progress bar with color, striped, and animated variants, plus inline-value and custom compositions.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/progress/BasicExample.tsx'
+import { Example as InlineValueExample } from '../../examples/components/progress/InlineValueExample.tsx'
+import { Example as HeightExample } from '../../examples/components/progress/HeightExample.tsx'
+import { Example as ColorExample } from '../../examples/components/progress/ColorExample.tsx'
+import { Example as StripedExample } from '../../examples/components/progress/StripedExample.tsx'
+import { Example as AnimatedExample } from '../../examples/components/progress/AnimatedExample.tsx'
+import { Example as CustomExample } from '../../examples/components/progress/CustomExample.tsx'
+
+## Overview
+
+`<Progress>` renders both the wrapper and the inner bar from a single `value` prop, using its own markup instead of [the HTML5 `<progress>` element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/progress) for full control over color, stripes, animation, and text labels.
+
+## Basic usage
+
+Pass `label` and `showValue` alongside `value` to render a caption and the current percentage above the bar.
+
+<Example class="vstack gap-medium">
+  <BasicExample client:load />
+</Example>
+
+## Inline value
+
+Set `inlineValue` to display the current percentage inside the bar.
+
+<Example class="vstack gap-medium">
+  <InlineValueExample client:load />
+</Example>
+
+## Height
+
+Setting a `height` value on `<Progress>` resizes the inner bar automatically.
+
+<Example class="vstack gap-medium">
+  <HeightExample client:load />
+</Example>
+
+## Colors
+
+Use the `color` prop to change the appearance of the progress bar.
+
+<Example class="vstack gap-medium">
+  <ColorExample client:load />
+</Example>
+
+## Striped
+
+Add the `striped` prop to apply a stripe via CSS gradient over the progress bar's background context.
+
+<Example class="vstack gap-medium">
+  <StripedExample client:load />
+</Example>
+
+## Animated stripes
+
+The striped gradient can also be animated. Add the `animated` prop alongside `striped` to animate the stripes right to left via CSS3 animations.
+
+<Example class="vstack gap-medium">
+  <AnimatedExample client:load />
+</Example>
+
+## Custom compositions
+
+Combine `<Progress>` with flex utilities to build layouts beyond the built-in `inlineValue` placement, like a leading label and a trailing percentage flanking the bar.
+
+<Example class="vstack gap-medium">
+  <CustomExample client:load />
+</Example>
+
+## API
+
+### Progress
+
+<PropTable component="Progress" />
+### ProgressBar
+
+`<ProgressBar>` is the presentational inner element `<Progress>` renders automatically. It's exported for advanced, manual compositions (for example custom stacked layouts) — for typical use, `<Progress>` alone is enough.
+
+<PropTable component="ProgressBar" />

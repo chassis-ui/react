@@ -1,0 +1,123 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/grid/Row.tsx",
+  "description": "",
+  "displayName": "Row",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
+        "name": "RowProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
+          "name": "RowProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "responsive": {
+      "defaultValue": null,
+      "description": "Overrides `cols`/`gutter`/`gutterX`/`gutterY` at a breakpoint and up.",
+      "name": "responsive",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
+        "name": "RowProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
+          "name": "RowProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "{ Partial<Record<'small' | 'medium' | 'large' | 'xlarge' | '2xlarge', { cols?: 'auto' | number | string, gutter?: Spacing | 0, gutterX?: Spacing | 0, gutterY?: Spacing | 0 }>> }"
+      }
+    },
+    "cols": {
+      "defaultValue": null,
+      "description": "Equal-width columns per row, or `'auto'` for content-sized columns.",
+      "name": "cols",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
+        "name": "RowLayout"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
+          "name": "RowLayout"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "{ 'auto' | number | string }"
+      }
+    },
+    "gutter": {
+      "defaultValue": null,
+      "description": "Gutter width on both axes.",
+      "name": "gutter",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
+        "name": "RowLayout"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
+          "name": "RowLayout"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "{ Spacing | 0 }"
+      }
+    },
+    "gutterX": {
+      "defaultValue": null,
+      "description": "Horizontal gutter width.",
+      "name": "gutterX",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
+        "name": "RowLayout"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
+          "name": "RowLayout"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "{ Spacing | 0 }"
+      }
+    },
+    "gutterY": {
+      "defaultValue": null,
+      "description": "Vertical gutter width.",
+      "name": "gutterY",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
+        "name": "RowLayout"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
+          "name": "RowLayout"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "{ Spacing | 0 }"
+      }
+    }
+  }
+}

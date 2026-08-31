@@ -1,0 +1,246 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/chip/Chip.tsx",
+  "description": "",
+  "displayName": "Chip",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/chip/Chip.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "color": {
+      "defaultValue": null,
+      "description": "Sets the color of the component to one of Chassis context colors.",
+      "name": "color",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/chip/Chip.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "ContextColor",
+        "value": [
+          {
+            "value": "\"default\""
+          },
+          {
+            "value": "\"alternate\""
+          },
+          {
+            "value": "\"primary\""
+          },
+          {
+            "value": "\"secondary\""
+          },
+          {
+            "value": "\"neutral\""
+          },
+          {
+            "value": "\"success\""
+          },
+          {
+            "value": "\"danger\""
+          },
+          {
+            "value": "\"warning\""
+          },
+          {
+            "value": "\"info\""
+          },
+          {
+            "value": "\"black\""
+          },
+          {
+            "value": "\"white\""
+          }
+        ]
+      }
+    },
+    "component": {
+      "defaultValue": null,
+      "description": "Component used for the root node. Either a string to use a HTML element or a component.\nDefaults to `span`, or `a` when `href` is set.",
+      "name": "component",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/chip/Chip.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ElementType"
+      }
+    },
+    "disabled": {
+      "defaultValue": null,
+      "description": "Toggle the disabled state for the component. Applied as the native `disabled` attribute when\n`component` is `button`, or the `.disabled` class for every other element (a bare `<span>`/\n`<a>` has no real `disabled` attribute).",
+      "name": "disabled",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/chip/Chip.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "href": {
+      "defaultValue": null,
+      "description": "Renders the chip as a link to this URL. Defaults `component` to `a`.",
+      "name": "href",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/chip/Chip.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "onClick": {
+      "defaultValue": null,
+      "description": "Fires on click. Typed for every element `component` can actually render, rather than\nnarrowed to whichever element `C` happens to be.",
+      "name": "onClick",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/chip/Chip.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "MouseEventHandler<HTMLElement>"
+      }
+    },
+    "pressed": {
+      "defaultValue": null,
+      "description": "Marks the chip as pressed for toggle-style usage (e.g. a filter chip). Applies the `.active`\nclass and sets `aria-pressed` so assistive technology announces the toggle state.",
+      "name": "pressed",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/chip/Chip.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "size": {
+      "defaultValue": null,
+      "description": "Size the component small or large.",
+      "name": "size",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/chip/Chip.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"small\" | \"large\"",
+        "value": [
+          {
+            "value": "\"small\""
+          },
+          {
+            "value": "\"large\""
+          }
+        ]
+      }
+    },
+    "type": {
+      "defaultValue": null,
+      "description": "Specifies the type of button. Only applies when `component` is `button`. Different browsers\nmay use different default types for the `<button>` element, so always specify it explicitly.",
+      "name": "type",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/chip/Chip.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"button\" | \"submit\" | \"reset\"",
+        "value": [
+          {
+            "value": "\"button\""
+          },
+          {
+            "value": "\"submit\""
+          },
+          {
+            "value": "\"reset\""
+          }
+        ]
+      }
+    },
+    "variant": {
+      "defaultValue": null,
+      "description": "Set the chip style variant. `solid`/`basic` render the default look with no extra class.",
+      "name": "variant",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/chip/Chip.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "ContextStyle",
+        "value": [
+          {
+            "value": "\"basic\""
+          },
+          {
+            "value": "\"solid\""
+          },
+          {
+            "value": "\"outline\""
+          },
+          {
+            "value": "\"smooth\""
+          }
+        ]
+      }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/chip/Chip.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "any"
+      }
+    }
+  }
+}

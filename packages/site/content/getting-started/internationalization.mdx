@@ -1,0 +1,110 @@
+---
+title: Internationalization
+description: How react-aria's I18nProvider drives locale-aware behavior in the date and menu components, and how that's separate from chassis-css's own dir-attribute RTL support.
+toc: true
+---
+
+A handful of components read the active locale to decide segment order, weekday names, the
+calendar system, weekend styling, or which direction a submenu cascades toward.
+[`DatePicker`]([[docsref:/components/datepicker]]), [`DateRangePicker`]([[docsref:/components/date-range-picker]]),
+[`Calendar`]([[docsref:/components/calendar]]), [`RangeCalendar`]([[docsref:/components/range-calendar]]),
+and [`MenuSubmenu`]([[docsref:/components/menu]]) all read that locale the same way — from
+react-aria's `I18nProvider`, falling back to the browser's own locale when none is set. This page
+covers setting that locale and its effect, and how it relates to — but doesn't replace —
+chassis-css's separate `dir`-attribute RTL support.
+
+## Setting a locale
+
+Wrap an application, or any subtree, in `I18nProvider` with a
+[BCP47](https://www.ietf.org/rfc/bcp/bcp47.txt) language tag:
+
+```tsx
+import { DatePicker, I18nProvider } from '@chassis-ui/react'
+
+<I18nProvider locale="ar-SA">
+  <DatePicker label="Departure date" />
+</I18nProvider>
+```
+
+Every component listed above reads whichever `I18nProvider` is nearest up the tree, the same way
+React context normally resolves — a locale set closer to a specific component overrides one set
+higher up. With no `I18nProvider` in the tree at all, these components fall back to the browser's
+own locale.
+
+Setting `ar-SA` above changes more than translated strings: `DatePicker`'s segment order and
+weekday names follow the locale, its calendar system switches from Gregorian to Umm al-Qura, and
+`Calendar`/`RangeCalendar` shift which days render as the muted "weekend" style. None of this is
+configured through a prop on the date components themselves — it all flows from the locale.
+
+<Callout type="warning">
+  Import `I18nProvider` from `@chassis-ui/react`, not from `react-aria` directly. `react-aria` is
+  bundled into this package rather than installed as a peer, so its module — including the context
+  `I18nProvider` provides — is a separate copy from any `react-aria` a consuming application
+  installs on its own. An `I18nProvider` imported from `react-aria` sets a *different* context
+  instance and silently has no effect on this library's components.
+</Callout>
+
+## Right-to-left
+
+Two independent mechanisms contribute to RTL support, and setting one doesn't set the other.
+
+`I18nProvider`'s locale determines a react-aria `direction` (`'ltr'` or `'rtl'`) that
+`MenuSubmenu` reads via `useLocale()` — an RTL locale flips which side a submenu cascades toward
+and which arrow key opens versus closes it, matching native OS/browser submenu behavior. This
+mechanism is scoped to whichever components actually call `useLocale()` internally; it doesn't
+touch anything else on the page.
+
+Everything else — layout mirroring, icon direction, chassis-css's own components — follows the
+`dir` attribute instead, set on `<html>` or a scoping ancestor, independently of `I18nProvider`.
+[`Pagination`]([[docsref:/components/pagination]])'s Prev/Next chevrons, for example, mirror under
+an ancestor `dir="rtl"` through a plain CSS rule, with no react-aria involvement at all. See
+chassis-css's own [RTL](https://chassis-ui.com/css/docs/core-concepts/rtl) page for the full
+logical-properties story this covers.
+
+A fully consistent RTL experience needs both set together — an RTL locale with no `dir="rtl"`
+gets a correctly-mirrored submenu, an Umm al-Qura calendar, but LTR-oriented icons and layout
+everywhere else:
+
+```tsx
+<html lang="ar" dir="rtl">
+  <I18nProvider locale="ar-SA">
+    <App />
+  </I18nProvider>
+</html>
+```
+
+## Date values
+
+`Calendar`, `RangeCalendar`, `DatePicker`, and `DateRangePicker` accept date values as
+`@internationalized/date` objects rather than `Date` instances or ISO strings — install it
+separately to construct them:
+
+```bash
+npm install @internationalized/date
+```
+
+```tsx
+import { Calendar } from '@chassis-ui/react'
+import { today, getLocalTimeZone } from '@internationalized/date'
+
+<Calendar value={today(getLocalTimeZone())} />
+```
+
+Unlike `I18nProvider`, there's no module-identity concern here — a `CalendarDate` is a plain data
+object, not something read through React context, so a separately-installed copy of
+`@internationalized/date` works the same as any other dependency. See
+[Calendar]([[docsref:/components/calendar]]) and [DatePicker]([[docsref:/components/datepicker]])
+for the full range of value/selection props.
+
+## Labels outside the locale system
+
+Not every user-facing string in these components comes from the active locale. `Pagination`'s
+Prev/Next controls, for instance, default to English accessible names — pass `previousLabel`/
+`nextLabel` directly to translate them:
+
+```tsx
+<Pagination pages={10} activePage={page} onActivePageChange={setPage} previousLabel="Précédent" nextLabel="Suivant" />
+```
+
+This is a plain prop, translated by the application the same way any other label prop would be —
+`I18nProvider` has no effect on it.

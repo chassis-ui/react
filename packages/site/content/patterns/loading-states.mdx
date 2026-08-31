@@ -1,0 +1,85 @@
+---
+title: Loading States
+description: Swap each piece of a component's real content for a Skeleton via SkeletonLoader, keeping the same structure and props for the loading state.
+
+toc: true
+---
+
+import { Example as CardLoadingExample } from '../../examples/patterns/loading-states/CardLoadingExample.tsx'
+import { Example as ProfileLoadingExample } from '../../examples/patterns/loading-states/ProfileLoadingExample.tsx'
+import { Example as TableLoadingExample } from '../../examples/patterns/loading-states/TableLoadingExample.tsx'
+
+Neither `<Card>` nor `<Table>` has a `loading` prop of its own, and
+[`<Skeleton>`]([[docsref:/components/skeleton]]) doesn't wrap or replace a whole component either
+— it's a content-level primitive, the same way a real card's title is just text. A loading state
+is built the same way as the real one, using the same props: `<Card title={…} subtitle={…}
+text={…}>`, where each value is either the real thing or a
+[`<SkeletonLoader>`]([[docsref:/components/skeleton]]) rendering a matching skeleton in its place.
+Application state (here, a `loading` boolean) decides which each one renders — no separate
+skeleton tree, and no manual composition, to keep in sync by hand.
+
+## Card
+
+The card example passes a `SkeletonLoader` straight into `Card`'s `title`, `subtitle`, and `text`
+shorthand props, so the same prop-driven markup renders both the loading and loaded states.
+
+<Example>
+  <CardLoadingExample client:load />
+</Example>
+
+## Profile
+
+`<SkeletonLoader>` isn't text-only — its `component` prop works exactly like `<Skeleton>`'s own,
+so the same swap-in-place pattern covers an avatar and a button too, not just the two text runs.
+
+<Example>
+  <ProfileLoadingExample client:load />
+</Example>
+
+## Table
+
+The table example applies the same swap-in-place pattern per cell, rendering one `SkeletonLoader`
+in each `TableCell` in place of that cell's real value.
+
+<Example>
+  <TableLoadingExample client:load />
+</Example>
+
+## Key points
+
+- `<SkeletonLoader loading={loading} spans={[…]}>{realValue}</SkeletonLoader>` replaces one run of
+  text in place — same position in the tree either way, no wrapping element, no parallel structure
+  to maintain. The card example passes one straight into `Card`'s `title`/`subtitle`/`text`
+  shorthand props, so the whole card stays a single prop-driven component with no manual
+  `CardBody`/`CardTitle` composition.
+- For non-text content, pass `component` (and that component's own props, e.g. `size` for
+  `<Avatar>` or `disabled` for `<Button>`) straight to `<SkeletonLoader>`, same as `<Skeleton>` —
+  see the profile example. The one exception is `<CardImage>`: it always needs a real `src`, so it
+  can't be swapped through `SkeletonLoader`/`Skeleton`'s `component` the same way — the card
+  example instead passes a ternary straight into `Card`'s `image` prop, which accepts either a
+  `src` string or a full element (a `<CardImage component={Skeleton}>`, a `<Placeholder>`,
+  anything) rendered as-is.
+- `animation="glow"`/`.skeleton-glow` goes on a _container_ you already have (`<Card>`, the profile
+  row, `<Table>` itself), not on `SkeletonLoader` — it has no element of its own to put a class on.
+  `.skeleton-glow` pulses via a descendant selector (`.skeleton-glow .skeleton { animation }`), so
+  one class on an ancestor reaches every generated skeleton inside, at any depth. `.skeleton-wave`
+  works differently — it masks the container's own rendered output directly, sweeping across
+  whatever `.skeleton` descendants it contains — but the practical instruction is the same either
+  way: put the class on the container, not on individual skeletons.
+- Pick `spans` values that roughly match the eventual text's length per line — exact precision
+  doesn't matter, just enough to avoid a jarring width jump once real data replaces it. Leave
+  `spans` unset entirely for non-text swaps whose target already sizes itself, like the profile
+  example's avatar.
+- The table example still keys `<Table>` on `String(loading)` to force a remount when it flips —
+  `Table` builds its row/cell collection once via `useTableState` and won't otherwise notice a
+  value that only changed inside a cell's render closure. This is a `Table`-specific quirk, not
+  something `SkeletonLoader` needs elsewhere.
+- All three examples simulate a fetch with `setTimeout` and a "Reload" button. Swap that for
+  `loading` state driven by your actual data-fetching hook (`useQuery`, `useEffect` + `fetch`,
+  etc.).
+- `aria-hidden` on the loading container only hides the skeleton from assistive technology — it
+  doesn't announce when the real content shows up. All three examples pair it with a
+  `.visually-hidden` `aria-live="polite"` span that reports the state change out loud, since
+  nothing else in any of them does. It's placed once per example, not once per `<SkeletonLoader>`
+  — the table has one `<SkeletonLoader>` per cell but only one announcer for the whole table, so
+  reloading doesn't fire a burst of duplicate announcements.

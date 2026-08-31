@@ -1,0 +1,58 @@
+---
+title: usePagination
+description: Shared click handling behind hand-composed Previous/Next controls, redirecting focus to the still-enabled sibling when a click disables the one just clicked.
+
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/hooks/use-pagination/BasicExample.tsx'
+
+## Overview
+
+A native `disabled` button is blurred by the browser the instant it becomes disabled. Clicking
+"Previous" into page one, for example, disables that very button and silently drops focus to
+`<body>` — a keyboard or screen reader user loses their place with no announcement. `usePagination`
+wires a Previous/Next pair's `onClick` handlers so a click that crosses a boundary redirects focus
+to the sibling control in the same step, instead of letting it fall through to the page.
+
+[`<Pagination>`]([[docsref:/components/pagination]]) in `smart` mode already handles this
+internally. Reach for `usePagination` directly when composing Previous/Next controls by hand
+instead — the underlying element can be anything, a `Button`, a `PaginationItem`, an anchor.
+
+## Basic usage
+
+Clicking "Next" on the last page, or "Previous" on the first, moves focus to the sibling button
+rather than dropping it — try it with the keyboard.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## API
+
+### usePagination
+
+```ts
+function usePagination<T extends HTMLElement = HTMLAnchorElement>(options: {
+  prevDisabled: boolean
+  nextDisabled: boolean
+  onPrev: () => void
+  onNext: () => void
+}): {
+  prevRef: RefObject<T>
+  nextRef: RefObject<T>
+  handlePrevClick: (event: MouseEvent<T>) => void
+  handleNextClick: (event: MouseEvent<T>) => void
+}
+```
+
+The type parameter `T` is the rendered element type the returned refs attach to — a plain `Button`
+renders `HTMLButtonElement`, `PaginationItem` renders `HTMLAnchorElement` (the default). Pass it
+explicitly to match whatever element the refs are attached to, as the example above does with
+`usePagination<HTMLButtonElement>`.
+
+`prevDisabled`/`nextDisabled` reflect the controls' current disabled state, not a value the hook
+computes — pass the same booleans already driving each button's own `disabled` prop.
+`onPrev`/`onNext` fire before the state change that may disable a control; wire
+`handlePrevClick`/`handleNextClick` up as each control's `onClick` in place of calling
+`onPrev`/`onNext` directly.

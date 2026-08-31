@@ -1,0 +1,66 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/table/TableBody.tsx",
+  "description": "Collection node, data-only — read by `Table` to build the table's row collection. Never\nrendered directly.",
+  "displayName": "TableBody",
+  "methods": [],
+  "props": {
+    "children": {
+      "defaultValue": null,
+      "description": "`TableRow` elements, or a render function paired with `items` for dynamic row generation.",
+      "name": "children",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/TableBody.tsx",
+        "name": "TableBodyProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/TableBody.tsx",
+          "name": "TableBodyProps"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "ReactElement<unknown, string | JSXElementConstructor<any>> | ReactElement<unknown, string | JSXElementConstructor<any>>[] | ((item: T) => ReactElement<...>)"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the `<tbody>` element.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/TableBody.tsx",
+        "name": "TableBodyProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/TableBody.tsx",
+          "name": "TableBodyProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "items": {
+      "defaultValue": null,
+      "description": "A list of row data objects, rendered via the function form of `children`.",
+      "name": "items",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/TableBody.tsx",
+        "name": "TableBodyProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/TableBody.tsx",
+          "name": "TableBodyProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Iterable<T>"
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "files": [
+    {
+      "path": "./dist/index.js",
+      "maxSize": "40 kB"
+    },
+    {
+      "path": "./dist/style.css",
+      "maxSize": "2 kB"
+    }
+  ],
+  "ci": {
+    "trackBranches": ["main"]
+  }
+}

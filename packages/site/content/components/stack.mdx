@@ -1,0 +1,67 @@
+---
+title: Stack
+description: Compose flexbox properties into two one-dimensional layout primitives — Stack for vertical and horizontal arrangements, with responsive direction switching.
+toc: true
+---
+
+import { Example as VerticalExample } from '../../examples/components/stack/VerticalExample.tsx'
+import { Example as HorizontalExample } from '../../examples/components/stack/HorizontalExample.tsx'
+import { Example as SpacerExample } from '../../examples/components/stack/SpacerExample.tsx'
+import { Example as ResponsiveExample } from '../../examples/components/stack/ResponsiveExample.tsx'
+
+`<Stack>` composes flexbox properties into two layout primitives: `direction="horizontal"` (the
+default, wraps `.hstack`) for row arrangements and `direction="vertical"` (wraps `.vstack`) for
+column arrangements. The concept originates from the open source
+[Pylon project](https://almonk.github.io/pylon/).
+
+For simple one-dimensional arrangements — a toolbar, a form's field list — `<Stack>` needs no
+`<Container>`/`<Row>`/`<Col>` nesting. Reach for [`<Flex>`](./flex) instead for more control than
+Stack's fixed alignment defaults give — wrapping, main-axis justification, or no default alignment
+at all. Reach for the [flexbox grid](../patterns/responsive-grid) for responsive column spans,
+offsets, or ordering, or [`<Grid>`](./grid) for two-dimensional row-and-column layouts.
+
+## Vertical
+
+`direction="vertical"` arranges children in a column. Items stretch to full width by default;
+`gap` controls the spacing between them.
+
+<Example>
+  <VerticalExample client:load />
+</Example>
+
+## Horizontal
+
+The default `direction="horizontal"` arranges children in a row, aligned to the start of the
+cross axis. Items take only their natural width; `gap` controls the spacing between them.
+
+<Example>
+  <HorizontalExample client:load />
+</Example>
+
+`.ms-auto` acts as a spacer, pushing following items to the far end:
+
+<Example>
+  <SpacerExample client:load />
+</Example>
+
+## Responsive direction
+
+The `responsive` prop switches `direction` at one or more breakpoints, using
+[container queries](https://chassis-ui.com/css/docs/layout/breakpoints) rather than viewport
+media queries — it accepts an object keyed by the full breakpoint names
+(`small`/`medium`/`large`/`xlarge`/`2xlarge`), each mapped to `'horizontal'` or `'vertical'`.
+
+Responsive direction switching requires a `.contains-inline` ancestor to establish the container
+query context — `<Stack>` doesn't apply this itself, since the containment has to live on a
+_parent_ of the element whose own layout is switching. Resize the browser to preview the
+transition between column and row layouts below:
+
+<Example>
+  <ResponsiveExample client:load />
+</Example>
+
+## API
+
+### Stack
+
+<PropTable component="Stack" />

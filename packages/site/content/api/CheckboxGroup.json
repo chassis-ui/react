@@ -1,0 +1,284 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/checkbox/CheckboxGroup.tsx",
+  "description": "",
+  "displayName": "CheckboxGroup",
+  "methods": [],
+  "props": {
+    "children": {
+      "defaultValue": null,
+      "description": "One or more `<Checkbox>` elements.",
+      "name": "children",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/checkbox/CheckboxGroup.tsx",
+        "name": "CheckboxGroupProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/checkbox/CheckboxGroup.tsx",
+          "name": "CheckboxGroupProps"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/checkbox/CheckboxGroup.tsx",
+        "name": "CheckboxGroupProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/checkbox/CheckboxGroup.tsx",
+          "name": "CheckboxGroupProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "defaultValue": {
+      "defaultValue": null,
+      "description": "The selected values, uncontrolled.",
+      "name": "defaultValue",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/checkbox/CheckboxGroup.tsx",
+        "name": "CheckboxGroupProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/checkbox/CheckboxGroup.tsx",
+          "name": "CheckboxGroupProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string[]"
+      }
+    },
+    "description": {
+      "defaultValue": null,
+      "description": "A description for the group, rendered below the options.",
+      "name": "description",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/checkbox/CheckboxGroup.tsx",
+        "name": "CheckboxGroupProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/checkbox/CheckboxGroup.tsx",
+          "name": "CheckboxGroupProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "disabled": {
+      "defaultValue": null,
+      "description": "Disables every checkbox in the group.",
+      "name": "disabled",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/checkbox/CheckboxGroup.tsx",
+        "name": "CheckboxGroupProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/checkbox/CheckboxGroup.tsx",
+          "name": "CheckboxGroupProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "errorMessage": {
+      "defaultValue": null,
+      "description": "An error message for the group, rendered below the options when `invalid` is set.",
+      "name": "errorMessage",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/checkbox/CheckboxGroup.tsx",
+        "name": "CheckboxGroupProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/checkbox/CheckboxGroup.tsx",
+          "name": "CheckboxGroupProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "invalid": {
+      "defaultValue": null,
+      "description": "Set group validation state to invalid.",
+      "name": "invalid",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/checkbox/CheckboxGroup.tsx",
+        "name": "CheckboxGroupProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/checkbox/CheckboxGroup.tsx",
+          "name": "CheckboxGroupProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "label": {
+      "defaultValue": null,
+      "description": "The group's caption, rendered as a `<legend>`.",
+      "name": "label",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/checkbox/CheckboxGroup.tsx",
+        "name": "CheckboxGroupProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/checkbox/CheckboxGroup.tsx",
+          "name": "CheckboxGroupProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "name": {
+      "defaultValue": null,
+      "description": "The name for the group, used for native form submission.",
+      "name": "name",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/checkbox/CheckboxGroup.tsx",
+        "name": "CheckboxGroupProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/checkbox/CheckboxGroup.tsx",
+          "name": "CheckboxGroupProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "onChange": {
+      "defaultValue": null,
+      "description": "Callback fired when the selected values change.",
+      "name": "onChange",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/checkbox/CheckboxGroup.tsx",
+        "name": "CheckboxGroupProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/checkbox/CheckboxGroup.tsx",
+          "name": "CheckboxGroupProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((value: string[]) => void)"
+      }
+    },
+    "orientation": {
+      "defaultValue": null,
+      "description": "Lay the group's checkboxes out on the same horizontal row instead of stacking them.",
+      "name": "orientation",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/checkbox/CheckboxGroup.tsx",
+        "name": "CheckboxGroupProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/checkbox/CheckboxGroup.tsx",
+          "name": "CheckboxGroupProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"horizontal\" | \"vertical\"",
+        "value": [
+          {
+            "value": "\"horizontal\""
+          },
+          {
+            "value": "\"vertical\""
+          }
+        ]
+      }
+    },
+    "required": {
+      "defaultValue": null,
+      "description": "Marks the group as required.",
+      "name": "required",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/checkbox/CheckboxGroup.tsx",
+        "name": "CheckboxGroupProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/checkbox/CheckboxGroup.tsx",
+          "name": "CheckboxGroupProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "valid": {
+      "defaultValue": null,
+      "description": "Set group validation state to valid.",
+      "name": "valid",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/checkbox/CheckboxGroup.tsx",
+        "name": "CheckboxGroupProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/checkbox/CheckboxGroup.tsx",
+          "name": "CheckboxGroupProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "value": {
+      "defaultValue": null,
+      "description": "The selected values, controlled.",
+      "name": "value",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/checkbox/CheckboxGroup.tsx",
+        "name": "CheckboxGroupProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/checkbox/CheckboxGroup.tsx",
+          "name": "CheckboxGroupProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string[]"
+      }
+    }
+  }
+}

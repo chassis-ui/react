@@ -1,0 +1,237 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/link/Link.tsx",
+  "description": "",
+  "displayName": "Link",
+  "methods": [],
+  "props": {
+    "active": {
+      "defaultValue": null,
+      "description": "Toggle the active state for the component.",
+      "name": "active",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/link/Link.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/link/Link.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "color": {
+      "defaultValue": null,
+      "description": "Sets the link color to one of Chassis context colors, including its interactive\n(`:hover`/`:focus`/`:active`/`:visited`) states.",
+      "name": "color",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/link/Link.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "ContextColor",
+        "value": [
+          {
+            "value": "\"default\""
+          },
+          {
+            "value": "\"alternate\""
+          },
+          {
+            "value": "\"primary\""
+          },
+          {
+            "value": "\"secondary\""
+          },
+          {
+            "value": "\"neutral\""
+          },
+          {
+            "value": "\"success\""
+          },
+          {
+            "value": "\"danger\""
+          },
+          {
+            "value": "\"warning\""
+          },
+          {
+            "value": "\"info\""
+          },
+          {
+            "value": "\"black\""
+          },
+          {
+            "value": "\"white\""
+          }
+        ]
+      }
+    },
+    "component": {
+      "defaultValue": null,
+      "description": "Component used for the root node. Either a string to use a HTML element or a component.",
+      "name": "component",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/link/Link.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ElementType"
+      }
+    },
+    "disabled": {
+      "defaultValue": null,
+      "description": "Toggle the disabled state for the component.",
+      "name": "disabled",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/link/Link.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "href": {
+      "defaultValue": null,
+      "description": "The href attribute specifies the URL of the page the link goes to. Only meaningful when\n`component` resolves to (or accepts) `'a'`. Declared explicitly here — rather than left to\nflow through generically from whatever `C` is — so consumers that wrap `Link` (`MenuItem`,\n`ListItem`, `NavLink`) can read it with a concrete type regardless of `component`.",
+      "name": "href",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/link/Link.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "onClick": {
+      "defaultValue": null,
+      "description": "Fires on click.",
+      "name": "onClick",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/link/Link.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "MouseEventHandler<HTMLElement>"
+      }
+    },
+    "iconLink": {
+      "defaultValue": null,
+      "description": "Aligns a leading or trailing icon with the link text using flexbox, with a gap between\nthem and an offset underline. Icons need to be passed as `children` alongside the text.\nNamed `iconLink` rather than `icon` to avoid colliding with components (e.g. `MenuItem`)\nthat already have their own, differently-typed `icon` prop for the icon content itself.",
+      "name": "iconLink",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/link/Link.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "reset": {
+      "defaultValue": null,
+      "description": "Removes the foreground color override, so the link inherits its color from the nearest\nancestor instead of the default link color.",
+      "name": "reset",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/link/Link.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "stretched": {
+      "defaultValue": null,
+      "description": "Expands the link's click target to fill its positioned ancestor (the nearest ancestor with\na `position` other than `static`).",
+      "name": "stretched",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/link/Link.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "type": {
+      "defaultValue": null,
+      "description": "Specifies the type of button. Only applies when `component=\"button\"`. Different browsers may\nuse different default types for the `<button>` element, so always specify it explicitly.",
+      "name": "type",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/link/Link.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"button\" | \"reset\" | \"submit\"",
+        "value": [
+          {
+            "value": "\"button\""
+          },
+          {
+            "value": "\"reset\""
+          },
+          {
+            "value": "\"submit\""
+          }
+        ]
+      }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/link/Link.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "any"
+      }
+    }
+  }
+}

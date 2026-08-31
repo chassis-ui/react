@@ -1,0 +1,55 @@
+---
+title: Accessibility
+description: How react-aria powers keyboard interaction, focus management, and ARIA wiring in @chassis-ui/react, and what still depends on markup and content choices.
+toc: true
+---
+
+Interactive components in `@chassis-ui/react` are built on [react-aria](https://react-spectrum.adobe.com/react-aria/)
+and [react-stately](https://react-spectrum.adobe.com/react-stately/) rather than plain HTML
+markup with hand-wired ARIA attributes. This page covers what that foundation handles
+automatically, and what still depends on the labels, content, and structure of the application
+using it.
+
+## Built on react-aria
+
+A `Menu`, `Combobox`, `Tabs`, or `Modal` gets its keyboard interaction and ARIA roles/states from
+the same hooks that back Adobe's own Spectrum components — arrow-key navigation through a list,
+<kbd>Escape</kbd> to dismiss an overlay, <kbd>Tab</kbd>/<kbd>Shift+Tab</kbd> moving through
+focusable content in the expected order, `role`/`aria-expanded`/`aria-selected` kept in sync with
+component state. None of it needs configuring — it comes from choosing the component.
+
+## Focus management
+
+Dialog-style surfaces (`Modal`, `Drawer`) trap focus while open, so <kbd>Tab</kbd> cycles within
+the surface instead of escaping to the page behind it, and restore focus to whichever element
+triggered them once they close. Overlay-based components (`Menu`, `Popover`, `Tooltip`) dismiss on
+an outside click or <kbd>Escape</kbd> and return focus the same way.
+
+## Labeling form controls
+
+Passing `label` to a form component (`TextInput`, `Select`, `Checkbox`, `DatePicker`, and similar)
+renders a real `<label>` and associates it with the control automatically — with `htmlFor` for a
+single native input, or `aria-labelledby` for a component built from more than one focusable piece
+(`DatePicker`'s segmented date field, `OtpInput`'s digit boxes). `help` and validation feedback
+text are wired the same way, via `aria-describedby`, without any id management in application
+code.
+
+<Callout type="warning">
+  An explicit `aria-label` always wins over an associated `<label>` when computing a control's
+  accessible name. Passing both `label` and a conflicting `aria-label` doesn't merge them — the
+  `aria-label` value is what assistive technology announces.
+</Callout>
+
+## Live regions
+
+`Toast` and `Notification` render with the ARIA roles that make assistive technology announce them
+as they appear, without moving focus away from whatever the user was doing.
+
+## What isn't automatic
+
+Color contrast comes from the token pairs that chassis-css's [Design Tokens]([[docsref:/getting-started/theming#custom-properties]])
+are built from — see chassis-css's own [Accessibility](https://chassis-ui.com/css/docs/core-concepts/accessibility)
+page for how that palette is designed. Meaningful `alt` text on an image, a descriptive
+`aria-label` on an icon-only button, and a sensible heading structure around a page's components
+are choices only the application itself can make — a component gives correct behavior for whatever
+content and labels it's given, not a substitute for choosing them.

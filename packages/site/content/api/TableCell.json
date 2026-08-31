@@ -1,0 +1,85 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/table/TableCell.tsx",
+  "description": "Collection node, data-only — see `TableHeader`. Read by `Table` to build a cell in the\ntable's collection; never rendered directly.",
+  "displayName": "TableCell",
+  "methods": [],
+  "props": {
+    "children": {
+      "defaultValue": null,
+      "description": "The contents of the cell.",
+      "name": "children",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/TableCell.tsx",
+        "name": "TableCellProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/TableCell.tsx",
+          "name": "TableCellProps"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the cell.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/TableCell.tsx",
+        "name": "TableCellProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/TableCell.tsx",
+          "name": "TableCellProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "colSpan": {
+      "defaultValue": null,
+      "description": "Indicates how many columns the cell spans.",
+      "name": "colSpan",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/TableCell.tsx",
+        "name": "TableCellProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/TableCell.tsx",
+          "name": "TableCellProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number"
+      }
+    },
+    "textValue": {
+      "defaultValue": null,
+      "description": "A string representation of the cell's contents, used for typeahead.",
+      "name": "textValue",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/TableCell.tsx",
+        "name": "TableCellProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/TableCell.tsx",
+          "name": "TableCellProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    }
+  }
+}

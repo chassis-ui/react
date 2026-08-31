@@ -1,0 +1,107 @@
+---
+title: Form Grid
+description: Structure a form's layout with margin utilities, grid classes, and gutter modifiers — from a simple two-column row to a full horizontal form.
+
+toc: true
+---
+
+import { Example as FormGridExample } from '../../examples/patterns/layout/FormGridExample.tsx'
+import { Example as GuttersExample } from '../../examples/patterns/layout/GuttersExample.tsx'
+import { Example as ComplexGridExample } from '../../examples/patterns/layout/ComplexGridExample.tsx'
+import { Example as HorizontalFormExample } from '../../examples/patterns/layout/HorizontalFormExample.tsx'
+import { Example as LabelSizingExample } from '../../examples/patterns/layout/LabelSizingExample.tsx'
+import { Example as ColumnSizingExample } from '../../examples/patterns/layout/ColumnSizingExample.tsx'
+import { Example as AutoSizingExample } from '../../examples/patterns/layout/AutoSizingExample.tsx'
+import { Example as AutoSizingSizedExample } from '../../examples/patterns/layout/AutoSizingSizedExample.tsx'
+import { Example as InlineFormsExample } from '../../examples/patterns/layout/InlineFormsExample.tsx'
+
+For the `<Form>` element's own default behaviors and the `label`/`help`/validation props shared
+across every form component, see [Working with Forms]([[docsref:/getting-started/working-with-forms]]).
+This page covers structuring a form's layout with the grid system once those pieces are in place.
+
+## Utilities
+
+Margin utilities add basic structure to a form — grouping labels, controls, optional help text,
+and validation messaging. Stick to `margin-bottom` utilities in a single direction throughout a
+form for consistent spacing.
+
+## Form grid
+
+Build more complex forms with the grid classes for layouts that need multiple columns, varied
+widths, or additional alignment options.
+
+<Example>
+  <FormGridExample client:load />
+</Example>
+
+## Gutters
+
+Add gutter modifier classes to control the gutter width in the inline and block directions
+independently.
+
+<Example>
+  <GuttersExample client:load />
+</Example>
+
+The grid system also composes into more complex layouts, like a full address form spanning
+several breakpoints.
+
+<Example>
+  <ComplexGridExample client:load />
+</Example>
+
+## Horizontal form
+
+Create horizontal forms with the grid by adding the `.row` class to form groups and using the
+`.col-*-*` classes to specify the width of labels and controls. Add `.col-form-label` to a
+`<FormLabel>` as well, so it's vertically centered with its associated form control.
+
+Margin or padding utilities may still be needed to fine-tune alignment.
+
+<Example>
+  <HorizontalFormExample client:load />
+</Example>
+
+### Label sizing
+
+Add `.col-form-label-small` or `.col-form-label-large` on a `<FormLabel>` or `<legend>` to match
+the size of a `.small` or `.large` control.
+
+<Example>
+  <LabelSizingExample client:load />
+</Example>
+
+## Column sizing
+
+Any number of `<Col>`s can go inside a `<Row>`, splitting the available width equally between
+them by default. Assign a numbered `span` — like `<Col responsive={{ small: { span: 7 } }}>` — to
+a subset of columns, and the remaining `<Col>`s split what's left equally.
+
+<Example>
+  <ColumnSizingExample client:load />
+</Example>
+
+## Auto-sizing
+
+Add a flexbox utility to vertically center a row's contents, and change `<Col>` to
+`<Col span="auto">` so a column takes up only as much space as its content needs.
+
+<Example>
+  <AutoSizingExample client:load />
+</Example>
+
+Combine `span="auto"` with size-specific column classes on the remaining columns for more control.
+
+<Example>
+  <AutoSizingSizedExample client:load />
+</Example>
+
+## Inline forms
+
+Use `<Col span="auto">` to build horizontal layouts. Gutter modifier classes add spacing in both
+horizontal and vertical directions, and `.align-items-center` vertically centers the form
+elements so the `<Checkbox>` aligns properly.
+
+<Example>
+  <InlineFormsExample client:load />
+</Example>

@@ -1,0 +1,459 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+  "description": "",
+  "displayName": "OtpInput",
+  "methods": [],
+  "props": {
+    "aria-describedby": {
+      "defaultValue": null,
+      "description": "Identifies the element that describes the group, e.g. a `FormHelp` help element.",
+      "name": "aria-describedby",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "name": "OtpInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "name": "OtpInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "aria-label": {
+      "defaultValue": null,
+      "description": "An accessible label for the group, used when there's no visible `<label>`.",
+      "name": "aria-label",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "name": "OtpInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "name": "OtpInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "aria-labelledby": {
+      "defaultValue": null,
+      "description": "Identifies a visible `<label>` element for the group.",
+      "name": "aria-labelledby",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "name": "OtpInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "name": "OtpInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "name": "OtpInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "name": "OtpInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "defaultValue": {
+      "defaultValue": null,
+      "description": "The initial code (uncontrolled), e.g. `\"123\"` for a partially filled code.",
+      "name": "defaultValue",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "name": "OtpInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "name": "OtpInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "disabled": {
+      "defaultValue": null,
+      "description": "Prevents input and makes every box non-interactive.",
+      "name": "disabled",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "name": "OtpInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "name": "OtpInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "groupSizes": {
+      "defaultValue": null,
+      "description": "Splits the boxes into groups (e.g. `[3, 3]` for a \"123-456\" layout), rendering a\n`.form-otp-separator` between each group. The total number of boxes becomes the sum of\n`groupSizes`, overriding `length`.",
+      "name": "groupSizes",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "name": "OtpInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "name": "OtpInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number[]"
+      }
+    },
+    "help": {
+      "defaultValue": null,
+      "description": "A description for the field, rendered below the boxes.",
+      "name": "help",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "name": "OtpInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "name": "OtpInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "id": {
+      "defaultValue": null,
+      "description": "`id` forwarded to the group container.",
+      "name": "id",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "name": "OtpInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "name": "OtpInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "inputGroup": {
+      "defaultValue": null,
+      "description": "Visually connects the boxes into a single bordered control. When `groupSizes` is set, each\ngroup is connected separately.",
+      "name": "inputGroup",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "name": "OtpInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "name": "OtpInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "invalid": {
+      "defaultValue": null,
+      "description": "Set component validation state to invalid.",
+      "name": "invalid",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "name": "OtpInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "name": "OtpInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "invalidFeedback": {
+      "defaultValue": null,
+      "description": "An error message for the field, rendered below the boxes when `invalid` is set.",
+      "name": "invalidFeedback",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "name": "OtpInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "name": "OtpInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "label": {
+      "defaultValue": null,
+      "description": "The field's caption, rendered as a `FormLabel` associated with the group via\n`aria-labelledby` (there's no single input to target with `htmlFor`).",
+      "name": "label",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "name": "OtpInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "name": "OtpInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "length": {
+      "defaultValue": {
+        "value": 6
+      },
+      "description": "Number of digit boxes. Ignored when `groupSizes` is set. Defaults to `6`.",
+      "name": "length",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "name": "OtpInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "name": "OtpInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number"
+      }
+    },
+    "mask": {
+      "defaultValue": null,
+      "description": "Mask entered digits using `type=\"password\"` boxes.",
+      "name": "mask",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "name": "OtpInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "name": "OtpInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "name": {
+      "defaultValue": null,
+      "description": "`name` of an auto-created hidden input kept in sync with the code, for native form\nsubmission. Omit to skip creating it.",
+      "name": "name",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "name": "OtpInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "name": "OtpInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "onChange": {
+      "defaultValue": null,
+      "description": "Callback fired whenever the code changes.",
+      "name": "onChange",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "name": "OtpInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "name": "OtpInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((value: string) => void)"
+      }
+    },
+    "onComplete": {
+      "defaultValue": null,
+      "description": "Callback fired once every box is filled.",
+      "name": "onComplete",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "name": "OtpInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "name": "OtpInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((value: string) => void)"
+      }
+    },
+    "separator": {
+      "defaultValue": {
+        "value": "–"
+      },
+      "description": "Content of the separator rendered between groups when `groupSizes` is set. Defaults to `–`.",
+      "name": "separator",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "name": "OtpInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "name": "OtpInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "size": {
+      "defaultValue": null,
+      "description": "Size the boxes small or large.",
+      "name": "size",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "name": "OtpInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "name": "OtpInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"small\" | \"large\"",
+        "value": [
+          {
+            "value": "\"small\""
+          },
+          {
+            "value": "\"large\""
+          }
+        ]
+      }
+    },
+    "valid": {
+      "defaultValue": null,
+      "description": "Set component validation state to valid.",
+      "name": "valid",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "name": "OtpInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "name": "OtpInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "validFeedback": {
+      "defaultValue": null,
+      "description": "A success message for the field, rendered below the boxes when `valid` is set.",
+      "name": "validFeedback",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "name": "OtpInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "name": "OtpInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "value": {
+      "defaultValue": null,
+      "description": "The code (controlled), digits only, e.g. `\"123456\"`.",
+      "name": "value",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "name": "OtpInputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "name": "OtpInputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    }
+  }
+}

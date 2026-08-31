@@ -1,0 +1,47 @@
+---
+title: Collapse
+description: Toggle the visibility of content, animating height (or width) from its current value to zero.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/collapse/BasicExample.tsx'
+import { Example as HorizontalExample } from '../../examples/components/collapse/HorizontalExample.tsx'
+import { Example as MultipleTargetsExample } from '../../examples/components/collapse/MultipleTargetsExample.tsx'
+
+## Overview
+
+`<Collapse>` shows and hides its children, driven by the `visible` prop — a button or link
+elsewhere on the page typically toggles it. Collapsing an element animates its `height` from the
+current value down to `0`. Because of how CSS handles that animation, `padding` can't be applied
+directly to a `.collapse` element; wrap the content in its own element and pad that instead.
+
+## Examples
+
+Either a link or a button component can serve as the trigger.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## Horizontal
+
+Set `horizontal` to animate `width` instead of `height`, and set an explicit `width` on the
+immediate child element.
+
+<Example>
+  <HorizontalExample client:load />
+</Example>
+
+## Multiple targets
+
+A single `<Button>` can show and hide more than one `<Collapse>` at once.
+
+<Example>
+  <MultipleTargetsExample client:load />
+</Example>
+
+## API
+
+### Collapse
+
+<PropTable component="Collapse" />

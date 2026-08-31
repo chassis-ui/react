@@ -1,0 +1,100 @@
+---
+title: Datepicker
+description: Segmented text field with a calendar popover for entering or picking a date.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/datepicker/BasicExample.tsx'
+import { Example as FormFieldExample } from '../../examples/components/datepicker/FormFieldExample.tsx'
+import { Example as MinMaxExample } from '../../examples/components/datepicker/MinMaxExample.tsx'
+import { Example as LocaleExample } from '../../examples/components/datepicker/LocaleExample.tsx'
+import { Example as MultiSelectExample } from '../../examples/components/datepicker/MultiSelectExample.tsx'
+import { Example as MultiMonthExample } from '../../examples/components/datepicker/MultiMonthExample.tsx'
+import { Example as ControlledOpenExample } from '../../examples/components/datepicker/ControlledOpenExample.tsx'
+
+## Overview
+
+`DatePicker` combines an individually-editable segmented date field (day/month/year, each a separate keyboard-navigable unit) with a calendar popover — type a date directly or pick one from the grid. Both stay in sync with a single selected value. The popover renders [`Calendar`]([[docsref:/components/calendar]]), which is also available on its own wherever an inline, non-popover calendar is needed.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## As a form field
+
+Pass `label`/`help` to wrap the date picker in a `.form-field` with an associated `FormLabel` and `FormHelp`. Pass `name` to have `DatePicker` create and manage a hidden `<input>` for native form submission — its value stays in sync with the selection, formatted as an ISO 8601 date string (`2026-07-24`).
+
+<Example>
+  <FormFieldExample client:load />
+</Example>
+
+## Min & max dates
+
+Restrict the selectable range with `minValue`/`maxValue`. Dates outside the range are shown but disabled in the calendar grid, and typing an out-of-range value into the field is rejected.
+
+<Example>
+  <MinMaxExample client:load />
+</Example>
+
+## Locale & calendar system
+
+`DatePicker` reads locale from React Aria's `I18nProvider` (or the browser's locale if none is set). Segment order, weekday names, and the calendar system itself all follow the active locale — this example uses `ar-SA`, which renders right-to-left and uses the Umm al-Qura calendar instead of Gregorian. See [Internationalization]([[docsref:/getting-started/internationalization]]) for setting a locale and its relationship to RTL layout.
+
+<Example>
+  <LocaleExample client:load />
+</Example>
+
+## Unavailable dates
+
+Pass `isDateUnavailable` to mark specific dates as unselectable without excluding them from the grid — useful for booked dates or holidays. Unavailable dates remain focusable (so screen reader users can discover why they can't be picked) but can't be selected. This applies to both the calendar popover and typing a date directly into the field.
+
+For data-driven cases, pass `unavailableDates` instead — a plain array of ISO 8601 (`YYYY-MM-DD`) strings — as a convenience alternative. It composes with `isDateUnavailable` when both are given.
+
+## Weekend styling
+
+Saturday/Sunday (or whichever days the active locale considers the weekend) are shown muted in the calendar popover automatically — inherited from [`Calendar`]([[docsref:/components/calendar]]), no prop required.
+
+## First day of week
+
+The calendar popover's week starts on Monday by default, regardless of the active locale. Pass `firstDayOfWeek` to override it, same as [`Calendar`]([[docsref:/components/calendar]]).
+
+## Multiple dates
+
+Pass `selectionMode="multiple"` to select any number of independent dates instead of one. A segmented day/month/year field can't represent more than one date, so multiple selection replaces it with a read-only, comma-separated list of the selected dates — the calendar popover still works the same way, just toggling dates on and off instead of replacing a single value. `value`/`defaultValue`/`onChange` switch from a single date to an array of dates, and a `name`'d hidden input is created per selected date instead of just one.
+
+<Example>
+  <MultiSelectExample client:load />
+</Example>
+
+## Multiple months
+
+Pass `visibleMonths` to show more than one month side by side in the calendar popover — independent of `selectionMode`, same as on [`Calendar`]([[docsref:/components/calendar]]) itself.
+
+<Example>
+  <MultiMonthExample client:load />
+</Example>
+
+## Controlling the popover
+
+The popover manages its own open state by default. Pass `isOpen` (with `onOpenChange`) to drive it from outside instead — e.g. to open the calendar from a button elsewhere on the page. `defaultOpen` sets the initial open state for the uncontrolled case, the same as `isOpen` without also taking over control.
+
+<Example>
+  <ControlledOpenExample client:load />
+</Example>
+
+## Styling
+
+Unlike most Chassis React components, `DatePicker`'s calendar grid isn't styled by `@chassis-ui/css` — chassis-css's own datepicker styling is built entirely around [Vanilla Calendar Pro](https://vanilla-calendar.pro/)'s specific DOM output, which React Aria's calendar hooks don't produce. The grid itself is styled by [`Calendar`]([[docsref:/components/calendar]])'s own scoped CSS (built on `@chassis-ui/tokens`' public design tokens, so it still matches the current theme and light/dark mode), imported transitively along with `Calendar` — no separate stylesheet to add. `DatePicker` adds its own scoped CSS on top for the field and popover shell. The field and toggle button, in turn, reuse chassis-css's existing `.form-input`/`.input-adorn`/`.ghost-input` classes as-is.
+
+## Scope
+
+The strong-fit case for React Aria's date picker hooks is a single editable date field. A few things are deliberately out of scope for this pass:
+
+- **Date ranges** — for a start/end range, see [`DateRangePicker`]([[docsref:/components/date-range-picker]]), built on the separate `useDateRangePickerState`/`useDateRangePicker` hook pair.
+- **Time selection** — the field is date-only (`granularity="day"`); no time segments are rendered.
+
+## API
+
+### DatePicker
+
+<PropTable component="DatePicker" />

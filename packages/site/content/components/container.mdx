@@ -1,0 +1,64 @@
+---
+title: Container
+description: Fundamental layout element that contains, pads, and centers content within a given viewport.
+toc: true
+---
+
+import { sassBreakpointSize, sassContainerSize } from '@libs/sass'
+import { Example as BasicExample } from '../../examples/components/container/BasicExample.tsx'
+import { Example as ResponsiveExample } from '../../examples/components/container/ResponsiveExample.tsx'
+import { Example as FluidExample } from '../../examples/components/container/FluidExample.tsx'
+
+## Overview
+
+`<Container>` is the most basic layout element in Chassis, and is **required when using the default grid system**. It contains, pads, and (sometimes) centers the content inside it. Containers can be nested, though most layouts don't need a nested container.
+
+Chassis comes with three container variants:
+
+- `<Container>`, which sets a `max-width` at each responsive breakpoint
+- `<Container fluid>`, which is `width: 100%` at all breakpoints
+- `<Container fluidUntil={breakpoint}>`, which is `width: 100%` until the specified breakpoint
+
+Each variant's `max-width` follows a different pattern across breakpoints, shown here against the plain `<Container>` and `<Container fluid>` baselines.
+
+<CxTable>
+|  | Extra small<div class="font-normal">&lt;{sassBreakpointSize('small')}</div> | Small<div class="font-normal">&ge;{sassBreakpointSize('small')}</div> | Medium<div class="font-normal">&ge;{sassBreakpointSize('medium')}</div> | Large<div class="font-normal">&ge;{sassBreakpointSize('large')}</div> | X-Large<div class="font-normal">&ge;{sassBreakpointSize('xlarge')}</div> | 2x-Large<div class="font-normal">&ge;{sassBreakpointSize('2xlarge')}</div> |
+| --- | --- | --- | --- | --- | --- | --- |
+| `<Container>` | <span class="fg-subtle">100%</span> | {sassContainerSize('small')} | {sassContainerSize('medium')} | {sassContainerSize('large')} | {sassContainerSize('xlarge')} | {sassContainerSize('2xlarge')} |
+| `<Container fluidUntil="small">` | <span class="fg-subtle">100%</span> | {sassContainerSize('small')} | {sassContainerSize('medium')} | {sassContainerSize('large')} | {sassContainerSize('xlarge')} | {sassContainerSize('2xlarge')} |
+| `<Container fluidUntil="medium">` | <span class="fg-subtle">100%</span> | <span class="fg-subtle">100%</span> | {sassContainerSize('medium')} | {sassContainerSize('large')} | {sassContainerSize('xlarge')} | {sassContainerSize('2xlarge')} |
+| `<Container fluidUntil="large">` | <span class="fg-subtle">100%</span> | <span class="fg-subtle">100%</span> | <span class="fg-subtle">100%</span> | {sassContainerSize('large')} | {sassContainerSize('xlarge')} | {sassContainerSize('2xlarge')} |
+| `<Container fluidUntil="xlarge">` | <span class="fg-subtle">100%</span> | <span class="fg-subtle">100%</span> | <span class="fg-subtle">100%</span> | <span class="fg-subtle">100%</span> | {sassContainerSize('xlarge')} | {sassContainerSize('2xlarge')} |
+| `<Container fluidUntil="2xlarge">` | <span class="fg-subtle">100%</span> | <span class="fg-subtle">100%</span> | <span class="fg-subtle">100%</span> | <span class="fg-subtle">100%</span> | <span class="fg-subtle">100%</span> | {sassContainerSize('2xlarge')} |
+| `<Container fluid>` | <span class="fg-subtle">100%</span> | <span class="fg-subtle">100%</span> | <span class="fg-subtle">100%</span> | <span class="fg-subtle">100%</span> | <span class="fg-subtle">100%</span> | <span class="fg-subtle">100%</span> |
+</CxTable>
+
+## Default container
+
+The default `<Container>` class is a responsive, fixed-width container — its `max-width` changes at each breakpoint.
+
+<Example class="cxd-example-container">
+  <BasicExample client:load />
+</Example>
+
+## Responsive containers
+
+`<Container fluidUntil={breakpoint}>` renders full width until the given breakpoint is reached, then applies a `max-width` at that breakpoint and every larger one. `<Container fluidUntil="small">`, for example, stays 100% wide until the `small` breakpoint, then scales up through `medium`, `large`, `xlarge`, and `2xlarge`.
+
+<Example class="cxd-example-container">
+  <ResponsiveExample client:load />
+</Example>
+
+## Fluid containers
+
+Use `<Container fluid>` for a full width container, spanning the entire width of the viewport.
+
+<Example class="cxd-example-container">
+  <FluidExample client:load />
+</Example>
+
+## API
+
+### Container
+
+<PropTable component="Container" />

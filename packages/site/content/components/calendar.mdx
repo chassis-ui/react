@@ -1,0 +1,98 @@
+---
+title: Calendar
+description: Chassis Calendar is a standalone date grid — the same calendar DatePicker renders in its popover, usable on its own.
+
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/calendar/BasicExample.tsx'
+import { Example as MinMaxExample } from '../../examples/components/calendar/MinMaxExample.tsx'
+import { Example as UnavailableExample } from '../../examples/components/calendar/UnavailableExample.tsx'
+import { Example as UnavailableDatesExample } from '../../examples/components/calendar/UnavailableDatesExample.tsx'
+import { Example as FirstDayOfWeekExample } from '../../examples/components/calendar/FirstDayOfWeekExample.tsx'
+import { Example as MultiSelectExample } from '../../examples/components/calendar/MultiSelectExample.tsx'
+import { Example as MultiMonthExample } from '../../examples/components/calendar/MultiMonthExample.tsx'
+
+import { Calendar } from '@chassis-ui/react'
+
+## Overview
+
+`Calendar` is a date grid with keyboard-navigable cells, usable on its own wherever an inline calendar is needed — no popover, no text field. [`DatePicker`](/forms/datepicker) renders this same component inside its popover, so the two always look and behave identically.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## Min & max dates
+
+Restrict the selectable range with `minValue`/`maxValue`. Dates outside the range are shown but disabled.
+
+<Example>
+  <MinMaxExample client:load />
+</Example>
+
+## Unavailable dates
+
+Pass `isDateUnavailable` to mark specific dates as unselectable without excluding them from the grid — useful for booked dates, holidays, or (as below, using `@internationalized/date`'s locale-aware `isWeekend`) weekends. Unavailable dates remain focusable so screen reader users can discover why they can't be picked.
+
+<Example>
+  <UnavailableExample client:load />
+</Example>
+
+### From a list of dates
+
+For data-driven cases — booked dates fetched from an API, say — pass `unavailableDates` instead: a plain array of ISO 8601 (`YYYY-MM-DD`) strings. It composes with `isDateUnavailable` when both are given; a date unavailable by either is unavailable.
+
+<Example>
+  <UnavailableDatesExample client:load />
+</Example>
+
+## Weekend styling
+
+Saturday/Sunday (or whichever days the active locale considers the weekend — determined via `@internationalized/date`'s `isWeekend`) are shown muted automatically, no prop required. This is purely visual — weekends stay selectable unless also marked unavailable. Every example on this page shows it. See [Internationalization]([[docsref:/getting-started/internationalization]]) for how the active locale is set.
+
+## Navigation
+
+`Calendar` shows month and year `<select>`s next to the prev/next buttons, for jumping further than one page at a time.
+
+## First day of week
+
+The week starts on Monday by default, regardless of the active locale. Pass `firstDayOfWeek` to override it — `'sun'`, `'mon'`, `'tue'`, `'wed'`, `'thu'`, `'fri'`, or `'sat'`.
+
+<Example>
+  <FirstDayOfWeekExample client:load />
+</Example>
+
+## Multiple dates
+
+Pass `selectionMode="multiple"` to select any number of independent dates instead of one — clicking a date toggles it on or off, and `value`/`defaultValue`/`onChange` switch from a single date to an array of dates. Unlike [`RangeCalendar`](/forms/range-calendar), the selected dates don't need to be contiguous.
+
+<Example>
+  <MultiSelectExample client:load />
+</Example>
+
+## Multiple months
+
+Pass `visibleMonths` to show more than one month side by side, sharing one selection — independent of `selectionMode`, so it works the same with a single selected date or several. Each month gets its own header with its own month/year dropdowns, kept in sync. The prev/next buttons move to a single global overlay instead of repeating in every month's header, paging the whole visible span at once.
+
+<Example>
+  <MultiMonthExample client:load />
+</Example>
+
+## Styling
+
+Like `DatePicker`, `Calendar` isn't styled by `@chassis-ui/css` — chassis-css's own datepicker styling is built entirely around [Vanilla Calendar Pro](https://vanilla-calendar.pro/)'s specific DOM output, which React Aria's calendar hooks don't produce. `Calendar` instead ships its own scoped CSS (built on `@chassis-ui/tokens`' public design tokens, so it still matches the current theme and light/dark mode) that's automatically injected the first time the component is imported — no separate stylesheet to add.
+
+## Accessibility
+
+`Calendar` has no visible label of its own — pass `aria-label` or `aria-labelledby` any time it's used standalone (as in every example above). When composed inside `DatePicker`'s popover, the accessible name instead comes from the picker's own label.
+
+## Scope
+
+- **Contiguous ranges** — `Calendar` selects independent dates or none at all; for a start/end range, see [`RangeCalendar`](/forms/range-calendar).
+
+## API
+
+### Calendar
+
+<PropTable component="Calendar" />

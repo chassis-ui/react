@@ -1,0 +1,99 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/card/CardImage.tsx",
+  "description": "",
+  "displayName": "CardImage",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/card/CardImage.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "component": {
+      "defaultValue": null,
+      "description": "Component used for the root node. Either a string to use a HTML element or a component —\ne.g. a framework's own `Image` component. Its own props (`src`, `fill`, `priority`, etc.)\nare type-checked at the call site once passed here.",
+      "name": "component",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/card/CardImage.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ElementType"
+      }
+    },
+    "orientation": {
+      "defaultValue": null,
+      "description": "Orientates the image to the top or bottom of the card as an \"image cap\", or to the start/end\nfor a horizontal layout. Omit to round all four corners for use inside `CardBody`.",
+      "name": "orientation",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/card/CardImage.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "CardImageOrientation",
+        "value": [
+          {
+            "value": "\"top\""
+          },
+          {
+            "value": "\"bottom\""
+          },
+          {
+            "value": "\"start\""
+          },
+          {
+            "value": "\"end\""
+          }
+        ]
+      }
+    },
+    "responsive": {
+      "defaultValue": null,
+      "description": "Overrides `orientation` at one or more breakpoints — e.g. `{ large: 'start' }` to switch an\nimage cap from `top` to `start` once the card lays out horizontally.",
+      "name": "responsive",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/card/CardImage.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Partial<Record<Breakpoint, CardImageOrientation>>"
+      }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/card/CardImage.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "any"
+      }
+    }
+  }
+}

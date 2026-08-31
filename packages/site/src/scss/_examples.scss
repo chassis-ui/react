@@ -1,0 +1,66 @@
+// Chassis CSS variables and mixins
+@use "@chassis-ui/css/scss/functions" as *;
+@use "@chassis-ui/css/scss/maps" as *;
+@use "@chassis-ui/css/scss/mixins" as *;
+
+@layer custom {
+  .cxd-example {
+    // Navbars
+    // stylelint-disable declaration-no-important
+    .fixed-top,
+    .sticky-top {
+      position: static !important;
+      margin: calc(var(--cxd-example-padding) * -1) calc(var(--cxd-example-padding) * -1) var(--cxd-example-padding) !important;
+    }
+
+    .fixed-bottom,
+    .sticky-bottom {
+      position: static !important;
+      margin: var(--cxd-example-padding) calc(var(--cxd-example-padding) * -1) calc(var(--cxd-example-padding) * -1) !important;
+
+    }
+  }
+  //
+  // Grid examples
+  //
+
+
+  .cxd-example-container .container,
+  .cxd-example-row [class^="col"],
+  .cxd-example-row [class*="\:col"],
+  .cxd-example-cols [class^="col"] > *,
+  .cxd-example-cols [class*="\:col"] > *,
+  .cxd-example-grid [class*="grid"] > * {
+    padding-block: .75rem;
+    background-color: #{to-opacity(var(--cxd-subtle), .2)};
+    border: 1px solid #{to-opacity(var(--cxd-subtle), .4)};
+  }
+  .cxd-example-grid [class*="grid"] {
+    padding: 0;
+  }
+
+  // .cxd-example-row .row + .row,
+  // .cxd-example-grid .grid + .grid {
+  //   margin-block-start: 1rem;
+  // }
+
+  // .cxd-example-row-flex-cols .row {
+  //   min-height: 10rem;
+  //   background-color: #{to-opacity(var(--cxd-subtle), .2)};
+  // }
+
+  .cxd-example-flex div:not(.vr) {
+    background-color: #{to-opacity(var(--cxd-subtle), .2)};
+    border: 1px solid #{to-opacity(var(--cxd-subtle), .4)};
+    > div {
+      padding: var(--cx-space-xsmall)
+    }
+  }
+
+  .cxd-example-spacing :where([class^="m"], [class^="-m"]),
+  .cxd-example-spacing [class^="p"]:not(:has([class^="-m"])) {
+    background-color: #{to-opacity(var(--cxd-subtle), .2)};
+    border: 1px solid #{to-opacity(var(--cxd-subtle), .4)};
+  }
+
+}

@@ -1,0 +1,93 @@
+---
+title: Range Calendar
+description: Chassis Range Calendar is a standalone date-range grid for selecting a start and end date.
+toc: true
+---
+
+import { Example as RangeBasicExample } from '../../examples/components/calendar/RangeBasicExample.tsx'
+import { Example as RangeMinMaxExample } from '../../examples/components/calendar/RangeMinMaxExample.tsx'
+import { Example as RangeUnavailableDatesExample } from '../../examples/components/calendar/RangeUnavailableDatesExample.tsx'
+import { Example as RangeMultiMonthExample } from '../../examples/components/calendar/RangeMultiMonthExample.tsx'
+import { Example as PresetsExample } from '../../examples/components/calendar/PresetsExample.tsx'
+import { Example as RangeFirstDayOfWeekExample } from '../../examples/components/calendar/RangeFirstDayOfWeekExample.tsx'
+
+import { RangeCalendar } from '@chassis-ui/react'
+
+## Overview
+
+`RangeCalendar` is the range-selection counterpart to [`Calendar`]([[docsref:/components/calendar]]) — click a start date, then an end date, to select a contiguous range. Hovering (or dragging) between the two previews the range before it's committed. [`DateRangePicker`]([[docsref:/components/date-range-picker]]) renders this same component inside its popover, the same way `DatePicker` renders `Calendar`.
+
+<Example>
+  <RangeBasicExample client:load />
+</Example>
+
+## Min and max dates
+
+Restrict the selectable range with `minValue`/`maxValue`, same as `Calendar`. Dates outside the range are shown but disabled, and can't start or extend a selection.
+
+<Example>
+  <RangeMinMaxExample client:load />
+</Example>
+
+## Unavailable dates
+
+`isDateUnavailable` and the JSON-friendly `unavailableDates` (an array of ISO 8601 `YYYY-MM-DD` strings) work exactly as they do on `Calendar`, composing when both are given. An unavailable date can't be picked as either endpoint.
+
+<Example>
+  <RangeUnavailableDatesExample client:load />
+</Example>
+
+## Weekend styling
+
+Weekends are shown muted automatically, same as `Calendar` — locale-aware, no prop required. See [Internationalization]([[docsref:/getting-started/internationalization]]) for how the active locale is set.
+
+## Navigation
+
+Navigation is always month/year dropdowns — there's no plain arrows-only variant to choose between, since a range picker is usually paired with `visibleMonths > 1`, where jumping several months or years at once is the common case.
+
+## First day of week
+
+Same `firstDayOfWeek` prop as `Calendar` — the week starts on Monday by default, regardless of the active locale. When `visibleMonths > 1`, it applies consistently across every visible month.
+
+<Example>
+  <RangeFirstDayOfWeekExample client:load />
+</Example>
+
+## Multiple months
+
+Pass `visibleMonths` to show more than one month side by side, sharing a single selection — the standard layout for picking a date range. Each month gets its own header with its own month/year dropdowns, kept in sync — picking a month or year from any one of them moves every visible month together. The prev/next buttons move to a single global overlay instead of repeating in every month's header, paging the whole visible span at once. The months wrap onto a new row if their container is too narrow to fit them side by side (driven by the calendar's own width, not the viewport).
+
+<Example>
+  <RangeMultiMonthExample client:load />
+</Example>
+
+## Presets
+
+Pass `presets` — an array of `{ label, range }` entries (see [`DateRangePreset`](#daterangepreset) below) — to show a quick-select list next to the calendar. Selecting a preset commits its range immediately, the same as picking a start and end date from the grid. The preset matching the current selection (if any) is shown as the active one.
+
+<Example>
+  <PresetsExample client:load />
+</Example>
+
+## Accessible name
+
+`RangeCalendar` has no visible label of its own — pass `aria-label` or `aria-labelledby` any time it's used standalone. When composed inside `DateRangePicker`'s popover, the accessible name instead comes from the picker's own label.
+
+## Styling
+
+Like `Calendar`, `RangeCalendar` isn't styled by `@chassis-ui/css`. It reuses `Calendar.scss`'s header/nav/grid/cell classes directly (so the two always look identical outside of an active selection), adding only the small amount of CSS needed for the connected "pill" band across a selected or previewed range, and for the multi-month layout (`.datepicker-grid`/`.datepicker-column`/`.datepicker-controls`, the same classes `@chassis-ui/css`'s own datepicker component uses for side-by-side month grids with a shared prev/next pair) — automatically injected the first time the component is imported, no separate stylesheet to add.
+
+## Scope
+
+- **Contiguous ranges only** — `allowsNonContiguousRanges` (a react-aria option for ranges that may skip over unavailable dates) isn't exposed.
+
+## API
+
+### RangeCalendar
+
+<PropTable component="RangeCalendar" />
+### DateRangePreset
+
+Shape of each entry in the `presets` array.
+
+<PropTable component="DateRangePreset" />

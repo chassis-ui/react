@@ -1,0 +1,79 @@
+---
+title: Icon
+description: Renders one icon from a Chassis SVG sprite or icon font — the same primitive every icon-carrying component in this library composes internally.
+
+toc: true
+---
+
+import { Example as BasicUsageExample } from '../../examples/components/icon/BasicUsageExample.tsx'
+import { Example as SizingExample } from '../../examples/components/icon/SizingExample.tsx'
+import { Example as AccessibleNameExample } from '../../examples/components/icon/AccessibleNameExample.tsx'
+
+## Overview
+
+`<Icon>` renders an SVG `<use>` reference into a sprite sheet by default, or a `cx-{name}` font
+glyph when `font` is set. Every component in this library that renders an icon internally
+(`CloseButton`, `NotificationIcon`, `ToastIcon`, the calendar/datepicker navigation, and others)
+composes this same primitive rather than inlining its own markup, so styling or swapping the
+underlying icon set here applies everywhere at once.
+
+## Basic usage
+
+Pass a `name` matching an id in the sprite referenced by the `sprite` prop.
+
+<Example>
+  <BasicUsageExample client:load />
+</Example>
+
+## Sizing
+
+`size` sets the rendered width and height, in pixels, of the SVG. It has no effect in `font` mode
+— a font glyph's size instead follows the surrounding text's `font-size`, the same as any other
+character.
+
+<Example>
+  <SizingExample client:load />
+</Example>
+
+## Accessible name
+
+An icon renders `aria-hidden="true"` by default, on the assumption that it sits next to visible
+text conveying the same meaning (a labeled button, a heading). Pass `title` to expose it to
+assistive technology instead — for an icon-only control where nothing else in the surrounding
+markup states its purpose.
+
+<Example>
+  <AccessibleNameExample client:load />
+</Example>
+
+Setting `title` alone is only correct when `<Icon>` is the sole content of its own accessible
+element, e.g. a link or button with no other text. Inside an icon-only `<Button>` or `<CloseButton>`,
+prefer that component's own `aria-label`/`label` prop over `Icon`'s `title` — it names the control
+itself, which is what assistive technology actually announces.
+
+## Font glyphs
+
+Setting `font` renders a `<span className="cx-{name}">` instead of an SVG reference, sized by the
+surrounding text rather than the `size` prop. This mode depends on the icon set's separate font
+CSS being loaded in the application — this library ships no icon font of its own, and this docs
+site loads only the SVG sprite, so the snippet below isn't shown as a live example:
+
+```jsx
+<Icon name="check-solid" font />
+```
+
+## Pointing at a sprite
+
+`sprite` defaults to `/static/icons/chassis-icons.svg` — the conventional path a Chassis icon
+package's sprite file is served from. Set it once per `<Icon>` call, or wrap the component to apply
+a project-specific default, if the sprite is hosted somewhere else:
+
+```jsx
+<Icon name="check-solid" sprite="/assets/icons/my-icons.svg" />
+```
+
+## API
+
+### Icon
+
+<PropTable component="Icon" />

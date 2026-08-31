@@ -1,0 +1,47 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/autocomplete/AutocompleteGroup.tsx",
+  "description": "",
+  "displayName": "AutocompleteGroup",
+  "methods": [],
+  "props": {
+    "children": {
+      "defaultValue": null,
+      "description": "Items belonging to this group.",
+      "name": "children",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/combobox/ComboboxGroup.tsx",
+        "name": "ComboboxGroupProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/combobox/ComboboxGroup.tsx",
+          "name": "ComboboxGroupProps"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "label": {
+      "defaultValue": null,
+      "description": "Header content for the group (`.menu-header`).",
+      "name": "label",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/combobox/ComboboxGroup.tsx",
+        "name": "ComboboxGroupProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/combobox/ComboboxGroup.tsx",
+          "name": "ComboboxGroupProps"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "ReactNode"
+      }
+    }
+  }
+}

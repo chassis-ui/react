@@ -1,0 +1,66 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/table/TableRow.tsx",
+  "description": "Collection node, data-only — see `TableHeader`. Read by `Table` to build a row in the\ntable's collection; never rendered directly.",
+  "displayName": "TableRow",
+  "methods": [],
+  "props": {
+    "children": {
+      "defaultValue": null,
+      "description": "`TableCell` elements, or a render function called once per column with that column's key —\nrequired when the row's parent `TableBody` uses the `items`/render-function form.",
+      "name": "children",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/TableRow.tsx",
+        "name": "TableRowProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/TableRow.tsx",
+          "name": "TableRowProps"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "ReactElement<unknown, string | JSXElementConstructor<any>> | ReactElement<unknown, string | JSXElementConstructor<any>>[] | ((columnKey: Key) => ReactElement<...>)"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the row.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/TableRow.tsx",
+        "name": "TableRowProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/TableRow.tsx",
+          "name": "TableRowProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "textValue": {
+      "defaultValue": null,
+      "description": "A string representation of the row's contents, used for typeahead.",
+      "name": "textValue",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/table/TableRow.tsx",
+        "name": "TableRowProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/table/TableRow.tsx",
+          "name": "TableRowProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    }
+  }
+}

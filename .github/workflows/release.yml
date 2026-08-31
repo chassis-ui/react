@@ -1,0 +1,52 @@
+name: Release
+
+# Standard changesets/action recipe: on every push to main, either opens/updates a "Version
+# Packages" PR (when .changeset/*.md files are pending) or publishes to npm (when that PR was
+# just merged, i.e. no pending changesets remain and packages/react/package.json's version isn't
+# on npm yet). See packages/react/VERSIONING.md for the full release process this wires up.
+on:
+  push:
+    branches: [main]
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+permissions:
+  contents: write # changesets/action creates the Version Packages PR and, on publish, a git tag
+  pull-requests: write # ...and needs this to open/update that PR
+  id-token: write # npm provenance (OIDC) — see NPM_CONFIG_PROVENANCE below
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # changesets needs full history to diff against the last release
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          registry-url: 'https://registry.npmjs.org'
+
+      - run: pnpm install --frozen-lockfile
+
+      # dist/ is gitignored — has to be rebuilt here before `changeset publish` can ship it.
+      # (When this step runs for the "open/update the Version Packages PR" case instead of an
+      # actual publish, the build output is simply unused — cheap enough not to special-case.)
+      - run: pnpm react:build
+
+      - name: Create Version Packages PR or publish to npm
+        uses: changesets/action@v1
+        with:
+          version: pnpm changeset:version
+          publish: pnpm changeset:publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Reuses the same npm publish token the sibling chassis-css repo's own release workflow
+          # already uses (secrets.NPM_CHASSIS_UI) — see VERSIONING.md's "What still needs a human"
+          # section: a repo admin has to add this secret before this workflow can actually publish.
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_CHASSIS_UI }}
+          NPM_CONFIG_PROVENANCE: true

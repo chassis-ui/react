@@ -1,0 +1,104 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/collapse/Collapse.tsx",
+  "description": "",
+  "displayName": "Collapse",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/collapse/Collapse.tsx",
+        "name": "CollapseProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/collapse/Collapse.tsx",
+          "name": "CollapseProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "horizontal": {
+      "defaultValue": null,
+      "description": "Set horizontal collapsing to transition the width instead of height.",
+      "name": "horizontal",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/collapse/Collapse.tsx",
+        "name": "CollapseProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/collapse/Collapse.tsx",
+          "name": "CollapseProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "onHide": {
+      "defaultValue": null,
+      "description": "Callback fired when the component requests to be hidden.",
+      "name": "onHide",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/collapse/Collapse.tsx",
+        "name": "CollapseProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/collapse/Collapse.tsx",
+          "name": "CollapseProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "onShow": {
+      "defaultValue": null,
+      "description": "Callback fired when the component requests to be shown.",
+      "name": "onShow",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/collapse/Collapse.tsx",
+        "name": "CollapseProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/collapse/Collapse.tsx",
+          "name": "CollapseProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "visible": {
+      "defaultValue": null,
+      "description": "Toggle the visibility of component.",
+      "name": "visible",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/collapse/Collapse.tsx",
+        "name": "CollapseProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/collapse/Collapse.tsx",
+          "name": "CollapseProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    }
+  }
+}

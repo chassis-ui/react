@@ -1,0 +1,63 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/list/List.tsx",
+  "description": "",
+  "displayName": "ListItemDef",
+  "methods": [],
+  "props": {
+    "id": {
+      "name": "id",
+      "required": false,
+      "description": "Stable key for the rendered item. Falls back to the item's index in `items`.",
+      "defaultValue": null,
+      "type": {
+        "name": "string | number"
+      }
+    },
+    "label": {
+      "name": "label",
+      "required": true,
+      "description": "Item label content.",
+      "defaultValue": null,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "href": {
+      "name": "href",
+      "required": false,
+      "description": "Makes the item a link.",
+      "defaultValue": null,
+      "type": {
+        "name": "string"
+      }
+    },
+    "color": {
+      "name": "color",
+      "required": false,
+      "description": "Sets the color of the item.",
+      "defaultValue": null,
+      "type": {
+        "name": "ContextColor"
+      }
+    },
+    "active": {
+      "name": "active",
+      "required": false,
+      "description": "Marks the item as active.",
+      "defaultValue": null,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "disabled": {
+      "name": "disabled",
+      "required": false,
+      "description": "Marks the item as disabled.",
+      "defaultValue": null,
+      "type": {
+        "name": "boolean"
+      }
+    }
+  }
+}

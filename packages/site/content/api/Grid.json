@@ -1,0 +1,114 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/grid/Grid.tsx",
+  "description": "",
+  "displayName": "Grid",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Grid.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "component": {
+      "defaultValue": null,
+      "description": "Component used for the root node. Either a string to use a HTML element or a component.",
+      "name": "component",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Grid.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ElementType"
+      }
+    },
+    "columns": {
+      "defaultValue": null,
+      "description": "Number of columns in the grid template, set via the `--cx-grid-columns` custom property\n(defaults to `12` in CSS when omitted). Has no effect when `fill` is set.",
+      "name": "columns",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Grid.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number"
+      }
+    },
+    "rows": {
+      "defaultValue": null,
+      "description": "Number of rows in the grid template, set via the `--cx-grid-rows` custom property (defaults\nto `1` in CSS when omitted). Has no effect when `fill` is set.",
+      "name": "rows",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Grid.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number"
+      }
+    },
+    "gap": {
+      "defaultValue": null,
+      "description": "Gap between grid items, set via the `--cx-grid-gap` custom property (or `--cx-gap` when\n`fill` is set). Accepts a `Spacing` token (mapped to the matching `--cx-space-*` custom\nproperty) or any raw CSS `gap` value, including a `\"{row} {column}\"` pair.",
+      "name": "gap",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Grid.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "{ Spacing | string }"
+      }
+    },
+    "fill": {
+      "defaultValue": null,
+      "description": "Renders `.grid-fill` instead of `.grid` — columns expand equally to fill the available\nwidth, with the column count determined by the number of children rather than `columns`.",
+      "name": "fill",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Grid.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/grid/Grid.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "any"
+      }
+    }
+  }
+}

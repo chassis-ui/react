@@ -1,0 +1,104 @@
+---
+title: OTP Input
+description: Chassis OtpInput groups individually styled digit boxes into a sequential entry control for verification codes, PINs, and two-factor authentication.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/otp-input/BasicExample.tsx'
+import { Example as ConnectedExample } from '../../examples/components/otp-input/ConnectedExample.tsx'
+import { Example as SeparatorExample } from '../../examples/components/otp-input/SeparatorExample.tsx'
+import { Example as FormFieldExample } from '../../examples/components/otp-input/FormFieldExample.tsx'
+import { Example as ControlledExample } from '../../examples/components/otp-input/ControlledExample.tsx'
+import { Example as ValidationExample } from '../../examples/components/otp-input/ValidationExample.tsx'
+import { Example as DisabledExample } from '../../examples/components/otp-input/DisabledExample.tsx'
+import { Example as MaskedExample } from '../../examples/components/otp-input/MaskedExample.tsx'
+
+## Overview
+
+`OtpInput` renders `length` single-character boxes (`6` by default) with automatic focus advancement after each digit, backspace navigation back to the previous box, arrow-key navigation, and full-code paste distribution. The first box gets `autocomplete="one-time-code"` for SMS/email code autofill on supported browsers.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## Connected boxes
+
+Pass `inputGroup` to visually connect the boxes into a single bordered control.
+
+<Example>
+  <ConnectedExample client:load />
+</Example>
+
+## Grouped with a separator
+
+Pass `groupSizes` (e.g. `[3, 3]`) to split the boxes into groups with a `–` separator between them — the total number of boxes becomes the sum of `groupSizes`, overriding `length`. Combine with `inputGroup` to connect each group separately.
+
+<Example>
+  <SeparatorExample client:load />
+</Example>
+
+## As a form field
+
+Pass `label`/`help` to wrap the group in a `.form-field` with an associated `FormLabel` (linked via `aria-labelledby`, since there's no single input to target with `htmlFor`) and `FormHelp`. Pass `name` to have `OtpInput` create a hidden `<input type="hidden">` kept in sync with the code, for native form submission.
+
+<Example>
+  <FormFieldExample client:load />
+</Example>
+
+## Controlled value
+
+Pass `value`/`onChange` to control the code externally, and `onComplete` to react once every box is filled. Omit them (use `defaultValue` instead) to let `OtpInput` manage its own state.
+
+<Example>
+  <ControlledExample client:load />
+</Example>
+
+## Validation
+
+Pass `invalid`/`valid` to show a validation state across every box.
+
+<Example>
+  <ValidationExample client:load />
+</Example>
+
+## Disabled
+
+Add `disabled` to prevent input and make every box non-interactive.
+
+<Example>
+  <DisabledExample client:load />
+</Example>
+
+## Masked
+
+Pass `mask` to render each box as `type="password"`, hiding entered digits.
+
+<Example>
+  <MaskedExample client:load />
+</Example>
+
+## Keyboard interaction
+
+Each box handles digit entry, navigation, and paste the same way, regardless of which box currently has focus:
+
+- <kbd>0</kbd>–<kbd>9</kbd> enters a digit and advances focus to the next box.
+- <kbd>←</kbd>/<kbd>→</kbd> move focus between boxes.
+- <kbd>Backspace</kbd> on an empty box clears and focuses the previous box; on a filled box, clears it in place.
+- <kbd>Delete</kbd> clears the focused box and shifts every following digit one box left.
+- Pasting a full code anywhere distributes it across all boxes from the first one.
+
+## Accessibility
+
+Each box has no visible label, so it carries its own `aria-label` (`"Digit 1"`, `"Digit 2"`, …) generated automatically — screen readers announce each box's position. Label the group as a whole with `aria-label` or `aria-labelledby` on `OtpInput` itself, and associate help text with `aria-describedby`.
+
+## Scope
+
+Built on React Aria's `useTextField`/`useFocusRing` per box — there's no dedicated "OTP input" hook, so auto-advance, backspace/delete navigation, and paste-splitting are hand-written to match chassis-css's vanilla `otp-input.js` behavior.
+
+Unlike the vanilla component, `OtpInput` doesn't expose imperative `focus()`/`clear()` methods or a `complete`/`input` DOM event pair — use the declarative `value`/`defaultValue`/`onChange`/`onComplete` props instead.
+
+## API
+
+### OtpInput
+
+<PropTable component="OtpInput" />

@@ -1,0 +1,194 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/tooltip/Tooltip.tsx",
+  "description": "",
+  "displayName": "Tooltip",
+  "methods": [],
+  "props": {
+    "content": {
+      "defaultValue": null,
+      "description": "Content node for your component.",
+      "name": "content",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/tooltip/Tooltip.tsx",
+        "name": "TooltipProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/tooltip/Tooltip.tsx",
+          "name": "TooltipProps"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "offset": {
+      "defaultValue": {
+        "value": "[0, 6]"
+      },
+      "description": "Offset of the tooltip relative to its target, as `[crossAxis, mainAxis]`.",
+      "name": "offset",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/tooltip/Tooltip.tsx",
+        "name": "TooltipProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/tooltip/Tooltip.tsx",
+          "name": "TooltipProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "[number, number]"
+      }
+    },
+    "onHide": {
+      "defaultValue": null,
+      "description": "Callback fired when the component requests to be hidden.",
+      "name": "onHide",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/tooltip/Tooltip.tsx",
+        "name": "TooltipProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/tooltip/Tooltip.tsx",
+          "name": "TooltipProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "onShow": {
+      "defaultValue": null,
+      "description": "Callback fired when the component requests to be shown.",
+      "name": "onShow",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/tooltip/Tooltip.tsx",
+        "name": "TooltipProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/tooltip/Tooltip.tsx",
+          "name": "TooltipProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "placement": {
+      "defaultValue": {
+        "value": "top"
+      },
+      "description": "Describes the preferred placement of your component. Chassis will flip it to keep it in\nview.",
+      "name": "placement",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/tooltip/Tooltip.tsx",
+        "name": "TooltipProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/tooltip/Tooltip.tsx",
+          "name": "TooltipProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "Placement",
+        "value": [
+          {
+            "value": "\"top\""
+          },
+          {
+            "value": "\"top-start\""
+          },
+          {
+            "value": "\"top-end\""
+          },
+          {
+            "value": "\"bottom\""
+          },
+          {
+            "value": "\"bottom-start\""
+          },
+          {
+            "value": "\"bottom-end\""
+          },
+          {
+            "value": "\"left\""
+          },
+          {
+            "value": "\"left-start\""
+          },
+          {
+            "value": "\"left-end\""
+          },
+          {
+            "value": "\"right\""
+          },
+          {
+            "value": "\"right-start\""
+          },
+          {
+            "value": "\"right-end\""
+          }
+        ]
+      }
+    },
+    "trigger": {
+      "defaultValue": null,
+      "description": "Tooltips always show on focus, since keyboard/screen-reader users need them too. Set to\n`'focus'` to disable the hover trigger and show on focus only.",
+      "name": "trigger",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/tooltip/Tooltip.tsx",
+        "name": "TooltipProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/tooltip/Tooltip.tsx",
+          "name": "TooltipProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"hover\" | \"focus\"",
+        "value": [
+          {
+            "value": "\"hover\""
+          },
+          {
+            "value": "\"focus\""
+          }
+        ]
+      }
+    },
+    "visible": {
+      "defaultValue": null,
+      "description": "Toggle the visibility of the tooltip component.",
+      "name": "visible",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/tooltip/Tooltip.tsx",
+        "name": "TooltipProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/tooltip/Tooltip.tsx",
+          "name": "TooltipProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    }
+  }
+}

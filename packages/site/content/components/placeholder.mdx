@@ -1,0 +1,95 @@
+---
+title: Placeholder
+description: Generates an inline SVG placeholder graphic for content that isn't ready yet, or swaps in a real image once it is.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/placeholder/BasicExample.tsx'
+import { Example as ColorExample } from '../../examples/components/placeholder/ColorExample.tsx'
+import { Example as TextExample } from '../../examples/components/placeholder/TextExample.tsx'
+import { Example as RealImageExample } from '../../examples/components/placeholder/RealImageExample.tsx'
+import { Example as StylingExample } from '../../examples/components/placeholder/StylingExample.tsx'
+
+## Overview
+
+`<Placeholder>` renders an inline `<svg>` sized to `width`/`height`, filled with a context color
+and a `{width}x{height}` label — useful for mocking up layouts before real images exist. Pass
+`src` and it renders a real `<img>` instead (or any component passed via `component`), so the same
+component can point at a project's own default image, a `placehold.co` URL, or any other source
+once one is available — no need to swap components as content comes online.
+
+- `width` and `height` size the graphic and (unless overridden) generate its default label text.
+- `color` sets the generated graphic's background/foreground to one of the context colors. Has no
+  effect when `src` is set.
+- `text` and `title` override or hide (`false`) the generated graphic's label and accessible
+  title. Have no effect when `src` is set.
+- `src` switches to rendering a real image, forwarding any other native `img` props
+  (`alt`, `loading`, `srcSet`, …) alongside it. Only applies when `src` is set: `fluid` (responsive,
+  `image fluid`), `thumbnail` (`image thumbnail`), `rounded`, and `align` (`start`/`center`/`end`).
+- `component` swaps the `<img>` rendered in `src` mode for any other element or component — see
+  [Using a custom image component](#using-a-custom-image-component).
+
+## Examples
+
+### Basic usage
+
+With no other props, `<Placeholder>` renders a generated graphic sized to `width`/`height`.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+### Color
+
+Pass `color` to set the generated graphic's background and foreground to one of the context colors.
+
+<Example>
+  <ColorExample client:load />
+</Example>
+
+### Custom text and title
+
+`text` and `title` default to `{width}x{height}` and `"Placeholder"` respectively. Pass a string
+to override either, or `false` to hide it.
+
+<Example>
+  <TextExample client:load />
+</Example>
+
+### Using a real image
+
+Pass `src` (and `alt`) to render an actual image instead of the generated graphic — handy for
+swapping a mockup for a `placehold.co` URL, or a project's own default image, without changing
+components.
+
+<Example>
+  <RealImageExample client:load />
+</Example>
+
+### Styling a real image
+
+`fluid`, `thumbnail`, `rounded`, and `align` only apply in `src` mode, mapping to chassis-css's
+`.image.fluid`, `.image.thumbnail`, `.rounded`, and float/centering utilities respectively.
+
+<Example>
+  <StylingExample client:load />
+</Example>
+
+### Using a custom image component
+
+`<Placeholder>` renders a plain `<img>` in `src` mode by default, but its `component` prop accepts
+any element or component — including a framework's own `Image` (Next.js, Gatsby, Remix, etc.).
+Whatever is passed is fully type-checked at the call site, so a component's own props (`fill`,
+`priority`, `loader`, and so on) are available and validated alongside `src`/`alt`:
+
+```tsx
+import Image from 'next/image'
+
+<Placeholder component={Image} src="/hero.jpg" alt="" fill priority />
+```
+
+## API
+
+### Placeholder
+
+<PropTable component="Placeholder" />

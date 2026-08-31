@@ -1,0 +1,76 @@
+---
+title: Chip Input
+description: Multi-value text field that wraps typed entries into removable, keyboard-navigable chips.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/chip-input/BasicExample.tsx'
+import { Example as FormFieldExample } from '../../examples/components/chip-input/FormFieldExample.tsx'
+import { Example as VariantExample } from '../../examples/components/chip-input/VariantExample.tsx'
+import { Example as ControlledExample } from '../../examples/components/chip-input/ControlledExample.tsx'
+import { Example as DisabledExample } from '../../examples/components/chip-input/DisabledExample.tsx'
+
+## Overview
+
+`ChipInput` combines a text field with a focusable, removable list of chips — type a value and press <kbd>Enter</kbd> or the separator character (`,` by default) to turn it into a chip. Arrow keys move focus between chips, and <kbd>Backspace</kbd>/<kbd>Delete</kbd> removes a focused (or selected) chip. Each chip renders as a [`Chip`]([[docsref:/components/chip]]) internally, so `chipVariant` accepts the same `color`/`variant` class names `Chip` documents.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## As a form field
+
+Pass `label`/`help` to wrap the input in a `.form-field` with an associated `FormLabel` and `FormHelp`. Pass `name` to have `ChipInput` create a hidden `<input type="hidden">` per chip — all sharing that `name`, so a native form submission collects them together (`FormData.getAll('skills')`).
+
+<Example>
+  <FormFieldExample client:load />
+</Example>
+
+## Chip styles
+
+Pass `chipVariant` with any combination of chassis-css chip modifier classes (e.g. `"primary smooth"`, `"danger"`) to style every chip this input creates.
+
+<Example>
+  <VariantExample client:load />
+</Example>
+
+## Controlled values
+
+Pass `value`/`onChange` to control the set of chip values yourself. Omit them (use `defaultValue` instead) to let `ChipInput` manage its own state.
+
+<Example>
+  <ControlledExample client:load />
+</Example>
+
+## Disabled
+
+Add `disabled` to make `ChipInput` non-interactive — existing chips stay visible but can't be
+focused, removed, or added to.
+
+<Example>
+  <DisabledExample client:load />
+</Example>
+
+## Keyboard interaction
+
+- **Input focused** — <kbd>Enter</kbd> or the separator character creates a chip from the current value. <kbd>Backspace</kbd>/<kbd>Delete</kbd> on an empty input, or <kbd>←</kbd> with the cursor at the start, selects and focuses the last chip. <kbd>Escape</kbd> clears the input and blurs.
+- **Chip focused** — <kbd>←</kbd>/<kbd>→</kbd> move between chips. <kbd>Shift</kbd>+<kbd>←</kbd>/<kbd>→</kbd> extends the selection. <kbd>Cmd</kbd>/<kbd>Ctrl</kbd>+<kbd>A</kbd> selects all chips. <kbd>Backspace</kbd>/<kbd>Delete</kbd> removes the selected chip(s). <kbd>Escape</kbd> clears selection.
+
+## Accessibility
+
+`ChipInput` needs an accessible name for the chip group as a whole — pass `aria-label`,
+`aria-labelledby`, or `label` (see [As a form field](#as-a-form-field)). Without one, only the
+text input itself falls back to a generic label, leaving the chip list unidentified to screen
+reader users.
+
+## Scope
+
+Built on React Aria's `useTagGroup`/`useTag` for the chip collection (arrow-key navigation, multi-select, removal) plus `useTextField` for entry — there's no single dedicated "chip input" hook, so the two are composed together with hand-written logic for separator/paste-splitting, matching the plan's own framing of this as the most bespoke of the newer form widgets.
+
+A few Mail.app-style affordances from chassis-css's vanilla `chip-input.js` aren't wired up here: shift+click range selection and cmd/ctrl+click toggle selection with the mouse, and automatically moving focus back to the input when <kbd>→</kbd> or <kbd>End</kbd> is pressed on the last chip. Keyboard chip-to-chip navigation, selection, and removal all work; only these secondary mouse/edge-of-list conveniences are out of scope for this pass.
+
+## API
+
+### ChipInput
+
+<PropTable component="ChipInput" />

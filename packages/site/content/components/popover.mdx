@@ -1,0 +1,30 @@
+---
+title: Popover
+description: Anchor floating content, like those found in iOS, to a trigger element in one of four directions.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/popover/BasicExample.tsx'
+import { Example as DirectionsExample } from '../../examples/components/popover/DirectionsExample.tsx'
+
+## Examples
+
+`<Popover>` wraps a trigger element as `children` and shows `content` (and an optional `title`) anchored to it on click — pass `visible` alongside `onShow`/`onHide` to control it externally instead.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+### Four directions
+
+Four options are available: top, right, bottom, and left aligned. Directions are mirrored when using Chassis in RTL.
+
+<Example>
+  <DirectionsExample client:load />
+</Example>
+
+## API
+
+### Popover
+
+<PropTable component="Popover" />

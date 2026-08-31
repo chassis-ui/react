@@ -1,0 +1,97 @@
+---
+title: Autocomplete
+description: A button-trigger combobox — opens a searchable option list from a toggle, with single- or multi-select and grouped items.
+
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/autocomplete/BasicExample.tsx'
+import { Example as MultipleExample } from '../../examples/components/autocomplete/MultipleExample.tsx'
+import { Example as RichContentExample } from '../../examples/components/autocomplete/RichContentExample.tsx'
+import { Example as GroupedExample } from '../../examples/components/autocomplete/GroupedExample.tsx'
+import { Example as DisabledExample } from '../../examples/components/autocomplete/DisabledExample.tsx'
+import { Example as ItemsExample } from '../../examples/components/autocomplete/ItemsExample.tsx'
+import { Example as FormFieldExample } from '../../examples/components/autocomplete/FormFieldExample.tsx'
+
+## Overview
+
+`Autocomplete` is chassis-css's button-trigger combobox — a display-only toggle that opens a panel containing its own search field, rather than a text input that's itself the trigger. That's the difference from [Combobox]([[docsref:/components/combobox]]): there, the text input is the combobox; here, the toggle just opens one. Compose an `AutocompleteItem` per option, each identified by an `id`, optionally grouped with `AutocompleteGroup`. Pass `placeholder` for the toggle's empty-state text and `searchPlaceholder` for the search field inside the panel.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## Multiple selection
+
+Set `multiple` to allow more than one option to be selected. The toggle shows the single selection's label, or an "N selected" count once more than one is picked, and the panel stays open after each selection so more can be picked. `Backspace` in the empty search field removes the last selected option.
+
+<Example>
+  <MultipleExample client:load />
+</Example>
+
+## Rich item content
+
+Add `icon`/`description` to an `AutocompleteItem` for a leading icon and a secondary line of text below the label.
+
+<Example>
+  <RichContentExample client:load />
+</Example>
+
+## Grouped items
+
+Wrap related `AutocompleteItem` elements in an `AutocompleteGroup` to render them under a shared header.
+
+<Example>
+  <GroupedExample client:load />
+</Example>
+
+## Disabled options
+
+Add `disabled` to an `AutocompleteItem` to remove it from keyboard navigation and prevent it from being selected.
+
+<Example>
+  <DisabledExample client:load />
+</Example>
+
+## Data-driven items
+
+Pass an `items` array instead of composing children to build the option list from data. A `'header'` entry starts a group that every following item joins until the next header or the end of the array.
+
+<Example>
+  <ItemsExample client:load />
+</Example>
+
+## As a form field
+
+Pass `label`/`help` to wrap the autocomplete in a `.form-field` with an associated `FormLabel` and `FormHelp`. Pass `name` to have `Autocomplete` create and manage hidden `<input>`s for native form submission — one in single-select mode, one per selected key in `multiple` mode.
+
+<Example>
+  <FormFieldExample client:load />
+</Example>
+
+## Controlled selection
+
+Pass `value`/`onChange` to control the selection directly — an array when `multiple` is set, a single id otherwise. Omit them (use `defaultValue` instead) to let `Autocomplete` manage selection internally.
+
+## Accessibility
+
+Opening the panel moves focus to the search field; closing it — via Escape, a selection, or an outside click — returns focus to the toggle. The toggle renders as a `<div role="button">` rather than a native `<button>`: an earlier version rendered removable chips for each selection directly inside it, which failed an automated accessibility check for nesting interactive controls inside a button, so selections now render as plain text instead and the non-native trigger stays in place.
+
+## Scope
+
+- **No typeahead while closed.** Unlike a native `<select>`, there's no way to jump to an option by typing a letter before opening the panel — the search field only exists once the toggle has been activated.
+- **No async filtering.** Matching happens entirely client-side against the options already passed as `children`/`items`; there's no controlled input value or `onInputChange` callback to drive a server-side search.
+
+## API
+
+### Autocomplete
+
+<PropTable component="Autocomplete" />
+
+### AutocompleteItem
+
+<PropTable component="AutocompleteItem" />
+
+### AutocompleteGroup
+
+<PropTable component="AutocompleteGroup" />

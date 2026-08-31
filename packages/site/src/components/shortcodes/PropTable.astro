@@ -1,0 +1,77 @@
+---
+import { getEntry } from 'astro:content'
+
+interface Props {
+  component: string
+}
+
+const { component } = Astro.props
+const entry = await getEntry('api', component.toLowerCase())
+
+if (!entry) {
+  console.warn(`No API data found for component: ${component}`)
+}
+
+const props: any[] = entry ? Object.values(entry.data.props) : []
+const sortedProps = props.sort((a: any, b: any) => a.name.localeCompare(b.name))
+
+// Prop descriptions are raw JSDoc text, not markdown-rendered HTML — escape it before
+// injecting via set:html so literal tag examples like `<button>` render as text instead of
+// being parsed as real elements, then turn backtick spans into <code> for the inline-code
+// convention docstrings actually use.
+function renderDescription(description: string): string {
+  const escaped = description.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+  return escaped.replace(/`([^`]+)`/g, '<code>$1</code>')
+}
+
+// react-docgen-typescript collapses any union of string literals to `type.name === 'enum'`,
+// keeping the actual literal values in `type.value`. Render those instead, so e.g. `ContextColor`
+// shows its allowed values rather than the vague word "enum".
+function formatType(type: { name: string; raw?: string; value?: { value: string }[] }): string {
+  if (type.name === 'enum' && Array.isArray(type.value)) {
+    return type.raw ? type.raw : type.value.map((v) => v.value).join(' | ')
+  }
+  return type.name
+}
+---
+
+{
+  entry ? (
+    <div class="cxd-prop-table-wrapper">
+      <table class="cxd-prop-table table">
+        <thead>
+          <tr>
+            <th class="w-25">Prop</th>
+            <th>Type</th>
+            <th class="w-25">Default</th>
+          </tr>
+        </thead>
+        <tbody>
+          {sortedProps.map((prop) => (
+            <>
+              <tr>
+                <td class="border-0 pb-0">
+                  <code>
+                    {prop.name}
+                    {prop.required ? '' : '?'}
+                  </code>
+                </td>
+                <td class="border-0 pb-0">
+                  <code>{formatType(prop.type)}</code>
+                </td>
+                <td class="border-0 pb-0">
+                  {prop.defaultValue ? <code>{prop.defaultValue.value}</code> : <span>—</span>}
+                </td>
+              </tr>
+              <tr>
+                <td colspan="3" set:html={renderDescription(prop.description)} />
+              </tr>
+            </>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  ) : (
+    <p class="text-muted">API documentation not available for {component}.</p>
+  )
+}

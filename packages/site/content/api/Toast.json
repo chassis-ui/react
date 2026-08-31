@@ -1,0 +1,406 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/toast/Toast.tsx",
+  "description": "",
+  "displayName": "Toast",
+  "methods": [],
+  "props": {
+    "animation": {
+      "defaultValue": {
+        "value": true
+      },
+      "description": "Apply a CSS fade transition to the toast.",
+      "name": "animation",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+        "name": "ToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+          "name": "ToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "autohide": {
+      "defaultValue": {
+        "value": true
+      },
+      "description": "Auto hide the toast. The timer starts once the show transition completes and pauses\nwhile the pointer is over the toast or focus is within it.",
+      "name": "autohide",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+        "name": "ToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+          "name": "ToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+        "name": "ToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+          "name": "ToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "closeButton": {
+      "defaultValue": null,
+      "description": "Adds a close button — shorthand for `ToastHeader`'s/`ToastBody`'s `closeButton` prop.\nPlaced in the header when `icon`/`title`/`time` is set; otherwise placed in the body\nalongside `message`, or in a header containing only the close button if `message` is\nalso unset.",
+      "name": "closeButton",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+        "name": "ToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+          "name": "ToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "closeLabel": {
+      "defaultValue": null,
+      "description": "Overrides the close button's accessible name (defaults to `'Close'`). Set this for\nnon-English UIs. Shorthand for `ToastHeader`'s `closeLabel` prop.",
+      "name": "closeLabel",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+        "name": "ToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+          "name": "ToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "color": {
+      "defaultValue": null,
+      "description": "Sets the color of the component to one of Chassis context colors.",
+      "name": "color",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+        "name": "ToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+          "name": "ToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "ContextColor",
+        "value": [
+          {
+            "value": "\"default\""
+          },
+          {
+            "value": "\"alternate\""
+          },
+          {
+            "value": "\"primary\""
+          },
+          {
+            "value": "\"secondary\""
+          },
+          {
+            "value": "\"neutral\""
+          },
+          {
+            "value": "\"success\""
+          },
+          {
+            "value": "\"danger\""
+          },
+          {
+            "value": "\"warning\""
+          },
+          {
+            "value": "\"info\""
+          },
+          {
+            "value": "\"black\""
+          },
+          {
+            "value": "\"white\""
+          }
+        ]
+      }
+    },
+    "delay": {
+      "defaultValue": {
+        "value": 5000
+      },
+      "description": "Delay hiding the toast (ms).",
+      "name": "delay",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+        "name": "ToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+          "name": "ToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number"
+      }
+    },
+    "footer": {
+      "defaultValue": null,
+      "description": "Trailing content — typically a row of `Button`s — rendered via a single `ToastFooter`,\nafter `message`/`children`. Pass a function to receive `close` directly, instead of\ncalling `useToast()` from a child component to wire up a \"Close\" action.",
+      "name": "footer",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+        "name": "ToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+          "name": "ToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode | ((close: () => void) => ReactNode)"
+      }
+    },
+    "icon": {
+      "defaultValue": null,
+      "description": "Leading icon for the header. A string is rendered as `<ToastIcon name={icon} />`; pass\nany other node for a fully custom icon (typically a logo or avatar). Shorthand for\n`ToastHeader`'s `icon` prop; hidden from assistive technology by default, since it\nduplicates `title` visually.",
+      "name": "icon",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+        "name": "ToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+          "name": "ToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "message": {
+      "defaultValue": null,
+      "description": "Message body, rendered via a single `ToastBody`. For multi-block content, compose\n`children` manually instead — `message` wraps everything in one element.",
+      "name": "message",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+        "name": "ToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+          "name": "ToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "time": {
+      "defaultValue": null,
+      "description": "Header timestamp, rendered after `title`. Shorthand for `ToastHeader`'s `time` prop.",
+      "name": "time",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+        "name": "ToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+          "name": "ToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "title": {
+      "defaultValue": null,
+      "description": "Header heading, rendered before `time`. Shorthand for `ToastHeader`'s children. When set\nalongside `message`, wires the toast's `aria-labelledby`/`aria-describedby` to them\nautomatically.",
+      "name": "title",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+        "name": "ToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+          "name": "ToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "onClose": {
+      "defaultValue": null,
+      "description": "Callback fired when the component requests to be closed.",
+      "name": "onClose",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+        "name": "ToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+          "name": "ToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "onShow": {
+      "defaultValue": null,
+      "description": "Callback fired when the component requests to be shown.",
+      "name": "onShow",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+        "name": "ToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+          "name": "ToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "role": {
+      "defaultValue": {
+        "value": "status"
+      },
+      "description": "ARIA live-region role. Use `status` (the default) for confirmation, progress, and\ninformational messages, which announce politely. Use `alert` for messages that need\nimmediate attention — validation errors, failed operations — which interrupt speech.",
+      "name": "role",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+        "name": "ToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+          "name": "ToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"status\" | \"alert\"",
+        "value": [
+          {
+            "value": "\"status\""
+          },
+          {
+            "value": "\"alert\""
+          }
+        ]
+      }
+    },
+    "solid": {
+      "defaultValue": null,
+      "description": "Apply a full-color background with inverted text. Only meaningful alongside `color`.",
+      "name": "solid",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+        "name": "ToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+          "name": "ToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "translucent": {
+      "defaultValue": null,
+      "description": "Apply a semi-transparent background.",
+      "name": "translucent",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+        "name": "ToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+          "name": "ToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "visible": {
+      "defaultValue": {
+        "value": false
+      },
+      "description": "Toggle the visibility of component.",
+      "name": "visible",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+        "name": "ToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/toast/Toast.tsx",
+          "name": "ToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    }
+  }
+}

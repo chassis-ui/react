@@ -1,0 +1,255 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/menu/MenuToggle.tsx",
+  "description": "",
+  "displayName": "MenuToggle",
+  "methods": [],
+  "props": {
+    "active": {
+      "defaultValue": null,
+      "description": "Toggle the active state for the component.",
+      "name": "active",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/MenuToggle.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/MenuToggle.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "color": {
+      "defaultValue": null,
+      "description": "Sets the color of the component to one of Chassis context colors. Only applies to the\ndefault `Button` root.",
+      "name": "color",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/MenuToggle.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "ContextColor",
+        "value": [
+          {
+            "value": "\"default\""
+          },
+          {
+            "value": "\"alternate\""
+          },
+          {
+            "value": "\"primary\""
+          },
+          {
+            "value": "\"secondary\""
+          },
+          {
+            "value": "\"neutral\""
+          },
+          {
+            "value": "\"success\""
+          },
+          {
+            "value": "\"danger\""
+          },
+          {
+            "value": "\"warning\""
+          },
+          {
+            "value": "\"info\""
+          },
+          {
+            "value": "\"black\""
+          },
+          {
+            "value": "\"white\""
+          }
+        ]
+      }
+    },
+    "component": {
+      "defaultValue": null,
+      "description": "Component used for the root node — the trigger element the menu opens from. Defaults to\n`Button`; swap for e.g. `NavLink` to render a nav-item-style trigger (`.nav-link.caret`)\ninstead of a `.button.caret`. Its own props are type-checked at the call site once passed\nhere.",
+      "name": "component",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/MenuToggle.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ElementType"
+      }
+    },
+    "disabled": {
+      "defaultValue": null,
+      "description": "Toggle the disabled state for the component.",
+      "name": "disabled",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/MenuToggle.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "href": {
+      "defaultValue": null,
+      "description": "The href attribute specifies the URL of the page the link goes to.",
+      "name": "href",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/MenuToggle.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "shape": {
+      "defaultValue": null,
+      "description": "Select the shape of the component. Only applies to the default `Button` root.",
+      "name": "shape",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/MenuToggle.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "Shapes",
+        "value": [
+          {
+            "value": "\"rounded\""
+          },
+          {
+            "value": "\"rounded-top\""
+          },
+          {
+            "value": "\"rounded-end\""
+          },
+          {
+            "value": "\"rounded-bottom\""
+          },
+          {
+            "value": "\"rounded-start\""
+          },
+          {
+            "value": "\"rounded-circle\""
+          },
+          {
+            "value": "\"rounded-pill\""
+          },
+          {
+            "value": "\"rounded-0\""
+          },
+          {
+            "value": "\"rounded-1\""
+          },
+          {
+            "value": "\"rounded-2\""
+          },
+          {
+            "value": "\"rounded-3\""
+          }
+        ]
+      }
+    },
+    "size": {
+      "defaultValue": null,
+      "description": "Size the component small or large. Only applies to the default `Button` root.",
+      "name": "size",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/MenuToggle.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"small\" | \"large\"",
+        "value": [
+          {
+            "value": "\"small\""
+          },
+          {
+            "value": "\"large\""
+          }
+        ]
+      }
+    },
+    "variant": {
+      "defaultValue": null,
+      "description": "Sets the context style of the component. Only applies to the default `Button` root.",
+      "name": "variant",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/MenuToggle.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "ContextStyle",
+        "value": [
+          {
+            "value": "\"basic\""
+          },
+          {
+            "value": "\"solid\""
+          },
+          {
+            "value": "\"outline\""
+          },
+          {
+            "value": "\"smooth\""
+          }
+        ]
+      }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/menu/MenuToggle.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "any"
+      }
+    }
+  }
+}

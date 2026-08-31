@@ -1,0 +1,95 @@
+@use "@chassis-ui/css/scss/config" as *;
+@use "@chassis-ui/css/scss/mixins" as *;
+
+/*
+ * `RangeCalendar` reuses chassis-css's `.datepicker-*` classes as-is (see `Calendar.scss`).
+ * This file only covers the gaps: range-specific state (`.datepicker-date-in-range`,
+ * `-range-start`/`-end`) and the quick-select list beside the grid, which chassis-css
+ * doesn't style.
+ */
+
+@layer components {
+  .datepicker-date-in-range {
+    color: var(--day-range-fg-color);
+    background-color: var(--day-range-bg-color);
+  }
+
+  .datepicker-date-in-range > .datepicker-date-btn:hover {
+    background-color: unset;
+  }
+
+  .datepicker-date-in-range.datepicker-date-range-start {
+    @include border-top-start-radius(var(--border-radius-medium));
+    @include border-bottom-start-radius(var(--border-radius-medium));
+  }
+
+  .datepicker-date-in-range.datepicker-date-range-end {
+    @include border-top-end-radius(var(--border-radius-medium));
+    @include border-bottom-end-radius(var(--border-radius-medium));
+  }
+
+  .datepicker-date-btn:is(.datepicker-date-range-start, .datepicker-date-range-end),
+  .datepicker-date-btn:is(.datepicker-date-range-start, .datepicker-date-range-end):hover {
+    color: var(--primary-contrast);
+    background-color: var(--primary);
+  }
+
+  .datepicker-date-btn.datepicker-date-range-start:not(.datepicker-date-range-end) {
+    @include border-top-end-radius(0);
+    @include border-bottom-end-radius(0);
+  }
+
+  .datepicker-date-btn.datepicker-date-range-end:not(.datepicker-date-range-start) {
+    @include border-top-start-radius(0);
+    @include border-bottom-start-radius(0);
+  }
+
+  /* Wins the specificity tie with chassis-css's "today" rule for a range endpoint that's also
+     today (same approach as `Calendar.scss`'s selected+today override). */
+  .datepicker-date[aria-current="date"] > .datepicker-date-btn.datepicker-date-range-start,
+  .datepicker-date[aria-current="date"] > .datepicker-date-btn.datepicker-date-range-end {
+    color: var(--primary-contrast);
+    background-color: var(--primary);
+  }
+
+  /* Quick-select list beside the grid; no chassis-css equivalent, so fully custom. */
+  .datepicker-presets {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+    padding-inline: 0 var(--padding-x);
+    margin: 0;
+    list-style: none;
+    border-inline-end: var(--border-width-medium) solid var(--border-subtle);
+  }
+
+  .datepicker-preset {
+    padding: var(--space-2xsmall) var(--space-xsmall);
+    color: var(--fg-main);
+    text-align: start;
+    white-space: nowrap;
+    cursor: pointer;
+    background-color: transparent;
+    border: 0;
+    @include border-radius(var(--border-radius-medium));
+  }
+
+  .datepicker-preset:hover {
+    background-color: var(--bg-hover);
+  }
+
+  .datepicker-preset:focus-visible {
+    outline: var(--border-width-xlarge) solid var(--primary);
+    outline-offset: -1px;
+  }
+
+  .datepicker-preset.selected {
+    color: var(--primary-contrast);
+    background-color: var(--primary);
+  }
+
+  .datepicker-preset.selected:hover {
+    background-color: var(--primary);
+  }
+}
+

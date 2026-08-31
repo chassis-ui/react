@@ -1,0 +1,301 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+  "description": "",
+  "displayName": "Checkbox",
+  "methods": [],
+  "props": {
+    "button": {
+      "defaultValue": null,
+      "description": "Create button-like checkboxes.",
+      "name": "button",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+        "name": "CheckboxProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+          "name": "CheckboxProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ButtonObject"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+        "name": "CheckboxProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+          "name": "CheckboxProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "color": {
+      "defaultValue": null,
+      "description": "Sets the color of the check indicator to one of Chassis context colors. Ignored when `button` is set.",
+      "name": "color",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+        "name": "CheckboxProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+          "name": "CheckboxProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "ContextColor",
+        "value": [
+          {
+            "value": "\"default\""
+          },
+          {
+            "value": "\"alternate\""
+          },
+          {
+            "value": "\"primary\""
+          },
+          {
+            "value": "\"secondary\""
+          },
+          {
+            "value": "\"neutral\""
+          },
+          {
+            "value": "\"success\""
+          },
+          {
+            "value": "\"danger\""
+          },
+          {
+            "value": "\"warning\""
+          },
+          {
+            "value": "\"info\""
+          },
+          {
+            "value": "\"black\""
+          },
+          {
+            "value": "\"white\""
+          }
+        ]
+      }
+    },
+    "defaultSelected": {
+      "defaultValue": null,
+      "description": "Whether the checkbox is selected, uncontrolled. Ignored when rendered inside a `<CheckboxGroup>` —\nthe group's `value`/`defaultValue` owns selection there.",
+      "name": "defaultSelected",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+        "name": "CheckboxProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+          "name": "CheckboxProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "id": {
+      "defaultValue": null,
+      "description": "The id global attribute defines an identifier (ID) that must be unique in the whole document.",
+      "name": "id",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+        "name": "CheckboxProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+          "name": "CheckboxProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "indeterminate": {
+      "defaultValue": null,
+      "description": "Checkbox indeterminate property.",
+      "name": "indeterminate",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+        "name": "CheckboxProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+          "name": "CheckboxProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "invalid": {
+      "defaultValue": null,
+      "description": "Set component validation state to invalid.",
+      "name": "invalid",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+        "name": "CheckboxProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+          "name": "CheckboxProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "isSelected": {
+      "defaultValue": null,
+      "description": "Whether the checkbox is selected, controlled. Ignored when rendered inside a `<CheckboxGroup>` —\nthe group's `value`/`defaultValue` owns selection there.",
+      "name": "isSelected",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+        "name": "CheckboxProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+          "name": "CheckboxProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "label": {
+      "defaultValue": null,
+      "description": "The element represents a caption for a component.",
+      "name": "label",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+        "name": "CheckboxProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+          "name": "CheckboxProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "onChange": {
+      "defaultValue": null,
+      "description": "Callback fired when the selected state changes. Ignored when rendered inside a `<CheckboxGroup>` —\nuse the group's `onChange` instead.",
+      "name": "onChange",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+        "name": "CheckboxProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+          "name": "CheckboxProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((isSelected: boolean) => void)"
+      }
+    },
+    "size": {
+      "defaultValue": null,
+      "description": "Size the component small or large.",
+      "name": "size",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+        "name": "CheckboxProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+          "name": "CheckboxProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"small\" | \"large\"",
+        "value": [
+          {
+            "value": "\"small\""
+          },
+          {
+            "value": "\"large\""
+          }
+        ]
+      }
+    },
+    "valid": {
+      "defaultValue": null,
+      "description": "Set component validation state to valid.",
+      "name": "valid",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+        "name": "CheckboxProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+          "name": "CheckboxProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "value": {
+      "defaultValue": null,
+      "description": "The value of the checkbox, used when submitting an HTML form. Required when rendered inside a\n`<CheckboxGroup>` — it identifies this item within the group's selected values.",
+      "name": "value",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+        "name": "CheckboxProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+          "name": "CheckboxProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    }
+  }
+}

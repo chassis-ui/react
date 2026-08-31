@@ -1,0 +1,94 @@
+---
+title: Date Range Picker
+description: Two segmented text fields with a range-calendar popover for entering or picking a date range.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/date-range-picker/BasicExample.tsx'
+import { Example as FormFieldExample } from '../../examples/components/date-range-picker/FormFieldExample.tsx'
+import { Example as MinMaxExample } from '../../examples/components/date-range-picker/MinMaxExample.tsx'
+import { Example as UnavailableExample } from '../../examples/components/date-range-picker/UnavailableExample.tsx'
+import { Example as MultiMonthExample } from '../../examples/components/date-range-picker/MultiMonthExample.tsx'
+import { Example as PresetsExample } from '../../examples/components/date-range-picker/PresetsExample.tsx'
+import { Example as ControlledOpenExample } from '../../examples/components/date-range-picker/ControlledOpenExample.tsx'
+
+## Overview
+
+`DateRangePicker` combines two individually-editable segmented date fields (start and end, each day/month/year) with a range-calendar popover — type both dates directly, or pick a start and end from the grid. All three stay in sync with a single selected range. The popover renders [`RangeCalendar`]([[docsref:/components/range-calendar]]), which is also available on its own wherever an inline, non-popover range calendar is needed.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## As a form field
+
+Pass `label`/`help` to wrap the picker in a `.form-field` with an associated `FormLabel` and `FormHelp`. Pass `name` to have `DateRangePicker` create and manage a pair of hidden inputs for native form submission — `${name}Start` and `${name}End`, each an ISO 8601 date string (`2026-07-24`).
+
+<Example>
+  <FormFieldExample client:load />
+</Example>
+
+## Min & max dates
+
+Restrict the selectable range with `minValue`/`maxValue`. Dates outside the range are shown but disabled in the calendar grid, and typing an out-of-range value into either field is rejected.
+
+<Example>
+  <MinMaxExample client:load />
+</Example>
+
+## Unavailable dates
+
+Pass `isDateUnavailable`, or the JSON-friendly `unavailableDates` (an array of ISO 8601 `YYYY-MM-DD` strings), to mark specific dates as unselectable without excluding them from the grid. Unavailable dates remain focusable but can't be selected — this applies to both the calendar popover and typing a date directly into either field.
+
+<Example>
+  <UnavailableExample client:load />
+</Example>
+
+## First day of week
+
+The calendar popover's week starts on Monday by default, regardless of the active locale. Pass `firstDayOfWeek` to override it — passed straight through to the underlying [`RangeCalendar`]([[docsref:/components/range-calendar]]). See [Internationalization]([[docsref:/getting-started/internationalization]]) for how the active locale is set.
+
+## Multiple months
+
+Pass `visibleMonths` to show more than one month side by side in the popover, sharing a single selection — passed straight through to the underlying [`RangeCalendar`]([[docsref:/components/range-calendar]]).
+
+<Example>
+  <MultiMonthExample client:load />
+</Example>
+
+## Presets
+
+Pass `presets` — an array of `{ label, range }` entries (see [`DateRangePreset`]([[docsref:/components/range-calendar#daterangepreset]])) — to show a quick-select list next to the calendar in the popover. Selecting a preset commits its range immediately, the same as picking a start and end date from the calendar. The preset matching the current selection (if any) is shown as the active one.
+
+<Example>
+  <PresetsExample client:load />
+</Example>
+
+## Controlling the popover
+
+The popover manages its own open state by default. Pass `isOpen` (with `onOpenChange`) to drive it from outside instead — e.g. to open the calendar from a button elsewhere on the page. `defaultOpen` sets the initial open state for the uncontrolled case, the same as `isOpen` without also taking over control.
+
+<Example>
+  <ControlledOpenExample client:load />
+</Example>
+
+## Form submission
+
+Unlike `DatePicker` (one hidden input), `DateRangePicker` creates **two** hidden inputs when `name` is set: `${name}Start` and `${name}End`. This was chosen over a single combined value so each endpoint posts as an ordinary named field — no custom parsing needed on the receiving end.
+
+## Styling
+
+Like `DatePicker`, `DateRangePicker` isn't styled by `@chassis-ui/css`. It reuses `DatePicker.scss`'s segmented-field and popover-shell classes directly, adding only a small separator between the two fields. The range-calendar grid itself is styled by [`RangeCalendar`]([[docsref:/components/range-calendar]])'s own scoped CSS, imported transitively. All of it is automatically injected the first time the component is imported — no separate stylesheet to add.
+
+## Scope
+
+This is a date-only range picker — a few things are deliberately out of scope for this pass:
+
+- **Time selection** — both fields are date-only (`granularity="day"`); no time segments are rendered.
+- **Non-contiguous ranges** — react-aria's `allowsNonContiguousRanges` option isn't exposed.
+
+## API
+
+### DateRangePicker
+
+<PropTable component="DateRangePicker" />

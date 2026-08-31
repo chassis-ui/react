@@ -1,0 +1,210 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/accordion/Accordion.tsx",
+  "description": "",
+  "displayName": "Accordion",
+  "methods": [],
+  "props": {
+    "alwaysOpen": {
+      "defaultValue": {
+        "value": false
+      },
+      "description": "Make accordion items stay open when another item is opened.",
+      "name": "alwaysOpen",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/accordion/Accordion.tsx",
+        "name": "AccordionProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/accordion/Accordion.tsx",
+          "name": "AccordionProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "caretEnd": {
+      "defaultValue": null,
+      "description": "Move the caret icon to the end of the header.",
+      "name": "caretEnd",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/accordion/Accordion.tsx",
+        "name": "AccordionProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/accordion/Accordion.tsx",
+          "name": "AccordionProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/accordion/Accordion.tsx",
+        "name": "AccordionProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/accordion/Accordion.tsx",
+          "name": "AccordionProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "defaultExpandedKeys": {
+      "defaultValue": null,
+      "description": "The keys of the initially expanded items (uncontrolled). Only applies to items rendered via\nthe `items` prop — a composed `AccordionItem` already supports native controlled `open`/\n`onToggle` directly.",
+      "name": "defaultExpandedKeys",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/accordion/Accordion.tsx",
+        "name": "AccordionProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/accordion/Accordion.tsx",
+          "name": "AccordionProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(string | number)[]"
+      }
+    },
+    "expandedKeys": {
+      "defaultValue": null,
+      "description": "The keys of the currently expanded items (controlled). Only applies to items rendered via the\n`items` prop — a composed `AccordionItem` already supports native controlled `open`/`onToggle`\ndirectly.",
+      "name": "expandedKeys",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/accordion/Accordion.tsx",
+        "name": "AccordionProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/accordion/Accordion.tsx",
+          "name": "AccordionProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(string | number)[]"
+      }
+    },
+    "flush": {
+      "defaultValue": null,
+      "description": "Removes the default background-context, some borders, and some rounded corners to render accordions edge-to-edge with their parent container.",
+      "name": "flush",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/accordion/Accordion.tsx",
+        "name": "AccordionProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/accordion/Accordion.tsx",
+          "name": "AccordionProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "items": {
+      "defaultValue": null,
+      "description": "Array of item definitions for data-driven rendering. When provided, children are ignored.",
+      "name": "items",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/accordion/Accordion.tsx",
+        "name": "AccordionProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/accordion/Accordion.tsx",
+          "name": "AccordionProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "AccordionItemDef[]"
+      }
+    },
+    "name": {
+      "defaultValue": null,
+      "description": "The shared group name used by items that don't set their own `name`. Defaults to an auto-generated id.",
+      "name": "name",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/accordion/Accordion.tsx",
+        "name": "AccordionProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/accordion/Accordion.tsx",
+          "name": "AccordionProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "onExpandedChange": {
+      "defaultValue": null,
+      "description": "Callback fired with the updated set of expanded item keys, reflecting the native `<details>`\nelements' actual open state (including items the browser closed itself via a shared `name`\ngroup). Only fires for items rendered via the `items` prop.",
+      "name": "onExpandedChange",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/accordion/Accordion.tsx",
+        "name": "AccordionProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/accordion/Accordion.tsx",
+          "name": "AccordionProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((keys: (string | number)[]) => void)"
+      }
+    },
+    "size": {
+      "defaultValue": null,
+      "description": "Size the component small or large.",
+      "name": "size",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/accordion/Accordion.tsx",
+        "name": "AccordionProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/accordion/Accordion.tsx",
+          "name": "AccordionProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"small\" | \"large\"",
+        "value": [
+          {
+            "value": "\"small\""
+          },
+          {
+            "value": "\"large\""
+          }
+        ]
+      }
+    }
+  }
+}

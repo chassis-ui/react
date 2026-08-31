@@ -1,0 +1,322 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/select/Select.tsx",
+  "description": "",
+  "displayName": "Select",
+  "methods": [],
+  "props": {
+    "adornEnd": {
+      "defaultValue": null,
+      "description": "Content rendered at the select's trailing edge, e.g. a `InputAdorn` icon, text, or button.\nSetting either `adornStart` or `adornEnd` renders a `.form-input` wrapper around a\n`.ghost-input`, matching chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-adorn) pattern.\nClicking anywhere in the wrapper (other than an actionable adorn) opens the select, since the\nnative element itself no longer fills the wrapper's full width.",
+      "name": "adornEnd",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/select/Select.tsx",
+        "name": "SelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/select/Select.tsx",
+          "name": "SelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "adornStart": {
+      "defaultValue": null,
+      "description": "Content rendered at the select's leading edge, e.g. a `InputAdorn` icon, text, or button.\nSetting either `adornStart` or `adornEnd` renders a `.form-input` wrapper around a\n`.ghost-input`, matching chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-adorn) pattern.\nClicking anywhere in the wrapper (other than an actionable adorn) opens the select, since the\nnative element itself no longer fills the wrapper's full width.",
+      "name": "adornStart",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/select/Select.tsx",
+        "name": "SelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/select/Select.tsx",
+          "name": "SelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/select/Select.tsx",
+        "name": "SelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/select/Select.tsx",
+          "name": "SelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "help": {
+      "defaultValue": null,
+      "description": "A description for the field, rendered below the select.",
+      "name": "help",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/select/Select.tsx",
+        "name": "SelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/select/Select.tsx",
+          "name": "SelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "htmlSize": {
+      "defaultValue": null,
+      "description": "Specifies the number of visible options in a drop-down list.",
+      "name": "htmlSize",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/select/Select.tsx",
+        "name": "SelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/select/Select.tsx",
+          "name": "SelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number"
+      }
+    },
+    "invalid": {
+      "defaultValue": null,
+      "description": "Set component validation state to invalid.",
+      "name": "invalid",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/select/Select.tsx",
+        "name": "SelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/select/Select.tsx",
+          "name": "SelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "invalidFeedback": {
+      "defaultValue": null,
+      "description": "An error message for the field, rendered below the select when `invalid` is set.",
+      "name": "invalidFeedback",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/select/Select.tsx",
+        "name": "SelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/select/Select.tsx",
+          "name": "SelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "label": {
+      "defaultValue": null,
+      "description": "The field's caption, rendered as a `FormLabel` associated with this select.",
+      "name": "label",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/select/Select.tsx",
+        "name": "SelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/select/Select.tsx",
+          "name": "SelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "multiple": {
+      "defaultValue": null,
+      "description": "Allows more than one option to be selected at once. Pass `value` as a string array (or set\n`selected` on more than one `options` entry) to control the selection.",
+      "name": "multiple",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/select/Select.tsx",
+        "name": "SelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/select/Select.tsx",
+          "name": "SelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "onChange": {
+      "defaultValue": null,
+      "description": "Method called immediately after the `value` prop changes.",
+      "name": "onChange",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/select/Select.tsx",
+        "name": "SelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/select/Select.tsx",
+          "name": "SelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ChangeEventHandler<HTMLSelectElement>"
+      }
+    },
+    "options": {
+      "defaultValue": null,
+      "description": "Options list of the select component. Available keys: `label`, `value`, `disabled`,\n`selected`.\nExamples:\n- `options={[{ value: 'js', label: 'JavaScript' }, { value: 'html', label: 'HTML', disabled: true }]}`\n- `options={['js', 'html']}`",
+      "name": "options",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/select/Select.tsx",
+        "name": "SelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/select/Select.tsx",
+          "name": "SelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "SelectOptionDef[] | string[]"
+      }
+    },
+    "placeholder": {
+      "defaultValue": null,
+      "description": "Renders a disabled placeholder option as the first item (e.g. `\"Select a country…\"`).\nThe option has an empty value so it is not selectable once another option is chosen.",
+      "name": "placeholder",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/select/Select.tsx",
+        "name": "SelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/select/Select.tsx",
+          "name": "SelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "size": {
+      "defaultValue": null,
+      "description": "Size the component small or large.",
+      "name": "size",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/select/Select.tsx",
+        "name": "SelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/select/Select.tsx",
+          "name": "SelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"small\" | \"large\"",
+        "value": [
+          {
+            "value": "\"small\""
+          },
+          {
+            "value": "\"large\""
+          }
+        ]
+      }
+    },
+    "valid": {
+      "defaultValue": null,
+      "description": "Set component validation state to valid.",
+      "name": "valid",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/select/Select.tsx",
+        "name": "SelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/select/Select.tsx",
+          "name": "SelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "validFeedback": {
+      "defaultValue": null,
+      "description": "A success message for the field, rendered below the select when `valid` is set.",
+      "name": "validFeedback",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/select/Select.tsx",
+        "name": "SelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/select/Select.tsx",
+          "name": "SelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "value": {
+      "defaultValue": null,
+      "description": "The `value` attribute of component.\n@controllable onChange",
+      "name": "value",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/select/Select.tsx",
+        "name": "SelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/select/Select.tsx",
+          "name": "SelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | number | string[]"
+      }
+    }
+  }
+}

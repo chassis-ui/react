@@ -1,0 +1,6 @@
+export { Avatar } from './Avatar'
+export type { AvatarProps } from './Avatar'
+export { AvatarImage } from './AvatarImage'
+export type { AvatarImageProps } from './AvatarImage'
+export { AvatarStack } from './AvatarStack'
+export type { AvatarStackProps, AvatarStackItemDef } from './AvatarStack'

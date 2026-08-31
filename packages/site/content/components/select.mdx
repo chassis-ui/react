@@ -1,0 +1,130 @@
+---
+title: Select
+description: Native select component with data-driven options, sizing variants, and multi-select support.
+toc: true
+---
+
+import { Select } from '@chassis-ui/react'
+import { Example as BasicExample } from '../../examples/components/select/BasicExample.tsx'
+import { Example as FormFieldExample } from '../../examples/components/select/FormFieldExample.tsx'
+import { Example as NativeOptionsExample } from '../../examples/components/select/NativeOptionsExample.tsx'
+import { Example as SizingExample } from '../../examples/components/select/SizingExample.tsx'
+import { Example as DisabledExample } from '../../examples/components/select/DisabledExample.tsx'
+import { Example as MultipleExample } from '../../examples/components/select/MultipleExample.tsx'
+import { Example as SelectSizeExample } from '../../examples/components/select/SelectSizeExample.tsx'
+import { Example as DefaultSelectionExample } from '../../examples/components/select/DefaultSelectionExample.tsx'
+import { Example as ControlledValueExample } from '../../examples/components/select/ControlledValueExample.tsx'
+import { Example as AdornsExample } from '../../examples/components/select/AdornsExample.tsx'
+
+## Overview
+
+`Select` is a styled wrapper around a native `<select>` element, applying the same `.form-input` class and shared label/help/validation-feedback wiring as other form leaves — see [Form Field]([[docsref:/components/form-field]]) for the underlying pattern. Pass an `options` array for data-driven rendering — plain strings, or objects conforming to `SelectOptionDef` (`label`, `value`, `disabled`, `selected`) — or omit it and write native `<option>` elements directly as children instead. An object option with no `value` renders without a `value` attribute, so the browser falls back to its text content.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## As a form field
+
+Pass `label` / `help` / `invalid` / `invalidFeedback` / `valid` / `validFeedback` directly to `Select` to render it together with an associated `FormLabel`, `FormHelp`, and `FormFeedback`, already wired up via `aria-describedby` and `aria-invalid` — see [Form Field]([[docsref:/components/form-field]]) instead when a control needs to be grouped with companion content under one label.
+
+<Example>
+  <FormFieldExample client:load />
+</Example>
+
+## Native options
+
+Omit the `options` prop and write native `<option>` elements directly as children when the list doesn't need to be data-driven — every attribute a plain `<option>` supports (`value`, `disabled`, `selected`, etc.) works exactly as it would outside `Select`.
+
+<Example>
+  <NativeOptionsExample client:load />
+</Example>
+
+## Sizing
+
+Set the `size` prop to `small` or `large` to change the control's padding, typography, and border radius — matching same-sized [Text Input]([[docsref:/components/text-input]]) controls alongside it.
+
+<Example class="vstack gap-medium">
+  <SizingExample client:load />
+</Example>
+
+## Disabled
+
+Add the `disabled` boolean attribute to give the control a muted color. Browsers also remove disabled controls from the tab order and from form submission automatically.
+
+<Example>
+  <DisabledExample client:load />
+</Example>
+
+## Multiple selection
+
+Set the `multiple` boolean prop to allow more than one option to be selected at once — pass `value` as a string array to control the selection from state, or see [Default selection](#default-selection) below for setting more than one option selected upfront without controlling `value` at all.
+
+<Example>
+  <MultipleExample client:load />
+</Example>
+
+## Select size
+
+The native `size` attribute — how many options show without scrolling, distinct from the small/large `size` prop above — is exposed as `htmlSize` instead, since `SelectProps` omits the native `size` attribute from its own type to avoid a name clash with the visual `size` prop.
+
+<Example>
+  <SelectSizeExample client:load />
+</Example>
+
+## Default selection
+
+Mark one or more `options` entries `selected: true` to set the initial value without passing `value`/`defaultValue` directly — it's resolved into the select's own `defaultValue` internally, so it's ignored whenever `value`/`defaultValue` is also set. Mark more than one entry `selected` only when `multiple` is also set; otherwise, matching native `<select>` behavior, only the last `selected` entry wins (and a console warning flags the mistake in development).
+
+<Example class="vstack gap-medium">
+  <DefaultSelectionExample client:load />
+</Example>
+
+## Controlled value
+
+Pass `value` and `onChange` to control the selected option from external state. Unlike [Text Input]([[docsref:/components/text-input]]), `onChange` here isn't normalized to hand back the new value directly — it receives the native change event, the same as passing `onChange` to a plain `<select>`.
+
+<Example>
+  <ControlledValueExample client:load />
+</Example>
+
+## Adorns
+
+Pass `adornStart` and/or `adornEnd` to render content — an icon, text, or an actionable button —
+at the leading or trailing edge of the select. Either prop switches the rendered markup from a bare
+`<select>` to chassis-css's [input help](https://chassis-ui.com/css/docs/forms/input-adorn) pattern:
+a `.form-input` wrapper containing the adorn(s) around a `.ghost-input`-classed `<select>`. Wrap
+adorn content in `InputAdorn` so it picks up the `.input-adorn` class the wrapper's flex layout
+targets — see [Text Input]([[docsref:/components/text-input]]) for the same pattern on a text field.
+
+<Example>
+  <AdornsExample client:load />
+</Example>
+
+A native `<select>` normally opens its dropdown on click no matter where the pointer lands, since
+it fills its own box completely. Once wrapped, the select only occupies the space between its
+adorns, so `Select` adds a click handler to the wrapper itself — clicking an adorn (or the
+wrapper's own padding) focuses the select and calls `showPicker()` to open it, the same as clicking
+the select directly. Clicking an actionable adorn (`InputAdorn` with `component="button"` or
+`component="a"`) is left alone, since that adorn already handles its own click.
+
+<Callout type="warning">
+  `showPicker()` isn't available in every browser. Where it's missing, the click still moves focus
+  to the select, leaving it reachable by keyboard (Space/Down to open) — the same fallback a bare,
+  unwrapped select already relies on for non-pointer input.
+</Callout>
+
+A wrapped select with `multiple` or an `htmlSize` greater than `1` renders as an inline listbox
+rather than a dropdown, so it has no picker to open — `Select` omits `.form-caret` and the
+click-to-open handler for those cases, leaving the listbox itself directly clickable as normal.
+
+## API
+
+### Select
+
+<PropTable component="Select" />
+### SelectOptionDef
+
+Shape of each entry in `Select`'s `options` array (data-driven rendering).
+
+<PropTable component="SelectOptionDef" />

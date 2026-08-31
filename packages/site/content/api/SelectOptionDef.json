@@ -1,0 +1,45 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/select/Select.tsx",
+  "description": "",
+  "displayName": "SelectOptionDef",
+  "methods": [],
+  "props": {
+    "disabled": {
+      "name": "disabled",
+      "required": false,
+      "description": "Marks the option as disabled — it can't be clicked or reached via the keyboard.",
+      "defaultValue": null,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "label": {
+      "name": "label",
+      "required": false,
+      "description": "Label text rendered inside the option. Falls back to the browser's default (the `value`,\nstringified) when omitted.",
+      "defaultValue": null,
+      "type": {
+        "name": "string"
+      }
+    },
+    "selected": {
+      "name": "selected",
+      "required": false,
+      "description": "Marks the option as selected by default (uncontrolled) — resolved into the select's own\n`defaultValue`, and ignored when the select's `value`/`defaultValue` is set directly. Set on\nmore than one option only when `multiple` is also set on `Select` — otherwise, matching\nnative `<select>` behavior, only the last option with `selected` set wins.",
+      "defaultValue": null,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "value": {
+      "name": "value",
+      "required": false,
+      "description": "The option's value attribute.",
+      "defaultValue": null,
+      "type": {
+        "name": "string | number"
+      }
+    }
+  }
+}

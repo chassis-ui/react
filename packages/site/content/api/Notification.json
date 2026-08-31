@@ -1,0 +1,372 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/notification/Notification.tsx",
+  "description": "",
+  "displayName": "Notification",
+  "methods": [],
+  "props": {
+    "actions": {
+      "defaultValue": null,
+      "description": "Optional trailing content — e.g. a row of `Button`s — rendered after `text`/`children`.",
+      "name": "actions",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+        "name": "NotificationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+          "name": "NotificationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "autohide": {
+      "defaultValue": {
+        "value": false
+      },
+      "description": "Automatically dismiss the notification after `delay`. The timer pauses while the pointer\nor focus is on the notification, and only starts once the notification is visible.\nDefaults to `false` — unlike `Toast`, notifications are persistent banners by default.",
+      "name": "autohide",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+        "name": "NotificationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+          "name": "NotificationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+        "name": "NotificationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+          "name": "NotificationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "closeLabel": {
+      "defaultValue": {
+        "value": "Close"
+      },
+      "description": "Overrides the dismiss button's accessible name (defaults to `'Close'`). Set this for\nnon-English UIs.",
+      "name": "closeLabel",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+        "name": "NotificationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+          "name": "NotificationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "color": {
+      "defaultValue": {
+        "value": "primary"
+      },
+      "description": "Sets the color of the component to one of Chassis context colors.",
+      "name": "color",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+        "name": "NotificationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+          "name": "NotificationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "ContextColor",
+        "value": [
+          {
+            "value": "\"default\""
+          },
+          {
+            "value": "\"alternate\""
+          },
+          {
+            "value": "\"primary\""
+          },
+          {
+            "value": "\"secondary\""
+          },
+          {
+            "value": "\"neutral\""
+          },
+          {
+            "value": "\"success\""
+          },
+          {
+            "value": "\"danger\""
+          },
+          {
+            "value": "\"warning\""
+          },
+          {
+            "value": "\"info\""
+          },
+          {
+            "value": "\"black\""
+          },
+          {
+            "value": "\"white\""
+          }
+        ]
+      }
+    },
+    "delay": {
+      "defaultValue": {
+        "value": 5000
+      },
+      "description": "Delay in ms before an `autohide` notification dismisses itself.",
+      "name": "delay",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+        "name": "NotificationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+          "name": "NotificationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number"
+      }
+    },
+    "dismissible": {
+      "defaultValue": null,
+      "description": "Optionally add a close button to the notification and allow it to self dismiss.",
+      "name": "dismissible",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+        "name": "NotificationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+          "name": "NotificationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "icon": {
+      "defaultValue": null,
+      "description": "Leading icon. A string is rendered as `<NotificationIcon name={icon} />`; pass any other\nnode for a fully custom icon. Automatically top-aligns with `title` when both are set —\na custom icon node is responsible for its own alignment.",
+      "name": "icon",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+        "name": "NotificationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+          "name": "NotificationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "solid": {
+      "defaultValue": null,
+      "description": "Applies the solid context style to the notification.",
+      "name": "solid",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+        "name": "NotificationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+          "name": "NotificationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "text": {
+      "defaultValue": null,
+      "description": "Message body, rendered via a single `<NotificationText>`. For multi-block content, compose\n`children` manually instead — `text` wraps everything in one element.",
+      "name": "text",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+        "name": "NotificationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+          "name": "NotificationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "title": {
+      "defaultValue": null,
+      "description": "Heading, rendered via `<NotificationTitle>`.",
+      "name": "title",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+        "name": "NotificationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+          "name": "NotificationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "titleComponent": {
+      "defaultValue": {
+        "value": "h4"
+      },
+      "description": "Element or component used for the `title` heading. Passed through to `NotificationTitle`'s\nown `component` prop. Defaults to `'h4'`.",
+      "name": "titleComponent",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+        "name": "NotificationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+          "name": "NotificationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ElementType"
+      }
+    },
+    "onClose": {
+      "defaultValue": null,
+      "description": "Callback fired when the component requests to be closed.",
+      "name": "onClose",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+        "name": "NotificationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+          "name": "NotificationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "onShow": {
+      "defaultValue": null,
+      "description": "Callback fired when the component requests to be shown.",
+      "name": "onShow",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+        "name": "NotificationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+          "name": "NotificationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "role": {
+      "defaultValue": {
+        "value": "status"
+      },
+      "description": "ARIA live-region role. Use `status` (the default) for confirmation, progress, and\ninformational messages, which announce politely. Use `alert` for messages that need\nimmediate attention — validation errors, failed operations — which interrupt speech.",
+      "name": "role",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+        "name": "NotificationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+          "name": "NotificationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"status\" | \"alert\"",
+        "value": [
+          {
+            "value": "\"status\""
+          },
+          {
+            "value": "\"alert\""
+          }
+        ]
+      }
+    },
+    "visible": {
+      "defaultValue": {
+        "value": true
+      },
+      "description": "Toggle the visibility of component.",
+      "name": "visible",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+        "name": "NotificationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/notification/Notification.tsx",
+          "name": "NotificationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    }
+  }
+}

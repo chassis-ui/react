@@ -1,0 +1,28 @@
+title:                  "Chassis React - React UI Component Library"
+baseURL:                "https://chassis-ui.com/react"
+
+docsDir:                "."
+docsPath:               "/react/docs"
+cssDocsPath:            "https://chassis-ui.com/css/docs"
+
+subtitle:               "React UI Components for the Chassis Design System"
+description:            "Production-ready React components built on Chassis CSS and design tokens. Accessible, TypeScript-first, and tree-shakeable."
+authors:                "Ozgur Gunes"
+
+current_version:        "0.1.0"
+docs_version:           "0.1"
+github_org:             "https://github.com/chassis-ui"
+repo:                   "https://github.com/chassis-ui/chassis-react"
+blog:                   "https://chassis-ui.com/blog/"
+x:                      "chassis_ui"
+
+analytics:
+  google_id:            "G-QGR8C28VYN"
+
+anchors:
+  min:                  2
+  max:                  5
+
+toc:
+  min:                  2
+  max:                  6

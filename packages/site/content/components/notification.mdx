@@ -1,0 +1,164 @@
+---
+title: Notification
+description: Chassis React Notification component gives contextual feedback for common user operations across the six semantic contexts.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/notification/BasicExample.tsx'
+import { Example as LiveExample } from '../../examples/components/notification/LiveExample.tsx'
+import { Example as ColorExample } from '../../examples/components/notification/ColorExample.tsx'
+import { Example as SolidExample } from '../../examples/components/notification/SolidExample.tsx'
+import { Example as ShorthandExample } from '../../examples/components/notification/ShorthandExample.tsx'
+import { Example as AutohideExample } from '../../examples/components/notification/AutohideExample.tsx'
+import { Example as IconExample } from '../../examples/components/notification/IconExample.tsx'
+import { Example as TitleExample } from '../../examples/components/notification/TitleExample.tsx'
+import { Example as TextExample } from '../../examples/components/notification/TextExample.tsx'
+import { Example as ActionsExample } from '../../examples/components/notification/ActionsExample.tsx'
+import { Example as ActionsDismissExample } from '../../examples/components/notification/ActionsDismissExample.tsx'
+import { Example as DismissibleExample } from '../../examples/components/notification/DismissibleExample.tsx'
+
+## Overview
+
+Things to know when using `Notification`:
+
+- It works standalone — render `<Notification>` directly and control it with `visible`/`onClose`, same as any other component.
+- Or push it into a stack — call `addNotification()` from anywhere to queue one, and render a `<NotificationStack>` wherever it should appear. See [Stacking](#stacking).
+- `role="status"` (the default) suits routine confirmations and informational updates. Reserve `role="alert"` for errors and messages requiring immediate attention. See [Accessibility](#accessibility).
+- The `icon`/`title`/`text`/`actions` props are shorthand for the manual `NotificationIcon`/`NotificationTitle`/`NotificationText` composition — reach for manual composition only when a notification needs more than one block of body content. See [Shorthand props](#shorthand-props).
+- To dismiss a notification from hand-composed markup — a labeled button in `actions`, instead of (or alongside) the `dismissible` close icon — call `useNotification()` and wire its `close` to any element's `onClick`. See [Dismissing](#dismissing).
+
+## Examples
+
+Use `<Notification>` to give users feedback about common operations in a way that is visible and easily dismissed.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+### Shorthand props
+
+For the common case — an icon, a heading, one block of message text — `icon`/`title`/`text` render the same markup as composing `NotificationIcon`/`NotificationTitle`/`NotificationText` by hand, without the wiring. `icon` accepts an icon name string (rendered via `NotificationIcon`) or any other node for a fully custom icon; `title` renders through `NotificationTitle` (pass `titleComponent` to change its tag, default `h4`); `text` renders through a single `NotificationText`. When both `title` and `text` are set, the notification's `aria-labelledby`/`aria-describedby` are wired to them automatically.
+
+<Example>
+  <ShorthandExample client:load />
+</Example>
+
+`text` wraps everything in _one_ `NotificationText` — for multi-block content (more than one paragraph, or content mixing paragraphs with other elements), compose `children` manually instead, as shown in the sections below. `actions` is unstyled passthrough markup rendered after `text`/`children`, e.g. a row of buttons — see [Actions](#actions).
+
+The rest of this page documents the manual composition these props are shorthand for.
+
+### Colors
+
+Use one of the required contextual `color` props (e.g., `primary`) for styling. For inline dismissal, use the [dismissible prop](#dismissing).
+
+<Example>
+  <ColorExample client:load />
+</Example>
+
+<Callout type="info">
+  Color alone doesn't convey meaning to assistive technology. Ensure information denoted by color is
+  either obvious from the visible text, or included through alternative means, such as additional
+  text hidden with the `.visually-hidden` class.
+</Callout>
+
+### Solid style
+
+Add the `solid` prop alongside a `color` for a filled, higher-emphasis treatment that swaps the soft background for the context's full color. Use it when the notification needs to stand out against a busy surrounding layout.
+
+<Example>
+  <SolidExample client:load />
+</Example>
+
+### Notification icon
+
+Render `<NotificationIcon>` as a child to add a leading icon sized and colored from the component's design tokens. Its presence switches the notification to a two-column grid — the icon in the first column, the message in the second — vertically centered by default. For multi-line messages, add `className="align-self-start"` to the icon so it aligns with the first line of text instead. `NotificationIcon` accepts the same props as `Icon` (`name`, `size`, `font`, `title`, `sprite`) and is hidden from assistive technology by default, since it duplicates the message visually — see [Accessibility](#accessibility).
+
+<Example>
+  <IconExample client:load />
+</Example>
+
+### Notification title
+
+Wrap longer messages in `<NotificationTitle>` and one or more paragraphs to give them structure. `NotificationTitle` renders an `<h4>` by default — pass `component` to render a different element. The notification lays out its children on a grid; spacing between them comes from `--notification-text-gap`, not margin.
+
+<Example>
+  <TitleExample client:load />
+</Example>
+
+### Notification text
+
+`NotificationText` wraps the message in a `<div>` by default — pass `component` to render a different element. Unlike `<p>`, a `<div>` carries no default browser margin, so it needs no extra CSS to line up with the grid gap that already spaces a notification's children.
+
+<Example>
+  <TextExample client:load />
+</Example>
+
+### Actions
+
+When a notification carries action buttons, use flex utilities to compose them with the message and adapt across breakpoints. The example below stacks the message above the actions on narrow viewports and lays them side-by-side from `xlarge` upward.
+
+<Example>
+  <ActionsExample client:load />
+</Example>
+
+### Dismissing
+
+Add the `dismissible` prop to render a close button and let users dismiss the notification. `onClose` fires once the fade-out transition finishes. The close button's accessible name defaults to `'Close'` — override it with `closeLabel` for non-English UIs.
+
+<Example>
+  <DismissibleExample client:load />
+</Example>
+
+Not every notification should be dismissed via the icon-only close button — sometimes a labeled action ("Dismiss", "Got it") in the `actions` row is the better fit, without `dismissible`'s close icon at all. Call `useNotification()` from a child of `Notification` and wire its `close` to any element's `onClick`; there's no separate close subcomponent to reach for, the same normal `Button` works.
+
+<Example>
+  <ActionsDismissExample client:load />
+</Example>
+
+### Auto-dismiss
+
+Set `autohide` to dismiss the notification on its own after `delay` (defaults to `5000`ms). Unlike `Toast`, `Notification` does **not** auto-hide by default — it's documented as a persistent banner, so opt in explicitly. The timer pauses while the pointer or keyboard focus is on the notification, and resumes when it leaves.
+
+<Example>
+  <AutohideExample client:load />
+</Example>
+
+## Stacking
+
+For notifications created at runtime — in response to a save, an upload, an error — call `addNotification()` from anywhere: an event handler, an async callback. It returns a key that can be passed to `closeNotification()` to dismiss it programmatically. `NotificationStack` subscribes to the same shared queue and renders whatever's currently in it; nothing else needs to know about it — pass `dismissible` in the options and its close button removes it from the queue on click, same as any other notification.
+
+<Example>
+  <LiveExample client:load />
+</Example>
+
+`NotificationStack` doubles as a plain grouping wrapper, too — pass `<Notification>` elements to it directly as `children` and it just adds spacing between them, no queue required. Combine both: static children render first, followed by anything queued.
+
+By default, the most recently queued notification renders first — the typical toast pattern. Pass `reverse` for a chronological transcript instead, oldest first.
+
+## Accessibility
+
+`Notification` renders with `role="status"` by default — an implicitly polite live region suited to confirmation, progress, and informational messages ("Saved", "Upload complete"). For messages that need **immediate** attention — validation errors, failed operations, lost connection — pass `role="alert"` instead, which interrupts the screen reader rather than waiting for a pause. Pick the role from the message's urgency, not its color: a `danger` notification reporting passive state can stay `status`, and an `info` notification demanding an immediate response should be `alert`.
+
+`<NotificationIcon>` is hidden from assistive technology (`aria-hidden`) by default, since it duplicates the adjacent text visually and shouldn't be announced separately. Pass a `title` if the icon ever needs to convey information the text doesn't.
+
+Place the close button as the **last** child even when it's visually pinned to the top-right corner — `dismissible` already does this automatically, appending its `CloseButton` after `children`. Because `status` and `alert` are both implicitly `aria-atomic`, the whole notification is announced as one unit, so close-last means the message is read before the dismiss control, and it's also the last stop in tab order.
+
+Dismissing a notification unmounts it, which can leave keyboard focus orphaned. Move focus in `onClose` — to the control that triggered the notification, the next one in a stack, or the main content landmark.
+
+## API
+
+### Notification
+
+<PropTable component="Notification" />
+### NotificationTitle
+
+<PropTable component="NotificationTitle" />
+### NotificationIcon
+
+<PropTable component="NotificationIcon" />
+### NotificationText
+
+<PropTable component="NotificationText" />
+### NotificationStack
+
+<PropTable component="NotificationStack" />

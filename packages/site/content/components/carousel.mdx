@@ -1,0 +1,201 @@
+---
+title: Carousel
+description: Touch-enabled content slider built on a real scroll-snap container, with keyboard navigation, autoplay, and configurable end behavior.
+
+toc: true
+---
+
+import { Carousel, CarouselControlPrev, CarouselControlNext, CarouselIndicators, CarouselInner, CarouselItem, CarouselOverlay, CarouselPlayPause } from '@chassis-ui/react'
+
+import { Example as BasicExample } from '../../examples/components/carousel/BasicExample.tsx'
+import { Example as BottomControlsExample } from '../../examples/components/carousel/BottomControlsExample.tsx'
+import { Example as OverlayControlsExample } from '../../examples/components/carousel/OverlayControlsExample.tsx'
+import { Example as FadeExample } from '../../examples/components/carousel/FadeExample.tsx'
+import { Example as AutoplayExample } from '../../examples/components/carousel/AutoplayExample.tsx'
+import { Example as TimingControlExample } from '../../examples/components/carousel/TimingControlExample.tsx'
+import { Example as LoopExample } from '../../examples/components/carousel/LoopExample.tsx'
+import { Example as WrapExample } from '../../examples/components/carousel/WrapExample.tsx'
+import { Example as StopExample } from '../../examples/components/carousel/StopExample.tsx'
+import { Example as CustomContentExample } from '../../examples/components/carousel/CustomContentExample.tsx'
+import { Example as MultipleItemsExample } from '../../examples/components/carousel/MultipleItemsExample.tsx'
+import { Example as PeekingExample } from '../../examples/components/carousel/PeekingExample.tsx'
+import { Example as VariableWidthExample } from '../../examples/components/carousel/VariableWidthExample.tsx'
+import { Example as ControlledExample } from '../../examples/components/carousel/ControlledExample.tsx'
+
+## Overview
+
+Carousel is a content slider built on a real horizontally-scrolling `CarouselInner` track using CSS scroll-snap, rather than transform-based slide positioning. The browser handles touch, trackpad, and mouse-drag scrolling natively; Carousel layers on keyboard navigation, autoplay, and end-of-track behavior on top, tracking which slide is active with an `IntersectionObserver` rather than a fixed index the caller has to keep in sync by hand.
+
+The family composes from a root and five optional parts: `CarouselInner` wraps the `CarouselItem` slides that scroll; `CarouselControlPrev`/`CarouselControlNext` step through them; `CarouselIndicators` renders one button per slide automatically, sized to however many `CarouselItem`s are actually present; `CarouselPlayPause` toggles autoplay; and `CarouselOverlay` overlays any of the above on top of the slides instead of stacking them in the flow. Every part reads from Carousel's own state through context, so placement is free-form — controls and indicators can sit above, below, or overlaid on the track in any combination.
+
+## Basic usage
+
+A working carousel needs a `CarouselInner` wrapping at least one `CarouselItem`; controls and indicators are opt-in, composed alongside it.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+### Bottom controls
+
+Place `CarouselInner` before the controls and indicators to render them below the track instead of above it.
+
+<Example>
+  <BottomControlsExample client:load />
+</Example>
+
+### Overlay controls
+
+Wrap `CarouselControlPrev`/`CarouselControlNext`/`CarouselIndicators` in `CarouselOverlay` to overlay them on the slides.
+
+<Example>
+  <OverlayControlsExample client:load />
+</Example>
+
+## Fade transition
+
+Set `transition="fade"` to replace the scroll transition with a crossfade. Fade mode stacks every slide instead of scrolling between them, fading the active one in over the `--cx-carousel-fade-duration` custom property; for optimal crossfading with certain content types, pair it with a background color on `CarouselItem`.
+
+<Example>
+  <FadeExample client:load />
+</Example>
+
+## Autoplay
+
+Set `autoplay` to cycle a carousel automatically on mount. Autoplay pauses on `mouseenter` by default (the `pause` prop) and stops advancing once the page or the carousel itself isn't visible, per the [Page Visibility API](https://www.w3.org/TR/page-visibility/). The first control click, arrow-key press, or track drag/tap turns autoplay off for good, so content doesn't keep moving out from under someone who's just started interacting with it — part of complying with [WCAG 2.2 Success Criterion 2.2.2 Pause, Stop, Hide](https://www.w3.org/TR/WCAG/#pause-stop-hide).
+
+<Callout type="warning">
+  Autoplaying carousels need an explicit pause/stop control to comply with [WCAG 2.2 Success
+  Criterion 2.2.2 Pause, Stop, Hide](https://www.w3.org/TR/WCAG/#pause-stop-hide). Add a
+  `CarouselPlayPause` (shown below) so a viewer can toggle autoplay on and off — it updates its own
+  icon and accessible name to reflect the current state, from the `pauseLabel`/`playLabel` props.
+</Callout>
+
+While playing, the active indicator fills like a progress bar over the current slide's [interval](#timing-control) as a visual countdown; the fill pauses with autoplay and is skipped entirely under reduced motion.
+
+<Example>
+  <AutoplayExample client:load />
+</Example>
+
+### Timing control
+
+Set `interval` on a `CarouselItem` to change how long autoplay waits before advancing past that slide, overriding the carousel's own `interval`. The indicator's progress fill matches each slide's own interval, so the countdown speeds up or slows down to match (2s, then 4s, then 6s below).
+
+<Example>
+  <TimingControlExample client:load />
+</Example>
+
+## End behavior
+
+The `ends` prop controls what happens at the first and last slide: `loop` (the default), `wrap`, or `stop`.
+
+### Loop (default)
+
+With `ends="loop"` the carousel scrolls seamlessly past the ends: stepping next from the last slide (or previous from the first) continues in the same direction into the destination slide instead of jumping back, for an endless conveyor effect. Seamless looping applies to single-slide carousels driven by the controls, keyboard, or autoplay; multi-item, peek, centered, and variable-width layouts — as well as reduced motion — fall back to the `wrap` jump.
+
+<Example>
+  <LoopExample client:load />
+</Example>
+
+### Wrap
+
+With `ends="wrap"` the carousel jumps from the last slide back to the first, and vice versa.
+
+<Example>
+  <WrapExample client:load />
+</Example>
+
+### Stop
+
+With `ends="stop"` the carousel hard-stops at the first and last slide: `CarouselControlPrev` disables on the first slide and `CarouselControlNext` on the last, via the native `disabled` attribute. When a focused control becomes disabled, focus shifts to the opposite control so it isn't lost.
+
+<Example>
+  <StopExample client:load />
+</Example>
+
+## Custom content
+
+Any markup can go inside a `CarouselItem` — size and style it with utilities or custom CSS, same as any other element.
+
+<Example>
+  <CustomContentExample client:load />
+</Example>
+
+### Multiple items
+
+Set `items` to show several whole slides at once. Combine it with `itemsGap` for spacing. Since seamless looping only applies to single-slide carousels (see [Loop (default)](#loop-default)), this example sets `ends="stop"` for a clean boundary instead of a `wrap` jump.
+
+<Example>
+  <MultipleItemsExample client:load />
+</Example>
+
+### Peeking
+
+Set `itemsPeek` to reveal a sliver of the previous and next slides, hinting that there's more to scroll.
+
+<Example>
+  <PeekingExample client:load />
+</Example>
+
+### Variable width
+
+Set `auto` and size each `CarouselItem` individually with utilities or custom CSS; snap points still land on every slide.
+
+<Example>
+  <VariableWidthExample client:load />
+</Example>
+
+Set `center` to snap the active slide to the center of the viewport instead of its start — pairs well with `itemsPeek`.
+
+## Controlled usage
+
+A controlled `activeIndex` needs an `onSlide` or `onSlid` handler feeding the new index back — every click, swipe, or autoplay advance calls one of them with the destination index, and that's the only path a controlled carousel has for updating its own `activeIndex`.
+
+<Callout type="warning">
+  Omitting both `onSlide` and `onSlid` on a controlled `activeIndex` leaves the carousel visually
+  frozen after the first navigation attempt: internal state still advances, but the controlled
+  prop overrides it back on every render. `Carousel` warns about this pairing in development.
+</Callout>
+
+<Example>
+  <ControlledExample client:load />
+</Example>
+
+## Accessibility
+
+Carousel accessibility centers on keyboard control, focus preservation at the ends, and ARIA state that mirrors the current slide.
+
+With `keyboard` enabled (the default), Left Arrow and Right Arrow move to the previous and next slide while focus is inside the carousel; either key turns autoplay off for good, the same as a control click. Arrow keys inside a nested `<input>`, `<textarea>`, `<select>`, or `[contenteditable]` element are left alone so native form navigation keeps working.
+
+`CarouselIndicators` sets `aria-current="true"` on the active indicator and gives each one its own `aria-label` identifying the slide it jumps to (`Slide 1`, overridable through its `label` prop). `CarouselControlPrev`/`CarouselControlNext` carry a `visually-hidden` label by default (`Previous slide`/`Next slide`, overridable through their own `label` prop) so the icon-only buttons still have an accessible name.
+
+## Scope
+
+- **No CarouselCaption.** An earlier version shipped a caption sub-component tied to a `.carousel-caption` class that the underlying CSS framework no longer provides. Compose caption content directly inside a `CarouselItem` instead — see [Custom content](#custom-content).
+
+## API
+
+### Carousel
+
+<PropTable component="Carousel" />
+### CarouselInner
+
+<PropTable component="CarouselInner" />
+### CarouselItem
+
+<PropTable component="CarouselItem" />
+### CarouselControlPrev
+
+<PropTable component="CarouselControlPrev" />
+### CarouselControlNext
+
+<PropTable component="CarouselControlNext" />
+### CarouselIndicators
+
+<PropTable component="CarouselIndicators" />
+### CarouselPlayPause
+
+<PropTable component="CarouselPlayPause" />
+### CarouselOverlay
+
+<PropTable component="CarouselOverlay" />

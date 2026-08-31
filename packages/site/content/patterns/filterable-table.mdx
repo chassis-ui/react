@@ -1,0 +1,22 @@
+---
+title: Filterable Table
+description: A complete example of per-column filter controls filtering a Table's rows client-side.
+toc: true
+---
+
+import { Example as FilterableTable } from '../../examples/patterns/filterable-table/FilterableTable.tsx'
+
+`Table` already accepts any array via `items`, so filtering is just: keep the full data set in state, derive the visible subset from one or more filter values, and pass that to `TableBody`. No dedicated filter prop is needed — and since it's plain state, each column can use whichever control fits its data instead of a single one-size-fits-all search box.
+
+<Example>
+  <FilterableTable client:load />
+</Example>
+
+## Key points
+
+- Each filter is its own piece of state, matched to what the column actually holds: `TextInput` (`type="search"`) for the free-text name match, `Select` for the closed sets of `role`/`status` values, `DatePicker` for the `joined` date threshold.
+- All four combine in one `allUsers.filter(...)` pass — swap in an API call (passing the filter state as query params) for server-side filtering, the same way `paginated-table` swaps in `page`/`pageSize`.
+- Date comparison uses `@internationalized/date`'s `parseDate` + `.compare()` rather than `Date`, matching the `CalendarDate` value `DatePicker` itself works with.
+- An empty-string `Select` value (`"All roles"`, `"All statuses"`) means "don't filter on this field" — checked with a plain truthy test in the filter function, not a separate "cleared" state.
+- `useMemo` avoids re-filtering on every render that isn't caused by a filter value or the source data changing.
+- Showing a "no results" message when the filtered array is empty avoids a confusingly blank table.

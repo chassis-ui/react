@@ -1,0 +1,90 @@
+---
+title: Combobox
+description: Chassis Combobox combines a text input with a filterable listbox, letting users search and select from a list of options.
+
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/combobox/BasicExample.tsx'
+import { Example as RichContentExample } from '../../examples/components/combobox/RichContentExample.tsx'
+import { Example as GroupedExample } from '../../examples/components/combobox/GroupedExample.tsx'
+import { Example as DisabledExample } from '../../examples/components/combobox/DisabledExample.tsx'
+import { Example as ItemsExample } from '../../examples/components/combobox/ItemsExample.tsx'
+import { Example as FormFieldExample } from '../../examples/components/combobox/FormFieldExample.tsx'
+
+## Overview
+
+`Combobox` combines a text input with a filterable list of options — type to narrow the list, arrow keys to move through it, Enter to select. It replaces hand-wiring a `Menu` to a text input with real combobox semantics: `role="combobox"` on the input, `role="listbox"`/`role="option"` on the list, and `aria-expanded`/`aria-controls`/`aria-activedescendant` kept in sync automatically. For a display-only toggle that opens the option list instead of typing directly into it, see [Autocomplete]([[docsref:/components/autocomplete]]).
+
+Compose a `ComboboxItem` per option, each identified by an `id`.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## Rich item content
+
+Add `icon`/`description` to a `ComboboxItem` for a leading icon and a secondary line of text below the label. Content still filters and renders as plain text when neither is set.
+
+<Example>
+  <RichContentExample client:load />
+</Example>
+
+## Grouped items
+
+Wrap related `ComboboxItem` elements in a `ComboboxGroup` to render them under a shared header. Filtering a query out of every item in a group hides that group's header along with it.
+
+<Example>
+  <GroupedExample client:load />
+</Example>
+
+## Disabled options
+
+Add `disabled` to a `ComboboxItem` to remove it from keyboard navigation and prevent it from being selected. The combobox itself stays usable.
+
+<Example>
+  <DisabledExample client:load />
+</Example>
+
+## Data-driven items
+
+Pass an `items` array instead of composing children to build the option list from data. A `'header'` entry starts a group that every following item joins until the next header or the end of the array; `items` wins over `children` when both are set.
+
+<Example>
+  <ItemsExample client:load />
+</Example>
+
+## As a form field
+
+Pass `label`/`help` to wrap the combobox in a `.form-field` with an associated `FormLabel` and `FormHelp`. Pass `name` to have `Combobox` create and manage a hidden `<input>` for native form submission — its value stays in sync with the selection.
+
+<Example>
+  <FormFieldExample client:load />
+</Example>
+
+## Controlled selection
+
+Pass `value`/`onChange` to `Combobox` to control the selected option yourself. Omit them (use `defaultValue` instead) to let `Combobox` manage selection internally.
+
+## Scope
+
+This is the single-select, type-to-filter combobox — the strong-fit case for React Aria's combobox hooks, and the most common combobox pattern. Two related patterns live in other components instead:
+
+- **A button-trigger toggle with its own search field** — see [Autocomplete]([[docsref:/components/autocomplete]]).
+- **Multiple selection** — also [Autocomplete]([[docsref:/components/autocomplete]]), via its `multiple` prop, built on the same button-trigger composition.
+
+**No async filtering.** Matching happens entirely client-side against the options already passed as `children`/`items`; there's no controlled input value or `onInputChange` callback to drive a server-side search.
+
+## API
+
+### Combobox
+
+<PropTable component="Combobox" />
+
+### ComboboxItem
+
+<PropTable component="ComboboxItem" />
+
+### ComboboxGroup
+
+<PropTable component="ComboboxGroup" />

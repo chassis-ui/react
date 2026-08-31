@@ -1,0 +1,78 @@
+---
+title: Close Button
+description: Generic dismiss control for closing content like modals and alerts.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/close-button/BasicExample.tsx'
+import { Example as DisabledExample } from '../../examples/components/close-button/DisabledExample.tsx'
+import { Example as SizeExample } from '../../examples/components/close-button/SizeExample.tsx'
+import { Example as ContextExample } from '../../examples/components/close-button/ContextExample.tsx'
+import { Example as ColorExample } from '../../examples/components/close-button/ColorExample.tsx'
+import { Example as LabelExample } from '../../examples/components/close-button/LabelExample.tsx'
+import { Example as IconExample } from '../../examples/components/close-button/IconExample.tsx'
+
+## Examples
+
+`<CloseButton>` renders a dismiss control for closing a component like a modal or an alert. Its
+default styling is minimal — an X icon with no border or background — so it composes cleanly into
+whatever surface it sits on.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## Disabled state
+
+Set `disabled` to lower the button's `opacity` and block interaction. `pointer-events: none` and
+`user-select: none` also apply, so hover and active states never trigger.
+
+<Example>
+  <DisabledExample client:load />
+</Example>
+
+## Sizes
+
+Set `size` to `"small"` or `"large"` to match `<CloseButton>` to surrounding component sizes.
+
+<Example class="d-flex align-items-center">
+  <SizeExample client:load />
+</Example>
+
+## Contextual colors
+
+`<CloseButton>` inherits its icon color from the nearest context class by default.
+
+<Example class="d-flex flex-wrap gap-medium">
+  <ContextExample client:load />
+</Example>
+
+Set `color` and `variant` to apply a context style directly to `<CloseButton>`, independent of any
+ancestor context class.
+
+<Example class="d-flex gap-medium">
+  <ColorExample client:load />
+</Example>
+
+## Localizing the label
+
+`<CloseButton>` renders with an accessible name of "Close" by default. Use the `label` property to localize it for non-English contexts.
+
+<Example>
+  <LabelExample client:load />
+</Example>
+
+## Custom icon
+
+Place a custom icon inside `<CloseButton>` to replace the default X icon — the icon inherits the
+button's color and size.
+
+<Example>
+  <IconExample client:load />
+</Example>
+
+## API
+
+### CloseButton
+
+<PropTable component="CloseButton" />

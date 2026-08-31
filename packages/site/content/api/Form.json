@@ -1,0 +1,47 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/form/Form.tsx",
+  "description": "",
+  "displayName": "Form",
+  "methods": [],
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/Form.tsx",
+        "name": "FormProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/Form.tsx",
+          "name": "FormProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "validated": {
+      "defaultValue": null,
+      "description": "Mark a form as validated. If you set it `true`, all validation styles will be applied to the forms component.",
+      "name": "validated",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/form/Form.tsx",
+        "name": "FormProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/form/Form.tsx",
+          "name": "FormProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    }
+  }
+}

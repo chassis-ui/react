@@ -1,0 +1,53 @@
+---
+title: Range
+description: Custom range input with cross-browser track and thumb styling, plus min, max, and step support.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/range/BasicExample.tsx'
+import { Example as DisabledExample } from '../../examples/components/range/DisabledExample.tsx'
+import { Example as MinMaxExample } from '../../examples/components/range/MinMaxExample.tsx'
+import { Example as StepsExample } from '../../examples/components/range/StepsExample.tsx'
+
+## Overview
+
+`<RangeInput>` renders a custom `<input type="range">` whose track (the background) and thumb (the
+value) are styled to appear the same across browsers. Filling the track from the thumb to indicate
+progress is only supported natively by Edge Legacy and Firefox, so `RangeInput` doesn't attempt it.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## Disabled
+
+Add the `disabled` boolean attribute to give the input a grayed-out appearance and remove pointer
+events.
+
+<Example>
+  <DisabledExample client:load />
+</Example>
+
+## Min and max
+
+Range inputs have implicit values for `min` and `max` — `0` and `100`, respectively. Pass `min` and
+`max` to set new bounds.
+
+<Example>
+  <MinMaxExample client:load />
+</Example>
+
+## Steps
+
+By default, range inputs snap to integer values. Pass a `step` value to change the increment — the
+example below uses `step="0.5"` to double the number of steps.
+
+<Example>
+  <StepsExample client:load />
+</Example>
+
+## API
+
+### RangeInput
+
+<PropTable component="RangeInput" />

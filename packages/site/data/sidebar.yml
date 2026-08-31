@@ -1,0 +1,118 @@
+# This file holds all sidebar menu's entries for Chassis React.
+
+- title: Getting Started
+  icon: book-open-solid
+  pages:
+    - title: Introduction
+    - title: Theming
+    - title: Accessibility
+    - title: Internationalization
+    - title: TypeScript
+    - title: Working with Forms
+    - title: SSR
+    - title: Upgrading
+
+- title: Components
+  icon: box-open-solid
+  pages:
+    - group: Actions
+      pages:
+        - title: Button
+        - title: Button Group
+        - title: Close Button
+        - title: Link
+    - group: Dates
+      pages:
+        - title: Calendar
+        - title: Datepicker
+        - title: Date Range Picker
+        - title: Range Calendar
+    - group: Form Controls
+      pages:
+        - title: Text Input
+        - title: Textarea
+        - title: Select
+        - title: Checkbox
+        - title: Radio
+        - title: Switch
+        - title: Range
+        - title: File Input
+        - title: Color Input
+        - title: Combobox
+        - title: Autocomplete
+        - title: Chip Input
+        - title: OTP Input
+        - title: Password Strength
+    - group: Form Layout
+      pages:
+        - title: Form
+        - title: Form Field
+        - title: Input Group
+        - title: Floating Labels
+    - group: Navigation
+      pages:
+        - title: Navbar
+        - title: Navs & Tabs
+        - title: Tabs
+        - title: Breadcrumb
+        - title: Pagination
+    - group: Overlays
+      pages:
+        - title: Modal
+        - title: Drawer
+        - title: Menu
+        - title: Popover
+        - title: Tooltip
+    - group: Feedback
+      pages:
+        - title: Toast
+        - title: Notification
+        - title: Progress
+        - title: Stepper
+        - title: Spinner
+        - title: Skeleton
+    - group: Data Display
+      pages:
+        - title: Avatar
+        - title: Badge
+        - title: Card
+        - title: Carousel
+        - title: Chip
+        - title: Icon
+        - title: List
+        - title: Table
+        - title: Placeholder
+    - group: Disclosure
+      pages:
+        - title: Accordion
+        - title: Collapse
+    - group: Layout
+      pages:
+        - title: Container
+        - title: Column
+        - title: Flex
+        - title: Grid
+        - title: Row
+        - title: Stack
+
+- title: Hooks
+  icon: code-solid
+  pages:
+    - title: useModal
+    - title: useDrawer
+    - title: useToast
+    - title: useNotification
+    - title: usePagination
+
+- title: Patterns
+  icon: grid-solid
+  pages:
+    - title: Responsive Grid
+    - title: Form Grid
+    - title: Form Validation
+    - title: Form Processing
+    - title: Loading States
+    - title: Dashboard Widgets
+    - title: Paginated Table
+    - title: Filterable Table
+    - title: Compact Pagination

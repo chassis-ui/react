@@ -1,0 +1,42 @@
+---
+title: Server-Side Rendering
+description: How @chassis-ui/react works inside React Server Components, and what its single 'use client' directive means for a Next.js app.
+
+toc: true
+---
+
+`@chassis-ui/react` ships a single package-level `'use client'` directive covering its whole
+bundle, rather than one per component. Nearly every component reads state or uses a ref
+internally, so there's no meaningful server-safe subset to carve out separately — the practical
+effect is that the whole package behaves as one client boundary.
+
+## In Server Components
+
+Import and render any component directly inside a Server Component — no local `'use client'`
+wrapper needed on the consuming side:
+
+```tsx
+// app/page.tsx — a Server Component, no directive of its own
+import { Button, Switch } from '@chassis-ui/react'
+
+export default function Page() {
+  return (
+    <main>
+      <Button>Click me</Button>
+      <Switch defaultSelected>Works fine here</Switch>
+    </main>
+  )
+}
+```
+
+A React Server Components-aware bundler sees the directive, registers every export from
+`@chassis-ui/react` as a client reference, and renders/hydrates it correctly with no explicit
+client-component boundary in application code.
+
+## Crossing the boundary
+
+The usual Server Components rule still applies: whatever a Server Component passes down to a
+`@chassis-ui/react` component — an inline function to `onClick`, a non-primitive value to another
+prop — has to be serializable across the boundary, or itself be defined inside a Client Component
+higher up the tree. That constraint comes from React and the bundler in use, not from anything
+specific to this package.

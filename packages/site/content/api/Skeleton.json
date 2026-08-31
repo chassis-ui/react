@@ -1,0 +1,161 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/skeleton/Skeleton.tsx",
+  "description": "",
+  "displayName": "Skeleton",
+  "methods": [],
+  "props": {
+    "animation": {
+      "defaultValue": null,
+      "description": "Adds `skeleton-{animation}` alongside the base `skeleton` class, so the element animates\nitself as well as any nested `<Skeleton>` children. Nest plain `<Skeleton>` children inside\nit for the glow pulse to reach them too, or apply `wave` to a container of one or more\n`<Skeleton>` children for a directional sweep across the whole group.",
+      "name": "animation",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/skeleton/Skeleton.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"glow\" | \"wave\"",
+        "value": [
+          {
+            "value": "\"glow\""
+          },
+          {
+            "value": "\"wave\""
+          }
+        ]
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/skeleton/Skeleton.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "color": {
+      "defaultValue": null,
+      "description": "Sets the color of the component to one of Chassis context colors.",
+      "name": "color",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/skeleton/Skeleton.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "ContextColor",
+        "value": [
+          {
+            "value": "\"default\""
+          },
+          {
+            "value": "\"alternate\""
+          },
+          {
+            "value": "\"primary\""
+          },
+          {
+            "value": "\"secondary\""
+          },
+          {
+            "value": "\"neutral\""
+          },
+          {
+            "value": "\"success\""
+          },
+          {
+            "value": "\"danger\""
+          },
+          {
+            "value": "\"warning\""
+          },
+          {
+            "value": "\"info\""
+          },
+          {
+            "value": "\"black\""
+          },
+          {
+            "value": "\"white\""
+          }
+        ]
+      }
+    },
+    "component": {
+      "defaultValue": {
+        "value": "'span'"
+      },
+      "description": "Component used for the root node. Either a string to use an HTML element or a component —\ne.g. `Avatar` or `Button`. Its own props are type-checked at the call site once passed here.",
+      "name": "component",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/skeleton/Skeleton.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ElementType"
+      }
+    },
+    "span": {
+      "defaultValue": null,
+      "description": "Width of the skeleton, expressed as a column span (of 12), or `'auto'`/`true` for a\nnatural-width skeleton. Unset by default, so the rendered element's own intrinsic width\napplies — set it explicitly (e.g. `span={12}`) for a full-width text line; leave it unset\nwhen `component` is something that sizes itself, like `Avatar` or `Button`.",
+      "name": "span",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/skeleton/Skeleton.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "{ 'auto' | number | string | boolean }"
+      }
+    },
+    "responsive": {
+      "defaultValue": null,
+      "description": "Overrides `span` at a breakpoint and up.",
+      "name": "responsive",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/skeleton/Skeleton.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "{ Partial<Record<'small' | 'medium' | 'large' | 'xlarge' | '2xlarge', 'auto' | number | string | boolean>> }"
+      }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/skeleton/Skeleton.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "any"
+      }
+    }
+  }
+}

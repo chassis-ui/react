@@ -1,0 +1,81 @@
+{
+  "tags": {},
+  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/accordion/Accordion.tsx",
+  "description": "",
+  "displayName": "AccordionItemDef",
+  "methods": [],
+  "props": {
+    "alwaysOpen": {
+      "name": "alwaysOpen",
+      "required": false,
+      "description": "Let this item stay open when another item opens, overriding the accordion's `alwaysOpen` setting.",
+      "defaultValue": null,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "body": {
+      "name": "body",
+      "required": true,
+      "description": "Body content, rendered inside a `AccordionBody`.",
+      "defaultValue": null,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "className": {
+      "name": "className",
+      "required": false,
+      "description": "A string of all className you want applied to this item.",
+      "defaultValue": null,
+      "type": {
+        "name": "string"
+      }
+    },
+    "header": {
+      "name": "header",
+      "required": true,
+      "description": "Header content, rendered inside a `AccordionHeader`.",
+      "defaultValue": null,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "id": {
+      "name": "id",
+      "required": false,
+      "description": "React key for this item. Falls back to its index when omitted.",
+      "defaultValue": null,
+      "type": {
+        "name": "string | number"
+      }
+    },
+    "name": {
+      "name": "name",
+      "required": false,
+      "description": "The group this item shares with other items so only one can be open at a time, overriding the\naccordion's shared `name`.",
+      "defaultValue": null,
+      "type": {
+        "name": "string"
+      }
+    },
+    "onToggle": {
+      "name": "onToggle",
+      "required": false,
+      "description": "Callback fired when this item's open state changes. Chained after `Accordion`'s own handling\nof `expandedKeys`/`onExpandedChange`, so it fires regardless of whether those are used.",
+      "defaultValue": null,
+      "type": {
+        "name": "((event: SyntheticEvent<HTMLDetailsElement, Event>) => void)"
+      }
+    },
+    "open": {
+      "name": "open",
+      "required": false,
+      "description": "Start the item in the open state (uncontrolled). Ignored for items whose key is included in\n`expandedKeys`/`defaultExpandedKeys` on the parent `Accordion`.",
+      "defaultValue": null,
+      "type": {
+        "name": "boolean"
+      }
+    }
+  }
+}

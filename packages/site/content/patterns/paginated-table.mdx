@@ -1,0 +1,22 @@
+---
+title: Paginated Table
+description: A complete example of Table and Pagination working together to display and navigate a large data set.
+
+toc: true
+---
+
+import { Example as PaginatedTable } from '../../examples/patterns/paginated-table/PaginatedTable.tsx'
+
+A common UI pattern: fetch a data array, slice it for the current page, render the table, and show
+a pagination control beneath it.
+
+<Example>
+  <PaginatedTable client:load />
+</Example>
+
+## Key points
+
+- `allUsers.slice(offset, offset + pageSize)` computes the visible rows. Replace with an API call that accepts `page` and `pageSize` query params.
+- The `render` function in `columns` lets you replace raw values with components like `<Badge>`.
+- Changing `pageSize` resets the page to `1` to avoid a non-existent page.
+- `<Pagination>` automatically shows ellipsis when pages exceed `maxVisiblePages` (default 5).

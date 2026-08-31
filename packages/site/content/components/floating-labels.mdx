@@ -1,0 +1,81 @@
+---
+title: Floating labels
+description: Float labels above textual form fields when a value is present or the field is focused.
+toc: true
+---
+
+import { Example as TextInputsExample } from '../../examples/components/floating-labels/TextInputsExample.tsx'
+import { Example as ExistingValueExample } from '../../examples/components/floating-labels/ExistingValueExample.tsx'
+import { Example as HelpAndValidationExample } from '../../examples/components/floating-labels/HelpAndValidationExample.tsx'
+import { Example as TextareaExample } from '../../examples/components/floating-labels/TextareaExample.tsx'
+import { Example as TextareaHeightExample } from '../../examples/components/floating-labels/TextareaHeightExample.tsx'
+import { Example as SelectExample } from '../../examples/components/floating-labels/SelectExample.tsx'
+import { Example as LayoutExample } from '../../examples/components/floating-labels/LayoutExample.tsx'
+
+## Examples
+
+Pass `label` and `ids={{ input: yourControlId }}` to `FloatingInput` and wrap a `TextInput`,
+`Select`, or `Textarea` (matched on the same `id`) to enable floating labels with textual form
+fields — `FloatingInput` renders the floating `<label>` itself, so don't also pass `label` to the
+wrapped control. A `placeholder` is required on each `<TextInput>`, since this CSS-only technique
+relies on the `:placeholder-shown` pseudo-class.
+
+<Example>
+  <TextInputsExample client:load />
+</Example>
+
+The label floats automatically when the wrapped control already has a `value`.
+
+<Example>
+  <ExistingValueExample client:load />
+</Example>
+
+## Help and feedback
+
+Passing `help`, `invalid`/`invalidFeedback`, or `valid`/`validFeedback` wraps the floating input
+in a `.form-field` and renders the corresponding text below it, same as the other form components
+— point the control's own `aria-describedby` at the same id via `ids.help`/`ids.feedback` so it
+stays associated.
+
+<Example>
+  <HelpAndValidationExample client:load />
+</Example>
+
+## Textareas
+
+A `<Textarea>` renders at the same height as a `<TextInput>` by default.
+
+<Example>
+  <TextareaExample client:load />
+</Example>
+
+Set an explicit `height` (inline or via custom CSS) for a custom `<Textarea>` height instead of the
+`rows` attribute, which floating labels don't account for.
+
+<Example>
+  <TextareaHeightExample client:load />
+</Example>
+
+## Selects
+
+Floating labels also work with `<Select>`, though a select's label always renders in its floated
+state rather than overlapping the value. **Selects with `size` or `multiple` set aren't supported.**
+
+<Example>
+  <SelectExample client:load />
+</Example>
+
+## Layout
+
+Place floating inputs inside `<Row>`/`<Col>` column classes when combining them with the Chassis
+grid system.
+
+<Example>
+  <LayoutExample client:load />
+</Example>
+
+## API
+
+### FloatingInput
+
+<PropTable component="FloatingInput" />

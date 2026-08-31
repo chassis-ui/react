@@ -1,0 +1,114 @@
+{
+  "name": "@chassis-ui/react",
+  "version": "0.1.0",
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "description": "Chassis UI Components Library for React.js",
+  "keywords": [
+    "react",
+    "react-component",
+    "react component",
+    "chassis-ui",
+    "chassis react",
+    "ui library",
+    "ui components",
+    "component library",
+    "components"
+  ],
+  "homepage": "https://chassis-ui.com/react/",
+  "bugs": {
+    "url": "https://github.com/chassis-ui/react/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chassis-ui/react.git"
+  },
+  "license": "MIT",
+  "author": "Chassis UI Team",
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    ".": "./dist/index.js",
+    "./package.json": "./package.json",
+    "./style.css": "./dist/style.css"
+  },
+  "sideEffects": [
+    "./src/utils/suppressFocusRingGlobally.ts"
+  ],
+  "files": [
+    "dist/",
+    "src/"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "test": "vitest run --coverage",
+    "test:update": "vitest run --coverage -u",
+    "lint": "pnpm lint:eslint && pnpm lint:stylelint && pnpm lint:prettier",
+    "lint:eslint": "eslint --cache --cache-location ../../.cache/react.eslintcache --report-unused-disable-directives .",
+    "lint:stylelint": "stylelint --cache --cache-location ../../.cache/react.stylelintcache \"**/*.{css,scss}\"",
+    "lint:prettier": "prettier -c --cache --ignore-path ../../.gitignore --ignore-path ../../.prettierignore .",
+    "format": "prettier --write --ignore-path ../../.gitignore --ignore-path ../../.prettierignore .",
+    "check:bundle": "bundlewatch --config .bundlewatch.config.json",
+    "check:package": "publint && attw --pack . --profile esm-only --exclude-entrypoints ./style.css",
+    "check:api": "ts-node --project ../../build/tsconfig.json ./scripts/check-api-surface.ts",
+    "check:api:update": "ts-node --project ../../build/tsconfig.json ./scripts/check-api-surface.ts --update",
+    "storybook": "storybook dev -p 6006",
+    "storybook:build": "storybook build -o ../../_storybook",
+    "test:visual": "pnpm storybook:build --quiet && playwright test",
+    "test:visual:update": "pnpm storybook:build --quiet && playwright test --update-snapshots",
+    "test:visual:update:linux": "bash scripts/update-linux-snapshots.sh"
+  },
+  "dependencies": {
+    "@internationalized/date": "^3.12.2",
+    "classnames": "^2.3.1",
+    "react-aria": "^3.0.0",
+    "react-stately": "^3.0.0",
+    "react-transition-group": "^4.4.2"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.5",
+    "@arethetypeswrong/core": "^0.18.5",
+    "@chassis-ui/css": "^0.4.0-0",
+    "@chassis-ui/tokens": "^0.4.0",
+    "@playwright/test": "1.62.1",
+    "@storybook/addon-a11y": "^10.5.6",
+    "@storybook/addon-docs": "^10.5.6",
+    "@storybook/addon-themes": "^10.5.8",
+    "@storybook/addon-vitest": "^10.5.8",
+    "@storybook/react-vite": "^10.5.6",
+    "@testing-library/jest-dom": "^6.0.0",
+    "@testing-library/react": "^16.0.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@tsdown/css": "^0.22.14",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@types/react-transition-group": "^4.4.11",
+    "@vitejs/plugin-react": "^6.0.4",
+    "@vitest/browser-playwright": "4.1.10",
+    "@vitest/coverage-istanbul": "^4.1.10",
+    "bundlewatch": "^0.4.2",
+    "http-server": "^14.1.1",
+    "jest-axe": "^11.0.0",
+    "jsdom": "^30.0.0",
+    "playwright": "^1.62.1",
+    "postcss": "^8.5.23",
+    "postcss-prefix-custom-properties": "^0.1.0",
+    "publint": "^0.3.23",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "sass": "^1.101.0",
+    "storybook": "^10.5.10",
+    "tsdown": "0.22.14",
+    "tslib": "^2.6.0",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.10"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  }
+}

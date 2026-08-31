@@ -1,0 +1,157 @@
+---
+title: Skeleton
+description: Loading placeholder that mimics a piece of content's shape while it's still loading, to prevent layout shift.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/skeleton/BasicExample.tsx'
+import { Example as WidthExample } from '../../examples/components/skeleton/WidthExample.tsx'
+import { Example as ColorExample } from '../../examples/components/skeleton/ColorExample.tsx'
+import { Example as AnimationExample } from '../../examples/components/skeleton/AnimationExample.tsx'
+import { Example as CustomElementsExample } from '../../examples/components/skeleton/CustomElementsExample.tsx'
+import { Example as SkeletonLoaderExample } from '../../examples/components/skeleton/SkeletonLoaderExample.tsx'
+
+## Overview
+
+`<Skeleton>` renders a loading placeholder shaped like the content it stands in for, holding a
+layout's size steady while data loads. It always renders whatever is passed to it — swapping a
+skeleton for its real content once data arrives is left to application state, not a prop on the
+component itself. It renders a `<span>` by default, and every other prop is optional: width,
+color, and animation are opt-in on top of the bare shape.
+
+- `span` and `responsive` size a skeleton with the same `col-{n}` grid classes as
+  [`<Col>`]([[docsref:/components/column]]).
+- `color` overrides the default `currentColor` background with one of the context colors.
+- `animation` adds `skeleton-glow` or `skeleton-wave` alongside the base `skeleton` class on the
+  element it's set on, so that element animates itself — nesting plain `<Skeleton>` children
+  inside an animated one animates the whole group together.
+- `component` renders the skeleton as another element or component, for matching the shape of
+  whatever it's standing in for.
+
+## Examples
+
+### Basic usage
+
+A single `<Skeleton span={n}>` mimics one line of content. Stack several inside a flowing
+container for a paragraph-shaped block — each one wraps like an inline word once a row fills, so
+the ragged trailing edge falls out naturally.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+<Callout type="warning">
+`aria-hidden="true"` only hides a skeleton from assistive technology — it doesn't manage the
+loading state itself. Toggle between the skeleton and its real content with application code, and
+pair the swap with an `aria-live` announcement (or a live region already present in the real
+content) so assistive technology users learn when the data has finished loading.
+</Callout>
+
+### Width
+
+Set `span` to size a skeleton like a grid column out of 12, or reach for `className`/inline
+`style` for any other width.
+
+<Example>
+  <WidthExample client:load />
+</Example>
+
+### Color
+
+A skeleton's background is `currentColor` by default. Set `color` to any context color to match a
+branded or role-specific loading state.
+
+<Example>
+  <ColorExample client:load />
+</Example>
+
+### Animation
+
+Set `animation` on a wrapping `<Skeleton component="p">` (or any other element) to convey that
+content is actively loading rather than merely present. The animated element gets
+`skeleton-glow`/`skeleton-wave` alongside its own `skeleton` class, so it animates itself too, and
+plain `<Skeleton>` children nested inside it inherit the effect.
+
+<Example>
+  <AnimationExample client:load />
+</Example>
+
+### Custom elements
+
+`<Skeleton>` is polymorphic: pass `component` to render it as another element or component instead
+of the default `<span>`, and the props checked at the call site follow whatever `component` is —
+`<Skeleton component={Button} variant="outline">` type-checks `variant` against `Button`'s own
+props, not `Skeleton`'s. Skeleton's own background/opacity/animation styling wins over the
+target's, while the target's own CSS still supplies the shape (button padding, avatar
+`border-radius`, etc.), so the result is a correctly-shaped, correctly-animated stand-in with no
+extra work. Pass the target's own `disabled` prop, as shown below for both `Button` and `Avatar`,
+to hold its height steady and get its existing disabled styling for free — no manual `.disabled`
+class or `aria-disabled` needed.
+
+<Example>
+  <CustomElementsExample client:load />
+</Example>
+
+<Callout type="info">
+chassis-css applies extra styling to `.button` elements via `::before` so a button's height holds
+steady once a skeleton replaces its label. Extend the same `::before` pattern for other
+components, or add a non-breaking space inside an element to preserve its height once real content
+renders in place of the skeleton.
+</Callout>
+
+<Callout type="warning">
+Don't reach for [`<Placeholder>`]([[docsref:/components/placeholder]]) as `component` here despite
+the name — it solves a different problem. `<Placeholder>` is a permanent stand-in for image content
+that's genuinely missing, not a temporary loading state, and it defaults to a visible `title`/`text`
+label with `role="img"`/`aria-label`, which would nest a screen-reader-announced element inside
+what's meant to be a decorative skeleton. Size a bare `<Skeleton>` to match the real image instead —
+see [Loading states]([[docsref:/patterns/loading-states]]) for a worked example swapping a
+`<CardImage>` for one while loading.
+</Callout>
+
+### Swapping in real content
+
+`<Skeleton>` never manages the swap to real content itself — every example above still needs
+application code deciding when to render the real thing instead. `<SkeletonLoader>` does exactly
+that swap: pass the eventual content as `children`, and it renders a matching skeleton while
+`loading` is `true`, or `children` unchanged — no wrapper element at all — once it's `false`.
+
+For a run of text, `spans` sizes one skeleton line per entry (a bare value like `spans={6}` is
+shorthand for a single line, equivalent to `spans={[6]}`).
+
+<Example>
+  <SkeletonLoaderExample client:load />
+</Example>
+
+`<SkeletonLoader>` is polymorphic too, exactly like `<Skeleton>` — its `component` prop (and that
+component's own props, type-checked the same way) work for non-text content, not just text runs.
+Leave `spans` unset for a target that already sizes itself, like `Avatar`'s `size` prop. See
+[Loading states]([[docsref:/patterns/loading-states]])'s profile example for `<Skeleton
+component={Avatar}>`/`<Skeleton component={Button}>` used through `<SkeletonLoader>` this way.
+
+Unlike `<Skeleton>`'s own `animation` prop, `<SkeletonLoader>` has no element of its own to put
+`skeleton-glow`/`skeleton-wave` on. Apply it to whatever container already wraps the swap — a
+`<p>`, a `<Card>`, a `<Table>` — and it reaches every generated skeleton inside automatically,
+regardless of nesting depth, whether via `skeleton-glow`'s descendant selector or `skeleton-wave`'s
+mask over the container's whole subtree. See [Loading states]([[docsref:/patterns/loading-states]])
+for full worked examples combining both components into a card, a profile row, and a table's
+loading state — and for where to put the `aria-live` announcement when several `<SkeletonLoader>`s
+belong to one loading operation (see the callout above): once on the shared container, not once per
+`<SkeletonLoader>`, so a form or table with many fields doesn't announce itself several times over.
+
+## Scope
+
+**No reduced-motion handling.** The `glow` and `wave` animations run at a fixed rate regardless of
+a visitor's reduced-motion preference — chassis-css doesn't gate either behind
+`prefers-reduced-motion` today. Wrap an animated `<Skeleton>` in that media query, or an equivalent
+JavaScript check, to disable the animation where it matters.
+
+## API
+
+### Skeleton
+
+<PropTable component="Skeleton" />
+
+### SkeletonLoader
+
+<PropTable component="SkeletonLoader" />
