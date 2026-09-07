@@ -48,7 +48,7 @@
     "sync-submodules": "node build/sync-submodules.js"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.31.1",
+    "@changesets/cli": "^3.0.2",
     "@eslint/js": "^10.0.1",
     "@testing-library/dom": "^10.0.0",
     "@types/node": "^22.0.0",
