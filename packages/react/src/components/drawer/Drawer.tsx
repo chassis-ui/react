@@ -118,6 +118,7 @@ export const Drawer = forwardRef<HTMLDialogElement, DrawerProps>(
       fullscreen,
       instant,
       keyboard = true,
+      onClick,
       onClose,
       onClosePrevented,
       onHidden,
@@ -144,6 +145,7 @@ export const Drawer = forwardRef<HTMLDialogElement, DrawerProps>(
             if (entry.dialog !== dialog) entry.close()
           }
         },
+        onClick,
         onClose,
         onClosePrevented,
         onHidden,

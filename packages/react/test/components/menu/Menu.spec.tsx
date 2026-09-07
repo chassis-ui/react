@@ -343,13 +343,14 @@ describe('Menu', () => {
           </MenuList>
         </Menu>
       )
-      // Mounting while already closed fires the same `onHide` (and schedules `onHidden`) once,
-      // as a pre-existing side effect of the callback effect running on mount regardless of
-      // dependency changes — unrelated to what's under test here, so start counts fresh.
-      onShow.mockClear()
-      onShown.mockClear()
-      onHide.mockClear()
-      onHidden.mockClear()
+      // Regression test: all four report transitions, so mounting closed fires none of them.
+      // This used to fire `onHide` (and schedule `onHidden`) on the initial commit, reporting a
+      // close for a menu that had never opened.
+      expect(onHide).not.toHaveBeenCalled()
+      expect(onShow).not.toHaveBeenCalled()
+      vi.runAllTimers()
+      expect(onHidden).not.toHaveBeenCalled()
+      expect(onShown).not.toHaveBeenCalled()
 
       fireEvent.click(screen.getByText('Toggle'))
       expect(onShow).toHaveBeenCalledTimes(1)
