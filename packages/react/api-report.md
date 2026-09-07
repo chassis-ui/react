@@ -13,7 +13,7 @@ renamed export, ...) and review the diff like any other code change. `pnpm react
 ```ts
 import React, { AriaAttributes, ButtonHTMLAttributes, ChangeEventHandler, ComponentPropsWithRef, ComponentPropsWithoutRef, DetailsHTMLAttributes, DialogHTMLAttributes, ElementType, FC, FormHTMLAttributes, Fragment, HTMLAttributes, ImgHTMLAttributes, InputHTMLAttributes, Key, LabelHTMLAttributes, MouseEvent, MouseEventHandler, ReactElement, ReactNode, Ref, RefObject, SVGAttributes, TextareaHTMLAttributes, useEffect } from "react";
 import { DateValue, I18nProvider, Key as Key$1, RangeValue } from "react-aria";
-import { DateValue as DateValue$1, Key as Key$2, Selection, SortDescriptor, TableBodyProps, TableHeaderProps, ToastQueue } from "react-stately";
+import { DateValue as DateValue$1, Key as Key$2, Selection, SortDescriptor, TableBodyProps as TableBodyProps$1, TableHeaderProps as TableHeaderProps$1, ToastQueue } from "react-stately";
 //#region src/components/accordion/Accordion.d.ts
 interface AccordionItemDef {
   /**
@@ -2555,6 +2555,7 @@ export declare const PasswordStrength: {
 type Placement = 'bottom' | 'bottom-end' | 'bottom-start' | 'left' | 'left-end' | 'left-start' | 'right' | 'right-end' | 'right-start' | 'top' | 'top-end' | 'top-start';
 //#endregion
 //#region src/components/menu/Menu.d.ts
+type MenuFocusStrategy = 'first' | 'last';
 type MenuAutoClose = 'inside' | 'outside' | boolean;
 type MenuOwnProps<C extends ElementType> = {
   /**
@@ -5103,9 +5104,9 @@ interface TableProps<T extends object> {
    * A `TableHeader` and a `TableBody`, each built from `TableColumn`/`TableRow`/
    * `TableCell` — read as data to build the table's collection. Not rendered directly.
    */
-  children: [ReactElement<TableHeaderProps<T> & {
+  children: [ReactElement<TableHeaderProps$1<T> & {
     className?: string;
-  }>, ReactElement<TableBodyProps<T> & {
+  }>, ReactElement<TableBodyProps$1<T> & {
     className?: string;
   }>];
   /**
@@ -5179,7 +5180,7 @@ export declare const Table: <T extends object>(props: TableProps<T> & {
 }) => ReactElement;
 //#endregion
 //#region src/components/table/TableBody.d.ts
-interface TableBodyProps$1<T> {
+interface TableBodyProps<T> {
   /**
    * `TableRow` elements, or a render function paired with `items` for dynamic row generation.
    */
@@ -5197,7 +5198,7 @@ interface TableBodyProps$1<T> {
  * Collection node, data-only — read by `Table` to build the table's row collection. Never
  * rendered directly.
  */
-export declare const TableBody: <T>(props: TableBodyProps$1<T>) => ReactElement;
+export declare const TableBody: <T>(props: TableBodyProps<T>) => ReactElement;
 //#endregion
 //#region src/components/table/TableCell.d.ts
 interface TableCellProps {
@@ -5254,7 +5255,7 @@ interface TableColumnProps {
 export declare const TableColumn: (props: TableColumnProps) => ReactElement;
 //#endregion
 //#region src/components/table/TableHeader.d.ts
-interface TableHeaderProps$1<T> {
+interface TableHeaderProps<T> {
   /**
    * `TableColumn` elements, or a render function paired with `columns` for dynamic column
    * generation.
@@ -5273,7 +5274,7 @@ interface TableHeaderProps$1<T> {
  * Collection node, data-only — read by `Table` to build the table's column collection. Never
  * rendered directly.
  */
-export declare const TableHeader: <T>(props: TableHeaderProps$1<T>) => ReactElement;
+export declare const TableHeader: <T>(props: TableHeaderProps<T>) => ReactElement;
 //#endregion
 //#region src/components/table/TableRow.d.ts
 interface TableRowProps {
@@ -5918,5 +5919,5 @@ type StackComponent = (<C extends ElementType = 'div'>(props: StackProps<C> & {
 };
 export declare const Stack: StackComponent;
 //#endregion
-export { I18nProvider };
+export { type AccordionBodyProps, type AccordionHeaderProps, type AccordionItemDef, type AccordionItemProps, type AccordionProps, type AutocompleteGroupProps, type AutocompleteItemProps, type AutocompleteProps, type AvatarImageProps, type AvatarProps, type AvatarStackItemDef, type AvatarStackProps, type BadgeProps, type BreadcrumbItemDef, type BreadcrumbItemProps, type BreadcrumbProps, type Breakpoint, type ButtonGroupProps, type ButtonObject, type ButtonProps, type ButtonToolbarProps, type CalendarMultipleProps, type CalendarProps, type CalendarSingleProps, type CardBodyProps, type CardFooterProps, type CardGroupProps, type CardHeaderProps, type CardImageOverlayProps, type CardImageProps, type CardLinkProps, type CardProps, type CardSubtitleProps, type CardTextProps, type CardTitleProps, type CarouselControlNextProps, type CarouselControlPrevProps, type CarouselEnds, type CarouselIndicatorsProps, type CarouselInnerProps, type CarouselItemProps, type CarouselOverlayProps, type CarouselPlayPauseProps, type CarouselProps, type CarouselSlideDetail, type CarouselTransition, type CheckboxGroupProps, type CheckboxProps, type ChipInputProps, type ChipProps, type CloseButtonProps, type ColProps, type CollapseProps, type ColorInputProps, type ComboboxGroupProps, type ComboboxItemProps, type ComboboxProps, type ContainerProps, type ContextColor, type ContextStyle, type DatePickerMultipleProps, type DatePickerProps, type DatePickerSingleProps, type DateRangePickerProps, type DateRangePreset, type DrawerBodyProps, type DrawerFooterProps, type DrawerHeaderProps, type DrawerProps, type DrawerTitleProps, type ExtendedSizing, type FileInputProps, type FlexProps, type FloatingInputProps, type FormFeedbackProps, type FormFieldProps, type FormHelpProps, type FormLabelProps, type FormProps, type GridItemLayout, type GridItemProps, type GridProps, I18nProvider, type IconProps, type InputAdornProps, type InputGroupAddonProps, type InputGroupProps, type LinkProps, type ListItemDef, type ListItemProps, type ListProps, type MenuAutoClose, type MenuDividerDef, type MenuDividerProps, type MenuFocusStrategy, type MenuHeaderDef, type MenuHeaderProps, type MenuItemDef, type MenuItemProps, type MenuItemsDef, type MenuListProps, type MenuProps, type MenuSubmenuBackProps, type MenuSubmenuProps, type MenuTextProps, type MenuToggleProps, type ModalBodyProps, type ModalFooterProps, type ModalHeaderProps, type ModalProps, type ModalTitleProps, type NavItemDef, type NavLinkProps, type NavProps, type NavTitleProps, type NavbarBrandProps, type NavbarNavProps, type NavbarProps, type NavbarTextProps, type NavbarTogglerProps, type NotificationContent, type NotificationIconProps, type NotificationProps, type NotificationStackProps, type NotificationTextProps, type NotificationTitleProps, type OtpInputProps, type PaginationItemProps, type PaginationProps, type PasswordStrengthProps, type PlaceholderProps, type Placement, type PopoverProps, type ProgressBarProps, type ProgressProps, type RadioGroupProps, type RadioProps, type RangeCalendarProps, type RangeInputProps, type RowProps, type SelectOptionDef, type SelectProps, type Shapes, type Sizing, type SkeletonLoaderProps, type SkeletonProps, type Spacing, type SpinnerProps, type StackProps, type StepperItemDef, type StepperItemProps, type StepperProps, type SwitchProps, type TabListProps, type TabPanelProps, type TabProps, type TableBodyProps, type TableCellProps, type TableColumnProps, type TableHeaderProps, type TableProps, type TableRowProps, type TabsProps, type TextInputProps, type TextareaProps, type ToastBodyProps, type ToastContent, type ToastFooterProps, type ToastHeaderProps, type ToastIconProps, type ToastProps, type ToasterProps, type TooltipProps, type UseDrawerResult, type UseModalResult, type UseNotificationResult, type UsePaginationResult, type UseToastResult };
 ```

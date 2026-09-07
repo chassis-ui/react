@@ -1,12 +1,18 @@
-import React, { FC, ReactElement, ReactNode, useRef } from 'react'
+import React, { FC, ReactElement, ReactNode, useCallback, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import classNames from 'classnames'
 import { mergeProps, useOverlayPosition, useTooltip, useTooltipTrigger } from 'react-aria'
 import { useTooltipTriggerState } from 'react-stately'
 import { Transition } from 'react-transition-group'
 
-import { getOverlayArrowStyle, getOverlayTransitionClass, useFloatingOverlay } from '../../hooks'
+import {
+  getOverlayArrowStyle,
+  getOverlayTransitionClass,
+  useFloatingOverlay,
+  useForkedRef
+} from '../../hooks'
 import { Placement, resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
+import { asTriggerElement, getTriggerRef } from '../../utils/triggerElement'
 
 export type { Placement }
 
@@ -59,6 +65,18 @@ export const Tooltip: FC<TooltipProps> = ({
   const triggerRef = useRef<HTMLElement | null>(null)
   const floatingRef = useRef<HTMLDivElement>(null)
 
+  // `cloneElement`'s config replaces the child's own `ref` outright rather than merging with it,
+  // so capturing the trigger node has to be forked with whatever ref the caller already put on
+  // that child — otherwise `<Tooltip><Button ref={mine} /></Tooltip>` silently never populates
+  // `mine`. Same reasoning for merging (rather than overwriting) the child's own props below:
+  // `triggerProps` carries the focus/hover handlers this component needs, and spreading them raw
+  // would drop a handler the caller put on their own trigger.
+  const setTriggerRef = useCallback((node: HTMLElement | null) => {
+    triggerRef.current = node
+  }, [])
+  const triggerElement = asTriggerElement(children)
+  const forkedTriggerRef = useForkedRef<HTMLElement>(setTriggerRef, getTriggerRef(triggerElement))
+
   // react-stately defaults to a 1500ms warmup delay (and 500ms cooldown) before a first tooltip
   // shows, spectrum-style — chassis-css's own JS plugin defaults to instant (`delay: 0`), so
   // match that here rather than leaving new adopters to wonder why the first hover lags.
@@ -107,11 +125,9 @@ export const Tooltip: FC<TooltipProps> = ({
 
   return (
     <>
-      {React.cloneElement(children, {
-        ref: (node: HTMLElement | null) => {
-          triggerRef.current = node
-        },
-        ...triggerProps
+      {React.cloneElement(triggerElement, {
+        ...mergeProps(triggerElement.props, triggerProps),
+        ref: forkedTriggerRef
       })}
       {typeof window !== 'undefined' &&
         createPortal(
