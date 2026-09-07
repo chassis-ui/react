@@ -43,10 +43,21 @@ export const renderFormField = ({
   valid,
   validFeedback
 }: RenderFormFieldOptions): ReactNode => {
-  const showInvalidFeedback = invalid && invalidFeedback
-  const showValidFeedback = valid && validFeedback
+  // At most one feedback node renders, and `invalid` wins: both carry the same `ids.feedback`,
+  // so rendering the pair (which `invalid` + `valid` set together used to do) put a duplicate id
+  // in the DOM and left every control's `aria-describedby` pointing at an ambiguous target —
+  // axe's `duplicate-id-aria`. `useFormField` only ever budgets one feedback id for the same
+  // reason. Contradictory state, but nothing in the types rules it out and ten components route
+  // through here.
+  const showInvalidFeedback = Boolean(invalid && invalidFeedback)
+  const showValidFeedback = Boolean(valid && validFeedback) && !showInvalidFeedback
 
-  if (!label && !help && !showInvalidFeedback && !showValidFeedback) {
+  // `className` alone is enough to warrant the wrapper: it has nowhere else to land, and
+  // returning `children` bare (the drop-in-compatibility path every field-capable leaf relies on
+  // until a consumer opts into wrapping) silently dropped it. Only `FormField` — the standalone
+  // "wrap this yourself" component — passes one, so this is exactly the case where the caller
+  // asked for a `.form-field` element by hand.
+  if (!label && !help && !showInvalidFeedback && !showValidFeedback && !className) {
     return children
   }
 

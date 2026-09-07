@@ -165,6 +165,33 @@ describe('Modal', () => {
       vi.useRealTimers()
     })
 
+    // Regression test: `<dialog>` needs `onClick` for its own backdrop detection, and the props
+    // spread put the caller's alongside it — so a caller-supplied `onClick` was silently dropped.
+    // It's chained ahead of the backdrop handling now, and fires for every click on the dialog.
+    test("runs the caller's own onClick, both inside the dialog and on the backdrop", () => {
+      vi.useFakeTimers()
+      const onClick = vi.fn()
+      const onClose = vi.fn()
+      render(
+        <Modal onClick={onClick} onClose={onClose} visible>
+          <div>Content</div>
+        </Modal>
+      )
+      const dialog = getDialog()
+
+      fireEvent.click(screen.getByText('Content'))
+      expect(onClick).toHaveBeenCalledTimes(1)
+      expect(onClose).not.toHaveBeenCalled()
+
+      fireEvent.click(dialog)
+      act(() => {
+        vi.runAllTimers()
+      })
+      expect(onClick).toHaveBeenCalledTimes(2)
+      expect(onClose).toHaveBeenCalledTimes(1)
+      vi.useRealTimers()
+    })
+
     test('backdrop={false} still closes on backdrop click, same as the default — only "static" bounces', () => {
       // Intentional: chassis-css's vanilla Dialog only reads `backdrop` to distinguish 'static'
       // from everything else; `modal` alone decides showModal()/show(). Unlike Drawer (whose own

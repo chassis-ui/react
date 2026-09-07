@@ -131,6 +131,52 @@ describe('Tooltip', () => {
     })
   })
 
+  describe('show/hide callbacks', () => {
+    // Regression test: `onShow`/`onHide` report transitions, so mounting hidden fires neither.
+    // The shared visibility effect used to run its `else` branch on the initial commit,
+    // reporting a hide for a tooltip that had never been shown.
+    test('neither callback fires on mount', () => {
+      const onShow = vi.fn()
+      const onHide = vi.fn()
+      render(
+        <Tooltip content="content" onShow={onShow} onHide={onHide}>
+          <Link href="#">Test</Link>
+        </Tooltip>
+      )
+      expect(onHide).not.toHaveBeenCalled()
+      expect(onShow).not.toHaveBeenCalled()
+    })
+
+    test('onShow fires once shown and onHide once hidden again', () => {
+      vi.useFakeTimers()
+      const onShow = vi.fn()
+      const onHide = vi.fn()
+      const { rerender } = render(
+        <Tooltip content="content" visible={false} onShow={onShow} onHide={onHide}>
+          <Link href="#">Test</Link>
+        </Tooltip>
+      )
+
+      rerender(
+        <Tooltip content="content" visible onShow={onShow} onHide={onHide}>
+          <Link href="#">Test</Link>
+        </Tooltip>
+      )
+      act(() => vi.runAllTimers())
+      expect(onShow).toHaveBeenCalledTimes(1)
+      expect(onHide).not.toHaveBeenCalled()
+
+      rerender(
+        <Tooltip content="content" visible={false} onShow={onShow} onHide={onHide}>
+          <Link href="#">Test</Link>
+        </Tooltip>
+      )
+      act(() => vi.runAllTimers())
+      expect(onHide).toHaveBeenCalledTimes(1)
+      vi.useRealTimers()
+    })
+  })
+
   describe('accessibility', () => {
     test('has no axe violations when visible', async () => {
       vi.useFakeTimers()

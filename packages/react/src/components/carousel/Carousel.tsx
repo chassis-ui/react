@@ -131,6 +131,9 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       itemsGap,
       itemsPeek,
       keyboard = true,
+      onKeyDown,
+      onMouseEnter,
+      onMouseLeave,
       onSlid,
       onSlide,
       pause = 'hover',
@@ -655,7 +658,13 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       }
     }, [])
 
+    // Compose rather than let a caller's handler silently replace the carousel's own — same rule
+    // `CarouselControlButton`/`CarouselPlayPause` follow for `onClick`. These three sit on the
+    // root element, so before this they were simply overwritten by the `{...rest}` spread below:
+    // passing `onKeyDown` turned off arrow-key navigation and passing `onMouseEnter`/
+    // `onMouseLeave` turned off pause-on-hover, both silently.
     const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+      onKeyDown?.(event)
       if (!keyboard) return
       const target = event.target as HTMLElement
       if (target.closest('input, textarea, select, [contenteditable="true"]')) return
@@ -667,11 +676,13 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       else goNext()
     }
 
-    const handleMouseEnter = () => {
+    const handleMouseEnter = (event: React.MouseEvent<HTMLDivElement>) => {
+      onMouseEnter?.(event)
       if (pause === 'hover') pauseCycle()
     }
 
-    const handleMouseLeave = () => {
+    const handleMouseLeave = (event: React.MouseEvent<HTMLDivElement>) => {
+      onMouseLeave?.(event)
       if (pause === 'hover' && playing) startCycle()
     }
 

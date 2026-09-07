@@ -221,9 +221,21 @@ export const Popover: FC<PopoverProps> = ({
             nodeRef={floatingRef}
             onExited={() => {
               const trigger = triggerRef.current
-              if (trigger && document.contains(trigger)) {
-                trigger.focus()
-              }
+              if (!trigger || !document.contains(trigger)) return
+              // Only reclaim focus when the popover still owns it, or when nothing does.
+              // `useDialog` moves focus into the panel on open, so the panel still holds it here
+              // for an Escape/inside close (`onExited` runs before `unmountOnExit` detaches the
+              // node, so this reads the pre-removal state); an outside click on plain page
+              // content instead leaves focus loose on `<body>`. Both are worth restoring. Any
+              // other active element means the user deliberately put focus there — dismissing by
+              // clicking another control, or the app closing the popover via `visible` while
+              // they were typing somewhere else — and this used to steal it straight back off
+              // them. Mirrors react-aria's own `shouldRestoreFocus` condition.
+              const active = document.activeElement
+              const focusIsLoose = !active || active === document.body
+              const focusIsInPanel = !!active && !!floatingRef.current?.contains(active)
+              if (!focusIsLoose && !focusIsInPanel) return
+              trigger.focus()
             }}
             timeout={{
               enter: 0,

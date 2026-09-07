@@ -210,6 +210,33 @@ describe('Drawer', () => {
       vi.useRealTimers()
     })
 
+    // Regression test: `<dialog>` needs `onClick` for its own backdrop detection, and the props
+    // spread put the caller's alongside it — so a caller-supplied `onClick` was silently dropped.
+    // It's chained ahead of the backdrop handling now, and fires for every click on the dialog.
+    test("runs the caller's own onClick, both inside the drawer and on the backdrop", () => {
+      vi.useFakeTimers()
+      const onClick = vi.fn()
+      const onClose = vi.fn()
+      render(
+        <Drawer onClick={onClick} onClose={onClose} placement="start" visible>
+          <div>Content</div>
+        </Drawer>
+      )
+      const dialog = getDialog()
+
+      fireEvent.click(screen.getByText('Content'))
+      expect(onClick).toHaveBeenCalledTimes(1)
+      expect(onClose).not.toHaveBeenCalled()
+
+      fireEvent.click(dialog)
+      expect(onClick).toHaveBeenCalledTimes(2)
+      expect(onClose).toHaveBeenCalledTimes(1)
+      act(() => {
+        vi.runAllTimers()
+      })
+      vi.useRealTimers()
+    })
+
     test('a plain button in the footer wired via useDrawer closes the drawer', () => {
       vi.useFakeTimers()
       const onClose = vi.fn()

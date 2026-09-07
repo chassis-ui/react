@@ -81,6 +81,41 @@ describe('FormField', () => {
       )
       expect(screen.getByText('Looks good')).toHaveClass('valid-feedback')
     })
+
+    // Regression test: both feedback nodes carry the same `ids.feedback`, so rendering the pair
+    // put a duplicate id in the DOM and left `aria-describedby` pointing at an ambiguous target.
+    // Contradictory state, but nothing in the types rules it out — invalid wins.
+    test('renders only the invalid feedback when invalid and valid are both set', () => {
+      render(
+        <FormField
+          label="Name"
+          invalid
+          invalidFeedback="Required"
+          valid
+          validFeedback="Looks good"
+          ids={{ input: 'name', feedback: 'name-feedback' }}
+        >
+          <input id="name" aria-describedby="name-feedback" />
+        </FormField>
+      )
+      expect(screen.getByText('Required')).toHaveClass('invalid-feedback')
+      expect(screen.queryByText('Looks good')).toBeNull()
+    })
+
+    // Regression test: the bare-children path returned `children` untouched, so a `className`
+    // passed to `FormField` — which has nowhere else to land — was silently dropped.
+    test('renders the wrapper for a className even with no label/help/feedback', () => {
+      const { container } = render(
+        <FormField className="mb-large">
+          <input aria-label="Name" />
+        </FormField>
+      )
+      // Asserting a wrapper identified only by its classes; no accessible query surfaces it.
+      // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+      const field = container.querySelector('.form-field')
+      expect(field).not.toBeNull()
+      expect(field).toHaveClass('mb-large')
+    })
   })
 
   describe('accessibility', () => {
