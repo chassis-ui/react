@@ -19,13 +19,13 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0 # changesets needs full history to diff against the last release
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: pnpm
@@ -39,7 +39,7 @@ jobs:
       - run: pnpm react:build
 
       - name: Create Version Packages PR or publish to npm
-        uses: changesets/action@v1
+        uses: changesets/action@v2
         with:
           version: pnpm changeset:version
           publish: pnpm changeset:publish

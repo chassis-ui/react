@@ -1,5 +1,5 @@
 import fs from 'node:fs'
-import yaml from 'js-yaml'
+import { load } from 'js-yaml'
 import { z } from 'zod'
 import { zVersionMajorMinor, zVersionSemver } from './validation'
 
@@ -43,7 +43,7 @@ export function getConfig(): Config {
   }
 
   try {
-    const rawConfig = yaml.load(fs.readFileSync('./config.yml', 'utf8'))
+    const rawConfig = load(fs.readFileSync('./config.yml', 'utf8'))
     config = configSchema.parse(rawConfig)
     return config
   } catch (error) {

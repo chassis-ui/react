@@ -10,14 +10,14 @@
   },
   "dependencies": {
     "@chassis-ui/react": "workspace:*",
-    "next": "16.3.0",
+    "next": "16.3.4",
     "react": "19.2.8",
     "react-dom": "19.2.8"
   },
   "devDependencies": {
-    "@types/node": "^20",
+    "@types/node": "^26",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "typescript": "^5"
+    "typescript": "^6"
   }
 }

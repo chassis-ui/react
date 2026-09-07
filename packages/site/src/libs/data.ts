@@ -1,5 +1,5 @@
 import fs from 'node:fs'
-import yaml from 'js-yaml'
+import { load } from 'js-yaml'
 import { z } from 'zod'
 
 // An object containing all the data types and their associated schema. The key
@@ -48,7 +48,7 @@ export function getData<TType extends DataType>(
   const dataPath = `./data/${type}.yml`
 
   try {
-    const rawData = yaml.load(fs.readFileSync(dataPath, 'utf8'))
+    const rawData = load(fs.readFileSync(dataPath, 'utf8'))
     const parsedData = dataDefinitions[type].parse(rawData)
     data.set(type, parsedData)
     return parsedData as z.infer<(typeof dataDefinitions)[TType]>
