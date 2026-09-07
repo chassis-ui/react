@@ -177,6 +177,16 @@ describe('Popover', () => {
       expect(screen.getByRole('dialog')).toBeInTheDocument()
       vi.useRealTimers()
     })
+
+    test("forwards the trigger child's own ref alongside its internal one", () => {
+      const ref = React.createRef<HTMLButtonElement>()
+      render(
+        <Popover content="content">
+          <Button ref={ref}>Test</Button>
+        </Popover>
+      )
+      expect(ref.current).toBe(screen.getByRole('button', { name: 'Test' }))
+    })
   })
 
   describe('focus management', () => {

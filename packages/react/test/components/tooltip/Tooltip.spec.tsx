@@ -104,6 +104,33 @@ describe('Tooltip', () => {
     })
   })
 
+  describe('trigger behavior', () => {
+    test("forwards the trigger child's own ref alongside its internal one", () => {
+      const ref = React.createRef<HTMLAnchorElement>()
+      render(
+        <Tooltip content="content">
+          <Link ref={ref} href="#">
+            Test
+          </Link>
+        </Tooltip>
+      )
+      expect(ref.current).toBe(screen.getByRole('link', { name: 'Test' }))
+    })
+
+    test("preserves the trigger child's own focus handler", () => {
+      const onFocus = vi.fn()
+      render(
+        <Tooltip content="content">
+          <Link href="#" onFocus={onFocus}>
+            Test
+          </Link>
+        </Tooltip>
+      )
+      act(() => screen.getByRole('link', { name: 'Test' }).focus())
+      expect(onFocus).toHaveBeenCalled()
+    })
+  })
+
   describe('accessibility', () => {
     test('has no axe violations when visible', async () => {
       vi.useFakeTimers()
