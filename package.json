@@ -52,7 +52,7 @@
     "@eslint/js": "^10.0.1",
     "@testing-library/dom": "^10.0.0",
     "@types/node": "^22.0.0",
-    "eslint": "^10.6.0",
+    "eslint": "^10.9.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-astro": "^3.1.0",
     "eslint-plugin-import": "^2.32.0",
@@ -60,11 +60,11 @@
     "eslint-plugin-prettier": "^5.5.6",
     "eslint-plugin-react": "^7.27.1",
     "eslint-plugin-react-hooks": "^7.1.1",
-    "eslint-plugin-storybook": "^10.5.6",
+    "eslint-plugin-storybook": "^10.6.0",
     "eslint-plugin-testing-library": "^7.16.2",
     "eslint-plugin-unicorn": "^73.0.0",
-    "globals": "^17.7.0",
-    "html-validate": "^11.5.5",
+    "globals": "^17.12.0",
+    "html-validate": "^11.13.0",
     "pagefind": "^1.5.2",
     "picocolors": "^1.1.1",
     "prettier": "^3.9.4",
@@ -74,8 +74,8 @@
     "stylelint-config-twbs-bootstrap": "^16.1.0",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.62.1",
-    "vnu-jar": "^26.7.3"
+    "typescript-eslint": "^8.69.0",
+    "vnu-jar": "^26.8.30"
   },
   "packageManager": "pnpm@10.33.2+sha512.a90faf6feeab71ad6c6e57f94e0fe1a12f5dcc22cd754db40ae9593eb6a3e0b6b12e3540218bb37ae083404b1f2ce6db2a4121e979829b4aff94b99f49da1cf8"
 }
