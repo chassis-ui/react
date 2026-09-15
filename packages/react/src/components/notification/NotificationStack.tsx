@@ -39,7 +39,7 @@ export const NotificationStack = forwardRef<HTMLDivElement, NotificationStackPro
     return (
       <Stack
         direction="vertical"
-        gap="small"
+        gap="sm"
         className={className}
         {...regionProps}
         {...rest}

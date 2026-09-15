@@ -2,7 +2,7 @@ import { Breakpoint } from '../types'
 
 // Mobile-first ascending order. Every responsive layout prop (`Flex`/`Stack`/`Row`/`Col`/
 // `Skeleton`'s `responsive`) keys its overrides by these literal chassis-css breakpoint names.
-export const BREAKPOINTS: Breakpoint[] = ['small', 'medium', 'large', 'xlarge', '2xlarge']
+export const BREAKPOINTS: Breakpoint[] = ['sm', 'md', 'lg', 'xl', '2xl']
 
 // A column/width span: a track count, `'auto'` for a natural-width track, or `true` for the bare
 // (no explicit width) case. Shared by `Col` and `Skeleton`, both of which map it to the same

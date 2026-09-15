@@ -1,6 +1,6 @@
 {
   "tags": {},
-  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/skeleton/Skeleton.tsx",
+  "filePath": "packages/react/src/components/skeleton/Skeleton.tsx",
   "description": "",
   "displayName": "Skeleton",
   "methods": [],
@@ -139,7 +139,7 @@
       ],
       "required": false,
       "type": {
-        "name": "{ Partial<Record<'small' | 'medium' | 'large' | 'xlarge' | '2xlarge', 'auto' | number | string | boolean>> }"
+        "name": "{ Partial<Record<'sm' | 'md' | 'lg' | 'xl' | '2xl', 'auto' | number | string | boolean>> }"
       }
     },
     "ref": {

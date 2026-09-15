@@ -28,19 +28,19 @@ const meta: Meta<typeof Flex> = {
       options: [
         0,
         'zero',
-        '4xsmall',
-        '3xsmall',
-        '2xsmall',
-        'xsmall',
-        'small',
-        'medium',
-        'large',
-        'xlarge',
-        '2xlarge',
-        '3xlarge',
-        '4xlarge',
-        '5xlarge',
-        '6xlarge'
+        '4xs',
+        '3xs',
+        '2xs',
+        'xs',
+        'sm',
+        'md',
+        'lg',
+        'xl',
+        '2xl',
+        '3xl',
+        '4xl',
+        '5xl',
+        '6xl'
       ]
     }
   }
@@ -49,7 +49,7 @@ export default meta
 
 type Story = StoryObj<typeof Flex>
 
-const itemClass = 'border p-xsmall'
+const itemClass = 'border p-xs'
 
 const items = (
   <>
@@ -61,7 +61,7 @@ const items = (
 
 export const Basic: Story = {
   args: {
-    gap: 'medium',
+    gap: 'md',
     children: items
   }
 }
@@ -69,7 +69,7 @@ export const Basic: Story = {
 export const Column: Story = {
   args: {
     direction: 'column',
-    gap: 'medium',
+    gap: 'md',
     children: items
   }
 }
@@ -101,7 +101,7 @@ export const Wrap: Story = {
   ),
   args: {
     wrap: 'wrap',
-    gap: 'small'
+    gap: 'sm'
   }
 }
 
@@ -116,8 +116,8 @@ export const RowAndColumnGap: Story = {
   ),
   args: {
     wrap: 'wrap',
-    rowGap: 'xlarge',
-    columnGap: 'xsmall'
+    rowGap: 'xl',
+    columnGap: 'xs'
   }
 }
 
@@ -126,9 +126,9 @@ export const RowAndColumnGap: Story = {
 export const Responsive: Story = {
   args: {
     direction: 'column',
-    gap: 'small',
+    gap: 'sm',
     responsive: {
-      medium: { direction: 'row', gap: 'medium', justify: 'between' }
+      md: { direction: 'row', gap: 'md', justify: 'between' }
     },
     children: items
   }

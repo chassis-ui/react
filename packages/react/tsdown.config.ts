@@ -7,6 +7,12 @@ export default defineConfig({
   format: 'esm',
   dts: true,
   platform: 'neutral',
+  // Explicit, not inferred. tsdown derives a target from `package.json`'s `engines.node` when one
+  // is present, which silently made this browser library emit for `node24.0.0` — an unrelated
+  // field that also happened to make `npm install` fail for consumers under engine-strict, so it
+  // was removed. `es2022` matches the `browserslist` floor now declared alongside it (Chrome 107 /
+  // Edge 107 / Firefox 104 / Safari 16 — the same "baseline widely available" set Vite targets).
+  target: 'es2022',
   exports: true,
   publint: true,
   // Published dist is what every consumer downloads — minify the JS/CSS output instead of
@@ -48,11 +54,5 @@ export default defineConfig({
         ]
       }
     }
-  },
-  // Rolldown strips module-level directives when bundling (directives only survive automatically
-  // for entry modules or with `preserveModules: true`) — re-added here as a literal banner so it
-  // survives as the first line of the emitted file, which is what RSC-aware bundlers scan for.
-  // Scoped to `js` only: a bare string banner applies to every output tsdown emits, including
-  // `dist/index.d.ts`, and `'use client';` has no business prefixing a type declaration file.
-  banner: { js: "'use client';" }
+  }
 })

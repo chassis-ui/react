@@ -1,15 +1,15 @@
 // Internal helpers shared by the carousel family. Not exported from the component's public
 // barrel (see CONVENTIONS.md's helper-module carve-out).
 
+import { isRTL } from '../../utils/direction'
+
 export const ITEM_SELECTOR = '.carousel-item:not(.carousel-item-clone)'
 
 export function getCarouselItems(viewport: HTMLElement): HTMLElement[] {
   return Array.from(viewport.querySelectorAll<HTMLElement>(`:scope > ${ITEM_SELECTOR}`))
 }
 
-export function isRTL(element: Element): boolean {
-  return getComputedStyle(element).direction === 'rtl'
-}
+export { isRTL }
 
 export function prefersReducedMotion(): boolean {
   return (

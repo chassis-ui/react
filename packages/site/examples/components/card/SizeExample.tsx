@@ -11,7 +11,7 @@ import {
 export const Example = () => {
   return (
     <>
-      <Card size="small" style={{ width: '16rem' }}>
+      <Card size="sm" style={{ width: '16rem' }}>
         <CardImage orientation="top" src="https://placehold.co/800x400" />
         <CardBody>
           <CardTitle>Card title</CardTitle>
@@ -25,7 +25,7 @@ export const Example = () => {
           </Button>
         </CardBody>
       </Card>
-      <Card size="large" style={{ width: '22rem' }}>
+      <Card size="lg" style={{ width: '22rem' }}>
         <CardImage orientation="top" src="https://placehold.co/800x400" />
         <CardBody>
           <CardTitle>Card title</CardTitle>

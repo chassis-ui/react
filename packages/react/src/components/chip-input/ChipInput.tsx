@@ -15,6 +15,7 @@ import { useControllableState, useForkedRef, useFormField } from '../../hooks'
 import { validationClassName } from '../../utils/validationClassName'
 import { renderFormField } from '../form-field/renderFormField'
 import { ChipList, ChipItem } from './ChipList'
+import { isRTL } from '../../utils/direction'
 
 // `allowDuplicates` means two tags can share a value, but react-stately's collection needs a
 // unique key per item — keying on the value alone collapses duplicates into the same node, so
@@ -106,9 +107,9 @@ export interface ChipInputProps extends Omit<
    */
   separator?: string | null
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'small' | 'large'
+  size?: 'sm' | 'lg'
   /**
    * Set component validation state to valid.
    */
@@ -237,9 +238,16 @@ export const ChipInput = forwardRef<HTMLDivElement, ChipInputProps>(
           }
           break
         }
-        case 'ArrowLeft': {
+        // Stepping backwards out of the text field and into the chips is a *visual* movement, so
+        // the key that does it mirrors under RTL — ArrowLeft in an LTR field, ArrowRight in an RTL
+        // one, matching where the chips actually sit relative to the caret. The caret check is
+        // unchanged: `selectionStart === 0` is the start of the text in either direction.
+        case 'ArrowLeft':
+        case 'ArrowRight': {
           const input = inputRef.current
-          if (input && input.selectionStart === 0 && input.selectionEnd === 0) {
+          if (!input) break
+          const movesBackward = (event.key === 'ArrowLeft') !== isRTL(input)
+          if (movesBackward && input.selectionStart === 0 && input.selectionEnd === 0) {
             event.preventDefault()
             focusLastChip(event.shiftKey)
           }

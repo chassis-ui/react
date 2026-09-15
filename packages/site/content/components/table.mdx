@@ -53,7 +53,7 @@ Once a cell has focus, arrow keys move focus across the grid — no extra setup 
 
 ## Variants
 
-`bordered`, `borderless`, `hover`, `small`, `striped`, and `color` all apply to the `<table>` element itself, the same as any other table markup.
+`bordered`, `borderless`, `hover`, `sm`, `striped`, and `color` all apply to the `<table>` element itself, the same as any other table markup.
 
 <Example>
   <VariantsExample client:load />
@@ -87,7 +87,7 @@ Each `TableColumn`'s text becomes the label shown before that column's value; se
 
 ## Scope
 
-- **No virtualization.** Every row renders directly — there's no windowing for very large datasets. React Aria doesn't ship a public general-purpose virtualizer for Table (its internal one isn't meant for outside use), and layering in a separate library (e.g. `@tanstack/react-virtual`) is a substantial enough change — fixed/measured row heights, a scroll container, and interaction with React Aria's own keyboard navigation and focus management — that it's deferred rather than bundled into this first pass. Most large datasets are better served by server-side pagination anyway.
+- **No virtualization.** Every row renders directly — there's no windowing for very lg datasets. React Aria doesn't ship a public general-purpose virtualizer for Table (its internal one isn't meant for outside use), and layering in a separate library (e.g. `@tanstack/react-virtual`) is a substantial enough change — fixed/measured row heights, a scroll container, and interaction with React Aria's own keyboard navigation and focus management — that it's deferred rather than bundled into this first pass. Most lg datasets are better served by server-side pagination anyway.
 - **No column resizing or reordering, no nested/expandable rows.** React Aria's table hooks support these, but they're not wired up here.
 
 ## API

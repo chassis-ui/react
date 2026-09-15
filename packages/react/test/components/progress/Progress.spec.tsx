@@ -16,7 +16,7 @@ describe('Progress', () => {
       const bar = within(progress).getByText('', { selector: '.progress-bar' })
       expect(bar).toHaveStyle('width: 50%')
       // eslint-disable-next-line testing-library/no-node-access
-      expect(bar.querySelector('.mx-2xsmall')).toBeInTheDocument()
+      expect(bar.querySelector('.mx-2xs')).toBeInTheDocument()
     })
 
     test('applies the height as the --cx-height custom property', () => {

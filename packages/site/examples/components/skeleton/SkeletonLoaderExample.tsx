@@ -5,7 +5,7 @@ export const Example = () => {
   const [loading, setLoading] = useState(true)
 
   return (
-    <div className="vstack gap-medium">
+    <div className="vstack gap-md">
       <p className={loading ? 'skeleton-glow mb-0' : 'mb-0'}>
         <SkeletonLoader loading={loading} spans={[12, 9, 5]}>
           Chassis is a design system and component library built for teams who need to move fast

@@ -11,12 +11,21 @@
     "moduleResolution": "bundler",
     "ignoreDeprecations": "6.0",
     "forceConsistentCasingInFileNames": true,
+    // Full `strict`, not the hand-picked subset this used to enable (`noImplicitAny`,
+    // `strictNullChecks`, `noImplicitThis`). The missing flag that actually mattered for a
+    // component library was `strictFunctionTypes` — without it, prop-callback parameter types are
+    // checked bivariantly, so a handler that accepts a *narrower* event/value than the prop
+    // declares type-checks fine and blows up at runtime. Turning the whole family on cost zero
+    // new errors across src/, test/ and .storybook/.
+    "strict": true,
     "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    // Required for `pnpm check:types` (and its CI step) to be usable at all: several third-party
+    // .d.ts files this project depends on (@storybook/react, react-stately,
+    // @internationalized/number) don't type-check cleanly under TS 6, and their errors are
+    // neither actionable here nor a signal about this repo's own code.
+    "skipLibCheck": true,
     "esModuleInterop": true
   },
   "exclude": ["**/node_modules", "**/dist"]

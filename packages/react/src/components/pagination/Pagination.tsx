@@ -67,9 +67,9 @@ export interface PaginationProps extends HTMLAttributes<HTMLElement> {
    */
   showPrevNext?: boolean
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'small' | 'large'
+  size?: 'sm' | 'lg'
 }
 
 function getPageRange(activePage: number, pages: number, maxVisible: number): (number | '...')[] {

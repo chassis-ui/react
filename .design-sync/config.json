@@ -1,0 +1,54 @@
+{
+  "pkg": "@chassis-ui/react",
+  "globalName": "ChassisReact",
+  "shape": "storybook",
+  "storybookStatic": ".design-sync/sb-reference",
+  "storybookConfigDir": "packages/react/.storybook",
+  "buildCmd": "pnpm react:build && bash .design-sync/stage-assets.sh",
+  "entry": "dist/index.js",
+  "cssEntry": ".ds-css/chassis.min.css",
+  "extraFonts": [
+    "../../.design-sync/fonts.css"
+  ],
+  "libOverrides": {
+    "dts.mjs": "package.json declares no `types` field (tsdown emits dist/index.d.ts adjacent to dist/index.js; publint + attw pass) so projectFor() resolved the type entry to a nonexistent <pkg>/index.d.ts and discovered 0 components \u2014 the fork prefers index.d.ts inside the already-resolved typesRoot."
+  },
+  "docsDir": "../site/content/components",
+  "docsMap": {
+    "Col": "../site/content/components/column.mdx"
+  },
+  "extraEntries": [
+    "../../.design-sync/preview-theme-root.js"
+  ],
+  "provider": {
+    "component": "ChassisThemeRoot",
+    "props": {
+      "theme": "light"
+    }
+  },
+  "overrides": {
+    "Col": {
+      "cardMode": "column"
+    },
+    "GridItem": {
+      "cardMode": "column"
+    },
+    "Popover": {
+      "cardMode": "column"
+    },
+    "Toast": {
+      "cardMode": "single",
+      "primaryStory": "Basic",
+      "skip": [
+        "toast-toast--placement-bottom-end"
+      ]
+    },
+    "Collapse": {
+      "skip": [
+        "collapse-collapse--closed"
+      ]
+    }
+  },
+  "projectId": "91177c6f-184d-454c-8e14-18a3b29ea396",
+  "readmeHeader": ".design-sync/conventions.md"
+}

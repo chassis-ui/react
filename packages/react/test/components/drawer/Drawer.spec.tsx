@@ -36,7 +36,7 @@ describe('Drawer', () => {
           fitContent
           fullscreen
           placement="bottom"
-          responsive="large"
+          responsive="lg"
           sheet
           translucent
           visible
@@ -47,7 +47,7 @@ describe('Drawer', () => {
       const dialog = getDialog()
       expect(dialog).toHaveClass(
         'bazinga',
-        'max-large:drawer',
+        'max-lg:drawer',
         'drawer-bottom',
         'fullscreen',
         'sheet',
@@ -203,6 +203,33 @@ describe('Drawer', () => {
       fireEvent.click(screen.getByText('Content'))
       expect(onClose).toHaveBeenCalledTimes(0)
       fireEvent.click(dialog)
+      expect(onClose).toHaveBeenCalledTimes(1)
+      act(() => {
+        vi.runAllTimers()
+      })
+      vi.useRealTimers()
+    })
+
+    // Regression test: `<dialog>` needs `onClick` for its own backdrop detection, and the props
+    // spread put the caller's alongside it — so a caller-supplied `onClick` was silently dropped.
+    // It's chained ahead of the backdrop handling now, and fires for every click on the dialog.
+    test("runs the caller's own onClick, both inside the drawer and on the backdrop", () => {
+      vi.useFakeTimers()
+      const onClick = vi.fn()
+      const onClose = vi.fn()
+      render(
+        <Drawer onClick={onClick} onClose={onClose} placement="start" visible>
+          <div>Content</div>
+        </Drawer>
+      )
+      const dialog = getDialog()
+
+      fireEvent.click(screen.getByText('Content'))
+      expect(onClick).toHaveBeenCalledTimes(1)
+      expect(onClose).not.toHaveBeenCalled()
+
+      fireEvent.click(dialog)
+      expect(onClick).toHaveBeenCalledTimes(2)
       expect(onClose).toHaveBeenCalledTimes(1)
       act(() => {
         vi.runAllTimers()

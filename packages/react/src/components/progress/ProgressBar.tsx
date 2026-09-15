@@ -77,7 +77,7 @@ function ProgressBarRender<C extends ElementType = 'div'>(
       style={{ width: `${clampedValue}%`, ...style }}
       ref={ref}
     >
-      <span className="mx-2xsmall">{children}</span>
+      <span className="mx-2xs">{children}</span>
     </Component>
   )
 }

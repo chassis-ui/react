@@ -324,7 +324,7 @@ Three authoring patterns, depending on whether the example needs interactivity:
 - **Static, inline** — the example needs no state. Write the markup directly as the example's
   children; the source shown below the preview is sliced verbatim from it.
 - **Interactive, extracted to its own file** — the example needs local state, event handlers, or
-  any hook. Write it as a small standalone component and hydrate it explicitly at render time
+  any hook. Write it as a sm standalone component and hydrate it explicitly at render time
   (without the hydration directive the demo renders but never becomes interactive). The displayed
   source is the referenced file's content, verbatim — write these files as documentation-quality
   samples, not scratch demos, since the raw file is what readers see.
@@ -407,8 +407,8 @@ fits their use case.
 
 **Good:**
 
-> **No virtualization.** Every row renders directly — there's no windowing for very large
-> datasets. Most large datasets are better served by server-side pagination anyway.
+> **No virtualization.** Every row renders directly — there's no windowing for very lg
+> datasets. Most lg datasets are better served by server-side pagination anyway.
 
 ### 14. No "JavaScript API" section
 
@@ -485,7 +485,7 @@ under discussion, assume the reader has the surrounding setup from earlier in th
 
 Split when a `##` section has more than three `###` sub-sections covering distinct topics, or the
 doc exceeds ~600 lines, or the ToC needs scrolling to see all top-level sections. The exception is
-a large family reference with many sub-components that still reads end-to-end as one coherent doc
+a lg family reference with many sub-components that still reads end-to-end as one coherent doc
 — a long doc isn't automatically wrong, but a new component approaching this size is a signal to
 consider splitting by concern (e.g. moving cross-cutting layout guidance to its own guide and
 linking back) rather than defaulting to one giant page.

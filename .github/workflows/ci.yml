@@ -29,6 +29,14 @@ jobs:
       - run: pnpm --filter @chassis-ui/react exec playwright install --with-deps chromium
 
       - run: pnpm lint:eslint
+
+      # Nothing else type-checks this repo's own source: tsdown's build doesn't check function
+      # bodies (it bundles declarations, it doesn't run a full `tsc`), and `react:check:api` only
+      # diffs the emitted .d.ts against a snapshot. Type errors in `src/` therefore reached
+      # `main` — including a `usePagination` return type that claimed its refs were non-null when
+      # `useRef<T>(null)` makes them nullable, which shipped to consumers in the published types.
+      - run: pnpm react:check:types
+
       - run: pnpm test
 
       # Builds the real dist/index.d.ts (bundled directly by tsdown) and diffs it against the
@@ -37,6 +45,18 @@ jobs:
       # after publish. See packages/react/scripts/check-api-surface.ts.
       - run: pnpm react:build
       - run: pnpm react:check:api
+
+      # Asserts the published bundle still starts with exactly one `'use client'` directive.
+      # Rolldown preserves the entry module's own directive, so `tsdown.config.ts` no longer
+      # re-adds it via `output.banner` — this is what keeps that safe across a tsdown/rolldown
+      # bump, instead of relying on someone remembering to grep dist/ by hand (see RSC.md).
+      - run: pnpm react:check:rsc
+
+      # `packages/site/content/api/` is generated from the components' exported props by
+      # `pnpm react:generate` and committed. Unlike `api-report.md` it had no gate, so a props
+      # change that skipped the regenerate step silently left the docs site rendering a stale
+      # prop table. Regenerates and fails if the result differs from what's committed.
+      - run: pnpm react:check:api-docs
 
       # Validates the actual published package shape — the `exports` map tsdown generates,
       # whether every entrypoint's files really exist (publint), and whether the `.d.ts` each
@@ -52,14 +72,9 @@ jobs:
       # types for it to resolve.
       - run: pnpm react:check:package
 
-      # `pnpm site:check` (type-check only, no Sass compilation) rather than the full
-      # `pnpm build`/`pnpm site:build`/`astro build` — the full static build currently fails on a
-      # pre-existing, external issue in the sibling `../chassis-css` checkout's own in-progress
-      # `_datepicker.scss` changes (undefined `$cx-color-date-picker-fg-idle`), unrelated to this
-      # repo, documented across several `.claude/plans/chassis-react-enterprise-migration.md`
-      # batches. Wiring the full build here would make this gate chronically red for reasons
-      # outside this repo's control. `astro check` doesn't compile Sass at all, so it isn't
-      # affected and has stayed green throughout.
+      # Type-checking only (`astro check`) — fast, and it needs neither the `vendor/assets`
+      # submodule nor a Sass toolchain. The full static build now runs too, but as its own
+      # `site-build` job below, because it needs a submodule checkout this job doesn't do.
       - run: pnpm site:check
 
       # Guards against the exact class of regression this repo already hit once (pre-tsdown, under
@@ -84,6 +99,38 @@ jobs:
       - run: pnpm audit --prod
       - run: pnpm audit
         continue-on-error: true
+
+  # The full static site build (`astro build` + pagefind), not just `astro check`'s type pass.
+  # This used to be impossible to gate on: it failed on an external issue in the sibling
+  # `../chassis-css` checkout's own in-progress Sass, which a workspace override linked in. That
+  # override was dev-only and has since been removed — the site now builds against the published
+  # `@chassis-ui/css`, and `pnpm site:build` is green again, so the gap where a
+  # static-generation break was only ever caught by hand is closed.
+  #
+  # Its own job rather than a step in `test` because it's the only thing here that needs the
+  # `vendor/assets` submodule — `packages/site/public/` is populated from it by
+  # `pnpm sync-submodules` (via `site:setup`) and is gitignored, so a plain checkout doesn't have
+  # it.
+  site-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          submodules: true
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # `site:setup` = sync-submodules + react:build + react:generate — the site imports
+      # `@chassis-ui/react` through the workspace link, so `dist/` has to exist first.
+      - run: pnpm site:setup
+      - run: pnpm site:build
 
   # Screenshot regression tests against a built Storybook (packages/react/test/visual/,
   # packages/react/.storybook/), starting with the calendar/datepicker family — Phase 2 of the

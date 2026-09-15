@@ -20,8 +20,8 @@ describe('Navbar', () => {
           color="primary"
           variant="solid"
           component="h3"
-          container="xlarge"
-          expand="large"
+          container="xl"
+          expand="lg"
           placement="sticky-bottom"
         >
           Test
@@ -34,10 +34,10 @@ describe('Navbar', () => {
         'primary',
         'context',
         'solid',
-        'large:navbar-expand',
+        'lg:navbar-expand',
         'sticky-bottom'
       )
-      expect(screen.getByText('Test')).toHaveClass('container-xlarge')
+      expect(screen.getByText('Test')).toHaveClass('container-xl')
     })
 
     test('applies boolean container and expand classes', () => {

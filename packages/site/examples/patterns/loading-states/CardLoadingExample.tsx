@@ -13,7 +13,7 @@ export const Example = () => {
   }, [loading])
 
   return (
-    <div className="vstack gap-medium" style={{ maxWidth: '20rem' }}>
+    <div className="vstack gap-md" style={{ maxWidth: '20rem' }}>
       <span className="visually-hidden" aria-live="polite">
         {loading ? 'Loading product…' : 'Product loaded'}
       </span>

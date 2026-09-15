@@ -3,21 +3,21 @@ import { Button, FileInput, InputGroup, InputGroupAddon } from '@chassis-ui/reac
 export const Example = () => {
   return (
     <>
-      <InputGroup className="mb-medium">
+      <InputGroup className="mb-md">
         <InputGroupAddon component="label" htmlFor="inputGroupFile01">
           Upload
         </InputGroupAddon>
         <FileInput id="inputGroupFile01" />
       </InputGroup>
 
-      <InputGroup className="mb-medium">
+      <InputGroup className="mb-md">
         <FileInput id="inputGroupFile02" />
         <InputGroupAddon component="label" htmlFor="inputGroupFile02">
           Upload
         </InputGroupAddon>
       </InputGroup>
 
-      <InputGroup className="mb-medium">
+      <InputGroup className="mb-md">
         <Button type="button" color="secondary" variant="outline" id="inputGroupFileAddon03">
           Button
         </Button>

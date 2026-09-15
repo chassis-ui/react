@@ -21,6 +21,7 @@ import { validationClassName } from '../../utils/validationClassName'
 
 import { CheckboxGroupContext } from './context'
 import { ButtonObject, renderFormCheck } from '../form/renderFormCheck'
+import { devError, devWarning } from '../../utils/devWarning'
 
 export type { ButtonObject } from '../form/renderFormCheck'
 
@@ -72,9 +73,9 @@ export interface CheckboxProps extends Omit<
    */
   onChange?: (isSelected: boolean) => void
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'small' | 'large'
+  size?: 'sm' | 'lg'
   /**
    * Set component validation state to valid.
    */
@@ -183,15 +184,15 @@ const CheckboxGroupItem = forwardRef<HTMLInputElement, CheckboxGroupItemProps>(
     // Once per mount, not on every render — these are dev-time misuse warnings, not something
     // that needs to re-fire for every keystroke a parent's re-render happens to cause.
     useEffect(() => {
-      if (!rest.value) {
-        console.error('Checkbox: a `value` prop is required when rendered inside a CheckboxGroup.')
-      }
-      if (_defaultSelected !== undefined || _isSelected !== undefined || _onChange !== undefined) {
-        console.warn(
-          'Checkbox: `defaultSelected`, `isSelected`, and `onChange` are ignored inside a ' +
-            "CheckboxGroup — selection is owned by the group's `value`/`defaultValue`/`onChange`."
-        )
-      }
+      devError(
+        !rest.value,
+        'Checkbox: a `value` prop is required when rendered inside a CheckboxGroup.'
+      )
+      devWarning(
+        _defaultSelected !== undefined || _isSelected !== undefined || _onChange !== undefined,
+        'Checkbox: `defaultSelected`, `isSelected`, and `onChange` are ignored inside a ' +
+          "CheckboxGroup — selection is owned by the group's `value`/`defaultValue`/`onChange`."
+      )
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 

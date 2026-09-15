@@ -1,6 +1,6 @@
 {
   "tags": {},
-  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/grid/Col.tsx",
+  "filePath": "packages/react/src/components/grid/Col.tsx",
   "description": "",
   "displayName": "Col",
   "methods": [],
@@ -40,7 +40,7 @@
       ],
       "required": false,
       "type": {
-        "name": "{ Partial<Record<'small' | 'medium' | 'large' | 'xlarge' | '2xlarge', { span?: 'auto' | number | string | boolean, offset?: number | string, order?: 'first' | 'last' | number | string }>> }"
+        "name": "{ Partial<Record<'sm' | 'md' | 'lg' | 'xl' | '2xl', { span?: 'auto' | number | string | boolean, offset?: number | string, order?: 'first' | 'last' | number | string }>> }"
       }
     },
     "span": {

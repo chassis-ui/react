@@ -11,7 +11,7 @@ export default meta
 
 type Story = StoryObj<typeof Grid>
 
-const boxClass = 'primary-dim-slight primary-border-subtle border p-medium text-center'
+const boxClass = 'primary-dim-slight primary-border-subtle border p-md text-center'
 
 export const Basic: Story = {
   render: () => (
@@ -26,9 +26,9 @@ export const Basic: Story = {
 export const Responsive: Story = {
   render: () => (
     <Grid>
-      <div className={`g-col-6 medium:g-col-4 ${boxClass}`}>.g-col-6 .medium:g-col-4</div>
-      <div className={`g-col-6 medium:g-col-4 ${boxClass}`}>.g-col-6 .medium:g-col-4</div>
-      <div className={`g-col-6 medium:g-col-4 ${boxClass}`}>.g-col-6 .medium:g-col-4</div>
+      <div className={`g-col-6 md:g-col-4 ${boxClass}`}>.g-col-6 .md:g-col-4</div>
+      <div className={`g-col-6 md:g-col-4 ${boxClass}`}>.g-col-6 .md:g-col-4</div>
+      <div className={`g-col-6 md:g-col-4 ${boxClass}`}>.g-col-6 .md:g-col-4</div>
     </Grid>
   )
 }

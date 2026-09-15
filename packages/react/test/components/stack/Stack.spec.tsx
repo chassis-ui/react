@@ -37,8 +37,8 @@ describe('Stack', () => {
 
   describe('gap', () => {
     test('applies a gap-{value} class for a named spacing value', () => {
-      render(<Stack gap="medium">Test</Stack>)
-      expect(screen.getByText('Test')).toHaveClass('gap-medium')
+      render(<Stack gap="md">Test</Stack>)
+      expect(screen.getByText('Test')).toHaveClass('gap-md')
     })
 
     test('applies the literal 0 gap shorthand', () => {
@@ -58,11 +58,11 @@ describe('Stack', () => {
         <Stack
           direction="vertical"
           responsive={{
-            small: 'horizontal',
-            medium: 'vertical',
-            large: 'horizontal',
-            xlarge: 'vertical',
-            '2xlarge': 'horizontal'
+            sm: 'horizontal',
+            md: 'vertical',
+            lg: 'horizontal',
+            xl: 'vertical',
+            '2xl': 'horizontal'
           }}
         >
           Test
@@ -71,27 +71,27 @@ describe('Stack', () => {
       const el = screen.getByText('Test')
       expect(el).toHaveClass(
         'vstack',
-        'small:hstack',
-        'medium:vstack',
-        'large:hstack',
-        'xlarge:vstack',
-        '2xlarge:hstack'
+        'sm:hstack',
+        'md:vstack',
+        'lg:hstack',
+        'xl:vstack',
+        '2xl:hstack'
       )
       expect(el.className.split(' ')).toEqual([
         'vstack',
-        'small:hstack',
-        'medium:vstack',
-        'large:hstack',
-        'xlarge:vstack',
-        '2xlarge:hstack'
+        'sm:hstack',
+        'md:vstack',
+        'lg:hstack',
+        'xl:vstack',
+        '2xl:hstack'
       ])
     })
 
     test('only applies classes for breakpoints present in the responsive prop', () => {
-      render(<Stack responsive={{ medium: 'vertical' }}>Test</Stack>)
+      render(<Stack responsive={{ md: 'vertical' }}>Test</Stack>)
       const el = screen.getByText('Test')
-      expect(el).toHaveClass('hstack', 'medium:vstack')
-      expect(el).not.toHaveClass('small:hstack', 'small:vstack', 'large:hstack', 'large:vstack')
+      expect(el).toHaveClass('hstack', 'md:vstack')
+      expect(el).not.toHaveClass('sm:hstack', 'sm:vstack', 'lg:hstack', 'lg:vstack')
     })
   })
 

@@ -25,10 +25,10 @@ export const Example = () => {
   return (
     <>
       <ButtonGroup className="mb-3">
-        <Button size="small" onClick={() => setExpandedKeys(items.map((item) => item.id))}>
+        <Button size="sm" onClick={() => setExpandedKeys(items.map((item) => item.id))}>
           Expand all
         </Button>
-        <Button size="small" onClick={() => setExpandedKeys([])}>
+        <Button size="sm" onClick={() => setExpandedKeys([])}>
           Collapse all
         </Button>
       </ButtonGroup>

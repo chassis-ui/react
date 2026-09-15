@@ -13,7 +13,8 @@ import { useButtonSemantics, useDisabledAnchorGuard } from '../../hooks'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
-  PolymorphicRef
+  PolymorphicRef,
+  PolymorphicRefWithFallback
 } from '../../utils/polymorphic'
 
 type ChipOwnProps<C extends ElementType> = {
@@ -51,9 +52,9 @@ type ChipOwnProps<C extends ElementType> = {
    */
   pressed?: boolean
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'small' | 'large'
+  size?: 'sm' | 'lg'
   /**
    * Specifies the type of button. Only applies when `component` is `button`. Different browsers
    * may use different default types for the `<button>` element, so always specify it explicitly.
@@ -71,7 +72,7 @@ export type ChipProps<C extends ElementType = 'span'> = PolymorphicComponentProp
 >
 
 type ChipComponent = (<C extends ElementType = 'span'>(
-  props: ChipProps<C> & { ref?: PolymorphicRef<C> }
+  props: ChipProps<C> & { ref?: PolymorphicRefWithFallback<C, HTMLSpanElement | HTMLAnchorElement> }
 ) => ReactElement | null) & { displayName?: string }
 
 function ChipRender<C extends ElementType = 'span'>(

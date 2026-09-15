@@ -167,7 +167,7 @@ describe('MenuSubmenu', () => {
       fireEvent.click(screen.getByText('File'))
       const nestedMenu = getNestedMenu('New')
 
-      // chassis-css's small-breakpoint `.menu:has(.submenu-stacked.show) ...` rule requires the
+      // chassis-css's sm-breakpoint `.menu:has(.submenu-stacked.show) ...` rule requires the
       // panel to be a real DOM descendant of `.menu`/`.submenu` — a portal would break that.
       expect(container.contains(nestedMenu)).toBe(true)
       expect(nestedMenu.closest('.submenu')).not.toBeNull()

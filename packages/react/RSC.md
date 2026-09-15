@@ -59,22 +59,29 @@ React 19) depending on this package via `file:`, not committed to this repo:
   directly builds and prerenders successfully; `.next/server/app/page_client-reference-manifest.js`
   lists `@chassis-ui/react` as a client reference, and the prerendered HTML contains the real
   rendered markup.
-- **Without it** (temporarily strip `output.banner` from `tsdown.config.ts`, rebuild, reinstall
-  into the smoke app): the same page fails with `TypeError:
+- **Without it** (at the time, by temporarily stripping `output.banner` from `tsdown.config.ts`;
+  today the equivalent is stripping the directive from the first line of `src/index.ts`, rebuilding
+  and reinstalling into the smoke app): the same page fails with `TypeError:
 i.default.createContext is not a function` during `next build`'s page-data collection — an
   unhelpful crash, not a clean "needs a Client Component" message, which is exactly why shipping
   the directive ourselves (rather than leaving it to every consumer to wrap things) matters.
 
-Rolldown (the bundler tsdown is built on) silently drops a source-level `'use client'` directive
-when bundling — directives only survive automatically for entry modules or with
-`preserveModules: true`, neither of which applies to this package's deliberate single-bundle
-shape (see [Rolldown's own directive docs](https://rolldown.rs/in-depth/directives)). This is the
-same behavior Rollup had; switching build tools (Phase 1 of the tsdown migration) didn't change
-this constraint, only which config file expresses the workaround. The directive that actually
-ships comes from `tsdown.config.ts`'s `output.banner: "'use client';"` option, not from the source
-file. If you ever change the build (multi-entry output, a different bundler, etc.), don't assume
-the directive survives — grep the built `dist/index.js` output directly to confirm it's still the
-literal first line, and check that it hasn't leaked into `dist/index.d.ts` too (a known open
-upstream issue, [rolldown-plugin-dts#174](https://github.com/sxzz/rolldown-plugin-dts/issues/174),
-that hasn't reproduced with the version combination this package currently pins, but re-verify
-after any tsdown/rolldown-plugin-dts version bump).
+The directive that ships is the one on the first line of `src/index.ts`. Rolldown (the bundler
+tsdown is built on) drops module-level directives when bundling, but _entry_ modules are the
+documented exception ([Rolldown's own directive
+docs](https://rolldown.rs/in-depth/directives)) — and `src/index.ts` is this bundle's entry, so its
+directive survives.
+
+`tsdown.config.ts` used to also re-add it as an `output.banner`, from a time when Rolldown dropped
+it here too. Once Rolldown started preserving it, the two stacked up and the published bundle began
+with a duplicated `'use client';"use client";`. Valid JavaScript — a directive prologue may hold
+several string literals — but not something to ship, so the banner is gone.
+
+That leaves the directive dependent on Rolldown's entry-module behavior holding across upgrades,
+which `pnpm check:rsc` (`scripts/check-rsc-directive.ts`, run in CI right after
+`pnpm react:check:api`) asserts directly rather than trusting anyone to remember. It fails if
+`dist/index.js` doesn't start with a `'use client'` directive, if it carries more than one (the
+banner regression), or if one leaks into `dist/index.d.ts` — a known open upstream issue,
+[rolldown-plugin-dts#174](https://github.com/sxzz/rolldown-plugin-dts/issues/174), that hasn't
+reproduced with the versions this package pins. Run it after any tsdown/rolldown version bump; CI
+does it on every PR.

@@ -18,7 +18,7 @@ interface ChipListProps {
   disabled?: boolean
   groupRef: RefObject<HTMLDivElement | null>
   props: AriaTagGroupOptions<ChipItem>
-  size?: 'small' | 'large'
+  size?: 'sm' | 'lg'
   state: ListState<ChipItem>
 }
 
@@ -52,7 +52,7 @@ interface ChipRowProps {
   chipVariant?: string
   disabled?: boolean
   item: Node<ChipItem>
-  size?: 'small' | 'large'
+  size?: 'sm' | 'lg'
   state: ListState<ChipItem>
 }
 

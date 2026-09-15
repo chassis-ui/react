@@ -1,6 +1,5 @@
 import React from 'react'
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { expect, fn } from 'storybook/test'
 
 import { Card, CardBody, CardImage, CardText, CardTitle } from '../../src/components/card'
 import { Button } from '../../src/components/button/Button'

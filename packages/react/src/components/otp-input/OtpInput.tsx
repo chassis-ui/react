@@ -14,6 +14,7 @@ import { useControllableState, useForkedRef, useFormField } from '../../hooks'
 import { validationClassName } from '../../utils/validationClassName'
 import { renderFormField } from '../form-field/renderFormField'
 import { OtpBox } from './OtpBox'
+import { isRTL } from '../../utils/direction'
 
 export interface OtpInputProps extends Omit<
   HTMLAttributes<HTMLDivElement>,
@@ -101,9 +102,9 @@ export interface OtpInputProps extends Omit<
    */
   separator?: ReactNode
   /**
-   * Size the boxes small or large.
+   * Size the boxes sm or lg.
    */
-  size?: 'small' | 'large'
+  size?: 'sm' | 'lg'
   /**
    * Set component validation state to valid.
    */
@@ -218,17 +219,17 @@ export const OtpInput = forwardRef<HTMLDivElement, OtpInputProps>(
           commit(nextBoxes)
           break
         }
-        case 'ArrowLeft': {
-          if (index > 0) {
-            event.preventDefault()
-            focusBox(index - 1)
-          }
-          break
-        }
+        // Arrow keys move by *visual* direction, so they mirror under RTL: the box to the left of
+        // the focused one is the next box, not the previous. `Carousel` and `MenuSubmenu` already
+        // mirror their own arrow handling this way; this used to hardcode the LTR mapping and sent
+        // an RTL user backwards through the field.
+        case 'ArrowLeft':
         case 'ArrowRight': {
-          if (index < total - 1) {
+          const movesForward = (event.key === 'ArrowRight') !== isRTL(event.currentTarget)
+          const nextIndex = movesForward ? index + 1 : index - 1
+          if (nextIndex >= 0 && nextIndex < total) {
             event.preventDefault()
-            focusBox(index + 1)
+            focusBox(nextIndex)
           }
           break
         }

@@ -1,0 +1,226 @@
+---
+title: DataGrid
+description: A virtualized alternative to Table that only renders the rows currently in view, for datasets too lg to mount all at once.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/datagrid/BasicExample.tsx'
+import { Example as SortingExample } from '../../examples/components/datagrid/SortingExample.tsx'
+import { Example as SelectionExample } from '../../examples/components/datagrid/SelectionExample.tsx'
+import { Example as VariantsExample } from '../../examples/components/datagrid/VariantsExample.tsx'
+import { Example as PinnedColumnsExample } from '../../examples/components/datagrid/PinnedColumnsExample.tsx'
+import { Example as VariableRowHeightExample } from '../../examples/components/datagrid/VariableRowHeightExample.tsx'
+import { Example as AsyncLoadingExample } from '../../examples/components/datagrid/AsyncLoadingExample.tsx'
+import { Example as FooterExample } from '../../examples/components/datagrid/FooterExample.tsx'
+
+## Overview
+
+`DataGrid` is a real ARIA grid (`role="grid"`), like [Table]([[docsref:/components/table]]), built on
+`react-aria-components`' `Virtualizer` instead of `Table`'s own hooks — only the rows scrolled into
+view are ever mounted, so a dataset with thousands of rows costs the same to render as one with a
+dozen. That windowing is also why the underlying markup is `<div>`s carrying grid/row/gridcell
+roles rather than a real `<table>`: native table layout can't support mounting and unmounting rows
+as the user scrolls.
+
+Composing it mirrors `Table` — `DataGridHeader`/`DataGridColumn`/`DataGridBody`/`DataGridRow`/
+`DataGridCell` are read as data to build the grid's collection, not rendered as literal markup.
+`rowHeight` is required: the virtualizer needs a height up front to compute scroll position and
+total size without measuring every row first. Pass a fixed pixel number so every row renders at
+that height, or `"auto"` (paired with `estimatedRowHeight`) to measure each row from its own
+content — see [Variable row height](#variable-row-height). Give the grid itself a bounded height
+(directly, or via a `className` override) so its scroll viewport actually activates — a grid tall
+enough to show every row scrolls nowhere.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## Sorting
+
+Add `allowsSorting` to a `DataGridColumn` to make it clickable (and keyboard-activatable) — the
+same contract as `Table`. `DataGrid` doesn't sort the data itself; it reports the requested
+column/direction via `onSortChange`, so pair it with `sortDescriptor` and sort the array in that
+handler.
+
+<Example>
+  <SortingExample client:load />
+</Example>
+
+## Selection
+
+Set `selectionMode="multiple"` or `selectionMode="single"` and control it with
+`selectedKeys`/`onSelectionChange`, same as `Table`. Unlike `Table`, the selection checkboxes
+themselves aren't automatic — place a `DataGridSelectAllCell` inside a `DataGridColumn` for the
+header, and a `DataGridSelectionCell` inside a `DataGridCell` for each row. Neither takes a row
+key: each reads the selection state react-aria-components already publishes for the row it's
+rendered in. Both render a native checkbox wired to that state, styled the same as `Table`'s, and
+labelled by their row's row-header cells.
+
+<Example>
+  <SelectionExample client:load />
+</Example>
+
+## Column widths
+
+Unlike `Table`, whose columns size themselves the way any native `<table>` does, `DataGrid`'s
+virtualized layout computes every column's width itself, splitting the grid evenly across columns
+by default — a `width`/`className` rule on a cell has no effect here. Give a `DataGridColumn`
+`defaultWidth`/`minWidth`/`maxWidth` to size it explicitly, e.g. a fixed pixel width for a narrow
+selection/icon column (as in the [Selection](#selection) example above) or an `'<n>fr'` value to
+weight it against the grid's other columns.
+
+## Variable row height
+
+Pass `rowHeight="auto"` with a required `estimatedRowHeight` to size each row from its own rendered
+content instead of a single fixed height shared by every row. `estimatedRowHeight` seeds the
+virtualizer's scroll-position math before a row has been measured; a row's real height can end up
+taller or shorter than that estimate once it renders, which can cause a visible scroll-jump for
+rows the viewport hasn't reached yet. Prefer a fixed `rowHeight` unless rows genuinely vary — e.g.
+wrapped text of unpredictable length, as below.
+
+<Example>
+  <VariableRowHeightExample client:load />
+</Example>
+
+## Pinned columns
+
+Set `pin="start"` or `pin="end"` on a `DataGridColumn` to keep it visible while the grid scrolls
+horizontally — `start` pins it to the leading edge, `end` to the trailing edge. Multiple pinned
+columns on the same side stack in declaration order, so the first `pin="start"` column sits at the
+very edge and each following one sits just past the previous. Pin columns at the true start or end
+of the column list — a pinned column declared in the middle of the set isn't a supported
+arrangement.
+
+<Example>
+  <PinnedColumnsExample client:load />
+</Example>
+
+## Async loading
+
+Pass `onLoadMore` to `DataGridBody` to fetch and append more rows as the grid scrolls near its last
+one — useful for a dataset too lg to load up front. It's only available on the
+`items`/render-function form of `children`, and the props are typed so that's enforced: the loading
+row is generated by appending to `items` and rendering it through that same function, so there's
+nothing for it to do alongside a hand-written list of `DataGridRow` elements. Pair it with `isLoading` (set while the fetch is in flight) and `loadingContent`
+(the affordance shown in its place, e.g. a spinner) — `onLoadMore` isn't called again while
+`isLoading` is true, so a fetch already running doesn't get triggered a second time before it
+resolves. Stop passing `onLoadMore` once there's nothing left to load (e.g. the fetched page came
+back short of a full page) to remove the loading row entirely.
+
+<Example>
+  <AsyncLoadingExample client:load />
+</Example>
+
+## Header & footer pinning
+
+The header row stays pinned to the top of the grid's scrollable area as body rows scroll
+underneath it — no extra setup required. Pass `footer` for content pinned below the body, e.g. a
+totals row or a "load more" control — like `Table`'s `footer` prop, it renders as plain markup
+outside the grid's own keyboard-navigable row/cell structure, and (unlike the header) it isn't part
+of the scrollable region at all, so it never scrolls out of view along with the body rows.
+
+<Example>
+  <FooterExample client:load />
+</Example>
+
+## Keyboard navigation
+
+Once a cell has focus, arrow keys move focus across the grid, the same as `Table` — no extra setup
+required.
+
+## Variants
+
+`align`, `bordered`, `borderless`, `hover`, `sm`, and `color` all apply to the grid's root
+element, the same as `Table`'s equivalent props.
+
+<Example>
+  <VariantsExample client:load />
+</Example>
+
+## Scope
+
+- **`pin="end"` isn't verified in right-to-left layouts.** `pin="start"` reuses the same
+  sticky-positioning mechanism that already keeps the header row pinned to the top, which is
+  RTL-aware by construction. `pin="end"` has no such engine-level mechanism to reuse and is
+  positioned by a scroll-driven calculation that currently assumes left-to-right layout.
+- **Pinned columns need the static, element-based form of `DataGridHeader`.** A `pin` prop on a
+  `DataGridColumn` rendered via `DataGridHeader`'s `columns`/render-function form doesn't get
+  `pin="end"`'s positioning or either side's scroll-cue shadow — `pin="start"` still works there,
+  since it's driven by the resolved column collection rather than the declared JSX.
+- **Variable row height re-measures per row, not per column.** `rowHeight="auto"` (see
+  [Variable row height](#variable-row-height)) sizes each row independently, but a column's width
+  is still fixed up front — a cell's content wrapping to more lines only grows that one row, it
+  doesn't reflow neighboring columns.
+- **The header row stays a fixed height in `rowHeight="auto"` mode**, pinned to
+  `estimatedRowHeight` rather than measured — only body rows are. A column header whose content
+  needs more room than that visually overflows rather than growing the header.
+- **The loader row's underlying `aria-level` attribute is invalid on a `role="grid"` row** (it's
+  only meaningful on a `treegrid` row). This comes from `react-aria-components`'s own
+  `TableLoadMoreItem` implementation, not from anything `DataGrid` adds — every other row's markup
+  is unaffected.
+- **No stacked variant.** `Table`'s `stacked` prop collapses rows into label/value blocks below a
+  container width, using container queries to detect the switch — that check can't see how many
+  rows the virtualizer has mounted, so a row's true height would no longer match `rowHeight` once
+  stacked, breaking the scroll math. Tables with too many columns for a narrow viewport are better
+  served by `Table`'s own `stacked`/`responsive` props, which don't have this constraint.
+- **No zebra striping.** CSS-only striping (`:nth-of-type`) counts a row's position among
+  currently-mounted siblings, not its logical position in the dataset — the pattern would visibly
+  shift as the virtualizer's mounted window changes during scroll.
+- **No interactive column resizing or reordering, no nested/expandable rows.** `react-aria-components`
+  supports these on `Table`, but they're not wired up here — columns can still be given a fixed
+  size up front (see [Column widths](#column-widths)), just not resized by the user at runtime.
+- **`footer` doesn't pick up an instance-scoped color/border override.** It renders outside the
+  grid's own scrollable element (see [Header & footer pinning](#header--footer-pinning)), so it
+  can't inherit CSS custom properties set directly on that specific `DataGrid` instance's own
+  class — only a global `--table-*` token override reaches it. This matches every other DataGrid
+  instance on the page, just not one re-themed individually.
+- **Columns are already windowed horizontally — no extra work needed for wide grids.** The
+  underlying `react-aria-components`/`react-stately` layout engine only mounts DOM for cells that
+  intersect the horizontal viewport (the same visible-range mechanism that windows rows
+  vertically), confirmed by rendering an 80-column grid and finding only 11 `columnheader`
+  elements in the DOM regardless of total column count. Everything that has to find a specific
+  column's cells in the DOM — pinned-column positioning, the scroll cues, `fr`-column measurement
+  — therefore matches them on their `aria-colindex` (which the layout engine sets from the column's
+  position in the collection) rather than counting DOM children, whose number is the size of the
+  mounted window. One caveat: the layout engine's own per-row cell-building pass isn't skipped for
+  columns already scrolled past on the left (only columns past the right edge of the viewport are
+  skipped) — the cost of computing a row's cell offsets scales with column count up to the visible
+  window, not just the visible window's size. This is a layout-computation cost, not a
+  DOM-rendering one, and only matters at very high column counts (100+).
+- **No `id` prop, unlike `Table`.** `react-aria-components`' `Table` doesn't accept one: it
+  generates the grid's own id and derives every cell's and column header's `id` from it (which is
+  what the row/checkbox `aria-labelledby` wiring points at), so an overridden one would break those
+  references. Use `aria-labelledby` to point at a visible heading, or `aria-label`, rather than
+  labelling via an `id` of your own.
+
+## API
+
+### DataGrid
+
+<PropTable component="DataGrid" />
+
+### DataGridHeader
+
+<PropTable component="DataGridHeader" />
+
+### DataGridColumn
+
+<PropTable component="DataGridColumn" />
+
+### DataGridBody
+
+<PropTable component="DataGridBody" />
+
+### DataGridRow
+
+<PropTable component="DataGridRow" />
+
+### DataGridCell
+
+<PropTable component="DataGridCell" />
+
+### DataGridSelectionCell
+
+<PropTable component="DataGridSelectionCell" />
+
+`DataGridSelectAllCell` takes no props — it reads the grid's selection state directly.

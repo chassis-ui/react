@@ -45,9 +45,9 @@ Reach for `<Row>`/`<Col>`/`<Container>` when you need this system's responsive c
 
 The grid system combines breakpoints, containers, rows, and columns into one responsive layout model:
 
-- **The grid supports [six responsive breakpoints](https://chassis-ui.com/css/docs/layout/breakpoints).** Breakpoints are based on `min-width` media queries, meaning they affect that breakpoint and all those above it (e.g., `responsive={{ small: { span: 4 } }}` applies to `small` and every breakpoint above it). This means you can control container and column sizing and behavior by each breakpoint.
+- **The grid supports [six responsive breakpoints](https://chassis-ui.com/css/docs/layout/breakpoints).** Breakpoints are based on `min-width` media queries, meaning they affect that breakpoint and all those above it (e.g., `responsive={{ sm: { span: 4 } }}` applies to `sm` and every breakpoint above it). This means you can control container and column sizing and behavior by each breakpoint.
 
-- **Containers center and horizontally pad your content.** Use `<Container>` for a responsive pixel width, `<Container fluid>` for `width: 100%` across all viewports and devices, or a responsive container (e.g., `<Container fluidUntil="medium">`) for a combination of fluid and pixel widths.
+- **Containers center and horizontally pad your content.** Use `<Container>` for a responsive pixel width, `<Container fluid>` for `width: 100%` across all viewports and devices, or a responsive container (e.g., `<Container fluidUntil="md">`) for a combination of fluid and pixel widths.
 
 - **Rows are wrappers for columns.** Each column has horizontal `padding` (called a gutter) for controlling the space between them. This `padding` is then counteracted on the rows with negative margins to ensure the content in your columns is visually aligned down the left side. [`<Row>`]([[docsref:/components/row]]) also supports [uniformly sizing its columns]([[docsref:/components/row#row-columns]]) and [gutter overrides](#gutters) to change the spacing of your content.
 
@@ -72,7 +72,7 @@ pixel threshold each one represents.
   </thead>
   <tbody>
     <tr>
-      <th scope="row">Extra small</th>
+      <th scope="row">Extra sm</th>
       <td>
         unprefixed <code>span</code>, applies to every size
       </td>
@@ -80,31 +80,31 @@ pixel threshold each one represents.
     <tr>
       <th scope="row">Small</th>
       <td>
-        <code>small</code>
+        <code>sm</code>
       </td>
     </tr>
     <tr>
       <th scope="row">Medium</th>
       <td>
-        <code>medium</code>
+        <code>md</code>
       </td>
     </tr>
     <tr>
       <th scope="row">Large</th>
       <td>
-        <code>large</code>
+        <code>lg</code>
       </td>
     </tr>
     <tr>
-      <th scope="row">Extra large</th>
+      <th scope="row">Extra lg</th>
       <td>
-        <code>xlarge</code>
+        <code>xl</code>
       </td>
     </tr>
     <tr>
-      <th scope="row">Extra extra large</th>
+      <th scope="row">Extra extra lg</th>
       <td>
-        <code>2xlarge</code>
+        <code>2xl</code>
       </td>
     </tr>
   </tbody>
@@ -117,7 +117,7 @@ Every breakpoint provides twelve template columns and a customizable gutter — 
 ## Auto-layout columns
 
 Breakpoint-specific column props size columns without an explicit numbered span, like
-`<Col responsive={{ small: { span: 6 } }}>`.
+`<Col responsive={{ sm: { span: 6 } }}>`.
 
 ### Equal-width
 
@@ -148,7 +148,7 @@ Use `span="auto"` (or `responsive={{ {breakpoint}: { span: 'auto' } }}`) to size
 ## Responsive classes
 
 The grid system includes six tiers of predefined classes for building complex responsive layouts.
-Customize column sizing per device — extra small, small, medium, large, or extra large.
+Customize column sizing per device — extra sm, sm, md, lg, or extra lg.
 
 ### All breakpoints
 
@@ -162,7 +162,7 @@ plain `<Col>`.
 
 ### Stacked to horizontal
 
-Using a single `responsive={{ small: { span: * } }}` override, you can create a basic grid system that starts out stacked and becomes horizontal at the `small` breakpoint.
+Using a single `responsive={{ sm: { span: * } }}` override, you can create a basic grid system that starts out stacked and becomes horizontal at the `sm` breakpoint.
 
 <Example class="docs-example-row">
   <StackedToHorizontalExample client:load />
@@ -194,7 +194,7 @@ system.
 `gutterX` (and `responsive={{ {breakpoint}: { gutterX: * } }}` for overrides) controls the
 horizontal gutter widths. A larger gutter may need a matching padding utility on the parent
 `<Container>` or `<Container fluid>` to avoid unwanted overflow — the example below increases
-padding with `.px-xlarge`.
+padding with `.px-xl`.
 
 <Example>
   <HorizontalGutterExample client:load />

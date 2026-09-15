@@ -69,7 +69,7 @@ export interface DrawerProps extends Omit<
   /**
    * Renders as a drawer only below this breakpoint — inline as a flex container above it.
    */
-  responsive?: 'small' | 'medium' | 'large' | 'xlarge' | '2xlarge'
+  responsive?: 'sm' | 'md' | 'lg' | 'xl' | '2xl'
   /**
    * Allow the page behind the drawer to scroll while it's open.
    */
@@ -118,6 +118,7 @@ export const Drawer = forwardRef<HTMLDialogElement, DrawerProps>(
       fullscreen,
       instant,
       keyboard = true,
+      onClick,
       onClose,
       onClosePrevented,
       onHidden,
@@ -144,6 +145,7 @@ export const Drawer = forwardRef<HTMLDialogElement, DrawerProps>(
             if (entry.dialog !== dialog) entry.close()
           }
         },
+        onClick,
         onClose,
         onClosePrevented,
         onHidden,

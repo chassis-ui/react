@@ -13,7 +13,8 @@ renamed export, ...) and review the diff like any other code change. `pnpm react
 ```ts
 import React, { AriaAttributes, ButtonHTMLAttributes, ChangeEventHandler, ComponentPropsWithRef, ComponentPropsWithoutRef, DetailsHTMLAttributes, DialogHTMLAttributes, ElementType, FC, FormHTMLAttributes, Fragment, HTMLAttributes, ImgHTMLAttributes, InputHTMLAttributes, Key, LabelHTMLAttributes, MouseEvent, MouseEventHandler, ReactElement, ReactNode, Ref, RefObject, SVGAttributes, TextareaHTMLAttributes, useEffect } from "react";
 import { DateValue, I18nProvider, Key as Key$1, RangeValue } from "react-aria";
-import { DateValue as DateValue$1, Key as Key$2, Selection, SortDescriptor, TableBodyProps, TableHeaderProps, ToastQueue } from "react-stately";
+import { ColumnSize, ColumnStaticSize, DateValue as DateValue$1, Key as Key$2, Selection, SortDescriptor, TableBodyProps as TableBodyProps$1, TableHeaderProps as TableHeaderProps$1, ToastQueue } from "react-stately";
+import { Key as Key$3, Selection as Selection$1, SortDescriptor as SortDescriptor$1, TableBodyRenderProps } from "react-aria-components";
 //#region src/components/accordion/Accordion.d.ts
 interface AccordionItemDef {
   /**
@@ -96,14 +97,28 @@ interface AccordionProps extends HTMLAttributes<HTMLDivElement> {
    */
   onExpandedChange?: (keys: Array<number | string>) => void;
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'large' | 'small';
+  size?: 'lg' | 'sm';
 }
 export declare const Accordion: React.ForwardRefExoticComponent<AccordionProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
 //#region src/utils/polymorphic.d.ts
 type PolymorphicRef<C extends ElementType> = ComponentPropsWithRef<C>['ref'];
+/**
+ * Ref type for a polymorphic component that can also pick its element from a prop *other* than
+ * `component` — `Button`, `Chip`, `Avatar`, `NavbarBrand` and `PaginationItem` all render an
+ * `<a>` when given `href`, and `PaginationItem` a `<span>` when `active`, none of which moves `C`
+ * off its default. A plain `PolymorphicRef<C>` describes only the `component` branch, so a caller
+ * holding a ref for the element that actually gets rendered (`<Button href="/x" ref={anchorRef}>`)
+ * got a spurious type error while the runtime happily populated it.
+ *
+ * `Ref` over the *union* rather than a union of `Ref`s is what makes a
+ * `createRef<HTMLButtonElement | HTMLAnchorElement>()` assignable here: `RefObject` is invariant
+ * in its type argument, so `RefObject<A | B>` satisfies `Ref<A | B>` but neither `Ref<A>` nor
+ * `Ref<B>` on its own.
+ */
+type PolymorphicRefWithFallback<C extends ElementType, Fallback extends HTMLElement> = PolymorphicRef<C> | Ref<Fallback>;
 /**
  * Props for a polymorphic component: `OwnProps` (which must declare `component?: C`) plus
  * whatever props `C` itself accepts, minus any name already claimed by `OwnProps` so the two
@@ -333,9 +348,9 @@ interface AutocompleteProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaul
    */
   searchPlaceholder?: string;
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'large' | 'small';
+  size?: 'lg' | 'sm';
   /**
    * Set component validation state to valid.
    */
@@ -423,7 +438,7 @@ export declare const AutocompleteItem: {
 /**
  * Breakpoints
  */
-type Breakpoint = '2xlarge' | 'large' | 'medium' | 'small' | 'xlarge';
+type Breakpoint = '2xl' | 'lg' | 'md' | 'sm' | 'xl';
 /**
  * Context colors
  */
@@ -435,17 +450,17 @@ type ContextStyle = 'basic' | 'outline' | 'smooth' | 'solid';
 /**
  * Component sizes
  */
-type Sizing = 'large' | 'medium' | 'small';
+type Sizing = 'lg' | 'md' | 'sm';
 /**
  * Extended sizes
  */
-type ExtendedSizing = '2xlarge' | '2xsmall' | 'xlarge' | 'xsmall' | Sizing;
+type ExtendedSizing = '2xl' | '2xs' | 'xl' | 'xs' | Sizing;
 /**
  * Spacing values. `SPACING` is the runtime source of truth — `Spacing` is derived from it so the
  * two can't drift apart; anything needing the values at runtime (e.g. validating a string against
  * the scale) should import `SPACING`, not hand-copy the list.
  */
-declare const SPACING: readonly ["zero", "4xsmall", "3xsmall", "2xsmall", "xsmall", "small", "medium", "large", "xlarge", "2xlarge", "3xlarge", "4xlarge", "5xlarge", "6xlarge"];
+declare const SPACING: readonly ["zero", "4xs", "3xs", "2xs", "xs", "sm", "md", "lg", "xl", "2xl", "3xl", "4xl", "5xl", "6xl"];
 type Spacing = (typeof SPACING)[number];
 /**
  * Component shapes
@@ -505,7 +520,7 @@ type AvatarOwnProps<C extends ElementType> = {
 };
 type AvatarProps<C extends ElementType = 'span'> = PolymorphicComponentProps<C, AvatarOwnProps<C>>;
 type AvatarComponent = (<C extends ElementType = 'span'>(props: AvatarProps<C> & {
-  ref?: PolymorphicRef<C>;
+  ref?: PolymorphicRefWithFallback<C, HTMLAnchorElement | HTMLSpanElement>;
 }) => ReactElement | null) & {
   displayName?: string;
 };
@@ -816,6 +831,15 @@ interface BreadcrumbItemDef {
 }
 interface BreadcrumbProps extends HTMLAttributes<HTMLOListElement> {
   /**
+   * Accessible name of the wrapping `<nav>` landmark. Defaults to the English `'breadcrumb'`;
+   * override it to translate the landmark, or to tell two breadcrumb trails on the same page
+   * apart (landmarks of the same role need distinct names to be distinguishable in a screen
+   * reader's landmark list).
+   *
+   * @default 'breadcrumb'
+   */
+  'aria-label'?: string;
+  /**
    * A string of all className you want applied to the component.
    */
   className?: string;
@@ -882,9 +906,9 @@ type ButtonOwnProps<C extends ElementType> = {
    */
   shape?: Shapes;
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'large' | 'small';
+  size?: 'lg' | 'sm';
   /**
    * Specifies the type of button. Always specify the type attribute for the `<button>` element.
    * Different browsers may use different default types for the `<button>` element.
@@ -899,7 +923,7 @@ type ButtonOwnProps<C extends ElementType> = {
 };
 type ButtonProps<C extends ElementType = 'button'> = PolymorphicComponentProps<C, ButtonOwnProps<C>>;
 type ButtonComponent = (<C extends ElementType = 'button'>(props: ButtonProps<C> & {
-  ref?: PolymorphicRef<C>;
+  ref?: PolymorphicRefWithFallback<C, HTMLAnchorElement | HTMLButtonElement>;
 }) => ReactElement | null) & {
   displayName?: string;
 };
@@ -916,9 +940,9 @@ type ButtonGroupOwnProps<C extends ElementType> = {
    */
   component?: C;
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'large' | 'small';
+  size?: 'lg' | 'sm';
   /**
    * Create a set of buttons that appear vertically stacked rather than horizontally. Split button dropdowns are not supported here.
    */
@@ -950,6 +974,38 @@ type ButtonToolbarComponent = (<C extends ElementType = 'div'>(props: ButtonTool
   displayName?: string;
 };
 export declare const ButtonToolbar: ButtonToolbarComponent;
+//#endregion
+//#region src/components/calendar/labels.d.ts
+/**
+ * The user-facing strings the calendar/datepicker family renders itself, rather than getting from
+ * the active locale.
+ *
+ * Everything else these components say — weekday names, month names, the calendar system, segment
+ * order — comes from `I18nProvider`'s locale via react-aria, which ships its own translations. The
+ * strings below have no equivalent in react-aria's dictionaries, so they were hardcoded English
+ * with no way to override them: under `<I18nProvider locale="ar-SA">` a user got Arabic month
+ * names interleaved with an English "Previous years". Pass `labels` to translate them, the same
+ * way `Pagination`'s `previousLabel`/`nextLabel` are translated (see the Internationalization
+ * docs page).
+ */
+interface CalendarLabels {
+  /** Accessible name of the year view's "page back" arrow. */
+  previousYears: string;
+  /** Accessible name of the year view's "page forward" arrow. */
+  nextYears: string;
+  /** Prefix of the year view's live-region announcement, rendered as `${selectYear}, 2020 – 2034`. */
+  selectYear: string;
+  /** Prefix of the month view's live-region announcement, rendered as `${selectMonth}, 2024`. */
+  selectMonth: string;
+  /** Prefix of the header month button's accessible name, rendered as `${month}: March`. */
+  month: string;
+  /** Prefix of the header year button's accessible name, rendered as `${year}: 2024`. */
+  year: string;
+  /** Accessible name of the trigger that opens the calendar overlay. */
+  calendar: string;
+  /** Accessible name of the adornment that resets the current selection. */
+  clear: string;
+}
 //#endregion
 //#region src/components/calendar/Calendar.d.ts
 interface CalendarBaseProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultValue' | 'onChange'> {
@@ -986,6 +1042,14 @@ interface CalendarBaseProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaul
    */
   isDateUnavailable?: (date: DateValue$1) => boolean;
   /**
+   * Overrides for the handful of strings this component renders itself rather than getting from
+   * the active locale (the year view's paging arrows, its live-region announcements, and the
+   * month/year header buttons). Everything else — month and weekday names, the calendar system —
+   * follows `I18nProvider`'s locale via react-aria and needs no override. Merged over the English
+   * defaults, so passing one key leaves the rest alone.
+   */
+  labels?: Partial<CalendarLabels>;
+  /**
    * The maximum allowed date that a user may select.
    */
   maxValue?: DateValue$1 | null;
@@ -1001,7 +1065,7 @@ interface CalendarBaseProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaul
   unavailableDates?: string[];
   /**
    * Number of months to display side by side, sharing one selection. Wraps to multiple rows in
-   * a narrow container (e.g. a popover on a small screen) rather than overflowing — the wrap is
+   * a narrow container (e.g. a popover on a sm screen) rather than overflowing — the wrap is
    * driven by the calendar's own width, not the viewport, so it adapts correctly regardless of
    * where the calendar is embedded.
    *
@@ -1098,6 +1162,14 @@ interface RangeCalendarProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defau
    */
   isDateUnavailable?: (date: DateValue$1) => boolean;
   /**
+   * Overrides for the handful of strings this component renders itself rather than getting from
+   * the active locale (the year view's paging arrows, its live-region announcements, and the
+   * month/year header buttons). Everything else — month and weekday names, the calendar system —
+   * follows `I18nProvider`'s locale via react-aria and needs no override. Merged over the English
+   * defaults, so passing one key leaves the rest alone.
+   */
+  labels?: Partial<CalendarLabels>;
+  /**
    * The maximum allowed date that a user may select.
    */
   maxValue?: DateValue$1 | null;
@@ -1127,7 +1199,7 @@ interface RangeCalendarProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defau
   value?: RangeValue<DateValue$1> | null;
   /**
    * Number of months to display side by side, sharing one selection. Wraps to multiple rows in
-   * a narrow container (e.g. a popover on a small screen) rather than overflowing — the wrap is
+   * a narrow container (e.g. a popover on a sm screen) rather than overflowing — the wrap is
    * driven by the calendar's own width, not the viewport, so it adapts correctly regardless of
    * where the calendar is embedded.
    *
@@ -1136,6 +1208,363 @@ interface RangeCalendarProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defau
   visibleMonths?: number;
 }
 export declare const RangeCalendar: React.ForwardRefExoticComponent<RangeCalendarProps & React.RefAttributes<HTMLDivElement>>;
+//#endregion
+//#region src/components/datagrid/DataGridBody.d.ts
+interface DataGridBodyOwnProps {
+  /**
+   * A string of all className you want applied to the body row group.
+   */
+  className?: string;
+  /**
+   * Values that should invalidate the row cache when using the `items`/render-function form of
+   * `children` — e.g. a value from outside `items` that the render function reads. Without this,
+   * changing that outside value won't re-render already-cached rows, since dynamic rows are only
+   * rebuilt when `items` or `dependencies` change by reference, not on every parent re-render.
+   */
+  dependencies?: ReadonlyArray<unknown>;
+  /**
+   * Content shown in place of rows when `items` is empty.
+   */
+  renderEmptyState?: (props: TableBodyRenderProps) => React.ReactNode;
+}
+/**
+ * The `items` + render-function form. `isLoading`/`loadingContent`/`onLoadMore` live here rather
+ * than alongside the static form because the loader row is generated by appending to `items` and
+ * rendering through that same function — there's no growing dataset to load more of, and nothing
+ * to render the loader with, in a hand-written list of `DataGridRow` elements.
+ */
+interface DataGridBodyDynamicProps<T> {
+  /**
+   * A render function called once per item in `items`, returning that row's `DataGridRow`.
+   */
+  children: (item: T) => ReactElement;
+  /**
+   * Whether more items are currently being fetched. Shows `loadingContent` in the loader row while
+   * true, and — until this goes back to `false` — suppresses further `onLoadMore` calls, so one
+   * scroll-into-view doesn't fire the callback again before the in-flight fetch resolves.
+   */
+  isLoading?: boolean;
+  /**
+   * A list of row data objects, rendered via the function form of `children`.
+   */
+  items: Iterable<T>;
+  /**
+   * Content rendered inside the loader row while `isLoading` is true, e.g. a spinner. Only takes
+   * effect alongside `onLoadMore`.
+   */
+  loadingContent?: ReactNode;
+  /**
+   * Called when the grid scrolls near its last row, so more data can be fetched and appended to
+   * `items`. Pair with `isLoading` so a fetch already in flight isn't triggered again before it
+   * resolves.
+   */
+  onLoadMore?: () => void;
+}
+/** The static form: `DataGridRow` elements written out directly. */
+interface DataGridBodyStaticProps {
+  /**
+   * `DataGridRow` elements.
+   */
+  children: ReactElement | ReactElement[];
+  isLoading?: never;
+  items?: never;
+  loadingContent?: never;
+  onLoadMore?: never;
+}
+/**
+ * Split into a static and a dynamic form so the two can't be mixed: the loader row is appended to
+ * `items` and rendered through `children`, so `onLoadMore` alongside a static list of elements used
+ * to type-check and then throw at render ("children is not a function") the moment the loader row
+ * came up.
+ */
+type DataGridBodyProps<T> = DataGridBodyOwnProps & (DataGridBodyDynamicProps<T> | DataGridBodyStaticProps);
+/**
+ * Body row group for `DataGrid`, containing `DataGridRow`s. Unlike `Table`'s sub-parts, this
+ * renders directly — it's a thin wrapper over react-aria-components' own `TableBody`.
+ *
+ * Always carries the `datagrid-body` class — see `DataGridHeader`'s equivalent note.
+ */
+export declare const DataGridBody: <T extends object>({ children, className, dependencies, isLoading, items, loadingContent, onLoadMore, renderEmptyState }: DataGridBodyProps<T>) => React.JSX.Element;
+//#endregion
+//#region src/components/datagrid/DataGridHeader.d.ts
+interface DataGridHeaderProps<T> {
+  /**
+   * `DataGridColumn` elements, or a render function paired with `columns` for dynamic column
+   * generation.
+   */
+  children: ((column: T) => ReactElement) | ReactNode;
+  /**
+   * A string of all className you want applied to the header row group.
+   */
+  className?: string;
+  /**
+   * A list of column data objects, rendered via the function form of `children`.
+   */
+  columns?: Iterable<T>;
+  /**
+   * Values that should invalidate the column cache when using the `columns`/render-function form
+   * of `children` — see `DataGridBody`'s `dependencies` for why this matters.
+   */
+  dependencies?: ReadonlyArray<unknown>;
+}
+/**
+ * Header row group for `DataGrid`, containing `DataGridColumn`s. Unlike `Table`'s sub-parts,
+ * this renders directly — it's a thin wrapper over react-aria-components' own `TableHeader`.
+ *
+ * Always carries the `datagrid-header` class (not just the caller's `className`) — `DataGrid.scss`
+ * uses it to tell header cells from body cells, since react-aria-components renders both as plain
+ * `[role="rowgroup"]` divs with no structural difference to select on otherwise.
+ */
+export declare const DataGridHeader: <T extends object>({ children, className, columns, dependencies }: DataGridHeaderProps<T>) => React.JSX.Element;
+//#endregion
+//#region src/components/datagrid/DataGrid.d.ts
+interface DataGridOwnProps<T extends object> {
+  /**
+   * An accessible label for the grid, used when there's no visible heading.
+   */
+  'aria-label'?: string;
+  /**
+   * Identifies a visible heading element for the grid.
+   */
+  'aria-labelledby'?: string;
+  /**
+   * Set the vertical alignment of cell content. Mirrors `Table`'s prop of the same name for API
+   * parity — same as `Table`, this awaits chassis-css adding the matching `.align-*` styles.
+   */
+  align?: 'bottom' | 'middle' | 'top';
+  /**
+   * Add borders on all sides of the grid and cells.
+   */
+  bordered?: boolean;
+  /**
+   * Remove borders on all sides of the grid and cells.
+   */
+  borderless?: boolean;
+  /**
+   * A `DataGridHeader` and a `DataGridBody`, each built from `DataGridColumn`/`DataGridRow`/
+   * `DataGridCell`.
+   */
+  children: [ReactElement<DataGridHeaderProps<T>>, ReactElement<DataGridBodyProps<T>>];
+  /**
+   * A string of all className you want applied to the component.
+   */
+  className?: string;
+  /**
+   * Sets the color of the component.
+   */
+  color?: ContextColor;
+  /**
+   * A list of row keys to disable. Disabled rows cannot be selected, focused, or interacted with.
+   */
+  disabledKeys?: Iterable<Key$3>;
+  /**
+   * Content shown below the grid, e.g. a totals row or a "load more" control. Rendered as plain
+   * markup outside the grid's own scrollable/virtualized region — not part of the
+   * keyboard-navigable grid, and never scrolls out of view along with the body rows. Mirrors
+   * `Table`'s `footer` prop for API parity.
+   */
+  footer?: ReactNode;
+  /**
+   * Enable a hover state on grid rows.
+   */
+  hover?: boolean;
+  /**
+   * Handler that is called when the selection changes.
+   */
+  onSelectionChange?: (keys: Selection$1) => void;
+  /**
+   * Handler that is called when a column is sorted.
+   */
+  onSortChange?: (descriptor: SortDescriptor$1) => void;
+  /**
+   * The currently selected row keys (controlled).
+   */
+  selectedKeys?: Selection$1;
+  /**
+   * The type of selection that is allowed.
+   */
+  selectionMode?: 'multiple' | 'none' | 'single';
+  /**
+   * Make the grid more compact by cutting all cell padding.
+   */
+  sm?: boolean;
+  /**
+   * The current sort column and direction.
+   */
+  sortDescriptor?: SortDescriptor$1;
+}
+type DataGridRowHeightProps = {
+  /**
+   * Row height in pixels, or `"auto"` to measure each row from its own rendered content
+   * instead of a single fixed height shared by every row (pair it with a required
+   * `estimatedRowHeight`, and see the docs site's "Variable row height" section for the
+   * tradeoffs). A fixed number renders every row, including the header, at that exact
+   * height; content taller than it visually overflows rather than growing the row.
+   */
+  rowHeight: number;
+  estimatedRowHeight?: never;
+} | {
+  rowHeight: 'auto';
+  /**
+   * Seeds the virtualizer's scroll-position math for rows that haven't been measured yet.
+   * Required when `rowHeight="auto"` — pick a value close to the typical row's real height
+   * to minimize scroll-jump on first measurement. A row's real height can still turn out far
+   * from this estimate once it renders, which can cause a visible scroll-jump for rows the
+   * viewport hasn't reached yet.
+   */
+  estimatedRowHeight: number;
+};
+type DataGridProps<T extends object> = DataGridOwnProps<T> & DataGridRowHeightProps;
+export declare const DataGrid: <T extends object>(props: DataGridProps<T> & {
+  ref?: Ref<HTMLDivElement>;
+}) => ReactElement;
+//#endregion
+//#region src/components/datagrid/DataGridCell.d.ts
+interface DataGridCellProps {
+  /**
+   * The contents of the cell.
+   */
+  children: ReactNode;
+  /**
+   * A string of all className you want applied to the cell.
+   */
+  className?: string;
+  /**
+   * Indicates how many columns the cell spans.
+   */
+  colSpan?: number;
+  /**
+   * The unique id of the cell.
+   */
+  id?: Key$3;
+  /**
+   * A string representation of the cell's contents, used for typeahead.
+   */
+  textValue?: string;
+}
+/**
+ * A cell within a `DataGrid` row. Unlike `Table`'s sub-parts, this renders directly — it's a
+ * thin wrapper over react-aria-components' own `Cell`.
+ */
+export declare const DataGridCell: ({ children, className, colSpan, id, textValue }: DataGridCellProps) => React.JSX.Element;
+//#endregion
+//#region src/components/datagrid/DataGridColumn.d.ts
+interface DataGridColumnProps {
+  /**
+   * Whether the column allows sorting. Adds a sort indicator and makes the header
+   * clickable/keyboard-activatable.
+   */
+  allowsSorting?: boolean;
+  /**
+   * Rendered contents of the column header.
+   */
+  children: ReactNode;
+  /**
+   * A string of all className you want applied to the column header.
+   */
+  className?: string;
+  /**
+   * The initial width of the column, e.g. for a narrow selection/icon column — a plain number or
+   * `'<n>%'` for a fixed size, or `'<n>fr'` to share remaining space with other fractional
+   * columns in proportion (columns default to `'1fr'`, so they split space evenly unless given
+   * one of these). Unlike `Table`, which sizes a narrow column via `width: 1%` relying on native
+   * `<table>` auto-layout, `DataGrid`'s virtualized layout computes every column's width itself —
+   * a CSS `width` rule on the cell has no effect, so this prop is the only way to size a column.
+   */
+  defaultWidth?: ColumnSize | null;
+  /**
+   * The unique id of the column, referenced by `sortDescriptor.column`.
+   */
+  id?: Key$3;
+  /**
+   * Whether this column is a row header, announced by assistive technology during row
+   * navigation.
+   */
+  isRowHeader?: boolean;
+  /**
+   * The maximum width of the column, as a fixed pixel number or `'<n>%'`.
+   */
+  maxWidth?: ColumnStaticSize | null;
+  /**
+   * The minimum width of the column, as a fixed pixel number or `'<n>%'`.
+   */
+  minWidth?: ColumnStaticSize | null;
+  /**
+   * Pin the column so it stays visible while the grid scrolls horizontally: `'start'` pins it to
+   * the leading edge, `'end'` to the trailing edge. Stacks correctly with other pinned columns on
+   * the same side, in declaration order.
+   */
+  pin?: 'end' | 'start';
+  /**
+   * A string representation of the column header, used for accessibility announcements. Defaults
+   * to `children` when it's a plain string — set this explicitly when the header contains
+   * anything else (an icon, a `Tooltip`, etc.).
+   */
+  textValue?: string;
+}
+/**
+ * A column within `DataGrid`. Unlike `Table`'s sub-parts, this renders directly — it's a thin
+ * wrapper over react-aria-components' own `Column`.
+ *
+ * When `allowsSorting` is set, renders a sort indicator after `children` — mirrors `Table`'s own
+ * `TableColumnHeader`, but reads the active direction from react-aria-components' own
+ * `ColumnRenderProps` (via the `children` render-prop form) instead of reaching into table state
+ * directly, since this wrapper has no state of its own to read.
+ */
+export declare const DataGridColumn: ({ allowsSorting, children, className, defaultWidth, id, isRowHeader, maxWidth, minWidth, pin, textValue }: DataGridColumnProps) => React.JSX.Element;
+//#endregion
+//#region src/components/datagrid/DataGridRow.d.ts
+interface DataGridRowProps<T> {
+  /**
+   * `DataGridCell` elements, or a render function called once per column with that column's
+   * data — required when the row's parent `DataGridBody` uses the `items`/render-function form.
+   */
+  children: ((column: T) => ReactElement) | ReactNode;
+  /**
+   * A string of all className you want applied to the row.
+   */
+  className?: string;
+  /**
+   * A list of column data objects, rendered via the function form of `children`.
+   */
+  columns?: Iterable<T>;
+  /**
+   * The unique id of the row, referenced by `selectedKeys`/`disabledKeys`.
+   */
+  id?: Key$3;
+  /**
+   * A string representation of the row's contents, used for typeahead.
+   */
+  textValue?: string;
+}
+/**
+ * A row within `DataGrid`. Unlike `Table`'s sub-parts, this renders directly — it's a thin
+ * wrapper over react-aria-components' own `Row`.
+ */
+export declare const DataGridRow: <T extends object>({ children, className, columns, id, textValue }: DataGridRowProps<T>) => React.JSX.Element;
+//#endregion
+//#region src/components/datagrid/DataGridSelectionCell.d.ts
+interface DataGridSelectionCellProps {
+  /**
+   * A string of all className you want applied to the checkbox, replacing the default
+   * `check-input`.
+   */
+  className?: string;
+}
+/**
+ * Selection checkbox for one `DataGrid` row — place inside a `DataGridCell`.
+ *
+ * react-aria-components' own `Checkbox` always visually hides its native `<input>` behind a custom
+ * indicator the caller must supply. This renders a plain native `<input className="check-input">`
+ * instead, wired to the same state, so it picks up chassis-css's existing checkbox styling for
+ * free with no new CSS of its own.
+ */
+export declare const DataGridSelectionCell: ({ className }: DataGridSelectionCellProps) => React.JSX.Element;
+/**
+ * "Select all" checkbox for `DataGrid`'s header row — place inside a `DataGridColumn`. See
+ * `DataGridSelectionCell` for why this bypasses react-aria-components' own `Checkbox`.
+ */
+export declare const DataGridSelectAllCell: ({ className }: DataGridSelectionCellProps) => React.JSX.Element;
 //#endregion
 //#region src/utils/breakpoints.d.ts
 type Span = 'auto' | boolean | number | string;
@@ -1182,8 +1611,8 @@ type CardOwnProps<C extends ElementType> = {
    */
   imageOrientation?: 'bottom' | 'top';
   /**
-   * Overrides `direction` at one or more breakpoints — e.g. `{ large: 'row' }` to lay the card
-   * out horizontally from `large` up while stacking below it.
+   * Overrides `direction` at one or more breakpoints — e.g. `{ lg: 'row' }` to lay the card
+   * out horizontally from `lg` up while stacking below it.
    */
   responsive?: Partial<Record<Breakpoint, FlexDirection>>;
   /**
@@ -1332,7 +1761,7 @@ type CardImageOwnProps<C extends ElementType> = {
    */
   orientation?: CardImageOrientation;
   /**
-   * Overrides `orientation` at one or more breakpoints — e.g. `{ large: 'start' }` to switch an
+   * Overrides `orientation` at one or more breakpoints — e.g. `{ lg: 'start' }` to switch an
    * image cap from `top` to `start` once the card lays out horizontally.
    */
   responsive?: Partial<Record<Breakpoint, CardImageOrientation>>;
@@ -1810,9 +2239,9 @@ interface ChipInputProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultVa
    */
   separator?: null | string;
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'large' | 'small';
+  size?: 'lg' | 'sm';
   /**
    * Set component validation state to valid.
    */
@@ -1868,9 +2297,9 @@ type CloseButtonOwnProps<C extends ElementType> = {
    */
   onClick?: MouseEventHandler<HTMLAnchorElement | HTMLButtonElement>;
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'large' | 'small';
+  size?: 'lg' | 'sm';
   /**
    * Specifies the type of button. Always specify the type attribute for the `<button>` element.
    * Different browsers may use different default types for the `<button>` element.
@@ -1925,9 +2354,9 @@ interface ColorInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 's
    */
   onChange?: ChangeEventHandler<HTMLInputElement>;
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'large' | 'small';
+  size?: 'lg' | 'sm';
   /**
    * Set component validation state to valid.
    */
@@ -1980,9 +2409,9 @@ interface FileInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'si
    */
   onChange?: ChangeEventHandler<HTMLInputElement>;
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'large' | 'small';
+  size?: 'lg' | 'sm';
   /**
    * Set component validation state to valid.
    */
@@ -2068,9 +2497,9 @@ interface ComboboxProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultVal
    */
   placeholder?: string;
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'large' | 'small';
+  size?: 'lg' | 'sm';
   /**
    * Set component validation state to valid.
    */
@@ -2139,6 +2568,14 @@ interface DatePickerBaseProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defa
    */
   isDateUnavailable?: (date: DateValue$1) => boolean;
   /**
+   * Overrides for the strings this component and its calendar render themselves rather than
+   * getting from the active locale — the calendar trigger, the clear adornment, and the calendar's
+   * own year-view arrows/announcements. Date segment order, month and weekday names all follow
+   * `I18nProvider`'s locale via react-aria and need no override. Merged over the English defaults,
+   * so passing one key leaves the rest alone.
+   */
+  labels?: Partial<CalendarLabels>;
+  /**
    * Whether the calendar popover is open (controlled).
    */
   isOpen?: boolean;
@@ -2166,9 +2603,9 @@ interface DatePickerBaseProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defa
    */
   onOpenChange?: (isOpen: boolean) => void;
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'large' | 'small';
+  size?: 'lg' | 'sm';
   /**
    * ISO 8601 dates (`YYYY-MM-DD`) to mark unselectable, as a convenience alternative to
    * `isDateUnavailable` for data-driven cases (e.g. booked dates fetched from an API). Composed
@@ -2297,6 +2734,14 @@ interface DateRangePickerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'def
    */
   isDateUnavailable?: (date: DateValue$1) => boolean;
   /**
+   * Overrides for the strings this component and its calendar render themselves rather than
+   * getting from the active locale — the clear adornment and the calendar's own year-view
+   * arrows/announcements. Date segment order, month and weekday names all follow `I18nProvider`'s
+   * locale via react-aria and need no override. Merged over the English defaults, so passing one
+   * key leaves the rest alone.
+   */
+  labels?: Partial<CalendarLabels>;
+  /**
    * Whether the calendar popover is open (controlled).
    */
   isOpen?: boolean;
@@ -2334,9 +2779,9 @@ interface DateRangePickerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'def
    */
   presets?: DateRangePreset[];
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'large' | 'small';
+  size?: 'lg' | 'sm';
   /**
    * ISO 8601 dates (`YYYY-MM-DD`) to mark unselectable, as a convenience alternative to
    * `isDateUnavailable` for data-driven cases (e.g. booked dates fetched from an API). Composed
@@ -2449,9 +2894,9 @@ interface OtpInputProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultVal
    */
   separator?: ReactNode;
   /**
-   * Size the boxes small or large.
+   * Size the boxes sm or lg.
    */
-  size?: 'large' | 'small';
+  size?: 'lg' | 'sm';
   /**
    * Set component validation state to valid.
    */
@@ -2555,6 +3000,7 @@ export declare const PasswordStrength: {
 type Placement = 'bottom' | 'bottom-end' | 'bottom-start' | 'left' | 'left-end' | 'left-start' | 'right' | 'right-end' | 'right-start' | 'top' | 'top-end' | 'top-start';
 //#endregion
 //#region src/components/menu/Menu.d.ts
+type MenuFocusStrategy = 'first' | 'last';
 type MenuAutoClose = 'inside' | 'outside' | boolean;
 type MenuOwnProps<C extends ElementType> = {
   /**
@@ -2771,9 +3217,9 @@ type MenuToggleOwnProps<C extends ElementType> = {
    */
   shape?: Shapes;
   /**
-   * Size the component small or large. Only applies to the default `Button` root.
+   * Size the component sm or lg. Only applies to the default `Button` root.
    */
-  size?: 'large' | 'small';
+  size?: 'lg' | 'sm';
   /**
    * Sets the context style of the component. Only applies to the default `Button` root.
    */
@@ -2815,7 +3261,7 @@ interface MenuSubmenuProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onSelec
    */
   placement?: Placement;
   /**
-   * Switches to a view-replacement pattern below the `small` breakpoint. Pair with a
+   * Switches to a view-replacement pattern below the `sm` breakpoint. Pair with a
    * `MenuSubmenuBack` as the first item of the nested menu.
    */
   stacked?: boolean;
@@ -2866,7 +3312,7 @@ interface ColProps extends HTMLAttributes<HTMLDivElement>, ColLayout {
   /**
    * Overrides `span`/`offset`/`order` at a breakpoint and up.
    *
-   * @type { Partial<Record<'small' | 'medium' | 'large' | 'xlarge' | '2xlarge', { span?: 'auto' | number | string | boolean, offset?: number | string, order?: 'first' | 'last' | number | string }>> }
+   * @type { Partial<Record<'sm' | 'md' | 'lg' | 'xl' | '2xl', { span?: 'auto' | number | string | boolean, offset?: number | string, order?: 'first' | 'last' | number | string }>> }
    */
   responsive?: Partial<Record<Breakpoint, ColLayout>>;
 }
@@ -2968,7 +3414,7 @@ type GridItemOwnProps<C extends ElementType> = GridItemLayout & {
   /**
    * Overrides `span`/`start` at a breakpoint and up.
    *
-   * @type { Partial<Record<'small' | 'medium' | 'large' | 'xlarge' | '2xlarge', { span?: number, start?: number }>> }
+   * @type { Partial<Record<'sm' | 'md' | 'lg' | 'xl' | '2xl', { span?: number, start?: number }>> }
    */
   responsive?: Partial<Record<Breakpoint, GridItemLayout>>;
   /**
@@ -3037,7 +3483,7 @@ interface RowProps extends HTMLAttributes<HTMLDivElement>, RowLayout {
   /**
    * Overrides `cols`/`gutter`/`gutterX`/`gutterY` at a breakpoint and up.
    *
-   * @type { Partial<Record<'small' | 'medium' | 'large' | 'xlarge' | '2xlarge', { cols?: 'auto' | number | string, gutter?: Spacing | 0, gutterX?: Spacing | 0, gutterY?: Spacing | 0 }>> }
+   * @type { Partial<Record<'sm' | 'md' | 'lg' | 'xl' | '2xl', { cols?: 'auto' | number | string, gutter?: Spacing | 0, gutterX?: Spacing | 0, gutterY?: Spacing | 0 }>> }
    */
   responsive?: Partial<Record<Breakpoint, RowLayout>>;
 }
@@ -3054,9 +3500,9 @@ type ButtonObject = {
    */
   shape?: Shapes;
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'large' | 'small';
+  size?: 'lg' | 'sm';
   /**
    * Set the button variant to an outlined button or a ghost button.
    */
@@ -3109,9 +3555,9 @@ interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'che
    */
   onChange?: (isSelected: boolean) => void;
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'large' | 'small';
+  size?: 'lg' | 'sm';
   /**
    * Set component validation state to valid.
    */
@@ -3374,9 +3820,9 @@ type InputGroupOwnProps<C extends ElementType> = {
    */
   component?: C;
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'large' | 'small';
+  size?: 'lg' | 'sm';
 };
 type InputGroupProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, InputGroupOwnProps<C>>;
 type InputGroupComponent = (<C extends ElementType = 'div'>(props: InputGroupProps<C> & {
@@ -3452,9 +3898,9 @@ interface RadioProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'checke
    */
   label?: ReactNode;
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'large' | 'small';
+  size?: 'lg' | 'sm';
   /**
    * The value of the radio button, used to identify it within its `<RadioGroup>`.
    */
@@ -3673,9 +4119,9 @@ interface SelectProps extends Omit<InputHTMLAttributes<HTMLSelectElement>, 'size
    */
   placeholder?: string;
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'large' | 'small';
+  size?: 'lg' | 'sm';
   /**
    * Set component validation state to valid.
    */
@@ -3728,9 +4174,9 @@ interface SwitchProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'check
    */
   onChange?: (isSelected: boolean) => void;
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'large' | 'small';
+  size?: 'lg' | 'sm';
   /**
    * Specifies the type of component.
    */
@@ -3797,9 +4243,9 @@ interface TextInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'de
    */
   readOnly?: boolean;
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'large' | 'small';
+  size?: 'lg' | 'sm';
   /**
    * Specifies the type of component. For `color` or `file` inputs, use the dedicated `ColorInput` or `FileInput` components instead.
    */
@@ -3866,9 +4312,9 @@ interface TextareaProps extends Omit<TextareaHTMLAttributes<HTMLTextAreaElement>
    */
   rows?: number;
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'large' | 'small';
+  size?: 'lg' | 'sm';
   /**
    * Set component validation state to valid.
    */
@@ -4014,7 +4460,7 @@ type ListOwnProps<C extends ElementType> = {
   /**
    * Specify a layout type.
    */
-  layout?: '2xlarge:horizontal' | 'horizontal' | 'large:horizontal' | 'medium:horizontal' | 'small:horizontal' | 'xlarge:horizontal';
+  layout?: '2xl:horizontal' | 'horizontal' | 'lg:horizontal' | 'md:horizontal' | 'sm:horizontal' | 'xl:horizontal';
   /**
    * Number list items sequentially using CSS counters. Pair with `component="ol"` for semantic correctness.
    */
@@ -4091,7 +4537,7 @@ interface ModalProps extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'onCa
    * Set modal to cover the entire user viewport. A breakpoint value goes fullscreen only
    * below that breakpoint.
    */
-  fullscreen?: '2xlarge' | 'large' | 'medium' | 'small' | 'xlarge' | boolean;
+  fullscreen?: '2xl' | 'lg' | 'md' | 'sm' | 'xl' | boolean;
   /**
    * Disable the open/close transition entirely.
    */
@@ -4130,9 +4576,9 @@ interface ModalProps extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'onCa
    */
   scrollable?: boolean;
   /**
-   * Size the component small, large, or extra large.
+   * Size the component sm, lg, or extra lg.
    */
-  size?: 'large' | 'small' | 'xlarge';
+  size?: 'lg' | 'sm' | 'xl';
   /**
    * Toggle the visibility of modal component.
    */
@@ -4347,7 +4793,7 @@ type NavbarOwnProps<C extends ElementType> = {
   /**
    * Defines optional container wrapping children elements.
    */
-  container?: '2xlarge' | 'fluid' | 'large' | 'medium' | 'small' | 'xlarge' | boolean;
+  container?: '2xl' | 'fluid' | 'lg' | 'md' | 'sm' | 'xl' | boolean;
   /**
    * Opts this navbar into the framework's dark or light theming, independent of the page's own
    * theme.
@@ -4399,7 +4845,7 @@ type NavbarBrandOwnProps<C extends ElementType> = {
 };
 type NavbarBrandProps<C extends ElementType = 'span'> = PolymorphicComponentProps<C, NavbarBrandOwnProps<C>>;
 type NavbarBrandComponent = (<C extends ElementType = 'span'>(props: NavbarBrandProps<C> & {
-  ref?: PolymorphicRef<C>;
+  ref?: PolymorphicRefWithFallback<C, HTMLAnchorElement | HTMLSpanElement>;
 }) => ReactElement | null) & {
   displayName?: string;
 };
@@ -4519,9 +4965,9 @@ interface PaginationProps extends HTMLAttributes<HTMLElement> {
    */
   showPrevNext?: boolean;
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'large' | 'small';
+  size?: 'lg' | 'sm';
 }
 export declare const Pagination: React.ForwardRefExoticComponent<PaginationProps & React.RefAttributes<HTMLElement>>;
 //#endregion
@@ -4546,7 +4992,7 @@ type PaginationItemOwnProps<C extends ElementType> = {
 };
 type PaginationItemProps<C extends ElementType = 'button'> = PolymorphicComponentProps<C, PaginationItemOwnProps<C>>;
 type PaginationItemComponent = (<C extends ElementType = 'button'>(props: PaginationItemProps<C> & {
-  ref?: PolymorphicRef<C>;
+  ref?: PolymorphicRefWithFallback<C, HTMLAnchorElement | HTMLButtonElement | HTMLSpanElement>;
 }) => ReactElement | null) & {
   displayName?: string;
 };
@@ -4735,7 +5181,7 @@ interface DrawerProps extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'onC
   /**
    * Renders as a drawer only below this breakpoint — inline as a flex container above it.
    */
-  responsive?: '2xlarge' | 'large' | 'medium' | 'small' | 'xlarge';
+  responsive?: '2xl' | 'lg' | 'md' | 'sm' | 'xl';
   /**
    * Allow the page behind the drawer to scroll while it's open.
    */
@@ -4893,7 +5339,7 @@ type SkeletonOwnProps<C extends ElementType> = {
   /**
    * Overrides `span` at a breakpoint and up.
    *
-   * @type { Partial<Record<'small' | 'medium' | 'large' | 'xlarge' | '2xlarge', 'auto' | number | string | boolean>> }
+   * @type { Partial<Record<'sm' | 'md' | 'lg' | 'xl' | '2xl', 'auto' | number | string | boolean>> }
    */
   responsive?: Partial<Record<Breakpoint, Span>>;
 };
@@ -4959,9 +5405,9 @@ type SpinnerOwnProps<C extends ElementType> = {
    */
   component?: C;
   /**
-   * Size the component small.
+   * Size the component sm.
    */
-  size?: 'small';
+  size?: 'sm';
   /**
    * Set the button variant to an outlined button or a ghost button.
    */
@@ -5027,7 +5473,7 @@ type StepperOwnProps<C extends ElementType> = {
    * Lays out steps side-by-side instead of stacking them vertically, either unconditionally or
    * from a given breakpoint up.
    */
-  layout?: '2xlarge:horizontal' | 'horizontal' | 'large:horizontal' | 'medium:horizontal' | 'small:horizontal' | 'xlarge:horizontal';
+  layout?: '2xl:horizontal' | 'horizontal' | 'lg:horizontal' | 'md:horizontal' | 'sm:horizontal' | 'xl:horizontal';
   /**
    * Wraps the stepper in a horizontally scrollable container so steps keep their natural width
    * instead of shrinking to fit.
@@ -5103,9 +5549,9 @@ interface TableProps<T extends object> {
    * A `TableHeader` and a `TableBody`, each built from `TableColumn`/`TableRow`/
    * `TableCell` — read as data to build the table's collection. Not rendered directly.
    */
-  children: [ReactElement<TableHeaderProps<T> & {
+  children: [ReactElement<TableHeaderProps$1<T> & {
     className?: string;
-  }>, ReactElement<TableBodyProps<T> & {
+  }>, ReactElement<TableBodyProps$1<T> & {
     className?: string;
   }>];
   /**
@@ -5144,7 +5590,7 @@ interface TableProps<T extends object> {
   /**
    * Make any table responsive across all viewports or pick a maximum breakpoint.
    */
-  responsive?: '2xlarge' | 'large' | 'medium' | 'small' | 'xlarge' | boolean;
+  responsive?: '2xl' | 'lg' | 'md' | 'sm' | 'xl' | boolean;
   /**
    * The currently selected row keys (controlled).
    */
@@ -5156,7 +5602,7 @@ interface TableProps<T extends object> {
   /**
    * Make table more compact by cutting all cell padding.
    */
-  small?: boolean;
+  sm?: boolean;
   /**
    * The current sort column and direction.
    */
@@ -5168,7 +5614,7 @@ interface TableProps<T extends object> {
    * separately, since stacking needs the same `.table-responsive` container-query ancestor.
    * Labels come from each `TableColumn`'s text (or its `textValue`, for non-text headers).
    */
-  stacked?: '2xlarge' | 'large' | 'medium' | 'small' | 'xlarge' | boolean;
+  stacked?: '2xl' | 'lg' | 'md' | 'sm' | 'xl' | boolean;
   /**
    * Add zebra-striping to table rows.
    */
@@ -5179,7 +5625,7 @@ export declare const Table: <T extends object>(props: TableProps<T> & {
 }) => ReactElement;
 //#endregion
 //#region src/components/table/TableBody.d.ts
-interface TableBodyProps$1<T> {
+interface TableBodyProps<T> {
   /**
    * `TableRow` elements, or a render function paired with `items` for dynamic row generation.
    */
@@ -5197,7 +5643,7 @@ interface TableBodyProps$1<T> {
  * Collection node, data-only — read by `Table` to build the table's row collection. Never
  * rendered directly.
  */
-export declare const TableBody: <T>(props: TableBodyProps$1<T>) => ReactElement;
+export declare const TableBody: <T>(props: TableBodyProps<T>) => ReactElement;
 //#endregion
 //#region src/components/table/TableCell.d.ts
 interface TableCellProps {
@@ -5254,7 +5700,7 @@ interface TableColumnProps {
 export declare const TableColumn: (props: TableColumnProps) => ReactElement;
 //#endregion
 //#region src/components/table/TableHeader.d.ts
-interface TableHeaderProps$1<T> {
+interface TableHeaderProps<T> {
   /**
    * `TableColumn` elements, or a render function paired with `columns` for dynamic column
    * generation.
@@ -5273,7 +5719,7 @@ interface TableHeaderProps$1<T> {
  * Collection node, data-only — read by `Table` to build the table's column collection. Never
  * rendered directly.
  */
-export declare const TableHeader: <T>(props: TableHeaderProps$1<T>) => ReactElement;
+export declare const TableHeader: <T>(props: TableHeaderProps<T>) => ReactElement;
 //#endregion
 //#region src/components/table/TableRow.d.ts
 interface TableRowProps {
@@ -5736,8 +6182,8 @@ interface UsePaginationOptions {
   onNext: () => void;
 }
 interface UsePaginationResult<T extends HTMLElement = HTMLButtonElement> {
-  prevRef: RefObject<T>;
-  nextRef: RefObject<T>;
+  prevRef: RefObject<T | null>;
+  nextRef: RefObject<T | null>;
   handlePrevClick: (event: MouseEvent<T>) => void;
   handleNextClick: (event: MouseEvent<T>) => void;
 }
@@ -5795,9 +6241,9 @@ type ChipOwnProps<C extends ElementType> = {
    */
   pressed?: boolean;
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'large' | 'small';
+  size?: 'lg' | 'sm';
   /**
    * Specifies the type of button. Only applies when `component` is `button`. Different browsers
    * may use different default types for the `<button>` element, so always specify it explicitly.
@@ -5810,7 +6256,7 @@ type ChipOwnProps<C extends ElementType> = {
 };
 type ChipProps<C extends ElementType = 'span'> = PolymorphicComponentProps<C, ChipOwnProps<C>>;
 type ChipComponent = (<C extends ElementType = 'span'>(props: ChipProps<C> & {
-  ref?: PolymorphicRef<C>;
+  ref?: PolymorphicRefWithFallback<C, HTMLAnchorElement | HTMLSpanElement>;
 }) => ReactElement | null) & {
   displayName?: string;
 };
@@ -5918,5 +6364,5 @@ type StackComponent = (<C extends ElementType = 'div'>(props: StackProps<C> & {
 };
 export declare const Stack: StackComponent;
 //#endregion
-export { I18nProvider };
+export { type AccordionBodyProps, type AccordionHeaderProps, type AccordionItemDef, type AccordionItemProps, type AccordionProps, type AutocompleteGroupProps, type AutocompleteItemProps, type AutocompleteProps, type AvatarImageProps, type AvatarProps, type AvatarStackItemDef, type AvatarStackProps, type BadgeProps, type BreadcrumbItemDef, type BreadcrumbItemProps, type BreadcrumbProps, type Breakpoint, type ButtonGroupProps, type ButtonObject, type ButtonProps, type ButtonToolbarProps, type CalendarLabels, type CalendarMultipleProps, type CalendarProps, type CalendarSingleProps, type CardBodyProps, type CardFooterProps, type CardGroupProps, type CardHeaderProps, type CardImageOverlayProps, type CardImageProps, type CardLinkProps, type CardProps, type CardSubtitleProps, type CardTextProps, type CardTitleProps, type CarouselControlNextProps, type CarouselControlPrevProps, type CarouselEnds, type CarouselIndicatorsProps, type CarouselInnerProps, type CarouselItemProps, type CarouselOverlayProps, type CarouselPlayPauseProps, type CarouselProps, type CarouselSlideDetail, type CarouselTransition, type CheckboxGroupProps, type CheckboxProps, type ChipInputProps, type ChipProps, type CloseButtonProps, type ColProps, type CollapseProps, type ColorInputProps, type ComboboxGroupProps, type ComboboxItemProps, type ComboboxProps, type ContainerProps, type ContextColor, type ContextStyle, type DatePickerMultipleProps, type DatePickerProps, type DatePickerSingleProps, type DateRangePickerProps, type DateRangePreset, type DrawerBodyProps, type DrawerFooterProps, type DrawerHeaderProps, type DrawerProps, type DrawerTitleProps, type ExtendedSizing, type FileInputProps, type FlexProps, type FloatingInputProps, type FormFeedbackProps, type FormFieldProps, type FormHelpProps, type FormLabelProps, type FormProps, type GridItemLayout, type GridItemProps, type GridProps, I18nProvider, type IconProps, type InputAdornProps, type InputGroupAddonProps, type InputGroupProps, type LinkProps, type ListItemDef, type ListItemProps, type ListProps, type MenuAutoClose, type MenuDividerDef, type MenuDividerProps, type MenuFocusStrategy, type MenuHeaderDef, type MenuHeaderProps, type MenuItemDef, type MenuItemProps, type MenuItemsDef, type MenuListProps, type MenuProps, type MenuSubmenuBackProps, type MenuSubmenuProps, type MenuTextProps, type MenuToggleProps, type ModalBodyProps, type ModalFooterProps, type ModalHeaderProps, type ModalProps, type ModalTitleProps, type NavItemDef, type NavLinkProps, type NavProps, type NavTitleProps, type NavbarBrandProps, type NavbarNavProps, type NavbarProps, type NavbarTextProps, type NavbarTogglerProps, type NotificationContent, type NotificationIconProps, type NotificationProps, type NotificationStackProps, type NotificationTextProps, type NotificationTitleProps, type OtpInputProps, type PaginationItemProps, type PaginationProps, type PasswordStrengthProps, type PlaceholderProps, type Placement, type PopoverProps, type ProgressBarProps, type ProgressProps, type RadioGroupProps, type RadioProps, type RangeCalendarProps, type RangeInputProps, type RowProps, type SelectOptionDef, type SelectProps, type Shapes, type Sizing, type SkeletonLoaderProps, type SkeletonProps, type Spacing, type SpinnerProps, type StackProps, type StepperItemDef, type StepperItemProps, type StepperProps, type SwitchProps, type TabListProps, type TabPanelProps, type TabProps, type TableBodyProps, type TableCellProps, type TableColumnProps, type TableHeaderProps, type TableProps, type TableRowProps, type TabsProps, type TextInputProps, type TextareaProps, type ToastBodyProps, type ToastContent, type ToastFooterProps, type ToastHeaderProps, type ToastIconProps, type ToastProps, type ToasterProps, type TooltipProps, type UseDrawerResult, type UseModalResult, type UseNotificationResult, type UsePaginationResult, type UseToastResult };
 ```

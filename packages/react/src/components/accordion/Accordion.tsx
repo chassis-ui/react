@@ -88,9 +88,9 @@ export interface AccordionProps extends HTMLAttributes<HTMLDivElement> {
    */
   onExpandedChange?: (keys: Array<number | string>) => void
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'small' | 'large'
+  size?: 'sm' | 'lg'
 }
 
 export const Accordion = forwardRef<HTMLDivElement, AccordionProps>(

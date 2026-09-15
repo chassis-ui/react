@@ -25,13 +25,13 @@ An `<Avatar>` displays a user profile as a picture, initials, or an icon, in lis
 
 Render a `<Avatar>` with text content for initials, or set the `src` prop to display a profile picture (aliased to `alt="Profile Picture"` by default).
 
-<Example class="d-flex gap-small">
+<Example class="d-flex gap-sm">
   <BasicExample client:load />
 </Example>
 
 Passing a `src` renders an `AvatarImage` automatically. Nest one directly for more control over the image itself.
 
-<Example class="d-flex gap-small">
+<Example class="d-flex gap-sm">
   <AvatarImageExample client:load />
 </Example>
 
@@ -39,13 +39,13 @@ Passing a `src` renders an `AvatarImage` automatically. Nest one directly for mo
 
 Set the `size` prop to one of the Chassis component sizes to adjust the avatar's dimensions.
 
-<Example class="d-flex gap-small align-items-center">
+<Example class="d-flex gap-sm align-items-center">
   <SizeExample client:load />
 </Example>
 
 The `--cx-avatar-size` CSS variable sets a custom size directly.
 
-<Example class="d-flex gap-small align-items-center">
+<Example class="d-flex gap-sm align-items-center">
   <SizeVariableExample client:load />
 </Example>
 
@@ -53,7 +53,7 @@ The `--cx-avatar-size` CSS variable sets a custom size directly.
 
 Set the `color` prop to one of the Chassis themed colors to apply the appropriate background and text colors.
 
-<Example class="d-flex gap-small">
+<Example class="d-flex gap-sm">
   <ColorsExample client:load />
 </Example>
 
@@ -61,7 +61,7 @@ Set the `color` prop to one of the Chassis themed colors to apply the appropriat
 
 Set the `smooth` prop to create avatars with a subdued background color and matching text color, for a softer, more subtle appearance.
 
-<Example class="d-flex gap-small">
+<Example class="d-flex gap-sm">
   <SmoothExample client:load />
 </Example>
 
@@ -69,7 +69,7 @@ Set the `smooth` prop to create avatars with a subdued background color and matc
 
 `<Avatar>` renders a `<button>` by default. Set the `href` prop to render an anchor instead, or set `component` to render any other tag or custom component. Use the `disabled` prop to disable a button or anchor avatar.
 
-<Example class="d-flex gap-small">
+<Example class="d-flex gap-sm">
   <CustomComponentsExample client:load />
 </Example>
 
@@ -77,7 +77,7 @@ Set the `smooth` prop to create avatars with a subdued background color and matc
 
 Set the `status` prop to one of the Chassis themed colors to show a status indicator in the bottom-end corner. It scales with the avatar's `size` automatically.
 
-<Example class="d-flex gap-small">
+<Example class="d-flex gap-sm">
   <StatusExample client:load />
 </Example>
 
@@ -91,11 +91,11 @@ Set the `status` prop to one of the Chassis themed colors to show a status indic
 
 Use `<AvatarStack>` to group related avatars together with a consistent overlap. Pass a `data` array to render a `Avatar` per item, or nest `<Avatar>` children directly &mdash; handy for a trailing "+N" overflow avatar. Set the `--cx-avatar-stack-spacing` CSS variable to adjust how much they overlap, and use the `size` prop to size every avatar in the stack at once.
 
-<Example class="d-flex gap-small">
+<Example class="d-flex gap-sm">
   <StackExample client:load />
 </Example>
 
-<Example class="d-flex gap-small">
+<Example class="d-flex gap-sm">
   <StackAltExample client:load />
 </Example>
 

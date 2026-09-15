@@ -60,11 +60,21 @@ export function useFloatingOverlay({
     else close()
   }, [visible])
 
+  // `onShow`/`onHide` report *transitions*, so neither fires for the initial commit — mounting
+  // closed is not a hide. Without this guard the `else` branch ran on mount and every
+  // `<Popover onHide>`/`<Tooltip onHide>` on the page reported a close that never happened,
+  // before `onShow` had ever fired once. The portal container still resolves on mount, since
+  // an overlay mounted already-open needs one immediately.
+  const mountedRef = useRef(false)
+
   useEffect(() => {
+    const isInitialCommit = !mountedRef.current
+    mountedRef.current = true
+
     if (isOpen) {
       setPortalContainer(resolvePortalContainer())
-      onShow?.()
-    } else {
+      if (!isInitialCommit) onShow?.()
+    } else if (!isInitialCommit) {
       onHide?.()
     }
   }, [isOpen])

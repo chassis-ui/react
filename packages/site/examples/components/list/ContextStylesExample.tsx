@@ -2,7 +2,7 @@ import { Col, List, ListItem, Row } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
-    <Row className="medium:row-cols-2 g-large">
+    <Row className="md:row-cols-2 g-lg">
       <Col>
         <List color="primary">
           <ListItem>Cras justo odio</ListItem>

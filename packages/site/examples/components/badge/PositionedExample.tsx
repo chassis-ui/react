@@ -9,7 +9,7 @@ export const Example = () => {
           99+ <span className="visually-hidden">unread messages</span>
         </Badge>
       </Button>
-      <Button color="primary" className="position-relative ms-xsmall">
+      <Button color="primary" className="position-relative ms-xs">
         Profile
         <Badge color="danger" position="top-end" circle>
           99+ <span className="visually-hidden">unread messages</span>
@@ -22,7 +22,7 @@ export const Example = () => {
           99+ <span className="visually-hidden">unread messages</span>
         </Badge>
       </Button>
-      <Button color="primary" className="position-relative ms-xsmall">
+      <Button color="primary" className="position-relative ms-xs">
         Profile
         <Badge color="danger" position="bottom-end" circle>
           99+ <span className="visually-hidden">unread messages</span>

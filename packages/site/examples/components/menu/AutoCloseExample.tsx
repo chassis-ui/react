@@ -2,7 +2,7 @@ import { Menu, MenuToggle, MenuList, MenuItem } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
-    <div className="d-flex flex-wrap gap-small">
+    <div className="d-flex flex-wrap gap-sm">
       <Menu autoClose>
         <MenuToggle color="secondary">Default</MenuToggle>
         <MenuList>

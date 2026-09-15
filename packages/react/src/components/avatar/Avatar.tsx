@@ -5,7 +5,8 @@ import { ContextColor, ExtendedSizing } from '../../types'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
-  PolymorphicRef
+  PolymorphicRef,
+  PolymorphicRefWithFallback
 } from '../../utils/polymorphic'
 import { Link } from '../link/Link'
 import { Badge } from '../badge'
@@ -68,7 +69,9 @@ export type AvatarProps<C extends ElementType = 'span'> = PolymorphicComponentPr
 >
 
 type AvatarComponent = (<C extends ElementType = 'span'>(
-  props: AvatarProps<C> & { ref?: PolymorphicRef<C> }
+  props: AvatarProps<C> & {
+    ref?: PolymorphicRefWithFallback<C, HTMLSpanElement | HTMLAnchorElement>
+  }
 ) => ReactElement | null) & { displayName?: string }
 
 function AvatarRender<C extends ElementType = 'span'>(

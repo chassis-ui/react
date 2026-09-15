@@ -63,9 +63,9 @@ export interface TextInputProps extends Omit<
    */
   readOnly?: boolean
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'small' | 'large'
+  size?: 'sm' | 'lg'
   /**
    * Specifies the type of component. For `color` or `file` inputs, use the dedicated `ColorInput` or `FileInput` components instead.
    */

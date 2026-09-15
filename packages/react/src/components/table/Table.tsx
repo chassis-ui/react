@@ -103,7 +103,7 @@ export interface TableProps<T extends object> {
   /**
    * Make any table responsive across all viewports or pick a maximum breakpoint.
    */
-  responsive?: boolean | 'small' | 'medium' | 'large' | 'xlarge' | '2xlarge'
+  responsive?: boolean | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
   /**
    * The currently selected row keys (controlled).
    */
@@ -115,7 +115,7 @@ export interface TableProps<T extends object> {
   /**
    * Make table more compact by cutting all cell padding.
    */
-  small?: boolean
+  sm?: boolean
   /**
    * The current sort column and direction.
    */
@@ -127,7 +127,7 @@ export interface TableProps<T extends object> {
    * separately, since stacking needs the same `.table-responsive` container-query ancestor.
    * Labels come from each `TableColumn`'s text (or its `textValue`, for non-text headers).
    */
-  stacked?: boolean | 'small' | 'medium' | 'large' | 'xlarge' | '2xlarge'
+  stacked?: boolean | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
   /**
    * Add zebra-striping to table rows.
    */
@@ -152,7 +152,7 @@ const TableInner = <T extends object>(
     responsive,
     selectedKeys,
     selectionMode = 'none',
-    small,
+    sm,
     sortDescriptor,
     stacked,
     striped,
@@ -187,7 +187,7 @@ const TableInner = <T extends object>(
       bordered,
       borderless,
       hoverable: hover,
-      small,
+      sm,
       stacked: stacked === true,
       striped
     },
@@ -296,6 +296,12 @@ const TableColumnHeader = <T extends object>({ column, state }: TableColumnHeade
       {...columnHeaderProps}
       className={column.props?.className || undefined}
       colSpan={column.colSpan ?? undefined}
+      // react-aria's `useTableColumnHeader` supplies `role="columnheader"` for the ARIA grid
+      // pattern but no `scope`, so the native table semantics were left ambiguous — a `<th>` with
+      // no `scope` fails WCAG H63, and assistive technology reading the table natively (rather
+      // than through the grid roles) has to guess whether the header applies to its column or its
+      // row. These are always column headers; the row-header case doesn't exist in this API.
+      scope="col"
       ref={ref}
     >
       {column.rendered}
@@ -319,7 +325,7 @@ const TableSelectAllCell = <T extends object>({ column, state }: TableSelectAllC
   const { checkboxProps } = useTableSelectAllCheckbox(state)
 
   return (
-    <th {...columnHeaderProps} className="table-selection-cell" ref={ref}>
+    <th {...columnHeaderProps} className="table-selection-cell" scope="col" ref={ref}>
       <TableCheckbox checkboxProps={checkboxProps} />
     </th>
   )

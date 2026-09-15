@@ -43,8 +43,8 @@ describe('Grid', () => {
     })
 
     test('resolves a Spacing token to the matching --cx-space-* custom property', () => {
-      render(<Grid gap="medium">Test</Grid>)
-      expect(screen.getByText('Test')).toHaveStyle({ '--cx-grid-gap': 'var(--cx-space-medium)' })
+      render(<Grid gap="md">Test</Grid>)
+      expect(screen.getByText('Test')).toHaveStyle({ '--cx-grid-gap': 'var(--cx-space-md)' })
     })
 
     test('sets no custom properties when props are omitted', () => {
@@ -86,11 +86,11 @@ describe('Grid', () => {
 
     test('resolves a Spacing token to --cx-space-* on --cx-gap too', () => {
       render(
-        <Grid fill gap="small">
+        <Grid fill gap="sm">
           Test
         </Grid>
       )
-      expect(screen.getByText('Test')).toHaveStyle({ '--cx-gap': 'var(--cx-space-small)' })
+      expect(screen.getByText('Test')).toHaveStyle({ '--cx-gap': 'var(--cx-space-sm)' })
     })
 
     test('ignores columns/rows when fill is set', () => {

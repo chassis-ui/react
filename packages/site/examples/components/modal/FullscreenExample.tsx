@@ -6,49 +6,49 @@ export const Example = () => {
   const [visibleSmall, setVisibleSmall] = useState(false)
   const [visibleMedium, setVisibleMedium] = useState(false)
   const [visibleLarge, setVisibleLarge] = useState(false)
-  const [visibleXlarge, setVisibleXlarge] = useState(false)
-  const [visible2xlarge, setVisible2xlarge] = useState(false)
+  const [visibleXlg, setVisibleXlg] = useState(false)
+  const [visible2xl, setVisible2xl] = useState(false)
   return (
     <>
       <Button onClick={() => setVisible(!visible)}>Full screen</Button>
-      <Button onClick={() => setVisibleSmall(!visibleSmall)}>Full screen below small</Button>
-      <Button onClick={() => setVisibleMedium(!visibleMedium)}>Full screen below medium</Button>
-      <Button onClick={() => setVisibleLarge(!visibleLarge)}>Full screen below large</Button>
-      <Button onClick={() => setVisibleXlarge(!visibleXlarge)}>Full screen below xlarge</Button>
-      <Button onClick={() => setVisible2xlarge(!visible2xlarge)}>Full screen below 2xlarge</Button>
+      <Button onClick={() => setVisibleSmall(!visibleSmall)}>Full screen below sm</Button>
+      <Button onClick={() => setVisibleMedium(!visibleMedium)}>Full screen below md</Button>
+      <Button onClick={() => setVisibleLarge(!visibleLarge)}>Full screen below lg</Button>
+      <Button onClick={() => setVisibleXlg(!visibleXlg)}>Full screen below xl</Button>
+      <Button onClick={() => setVisible2xl(!visible2xl)}>Full screen below 2xl</Button>
       <Modal fullscreen visible={visible} onClose={() => setVisible(false)}>
         <ModalHeader>
           <ModalTitle>Full screen</ModalTitle>
         </ModalHeader>
         <ModalBody>...</ModalBody>
       </Modal>
-      <Modal fullscreen="small" visible={visibleSmall} onClose={() => setVisibleSmall(false)}>
+      <Modal fullscreen="sm" visible={visibleSmall} onClose={() => setVisibleSmall(false)}>
         <ModalHeader>
-          <ModalTitle>Full screen below small</ModalTitle>
+          <ModalTitle>Full screen below sm</ModalTitle>
         </ModalHeader>
         <ModalBody>...</ModalBody>
       </Modal>
-      <Modal fullscreen="medium" visible={visibleMedium} onClose={() => setVisibleMedium(false)}>
+      <Modal fullscreen="md" visible={visibleMedium} onClose={() => setVisibleMedium(false)}>
         <ModalHeader>
-          <ModalTitle>Full screen below medium</ModalTitle>
+          <ModalTitle>Full screen below md</ModalTitle>
         </ModalHeader>
         <ModalBody>...</ModalBody>
       </Modal>
-      <Modal fullscreen="large" visible={visibleLarge} onClose={() => setVisibleLarge(false)}>
+      <Modal fullscreen="lg" visible={visibleLarge} onClose={() => setVisibleLarge(false)}>
         <ModalHeader>
-          <ModalTitle>Full screen below large</ModalTitle>
+          <ModalTitle>Full screen below lg</ModalTitle>
         </ModalHeader>
         <ModalBody>...</ModalBody>
       </Modal>
-      <Modal fullscreen="xlarge" visible={visibleXlarge} onClose={() => setVisibleXlarge(false)}>
+      <Modal fullscreen="xl" visible={visibleXlg} onClose={() => setVisibleXlg(false)}>
         <ModalHeader>
-          <ModalTitle>Full screen below xlarge</ModalTitle>
+          <ModalTitle>Full screen below xl</ModalTitle>
         </ModalHeader>
         <ModalBody>...</ModalBody>
       </Modal>
-      <Modal fullscreen="2xlarge" visible={visible2xlarge} onClose={() => setVisible2xlarge(false)}>
+      <Modal fullscreen="2xl" visible={visible2xl} onClose={() => setVisible2xl(false)}>
         <ModalHeader>
-          <ModalTitle>Full screen below 2xlarge</ModalTitle>
+          <ModalTitle>Full screen below 2xl</ModalTitle>
         </ModalHeader>
         <ModalBody>...</ModalBody>
       </Modal>

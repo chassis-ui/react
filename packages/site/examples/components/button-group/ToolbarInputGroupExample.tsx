@@ -10,8 +10,8 @@ import {
 export const Example = () => {
   return (
     <>
-      <ButtonToolbar className="mb-medium" role="group" aria-label="Toolbar with button groups">
-        <ButtonGroup className="me-small" role="group" aria-label="First group">
+      <ButtonToolbar className="mb-md" role="group" aria-label="Toolbar with button groups">
+        <ButtonGroup className="me-sm" role="group" aria-label="First group">
           <Button color="secondary" variant="outline">
             1
           </Button>
@@ -39,7 +39,7 @@ export const Example = () => {
         role="group"
         aria-label="Toolbar with button groups"
       >
-        <ButtonGroup className="me-small" role="group" aria-label="First group">
+        <ButtonGroup className="me-sm" role="group" aria-label="First group">
           <Button color="secondary" variant="outline">
             1
           </Button>

@@ -16,6 +16,15 @@ export interface BreadcrumbItemDef {
 
 export interface BreadcrumbProps extends HTMLAttributes<HTMLOListElement> {
   /**
+   * Accessible name of the wrapping `<nav>` landmark. Defaults to the English `'breadcrumb'`;
+   * override it to translate the landmark, or to tell two breadcrumb trails on the same page
+   * apart (landmarks of the same role need distinct names to be distinguishable in a screen
+   * reader's landmark list).
+   *
+   * @default 'breadcrumb'
+   */
+  'aria-label'?: string
+  /**
    * A string of all className you want applied to the component.
    */
   className?: string
@@ -27,7 +36,7 @@ export interface BreadcrumbProps extends HTMLAttributes<HTMLOListElement> {
 }
 
 export const Breadcrumb = forwardRef<HTMLOListElement, BreadcrumbProps>(
-  ({ children, className, items, ...rest }, ref) => {
+  ({ 'aria-label': ariaLabel = 'breadcrumb', children, className, items, ...rest }, ref) => {
     const _className = classNames('breadcrumb', className)
 
     const autoContent = items
@@ -47,7 +56,7 @@ export const Breadcrumb = forwardRef<HTMLOListElement, BreadcrumbProps>(
       : null
 
     return (
-      <nav aria-label="breadcrumb">
+      <nav aria-label={ariaLabel}>
         <ol className={_className} {...rest} ref={ref}>
           {autoContent ?? children}
         </ol>

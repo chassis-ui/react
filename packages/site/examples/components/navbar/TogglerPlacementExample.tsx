@@ -19,7 +19,7 @@ import {
 export const Example = () => {
   const [visible, setVisible] = useState(false)
   return (
-    <Navbar expand="medium" className="bg-even">
+    <Navbar expand="md" className="bg-even">
       <Container fluid>
         <NavbarToggler
           aria-controls="navbarTogglerNoBrand"
@@ -38,7 +38,7 @@ export const Example = () => {
           </DrawerHeader>
           <DrawerBody>
             <NavbarBrand href="#">Hidden brand</NavbarBrand>
-            <NavbarNav className="me-auto mb-small medium:mb-0">
+            <NavbarNav className="me-auto mb-sm md:mb-0">
               <NavItem>
                 <NavLink href="#" active>
                   Home
@@ -52,12 +52,7 @@ export const Example = () => {
               </NavItem>
             </NavbarNav>
             <Form className="d-flex" role="search">
-              <TextInput
-                type="search"
-                className="me-small"
-                placeholder="Search"
-                aria-label="Search"
-              />
+              <TextInput type="search" className="me-sm" placeholder="Search" aria-label="Search" />
               <Button type="submit" color="success" variant="outline">
                 Search
               </Button>

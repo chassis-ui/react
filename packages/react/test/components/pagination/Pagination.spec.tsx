@@ -27,14 +27,14 @@ describe('Pagination', () => {
 
     test('applies alignment, size and className to the inner ul', () => {
       render(
-        <Pagination className="bazinga" align="end" size="large">
+        <Pagination className="bazinga" align="end" size="lg">
           Test
         </Pagination>
       )
       expect(screen.getByRole('list')).toHaveClass(
         'bazinga',
         'pagination',
-        'large',
+        'lg',
         'justify-content-end'
       )
     })
@@ -45,12 +45,9 @@ describe('Pagination', () => {
       render(<Pagination activePage={2} pages={3} onActivePageChange={vi.fn()} />)
 
       expect(screen.getByRole('button', { name: '1' })).toBeInTheDocument()
-      // The active page renders as a non-interactive span, not a button — see PaginationItem.
-      // listitem's accessible name isn't computed from content (verified), so the enclosing
-      // <li> can't be found by role + name and needs raw node access instead.
-      const active = screen.getByText('2')
-      // eslint-disable-next-line testing-library/no-node-access
-      expect(active.closest('li')).toHaveAttribute('aria-current', 'page')
+      // The active page stays a real <button> (see PaginationItem) and carries aria-current
+      // itself, so it's reachable by role + name like every other page.
+      expect(screen.getByRole('button', { name: '2' })).toHaveAttribute('aria-current', 'page')
       expect(screen.getByRole('button', { name: '3' })).toBeInTheDocument()
     })
 

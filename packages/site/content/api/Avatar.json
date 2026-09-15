@@ -1,6 +1,6 @@
 {
   "tags": {},
-  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/avatar/Avatar.tsx",
+  "filePath": "packages/react/src/components/avatar/Avatar.tsx",
   "description": "",
   "displayName": "Avatar",
   "methods": [],
@@ -117,25 +117,25 @@
         "raw": "ExtendedSizing",
         "value": [
           {
-            "value": "\"small\""
+            "value": "\"2xs\""
           },
           {
-            "value": "\"2xsmall\""
+            "value": "\"xs\""
           },
           {
-            "value": "\"xsmall\""
+            "value": "\"sm\""
           },
           {
-            "value": "\"medium\""
+            "value": "\"md\""
           },
           {
-            "value": "\"large\""
+            "value": "\"lg\""
           },
           {
-            "value": "\"xlarge\""
+            "value": "\"xl\""
           },
           {
-            "value": "\"2xlarge\""
+            "value": "\"2xl\""
           }
         ]
       }

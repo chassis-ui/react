@@ -528,7 +528,7 @@ describe('Toast', () => {
           time="7 min ago"
           message="Hello, world! This is a toast message."
           footer={
-            <button type="button" className="button primary small">
+            <button type="button" className="button primary sm">
               Take action
             </button>
           }

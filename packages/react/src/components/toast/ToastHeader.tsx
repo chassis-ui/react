@@ -81,11 +81,11 @@ function ToastHeaderRender<C extends ElementType = 'div'>(
     <Component className={_className} {...rest} ref={ref}>
       {icon != null &&
         (typeof icon === 'string' ? (
-          <span aria-hidden="true" className="me-small">
+          <span aria-hidden="true" className="me-sm">
             <ToastIcon name={icon} />
           </span>
         ) : (
-          <span className="me-small">{icon}</span>
+          <span className="me-sm">{icon}</span>
         ))}
       {children != null && (
         <strong id={titleId} className="me-auto">

@@ -1,6 +1,6 @@
 {
   "tags": {},
-  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/spinner/Spinner.tsx",
+  "filePath": "packages/react/src/components/spinner/Spinner.tsx",
   "description": "",
   "displayName": "Spinner",
   "methods": [],
@@ -88,7 +88,7 @@
     },
     "size": {
       "defaultValue": null,
-      "description": "Size the component small.",
+      "description": "Size the component sm.",
       "name": "size",
       "declarations": [
         {
@@ -99,10 +99,10 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"small\"",
+        "raw": "\"sm\"",
         "value": [
           {
-            "value": "\"small\""
+            "value": "\"sm\""
           }
         ]
       }

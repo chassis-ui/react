@@ -1,0 +1,37 @@
+/*
+ * Brand @font-face declarations for the Chassis design system.
+ *
+ * @chassis-ui/css references the families `Inter` (--cx-font-family-text),
+ * `Archivo Narrow` (--cx-font-family-display) and `Fira Code`
+ * (--cx-font-family-code) but ships no @font-face rules for them: a consuming
+ * app is expected to load them itself. The woff2 files DO live in the
+ * `vendor/assets` submodule, named by role+weight rather than by family, and
+ * nothing in the repo maps one to the other -- so this file is that map.
+ *
+ * Weight values come from the compiled tokens in
+ * @chassis-ui/css/dist/css/chassis.css (--cx-font-weight-{text,display,code}-*).
+ */
+
+/* --- Inter (text) ------------------------------------------------------- */
+@font-face { font-family: "Inter"; font-style: normal; font-weight: 300; font-display: swap; src: url("../vendor/assets/dist/web/docs/chassis/fonts/text-elegant.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-style: italic; font-weight: 300; font-display: swap; src: url("../vendor/assets/dist/web/docs/chassis/fonts/text-elegant-italic.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-style: normal; font-weight: 400; font-display: swap; src: url("../vendor/assets/dist/web/docs/chassis/fonts/text-normal.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-style: italic; font-weight: 400; font-display: swap; src: url("../vendor/assets/dist/web/docs/chassis/fonts/text-normal-italic.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-style: normal; font-weight: 600; font-display: swap; src: url("../vendor/assets/dist/web/docs/chassis/fonts/text-strong.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-style: italic; font-weight: 600; font-display: swap; src: url("../vendor/assets/dist/web/docs/chassis/fonts/text-strong-italic.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-style: normal; font-weight: 700; font-display: swap; src: url("../vendor/assets/dist/web/docs/chassis/fonts/text-mass.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-style: italic; font-weight: 700; font-display: swap; src: url("../vendor/assets/dist/web/docs/chassis/fonts/text-mass-italic.woff2") format("woff2"); }
+
+/* --- Archivo Narrow (display) ------------------------------------------- */
+@font-face { font-family: "Archivo Narrow"; font-style: normal; font-weight: 400; font-display: swap; src: url("../vendor/assets/dist/web/docs/chassis/fonts/display-elegant.woff2") format("woff2"); }
+@font-face { font-family: "Archivo Narrow"; font-style: italic; font-weight: 400; font-display: swap; src: url("../vendor/assets/dist/web/docs/chassis/fonts/display-elegant-italic.woff2") format("woff2"); }
+@font-face { font-family: "Archivo Narrow"; font-style: normal; font-weight: 500; font-display: swap; src: url("../vendor/assets/dist/web/docs/chassis/fonts/display-normal.woff2") format("woff2"); }
+@font-face { font-family: "Archivo Narrow"; font-style: italic; font-weight: 500; font-display: swap; src: url("../vendor/assets/dist/web/docs/chassis/fonts/display-normal-italic.woff2") format("woff2"); }
+@font-face { font-family: "Archivo Narrow"; font-style: normal; font-weight: 600; font-display: swap; src: url("../vendor/assets/dist/web/docs/chassis/fonts/display-strong.woff2") format("woff2"); }
+@font-face { font-family: "Archivo Narrow"; font-style: italic; font-weight: 600; font-display: swap; src: url("../vendor/assets/dist/web/docs/chassis/fonts/display-strong-italic.woff2") format("woff2"); }
+@font-face { font-family: "Archivo Narrow"; font-style: normal; font-weight: 700; font-display: swap; src: url("../vendor/assets/dist/web/docs/chassis/fonts/display-mass.woff2") format("woff2"); }
+@font-face { font-family: "Archivo Narrow"; font-style: italic; font-weight: 700; font-display: swap; src: url("../vendor/assets/dist/web/docs/chassis/fonts/display-mass-italic.woff2") format("woff2"); }
+
+/* --- Fira Code (code) --------------------------------------------------- */
+@font-face { font-family: "Fira Code"; font-style: normal; font-weight: 400; font-display: swap; src: url("../vendor/assets/dist/web/docs/chassis/fonts/code-normal.woff2") format("woff2"); }
+@font-face { font-family: "Fira Code"; font-style: normal; font-weight: 700; font-display: swap; src: url("../vendor/assets/dist/web/docs/chassis/fonts/code-strong.woff2") format("woff2"); }

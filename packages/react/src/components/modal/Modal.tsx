@@ -24,7 +24,7 @@ export interface ModalProps extends Omit<
    * Set modal to cover the entire user viewport. A breakpoint value goes fullscreen only
    * below that breakpoint.
    */
-  fullscreen?: boolean | 'small' | 'medium' | 'large' | 'xlarge' | '2xlarge'
+  fullscreen?: boolean | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
   /**
    * Disable the open/close transition entirely.
    */
@@ -63,9 +63,9 @@ export interface ModalProps extends Omit<
    */
   scrollable?: boolean
   /**
-   * Size the component small, large, or extra large.
+   * Size the component sm, lg, or extra lg.
    */
-  size?: 'small' | 'large' | 'xlarge'
+  size?: 'sm' | 'lg' | 'xl'
   /**
    * Toggle the visibility of modal component.
    */
@@ -97,6 +97,7 @@ export const Modal = forwardRef<HTMLDialogElement, ModalProps>(
       instant,
       keyboard = true,
       modal = true,
+      onClick,
       onClose,
       onClosePrevented,
       onHidden,
@@ -115,6 +116,7 @@ export const Modal = forwardRef<HTMLDialogElement, ModalProps>(
         instant,
         isModal: modal,
         keyboard,
+        onClick,
         onClose,
         onClosePrevented,
         onHidden,

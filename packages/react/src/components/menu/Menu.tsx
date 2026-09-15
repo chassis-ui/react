@@ -220,8 +220,18 @@ function MenuRender<C extends ElementType = typeof Fragment>(
   // reflecting the new `.show` class by the time this effect runs, since React commits the
   // render before passive effects execute. Falls back to firing synchronously when no
   // `MenuList` is mounted to measure (nothing to transition, so nothing to wait for).
+  //
+  // All four report *transitions*, so none fires for the initial commit — mounting closed is not
+  // a hide. Without this guard, mounting fired `onHide` (and scheduled `onHidden`) for every menu
+  // on the page before `onShow` had ever fired once, which `Menu.spec.tsx` used to have to
+  // `mockClear()` past.
+  const mountedRef = useRef(false)
+
   useEffect(() => {
     const overlay = overlayRef.current
+    const isInitialCommit = !mountedRef.current
+    mountedRef.current = true
+    if (isInitialCommit) return undefined
 
     if (state.isOpen) {
       onShow?.()

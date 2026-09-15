@@ -38,7 +38,7 @@ describe('NotificationStack', () => {
       )
       fireEvent.click(screen.getByRole('button', { name: 'Save' }))
       const region = screen.getByRole('region')
-      expect(region).toHaveClass('bazinga', 'vstack', 'gap-small')
+      expect(region).toHaveClass('bazinga', 'vstack', 'gap-sm')
       expect(screen.getAllByRole('status')).toHaveLength(1)
     })
   })

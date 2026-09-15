@@ -4,10 +4,10 @@ export const Example = () => {
   return (
     <Navbar className="bg-even">
       <Form className="container fluid justify-content-start">
-        <Button type="button" color="primary" variant="outline" className="me-small">
+        <Button type="button" color="primary" variant="outline" className="me-sm">
           Main button
         </Button>
-        <Button type="button" color="secondary" variant="outline" size="small">
+        <Button type="button" color="secondary" variant="outline" size="sm">
           Smaller button
         </Button>
         <button type="submit" hidden>

@@ -1,6 +1,6 @@
 {
   "tags": {},
-  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+  "filePath": "packages/react/src/components/datepicker/DateRangePicker.tsx",
   "description": "",
   "displayName": "DateRangePicker",
   "methods": [],
@@ -261,6 +261,25 @@
         "name": "((date: DateValue) => boolean)"
       }
     },
+    "labels": {
+      "defaultValue": null,
+      "description": "Overrides for the strings this component and its calendar render themselves rather than\ngetting from the active locale — the clear adornment and the calendar's own year-view\narrows/announcements. Date segment order, month and weekday names all follow `I18nProvider`'s\nlocale via react-aria and need no override. Merged over the English defaults, so passing one\nkey leaves the rest alone.",
+      "name": "labels",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+        "name": "DateRangePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
+          "name": "DateRangePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Partial<CalendarLabels>"
+      }
+    },
     "isOpen": {
       "defaultValue": null,
       "description": "Whether the calendar popover is open (controlled).",
@@ -415,7 +434,7 @@
     },
     "size": {
       "defaultValue": null,
-      "description": "Size the component small or large.",
+      "description": "Size the component sm or lg.",
       "name": "size",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/datepicker/DateRangePicker.tsx",
@@ -430,13 +449,13 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"small\" | \"large\"",
+        "raw": "\"sm\" | \"lg\"",
         "value": [
           {
-            "value": "\"small\""
+            "value": "\"sm\""
           },
           {
-            "value": "\"large\""
+            "value": "\"lg\""
           }
         ]
       }

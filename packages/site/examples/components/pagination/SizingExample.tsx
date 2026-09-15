@@ -2,22 +2,22 @@ import { useState } from 'react'
 import { Pagination } from '@chassis-ui/react'
 
 export const Example = () => {
-  const [largePage, setLargePage] = useState(2)
-  const [smallPage, setSmallPage] = useState(2)
+  const [lgPage, setLargePage] = useState(2)
+  const [smPage, setSmallPage] = useState(2)
 
   return (
     <>
       <Pagination
-        size="large"
+        size="lg"
         pages={3}
-        activePage={largePage}
+        activePage={lgPage}
         onActivePageChange={setLargePage}
         aria-label="Large pagination example"
       />
       <Pagination
-        size="small"
+        size="sm"
         pages={3}
-        activePage={smallPage}
+        activePage={smPage}
         onActivePageChange={setSmallPage}
         aria-label="Small pagination example"
       />

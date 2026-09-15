@@ -3,7 +3,7 @@ import { Form, FormHelp, FormLabel, TextInput } from '@chassis-ui/react'
 export const Example = () => {
   return (
     <Form>
-      <div className="mb-medium">
+      <div className="mb-md">
         <FormLabel htmlFor="inputPassword5">Password</FormLabel>
         <TextInput type="password" id="inputPassword5" aria-describedby="passwordHelpBlock" />
         <FormHelp id="passwordHelpBlock">

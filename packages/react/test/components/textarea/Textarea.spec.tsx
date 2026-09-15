@@ -29,7 +29,7 @@ describe('Textarea', () => {
           invalid={true}
           plainText={true}
           readOnly={true}
-          size="large"
+          size="lg"
           valid={true}
           defaultValue="Some value"
         />
@@ -38,7 +38,7 @@ describe('Textarea', () => {
       expect(textarea).toHaveClass(
         'form-input',
         'plaintext',
-        'large',
+        'lg',
         'is-invalid',
         'is-valid',
         'bazinga'

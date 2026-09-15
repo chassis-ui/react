@@ -12,7 +12,7 @@ export const Example = () => {
   const [activeIndex, setActiveIndex] = useState(0)
 
   return (
-    <div className="vstack gap-small">
+    <div className="vstack gap-sm">
       <Carousel activeIndex={activeIndex} onSlide={({ to }) => setActiveIndex(to)} ends="stop">
         <CarouselInner>
           <CarouselItem>

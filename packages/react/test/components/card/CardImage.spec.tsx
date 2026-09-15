@@ -24,8 +24,8 @@ describe('CardImage', () => {
     })
 
     test('applies responsive orientation overrides alongside the base orientation', () => {
-      render(<CardImage alt="test" orientation="top" responsive={{ large: 'start' }} />)
-      expect(screen.getByRole('img')).toHaveClass('card-image-top', 'large:card-image-start')
+      render(<CardImage alt="test" orientation="top" responsive={{ lg: 'start' }} />)
+      expect(screen.getByRole('img')).toHaveClass('card-image-top', 'lg:card-image-start')
     })
 
     test('applies a bottom orientation class and renders as a custom component', () => {

@@ -1,6 +1,6 @@
 {
   "tags": {},
-  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/grid/Row.tsx",
+  "filePath": "packages/react/src/components/grid/Row.tsx",
   "description": "",
   "displayName": "Row",
   "methods": [],
@@ -40,7 +40,7 @@
       ],
       "required": false,
       "type": {
-        "name": "{ Partial<Record<'small' | 'medium' | 'large' | 'xlarge' | '2xlarge', { cols?: 'auto' | number | string, gutter?: Spacing | 0, gutterX?: Spacing | 0, gutterY?: Spacing | 0 }>> }"
+        "name": "{ Partial<Record<'sm' | 'md' | 'lg' | 'xl' | '2xl', { cols?: 'auto' | number | string, gutter?: Spacing | 0, gutterX?: Spacing | 0, gutterY?: Spacing | 0 }>> }"
       }
     },
     "cols": {

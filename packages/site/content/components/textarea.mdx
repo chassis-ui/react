@@ -31,9 +31,9 @@ Pass `label` / `help` / `invalid` / `invalidFeedback` / `valid` / `validFeedback
 
 ## Sizing
 
-Set the `size` prop to `"large"` or `"small"` to change the control's padding, typography, and border radius.
+Set the `size` prop to `"lg"` or `"sm"` to change the control's padding, typography, and border radius.
 
-<Example class="vstack gap-medium">
+<Example class="vstack gap-md">
   <SizingExample client:load />
 </Example>
 
@@ -41,7 +41,7 @@ Set the `size` prop to `"large"` or `"small"` to change the control's padding, t
 
 Set the native `rows` attribute to control how many lines show before the control scrolls — independent of `size`, which changes padding and typography rather than height.
 
-<Example class="vstack gap-medium">
+<Example class="vstack gap-md">
   <RowsExample client:load />
 </Example>
 
@@ -51,7 +51,7 @@ Regardless of `rows`, the control never renders shorter than a single-line `Text
 
 Add the `disabled` boolean attribute to give the control a muted color. Browsers also remove disabled controls from the tab order and from form submission automatically.
 
-<Example class="vstack gap-medium">
+<Example class="vstack gap-md">
   <DisabledExample client:load />
 </Example>
 
@@ -59,7 +59,7 @@ Add the `disabled` boolean attribute to give the control a muted color. Browsers
 
 Add the `readOnly` boolean attribute to prevent the value from being edited. Unlike `disabled`, a read-only control stays focusable and is still included in form submission — only typing into it is blocked — and it keeps the same appearance as an editable control.
 
-<Example class="vstack gap-medium">
+<Example class="vstack gap-md">
   <ReadonlyExample client:load />
 </Example>
 
@@ -67,7 +67,7 @@ Add the `readOnly` boolean attribute to prevent the value from being edited. Unl
 
 Pair the `plainText` prop with `readOnly` to render the value as plain text instead of an editable-looking field — useful for read-only values that should still line up with the editable fields around them.
 
-<Example class="vstack gap-medium">
+<Example class="vstack gap-md">
   <PlainTextExample client:load />
 </Example>
 
@@ -75,7 +75,7 @@ Pair the `plainText` prop with `readOnly` to render the value as plain text inst
 
 Pass `value` and `onChange` to control the value from external state. `onChange` receives the new string value directly rather than a change event, so it can be passed straight to a state setter. Omit them (optionally passing `defaultValue` instead) to let the component manage its own value.
 
-<Example class="vstack gap-medium">
+<Example class="vstack gap-md">
   <ControlledValueExample client:load />
 </Example>
 

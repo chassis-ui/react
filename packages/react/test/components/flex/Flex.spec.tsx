@@ -67,8 +67,8 @@ describe('Flex', () => {
 
   describe('gap', () => {
     test('applies a gap-{value} class for a named spacing value', () => {
-      render(<Flex gap="medium">Test</Flex>)
-      expect(screen.getByText('Test')).toHaveClass('gap-medium')
+      render(<Flex gap="md">Test</Flex>)
+      expect(screen.getByText('Test')).toHaveClass('gap-md')
     })
 
     test('applies the literal 0 gap shorthand', () => {
@@ -83,14 +83,14 @@ describe('Flex', () => {
 
     test('rowGap and columnGap apply independently of gap and each other', () => {
       render(
-        <Flex rowGap="small" columnGap="large">
+        <Flex rowGap="sm" columnGap="lg">
           Test
         </Flex>
       )
       const el = screen.getByText('Test')
-      expect(el).toHaveClass('row-gap-small', 'column-gap-large')
-      expect(el.className.split(' ')).not.toContain('gap-small')
-      expect(el.className.split(' ')).not.toContain('gap-large')
+      expect(el).toHaveClass('row-gap-sm', 'column-gap-lg')
+      expect(el.className.split(' ')).not.toContain('gap-sm')
+      expect(el.className.split(' ')).not.toContain('gap-lg')
     })
 
     test('rowGap and columnGap support the literal 0 shorthand', () => {
@@ -104,14 +104,14 @@ describe('Flex', () => {
 
     test('gap, rowGap, and columnGap can all be set at once', () => {
       render(
-        <Flex gap="medium" rowGap="small" columnGap="large">
+        <Flex gap="md" rowGap="sm" columnGap="lg">
           Test
         </Flex>
       )
       expect(screen.getByText('Test')).toHaveClass(
-        'gap-medium',
-        'row-gap-small',
-        'column-gap-large'
+        'gap-md',
+        'row-gap-sm',
+        'column-gap-lg'
       )
     })
   })
@@ -122,11 +122,11 @@ describe('Flex', () => {
         <Flex
           direction="column"
           responsive={{
-            small: { direction: 'row', justify: 'center' },
-            medium: { wrap: 'wrap' },
-            large: { align: 'center' },
-            xlarge: { alignContent: 'stretch' },
-            '2xlarge': { gap: 'large', rowGap: 'small', columnGap: 'medium' }
+            sm: { direction: 'row', justify: 'center' },
+            md: { wrap: 'wrap' },
+            lg: { align: 'center' },
+            xl: { alignContent: 'stretch' },
+            '2xl': { gap: 'lg', rowGap: 'sm', columnGap: 'md' }
           }}
         >
           Test
@@ -135,34 +135,34 @@ describe('Flex', () => {
       const el = screen.getByText('Test')
       expect(el).toHaveClass(
         'flex-column',
-        'small:flex-row',
-        'small:justify-content-center',
-        'medium:flex-wrap',
-        'large:align-items-center',
-        'xlarge:align-content-stretch',
-        '2xlarge:gap-large',
-        '2xlarge:row-gap-small',
-        '2xlarge:column-gap-medium'
+        'sm:flex-row',
+        'sm:justify-content-center',
+        'md:flex-wrap',
+        'lg:align-items-center',
+        'xl:align-content-stretch',
+        '2xl:gap-lg',
+        '2xl:row-gap-sm',
+        '2xl:column-gap-md'
       )
       // ascending mobile-first order regardless of the object's key order
       const classes = el.className.split(' ')
-      expect(classes.indexOf('small:flex-row')).toBeLessThan(classes.indexOf('medium:flex-wrap'))
-      expect(classes.indexOf('medium:flex-wrap')).toBeLessThan(
-        classes.indexOf('large:align-items-center')
+      expect(classes.indexOf('sm:flex-row')).toBeLessThan(classes.indexOf('md:flex-wrap'))
+      expect(classes.indexOf('md:flex-wrap')).toBeLessThan(
+        classes.indexOf('lg:align-items-center')
       )
-      expect(classes.indexOf('large:align-items-center')).toBeLessThan(
-        classes.indexOf('xlarge:align-content-stretch')
+      expect(classes.indexOf('lg:align-items-center')).toBeLessThan(
+        classes.indexOf('xl:align-content-stretch')
       )
-      expect(classes.indexOf('xlarge:align-content-stretch')).toBeLessThan(
-        classes.indexOf('2xlarge:gap-large')
+      expect(classes.indexOf('xl:align-content-stretch')).toBeLessThan(
+        classes.indexOf('2xl:gap-lg')
       )
     })
 
     test('only applies classes for breakpoints present in the responsive prop', () => {
-      render(<Flex responsive={{ medium: { direction: 'column' } }}>Test</Flex>)
+      render(<Flex responsive={{ md: { direction: 'column' } }}>Test</Flex>)
       const el = screen.getByText('Test')
-      expect(el).toHaveClass('medium:flex-column')
-      expect(el.className).not.toMatch(/small:|large:|xlarge:|2xlarge:/)
+      expect(el).toHaveClass('md:flex-column')
+      expect(el.className).not.toMatch(/sm:|lg:|xl:|2xl:/)
     })
 
     test('applies no responsive classes when responsive is omitted', () => {

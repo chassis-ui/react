@@ -17,6 +17,7 @@ import { ClearButton } from './ClearButton'
 import { DateField } from './DateField'
 import { renderDatePickerShell } from './renderDatePickerShell'
 import './DatePicker.scss'
+import { CalendarLabels, CalendarLabelsProvider, DEFAULT_CALENDAR_LABELS } from '../calendar/labels'
 
 interface DatePickerBaseProps extends Omit<
   HTMLAttributes<HTMLDivElement>,
@@ -73,6 +74,14 @@ interface DatePickerBaseProps extends Omit<
    */
   isDateUnavailable?: (date: DateValue) => boolean
   /**
+   * Overrides for the strings this component and its calendar render themselves rather than
+   * getting from the active locale — the calendar trigger, the clear adornment, and the calendar's
+   * own year-view arrows/announcements. Date segment order, month and weekday names all follow
+   * `I18nProvider`'s locale via react-aria and need no override. Merged over the English defaults,
+   * so passing one key leaves the rest alone.
+   */
+  labels?: Partial<CalendarLabels>
+  /**
    * Whether the calendar popover is open (controlled).
    */
   isOpen?: boolean
@@ -100,9 +109,9 @@ interface DatePickerBaseProps extends Omit<
    */
   onOpenChange?: (isOpen: boolean) => void
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'small' | 'large'
+  size?: 'sm' | 'lg'
   /**
    * ISO 8601 dates (`YYYY-MM-DD`) to mark unselectable, as a convenience alternative to
    * `isDateUnavailable` for data-driven cases (e.g. booked dates fetched from an API). Composed
@@ -202,6 +211,7 @@ const DatePickerSingle = forwardRef<HTMLDivElement, DatePickerSingleProps>(
       isDateUnavailable,
       isOpen,
       label,
+      labels,
       maxValue,
       minValue,
       name,
@@ -290,76 +300,84 @@ const DatePickerSingle = forwardRef<HTMLDivElement, DatePickerSingleProps>(
     // `Calendar` merges onto its root.
     const { dialogProps: domDialogProps } = useDialog(dialogProps, calendarRef)
 
-    return renderFormField({
-      children: (
-        <>
-          {renderDatePickerShell({
-            calendar: (
-              <Calendar
-                {...domDialogProps}
-                autoFocus
-                disabled={disabled}
-                firstDayOfWeek={firstDayOfWeek}
-                isDateUnavailable={combinedIsDateUnavailable}
-                maxValue={maxValue}
-                minValue={minValue}
-                onChange={calendarProps.onChange}
-                ref={calendarRef}
-                value={calendarProps.value}
-                visibleMonths={visibleMonths}
-              />
-            ),
-            className,
-            clearButton: state.value && !disabled && (
-              <ClearButton
-                onPress={() => {
-                  state.setValue(null)
-                  // `ClearButton` unmounts itself once `state.value` clears — without this, focus
-                  // would otherwise drop to `document.body` (same failure mode fixed for the
-                  // calendar's own month/year view switch — see `CalendarMonthYearPicker`'s comment).
-                  toggleButtonRef.current?.focus()
-                }}
-              />
-            ),
-            disabled,
-            field: <DateField fieldProps={fieldProps} />,
-            fieldClassName: 'w-100 overflow-x-scroll',
-            groupProps: {
-              ...mergeProps(groupProps, rest),
-              'aria-describedby': describedBy,
-              'aria-labelledby': labelledBy
-            },
-            groupRef: forkedGroupRef,
-            invalid,
-            isOpen: state.isOpen,
-            overlayDismissProps,
-            overlayRef,
-            overlayStyle,
-            placementAttr,
-            size,
-            toggleButton: (
-              <CalendarToggleButton buttonProps={buttonProps} ref={toggleButtonRef} state={state} />
-            ),
-            valid
-          })}
-          {name && (
-            <input
-              disabled={disabled}
-              name={name}
-              type="hidden"
-              value={state.value ? state.value.toString() : ''}
-            />
-          )}
-        </>
-      ),
-      help,
-      ids: { feedback: feedbackId, help: helpId, label: labelId },
-      invalid,
-      invalidFeedback,
-      label,
-      valid,
-      validFeedback
-    })
+    return (
+      <CalendarLabelsProvider labels={labels}>
+        {renderFormField({
+          children: (
+            <>
+              {renderDatePickerShell({
+                calendar: (
+                  <Calendar
+                    {...domDialogProps}
+                    autoFocus
+                    disabled={disabled}
+                    firstDayOfWeek={firstDayOfWeek}
+                    isDateUnavailable={combinedIsDateUnavailable}
+                    maxValue={maxValue}
+                    minValue={minValue}
+                    onChange={calendarProps.onChange}
+                    ref={calendarRef}
+                    value={calendarProps.value}
+                    visibleMonths={visibleMonths}
+                  />
+                ),
+                className,
+                clearButton: state.value && !disabled && (
+                  <ClearButton
+                    onPress={() => {
+                      state.setValue(null)
+                      // `ClearButton` unmounts itself once `state.value` clears — without this, focus
+                      // would otherwise drop to `document.body` (same failure mode fixed for the
+                      // calendar's own month/year view switch — see `CalendarMonthYearPicker`'s comment).
+                      toggleButtonRef.current?.focus()
+                    }}
+                  />
+                ),
+                disabled,
+                field: <DateField fieldProps={fieldProps} />,
+                fieldClassName: 'w-100 overflow-x-scroll',
+                groupProps: {
+                  ...mergeProps(groupProps, rest),
+                  'aria-describedby': describedBy,
+                  'aria-labelledby': labelledBy
+                },
+                groupRef: forkedGroupRef,
+                invalid,
+                isOpen: state.isOpen,
+                overlayDismissProps,
+                overlayRef,
+                overlayStyle,
+                placementAttr,
+                size,
+                toggleButton: (
+                  <CalendarToggleButton
+                    buttonProps={buttonProps}
+                    ref={toggleButtonRef}
+                    state={state}
+                  />
+                ),
+                valid
+              })}
+              {name && (
+                <input
+                  disabled={disabled}
+                  name={name}
+                  type="hidden"
+                  value={state.value ? state.value.toString() : ''}
+                />
+              )}
+            </>
+          ),
+          help,
+          ids: { feedback: feedbackId, help: helpId, label: labelId },
+          invalid,
+          invalidFeedback,
+          label,
+          valid,
+          validFeedback
+        })}
+      </CalendarLabelsProvider>
+    )
   }
 )
 
@@ -389,6 +407,7 @@ const DatePickerMultiple = forwardRef<HTMLDivElement, DatePickerMultipleProps>(
       isDateUnavailable,
       isOpen,
       label,
+      labels,
       maxValue,
       minValue,
       name,
@@ -457,87 +476,100 @@ const DatePickerMultiple = forwardRef<HTMLDivElement, DatePickerMultipleProps>(
       calendarRef
     )
 
+    // This variant builds its own trigger button props rather than getting them from
+    // `useDatePicker` (see the component comment), so it has to resolve the label itself — it's
+    // the provider here, so it can't read the context it's about to publish.
+    const mergedLabels = { ...DEFAULT_CALENDAR_LABELS, ...labels }
+
     const buttonProps: AriaButtonProps = {
       'aria-expanded': state.isOpen,
       'aria-haspopup': 'dialog',
-      'aria-label': 'Calendar',
+      'aria-label': mergedLabels.calendar,
       isDisabled: disabled
     }
 
-    return renderFormField({
-      children: (
-        <>
-          {renderDatePickerShell({
-            calendar: (
-              <Calendar
-                {...domDialogProps}
-                autoFocus
-                disabled={disabled}
-                firstDayOfWeek={firstDayOfWeek}
-                isDateUnavailable={combinedIsDateUnavailable}
-                maxValue={maxValue}
-                minValue={minValue}
-                onChange={setValues}
-                ref={calendarRef}
-                selectionMode="multiple"
-                value={values}
-                visibleMonths={visibleMonths}
-              />
-            ),
-            className,
-            clearButton: values.length > 0 && !disabled && (
-              <ClearButton
-                onPress={() => {
-                  setValues([])
-                  // See the single-selection `ClearButton` usage above for why this is needed.
-                  toggleButtonRef.current?.focus()
-                }}
-              />
-            ),
-            disabled,
-            field: <MultiDateField values={values} />,
-            fieldClassName: 'w-100 overflow-x-scroll',
-            groupProps: {
-              ...mergeProps(rest),
-              'aria-describedby': describedBy,
-              'aria-disabled': disabled || undefined,
-              'aria-labelledby': labelledBy,
-              id: groupId,
-              role: 'group'
-            },
-            groupRef: forkedGroupRef,
-            invalid,
-            isOpen: state.isOpen,
-            overlayDismissProps,
-            overlayRef,
-            overlayStyle,
-            placementAttr,
-            size,
-            toggleButton: (
-              <CalendarToggleButton buttonProps={buttonProps} ref={toggleButtonRef} state={state} />
-            ),
-            valid
-          })}
-          {name &&
-            values.map((date) => (
-              <input
-                disabled={disabled}
-                key={date.toString()}
-                name={name}
-                type="hidden"
-                value={date.toString()}
-              />
-            ))}
-        </>
-      ),
-      help,
-      ids: { feedback: feedbackId, help: helpId, label: labelId },
-      invalid,
-      invalidFeedback,
-      label,
-      valid,
-      validFeedback
-    })
+    return (
+      <CalendarLabelsProvider labels={labels}>
+        {renderFormField({
+          children: (
+            <>
+              {renderDatePickerShell({
+                calendar: (
+                  <Calendar
+                    {...domDialogProps}
+                    autoFocus
+                    disabled={disabled}
+                    firstDayOfWeek={firstDayOfWeek}
+                    isDateUnavailable={combinedIsDateUnavailable}
+                    maxValue={maxValue}
+                    minValue={minValue}
+                    onChange={setValues}
+                    ref={calendarRef}
+                    selectionMode="multiple"
+                    value={values}
+                    visibleMonths={visibleMonths}
+                  />
+                ),
+                className,
+                clearButton: values.length > 0 && !disabled && (
+                  <ClearButton
+                    onPress={() => {
+                      setValues([])
+                      // See the single-selection `ClearButton` usage above for why this is needed.
+                      toggleButtonRef.current?.focus()
+                    }}
+                  />
+                ),
+                disabled,
+                field: <MultiDateField values={values} />,
+                fieldClassName: 'w-100 overflow-x-scroll',
+                groupProps: {
+                  ...mergeProps(rest),
+                  'aria-describedby': describedBy,
+                  'aria-disabled': disabled || undefined,
+                  'aria-labelledby': labelledBy,
+                  id: groupId,
+                  role: 'group'
+                },
+                groupRef: forkedGroupRef,
+                invalid,
+                isOpen: state.isOpen,
+                overlayDismissProps,
+                overlayRef,
+                overlayStyle,
+                placementAttr,
+                size,
+                toggleButton: (
+                  <CalendarToggleButton
+                    buttonProps={buttonProps}
+                    ref={toggleButtonRef}
+                    state={state}
+                  />
+                ),
+                valid
+              })}
+              {name &&
+                values.map((date) => (
+                  <input
+                    disabled={disabled}
+                    key={date.toString()}
+                    name={name}
+                    type="hidden"
+                    value={date.toString()}
+                  />
+                ))}
+            </>
+          ),
+          help,
+          ids: { feedback: feedbackId, help: helpId, label: labelId },
+          invalid,
+          invalidFeedback,
+          label,
+          valid,
+          validFeedback
+        })}
+      </CalendarLabelsProvider>
+    )
   }
 )
 

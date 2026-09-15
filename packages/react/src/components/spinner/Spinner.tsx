@@ -22,9 +22,9 @@ type SpinnerOwnProps<C extends ElementType> = {
    */
   component?: C
   /**
-   * Size the component small.
+   * Size the component sm.
    */
-  size?: 'small'
+  size?: 'sm'
   /**
    * Set the button variant to an outlined button or a ghost button.
    */

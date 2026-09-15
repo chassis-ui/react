@@ -7,22 +7,22 @@ export const Example = () => {
   const [visibleSm, setVisibleSm] = useState(false)
   return (
     <>
-      <Button onClick={() => setVisibleXL(!visibleXL)}>Extra large modal</Button>
+      <Button onClick={() => setVisibleXL(!visibleXL)}>Extra lg modal</Button>
       <Button onClick={() => setVisibleLg(!visibleLg)}>Large modal</Button>
       <Button onClick={() => setVisibleSm(!visibleSm)}>Small modal</Button>
-      <Modal size="xlarge" visible={visibleXL} onClose={() => setVisibleXL(false)}>
+      <Modal size="xl" visible={visibleXL} onClose={() => setVisibleXL(false)}>
         <ModalHeader>
-          <ModalTitle>Extra large modal</ModalTitle>
+          <ModalTitle>Extra lg modal</ModalTitle>
         </ModalHeader>
         <ModalBody>...</ModalBody>
       </Modal>
-      <Modal size="large" visible={visibleLg} onClose={() => setVisibleLg(false)}>
+      <Modal size="lg" visible={visibleLg} onClose={() => setVisibleLg(false)}>
         <ModalHeader>
           <ModalTitle>Large modal</ModalTitle>
         </ModalHeader>
         <ModalBody>...</ModalBody>
       </Modal>
-      <Modal size="small" visible={visibleSm} onClose={() => setVisibleSm(false)}>
+      <Modal size="sm" visible={visibleSm} onClose={() => setVisibleSm(false)}>
         <ModalHeader>
           <ModalTitle>Small modal</ModalTitle>
         </ModalHeader>

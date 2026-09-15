@@ -47,7 +47,7 @@ function ToastBodyRender<C extends ElementType = 'div'>(
   const Component = component ?? 'div'
   const _className = classNames(
     'toast-body',
-    { 'd-flex align-items-start justify-content-between gap-small': closeButton },
+    { 'd-flex align-items-start justify-content-between gap-sm': closeButton },
     className
   )
   return (

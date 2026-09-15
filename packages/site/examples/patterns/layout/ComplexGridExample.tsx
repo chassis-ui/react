@@ -3,11 +3,11 @@ import { Button, Checkbox, Col, Form, FormLabel, Select, TextInput } from '@chas
 export const Example = () => {
   return (
     <Form className="row g-3">
-      <Col responsive={{ medium: { span: 6 } }}>
+      <Col responsive={{ md: { span: 6 } }}>
         <FormLabel htmlFor="inputEmail4">Email</FormLabel>
         <TextInput type="email" id="inputEmail4" />
       </Col>
-      <Col responsive={{ medium: { span: 6 } }}>
+      <Col responsive={{ md: { span: 6 } }}>
         <FormLabel htmlFor="inputPassword4">Password</FormLabel>
         <TextInput type="password" id="inputPassword4" />
       </Col>
@@ -19,18 +19,18 @@ export const Example = () => {
         <FormLabel htmlFor="inputAddress2">Address 2</FormLabel>
         <TextInput id="inputAddress2" placeholder="Apartment, studio, or floor" />
       </Col>
-      <Col responsive={{ medium: { span: 6 } }}>
+      <Col responsive={{ md: { span: 6 } }}>
         <FormLabel htmlFor="inputCity">City</FormLabel>
         <TextInput id="inputCity" />
       </Col>
-      <Col responsive={{ medium: { span: 4 } }}>
+      <Col responsive={{ md: { span: 4 } }}>
         <FormLabel htmlFor="inputState">State</FormLabel>
         <Select id="inputState">
           <option>Choose...</option>
           <option>...</option>
         </Select>
       </Col>
-      <Col responsive={{ medium: { span: 2 } }}>
+      <Col responsive={{ md: { span: 2 } }}>
         <FormLabel htmlFor="inputZip">Zip</FormLabel>
         <TextInput id="inputZip" />
       </Col>

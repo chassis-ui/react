@@ -23,9 +23,9 @@ describe('Skeleton', () => {
   describe('styling props', () => {
     test('applies color, breakpoint and className together', () => {
       const { container } = render(
-        <Skeleton className="bazinga" color="secondary" responsive={{ small: 7 }} />
+        <Skeleton className="bazinga" color="secondary" responsive={{ sm: 7 }} />
       )
-      expect(container.firstChild).toHaveClass('skeleton', 'bg-secondary', 'small:col-7', 'bazinga')
+      expect(container.firstChild).toHaveClass('skeleton', 'bg-secondary', 'sm:col-7', 'bazinga')
     })
 
     test('adds no width class when span is unset, leaving intrinsic sizing to the element', () => {

@@ -65,11 +65,11 @@ type StepperOwnProps<C extends ElementType> = {
    */
   layout?:
     | 'horizontal'
-    | 'small:horizontal'
-    | 'medium:horizontal'
-    | 'large:horizontal'
-    | 'xlarge:horizontal'
-    | '2xlarge:horizontal'
+    | 'sm:horizontal'
+    | 'md:horizontal'
+    | 'lg:horizontal'
+    | 'xl:horizontal'
+    | '2xl:horizontal'
   /**
    * Wraps the stepper in a horizontally scrollable container so steps keep their natural width
    * instead of shrinking to fit.

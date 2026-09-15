@@ -19,7 +19,7 @@ export default meta
 
 type Story = StoryObj<typeof Stack>
 
-const itemClass = 'border p-xsmall'
+const itemClass = 'border p-xs'
 
 const items = (
   <>
@@ -31,7 +31,7 @@ const items = (
 
 export const Horizontal: Story = {
   args: {
-    gap: 'medium',
+    gap: 'md',
     children: items
   }
 }
@@ -39,17 +39,17 @@ export const Horizontal: Story = {
 export const Vertical: Story = {
   args: {
     direction: 'vertical',
-    gap: 'medium',
+    gap: 'md',
     children: items
   }
 }
 
 // `responsive` requires a `.contains-inline` ancestor to establish the container-query context —
-// resize the Storybook canvas/panel to preview the direction switch at the `medium` breakpoint.
+// resize the Storybook canvas/panel to preview the direction switch at the `md` breakpoint.
 export const Responsive: Story = {
   render: () => (
     <div className="contains-inline">
-      <Stack direction="vertical" gap="medium" responsive={{ medium: 'horizontal' }}>
+      <Stack direction="vertical" gap="md" responsive={{ md: 'horizontal' }}>
         {items}
       </Stack>
     </div>

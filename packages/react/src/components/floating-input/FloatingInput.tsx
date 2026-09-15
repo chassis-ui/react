@@ -3,6 +3,7 @@ import classNames from 'classnames'
 
 import { FormLabel } from '../form/FormLabel'
 import { FormFieldIds, renderFormField } from '../form-field/renderFormField'
+import { devWarning } from '../../utils/devWarning'
 
 export interface FloatingInputProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
   /**
@@ -63,14 +64,13 @@ export const FloatingInput = forwardRef<HTMLDivElement, FloatingInputProps>(
     },
     ref
   ) => {
-    if (!ids?.input && !ids?.label) {
-      console.warn(
-        'FloatingInput: `ids.input`/`ids.label` are not set — the rendered label ' +
-          "won't be associated with your control (no `htmlFor`, no `aria-labelledby` target). " +
-          'Pass `ids={{ input: yourControlId }}` (or `ids.label` for a group with no single ' +
-          'input) so the label has something to point at.'
-      )
-    }
+    devWarning(
+      !ids?.input && !ids?.label,
+      'FloatingInput: `ids.input`/`ids.label` are not set — the rendered label ' +
+        "won't be associated with your control (no `htmlFor`, no `aria-labelledby` target). " +
+        'Pass `ids={{ input: yourControlId }}` (or `ids.label` for a group with no single ' +
+        'input) so the label has something to point at.'
+    )
 
     return renderFormField({
       children: (

@@ -294,8 +294,8 @@ utility classes applied via each sub-component's `className` target individual r
 
 ### Size variants
 
-Set `size` to `small` or `large` to re-scale a card's padding, gaps, and typography together —
-omit it for the medium default.
+Set `size` to `sm` or `lg` to re-scale a card's padding, gaps, and typography together —
+omit it for the md default.
 
 <Example>
   <SizeExample client:load />
@@ -310,7 +310,7 @@ cards.
 
 `<CardGroup>` renders cards as a single, attached element with equal-width and equal-height
 columns. `<CardGroup>` uses a container query to switch from stacked to a row once its container
-reaches the small container breakpoint, so it must be wrapped in an element carrying
+reaches the sm container breakpoint, so it must be wrapped in an element carrying
 `.contains-inline` to establish that container context.
 
 <Example>
@@ -327,14 +327,14 @@ Card footers line up automatically within a card group.
 
 The `Row` component's `cols` prop (with `responsive` for breakpoint overrides) controls how many
 grid columns wrap around a set of cards per row. `cols={1}` lays the cards out on one column, and
-`responsive={{ medium: { cols: 2 } }}` splits four cards into two per row from the medium
+`responsive={{ md: { cols: 2 } }}` splits four cards into two per row from the md
 breakpoint up.
 
 <Example>
   <GridCardsExample client:load />
 </Example>
 
-Changing `responsive={{ medium: { cols: 3 } }}` wraps the fourth card onto a second row.
+Changing `responsive={{ md: { cols: 3 } }}` wraps the fourth card onto a second row.
 
 <Example>
   <GridCardsThreeColExample client:load />

@@ -4,7 +4,6 @@ import {
   Badge,
   List,
   Progress,
-  ProgressBar,
   Table,
   Row,
   Col,
@@ -55,14 +54,14 @@ export const Example = () => {
   ]
   return (
     <div>
-      <Row className="mb-xlarge">
+      <Row className="mb-xl">
         {stats.map((stat) => (
           <Col key={stat.label}>
             <Card>
               <CardBody>
                 <div className="d-flex justify-content-between align-items-start">
                   <div>
-                    <div className="small fg-neutral mb-xsmall">{stat.label}</div>
+                    <div className="sm fg-neutral mb-xs">{stat.label}</div>
                     <div className="h4 mb-0">{stat.value}</div>
                   </div>
                   <Badge color={stat.color}>{stat.delta}</Badge>
@@ -72,11 +71,11 @@ export const Example = () => {
           </Col>
         ))}
       </Row>
-      <Row className="mb-xlarge">
+      <Row className="mb-xl">
         <Col>
           <Card>
             <CardBody>
-              <h5 className="mb-medium">Recent Orders</h5>
+              <h5 className="mb-md">Recent Orders</h5>
               <Table aria-label="Recent orders" hover>
                 <TableHeader columns={orderColumns}>
                   {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
@@ -105,7 +104,7 @@ export const Example = () => {
         <Col>
           <Card>
             <CardBody>
-              <h5 className="mb-medium">Recent Activity</h5>
+              <h5 className="mb-md">Recent Activity</h5>
               <List plain items={activity} />
             </CardBody>
           </Card>
@@ -113,12 +112,12 @@ export const Example = () => {
         <Col>
           <Card>
             <CardBody>
-              <h5 className="mb-medium">Traffic Sources</h5>
+              <h5 className="mb-md">Traffic Sources</h5>
               {traffic.map((src) => (
-                <div key={src.label} className="mb-medium">
-                  <div className="d-flex justify-content-between mb-xsmall">
-                    <small>{src.label}</small>
-                    <small>{src.value}%</small>
+                <div key={src.label} className="mb-md">
+                  <div className="d-flex justify-content-between mb-xs">
+                    <sm>{src.label}</sm>
+                    <sm>{src.value}%</sm>
                   </div>
                   <Progress color={src.color} value={src.value} />
                 </div>

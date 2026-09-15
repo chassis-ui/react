@@ -21,7 +21,13 @@ const REPORT_PATH = path.resolve(__dirname, '../api-report.md')
 // of expanding one), but sort every union's members here too so any remaining case — including
 // ones introduced later — can't cause a false-positive diff.
 function sortUnions(text: string): string {
-  const sourceFile = ts.createSourceFile('api-surface.d.ts', text, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS)
+  const sourceFile = ts.createSourceFile(
+    'api-surface.d.ts',
+    text,
+    ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TS
+  )
 
   function canonicalize(node: ts.Node): string {
     const start = node.getStart(sourceFile)
@@ -128,6 +134,10 @@ for (let i = 0; i < maxLines; i++) {
 console.error(
   `api-report.md is out of date with the current build: ${diffCount} line(s) differ, first at line ${firstDiffLine}.`
 )
-console.error('If this change is intentional, run `pnpm react:check:api:update` and commit the result.')
-console.error('If not, it means a component/type change accidentally altered the public API surface.')
+console.error(
+  'If this change is intentional, run `pnpm react:check:api:update` and commit the result.'
+)
+console.error(
+  'If not, it means a component/type change accidentally altered the public API surface.'
+)
 process.exit(1)

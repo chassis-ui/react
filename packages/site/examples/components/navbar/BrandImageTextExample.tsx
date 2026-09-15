@@ -12,7 +12,7 @@ export const Example = () => {
             height="24"
             className="d-inline-block align-text-top"
           />
-          <span className="ms-xsmall font-strong">Chassis</span>
+          <span className="ms-xs font-strong">Chassis</span>
         </NavbarBrand>
       </Container>
     </Navbar>

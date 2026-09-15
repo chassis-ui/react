@@ -1,6 +1,7 @@
 import {
   ForwardedRef,
   MouseEvent as ReactMouseEvent,
+  MouseEventHandler,
   SyntheticEvent,
   useEffect,
   useRef,
@@ -38,6 +39,13 @@ export interface UseDialogElementOptions {
    * show effect, used to auto-close every other open drawer first.
    */
   onBeforeShow?: (dialog: HTMLDialogElement) => void
+  /**
+   * The caller's own `onClick`, chained ahead of the backdrop-click handling below rather than
+   * left in the props spread — a `<dialog>` needs `onClick` for its own backdrop detection, so
+   * spreading the caller's alongside it silently dropped one of the two. Fires for every click
+   * on the dialog, not just backdrop ones.
+   */
+  onClick?: MouseEventHandler<HTMLDialogElement>
   onClose?: () => void
   onClosePrevented?: () => void
   onHidden?: () => void
@@ -62,6 +70,7 @@ export const useDialogElement = ({
   isModal,
   keyboard = true,
   onBeforeShow,
+  onClick,
   onClose,
   onClosePrevented,
   onHidden,
@@ -204,6 +213,7 @@ export const useDialogElement = ({
   }
 
   const handleBackdropClick = (event: ReactMouseEvent<HTMLDialogElement>) => {
+    onClick?.(event)
     if (event.target !== dialogRef.current || !openedAsModalRef.current) return
     if (backdrop === 'static') {
       triggerStaticBounce()

@@ -5,6 +5,7 @@ import { CalendarState, RangeCalendarState } from 'react-stately'
 import { CalendarDate, toCalendarDate } from '@internationalized/date'
 
 import { isWholeUnitDisabled } from '../../utils/isWholeUnitDisabled'
+import { useCalendarLabels } from './labels'
 
 interface CalendarYearGridProps {
   // Whether to render the visually-hidden `aria-live` announcement of this view's current header
@@ -31,6 +32,7 @@ export const CalendarYearGrid = ({
   onSelect,
   state
 }: CalendarYearGridProps) => {
+  const labels = useCalendarLabels()
   const yearFormatter = useDateFormatter({
     calendar: monthStart.calendar.identifier,
     timeZone: state.timeZone,
@@ -76,7 +78,7 @@ export const CalendarYearGrid = ({
     <>
       <div className="datepicker-header">
         <button
-          aria-label="Previous years"
+          aria-label={labels.previousYears}
           className="datepicker-arrow datepicker-arrow-prev"
           disabled={isPrevDisabled}
           onClick={() => setPageStart((start) => start - YEARS_PER_PAGE)}
@@ -88,7 +90,7 @@ export const CalendarYearGrid = ({
           </button>
         </div>
         <button
-          aria-label="Next years"
+          aria-label={labels.nextYears}
           className="datepicker-arrow datepicker-arrow-next"
           disabled={isNextDisabled}
           onClick={() => setPageStart((start) => start + YEARS_PER_PAGE)}
@@ -97,7 +99,7 @@ export const CalendarYearGrid = ({
       </div>
       {announce && (
         <span role="status" className="visually-hidden">
-          {`Select year, ${rangeLabel}`}
+          {`${labels.selectYear}, ${rangeLabel}`}
         </span>
       )}
       <div className="datepicker-content">

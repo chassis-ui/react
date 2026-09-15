@@ -9,9 +9,9 @@ export const Example = () => {
   ]
   return (
     <>
-      <Select size="large" aria-label="Large select example" options={options} />
+      <Select size="lg" aria-label="Large select example" options={options} />
       <Select aria-label="Default select example" options={options} />
-      <Select size="small" aria-label="Small select example" options={options} />
+      <Select size="sm" aria-label="Small select example" options={options} />
     </>
   )
 }

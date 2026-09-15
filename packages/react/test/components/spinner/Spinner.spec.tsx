@@ -20,12 +20,12 @@ describe('Spinner', () => {
 
     test('renders as a custom component with color, size, variant and className', () => {
       render(
-        <Spinner className="bazinga" color="warning" component="span" size="small" variant="grow">
+        <Spinner className="bazinga" color="warning" component="span" size="sm" variant="grow">
           Test
         </Spinner>
       )
       const spinner = screen.getByRole('status')
-      expect(spinner).toHaveClass('spinner-grow', 'fg-warning', 'spinner-grow-small', 'bazinga')
+      expect(spinner).toHaveClass('spinner-grow', 'fg-warning', 'spinner-grow-sm', 'bazinga')
       expect(spinner.tagName).toBe('SPAN')
     })
 

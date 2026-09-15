@@ -7,7 +7,7 @@ export const Example = () => {
       content="And here's some amazing content. It's very engaging. Right?"
       placement="right"
     >
-      <Button color="danger" size="large">
+      <Button color="danger" size="lg">
         Click to toggle popover
       </Button>
     </Popover>

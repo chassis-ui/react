@@ -21,7 +21,7 @@ import {
 export const Example = () => {
   const [visible, setVisible] = useState(false)
   return (
-    <Navbar expand="medium" className="bg-even">
+    <Navbar expand="md" className="bg-even">
       <Container fluid>
         <NavbarBrand href="#">Navbar</NavbarBrand>
         <NavbarToggler

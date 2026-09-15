@@ -31,7 +31,7 @@ with `Icon`, `Avatar`, or `CloseButton` as plain children.
 
 Set `color` to one of Chassis's context colors.
 
-<Example class="d-flex flex-wrap gap-small">
+<Example class="d-flex flex-wrap gap-sm">
   <ColorExample client:load />
 </Example>
 
@@ -47,7 +47,7 @@ Set `color` to one of Chassis's context colors.
 Set `variant="outline"` for a transparent background with a colored border and text — a
 lower-emphasis alternative to a solid chip in the same color.
 
-<Example class="d-flex flex-wrap gap-small">
+<Example class="d-flex flex-wrap gap-sm">
   <OutlineExample client:load />
 </Example>
 
@@ -55,7 +55,7 @@ lower-emphasis alternative to a solid chip in the same color.
 
 Set `variant="smooth"` for a subdued, tinted background in the chip's color.
 
-<Example class="d-flex flex-wrap gap-small">
+<Example class="d-flex flex-wrap gap-sm">
   <SmoothExample client:load />
 </Example>
 
@@ -64,7 +64,7 @@ Set `variant="smooth"` for a subdued, tinted background in the chip's color.
 Nest an `Icon` at the start or end of a chip's content to add visual meaning. Wrap the text in its
 own `<span>` so chassis-css's `:first-child`/`:last-child` spacing applies correctly.
 
-<Example class="d-flex flex-wrap gap-small">
+<Example class="d-flex flex-wrap gap-sm">
   <IconExample client:load />
 </Example>
 
@@ -84,16 +84,16 @@ Nest a `CloseButton` to add a removal action — `Chip` doesn't manage its own l
 it with an `onClick` handler that removes the value from whatever collection is being rendered
 from.
 
-<Example class="d-flex flex-wrap gap-small">
+<Example class="d-flex flex-wrap gap-sm">
   <DismissibleExample client:load />
 </Example>
 
 ## Sizes
 
-Set `size` to `"small"` or `"large"` to adjust a chip's padding and font size; the default renders
-at medium size.
+Set `size` to `"sm"` or `"lg"` to adjust a chip's padding and font size; the default renders
+at md size.
 
-<Example class="d-flex flex-wrap gap-small">
+<Example class="d-flex flex-wrap gap-sm">
   <SizeExample client:load />
 </Example>
 
@@ -114,7 +114,7 @@ Set `component` to render `<Chip>` as a different element — `"div"` for a non-
 `"button"` for a toggle control, or any custom component. `href` implies `component="a"`
 automatically.
 
-<Example class="d-flex flex-wrap gap-small">
+<Example class="d-flex flex-wrap gap-sm">
   <ComponentExample client:load />
 </Example>
 

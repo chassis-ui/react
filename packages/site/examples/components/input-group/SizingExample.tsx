@@ -3,19 +3,19 @@ import { InputGroup, InputGroupAddon, TextInput } from '@chassis-ui/react'
 export const Example = () => {
   return (
     <>
-      <InputGroup size="small" className="mb-medium">
-        <InputGroupAddon id="inputGroup-sizing-small">Small</InputGroupAddon>
-        <TextInput aria-label="Sizing example input" aria-describedby="inputGroup-sizing-small" />
+      <InputGroup size="sm" className="mb-md">
+        <InputGroupAddon id="inputGroup-sizing-sm">Small</InputGroupAddon>
+        <TextInput aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" />
       </InputGroup>
 
-      <InputGroup className="mb-medium">
+      <InputGroup className="mb-md">
         <InputGroupAddon id="inputGroup-sizing-default">Default</InputGroupAddon>
         <TextInput aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
       </InputGroup>
 
-      <InputGroup size="large">
-        <InputGroupAddon id="inputGroup-sizing-large">Large</InputGroupAddon>
-        <TextInput aria-label="Sizing example input" aria-describedby="inputGroup-sizing-large" />
+      <InputGroup size="lg">
+        <InputGroupAddon id="inputGroup-sizing-lg">Large</InputGroupAddon>
+        <TextInput aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" />
       </InputGroup>
     </>
   )

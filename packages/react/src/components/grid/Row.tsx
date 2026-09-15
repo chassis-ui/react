@@ -40,7 +40,7 @@ export interface RowProps extends HTMLAttributes<HTMLDivElement>, RowLayout {
   /**
    * Overrides `cols`/`gutter`/`gutterX`/`gutterY` at a breakpoint and up.
    *
-   * @type { Partial<Record<'small' | 'medium' | 'large' | 'xlarge' | '2xlarge', { cols?: 'auto' | number | string, gutter?: Spacing | 0, gutterX?: Spacing | 0, gutterY?: Spacing | 0 }>> }
+   * @type { Partial<Record<'sm' | 'md' | 'lg' | 'xl' | '2xl', { cols?: 'auto' | number | string, gutter?: Spacing | 0, gutterX?: Spacing | 0, gutterY?: Spacing | 0 }>> }
    */
   responsive?: Partial<Record<Breakpoint, RowLayout>>
 }

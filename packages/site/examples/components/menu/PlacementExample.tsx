@@ -4,7 +4,7 @@ const placements = ['top', 'bottom', 'left', 'right'] as const
 
 export const Example = () => {
   return (
-    <div className="d-flex flex-wrap gap-small">
+    <div className="d-flex flex-wrap gap-sm">
       {placements.map((placement) => (
         <Menu key={placement} placement={placement}>
           <MenuToggle color="secondary">{placement}</MenuToggle>

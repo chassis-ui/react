@@ -35,7 +35,7 @@ Pass `label` / `help` / `invalid` / `invalidFeedback` / `valid` / `validFeedback
 
 `TextInput` accepts any single-line, text-valued native `type`: `text`, `password`, `email`, `tel`, `url`, `search`, `date`, `datetime-local`, `month`, `week`, and `time`. The value is passed straight through to the underlying `<input>`, so browser-native behaviors like password reveal toggles, email validation, and date pickers all work as expected.
 
-<Example class="vstack gap-medium">
+<Example class="vstack gap-md">
   <TypesExample client:load />
 </Example>
 
@@ -43,9 +43,9 @@ Color and file inputs need bespoke rendering (a swatch, a themed file-selector b
 
 ## Sizing
 
-Set the `size` prop to `"large"` or `"small"` to change the control's height.
+Set the `size` prop to `"lg"` or `"sm"` to change the control's height.
 
-<Example class="vstack gap-medium">
+<Example class="vstack gap-md">
   <SizingExample client:load />
 </Example>
 
@@ -53,7 +53,7 @@ Set the `size` prop to `"large"` or `"small"` to change the control's height.
 
 Add the `disabled` boolean attribute to give the control a muted color. Browsers also remove disabled controls from the tab order and from form submission automatically.
 
-<Example class="vstack gap-medium">
+<Example class="vstack gap-md">
   <DisabledExample client:load />
 </Example>
 
@@ -61,7 +61,7 @@ Add the `disabled` boolean attribute to give the control a muted color. Browsers
 
 Add the `readOnly` boolean attribute to prevent the value from being edited. Unlike `disabled`, a read-only control stays focusable and is still included in form submission — only typing into it is blocked — and it keeps the same appearance as an editable control.
 
-<Example class="vstack gap-medium">
+<Example class="vstack gap-md">
   <ReadonlyExample client:load />
 </Example>
 
@@ -69,7 +69,7 @@ Add the `readOnly` boolean attribute to prevent the value from being edited. Unl
 
 Pair the `plainText` prop with `readOnly` to render the value as plain text instead of an editable-looking field — useful for read-only values that should still line up with the editable fields around them.
 
-<Example class="vstack gap-medium">
+<Example class="vstack gap-md">
   <PlainTextExample client:load />
 </Example>
 
@@ -77,7 +77,7 @@ Pair the `plainText` prop with `readOnly` to render the value as plain text inst
 
 Pass `value` and `onChange` to control the value from external state. `onChange` receives the new string value directly rather than a change event, so it can be passed straight to a state setter. Omit them (optionally passing `defaultValue` instead) to let the component manage its own value.
 
-<Example class="vstack gap-medium">
+<Example class="vstack gap-md">
   <ControlledValueExample client:load />
 </Example>
 
@@ -89,7 +89,7 @@ at the leading or trailing edge of the input. Either prop switches the rendered 
 a `.form-input` wrapper containing the adorn(s) around a `.ghost-input`. Wrap adorn content in
 `InputAdorn` so it picks up the `.input-adorn` class the wrapper's flex layout targets.
 
-<Example class="vstack gap-medium">
+<Example class="vstack gap-md">
   <AdornsExample client:load />
 </Example>
 

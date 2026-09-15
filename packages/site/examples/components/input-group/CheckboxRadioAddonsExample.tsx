@@ -10,7 +10,7 @@ import {
 export const Example = () => {
   return (
     <>
-      <InputGroup className="mb-medium">
+      <InputGroup className="mb-md">
         <InputGroupAddon>
           <Checkbox value="" aria-label="Checkbox for following text input" />
         </InputGroupAddon>

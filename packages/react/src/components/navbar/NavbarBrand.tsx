@@ -4,7 +4,8 @@ import classNames from 'classnames'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
-  PolymorphicRef
+  PolymorphicRef,
+  PolymorphicRefWithFallback
 } from '../../utils/polymorphic'
 
 type NavbarBrandOwnProps<C extends ElementType> = {
@@ -30,7 +31,9 @@ export type NavbarBrandProps<C extends ElementType = 'span'> = PolymorphicCompon
 >
 
 type NavbarBrandComponent = (<C extends ElementType = 'span'>(
-  props: NavbarBrandProps<C> & { ref?: PolymorphicRef<C> }
+  props: NavbarBrandProps<C> & {
+    ref?: PolymorphicRefWithFallback<C, HTMLSpanElement | HTMLAnchorElement>
+  }
 ) => ReactElement | null) & { displayName?: string }
 
 function NavbarBrandRender<C extends ElementType = 'span'>(

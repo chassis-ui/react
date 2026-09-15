@@ -15,11 +15,11 @@ describe('FileInput', () => {
       // No label given here (deliberately, to test the bare attribute/class output), so the
       // input has no accessible name and no query reaches it.
       const { container } = render(
-        <FileInput className="bazinga" disabled invalid multiple size="large" valid />
+        <FileInput className="bazinga" disabled invalid multiple size="lg" valid />
       )
       // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
       const input = container.querySelector('input[type="file"]')
-      expect(input).toHaveClass('form-input', 'large', 'is-invalid', 'is-valid', 'bazinga')
+      expect(input).toHaveClass('form-input', 'lg', 'is-invalid', 'is-valid', 'bazinga')
       expect(input).toBeDisabled()
       expect(input).toHaveAttribute('multiple')
     })

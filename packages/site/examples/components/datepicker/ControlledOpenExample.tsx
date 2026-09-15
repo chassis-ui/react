@@ -5,7 +5,7 @@ export const Example = () => {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <div className="vstack gap-small">
+    <div className="vstack gap-sm">
       <div className="d-flex align-items-center gap-2">
         <DatePicker aria-label="Event date" isOpen={isOpen} onOpenChange={setIsOpen} />
         <Button color="secondary" onClick={() => setIsOpen(true)} type="button">

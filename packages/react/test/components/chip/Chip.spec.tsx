@@ -63,11 +63,11 @@ describe('Chip', () => {
   describe('styling props', () => {
     test('applies color, variant and size together', () => {
       render(
-        <Chip color="primary" variant="smooth" size="large">
+        <Chip color="primary" variant="smooth" size="lg">
           Styled
         </Chip>
       )
-      expect(screen.getByText('Styled')).toHaveClass('chip', 'primary', 'smooth', 'large')
+      expect(screen.getByText('Styled')).toHaveClass('chip', 'primary', 'smooth', 'lg')
     })
 
     test('applies the outline variant as its own class', () => {

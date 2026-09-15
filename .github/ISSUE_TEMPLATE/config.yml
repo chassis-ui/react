@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Documentation
+    url: https://chassis-ui.com/react/getting-started/introduction/
+    about: Component catalog, props, and examples.
+  - name: Chassis CSS (the styling layer)
+    url: https://github.com/chassis-ui/chassis
+    about: Report styling and visual issues against the CSS framework this library renders markup for.

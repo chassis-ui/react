@@ -6,7 +6,7 @@ export const Example = () => {
       <Container fluid>
         <NavbarBrand href="#">Navbar</NavbarBrand>
         <Form className="d-flex" role="search">
-          <TextInput type="search" className="me-small" placeholder="Search" aria-label="Search" />
+          <TextInput type="search" className="me-sm" placeholder="Search" aria-label="Search" />
           <Button type="submit" color="primary" variant="outline">
             Search
           </Button>

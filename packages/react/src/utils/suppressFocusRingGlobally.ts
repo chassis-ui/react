@@ -20,10 +20,22 @@ const FOCUSABLE_SELECTOR = 'a[href], button, input, select, textarea, [tabindex]
 
 const suppressed = new WeakSet<HTMLElement>()
 
+// Which ring-painting style properties a given call suppresses. The global `pointerdown` path
+// only ever needs `outline` (that's the whole of chassis-css's `:focus-visible` ring); a
+// script-driven focus redirect also clears `boxShadow`, since an element it lands on may carry a
+// ring painted that way — see `focusRedirect`.
+export type SuppressibleStyle = 'outline' | 'boxShadow'
+
+const DEFAULT_STYLES: readonly SuppressibleStyle[] = ['outline']
+
 // Shared by the global `pointerdown` listener below and by call sites that move focus themselves
 // via script (e.g. `RangeCalendar`'s hover-to-preview-a-range, which calls `element.focus()` from
-// a `pointerenter` handler — outside the `pointerdown` this module otherwise listens for).
-export function suppressFocusRing(el: HTMLElement): void {
+// a `pointerenter` handler — outside the `pointerdown` this module otherwise listens for, and
+// `focusRedirect`, which delegates here rather than reimplementing the save/restore cycle).
+export function suppressFocusRing(
+  el: HTMLElement,
+  styles: readonly SuppressibleStyle[] = DEFAULT_STYLES
+): void {
   // chassis-css's `.form-input` placeholder deliberately grants its focus ring on `:focus-within`
   // as well as `:focus-visible` (see `_form.scss`), unlike the `:focus-visible`-only policy this
   // module otherwise mirrors for buttons/links/checks/etc. — a form field is meant to show its
@@ -33,17 +45,20 @@ export function suppressFocusRing(el: HTMLElement): void {
   // an outline chassis-css wants visible the whole time the field is focused.
   if (el.classList.contains('form-input')) return
   // `suppressed` guards re-entrancy: a second call for the same element before it blurs (e.g. a
-  // rapid re-press, or the pointer re-entering a cell) would otherwise stack a second blur
-  // listener that clobbers the first restoration and leaves the ring permanently suppressed.
+  // rapid re-press, the pointer re-entering a cell, or a repeated `focusRedirect` onto the same
+  // element) would otherwise stack a second blur listener whose "previous" value it captured
+  // *after* the first call already set the property to `none` — restoring `none` and leaving the
+  // ring permanently suppressed. One shared set across every caller, so a global-listener
+  // suppression and a `focusRedirect` one can't stack on each other either.
   if (suppressed.has(el)) return
 
   suppressed.add(el)
-  const prevOutline = el.style.outline
-  el.style.outline = 'none'
+  const restore = styles.map((style) => [style, el.style[style]] as const)
+  for (const [style] of restore) el.style[style] = 'none'
   el.addEventListener(
     'blur',
     () => {
-      el.style.outline = prevOutline
+      for (const [style, value] of restore) el.style[style] = value
       suppressed.delete(el)
     },
     { once: true }

@@ -1,6 +1,6 @@
 {
   "tags": {},
-  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/grid/GridItem.tsx",
+  "filePath": "packages/react/src/components/grid/GridItem.tsx",
   "description": "",
   "displayName": "GridItem",
   "methods": [],
@@ -85,7 +85,7 @@
       ],
       "required": false,
       "type": {
-        "name": "{ Partial<Record<'small' | 'medium' | 'large' | 'xlarge' | '2xlarge', { span?: number, start?: number }>> }"
+        "name": "{ Partial<Record<'sm' | 'md' | 'lg' | 'xl' | '2xl', { span?: number, start?: number }>> }"
       }
     },
     "subgrid": {

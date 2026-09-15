@@ -52,11 +52,11 @@ describe('GridItem', () => {
         <GridItem
           span={12}
           responsive={{
-            small: { span: 6 },
-            medium: { span: 4, start: 2 },
-            large: { span: 3 },
-            xlarge: { span: 2 },
-            '2xlarge': { span: 1 }
+            sm: { span: 6 },
+            md: { span: 4, start: 2 },
+            lg: { span: 3 },
+            xl: { span: 2 },
+            '2xl': { span: 1 }
           }}
         >
           Test
@@ -64,12 +64,12 @@ describe('GridItem', () => {
       )
       expect(screen.getByText('Test')).toHaveClass(
         'g-col-12',
-        'small:g-col-6',
-        'medium:g-col-4',
-        'medium:g-start-2',
-        'large:g-col-3',
-        'xlarge:g-col-2',
-        '2xlarge:g-col-1'
+        'sm:g-col-6',
+        'md:g-col-4',
+        'md:g-start-2',
+        'lg:g-col-3',
+        'xl:g-col-2',
+        '2xl:g-col-1'
       )
     })
   })
@@ -104,11 +104,11 @@ describe('GridItem', () => {
 
     test('resolves a Spacing token to the matching --cx-space-* custom property', () => {
       render(
-        <GridItem subgrid gap="medium">
+        <GridItem subgrid gap="md">
           Test
         </GridItem>
       )
-      expect(screen.getByText('Test')).toHaveStyle({ '--cx-grid-gap': 'var(--cx-space-medium)' })
+      expect(screen.getByText('Test')).toHaveStyle({ '--cx-grid-gap': 'var(--cx-space-md)' })
     })
 
     test('ignores rows/gap when subgrid is not set', () => {

@@ -15,12 +15,12 @@ describe('Badge', () => {
 
     test('renders as a custom component with circle and size classes', () => {
       render(
-        <Badge className="bazinga" color="warning" component="div" circle size="small">
+        <Badge className="bazinga" color="warning" component="div" circle size="sm">
           Test
         </Badge>
       )
       const badge = screen.getByText('Test')
-      expect(badge).toHaveClass('badge', 'warning', 'circle', 'small', 'bazinga')
+      expect(badge).toHaveClass('badge', 'warning', 'circle', 'sm', 'bazinga')
       expect(badge.tagName).toBe('DIV')
     })
   })

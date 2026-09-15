@@ -31,7 +31,7 @@ export interface ColProps extends HTMLAttributes<HTMLDivElement>, ColLayout {
   /**
    * Overrides `span`/`offset`/`order` at a breakpoint and up.
    *
-   * @type { Partial<Record<'small' | 'medium' | 'large' | 'xlarge' | '2xlarge', { span?: 'auto' | number | string | boolean, offset?: number | string, order?: 'first' | 'last' | number | string }>> }
+   * @type { Partial<Record<'sm' | 'md' | 'lg' | 'xl' | '2xl', { span?: 'auto' | number | string | boolean, offset?: number | string, order?: 'first' | 'last' | number | string }>> }
    */
   responsive?: Partial<Record<Breakpoint, ColLayout>>
 }

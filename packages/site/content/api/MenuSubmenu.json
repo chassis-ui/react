@@ -1,6 +1,6 @@
 {
   "tags": {},
-  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/menu/MenuSubmenu.tsx",
+  "filePath": "packages/react/src/components/menu/MenuSubmenu.tsx",
   "description": "",
   "displayName": "MenuSubmenu",
   "methods": [],
@@ -157,7 +157,7 @@
     },
     "stacked": {
       "defaultValue": null,
-      "description": "Switches to a view-replacement pattern below the `small` breakpoint. Pair with a\n`MenuSubmenuBack` as the first item of the nested menu.",
+      "description": "Switches to a view-replacement pattern below the `sm` breakpoint. Pair with a\n`MenuSubmenuBack` as the first item of the nested menu.",
       "name": "stacked",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/menu/MenuSubmenu.tsx",

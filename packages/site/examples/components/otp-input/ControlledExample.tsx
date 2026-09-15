@@ -6,7 +6,7 @@ export const Example = () => {
   const [complete, setComplete] = useState<string | null>(null)
 
   return (
-    <div className="vstack gap-small">
+    <div className="vstack gap-sm">
       <OtpInput
         aria-label="Verification code"
         length={4}

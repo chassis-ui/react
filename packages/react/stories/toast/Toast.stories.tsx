@@ -16,7 +16,7 @@ type Story = StoryObj<typeof Toast>
 
 const logo = (
   <svg
-    className="rounded me-small"
+    className="rounded me-sm"
     width="20"
     height="20"
     xmlns="http://www.w3.org/2000/svg"

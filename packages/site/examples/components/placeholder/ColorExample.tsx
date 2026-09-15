@@ -2,7 +2,7 @@ import { Flex, Placeholder } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
-    <Flex gap={'small'} wrap="wrap">
+    <Flex gap={'sm'} wrap="wrap">
       <Placeholder color="default" width={140} height={100} />
       <Placeholder color="alternate" width={140} height={100} />
       <Placeholder color="primary" width={140} height={100} />

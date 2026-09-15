@@ -1,6 +1,6 @@
 {
   "tags": {},
-  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/card/CardBody.tsx",
+  "filePath": "packages/react/src/components/card/CardBody.tsx",
   "description": "",
   "displayName": "CardBody",
   "methods": [],
@@ -72,52 +72,52 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "0 | \"small\" | \"zero\" | \"4xsmall\" | \"3xsmall\" | \"2xsmall\" | \"xsmall\" | \"medium\" | \"large\" | \"xlarge\" | \"2xlarge\" | \"3xlarge\" | \"4xlarge\" | \"5xlarge\" | \"6xlarge\"",
+        "raw": "0 | \"zero\" | \"4xs\" | \"3xs\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"3xl\" | \"4xl\" | \"5xl\" | \"6xl\"",
         "value": [
           {
             "value": "0"
           },
           {
-            "value": "\"small\""
-          },
-          {
             "value": "\"zero\""
           },
           {
-            "value": "\"4xsmall\""
+            "value": "\"4xs\""
           },
           {
-            "value": "\"3xsmall\""
+            "value": "\"3xs\""
           },
           {
-            "value": "\"2xsmall\""
+            "value": "\"2xs\""
           },
           {
-            "value": "\"xsmall\""
+            "value": "\"xs\""
           },
           {
-            "value": "\"medium\""
+            "value": "\"sm\""
           },
           {
-            "value": "\"large\""
+            "value": "\"md\""
           },
           {
-            "value": "\"xlarge\""
+            "value": "\"lg\""
           },
           {
-            "value": "\"2xlarge\""
+            "value": "\"xl\""
           },
           {
-            "value": "\"3xlarge\""
+            "value": "\"2xl\""
           },
           {
-            "value": "\"4xlarge\""
+            "value": "\"3xl\""
           },
           {
-            "value": "\"5xlarge\""
+            "value": "\"4xl\""
           },
           {
-            "value": "\"6xlarge\""
+            "value": "\"5xl\""
+          },
+          {
+            "value": "\"6xl\""
           }
         ]
       }

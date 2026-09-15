@@ -11,7 +11,7 @@ export interface MenuSubmenuBackProps extends ButtonHTMLAttributes<HTMLButtonEle
 }
 
 // First item of a stacked submenu's nested menu (see `MenuSubmenu`'s `stacked` prop). Closes
-// the submenu and returns focus to its trigger — visible only below the `small` breakpoint.
+// the submenu and returns focus to its trigger — visible only below the `sm` breakpoint.
 export const MenuSubmenuBack = forwardRef<HTMLButtonElement, MenuSubmenuBackProps>(
   ({ children, className, onClick, type = 'button', ...rest }, ref) => {
     const actions = useContext(SubmenuActionsContext)

@@ -3,7 +3,7 @@ import { InputGroup, InputGroupAddon, TextInput } from '@chassis-ui/react'
 export const Example = () => {
   return (
     <>
-      <InputGroup className="mb-medium">
+      <InputGroup className="mb-md">
         <InputGroupAddon>$</InputGroupAddon>
         <InputGroupAddon>0.00</InputGroupAddon>
         <TextInput aria-label="Dollar amount (with dot and two decimal places)" />

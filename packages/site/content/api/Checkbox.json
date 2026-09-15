@@ -1,6 +1,6 @@
 {
   "tags": {},
-  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+  "filePath": "packages/react/src/components/checkbox/Checkbox.tsx",
   "description": "",
   "displayName": "Checkbox",
   "methods": [],
@@ -233,7 +233,7 @@
     },
     "size": {
       "defaultValue": null,
-      "description": "Size the component small or large.",
+      "description": "Size the component sm or lg.",
       "name": "size",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
@@ -248,13 +248,13 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"small\" | \"large\"",
+        "raw": "\"sm\" | \"lg\"",
         "value": [
           {
-            "value": "\"small\""
+            "value": "\"sm\""
           },
           {
-            "value": "\"large\""
+            "value": "\"lg\""
           }
         ]
       }

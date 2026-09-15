@@ -27,7 +27,7 @@ import { Example as DisabledLinkExample } from '../../examples/components/button
 
 Set `color` to one of Chassis's context colors to change a button's background and foreground.
 
-<Example class="d-flex flex-wrap gap-small">
+<Example class="d-flex flex-wrap gap-sm">
   <ColorExample client:load />
 </Example>
 
@@ -46,7 +46,7 @@ Layer `variant` on top of `color` to change a button's fill instead of its palet
 Set `variant="outline"` for a transparent background with a colored border and text — a
 lower-emphasis alternative to a solid button in the same color.
 
-<Example class="d-flex flex-wrap gap-small">
+<Example class="d-flex flex-wrap gap-sm">
   <OutlineExample client:load />
 </Example>
 
@@ -60,7 +60,7 @@ lower-emphasis alternative to a solid button in the same color.
 Set `variant="smooth"` for a subdued, tinted background in the button's color, softer than the
 default solid fill.
 
-<Example class="d-flex flex-wrap gap-small">
+<Example class="d-flex flex-wrap gap-sm">
   <SmoothExample client:load />
 </Example>
 
@@ -70,7 +70,7 @@ Set `variant="link"` to make a button look and behave like a hyperlink while kee
 and click behavior — a lower-emphasis action inside a toolbar or form. `variant="link"` is a
 button-specific style, not a context color: pass it alongside `color`, not instead of it.
 
-<Example class="d-flex flex-wrap gap-small">
+<Example class="d-flex flex-wrap gap-sm">
   <LinkExample client:load />
 </Example>
 
@@ -80,7 +80,7 @@ Set `component` to render `<Button>` as a different element — `"a"` for naviga
 legacy form markup, or any custom component. `href` implies `component="a"` automatically, so
 setting `href` alone is enough for a link button.
 
-<Example class="d-flex flex-wrap gap-small">
+<Example class="d-flex flex-wrap gap-sm">
   <ComponentExample client:load />
 </Example>
 
@@ -95,10 +95,10 @@ automatically, matching native button behavior.
 
 ## Sizes
 
-Set `size` to `"small"` or `"large"` to adjust a button's padding and font size; the default
-renders at medium size.
+Set `size` to `"sm"` or `"lg"` to adjust a button's padding and font size; the default
+renders at md size.
 
-<Example class="d-flex flex-wrap gap-small">
+<Example class="d-flex flex-wrap gap-sm">
   <SizeExample client:load />
 </Example>
 

@@ -160,6 +160,72 @@ describe('Popover', () => {
       expect(popover).toBeInTheDocument()
       vi.useRealTimers()
     })
+
+    // Regression test: the exit used to return focus to the trigger unconditionally, so
+    // dismissing by clicking another control yanked focus straight back off whatever the user
+    // had just clicked. Focus is only reclaimed when nothing else has taken it (the Escape case
+    // above), never when the user deliberately moved it somewhere.
+    test('a click on another control closes the popover without stealing focus back', () => {
+      vi.useFakeTimers()
+      render(
+        <>
+          <Popover content="content" title="title">
+            <Button>Test</Button>
+          </Popover>
+          <Button>Elsewhere</Button>
+        </>
+      )
+      openPopover()
+      act(() => vi.runAllTimers())
+      expect(screen.getByRole('dialog')).toBeInTheDocument()
+
+      const elsewhere = screen.getByRole('button', { name: 'Elsewhere' })
+      act(() => elsewhere.focus())
+      fireEvent.click(elsewhere)
+      act(() => vi.runAllTimers())
+
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(document.activeElement).toBe(elsewhere)
+      vi.useRealTimers()
+    })
+  })
+
+  describe('show/hide callbacks', () => {
+    // Regression test: `onShow`/`onHide` report transitions, so mounting closed fires neither.
+    // The visibility effect used to run its `else` branch on the initial commit, reporting a
+    // close for a popover that had never been shown.
+    test('neither callback fires on mount', () => {
+      const onShow = vi.fn()
+      const onHide = vi.fn()
+      render(
+        <Popover content="content" title="title" onShow={onShow} onHide={onHide}>
+          <Button>Test</Button>
+        </Popover>
+      )
+      expect(onHide).not.toHaveBeenCalled()
+      expect(onShow).not.toHaveBeenCalled()
+    })
+
+    test('onShow fires on open and onHide on close', () => {
+      vi.useFakeTimers()
+      const onShow = vi.fn()
+      const onHide = vi.fn()
+      render(
+        <Popover content="content" title="title" onShow={onShow} onHide={onHide}>
+          <Button>Test</Button>
+        </Popover>
+      )
+      openPopover()
+      act(() => vi.runAllTimers())
+      expect(onShow).toHaveBeenCalledTimes(1)
+      expect(onHide).not.toHaveBeenCalled()
+
+      fireEvent.keyDown(window, { key: 'Escape' })
+      act(() => vi.runAllTimers())
+      expect(onHide).toHaveBeenCalledTimes(1)
+      vi.useRealTimers()
+    })
   })
 
   describe('trigger behavior', () => {
@@ -176,6 +242,16 @@ describe('Popover', () => {
       expect(onClick).toHaveBeenCalledTimes(1)
       expect(screen.getByRole('dialog')).toBeInTheDocument()
       vi.useRealTimers()
+    })
+
+    test("forwards the trigger child's own ref alongside its internal one", () => {
+      const ref = React.createRef<HTMLButtonElement>()
+      render(
+        <Popover content="content">
+          <Button ref={ref}>Test</Button>
+        </Popover>
+      )
+      expect(ref.current).toBe(screen.getByRole('button', { name: 'Test' }))
     })
   })
 

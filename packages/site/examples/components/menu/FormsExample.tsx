@@ -14,7 +14,7 @@ export const Example = () => {
     <Menu>
       <MenuToggle color="secondary">Toggle menu</MenuToggle>
       <MenuList style={{ '--cx-menu-min-width': '300px' } as React.CSSProperties}>
-        <Form className="vstack gap-medium p-medium">
+        <Form className="vstack gap-md p-md">
           <div>
             <FormLabel htmlFor="menuFormEmail">Email address</FormLabel>
             <TextInput type="email" id="menuFormEmail" placeholder="email@example.com" />

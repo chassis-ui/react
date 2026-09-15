@@ -120,7 +120,7 @@ Add `fullscreen` to expand the panel to fill the viewport, animating in and out 
 
 ## Footer layout
 
-`<DrawerFooter>` uses `flex-direction: row-reverse`, so buttons are right-aligned without extra props — write the **primary action first** in source, it renders on the right. At the small breakpoint, buttons stretch to equal widths. Add `stacked` to stack them as full-width columns instead.
+`<DrawerFooter>` uses `flex-direction: row-reverse`, so buttons are right-aligned without extra props — write the **primary action first** in source, it renders on the right. At the sm breakpoint, buttons stretch to equal widths. Add `stacked` to stack them as full-width columns instead.
 
 <Example>
   <FooterExample client:load />
@@ -128,7 +128,7 @@ Add `fullscreen` to expand the panel to fill the viewport, animating in and out 
 
 ## Responsive
 
-Set `responsive` to a breakpoint (`'small' | 'medium' | 'large' | 'xlarge' | '2xlarge'`) to render as a drawer only below that breakpoint — above it, the panel renders inline as a flex container instead (`.drawer-header` hidden, `.drawer-body` laid out as a row). This is the basis for navigation that collapses off-screen on narrow viewports and expands inline on wide ones, as used by [Navbar]([[docsref:/components/navbar]])'s collapsible menu region.
+Set `responsive` to a breakpoint (`'sm' | 'md' | 'lg' | 'xl' | '2xl'`) to render as a drawer only below that breakpoint — above it, the panel renders inline as a flex container instead (`.drawer-header` hidden, `.drawer-body` laid out as a row). This is the basis for navigation that collapses off-screen on narrow viewports and expands inline on wide ones, as used by [Navbar]([[docsref:/components/navbar]])'s collapsible menu region.
 
 ## Accessibility
 

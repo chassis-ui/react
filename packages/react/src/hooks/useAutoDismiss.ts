@@ -36,7 +36,10 @@ export function useAutoDismiss({
   visible,
   onHide
 }: UseAutoDismissOptions): UseAutoDismissResult {
-  const timeout = useRef<number>()
+  // `useRef<number>()` (no argument) isn't valid under @types/react 19 — the overload requires
+  // an initial value, and the ref has to admit `undefined` for `clearAutoDismissTimeout` to reset
+  // it back to "no timer scheduled".
+  const timeout = useRef<number | undefined>(undefined)
   const hasMouseInteraction = useRef(false)
   const hasKeyboardInteraction = useRef(false)
 

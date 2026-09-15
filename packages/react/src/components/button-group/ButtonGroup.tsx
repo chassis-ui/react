@@ -17,9 +17,9 @@ type ButtonGroupOwnProps<C extends ElementType> = {
    */
   component?: C
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'small' | 'large'
+  size?: 'sm' | 'lg'
   /**
    * Create a set of buttons that appear vertically stacked rather than horizontally. Split button dropdowns are not supported here.
    */

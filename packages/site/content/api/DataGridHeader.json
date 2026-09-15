@@ -1,0 +1,85 @@
+{
+  "tags": {},
+  "filePath": "packages/react/src/components/datagrid/DataGridHeader.tsx",
+  "description": "Header row group for `DataGrid`, containing `DataGridColumn`s. Unlike `Table`'s sub-parts,\nthis renders directly — it's a thin wrapper over react-aria-components' own `TableHeader`.\n\nAlways carries the `datagrid-header` class (not just the caller's `className`) — `DataGrid.scss`\nuses it to tell header cells from body cells, since react-aria-components renders both as plain\n`[role=\"rowgroup\"]` divs with no structural difference to select on otherwise.",
+  "displayName": "DataGridHeader",
+  "methods": [],
+  "props": {
+    "children": {
+      "defaultValue": null,
+      "description": "`DataGridColumn` elements, or a render function paired with `columns` for dynamic column\ngeneration.",
+      "name": "children",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridHeader.tsx",
+        "name": "DataGridHeaderProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridHeader.tsx",
+          "name": "DataGridHeaderProps"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "ReactNode | ((column: T) => ReactElement<unknown, string | JSXElementConstructor<any>>)"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the header row group.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridHeader.tsx",
+        "name": "DataGridHeaderProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridHeader.tsx",
+          "name": "DataGridHeaderProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "columns": {
+      "defaultValue": null,
+      "description": "A list of column data objects, rendered via the function form of `children`.",
+      "name": "columns",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridHeader.tsx",
+        "name": "DataGridHeaderProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridHeader.tsx",
+          "name": "DataGridHeaderProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Iterable<T>"
+      }
+    },
+    "dependencies": {
+      "defaultValue": null,
+      "description": "Values that should invalidate the column cache when using the `columns`/render-function form\nof `children` — see `DataGridBody`'s `dependencies` for why this matters.",
+      "name": "dependencies",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridHeader.tsx",
+        "name": "DataGridHeaderProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridHeader.tsx",
+          "name": "DataGridHeaderProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "readonly unknown[]"
+      }
+    }
+  }
+}

@@ -2,7 +2,7 @@ import { Tooltip, Link } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
-    <p className="medium:text-emphasis">
+    <p className="md:text-emphasis">
       Tight pants next level keffiyeh
       <Tooltip content="Tooltip text">
         <Link> you probably </Link>

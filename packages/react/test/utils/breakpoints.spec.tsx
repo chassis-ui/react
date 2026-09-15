@@ -2,7 +2,7 @@ import { BREAKPOINTS, buildResponsiveClassNames } from '../../src/utils/breakpoi
 
 describe('breakpoints', () => {
   test('BREAKPOINTS is the ascending, mobile-first list of full breakpoint names', () => {
-    expect(BREAKPOINTS).toEqual(['small', 'medium', 'large', 'xlarge', '2xlarge'])
+    expect(BREAKPOINTS).toEqual(['sm', 'md', 'lg', 'xl', '2xl'])
   })
 })
 
@@ -19,21 +19,21 @@ describe('buildResponsiveClassNames', () => {
       buildResponsiveClassNames(
         toClassNames,
         { value: 'base' },
-        { large: { value: 'lg' }, small: { value: 'sm' } }
+        { lg: { value: 'lg' }, sm: { value: 'sm' } }
       )
-    ).toEqual(['base', 'small:sm', 'large:lg'])
+    ).toEqual(['base', 'sm:sm', 'lg:lg'])
   })
 
   test('skips breakpoints absent from the responsive object', () => {
     expect(
-      buildResponsiveClassNames(toClassNames, { value: 'base' }, { medium: { value: 'md' } })
-    ).toEqual(['base', 'medium:md'])
+      buildResponsiveClassNames(toClassNames, { value: 'base' }, { md: { value: 'md' } })
+    ).toEqual(['base', 'md:md'])
   })
 
   test('still calls toClassNames for the base layout even when it produces no class', () => {
-    expect(buildResponsiveClassNames(toClassNames, {}, { small: { value: 'sm' } })).toEqual([
+    expect(buildResponsiveClassNames(toClassNames, {}, { sm: { value: 'sm' } })).toEqual([
       null,
-      'small:sm'
+      'sm:sm'
     ])
   })
 })

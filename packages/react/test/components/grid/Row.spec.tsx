@@ -21,11 +21,11 @@ describe('Row', () => {
           className="bazinga"
           cols={1}
           responsive={{
-            small: { cols: 2 },
-            medium: { cols: 3 },
-            large: { cols: 4 },
-            xlarge: { cols: 5 },
-            '2xlarge': { cols: 6 }
+            sm: { cols: 2 },
+            md: { cols: 3 },
+            lg: { cols: 4 },
+            xl: { cols: 5 },
+            '2xl': { cols: 6 }
           }}
         >
           Test
@@ -34,46 +34,46 @@ describe('Row', () => {
       expect(screen.getByText('Test')).toHaveClass(
         'bazinga',
         'row-cols-1',
-        'small:row-cols-2',
-        'medium:row-cols-3',
-        'large:row-cols-4',
-        'xlarge:row-cols-5',
-        '2xlarge:row-cols-6'
+        'sm:row-cols-2',
+        'md:row-cols-3',
+        'lg:row-cols-4',
+        'xl:row-cols-5',
+        '2xl:row-cols-6'
       )
     })
 
     test('applies gutter, gutterX and gutterY classes per breakpoint', () => {
       render(
         <Row
-          gutter="small"
+          gutter="sm"
           responsive={{
-            small: { gutterX: 'medium' },
-            medium: { gutterY: 'large' },
-            large: { gutter: 'xlarge' },
-            xlarge: { gutterX: '2xlarge' },
-            '2xlarge': { gutterY: 'zero' }
+            sm: { gutterX: 'md' },
+            md: { gutterY: 'lg' },
+            lg: { gutter: 'xl' },
+            xl: { gutterX: '2xl' },
+            '2xl': { gutterY: 'zero' }
           }}
         >
           Test
         </Row>
       )
       expect(screen.getByText('Test')).toHaveClass(
-        'g-small',
-        'small:gx-medium',
-        'medium:gy-large',
-        'large:g-xlarge',
-        'xlarge:gx-2xlarge',
-        '2xlarge:gy-zero'
+        'g-sm',
+        'sm:gx-md',
+        'md:gy-lg',
+        'lg:g-xl',
+        'xl:gx-2xl',
+        '2xl:gy-zero'
       )
     })
 
     test('applies the literal 0 gutter shorthand', () => {
       render(
-        <Row gutter={0} responsive={{ small: { gutterX: 0 }, medium: { gutterY: 0 } }}>
+        <Row gutter={0} responsive={{ sm: { gutterX: 0 }, md: { gutterY: 0 } }}>
           Test
         </Row>
       )
-      expect(screen.getByText('Test')).toHaveClass('g-0', 'small:gx-0', 'medium:gy-0')
+      expect(screen.getByText('Test')).toHaveClass('g-0', 'sm:gx-0', 'md:gy-0')
     })
   })
 

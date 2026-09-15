@@ -25,13 +25,13 @@ export const Example = () => {
 
   return (
     <div className="d-flex align-items-center justify-content-between gap-3">
-      <div className="d-flex flex-fill gap-xsmall">
+      <div className="d-flex flex-fill gap-xs">
         <label htmlFor="compact-pg-size" className="mb-0">
           Items per page:
         </label>
         <Select
           id="compact-pg-size"
-          size="small"
+          size="sm"
           className="w-auto"
           value={String(pageSize)}
           onChange={handlePageSizeChange}
@@ -42,12 +42,12 @@ export const Example = () => {
           ]}
         />
       </div>
-      <small className="fg-subtle">{`${start}-${end} of ${total}`}</small>
-      <div className="d-flex flex-fill gap-xsmall justify-content-end">
+      <sm className="fg-subtle">{`${start}-${end} of ${total}`}</sm>
+      <div className="d-flex flex-fill gap-xs justify-content-end">
         <Button
           ref={prevRef}
           className="icon-only"
-          size="small"
+          size="sm"
           disabled={prevDisabled}
           onClick={handlePrevClick}
         >
@@ -56,7 +56,7 @@ export const Example = () => {
         </Button>
         <Select
           aria-label="Current page"
-          size="small"
+          size="sm"
           className="w-auto"
           value={String(page)}
           onChange={(e) => setPage(Number(e.target.value))}
@@ -68,7 +68,7 @@ export const Example = () => {
         <Button
           ref={nextRef}
           className="icon-only"
-          size="small"
+          size="sm"
           disabled={nextDisabled}
           onClick={handleNextClick}
         >

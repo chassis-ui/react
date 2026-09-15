@@ -1,6 +1,6 @@
 {
   "tags": {},
-  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/carousel/CarouselPlayPause.tsx",
+  "filePath": "packages/react/src/components/carousel/CarouselPlayPause.tsx",
   "description": "A discoverable toggle so a viewer can stop an autoplaying carousel, as required by WCAG 2.2\nSuccess Criterion 2.2.2 (Pause, Stop, Hide). Reflects the current state automatically — a pause\nicon while playing, a play icon once stopped.",
   "displayName": "CarouselPlayPause",
   "methods": [],

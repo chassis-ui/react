@@ -1,0 +1,447 @@
+{
+  "tags": {},
+  "filePath": "packages/react/src/components/datagrid/DataGrid.tsx",
+  "description": "",
+  "displayName": "DataGrid",
+  "methods": [],
+  "props": {
+    "aria-label": {
+      "defaultValue": null,
+      "description": "An accessible label for the grid, used when there's no visible heading.",
+      "name": "aria-label",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+        "name": "DataGridOwnProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "name": "DataGridOwnProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "aria-labelledby": {
+      "defaultValue": null,
+      "description": "Identifies a visible heading element for the grid.",
+      "name": "aria-labelledby",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+        "name": "DataGridOwnProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "name": "DataGridOwnProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "align": {
+      "defaultValue": null,
+      "description": "Set the vertical alignment of cell content. Mirrors `Table`'s prop of the same name for API\nparity — same as `Table`, this awaits chassis-css adding the matching `.align-*` styles.",
+      "name": "align",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+        "name": "DataGridOwnProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "name": "DataGridOwnProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"bottom\" | \"middle\" | \"top\"",
+        "value": [
+          {
+            "value": "\"bottom\""
+          },
+          {
+            "value": "\"middle\""
+          },
+          {
+            "value": "\"top\""
+          }
+        ]
+      }
+    },
+    "bordered": {
+      "defaultValue": null,
+      "description": "Add borders on all sides of the grid and cells.",
+      "name": "bordered",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+        "name": "DataGridOwnProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "name": "DataGridOwnProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "borderless": {
+      "defaultValue": null,
+      "description": "Remove borders on all sides of the grid and cells.",
+      "name": "borderless",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+        "name": "DataGridOwnProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "name": "DataGridOwnProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "children": {
+      "defaultValue": null,
+      "description": "A `DataGridHeader` and a `DataGridBody`, each built from `DataGridColumn`/`DataGridRow`/\n`DataGridCell`.",
+      "name": "children",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+        "name": "DataGridOwnProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "name": "DataGridOwnProps"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "[ReactElement<DataGridHeaderProps<T>, string | JSXElementConstructor<any>>, ReactElement<DataGridBodyProps<T>, string | JSXElementConstructor<...>>]"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+        "name": "DataGridOwnProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "name": "DataGridOwnProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "color": {
+      "defaultValue": null,
+      "description": "Sets the color of the component.",
+      "name": "color",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+        "name": "DataGridOwnProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "name": "DataGridOwnProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "ContextColor",
+        "value": [
+          {
+            "value": "\"default\""
+          },
+          {
+            "value": "\"alternate\""
+          },
+          {
+            "value": "\"primary\""
+          },
+          {
+            "value": "\"secondary\""
+          },
+          {
+            "value": "\"neutral\""
+          },
+          {
+            "value": "\"success\""
+          },
+          {
+            "value": "\"danger\""
+          },
+          {
+            "value": "\"warning\""
+          },
+          {
+            "value": "\"info\""
+          },
+          {
+            "value": "\"black\""
+          },
+          {
+            "value": "\"white\""
+          }
+        ]
+      }
+    },
+    "disabledKeys": {
+      "defaultValue": null,
+      "description": "A list of row keys to disable. Disabled rows cannot be selected, focused, or interacted with.",
+      "name": "disabledKeys",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+        "name": "DataGridOwnProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "name": "DataGridOwnProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Iterable<Key>"
+      }
+    },
+    "footer": {
+      "defaultValue": null,
+      "description": "Content shown below the grid, e.g. a totals row or a \"load more\" control. Rendered as plain\nmarkup outside the grid's own scrollable/virtualized region — not part of the\nkeyboard-navigable grid, and never scrolls out of view along with the body rows. Mirrors\n`Table`'s `footer` prop for API parity.",
+      "name": "footer",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+        "name": "DataGridOwnProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "name": "DataGridOwnProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "hover": {
+      "defaultValue": null,
+      "description": "Enable a hover state on grid rows.",
+      "name": "hover",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+        "name": "DataGridOwnProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "name": "DataGridOwnProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "onSelectionChange": {
+      "defaultValue": null,
+      "description": "Handler that is called when the selection changes.",
+      "name": "onSelectionChange",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+        "name": "DataGridOwnProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "name": "DataGridOwnProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((keys: Selection) => void)"
+      }
+    },
+    "onSortChange": {
+      "defaultValue": null,
+      "description": "Handler that is called when a column is sorted.",
+      "name": "onSortChange",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+        "name": "DataGridOwnProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "name": "DataGridOwnProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((descriptor: SortDescriptor) => void)"
+      }
+    },
+    "selectedKeys": {
+      "defaultValue": null,
+      "description": "The currently selected row keys (controlled).",
+      "name": "selectedKeys",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+        "name": "DataGridOwnProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "name": "DataGridOwnProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Selection"
+      }
+    },
+    "selectionMode": {
+      "defaultValue": {
+        "value": "none"
+      },
+      "description": "The type of selection that is allowed.",
+      "name": "selectionMode",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+        "name": "DataGridOwnProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "name": "DataGridOwnProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"none\" | \"single\" | \"multiple\"",
+        "value": [
+          {
+            "value": "\"none\""
+          },
+          {
+            "value": "\"single\""
+          },
+          {
+            "value": "\"multiple\""
+          }
+        ]
+      }
+    },
+    "sm": {
+      "defaultValue": null,
+      "description": "Make the grid more compact by cutting all cell padding.",
+      "name": "sm",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+        "name": "DataGridOwnProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "name": "DataGridOwnProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "sortDescriptor": {
+      "defaultValue": null,
+      "description": "The current sort column and direction.",
+      "name": "sortDescriptor",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+        "name": "DataGridOwnProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "name": "DataGridOwnProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "SortDescriptor"
+      }
+    },
+    "rowHeight": {
+      "defaultValue": null,
+      "description": "Row height in pixels, or `\"auto\"` to measure each row from its own rendered content\ninstead of a single fixed height shared by every row (pair it with a required\n`estimatedRowHeight`, and see the docs site's \"Variable row height\" section for the\ntradeoffs). A fixed number renders every row, including the header, at that exact\nheight; content taller than it visually overflows rather than growing the row.",
+      "name": "rowHeight",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "name": "TypeLiteral"
+        },
+        {
+          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "number | \"auto\""
+      }
+    },
+    "estimatedRowHeight": {
+      "defaultValue": null,
+      "description": "Seeds the virtualizer's scroll-position math for rows that haven't been measured yet.\nRequired when `rowHeight=\"auto\"` — pick a value close to the typical row's real height\nto minimize scroll-jump on first measurement. A row's real height can still turn out far\nfrom this estimate once it renders, which can cause a visible scroll-jump for rows the\nviewport hasn't reached yet.",
+      "name": "estimatedRowHeight",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "name": "TypeLiteral"
+        },
+        {
+          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number"
+      }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Ref<HTMLDivElement>"
+      }
+    }
+  }
+}

@@ -18,6 +18,7 @@ import { CalendarNavButton } from './CalendarNavButton'
 import { CalendarWeekGrid } from './CalendarWeekGrid'
 import { mergeIsDateUnavailable } from '../../utils/mergeIsDateUnavailable'
 import './Calendar.scss'
+import { CalendarLabels, CalendarLabelsProvider } from './labels'
 
 interface CalendarBaseProps extends Omit<
   HTMLAttributes<HTMLDivElement>,
@@ -56,6 +57,14 @@ interface CalendarBaseProps extends Omit<
    */
   isDateUnavailable?: (date: DateValue) => boolean
   /**
+   * Overrides for the handful of strings this component renders itself rather than getting from
+   * the active locale (the year view's paging arrows, its live-region announcements, and the
+   * month/year header buttons). Everything else — month and weekday names, the calendar system —
+   * follows `I18nProvider`'s locale via react-aria and needs no override. Merged over the English
+   * defaults, so passing one key leaves the rest alone.
+   */
+  labels?: Partial<CalendarLabels>
+  /**
    * The maximum allowed date that a user may select.
    */
   maxValue?: DateValue | null
@@ -71,7 +80,7 @@ interface CalendarBaseProps extends Omit<
   unavailableDates?: string[]
   /**
    * Number of months to display side by side, sharing one selection. Wraps to multiple rows in
-   * a narrow container (e.g. a popover on a small screen) rather than overflowing — the wrap is
+   * a narrow container (e.g. a popover on a sm screen) rather than overflowing — the wrap is
    * driven by the calendar's own width, not the viewport, so it adapts correctly regardless of
    * where the calendar is embedded.
    *
@@ -145,6 +154,7 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>((props, forwar
     disabled,
     firstDayOfWeek = 'mon',
     isDateUnavailable,
+    labels,
     maxValue,
     minValue,
     onChange,
@@ -231,52 +241,56 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>((props, forwar
   const nextButton = <CalendarNavButton buttonProps={nextButtonProps} direction="next" />
 
   return (
-    <div
-      {...mergeProps(calendarProps, rest)}
-      className={classNames('datepicker', className)}
-      data-cx-inline="true"
-      ref={ref}
-    >
-      {visibleMonths === 1 ? (
-        <CalendarMonthYearPicker
-          monthStart={state.visibleRange.start}
-          nextArrow={nextButton}
-          prevArrow={prevButton}
-          state={state}
-        >
-          <CalendarWeekGrid
-            firstDayOfWeek={firstDayOfWeek}
-            renderCell={(date) => <CalendarCell date={date} locale={locale} state={state} />}
+    <CalendarLabelsProvider labels={labels}>
+      <div
+        {...mergeProps(calendarProps, rest)}
+        className={classNames('datepicker', className)}
+        data-cx-inline="true"
+        ref={ref}
+      >
+        {visibleMonths === 1 ? (
+          <CalendarMonthYearPicker
+            monthStart={state.visibleRange.start}
+            nextArrow={nextButton}
+            prevArrow={prevButton}
             state={state}
-          />
-        </CalendarMonthYearPicker>
-      ) : (
-        <>
-          {/* `.datepicker[data-cx-inline]` (the root above) is already `position: relative` in
+          >
+            <CalendarWeekGrid
+              firstDayOfWeek={firstDayOfWeek}
+              renderCell={(date) => <CalendarCell date={date} locale={locale} state={state} />}
+              state={state}
+            />
+          </CalendarMonthYearPicker>
+        ) : (
+          <>
+            {/* `.datepicker[data-cx-inline]` (the root above) is already `position: relative` in
               chassis-css, so this overlay needs no extra positioning wrapper of its own — unlike
               `RangeCalendar`, which has a `presets` column sharing that root and so scopes its
               own copy of this overlay to a nested `.datepicker-body` instead. */}
-          {!hasPickerView && (
-            <div className="datepicker-controls">
-              {prevButton}
-              {nextButton}
+            {!hasPickerView && (
+              <div className="datepicker-controls">
+                {prevButton}
+                {nextButton}
+              </div>
+            )}
+            <div className="datepicker-grid">
+              {[...new Array(visibleMonths).keys()].map((monthIndex) => (
+                <CalendarMonthBlock
+                  firstDayOfWeek={firstDayOfWeek}
+                  key={monthIndex}
+                  monthIndex={monthIndex}
+                  onViewChange={(view) =>
+                    setMonthViews((prev) => ({ ...prev, [monthIndex]: view }))
+                  }
+                  renderCell={(date) => <CalendarCell date={date} locale={locale} state={state} />}
+                  state={state}
+                />
+              ))}
             </div>
-          )}
-          <div className="datepicker-grid">
-            {[...new Array(visibleMonths).keys()].map((monthIndex) => (
-              <CalendarMonthBlock
-                firstDayOfWeek={firstDayOfWeek}
-                key={monthIndex}
-                monthIndex={monthIndex}
-                onViewChange={(view) => setMonthViews((prev) => ({ ...prev, [monthIndex]: view }))}
-                renderCell={(date) => <CalendarCell date={date} locale={locale} state={state} />}
-                state={state}
-              />
-            ))}
-          </div>
-        </>
-      )}
-    </div>
+          </>
+        )}
+      </div>
+    </CalendarLabelsProvider>
   )
 })
 

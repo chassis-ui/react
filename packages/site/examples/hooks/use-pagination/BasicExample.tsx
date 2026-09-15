@@ -15,7 +15,7 @@ export const Example = () => {
   })
 
   return (
-    <div className="d-flex align-items-center gap-medium">
+    <div className="d-flex align-items-center gap-md">
       <Button ref={prevRef} disabled={prevDisabled} onClick={handlePrevClick}>
         Previous
       </Button>

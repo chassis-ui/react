@@ -28,12 +28,12 @@ describe('ColorInput', () => {
           className="bazinga"
           disabled
           invalid
-          size="large"
+          size="lg"
           valid
         />
       )
       const input = screen.getByLabelText('Accent color')
-      expect(input).toHaveClass('form-input', 'large', 'is-invalid', 'is-valid', 'bazinga')
+      expect(input).toHaveClass('form-input', 'lg', 'is-invalid', 'is-valid', 'bazinga')
       expect(input).toBeDisabled()
     })
   })

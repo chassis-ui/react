@@ -1,10 +1,31 @@
 {
   "tags": {},
-  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/breadcrumb/Breadcrumb.tsx",
+  "filePath": "packages/react/src/components/breadcrumb/Breadcrumb.tsx",
   "description": "",
   "displayName": "Breadcrumb",
   "methods": [],
   "props": {
+    "aria-label": {
+      "defaultValue": {
+        "value": "breadcrumb"
+      },
+      "description": "Accessible name of the wrapping `<nav>` landmark. Defaults to the English `'breadcrumb'`;\noverride it to translate the landmark, or to tell two breadcrumb trails on the same page\napart (landmarks of the same role need distinct names to be distinguishable in a screen\nreader's landmark list).",
+      "name": "aria-label",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/breadcrumb/Breadcrumb.tsx",
+        "name": "BreadcrumbProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/breadcrumb/Breadcrumb.tsx",
+          "name": "BreadcrumbProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
     "className": {
       "defaultValue": null,
       "description": "A string of all className you want applied to the component.",

@@ -9,7 +9,7 @@
 
 .table-sort-icon {
   display: inline-block;
-  margin-inline-start: var(--cx-space-2xsmall);
+  margin-inline-start: var(--cx-space-2xs);
   font-size: .75em;
   opacity: .6;
 }
@@ -34,6 +34,6 @@
 .table [role="gridcell"]:focus-visible,
 .table [role="columnheader"]:focus-visible,
 .table [role="rowheader"]:focus-visible {
-  outline: var(--cx-border-width-xlarge) solid var(--cx-primary);
+  outline: var(--cx-border-width-xl) solid var(--cx-primary);
   outline-offset: -2px;
 }

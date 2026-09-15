@@ -3,8 +3,8 @@ import { Spinner } from '@chassis-ui/react'
 export const Example = () => {
   return (
     <>
-      <Spinner size="small" />
-      <Spinner size="small" variant="grow" />
+      <Spinner size="sm" />
+      <Spinner size="sm" variant="grow" />
     </>
   )
 }

@@ -16,11 +16,11 @@ describe('Avatar', () => {
 
     test('applies color, smooth and size classes together', () => {
       render(
-        <Avatar className="bazinga" color="primary" smooth size="small">
+        <Avatar className="bazinga" color="primary" smooth size="sm">
           CX
         </Avatar>
       )
-      expect(screen.getByText('CX')).toHaveClass('avatar', 'primary', 'small', 'smooth', 'bazinga')
+      expect(screen.getByText('CX')).toHaveClass('avatar', 'primary', 'sm', 'smooth', 'bazinga')
     })
 
     test('applies the disabled class when component is a non-interactive tag', () => {

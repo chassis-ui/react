@@ -24,7 +24,7 @@ type NavbarOwnProps<C extends ElementType> = {
   /**
    * Defines optional container wrapping children elements.
    */
-  container?: boolean | 'small' | 'medium' | 'large' | 'xlarge' | '2xlarge' | 'fluid'
+  container?: boolean | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'fluid'
   /**
    * Opts this navbar into the framework's dark or light theming, independent of the page's own
    * theme.

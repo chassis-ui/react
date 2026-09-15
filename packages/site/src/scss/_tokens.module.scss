@@ -15,38 +15,38 @@
   colorInfo: $info;
   // Spacing
   spaceZero: $space-zero;
-  space4xsmall: $space-4xsmall;
-  space3xsmall: $space-3xsmall;
-  space2xsmall: $space-2xsmall;
-  spaceXsmall: $space-xsmall;
-  spaceSmall: $space-small;
-  spaceMedium: $space-medium;
-  spaceLarge: $space-large;
-  spaceXlarge: $space-xlarge;
-  space2xlarge: $space-2xlarge;
-  space3xlarge: $space-3xlarge;
-  space4xlarge: $space-4xlarge;
-  space5xlarge: $space-5xlarge;
-  space6xlarge: $space-6xlarge;
+  space4xs: $space-4xs;
+  space3xs: $space-3xs;
+  space2xs: $space-2xs;
+  spaceXsm: $space-xs;
+  spaceSmall: $space-sm;
+  spaceMedium: $space-md;
+  spaceLarge: $space-lg;
+  spaceXlg: $space-xl;
+  space2xl: $space-2xl;
+  space3xl: $space-3xl;
+  space4xl: $space-4xl;
+  space5xl: $space-5xl;
+  space6xl: $space-6xl;
   // Breakpoints
-  breakpoint2xlarge: $breakpoint-2xlarge;
-  breakpointXlarge: $breakpoint-xlarge;
-  breakpointLarge: $breakpoint-large;
-  breakpointMedium: $breakpoint-medium;
-  breakpointSmall: $breakpoint-small;
+  breakpoint2xl: $breakpoint-2xl;
+  breakpointXlg: $breakpoint-xl;
+  breakpointLarge: $breakpoint-lg;
+  breakpointMedium: $breakpoint-md;
+  breakpointSmall: $breakpoint-sm;
   // Containers
-  container2xlarge: $container-2xlarge;
-  containerXlarge: $container-xlarge;
-  containerLarge: $container-large;
-  containerMedium: $container-medium;
-  containerSmall: $container-small;
+  container2xl: $container-2xl;
+  containerXlg: $container-xl;
+  containerLarge: $container-lg;
+  containerMedium: $container-md;
+  containerSmall: $container-sm;
   // Grid
   gridGutter: $grid-gutter-x;
   // Modal
-  modalSmall: $modal-small-width;
-  modalMedium: $modal-medium-width;
-  modalLarge: $modal-large-width;
-  modalXlarge: $modal-xlarge-width;
+  modalSmall: $modal-sm-width;
+  modalMedium: $modal-md-width;
+  modalLarge: $modal-lg-width;
+  modalXlg: $modal-xl-width;
 
 }
 // stylelint-enable

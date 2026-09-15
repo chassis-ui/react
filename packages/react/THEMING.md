@@ -12,7 +12,7 @@ reachable but isn't part of any stability contract.
 
 ## The supported override surface: `--cx-*` custom properties at `:root`
 
-`@chassis-ui/tokens` compiles a brand's design tokens into a large set of CSS custom properties
+`@chassis-ui/tokens` compiles a brand's design tokens into a lg set of CSS custom properties
 (colors, spacing, radii, typography, ...) that `@chassis-ui/css`'s compiled stylesheet declares at
 `:root` — roughly 800 of them as of chassis-css 0.3.5, covering base colors, the eleven semantic
 context colors (`primary`, `success`, `danger`, ...) and their hover/active/subtle/contrast
@@ -33,7 +33,7 @@ Light/dark mode works the same way: chassis-css re-declares its `:root`-level to
 concern; `@chassis-ui/react` doesn't read or set this attribute itself anywhere.
 
 The authoritative, up-to-date list of tokens lives in chassis-css's own docs (Design Tokens /
-Core Concepts at chassis-ui.com), not duplicated here — it's large, actively maintained, and would
+Core Concepts at chassis-ui.com), not duplicated here — it's lg, actively maintained, and would
 go stale immediately if copied into this file.
 
 ## Not part of the supported surface
@@ -71,19 +71,34 @@ packages:
 
 ## Component-scoped CSS
 
-The calendar/datepicker family (`Calendar`, `RangeCalendar`, `DatePicker`, `DateRangePicker`) plus
-`Table` (its sort indicator and selection-checkbox column — see `Table.css`'s own header comment)
-and `Notification` (its `.showing` mid-transition opacity state — see `Notification.scss`'s own
-header comment) are the only places in this package with component-scoped CSS/Sass — chassis-css
-has no visual equivalent for a calendar grid/segmented date field, those two `Table` pieces, or
-`Notification`'s Toast-parity fade-in/out, so there was nothing to reuse. These files already build
-on the supported `--cx-*` token surface above wherever chassis-css has one (documented in each
-file's own header comment, which also names the four exceptions above) — treat that as the
-reference implementation for what "component-scoped CSS built on the token system" looks like if a
+The calendar/datepicker family (`Calendar`, `RangeCalendar`, `DatePicker`, `DateRangePicker`),
+`Table` (its sort indicator and selection-checkbox column — see `Table.css`'s own header comment),
+`Notification` (its `.showing` mid-transition opacity state — see `Notification.scss`'s own header
+comment) and `DataGrid` (see below) are the only places in this package with component-scoped
+CSS/Sass — chassis-css has no visual equivalent for a calendar grid/segmented date field, those two
+`Table` pieces, `Notification`'s Toast-parity fade-in/out, or `DataGrid`'s non-`<table>` markup, so
+there was nothing to reuse. These files already build on the supported `--cx-*` token surface above
+wherever chassis-css has one (documented in each file's own header comment, which also names the
+four exceptions above) — treat that as the reference implementation for what "component-scoped CSS
+built on the token system" looks like if a
 future component needs the same treatment. Before adding a new one, read `../chassis-css/scss/`
 for an existing partial that already covers the need — don't reimplement first and tokenize later.
 `Calendar.scss`/`DatePicker.scss`'s own header comments are the reference example for how this was
 done for the calendar/datepicker family.
+
+`DataGrid` is the one component whose stylesheet owns its _whole_ visual surface rather than a few
+missing pieces, and it's the exception that proves the rule above: it renders
+react-aria-components' `Virtualizer` output — `<div>`s carrying grid/row/gridcell roles, because a
+native `<table>` can't mount and unmount rows as the user scrolls — and chassis-css has no partial
+for that markup shape at all. Rather than invent a parallel `--datagrid-*` token namespace,
+`DataGrid.scss` reads the same public `--table-*` custom properties `_table.scss` defines, so a
+consumer who has already re-themed `.table` at `:root`/`body` gets a matching `DataGrid` for free.
+Its only genuinely new custom properties are the two pinned-column scroll cues
+(`--datagrid-pin-cue-shadow-start`/`-end`), which have no `Table` equivalent to stay consistent
+with. One documented consequence of the `--table-*` reuse: an override scoped to a _specific_
+`DataGrid` instance's own class won't reach its `footer`, which renders outside the grid's
+scrollable element and so inherits nothing from it — only a global `--table-*` override reaches
+both.
 
 Every other component ships zero CSS of its own — there's nothing in this package for a consuming
 app to override beyond the chassis-css classes it applies, which is exactly the point: theming
@@ -91,11 +106,11 @@ those goes entirely through the `--cx-*` surface described above.
 
 ### Consuming this package's own emitted stylesheet
 
-Each of these six files' CSS/Sass side-effect imports (`import './Calendar.scss'`, `import
-'./Table.css'`, `import './Notification.scss'`, ...) is compiled by tsdown's build into a single
-real `dist/style.css` file, rather than injected into the page via a JS-created `<style>` tag at
-import time. A consuming app must import it explicitly — it isn't bundled into `dist/index.js` and
-won't reach the page for free:
+Each of these seven files' CSS/Sass side-effect imports (`import './Calendar.scss'`, `import
+'./Table.css'`, `import './Notification.scss'`, `import './DataGrid.scss'`, ...) is compiled by
+tsdown's build into a single real `dist/style.css` file, rather than injected into the page via a
+JS-created `<style>` tag at import time. A consuming app must import it explicitly — it isn't
+bundled into `dist/index.js` and won't reach the page for free:
 
 ```ts
 import '@chassis-ui/react/style.css'
@@ -106,4 +121,7 @@ Import it once, anywhere in the app's own global/root stylesheet entry point (al
 for the pattern this repo's own docs site follows). Skipping this import doesn't error —
 `Calendar`, `DatePicker`, and `Table`'s sort/selection UI will simply render unstyled for those
 specific pieces, and `Notification` will snap in/out at full opacity instead of fading, since every
-other component's chassis-css-only styling is unaffected.
+other component's chassis-css-only styling is unaffected. `DataGrid` is the one component that
+degrades further than "unstyled": its stylesheet is also what gives the grid its bounded height and
+`overflow: auto`, without which the virtualizer has no scroll viewport to window rows against and
+lays out every row at once.

@@ -1,6 +1,6 @@
 {
   "tags": {},
-  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/drawer/Drawer.tsx",
+  "filePath": "packages/react/src/components/drawer/Drawer.tsx",
   "description": "",
   "displayName": "Drawer",
   "methods": [],
@@ -269,22 +269,22 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"small\" | \"medium\" | \"large\" | \"xlarge\" | \"2xlarge\"",
+        "raw": "\"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\"",
         "value": [
           {
-            "value": "\"small\""
+            "value": "\"sm\""
           },
           {
-            "value": "\"medium\""
+            "value": "\"md\""
           },
           {
-            "value": "\"large\""
+            "value": "\"lg\""
           },
           {
-            "value": "\"xlarge\""
+            "value": "\"xl\""
           },
           {
-            "value": "\"2xlarge\""
+            "value": "\"2xl\""
           }
         ]
       }

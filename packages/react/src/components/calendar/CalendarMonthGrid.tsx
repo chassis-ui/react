@@ -5,6 +5,7 @@ import { CalendarState, RangeCalendarState } from 'react-stately'
 import { CalendarDate } from '@internationalized/date'
 
 import { isWholeUnitDisabled } from '../../utils/isWholeUnitDisabled'
+import { useCalendarLabels } from './labels'
 
 interface CalendarMonthGridProps {
   // Whether to render the visually-hidden `aria-live` announcement of this view's current header
@@ -27,6 +28,7 @@ export const CalendarMonthGrid = ({
   onSelect,
   state
 }: CalendarMonthGridProps) => {
+  const labels = useCalendarLabels()
   const monthFormatter = useDateFormatter({
     calendar: monthStart.calendar.identifier,
     month: 'short',
@@ -55,7 +57,7 @@ export const CalendarMonthGrid = ({
       </div>
       {announce && (
         <span role="status" className="visually-hidden">
-          {`Select month, ${yearFormatter.format(monthStart.toDate(state.timeZone))}`}
+          {`${labels.selectMonth}, ${yearFormatter.format(monthStart.toDate(state.timeZone))}`}
         </span>
       )}
       <div className="datepicker-content">

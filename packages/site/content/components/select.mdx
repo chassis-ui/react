@@ -42,9 +42,9 @@ Omit the `options` prop and write native `<option>` elements directly as childre
 
 ## Sizing
 
-Set the `size` prop to `small` or `large` to change the control's padding, typography, and border radius — matching same-sized [Text Input]([[docsref:/components/text-input]]) controls alongside it.
+Set the `size` prop to `sm` or `lg` to change the control's padding, typography, and border radius — matching same-sized [Text Input]([[docsref:/components/text-input]]) controls alongside it.
 
-<Example class="vstack gap-medium">
+<Example class="vstack gap-md">
   <SizingExample client:load />
 </Example>
 
@@ -66,7 +66,7 @@ Set the `multiple` boolean prop to allow more than one option to be selected at 
 
 ## Select size
 
-The native `size` attribute — how many options show without scrolling, distinct from the small/large `size` prop above — is exposed as `htmlSize` instead, since `SelectProps` omits the native `size` attribute from its own type to avoid a name clash with the visual `size` prop.
+The native `size` attribute — how many options show without scrolling, distinct from the sm/lg `size` prop above — is exposed as `htmlSize` instead, since `SelectProps` omits the native `size` attribute from its own type to avoid a name clash with the visual `size` prop.
 
 <Example>
   <SelectSizeExample client:load />
@@ -76,7 +76,7 @@ The native `size` attribute — how many options show without scrolling, distinc
 
 Mark one or more `options` entries `selected: true` to set the initial value without passing `value`/`defaultValue` directly — it's resolved into the select's own `defaultValue` internally, so it's ignored whenever `value`/`defaultValue` is also set. Mark more than one entry `selected` only when `multiple` is also set; otherwise, matching native `<select>` behavior, only the last `selected` entry wins (and a console warning flags the mistake in development).
 
-<Example class="vstack gap-medium">
+<Example class="vstack gap-md">
   <DefaultSelectionExample client:load />
 </Example>
 

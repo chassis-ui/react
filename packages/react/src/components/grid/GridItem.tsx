@@ -39,7 +39,7 @@ type GridItemOwnProps<C extends ElementType> = GridItemLayout & {
   /**
    * Overrides `span`/`start` at a breakpoint and up.
    *
-   * @type { Partial<Record<'small' | 'medium' | 'large' | 'xlarge' | '2xlarge', { span?: number, start?: number }>> }
+   * @type { Partial<Record<'sm' | 'md' | 'lg' | 'xl' | '2xl', { span?: number, start?: number }>> }
    */
   responsive?: Partial<Record<Breakpoint, GridItemLayout>>
   /**

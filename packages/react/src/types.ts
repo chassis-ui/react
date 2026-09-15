@@ -1,7 +1,7 @@
 /**
  * Breakpoints
  */
-export type Breakpoint = 'small' | 'medium' | 'large' | 'xlarge' | '2xlarge'
+export type Breakpoint = 'sm' | 'md' | 'lg' | 'xl' | '2xl'
 
 /**
  * Context colors
@@ -27,12 +27,12 @@ export type ContextStyle = 'basic' | 'solid' | 'outline' | 'smooth'
 /**
  * Component sizes
  */
-export type Sizing = 'small' | 'medium' | 'large'
+export type Sizing = 'sm' | 'md' | 'lg'
 
 /**
  * Extended sizes
  */
-export type ExtendedSizing = '2xsmall' | 'xsmall' | Sizing | 'xlarge' | '2xlarge'
+export type ExtendedSizing = '2xs' | 'xs' | Sizing | 'xl' | '2xl'
 
 /**
  * Spacing values. `SPACING` is the runtime source of truth — `Spacing` is derived from it so the
@@ -41,19 +41,19 @@ export type ExtendedSizing = '2xsmall' | 'xsmall' | Sizing | 'xlarge' | '2xlarge
  */
 export const SPACING = [
   'zero',
-  '4xsmall',
-  '3xsmall',
-  '2xsmall',
-  'xsmall',
-  'small',
-  'medium',
-  'large',
-  'xlarge',
-  '2xlarge',
-  '3xlarge',
-  '4xlarge',
-  '5xlarge',
-  '6xlarge'
+  '4xs',
+  '3xs',
+  '2xs',
+  'xs',
+  'sm',
+  'md',
+  'lg',
+  'xl',
+  '2xl',
+  '3xl',
+  '4xl',
+  '5xl',
+  '6xl'
 ] as const
 
 export type Spacing = (typeof SPACING)[number]
@@ -72,16 +72,16 @@ export type FontWeight = 'elegant' | 'normal' | 'strong' | 'mass'
  * Font sizes
  */
 export type FontSize =
-  | '2xsmall'
-  | 'xsmall'
-  | 'small'
-  | 'medium'
-  | 'large'
-  | 'xlarge'
-  | '2xlarge'
-  | '3xlarge'
-  | '4xlarge'
-  | '5xlarge'
+  | '2xs'
+  | 'xs'
+  | 'sm'
+  | 'md'
+  | 'lg'
+  | 'xl'
+  | '2xl'
+  | '3xl'
+  | '4xl'
+  | '5xl'
 
 /**
  * Component placements

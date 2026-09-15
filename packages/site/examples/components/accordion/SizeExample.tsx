@@ -3,7 +3,7 @@ import { Accordion, AccordionBody, AccordionHeader, AccordionItem } from '@chass
 export const Example = () => {
   return (
     <>
-      <Accordion size="large" name="size-example-large" className="mb-medium">
+      <Accordion size="lg" name="size-example-lg" className="mb-md">
         <AccordionItem open>
           <AccordionHeader>Large Accordion Item #1</AccordionHeader>
           <AccordionBody>
@@ -17,7 +17,7 @@ export const Example = () => {
           </AccordionBody>
         </AccordionItem>
       </Accordion>
-      <Accordion size="small" name="size-example-small">
+      <Accordion size="sm" name="size-example-sm">
         <AccordionItem open>
           <AccordionHeader>Small Accordion Item #1</AccordionHeader>
           <AccordionBody>

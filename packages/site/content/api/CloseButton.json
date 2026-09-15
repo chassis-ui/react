@@ -1,6 +1,6 @@
 {
   "tags": {},
-  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/close-button/CloseButton.tsx",
+  "filePath": "packages/react/src/components/close-button/CloseButton.tsx",
   "description": "",
   "displayName": "CloseButton",
   "methods": [],
@@ -148,7 +148,7 @@
     },
     "size": {
       "defaultValue": null,
-      "description": "Size the component small or large.",
+      "description": "Size the component sm or lg.",
       "name": "size",
       "declarations": [
         {
@@ -159,13 +159,13 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"small\" | \"large\"",
+        "raw": "\"sm\" | \"lg\"",
         "value": [
           {
-            "value": "\"small\""
+            "value": "\"sm\""
           },
           {
-            "value": "\"large\""
+            "value": "\"lg\""
           }
         ]
       }

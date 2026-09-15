@@ -2,16 +2,16 @@ import { Card, CardBody, CardImage, CardText, CardTitle, Col } from '@chassis-ui
 
 export const Example = () => {
   return (
-    <Card responsive={{ large: 'row' }}>
-      <Col responsive={{ large: { span: 4 } }}>
+    <Card responsive={{ lg: 'row' }}>
+      <Col responsive={{ lg: { span: 4 } }}>
         <CardImage
           orientation="top"
-          responsive={{ large: 'start' }}
+          responsive={{ lg: 'start' }}
           src="https://placehold.co/800x400"
           style={{ height: '100%', objectFit: 'cover' }}
         />
       </Col>
-      <Col responsive={{ large: { span: 8 } }}>
+      <Col responsive={{ lg: { span: 8 } }}>
         <CardBody>
           <CardTitle>Card title</CardTitle>
           <CardText>
@@ -19,7 +19,7 @@ export const Example = () => {
             content. This content is a little bit longer.
           </CardText>
           <CardText>
-            <small className="fg-subtle">Last updated 3 mins ago</small>
+            <sm className="fg-subtle">Last updated 3 mins ago</sm>
           </CardText>
         </CardBody>
       </Col>

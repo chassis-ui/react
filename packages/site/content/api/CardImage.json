@@ -1,6 +1,6 @@
 {
   "tags": {},
-  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/card/CardImage.tsx",
+  "filePath": "packages/react/src/components/card/CardImage.tsx",
   "description": "",
   "displayName": "CardImage",
   "methods": [],
@@ -67,7 +67,7 @@
     },
     "responsive": {
       "defaultValue": null,
-      "description": "Overrides `orientation` at one or more breakpoints — e.g. `{ large: 'start' }` to switch an\nimage cap from `top` to `start` once the card lays out horizontally.",
+      "description": "Overrides `orientation` at one or more breakpoints — e.g. `{ lg: 'start' }` to switch an\nimage cap from `top` to `start` once the card lays out horizontally.",
       "name": "responsive",
       "declarations": [
         {

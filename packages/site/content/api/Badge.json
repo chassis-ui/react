@@ -1,6 +1,6 @@
 {
   "tags": {},
-  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/badge/Badge.tsx",
+  "filePath": "packages/react/src/components/badge/Badge.tsx",
   "description": "",
   "displayName": "Badge",
   "methods": [],
@@ -177,13 +177,13 @@
         "raw": "Sizing",
         "value": [
           {
-            "value": "\"small\""
+            "value": "\"sm\""
           },
           {
-            "value": "\"medium\""
+            "value": "\"md\""
           },
           {
-            "value": "\"large\""
+            "value": "\"lg\""
           }
         ]
       }

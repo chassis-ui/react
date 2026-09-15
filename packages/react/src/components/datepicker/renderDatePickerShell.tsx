@@ -40,7 +40,7 @@ export interface RenderDatePickerShellOptions {
   overlayRef: Ref<HTMLDivElement>
   overlayStyle?: CSSProperties
   placementAttr?: string
-  size?: 'small' | 'large'
+  size?: 'sm' | 'lg'
   toggleButton: ReactNode
   valid?: boolean
 }

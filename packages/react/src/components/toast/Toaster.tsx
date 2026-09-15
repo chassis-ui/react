@@ -43,7 +43,7 @@ export const Toaster = forwardRef<HTMLDivElement, ToasterProps>(
     const { forkedRef, regionProps, state } = useToastRegionQueue(toastQueue, ref)
 
     const _className = classNames(
-      'toaster toast-container p-medium',
+      'toaster toast-container p-md',
       {
         'position-fixed': placement,
         'position-static': !placement,

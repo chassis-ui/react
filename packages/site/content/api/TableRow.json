@@ -1,6 +1,6 @@
 {
   "tags": {},
-  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/table/TableRow.tsx",
+  "filePath": "packages/react/src/components/table/TableRow.tsx",
   "description": "Collection node, data-only — see `TableHeader`. Read by `Table` to build a row in the\ntable's collection; never rendered directly.",
   "displayName": "TableRow",
   "methods": [],

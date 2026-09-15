@@ -59,8 +59,8 @@ type CardOwnProps<C extends ElementType> = {
    */
   imageOrientation?: 'top' | 'bottom'
   /**
-   * Overrides `direction` at one or more breakpoints — e.g. `{ large: 'row' }` to lay the card
-   * out horizontally from `large` up while stacking below it.
+   * Overrides `direction` at one or more breakpoints — e.g. `{ lg: 'row' }` to lay the card
+   * out horizontally from `lg` up while stacking below it.
    */
   responsive?: Partial<Record<Breakpoint, FlexDirection>>
   /**
@@ -127,8 +127,8 @@ function CardRender<C extends ElementType = 'div'>(
       solid: variant === 'solid',
       smooth: variant === 'smooth',
       outline: variant === 'outline',
-      small: size === 'small',
-      large: size === 'large'
+      sm: size === 'sm',
+      lg: size === 'lg'
     },
     buildResponsiveClassNames(flexDirectionClassNames, direction, responsive),
     className

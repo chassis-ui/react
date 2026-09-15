@@ -7,6 +7,13 @@ import * as ts from 'typescript'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const COMPONENTS_DIR = path.resolve(__dirname, '../packages/react/src/components')
+// Item-definition types aren't all declared under `components/` — `DateRangePreset` lives in
+// `src/utils/dateRangePresets.ts`. Scanning from `src/` is what actually makes the "including
+// files pulled in only transitively" claim below true; scoping the scan to `COMPONENTS_DIR`
+// silently skipped that type, leaving a hand-written `DateRangePreset.json` the docs site still
+// renders (`range-calendar.mdx`'s `<PropTable component="DateRangePreset" />`) to go stale
+// unnoticed.
+const SRC_DIR = path.resolve(__dirname, '../packages/react/src')
 const OUTPUT_DIR = path.resolve(__dirname, '../packages/site/content/api')
 const TSCONFIG_PATH = path.resolve(__dirname, '../packages/react/tsconfig.json')
 
@@ -116,7 +123,7 @@ function extractInterfaceDoc(
   checker: ts.TypeChecker
 ): ItemDefDoc | null {
   for (const sourceFile of program.getSourceFiles()) {
-    if (sourceFile.isDeclarationFile || !sourceFile.fileName.startsWith(COMPONENTS_DIR)) continue
+    if (sourceFile.isDeclarationFile || !sourceFile.fileName.startsWith(SRC_DIR)) continue
 
     let found: ts.InterfaceDeclaration | ts.TypeAliasDeclaration | undefined
     ts.forEachChild(sourceFile, (node) => {
@@ -170,7 +177,7 @@ function generateItemDefDocs(componentFiles: string[], componentDocs: Map<string
   // `Cx`-prefix check, which stopped matching anything once names dropped that prefix.
   const declaredTypeNames = new Set<string>()
   for (const sourceFile of program.getSourceFiles()) {
-    if (sourceFile.isDeclarationFile || !sourceFile.fileName.startsWith(COMPONENTS_DIR)) continue
+    if (sourceFile.isDeclarationFile || !sourceFile.fileName.startsWith(SRC_DIR)) continue
     ts.forEachChild(sourceFile, (node) => {
       if (!ts.isInterfaceDeclaration(node) && !ts.isTypeAliasDeclaration(node)) return
       if (ts.getModifiers(node)?.some((m) => m.kind === ts.SyntaxKind.ExportKeyword)) {
@@ -201,12 +208,41 @@ function generateItemDefDocs(componentFiles: string[], componentDocs: Map<string
       console.warn(`Skipped item definition ${name}: declaration not found`)
       continue
     }
-    const outputFile = path.join(OUTPUT_DIR, `${name}.json`)
-    fs.writeFileSync(outputFile, JSON.stringify(doc, null, 2))
+    writeApiJson(name, doc)
     console.log(`Generated: ${name}.json (item definition)`)
     generated++
   }
   return generated
+}
+
+// react-docgen-typescript reports absolute paths (`filePath` on a component doc, `fileName` on
+// every prop's `parent`/`declarations`), so the generated JSON committed to this repo used to
+// carry the generating machine's own checkout path. Two consequences: the artifacts were
+// machine-specific, so any two contributors regenerating produced a whole-tree diff, and a CI
+// check that regenerates and diffs (`pnpm react:check:api-docs`) could never pass, because the
+// runner's checkout path differs from anyone's. Rewriting them repo-relative on the way out makes
+// the output reproducible anywhere.
+const REPO_ROOT = path.resolve(__dirname, '..')
+
+function toRepoRelativePaths<T>(value: T): T {
+  if (typeof value === 'string') {
+    return (value.startsWith(REPO_ROOT + path.sep)
+      ? path.relative(REPO_ROOT, value).split(path.sep).join('/')
+      : value) as unknown as T
+  }
+  if (Array.isArray(value)) return value.map(toRepoRelativePaths) as unknown as T
+  if (value && typeof value === 'object') {
+    const out: Record<string, unknown> = {}
+    for (const [key, entry] of Object.entries(value as Record<string, unknown>)) {
+      out[key] = toRepoRelativePaths(entry)
+    }
+    return out as unknown as T
+  }
+  return value
+}
+
+function writeApiJson(name: string, doc: unknown): void {
+  fs.writeFileSync(path.join(OUTPUT_DIR, `${name}.json`), JSON.stringify(toRepoRelativePaths(doc), null, 2))
 }
 
 fs.mkdirSync(OUTPUT_DIR, { recursive: true })
@@ -226,8 +262,7 @@ for (const file of componentFiles) {
     const docs = parser.parse(file)
     for (const doc of docs) {
       if (!doc.displayName || doc.displayName !== expectedName) continue
-      const outputFile = path.join(OUTPUT_DIR, `${doc.displayName}.json`)
-      fs.writeFileSync(outputFile, JSON.stringify(doc, null, 2))
+      writeApiJson(doc.displayName, doc)
       console.log(`Generated: ${doc.displayName}.json`)
       componentDocs.set(doc.displayName, doc)
       generated++

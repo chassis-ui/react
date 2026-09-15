@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
 
 import { FormFieldIds, renderFormField } from './renderFormField'
+import { devWarning } from '../../utils/devWarning'
 
 export interface FormFieldProps {
   /**
@@ -59,14 +60,13 @@ export const FormField = ({
   valid,
   validFeedback
 }: FormFieldProps): ReactNode => {
-  if (label && !ids?.input && !ids?.label) {
-    console.warn(
-      'FormField: `label` is set but `ids.input`/`ids.label` are not — the rendered label ' +
-        "won't be associated with your control (no `htmlFor`, no `aria-labelledby` target). " +
-        'Pass `ids={{ input: yourControlId }}` (or `ids.label` for a group with no single ' +
-        'input) so the label has something to point at.'
-    )
-  }
+  devWarning(
+    !!label && !ids?.input && !ids?.label,
+    'FormField: `label` is set but `ids.input`/`ids.label` are not — the rendered label ' +
+      "won't be associated with your control (no `htmlFor`, no `aria-labelledby` target). " +
+      'Pass `ids={{ input: yourControlId }}` (or `ids.label` for a group with no single ' +
+      'input) so the label has something to point at.'
+  )
 
   return renderFormField({
     children,

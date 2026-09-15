@@ -37,7 +37,7 @@ describe('Checkbox', () => {
     test('renders the button variant classes on the wrapper', () => {
       const { container } = render(
         <Checkbox
-          button={{ color: 'primary', size: 'large', shape: 'rounded', variant: 'ghost' }}
+          button={{ color: 'primary', size: 'lg', shape: 'rounded', variant: 'ghost' }}
           className="bazinga"
           id="id"
           label="label"

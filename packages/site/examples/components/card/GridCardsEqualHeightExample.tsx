@@ -2,7 +2,7 @@ import { Card, CardBody, CardImage, CardText, CardTitle, Col, Row } from '@chass
 
 export const Example = () => {
   return (
-    <Row cols={1} responsive={{ medium: { cols: 3 } }} className="g-4">
+    <Row cols={1} responsive={{ md: { cols: 3 } }} className="g-4">
       <Col span>
         <Card className="h-100">
           <CardImage orientation="top" src="https://placehold.co/800x400" />

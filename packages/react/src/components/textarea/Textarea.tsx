@@ -55,9 +55,9 @@ export interface TextareaProps extends Omit<
    */
   rows?: number
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'small' | 'large'
+  size?: 'sm' | 'lg'
   /**
    * Set component validation state to valid.
    */

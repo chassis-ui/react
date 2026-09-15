@@ -4,9 +4,9 @@ export const Example = () => {
   return (
     <>
       <FormLabel htmlFor="formFileSm">Small file input</FormLabel>
-      <FileInput id="formFileSm" size="small" className="mb-medium" />
+      <FileInput id="formFileSm" size="sm" className="mb-md" />
       <FormLabel htmlFor="formFileLg">Large file input</FormLabel>
-      <FileInput id="formFileLg" size="large" />
+      <FileInput id="formFileLg" size="lg" />
     </>
   )
 }

@@ -1,6 +1,6 @@
 {
   "tags": {},
-  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/list/List.tsx",
+  "filePath": "packages/react/src/components/list/List.tsx",
   "description": "",
   "displayName": "List",
   "methods": [],
@@ -129,25 +129,25 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"horizontal\" | \"small:horizontal\" | \"medium:horizontal\" | \"large:horizontal\" | \"xlarge:horizontal\" | \"2xlarge:horizontal\"",
+        "raw": "\"horizontal\" | \"sm:horizontal\" | \"md:horizontal\" | \"lg:horizontal\" | \"xl:horizontal\" | \"2xl:horizontal\"",
         "value": [
           {
             "value": "\"horizontal\""
           },
           {
-            "value": "\"small:horizontal\""
+            "value": "\"sm:horizontal\""
           },
           {
-            "value": "\"medium:horizontal\""
+            "value": "\"md:horizontal\""
           },
           {
-            "value": "\"large:horizontal\""
+            "value": "\"lg:horizontal\""
           },
           {
-            "value": "\"xlarge:horizontal\""
+            "value": "\"xl:horizontal\""
           },
           {
-            "value": "\"2xlarge:horizontal\""
+            "value": "\"2xl:horizontal\""
           }
         ]
       }

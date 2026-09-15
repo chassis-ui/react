@@ -38,7 +38,7 @@ export const Example = () => {
   }, [loading])
 
   return (
-    <div className="vstack gap-medium">
+    <div className="vstack gap-md">
       <span className="visually-hidden" aria-live="polite">
         {loading ? 'Loading recent orders…' : 'Recent orders loaded'}
       </span>

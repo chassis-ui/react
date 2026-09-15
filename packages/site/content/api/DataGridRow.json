@@ -1,0 +1,104 @@
+{
+  "tags": {},
+  "filePath": "packages/react/src/components/datagrid/DataGridRow.tsx",
+  "description": "A row within `DataGrid`. Unlike `Table`'s sub-parts, this renders directly — it's a thin\nwrapper over react-aria-components' own `Row`.",
+  "displayName": "DataGridRow",
+  "methods": [],
+  "props": {
+    "children": {
+      "defaultValue": null,
+      "description": "`DataGridCell` elements, or a render function called once per column with that column's\ndata — required when the row's parent `DataGridBody` uses the `items`/render-function form.",
+      "name": "children",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridRow.tsx",
+        "name": "DataGridRowProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridRow.tsx",
+          "name": "DataGridRowProps"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "ReactNode | ((column: T) => ReactElement<unknown, string | JSXElementConstructor<any>>)"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the row.",
+      "name": "className",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridRow.tsx",
+        "name": "DataGridRowProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridRow.tsx",
+          "name": "DataGridRowProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "columns": {
+      "defaultValue": null,
+      "description": "A list of column data objects, rendered via the function form of `children`.",
+      "name": "columns",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridRow.tsx",
+        "name": "DataGridRowProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridRow.tsx",
+          "name": "DataGridRowProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Iterable<T>"
+      }
+    },
+    "id": {
+      "defaultValue": null,
+      "description": "The unique id of the row, referenced by `selectedKeys`/`disabledKeys`.",
+      "name": "id",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridRow.tsx",
+        "name": "DataGridRowProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridRow.tsx",
+          "name": "DataGridRowProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Key"
+      }
+    },
+    "textValue": {
+      "defaultValue": null,
+      "description": "A string representation of the row's contents, used for typeahead.",
+      "name": "textValue",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridRow.tsx",
+        "name": "DataGridRowProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridRow.tsx",
+          "name": "DataGridRowProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    }
+  }
+}

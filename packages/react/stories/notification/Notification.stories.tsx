@@ -76,8 +76,8 @@ export const ShorthandWithActions: Story = {
     title: 'Something went wrong',
     text: 'We couldn’t save your changes. Check your connection and try again.',
     actions: (
-      <div className="hstack gap-small justify-content-end">
-        <button type="button" className="button danger small">
+      <div className="hstack gap-sm justify-content-end">
+        <button type="button" className="button danger sm">
           Retry
         </button>
       </div>
@@ -123,13 +123,13 @@ export const WithActions: Story = {
     children: (
       <>
         <NotificationIcon name="exclamation-triangle-solid" className="align-self-start" />
-        <div className="d-flex flex-column xlarge:flex-row gap-medium">
+        <div className="d-flex flex-column xl:flex-row gap-md">
           <p className="m-0">
             A notification with inline actions — stacked on narrow viewports, side-by-side from
-            xlarge up.
+            xl up.
           </p>
-          <div className="hstack gap-small align-items-center justify-content-end">
-            <button type="button" className="button danger small">
+          <div className="hstack gap-sm align-items-center justify-content-end">
+            <button type="button" className="button danger sm">
               Take Action
             </button>
           </div>

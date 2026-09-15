@@ -1,0 +1,203 @@
+@use "@chassis-ui/css/scss/config" as *;
+@use "@chassis-ui/css/scss/mixins" as *;
+
+// DataGrid renders react-aria-components' Virtualizer output: <div>s carrying grid/row/gridcell
+// roles, not a real <table> — native table layout can't support windowed rows (see this component's
+// entry under THEMING.md's "Component-scoped CSS"). chassis-css has no equivalent for that markup
+// shape, so unlike Table's two sm Table.css overrides, this stylesheet owns the whole visual
+// surface. It reads the SAME `--table-*` public custom properties `_table.scss` defines instead of
+// inventing `--datagrid-*` duplicates, so a consumer who's already re-themed `.table` globally (on
+// `:root`/`body`) gets a visually consistent `DataGrid` for free — a scoped override applied
+// directly on a `<Table>` element's own subtree won't reach a separate `<DataGrid>` instance
+// elsewhere in the DOM, since custom properties only cascade downward through shared ancestors.
+@layer components {
+  .datagrid {
+    // scss-docs-start datagrid-variables
+    --fg-color: var(--table-td-fg-color, #{$table-td-fg-color});
+    --bg-color: var(--table-td-bg-color, #{$table-td-bg-color});
+    --th-fg-color: var(--table-th-fg-color, #{$table-th-fg-color});
+    --th-bg-color: var(--table-th-bg-color, #{$table-th-bg-color});
+    --hover-fg-color: var(--table-hover-fg-color, #{$table-hover-fg-color});
+    --hover-bg-color: var(--table-hover-bg-color, #{$table-hover-bg-color});
+    --active-fg-color: var(--table-active-fg-color, #{$table-active-fg-color});
+    --active-bg-color: var(--table-active-bg-color, #{$table-active-bg-color});
+    --border-width: var(--table-border-width, #{$table-border-width});
+    --border-color: var(--table-border-color, #{$table-border-color});
+    --cue-color: var(--table-cue-color, #{$table-cue-color});
+    --cell-padding-y: var(--table-cell-padding-y, #{$table-cell-padding-y});
+    --cell-padding-x: var(--table-cell-padding-x, #{$table-cell-padding-x});
+    // scss-docs-start datagrid-pin-cue-variables
+    // Read by DataGridPinBehavior's generated stylesheet — not exposed via `--table-*` since
+    // pinned columns have no `Table` equivalent to stay consistent with.
+    --datagrid-pin-cue-shadow-start: inset 6px 0 6px -6px rgb(0 0 0 / 30%);
+    --datagrid-pin-cue-shadow-end: inset -6px 0 6px -6px rgb(0 0 0 / 30%);
+    // scss-docs-end datagrid-pin-cue-variables
+
+    @if $enable-table-font-tokens {
+      // Same public `--table-*` override namespace Table's own `.table` uses (passing `table` as
+      // the component name, not `datagrid`) — see this file's top comment.
+      @include map-font($table-td-font, table, td);
+      @include map-font($table-th-font, table, th);
+    }
+    // scss-docs-end datagrid-variables
+
+    position: relative;
+    display: block;
+    width: 100%;
+    // A virtualizer needs a bounded viewport to know when to stop rendering rows — without an
+    // explicit height it lays out its full scroll content, defeating windowing entirely. This is
+    // a floor so the component isn't broken out of the box; callers size it for their own layout.
+    height: 400px;
+    overflow: auto;
+    vertical-align: var(--table-cell-vertical-align, $table-cell-vertical-align);
+    border-color: var(--border-color);
+
+    // `[role="rowheader"]` is the identifying cell of a *data* row (the `isRowHeader` column,
+    // ARIA's analog of `<th scope="row">`) — a plain data cell, not header chrome. Only
+    // `.datagrid-header`'s own `[role="columnheader"]` cells get the th treatment; which
+    // rowgroup a cell belongs to (not its role) decides styling here, same as `_table.scss`'s
+    // `.table > thead` override applying regardless of `<td>`/`<th>`.
+    [role="columnheader"],
+    [role="gridcell"],
+    [role="rowheader"] {
+      box-sizing: border-box;
+      height: 100%;
+      padding: var(--cell-padding-y) var(--cell-padding-x);
+      color: var(--fg-color);
+      background-color: var(--bg-color);
+      // Style/color unconditional, width per-side — `border-width` alone is a no-op (a browser
+      // computes an unstyled edge's width as 0 regardless of the declared value), so `.bordered`/
+      // `.borderless` below only ever touch `border-width`, never style or color.
+      border-color: var(--border-color);
+      border-style: solid;
+      border-width: 0 0 var(--border-width) 0;
+      @include font(td);
+    }
+
+    .datagrid-header [role="columnheader"] {
+      --fg-color: var(--th-fg-color);
+      --bg-color: var(--th-bg-color);
+      @include font(th);
+    }
+
+    [role="row"][data-selected] > * {
+      --fg-color: var(--active-fg-color);
+      --bg-color: var(--active-bg-color);
+    }
+
+    &.hoverable [role="row"]:not([data-selected]):hover > *{
+      --fg-color: var(--hover-fg-color);
+      --bg-color: var(--hover-bg-color);
+    }
+
+    &.bordered {
+      border: var(--border-width) solid var(--border-color);
+
+      [role="columnheader"],
+      [role="gridcell"],
+      [role="rowheader"] {
+        border-width: 0 var(--border-width) var(--border-width) 0;
+      }
+    }
+
+    &.borderless {
+      [role="columnheader"],
+      [role="gridcell"],
+      [role="rowheader"] {
+        border-width: 0;
+      }
+    }
+
+    [role="row"]:focus-visible,
+    [role="gridcell"]:focus-visible,
+    [role="columnheader"]:focus-visible,
+    [role="rowheader"]:focus-visible {
+      outline: var(--cx-border-width-xl) solid var(--cx-primary);
+      outline-offset: -2px;
+    }
+
+    [role="columnheader"][data-allows-sorting] {
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .datagrid-sort-icon {
+      display: inline-block;
+      margin-inline-start: var(--cx-space-2xs);
+      @include font-size(.75em);
+      opacity: .6;
+    }
+
+    [data-sort-direction] .datagrid-sort-icon {
+      opacity: 1;
+    }
+
+    // react-aria-components' internal virtualizer wraps BOTH the `.datagrid-header` and
+    // `.datagrid-body` rowgroups in their own auto-generated positioning divs (role=
+    // "presentation", no class hook of their own) that default to `overflow: hidden` — every
+    // OTHER auto-generated wrapper this virtualizer produces (rows, individual cells) already
+    // defaults to `overflow: visible`, so these two are outliers. Left alone, this would clip
+    // `pin="start"`'s sticky-positioned cells (see `DataGridTableLayout`) and `pin="end"`'s
+    // scroll-driven `transform` (see `DataGridPinBehavior`) alike whenever either moves beyond
+    // this wrapper's own box. Nothing under here is meant to be clipped in the first place — rows
+    // are windowed by the virtualizer's own JS, not by this rule — so force both to match every
+    // other wrapper's own default. `!important` is required here — it's the only way to win
+    // against that wrapper's own inline style, which has higher specificity than any plain rule.
+    :has(> .datagrid-header),
+    :has(> .datagrid-body) {
+      // stylelint-disable-next-line declaration-no-important
+      overflow: visible !important;
+    }
+
+    // `pin="start"` is handled by DataGridTableLayout (the layout engine's own sticky
+    // positioning, reused from what already keeps the header row pinned to the top) — no CSS of
+    // ours is needed for the positioning itself, in either the header or body row group.
+    // `pin="end"` has no engine-level equivalent — its sticky mechanism is hardcoded to the
+    // leading edge, and a pure-CSS `position: sticky; right: 0` doesn't work for a trailing pin
+    // either (see `DataGridPinBehavior`'s doc comment for why) — so it's positioned imperatively
+    // by that component instead, via a scroll-driven `transform` (and the `z-index` that goes
+    // with it) on each `pin="end"` cell. The scroll-cue `box-shadow` is generated there too, as a
+    // per-instance-scoped stylesheet keyed on `aria-colindex`, applied uniformly to both row groups
+    // since a header row and a body row share the same rendered shape. Nothing about pinning is in
+    // this file — only the custom properties those generated rules read, above.
+
+    // No `width: 1%` here, unlike `.table-selection-cell` — that's a native `<table>` auto-layout
+    // trick (an unstyled cell shrinks to content, so `1%` beats the browser down to the
+    // checkbox's own width) that has no equivalent in this virtualized, JS-sized layout. Give a
+    // `DataGridColumn` carrying this class an explicit `defaultWidth`/`minWidth` instead — see
+    // `DataGridColumn`'s own doc comment.
+    .datagrid-selection-cell {
+      padding-inline-end: 0;
+      text-align: center;
+    }
+  }
+
+  // Rendered as a sibling of `.datagrid`, not a descendant of it (see DataGrid.tsx's own doc
+  // comment on `footer`) — it has to live outside the scrollable/virtualized element so it never
+  // scrolls away with the body rows, which means it can't read `.datagrid`'s own custom
+  // properties via inheritance. Re-reads the same `--table-*` fallback chain independently rather
+  // than duplicating `.datagrid`'s variable block onto a shared ancestor for this alone. One
+  // consequence, documented in datagrid.mdx's Scope section: a consumer override scoped directly
+  // to a specific `DataGrid` instance's own class won't reach the footer, only a global
+  // `--table-*` override will.
+  .datagrid-footer {
+    --fg-color: var(--table-td-fg-color, #{$table-td-fg-color});
+    --bg-color: var(--table-td-bg-color, #{$table-td-bg-color});
+    --border-width: var(--table-border-width, #{$table-border-width});
+    --border-color: var(--table-border-color, #{$table-border-color});
+    --cell-padding-y: var(--table-cell-padding-y, #{$table-cell-padding-y});
+    --cell-padding-x: var(--table-cell-padding-x, #{$table-cell-padding-x});
+
+    box-sizing: border-box;
+    padding: var(--cell-padding-y) var(--cell-padding-x);
+    color: var(--fg-color);
+    background-color: var(--bg-color);
+    border-color: var(--border-color);
+    border-style: solid;
+    border-width: var(--border-width) 0 0 0;
+
+    &.borderless {
+      border-width: 0;
+    }
+  }
+}

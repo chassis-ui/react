@@ -11,6 +11,7 @@ import classNames from 'classnames'
 import { useForkedRef, useFormField } from '../../hooks'
 import { validationClassName } from '../../utils/validationClassName'
 import { renderFormField } from '../form-field/renderFormField'
+import { devWarning } from '../../utils/devWarning'
 
 export interface SelectOptionDef {
   /**
@@ -98,9 +99,9 @@ export interface SelectProps extends Omit<InputHTMLAttributes<HTMLSelectElement>
    */
   placeholder?: string
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'small' | 'large'
+  size?: 'sm' | 'lg'
   /**
    * Set component validation state to valid.
    */
@@ -151,12 +152,11 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
           .map((option) => String(option.value ?? ''))
       : []
 
-    if (!multiple && selectedValues.length > 1) {
-      console.warn(
-        'Select: more than one option has `selected: true` but `multiple` is not set — only ' +
-          'the last one will be selected, matching native <select> behavior.'
-      )
-    }
+    devWarning(
+      !multiple && selectedValues.length > 1,
+      'Select: more than one option has `selected: true` but `multiple` is not set — only ' +
+        'the last one will be selected, matching native <select> behavior.'
+    )
 
     // React warns against setting `selected` directly on <option>, recommending `defaultValue`/
     // `value` on <select> instead — so `options[].selected` is resolved into a `defaultValue`

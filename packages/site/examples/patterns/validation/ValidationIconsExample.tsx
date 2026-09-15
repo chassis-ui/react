@@ -13,7 +13,7 @@ import {
 
 export const Example = () => (
   <Form className="validation-icons">
-    <Stack gap="medium">
+    <Stack gap="md">
       <TextInput label="Text input" defaultValue="John" valid validFeedback="Looks good!" />
 
       <Select label="State" invalid invalidFeedback="Please select a valid state.">

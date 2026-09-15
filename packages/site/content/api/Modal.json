@@ -1,6 +1,6 @@
 {
   "tags": {},
-  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/modal/Modal.tsx",
+  "filePath": "packages/react/src/components/modal/Modal.tsx",
   "description": "",
   "displayName": "Modal",
   "methods": [],
@@ -61,7 +61,7 @@
       ],
       "required": false,
       "type": {
-        "name": "boolean | \"small\" | \"medium\" | \"large\" | \"xlarge\" | \"2xlarge\""
+        "name": "boolean | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\""
       }
     },
     "instant": {
@@ -241,7 +241,7 @@
     },
     "size": {
       "defaultValue": null,
-      "description": "Size the component small, large, or extra large.",
+      "description": "Size the component sm, lg, or extra lg.",
       "name": "size",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/modal/Modal.tsx",
@@ -256,16 +256,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"small\" | \"large\" | \"xlarge\"",
+        "raw": "\"sm\" | \"lg\" | \"xl\"",
         "value": [
           {
-            "value": "\"small\""
+            "value": "\"sm\""
           },
           {
-            "value": "\"large\""
+            "value": "\"lg\""
           },
           {
-            "value": "\"xlarge\""
+            "value": "\"xl\""
           }
         ]
       }

@@ -1,4 +1,4 @@
-import { Toast, ToastBody } from '@chassis-ui/react'
+import { Toast } from '@chassis-ui/react'
 
 export const Example = () => {
   return (

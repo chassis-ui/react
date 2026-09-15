@@ -24,7 +24,7 @@ describe('TextInput', () => {
           className="bazinga"
           invalid={true}
           plainText={true}
-          size="large"
+          size="lg"
           type="color"
           valid={true}
         />
@@ -33,7 +33,7 @@ describe('TextInput', () => {
       expect(container.firstChild).toHaveClass(
         'form-input',
         'plaintext',
-        'large',
+        'lg',
         'is-invalid',
         'is-valid',
         'bazinga'
@@ -100,14 +100,14 @@ describe('TextInput', () => {
           adornStart={<InputAdorn>$</InputAdorn>}
           className="bazinga"
           plainText
-          size="large"
+          size="lg"
         />
       )
       // eslint-disable-next-line testing-library/no-node-access
       const wrapper = container.firstChild as HTMLElement
-      expect(wrapper).toHaveClass('form-input', 'plaintext', 'large', 'bazinga')
+      expect(wrapper).toHaveClass('form-input', 'plaintext', 'lg', 'bazinga')
       const input = screen.getByRole('textbox', { name: 'Amount' })
-      expect(input).not.toHaveClass('plaintext', 'large', 'bazinga')
+      expect(input).not.toHaveClass('plaintext', 'lg', 'bazinga')
     })
 
     test('keeps is-invalid/is-valid on the ghost-input, not the wrapper', () => {

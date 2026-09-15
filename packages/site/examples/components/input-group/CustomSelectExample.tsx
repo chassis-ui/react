@@ -3,7 +3,7 @@ import { Button, InputGroup, InputGroupAddon, Select } from '@chassis-ui/react'
 export const Example = () => {
   return (
     <>
-      <InputGroup className="mb-medium">
+      <InputGroup className="mb-md">
         <InputGroupAddon component="label" htmlFor="inputGroupSelect01">
           Options
         </InputGroupAddon>
@@ -15,7 +15,7 @@ export const Example = () => {
         </Select>
       </InputGroup>
 
-      <InputGroup className="mb-medium">
+      <InputGroup className="mb-md">
         <Select id="inputGroupSelect02">
           <option>Choose...</option>
           <option value="1">One</option>
@@ -27,7 +27,7 @@ export const Example = () => {
         </InputGroupAddon>
       </InputGroup>
 
-      <InputGroup className="mb-medium">
+      <InputGroup className="mb-md">
         <Button type="button" color="secondary" variant="outline">
           Button
         </Button>

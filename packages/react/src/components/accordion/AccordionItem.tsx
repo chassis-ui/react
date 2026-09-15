@@ -2,6 +2,7 @@ import React, { forwardRef, DetailsHTMLAttributes, useContext } from 'react'
 import classNames from 'classnames'
 
 import { AccordionContext } from './context'
+import { devWarning } from '../../utils/devWarning'
 
 export interface AccordionItemProps extends DetailsHTMLAttributes<HTMLDetailsElement> {
   /**
@@ -29,12 +30,11 @@ export interface AccordionItemProps extends DetailsHTMLAttributes<HTMLDetailsEle
 
 export const AccordionItem = forwardRef<HTMLDetailsElement, AccordionItemProps>(
   ({ children, alwaysOpen, className, name, open, itemKey: _itemKey, ...rest }, ref) => {
-    if (_itemKey !== undefined) {
-      console.warn(
-        'AccordionItem: the itemKey prop is deprecated and no longer used — the native ' +
-          '<details> element manages its own state. It will be removed in a future major version.'
-      )
-    }
+    devWarning(
+      _itemKey !== undefined,
+      'AccordionItem: the itemKey prop is deprecated and no longer used — the native ' +
+        '<details> element manages its own state. It will be removed in a future major version.'
+    )
 
     const context = useContext(AccordionContext)
     const isAlwaysOpen = alwaysOpen ?? context.alwaysOpen

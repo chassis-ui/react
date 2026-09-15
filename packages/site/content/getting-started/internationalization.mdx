@@ -98,13 +98,58 @@ for the full range of value/selection props.
 
 ## Labels outside the locale system
 
-Not every user-facing string in these components comes from the active locale. `Pagination`'s
-Prev/Next controls, for instance, default to English accessible names — pass `previousLabel`/
-`nextLabel` directly to translate them:
+Not every user-facing string in these components comes from the active locale. react-aria ships
+translations for the strings _it_ owns, but a handful of strings these components render themselves
+have no equivalent in those dictionaries. They default to English and are translated with a plain
+prop, the same way any other label prop would be — `I18nProvider` has no effect on them.
+
+`Pagination`'s Prev/Next controls take one prop each:
 
 ```tsx
 <Pagination pages={10} activePage={page} onActivePageChange={setPage} previousLabel="Précédent" nextLabel="Suivant" />
 ```
 
-This is a plain prop, translated by the application the same way any other label prop would be —
-`I18nProvider` has no effect on it.
+`Breadcrumb` names its wrapping `<nav>` landmark `"breadcrumb"` by default — override it with
+`aria-label`, which is also how you tell two breadcrumb trails on one page apart:
+
+```tsx
+<Breadcrumb aria-label="Fil d'Ariane" items={items} />
+```
+
+The calendar family — [`Calendar`]([[docsref:/components/calendar]]),
+[`RangeCalendar`]([[docsref:/components/range-calendar]]),
+[`DatePicker`]([[docsref:/components/datepicker]]) and
+[`DateRangePicker`]([[docsref:/components/date-range-picker]]) — groups its own strings under a
+single `labels` prop, because several of them are rendered by internal parts a consumer never
+mounts directly (the year view's paging arrows, its live-region announcements, the month/year
+header buttons, the clear adornment):
+
+```tsx
+<DatePicker
+  label="Date de départ"
+  labels={{
+    calendar: 'Calendrier',
+    clear: 'Effacer',
+    month: 'Mois',
+    year: 'Année',
+    selectMonth: 'Choisir le mois',
+    selectYear: "Choisir l'année",
+    previousYears: 'Années précédentes',
+    nextYears: 'Années suivantes'
+  }}
+/>
+```
+
+`labels` is merged over the English defaults, so passing one key leaves the rest alone. A
+`DatePicker`'s `labels` also reaches the `Calendar` it renders inside its own popover — you don't
+set it twice. The `CalendarLabels` type is exported if you want to define one shared object per
+locale:
+
+```tsx
+import type { CalendarLabels } from '@chassis-ui/react'
+
+const fr: Partial<CalendarLabels> = { calendar: 'Calendrier', clear: 'Effacer' }
+```
+
+Everything else these components say — month and weekday names, segment order, the calendar
+system — still follows `I18nProvider`'s locale and needs no override.

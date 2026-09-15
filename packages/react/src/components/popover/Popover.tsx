@@ -4,6 +4,7 @@ import React, {
   ReactElement,
   ReactNode,
   RefObject,
+  useCallback,
   useEffect,
   useRef
 } from 'react'
@@ -13,13 +14,19 @@ import { mergeProps, useDialog, useOverlayPosition, useOverlayTrigger } from 're
 import { useOverlayTriggerState } from 'react-stately'
 import { Transition } from 'react-transition-group'
 
-import { getOverlayArrowStyle, getOverlayTransitionClass, useFloatingOverlay } from '../../hooks'
+import {
+  getOverlayArrowStyle,
+  getOverlayTransitionClass,
+  useFloatingOverlay,
+  useForkedRef
+} from '../../hooks'
 import { Placement, resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
+import { asTriggerElement, getTriggerRef } from '../../utils/triggerElement'
 
 interface PopoverPanelProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'content'> {
   arrowProps: HTMLAttributes<HTMLDivElement>
   content: ReactNode | string
-  overlayRef: RefObject<HTMLDivElement>
+  overlayRef: RefObject<HTMLDivElement | null>
   overlayTriggerProps: HTMLAttributes<HTMLDivElement>
   title?: ReactNode | string
 }
@@ -102,6 +109,16 @@ export const Popover: FC<PopoverProps> = ({
   const arrowRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLElement | null>(null)
   const floatingRef = useRef<HTMLDivElement>(null)
+
+  // `cloneElement`'s config replaces the child's own `ref` outright rather than merging with it,
+  // so capturing the trigger node has to be forked with whatever ref the caller already put on
+  // that child — otherwise `<Popover><Button ref={mine} /></Popover>` silently never populates
+  // `mine`.
+  const setTriggerRef = useCallback((node: HTMLElement | null) => {
+    triggerRef.current = node
+  }, [])
+  const triggerElement = asTriggerElement(children)
+  const forkedTriggerRef = useForkedRef<HTMLElement>(setTriggerRef, getTriggerRef(triggerElement))
 
   const state = useOverlayTriggerState({ defaultOpen: !!visible })
   const {
@@ -189,15 +206,12 @@ export const Popover: FC<PopoverProps> = ({
 
   return (
     <>
-      {React.cloneElement(children, {
-        ref: (node: HTMLElement | null) => {
-          triggerRef.current = node
-        },
-        ...triggerProps,
-        onClick: (event: React.MouseEvent) => {
-          children.props.onClick?.(event)
-          state.toggle()
-        }
+      {/* `mergeProps` chains the child's own `onClick` ahead of this one, so this no longer
+          calls `children.props.onClick` itself the way it did when it spread `triggerProps`
+          raw — doing both would fire the caller's handler twice per click. */}
+      {React.cloneElement(triggerElement, {
+        ...mergeProps(triggerElement.props, triggerProps, { onClick: () => state.toggle() }),
+        ref: forkedTriggerRef
       })}
       {typeof window !== 'undefined' &&
         createPortal(
@@ -207,9 +221,21 @@ export const Popover: FC<PopoverProps> = ({
             nodeRef={floatingRef}
             onExited={() => {
               const trigger = triggerRef.current
-              if (trigger && document.contains(trigger)) {
-                trigger.focus()
-              }
+              if (!trigger || !document.contains(trigger)) return
+              // Only reclaim focus when the popover still owns it, or when nothing does.
+              // `useDialog` moves focus into the panel on open, so the panel still holds it here
+              // for an Escape/inside close (`onExited` runs before `unmountOnExit` detaches the
+              // node, so this reads the pre-removal state); an outside click on plain page
+              // content instead leaves focus loose on `<body>`. Both are worth restoring. Any
+              // other active element means the user deliberately put focus there — dismissing by
+              // clicking another control, or the app closing the popover via `visible` while
+              // they were typing somewhere else — and this used to steal it straight back off
+              // them. Mirrors react-aria's own `shouldRestoreFocus` condition.
+              const active = document.activeElement
+              const focusIsLoose = !active || active === document.body
+              const focusIsInPanel = !!active && !!floatingRef.current?.contains(active)
+              if (!focusIsLoose && !focusIsInPanel) return
+              trigger.focus()
             }}
             timeout={{
               enter: 0,

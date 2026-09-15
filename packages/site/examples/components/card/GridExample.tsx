@@ -3,7 +3,7 @@ import { Button, Card, CardBody, CardText, CardTitle, Col, Row } from '@chassis-
 export const Example = () => {
   return (
     <Row>
-      <Col responsive={{ small: { span: 6 } }}>
+      <Col responsive={{ sm: { span: 6 } }}>
         <Card>
           <CardBody>
             <CardTitle>Special title treatment</CardTitle>
@@ -14,7 +14,7 @@ export const Example = () => {
           </CardBody>
         </Card>
       </Col>
-      <Col responsive={{ small: { span: 6 } }}>
+      <Col responsive={{ sm: { span: 6 } }}>
         <Card>
           <CardBody>
             <CardTitle>Special title treatment</CardTitle>

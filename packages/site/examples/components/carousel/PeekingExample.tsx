@@ -14,12 +14,7 @@ export const Example = () => (
     <CarouselInner>
       {slides.map((label) => (
         <CarouselItem key={label}>
-          <Placeholder
-            width={800}
-            height={300}
-            text={label}
-            className="d-block w-100 rounded-xlarge"
-          />
+          <Placeholder width={800} height={300} text={label} className="d-block w-100 rounded-xl" />
         </CarouselItem>
       ))}
     </CarouselInner>

@@ -5,7 +5,7 @@ export const Example = () => {
   return (
     <>
       <AvatarStack
-        size="small"
+        size="sm"
         items={[
           {
             content: '+5',

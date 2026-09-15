@@ -1,7 +1,7 @@
 /**
  * Breakpoints
  */
-export const BREAKPOINTS = ['small', 'medium', 'large', 'xlarge', '2xlarge']
+export const BREAKPOINTS = ['sm', 'md', 'lg', 'xl', '2xl']
 
 /**
  * Context colors
@@ -28,12 +28,12 @@ export const VARIANTS = ['basic', 'solid', 'outline', 'smooth']
 /**
  * Component sizes
  */
-export const SIZES = ['small', 'medium', 'large']
+export const SIZES = ['sm', 'md', 'lg']
 
 /**
  * Extended sizes
  */
-export const EXTENDED_SIZES = ['2xsmall', 'xsmall', ...SIZES, 'xlarge', '2xlarge']
+export const EXTENDED_SIZES = ['2xs', 'xs', ...SIZES, 'xl', '2xl']
 
 /**
  * Spacing values. `SPACING` is the runtime source of truth — `Spacing` is derived from it so the
@@ -42,19 +42,19 @@ export const EXTENDED_SIZES = ['2xsmall', 'xsmall', ...SIZES, 'xlarge', '2xlarge
  */
 export const SPACING = [
   'zero',
-  '4xsmall',
-  '3xsmall',
-  '2xsmall',
-  'xsmall',
-  'small',
-  'medium',
-  'large',
-  'xlarge',
-  '2xlarge',
-  '3xlarge',
-  '4xlarge',
-  '5xlarge',
-  '6xlarge'
+  '4xs',
+  '3xs',
+  '2xs',
+  'xs',
+  'sm',
+  'md',
+  'lg',
+  'xl',
+  '2xl',
+  '3xl',
+  '4xl',
+  '5xl',
+  '6xl'
 ]
 
 /**
@@ -70,18 +70,7 @@ export type FONT_WEIGHTS = ['elegant', 'normal', 'strong', 'mass']
 /**
  * Font sizes
  */
-export const FONT_SIZES = [
-  '2xsmall',
-  'xsmall',
-  'small',
-  'medium',
-  'large',
-  'xlarge',
-  '2xlarge',
-  '3xlarge',
-  '4xlarge',
-  '5xlarge'
-]
+export const FONT_SIZES = ['2xs', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl']
 
 /**
  * Component placements

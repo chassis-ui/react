@@ -28,7 +28,7 @@ type CardGroupComponent = (<C extends ElementType = 'div'>(
 ) => ReactElement | null) & { displayName?: string }
 
 // Arranges direct-child Cards as an equal-width row, joined edge-to-edge, once its container
-// reaches the small container breakpoint — below that, cards stack vertically. Requires a
+// reaches the sm container breakpoint — below that, cards stack vertically. Requires a
 // `.contains-inline` ancestor (not applied by CardGroup itself, e.g. a wrapping
 // `<div className="contains-inline">`) to establish the container query context.
 function CardGroupRender<C extends ElementType = 'div'>(

@@ -3,7 +3,7 @@ import { Card, CardBody, CardFooter, CardHeader, CardText, CardTitle } from '@ch
 export const Example = () => {
   return (
     <>
-      <Card className="border-primary mb-medium" style={{ maxWidth: '18rem' }}>
+      <Card className="border-primary mb-md" style={{ maxWidth: '18rem' }}>
         <CardHeader className="primary-bg-evident">Header</CardHeader>
         <CardBody className="primary-bg-main">
           <CardTitle>Primary background</CardTitle>

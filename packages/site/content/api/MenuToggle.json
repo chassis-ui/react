@@ -1,6 +1,6 @@
 {
   "tags": {},
-  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/menu/MenuToggle.tsx",
+  "filePath": "packages/react/src/components/menu/MenuToggle.tsx",
   "description": "",
   "displayName": "MenuToggle",
   "methods": [],
@@ -184,7 +184,7 @@
     },
     "size": {
       "defaultValue": null,
-      "description": "Size the component small or large. Only applies to the default `Button` root.",
+      "description": "Size the component sm or lg. Only applies to the default `Button` root.",
       "name": "size",
       "declarations": [
         {
@@ -195,13 +195,13 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"small\" | \"large\"",
+        "raw": "\"sm\" | \"lg\"",
         "value": [
           {
-            "value": "\"small\""
+            "value": "\"sm\""
           },
           {
-            "value": "\"large\""
+            "value": "\"lg\""
           }
         ]
       }

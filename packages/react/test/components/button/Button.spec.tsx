@@ -53,13 +53,13 @@ describe('Button', () => {
   describe('styling props', () => {
     test('applies color, variant, size, shape and className together', () => {
       render(
-        <Button className="bazinga" color="warning" variant="outline" size="large" shape="rounded">
+        <Button className="bazinga" color="warning" variant="outline" size="lg" shape="rounded">
           Save
         </Button>
       )
 
       const button = screen.getByRole('button', { name: 'Save' })
-      expect(button).toHaveClass('button', 'warning', 'outline', 'large', 'rounded', 'bazinga')
+      expect(button).toHaveClass('button', 'warning', 'outline', 'lg', 'rounded', 'bazinga')
     })
 
     test('applies the link variant as its own class, not a color', () => {

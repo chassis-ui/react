@@ -33,7 +33,7 @@ describe('Switch', () => {
           id="2"
           invalid={true}
           label="Some label"
-          size="large"
+          size="lg"
           type="radio"
           valid={true}
         />
@@ -55,7 +55,7 @@ describe('Switch', () => {
       expect(wrapper).toHaveClass(
         'form-check',
         'form-switch',
-        'large',
+        'lg',
         'is-invalid',
         'is-valid',
         'bazinga'

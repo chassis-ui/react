@@ -1,6 +1,6 @@
 {
   "tags": {},
-  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/card/Card.tsx",
+  "filePath": "packages/react/src/components/card/Card.tsx",
   "description": "",
   "displayName": "Card",
   "methods": [],
@@ -181,7 +181,7 @@
     },
     "responsive": {
       "defaultValue": null,
-      "description": "Overrides `direction` at one or more breakpoints — e.g. `{ large: 'row' }` to lay the card\nout horizontally from `large` up while stacking below it.",
+      "description": "Overrides `direction` at one or more breakpoints — e.g. `{ lg: 'row' }` to lay the card\nout horizontally from `lg` up while stacking below it.",
       "name": "responsive",
       "declarations": [
         {
@@ -210,13 +210,13 @@
         "raw": "Sizing",
         "value": [
           {
-            "value": "\"small\""
+            "value": "\"sm\""
           },
           {
-            "value": "\"medium\""
+            "value": "\"md\""
           },
           {
-            "value": "\"large\""
+            "value": "\"lg\""
           }
         ]
       }

@@ -2,8 +2,8 @@ import { Col, FloatingInput, Row, Select, TextInput } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
-    <Row gutter="small">
-      <Col responsive={{ medium: { span: true } }}>
+    <Row gutter="sm">
+      <Col responsive={{ md: { span: true } }}>
         <FloatingInput label="Email address" ids={{ input: 'floatingInputGrid' }}>
           <TextInput
             type="email"
@@ -13,7 +13,7 @@ export const Example = () => {
           />
         </FloatingInput>
       </Col>
-      <Col responsive={{ medium: { span: true } }}>
+      <Col responsive={{ md: { span: true } }}>
         <FloatingInput label="Works with selects" ids={{ input: 'floatingSelectGrid' }}>
           <Select id="floatingSelectGrid">
             <option>Open this select menu</option>

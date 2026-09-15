@@ -18,7 +18,7 @@ export const Example = () => {
           <DrawerTitle>Drawer with stacked actions</DrawerTitle>
         </DrawerHeader>
         <DrawerBody>
-          <p>A drawer with multiple footer actions, stacking full-width at the small breakpoint.</p>
+          <p>A drawer with multiple footer actions, stacking full-width at the sm breakpoint.</p>
         </DrawerBody>
         <DrawerFooter stacked>
           <Button color="primary">Take action</Button>

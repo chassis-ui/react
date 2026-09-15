@@ -6,10 +6,10 @@ export const Example = () => {
       <Badge color="primary" className="rounded-zero">
         Sharp
       </Badge>
-      <Badge color="primary" className="rounded-small">
+      <Badge color="primary" className="rounded-sm">
         Blunt
       </Badge>
-      <Badge color="primary" className="rounded-medium">
+      <Badge color="primary" className="rounded-md">
         Soft
       </Badge>
       <Badge color="primary" className="rounded-full">

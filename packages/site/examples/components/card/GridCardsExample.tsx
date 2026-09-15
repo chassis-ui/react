@@ -11,7 +11,7 @@ import {
 
 export const Example = () => {
   return (
-    <Row cols={1} gutter="medium" responsive={{ medium: { cols: 2 } }}>
+    <Row cols={1} gutter="md" responsive={{ md: { cols: 2 } }}>
       <Col span>
         <Card>
           <CardImage orientation="top" src="https://placehold.co/800x400" />
@@ -23,7 +23,7 @@ export const Example = () => {
             </CardText>
           </CardBody>
           <CardFooter>
-            <small className="medium:text-emphasis">Last updated 3 mins ago</small>
+            <sm className="md:text-emphasis">Last updated 3 mins ago</sm>
           </CardFooter>
         </Card>
       </Col>
@@ -38,7 +38,7 @@ export const Example = () => {
             </CardText>
           </CardBody>
           <CardFooter>
-            <small className="medium:text-emphasis">Last updated 3 mins ago</small>
+            <sm className="md:text-emphasis">Last updated 3 mins ago</sm>
           </CardFooter>
         </Card>
       </Col>
@@ -53,7 +53,7 @@ export const Example = () => {
             </CardText>
           </CardBody>
           <CardFooter>
-            <small className="medium:text-emphasis">Last updated 3 mins ago</small>
+            <sm className="md:text-emphasis">Last updated 3 mins ago</sm>
           </CardFooter>
         </Card>
       </Col>
@@ -68,7 +68,7 @@ export const Example = () => {
             </CardText>
           </CardBody>
           <CardFooter>
-            <small className="medium:text-emphasis">Last updated 3 mins ago</small>
+            <sm className="md:text-emphasis">Last updated 3 mins ago</sm>
           </CardFooter>
         </Card>
       </Col>

@@ -60,6 +60,17 @@ See the [Getting started page](https://chassis-ui.com/react/getting-started/intr
 - `react` ≥ 18
 - `react-dom` ≥ 18
 
+## Browser support
+
+Chrome 107+, Edge 107+, Firefox 104+, Safari 16+ — the "baseline widely available" set, also
+declared as the `browserslist` field in this package's `package.json` and used as the build's
+`es2022` output target. The published bundle is not down-levelled below that, so a project
+supporting older browsers needs to transpile `node_modules/@chassis-ui/react` itself.
+
+There is no Node version requirement for consumers: this is a browser library, and the package
+deliberately declares no `engines` field. (Building this repo needs Node 24 — see the root
+`package.json` — but that never reaches a consumer's install.)
+
 ## License
 
 Code released under the [MIT License](./LICENSE).

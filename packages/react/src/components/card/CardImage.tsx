@@ -28,7 +28,7 @@ type CardImageOwnProps<C extends ElementType> = {
    */
   orientation?: CardImageOrientation
   /**
-   * Overrides `orientation` at one or more breakpoints — e.g. `{ large: 'start' }` to switch an
+   * Overrides `orientation` at one or more breakpoints — e.g. `{ lg: 'start' }` to switch an
    * image cap from `top` to `start` once the card lays out horizontally.
    */
   responsive?: Partial<Record<Breakpoint, CardImageOrientation>>

@@ -52,9 +52,9 @@ type MenuToggleOwnProps<C extends ElementType> = {
    */
   shape?: Shapes
   /**
-   * Size the component small or large. Only applies to the default `Button` root.
+   * Size the component sm or lg. Only applies to the default `Button` root.
    */
-  size?: 'small' | 'large'
+  size?: 'sm' | 'lg'
   /**
    * Sets the context style of the component. Only applies to the default `Button` root.
    */

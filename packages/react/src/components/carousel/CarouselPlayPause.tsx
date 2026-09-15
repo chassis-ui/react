@@ -28,7 +28,7 @@ export const CarouselPlayPause = forwardRef<HTMLButtonElement, CarouselPlayPause
   ({ children, className, onClick, pauseLabel = 'Pause', playLabel = 'Play', ...rest }, ref) => {
     const { playing, togglePlayPause } = useCarouselContext()
     const _className = classNames(
-      'carousel-control-play-pause button small icon-only',
+      'carousel-control-play-pause button sm icon-only',
       { paused: !playing },
       className
     )

@@ -6,5 +6,5 @@
     "noUncheckedIndexedAccess": true,
     "types": ["vitest/globals"]
   },
-  "include": ["src/**/*", "test/**/*", ".storybook/**/*"]
+  "include": ["src/**/*", "test/**/*", "types/**/*", ".storybook/**/*"]
 }

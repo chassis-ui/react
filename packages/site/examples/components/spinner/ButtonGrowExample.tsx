@@ -4,10 +4,10 @@ export const Example = () => {
   return (
     <>
       <Button disabled>
-        <Spinner component="span" size="small" variant="grow" aria-hidden="true" />
+        <Spinner component="span" size="sm" variant="grow" aria-hidden="true" />
       </Button>
       <Button disabled>
-        <Spinner component="span" size="small" variant="grow" aria-hidden="true" />
+        <Spinner component="span" size="sm" variant="grow" aria-hidden="true" />
         Loading...
       </Button>
     </>

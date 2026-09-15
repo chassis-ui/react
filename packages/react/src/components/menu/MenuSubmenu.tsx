@@ -49,7 +49,7 @@ export interface MenuSubmenuProps extends Omit<HTMLAttributes<HTMLDivElement>, '
    */
   placement?: Placement
   /**
-   * Switches to a view-replacement pattern below the `small` breakpoint. Pair with a
+   * Switches to a view-replacement pattern below the `sm` breakpoint. Pair with a
    * `MenuSubmenuBack` as the first item of the nested menu.
    */
   stacked?: boolean
@@ -268,10 +268,10 @@ export const MenuSubmenu = forwardRef<HTMLDivElement, MenuSubmenuProps>(
             </div>
           )
 
-          // `stacked`'s small-breakpoint CSS (`.menu:has(.submenu-stacked.show) ...`) needs the
+          // `stacked`'s sm-breakpoint CSS (`.menu:has(.submenu-stacked.show) ...`) needs the
           // panel to be a real DOM descendant of `.menu`/`.submenu` to match — portaling would
           // break that ancestor relationship, so it renders inline instead. Trade-off: above the
-          // `small` breakpoint a `stacked` submenu no longer escapes ancestor overflow/stacking-
+          // `sm` breakpoint a `stacked` submenu no longer escapes ancestor overflow/stacking-
           // context clipping the way a portaled one does; accepted since `stacked` targets mobile
           // nav/drawer usage, not floating dropdowns.
           return mounted && !stacked ? createPortal(panel, document.body) : panel

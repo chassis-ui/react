@@ -5,7 +5,7 @@ export const Example = () => {
     <Card style={{ width: '18rem' }}>
       <CardBody>
         <CardTitle>Card title</CardTitle>
-        <CardSubtitle className="mb-medium medium:text-emphasis">Card subtitle</CardSubtitle>
+        <CardSubtitle className="mb-md md:text-emphasis">Card subtitle</CardSubtitle>
         <CardText>
           Some quick example text to build on the card title and make up the bulk of the card's
           content.

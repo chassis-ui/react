@@ -36,17 +36,17 @@ describe('Card', () => {
     })
 
     test('applies size as a class', () => {
-      render(<Card size="large">Test</Card>)
-      expect(screen.getByText('Test')).toHaveClass('card', 'large')
+      render(<Card size="lg">Test</Card>)
+      expect(screen.getByText('Test')).toHaveClass('card', 'lg')
     })
 
     test('applies direction and responsive as classes', () => {
       render(
-        <Card direction="row" responsive={{ large: 'column' }}>
+        <Card direction="row" responsive={{ lg: 'column' }}>
           Test
         </Card>
       )
-      expect(screen.getByText('Test')).toHaveClass('card', 'flex-row', 'large:flex-column')
+      expect(screen.getByText('Test')).toHaveClass('card', 'flex-row', 'lg:flex-column')
     })
   })
 

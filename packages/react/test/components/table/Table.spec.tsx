@@ -99,8 +99,8 @@ describe('Table', () => {
           className="bazinga"
           color="info"
           hover
-          responsive="xlarge"
-          small
+          responsive="xl"
+          sm
           striped
         >
           <TableHeader>
@@ -113,14 +113,14 @@ describe('Table', () => {
       )
       // The responsive wrapper is a plain div with no role/name - no accessible query reaches it.
       // eslint-disable-next-line testing-library/no-node-access
-      expect(container.firstChild).toHaveClass('max-xlarge:table-responsive')
+      expect(container.firstChild).toHaveClass('max-xl:table-responsive')
       const table = screen.getByRole('grid')
       expect(table).toHaveClass(
         'table',
         'info',
         'bordered',
         'hoverable',
-        'small',
+        'sm',
         'striped',
         'bazinga'
       )
@@ -173,7 +173,7 @@ describe('Table', () => {
 
     test('a breakpoint name adds the max-{breakpoint}:stacked class', () => {
       render(
-        <Table aria-label="Stacked" stacked="medium">
+        <Table aria-label="Stacked" stacked="md">
           <TableHeader>
             <TableColumn key="name">Name</TableColumn>
           </TableHeader>
@@ -182,7 +182,7 @@ describe('Table', () => {
           </TableBody>
         </Table>
       )
-      expect(screen.getByRole('grid')).toHaveClass('max-medium:stacked')
+      expect(screen.getByRole('grid')).toHaveClass('max-md:stacked')
     })
 
     test('does not wrap in a responsive container or add data-cell when unset', () => {
@@ -347,6 +347,19 @@ describe('Table', () => {
         <BasicTable selectedKeys={new Set(['1'])} selectionMode="multiple" />
       )
       expect(await axe(container)).toHaveNoViolations()
+    })
+
+    test('marks every column header with scope="col"', () => {
+      render(<BasicTable selectionMode="multiple" />)
+
+      // react-aria supplies `role="columnheader"` for the ARIA grid pattern but no `scope`, which
+      // leaves the *native* table semantics ambiguous and fails WCAG H63. Covers the select-all
+      // header cell too, which is a separate `<th>` render path.
+      const headers = screen.getAllByRole('columnheader')
+      expect(headers.length).toBeGreaterThan(1)
+      headers.forEach((header) => {
+        expect(header).toHaveAttribute('scope', 'col')
+      })
     })
   })
 })

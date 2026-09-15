@@ -13,7 +13,8 @@ import { useButtonSemantics, useDisabledAnchorGuard } from '../../hooks'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
-  PolymorphicRef
+  PolymorphicRef,
+  PolymorphicRefWithFallback
 } from '../../utils/polymorphic'
 
 type ButtonOwnProps<C extends ElementType> = {
@@ -53,9 +54,9 @@ type ButtonOwnProps<C extends ElementType> = {
    */
   shape?: Shapes
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'small' | 'large'
+  size?: 'sm' | 'lg'
   /**
    * Specifies the type of button. Always specify the type attribute for the `<button>` element.
    * Different browsers may use different default types for the `<button>` element.
@@ -75,7 +76,9 @@ export type ButtonProps<C extends ElementType = 'button'> = PolymorphicComponent
 >
 
 type ButtonComponent = (<C extends ElementType = 'button'>(
-  props: ButtonProps<C> & { ref?: PolymorphicRef<C> }
+  props: ButtonProps<C> & {
+    ref?: PolymorphicRefWithFallback<C, HTMLButtonElement | HTMLAnchorElement>
+  }
 ) => ReactElement | null) & { displayName?: string }
 
 function ButtonRender<C extends ElementType = 'button'>(

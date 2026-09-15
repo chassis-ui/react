@@ -1,6 +1,8 @@
 import React, { useRef } from 'react'
 import { useButton } from 'react-aria'
 
+import { useCalendarLabels } from '../calendar/labels'
+
 interface ClearButtonProps {
   isDisabled?: boolean
   onPress: () => void
@@ -12,7 +14,8 @@ interface ClearButtonProps {
 // press/keyboard semantics consistent with the rest of this library, rather than a raw `onClick`.
 export const ClearButton = ({ isDisabled, onPress }: ClearButtonProps) => {
   const ref = useRef<HTMLButtonElement>(null)
-  const { buttonProps } = useButton({ 'aria-label': 'Clear', isDisabled, onPress }, ref)
+  const labels = useCalendarLabels()
+  const { buttonProps } = useButton({ 'aria-label': labels.clear, isDisabled, onPress }, ref)
 
   return (
     <button {...buttonProps} className="input-adorn" ref={ref} type="button">

@@ -2,7 +2,7 @@ import { Container, Navbar, NavbarBrand, NavbarNav, NavItem, NavLink } from '@ch
 
 export const Example = () => {
   return (
-    <Navbar expand="medium" translucent>
+    <Navbar expand="md" translucent>
       <Container fluid>
         <NavbarBrand href="#">Navbar</NavbarBrand>
         <NavbarNav>

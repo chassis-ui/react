@@ -13,13 +13,13 @@ import {
 export const Example = () => {
   return (
     <Form className="row gx-3 gy-2 align-items-center">
-      <Col responsive={{ small: { span: 3 } }}>
+      <Col responsive={{ sm: { span: 3 } }}>
         <FormLabel className="visually-hidden" htmlFor="specificSizeInputName">
           Name
         </FormLabel>
         <TextInput id="specificSizeInputName" placeholder="Jane Doe" />
       </Col>
-      <Col responsive={{ small: { span: 3 } }}>
+      <Col responsive={{ sm: { span: 3 } }}>
         <FormLabel className="visually-hidden" htmlFor="specificSizeInputGroupUsername">
           Username
         </FormLabel>
@@ -28,7 +28,7 @@ export const Example = () => {
           <TextInput id="specificSizeInputGroupUsername" placeholder="Username" />
         </InputGroup>
       </Col>
-      <Col responsive={{ small: { span: 3 } }}>
+      <Col responsive={{ sm: { span: 3 } }}>
         <FormLabel className="visually-hidden" htmlFor="specificSizeSelect">
           Preference
         </FormLabel>

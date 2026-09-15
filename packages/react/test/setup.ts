@@ -1,5 +1,14 @@
 import '@testing-library/jest-dom/vitest'
-import { vi } from 'vitest'
+import { beforeEach, vi } from 'vitest'
+
+import { resetDevWarnings } from '../src/utils/devWarning'
+
+// `devWarning`/`devError` de-duplicate on the message so a render-time misuse warning can't spam
+// the console once per render. That set is module-level, so without clearing it between tests the
+// second test in a file to trigger the same message would observe no warning at all.
+beforeEach(() => {
+  resetDevWarnings()
+})
 
 // @testing-library/dom's `waitFor` only self-advances fake timers when it detects a Jest
 // environment (`typeof jest !== 'undefined'`), so it can call `jest.advanceTimersByTime` to

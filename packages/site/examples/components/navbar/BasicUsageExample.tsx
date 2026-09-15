@@ -25,7 +25,7 @@ import {
 export const Example = () => {
   const [visible, setVisible] = useState(false)
   return (
-    <Navbar expand="medium" className="bg-even">
+    <Navbar expand="md" className="bg-even">
       <Container fluid>
         <NavbarBrand href="#">Navbar</NavbarBrand>
         <NavbarToggler
@@ -43,7 +43,7 @@ export const Example = () => {
           <DrawerHeader>
             <DrawerTitle>Menu</DrawerTitle>
           </DrawerHeader>
-          <DrawerBody className="mb-small medium:mb-0">
+          <DrawerBody className="mb-sm md:mb-0">
             <NavbarNav className="me-auto">
               <NavItem>
                 <NavLink href="#" active>
@@ -66,7 +66,7 @@ export const Example = () => {
                 <NavLink disabled>Disabled</NavLink>
               </NavItem>
             </NavbarNav>
-            <Form className="hstack gap-small" role="search">
+            <Form className="hstack gap-sm" role="search">
               <TextInput type="search" placeholder="Search" aria-label="Search" />
               <Button
                 type="submit"

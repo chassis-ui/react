@@ -22,7 +22,7 @@ export const Example = () => {
             </CardText>
           </CardBody>
           <CardFooter>
-            <small className="fg-subtle">Last updated 3 mins ago</small>
+            <sm className="fg-subtle">Last updated 3 mins ago</sm>
           </CardFooter>
         </Card>
         <Card>
@@ -34,7 +34,7 @@ export const Example = () => {
             </CardText>
           </CardBody>
           <CardFooter>
-            <small className="fg-subtle">Last updated 3 mins ago</small>
+            <sm className="fg-subtle">Last updated 3 mins ago</sm>
           </CardFooter>
         </Card>
         <Card>
@@ -48,7 +48,7 @@ export const Example = () => {
             </CardText>
           </CardBody>
           <CardFooter>
-            <small className="fg-subtle">Last updated 3 mins ago</small>
+            <sm className="fg-subtle">Last updated 3 mins ago</sm>
           </CardFooter>
         </Card>
       </CardGroup>

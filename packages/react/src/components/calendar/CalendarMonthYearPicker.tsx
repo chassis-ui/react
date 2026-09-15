@@ -6,6 +6,7 @@ import { CalendarDate } from '@internationalized/date'
 import { CalendarMonthGrid } from './CalendarMonthGrid'
 import { CalendarYearGrid } from './CalendarYearGrid'
 import { setVisibleRangeStart } from '../../utils/setVisibleRangeStart'
+import { useCalendarLabels } from './labels'
 
 interface CalendarMonthYearPickerProps {
   // The day grid, shown in the default 'days' view — owned by the caller (`Calendar` and
@@ -49,6 +50,7 @@ export const CalendarMonthYearPicker = ({
   prevArrow,
   state
 }: CalendarMonthYearPickerProps) => {
+  const labels = useCalendarLabels()
   const [view, setView] = useState<'days' | 'months' | 'years'>('days')
   const containerRef = useRef<HTMLDivElement>(null)
   // Skipped on mount — there's no prior view to restore focus from yet, and stealing focus
@@ -129,7 +131,7 @@ export const CalendarMonthYearPicker = ({
             {prevArrow}
             <div className="datepicker-header-content">
               <button
-                aria-label={`Month: ${monthFormatter.format(monthStart.toDate(state.timeZone))}`}
+                aria-label={`${labels.month}: ${monthFormatter.format(monthStart.toDate(state.timeZone))}`}
                 className="datepicker-month"
                 disabled={state.isDisabled}
                 onClick={() => changeView('months')}
@@ -138,7 +140,7 @@ export const CalendarMonthYearPicker = ({
                 {monthFormatter.format(monthStart.toDate(state.timeZone))}
               </button>
               <button
-                aria-label={`Year: ${yearFormatter.format(monthStart.toDate(state.timeZone))}`}
+                aria-label={`${labels.year}: ${yearFormatter.format(monthStart.toDate(state.timeZone))}`}
                 className="datepicker-year"
                 disabled={state.isDisabled}
                 onClick={() => changeView('years')}

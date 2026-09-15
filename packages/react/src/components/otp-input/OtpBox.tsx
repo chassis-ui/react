@@ -12,7 +12,7 @@ interface OtpBoxProps {
   onChangeValue: (value: string) => void
   onKeyDownBox: (event: KeyboardEvent<HTMLInputElement>) => void
   onPasteBox: (event: ClipboardEvent<HTMLInputElement>) => void
-  size?: 'small' | 'large'
+  size?: 'sm' | 'lg'
   valid?: boolean
   value: string
 }

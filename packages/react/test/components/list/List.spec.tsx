@@ -28,12 +28,12 @@ describe('List', () => {
 
     test('renders as a custom component with flush and layout classes', () => {
       render(
-        <List className="bazinga" component="h3" flush={true} layout="xlarge:horizontal">
+        <List className="bazinga" component="h3" flush={true} layout="xl:horizontal">
           Test
         </List>
       )
       const list = screen.getByText('Test')
-      expect(list).toHaveClass('list', 'flush', 'xlarge:horizontal', 'bazinga')
+      expect(list).toHaveClass('list', 'flush', 'xl:horizontal', 'bazinga')
       expect(list.tagName).toBe('H3')
     })
 

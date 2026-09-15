@@ -3,7 +3,7 @@ import { Button, InputGroup, TextInput } from '@chassis-ui/react'
 export const Example = () => {
   return (
     <>
-      <InputGroup className="mb-medium">
+      <InputGroup className="mb-md">
         <Button type="button" color="secondary" variant="outline" id="button-addon1">
           Button
         </Button>
@@ -14,7 +14,7 @@ export const Example = () => {
         />
       </InputGroup>
 
-      <InputGroup className="mb-medium">
+      <InputGroup className="mb-md">
         <TextInput
           placeholder="Recipient's username"
           aria-label="Recipient's username"
@@ -25,7 +25,7 @@ export const Example = () => {
         </Button>
       </InputGroup>
 
-      <InputGroup className="mb-medium">
+      <InputGroup className="mb-md">
         <Button type="button" color="secondary" variant="outline">
           Button
         </Button>

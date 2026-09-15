@@ -17,9 +17,9 @@ type InputGroupOwnProps<C extends ElementType> = {
    */
   component?: C
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'small' | 'large'
+  size?: 'sm' | 'lg'
 }
 
 export type InputGroupProps<C extends ElementType = 'div'> = PolymorphicComponentProps<

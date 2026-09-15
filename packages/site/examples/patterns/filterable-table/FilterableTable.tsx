@@ -26,7 +26,7 @@ const roles = ['Admin', 'Editor', 'Viewer']
 const statuses = ['Active', 'Inactive']
 const statusColor = { Active: 'success', Inactive: 'secondary' } as const
 
-const dateFormatter = new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' })
+const dateFormatter = new Intl.DateTimeFormat('en-US', { dateStyle: 'md' })
 
 const columns = [
   { key: 'name', label: 'Name' },
@@ -66,7 +66,7 @@ export const Example = () => {
         <TextInput
           type="search"
           label="Name"
-          size="small"
+          size="sm"
           placeholder="Search by name"
           value={name}
           onChange={setName}
@@ -74,7 +74,7 @@ export const Example = () => {
         />
         <Select
           label="Role"
-          size="small"
+          size="sm"
           value={role}
           onChange={handleSelectChange(setRole)}
           style={{ width: 160 }}
@@ -85,7 +85,7 @@ export const Example = () => {
         />
         <Select
           label="Status"
-          size="small"
+          size="sm"
           value={status}
           onChange={handleSelectChange(setStatus)}
           style={{ width: 160 }}
@@ -96,7 +96,7 @@ export const Example = () => {
         />
         <DatePicker
           label="Joined after"
-          size="small"
+          size="sm"
           value={joinedAfter}
           onChange={setJoinedAfter}
           style={{ width: 200 }}

@@ -130,7 +130,7 @@ export const CheckboxGroup = forwardRef<HTMLFieldSetElement, CheckboxGroupProps>
             {label}
           </legend>
         )}
-        {orientation === 'horizontal' ? <Flex gap="medium">{items}</Flex> : items}
+        {orientation === 'horizontal' ? <Flex gap="md">{items}</Flex> : items}
         {description && <FormHelp {...descriptionProps}>{description}</FormHelp>}
         {invalid && errorMessage && (
           <FormFeedback invalid {...errorMessageProps}>

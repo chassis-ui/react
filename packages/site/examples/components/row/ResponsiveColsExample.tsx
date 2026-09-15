@@ -3,11 +3,7 @@ import { Col, Container, Row } from '@chassis-ui/react'
 export const Example = () => {
   return (
     <Container>
-      <Row
-        cols={1}
-        gutter="small"
-        responsive={{ small: { cols: 2 }, medium: { cols: 4, gutter: '2xlarge' } }}
-      >
+      <Row cols={1} gutter="sm" responsive={{ sm: { cols: 2 }, md: { cols: 4, gutter: '2xl' } }}>
         <Col>
           <div>Column content</div>
         </Col>

@@ -13,23 +13,23 @@ import {
 
 export const Example = () => (
   <Form className="row g-3">
-    <Col responsive={{ medium: { span: 4 } }}>
+    <Col responsive={{ md: { span: 4 } }}>
       <TextInput label="First name" defaultValue="Mark" required />
     </Col>
-    <Col responsive={{ medium: { span: 4 } }}>
+    <Col responsive={{ md: { span: 4 } }}>
       <TextInput label="Last name" defaultValue="Otto" required />
     </Col>
-    <Col responsive={{ medium: { span: 4 } }}>
+    <Col responsive={{ md: { span: 4 } }}>
       <FormLabel htmlFor="validationDefaultUsername">Username</FormLabel>
       <InputGroup>
         <InputGroupAddon>@</InputGroupAddon>
         <TextInput id="validationDefaultUsername" required />
       </InputGroup>
     </Col>
-    <Col responsive={{ medium: { span: 6 } }}>
+    <Col responsive={{ md: { span: 6 } }}>
       <TextInput label="City" required />
     </Col>
-    <Col responsive={{ medium: { span: 3 } }}>
+    <Col responsive={{ md: { span: 3 } }}>
       <Select label="State" required>
         <option disabled value="">
           Choose...
@@ -38,7 +38,7 @@ export const Example = () => (
         <option>New York</option>
       </Select>
     </Col>
-    <Col responsive={{ medium: { span: 3 } }}>
+    <Col responsive={{ md: { span: 3 } }}>
       <TextInput label="Zip" required />
     </Col>
     <Col span={12}>

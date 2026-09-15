@@ -7,7 +7,7 @@ const rows = [
 ]
 
 export const Example = () => (
-  <Table aria-label="Users" stacked="medium">
+  <Table aria-label="Users" stacked="md">
     <TableHeader>
       <TableColumn key="name">Name</TableColumn>
       <TableColumn key="role">Role</TableColumn>

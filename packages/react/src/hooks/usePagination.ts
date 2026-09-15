@@ -22,8 +22,12 @@ export interface UsePaginationOptions {
 }
 
 export interface UsePaginationResult<T extends HTMLElement = HTMLButtonElement> {
-  prevRef: RefObject<T>
-  nextRef: RefObject<T>
+  // `RefObject<T | null>`, not `RefObject<T>`: these come from `useRef<T>(null)`, so `.current`
+  // really is null before mount (and whenever the control isn't rendered — a hand-composed
+  // pagination may omit Prev/Next entirely). Declaring the non-null form let a consumer write
+  // `prevRef.current.focus()` with no type error and crash at runtime.
+  prevRef: RefObject<T | null>
+  nextRef: RefObject<T | null>
   handlePrevClick: (event: MouseEvent<T>) => void
   handleNextClick: (event: MouseEvent<T>) => void
 }

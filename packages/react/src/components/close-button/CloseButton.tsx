@@ -55,9 +55,9 @@ type CloseButtonOwnProps<C extends ElementType> = {
    */
   onClick?: MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'small' | 'large'
+  size?: 'sm' | 'lg'
   /**
    * Specifies the type of button. Always specify the type attribute for the `<button>` element.
    * Different browsers may use different default types for the `<button>` element.

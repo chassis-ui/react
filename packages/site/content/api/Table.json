@@ -1,6 +1,6 @@
 {
   "tags": {},
-  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/table/Table.tsx",
+  "filePath": "packages/react/src/components/table/Table.tsx",
   "description": "",
   "displayName": "Table",
   "methods": [],
@@ -354,7 +354,7 @@
       ],
       "required": false,
       "type": {
-        "name": "boolean | \"small\" | \"medium\" | \"large\" | \"xlarge\" | \"2xlarge\""
+        "name": "boolean | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\""
       }
     },
     "selectedKeys": {
@@ -409,10 +409,10 @@
         ]
       }
     },
-    "small": {
+    "sm": {
       "defaultValue": null,
       "description": "Make table more compact by cutting all cell padding.",
-      "name": "small",
+      "name": "sm",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/table/Table.tsx",
         "name": "TableProps"
@@ -463,7 +463,7 @@
       ],
       "required": false,
       "type": {
-        "name": "boolean | \"small\" | \"medium\" | \"large\" | \"xlarge\" | \"2xlarge\""
+        "name": "boolean | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\""
       }
     },
     "striped": {

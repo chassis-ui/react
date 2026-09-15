@@ -12,7 +12,7 @@ export default meta
 
 type Story = StoryObj<typeof GridItem>
 
-const boxClass = 'border p-medium text-center'
+const boxClass = 'border p-md text-center'
 
 export const Basic: Story = {
   render: () => (
@@ -46,14 +46,14 @@ export const Start: Story = {
 export const Responsive: Story = {
   render: () => (
     <Grid>
-      <GridItem span={6} responsive={{ medium: { span: 4 } }} className={boxClass}>
-        span=6 medium:span=4
+      <GridItem span={6} responsive={{ md: { span: 4 } }} className={boxClass}>
+        span=6 md:span=4
       </GridItem>
-      <GridItem span={6} responsive={{ medium: { span: 4 } }} className={boxClass}>
-        span=6 medium:span=4
+      <GridItem span={6} responsive={{ md: { span: 4 } }} className={boxClass}>
+        span=6 md:span=4
       </GridItem>
-      <GridItem span={6} responsive={{ medium: { span: 4 } }} className={boxClass}>
-        span=6 medium:span=4
+      <GridItem span={6} responsive={{ md: { span: 4 } }} className={boxClass}>
+        span=6 md:span=4
       </GridItem>
     </Grid>
   )

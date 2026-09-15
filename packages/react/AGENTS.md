@@ -34,13 +34,13 @@ __snapshots__/` for that component's snapshot files — mirrors `src/components/
   change without notice. Read this before adding component-scoped CSS (see the calendar/datepicker
   family) or documenting a "how to customize" story for consumers.
 - `VERSIONING.md` — the Changesets-based release process, the semver policy for this API's flat
-  exports, and the deprecation policy (TSDoc `@deprecated` + a runtime `console.warn`, minimum one
+  exports, and the deprecation policy (TSDoc `@deprecated` + a runtime `devWarning`, minimum one
   minor release before a breaking removal). Read this before deprecating or removing any exported
   component/prop, or before publishing a release.
 - `RSC.md` — why the package ships one `'use client'` directive for the whole bundle (not
-  per-component), what that means for a consumer, and how to re-verify it survives the tsdown build
-  if that build ever changes. Read this before touching `tsdown.config.ts`'s `output.banner` or
-  reconsidering the single-bundle build shape.
+  per-component), what that means for a consumer, and how it survives the tsdown build. Read this
+  before touching the directive on `src/index.ts`'s first line, `scripts/check-rsc-directive.ts`,
+  or reconsidering the single-bundle build shape.
 - `src/index.ts` — the public API surface. Every exported component/helper needs **two** entries
   here: an `import` line (from the component's folder barrel, not the component file) and a
   matching entry in the trailing `export { ... }` block. Forgetting either means it silently isn't
@@ -59,17 +59,35 @@ consumers to preserve dual-format compatibility for. `exports: true` auto-genera
 `package.json`'s `exports` map on every build; `publint: true`/`attw: true` run non-blockingly as
 part of the same build for fast local feedback (the actual CI gate is this package's own
 `pnpm check:package` script, run from the repo root as `pnpm react:check:package`, a separate,
-blocking step — see `.github/workflows/ci.yml`). `output.banner` adds the `'use client'`
-directive Rolldown would otherwise strip during bundling — see `RSC.md`.
+blocking step — see `.github/workflows/ci.yml`). The `'use client'` directive comes from the first
+line of `src/index.ts`, which Rolldown preserves because that file is the bundle's entry module; a
+`tsdown.config.ts` `output.banner` used to re-add it too, which duplicated it in the output — see
+`RSC.md`, and `pnpm check:rsc` for the guard that keeps it correct.
 
 ```bash
 pnpm build             # one-shot build (also run via `pnpm react:build` from the repo root)
 pnpm dev               # tsdown --watch, for local development against packages/site
 pnpm lint              # eslint + stylelint + prettier, scoped to this package
 pnpm format            # prettier --write, scoped to this package
+pnpm check:types       # tsc --noEmit over src/, test/, types/ and .storybook/
 pnpm check:api         # diff dist/index.d.ts against the checked-in api-report.md snapshot
 pnpm check:api:update  # regenerate api-report.md from the current build
+pnpm check:rsc         # assert dist/index.js has exactly one 'use client' directive (see RSC.md)
 ```
+
+`check:types` is the only thing that type-checks this package's own source: tsdown bundles
+declarations without running a full `tsc`, so it never sees an error inside a function body, and
+`check:api` only diffs the emitted `.d.ts` text. Run it after any non-trivial change — from the
+repo root it's `pnpm react:check:types`, and CI runs it before the test suite.
+
+The package deliberately declares **no `engines` field**. It's a browser library with no Node
+runtime requirement, and `engines.node: '>=24'` (which it used to carry) both warned on install for
+consumers on older Node and hard-failed under `engine-strict`. It also silently set tsdown's output
+target to `node24.0.0`; `tsdown.config.ts` now pins `target: 'es2022'` explicitly, matching the
+`browserslist` field. `sideEffects` lists `dist/` paths, not `src/` ones — it used to name
+`./src/utils/suppressFocusRingGlobally.ts`, which no consumer resolves (they get `./dist/index.js`
+through the `exports` map), so the whole published bundle was flagged side-effect-free while
+actually carrying that module's global listener install.
 
 `check:api`/`check:api:update` run `scripts/check-api-surface.ts` (see below) against this
 package's own `dist/index.d.ts` and `api-report.md` — from the repo root these are
@@ -83,10 +101,24 @@ pnpm test:update  # same, plus -u to update snapshots
 ```
 
 - Test files matched by `test/**/*.spec.tsx` only (see `vitest.config.ts`); environment is jsdom.
+- `vitest.config.ts` defines **two projects**: the default jsdom one (`test/**/*.spec.tsx`) and
+  `storybook`, which runs every story's `play` function in real Chromium via
+  `@vitest/browser-playwright`. `pnpm test` runs both, so it needs a Chromium binary on disk — CI
+  installs one explicitly (`playwright install --with-deps chromium`). Filter to one with
+  `--project=storybook` / `--project='!storybook'`.
+- `test/types.test-d.tsx` holds type-level assertions (`expectTypeOf`, plus `@ts-expect-error`
+  cases that must keep erroring). It's deliberately **not** a `.spec.tsx`, so vitest never collects
+  or executes it — it's checked entirely by `pnpm check:types`. Add to it when changing a generic
+  public type: `api-report.md` pins declaration _text_ and the runtime specs prove behavior, but
+  neither catches a type that compiles and is simply wrong for a consumer.
 - Coverage provider is **istanbul**, not v8 — kept intentionally to match the branch/statement
-  counting the existing thresholds were tuned against. Current thresholds: statements 91%,
-  branches 79%, functions 93%, lines 93% (`vitest.config.ts`). A change that drops coverage below
-  these fails the run (and CI, which just runs `pnpm test`).
+  counting the existing thresholds were tuned against. Current thresholds: statements 96%,
+  branches 91%, functions 97%, lines 97% (`vitest.config.ts`). A change that drops coverage below
+  these fails the run (and CI, which just runs `pnpm test`). These were re-baselined against
+  measured coverage — the previous 91/79/93/93 sat 6-14 points below what the suite actually
+  covered, so branch coverage could have fallen by a seventh before anything failed. They're set
+  against the **jsdom project alone** (97.20/92.82/98.26/98.78) so the gate means the same thing
+  whether or not the browser project ran; it adds only 0.1-0.5 points on top.
 - Fake timers are configured to also fake `requestAnimationFrame`/`cancelAnimationFrame` (Vitest's
   modern fake timers don't do this by default, unlike the prior ts-jest runner) — react-aria's
   hover/press interactions schedule state updates via rAF, so `vi.useFakeTimers()` +
@@ -94,6 +126,11 @@ pnpm test:update  # same, plus -u to update snapshots
 - Import components under test from the package's own public entry point
   (`'../../../src/index'`), not directly from the component file — this keeps tests honest about
   what's actually exported.
+- Dev-time misuse warnings go through `devWarning`/`devError` (`src/utils/devWarning.ts`), never a
+  bare `console.warn`/`console.error`: they're guarded on `process.env.NODE_ENV` so nothing logs in
+  a consumer's production build, and de-duplicated on the message so a warning in a render body
+  can't re-fire on every render (or twice per render under StrictMode). `test/setup.ts` clears the
+  de-duplication set in a global `beforeEach`, so a spec asserting on a warning still sees it.
 - Every interactive component's spec file gets a jest-axe accessibility assertion
   (`expect(await axe(container)).toHaveNoViolations()`), rendered in a realistic composed state
   (visible/open, with the sub-parts a real usage would include) rather than the emptiest possible
@@ -105,7 +142,7 @@ pnpm test:update  # same, plus -u to update snapshots
   pixel-level. `eslint.config.js` bans the pattern under this path via `no-restricted-syntax`, at
   `error` — there's no `__snapshots__/` directory left under this path to grandfather. This wasn't
   always the convention: the suite used to carry a `test('matches the baseline markup snapshot',
-  ...)` in 105 of its 128 spec files, each a raw `container`/`toMatchSnapshot()` dump living in an
+...)` in 105 of its 128 spec files, each a raw `container`/`toMatchSnapshot()` dump living in an
   adjacent `__snapshots__/*.snap` file, plus another 11 files with a second `toMatchSnapshot()` call
   in a differently-named test. An audit of all of it found every single one blind-diffable — pinning
   exactly the same tag/class/attribute list already asserted a few lines away in the same file
@@ -123,18 +160,24 @@ pnpm test:update  # same, plus -u to update snapshots
 
 Storybook (`.storybook/`, config framework `@storybook/react-vite`) plus Playwright screenshot
 tests (`test/visual/`) catch pixel-level regressions that `vitest`'s DOM snapshots can't — e.g. a
-CSS change that doesn't alter markup at all. Coverage today spans five batches, each its own spec
+CSS change that doesn't alter markup at all. Coverage today spans six batches, each its own spec
 file: `calendar-datepicker.visual.spec.ts` (calendar, datepicker — this family has component-scoped
 CSS, see `THEMING.md`, so it needs pixel coverage the other families don't),
 `menu-popover-tooltip.visual.spec.ts`
 (positioning-heavy, portal-based), `toast-notification.visual.spec.ts` (transition-heavy),
 `accordion-collapse.visual.spec.ts` (native `<details>` / `CSSTransition`-driven open-close state),
-and `carousel.visual.spec.ts` (CSS-scroll-snap-driven). A future family gets its own
-`test/visual/<family>.visual.spec.ts` with its own story-title filter, not a widened version of an
-existing one. All five call the shared `runVisualRegressionSuite` helper (`test/visual/
-visualSuite.ts`) rather than each re-reading and filtering Storybook's build manifest themselves —
-a spec file is just its title-prefix list plus, for the one family that needs it (toast/
-notification, see below), a `waitFor`.
+`carousel.visual.spec.ts` (CSS-scroll-snap-driven), and `datagrid.visual.spec.ts` (virtualizer-driven
+— row/column position and size are computed at runtime by react-aria-components' `Virtualizer`, not
+CSS alone). A future family gets its own `test/visual/<family>.visual.spec.ts` with its own
+story-title filter, not a widened version of an existing one. All six call the shared
+`runVisualRegressionSuite` helper (`test/visual/visualSuite.ts`) rather than each re-reading and
+filtering Storybook's build manifest themselves — a spec file is just its title-prefix list plus,
+for the two families that need it, a `waitFor`: toast/notification (see below) and DataGrid (its
+own scroll-cue/pin-positioning effects read `scrollWidth`/`clientWidth` before the browser's layout
+pass has settled those values, even for statically-sized columns — a screenshot taken in that
+window is genuinely, not just transiently, different from one taken a couple of frames later, so
+`datagrid.visual.spec.ts` waits two animation frames after navigation before every screenshot in
+the family).
 
 ```bash
 pnpm storybook            # storybook dev -p 6006, for authoring stories interactively

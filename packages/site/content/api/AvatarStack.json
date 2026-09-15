@@ -1,6 +1,6 @@
 {
   "tags": {},
-  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/avatar/AvatarStack.tsx",
+  "filePath": "packages/react/src/components/avatar/AvatarStack.tsx",
   "description": "",
   "displayName": "AvatarStack",
   "methods": [],
@@ -51,25 +51,25 @@
         "raw": "ExtendedSizing",
         "value": [
           {
-            "value": "\"small\""
+            "value": "\"2xs\""
           },
           {
-            "value": "\"2xsmall\""
+            "value": "\"xs\""
           },
           {
-            "value": "\"xsmall\""
+            "value": "\"sm\""
           },
           {
-            "value": "\"medium\""
+            "value": "\"md\""
           },
           {
-            "value": "\"large\""
+            "value": "\"lg\""
           },
           {
-            "value": "\"xlarge\""
+            "value": "\"xl\""
           },
           {
-            "value": "\"2xlarge\""
+            "value": "\"2xl\""
           }
         ]
       }

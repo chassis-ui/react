@@ -31,13 +31,13 @@ describe('Select', () => {
 
     test('applies a bare size class and className together', () => {
       render(
-        <Select aria-label="Language" className="bazinga" size="large">
+        <Select aria-label="Language" className="bazinga" size="lg">
           <option value="A">B</option>
         </Select>
       )
       const select = screen.getByRole('combobox', { name: 'Language' })
-      expect(select).toHaveClass('form-input', 'large', 'bazinga')
-      expect(select).not.toHaveClass('form-select', 'form-select-large')
+      expect(select).toHaveClass('form-input', 'lg', 'bazinga')
+      expect(select).not.toHaveClass('form-select', 'form-select-lg')
     })
 
     test('applies invalid/valid classes', () => {
@@ -166,14 +166,14 @@ describe('Select', () => {
           options={['js']}
           adornStart={<InputAdorn>Lang</InputAdorn>}
           className="bazinga"
-          size="large"
+          size="lg"
         />
       )
       // eslint-disable-next-line testing-library/no-node-access
       const wrapper = container.firstChild as HTMLElement
-      expect(wrapper).toHaveClass('form-input', 'large', 'bazinga')
+      expect(wrapper).toHaveClass('form-input', 'lg', 'bazinga')
       const select = screen.getByRole('combobox', { name: 'Language' })
-      expect(select).not.toHaveClass('large', 'bazinga')
+      expect(select).not.toHaveClass('lg', 'bazinga')
     })
 
     test('keeps is-invalid/is-valid on the ghost-input, not the wrapper', () => {

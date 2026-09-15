@@ -14,7 +14,7 @@ describe('Accordion', () => {
 
     test('applies flush, size and caretEnd classes with className', () => {
       render(
-        <Accordion className="bazinga" flush size="large" caretEnd>
+        <Accordion className="bazinga" flush size="lg" caretEnd>
           Test
         </Accordion>
       )
@@ -22,7 +22,7 @@ describe('Accordion', () => {
         'accordion',
         'flush',
         'caret-end',
-        'large',
+        'lg',
         'bazinga'
       )
     })

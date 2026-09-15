@@ -23,7 +23,7 @@ import {
 } from '@chassis-ui/react'
 
 export const Example = () => (
-  <Stack gap="medium" direction="vertical">
+  <Stack gap="md" direction="vertical">
     <TextInput label="Text input" invalid invalidFeedback="Example invalid feedback text." />
 
     <Textarea

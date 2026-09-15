@@ -1,6 +1,6 @@
 {
   "tags": {},
-  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/table/TableBody.tsx",
+  "filePath": "packages/react/src/components/table/TableBody.tsx",
   "description": "Collection node, data-only — read by `Table` to build the table's row collection. Never\nrendered directly.",
   "displayName": "TableBody",
   "methods": [],

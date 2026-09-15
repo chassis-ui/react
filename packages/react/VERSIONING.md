@@ -76,15 +76,15 @@ A breaking removal doesn't happen in one PR. The minimum path from "we want to r
 
 1. **Land the deprecation with a changeset and a runtime warning, as a minor (or patch) release.**
    Mark the export/prop `@deprecated` in its TSDoc comment (consumers' editors surface this via
-   IntelliSense) explaining what to use instead, and add an unconditional `console.warn` at the
-   point of use describing the same thing plus "will be removed in a future major version" —
-   matching the existing pattern in `checkbox/Checkbox.tsx`/`select/Select.tsx`'s dev-misuse
-   warnings (no `NODE_ENV` gating, no once-per-key dedup — this codebase's existing console-warning
-   convention already warns unconditionally on every render, and deprecation warnings follow the
-   same shape for consistency rather than introducing a second convention). Concrete precedent:
-   `accordion/AccordionItem.tsx`'s `itemKey` prop (deprecated-prop case, warn only when the prop is
-   actually passed), retrofitted with a warning as part of adopting this policy since it predates
-   it and had none.
+   IntelliSense) explaining what to use instead, and add a `devWarning` call
+   (`src/utils/devWarning.ts`) at the point of use describing the same thing plus "will be removed
+   in a future major version" — the same helper every dev-misuse warning in this package goes
+   through. It's guarded on `process.env.NODE_ENV`, so the warning reaches the consumer's _dev_
+   console (where a maintainer will see it) and never their end users' production console, and it's
+   de-duplicated on the message, so a warning in a render body reports once instead of on every
+   render. This replaces an earlier convention of unconditional, undeduplicated `console.warn`
+   calls; don't reintroduce those. Concrete precedent: `accordion/AccordionItem.tsx`'s `itemKey`
+   prop (deprecated-prop case, warn only when the prop is actually passed).
 2. **Give it at least one minor release cycle** before removing it, so a consumer pinned to
    `^x.y.0` sees the warning in their own dev console before the breaking major lands, not only in
    a changelog they may not read.
@@ -94,8 +94,8 @@ A breaking removal doesn't happen in one PR. The minimum path from "we want to r
 4. **Consider a codemod for mechanical, high-call-site renames** (`jscodeshift` is the standard
    tool for this; not currently a dependency anywhere in this workspace) — worth authoring when a
    rename would otherwise mean hand-editing many call sites across many consumers with an
-   otherwise-mechanical find/replace. Not worth it for a one-off prop removal or a component few 
-   consumers likely use — the TSDoc + runtime warning + changelog entry is sufficient signal on its 
+   otherwise-mechanical find/replace. Not worth it for a one-off prop removal or a component few
+   consumers likely use — the TSDoc + runtime warning + changelog entry is sufficient signal on its
    own for those.
 
 ## What still needs a human

@@ -1,6 +1,6 @@
 {
   "tags": {},
-  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/table/TableColumn.tsx",
+  "filePath": "packages/react/src/components/table/TableColumn.tsx",
   "description": "Collection node, data-only — see `TableHeader`. Read by `Table` to build a column in the\ntable's collection; never rendered directly.",
   "displayName": "TableColumn",
   "methods": [],

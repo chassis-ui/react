@@ -13,7 +13,7 @@ export const Example = () => {
         <GridItem span={6}>span=6</GridItem>
         <GridItem span={6}>span=6</GridItem>
       </Grid>
-      <Grid gap="large">
+      <Grid gap="lg">
         <GridItem span={4}>span=4</GridItem>
         <GridItem span={4}>span=4</GridItem>
         <GridItem span={4}>span=4</GridItem>

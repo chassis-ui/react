@@ -51,7 +51,7 @@ export const CarouselControlButton = forwardRef<HTMLButtonElement, CarouselContr
     return (
       <button
         type="button"
-        className={classNames('button small icon-only', className)}
+        className={classNames('button sm icon-only', className)}
         disabled={isDisabled}
         onClick={handleClick}
         {...rest}

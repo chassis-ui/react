@@ -1,6 +1,6 @@
 {
   "tags": {},
-  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/navbar/Navbar.tsx",
+  "filePath": "packages/react/src/components/navbar/Navbar.tsx",
   "description": "",
   "displayName": "Navbar",
   "methods": [],
@@ -98,7 +98,7 @@
       ],
       "required": false,
       "type": {
-        "name": "boolean | \"small\" | \"medium\" | \"large\" | \"xlarge\" | \"2xlarge\" | \"fluid\""
+        "name": "boolean | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"fluid\""
       }
     },
     "data-cx-theme": {

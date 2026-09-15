@@ -34,9 +34,9 @@ export interface RadioProps extends Omit<
    */
   label?: ReactNode
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'small' | 'large'
+  size?: 'sm' | 'lg'
   /**
    * The value of the radio button, used to identify it within its `<RadioGroup>`.
    */

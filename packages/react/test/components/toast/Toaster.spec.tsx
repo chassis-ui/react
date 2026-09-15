@@ -37,7 +37,7 @@ describe('Toaster', () => {
     test('renders as a static (non-portaled) container without a placement', () => {
       render(<Toaster>Test</Toaster>)
       const region = screen.getByRole('region')
-      expect(region).toHaveClass('position-static', 'p-medium')
+      expect(region).toHaveClass('position-static', 'p-md')
       expect(region).not.toHaveClass('position-fixed')
       expect(region).toHaveAttribute('aria-label', '0 notifications.')
       expect(region).toHaveAttribute('data-react-aria-top-layer', 'true')

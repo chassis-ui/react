@@ -132,7 +132,7 @@ function ProgressRender<C extends ElementType = 'div'>(
   if (!hasCaption) return progressElement
 
   return (
-    <div className="d-flex flex-column gap-xsmall">
+    <div className="d-flex flex-column gap-xs">
       <div
         className={classNames('d-flex', label ? 'justify-content-between' : 'justify-content-end')}
       >

@@ -3,12 +3,12 @@ import { FormLabel, InputGroup, InputGroupAddon, TextInput, Textarea } from '@ch
 export const Example = () => {
   return (
     <>
-      <InputGroup className="mb-medium">
+      <InputGroup className="mb-md">
         <InputGroupAddon id="basic-addon1">@</InputGroupAddon>
         <TextInput placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" />
       </InputGroup>
 
-      <InputGroup className="mb-medium">
+      <InputGroup className="mb-md">
         <TextInput
           placeholder="Recipient's username"
           aria-label="Recipient's username"
@@ -18,18 +18,18 @@ export const Example = () => {
       </InputGroup>
 
       <FormLabel htmlFor="basic-url">Your vanity URL</FormLabel>
-      <InputGroup className="mb-medium">
+      <InputGroup className="mb-md">
         <InputGroupAddon id="basic-addon3">https://example.com/users/</InputGroupAddon>
         <TextInput id="basic-url" aria-describedby="basic-addon3" />
       </InputGroup>
 
-      <InputGroup className="mb-medium">
+      <InputGroup className="mb-md">
         <InputGroupAddon>$</InputGroupAddon>
         <TextInput aria-label="Amount (to the nearest dollar)" />
         <InputGroupAddon>.00</InputGroupAddon>
       </InputGroup>
 
-      <InputGroup className="mb-medium">
+      <InputGroup className="mb-md">
         <TextInput placeholder="Username" aria-label="Username" />
         <InputGroupAddon>@</InputGroupAddon>
         <TextInput placeholder="Server" aria-label="Server" />

@@ -72,11 +72,11 @@ type ListOwnProps<C extends ElementType> = {
    */
   layout?:
     | 'horizontal'
-    | 'small:horizontal'
-    | 'medium:horizontal'
-    | 'large:horizontal'
-    | 'xlarge:horizontal'
-    | '2xlarge:horizontal'
+    | 'sm:horizontal'
+    | 'md:horizontal'
+    | 'lg:horizontal'
+    | 'xl:horizontal'
+    | '2xl:horizontal'
   /**
    * Number list items sequentially using CSS counters. Pair with `component="ol"` for semantic correctness.
    */

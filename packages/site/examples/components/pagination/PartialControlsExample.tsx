@@ -6,7 +6,7 @@ export const Example = () => {
   // const [numbersPage, setNumbersPage] = useState(1)
 
   return (
-    <div className="d-flex justify-content-between flex-wrap gap-medium">
+    <div className="d-flex justify-content-between flex-wrap gap-md">
       <Pagination
         pages={5}
         activePage={page}

@@ -3,11 +3,28 @@ import {
   ComponentPropsWithRef,
   ElementType,
   ForwardRefRenderFunction,
-  forwardRef
+  forwardRef,
+  Ref
 } from 'react'
 
 // Ref type inferred from a polymorphic component's currently-selected `component` element type.
 export type PolymorphicRef<C extends ElementType> = ComponentPropsWithRef<C>['ref']
+
+/**
+ * Ref type for a polymorphic component that can also pick its element from a prop *other* than
+ * `component` — `Button`, `Chip`, `Avatar`, `NavbarBrand` and `PaginationItem` all render an
+ * `<a>` when given `href`, and `PaginationItem` a `<span>` when `active`, none of which moves `C`
+ * off its default. A plain `PolymorphicRef<C>` describes only the `component` branch, so a caller
+ * holding a ref for the element that actually gets rendered (`<Button href="/x" ref={anchorRef}>`)
+ * got a spurious type error while the runtime happily populated it.
+ *
+ * `Ref` over the *union* rather than a union of `Ref`s is what makes a
+ * `createRef<HTMLButtonElement | HTMLAnchorElement>()` assignable here: `RefObject` is invariant
+ * in its type argument, so `RefObject<A | B>` satisfies `Ref<A | B>` but neither `Ref<A>` nor
+ * `Ref<B>` on its own.
+ */
+export type PolymorphicRefWithFallback<C extends ElementType, Fallback extends HTMLElement> =
+  PolymorphicRef<C> | Ref<Fallback>
 
 /**
  * Props for a polymorphic component: `OwnProps` (which must declare `component?: C`) plus

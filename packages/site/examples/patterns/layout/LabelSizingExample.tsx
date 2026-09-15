@@ -3,43 +3,37 @@ import { Col, FormLabel, Row, TextInput } from '@chassis-ui/react'
 export const Example = () => {
   return (
     <>
-      <Row className="mb-medium">
-        <FormLabel
-          htmlFor="colFormLabelSm"
-          className="small:col-2 col-form-label col-form-label-small"
-        >
+      <Row className="mb-md">
+        <FormLabel htmlFor="colFormLabelSm" className="sm:col-2 col-form-label col-form-label-sm">
           Email
         </FormLabel>
-        <Col responsive={{ small: { span: 10 } }}>
+        <Col responsive={{ sm: { span: 10 } }}>
           <TextInput
             type="email"
-            className="form-input small"
+            className="form-input sm"
             id="colFormLabelSm"
-            placeholder="col-form-label-small"
+            placeholder="col-form-label-sm"
           />
         </Col>
       </Row>
-      <Row className="mb-medium">
-        <FormLabel htmlFor="colFormLabel" className="small:col-2 col-form-label">
+      <Row className="mb-md">
+        <FormLabel htmlFor="colFormLabel" className="sm:col-2 col-form-label">
           Email
         </FormLabel>
-        <Col responsive={{ small: { span: 10 } }}>
+        <Col responsive={{ sm: { span: 10 } }}>
           <TextInput type="email" id="colFormLabel" placeholder="col-form-label" />
         </Col>
       </Row>
       <Row>
-        <FormLabel
-          htmlFor="colFormLabelLg"
-          className="small:col-2 col-form-label col-form-label-large"
-        >
+        <FormLabel htmlFor="colFormLabelLg" className="sm:col-2 col-form-label col-form-label-lg">
           Email
         </FormLabel>
-        <Col responsive={{ small: { span: 10 } }}>
+        <Col responsive={{ sm: { span: 10 } }}>
           <TextInput
             type="email"
-            className="form-input large"
+            className="form-input lg"
             id="colFormLabelLg"
-            placeholder="col-form-label-large"
+            placeholder="col-form-label-lg"
           />
         </Col>
       </Row>

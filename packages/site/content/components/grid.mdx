@@ -27,7 +27,7 @@ Three equal-width columns in a 12-column grid each span 4 tracks (3 × 4 = 12):
 
 ## Item placement
 
-`<GridItem>` places a child within a `<Grid>`. Set `span` to a number from `1` to `12` to size an item to that many column tracks, and `start` to a number from `1` to `11` to position it at a specific column line, independent of DOM order. Unlike `<Grid>`'s `columns`, these aren't runtime-configurable — `g-col-{n}`/`g-start-{n}` are chassis-css utility classes generated up to `12` at build time, so `span`/`start` can't address tracks past `12` even if `<Grid columns={16}>` defines more. Both props accept a `responsive` prop, keyed the same way as [`<Col>`]([[docsref:/components/column]])'s, to change span/start at a breakpoint and up. Below, three `span={6}` items narrow to `span={4}` at the `medium` breakpoint and above:
+`<GridItem>` places a child within a `<Grid>`. Set `span` to a number from `1` to `12` to size an item to that many column tracks, and `start` to a number from `1` to `11` to position it at a specific column line, independent of DOM order. Unlike `<Grid>`'s `columns`, these aren't runtime-configurable — `g-col-{n}`/`g-start-{n}` are chassis-css utility classes generated up to `12` at build time, so `span`/`start` can't address tracks past `12` even if `<Grid columns={16}>` defines more. Both props accept a `responsive` prop, keyed the same way as [`<Col>`]([[docsref:/components/column]])'s, to change span/start at a breakpoint and up. Below, three `span={6}` items narrow to `span={4}` at the `md` breakpoint and above:
 
 <Example class="cxd-example-grid text-center">
   <ResponsiveExample client:load />
@@ -52,7 +52,7 @@ Three equal-width columns in a 12-column grid each span 4 tracks (3 × 4 = 12):
 
 `columns` and `gap` set the underlying `--cx-grid-columns`/`--cx-grid-gap` custom properties directly. `gap` accepts any CSS `gap` value — a single value, a `"{row} {column}"` pair for asymmetric spacing, or a `Spacing` token (the same named scale `<Row>`'s `gutter`/`<Stack>`'s `gap`/`<Flex>`'s `gap` use) resolved to the matching `--cx-space-*` custom property:
 
-<Example class="cxd-example-grid text-center d-flex flex-column gap-medium">
+<Example class="cxd-example-grid text-center d-flex flex-column gap-md">
   <ColumnsGapExample client:load />
 </Example>
 

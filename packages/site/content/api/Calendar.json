@@ -1,6 +1,6 @@
 {
   "tags": {},
-  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+  "filePath": "packages/react/src/components/calendar/Calendar.tsx",
   "description": "",
   "displayName": "Calendar",
   "methods": [],
@@ -267,6 +267,25 @@
         "name": "((date: DateValue) => boolean)"
       }
     },
+    "labels": {
+      "defaultValue": null,
+      "description": "Overrides for the handful of strings this component renders itself rather than getting from\nthe active locale (the year view's paging arrows, its live-region announcements, and the\nmonth/year header buttons). Everything else — month and weekday names, the calendar system —\nfollows `I18nProvider`'s locale via react-aria and needs no override. Merged over the English\ndefaults, so passing one key leaves the rest alone.",
+      "name": "labels",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+        "name": "CalendarBaseProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+          "name": "CalendarBaseProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Partial<CalendarLabels>"
+      }
+    },
     "maxValue": {
       "defaultValue": null,
       "description": "The maximum allowed date that a user may select.",
@@ -328,7 +347,7 @@
       "defaultValue": {
         "value": "1"
       },
-      "description": "Number of months to display side by side, sharing one selection. Wraps to multiple rows in\na narrow container (e.g. a popover on a small screen) rather than overflowing — the wrap is\ndriven by the calendar's own width, not the viewport, so it adapts correctly regardless of\nwhere the calendar is embedded.",
+      "description": "Number of months to display side by side, sharing one selection. Wraps to multiple rows in\na narrow container (e.g. a popover on a sm screen) rather than overflowing — the wrap is\ndriven by the calendar's own width, not the viewport, so it adapts correctly regardless of\nwhere the calendar is embedded.",
       "name": "visibleMonths",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",

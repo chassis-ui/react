@@ -28,7 +28,7 @@ describe('ButtonGroup', () => {
 
     test('applies size and vertical classes with className', () => {
       render(
-        <ButtonGroup className="bazinga" size="large" vertical>
+        <ButtonGroup className="bazinga" size="lg" vertical>
           <Button>A</Button>
         </ButtonGroup>
       )
@@ -38,7 +38,7 @@ describe('ButtonGroup', () => {
       // eslint-disable-next-line testing-library/no-node-access
       expect(screen.getByRole('button', { name: 'A' }).parentElement).toHaveClass(
         'button-group',
-        'large',
+        'lg',
         'vertical',
         'bazinga'
       )

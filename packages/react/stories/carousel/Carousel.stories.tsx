@@ -109,7 +109,7 @@ export const Peeking: Story = {
                   width={800}
                   height={300}
                   text={label}
-                  className="d-block w-100 rounded-xlarge"
+                  className="d-block w-100 rounded-xl"
                 />
               </CarouselItem>
             )
@@ -142,7 +142,7 @@ export const Centered: Story = {
                   width={800}
                   height={300}
                   text={label}
-                  className="d-block w-100 rounded-xlarge"
+                  className="d-block w-100 rounded-xl"
                 />
               </CarouselItem>
             )

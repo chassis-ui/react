@@ -77,7 +77,7 @@ With no props, `<Flex>` is a plain flexbox row using the browser's defaults (`fl
 
 ## Responsive
 
-The `responsive` prop overrides any of `direction`/`wrap`/`justify`/`align`/`alignContent`/`gap`/`rowGap`/`columnGap` at one or more breakpoints, keyed by the full breakpoint names (`small`/`medium`/`large`/`xlarge`/`2xlarge`). Unlike [`<Stack>`'s `responsive` prop]([[docsref:/components/stack#responsive-direction]]), which relies on container queries, `Flex`'s responsive classes are plain viewport `min-width` media queries — no `.contains-inline` ancestor needed. Below the `medium` breakpoint the container stacks its children in a column; at `medium` and above it switches to a row with items spaced apart:
+The `responsive` prop overrides any of `direction`/`wrap`/`justify`/`align`/`alignContent`/`gap`/`rowGap`/`columnGap` at one or more breakpoints, keyed by the full breakpoint names (`sm`/`md`/`lg`/`xl`/`2xl`). Unlike [`<Stack>`'s `responsive` prop]([[docsref:/components/stack#responsive-direction]]), which relies on container queries, `Flex`'s responsive classes are plain viewport `min-width` media queries — no `.contains-inline` ancestor needed. Below the `md` breakpoint the container stacks its children in a column; at `md` and above it switches to a row with items spaced apart:
 
 <Example class="cxd-example-flex">
   <ResponsiveExample client:load />

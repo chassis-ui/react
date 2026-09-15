@@ -13,7 +13,8 @@ import { useButtonSemantics } from '../../hooks'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
-  PolymorphicRef
+  PolymorphicRef,
+  PolymorphicRefWithFallback
 } from '../../utils/polymorphic'
 
 type PaginationItemOwnProps<C extends ElementType> = {
@@ -41,7 +42,9 @@ export type PaginationItemProps<C extends ElementType = 'button'> = PolymorphicC
 >
 
 type PaginationItemComponent = (<C extends ElementType = 'button'>(
-  props: PaginationItemProps<C> & { ref?: PolymorphicRef<C> }
+  props: PaginationItemProps<C> & {
+    ref?: PolymorphicRefWithFallback<C, HTMLButtonElement | HTMLAnchorElement | HTMLSpanElement>
+  }
 ) => ReactElement | null) & { displayName?: string }
 
 function PaginationItemRender<C extends ElementType = 'button'>(
@@ -66,7 +69,15 @@ function PaginationItemRender<C extends ElementType = 'button'>(
     className
   )
 
-  const Component = (component ?? (active ? 'span' : href ? 'a' : 'button')) as ElementType
+  // The active page keeps whatever element it would render anyway (`<button>`, or `<a>` when
+  // given `href`) rather than collapsing to a `<span>`. Swapping the tag on activation made React
+  // unmount the focused control and mount a different element in its place, so a keyboard user who
+  // activated a page was dropped to `<body>` and had to tab in from the top of the document again
+  // (WCAG 2.4.3). The `<span>` wasn't even inert: `Pagination`'s smart mode passes an `onClick`,
+  // so `useButtonSemantics` gave it `role="button"` and `tabIndex={0}` — a synthetic button,
+  // strictly worse than the real one it replaced. Styling is unaffected either way: chassis-css
+  // matches `.pagination-link { &.active, .active > & }`, and `active` still lands on the `<li>`.
+  const Component = (component ?? (href ? 'a' : 'button')) as ElementType
 
   // `<a>` has no real `disabled` attribute, so a disabled anchor pagination item still fires
   // click (and still navigates) unless it's blocked here, same guard `Button` applies.
@@ -86,8 +97,13 @@ function PaginationItemRender<C extends ElementType = 'button'>(
     onClick: onClick as MouseEventHandler<HTMLElement> | undefined
   })
 
+  // `aria-current="page"` goes on the control itself, not the wrapping `<li>` — that's where the
+  // WAI-ARIA pagination pattern puts it, and it's what a screen reader conveys when focus lands on
+  // the control. On the `<li>` it was attached to a presentational list item nothing focuses.
+  const currentProps = active ? { 'aria-current': 'page' as const } : {}
+
   return (
-    <li className={_className} {...(active && { 'aria-current': 'page' })}>
+    <li className={_className}>
       {Component === 'button' ? (
         <button
           {...(rest as Record<string, unknown>)}
@@ -95,6 +111,7 @@ function PaginationItemRender<C extends ElementType = 'button'>(
           type="button"
           disabled={disabled}
           onClick={handleClick}
+          {...currentProps}
           ref={ref as Ref<HTMLButtonElement>}
         >
           {children}
@@ -106,6 +123,7 @@ function PaginationItemRender<C extends ElementType = 'button'>(
           href={href}
           onClick={handleClick}
           {...(disabled && { 'aria-disabled': true, tabIndex: -1 })}
+          {...currentProps}
           ref={ref as Ref<HTMLAnchorElement>}
         >
           {children}
@@ -118,6 +136,7 @@ function PaginationItemRender<C extends ElementType = 'button'>(
             unknown
           >)}
           {...(!needsButtonSemantics && { onClick: handleClick })}
+          {...currentProps}
           ref={needsButtonSemantics ? forkedRef : ref}
         >
           {children}

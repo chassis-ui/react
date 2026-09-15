@@ -15,11 +15,11 @@ describe('InputGroup', () => {
 
     test('applies size class and className together', () => {
       render(
-        <InputGroup className="bazinga" size="large">
+        <InputGroup className="bazinga" size="lg">
           Test
         </InputGroup>
       )
-      expect(screen.getByText('Test')).toHaveClass('input-group', 'large', 'bazinga')
+      expect(screen.getByText('Test')).toHaveClass('input-group', 'lg', 'bazinga')
     })
   })
 

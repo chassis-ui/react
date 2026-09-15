@@ -2,7 +2,7 @@ import { ChipInput } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
-    <div className="vstack gap-medium">
+    <div className="vstack gap-md">
       <ChipInput
         aria-label="Status"
         chipVariant="primary"

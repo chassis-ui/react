@@ -141,9 +141,9 @@ export interface AutocompleteProps extends Omit<
    */
   searchPlaceholder?: string
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'small' | 'large'
+  size?: 'sm' | 'lg'
   /**
    * Set component validation state to valid.
    */
@@ -386,7 +386,7 @@ export const Autocomplete = ({
           className={classNames(
             'form-input',
             'combobox',
-            { small: size === 'small', large: size === 'large', disabled },
+            { sm: size === 'sm', lg: size === 'lg', disabled },
             { 'is-invalid': invalid, 'is-valid': valid },
             className
           )}
@@ -419,7 +419,7 @@ export const Autocomplete = ({
               <div className="combobox-search">
                 <input
                   autoComplete="off"
-                  className="form-input combobox-search-input small"
+                  className="form-input combobox-search-input sm"
                   {...inputHtmlProps}
                   ref={inputRef}
                 />

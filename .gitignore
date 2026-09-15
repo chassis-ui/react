@@ -70,3 +70,18 @@ _storybook
 test-results/
 playwright-report/
 playwright/.cache/
+
+# design-sync (claude.ai/design import) — staged converter scripts, regenerated
+# build output, and transient verification state. The durable set
+# (.design-sync/config.json, NOTES.md, conventions.md, fonts.css, previews/,
+# overrides/) IS committed.
+.ds-sync/
+ds-bundle/
+.design-sync/sb-reference/
+.design-sync/sb-build.log
+.design-sync/learnings/
+.design-sync/.cache/
+.design-sync/node_modules
+
+# design-sync: framework CSS staged into the package by .design-sync/stage-assets.sh
+packages/react/.ds-css/

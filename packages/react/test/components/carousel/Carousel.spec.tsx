@@ -173,7 +173,7 @@ describe('Carousel', () => {
       render(<ThreeItemCarousel />)
       const next = screen.getByRole('button', { name: 'Next slide' })
       const prev = screen.getByRole('button', { name: 'Previous slide' })
-      expect(next).toHaveClass('button', 'small', 'icon-only')
+      expect(next).toHaveClass('button', 'sm', 'icon-only')
       expect(next).toHaveAttribute('type', 'button')
       // The icon is aria-hidden and decorative - no accessible query reaches it.
       // eslint-disable-next-line testing-library/no-node-access
@@ -203,7 +203,7 @@ describe('Carousel', () => {
       expect(indicators[1]).not.toHaveClass('active')
       // The <ol> wrapper is a plain list with no role/name of its own.
       // eslint-disable-next-line testing-library/no-node-access
-      expect(indicators[0].parentElement?.parentElement).toHaveClass('carousel-indicators')
+      expect(indicators[0]!.parentElement?.parentElement).toHaveClass('carousel-indicators')
     })
 
     test('applies the WAI-ARIA carousel/slide roles and positional slide labels', () => {
@@ -401,6 +401,22 @@ describe('Carousel', () => {
 
       expect(firstItem).toHaveClass('active')
     })
+
+    // Regression test: these handlers sit on the root element, which spreads the caller's rest
+    // props after them — so a caller-supplied `onKeyDown` used to replace the carousel's own and
+    // silently switch arrow-key navigation off. They compose now, matching the rule
+    // `CarouselControlButton`/`CarouselPlayPause` already follow for `onClick`.
+    test("runs the caller's own onKeyDown without losing arrow-key navigation", async () => {
+      const onKeyDown = vi.fn()
+      const { container } = render(<ThreeItemCarousel onKeyDown={onKeyDown} />)
+      // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
+      const carousel = container.querySelector('.carousel') as HTMLElement
+
+      fireEvent.keyDown(carousel, { key: 'ArrowRight' })
+
+      expect(onKeyDown).toHaveBeenCalledTimes(1)
+      await waitFor(() => expect(screen.getByText('Item-2')).toHaveClass('active'))
+    })
   })
 
   describe('autoplay', () => {
@@ -467,6 +483,49 @@ describe('Carousel', () => {
 
         fireEvent.mouseLeave(carousel)
         act(() => vi.advanceTimersByTime(1000))
+        expect(screen.getByText('Item-2')).toHaveClass('active')
+      } finally {
+        vi.useRealTimers()
+        uninstallVisibility()
+      }
+    })
+
+    // Regression test: same root cause as the `onKeyDown` case above — a caller-supplied
+    // `onMouseEnter`/`onMouseLeave` used to replace the carousel's own and silently switch
+    // pause-on-hover off.
+    test("runs the caller's own hover handlers without losing pause-on-hover", () => {
+      vi.useFakeTimers()
+      const uninstallVisibility = stubVisibleGeometry()
+      const onMouseEnter = vi.fn()
+      const onMouseLeave = vi.fn()
+      try {
+        const { container } = render(
+          <Carousel
+            autoplay
+            interval={1000}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+          >
+            {/* Three slides, not two: with two, an unpaused 2000ms wraps all the way back
+                round to the first one and a broken pause still looks like a pass. */}
+            <CarouselInner>
+              <CarouselItem>Item-1</CarouselItem>
+              <CarouselItem>Item-2</CarouselItem>
+              <CarouselItem>Item-3</CarouselItem>
+            </CarouselInner>
+          </Carousel>
+        )
+        // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
+        const carousel = container.querySelector('.carousel') as HTMLElement
+
+        fireEvent.mouseEnter(carousel)
+        act(() => vi.advanceTimersByTime(2000))
+        expect(onMouseEnter).toHaveBeenCalledTimes(1)
+        expect(screen.getByText('Item-1')).toHaveClass('active')
+
+        fireEvent.mouseLeave(carousel)
+        act(() => vi.advanceTimersByTime(1000))
+        expect(onMouseLeave).toHaveBeenCalledTimes(1)
         expect(screen.getByText('Item-2')).toHaveClass('active')
       } finally {
         vi.useRealTimers()

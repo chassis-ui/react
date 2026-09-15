@@ -46,9 +46,9 @@ export interface SwitchProps extends Omit<
    */
   onChange?: (isSelected: boolean) => void
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'small' | 'large'
+  size?: 'sm' | 'lg'
   /**
    * Specifies the type of component.
    */
@@ -91,7 +91,7 @@ interface RenderSwitchInputOptions {
   inputProps: InputHTMLAttributes<HTMLInputElement>
   invalid?: boolean
   label?: ReactNode
-  size?: 'small' | 'large'
+  size?: 'sm' | 'lg'
   valid?: boolean
 }
 

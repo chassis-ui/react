@@ -13,7 +13,7 @@ export default meta
 
 type Story = StoryObj<typeof Row>
 
-const boxClass = 'border p-medium text-center'
+const boxClass = 'border p-md text-center'
 
 export const EqualWidth: Story = {
   render: () => (
@@ -45,7 +45,7 @@ export const RowCols: Story = {
 export const ResponsiveRowCols: Story = {
   render: () => (
     <Container>
-      <Row cols={1} responsive={{ small: { cols: 2 }, medium: { cols: 4 } }}>
+      <Row cols={1} responsive={{ sm: { cols: 2 }, md: { cols: 4 } }}>
         <Col className={boxClass}>Column</Col>
         <Col className={boxClass}>Column</Col>
         <Col className={boxClass}>Column</Col>

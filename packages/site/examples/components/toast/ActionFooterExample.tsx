@@ -7,10 +7,10 @@ export const Example = () => {
       visible={true}
       footer={(close) => (
         <>
-          <Button type="button" color="primary" size="small">
+          <Button type="button" color="primary" size="sm">
             Take action
           </Button>
-          <Button type="button" size="small" onClick={close}>
+          <Button type="button" size="sm" onClick={close}>
             Close
           </Button>
         </>

@@ -4,8 +4,8 @@ export const Example = () => {
   return (
     <Flex
       direction="column"
-      gap="small"
-      responsive={{ medium: { direction: 'row', gap: 'medium', justify: 'between' } }}
+      gap="sm"
+      responsive={{ md: { direction: 'row', gap: 'md', justify: 'between' } }}
     >
       <div>First item</div>
       <div>Second item</div>

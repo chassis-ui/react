@@ -9,7 +9,7 @@ const meta: Meta<typeof Container> = {
   argTypes: {
     fluidUntil: {
       control: 'select',
-      options: ['small', 'medium', 'large', 'xlarge', '2xlarge']
+      options: ['sm', 'md', 'lg', 'xl', '2xl']
     }
   }
 }
@@ -17,7 +17,7 @@ export default meta
 
 type Story = StoryObj<typeof Container>
 
-const content = <div className="border p-medium text-center">Responsive container content</div>
+const content = <div className="border p-md text-center">Responsive container content</div>
 
 export const Default: Story = {
   args: {
@@ -34,7 +34,7 @@ export const Fluid: Story = {
 
 export const FluidUntil: Story = {
   args: {
-    fluidUntil: 'medium',
+    fluidUntil: 'md',
     children: content
   }
 }

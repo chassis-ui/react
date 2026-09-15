@@ -16,9 +16,9 @@ describe('CloseButton', () => {
 
   describe('styling props', () => {
     test('applies size, disabled and className together', () => {
-      render(<CloseButton size="large" disabled className="bazinga" />)
+      render(<CloseButton size="lg" disabled className="bazinga" />)
       const button = screen.getByRole('button', { name: 'Close' })
-      expect(button).toHaveClass('close-button', 'large', 'bazinga')
+      expect(button).toHaveClass('close-button', 'lg', 'bazinga')
       expect(button).toBeDisabled()
     })
 

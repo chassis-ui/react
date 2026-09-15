@@ -66,7 +66,7 @@ describe('Radio', () => {
       render(
         <RadioGroup aria-label="Options" defaultValue="a">
           <Radio
-            button={{ color: 'primary', size: 'large', shape: 'rounded', variant: 'ghost' }}
+            button={{ color: 'primary', size: 'lg', shape: 'rounded', variant: 'ghost' }}
             label="label"
             value="a"
           />

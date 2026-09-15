@@ -9,7 +9,7 @@ export const Example = () => {
         <Card
           color="primary"
           variant={variant}
-          className="mb-medium"
+          className="mb-md"
           style={{ maxWidth: '18rem' }}
           key={variant}
         >

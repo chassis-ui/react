@@ -13,6 +13,7 @@ import { DateField } from './DateField'
 import { renderDatePickerShell } from './renderDatePickerShell'
 import './DatePicker.scss'
 import './DateRangePicker.scss'
+import { CalendarLabels, CalendarLabelsProvider } from '../calendar/labels'
 
 export interface DateRangePickerProps extends Omit<
   HTMLAttributes<HTMLDivElement>,
@@ -73,6 +74,14 @@ export interface DateRangePickerProps extends Omit<
    */
   isDateUnavailable?: (date: DateValue) => boolean
   /**
+   * Overrides for the strings this component and its calendar render themselves rather than
+   * getting from the active locale — the clear adornment and the calendar's own year-view
+   * arrows/announcements. Date segment order, month and weekday names all follow `I18nProvider`'s
+   * locale via react-aria and need no override. Merged over the English defaults, so passing one
+   * key leaves the rest alone.
+   */
+  labels?: Partial<CalendarLabels>
+  /**
    * Whether the calendar popover is open (controlled).
    */
   isOpen?: boolean
@@ -110,9 +119,9 @@ export interface DateRangePickerProps extends Omit<
    */
   presets?: DateRangePreset[]
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'small' | 'large'
+  size?: 'sm' | 'lg'
   /**
    * ISO 8601 dates (`YYYY-MM-DD`) to mark unselectable, as a convenience alternative to
    * `isDateUnavailable` for data-driven cases (e.g. booked dates fetched from an API). Composed
@@ -162,6 +171,7 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
       isDateUnavailable,
       isOpen,
       label,
+      labels,
       maxValue,
       minValue,
       name,
@@ -248,95 +258,103 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
 
     const { dialogProps: domDialogProps } = useDialog(dialogProps, calendarRef)
 
-    return renderFormField({
-      children: (
-        <>
-          {renderDatePickerShell({
-            calendar: (
-              <RangeCalendar
-                {...domDialogProps}
-                autoFocus
-                disabled={disabled}
-                firstDayOfWeek={firstDayOfWeek}
-                isDateUnavailable={combinedIsDateUnavailable}
-                maxValue={maxValue}
-                minValue={minValue}
-                onChange={calendarProps.onChange}
-                presets={presets}
-                ref={calendarRef}
-                value={calendarProps.value}
-                visibleMonths={visibleMonths}
-              />
-            ),
-            className,
-            // `state.value` is always a `{ start, end }` object, never `null` itself — even with
-            // nothing picked yet — so the endpoints are what actually indicate a selection to
-            // clear (matching the hidden-input `value`s below, which check the same way).
-            clearButton: (state.value?.start || state.value?.end) && !disabled && (
-              <ClearButton
-                onPress={() => {
-                  state.setValue(null)
-                  // See `DatePicker`'s identical `ClearButton` usage for why this is needed —
-                  // this button unmounts itself once cleared, so focus needs somewhere to land.
-                  toggleButtonRef.current?.focus()
-                }}
-              />
-            ),
-            disabled,
-            field: (
-              <>
-                <DateField fieldProps={startFieldProps} />
-                <span aria-hidden="true" className="daterangepicker-separator">
-                  –
-                </span>
-                <DateField fieldProps={endFieldProps} />
-              </>
-            ),
-            fieldClassName: 'd-flex w-100',
-            groupProps: {
-              ...mergeProps(groupProps, rest),
-              'aria-describedby': describedBy,
-              'aria-labelledby': labelledBy
-            },
-            groupRef: forkedGroupRef,
-            invalid,
-            isOpen: state.isOpen,
-            overlayDismissProps,
-            overlayRef,
-            overlayStyle,
-            placementAttr,
-            size,
-            toggleButton: (
-              <CalendarToggleButton buttonProps={buttonProps} ref={toggleButtonRef} state={state} />
-            ),
-            valid
-          })}
-          {name && (
+    return (
+      <CalendarLabelsProvider labels={labels}>
+        {renderFormField({
+          children: (
             <>
-              <input
-                disabled={disabled}
-                name={`${name}Start`}
-                type="hidden"
-                value={state.value?.start ? state.value.start.toString() : ''}
-              />
-              <input
-                disabled={disabled}
-                name={`${name}End`}
-                type="hidden"
-                value={state.value?.end ? state.value.end.toString() : ''}
-              />
+              {renderDatePickerShell({
+                calendar: (
+                  <RangeCalendar
+                    {...domDialogProps}
+                    autoFocus
+                    disabled={disabled}
+                    firstDayOfWeek={firstDayOfWeek}
+                    isDateUnavailable={combinedIsDateUnavailable}
+                    maxValue={maxValue}
+                    minValue={minValue}
+                    onChange={calendarProps.onChange}
+                    presets={presets}
+                    ref={calendarRef}
+                    value={calendarProps.value}
+                    visibleMonths={visibleMonths}
+                  />
+                ),
+                className,
+                // `state.value` is always a `{ start, end }` object, never `null` itself — even with
+                // nothing picked yet — so the endpoints are what actually indicate a selection to
+                // clear (matching the hidden-input `value`s below, which check the same way).
+                clearButton: (state.value?.start || state.value?.end) && !disabled && (
+                  <ClearButton
+                    onPress={() => {
+                      state.setValue(null)
+                      // See `DatePicker`'s identical `ClearButton` usage for why this is needed —
+                      // this button unmounts itself once cleared, so focus needs somewhere to land.
+                      toggleButtonRef.current?.focus()
+                    }}
+                  />
+                ),
+                disabled,
+                field: (
+                  <>
+                    <DateField fieldProps={startFieldProps} />
+                    <span aria-hidden="true" className="daterangepicker-separator">
+                      –
+                    </span>
+                    <DateField fieldProps={endFieldProps} />
+                  </>
+                ),
+                fieldClassName: 'd-flex w-100',
+                groupProps: {
+                  ...mergeProps(groupProps, rest),
+                  'aria-describedby': describedBy,
+                  'aria-labelledby': labelledBy
+                },
+                groupRef: forkedGroupRef,
+                invalid,
+                isOpen: state.isOpen,
+                overlayDismissProps,
+                overlayRef,
+                overlayStyle,
+                placementAttr,
+                size,
+                toggleButton: (
+                  <CalendarToggleButton
+                    buttonProps={buttonProps}
+                    ref={toggleButtonRef}
+                    state={state}
+                  />
+                ),
+                valid
+              })}
+              {name && (
+                <>
+                  <input
+                    disabled={disabled}
+                    name={`${name}Start`}
+                    type="hidden"
+                    value={state.value?.start ? state.value.start.toString() : ''}
+                  />
+                  <input
+                    disabled={disabled}
+                    name={`${name}End`}
+                    type="hidden"
+                    value={state.value?.end ? state.value.end.toString() : ''}
+                  />
+                </>
+              )}
             </>
-          )}
-        </>
-      ),
-      help,
-      ids: { feedback: feedbackId, help: helpId, label: labelId },
-      invalid,
-      invalidFeedback,
-      label,
-      valid,
-      validFeedback
-    })
+          ),
+          help,
+          ids: { feedback: feedbackId, help: helpId, label: labelId },
+          invalid,
+          invalidFeedback,
+          label,
+          valid,
+          validFeedback
+        })}
+      </CalendarLabelsProvider>
+    )
   }
 )
 

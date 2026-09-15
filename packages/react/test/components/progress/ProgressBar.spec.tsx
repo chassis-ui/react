@@ -17,7 +17,7 @@ describe('ProgressBar', () => {
       const bar = screen.getByTestId('bar')
       expect(bar).toHaveClass('bg-warning', 'fg-contrast')
       // eslint-disable-next-line testing-library/no-node-access
-      expect(bar.querySelector('.mx-2xsmall')).toBeInTheDocument()
+      expect(bar.querySelector('.mx-2xs')).toBeInTheDocument()
     })
 
     test('applies striped and animated classes with className', () => {

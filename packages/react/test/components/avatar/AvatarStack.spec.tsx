@@ -22,12 +22,12 @@ describe('AvatarStack', () => {
     test('applies the size and caller className together', () => {
       // Same unlabeled wrapper as above.
       const { container } = render(
-        <AvatarStack className="bazinga" size="small">
+        <AvatarStack className="bazinga" size="sm">
           <Avatar>CX</Avatar>
         </AvatarStack>
       )
       // eslint-disable-next-line testing-library/no-node-access
-      expect(container.firstChild).toHaveClass('avatar-stack', 'small', 'bazinga')
+      expect(container.firstChild).toHaveClass('avatar-stack', 'sm', 'bazinga')
     })
 
     test('renders as a custom element via component', () => {

@@ -1,6 +1,6 @@
 {
   "tags": {},
-  "filePath": "/Volumes/Ozgur/Dropbox/Sites/chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+  "filePath": "packages/react/src/components/datepicker/DatePicker.tsx",
   "description": "",
   "displayName": "DatePicker",
   "methods": [],
@@ -345,6 +345,25 @@
         "name": "((date: DateValue) => boolean)"
       }
     },
+    "labels": {
+      "defaultValue": null,
+      "description": "Overrides for the strings this component and its calendar render themselves rather than\ngetting from the active locale — the calendar trigger, the clear adornment, and the calendar's\nown year-view arrows/announcements. Date segment order, month and weekday names all follow\n`I18nProvider`'s locale via react-aria and need no override. Merged over the English defaults,\nso passing one key leaves the rest alone.",
+      "name": "labels",
+      "parent": {
+        "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+        "name": "DatePickerBaseProps"
+      },
+      "declarations": [
+        {
+          "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+          "name": "DatePickerBaseProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Partial<CalendarLabels>"
+      }
+    },
     "isOpen": {
       "defaultValue": null,
       "description": "Whether the calendar popover is open (controlled).",
@@ -461,7 +480,7 @@
     },
     "size": {
       "defaultValue": null,
-      "description": "Size the component small or large.",
+      "description": "Size the component sm or lg.",
       "name": "size",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
@@ -476,13 +495,13 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"small\" | \"large\"",
+        "raw": "\"sm\" | \"lg\"",
         "value": [
           {
-            "value": "\"small\""
+            "value": "\"sm\""
           },
           {
-            "value": "\"large\""
+            "value": "\"lg\""
           }
         ]
       }

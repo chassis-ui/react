@@ -170,6 +170,21 @@ describe('OtpInput', () => {
       fireEvent.keyDown(screen.getByRole('textbox', { name: 'Digit 2' }), { key: 'ArrowLeft' })
       expect(first).toHaveFocus()
     })
+
+    test('arrow keys mirror under dir="rtl"', () => {
+      render(
+        <div dir="rtl">
+          <OtpInput aria-label="Code" length={3} />
+        </div>
+      )
+      const first = screen.getByRole('textbox', { name: 'Digit 1' })
+      // In an RTL field the second box sits to the *left* of the first, so ArrowLeft is what moves
+      // forward through the code — the mapping is by visual direction, not by key name.
+      fireEvent.keyDown(first, { key: 'ArrowLeft' })
+      expect(screen.getByRole('textbox', { name: 'Digit 2' })).toHaveFocus()
+      fireEvent.keyDown(screen.getByRole('textbox', { name: 'Digit 2' }), { key: 'ArrowRight' })
+      expect(first).toHaveFocus()
+    })
   })
 
   describe('form integration', () => {

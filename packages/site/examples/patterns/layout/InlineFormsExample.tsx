@@ -12,7 +12,7 @@ import {
 
 export const Example = () => {
   return (
-    <Form className="row large:row-cols-auto g-3 align-items-center">
+    <Form className="row lg:row-cols-auto g-3 align-items-center">
       <Col span={12}>
         <FormLabel className="visually-hidden" htmlFor="inlineFormInputGroupUsername">
           Username

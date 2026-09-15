@@ -16,9 +16,9 @@ export type ButtonObject = {
    */
   shape?: Shapes
   /**
-   * Size the component small or large.
+   * Size the component sm or lg.
    */
-  size?: 'small' | 'large'
+  size?: 'sm' | 'lg'
   /**
    * Set the button variant to an outlined button or a ghost button.
    */
@@ -32,7 +32,7 @@ export interface RenderFormCheckOptions {
   input: ReactNode
   invalid?: boolean
   label?: ReactNode
-  size?: 'small' | 'large'
+  size?: 'sm' | 'lg'
   valid?: boolean
 }
 

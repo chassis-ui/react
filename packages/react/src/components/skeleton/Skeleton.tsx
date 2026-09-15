@@ -44,7 +44,7 @@ type SkeletonOwnProps<C extends ElementType> = {
   /**
    * Overrides `span` at a breakpoint and up.
    *
-   * @type { Partial<Record<'small' | 'medium' | 'large' | 'xlarge' | '2xlarge', 'auto' | number | string | boolean>> }
+   * @type { Partial<Record<'sm' | 'md' | 'lg' | 'xl' | '2xl', 'auto' | number | string | boolean>> }
    */
   responsive?: Partial<Record<Breakpoint, Span>>
 }

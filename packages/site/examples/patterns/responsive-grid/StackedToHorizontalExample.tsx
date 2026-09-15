@@ -4,13 +4,13 @@ export const Example = () => {
   return (
     <Container>
       <Row>
-        <Col responsive={{ small: { span: 8 } }}>small:col-8</Col>
-        <Col responsive={{ small: { span: 4 } }}>small:col-4</Col>
+        <Col responsive={{ sm: { span: 8 } }}>sm:col-8</Col>
+        <Col responsive={{ sm: { span: 4 } }}>sm:col-4</Col>
       </Row>
       <Row>
-        <Col responsive={{ small: { span: true } }}>col-small</Col>
-        <Col responsive={{ small: { span: true } }}>col-small</Col>
-        <Col responsive={{ small: { span: true } }}>col-small</Col>
+        <Col responsive={{ sm: { span: true } }}>col-sm</Col>
+        <Col responsive={{ sm: { span: true } }}>col-sm</Col>
+        <Col responsive={{ sm: { span: true } }}>col-sm</Col>
       </Row>
     </Container>
   )

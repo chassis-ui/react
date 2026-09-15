@@ -570,4 +570,39 @@ describe('Calendar', () => {
       expect(await axe(document.body)).toHaveNoViolations()
     })
   })
+
+  describe('labels', () => {
+    test('translates the strings the calendar renders itself', () => {
+      render(
+        <Calendar
+          aria-label="Date de l'événement"
+          labels={{
+            year: 'Année',
+            previousYears: 'Années précédentes',
+            nextYears: 'Années suivantes'
+          }}
+          value={new CalendarDate(2026, 7, 24)}
+        />
+      )
+      fireEvent.click(screen.getByRole('button', { name: /^Année:/ }))
+
+      expect(screen.getByRole('button', { name: 'Années précédentes' })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'Années suivantes' })).toBeInTheDocument()
+    })
+
+    test('leaves unlisted labels at their English defaults', () => {
+      render(
+        <Calendar
+          aria-label="Event date"
+          labels={{ previousYears: 'Années précédentes' }}
+          value={new CalendarDate(2026, 7, 24)}
+        />
+      )
+      fireEvent.click(getYearButton())
+
+      expect(screen.getByRole('button', { name: 'Années précédentes' })).toBeInTheDocument()
+      // Only `previousYears` was overridden; the rest are merged over, not replaced.
+      expect(screen.getByRole('button', { name: 'Next years' })).toBeInTheDocument()
+    })
+  })
 })

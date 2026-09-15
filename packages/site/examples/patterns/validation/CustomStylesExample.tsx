@@ -26,13 +26,13 @@ export const Example = () => {
 
   return (
     <Form className="row g-3" noValidate validated={validated} onSubmit={handleSubmit}>
-      <Col responsive={{ medium: { span: 4 } }}>
+      <Col responsive={{ md: { span: 4 } }}>
         <TextInput label="First name" defaultValue="Mark" validFeedback="Looks good!" required />
       </Col>
-      <Col responsive={{ medium: { span: 4 } }}>
+      <Col responsive={{ md: { span: 4 } }}>
         <TextInput label="Last name" defaultValue="Otto" validFeedback="Looks good!" required />
       </Col>
-      <Col responsive={{ medium: { span: 4 } }}>
+      <Col responsive={{ md: { span: 4 } }}>
         <FormLabel htmlFor="validationCustomUsername">Username</FormLabel>
         <InputGroup className="has-validation">
           <InputGroupAddon id="inputGroupPrepend">@</InputGroupAddon>
@@ -46,10 +46,10 @@ export const Example = () => {
           Please choose a username.
         </FormFeedback>
       </Col>
-      <Col responsive={{ medium: { span: 6 } }}>
+      <Col responsive={{ md: { span: 6 } }}>
         <TextInput label="City" invalidFeedback="Please provide a valid city." required />
       </Col>
-      <Col responsive={{ medium: { span: 3 } }}>
+      <Col responsive={{ md: { span: 3 } }}>
         <Select label="State" invalidFeedback="Please select a valid state." required>
           <option disabled value="">
             Choose...
@@ -58,7 +58,7 @@ export const Example = () => {
           <option>New York</option>
         </Select>
       </Col>
-      <Col responsive={{ medium: { span: 3 } }}>
+      <Col responsive={{ md: { span: 3 } }}>
         <TextInput label="Zip" invalidFeedback="Please provide a valid zip." required />
       </Col>
       <Col span={12}>

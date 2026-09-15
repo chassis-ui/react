@@ -53,7 +53,7 @@
     background-color: #{to-opacity(var(--cxd-subtle), .2)};
     border: 1px solid #{to-opacity(var(--cxd-subtle), .4)};
     > div {
-      padding: var(--cx-space-xsmall)
+      padding: var(--cx-space-xs);
     }
   }
 

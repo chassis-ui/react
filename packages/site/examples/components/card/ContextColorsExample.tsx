@@ -6,7 +6,7 @@ export const Example = () => {
   return (
     <>
       {COLORS.map((color) => (
-        <Card color={color} className="mb-medium" style={{ maxWidth: '18rem' }} key={color}>
+        <Card color={color} className="mb-md" style={{ maxWidth: '18rem' }} key={color}>
           <CardHeader>Header</CardHeader>
           <CardBody>
             <CardTitle>{color} card title</CardTitle>

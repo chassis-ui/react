@@ -17,15 +17,15 @@ describe('CardBody', () => {
   describe('layout props', () => {
     test('applies direction, responsive and gap as classes', () => {
       render(
-        <CardBody direction="row" responsive={{ large: 'column' }} gap="medium">
+        <CardBody direction="row" responsive={{ lg: 'column' }} gap="md">
           Test
         </CardBody>
       )
       expect(screen.getByText('Test')).toHaveClass(
         'card-body',
         'flex-row',
-        'large:flex-column',
-        'gap-medium'
+        'lg:flex-column',
+        'gap-md'
       )
     })
   })

@@ -17,7 +17,7 @@ import {
 } from '@chassis-ui/react'
 
 const NavLinks = () => (
-  <NavbarNav className="me-auto mb-small medium:mb-0">
+  <NavbarNav className="me-auto mb-sm md:mb-0">
     <NavItem>
       <NavLink href="#" active>
         Home
@@ -42,7 +42,7 @@ export const Example = () => {
 
   return (
     <>
-      <Navbar expand="medium" color="primary" variant="solid">
+      <Navbar expand="md" color="primary" variant="solid">
         <Container fluid>
           <NavbarBrand href="#">Navbar</NavbarBrand>
           <NavbarToggler
@@ -65,7 +65,7 @@ export const Example = () => {
               <Form className="d-flex" role="search">
                 <TextInput
                   type="search"
-                  className="me-small"
+                  className="me-sm"
                   placeholder="Search"
                   aria-label="Search"
                 />
@@ -78,7 +78,7 @@ export const Example = () => {
         </Container>
       </Navbar>
       <br />
-      <Navbar expand="medium" color="primary" className="bg-even" data-cx-theme="dark">
+      <Navbar expand="md" color="primary" className="bg-even" data-cx-theme="dark">
         <Container fluid>
           <NavbarBrand href="#">Navbar</NavbarBrand>
           <NavbarToggler
@@ -101,7 +101,7 @@ export const Example = () => {
               <Form className="d-flex" role="search">
                 <TextInput
                   type="search"
-                  className="me-small"
+                  className="me-sm"
                   data-cx-theme="light"
                   placeholder="Search"
                   aria-label="Search"
@@ -115,7 +115,7 @@ export const Example = () => {
         </Container>
       </Navbar>
       <br />
-      <Navbar expand="medium" color="primary" className="bg-even" data-cx-theme="light">
+      <Navbar expand="md" color="primary" className="bg-even" data-cx-theme="light">
         <Container fluid>
           <NavbarBrand href="#">Navbar</NavbarBrand>
           <NavbarToggler
@@ -138,7 +138,7 @@ export const Example = () => {
               <Form className="d-flex" role="search">
                 <TextInput
                   type="search"
-                  className="me-small"
+                  className="me-sm"
                   placeholder="Search"
                   aria-label="Search"
                 />

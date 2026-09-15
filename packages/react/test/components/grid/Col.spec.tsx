@@ -21,11 +21,11 @@ describe('Col', () => {
           className="bazinga"
           span={1}
           responsive={{
-            small: { span: 2 },
-            medium: { span: 3 },
-            large: { span: 4 },
-            xlarge: { span: 5 },
-            '2xlarge': { span: 6 }
+            sm: { span: 2 },
+            md: { span: 3 },
+            lg: { span: 4 },
+            xl: { span: 5 },
+            '2xl': { span: 6 }
           }}
         >
           Test
@@ -34,11 +34,11 @@ describe('Col', () => {
       expect(screen.getByText('Test')).toHaveClass(
         'bazinga',
         'col-1',
-        'small:col-2',
-        'medium:col-3',
-        'large:col-4',
-        'xlarge:col-5',
-        '2xlarge:col-6'
+        'sm:col-2',
+        'md:col-3',
+        'lg:col-4',
+        'xl:col-5',
+        '2xl:col-6'
       )
     })
 
@@ -47,11 +47,11 @@ describe('Col', () => {
         <Col
           span
           responsive={{
-            small: { span: true },
-            medium: { span: true },
-            large: { span: true },
-            xlarge: { span: true },
-            '2xlarge': { span: true }
+            sm: { span: true },
+            md: { span: true },
+            lg: { span: true },
+            xl: { span: true },
+            '2xl': { span: true }
           }}
         >
           Test
@@ -59,21 +59,21 @@ describe('Col', () => {
       )
       expect(screen.getByText('Test')).toHaveClass(
         'col',
-        'small:col',
-        'medium:col',
-        'large:col',
-        'xlarge:col',
-        '2xlarge:col'
+        'sm:col',
+        'md:col',
+        'lg:col',
+        'xl:col',
+        '2xl:col'
       )
     })
 
     test('applies span/order/offset from a responsive breakpoint override', () => {
-      render(<Col responsive={{ medium: { span: 6, order: 'first', offset: 2 } }}>Test</Col>)
+      render(<Col responsive={{ md: { span: 6, order: 'first', offset: 2 } }}>Test</Col>)
       expect(screen.getByText('Test')).toHaveClass(
         'col',
-        'medium:col-6',
-        'medium:order-first',
-        'medium:offset-2'
+        'md:col-6',
+        'md:order-first',
+        'md:offset-2'
       )
     })
   })

@@ -40,43 +40,74 @@ pnpm dev          # lib watch build + astro dev server, together
 pnpm start        # setup, then dev — the single command for a fresh clone
 pnpm test         # @chassis-ui/react's vitest suite
 pnpm lint         # react lint + site lint + HTML/vnu validation — the full local sweep
-pnpm lint:eslint  # eslint across packages/**/src only — narrower, what CI actually gates on
+pnpm lint:eslint  # eslint across both packages in full — what CI actually gates on
 pnpm site:build   # react:generate + sync-submodules + astro build + pagefind index
 pnpm smoke:build  # react:build, then build every app under smoke-tests/*
 ```
 
 `pnpm react:lint`/`pnpm site:lint` delegate to each package's own `lint` script (eslint + stylelint
-+ prettier, scoped to that package); `pnpm react:check:api`/`:update`, `pnpm react:check:bundle`,
-`pnpm react:check:package`, and `pnpm site:check` likewise delegate to real scripts on
-`packages/react`/`packages/site`. `pnpm lint:html`/`pnpm lint:vnu` stay root-level because they
-validate the root `_site/` build output, not anything inside `packages/site` itself.
+
+- prettier, scoped to that package); `pnpm react:check:api`/`:update`, `pnpm react:check:bundle`,
+  `pnpm react:check:types`, `pnpm react:check:rsc`, `pnpm react:check:package`, and `pnpm site:check`
+  likewise delegate to real scripts on `packages/react`/`packages/site`. `pnpm lint:eslint` delegates
+  to both packages' own `lint:eslint` — it used to glob `packages/**/src/**` directly, which left
+  `stories/`, `test/`, `scripts/` and `.storybook/` unlinted in CI (that gap is how four broken
+  Storybook interaction tests reached `main`). `pnpm lint:html`/`pnpm lint:vnu` stay root-level because they
+  validate the root `_site/` build output, not anything inside `packages/site` itself.
 
 `pnpm react:generate` (`build/generate-api.ts`) walks `packages/react/src/components`, extracts
 prop tables with `react-docgen-typescript`, and writes JSON into `packages/site/content/api/` —
 run this after changing any component's exported props so the docs site picks up the change.
+`pnpm react:check:api-docs` is the CI gate for it: regenerates and fails if the result differs from
+what's committed. That gate is only possible because the generator rewrites
+react-docgen-typescript's absolute paths repo-relative on the way out — it used to embed the
+generating machine's own checkout path in all 148 files, which made the artifacts
+machine-specific.
 `pnpm sync-submodules` (`build/sync-submodules.js`) updates the `vendor/assets` submodule the
 site's static assets come from.
 
 ## CI
 
 `.github/workflows/ci.yml` runs on push to `main`/`develop` and on PRs: `pnpm install
---frozen-lockfile`, then `pnpm lint:eslint` (the narrow eslint-only pass — CI deliberately doesn't
-gate on the full `pnpm lint`, which also runs stylelint/Prettier/HTML validation and currently has
-pre-existing, unrelated findings), then `pnpm test` (the react package's vitest suite,
-including coverage thresholds — see [`packages/react/AGENTS.md`](packages/react/AGENTS.md)), then
+--frozen-lockfile`, then `pnpm lint:eslint` (the eslint-only pass across both packages — CI
+deliberately doesn't gate on the full `pnpm lint`, which also runs stylelint/Prettier/HTML
+validation and currently has pre-existing, unrelated findings), then `pnpm react:check:types`
+(`tsc --noEmit` over `packages/react`'s `src/`, `test/`, `types/` and `.storybook/` — nothing else
+type-checks this repo's own source, since tsdown bundles declarations rather than running a full
+`tsc`, and `react:check:api` only diffs the emitted `.d.ts`; four type errors including a wrong
+published `usePagination` return type reached `main` before this gate existed), then `pnpm test`
+(the react package's vitest suite — both the jsdom project and the `storybook` browser project —
+including coverage thresholds; see [`packages/react/AGENTS.md`](packages/react/AGENTS.md)), then
 `pnpm react:build` + `pnpm react:check:api` (fails if the public props/types surface drifted from
-the checked-in `packages/react/api-report.md` — see that package's `AGENTS.md`), then
-`pnpm site:check` (Astro/MDX type-checking — deliberately not the full `pnpm site:build`/
-`astro build`, which currently fails on a pre-existing, external issue in the sibling
-`../chassis-css` checkout's own in-progress Sass changes; `astro check` doesn't compile Sass so
-it's unaffected), then `pnpm react:check:bundle` (`packages/react/.bundlewatch.config.json` — fails
-if `dist/index.js`/`dist/index.es.js` grow past ~15% over their current gzip size, catching e.g. a
-real dependency silently getting bundled instead of externalized again), then `pnpm audit --prod`
+the checked-in `packages/react/api-report.md` — see that package's `AGENTS.md`) +
+`pnpm react:check:rsc` (asserts the built bundle still starts with exactly one `'use client'`
+directive — see `RSC.md`) + `pnpm react:check:api-docs` (regenerates
+`packages/site/content/api/` and fails if it drifted from what's committed), then
+`pnpm site:check` (Astro/MDX type-checking — fast, and needs neither the `vendor/assets`
+submodule nor a Sass toolchain; the full static build runs as its own `site-build` job, see
+below), then `pnpm react:check:bundle` (`packages/react/.bundlewatch.config.json` — fails
+if `dist/index.js`/`dist/style.css` grow past their configured gzip ceilings, catching e.g. a real
+dependency silently getting bundled instead of externalized again), then `pnpm audit --prod`
 (blocking — a vulnerable runtime dependency would ship to every consumer) and a non-blocking
 `pnpm audit` covering devDependencies too (real findings worth tracking, but failing CI on every
-disclosed build-tooling CVE would make the gate chronically red). The full `pnpm site:build`
-(static site generation, not just type-checking) still isn't part of CI, for the Sass reason
-above — run it locally before relying on it being caught automatically.
+disclosed build-tooling CVE would make the gate chronically red).
+
+A separate `site-build` job runs the full `pnpm site:setup && pnpm site:build` (real `astro build`
+
+- pagefind, not just type-checking). This used to be impossible to gate on — it failed on an
+  external issue in the sibling `../chassis-css` checkout's own in-progress Sass, linked in by a
+  workspace override. That override was dev-only and has since been removed, so the site builds
+  against the published `@chassis-ui/css` and this is green again. It's a separate job because it's
+  the only thing in CI that needs a submodule checkout: `packages/site/public/` is gitignored and
+  populated from `vendor/assets` by `pnpm sync-submodules`.
+
+`pnpm lint:html`/`pnpm lint:vnu` are still **not** in CI. They were silently non-functional for a
+while — `build/html-validate.js` imports `globby`, which was never in the root devDependencies, so
+the script died on an unresolved import rather than validating anything. With that fixed they run,
+and report ~3,000 pre-existing issues across the built docs site (redundant ARIA roles, attribute
+casing in serialized examples, unresolved in-page references, duplicate landmarks). None of it is
+in `@chassis-ui/react` itself — the one library-level finding it surfaced, `<th>` elements with no
+`scope`, is fixed — but the docs-site backlog needs its own pass before these can gate anything.
 
 A separate `visual-regression` job runs `pnpm test:visual` (Storybook + Playwright screenshot
 tests scoped to the calendar/datepicker family today — see

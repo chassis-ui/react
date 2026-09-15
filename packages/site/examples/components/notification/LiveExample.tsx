@@ -16,7 +16,7 @@ export const Example = () => {
       <Button color="primary" onClick={handleSave}>
         Save changes
       </Button>
-      <NotificationStack aria-label="Notifications" className="mt-medium" />
+      <NotificationStack aria-label="Notifications" className="mt-md" />
     </>
   )
 }

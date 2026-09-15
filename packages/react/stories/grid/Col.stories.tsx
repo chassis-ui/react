@@ -13,7 +13,7 @@ export default meta
 
 type Story = StoryObj<typeof Col>
 
-const boxClass = 'border p-medium text-center'
+const boxClass = 'border p-md text-center'
 
 export const Span: Story = {
   render: () => (
@@ -34,14 +34,14 @@ export const ResponsiveSpan: Story = {
   render: () => (
     <Container>
       <Row>
-        <Col span={6} responsive={{ small: { span: 4 } }} className={boxClass}>
-          span=6, small:span=4
+        <Col span={6} responsive={{ sm: { span: 4 } }} className={boxClass}>
+          span=6, sm:span=4
         </Col>
-        <Col span={6} responsive={{ small: { span: 4 } }} className={boxClass}>
-          span=6, small:span=4
+        <Col span={6} responsive={{ sm: { span: 4 } }} className={boxClass}>
+          span=6, sm:span=4
         </Col>
-        <Col span={6} responsive={{ small: { span: 4 } }} className={boxClass}>
-          span=6, small:span=4
+        <Col span={6} responsive={{ sm: { span: 4 } }} className={boxClass}>
+          span=6, sm:span=4
         </Col>
       </Row>
     </Container>
@@ -52,11 +52,11 @@ export const Offset: Story = {
   render: () => (
     <Container>
       <Row>
-        <Col responsive={{ medium: { span: 4 } }} className={boxClass}>
-          medium:span=4
+        <Col responsive={{ md: { span: 4 } }} className={boxClass}>
+          md:span=4
         </Col>
-        <Col responsive={{ medium: { span: 4, offset: 4 } }} className={boxClass}>
-          medium:span=4 medium:offset=4
+        <Col responsive={{ md: { span: 4, offset: 4 } }} className={boxClass}>
+          md:span=4 md:offset=4
         </Col>
       </Row>
     </Container>

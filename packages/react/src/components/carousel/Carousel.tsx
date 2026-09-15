@@ -26,6 +26,7 @@ import {
   prefersReducedMotion,
   scrollDeltaFor
 } from './carouselEngine'
+import { devWarning } from '../../utils/devWarning'
 
 export type { CarouselEnds }
 export type CarouselTransition = 'scroll' | 'fade'
@@ -131,6 +132,9 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       itemsGap,
       itemsPeek,
       keyboard = true,
+      onKeyDown,
+      onMouseEnter,
+      onMouseLeave,
       onSlid,
       onSlide,
       pause = 'hover',
@@ -145,13 +149,12 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
     // "Controlled usage" section). Missing both means every click/swipe/autoplay advance updates
     // internal state that `useControllableState` immediately discards (controlled mode always
     // mirrors the prop), so the carousel silently freezes instead of erroring.
-    if (activeIndexProp !== undefined && !onSlide && !onSlid) {
-      console.warn(
-        'Carousel: `activeIndex` is set (controlled) but neither `onSlide` nor `onSlid` is — ' +
-          'nothing feeds the new index back to your state, so the carousel will visually freeze ' +
-          'on click/swipe/autoplay. Pass `onSlide` or `onSlid` and update `activeIndex` from it.'
-      )
-    }
+    devWarning(
+      activeIndexProp !== undefined && !onSlide && !onSlid,
+      'Carousel: `activeIndex` is set (controlled) but neither `onSlide` nor `onSlid` is — ' +
+        'nothing feeds the new index back to your state, so the carousel will visually freeze ' +
+        'on click/swipe/autoplay. Pass `onSlide` or `onSlid` and update `activeIndex` from it.'
+    )
 
     const carouselRef = useRef<HTMLDivElement>(null)
     const forkedRef = useForkedRef(ref, carouselRef)
@@ -655,7 +658,13 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       }
     }, [])
 
+    // Compose rather than let a caller's handler silently replace the carousel's own — same rule
+    // `CarouselControlButton`/`CarouselPlayPause` follow for `onClick`. These three sit on the
+    // root element, so before this they were simply overwritten by the `{...rest}` spread below:
+    // passing `onKeyDown` turned off arrow-key navigation and passing `onMouseEnter`/
+    // `onMouseLeave` turned off pause-on-hover, both silently.
     const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+      onKeyDown?.(event)
       if (!keyboard) return
       const target = event.target as HTMLElement
       if (target.closest('input, textarea, select, [contenteditable="true"]')) return
@@ -667,11 +676,13 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       else goNext()
     }
 
-    const handleMouseEnter = () => {
+    const handleMouseEnter = (event: React.MouseEvent<HTMLDivElement>) => {
+      onMouseEnter?.(event)
       if (pause === 'hover') pauseCycle()
     }
 
-    const handleMouseLeave = () => {
+    const handleMouseLeave = (event: React.MouseEvent<HTMLDivElement>) => {
+      onMouseLeave?.(event)
       if (pause === 'hover' && playing) startCycle()
     }
 

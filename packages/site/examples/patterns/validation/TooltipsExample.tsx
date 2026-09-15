@@ -25,21 +25,21 @@ export const Example = () => {
 
   return (
     <Form className="row g-3" noValidate validated={validated} onSubmit={handleSubmit}>
-      <Col responsive={{ medium: { span: 4 } }} className="position-relative">
+      <Col responsive={{ md: { span: 4 } }} className="position-relative">
         <FormLabel htmlFor="validationTooltip01">First name</FormLabel>
         <TextInput id="validationTooltip01" defaultValue="Mark" required />
         <FormFeedback tooltip valid>
           Looks good!
         </FormFeedback>
       </Col>
-      <Col responsive={{ medium: { span: 4 } }} className="position-relative">
+      <Col responsive={{ md: { span: 4 } }} className="position-relative">
         <FormLabel htmlFor="validationTooltip02">Last name</FormLabel>
         <TextInput id="validationTooltip02" defaultValue="Otto" required />
         <FormFeedback tooltip valid>
           Looks good!
         </FormFeedback>
       </Col>
-      <Col responsive={{ medium: { span: 4 } }} className="position-relative">
+      <Col responsive={{ md: { span: 4 } }} className="position-relative">
         <FormLabel htmlFor="validationTooltipUsername">Username</FormLabel>
         <InputGroup className="has-validation">
           <InputGroupAddon id="inputGroupPrepend">@</InputGroupAddon>
@@ -49,14 +49,14 @@ export const Example = () => {
           Please choose a username.
         </FormFeedback>
       </Col>
-      <Col responsive={{ medium: { span: 6 } }} className="position-relative">
+      <Col responsive={{ md: { span: 6 } }} className="position-relative">
         <FormLabel htmlFor="validationTooltip03">City</FormLabel>
         <TextInput id="validationTooltip03" required />
         <FormFeedback tooltip invalid>
           Please provide a valid city.
         </FormFeedback>
       </Col>
-      <Col responsive={{ medium: { span: 3 } }} className="position-relative">
+      <Col responsive={{ md: { span: 3 } }} className="position-relative">
         <FormLabel htmlFor="validationTooltip04">State</FormLabel>
         <Select id="validationTooltip04" required>
           <option disabled value="">
@@ -69,7 +69,7 @@ export const Example = () => {
           Please select a valid state.
         </FormFeedback>
       </Col>
-      <Col responsive={{ medium: { span: 3 } }} className="position-relative">
+      <Col responsive={{ md: { span: 3 } }} className="position-relative">
         <FormLabel htmlFor="validationTooltip05">Zip</FormLabel>
         <TextInput id="validationTooltip05" required />
         <FormFeedback tooltip invalid>

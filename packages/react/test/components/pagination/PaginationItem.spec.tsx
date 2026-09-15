@@ -24,7 +24,7 @@ describe('PaginationItem', () => {
       expect(link).toHaveAttribute('href', '/bazinga')
     })
 
-    test('renders as a span and ignores href when active', () => {
+    test('keeps the anchor and marks it aria-current when active', () => {
       render(
         <PaginationItem active href="/bazinga">
           Test
@@ -32,11 +32,28 @@ describe('PaginationItem', () => {
       )
       const item = screen.getByRole('listitem')
       expect(item).toHaveClass('pagination-item', 'active')
-      expect(item).toHaveAttribute('aria-current', 'page')
-      expect(screen.queryByRole('link')).not.toBeInTheDocument()
-      const span = screen.getByText('Test')
-      expect(span.tagName).toBe('SPAN')
-      expect(span).toHaveClass('pagination-link')
+      // `aria-current` belongs on the control, not the presentational <li> wrapping it.
+      expect(item).not.toHaveAttribute('aria-current')
+
+      const link = screen.getByRole('link', { name: 'Test' })
+      expect(link).toHaveAttribute('href', '/bazinga')
+      expect(link).toHaveAttribute('aria-current', 'page')
+      expect(link).toHaveClass('pagination-link')
+    })
+
+    test('keeps the button element when active so activation does not drop focus', () => {
+      const { rerender } = render(<PaginationItem>Test</PaginationItem>)
+      const before = screen.getByRole('button', { name: 'Test' })
+      before.focus()
+
+      rerender(<PaginationItem active>Test</PaginationItem>)
+
+      // Same element instance, still focused: becoming the active page used to swap the <button>
+      // for a <span>, which unmounted the focused node and sent focus to <body> (WCAG 2.4.3).
+      const after = screen.getByRole('button', { name: 'Test' })
+      expect(after).toBe(before)
+      expect(after).toHaveFocus()
+      expect(after).toHaveAttribute('aria-current', 'page')
     })
 
     test('renders a disabled button when disabled with no href', () => {

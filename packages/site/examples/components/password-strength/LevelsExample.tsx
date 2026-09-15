@@ -9,10 +9,10 @@ const samples: { label: string; password: string }[] = [
 
 export const Example = () => {
   return (
-    <div className="vstack gap-medium">
+    <div className="vstack gap-md">
       {samples.map(({ label, password }) => (
         <div key={label}>
-          <div className="fg-medium">{label}</div>
+          <div className="fg-md">{label}</div>
           <PasswordStrength aria-label={`${label} example`} value={password} />
         </div>
       ))}
