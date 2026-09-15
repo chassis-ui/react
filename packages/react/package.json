@@ -1,6 +1,6 @@
 {
   "name": "@chassis-ui/react",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "description": "Chassis UI Components Library for React.js",
   "keywords": [

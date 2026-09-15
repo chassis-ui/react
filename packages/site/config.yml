@@ -9,7 +9,7 @@ subtitle:               "React UI Components for the Chassis Design System"
 description:            "Production-ready React components built on Chassis CSS and design tokens. Accessible, TypeScript-first, and tree-shakeable."
 authors:                "Ozgur Gunes"
 
-current_version:        "0.1.0"
+current_version:        "0.1.1"
 docs_version:           "0.1"
 github_org:             "https://github.com/chassis-ui"
 repo:                   "https://github.com/chassis-ui/chassis-react"
