@@ -325,7 +325,22 @@ const TableSelectAllCell = <T extends object>({ column, state }: TableSelectAllC
   const { checkboxProps } = useTableSelectAllCheckbox(state)
 
   return (
-    <th {...columnHeaderProps} className="table-selection-cell" scope="col" ref={ref}>
+    <th
+      {...columnHeaderProps}
+      className="table-selection-cell"
+      scope="col"
+      // react-stately's internal "select all" column key is a module-scoped
+      // `'row-header-column-' + Math.random()` constant (@react-stately/table's TableCollection),
+      // computed once per JS environment rather than per render. Under SSR this makes `id`/
+      // `data-key` here differ between the server module instance and the browser's, on every
+      // request — a real react-stately bug, not something this component can influence (the key
+      // never reaches a public prop) — see README.md's Table/DataGrid known-issue section for the
+      // upstream write-up. The mismatch is confined to this internal bookkeeping attribute (no
+      // visible content, nothing else references this id), so suppressing the warning is safe
+      // rather than papering over a real functional break.
+      suppressHydrationWarning
+      ref={ref}
+    >
       <TableCheckbox checkboxProps={checkboxProps} />
     </th>
   )
@@ -381,7 +396,9 @@ const TableSelectionCell = <T extends object>({ cell, state }: TableCellProps<T>
   const { checkboxProps } = useTableSelectionCheckbox({ key: cell.parentKey! }, state)
 
   return (
-    <td {...gridCellProps} className="table-selection-cell" ref={ref}>
+    // See `TableSelectAllCell`'s comment: this cell's `id`/`data-key` derive from the same
+    // module-scoped random column key and mismatch between server and client under SSR.
+    <td {...gridCellProps} className="table-selection-cell" suppressHydrationWarning ref={ref}>
       <TableCheckbox checkboxProps={checkboxProps} />
     </td>
   )
