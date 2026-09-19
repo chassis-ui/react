@@ -26,7 +26,7 @@ const roles = ['Admin', 'Editor', 'Viewer']
 const statuses = ['Active', 'Inactive']
 const statusColor = { Active: 'success', Inactive: 'secondary' } as const
 
-const dateFormatter = new Intl.DateTimeFormat('en-US', { dateStyle: 'md' })
+const dateFormatter = new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' })
 
 const columns = [
   { key: 'name', label: 'Name' },
