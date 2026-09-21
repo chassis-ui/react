@@ -95,7 +95,7 @@
     "@types/react-dom": "^19.2.7",
     "@types/react-transition-group": "^4.4.11",
     "@vitejs/plugin-react": "^6.1.1",
-    "@vitest/browser-playwright": "4.1.10",
+    "@vitest/browser-playwright": "5.0.1",
     "@vitest/coverage-istanbul": "^4.1.10",
     "bundlewatch": "^0.4.2",
     "http-server": "^14.1.1",
