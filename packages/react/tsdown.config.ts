@@ -1,9 +1,23 @@
+import fs from 'fs'
 import path from 'path'
 import { defineConfig } from 'tsdown'
 import postcssPrefixCustomProperties from 'postcss-prefix-custom-properties'
 
+// One entry per component folder, published as `@chassis-ui/react/<folder>` (`exports: true`
+// below turns every entry into a subpath export), alongside the root `index` entry that re-exports
+// all of them. A consumer importing from a subpath only pulls in that folder's module graph,
+// instead of the whole library — see RSC.md's "Subpath imports" for why a single entry couldn't
+// be tree-shaken by the consumer's bundler. Every folder's `index.ts` barrel carries its own
+// `'use client'` directive, since Rolldown only preserves directives on entry modules.
+const componentEntries = Object.fromEntries(
+  fs
+    .readdirSync('src/components', { withFileTypes: true })
+    .filter((dirent) => dirent.isDirectory())
+    .map((dirent) => [dirent.name, `src/components/${dirent.name}/index.ts`])
+)
+
 export default defineConfig({
-  entry: ['src/index.ts'],
+  entry: { index: 'src/index.ts', ...componentEntries },
   format: 'esm',
   dts: true,
   platform: 'neutral',
@@ -13,11 +27,35 @@ export default defineConfig({
   // was removed. `es2022` matches the `browserslist` floor now declared alongside it (Chrome 107 /
   // Edge 107 / Firefox 104 / Safari 16 — the same "baseline widely available" set Vite targets).
   target: 'es2022',
+  inputOptions: {
+    treeshake: {
+      // `package.json`'s `sideEffects` field describes the published `dist/` files, and Rolldown
+      // applies it to this package's own `src/` modules too — none of which match it, so every
+      // source module counts as side-effect-free and a bare
+      // `import './utils/suppressFocusRingGlobally'` is silently dropped. The single-file build
+      // masked that (the module was bundled anyway, because `RangeCalendar`/`focusRedirect`
+      // import its `suppressFocusRing` export); split into chunks, a page using only `Button`
+      // would have lost the global listener. Declared here so it's scoped to the build rather
+      // than claimed in the published `sideEffects` for `src/`.
+      moduleSideEffects: [{ test: /suppressFocusRingGlobally/, sideEffects: true }]
+    }
+  },
+  outputOptions: {
+    // Code shared between entries lands here, not next to the entries — keeps `dist/*.js` meaning
+    // "an entry point", which `package.json`'s `sideEffects` globs rely on (see AGENTS.md's Build).
+    chunkFileNames: 'chunks/[name]-[hash].js',
+    codeSplitting: {
+      // Its own chunk under a stable, un-hashed-prefix name, so `package.json`'s `sideEffects` can
+      // name it (`./dist/chunks/focus-ring-*.js`) — bundlers must keep this chunk even though
+      // nothing reads an export from it, while every other chunk stays tree-shakeable.
+      groups: [{ name: 'focus-ring', test: /suppressFocusRingGlobally/ }]
+    }
+  },
   exports: true,
   publint: true,
   // Published dist is what every consumer downloads — minify the JS/CSS output instead of
   // shipping it pretty-printed. `dts` isn't affected: tsdown bundles declarations through a
-  // separate pass that this flag doesn't touch, so `dist/index.d.ts` stays readable.
+  // separate pass that this flag doesn't touch, so the emitted `.d.ts` files stay readable.
   minify: true,
   // Matches `pnpm check:package`'s standalone `attw` invocation (see ci.yml): `esm-only` because
   // this package ships ESM-only by design, and `./style.css` is excluded because attw type-checks

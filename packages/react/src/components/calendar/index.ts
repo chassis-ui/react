@@ -1,3 +1,7 @@
+'use client'
+
+import '../../utils/suppressFocusRingGlobally'
+
 export { Calendar } from './Calendar'
 export type { CalendarProps, CalendarSingleProps, CalendarMultipleProps } from './Calendar'
 export { RangeCalendar } from './RangeCalendar'

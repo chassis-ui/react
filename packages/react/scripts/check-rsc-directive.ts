@@ -4,50 +4,90 @@ import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
-const BUNDLE_PATH = path.resolve(__dirname, '../dist/index.js')
-const DTS_PATH = path.resolve(__dirname, '../dist/index.d.ts')
+const DIST = path.resolve(__dirname, '../dist')
 
-// `@chassis-ui/react` ships one package-level `'use client'` directive (see RSC.md). It comes from
-// `src/index.ts`, which Rolldown preserves because that file is the bundle's entry module —
+// `@chassis-ui/react` ships a `'use client'` directive on every published JS entry point — the root
+// `dist/index.js` and one `dist/<component-folder>.js` per `@chassis-ui/react/<folder>` subpath
+// export (see RSC.md). Each comes from the first line of that entry's source module (`src/index.ts`,
+// or `src/components/<folder>/index.ts`), which Rolldown preserves because it's an entry module —
 // directives are only stripped for *non*-entry modules. That used to be re-added as a
 // `tsdown.config.ts` `output.banner` too, back when Rolldown dropped it, which left the published
 // bundle starting with a duplicated `'use client';"use client";`.
 //
 // Dropping the banner means the directive now depends on Rolldown's entry-module behavior holding,
 // so this asserts it directly rather than leaving it to a human to remember to grep dist/ after a
-// tsdown/rolldown bump. Without the directive, a consumer's Server Component importing this package
-// fails at `next build` with an unrelated-looking `createContext is not a function`.
+// tsdown/rolldown bump — and, now that there are dozens of entries, that no one forgets the
+// directive on a new component folder's barrel. Without it, a consumer's Server Component importing
+// that subpath fails at `next build` with an unrelated-looking `createContext is not a function`.
+//
+// Shared chunks under `dist/chunks/` must *not* carry one: they're only ever reached through an
+// entry that already establishes the client boundary, and a directive there would mean some source
+// module other than an entry declared one — Rolldown drops those, but a future version might not.
 const DIRECTIVE = /^(['"])use client\1;?/
+const ANY_DIRECTIVE = /(['"])use client\1;?/g
 
-const bundle = fs.readFileSync(BUNDLE_PATH, 'utf8')
 const failures: string[] = []
+const rel = (file: string) => path.relative(process.cwd(), file)
 
-if (!DIRECTIVE.test(bundle)) {
-  failures.push(
-    `${path.relative(process.cwd(), BUNDLE_PATH)} does not start with a 'use client' directive.\n` +
-      `  First 80 characters: ${JSON.stringify(bundle.slice(0, 80))}\n` +
-      `  Rolldown may have stopped preserving the entry module's directive — see RSC.md.`
-  )
+const entries = fs
+  .readdirSync(DIST)
+  .filter((name) => name.endsWith('.js'))
+  .map((name) => path.join(DIST, name))
+
+if (!entries.some((file) => path.basename(file) === 'index.js')) {
+  failures.push(`${rel(path.join(DIST, 'index.js'))} is missing — run \`pnpm build\` first.`)
 }
 
-// The directive must appear exactly once. Two of them is what the now-removed banner produced:
-// valid JS (a directive prologue may hold several string literals), but a duplicated directive in
-// a published artifact is a sign the banner and Rolldown are both emitting it.
-const prologue = bundle.slice(0, 200)
-const occurrences = (prologue.match(/(['"])use client\1;?/g) ?? []).length
-if (occurrences > 1) {
-  failures.push(
-    `${path.relative(process.cwd(), BUNDLE_PATH)} has ${occurrences} 'use client' directives; expected exactly 1.\n` +
-      `  Rolldown preserves the entry module's own directive, so tsdown.config.ts must not also add one via output.banner.`
-  )
+for (const file of entries) {
+  const bundle = fs.readFileSync(file, 'utf8')
+
+  if (!DIRECTIVE.test(bundle)) {
+    failures.push(
+      `${rel(file)} does not start with a 'use client' directive.\n` +
+        `  First 80 characters: ${JSON.stringify(bundle.slice(0, 80))}\n` +
+        `  Its source barrel may be missing the directive, or Rolldown may have stopped preserving` +
+        ` the entry module's directive — see RSC.md.`
+    )
+  }
+
+  // The directive must appear exactly once. Two of them is what the now-removed banner produced:
+  // valid JS (a directive prologue may hold several string literals), but a duplicated directive in
+  // a published artifact is a sign the banner and Rolldown are both emitting it.
+  const occurrences = (bundle.slice(0, 200).match(ANY_DIRECTIVE) ?? []).length
+  if (occurrences > 1) {
+    failures.push(
+      `${rel(file)} has ${occurrences} 'use client' directives; expected exactly 1.\n` +
+        `  Rolldown preserves the entry module's own directive, so tsdown.config.ts must not also add one via output.banner.`
+    )
+  }
+}
+
+const chunksDir = path.join(DIST, 'chunks')
+const chunks = fs.existsSync(chunksDir)
+  ? fs.readdirSync(chunksDir).map((name) => path.join(chunksDir, name))
+  : []
+
+for (const file of chunks.filter((f) => f.endsWith('.js'))) {
+  if (DIRECTIVE.test(fs.readFileSync(file, 'utf8'))) {
+    failures.push(
+      `${rel(file)} starts with a 'use client' directive; only entry points (dist/*.js) should.`
+    )
+  }
 }
 
 // A known upstream issue (rolldown-plugin-dts#174) can leak the directive into the declaration
 // output, where it has no business being.
-if (DIRECTIVE.test(fs.readFileSync(DTS_PATH, 'utf8'))) {
-  failures.push(
-    `${path.relative(process.cwd(), DTS_PATH)} starts with a 'use client' directive; it should only be in the JS bundle.`
-  )
+const declarations = [
+  ...fs.readdirSync(DIST).map((name) => path.join(DIST, name)),
+  ...chunks
+].filter((file) => file.endsWith('.d.ts'))
+
+for (const file of declarations) {
+  if (DIRECTIVE.test(fs.readFileSync(file, 'utf8'))) {
+    failures.push(
+      `${rel(file)} starts with a 'use client' directive; it should only be in the JS output.`
+    )
+  }
 }
 
 if (failures.length > 0) {
@@ -56,4 +96,7 @@ if (failures.length > 0) {
   process.exit(1)
 }
 
-console.log("dist/index.js carries exactly one 'use client' directive.")
+console.log(
+  `All ${entries.length} dist/*.js entry points carry exactly one 'use client' directive; ` +
+    `none of the ${chunks.filter((f) => f.endsWith('.js')).length} shared chunks do.`
+)

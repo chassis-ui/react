@@ -1,3 +1,7 @@
+'use client'
+
+import '../../utils/suppressFocusRingGlobally'
+
 export { DataGrid } from './DataGrid'
 export type { DataGridProps } from './DataGrid'
 export { DataGridBody } from './DataGridBody'

@@ -1,3 +1,7 @@
+'use client'
+
+import '../../utils/suppressFocusRingGlobally'
+
 export { Menu } from './Menu'
 export type { MenuProps, MenuFocusStrategy, MenuAutoClose } from './Menu'
 export { MenuDivider } from './MenuDivider'

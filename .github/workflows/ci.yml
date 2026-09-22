@@ -39,15 +39,17 @@ jobs:
 
       - run: pnpm test
 
-      # Builds the real dist/index.d.ts (bundled directly by tsdown) and diffs it against the
+      # Bundles a single-file declaration build of src/index.ts (the published dist/*.d.ts is split
+      # into hashed shared chunks, one entry per subpath export) and diffs it against the
       # checked-in packages/react/api-report.md snapshot, so an accidental breaking change to the
       # public props/types surface is caught here instead of only being discovered by a consumer
       # after publish. See packages/react/scripts/check-api-surface.ts.
       - run: pnpm react:build
       - run: pnpm react:check:api
 
-      # Asserts the published bundle still starts with exactly one `'use client'` directive.
-      # Rolldown preserves the entry module's own directive, so `tsdown.config.ts` no longer
+      # Asserts every published entry point (dist/index.js plus one dist/<folder>.js per
+      # `@chassis-ui/react/<folder>` subpath) starts with exactly one `'use client'` directive, and
+      # that no shared chunk carries one. Rolldown preserves each entry module's own directive, so `tsdown.config.ts` no longer
       # re-adds it via `output.banner` — this is what keeps that safe across a tsdown/rolldown
       # bump, instead of relying on someone remembering to grep dist/ by hand (see RSC.md).
       - run: pnpm react:check:rsc
@@ -87,7 +89,10 @@ jobs:
       # the externalizing. Thresholds in packages/react/.bundlewatch.config.json carry headroom
       # over the minified baseline (27.69 kB JS / 1.18 kB CSS gzip, once `tsdown.config.ts` turned
       # on `minify`/`css.minify` — previously-unminified baseline was 36.11 kB / 4.75 kB gzip, see
-      # the Phase 1 migration plan's spike findings).
+      # the Phase 1 migration plan's spike findings). Since the build split into one entry per
+      # component folder, the caps are per file: thin `dist/*.js` entries, and the shared
+      # `dist/chunks/*.js` code — a dependency getting inlined would blow through the per-chunk cap
+      # of whichever chunk it landed in.
       - run: pnpm react:check:bundle
 
       # Blocking: a vulnerable *runtime* dependency would ship to every consumer of

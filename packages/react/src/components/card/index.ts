@@ -1,3 +1,7 @@
+'use client'
+
+import '../../utils/suppressFocusRingGlobally'
+
 export { Card } from './Card'
 export type { CardProps } from './Card'
 export { CardBody } from './CardBody'

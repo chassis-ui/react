@@ -1,3 +1,7 @@
+'use client'
+
+import '../../utils/suppressFocusRingGlobally'
+
 export { Accordion } from './Accordion'
 export type { AccordionProps, AccordionItemDef } from './Accordion'
 export { AccordionBody } from './AccordionBody'

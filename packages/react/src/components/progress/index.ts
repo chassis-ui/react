@@ -1,3 +1,7 @@
+'use client'
+
+import '../../utils/suppressFocusRingGlobally'
+
 export { Progress } from './Progress'
 export type { ProgressProps } from './Progress'
 export { ProgressBar } from './ProgressBar'

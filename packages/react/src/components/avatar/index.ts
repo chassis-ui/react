@@ -1,3 +1,7 @@
+'use client'
+
+import '../../utils/suppressFocusRingGlobally'
+
 export { Avatar } from './Avatar'
 export type { AvatarProps } from './Avatar'
 export { AvatarImage } from './AvatarImage'

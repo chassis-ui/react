@@ -1,3 +1,7 @@
+'use client'
+
+import '../../utils/suppressFocusRingGlobally'
+
 export { InputGroup } from './InputGroup'
 export type { InputGroupProps } from './InputGroup'
 export { InputGroupAddon } from './InputGroupAddon'

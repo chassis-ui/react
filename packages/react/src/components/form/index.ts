@@ -1,3 +1,7 @@
+'use client'
+
+import '../../utils/suppressFocusRingGlobally'
+
 export { Form } from './Form'
 export type { FormProps } from './Form'
 export { FormLabel } from './FormLabel'

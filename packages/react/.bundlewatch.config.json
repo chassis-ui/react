@@ -1,8 +1,12 @@
 {
   "files": [
     {
-      "path": "./dist/index.js",
-      "maxSize": "46 kB"
+      "path": "./dist/*.js",
+      "maxSize": "3 kB"
+    },
+    {
+      "path": "./dist/chunks/*.js",
+      "maxSize": "7 kB"
     },
     {
       "path": "./dist/style.css",

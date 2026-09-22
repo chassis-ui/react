@@ -1,3 +1,7 @@
+'use client'
+
+import '../../utils/suppressFocusRingGlobally'
+
 export { Carousel } from './Carousel'
 export type {
   CarouselEnds,
