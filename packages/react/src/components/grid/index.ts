@@ -1,3 +1,7 @@
+'use client'
+
+import '../../utils/suppressFocusRingGlobally'
+
 export { Col } from './Col'
 export type { ColProps } from './Col'
 export { Container } from './Container'

@@ -1,3 +1,7 @@
+'use client'
+
+import '../../utils/suppressFocusRingGlobally'
+
 export { Combobox } from './Combobox'
 export type { ComboboxProps } from './Combobox'
 export { ComboboxGroup } from './ComboboxGroup'

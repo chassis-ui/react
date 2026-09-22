@@ -1,3 +1,7 @@
+'use client'
+
+import '../../utils/suppressFocusRingGlobally'
+
 export { DatePicker } from './DatePicker'
 export type { DatePickerProps, DatePickerSingleProps, DatePickerMultipleProps } from './DatePicker'
 export { DateRangePicker } from './DateRangePicker'

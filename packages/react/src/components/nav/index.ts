@@ -1,3 +1,7 @@
+'use client'
+
+import '../../utils/suppressFocusRingGlobally'
+
 export { Nav } from './Nav'
 export type { NavProps, NavItemDef } from './Nav'
 export { NavItem } from './NavItem'

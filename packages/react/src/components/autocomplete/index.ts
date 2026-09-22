@@ -1,3 +1,7 @@
+'use client'
+
+import '../../utils/suppressFocusRingGlobally'
+
 export { Autocomplete } from './Autocomplete'
 export type { AutocompleteProps } from './Autocomplete'
 export { AutocompleteGroup } from './AutocompleteGroup'

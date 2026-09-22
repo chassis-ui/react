@@ -1,3 +1,7 @@
+'use client'
+
+import '../../utils/suppressFocusRingGlobally'
+
 export { List } from './List'
 export type { ListProps, ListItemDef } from './List'
 export { ListItem } from './ListItem'

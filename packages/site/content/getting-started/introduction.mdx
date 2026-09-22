@@ -33,6 +33,22 @@ to add.
 import { Button } from '@chassis-ui/react'
 ```
 
+### Subpath imports
+
+Every component family is also published as its own entry point, named after its folder in the
+package — `button`, `text-input`, `table`, `datepicker`, and so on:
+
+```jsx
+import { Button } from '@chassis-ui/react/button'
+import { TextInput } from '@chassis-ui/react/text-input'
+import { Modal, ModalBody, useModal } from '@chassis-ui/react/modal'
+```
+
+A subpath brings in only that family's code and the react-aria hooks it actually uses. Prefer it on
+size-sensitive routes, especially under Next.js's Turbopack, which can't tree-shake unused exports
+out of the root entry (see [Server-side rendering]([[docsref:/getting-started/ssr#bundle-size]])). Both
+styles resolve to the same modules, so mixing them in one app is safe.
+
 ## Stylesheets
 
 React components are styled with the `@chassis-ui/css` library.

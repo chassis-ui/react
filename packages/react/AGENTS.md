@@ -22,7 +22,10 @@ __snapshots__/` for that component's snapshot files — mirrors `src/components/
 - `src/components/<kebab-name>/index.ts` — every component folder's barrel: re-exports the root
   component and, for compound families, every sub-part as its own flat, root-prefixed named export
   (`AccordionItem`, not `Accordion.Item` — see `CONVENTIONS.md`). The central `src/index.ts`
-  imports from these barrels, not from component files directly.
+  imports from these barrels, not from component files directly. Every barrel is also a build
+  entry, published as the `@chassis-ui/react/<kebab-name>` subpath export, so it starts with
+  `'use client'` followed by `import '../../utils/suppressFocusRingGlobally'` — copy both lines into
+  a new folder's barrel (see `RSC.md`; `pnpm check:rsc` catches a missing directive).
 - `FORMS.md` — **read this before touching any form-related component**
   (text inputs, select, checkbox/radio, combobox, datepicker, chip-input, otp-input, and the
   shared `form`/`form-field` render helpers). It documents two non-interchangeable shared render
@@ -37,10 +40,11 @@ __snapshots__/` for that component's snapshot files — mirrors `src/components/
   exports, and the deprecation policy (TSDoc `@deprecated` + a runtime `devWarning`, minimum one
   minor release before a breaking removal). Read this before deprecating or removing any exported
   component/prop, or before publishing a release.
-- `RSC.md` — why the package ships one `'use client'` directive for the whole bundle (not
-  per-component), what that means for a consumer, and how it survives the tsdown build. Read this
-  before touching the directive on `src/index.ts`'s first line, `scripts/check-rsc-directive.ts`,
-  or reconsidering the single-bundle build shape.
+- `RSC.md` — why the package ships a `'use client'` directive per entry point (root plus one
+  subpath per component folder), what that means for a consumer, the measured bundle-size effect
+  of subpath imports, and how the directives survive the tsdown build. Read this before touching a
+  directive on `src/index.ts` or a barrel's first line, `scripts/check-rsc-directive.ts`, or the
+  multi-entry build shape.
 - `src/index.ts` — the public API surface. Every exported component/helper needs **two** entries
   here: an `import` line (from the component's folder barrel, not the component file) and a
   matching entry in the trailing `export { ... }` block. Forgetting either means it silently isn't
@@ -50,17 +54,21 @@ __snapshots__/` for that component's snapshot files — mirrors `src/components/
 
 ## Build
 
-`tsdown.config.ts` produces a single ESM bundle (`dist/index.js`) from `src/index.ts`, a bundled
-`dist/index.d.ts` (tsdown bundles types directly — no intermediate `tsc` declaration-output pass,
-unlike the prior Rollup setup), and `dist/style.css` (tsdown's own CSS pipeline, compiling the
+`tsdown.config.ts` produces a multi-entry ESM build: `dist/index.js` from `src/index.ts`, plus one
+`dist/<folder>.js` per `src/components/<folder>/index.ts` barrel (each published as the
+`@chassis-ui/react/<folder>` subpath export — see `RSC.md`'s "Subpath imports"). Entries are thin
+re-exports; the actual code lives in shared, content-hashed `dist/chunks/*.js`, so the root and a
+subpath resolve to the same module instances. Declarations are split the same way (tsdown bundles
+types directly — no intermediate `tsc` declaration-output pass, unlike the prior Rollup setup). It
+also emits `dist/style.css` (tsdown's own CSS pipeline, compiling the
 `Calendar`/`RangeCalendar`/`DatePicker`/`DateRangePicker`/`Table`/`Notification` Sass/CSS
 side-effect imports into one file rather than injecting them via JS). No CJS output — this package is ESM-only, with no
 consumers to preserve dual-format compatibility for. `exports: true` auto-generates
 `package.json`'s `exports` map on every build; `publint: true`/`attw: true` run non-blockingly as
 part of the same build for fast local feedback (the actual CI gate is this package's own
 `pnpm check:package` script, run from the repo root as `pnpm react:check:package`, a separate,
-blocking step — see `.github/workflows/ci.yml`). The `'use client'` directive comes from the first
-line of `src/index.ts`, which Rolldown preserves because that file is the bundle's entry module; a
+blocking step — see `.github/workflows/ci.yml`). Each entry's `'use client'` directive comes from
+the first line of its source module, which Rolldown preserves because it's an entry module; a
 `tsdown.config.ts` `output.banner` used to re-add it too, which duplicated it in the output — see
 `RSC.md`, and `pnpm check:rsc` for the guard that keeps it correct.
 
@@ -70,9 +78,9 @@ pnpm dev               # tsdown --watch, for local development against packages/
 pnpm lint              # eslint + stylelint + prettier, scoped to this package
 pnpm format            # prettier --write, scoped to this package
 pnpm check:types       # tsc --noEmit over src/, test/, types/ and .storybook/
-pnpm check:api         # diff dist/index.d.ts against the checked-in api-report.md snapshot
-pnpm check:api:update  # regenerate api-report.md from the current build
-pnpm check:rsc         # assert dist/index.js has exactly one 'use client' directive (see RSC.md)
+pnpm check:api         # diff a flattened .d.ts of src/index.ts against api-report.md
+pnpm check:api:update  # regenerate api-report.md
+pnpm check:rsc         # assert every dist/*.js entry has exactly one 'use client' (see RSC.md)
 ```
 
 `check:types` is the only thing that type-checks this package's own source: tsdown bundles
@@ -85,13 +93,23 @@ runtime requirement, and `engines.node: '>=24'` (which it used to carry) both wa
 consumers on older Node and hard-failed under `engine-strict`. It also silently set tsdown's output
 target to `node24.0.0`; `tsdown.config.ts` now pins `target: 'es2022'` explicitly, matching the
 `browserslist` field. `sideEffects` lists `dist/` paths, not `src/` ones — it used to name
-`./src/utils/suppressFocusRingGlobally.ts`, which no consumer resolves (they get `./dist/index.js`
+`./src/utils/suppressFocusRingGlobally.ts`, which no consumer resolves (they get `./dist/*.js`
 through the `exports` map), so the whole published bundle was flagged side-effect-free while
-actually carrying that module's global listener install.
+actually carrying that module's global listener install. It's now `./dist/*.js` (the entries —
+each carries a bare `import` of the focus-ring chunk, which a bundler would drop if the entry
+itself could be skipped), `./dist/chunks/focus-ring-*.js` (that listener install, pinned to its
+own chunk by `tsdown.config.ts`'s `codeSplitting.groups` so this glob can name it) and
+`./dist/style.css`. Every other `dist/chunks/*.js` is side-effect-free, which is what lets a
+consumer's bundler drop the chunks of components a page never uses — under webpack even through a
+root `@chassis-ui/react` import. Because Rolldown also applies this field to `src/` (matching
+nothing there), `tsdown.config.ts` separately marks `suppressFocusRingGlobally` as side-effectful
+for the build itself — without that, Rolldown silently drops the bare import.
 
-`check:api`/`check:api:update` run `scripts/check-api-surface.ts` (see below) against this
-package's own `dist/index.d.ts` and `api-report.md` — from the repo root these are
-`pnpm react:check:api`/`pnpm react:check:api:update`.
+`check:api`/`check:api:update` run `scripts/check-api-surface.ts`, which bundles its own
+single-file `.d.ts` of `src/index.ts` (into `node_modules/.cache/api-surface/`, no prior build
+needed) and diffs it against `api-report.md` — the published `dist/index.d.ts` is only
+`import`/`export` lines into hashed declaration chunks now, so it can't be snapshotted directly.
+From the repo root these are `pnpm react:check:api`/`pnpm react:check:api:update`.
 
 ## Tests
 
@@ -252,6 +270,6 @@ pnpm test:visual:update   # same, plus --update-snapshots to regenerate baseline
 - After any _intentional_ public API change (new/renamed/removed export, changed prop type), run
   `pnpm react:build && pnpm react:check:api:update` from the repo root and commit the resulting
   `api-report.md` diff alongside the code change — `pnpm react:check:api` (no `:update`) is a CI
-  check that fails the build if this snapshot has drifted from what `dist/index.d.ts` actually exports,
+  check that fails the build if this snapshot has drifted from what the package actually exports,
   so an unintentional breaking change gets caught before merge instead of after publish. See
   `scripts/check-api-surface.ts`.

@@ -1,9 +1,9 @@
 <!--
-This file is a checked-in snapshot of @chassis-ui/react's public type surface — the exact,
-bundled `.d.ts` a consumer's editor sees, generated from `dist/index.d.ts` (built directly by
-tsdown, see tsdown.config.ts). It exists to make an accidental breaking change to props/types
-show up as an ordinary, reviewable diff on this file, instead of only being discovered by a
-consumer after publish.
+This file is a checked-in snapshot of @chassis-ui/react's public type surface — the flattened
+`.d.ts` a consumer's editor resolves, generated as a single-file declaration bundle of
+`src/index.ts` (see scripts/check-api-surface.ts for why that isn't `dist/index.d.ts` itself).
+It exists to make an accidental breaking change to props/types show up as an ordinary, reviewable
+diff on this file, instead of only being discovered by a consumer after publish.
 
 Regenerate with `pnpm react:check:api:update` after any *intentional* public API change (new prop,
 renamed export, ...) and review the diff like any other code change. `pnpm react:check:api` (no
@@ -11,9 +11,9 @@ renamed export, ...) and review the diff like any other code change. `pnpm react
 -->
 
 ```ts
-import React, { AriaAttributes, ButtonHTMLAttributes, ChangeEventHandler, ComponentPropsWithRef, ComponentPropsWithoutRef, DetailsHTMLAttributes, DialogHTMLAttributes, ElementType, FC, FormHTMLAttributes, Fragment, HTMLAttributes, ImgHTMLAttributes, InputHTMLAttributes, Key, LabelHTMLAttributes, MouseEvent, MouseEventHandler, ReactElement, ReactNode, Ref, RefObject, SVGAttributes, TextareaHTMLAttributes, useEffect } from "react";
-import { DateValue, I18nProvider, Key as Key$1, RangeValue } from "react-aria";
-import { ColumnSize, ColumnStaticSize, DateValue as DateValue$1, Key as Key$2, Selection, SortDescriptor, TableBodyProps as TableBodyProps$1, TableHeaderProps as TableHeaderProps$1, ToastQueue } from "react-stately";
+import React, { AriaAttributes, ButtonHTMLAttributes, ChangeEventHandler, ComponentPropsWithRef, ComponentPropsWithoutRef, DetailsHTMLAttributes, DialogHTMLAttributes, ElementType, FC, FormHTMLAttributes, Fragment, HTMLAttributes, ImgHTMLAttributes, InputHTMLAttributes, Key, LabelHTMLAttributes, MouseEvent, MouseEventHandler, ReactElement, ReactNode, Ref, RefObject, SVGAttributes, TextareaHTMLAttributes } from "react";
+import { ColumnSize, ColumnStaticSize, DateValue, Key as Key$1, Selection, SortDescriptor, TableBodyProps as TableBodyProps$1, TableHeaderProps as TableHeaderProps$1, ToastQueue } from "react-stately";
+import { DateValue as DateValue$1, I18nProvider, Key as Key$2, RangeValue } from "react-aria";
 import { Key as Key$3, Selection as Selection$1, SortDescriptor as SortDescriptor$1, TableBodyRenderProps } from "react-aria-components";
 //#region src/components/accordion/Accordion.d.ts
 interface AccordionItemDef {
@@ -191,7 +191,7 @@ interface MenuItemDef {
   /**
    * React key for this item.
    */
-  id: Key$2;
+  id: Key$1;
   /**
    * Label content for the item.
    */
@@ -234,7 +234,7 @@ interface MenuHeaderDef {
   /**
    * React key for this entry.
    */
-  id: Key$2;
+  id: Key$1;
   /**
    * Header content.
    */
@@ -248,7 +248,7 @@ interface MenuDividerDef {
   /**
    * React key for this entry.
    */
-  id: Key$2;
+  id: Key$1;
 }
 /**
  * A flat array of item/header/divider definitions for data-driven rendering — headers and
@@ -282,7 +282,7 @@ interface AutocompleteProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaul
   /**
    * The initial selected option's id(s) (uncontrolled). An array when `multiple` is set.
    */
-  defaultValue?: Key$2 | Key$2[] | null;
+  defaultValue?: Key$1 | Key$1[] | null;
   /**
    * Prevents the autocomplete from being focused or interacted with.
    */
@@ -338,7 +338,7 @@ interface AutocompleteProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaul
   /**
    * Callback fired when the selection changes. Receives an array of keys when `multiple` is set.
    */
-  onChange?: (value: Key$2 | Key$2[] | null) => void;
+  onChange?: (value: Key$1 | Key$1[] | null) => void;
   /**
    * Text shown on the toggle when nothing is selected.
    */
@@ -362,7 +362,7 @@ interface AutocompleteProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaul
   /**
    * The selected option's id(s) (controlled). An array when `multiple` is set.
    */
-  value?: Key$2 | Key$2[] | null;
+  value?: Key$1 | Key$1[] | null;
 }
 export declare const Autocomplete: {
   ({ children, className, defaultValue, disabled, help, id, invalid, invalidFeedback, items, label, multiple, name, noResultsText, onChange, placeholder, searchPlaceholder, size, valid, validFeedback, value, ...rest }: AutocompleteProps): ReactNode;
@@ -415,7 +415,7 @@ interface ComboboxItemProps {
   /**
    * Identifies this option. Submitted as the value when this option is selected.
    */
-  id: Key$2;
+  id: Key$1;
   /**
    * Text used for filtering and typeahead. Required when `children` isn't a plain string —
    * falls back to `children` itself when omitted and `children` is a string.
@@ -779,6 +779,22 @@ export declare const notificationQueue: ToastQueue<NotificationContent>;
 export declare function addNotification(children?: ReactNode, options?: Omit<NotificationContent, 'children'>): string;
 export declare function closeNotification(key: string): void;
 //#endregion
+//#region src/components/notification/context.d.ts
+interface NotificationContextProps {
+  /**
+   * Whether the notification is currently visible.
+   */
+  visible?: boolean;
+  /**
+   * Dismisses the notification. Wire this to any element's `onClick` — see `useNotification`.
+   */
+  close: () => void;
+}
+//#endregion
+//#region src/hooks/useNotification.d.ts
+type UseNotificationResult = NotificationContextProps;
+export declare const useNotification: () => UseNotificationResult;
+//#endregion
 //#region src/components/badge/Badge.d.ts
 type BadgeOwnProps<C extends ElementType> = {
   /**
@@ -1040,7 +1056,7 @@ interface CalendarBaseProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaul
    * Callback that is called for each date in the calendar. If it returns `true`, that date is
    * shown but cannot be selected.
    */
-  isDateUnavailable?: (date: DateValue$1) => boolean;
+  isDateUnavailable?: (date: DateValue) => boolean;
   /**
    * Overrides for the handful of strings this component renders itself rather than getting from
    * the active locale (the year view's paging arrows, its live-region announcements, and the
@@ -1052,11 +1068,11 @@ interface CalendarBaseProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaul
   /**
    * The maximum allowed date that a user may select.
    */
-  maxValue?: DateValue$1 | null;
+  maxValue?: DateValue | null;
   /**
    * The minimum allowed date that a user may select.
    */
-  minValue?: DateValue$1 | null;
+  minValue?: DateValue | null;
   /**
    * ISO 8601 dates (`YYYY-MM-DD`) to mark unselectable, as a convenience alternative to
    * `isDateUnavailable` for data-driven cases (e.g. booked dates fetched from an API). Composed
@@ -1077,12 +1093,12 @@ interface CalendarSingleProps extends CalendarBaseProps {
   /**
    * The initial selected date (uncontrolled).
    */
-  defaultValue?: DateValue$1 | null;
+  defaultValue?: DateValue | null;
   /**
    * Callback fired when the selected date changes. Unlike `DatePicker`'s `onChange` (whose
    * segmented field can be cleared to `null`), a calendar selection is always a concrete date.
    */
-  onChange?: (value: DateValue$1) => void;
+  onChange?: (value: DateValue) => void;
   /**
    * Whether a single date or multiple, independently toggled dates can be selected.
    *
@@ -1092,17 +1108,17 @@ interface CalendarSingleProps extends CalendarBaseProps {
   /**
    * The selected date (controlled).
    */
-  value?: DateValue$1 | null;
+  value?: DateValue | null;
 }
 interface CalendarMultipleProps extends CalendarBaseProps {
   /**
    * The initial selected dates (uncontrolled).
    */
-  defaultValue?: DateValue$1[] | null;
+  defaultValue?: DateValue[] | null;
   /**
    * Callback fired when the set of selected dates changes.
    */
-  onChange?: (value: DateValue$1[]) => void;
+  onChange?: (value: DateValue[]) => void;
   /**
    * Whether a single date or multiple, independently toggled dates can be selected.
    *
@@ -1112,7 +1128,7 @@ interface CalendarMultipleProps extends CalendarBaseProps {
   /**
    * The selected dates (controlled).
    */
-  value?: DateValue$1[] | null;
+  value?: DateValue[] | null;
 }
 type CalendarProps = CalendarMultipleProps | CalendarSingleProps;
 export declare const Calendar: React.ForwardRefExoticComponent<CalendarProps & React.RefAttributes<HTMLDivElement>>;
@@ -1120,7 +1136,7 @@ export declare const Calendar: React.ForwardRefExoticComponent<CalendarProps & R
 //#region src/utils/dateRangePresets.d.ts
 interface DateRangePreset {
   label: string;
-  range: RangeValue<DateValue>;
+  range: RangeValue<DateValue$1>;
 }
 //#endregion
 //#region src/components/calendar/RangeCalendar.d.ts
@@ -1145,7 +1161,7 @@ interface RangeCalendarProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defau
   /**
    * The initial selected date range (uncontrolled).
    */
-  defaultValue?: RangeValue<DateValue$1> | null;
+  defaultValue?: RangeValue<DateValue> | null;
   /**
    * Prevents the calendar from being focused or interacted with.
    */
@@ -1160,7 +1176,7 @@ interface RangeCalendarProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defau
    * Callback that is called for each date in the calendar. If it returns `true`, that date is
    * shown but cannot be selected.
    */
-  isDateUnavailable?: (date: DateValue$1) => boolean;
+  isDateUnavailable?: (date: DateValue) => boolean;
   /**
    * Overrides for the handful of strings this component renders itself rather than getting from
    * the active locale (the year view's paging arrows, its live-region announcements, and the
@@ -1172,15 +1188,15 @@ interface RangeCalendarProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defau
   /**
    * The maximum allowed date that a user may select.
    */
-  maxValue?: DateValue$1 | null;
+  maxValue?: DateValue | null;
   /**
    * The minimum allowed date that a user may select.
    */
-  minValue?: DateValue$1 | null;
+  minValue?: DateValue | null;
   /**
    * Callback fired when a complete range is selected (both a start and end date).
    */
-  onChange?: (value: RangeValue<DateValue$1>) => void;
+  onChange?: (value: RangeValue<DateValue>) => void;
   /**
    * A list of quick-select range presets shown beside the calendar. Selecting a preset commits
    * its range immediately, the same as picking a start and end date from the grid. The preset
@@ -1196,7 +1212,7 @@ interface RangeCalendarProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defau
   /**
    * The selected date range (controlled).
    */
-  value?: RangeValue<DateValue$1> | null;
+  value?: RangeValue<DateValue> | null;
   /**
    * Number of months to display side by side, sharing one selection. Wraps to multiple rows in
    * a narrow container (e.g. a popover on a sm screen) rather than overflowing — the wrap is
@@ -2445,7 +2461,7 @@ interface ComboboxProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultVal
   /**
    * The initial selected option's id (uncontrolled).
    */
-  defaultValue?: Key$2 | null;
+  defaultValue?: Key$1 | null;
   /**
    * Prevents the combobox from being focused or interacted with.
    */
@@ -2491,7 +2507,7 @@ interface ComboboxProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultVal
   /**
    * Callback fired when the selected option changes.
    */
-  onChange?: (value: Key$2 | null) => void;
+  onChange?: (value: Key$1 | null) => void;
   /**
    * Placeholder shown in the input when nothing is selected.
    */
@@ -2511,7 +2527,7 @@ interface ComboboxProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultVal
   /**
    * The selected option's id (controlled).
    */
-  value?: Key$2 | null;
+  value?: Key$1 | null;
 }
 export declare const Combobox: React.ForwardRefExoticComponent<ComboboxProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
@@ -2566,7 +2582,7 @@ interface DatePickerBaseProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defa
    * Callback that is called for each date in the calendar. If it returns `true`, that date is
    * shown but cannot be selected.
    */
-  isDateUnavailable?: (date: DateValue$1) => boolean;
+  isDateUnavailable?: (date: DateValue) => boolean;
   /**
    * Overrides for the strings this component and its calendar render themselves rather than
    * getting from the active locale — the calendar trigger, the clear adornment, and the calendar's
@@ -2586,11 +2602,11 @@ interface DatePickerBaseProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defa
   /**
    * The maximum allowed date that a user may select.
    */
-  maxValue?: DateValue$1 | null;
+  maxValue?: DateValue | null;
   /**
    * The minimum allowed date that a user may select.
    */
-  minValue?: DateValue$1 | null;
+  minValue?: DateValue | null;
   /**
    * `name` of an auto-created hidden input, kept in sync with the selection, for native form
    * submission — one input when `selectionMode` is `'single'`, one per selected date when it's
@@ -2632,11 +2648,11 @@ interface DatePickerSingleProps extends DatePickerBaseProps {
   /**
    * The initial selected date (uncontrolled).
    */
-  defaultValue?: DateValue$1 | null;
+  defaultValue?: DateValue | null;
   /**
    * Callback fired when the selected date changes.
    */
-  onChange?: (value: DateValue$1 | null) => void;
+  onChange?: (value: DateValue | null) => void;
   /**
    * Whether a single date or multiple, independently toggled dates can be selected. Multiple
    * selection replaces the editable segmented field with a read-only, comma-separated list of
@@ -2649,17 +2665,17 @@ interface DatePickerSingleProps extends DatePickerBaseProps {
   /**
    * The selected date (controlled).
    */
-  value?: DateValue$1 | null;
+  value?: DateValue | null;
 }
 interface DatePickerMultipleProps extends DatePickerBaseProps {
   /**
    * The initial selected dates (uncontrolled).
    */
-  defaultValue?: DateValue$1[] | null;
+  defaultValue?: DateValue[] | null;
   /**
    * Callback fired when the set of selected dates changes.
    */
-  onChange?: (value: DateValue$1[]) => void;
+  onChange?: (value: DateValue[]) => void;
   /**
    * Whether a single date or multiple, independently toggled dates can be selected. Multiple
    * selection replaces the editable segmented field with a read-only, comma-separated list of
@@ -2672,7 +2688,7 @@ interface DatePickerMultipleProps extends DatePickerBaseProps {
   /**
    * The selected dates (controlled).
    */
-  value?: DateValue$1[] | null;
+  value?: DateValue[] | null;
 }
 type DatePickerProps = DatePickerMultipleProps | DatePickerSingleProps;
 export declare const DatePicker: React.ForwardRefExoticComponent<DatePickerProps & React.RefAttributes<HTMLDivElement>>;
@@ -2700,7 +2716,7 @@ interface DateRangePickerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'def
   /**
    * The initial selected date range (uncontrolled).
    */
-  defaultValue?: RangeValue<DateValue$1> | null;
+  defaultValue?: RangeValue<DateValue> | null;
   /**
    * Prevents the date range picker from being focused or interacted with.
    */
@@ -2732,7 +2748,7 @@ interface DateRangePickerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'def
    * Callback that is called for each date in the calendar. If it returns `true`, that date is
    * shown but cannot be selected.
    */
-  isDateUnavailable?: (date: DateValue$1) => boolean;
+  isDateUnavailable?: (date: DateValue) => boolean;
   /**
    * Overrides for the strings this component and its calendar render themselves rather than
    * getting from the active locale — the clear adornment and the calendar's own year-view
@@ -2752,11 +2768,11 @@ interface DateRangePickerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'def
   /**
    * The maximum allowed date that a user may select.
    */
-  maxValue?: DateValue$1 | null;
+  maxValue?: DateValue | null;
   /**
    * The minimum allowed date that a user may select.
    */
-  minValue?: DateValue$1 | null;
+  minValue?: DateValue | null;
   /**
    * Base `name` for a pair of auto-created hidden inputs, kept in sync with the selection, for
    * native form submission — rendered as `${name}Start` and `${name}End`. Omit to skip creating
@@ -2766,7 +2782,7 @@ interface DateRangePickerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'def
   /**
    * Callback fired when the selected date range changes.
    */
-  onChange?: (value: RangeValue<DateValue$1> | null) => void;
+  onChange?: (value: RangeValue<DateValue> | null) => void;
   /**
    * Callback fired when the calendar popover's open state changes.
    */
@@ -2800,7 +2816,7 @@ interface DateRangePickerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'def
   /**
    * The selected date range (controlled).
    */
-  value?: RangeValue<DateValue$1> | null;
+  value?: RangeValue<DateValue> | null;
   /**
    * Number of months to display side by side in the calendar overlay.
    *
@@ -4702,6 +4718,10 @@ type ModalTitleComponent = (<C extends ElementType = 'h2'>(props: ModalTitleProp
 };
 export declare const ModalTitle: ModalTitleComponent;
 //#endregion
+//#region src/hooks/useModal.d.ts
+type UseModalResult = ModalContextProps;
+export declare const useModal: () => UseModalResult;
+//#endregion
 //#region src/components/nav/Nav.d.ts
 interface NavItemDef {
   /**
@@ -5013,6 +5033,33 @@ type PaginationItemComponent = (<C extends ElementType = 'button'>(props: Pagina
 };
 export declare const PaginationItem: PaginationItemComponent;
 //#endregion
+//#region src/hooks/usePagination.d.ts
+interface UsePaginationOptions {
+  /**
+   * Whether the Previous control is currently disabled.
+   */
+  prevDisabled: boolean;
+  /**
+   * Whether the Next control is currently disabled.
+   */
+  nextDisabled: boolean;
+  /**
+   * Called when Previous is clicked, before the state change that may disable it.
+   */
+  onPrev: () => void;
+  /**
+   * Called when Next is clicked, before the state change that may disable it.
+   */
+  onNext: () => void;
+}
+interface UsePaginationResult<T extends HTMLElement = HTMLButtonElement> {
+  prevRef: RefObject<T | null>;
+  nextRef: RefObject<T | null>;
+  handlePrevClick: (event: MouseEvent<T>) => void;
+  handleNextClick: (event: MouseEvent<T>) => void;
+}
+export declare function usePagination<T extends HTMLElement = HTMLButtonElement>({ prevDisabled, nextDisabled, onPrev, onNext }: UsePaginationOptions): UsePaginationResult<T>;
+//#endregion
 //#region src/components/popover/Popover.d.ts
 interface PopoverProps extends Pick<HTMLAttributes<HTMLDivElement>, 'aria-label' | 'aria-labelledby'> {
   children: ReactElement;
@@ -5318,6 +5365,10 @@ type DrawerTitleComponent = (<C extends ElementType = 'h2'>(props: DrawerTitlePr
 };
 export declare const DrawerTitle: DrawerTitleComponent;
 //#endregion
+//#region src/hooks/useDrawer.d.ts
+type UseDrawerResult = DrawerContextProps;
+export declare const useDrawer: () => UseDrawerResult;
+//#endregion
 //#region src/components/skeleton/Skeleton.d.ts
 type SkeletonOwnProps<C extends ElementType> = {
   /**
@@ -5580,7 +5631,7 @@ interface TableProps<T extends object> {
   /**
    * A list of row keys to disable. Disabled rows cannot be selected, focused, or interacted with.
    */
-  disabledKeys?: Iterable<Key$1>;
+  disabledKeys?: Iterable<Key$2>;
   /**
    * Content shown below the table in a `<tfoot>`, e.g. a totals row. Rendered as plain markup —
    * not part of the keyboard-navigable grid.
@@ -5775,11 +5826,11 @@ type TabsOwnProps<C extends ElementType> = {
   /**
    * The initially selected tab's key (uncontrolled).
    */
-  defaultSelectedKey?: Key$2;
+  defaultSelectedKey?: Key$1;
   /**
    * The keys of tabs that cannot be selected, focused, or otherwise interacted with.
    */
-  disabledKeys?: Iterable<Key$2>;
+  disabledKeys?: Iterable<Key$1>;
   /**
    * Whether tabs are selected automatically on arrow-key focus (`'automatic'`, the default) or
    * only on explicit activation — Enter/Space or click (`'manual'`).
@@ -5788,7 +5839,7 @@ type TabsOwnProps<C extends ElementType> = {
   /**
    * Callback fired when the selected tab changes.
    */
-  onSelectionChange?: (key: Key$2) => void;
+  onSelectionChange?: (key: Key$1) => void;
   /**
    * The orientation of the tab list.
    */
@@ -5796,7 +5847,7 @@ type TabsOwnProps<C extends ElementType> = {
   /**
    * The selected tab's key (controlled).
    */
-  selectedKey?: Key$2;
+  selectedKey?: Key$1;
 };
 type TabsProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, TabsOwnProps<C>>;
 type TabsComponent = (<C extends ElementType = 'div'>(props: TabsProps<C> & {
@@ -5820,7 +5871,7 @@ interface TabProps {
   /**
    * Identifies this tab and pairs it with the `TabPanel` of the same `id`.
    */
-  id: Key$2;
+  id: Key$1;
 }
 export declare const Tab: {
   (_props: TabProps): null;
@@ -5858,7 +5909,7 @@ interface TabPanelProps extends Omit<HTMLAttributes<HTMLDivElement>, 'id'> {
   /**
    * Pairs this panel with the `Tab` of the same `id`.
    */
-  id: Key$2;
+  id: Key$1;
 }
 export declare const TabPanel: React.ForwardRefExoticComponent<TabPanelProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
@@ -6117,6 +6168,22 @@ export declare const toastQueue: ToastQueue<ToastContent>;
 export declare function addToast(children: ReactNode, options?: Omit<ToastContent, 'children'>): string;
 export declare function closeToast(key: string): void;
 //#endregion
+//#region src/components/toast/context.d.ts
+interface ToastContextProps {
+  /**
+   * Whether the toast is currently visible.
+   */
+  visible?: boolean;
+  /**
+   * Dismisses the toast. Wire this to any element's `onClick` — see `useToast`.
+   */
+  close: () => void;
+}
+//#endregion
+//#region src/hooks/useToast.d.ts
+type UseToastResult = ToastContextProps;
+export declare const useToast: () => UseToastResult;
+//#endregion
 //#region src/components/tooltip/Tooltip.d.ts
 interface TooltipProps {
   children: ReactElement;
@@ -6152,73 +6219,6 @@ interface TooltipProps {
   visible?: boolean;
 }
 export declare const Tooltip: FC<TooltipProps>;
-//#endregion
-//#region src/hooks/useDrawer.d.ts
-type UseDrawerResult = DrawerContextProps;
-export declare const useDrawer: () => UseDrawerResult;
-//#endregion
-//#region src/hooks/useModal.d.ts
-type UseModalResult = ModalContextProps;
-export declare const useModal: () => UseModalResult;
-//#endregion
-//#region src/components/notification/context.d.ts
-interface NotificationContextProps {
-  /**
-   * Whether the notification is currently visible.
-   */
-  visible?: boolean;
-  /**
-   * Dismisses the notification. Wire this to any element's `onClick` — see `useNotification`.
-   */
-  close: () => void;
-}
-//#endregion
-//#region src/hooks/useNotification.d.ts
-type UseNotificationResult = NotificationContextProps;
-export declare const useNotification: () => UseNotificationResult;
-//#endregion
-//#region src/hooks/usePagination.d.ts
-interface UsePaginationOptions {
-  /**
-   * Whether the Previous control is currently disabled.
-   */
-  prevDisabled: boolean;
-  /**
-   * Whether the Next control is currently disabled.
-   */
-  nextDisabled: boolean;
-  /**
-   * Called when Previous is clicked, before the state change that may disable it.
-   */
-  onPrev: () => void;
-  /**
-   * Called when Next is clicked, before the state change that may disable it.
-   */
-  onNext: () => void;
-}
-interface UsePaginationResult<T extends HTMLElement = HTMLButtonElement> {
-  prevRef: RefObject<T | null>;
-  nextRef: RefObject<T | null>;
-  handlePrevClick: (event: MouseEvent<T>) => void;
-  handleNextClick: (event: MouseEvent<T>) => void;
-}
-export declare function usePagination<T extends HTMLElement = HTMLButtonElement>({ prevDisabled, nextDisabled, onPrev, onNext }: UsePaginationOptions): UsePaginationResult<T>;
-//#endregion
-//#region src/components/toast/context.d.ts
-interface ToastContextProps {
-  /**
-   * Whether the toast is currently visible.
-   */
-  visible?: boolean;
-  /**
-   * Dismisses the toast. Wire this to any element's `onClick` — see `useToast`.
-   */
-  close: () => void;
-}
-//#endregion
-//#region src/hooks/useToast.d.ts
-type UseToastResult = ToastContextProps;
-export declare const useToast: () => UseToastResult;
 //#endregion
 //#region src/components/chip/Chip.d.ts
 type ChipOwnProps<C extends ElementType> = {
@@ -6379,5 +6379,5 @@ type StackComponent = (<C extends ElementType = 'div'>(props: StackProps<C> & {
 };
 export declare const Stack: StackComponent;
 //#endregion
-export { type AccordionBodyProps, type AccordionHeaderProps, type AccordionItemDef, type AccordionItemProps, type AccordionProps, type AutocompleteGroupProps, type AutocompleteItemProps, type AutocompleteProps, type AvatarImageProps, type AvatarProps, type AvatarStackItemDef, type AvatarStackProps, type BadgeProps, type BreadcrumbItemDef, type BreadcrumbItemProps, type BreadcrumbProps, type Breakpoint, type ButtonGroupProps, type ButtonObject, type ButtonProps, type ButtonToolbarProps, type CalendarLabels, type CalendarMultipleProps, type CalendarProps, type CalendarSingleProps, type CardBodyProps, type CardFooterProps, type CardGroupProps, type CardHeaderProps, type CardImageOverlayProps, type CardImageProps, type CardLinkProps, type CardProps, type CardSubtitleProps, type CardTextProps, type CardTitleProps, type CarouselControlNextProps, type CarouselControlPrevProps, type CarouselEnds, type CarouselIndicatorsProps, type CarouselInnerProps, type CarouselItemProps, type CarouselOverlayProps, type CarouselPlayPauseProps, type CarouselProps, type CarouselSlideDetail, type CarouselTransition, type CheckboxGroupProps, type CheckboxProps, type ChipInputProps, type ChipProps, type CloseButtonProps, type ColProps, type CollapseProps, type ColorInputProps, type ComboboxGroupProps, type ComboboxItemProps, type ComboboxProps, type ContainerProps, type ContextColor, type ContextStyle, type DatePickerMultipleProps, type DatePickerProps, type DatePickerSingleProps, type DateRangePickerProps, type DateRangePreset, type DrawerBodyProps, type DrawerFooterProps, type DrawerHeaderProps, type DrawerProps, type DrawerTitleProps, type ExtendedSizing, type FileInputProps, type FlexProps, type FloatingInputProps, type FormFeedbackProps, type FormFieldProps, type FormHelpProps, type FormLabelProps, type FormProps, type GridItemLayout, type GridItemProps, type GridProps, I18nProvider, type IconProps, type InputAdornProps, type InputGroupAddonProps, type InputGroupProps, type LinkProps, type ListItemDef, type ListItemProps, type ListProps, type MenuAutoClose, type MenuDividerDef, type MenuDividerProps, type MenuFocusStrategy, type MenuHeaderDef, type MenuHeaderProps, type MenuItemDef, type MenuItemProps, type MenuItemsDef, type MenuListProps, type MenuProps, type MenuSubmenuBackProps, type MenuSubmenuProps, type MenuTextProps, type MenuToggleProps, type ModalBodyProps, type ModalFooterProps, type ModalHeaderProps, type ModalProps, type ModalTitleProps, type NavItemDef, type NavLinkProps, type NavProps, type NavTitleProps, type NavbarBrandProps, type NavbarNavProps, type NavbarProps, type NavbarTextProps, type NavbarTogglerProps, type NotificationContent, type NotificationIconProps, type NotificationProps, type NotificationStackProps, type NotificationTextProps, type NotificationTitleProps, type OtpInputProps, type PaginationItemProps, type PaginationProps, type PasswordStrengthProps, type PlaceholderProps, type Placement, type PopoverProps, type ProgressBarProps, type ProgressProps, type RadioGroupProps, type RadioProps, type RangeCalendarProps, type RangeInputProps, type RowProps, type SelectOptionDef, type SelectProps, type Shapes, type Sizing, type SkeletonLoaderProps, type SkeletonProps, type Spacing, type SpinnerProps, type StackProps, type StepperItemDef, type StepperItemProps, type StepperProps, type SwitchProps, type TabListProps, type TabPanelProps, type TabProps, type TableBodyProps, type TableCellProps, type TableColumnProps, type TableHeaderProps, type TableProps, type TableRowProps, type TabsProps, type TextInputProps, type TextareaProps, type ToastBodyProps, type ToastContent, type ToastFooterProps, type ToastHeaderProps, type ToastIconProps, type ToastProps, type ToasterProps, type TooltipProps, type UseDrawerResult, type UseModalResult, type UseNotificationResult, type UsePaginationResult, type UseToastResult };
+export { type AccordionBodyProps, type AccordionHeaderProps, type AccordionItemDef, type AccordionItemProps, type AccordionProps, type AutocompleteGroupProps, type AutocompleteItemProps, type AutocompleteProps, type AvatarImageProps, type AvatarProps, type AvatarStackItemDef, type AvatarStackProps, type BadgeProps, type BreadcrumbItemDef, type BreadcrumbItemProps, type BreadcrumbProps, type Breakpoint, type ButtonGroupProps, type ButtonObject, type ButtonProps, type ButtonToolbarProps, type CalendarLabels, type CalendarMultipleProps, type CalendarProps, type CalendarSingleProps, type CardBodyProps, type CardFooterProps, type CardGroupProps, type CardHeaderProps, type CardImageOverlayProps, type CardImageProps, type CardLinkProps, type CardProps, type CardSubtitleProps, type CardTextProps, type CardTitleProps, type CarouselControlNextProps, type CarouselControlPrevProps, type CarouselEnds, type CarouselIndicatorsProps, type CarouselInnerProps, type CarouselItemProps, type CarouselOverlayProps, type CarouselPlayPauseProps, type CarouselProps, type CarouselSlideDetail, type CarouselTransition, type CheckboxGroupProps, type CheckboxProps, type ChipInputProps, type ChipProps, type CloseButtonProps, type ColProps, type CollapseProps, type ColorInputProps, type ComboboxGroupProps, type ComboboxItemProps, type ComboboxProps, type ContainerProps, type ContextColor, type ContextStyle, type DataGridBodyProps, type DataGridCellProps, type DataGridColumnProps, type DataGridHeaderProps, type DataGridProps, type DataGridRowProps, type DataGridSelectionCellProps, type DatePickerMultipleProps, type DatePickerProps, type DatePickerSingleProps, type DateRangePickerProps, type DateRangePreset, type DrawerBodyProps, type DrawerFooterProps, type DrawerHeaderProps, type DrawerProps, type DrawerTitleProps, type ExtendedSizing, type FileInputProps, type FlexProps, type FloatingInputProps, type FormFeedbackProps, type FormFieldProps, type FormHelpProps, type FormLabelProps, type FormProps, type GridItemLayout, type GridItemProps, type GridProps, I18nProvider, type IconProps, type InputAdornProps, type InputGroupAddonProps, type InputGroupProps, type LinkProps, type ListItemDef, type ListItemProps, type ListProps, type MenuAutoClose, type MenuDividerDef, type MenuDividerProps, type MenuFocusStrategy, type MenuHeaderDef, type MenuHeaderProps, type MenuItemDef, type MenuItemProps, type MenuItemsDef, type MenuListProps, type MenuProps, type MenuSubmenuBackProps, type MenuSubmenuProps, type MenuTextProps, type MenuToggleProps, type ModalBodyProps, type ModalFooterProps, type ModalHeaderProps, type ModalProps, type ModalTitleProps, type NavItemDef, type NavLinkProps, type NavProps, type NavTitleProps, type NavbarBrandProps, type NavbarNavProps, type NavbarProps, type NavbarTextProps, type NavbarTogglerProps, type NotificationContent, type NotificationIconProps, type NotificationProps, type NotificationStackProps, type NotificationTextProps, type NotificationTitleProps, type OtpInputProps, type PaginationItemProps, type PaginationProps, type PasswordStrengthProps, type PlaceholderProps, type Placement, type PopoverProps, type ProgressBarProps, type ProgressProps, type RadioGroupProps, type RadioProps, type RangeCalendarProps, type RangeInputProps, type RowProps, type SelectOptionDef, type SelectProps, type Shapes, type Sizing, type SkeletonLoaderProps, type SkeletonProps, type Spacing, type SpinnerProps, type StackProps, type StepperItemDef, type StepperItemProps, type StepperProps, type SwitchProps, type TabListProps, type TabPanelProps, type TabProps, type TableBodyProps, type TableCellProps, type TableColumnProps, type TableHeaderProps, type TableProps, type TableRowProps, type TabsProps, type TextInputProps, type TextareaProps, type ToastBodyProps, type ToastContent, type ToastFooterProps, type ToastHeaderProps, type ToastIconProps, type ToastProps, type ToasterProps, type TooltipProps, type UseDrawerResult, type UseModalResult, type UseNotificationResult, type UsePaginationResult, type UseToastResult };
 ```

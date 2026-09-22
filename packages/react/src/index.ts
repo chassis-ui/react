@@ -2,8 +2,9 @@
 
 // Side-effect only: installs the single document-level pointerdown listener that works around the
 // browser's `:focus-visible` first-click heuristic misfire — see the module's own comment. Needs to
-// run once wherever this package is used, not per-component, so it's imported here rather than
-// from any individual component.
+// run once wherever this package is used, not per-component, so it's imported by entry points
+// (here, and every component folder's `index.ts` barrel, each of which is also a subpath entry)
+// rather than from any individual component.
 import './utils/suppressFocusRingGlobally'
 
 import { Accordion, AccordionBody, AccordionHeader, AccordionItem } from './components/accordion'
@@ -367,6 +368,15 @@ export type { CloseButtonProps } from './components/close-button'
 export type { CollapseProps } from './components/collapse'
 export type { ColorInputProps } from './components/color-input'
 export type { ComboboxGroupProps, ComboboxItemProps, ComboboxProps } from './components/combobox'
+export type {
+  DataGridBodyProps,
+  DataGridCellProps,
+  DataGridColumnProps,
+  DataGridHeaderProps,
+  DataGridProps,
+  DataGridRowProps,
+  DataGridSelectionCellProps
+} from './components/datagrid'
 export type {
   DatePickerMultipleProps,
   DatePickerProps,

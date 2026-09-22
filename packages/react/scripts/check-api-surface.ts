@@ -2,10 +2,21 @@ import * as path from 'path'
 import * as fs from 'fs'
 import { fileURLToPath } from 'url'
 import * as ts from 'typescript'
+import { build } from 'tsdown'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
-const DTS_PATH = path.resolve(__dirname, '../dist/index.d.ts')
+const PACKAGE_ROOT = path.resolve(__dirname, '..')
+// The published `dist/index.d.ts` can't be snapshotted as-is any more: since the build grew one
+// entry per component folder (the `@chassis-ui/react/<component>` subpath exports), tsdown splits
+// declarations into shared, content-hashed `dist/chunks/*.d.ts` files, and `dist/index.d.ts` is
+// just `import`/`export` lines pointing into them — hash names and minified `t as Button` aliases
+// that churn on unrelated changes, with none of the actual prop types in it. So this bundles its
+// own single-file declaration build of `src/index.ts` into a cache directory instead: the same
+// flattened surface `dist/index.d.ts` used to be, and every subpath entry only re-exports a subset
+// of it (see `tsdown.config.ts`), so snapshotting the root covers them too.
+const OUT_DIR = path.resolve(PACKAGE_ROOT, 'node_modules/.cache/api-surface')
+const DTS_PATH = path.resolve(OUT_DIR, 'index.d.ts')
 const REPORT_PATH = path.resolve(__dirname, '../api-report.md')
 
 // tsdown's dts bundler (rolldown-plugin-dts, via the TS checker) inlines some function return
@@ -66,11 +77,11 @@ function sortUnions(text: string): string {
 }
 
 const HEADER = `<!--
-This file is a checked-in snapshot of @chassis-ui/react's public type surface — the exact,
-bundled \`.d.ts\` a consumer's editor sees, generated from \`dist/index.d.ts\` (built directly by
-tsdown, see tsdown.config.ts). It exists to make an accidental breaking change to props/types
-show up as an ordinary, reviewable diff on this file, instead of only being discovered by a
-consumer after publish.
+This file is a checked-in snapshot of @chassis-ui/react's public type surface — the flattened
+\`.d.ts\` a consumer's editor resolves, generated as a single-file declaration bundle of
+\`src/index.ts\` (see scripts/check-api-surface.ts for why that isn't \`dist/index.d.ts\` itself).
+It exists to make an accidental breaking change to props/types show up as an ordinary, reviewable
+diff on this file, instead of only being discovered by a consumer after publish.
 
 Regenerate with \`pnpm react:check:api:update\` after any *intentional* public API change (new prop,
 renamed export, ...) and review the diff like any other code change. \`pnpm react:check:api\` (no
@@ -82,13 +93,22 @@ renamed export, ...) and review the diff like any other code change. \`pnpm reac
 
 const FOOTER = '\n```\n'
 
-function readDts(): string {
-  if (!fs.existsSync(DTS_PATH)) {
-    console.error(
-      `Missing ${path.relative(process.cwd(), DTS_PATH)} — run \`pnpm react:build\` first, then re-run this check.`
-    )
-    process.exit(1)
-  }
+async function readDts(): Promise<string> {
+  await build({
+    config: false,
+    cwd: PACKAGE_ROOT,
+    entry: { index: 'src/index.ts' },
+    format: 'esm',
+    platform: 'neutral',
+    target: 'es2022',
+    dts: { emitDtsOnly: true },
+    outDir: OUT_DIR,
+    clean: true,
+    exports: false,
+    publint: false,
+    attw: false,
+    logLevel: 'warn'
+  })
   return sortUnions(fs.readFileSync(DTS_PATH, 'utf8').trim())
 }
 
@@ -97,7 +117,7 @@ function buildReport(dts: string): string {
 }
 
 const shouldUpdate = process.argv.includes('--update')
-const report = buildReport(readDts())
+const report = buildReport(await readDts())
 
 if (shouldUpdate) {
   fs.writeFileSync(REPORT_PATH, report)

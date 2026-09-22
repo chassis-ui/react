@@ -8,7 +8,8 @@
 //
 // Covers: a plain hook-using component (Button), a react-aria-stateful one (Switch), a compound
 // family (Card/CardHeader/CardBody), a layout primitive (Flex), and a polymorphic forwardRef one
-// (Avatar). Not exhaustive, just enough surface area to catch a real "doesn't build against this
+// (Avatar), and a subpath entry point (Spinner, from `@chassis-ui/react/spinner` -- each subpath
+// carries its own 'use client' directive, see RSC.md's "Subpath imports"). Not exhaustive, just enough surface area to catch a real "doesn't build against this
 // framework" regression. Deliberately skips Tooltip/Popover/Toast/Notification/Collapse/Tabs --
 // anything built on react-transition-group -- it throws "Element type is invalid" under `next
 // dev` here. Root-caused: it's a Turbopack DEV-ONLY bug, not a build or production issue -- a
@@ -20,6 +21,7 @@
 // this hits both. Not fixable from this package; consumers running `next dev` on Turbopack would
 // hit the same wall with Tooltip/Popover/Toast/Notification/Collapse/Tabs today.
 import { Avatar, Badge, Button, Card, CardBody, CardHeader, CardTitle, Flex, Switch } from '@chassis-ui/react'
+import { Spinner } from '@chassis-ui/react/spinner'
 
 export default function Home() {
   return (
@@ -35,6 +37,7 @@ export default function Home() {
           <Button>hook-using button (forwardRef)</Button>
           <Switch defaultSelected label="hook-using switch (react-aria useToggleState)" />
           <Avatar alt="polymorphic forwardRef avatar">CX</Avatar>
+          <Spinner visuallyHiddenLabel="subpath-imported spinner" />
         </Flex>
 
         <Card>
