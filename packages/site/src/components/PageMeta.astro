@@ -21,49 +21,47 @@ const hasContent =
   !!(frontmatter.added?.show_badge !== false && frontmatter.added)
 ---
 
-{
-  hasContent && (
-    <div class="cxd-page-meta d-flex gap-md row-gap-xs px-sm py-xs bg-even icon-sm font-sm rounded">
-      {depsCount > 0 && (
-        <div>
-          <Icon name="box-solid" class="icon-info" /> Depends on
-          {deps.map((dep, i) => (
-            <Fragment>
-              {i > 0 && ', '}
-              {dep.url?.startsWith('http') ? (
-                <a class="text-decoration-none" href={dep.url} target="_blank" rel="noopener">
-                  {dep.title}
-                </a>
-              ) : dep.url ? (
-                <a class="text-decoration-none" href={dep.url}>
-                  {dep.title}
-                </a>
-              ) : (
-                <a
-                  class="text-decoration-none"
-                  href={`${getConfig().docsPath}/components/${getSlug(dep.title)}/`}
-                >
-                  {dep.title}
-                </a>
-              )}
-            </Fragment>
-          ))}
+{hasContent && (
+  <div class="cxd-page-meta d-flex gap-md row-gap-xs px-sm py-xs bg-even icon-sm font-sm rounded">
+    {depsCount > 0 && (
+      <div>
+        <Icon name="box-solid" class="icon-info" /> Depends on
+        {deps.map((dep, i) => (
+          <Fragment>
+            {i > 0 && ', '}
+            {dep.url?.startsWith('http') ? (
+              <a class="text-decoration-none" href={dep.url} target="_blank" rel="noopener">
+                {dep.title}
+              </a>
+            ) : dep.url ? (
+              <a class="text-decoration-none" href={dep.url}>
+                {dep.title}
+              </a>
+            ) : (
+              <a
+                class="text-decoration-none"
+                href={`${getConfig().docsPath}/components/${getSlug(dep.title)}/`}
+              >
+                {dep.title}
+              </a>
+            )}
+          </Fragment>
+        ))}
+      </div>
+    )}
+    {frontmatter.mdn && (
+      <div>
+        <Icon name="mdn-brand" class="icon-reset" />
+        <a class="text-decoration-none" href={frontmatter.mdn} target="_blank" rel="noopener">
+          MDN Reference
+        </a>
+      </div>
+    )}
+    {frontmatter.added &&
+      (frontmatter.added.show_badge === undefined || frontmatter.added.show_badge === true) && (
+        <div class="ms-auto">
+          <Icon name="plus-solid" class="icon-success" /> Added in v{frontmatter.added.version}
         </div>
       )}
-      {frontmatter.mdn && (
-        <div>
-          <Icon name="mdn-brand" class="icon-reset" />
-          <a class="text-decoration-none" href={frontmatter.mdn} target="_blank" rel="noopener">
-            MDN Reference
-          </a>
-        </div>
-      )}
-      {frontmatter.added &&
-        (frontmatter.added.show_badge === undefined || frontmatter.added.show_badge === true) && (
-          <div class="ms-auto">
-            <Icon name="plus-solid" class="icon-success" /> Added in v{frontmatter.added.version}
-          </div>
-        )}
-    </div>
-  )
-}
+  </div>
+)}
