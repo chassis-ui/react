@@ -157,7 +157,7 @@
     },
     "label": {
       "defaultValue": null,
-      "description": "The element represents a caption for a component.",
+      "description": "The element represents a caption for a component.\n\nChildren are accepted as an alias for this prop — `label` wins when both are given.\nreact-aria, which backs this component, calls the same thing `children`; this package renames\nit to `label`, and honouring both means the shape React developers reach for first still\nnames the control instead of silently producing an unlabelled one.",
       "name": "label",
       "parent": {
         "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",

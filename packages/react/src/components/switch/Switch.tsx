@@ -39,6 +39,11 @@ export interface SwitchProps extends Omit<
   isSelected?: boolean
   /**
    * The element represents a caption for a component.
+   *
+   * Children are accepted as an alias for this prop — `label` wins when both are given.
+   * react-aria, which backs this component, calls the same thing `children`; this package renames
+   * it to `label`, and honouring both means the shape React developers reach for first still
+   * names the control instead of silently producing an unlabelled one.
    */
   label?: ReactNode
   /**
@@ -135,6 +140,7 @@ const SwitchCheckbox = forwardRef<HTMLInputElement, SwitchVariantProps>(
   (
     {
       className,
+      children,
       color,
       defaultSelected,
       disabled,
@@ -151,6 +157,9 @@ const SwitchCheckbox = forwardRef<HTMLInputElement, SwitchVariantProps>(
   ) => {
     const inputRef = useRef<HTMLInputElement>(null)
     const forkedRef = useForkedRef(ref, inputRef)
+    // `label` is this package's name for what react-aria calls `children`. Accept either, so the
+    // shape React developers reach for first names the control instead of vanishing.
+    const resolvedLabel = label ?? children
 
     const toggleState = useToggleState({
       defaultSelected,
@@ -162,7 +171,7 @@ const SwitchCheckbox = forwardRef<HTMLInputElement, SwitchVariantProps>(
     const { inputProps: switchProps } = useSwitch(
       {
         ...rest,
-        children: label,
+        children: resolvedLabel,
         isDisabled: disabled,
         isInvalid: invalid,
         value: rest.value as string | undefined
@@ -178,7 +187,7 @@ const SwitchCheckbox = forwardRef<HTMLInputElement, SwitchVariantProps>(
       id,
       inputProps: switchProps,
       invalid,
-      label,
+      label: resolvedLabel,
       size,
       valid
     })
@@ -192,6 +201,7 @@ SwitchCheckbox.displayName = 'SwitchCheckbox'
 const SwitchRadio = forwardRef<HTMLInputElement, SwitchVariantProps>(
   (
     {
+      children,
       className,
       color,
       defaultSelected,
@@ -209,6 +219,9 @@ const SwitchRadio = forwardRef<HTMLInputElement, SwitchVariantProps>(
   ) => {
     const inputRef = useRef<HTMLInputElement>(null)
     const forkedRef = useForkedRef(ref, inputRef)
+    // `label` is this package's name for what react-aria calls `children`. Accept either, so the
+    // shape React developers reach for first names the control instead of vanishing.
+    const resolvedLabel = label ?? children
 
     const radioProps = {
       ...rest,
@@ -230,7 +243,7 @@ const SwitchRadio = forwardRef<HTMLInputElement, SwitchVariantProps>(
       id,
       inputProps: radioProps,
       invalid,
-      label,
+      label: resolvedLabel,
       size,
       valid
     })
