@@ -1,0 +1,83 @@
+---
+title: Static Table
+description: A plain, server-renderable table with Table's styling and no client JavaScript, for listings that don't need sorting, selection, or grid navigation.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/static-table/BasicExample.tsx'
+import { Example as VariantsExample } from '../../examples/components/static-table/VariantsExample.tsx'
+import { Example as StackedExample } from '../../examples/components/static-table/StackedExample.tsx'
+
+## Overview
+
+`StaticTable` renders a `<table>` with the same styling props as [`Table`]([[docsref:/components/table]]) and none of its behavior. You write the rows as ordinary `<thead>`/`<tbody>`/`<tfoot>`/`<tr>`/`<th>`/`<td>` markup and it renders them as-is. It has no hooks and no state, so it ships no JavaScript to the browser.
+
+Reach for it when a page only needs consistent table styling around server-rendered rows: a listing of links, a history log, a table with server-action forms in its cells. Reach for `Table` instead when you need sorting, row selection, or arrow-key grid navigation.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## In Server Components
+
+Import it from its own entry point, `@chassis-ui/react/static-table`. That's the one entry point in the package without a `'use client'` directive, so it renders as a genuine Server Component: no client boundary, no hydration, and no JavaScript for it in the page's bundle.
+
+```tsx
+// app/members/page.tsx — a Server Component
+import Link from 'next/link'
+import { StaticTable } from '@chassis-ui/react/static-table'
+
+export default async function Members() {
+  const members = await getMembers()
+  return (
+    <StaticTable hover striped>
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Topics</th>
+        </tr>
+      </thead>
+      <tbody>
+        {members.map((member) => (
+          <tr key={member.id}>
+            <td>
+              <Link href={`/u/${member.username}`}>{member.name}</Link>
+            </td>
+            <td>{member.topics}</td>
+          </tr>
+        ))}
+      </tbody>
+    </StaticTable>
+  )
+}
+```
+
+`StaticTable` is exported from the root `@chassis-ui/react` entry too, for use inside Client Components. Imported from there into a Server Component, it still works, but it becomes a client component, because the root entry is a client boundary.
+
+## Variants
+
+`bordered`, `borderless`, `hover`, `sm`, `striped`, `color`, and `align` apply the same classes they do on `Table`.
+
+<Example>
+  <VariantsExample client:load />
+</Example>
+
+## Responsive and stacked tables
+
+`responsive` wraps the table in a horizontally scrolling container: `true` for all viewports, or a breakpoint name to scroll only below it. `stacked` converts rows into label/value blocks below a container width.
+
+`Table` derives each stacked label from its column header. A static table has no column data to read, so give each `<td>` a `data-cell` attribute with the label to show. Resize the panel below to see it switch.
+
+<Example>
+  <StackedExample client:load />
+</Example>
+
+## Accessibility
+
+Since `StaticTable` renders your markup unchanged, table semantics are yours to write: add `scope="col"` (or `scope="row"`) to header cells, and give the table an accessible name with `caption`, `aria-label`, or `aria-labelledby`.
+
+## API
+
+### StaticTable
+
+<PropTable component="StaticTable" />

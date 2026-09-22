@@ -9,7 +9,9 @@
 // Covers: a plain hook-using component (Button), a react-aria-stateful one (Switch), a compound
 // family (Card/CardHeader/CardBody), a layout primitive (Flex), and a polymorphic forwardRef one
 // (Avatar), and a subpath entry point (Spinner, from `@chassis-ui/react/spinner` -- each subpath
-// carries its own 'use client' directive, see RSC.md's "Subpath imports"). Not exhaustive, just enough surface area to catch a real "doesn't build against this
+// carries its own 'use client' directive, see RSC.md's "Subpath imports"), and the one
+// server-safe entry (StaticTable, from `@chassis-ui/react/static-table` -- no directive at all, so
+// it renders as a genuine Server Component and adds no client JS). Not exhaustive, just enough surface area to catch a real "doesn't build against this
 // framework" regression. Deliberately skips Tooltip/Popover/Toast/Notification/Collapse/Tabs --
 // anything built on react-transition-group -- it throws "Element type is invalid" under `next
 // dev` here. Root-caused: it's a Turbopack DEV-ONLY bug, not a build or production issue -- a
@@ -22,6 +24,7 @@
 // hit the same wall with Tooltip/Popover/Toast/Notification/Collapse/Tabs today.
 import { Avatar, Badge, Button, Card, CardBody, CardHeader, CardTitle, Flex, Switch } from '@chassis-ui/react'
 import { Spinner } from '@chassis-ui/react/spinner'
+import { StaticTable } from '@chassis-ui/react/static-table'
 
 export default function Home() {
   return (
@@ -46,6 +49,23 @@ export default function Home() {
           </CardHeader>
           <CardBody>Card / CardHeader / CardTitle / CardBody, composed as a consumer would.</CardBody>
         </Card>
+
+        <StaticTable caption="server component table" striped hover responsive>
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Profile</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Mark</td>
+              <td>
+                <a href="/u/mark">@mark</a>
+              </td>
+            </tr>
+          </tbody>
+        </StaticTable>
       </Flex>
     </main>
   )

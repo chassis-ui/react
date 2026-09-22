@@ -23,6 +23,11 @@ const DIST = path.resolve(__dirname, '../dist')
 // Shared chunks under `dist/chunks/` must *not* carry one: they're only ever reached through an
 // entry that already establishes the client boundary, and a directive there would mean some source
 // module other than an entry declared one — Rolldown drops those, but a future version might not.
+//
+// The one deliberate exception is SERVER_ENTRIES: entry points that must stay importable from a
+// Server Component without creating a client boundary (`StaticTable`, #20). Those must *not* start
+// with the directive — gaining one would silently turn a zero-JS component into a client one.
+const SERVER_ENTRIES = new Set(['static-table.js'])
 const DIRECTIVE = /^(['"])use client\1;?/
 const ANY_DIRECTIVE = /(['"])use client\1;?/g
 
@@ -38,8 +43,25 @@ if (!entries.some((file) => path.basename(file) === 'index.js')) {
   failures.push(`${rel(path.join(DIST, 'index.js'))} is missing — run \`pnpm build\` first.`)
 }
 
+for (const name of SERVER_ENTRIES) {
+  if (!entries.some((file) => path.basename(file) === name)) {
+    failures.push(`${rel(path.join(DIST, name))} is missing — was its component folder renamed?`)
+  }
+}
+
 for (const file of entries) {
   const bundle = fs.readFileSync(file, 'utf8')
+
+  if (SERVER_ENTRIES.has(path.basename(file))) {
+    if (ANY_DIRECTIVE.test(bundle)) {
+      failures.push(
+        `${rel(file)} contains a 'use client' directive, but it's a server-safe entry point.\n` +
+          `  It must stay importable from a Server Component without a client boundary — see RSC.md.`
+      )
+    }
+    ANY_DIRECTIVE.lastIndex = 0
+    continue
+  }
 
   if (!DIRECTIVE.test(bundle)) {
     failures.push(
@@ -97,6 +119,7 @@ if (failures.length > 0) {
 }
 
 console.log(
-  `All ${entries.length} dist/*.js entry points carry exactly one 'use client' directive; ` +
-    `none of the ${chunks.filter((f) => f.endsWith('.js')).length} shared chunks do.`
+  `All ${entries.length - SERVER_ENTRIES.size} client dist/*.js entry points carry exactly one ` +
+    `'use client' directive; the ${SERVER_ENTRIES.size} server-safe one(s) and ` +
+    `all ${chunks.filter((f) => f.endsWith('.js')).length} shared chunks carry none.`
 )

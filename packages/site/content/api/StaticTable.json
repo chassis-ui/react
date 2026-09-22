@@ -1,0 +1,285 @@
+{
+  "tags": {},
+  "filePath": "packages/react/src/components/static-table/StaticTable.tsx",
+  "description": "",
+  "displayName": "StaticTable",
+  "methods": [],
+  "props": {
+    "caption": {
+      "defaultValue": null,
+      "description": "Content shown above the table, functioning as a heading for it.",
+      "name": "caption",
+      "parent": {
+        "fileName": "packages/react/src/components/static-table/StaticTable.tsx",
+        "name": "StaticTableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/static-table/StaticTable.tsx",
+          "name": "StaticTableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "children": {
+      "defaultValue": null,
+      "description": "The table's own markup — plain `<thead>`/`<tbody>`/`<tfoot>`/`<tr>`/`<th>`/`<td>` elements,\nrendered as-is.",
+      "name": "children",
+      "parent": {
+        "fileName": "packages/react/src/components/static-table/StaticTable.tsx",
+        "name": "StaticTableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/static-table/StaticTable.tsx",
+          "name": "StaticTableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "stacked": {
+      "defaultValue": null,
+      "description": "Convert rows into stacked label/value blocks below a container width, for tables with too\nmany columns to read comfortably even with horizontal scrolling. `true` always stacks; a\nbreakpoint name stacks only below it. Implies `responsive` when `responsive` isn't set\nseparately. Unlike `Table`, which derives each cell's label from its column header, a static\ntable has no collection to read labels from — give each `<td>` a `data-cell` attribute with\nthe label to show before its value.",
+      "name": "stacked",
+      "parent": {
+        "fileName": "packages/react/src/components/static-table/StaticTable.tsx",
+        "name": "StaticTableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/static-table/StaticTable.tsx",
+          "name": "StaticTableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean | Breakpoint"
+      }
+    },
+    "align": {
+      "defaultValue": null,
+      "description": "Set the vertical alignment of cell content.",
+      "name": "align",
+      "parent": {
+        "fileName": "packages/react/src/utils/tableClassName.ts",
+        "name": "TableStyleProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/utils/tableClassName.ts",
+          "name": "TableStyleProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"bottom\" | \"middle\" | \"top\"",
+        "value": [
+          {
+            "value": "\"bottom\""
+          },
+          {
+            "value": "\"middle\""
+          },
+          {
+            "value": "\"top\""
+          }
+        ]
+      }
+    },
+    "bordered": {
+      "defaultValue": null,
+      "description": "Add borders on all sides of the table and cells.",
+      "name": "bordered",
+      "parent": {
+        "fileName": "packages/react/src/utils/tableClassName.ts",
+        "name": "TableStyleProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/utils/tableClassName.ts",
+          "name": "TableStyleProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "borderless": {
+      "defaultValue": null,
+      "description": "Remove borders on all sides of the table and cells.",
+      "name": "borderless",
+      "parent": {
+        "fileName": "packages/react/src/utils/tableClassName.ts",
+        "name": "TableStyleProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/utils/tableClassName.ts",
+          "name": "TableStyleProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "packages/react/src/utils/tableClassName.ts",
+        "name": "TableStyleProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/utils/tableClassName.ts",
+          "name": "TableStyleProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "color": {
+      "defaultValue": null,
+      "description": "Sets the color of the component.",
+      "name": "color",
+      "parent": {
+        "fileName": "packages/react/src/utils/tableClassName.ts",
+        "name": "TableStyleProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/utils/tableClassName.ts",
+          "name": "TableStyleProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "ContextColor",
+        "value": [
+          {
+            "value": "\"default\""
+          },
+          {
+            "value": "\"alternate\""
+          },
+          {
+            "value": "\"primary\""
+          },
+          {
+            "value": "\"secondary\""
+          },
+          {
+            "value": "\"neutral\""
+          },
+          {
+            "value": "\"success\""
+          },
+          {
+            "value": "\"danger\""
+          },
+          {
+            "value": "\"warning\""
+          },
+          {
+            "value": "\"info\""
+          },
+          {
+            "value": "\"black\""
+          },
+          {
+            "value": "\"white\""
+          }
+        ]
+      }
+    },
+    "hover": {
+      "defaultValue": null,
+      "description": "Enable a hover state on table rows.",
+      "name": "hover",
+      "parent": {
+        "fileName": "packages/react/src/utils/tableClassName.ts",
+        "name": "TableStyleProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/utils/tableClassName.ts",
+          "name": "TableStyleProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "responsive": {
+      "defaultValue": null,
+      "description": "Make any table responsive across all viewports or pick a maximum breakpoint.",
+      "name": "responsive",
+      "parent": {
+        "fileName": "packages/react/src/utils/tableClassName.ts",
+        "name": "TableStyleProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/utils/tableClassName.ts",
+          "name": "TableStyleProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean | Breakpoint"
+      }
+    },
+    "sm": {
+      "defaultValue": null,
+      "description": "Make table more compact by cutting all cell padding.",
+      "name": "sm",
+      "parent": {
+        "fileName": "packages/react/src/utils/tableClassName.ts",
+        "name": "TableStyleProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/utils/tableClassName.ts",
+          "name": "TableStyleProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "striped": {
+      "defaultValue": null,
+      "description": "Add zebra-striping to table rows.",
+      "name": "striped",
+      "parent": {
+        "fileName": "packages/react/src/utils/tableClassName.ts",
+        "name": "TableStyleProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/utils/tableClassName.ts",
+          "name": "TableStyleProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    }
+  }
+}

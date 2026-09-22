@@ -25,6 +25,7 @@ import {
 
 import { useForkedRef } from '../../hooks/useForkedRef'
 import { ContextColor } from '../../types'
+import { tableClassName, tableWrapperClassName } from '../../utils/tableClassName'
 import './Table.css'
 
 // `GridNode<T>` (from `@react-types/shared`) isn't re-exported by either package's public
@@ -179,24 +180,20 @@ const TableInner = <T extends object>(
     internalRef
   )
 
-  const _className = classNames(
-    'table',
+  const _className = tableClassName({
+    align,
+    bordered,
+    borderless,
+    className,
     color,
-    {
-      [`align-${align}`]: align,
-      bordered,
-      borderless,
-      hoverable: hover,
-      sm,
-      stacked: stacked === true,
-      striped
-    },
-    typeof stacked === 'string' ? `max-${stacked}:stacked` : undefined,
-    className
-  )
+    hover,
+    sm,
+    stacked,
+    striped
+  })
 
   const tableEl = (
-    <table {...gridProps} className={_className || undefined} ref={ref}>
+    <table {...gridProps} className={_className} ref={ref}>
       {caption && <caption>{caption}</caption>}
       <TableRowGroup className={children[0].props.className} type="thead">
         {state.collection.headerRows.map((headerRow) => (
@@ -228,13 +225,8 @@ const TableInner = <T extends object>(
     </table>
   )
 
-  if (!responsive && !stacked) return tableEl
-
-  const wrapperClassName = responsive
-    ? typeof responsive === 'boolean'
-      ? 'table-responsive'
-      : `max-${responsive}:table-responsive`
-    : 'table-responsive'
+  const wrapperClassName = tableWrapperClassName({ responsive, stacked })
+  if (!wrapperClassName) return tableEl
 
   return <div className={wrapperClassName}>{tableEl}</div>
 }

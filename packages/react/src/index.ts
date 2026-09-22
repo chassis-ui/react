@@ -105,6 +105,7 @@ import { Progress, ProgressBar } from './components/progress'
 import { Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerTitle } from './components/drawer'
 import { Skeleton, SkeletonLoader } from './components/skeleton'
 import { Spinner } from './components/spinner'
+import { StaticTable } from './components/static-table'
 import { Stepper, StepperItem } from './components/stepper'
 import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from './components/table'
 import { Tabs, Tab, TabList, TabPanel } from './components/tabs'
@@ -266,6 +267,7 @@ export {
   Skeleton,
   SkeletonLoader,
   Spinner,
+  StaticTable,
   Stepper,
   StepperItem,
   Switch,
@@ -459,6 +461,7 @@ export type { RangeInputProps } from './components/range-input'
 export type { SelectOptionDef, SelectProps } from './components/select'
 export type { SkeletonLoaderProps, SkeletonProps } from './components/skeleton'
 export type { SpinnerProps } from './components/spinner'
+export type { StaticTableProps } from './components/static-table'
 export type { StackProps } from './components/stack'
 export type { StepperItemDef, StepperItemProps, StepperProps } from './components/stepper'
 export type { SwitchProps } from './components/switch'

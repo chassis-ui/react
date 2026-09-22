@@ -25,7 +25,8 @@ __snapshots__/` for that component's snapshot files — mirrors `src/components/
   imports from these barrels, not from component files directly. Every barrel is also a build
   entry, published as the `@chassis-ui/react/<kebab-name>` subpath export, so it starts with
   `'use client'` followed by `import '../../utils/suppressFocusRingGlobally'` — copy both lines into
-  a new folder's barrel (see `RSC.md`; `pnpm check:rsc` catches a missing directive).
+  a new folder's barrel (see `RSC.md`; `pnpm check:rsc` catches a missing directive). The one
+  exception is `static-table`, the server-safe entry, which must carry neither.
 - `FORMS.md` — **read this before touching any form-related component**
   (text inputs, select, checkbox/radio, combobox, datepicker, chip-input, otp-input, and the
   shared `form`/`form-field` render helpers). It documents two non-interchangeable shared render

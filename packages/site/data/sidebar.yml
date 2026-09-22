@@ -81,6 +81,7 @@
         - title: Icon
         - title: List
         - title: Table
+        - title: Static Table
         - title: DataGrid
         - title: Placeholder
     - group: Disclosure

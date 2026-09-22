@@ -19,6 +19,8 @@ import { Example as StackedExample } from '../../examples/components/table/Stack
 
 This is a deliberate trade: the authoring model is less "just markup" than most of the rest of Chassis React, in exchange for real sorting, selection, and keyboard grid navigation that would otherwise need to be hand-rolled.
 
+If a table needs none of that, and especially if it's rendered from a React Server Component, use [`StaticTable`]([[docsref:/components/static-table]]) instead. It takes the same styling props, renders plain markup, and ships no JavaScript.
+
 <Example>
   <BasicExample client:load />
 </Example>
