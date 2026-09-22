@@ -12,7 +12,7 @@ export const Example = () => (
     <CarouselInner>
       <CarouselItem>
         <div
-          className="d-flex flex-column justify-content-center primary-bg-even p-6xlarge"
+          className="d-flex flex-column justify-content-center primary-bg-even p-6xl"
           style={{ minHeight: 320 }}
         >
           <h3>Build anything</h3>
@@ -26,7 +26,7 @@ export const Example = () => (
       </CarouselItem>
       <CarouselItem>
         <div
-          className="d-flex flex-column justify-content-center text-center success-bg-even p-6xlarge"
+          className="d-flex flex-column justify-content-center text-center success-bg-even p-6xl"
           style={{ minHeight: 320 }}
         >
           <h3>Style it any way</h3>
@@ -40,7 +40,7 @@ export const Example = () => (
       </CarouselItem>
       <CarouselItem>
         <div
-          className="d-flex flex-column justify-content-center text-end warning-bg-even p-6xlarge"
+          className="d-flex flex-column justify-content-center text-end warning-bg-even p-6xl"
           style={{ minHeight: 320 }}
         >
           <h3>Mix and match</h3>
