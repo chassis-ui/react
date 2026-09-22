@@ -14,7 +14,8 @@ component folder's `index.ts` barrel (each one a tsdown entry) carries its own `
 line, alongside `src/index.ts`'s. Shared chunks deliberately carry none: they're only reachable
 through an entry that already established the boundary.
 
-A client boundary per component folder (rather than a server-safe subset) is still the right call:
+A client boundary per component folder is still the right call for all but one of them (see "The
+server-safe entry" below):
 audited 2026-08-05, ~90% of the package's component files (129 of 143) either call a React or
 react-aria/react-stately hook (`useState`, `useId`, `useContext`, ...) or use `forwardRef`. The
 files that don't are almost entirely collection-item renderers (`TableCell`, `ComboboxItem`,
@@ -75,6 +76,24 @@ barrel, which is why subpaths are the recommended import for size-sensitive rout
 
 Mixing the two is safe: both resolve to the same shared chunks, so `Modal` from
 `@chassis-ui/react/modal` and `useModal` from `@chassis-ui/react` see the same context instance.
+
+## The server-safe entry: `@chassis-ui/react/static-table`
+
+One entry point deliberately has **no** directive: `static-table` (`StaticTable`, #20). It's a
+plain `<table>` with `Table`'s styling props and no hooks, context, or browser APIs, so a Server
+Component can render it as a genuine Server Component — no client reference, no hydration, and
+zero bytes of client JS for it (confirmed in `smoke-tests/nextjs-app-router`: a route rendering
+only a `StaticTable` ships nothing beyond Next.js's own baseline, and its
+`page_client-reference-manifest.js` lists no `@chassis-ui/react` module). `Table` itself stays a
+client component — sorting, selection and grid navigation are react-aria state.
+
+Its barrel (`src/components/static-table/index.ts`) therefore skips both lines every other barrel
+starts with, and `scripts/check-rsc-directive.ts` lists it in `SERVER_ENTRIES`, where the check is
+inverted: the build fails if that entry ever _gains_ a directive. Anything it imports must stay
+server-safe too — today that's `react` and `src/utils/tableClassName.ts` (the class-name builder it
+shares with `Table`, so the two can't drift apart visually). It's also exported from the root
+entry, for use inside Client Components; imported from there, it's a client component like
+everything else in that entry.
 
 ## How to verify (if the build changes)
 
