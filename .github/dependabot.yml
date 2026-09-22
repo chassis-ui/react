@@ -21,6 +21,20 @@ updates:
         update-types: ["version-update:semver-major"]
       - dependency-name: "playwright"
         update-types: ["version-update:semver-major"]
+      # vitest majors are gated on Storybook, not on vitest itself: `@storybook/addon-vitest`
+      # (which wires the stories into vitest's browser project — see packages/react/AGENTS.md)
+      # peer-requires `vitest: ^3.0.0 || ^4.0.0` as of its current stable 10.6.0, and
+      # `@vitest/browser-playwright: ^4.0.0`. The first release accepting vitest 5 is
+      # `@storybook/addon-vitest@11.0.0-alpha.1`, i.e. a Storybook 11 prerelease. So a vitest
+      # major is a coordinated Storybook upgrade, not a routine bump, and the three packages
+      # have to move together anyway (`@vitest/coverage-istanbul` and
+      # `@vitest/browser-playwright` both peer-require the *exact* matching vitest version).
+      - dependency-name: "vitest"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@vitest/coverage-istanbul"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@vitest/browser-playwright"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "github-actions"
     directory: "/"
