@@ -10,16 +10,16 @@
       "description": "The initial selected date (uncontrolled).\nThe initial selected dates (uncontrolled).",
       "name": "defaultValue",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+        "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
         "name": "DatePickerSingleProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+          "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
           "name": "DatePickerSingleProps"
         },
         {
-          "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+          "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
           "name": "DatePickerMultipleProps"
         }
       ],
@@ -33,16 +33,16 @@
       "description": "Callback fired when the selected date changes.\nCallback fired when the set of selected dates changes.",
       "name": "onChange",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+        "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
         "name": "DatePickerSingleProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+          "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
           "name": "DatePickerSingleProps"
         },
         {
-          "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+          "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
           "name": "DatePickerMultipleProps"
         }
       ],
@@ -58,16 +58,16 @@
       "description": "Whether a single date or multiple, independently toggled dates can be selected. Multiple\nselection replaces the editable segmented field with a read-only, comma-separated list of\nthe selected dates — a segmented day/month/year field has no way to represent more than one\ndate.",
       "name": "selectionMode",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+        "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
         "name": "DatePickerSingleProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+          "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
           "name": "DatePickerSingleProps"
         },
         {
-          "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+          "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
           "name": "DatePickerMultipleProps"
         }
       ],
@@ -90,16 +90,16 @@
       "description": "The selected date (controlled).\nThe selected dates (controlled).",
       "name": "value",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+        "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
         "name": "DatePickerSingleProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+          "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
           "name": "DatePickerSingleProps"
         },
         {
-          "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+          "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
           "name": "DatePickerMultipleProps"
         }
       ],
@@ -113,12 +113,12 @@
       "description": "An accessible label for the date picker, used when there's no visible `<label>`.",
       "name": "aria-label",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+        "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
         "name": "DatePickerBaseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+          "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
           "name": "DatePickerBaseProps"
         }
       ],
@@ -132,12 +132,12 @@
       "description": "Identifies a visible `<label>` element for the date picker.",
       "name": "aria-labelledby",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+        "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
         "name": "DatePickerBaseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+          "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
           "name": "DatePickerBaseProps"
         }
       ],
@@ -151,12 +151,12 @@
       "description": "A string of all className you want applied to the base component.",
       "name": "className",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+        "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
         "name": "DatePickerBaseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+          "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
           "name": "DatePickerBaseProps"
         }
       ],
@@ -172,12 +172,12 @@
       "description": "Whether the calendar popover is open by default (uncontrolled).",
       "name": "defaultOpen",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+        "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
         "name": "DatePickerBaseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+          "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
           "name": "DatePickerBaseProps"
         }
       ],
@@ -191,12 +191,12 @@
       "description": "Prevents the date picker from being focused or interacted with.",
       "name": "disabled",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+        "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
         "name": "DatePickerBaseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+          "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
           "name": "DatePickerBaseProps"
         }
       ],
@@ -212,12 +212,12 @@
       "description": "The day that starts the week in the calendar overlay, overriding the default set by the\nactive locale.",
       "name": "firstDayOfWeek",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+        "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
         "name": "DatePickerBaseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+          "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
           "name": "DatePickerBaseProps"
         }
       ],
@@ -255,12 +255,12 @@
       "description": "A description for the field, rendered below the date picker.",
       "name": "help",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+        "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
         "name": "DatePickerBaseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+          "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
           "name": "DatePickerBaseProps"
         }
       ],
@@ -274,12 +274,12 @@
       "description": "`id` forwarded to the field's grouping element — useful for pairing with a `<label for>`.",
       "name": "id",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+        "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
         "name": "DatePickerBaseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+          "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
           "name": "DatePickerBaseProps"
         }
       ],
@@ -293,12 +293,12 @@
       "description": "Set component validation state to invalid.",
       "name": "invalid",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+        "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
         "name": "DatePickerBaseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+          "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
           "name": "DatePickerBaseProps"
         }
       ],
@@ -312,12 +312,12 @@
       "description": "An error message for the field, rendered below the date picker when `invalid` is set.",
       "name": "invalidFeedback",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+        "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
         "name": "DatePickerBaseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+          "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
           "name": "DatePickerBaseProps"
         }
       ],
@@ -331,12 +331,12 @@
       "description": "Callback that is called for each date in the calendar. If it returns `true`, that date is\nshown but cannot be selected.",
       "name": "isDateUnavailable",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+        "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
         "name": "DatePickerBaseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+          "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
           "name": "DatePickerBaseProps"
         }
       ],
@@ -350,12 +350,12 @@
       "description": "Overrides for the strings this component and its calendar render themselves rather than\ngetting from the active locale — the calendar trigger, the clear adornment, and the calendar's\nown year-view arrows/announcements. Date segment order, month and weekday names all follow\n`I18nProvider`'s locale via react-aria and need no override. Merged over the English defaults,\nso passing one key leaves the rest alone.",
       "name": "labels",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+        "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
         "name": "DatePickerBaseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+          "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
           "name": "DatePickerBaseProps"
         }
       ],
@@ -369,12 +369,12 @@
       "description": "Whether the calendar popover is open (controlled).",
       "name": "isOpen",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+        "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
         "name": "DatePickerBaseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+          "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
           "name": "DatePickerBaseProps"
         }
       ],
@@ -388,12 +388,12 @@
       "description": "The field's caption, rendered as a `FormLabel` associated with the field group.",
       "name": "label",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+        "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
         "name": "DatePickerBaseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+          "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
           "name": "DatePickerBaseProps"
         }
       ],
@@ -407,12 +407,12 @@
       "description": "The maximum allowed date that a user may select.",
       "name": "maxValue",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+        "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
         "name": "DatePickerBaseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+          "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
           "name": "DatePickerBaseProps"
         }
       ],
@@ -426,12 +426,12 @@
       "description": "The minimum allowed date that a user may select.",
       "name": "minValue",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+        "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
         "name": "DatePickerBaseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+          "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
           "name": "DatePickerBaseProps"
         }
       ],
@@ -445,12 +445,12 @@
       "description": "`name` of an auto-created hidden input, kept in sync with the selection, for native form\nsubmission — one input when `selectionMode` is `'single'`, one per selected date when it's\n`'multiple'` (same `name` on each, which browsers serialize as multiple form values). Omit to\nskip creating any.",
       "name": "name",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+        "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
         "name": "DatePickerBaseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+          "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
           "name": "DatePickerBaseProps"
         }
       ],
@@ -464,12 +464,12 @@
       "description": "Callback fired when the calendar popover's open state changes.",
       "name": "onOpenChange",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+        "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
         "name": "DatePickerBaseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+          "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
           "name": "DatePickerBaseProps"
         }
       ],
@@ -483,12 +483,12 @@
       "description": "Size the component sm or lg.",
       "name": "size",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+        "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
         "name": "DatePickerBaseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+          "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
           "name": "DatePickerBaseProps"
         }
       ],
@@ -511,12 +511,12 @@
       "description": "ISO 8601 dates (`YYYY-MM-DD`) to mark unselectable, as a convenience alternative to\n`isDateUnavailable` for data-driven cases (e.g. booked dates fetched from an API). Composed\nwith `isDateUnavailable` when both are given — a date unavailable by either is unavailable.\nApplies to both the calendar overlay and typing a date directly into the field.",
       "name": "unavailableDates",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+        "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
         "name": "DatePickerBaseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+          "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
           "name": "DatePickerBaseProps"
         }
       ],
@@ -530,12 +530,12 @@
       "description": "Set component validation state to valid.",
       "name": "valid",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+        "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
         "name": "DatePickerBaseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+          "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
           "name": "DatePickerBaseProps"
         }
       ],
@@ -549,12 +549,12 @@
       "description": "A success message for the field, rendered below the date picker when `valid` is set.",
       "name": "validFeedback",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+        "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
         "name": "DatePickerBaseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+          "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
           "name": "DatePickerBaseProps"
         }
       ],
@@ -570,12 +570,12 @@
       "description": "Number of months to display side by side in the calendar overlay.",
       "name": "visibleMonths",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+        "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
         "name": "DatePickerBaseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datepicker/DatePicker.tsx",
+          "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
           "name": "DatePickerBaseProps"
         }
       ],

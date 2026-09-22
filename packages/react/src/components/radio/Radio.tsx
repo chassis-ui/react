@@ -31,6 +31,11 @@ export interface RadioProps extends Omit<
   id?: string
   /**
    * The element represents a caption for a component.
+   *
+   * Children are accepted as an alias for this prop — `label` wins when both are given.
+   * react-aria, which backs this component, calls the same thing `children`; this package renames
+   * it to `label`, and honouring both means the shape React developers reach for first still
+   * names the control instead of silently producing an unlabelled one.
    */
   label?: ReactNode
   /**
@@ -47,7 +52,7 @@ export interface RadioProps extends Omit<
 // radio hook, only useRadio(props, RadioGroupState, ref), because a lone radio with no group is
 // not a meaningful accessible control (see https://chassis-ui.com/css/docs/forms/checkbox-radio).
 export const Radio = forwardRef<HTMLInputElement, RadioProps>(
-  ({ button, className, color, disabled, id, label, size, ...rest }, ref) => {
+  ({ button, children, className, color, disabled, id, label, size, ...rest }, ref) => {
     const group = useContext(RadioGroupContext)
 
     if (!group) {
@@ -60,10 +65,15 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
     const inputRef = useRef<HTMLInputElement>(null)
     const forkedRef = useForkedRef(ref, inputRef)
 
+    // `label` is this package's name for what react-aria calls `children`. Accept either, so the
+    // shape React developers reach for first (`<Radio>Label</Radio>`) names the control instead of
+    // being silently dropped — see the note on `label` in `RadioProps`.
+    const resolvedLabel = label ?? children
+
     const { inputProps } = useRadio(
       {
         ...rest,
-        children: label,
+        children: resolvedLabel,
         isDisabled: disabled
       } as AriaRadioProps,
       groupState,
@@ -78,7 +88,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
       color,
       input: <input {...inputProps} className={inputClassName} id={id} ref={forkedRef} />,
       invalid,
-      label,
+      label: resolvedLabel,
       size,
       valid
     })

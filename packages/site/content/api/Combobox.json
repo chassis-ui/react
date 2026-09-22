@@ -10,12 +10,12 @@
       "description": "An accessible label for the combobox, used when there's no visible `<label>`.",
       "name": "aria-label",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+        "fileName": "packages/react/src/components/combobox/Combobox.tsx",
         "name": "ComboboxProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+          "fileName": "packages/react/src/components/combobox/Combobox.tsx",
           "name": "ComboboxProps"
         }
       ],
@@ -29,12 +29,12 @@
       "description": "Identifies a visible `<label>` element for the combobox.",
       "name": "aria-labelledby",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+        "fileName": "packages/react/src/components/combobox/Combobox.tsx",
         "name": "ComboboxProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+          "fileName": "packages/react/src/components/combobox/Combobox.tsx",
           "name": "ComboboxProps"
         }
       ],
@@ -48,12 +48,12 @@
       "description": "`ComboboxItem` elements, optionally wrapped in `ComboboxGroup` — read as data by\n`Combobox` to build the option list. Not rendered directly. Ignored when `items` is set.",
       "name": "children",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+        "fileName": "packages/react/src/components/combobox/Combobox.tsx",
         "name": "ComboboxProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+          "fileName": "packages/react/src/components/combobox/Combobox.tsx",
           "name": "ComboboxProps"
         }
       ],
@@ -67,12 +67,12 @@
       "description": "A string of all className you want applied to the base component.",
       "name": "className",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+        "fileName": "packages/react/src/components/combobox/Combobox.tsx",
         "name": "ComboboxProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+          "fileName": "packages/react/src/components/combobox/Combobox.tsx",
           "name": "ComboboxProps"
         }
       ],
@@ -86,12 +86,12 @@
       "description": "The initial selected option's id (uncontrolled).",
       "name": "defaultValue",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+        "fileName": "packages/react/src/components/combobox/Combobox.tsx",
         "name": "ComboboxProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+          "fileName": "packages/react/src/components/combobox/Combobox.tsx",
           "name": "ComboboxProps"
         }
       ],
@@ -105,12 +105,12 @@
       "description": "Prevents the combobox from being focused or interacted with.",
       "name": "disabled",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+        "fileName": "packages/react/src/components/combobox/Combobox.tsx",
         "name": "ComboboxProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+          "fileName": "packages/react/src/components/combobox/Combobox.tsx",
           "name": "ComboboxProps"
         }
       ],
@@ -124,12 +124,12 @@
       "description": "A description for the field, rendered below the combobox.",
       "name": "help",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+        "fileName": "packages/react/src/components/combobox/Combobox.tsx",
         "name": "ComboboxProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+          "fileName": "packages/react/src/components/combobox/Combobox.tsx",
           "name": "ComboboxProps"
         }
       ],
@@ -143,12 +143,12 @@
       "description": "`id` forwarded to the input element — useful for pairing with a `<label for>`.",
       "name": "id",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+        "fileName": "packages/react/src/components/combobox/Combobox.tsx",
         "name": "ComboboxProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+          "fileName": "packages/react/src/components/combobox/Combobox.tsx",
           "name": "ComboboxProps"
         }
       ],
@@ -162,12 +162,12 @@
       "description": "Set component validation state to invalid.",
       "name": "invalid",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+        "fileName": "packages/react/src/components/combobox/Combobox.tsx",
         "name": "ComboboxProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+          "fileName": "packages/react/src/components/combobox/Combobox.tsx",
           "name": "ComboboxProps"
         }
       ],
@@ -181,12 +181,12 @@
       "description": "An error message for the field, rendered below the combobox when `invalid` is set.",
       "name": "invalidFeedback",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+        "fileName": "packages/react/src/components/combobox/Combobox.tsx",
         "name": "ComboboxProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+          "fileName": "packages/react/src/components/combobox/Combobox.tsx",
           "name": "ComboboxProps"
         }
       ],
@@ -200,12 +200,12 @@
       "description": "Array of item/header/divider definitions for data-driven rendering. When provided, children\nare ignored. A `'header'` entry starts a group that all following items join until the next\nheader or the end of the array. `'divider'` entries are a no-op here (dividers aren't\nmeaningful for a listbox/option collection) — use `ComboboxGroup` composition instead if\nyou need finer control over grouping. An entry's `href`/`onClick` are `Menu`-only and are not\nread here — use `onChange` to react to the selection instead.",
       "name": "items",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+        "fileName": "packages/react/src/components/combobox/Combobox.tsx",
         "name": "ComboboxProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+          "fileName": "packages/react/src/components/combobox/Combobox.tsx",
           "name": "ComboboxProps"
         }
       ],
@@ -219,12 +219,12 @@
       "description": "The field's caption, rendered as a `FormLabel` associated with the input.",
       "name": "label",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+        "fileName": "packages/react/src/components/combobox/Combobox.tsx",
         "name": "ComboboxProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+          "fileName": "packages/react/src/components/combobox/Combobox.tsx",
           "name": "ComboboxProps"
         }
       ],
@@ -238,12 +238,12 @@
       "description": "`name` of an auto-created hidden input, kept in sync with the selection, for native form\nsubmission. Omit to skip creating one.",
       "name": "name",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+        "fileName": "packages/react/src/components/combobox/Combobox.tsx",
         "name": "ComboboxProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+          "fileName": "packages/react/src/components/combobox/Combobox.tsx",
           "name": "ComboboxProps"
         }
       ],
@@ -259,12 +259,12 @@
       "description": "Text shown in the listbox when no options match the current query.",
       "name": "noResultsText",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+        "fileName": "packages/react/src/components/combobox/Combobox.tsx",
         "name": "ComboboxProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+          "fileName": "packages/react/src/components/combobox/Combobox.tsx",
           "name": "ComboboxProps"
         }
       ],
@@ -278,12 +278,12 @@
       "description": "Callback fired when the selected option changes.",
       "name": "onChange",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+        "fileName": "packages/react/src/components/combobox/Combobox.tsx",
         "name": "ComboboxProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+          "fileName": "packages/react/src/components/combobox/Combobox.tsx",
           "name": "ComboboxProps"
         }
       ],
@@ -297,12 +297,12 @@
       "description": "Placeholder shown in the input when nothing is selected.",
       "name": "placeholder",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+        "fileName": "packages/react/src/components/combobox/Combobox.tsx",
         "name": "ComboboxProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+          "fileName": "packages/react/src/components/combobox/Combobox.tsx",
           "name": "ComboboxProps"
         }
       ],
@@ -316,12 +316,12 @@
       "description": "Size the component sm or lg.",
       "name": "size",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+        "fileName": "packages/react/src/components/combobox/Combobox.tsx",
         "name": "ComboboxProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+          "fileName": "packages/react/src/components/combobox/Combobox.tsx",
           "name": "ComboboxProps"
         }
       ],
@@ -344,12 +344,12 @@
       "description": "Set component validation state to valid.",
       "name": "valid",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+        "fileName": "packages/react/src/components/combobox/Combobox.tsx",
         "name": "ComboboxProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+          "fileName": "packages/react/src/components/combobox/Combobox.tsx",
           "name": "ComboboxProps"
         }
       ],
@@ -363,12 +363,12 @@
       "description": "A success message for the field, rendered below the combobox when `valid` is set.",
       "name": "validFeedback",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+        "fileName": "packages/react/src/components/combobox/Combobox.tsx",
         "name": "ComboboxProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+          "fileName": "packages/react/src/components/combobox/Combobox.tsx",
           "name": "ComboboxProps"
         }
       ],
@@ -382,12 +382,12 @@
       "description": "The selected option's id (controlled).",
       "name": "value",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+        "fileName": "packages/react/src/components/combobox/Combobox.tsx",
         "name": "ComboboxProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/combobox/Combobox.tsx",
+          "fileName": "packages/react/src/components/combobox/Combobox.tsx",
           "name": "ComboboxProps"
         }
       ],

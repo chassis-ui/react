@@ -12,7 +12,7 @@ export const Example = () => {
             content. This content is a little bit longer.
           </CardText>
           <CardText>
-            <sm className="md:text-emphasis">Last updated 3 mins ago</sm>
+            <small className="md:text-emphasis">Last updated 3 mins ago</small>
           </CardText>
         </CardBody>
       </Card>
@@ -24,7 +24,7 @@ export const Example = () => {
             content. This content is a little bit longer.
           </CardText>
           <CardText>
-            <sm className="md:text-emphasis">Last updated 3 mins ago</sm>
+            <small className="md:text-emphasis">Last updated 3 mins ago</small>
           </CardText>
         </CardBody>
         <CardImage orientation="bottom" src="https://placehold.co/800x400" />

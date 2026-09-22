@@ -11,7 +11,7 @@
       "name": "children",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",
+          "fileName": "packages/react/src/components/tabs/Tabs.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -26,7 +26,7 @@
       "name": "className",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",
+          "fileName": "packages/react/src/components/tabs/Tabs.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -41,7 +41,7 @@
       "name": "component",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",
+          "fileName": "packages/react/src/components/tabs/Tabs.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -56,7 +56,7 @@
       "name": "defaultSelectedKey",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",
+          "fileName": "packages/react/src/components/tabs/Tabs.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -71,7 +71,7 @@
       "name": "disabledKeys",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",
+          "fileName": "packages/react/src/components/tabs/Tabs.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -86,7 +86,7 @@
       "name": "keyboardActivation",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",
+          "fileName": "packages/react/src/components/tabs/Tabs.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -110,7 +110,7 @@
       "name": "onSelectionChange",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",
+          "fileName": "packages/react/src/components/tabs/Tabs.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -125,7 +125,7 @@
       "name": "orientation",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",
+          "fileName": "packages/react/src/components/tabs/Tabs.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -149,7 +149,7 @@
       "name": "selectedKey",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",
+          "fileName": "packages/react/src/components/tabs/Tabs.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -164,7 +164,7 @@
       "name": "ref",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/tabs/Tabs.tsx",
+          "fileName": "packages/react/src/components/tabs/Tabs.tsx",
           "name": "TypeLiteral"
         }
       ],

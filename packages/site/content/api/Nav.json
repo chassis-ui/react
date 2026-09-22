@@ -11,7 +11,7 @@
       "name": "className",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/nav/Nav.tsx",
+          "fileName": "packages/react/src/components/nav/Nav.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -26,7 +26,7 @@
       "name": "component",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/nav/Nav.tsx",
+          "fileName": "packages/react/src/components/nav/Nav.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -41,7 +41,7 @@
       "name": "items",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/nav/Nav.tsx",
+          "fileName": "packages/react/src/components/nav/Nav.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -56,7 +56,7 @@
       "name": "layout",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/nav/Nav.tsx",
+          "fileName": "packages/react/src/components/nav/Nav.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -80,7 +80,7 @@
       "name": "variant",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/nav/Nav.tsx",
+          "fileName": "packages/react/src/components/nav/Nav.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -104,7 +104,7 @@
       "name": "ref",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/nav/Nav.tsx",
+          "fileName": "packages/react/src/components/nav/Nav.tsx",
           "name": "TypeLiteral"
         }
       ],

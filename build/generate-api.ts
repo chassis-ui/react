@@ -215,20 +215,37 @@ function generateItemDefDocs(componentFiles: string[], componentDocs: Map<string
   return generated
 }
 
-// react-docgen-typescript reports absolute paths (`filePath` on a component doc, `fileName` on
-// every prop's `parent`/`declarations`), so the generated JSON committed to this repo used to
-// carry the generating machine's own checkout path. Two consequences: the artifacts were
-// machine-specific, so any two contributors regenerating produced a whole-tree diff, and a CI
-// check that regenerates and diffs (`pnpm react:check:api-docs`) could never pass, because the
-// runner's checkout path differs from anyone's. Rewriting them repo-relative on the way out makes
-// the output reproducible anywhere.
+// react-docgen-typescript reports absolute paths (`filePath` on a component doc), so the
+// generated JSON committed to this repo used to carry the generating machine's own checkout path.
+// Two consequences: the artifacts were machine-specific, so any two contributors regenerating
+// produced a whole-tree diff, and a CI check that regenerates and diffs
+// (`pnpm react:check:api-docs`) could never pass, because the runner's checkout path differs from
+// anyone's. Rewriting them repo-relative on the way out makes the output reproducible anywhere.
+//
+// `fileName` (on every prop's `parent`/`declarations`) needs a second, different rewrite: it has
+// already been through react-docgen-typescript's own `trimFileName()`, which walks up from
+// `process.cwd()` and then deliberately "preserve[s] the parent directory name" — so it emits a
+// path relative to the repo root's *parent*, i.e. one that starts with whatever the checkout
+// directory happens to be called. Locally that's `chassis-react/packages/react/src/...`; on a
+// GitHub runner the checkout is named after the repo, so it's `react/packages/react/src/...`.
+// Absolute-path handling never touched those (they aren't absolute), which is why
+// `react:check:api-docs` still failed on every runner with a 148-file diff of nothing but that
+// leading segment. Stripping it leaves the same repo-relative form `filePath` already uses.
 const REPO_ROOT = path.resolve(__dirname, '..')
+const CHECKOUT_DIR_PREFIX = `${path.basename(REPO_ROOT)}/`
 
 function toRepoRelativePaths<T>(value: T): T {
   if (typeof value === 'string') {
-    return (value.startsWith(REPO_ROOT + path.sep)
-      ? path.relative(REPO_ROOT, value).split(path.sep).join('/')
-      : value) as unknown as T
+    if (value.startsWith(REPO_ROOT + path.sep)) {
+      return path.relative(REPO_ROOT, value).split(path.sep).join('/') as unknown as T
+    }
+    if (value.startsWith(CHECKOUT_DIR_PREFIX)) {
+      const trimmed = value.slice(CHECKOUT_DIR_PREFIX.length)
+      // Only strip when what's left is a real path in this repo — never on a prose string that
+      // happens to begin with the checkout directory's name.
+      if (fs.existsSync(path.join(REPO_ROOT, trimmed))) return trimmed as unknown as T
+    }
+    return value as unknown as T
   }
   if (Array.isArray(value)) return value.map(toRepoRelativePaths) as unknown as T
   if (value && typeof value === 'object') {

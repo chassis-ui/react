@@ -10,12 +10,12 @@
       "description": "Content node for your component.",
       "name": "content",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/popover/Popover.tsx",
+        "fileName": "packages/react/src/components/popover/Popover.tsx",
         "name": "PopoverProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/popover/Popover.tsx",
+          "fileName": "packages/react/src/components/popover/Popover.tsx",
           "name": "PopoverProps"
         }
       ],
@@ -31,12 +31,12 @@
       "description": "Offset of the popover relative to its target, as `[crossAxis, mainAxis]`.",
       "name": "offset",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/popover/Popover.tsx",
+        "fileName": "packages/react/src/components/popover/Popover.tsx",
         "name": "PopoverProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/popover/Popover.tsx",
+          "fileName": "packages/react/src/components/popover/Popover.tsx",
           "name": "PopoverProps"
         }
       ],
@@ -50,12 +50,12 @@
       "description": "Callback fired when the component requests to be hidden.",
       "name": "onHide",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/popover/Popover.tsx",
+        "fileName": "packages/react/src/components/popover/Popover.tsx",
         "name": "PopoverProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/popover/Popover.tsx",
+          "fileName": "packages/react/src/components/popover/Popover.tsx",
           "name": "PopoverProps"
         }
       ],
@@ -69,12 +69,12 @@
       "description": "Callback fired when the component requests to be shown.",
       "name": "onShow",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/popover/Popover.tsx",
+        "fileName": "packages/react/src/components/popover/Popover.tsx",
         "name": "PopoverProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/popover/Popover.tsx",
+          "fileName": "packages/react/src/components/popover/Popover.tsx",
           "name": "PopoverProps"
         }
       ],
@@ -88,12 +88,12 @@
       "description": "Title node for your component.",
       "name": "title",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/popover/Popover.tsx",
+        "fileName": "packages/react/src/components/popover/Popover.tsx",
         "name": "PopoverProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/popover/Popover.tsx",
+          "fileName": "packages/react/src/components/popover/Popover.tsx",
           "name": "PopoverProps"
         }
       ],
@@ -109,12 +109,12 @@
       "description": "Describes the preferred placement of your component. Chassis will flip it to keep it in\nview.",
       "name": "placement",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/popover/Popover.tsx",
+        "fileName": "packages/react/src/components/popover/Popover.tsx",
         "name": "PopoverProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/popover/Popover.tsx",
+          "fileName": "packages/react/src/components/popover/Popover.tsx",
           "name": "PopoverProps"
         }
       ],
@@ -167,12 +167,12 @@
       "description": "Toggle the visibility of popover component.",
       "name": "visible",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/popover/Popover.tsx",
+        "fileName": "packages/react/src/components/popover/Popover.tsx",
         "name": "PopoverProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/popover/Popover.tsx",
+          "fileName": "packages/react/src/components/popover/Popover.tsx",
           "name": "PopoverProps"
         }
       ],

@@ -11,7 +11,7 @@
       "name": "align",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
+          "fileName": "packages/react/src/components/placeholder/Placeholder.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -38,7 +38,7 @@
       "name": "className",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
+          "fileName": "packages/react/src/components/placeholder/Placeholder.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -53,7 +53,7 @@
       "name": "color",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
+          "fileName": "packages/react/src/components/placeholder/Placeholder.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -104,7 +104,7 @@
       "name": "variant",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
+          "fileName": "packages/react/src/components/placeholder/Placeholder.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -128,7 +128,7 @@
       "name": "component",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
+          "fileName": "packages/react/src/components/placeholder/Placeholder.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -143,7 +143,7 @@
       "name": "fluid",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
+          "fileName": "packages/react/src/components/placeholder/Placeholder.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -158,7 +158,7 @@
       "name": "height",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
+          "fileName": "packages/react/src/components/placeholder/Placeholder.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -173,7 +173,7 @@
       "name": "rounded",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
+          "fileName": "packages/react/src/components/placeholder/Placeholder.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -188,7 +188,7 @@
       "name": "src",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
+          "fileName": "packages/react/src/components/placeholder/Placeholder.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -203,7 +203,7 @@
       "name": "text",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
+          "fileName": "packages/react/src/components/placeholder/Placeholder.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -218,7 +218,7 @@
       "name": "thumbnail",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
+          "fileName": "packages/react/src/components/placeholder/Placeholder.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -235,7 +235,7 @@
       "name": "title",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
+          "fileName": "packages/react/src/components/placeholder/Placeholder.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -250,7 +250,7 @@
       "name": "width",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
+          "fileName": "packages/react/src/components/placeholder/Placeholder.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -265,7 +265,7 @@
       "name": "ref",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/placeholder/Placeholder.tsx",
+          "fileName": "packages/react/src/components/placeholder/Placeholder.tsx",
           "name": "TypeLiteral"
         }
       ],

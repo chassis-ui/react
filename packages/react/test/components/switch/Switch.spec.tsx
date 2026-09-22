@@ -11,6 +11,26 @@ describe('Switch', () => {
       expect(screen.getByRole('switch')).toBeInTheDocument()
     })
 
+    test('takes its accessible name from children when no label prop is given', () => {
+      render(<Switch>Notifications</Switch>)
+      expect(screen.getByRole('switch', { name: 'Notifications' })).toBeInTheDocument()
+      expect(screen.getByText('Notifications')).toBeInTheDocument()
+    })
+
+    // The radio-backed variant is hand-wired rather than react-aria-backed, and spreads its rest
+    // props straight onto the `<input>` — so children did not merely vanish here, they reached a
+    // void element and React threw.
+    test('takes its accessible name from children for the radio-backed variant too', () => {
+      render(<Switch type="radio">Notifications</Switch>)
+      expect(screen.getByRole('switch', { name: 'Notifications' })).toBeInTheDocument()
+    })
+
+    test('prefers the label prop when both label and children are given', () => {
+      render(<Switch label="From label">From children</Switch>)
+      expect(screen.getByRole('switch', { name: 'From label' })).toBeInTheDocument()
+      expect(screen.queryByText('From children')).not.toBeInTheDocument()
+    })
+
     test('renders a bare check-input span, not an empty label wrapper, when unlabeled', () => {
       render(<Switch aria-label="Notifications" />)
       const input = screen.getByRole('switch')

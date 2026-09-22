@@ -27,6 +27,36 @@ describe('Radio', () => {
       expect(b).toHaveAttribute('tabindex', '-1')
     })
 
+    // Children are react-aria's own name for this; `label` is ours. Passing children used to
+    // type-check, render, and leave the radio with no accessible name at all.
+    test('takes its accessible name from children when no label prop is given', () => {
+      render(
+        <RadioGroup aria-label="Options" defaultValue="a">
+          <Radio value="a">Option A</Radio>
+          <Radio value="b">Option B</Radio>
+        </RadioGroup>
+      )
+      expect(screen.getByRole('radio', { name: 'Option A' })).toBeInTheDocument()
+      // Rendered in the same place a `label` prop would be, not just wired up for AT.
+      expect(screen.getByText('Option B')).toBeInTheDocument()
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(screen.getByRole('radio', { name: 'Option B' }).closest('label')).toHaveClass(
+        'form-check'
+      )
+    })
+
+    test('prefers the label prop when both label and children are given', () => {
+      render(
+        <RadioGroup aria-label="Options" defaultValue="a">
+          <Radio value="a" label="From label">
+            From children
+          </Radio>
+        </RadioGroup>
+      )
+      expect(screen.getByRole('radio', { name: 'From label' })).toBeInTheDocument()
+      expect(screen.queryByText('From children')).not.toBeInTheDocument()
+    })
+
     test('throws when rendered outside a RadioGroup', () => {
       const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined)
       // React's dev-mode guarded-callback replay dispatches this render error as a

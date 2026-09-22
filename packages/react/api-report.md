@@ -3547,6 +3547,11 @@ interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'che
   isSelected?: boolean;
   /**
    * The element represents a caption for a component.
+   *
+   * Children are accepted as an alias for this prop — `label` wins when both are given.
+   * react-aria, which backs this component, calls the same thing `children`; this package renames
+   * it to `label`, and honouring both means the shape React developers reach for first still
+   * names the control instead of silently producing an unlabelled one.
    */
   label?: ReactNode;
   /**
@@ -3895,6 +3900,11 @@ interface RadioProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'checke
   id?: string;
   /**
    * The element represents a caption for a component.
+   *
+   * Children are accepted as an alias for this prop — `label` wins when both are given.
+   * react-aria, which backs this component, calls the same thing `children`; this package renames
+   * it to `label`, and honouring both means the shape React developers reach for first still
+   * names the control instead of silently producing an unlabelled one.
    */
   label?: ReactNode;
   /**
@@ -4167,6 +4177,11 @@ interface SwitchProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'check
   isSelected?: boolean;
   /**
    * The element represents a caption for a component.
+   *
+   * Children are accepted as an alias for this prop — `label` wins when both are given.
+   * react-aria, which backs this component, calls the same thing `children`; this package renames
+   * it to `label`, and honouring both means the shape React developers reach for first still
+   * names the control instead of silently producing an unlabelled one.
    */
   label?: ReactNode;
   /**

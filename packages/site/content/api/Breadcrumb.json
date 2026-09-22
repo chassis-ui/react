@@ -12,12 +12,12 @@
       "description": "Accessible name of the wrapping `<nav>` landmark. Defaults to the English `'breadcrumb'`;\noverride it to translate the landmark, or to tell two breadcrumb trails on the same page\napart (landmarks of the same role need distinct names to be distinguishable in a screen\nreader's landmark list).",
       "name": "aria-label",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/breadcrumb/Breadcrumb.tsx",
+        "fileName": "packages/react/src/components/breadcrumb/Breadcrumb.tsx",
         "name": "BreadcrumbProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/breadcrumb/Breadcrumb.tsx",
+          "fileName": "packages/react/src/components/breadcrumb/Breadcrumb.tsx",
           "name": "BreadcrumbProps"
         }
       ],
@@ -31,12 +31,12 @@
       "description": "A string of all className you want applied to the component.",
       "name": "className",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/breadcrumb/Breadcrumb.tsx",
+        "fileName": "packages/react/src/components/breadcrumb/Breadcrumb.tsx",
         "name": "BreadcrumbProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/breadcrumb/Breadcrumb.tsx",
+          "fileName": "packages/react/src/components/breadcrumb/Breadcrumb.tsx",
           "name": "BreadcrumbProps"
         }
       ],
@@ -50,12 +50,12 @@
       "description": "Array of breadcrumb items for data-driven rendering. The last item is automatically marked active.\nWhen provided, children are ignored.",
       "name": "items",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/breadcrumb/Breadcrumb.tsx",
+        "fileName": "packages/react/src/components/breadcrumb/Breadcrumb.tsx",
         "name": "BreadcrumbProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/breadcrumb/Breadcrumb.tsx",
+          "fileName": "packages/react/src/components/breadcrumb/Breadcrumb.tsx",
           "name": "BreadcrumbProps"
         }
       ],

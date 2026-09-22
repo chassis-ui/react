@@ -10,12 +10,12 @@
       "description": "Toggle the active state for the component.",
       "name": "active",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/breadcrumb/BreadcrumbItem.tsx",
+        "fileName": "packages/react/src/components/breadcrumb/BreadcrumbItem.tsx",
         "name": "BreadcrumbItemProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/breadcrumb/BreadcrumbItem.tsx",
+          "fileName": "packages/react/src/components/breadcrumb/BreadcrumbItem.tsx",
           "name": "BreadcrumbItemProps"
         }
       ],
@@ -29,12 +29,12 @@
       "description": "A string of all className you want applied to the base component.",
       "name": "className",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/breadcrumb/BreadcrumbItem.tsx",
+        "fileName": "packages/react/src/components/breadcrumb/BreadcrumbItem.tsx",
         "name": "BreadcrumbItemProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/breadcrumb/BreadcrumbItem.tsx",
+          "fileName": "packages/react/src/components/breadcrumb/BreadcrumbItem.tsx",
           "name": "BreadcrumbItemProps"
         }
       ],
@@ -48,12 +48,12 @@
       "description": "The `href` attribute for the inner `<Link>` component.",
       "name": "href",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/breadcrumb/BreadcrumbItem.tsx",
+        "fileName": "packages/react/src/components/breadcrumb/BreadcrumbItem.tsx",
         "name": "BreadcrumbItemProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/breadcrumb/BreadcrumbItem.tsx",
+          "fileName": "packages/react/src/components/breadcrumb/BreadcrumbItem.tsx",
           "name": "BreadcrumbItemProps"
         }
       ],

@@ -10,12 +10,12 @@
       "description": "Content of the panel, shown while the `Tab` of the same `id` is selected.",
       "name": "children",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/tabs/TabPanel.tsx",
+        "fileName": "packages/react/src/components/tabs/TabPanel.tsx",
         "name": "TabPanelProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/tabs/TabPanel.tsx",
+          "fileName": "packages/react/src/components/tabs/TabPanel.tsx",
           "name": "TabPanelProps"
         }
       ],
@@ -29,12 +29,12 @@
       "description": "A string of all className you want applied to the base component.",
       "name": "className",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/tabs/TabPanel.tsx",
+        "fileName": "packages/react/src/components/tabs/TabPanel.tsx",
         "name": "TabPanelProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/tabs/TabPanel.tsx",
+          "fileName": "packages/react/src/components/tabs/TabPanel.tsx",
           "name": "TabPanelProps"
         }
       ],
@@ -48,12 +48,12 @@
       "description": "Pairs this panel with the `Tab` of the same `id`.",
       "name": "id",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/tabs/TabPanel.tsx",
+        "fileName": "packages/react/src/components/tabs/TabPanel.tsx",
         "name": "TabPanelProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/tabs/TabPanel.tsx",
+          "fileName": "packages/react/src/components/tabs/TabPanel.tsx",
           "name": "TabPanelProps"
         }
       ],

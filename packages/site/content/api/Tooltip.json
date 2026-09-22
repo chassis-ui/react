@@ -10,12 +10,12 @@
       "description": "Content node for your component.",
       "name": "content",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/tooltip/Tooltip.tsx",
+        "fileName": "packages/react/src/components/tooltip/Tooltip.tsx",
         "name": "TooltipProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/tooltip/Tooltip.tsx",
+          "fileName": "packages/react/src/components/tooltip/Tooltip.tsx",
           "name": "TooltipProps"
         }
       ],
@@ -31,12 +31,12 @@
       "description": "Offset of the tooltip relative to its target, as `[crossAxis, mainAxis]`.",
       "name": "offset",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/tooltip/Tooltip.tsx",
+        "fileName": "packages/react/src/components/tooltip/Tooltip.tsx",
         "name": "TooltipProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/tooltip/Tooltip.tsx",
+          "fileName": "packages/react/src/components/tooltip/Tooltip.tsx",
           "name": "TooltipProps"
         }
       ],
@@ -50,12 +50,12 @@
       "description": "Callback fired when the component requests to be hidden.",
       "name": "onHide",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/tooltip/Tooltip.tsx",
+        "fileName": "packages/react/src/components/tooltip/Tooltip.tsx",
         "name": "TooltipProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/tooltip/Tooltip.tsx",
+          "fileName": "packages/react/src/components/tooltip/Tooltip.tsx",
           "name": "TooltipProps"
         }
       ],
@@ -69,12 +69,12 @@
       "description": "Callback fired when the component requests to be shown.",
       "name": "onShow",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/tooltip/Tooltip.tsx",
+        "fileName": "packages/react/src/components/tooltip/Tooltip.tsx",
         "name": "TooltipProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/tooltip/Tooltip.tsx",
+          "fileName": "packages/react/src/components/tooltip/Tooltip.tsx",
           "name": "TooltipProps"
         }
       ],
@@ -90,12 +90,12 @@
       "description": "Describes the preferred placement of your component. Chassis will flip it to keep it in\nview.",
       "name": "placement",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/tooltip/Tooltip.tsx",
+        "fileName": "packages/react/src/components/tooltip/Tooltip.tsx",
         "name": "TooltipProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/tooltip/Tooltip.tsx",
+          "fileName": "packages/react/src/components/tooltip/Tooltip.tsx",
           "name": "TooltipProps"
         }
       ],
@@ -148,12 +148,12 @@
       "description": "Tooltips always show on focus, since keyboard/screen-reader users need them too. Set to\n`'focus'` to disable the hover trigger and show on focus only.",
       "name": "trigger",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/tooltip/Tooltip.tsx",
+        "fileName": "packages/react/src/components/tooltip/Tooltip.tsx",
         "name": "TooltipProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/tooltip/Tooltip.tsx",
+          "fileName": "packages/react/src/components/tooltip/Tooltip.tsx",
           "name": "TooltipProps"
         }
       ],
@@ -176,12 +176,12 @@
       "description": "Toggle the visibility of the tooltip component.",
       "name": "visible",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/tooltip/Tooltip.tsx",
+        "fileName": "packages/react/src/components/tooltip/Tooltip.tsx",
         "name": "TooltipProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/tooltip/Tooltip.tsx",
+          "fileName": "packages/react/src/components/tooltip/Tooltip.tsx",
           "name": "TooltipProps"
         }
       ],

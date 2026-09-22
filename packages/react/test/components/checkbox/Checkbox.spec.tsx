@@ -6,6 +6,18 @@ import { Checkbox, CheckboxGroup } from '../../../src/index'
 
 describe('Checkbox', () => {
   describe('rendering', () => {
+    test('takes its accessible name from children when no label prop is given', () => {
+      render(<Checkbox>Accept terms</Checkbox>)
+      expect(screen.getByRole('checkbox', { name: 'Accept terms' })).toBeInTheDocument()
+      expect(screen.getByText('Accept terms')).toBeInTheDocument()
+    })
+
+    test('prefers the label prop when both label and children are given', () => {
+      render(<Checkbox label="From label">From children</Checkbox>)
+      expect(screen.getByRole('checkbox', { name: 'From label' })).toBeInTheDocument()
+      expect(screen.queryByText('From children')).not.toBeInTheDocument()
+    })
+
     test('renders a bare check-input span with no label prop', () => {
       const { container } = render(<Checkbox aria-label="Accept terms" />)
       // The bare wrapper span has no role/name of its own - no accessible query reaches it.

@@ -116,6 +116,27 @@ class SubmoduleSync {
   }
 
   /**
+   * Check whether a branch exists locally in a submodule checkout
+   * @param {string} submodulePath - Absolute path to the submodule
+   * @param {string} branch - Branch name to look for
+   * @returns {boolean} True if the local branch exists
+   */
+  hasLocalBranch(submodulePath, branch) {
+    try {
+      // Deliberately not `runCommand` — a missing branch is the expected answer here, not a
+      // failure, and `runCommand` logs every non-zero exit as a red "Command failed" error.
+      execSync(`git rev-parse --verify --quiet refs/heads/${branch}`, {
+        cwd: submodulePath,
+        encoding: 'utf8',
+        stdio: 'pipe'
+      })
+      return true
+    } catch {
+      return false
+    }
+  }
+
+  /**
    * Initialize and fetch a submodule from remote
    * @param {Object} submodule - Submodule configuration
    */
@@ -166,7 +187,26 @@ class SubmoduleSync {
           }
 
           this.log(`Switching ${submodule.name} to ${submodule.expectedBranch} branch...`, 'info')
-          this.runCommand(`git checkout ${submodule.expectedBranch}`, submodulePath, true)
+
+          // `actions/checkout` leaves a submodule at a detached HEAD, fetched at depth 1 for the
+          // pinned commit only — so in a fresh CI checkout there is neither a local
+          // `app/docs` branch nor an `origin/app/docs` remote-tracking ref, and a bare
+          // `git checkout app/docs` dies with "pathspec 'app/docs' did not match any file(s)",
+          // taking the whole `site-build` job down with it. Fetch the branch explicitly first,
+          // then create the local branch from what was fetched when it doesn't exist yet
+          // (locally it usually does, and that path is left alone so local commits on the
+          // submodule branch aren't discarded).
+          this.runCommand(`git fetch origin ${submodule.expectedBranch}`, submodulePath, true)
+
+          if (this.hasLocalBranch(submodulePath, submodule.expectedBranch)) {
+            this.runCommand(`git checkout ${submodule.expectedBranch}`, submodulePath, true)
+          } else {
+            this.runCommand(
+              `git checkout -b ${submodule.expectedBranch} FETCH_HEAD`,
+              submodulePath,
+              true
+            )
+          }
         }
 
         this.runCommand(`git pull origin ${submodule.expectedBranch}`, submodulePath, true)

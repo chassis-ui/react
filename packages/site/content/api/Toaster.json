@@ -10,12 +10,12 @@
       "description": "Overrides the toast region's accessible name (defaults to `'Notifications'`, per\nreact-aria). Set this for non-English UIs, or to distinguish multiple toasters on the\nsame page.",
       "name": "aria-label",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/toast/Toaster.tsx",
+        "fileName": "packages/react/src/components/toast/Toaster.tsx",
         "name": "ToasterProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/toast/Toaster.tsx",
+          "fileName": "packages/react/src/components/toast/Toaster.tsx",
           "name": "ToasterProps"
         }
       ],
@@ -29,12 +29,12 @@
       "description": "A string of all className you want applied to the base component.",
       "name": "className",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/toast/Toaster.tsx",
+        "fileName": "packages/react/src/components/toast/Toaster.tsx",
         "name": "ToasterProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/toast/Toaster.tsx",
+          "fileName": "packages/react/src/components/toast/Toaster.tsx",
           "name": "ToasterProps"
         }
       ],
@@ -48,12 +48,12 @@
       "description": "Describes the placement of your component.",
       "name": "placement",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/toast/Toaster.tsx",
+        "fileName": "packages/react/src/components/toast/Toaster.tsx",
         "name": "ToasterProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/toast/Toaster.tsx",
+          "fileName": "packages/react/src/components/toast/Toaster.tsx",
           "name": "ToasterProps"
         }
       ],

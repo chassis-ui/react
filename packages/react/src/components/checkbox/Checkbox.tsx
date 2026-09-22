@@ -65,6 +65,11 @@ export interface CheckboxProps extends Omit<
   isSelected?: boolean
   /**
    * The element represents a caption for a component.
+   *
+   * Children are accepted as an alias for this prop — `label` wins when both are given.
+   * react-aria, which backs this component, calls the same thing `children`; this package renames
+   * it to `label`, and honouring both means the shape React developers reach for first still
+   * names the control instead of silently producing an unlabelled one.
    */
   label?: ReactNode
   /**
@@ -91,6 +96,7 @@ const CheckboxStandalone = forwardRef<HTMLInputElement, CheckboxProps>(
   (
     {
       button,
+      children,
       className,
       color,
       defaultSelected,
@@ -117,10 +123,14 @@ const CheckboxStandalone = forwardRef<HTMLInputElement, CheckboxProps>(
       onChange
     })
 
+    // `label` is this package's name for what react-aria calls `children`. Accept either, so the
+    // shape React developers reach for first names the control instead of vanishing.
+    const resolvedLabel = label ?? children
+
     const { inputProps } = useCheckbox(
       {
         ...rest,
-        children: label,
+        children: resolvedLabel,
         isDisabled: disabled,
         isIndeterminate: indeterminate,
         isInvalid: invalid,
@@ -138,7 +148,7 @@ const CheckboxStandalone = forwardRef<HTMLInputElement, CheckboxProps>(
       color,
       input: <input {...inputProps} className={inputClassName} id={id} ref={forkedRef} />,
       invalid,
-      label,
+      label: resolvedLabel,
       size,
       valid
     })
@@ -155,6 +165,7 @@ const CheckboxGroupItem = forwardRef<HTMLInputElement, CheckboxGroupItemProps>(
   (
     {
       button,
+      children,
       className,
       color,
       defaultSelected: _defaultSelected,
@@ -196,10 +207,14 @@ const CheckboxGroupItem = forwardRef<HTMLInputElement, CheckboxGroupItemProps>(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
+    // `label` is this package's name for what react-aria calls `children`. Accept either, so the
+    // shape React developers reach for first names the control instead of vanishing.
+    const resolvedLabel = label ?? children
+
     const { inputProps } = useCheckboxGroupItem(
       {
         ...rest,
-        children: label,
+        children: resolvedLabel,
         isDisabled: disabled,
         isIndeterminate: indeterminate,
         isInvalid: invalid,
@@ -217,7 +232,7 @@ const CheckboxGroupItem = forwardRef<HTMLInputElement, CheckboxGroupItemProps>(
       color,
       input: <input {...inputProps} className={inputClassName} id={id} ref={forkedRef} />,
       invalid,
-      label,
+      label: resolvedLabel,
       size,
       valid
     })

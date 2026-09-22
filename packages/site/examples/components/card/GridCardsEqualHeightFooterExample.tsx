@@ -23,7 +23,7 @@ export const Example = () => {
             </CardText>
           </CardBody>
           <CardFooter>
-            <sm className="md:text-emphasis">Last updated 3 mins ago</sm>
+            <small className="md:text-emphasis">Last updated 3 mins ago</small>
           </CardFooter>
         </Card>
       </Col>
@@ -37,7 +37,7 @@ export const Example = () => {
             </CardText>
           </CardBody>
           <CardFooter>
-            <sm className="md:text-emphasis">Last updated 3 mins ago</sm>
+            <small className="md:text-emphasis">Last updated 3 mins ago</small>
           </CardFooter>
         </Card>
       </Col>
@@ -53,7 +53,7 @@ export const Example = () => {
             </CardText>
           </CardBody>
           <CardFooter>
-            <sm className="md:text-emphasis">Last updated 3 mins ago</sm>
+            <small className="md:text-emphasis">Last updated 3 mins ago</small>
           </CardFooter>
         </Card>
       </Col>

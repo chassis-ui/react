@@ -10,12 +10,12 @@
       "description": "The contents of the cell.",
       "name": "children",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridCell.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGridCell.tsx",
         "name": "DataGridCellProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridCell.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGridCell.tsx",
           "name": "DataGridCellProps"
         }
       ],
@@ -29,12 +29,12 @@
       "description": "A string of all className you want applied to the cell.",
       "name": "className",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridCell.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGridCell.tsx",
         "name": "DataGridCellProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridCell.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGridCell.tsx",
           "name": "DataGridCellProps"
         }
       ],
@@ -48,12 +48,12 @@
       "description": "Indicates how many columns the cell spans.",
       "name": "colSpan",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridCell.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGridCell.tsx",
         "name": "DataGridCellProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridCell.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGridCell.tsx",
           "name": "DataGridCellProps"
         }
       ],
@@ -67,12 +67,12 @@
       "description": "The unique id of the cell.",
       "name": "id",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridCell.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGridCell.tsx",
         "name": "DataGridCellProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridCell.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGridCell.tsx",
           "name": "DataGridCellProps"
         }
       ],
@@ -86,12 +86,12 @@
       "description": "A string representation of the cell's contents, used for typeahead.",
       "name": "textValue",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridCell.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGridCell.tsx",
         "name": "DataGridCellProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridCell.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGridCell.tsx",
           "name": "DataGridCellProps"
         }
       ],

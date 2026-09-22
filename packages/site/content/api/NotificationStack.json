@@ -10,12 +10,12 @@
       "description": "A string of all className you want applied to the base component.",
       "name": "className",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/notification/NotificationStack.tsx",
+        "fileName": "packages/react/src/components/notification/NotificationStack.tsx",
         "name": "NotificationStackProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/notification/NotificationStack.tsx",
+          "fileName": "packages/react/src/components/notification/NotificationStack.tsx",
           "name": "NotificationStackProps"
         }
       ],
@@ -29,12 +29,12 @@
       "description": "Queued notifications show newest-first by default — the typical toast pattern. Set\n`reverse` for a chronological transcript instead, oldest-first.",
       "name": "reverse",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/notification/NotificationStack.tsx",
+        "fileName": "packages/react/src/components/notification/NotificationStack.tsx",
         "name": "NotificationStackProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/notification/NotificationStack.tsx",
+          "fileName": "packages/react/src/components/notification/NotificationStack.tsx",
           "name": "NotificationStackProps"
         }
       ],

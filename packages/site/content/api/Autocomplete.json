@@ -10,12 +10,12 @@
       "description": "An accessible label for the autocomplete, used when there's no visible `<label>`.",
       "name": "aria-label",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+        "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
         "name": "AutocompleteProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+          "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
           "name": "AutocompleteProps"
         }
       ],
@@ -29,12 +29,12 @@
       "description": "Identifies a visible `<label>` element for the autocomplete.",
       "name": "aria-labelledby",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+        "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
         "name": "AutocompleteProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+          "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
           "name": "AutocompleteProps"
         }
       ],
@@ -48,12 +48,12 @@
       "description": "`AutocompleteItem` elements, optionally wrapped in `AutocompleteGroup` — read as data by\n`Autocomplete` to build the option list. Not rendered directly. Ignored when `items` is set.",
       "name": "children",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+        "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
         "name": "AutocompleteProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+          "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
           "name": "AutocompleteProps"
         }
       ],
@@ -67,12 +67,12 @@
       "description": "A string of all className you want applied to the base component.",
       "name": "className",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+        "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
         "name": "AutocompleteProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+          "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
           "name": "AutocompleteProps"
         }
       ],
@@ -86,12 +86,12 @@
       "description": "The initial selected option's id(s) (uncontrolled). An array when `multiple` is set.",
       "name": "defaultValue",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+        "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
         "name": "AutocompleteProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+          "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
           "name": "AutocompleteProps"
         }
       ],
@@ -105,12 +105,12 @@
       "description": "Prevents the autocomplete from being focused or interacted with.",
       "name": "disabled",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+        "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
         "name": "AutocompleteProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+          "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
           "name": "AutocompleteProps"
         }
       ],
@@ -124,12 +124,12 @@
       "description": "A description for the field, rendered below the autocomplete.",
       "name": "help",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+        "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
         "name": "AutocompleteProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+          "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
           "name": "AutocompleteProps"
         }
       ],
@@ -143,12 +143,12 @@
       "description": "`id` forwarded to the search input inside the popover. The toggle — the field's real,\nalways-focusable surface — has no single labelable element `<label for>` can target (it's a\n`role=\"button\"` `<div>`, and the search input itself is hidden until open), so `label` is\nassociated via `aria-labelledby` on the toggle instead. See FORMS.md's \"role=group\" pattern.",
       "name": "id",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+        "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
         "name": "AutocompleteProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+          "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
           "name": "AutocompleteProps"
         }
       ],
@@ -162,12 +162,12 @@
       "description": "Set component validation state to invalid.",
       "name": "invalid",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+        "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
         "name": "AutocompleteProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+          "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
           "name": "AutocompleteProps"
         }
       ],
@@ -181,12 +181,12 @@
       "description": "An error message for the field, rendered below the autocomplete when `invalid` is set.",
       "name": "invalidFeedback",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+        "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
         "name": "AutocompleteProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+          "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
           "name": "AutocompleteProps"
         }
       ],
@@ -200,12 +200,12 @@
       "description": "Array of item/header/divider definitions for data-driven rendering. When provided, children\nare ignored. A `'header'` entry starts a group that all following items join until the next\nheader or the end of the array. `'divider'` entries are a no-op here — use\n`AutocompleteGroup` composition instead if you need finer control over grouping. An entry's\n`href`/`onClick` are `Menu`-only and are not read here — use `onChange` to react to the\nselection instead.",
       "name": "items",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+        "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
         "name": "AutocompleteProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+          "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
           "name": "AutocompleteProps"
         }
       ],
@@ -219,12 +219,12 @@
       "description": "The field's caption, rendered as a `FormLabel` associated with the toggle.",
       "name": "label",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+        "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
         "name": "AutocompleteProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+          "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
           "name": "AutocompleteProps"
         }
       ],
@@ -240,12 +240,12 @@
       "description": "Allows more than one option to be selected. The toggle shows the single selection's label,\nor an \"N selected\" count once more than one is picked. The menu stays open after each\nselection, and `Backspace` in the empty search field removes the last selected option.",
       "name": "multiple",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+        "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
         "name": "AutocompleteProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+          "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
           "name": "AutocompleteProps"
         }
       ],
@@ -259,12 +259,12 @@
       "description": "`name` of auto-created hidden input(s), kept in sync with the selection, for native form\nsubmission. Single-select renders one; `multiple` renders one per selected key. Omit to skip\nhidden-input creation.",
       "name": "name",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+        "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
         "name": "AutocompleteProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+          "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
           "name": "AutocompleteProps"
         }
       ],
@@ -280,12 +280,12 @@
       "description": "Text shown in the listbox when no options match the current query.",
       "name": "noResultsText",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+        "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
         "name": "AutocompleteProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+          "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
           "name": "AutocompleteProps"
         }
       ],
@@ -299,12 +299,12 @@
       "description": "Callback fired when the selection changes. Receives an array of keys when `multiple` is set.",
       "name": "onChange",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+        "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
         "name": "AutocompleteProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+          "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
           "name": "AutocompleteProps"
         }
       ],
@@ -318,12 +318,12 @@
       "description": "Text shown on the toggle when nothing is selected.",
       "name": "placeholder",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+        "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
         "name": "AutocompleteProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+          "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
           "name": "AutocompleteProps"
         }
       ],
@@ -337,12 +337,12 @@
       "description": "Placeholder for the search field inside the dropdown.",
       "name": "searchPlaceholder",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+        "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
         "name": "AutocompleteProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+          "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
           "name": "AutocompleteProps"
         }
       ],
@@ -356,12 +356,12 @@
       "description": "Size the component sm or lg.",
       "name": "size",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+        "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
         "name": "AutocompleteProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+          "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
           "name": "AutocompleteProps"
         }
       ],
@@ -384,12 +384,12 @@
       "description": "Set component validation state to valid.",
       "name": "valid",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+        "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
         "name": "AutocompleteProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+          "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
           "name": "AutocompleteProps"
         }
       ],
@@ -403,12 +403,12 @@
       "description": "A success message for the field, rendered below the autocomplete when `valid` is set.",
       "name": "validFeedback",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+        "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
         "name": "AutocompleteProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+          "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
           "name": "AutocompleteProps"
         }
       ],
@@ -422,12 +422,12 @@
       "description": "The selected option's id(s) (controlled). An array when `multiple` is set.",
       "name": "value",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+        "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
         "name": "AutocompleteProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/autocomplete/Autocomplete.tsx",
+          "fileName": "packages/react/src/components/autocomplete/Autocomplete.tsx",
           "name": "AutocompleteProps"
         }
       ],
