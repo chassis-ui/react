@@ -92,7 +92,7 @@ import { Select } from './components/select'
 import { Switch } from './components/switch'
 import { TextInput } from './components/text-input'
 import { Textarea } from './components/textarea'
-import { Icon } from './components/icon'
+import { Icon, IconProvider } from './components/icon'
 import { Placeholder } from './components/placeholder'
 import { Link } from './components/link'
 import { List, ListItem } from './components/list'
@@ -226,6 +226,7 @@ export {
   FormHelp,
   FormLabel,
   Icon,
+  IconProvider,
   Placeholder,
   InputGroup,
   InputGroupAddon,
@@ -405,7 +406,13 @@ export type {
   GridProps,
   RowProps
 } from './components/grid'
-export type { IconProps } from './components/icon'
+export type {
+  IconComponentProps,
+  IconKey,
+  IconProps,
+  IconProviderProps,
+  IconValue
+} from './components/icon'
 export type { InputAdornProps } from './components/input-adorn'
 export type { InputGroupAddonProps, InputGroupProps } from './components/input-group'
 export type { LinkProps } from './components/link'

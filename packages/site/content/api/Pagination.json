@@ -118,6 +118,25 @@
         "name": "number"
       }
     },
+    "nextIcon": {
+      "defaultValue": null,
+      "description": "The \"next page\" control's icon in smart pagination mode: an icon name, or an element of your\nown icon set. Defaults to `IconProvider`'s `next` icon.",
+      "name": "nextIcon",
+      "parent": {
+        "fileName": "packages/react/src/components/pagination/Pagination.tsx",
+        "name": "PaginationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/pagination/Pagination.tsx",
+          "name": "PaginationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "IconValue"
+      }
+    },
     "nextLabel": {
       "defaultValue": {
         "value": "Next"
@@ -175,6 +194,25 @@
       "required": false,
       "type": {
         "name": "number"
+      }
+    },
+    "previousIcon": {
+      "defaultValue": null,
+      "description": "The \"previous page\" control's icon in smart pagination mode: an icon name, or an element of\nyour own icon set. Defaults to `IconProvider`'s `previous` icon.",
+      "name": "previousIcon",
+      "parent": {
+        "fileName": "packages/react/src/components/pagination/Pagination.tsx",
+        "name": "PaginationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/pagination/Pagination.tsx",
+          "name": "PaginationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "IconValue"
       }
     },
     "previousLabel": {

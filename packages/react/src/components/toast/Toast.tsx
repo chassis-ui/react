@@ -51,7 +51,8 @@ export interface ToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'
    */
   footer?: ReactNode | ((close: () => void) => ReactNode)
   /**
-   * Leading icon for the header. A string is rendered as `<ToastIcon name={icon} />`; pass
+   * Leading icon for the header. A string is an icon name, rendered like
+   * `<ToastIcon name={icon} />` (or by `IconProvider`'s `component`); pass
    * any other node for a fully custom icon (typically a logo or avatar). Shorthand for
    * `ToastHeader`'s `icon` prop; hidden from assistive technology by default, since it
    * duplicates `title` visually.

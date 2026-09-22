@@ -7,7 +7,7 @@
   "props": {
     "name": {
       "defaultValue": null,
-      "description": "Icon name, e.g. `folder-tree`. Matches a `cx-{name}` font glyph class or an id in the SVG sprite.",
+      "description": "Icon name, e.g. `folder-tree`. Matches an id in the SVG sprite, or a `cx-{name}` font glyph\nclass in `font` mode (see `IconProvider`'s `fontPrefix`).",
       "name": "name",
       "parent": {
         "fileName": "packages/react/src/components/icon/Icon.tsx",
@@ -44,10 +44,8 @@
       }
     },
     "size": {
-      "defaultValue": {
-        "value": 24
-      },
-      "description": "Width/height (in px) applied to the SVG. Ignored in `font` mode.",
+      "defaultValue": null,
+      "description": "Icon size: a number of pixels, or any CSS length (`'1.25rem'`, `'1em'`). Sets chassis-css's\n`--cx-icon-size` on the icon, so it applies in `font` mode too. Leave unset to keep the size\nchassis-css gives icons in context (inside a button, an input, a navbar toggler, ...).",
       "name": "size",
       "parent": {
         "fileName": "packages/react/src/components/icon/Icon.tsx",
@@ -61,7 +59,7 @@
       ],
       "required": false,
       "type": {
-        "name": "number"
+        "name": "string | number"
       }
     },
     "title": {
@@ -84,10 +82,8 @@
       }
     },
     "sprite": {
-      "defaultValue": {
-        "value": "/static/icons/chassis-icons.svg"
-      },
-      "description": "Path to the SVG sprite file. Ignored in `font` mode.",
+      "defaultValue": null,
+      "description": "URL of the SVG sprite file. Defaults to `IconProvider`'s `sprite`, or to none — a sprite\nembedded in the page, referenced as `#name`. Ignored in `font` mode.",
       "name": "sprite",
       "parent": {
         "fileName": "packages/react/src/components/icon/Icon.tsx",

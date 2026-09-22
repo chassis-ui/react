@@ -201,7 +201,7 @@
     },
     "icon": {
       "defaultValue": null,
-      "description": "Leading icon for the header. A string is rendered as `<ToastIcon name={icon} />`; pass\nany other node for a fully custom icon (typically a logo or avatar). Shorthand for\n`ToastHeader`'s `icon` prop; hidden from assistive technology by default, since it\nduplicates `title` visually.",
+      "description": "Leading icon for the header. A string is an icon name, rendered like\n`<ToastIcon name={icon} />` (or by `IconProvider`'s `component`); pass\nany other node for a fully custom icon (typically a logo or avatar). Shorthand for\n`ToastHeader`'s `icon` prop; hidden from assistive technology by default, since it\nduplicates `title` visually.",
       "name": "icon",
       "parent": {
         "fileName": "packages/react/src/components/toast/Toast.tsx",

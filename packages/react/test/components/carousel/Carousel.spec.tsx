@@ -186,10 +186,7 @@ describe('Carousel', () => {
       expect(nextIcon).toHaveAttribute('height', '24')
       expect(nextIcon).toHaveAttribute('width', '24')
       // eslint-disable-next-line testing-library/no-node-access
-      expect(nextIcon.querySelector('use')).toHaveAttribute(
-        'href',
-        '/static/icons/chassis-icons.svg#chevron-right-outline'
-      )
+      expect(nextIcon.querySelector('use')).toHaveAttribute('href', '#chevron-right-outline')
       expect(screen.getByText('Next slide')).toHaveClass('visually-hidden')
       expect(screen.getByText('Previous slide')).toHaveClass('visually-hidden')
     })

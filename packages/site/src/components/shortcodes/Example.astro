@@ -41,7 +41,6 @@ const simplifiedMarkup = markup
     (_match, classes) => `<img src="..."${classes ? ` class="${classes}"` : ''} alt="...">`
   )
   .replace(/(<svg class="icon\b[^"]*")\s+width="\d+"\s+height="\d+"/g, '$1')
-  .replace(/href="\/static\/icons\/chassis-icons\.svg#/g, 'href="#')
 ---
 
 <div class="cxd-example-snippet cxd-code-snippet" data-pagefind-ignore>

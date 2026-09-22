@@ -8,7 +8,7 @@ import {
   PolymorphicComponentProps,
   PolymorphicRef
 } from '../../utils/polymorphic'
-import { ToastIcon } from './ToastIcon'
+import { ResolvedIcon } from '../../utils/iconSlot'
 
 type ToastHeaderOwnProps<C extends ElementType> = {
   /**
@@ -33,7 +33,8 @@ type ToastHeaderOwnProps<C extends ElementType> = {
    */
   component?: C
   /**
-   * Leading icon. A string is rendered as `<ToastIcon name={icon} />` and hidden from
+   * Leading icon. A string is an icon name, rendered like `<ToastIcon name={icon} />` (or by
+   * `IconProvider`'s `component`) and hidden from
    * assistive technology by default, since it duplicates the heading visually. Pass any other
    * node for a fully custom icon (typically a logo or avatar) — a custom node is left as-is,
    * since it may carry its own meaningful accessible name (e.g. an avatar's `alt` text).
@@ -82,7 +83,7 @@ function ToastHeaderRender<C extends ElementType = 'div'>(
       {icon != null &&
         (typeof icon === 'string' ? (
           <span aria-hidden="true" className="me-sm">
-            <ToastIcon name={icon} />
+            <ResolvedIcon value={icon} className="toast-icon" />
           </span>
         ) : (
           <span className="me-sm">{icon}</span>

@@ -24,6 +24,25 @@
         "name": "string"
       }
     },
+    "icon": {
+      "defaultValue": null,
+      "description": "The control's icon: an icon name, or an element of your own icon set. Defaults to\n`IconProvider`'s `previous` icon.",
+      "name": "icon",
+      "parent": {
+        "fileName": "packages/react/src/components/carousel/CarouselControlPrev.tsx",
+        "name": "CarouselControlPrevProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/carousel/CarouselControlPrev.tsx",
+          "name": "CarouselControlPrevProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "IconValue"
+      }
+    },
     "label": {
       "defaultValue": {
         "value": "Previous slide"

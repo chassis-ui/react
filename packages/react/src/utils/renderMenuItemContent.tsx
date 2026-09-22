@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
 
-import { Icon } from '../components/icon/Icon'
+import { IconSlot } from './iconSlot'
 
 export interface MenuItemContentDef {
   /**
@@ -16,13 +16,9 @@ export interface MenuItemContentDef {
    */
   description?: ReactNode
   /**
-   * Renders a `.menu-item-check` at the trailing edge when true.
+   * Renders a `.menu-item-check` at the trailing edge when true — `IconProvider`'s `check` icon.
    */
   selected?: boolean
-  /**
-   * Icon name for the selected-state check. Defaults to chassis-css's own doc example.
-   */
-  checkIcon?: string
 }
 
 // Chassis-css defines identical markup for rich item content in both Menu and Combobox items
@@ -36,8 +32,7 @@ export const renderMenuItemContent = ({
   icon,
   label,
   description,
-  selected,
-  checkIcon = 'check-solid'
+  selected
 }: MenuItemContentDef): ReactNode => {
   if (icon == null && description == null && !selected) return label
 
@@ -56,7 +51,7 @@ export const renderMenuItemContent = ({
       ) : (
         label
       )}
-      {selected && <Icon name={checkIcon} className="menu-item-check" />}
+      {selected && <IconSlot icon="check" className="menu-item-check" />}
     </>
   )
 }

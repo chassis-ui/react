@@ -20,10 +20,7 @@ describe('Icon', () => {
       expect(svg).toHaveAttribute('width', '24')
       expect(svg).toHaveAttribute('height', '24')
       expect(svg).toHaveAttribute('aria-hidden', 'true')
-      expect(svg.querySelector('use')).toHaveAttribute(
-        'href',
-        '/static/icons/chassis-icons.svg#folder-tree'
-      )
+      expect(svg.querySelector('use')).toHaveAttribute('href', '#folder-tree')
     })
 
     test('applies a custom size and sprite path', () => {

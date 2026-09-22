@@ -35,10 +35,7 @@ describe('NavbarToggler', () => {
       expect(svg).toHaveAttribute('aria-hidden', 'true')
       expect(svg).toHaveAttribute('height', '24')
       expect(svg).toHaveAttribute('width', '24')
-      expect(svg.querySelector('use')).toHaveAttribute(
-        'href',
-        '/static/icons/chassis-icons.svg#bars-outline'
-      )
+      expect(svg.querySelector('use')).toHaveAttribute('href', '#bars-outline')
     })
     /* eslint-enable testing-library/no-node-access */
 

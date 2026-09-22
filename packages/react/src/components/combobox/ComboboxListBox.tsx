@@ -5,7 +5,7 @@ import { ComboBoxState, Node } from 'react-stately'
 
 import { getVirtualFocusStyle } from '../../utils/virtualFocusStyle'
 import { ComboboxEntry, ComboboxSelectionMode } from '../../utils/comboboxCollection'
-import { Icon } from '../icon/Icon'
+import { IconSlot } from '../../utils/iconSlot'
 
 interface ComboboxListBoxProps<M extends ComboboxSelectionMode = 'single'> {
   listBoxProps: AriaListBoxOptions<ComboboxEntry>
@@ -92,7 +92,7 @@ const ComboboxOption = <M extends ComboboxSelectionMode = 'single'>({
       ref={ref}
     >
       {item.rendered}
-      {isSelected && <Icon name="check-solid" className="menu-item-check" />}
+      {isSelected && <IconSlot icon="check" className="menu-item-check" />}
     </div>
   )
 }

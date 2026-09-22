@@ -24,6 +24,25 @@
         "name": "string"
       }
     },
+    "pauseIcon": {
+      "defaultValue": null,
+      "description": "The icon shown while autoplay is running: an icon name, or an element of your own icon set.\nDefaults to `IconProvider`'s `pause` icon.",
+      "name": "pauseIcon",
+      "parent": {
+        "fileName": "packages/react/src/components/carousel/CarouselPlayPause.tsx",
+        "name": "CarouselPlayPauseProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/carousel/CarouselPlayPause.tsx",
+          "name": "CarouselPlayPauseProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "IconValue"
+      }
+    },
     "pauseLabel": {
       "defaultValue": {
         "value": "Pause"
@@ -64,6 +83,25 @@
       "required": false,
       "type": {
         "name": "string"
+      }
+    },
+    "playIcon": {
+      "defaultValue": null,
+      "description": "The icon shown while autoplay is stopped: an icon name, or an element of your own icon set.\nDefaults to `IconProvider`'s `play` icon.",
+      "name": "playIcon",
+      "parent": {
+        "fileName": "packages/react/src/components/carousel/CarouselPlayPause.tsx",
+        "name": "CarouselPlayPauseProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/carousel/CarouselPlayPause.tsx",
+          "name": "CarouselPlayPauseProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "IconValue"
       }
     }
   }

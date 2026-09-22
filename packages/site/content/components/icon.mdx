@@ -1,6 +1,6 @@
 ---
 title: Icon
-description: Renders one icon from a Chassis SVG sprite or icon font — the same primitive every icon-carrying component in this library composes internally.
+description: Renders one icon from an SVG sprite or icon font, and — with IconProvider — sets icon defaults and swaps the icons this library's own components draw for any icon set.
 
 toc: true
 ---
@@ -8,18 +8,22 @@ toc: true
 import { Example as BasicUsageExample } from '../../examples/components/icon/BasicUsageExample.tsx'
 import { Example as SizingExample } from '../../examples/components/icon/SizingExample.tsx'
 import { Example as AccessibleNameExample } from '../../examples/components/icon/AccessibleNameExample.tsx'
+import { Example as LibraryIconsExample } from '../../examples/components/icon/LibraryIconsExample.tsx'
 
 ## Overview
 
-`<Icon>` renders an SVG `<use>` reference into a sprite sheet by default, or a `cx-{name}` font
-glyph when `font` is set. Every component in this library that renders an icon internally
-(`CloseButton`, `NotificationIcon`, `ToastIcon`, the calendar/datepicker navigation, and others)
-composes this same primitive rather than inlining its own markup, so styling or swapping the
-underlying icon set here applies everywhere at once.
+`<Icon>` renders an SVG `<use>` reference into a sprite sheet by default, or an icon-font glyph
+when `font` is set. It's this library's default icon renderer, not a requirement: the components
+that draw icons of their own (`Pagination`, the carousel controls, `NavbarToggler`, the check on a
+selected menu or combobox item, and a string `icon` on `Toast`/`Notification`) let you swap in any
+icon set, including your own icon component — see [Replacing the library's
+icons](#replacing-the-librarys-icons).
 
 ## Basic usage
 
-Pass a `name` matching an id in the sprite referenced by the `sprite` prop.
+Pass a `name` matching a symbol id in the sprite. By default `<Icon>` references a sprite
+embedded in the page (`<use href="#check-solid">`), which is what this site does. To reference a
+sprite file instead, see [Sprite file](#sprite-file).
 
 <Example>
   <BasicUsageExample client:load />
@@ -27,9 +31,10 @@ Pass a `name` matching an id in the sprite referenced by the `sprite` prop.
 
 ## Sizing
 
-`size` sets the rendered width and height, in pixels, of the SVG. It has no effect in `font` mode
-— a font glyph's size instead follows the surrounding text's `font-size`, the same as any other
-character.
+`size` takes a number of pixels or any CSS length (`"1.25rem"`, `"1em"`). It sets chassis-css's
+`--cx-icon-size` on the icon, so it works for font glyphs too. Without `size`, an icon takes the
+size chassis-css gives it in context: inside a button, an input, a navbar toggler, and so on. To
+change the default size everywhere, set `--cx-icon-size` in your stylesheet.
 
 <Example>
   <SizingExample client:load />
@@ -53,27 +58,106 @@ itself, which is what assistive technology actually announces.
 
 ## Font glyphs
 
-Setting `font` renders a `<span className="cx-{name}">` instead of an SVG reference, sized by the
-surrounding text rather than the `size` prop. This mode depends on the icon set's separate font
-CSS being loaded in the application — this library ships no icon font of its own, and this docs
-site loads only the SVG sprite, so the snippet below isn't shown as a live example:
+Setting `font` renders a `<span class="cx-{name}">` instead of an SVG reference. This mode
+depends on the icon set's separate font CSS being loaded in the application. This library ships no
+icon font of its own, and this docs site loads only the SVG sprite, so the snippet below isn't
+shown as a live example:
 
 ```jsx
 <Icon name="check-solid" font />
 ```
 
-## Pointing at a sprite
+An icon font generated with a different class prefix works too: set `fontPrefix` on
+[`IconProvider`](#iconprovider).
 
-`sprite` defaults to `/static/icons/chassis-icons.svg` — the conventional path a Chassis icon
-package's sprite file is served from. Set it once per `<Icon>` call, or wrap the component to apply
-a project-specific default, if the sprite is hosted somewhere else:
+## Sprite file
+
+When the sprite is a file rather than embedded in the page, point `sprite` at its URL, either per
+icon or once for the whole app with `IconProvider`:
 
 ```jsx
-<Icon name="check-solid" sprite="/assets/icons/my-icons.svg" />
+<Icon name="check-solid" sprite="/static/icons/chassis-icons.svg" />
 ```
+
+Browsers don't load an external sprite from another origin, so serve the file from your own
+domain (not a CDN), or embed it in the page.
+
+## IconProvider
+
+`IconProvider` sets defaults for every `<Icon>` below it: `sprite`, `className`, `font`, and
+`fontPrefix`. It also configures the library's own icons (below). An `<Icon>`'s own props still
+win, and nested providers extend the one above them.
+
+```tsx
+// app/layout.tsx
+import { IconProvider } from '@chassis-ui/react/icon'
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <body>
+        <IconProvider sprite="/static/icons/chassis-icons.svg">{children}</IconProvider>
+      </body>
+    </html>
+  )
+}
+```
+
+## Replacing the library's icons
+
+Components that draw an icon of their own ask for it by purpose: `check`, `previous`, `next`,
+`menu`, `play`, and `pause`. Map any of them in `IconProvider`'s `icons`, either to another icon
+name or to an element from any icon set:
+
+<Example>
+  <LibraryIconsExample client:load />
+</Example>
+
+```tsx
+import { Check, ChevronLeft, ChevronRight } from 'lucide-react'
+
+<IconProvider icons={{ check: <Check />, previous: <ChevronLeft />, next: <ChevronRight /> }}>
+```
+
+An element keeps its own size and color, and gets the class the component positions it by (for
+example `menu-item-check`, or `directional-icon`, which flips arrows in right-to-left layouts), plus
+`aria-hidden`. It doesn't get the `icon` class, since `.icon` sets `fill` and would paint over an
+outline icon set's `fill="none"`.
+
+To render every icon name with your own icon component instead, pass it as `component`. It
+receives `name`, `className`, and `aria-hidden`:
+
+```tsx
+'use client'
+
+import { IconProvider, type IconComponentProps } from '@chassis-ui/react/icon'
+import { MyIcon } from './MyIcon'
+
+const AppIcon = ({ name, ...props }: IconComponentProps) => <MyIcon glyph={name} {...props} />
+
+export function Providers({ children }) {
+  return <IconProvider component={AppIcon}>{children}</IconProvider>
+}
+```
+
+`component` takes a component reference, which can't be passed from a React Server Component, so
+set it in a `'use client'` module like the one above. `icons` with names or elements can be set
+directly from a Server Component.
+
+A single instance can also override its icon: `Pagination` takes `previousIcon` and `nextIcon`,
+`CarouselControlPrev`/`CarouselControlNext` take `icon`, `CarouselPlayPause` takes `playIcon` and
+`pauseIcon`, and `NavbarToggler` takes `icon`.
+
+Icons drawn by chassis-css itself (the close button, carets, the datepicker arrows, and checkbox
+marks) are CSS masks. Restyle those through their custom properties, such as
+`--cx-close-button-icon`.
 
 ## API
 
 ### Icon
 
 <PropTable component="Icon" />
+
+### IconProvider
+
+<PropTable component="IconProvider" />

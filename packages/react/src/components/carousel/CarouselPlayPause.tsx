@@ -1,7 +1,8 @@
 import React, { ButtonHTMLAttributes, forwardRef } from 'react'
 import classNames from 'classnames'
 
-import { Icon } from '../icon'
+import { IconValue } from '../../utils/iconConfig'
+import { IconSlot } from '../../utils/iconSlot'
 import { useCarouselContext } from './context'
 
 export interface CarouselPlayPauseProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -10,6 +11,11 @@ export interface CarouselPlayPauseProps extends ButtonHTMLAttributes<HTMLButtonE
    */
   className?: string
   /**
+   * The icon shown while autoplay is running: an icon name, or an element of your own icon set.
+   * Defaults to `IconProvider`'s `pause` icon.
+   */
+  pauseIcon?: IconValue
+  /**
    * The accessible label announced while autoplay is running.
    */
   pauseLabel?: string
@@ -17,6 +23,11 @@ export interface CarouselPlayPauseProps extends ButtonHTMLAttributes<HTMLButtonE
    * The accessible label announced while autoplay is stopped.
    */
   playLabel?: string
+  /**
+   * The icon shown while autoplay is stopped: an icon name, or an element of your own icon set.
+   * Defaults to `IconProvider`'s `play` icon.
+   */
+  playIcon?: IconValue
 }
 
 /**
@@ -25,7 +36,19 @@ export interface CarouselPlayPauseProps extends ButtonHTMLAttributes<HTMLButtonE
  * icon while playing, a play icon once stopped.
  */
 export const CarouselPlayPause = forwardRef<HTMLButtonElement, CarouselPlayPauseProps>(
-  ({ children, className, onClick, pauseLabel = 'Pause', playLabel = 'Play', ...rest }, ref) => {
+  (
+    {
+      children,
+      className,
+      onClick,
+      pauseIcon,
+      pauseLabel = 'Pause',
+      playIcon,
+      playLabel = 'Play',
+      ...rest
+    },
+    ref
+  ) => {
     const { playing, togglePlayPause } = useCarouselContext()
     const _className = classNames(
       'carousel-control-play-pause button sm icon-only',
@@ -49,8 +72,8 @@ export const CarouselPlayPause = forwardRef<HTMLButtonElement, CarouselPlayPause
       >
         {children ?? (
           <>
-            <Icon name="pause-solid" className="carousel-icon-pause" aria-hidden="true" />
-            <Icon name="play-solid" className="carousel-icon-play" aria-hidden="true" />
+            <IconSlot icon="pause" override={pauseIcon} className="carousel-icon-pause" />
+            <IconSlot icon="play" override={playIcon} className="carousel-icon-play" />
           </>
         )}
       </button>
