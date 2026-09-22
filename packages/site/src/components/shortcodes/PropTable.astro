@@ -35,47 +35,45 @@ function formatType(type: { name: string; raw?: string; value?: { value: string 
 }
 ---
 
-{
-  entry ? (
-    <div class="cxd-prop-table-wrapper">
-      <table class="cxd-prop-table table">
-        <thead>
-          <tr>
-            <th class="w-25" scope="col">
-              Prop
-            </th>
-            <th scope="col">Type</th>
-            <th class="w-25" scope="col">
-              Default
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {sortedProps.map((prop) => (
-            <>
-              <tr>
-                <td class="border-0 pb-0">
-                  <code>
-                    {prop.name}
-                    {prop.required ? '' : '?'}
-                  </code>
-                </td>
-                <td class="border-0 pb-0">
-                  <code>{formatType(prop.type)}</code>
-                </td>
-                <td class="border-0 pb-0">
-                  {prop.defaultValue ? <code>{prop.defaultValue.value}</code> : <span>—</span>}
-                </td>
-              </tr>
-              <tr>
-                <td colspan="3" set:html={renderDescription(prop.description)} />
-              </tr>
-            </>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  ) : (
-    <p class="text-muted">API documentation not available for {component}.</p>
-  )
-}
+{entry ? (
+  <div class="cxd-prop-table-wrapper">
+    <table class="cxd-prop-table table">
+      <thead>
+        <tr>
+          <th class="w-25" scope="col">
+            Prop
+          </th>
+          <th scope="col">Type</th>
+          <th class="w-25" scope="col">
+            Default
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {sortedProps.map((prop) => (
+          <>
+            <tr>
+              <td class="border-0 pb-0">
+                <code>
+                  {prop.name}
+                  {prop.required ? '' : '?'}
+                </code>
+              </td>
+              <td class="border-0 pb-0">
+                <code>{formatType(prop.type)}</code>
+              </td>
+              <td class="border-0 pb-0">
+                {prop.defaultValue ? <code>{prop.defaultValue.value}</code> : <span>—</span>}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="3" set:html={renderDescription(prop.description)} />
+            </tr>
+          </>
+        ))}
+      </tbody>
+    </table>
+  </div>
+) : (
+  <p class="text-muted">API documentation not available for {component}.</p>
+)}
