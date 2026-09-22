@@ -120,12 +120,26 @@ type PolymorphicRef<C extends ElementType> = ComponentPropsWithRef<C>['ref'];
  */
 type PolymorphicRefWithFallback<C extends ElementType, Fallback extends HTMLElement> = PolymorphicRef<C> | Ref<Fallback>;
 /**
+ * The `asChild` prop every polymorphic component accepts alongside `component` — see
+ * `createPolymorphicComponent` below for how it's implemented once for all of them.
+ */
+interface AsChildProps {
+  /**
+   * Render the single child element in place of this component's own element, with this
+   * component's classes, props and ref merged onto it: `<Button asChild><Link href="/login">Log
+   * in</Link></Button>`. The alternative to `component` for React Server Components — an element
+   * can be passed from the server to this package's client components, a component reference
+   * (`component={Link}`) can't.
+   */
+  asChild?: boolean;
+}
+/**
  * Props for a polymorphic component: `OwnProps` (which must declare `component?: C`) plus
  * whatever props `C` itself accepts, minus any name already claimed by `OwnProps` so the two
  * don't conflict. Lets consumers swap `component` for e.g. a framework's `Image` and get full
  * type-checking/autocomplete for that component's own props at the call site.
  */
-type PolymorphicComponentProps<C extends ElementType, OwnProps extends object> = OwnProps & Omit<ComponentPropsWithoutRef<C>, keyof OwnProps>;
+type PolymorphicComponentProps<C extends ElementType, OwnProps extends object> = OwnProps & AsChildProps & Omit<ComponentPropsWithoutRef<C>, keyof AsChildProps | keyof OwnProps>;
 //#endregion
 //#region src/components/accordion/AccordionBody.d.ts
 type AccordionBodyOwnProps<C extends ElementType> = {
@@ -5450,7 +5464,7 @@ type SkeletonLoaderOwnProps<C extends ElementType> = {
    */
   spans?: Span | Span[];
 };
-type SkeletonLoaderProps<C extends ElementType = 'span'> = PolymorphicComponentProps<C, SkeletonLoaderOwnProps<C>>;
+type SkeletonLoaderProps<C extends ElementType = 'span'> = SkeletonLoaderOwnProps<C> & Omit<ComponentPropsWithoutRef<C>, 'asChild' | keyof SkeletonLoaderOwnProps<C>>;
 type SkeletonLoaderComponent = (<C extends ElementType = 'span'>(props: SkeletonLoaderProps<C>) => ReactElement | null) & {
   displayName?: string;
 };

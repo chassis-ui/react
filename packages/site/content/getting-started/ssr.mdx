@@ -41,6 +41,32 @@ prop — has to be serializable across the boundary, or itself be defined inside
 higher up the tree. That constraint comes from React and the bundler in use, not from anything
 specific to this package.
 
+## Polymorphic components
+
+A component reference is a function, so it can't be passed from a Server Component to one of this
+package's components either. `<Button component={Link} href="/login">` in a Server Component fails
+`next build` with "Functions cannot be passed directly to Client Components". It worked with older
+versions of `next/link` only because `Link` wasn't a plain function.
+
+Render the link as a child with `asChild` instead. An element crosses the boundary fine:
+
+```tsx
+// app/page.tsx — a Server Component
+import Link from 'next/link'
+import { Button } from '@chassis-ui/react/button'
+
+export default function Page() {
+  return (
+    <Button asChild>
+      <Link href="/login">Log in</Link>
+    </Button>
+  )
+}
+```
+
+Every component with a `component` prop supports `asChild`. A string tag also crosses the boundary
+fine (`component="section"`); only component references need `asChild`.
+
 ## Bundle size
 
 A `'use client'` module is a client-reference boundary, and Turbopack (the default bundler in

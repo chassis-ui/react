@@ -9,6 +9,7 @@ import {
   DataGridCell,
   DataGridRow,
   PaginationItem,
+  SkeletonLoader,
   usePagination
 } from '../src/index'
 
@@ -142,4 +143,26 @@ expectTypeOf(
       <DataGridCell>a</DataGridCell>
     </DataGridRow>
   </DataGridBody>
+).toBeObject()
+
+// --- `asChild`: every polymorphic component accepts it, except the element-less SkeletonLoader ---
+
+expectTypeOf(
+  <Button asChild>
+    <a href="/login">Log in</a>
+  </Button>
+).toBeObject()
+
+expectTypeOf(
+  // @ts-expect-error `SkeletonLoader` renders no element of its own for a child to stand in for.
+  <SkeletonLoader asChild loading>
+    <a href="/login">Log in</a>
+  </SkeletonLoader>
+).toBeObject()
+
+expectTypeOf(
+  // @ts-expect-error `component` still drives `SkeletonLoader`'s props: no `href` on a `<button>`.
+  <SkeletonLoader component="button" href="/x" loading>
+    x
+  </SkeletonLoader>
 ).toBeObject()

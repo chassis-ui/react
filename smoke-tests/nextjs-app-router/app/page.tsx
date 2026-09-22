@@ -11,7 +11,10 @@
 // (Avatar), and a subpath entry point (Spinner, from `@chassis-ui/react/spinner` -- each subpath
 // carries its own 'use client' directive, see RSC.md's "Subpath imports"), and the one
 // server-safe entry (StaticTable, from `@chassis-ui/react/static-table` -- no directive at all, so
-// it renders as a genuine Server Component and adds no client JS). Not exhaustive, just enough surface area to catch a real "doesn't build against this
+// it renders as a genuine Server Component and adds no client JS). Also a polymorphic component
+// rendered as a `next/link` via `asChild` -- passing `component={Link}` from a Server Component
+// fails the build ("Functions cannot be passed directly to Client Components"), an element doesn't.
+// Not exhaustive, just enough surface area to catch a real "doesn't build against this
 // framework" regression. Deliberately skips Tooltip/Popover/Toast/Notification/Collapse/Tabs --
 // anything built on react-transition-group -- it throws "Element type is invalid" under `next
 // dev` here. Root-caused: it's a Turbopack DEV-ONLY bug, not a build or production issue -- a
@@ -22,6 +25,7 @@
 // graph (vercel/next.js#91411) and around workspace-symlinked deps generally (#77562, #91896) --
 // this hits both. Not fixable from this package; consumers running `next dev` on Turbopack would
 // hit the same wall with Tooltip/Popover/Toast/Notification/Collapse/Tabs today.
+import Link from 'next/link'
 import { Avatar, Badge, Button, Card, CardBody, CardHeader, CardTitle, Flex, Switch } from '@chassis-ui/react'
 import { Spinner } from '@chassis-ui/react/spinner'
 import { StaticTable } from '@chassis-ui/react/static-table'
@@ -41,6 +45,9 @@ export default function Home() {
           <Switch defaultSelected label="hook-using switch (react-aria useToggleState)" />
           <Avatar alt="polymorphic forwardRef avatar">CX</Avatar>
           <Spinner visuallyHiddenLabel="subpath-imported spinner" />
+          <Button asChild variant="outline">
+            <Link href="/">asChild next/link button</Link>
+          </Button>
         </Flex>
 
         <Card>
