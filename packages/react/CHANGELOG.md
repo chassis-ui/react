@@ -1,5 +1,141 @@
 # @chassis-ui/react
 
+## 0.2.0
+
+### Minor Changes
+
+- 54d4178: Every polymorphic component now accepts `asChild`, which makes the polymorphic API usable from
+  React Server Components (#23). Pass the target as a child element instead of a component
+  reference, and the component merges its classes, props and ref onto that element:
+
+  ```tsx
+  import Link from 'next/link'
+  import { Button } from '@chassis-ui/react/button'
+
+  // In a Server Component
+  <Button asChild variant="outline">
+    <Link href="/login">Log in</Link>
+  </Button>
+  ```
+
+  `<Button component={Link} href="/login">` fails `next build` in a Server Component under Next.js
+  16 with "Functions cannot be passed directly to Client Components". A component reference is a
+  function and can't cross the server→client boundary; it only worked before because older
+  `next/link` exports weren't plain functions. An element crosses the boundary without trouble.
+  The rendered `<a>` gets the button's classes, and `next/link` still handles the navigation
+  client-side.
+
+  The child's own props win over the component's, except that class names are combined and event
+  handlers are chained (the component's runs first). If `children` isn't exactly one element,
+  `asChild` logs a dev warning and the component renders its default element. `asChild` takes
+  precedence when both it and `component` are passed.
+
+  `asChild` is implemented once in the shared polymorphic wrapper, so it works on every component
+  with a `component` prop. `SkeletonLoader` is the exception because it renders no element of its
+  own. `component` itself is unchanged.
+
+- 3e3f7c1: Icons are now configurable, and the components that draw icons of their own no longer depend on
+  `Icon`.
+
+  **Breaking: `Icon` no longer references `/static/icons/chassis-icons.svg` by default.** With no
+  `sprite` set, it renders `<use href="#name">`, which works for a sprite embedded in the page. To
+  keep the old behavior, set the path once for the whole app:
+
+  ```tsx
+  <IconProvider sprite="/static/icons/chassis-icons.svg">{children}</IconProvider>
+  ```
+
+  **New `IconProvider`.** It sets defaults for every `Icon` below it (`sprite`, `className`, `font`,
+  `fontPrefix` for icon fonts generated with a prefix other than `cx-`) and configures the icons
+  this library's own components draw. Nested providers extend the one above them.
+
+  **Replaceable library icons.** `Pagination`, `CarouselControlPrev`/`CarouselControlNext`,
+  `CarouselPlayPause`, `NavbarToggler`, the check on a selected menu or combobox item, and a string
+  `icon` on `Toast`/`Notification` now ask for their icon by purpose: `check`, `previous`, `next`,
+  `menu`, `play` or `pause`. You can replace any of them with another icon name or with an element
+  from any icon set:
+
+  ```tsx
+  import { Check, ChevronLeft, ChevronRight } from 'lucide-react'
+
+  <IconProvider icons={{ check: <Check />, previous: <ChevronLeft />, next: <ChevronRight /> }}>
+  ```
+
+  You can also render every icon name with your own icon component (`component={MyIcon}`, set in a
+  `'use client'` module). A single instance can override its icon with the new `previousIcon`/
+  `nextIcon` (Pagination), `icon` (carousel prev/next controls, NavbarToggler), and
+  `playIcon`/`pauseIcon` (CarouselPlayPause) props. A custom icon gets the class the component
+  positions it by, including `directional-icon`, so arrows still flip in right-to-left layouts. It
+  doesn't get `.icon`, whose `fill` would paint over outline icon sets.
+
+  **Pagination's previous/next chevrons are now the outline style,** matching the carousel's.
+
+  **Fix: `Icon`'s `size` had no visible effect when chassis-css was loaded.** It set only the SVG's
+  `width`/`height` attributes, which chassis-css's `.icon` sizing overrides, so `size={48}` rendered
+  at 24px. It now sets `--cx-icon-size`, which also makes it work for font glyphs, and accepts CSS
+  lengths as well as pixel numbers (`size="1.25rem"`).
+
+- 6103315: Adds `StaticTable`, a server-renderable table that uses no client JavaScript (#20). It takes the
+  same styling props as `Table` (`bordered`, `borderless`, `hover`, `striped`, `sm`, `color`,
+  `align`, `responsive`, `stacked`, plus `caption`) and renders your own
+  `<thead>`/`<tbody>`/`<tfoot>`/`<tr>`/`<th>`/`<td>` markup as written. It has no sorting, selection
+  or keyboard grid navigation; those remain `Table`'s job.
+
+  Import it from `@chassis-ui/react/static-table`. It's the only entry point without a
+  `'use client'` directive, so a React Server Component renders it as a real Server Component. In a
+  Next.js 16 app, a route rendering only a `StaticTable` ships no client JS beyond Next's own
+  baseline. Links, `next/link` and server-action forms in cells work as they do in any server markup.
+
+  ```tsx
+  import { StaticTable } from '@chassis-ui/react/static-table'
+
+  <StaticTable hover striped caption="Members">
+    <thead>
+      <tr><th scope="col">Name</th></tr>
+    </thead>
+    <tbody>
+      {members.map((m) => (
+        <tr key={m.id}><td data-cell="Name">{m.name}</td></tr>
+      ))}
+    </tbody>
+  </StaticTable>
+  ```
+
+  For `stacked` tables, give each `<td>` a `data-cell` attribute with its label. `Table` reads that
+  label from its column headers, but a static table has no column data to derive it from.
+  `StaticTable` is exported from the root entry too, for use inside Client Components.
+
+- a92d1e9: Every component family is now published as its own entry point, so a page only ships the
+  components it actually imports (#22). The subpaths are named after the component folders:
+
+  ```tsx
+  import { Button } from '@chassis-ui/react/button'
+  import { TextInput } from '@chassis-ui/react/text-input'
+  import { Modal, ModalBody, useModal } from '@chassis-ui/react/modal'
+  ```
+
+  Until now the package was a single `dist/index.js` behind one `'use client'` directive. Turbopack
+  (Next.js 16's default bundler) can't tree-shake unused exports out of a `'use client'` module, so a
+  page rendering one `Button` shipped every component, and the react-aria/react-stately hooks behind
+  them, to the browser: about 214 KB gzip of client JS on top of Next.js's own baseline, whichever
+  bundler was used. Importing the same `Button` from `@chassis-ui/react/button` ships about 13 KB
+  under Turbopack and 11 KB under webpack. Each subpath carries its own `'use client'` directive, so it
+  works directly from a Server Component, just like the root entry.
+
+  The root `@chassis-ui/react` entry is unchanged and still exports everything. Both import styles
+  resolve to the same shared chunks, so mixing them is safe: `Modal` from `/modal` and `useModal` from
+  the root read the same context. Each family's hook is also exported from its subpath (`useModal`,
+  `useDrawer`, `useToast`, `useNotification`, `usePagination`).
+
+  `sideEffects` in `package.json` is now accurate. Only the entry files, the chunk that installs the
+  global focus-ring listener, and `style.css` are marked as having side effects, so webpack and Vite
+  also drop unused components from a root import (about 16 KB for the same page under webpack). This
+  also fixes a latent build bug: the listener's side-effect import was being tree-shaken out of the
+  bundle, and it only survived because `RangeCalendar` happened to import the same module.
+
+  The `DataGrid*Props` types are now exported from the root entry too. Before, they were only
+  reachable from the component's own module.
+
 ## 0.1.3
 
 ### Patch Changes
