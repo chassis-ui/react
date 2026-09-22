@@ -42,7 +42,7 @@ export const Example = () => {
           ]}
         />
       </div>
-      <sm className="fg-subtle">{`${start}-${end} of ${total}`}</sm>
+      <small className="fg-subtle">{`${start}-${end} of ${total}`}</small>
       <div className="d-flex flex-fill gap-xs justify-content-end">
         <Button
           ref={prevRef}

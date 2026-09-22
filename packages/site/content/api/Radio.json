@@ -10,12 +10,12 @@
       "description": "Create button-like radios. Combine with `<RadioGroup>` to build radio toggle-button groups.",
       "name": "button",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/radio/Radio.tsx",
+        "fileName": "packages/react/src/components/radio/Radio.tsx",
         "name": "RadioProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/radio/Radio.tsx",
+          "fileName": "packages/react/src/components/radio/Radio.tsx",
           "name": "RadioProps"
         }
       ],
@@ -29,12 +29,12 @@
       "description": "A string of all className you want applied to the component.",
       "name": "className",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/radio/Radio.tsx",
+        "fileName": "packages/react/src/components/radio/Radio.tsx",
         "name": "RadioProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/radio/Radio.tsx",
+          "fileName": "packages/react/src/components/radio/Radio.tsx",
           "name": "RadioProps"
         }
       ],
@@ -48,12 +48,12 @@
       "description": "Sets the color of the radio indicator to one of Chassis context colors. Ignored when `button` is set.",
       "name": "color",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/radio/Radio.tsx",
+        "fileName": "packages/react/src/components/radio/Radio.tsx",
         "name": "RadioProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/radio/Radio.tsx",
+          "fileName": "packages/react/src/components/radio/Radio.tsx",
           "name": "RadioProps"
         }
       ],
@@ -103,12 +103,12 @@
       "description": "The id global attribute defines an identifier (ID) that must be unique in the whole document.",
       "name": "id",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/radio/Radio.tsx",
+        "fileName": "packages/react/src/components/radio/Radio.tsx",
         "name": "RadioProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/radio/Radio.tsx",
+          "fileName": "packages/react/src/components/radio/Radio.tsx",
           "name": "RadioProps"
         }
       ],
@@ -122,12 +122,12 @@
       "description": "The element represents a caption for a component.\n\nChildren are accepted as an alias for this prop — `label` wins when both are given.\nreact-aria, which backs this component, calls the same thing `children`; this package renames\nit to `label`, and honouring both means the shape React developers reach for first still\nnames the control instead of silently producing an unlabelled one.",
       "name": "label",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/radio/Radio.tsx",
+        "fileName": "packages/react/src/components/radio/Radio.tsx",
         "name": "RadioProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/radio/Radio.tsx",
+          "fileName": "packages/react/src/components/radio/Radio.tsx",
           "name": "RadioProps"
         }
       ],
@@ -141,12 +141,12 @@
       "description": "Size the component sm or lg.",
       "name": "size",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/radio/Radio.tsx",
+        "fileName": "packages/react/src/components/radio/Radio.tsx",
         "name": "RadioProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/radio/Radio.tsx",
+          "fileName": "packages/react/src/components/radio/Radio.tsx",
           "name": "RadioProps"
         }
       ],
@@ -169,12 +169,12 @@
       "description": "The value of the radio button, used to identify it within its `<RadioGroup>`.",
       "name": "value",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/radio/Radio.tsx",
+        "fileName": "packages/react/src/components/radio/Radio.tsx",
         "name": "RadioProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/radio/Radio.tsx",
+          "fileName": "packages/react/src/components/radio/Radio.tsx",
           "name": "RadioProps"
         }
       ],

@@ -10,12 +10,12 @@
       "description": "Let this item stay open when another item opens, overriding the accordion's `alwaysOpen` setting.",
       "name": "alwaysOpen",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/accordion/AccordionItem.tsx",
+        "fileName": "packages/react/src/components/accordion/AccordionItem.tsx",
         "name": "AccordionItemProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/accordion/AccordionItem.tsx",
+          "fileName": "packages/react/src/components/accordion/AccordionItem.tsx",
           "name": "AccordionItemProps"
         }
       ],
@@ -29,12 +29,12 @@
       "description": "A string of all className you want applied to the base component.",
       "name": "className",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/accordion/AccordionItem.tsx",
+        "fileName": "packages/react/src/components/accordion/AccordionItem.tsx",
         "name": "AccordionItemProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/accordion/AccordionItem.tsx",
+          "fileName": "packages/react/src/components/accordion/AccordionItem.tsx",
           "name": "AccordionItemProps"
         }
       ],
@@ -48,12 +48,12 @@
       "description": "The group this item shares with other items so only one can be open at a time, overriding the\naccordion's shared `name`.",
       "name": "name",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/accordion/AccordionItem.tsx",
+        "fileName": "packages/react/src/components/accordion/AccordionItem.tsx",
         "name": "AccordionItemProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/accordion/AccordionItem.tsx",
+          "fileName": "packages/react/src/components/accordion/AccordionItem.tsx",
           "name": "AccordionItemProps"
         }
       ],
@@ -67,12 +67,12 @@
       "description": "Start the item in the open state.",
       "name": "open",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/accordion/AccordionItem.tsx",
+        "fileName": "packages/react/src/components/accordion/AccordionItem.tsx",
         "name": "AccordionItemProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/accordion/AccordionItem.tsx",
+          "fileName": "packages/react/src/components/accordion/AccordionItem.tsx",
           "name": "AccordionItemProps"
         }
       ],
@@ -86,12 +86,12 @@
       "description": "@deprecated No longer used. The native details element manages its own state.",
       "name": "itemKey",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/accordion/AccordionItem.tsx",
+        "fileName": "packages/react/src/components/accordion/AccordionItem.tsx",
         "name": "AccordionItemProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/accordion/AccordionItem.tsx",
+          "fileName": "packages/react/src/components/accordion/AccordionItem.tsx",
           "name": "AccordionItemProps"
         }
       ],

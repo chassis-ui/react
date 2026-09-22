@@ -10,12 +10,12 @@
       "description": "`DataGridColumn` elements, or a render function paired with `columns` for dynamic column\ngeneration.",
       "name": "children",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridHeader.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGridHeader.tsx",
         "name": "DataGridHeaderProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridHeader.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGridHeader.tsx",
           "name": "DataGridHeaderProps"
         }
       ],
@@ -29,12 +29,12 @@
       "description": "A string of all className you want applied to the header row group.",
       "name": "className",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridHeader.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGridHeader.tsx",
         "name": "DataGridHeaderProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridHeader.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGridHeader.tsx",
           "name": "DataGridHeaderProps"
         }
       ],
@@ -48,12 +48,12 @@
       "description": "A list of column data objects, rendered via the function form of `children`.",
       "name": "columns",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridHeader.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGridHeader.tsx",
         "name": "DataGridHeaderProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridHeader.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGridHeader.tsx",
           "name": "DataGridHeaderProps"
         }
       ],
@@ -67,12 +67,12 @@
       "description": "Values that should invalidate the column cache when using the `columns`/render-function form\nof `children` — see `DataGridBody`'s `dependencies` for why this matters.",
       "name": "dependencies",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridHeader.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGridHeader.tsx",
         "name": "DataGridHeaderProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridHeader.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGridHeader.tsx",
           "name": "DataGridHeaderProps"
         }
       ],

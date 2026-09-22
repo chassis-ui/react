@@ -11,7 +11,7 @@
       "name": "animation",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/skeleton/Skeleton.tsx",
+          "fileName": "packages/react/src/components/skeleton/Skeleton.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -35,7 +35,7 @@
       "name": "className",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/skeleton/Skeleton.tsx",
+          "fileName": "packages/react/src/components/skeleton/Skeleton.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -50,7 +50,7 @@
       "name": "color",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/skeleton/Skeleton.tsx",
+          "fileName": "packages/react/src/components/skeleton/Skeleton.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -103,7 +103,7 @@
       "name": "component",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/skeleton/Skeleton.tsx",
+          "fileName": "packages/react/src/components/skeleton/Skeleton.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -118,7 +118,7 @@
       "name": "span",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/skeleton/Skeleton.tsx",
+          "fileName": "packages/react/src/components/skeleton/Skeleton.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -133,7 +133,7 @@
       "name": "responsive",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/skeleton/Skeleton.tsx",
+          "fileName": "packages/react/src/components/skeleton/Skeleton.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -148,7 +148,7 @@
       "name": "ref",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/skeleton/Skeleton.tsx",
+          "fileName": "packages/react/src/components/skeleton/Skeleton.tsx",
           "name": "TypeLiteral"
         }
       ],

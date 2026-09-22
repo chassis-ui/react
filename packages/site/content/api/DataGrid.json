@@ -10,12 +10,12 @@
       "description": "An accessible label for the grid, used when there's no visible heading.",
       "name": "aria-label",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
         "name": "DataGridOwnProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
           "name": "DataGridOwnProps"
         }
       ],
@@ -29,12 +29,12 @@
       "description": "Identifies a visible heading element for the grid.",
       "name": "aria-labelledby",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
         "name": "DataGridOwnProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
           "name": "DataGridOwnProps"
         }
       ],
@@ -48,12 +48,12 @@
       "description": "Set the vertical alignment of cell content. Mirrors `Table`'s prop of the same name for API\nparity — same as `Table`, this awaits chassis-css adding the matching `.align-*` styles.",
       "name": "align",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
         "name": "DataGridOwnProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
           "name": "DataGridOwnProps"
         }
       ],
@@ -79,12 +79,12 @@
       "description": "Add borders on all sides of the grid and cells.",
       "name": "bordered",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
         "name": "DataGridOwnProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
           "name": "DataGridOwnProps"
         }
       ],
@@ -98,12 +98,12 @@
       "description": "Remove borders on all sides of the grid and cells.",
       "name": "borderless",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
         "name": "DataGridOwnProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
           "name": "DataGridOwnProps"
         }
       ],
@@ -117,12 +117,12 @@
       "description": "A `DataGridHeader` and a `DataGridBody`, each built from `DataGridColumn`/`DataGridRow`/\n`DataGridCell`.",
       "name": "children",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
         "name": "DataGridOwnProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
           "name": "DataGridOwnProps"
         }
       ],
@@ -136,12 +136,12 @@
       "description": "A string of all className you want applied to the component.",
       "name": "className",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
         "name": "DataGridOwnProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
           "name": "DataGridOwnProps"
         }
       ],
@@ -155,12 +155,12 @@
       "description": "Sets the color of the component.",
       "name": "color",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
         "name": "DataGridOwnProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
           "name": "DataGridOwnProps"
         }
       ],
@@ -210,12 +210,12 @@
       "description": "A list of row keys to disable. Disabled rows cannot be selected, focused, or interacted with.",
       "name": "disabledKeys",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
         "name": "DataGridOwnProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
           "name": "DataGridOwnProps"
         }
       ],
@@ -229,12 +229,12 @@
       "description": "Content shown below the grid, e.g. a totals row or a \"load more\" control. Rendered as plain\nmarkup outside the grid's own scrollable/virtualized region — not part of the\nkeyboard-navigable grid, and never scrolls out of view along with the body rows. Mirrors\n`Table`'s `footer` prop for API parity.",
       "name": "footer",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
         "name": "DataGridOwnProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
           "name": "DataGridOwnProps"
         }
       ],
@@ -248,12 +248,12 @@
       "description": "Enable a hover state on grid rows.",
       "name": "hover",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
         "name": "DataGridOwnProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
           "name": "DataGridOwnProps"
         }
       ],
@@ -267,12 +267,12 @@
       "description": "Handler that is called when the selection changes.",
       "name": "onSelectionChange",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
         "name": "DataGridOwnProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
           "name": "DataGridOwnProps"
         }
       ],
@@ -286,12 +286,12 @@
       "description": "Handler that is called when a column is sorted.",
       "name": "onSortChange",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
         "name": "DataGridOwnProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
           "name": "DataGridOwnProps"
         }
       ],
@@ -305,12 +305,12 @@
       "description": "The currently selected row keys (controlled).",
       "name": "selectedKeys",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
         "name": "DataGridOwnProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
           "name": "DataGridOwnProps"
         }
       ],
@@ -326,12 +326,12 @@
       "description": "The type of selection that is allowed.",
       "name": "selectionMode",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
         "name": "DataGridOwnProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
           "name": "DataGridOwnProps"
         }
       ],
@@ -357,12 +357,12 @@
       "description": "Make the grid more compact by cutting all cell padding.",
       "name": "sm",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
         "name": "DataGridOwnProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
           "name": "DataGridOwnProps"
         }
       ],
@@ -376,12 +376,12 @@
       "description": "The current sort column and direction.",
       "name": "sortDescriptor",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
         "name": "DataGridOwnProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
           "name": "DataGridOwnProps"
         }
       ],
@@ -396,11 +396,11 @@
       "name": "rowHeight",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
           "name": "TypeLiteral"
         },
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -415,11 +415,11 @@
       "name": "estimatedRowHeight",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
           "name": "TypeLiteral"
         },
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -434,7 +434,7 @@
       "name": "ref",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGrid.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGrid.tsx",
           "name": "TypeLiteral"
         }
       ],

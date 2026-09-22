@@ -11,7 +11,7 @@
       "name": "active",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/link/Link.tsx",
+          "fileName": "packages/react/src/components/link/Link.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -26,11 +26,11 @@
       "name": "className",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/link/Link.tsx",
+          "fileName": "packages/react/src/components/link/Link.tsx",
           "name": "TypeLiteral"
         },
         {
-          "fileName": "chassis-react/packages/react/src/components/menu/MenuItem.tsx",
+          "fileName": "packages/react/src/components/menu/MenuItem.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -45,7 +45,7 @@
       "name": "color",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/link/Link.tsx",
+          "fileName": "packages/react/src/components/link/Link.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -96,7 +96,7 @@
       "name": "component",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/link/Link.tsx",
+          "fileName": "packages/react/src/components/link/Link.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -111,7 +111,7 @@
       "name": "disabled",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/link/Link.tsx",
+          "fileName": "packages/react/src/components/link/Link.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -126,7 +126,7 @@
       "name": "href",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/link/Link.tsx",
+          "fileName": "packages/react/src/components/link/Link.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -141,7 +141,7 @@
       "name": "onClick",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/link/Link.tsx",
+          "fileName": "packages/react/src/components/link/Link.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -156,7 +156,7 @@
       "name": "iconLink",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/link/Link.tsx",
+          "fileName": "packages/react/src/components/link/Link.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -171,7 +171,7 @@
       "name": "reset",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/link/Link.tsx",
+          "fileName": "packages/react/src/components/link/Link.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -186,7 +186,7 @@
       "name": "stretched",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/link/Link.tsx",
+          "fileName": "packages/react/src/components/link/Link.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -201,7 +201,7 @@
       "name": "type",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/link/Link.tsx",
+          "fileName": "packages/react/src/components/link/Link.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -228,7 +228,7 @@
       "name": "description",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/menu/MenuItem.tsx",
+          "fileName": "packages/react/src/components/menu/MenuItem.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -243,7 +243,7 @@
       "name": "icon",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/menu/MenuItem.tsx",
+          "fileName": "packages/react/src/components/menu/MenuItem.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -258,7 +258,7 @@
       "name": "selected",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/menu/MenuItem.tsx",
+          "fileName": "packages/react/src/components/menu/MenuItem.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -273,7 +273,7 @@
       "name": "ref",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/menu/MenuItem.tsx",
+          "fileName": "packages/react/src/components/menu/MenuItem.tsx",
           "name": "TypeLiteral"
         }
       ],

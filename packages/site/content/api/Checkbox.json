@@ -10,12 +10,12 @@
       "description": "Create button-like checkboxes.",
       "name": "button",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+        "fileName": "packages/react/src/components/checkbox/Checkbox.tsx",
         "name": "CheckboxProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+          "fileName": "packages/react/src/components/checkbox/Checkbox.tsx",
           "name": "CheckboxProps"
         }
       ],
@@ -29,12 +29,12 @@
       "description": "A string of all className you want applied to the component.",
       "name": "className",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+        "fileName": "packages/react/src/components/checkbox/Checkbox.tsx",
         "name": "CheckboxProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+          "fileName": "packages/react/src/components/checkbox/Checkbox.tsx",
           "name": "CheckboxProps"
         }
       ],
@@ -48,12 +48,12 @@
       "description": "Sets the color of the check indicator to one of Chassis context colors. Ignored when `button` is set.",
       "name": "color",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+        "fileName": "packages/react/src/components/checkbox/Checkbox.tsx",
         "name": "CheckboxProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+          "fileName": "packages/react/src/components/checkbox/Checkbox.tsx",
           "name": "CheckboxProps"
         }
       ],
@@ -103,12 +103,12 @@
       "description": "Whether the checkbox is selected, uncontrolled. Ignored when rendered inside a `<CheckboxGroup>` —\nthe group's `value`/`defaultValue` owns selection there.",
       "name": "defaultSelected",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+        "fileName": "packages/react/src/components/checkbox/Checkbox.tsx",
         "name": "CheckboxProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+          "fileName": "packages/react/src/components/checkbox/Checkbox.tsx",
           "name": "CheckboxProps"
         }
       ],
@@ -122,12 +122,12 @@
       "description": "The id global attribute defines an identifier (ID) that must be unique in the whole document.",
       "name": "id",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+        "fileName": "packages/react/src/components/checkbox/Checkbox.tsx",
         "name": "CheckboxProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+          "fileName": "packages/react/src/components/checkbox/Checkbox.tsx",
           "name": "CheckboxProps"
         }
       ],
@@ -141,12 +141,12 @@
       "description": "Checkbox indeterminate property.",
       "name": "indeterminate",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+        "fileName": "packages/react/src/components/checkbox/Checkbox.tsx",
         "name": "CheckboxProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+          "fileName": "packages/react/src/components/checkbox/Checkbox.tsx",
           "name": "CheckboxProps"
         }
       ],
@@ -160,12 +160,12 @@
       "description": "Set component validation state to invalid.",
       "name": "invalid",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+        "fileName": "packages/react/src/components/checkbox/Checkbox.tsx",
         "name": "CheckboxProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+          "fileName": "packages/react/src/components/checkbox/Checkbox.tsx",
           "name": "CheckboxProps"
         }
       ],
@@ -179,12 +179,12 @@
       "description": "Whether the checkbox is selected, controlled. Ignored when rendered inside a `<CheckboxGroup>` —\nthe group's `value`/`defaultValue` owns selection there.",
       "name": "isSelected",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+        "fileName": "packages/react/src/components/checkbox/Checkbox.tsx",
         "name": "CheckboxProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+          "fileName": "packages/react/src/components/checkbox/Checkbox.tsx",
           "name": "CheckboxProps"
         }
       ],
@@ -198,12 +198,12 @@
       "description": "The element represents a caption for a component.\n\nChildren are accepted as an alias for this prop — `label` wins when both are given.\nreact-aria, which backs this component, calls the same thing `children`; this package renames\nit to `label`, and honouring both means the shape React developers reach for first still\nnames the control instead of silently producing an unlabelled one.",
       "name": "label",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+        "fileName": "packages/react/src/components/checkbox/Checkbox.tsx",
         "name": "CheckboxProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+          "fileName": "packages/react/src/components/checkbox/Checkbox.tsx",
           "name": "CheckboxProps"
         }
       ],
@@ -217,12 +217,12 @@
       "description": "Callback fired when the selected state changes. Ignored when rendered inside a `<CheckboxGroup>` —\nuse the group's `onChange` instead.",
       "name": "onChange",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+        "fileName": "packages/react/src/components/checkbox/Checkbox.tsx",
         "name": "CheckboxProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+          "fileName": "packages/react/src/components/checkbox/Checkbox.tsx",
           "name": "CheckboxProps"
         }
       ],
@@ -236,12 +236,12 @@
       "description": "Size the component sm or lg.",
       "name": "size",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+        "fileName": "packages/react/src/components/checkbox/Checkbox.tsx",
         "name": "CheckboxProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+          "fileName": "packages/react/src/components/checkbox/Checkbox.tsx",
           "name": "CheckboxProps"
         }
       ],
@@ -264,12 +264,12 @@
       "description": "Set component validation state to valid.",
       "name": "valid",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+        "fileName": "packages/react/src/components/checkbox/Checkbox.tsx",
         "name": "CheckboxProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+          "fileName": "packages/react/src/components/checkbox/Checkbox.tsx",
           "name": "CheckboxProps"
         }
       ],
@@ -283,12 +283,12 @@
       "description": "The value of the checkbox, used when submitting an HTML form. Required when rendered inside a\n`<CheckboxGroup>` — it identifies this item within the group's selected values.",
       "name": "value",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+        "fileName": "packages/react/src/components/checkbox/Checkbox.tsx",
         "name": "CheckboxProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/checkbox/Checkbox.tsx",
+          "fileName": "packages/react/src/components/checkbox/Checkbox.tsx",
           "name": "CheckboxProps"
         }
       ],

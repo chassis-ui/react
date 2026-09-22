@@ -116,8 +116,8 @@ export const Example = () => {
               {traffic.map((src) => (
                 <div key={src.label} className="mb-md">
                   <div className="d-flex justify-content-between mb-xs">
-                    <sm>{src.label}</sm>
-                    <sm>{src.value}%</sm>
+                    <small>{src.label}</small>
+                    <small>{src.value}%</small>
                   </div>
                   <Progress color={src.color} value={src.value} />
                 </div>

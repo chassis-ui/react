@@ -11,7 +11,7 @@
       "name": "children",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/skeleton/SkeletonLoader.tsx",
+          "fileName": "packages/react/src/components/skeleton/SkeletonLoader.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -26,7 +26,7 @@
       "name": "color",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/skeleton/SkeletonLoader.tsx",
+          "fileName": "packages/react/src/components/skeleton/SkeletonLoader.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -79,7 +79,7 @@
       "name": "component",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/skeleton/SkeletonLoader.tsx",
+          "fileName": "packages/react/src/components/skeleton/SkeletonLoader.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -94,7 +94,7 @@
       "name": "loading",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/skeleton/SkeletonLoader.tsx",
+          "fileName": "packages/react/src/components/skeleton/SkeletonLoader.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -109,7 +109,7 @@
       "name": "spans",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/skeleton/SkeletonLoader.tsx",
+          "fileName": "packages/react/src/components/skeleton/SkeletonLoader.tsx",
           "name": "TypeLiteral"
         }
       ],

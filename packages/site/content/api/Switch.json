@@ -10,12 +10,12 @@
       "description": "A string of all className you want applied to the component.",
       "name": "className",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+        "fileName": "packages/react/src/components/switch/Switch.tsx",
         "name": "SwitchProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+          "fileName": "packages/react/src/components/switch/Switch.tsx",
           "name": "SwitchProps"
         }
       ],
@@ -29,12 +29,12 @@
       "description": "Sets the color of the switch indicator to one of Chassis context colors.",
       "name": "color",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+        "fileName": "packages/react/src/components/switch/Switch.tsx",
         "name": "SwitchProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+          "fileName": "packages/react/src/components/switch/Switch.tsx",
           "name": "SwitchProps"
         }
       ],
@@ -84,12 +84,12 @@
       "description": "Whether the switch is selected, uncontrolled.",
       "name": "defaultSelected",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+        "fileName": "packages/react/src/components/switch/Switch.tsx",
         "name": "SwitchProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+          "fileName": "packages/react/src/components/switch/Switch.tsx",
           "name": "SwitchProps"
         }
       ],
@@ -103,12 +103,12 @@
       "description": "The id global attribute defines an identifier (ID) that must be unique in the whole document.",
       "name": "id",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+        "fileName": "packages/react/src/components/switch/Switch.tsx",
         "name": "SwitchProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+          "fileName": "packages/react/src/components/switch/Switch.tsx",
           "name": "SwitchProps"
         }
       ],
@@ -122,12 +122,12 @@
       "description": "Set component validation state to invalid.",
       "name": "invalid",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+        "fileName": "packages/react/src/components/switch/Switch.tsx",
         "name": "SwitchProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+          "fileName": "packages/react/src/components/switch/Switch.tsx",
           "name": "SwitchProps"
         }
       ],
@@ -141,12 +141,12 @@
       "description": "Whether the switch is selected, controlled.",
       "name": "isSelected",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+        "fileName": "packages/react/src/components/switch/Switch.tsx",
         "name": "SwitchProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+          "fileName": "packages/react/src/components/switch/Switch.tsx",
           "name": "SwitchProps"
         }
       ],
@@ -160,12 +160,12 @@
       "description": "The element represents a caption for a component.\n\nChildren are accepted as an alias for this prop — `label` wins when both are given.\nreact-aria, which backs this component, calls the same thing `children`; this package renames\nit to `label`, and honouring both means the shape React developers reach for first still\nnames the control instead of silently producing an unlabelled one.",
       "name": "label",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+        "fileName": "packages/react/src/components/switch/Switch.tsx",
         "name": "SwitchProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+          "fileName": "packages/react/src/components/switch/Switch.tsx",
           "name": "SwitchProps"
         }
       ],
@@ -179,12 +179,12 @@
       "description": "Callback fired when the selected state changes.",
       "name": "onChange",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+        "fileName": "packages/react/src/components/switch/Switch.tsx",
         "name": "SwitchProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+          "fileName": "packages/react/src/components/switch/Switch.tsx",
           "name": "SwitchProps"
         }
       ],
@@ -198,12 +198,12 @@
       "description": "Size the component sm or lg.",
       "name": "size",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+        "fileName": "packages/react/src/components/switch/Switch.tsx",
         "name": "SwitchProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+          "fileName": "packages/react/src/components/switch/Switch.tsx",
           "name": "SwitchProps"
         }
       ],
@@ -228,12 +228,12 @@
       "description": "Specifies the type of component.",
       "name": "type",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+        "fileName": "packages/react/src/components/switch/Switch.tsx",
         "name": "SwitchProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+          "fileName": "packages/react/src/components/switch/Switch.tsx",
           "name": "SwitchProps"
         }
       ],
@@ -256,12 +256,12 @@
       "description": "Set component validation state to valid.",
       "name": "valid",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+        "fileName": "packages/react/src/components/switch/Switch.tsx",
         "name": "SwitchProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/switch/Switch.tsx",
+          "fileName": "packages/react/src/components/switch/Switch.tsx",
           "name": "SwitchProps"
         }
       ],

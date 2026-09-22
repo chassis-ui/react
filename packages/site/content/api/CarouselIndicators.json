@@ -10,12 +10,12 @@
       "description": "A string of all className you want applied to the component.",
       "name": "className",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/carousel/CarouselIndicators.tsx",
+        "fileName": "packages/react/src/components/carousel/CarouselIndicators.tsx",
         "name": "CarouselIndicatorsProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/carousel/CarouselIndicators.tsx",
+          "fileName": "packages/react/src/components/carousel/CarouselIndicators.tsx",
           "name": "CarouselIndicatorsProps"
         }
       ],
@@ -31,12 +31,12 @@
       "description": "Accessible label for each indicator button. Receives the slide's 1-based position.",
       "name": "label",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/carousel/CarouselIndicators.tsx",
+        "fileName": "packages/react/src/components/carousel/CarouselIndicators.tsx",
         "name": "CarouselIndicatorsProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/carousel/CarouselIndicators.tsx",
+          "fileName": "packages/react/src/components/carousel/CarouselIndicators.tsx",
           "name": "CarouselIndicatorsProps"
         }
       ],

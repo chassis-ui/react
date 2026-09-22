@@ -10,12 +10,12 @@
       "description": "A string of all className you want applied to the component.",
       "name": "className",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/FormLabel.tsx",
+        "fileName": "packages/react/src/components/form/FormLabel.tsx",
         "name": "FormLabelProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/form/FormLabel.tsx",
+          "fileName": "packages/react/src/components/form/FormLabel.tsx",
           "name": "FormLabelProps"
         }
       ],
@@ -29,12 +29,12 @@
       "description": "A string of all className you want to be applied to the component, and override standard className value.",
       "name": "customClassName",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/form/FormLabel.tsx",
+        "fileName": "packages/react/src/components/form/FormLabel.tsx",
         "name": "FormLabelProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/form/FormLabel.tsx",
+          "fileName": "packages/react/src/components/form/FormLabel.tsx",
           "name": "FormLabelProps"
         }
       ],

@@ -23,14 +23,14 @@ import { Avatar, Badge, Button, Card, CardBody, CardHeader, CardTitle, Flex, Swi
 
 export default function Home() {
   return (
-    <main className="p-3xlarge">
-      <Flex direction="column" gap="xlarge">
+    <main className="p-3xl">
+      <Flex direction="column" gap="xl">
         <div>
           <h1>@chassis-ui/react Next.js App Router smoke test</h1>
           <p>See AGENTS.md in this directory -- not a real app.</p>
         </div>
 
-        <Flex wrap="wrap" align="center" gap="large">
+        <Flex wrap="wrap" align="center" gap="lg">
           <Badge color="primary">server-rendered badge</Badge>
           <Button>hook-using button (forwardRef)</Button>
           <Switch defaultSelected label="hook-using switch (react-aria useToggleState)" />

@@ -11,7 +11,7 @@
       "name": "className",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/card/CardText.tsx",
+          "fileName": "packages/react/src/components/card/CardText.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -26,7 +26,7 @@
       "name": "component",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/card/CardText.tsx",
+          "fileName": "packages/react/src/components/card/CardText.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -41,7 +41,7 @@
       "name": "ref",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/card/CardText.tsx",
+          "fileName": "packages/react/src/components/card/CardText.tsx",
           "name": "TypeLiteral"
         }
       ],

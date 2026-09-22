@@ -15,7 +15,7 @@ export const Example = () => {
               content. This content is a little bit longer.
             </CardText>
             <CardText className="mb-0">
-              <sm className="fg-subtle">Last updated 3 mins ago</sm>
+              <small className="fg-subtle">Last updated 3 mins ago</small>
             </CardText>
           </CardBody>
         </Col>

@@ -11,7 +11,7 @@
       "name": "className",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/badge/Badge.tsx",
+          "fileName": "packages/react/src/components/badge/Badge.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -26,7 +26,7 @@
       "name": "color",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/badge/Badge.tsx",
+          "fileName": "packages/react/src/components/badge/Badge.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -77,7 +77,7 @@
       "name": "variant",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/badge/Badge.tsx",
+          "fileName": "packages/react/src/components/badge/Badge.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -107,7 +107,7 @@
       "name": "component",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/badge/Badge.tsx",
+          "fileName": "packages/react/src/components/badge/Badge.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -122,7 +122,7 @@
       "name": "position",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/badge/Badge.tsx",
+          "fileName": "packages/react/src/components/badge/Badge.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -152,7 +152,7 @@
       "name": "circle",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/badge/Badge.tsx",
+          "fileName": "packages/react/src/components/badge/Badge.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -167,7 +167,7 @@
       "name": "size",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/badge/Badge.tsx",
+          "fileName": "packages/react/src/components/badge/Badge.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -194,7 +194,7 @@
       "name": "ref",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/badge/Badge.tsx",
+          "fileName": "packages/react/src/components/badge/Badge.tsx",
           "name": "TypeLiteral"
         }
       ],

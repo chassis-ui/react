@@ -10,12 +10,12 @@
       "description": "A string of all className you want applied to the base component.",
       "name": "className",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/grid/Col.tsx",
+        "fileName": "packages/react/src/components/grid/Col.tsx",
         "name": "ColProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/grid/Col.tsx",
+          "fileName": "packages/react/src/components/grid/Col.tsx",
           "name": "ColProps"
         }
       ],
@@ -29,12 +29,12 @@
       "description": "Overrides `span`/`offset`/`order` at a breakpoint and up.",
       "name": "responsive",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/grid/Col.tsx",
+        "fileName": "packages/react/src/components/grid/Col.tsx",
         "name": "ColProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/grid/Col.tsx",
+          "fileName": "packages/react/src/components/grid/Col.tsx",
           "name": "ColProps"
         }
       ],
@@ -48,12 +48,12 @@
       "description": "Columns (of 12) this Col spans, or `'auto'`/`true` for a natural-width column.",
       "name": "span",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/grid/Col.tsx",
+        "fileName": "packages/react/src/components/grid/Col.tsx",
         "name": "ColLayout"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/grid/Col.tsx",
+          "fileName": "packages/react/src/components/grid/Col.tsx",
           "name": "ColLayout"
         }
       ],
@@ -67,12 +67,12 @@
       "description": "Columns to offset the start of this Col by.",
       "name": "offset",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/grid/Col.tsx",
+        "fileName": "packages/react/src/components/grid/Col.tsx",
         "name": "ColLayout"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/grid/Col.tsx",
+          "fileName": "packages/react/src/components/grid/Col.tsx",
           "name": "ColLayout"
         }
       ],
@@ -86,12 +86,12 @@
       "description": "Visual order relative to sibling columns.",
       "name": "order",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/grid/Col.tsx",
+        "fileName": "packages/react/src/components/grid/Col.tsx",
         "name": "ColLayout"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/grid/Col.tsx",
+          "fileName": "packages/react/src/components/grid/Col.tsx",
           "name": "ColLayout"
         }
       ],

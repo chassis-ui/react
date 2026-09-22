@@ -10,12 +10,12 @@
       "description": "Whether the column allows sorting. Adds a sort indicator and makes the header\nclickable/keyboard-activatable.",
       "name": "allowsSorting",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridColumn.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGridColumn.tsx",
         "name": "DataGridColumnProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridColumn.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGridColumn.tsx",
           "name": "DataGridColumnProps"
         }
       ],
@@ -29,12 +29,12 @@
       "description": "Rendered contents of the column header.",
       "name": "children",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridColumn.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGridColumn.tsx",
         "name": "DataGridColumnProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridColumn.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGridColumn.tsx",
           "name": "DataGridColumnProps"
         }
       ],
@@ -48,12 +48,12 @@
       "description": "A string of all className you want applied to the column header.",
       "name": "className",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridColumn.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGridColumn.tsx",
         "name": "DataGridColumnProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridColumn.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGridColumn.tsx",
           "name": "DataGridColumnProps"
         }
       ],
@@ -67,12 +67,12 @@
       "description": "The initial width of the column, e.g. for a narrow selection/icon column — a plain number or\n`'<n>%'` for a fixed size, or `'<n>fr'` to share remaining space with other fractional\ncolumns in proportion (columns default to `'1fr'`, so they split space evenly unless given\none of these). Unlike `Table`, which sizes a narrow column via `width: 1%` relying on native\n`<table>` auto-layout, `DataGrid`'s virtualized layout computes every column's width itself —\na CSS `width` rule on the cell has no effect, so this prop is the only way to size a column.",
       "name": "defaultWidth",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridColumn.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGridColumn.tsx",
         "name": "DataGridColumnProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridColumn.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGridColumn.tsx",
           "name": "DataGridColumnProps"
         }
       ],
@@ -86,12 +86,12 @@
       "description": "The unique id of the column, referenced by `sortDescriptor.column`.",
       "name": "id",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridColumn.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGridColumn.tsx",
         "name": "DataGridColumnProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridColumn.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGridColumn.tsx",
           "name": "DataGridColumnProps"
         }
       ],
@@ -105,12 +105,12 @@
       "description": "Whether this column is a row header, announced by assistive technology during row\nnavigation.",
       "name": "isRowHeader",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridColumn.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGridColumn.tsx",
         "name": "DataGridColumnProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridColumn.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGridColumn.tsx",
           "name": "DataGridColumnProps"
         }
       ],
@@ -124,12 +124,12 @@
       "description": "The maximum width of the column, as a fixed pixel number or `'<n>%'`.",
       "name": "maxWidth",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridColumn.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGridColumn.tsx",
         "name": "DataGridColumnProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridColumn.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGridColumn.tsx",
           "name": "DataGridColumnProps"
         }
       ],
@@ -143,12 +143,12 @@
       "description": "The minimum width of the column, as a fixed pixel number or `'<n>%'`.",
       "name": "minWidth",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridColumn.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGridColumn.tsx",
         "name": "DataGridColumnProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridColumn.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGridColumn.tsx",
           "name": "DataGridColumnProps"
         }
       ],
@@ -162,12 +162,12 @@
       "description": "Pin the column so it stays visible while the grid scrolls horizontally: `'start'` pins it to\nthe leading edge, `'end'` to the trailing edge. Stacks correctly with other pinned columns on\nthe same side, in declaration order.",
       "name": "pin",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridColumn.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGridColumn.tsx",
         "name": "DataGridColumnProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridColumn.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGridColumn.tsx",
           "name": "DataGridColumnProps"
         }
       ],
@@ -190,12 +190,12 @@
       "description": "A string representation of the column header, used for accessibility announcements. Defaults\nto `children` when it's a plain string — set this explicitly when the header contains\nanything else (an icon, a `Tooltip`, etc.).",
       "name": "textValue",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridColumn.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGridColumn.tsx",
         "name": "DataGridColumnProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridColumn.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGridColumn.tsx",
           "name": "DataGridColumnProps"
         }
       ],

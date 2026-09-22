@@ -10,12 +10,12 @@
       "description": "Identifies the element that describes the group, e.g. a `FormHelp` help element.",
       "name": "aria-describedby",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
         "name": "OtpInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
           "name": "OtpInputProps"
         }
       ],
@@ -29,12 +29,12 @@
       "description": "An accessible label for the group, used when there's no visible `<label>`.",
       "name": "aria-label",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
         "name": "OtpInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
           "name": "OtpInputProps"
         }
       ],
@@ -48,12 +48,12 @@
       "description": "Identifies a visible `<label>` element for the group.",
       "name": "aria-labelledby",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
         "name": "OtpInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
           "name": "OtpInputProps"
         }
       ],
@@ -67,12 +67,12 @@
       "description": "A string of all className you want applied to the base component.",
       "name": "className",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
         "name": "OtpInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
           "name": "OtpInputProps"
         }
       ],
@@ -86,12 +86,12 @@
       "description": "The initial code (uncontrolled), e.g. `\"123\"` for a partially filled code.",
       "name": "defaultValue",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
         "name": "OtpInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
           "name": "OtpInputProps"
         }
       ],
@@ -105,12 +105,12 @@
       "description": "Prevents input and makes every box non-interactive.",
       "name": "disabled",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
         "name": "OtpInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
           "name": "OtpInputProps"
         }
       ],
@@ -124,12 +124,12 @@
       "description": "Splits the boxes into groups (e.g. `[3, 3]` for a \"123-456\" layout), rendering a\n`.form-otp-separator` between each group. The total number of boxes becomes the sum of\n`groupSizes`, overriding `length`.",
       "name": "groupSizes",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
         "name": "OtpInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
           "name": "OtpInputProps"
         }
       ],
@@ -143,12 +143,12 @@
       "description": "A description for the field, rendered below the boxes.",
       "name": "help",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
         "name": "OtpInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
           "name": "OtpInputProps"
         }
       ],
@@ -162,12 +162,12 @@
       "description": "`id` forwarded to the group container.",
       "name": "id",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
         "name": "OtpInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
           "name": "OtpInputProps"
         }
       ],
@@ -181,12 +181,12 @@
       "description": "Visually connects the boxes into a single bordered control. When `groupSizes` is set, each\ngroup is connected separately.",
       "name": "inputGroup",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
         "name": "OtpInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
           "name": "OtpInputProps"
         }
       ],
@@ -200,12 +200,12 @@
       "description": "Set component validation state to invalid.",
       "name": "invalid",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
         "name": "OtpInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
           "name": "OtpInputProps"
         }
       ],
@@ -219,12 +219,12 @@
       "description": "An error message for the field, rendered below the boxes when `invalid` is set.",
       "name": "invalidFeedback",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
         "name": "OtpInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
           "name": "OtpInputProps"
         }
       ],
@@ -238,12 +238,12 @@
       "description": "The field's caption, rendered as a `FormLabel` associated with the group via\n`aria-labelledby` (there's no single input to target with `htmlFor`).",
       "name": "label",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
         "name": "OtpInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
           "name": "OtpInputProps"
         }
       ],
@@ -259,12 +259,12 @@
       "description": "Number of digit boxes. Ignored when `groupSizes` is set. Defaults to `6`.",
       "name": "length",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
         "name": "OtpInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
           "name": "OtpInputProps"
         }
       ],
@@ -278,12 +278,12 @@
       "description": "Mask entered digits using `type=\"password\"` boxes.",
       "name": "mask",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
         "name": "OtpInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
           "name": "OtpInputProps"
         }
       ],
@@ -297,12 +297,12 @@
       "description": "`name` of an auto-created hidden input kept in sync with the code, for native form\nsubmission. Omit to skip creating it.",
       "name": "name",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
         "name": "OtpInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
           "name": "OtpInputProps"
         }
       ],
@@ -316,12 +316,12 @@
       "description": "Callback fired whenever the code changes.",
       "name": "onChange",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
         "name": "OtpInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
           "name": "OtpInputProps"
         }
       ],
@@ -335,12 +335,12 @@
       "description": "Callback fired once every box is filled.",
       "name": "onComplete",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
         "name": "OtpInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
           "name": "OtpInputProps"
         }
       ],
@@ -356,12 +356,12 @@
       "description": "Content of the separator rendered between groups when `groupSizes` is set. Defaults to `–`.",
       "name": "separator",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
         "name": "OtpInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
           "name": "OtpInputProps"
         }
       ],
@@ -375,12 +375,12 @@
       "description": "Size the boxes sm or lg.",
       "name": "size",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
         "name": "OtpInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
           "name": "OtpInputProps"
         }
       ],
@@ -403,12 +403,12 @@
       "description": "Set component validation state to valid.",
       "name": "valid",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
         "name": "OtpInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
           "name": "OtpInputProps"
         }
       ],
@@ -422,12 +422,12 @@
       "description": "A success message for the field, rendered below the boxes when `valid` is set.",
       "name": "validFeedback",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
         "name": "OtpInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
           "name": "OtpInputProps"
         }
       ],
@@ -441,12 +441,12 @@
       "description": "The code (controlled), digits only, e.g. `\"123456\"`.",
       "name": "value",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+        "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
         "name": "OtpInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/otp-input/OtpInput.tsx",
+          "fileName": "packages/react/src/components/otp-input/OtpInput.tsx",
           "name": "OtpInputProps"
         }
       ],

@@ -10,12 +10,12 @@
       "description": "A string of all className you want applied to the component.",
       "name": "className",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/carousel/CarouselPlayPause.tsx",
+        "fileName": "packages/react/src/components/carousel/CarouselPlayPause.tsx",
         "name": "CarouselPlayPauseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/carousel/CarouselPlayPause.tsx",
+          "fileName": "packages/react/src/components/carousel/CarouselPlayPause.tsx",
           "name": "CarouselPlayPauseProps"
         }
       ],
@@ -31,12 +31,12 @@
       "description": "The accessible label announced while autoplay is running.",
       "name": "pauseLabel",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/carousel/CarouselPlayPause.tsx",
+        "fileName": "packages/react/src/components/carousel/CarouselPlayPause.tsx",
         "name": "CarouselPlayPauseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/carousel/CarouselPlayPause.tsx",
+          "fileName": "packages/react/src/components/carousel/CarouselPlayPause.tsx",
           "name": "CarouselPlayPauseProps"
         }
       ],
@@ -52,12 +52,12 @@
       "description": "The accessible label announced while autoplay is stopped.",
       "name": "playLabel",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/carousel/CarouselPlayPause.tsx",
+        "fileName": "packages/react/src/components/carousel/CarouselPlayPause.tsx",
         "name": "CarouselPlayPauseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/carousel/CarouselPlayPause.tsx",
+          "fileName": "packages/react/src/components/carousel/CarouselPlayPause.tsx",
           "name": "CarouselPlayPauseProps"
         }
       ],

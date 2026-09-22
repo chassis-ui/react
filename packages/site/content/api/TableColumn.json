@@ -10,12 +10,12 @@
       "description": "Whether the column allows sorting. Adds a sort indicator and makes the header\nclickable/keyboard-activatable.",
       "name": "allowsSorting",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/table/TableColumn.tsx",
+        "fileName": "packages/react/src/components/table/TableColumn.tsx",
         "name": "TableColumnProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/table/TableColumn.tsx",
+          "fileName": "packages/react/src/components/table/TableColumn.tsx",
           "name": "TableColumnProps"
         }
       ],
@@ -29,12 +29,12 @@
       "description": "Rendered contents of the column header.",
       "name": "children",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/table/TableColumn.tsx",
+        "fileName": "packages/react/src/components/table/TableColumn.tsx",
         "name": "TableColumnProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/table/TableColumn.tsx",
+          "fileName": "packages/react/src/components/table/TableColumn.tsx",
           "name": "TableColumnProps"
         }
       ],
@@ -48,12 +48,12 @@
       "description": "A string of all className you want applied to the column header.",
       "name": "className",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/table/TableColumn.tsx",
+        "fileName": "packages/react/src/components/table/TableColumn.tsx",
         "name": "TableColumnProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/table/TableColumn.tsx",
+          "fileName": "packages/react/src/components/table/TableColumn.tsx",
           "name": "TableColumnProps"
         }
       ],
@@ -67,12 +67,12 @@
       "description": "A string representation of the column header, used for accessibility announcements and,\nwhen `Table`'s `stacked` prop is set, as the label shown before each row's value for this\ncolumn. Defaults to `children` when it's a plain string — set this explicitly when the\nheader contains anything else (an icon, a `Tooltip`, etc.).",
       "name": "textValue",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/table/TableColumn.tsx",
+        "fileName": "packages/react/src/components/table/TableColumn.tsx",
         "name": "TableColumnProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/table/TableColumn.tsx",
+          "fileName": "packages/react/src/components/table/TableColumn.tsx",
           "name": "TableColumnProps"
         }
       ],

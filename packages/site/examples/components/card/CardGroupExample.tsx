@@ -13,7 +13,7 @@ export const Example = () => {
               content. This content is a little bit longer.
             </CardText>
             <CardText>
-              <sm className="fg-subtle">Last updated 3 mins ago</sm>
+              <small className="fg-subtle">Last updated 3 mins ago</small>
             </CardText>
           </CardBody>
         </Card>
@@ -25,7 +25,7 @@ export const Example = () => {
               This card has supporting text below as a natural lead-in to additional content.
             </CardText>
             <CardText>
-              <sm className="fg-subtle">Last updated 3 mins ago</sm>
+              <small className="fg-subtle">Last updated 3 mins ago</small>
             </CardText>
           </CardBody>
         </Card>
@@ -39,7 +39,7 @@ export const Example = () => {
               action.
             </CardText>
             <CardText>
-              <sm className="fg-subtle">Last updated 3 mins ago</sm>
+              <small className="fg-subtle">Last updated 3 mins ago</small>
             </CardText>
           </CardBody>
         </Card>

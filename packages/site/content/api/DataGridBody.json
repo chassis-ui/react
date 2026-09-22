@@ -10,12 +10,12 @@
       "description": "A string of all className you want applied to the body row group.",
       "name": "className",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridBody.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGridBody.tsx",
         "name": "DataGridBodyOwnProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridBody.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGridBody.tsx",
           "name": "DataGridBodyOwnProps"
         }
       ],
@@ -29,12 +29,12 @@
       "description": "Values that should invalidate the row cache when using the `items`/render-function form of\n`children` — e.g. a value from outside `items` that the render function reads. Without this,\nchanging that outside value won't re-render already-cached rows, since dynamic rows are only\nrebuilt when `items` or `dependencies` change by reference, not on every parent re-render.",
       "name": "dependencies",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridBody.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGridBody.tsx",
         "name": "DataGridBodyOwnProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridBody.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGridBody.tsx",
           "name": "DataGridBodyOwnProps"
         }
       ],
@@ -48,12 +48,12 @@
       "description": "Content shown in place of rows when `items` is empty.",
       "name": "renderEmptyState",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridBody.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGridBody.tsx",
         "name": "DataGridBodyOwnProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridBody.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGridBody.tsx",
           "name": "DataGridBodyOwnProps"
         }
       ],
@@ -67,16 +67,16 @@
       "description": "`DataGridRow` elements.\nA render function called once per item in `items`, returning that row's `DataGridRow`.",
       "name": "children",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridBody.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGridBody.tsx",
         "name": "DataGridBodyStaticProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridBody.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGridBody.tsx",
           "name": "DataGridBodyStaticProps"
         },
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridBody.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGridBody.tsx",
           "name": "DataGridBodyDynamicProps"
         }
       ],
@@ -90,16 +90,16 @@
       "description": "Whether more items are currently being fetched. Shows `loadingContent` in the loader row while\ntrue, and — until this goes back to `false` — suppresses further `onLoadMore` calls, so one\nscroll-into-view doesn't fire the callback again before the in-flight fetch resolves.",
       "name": "isLoading",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridBody.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGridBody.tsx",
         "name": "DataGridBodyStaticProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridBody.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGridBody.tsx",
           "name": "DataGridBodyStaticProps"
         },
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridBody.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGridBody.tsx",
           "name": "DataGridBodyDynamicProps"
         }
       ],
@@ -113,16 +113,16 @@
       "description": "A list of row data objects, rendered via the function form of `children`.",
       "name": "items",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridBody.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGridBody.tsx",
         "name": "DataGridBodyStaticProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridBody.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGridBody.tsx",
           "name": "DataGridBodyStaticProps"
         },
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridBody.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGridBody.tsx",
           "name": "DataGridBodyDynamicProps"
         }
       ],
@@ -136,16 +136,16 @@
       "description": "Content rendered inside the loader row while `isLoading` is true, e.g. a spinner. Only takes\neffect alongside `onLoadMore`.",
       "name": "loadingContent",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridBody.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGridBody.tsx",
         "name": "DataGridBodyStaticProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridBody.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGridBody.tsx",
           "name": "DataGridBodyStaticProps"
         },
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridBody.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGridBody.tsx",
           "name": "DataGridBodyDynamicProps"
         }
       ],
@@ -159,16 +159,16 @@
       "description": "Called when the grid scrolls near its last row, so more data can be fetched and appended to\n`items`. Pair with `isLoading` so a fetch already in flight isn't triggered again before it\nresolves.",
       "name": "onLoadMore",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridBody.tsx",
+        "fileName": "packages/react/src/components/datagrid/DataGridBody.tsx",
         "name": "DataGridBodyStaticProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridBody.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGridBody.tsx",
           "name": "DataGridBodyStaticProps"
         },
         {
-          "fileName": "chassis-react/packages/react/src/components/datagrid/DataGridBody.tsx",
+          "fileName": "packages/react/src/components/datagrid/DataGridBody.tsx",
           "name": "DataGridBodyDynamicProps"
         }
       ],

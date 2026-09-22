@@ -10,12 +10,12 @@
       "description": "Number of grid column tracks (of the parent `<Grid>`'s `columns`) this item spans, mapped to\nthe `g-col-{n}` class.",
       "name": "span",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/grid/GridItem.tsx",
+        "fileName": "packages/react/src/components/grid/GridItem.tsx",
         "name": "GridItemLayout"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/grid/GridItem.tsx",
+          "fileName": "packages/react/src/components/grid/GridItem.tsx",
           "name": "GridItemLayout"
         }
       ],
@@ -29,12 +29,12 @@
       "description": "Grid column line to start this item at, mapped to the `g-start-{n}` class.",
       "name": "start",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/grid/GridItem.tsx",
+        "fileName": "packages/react/src/components/grid/GridItem.tsx",
         "name": "GridItemLayout"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/grid/GridItem.tsx",
+          "fileName": "packages/react/src/components/grid/GridItem.tsx",
           "name": "GridItemLayout"
         }
       ],
@@ -49,7 +49,7 @@
       "name": "className",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/grid/GridItem.tsx",
+          "fileName": "packages/react/src/components/grid/GridItem.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -64,7 +64,7 @@
       "name": "component",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/grid/GridItem.tsx",
+          "fileName": "packages/react/src/components/grid/GridItem.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -79,7 +79,7 @@
       "name": "responsive",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/grid/GridItem.tsx",
+          "fileName": "packages/react/src/components/grid/GridItem.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -94,7 +94,7 @@
       "name": "subgrid",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/grid/GridItem.tsx",
+          "fileName": "packages/react/src/components/grid/GridItem.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -109,7 +109,7 @@
       "name": "rows",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/grid/GridItem.tsx",
+          "fileName": "packages/react/src/components/grid/GridItem.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -124,7 +124,7 @@
       "name": "gap",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/grid/GridItem.tsx",
+          "fileName": "packages/react/src/components/grid/GridItem.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -139,7 +139,7 @@
       "name": "ref",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/grid/GridItem.tsx",
+          "fileName": "packages/react/src/components/grid/GridItem.tsx",
           "name": "TypeLiteral"
         }
       ],

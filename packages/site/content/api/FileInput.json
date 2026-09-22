@@ -10,12 +10,12 @@
       "description": "A string of all className you want applied to the component.",
       "name": "className",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/file-input/FileInput.tsx",
+        "fileName": "packages/react/src/components/file-input/FileInput.tsx",
         "name": "FileInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/file-input/FileInput.tsx",
+          "fileName": "packages/react/src/components/file-input/FileInput.tsx",
           "name": "FileInputProps"
         }
       ],
@@ -29,12 +29,12 @@
       "description": "Toggle the disabled state for the component.",
       "name": "disabled",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/file-input/FileInput.tsx",
+        "fileName": "packages/react/src/components/file-input/FileInput.tsx",
         "name": "FileInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/file-input/FileInput.tsx",
+          "fileName": "packages/react/src/components/file-input/FileInput.tsx",
           "name": "FileInputProps"
         }
       ],
@@ -48,12 +48,12 @@
       "description": "A description for the field, rendered below the input.",
       "name": "help",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/file-input/FileInput.tsx",
+        "fileName": "packages/react/src/components/file-input/FileInput.tsx",
         "name": "FileInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/file-input/FileInput.tsx",
+          "fileName": "packages/react/src/components/file-input/FileInput.tsx",
           "name": "FileInputProps"
         }
       ],
@@ -67,12 +67,12 @@
       "description": "Set component validation state to invalid.",
       "name": "invalid",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/file-input/FileInput.tsx",
+        "fileName": "packages/react/src/components/file-input/FileInput.tsx",
         "name": "FileInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/file-input/FileInput.tsx",
+          "fileName": "packages/react/src/components/file-input/FileInput.tsx",
           "name": "FileInputProps"
         }
       ],
@@ -86,12 +86,12 @@
       "description": "An error message for the field, rendered below the input when `invalid` is set.",
       "name": "invalidFeedback",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/file-input/FileInput.tsx",
+        "fileName": "packages/react/src/components/file-input/FileInput.tsx",
         "name": "FileInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/file-input/FileInput.tsx",
+          "fileName": "packages/react/src/components/file-input/FileInput.tsx",
           "name": "FileInputProps"
         }
       ],
@@ -105,12 +105,12 @@
       "description": "The field's caption, rendered as a `FormLabel` associated with this input.",
       "name": "label",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/file-input/FileInput.tsx",
+        "fileName": "packages/react/src/components/file-input/FileInput.tsx",
         "name": "FileInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/file-input/FileInput.tsx",
+          "fileName": "packages/react/src/components/file-input/FileInput.tsx",
           "name": "FileInputProps"
         }
       ],
@@ -124,12 +124,12 @@
       "description": "Allows selecting more than one file.",
       "name": "multiple",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/file-input/FileInput.tsx",
+        "fileName": "packages/react/src/components/file-input/FileInput.tsx",
         "name": "FileInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/file-input/FileInput.tsx",
+          "fileName": "packages/react/src/components/file-input/FileInput.tsx",
           "name": "FileInputProps"
         }
       ],
@@ -143,12 +143,12 @@
       "description": "Method called when the selected file(s) change.",
       "name": "onChange",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/file-input/FileInput.tsx",
+        "fileName": "packages/react/src/components/file-input/FileInput.tsx",
         "name": "FileInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/file-input/FileInput.tsx",
+          "fileName": "packages/react/src/components/file-input/FileInput.tsx",
           "name": "FileInputProps"
         }
       ],
@@ -162,12 +162,12 @@
       "description": "Size the component sm or lg.",
       "name": "size",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/file-input/FileInput.tsx",
+        "fileName": "packages/react/src/components/file-input/FileInput.tsx",
         "name": "FileInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/file-input/FileInput.tsx",
+          "fileName": "packages/react/src/components/file-input/FileInput.tsx",
           "name": "FileInputProps"
         }
       ],
@@ -190,12 +190,12 @@
       "description": "Set component validation state to valid.",
       "name": "valid",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/file-input/FileInput.tsx",
+        "fileName": "packages/react/src/components/file-input/FileInput.tsx",
         "name": "FileInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/file-input/FileInput.tsx",
+          "fileName": "packages/react/src/components/file-input/FileInput.tsx",
           "name": "FileInputProps"
         }
       ],
@@ -209,12 +209,12 @@
       "description": "A success message for the field, rendered below the input when `valid` is set.",
       "name": "validFeedback",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/file-input/FileInput.tsx",
+        "fileName": "packages/react/src/components/file-input/FileInput.tsx",
         "name": "FileInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/file-input/FileInput.tsx",
+          "fileName": "packages/react/src/components/file-input/FileInput.tsx",
           "name": "FileInputProps"
         }
       ],

@@ -10,16 +10,16 @@
       "description": "The initial selected date (uncontrolled).\nThe initial selected dates (uncontrolled).",
       "name": "defaultValue",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+        "fileName": "packages/react/src/components/calendar/Calendar.tsx",
         "name": "CalendarSingleProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+          "fileName": "packages/react/src/components/calendar/Calendar.tsx",
           "name": "CalendarSingleProps"
         },
         {
-          "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+          "fileName": "packages/react/src/components/calendar/Calendar.tsx",
           "name": "CalendarMultipleProps"
         }
       ],
@@ -33,16 +33,16 @@
       "description": "Callback fired when the selected date changes. Unlike `DatePicker`'s `onChange` (whose\nsegmented field can be cleared to `null`), a calendar selection is always a concrete date.\nCallback fired when the set of selected dates changes.",
       "name": "onChange",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+        "fileName": "packages/react/src/components/calendar/Calendar.tsx",
         "name": "CalendarSingleProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+          "fileName": "packages/react/src/components/calendar/Calendar.tsx",
           "name": "CalendarSingleProps"
         },
         {
-          "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+          "fileName": "packages/react/src/components/calendar/Calendar.tsx",
           "name": "CalendarMultipleProps"
         }
       ],
@@ -58,16 +58,16 @@
       "description": "Whether a single date or multiple, independently toggled dates can be selected.",
       "name": "selectionMode",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+        "fileName": "packages/react/src/components/calendar/Calendar.tsx",
         "name": "CalendarSingleProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+          "fileName": "packages/react/src/components/calendar/Calendar.tsx",
           "name": "CalendarSingleProps"
         },
         {
-          "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+          "fileName": "packages/react/src/components/calendar/Calendar.tsx",
           "name": "CalendarMultipleProps"
         }
       ],
@@ -90,16 +90,16 @@
       "description": "The selected date (controlled).\nThe selected dates (controlled).",
       "name": "value",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+        "fileName": "packages/react/src/components/calendar/Calendar.tsx",
         "name": "CalendarSingleProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+          "fileName": "packages/react/src/components/calendar/Calendar.tsx",
           "name": "CalendarSingleProps"
         },
         {
-          "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+          "fileName": "packages/react/src/components/calendar/Calendar.tsx",
           "name": "CalendarMultipleProps"
         }
       ],
@@ -113,12 +113,12 @@
       "description": "An accessible label for the calendar, used when there's no visible label. Required for\nstandalone use — a calendar grid has no other accessible name of its own.",
       "name": "aria-label",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+        "fileName": "packages/react/src/components/calendar/Calendar.tsx",
         "name": "CalendarBaseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+          "fileName": "packages/react/src/components/calendar/Calendar.tsx",
           "name": "CalendarBaseProps"
         }
       ],
@@ -132,12 +132,12 @@
       "description": "Identifies a visible label element for the calendar.",
       "name": "aria-labelledby",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+        "fileName": "packages/react/src/components/calendar/Calendar.tsx",
         "name": "CalendarBaseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+          "fileName": "packages/react/src/components/calendar/Calendar.tsx",
           "name": "CalendarBaseProps"
         }
       ],
@@ -151,12 +151,12 @@
       "description": "Whether to automatically focus the calendar when it mounts.",
       "name": "autoFocus",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+        "fileName": "packages/react/src/components/calendar/Calendar.tsx",
         "name": "CalendarBaseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+          "fileName": "packages/react/src/components/calendar/Calendar.tsx",
           "name": "CalendarBaseProps"
         }
       ],
@@ -170,12 +170,12 @@
       "description": "A string of all className you want applied to the base component.",
       "name": "className",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+        "fileName": "packages/react/src/components/calendar/Calendar.tsx",
         "name": "CalendarBaseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+          "fileName": "packages/react/src/components/calendar/Calendar.tsx",
           "name": "CalendarBaseProps"
         }
       ],
@@ -189,12 +189,12 @@
       "description": "Prevents the calendar from being focused or interacted with.",
       "name": "disabled",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+        "fileName": "packages/react/src/components/calendar/Calendar.tsx",
         "name": "CalendarBaseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+          "fileName": "packages/react/src/components/calendar/Calendar.tsx",
           "name": "CalendarBaseProps"
         }
       ],
@@ -210,12 +210,12 @@
       "description": "The day that starts the week, overriding the default set by the active locale.",
       "name": "firstDayOfWeek",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+        "fileName": "packages/react/src/components/calendar/Calendar.tsx",
         "name": "CalendarBaseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+          "fileName": "packages/react/src/components/calendar/Calendar.tsx",
           "name": "CalendarBaseProps"
         }
       ],
@@ -253,12 +253,12 @@
       "description": "Callback that is called for each date in the calendar. If it returns `true`, that date is\nshown but cannot be selected.",
       "name": "isDateUnavailable",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+        "fileName": "packages/react/src/components/calendar/Calendar.tsx",
         "name": "CalendarBaseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+          "fileName": "packages/react/src/components/calendar/Calendar.tsx",
           "name": "CalendarBaseProps"
         }
       ],
@@ -272,12 +272,12 @@
       "description": "Overrides for the handful of strings this component renders itself rather than getting from\nthe active locale (the year view's paging arrows, its live-region announcements, and the\nmonth/year header buttons). Everything else — month and weekday names, the calendar system —\nfollows `I18nProvider`'s locale via react-aria and needs no override. Merged over the English\ndefaults, so passing one key leaves the rest alone.",
       "name": "labels",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+        "fileName": "packages/react/src/components/calendar/Calendar.tsx",
         "name": "CalendarBaseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+          "fileName": "packages/react/src/components/calendar/Calendar.tsx",
           "name": "CalendarBaseProps"
         }
       ],
@@ -291,12 +291,12 @@
       "description": "The maximum allowed date that a user may select.",
       "name": "maxValue",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+        "fileName": "packages/react/src/components/calendar/Calendar.tsx",
         "name": "CalendarBaseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+          "fileName": "packages/react/src/components/calendar/Calendar.tsx",
           "name": "CalendarBaseProps"
         }
       ],
@@ -310,12 +310,12 @@
       "description": "The minimum allowed date that a user may select.",
       "name": "minValue",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+        "fileName": "packages/react/src/components/calendar/Calendar.tsx",
         "name": "CalendarBaseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+          "fileName": "packages/react/src/components/calendar/Calendar.tsx",
           "name": "CalendarBaseProps"
         }
       ],
@@ -329,12 +329,12 @@
       "description": "ISO 8601 dates (`YYYY-MM-DD`) to mark unselectable, as a convenience alternative to\n`isDateUnavailable` for data-driven cases (e.g. booked dates fetched from an API). Composed\nwith `isDateUnavailable` when both are given — a date unavailable by either is unavailable.",
       "name": "unavailableDates",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+        "fileName": "packages/react/src/components/calendar/Calendar.tsx",
         "name": "CalendarBaseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+          "fileName": "packages/react/src/components/calendar/Calendar.tsx",
           "name": "CalendarBaseProps"
         }
       ],
@@ -350,12 +350,12 @@
       "description": "Number of months to display side by side, sharing one selection. Wraps to multiple rows in\na narrow container (e.g. a popover on a sm screen) rather than overflowing — the wrap is\ndriven by the calendar's own width, not the viewport, so it adapts correctly regardless of\nwhere the calendar is embedded.",
       "name": "visibleMonths",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+        "fileName": "packages/react/src/components/calendar/Calendar.tsx",
         "name": "CalendarBaseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/calendar/Calendar.tsx",
+          "fileName": "packages/react/src/components/calendar/Calendar.tsx",
           "name": "CalendarBaseProps"
         }
       ],

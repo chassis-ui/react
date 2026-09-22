@@ -10,12 +10,12 @@
       "description": "A string of all className you want applied to the base component.",
       "name": "className",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
+        "fileName": "packages/react/src/components/grid/Row.tsx",
         "name": "RowProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
+          "fileName": "packages/react/src/components/grid/Row.tsx",
           "name": "RowProps"
         }
       ],
@@ -29,12 +29,12 @@
       "description": "Overrides `cols`/`gutter`/`gutterX`/`gutterY` at a breakpoint and up.",
       "name": "responsive",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
+        "fileName": "packages/react/src/components/grid/Row.tsx",
         "name": "RowProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
+          "fileName": "packages/react/src/components/grid/Row.tsx",
           "name": "RowProps"
         }
       ],
@@ -48,12 +48,12 @@
       "description": "Equal-width columns per row, or `'auto'` for content-sized columns.",
       "name": "cols",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
+        "fileName": "packages/react/src/components/grid/Row.tsx",
         "name": "RowLayout"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
+          "fileName": "packages/react/src/components/grid/Row.tsx",
           "name": "RowLayout"
         }
       ],
@@ -67,12 +67,12 @@
       "description": "Gutter width on both axes.",
       "name": "gutter",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
+        "fileName": "packages/react/src/components/grid/Row.tsx",
         "name": "RowLayout"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
+          "fileName": "packages/react/src/components/grid/Row.tsx",
           "name": "RowLayout"
         }
       ],
@@ -86,12 +86,12 @@
       "description": "Horizontal gutter width.",
       "name": "gutterX",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
+        "fileName": "packages/react/src/components/grid/Row.tsx",
         "name": "RowLayout"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
+          "fileName": "packages/react/src/components/grid/Row.tsx",
           "name": "RowLayout"
         }
       ],
@@ -105,12 +105,12 @@
       "description": "Vertical gutter width.",
       "name": "gutterY",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
+        "fileName": "packages/react/src/components/grid/Row.tsx",
         "name": "RowLayout"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/grid/Row.tsx",
+          "fileName": "packages/react/src/components/grid/Row.tsx",
           "name": "RowLayout"
         }
       ],

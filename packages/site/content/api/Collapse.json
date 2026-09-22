@@ -10,12 +10,12 @@
       "description": "A string of all className you want applied to the base component.",
       "name": "className",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/collapse/Collapse.tsx",
+        "fileName": "packages/react/src/components/collapse/Collapse.tsx",
         "name": "CollapseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/collapse/Collapse.tsx",
+          "fileName": "packages/react/src/components/collapse/Collapse.tsx",
           "name": "CollapseProps"
         }
       ],
@@ -29,12 +29,12 @@
       "description": "Set horizontal collapsing to transition the width instead of height.",
       "name": "horizontal",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/collapse/Collapse.tsx",
+        "fileName": "packages/react/src/components/collapse/Collapse.tsx",
         "name": "CollapseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/collapse/Collapse.tsx",
+          "fileName": "packages/react/src/components/collapse/Collapse.tsx",
           "name": "CollapseProps"
         }
       ],
@@ -48,12 +48,12 @@
       "description": "Callback fired when the component requests to be hidden.",
       "name": "onHide",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/collapse/Collapse.tsx",
+        "fileName": "packages/react/src/components/collapse/Collapse.tsx",
         "name": "CollapseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/collapse/Collapse.tsx",
+          "fileName": "packages/react/src/components/collapse/Collapse.tsx",
           "name": "CollapseProps"
         }
       ],
@@ -67,12 +67,12 @@
       "description": "Callback fired when the component requests to be shown.",
       "name": "onShow",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/collapse/Collapse.tsx",
+        "fileName": "packages/react/src/components/collapse/Collapse.tsx",
         "name": "CollapseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/collapse/Collapse.tsx",
+          "fileName": "packages/react/src/components/collapse/Collapse.tsx",
           "name": "CollapseProps"
         }
       ],
@@ -86,12 +86,12 @@
       "description": "Toggle the visibility of component.",
       "name": "visible",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/collapse/Collapse.tsx",
+        "fileName": "packages/react/src/components/collapse/Collapse.tsx",
         "name": "CollapseProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/collapse/Collapse.tsx",
+          "fileName": "packages/react/src/components/collapse/Collapse.tsx",
           "name": "CollapseProps"
         }
       ],

@@ -10,12 +10,12 @@
       "description": "Sets `flex-direction`. Omit for the browser default (`row`).",
       "name": "direction",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+        "fileName": "packages/react/src/components/flex/Flex.tsx",
         "name": "FlexLayout"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+          "fileName": "packages/react/src/components/flex/Flex.tsx",
           "name": "FlexLayout"
         }
       ],
@@ -44,12 +44,12 @@
       "description": "Sets `flex-wrap`. Omit for the browser default (`nowrap`).",
       "name": "wrap",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+        "fileName": "packages/react/src/components/flex/Flex.tsx",
         "name": "FlexLayout"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+          "fileName": "packages/react/src/components/flex/Flex.tsx",
           "name": "FlexLayout"
         }
       ],
@@ -75,12 +75,12 @@
       "description": "Sets `justify-content`, aligning items along the main axis.",
       "name": "justify",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+        "fileName": "packages/react/src/components/flex/Flex.tsx",
         "name": "FlexLayout"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+          "fileName": "packages/react/src/components/flex/Flex.tsx",
           "name": "FlexLayout"
         }
       ],
@@ -115,12 +115,12 @@
       "description": "Sets `align-items`, aligning items along the cross axis.",
       "name": "align",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+        "fileName": "packages/react/src/components/flex/Flex.tsx",
         "name": "FlexLayout"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+          "fileName": "packages/react/src/components/flex/Flex.tsx",
           "name": "FlexLayout"
         }
       ],
@@ -152,12 +152,12 @@
       "description": "Sets `align-content`, distributing wrapped lines along the cross axis. Has no effect on\nsingle-line (non-wrapping) containers.",
       "name": "alignContent",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+        "fileName": "packages/react/src/components/flex/Flex.tsx",
         "name": "FlexLayout"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+          "fileName": "packages/react/src/components/flex/Flex.tsx",
           "name": "FlexLayout"
         }
       ],
@@ -192,12 +192,12 @@
       "description": "Spacing between children on both axes, mapped to the `gap-*` utility classes. Overridden per\naxis by `rowGap`/`columnGap` where set.",
       "name": "gap",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+        "fileName": "packages/react/src/components/flex/Flex.tsx",
         "name": "FlexLayout"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+          "fileName": "packages/react/src/components/flex/Flex.tsx",
           "name": "FlexLayout"
         }
       ],
@@ -259,12 +259,12 @@
       "description": "Spacing between rows (the cross axis when wrapped), mapped to the `row-gap-*` utility\nclasses. Independent of `gap`/`columnGap`.",
       "name": "rowGap",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+        "fileName": "packages/react/src/components/flex/Flex.tsx",
         "name": "FlexLayout"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+          "fileName": "packages/react/src/components/flex/Flex.tsx",
           "name": "FlexLayout"
         }
       ],
@@ -326,12 +326,12 @@
       "description": "Spacing between columns (the main axis), mapped to the `column-gap-*` utility classes.\nIndependent of `gap`/`rowGap`.",
       "name": "columnGap",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+        "fileName": "packages/react/src/components/flex/Flex.tsx",
         "name": "FlexLayout"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+          "fileName": "packages/react/src/components/flex/Flex.tsx",
           "name": "FlexLayout"
         }
       ],
@@ -394,7 +394,7 @@
       "name": "className",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+          "fileName": "packages/react/src/components/flex/Flex.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -409,7 +409,7 @@
       "name": "component",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+          "fileName": "packages/react/src/components/flex/Flex.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -424,7 +424,7 @@
       "name": "inline",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+          "fileName": "packages/react/src/components/flex/Flex.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -439,7 +439,7 @@
       "name": "responsive",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+          "fileName": "packages/react/src/components/flex/Flex.tsx",
           "name": "TypeLiteral"
         }
       ],
@@ -454,7 +454,7 @@
       "name": "ref",
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/flex/Flex.tsx",
+          "fileName": "packages/react/src/components/flex/Flex.tsx",
           "name": "TypeLiteral"
         }
       ],

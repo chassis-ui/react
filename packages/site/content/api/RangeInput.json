@@ -10,12 +10,12 @@
       "description": "A string of all className you want applied to the component.",
       "name": "className",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/range-input/RangeInput.tsx",
+        "fileName": "packages/react/src/components/range-input/RangeInput.tsx",
         "name": "RangeInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/range-input/RangeInput.tsx",
+          "fileName": "packages/react/src/components/range-input/RangeInput.tsx",
           "name": "RangeInputProps"
         }
       ],
@@ -29,12 +29,12 @@
       "description": "Toggle the disabled state for the component.",
       "name": "disabled",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/range-input/RangeInput.tsx",
+        "fileName": "packages/react/src/components/range-input/RangeInput.tsx",
         "name": "RangeInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/range-input/RangeInput.tsx",
+          "fileName": "packages/react/src/components/range-input/RangeInput.tsx",
           "name": "RangeInputProps"
         }
       ],
@@ -48,12 +48,12 @@
       "description": "A description for the field, rendered below the range input.",
       "name": "help",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/range-input/RangeInput.tsx",
+        "fileName": "packages/react/src/components/range-input/RangeInput.tsx",
         "name": "RangeInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/range-input/RangeInput.tsx",
+          "fileName": "packages/react/src/components/range-input/RangeInput.tsx",
           "name": "RangeInputProps"
         }
       ],
@@ -67,12 +67,12 @@
       "description": "Set component validation state to invalid.",
       "name": "invalid",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/range-input/RangeInput.tsx",
+        "fileName": "packages/react/src/components/range-input/RangeInput.tsx",
         "name": "RangeInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/range-input/RangeInput.tsx",
+          "fileName": "packages/react/src/components/range-input/RangeInput.tsx",
           "name": "RangeInputProps"
         }
       ],
@@ -86,12 +86,12 @@
       "description": "An error message for the field, rendered below the range input when `invalid` is set.",
       "name": "invalidFeedback",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/range-input/RangeInput.tsx",
+        "fileName": "packages/react/src/components/range-input/RangeInput.tsx",
         "name": "RangeInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/range-input/RangeInput.tsx",
+          "fileName": "packages/react/src/components/range-input/RangeInput.tsx",
           "name": "RangeInputProps"
         }
       ],
@@ -105,12 +105,12 @@
       "description": "The field's caption, rendered as a `FormLabel` associated with this range input.",
       "name": "label",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/range-input/RangeInput.tsx",
+        "fileName": "packages/react/src/components/range-input/RangeInput.tsx",
         "name": "RangeInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/range-input/RangeInput.tsx",
+          "fileName": "packages/react/src/components/range-input/RangeInput.tsx",
           "name": "RangeInputProps"
         }
       ],
@@ -124,12 +124,12 @@
       "description": "Specifies the maximum value for the component.",
       "name": "max",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/range-input/RangeInput.tsx",
+        "fileName": "packages/react/src/components/range-input/RangeInput.tsx",
         "name": "RangeInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/range-input/RangeInput.tsx",
+          "fileName": "packages/react/src/components/range-input/RangeInput.tsx",
           "name": "RangeInputProps"
         }
       ],
@@ -143,12 +143,12 @@
       "description": "Specifies the minimum value for the component.",
       "name": "min",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/range-input/RangeInput.tsx",
+        "fileName": "packages/react/src/components/range-input/RangeInput.tsx",
         "name": "RangeInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/range-input/RangeInput.tsx",
+          "fileName": "packages/react/src/components/range-input/RangeInput.tsx",
           "name": "RangeInputProps"
         }
       ],
@@ -162,12 +162,12 @@
       "description": "Method called immediately after the `value` prop changes.",
       "name": "onChange",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/range-input/RangeInput.tsx",
+        "fileName": "packages/react/src/components/range-input/RangeInput.tsx",
         "name": "RangeInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/range-input/RangeInput.tsx",
+          "fileName": "packages/react/src/components/range-input/RangeInput.tsx",
           "name": "RangeInputProps"
         }
       ],
@@ -181,12 +181,12 @@
       "description": "Toggle the readonly state for the component.",
       "name": "readOnly",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/range-input/RangeInput.tsx",
+        "fileName": "packages/react/src/components/range-input/RangeInput.tsx",
         "name": "RangeInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/range-input/RangeInput.tsx",
+          "fileName": "packages/react/src/components/range-input/RangeInput.tsx",
           "name": "RangeInputProps"
         }
       ],
@@ -200,12 +200,12 @@
       "description": "Specifies the interval between legal numbers in the component.",
       "name": "step",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/range-input/RangeInput.tsx",
+        "fileName": "packages/react/src/components/range-input/RangeInput.tsx",
         "name": "RangeInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/range-input/RangeInput.tsx",
+          "fileName": "packages/react/src/components/range-input/RangeInput.tsx",
           "name": "RangeInputProps"
         }
       ],
@@ -219,12 +219,12 @@
       "description": "Set component validation state to valid.",
       "name": "valid",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/range-input/RangeInput.tsx",
+        "fileName": "packages/react/src/components/range-input/RangeInput.tsx",
         "name": "RangeInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/range-input/RangeInput.tsx",
+          "fileName": "packages/react/src/components/range-input/RangeInput.tsx",
           "name": "RangeInputProps"
         }
       ],
@@ -238,12 +238,12 @@
       "description": "A success message for the field, rendered below the range input when `valid` is set.",
       "name": "validFeedback",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/range-input/RangeInput.tsx",
+        "fileName": "packages/react/src/components/range-input/RangeInput.tsx",
         "name": "RangeInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/range-input/RangeInput.tsx",
+          "fileName": "packages/react/src/components/range-input/RangeInput.tsx",
           "name": "RangeInputProps"
         }
       ],
@@ -257,12 +257,12 @@
       "description": "The `value` attribute of component.\n@controllable onChange",
       "name": "value",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/range-input/RangeInput.tsx",
+        "fileName": "packages/react/src/components/range-input/RangeInput.tsx",
         "name": "RangeInputProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/range-input/RangeInput.tsx",
+          "fileName": "packages/react/src/components/range-input/RangeInput.tsx",
           "name": "RangeInputProps"
         }
       ],

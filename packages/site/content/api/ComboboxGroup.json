@@ -10,12 +10,12 @@
       "description": "Items belonging to this group.",
       "name": "children",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/combobox/ComboboxGroup.tsx",
+        "fileName": "packages/react/src/components/combobox/ComboboxGroup.tsx",
         "name": "ComboboxGroupProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/combobox/ComboboxGroup.tsx",
+          "fileName": "packages/react/src/components/combobox/ComboboxGroup.tsx",
           "name": "ComboboxGroupProps"
         }
       ],
@@ -29,12 +29,12 @@
       "description": "Header content for the group (`.menu-header`).",
       "name": "label",
       "parent": {
-        "fileName": "chassis-react/packages/react/src/components/combobox/ComboboxGroup.tsx",
+        "fileName": "packages/react/src/components/combobox/ComboboxGroup.tsx",
         "name": "ComboboxGroupProps"
       },
       "declarations": [
         {
-          "fileName": "chassis-react/packages/react/src/components/combobox/ComboboxGroup.tsx",
+          "fileName": "packages/react/src/components/combobox/ComboboxGroup.tsx",
           "name": "ComboboxGroupProps"
         }
       ],
