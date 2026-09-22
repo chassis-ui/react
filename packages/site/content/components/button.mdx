@@ -89,9 +89,30 @@ needs an explicit `role="button"`; Chassis doesn't add it automatically, since n
 `component="a"` usage is a non-navigation action. `type` only affects `<button>` and `<input>`; it
 has no effect when rendered as `<a>`.
 
-A `component` other than `"button"`, `"a"`, or `"input"` — a plain tag like `"span"`, or a
-component reference — gets keyboard activation, focus handling, and `role="button"` synthesized
-automatically, matching native button behavior.
+A plain tag other than `"button"`, `"a"`, or `"input"` (for example `"span"`) gets keyboard
+activation, focus handling, and `role="button"` synthesized automatically, matching native button
+behavior. A component reference (for example a router's `Link`) doesn't: it's trusted to bring its
+own semantics, since stamping `role="button"` onto the `<a>` it renders would be wrong.
+
+### Router links with `asChild`
+
+To render a router's link component with button styling, pass it as the child with `asChild`,
+instead of passing it by reference to `component`. The button's classes, props and ref are merged
+onto the child element, and the router link still handles navigation:
+
+```tsx
+import Link from 'next/link'
+import { Button } from '@chassis-ui/react/button'
+
+<Button asChild variant="outline">
+  <Link href="/login">Log in</Link>
+</Button>
+```
+
+This form also works from a React Server Component. `component={Link}` there fails to build with
+"Functions cannot be passed directly to Client Components", because a component reference is a
+function and can't cross the server-to-client boundary. A JSX element can. See
+[Server-side rendering]([[docsref:/getting-started/ssr#polymorphic-components]]).
 
 ## Sizes
 

@@ -131,6 +131,25 @@
         "name": "number"
       }
     },
+    "asChild": {
+      "defaultValue": null,
+      "description": "Render the single child element in place of this component's own element, with this\ncomponent's classes, props and ref merged onto it: `<Button asChild><Link href=\"/login\">Log\nin</Link></Button>`. The alternative to `component` for React Server Components — an element\ncan be passed from the server to this package's client components, a component reference\n(`component={Link}`) can't.",
+      "name": "asChild",
+      "parent": {
+        "fileName": "packages/react/src/utils/polymorphic.ts",
+        "name": "AsChildProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/utils/polymorphic.ts",
+          "name": "AsChildProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
     "ref": {
       "defaultValue": null,
       "description": "",

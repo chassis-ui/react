@@ -1,8 +1,13 @@
-import React, { ElementType, Fragment, ReactElement, ReactNode } from 'react'
+import React, {
+  ComponentPropsWithoutRef,
+  ElementType,
+  Fragment,
+  ReactElement,
+  ReactNode
+} from 'react'
 
 import { Span } from '../../utils/breakpoints'
 import { ContextColor } from '../../types'
-import { PolymorphicComponentProps } from '../../utils/polymorphic'
 import { Skeleton, SkeletonProps } from './Skeleton'
 
 type SkeletonLoaderOwnProps<C extends ElementType> = {
@@ -38,10 +43,12 @@ type SkeletonLoaderOwnProps<C extends ElementType> = {
   spans?: Span | Span[]
 }
 
-export type SkeletonLoaderProps<C extends ElementType = 'span'> = PolymorphicComponentProps<
-  C,
-  SkeletonLoaderOwnProps<C>
->
+// Spelled out rather than `PolymorphicComponentProps`, which adds `asChild`: `SkeletonLoader`
+// renders no element of its own (it swaps its `children` for generated `Skeleton` lines), so
+// there's nothing for a child element to stand in for. (`Omit`-ing it from that type instead
+// breaks `C`'s inference from `component`.)
+export type SkeletonLoaderProps<C extends ElementType = 'span'> = SkeletonLoaderOwnProps<C> &
+  Omit<ComponentPropsWithoutRef<C>, keyof SkeletonLoaderOwnProps<C> | 'asChild'>
 
 type SkeletonLoaderComponent = (<C extends ElementType = 'span'>(
   props: SkeletonLoaderProps<C>

@@ -36,6 +36,32 @@ import { Placeholder } from '@chassis-ui/react'
 <Placeholder component={Image} src="/hero.jpg" width={800} height={400} alt="" fill priority />
 ```
 
+## The asChild prop
+
+Every component that accepts `component` also accepts `asChild`, which is the other way to change
+what gets rendered. Instead of naming a tag or component for the component to render, you render
+the element yourself as the only child, and the component merges its classes, props and ref onto
+it:
+
+```tsx
+import Link from 'next/link'
+import { Button, NavLink } from '@chassis-ui/react'
+
+<Button asChild>
+  <Link href="/login">Log in</Link>
+</Button>
+
+<NavLink asChild active>
+  <Link href="/">Home</Link>
+</NavLink>
+```
+
+The child's own props win over the component's, except that class names are combined and event
+handlers are chained (the component's runs first). Use `asChild` when passing from a React Server
+Component, where `component={Link}` fails to build, and whenever you'd rather write the target
+element as ordinary JSX. `SkeletonLoader` is the one exception: it renders no element of its own,
+so it has no `asChild`.
+
 ## Supported components
 
 Every component listed above uses the same generic pattern, typed against

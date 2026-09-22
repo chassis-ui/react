@@ -51,6 +51,26 @@ Server Component passes down (e.g. an inline function to `onClick`) has to be se
 itself defined in a Client Component. That constraint comes from React/Next.js, not from anything
 specific to this package.
 
+### Polymorphic components: `asChild`, not `component={Link}`
+
+A component reference is a function, so `<Button component={Link} href="/login">` in a Server
+Component fails `next build` with "Functions cannot be passed directly to Client Components" (#23).
+It used to work only because `next/link`'s `Link` wasn't a plain function before Next.js 16. The
+supported form is `asChild`, where the caller passes an _element_, which serializes fine:
+
+```tsx
+<Button asChild>
+  <Link href="/login">Log in</Link>
+</Button>
+```
+
+It's implemented once, in `createPolymorphicComponent` (`src/utils/polymorphic.ts`), so every
+polymorphic component gets it without its render function knowing: the wrapper hands the render
+function `component={Slot}` plus the child element's own children, and `Slot` (`src/utils/slot.tsx`)
+clones the caller's element with everything the render function computed merged onto it. Verified
+in `smoke-tests/nextjs-app-router`: it builds, the prerendered `<a>` carries the merged classes,
+hydration is clean, and clicking it is a client-side `next/link` navigation, not a full page load.
+
 ## Subpath imports
 
 Until 0.2.0 the package was one `dist/index.js` with one directive. A `'use client'` module is a
