@@ -82,7 +82,7 @@
     },
     "icon": {
       "defaultValue": null,
-      "description": "Leading icon. A string is rendered as `<ToastIcon name={icon} />` and hidden from\nassistive technology by default, since it duplicates the heading visually. Pass any other\nnode for a fully custom icon (typically a logo or avatar) — a custom node is left as-is,\nsince it may carry its own meaningful accessible name (e.g. an avatar's `alt` text).",
+      "description": "Leading icon. A string is an icon name, rendered like `<ToastIcon name={icon} />` (or by\n`IconProvider`'s `component`) and hidden from\nassistive technology by default, since it duplicates the heading visually. Pass any other\nnode for a fully custom icon (typically a logo or avatar) — a custom node is left as-is,\nsince it may carry its own meaningful accessible name (e.g. an avatar's `alt` text).",
       "name": "icon",
       "declarations": [
         {

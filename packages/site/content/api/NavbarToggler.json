@@ -24,6 +24,25 @@
         "name": "string"
       }
     },
+    "icon": {
+      "defaultValue": null,
+      "description": "The toggler icon: an icon name, or an element of your own icon set. Defaults to\n`IconProvider`'s `menu` icon.",
+      "name": "icon",
+      "parent": {
+        "fileName": "packages/react/src/components/navbar/NavbarToggler.tsx",
+        "name": "NavbarTogglerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/navbar/NavbarToggler.tsx",
+          "name": "NavbarTogglerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "IconValue"
+      }
+    },
     "label": {
       "defaultValue": {
         "value": "Toggle navigation"

@@ -3,7 +3,8 @@ import classNames from 'classnames'
 
 import { useForkedRef } from '../../hooks'
 import { markPointerClick } from '../../utils/pointerInteraction'
-import { Icon } from '../icon'
+import { IconValue } from '../../utils/iconConfig'
+import { IconSlot } from '../../utils/iconSlot'
 import { useCarouselContext } from './context'
 
 interface CarouselControlButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -16,6 +17,11 @@ interface CarouselControlButtonProps extends ButtonHTMLAttributes<HTMLButtonElem
    */
   direction: 'prev' | 'next'
   /**
+   * The control's icon: an icon name, or an element of your own icon set. Defaults to
+   * `IconProvider`'s `previous`/`next` icon.
+   */
+  icon?: IconValue
+  /**
    * The accessible label announced by assistive technology.
    */
   label?: string
@@ -24,7 +30,7 @@ interface CarouselControlButtonProps extends ButtonHTMLAttributes<HTMLButtonElem
 // Shared prev/next control, used by both CarouselControlPrev and CarouselControlNext — mirrors
 // how CalendarNavButton.tsx factors the same shape for Calendar/RangeCalendar.
 export const CarouselControlButton = forwardRef<HTMLButtonElement, CarouselControlButtonProps>(
-  ({ children, className, direction, disabled, label, onClick, ...rest }, ref) => {
+  ({ children, className, direction, disabled, icon, label, onClick, ...rest }, ref) => {
     const { atEnd, atStart, ends, next, prev, registerControl } = useCarouselContext()
     const buttonRef = useRef<HTMLButtonElement>(null)
     const forkedRef = useForkedRef(ref, buttonRef)
@@ -59,8 +65,9 @@ export const CarouselControlButton = forwardRef<HTMLButtonElement, CarouselContr
       >
         {children ?? (
           <>
-            <Icon
-              name={direction === 'next' ? 'chevron-right-outline' : 'chevron-left-outline'}
+            <IconSlot
+              icon={direction === 'next' ? 'next' : 'previous'}
+              override={icon}
               className="directional-icon"
             />
             <span className="visually-hidden">{label}</span>

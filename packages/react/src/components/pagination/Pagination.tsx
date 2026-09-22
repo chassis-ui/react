@@ -1,5 +1,6 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
-import { Icon } from '../icon'
+import { IconValue } from '../../utils/iconConfig'
+import { IconSlot } from '../../utils/iconSlot'
 import classNames from 'classnames'
 
 import { PaginationItem } from './PaginationItem'
@@ -30,6 +31,11 @@ export interface PaginationProps extends HTMLAttributes<HTMLElement> {
    */
   maxVisiblePages?: number
   /**
+   * The "next page" control's icon in smart pagination mode: an icon name, or an element of your
+   * own icon set. Defaults to `IconProvider`'s `next` icon.
+   */
+  nextIcon?: IconValue
+  /**
    * Accessible label for the "next page" control, used in smart pagination mode. Override for
    * non-English locales.
    *
@@ -45,6 +51,11 @@ export interface PaginationProps extends HTMLAttributes<HTMLElement> {
    * the component renders a fully-controlled smart paginator with Prev/Next and ellipsis.
    */
   pages?: number
+  /**
+   * The "previous page" control's icon in smart pagination mode: an icon name, or an element of
+   * your own icon set. Defaults to `IconProvider`'s `previous` icon.
+   */
+  previousIcon?: IconValue
   /**
    * Accessible label for the "previous page" control, used in smart pagination mode. Override
    * for non-English locales.
@@ -115,9 +126,11 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
       children,
       className,
       maxVisiblePages = 5,
+      nextIcon,
       nextLabel = 'Next',
       onActivePageChange,
       pages,
+      previousIcon,
       previousLabel = 'Previous',
       showPageNumbers = true,
       showPrevNext = true,
@@ -155,7 +168,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
             onClick={handlePrevClick}
             aria-label={previousLabel}
           >
-            <Icon name="chevron-left-solid" className="directional-icon" />
+            <IconSlot icon="previous" override={previousIcon} className="directional-icon" />
           </PaginationItem>
         )}
         {showPageNumbers &&
@@ -182,7 +195,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
             onClick={handleNextClick}
             aria-label={nextLabel}
           >
-            <Icon name="chevron-right-solid" className="directional-icon" />
+            <IconSlot icon="next" override={nextIcon} className="directional-icon" />
           </PaginationItem>
         )}
       </>

@@ -1,0 +1,146 @@
+{
+  "tags": {},
+  "filePath": "packages/react/src/components/icon/IconProvider.tsx",
+  "description": "",
+  "displayName": "IconProvider",
+  "methods": [],
+  "props": {
+    "children": {
+      "defaultValue": null,
+      "description": "The part of the app these icon settings apply to.",
+      "name": "children",
+      "parent": {
+        "fileName": "packages/react/src/components/icon/IconProvider.tsx",
+        "name": "IconProviderProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/icon/IconProvider.tsx",
+          "name": "IconProviderProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "Class names added to every `Icon`, alongside its own `icon` class.",
+      "name": "className",
+      "parent": {
+        "fileName": "packages/react/src/utils/iconConfig.ts",
+        "name": "IconConfig"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/utils/iconConfig.ts",
+          "name": "IconConfig"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "component": {
+      "defaultValue": null,
+      "description": "Replaces the built-in `Icon` for every icon this library's components render by name — the\nstrings in `icons` and their defaults, and a string `icon` on `Toast`/`Notification`. A\ncomponent reference can't be passed from a React Server Component, so set this in a\n`'use client'` module.",
+      "name": "component",
+      "parent": {
+        "fileName": "packages/react/src/utils/iconConfig.ts",
+        "name": "IconConfig"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/utils/iconConfig.ts",
+          "name": "IconConfig"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ComponentType<IconComponentProps>"
+      }
+    },
+    "font": {
+      "defaultValue": null,
+      "description": "Render `Icon` as an icon-font glyph instead of an SVG sprite reference, unless an `Icon` sets\n`font` itself. Needs the icon font's stylesheet loaded.",
+      "name": "font",
+      "parent": {
+        "fileName": "packages/react/src/utils/iconConfig.ts",
+        "name": "IconConfig"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/utils/iconConfig.ts",
+          "name": "IconConfig"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "fontPrefix": {
+      "defaultValue": {
+        "value": "'cx-'"
+      },
+      "description": "Class-name prefix of the icon font's glyphs: an icon named `check-solid` renders as\n`{fontPrefix}check-solid`.",
+      "name": "fontPrefix",
+      "parent": {
+        "fileName": "packages/react/src/utils/iconConfig.ts",
+        "name": "IconConfig"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/utils/iconConfig.ts",
+          "name": "IconConfig"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "icons": {
+      "defaultValue": null,
+      "description": "The icon to render for each of the library's own icons, by purpose. Unset ones keep their\ndefaults (`check-solid`, `chevron-left-outline`, `chevron-right-outline`, `bars-outline`,\n`play-solid`, `pause-solid`).",
+      "name": "icons",
+      "parent": {
+        "fileName": "packages/react/src/utils/iconConfig.ts",
+        "name": "IconConfig"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/utils/iconConfig.ts",
+          "name": "IconConfig"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Partial<Record<IconKey, IconValue>>"
+      }
+    },
+    "sprite": {
+      "defaultValue": {
+        "value": "''"
+      },
+      "description": "URL of the SVG sprite `Icon` references, e.g. `/static/icons/chassis-icons.svg`. Leave empty\n(the default) when the sprite is embedded in the page, so icons render as `href=\"#name\"`.\nBrowsers don't load an external sprite from another origin.",
+      "name": "sprite",
+      "parent": {
+        "fileName": "packages/react/src/utils/iconConfig.ts",
+        "name": "IconConfig"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/utils/iconConfig.ts",
+          "name": "IconConfig"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    }
+  }
+}

@@ -16,10 +16,7 @@ describe('NotificationIcon', () => {
       expect(svg).toHaveAttribute('aria-hidden', 'true')
       expect(svg).toHaveAttribute('height', '24')
       expect(svg).toHaveAttribute('width', '24')
-      expect(svg.querySelector('use')).toHaveAttribute(
-        'href',
-        '/static/icons/chassis-icons.svg#info-circle-solid'
-      )
+      expect(svg.querySelector('use')).toHaveAttribute('href', '#info-circle-solid')
     })
 
     test('applies the caller className alongside the base classes', () => {

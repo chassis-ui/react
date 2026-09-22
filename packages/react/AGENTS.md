@@ -260,6 +260,11 @@ pnpm test:visual:update   # same, plus --update-snapshots to regenerate baseline
   [`FORMS.md`](FORMS.md#adding-a-new-form-component) for form
   components specifically; for non-form components, follow the same folder/test/index.ts-export
   shape without the render-helper-engine decision.
+- A component that draws an icon of its own never renders `<Icon>` directly — it renders
+  `IconSlot` (`src/utils/iconSlot.tsx`) with a purpose key (`check`, `previous`, `next`, ...) plus
+  the class chassis-css positions that icon by, so consumers can swap it via `IconProvider` or
+  the component's own icon prop. A new purpose goes in `IconKey`/`DEFAULT_ICONS`
+  (`src/utils/iconConfig.ts`). `<Icon>` is the default renderer, not a dependency.
 - `className` builder ordering (base class, then size, then validation state, then caller's
   `className` last) — see `CONVENTIONS.md`.
 - Prefer native elements (`<input>`, `<select>`, `<textarea>`) wired up with react-aria hooks over

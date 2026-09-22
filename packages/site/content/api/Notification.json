@@ -184,7 +184,7 @@
     },
     "icon": {
       "defaultValue": null,
-      "description": "Leading icon. A string is rendered as `<NotificationIcon name={icon} />`; pass any other\nnode for a fully custom icon. Automatically top-aligns with `title` when both are set —\na custom icon node is responsible for its own alignment.",
+      "description": "Leading icon. A string is an icon name, rendered like `<NotificationIcon name={icon} />` (or\nby `IconProvider`'s `component`); pass any other\nnode for a fully custom icon. Automatically top-aligns with `title` when both are set —\na custom icon node is responsible for its own alignment.",
       "name": "icon",
       "parent": {
         "fileName": "packages/react/src/components/notification/Notification.tsx",

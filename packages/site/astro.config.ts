@@ -2,6 +2,7 @@ import path from 'node:path'
 import { defineConfig } from 'astro/config'
 import react from '@astrojs/react'
 import { chassis } from './src/libs/astro'
+import { iconSprite } from './src/libs/icon-sprite'
 import { getConfig } from './src/libs/config'
 import {
   remarkCxConfig,
@@ -15,7 +16,7 @@ import { getSiteUrl, getDocsMarkdownConfig } from '@chassis-ui/docs'
 // https://astro.build/config
 export default defineConfig({
   outDir: '../../_site',
-  integrations: [...chassis(), react()],
+  integrations: [...chassis(), react(), iconSprite()],
   markdown: getDocsMarkdownConfig({
     anchors: getConfig().anchors,
     remarkPlugins: [

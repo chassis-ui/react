@@ -7,7 +7,7 @@ import { ContextColor } from '../../types'
 import { CloseButton } from '../close-button/CloseButton'
 import { useAutoDismiss, useDismissibleTransition } from '../../hooks'
 import { NotificationContext } from './context'
-import { NotificationIcon } from './NotificationIcon'
+import { ResolvedIcon } from '../../utils/iconSlot'
 import { NotificationText } from './NotificationText'
 import { NotificationTitle } from './NotificationTitle'
 import './Notification.scss'
@@ -45,7 +45,8 @@ export interface NotificationProps extends Omit<HTMLAttributes<HTMLDivElement>, 
    */
   dismissible?: boolean
   /**
-   * Leading icon. A string is rendered as `<NotificationIcon name={icon} />`; pass any other
+   * Leading icon. A string is an icon name, rendered like `<NotificationIcon name={icon} />` (or
+   * by `IconProvider`'s `component`); pass any other
    * node for a fully custom icon. Automatically top-aligns with `title` when both are set —
    * a custom icon node is responsible for its own alignment.
    */
@@ -159,9 +160,9 @@ export const Notification = forwardRef<HTMLDivElement, NotificationProps>(
               >
                 {icon &&
                   (typeof icon === 'string' ? (
-                    <NotificationIcon
-                      name={icon}
-                      className={title ? 'align-self-start' : undefined}
+                    <ResolvedIcon
+                      value={icon}
+                      className={classNames('notification-icon', { 'align-self-start': !!title })}
                     />
                   ) : (
                     icon

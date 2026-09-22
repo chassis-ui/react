@@ -11,7 +11,7 @@ renamed export, ...) and review the diff like any other code change. `pnpm react
 -->
 
 ```ts
-import React, { AriaAttributes, ButtonHTMLAttributes, ChangeEventHandler, ComponentPropsWithRef, ComponentPropsWithoutRef, DetailsHTMLAttributes, DialogHTMLAttributes, ElementType, FC, FormHTMLAttributes, Fragment, HTMLAttributes, ImgHTMLAttributes, InputHTMLAttributes, Key, LabelHTMLAttributes, MouseEvent, MouseEventHandler, ReactElement, ReactNode, Ref, RefObject, SVGAttributes, TableHTMLAttributes, TextareaHTMLAttributes } from "react";
+import React, { AriaAttributes, ButtonHTMLAttributes, ChangeEventHandler, ComponentPropsWithRef, ComponentPropsWithoutRef, ComponentType, DetailsHTMLAttributes, DialogHTMLAttributes, ElementType, FC, FormHTMLAttributes, Fragment, HTMLAttributes, ImgHTMLAttributes, InputHTMLAttributes, Key, LabelHTMLAttributes, MouseEvent, MouseEventHandler, ReactElement, ReactNode, Ref, RefObject, SVGAttributes, TableHTMLAttributes, TextareaHTMLAttributes } from "react";
 import { ColumnSize, ColumnStaticSize, DateValue, Key as Key$1, Selection, SortDescriptor, TableBodyProps as TableBodyProps$1, TableHeaderProps as TableHeaderProps$1, ToastQueue } from "react-stately";
 import { DateValue as DateValue$1, I18nProvider, Key as Key$2, RangeValue } from "react-aria";
 import { Key as Key$3, Selection as Selection$1, SortDescriptor as SortDescriptor$1, TableBodyRenderProps } from "react-aria-components";
@@ -645,7 +645,8 @@ interface NotificationProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'
    */
   dismissible?: boolean;
   /**
-   * Leading icon. A string is rendered as `<NotificationIcon name={icon} />`; pass any other
+   * Leading icon. A string is an icon name, rendered like `<NotificationIcon name={icon} />` (or
+   * by `IconProvider`'s `component`); pass any other
    * node for a fully custom icon. Automatically top-aligns with `title` when both are set —
    * a custom icon node is responsible for its own alignment.
    */
@@ -711,7 +712,8 @@ export declare const NotificationTitle: NotificationTitleComponent;
 //#region src/components/icon/Icon.d.ts
 interface IconOwnProps {
   /**
-   * Icon name, e.g. `folder-tree`. Matches a `cx-{name}` font glyph class or an id in the SVG sprite.
+   * Icon name, e.g. `folder-tree`. Matches an id in the SVG sprite, or a `cx-{name}` font glyph
+   * class in `font` mode (see `IconProvider`'s `fontPrefix`).
    */
   name: string;
   /**
@@ -719,15 +721,18 @@ interface IconOwnProps {
    */
   className?: string;
   /**
-   * Width/height (in px) applied to the SVG. Ignored in `font` mode.
+   * Icon size: a number of pixels, or any CSS length (`'1.25rem'`, `'1em'`). Sets chassis-css's
+   * `--cx-icon-size` on the icon, so it applies in `font` mode too. Leave unset to keep the size
+   * chassis-css gives icons in context (inside a button, an input, a navbar toggler, ...).
    */
-  size?: number;
+  size?: number | string;
   /**
    * Accessible name. When set, the icon is exposed to assistive tech instead of hidden.
    */
   title?: string;
   /**
-   * Path to the SVG sprite file. Ignored in `font` mode.
+   * URL of the SVG sprite file. Defaults to `IconProvider`'s `sprite`, or to none — a sprite
+   * embedded in the page, referenced as `#name`. Ignored in `font` mode.
    */
   sprite?: string;
 }
@@ -2048,12 +2053,84 @@ interface CarouselProps extends HTMLAttributes<HTMLDivElement> {
 }
 export declare const Carousel: React.ForwardRefExoticComponent<CarouselProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
+//#region src/utils/iconConfig.d.ts
+/**
+ * The icons this library's own components draw, by purpose rather than by icon name — so a
+ * consumer can map each one onto any icon set (see `IconProvider`'s `icons`).
+ */
+type IconKey = 'check' | 'menu' | 'next' | 'pause' | 'play' | 'previous';
+/**
+ * An icon given to `IconProvider`'s `icons` or to a component's icon prop: a string is an icon
+ * name, rendered by `IconProvider`'s `component` (or the built-in `Icon`); an element is rendered
+ * as-is, with the component's own class names merged onto it.
+ */
+type IconValue = ReactElement | string;
+/**
+ * Props `IconProvider`'s `component` receives for every icon name it's asked to render.
+ */
+interface IconComponentProps {
+  /**
+   * The icon name — an `IconValue` string, or `IconProvider`'s default for that icon.
+   */
+  name: string;
+  /**
+   * The class names the rendering component needs on the icon (e.g. `menu-item-check`,
+   * `directional-icon`) for chassis-css to position and flip it.
+   */
+  className?: string;
+  [prop: string]: unknown;
+}
+interface IconConfig {
+  /**
+   * Class names added to every `Icon`, alongside its own `icon` class.
+   */
+  className?: string;
+  /**
+   * Replaces the built-in `Icon` for every icon this library's components render by name — the
+   * strings in `icons` and their defaults, and a string `icon` on `Toast`/`Notification`. A
+   * component reference can't be passed from a React Server Component, so set this in a
+   * `'use client'` module.
+   */
+  component?: ComponentType<IconComponentProps>;
+  /**
+   * Render `Icon` as an icon-font glyph instead of an SVG sprite reference, unless an `Icon` sets
+   * `font` itself. Needs the icon font's stylesheet loaded.
+   */
+  font?: boolean;
+  /**
+   * Class-name prefix of the icon font's glyphs: an icon named `check-solid` renders as
+   * `{fontPrefix}check-solid`.
+   *
+   * @default 'cx-'
+   */
+  fontPrefix?: string;
+  /**
+   * The icon to render for each of the library's own icons, by purpose. Unset ones keep their
+   * defaults (`check-solid`, `chevron-left-outline`, `chevron-right-outline`, `bars-outline`,
+   * `play-solid`, `pause-solid`).
+   */
+  icons?: Partial<Record<IconKey, IconValue>>;
+  /**
+   * URL of the SVG sprite `Icon` references, e.g. `/static/icons/chassis-icons.svg`. Leave empty
+   * (the default) when the sprite is embedded in the page, so icons render as `href="#name"`.
+   * Browsers don't load an external sprite from another origin.
+   *
+   * @default ''
+   */
+  sprite?: string;
+}
+//#endregion
 //#region src/components/carousel/CarouselControlNext.d.ts
 interface CarouselControlNextProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /**
    * A string of all className you want applied to the component.
    */
   className?: string;
+  /**
+   * The control's icon: an icon name, or an element of your own icon set. Defaults to
+   * `IconProvider`'s `next` icon.
+   */
+  icon?: IconValue;
   /**
    * The accessible label announced by assistive technology.
    */
@@ -2067,6 +2144,11 @@ interface CarouselControlPrevProps extends ButtonHTMLAttributes<HTMLButtonElemen
    * A string of all className you want applied to the component.
    */
   className?: string;
+  /**
+   * The control's icon: an icon name, or an element of your own icon set. Defaults to
+   * `IconProvider`'s `previous` icon.
+   */
+  icon?: IconValue;
   /**
    * The accessible label announced by assistive technology.
    */
@@ -2155,6 +2237,11 @@ interface CarouselPlayPauseProps extends ButtonHTMLAttributes<HTMLButtonElement>
    */
   className?: string;
   /**
+   * The icon shown while autoplay is running: an icon name, or an element of your own icon set.
+   * Defaults to `IconProvider`'s `pause` icon.
+   */
+  pauseIcon?: IconValue;
+  /**
    * The accessible label announced while autoplay is running.
    */
   pauseLabel?: string;
@@ -2162,6 +2249,11 @@ interface CarouselPlayPauseProps extends ButtonHTMLAttributes<HTMLButtonElement>
    * The accessible label announced while autoplay is stopped.
    */
   playLabel?: string;
+  /**
+   * The icon shown while autoplay is stopped: an icon name, or an element of your own icon set.
+   * Defaults to `IconProvider`'s `play` icon.
+   */
+  playIcon?: IconValue;
 }
 /**
  * A discoverable toggle so a viewer can stop an autoplaying carousel, as required by WCAG 2.2
@@ -4375,6 +4467,18 @@ interface TextareaProps extends Omit<TextareaHTMLAttributes<HTMLTextAreaElement>
 }
 export declare const Textarea: React.ForwardRefExoticComponent<TextareaProps & React.RefAttributes<HTMLTextAreaElement>>;
 //#endregion
+//#region src/components/icon/IconProvider.d.ts
+interface IconProviderProps extends IconConfig {
+  /**
+   * The part of the app these icon settings apply to.
+   */
+  children?: ReactNode;
+}
+export declare const IconProvider: {
+  ({ children, className, component, font, fontPrefix, icons, sprite }: IconProviderProps): React.JSX.Element;
+  displayName: string;
+};
+//#endregion
 //#region src/components/placeholder/Placeholder.d.ts
 type PlaceholderAlign = 'center' | 'end' | 'start';
 type PlaceholderOwnProps<C extends ElementType> = {
@@ -4945,6 +5049,11 @@ interface NavbarTogglerProps extends HTMLAttributes<HTMLButtonElement> {
    */
   className?: string;
   /**
+   * The toggler icon: an icon name, or an element of your own icon set. Defaults to
+   * `IconProvider`'s `menu` icon.
+   */
+  icon?: IconValue;
+  /**
    * The accessible label announced by assistive technology when no children are provided.
    */
   label?: string;
@@ -4977,6 +5086,11 @@ interface PaginationProps extends HTMLAttributes<HTMLElement> {
    */
   maxVisiblePages?: number;
   /**
+   * The "next page" control's icon in smart pagination mode: an icon name, or an element of your
+   * own icon set. Defaults to `IconProvider`'s `next` icon.
+   */
+  nextIcon?: IconValue;
+  /**
    * Accessible label for the "next page" control, used in smart pagination mode. Override for
    * non-English locales.
    *
@@ -4992,6 +5106,11 @@ interface PaginationProps extends HTMLAttributes<HTMLElement> {
    * the component renders a fully-controlled smart paginator with Prev/Next and ellipsis.
    */
   pages?: number;
+  /**
+   * The "previous page" control's icon in smart pagination mode: an icon name, or an element of
+   * your own icon set. Defaults to `IconProvider`'s `previous` icon.
+   */
+  previousIcon?: IconValue;
   /**
    * Accessible label for the "previous page" control, used in smart pagination mode. Override
    * for non-English locales.
@@ -6039,7 +6158,8 @@ interface ToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
    */
   footer?: ((close: () => void) => ReactNode) | ReactNode;
   /**
-   * Leading icon for the header. A string is rendered as `<ToastIcon name={icon} />`; pass
+   * Leading icon for the header. A string is an icon name, rendered like
+   * `<ToastIcon name={icon} />` (or by `IconProvider`'s `component`); pass
    * any other node for a fully custom icon (typically a logo or avatar). Shorthand for
    * `ToastHeader`'s `icon` prop; hidden from assistive technology by default, since it
    * duplicates `title` visually.
@@ -6161,7 +6281,8 @@ type ToastHeaderOwnProps<C extends ElementType> = {
    */
   component?: C;
   /**
-   * Leading icon. A string is rendered as `<ToastIcon name={icon} />` and hidden from
+   * Leading icon. A string is an icon name, rendered like `<ToastIcon name={icon} />` (or by
+   * `IconProvider`'s `component`) and hidden from
    * assistive technology by default, since it duplicates the heading visually. Pass any other
    * node for a fully custom icon (typically a logo or avatar) — a custom node is left as-is,
    * since it may carry its own meaningful accessible name (e.g. an avatar's `alt` text).
@@ -6463,5 +6584,5 @@ type StackComponent = (<C extends ElementType = 'div'>(props: StackProps<C> & {
 };
 export declare const Stack: StackComponent;
 //#endregion
-export { type AccordionBodyProps, type AccordionHeaderProps, type AccordionItemDef, type AccordionItemProps, type AccordionProps, type AutocompleteGroupProps, type AutocompleteItemProps, type AutocompleteProps, type AvatarImageProps, type AvatarProps, type AvatarStackItemDef, type AvatarStackProps, type BadgeProps, type BreadcrumbItemDef, type BreadcrumbItemProps, type BreadcrumbProps, type Breakpoint, type ButtonGroupProps, type ButtonObject, type ButtonProps, type ButtonToolbarProps, type CalendarLabels, type CalendarMultipleProps, type CalendarProps, type CalendarSingleProps, type CardBodyProps, type CardFooterProps, type CardGroupProps, type CardHeaderProps, type CardImageOverlayProps, type CardImageProps, type CardLinkProps, type CardProps, type CardSubtitleProps, type CardTextProps, type CardTitleProps, type CarouselControlNextProps, type CarouselControlPrevProps, type CarouselEnds, type CarouselIndicatorsProps, type CarouselInnerProps, type CarouselItemProps, type CarouselOverlayProps, type CarouselPlayPauseProps, type CarouselProps, type CarouselSlideDetail, type CarouselTransition, type CheckboxGroupProps, type CheckboxProps, type ChipInputProps, type ChipProps, type CloseButtonProps, type ColProps, type CollapseProps, type ColorInputProps, type ComboboxGroupProps, type ComboboxItemProps, type ComboboxProps, type ContainerProps, type ContextColor, type ContextStyle, type DataGridBodyProps, type DataGridCellProps, type DataGridColumnProps, type DataGridHeaderProps, type DataGridProps, type DataGridRowProps, type DataGridSelectionCellProps, type DatePickerMultipleProps, type DatePickerProps, type DatePickerSingleProps, type DateRangePickerProps, type DateRangePreset, type DrawerBodyProps, type DrawerFooterProps, type DrawerHeaderProps, type DrawerProps, type DrawerTitleProps, type ExtendedSizing, type FileInputProps, type FlexProps, type FloatingInputProps, type FormFeedbackProps, type FormFieldProps, type FormHelpProps, type FormLabelProps, type FormProps, type GridItemLayout, type GridItemProps, type GridProps, I18nProvider, type IconProps, type InputAdornProps, type InputGroupAddonProps, type InputGroupProps, type LinkProps, type ListItemDef, type ListItemProps, type ListProps, type MenuAutoClose, type MenuDividerDef, type MenuDividerProps, type MenuFocusStrategy, type MenuHeaderDef, type MenuHeaderProps, type MenuItemDef, type MenuItemProps, type MenuItemsDef, type MenuListProps, type MenuProps, type MenuSubmenuBackProps, type MenuSubmenuProps, type MenuTextProps, type MenuToggleProps, type ModalBodyProps, type ModalFooterProps, type ModalHeaderProps, type ModalProps, type ModalTitleProps, type NavItemDef, type NavLinkProps, type NavProps, type NavTitleProps, type NavbarBrandProps, type NavbarNavProps, type NavbarProps, type NavbarTextProps, type NavbarTogglerProps, type NotificationContent, type NotificationIconProps, type NotificationProps, type NotificationStackProps, type NotificationTextProps, type NotificationTitleProps, type OtpInputProps, type PaginationItemProps, type PaginationProps, type PasswordStrengthProps, type PlaceholderProps, type Placement, type PopoverProps, type ProgressBarProps, type ProgressProps, type RadioGroupProps, type RadioProps, type RangeCalendarProps, type RangeInputProps, type RowProps, type SelectOptionDef, type SelectProps, type Shapes, type Sizing, type SkeletonLoaderProps, type SkeletonProps, type Spacing, type SpinnerProps, type StackProps, type StaticTableProps, type StepperItemDef, type StepperItemProps, type StepperProps, type SwitchProps, type TabListProps, type TabPanelProps, type TabProps, type TableBodyProps, type TableCellProps, type TableColumnProps, type TableHeaderProps, type TableProps, type TableRowProps, type TabsProps, type TextInputProps, type TextareaProps, type ToastBodyProps, type ToastContent, type ToastFooterProps, type ToastHeaderProps, type ToastIconProps, type ToastProps, type ToasterProps, type TooltipProps, type UseDrawerResult, type UseModalResult, type UseNotificationResult, type UsePaginationResult, type UseToastResult };
+export { type AccordionBodyProps, type AccordionHeaderProps, type AccordionItemDef, type AccordionItemProps, type AccordionProps, type AutocompleteGroupProps, type AutocompleteItemProps, type AutocompleteProps, type AvatarImageProps, type AvatarProps, type AvatarStackItemDef, type AvatarStackProps, type BadgeProps, type BreadcrumbItemDef, type BreadcrumbItemProps, type BreadcrumbProps, type Breakpoint, type ButtonGroupProps, type ButtonObject, type ButtonProps, type ButtonToolbarProps, type CalendarLabels, type CalendarMultipleProps, type CalendarProps, type CalendarSingleProps, type CardBodyProps, type CardFooterProps, type CardGroupProps, type CardHeaderProps, type CardImageOverlayProps, type CardImageProps, type CardLinkProps, type CardProps, type CardSubtitleProps, type CardTextProps, type CardTitleProps, type CarouselControlNextProps, type CarouselControlPrevProps, type CarouselEnds, type CarouselIndicatorsProps, type CarouselInnerProps, type CarouselItemProps, type CarouselOverlayProps, type CarouselPlayPauseProps, type CarouselProps, type CarouselSlideDetail, type CarouselTransition, type CheckboxGroupProps, type CheckboxProps, type ChipInputProps, type ChipProps, type CloseButtonProps, type ColProps, type CollapseProps, type ColorInputProps, type ComboboxGroupProps, type ComboboxItemProps, type ComboboxProps, type ContainerProps, type ContextColor, type ContextStyle, type DataGridBodyProps, type DataGridCellProps, type DataGridColumnProps, type DataGridHeaderProps, type DataGridProps, type DataGridRowProps, type DataGridSelectionCellProps, type DatePickerMultipleProps, type DatePickerProps, type DatePickerSingleProps, type DateRangePickerProps, type DateRangePreset, type DrawerBodyProps, type DrawerFooterProps, type DrawerHeaderProps, type DrawerProps, type DrawerTitleProps, type ExtendedSizing, type FileInputProps, type FlexProps, type FloatingInputProps, type FormFeedbackProps, type FormFieldProps, type FormHelpProps, type FormLabelProps, type FormProps, type GridItemLayout, type GridItemProps, type GridProps, I18nProvider, type IconComponentProps, type IconKey, type IconProps, type IconProviderProps, type IconValue, type InputAdornProps, type InputGroupAddonProps, type InputGroupProps, type LinkProps, type ListItemDef, type ListItemProps, type ListProps, type MenuAutoClose, type MenuDividerDef, type MenuDividerProps, type MenuFocusStrategy, type MenuHeaderDef, type MenuHeaderProps, type MenuItemDef, type MenuItemProps, type MenuItemsDef, type MenuListProps, type MenuProps, type MenuSubmenuBackProps, type MenuSubmenuProps, type MenuTextProps, type MenuToggleProps, type ModalBodyProps, type ModalFooterProps, type ModalHeaderProps, type ModalProps, type ModalTitleProps, type NavItemDef, type NavLinkProps, type NavProps, type NavTitleProps, type NavbarBrandProps, type NavbarNavProps, type NavbarProps, type NavbarTextProps, type NavbarTogglerProps, type NotificationContent, type NotificationIconProps, type NotificationProps, type NotificationStackProps, type NotificationTextProps, type NotificationTitleProps, type OtpInputProps, type PaginationItemProps, type PaginationProps, type PasswordStrengthProps, type PlaceholderProps, type Placement, type PopoverProps, type ProgressBarProps, type ProgressProps, type RadioGroupProps, type RadioProps, type RangeCalendarProps, type RangeInputProps, type RowProps, type SelectOptionDef, type SelectProps, type Shapes, type Sizing, type SkeletonLoaderProps, type SkeletonProps, type Spacing, type SpinnerProps, type StackProps, type StaticTableProps, type StepperItemDef, type StepperItemProps, type StepperProps, type SwitchProps, type TabListProps, type TabPanelProps, type TabProps, type TableBodyProps, type TableCellProps, type TableColumnProps, type TableHeaderProps, type TableProps, type TableRowProps, type TabsProps, type TextInputProps, type TextareaProps, type ToastBodyProps, type ToastContent, type ToastFooterProps, type ToastHeaderProps, type ToastIconProps, type ToastProps, type ToasterProps, type TooltipProps, type UseDrawerResult, type UseModalResult, type UseNotificationResult, type UsePaginationResult, type UseToastResult };
 ```
