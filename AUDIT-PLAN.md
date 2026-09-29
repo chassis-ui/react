@@ -338,13 +338,13 @@ it: `TabPanel`, `Tooltip`, `Notification`, `Collapse`, `Popover`, `Toast`.
 
 Model: **You**, then **Sonnet**. The edits are two small files once the decision is made.
 
-- [ ] **(You)** Decide the copyright line. If the code descends from CoreUI React, MIT requires
+- [x] **(You)** Decide the copyright line. If the code descends from CoreUI React, MIT requires
       keeping their notice and adding yours. If it doesn't, replace it with yours.
-- [ ] Update `packages/react/LICENSE` to match; make the root `LICENSE` consistent with it.
+- [x] Update `packages/react/LICENSE` to match; make the root `LICENSE` consistent with it.
 - [ ] **(You)** In the repository's security settings, enable private vulnerability reporting,
       secret scanning and push protection. Leave Dependabot security updates off, as the ecosystem
       decided; alerts are already on.
-- [ ] Rewrite `SECURITY.md` on the model of chassis-website's: "Supported versions" (only the
+- [x] Rewrite `SECURITY.md` on the model of chassis-website's: "Supported versions" (only the
       latest published version gets fixes), "What to report" for a component library, then the
       reporting steps.
 

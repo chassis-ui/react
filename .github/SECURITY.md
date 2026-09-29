@@ -2,10 +2,23 @@
 
 ## Supported versions
 
-`@chassis-ui/react` is pre-1.0 and not yet published to npm — until a first stable release ships,
-only the `main` branch / latest published version is supported. There's no version-support matrix
-to maintain yet; this section will be filled in once a 1.0 is out and older major versions need
-their own support windows.
+`@chassis-ui/react` is pre-1.0. Only the latest published version gets fixes; there are no
+maintenance branches for older versions.
+
+## What to report
+
+This repository holds two things that run for other people:
+
+- **`@chassis-ui/react`**, the component library. It runs in your users' browsers and, with
+  server rendering, on your servers. A way to run script through a component (for example
+  through a prop, `href`, or children that should have been escaped), a component that
+  exposes content it should not, or a published version that differs from what the source in
+  this repository builds, is a vulnerability.
+- **The docs site**, published at chassis-ui.com/react. A way to run script through its pages
+  or examples is a vulnerability.
+
+A problem in `@chassis-ui/css` or another Chassis project belongs to that project's
+repository, even when it shows up in a component's rendering.
 
 ## Reporting a vulnerability
 
@@ -13,12 +26,11 @@ their own support windows.
 
 Instead, use GitHub's private vulnerability reporting for this repository:
 [github.com/chassis-ui/react/security/advisories/new](https://github.com/chassis-ui/react/security/advisories/new).
-This opens a private disclosure thread visible only to you and the maintainers, and lets us
-coordinate a fix and a coordinated disclosure/release before any public write-up.
+This opens a private thread visible only to you and the maintainers, so a fix can be released
+before any public write-up.
 
-If you're unable to use GitHub's private reporting for some reason, open a regular issue asking a
-maintainer to reach out for a private channel — without including vulnerability details in the
-issue itself.
+If you can't use GitHub's private reporting, open a regular issue asking a maintainer to reach out
+for a private channel, without including any details of the vulnerability.
 
-We'll acknowledge new reports and aim to keep you updated as we investigate and land a fix. Please
-give us reasonable time to address a confirmed issue before any public disclosure.
+We'll acknowledge new reports and keep you updated while we investigate and fix a confirmed issue.
+Please give us reasonable time to release a fix before any public disclosure.
