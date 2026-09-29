@@ -268,7 +268,8 @@ client module that hasn't loaded. #37 covers `Slot`. The same input reaches othe
 - `Tabs`: renders, with a "unique key" warning.
 - `List`, `Stepper`: render correctly (`Children.toArray` resolves lazy nodes in React 19).
 
-The lazy node was built by hand in the probe, not captured from a running Next.js app.
+The lazy node was built by hand in the probe, not captured from a running Next.js app. B3 ran it
+in one and corrected this finding; see that phase.
 
 Every file that inspects children is exposed: `comboboxCollection.tsx`, `Stepper.tsx`, `List.tsx`,
 `Tabs.tsx`, `DataGridPinBehavior.tsx`, `iconSlot.tsx`, `Tooltip.tsx`, `Popover.tsx`, `slot.tsx`.
@@ -603,24 +604,53 @@ Changeset: patch. Exit: asChild matrix passes with an empty allowlist.
 
 ### B3 — Lazy children and Server Component composition (F3, #37)
 
+Done. Reproduced in `smoke-tests/nextjs-app-router` (Next.js 16.3.6, React 19.3.0) before any
+change, which corrected F3 in three ways:
+
+- **A second defect, not in F3, and the worse one.** An element whose type is a client component
+  carries a lazy wrapper as its `type`, so `child.type === ListItem` is false for children written
+  in a Server Component. In a production build, on every request, with no error: `Tabs` rendered
+  an empty tab list, `List` and `Stepper` rendered `<ul><a>`, `Combobox` and `Autocomplete` listed
+  no options.
+- **The lazy node of #37 shows under `next dev` only**, in the browser, when the child holds a
+  client component passed by reference whose module is still loading. There it reproduced as
+  filed: `asChild` fell back to `<button>` and failed hydration, and `Tooltip` threw and blanked
+  the page. `next start` never produced one, with a slow module or on a client-side navigation.
+- **`Table` is not a defect.** It fails `next build` from a Server Component, which #20 settled:
+  `StaticTable` is what a Server Component renders. The box below that lists `Table` was written
+  without reading #20. The smoke app has a `StaticTable` route instead, and the docs say so.
+
+`src/utils/lazyElement.ts` has `resolveLazy`, which covers both nodes and types, and
+`isElementOfType`. `DataGrid` with static children was checked too and works.
+
 Model: **Fable**. It depends on how Flight and Suspense behave, and the probe used a hand-built
 lazy node, so the first job is reproducing it in a real app.
 
-- [ ] Reproduce #37 and the `Tooltip` crash in `smoke-tests/nextjs-app-router` before changing
+- [x] Reproduce #37 and the `Tooltip` crash in `smoke-tests/nextjs-app-router` before changing
       anything.
-- [ ] Add `resolveLazyElement(node)`: return the element for a resolved lazy node, rethrow the
-      thenable for a pending one so Suspense handles it.
-- [ ] Apply it in `getSlotChild` (closes #37), `asTriggerElement`, `Tabs`,
-      `comboboxCollection`, `DataGridPinBehavior` and `iconSlot`.
-- [ ] Add routes to the smoke app that compose `Tabs`, `List`, `Tooltip`, `Combobox` and `Table`
-      directly in a Server Component, each with a client component in the subtree.
-- [ ] Add a Playwright check against `next start` that fails on any console error.
-- [ ] Document in the SSR docs page which compound components can be composed from a Server
+- [x] Add `resolveLazyElement(node)`: return the element for a resolved lazy node, rethrow the
+      thenable for a pending one so Suspense handles it. Named `resolveLazy`.
+- [x] Apply it in `getSlotChild` (closes #37), `asTriggerElement`, `Tabs`,
+      `comboboxCollection`, `DataGridPinBehavior` and `iconSlot`. Also `List`, `Stepper` and
+      `resolveKindFromProps`.
+- [x] Add routes to the smoke app that compose `Tabs`, `List`, `Tooltip`, `Combobox` and `Table`
+      directly in a Server Component, each with a client component in the subtree. Ten routes
+      under `app/rsc/`; `StaticTable` in place of `Table`.
+- [x] Add a Playwright check against `next start` that fails on any console error. It runs
+      against `next dev` as well, where #37 shows, and asserts markup, because the production
+      defects logged nothing. `pnpm smoke:test`; CI runs it in `smoke-test-nextjs`.
+- [x] Document in the SSR docs page which compound components can be composed from a Server
       Component.
 
 Changeset: patch. Exit: lazy probes render the same HTML as their plain equivalents.
 
 ### B4 — Remove `react-transition-group` (F8, #40)
+
+Check F8 before starting. B3's Playwright check loads `Tooltip`, `Popover` and `Tabs` under
+`next dev` with Turbopack on Next.js 16.3.6, and all three render and work. The "Element type is
+invalid" error F8 describes did not occur for them. `Toast`, `Notification` and `Collapse` weren't
+loaded. The comment at the top of `smoke-tests/nextjs-app-router/app/page.tsx` still describes the
+error.
 
 Model: **Fable**. Transition timing, focus return and unmount ordering are easy to get subtly
 wrong, and visual baselines will move.

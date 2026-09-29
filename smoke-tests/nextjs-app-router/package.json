@@ -2,11 +2,12 @@
   "name": "smoke-test-nextjs-app-router",
   "version": "0.0.0",
   "private": true,
-  "description": "Framework integration smoke test: confirms @chassis-ui/react installs and builds cleanly inside a real Next.js App Router app. Not published, not user-facing — see AGENTS.md.",
+  "description": "Framework integration smoke test: confirms @chassis-ui/react installs and builds cleanly inside a real Next.js App Router app. Not published, not user-facing \u2014 see AGENTS.md.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test": "playwright test"
   },
   "dependencies": {
     "@chassis-ui/react": "workspace:*",
@@ -15,6 +16,7 @@
     "react-dom": "19.3.0"
   },
   "devDependencies": {
+    "@playwright/test": "1.63.0",
     "@types/node": "^26",
     "@types/react": "^19",
     "@types/react-dom": "^19",

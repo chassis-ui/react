@@ -46,6 +46,7 @@
     "test:visual:update": "pnpm --filter @chassis-ui/react test:visual:update",
     "test:visual:update:linux": "pnpm --filter @chassis-ui/react test:visual:update:linux",
     "smoke:build": "pnpm react:build && pnpm --filter './smoke-tests/*' build",
+    "smoke:test": "pnpm smoke:build && pnpm --filter './smoke-tests/*' test",
     "changeset": "changeset",
     "changeset:version": "changeset version && node build/sync-version-refs.js",
     "changeset:publish": "pnpm react:build && changeset publish",

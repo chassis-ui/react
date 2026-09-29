@@ -260,3 +260,10 @@ jobs:
       # through the workspace link. `smoke:build` builds it first, then builds every app under
       # smoke-tests/* (just the Next.js one today).
       - run: pnpm smoke:build
+
+      # Loads the app's Server Component routes in a browser, against `next start` and against
+      # `next dev`, and fails on wrong markup or anything the browser reports. A build alone
+      # can't see either: these routes built while `List` rendered `<ul><a>` and `Tabs` rendered
+      # no tabs. See smoke-tests/nextjs-app-router/README.md.
+      - run: pnpm --filter smoke-test-nextjs-app-router exec playwright install --with-deps chromium
+      - run: pnpm --filter './smoke-tests/*' test

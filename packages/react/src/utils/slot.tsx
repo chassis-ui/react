@@ -15,6 +15,7 @@ import { mergeProps } from 'react-aria'
 import { useForkedRef } from '../hooks/useForkedRef'
 import { devWarning } from './devWarning'
 import { ElementKind, resolveSlottedKind } from './elementKind'
+import { resolveLazy } from './lazyElement'
 
 // Backs the `asChild` prop every polymorphic component accepts (see `createPolymorphicComponent`).
 // The component renders a `Slot` as its `component`; the `Slot` then renders the caller's child
@@ -100,9 +101,13 @@ export const isSlot = (component: unknown): boolean =>
 // The single element `asChild` renders in place of the component's own element, or `null` (with
 // a dev warning) when `children` isn't exactly one — the component then falls back to rendering
 // its default element, so a misuse degrades to a working, if unstyled-as-intended, UI.
+//
+// A Server Component's child can arrive as a lazy node (#37, see `./lazyElement`): it is resolved
+// first, which suspends this component while the child is still loading.
 export function getSlotChild(children: ReactNode, displayName: string): SlotElement | null {
-  if (isValidElement<Record<string, unknown>>(children) && children.type !== Fragment) {
-    return children
+  const child = resolveLazy(children)
+  if (isValidElement<Record<string, unknown>>(child) && child.type !== Fragment) {
+    return child
   }
   devWarning(
     true,

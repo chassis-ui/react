@@ -71,6 +71,30 @@ clones the caller's element with everything the render function computed merged 
 in `smoke-tests/nextjs-app-router`: it builds, the prerendered `<a>` carries the merged classes,
 hydration is clean, and clicking it is a client-side `next/link` navigation, not a full page load.
 
+### Children from a Server Component aren't plain elements
+
+What a Server Component passes to a client component differs from what one client component passes
+another, in two ways a component that reads its children has to allow for. Both were observed in
+`smoke-tests/nextjs-app-router`:
+
+- **An element's `type` is a lazy wrapper when it is a client component**, in a production build
+  too. `child.type === ListItem` is false for a `<ListItem>` written in a Server Component. It
+  failed silently: `List` rendered `<ul><a>`, `Tabs` rendered no tabs, `Combobox` no options.
+- **An element is replaced by a lazy node when something in its props is still loading** (#37): a
+  client component passed by reference, from a module the browser hasn't loaded. A lazy node isn't
+  a valid element and has no `props`. `asChild` fell back to the default element and failed
+  hydration; `Tooltip` and `Popover` threw. This one shows under `next dev` only.
+
+`src/utils/lazyElement.ts` resolves both, the way React's own `Children` helpers do.
+`isElementOfType(child, ListItem)` replaces a type comparison, and `resolveLazy(child)` comes
+before anything that reads `child.props`. A child that is still loading throws a thenable, so the
+component suspends until the child is there.
+
+`Table` is the exception (#20). react-stately builds its collection from the elements' own types,
+which are lazy wrappers here, so composing `Table` in a Server Component fails the build with
+"Unknown element in collection". `StaticTable` is what a Server Component renders; see "The
+server-safe entry" below.
+
 ## Subpath imports
 
 Until 0.2.0 the package was one `dist/index.js` with one directive. A `'use client'` module is a

@@ -2,7 +2,6 @@ import React, {
   Children,
   ElementType,
   ForwardRefRenderFunction,
-  isValidElement,
   ReactElement,
   ReactNode
 } from 'react'
@@ -10,6 +9,7 @@ import classNames from 'classnames'
 
 import { ContextColor } from '../../types'
 import { isInteractiveKind, resolveElementTag, resolveKindFromProps } from '../../utils/elementKind'
+import { isElementOfType } from '../../utils/lazyElement'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -115,8 +115,7 @@ function StepperRender<C extends ElementType = 'ol'>(
     ? items.some((item) => !!item.href)
     : Children.toArray(children).some(
         (child) =>
-          isValidElement<StepperItemChildProps>(child) &&
-          child.type === StepperItem &&
+          isElementOfType<StepperItemChildProps>(child, StepperItem) &&
           isInteractiveKind(resolveKindFromProps(child.props))
       )
   const Component = (component ?? (hasInteractiveItem ? 'div' : 'ol')) as ElementType
@@ -159,9 +158,7 @@ function StepperRender<C extends ElementType = 'ol'>(
     (isListSemantic
       ? children
       : Children.map(children, (child) =>
-          isValidElement<StepperItemChildProps>(child) &&
-          child.type === StepperItem &&
-          !child.props.asChild
+          isElementOfType<StepperItemChildProps>(child, StepperItem) && !child.props.asChild
             ? React.cloneElement(child, { component: child.props.component ?? 'div' })
             : child
         ))

@@ -1,5 +1,6 @@
 import React, { ReactElement, RefObject, useEffect, useMemo } from 'react'
 
+import { resolveLazy } from '../../utils/lazyElement'
 import { DataGridColumnProps } from './DataGridColumn'
 import { DataGridHeaderProps } from './DataGridHeader'
 import { ColumnGeometryColumn, useColumnGeometry } from './useColumnGeometry'
@@ -89,7 +90,8 @@ export const DataGridPinBehavior = <T extends object>({
   instanceClassName,
   containerRef
 }: DataGridPinBehaviorProps<T>) => {
-  const headerChildren = header.props.children
+  // A header written in a Server Component can arrive as a lazy node (see `utils/lazyElement`).
+  const headerChildren = resolveLazy(header).props.children
 
   // Re-derived only when a column's own sizing/pin props actually change, not on every parent
   // render: `useColumnGeometry` keys its memoized result off this array's identity, and the

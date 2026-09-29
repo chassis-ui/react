@@ -1,5 +1,7 @@
 import { HTMLAttributes, ReactElement, Ref, version as reactVersion } from 'react'
 
+import { resolveLazy } from './lazyElement'
+
 /**
  * `Popover`/`Tooltip` both take their trigger as a single `ReactElement` child and re-render it
  * with `cloneElement`. A bare `ReactElement` types its props as `unknown`, which makes
@@ -13,7 +15,10 @@ export type TriggerElementProps = HTMLAttributes<HTMLElement> & { ref?: Ref<HTML
 
 export type TriggerElement = ReactElement<TriggerElementProps>
 
-export const asTriggerElement = (element: ReactElement): TriggerElement => element as TriggerElement
+// A Server Component's trigger can arrive as a lazy node, which has no `props` to read (see
+// `./lazyElement`): it is resolved first, which suspends the component while it is still loading.
+export const asTriggerElement = (element: ReactElement): TriggerElement =>
+  resolveLazy(element) as TriggerElement
 
 // React 19 turned `ref` into an ordinary prop; before that it lived on the element itself and was
 // stripped out of `props`. React 19's development build installs a warning getter on

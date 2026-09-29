@@ -44,6 +44,7 @@ pnpm lint         # react lint + site lint + HTML/vnu validation — the full lo
 pnpm lint:eslint  # eslint across both packages in full — what CI actually gates on
 pnpm site:build   # react:generate + sync-submodules + astro build + pagefind index
 pnpm smoke:build  # react:build, then build every app under smoke-tests/*
+pnpm smoke:test   # smoke:build, then load the apps' routes in Chromium with Playwright
 ```
 
 `pnpm react:lint`/`pnpm site:lint` delegate to each package's own `lint` script (eslint + stylelint

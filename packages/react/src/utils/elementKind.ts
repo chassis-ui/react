@@ -1,5 +1,7 @@
 import { ElementType, isValidElement, ReactElement, ReactNode } from 'react'
 
+import { resolveLazy } from './lazyElement'
+
 // What a polymorphic component ends up rendering, as far as its own semantics care:
 //
 // - `anchor`, `button`, `input`: the native element, which the component gives its full handling
@@ -56,9 +58,8 @@ export function resolveKindFromProps(props: {
   children?: ReactNode
   component?: ElementType
 }): ElementKind | undefined {
-  if (props.asChild && isValidElement<Record<string, unknown>>(props.children)) {
-    return resolveSlottedKind(props.children)
-  }
+  const child = props.asChild ? resolveLazy(props.children) : undefined
+  if (isValidElement<Record<string, unknown>>(child)) return resolveSlottedKind(child)
   return props.component === undefined ? undefined : resolveElementKind(props.component)
 }
 

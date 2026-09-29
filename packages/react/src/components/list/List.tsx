@@ -2,7 +2,6 @@ import React, {
   Children,
   ElementType,
   ForwardRefRenderFunction,
-  isValidElement,
   ReactElement,
   ReactNode
 } from 'react'
@@ -10,6 +9,7 @@ import classNames from 'classnames'
 
 import { ContextColor, ContextStyle } from '../../types'
 import { isInteractiveKind, resolveElementTag, resolveKindFromProps } from '../../utils/elementKind'
+import { isElementOfType } from '../../utils/lazyElement'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -128,8 +128,7 @@ function ListRender<C extends ElementType = 'ul'>(
     ? items.some((item) => !!item.href)
     : Children.toArray(children).some(
         (child) =>
-          isValidElement<ListItemChildProps>(child) &&
-          child.type === ListItem &&
+          isElementOfType<ListItemChildProps>(child, ListItem) &&
           isInteractiveKind(resolveKindFromProps(child.props))
       )
   const Component = (component ?? (hasInteractiveItem ? 'div' : 'ul')) as ElementType
@@ -184,9 +183,7 @@ function ListRender<C extends ElementType = 'ul'>(
     (isListSemantic
       ? children
       : Children.map(children, (child) =>
-          isValidElement<ListItemChildProps>(child) &&
-          child.type === ListItem &&
-          !child.props.asChild
+          isElementOfType<ListItemChildProps>(child, ListItem) && !child.props.asChild
             ? React.cloneElement(child, { component: child.props.component ?? 'div' })
             : child
         ))

@@ -4,6 +4,7 @@ import { Item, Key, Section } from 'react-stately'
 import { ComboboxGroupProps } from '../components/combobox/ComboboxGroup'
 import { ComboboxItem, ComboboxItemProps } from '../components/combobox/ComboboxItem'
 import { MenuItemsDef } from '../components/menu/MenuItemDef'
+import { isElementOfType } from './lazyElement'
 import { renderMenuItemContent } from './renderMenuItemContent'
 
 // Shared between Combobox.tsx/ComboboxListBox.tsx (which build/render this collection) and
@@ -52,22 +53,19 @@ export const buildEntriesFromChildren = (
   { Group, Item: ItemComponent }: ComboboxCollectionComponents
 ): ComboboxEntry[] => {
   const entries: ComboboxEntry[] = []
+  // `isElementOfType` rather than `child.type === Group`: written in a Server Component, the
+  // children's types are lazy wrappers (see `./lazyElement`).
   React.Children.forEach(children, (child, index) => {
-    if (!React.isValidElement(child)) return
-    if (child.type === Group) {
-      const groupProps = child.props as ComboboxGroupProps
+    if (isElementOfType<ComboboxGroupProps>(child, Group)) {
+      const groupProps = child.props
       const items: ComboboxItemElement[] = []
       React.Children.forEach(groupProps.children, (groupChild) => {
-        if (React.isValidElement(groupChild) && groupChild.type === ItemComponent) {
-          items.push(groupChild as ComboboxItemElement)
-        }
+        if (isElementOfType<ComboboxItemProps>(groupChild, ItemComponent)) items.push(groupChild)
       })
       entries.push({ entryType: 'group', key: `group-${index}`, label: groupProps.label, items })
       return
     }
-    if (child.type === ItemComponent) {
-      entries.push(child as ComboboxItemElement)
-    }
+    if (isElementOfType<ComboboxItemProps>(child, ItemComponent)) entries.push(child)
   })
   return entries
 }

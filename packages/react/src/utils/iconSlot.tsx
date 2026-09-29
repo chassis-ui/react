@@ -4,6 +4,7 @@ import { mergeProps } from 'react-aria'
 import { Icon } from '../components/icon/Icon'
 import { useIconConfig } from '../hooks/useIconConfig'
 import { DEFAULT_ICONS, IconKey, IconValue } from './iconConfig'
+import { resolveLazy } from './lazyElement'
 
 // Every icon this library's own components draw goes through here, never through `<Icon>`
 // directly, so a consumer can swap in their own icons (`IconProvider`'s `icons`/`component`, or a
@@ -24,7 +25,8 @@ export function ResolvedIcon({ value, ...props }: IconRenderProps & { value: Ico
   const iconProps = { 'aria-hidden': true, ...props }
 
   if (typeof value !== 'string') {
-    const element = value as ReactElement<Record<string, unknown>>
+    // An icon element passed from a Server Component can be a lazy node (see `./lazyElement`).
+    const element = resolveLazy(value) as ReactElement<Record<string, unknown>>
     return cloneElement(element, mergeProps(iconProps, element.props))
   }
   if (Component) return <Component name={value} {...iconProps} />

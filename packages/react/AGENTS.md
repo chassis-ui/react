@@ -144,8 +144,11 @@ pnpm test:update  # same, plus -u to update snapshots
   polymorphic component (found by reading `src/`) renders the same attributes for `asChild` with
   an `<a>`, and with a router link, as for `component="a"`; its allowlist is empty. It also fails
   on a render function that compares `component` to a tag name.
-  `test/utils/lazyChildren.spec.tsx` compares markup the same way for children delivered as the
-  lazy nodes React Server Components produce (`test/utils/lazyNode.ts`).
+  `test/utils/lazyChildren.spec.tsx` compares markup the same way for children delivered as
+  React Server Components deliver them (`test/utils/lazyNode.ts`): as lazy nodes, and as elements
+  whose types are lazy wrappers. It also fails on a `child.type === Component` comparison in
+  `src/`. The same cases run in a real app: `pnpm smoke:test`, see
+  `smoke-tests/nextjs-app-router/README.md`.
 - Coverage provider is **istanbul**, not v8 — kept intentionally to match the branch/statement
   counting the existing thresholds were tuned against. Current thresholds: statements 96%,
   branches 91%, functions 97%, lines 97% (`vitest.config.ts`). A change that drops coverage below
@@ -280,6 +283,9 @@ pnpm test:visual:update   # same, plus --update-snapshots to regenerate baseline
   `typeof Component !== 'string'`): under `asChild` it is a `Slot`, not the tag. Ask
   `resolveElementKind`/`resolveElementTag` (`src/utils/elementKind.ts`) and render `Component`
   typed as the tag, not a literal element. See `CONVENTIONS.md`.
+- Never compare a child's `type` to a component or read the `props` of an unresolved child: use
+  `isElementOfType` and `resolveLazy` (`src/utils/lazyElement.ts`). Children written in a Server
+  Component have lazy types and can be lazy nodes. See `CONVENTIONS.md` and `RSC.md`.
 - Never call `createPortal` directly: render `Portal` (`src/utils/portal.tsx`). It renders
   nothing (or its `fallback`) on the server and during hydration, then portals, so portaled
   content can't break hydration. `test/ssr/portal.spec.tsx` checks the overlays still appear.

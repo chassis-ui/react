@@ -158,6 +158,23 @@ that reads a child's props (`List` reading its `ListItem`s) uses `resolveKindFro
 `src/components`, and on any component whose `asChild` output differs from its `component="a"`
 output.
 
+## Reading children: resolve them first
+
+A component that inspects its children before rendering them never writes
+`isValidElement(child) && child.type === ListItem`, and never reads `child.props` of a child it
+hasn't resolved. It uses `isElementOfType(child, ListItem)` and `resolveLazy(child)`
+(`src/utils/lazyElement.ts`).
+
+The reason is React Server Components. Written in a Server Component, a client component's element
+has a lazy wrapper as its `type`, and an element whose props are still loading arrives as a lazy
+node with no `props` at all. See `RSC.md`. `React.Children.toArray`, `map` and `forEach` resolve
+lazy nodes themselves, so children that went through one of them are elements; their types still
+need `isElementOfType`.
+
+`test/utils/lazyChildren.spec.tsx` fails on a type comparison anywhere in `src/`, and renders each
+child-reading component with lazy nodes and with lazy types. A new component that reads its
+children gets a case there and a route in `smoke-tests/nextjs-app-router/app/rsc/`.
+
 ## `component` polymorphism: `Row`/`Col` deliberately don't have it
 
 Most components in this library take a `component` prop (`PolymorphicComponentProps<C, OwnProps<C>>`

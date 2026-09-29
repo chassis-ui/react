@@ -8,6 +8,7 @@ import React, {
 } from 'react'
 import { Item, Key, useTabListState } from 'react-stately'
 
+import { isElementOfType } from '../../utils/lazyElement'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -84,10 +85,12 @@ function TabsRender<C extends ElementType = 'div'>(
   // at the point react-stately actually needs a collection to build `state` from. This keeps
   // the public authoring shape as plain composed JSX (matching every other chassis-react
   // component) instead of exposing react-aria's raw `items`/`Item` collection API directly.
+  //
+  // `isElementOfType` rather than `child.type === TabList`: written in a Server Component, the
+  // children's types are lazy wrappers (see `utils/lazyElement`).
   const childArray = React.Children.toArray(children)
-  const tabListChild = childArray.find(
-    (child): child is ReactElement<{ children?: ReactNode }> =>
-      React.isValidElement(child) && child.type === TabList
+  const tabListChild = childArray.find((child) =>
+    isElementOfType<{ children?: ReactNode }>(child, TabList)
   )
   const panelChildren = childArray.filter((child) => child !== tabListChild)
   const tabs = (tabListChild ? React.Children.toArray(tabListChild.props.children) : []).filter(

@@ -67,6 +67,48 @@ export default function Page() {
 Every component with a `component` prop supports `asChild`. A string tag also crosses the boundary
 fine (`component="section"`); only component references need `asChild`.
 
+## Compound components
+
+A compound component reads its children before it renders them: `Tabs` finds its `TabList`, `List`
+checks whether an item is a link, `Combobox` builds its options. Children written in a Server
+Component work for all of these, with your own Client Components anywhere inside them:
+
+```tsx
+// app/settings/page.tsx — a Server Component
+import { Tab, TabList, TabPanel, Tabs } from '@chassis-ui/react/tabs'
+import { ProfileForm } from './ProfileForm' // 'use client'
+
+export default function Settings() {
+  return (
+    <Tabs defaultSelectedKey="profile">
+      <TabList aria-label="Settings">
+        <Tab id="profile">Profile</Tab>
+        <Tab id="billing">Billing</Tab>
+      </TabList>
+      <TabPanel id="profile">
+        <ProfileForm />
+      </TabPanel>
+      <TabPanel id="billing">Billing details</TabPanel>
+    </Tabs>
+  )
+}
+```
+
+| Component                  | From a Server Component                                                                                  |
+| -------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `Tabs`, `List`, `Stepper`  | Yes                                                                                                      |
+| `Combobox`, `Autocomplete` | Yes, with items written as children                                                                      |
+| `Tooltip`, `Popover`       | Yes. The trigger is the child element                                                                    |
+| `DataGrid`                 | With columns and rows written as children. `items` with a render function needs a Client Component       |
+| `Table`                    | No. Use [`StaticTable`]([[docsref:/components/static-table]]), or render `Table` from a Client Component |
+
+`Table` reads its children as data to build a collection, and that data has to be in hand when it
+renders. `StaticTable` renders plain markup and is itself a Server Component.
+
+A component that reads a child waits for it when the child is still loading, the way a lazy
+component does, so put a `<Suspense>` boundary above it if it shouldn't hold back the rest of the
+page.
+
 ## Bundle size
 
 A `'use client'` module is a client-reference boundary, and Turbopack (the default bundler in
