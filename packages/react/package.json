@@ -138,7 +138,7 @@
     "@arethetypeswrong/cli": "^0.18.5",
     "@arethetypeswrong/core": "^0.18.5",
     "@chassis-ui/css": "^0.5.2",
-    "@chassis-ui/tokens": "^0.5.1",
+    "@chassis-ui/tokens": "^0.6.0",
     "@playwright/test": "1.63.0",
     "@storybook/addon-a11y": "^10.6.0",
     "@storybook/addon-docs": "^10.6.0",
