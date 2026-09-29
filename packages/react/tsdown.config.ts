@@ -57,6 +57,9 @@ export default defineConfig({
   // shipping it pretty-printed. `dts` isn't affected: tsdown bundles declarations through a
   // separate pass that this flag doesn't touch, so the emitted `.d.ts` files stay readable.
   minify: true,
+  // Minified output is unreadable in a consumer's stack trace, so each file gets a `.map`. The maps
+  // embed `sourcesContent`, so `src/` isn't published alongside them.
+  sourcemap: true,
   // Matches `pnpm check:package`'s standalone `attw` invocation (see ci.yml): `esm-only` because
   // this package ships ESM-only by design, and `./style.css` is excluded because attw type-checks
   // JS/TS entrypoints and a plain CSS subpath export has no types for it to resolve. Keeping the

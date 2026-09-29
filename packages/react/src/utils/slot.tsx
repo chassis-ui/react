@@ -32,7 +32,7 @@ const SlotContext = createContext<SlotElement | null>(null)
 export const SlotProvider = SlotContext.Provider
 
 // React 19 moved `ref` onto `props` (and warns on reading `element.ref`); React 18 only has
-// `element.ref`. The package supports both (`peerDependencies.react: >=18`).
+// `element.ref`. The package supports both (`peerDependencies.react: ^18.0.0 || ^19.0.0`).
 const REACT_19 = parseInt(version, 10) >= 19
 
 function getElementRef(element: SlotElement): Ref<unknown> | undefined {

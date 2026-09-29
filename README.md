@@ -24,7 +24,7 @@ of live examples and API tables generated from the library's own TypeScript sour
 
 ### Installation
 
-Requires React and React DOM 18 or later:
+Requires React and React DOM 18 or 19:
 
 ```shell
 npm install @chassis-ui/react @chassis-ui/css

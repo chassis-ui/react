@@ -9,39 +9,42 @@
 </p>
 
 <p align="center">
-  React.js component library built on Chassis CSS and TypeScript.
+  React component library built on Chassis CSS and TypeScript.
   <br>
-  <a href="https://chassis-ui.com/react/getting-started/introduction"><strong>Explore the Chassis React docs »</strong></a>
+  <a href="https://chassis-ui.com/react/getting-started/introduction/"><strong>Explore the Chassis React docs »</strong></a>
   <br>
   <br>
-  <a href="https://github.com/chassis-ui/react/issues/new?template=bug_report.md">Report bug</a>
-  ·
-  <a href="https://github.com/chassis-ui/react/issues/new?template=feature_request.md">Request feature</a>
+  <a href="https://www.npmjs.com/package/@chassis-ui/react"><img src="https://img.shields.io/npm/v/@chassis-ui/react" alt="npm version"></a>
+  <a href="https://github.com/chassis-ui/react/actions/workflows/ci.yml?query=branch%3Adevelop"><img src="https://github.com/chassis-ui/react/actions/workflows/ci.yml/badge.svg?branch=develop" alt="CI"></a>
+  <a href="./LICENSE"><img src="https://img.shields.io/npm/l/@chassis-ui/react" alt="License: MIT"></a>
+  <br>
+  <br>
+  <a href="https://github.com/chassis-ui/react/issues/new/choose">Report a bug or request a feature</a>
 </p>
 
 ## Installation
 
-```bash
-npm install @chassis-ui/react
-```
-
-or
+The components render `@chassis-ui/css`'s markup and class names, so install both:
 
 ```bash
-yarn add @chassis-ui/react
+npm install @chassis-ui/react @chassis-ui/css
 ```
+
+`@chassis-ui/css` is a peer dependency, pinned to one 0.x minor (`>=0.5.0 <0.6.0` today): before
+1.0 a minor release of it can rename the tokens the components rely on.
 
 ## Stylesheets
 
-React components are styled with the `@chassis-ui/css` library.
-
-```bash
-npm install @chassis-ui/css
-```
+Import the Chassis CSS stylesheet once, then this package's own stylesheet:
 
 ```js
 import '@chassis-ui/css/dist/css/chassis.min.css'
+import '@chassis-ui/react/style.css'
 ```
+
+`@chassis-ui/react/style.css` covers the few pieces with no `@chassis-ui/css` equivalent:
+`Calendar`, `RangeCalendar`, `DatePicker`, `DateRangePicker`, and `Table`'s sort and selection UI.
+Without it those pieces render unstyled; everything else is styled by `@chassis-ui/css` alone.
 
 ## Usage
 
@@ -53,23 +56,53 @@ export function Example() {
 }
 ```
 
-See the [Getting started page](https://chassis-ui.com/react/getting-started/introduction/) for the full component catalog, props, and examples.
+### Subpath imports
+
+Every component folder is also its own entry point. Importing from a subpath keeps a bundler from
+pulling in the rest of the library, which matters most in the Next.js App Router:
+
+```jsx
+import { Button } from '@chassis-ui/react/button'
+import { Modal, ModalBody, ModalHeader } from '@chassis-ui/react/modal'
+```
+
+### `asChild`
+
+Every component with a `component` prop also takes `asChild`: the component's classes, props and
+ref are merged onto its single child element. Use it to style a router link, and from a React
+Server Component, where a component reference can't be passed as a prop:
+
+```jsx
+import Link from 'next/link'
+import { Button } from '@chassis-ui/react/button'
+
+export function LoginButton() {
+  return (
+    <Button asChild variant="outline">
+      <Link href="/login">Log in</Link>
+    </Button>
+  )
+}
+```
+
+See [Server-side rendering](https://chassis-ui.com/react/getting-started/ssr/) for more, and the
+[docs](https://chassis-ui.com/react/getting-started/introduction/) for every component's props and
+examples.
 
 ## Peer dependencies
 
-- `react` ≥ 18
-- `react-dom` ≥ 18
+- `react` and `react-dom`: `^18.0.0 || ^19.0.0`
+- `@chassis-ui/css`: `>=0.5.0 <0.6.0`
 
 ## Browser support
 
-Chrome 107+, Edge 107+, Firefox 104+, Safari 16+ — the "baseline widely available" set, also
+Chrome 107+, Edge 107+, Firefox 104+, Safari 16+: the "baseline widely available" set, also
 declared as the `browserslist` field in this package's `package.json` and used as the build's
 `es2022` output target. The published bundle is not down-levelled below that, so a project
 supporting older browsers needs to transpile `node_modules/@chassis-ui/react` itself.
 
-There is no Node version requirement for consumers: this is a browser library, and the package
-deliberately declares no `engines` field. (Building this repo uses Node 24 — see the root
-`.nvmrc` — but that never reaches a consumer's install.)
+The build is minified and ships source maps with the original TypeScript embedded, so stack
+traces and debuggers show the source.
 
 ## License
 

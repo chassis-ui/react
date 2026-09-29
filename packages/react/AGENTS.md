@@ -73,6 +73,12 @@ the first line of its source module, which Rolldown preserves because it's an en
 `tsdown.config.ts` `output.banner` used to re-add it too, which duplicated it in the output — see
 `RSC.md`, and `pnpm check:rsc` for the guard that keeps it correct.
 
+The build emits a source map for every shared chunk (`sourcemap: true`), with `sourcesContent`
+embedded. That is why `files` publishes `dist/` only: the maps carry the original source, so
+`src/` isn't shipped. The thin entries are re-exports and get no map. `@chassis-ui/css` is a peer
+dependency pinned to one 0.x minor; a Dependabot pull request that takes a new css minor must
+widen that range and carry a changeset.
+
 ```bash
 pnpm build             # one-shot build (also run via `pnpm react:build` from the repo root)
 pnpm dev               # tsdown --watch, for local development against packages/site

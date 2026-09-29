@@ -386,19 +386,21 @@ Exit: a push to `main` of a commit without passing checks is rejected.
 
 ### A3 — Peer dependencies, source maps, npm README (P4, P5, P9)
 
+Done: build(react) commit "A3 — peer dependencies, source maps, npm README".
+
 Model: **Opus**. The source-map change interacts with `bundlewatch`, `check:rsc`, `publint` and
 the `sideEffects` globs.
 
-- [ ] Add `@chassis-ui/css` to `peerDependencies` as `>=0.5.0 <0.6.0` (a 0.x minor is breaking).
+- [x] Add `@chassis-ui/css` to `peerDependencies` as `>=0.5.0 <0.6.0` (a 0.x minor is breaking).
       Keep it in `devDependencies`. css and tokens share a minor and tokens is already at 0.6, so
       css 0.6 is likely next: the Dependabot pull request that takes it must widen this range and
       carry a changeset. Add that to the `chassis-ui` group's comment in `dependabot.yml`.
-- [ ] Change `react`/`react-dom` to `^18.0.0 || ^19.0.0`, or `^19.0.0` if A7 drops React 18.
-- [ ] Turn on `sourcemap` in `tsdown.config.ts`. If the maps embed `sourcesContent`, remove `src/`
+- [x] Change `react`/`react-dom` to `^18.0.0 || ^19.0.0`, or `^19.0.0` if A7 drops React 18.
+- [x] Turn on `sourcemap` in `tsdown.config.ts`. If the maps embed `sourcesContent`, remove `src/`
       from `files`; if not, keep it. Check that `.bundlewatch.config.json`'s globs don't match
       `.map` files and that `check:rsc` still passes. Record the tarball size before and after in
       the changeset.
-- [ ] Rewrite `packages/react/README.md`: install both packages in one command, the `style.css`
+- [x] Rewrite `packages/react/README.md`: install both packages in one command, the `style.css`
       import, subpath imports, `asChild`, badges.
 
 Changeset: minor. Exit: `npm pack --dry-run` lists `.map` files; `pnpm react:check:package` passes.
