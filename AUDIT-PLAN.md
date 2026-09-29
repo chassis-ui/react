@@ -408,18 +408,22 @@ Changeset: minor. Exit: `npm pack --dry-run` lists `.map` files; `pnpm react:che
 
 ### A4 — Prettier, stylelint and cspell as CI gates (P6, P8)
 
+Done: ci commit "A4 — Prettier, stylelint and cspell as CI gates". The first cspell run found no
+typos, only project words; `api-report.md` is ignored as generated, and the French examples in
+`internationalization.mdx` carry a `cspell:ignore` comment.
+
 Model: **Sonnet**. Named files, two scripts and one workflow line.
 
-- [ ] Format the three files by path, one command each. Never run Prettier over `src/` as a whole:
+- [x] Format the three files by path, one command each. Never run Prettier over `src/` as a whole:
       it disagrees with stylelint on `.scss`/`.css`.
-- [ ] Fix the two `react/no-array-index-key` warnings in `packages/site/examples/components/list/`.
-- [ ] Add `cspell` and a `spellcheck` script, as chassis-website has
+- [x] Fix the two `react/no-array-index-key` warnings in `packages/site/examples/components/list/`.
+- [x] Add `cspell` and a `spellcheck` script, as chassis-website has
       (`cspell --no-progress --no-must-find-files`). In `.cspell.json`, change `packages/website/`
       to `packages/site/` and add the project's own words. Expect a first run that lists many.
-- [ ] Make the root `pnpm lint` run what CI's lint runs: `react:lint`, `site:lint`, `spellcheck`.
+- [x] Make the root `pnpm lint` run what CI's lint runs: `react:lint`, `site:lint`, `spellcheck`.
       Take `lint:html` and `lint:vnu` out of it; they need a built site and move to A8.
-- [ ] In `ci.yml`, replace `pnpm lint:eslint` with `pnpm lint`.
-- [ ] Update the CI section of the root `AGENTS.md`, which still says these have pre-existing
+- [x] In `ci.yml`, replace `pnpm lint:eslint` with `pnpm lint`.
+- [x] Update the CI section of the root `AGENTS.md`, which still says these have pre-existing
       findings.
 
 Exit: `pnpm lint` exits 0 locally and in CI.

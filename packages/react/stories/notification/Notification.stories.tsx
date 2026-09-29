@@ -125,8 +125,8 @@ export const WithActions: Story = {
         <NotificationIcon name="exclamation-triangle-solid" className="align-self-start" />
         <div className="d-flex flex-column xl:flex-row gap-md">
           <p className="m-0">
-            A notification with inline actions — stacked on narrow viewports, side-by-side from
-            xl up.
+            A notification with inline actions — stacked on narrow viewports, side-by-side from xl
+            up.
           </p>
           <div className="hstack gap-sm align-items-center justify-content-end">
             <button type="button" className="button danger sm">

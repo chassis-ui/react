@@ -22,8 +22,12 @@ what's shared across both.
   minimum of Astro 7.
 - TypeScript, strict-ish: `tsconfig.json` at the root is extended by both packages
   (`noImplicitAny`, `strictNullChecks`, `noUnusedLocals`/`noUnusedParameters` all on).
-- Root ESLint config (`eslint.config.js`) covers both packages (`.ts`/`.tsx`/`.astro`), with
-  Prettier run as an ESLint rule rather than a separate check.
+- Root ESLint config (`eslint.config.js`) covers both packages (`.ts`/`.tsx`/`.astro`). It runs
+  Prettier as an ESLint rule at `warn`, so ESLint alone never fails on formatting; each package's
+  `lint:prettier` is the check that does.
+- cspell (`.cspell.json`) checks every `.md`/`.mdx` file, with `en` and `en-GB` both accepted.
+  Add a real word to `words`; for foreign-language examples in one page, put a
+  `{/* cspell:ignore ... */}` comment in that page instead.
 
 ## Root scripts
 
@@ -40,8 +44,9 @@ pnpm setup        # sync submodules + one-shot library build — run once after 
 pnpm dev          # lib watch build + astro dev server, together
 pnpm start        # setup, then dev — the single command for a fresh clone
 pnpm test         # @chassis-ui/react's vitest suite
-pnpm lint         # react lint + site lint + HTML/vnu validation — the full local sweep
-pnpm lint:eslint  # eslint across both packages in full — what CI actually gates on
+pnpm lint         # react lint + site lint + spellcheck — exactly what CI's Lint job runs
+pnpm lint:eslint  # eslint only, across both packages — the fast subset
+pnpm spellcheck   # cspell over every .md/.mdx file
 pnpm site:build   # react:generate + sync-submodules + astro build + pagefind index
 pnpm smoke:build  # react:build, then build every app under smoke-tests/*
 pnpm smoke:test   # smoke:build, then load the apps' routes in Chromium with Playwright
@@ -71,9 +76,8 @@ site's static assets come from.
 ## CI
 
 `.github/workflows/ci.yml` runs on push to `develop` and on PRs against `develop`/`staging`/`main`, as the jobs Lint, Type Check, Test and Build (the names the ruleset requires) plus `site-build`, `visual-regression` and `smoke-test-nextjs`: `pnpm install
---frozen-lockfile`, then `pnpm lint:eslint` (the eslint-only pass across both packages — CI
-deliberately doesn't gate on the full `pnpm lint`, which also runs stylelint/Prettier/HTML
-validation and currently has pre-existing, unrelated findings), then `pnpm react:check:types`
+--frozen-lockfile`, then `pnpm lint` (eslint, stylelint and Prettier in both packages, then
+cspell; ESLint warnings don't fail it, errors and any Prettier, stylelint or cspell finding do), then `pnpm react:check:types`
 (`tsc --noEmit` over `packages/react`'s `src/`, `test/`, `types/` and `.storybook/` — nothing else
 type-checks this repo's own source, since tsdown bundles declarations rather than running a full
 `tsc`, and `react:check:api` only diffs the emitted `.d.ts`; four type errors including a wrong
@@ -103,7 +107,8 @@ A separate `site-build` job runs the full `pnpm site:setup && pnpm site:build` (
   the only thing in CI that needs a submodule checkout: `packages/site/public/` is gitignored and
   populated from `vendor/assets` by `pnpm sync-submodules`.
 
-`pnpm lint:html`/`pnpm lint:vnu` are still **not** in CI. They were silently non-functional for a
+`pnpm lint:html`/`pnpm lint:vnu` are **not** in CI or in `pnpm lint`; they need a built `_site/`,
+so run them after `pnpm site:build`. They were silently non-functional for a
 while — `build/html-validate.js` imports `globby`, which was never in the root devDependencies, so
 the script died on an unresolved import rather than validating anything. With that fixed they run,
 and report ~3,000 pre-existing issues across the built docs site (redundant ARIA roles, attribute

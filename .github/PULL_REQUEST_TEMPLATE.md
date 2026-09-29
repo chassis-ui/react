@@ -18,7 +18,7 @@ a Storybook story, or the test that fails without the change.
 See [CONTRIBUTING.md](CONTRIBUTING.md#what-a-pr-needs-before-merge) for the details behind each of
 these.
 
-- [ ] `pnpm lint:eslint`, `pnpm react:check:types`, and `pnpm test` pass locally
+- [ ] `pnpm lint`, `pnpm react:check:types`, and `pnpm test` pass locally
 - [ ] Added or updated tests — including a `jest-axe` assertion for anything interactive
 - [ ] **Changeset added** (`pnpm changeset`) if this changes `@chassis-ui/react`'s published
       behavior: an export, a prop, or observable DOM/class output. Not needed for docs-only,

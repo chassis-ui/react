@@ -13,7 +13,7 @@
     "start": "pnpm setup && pnpm dev",
     "dev": "pnpm react:dev & pnpm site:dev",
     "preview": "pnpm site:preview",
-    "lint": "pnpm react:lint && pnpm site:lint && pnpm lint:html && pnpm lint:vnu",
+    "lint": "pnpm react:lint && pnpm site:lint && pnpm spellcheck",
     "lint:eslint": "pnpm --filter @chassis-ui/react lint:eslint && pnpm --filter chassis-react-site lint:eslint",
     "lint:html": "node build/html-validate.js",
     "lint:vnu": "node build/vnu-jar.js",
@@ -50,6 +50,7 @@
     "changeset": "changeset",
     "changeset:version": "changeset version && node build/sync-version-refs.js",
     "changeset:publish": "pnpm react:build && changeset publish",
+    "spellcheck": "cspell --no-progress --no-must-find-files",
     "sync-submodules": "node build/sync-submodules.js"
   },
   "devDependencies": {
@@ -57,6 +58,7 @@
     "@eslint/js": "^10.0.1",
     "@testing-library/dom": "^10.4.2",
     "@types/node": "^26.6.3",
+    "cspell": "^10.3.6",
     "eslint": "^10.11.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-astro": "^3.2.1",

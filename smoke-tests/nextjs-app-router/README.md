@@ -36,6 +36,6 @@ client component passes another:
 Server Component renders `StaticTable` instead (#20), which has one.
 
 `private: true`, excluded from Changesets (`.changeset/config.json`'s `ignore`) and from the root
-`pnpm lint:eslint` glob (`packages/**/src/**`, which this directory doesn't match) — it's not
+`pnpm lint`, which lints `packages/react` and `packages/site` only — it's not
 shipped, versioned, or held to this repo's own lint/prettier rules, since most of its files are
 `create-next-app`'s own boilerplate.
