@@ -2,5 +2,12 @@
   "buildCommand": "pnpm site:setup && pnpm site:build",
   "outputDirectory": "_site",
   "installCommand": "pnpm install",
-  "framework": null
+  "framework": null,
+  "headers": [
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "header", "key": "host", "value": ".*-staging\\.vercel\\.app" }],
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    }
+  ]
 }
