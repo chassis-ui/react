@@ -6,10 +6,17 @@ updates:
       interval: "weekly"
     open-pull-requests-limit: 10
     groups:
+      # A release of a Chassis package opens one pull request of its own, apart from the routine
+      # updates: a 0.x minor of these is breaking, and it can change the compiled CSS.
+      chassis-ui:
+        patterns:
+          - "@chassis-ui/*"
       minor-and-patch:
         update-types:
           - "minor"
           - "patch"
+        exclude-patterns:
+          - "@chassis-ui/*"
     ignore:
       # Major bumps for these are deliberate, coordinated changes (peer deps, build tooling
       # tied to CI's pinned versions) rather than routine updates — see AGENTS.md.
