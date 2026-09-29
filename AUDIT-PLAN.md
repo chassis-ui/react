@@ -336,12 +336,14 @@ it: `TabPanel`, `Tooltip`, `Notification`, `Collapse`, `Popover`, `Toast`.
 
 ### A1 — License, security policy, repository security settings (P1, P2)
 
+Done: 59bf0722.
+
 Model: **You**, then **Sonnet**. The edits are two small files once the decision is made.
 
 - [x] **(You)** Decide the copyright line. If the code descends from CoreUI React, MIT requires
       keeping their notice and adding yours. If it doesn't, replace it with yours.
 - [x] Update `packages/react/LICENSE` to match; make the root `LICENSE` consistent with it.
-- [ ] **(You)** In the repository's security settings, enable private vulnerability reporting,
+- [x] **(You)** In the repository's security settings, enable private vulnerability reporting,
       secret scanning and push protection. Leave Dependabot security updates off, as the ecosystem
       decided; alerts are already on.
 - [x] Rewrite `SECURITY.md` on the model of chassis-website's: "Supported versions" (only the
@@ -351,6 +353,8 @@ Model: **You**, then **Sonnet**. The edits are two small files once the decision
 Exit: `gh api repos/chassis-ui/react/private-vulnerability-reporting` returns `enabled: true`.
 
 ### A2 — Branch rules, release flow, CI hardening (P3)
+
+Files done: 324321d6. Open: the ruleset check requirement (You) and the exit check.
 
 Model: **You**, then **Opus**. Small diffs, but a mistake in `release.yml` stops publishing, and
 trusted publishing is tied to that file's name.
