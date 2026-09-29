@@ -354,7 +354,7 @@ Exit: `gh api repos/chassis-ui/react/private-vulnerability-reporting` returns `e
 
 ### A2 — Branch rules, release flow, CI hardening (P3)
 
-Files done: 324321d6. Open: the ruleset check requirement (You) and the exit check.
+Files done: 324321d6. Ruleset requires the seven CI checks since 2026-09-30. Open: the exit check, on the first push to `main`.
 
 Model: **You**, then **Opus**. Small diffs, but a mistake in `release.yml` stops publishing, and
 trusted publishing is tied to that file's name.
@@ -364,7 +364,7 @@ trusted publishing is tied to that file's name.
     commit to `staging` and `main`, and `release.yml` publishes when npm lacks the version.
   - Option 2, as chassis-tokens: keep the "Version Packages" pull request on `main`.
   - Recommendation: option 1. `main` then never holds a commit that `develop` lacks.
-- [ ] **(You)** Extend the ruleset "Protect main and staging" to require the CI checks. Don't
+- [x] **(You)** Extend the ruleset "Protect main and staging" to require the CI checks. Don't
       require a pull request: D1 keeps them optional, and a direct push of a commit that already
       passed on `develop` is the normal path.
 - [x] `ci.yml`: run on pushes to `develop` and on pull requests against `develop`, `staging` and
