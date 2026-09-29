@@ -355,7 +355,7 @@ Exit: `gh api repos/chassis-ui/react/private-vulnerability-reporting` returns `e
 Model: **You**, then **Opus**. Small diffs, but a mistake in `release.yml` stops publishing, and
 trusted publishing is tied to that file's name.
 
-- [ ] **(You)** Choose the release flow.
+- [x] **(You)** Choose the release flow.
   - Option 1, as chassis-website (D5): run `pnpm changeset:version` on `develop`, push the same
     commit to `staging` and `main`, and `release.yml` publishes when npm lacks the version.
   - Option 2, as chassis-tokens: keep the "Version Packages" pull request on `main`.
@@ -363,19 +363,19 @@ trusted publishing is tied to that file's name.
 - [ ] **(You)** Extend the ruleset "Protect main and staging" to require the CI checks. Don't
       require a pull request: D1 keeps them optional, and a direct push of a commit that already
       passed on `develop` is the normal path.
-- [ ] `ci.yml`: run on pushes to `develop` and on pull requests against `develop`, `staging` and
+- [x] `ci.yml`: run on pushes to `develop` and on pull requests against `develop`, `staging` and
       `main`. Split the `test` job into Lint, Type Check, Test and Build, the names the ecosystem's
       rulesets require. Keep `visual-regression` and `smoke-test-nextjs` as they are.
-- [ ] `release.yml`: gate the publish. With option 1, check that CI passed on the commit, as
+- [x] `release.yml`: gate the publish. With option 1, check that CI passed on the commit, as
       `publish-packages.yml` of chassis-website does. With option 2, add a `ci` job that the publish
       job `needs`, as `publish-release.yml` of chassis-tokens does. Don't rename the file.
-- [ ] `dependabot.yml`: set `target-branch: develop` for both ecosystems.
-- [ ] Both workflows: top-level `permissions: contents: read`, a `concurrency` group that cancels
+- [x] `dependabot.yml`: set `target-branch: develop` for both ecosystems.
+- [x] Both workflows: top-level `permissions: contents: read`, a `concurrency` group that cancels
       superseded pull-request runs, `timeout-minutes` on each job.
-- [ ] Pin every action to a commit SHA with the tag in a trailing comment.
-- [ ] Add dependency review on pull requests. CodeQL is optional; no other Chassis repository runs
+- [x] Pin every action to a commit SHA with the tag in a trailing comment.
+- [x] Add dependency review on pull requests. CodeQL is optional; no other Chassis repository runs
       it.
-- [ ] **(You)** Confirm the pre-1.0 versioning rule: a minor may break, a patch may not (D19).
+- [x] **(You)** Confirm the pre-1.0 versioning rule: a minor may break, a patch may not (D19).
       Then rewrite the semver section of `VERSIONING.md` to say so.
 
 Exit: a push to `main` of a commit without passing checks is rejected.

@@ -69,7 +69,7 @@ site's static assets come from.
 
 ## CI
 
-`.github/workflows/ci.yml` runs on push to `main`/`develop` and on PRs: `pnpm install
+`.github/workflows/ci.yml` runs on push to `develop` and on PRs against `develop`/`staging`/`main`, as the jobs Lint, Type Check, Test and Build (the names the ruleset requires) plus `site-build`, `visual-regression` and `smoke-test-nextjs`: `pnpm install
 --frozen-lockfile`, then `pnpm lint:eslint` (the eslint-only pass across both packages — CI
 deliberately doesn't gate on the full `pnpm lint`, which also runs stylelint/Prettier/HTML
 validation and currently has pre-existing, unrelated findings), then `pnpm react:check:types`
@@ -118,10 +118,11 @@ That image tag has to stay in lockstep with the `@playwright/test` devDependency
 `packages/react/package.json` — bumping one without the other risks font/rendering drift that
 looks like a regression but isn't.
 
-A third workflow, `.github/workflows/release.yml`, is unrelated to the checks above — it's the
-Changesets-based release pipeline (opens/updates a "Version Packages" PR, publishes to npm on
-merge). See [`packages/react/VERSIONING.md`](packages/react/VERSIONING.md) for the full release
-process and what a repo admin still needs to configure before it can actually publish.
+`.github/workflows/release.yml` publishes to npm on a push to `main` when npm lacks the version in
+`packages/react/package.json`, after checking that the CI jobs passed on that commit. Versions are
+made on `develop` with `pnpm changeset:version` and pushed as the same commit to `staging` and
+`main`. See [`packages/react/VERSIONING.md`](packages/react/VERSIONING.md). `dependency-review.yml`
+blocks pull requests that add a vulnerable dependency.
 
 ## Where things live
 

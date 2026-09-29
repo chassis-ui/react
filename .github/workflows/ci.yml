@@ -2,18 +2,74 @@ name: CI
 
 on:
   push:
-    branches: [main, develop]
+    branches: [develop]
   pull_request:
+    branches: [develop, staging, main]
+
+permissions:
+  contents: read
+
+# A newer push to the same pull request supersedes the running one. Pushes to develop always
+# run to the end: the publish workflow reads their results.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
-  test:
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - uses: pnpm/action-setup@v6
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
 
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm lint:eslint
+
+  type-check:
+    name: Type Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # Nothing else type-checks this repo's own source: tsdown's build doesn't check function
+      # bodies (it bundles declarations, it doesn't run a full `tsc`), and `react:check:api` only
+      # diffs the emitted .d.ts against a snapshot. Type errors in `src/` therefore reached
+      # `main` — including a `usePagination` return type that claimed its refs were non-null when
+      # `useRef<T>(null)` makes them nullable, which shipped to consumers in the published types.
+      - run: pnpm react:check:types
+
+      # Astro/MDX type-checking of the docs site (`astro check`)
+      - run: pnpm site:check
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version-file: .nvmrc
           cache: pnpm
@@ -28,23 +84,31 @@ jobs:
       # `--with-deps` also installs the OS-level libraries Chromium needs on a bare Ubuntu runner.
       - run: pnpm --filter @chassis-ui/react exec playwright install --with-deps chromium
 
-      - run: pnpm lint:eslint
-
-      # Nothing else type-checks this repo's own source: tsdown's build doesn't check function
-      # bodies (it bundles declarations, it doesn't run a full `tsc`), and `react:check:api` only
-      # diffs the emitted .d.ts against a snapshot. Type errors in `src/` therefore reached
-      # `main` — including a `usePagination` return type that claimed its refs were non-null when
-      # `useRef<T>(null)` makes them nullable, which shipped to consumers in the published types.
-      - run: pnpm react:check:types
-
       - run: pnpm test
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm react:build
 
       # Bundles a single-file declaration build of src/index.ts (the published dist/*.d.ts is split
       # into hashed shared chunks, one entry per subpath export) and diffs it against the
       # checked-in packages/react/api-report.md snapshot, so an accidental breaking change to the
       # public props/types surface is caught here instead of only being discovered by a consumer
       # after publish. See packages/react/scripts/check-api-surface.ts.
-      - run: pnpm react:build
       - run: pnpm react:check:api
 
       # Asserts every published entry point (dist/index.js plus one dist/<folder>.js per
@@ -73,11 +137,6 @@ jobs:
       # ./style.css` because attw type-checks JS/TS entrypoints; a plain CSS subpath export has no
       # types for it to resolve.
       - run: pnpm react:check:package
-
-      # Type-checking only (`astro check`) — fast, and it needs neither the `vendor/assets`
-      # submodule nor a Sass toolchain. The full static build now runs too, but as its own
-      # `site-build` job below, because it needs a submodule checkout this job doesn't do.
-      - run: pnpm site:check
 
       # Guards against the exact class of regression this repo already hit once (pre-tsdown, under
       # Rollup): react-aria/react-stately/etc. silently getting bundled into dist/ instead of
@@ -117,15 +176,16 @@ jobs:
   # `pnpm sync-submodules` (via `site:setup`) and is gitignored, so a plain checkout doesn't have
   # it.
   site-build:
+    timeout-minutes: 20
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           submodules: true
 
-      - uses: pnpm/action-setup@v6
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
 
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version-file: .nvmrc
           cache: pnpm
@@ -152,15 +212,16 @@ jobs:
   # `-chromium-darwin.png` baselines committed from a Mac are for local dev convenience only and
   # are never what this job checks against).
   visual-regression:
+    timeout-minutes: 20
     runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/playwright:v1.63.0-noble
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - uses: pnpm/action-setup@v6
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
 
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version-file: .nvmrc
           cache: pnpm
@@ -179,13 +240,14 @@ jobs:
   # user-facing — see its own AGENTS.md/README.md) depending on @chassis-ui/react via
   # `workspace:*`, so it always builds against this PR's actual source, not a published version.
   smoke-test-nextjs:
+    timeout-minutes: 20
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - uses: pnpm/action-setup@v6
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
 
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version-file: .nvmrc
           cache: pnpm

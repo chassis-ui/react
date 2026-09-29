@@ -32,17 +32,20 @@ display it but sit outside the pnpm workspace's own dependency graph: `README.md
 download-archive link and `packages/site/config.yml`'s `currentVersion`. Both are followers of
 `packages/react`'s version, never bumped independently.
 
-The actual publish pipeline (`.github/workflows/release.yml`) uses the standard
-[`changesets/action`](https://github.com/changesets/action) recipe: on every push to `main` with
-pending changesets, it opens/updates a "Version Packages" PR; merging that PR triggers the publish
-step. It publishes with npm trusted publishing, so no npm token is involved (see "npm
-authentication" below).
+Versions are made on `develop`: run `pnpm changeset:version`, commit the result, and push that same
+commit to `staging` and `main`. A push to `main` runs `.github/workflows/release.yml`, which checks
+that the CI jobs passed on the commit, then publishes the version in `packages/react/package.json`
+when npm doesn't have it yet, and creates its GitHub release from the `CHANGELOG.md` entry. A push
+without a new version publishes nothing. It publishes with npm trusted publishing, so no npm token
+is involved (see "npm authentication" below).
 
 ## Semver policy
 
-Standard [semver](https://semver.org/): patch = fix with no API change, minor = additive/backward
-compatible, major = breaking. Applied to this specific API shape (flat, root-prefixed exports —
-see `CONVENTIONS.md`; there is no namespaced/dotted API to reason about):
+[Semver](https://semver.org/), with the 0.x rule: **before 1.0, a minor release may break and a
+patch release may not.** From 1.0: patch = fix with no API change, minor = additive/backward
+compatible, major = breaking. The bump levels below are the 1.0 rules; before 1.0, read "major" as
+"minor" and say "Breaking:" in the changeset. Applied to this specific API shape (flat,
+root-prefixed exports — see `CONVENTIONS.md`; there is no namespaced/dotted API to reason about):
 
 - **Adding a new component, or a new sub-part to an existing compound family** (e.g. a new
   `AccordionFooter` alongside `AccordionItem`/`AccordionHeader`/`AccordionBody`) — **minor**. It's

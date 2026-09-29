@@ -1,33 +1,142 @@
 name: Release
 
-# Standard changesets/action recipe: on every push to main, either opens/updates a "Version
-# Packages" PR (when .changeset/*.md files are pending) or publishes to npm (when that PR was
-# just merged, i.e. no pending changesets remain and packages/react/package.json's version isn't
-# on npm yet). See packages/react/VERSIONING.md for the full release process this wires up.
+# On a push to main, publishes the version in packages/react/package.json when npm does not have
+# it yet, then creates its GitHub release from its CHANGELOG entry. The version and the CHANGELOG
+# are made on develop with `pnpm changeset:version`, and the same commit is pushed to staging and
+# main. See packages/react/VERSIONING.md.
+#
+# The checks of ci.yml ran on this commit when it was pushed to develop, and the ruleset of main
+# requires them before the commit can reach main. This workflow does not run them again. It reads
+# their results and stops unless each one passed.
+#
+# npm trusted publishing: @chassis-ui/react trusts this workflow file of chassis-ui/react, so no
+# npm token is needed and every version has provenance. Renaming this file breaks publishing until
+# the trusted publisher on npmjs.com is updated to match.
 on:
   push:
     branches: [main]
-
-concurrency: ${{ github.workflow }}-${{ github.ref }}
+  workflow_dispatch:
 
 permissions:
-  contents: write # changesets/action creates the Version Packages PR and, on publish, a git tag
-  pull-requests: write # ...and needs this to open/update that PR
-  id-token: write # npm trusted publishing and provenance (OIDC) — no npm token is needed
+  contents: read
+
+# Never cancel a run that may be publishing
+concurrency:
+  group: release
+  cancel-in-progress: false
 
 jobs:
-  release:
+  detect:
+    name: Detect Version
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-        with:
-          fetch-depth: 0 # changesets needs full history to diff against the last release
+    timeout-minutes: 5
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      dist-tag: ${{ steps.version.outputs.dist-tag }}
+      prerelease: ${{ steps.version.outputs.prerelease }}
+      publish: ${{ steps.npm.outputs.publish }}
 
-      - uses: pnpm/action-setup@v6
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # A prerelease such as 0.3.0-next.0 goes to the dist-tag `next`, and a version without a
+      # prerelease part to `latest`. A numeric prerelease goes to `next`, because npm rejects a
+      # dist-tag that is a version range.
+      - name: Read the version
+        id: version
+        run: |
+          VERSION=$(node -p "require('./packages/react/package.json').version")
+          PRERELEASE=${VERSION#*-}
+
+          if [ "$PRERELEASE" = "$VERSION" ]; then
+            DIST_TAG=latest
+          else
+            DIST_TAG=${PRERELEASE%%.*}
+            case "$DIST_TAG" in
+              '' | *[!0-9A-Za-z-]* | [0-9]*) DIST_TAG=next ;;
+            esac
+          fi
+
+          {
+            echo "version=$VERSION"
+            echo "dist-tag=$DIST_TAG"
+            echo "prerelease=$([ "$DIST_TAG" = latest ] && echo false || echo true)"
+          } >> "$GITHUB_OUTPUT"
+          echo "Version $VERSION, dist-tag $DIST_TAG"
+
+      - name: Check whether npm has the version
+        id: npm
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          if npm view "@chassis-ui/react@$VERSION" version 2>/dev/null | grep -qx "$VERSION"; then
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+            echo "npm has $VERSION. Nothing to publish."
+          else
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+            echo "npm does not have $VERSION. It will be published."
+          fi
+
+  checks:
+    name: Checks Passed
+    needs: detect
+    if: needs.detect.outputs.publish == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      checks: read
+
+    steps:
+      - name: Read the results of CI on this commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REQUIRED: |
+            Lint
+            Type Check
+            Test
+            Build
+            site-build
+            visual-regression
+            smoke-test-nextjs
+        run: |
+          RESULTS=$(gh api "repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/check-runs?per_page=100" \
+            --jq '.check_runs[] | select(.conclusion == "success") | .name')
+          MISSING=0
+
+          while IFS= read -r NAME; do
+            [ -z "$NAME" ] && continue
+
+            if printf '%s\n' "$RESULTS" | grep -qxF "$NAME"; then
+              echo "passed: $NAME"
+            else
+              echo "::error::The check '$NAME' has not passed on $GITHUB_SHA"
+              MISSING=1
+            fi
+          done <<< "$REQUIRED"
+
+          exit $MISSING
+
+  publish:
+    name: Publish @chassis-ui/react
+    needs: [detect, checks]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write # to create the GitHub release and its tag
+      id-token: write # for npm trusted publishing and provenance
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
 
       # Node 24 by name, not .nvmrc: it ships npm 11, which trusted publishing needs (11.5.1 or
       # later). `changeset publish` runs `pnpm publish`, which hands the upload to that npm.
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24
           cache: pnpm
@@ -35,19 +144,31 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      # dist/ is gitignored — has to be rebuilt here before `changeset publish` can ship it.
-      # (When this step runs for the "open/update the Version Packages PR" case instead of an
-      # actual publish, the build output is simply unused — cheap enough not to special-case.)
-      - run: pnpm react:build
-
-      - name: Create Version Packages PR or publish to npm
-        uses: changesets/action@v2
-        with:
-          version-script: pnpm changeset:version
-          publish-script: pnpm changeset:publish
+      # Before publishing, so a version without a CHANGELOG entry is not published
+      - name: Release notes
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # npm trusted publishing: @chassis-ui/react trusts this workflow file (release.yml) of
-          # chassis-ui/react, so npm authenticates the publish by OIDC. Renaming this file breaks
-          # publishing until the trusted publisher on npmjs.com is updated to match.
+          VERSION: ${{ needs.detect.outputs.version }}
+        run: |
+          awk -v v="$VERSION" '/^## /{p = ($2 == v)} p' packages/react/CHANGELOG.md > "$RUNNER_TEMP/release-notes.md"
+          test -s "$RUNNER_TEMP/release-notes.md" || { echo "::error::No CHANGELOG entry for $VERSION"; exit 1; }
+
+      # dist/ is gitignored, so `changeset:publish` builds it first, then publishes what npm lacks
+      - name: Publish to npm
+        env:
           NPM_CONFIG_PROVENANCE: true
+        run: pnpm changeset:publish
+
+      # Runs only when the publish step succeeded
+      - name: Create the GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ needs.detect.outputs.version }}
+          PRERELEASE: ${{ needs.detect.outputs.prerelease }}
+        run: |
+          FLAGS=""
+          [ "$PRERELEASE" = true ] && FLAGS="--prerelease"
+          gh release create "@chassis-ui/react@$VERSION" \
+            --target "$GITHUB_SHA" \
+            --title "@chassis-ui/react v$VERSION" \
+            --notes-file "$RUNNER_TEMP/release-notes.md" \
+            $FLAGS
