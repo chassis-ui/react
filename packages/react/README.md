@@ -68,8 +68,8 @@ declared as the `browserslist` field in this package's `package.json` and used a
 supporting older browsers needs to transpile `node_modules/@chassis-ui/react` itself.
 
 There is no Node version requirement for consumers: this is a browser library, and the package
-deliberately declares no `engines` field. (Building this repo needs Node 24 — see the root
-`package.json` — but that never reaches a consumer's install.)
+deliberately declares no `engines` field. (Building this repo uses Node 24 — see the root
+`.nvmrc` — but that never reaches a consumer's install.)
 
 ## License
 

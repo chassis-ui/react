@@ -66,7 +66,7 @@ Component docs, live examples, and API reference are published at
 This is a `pnpm` workspace monorepo — its own source, not the published npm package — so it's
 only relevant if you're contributing to Chassis React itself.
 
-**Prerequisites:** Node 24 and pnpm 10 or later.
+**Prerequisites:** Node 24 (the version in `.nvmrc`) and pnpm 10 or later.
 
 ```shell
 git clone https://github.com/chassis-ui/react.git

@@ -18,7 +18,8 @@ what's shared across both.
 - Package manager: **pnpm** (workspace defined in `pnpm-workspace.yaml`, packages under
   `packages/*`). Always use `pnpm`, not `npm`/`yarn` — the lockfile and `workspace:*` /
   `overrides` links in `pnpm-workspace.yaml` depend on it.
-- Node 24 (see `.github/workflows/ci.yml`).
+- Node 24 for development and CI (`.nvmrc`, which CI reads); `engines` accepts `>=22.12.0`, the
+  minimum of Astro 7.
 - TypeScript, strict-ish: `tsconfig.json` at the root is extended by both packages
   (`noImplicitAny`, `strictNullChecks`, `noUnusedLocals`/`noUnusedParameters` all on).
 - Root ESLint config (`eslint.config.js`) covers both packages (`.ts`/`.tsx`/`.astro`), with
