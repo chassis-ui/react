@@ -5,7 +5,6 @@ import Code from '@chassis-ui/docs/shortcodes/Code.astro'
 import PageMeta from '@components/PageMeta.astro'
 import { render } from 'astro:content'
 import type { CollectionEntry } from 'astro:content'
-import '@scss/docs.scss'
 // Calendar/DatePicker's scoped Sass used to reach every page for free via a JS-injected <style>
 // tag on import; tsdown's CSS pipeline now emits it as a real file instead (RSC/SSR-safe), so it
 // needs an explicit import here — the shared entry point every docs page (and its embedded

@@ -29,7 +29,7 @@ never versions or publishes it.
 `pnpm changeset:version` runs `build/sync-version-refs.js` right after `changeset version` itself,
 which propagates the freshly-bumped `packages/react/package.json` version into the two places that
 display it but sit outside the pnpm workspace's own dependency graph: `README.md`'s
-download-archive link and `packages/site/config.yml`'s `current_version`. Both are followers of
+download-archive link and `packages/site/config.yml`'s `currentVersion`. Both are followers of
 `packages/react`'s version, never bumped independently.
 
 The actual publish pipeline (`.github/workflows/release.yml`) uses the standard

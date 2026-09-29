@@ -1,33 +1,28 @@
-import path from 'node:path'
 import { defineConfig } from 'astro/config'
 import react from '@astrojs/react'
+import { loadConfig } from '@chassis-ui/docs'
+import { chassisDocs } from '@chassis-ui/docs/integration'
 import { chassis } from './src/libs/astro'
 import { iconSprite } from './src/libs/icon-sprite'
-import { getConfig } from './src/libs/config'
-import {
-  remarkCxConfig,
-  remarkCxDocsref,
-  remarkCxExample,
-  remarkCxExampleInlineChildren
-} from './src/libs/remark'
-import { chassisAutoImportPlugin } from './src/libs/shortcode'
-import { getSiteUrl, getDocsMarkdownConfig } from '@chassis-ui/docs'
+import { remarkCxExample, remarkCxExampleInlineChildren } from './src/libs/remark'
+
+const root = import.meta.dirname
+const config = loadConfig({ root })
 
 // https://astro.build/config
 export default defineConfig({
   outDir: '../../_site',
-  integrations: [...chassis(), react(), iconSprite()],
-  markdown: getDocsMarkdownConfig({
-    anchors: getConfig().anchors,
-    remarkPlugins: [
-      chassisAutoImportPlugin(),
-      remarkCxConfig,
-      remarkCxDocsref,
-      remarkCxExample,
-      remarkCxExampleInlineChildren
-    ]
-  }),
-  site: getSiteUrl(getConfig()),
+  integrations: [
+    chassisDocs({
+      config,
+      // Conflicts with the `Icon` export of `@chassis-ui/react`.
+      shortcodes: { exclude: ['Icon'] },
+      markdown: { remarkPlugins: [remarkCxExample, remarkCxExampleInlineChildren] }
+    }),
+    ...chassis({ config, root }),
+    react(),
+    iconSprite()
+  ],
   vite: {
     resolve: {
       // `@chassis-ui/react`'s `./style.css` export has to go through Vite's CSS pipeline, not
@@ -47,17 +42,6 @@ export default defineConfig({
               chunkFileNames: `static/js/docs.[hash].js`
             }
           }
-        }
-      }
-    },
-    css: {
-      preprocessorOptions: {
-        scss: {
-          loadPaths: [
-            // Resolves the bare `chassis-tokens` forward in `@chassis-ui/css/scss/config`
-            // to the framework's default, which itself forwards `@chassis-ui/tokens`.
-            path.resolve('./node_modules/@chassis-ui/css/scss/vendor')
-          ]
         }
       }
     },

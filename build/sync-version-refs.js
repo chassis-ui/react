@@ -6,7 +6,7 @@
  * Propagates @chassis-ui/react's version (the source of truth, owned by `changeset version` —
  * see .changeset/) into the handful of places that display it but aren't part of the pnpm
  * workspace's own dependency graph, so `changeset version` can't reach them on its own:
- * README.md's download-archive link and packages/site/config.yml's `current_version` field.
+ * README.md's download-archive link and packages/site/config.yml's `currentVersion` field.
  *
  * Run automatically as part of `pnpm changeset:version`, right after `changeset version` itself
  * has already bumped packages/react/package.json — never invoked standalone with an explicit
@@ -54,8 +54,8 @@ async function syncSiteConfig(version) {
   const file = 'packages/site/config.yml'
   const original = await fs.readFile(file, 'utf8')
   const updated = original.replace(
-    /^current_version:(\s*)"[^"]*"/m,
-    (_match, spacing) => `current_version:${spacing}"${version}"`
+    /^currentVersion:(\s*)"[^"]*"/m,
+    (_match, spacing) => `currentVersion:${spacing}"${version}"`
   )
 
   if (updated === original) {
@@ -63,7 +63,7 @@ async function syncSiteConfig(version) {
   }
 
   await fs.writeFile(file, updated, 'utf8')
-  console.log(`📄 Updated ${file}'s current_version → ${version}`)
+  console.log(`📄 Updated ${file}'s currentVersion → ${version}`)
   return true
 }
 

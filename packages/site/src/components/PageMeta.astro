@@ -1,6 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content'
-import { getConfig } from '@libs/config'
+import { getConfig } from '@chassis-ui/docs/site'
 import { getSlug } from '@chassis-ui/docs'
 import Icon from '@chassis-ui/docs/shortcodes/Icon.astro'
 
@@ -18,7 +18,7 @@ const depsCount = deps.length
 const hasContent =
   depsCount > 0 ||
   !!frontmatter.mdn ||
-  !!(frontmatter.added?.show_badge !== false && frontmatter.added)
+  !!(frontmatter.added?.showBadge !== false && frontmatter.added)
 ---
 
 {hasContent && (
@@ -58,7 +58,7 @@ const hasContent =
       </div>
     )}
     {frontmatter.added &&
-      (frontmatter.added.show_badge === undefined || frontmatter.added.show_badge === true) && (
+      (frontmatter.added.showBadge === undefined || frontmatter.added.showBadge === true) && (
         <div class="ms-auto">
           <Icon name="plus-solid" class="icon-success" /> Added in v{frontmatter.added.version}
         </div>

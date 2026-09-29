@@ -240,8 +240,8 @@ importers:
         specifier: ^0.5.0
         version: 0.5.0(@floating-ui/dom@1.8.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.28))(vanilla-calendar-pro@3.3.1)
       '@chassis-ui/docs':
-        specifier: ^0.5.0
-        version: 0.5.0(@astrojs/markdown-remark@7.3.0)(@chassis-ui/css@0.5.0(@floating-ui/dom@1.8.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.28))(vanilla-calendar-pro@3.3.1))(@pagefind/component-ui@1.5.2)(@shikijs/transformers@4.4.3)(astro@7.3.1(@astrojs/markdown-remark@7.3.0)(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.3)(@types/node@26.4.1)(sass@1.104.0)(terser@5.47.1)(yaml@2.9.0))(htmlparser2@12.0.0)(rehype-autolink-headings@7.1.0)(sass@1.104.0)(shiki@4.4.3)
+        specifier: ^0.6.0
+        version: 0.6.0(@astrojs/markdown-remark@7.3.0)(@chassis-ui/css@0.5.0(@floating-ui/dom@1.8.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.28))(vanilla-calendar-pro@3.3.1))(@pagefind/component-ui@1.5.2)(@shikijs/transformers@4.4.3)(astro@7.3.1(@astrojs/markdown-remark@7.3.0)(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.3)(@types/node@26.4.1)(sass@1.104.0)(terser@5.47.1)(yaml@2.9.0))(htmlparser2@12.0.0)(rehype-autolink-headings@7.1.0)(sass@1.104.0)(shiki@4.4.3)
       '@chassis-ui/icons':
         specifier: ^0.3.1
         version: 0.3.1
@@ -279,9 +279,6 @@ importers:
       '@types/hast':
         specifier: ^3.0.5
         version: 3.0.5
-      '@types/js-yaml':
-        specifier: ^4.0.9
-        version: 4.0.9
       '@types/mdast':
         specifier: ^4.0.4
         version: 4.0.4
@@ -300,12 +297,6 @@ importers:
       autoprefixer:
         specifier: ^10.5.4
         version: 10.5.4(postcss@8.5.28)
-      clipboard:
-        specifier: ^2.0.11
-        version: 2.0.11
-      js-yaml:
-        specifier: ^5.4.1
-        version: 5.4.1
       mdast-util-mdx-jsx:
         specifier: ^3.2.0
         version: 3.2.0
@@ -348,9 +339,6 @@ importers:
       unist-util-visit:
         specifier: ^5.1.0
         version: 5.1.0
-      zod:
-        specifier: ^4.5.4
-        version: 4.5.4
 
   smoke-tests/nextjs-app-router:
     dependencies:
@@ -887,8 +875,9 @@ packages:
       tailwindcss:
         optional: true
 
-  '@chassis-ui/docs@0.5.0':
-    resolution: {integrity: sha512-e75xlJJ21Mqy7gPZJ3zneJ4/OXhuQ3aHa94jNif8JOQKGSP4NZ9ITa0osEvro2KqRKOZd/9GpCybF1KEA6bFwA==}
+  '@chassis-ui/docs@0.6.0':
+    resolution: {integrity: sha512-jlxnIIqNv/zsjM3aL+2OOCQAkzAcczfcEcY5tXjXeGUeiE06liYD+Bbtem17WiD1tkZ3OUAFyA5n1ORA7qARxQ==}
+    engines: {node: '>=22.12.0'}
     peerDependencies:
       '@astrojs/markdown-remark': ^7.0.0
       '@chassis-ui/css': ^0.5.0-0
@@ -2740,9 +2729,6 @@ packages:
 
   '@types/istanbul-reports@3.0.4':
     resolution: {integrity: sha512-pk2B1NWalF9toCRu6gjBzR69syFjP4Od8WRAX+0mmf9lAjCRicLOWc+ZrxZHx/0XRjotgkF9t6iaMJ+aXcOdZQ==}
-
-  '@types/js-yaml@4.0.9':
-    resolution: {integrity: sha512-k4MGaQl5TGo/iipqb2UDG2UwjXziSWkh0uysQelTlJpX1qGlpUZYm8PnO4DxG1qBomtJUdYJ6qR6xdIah10JLg==}
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
@@ -4705,9 +4691,9 @@ packages:
     resolution: {integrity: sha512-YYNsSlXBjMk92SKnkwvB5LOVSa6OznlFUGcsvrFgNJbJCd0M1XKeFVRc8ZByeCqz32FivYNHJVooLmdqrmvp/Q==}
     engines: {node: '>= 4'}
 
-  image-size@2.0.2:
-    resolution: {integrity: sha512-IRqXKlaXwgSMAMtpNzZa1ZAe8m+Sa1770Dhk8VkSsP9LS+iHD62Zd8FQKs8fbPiagBE7BzoFX23cxFnwshpV6w==}
-    engines: {node: '>=16.x'}
+  image-size@2.0.4:
+    resolution: {integrity: sha512-QRUkFFsRV/6fuESxb9Vkq+a0LkSrgKXuc2NEqfikiXxxN/G3tjWt5EVUlMaImRBZRZK/jRBEbYvpPYZL8t08Zw==}
+    engines: {node: '>=18'}
     hasBin: true
 
   immutable@5.1.9:
@@ -5118,8 +5104,8 @@ packages:
     resolution: {integrity: sha512-SFNOvSJ+Dgf/9An904Yx+CgSlIPCkIpao4qo51lpee25TIRejdH3rhR4EZMGoNx3/TP3O+wzWuiTFl4sqbltzA==}
     hasBin: true
 
-  js-yaml@5.4.1:
-    resolution: {integrity: sha512-28R/k+NAjeuf7+CKlTxWZVExJGwVVLwY06DgEnOMz2gEpfNkDcD7QvyiVPT0xy0XXhU8vHsd4Ot42OOPdJG7dQ==}
+  js-yaml@5.4.2:
+    resolution: {integrity: sha512-m+aqu+LwO1O6sIopafj8HUVl5aawITwZQe/yHpMCKjaWBaA/d07B/QdMb3529REftiU+RMMHL3Vlsw3hON7vWg==}
     hasBin: true
 
   jsdom@30.0.1:
@@ -8224,17 +8210,22 @@ snapshots:
     optionalDependencies:
       postcss-prefix-custom-properties: 0.1.0(postcss@8.5.28)
 
-  '@chassis-ui/docs@0.5.0(@astrojs/markdown-remark@7.3.0)(@chassis-ui/css@0.5.0(@floating-ui/dom@1.8.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.28))(vanilla-calendar-pro@3.3.1))(@pagefind/component-ui@1.5.2)(@shikijs/transformers@4.4.3)(astro@7.3.1(@astrojs/markdown-remark@7.3.0)(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.3)(@types/node@26.4.1)(sass@1.104.0)(terser@5.47.1)(yaml@2.9.0))(htmlparser2@12.0.0)(rehype-autolink-headings@7.1.0)(sass@1.104.0)(shiki@4.4.3)':
+  '@chassis-ui/docs@0.6.0(@astrojs/markdown-remark@7.3.0)(@chassis-ui/css@0.5.0(@floating-ui/dom@1.8.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.28))(vanilla-calendar-pro@3.3.1))(@pagefind/component-ui@1.5.2)(@shikijs/transformers@4.4.3)(astro@7.3.1(@astrojs/markdown-remark@7.3.0)(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.3)(@types/node@26.4.1)(sass@1.104.0)(terser@5.47.1)(yaml@2.9.0))(htmlparser2@12.0.0)(rehype-autolink-headings@7.1.0)(sass@1.104.0)(shiki@4.4.3)':
     dependencies:
       '@astrojs/markdown-remark': 7.3.0
       '@chassis-ui/css': 0.5.0(@floating-ui/dom@1.8.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.28))(vanilla-calendar-pro@3.3.1)
       '@pagefind/component-ui': 1.5.2
       '@shikijs/transformers': 4.4.3
+      '@types/hast': 3.0.5
+      '@types/mdast': 4.0.4
       astro: 7.3.1(@astrojs/markdown-remark@7.3.0)(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.3)(@types/node@26.4.1)(sass@1.104.0)(terser@5.47.1)(yaml@2.9.0)
+      clipboard: 2.0.11
       github-slugger: 2.0.0
       htmlparser2: 12.0.0
-      image-size: 2.0.2
+      image-size: 2.0.4
+      js-yaml: 5.4.2
       mdast-util-from-markdown: 2.0.3
+      mdast-util-mdx-jsx: 3.2.0
       mdast-util-to-string: 4.0.0
       medium-zoom: 1.1.0
       rehype-autolink-headings: 7.1.0
@@ -8242,6 +8233,7 @@ snapshots:
       remark-html: 16.0.1
       sass: 1.104.0
       shiki: 4.4.3
+      unified: 11.0.5
       unist-util-visit: 5.1.0
     transitivePeerDependencies:
       - supports-color
@@ -9803,8 +9795,6 @@ snapshots:
     dependencies:
       '@types/istanbul-lib-report': 3.0.3
     optional: true
-
-  '@types/js-yaml@4.0.9': {}
 
   '@types/json-schema@7.0.15': {}
 
@@ -12235,7 +12225,7 @@ snapshots:
 
   ignore@7.0.8: {}
 
-  image-size@2.0.2: {}
+  image-size@2.0.4: {}
 
   immutable@5.1.9: {}
 
@@ -12862,7 +12852,7 @@ snapshots:
     dependencies:
       argparse: 2.0.1
 
-  js-yaml@5.4.1:
+  js-yaml@5.4.2:
     dependencies:
       argparse: 2.0.1
 

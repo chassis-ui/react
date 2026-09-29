@@ -1,15 +1,9 @@
-import { z } from 'zod'
 import { defineCollection } from 'astro:content'
 import { glob } from 'astro/loaders'
+import { calloutsSchema, docsSchema, z } from '@chassis-ui/docs/schema'
 
-const docsSchema = z.object({
-  added: z
-    .object({
-      show_badge: z.boolean().optional(),
-      version: z.string()
-    })
-    .optional(),
-  aliases: z.string().or(z.string().array()).optional(),
+// The package's frontmatter, plus the keys that `PageMeta.astro` reads.
+const siteDocsSchema = docsSchema.extend({
   deps: z
     .object({
       title: z.string(),
@@ -17,27 +11,7 @@ const docsSchema = z.object({
     })
     .array()
     .optional(),
-  description: z.string(),
-  direction: z.literal('rtl').optional(),
-  extra_js: z
-    .object({
-      async: z.boolean().optional(),
-      src: z.string()
-    })
-    .array()
-    .optional(),
-  mdn: z.string().optional(),
-  sections: z
-    .object({
-      description: z.string(),
-      title: z.string(),
-      slug: z.string().optional()
-    })
-    .array()
-    .optional(),
-  thumbnail: z.string().optional(),
-  title: z.string(),
-  toc: z.boolean().optional()
+  mdn: z.string().optional()
 })
 
 const apiSchema = z.object({
@@ -66,7 +40,7 @@ const apiSchema = z.object({
 
 const calloutsCollection = defineCollection({
   loader: glob({ pattern: '*.md', base: './content/callouts' }),
-  schema: z.looseObject({})
+  schema: calloutsSchema
 })
 
 const apiCollection = defineCollection({
@@ -76,7 +50,7 @@ const apiCollection = defineCollection({
 
 const docsCollection = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './content' }),
-  schema: docsSchema.partial()
+  schema: siteDocsSchema
 })
 
 export const collections = {

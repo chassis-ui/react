@@ -47,13 +47,21 @@ are already listed there.
   same flat, root-prefixed name used everywhere else (`AccordionItem`), matching the actual
   exported identifier (`@chassis-ui/react` has no namespace/dotted API — see
   `packages/react/CONVENTIONS.md`).
-- `remarkCxDocsref` / `remarkCxConfig` / `remarkCxExampleInlineChildren` (`src/libs/remark.ts`) —
-  custom remark plugins layered into `getDocsMarkdownConfig()` from `@chassis-ui/docs`; read that
-  file before adding a new MDX shortcode or custom directive, rather than reinventing one that
-  might already exist there.
-- `chassisAutoImportPlugin()` (`src/libs/shortcode.ts`) auto-imports shortcode components into
-  every `.mdx` file, so `<Example>`/`<PropTable>` etc. don't need explicit `import` lines in each
-  doc page — component imports from `@chassis-ui/react` for the examples themselves still do.
+- `chassisDocs()` (from `@chassis-ui/docs/integration`, added in `astro.config.ts`) reads
+  `config.yml` and `data/sidebar.yml`, sets `site` and `markdown`, resolves `[[config:key]]` and
+  `[[docsref:/path]]` (a `[[docsref:]]` to a page that wasn't built fails the build), and
+  auto-imports shortcodes into every `.mdx` file — the package's own plus everything in
+  `src/components/shortcodes/`, where a same-named local file (e.g. `Example.astro`) replaces the
+  package's. The package's `Icon` is excluded because it collides with `@chassis-ui/react`'s.
+  Component imports from `@chassis-ui/react` for the examples themselves still need explicit
+  `import` lines. Pages and components read the config with `getConfig()` / `getDocsPath()` from
+  `@chassis-ui/docs/site`; `config.yml` is validated by a strict schema, so an unknown key fails
+  the build. See the package's `UPGRADING.md` for the full contract.
+- `remarkCxExample` / `remarkCxExampleInlineChildren` (`src/libs/remark.ts`) — this site's own
+  remark plugins, passed to `chassisDocs({ markdown })` and run after the package's; read that
+  file before adding a new MDX shortcode or custom directive.
+- `src/libs/astro.ts` — this site's own integrations: copies the static files into `public/`,
+  adds `mdx()` and `sitemap()`, and reloads the dev server on library or example changes.
 
 ## Scripts
 
