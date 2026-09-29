@@ -35,8 +35,8 @@ download-archive link and `packages/site/config.yml`'s `currentVersion`. Both ar
 The actual publish pipeline (`.github/workflows/release.yml`) uses the standard
 [`changesets/action`](https://github.com/changesets/action) recipe: on every push to `main` with
 pending changesets, it opens/updates a "Version Packages" PR; merging that PR triggers the publish
-step. See that workflow file's comments for the npm token/provenance setup a repo admin needs to
-complete once, outside what this session can do (see "What still needs a human" below).
+step. It publishes with npm trusted publishing, so no npm token is involved (see "npm
+authentication" below).
 
 ## Semver policy
 
@@ -98,16 +98,14 @@ A breaking removal doesn't happen in one PR. The minimum path from "we want to r
    consumers likely use — the TSDoc + runtime warning + changelog entry is sufficient signal on its
    own for those.
 
-## What still needs a human
+## npm authentication
 
-This session set up the mechanics (Changesets tooling, the publish workflow, this policy) but
-cannot complete two things that require account/org-level access:
+`@chassis-ui/react` publishes with [npm trusted publishing](https://docs.npmjs.com/trusted-publishers):
+on npmjs.com the package trusts the `release.yml` workflow of `chassis-ui/react`, and the workflow
+authenticates by OIDC (`id-token: write`). No npm token or repository secret is involved, and
+every version gets provenance.
 
-- **`NPM_CHASSIS_UI` repository secret** (reusing the same secret name the sibling `chassis-css`
-  repo already uses for its own npm publish token, so one token/secret serves both rather than
-  provisioning a near-duplicate) — `.github/workflows/release.yml` reads it and will fail to
-  publish until a repo admin adds it.
-- **First publish is manual-adjacent**: the very first `npm publish` of a scoped package under a
-  given npm org needs that org to already exist on npm and the token's account to have publish
-  rights to it — presumably already true, since `@chassis-ui/css` already publishes successfully
-  today, but not verified by this session (no npm credentials available here).
+- Renaming or moving `release.yml` breaks publishing until the trusted publisher on npmjs.com is
+  updated to the new file name.
+- The job runs Node 24 by name, not `.nvmrc`: its npm 11 is what trusted publishing needs (11.5.1
+  or later). `changeset publish` runs `pnpm publish`, which hands the upload to that npm.

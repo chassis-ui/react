@@ -13,7 +13,7 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 permissions:
   contents: write # changesets/action creates the Version Packages PR and, on publish, a git tag
   pull-requests: write # ...and needs this to open/update that PR
-  id-token: write # npm provenance (OIDC) — see NPM_CONFIG_PROVENANCE below
+  id-token: write # npm trusted publishing and provenance (OIDC) — no npm token is needed
 
 jobs:
   release:
@@ -25,6 +25,8 @@ jobs:
 
       - uses: pnpm/action-setup@v6
 
+      # Node 24 by name, not .nvmrc: it ships npm 11, which trusted publishing needs (11.5.1 or
+      # later). `changeset publish` runs `pnpm publish`, which hands the upload to that npm.
       - uses: actions/setup-node@v7
         with:
           node-version: 24
@@ -45,8 +47,7 @@ jobs:
           publish-script: pnpm changeset:publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # Reuses the same npm publish token the sibling chassis-css repo's own release workflow
-          # already uses (secrets.NPM_CHASSIS_UI) — see VERSIONING.md's "What still needs a human"
-          # section: a repo admin has to add this secret before this workflow can actually publish.
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_CHASSIS_UI }}
+          # npm trusted publishing: @chassis-ui/react trusts this workflow file (release.yml) of
+          # chassis-ui/react, so npm authenticates the publish by OIDC. Renaming this file breaks
+          # publishing until the trusted publisher on npmjs.com is updated to match.
           NPM_CONFIG_PROVENANCE: true
