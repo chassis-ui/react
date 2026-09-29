@@ -136,6 +136,14 @@ pnpm test:update  # same, plus -u to update snapshots
   or executes it — it's checked entirely by `pnpm check:types`. Add to it when changing a generic
   public type: `api-report.md` pins declaration _text_ and the runtime specs prove behavior, but
   neither catches a type that compiles and is simply wrong for a consumer.
+- Three sweeps guard SSR and `asChild` across the whole library, each with an allowlist of
+  known failures that must keep failing (a fixed case fails its "still fails" check until its
+  entry is deleted): `test/ssr/render.spec.tsx` server-renders every story in a Node environment;
+  `test/ssr/hydrate.spec.tsx` renders the same stories with no DOM, then installs jsdom, resets
+  the module graph and hydrates them; `test/utils/asChild.matrix.spec.tsx` checks every
+  polymorphic component (found by reading `src/`) renders the same attributes for `asChild` with
+  an `<a>` as for `component="a"`. `test/utils/lazyChildren.spec.tsx` does the same for children
+  delivered as the lazy nodes React Server Components produce (`test/utils/lazyNode.ts`).
 - Coverage provider is **istanbul**, not v8 — kept intentionally to match the branch/statement
   counting the existing thresholds were tuned against. Current thresholds: statements 96%,
   branches 91%, functions 97%, lines 97% (`vitest.config.ts`). A change that drops coverage below

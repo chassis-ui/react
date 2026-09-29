@@ -517,18 +517,23 @@ Exit: `build/` holds `generate-api.ts`, `sync-version-refs.js` and `tsconfig.jso
 
 ### B0 — Permanent SSR, hydration and `asChild` tests
 
+Done. The hydrate spec runs in a Node environment: it renders the HTML with no DOM, then installs
+jsdom, calls `vi.resetModules()` and hydrates in a fresh module graph. The matrix compares
+`asChild` with `component="a"` and found cases F2 doesn't list: `disabled` handling in Avatar,
+CardLink, Chip and PaginationItem, and ListItem's missing `list-action` class. Lazy children have their own spec, `test/utils/lazyChildren.spec.tsx`.
+
 Model: **Opus**. Test infrastructure with one design choice (how two environments share HTML).
 
-- [ ] `test/ssr/render.spec.tsx` (Node environment): render every story with `renderToString`;
+- [x] `test/ssr/render.spec.tsx` (Node environment): render every story with `renderToString`;
       fail on a throw or a `console.error`.
-- [ ] `test/ssr/hydrate.spec.tsx` (jsdom): hydrate the HTML from the step above; fail on any
+- [x] `test/ssr/hydrate.spec.tsx` (jsdom): hydrate the HTML from the step above; fail on any
       recoverable error. Decide how the two share HTML (a fixture written by the first, or one
       spec that renders in a Node worker). Set `IS_REACT_ACT_ENVIRONMENT`.
-- [ ] `test/utils/asChild.matrix.spec.tsx`: for each of the 70 polymorphic components, assert
+- [x] `test/utils/asChild.matrix.spec.tsx`: for each of the 70 polymorphic components, assert
       `asChild` with an `<a>` child keeps the component's classes and, where it has one, its
       `disabled` handling.
-- [ ] A `lazyNode()` test helper that builds the `React.lazy` node Flight produces.
-- [ ] List today's failures (F1, F2, F3) in an explicit allowlist inside each spec, so the suite is
+- [x] A `lazyNode()` test helper that builds the `React.lazy` node Flight produces.
+- [x] List today's failures (F1, F2, F3) in an explicit allowlist inside each spec, so the suite is
       green and each later phase deletes entries.
 
 No changeset. Exit: the three specs run in `pnpm test` and fail if an allowlisted case is removed

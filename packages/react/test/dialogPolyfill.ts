@@ -19,3 +19,5 @@ if (typeof HTMLDialogElement !== 'undefined') {
     }
   }
 }
+
+export {}
