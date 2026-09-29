@@ -57,9 +57,6 @@ jobs:
       # `useRef<T>(null)` makes them nullable, which shipped to consumers in the published types.
       - run: pnpm react:check:types
 
-      # Astro/MDX type-checking of the docs site (`astro check`)
-      - run: pnpm site:check
-
   test:
     name: Test
     runs-on: ubuntu-latest
@@ -137,6 +134,10 @@ jobs:
       # ./style.css` because attw type-checks JS/TS entrypoints; a plain CSS subpath export has no
       # types for it to resolve.
       - run: pnpm react:check:package
+
+      # Type-checking only (`astro check`). The site imports @chassis-ui/react through the
+      # workspace link, so this runs after the build. The full static build is `site-build` below.
+      - run: pnpm site:check
 
       # Guards against the exact class of regression this repo already hit once (pre-tsdown, under
       # Rollup): react-aria/react-stately/etc. silently getting bundled into dist/ instead of
