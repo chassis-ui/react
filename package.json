@@ -51,13 +51,13 @@
     "sync-submodules": "node build/sync-submodules.js"
   },
   "devDependencies": {
-    "@changesets/cli": "^3.0.2",
+    "@changesets/cli": "^3.0.3",
     "@eslint/js": "^10.0.1",
-    "@testing-library/dom": "^10.0.0",
-    "@types/node": "^26.4.1",
-    "eslint": "^10.9.1",
+    "@testing-library/dom": "^10.4.2",
+    "@types/node": "^26.6.2",
+    "eslint": "^10.11.0",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-astro": "^3.1.0",
+    "eslint-plugin-astro": "^3.2.1",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-prettier": "^5.5.6",
@@ -68,18 +68,18 @@
     "eslint-plugin-unicorn": "^76.0.0",
     "globals": "^17.12.0",
     "globby": "^16.2.4",
-    "html-validate": "^11.13.0",
+    "html-validate": "^11.16.0",
     "pagefind": "^1.5.2",
     "picocolors": "^1.1.1",
-    "prettier": "^3.9.4",
-    "prettier-plugin-astro": "^1.0.1",
+    "prettier": "^3.9.9",
+    "prettier-plugin-astro": "^1.1.0",
     "react-docgen-typescript": "^2.4.0",
     "stylelint": "^16.26.1",
     "stylelint-config-twbs-bootstrap": "^16.1.0",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.69.0",
-    "vnu-jar": "^26.8.30"
+    "typescript-eslint": "^8.70.1",
+    "vnu-jar": "^26.9.16"
   },
   "packageManager": "pnpm@10.33.2+sha512.a90faf6feeab71ad6c6e57f94e0fe1a12f5dcc22cd754db40ae9593eb6a3e0b6b12e3540218bb37ae083404b1f2ce6db2a4121e979829b4aff94b99f49da1cf8"
 }
