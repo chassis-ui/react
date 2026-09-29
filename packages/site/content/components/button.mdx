@@ -109,6 +109,9 @@ import { Button } from '@chassis-ui/react/button'
 </Button>
 ```
 
+A disabled button treats the child as it treats `component="a"`: the link gets
+`aria-disabled="true"` and `tabindex="-1"`, and its click is blocked.
+
 This form also works from a React Server Component. `component={Link}` there fails to build with
 "Functions cannot be passed directly to Client Components", because a component reference is a
 function and can't cross the server-to-client boundary. A JSX element can. See

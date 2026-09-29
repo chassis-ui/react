@@ -22,7 +22,7 @@
     },
     "component": {
       "defaultValue": null,
-      "description": "Component used for the root node. Either a string to use a HTML element or a component.\nDefaults to `'ol'`, unless a step (a data-driven item with `href`, or a `<StepperItem\ncomponent=\"a\">`/`<StepperItem component=\"button\">` child) is interactive — a bare `<a>`/\n`<button>` isn't a valid direct child of `<ol>`, so the default switches to `'div'` instead.\nPass `component` explicitly to opt out of this.",
+      "description": "Component used for the root node. Either a string to use a HTML element or a component.\nDefaults to `'ol'`, unless a step (a data-driven item with `href`, or a `<StepperItem>` child\nrendering an `<a>`/`<button>` through `component` or `asChild`) is interactive — a bare `<a>`/\n`<button>` isn't a valid direct child of `<ol>`, so the default switches to `'div'` instead.\nPass `component` explicitly to opt out of this.",
       "name": "component",
       "declarations": [
         {

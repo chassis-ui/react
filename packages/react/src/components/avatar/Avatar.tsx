@@ -2,6 +2,7 @@ import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'reac
 import classNames from 'classnames'
 
 import { ContextColor, ExtendedSizing } from '../../types'
+import { isInteractiveKind, resolveElementKind } from '../../utils/elementKind'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -93,7 +94,10 @@ function AvatarRender<C extends ElementType = 'span'>(
   ref: PolymorphicRef<C>
 ) {
   const tag = component ?? (href ? 'a' : 'span')
-  const isInteractive = tag === 'a' || tag === 'button'
+  // The kind rather than the tag: under `asChild`, `tag` is a `Slot` standing in for the caller's
+  // element, and a slotted `<a>` is as interactive as `component="a"`.
+  const kind = resolveElementKind(tag)
+  const isInteractive = isInteractiveKind(kind)
 
   const _className = classNames(
     'avatar',
@@ -117,7 +121,7 @@ function AvatarRender<C extends ElementType = 'span'>(
       // non-interactive `'span'`.
       disabled={disabled}
       href={href}
-      {...(tag === 'button' && { type: 'button' })}
+      {...(kind === 'button' && { type: 'button' })}
       {...rest}
       ref={ref}
     >

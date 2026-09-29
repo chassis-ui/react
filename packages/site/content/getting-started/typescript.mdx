@@ -62,6 +62,49 @@ Component, where `component={Link}` fails to build, and whenever you'd rather wr
 element as ordinary JSX. `SkeletonLoader` is the one exception: it renders no element of its own,
 so it has no `asChild`.
 
+### What the child element gets
+
+A component treats its child as it treats the same element passed to `component`.
+`<Button asChild disabled><a href="/login">` renders what `<Button component="a" href="/login"
+disabled>` renders. What that is depends on the child:
+
+| Child                                             | Treated as         | When the component is `disabled`                                                             |
+| ------------------------------------------------- | ------------------ | -------------------------------------------------------------------------------------------- |
+| `<a>`, or a component element with `href` or `to` | a link             | `aria-disabled="true"`, `tabindex="-1"`, and the click is blocked                            |
+| `<button>`, `<input>`                             | the native control | the `disabled` attribute                                                                     |
+| Any other tag, such as `<div>`                    | a plain element    | as `component="div"`: `Button` and `CloseButton` add `role="button"` and keyboard activation |
+| A component element with neither `href` nor `to`  | a component        | `disabled` is passed to it as a prop                                                         |
+
+A router link such as `<Link href="/login">` of Next.js or `<Link to="/login">` of React Router
+counts as a link because of its `href` or `to`: it renders an `<a>` and forwards what it's given,
+so it needs the link's handling rather than a `disabled` attribute. When a link is disabled, the
+child's own `onClick` doesn't run either.
+
+By family:
+
+- **`Button`, `Chip`, `PaginationItem`, `Avatar`** apply the table above.
+- **`Link`, `NavLink`, `CardLink`, `MenuItem`** do the same; `MenuItem` keeps `role="menuitem"` on
+  the child.
+- **`CloseButton`** gives a link, a `<button>` or a plain tag its `close-button` classes and the
+  `Close` label. A component child with no `href` or `to`, such as `<Button>`, keeps its own look,
+  as it does with `component={Button}`.
+- **`ListItem`, `StepperItem`**: a link or `<button>` child makes the item an action
+  (`list-action` on a `ListItem`), and `List` or `Stepper` renders a `<div>` instead of a
+  `<ul>`/`<ol>` around it, as for `component="a"`.
+- **`Placeholder`** renders the child as the image, with `fluid`, `rounded`, `thumbnail` and
+  `align` applied. The child carries its own `src`:
+
+  ```tsx
+  import Image from 'next/image'
+
+  <Placeholder asChild fluid rounded>
+    <Image src="/hero.jpg" width={800} height={400} alt="" />
+  </Placeholder>
+  ```
+
+- **Every other component** has no element-specific behavior: its classes, props and ref go onto
+  the child.
+
 ## Supported components
 
 Every component listed above uses the same generic pattern, typed against

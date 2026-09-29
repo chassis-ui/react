@@ -10,6 +10,7 @@ import { mergeProps } from 'react-aria'
 
 import { ContextColor, ContextStyle } from '../../types'
 import { useButtonSemantics, useDisabledAnchorGuard } from '../../hooks'
+import { resolveElementKind } from '../../utils/elementKind'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -97,6 +98,9 @@ function CloseButtonRender<C extends ElementType = 'button'>(
   ref: PolymorphicRef<C>
 ) {
   const component_ = component ?? 'button'
+  // The kind rather than the tag: under `asChild`, `component_` is a `Slot` standing in for the
+  // caller's element, and a slotted `<a>` needs what `component="a"` gets.
+  const kind = resolveElementKind(component_)
 
   // A component reference (e.g. `Button`) has its own visual identity and its own
   // `color`/`size`/`variant` semantics — CloseButton's icon styling (the `close-button`
@@ -104,7 +108,7 @@ function CloseButtonRender<C extends ElementType = 'button'>(
   // would also swallow those props before the component ever saw them. So a component
   // reference gets none of CloseButton's own styling; `color`/`size`/`variant` pass
   // through untouched, same as `className`, letting the component interpret them itself.
-  const isComponentReference = typeof component_ !== 'string'
+  const isComponentReference = kind === 'component'
 
   // Only a bare, non-`button` HTML tag needs the `.disabled` class applied by hand — a real
   // `<button>` gets native `:disabled` styling for free (chassis-css matches both selectors,
@@ -114,7 +118,7 @@ function CloseButtonRender<C extends ElementType = 'button'>(
     ? className
     : classNames(
         'close-button',
-        { context: color || variant, disabled: component_ !== 'button' && disabled },
+        { context: color || variant, disabled: kind !== 'button' && disabled },
         color,
         variant,
         size,
@@ -131,7 +135,7 @@ function CloseButtonRender<C extends ElementType = 'button'>(
   // `<a>` has no real `disabled` attribute, so a disabled link close-button still fires
   // click (and still navigates) unless it's blocked here, same guard `Button` applies.
   const handleClick = useDisabledAnchorGuard<HTMLButtonElement | HTMLAnchorElement>(
-    component_ === 'a',
+    kind === 'anchor',
     disabled,
     onClick
   )
@@ -143,13 +147,15 @@ function CloseButtonRender<C extends ElementType = 'button'>(
 
   // Rendered as explicit branches, same as `Button`, rather than one `<Component>` tag
   // driven by a `'button' | 'a' | ElementType`-typed variable — a union-typed tag would
-  // make JSX intersect all of `button`/`a`/custom prop types at once.
+  // make JSX intersect all of `button`/`a`/custom prop types at once. Each branch renders
+  // `component_` typed as its tag: the tag itself, or the `Slot` holding an element of that kind.
   // `aria-label={_label}` comes before `...rest` in every branch below so that an explicit
   // `aria-label` (not destructured above, so it lands in `rest`) overrides the computed
   // fallback via JSX's last-attribute-wins rule, rather than the other way around.
-  if (component_ === 'button') {
+  if (kind === 'button') {
+    const NativeButton = component_ as 'button'
     return (
-      <button
+      <NativeButton
         className={_className}
         aria-label={_label}
         {...(rest as Record<string, unknown>)}
@@ -159,13 +165,14 @@ function CloseButtonRender<C extends ElementType = 'button'>(
         ref={ref as Ref<HTMLButtonElement>}
       >
         {children}
-      </button>
+      </NativeButton>
     )
   }
 
-  if (component_ === 'a') {
+  if (kind === 'anchor') {
+    const Anchor = component_ as 'a'
     return (
-      <a
+      <Anchor
         className={_className}
         aria-label={_label}
         {...(rest as Record<string, unknown>)}
@@ -175,7 +182,7 @@ function CloseButtonRender<C extends ElementType = 'button'>(
         ref={ref as Ref<HTMLAnchorElement>}
       >
         {children}
-      </a>
+      </Anchor>
     )
   }
 

@@ -10,6 +10,7 @@ import { mergeProps } from 'react-aria'
 
 import { ContextColor, ContextStyle, Shapes } from '../../types'
 import { useButtonSemantics, useDisabledAnchorGuard } from '../../hooks'
+import { resolveElementKind } from '../../utils/elementKind'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -102,7 +103,10 @@ function ButtonRender<C extends ElementType = 'button'>(
   // Only defaults to `a` when `component` wasn't explicitly passed — an explicit `component`
   // (even alongside `href`, e.g. a router Link component that accepts `href` itself) always wins.
   const Component = (component ?? (href ? 'a' : 'button')) as ElementType
-  const isAnchor = Component === 'a'
+  // The kind rather than the tag: under `asChild`, `Component` is a `Slot` standing in for the
+  // caller's element, and a slotted `<a>` needs what `component="a"` gets.
+  const kind = resolveElementKind(Component)
+  const isAnchor = kind === 'anchor'
 
   // A component reference (e.g. a router `Link`) has its own visual identity and is trusted to
   // handle its own keyboard/role semantics, same as `CloseButton`'s `isComponentReference` escape
@@ -110,7 +114,7 @@ function ButtonRender<C extends ElementType = 'button'>(
   // wrong ARIA role onto whatever it actually renders (e.g. an `<a>`) and can double-fire a click
   // (native anchor Enter→click, plus the synthesized keydown→click). Only a bare, non-native HTML
   // tag string (e.g. `'div'`) still needs `useButtonSemantics`'s synthesis.
-  const isComponentReference = typeof Component !== 'string'
+  const isComponentReference = kind === 'component'
 
   const _className = classNames(
     'button',
@@ -120,7 +124,7 @@ function ButtonRender<C extends ElementType = 'button'>(
       smooth: variant === 'smooth',
       link: variant === 'link',
       active: pressed,
-      disabled: Component !== 'button' && disabled
+      disabled: kind !== 'button' && disabled
     },
     size,
     shape,
@@ -145,24 +149,26 @@ function ButtonRender<C extends ElementType = 'button'>(
     { disabled, onClick }
   )
 
-  // Rendered as three separate, literal JSX tags (rather than one `<Component>` tag driven
-  // by a `'button' | 'a' | 'input'`-typed variable) because a union-typed tag makes JSX
+  // Rendered as three separate branches (rather than one `<Component>` tag driven by a
+  // `'button' | 'a' | 'input'`-typed variable) because a union-typed tag makes JSX
   // intersect all three elements' prop types — `onClick`/`ref` would then need to satisfy
   // `button`, `a` *and* `input` simultaneously, which `handleClick`/`ref`'s real, narrower
-  // types can't. `ref` is cast per branch since it's declared for the generic `C`, not the
-  // specific element each branch actually renders (true by construction — each branch's ref
-  // only ever populates with a matching instance). The props common to all three
-  // (className/aria-pressed/onClick) are factored out here so a future addition only needs to
-  // change one place, not three.
+  // types can't. Each branch renders `Component` typed as its tag: that is the tag itself, or
+  // the `Slot` holding the caller's element of that kind. `ref` is cast per branch since it's
+  // declared for the generic `C`, not the specific element each branch actually renders (true by
+  // construction — each branch's ref only ever populates with a matching instance). The props
+  // common to all three (className/aria-pressed/onClick) are factored out here so a future
+  // addition only needs to change one place, not three.
   const sharedProps = {
     className: _className,
     'aria-pressed': pressed,
     onClick: handleClick
   }
 
-  if (Component === 'button') {
+  if (kind === 'button') {
+    const NativeButton = Component as 'button'
     return (
-      <button
+      <NativeButton
         {...(rest as Record<string, unknown>)}
         {...sharedProps}
         type={type}
@@ -170,17 +176,18 @@ function ButtonRender<C extends ElementType = 'button'>(
         ref={ref as Ref<HTMLButtonElement>}
       >
         {children}
-      </button>
+      </NativeButton>
     )
   }
 
-  if (Component === 'input') {
+  if (kind === 'input') {
+    const NativeInput = Component as 'input'
     return (
       // `rest` is cast because it's typed generically, whose event handlers don't structurally
       // match `<input>`'s own `onChange` (value-change semantics) — `component="input"` is a
       // fixed set of documented attributes (`type`, `value`, `disabled`, ...), not a
       // general-purpose input, so this is a safe, deliberate escape.
-      <input
+      <NativeInput
         {...(rest as Record<string, unknown>)}
         {...sharedProps}
         type={type}
@@ -191,12 +198,13 @@ function ButtonRender<C extends ElementType = 'button'>(
   }
 
   if (isAnchor) {
+    const Anchor = Component as 'a'
     return (
       // `rest` is cast for the same reason as the `input` branch above — it's typed generically,
       // whose DOM event handlers are parameterized for whatever `C` was passed, which don't
       // structurally match `<a>`'s own `HTMLAnchorElement` ones (e.g. `onCopy`), even though both
       // accept a real DOM event at runtime.
-      <a
+      <Anchor
         {...(rest as Record<string, unknown>)}
         {...sharedProps}
         href={href}
@@ -204,7 +212,7 @@ function ButtonRender<C extends ElementType = 'button'>(
         ref={ref as Ref<HTMLAnchorElement>}
       >
         {children}
-      </a>
+      </Anchor>
     )
   }
 

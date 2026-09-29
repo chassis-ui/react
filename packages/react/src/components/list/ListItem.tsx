@@ -2,6 +2,7 @@ import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'reac
 import classNames from 'classnames'
 
 import { ContextColor } from '../../types'
+import { isInteractiveKind, resolveElementKind } from '../../utils/elementKind'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -51,7 +52,9 @@ function ListItemRender<C extends ElementType = 'li'>(
   ref: PolymorphicRef<C>
 ) {
   const tag = component ?? 'li'
-  const isInteractive = tag === 'a' || tag === 'button'
+  // The kind rather than the tag: under `asChild`, `tag` is a `Slot` standing in for the caller's
+  // element, and a slotted `<a>` is as interactive as `component="a"`.
+  const isInteractive = isInteractiveKind(resolveElementKind(tag))
 
   const _className = classNames(
     'list-item',

@@ -10,6 +10,7 @@ import { mergeProps } from 'react-aria'
 
 import { ContextColor } from '../../types'
 import { useButtonSemantics, useDisabledAnchorGuard } from '../../hooks'
+import { isInteractiveKind, resolveElementKind } from '../../utils/elementKind'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -97,6 +98,9 @@ function LinkRender<C extends ElementType = 'a'>(
   ref: PolymorphicRef<C>
 ) {
   const Component = (component ?? 'a') as ElementType
+  // The kind rather than the tag: under `asChild`, `Component` is a `Slot` standing in for the
+  // caller's element, and a slotted `<a>` needs what `component="a"` gets.
+  const kind = resolveElementKind(Component)
 
   const _className = classNames(
     color && `link-${color}`,
@@ -105,17 +109,17 @@ function LinkRender<C extends ElementType = 'a'>(
     className
   )
 
-  const isInteractive = Component === 'a' || Component === 'button'
+  const isInteractive = isInteractiveKind(kind)
   // A component reference (e.g. a router `Link`) has its own visual identity and is trusted to
   // handle its own keyboard/role semantics, same as `CloseButton`'s `isComponentReference` escape
   // hatch — synthesizing `role="button"` and Enter/Space handling on top of it would stamp the
   // wrong ARIA role onto whatever it actually renders (e.g. an `<a>`) and can double-fire a click
   // (native anchor Enter→click, plus the synthesized keydown→click).
-  const isComponentReference = typeof Component !== 'string'
+  const isComponentReference = kind === 'component'
   // `<a>` has no real `disabled` attribute, so a disabled anchor link still fires click (and
   // still navigates) unless it's blocked here, same guard `Button`/`CloseButton` apply. A real
   // `<button>` already stops clicks on its own once the `disabled` attribute below is set.
-  const handleClick = useDisabledAnchorGuard<HTMLElement>(Component === 'a', disabled, onClick)
+  const handleClick = useDisabledAnchorGuard<HTMLElement>(kind === 'anchor', disabled, onClick)
 
   // A `component` that isn't a native interactive element gets a raw onClick with no
   // keyboard semantics otherwise — mouse-only, unlike `Button`/`CloseButton`, which
@@ -132,9 +136,9 @@ function LinkRender<C extends ElementType = 'a'>(
       {...(mergeProps(rest, needsButtonSemantics ? buttonProps : {}) as Record<string, unknown>)}
       className={_className}
       {...(active && { 'aria-current': 'page' })}
-      {...(Component === 'a' && disabled && { 'aria-disabled': true, tabIndex: -1 })}
+      {...(kind === 'anchor' && disabled && { 'aria-disabled': true, tabIndex: -1 })}
       {...(!needsButtonSemantics && { onClick: handleClick })}
-      {...(Component === 'button' && { disabled, type })}
+      {...(kind === 'button' && { disabled, type })}
       ref={needsButtonSemantics ? forkedRef : ref}
     >
       {children}

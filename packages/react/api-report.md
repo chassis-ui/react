@@ -4503,7 +4503,8 @@ type PlaceholderOwnProps<C extends ElementType> = {
   /**
    * Component used for the root node when `src` is set. Either a string to use an HTML element
    * or a component — e.g. a framework's own `Image` component. Its own props (`src`, `fill`,
-   * `priority`, etc.) are type-checked at the call site once passed here.
+   * `priority`, etc.) are type-checked at the call site once passed here. With `asChild`, the
+   * child element is the image and carries its own `src`.
    */
   component?: C;
   /**
@@ -4588,10 +4589,10 @@ type ListOwnProps<C extends ElementType> = {
   className?: string;
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
-   * Defaults to `'ul'`, unless an item (a data-driven item with `href`, or a `<ListItem
-   * component="a">`/`<ListItem component="button">` child) is interactive — a bare `<a>`/
-   * `<button>` isn't a valid direct child of `<ul>`/`<ol>`, so the default switches to `'div'`
-   * instead. Pass `component` explicitly to opt out of this.
+   * Defaults to `'ul'`, unless an item (a data-driven item with `href`, or a `<ListItem>` child
+   * rendering an `<a>`/`<button>` through `component` or `asChild`) is interactive — a bare
+   * `<a>`/`<button>` isn't a valid direct child of `<ul>`/`<ol>`, so the default switches to
+   * `'div'` instead. Pass `component` explicitly to opt out of this.
    */
   component?: C;
   /**
@@ -5720,8 +5721,8 @@ type StepperOwnProps<C extends ElementType> = {
   className?: string;
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
-   * Defaults to `'ol'`, unless a step (a data-driven item with `href`, or a `<StepperItem
-   * component="a">`/`<StepperItem component="button">` child) is interactive — a bare `<a>`/
+   * Defaults to `'ol'`, unless a step (a data-driven item with `href`, or a `<StepperItem>` child
+   * rendering an `<a>`/`<button>` through `component` or `asChild`) is interactive — a bare `<a>`/
    * `<button>` isn't a valid direct child of `<ol>`, so the default switches to `'div'` instead.
    * Pass `component` explicitly to opt out of this.
    */

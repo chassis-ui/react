@@ -3,11 +3,13 @@ import React, {
   ElementType,
   ForwardRefRenderFunction,
   isValidElement,
-  ReactElement
+  ReactElement,
+  ReactNode
 } from 'react'
 import classNames from 'classnames'
 
 import { ContextColor, ContextStyle } from '../../types'
+import { isInteractiveKind, resolveElementTag, resolveKindFromProps } from '../../utils/elementKind'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -49,10 +51,10 @@ type ListOwnProps<C extends ElementType> = {
   className?: string
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
-   * Defaults to `'ul'`, unless an item (a data-driven item with `href`, or a `<ListItem
-   * component="a">`/`<ListItem component="button">` child) is interactive — a bare `<a>`/
-   * `<button>` isn't a valid direct child of `<ul>`/`<ol>`, so the default switches to `'div'`
-   * instead. Pass `component` explicitly to opt out of this.
+   * Defaults to `'ul'`, unless an item (a data-driven item with `href`, or a `<ListItem>` child
+   * rendering an `<a>`/`<button>` through `component` or `asChild`) is interactive — a bare
+   * `<a>`/`<button>` isn't a valid direct child of `<ul>`/`<ol>`, so the default switches to
+   * `'div'` instead. Pass `component` explicitly to opt out of this.
    */
   component?: C
   /**
@@ -91,6 +93,9 @@ type ListOwnProps<C extends ElementType> = {
   variant?: ContextStyle
 }
 
+// What `List` reads off a `<ListItem>` child to decide its own tag.
+type ListItemChildProps = { asChild?: boolean; children?: ReactNode; component?: ElementType }
+
 export type ListProps<C extends ElementType = 'ul'> = PolymorphicComponentProps<C, ListOwnProps<C>>
 
 type ListComponent = (<C extends ElementType = 'ul'>(
@@ -113,21 +118,25 @@ function ListRender<C extends ElementType = 'ul'>(
   }: ListProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  // A linked item (data-driven `href`, or a `<ListItem component="a"|"button">` child) can't
-  // render as a bare `<a>`/`<button>` inside the default `<ul>`/`<ol>` root — only `<li>`/
-  // `script`/`template` are valid children there. Default to `<div>` instead when that's the
-  // case (unless the caller already chose their own `component`), matching the same
-  // `component="div"` pattern already documented for `Stepper`'s composed interactive usage.
+  // A linked item (data-driven `href`, or a `<ListItem>` child rendering an `<a>`/`<button>`,
+  // whether through `component` or as its `asChild` element) can't render as a bare
+  // `<a>`/`<button>` inside the default `<ul>`/`<ol>` root — only `<li>`/`script`/`template` are
+  // valid children there. Default to `<div>` instead when that's the case (unless the caller
+  // already chose their own `component`), matching the same `component="div"` pattern already
+  // documented for `Stepper`'s composed interactive usage.
   const hasInteractiveItem = items
     ? items.some((item) => !!item.href)
     : Children.toArray(children).some(
         (child) =>
-          isValidElement<{ component?: string | ElementType }>(child) &&
+          isValidElement<ListItemChildProps>(child) &&
           child.type === ListItem &&
-          (child.props.component === 'a' || child.props.component === 'button')
+          isInteractiveKind(resolveKindFromProps(child.props))
       )
   const Component = (component ?? (hasInteractiveItem ? 'div' : 'ul')) as ElementType
-  const isListSemantic = Component === 'ul' || Component === 'ol'
+  // The tag rather than `Component`, which under `asChild` is a `Slot` holding the caller's
+  // `<ul>`/`<ol>`.
+  const rootTag = resolveElementTag(Component)
+  const isListSemantic = rootTag === 'ul' || rootTag === 'ol'
 
   const _className = classNames(
     'list',
@@ -168,14 +177,16 @@ function ListRender<C extends ElementType = 'ul'>(
   // When the root switched to `div` because of an interactive child, every plain `<ListItem>`
   // sibling defaulting to `<li>` would be just as invalid (only valid inside `<ul>`/`<ol>`/
   // `<menu>`) — so give each `ListItem` child the same `div` treatment the auto-generated items
-  // above already get, unless it set its own `component`. Other child types are left untouched
-  // — this is only meaningful for `List`'s own list items.
+  // above already get, unless it set its own `component` or renders its `asChild` element. Other
+  // child types are left untouched — this is only meaningful for `List`'s own list items.
   const renderedChildren =
     autoContent ??
     (isListSemantic
       ? children
       : Children.map(children, (child) =>
-          isValidElement<{ component?: string | ElementType }>(child) && child.type === ListItem
+          isValidElement<ListItemChildProps>(child) &&
+          child.type === ListItem &&
+          !child.props.asChild
             ? React.cloneElement(child, { component: child.props.component ?? 'div' })
             : child
         ))

@@ -88,6 +88,17 @@ import Image from 'next/image'
 <Placeholder component={Image} src="/hero.jpg" alt="" fill priority />
 ```
 
+From a React Server Component, where a component reference can't be passed as a prop, render the
+image as the child with `asChild`. The child carries its own `src`:
+
+```tsx
+import Image from 'next/image'
+
+<Placeholder asChild fluid rounded>
+  <Image src="/hero.jpg" width={800} height={400} alt="" />
+</Placeholder>
+```
+
 ## API
 
 ### Placeholder

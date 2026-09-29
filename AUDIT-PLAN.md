@@ -559,20 +559,45 @@ Changeset: patch. Exit: hydration sweep passes for Combobox, Autocomplete, FormF
 
 ### B2 — `asChild` keeps the component's semantics (F2)
 
+Done. The design differs from the boxes below in one way: the child's type doesn't travel as an
+internal prop. A prop would reach the DOM wherever a render function spreads `rest` onto something
+other than `Component`, and every one of the 70 render functions would have to strip it. Instead
+`createPolymorphicComponent` passes a `Slot` that carries the child's kind and tag
+(`src/utils/slot.tsx`), and a render function asks `resolveElementKind(Component)` or
+`resolveElementTag(Component)` (`src/utils/elementKind.ts`), which answer for a tag and for a
+`Slot` alike.
+
+Found while doing it, and fixed here:
+
+- A router link is a component element, not an `<a>`, so the fix as planned would have missed the
+  case consumers hit. A component element with `href` or `to` counts as an anchor. The matrix runs
+  every component with a plain `<a>` and with a router link.
+- `Stepper` has the same wrapper-tag defect as `List`.
+- `<List asChild><ul>` and `<Stepper asChild><ol>` rendered `<div>` items, because the root's tag
+  was compared with `Component`.
+- A disabled link still ran the child's own `onClick` through the handler chain. `Slot` leaves it
+  out when the component marks the element `aria-disabled`.
+
+Left as it was: `MenuToggle` compares `Component` with `Button`, a component and not a tag, to pick
+react-aria's `elementType`. The matrix passes for it. `<MenuToggle component="button">` and
+`<MenuToggle asChild><button>` get a redundant `role="button"`; B6 touches this file.
+
 Model: **Fable**. It changes the shared polymorphic wrapper and its types, which 70 components
 depend on, and each family's semantics have to survive.
 
-- [ ] In `createPolymorphicComponent`, pass the slotted child's `type` to the render function
-      (an internal prop, stripped before it reaches the DOM).
-- [ ] Add `resolveElementKind(component, slottedType)` returning `button`, `anchor`, `input`,
+- [x] In `createPolymorphicComponent`, pass the slotted child's `type` to the render function
+      (an internal prop, stripped before it reaches the DOM). Done as a `Slot` that carries it;
+      see above.
+- [x] Add `resolveElementKind(component, slottedType)` returning `button`, `anchor`, `input`,
       `host` or `component`, and use it everywhere a render function now compares `component` to
-      a tag name.
-- [ ] Fix, in this order: `Button`, `Link`, `NavLink`, `MenuItem`, `Chip`, `PaginationItem`
+      a tag name. The matrix spec fails on a new tag comparison in `src/components`.
+- [x] Fix, in this order: `Button`, `Link`, `NavLink`, `MenuItem`, `Chip`, `PaginationItem`
       (disabled handling); `CloseButton` (classes and label); `List` (wrapper tag when an item uses
-      `asChild`).
-- [ ] `Placeholder`: either support `asChild` on the `src` path or remove it from the type and
-      warn.
-- [ ] Update the `asChild` section of the TypeScript docs page with what each family does.
+      `asChild`). Also `Avatar`, `CardLink` and `ListItem`, which B0 found, and `Stepper`.
+- [x] `Placeholder`: either support `asChild` on the `src` path or remove it from the type and
+      warn. Supported: the child is the image and carries its own `src`, which is how a framework's
+      `Image` is used from a Server Component.
+- [x] Update the `asChild` section of the TypeScript docs page with what each family does.
 
 Changeset: patch. Exit: asChild matrix passes with an empty allowlist.
 

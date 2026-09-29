@@ -139,6 +139,25 @@ predates and is conceptually distinct from CSS `gap`. Reconciling the three into
 vocabulary would be a breaking public-API rename with no functional benefit, since the underlying
 mechanisms genuinely differ — don't unify them without an explicit user decision to do so.
 
+## `component` polymorphism: ask for the element's kind, don't compare tags
+
+A render function that treats elements differently (a real `disabled` on a `<button>`,
+`aria-disabled` and a click guard on an `<a>`, a `<div>` instead of a `<ul>` around a link) never
+compares `component` to a tag name and never checks `typeof component`. It asks
+`resolveElementKind(Component)`, which returns `anchor`, `button`, `input`, `host` or `component`,
+or `resolveElementTag(Component)` when it needs a tag that has no kind, such as `ul`
+(`src/utils/elementKind.ts`).
+
+The reason is `asChild`. Under it, `component` is a `Slot` that stands in for the caller's child
+element and carries that element's kind and tag, so `Component === 'a'` is false for a slotted
+`<a>` and the component would skip its own link handling. For the same reason a branch renders
+`Component` typed as its tag (`const Anchor = Component as 'a'`), not a literal `<a>`. A parent
+that reads a child's props (`List` reading its `ListItem`s) uses `resolveKindFromProps`.
+
+`test/utils/asChild.matrix.spec.tsx` enforces both halves: it fails on a tag comparison in
+`src/components`, and on any component whose `asChild` output differs from its `component="a"`
+output.
+
 ## `component` polymorphism: `Row`/`Col` deliberately don't have it
 
 Most components in this library take a `component` prop (`PolymorphicComponentProps<C, OwnProps<C>>`

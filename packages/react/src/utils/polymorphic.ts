@@ -9,7 +9,7 @@ import {
 } from 'react'
 
 import { devWarning } from './devWarning'
-import { getSlotChild, Slot, SlotProvider } from './slot'
+import { getSlot, getSlotChild, SlotProvider } from './slot'
 
 // Ref type inferred from a polymorphic component's currently-selected `component` element type.
 export type PolymorphicRef<C extends ElementType> = ComponentPropsWithRef<C>['ref']
@@ -63,10 +63,11 @@ export type PolymorphicComponentProps<C extends ElementType, OwnProps extends ob
  * the render function to a concrete `Element`-typed instance before passing it in here.
  *
  * Also implements `asChild` for every polymorphic component at once (#23): the render function
- * gets `component={Slot}` and the child element's own children, so it computes its classes,
- * props and ref exactly as it would for any component reference (`component={Link}`) — `Slot`
- * then clones the caller's child element with all of that merged on (see `./slot`). No render
- * function needs to know `asChild` exists.
+ * gets a `Slot` as its `component` and the child element's own children, so it computes its
+ * classes, props and ref as it would for `component` — the `Slot` then clones the caller's child
+ * element with all of that merged on (see `./slot`). No render function needs to know `asChild`
+ * exists. One that treats elements differently (`disabled` on a `<button>` versus an `<a>`) asks
+ * `resolveElementKind(Component)`, which answers for a tag and for a `Slot` alike.
  */
 export function createPolymorphicComponent<T>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -88,7 +89,11 @@ export function createPolymorphicComponent<T>(
       SlotProvider,
       { value: child },
       render(
-        { ...props, component: Slot, children: (child.props as PropsWithChildren).children },
+        {
+          ...props,
+          component: getSlot(child),
+          children: (child.props as PropsWithChildren).children
+        },
         ref
       )
     )

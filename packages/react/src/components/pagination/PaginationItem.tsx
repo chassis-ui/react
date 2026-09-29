@@ -10,6 +10,7 @@ import classNames from 'classnames'
 import { mergeProps } from 'react-aria'
 
 import { useButtonSemantics } from '../../hooks'
+import { resolveElementKind } from '../../utils/elementKind'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -78,11 +79,17 @@ function PaginationItemRender<C extends ElementType = 'button'>(
   // strictly worse than the real one it replaced. Styling is unaffected either way: chassis-css
   // matches `.pagination-link { &.active, .active > & }`, and `active` still lands on the `<li>`.
   const Component = (component ?? (href ? 'a' : 'button')) as ElementType
+  // The kind rather than the tag: under `asChild`, `Component` is a `Slot` standing in for the
+  // caller's element, and a slotted `<a>` needs what `component="a"` gets. Each branch below
+  // renders `Component` typed as its tag, which is the tag itself or that `Slot`.
+  const kind = resolveElementKind(Component)
+  const NativeButton = Component as 'button'
+  const Anchor = Component as 'a'
 
   // `<a>` has no real `disabled` attribute, so a disabled anchor pagination item still fires
   // click (and still navigates) unless it's blocked here, same guard `Button` applies.
   const handleClick = (event: MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => {
-    if (Component === 'a' && disabled) {
+    if (kind === 'anchor' && disabled) {
       event.preventDefault()
       return
     }
@@ -91,7 +98,7 @@ function PaginationItemRender<C extends ElementType = 'button'>(
 
   // A custom `component`/default (non-`button`/`a`) branch gets a raw `onClick` with no keyboard
   // semantics otherwise — the same gap `Link` fills via `useButtonSemantics`.
-  const needsButtonSemantics = Component !== 'button' && Component !== 'a' && !!onClick
+  const needsButtonSemantics = kind !== 'button' && kind !== 'anchor' && !!onClick
   const { buttonProps, forkedRef } = useButtonSemantics<HTMLElement>(ref as Ref<HTMLElement>, {
     disabled,
     onClick: onClick as MouseEventHandler<HTMLElement> | undefined
@@ -104,8 +111,8 @@ function PaginationItemRender<C extends ElementType = 'button'>(
 
   return (
     <li className={_className}>
-      {Component === 'button' ? (
-        <button
+      {kind === 'button' ? (
+        <NativeButton
           {...(rest as Record<string, unknown>)}
           className="pagination-link"
           type="button"
@@ -115,9 +122,9 @@ function PaginationItemRender<C extends ElementType = 'button'>(
           ref={ref as Ref<HTMLButtonElement>}
         >
           {children}
-        </button>
-      ) : Component === 'a' ? (
-        <a
+        </NativeButton>
+      ) : kind === 'anchor' ? (
+        <Anchor
           {...(rest as Record<string, unknown>)}
           className="pagination-link"
           href={href}
@@ -127,7 +134,7 @@ function PaginationItemRender<C extends ElementType = 'button'>(
           ref={ref as Ref<HTMLAnchorElement>}
         >
           {children}
-        </a>
+        </Anchor>
       ) : (
         <Component
           className="pagination-link"

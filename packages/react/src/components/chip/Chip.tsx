@@ -10,6 +10,7 @@ import { mergeProps } from 'react-aria'
 
 import { ContextColor, ContextStyle } from '../../types'
 import { useButtonSemantics, useDisabledAnchorGuard } from '../../hooks'
+import { resolveElementKind } from '../../utils/elementKind'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -95,8 +96,11 @@ function ChipRender<C extends ElementType = 'span'>(
   // Only defaults to `a` when `component` wasn't explicitly passed — an explicit `component`
   // (even alongside `href`) always wins.
   const Component = (component ?? (href ? 'a' : 'span')) as ElementType
-  const isButton = Component === 'button'
-  const isAnchor = Component === 'a'
+  // The kind rather than the tag: under `asChild`, `Component` is a `Slot` standing in for the
+  // caller's element, and a slotted `<a>` needs what `component="a"` gets.
+  const kind = resolveElementKind(Component)
+  const isButton = kind === 'button'
+  const isAnchor = kind === 'anchor'
 
   const _className = classNames(
     'chip',
@@ -129,8 +133,9 @@ function ChipRender<C extends ElementType = 'span'>(
   })
 
   if (isButton) {
+    const NativeButton = Component as 'button'
     return (
-      <button
+      <NativeButton
         {...(rest as Record<string, unknown>)}
         aria-pressed={pressed}
         className={_className}
@@ -140,13 +145,14 @@ function ChipRender<C extends ElementType = 'span'>(
         type={type}
       >
         {children}
-      </button>
+      </NativeButton>
     )
   }
 
   if (isAnchor) {
+    const Anchor = Component as 'a'
     return (
-      <a
+      <Anchor
         {...(rest as Record<string, unknown>)}
         aria-pressed={pressed}
         className={_className}
@@ -156,7 +162,7 @@ function ChipRender<C extends ElementType = 'span'>(
         ref={ref as Ref<HTMLAnchorElement>}
       >
         {children}
-      </a>
+      </Anchor>
     )
   }
 

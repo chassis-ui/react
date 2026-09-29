@@ -7,6 +7,7 @@ import {
   PolymorphicComponentProps,
   PolymorphicRef
 } from '../../utils/polymorphic'
+import { isSlot } from '../../utils/slot'
 
 type PlaceholderAlign = 'start' | 'center' | 'end'
 
@@ -32,7 +33,8 @@ type PlaceholderOwnProps<C extends ElementType> = {
   /**
    * Component used for the root node when `src` is set. Either a string to use an HTML element
    * or a component — e.g. a framework's own `Image` component. Its own props (`src`, `fill`,
-   * `priority`, etc.) are type-checked at the call site once passed here.
+   * `priority`, etc.) are type-checked at the call site once passed here. With `asChild`, the
+   * child element is the image and carries its own `src`.
    */
   component?: C
   /**
@@ -119,7 +121,9 @@ function PlaceholderRender<C extends ElementType = 'img'>(
   const label =
     [showTitle && title, showText && displayText].filter(Boolean).join(': ') || undefined
 
-  if (src) {
+  // Under `asChild` the caller's element is the image and holds the `src`, so there is none here
+  // to choose the branch by.
+  if (src || isSlot(component)) {
     const Component = component ?? 'img'
     const _className = classNames(
       { image: fluid || thumbnail, fluid, rounded, thumbnail },

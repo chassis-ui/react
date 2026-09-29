@@ -14,11 +14,18 @@ import { mergeProps } from 'react-aria'
 
 import { useForkedRef } from '../hooks/useForkedRef'
 import { devWarning } from './devWarning'
+import { ElementKind, resolveSlottedKind } from './elementKind'
 
 // Backs the `asChild` prop every polymorphic component accepts (see `createPolymorphicComponent`).
-// The component renders `Slot` as its `component`, exactly like any other component reference;
-// `Slot` then renders the caller's child element in its place, with the props the component
-// computed (className, handlers, ARIA attributes, ref) merged onto it.
+// The component renders a `Slot` as its `component`; the `Slot` then renders the caller's child
+// element in its place, with the props the component computed (className, handlers, ARIA
+// attributes, ref) merged onto it.
+//
+// There is one `Slot` per tag, and two for component elements (a link, anything else), and the
+// component gets the one that matches the child. A render function reads the child's kind and
+// tag back with `resolveElementKind(Component)`/`resolveElementTag(Component)` (see
+// `./elementKind`) and gives a slotted `<a>` the handling it gives `component="a"`. Both travel
+// on the component rather than in a prop, so nothing extra can reach the DOM.
 //
 // The child element travels through context rather than a prop because a render function spreads
 // its `rest` props onto `component` in its own way (some filter them, some don't forward every
@@ -44,23 +51,51 @@ function getElementRef(element: SlotElement): Ref<unknown> | undefined {
 // `Record` rather than a declared prop list: `Slot` forwards whatever the render function hands it.
 type SlotProps = Record<string, unknown>
 
-export const Slot = forwardRef<unknown, SlotProps>(function Slot({ children, ...slotProps }, ref) {
-  const element = useContext(SlotContext)
-  const forkedRef = useForkedRef(ref, element ? getElementRef(element) : undefined)
-  if (!element) return null
+function createSlot(slotKind: ElementKind, slotTag: string | undefined) {
+  const Slot = forwardRef<unknown, SlotProps>(function Slot({ children, ...slotProps }, ref) {
+    const element = useContext(SlotContext)
+    const forkedRef = useForkedRef(ref, element ? getElementRef(element) : undefined)
+    if (!element) return null
 
-  return (
-    <SlotContext.Provider value={null}>
-      {cloneElement(
-        element,
-        // react-aria's `mergeProps`: the child's own props win over the component's, except that
-        // classNames concatenate, event handlers chain (the component's first), and ids merge.
-        { ...mergeProps(slotProps, element.props), ref: forkedRef } as Record<string, unknown>,
-        children as ReactNode
-      )}
-    </SlotContext.Provider>
-  )
-})
+    // react-aria's `mergeProps`: the child's own props win over the component's, except that
+    // classNames concatenate, event handlers chain (the component's first), and ids merge.
+    const props: Record<string, unknown> = { ...mergeProps(slotProps, element.props) }
+    // A component marks an element that has no `disabled` attribute (an `<a>`, a `<div>`) with
+    // `aria-disabled`, and blocks its click itself. The child's own `onClick` would still run
+    // from the chain, so the component's handler replaces it: a disabled element doesn't act on
+    // a click.
+    if (slotProps['aria-disabled'] === true) props.onClick = slotProps.onClick
+
+    return (
+      <SlotContext.Provider value={null}>
+        {cloneElement(element, { ...props, ref: forkedRef }, children as ReactNode)}
+      </SlotContext.Provider>
+    )
+  })
+  return Object.assign(Slot, { slotKind, slotTag })
+}
+
+// Created on first use and kept: a `Slot` has to be the same component on every render, or React
+// would remount the child. Keyed by tag, or by kind for a component element (a tag can't start
+// with a colon).
+const slots = new Map<string, ReturnType<typeof createSlot>>()
+
+// The `Slot` a component renders for this child element.
+export function getSlot(element: SlotElement) {
+  const kind = resolveSlottedKind(element)
+  const tag = typeof element.type === 'string' ? element.type : undefined
+  const key = tag ?? `:${kind}`
+  let slot = slots.get(key)
+  if (!slot) {
+    slot = createSlot(kind, tag)
+    slots.set(key, slot)
+  }
+  return slot
+}
+
+// Whether a render function's `component` is a `Slot`, that is, whether it renders under `asChild`.
+export const isSlot = (component: unknown): boolean =>
+  typeof (component as { slotKind?: ElementKind } | null)?.slotKind === 'string'
 
 // The single element `asChild` renders in place of the component's own element, or `null` (with
 // a dev warning) when `children` isn't exactly one — the component then falls back to rendering

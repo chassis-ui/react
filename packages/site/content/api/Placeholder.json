@@ -124,7 +124,7 @@
     },
     "component": {
       "defaultValue": null,
-      "description": "Component used for the root node when `src` is set. Either a string to use an HTML element\nor a component — e.g. a framework's own `Image` component. Its own props (`src`, `fill`,\n`priority`, etc.) are type-checked at the call site once passed here.",
+      "description": "Component used for the root node when `src` is set. Either a string to use an HTML element\nor a component — e.g. a framework's own `Image` component. Its own props (`src`, `fill`,\n`priority`, etc.) are type-checked at the call site once passed here. With `asChild`, the\nchild element is the image and carries its own `src`.",
       "name": "component",
       "declarations": [
         {

@@ -3,11 +3,13 @@ import React, {
   ElementType,
   ForwardRefRenderFunction,
   isValidElement,
-  ReactElement
+  ReactElement,
+  ReactNode
 } from 'react'
 import classNames from 'classnames'
 
 import { ContextColor } from '../../types'
+import { isInteractiveKind, resolveElementTag, resolveKindFromProps } from '../../utils/elementKind'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -41,8 +43,8 @@ type StepperOwnProps<C extends ElementType> = {
   className?: string
   /**
    * Component used for the root node. Either a string to use a HTML element or a component.
-   * Defaults to `'ol'`, unless a step (a data-driven item with `href`, or a `<StepperItem
-   * component="a">`/`<StepperItem component="button">` child) is interactive — a bare `<a>`/
+   * Defaults to `'ol'`, unless a step (a data-driven item with `href`, or a `<StepperItem>` child
+   * rendering an `<a>`/`<button>` through `component` or `asChild`) is interactive — a bare `<a>`/
    * `<button>` isn't a valid direct child of `<ol>`, so the default switches to `'div'` instead.
    * Pass `component` explicitly to opt out of this.
    */
@@ -77,6 +79,9 @@ type StepperOwnProps<C extends ElementType> = {
   overflow?: boolean
 }
 
+// What `Stepper` reads off a `<StepperItem>` child to decide its own tag.
+type StepperItemChildProps = { asChild?: boolean; children?: ReactNode; component?: ElementType }
+
 export type StepperProps<C extends ElementType = 'ol'> = PolymorphicComponentProps<
   C,
   StepperOwnProps<C>
@@ -100,21 +105,25 @@ function StepperRender<C extends ElementType = 'ol'>(
   }: StepperProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  // A linked step (data-driven `href`, or a `<StepperItem component="a"|"button">` child) can't
-  // render as a bare `<a>`/`<button>` inside the default `<ol>` root — only `<li>`/`script`/
-  // `template` are valid children there. Default to `<div>` instead when that's the case
-  // (unless the caller already chose their own `component`) — matching the
-  // `<Stepper component="div">` pattern already documented for composed interactive usage.
+  // A linked step (data-driven `href`, or a `<StepperItem>` child rendering an `<a>`/`<button>`,
+  // whether through `component` or as its `asChild` element) can't render as a bare
+  // `<a>`/`<button>` inside the default `<ol>` root — only `<li>`/`script`/`template` are valid
+  // children there. Default to `<div>` instead when that's the case (unless the caller already
+  // chose their own `component`) — matching the `<Stepper component="div">` pattern already
+  // documented for composed interactive usage.
   const hasInteractiveItem = items
     ? items.some((item) => !!item.href)
     : Children.toArray(children).some(
         (child) =>
-          isValidElement<{ component?: ElementType }>(child) &&
+          isValidElement<StepperItemChildProps>(child) &&
           child.type === StepperItem &&
-          (child.props.component === 'a' || child.props.component === 'button')
+          isInteractiveKind(resolveKindFromProps(child.props))
       )
   const Component = (component ?? (hasInteractiveItem ? 'div' : 'ol')) as ElementType
-  const isListSemantic = Component === 'ol' || Component === 'ul'
+  // The tag rather than `Component`, which under `asChild` is a `Slot` holding the caller's
+  // `<ol>`/`<ul>`.
+  const rootTag = resolveElementTag(Component)
+  const isListSemantic = rootTag === 'ol' || rootTag === 'ul'
 
   const _className = classNames(
     'stepper',
@@ -143,14 +152,16 @@ function StepperRender<C extends ElementType = 'ol'>(
   // When the root switched to `div` because of an interactive step, every plain `<StepperItem>`
   // sibling defaulting to `<li>` would be just as invalid (only valid inside `<ul>`/`<ol>`/
   // `<menu>`) — so give each `StepperItem` child the same `div` treatment the auto-generated
-  // steps above already get, unless it set its own `component`. Other child types are left
-  // untouched — this is only meaningful for `Stepper`'s own steps.
+  // steps above already get, unless it set its own `component` or renders its `asChild` element.
+  // Other child types are left untouched — this is only meaningful for `Stepper`'s own steps.
   const renderedChildren =
     autoContent ??
     (isListSemantic
       ? children
       : Children.map(children, (child) =>
-          isValidElement<{ component?: ElementType }>(child) && child.type === StepperItem
+          isValidElement<StepperItemChildProps>(child) &&
+          child.type === StepperItem &&
+          !child.props.asChild
             ? React.cloneElement(child, { component: child.props.component ?? 'div' })
             : child
         ))
