@@ -7,7 +7,6 @@ import React, {
   useMemo,
   useRef
 } from 'react'
-import { createPortal } from 'react-dom'
 import classNames from 'classnames'
 import { useComboBox, useFilter, useOverlayPosition } from 'react-aria'
 import { Key, useComboBoxState } from 'react-stately'
@@ -25,6 +24,7 @@ import {
   resolveMenuOverlayPositioning,
   toAriaPlacement
 } from '../../utils/overlayPlacement'
+import { Portal } from '../../utils/portal'
 import { validationClassName } from '../../utils/validationClassName'
 import { renderFormField } from '../form-field/renderFormField'
 import { MenuItemsDef } from '../menu/MenuItemDef'
@@ -279,28 +279,22 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
               ref={inputRef}
             />
           </div>
-          {typeof window !== 'undefined' &&
-            createPortal(
-              <div
-                className={classNames('menu', { show: state.isOpen })}
-                data-cx-placement={placementAttr}
-                style={overlayStyle}
-                hidden={!state.isOpen}
-                ref={popoverRef}
-              >
-                <ComboboxListBox
-                  state={state}
-                  listBoxProps={listBoxProps}
-                  listBoxRef={listBoxRef}
-                />
-                {showNoResults && (
-                  <div className="combobox-no-results" id={noResultsId} role="status">
-                    {noResultsText}
-                  </div>
-                )}
-              </div>,
-              portalContainer ?? document.body
-            )}
+          <Portal container={portalContainer}>
+            <div
+              className={classNames('menu', { show: state.isOpen })}
+              data-cx-placement={placementAttr}
+              style={overlayStyle}
+              hidden={!state.isOpen}
+              ref={popoverRef}
+            >
+              <ComboboxListBox state={state} listBoxProps={listBoxProps} listBoxRef={listBoxRef} />
+              {showNoResults && (
+                <div className="combobox-no-results" id={noResultsId} role="status">
+                  {noResultsText}
+                </div>
+              )}
+            </div>
+          </Portal>
           {name && (
             <input type="hidden" name={name} value={state.value ?? ''} disabled={disabled} />
           )}

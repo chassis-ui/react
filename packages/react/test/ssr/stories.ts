@@ -7,10 +7,10 @@ export type LoadedStory = { id: string; Story: ComponentType }
 // Every story of every `stories/**/*.stories.tsx` file, composed with the Storybook preview's own
 // annotations (decorators, default args), keyed `<family>/<File>.stories.tsx:<ExportName>`.
 //
-// Everything is imported dynamically, so a caller can load the stories, change the environment
-// (install DOM globals), call `vi.resetModules()` and load them again: the second load evaluates
-// React, the components and the stories afresh, the way a browser bundle would after the server's
-// module graph rendered the HTML. See `hydrate.spec.tsx`.
+// Everything is imported dynamically, so a caller can load the stories, install a DOM
+// (`installClientEnvironment`) and load them again: the second load evaluates the components and
+// the stories afresh, the way a browser bundle would after the server rendered the HTML. See
+// `hydrate.spec.tsx`.
 export async function loadStories(): Promise<LoadedStory[]> {
   const { composeStories, setProjectAnnotations } = await import('@storybook/react-vite')
   const preview = (await import('../../.storybook/preview')).default

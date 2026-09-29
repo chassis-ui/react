@@ -6,7 +6,6 @@ import React, {
   useContext,
   useEffect
 } from 'react'
-import { createPortal } from 'react-dom'
 import classNames from 'classnames'
 
 import { useForkedRef } from '../../hooks'
@@ -16,6 +15,7 @@ import {
   PolymorphicComponentProps,
   PolymorphicRef
 } from '../../utils/polymorphic'
+import { Portal } from '../../utils/portal'
 import { MenuContext } from './Menu'
 import { MenuDivider } from './MenuDivider'
 import { MenuHeader } from './MenuHeader'
@@ -129,8 +129,7 @@ function MenuListRender<C extends ElementType = 'div'>(
   )
 
   if (container) {
-    if (typeof window === 'undefined') return null
-    return createPortal(content, container === true ? document.body : container)
+    return <Portal container={container === true ? undefined : container}>{content}</Portal>
   }
 
   return content

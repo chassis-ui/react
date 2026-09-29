@@ -1,8 +1,8 @@
 // @vitest-environment node
 import * as React from 'react'
 import { renderToString } from 'react-dom/server'
-import { builtinEnvironments } from 'vitest/environments'
 
+import { installClientEnvironment } from './clientEnvironment'
 import { loadStories, STILL_FAILS } from './stories'
 
 // Hydration sweep: the server HTML of every story, hydrated with `hydrateRoot`. A story fails if
@@ -11,32 +11,13 @@ import { loadStories, STILL_FAILS } from './stories'
 // Both halves run in this one file, in order. At collection time there is no DOM, so the module
 // graph loaded first is a server's: `typeof window` is `'undefined'` inside every component, and
 // the HTML is what a framework would send. `beforeAll` then installs a jsdom window as the global
-// environment, resets the module graph, and loads React, the components and the stories again —
-// now as a browser bundle would see them. Rendering the HTML under jsdom instead would hide exactly
+// environment, resets the module graph, and loads the components and the stories again, now as a
+// browser bundle would see them (see `clientEnvironment.ts`). Rendering the HTML under jsdom instead would hide exactly
 // the `typeof window` branches that cause mismatches.
 
-// F1 of AUDIT-PLAN.md: a portal rendered during hydration (`typeof window !== 'undefined' &&
-// createPortal(...)`) renders nothing on the server and the portal's content on the client's first
-// render. B1 fixes these; delete each entry with its fix.
-const KNOWN_FAILURES: Record<string, string> = {
-  'autocomplete/Autocomplete.stories.tsx:Default': 'F1: portaled menu',
-  'autocomplete/Autocomplete.stories.tsx:Disabled': 'F1: portaled menu',
-  'autocomplete/Autocomplete.stories.tsx:Grouped': 'F1: portaled menu',
-  'autocomplete/Autocomplete.stories.tsx:Items': 'F1: portaled menu',
-  'autocomplete/Autocomplete.stories.tsx:Multiple': 'F1: portaled menu',
-  'autocomplete/Autocomplete.stories.tsx:OpenMenu': 'F1: portaled menu',
-  'autocomplete/Autocomplete.stories.tsx:WithFormField': 'F1: portaled menu',
-  'combobox/Combobox.stories.tsx:Default': 'F1: portaled menu',
-  'combobox/Combobox.stories.tsx:Disabled': 'F1: portaled menu',
-  'combobox/Combobox.stories.tsx:Grouped': 'F1: portaled menu',
-  'combobox/Combobox.stories.tsx:Items': 'F1: portaled menu',
-  'combobox/Combobox.stories.tsx:OpenMenu': 'F1: portaled menu',
-  'combobox/Combobox.stories.tsx:WithFormField': 'F1: portaled menu',
-  'form-field/FormField.stories.tsx:WrappedControl': 'F1: wraps a Combobox',
-  'popover/Popover.stories.tsx:Open': 'F1: open on first render',
-  'popover/Popover.stories.tsx:OpenNoTitle': 'F1: open on first render',
-  'popover/Popover.stories.tsx:OpenPlacementLeft': 'F1: open on first render'
-}
+// Stories known to fail hydration, keyed by story id, each with the finding it belongs to. Empty
+// since B1 of AUDIT-PLAN.md made every portal hydration-safe.
+const KNOWN_FAILURES: Record<string, string> = {}
 
 const serverStories = await loadStories()
 const serverHtml = new Map(
@@ -58,13 +39,7 @@ type Client = {
 let client: Client
 
 beforeAll(async () => {
-  // The same jsdom window the rest of the suite gets from `environment: 'jsdom'`.
-  await builtinEnvironments.jsdom.setup(globalThis, { jsdom: { url: 'http://localhost/' } })
-  ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
-
-  vi.resetModules()
-  // The project's setup file already ran this before a DOM existed, when it had nothing to patch.
-  await import('../dialogPolyfill')
+  await installClientEnvironment()
   const { loadStories: loadClientStories } = await import('./stories')
   client = {
     React: await import('react'),

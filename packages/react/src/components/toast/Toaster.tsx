@@ -1,8 +1,8 @@
 import React, { forwardRef, HTMLAttributes } from 'react'
-import { createPortal } from 'react-dom'
 import classNames from 'classnames'
 
 import { useToastRegionQueue } from '../../hooks'
+import { Portal } from '../../utils/portal'
 import { Toast } from './Toast'
 import { toastQueue } from './toastQueue'
 
@@ -78,9 +78,10 @@ export const Toaster = forwardRef<HTMLDivElement, ToasterProps>(
       ) : null
     }
 
-    return typeof window !== 'undefined' && placement
-      ? createPortal(toaster(forkedRef), document.body)
-      : toaster(forkedRef)
+    // A placed region is portaled to `document.body`, on the server as on the client: it renders
+    // nothing until hydration has finished, instead of rendering inline on the server and moving
+    // on the client, which discarded the server's markup.
+    return placement ? <Portal>{toaster(forkedRef)}</Portal> : toaster(forkedRef)
   }
 )
 

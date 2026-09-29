@@ -274,6 +274,9 @@ pnpm test:visual:update   # same, plus --update-snapshots to regenerate baseline
   [`FORMS.md`](FORMS.md#adding-a-new-form-component) for form
   components specifically; for non-form components, follow the same folder/test/index.ts-export
   shape without the render-helper-engine decision.
+- Never call `createPortal` directly: render `Portal` (`src/utils/portal.tsx`). It renders
+  nothing (or its `fallback`) on the server and during hydration, then portals, so portaled
+  content can't break hydration. `test/ssr/portal.spec.tsx` checks the overlays still appear.
 - A component that draws an icon of its own never renders `<Icon>` directly — it renders
   `IconSlot` (`src/utils/iconSlot.tsx`) with a purpose key (`check`, `previous`, `next`, ...) plus
   the class chassis-css positions that icon by, so consumers can swap it via `IconProvider` or

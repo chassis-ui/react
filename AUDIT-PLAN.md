@@ -541,16 +541,19 @@ without its fix.
 
 ### B1 — Hydration-safe portals (F1)
 
+Done. `test/ssr/portal.spec.tsx` hydrates each portaling component and checks its overlay appears
+afterwards; it fails on the code before this phase.
+
 Model: **Opus**. The pattern is known and `MenuSubmenu` already shows it; the work is applying it
 to seven call sites without breaking positioning.
 
-- [ ] Add `src/utils/portal.tsx`: a `Portal` component that renders nothing until hydration has
+- [x] Add `src/utils/portal.tsx`: a `Portal` component that renders nothing until hydration has
       finished (`useSyncExternalStore` with a server snapshot of `false`), then portals to the
       resolved container.
-- [ ] Replace the seven `createPortal` call sites with it. Keep `useFloatingOverlay`'s
+- [x] Replace the seven `createPortal` call sites with it. Keep `useFloatingOverlay`'s
       dialog-aware container resolution and feed its result to `Portal`.
-- [ ] `Toaster`: portal on both paths or neither; remove the `typeof window` branch in render.
-- [ ] Remove the F1 entries from the B0 allowlist.
+- [x] `Toaster`: portal on both paths or neither; remove the `typeof window` branch in render.
+- [x] Remove the F1 entries from the B0 allowlist.
 
 Changeset: patch. Exit: hydration sweep passes for Combobox, Autocomplete, FormField and Popover.
 

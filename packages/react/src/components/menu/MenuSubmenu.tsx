@@ -9,7 +9,6 @@ import React, {
   useRef,
   useState
 } from 'react'
-import { createPortal } from 'react-dom'
 import classNames from 'classnames'
 import { useLocale, useOverlayPosition } from 'react-aria'
 
@@ -19,6 +18,7 @@ import {
   resolveMenuOverlayPositioning,
   toAriaPlacement
 } from '../../utils/overlayPlacement'
+import { Portal } from '../../utils/portal'
 import { focusMenuItem, getMenuItems, handleMenuKeyDown } from './menuNavigation'
 import { SubmenuActionsContext, SubmenuGroupContext, useSubmenuGroupProvider } from './submenuGroup'
 
@@ -83,10 +83,6 @@ export const MenuSubmenu = forwardRef<HTMLDivElement, MenuSubmenuProps>(
     const triggerId = `${id}-trigger`
     const menuId = `${id}-menu`
     const [visible, setVisible] = useState(false)
-    // Portaling is only safe once mounted on the client: during SSR (and the initial client
-    // hydration pass, which must match the server-rendered markup) the panel renders inline next
-    // to its trigger, then moves to `document.body` on the next render once this flips to true.
-    const [mounted, setMounted] = useState(false)
     const closeTimeoutRef = useRef<number | undefined>(undefined)
     const focusFirstRafRef = useRef<number | undefined>(undefined)
     const triggerRef = useRef<HTMLButtonElement | null>(null)
@@ -156,7 +152,6 @@ export const MenuSubmenu = forwardRef<HTMLDivElement, MenuSubmenuProps>(
     useEffect(() => parentGroup?.register(id, close), [parentGroup, id, close])
     useEffect(() => clearCloseTimeout, [clearCloseTimeout])
     useEffect(() => cancelFocusFirstRaf, [cancelFocusFirstRaf])
-    useEffect(() => setMounted(true), [])
 
     // The submenu's own open state is local and doesn't otherwise hear about its ancestor
     // `Menu` closing (via Escape, outside click, etc.) — without this it's left open and
@@ -274,7 +269,9 @@ export const MenuSubmenu = forwardRef<HTMLDivElement, MenuSubmenuProps>(
           // `sm` breakpoint a `stacked` submenu no longer escapes ancestor overflow/stacking-
           // context clipping the way a portaled one does; accepted since `stacked` targets mobile
           // nav/drawer usage, not floating dropdowns.
-          return mounted && !stacked ? createPortal(panel, document.body) : panel
+          // On the server and during hydration the panel renders inline next to its trigger, which
+          // is what the server's HTML holds; `Portal` moves it to `document.body` afterwards.
+          return stacked ? panel : <Portal fallback={panel}>{panel}</Portal>
         })()}
       </div>
     )
