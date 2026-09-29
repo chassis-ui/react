@@ -17,6 +17,13 @@ auditConfig:
     - CVE-2025-71330 # GHSA-w3rx-r6r6-pgpr — image-size ICNS parser infinite loop
     - CVE-2025-71329 # GHSA-5p2g-fcmc-qvqq — image-size JXL/HEIF parser infinite loop
 
+# Our own packages install at any age. Dependabot hands its 3-day cooldown to pnpm as a minimum
+# release age when it re-resolves the lockfile, which rejected a Chassis release that develop
+# already required. A Chassis release can be an urgent fix between our packages. See the cooldown
+# in .github/dependabot.yml, which exempts the same packages.
+minimumReleaseAgeExclude:
+  - '@chassis-ui/*'
+
 onlyBuiltDependencies:
   - '@parcel/watcher'
   - esbuild
