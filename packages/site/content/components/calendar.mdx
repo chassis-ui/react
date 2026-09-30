@@ -81,7 +81,7 @@ Pass `visibleMonths` to show more than one month side by side, sharing one selec
 
 ## Styling
 
-Like `DatePicker`, `Calendar` isn't styled by `@chassis-ui/css` — chassis-css's own datepicker styling is built entirely around [Vanilla Calendar Pro](https://vanilla-calendar.pro/)'s specific DOM output, which React Aria's calendar hooks don't produce. `Calendar` instead ships its own scoped CSS (built on `@chassis-ui/tokens`' public design tokens, so it still matches the current theme and light/dark mode) that's automatically injected the first time the component is imported — no separate stylesheet to add.
+Like `DatePicker`, `Calendar` isn't styled by `@chassis-ui/css` — chassis-css's own datepicker styling is built entirely around [Vanilla Calendar Pro](https://vanilla-calendar.pro/)'s specific DOM output, which React Aria's calendar hooks don't produce. `Calendar` instead ships its own scoped CSS (built on `@chassis-ui/tokens`' public design tokens, so it still matches the current theme and light/dark mode) in `@chassis-ui/react/style.css`, which an app imports once (see [Theming]([[docsref:/getting-started/theming]])).
 
 ## Accessibility
 

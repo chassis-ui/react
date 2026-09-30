@@ -1,10 +1,10 @@
 import React, { useRef } from 'react'
-import classNames from 'classnames'
-import { AriaDateFieldProps, DateValue, useDateField, useDateSegment, useLocale } from 'react-aria'
-import { DateFieldState, DateSegment as DateSegmentType, useDateFieldState } from 'react-stately'
+import { AriaDateFieldProps, DateValue, useDateField, useLocale } from 'react-aria'
+import { useDateFieldState } from 'react-stately'
 import { createCalendar } from '@internationalized/date'
 
-import { joinIds, withoutSlotIds } from '../../utils/idRefs'
+import { withoutSlotIds } from '../../utils/idRefs'
+import { DateSegment } from './DateSegment'
 
 interface DateFieldProps {
   fieldProps: AriaDateFieldProps<DateValue>
@@ -46,31 +46,5 @@ export const DateField = ({ fieldProps }: DateFieldProps) => {
         />
       ))}
     </div>
-  )
-}
-
-interface DateSegmentProps {
-  fieldLabelledBy?: string
-  segment: DateSegmentType
-  slots: { id?: string }[]
-  state: DateFieldState
-}
-
-const DateSegment = ({ fieldLabelledBy, segment, slots, state }: DateSegmentProps) => {
-  const ref = useRef<HTMLDivElement>(null)
-  const { segmentProps } = useDateSegment(segment, state, ref)
-
-  return (
-    <span
-      {...withoutSlotIds(segmentProps, ...slots)}
-      // react-aria labels a segment by an id of its own, which it merges into the segment's `id`
-      // only after hydration, and by the field's label. The server's HTML referred to the first,
-      // an id no element had.
-      aria-labelledby={segmentProps['aria-labelledby'] && joinIds(segmentProps.id, fieldLabelledBy)}
-      className={classNames('datepicker-segment', { placeholder: segment.isPlaceholder })}
-      ref={ref}
-    >
-      {segment.text}
-    </span>
   )
 }

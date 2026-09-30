@@ -6,14 +6,9 @@
  * chassis-css's native popover treatment (position, z-index, padding, border, box-shadow)
  * directly, while `Calendar` nested inside it stays `data-cx-inline` (no border/shadow of its
  * own — see `Calendar.scss`'s comment) so there's only one bordered/shadowed box, not two. Only
- * the segments themselves are genuinely new visual territory with no chassis-css equivalent.
- * Built on chassis-css's globally-defined `--cx-*` tokens so it stays on the same design language
- * (and adapts to light/dark) — except `--cx-form-idle-fg-inactive`, which is only ever defined
- * inside chassis-css's own `.form-input` block, not `:root`; see `Calendar.scss`'s comment on why
- * that one internal-token exception was kept anyway.
+ * the segments themselves are genuinely new visual territory with no chassis-css equivalent: their
+ * styles are in `DateSegment.scss`, shared with `TimeField`.
  */
-
-@use "@chassis-ui/css/scss/mixins" as *;
 
 /*
  * chassis-css's own `.datepicker` rule sets `display: flex` unconditionally, which — same-
@@ -27,25 +22,3 @@
     display: none;
   }
 }
-
-.datepicker-field {
-  display: flex;
-  align-items: center;
-  width: fit-content;
-}
-
-.datepicker-segment {
-  padding-inline: var(--cx-space-3xs);
-  @include border-radius(var(--cx-border-radius-sm));
-  outline: 0;
-}
-
-.datepicker-segment.placeholder {
-  color: var(--cx-form-idle-fg-inactive);
-}
-
-.datepicker-segment:focus {
-  color: var(--cx-primary-contrast);
-  background-color: var(--cx-primary);
-}
-

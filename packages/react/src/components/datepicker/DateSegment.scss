@@ -1,0 +1,31 @@
+@use "@chassis-ui/css/scss/mixins" as *;
+
+/*
+ * The segments of `DateField` (inside `DatePicker`/`DateRangePicker`) and of `TimeField`. chassis-css
+ * has no segmented field, so these are new here, built on its global `--cx-*` tokens, except
+ * `--cx-form-idle-fg-inactive`, which chassis-css defines only inside `.form-input` (every
+ * segmented field sits in one); see `Calendar.scss`'s comment on that exception.
+ *
+ * The segments are laid out inline, not as flex items: a time is kept left to right in a
+ * right-to-left locale by bidi isolation marks around it, which have no effect between flex items.
+ */
+
+.datepicker-field {
+  width: fit-content;
+  white-space: nowrap;
+}
+
+.datepicker-segment {
+  padding-inline: var(--cx-space-3xs);
+  @include border-radius(var(--cx-border-radius-sm));
+  outline: 0;
+}
+
+.datepicker-segment.placeholder {
+  color: var(--cx-form-idle-fg-inactive);
+}
+
+.datepicker-segment:focus {
+  color: var(--cx-primary-contrast);
+  background-color: var(--cx-primary);
+}

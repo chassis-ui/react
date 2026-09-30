@@ -1,0 +1,107 @@
+---
+title: Time Field
+description: A time of day typed or stepped segment by segment, in the locale's format, with a granularity, 12 or 24 hours, and a range.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/time-field/BasicExample.tsx'
+import { Example as GranularityExample } from '../../examples/components/time-field/GranularityExample.tsx'
+import { Example as RangeExample } from '../../examples/components/time-field/RangeExample.tsx'
+import { Example as ControlledValueExample } from '../../examples/components/time-field/ControlledValueExample.tsx'
+import { Example as LocaleExample } from '../../examples/components/time-field/LocaleExample.tsx'
+import { Example as FormExample } from '../../examples/components/time-field/FormExample.tsx'
+import { Example as SizingExample } from '../../examples/components/time-field/SizingExample.tsx'
+import { Example as StatesExample } from '../../examples/components/time-field/StatesExample.tsx'
+
+## Overview
+
+`TimeField` is a time of day, built on React Aria's `useTimeField`. It renders one editable segment
+per unit (the hour, the minute, AM or PM), as the field of a
+[Datepicker]([[docsref:/components/datepicker]]) renders a date: type a number into a segment, or
+step it with the Up and Down arrow keys. Like the other form fields, it takes `label`, `help` and
+the validation props, and renders a `FormLabel`, `FormHelp` and `FormFeedback` wired to it.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+The field is a `.form-input` that holds the segments, so it takes chassis-css's sizes and states.
+The segments' own styles are the date pickers', in `@chassis-ui/react/style.css` (see
+[Theming]([[docsref:/getting-started/theming]])).
+
+## Granularity and hour cycle
+
+`granularity` sets the smallest unit: `hour`, `minute` (the default) or `second`. The locale decides
+between 12 and 24 hours; `hourCycle` sets it, and `shouldForceLeadingZeros` writes `09` for 9.
+
+<Example class="vstack gap-md">
+  <GranularityExample client:load />
+</Example>
+
+## Value
+
+A value is a `Time` from [`@internationalized/date`](https://react-spectrum.adobe.com/internationalized/date/),
+or a `CalendarDateTime` or `ZonedDateTime` whose date the field keeps. `onChange` receives it once
+every segment has a value, and `null` once every segment is empty; a field emptied only in part
+keeps its last value. With `placeholderValue`, an empty
+field starts its segments from that time. Pass `value` and `onChange` to control the value, or
+`defaultValue` to let the component manage it.
+
+<Example>
+  <ControlledValueExample client:load />
+</Example>
+
+## Range
+
+`minValue` and `maxValue` bound the time. A time outside them shows the field as invalid, with its
+`invalidFeedback`, and marks the segments invalid for assistive technology.
+
+<Example>
+  <RangeExample client:load />
+</Example>
+
+## Locale
+
+The segments, their order and the AM/PM marker follow the locale: the browser's, or the one an
+[`I18nProvider`]([[docsref:/getting-started/internationalization]]) sets. A right-to-left locale
+keeps the time itself left to right, as it is written.
+
+<Example class="vstack gap-md">
+  <LocaleExample client:load />
+</Example>
+
+## In a form
+
+With `name`, the field submits its value as an ISO 8601 time, `21:30:00`, from a hidden input.
+`form` links it to a form elsewhere on the page. Resetting the form restores `defaultValue`.
+
+<Example>
+  <FormExample client:load />
+</Example>
+
+## Sizing
+
+<Example class="vstack gap-md">
+  <SizingExample client:load />
+</Example>
+
+## States
+
+`disabled` and `readOnly` keep the time from changing; a disabled field submits nothing. `invalid`
+and `valid` color the field and show `invalidFeedback` or `validFeedback`.
+
+<Example class="vstack gap-md">
+  <StatesExample client:load />
+</Example>
+
+## Accessibility
+
+The field is a group named by its label. Each segment is a spin button named by its unit and the
+label ("hour, Start"), and Tab moves between them. Once a value is set, the group is described by
+the whole time as well as by its help and feedback.
+
+## API
+
+### TimeField
+
+<PropTable component="TimeField" />

@@ -141,6 +141,7 @@ import { NavOverflow } from './components/nav-overflow'
 import { Scrollspy, useScrollspy } from './components/scrollspy'
 import { Divider } from './components/divider'
 import { NumberField } from './components/number-field'
+import { TimeField } from './components/time-field'
 
 export {
   Chip,
@@ -326,7 +327,8 @@ export {
   Scrollspy,
   useScrollspy,
   Divider,
-  NumberField
+  NumberField,
+  TimeField
 }
 
 // Type-only public surface. Kept as `export type ... from` re-exports (the same shape
@@ -537,6 +539,7 @@ export type { NavOverflowDetail, NavOverflowProps } from './components/nav-overf
 export type { ScrollspyProps, UseScrollspyOptions } from './components/scrollspy'
 export type { DividerProps } from './components/divider'
 export type { NumberFieldProps } from './components/number-field'
+export type { TimeFieldProps } from './components/time-field'
 export type {
   AlertBodyProps,
   AlertCancelProps,

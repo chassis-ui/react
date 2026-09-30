@@ -27,6 +27,7 @@
         - title: Datepicker
         - title: Date Range Picker
         - title: Range Calendar
+        - title: Time Field
     - group: Form Controls
       pages:
         - title: Text Input

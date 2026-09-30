@@ -84,7 +84,7 @@ The popover manages its own open state by default. Pass `visible` (with `onVisib
 
 ## Styling
 
-Unlike most Chassis React components, `DatePicker`'s calendar grid isn't styled by `@chassis-ui/css` — chassis-css's own datepicker styling is built entirely around [Vanilla Calendar Pro](https://vanilla-calendar.pro/)'s specific DOM output, which React Aria's calendar hooks don't produce. The grid itself is styled by [`Calendar`]([[docsref:/components/calendar]])'s own scoped CSS (built on `@chassis-ui/tokens`' public design tokens, so it still matches the current theme and light/dark mode), imported transitively along with `Calendar` — no separate stylesheet to add. `DatePicker` adds its own scoped CSS on top for the field and popover shell. The field and toggle button, in turn, reuse chassis-css's existing `.form-input`/`.input-adorn`/`.ghost-input` classes as-is.
+Unlike most Chassis React components, `DatePicker`'s calendar grid isn't styled by `@chassis-ui/css` — chassis-css's own datepicker styling is built entirely around [Vanilla Calendar Pro](https://vanilla-calendar.pro/)'s specific DOM output, which React Aria's calendar hooks don't produce. The grid itself is styled by [`Calendar`]([[docsref:/components/calendar]])'s own scoped CSS (built on `@chassis-ui/tokens`' public design tokens, so it still matches the current theme and light/dark mode), and `DatePicker` adds its own for the field's segments and the popover shell, all in `@chassis-ui/react/style.css`, which an app imports once (see [Theming]([[docsref:/getting-started/theming]])). The field and toggle button, in turn, reuse chassis-css's existing `.form-input`/`.input-adorn`/`.ghost-input` classes as-is.
 
 ## Scope
 

@@ -90,6 +90,7 @@
     "./tabs": "./dist/tabs.js",
     "./text-input": "./dist/text-input.js",
     "./textarea": "./dist/textarea.js",
+    "./time-field": "./dist/time-field.js",
     "./toast": "./dist/toast.js",
     "./tooltip": "./dist/tooltip.js",
     "./visually-hidden": "./dist/visually-hidden.js",

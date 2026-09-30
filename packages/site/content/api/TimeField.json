@@ -1,0 +1,535 @@
+{
+  "tags": {},
+  "filePath": "packages/react/src/components/time-field/TimeField.tsx",
+  "description": "",
+  "displayName": "TimeField",
+  "methods": [],
+  "props": {
+    "aria-label": {
+      "defaultValue": null,
+      "description": "An accessible label for the field, used when there's no visible `label`.",
+      "name": "aria-label",
+      "parent": {
+        "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+        "name": "TimeFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+          "name": "TimeFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "aria-labelledby": {
+      "defaultValue": null,
+      "description": "Identifies a visible element that labels the field.",
+      "name": "aria-labelledby",
+      "parent": {
+        "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+        "name": "TimeFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+          "name": "TimeFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "autoFocus": {
+      "defaultValue": null,
+      "description": "Focus the first segment when the field mounts.",
+      "name": "autoFocus",
+      "parent": {
+        "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+        "name": "TimeFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+          "name": "TimeFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+        "name": "TimeFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+          "name": "TimeFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "defaultValue": {
+      "defaultValue": null,
+      "description": "The value of the field, uncontrolled.",
+      "name": "defaultValue",
+      "parent": {
+        "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+        "name": "TimeFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+          "name": "TimeFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "TimeValue | null"
+      }
+    },
+    "disabled": {
+      "defaultValue": null,
+      "description": "Toggle the disabled state for the component.",
+      "name": "disabled",
+      "parent": {
+        "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+        "name": "TimeFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+          "name": "TimeFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "form": {
+      "defaultValue": null,
+      "description": "The id of a form elsewhere on the page that the field belongs to.",
+      "name": "form",
+      "parent": {
+        "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+        "name": "TimeFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+          "name": "TimeFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "granularity": {
+      "defaultValue": {
+        "value": "'minute'"
+      },
+      "description": "The smallest unit shown and edited.",
+      "name": "granularity",
+      "parent": {
+        "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+        "name": "TimeFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+          "name": "TimeFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"hour\" | \"minute\" | \"second\"",
+        "value": [
+          {
+            "value": "\"hour\""
+          },
+          {
+            "value": "\"minute\""
+          },
+          {
+            "value": "\"second\""
+          }
+        ]
+      }
+    },
+    "help": {
+      "defaultValue": null,
+      "description": "A description for the field, rendered below it.",
+      "name": "help",
+      "parent": {
+        "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+        "name": "TimeFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+          "name": "TimeFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "hideTimeZone": {
+      "defaultValue": null,
+      "description": "Hide the time zone of a `ZonedDateTime` value.",
+      "name": "hideTimeZone",
+      "parent": {
+        "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+        "name": "TimeFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+          "name": "TimeFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "hourCycle": {
+      "defaultValue": null,
+      "description": "Show 12 or 24 hours. Defaults to the locale's.",
+      "name": "hourCycle",
+      "parent": {
+        "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+        "name": "TimeFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+          "name": "TimeFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "12 | 24",
+        "value": [
+          {
+            "value": "12"
+          },
+          {
+            "value": "24"
+          }
+        ]
+      }
+    },
+    "invalid": {
+      "defaultValue": null,
+      "description": "Set component validation state to invalid.",
+      "name": "invalid",
+      "parent": {
+        "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+        "name": "TimeFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+          "name": "TimeFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "invalidFeedback": {
+      "defaultValue": null,
+      "description": "An error message for the field, rendered below it when `invalid` is set.",
+      "name": "invalidFeedback",
+      "parent": {
+        "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+        "name": "TimeFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+          "name": "TimeFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "label": {
+      "defaultValue": null,
+      "description": "The field's caption, rendered as a `FormLabel` that names the field.",
+      "name": "label",
+      "parent": {
+        "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+        "name": "TimeFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+          "name": "TimeFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "maxValue": {
+      "defaultValue": null,
+      "description": "The latest time. A later one entered marks the field invalid.",
+      "name": "maxValue",
+      "parent": {
+        "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+        "name": "TimeFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+          "name": "TimeFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "TimeValue | null"
+      }
+    },
+    "minValue": {
+      "defaultValue": null,
+      "description": "The earliest time. An earlier one entered marks the field invalid.",
+      "name": "minValue",
+      "parent": {
+        "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+        "name": "TimeFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+          "name": "TimeFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "TimeValue | null"
+      }
+    },
+    "name": {
+      "defaultValue": null,
+      "description": "The name the value is submitted under with a form, as an ISO 8601 time (`09:30:00`).",
+      "name": "name",
+      "parent": {
+        "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+        "name": "TimeFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+          "name": "TimeFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "onChange": {
+      "defaultValue": null,
+      "description": "Handler that is called when the value changes: once every segment has a value, and with\n`null` once every segment is empty. A partly emptied field keeps its last value.",
+      "name": "onChange",
+      "parent": {
+        "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+        "name": "TimeFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+          "name": "TimeFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((value: TimeValue | null) => void)"
+      }
+    },
+    "placeholderValue": {
+      "defaultValue": null,
+      "description": "The time the segments start from when the field is empty, such as `new Time(9)`. It also\nsets the type of value `onChange` receives.",
+      "name": "placeholderValue",
+      "parent": {
+        "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+        "name": "TimeFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+          "name": "TimeFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "TimeValue"
+      }
+    },
+    "readOnly": {
+      "defaultValue": null,
+      "description": "Toggle the readonly state for the component.",
+      "name": "readOnly",
+      "parent": {
+        "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+        "name": "TimeFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+          "name": "TimeFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "required": {
+      "defaultValue": null,
+      "description": "Toggle the required state for the component.",
+      "name": "required",
+      "parent": {
+        "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+        "name": "TimeFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+          "name": "TimeFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "shouldForceLeadingZeros": {
+      "defaultValue": null,
+      "description": "Show a leading zero on the hour, as `09:30` rather than `9:30`, whatever the locale does.",
+      "name": "shouldForceLeadingZeros",
+      "parent": {
+        "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+        "name": "TimeFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+          "name": "TimeFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "size": {
+      "defaultValue": null,
+      "description": "Size the component sm or lg.",
+      "name": "size",
+      "parent": {
+        "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+        "name": "TimeFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+          "name": "TimeFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"sm\" | \"lg\"",
+        "value": [
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"lg\""
+          }
+        ]
+      }
+    },
+    "valid": {
+      "defaultValue": null,
+      "description": "Set component validation state to valid.",
+      "name": "valid",
+      "parent": {
+        "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+        "name": "TimeFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+          "name": "TimeFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "validFeedback": {
+      "defaultValue": null,
+      "description": "A success message for the field, rendered below it when `valid` is set.",
+      "name": "validFeedback",
+      "parent": {
+        "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+        "name": "TimeFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+          "name": "TimeFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "value": {
+      "defaultValue": null,
+      "description": "The value of the field, controlled: a `Time`, or a `CalendarDateTime` or `ZonedDateTime`\nwhose date is kept. `null` for an empty field.",
+      "name": "value",
+      "parent": {
+        "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+        "name": "TimeFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/time-field/TimeField.tsx",
+          "name": "TimeFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "TimeValue | null"
+      }
+    }
+  }
+}

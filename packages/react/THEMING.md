@@ -62,16 +62,17 @@ packages:
 - **Four properties genuinely coupled to chassis-css's current internal structure, not its public
   token surface**: `--cx-day-disabled-fg-color`, `--cx-day-range-bg-color`,
   `--cx-day-range-fg-color` (used in `Calendar.scss`/`RangeCalendar.scss`) and
-  `--cx-form-idle-fg-inactive` (`DatePicker.scss`) are only ever defined inside chassis-css's own
+  `--cx-form-idle-fg-inactive` (`DateSegment.scss`) are only ever defined inside chassis-css's own
   `.datepicker`/`.form-input` selector blocks, with no `:root` fallback — unlike every other
-  `--cx-*` reference these four files make. Each currently resolves to a stable-looking global
+  `--cx-*` reference these files make. Each currently resolves to a stable-looking global
   default in chassis-css's compiled source, but that's chassis-css's current internal structure,
   not a promise. See the comment at the top of `Calendar.scss` for the full reasoning and how to
   re-check this if chassis-css's internals change.
 
 ## Component-scoped CSS
 
-The calendar/datepicker family (`Calendar`, `RangeCalendar`, `DatePicker`, `DateRangePicker`),
+The calendar/datepicker family (`Calendar`, `RangeCalendar`, `DatePicker`, `DateRangePicker`, and
+`TimeField`, whose segments share the date pickers' `DateSegment.scss`),
 `Table` (its sort indicator and selection-checkbox column — see `Table.css`'s own header comment),
 `Notification` (its `.showing` mid-transition opacity state — see `Notification.scss`'s own header
 comment), `DataGrid` (see below), `Divider` (its label, and the line on elements other than
@@ -109,7 +110,7 @@ those goes entirely through the `--cx-*` surface described above.
 
 ### Consuming this package's own emitted stylesheet
 
-Each of these nine files' CSS/Sass side-effect imports (`import './Calendar.scss'`, `import
+Each of these ten files' CSS/Sass side-effect imports (`import './Calendar.scss'`, `import
 './Table.css'`, `import './Notification.scss'`, `import './DataGrid.scss'`, `import
 './Divider.scss'`, `import './NumberField.scss'`, ...) is compiled by
 tsdown's build into a single real `dist/style.css` file, rather than injected into the page via a

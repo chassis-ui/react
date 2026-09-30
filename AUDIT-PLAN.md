@@ -99,6 +99,7 @@ attempt at the same fix, move it up one tier instead of retrying.
 | B17   | `SearchField`, with its styles                             | Opus               | minor        |
 | B18   | `ContextMenu`                                              | Fable              | minor        |
 | B19   | `Tree`, with its styles                                    | Fable              | minor        |
+| B20   | A time in `DatePicker`                                     | Opus               | minor        |
 
 ### Recommended order
 
@@ -1261,12 +1262,37 @@ Left open: `TextInput`'s family drops `title`, `tabIndex`, `dir`, `lang` and `on
 
 Model: **Opus**. A form component: read `FORMS.md` first.
 
-- [ ] `useTimeField` with the segment markup `DateField` already renders for the date pickers;
-      reuse its styles (`DatePicker.scss`) rather than copy them.
-- [ ] Granularity, 12/24 hour from the locale, `minValue`/`maxValue`. Decide whether
-      `DatePicker` gains a time part here or in its own entry.
+- [x] `useTimeField` with the segment markup `DateField` already renders for the date pickers;
+      reuse its styles (`DatePicker.scss`) rather than copy them. `DateSegment` and its styles
+      moved out of `DateField.tsx`/`DatePicker.scss` into `datepicker/DateSegment.tsx` and
+      `DateSegment.scss`, which both fields use; the date pickers' screenshots are unchanged. The
+      field is a `.form-input.time-field` group (react-aria's `role="group"`, the ref), with a
+      `.datepicker-field` of segments and react-aria's hidden input (given `inputRef`, as
+      react-aria-components does, so a form reset and `name`/`form` work). Found on the way: a
+      time's bidi isolation marks were padded as segments, setting it off from the edge; they
+      render without the segment class now.
+- [x] Granularity, 12/24 hour from the locale, `minValue`/`maxValue`. Decide whether
+      `DatePicker` gains a time part here or in its own entry. `granularity`, `hourCycle`,
+      `hideTimeZone`, `placeholderValue`, `shouldForceLeadingZeros`. Decided here: a time outside
+      the range shows the field invalid with its `invalidFeedback` (react-aria marks only the
+      segments), and `DatePicker`'s time part gets its own entry, B20: it widens `DatePicker`'s
+      value type.
 
-Changeset: minor.
+Changeset: minor. Visual regression spec `time-field.visual.spec.ts`, with Linux baselines.
+
+An independent review of the diff found four defects before the commit, each now with a test or a
+browser check: in a right-to-left locale the time showed reversed (`30 : 21`), because the segments
+were flex items, between which react-aria's bidi isolation marks do nothing; `.datepicker-field`
+lays them out inline now (a story measures the order in three browsers; `DatePicker`'s screenshots
+are unchanged, and an Arabic date still reads day, month, year from the right). `invalid={false}`
+turned off the range check (react-stately takes a defined `isInvalid` as the whole state); `valid`
+with a time out of range showed both states; and a comment still named `DatePicker.scss`. Also
+found: the Nu Html Checker rejected read-only segments, `aria-readonly="true"` with
+`contenteditable="false"`; a segment that can't be edited leaves `contenteditable` out.
+
+Found on the way, in the docs: the Calendar, Range Calendar, Datepicker and Date Range Picker pages
+said their styles were injected on import, with no stylesheet to add; they are in
+`@chassis-ui/react/style.css`, and the pages say so now.
 
 ### B17 — `SearchField`, with its styles (F9)
 
@@ -1300,5 +1326,19 @@ Model: **Fable**.
 - [ ] Styles here: indentation per level, the expand chevron through `IconSlot`, states read from
       `.list` or `.menu` custom properties where they fit.
 - [ ] Decide static children versus `items` data, as `DataGrid` does.
+
+Changeset: minor.
+
+### B20 — A time in `DatePicker` (F9)
+
+Model: **Opus**. A form component: read `FORMS.md` first. Decided in B16.
+
+- [ ] `granularity` on `DatePicker` and `DateRangePicker` down to `hour`, `minute` or `second`,
+      with `CalendarDateTime`/`ZonedDateTime` values; the field renders the time segments
+      (`DateSegment`), the calendar keeps the time when a day is picked. Decide whether a
+      `TimeField` also appears in the popover, as react-spectrum's does.
+- [ ] The value type widens (`DateValue` already includes both), so check `onChange`'s type,
+      the hidden input's ISO string, `minValue`/`maxValue` with a time, and the calendar's
+      "today" after hydration (B7) with a `ZonedDateTime`.
 
 Changeset: minor.
