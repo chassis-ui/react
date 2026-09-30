@@ -15,7 +15,7 @@ import {
   PolymorphicComponentProps,
   PolymorphicRef
 } from '../../utils/polymorphic'
-import { Portal, useHydrated } from '../../utils/portal'
+import { Portal, useHydrated } from '../portal/Portal'
 import { MenuContext } from './Menu'
 import { MenuDivider } from './MenuDivider'
 import { MenuHeader } from './MenuHeader'

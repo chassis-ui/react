@@ -274,7 +274,7 @@ A component's server HTML is what it settles to once hydrated, because that HTML
 the JavaScript has loaded. State an effect would compute in the browser (the selected tab, the
 number of slides, a transition's settled phase) is computed during render instead, where the
 server runs it too. Only what a server can't know waits for hydration, through `useHydrated`
-(`src/utils/portal.tsx`): a position (`Menu`'s open list), the viewer's time zone (the calendars'
+(`src/components/portal/Portal.tsx`): a position (`Menu`'s open list), the viewer's time zone (the calendars'
 "today"), and any reference to portaled content (a trigger's `aria-controls`). Hydration then
 renders the server's value first, so it never mismatches.
 

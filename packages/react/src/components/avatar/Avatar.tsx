@@ -12,6 +12,7 @@ import {
 import { Link } from '../link/Link'
 import { Badge } from '../badge'
 import { AvatarImage } from './AvatarImage'
+import { VisuallyHidden } from '../visually-hidden/VisuallyHidden'
 
 type AvatarOwnProps<C extends ElementType> = {
   /**
@@ -128,7 +129,7 @@ function AvatarRender<C extends ElementType = 'span'>(
       {src ? <AvatarImage src={src} alt={alt} /> : children}
       {status && (
         <Badge color={status} circle>
-          <span className="visually-hidden">{statusLabel ?? status}</span>
+          <VisuallyHidden>{statusLabel ?? status}</VisuallyHidden>
         </Badge>
       )}
     </Component>

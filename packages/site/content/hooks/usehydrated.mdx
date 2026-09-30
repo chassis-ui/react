@@ -1,0 +1,34 @@
+---
+title: useHydrated
+description: Tells a component whether the page has hydrated, so it can render what only the browser knows without a hydration mismatch.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/hooks/use-hydrated/BasicExample.tsx'
+
+## Overview
+
+`useHydrated()` returns `false` on the server and while the page hydrates, and `true` once
+hydration has finished. In a page rendered only in the browser it returns `true` from the first
+render.
+
+Render the server's version while it is `false` and the browser's version after. React hydrates
+against the first, then renders again with the second, so nothing mismatches. This library uses it
+for what only the browser knows: a [`Portal`]([[docsref:/components/portal]]) and what refers to
+it, and which day is today in a calendar.
+
+## Basic usage
+
+The time zone below is the browser's. The server renders the placeholder.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## API
+
+### useHydrated
+
+```ts
+function useHydrated(): boolean
+```

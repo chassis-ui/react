@@ -49,6 +49,17 @@ const CASES: Record<string, (library: Library) => React.ReactElement> = {
   )
 }
 
+// The public `Portal` and `useHydrated` themselves.
+const HydratedText = ({ library }: { library: Library }) => (
+  <p>{library.useHydrated() ? 'Hydrated' : 'Server'}</p>
+)
+CASES['Portal with a fallback'] = ({ Portal }) => (
+  <Portal fallback={<span>Loading</span>}>
+    <div>Portaled</div>
+  </Portal>
+)
+CASES.useHydrated = (library) => <HydratedText library={library} />
+
 const serverHtml = Object.fromEntries(
   Object.entries(CASES).map(([name, build]) => [name, renderToString(build(serverLibrary))])
 )
@@ -99,6 +110,26 @@ async function hydrate(name: string): Promise<HTMLElement> {
   expect(errors).toEqual([])
   return host
 }
+
+describe('Portal and useHydrated', () => {
+  test('the server renders the fallback and the server value', () => {
+    expect(serverHtml['Portal with a fallback']).toBe('<span>Loading</span>')
+    expect(serverHtml.useHydrated).toBe('<p>Server</p>')
+  })
+
+  test('after hydration, the children are in document.body and the fallback is gone', async () => {
+    const host = await hydrate('Portal with a fallback')
+    const screen = client.testingLibrary.within(document.body)
+
+    expect(host).not.toContainElement(screen.getByText('Portaled'))
+    expect(client.testingLibrary.within(host).queryByText('Loading')).toBeNull()
+  })
+
+  test('after hydration, useHydrated is true', async () => {
+    const host = await hydrate('useHydrated')
+    expect(client.testingLibrary.within(host).getByText('Hydrated')).toBeInTheDocument()
+  })
+})
 
 describe('portaled content after hydration', () => {
   test('Combobox opens its list', async () => {

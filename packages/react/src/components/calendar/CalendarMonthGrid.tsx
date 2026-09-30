@@ -6,6 +6,7 @@ import { CalendarDate } from '@internationalized/date'
 
 import { isWholeUnitDisabled } from '../../utils/isWholeUnitDisabled'
 import { useCalendarLabels } from './labels'
+import { VisuallyHidden } from '../visually-hidden/VisuallyHidden'
 
 interface CalendarMonthGridProps {
   // Whether to render the visually-hidden `aria-live` announcement of this view's current header
@@ -56,9 +57,9 @@ export const CalendarMonthGrid = ({
         </div>
       </div>
       {announce && (
-        <span role="status" className="visually-hidden">
+        <VisuallyHidden role="status">
           {`${labels.selectMonth}, ${yearFormatter.format(monthStart.toDate(state.timeZone))}`}
-        </span>
+        </VisuallyHidden>
       )}
       <div className="datepicker-content">
         <div

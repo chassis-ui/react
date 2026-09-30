@@ -306,9 +306,12 @@ pnpm test:visual:update   # same, plus --update-snapshots to regenerate baseline
   lives in JavaScript: a phase ends with the element's own CSS transition, so a themed duration
   and `prefers-reduced-motion` are followed. `Modal`, `Drawer` and `Menu` wait on the same
   `executeAfterTransition`.
-- Never call `createPortal` directly: render `Portal` (`src/utils/portal.tsx`). It renders
+- Never call `createPortal` directly: render `Portal` (`src/components/portal/Portal.tsx`). It renders
   nothing (or its `fallback`) on the server and during hydration, then portals, so portaled
   content can't break hydration. `test/ssr/portal.spec.tsx` checks the overlays still appear.
+- Text for screen readers only is a `VisuallyHidden` (`src/components/visually-hidden/`), not a
+  hand-written `<span className="visually-hidden">`; a skip link is `VisuallyHidden` with
+  `focusable`.
 - A component that draws an icon of its own never renders `<Icon>` directly — it renders
   `IconSlot` (`src/utils/iconSlot.tsx`) with a purpose key (`check`, `previous`, `next`, ...) plus
   the class chassis-css positions that icon by, so consumers can swap it via `IconProvider` or

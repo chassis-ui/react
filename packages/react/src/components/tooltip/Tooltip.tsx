@@ -19,7 +19,7 @@ import {
   useTransitionState
 } from '../../hooks'
 import { Placement, resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
-import { Portal, useHydrated } from '../../utils/portal'
+import { Portal, useHydrated } from '../portal/Portal'
 import { getTriggerChild, renderSlotted } from '../../utils/slot'
 
 export type { Placement }

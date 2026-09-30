@@ -1032,16 +1032,23 @@ Every new component phase does all of these, besides its own boxes:
 
 Model: **Sonnet**. The code exists except `VisuallyHidden`.
 
-- [ ] Export `Portal` and `useHydrated` (`src/utils/portal.tsx`) from `src/index.ts`, with a docs
+- [x] Export `Portal` and `useHydrated` (`src/utils/portal.tsx`) from `src/index.ts`, with a docs
       page (SSR use: render in a portal without a hydration mismatch). Decide the subpath: its own
-      barrel, `@chassis-ui/react/portal`.
-- [ ] `VisuallyHidden`: polymorphic (`span` by default, `asChild`), renders `.visually-hidden`,
+      barrel, `@chassis-ui/react/portal`. Moved to `src/components/portal/Portal.tsx`, since the
+      prop-table generator reads `src/components`. Docs: `Portal` and `Visually Hidden` under a
+      new Utilities group, `useHydrated` under Hooks. `Portal`'s `fallback = null` default went:
+      react-docgen read it as a non-string default, which the site's schema rejects.
+- [x] `VisuallyHidden`: polymorphic (`span` by default, `asChild`), renders `.visually-hidden`,
       with a `focusable` prop for `.visually-hidden-focusable` (a skip link). Check both classes
-      in chassis-css's helpers first.
-- [ ] Replace the nine hand-written `<span className="visually-hidden">` in `src/components`
-      with it.
+      in chassis-css's helpers first. Both exist (`helpers/visually-hidden`). The first
+      component made with `pnpm new:component`.
+- [x] Replace the nine hand-written `<span className="visually-hidden">` in `src/components`
+      with it. Eight: the ninth was a comment. Every story's server HTML is the same
+      before and after.
 
-Changeset: minor. Exit: both exported, a spec each, `refForwarding` passes.
+Changeset: minor. Exit: both exported, a spec each, `refForwarding` passes. Done; `Portal` is
+on that spec's allowlist, since it renders no element of its own, and the SSR portal spec now
+hydrates `Portal` and `useHydrated` themselves.
 
 ### B11 — `Alert`, the alert dialog (F9)
 

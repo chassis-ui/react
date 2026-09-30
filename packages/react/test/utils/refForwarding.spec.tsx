@@ -15,9 +15,10 @@ const WITHOUT_REF: Record<string, string> = {
   TableColumn: 'collection part',
   TableHeader: 'collection part',
   TableRow: 'collection part',
-  // Context providers: no element.
+  // No element of their own: providers, and a portal, which renders into another element.
   I18nProvider: 'provider',
   IconProvider: 'provider',
+  Portal: 'portal',
   // Render react-aria-components' elements but take no ref yet: left open by audit 3 phase B8.
   DataGridBody: 'open',
   DataGridCell: 'open',

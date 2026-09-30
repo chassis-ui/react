@@ -24,7 +24,7 @@ import {
   resolveMenuOverlayPositioning,
   toAriaPlacement
 } from '../../utils/overlayPlacement'
-import { Portal } from '../../utils/portal'
+import { Portal } from '../portal/Portal'
 import { validationClassName } from '../../utils/validationClassName'
 import { renderFormField } from '../form-field/renderFormField'
 import { MenuItemsDef } from '../menu/MenuItemDef'

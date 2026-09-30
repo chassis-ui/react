@@ -7,6 +7,7 @@ import {
   PolymorphicRef
 } from '../../utils/polymorphic'
 import { ContextColor } from '../../types'
+import { VisuallyHidden } from '../visually-hidden/VisuallyHidden'
 
 type SpinnerOwnProps<C extends ElementType> = {
   /**
@@ -66,7 +67,7 @@ function SpinnerRender<C extends ElementType = 'div'>(
 
   return (
     <Component className={_className} role="status" {...rest} ref={ref}>
-      <span className="visually-hidden">{visuallyHiddenLabel}</span>
+      <VisuallyHidden>{visuallyHiddenLabel}</VisuallyHidden>
     </Component>
   )
 }

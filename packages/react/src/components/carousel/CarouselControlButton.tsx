@@ -6,6 +6,7 @@ import { markPointerClick } from '../../utils/pointerInteraction'
 import { IconValue } from '../../utils/iconConfig'
 import { IconSlot } from '../../utils/iconSlot'
 import { useCarouselContext } from './context'
+import { VisuallyHidden } from '../visually-hidden/VisuallyHidden'
 
 interface CarouselControlButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /**
@@ -70,7 +71,7 @@ export const CarouselControlButton = forwardRef<HTMLButtonElement, CarouselContr
               override={icon}
               className="directional-icon"
             />
-            <span className="visually-hidden">{label}</span>
+            <VisuallyHidden>{label}</VisuallyHidden>
           </>
         )}
       </button>

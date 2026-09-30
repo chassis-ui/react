@@ -1,0 +1,37 @@
+---
+title: Visually Hidden
+description: Text that screen readers announce but the page doesn't show, and skip links that appear on keyboard focus.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/visually-hidden/BasicExample.tsx'
+import { Example as FocusableExample } from '../../examples/components/visually-hidden/FocusableExample.tsx'
+
+## Basic usage
+
+`<VisuallyHidden>` renders a `<span>` with chassis-css's
+[`.visually-hidden`](https://chassis-ui.com/css/docs/helpers/visually-hidden) helper: hidden on
+screen, read by screen readers. Use it to name a control whose visible content is only an icon.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## Focusable
+
+With `focusable`, the element is hidden until it, or an element inside it, has keyboard focus. That
+is the usual skip link: the first element a keyboard user reaches, invisible to everyone else. It
+renders `.visually-hidden-focusable` instead.
+
+<Example>
+  <FocusableExample client:load />
+</Example>
+
+Like other components, it renders another element with `component`, or its single child with
+`asChild`: `<VisuallyHidden asChild focusable><Link href="#content">…</Link></VisuallyHidden>`.
+
+## API
+
+### VisuallyHidden
+
+<PropTable component="VisuallyHidden" />

@@ -70,6 +70,7 @@
     "./password-strength": "./dist/password-strength.js",
     "./placeholder": "./dist/placeholder.js",
     "./popover": "./dist/popover.js",
+    "./portal": "./dist/portal.js",
     "./progress": "./dist/progress.js",
     "./radio": "./dist/radio.js",
     "./range-input": "./dist/range-input.js",
@@ -86,6 +87,7 @@
     "./textarea": "./dist/textarea.js",
     "./toast": "./dist/toast.js",
     "./tooltip": "./dist/tooltip.js",
+    "./visually-hidden": "./dist/visually-hidden.js",
     "./package.json": "./package.json",
     "./style.css": "./dist/style.css"
   },

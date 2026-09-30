@@ -1,0 +1,38 @@
+---
+title: Portal
+description: Renders its children elsewhere in the document, such as document.body, without breaking hydration of a server-rendered page.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/portal/BasicExample.tsx'
+
+## Overview
+
+`<Portal>` renders its children into another element, `document.body` unless you give a
+`container`, the way React's `createPortal` does. It is what this library's overlays use:
+`Popover`, `Tooltip`, the lists of `Combobox` and `Autocomplete`, and the toasts.
+
+The difference from `createPortal` is the server. A portal has no server equivalent, so the usual
+`typeof window !== 'undefined' && createPortal(...)` renders nothing on the server and the portal on
+the browser's first render, and React reports a hydration mismatch. `<Portal>` renders `fallback`,
+nothing by default, on the server and while the page hydrates, and portals its children once
+hydration has finished. In a page rendered only in the browser it portals at once.
+
+## Basic usage
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## Server rendering
+
+Anything that refers to portaled content, such as an `aria-controls` or `aria-describedby` naming
+an element inside it, should wait for it too, or the server's HTML names an id no element has. Read
+[`useHydrated`]([[docsref:/hooks/usehydrated]]) to know when the portal exists. See
+[Server-side rendering]([[docsref:/getting-started/ssr#what-the-server-renders]]).
+
+## API
+
+### Portal
+
+<PropTable component="Portal" />

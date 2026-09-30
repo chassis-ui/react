@@ -6,6 +6,7 @@ import { CalendarDate, toCalendarDate } from '@internationalized/date'
 
 import { isWholeUnitDisabled } from '../../utils/isWholeUnitDisabled'
 import { useCalendarLabels } from './labels'
+import { VisuallyHidden } from '../visually-hidden/VisuallyHidden'
 
 interface CalendarYearGridProps {
   // Whether to render the visually-hidden `aria-live` announcement of this view's current header
@@ -98,9 +99,7 @@ export const CalendarYearGrid = ({
         />
       </div>
       {announce && (
-        <span role="status" className="visually-hidden">
-          {`${labels.selectYear}, ${rangeLabel}`}
-        </span>
+        <VisuallyHidden role="status">{`${labels.selectYear}, ${rangeLabel}`}</VisuallyHidden>
       )}
       <div className="datepicker-content">
         <div aria-label={rangeLabel} className="datepicker-years" role="group">

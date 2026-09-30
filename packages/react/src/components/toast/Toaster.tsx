@@ -2,7 +2,7 @@ import React, { forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
 import { useToastRegionQueue } from '../../hooks'
-import { Portal } from '../../utils/portal'
+import { Portal } from '../portal/Portal'
 import { Toast } from './Toast'
 import { toastQueue } from './toastQueue'
 

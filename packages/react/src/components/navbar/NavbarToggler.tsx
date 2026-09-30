@@ -3,6 +3,7 @@ import classNames from 'classnames'
 
 import { IconValue } from '../../utils/iconConfig'
 import { IconSlot } from '../../utils/iconSlot'
+import { VisuallyHidden } from '../visually-hidden/VisuallyHidden'
 
 export interface NavbarTogglerProps extends HTMLAttributes<HTMLButtonElement> {
   /**
@@ -29,7 +30,7 @@ export const NavbarToggler = forwardRef<HTMLButtonElement, NavbarTogglerProps>(
         {children ?? (
           <>
             <IconSlot icon="menu" override={icon} className="navbar-toggler-icon" />
-            <span className="visually-hidden">{label}</span>
+            <VisuallyHidden>{label}</VisuallyHidden>
           </>
         )}
       </button>

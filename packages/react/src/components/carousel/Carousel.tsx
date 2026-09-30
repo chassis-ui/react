@@ -33,6 +33,7 @@ import { devWarning } from '../../utils/devWarning'
 import { isElementOfType } from '../../utils/lazyElement'
 import { CarouselInner } from './CarouselInner'
 import { readSlides } from './slides'
+import { VisuallyHidden } from '../visually-hidden/VisuallyHidden'
 
 export type { CarouselEnds }
 export type CarouselTransition = 'scroll' | 'fade'
@@ -756,9 +757,7 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
         ref={forkedRef}
       >
         <CarouselContext.Provider value={contextValue}>{children}</CarouselContext.Provider>
-        <span role="status" className="visually-hidden">
-          {liveMessage}
-        </span>
+        <VisuallyHidden role="status">{liveMessage}</VisuallyHidden>
       </div>
     )
   }

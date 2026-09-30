@@ -125,6 +125,8 @@ import { useDrawer, useModal, useNotification, usePagination, useToast } from '.
 import { Chip } from './components/chip'
 import { Flex } from './components/flex'
 import { Stack } from './components/stack'
+import { Portal, useHydrated } from './components/portal'
+import { VisuallyHidden } from './components/visually-hidden'
 
 export {
   Chip,
@@ -294,7 +296,10 @@ export {
   closeToast,
   toastQueue,
   useToast,
-  Tooltip
+  Tooltip,
+  Portal,
+  useHydrated,
+  VisuallyHidden
 }
 
 // Type-only public surface. Kept as `export type ... from` re-exports (the same shape
@@ -493,6 +498,8 @@ export type {
   ToasterProps
 } from './components/toast'
 export type { TooltipProps } from './components/tooltip'
+export type { PortalProps } from './components/portal'
+export type { VisuallyHiddenProps } from './components/visually-hidden'
 
 // Cross-cutting types that aren't owned by any one component folder: the scales and vocabularies
 // the prop types above are built from. `types.ts`'s `FontFamily`/`FontWeight`/`FontSize`/

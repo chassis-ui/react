@@ -7,6 +7,7 @@ import { CalendarMonthGrid } from './CalendarMonthGrid'
 import { CalendarYearGrid } from './CalendarYearGrid'
 import { setVisibleRangeStart } from '../../utils/setVisibleRangeStart'
 import { useCalendarLabels } from './labels'
+import { VisuallyHidden } from '../visually-hidden/VisuallyHidden'
 
 interface CalendarMonthYearPickerProps {
   // The day grid, shown in the default 'days' view — owned by the caller (`Calendar` and
@@ -152,9 +153,9 @@ export const CalendarMonthYearPicker = ({
             {nextArrow}
           </div>
           {monthIndex === 0 && (
-            <span role="status" className="visually-hidden">
+            <VisuallyHidden role="status">
               {`${monthFormatter.format(monthStart.toDate(state.timeZone))} ${yearFormatter.format(monthStart.toDate(state.timeZone))}`}
-            </span>
+            </VisuallyHidden>
           )}
           {children}
         </>

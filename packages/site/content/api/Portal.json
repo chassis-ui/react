@@ -1,0 +1,66 @@
+{
+  "tags": {},
+  "filePath": "packages/react/src/components/portal/Portal.tsx",
+  "description": "Renders its children into `container` (`document.body` by default), and renders `fallback` on the\nserver and during hydration, so server-rendered pages hydrate without a mismatch.",
+  "displayName": "Portal",
+  "methods": [],
+  "props": {
+    "children": {
+      "defaultValue": null,
+      "description": "The content to render in the portal.",
+      "name": "children",
+      "parent": {
+        "fileName": "packages/react/src/components/portal/Portal.tsx",
+        "name": "PortalProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/portal/Portal.tsx",
+          "name": "PortalProps"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "container": {
+      "defaultValue": null,
+      "description": "Where the children are portaled. Defaults to `document.body`.",
+      "name": "container",
+      "parent": {
+        "fileName": "packages/react/src/components/portal/Portal.tsx",
+        "name": "PortalProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/portal/Portal.tsx",
+          "name": "PortalProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Element | DocumentFragment | null"
+      }
+    },
+    "fallback": {
+      "defaultValue": null,
+      "description": "Rendered in place until the portal exists: on the server and during hydration. Nothing by\ndefault.",
+      "name": "fallback",
+      "parent": {
+        "fileName": "packages/react/src/components/portal/Portal.tsx",
+        "name": "PortalProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/portal/Portal.tsx",
+          "name": "PortalProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    }
+  }
+}

@@ -17,7 +17,7 @@ import { CalendarMonthYearPicker } from './CalendarMonthYearPicker'
 import { CalendarNavButton } from './CalendarNavButton'
 import { CalendarWeekGrid } from './CalendarWeekGrid'
 import { mergeIsDateUnavailable } from '../../utils/mergeIsDateUnavailable'
-import { useHydrated } from '../../utils/portal'
+import { useHydrated } from '../portal/Portal'
 import './Calendar.scss'
 import { CalendarLabels, CalendarLabelsProvider } from './labels'
 
