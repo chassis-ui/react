@@ -95,6 +95,7 @@
     "./time-field": "./dist/time-field.js",
     "./toast": "./dist/toast.js",
     "./tooltip": "./dist/tooltip.js",
+    "./tree": "./dist/tree.js",
     "./visually-hidden": "./dist/visually-hidden.js",
     "./package.json": "./package.json",
     "./style.css": "./dist/style.css"

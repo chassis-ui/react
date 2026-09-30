@@ -1,0 +1,164 @@
+@use "@chassis-ui/css/scss/config" as *;
+@use "@chassis-ui/css/scss/mixins" as *;
+
+// chassis-css has no tree. `Tree` renders react-aria-components' markup: a `treegrid` whose rows
+// are `div`s with `role="row"`, each holding one `gridcell`, the rows of an expanded item
+// following it as siblings rather than nested inside it. This stylesheet owns that surface: the
+// row, its indentation by level, the chevron, the selection checkbox, the icon and the label. It
+// reads the custom properties `.list` publishes (`--list-*`: the row's padding, colors, and its
+// active and disabled states), and `.menu`'s for what a list doesn't have (`--menu-item-gap`,
+// `--menu-item-border-radius`, `--menu-icon-size`, and the icon color per state), so a page that
+// re-themes lists and menus at `:root` gets a matching tree. The one property of its own is
+// `--tree-indent`, the indentation per level, which has no equivalent elsewhere; by default a
+// child's chevron starts where its parent's label does. The class names follow chassis-css's
+// (`.tree`, `.tree-item`, `.tree-item-*`), so this can move there unchanged.
+@layer components {
+  .tree {
+    $tree-padding-y: var(--space-xs) !default;
+    $tree-padding-x: var(--space-xs) !default;
+    $tree-gap: var(--space-xs) !default;
+    $tree-fg-color: var(--fg-main) !default;
+    $tree-bg-color: var(--bg-main) !default;
+    $tree-item-fg-hover: var(--fg-main) !default;
+    $tree-item-bg-hover: var(--bg-even) !default;
+    $tree-item-fg-active: var(--fg-highlight) !default;
+    $tree-item-bg-active: var(--bg-highlight) !default;
+    $tree-item-fg-disabled: var(--fg-slight) !default;
+    $tree-item-bg-disabled: var(--bg-main) !default;
+    $tree-item-border-radius: var(--border-radius-sm) !default;
+    $tree-item-idle-icon-color: var(--icon-main) !default;
+    $tree-item-active-icon-color: var(--fg-highlight) !default;
+    $tree-item-disabled-icon-color: var(--icon-slight) !default;
+    $tree-icon-size: var(--icon-sm) !default;
+    $tree-toggle-size: var(--size-xs) !default;
+    $tree-indent: calc(var(--toggle-size)) !default;
+    // scss-docs-start tree-css-vars
+    --padding-y: var(--tree-padding-y, #{$tree-padding-y});
+    --padding-x: var(--tree-padding-x, #{$tree-padding-x});
+    --gap: var(--tree-gap, #{$tree-gap});
+    --fg-color: var(--tree-fg-color, #{$tree-fg-color});
+    --bg-color: var(--tree-bg-color, #{$tree-bg-color});
+    --item-fg-hover: var(--tree-item-fg-hover, #{$tree-item-fg-hover});
+    --item-bg-hover: var(--tree-item-bg-hover, #{$tree-item-bg-hover});
+    --item-fg-active: var(--tree-item-fg-active, #{$tree-item-fg-active});
+    --item-bg-active: var(--tree-item-bg-active, #{$tree-item-bg-active});
+    --item-fg-disabled: var(--tree-item-fg-disabled, #{$tree-item-fg-disabled});
+    --item-bg-disabled: var(--tree-item-bg-disabled, #{$tree-item-bg-disabled});
+    --item-border-radius: var(--tree-item-border-radius, #{$tree-item-border-radius});
+    --item-icon-idle: var(--tree-item-idle-icon-color, #{$tree-item-idle-icon-color});
+    --item-icon-active: var(--tree-item-active-icon-color, #{$tree-item-active-icon-color});
+    --item-icon-disabled: var(--tree-item-disabled-icon-color, #{$tree-item-disabled-icon-color});
+    --icon-size: var(--tree-icon-size, #{$tree-icon-size});
+    --toggle-size: var(--tree-toggle-size, #{$tree-toggle-size});
+    --indent: var(--tree-indent, #{$tree-indent});
+    // scss-docs-end tree-css-vars
+
+    display: flex;
+    flex-direction: column;
+    color: var(--fg-color);
+    background-color: var(--bg-color);
+    outline: 0;
+
+    // The tree itself takes focus only while it has no items.
+    &:focus-visible {
+      @include focus-ring();
+    }
+  }
+
+  .tree-item {
+    // The icons (the chevron, an item's own) follow the row's state, as `.menu-item`'s do.
+    --icon-color: var(--item-icon-idle);
+    display: flex;
+    gap: var(--gap);
+    align-items: center;
+    // The level is set inline on the row by `TreeItem`, already prefixed: the build prefixes
+    // this stylesheet's custom properties, not an inline one.
+    padding: var(--padding-y) var(--padding-x);
+    padding-inline-start: calc(var(--padding-x) + var(--indent) * (var(--cx-tree-level, 1) - 1));
+    color: var(--item-fg-color, var(--fg-color));
+    user-select: none;
+    background-color: var(--item-bg-color, var(--bg-color));
+    outline: 0;
+    @include border-radius(var(--item-border-radius));
+
+    &:hover {
+      --item-fg-color: var(--item-fg-hover);
+      --item-bg-color: var(--item-bg-hover);
+    }
+
+    &:focus-visible {
+      @include focus-ring();
+      outline-offset: calc(-1 * var(--focus-ring-width));
+    }
+
+    &.active,
+    &.active:hover {
+      --icon-color: var(--item-icon-active);
+      --item-fg-color: var(--item-fg-active);
+      --item-bg-color: var(--item-bg-active);
+    }
+
+    &.disabled,
+    &.disabled:hover {
+      --icon-color: var(--item-icon-disabled);
+      --item-fg-color: var(--item-fg-disabled);
+      --item-bg-color: var(--item-bg-disabled);
+    }
+  }
+
+  // The chevron of an item with child items, and the space a leaf keeps in its place so the
+  // labels of one level line up.
+  .tree-item-toggle,
+  .tree-item-spacer {
+    flex: none;
+    width: var(--toggle-size);
+    height: var(--toggle-size);
+  }
+
+  .tree-item-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    color: inherit;
+    background: none;
+    border: 0;
+    @include border-radius(var(--item-border-radius));
+    @include transition(transform var(--transition-duration) var(--transition-timing));
+
+    &:focus-visible {
+      @include focus-ring();
+    }
+
+    // The chevron points at the next item: right when collapsed, down when expanded. Under RTL
+    // the button is mirrored, whatever icon it holds: `.directional-icon` would flip only an
+    // `Icon`, not an element given as the icon.
+    .tree-item.expanded & {
+      transform: rotate(90deg);
+    }
+
+    [dir="rtl"] & {
+      transform: scaleX(-1);
+    }
+
+    [dir="rtl"] .tree-item.expanded & {
+      transform: scaleX(-1) rotate(90deg);
+    }
+  }
+
+  // chassis-css centers a bare `.check-input` on a line of text; the row centers it itself.
+  .tree-item .tree-item-check {
+    flex: none;
+    margin: 0;
+  }
+
+  .tree-item-icon {
+    display: inline-flex;
+    flex: none;
+  }
+
+  .tree-item-label {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+}

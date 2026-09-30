@@ -11,7 +11,7 @@ renamed export, ...) and review the diff like any other code change. `pnpm react
 -->
 
 ```ts
-import React, { AriaAttributes, ButtonHTMLAttributes, ChangeEventHandler, ComponentPropsWithRef, ComponentPropsWithoutRef, ComponentType, DetailsHTMLAttributes, DialogHTMLAttributes, ElementType, FormHTMLAttributes, Fragment, HTMLAttributes, ImgHTMLAttributes, InputHTMLAttributes, Key, LabelHTMLAttributes, MouseEvent, MouseEventHandler, ReactElement, ReactNode, Ref, RefObject, SVGAttributes, TableHTMLAttributes, TextareaHTMLAttributes } from "react";
+import React, { AriaAttributes, ButtonHTMLAttributes, CSSProperties, ChangeEventHandler, ComponentPropsWithRef, ComponentPropsWithoutRef, ComponentType, DetailsHTMLAttributes, DialogHTMLAttributes, ElementType, FormHTMLAttributes, Fragment, HTMLAttributes, ImgHTMLAttributes, InputHTMLAttributes, Key, LabelHTMLAttributes, MouseEvent, MouseEventHandler, ReactElement, ReactNode, Ref, RefObject, SVGAttributes, TableHTMLAttributes, TextareaHTMLAttributes } from "react";
 import { ColumnSize, ColumnStaticSize, DateValue, Key as Key$1, Selection, SortDescriptor, TableBodyProps as TableBodyProps$1, TableHeaderProps as TableHeaderProps$1, ToastQueue } from "react-stately";
 import { DateValue as DateValue$1, I18nProvider, Key as Key$2, RangeValue, TimeValue } from "react-aria";
 import { Key as Key$3, Selection as Selection$1, SortDescriptor as SortDescriptor$1, TableBodyRenderProps } from "react-aria-components";
@@ -2072,7 +2072,7 @@ export declare const Carousel: React.ForwardRefExoticComponent<CarouselProps & R
  * The icons this library's own components draw, by purpose rather than by icon name — so a
  * consumer can map each one onto any icon set (see `IconProvider`'s `icons`).
  */
-type IconKey = 'check' | 'clear' | 'decrement' | 'increment' | 'menu' | 'more' | 'next' | 'pause' | 'play' | 'previous' | 'search';
+type IconKey = 'check' | 'clear' | 'decrement' | 'expand' | 'increment' | 'menu' | 'more' | 'next' | 'pause' | 'play' | 'previous' | 'search';
 /**
  * An icon given to `IconProvider`'s `icons` or to a component's icon prop: a string is an icon
  * name, rendered by `IconProvider`'s `component` (or the built-in `Icon`); an element is rendered
@@ -2122,7 +2122,7 @@ interface IconConfig {
    * The icon to render for each of the library's own icons, by purpose. Unset ones keep their
    * defaults (`check-solid`, `chevron-left-outline`, `chevron-right-outline`, `bars-outline`,
    * `ellipsis-h-solid`, `play-solid`, `pause-solid`, `chevron-up-outline`, `chevron-down-outline`,
-   * `search-outline`, `xmark-outline`).
+   * `search-outline`, `xmark-outline`, `chevron-right-outline`).
    */
   icons?: Partial<Record<IconKey, IconValue>>;
   /**
@@ -7538,5 +7538,181 @@ type ContextMenuComponent = (<C extends ElementType = 'div'>(props: ContextMenuP
 };
 export declare const ContextMenu: ContextMenuComponent;
 //#endregion
-export { type AccordionBodyProps, type AccordionHeaderProps, type AccordionItemDef, type AccordionItemProps, type AccordionProps, type AlertBodyProps, type AlertCancelProps, type AlertCodeProps, type AlertFooterProps, type AlertIconProps, type AlertProps, type AlertTextProps, type AlertTitleProps, type AutocompleteGroupProps, type AutocompleteItemProps, type AutocompleteProps, type AvatarImageProps, type AvatarProps, type AvatarStackItemDef, type AvatarStackProps, type BadgeProps, type BreadcrumbItemDef, type BreadcrumbItemProps, type BreadcrumbProps, type Breakpoint, type ButtonGroupProps, type ButtonObject, type ButtonProps, type ButtonToolbarProps, type CalendarLabels, type CalendarMultipleProps, type CalendarProps, type CalendarSingleProps, type CardBodyProps, type CardFooterProps, type CardGroupProps, type CardHeaderProps, type CardImageOverlayProps, type CardImageProps, type CardLinkProps, type CardProps, type CardSubtitleProps, type CardTextProps, type CardTitleProps, type CarouselControlNextProps, type CarouselControlPrevProps, type CarouselEnds, type CarouselIndicatorsProps, type CarouselInnerProps, type CarouselItemProps, type CarouselOverlayProps, type CarouselPlayPauseProps, type CarouselProps, type CarouselSlideDetail, type CarouselTransition, type CheckboxGroupProps, type CheckboxProps, type ChipInputProps, type ChipProps, type CloseButtonProps, type ColProps, type CollapseProps, type ColorInputProps, type ComboboxGroupProps, type ComboboxItemProps, type ComboboxProps, type ContainerProps, type ContextColor, type ContextMenuProps, type ContextStyle, type DataGridBodyProps, type DataGridCellProps, type DataGridColumnProps, type DataGridHeaderProps, type DataGridProps, type DataGridRowProps, type DataGridSelectionCellProps, type DatePickerMultipleProps, type DatePickerProps, type DatePickerSingleProps, type DateRangePickerProps, type DateRangePreset, type DividerProps, type DrawerBodyProps, type DrawerFooterProps, type DrawerHeaderProps, type DrawerProps, type DrawerTitleProps, type ExtendedSizing, type FileInputProps, type FlexProps, type FloatingInputProps, type FormFeedbackProps, type FormFieldProps, type FormHelpProps, type FormLabelProps, type FormProps, type GridItemLayout, type GridItemProps, type GridProps, I18nProvider, type IconComponentProps, type IconKey, type IconProps, type IconProviderProps, type IconValue, type InputAdornProps, type InputGroupAddonProps, type InputGroupProps, type LinkProps, type ListItemDef, type ListItemProps, type ListProps, type MenuAutoClose, type MenuDividerDef, type MenuDividerProps, type MenuFocusStrategy, type MenuHeaderDef, type MenuHeaderProps, type MenuItemDef, type MenuItemProps, type MenuItemsDef, type MenuListProps, type MenuProps, type MenuSubmenuBackProps, type MenuSubmenuProps, type MenuTextProps, type MenuToggleProps, type ModalBodyProps, type ModalFooterProps, type ModalHeaderProps, type ModalProps, type ModalTitleProps, type NavItemDef, type NavItemProps, type NavLinkProps, type NavOverflowDetail, type NavOverflowProps, type NavProps, type NavTitleProps, type NavbarBrandProps, type NavbarNavProps, type NavbarProps, type NavbarTextProps, type NavbarTogglerProps, type NotificationContent, type NotificationIconProps, type NotificationProps, type NotificationStackProps, type NotificationTextProps, type NotificationTitleProps, type NumberFieldProps, type OtpInputProps, type PaginationItemProps, type PaginationProps, type PasswordStrengthProps, type PlaceholderProps, type Placement, type PopoverProps, type PortalProps, type ProgressBarProps, type ProgressProps, type RadioGroupProps, type RadioProps, type RangeCalendarProps, type RangeInputProps, type RowProps, type ScrollspyProps, type SearchFieldProps, type SelectOptionDef, type SelectProps, type Shapes, type Sizing, type SkeletonLoaderProps, type SkeletonProps, type Spacing, type SpinnerProps, type StackProps, type StaticTableProps, type StepperItemDef, type StepperItemProps, type StepperProps, type SwitchProps, type TabListProps, type TabPanelProps, type TabProps, type TableBodyProps, type TableCellProps, type TableColumnProps, type TableHeaderProps, type TableProps, type TableRowProps, type TabsProps, type TextInputProps, type TextareaProps, type TimeFieldProps, type ToastBodyProps, type ToastContent, type ToastFooterProps, type ToastHeaderProps, type ToastIconProps, type ToastProps, type ToasterProps, type TooltipProps, type UseDrawerResult, type UseModalResult, type UseNotificationResult, type UsePaginationResult, type UseScrollspyOptions, type UseToastResult, type VisuallyHiddenProps };
+//#region src/components/tree/Tree.d.ts
+interface TreeProps<T extends object> {
+  /**
+   * An accessible name for the tree, when no visible heading names it.
+   */
+  'aria-label'?: string;
+  /**
+   * The id of the visible heading that names the tree.
+   */
+  'aria-labelledby'?: string;
+  /**
+   * Focus the tree when it mounts: `true` or `'first'` focuses its first item, `'last'` its last.
+   */
+  autoFocus?: 'first' | 'last' | boolean;
+  /**
+   * Draw a checkbox in every item, which selects the item. On by default with
+   * `selectionMode="multiple"` and the `'toggle'` selection behavior, off otherwise.
+   */
+  checkboxes?: boolean;
+  /**
+   * `TreeItem` elements, or a render function called once per entry of `items`, returning that
+   * entry's `TreeItem`.
+   */
+  children: ((item: T) => ReactElement) | ReactNode;
+  /**
+   * A string of all className you want applied to the component.
+   */
+  className?: string;
+  /**
+   * The keys of the items expanded at first (uncontrolled).
+   */
+  defaultExpandedKeys?: Iterable<Key$3>;
+  /**
+   * The keys of the items selected at first (uncontrolled): `'all'`, or an iterable of keys.
+   */
+  defaultSelectedKeys?: 'all' | Iterable<Key$3>;
+  /**
+   * Values that should rebuild the items when using the `items`/render-function form of
+   * `children` — e.g. a value from outside `items` that the render function reads. Without this,
+   * changing that value won't re-render the items, which are only rebuilt when `items` or
+   * `dependencies` change by reference.
+   */
+  dependencies?: ReadonlyArray<unknown>;
+  /**
+   * Whether `disabledKeys` disables every interaction with an item, or only its selection.
+   *
+   * @default 'all'
+   */
+  disabledBehavior?: 'all' | 'selection';
+  /**
+   * The keys of the items that are disabled.
+   */
+  disabledKeys?: Iterable<Key$3>;
+  /**
+   * Keep at least one item selected: the last selected item can't be deselected.
+   */
+  disallowEmptySelection?: boolean;
+  /**
+   * The keys of the expanded items (controlled).
+   */
+  expandedKeys?: Iterable<Key$3>;
+  /**
+   * The chevron of an item with child items, in place of `IconProvider`'s `expand` icon: an icon
+   * name, or an element.
+   */
+  expandIcon?: IconValue;
+  /**
+   * The id of the tree element.
+   */
+  id?: string;
+  /**
+   * The data to render as items, through the function form of `children`.
+   */
+  items?: Iterable<T>;
+  /**
+   * Called with an item's key when the item is activated: with Enter, or with a click when the
+   * tree has no selection. An item's own `onAction` is called too.
+   */
+  onAction?: (key: Key$3) => void;
+  /**
+   * Called with the keys of the expanded items when an item expands or collapses.
+   */
+  onExpandedChange?: (keys: Set<Key$3>) => void;
+  /**
+   * Called with the keys of the selected items (`'all'`, or a `Set`) when the selection changes.
+   */
+  onSelectionChange?: (keys: Selection$1) => void;
+  /**
+   * What to render in place of the items when there are none.
+   */
+  renderEmptyState?: () => ReactNode;
+  /**
+   * The keys of the selected items (controlled): `'all'`, or an iterable of keys.
+   */
+  selectedKeys?: 'all' | Iterable<Key$3>;
+  /**
+   * How a click changes a multiple selection: `'toggle'` adds or removes the clicked item,
+   * `'replace'` selects it alone, with Ctrl, Cmd and Shift for more, as a file manager does.
+   *
+   * @default 'toggle'
+   */
+  selectionBehavior?: 'replace' | 'toggle';
+  /**
+   * Whether items can be selected, and how many at a time.
+   *
+   * @default 'none'
+   */
+  selectionMode?: 'multiple' | 'none' | 'single';
+  /**
+   * Inline styles for the tree element.
+   */
+  style?: CSSProperties;
+}
+export declare const Tree: <T extends object>(props: TreeProps<T> & {
+  ref?: Ref<HTMLDivElement>;
+}) => ReactElement;
+//#endregion
+//#region src/components/tree/TreeItem.d.ts
+interface TreeItemProps<T extends object = object> {
+  /**
+   * The item's child items: `TreeItem` elements, or a render function called once per entry of
+   * `items`, returning that entry's `TreeItem`.
+   */
+  children?: ((item: T) => ReactElement) | ReactNode;
+  /**
+   * A string of all className you want applied to the item.
+   */
+  className?: string;
+  /**
+   * Values that should rebuild the child items when using the `items`/render-function form of
+   * `children`, as `Tree`'s `dependencies`.
+   */
+  dependencies?: ReadonlyArray<unknown>;
+  /**
+   * Toggle the disabled state for the item, as a key in the tree's `disabledKeys` does.
+   */
+  disabled?: boolean;
+  /**
+   * An icon drawn before the label.
+   */
+  icon?: ReactNode;
+  /**
+   * The item's key, named by `expandedKeys`, `selectedKeys` and `disabledKeys`. Defaults to the
+   * key of the data entry the item renders, or to the item's position.
+   */
+  id?: Key$3;
+  /**
+   * The data to render as child items, through the function form of `children`.
+   */
+  items?: Iterable<T>;
+  /**
+   * The item's content.
+   */
+  label: ReactNode;
+  /**
+   * Called when the item is activated: with Enter, or with a click when the tree has no
+   * selection.
+   */
+  onAction?: () => void;
+  /**
+   * Inline styles for the item's row.
+   */
+  style?: CSSProperties;
+  /**
+   * The item's text, which typing a letter in the tree searches. Defaults to `label` when it is a
+   * string.
+   */
+  textValue?: string;
+}
+/**
+ * An item of a `Tree`: a row with a label, an optional icon, and child items among its children.
+ */
+export declare const TreeItem: <T extends object = object>(props: TreeItemProps<T> & {
+  ref?: Ref<HTMLDivElement>;
+}) => ReactElement;
+//#endregion
+export { type AccordionBodyProps, type AccordionHeaderProps, type AccordionItemDef, type AccordionItemProps, type AccordionProps, type AlertBodyProps, type AlertCancelProps, type AlertCodeProps, type AlertFooterProps, type AlertIconProps, type AlertProps, type AlertTextProps, type AlertTitleProps, type AutocompleteGroupProps, type AutocompleteItemProps, type AutocompleteProps, type AvatarImageProps, type AvatarProps, type AvatarStackItemDef, type AvatarStackProps, type BadgeProps, type BreadcrumbItemDef, type BreadcrumbItemProps, type BreadcrumbProps, type Breakpoint, type ButtonGroupProps, type ButtonObject, type ButtonProps, type ButtonToolbarProps, type CalendarLabels, type CalendarMultipleProps, type CalendarProps, type CalendarSingleProps, type CardBodyProps, type CardFooterProps, type CardGroupProps, type CardHeaderProps, type CardImageOverlayProps, type CardImageProps, type CardLinkProps, type CardProps, type CardSubtitleProps, type CardTextProps, type CardTitleProps, type CarouselControlNextProps, type CarouselControlPrevProps, type CarouselEnds, type CarouselIndicatorsProps, type CarouselInnerProps, type CarouselItemProps, type CarouselOverlayProps, type CarouselPlayPauseProps, type CarouselProps, type CarouselSlideDetail, type CarouselTransition, type CheckboxGroupProps, type CheckboxProps, type ChipInputProps, type ChipProps, type CloseButtonProps, type ColProps, type CollapseProps, type ColorInputProps, type ComboboxGroupProps, type ComboboxItemProps, type ComboboxProps, type ContainerProps, type ContextColor, type ContextMenuProps, type ContextStyle, type DataGridBodyProps, type DataGridCellProps, type DataGridColumnProps, type DataGridHeaderProps, type DataGridProps, type DataGridRowProps, type DataGridSelectionCellProps, type DatePickerMultipleProps, type DatePickerProps, type DatePickerSingleProps, type DateRangePickerProps, type DateRangePreset, type DividerProps, type DrawerBodyProps, type DrawerFooterProps, type DrawerHeaderProps, type DrawerProps, type DrawerTitleProps, type ExtendedSizing, type FileInputProps, type FlexProps, type FloatingInputProps, type FormFeedbackProps, type FormFieldProps, type FormHelpProps, type FormLabelProps, type FormProps, type GridItemLayout, type GridItemProps, type GridProps, I18nProvider, type IconComponentProps, type IconKey, type IconProps, type IconProviderProps, type IconValue, type InputAdornProps, type InputGroupAddonProps, type InputGroupProps, type LinkProps, type ListItemDef, type ListItemProps, type ListProps, type MenuAutoClose, type MenuDividerDef, type MenuDividerProps, type MenuFocusStrategy, type MenuHeaderDef, type MenuHeaderProps, type MenuItemDef, type MenuItemProps, type MenuItemsDef, type MenuListProps, type MenuProps, type MenuSubmenuBackProps, type MenuSubmenuProps, type MenuTextProps, type MenuToggleProps, type ModalBodyProps, type ModalFooterProps, type ModalHeaderProps, type ModalProps, type ModalTitleProps, type NavItemDef, type NavItemProps, type NavLinkProps, type NavOverflowDetail, type NavOverflowProps, type NavProps, type NavTitleProps, type NavbarBrandProps, type NavbarNavProps, type NavbarProps, type NavbarTextProps, type NavbarTogglerProps, type NotificationContent, type NotificationIconProps, type NotificationProps, type NotificationStackProps, type NotificationTextProps, type NotificationTitleProps, type NumberFieldProps, type OtpInputProps, type PaginationItemProps, type PaginationProps, type PasswordStrengthProps, type PlaceholderProps, type Placement, type PopoverProps, type PortalProps, type ProgressBarProps, type ProgressProps, type RadioGroupProps, type RadioProps, type RangeCalendarProps, type RangeInputProps, type RowProps, type ScrollspyProps, type SearchFieldProps, type SelectOptionDef, type SelectProps, type Shapes, type Sizing, type SkeletonLoaderProps, type SkeletonProps, type Spacing, type SpinnerProps, type StackProps, type StaticTableProps, type StepperItemDef, type StepperItemProps, type StepperProps, type SwitchProps, type TabListProps, type TabPanelProps, type TabProps, type TableBodyProps, type TableCellProps, type TableColumnProps, type TableHeaderProps, type TableProps, type TableRowProps, type TabsProps, type TextInputProps, type TextareaProps, type TimeFieldProps, type ToastBodyProps, type ToastContent, type ToastFooterProps, type ToastHeaderProps, type ToastIconProps, type ToastProps, type ToasterProps, type TooltipProps, type TreeItemProps, type TreeProps, type UseDrawerResult, type UseModalResult, type UseNotificationResult, type UsePaginationResult, type UseScrollspyOptions, type UseToastResult, type VisuallyHiddenProps };
 ```

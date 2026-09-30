@@ -1384,12 +1384,70 @@ finger is down, since iOS starts selecting at about the time a press becomes lon
 
 Model: **Fable**.
 
-- [ ] react-aria-components' `Tree`: expand and collapse, single and multiple selection,
+- [x] react-aria-components' `Tree`: expand and collapse, single and multiple selection,
       keyboard navigation, `aria-level`. Server HTML equals the settled state (expanded keys from
-      props).
-- [ ] Styles here: indentation per level, the expand chevron through `IconSlot`, states read from
-      `.list` or `.menu` custom properties where they fit.
-- [ ] Decide static children versus `items` data, as `DataGrid` does.
+      props). `Tree` wraps its `Tree` (a `treegrid` of `row`s, the rows of an expanded item as
+      the siblings after it), `TreeItem` its `TreeItem` and `TreeItemContent`; the chevron reads
+      `ButtonContext`'s `chevron` slot (`useContextProps` + `useButton`, so the ref it checks for
+      is set) and the checkbox `CheckboxContext`'s `selection` slot as a native
+      `input.check-input`, as `DataGridSelectionCell` does. Expansion:
+      `expandedKeys`/`defaultExpandedKeys`/`onExpandedChange`; selection: `selectionMode`,
+      `selectedKeys`/`defaultSelectedKeys`/`onSelectionChange`, `disabledKeys`,
+      `disabledBehavior`, `disallowEmptySelection`, `selectionBehavior`; `onAction` on the tree
+      and the item; `renderEmptyState`, `autoFocus`. Server HTML: react-aria's `useGridListItem`
+      names the row by itself and a description slot id nothing renders (`useSlotId`, FORMS.md
+      gotcha 6), so a `render` prop on the row — honoured by react-aria-components' element
+      factory though its `TreeItem` types don't declare it — drops `aria-labelledby`, and the
+      checkbox drops the `aria-describedby` react-aria adds. The expanded rows are in the server
+      HTML; hydration renders the same.
+- [x] Styles here: indentation per level, the expand chevron through `IconSlot`, states read from
+      `.list` or `.menu` custom properties where they fit. `Tree.scss`: the row's padding, colors
+      and active and disabled states from `--list-*`, the gap, item radius and icon size from
+      `--menu-item-gap`/`--menu-item-border-radius`/`--menu-icon-size`, hover from
+      `%interactive`'s `--bg-even`; `--tree-indent` is the one property of its own, defaulting to
+      the chevron's width plus the gap so a child's label lines up under its parent's. The level
+      reaches the stylesheet as an inline `--cx-tree-level` on the row (react-aria-components'
+      own `--tree-item-level` can't be read: the build prefixes the stylesheet's custom
+      properties). The chevron is `IconSlot`'s new `expand` purpose (`chevron-right-outline`),
+      rotated 90° on the button when expanded, or the
+      tree's `expandIcon`; the button is mirrored under RTL. Visual spec `tree.visual.spec.ts`.
+- [x] Decide static children versus `items` data, as `DataGrid` does. Both: nested `TreeItem`
+      elements, or `items` and a render function on the tree and on any item
+      (react-aria-components' `Collection`), so one function renders every level by passing
+      itself on; a function child with no `items` is a leaf and renders nothing. An item's
+      content is its `label` prop (with `icon`), since its children are its child items;
+      `textValue` defaults to a string or number label.
+
+Decided here, not yet reacted to: a checkbox per item by default with `selectionMode="multiple"`
+and the `'toggle'` behavior only (`checkboxes` turns it on or off); no `href` on an item, since
+a row is a `div` with `role="row"` and the library renders every `href` as an `<a>`
+(`href.matrix.spec.tsx`) — navigation goes through `onAction`; no `hasChildItems` for children
+loading later: react-aria-components 1.21 accepts the prop but doesn't pass it to `useTreeItem`,
+so such an item gets no `aria-expanded` and the arrow keys don't expand it — both under the docs
+page's Scope. `Tree` takes no `data-*`/rest props. Smoke route `app/rsc/tree` (static items,
+expanded on the server).
+
+An independent review of the diff found seven defects before the commit, each now fixed, with a
+test or a baseline: the chevron and an item's icon kept the page's icon color on a selected or
+disabled row (chassis's `.icon` reads `--icon-color`, which the row now sets per state from
+`.menu`'s icon tokens, as `.menu-item` does); a disabled item's chevron was a live button that did
+nothing (react-aria's slot props guard `onPress` but carry no `isDisabled`; the button is disabled
+now); `autoFocus={true}` focused the treegrid itself (react-aria resolves a key for `'first'` and
+`'last'` only; `true` maps to `'first'`); the checkbox's `margin: 0` lost to chassis's
+`.check-input:is(input)` by specificity; an icon element given as `expandIcon` pointed up under
+RTL, since `.directional-icon` flips an `Icon` only (the button is mirrored instead); the docs
+said the indentation lined a child's label up under its parent's (it is the child's chevron);
+and AGENTS.md's story-folder count was off by one.
+
+`style.css` is now 3,002 bytes gzipped against `.bundlewatch.config.json`'s 3 kB (3,072) ceiling:
+B20 raises the ceiling if it adds any style.
+
+Found on the way: user-event's focus emulation in Storybook's hidden document throws inside
+react-aria's `preventFocusOnPress` listeners (the chevron), so the `Default` story's play function
+clicks the chevron with the element's own `click()`; real pointers are unaffected. With `onAction`
+and the toggle behavior, a click activates an item only while nothing is selected (react-aria's
+`useSelectableItem`), then toggles the selection, and Enter selects nothing and activates nothing
+until the selection is empty again — documented, not changed.
 
 Changeset: minor.
 

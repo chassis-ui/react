@@ -77,13 +77,16 @@ The calendar/datepicker family (`Calendar`, `RangeCalendar`, `DatePicker`, `Date
 `Notification` (its `.showing` mid-transition opacity state — see `Notification.scss`'s own header
 comment), `DataGrid` (see below), `Divider` (its label, and the line on elements other than
 `<hr>` — see `Divider.scss`'s own header comment), `NumberField` (its step buttons — see
-`NumberField.scss`'s own header comment) and `SearchField` (its clear button, which reads the
+`NumberField.scss`'s own header comment), `SearchField` (its clear button, which reads the
 close button's `--cx-close-button-idle-opacity`/`--cx-close-button-hover-opacity` — see
-`SearchField.scss`'s own header comment) are the only places in this package with
+`SearchField.scss`'s own header comment) and `Tree` (its whole surface, like `DataGrid`'s: the
+rows of react-aria-components' `treegrid`, indented by level, read `.list`'s `--cx-list-*` and
+`.menu`'s `--cx-menu-item-*` custom properties, and add only `--cx-tree-indent` — see
+`Tree.scss`'s own header comment) are the only places in this package with
 component-scoped CSS/Sass — chassis-css has no visual equivalent for a calendar grid/segmented date
 field, those two `Table` pieces, `Notification`'s Toast-parity fade-in/out, `DataGrid`'s
-non-`<table>` markup, a divider with a label, or a number field's step buttons, so there was
-nothing to reuse. These files already build on the supported `--cx-*` token surface above
+non-`<table>` markup, a divider with a label, a number field's step buttons, or a tree, so there
+was nothing to reuse. These files already build on the supported `--cx-*` token surface above
 wherever chassis-css has one (documented in each file's own header comment, which also names the
 four exceptions above) — treat that as the reference implementation for what "component-scoped CSS
 built on the token system" looks like if a

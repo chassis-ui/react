@@ -1,0 +1,516 @@
+{
+  "tags": {},
+  "filePath": "packages/react/src/components/tree/Tree.tsx",
+  "description": "",
+  "displayName": "Tree",
+  "methods": [],
+  "props": {
+    "aria-label": {
+      "defaultValue": null,
+      "description": "An accessible name for the tree, when no visible heading names it.",
+      "name": "aria-label",
+      "parent": {
+        "fileName": "packages/react/src/components/tree/Tree.tsx",
+        "name": "TreeProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tree/Tree.tsx",
+          "name": "TreeProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "aria-labelledby": {
+      "defaultValue": null,
+      "description": "The id of the visible heading that names the tree.",
+      "name": "aria-labelledby",
+      "parent": {
+        "fileName": "packages/react/src/components/tree/Tree.tsx",
+        "name": "TreeProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tree/Tree.tsx",
+          "name": "TreeProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "autoFocus": {
+      "defaultValue": null,
+      "description": "Focus the tree when it mounts: `true` or `'first'` focuses its first item, `'last'` its last.",
+      "name": "autoFocus",
+      "parent": {
+        "fileName": "packages/react/src/components/tree/Tree.tsx",
+        "name": "TreeProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tree/Tree.tsx",
+          "name": "TreeProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean | \"first\" | \"last\""
+      }
+    },
+    "checkboxes": {
+      "defaultValue": null,
+      "description": "Draw a checkbox in every item, which selects the item. On by default with\n`selectionMode=\"multiple\"` and the `'toggle'` selection behavior, off otherwise.",
+      "name": "checkboxes",
+      "parent": {
+        "fileName": "packages/react/src/components/tree/Tree.tsx",
+        "name": "TreeProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tree/Tree.tsx",
+          "name": "TreeProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "children": {
+      "defaultValue": null,
+      "description": "`TreeItem` elements, or a render function called once per entry of `items`, returning that\nentry's `TreeItem`.",
+      "name": "children",
+      "parent": {
+        "fileName": "packages/react/src/components/tree/Tree.tsx",
+        "name": "TreeProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tree/Tree.tsx",
+          "name": "TreeProps"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "ReactNode | ((item: T) => ReactElement<unknown, string | JSXElementConstructor<any>>)"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "packages/react/src/components/tree/Tree.tsx",
+        "name": "TreeProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tree/Tree.tsx",
+          "name": "TreeProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "defaultExpandedKeys": {
+      "defaultValue": null,
+      "description": "The keys of the items expanded at first (uncontrolled).",
+      "name": "defaultExpandedKeys",
+      "parent": {
+        "fileName": "packages/react/src/components/tree/Tree.tsx",
+        "name": "TreeProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tree/Tree.tsx",
+          "name": "TreeProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Iterable<Key>"
+      }
+    },
+    "defaultSelectedKeys": {
+      "defaultValue": null,
+      "description": "The keys of the items selected at first (uncontrolled): `'all'`, or an iterable of keys.",
+      "name": "defaultSelectedKeys",
+      "parent": {
+        "fileName": "packages/react/src/components/tree/Tree.tsx",
+        "name": "TreeProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tree/Tree.tsx",
+          "name": "TreeProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Iterable<Key> | \"all\""
+      }
+    },
+    "dependencies": {
+      "defaultValue": null,
+      "description": "Values that should rebuild the items when using the `items`/render-function form of\n`children` — e.g. a value from outside `items` that the render function reads. Without this,\nchanging that value won't re-render the items, which are only rebuilt when `items` or\n`dependencies` change by reference.",
+      "name": "dependencies",
+      "parent": {
+        "fileName": "packages/react/src/components/tree/Tree.tsx",
+        "name": "TreeProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tree/Tree.tsx",
+          "name": "TreeProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "readonly unknown[]"
+      }
+    },
+    "disabledBehavior": {
+      "defaultValue": {
+        "value": "'all'"
+      },
+      "description": "Whether `disabledKeys` disables every interaction with an item, or only its selection.",
+      "name": "disabledBehavior",
+      "parent": {
+        "fileName": "packages/react/src/components/tree/Tree.tsx",
+        "name": "TreeProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tree/Tree.tsx",
+          "name": "TreeProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"all\" | \"selection\"",
+        "value": [
+          {
+            "value": "\"all\""
+          },
+          {
+            "value": "\"selection\""
+          }
+        ]
+      }
+    },
+    "disabledKeys": {
+      "defaultValue": null,
+      "description": "The keys of the items that are disabled.",
+      "name": "disabledKeys",
+      "parent": {
+        "fileName": "packages/react/src/components/tree/Tree.tsx",
+        "name": "TreeProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tree/Tree.tsx",
+          "name": "TreeProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Iterable<Key>"
+      }
+    },
+    "disallowEmptySelection": {
+      "defaultValue": null,
+      "description": "Keep at least one item selected: the last selected item can't be deselected.",
+      "name": "disallowEmptySelection",
+      "parent": {
+        "fileName": "packages/react/src/components/tree/Tree.tsx",
+        "name": "TreeProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tree/Tree.tsx",
+          "name": "TreeProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "expandedKeys": {
+      "defaultValue": null,
+      "description": "The keys of the expanded items (controlled).",
+      "name": "expandedKeys",
+      "parent": {
+        "fileName": "packages/react/src/components/tree/Tree.tsx",
+        "name": "TreeProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tree/Tree.tsx",
+          "name": "TreeProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Iterable<Key>"
+      }
+    },
+    "expandIcon": {
+      "defaultValue": null,
+      "description": "The chevron of an item with child items, in place of `IconProvider`'s `expand` icon: an icon\nname, or an element.",
+      "name": "expandIcon",
+      "parent": {
+        "fileName": "packages/react/src/components/tree/Tree.tsx",
+        "name": "TreeProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tree/Tree.tsx",
+          "name": "TreeProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "IconValue"
+      }
+    },
+    "id": {
+      "defaultValue": null,
+      "description": "The id of the tree element.",
+      "name": "id",
+      "parent": {
+        "fileName": "packages/react/src/components/tree/Tree.tsx",
+        "name": "TreeProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tree/Tree.tsx",
+          "name": "TreeProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "items": {
+      "defaultValue": null,
+      "description": "The data to render as items, through the function form of `children`.",
+      "name": "items",
+      "parent": {
+        "fileName": "packages/react/src/components/tree/Tree.tsx",
+        "name": "TreeProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tree/Tree.tsx",
+          "name": "TreeProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Iterable<T>"
+      }
+    },
+    "onAction": {
+      "defaultValue": null,
+      "description": "Called with an item's key when the item is activated: with Enter, or with a click when the\ntree has no selection. An item's own `onAction` is called too.",
+      "name": "onAction",
+      "parent": {
+        "fileName": "packages/react/src/components/tree/Tree.tsx",
+        "name": "TreeProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tree/Tree.tsx",
+          "name": "TreeProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((key: Key) => void)"
+      }
+    },
+    "onExpandedChange": {
+      "defaultValue": null,
+      "description": "Called with the keys of the expanded items when an item expands or collapses.",
+      "name": "onExpandedChange",
+      "parent": {
+        "fileName": "packages/react/src/components/tree/Tree.tsx",
+        "name": "TreeProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tree/Tree.tsx",
+          "name": "TreeProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((keys: Set<Key>) => void)"
+      }
+    },
+    "onSelectionChange": {
+      "defaultValue": null,
+      "description": "Called with the keys of the selected items (`'all'`, or a `Set`) when the selection changes.",
+      "name": "onSelectionChange",
+      "parent": {
+        "fileName": "packages/react/src/components/tree/Tree.tsx",
+        "name": "TreeProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tree/Tree.tsx",
+          "name": "TreeProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((keys: Selection) => void)"
+      }
+    },
+    "renderEmptyState": {
+      "defaultValue": null,
+      "description": "What to render in place of the items when there are none.",
+      "name": "renderEmptyState",
+      "parent": {
+        "fileName": "packages/react/src/components/tree/Tree.tsx",
+        "name": "TreeProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tree/Tree.tsx",
+          "name": "TreeProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => ReactNode)"
+      }
+    },
+    "selectedKeys": {
+      "defaultValue": null,
+      "description": "The keys of the selected items (controlled): `'all'`, or an iterable of keys.",
+      "name": "selectedKeys",
+      "parent": {
+        "fileName": "packages/react/src/components/tree/Tree.tsx",
+        "name": "TreeProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tree/Tree.tsx",
+          "name": "TreeProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Iterable<Key> | \"all\""
+      }
+    },
+    "selectionBehavior": {
+      "defaultValue": {
+        "value": "toggle"
+      },
+      "description": "How a click changes a multiple selection: `'toggle'` adds or removes the clicked item,\n`'replace'` selects it alone, with Ctrl, Cmd and Shift for more, as a file manager does.",
+      "name": "selectionBehavior",
+      "parent": {
+        "fileName": "packages/react/src/components/tree/Tree.tsx",
+        "name": "TreeProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tree/Tree.tsx",
+          "name": "TreeProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"toggle\" | \"replace\"",
+        "value": [
+          {
+            "value": "\"toggle\""
+          },
+          {
+            "value": "\"replace\""
+          }
+        ]
+      }
+    },
+    "selectionMode": {
+      "defaultValue": {
+        "value": "none"
+      },
+      "description": "Whether items can be selected, and how many at a time.",
+      "name": "selectionMode",
+      "parent": {
+        "fileName": "packages/react/src/components/tree/Tree.tsx",
+        "name": "TreeProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tree/Tree.tsx",
+          "name": "TreeProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"none\" | \"single\" | \"multiple\"",
+        "value": [
+          {
+            "value": "\"none\""
+          },
+          {
+            "value": "\"single\""
+          },
+          {
+            "value": "\"multiple\""
+          }
+        ]
+      }
+    },
+    "style": {
+      "defaultValue": null,
+      "description": "Inline styles for the tree element.",
+      "name": "style",
+      "parent": {
+        "fileName": "packages/react/src/components/tree/Tree.tsx",
+        "name": "TreeProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tree/Tree.tsx",
+          "name": "TreeProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "CSSProperties"
+      }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tree/Tree.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Ref<HTMLDivElement>"
+      }
+    }
+  }
+}

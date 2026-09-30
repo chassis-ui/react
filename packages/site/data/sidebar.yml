@@ -91,6 +91,7 @@
         - title: Static Table
         - title: DataGrid
         - title: Placeholder
+        - title: Tree
     - group: Disclosure
       pages:
         - title: Accordion

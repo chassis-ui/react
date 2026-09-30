@@ -141,6 +141,18 @@ test('DataGrid renders its static columns and rows', async ({ page }) => {
   expect(problems).toEqual([])
 })
 
+test('Tree renders its static items, the expanded ones on the server', async ({ page }) => {
+  const server = await serverMarkup(page, '/rsc/tree')
+  expect(server).toContain('aria-label="Report.pdf"')
+  expect(server).not.toContain('aria-label="Holiday.jpg"')
+  const problems = await open(page, '/rsc/tree')
+  await expect(page.getByRole('treegrid', { name: 'Files' })).toBeVisible()
+  await expect(page.getByRole('row')).toHaveCount(4)
+  await page.getByRole('button', { name: 'Expand Pictures' }).click()
+  await expect(page.getByRole('row', { name: 'Holiday.jpg' })).toBeVisible()
+  expect(problems).toEqual([])
+})
+
 test('Toast shows, settles and closes', async ({ page }) => {
   const problems = await open(page, '/rsc/toast')
   const toast = page.getByRole('status')

@@ -144,6 +144,7 @@ import { NumberField } from './components/number-field'
 import { TimeField } from './components/time-field'
 import { SearchField } from './components/search-field'
 import { ContextMenu } from './components/context-menu'
+import { Tree, TreeItem } from './components/tree'
 
 export {
   Chip,
@@ -332,7 +333,9 @@ export {
   NumberField,
   TimeField,
   SearchField,
-  ContextMenu
+  ContextMenu,
+  Tree,
+  TreeItem
 }
 
 // Type-only public surface. Kept as `export type ... from` re-exports (the same shape
@@ -546,6 +549,7 @@ export type { NumberFieldProps } from './components/number-field'
 export type { TimeFieldProps } from './components/time-field'
 export type { SearchFieldProps } from './components/search-field'
 export type { ContextMenuProps } from './components/context-menu'
+export type { TreeItemProps, TreeProps } from './components/tree'
 export type {
   AlertBodyProps,
   AlertCancelProps,

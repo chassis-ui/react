@@ -16,6 +16,7 @@ export type IconKey =
   | 'decrement'
   | 'search'
   | 'clear'
+  | 'expand'
 
 /**
  * An icon given to `IconProvider`'s `icons` or to a component's icon prop: a string is an icon
@@ -68,7 +69,7 @@ export interface IconConfig {
    * The icon to render for each of the library's own icons, by purpose. Unset ones keep their
    * defaults (`check-solid`, `chevron-left-outline`, `chevron-right-outline`, `bars-outline`,
    * `ellipsis-h-solid`, `play-solid`, `pause-solid`, `chevron-up-outline`, `chevron-down-outline`,
-   * `search-outline`, `xmark-outline`).
+   * `search-outline`, `xmark-outline`, `chevron-right-outline`).
    */
   icons?: Partial<Record<IconKey, IconValue>>
   /**
@@ -95,7 +96,8 @@ export const DEFAULT_ICONS: Record<IconKey, string> = {
   increment: 'chevron-up-outline',
   decrement: 'chevron-down-outline',
   search: 'search-outline',
-  clear: 'xmark-outline'
+  clear: 'xmark-outline',
+  expand: 'chevron-right-outline'
 }
 
 export const DEFAULT_FONT_PREFIX = 'cx-'

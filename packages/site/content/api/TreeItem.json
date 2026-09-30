@@ -1,0 +1,233 @@
+{
+  "tags": {},
+  "filePath": "packages/react/src/components/tree/TreeItem.tsx",
+  "description": "An item of a `Tree`: a row with a label, an optional icon, and child items among its children.",
+  "displayName": "TreeItem",
+  "methods": [],
+  "props": {
+    "children": {
+      "defaultValue": null,
+      "description": "The item's child items: `TreeItem` elements, or a render function called once per entry of\n`items`, returning that entry's `TreeItem`.",
+      "name": "children",
+      "parent": {
+        "fileName": "packages/react/src/components/tree/TreeItem.tsx",
+        "name": "TreeItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tree/TreeItem.tsx",
+          "name": "TreeItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode | ((item: T) => ReactElement<unknown, string | JSXElementConstructor<any>>)"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the item.",
+      "name": "className",
+      "parent": {
+        "fileName": "packages/react/src/components/tree/TreeItem.tsx",
+        "name": "TreeItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tree/TreeItem.tsx",
+          "name": "TreeItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "dependencies": {
+      "defaultValue": null,
+      "description": "Values that should rebuild the child items when using the `items`/render-function form of\n`children`, as `Tree`'s `dependencies`.",
+      "name": "dependencies",
+      "parent": {
+        "fileName": "packages/react/src/components/tree/TreeItem.tsx",
+        "name": "TreeItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tree/TreeItem.tsx",
+          "name": "TreeItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "readonly unknown[]"
+      }
+    },
+    "disabled": {
+      "defaultValue": null,
+      "description": "Toggle the disabled state for the item, as a key in the tree's `disabledKeys` does.",
+      "name": "disabled",
+      "parent": {
+        "fileName": "packages/react/src/components/tree/TreeItem.tsx",
+        "name": "TreeItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tree/TreeItem.tsx",
+          "name": "TreeItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "icon": {
+      "defaultValue": null,
+      "description": "An icon drawn before the label.",
+      "name": "icon",
+      "parent": {
+        "fileName": "packages/react/src/components/tree/TreeItem.tsx",
+        "name": "TreeItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tree/TreeItem.tsx",
+          "name": "TreeItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "id": {
+      "defaultValue": null,
+      "description": "The item's key, named by `expandedKeys`, `selectedKeys` and `disabledKeys`. Defaults to the\nkey of the data entry the item renders, or to the item's position.",
+      "name": "id",
+      "parent": {
+        "fileName": "packages/react/src/components/tree/TreeItem.tsx",
+        "name": "TreeItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tree/TreeItem.tsx",
+          "name": "TreeItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Key"
+      }
+    },
+    "items": {
+      "defaultValue": null,
+      "description": "The data to render as child items, through the function form of `children`.",
+      "name": "items",
+      "parent": {
+        "fileName": "packages/react/src/components/tree/TreeItem.tsx",
+        "name": "TreeItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tree/TreeItem.tsx",
+          "name": "TreeItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Iterable<T>"
+      }
+    },
+    "label": {
+      "defaultValue": null,
+      "description": "The item's content.",
+      "name": "label",
+      "parent": {
+        "fileName": "packages/react/src/components/tree/TreeItem.tsx",
+        "name": "TreeItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tree/TreeItem.tsx",
+          "name": "TreeItemProps"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "onAction": {
+      "defaultValue": null,
+      "description": "Called when the item is activated: with Enter, or with a click when the tree has no\nselection.",
+      "name": "onAction",
+      "parent": {
+        "fileName": "packages/react/src/components/tree/TreeItem.tsx",
+        "name": "TreeItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tree/TreeItem.tsx",
+          "name": "TreeItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "style": {
+      "defaultValue": null,
+      "description": "Inline styles for the item's row.",
+      "name": "style",
+      "parent": {
+        "fileName": "packages/react/src/components/tree/TreeItem.tsx",
+        "name": "TreeItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tree/TreeItem.tsx",
+          "name": "TreeItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "CSSProperties"
+      }
+    },
+    "textValue": {
+      "defaultValue": null,
+      "description": "The item's text, which typing a letter in the tree searches. Defaults to `label` when it is a\nstring.",
+      "name": "textValue",
+      "parent": {
+        "fileName": "packages/react/src/components/tree/TreeItem.tsx",
+        "name": "TreeItemProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tree/TreeItem.tsx",
+          "name": "TreeItemProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tree/TreeItem.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Ref<HTMLDivElement>"
+      }
+    }
+  }
+}

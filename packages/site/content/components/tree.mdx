@@ -1,0 +1,155 @@
+---
+title: Tree
+description: A tree of expandable items with single or multiple selection, keyboard navigation, and items written by hand or rendered from data.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/tree/BasicExample.tsx'
+import { Example as IconsExample } from '../../examples/components/tree/IconsExample.tsx'
+import { Example as ControlledExample } from '../../examples/components/tree/ControlledExample.tsx'
+import { Example as SelectionExample } from '../../examples/components/tree/SelectionExample.tsx'
+import { Example as MultipleSelectionExample } from '../../examples/components/tree/MultipleSelectionExample.tsx'
+import { Example as ActionsExample } from '../../examples/components/tree/ActionsExample.tsx'
+import { Example as DataExample } from '../../examples/components/tree/DataExample.tsx'
+
+## Overview
+
+`Tree` shows hierarchical items, such as files in folders, that expand and collapse. It renders a
+`treegrid` of rows built on [React Aria](https://react-spectrum.adobe.com/react-aria/)'s tree, one
+row per visible item, each with its level and position for assistive technology. Chassis CSS has no
+tree, so the component ships its own styles in this package's stylesheet: import
+`@chassis-ui/react/style.css` once, as the [Theming]([[docsref:/getting-started/theming]]) page
+describes.
+
+## Basic usage
+
+Write the items as `TreeItem` elements, nested inside one another; `label` is what a row shows and
+`id` its key, which `expandedKeys`, `selectedKeys` and `disabledKeys` name. `defaultExpandedKeys`
+opens some items at first. An item with child items gets a chevron that expands and collapses it,
+and the rows of an expanded item render on the server too, so the page shows them before any
+script runs. Name the tree with `aria-label`, or `aria-labelledby` pointing at a visible heading.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+Each level indents its rows by `--cx-tree-indent`, so that a child's chevron starts where its
+parent's label does by default. The rows read the same custom properties as `.list` and `.menu` for their
+padding, colors and states, so a page that re-themes lists and menus gets a matching tree.
+
+## Icons
+
+Set `icon` on an item to draw an icon before its label, hidden from assistive technology since the
+label names the row. The chevron is `IconProvider`'s `expand` icon, replaced for one tree with
+`expandIcon`; it turns to point down when the item is expanded, and points the other way under
+right-to-left text.
+
+<Example>
+  <IconsExample client:load />
+</Example>
+
+## Expanding
+
+`expandedKeys` and `onExpandedChange` make the expansion controlled: the tree renders the items
+in `expandedKeys` open, and asks for a change through `onExpandedChange` with the whole set of
+keys that would be expanded. The Right arrow key expands the focused item and the Left arrow key
+collapses it, or moves to its parent when it is already collapsed. In a tree with no selection and
+no `onAction`, a click on an item with child items toggles it, as the chevron does.
+
+<Example>
+  <ControlledExample client:load />
+</Example>
+
+## Selection
+
+Set `selectionMode` to `"single"` or `"multiple"` to make the items selectable. A click, Space or
+Enter selects the focused item; a selected row is marked `.active` and `aria-selected`. `selectedKeys`
+and `onSelectionChange` control the selection, which is a `Set` of keys or the string `"all"`;
+`defaultSelectedKeys` sets it at first. `disabledKeys`, or `disabled` on an item, keeps an item out
+of the selection and out of keyboard navigation, or out of the selection alone with
+`disabledBehavior="selection"`. `disallowEmptySelection` keeps the last selected item selected.
+
+<Example>
+  <SelectionExample client:load />
+</Example>
+
+### Multiple selection
+
+With `selectionMode="multiple"` every item gets a checkbox, named after the item, and a click on
+the row or on its checkbox toggles the item. `checkboxes={false}` leaves the checkboxes out and
+keeps the toggling; `checkboxes` on a single selection adds them.
+
+<Example>
+  <MultipleSelectionExample client:load />
+</Example>
+
+`selectionBehavior="replace"` selects as a file manager does: a click selects the clicked item
+alone, Ctrl or Cmd adds one, Shift selects a range, and the checkboxes stay out unless `checkboxes`
+asks for them.
+
+## Actions
+
+`onAction` is called with an item's key when the item is activated: with a click or Enter in a tree
+that has no selection, and with a double click, or Enter, under `selectionBehavior="replace"`. With
+the default toggle behavior and a selection, a click activates an item only while nothing is
+selected; once something is, a click toggles the selection, until it is empty again. An item's own
+`onAction` is called alongside the tree's. A tree that navigates does so from `onAction`, with the
+app's router.
+
+<Example>
+  <ActionsExample client:load />
+</Example>
+
+## Data-driven items
+
+Pass the data to `items` and a render function as `children`, called once per entry with the
+entry, as `DataGrid`'s body takes its rows. An item takes `items` and the same kind of function for
+its child items, so one function can render every level by passing itself on. The entry's `id`
+becomes the item's key; give `textValue` when `label` is not a string, so typing a letter can find
+the item. When the function reads a value from outside the data, list it in `dependencies`, or a
+change to it won't re-render the items.
+
+<Example>
+  <DataExample client:load />
+</Example>
+
+`renderEmptyState` fills a tree with no items:
+
+```jsx
+<Tree aria-label="Files" items={files} renderEmptyState={() => 'No files yet.'}>
+  {renderFile}
+</Tree>
+```
+
+## Accessibility
+
+- The tree is a `treegrid` with `aria-multiselectable` when the selection is multiple, and each
+  visible item a `row` with `aria-level`, `aria-posinset`, `aria-setsize`, `aria-expanded` when it
+  has child items, and `aria-selected` when it is selectable. The row is named by the item's text.
+- The tree is one tab stop: Tab enters it at the focused or first item and leaves it from any
+  item. The Up and Down arrow keys move between the visible items, Home and End to the first and
+  last, and typing a letter moves to the next item whose text starts with it.
+- The chevron is a button named "Expand" or "Collapse" after the row, for touch screen readers;
+  it is out of the tab order, since the arrow keys do the same.
+- The selection checkbox is named "Select" after the row.
+
+## Scope
+
+- **No lazy children.** Every item's children are in the data or the markup when the tree renders.
+  React Aria's tree item takes a `hasChildItems` flag for children still loading, but as of
+  react-aria-components 1.21 it doesn't reach the row's `aria-expanded` and arrow keys, so the
+  component doesn't offer it.
+- **No links.** An item takes no `href`: a row is a `div` with `role="row"`, which can't be an
+  `<a>`, and this library renders every `href` as one. Navigate from `onAction` instead.
+- **No drag and drop, sections or virtualization.** React Aria's tree supports all three; none is
+  wired here yet.
+
+## API
+
+### Tree
+
+<PropTable component="Tree" />
+
+### TreeItem
+
+<PropTable component="TreeItem" />
