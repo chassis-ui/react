@@ -60,6 +60,12 @@ export interface UseDialogElementOptions {
    * Fired with `false` for each close request, beside `onClose`.
    */
   onVisibleChange?: (visible: boolean) => void
+  /**
+   * The native `open` attribute the caller renders. Without `visible` or `defaultVisible`, it is
+   * the initial state: the dialog is rendered open (non-modal) from the first paint, server HTML
+   * included, and stays open until a close request, instead of being closed on mount.
+   */
+  open?: boolean
   ref: ForwardedRef<HTMLDialogElement>
   /**
    * Controlled open state; `undefined` means uncontrolled.
@@ -103,7 +109,7 @@ function resolveRestoreTarget(trigger: HTMLElement | null): HTMLElement | null {
 // `defaultVisible` it closes itself.
 export const useDialogElement = ({
   backdrop,
-  defaultVisible = false,
+  defaultVisible,
   instant,
   isModal,
   keyboard = true,
@@ -115,13 +121,18 @@ export const useDialogElement = ({
   onShow,
   onShown,
   onVisibleChange,
+  open,
   ref,
   visible
 }: UseDialogElementOptions) => {
   const dialogRef = useRef<HTMLDialogElement>(null)
   const forkedRef = useForkedRef(ref, dialogRef)
 
-  const [_visible, setVisible] = useControllableState(visible, defaultVisible, onVisibleChange)
+  const [_visible, setVisible] = useControllableState(
+    visible,
+    defaultVisible ?? open ?? false,
+    onVisibleChange
+  )
   const [hiding, setHiding] = useState(false)
   const [staticBounce, setStaticBounce] = useState(false)
   const [scrollLocked, setScrollLocked] = useState(false)

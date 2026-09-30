@@ -120,8 +120,9 @@ page has hydrated:
   `Menu` with `container` render nothing on the server. A trigger's `aria-controls` or
   `aria-describedby` for its overlay is added with it.
 - **A `Menu` open on its first render.** Its list is in the HTML, and shown once it has a position.
-- **`Modal` and `Drawer` open on their first render.** A `<dialog>` opens as modal only from
-  script.
+- **`Modal`, `Alert` and `Drawer` open on their first render.** A `<dialog>` opens as modal only
+  from script. For a dialog that should be open in the server's HTML, such as a static preview,
+  render it with `open`: it is then open from the first paint, as a non-modal dialog.
 - **Today in a calendar.** Which day is today depends on the time zone, and a server's is rarely
   the viewer's. `Calendar`, `RangeCalendar` and the date pickers mark today after hydration, in the
   browser's time zone, instead of taking a `timeZone` prop you would have to know on the server.

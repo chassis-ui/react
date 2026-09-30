@@ -4774,6 +4774,12 @@ interface ModalProps extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'onCa
    */
   modal?: boolean;
   /**
+   * Renders the modal open from its first paint, server HTML included, as a non-modal dialog: a
+   * static preview. It stays open until a close request. Use `visible` or `defaultVisible` to
+   * open it as a modal dialog.
+   */
+  open?: boolean;
+  /**
    * Callback fired when the modal requests to be closed (escape, backdrop click, or close button).
    */
   onClose?: () => void;
@@ -5447,6 +5453,12 @@ interface DrawerProps extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'onC
    * Closes the drawer when the escape key is pressed.
    */
   keyboard?: boolean;
+  /**
+   * Renders the drawer open from its first paint, server HTML included, as a non-modal dialog: a
+   * static preview. It stays open until a close request. Use `visible` or `defaultVisible` to
+   * open it as a modal dialog.
+   */
+  open?: boolean;
   /**
    * Callback fired when the drawer requests to be closed (escape, backdrop click, close button,
    * or another drawer opening).
@@ -6791,6 +6803,12 @@ interface AlertProps extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'onCa
    * Whether the Escape key closes the alert. By default it doesn't: the alert bounces instead.
    */
   keyboard?: boolean;
+  /**
+   * Renders the alert open from its first paint, server HTML included, as a non-modal dialog: a
+   * static preview. It stays open until a close request. Use `visible` or `defaultVisible` to
+   * open it as a modal dialog.
+   */
+  open?: boolean;
   /**
    * Callback fired when the alert asks to be closed: `AlertCancel`, the close button, and, when
    * allowed, Escape or a backdrop click.

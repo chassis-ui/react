@@ -176,6 +176,16 @@ describe('Alert', () => {
   })
 
   describe('closing', () => {
+    test('rendered with open, stays open instead of closing on mount', () => {
+      vi.useFakeTimers()
+      const onHidden = vi.fn()
+      render(<ConfirmDelete open onHidden={onHidden} />)
+      act(() => vi.runAllTimers())
+      expect(getDialog()).toHaveAttribute('open')
+      expect(onHidden).not.toHaveBeenCalled()
+      vi.useRealTimers()
+    })
+
     test('AlertCancel asks to close, and a controlled alert waits for visible', () => {
       const onClose = vi.fn()
       const onVisibleChange = vi.fn()

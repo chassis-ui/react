@@ -20,6 +20,9 @@ export async function loadFirstPaintCases(): Promise<Record<string, () => ReactE
     DataGridColumn,
     DataGridHeader,
     DataGridRow,
+    Modal,
+    ModalBody,
+    ModalTitle,
     Menu,
     MenuItem,
     MenuList,
@@ -71,6 +74,12 @@ export async function loadFirstPaintCases(): Promise<Record<string, () => ReactE
         </TabList>
         <TabPanel id="one">Panel one</TabPanel>
       </Tabs>
+    ),
+    'Modal rendered open': () => (
+      <Modal backdrop={false} keyboard={false} open>
+        <ModalTitle>Title</ModalTitle>
+        <ModalBody>Body</ModalBody>
+      </Modal>
     ),
     'Toast shown': () => <Toast autohide={false} defaultVisible message="Saved" />,
     'Notification shown': () => <Notification text="Saved" />,

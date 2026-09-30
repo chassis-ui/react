@@ -19,7 +19,7 @@ import { Example as FullscreenExample } from '../../examples/components/modal/Fu
 
 ### Modal components
 
-This static example disables the backdrop and keyboard dismissal so the modal stays open for illustration. It includes a modal header, a modal body (required for `padding`), and an optional modal footer. Include a modal header with a dismiss action whenever possible, or provide another explicit dismiss action.
+This static example is rendered with `open`, so it is open from the first paint as a non-modal dialog, and disables the backdrop and keyboard dismissal so it stays open for illustration. It includes a modal header, a modal body (required for `padding`), and an optional modal footer. Include a modal header with a dismiss action whenever possible, or provide another explicit dismiss action.
 
 <Example customMarkup={`<Modal backdrop={false} keyboard={false} open>
     <ModalHeader>

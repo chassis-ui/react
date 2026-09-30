@@ -144,6 +144,25 @@
         "name": "boolean"
       }
     },
+    "open": {
+      "defaultValue": null,
+      "description": "Renders the modal open from its first paint, server HTML included, as a non-modal dialog: a\nstatic preview. It stays open until a close request. Use `visible` or `defaultVisible` to\nopen it as a modal dialog.",
+      "name": "open",
+      "parent": {
+        "fileName": "packages/react/src/components/modal/Modal.tsx",
+        "name": "ModalProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/modal/Modal.tsx",
+          "name": "ModalProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
     "onClose": {
       "defaultValue": null,
       "description": "Callback fired when the modal requests to be closed (escape, backdrop click, or close button).",

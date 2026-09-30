@@ -46,6 +46,12 @@ export interface DrawerProps extends Omit<
    */
   keyboard?: boolean
   /**
+   * Renders the drawer open from its first paint, server HTML included, as a non-modal dialog: a
+   * static preview. It stays open until a close request. Use `visible` or `defaultVisible` to
+   * open it as a modal dialog.
+   */
+  open?: boolean
+  /**
    * Callback fired when the drawer requests to be closed (escape, backdrop click, close button,
    * or another drawer opening).
    */
@@ -142,6 +148,7 @@ export const Drawer = forwardRef<HTMLDialogElement, DrawerProps>(
       scroll = false,
       sheet,
       translucent,
+      open,
       visible,
       ...rest
     },
@@ -166,6 +173,7 @@ export const Drawer = forwardRef<HTMLDialogElement, DrawerProps>(
         onShow,
         onShown,
         onVisibleChange,
+        open,
         ref,
         visible
       })
@@ -213,6 +221,7 @@ export const Drawer = forwardRef<HTMLDialogElement, DrawerProps>(
         <dialog
           aria-labelledby={titleId}
           {...rest}
+          open={open}
           className={_className}
           onCancel={handleCancel}
           onClick={handleBackdropClick}

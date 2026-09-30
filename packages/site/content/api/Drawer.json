@@ -142,6 +142,25 @@
         "name": "boolean"
       }
     },
+    "open": {
+      "defaultValue": null,
+      "description": "Renders the drawer open from its first paint, server HTML included, as a non-modal dialog: a\nstatic preview. It stays open until a close request. Use `visible` or `defaultVisible` to\nopen it as a modal dialog.",
+      "name": "open",
+      "parent": {
+        "fileName": "packages/react/src/components/drawer/Drawer.tsx",
+        "name": "DrawerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/drawer/Drawer.tsx",
+          "name": "DrawerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
     "onClose": {
       "defaultValue": null,
       "description": "Callback fired when the drawer requests to be closed (escape, backdrop click, close button,\nor another drawer opening).",

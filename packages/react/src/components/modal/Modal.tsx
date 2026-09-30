@@ -44,6 +44,12 @@ export interface ModalProps extends Omit<
    */
   modal?: boolean
   /**
+   * Renders the modal open from its first paint, server HTML included, as a non-modal dialog: a
+   * static preview. It stays open until a close request. Use `visible` or `defaultVisible` to
+   * open it as a modal dialog.
+   */
+  open?: boolean
+  /**
    * Callback fired when the modal requests to be closed (escape, backdrop click, or close button).
    */
   onClose?: () => void
@@ -118,6 +124,7 @@ export const Modal = forwardRef<HTMLDialogElement, ModalProps>(
       onVisibleChange,
       scrollable,
       size,
+      open,
       visible,
       ...rest
     },
@@ -137,6 +144,7 @@ export const Modal = forwardRef<HTMLDialogElement, ModalProps>(
         onShow,
         onShown,
         onVisibleChange,
+        open,
         ref,
         visible
       })
@@ -164,6 +172,7 @@ export const Modal = forwardRef<HTMLDialogElement, ModalProps>(
         <dialog
           aria-labelledby={titleId}
           {...rest}
+          open={open}
           className={_className}
           onCancel={handleCancel}
           onClick={handleBackdropClick}

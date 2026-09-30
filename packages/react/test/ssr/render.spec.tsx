@@ -74,6 +74,11 @@ describe('first paint on the server', () => {
     expect(tab).not.toHaveAttribute('tabindex')
   })
 
+  test('a Modal rendered open is open in the server HTML', () => {
+    const page = within(firstPaint('Modal rendered open'))
+    expect(page.getByRole('dialog', { name: 'Title' })).toHaveAttribute('open')
+  })
+
   test('a Toast shown on its first render is settled, with show', () => {
     const page = within(firstPaint('Toast shown'))
     expect(page.getByRole('status')).toHaveClass('toast', 'fade', 'show')

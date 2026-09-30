@@ -43,6 +43,29 @@ describe('Modal', () => {
   })
 
   describe('open/close behavior', () => {
+    // The native `open` attribute, as a static preview uses it: rendered open from the first
+    // paint, it stays open instead of being closed on mount.
+    test('rendered with open, stays open, non-modal, until a close request', () => {
+      vi.useFakeTimers()
+      const onHidden = vi.fn()
+      render(
+        <Modal open onHidden={onHidden}>
+          Test
+        </Modal>
+      )
+      act(() => vi.runAllTimers())
+      const dialog = getDialog()
+      expect(dialog).toHaveAttribute('open')
+      expect(dialog).not.toHaveClass('hiding')
+      expect(onHidden).not.toHaveBeenCalled()
+
+      fireEvent.keyDown(dialog, { key: 'Escape' })
+      act(() => vi.runAllTimers())
+      expect(dialog).not.toHaveAttribute('open')
+      expect(onHidden).toHaveBeenCalledTimes(1)
+      vi.useRealTimers()
+    })
+
     test('shows via showModal() and locks body scroll, hides and unlocks on close', () => {
       vi.useFakeTimers()
       const { rerender } = render(<Modal>Test</Modal>)

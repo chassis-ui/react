@@ -61,6 +61,20 @@ describe('Drawer', () => {
   })
 
   describe('open/close behavior', () => {
+    test('rendered with open, stays open instead of closing on mount', () => {
+      vi.useFakeTimers()
+      const onHidden = vi.fn()
+      render(
+        <Drawer open onHidden={onHidden} placement="start">
+          Test
+        </Drawer>
+      )
+      act(() => vi.runAllTimers())
+      expect(getDialog()).toHaveAttribute('open')
+      expect(onHidden).not.toHaveBeenCalled()
+      vi.useRealTimers()
+    })
+
     test('shows via showModal() and locks body scroll, hides and unlocks on close', () => {
       vi.useFakeTimers()
       const { rerender } = render(<Drawer placement="start">Test</Drawer>)

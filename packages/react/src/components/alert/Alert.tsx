@@ -47,6 +47,12 @@ export interface AlertProps extends Omit<
    */
   keyboard?: boolean
   /**
+   * Renders the alert open from its first paint, server HTML included, as a non-modal dialog: a
+   * static preview. It stays open until a close request. Use `visible` or `defaultVisible` to
+   * open it as a modal dialog.
+   */
+  open?: boolean
+  /**
    * Callback fired when the alert asks to be closed: `AlertCancel`, the close button, and, when
    * allowed, Escape or a backdrop click.
    */
@@ -130,6 +136,7 @@ export const Alert = forwardRef<HTMLDialogElement, AlertProps>(
       onShow,
       onShown,
       onVisibleChange,
+      open,
       visible,
       ...rest
     },
@@ -149,6 +156,7 @@ export const Alert = forwardRef<HTMLDialogElement, AlertProps>(
         onShow,
         onShown,
         onVisibleChange,
+        open,
         ref,
         visible
       })
@@ -180,6 +188,7 @@ export const Alert = forwardRef<HTMLDialogElement, AlertProps>(
           aria-labelledby={labelledBy}
           role="alertdialog"
           {...rest}
+          open={open}
           className={classNames(
             'alert',
             'dialog',

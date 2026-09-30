@@ -142,6 +142,25 @@
         "name": "boolean"
       }
     },
+    "open": {
+      "defaultValue": null,
+      "description": "Renders the alert open from its first paint, server HTML included, as a non-modal dialog: a\nstatic preview. It stays open until a close request. Use `visible` or `defaultVisible` to\nopen it as a modal dialog.",
+      "name": "open",
+      "parent": {
+        "fileName": "packages/react/src/components/alert/Alert.tsx",
+        "name": "AlertProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/alert/Alert.tsx",
+          "name": "AlertProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
     "onClose": {
       "defaultValue": null,
       "description": "Callback fired when the alert asks to be closed: `AlertCancel`, the close button, and, when\nallowed, Escape or a backdrop click.",
