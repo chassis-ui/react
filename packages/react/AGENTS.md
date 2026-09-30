@@ -15,8 +15,7 @@ own styles, except for the handful of components with no chassis-css visual equi
   private helper module never exported or used outside the folder — tests and stories are
   centralized in their own trees (below), not colocated. See `CONVENTIONS.md` for the naming/
   barrel/compound-API rules this layout follows, including that exception's exact boundary.
-- `test/components/<kebab-name>/<PascalName>.spec.tsx`, plus `test/components/<kebab-name>/
-__snapshots__/` for that component's snapshot files — mirrors `src/components/`, under the
+- `test/components/<kebab-name>/<PascalName>.spec.tsx` — mirrors `src/components/`, under the
   top-level `test/` folder that also holds shared setup (`test/setup.ts`, `test/dialogPolyfill.ts`,
   `test/axeMatchers.ts`).
 - `src/components/<kebab-name>/index.ts` — every component folder's barrel: re-exports the root
@@ -60,18 +59,20 @@ __snapshots__/` for that component's snapshot files — mirrors `src/components/
 `@chassis-ui/react/<folder>` subpath export — see `RSC.md`'s "Subpath imports"). Entries are thin
 re-exports; the actual code lives in shared, content-hashed `dist/chunks/*.js`, so the root and a
 subpath resolve to the same module instances. Declarations are split the same way (tsdown bundles
-types directly — no intermediate `tsc` declaration-output pass, unlike the prior Rollup setup). It
+types directly, with no `tsc` declaration pass). It
 also emits `dist/style.css` (tsdown's own CSS pipeline, compiling the
 `Calendar`/`RangeCalendar`/`DatePicker`/`DateRangePicker`/`TimeField`/`Table`/`Notification`/`DataGrid`/`Divider`/`NumberField`/`SearchField`/`Tree` Sass/CSS
-side-effect imports into one file rather than injecting them via JS, opened with chassis-css's `@layer` order so the import order doesn't matter — see `THEMING.md`). No CJS output — this package is ESM-only, with no
-consumers to preserve dual-format compatibility for. `exports: true` auto-generates
+side-effect imports into one file rather than injecting them via JS, opened with chassis-css's
+`@layer` order so the import order doesn't matter — see `THEMING.md`). No CJS output: the package
+is ESM-only (RD1 in [`ref/DECISIONS.md`](../../ref/DECISIONS.md), which holds the history behind
+every RD number here). `exports: true` auto-generates
 `package.json`'s `exports` map on every build; `publint: true`/`attw: true` run non-blockingly as
 part of the same build for fast local feedback (the actual CI gate is this package's own
 `pnpm check:package` script, run from the repo root as `pnpm react:check:package`, a separate,
 blocking step — see `.github/workflows/ci.yml`). Each entry's `'use client'` directive comes from
-the first line of its source module, which Rolldown preserves because it's an entry module; a
-`tsdown.config.ts` `output.banner` used to re-add it too, which duplicated it in the output — see
-`RSC.md`, and `pnpm check:rsc` for the guard that keeps it correct.
+the first line of its source module, which Rolldown preserves because it's an entry module; don't
+add it again in `tsdown.config.ts`, which would duplicate it (RD4). See `RSC.md`, and
+`pnpm check:rsc` for the guard that keeps it correct.
 
 The build emits a source map for every shared chunk (`sourcemap: true`), with `sourcesContent`
 embedded. That is why `files` publishes `dist/` only: the maps carry the original source, so
@@ -95,22 +96,19 @@ declarations without running a full `tsc`, so it never sees an error inside a fu
 `check:api` only diffs the emitted `.d.ts` text. Run it after any non-trivial change — from the
 repo root it's `pnpm react:check:types`, and CI runs it before the test suite.
 
-The package deliberately declares **no `engines` field**. It's a browser library with no Node
-runtime requirement, and `engines.node: '>=24'` (which it used to carry) both warned on install for
-consumers on older Node and hard-failed under `engine-strict`. It also silently set tsdown's output
-target to `node24.0.0`; `tsdown.config.ts` now pins `target: 'es2022'` explicitly, matching the
-`browserslist` field. `sideEffects` lists `dist/` paths, not `src/` ones — it used to name
-`./src/utils/suppressFocusRingGlobally.ts`, which no consumer resolves (they get `./dist/*.js`
-through the `exports` map), so the whole published bundle was flagged side-effect-free while
-actually carrying that module's global listener install. It's now `./dist/*.js` (the entries —
-each carries a bare `import` of the focus-ring chunk, which a bundler would drop if the entry
-itself could be skipped), `./dist/chunks/focus-ring-*.js` (that listener install, pinned to its
-own chunk by `tsdown.config.ts`'s `codeSplitting.groups` so this glob can name it) and
-`./dist/style.css`. Every other `dist/chunks/*.js` is side-effect-free, which is what lets a
-consumer's bundler drop the chunks of components a page never uses — under webpack even through a
-root `@chassis-ui/react` import. Because Rolldown also applies this field to `src/` (matching
-nothing there), `tsdown.config.ts` separately marks `suppressFocusRingGlobally` as side-effectful
-for the build itself — without that, Rolldown silently drops the bare import.
+The package declares **no `engines` field**: it's a browser library with no Node runtime
+requirement, and the field would warn or fail installs for consumers and set tsdown's target
+(RD2). `tsdown.config.ts` pins `target: 'es2022'`, matching the `browserslist` field.
+
+`sideEffects` lists `dist/` paths, never `src/` ones, which no consumer resolves (RD3):
+`./dist/*.js` (the entries — each carries a bare `import` of the focus-ring chunk, which a bundler
+would drop if the entry itself could be skipped), `./dist/chunks/focus-ring-*.js` (the global
+listener install, pinned to its own chunk by `tsdown.config.ts`'s `codeSplitting.groups` so this
+glob can name it) and `./dist/style.css`. Every other `dist/chunks/*.js` is side-effect-free,
+which is what lets a consumer's bundler drop the chunks of components a page never uses — under
+webpack even through a root `@chassis-ui/react` import. Because Rolldown also applies this field to
+`src/` (matching nothing there), `tsdown.config.ts` separately marks `suppressFocusRingGlobally` as
+side-effectful for the build itself — without that, Rolldown silently drops the bare import.
 
 `check:api`/`check:api:update` run `scripts/check-api-surface.ts`, which bundles its own
 single-file `.d.ts` of `src/index.ts` (into `node_modules/.cache/api-surface/`, no prior build
@@ -156,18 +154,14 @@ pnpm test:update  # same, plus -u to update snapshots
 - `test/utils/refForwarding.spec.tsx` fails on an exported component that isn't a `forwardRef`,
   unless its allowlist names it; an allowlisted one that gains a ref fails until its entry is
   deleted. See `CONVENTIONS.md`, "Refs".
-- Coverage provider is **istanbul**, not v8 — kept intentionally to match the branch/statement
-  counting the existing thresholds were tuned against. Current thresholds: statements 96%,
-  branches 91%, functions 97%, lines 97% (`vitest.config.ts`). A change that drops coverage below
-  these fails the run (and CI, which just runs `pnpm test`). These were re-baselined against
-  measured coverage — the previous 91/79/93/93 sat 6-14 points below what the suite actually
-  covered, so branch coverage could have fallen by a seventh before anything failed. They're set
-  against the **jsdom project alone** (97.20/92.82/98.26/98.78) so the gate means the same thing
-  whether or not the browser project ran; it adds only 0.1-0.5 points on top.
-- Fake timers are configured to also fake `requestAnimationFrame`/`cancelAnimationFrame` (Vitest's
-  modern fake timers don't do this by default, unlike the prior ts-jest runner) — react-aria's
-  hover/press interactions schedule state updates via rAF, so `vi.useFakeTimers()` +
-  `vi.runAllTimers()` needs this to actually flush them.
+- Coverage provider is **istanbul**, not v8, to match the counting the thresholds were tuned
+  against. Thresholds: statements 96%, branches 91%, functions 97%, lines 97%
+  (`vitest.config.ts`). A change that drops coverage below these fails the run (and CI, which just
+  runs `pnpm test`). They're set against the **jsdom project alone**, so the gate means the same
+  thing whether or not the browser project ran (RD11).
+- Fake timers are configured to also fake `requestAnimationFrame`/`cancelAnimationFrame`, which
+  Vitest's don't by default (RD13) — react-aria's hover/press interactions schedule state updates
+  via rAF, so `vi.useFakeTimers()` + `vi.runAllTimers()` needs this to actually flush them.
 - Import components under test from the package's own public entry point
   (`'../../../src/index'`), not directly from the component file — this keeps tests honest about
   what's actually exported.
@@ -185,27 +179,14 @@ pnpm test:update  # same, plus -u to update snapshots
   assert structure and behavior explicitly instead (`toHaveClass`/`toHaveAttribute`/role queries),
   and reach for Storybook + Playwright visual regression (below) for anything genuinely
   pixel-level. `eslint.config.js` bans the pattern under this path via `no-restricted-syntax`, at
-  `error` — there's no `__snapshots__/` directory left under this path to grandfather. This wasn't
-  always the convention: the suite used to carry a `test('matches the baseline markup snapshot',
-...)` in 105 of its 128 spec files, each a raw `container`/`toMatchSnapshot()` dump living in an
-  adjacent `__snapshots__/*.snap` file, plus another 11 files with a second `toMatchSnapshot()` call
-  in a differently-named test. An audit of all of it found every single one blind-diffable — pinning
-  exactly the same tag/class/attribute list already asserted a few lines away in the same file
-  (backfilling one or two explicit assertions where it wasn't quite) — and zero stood in for a
-  genuine rendering concern markup diffing can't capture, including the portal/positioning-heavy
-  families (menu, popover, tooltip): their snapshots pinned an inline `style="position: ..."` that
-  jsdom's fake layout can't meaningfully validate either way, but those families already have real
-  Storybook + Playwright coverage for the pixel-level concern (see Visual regression below), so
-  there was nothing left for a DOM snapshot to usefully stand in for. A snapshot like that isn't
-  testing anything the explicit assertions don't already cover; it's a blind-diffable duplicate
-  someone can `-u` past a real regression without reading, so all of it was removed and replaced
-  with the explicit assertions it was shadowing.
+  `error`. A markup snapshot duplicates the explicit assertions and can be `-u`'d past a real
+  regression without being read (RD12).
 
 ## Visual regression
 
 Storybook (`.storybook/`, config framework `@storybook/react-vite`) plus Playwright screenshot
-tests (`test/visual/`) catch pixel-level regressions that `vitest`'s DOM snapshots can't — e.g. a
-CSS change that doesn't alter markup at all. Coverage today spans fourteen batches, each its own spec
+tests (`test/visual/`) catch pixel-level regressions that DOM assertions can't — e.g. a CSS change
+that doesn't alter markup at all. Coverage today spans fourteen batches, each its own spec
 file: `calendar-datepicker.visual.spec.ts` (calendar, datepicker — this family has component-scoped
 CSS, see `THEMING.md`, so it needs pixel coverage the other families don't),
 `menu-popover-tooltip.visual.spec.ts`
@@ -255,30 +236,20 @@ pnpm test:visual:update   # same, plus --update-snapshots to regenerate baseline
   Playwright starts loading spec files.
 - Baseline images live under `test/visual/__snapshots__/<spec-file-name>/`, not next to the spec
   file (Playwright's own default) — `playwright.config.ts`'s `snapshotPathTemplate` collects every
-  family's baselines under one `__snapshots__/` directory, matching this repo's existing
-  `__snapshots__/` convention for vitest's own DOM snapshots, while still keeping each family in
-  its own subfolder so story-id filenames can't collide across families.
+  family's baselines under one `__snapshots__/` directory, with each family in its own subfolder so
+  story-id filenames can't collide across families.
 - Playwright's snapshot filenames are platform-suffixed (`-chromium-darwin.png`,
   `-chromium-linux.png`) and both are checked in: the `-linux.png` ones are what CI's
   `visual-regression` job (running inside the official Playwright Docker image, see
   `.github/workflows/ci.yml`) actually checks against; the `-darwin.png` ones exist purely so a
   contributor on a Mac gets a meaningful local pass/fail from `pnpm test:visual` too. If you only
   have a Mac, regenerating the Linux baselines needs a matching container — use
-  `pnpm test:visual:update:linux [spec files...]` (`scripts/update-linux-snapshots.sh`) rather than
-  running `playwright test --update-snapshots` in a container by hand. That script exists because
-  the naive version of "run it in `mcr.microsoft.com/playwright:<version>-noble`" has three sharp
-  edges: bind-mounting the repo and running `pnpm install` in the container rebuilds native deps
-  (esbuild, sharp, `@parcel/watcher`) as Linux binaries directly over your host `node_modules`
-  (the script copies the repo in/out instead); the image is multi-arch, so Docker silently runs
-  native arm64 on Apple Silicon unless you force `--platform linux/amd64` to match CI's actual
-  `ubuntu-latest` (x86_64) runners; and macOS's `tar` embeds `._*` AppleDouble sidecar files that
-  Playwright's spec glob picks up as real `.spec.ts` files and crashes on (needs
-  `COPYFILE_DISABLE=1` plus an explicit exclude). The script also re-runs each regenerated spec
-  twice more in normal (non-`--update-snapshots`) mode before copying anything back — a screenshot
-  taken mid-transition/mid-animation can pass once with no baseline to compare against, then fail
-  immediately on the very next real run (this is exactly what happened to
-  `toast-notification.visual.spec.ts`'s `.show` wait — see its git history). Always pass the spec
-  file(s) for the family you actually touched; running with no args regenerates every family's
+  `pnpm test:visual:update:linux [spec files...]` (`scripts/update-linux-snapshots.sh`), never
+  `playwright test --update-snapshots` in a container by hand (RD14). The script copies the repo
+  in and out of the container, forces `linux/amd64` to match CI's runners, and re-runs each
+  regenerated spec twice in normal mode before copying anything back, so a screenshot taken
+  mid-transition can't become a baseline. Always pass the spec file(s) for the family you actually
+  touched; running with no args regenerates every family's
   Linux baselines at once, which also means reviewing every diff for an unrelated font-rendering
   drift instead of just the one you meant to change.
 - A popover-based story (`DatePicker`/`DateRangePicker`'s `Open*` variants) screenshots the whole

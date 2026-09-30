@@ -4,9 +4,9 @@
  * Version Reference Sync Script
  *
  * Propagates @chassis-ui/react's version (the source of truth, owned by `changeset version` —
- * see .changeset/) into the handful of places that display it but aren't part of the pnpm
- * workspace's own dependency graph, so `changeset version` can't reach them on its own:
- * README.md's download-archive link and packages/site/config.yml's `currentVersion` field.
+ * see .changeset/) into packages/site/config.yml's `currentVersion` field, which displays it but
+ * isn't part of the pnpm workspace's own dependency graph, so `changeset version` can't reach it
+ * on its own.
  *
  * Run automatically as part of `pnpm changeset:version`, right after `changeset version` itself
  * has already bumped packages/react/package.json — never invoked standalone with an explicit
@@ -33,23 +33,6 @@ async function readReactVersion() {
   return pkg.version
 }
 
-async function syncReadme(version) {
-  const file = 'README.md'
-  const original = await fs.readFile(file, 'utf8')
-  const updated = original.replace(
-    /archive\/v\d+\.\d+\.\d+(?:-[0-9A-Za-z-.]+)?\.zip/,
-    `archive/v${version}.zip`
-  )
-
-  if (updated === original) {
-    return false
-  }
-
-  await fs.writeFile(file, updated, 'utf8')
-  console.log(`📄 Updated ${file} download link → v${version}`)
-  return true
-}
-
 async function syncSiteConfig(version) {
   const file = 'packages/site/config.yml'
   const original = await fs.readFile(file, 'utf8')
@@ -71,14 +54,9 @@ async function main() {
   const version = await readReactVersion()
   console.log(`🔄 Syncing version references to v${version}`)
 
-  const results = await Promise.all([syncReadme(version), syncSiteConfig(version)])
-  const updatedCount = results.filter(Boolean).length
+  const updated = await syncSiteConfig(version)
 
-  console.log(
-    updatedCount > 0
-      ? `✅ Synced ${updatedCount} file${updatedCount === 1 ? '' : 's'}`
-      : 'ℹ️  Already in sync, nothing to update'
-  )
+  console.log(updated ? '✅ Synced 1 file' : 'ℹ️  Already in sync, nothing to update')
 }
 
 main().catch((error) => {

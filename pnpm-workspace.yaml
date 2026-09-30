@@ -2,21 +2,6 @@ packages:
   - 'packages/*'
   - 'smoke-tests/*'
 
-# `pnpm audit` always audits the single shared workspace lockfile as a whole — it has no
-# `--filter`, so CI's blocking `pnpm audit --prod` step (meant to catch a vulnerable *runtime*
-# dependency of @chassis-ui/react shipping to consumers, see .github/workflows/ci.yml) also picks
-# up packages/site's own prod deps, which never ship inside @chassis-ui/react. Both CVEs below are
-# `image-size`, pulled in only by packages/site's `@chassis-ui/docs` dependency for build-time
-# Astro image processing over this repo's own known-good assets — not reachable by untrusted
-# input, and not part of what @chassis-ui/react publishes. image-size has no patched release yet
-# (upstream fix exists as a PR, not a published version — see the advisories), so leaving these
-# unignored would make the blocking gate chronically red over a docs-site-only, non-consumer-facing
-# dependency until upstream ships a release. Remove once a patched image-size is out.
-auditConfig:
-  ignoreCves:
-    - CVE-2025-71330 # GHSA-w3rx-r6r6-pgpr — image-size ICNS parser infinite loop
-    - CVE-2025-71329 # GHSA-5p2g-fcmc-qvqq — image-size JXL/HEIF parser infinite loop
-
 # Our own packages install at any age. Dependabot hands its 3-day cooldown to pnpm as a minimum
 # release age when it re-resolves the lockfile, which rejected a Chassis release that develop
 # already required. A Chassis release can be an urgent fix between our packages. See the cooldown
@@ -33,6 +18,7 @@ onlyBuiltDependencies:
   - sharp
 overrides:
   '@babel/core': ^7.29.6
+  'brace-expansion@<1.1.21': ^1.1.21
   immutable: '>=5.1.8'
   nanoid: '>=3.3.18'
   postcss: '>=8.5.23'

@@ -493,15 +493,22 @@ Exit: `pnpm lint` exits 0 locally and in CI.
 Model: **Sonnet** for the first three boxes. **Opus** for the guides: deciding which sentences are
 rules and which are history needs judgment across 500 lines.
 
-- [ ] Remove `syncReadme()` from `build/sync-version-refs.js` and the sentence about the
+- [x] Remove `syncReadme()` from `build/sync-version-refs.js` and the sentence about the
       download-archive link from `VERSIONING.md`.
-- [ ] Root `tsconfig.json`: remove `outDir`, `declaration`, `sourceMap`; try removing
+- [x] Root `tsconfig.json`: remove `outDir`, `declaration`, `sourceMap`; try removing
       `ignoreDeprecations`. Verify with `pnpm react:check:types`, `pnpm react:generate` and
-      `pnpm site:check`.
-- [ ] Do #41.
-- [ ] Move "this used to…" narrative from both `AGENTS.md` files and the `ci.yml` comments into
+      `pnpm site:check`. All four went, and `packages/react/tsconfig.json`'s `outDir` and
+      `declarationDir` with them (the latter errors without `declaration`); `dist/` came out
+      byte-identical. The site's own `ignoreDeprecations` stays: it covers its `baseUrl`.
+- [x] Do #41. The lockfile already resolved `image-size@2.0.4`; only the ignores went. The prod
+      audit then failed on `brace-expansion@1.1.14` (six advisories, through the site's
+      `html-validate`), overridden to `^1.1.21`.
+- [x] Move "this used to…" narrative from both `AGENTS.md` files and the `ci.yml` comments into
       `ref/DECISIONS.md`: a table of ID, decision, outcome and date, like the decisions table of
-      chassis-website's roadmap. Leave the rule and the decision's ID behind.
+      chassis-website's roadmap. Leave the rule and the decision's ID behind. IDs are `RD1`–`RD17`,
+      so they can't be read as the roadmap's `D` numbers. Stale claims found on the way were
+      corrected: component `__snapshots__/` folders, "strict-ish" TypeScript, the Linux baseline
+      command in `ci.yml`, tests living under `src/`.
 - [ ] **(You)** Disable the wiki. Delete the `backup/develop-pre-reset-2026-09-22` tag from the
       remote when it's no longer needed.
 

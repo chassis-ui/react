@@ -27,10 +27,10 @@ A PR that only touches `packages/site`, docs, or internal tooling doesn't need o
 never versions or publishes it.
 
 `pnpm changeset:version` runs `build/sync-version-refs.js` right after `changeset version` itself,
-which propagates the freshly-bumped `packages/react/package.json` version into the two places that
-display it but sit outside the pnpm workspace's own dependency graph: `README.md`'s
-download-archive link and `packages/site/config.yml`'s `currentVersion`. Both are followers of
-`packages/react`'s version, never bumped independently.
+which propagates the freshly-bumped `packages/react/package.json` version into
+`packages/site/config.yml`'s `currentVersion`, which displays it but sits outside the pnpm
+workspace's own dependency graph. It follows `packages/react`'s version, never bumped
+independently.
 
 Versions are made on `develop`: run `pnpm changeset:version`, commit the result, and push that same
 commit to `staging` and `main`. A push to `main` runs `.github/workflows/release.yml`, which checks

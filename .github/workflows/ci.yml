@@ -52,9 +52,7 @@ jobs:
 
       # Nothing else type-checks this repo's own source: tsdown's build doesn't check function
       # bodies (it bundles declarations, it doesn't run a full `tsc`), and `react:check:api` only
-      # diffs the emitted .d.ts against a snapshot. Type errors in `src/` therefore reached
-      # `main` — including a `usePagination` return type that claimed its refs were non-null when
-      # `useRef<T>(null)` makes them nullable, which shipped to consumers in the published types.
+      # diffs the emitted .d.ts against a snapshot. History: RD6 in ref/DECISIONS.md.
       - run: pnpm react:check:types
 
   test:
@@ -111,15 +109,14 @@ jobs:
 
       # Asserts every published entry point (dist/index.js plus one dist/<folder>.js per
       # `@chassis-ui/react/<folder>` subpath) starts with exactly one `'use client'` directive, and
-      # that no shared chunk carries one. Rolldown preserves each entry module's own directive, so `tsdown.config.ts` no longer
-      # re-adds it via `output.banner` — this is what keeps that safe across a tsdown/rolldown
-      # bump, instead of relying on someone remembering to grep dist/ by hand (see RSC.md).
+      # that no shared chunk carries one. The directive comes from each entry's source module,
+      # which Rolldown preserves; this keeps that true across a tsdown or Rolldown bump (RSC.md,
+      # RD4).
       - run: pnpm react:check:rsc
 
       # `packages/site/content/api/` is generated from the components' exported props by
-      # `pnpm react:generate` and committed. Unlike `api-report.md` it had no gate, so a props
-      # change that skipped the regenerate step silently left the docs site rendering a stale
-      # prop table. Regenerates and fails if the result differs from what's committed.
+      # `pnpm react:generate` and committed. Regenerates and fails if the result differs from
+      # what's committed, so the docs never show a stale prop table (RD8).
       - run: pnpm react:check:api-docs
 
       # Validates the actual published package shape — the `exports` map tsdown generates,
@@ -129,9 +126,9 @@ jobs:
       # feedback, but that run can't fail CI on its own — this is the same checks run standalone
       # via their CLIs, with a real exit code, as their own visible step. `--profile esm-only`
       # (attw) skips the node10/CJS-interop resolution profiles: this package ships ESM-only by
-      # design (see the Phase 1 migration plan), so failing those is the deliberate, permanent
-      # consequence of that decision, not a bug to chase — the default "strict" profile would
-      # make this gate chronically red for a decision that's already made. `--exclude-entrypoints
+      # design (RD1), so failing those is the deliberate, permanent consequence of that decision,
+      # not a bug to chase — the default "strict" profile would make this gate chronically red
+      # for a decision that's already made. `--exclude-entrypoints
       # ./style.css` because attw type-checks JS/TS entrypoints; a plain CSS subpath export has no
       # types for it to resolve.
       - run: pnpm react:check:package
@@ -140,38 +137,26 @@ jobs:
       # workspace link, so this runs after the build. The full static build is `site-build` below.
       - run: pnpm site:check
 
-      # Guards against the exact class of regression this repo already hit once (pre-tsdown, under
-      # Rollup): react-aria/react-stately/etc. silently getting bundled into dist/ instead of
-      # resolved from a consumer's own node_modules — a bug that a Rollup Phase 4 item found and
-      # fixed, shrinking the gzip bundle from ~344KB to ~65KB. tsdown externalizes everything in
-      # `dependencies`/`peerDependencies`/`optionalDependencies` by default (confirmed by grepping
-      # the built dist/index.js — no explicit config needed, unlike Rollup's `includeDependencies:
-      # true`), but this check stays as the regression guard regardless of which bundler is doing
-      # the externalizing. Thresholds in packages/react/.bundlewatch.config.json carry headroom
-      # over the minified baseline (27.69 kB JS / 1.18 kB CSS gzip, once `tsdown.config.ts` turned
-      # on `minify`/`css.minify` — previously-unminified baseline was 36.11 kB / 4.75 kB gzip, see
-      # the Phase 1 migration plan's spike findings). Since the build split into one entry per
-      # component folder, the caps are per file: thin `dist/*.js` entries, and the shared
-      # `dist/chunks/*.js` code — a dependency getting inlined would blow through the per-chunk cap
-      # of whichever chunk it landed in.
+      # Guards against react-aria, react-stately or another dependency getting bundled into dist/
+      # instead of resolved from a consumer's own node_modules. tsdown externalizes
+      # `dependencies`/`peerDependencies`/`optionalDependencies` by default; this check holds
+      # whichever bundler does it. The gzip caps in packages/react/.bundlewatch.config.json are per
+      # file: thin `dist/*.js` entries, the shared `dist/chunks/*.js` code and `dist/style.css` — a
+      # dependency getting inlined would blow through the cap of whichever chunk it landed in
+      # (RD5).
       - run: pnpm react:check:bundle
 
       # Blocking: a vulnerable *runtime* dependency would ship to every consumer of
-      # @chassis-ui/react, so this fails the build. Non-blocking: the same audit including
-      # devDependencies (build tooling — astro, eslint plugins, sharp, ...) surfaces real findings
-      # worth tracking, but failing CI on every disclosed dev-tooling CVE (routine, frequent, and
-      # never fully at zero across a repo this size) would make the gate chronically red and
-      # trained-to-ignore rather than actionable.
+      # @chassis-ui/react, so this fails the build. `pnpm audit` has no `--filter`, so it covers
+      # the site's production dependencies too. Non-blocking: the same audit including
+      # devDependencies (build tooling — astro, eslint plugins, sharp, ...) surfaces findings worth
+      # tracking, but failing CI on every dev-tooling advisory would keep the gate red (RD17).
       - run: pnpm audit --prod
       - run: pnpm audit
         continue-on-error: true
 
-  # The full static site build (`astro build` + pagefind), not just `astro check`'s type pass.
-  # This used to be impossible to gate on: it failed on an external issue in the sibling
-  # `../chassis-css` checkout's own in-progress Sass, which a workspace override linked in. That
-  # override was dev-only and has since been removed — the site now builds against the published
-  # `@chassis-ui/css`, and `pnpm site:build` is green again, so the gap where a
-  # static-generation break was only ever caught by hand is closed.
+  # The full static site build (`astro build` + pagefind), not just `astro check`'s type pass
+  # (RD9). It builds against the published `@chassis-ui/css`, never a sibling checkout.
   #
   # Its own job rather than a step in `test` because it's the only thing here that needs the
   # `vendor/assets` submodule — `packages/site/public/` is populated from it by `pnpm vendor`
@@ -205,19 +190,14 @@ jobs:
       - run: pnpm lint:vnu
 
   # Screenshot regression tests against a built Storybook (packages/react/test/visual/,
-  # packages/react/.storybook/), starting with the calendar/datepicker family — Phase 2 of the
-  # enterprise migration touched that family's CSS output directly, and snapshot tests alone don't
-  # catch a visual regression. A separate job (not a step in `test` above) because it needs a
-  # different runtime: real Chromium, not just Node. Runs inside the official Playwright container
-  # image so the rendered pixels match what the checked-in
+  # packages/react/.storybook/), for the families listed in packages/react/AGENTS.md. Runs inside
+  # the official Playwright container image so the rendered pixels match what the checked-in
   # `test/visual/__snapshots__/*/*-chromium-linux.png` baselines were generated against — the image
   # tag's Playwright version must stay in lockstep with the `@playwright/test` devDependency
   # version in packages/react/package.json; bumping one without the other risks font/rendering
-  # drift that has nothing to do with a real regression. If that happens, regenerate baselines with
-  # `pnpm --filter @chassis-ui/react test:visual:update` run inside a matching container, not on a
-  # contributor's own OS (Playwright's snapshot names are platform-suffixed —
-  # `-chromium-darwin.png` baselines committed from a Mac are for local dev convenience only and
-  # are never what this job checks against).
+  # drift that has nothing to do with a real regression (RD15). Regenerate baselines with
+  # `pnpm --filter @chassis-ui/react test:visual:update:linux <spec>`, never on a contributor's
+  # own OS: the `-chromium-darwin.png` baselines are for local runs only (RD14).
   visual-regression:
     timeout-minutes: 20
     runs-on: ubuntu-latest
@@ -237,10 +217,10 @@ jobs:
       - run: pnpm test:visual
 
   # Confirms @chassis-ui/react actually installs and builds inside a real consuming app's own
-  # build pipeline (Next.js App Router's Turbopack), not just this repo's own synthetic
-  # `renderToString` unit test (see the "SSR" item in packages/react/AGENTS.md) or tsdown build.
-  # Also the one place that actually exercises ESM-only resolution (no `main`/`module` fields,
-  # `exports` map only — see the Phase 1 migration plan) through a real consumer's bundler.
+  # build pipeline (Next.js App Router's Turbopack), not just this repo's own server-render
+  # sweeps (test/ssr/, see packages/react/AGENTS.md) or tsdown build. Also the one place that
+  # actually exercises ESM-only resolution (no `main`/`module` fields, `exports` map only — RD1)
+  # through a real consumer's bundler.
   # A separate job (not a step in `test` above) for the same reason as `visual-regression`: a
   # distinct concern from this repo's own lint/test/build, checked against a different tool's
   # pipeline. smoke-tests/nextjs-app-router is a real, minimal app (not published, not
@@ -269,7 +249,6 @@ jobs:
 
       # Loads the app's Server Component routes in a browser, against `next start` and against
       # `next dev`, and fails on wrong markup or anything the browser reports. A build alone
-      # can't see either: these routes built while `List` rendered `<ul><a>` and `Tabs` rendered
-      # no tabs. See smoke-tests/nextjs-app-router/README.md.
+      # can't see either (RD16). See smoke-tests/nextjs-app-router/README.md.
       - run: pnpm --filter smoke-test-nextjs-app-router exec playwright install --with-deps chromium
       - run: pnpm --filter './smoke-tests/*' test
