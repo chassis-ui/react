@@ -173,9 +173,11 @@ jobs:
   # static-generation break was only ever caught by hand is closed.
   #
   # Its own job rather than a step in `test` because it's the only thing here that needs the
-  # `vendor/assets` submodule — `packages/site/public/` is populated from it by
-  # `pnpm sync-submodules` (via `site:setup`) and is gitignored, so a plain checkout doesn't have
-  # it.
+  # `vendor/assets` submodule — `packages/site/public/` is populated from it by `pnpm vendor`
+  # (via `site:setup`), which builds the commit this repository pins, and is gitignored, so a
+  # plain checkout doesn't have it. The two HTML validators run here because they check the
+  # built `_site/`. vnu runs on the runner's preinstalled Java and skips itself with only a
+  # warning when Java is missing, so `java -version` fails the job first.
   site-build:
     timeout-minutes: 20
     runs-on: ubuntu-latest
@@ -193,10 +195,13 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      # `site:setup` = sync-submodules + react:build + react:generate — the site imports
+      # `site:setup` = vendor + react:build + react:generate — the site imports
       # `@chassis-ui/react` through the workspace link, so `dist/` has to exist first.
       - run: pnpm site:setup
       - run: pnpm site:build
+      - run: pnpm lint:html
+      - run: java -version
+      - run: pnpm lint:vnu
 
   # Screenshot regression tests against a built Storybook (packages/react/test/visual/,
   # packages/react/.storybook/), starting with the calendar/datepicker family — Phase 2 of the

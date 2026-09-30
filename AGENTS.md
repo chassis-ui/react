@@ -40,14 +40,17 @@ like `react:generate`) or operates on a repo-root-level artifact no single packa
 `_site/`, this repo's Astro output directory).
 
 ```bash
-pnpm setup        # sync submodules + one-shot library build — run once after clone
+pnpm setup        # build vendor/assets at its pinned commit + one-shot library build — run once after clone
 pnpm dev          # lib watch build + astro dev server, together
 pnpm start        # setup, then dev — the single command for a fresh clone
 pnpm test         # @chassis-ui/react's vitest suite
 pnpm lint         # react lint + site lint + spellcheck — exactly what CI's Lint job runs
 pnpm lint:eslint  # eslint only, across both packages — the fast subset
 pnpm spellcheck   # cspell over every .md/.mdx file
-pnpm site:build   # react:generate + sync-submodules + astro build + pagefind index
+pnpm site:setup   # vendor + react:build + react:generate — what site:build needs first
+pnpm site:build   # astro build + pagefind index
+pnpm lint:html    # html-validate over the built _site/
+pnpm lint:vnu     # the Nu Html Checker over the built _site/ (needs Java)
 pnpm smoke:build  # react:build, then build every app under smoke-tests/*
 pnpm smoke:test   # smoke:build, then load the apps' routes in Chromium with Playwright
 ```
@@ -59,8 +62,9 @@ pnpm smoke:test   # smoke:build, then load the apps' routes in Chromium with Pla
   likewise delegate to real scripts on `packages/react`/`packages/site`. `pnpm lint:eslint` delegates
   to both packages' own `lint:eslint` — it used to glob `packages/**/src/**` directly, which left
   `stories/`, `test/`, `scripts/` and `.storybook/` unlinted in CI (that gap is how four broken
-  Storybook interaction tests reached `main`). `pnpm lint:html`/`pnpm lint:vnu` stay root-level because they
-  validate the root `_site/` build output, not anything inside `packages/site` itself.
+  Storybook interaction tests reached `main`). `pnpm lint:html`/`pnpm lint:vnu` delegate to the
+  site's own scripts too, since the site owns the validators and their exceptions, though the
+  `_site/` they check is at the root.
 
 `pnpm react:generate` (`build/generate-api.ts`) walks `packages/react/src/components`, extracts
 prop tables with `react-docgen-typescript`, and writes JSON into `packages/site/content/api/` —
@@ -70,8 +74,11 @@ what's committed. That gate is only possible because the generator rewrites
 react-docgen-typescript's absolute paths repo-relative on the way out — it used to embed the
 generating machine's own checkout path in all 148 files, which made the artifacts
 machine-specific.
-`pnpm sync-submodules` (`build/sync-submodules.js`) updates the `vendor/assets` submodule the
-site's static assets come from.
+The site's static assets come from the `vendor/assets` submodule (chassis-assets), built by the
+`chassis-docs` command of `@chassis-ui/docs`. `pnpm vendor` builds the commit this repository
+pins, and every build uses it, so one commit of this repository always builds the same site.
+`pnpm sync-submodules` moves the pin to the latest `app/docs` and builds it; commit the new
+pointer on its own.
 
 ## CI
 
@@ -105,16 +112,16 @@ A separate `site-build` job runs the full `pnpm site:setup && pnpm site:build` (
   workspace override. That override was dev-only and has since been removed, so the site builds
   against the published `@chassis-ui/css` and this is green again. It's a separate job because it's
   the only thing in CI that needs a submodule checkout: `packages/site/public/` is gitignored and
-  populated from `vendor/assets` by `pnpm sync-submodules`.
+  populated from `vendor/assets` by `pnpm vendor`. The same job then runs `pnpm lint:html` and
+  `pnpm lint:vnu` over the built `_site/`.
 
-`pnpm lint:html`/`pnpm lint:vnu` are **not** in CI or in `pnpm lint`; they need a built `_site/`,
-so run them after `pnpm site:build`. They were silently non-functional for a
-while — `build/html-validate.js` imports `globby`, which was never in the root devDependencies, so
-the script died on an unresolved import rather than validating anything. With that fixed they run,
-and report ~3,000 pre-existing issues across the built docs site (redundant ARIA roles, attribute
-casing in serialized examples, unresolved in-page references, duplicate landmarks). None of it is
-in `@chassis-ui/react` itself — the one library-level finding it surfaced, `<th>` elements with no
-`scope`, is fixed — but the docs-site backlog needs its own pass before these can gate anything.
+`pnpm lint:html`/`pnpm lint:vnu` are not in `pnpm lint`, because they need a built `_site/`.
+They run the `chassis-docs html-validate` and `chassis-docs vnu` commands with this site's
+exceptions: `packages/site/html-validate.json` and `packages/site/vnu-filters.txt`. Most exceptions
+are markup React and react-aria write on purpose, such as `spellCheck` in camelCase, ids from
+`useId` and explicit roles on native elements. Some cover library defects still open, listed in
+finding F10 of `AUDIT-PLAN.md`; delete each one when its fix lands. Fix a new finding in the
+example or the component; add an exception only for markup that is correct.
 
 A separate `visual-regression` job runs `pnpm test:visual` (Storybook + Playwright screenshot
 tests scoped to the calendar/datepicker family today — see

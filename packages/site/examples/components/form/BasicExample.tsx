@@ -10,7 +10,7 @@ export const Example = () => {
       </div>
       <div className="mb-md">
         <FormLabel htmlFor="exampleInputPassword1">Email Password</FormLabel>
-        <TextInput type="password" id="exampleInputPassword1" />
+        <TextInput autoComplete="current-password" type="password" id="exampleInputPassword1" />
       </div>
       <Checkbox
         className="mb-md"

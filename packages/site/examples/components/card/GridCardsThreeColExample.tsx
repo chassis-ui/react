@@ -14,7 +14,7 @@ export const Example = () => {
     <Row cols={1} gutter="md" responsive={{ md: { cols: 3 } }}>
       <Col span>
         <Card>
-          <CardImage orientation="top" src="https://placehold.co/800x400" />
+          <CardImage orientation="top" src="https://placehold.co/800x400" alt="" />
           <CardBody>
             <CardTitle>Card title</CardTitle>
             <CardText>
@@ -29,7 +29,7 @@ export const Example = () => {
       </Col>
       <Col span>
         <Card>
-          <CardImage orientation="top" src="https://placehold.co/800x400" />
+          <CardImage orientation="top" src="https://placehold.co/800x400" alt="" />
           <CardBody>
             <CardTitle>Card title</CardTitle>
             <CardText>
@@ -44,7 +44,7 @@ export const Example = () => {
       </Col>
       <Col span>
         <Card>
-          <CardImage orientation="top" src="https://placehold.co/800x400" />
+          <CardImage orientation="top" src="https://placehold.co/800x400" alt="" />
           <CardBody>
             <CardTitle>Card title</CardTitle>
             <CardText>
@@ -59,7 +59,7 @@ export const Example = () => {
       </Col>
       <Col span>
         <Card>
-          <CardImage orientation="top" src="https://placehold.co/800x400" />
+          <CardImage orientation="top" src="https://placehold.co/800x400" alt="" />
           <CardBody>
             <CardTitle>Card title</CardTitle>
             <CardText>

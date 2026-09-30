@@ -26,7 +26,7 @@ export const Example = () => {
           </Button>
         </ButtonGroup>
         <InputGroup>
-          <InputGroupAddon>@</InputGroupAddon>
+          <InputGroupAddon id="btnGroupAddon">@</InputGroupAddon>
           <TextInput
             placeholder="Input group example"
             aria-label="Input group example"
@@ -54,11 +54,11 @@ export const Example = () => {
           </Button>
         </ButtonGroup>
         <InputGroup>
-          <InputGroupAddon>@</InputGroupAddon>
+          <InputGroupAddon id="btnGroupAddon2">@</InputGroupAddon>
           <TextInput
             placeholder="Input group example"
             aria-label="Input group example"
-            aria-describedby="btnGroupAddon"
+            aria-describedby="btnGroupAddon2"
           />
         </InputGroup>
       </ButtonToolbar>

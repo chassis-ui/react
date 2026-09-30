@@ -56,6 +56,28 @@ describe('ListItem', () => {
       expect(link).toHaveAttribute('aria-current', 'page')
       expect(link).toHaveAttribute('aria-disabled', 'true')
     })
+
+    test('writes each state class once on an interactive item', () => {
+      render(
+        <ListItem component="a" href="/bazinga" active disabled>
+          Test
+        </ListItem>
+      )
+      const classes = screen.getByRole('link', { name: 'Test' }).className.split(' ')
+      expect(classes.filter((name) => name === 'active')).toHaveLength(1)
+      expect(classes.filter((name) => name === 'disabled')).toHaveLength(1)
+    })
+
+    test('leaves aria-disabled off a disabled button, which has the attribute itself', () => {
+      render(
+        <ListItem component="button" disabled>
+          Test
+        </ListItem>
+      )
+      const button = screen.getByRole('button', { name: 'Test' })
+      expect(button).toBeDisabled()
+      expect(button).not.toHaveAttribute('aria-disabled')
+    })
   })
 
   describe('ref forwarding', () => {

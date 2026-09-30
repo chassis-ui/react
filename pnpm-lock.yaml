@@ -67,18 +67,9 @@ importers:
       globals:
         specifier: ^17.12.0
         version: 17.12.0
-      globby:
-        specifier: ^16.2.4
-        version: 16.2.4
-      html-validate:
-        specifier: ^11.16.0
-        version: 11.16.0(@jest/globals@29.7.0)(@vitest/expect@4.1.11)(jest-snapshot@29.7.0)(jest@29.7.0(@types/node@26.6.3)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@26.6.3)(typescript@6.0.3)))(vitest@4.1.11)
       pagefind:
         specifier: ^1.5.2
         version: 1.5.2
-      picocolors:
-        specifier: ^1.1.1
-        version: 1.1.1
       prettier:
         specifier: ^3.9.9
         version: 3.9.9
@@ -103,9 +94,6 @@ importers:
       typescript-eslint:
         specifier: ^8.70.1
         version: 8.70.1(eslint@10.11.0)(typescript@6.0.3)
-      vnu-jar:
-        specifier: ^26.9.16
-        version: 26.9.16
 
   packages/react:
     dependencies:
@@ -243,8 +231,8 @@ importers:
         specifier: ^0.5.2
         version: 0.5.2(@floating-ui/dom@1.8.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.28))(vanilla-calendar-pro@3.3.1)
       '@chassis-ui/docs':
-        specifier: ^0.6.0
-        version: 0.6.0(@astrojs/markdown-remark@7.3.1)(@chassis-ui/css@0.5.2(@floating-ui/dom@1.8.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.28))(vanilla-calendar-pro@3.3.1))(@pagefind/component-ui@1.5.2)(@shikijs/transformers@4.4.3)(astro@7.3.5(@astrojs/markdown-remark@7.3.1)(@types/node@26.6.3)(sass@1.105.0)(terser@5.47.1)(yaml@2.9.1))(htmlparser2@12.0.0)(rehype-autolink-headings@7.1.0)(sass@1.105.0)(shiki@4.4.3)
+        specifier: ^0.6.1
+        version: 0.6.1(@astrojs/markdown-remark@7.3.1)(@chassis-ui/css@0.5.2(@floating-ui/dom@1.8.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.28))(vanilla-calendar-pro@3.3.1))(@pagefind/component-ui@1.5.2)(@shikijs/transformers@4.4.3)(astro@7.3.5(@astrojs/markdown-remark@7.3.1)(@types/node@26.6.3)(sass@1.105.0)(terser@5.47.1)(yaml@2.9.1))(html-validate@11.16.0(@jest/globals@29.7.0)(@vitest/expect@4.1.11)(jest-snapshot@29.7.0)(jest@29.7.0(@types/node@26.6.3)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@26.6.3)(typescript@6.0.3)))(vitest@4.1.11))(htmlparser2@12.0.0)(rehype-autolink-headings@7.1.0)(sass@1.105.0)(shiki@4.4.3)(vnu-jar@26.9.16)
       '@chassis-ui/icons':
         specifier: ^0.3.1
         version: 0.3.1
@@ -300,6 +288,9 @@ importers:
       autoprefixer:
         specifier: ^10.6.1
         version: 10.6.1(postcss@8.5.28)
+      html-validate:
+        specifier: ^11.16.0
+        version: 11.16.0(@jest/globals@29.7.0)(@vitest/expect@4.1.11)(jest-snapshot@29.7.0)(jest@29.7.0(@types/node@26.6.3)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@26.6.3)(typescript@6.0.3)))(vitest@4.1.11)
       mdast-util-mdx-jsx:
         specifier: ^3.2.0
         version: 3.2.0
@@ -342,6 +333,9 @@ importers:
       unist-util-visit:
         specifier: ^5.1.0
         version: 5.1.0
+      vnu-jar:
+        specifier: ^26.9.16
+        version: 26.9.16
 
   smoke-tests/nextjs-app-router:
     dependencies:
@@ -350,7 +344,7 @@ importers:
         version: link:../../packages/react
       next:
         specifier: 16.3.6
-        version: 16.3.6(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@26.6.3)(babel-plugin-macros@3.1.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.105.0)
+        version: 16.3.6(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@26.6.3)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.105.0)
       react:
         specifier: 19.3.0
         version: 19.3.0
@@ -930,19 +924,27 @@ packages:
       tailwindcss:
         optional: true
 
-  '@chassis-ui/docs@0.6.0':
-    resolution: {integrity: sha512-jlxnIIqNv/zsjM3aL+2OOCQAkzAcczfcEcY5tXjXeGUeiE06liYD+Bbtem17WiD1tkZ3OUAFyA5n1ORA7qARxQ==}
+  '@chassis-ui/docs@0.6.1':
+    resolution: {integrity: sha512-wvy09oLzctpwWrElZiDM9ZnSxQuRfC3XlYisHrvUUDqFGvjI69tLqvCLcHv036K5O2ZnbBYHDMLmGlKy0OH5Cw==}
     engines: {node: '>=22.12.0'}
+    hasBin: true
     peerDependencies:
       '@astrojs/markdown-remark': ^7.0.0
       '@chassis-ui/css': ^0.5.0-0
       '@pagefind/component-ui': ^1.0.0
       '@shikijs/transformers': ^4.3.1
       astro: ^7.0.0
+      html-validate: ^11.0.0
       htmlparser2: ^12.0.0
       rehype-autolink-headings: ^7.0.0
       sass: ^1.101.0
       shiki: ^4.3.1
+      vnu-jar: '>=26.0.0'
+    peerDependenciesMeta:
+      html-validate:
+        optional: true
+      vnu-jar:
+        optional: true
 
   '@chassis-ui/icons@0.3.1':
     resolution: {integrity: sha512-u940omGLvaDqQWzkLDiXXACs3UiEGgZeESbDM+7mB9Dd/L2QKkCk0XQE6sVRv3Tb4+eXDmJOLNd63scZgAKS+Q==}
@@ -2873,10 +2875,6 @@ packages:
   '@sindresorhus/is@4.6.0':
     resolution: {integrity: sha512-t09vSN3MdfsyCHoFcTRCH/iUtG7OJ0CsjzB8cjAmKc/va/kIgeDI/TxsigdncE/4be734m0cvIYwNaV4i2XqAw==}
     engines: {node: '>=10'}
-
-  '@sindresorhus/merge-streams@4.0.0':
-    resolution: {integrity: sha512-tlqY9xq5ukxTUZBmoOp+m61cqwQD5pHJtFY3Mn8CA8ps6yghLH/Hw8UPdqg4OLmFW3IFlcXnQNmo/dh8HzXYIQ==}
-    engines: {node: '>=18'}
 
   '@sinonjs/commons@3.0.1':
     resolution: {integrity: sha512-K3mCHKQ9sVh8o1C9cxkwxaOmXoAMlDxC1mYyHrjqOWEcBjYr76t96zL2zlj5dUGZ3HSw240X1qgH3Mjf1yJWpQ==}
@@ -4957,10 +4955,6 @@ packages:
     resolution: {integrity: sha512-jhIXaOzy1sb8IyocaruWSn1TjmnBVs8Ayhcy83rmxNJ8q2uWKCAj3CnJY+KpGSXCueAPc0i05kVvVKtP1t9S3g==}
     engines: {node: '>=10'}
 
-  globby@16.2.4:
-    resolution: {integrity: sha512-c8B/VNLmxRcmqqenRA9t+9IyOjf9+V6lTxPaUJLqOCONdQkWZ0ETYgX0qbtJqPsgCNusT9MZ5Jeidw8Eb9tn2g==}
-    engines: {node: '>=20'}
-
   globjoin@0.1.4:
     resolution: {integrity: sha512-xYfnw62CKG8nLkZBfWbhWwDw02CHty86jfPcc2cr3ZfeuK9ysoVPPEUxf21bAD/rWAgk52SuBrLJlefNy8mvFg==}
 
@@ -5170,10 +5164,6 @@ packages:
     resolution: {integrity: sha512-BAg6QkE8W+TuQLrrw0Ugr7HegXduRuuj8/ti2kSOc+jz1dmx8/WNcjr6XGnq5YpDWxFwwaavqD0+jIUOKelTsw==}
     engines: {node: '>= 4'}
 
-  ignore@7.0.8:
-    resolution: {integrity: sha512-YYNsSlXBjMk92SKnkwvB5LOVSa6OznlFUGcsvrFgNJbJCd0M1XKeFVRc8ZByeCqz32FivYNHJVooLmdqrmvp/Q==}
-    engines: {node: '>= 4'}
-
   image-size@2.0.4:
     resolution: {integrity: sha512-QRUkFFsRV/6fuESxb9Vkq+a0LkSrgKXuc2NEqfikiXxxN/G3tjWt5EVUlMaImRBZRZK/jRBEbYvpPYZL8t08Zw==}
     engines: {node: '>=18'}
@@ -5343,10 +5333,6 @@ packages:
   is-number@7.0.0:
     resolution: {integrity: sha512-41Cifkg6e8TylSpdtTpeLVMqvSBEVzTttHvERD741+pnZ8ANv0004MRL43QKPDlK9cGvNp6NZWZUBlbGXYxxng==}
     engines: {node: '>=0.12.0'}
-
-  is-path-inside@4.0.0:
-    resolution: {integrity: sha512-lJJV/5dYS+RcL8uQdBDW9c9uWFLLBNRyFhnAKXw5tVqLlKZ4RMGZKv+YQ/IA3OhD+RpbJa1LLFM1FQPGyIXvOA==}
-    engines: {node: '>=12'}
 
   is-plain-obj@4.1.0:
     resolution: {integrity: sha512-+Pgi+vMuUNkJyExiMBt5IlFoMyKnr5zhJ4Uspz58WOhBF5QoIZkFyNHIbBAtHwzVAgk5RtndVNsDRN61/mmDqg==}
@@ -6974,10 +6960,6 @@ packages:
     resolution: {integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==}
     engines: {node: '>=8'}
 
-  slash@5.1.0:
-    resolution: {integrity: sha512-ZA6oR3T/pEyuqwMgAKT0/hAv8oAXckzbkmR0UkUosQ+Mc4RxGoJkRmwHgHufaenlyAgE1Mxgpdcrf75y6XcnDg==}
-    engines: {node: '>=14.16'}
-
   slice-ansi@4.0.0:
     resolution: {integrity: sha512-qMCMfhY040cVHT43K9BFygqYbUPFZKHOg7K73mtTWJRb8pyP3fzf4Ixd5SzdEJQ6MRUg/WBnOLxghZtKKurENQ==}
     engines: {node: '>=10'}
@@ -7485,10 +7467,6 @@ packages:
   unicode-emoji-modifier-base@1.0.0:
     resolution: {integrity: sha512-yLSH4py7oFH3oG/9K+XWrz1pSi3dfUrWEnInbxMfArOfc1+33BlGPQtLsOYwvdMy11AwUBetYuaRxSPqgkq+8g==}
     engines: {node: '>=4'}
-
-  unicorn-magic@0.4.0:
-    resolution: {integrity: sha512-wH590V9VNgYH9g3lH9wWjTrUoKsjLF6sGLjhR4sH1LWpLmCOH0Zf7PukhDA8BiS7KHe4oPNkcTHqYkj7SOGUOw==}
-    engines: {node: '>=20'}
 
   unified@11.0.5:
     resolution: {integrity: sha512-xKvGhPWw3k84Qjh8bI3ZeJjqnyadK+GEFtazSfZv/rKeTkTjOJho6mFqh2SM96iIcZokxiOpg78GazTSg8+KHA==}
@@ -8764,7 +8742,7 @@ snapshots:
     optionalDependencies:
       postcss-prefix-custom-properties: 0.1.0(postcss@8.5.28)
 
-  '@chassis-ui/docs@0.6.0(@astrojs/markdown-remark@7.3.1)(@chassis-ui/css@0.5.2(@floating-ui/dom@1.8.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.28))(vanilla-calendar-pro@3.3.1))(@pagefind/component-ui@1.5.2)(@shikijs/transformers@4.4.3)(astro@7.3.5(@astrojs/markdown-remark@7.3.1)(@types/node@26.6.3)(sass@1.105.0)(terser@5.47.1)(yaml@2.9.1))(htmlparser2@12.0.0)(rehype-autolink-headings@7.1.0)(sass@1.105.0)(shiki@4.4.3)':
+  '@chassis-ui/docs@0.6.1(@astrojs/markdown-remark@7.3.1)(@chassis-ui/css@0.5.2(@floating-ui/dom@1.8.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.28))(vanilla-calendar-pro@3.3.1))(@pagefind/component-ui@1.5.2)(@shikijs/transformers@4.4.3)(astro@7.3.5(@astrojs/markdown-remark@7.3.1)(@types/node@26.6.3)(sass@1.105.0)(terser@5.47.1)(yaml@2.9.1))(html-validate@11.16.0(@jest/globals@29.7.0)(@vitest/expect@4.1.11)(jest-snapshot@29.7.0)(jest@29.7.0(@types/node@26.6.3)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@26.6.3)(typescript@6.0.3)))(vitest@4.1.11))(htmlparser2@12.0.0)(rehype-autolink-headings@7.1.0)(sass@1.105.0)(shiki@4.4.3)(vnu-jar@26.9.16)':
     dependencies:
       '@astrojs/markdown-remark': 7.3.1
       '@chassis-ui/css': 0.5.2(@floating-ui/dom@1.8.0)(postcss-prefix-custom-properties@0.1.0(postcss@8.5.28))(vanilla-calendar-pro@3.3.1)
@@ -8789,6 +8767,9 @@ snapshots:
       shiki: 4.4.3
       unified: 11.0.5
       unist-util-visit: 5.1.0
+    optionalDependencies:
+      html-validate: 11.16.0(@jest/globals@29.7.0)(@vitest/expect@4.1.11)(jest-snapshot@29.7.0)(jest@29.7.0(@types/node@26.6.3)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@26.6.3)(typescript@6.0.3)))(vitest@4.1.11)
+      vnu-jar: 26.9.16
     transitivePeerDependencies:
       - supports-color
 
@@ -10349,8 +10330,6 @@ snapshots:
   '@sinclair/typebox@0.34.52': {}
 
   '@sindresorhus/is@4.6.0': {}
-
-  '@sindresorhus/merge-streams@4.0.0': {}
 
   '@sinonjs/commons@3.0.1':
     dependencies:
@@ -12872,16 +12851,6 @@ snapshots:
       merge2: 1.4.1
       slash: 3.0.0
 
-  globby@16.2.4:
-    dependencies:
-      '@sindresorhus/merge-streams': 4.0.0
-      fast-glob: 3.3.3
-      ignore: 7.0.8
-      is-path-inside: 4.0.0
-      micromatch: 4.0.8
-      slash: 5.1.0
-      unicorn-magic: 0.4.0
-
   globjoin@0.1.4: {}
 
   good-listener@1.2.2:
@@ -13183,8 +13152,6 @@ snapshots:
 
   ignore@7.0.6: {}
 
-  ignore@7.0.8: {}
-
   image-size@2.0.4: {}
 
   immutable@5.1.9: {}
@@ -13331,8 +13298,6 @@ snapshots:
       has-tostringtag: 1.0.2
 
   is-number@7.0.0: {}
-
-  is-path-inside@4.0.0: {}
 
   is-plain-obj@4.1.0: {}
 
@@ -14537,7 +14502,7 @@ snapshots:
 
   neotraverse@1.0.1: {}
 
-  next@16.3.6(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@26.6.3)(babel-plugin-macros@3.1.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.105.0):
+  next@16.3.6(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@26.6.3)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.105.0):
     dependencies:
       '@next/env': 16.3.6
       '@swc/helpers': 0.5.23
@@ -14546,7 +14511,7 @@ snapshots:
       postcss: 8.5.28
       react: 19.3.0
       react-dom: 19.3.0(react@19.3.0)
-      styled-jsx: 5.1.6(@babel/core@7.29.7)(babel-plugin-macros@3.1.0)(react@19.3.0)
+      styled-jsx: 5.1.6(@babel/core@7.29.7)(react@19.3.0)
     optionalDependencies:
       '@next/swc-darwin-arm64': 16.3.6
       '@next/swc-darwin-x64': 16.3.6
@@ -15731,8 +15696,6 @@ snapshots:
 
   slash@3.0.0: {}
 
-  slash@5.1.0: {}
-
   slice-ansi@4.0.0:
     dependencies:
       ansi-styles: 4.3.0
@@ -15932,13 +15895,12 @@ snapshots:
     dependencies:
       inline-style-parser: 0.2.7
 
-  styled-jsx@5.1.6(@babel/core@7.29.7)(babel-plugin-macros@3.1.0)(react@19.3.0):
+  styled-jsx@5.1.6(@babel/core@7.29.7)(react@19.3.0):
     dependencies:
       client-only: 0.0.1
       react: 19.3.0
     optionalDependencies:
       '@babel/core': 7.29.7
-      babel-plugin-macros: 3.1.0
 
   stylelint-config-recess-order@5.1.1(stylelint@16.26.1(typescript@6.0.3)):
     dependencies:
@@ -16324,8 +16286,6 @@ snapshots:
   undici@8.11.2: {}
 
   unicode-emoji-modifier-base@1.0.0: {}
-
-  unicorn-magic@0.4.0: {}
 
   unified@11.0.5:
     dependencies:

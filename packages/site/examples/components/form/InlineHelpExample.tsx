@@ -9,7 +9,12 @@ export const Example = () => {
         </FormLabel>
       </Col>
       <Col span="auto">
-        <TextInput type="password" id="inputPassword6" aria-describedby="passwordHelpInline" />
+        <TextInput
+          autoComplete="new-password"
+          type="password"
+          id="inputPassword6"
+          aria-describedby="passwordHelpInline"
+        />
       </Col>
       <Col span="auto">
         <FormHelp component="span" id="passwordHelpInline">

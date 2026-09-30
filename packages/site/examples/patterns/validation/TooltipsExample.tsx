@@ -42,8 +42,12 @@ export const Example = () => {
       <Col responsive={{ md: { span: 4 } }} className="position-relative">
         <FormLabel htmlFor="validationTooltipUsername">Username</FormLabel>
         <InputGroup className="has-validation">
-          <InputGroupAddon id="inputGroupPrepend">@</InputGroupAddon>
-          <TextInput id="validationTooltipUsername" aria-describedby="inputGroupPrepend" required />
+          <InputGroupAddon id="inputGroupPrependTooltip">@</InputGroupAddon>
+          <TextInput
+            id="validationTooltipUsername"
+            aria-describedby="inputGroupPrependTooltip"
+            required
+          />
         </InputGroup>
         <FormFeedback tooltip invalid>
           Please choose a username.

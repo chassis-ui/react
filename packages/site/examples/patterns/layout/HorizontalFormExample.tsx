@@ -26,7 +26,7 @@ export const Example = () => {
           Password
         </FormLabel>
         <Col responsive={{ sm: { span: 10 } }}>
-          <TextInput type="password" id="inputPassword3" />
+          <TextInput autoComplete="current-password" type="password" id="inputPassword3" />
         </Col>
       </Row>
       <RadioGroup className="row mb-md" label="Radios" defaultValue="option1">

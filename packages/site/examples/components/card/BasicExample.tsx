@@ -3,7 +3,7 @@ import { Button, Card, CardBody, CardImage, CardText, CardTitle } from '@chassis
 export const Example = () => {
   return (
     <Card style={{ width: '18rem' }}>
-      <CardImage orientation="top" src="https://placehold.co/800x400" />
+      <CardImage orientation="top" src="https://placehold.co/800x400" alt="" />
       <CardBody>
         <CardTitle>Card title</CardTitle>
         <CardText>

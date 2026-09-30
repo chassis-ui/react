@@ -81,11 +81,13 @@ Open `http://localhost:4327/react/` in your browser.
 
 | Script | Description |
 | --- | --- |
-| `pnpm start` | Sync submodules, build the library, then watch the library and Astro site together |
-| `pnpm setup` | Sync submodules and build the library once — the part of `start` worth running on its own |
-| `pnpm dev` | Watch the library and Astro site without rebuilding submodules |
+| `pnpm start` | Build the assets submodule, build the library, then watch the library and Astro site together |
+| `pnpm setup` | Build the assets submodule at its pinned commit and build the library once — the part of `start` worth running on its own |
+| `pnpm dev` | Watch the library and Astro site without rebuilding the submodule |
 | `pnpm site:dev` | Start only the Astro dev server |
-| `pnpm site:build` | Generate API data, sync submodules, and build the static docs site |
+| `pnpm site:setup` | Build the assets submodule and the library, and generate API data |
+| `pnpm site:build` | Build the static docs site and its search index |
+| `pnpm sync-submodules` | Move the assets submodule to its latest commit; commit the new pointer on its own |
 | `pnpm site:preview` | Preview the built docs site locally |
 | `pnpm react:generate` | Re-generate prop table JSON from TypeScript source |
 | `pnpm test` | Run component tests with coverage |

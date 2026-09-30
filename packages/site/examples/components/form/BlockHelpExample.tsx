@@ -5,7 +5,12 @@ export const Example = () => {
     <Form>
       <div className="mb-md">
         <FormLabel htmlFor="inputPassword5">Password</FormLabel>
-        <TextInput type="password" id="inputPassword5" aria-describedby="passwordHelpBlock" />
+        <TextInput
+          autoComplete="new-password"
+          type="password"
+          id="inputPassword5"
+          aria-describedby="passwordHelpBlock"
+        />
         <FormHelp id="passwordHelpBlock">
           Your password must be 8-20 characters long, contain letters and numbers, and must not
           contain spaces, special characters, or emoji.

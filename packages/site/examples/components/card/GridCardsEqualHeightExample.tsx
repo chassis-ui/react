@@ -5,7 +5,7 @@ export const Example = () => {
     <Row cols={1} responsive={{ md: { cols: 3 } }} className="g-4">
       <Col span>
         <Card className="h-100">
-          <CardImage orientation="top" src="https://placehold.co/800x400" />
+          <CardImage orientation="top" src="https://placehold.co/800x400" alt="" />
           <CardBody>
             <CardTitle>Card title</CardTitle>
             <CardText>
@@ -17,7 +17,7 @@ export const Example = () => {
       </Col>
       <Col span>
         <Card className="h-100">
-          <CardImage orientation="top" src="https://placehold.co/800x400" />
+          <CardImage orientation="top" src="https://placehold.co/800x400" alt="" />
           <CardBody>
             <CardTitle>Card title</CardTitle>
             <CardText>
@@ -28,7 +28,7 @@ export const Example = () => {
       </Col>
       <Col span>
         <Card className="h-100">
-          <CardImage orientation="top" src="https://placehold.co/800x400" />
+          <CardImage orientation="top" src="https://placehold.co/800x400" alt="" />
           <CardBody>
             <CardTitle>Card title</CardTitle>
             <CardText>
@@ -41,7 +41,7 @@ export const Example = () => {
       </Col>
       <Col span>
         <Card className="h-100">
-          <CardImage orientation="top" src="https://placehold.co/800x400" />
+          <CardImage orientation="top" src="https://placehold.co/800x400" alt="" />
           <CardBody>
             <CardTitle>Card title</CardTitle>
             <CardText>

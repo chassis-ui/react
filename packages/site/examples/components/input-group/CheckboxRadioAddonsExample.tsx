@@ -18,7 +18,7 @@ export const Example = () => {
       </InputGroup>
 
       <InputGroup>
-        <InputGroupAddon>
+        <InputGroupAddon component="div">
           <RadioGroup aria-label="Radio button for following text input" defaultValue="">
             <Radio value="" aria-label="Radio button for following text input" />
           </RadioGroup>

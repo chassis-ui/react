@@ -1,0 +1,28 @@
+# Nu Html Checker messages this site leaves out, one regular expression per line.
+
+# react-aria writes explicit roles on native elements: role="button" on <button>, and row,
+# gridcell, columnheader and rowgroup on the tables of Calendar, Table and DataGrid.
+The “[a-z]+” role is unnecessary for element “[a-z]+”\.
+The “role” attribute must not be used on a “(td|tr|th)” element which has a “table” ancestor.*
+
+# Astro writes the style of its islands into the first island of a page. vnu matches this
+# message in another form than it prints, so the pattern stops before the element names.
+Element .?style.? not allowed as child of.*
+
+# An example's own headings sit under the page's headings, whatever level they start at.
+The heading “h[1-6]” \(with computed level [1-6]\) follows the heading “h[1-6]”.*
+
+# A SkeletonLoader inside a card title leaves the heading empty while it loads.
+Empty heading\.
+
+# PasswordStrength renders role="meter progressbar"; vnu does not know the ARIA 1.2 meter role.
+Discarding unrecognized token “meter” from value of attribute “role”.*
+
+# Link's disabled anchor keeps its href, with aria-disabled and tabindex="-1".
+An “aria-disabled” attribute whose value is “true” should not be specified on an “a” element that has an “href” attribute\.
+
+# Library markup that AUDIT-PLAN.md finding F10 fixes. Delete each line with its fix.
+Bad value “navigation” for attribute “role” on element “ul”\.
+Bad value “” for attribute “aria-describedby” on element “(table|div)”.*
+CSS: “height”: “-40px” negative values are not allowed\.
+Attribute “aria-multiselectable” not allowed on element “div” at this point\.

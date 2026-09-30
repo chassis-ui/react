@@ -4,6 +4,7 @@ description: Renders a popup dialog with header, body, and footer sections, conf
 toc: true
 ---
 
+import { Example as ModalComponentsExample } from '../../examples/components/modal/ModalComponentsExample.tsx'
 import { Example as LiveDemoExample } from '../../examples/components/modal/LiveDemoExample.tsx'
 import { Example as StaticBackdropExample } from '../../examples/components/modal/StaticBackdropExample.tsx'
 import { Example as ScrollingLongContentExample } from '../../examples/components/modal/ScrollingLongContentExample.tsx'
@@ -11,19 +12,6 @@ import { Example as ScrollingLongContentExample2 } from '../../examples/componen
 import { Example as TooltipsAndPopoversExample } from '../../examples/components/modal/TooltipsAndPopoversExample.tsx'
 import { Example as OptionalSizesExample } from '../../examples/components/modal/OptionalSizesExample.tsx'
 import { Example as FullscreenExample } from '../../examples/components/modal/FullscreenExample.tsx'
-
-import { useState } from 'react'
-import {
-  Button,
-  Link,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-  ModalTitle,
-  Popover,
-  Tooltip,
-} from '@chassis-ui/react'
 
 ## Examples
 
@@ -43,16 +31,7 @@ This static example disables the backdrop and keyboard dismissal so the modal st
       <Button color="primary">Save changes</Button>
     </ModalFooter>
   </Modal>`}>
-  <Modal backdrop={false} keyboard={false} style={{ position: 'relative' }} open>
-    <ModalHeader>
-      <ModalTitle>Modal title</ModalTitle>
-    </ModalHeader>
-    <ModalBody>Modal body text goes here.</ModalBody>
-    <ModalFooter>
-      <Button color="secondary">Close</Button>
-      <Button color="primary">Save changes</Button>
-    </ModalFooter>
-  </Modal>
+  <ModalComponentsExample />
 </Example>
 
 ### Live demo

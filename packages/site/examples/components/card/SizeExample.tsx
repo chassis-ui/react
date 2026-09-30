@@ -12,7 +12,7 @@ export const Example = () => {
   return (
     <>
       <Card size="sm" style={{ width: '16rem' }}>
-        <CardImage orientation="top" src="https://placehold.co/800x400" />
+        <CardImage orientation="top" src="https://placehold.co/800x400" alt="" />
         <CardBody>
           <CardTitle>Card title</CardTitle>
           <CardSubtitle>Card subtitle</CardSubtitle>
@@ -26,7 +26,7 @@ export const Example = () => {
         </CardBody>
       </Card>
       <Card size="lg" style={{ width: '22rem' }}>
-        <CardImage orientation="top" src="https://placehold.co/800x400" />
+        <CardImage orientation="top" src="https://placehold.co/800x400" alt="" />
         <CardBody>
           <CardTitle>Card title</CardTitle>
           <CardSubtitle>Card subtitle</CardSubtitle>

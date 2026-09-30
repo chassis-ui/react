@@ -9,7 +9,7 @@ export const Example = () => {
       </Col>
       <Col responsive={{ md: { span: 6 } }}>
         <FormLabel htmlFor="inputPassword4">Password</FormLabel>
-        <TextInput type="password" id="inputPassword4" />
+        <TextInput autoComplete="current-password" type="password" id="inputPassword4" />
       </Col>
       <Col span={12}>
         <FormLabel htmlFor="inputAddress">Address</FormLabel>

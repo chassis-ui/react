@@ -333,6 +333,30 @@ it: `TabPanel`, `Tooltip`, `Notification`, `Collapse`, `Popover`, `Toast`.
 - Common components with no equivalent here or in chassis-css: number input, time field, search
   field, context menu, tree, divider. These need chassis-css styles first.
 
+### F10 — Markup the HTML validators found (confirmed, A8)
+
+A8 ran html-validate and the Nu Html Checker over the built docs site. The docs examples and one
+`ListItem` defect were fixed there. These are library markup; each has an exception in
+`packages/site/html-validate.json` or `packages/site/vnu-filters.txt`, to delete with its fix:
+
+- `Nav` renders `role="navigation"` on its `<ul>`, a role `ul` doesn't allow, and which removes the
+  list's semantics. An item without `href` spreads `active` and `disabled` onto its `<li>` as
+  attributes. (vnu filter "Bad value “navigation”".)
+- react-aria's `useSlotId` writes description and error-message ids into the `aria-describedby`
+  of every field on the server, and drops them only in a layout effect after hydration. The docs
+  site's server HTML has 823 references to ids that don't exist. The library renders its own
+  feedback ids, so it can pass its own `aria-describedby`. (html-validate `no-missing-references`
+  off.)
+- react-aria's grid writes `aria-describedby=""` on `Table` and `DataGrid` on the server, the
+  `DataGrid` virtualizer writes `height:-40px`, and `ChipInput`'s empty tag list is `role="group"`
+  with `aria-multiselectable`. (Three vnu filters.)
+- A closed `Menu` list has `aria-hidden="true"` over focusable items. chassis-css hides it with
+  `display: none`, so nothing can reach them, but the attribute is redundant and keeps
+  html-validate's `hidden-focusable` off.
+- `OtpInput` with `mask` renders `type="password"` boxes with `autocomplete="off"`, which browsers
+  ignore on password fields, so a password manager can offer to fill each digit. (html-validate
+  `autocomplete-password` off.)
+
 ## Track A phases
 
 ### A1 — License, security policy, repository security settings (P1, P2)
@@ -489,29 +513,35 @@ Exit: CI runs three browsers; the peer range matches what CI tests.
 
 ### A8 — Ecosystem alignment: `chassis-docs` commands, pinned build (P10, P9)
 
+Done: ci commit "A8 — chassis-docs commands, pinned build, HTML validators". The site renders no
+footer of its own, so 0.6.1's footer brings the consent button and the privacy link. The
+validators run in the `site-build` job, the only one with a built `_site/`. The library markup
+they found is F10.
+
 Model: **Opus**. It replaces build scripts that Vercel runs, and the HTML triage needs judgment
 about which findings are real.
 
-- [ ] Take `@chassis-ui/docs` `^0.6.1` in `packages/site` (sibling task A15). If the site renders
+- [x] Take `@chassis-ui/docs` `^0.6.1` in `packages/site` (sibling task A15). If the site renders
       a footer of its own, add the "Privacy" link and the `data-consent-open` button.
-- [ ] Replace the copies in `build/` with the package's commands (sibling task A5, which also
+- [x] Replace the copies in `build/` with the package's commands (sibling task A5, which also
       closes RCT4): `chassis-docs sync-submodules`, `chassis-docs html-validate` with
       `--config packages/site/html-validate.json`, and `chassis-docs vnu`. Delete the three
       scripts. Remove `globby` and `picocolors` from the root `devDependencies` if nothing else
       imports them.
-- [ ] Add `pnpm vendor` (`chassis-docs vendor`), which builds the pinned commit. Use it in `setup`,
+- [x] Add `pnpm vendor` (`chassis-docs vendor`), which builds the pinned commit. Use it in `setup`,
       `site:setup` and the Vercel build command. `pnpm sync-submodules` stays as the deliberate way
       to move the pin, committed on its own.
-- [ ] Re-run both validators. Put this site's exceptions in `packages/site/html-validate.json` and
+- [x] Re-run both validators. Put this site's exceptions in `packages/site/html-validate.json` and
       a vnu filter file, with the reason in the commit message; fix the rest. The earlier count of
       about 3,000 findings came from the old scripts and will change.
-- [ ] Run both validators as checks of the Build job in `ci.yml`.
+- [x] Run both validators as checks of the Build job in `ci.yml`.
 - [ ] **(You)** In chassis-website, run `pnpm site:lint:links https://chassis-ui.com` and pass on
       what it lists for `/react` (sibling task A23). Then fix those links here.
 - [ ] Serve static files under `/react/static` (sibling task A6) once `SIBLING_TASKS.md` no longer
-      marks it blocked.
+      marks it blocked. Still blocked on 2026-09-30.
 - [ ] Optional: call chassis-website's reusable workflows for lint, type check and build, pinned to
       a commit (sibling task A14). The required check names change to `Lint / Lint` and so on.
+      Blocked on 2026-09-30 until roadmap session 5.2 is pushed.
 - [ ] **(You)** In chassis-website's `SIBLING_TASKS.md`, set sibling task A21 to done for react, and
       each task finished here. Correct the `NPM_CHASSIS_UI` sentence in `OPERATIONS.md`.
 
@@ -683,6 +713,8 @@ Model: **Opus**. Nine components already implement the rule; this extracts and e
       set, unless `component` or `asChild` says otherwise.
 - [ ] Apply to `ListItem` (confirmed broken). Then check the other components that declare an
       `href` prop and weren't probed: `CloseButton`, `MenuToggle`, `AvatarStack`, `Nav`.
+- [ ] `Nav` (F10): no `role` on the `<ul>`, and a `NavItem` without `href` passes no `active` or
+      `disabled` attribute to its `<li>`. Delete the matching vnu filter.
 - [ ] `MenuItem` without `href`: render `<button type="button">`, if chassis-css styles it.
 - [ ] Extract the rule into one helper shared with the nine components that already do it.
 
@@ -717,6 +749,12 @@ Model: **Opus**. Five independent fixes, each local to one component.
 - [ ] `Menu`: don't render an open list until it has a position.
 - [ ] `Calendar`, `RangeCalendar`: apply the "today" marker after hydration, or accept a
       `timeZone` prop; document the choice in the SSR page.
+- [ ] The rest of F10. Fields: render their own `aria-describedby` instead of react-aria's slot
+      ids, then turn `no-missing-references` back on. `Table`, `DataGrid`, `ChipInput`: no empty
+      `aria-describedby`, no negative size, no `aria-multiselectable` on a `group`. `Menu`: drop
+      `aria-hidden` from the closed list, then turn `hidden-focusable` back on. `OtpInput`: decide
+      the `autocomplete` of masked boxes, then turn `autocomplete-password` back on. Delete each
+      exception with its fix.
 
 Changeset: patch. Exit: a new assertion per component in `test/ssr/render.spec.tsx`.
 

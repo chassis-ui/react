@@ -4,7 +4,7 @@ export const Example = () => {
   return (
     <>
       <Card className="mb-md">
-        <CardImage orientation="top" src="https://placehold.co/800x400" />
+        <CardImage orientation="top" src="https://placehold.co/800x400" alt="" />
         <CardBody>
           <CardTitle>Card title</CardTitle>
           <CardText>
@@ -27,7 +27,7 @@ export const Example = () => {
             <small className="md:text-emphasis">Last updated 3 mins ago</small>
           </CardText>
         </CardBody>
-        <CardImage orientation="bottom" src="https://placehold.co/800x400" />
+        <CardImage orientation="bottom" src="https://placehold.co/800x400" alt="" />
       </Card>
     </>
   )

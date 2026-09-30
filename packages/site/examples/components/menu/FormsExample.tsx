@@ -21,7 +21,12 @@ export const Example = () => {
           </div>
           <div>
             <FormLabel htmlFor="menuFormPassword">Password</FormLabel>
-            <TextInput type="password" id="menuFormPassword" placeholder="Password" />
+            <TextInput
+              autoComplete="current-password"
+              type="password"
+              id="menuFormPassword"
+              placeholder="Password"
+            />
           </div>
           <Checkbox id="menuRemember" label="Remember me" />
           <Button type="submit" color="primary">

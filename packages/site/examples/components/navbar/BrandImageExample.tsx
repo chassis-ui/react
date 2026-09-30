@@ -5,7 +5,7 @@ export const Example = () => {
     <Navbar className="bg-even">
       <Container fluid>
         <NavbarBrand href="#">
-          <img src="https://placehold.co/24" alt="" width="24" height="24" />
+          <img src="https://placehold.co/24" alt="Navbar" width="24" height="24" />
         </NavbarBrand>
       </Container>
     </Navbar>

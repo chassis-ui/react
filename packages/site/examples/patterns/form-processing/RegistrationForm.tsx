@@ -95,6 +95,7 @@ export const Example = () => {
           <Col>
             <FormLabel htmlFor="reg-pw">Password</FormLabel>
             <TextInput
+              autoComplete="new-password"
               id="reg-pw"
               type="password"
               placeholder="Min. 8 characters"

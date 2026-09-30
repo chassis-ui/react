@@ -18,12 +18,14 @@
     "lint:eslint": "eslint --cache --cache-location ../../.cache/site.eslintcache --report-unused-disable-directives .",
     "lint:stylelint": "stylelint --cache --cache-location ../../.cache/site.stylelintcache \"**/*.{css,scss}\"",
     "lint:prettier": "prettier -c --cache --ignore-path ../../.gitignore --ignore-path ../../.prettierignore .",
+    "lint:html": "chassis-docs html-validate ../../_site --config html-validate.json",
+    "lint:vnu": "chassis-docs vnu ../../_site --filter-file vnu-filters.txt",
     "format": "prettier --write --ignore-path ../../.gitignore --ignore-path ../../.prettierignore .",
     "clean": "rimraf ../../_site .astro"
   },
   "dependencies": {
     "@chassis-ui/css": "^0.5.2",
-    "@chassis-ui/docs": "^0.6.0",
+    "@chassis-ui/docs": "^0.6.1",
     "@chassis-ui/icons": "^0.3.1",
     "@chassis-ui/react": "workspace:*",
     "@chassis-ui/tokens": "^0.6.0",
@@ -44,6 +46,7 @@
     "@types/react-dom": "^19.3.0",
     "astro": "^7.3.5",
     "autoprefixer": "^10.6.1",
+    "html-validate": "^11.16.0",
     "mdast-util-mdx-jsx": "^3.2.0",
     "pagefind": "^1.5.2",
     "postcss": "^8.5.28",
@@ -57,6 +60,7 @@
     "shiki": "^4.4.3",
     "typescript": "^6.0.3",
     "unified": "^11.0.5",
-    "unist-util-visit": "^5.1.0"
+    "unist-util-visit": "^5.1.0",
+    "vnu-jar": "^26.9.16"
   }
 }

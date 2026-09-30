@@ -14,6 +14,7 @@ export const Example = () => {
         <NavbarBrand>Navbar</NavbarBrand>
         <Select
           id="navbar-placement"
+          aria-label="Navbar placement"
           className="w-auto"
           value={placement}
           onChange={handlePlacementChange}

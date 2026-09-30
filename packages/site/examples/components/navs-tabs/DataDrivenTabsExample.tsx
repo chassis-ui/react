@@ -8,7 +8,7 @@ export const Example = () => {
         { label: 'Active', href: '#', active: true },
         { label: 'Link', href: '#' },
         { label: 'Another Link', href: '#' },
-        { label: 'Disabled', disabled: true }
+        { label: 'Disabled', href: '#', disabled: true }
       ]}
     />
   )

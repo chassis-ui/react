@@ -3,7 +3,7 @@ import { Card, CardImage, CardImageOverlay, CardText, CardTitle } from '@chassis
 export const Example = () => {
   return (
     <Card className="mb-md bg-dark text-white">
-      <CardImage src="https://placehold.co/800x400" />
+      <CardImage src="https://placehold.co/800x400" alt="" />
       <CardImageOverlay>
         <CardTitle>Card title</CardTitle>
         <CardText>

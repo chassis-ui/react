@@ -62,24 +62,23 @@ function ListItemRender<C extends ElementType = 'li'>(
     color,
     {
       'list-action': isInteractive,
-      active,
-      disabled
+      // An interactive item renders through `Link`, which adds these classes and their ARIA
+      // attributes itself.
+      active: active && !isInteractive,
+      disabled: disabled && !isInteractive
     },
     className
   )
 
   const Component = (isInteractive ? Link : tag) as ElementType
 
-  const finalRest = {
-    ...(isInteractive && {
-      active,
-      disabled,
-      component: tag
-    }),
-    ...(active && { 'aria-current': 'page' }),
-    ...(disabled && { 'aria-disabled': true }),
-    ...rest
-  }
+  const finalRest = isInteractive
+    ? { active, disabled, component: tag, ...rest }
+    : {
+        ...(active && { 'aria-current': 'page' }),
+        ...(disabled && { 'aria-disabled': true }),
+        ...rest
+      }
 
   return (
     <Component className={_className} {...finalRest} ref={ref}>

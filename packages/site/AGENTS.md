@@ -67,15 +67,17 @@ are already listed there.
 
 ```bash
 pnpm dev            # astro dev on :4327 (via root `pnpm dev`, alongside the lib's tsdown --watch)
-pnpm build          # astro build alone — for the full pipeline, use root `pnpm site:build`,
-                     # which also regenerates content/api and syncs the vendor/assets submodule first
+pnpm build          # astro build alone — for the full pipeline, run root `pnpm site:setup`
+                     # (vendor/assets, the library, content/api) and then root `pnpm site:build`
 pnpm preview
 pnpm check          # astro check — type-checks .astro/.mdx (root: `pnpm site:check`)
 pnpm lint           # eslint + stylelint + prettier, scoped to this package (root: `pnpm site:lint`)
 pnpm format         # prettier --write, scoped to this package
+pnpm lint:html      # html-validate over ../../_site, with html-validate.json (root: `pnpm lint:html`)
+pnpm lint:vnu       # the Nu Html Checker over ../../_site, with vnu-filters.txt (root: `pnpm lint:vnu`)
 ```
 
 Building this package directly (`pnpm --filter chassis-react-site build`) without first running
-`pnpm react:generate` and `pnpm sync-submodules` from the root will build against whatever
+`pnpm react:generate` and `pnpm vendor` from the root will build against whatever
 `content/api/` and `vendor/assets` already happen to contain on disk — fine for iterating on
-prose, not representative of a real `site:build`.
+prose, not representative of a real `site:setup` + `site:build`.

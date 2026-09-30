@@ -9,14 +9,14 @@
   "scripts": {
     "build": "pnpm site:build",
     "clean": "pnpm react:clean && pnpm site:clean",
-    "setup": "pnpm sync-submodules && pnpm react:build",
+    "setup": "pnpm vendor && pnpm react:build",
     "start": "pnpm setup && pnpm dev",
     "dev": "pnpm react:dev & pnpm site:dev",
     "preview": "pnpm site:preview",
     "lint": "pnpm react:lint && pnpm site:lint && pnpm spellcheck",
     "lint:eslint": "pnpm --filter @chassis-ui/react lint:eslint && pnpm --filter chassis-react-site lint:eslint",
-    "lint:html": "node build/html-validate.js",
-    "lint:vnu": "node build/vnu-jar.js",
+    "lint:html": "pnpm --filter chassis-react-site lint:html",
+    "lint:vnu": "pnpm --filter chassis-react-site lint:vnu",
     "react:build": "pnpm --filter @chassis-ui/react build",
     "react:dev": "pnpm --filter @chassis-ui/react dev",
     "react:generate": "ts-node --project build/tsconfig.json build/generate-api.ts",
@@ -30,7 +30,7 @@
     "react:check:package": "pnpm --filter @chassis-ui/react check:package",
     "react:clean": "rm -rf packages/react/dist packages/react/coverage",
     "site": "pnpm site:build && pnpm site:lint && pnpm lint:html && pnpm lint:vnu",
-    "site:setup": "pnpm sync-submodules && pnpm react:build && pnpm react:generate",
+    "site:setup": "pnpm vendor && pnpm react:build && pnpm react:generate",
     "site:build": "pnpm --filter chassis-react-site build && pnpm site:pagefind",
     "site:check": "pnpm --filter chassis-react-site check",
     "site:clean": "rm -rf _site packages/site/node_modules packages/site/.astro packages/site/public",
@@ -51,7 +51,8 @@
     "changeset:version": "changeset version && node build/sync-version-refs.js",
     "changeset:publish": "pnpm react:build && changeset publish",
     "spellcheck": "cspell --no-progress --no-must-find-files",
-    "sync-submodules": "node build/sync-submodules.js"
+    "sync-submodules": "pnpm --filter chassis-react-site exec chassis-docs sync-submodules",
+    "vendor": "pnpm --filter chassis-react-site exec chassis-docs vendor"
   },
   "devDependencies": {
     "@changesets/cli": "^3.0.3",
@@ -71,10 +72,7 @@
     "eslint-plugin-testing-library": "^7.16.2",
     "eslint-plugin-unicorn": "^76.0.0",
     "globals": "^17.12.0",
-    "globby": "^16.2.4",
-    "html-validate": "^11.16.0",
     "pagefind": "^1.5.2",
-    "picocolors": "^1.1.1",
     "prettier": "^3.9.9",
     "prettier-plugin-astro": "^1.1.0",
     "react-docgen-typescript": "^2.4.0",
@@ -82,8 +80,7 @@
     "stylelint-config-twbs-bootstrap": "^16.1.0",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.70.1",
-    "vnu-jar": "^26.9.16"
+    "typescript-eslint": "^8.70.1"
   },
   "packageManager": "pnpm@10.33.2+sha512.a90faf6feeab71ad6c6e57f94e0fe1a12f5dcc22cd754db40ae9593eb6a3e0b6b12e3540218bb37ae083404b1f2ce6db2a4121e979829b4aff94b99f49da1cf8"
 }

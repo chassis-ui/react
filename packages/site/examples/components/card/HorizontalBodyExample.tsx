@@ -5,7 +5,7 @@ export const Example = () => {
     <Card>
       <CardBody responsive={{ lg: 'row' }} gap="md">
         <Col responsive={{ lg: { span: 4 } }}>
-          <CardImage src="https://placehold.co/800x400" />
+          <CardImage src="https://placehold.co/800x400" alt="" />
         </Col>
         <Col responsive={{ lg: { span: 8 } }}>
           <CardBody className="p-0">

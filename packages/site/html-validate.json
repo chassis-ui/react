@@ -1,0 +1,24 @@
+{
+  "elements": ["html5", { "style": { "flow": true } }],
+  "rules": {
+    "attr-case": ["error", { "style": ["lowercase", "camelcase"] }],
+    "attribute-boolean-style": "off",
+    "attribute-empty-style": "off",
+    "autocomplete-password": "off",
+    "empty-heading": "off",
+    "form-dup-name": "off",
+    "heading-level": "off",
+    "hidden-focusable": "off",
+    "no-missing-references": "off",
+    "no-redundant-role": "off",
+    "prefer-button": "off",
+    "prefer-native-element": [
+      "error",
+      { "exclude": ["button", "navigation", "progressbar", "region"] }
+    ],
+    "unique-landmark": "off",
+    "valid-id": ["error", { "relaxed": true }],
+    "wcag/h32": "off",
+    "wcag/h71": "off"
+  }
+}

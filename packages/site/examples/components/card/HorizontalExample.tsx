@@ -8,6 +8,7 @@ export const Example = () => {
           orientation="top"
           responsive={{ lg: 'start' }}
           src="https://placehold.co/800x400"
+          alt=""
           style={{ height: '100%', objectFit: 'cover' }}
         />
       </Col>

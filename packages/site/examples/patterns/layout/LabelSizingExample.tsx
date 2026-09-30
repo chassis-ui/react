@@ -8,12 +8,7 @@ export const Example = () => {
           Email
         </FormLabel>
         <Col responsive={{ sm: { span: 10 } }}>
-          <TextInput
-            type="email"
-            className="form-input sm"
-            id="colFormLabelSm"
-            placeholder="col-form-label-sm"
-          />
+          <TextInput type="email" size="sm" id="colFormLabelSm" placeholder="col-form-label-sm" />
         </Col>
       </Row>
       <Row className="mb-md">
@@ -29,12 +24,7 @@ export const Example = () => {
           Email
         </FormLabel>
         <Col responsive={{ sm: { span: 10 } }}>
-          <TextInput
-            type="email"
-            className="form-input lg"
-            id="colFormLabelLg"
-            placeholder="col-form-label-lg"
-          />
+          <TextInput type="email" size="lg" id="colFormLabelLg" placeholder="col-form-label-lg" />
         </Col>
       </Row>
     </>

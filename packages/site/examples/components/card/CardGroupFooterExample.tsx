@@ -13,7 +13,7 @@ export const Example = () => {
     <div className="contains-inline">
       <CardGroup>
         <Card>
-          <CardImage orientation="top" src="https://placehold.co/800x400" />
+          <CardImage orientation="top" src="https://placehold.co/800x400" alt="" />
           <CardBody>
             <CardTitle>Card title</CardTitle>
             <CardText>
@@ -26,7 +26,7 @@ export const Example = () => {
           </CardFooter>
         </Card>
         <Card>
-          <CardImage orientation="top" src="https://placehold.co/800x400" />
+          <CardImage orientation="top" src="https://placehold.co/800x400" alt="" />
           <CardBody>
             <CardTitle>Card title</CardTitle>
             <CardText>
@@ -38,7 +38,7 @@ export const Example = () => {
           </CardFooter>
         </Card>
         <Card>
-          <CardImage orientation="top" src="https://placehold.co/800x400" />
+          <CardImage orientation="top" src="https://placehold.co/800x400" alt="" />
           <CardBody>
             <CardTitle>Card title</CardTitle>
             <CardText>
