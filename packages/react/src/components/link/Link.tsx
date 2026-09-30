@@ -9,13 +9,14 @@ import classNames from 'classnames'
 import { mergeProps } from 'react-aria'
 
 import { ContextColor } from '../../types'
-import { useButtonSemantics, useDisabledAnchorGuard } from '../../hooks'
+import { useButtonSemantics, useDisabledAnchorGuard, useForkedRef } from '../../hooks'
 import { hrefProps, isInteractiveKind, linkElement, resolveLinkKind } from '../../utils/elementKind'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
   PolymorphicRef
 } from '../../utils/polymorphic'
+import { useScrollspyLink } from '../../utils/scrollspy'
 
 type LinkOwnProps<C extends ElementType> = {
   /**
@@ -104,13 +105,6 @@ function LinkRender<C extends ElementType = 'a'>(
   // caller's element, and a slotted `<a>` needs what `component="a"` gets.
   const kind = resolveLinkKind(Component, href, rest)
 
-  const _className = classNames(
-    color && `link-${color}`,
-    { 'icon-link': iconLink, 'fg-reset': reset, 'stretched-link': stretched },
-    { active, disabled },
-    className
-  )
-
   const isInteractive = isInteractiveKind(kind)
   // A component reference without a link target (a router link with `href` or `to` is an anchor,
   // see `resolveLinkKind`) has its own visual identity and is trusted to
@@ -119,10 +113,20 @@ function LinkRender<C extends ElementType = 'a'>(
   // wrong ARIA role onto whatever it actually renders (e.g. an `<a>`) and can double-fire a click
   // (native anchor Enter→click, plus the synthesized keydown→click).
   const isComponentReference = kind === 'component'
+  // Inside a `Scrollspy`, the link registers its element, is marked when its section is the one
+  // being read, and scrolls to it smoothly when the `Scrollspy` is set to (`src/utils/scrollspy.ts`).
+  const spy = useScrollspyLink(disabled)
+  const spyClick = spy.onClick
+  const clickHandler: MouseEventHandler<HTMLElement> | undefined = spyClick
+    ? (event) => {
+        onClick?.(event)
+        spyClick(event)
+      }
+    : onClick
   // `<a>` has no real `disabled` attribute, so a disabled anchor link still fires click (and
   // still navigates) unless it's blocked here, same guard `Button`/`CloseButton` apply. A real
   // `<button>` already stops clicks on its own once the `disabled` attribute below is set.
-  const handleClick = useDisabledAnchorGuard<HTMLElement>(kind === 'anchor', disabled, onClick)
+  const handleClick = useDisabledAnchorGuard<HTMLElement>(kind === 'anchor', disabled, clickHandler)
 
   // A `component` that isn't a native interactive element gets a raw onClick with no
   // keyboard semantics otherwise — mouse-only, unlike `Button`/`CloseButton`, which
@@ -133,17 +137,31 @@ function LinkRender<C extends ElementType = 'a'>(
     disabled,
     onClick
   })
+  const ownRef = needsButtonSemantics ? forkedRef : ref
+  const spyRef = useForkedRef(ownRef as Ref<HTMLElement>, spy.ref)
+  // A link to the section being read is `active` and `aria-current="true"`: the current place in
+  // the page, not the current page. A link it belongs under, such as its menu's toggle, only
+  // looks active. An `active` given as a prop wins.
+  const isActive = active || !!spy.mark
+  const ariaCurrent = active ? 'page' : spy.mark === 'current' ? 'true' : undefined
+
+  const _className = classNames(
+    color && `link-${color}`,
+    { 'icon-link': iconLink, 'fg-reset': reset, 'stretched-link': stretched },
+    { active: isActive, disabled },
+    className
+  )
 
   return (
     <Component
       {...(mergeProps(rest, needsButtonSemantics ? buttonProps : {}) as Record<string, unknown>)}
       className={_className}
       {...hrefProps(kind, href, 'Link')}
-      {...(active && { 'aria-current': 'page' })}
+      {...(ariaCurrent && { 'aria-current': ariaCurrent })}
       {...(kind === 'anchor' && disabled && { 'aria-disabled': true, tabIndex: -1 })}
       {...(!needsButtonSemantics && { onClick: handleClick })}
       {...(kind === 'button' && { disabled, type })}
-      ref={needsButtonSemantics ? forkedRef : ref}
+      ref={spy.ref ? spyRef : ownRef}
     >
       {children}
     </Component>

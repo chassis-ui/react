@@ -135,6 +135,9 @@ page has hydrated:
   it renders every item, with the toggle hidden. Until the page has hydrated, the items that don't
   fit are clipped at the wrapper's edge and the row scrolls, so every link can still be reached.
   The first render in the browser then measures and moves them into the menu before it paints.
+- **The section a `Scrollspy` marks.** Which section is being read depends on a scroll position the
+  server doesn't have, so no link is marked in its HTML. The first observation after hydration
+  marks the active one.
 
 A slide rendered by a component of your own, rather than a `CarouselItem` written directly inside
 `CarouselInner`, is found after hydration too: the carousel counts its slides from the page then.

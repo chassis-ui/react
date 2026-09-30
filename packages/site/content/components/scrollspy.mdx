@@ -1,0 +1,115 @@
+---
+title: Scrollspy
+description: Mark the link to the section being read in a navigation, as the page or a box scrolls.
+toc: true
+---
+
+import { Example as NavbarExample } from '../../examples/components/scrollspy/NavbarExample.tsx'
+import { Example as NestedExample } from '../../examples/components/scrollspy/NestedExample.tsx'
+import { Example as ListExample } from '../../examples/components/scrollspy/ListExample.tsx'
+import { Example as LinksExample } from '../../examples/components/scrollspy/LinksExample.tsx'
+
+## Overview
+
+`<Scrollspy>` wraps a navigation whose links point to sections of the same page, such as a table
+of contents, and marks the link to the section being read. It observes the sections with an
+`IntersectionObserver`, in the viewport or in an element that scrolls, and follows chassis-css's
+[scrollspy](https://chassis-ui.com/css/docs/components/scrollspy): the link gets `.active`, and the
+links it is nested under do too.
+
+It renders no element of its own. The links it marks are [`Link`]([[docsref:/components/link]])s
+and the components built on it: `NavLink` and `NavItem` in a
+[`Nav`]([[docsref:/components/navs-tabs]]), an interactive `ListItem` in a
+[`List`]([[docsref:/components/list]]), and a `MenuItem` in a [`Menu`]([[docsref:/components/menu]]).
+A link takes part when its `href` points to an element's `id` on the current page, whether the
+`href` is on the component or, under `asChild`, on the element it renders. A disabled link takes
+no part.
+
+The active section is the last one, in document order, whose top has scrolled past a line near the
+bottom of the scrolling area. `rootMargin` sets that line: by default a quarter of the area's
+height above its bottom edge. Before any section has reached it, no link is marked.
+
+## Basic usage
+
+Wrap the navigation, and give `root` the element that scrolls, as a ref. Leave `root` out when the
+page itself scrolls. The box below is focusable, so it scrolls from the keyboard too.
+
+<Example>
+  <NavbarExample client:load />
+</Example>
+
+With `smoothScroll`, a click on a link scrolls to its section smoothly instead of jumping, and the
+page's address doesn't change. The section lands where a jump would put it, below the scrolling
+element's `scroll-padding-top` and its own `scroll-margin-top`, so set those for a sticky header. A
+reader who asks for reduced motion gets the jump.
+
+## Nested navigation
+
+A link just before a nested `Nav` is marked while one of the nested links is. So is the toggle of
+a menu while one of its items is, as in the navbar above. Those links look active; only the link to
+the section itself is the current one for assistive technology.
+
+<Example>
+  <NestedExample client:load />
+</Example>
+
+## Lists
+
+<Example>
+  <ListExample client:load />
+</Example>
+
+## Links
+
+Any `Link` inside the `Scrollspy` takes part, in any markup around it.
+
+<Example>
+  <LinksExample client:load />
+</Example>
+
+## Reading the active section
+
+`onActiveChange` receives the id of the section that became active, or `null` when none is. To
+build a navigation of your own, or to show the section anywhere else, use the
+[`useScrollspy`]([[docsref:/hooks/usescrollspy]]) hook, which returns the id.
+
+## Server rendering
+
+The section being read depends on a scroll position the server doesn't have, so the server's HTML
+marks no link. The first observation after hydration marks the active one. A link given `active`
+as a prop is rendered active on the server, as anywhere. See
+[what the server renders]([[docsref:/getting-started/ssr#what-the-server-renders]]).
+
+## Accessibility
+
+The link to the active section has `aria-current="true"`: the current place in the page. A link
+given `active` as a prop keeps `aria-current="page"`, the current page. Links marked because a
+nested link is active only look active.
+
+The marks change as the page scrolls and aren't announced, as the plugin's aren't. With
+`smoothScroll`, focus stays on the link after a click, where a jump would move the starting point
+of the Tab key to the section; the plugin behaves the same way. A box that
+scrolls needs `tabIndex={0}` when nothing inside it can take focus, so a keyboard can scroll it,
+and then a role and a name, as in the examples.
+
+## Scope
+
+**Sections, not scroll positions.** A section is found by the `id` a link points to, in `root`
+when it is set. Sections rendered after the links, a link whose `href` changes, and a `root` whose
+element mounts later or is replaced are all followed, so the plugin's `refresh` method has no
+equivalent. A section that isn't rendered, such as one under
+`display: none`, takes no part.
+
+**No `threshold`.** chassis-css's plugin passes `threshold` to its observer and picks a section
+by the direction of the scroll. Here the choice depends only on where each section is, so the
+same position always marks the same link, and `rootMargin` is the only setting.
+
+**Links, not every element with `href`.** Only `Link` and the components built on it are marked.
+A plain `<a>` isn't, since its markup belongs to React: render it with `asChild` on a `Link` or a
+`NavLink` instead.
+
+## API
+
+### Scrollspy
+
+<PropTable component="Scrollspy" />

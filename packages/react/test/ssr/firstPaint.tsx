@@ -34,6 +34,7 @@ export async function loadFirstPaintCases(): Promise<Record<string, () => ReactE
     OtpInput,
     Popover,
     RangeCalendar,
+    Scrollspy,
     Tab,
     Table,
     TableBody,
@@ -199,6 +200,20 @@ export async function loadFirstPaintCases(): Promise<Record<string, () => ReactE
         <TabPanel id="one">Panel one</TabPanel>
         <TabPanel id="two">Panel two</TabPanel>
       </Tabs>
+    ),
+    'Scrollspy around a Nav': () => (
+      <>
+        <Scrollspy>
+          <Nav>
+            <NavItem href="#one">One</NavItem>
+            <NavItem href="#two" active>
+              Two
+            </NavItem>
+          </Nav>
+        </Scrollspy>
+        <section id="one">One</section>
+        <section id="two">Two</section>
+      </>
     ),
     'Tooltip open': () => (
       <Tooltip content="Hint" defaultVisible>

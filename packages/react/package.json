@@ -76,6 +76,7 @@
     "./progress": "./dist/progress.js",
     "./radio": "./dist/radio.js",
     "./range-input": "./dist/range-input.js",
+    "./scrollspy": "./dist/scrollspy.js",
     "./select": "./dist/select.js",
     "./skeleton": "./dist/skeleton.js",
     "./spinner": "./dist/spinner.js",

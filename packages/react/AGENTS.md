@@ -317,6 +317,12 @@ pnpm test:visual:update   # same, plus --update-snapshots to regenerate baseline
   registers the props the menu renders (`src/utils/navOverflow.tsx`). Nothing is cloned or moved
   in the DOM, and the list imports a context only: the toggle and its `Menu` stay in
   `nav-overflow`'s chunk. See `CONVENTIONS.md`, "Measured layout".
+- A `Scrollspy` marks links through `Link`: every `Link` inside one registers its element with
+  `useScrollspyLink` (`src/utils/scrollspy.ts`) and renders the mark it is given, so `NavLink`,
+  `ListItem` and `MenuItem` take part with no code of their own. A new link-like component renders
+  through `Link` to take part too. The section is read from the element's `href`, which is where
+  an `asChild` link has it. `Link` imports a context only; the observers stay in `scrollspy`'s
+  chunk.
 - A component that draws an icon of its own never renders `<Icon>` directly — it renders
   `IconSlot` (`src/utils/iconSlot.tsx`) with a purpose key (`check`, `previous`, `next`, ...) plus
   the class chassis-css positions that icon by, so consumers can swap it via `IconProvider` or

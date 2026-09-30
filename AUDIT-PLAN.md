@@ -1150,13 +1150,37 @@ Also changed: `MenuToggle` takes `caret={false}` and keeps a `tabIndex` it is gi
 
 Model: **Opus**.
 
-- [ ] Read `scrollspy.js` and `components/scrollspy.mdx` of chassis-css: options (root margin,
-      threshold, smooth scroll), nested navigation, list integration, events.
-- [ ] A `useScrollspy(ids, options)` hook on `IntersectionObserver` returning the active id, and a
+- [x] Read `scrollspy.js` and `components/scrollspy.mdx` of chassis-css: options (root margin,
+      threshold, smooth scroll), nested navigation, list integration, events. Kept: `rootMargin`,
+      `smoothScroll` (and instant under reduced motion), parent marking (the link before a nested
+      `.nav`/`.list`, a menu's toggle), disabled links left out; `activate` is `onActiveChange`.
+      Not kept: `threshold`, since the choice below doesn't depend on it, and `refresh`, since
+      sections, a link's `href` and a ref's root element are followed when they change.
+- [x] A `useScrollspy(ids, options)` hook on `IntersectionObserver` returning the active id, and a
       component that marks the matching `NavLink`/`ListItem` active with `aria-current`.
-- [ ] Nothing active on the server; the first active id after hydration. Document it.
+      `Scrollspy` renders no element: every `Link` inside it registers its element
+      (`src/utils/scrollspy.ts`), so `NavLink`, `NavItem`, `ListItem` and `MenuItem` take part,
+      `asChild` included; the target is read from the element's `href`. Decided here: the active
+      section is the last whose top passed the line at the bottom of `rootMargin`'s box, or the
+      first while its top is still in the box, independent of the scroll direction the plugin
+      uses; the observer only triggers a measure of every section, with `scrollend` behind it.
+      The mark is `aria-current="true"` (a place in the page); an `active` prop keeps `"page"`;
+      parents get `.active` only.
+- [x] Nothing active on the server; the first active id after hydration. Document it. In the SSR
+      guide and a first-paint case; the smoke app has a route with `next/link` under `asChild`.
 
-Changeset: minor.
+Changeset: minor. No visual regression spec: the styles are chassis-css's.
+
+An independent review of the diff found six defects before the commit, each now with a test: a
+`root` ref was read once, so a box mounted or replaced later was never observed; a link whose
+target changed without `Link`'s own `href` changing (`asChild`, a router link's `to`) stayed on the
+old section; the first section could stay active past its start when it was never wholly inside
+the box (a section holding the others), which only a threshold crossing reported, so the start now
+follows `scroll` events; a malformed `href` threw from an effect; smooth scrolling ignored the
+container's `scroll-padding-top`; and a disabled link was marked, which the plugin skips.
+
+Left open: after a smooth-scroll click, focus stays on the link, as under the plugin. A plain
+`<a>` isn't marked; it takes part under `asChild`.
 
 ### B14 — `Divider`, with its styles (F9)
 

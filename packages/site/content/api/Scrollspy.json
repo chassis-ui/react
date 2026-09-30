@@ -1,0 +1,108 @@
+{
+  "tags": {},
+  "filePath": "packages/react/src/components/scrollspy/Scrollspy.tsx",
+  "description": "Marks the link to the section being read as active, in the navigation it wraps. The links are\n`Link`s and the components built on it (`NavLink`, `ListItem`, `MenuItem`) whose `href` points\nto an element's `id` on the page. It renders no element of its own.",
+  "displayName": "Scrollspy",
+  "methods": [],
+  "props": {
+    "children": {
+      "defaultValue": null,
+      "description": "The navigation whose links are marked: a `Nav`, a `List`, `Link`s, or anything holding them.",
+      "name": "children",
+      "parent": {
+        "fileName": "packages/react/src/components/scrollspy/Scrollspy.tsx",
+        "name": "ScrollspyProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/scrollspy/Scrollspy.tsx",
+          "name": "ScrollspyProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "onActiveChange": {
+      "defaultValue": null,
+      "description": "Fires when the active section changes, with its id, or `null` when no section is active.",
+      "name": "onActiveChange",
+      "parent": {
+        "fileName": "packages/react/src/components/scrollspy/Scrollspy.tsx",
+        "name": "ScrollspyProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/scrollspy/Scrollspy.tsx",
+          "name": "ScrollspyProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((id: string | null) => void)"
+      }
+    },
+    "smoothScroll": {
+      "defaultValue": {
+        "value": false
+      },
+      "description": "Scrolls smoothly to a section when one of the links is clicked, instead of jumping to it. The\npage's address doesn't change. When the reader asks for reduced motion, it jumps.",
+      "name": "smoothScroll",
+      "parent": {
+        "fileName": "packages/react/src/components/scrollspy/Scrollspy.tsx",
+        "name": "ScrollspyProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/scrollspy/Scrollspy.tsx",
+          "name": "ScrollspyProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "root": {
+      "defaultValue": null,
+      "description": "The element that scrolls, or a ref to it. The viewport when unset.",
+      "name": "root",
+      "parent": {
+        "fileName": "packages/react/src/components/scrollspy/useScrollspy.ts",
+        "name": "UseScrollspyOptions"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/scrollspy/useScrollspy.ts",
+          "name": "UseScrollspyOptions"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Element | RefObject<Element | null> | null"
+      }
+    },
+    "rootMargin": {
+      "defaultValue": {
+        "value": "'0px 0px -25%'"
+      },
+      "description": "The margin around `root`, as `IntersectionObserver` takes it: one to four lengths in `px` or\n`%`. Its bottom edge is the line a section's top has to pass to become the active one;\n`-25%` puts it a quarter of the root's height above the root's bottom.",
+      "name": "rootMargin",
+      "parent": {
+        "fileName": "packages/react/src/components/scrollspy/useScrollspy.ts",
+        "name": "UseScrollspyOptions"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/scrollspy/useScrollspy.ts",
+          "name": "UseScrollspyOptions"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    }
+  }
+}

@@ -18,6 +18,7 @@ const WITHOUT_REF: Record<string, string> = {
   // No element of their own: providers, and a portal, which renders into another element.
   I18nProvider: 'provider',
   IconProvider: 'provider',
+  Scrollspy: 'provider',
   Portal: 'portal',
   // Render react-aria-components' elements but take no ref yet: left open by audit 3 phase B8.
   DataGridBody: 'open',

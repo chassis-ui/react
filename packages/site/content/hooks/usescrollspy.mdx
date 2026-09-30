@@ -1,0 +1,47 @@
+---
+title: useScrollspy
+description: Returns the id of the section being read, for a navigation or anything else that follows the scroll position.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/hooks/use-scrollspy/BasicExample.tsx'
+
+## Overview
+
+`useScrollspy(ids, options)` observes the elements with the given `id`s and returns the id of the
+one being read: the last, in document order, whose top has scrolled past a line near the bottom of
+the scrolling area. It returns `null` before any has.
+
+It is what [`Scrollspy`]([[docsref:/components/scrollspy]]) runs on. Use it directly when the
+active section drives something other than a `Link`, such as a heading, a progress indicator or a
+navigation of your own.
+
+It returns `null` on the server and on the first render in the browser, so the page hydrates
+without a mismatch, and the active id from the first observation after that.
+
+## Basic usage
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## API
+
+### useScrollspy
+
+```ts
+function useScrollspy(ids: readonly string[], options?: UseScrollspyOptions): string | null
+
+interface UseScrollspyOptions {
+  root?: Element | RefObject<Element | null> | null
+  rootMargin?: string
+}
+```
+
+| Option       | Type                                            | Default          | Description                                                                                                                    |
+| ------------ | ----------------------------------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `root`       | `Element \| RefObject<Element \| null> \| null` | the viewport     | The element that scrolls, or a ref to it. Only sections inside it are observed.                                                |
+| `rootMargin` | `string`                                        | `'0px 0px -25%'` | The margin around `root`, as `IntersectionObserver` takes it. Its bottom edge is the line a section's top passes to be active. |
+
+A new array with the same ids doesn't observe again. Sections added, removed or renamed later are
+picked up; an id with no element is ignored.

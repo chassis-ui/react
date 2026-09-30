@@ -138,6 +138,7 @@ import {
   AlertTitle
 } from './components/alert'
 import { NavOverflow } from './components/nav-overflow'
+import { Scrollspy, useScrollspy } from './components/scrollspy'
 
 export {
   Chip,
@@ -319,7 +320,9 @@ export {
   AlertIcon,
   AlertText,
   AlertTitle,
-  NavOverflow
+  NavOverflow,
+  Scrollspy,
+  useScrollspy
 }
 
 // Type-only public surface. Kept as `export type ... from` re-exports (the same shape
@@ -527,6 +530,7 @@ export type { TooltipProps } from './components/tooltip'
 export type { PortalProps } from './components/portal'
 export type { VisuallyHiddenProps } from './components/visually-hidden'
 export type { NavOverflowDetail, NavOverflowProps } from './components/nav-overflow'
+export type { ScrollspyProps, UseScrollspyOptions } from './components/scrollspy'
 export type {
   AlertBodyProps,
   AlertCancelProps,

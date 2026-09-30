@@ -203,3 +203,23 @@ test('NavOverflow collapses a Nav of router links and a TabList', async ({ page 
   await expect(page.getByRole('tabpanel')).toContainText('Attachments panel')
   expect(problems).toEqual([])
 })
+
+test('Scrollspy marks the section being read, for router links too', async ({ page }) => {
+  // The server has no scroll position: no link is marked in its HTML.
+  const server = await serverMarkup(page, '/rsc/scrollspy')
+  expect(server).toContain('href="#options"')
+  expect(server).not.toContain('aria-current')
+
+  const problems = await open(page, '/rsc/scrollspy')
+  const nav = page.getByRole('navigation', { name: 'Sections' })
+  await expect(nav.getByRole('link', { name: 'Intro' })).toHaveAttribute('aria-current', 'true')
+
+  // A router link given with `asChild`.
+  await page.evaluate(() => document.getElementById('usage')?.scrollIntoView())
+  await expect(nav.getByRole('link', { name: 'Usage' })).toHaveAttribute('aria-current', 'true')
+  await expect(nav.getByRole('link', { name: 'Intro' })).not.toHaveAttribute('aria-current')
+
+  await page.evaluate(() => document.getElementById('options')?.scrollIntoView())
+  await expect(nav.getByRole('link', { name: 'Options' })).toHaveAttribute('aria-current', 'true')
+  expect(problems).toEqual([])
+})

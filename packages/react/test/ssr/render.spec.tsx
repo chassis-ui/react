@@ -197,6 +197,15 @@ describe('first paint on the server', () => {
     expect(page.getByRole('menu')).toBeEmptyDOMElement()
   })
 
+  // Which section is being read depends on a scroll position the server doesn't have.
+  test('a Scrollspy marks no section until the page has observed one', () => {
+    const page = within(firstPaint('Scrollspy around a Nav'))
+    expect(page.getByRole('link', { name: 'One' })).not.toHaveClass('active')
+    expect(page.getByRole('link', { name: 'One' })).not.toHaveAttribute('aria-current')
+    // An `active` given as a prop is the current page, as anywhere.
+    expect(page.getByRole('link', { name: 'Two' })).toHaveAttribute('aria-current', 'page')
+  })
+
   test('a NavOverflow around a TabList renders every tab, and its menu after hydration', () => {
     const page = within(firstPaint('NavOverflow around a TabList'))
     const tabs = page.getAllByRole('tab')

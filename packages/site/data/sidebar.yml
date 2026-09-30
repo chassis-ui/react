@@ -57,6 +57,7 @@
         - title: Nav Overflow
         - title: Breadcrumb
         - title: Pagination
+        - title: Scrollspy
     - group: Overlays
       pages:
         - title: Modal
@@ -112,6 +113,7 @@
     - title: useNotification
     - title: usePagination
     - title: useHydrated
+    - title: useScrollspy
 
 - title: Patterns
   icon: grid-solid
