@@ -989,8 +989,8 @@ react-aria hooks, **Fable** for one with a new interaction model (tree, context 
       element kind) should stay free to change. B10.
 - [x] **(You)** Decide on `Alert`, `NavOverflow` and `Scrollspy`, which chassis-css already ships.
       For `Alert`, first settle with chassis-css whether `.alert` is a dialog or a banner.
-      Settled by chassis-css's docs: a dialog (F9). Decided: all three. B11, B12, B13. Owed to
-      chassis-css: the header comment of `_alert.scss` still describes inline status messages.
+      Settled by chassis-css's docs: a dialog (F9). Decided: all three. B11, B12, B13. The
+      stale header comment of `_alert.scss` is the maintainer's to fix (B11).
 - [x] **(You)** Decide on the components chassis-css doesn't style yet. Each one starts as a
       chassis-css task, not here. Decided otherwise: all six (number, time and search fields,
       context menu, tree, divider), **with their styles written here**, as component-scoped Sass
@@ -1047,7 +1047,8 @@ Model: **Opus**. Built on the dialog machinery `Modal` already uses.
 - [ ] Open state as `Modal`'s. A static backdrop and no Escape by default, as the docs advise for
       alert dialogs; props to allow both. Focus goes to the least destructive action.
 - [ ] The error-code and multi-step layouts of the docs page as examples.
-- [ ] **(You)** File the `_alert.scss` header comment fix in chassis-css, or say where it goes.
+- [ ] **(You)** Fix the header comment of `_alert.scss` in chassis-css, which still describes
+      inline status messages. The maintainer does this; B11 doesn't wait for it.
 
 Changeset: minor.
 
