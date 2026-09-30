@@ -1,7 +1,10 @@
 import React, {
+  Children,
   CSSProperties,
   forwardRef,
   HTMLAttributes,
+  isValidElement,
+  ReactNode,
   useCallback,
   useEffect,
   useRef,
@@ -27,6 +30,9 @@ import {
   scrollDeltaFor
 } from './carouselEngine'
 import { devWarning } from '../../utils/devWarning'
+import { isElementOfType } from '../../utils/lazyElement'
+import { CarouselInner } from './CarouselInner'
+import { readSlides } from './slides'
 
 export type { CarouselEnds }
 export type CarouselTransition = 'scroll' | 'fade'
@@ -171,7 +177,10 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       activeIndexRef.current = activeIndex
     }, [activeIndex])
 
-    const [itemCount, setItemCount] = useState(0)
+    // Counted from the DOM once the viewport is mounted (the layout effect below), which never
+    // happens on the server: `CarouselIndicators` rendered an empty list there. The first render
+    // counts the slides written inside `CarouselInner` instead.
+    const [itemCount, setItemCount] = useState(() => countSlides(children))
     const itemCountRef = useRef(itemCount)
     useIsomorphicLayoutEffect(() => {
       itemCountRef.current = itemCount
@@ -179,8 +188,12 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
 
     const [playing, setPlaying] = useState(autoplay)
     const [cycling, setCycling] = useState(false)
-    const [atStart, setAtStart] = useState(true)
-    const [atEnd, setAtEnd] = useState(false)
+    // From the same index math as the layout effect below, so the server's HTML disables the
+    // right end control. With no slides counted yet, neither end is known.
+    const [atStart, setAtStart] = useState(activeIndex <= 0)
+    const [atEnd, setAtEnd] = useState(
+      itemCount > 0 && activeIndex >= itemCount - Math.max(1, items ?? 1)
+    )
 
     const loopingRef = useRef(false)
     // True while a programmatic scroll-sync animation is in flight, so the IntersectionObserver
@@ -334,17 +347,18 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [viewportEl, isFade])
 
-    // `activeIndex` is the source of truth for which slide is active — applied directly to the
-    // DOM here rather than through per-item props, so it stays correct even when there's no real
-    // layout to scroll (SSR, jsdom tests). Fade mode's crossfade is driven entirely by this class.
-    // The WAI-ARIA carousel pattern's per-slide `aria-roledescription`/positional `aria-label` are
-    // applied the same imperative way, for the same reason — `CarouselItem` itself has no idea
-    // where it sits among its siblings or how many there are.
+    // `activeIndex` is the source of truth for which slide is active, and fade mode's crossfade is
+    // driven entirely by the `active` class. `CarouselItem` renders it, and the WAI-ARIA carousel
+    // pattern's per-slide `role`/`aria-roledescription`/positional `aria-label`, when
+    // `CarouselInner` can tell it its position (see `slides.tsx`), so the server's HTML has them.
+    // This applies the same to the DOM, which also covers slides rendered by your own components.
     useIsomorphicLayoutEffect(() => {
       if (!viewportEl) return
       const nodes = getCarouselItems(viewportEl)
       for (const [index, node] of nodes.entries()) {
         node.classList.toggle('active', index === activeIndex)
+        // A `group`, as the pattern has it: `aria-label` isn't allowed on an element with no role.
+        if (!node.hasAttribute('role')) node.setAttribute('role', 'group')
         node.setAttribute('aria-roledescription', 'slide')
         node.setAttribute('aria-label', `${index + 1} of ${nodes.length}`)
       }
@@ -751,3 +765,18 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
 )
 
 Carousel.displayName = 'Carousel'
+
+// The slides of the first `CarouselInner` found in `children` (see `slides.tsx`), or 0 when they
+// can't be told from here: they are then counted from the DOM once the carousel has mounted.
+function countSlides(children: ReactNode): number {
+  for (const child of Children.toArray(children)) {
+    if (isElementOfType<{ children?: ReactNode }>(child, CarouselInner)) {
+      const { nodes, positioned } = readSlides(child.props.children)
+      return positioned ? nodes.length : 0
+    }
+    if (!isValidElement<{ children?: ReactNode }>(child)) continue
+    const count = countSlides(child.props.children)
+    if (count > 0) return count
+  }
+  return 0
+}

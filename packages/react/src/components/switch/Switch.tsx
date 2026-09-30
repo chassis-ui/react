@@ -185,7 +185,9 @@ const SwitchCheckbox = forwardRef<HTMLInputElement, SwitchVariantProps>(
       color,
       forkedRef,
       id,
-      inputProps: switchProps,
+      // `aria-describedby` over react-aria's own, which adds ids it never renders (FORMS.md,
+      // gotcha 6).
+      inputProps: { ...switchProps, 'aria-describedby': rest['aria-describedby'] },
       invalid,
       label: resolvedLabel,
       size,

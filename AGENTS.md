@@ -117,11 +117,11 @@ A separate `site-build` job runs the full `pnpm site:setup && pnpm site:build` (
 
 `pnpm lint:html`/`pnpm lint:vnu` are not in `pnpm lint`, because they need a built `_site/`.
 They run the `chassis-docs html-validate` and `chassis-docs vnu` commands with this site's
-exceptions: `packages/site/html-validate.json` and `packages/site/vnu-filters.txt`. Most exceptions
+exceptions: `packages/site/html-validate.json` and `packages/site/vnu-filters.txt`. The exceptions
 are markup React and react-aria write on purpose, such as `spellCheck` in camelCase, ids from
-`useId` and explicit roles on native elements. Some cover library defects still open, listed in
-finding F10 of `AUDIT-PLAN.md`; delete each one when its fix lands. Fix a new finding in the
-example or the component; add an exception only for markup that is correct.
+`useId` and explicit roles on native elements. The ones that covered library defects (finding F10
+of `AUDIT-PLAN.md`) were deleted with their fixes. Fix a new finding in the example or the
+component; add an exception only for markup that is correct.
 
 A separate `visual-regression` job runs `pnpm test:visual` (Storybook + Playwright screenshot
 tests, for the families listed there — see

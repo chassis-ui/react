@@ -9,6 +9,11 @@ export interface CheckboxGroupContextValue {
    * `is-valid` class when the item doesn't set its own (same pattern as `RadioGroupContext`).
    */
   valid?: boolean
+  /**
+   * The ids of the group's description and error message, when they are rendered. Each item is
+   * described by them too.
+   */
+  describedBy?: string
 }
 
 export const CheckboxGroupContext = createContext<CheckboxGroupContextValue | null>(null)

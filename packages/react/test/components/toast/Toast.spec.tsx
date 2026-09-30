@@ -1,6 +1,8 @@
 import * as React from 'react'
 import { act } from 'react'
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor, within } from '@testing-library/react'
+import { hydrateRoot } from 'react-dom/client'
+import { renderToString } from 'react-dom/server'
 import { axe } from 'jest-axe'
 
 import { Toast, ToastBody, ToastFooter, ToastHeader, useToast } from '../../../src/index'
@@ -359,6 +361,23 @@ describe('Toast', () => {
       expect(toast).toHaveClass('show')
       expect(toast).not.toHaveClass('showing')
       vi.useRealTimers()
+    })
+
+    test('fires onShow once for a toast hydrated from server HTML already shown', async () => {
+      const onShow = vi.fn()
+      const toast = <Toast autohide={false} defaultVisible message="Saved" onShow={onShow} />
+      const host = document.createElement('div')
+      host.innerHTML = renderToString(toast)
+      document.body.appendChild(host)
+      let root: ReturnType<typeof hydrateRoot> | undefined
+      await act(async () => {
+        root = hydrateRoot(host, toast)
+      })
+      expect(within(host).getByRole('status')).toHaveClass('show')
+      expect(within(host).getByRole('status')).not.toHaveClass('showing')
+      expect(onShow).toHaveBeenCalledTimes(1)
+      await act(async () => root?.unmount())
+      host.remove()
     })
 
     test('fires onShow for a toast that mounts already visible, not just on a later prop flip', () => {

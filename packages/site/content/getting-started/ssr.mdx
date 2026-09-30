@@ -109,6 +109,30 @@ A component that reads a child waits for it when the child is still loading, the
 component does, so put a `<Suspense>` boundary above it if it shouldn't hold back the rest of the
 page.
 
+## What the server renders
+
+The server's HTML is the page until its JavaScript has loaded, so each component renders there what
+it settles to: `Tabs` with its selected panel, a `Toast` or `Notification` already shown, a
+`Carousel` with its indicators and active slide. What only the browser can know appears once the
+page has hydrated:
+
+- **Portaled overlays.** `Popover`, `Tooltip`, the lists of `Combobox` and `Autocomplete`, and a
+  `Menu` with `container` render nothing on the server. A trigger's `aria-controls` or
+  `aria-describedby` for its overlay is added with it.
+- **A `Menu` open on its first render.** Its list is in the HTML, and shown once it has a position.
+- **`Modal` and `Drawer` open on their first render.** A `<dialog>` opens as modal only from
+  script.
+- **Today in a calendar.** Which day is today depends on the time zone, and a server's is rarely
+  the viewer's. `Calendar`, `RangeCalendar` and the date pickers mark today after hydration, in the
+  browser's time zone, instead of taking a `timeZone` prop you would have to know on the server.
+  Two things still come from the server's zone: react-aria's accessible name for the day it
+  considers today ("Today, …"), and the month a calendar with no value opens on, which can differ
+  near the turn of a month. Give a server-rendered calendar a `value` or `defaultValue` to fix the
+  month.
+
+A slide rendered by a component of your own, rather than a `CarouselItem` written directly inside
+`CarouselInner`, is found after hydration too: the carousel counts its slides from the page then.
+
 ## Bundle size
 
 A `'use client'` module is a client-reference boundary, and Turbopack (the default bundler in

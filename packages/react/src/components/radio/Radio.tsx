@@ -5,6 +5,7 @@ import { AriaRadioProps, useRadio } from 'react-aria'
 import { useForkedRef } from '../../hooks'
 import { ContextColor } from '../../types'
 import { validationClassName } from '../../utils/validationClassName'
+import { joinIds } from '../../utils/idRefs'
 
 import { RadioGroupContext } from './context'
 import { ButtonObject, renderFormCheck } from '../form/renderFormCheck'
@@ -59,7 +60,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
       throw new Error('Radio must be rendered inside a RadioGroup.')
     }
 
-    const { state: groupState, valid } = group
+    const { describedBy: groupDescribedBy, state: groupState, valid } = group
     const invalid = groupState.isInvalid
 
     const inputRef = useRef<HTMLInputElement>(null)
@@ -86,7 +87,17 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
       button,
       className,
       color,
-      input: <input {...inputProps} className={inputClassName} id={id} ref={forkedRef} />,
+      // Described by the group's description and error message, as react-aria intends, but only
+      // by those the group renders (FORMS.md, gotcha 6).
+      input: (
+        <input
+          {...inputProps}
+          aria-describedby={joinIds(rest['aria-describedby'], groupDescribedBy)}
+          className={inputClassName}
+          id={id}
+          ref={forkedRef}
+        />
+      ),
       invalid,
       label: resolvedLabel,
       size,

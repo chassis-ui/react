@@ -160,7 +160,16 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       !hasAdorn && className
     )
 
-    const input = <input {...inputProps} className={inputClassName} ref={forkedRef} />
+    // `aria-describedby` after the spread: react-aria's own adds ids it never renders (FORMS.md,
+    // gotcha 6).
+    const input = (
+      <input
+        {...inputProps}
+        aria-describedby={describedBy}
+        className={inputClassName}
+        ref={forkedRef}
+      />
+    )
 
     const children = hasAdorn ? (
       <div className={classNames('form-input', plainText && 'plaintext', size, className)}>

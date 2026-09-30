@@ -1,18 +1,39 @@
 // @vitest-environment node
 import * as React from 'react'
 import { renderToString } from 'react-dom/server'
+import { JSDOM } from 'jsdom'
+import { within } from '@testing-library/react'
 
+import { danglingReferences } from '../utils/danglingReferences'
 import { misplacedHrefs } from '../utils/misplacedHrefs'
+import { loadFirstPaintCases } from './firstPaint'
 import { loadStories } from './stories'
 
 // Server render sweep: every story rendered with `renderToString` in a real Node environment, with
 // no `window` or `document`, as a framework's server does. A story fails if rendering throws or
-// logs a `console.error` (a `useLayoutEffect` on the server, an invalid prop, a missing key), or if
-// its markup has an `href` on anything but a link (see `test/utils/href.matrix.spec.tsx`).
+// logs a `console.error` (a `useLayoutEffect` on the server, an invalid prop, a missing key), if
+// its markup has an `href` on anything but a link (see `test/utils/href.matrix.spec.tsx`), or if
+// it refers to an id no element in it has.
 //
 // No story fails today. A known failure would go in an allowlist keyed by story id, as in
 // `hydrate.spec.tsx`.
 const stories = await loadStories()
+const cases = await loadFirstPaintCases()
+
+function toServerHtml(element: React.ReactElement): string {
+  const errors: unknown[] = []
+  const consoleError = vi.spyOn(console, 'error').mockImplementation((...args) => {
+    errors.push(args[0])
+  })
+  let markup = ''
+  try {
+    expect(() => (markup = renderToString(element))).not.toThrow()
+  } finally {
+    consoleError.mockRestore()
+  }
+  expect(errors).toEqual([])
+  return markup
+}
 
 describe('server render of every story', () => {
   test('finds the stories', () => {
@@ -21,17 +42,134 @@ describe('server render of every story', () => {
   })
 
   test.for(stories.map(({ id, Story }) => [id, Story] as const))('%s', ([, Story]) => {
-    const errors: unknown[] = []
-    const consoleError = vi.spyOn(console, 'error').mockImplementation((...args) => {
-      errors.push(args[0])
-    })
-    let html = ''
-    try {
-      expect(() => (html = renderToString(<Story />))).not.toThrow()
-    } finally {
-      consoleError.mockRestore()
+    const markup = toServerHtml(<Story />)
+    expect(misplacedHrefs(markup)).toEqual([])
+    expect(danglingReferences(markup)).toEqual([])
+  })
+})
+
+// What the server's HTML shows before any JavaScript has run: it should be what the page settles
+// to after hydration, except for what only a browser can know (a position, the viewer's time
+// zone) or render (a portal). AUDIT-PLAN.md finding F5.
+describe('first paint on the server', () => {
+  // The case's server HTML, parsed into a document of its own. Query it with `within`.
+  function firstPaint(name: string): HTMLElement {
+    const markup = toServerHtml(cases[name]!())
+    expect(danglingReferences(markup)).toEqual([])
+    return new JSDOM(`<!doctype html><body>${markup}</body>`).window.document.body
+  }
+
+  test('Tabs with no key given selects its first enabled tab and renders its panel', () => {
+    const page = within(firstPaint('Tabs with no key given'))
+    const tab = page.getByRole('tab', { name: 'Two' })
+    expect(tab).toHaveAttribute('aria-selected', 'true')
+    // The tab stop, so Tab reaches the list before hydration.
+    expect(tab).toHaveAttribute('tabindex', '0')
+    expect(page.getByRole('tabpanel')).toHaveTextContent('Panel two')
+  })
+
+  test('a disabled tab is never the tab stop, even selected', () => {
+    const tab = within(firstPaint('Tabs with every tab disabled')).getByRole('tab', { name: 'One' })
+    expect(tab).toHaveAttribute('aria-selected', 'true')
+    expect(tab).not.toHaveAttribute('tabindex')
+  })
+
+  test('a Toast shown on its first render is settled, with show', () => {
+    const page = within(firstPaint('Toast shown'))
+    expect(page.getByRole('status')).toHaveClass('toast', 'fade', 'show')
+  })
+
+  test('a Notification shown on its first render is settled, with show', () => {
+    const page = within(firstPaint('Notification shown'))
+    expect(page.getByRole('status')).toHaveClass('notification', 'fade', 'show')
+  })
+
+  test('Carousel renders an indicator per slide and marks the active slide', () => {
+    const page = within(firstPaint('Carousel with indicators'))
+    const indicators = page.getAllByRole('button', { name: /^Slide/ })
+    expect(indicators).toHaveLength(3)
+    expect(indicators[1]).toHaveAttribute('aria-current', 'true')
+    const active = page.getByRole('group', { name: '2 of 3' })
+    expect(active).toHaveClass('carousel-item', 'active')
+    expect(active).toHaveAttribute('aria-roledescription', 'slide')
+    expect(page.getByRole('group', { name: '1 of 3' })).not.toHaveClass('active')
+  })
+
+  test('a CarouselInner inside a component of your own counts its own slides', () => {
+    const page = within(firstPaint('Carousel inside a component of your own'))
+    expect(page.getByRole('group', { name: '1 of 3' })).toHaveClass('active')
+  })
+
+  test("a nested carousel's slides don't take the enclosing slide's position", () => {
+    const page = within(firstPaint('Carousel nested in a slide'))
+    expect(page.getByRole('group', { name: '1 of 1' })).toHaveClass('active')
+    // The inner carousel can't place a slide of your own component, so it positions none.
+    expect(page.getByText('Inner one')).not.toHaveClass('active')
+    expect(page.getByText('Inner one')).not.toHaveAttribute('aria-label')
+  })
+
+  test('a fade Carousel shows its first slide, fragments included', () => {
+    const page = within(firstPaint('Carousel with fade'))
+    const first = page.getByRole('group', { name: '1 of 2' })
+    expect(first).toHaveClass('active')
+    expect(first).toHaveTextContent('Slide 1')
+  })
+
+  test('a Menu open on its first render waits for its position, and never sets aria-hidden', () => {
+    const list = within(firstPaint('Menu open')).getByRole('menu')
+    expect(list).not.toHaveClass('show')
+    expect(list).not.toHaveAttribute('aria-hidden')
+  })
+
+  test.for(['Calendar showing today', 'RangeCalendar showing today'])(
+    '%s marks no day as today: the server does not know the time zone',
+    (name) => {
+      const page = within(firstPaint(name))
+      expect(page.queryByRole('gridcell', { current: 'date' })).toBeNull()
+      for (const cell of page.getAllByRole('gridcell')) {
+        expect(cell).not.toHaveClass('datepicker-date-today')
+      }
     }
-    expect(errors).toEqual([])
-    expect(misplacedHrefs(html)).toEqual([])
+  )
+
+  test('a field is described by its own help only', () => {
+    const page = within(firstPaint('TextInput with help'))
+    expect(page.getByRole('textbox', { name: 'Name' })).toHaveAccessibleDescription('Your name')
+  })
+
+  test('Table writes no empty aria-describedby', () => {
+    const page = within(firstPaint('Table without descriptions'))
+    expect(page.getByRole('grid')).not.toHaveAttribute('aria-describedby')
+  })
+
+  test('an empty DataGrid writes no empty aria-describedby and no negative size', () => {
+    const page = within(firstPaint('DataGrid empty'))
+    const grid = page.getByRole('grid')
+    expect(grid).not.toHaveAttribute('aria-describedby')
+    expect(grid.innerHTML).not.toMatch(/:\s*-\d/)
+  })
+
+  test('an empty ChipInput list is a group, which takes no aria-multiselectable', () => {
+    const list = within(firstPaint('ChipInput empty')).getByRole('group', { name: 'Tags' })
+    expect(list).not.toHaveAttribute('aria-multiselectable')
+  })
+
+  test('a masked OtpInput offers one-time codes, not saved passwords, in every box', () => {
+    const boxes = within(firstPaint('OtpInput masked')).getAllByLabelText(/^Digit/)
+    expect(boxes).toHaveLength(4)
+    for (const box of boxes) {
+      expect(box).toHaveAttribute('type', 'password')
+      expect(box).toHaveAttribute('autocomplete', 'one-time-code')
+    }
+  })
+
+  test('an open Popover trigger points at no panel until the portal exists', () => {
+    const page = within(firstPaint('Popover open'))
+    expect(page.getByRole('button', { name: 'More' })).not.toHaveAttribute('aria-controls')
+  })
+
+  test('an open Tooltip trigger is described by no tooltip until the portal exists', () => {
+    const page = within(firstPaint('Tooltip open'))
+    expect(page.getByRole('button', { name: 'Help' })).not.toHaveAttribute('aria-describedby')
   })
 })

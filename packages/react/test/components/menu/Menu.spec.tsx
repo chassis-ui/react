@@ -39,7 +39,7 @@ describe('Menu', () => {
 
       const menu = screen.getByRole('menu')
       expect(menu).toHaveAttribute('data-cx-placement', 'bottom-start')
-      expect(menu).toHaveAttribute('aria-hidden', 'false')
+      expect(menu).not.toHaveAttribute('aria-hidden')
       expect(menu.getAttribute('aria-labelledby')).toBe(toggle.getAttribute('id'))
       expect(toggle.getAttribute('aria-controls')).toBe(menu.getAttribute('id'))
     })
@@ -218,9 +218,6 @@ describe('Menu', () => {
       )
       fireEvent.click(screen.getByText('Toggle'))
       vi.runAllTimers()
-      // Captured while still open — once closed the panel gets `aria-hidden="true"`, and an
-      // aria-hidden element's accessible name computes as empty, so `getByRole(..., { name })`
-      // can no longer find it by name at that point (only by role, via `hidden: true`).
       const topMenu = screen.getByRole('menu', { name: 'Toggle' })
 
       fireEvent.click(screen.getByText('File'))

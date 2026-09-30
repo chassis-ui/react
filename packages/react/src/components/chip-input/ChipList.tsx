@@ -32,8 +32,19 @@ export const ChipList = ({
 }: ChipListProps) => {
   const { gridProps } = useTagGroup(props, state, groupRef)
 
+  // react-aria describes the list by a description and an error message it never renders here
+  // (FORMS.md, gotcha 6), and keeps `aria-multiselectable` when an empty list turns from a `grid`
+  // into a `group`, which doesn't allow it.
   return (
-    <div {...gridProps} style={{ display: 'contents' }} ref={groupRef as RefObject<HTMLDivElement>}>
+    <div
+      {...gridProps}
+      aria-describedby={undefined}
+      aria-multiselectable={
+        gridProps.role === 'grid' ? gridProps['aria-multiselectable'] : undefined
+      }
+      style={{ display: 'contents' }}
+      ref={groupRef as RefObject<HTMLDivElement>}
+    >
       {[...state.collection].map((item) => (
         <ChipRow
           chipVariant={chipVariant}
@@ -75,6 +86,8 @@ const ChipRow = ({ chipVariant, disabled, item, size, state }: ChipRowProps) => 
   return (
     <Chip
       {...rowProps}
+      // Labelled by its `aria-label`. react-aria adds a description id it never renders here.
+      aria-labelledby={undefined}
       className={classNames(chipVariant, { active: state.selectionManager.isSelected(item.key) })}
       component="div"
       disabled={disabled}

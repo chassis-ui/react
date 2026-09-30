@@ -130,7 +130,16 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     )
 
     return renderFormField({
-      children: <textarea {...inputProps} rows={rows} className={_className} ref={forkedRef} />,
+      // `aria-describedby` after the spread: see `TextInput`.
+      children: (
+        <textarea
+          {...inputProps}
+          aria-describedby={describedBy}
+          rows={rows}
+          className={_className}
+          ref={forkedRef}
+        />
+      ),
       help,
       ids: { feedback: feedbackId, help: helpId, input: inputId, label: labelId },
       invalid,

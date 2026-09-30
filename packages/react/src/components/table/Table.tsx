@@ -193,7 +193,14 @@ const TableInner = <T extends object>(
   })
 
   const tableEl = (
-    <table {...gridProps} className={_className} ref={ref}>
+    // react-aria joins the table's descriptions without dropping an empty result, so a table
+    // with none had `aria-describedby=""`.
+    <table
+      {...gridProps}
+      aria-describedby={gridProps['aria-describedby'] || undefined}
+      className={_className}
+      ref={ref}
+    >
       {caption && <caption>{caption}</caption>}
       <TableRowGroup className={children[0].props.className} type="thead">
         {state.collection.headerRows.map((headerRow) => (
@@ -401,5 +408,7 @@ const TableCheckbox = ({ checkboxProps }: { checkboxProps: AriaCheckboxProps }) 
   const ref = useRef<HTMLInputElement>(null)
   const { inputProps } = useCheckbox(checkboxProps, toggleState, ref)
 
-  return <input {...inputProps} className="check-input" ref={ref} />
+  // `aria-describedby` after the spread: react-aria's own adds ids it never renders (FORMS.md,
+  // gotcha 6).
+  return <input {...inputProps} aria-describedby={undefined} className="check-input" ref={ref} />
 }

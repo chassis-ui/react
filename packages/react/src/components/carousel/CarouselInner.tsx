@@ -1,4 +1,4 @@
-import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, isValidElement, ReactElement } from 'react'
 import classNames from 'classnames'
 
 import { useForkedRef } from '../../hooks'
@@ -8,6 +8,7 @@ import {
   PolymorphicRef
 } from '../../utils/polymorphic'
 import { useCarouselContext } from './context'
+import { readSlides, SlidePositionContext } from './slides'
 
 type CarouselInnerOwnProps<C extends ElementType> = {
   /**
@@ -42,10 +43,21 @@ function CarouselInnerRender<C extends ElementType = 'div'>(
   const Component = component ?? 'div'
   const forkedRef = useForkedRef(ref, registerViewport)
   const _className = classNames('carousel-inner', className)
+  const { nodes, positioned } = readSlides(children)
 
+  // Every child is wrapped the same way whether or not the positions are known, so a child that
+  // comes and goes (a loading spinner beside the slides) doesn't remount the slides. Unknown
+  // positions are provided as unset, which also keeps an enclosing carousel's from leaking in.
   return (
     <Component className={_className} {...rest} ref={forkedRef}>
-      {children}
+      {nodes.map((node, index) => (
+        <SlidePositionContext.Provider
+          key={isValidElement(node) ? node.key : index}
+          value={positioned ? { count: nodes.length, index } : undefined}
+        >
+          {node}
+        </SlidePositionContext.Provider>
+      ))}
     </Component>
   )
 }

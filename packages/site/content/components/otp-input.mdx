@@ -71,7 +71,7 @@ Add `disabled` to prevent input and make every box non-interactive.
 
 ## Masked
 
-Pass `mask` to render each box as `type="password"`, hiding entered digits.
+Pass `mask` to render each box as `type="password"`, hiding entered digits. Every masked box gets `autocomplete="one-time-code"`: browsers ignore `off` on a password field, so a box without it would be offered saved passwords.
 
 <Example>
   <MaskedExample client:load />

@@ -344,7 +344,14 @@ export const ChipInput = forwardRef<HTMLDivElement, ChipInputProps>(
             size={size}
             state={listState}
           />
-          <input {...inputProps} className="ghost-input" onPaste={handlePaste} ref={inputRef} />
+          {/* `aria-describedby` after the spread: see `TextInput`. */}
+          <input
+            {...inputProps}
+            aria-describedby={describedBy}
+            className="ghost-input"
+            onPaste={handlePaste}
+            ref={inputRef}
+          />
           {name &&
             items.map((item) => (
               <input

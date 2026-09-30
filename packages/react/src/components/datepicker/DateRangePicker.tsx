@@ -5,6 +5,7 @@ import { DateValue, useDateRangePickerState } from 'react-stately'
 import { useForkedRef, useFormField, useOpenStateProps, useOverlayPlacement } from '../../hooks'
 import { DateRangePreset } from '../../utils/dateRangePresets'
 import { mergeIsDateUnavailable } from '../../utils/mergeIsDateUnavailable'
+import { withoutSlotIds } from '../../utils/idRefs'
 import { renderFormField } from '../form-field/renderFormField'
 import { RangeCalendar } from '../calendar/RangeCalendar'
 import { CalendarToggleButton } from './CalendarToggleButton'
@@ -257,24 +258,32 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
       validFeedback
     })
 
-    const { groupProps, startFieldProps, endFieldProps, buttonProps, calendarProps, dialogProps } =
-      useDateRangePicker(
-        {
-          'aria-label': rest['aria-label'],
-          'aria-labelledby': labelledBy,
-          defaultValue,
-          id: groupId,
-          isDateUnavailable: combinedIsDateUnavailable,
-          isDisabled: disabled,
-          isInvalid: invalid,
-          maxValue,
-          minValue,
-          onChange,
-          value
-        },
-        state,
-        groupRef
-      )
+    const {
+      buttonProps,
+      calendarProps,
+      descriptionProps,
+      dialogProps,
+      endFieldProps,
+      errorMessageProps,
+      groupProps,
+      startFieldProps
+    } = useDateRangePicker(
+      {
+        'aria-label': rest['aria-label'],
+        'aria-labelledby': labelledBy,
+        defaultValue,
+        id: groupId,
+        isDateUnavailable: combinedIsDateUnavailable,
+        isDisabled: disabled,
+        isInvalid: invalid,
+        maxValue,
+        minValue,
+        onChange,
+        value
+      },
+      state,
+      groupRef
+    )
 
     const { overlayStyle, placementAttr, overlayDismissProps } = useOverlayPlacement({
       overlayRef,
@@ -323,11 +332,23 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
                 disabled,
                 field: (
                   <>
-                    <DateField fieldProps={startFieldProps} />
+                    <DateField
+                      fieldProps={withoutSlotIds(
+                        startFieldProps,
+                        descriptionProps,
+                        errorMessageProps
+                      )}
+                    />
                     <span aria-hidden="true" className="daterangepicker-separator">
                       –
                     </span>
-                    <DateField fieldProps={endFieldProps} />
+                    <DateField
+                      fieldProps={withoutSlotIds(
+                        endFieldProps,
+                        descriptionProps,
+                        errorMessageProps
+                      )}
+                    />
                   </>
                 ),
                 fieldClassName: 'd-flex w-100',
@@ -346,7 +367,7 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
                 size,
                 toggleButton: (
                   <CalendarToggleButton
-                    buttonProps={buttonProps}
+                    buttonProps={withoutSlotIds(buttonProps, descriptionProps, errorMessageProps)}
                     ref={toggleButtonRef}
                     state={state}
                   />

@@ -9,6 +9,11 @@ export interface RadioGroupContextValue {
    * `is-valid` class.
    */
   valid?: boolean
+  /**
+   * The ids of the group's description and error message, when they are rendered. Each item is
+   * described by them too.
+   */
+  describedBy?: string
 }
 
 export const RadioGroupContext = createContext<RadioGroupContextValue | null>(null)

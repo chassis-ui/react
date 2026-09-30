@@ -70,5 +70,14 @@ const DataGridCheckboxInput = ({
   const ref = useRef<HTMLInputElement>(null)
   const { inputProps } = useCheckbox(checkboxProps, toggleState, ref)
 
-  return <input {...inputProps} className={className ?? 'check-input'} ref={ref} />
+  // `aria-describedby` after the spread: react-aria's own adds ids it never renders (FORMS.md,
+  // gotcha 6).
+  return (
+    <input
+      {...inputProps}
+      aria-describedby={undefined}
+      className={className ?? 'check-input'}
+      ref={ref}
+    />
+  )
 }

@@ -140,9 +140,11 @@ pnpm test:update  # same, plus -u to update snapshots
   neither catches a type that compiles and is simply wrong for a consumer.
 - Three sweeps guard SSR and `asChild` across the whole library, each with an allowlist of
   known failures that must keep failing (a fixed case fails its "still fails" check until its
-  entry is deleted): `test/ssr/render.spec.tsx` server-renders every story in a Node environment;
-  `test/ssr/hydrate.spec.tsx` renders the same stories with no DOM, then installs jsdom, resets
-  the module graph and hydrates them; `test/utils/asChild.matrix.spec.tsx` checks every
+  entry is deleted): `test/ssr/render.spec.tsx` server-renders every story in a Node environment,
+  failing on a reference to an id the HTML doesn't contain, and asserts the first paint of the
+  cases in `test/ssr/firstPaint.tsx` (see `CONVENTIONS.md`, "Server HTML");
+  `test/ssr/hydrate.spec.tsx` renders the same stories and cases with no DOM, then installs
+  jsdom, resets the module graph and hydrates them; `test/utils/asChild.matrix.spec.tsx` checks every
   polymorphic component (found by reading `src/`) renders the same attributes for `asChild` with
   an `<a>`, and with a router link, as for `component="a"`; its allowlist is empty. It also fails
   on a render function that compares `component` to a tag name.

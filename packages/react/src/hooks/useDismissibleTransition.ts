@@ -1,5 +1,6 @@
 import { ForwardedRef, useCallback, useEffect, useId, useRef } from 'react'
 
+import { useHydrated } from '../utils/portal'
 import { warnDroppedVisibleRequest } from '../utils/visibleState'
 import { useControllableState } from './useControllableState'
 import { useForkedRef } from './useForkedRef'
@@ -133,8 +134,13 @@ export function useDismissibleTransition({
 
   const close = useCallback(() => requestHideRef.current(), [])
 
+  // A component mounted visible plays its enter transition, except in the server's HTML and
+  // while hydrating it: there is nothing on screen to animate from, and starting hidden left the
+  // page without the component until the JavaScript had loaded. It starts settled, with `show`.
+  const hydrated = useHydrated()
+
   const { isMounted, phase } = useTransitionState({
-    appear: true,
+    appear: hydrated,
     in: _visible,
     nodeRef,
     onEnter: () => {
@@ -149,6 +155,16 @@ export function useDismissibleTransition({
   })
 
   useEffect(() => reportClose, [reportClose])
+
+  // Settled from the start, the component never enters, which is where `onShow` fires: fire it
+  // once on mount instead, since it did show. The ref keeps StrictMode's second run from firing
+  // it again.
+  const showOwedRef = useRef(!hydrated && _visible)
+  useEffect(() => {
+    if (!showOwedRef.current) return
+    showOwedRef.current = false
+    onShow?.()
+  }, [])
 
   return {
     close,

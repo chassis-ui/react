@@ -21,7 +21,7 @@ import {
   useTransitionState
 } from '../../hooks'
 import { Placement, resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
-import { Portal } from '../../utils/portal'
+import { Portal, useHydrated } from '../../utils/portal'
 import { asTriggerElement, getTriggerRef } from '../../utils/triggerElement'
 
 interface PopoverPanelProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'content'> {
@@ -261,13 +261,21 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(function Popover
     unmountOnExit: true
   })
 
+  // The panel is portaled, so it exists only once hydration has finished: until then the trigger
+  // doesn't point `aria-controls` at it, or its HTML would refer to an id no element has.
+  const hydrated = useHydrated()
+
   return (
     <>
       {/* `mergeProps` chains the child's own `onClick` ahead of this one, so this no longer
           calls `children.props.onClick` itself the way it did when it spread `triggerProps`
           raw — doing both would fire the caller's handler twice per click. */}
       {React.cloneElement(triggerElement, {
-        ...mergeProps(triggerElement.props, triggerProps, { onClick: () => state.toggle() }),
+        ...mergeProps(
+          triggerElement.props,
+          hydrated ? triggerProps : { ...triggerProps, 'aria-controls': undefined },
+          { onClick: () => state.toggle() }
+        ),
         ref: forkedTriggerRef
       })}
       <Portal container={portalContainer}>

@@ -1,4 +1,4 @@
-import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement, useContext } from 'react'
 import classNames from 'classnames'
 
 import {
@@ -6,6 +6,8 @@ import {
   PolymorphicComponentProps,
   PolymorphicRef
 } from '../../utils/polymorphic'
+import { CarouselContext } from './context'
+import { SlidePositionContext } from './slides'
 
 type CarouselItemOwnProps<C extends ElementType> = {
   /**
@@ -36,10 +38,26 @@ function CarouselItemRender<C extends ElementType = 'div'>(
   ref: PolymorphicRef<C>
 ) {
   const Component = component ?? 'div'
-  const _className = classNames('carousel-item', className)
+  // Where this slide sits, when `CarouselInner` can tell (see `slides.tsx`), so the first render,
+  // the server's too, marks the active slide. `Carousel` applies the same from the DOM otherwise.
+  const carousel = useContext(CarouselContext)
+  const slide = useContext(SlidePositionContext)
+  const position =
+    carousel && slide
+      ? {
+          'aria-label': `${slide.index + 1} of ${slide.count}`,
+          'aria-roledescription': 'slide',
+          role: 'group'
+        }
+      : {}
+  const _className = classNames(
+    'carousel-item',
+    { active: !!carousel && !!slide && slide.index === carousel.activeIndex },
+    className
+  )
 
   return (
-    <Component className={_className} data-interval={interval} {...rest} ref={ref}>
+    <Component className={_className} data-interval={interval} {...position} {...rest} ref={ref}>
       {children}
     </Component>
   )

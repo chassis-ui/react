@@ -23,6 +23,7 @@ import { CalendarMonthBlock } from './CalendarMonthBlock'
 import { CalendarNavButton } from './CalendarNavButton'
 import { DateRangePreset } from '../../utils/dateRangePresets'
 import { mergeIsDateUnavailable } from '../../utils/mergeIsDateUnavailable'
+import { useHydrated } from '../../utils/portal'
 import { suppressFocusRing } from '../../utils/suppressFocusRingGlobally'
 import './Calendar.scss'
 import './RangeCalendar.scss'
@@ -296,7 +297,10 @@ const CalendarCell = ({ date, isFirstInRow, isLastInRow, locale, state }: Calend
   const { highlightedRange } = state
   const isRangeStart = Boolean(highlightedRange && isSameDay(date, highlightedRange.start))
   const isRangeEnd = Boolean(highlightedRange && isSameDay(date, highlightedRange.end))
-  const isCurrentDate = isToday(date, getLocalTimeZone())
+  // "Today" depends on the time zone, and a server's is rarely the viewer's: marked once hydration
+  // has finished, in the browser's own zone, so the server's HTML never marks the wrong day.
+  const hydrated = useHydrated()
+  const isCurrentDate = hydrated && isToday(date, getLocalTimeZone())
 
   return (
     <div

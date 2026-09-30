@@ -67,6 +67,14 @@ const TabItem = ({ item }: TabItemProps) => {
       <a
         className={classNames('nav-link', { active: isSelected, disabled: isDisabled })}
         {...tabProps}
+        // react-aria makes the selected tab the tab stop in an effect, so the server's HTML had no
+        // tab stop and Tab skipped the list until the JavaScript had loaded. A disabled tab never
+        // is one.
+        tabIndex={
+          isSelected && !isDisabled && state.selectionManager.focusedKey == null
+            ? 0
+            : tabProps.tabIndex
+        }
         ref={ref}
       >
         {item.rendered}

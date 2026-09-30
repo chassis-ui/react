@@ -237,6 +237,14 @@ const DataGridInner = <T extends object>(
         selectedKeys={selectedKeys}
         selectionMode={selectionMode}
         sortDescriptor={sortDescriptor}
+        // react-aria joins the grid's descriptions without dropping an empty result, so a grid
+        // with none had `aria-describedby=""`.
+        render={(props) => (
+          <div
+            {...(props as React.ComponentProps<'div'>)}
+            aria-describedby={props['aria-describedby'] || undefined}
+          />
+        )}
       >
         {children}
       </AriaTable>

@@ -100,6 +100,12 @@ function TabsRender<C extends ElementType = 'div'>(
   const tabDisabledKeys = tabs.filter((tab) => tab.props.disabled).map((tab) => tab.props.id)
   const allDisabledKeys = disabledKeys ? [...disabledKeys, ...tabDisabledKeys] : tabDisabledKeys
 
+  // With no key given, react-stately selects the first enabled tab in an effect, which never runs
+  // on the server: the server HTML had no selected tab and no panel. Choosing that tab here, by
+  // react-stately's own rule (the first enabled tab, or the first tab when all are disabled),
+  // selects it on the first render.
+  const initialKey = defaultSelectedKey ?? firstEnabledKey(tabs, new Set(allDisabledKeys))
+
   const state = useTabListState<ReactElement<TabProps>>({
     children: (tab) => (
       <Item
@@ -110,11 +116,24 @@ function TabsRender<C extends ElementType = 'div'>(
       </Item>
     ),
     items: tabs,
-    defaultSelectedKey,
+    defaultSelectedKey: initialKey,
     disabledKeys: allDisabledKeys,
     selectedKey,
     onSelectionChange
   })
+
+  // react-stately's own selection of that tab reported it through `onSelectionChange`, which a key
+  // given up front doesn't: report it once on mount, as before, so state kept from it (a
+  // `selectedKey` that starts unset) learns the initial tab.
+  const reportedInitialKeyRef = useRef(false)
+  useEffect(() => {
+    if (reportedInitialKeyRef.current) return
+    reportedInitialKeyRef.current = true
+    if (selectedKey == null && defaultSelectedKey == null && initialKey != null) {
+      onSelectionChange?.(initialKey)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // Flipped to `false` once the initial commit has painted, so `TabPanel` can tell "selected on
   // load" apart from "selected by switching" and only fade in the latter.
@@ -131,6 +150,10 @@ function TabsRender<C extends ElementType = 'div'>(
       </Component>
     </TabsContext.Provider>
   )
+}
+
+function firstEnabledKey(tabs: ReactElement<TabProps>[], disabled: Set<Key>): Key | undefined {
+  return (tabs.find((tab) => !disabled.has(tab.props.id)) ?? tabs[0])?.props.id
 }
 
 export const Tabs = createPolymorphicComponent<TabsComponent>(

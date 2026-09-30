@@ -15,7 +15,7 @@ import {
   PolymorphicComponentProps,
   PolymorphicRef
 } from '../../utils/polymorphic'
-import { Portal } from '../../utils/portal'
+import { Portal, useHydrated } from '../../utils/portal'
 import { MenuContext } from './Menu'
 import { MenuDivider } from './MenuDivider'
 import { MenuHeader } from './MenuHeader'
@@ -93,6 +93,11 @@ function MenuListRender<C extends ElementType = 'div'>(
   } = useContext(MenuContext)
   const forkedRef = useForkedRef(ref, overlayRef)
   const submenuGroup = useSubmenuGroupProvider()
+  // The list is positioned in a layout effect, which the server never runs: a menu open on its
+  // first render was painted at the top left of the page until the JavaScript had loaded. It is
+  // shown once hydration has finished, where that effect has placed it.
+  const hydrated = useHydrated()
+  const shown = visible && hydrated
 
   // ArrowDown/ArrowUp on the trigger opens the menu with a focus strategy (see `Menu`'s
   // `useMenuTrigger` wiring) — this is where that intent actually lands, since we're not
@@ -113,10 +118,9 @@ function MenuListRender<C extends ElementType = 'div'>(
       role="menu"
       id={menuId}
       aria-labelledby={triggerId}
-      className={classNames('menu', { show: visible }, className)}
+      className={classNames('menu', { show: shown }, className)}
       style={menuStyle}
       data-cx-placement={placementAttr}
-      aria-hidden={!visible}
       {...rest}
       onKeyDown={handleKeyDown}
       ref={forkedRef}

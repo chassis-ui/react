@@ -20,7 +20,7 @@ import {
   useTransitionState
 } from '../../hooks'
 import { Placement, resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
-import { Portal } from '../../utils/portal'
+import { Portal, useHydrated } from '../../utils/portal'
 import { asTriggerElement, getTriggerRef } from '../../utils/triggerElement'
 
 export type { Placement }
@@ -184,13 +184,17 @@ export const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(function Tooltip
     unmountOnExit: true
   })
 
+  // The tooltip is portaled, so it exists only once hydration has finished: until then the
+  // trigger isn't described by it, or its HTML would refer to an id no element has.
+  const hydrated = useHydrated()
+
   return (
     <>
       {React.cloneElement(triggerElement, {
         ...mergeProps(
           triggerElement.props,
-          triggerProps,
-          isHeld && state.isOpen ? { 'aria-describedby': tooltipTriggerProps.id } : {}
+          hydrated ? triggerProps : { ...triggerProps, 'aria-describedby': undefined },
+          hydrated && isHeld && state.isOpen ? { 'aria-describedby': tooltipTriggerProps.id } : {}
         ),
         ref: forkedTriggerRef
       })}

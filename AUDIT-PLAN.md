@@ -299,6 +299,9 @@ No hydration error, but the first paint is wrong or incomplete:
 - By reading — `Calendar.tsx:201`, `:318` and `RangeCalendar.tsx:299` call `getLocalTimeZone()`
   during render, so "today" is computed in the server's timezone.
 
+Extended in B7: a `transition="fade"` `Carousel` rendered no active slide on the server, so it was
+blank until hydration, and `Tabs` had no tab stop there.
+
 ### F6 — Overlay API gaps (by reading)
 
 - `PopoverProps` accepts only `aria-label`/`aria-labelledby` beyond its own props; `TooltipProps`
@@ -367,6 +370,10 @@ A8 ran html-validate and the Nu Html Checker over the built docs site. The docs 
 - `OtpInput` with `mask` renders `type="password"` boxes with `autocomplete="off"`, which browsers
   ignore on password fields, so a password manager can offer to fill each digit. (html-validate
   `autocomplete-password` off.)
+
+Fixed in B7, with every exception above deleted. The slot ids were not limited to fields: the date
+pickers' segments and calendar button, the table selection checkboxes and `ChipInput`'s chip rows
+had them too.
 
 ## Track A phases
 
@@ -874,22 +881,51 @@ Changeset: minor. Exit: `api-report.md` diff reviewed; type tests added to `type
 
 Model: **Opus**. Five independent fixes, each local to one component.
 
-- [ ] `Tabs`: select the first enabled tab during render when no key is given, so the server
-      renders its panel.
-- [ ] `Toast`, `Notification`: render `show` on the server when mounted visible with no enter
-      animation pending.
-- [ ] `Carousel`: render indicators from the child count on the server.
-- [ ] `Menu`: don't render an open list until it has a position.
-- [ ] `Calendar`, `RangeCalendar`: apply the "today" marker after hydration, or accept a
-      `timeZone` prop; document the choice in the SSR page.
-- [ ] The rest of F10. Fields: render their own `aria-describedby` instead of react-aria's slot
+- [x] `Tabs`: select the first enabled tab during render when no key is given, so the server
+      renders its panel. The selected tab is also the tab stop on the server now; react-aria made
+      it one in an effect.
+- [x] `Toast`, `Notification`: render `show` on the server when mounted visible with no enter
+      animation pending. Mounted visible while not hydrated, they start settled
+      (`useDismissibleTransition`, `appear: useHydrated()`); `onShow` fires once on mount for them.
+- [x] `Carousel`: render indicators from the child count on the server. Also found by the
+      hydrate-and-diff sweep below: the active slide was marked only by an effect, so a
+      `transition="fade"` carousel was blank until hydration. `CarouselInner` now gives each
+      `CarouselItem` its index (`slides.tsx`), which renders `active`, `role="group"`,
+      `aria-roledescription` and `aria-label`; the DOM effect still covers slides inside your own
+      components. The end controls start in the right state.
+- [x] `Menu`: don't render an open list until it has a position (`show` after hydration).
+- [x] `Calendar`, `RangeCalendar`: apply the "today" marker after hydration, or accept a
+      `timeZone` prop; document the choice in the SSR page. After hydration, documented in
+      `ssr.mdx` with what still comes from the server's zone (react-aria's "Today" label, the
+      month a calendar with no value opens on).
+- [x] The rest of F10. Fields: render their own `aria-describedby` instead of react-aria's slot
       ids, then turn `no-missing-references` back on. `Table`, `DataGrid`, `ChipInput`: no empty
       `aria-describedby`, no negative size, no `aria-multiselectable` on a `group`. `Menu`: drop
       `aria-hidden` from the closed list, then turn `hidden-focusable` back on. `OtpInput`: decide
       the `autocomplete` of masked boxes, then turn `autocomplete-password` back on. Delete each
-      exception with its fix.
+      exception with its fix. Decided: `one-time-code` on every masked box. The date pickers keep
+      react-aria's other descriptions and drop only the slot ids (`withoutSlotIds`); their
+      segments' `aria-labelledby` also named an id react-aria merges away only in the browser.
+      `Popover`/`Tooltip` triggers pointed at their portaled panel on the server too. All three
+      html-validate rules are back on and the three vnu filters deleted; both validators pass on
+      the built site.
 
-Changeset: patch. Exit: a new assertion per component in `test/ssr/render.spec.tsx`.
+How it was checked, beyond the tests: every story server-rendered, hydrated, and its markup
+diffed after the page settled. What still changes after hydration is on purpose (`Menu`,
+`Popover`, `Tooltip`) or out of this phase: `Modal`/`Drawer` open on first render get `open` only
+from `showModal()`, and react-aria-components' generated column keys differ between the server and
+the browser (`DataGrid` columns without an `id`, one `data-key` attribute), a mismatch React
+reports only as a development warning.
+
+An independent review of the diff found six defects before the commit, each now with a test:
+`onShow` and `Tabs`' mount-time `onSelectionChange` had stopped firing, slides remounted when a
+sibling came and went, a nested carousel took its enclosing slide's position, a `CarouselInner`
+inside your own component labelled slides "N of 0", and a disabled selected tab became the tab
+stop.
+
+Changeset: patch. Exit: a new assertion per component in `test/ssr/render.spec.tsx`. Done: the
+cases are in `test/ssr/firstPaint.tsx`, asserted in `render.spec.tsx` and hydrated in
+`hydrate.spec.tsx`; the story sweep also fails on a reference to a missing id.
 
 ### B8 — Refs and shared helpers (F7)
 

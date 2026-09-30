@@ -10,6 +10,7 @@ import { getLocalTimeZone } from '@internationalized/date'
 
 import { useForkedRef, useFormField, useOpenStateProps, useOverlayPlacement } from '../../hooks'
 import { mergeIsDateUnavailable } from '../../utils/mergeIsDateUnavailable'
+import { withoutSlotIds } from '../../utils/idRefs'
 import { renderFormField } from '../form-field/renderFormField'
 import { Calendar } from '../calendar/Calendar'
 import { CalendarToggleButton } from './CalendarToggleButton'
@@ -297,7 +298,15 @@ const DatePickerSingle = forwardRef<HTMLDivElement, DatePickerSingleProps>(
       validFeedback
     })
 
-    const { groupProps, fieldProps, buttonProps, calendarProps, dialogProps } = useDatePicker(
+    const {
+      buttonProps,
+      calendarProps,
+      descriptionProps,
+      dialogProps,
+      errorMessageProps,
+      fieldProps,
+      groupProps
+    } = useDatePicker(
       {
         'aria-label': rest['aria-label'],
         'aria-labelledby': labelledBy,
@@ -360,7 +369,11 @@ const DatePickerSingle = forwardRef<HTMLDivElement, DatePickerSingleProps>(
                   />
                 ),
                 disabled,
-                field: <DateField fieldProps={fieldProps} />,
+                field: (
+                  <DateField
+                    fieldProps={withoutSlotIds(fieldProps, descriptionProps, errorMessageProps)}
+                  />
+                ),
                 fieldClassName: 'w-100 overflow-x-scroll',
                 groupProps: {
                   ...mergeProps(groupProps, rest),
@@ -377,7 +390,7 @@ const DatePickerSingle = forwardRef<HTMLDivElement, DatePickerSingleProps>(
                 size,
                 toggleButton: (
                   <CalendarToggleButton
-                    buttonProps={buttonProps}
+                    buttonProps={withoutSlotIds(buttonProps, descriptionProps, errorMessageProps)}
                     ref={toggleButtonRef}
                     state={state}
                   />

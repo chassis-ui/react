@@ -38,7 +38,10 @@ export const OtpBox = forwardRef(
     const { inputProps } = useTextField(
       {
         'aria-label': `Digit ${index + 1}`,
-        autoComplete: index === 0 ? 'one-time-code' : 'off',
+        // Only the first box takes the whole code; the others turn autofill off. Browsers ignore
+        // `off` on a password field, though, so a masked box would be offered saved passwords:
+        // every masked box says it takes a one-time code instead, the one other value that fits.
+        autoComplete: index === 0 || mask ? 'one-time-code' : 'off',
         isDisabled: disabled,
         isInvalid: invalid,
         maxLength: 1,
@@ -54,6 +57,9 @@ export const OtpBox = forwardRef(
     return (
       <input
         {...mergeProps(inputProps, focusProps)}
+        // The group describes the boxes. react-aria's own ids here are never rendered (FORMS.md,
+        // gotcha 6).
+        aria-describedby={undefined}
         className={classNames('form-input', size, validationClassName(invalid, valid))}
         data-focus-visible={isFocusVisible || undefined}
         inputMode="numeric"

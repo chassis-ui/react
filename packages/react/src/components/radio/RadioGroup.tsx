@@ -4,6 +4,7 @@ import { AriaRadioGroupProps, useRadioGroup } from 'react-aria'
 import { RadioGroupProps as StatelyRadioGroupProps, useRadioGroupState } from 'react-stately'
 
 import { validationClassName } from '../../utils/validationClassName'
+import { joinIds } from '../../utils/idRefs'
 
 import { RadioGroupContext } from './context'
 import { FormFeedback } from '../form/FormFeedback'
@@ -116,12 +117,27 @@ export const RadioGroup = forwardRef<HTMLFieldSetElement, RadioGroupProps>(
 
     const _className = classNames('form-field', validationClassName(invalid, valid), className)
 
+    // Only the ids this group renders. react-aria's own describe the group and every item by a
+    // description and an error message whether or not they exist (FORMS.md, gotcha 6).
+    const describedBy = joinIds(
+      Boolean(description) && descriptionProps.id,
+      Boolean(invalid && errorMessage) && errorMessageProps.id
+    )
+
     const items = (
-      <RadioGroupContext.Provider value={{ state, valid }}>{children}</RadioGroupContext.Provider>
+      <RadioGroupContext.Provider value={{ describedBy, state, valid }}>
+        {children}
+      </RadioGroupContext.Provider>
     )
 
     return (
-      <fieldset {...rest} {...radioGroupProps} className={_className} ref={ref}>
+      <fieldset
+        {...rest}
+        {...radioGroupProps}
+        aria-describedby={joinIds(describedBy, rest['aria-describedby'])}
+        className={_className}
+        ref={ref}
+      >
         {label && (
           <legend className="form-label" {...labelProps}>
             {label}

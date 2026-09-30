@@ -17,6 +17,7 @@ import { CalendarMonthYearPicker } from './CalendarMonthYearPicker'
 import { CalendarNavButton } from './CalendarNavButton'
 import { CalendarWeekGrid } from './CalendarWeekGrid'
 import { mergeIsDateUnavailable } from '../../utils/mergeIsDateUnavailable'
+import { useHydrated } from '../../utils/portal'
 import './Calendar.scss'
 import { CalendarLabels, CalendarLabelsProvider } from './labels'
 
@@ -315,7 +316,10 @@ const CalendarCell = ({ date, locale, state }: CalendarCellProps) => {
     isUnavailable,
     formattedDate
   } = useCalendarCell({ date }, state, ref)
-  const isCurrentDate = isToday(date, getLocalTimeZone())
+  // "Today" depends on the time zone, and a server's is rarely the viewer's: marked once hydration
+  // has finished, in the browser's own zone, so the server's HTML never marks the wrong day.
+  const hydrated = useHydrated()
+  const isCurrentDate = hydrated && isToday(date, getLocalTimeZone())
 
   return (
     <div

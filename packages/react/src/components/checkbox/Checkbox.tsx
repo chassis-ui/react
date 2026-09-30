@@ -22,6 +22,7 @@ import { validationClassName } from '../../utils/validationClassName'
 import { CheckboxGroupContext } from './context'
 import { ButtonObject, renderFormCheck } from '../form/renderFormCheck'
 import { devError, devWarning } from '../../utils/devWarning'
+import { joinIds } from '../../utils/idRefs'
 
 export type { ButtonObject } from '../form/renderFormCheck'
 
@@ -146,7 +147,17 @@ const CheckboxStandalone = forwardRef<HTMLInputElement, CheckboxProps>(
       button,
       className,
       color,
-      input: <input {...inputProps} className={inputClassName} id={id} ref={forkedRef} />,
+      // `aria-describedby` after the spread: react-aria's own adds ids it never renders (FORMS.md,
+      // gotcha 6).
+      input: (
+        <input
+          {...inputProps}
+          aria-describedby={rest['aria-describedby']}
+          className={inputClassName}
+          id={id}
+          ref={forkedRef}
+        />
+      ),
       invalid,
       label: resolvedLabel,
       size,
@@ -157,6 +168,7 @@ const CheckboxStandalone = forwardRef<HTMLInputElement, CheckboxProps>(
 CheckboxStandalone.displayName = 'CheckboxStandalone'
 
 interface CheckboxGroupItemProps extends CheckboxProps {
+  groupDescribedBy?: string
   groupState: CheckboxGroupState
   groupValid?: boolean
 }
@@ -170,6 +182,7 @@ const CheckboxGroupItem = forwardRef<HTMLInputElement, CheckboxGroupItemProps>(
       color,
       defaultSelected: _defaultSelected,
       disabled,
+      groupDescribedBy,
       groupState,
       groupValid,
       id,
@@ -230,7 +243,17 @@ const CheckboxGroupItem = forwardRef<HTMLInputElement, CheckboxGroupItemProps>(
       button,
       className,
       color,
-      input: <input {...inputProps} className={inputClassName} id={id} ref={forkedRef} />,
+      // Described by the group's description and error message, as react-aria intends, but only
+      // by those the group renders (FORMS.md, gotcha 6).
+      input: (
+        <input
+          {...inputProps}
+          aria-describedby={joinIds(rest['aria-describedby'], groupDescribedBy)}
+          className={inputClassName}
+          id={id}
+          ref={forkedRef}
+        />
+      ),
       invalid,
       label: resolvedLabel,
       size,
@@ -243,7 +266,13 @@ CheckboxGroupItem.displayName = 'CheckboxGroupItem'
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>((props, ref) => {
   const group = useContext(CheckboxGroupContext)
   return group ? (
-    <CheckboxGroupItem {...props} groupState={group.state} groupValid={group.valid} ref={ref} />
+    <CheckboxGroupItem
+      {...props}
+      groupDescribedBy={group.describedBy}
+      groupState={group.state}
+      groupValid={group.valid}
+      ref={ref}
+    />
   ) : (
     <CheckboxStandalone {...props} ref={ref} />
   )

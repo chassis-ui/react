@@ -14,9 +14,12 @@ describe('MenuList', () => {
           </MenuList>
         </Menu>
       )
-      const menu = screen.getByRole('menu', { hidden: true })
+      // Hidden by chassis-css's `display: none` on `.menu:not(.show)`, not by `aria-hidden`: the
+      // attribute over focusable items is redundant, and html-validate flags it.
+      const menu = screen.getByRole('menu')
       expect(menu).toHaveClass('bazinga')
-      expect(menu).toHaveAttribute('aria-hidden', 'true')
+      expect(menu).not.toHaveClass('show')
+      expect(menu).not.toHaveAttribute('aria-hidden')
     })
 
     test('reflects the menu visibility', () => {
@@ -29,7 +32,7 @@ describe('MenuList', () => {
       )
       const menu = screen.getByRole('menu')
       expect(menu).toHaveClass('show')
-      expect(menu).toHaveAttribute('aria-hidden', 'false')
+      expect(menu).not.toHaveAttribute('aria-hidden')
     })
   })
 

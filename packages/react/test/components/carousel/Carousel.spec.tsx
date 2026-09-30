@@ -27,6 +27,32 @@ const ThreeItemCarousel = (props: Partial<React.ComponentProps<typeof Carousel>>
   </Carousel>
 )
 
+test('keeps its slides mounted when a child beside them comes and goes', () => {
+  const mounts: string[] = []
+  const Probe = ({ name }: { name: string }) => {
+    React.useEffect(() => {
+      mounts.push(name)
+    }, [name])
+    return <>{name}</>
+  }
+  const Slides = ({ loading }: { loading: boolean }) => (
+    <Carousel>
+      <CarouselInner>
+        {['a', 'b'].map((name) => (
+          <CarouselItem key={name}>
+            <Probe name={name} />
+          </CarouselItem>
+        ))}
+        {loading && <span>Loading</span>}
+      </CarouselInner>
+    </Carousel>
+  )
+  const { rerender } = render(<Slides loading={false} />)
+  rerender(<Slides loading />)
+  rerender(<Slides loading={false} />)
+  expect(mounts).toEqual(['a', 'b'])
+})
+
 const ITEM_WIDTH = 300
 
 // jsdom lays nothing out for real, so the scroll-sync effect's `isViewportScrollable` check

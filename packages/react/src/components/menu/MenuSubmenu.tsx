@@ -235,7 +235,6 @@ export const MenuSubmenu = forwardRef<HTMLDivElement, MenuSubmenuProps>(
               className={classNames('menu', { show: visible, 'submenu-stacked': stacked })}
               style={menuStyle}
               data-cx-placement={placementAttr}
-              aria-hidden={!visible}
               onKeyDown={(event) =>
                 handleMenuKeyDown(event, {
                   onEscape: closeAndRefocusTrigger,

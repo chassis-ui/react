@@ -3,10 +3,12 @@ import * as React from 'react'
 import { renderToString } from 'react-dom/server'
 
 import { installClientEnvironment } from './clientEnvironment'
+import { loadFirstPaintCases } from './firstPaint'
 import { loadStories, STILL_FAILS } from './stories'
 
-// Hydration sweep: the server HTML of every story, hydrated with `hydrateRoot`. A story fails if
-// React reports a recoverable error, which is how it reports a hydration mismatch.
+// Hydration sweep: the server HTML of every story, and of every case in `firstPaint.tsx`, hydrated
+// with `hydrateRoot`. A story fails if React reports a recoverable error, which is how it reports
+// a hydration mismatch.
 //
 // Both halves run in this one file, in order. At collection time there is no DOM, so the module
 // graph loaded first is a server's: `typeof window` is `'undefined'` inside every component, and
@@ -19,7 +21,14 @@ import { loadStories, STILL_FAILS } from './stories'
 // since B1 of AUDIT-PLAN.md made every portal hydration-safe.
 const KNOWN_FAILURES: Record<string, string> = {}
 
-const serverStories = await loadStories()
+// Stories and first-paint cases alike, keyed by story id or `first paint: <case name>`.
+const serverStories = [
+  ...(await loadStories()),
+  ...Object.entries(await loadFirstPaintCases()).map(([name, element]) => ({
+    id: `first paint: ${name}`,
+    Story: element as React.ComponentType
+  }))
+]
 const serverHtml = new Map(
   serverStories.map(({ id, Story }) => {
     const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined)
@@ -41,10 +50,17 @@ let client: Client
 beforeAll(async () => {
   await installClientEnvironment()
   const { loadStories: loadClientStories } = await import('./stories')
+  const { loadFirstPaintCases: loadClientCases } = await import('./firstPaint')
+  const clientCases = Object.entries(await loadClientCases()).map(
+    ([name, element]) => [`first paint: ${name}`, element as React.ComponentType] as const
+  )
   client = {
     React: await import('react'),
     hydrateRoot: (await import('react-dom/client')).hydrateRoot,
-    stories: new Map((await loadClientStories()).map(({ id, Story }) => [id, Story]))
+    stories: new Map([
+      ...(await loadClientStories()).map(({ id, Story }) => [id, Story] as const),
+      ...clientCases
+    ])
   }
 }, 60_000)
 

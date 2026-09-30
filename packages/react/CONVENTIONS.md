@@ -247,6 +247,25 @@ need `isElementOfType`.
 child-reading component with lazy nodes and with lazy types. A new component that reads its
 children gets a case there and a route in `smoke-tests/nextjs-app-router/app/rsc/`.
 
+## Server HTML: what the page settles to
+
+A component's server HTML is what it settles to once hydrated, because that HTML is the page until
+the JavaScript has loaded. State an effect would compute in the browser (the selected tab, the
+number of slides, a transition's settled phase) is computed during render instead, where the
+server runs it too. Only what a server can't know waits for hydration, through `useHydrated`
+(`src/utils/portal.tsx`): a position (`Menu`'s open list), the viewer's time zone (the calendars'
+"today"), and any reference to portaled content (a trigger's `aria-controls`). Hydration then
+renders the server's value first, so it never mismatches.
+
+An id-reference attribute (`aria-describedby`, `aria-labelledby`, `aria-controls`, `for`) names only
+elements the component renders on the same pass. react-aria's hooks don't hold to that on the
+server (`FORMS.md`, gotcha 6); `joinIds` and `withoutSlotIds` (`src/utils/idRefs.ts`) build the
+value instead.
+
+`test/ssr/render.spec.tsx` fails on a story whose server HTML refers to a missing id, and asserts
+the first paint of each case in `test/ssr/firstPaint.tsx`, which `hydrate.spec.tsx` hydrates too. A
+component whose markup changes after it mounts gets a case there.
+
 ## `component` polymorphism: `Row`/`Col` deliberately don't have it
 
 Most components in this library take a `component` prop (`PolymorphicComponentProps<C, OwnProps<C>>`

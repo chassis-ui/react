@@ -44,6 +44,20 @@ describe('Tabs', () => {
   })
 
   describe('tab selection', () => {
+    test('with no key given, reports the first enabled tab through onSelectionChange on mount', () => {
+      const onSelectionChange = vi.fn()
+      render(<BasicTabs defaultSelectedKey={undefined} onSelectionChange={onSelectionChange} />)
+      expect(onSelectionChange).toHaveBeenCalledTimes(1)
+      expect(onSelectionChange).toHaveBeenCalledWith('home')
+      expect(screen.getByRole('tab', { name: 'Home' })).toHaveAttribute('aria-selected', 'true')
+    })
+
+    test('with a key given, reports nothing on mount', () => {
+      const onSelectionChange = vi.fn()
+      render(<BasicTabs onSelectionChange={onSelectionChange} />)
+      expect(onSelectionChange).not.toHaveBeenCalled()
+    })
+
     test('clicking a tab selects it and shows its panel', async () => {
       render(<BasicTabs />)
       fireEvent.click(screen.getByRole('tab', { name: 'Profile' }))

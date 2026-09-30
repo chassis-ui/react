@@ -27,4 +27,12 @@ export class DataGridTableLayout<T> extends TableLayout<T> {
     const column = this.collection.columns[colIndex]
     return (column?.props as { pin?: 'start' | 'end' } | undefined)?.pin === 'start'
   }
+
+  // An empty body fills the viewport below the header. On the server the viewport has no size,
+  // so the body came out as tall as minus the header (`height: -40px`), which CSS doesn't allow.
+  protected buildRowGroup(...args: Parameters<TableLayout<T>['buildRowGroup']>) {
+    const group = super.buildRowGroup(...args)
+    group.layoutInfo.rect.height = Math.max(0, group.layoutInfo.rect.height)
+    return group
+  }
 }
