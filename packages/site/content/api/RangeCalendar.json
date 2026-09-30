@@ -81,6 +81,25 @@
         "name": "string"
       }
     },
+    "defaultFocusedValue": {
+      "defaultValue": null,
+      "description": "The date the calendar first shows and focuses, in place of the selected date or today.\n`DatePicker` and `DateRangePicker` pass their `placeholderValue` here while empty.",
+      "name": "defaultFocusedValue",
+      "parent": {
+        "fileName": "packages/react/src/components/calendar/RangeCalendar.tsx",
+        "name": "RangeCalendarProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/calendar/RangeCalendar.tsx",
+          "name": "RangeCalendarProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "DateValue | null"
+      }
+    },
     "defaultValue": {
       "defaultValue": null,
       "description": "The initial selected date range (uncontrolled).",

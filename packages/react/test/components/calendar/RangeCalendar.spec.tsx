@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { act, render, screen, fireEvent, within } from '@testing-library/react'
-import { CalendarDate } from '@internationalized/date'
+import { CalendarDate, parseZonedDateTime } from '@internationalized/date'
 import { axe } from 'jest-axe'
 
 import { RangeCalendar, I18nProvider } from '../../../src/index'
@@ -690,6 +690,46 @@ describe('RangeCalendar', () => {
       expect(
         await axe(document.body, { rules: { region: { enabled: false } } })
       ).toHaveNoViolations()
+    })
+  })
+
+  describe('defaultFocusedValue', () => {
+    test('opens on its month and focuses it in place of today', () => {
+      render(
+        <RangeCalendar
+          aria-label="Date"
+          autoFocus
+          defaultFocusedValue={new CalendarDate(2030, 5, 10)}
+        />
+      )
+      expect(screen.getByRole('button', { name: /May 10, 2030/ })).toHaveFocus()
+    })
+  })
+
+  describe('today', () => {
+    afterEach(() => {
+      vi.useRealTimers()
+    })
+
+    test("marks today in ZonedDateTime dates' own time zone, as react-aria's label does", () => {
+      vi.useFakeTimers({ toFake: ['Date'] })
+      // Already the 16th in Kiritimati (UTC+14), still the 15th west of it.
+      vi.setSystemTime(new Date('2024-03-15T11:00:00Z'))
+      render(
+        <RangeCalendar
+          aria-label="Trip dates"
+          value={{
+            end: parseZonedDateTime('2024-03-22T18:00[Pacific/Kiritimati]'),
+            start: parseZonedDateTime('2024-03-20T09:00[Pacific/Kiritimati]')
+          }}
+        />
+      )
+      const today = screen.getByRole('button', { name: /Saturday, March 16, 2024/ })
+      expect(today).toHaveAccessibleName(/^Today/)
+      expect(getDateCell(today)).toHaveClass('datepicker-date-today')
+      expect(
+        getDateCell(screen.getByRole('button', { name: /Friday, March 15, 2024/ }))
+      ).not.toHaveClass('datepicker-date-today')
     })
   })
 

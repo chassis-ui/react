@@ -26,7 +26,7 @@ Renders the **nested** `.form-check`/`.check-input` markup — everything lives 
 
 Used by: `text-input/TextInput.tsx`, `textarea/Textarea.tsx`, `select/Select.tsx`, `range-input/RangeInput.tsx`, `file-input/FileInput.tsx`, `color-input/ColorInput.tsx`, `combobox/Combobox.tsx`, `datepicker/DatePicker.tsx`, `chip-input/ChipInput.tsx`, `otp-input/OtpInput.tsx`, `number-field/NumberField.tsx`, `time-field/TimeField.tsx`, `search-field/SearchField.tsx`.
 
-Renders the **sibling** `.form-field` grid layout: `FormLabel`, then `children` (your control), then `FormHelp`, then `FormFeedback` — see [chassis-css's Form Field docs](https://chassis-ui.com/css/docs/forms/form-field). Unlike `renderFormCheck`, this returns **children bare** (no wrapper at all) when none of `label`/`help`/`validFeedback`/`invalidFeedback` are set, so every leaf stays a drop-in native-looking element until a consumer opts into the wrapping.
+Renders the **sibling** `.form-field` grid layout: `FormLabel`, then `children` (your control), then `FormHelp`, then `FormFeedback` — see [chassis-css's Form Field docs](https://chassis-ui.com/css/docs/forms/form-field). Unlike `renderFormCheck`, this returns **children bare** (no wrapper at all) when none of `label`/`help`/`validFeedback`/`invalidFeedback` are set, so every leaf stays a drop-in native-looking element until a consumer opts into the wrapping. Set, not shown: given feedback wraps the control before it shows, because moving a control into a new wrapper remounts it, and `TimeField`, `DatePicker` and `DateRangePicker` turn invalid on their own (a value out of range) while the user types.
 
 Every one of the 13 components above follows the exact same internal shape, via the shared `useFormField` hook (`hooks/useFormField.ts`):
 

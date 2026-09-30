@@ -1,10 +1,16 @@
 import * as React from 'react'
 import { render, screen, fireEvent, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { CalendarDate } from '@internationalized/date'
+import {
+  CalendarDate,
+  CalendarDateTime,
+  DateValue,
+  parseZonedDateTime,
+  ZonedDateTime
+} from '@internationalized/date'
 import { axe } from 'jest-axe'
 
-import { DatePicker } from '../../../src/index'
+import { DatePicker, I18nProvider } from '../../../src/index'
 import { actUserEvent } from '../../actUserEvent'
 
 const openCalendar = () => {
@@ -451,6 +457,257 @@ describe('DatePicker', () => {
       )
       openCalendar()
       expect(screen.getByRole('dialog', { name: /Event dates/ })).toBeInTheDocument()
+    })
+  })
+
+  describe('time', () => {
+    const segmentText = () =>
+      screen.getAllByRole('spinbutton').map((segment) => segment.textContent)
+
+    // Hidden inputs are excluded from the accessibility tree - no query reaches them.
+    const getHiddenInput = (name: string) =>
+      // eslint-disable-next-line testing-library/no-node-access
+      document.querySelector(`input[type="hidden"][name="${name}"]`) as HTMLInputElement
+
+    test('granularity adds the time segments to an empty field', () => {
+      render(<DatePicker aria-label="Start" granularity="minute" />)
+      expect(screen.getByRole('spinbutton', { name: /^hour/ })).toBeInTheDocument()
+      expect(screen.getByRole('spinbutton', { name: /^minute/ })).toBeInTheDocument()
+      expect(screen.queryByRole('spinbutton', { name: /^second/ })).toBeNull()
+    })
+
+    test('a value with a time shows it without a granularity', () => {
+      render(<DatePicker aria-label="Start" value={new CalendarDateTime(2024, 3, 15, 9, 5)} />)
+      expect(segmentText()).toEqual(['3', '15', '2024', '9', '05', 'AM'])
+    })
+
+    test('hourCycle and shouldForceLeadingZeros change how the time is written', () => {
+      render(
+        <DatePicker
+          aria-label="Start"
+          defaultValue={new CalendarDateTime(2024, 3, 5, 14, 5)}
+          hourCycle={24}
+          shouldForceLeadingZeros
+        />
+      )
+      expect(segmentText()).toEqual(['03', '05', '2024', '14', '05'])
+    })
+
+    test('picking a day in the calendar keeps the time', () => {
+      const onChange = vi.fn()
+      render(
+        <DatePicker
+          aria-label="Start"
+          defaultValue={new CalendarDateTime(2024, 3, 15, 9, 30)}
+          onChange={onChange}
+        />
+      )
+      openCalendar()
+      fireEvent.click(screen.getByRole('button', { name: /March 20, 2024/ }))
+      expect(onChange).toHaveBeenCalledTimes(1)
+      const value = onChange.mock.calls[0]![0]
+      expect(value).toBeInstanceOf(CalendarDateTime)
+      expect(value.toString()).toBe('2024-03-20T09:30:00')
+      expect(segmentText()).toEqual(['3', '20', '2024', '9', '30', 'AM'])
+    })
+
+    test('a day picked in an empty field takes the time and type of placeholderValue', () => {
+      const onChange = vi.fn()
+      render(
+        <DatePicker
+          aria-label="Start"
+          granularity="minute"
+          onChange={onChange}
+          placeholderValue={parseZonedDateTime('2024-03-01T09:00[Asia/Tokyo]')}
+        />
+      )
+      openCalendar()
+      fireEvent.click(screen.getByRole('button', { name: /March 20, 2024/ }))
+      const value = onChange.mock.calls[0]![0]
+      expect(value).toBeInstanceOf(ZonedDateTime)
+      expect(value.toString()).toBe('2024-03-20T09:00:00+09:00[Asia/Tokyo]')
+    })
+
+    test('a day picked in an empty field without placeholderValue starts at midnight', () => {
+      const onChange = vi.fn()
+      render(
+        <DatePicker aria-label="Start" defaultVisible granularity="minute" onChange={onChange} />
+      )
+      const [firstDay] = screen
+        .getAllByRole('button')
+        .filter((button) => /\b1, \d{4}$/.test(button.getAttribute('aria-label') ?? ''))
+      fireEvent.click(firstDay!)
+      const value = onChange.mock.calls[0]![0]
+      expect(value).toBeInstanceOf(CalendarDateTime)
+      expect([value.hour, value.minute]).toEqual([0, 0])
+    })
+
+    test('a cleared zoned value stays zoned only with a zoned placeholderValue', () => {
+      const Controlled = ({ placeholderValue }: { placeholderValue?: ZonedDateTime }) => {
+        const [value, setValue] = React.useState<DateValue | null>(
+          parseZonedDateTime('2024-03-15T09:30[Asia/Tokyo]')
+        )
+        return (
+          <DatePicker
+            aria-label="Call"
+            onChange={setValue}
+            placeholderValue={placeholderValue}
+            value={value}
+          />
+        )
+      }
+      // With no placeholder, the calendar opens on today's month: pick its 10th.
+      const pickAfterClearing = () => {
+        fireEvent.click(screen.getByRole('button', { name: /clear/i }))
+        openCalendar()
+        const [tenth] = screen
+          .getAllByRole('button')
+          .filter((button) => /\b10, \d{4}$/.test(button.getAttribute('aria-label') ?? ''))
+        fireEvent.click(tenth!)
+      }
+
+      const { unmount } = render(
+        <Controlled placeholderValue={parseZonedDateTime('2024-03-01T09:00[Asia/Tokyo]')} />
+      )
+      pickAfterClearing()
+      expect(screen.getByRole('group', { name: 'Call' })).toHaveTextContent('GMT+9')
+      unmount()
+
+      // react-stately builds the time from `defaultValue`/`placeholderValue`, not the value that
+      // was cleared: midnight, with no zone. The docs say so.
+      render(<Controlled />)
+      pickAfterClearing()
+      expect(screen.getByRole('group', { name: 'Call' })).not.toHaveTextContent('GMT+9')
+      expect(segmentText().slice(3)).toEqual(['12', '00', 'AM'])
+    })
+
+    test("the literal between the date and the time loses the segment's padding, a date's own keep it", () => {
+      render(
+        <I18nProvider locale="ko-KR">
+          <DatePicker aria-label="Start" value={new CalendarDateTime(2024, 3, 15, 9, 5)} />
+        </I18nProvider>
+      )
+      // "2024. 3. 15. 오전 9:05": the first two ". " are the date's, the third stands between the
+      // date and the time. Literal segments have no role; only their class tells them apart.
+      const literals = Array.from(
+        // eslint-disable-next-line testing-library/no-node-access
+        screen.getByRole('group', { name: 'Start' }).querySelectorAll('span')
+      ).filter((span) => span.textContent === '. ')
+      expect(literals.map((literal) => literal.classList.contains('datepicker-segment'))).toEqual([
+        true,
+        true,
+        false
+      ])
+    })
+
+    test('the hidden input holds the date and time, with the zone of a ZonedDateTime', () => {
+      const { rerender } = render(
+        <DatePicker
+          aria-label="Start"
+          name="start"
+          value={new CalendarDateTime(2024, 3, 15, 9, 30)}
+        />
+      )
+      expect(getHiddenInput('start').value).toBe('2024-03-15T09:30:00')
+
+      rerender(
+        <DatePicker
+          aria-label="Start"
+          name="start"
+          value={parseZonedDateTime('2024-03-15T09:30[Asia/Tokyo]')}
+        />
+      )
+      expect(getHiddenInput('start').value).toBe('2024-03-15T09:30:00+09:00[Asia/Tokyo]')
+    })
+
+    test('a ZonedDateTime shows its time zone unless hideTimeZone', () => {
+      const value = parseZonedDateTime('2024-03-15T09:30[Asia/Tokyo]')
+      const { rerender } = render(<DatePicker aria-label="Start" value={value} />)
+      const group = screen.getByRole('group', { name: 'Start' })
+      expect(group).toHaveTextContent('GMT+9')
+
+      rerender(<DatePicker aria-label="Start" hideTimeZone value={value} />)
+      expect(group).not.toHaveTextContent('GMT+9')
+    })
+
+    test('the day of minValue stays selectable, and a time before it marks the field invalid', () => {
+      const minValue = new CalendarDateTime(2024, 3, 15, 10, 0)
+      const { rerender } = render(
+        <DatePicker
+          aria-label="Start"
+          invalidFeedback="Too early"
+          minValue={minValue}
+          valid
+          value={new CalendarDateTime(2024, 3, 15, 11, 0)}
+        />
+      )
+      const group = screen.getByRole('group', { name: 'Start' })
+      expect(group).toHaveClass('is-valid')
+      expect(screen.queryByText('Too early')).toBeNull()
+
+      openCalendar()
+      expect(screen.getByRole('button', { name: /March 15, 2024/ })).not.toHaveAttribute(
+        'aria-disabled'
+      )
+      expect(screen.getByRole('button', { name: /March 14, 2024/ })).toHaveAttribute(
+        'aria-disabled',
+        'true'
+      )
+
+      rerender(
+        <DatePicker
+          aria-label="Start"
+          invalidFeedback="Too early"
+          minValue={minValue}
+          valid
+          value={new CalendarDateTime(2024, 3, 15, 9, 0)}
+        />
+      )
+      expect(group).toHaveClass('is-invalid')
+      expect(group).not.toHaveClass('is-valid')
+      expect(group.getAttribute('aria-describedby')).toContain(screen.getByText('Too early').id)
+    })
+
+    test('an out-of-range date shows invalid even with invalid={false}', () => {
+      render(
+        <DatePicker
+          aria-label="Start"
+          invalid={false}
+          maxValue={new CalendarDate(2024, 3, 10)}
+          value={new CalendarDate(2024, 3, 15)}
+        />
+      )
+      expect(screen.getByRole('group', { name: 'Start' })).toHaveClass('is-invalid')
+    })
+
+    test('invalid reaches the segments as aria-invalid', () => {
+      render(<DatePicker aria-label="Start" invalid value={new CalendarDate(2024, 3, 15)} />)
+      for (const segment of screen.getAllByRole('spinbutton')) {
+        expect(segment).toHaveAttribute('aria-invalid', 'true')
+      }
+    })
+
+    test('follows a 24-hour locale', () => {
+      render(
+        <I18nProvider locale="de-DE">
+          <DatePicker aria-label="Start" value={new CalendarDateTime(2024, 3, 15, 14, 5)} />
+        </I18nProvider>
+      )
+      expect(segmentText()).toEqual(['15', '3', '2024', '14', '05'])
+    })
+
+    test('has no axe violations with a time and the calendar open', async () => {
+      render(
+        <DatePicker
+          aria-label="Start"
+          defaultVisible
+          value={parseZonedDateTime('2024-03-15T09:30[Asia/Tokyo]')}
+        />
+      )
+      // See the accessibility tests below for why "region" is off.
+      expect(
+        await axe(document.body, { rules: { region: { enabled: false } } })
+      ).toHaveNoViolations()
     })
   })
 

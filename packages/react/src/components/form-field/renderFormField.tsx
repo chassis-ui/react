@@ -59,7 +59,10 @@ export const renderFormField = ({
   // until a consumer opts into wrapping) silently dropped it. Only `FormField` — the standalone
   // "wrap this yourself" component — passes one, so this is exactly the case where the caller
   // asked for a `.form-field` element by hand.
-  if (!label && !help && !showInvalidFeedback && !showValidFeedback && !className) {
+  // Feedback that is given wraps the control whether or not it shows: a control whose validity
+  // changes while it has focus (a `TimeField` typed out of its range) was otherwise moved into
+  // the new wrapper, which remounts it, and focus fell to the page.
+  if (!label && !help && !invalidFeedback && !validFeedback && !className) {
     return children
   }
 

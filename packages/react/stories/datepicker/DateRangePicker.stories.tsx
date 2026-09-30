@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { CalendarDate } from '@internationalized/date'
+import { CalendarDate, CalendarDateTime } from '@internationalized/date'
 
 import type { DateRangePreset } from '../../src/utils/dateRangePresets'
 import { DateRangePicker } from '../../src/components/datepicker/DateRangePicker'
@@ -49,5 +49,16 @@ export const OpenWithPresets: Story = {
     defaultVisible: true,
     defaultValue: presets[0]?.range,
     presets
+  }
+}
+
+export const WithTime: Story = {
+  args: {
+    'aria-label': 'Stay',
+    defaultValue: {
+      end: new CalendarDateTime(2024, 3, 17, 11, 0),
+      start: new CalendarDateTime(2024, 3, 15, 15, 0)
+    },
+    granularity: 'minute'
   }
 }

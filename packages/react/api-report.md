@@ -1075,6 +1075,11 @@ interface CalendarBaseProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaul
    */
   className?: string;
   /**
+   * The date the calendar first shows and focuses, in place of the selected date or today.
+   * `DatePicker` and `DateRangePicker` pass their `placeholderValue` here while empty.
+   */
+  defaultFocusedValue?: DateValue | null;
+  /**
    * Prevents the calendar from being focused or interacted with.
    */
   disabled?: boolean;
@@ -1190,6 +1195,11 @@ interface RangeCalendarProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defau
    * A string of all className you want applied to the base component.
    */
   className?: string;
+  /**
+   * The date the calendar first shows and focuses, in place of the selected date or today.
+   * `DatePicker` and `DateRangePicker` pass their `placeholderValue` here while empty.
+   */
+  defaultFocusedValue?: DateValue | null;
   /**
    * The initial selected date range (uncontrolled).
    */
@@ -2741,7 +2751,9 @@ interface DatePickerBaseProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defa
    * `name` of an auto-created hidden input, kept in sync with the selection, for native form
    * submission — one input when `selectionMode` is `'single'`, one per selected date when it's
    * `'multiple'` (same `name` on each, which browsers serialize as multiple form values). Omit to
-   * skip creating any.
+   * skip creating any. The value is the date's `toString()`: `2026-03-15`, with a time
+   * `2026-03-15T09:30:00`, and with a time zone `2026-03-15T09:30:00+09:00[Asia/Tokyo]`, which
+   * `parseZonedDateTime` reads back.
    */
   name?: string;
   /**
@@ -2793,7 +2805,40 @@ interface DatePickerSingleProps extends DatePickerBaseProps {
    */
   defaultValue?: DateValue | null;
   /**
-   * Callback fired when the selected date changes.
+   * The smallest unit the field shows and edits. `'hour'`, `'minute'` and `'second'` add a time
+   * to the date: the value is then a `CalendarDateTime`, or a `ZonedDateTime` when `value`,
+   * `defaultValue` or `placeholderValue` is one, and a value or placeholder given must carry a
+   * time. Picking a day in the calendar keeps the time. A day picked in an empty field takes the
+   * time, and zone, of `defaultValue`, else `placeholderValue`, else midnight with no zone: a
+   * controlled zoned `value`, once cleared, needs a zoned `placeholderValue` to stay zoned.
+   *
+   * @default 'day', or 'minute' for a value with a time
+   */
+  granularity?: 'day' | 'hour' | 'minute' | 'second';
+  /**
+   * Hide the time zone of a `ZonedDateTime` value.
+   */
+  hideTimeZone?: boolean;
+  /**
+   * Show 12 or 24 hours. Defaults to the locale's.
+   */
+  hourCycle?: 12 | 24;
+  /**
+   * The date the segments start from while the field is empty, such as
+   * `new CalendarDateTime(2026, 1, 1, 9)`, and the month the calendar opens on. With no
+   * `defaultValue`, its time is the one a day picked in the calendar gets, and its type the type
+   * of value `onChange` receives: a `ZonedDateTime` gives zoned values. With a time
+   * `granularity` it must carry a time.
+   */
+  placeholderValue?: DateValue;
+  /**
+   * Show a leading zero on the day, month and hour, as `03/05` rather than `3/5`, whatever the
+   * locale does.
+   */
+  shouldForceLeadingZeros?: boolean;
+  /**
+   * Callback fired when the selected date changes. With a time (`granularity`), it receives a
+   * `CalendarDateTime` or `ZonedDateTime`.
    */
   onChange?: (value: DateValue | null) => void;
   /**
@@ -2879,9 +2924,28 @@ interface DateRangePickerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'def
    */
   firstDayOfWeek?: 'fri' | 'mon' | 'sat' | 'sun' | 'thu' | 'tue' | 'wed';
   /**
+   * The smallest unit the fields show and edit. `'hour'`, `'minute'` and `'second'` add a time
+   * to both dates: the range's dates are then `CalendarDateTime`s, or `ZonedDateTime`s when
+   * `value`, `defaultValue` or `placeholderValue` holds them, and a range or placeholder given
+   * must carry times. Picking a range in the calendar keeps the times. A range picked in an
+   * empty field takes the time, and zone, of `placeholderValue`, else midnight with no zone: a
+   * zoned range, once cleared, needs a zoned `placeholderValue` to stay zoned.
+   *
+   * @default 'day', or 'minute' for a range with times
+   */
+  granularity?: 'day' | 'hour' | 'minute' | 'second';
+  /**
    * A description for the field, rendered below the date range picker.
    */
   help?: ReactNode;
+  /**
+   * Hide the time zone of `ZonedDateTime` dates.
+   */
+  hideTimeZone?: boolean;
+  /**
+   * Show 12 or 24 hours. Defaults to the locale's.
+   */
+  hourCycle?: 12 | 24;
   /**
    * `id` forwarded to the field's grouping element — useful for pairing with a `<label for>`.
    */
@@ -2928,11 +2992,14 @@ interface DateRangePickerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'def
   /**
    * Base `name` for a pair of auto-created hidden inputs, kept in sync with the selection, for
    * native form submission — rendered as `${name}Start` and `${name}End`. Omit to skip creating
-   * them.
+   * them. Each value is the date's `toString()`: `2026-03-15`, with a time `2026-03-15T09:30:00`,
+   * and with a time zone `2026-03-15T09:30:00+09:00[Asia/Tokyo]`, which `parseZonedDateTime`
+   * reads back.
    */
   name?: string;
   /**
-   * Callback fired when the selected date range changes.
+   * Callback fired when the selected date range changes. With a time (`granularity`), its dates
+   * are `CalendarDateTime`s or `ZonedDateTime`s.
    */
   onChange?: (value: RangeValue<DateValue> | null) => void;
   /**
@@ -2948,12 +3015,24 @@ interface DateRangePickerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'def
    */
   onVisibleChange?: (visible: boolean) => void;
   /**
+   * The date both fields start from while empty, such as `new CalendarDateTime(2026, 1, 1, 9)`,
+   * and the month the calendar opens on. Its time is the one a range picked in the calendar gets,
+   * and its type the type of the dates `onChange` receives: a `ZonedDateTime` gives zoned dates.
+   * With a time `granularity` it must carry a time.
+   */
+  placeholderValue?: DateValue;
+  /**
    * A list of quick-select range presets shown in the overlay next to the calendar. Selecting a
    * preset commits its range immediately, the same as picking a start and end date from the
    * calendar. The preset matching the current selection (if any) is marked selected. Omit to not
    * show a preset list.
    */
   presets?: DateRangePreset[];
+  /**
+   * Show a leading zero on the day, month and hour, as `03/05` rather than `3/5`, whatever the
+   * locale does.
+   */
+  shouldForceLeadingZeros?: boolean;
   /**
    * Size the component sm or lg.
    */

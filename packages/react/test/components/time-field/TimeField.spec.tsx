@@ -184,6 +184,23 @@ describe('TimeField', () => {
       expect(group).toHaveAccessibleDescription(/Between 9 AM and 5 PM\./)
     })
 
+    test('keeps focus when a time typed out of range shows the feedback', async () => {
+      const user = userEvent.setup()
+      render(
+        <TimeField
+          aria-label="Start"
+          defaultValue={new Time(10)}
+          invalidFeedback="From 10 AM."
+          minValue={new Time(10)}
+        />
+      )
+      const hour = screen.getByRole('spinbutton', { name: /^hour/ })
+      await user.click(hour)
+      await user.keyboard('{ArrowDown}')
+      expect(screen.getByText('From 10 AM.')).toBeInTheDocument()
+      expect(hour).toHaveFocus()
+    })
+
     test('keeps the range check when invalid is false', () => {
       render(
         <TimeField

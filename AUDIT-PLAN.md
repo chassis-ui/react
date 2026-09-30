@@ -1455,12 +1455,55 @@ Changeset: minor.
 
 Model: **Opus**. A form component: read `FORMS.md` first. Decided in B16.
 
-- [ ] `granularity` on `DatePicker` and `DateRangePicker` down to `hour`, `minute` or `second`,
+- [x] `granularity` on `DatePicker` and `DateRangePicker` down to `hour`, `minute` or `second`,
       with `CalendarDateTime`/`ZonedDateTime` values; the field renders the time segments
       (`DateSegment`), the calendar keeps the time when a day is picked. Decide whether a
-      `TimeField` also appears in the popover, as react-spectrum's does.
-- [ ] The value type widens (`DateValue` already includes both), so check `onChange`'s type,
+      `TimeField` also appears in the popover, as react-spectrum's does. A value with a time
+      already showed it, and react-stately already kept the time on a picked day; what was
+      missing was passing `granularity` (so an empty field could not get a time), `hourCycle`,
+      `hideTimeZone`, `placeholderValue` and `shouldForceLeadingZeros`, to the state and the hook
+      both. Single selection only: `selectionMode="multiple"` lists dates. Decided here: no
+      `TimeField` in the popover. The field's segments edit the time and a picked day still
+      closes it; an empty field takes the time of `defaultValue` (single only), else
+      `placeholderValue`, else midnight. `Calendar` and `RangeCalendar` gained
+      `defaultFocusedValue`, which the pickers pass their `placeholderValue` through, as
+      react-aria's hooks ask, so the calendar opens on its month.
+- [x] The value type widens (`DateValue` already includes both), so check `onChange`'s type,
       the hidden input's ISO string, `minValue`/`maxValue` with a time, and the calendar's
-      "today" after hydration (B7) with a `ZonedDateTime`.
+      "today" after hydration (B7) with a `ZonedDateTime`. `onChange` stays `DateValue | null`.
+      The hidden input holds `toString()`, as react-aria's own and `TimeField`'s do:
+      `2026-03-15T09:30:00`, and with a zone `…+09:00[Asia/Tokyo]`, which `parseZonedDateTime`
+      reads back. The calendar compares days only, so `minValue`'s own day stays selectable.
+      Decided here: both pickers show a value out of range, on an unavailable date, or a range
+      ending before it starts as invalid with `invalidFeedback`, as `TimeField` does, date-only
+      pickers included; `invalid` reaches react-stately as `invalid || undefined`, and so the
+      segments' `aria-invalid`, which it had never set. "Today" is the calendar state's zone
+      (the value's for a `ZonedDateTime`, else the browser's) rather than always the browser's:
+      react-aria's "Today" in the cell's label already used it, so the two could name different
+      days.
 
-Changeset: minor.
+Changeset: minor. Four stories (`WithTime`, `WithTimeZone`, `TimeOutOfRange`, the range's
+`WithTime`) with darwin and Linux baselines; every earlier date and time baseline is unchanged.
+
+Found on the way, and fixed: an unlabelled `TimeField` with `invalidFeedback` lost focus when a
+typed time went out of range (B16's defect, which this phase would have spread to both pickers).
+`renderFormField` wrapped the control only once feedback showed, and moving it into the new
+`.form-field` remounted it. It now wraps once feedback is given, as FORMS.md already said; a
+feedback prop without `label` now wraps the control before the feedback shows, in all 13 fields.
+The literal between a date and its time (en-US `", "`) was padded as a segment ("2024 , 9:30")
+and renders as plain text now; a date's own literals keep their padding. The time zone segment,
+react-aria's read-only `span role="textbox"`, failed html-validate's `prefer-native-element`:
+`textbox` joins that rule's exclusions in `packages/site/html-validate.json`.
+
+An independent review of the diff found no code defect and two false statements in the docs,
+both corrected, each now with a test: a controlled zoned `value`, once cleared, is rebuilt from
+`defaultValue`/`placeholderValue` (react-stately), so it stays zoned only with a zoned
+`placeholderValue`; and the single picker takes an empty field's time from `defaultValue` before
+`placeholderValue`. It also found the first literal rule stripping ko-KR's `". "` date literals
+(narrowed to the literal between the date and the time), and a docs example opening its calendar
+in January 2026.
+
+Found on the way, not fixed: react-aria's cell label says "Today, …" in the server's HTML
+(`useCalendarCell`, with the server's zone and date), which hydration doesn't patch, while
+`datepicker-date-today` waits for hydration (B7). On the statically built docs site a calendar
+example's label names the build day until the cell re-renders.

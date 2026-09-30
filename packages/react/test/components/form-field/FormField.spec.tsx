@@ -102,6 +102,25 @@ describe('FormField', () => {
       expect(screen.queryByText('Looks good')).toBeNull()
     })
 
+    // Regression test: the wrapper appeared only once the feedback showed, which moved the
+    // children into it and remounted them, so a control whose validity changed while focused
+    // lost focus.
+    test('keeps the children mounted when given feedback starts to show', () => {
+      const { rerender } = render(
+        <FormField invalidFeedback="Required">
+          <input aria-label="Name" />
+        </FormField>
+      )
+      const input = screen.getByRole('textbox', { name: 'Name' })
+      rerender(
+        <FormField invalid invalidFeedback="Required">
+          <input aria-label="Name" />
+        </FormField>
+      )
+      expect(screen.getByText('Required')).toBeInTheDocument()
+      expect(screen.getByRole('textbox', { name: 'Name' })).toBe(input)
+    })
+
     // Regression test: the bare-children path returned `children` untouched, so a `className`
     // passed to `FormField` — which has nowhere else to land — was silently dropped.
     test('renders the wrapper for a className even with no label/help/feedback', () => {

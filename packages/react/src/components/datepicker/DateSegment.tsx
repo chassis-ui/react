@@ -10,6 +10,18 @@ import { joinIds, withoutSlotIds } from '../../utils/idRefs'
 // and `TimeField` alike. A `TimeFieldState` is a `DateFieldState`.
 // A literal of spaces or bidi isolation marks (U+2066-U+2069) only.
 const BLANK_LITERAL = /^[\s\u2066-\u2069]+$/
+const DATE_PARTS = new Set(['era', 'year', 'month', 'day'])
+
+// Whether a literal stands between a field's date and its time (en-US ", "), found by the
+// editable parts on either side of it.
+const separatesDateAndTime = (segments: DateSegmentType[], index: number) => {
+  const before = segments
+    .slice(0, index)
+    .reverse()
+    .find((segment) => segment.type !== 'literal')
+  const after = segments.slice(index + 1).find((segment) => segment.type !== 'literal')
+  return Boolean(before && after) && DATE_PARTS.has(before!.type) !== DATE_PARTS.has(after!.type)
+}
 
 export interface DateSegmentProps {
   fieldLabelledBy?: string
@@ -21,6 +33,10 @@ export interface DateSegmentProps {
 export const DateSegment = ({ fieldLabelledBy, segment, slots, state }: DateSegmentProps) => {
   const ref = useRef<HTMLDivElement>(null)
   const { segmentProps } = useDateSegment(segment, state, ref)
+  const plain =
+    segment.type === 'literal' &&
+    (BLANK_LITERAL.test(segment.text) ||
+      separatesDateAndTime(state.segments, state.segments.indexOf(segment)))
 
   return (
     <span
@@ -29,13 +45,12 @@ export const DateSegment = ({ fieldLabelledBy, segment, slots, state }: DateSegm
       // only after hydration, and by the field's label. The server's HTML referred to the first,
       // an id no element had.
       aria-labelledby={segmentProps['aria-labelledby'] && joinIds(segmentProps.id, fieldLabelledBy)}
-      // A time's literal segments include bidi isolation marks around it, which show nothing, and
-      // the space before AM/PM. As `.datepicker-segment`s, their padding set the time off from the
-      // edge and widened the space: they render as plain text.
+      // A time's literal segments include bidi isolation marks around it, which show nothing, the
+      // space before AM/PM, and the ", " between a date and its time. As `.datepicker-segment`s,
+      // their padding set the time off from the edge and widened the space, or put one before the
+      // comma: they render as plain text. A date's own literals ("/", ko-KR's ". ") keep it.
       className={
-        BLANK_LITERAL.test(segment.text)
-          ? undefined
-          : classNames('datepicker-segment', { placeholder: segment.isPlaceholder })
+        plain ? undefined : classNames('datepicker-segment', { placeholder: segment.isPlaceholder })
       }
       // A segment that can't be edited leaves `contenteditable` out rather than writing `false`:
       // react-aria marks it `aria-readonly`, which HTML allows only on an element that isn't

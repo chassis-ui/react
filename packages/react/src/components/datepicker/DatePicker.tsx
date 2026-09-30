@@ -111,7 +111,9 @@ interface DatePickerBaseProps extends Omit<
    * `name` of an auto-created hidden input, kept in sync with the selection, for native form
    * submission — one input when `selectionMode` is `'single'`, one per selected date when it's
    * `'multiple'` (same `name` on each, which browsers serialize as multiple form values). Omit to
-   * skip creating any.
+   * skip creating any. The value is the date's `toString()`: `2026-03-15`, with a time
+   * `2026-03-15T09:30:00`, and with a time zone `2026-03-15T09:30:00+09:00[Asia/Tokyo]`, which
+   * `parseZonedDateTime` reads back.
    */
   name?: string
   /**
@@ -164,7 +166,40 @@ export interface DatePickerSingleProps extends DatePickerBaseProps {
    */
   defaultValue?: DateValue | null
   /**
-   * Callback fired when the selected date changes.
+   * The smallest unit the field shows and edits. `'hour'`, `'minute'` and `'second'` add a time
+   * to the date: the value is then a `CalendarDateTime`, or a `ZonedDateTime` when `value`,
+   * `defaultValue` or `placeholderValue` is one, and a value or placeholder given must carry a
+   * time. Picking a day in the calendar keeps the time. A day picked in an empty field takes the
+   * time, and zone, of `defaultValue`, else `placeholderValue`, else midnight with no zone: a
+   * controlled zoned `value`, once cleared, needs a zoned `placeholderValue` to stay zoned.
+   *
+   * @default 'day', or 'minute' for a value with a time
+   */
+  granularity?: 'day' | 'hour' | 'minute' | 'second'
+  /**
+   * Hide the time zone of a `ZonedDateTime` value.
+   */
+  hideTimeZone?: boolean
+  /**
+   * Show 12 or 24 hours. Defaults to the locale's.
+   */
+  hourCycle?: 12 | 24
+  /**
+   * The date the segments start from while the field is empty, such as
+   * `new CalendarDateTime(2026, 1, 1, 9)`, and the month the calendar opens on. With no
+   * `defaultValue`, its time is the one a day picked in the calendar gets, and its type the type
+   * of value `onChange` receives: a `ZonedDateTime` gives zoned values. With a time
+   * `granularity` it must carry a time.
+   */
+  placeholderValue?: DateValue
+  /**
+   * Show a leading zero on the day, month and hour, as `03/05` rather than `3/5`, whatever the
+   * locale does.
+   */
+  shouldForceLeadingZeros?: boolean
+  /**
+   * Callback fired when the selected date changes. With a time (`granularity`), it receives a
+   * `CalendarDateTime` or `ZonedDateTime`.
    */
   onChange?: (value: DateValue | null) => void
   /**
@@ -228,7 +263,10 @@ const DatePickerSingle = forwardRef<HTMLDivElement, DatePickerSingleProps>(
       defaultVisible,
       disabled,
       firstDayOfWeek,
+      granularity,
       help,
+      hideTimeZone,
+      hourCycle,
       id,
       invalid,
       invalidFeedback,
@@ -242,7 +280,9 @@ const DatePickerSingle = forwardRef<HTMLDivElement, DatePickerSingleProps>(
       onChange,
       onOpenChange,
       onVisibleChange,
+      placeholderValue,
       selectionMode: _selectionMode,
+      shouldForceLeadingZeros,
       size,
       unavailableDates,
       valid,
@@ -259,19 +299,37 @@ const DatePickerSingle = forwardRef<HTMLDivElement, DatePickerSingleProps>(
       [unavailableDates, isDateUnavailable]
     )
 
+    // What both react-stately's state and react-aria's hook read: the hook hands the time props
+    // on to the field's segments.
+    const pickerProps = {
+      defaultValue,
+      granularity,
+      hideTimeZone,
+      hourCycle,
+      isDateUnavailable: combinedIsDateUnavailable,
+      isDisabled: disabled,
+      // `false` would override the state's own check of the range and unavailable dates:
+      // react-stately takes a defined `isInvalid` as the whole validation state.
+      isInvalid: invalid || undefined,
+      maxValue,
+      minValue,
+      onChange,
+      placeholderValue,
+      shouldForceLeadingZeros,
+      value
+    }
+
     const state = useDatePickerState({
       ...useOpenStateProps(
         { defaultOpen, defaultVisible, isOpen, onOpenChange, onVisibleChange, visible },
         'DatePicker'
       ),
-      defaultValue,
-      isDateUnavailable: combinedIsDateUnavailable,
-      isDisabled: disabled,
-      maxValue,
-      minValue,
-      onChange,
-      value
+      ...pickerProps
     })
+    // A value outside `minValue`/`maxValue`, or on an unavailable date, is invalid too, shown as
+    // `invalid` is, as `TimeField` shows it.
+    const showInvalid = invalid || state.displayValidation.isInvalid
+    const showValid = valid && !showInvalid
 
     const groupRef = useRef<HTMLDivElement>(null)
     const forkedGroupRef = useForkedRef(ref, groupRef)
@@ -291,10 +349,10 @@ const DatePickerSingle = forwardRef<HTMLDivElement, DatePickerSingleProps>(
       ariaLabelledBy: rest['aria-labelledby'],
       help,
       id,
-      invalid,
+      invalid: showInvalid,
       invalidFeedback,
       label,
-      valid,
+      valid: showValid,
       validFeedback
     })
 
@@ -308,17 +366,10 @@ const DatePickerSingle = forwardRef<HTMLDivElement, DatePickerSingleProps>(
       groupProps
     } = useDatePicker(
       {
+        ...pickerProps,
         'aria-label': rest['aria-label'],
         'aria-labelledby': labelledBy,
-        defaultValue,
-        id: groupId,
-        isDateUnavailable: combinedIsDateUnavailable,
-        isDisabled: disabled,
-        isInvalid: invalid,
-        maxValue,
-        minValue,
-        onChange,
-        value
+        id: groupId
       },
       state,
       groupRef
@@ -345,6 +396,7 @@ const DatePickerSingle = forwardRef<HTMLDivElement, DatePickerSingleProps>(
                   <Calendar
                     {...domDialogProps}
                     autoFocus
+                    defaultFocusedValue={calendarProps.defaultFocusedValue}
                     disabled={disabled}
                     firstDayOfWeek={firstDayOfWeek}
                     isDateUnavailable={combinedIsDateUnavailable}
@@ -381,7 +433,7 @@ const DatePickerSingle = forwardRef<HTMLDivElement, DatePickerSingleProps>(
                   'aria-labelledby': labelledBy
                 },
                 groupRef: forkedGroupRef,
-                invalid,
+                invalid: showInvalid,
                 isOpen: state.isOpen,
                 overlayDismissProps,
                 overlayRef,
@@ -395,7 +447,7 @@ const DatePickerSingle = forwardRef<HTMLDivElement, DatePickerSingleProps>(
                     state={state}
                   />
                 ),
-                valid
+                valid: showValid
               })}
               {name && (
                 <input
@@ -409,10 +461,10 @@ const DatePickerSingle = forwardRef<HTMLDivElement, DatePickerSingleProps>(
           ),
           help,
           ids: { feedback: feedbackId, help: helpId, label: labelId },
-          invalid,
+          invalid: showInvalid,
           invalidFeedback,
           label,
-          valid,
+          valid: showValid,
           validFeedback
         })}
       </CalendarLabelsProvider>

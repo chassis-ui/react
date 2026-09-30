@@ -61,9 +61,28 @@ export interface DateRangePickerProps extends Omit<
    */
   firstDayOfWeek?: 'sun' | 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat'
   /**
+   * The smallest unit the fields show and edit. `'hour'`, `'minute'` and `'second'` add a time
+   * to both dates: the range's dates are then `CalendarDateTime`s, or `ZonedDateTime`s when
+   * `value`, `defaultValue` or `placeholderValue` holds them, and a range or placeholder given
+   * must carry times. Picking a range in the calendar keeps the times. A range picked in an
+   * empty field takes the time, and zone, of `placeholderValue`, else midnight with no zone: a
+   * zoned range, once cleared, needs a zoned `placeholderValue` to stay zoned.
+   *
+   * @default 'day', or 'minute' for a range with times
+   */
+  granularity?: 'day' | 'hour' | 'minute' | 'second'
+  /**
    * A description for the field, rendered below the date range picker.
    */
   help?: ReactNode
+  /**
+   * Hide the time zone of `ZonedDateTime` dates.
+   */
+  hideTimeZone?: boolean
+  /**
+   * Show 12 or 24 hours. Defaults to the locale's.
+   */
+  hourCycle?: 12 | 24
   /**
    * `id` forwarded to the field's grouping element — useful for pairing with a `<label for>`.
    */
@@ -110,11 +129,14 @@ export interface DateRangePickerProps extends Omit<
   /**
    * Base `name` for a pair of auto-created hidden inputs, kept in sync with the selection, for
    * native form submission — rendered as `${name}Start` and `${name}End`. Omit to skip creating
-   * them.
+   * them. Each value is the date's `toString()`: `2026-03-15`, with a time `2026-03-15T09:30:00`,
+   * and with a time zone `2026-03-15T09:30:00+09:00[Asia/Tokyo]`, which `parseZonedDateTime`
+   * reads back.
    */
   name?: string
   /**
-   * Callback fired when the selected date range changes.
+   * Callback fired when the selected date range changes. With a time (`granularity`), its dates
+   * are `CalendarDateTime`s or `ZonedDateTime`s.
    */
   onChange?: (value: RangeValue<DateValue> | null) => void
   /**
@@ -130,12 +152,24 @@ export interface DateRangePickerProps extends Omit<
    */
   onVisibleChange?: (visible: boolean) => void
   /**
+   * The date both fields start from while empty, such as `new CalendarDateTime(2026, 1, 1, 9)`,
+   * and the month the calendar opens on. Its time is the one a range picked in the calendar gets,
+   * and its type the type of the dates `onChange` receives: a `ZonedDateTime` gives zoned dates.
+   * With a time `granularity` it must carry a time.
+   */
+  placeholderValue?: DateValue
+  /**
    * A list of quick-select range presets shown in the overlay next to the calendar. Selecting a
    * preset commits its range immediately, the same as picking a start and end date from the
    * calendar. The preset matching the current selection (if any) is marked selected. Omit to not
    * show a preset list.
    */
   presets?: DateRangePreset[]
+  /**
+   * Show a leading zero on the day, month and hour, as `03/05` rather than `3/5`, whatever the
+   * locale does.
+   */
+  shouldForceLeadingZeros?: boolean
   /**
    * Size the component sm or lg.
    */
@@ -188,7 +222,10 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
       defaultVisible,
       disabled,
       firstDayOfWeek,
+      granularity,
       help,
+      hideTimeZone,
+      hourCycle,
       id,
       invalid,
       invalidFeedback,
@@ -202,7 +239,9 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
       onChange,
       onOpenChange,
       onVisibleChange,
+      placeholderValue,
       presets,
+      shouldForceLeadingZeros,
       size,
       unavailableDates,
       valid,
@@ -219,19 +258,37 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
       [unavailableDates, isDateUnavailable]
     )
 
+    // What both react-stately's state and react-aria's hook read: the hook hands the time props
+    // on to the fields' segments.
+    const pickerProps = {
+      defaultValue,
+      granularity,
+      hideTimeZone,
+      hourCycle,
+      isDateUnavailable: combinedIsDateUnavailable,
+      isDisabled: disabled,
+      // `false` would override the state's own check of the range, unavailable dates and an end
+      // before the start: react-stately takes a defined `isInvalid` as the whole validation state.
+      isInvalid: invalid || undefined,
+      maxValue,
+      minValue,
+      onChange,
+      placeholderValue,
+      shouldForceLeadingZeros,
+      value
+    }
+
     const state = useDateRangePickerState({
       ...useOpenStateProps(
         { defaultOpen, defaultVisible, isOpen, onOpenChange, onVisibleChange, visible },
         'DateRangePicker'
       ),
-      defaultValue,
-      isDateUnavailable: combinedIsDateUnavailable,
-      isDisabled: disabled,
-      maxValue,
-      minValue,
-      onChange,
-      value
+      ...pickerProps
     })
+    // A range outside `minValue`/`maxValue`, over an unavailable date or ending before it starts
+    // is invalid too, shown as `invalid` is, as `TimeField` shows a time out of range.
+    const showInvalid = invalid || state.displayValidation.isInvalid
+    const showValid = valid && !showInvalid
 
     const groupRef = useRef<HTMLDivElement>(null)
     const forkedGroupRef = useForkedRef(ref, groupRef)
@@ -251,10 +308,10 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
       ariaLabelledBy: rest['aria-labelledby'],
       help,
       id,
-      invalid,
+      invalid: showInvalid,
       invalidFeedback,
       label,
-      valid,
+      valid: showValid,
       validFeedback
     })
 
@@ -269,17 +326,10 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
       startFieldProps
     } = useDateRangePicker(
       {
+        ...pickerProps,
         'aria-label': rest['aria-label'],
         'aria-labelledby': labelledBy,
-        defaultValue,
-        id: groupId,
-        isDateUnavailable: combinedIsDateUnavailable,
-        isDisabled: disabled,
-        isInvalid: invalid,
-        maxValue,
-        minValue,
-        onChange,
-        value
+        id: groupId
       },
       state,
       groupRef
@@ -303,6 +353,7 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
                   <RangeCalendar
                     {...domDialogProps}
                     autoFocus
+                    defaultFocusedValue={calendarProps.defaultFocusedValue}
                     disabled={disabled}
                     firstDayOfWeek={firstDayOfWeek}
                     isDateUnavailable={combinedIsDateUnavailable}
@@ -358,7 +409,7 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
                   'aria-labelledby': labelledBy
                 },
                 groupRef: forkedGroupRef,
-                invalid,
+                invalid: showInvalid,
                 isOpen: state.isOpen,
                 overlayDismissProps,
                 overlayRef,
@@ -372,7 +423,7 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
                     state={state}
                   />
                 ),
-                valid
+                valid: showValid
               })}
               {name && (
                 <>
@@ -394,10 +445,10 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
           ),
           help,
           ids: { feedback: feedbackId, help: helpId, label: labelId },
-          invalid,
+          invalid: showInvalid,
           invalidFeedback,
           label,
-          valid,
+          valid: showValid,
           validFeedback
         })}
       </CalendarLabelsProvider>

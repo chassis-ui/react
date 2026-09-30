@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { CalendarDate } from '@internationalized/date'
+import { CalendarDate, CalendarDateTime, parseZonedDateTime } from '@internationalized/date'
 
 import { DatePicker } from '../../src/components/datepicker/DatePicker'
 
@@ -41,5 +41,31 @@ export const OpenWithMinMax: Story = {
     defaultValue: anchor,
     maxValue: anchor.add({ days: 10 }),
     minValue: anchor.subtract({ days: 5 })
+  }
+}
+
+// `granularity` adds the time to the field; a value with a time shows it without one.
+export const WithTime: Story = {
+  args: {
+    'aria-label': 'Appointment',
+    defaultValue: new CalendarDateTime(2024, 3, 15, 9, 30),
+    granularity: 'minute'
+  }
+}
+
+export const WithTimeZone: Story = {
+  args: {
+    'aria-label': 'Call',
+    defaultValue: parseZonedDateTime('2024-03-15T09:30[Asia/Tokyo]')
+  }
+}
+
+// A time before `minValue` on its day: the field shows invalid, with its feedback.
+export const TimeOutOfRange: Story = {
+  args: {
+    defaultValue: new CalendarDateTime(2024, 3, 15, 8, 0),
+    invalidFeedback: 'Appointments start at 9 AM.',
+    label: 'Appointment',
+    minValue: new CalendarDateTime(2024, 3, 15, 9, 0)
   }
 }

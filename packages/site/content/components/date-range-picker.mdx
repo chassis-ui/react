@@ -7,6 +7,7 @@ toc: true
 import { Example as BasicExample } from '../../examples/components/date-range-picker/BasicExample.tsx'
 import { Example as FormFieldExample } from '../../examples/components/date-range-picker/FormFieldExample.tsx'
 import { Example as MinMaxExample } from '../../examples/components/date-range-picker/MinMaxExample.tsx'
+import { Example as TimeExample } from '../../examples/components/date-range-picker/TimeExample.tsx'
 import { Example as UnavailableExample } from '../../examples/components/date-range-picker/UnavailableExample.tsx'
 import { Example as MultiMonthExample } from '../../examples/components/date-range-picker/MultiMonthExample.tsx'
 import { Example as PresetsExample } from '../../examples/components/date-range-picker/PresetsExample.tsx'
@@ -22,7 +23,7 @@ import { Example as ControlledOpenExample } from '../../examples/components/date
 
 ## As a form field
 
-Pass `label`/`help` to wrap the picker in a `.form-field` with an associated `FormLabel` and `FormHelp`. Pass `name` to have `DateRangePicker` create and manage a pair of hidden inputs for native form submission — `${name}Start` and `${name}End`, each an ISO 8601 date string (`2026-07-24`).
+Pass `label`/`help` to wrap the picker in a `.form-field` with an associated `FormLabel` and `FormHelp`. Pass `name` to have `DateRangePicker` create and manage a pair of hidden inputs for native form submission — `${name}Start` and `${name}End`, each an ISO 8601 date string (`2026-07-24`), with a time `2026-07-24T09:30:00` (see [Time](#time)).
 
 <Example>
   <FormFieldExample client:load />
@@ -30,10 +31,18 @@ Pass `label`/`help` to wrap the picker in a `.form-field` with an associated `Fo
 
 ## Min & max dates
 
-Restrict the selectable range with `minValue`/`maxValue`. Dates outside the range are shown but disabled in the calendar grid, and typing an out-of-range value into either field is rejected.
+Restrict the selectable range with `minValue`/`maxValue`. Dates outside the range are shown but disabled in the calendar grid. A date typed outside the range, or an end before the start, marks the field invalid, as `invalid` does, and shows `invalidFeedback` if there is one.
 
 <Example>
   <MinMaxExample client:load />
+</Example>
+
+## Time
+
+Pass `granularity` as `'hour'`, `'minute'` or `'second'` to add a time to both fields, as on [`DatePicker`]([[docsref:/components/datepicker#time]]): the range's dates become `CalendarDateTime`s, or `ZonedDateTime`s from a zoned `value`, `defaultValue` or `placeholderValue`. The calendar picks the days and the fields' segments edit the times. Picking a range keeps both times already set; in an empty field both take the time and zone of `placeholderValue`, else midnight with no zone. A zoned range therefore needs a zoned `placeholderValue` to stay zoned after it is cleared. Here the placeholder starts both at 3 PM.
+
+<Example>
+  <TimeExample client:load />
 </Example>
 
 ## Unavailable dates
@@ -82,9 +91,9 @@ Like `DatePicker`, `DateRangePicker` isn't styled by `@chassis-ui/css`. It reuse
 
 ## Scope
 
-This is a date-only range picker — a few things are deliberately out of scope for this pass:
+A few things are deliberately out of scope for this pass:
 
-- **Time selection** — both fields are date-only (`granularity="day"`); no time segments are rendered.
+- **A time picker in the popover** — the times are edited in the fields' segments, and the popover picks the days only.
 - **Non-contiguous ranges** — react-aria's `allowsNonContiguousRanges` option isn't exposed.
 
 ## API

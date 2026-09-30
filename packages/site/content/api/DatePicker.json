@@ -28,9 +28,130 @@
         "name": "DateValue | DateValue[] | null"
       }
     },
+    "granularity": {
+      "defaultValue": {
+        "value": "'day', or 'minute' for a value with a time"
+      },
+      "description": "The smallest unit the field shows and edits. `'hour'`, `'minute'` and `'second'` add a time\nto the date: the value is then a `CalendarDateTime`, or a `ZonedDateTime` when `value`,\n`defaultValue` or `placeholderValue` is one, and a value or placeholder given must carry a\ntime. Picking a day in the calendar keeps the time. A day picked in an empty field takes the\ntime, and zone, of `defaultValue`, else `placeholderValue`, else midnight with no zone: a\ncontrolled zoned `value`, once cleared, needs a zoned `placeholderValue` to stay zoned.",
+      "name": "granularity",
+      "parent": {
+        "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
+        "name": "DatePickerSingleProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
+          "name": "DatePickerSingleProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"day\" | \"hour\" | \"minute\" | \"second\"",
+        "value": [
+          {
+            "value": "\"day\""
+          },
+          {
+            "value": "\"hour\""
+          },
+          {
+            "value": "\"minute\""
+          },
+          {
+            "value": "\"second\""
+          }
+        ]
+      }
+    },
+    "hideTimeZone": {
+      "defaultValue": null,
+      "description": "Hide the time zone of a `ZonedDateTime` value.",
+      "name": "hideTimeZone",
+      "parent": {
+        "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
+        "name": "DatePickerSingleProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
+          "name": "DatePickerSingleProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "hourCycle": {
+      "defaultValue": null,
+      "description": "Show 12 or 24 hours. Defaults to the locale's.",
+      "name": "hourCycle",
+      "parent": {
+        "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
+        "name": "DatePickerSingleProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
+          "name": "DatePickerSingleProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "12 | 24",
+        "value": [
+          {
+            "value": "12"
+          },
+          {
+            "value": "24"
+          }
+        ]
+      }
+    },
+    "placeholderValue": {
+      "defaultValue": null,
+      "description": "The date the segments start from while the field is empty, such as\n`new CalendarDateTime(2026, 1, 1, 9)`, and the month the calendar opens on. With no\n`defaultValue`, its time is the one a day picked in the calendar gets, and its type the type\nof value `onChange` receives: a `ZonedDateTime` gives zoned values. With a time\n`granularity` it must carry a time.",
+      "name": "placeholderValue",
+      "parent": {
+        "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
+        "name": "DatePickerSingleProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
+          "name": "DatePickerSingleProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "DateValue"
+      }
+    },
+    "shouldForceLeadingZeros": {
+      "defaultValue": null,
+      "description": "Show a leading zero on the day, month and hour, as `03/05` rather than `3/5`, whatever the\nlocale does.",
+      "name": "shouldForceLeadingZeros",
+      "parent": {
+        "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
+        "name": "DatePickerSingleProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
+          "name": "DatePickerSingleProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
     "onChange": {
       "defaultValue": null,
-      "description": "Callback fired when the selected date changes.\nCallback fired when the set of selected dates changes.",
+      "description": "Callback fired when the selected date changes. With a time (`granularity`), it receives a\n`CalendarDateTime` or `ZonedDateTime`.\nCallback fired when the set of selected dates changes.",
       "name": "onChange",
       "parent": {
         "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",
@@ -461,7 +582,7 @@
     },
     "name": {
       "defaultValue": null,
-      "description": "`name` of an auto-created hidden input, kept in sync with the selection, for native form\nsubmission — one input when `selectionMode` is `'single'`, one per selected date when it's\n`'multiple'` (same `name` on each, which browsers serialize as multiple form values). Omit to\nskip creating any.",
+      "description": "`name` of an auto-created hidden input, kept in sync with the selection, for native form\nsubmission — one input when `selectionMode` is `'single'`, one per selected date when it's\n`'multiple'` (same `name` on each, which browsers serialize as multiple form values). Omit to\nskip creating any. The value is the date's `toString()`: `2026-03-15`, with a time\n`2026-03-15T09:30:00`, and with a time zone `2026-03-15T09:30:00+09:00[Asia/Tokyo]`, which\n`parseZonedDateTime` reads back.",
       "name": "name",
       "parent": {
         "fileName": "packages/react/src/components/datepicker/DatePicker.tsx",

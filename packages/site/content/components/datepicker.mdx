@@ -7,6 +7,8 @@ toc: true
 import { Example as BasicExample } from '../../examples/components/datepicker/BasicExample.tsx'
 import { Example as FormFieldExample } from '../../examples/components/datepicker/FormFieldExample.tsx'
 import { Example as MinMaxExample } from '../../examples/components/datepicker/MinMaxExample.tsx'
+import { Example as TimeExample } from '../../examples/components/datepicker/TimeExample.tsx'
+import { Example as TimeZoneExample } from '../../examples/components/datepicker/TimeZoneExample.tsx'
 import { Example as LocaleExample } from '../../examples/components/datepicker/LocaleExample.tsx'
 import { Example as MultiSelectExample } from '../../examples/components/datepicker/MultiSelectExample.tsx'
 import { Example as MultiMonthExample } from '../../examples/components/datepicker/MultiMonthExample.tsx'
@@ -22,7 +24,7 @@ import { Example as ControlledOpenExample } from '../../examples/components/date
 
 ## As a form field
 
-Pass `label`/`help` to wrap the date picker in a `.form-field` with an associated `FormLabel` and `FormHelp`. Pass `name` to have `DatePicker` create and manage a hidden `<input>` for native form submission — its value stays in sync with the selection, formatted as an ISO 8601 date string (`2026-07-24`).
+Pass `label`/`help` to wrap the date picker in a `.form-field` with an associated `FormLabel` and `FormHelp`. Pass `name` to have `DatePicker` create and manage a hidden `<input>` for native form submission — its value stays in sync with the selection, formatted as an ISO 8601 date string (`2026-07-24`), with a time `2026-07-24T09:30:00` (see [Time](#time)).
 
 <Example>
   <FormFieldExample client:load />
@@ -30,10 +32,26 @@ Pass `label`/`help` to wrap the date picker in a `.form-field` with an associate
 
 ## Min & max dates
 
-Restrict the selectable range with `minValue`/`maxValue`. Dates outside the range are shown but disabled in the calendar grid, and typing an out-of-range value into the field is rejected.
+Restrict the selectable range with `minValue`/`maxValue`. Dates outside the range are shown but disabled in the calendar grid. A value typed outside the range marks the field invalid, as `invalid` does, and shows `invalidFeedback` if there is one.
 
 <Example>
   <MinMaxExample client:load />
+</Example>
+
+## Time
+
+Pass `granularity` as `'hour'`, `'minute'` or `'second'` to add a time to the field. Its segments follow the date's in the locale's order and hour cycle (`hourCycle` sets 12 or 24 hours), and the value becomes a `CalendarDateTime`. A value that carries a time shows it without `granularity`; with a time granularity, a value or `placeholderValue` must carry one (a `CalendarDate` there throws).
+
+The calendar picks the day and the field's segments edit the time. Picking a day keeps the time already set, so the day changes without retyping it. In an empty field it takes the time of `defaultValue`, else of `placeholderValue`, else midnight. `minValue`/`maxValue` may carry a time: the calendar compares days only, so their own days stay selectable, and a time outside the range marks the field invalid.
+
+<Example>
+  <TimeExample client:load />
+</Example>
+
+A `ZonedDateTime` as `value`, `defaultValue` or `placeholderValue` adds its time zone to the field (`hideTimeZone` leaves it out), and `onChange` receives `ZonedDateTime`s. A day picked after the field is cleared is built from `defaultValue` or `placeholderValue` as above, so a controlled zoned `value` needs a zoned `placeholderValue` too, or the next value is a `CalendarDateTime` with no zone. The hidden input holds the zone too, `2026-11-05T09:30:00+09:00[Asia/Tokyo]`, which `parseZonedDateTime` reads back. The calendar shows that zone's days, and marks today by that zone's date.
+
+<Example>
+  <TimeZoneExample client:load />
 </Example>
 
 ## Locale & calendar system
@@ -91,7 +109,8 @@ Unlike most Chassis React components, `DatePicker`'s calendar grid isn't styled 
 The strong-fit case for React Aria's date picker hooks is a single editable date field. A few things are deliberately out of scope for this pass:
 
 - **Date ranges** — for a start/end range, see [`DateRangePicker`]([[docsref:/components/date-range-picker]]), built on the separate `useDateRangePickerState`/`useDateRangePicker` hook pair.
-- **Time selection** — the field is date-only (`granularity="day"`); no time segments are rendered.
+- **A time picker in the popover** — the time is edited in the field's segments, and the popover picks the day only. For a time with no date, use [`TimeField`]([[docsref:/components/time-field]]).
+- **A time with multiple dates** — `granularity` applies to single selection; `selectionMode="multiple"` lists dates only.
 
 ## API
 

@@ -12,7 +12,6 @@ import { DateValue, RangeCalendarState, useRangeCalendarState } from 'react-stat
 import {
   CalendarDate,
   createCalendar,
-  getLocalTimeZone,
   isSameDay,
   isToday,
   isWeekend
@@ -50,6 +49,11 @@ export interface RangeCalendarProps extends Omit<
    * A string of all className you want applied to the base component.
    */
   className?: string
+  /**
+   * The date the calendar first shows and focuses, in place of the selected date or today.
+   * `DatePicker` and `DateRangePicker` pass their `placeholderValue` here while empty.
+   */
+  defaultFocusedValue?: DateValue | null
   /**
    * The initial selected date range (uncontrolled).
    */
@@ -128,6 +132,7 @@ export const RangeCalendar = forwardRef<HTMLDivElement, RangeCalendarProps>(
     {
       autoFocus,
       className,
+      defaultFocusedValue,
       defaultValue,
       disabled,
       firstDayOfWeek = 'mon',
@@ -164,6 +169,7 @@ export const RangeCalendar = forwardRef<HTMLDivElement, RangeCalendarProps>(
     const state = useRangeCalendarState({
       autoFocus,
       createCalendar,
+      defaultFocusedValue,
       defaultValue,
       firstDayOfWeek,
       isDateUnavailable: combinedIsDateUnavailable,
@@ -186,6 +192,7 @@ export const RangeCalendar = forwardRef<HTMLDivElement, RangeCalendarProps>(
       'aria-label': rest['aria-label'],
       'aria-labelledby': rest['aria-labelledby'],
       autoFocus,
+      defaultFocusedValue,
       defaultValue,
       isDateUnavailable: combinedIsDateUnavailable,
       isDisabled: disabled,
@@ -298,9 +305,11 @@ const CalendarCell = ({ date, isFirstInRow, isLastInRow, locale, state }: Calend
   const isRangeStart = Boolean(highlightedRange && isSameDay(date, highlightedRange.start))
   const isRangeEnd = Boolean(highlightedRange && isSameDay(date, highlightedRange.end))
   // "Today" depends on the time zone, and a server's is rarely the viewer's: marked once hydration
-  // has finished, in the browser's own zone, so the server's HTML never marks the wrong day.
+  // has finished, so the server's HTML never marks the wrong day. The zone is the calendar's, as
+  // react-aria's "Today" in the cell's label: a `ZonedDateTime` value's own, otherwise the
+  // browser's.
   const hydrated = useHydrated()
-  const isCurrentDate = hydrated && isToday(date, getLocalTimeZone())
+  const isCurrentDate = hydrated && isToday(date, state.timeZone)
 
   return (
     <div

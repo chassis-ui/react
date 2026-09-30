@@ -185,6 +185,42 @@
         ]
       }
     },
+    "granularity": {
+      "defaultValue": {
+        "value": "'day', or 'minute' for a range with times"
+      },
+      "description": "The smallest unit the fields show and edit. `'hour'`, `'minute'` and `'second'` add a time\nto both dates: the range's dates are then `CalendarDateTime`s, or `ZonedDateTime`s when\n`value`, `defaultValue` or `placeholderValue` holds them, and a range or placeholder given\nmust carry times. Picking a range in the calendar keeps the times. A range picked in an\nempty field takes the time, and zone, of `placeholderValue`, else midnight with no zone: a\nzoned range, once cleared, needs a zoned `placeholderValue` to stay zoned.",
+      "name": "granularity",
+      "parent": {
+        "fileName": "packages/react/src/components/datepicker/DateRangePicker.tsx",
+        "name": "DateRangePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/datepicker/DateRangePicker.tsx",
+          "name": "DateRangePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"day\" | \"hour\" | \"minute\" | \"second\"",
+        "value": [
+          {
+            "value": "\"day\""
+          },
+          {
+            "value": "\"hour\""
+          },
+          {
+            "value": "\"minute\""
+          },
+          {
+            "value": "\"second\""
+          }
+        ]
+      }
+    },
     "help": {
       "defaultValue": null,
       "description": "A description for the field, rendered below the date range picker.",
@@ -202,6 +238,53 @@
       "required": false,
       "type": {
         "name": "ReactNode"
+      }
+    },
+    "hideTimeZone": {
+      "defaultValue": null,
+      "description": "Hide the time zone of `ZonedDateTime` dates.",
+      "name": "hideTimeZone",
+      "parent": {
+        "fileName": "packages/react/src/components/datepicker/DateRangePicker.tsx",
+        "name": "DateRangePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/datepicker/DateRangePicker.tsx",
+          "name": "DateRangePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "hourCycle": {
+      "defaultValue": null,
+      "description": "Show 12 or 24 hours. Defaults to the locale's.",
+      "name": "hourCycle",
+      "parent": {
+        "fileName": "packages/react/src/components/datepicker/DateRangePicker.tsx",
+        "name": "DateRangePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/datepicker/DateRangePicker.tsx",
+          "name": "DateRangePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "12 | 24",
+        "value": [
+          {
+            "value": "12"
+          },
+          {
+            "value": "24"
+          }
+        ]
       }
     },
     "id": {
@@ -377,7 +460,7 @@
     },
     "name": {
       "defaultValue": null,
-      "description": "Base `name` for a pair of auto-created hidden inputs, kept in sync with the selection, for\nnative form submission — rendered as `${name}Start` and `${name}End`. Omit to skip creating\nthem.",
+      "description": "Base `name` for a pair of auto-created hidden inputs, kept in sync with the selection, for\nnative form submission — rendered as `${name}Start` and `${name}End`. Omit to skip creating\nthem. Each value is the date's `toString()`: `2026-03-15`, with a time `2026-03-15T09:30:00`,\nand with a time zone `2026-03-15T09:30:00+09:00[Asia/Tokyo]`, which `parseZonedDateTime`\nreads back.",
       "name": "name",
       "parent": {
         "fileName": "packages/react/src/components/datepicker/DateRangePicker.tsx",
@@ -396,7 +479,7 @@
     },
     "onChange": {
       "defaultValue": null,
-      "description": "Callback fired when the selected date range changes.",
+      "description": "Callback fired when the selected date range changes. With a time (`granularity`), its dates\nare `CalendarDateTime`s or `ZonedDateTime`s.",
       "name": "onChange",
       "parent": {
         "fileName": "packages/react/src/components/datepicker/DateRangePicker.tsx",
@@ -451,6 +534,25 @@
         "name": "((visible: boolean) => void)"
       }
     },
+    "placeholderValue": {
+      "defaultValue": null,
+      "description": "The date both fields start from while empty, such as `new CalendarDateTime(2026, 1, 1, 9)`,\nand the month the calendar opens on. Its time is the one a range picked in the calendar gets,\nand its type the type of the dates `onChange` receives: a `ZonedDateTime` gives zoned dates.\nWith a time `granularity` it must carry a time.",
+      "name": "placeholderValue",
+      "parent": {
+        "fileName": "packages/react/src/components/datepicker/DateRangePicker.tsx",
+        "name": "DateRangePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/datepicker/DateRangePicker.tsx",
+          "name": "DateRangePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "DateValue"
+      }
+    },
     "presets": {
       "defaultValue": null,
       "description": "A list of quick-select range presets shown in the overlay next to the calendar. Selecting a\npreset commits its range immediately, the same as picking a start and end date from the\ncalendar. The preset matching the current selection (if any) is marked selected. Omit to not\nshow a preset list.",
@@ -468,6 +570,25 @@
       "required": false,
       "type": {
         "name": "DateRangePreset[]"
+      }
+    },
+    "shouldForceLeadingZeros": {
+      "defaultValue": null,
+      "description": "Show a leading zero on the day, month and hour, as `03/05` rather than `3/5`, whatever the\nlocale does.",
+      "name": "shouldForceLeadingZeros",
+      "parent": {
+        "fileName": "packages/react/src/components/datepicker/DateRangePicker.tsx",
+        "name": "DateRangePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/datepicker/DateRangePicker.tsx",
+          "name": "DateRangePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
       }
     },
     "size": {

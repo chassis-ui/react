@@ -43,6 +43,11 @@ interface CalendarBaseProps extends Omit<
    */
   className?: string
   /**
+   * The date the calendar first shows and focuses, in place of the selected date or today.
+   * `DatePicker` and `DateRangePicker` pass their `placeholderValue` here while empty.
+   */
+  defaultFocusedValue?: DateValue | null
+  /**
    * Prevents the calendar from being focused or interacted with.
    */
   disabled?: boolean
@@ -151,6 +156,7 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>((props, forwar
   const {
     autoFocus,
     className,
+    defaultFocusedValue: defaultFocusedValueProp,
     defaultValue,
     disabled,
     firstDayOfWeek = 'mon',
@@ -198,9 +204,10 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>((props, forwar
   // affecting the normal "focus follows the selection" behavior whenever there is one.
   const resolvedValue = normalizedValue !== undefined ? normalizedValue : normalizedDefaultValue
   const defaultFocusedValue =
-    selectionMode === 'multiple' && Array.isArray(resolvedValue) && resolvedValue.length === 0
+    defaultFocusedValueProp ??
+    (selectionMode === 'multiple' && Array.isArray(resolvedValue) && resolvedValue.length === 0
       ? today(getLocalTimeZone())
-      : undefined
+      : undefined)
 
   const state = useCalendarState<DateValue, 'single' | 'multiple'>({
     autoFocus,
@@ -317,9 +324,11 @@ const CalendarCell = ({ date, locale, state }: CalendarCellProps) => {
     formattedDate
   } = useCalendarCell({ date }, state, ref)
   // "Today" depends on the time zone, and a server's is rarely the viewer's: marked once hydration
-  // has finished, in the browser's own zone, so the server's HTML never marks the wrong day.
+  // has finished, so the server's HTML never marks the wrong day. The zone is the calendar's, as
+  // react-aria's "Today" in the cell's label: a `ZonedDateTime` value's own, otherwise the
+  // browser's.
   const hydrated = useHydrated()
-  const isCurrentDate = hydrated && isToday(date, getLocalTimeZone())
+  const isCurrentDate = hydrated && isToday(date, state.timeZone)
 
   return (
     <div

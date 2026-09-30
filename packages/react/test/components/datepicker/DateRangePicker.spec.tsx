@@ -1,7 +1,12 @@
 import * as React from 'react'
 import { render, screen, fireEvent, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { CalendarDate } from '@internationalized/date'
+import {
+  CalendarDate,
+  CalendarDateTime,
+  parseZonedDateTime,
+  ZonedDateTime
+} from '@internationalized/date'
 import { axe } from 'jest-axe'
 
 import { DateRangePicker } from '../../../src/index'
@@ -422,6 +427,103 @@ describe('DateRangePicker', () => {
       expect(
         await axe(document.body, { rules: { region: { enabled: false } } })
       ).toHaveNoViolations()
+    })
+  })
+
+  describe('time', () => {
+    const segmentText = () =>
+      screen.getAllByRole('spinbutton').map((segment) => segment.textContent)
+
+    // Hidden inputs are excluded from the accessibility tree - no query reaches them.
+    const getHiddenInput = (name: string) =>
+      // eslint-disable-next-line testing-library/no-node-access
+      document.querySelector(`input[type="hidden"][name="${name}"]`) as HTMLInputElement
+
+    test('granularity adds the time segments to both empty fields', () => {
+      render(<DateRangePicker aria-label="Stay" granularity="hour" />)
+      expect(screen.getAllByRole('spinbutton', { name: /^hour/ })).toHaveLength(2)
+      expect(screen.queryByRole('spinbutton', { name: /^minute/ })).toBeNull()
+    })
+
+    test('picking a range in the calendar keeps both times', () => {
+      const onChange = vi.fn()
+      render(
+        <DateRangePicker
+          aria-label="Stay"
+          defaultValue={{
+            end: new CalendarDateTime(2024, 3, 17, 11, 0),
+            start: new CalendarDateTime(2024, 3, 15, 15, 0)
+          }}
+          name="stay"
+          onChange={onChange}
+        />
+      )
+      openCalendar()
+      const grid = screen.getByRole('grid')
+      fireEvent.click(within(grid).getByRole('button', { name: /March 20, 2024/ }))
+      fireEvent.click(within(grid).getByRole('button', { name: /March 22, 2024/ }))
+      const { end, start } = onChange.mock.calls[0]![0]
+      expect(start).toBeInstanceOf(CalendarDateTime)
+      expect([start.toString(), end.toString()]).toEqual([
+        '2024-03-20T15:00:00',
+        '2024-03-22T11:00:00'
+      ])
+      expect(segmentText()).toEqual([
+        '3',
+        '20',
+        '2024',
+        '3',
+        '00',
+        'PM',
+        '3',
+        '22',
+        '2024',
+        '11',
+        '00',
+        'AM'
+      ])
+      expect(getHiddenInput('stayStart').value).toBe('2024-03-20T15:00:00')
+      expect(getHiddenInput('stayEnd').value).toBe('2024-03-22T11:00:00')
+    })
+
+    test('a range picked while empty takes the time and type of placeholderValue', () => {
+      const onChange = vi.fn()
+      render(
+        <DateRangePicker
+          aria-label="Stay"
+          granularity="minute"
+          onChange={onChange}
+          placeholderValue={parseZonedDateTime('2024-03-01T09:00[Asia/Tokyo]')}
+        />
+      )
+      openCalendar()
+      const grid = screen.getByRole('grid')
+      fireEvent.click(within(grid).getByRole('button', { name: /March 20, 2024/ }))
+      fireEvent.click(within(grid).getByRole('button', { name: /March 22, 2024/ }))
+      const { end, start } = onChange.mock.calls[0]![0]
+      expect(start).toBeInstanceOf(ZonedDateTime)
+      expect([start.toString(), end.toString()]).toEqual([
+        '2024-03-20T09:00:00+09:00[Asia/Tokyo]',
+        '2024-03-22T09:00:00+09:00[Asia/Tokyo]'
+      ])
+    })
+
+    test('an end before the start marks the field invalid, with its feedback', () => {
+      render(
+        <DateRangePicker
+          aria-label="Stay"
+          invalidFeedback="Check out after you check in"
+          value={{
+            end: new CalendarDateTime(2024, 3, 15, 11, 0),
+            start: new CalendarDateTime(2024, 3, 15, 15, 0)
+          }}
+        />
+      )
+      const group = screen.getByRole('group', { name: 'Stay' })
+      expect(group).toHaveClass('is-invalid')
+      expect(group.getAttribute('aria-describedby')).toContain(
+        screen.getByText('Check out after you check in').id
+      )
     })
   })
 

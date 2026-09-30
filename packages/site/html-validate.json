@@ -9,7 +9,10 @@
     "heading-level": "off",
     "no-redundant-role": "off",
     "prefer-button": "off",
-    "prefer-native-element": ["error", { "exclude": ["button", "progressbar", "region"] }],
+    "prefer-native-element": [
+      "error",
+      { "exclude": ["button", "progressbar", "region", "textbox"] }
+    ],
     "unique-landmark": "off",
     "valid-id": ["error", { "relaxed": true }],
     "wcag/h32": "off",
