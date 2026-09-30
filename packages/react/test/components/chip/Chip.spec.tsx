@@ -32,7 +32,8 @@ describe('Chip', () => {
       expect(link).toHaveAttribute('href', '/bazinga')
     })
 
-    test('an explicit component wins over href, instead of href forcing an anchor', () => {
+    test('an explicit component wins over href, which a <span> does not take', () => {
+      const consoleWarn = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
       render(
         <Chip href="/bazinga" component="span">
           Link
@@ -40,7 +41,9 @@ describe('Chip', () => {
       )
       const chip = screen.getByText('Link')
       expect(chip.tagName).toBe('SPAN')
-      expect(chip).toHaveAttribute('href', '/bazinga')
+      expect(chip).not.toHaveAttribute('href')
+      expect(consoleWarn).toHaveBeenCalledWith(expect.stringContaining('`href` was ignored'))
+      consoleWarn.mockRestore()
     })
 
     test('renders as a native button', () => {

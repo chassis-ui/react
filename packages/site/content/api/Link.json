@@ -118,7 +118,7 @@
     },
     "href": {
       "defaultValue": null,
-      "description": "The href attribute specifies the URL of the page the link goes to. Only meaningful when\n`component` resolves to (or accepts) `'a'`. Declared explicitly here — rather than left to\nflow through generically from whatever `C` is — so consumers that wrap `Link` (`MenuItem`,\n`ListItem`, `NavLink`) can read it with a concrete type regardless of `component`.",
+      "description": "The href attribute specifies the URL of the page the link goes to. Reaches an `<a>` or a\ncomponent reference (a router link); dropped, with a warning in development, when\n`component` is another element. Declared explicitly here — rather than left to flow through\ngenerically from whatever `C` is — so consumers that wrap `Link` (`MenuItem`, `ListItem`,\n`NavLink`) can read it with a concrete type regardless of `component`.",
       "name": "href",
       "declarations": [
         {

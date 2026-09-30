@@ -53,6 +53,15 @@ describe('StepperItem', () => {
     })
   })
 
+  describe('href', () => {
+    test('renders a link for href alone', () => {
+      render(<StepperItem href="/a">Step</StepperItem>)
+      const link = screen.getByRole('link', { name: 'Step' })
+      expect(link).toHaveClass('stepper-item')
+      expect(link).toHaveAttribute('href', '/a')
+    })
+  })
+
   describe('ref forwarding', () => {
     test('forwards a ref for the default li element', () => {
       const ref = React.createRef<HTMLLIElement>()

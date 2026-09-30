@@ -107,8 +107,8 @@ timeline represent distinct outcomes rather than one continuous sequence.
 ## Interactive steps
 
 Render each step as a link or button when it should navigate to another page or trigger an
-in-page action — set `component="a"` (with `href`) or `component="button"` on `<StepperItem>`, or
-`href` on a data-driven item definition. Because `<a>`/`<button>` elements aren't valid children of
+in-page action — set `href` or `component="button"` on `<StepperItem>`, or `href` on a data-driven
+item definition. Because `<a>`/`<button>` elements aren't valid children of
 an `<ol>`, `<Stepper>` automatically renders its root as a `<div>` instead whenever a step is
 interactive — pass `component` explicitly if you need to override that.
 

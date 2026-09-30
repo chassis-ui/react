@@ -8,7 +8,13 @@ import React, {
 import classNames from 'classnames'
 
 import { ContextColor, ContextStyle } from '../../types'
-import { isInteractiveKind, resolveElementTag, resolveKindFromProps } from '../../utils/elementKind'
+import {
+  hasHref,
+  isInteractiveKind,
+  linkElement,
+  resolveElementTag,
+  resolveKindFromProps
+} from '../../utils/elementKind'
 import { isElementOfType } from '../../utils/lazyElement'
 import {
   createPolymorphicComponent,
@@ -94,7 +100,12 @@ type ListOwnProps<C extends ElementType> = {
 }
 
 // What `List` reads off a `<ListItem>` child to decide its own tag.
-type ListItemChildProps = { asChild?: boolean; children?: ReactNode; component?: ElementType }
+type ListItemChildProps = {
+  asChild?: boolean
+  children?: ReactNode
+  component?: ElementType
+  href?: string
+}
 
 export type ListProps<C extends ElementType = 'ul'> = PolymorphicComponentProps<C, ListOwnProps<C>>
 
@@ -125,7 +136,7 @@ function ListRender<C extends ElementType = 'ul'>(
   // already chose their own `component`), matching the same `component="div"` pattern already
   // documented for `Stepper`'s composed interactive usage.
   const hasInteractiveItem = items
-    ? items.some((item) => !!item.href)
+    ? items.some((item) => hasHref(item.href))
     : Children.toArray(children).some(
         (child) =>
           isElementOfType<ListItemChildProps>(child, ListItem) &&
@@ -154,16 +165,16 @@ function ListRender<C extends ElementType = 'ul'>(
   const autoContent = items
     ? items.map((item, idx) => {
         const itemClass = classNames('list-item', item.color && 'context', item.color, {
-          'list-action': !!item.href,
+          'list-action': hasHref(item.href),
           active: item.active,
           disabled: item.disabled
         })
-        const Tag = item.href ? 'a' : isListSemantic ? 'li' : 'div'
+        const Tag = linkElement(undefined, item.href, isListSemantic ? 'li' : 'div')
         return (
           <Tag
             key={item.id ?? idx}
             className={itemClass}
-            {...(item.href ? { href: item.href } : {})}
+            {...(hasHref(item.href) && { href: item.href })}
             {...(item.active ? { 'aria-current': 'page' } : {})}
             {...(item.disabled ? { 'aria-disabled': true } : {})}
           >
@@ -176,15 +187,17 @@ function ListRender<C extends ElementType = 'ul'>(
   // When the root switched to `div` because of an interactive child, every plain `<ListItem>`
   // sibling defaulting to `<li>` would be just as invalid (only valid inside `<ul>`/`<ol>`/
   // `<menu>`) — so give each `ListItem` child the same `div` treatment the auto-generated items
-  // above already get, unless it set its own `component` or renders its `asChild` element. Other
-  // child types are left untouched — this is only meaningful for `List`'s own list items.
+  // above already get, unless it chose its own element: `component`, `href` or its `asChild`
+  // element. Other child types are left untouched — this is only meaningful for `List`'s own list
+  // items.
   const renderedChildren =
     autoContent ??
     (isListSemantic
       ? children
       : Children.map(children, (child) =>
-          isElementOfType<ListItemChildProps>(child, ListItem) && !child.props.asChild
-            ? React.cloneElement(child, { component: child.props.component ?? 'div' })
+          isElementOfType<ListItemChildProps>(child, ListItem) &&
+          resolveKindFromProps(child.props) === undefined
+            ? React.cloneElement(child, { component: 'div' })
             : child
         ))
 

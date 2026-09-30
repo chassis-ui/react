@@ -1852,10 +1852,11 @@ type LinkOwnProps<C extends ElementType> = {
    */
   disabled?: boolean;
   /**
-   * The href attribute specifies the URL of the page the link goes to. Only meaningful when
-   * `component` resolves to (or accepts) `'a'`. Declared explicitly here — rather than left to
-   * flow through generically from whatever `C` is — so consumers that wrap `Link` (`MenuItem`,
-   * `ListItem`, `NavLink`) can read it with a concrete type regardless of `component`.
+   * The href attribute specifies the URL of the page the link goes to. Reaches an `<a>` or a
+   * component reference (a router link); dropped, with a warning in development, when
+   * `component` is another element. Declared explicitly here — rather than left to flow through
+   * generically from whatever `C` is — so consumers that wrap `Link` (`MenuItem`, `ListItem`,
+   * `NavLink`) can read it with a concrete type regardless of `component`.
    */
   href?: string;
   /**
@@ -2403,8 +2404,8 @@ type CloseButtonOwnProps<C extends ElementType> = {
    */
   disabled?: boolean;
   /**
-   * The href attribute specifies the URL of the page the link goes to. Only meaningful when
-   * `component` is `'a'`.
+   * The href attribute specifies the URL of the page the link goes to. Renders an `<a>` in place
+   * of the `<button>`, unless `component` or `asChild` chose the element.
    */
   href?: string;
   /**
@@ -2435,7 +2436,7 @@ type CloseButtonOwnProps<C extends ElementType> = {
 };
 type CloseButtonProps<C extends ElementType = 'button'> = PolymorphicComponentProps<C, CloseButtonOwnProps<C>>;
 type CloseButtonComponent = (<C extends ElementType = 'button'>(props: CloseButtonProps<C> & {
-  ref?: PolymorphicRef<C>;
+  ref?: PolymorphicRefWithFallback<C, HTMLAnchorElement | HTMLButtonElement>;
 }) => ReactElement | null) & {
   displayName?: string;
 };
@@ -3254,7 +3255,7 @@ type MenuItemOwnProps = {
 };
 type MenuItemProps<C extends ElementType = 'a'> = LinkProps<C> & MenuItemOwnProps;
 type MenuItemComponent = (<C extends ElementType = 'a'>(props: MenuItemProps<C> & {
-  ref?: PolymorphicRef<C>;
+  ref?: PolymorphicRefWithFallback<C, HTMLAnchorElement | HTMLButtonElement>;
 }) => ReactElement | null) & {
   displayName?: string;
 };
@@ -4655,14 +4656,15 @@ type ListItemOwnProps<C extends ElementType> = {
    */
   component?: C;
   /**
-   * The href attribute specifies the URL of the page the link goes to. Only applicable when
-   * `component` is `"a"`.
+   * The href attribute specifies the URL of the page the link goes to. Renders an `<a>` in place
+   * of the `<li>`, unless `component` or `asChild` chose the element. Inside a `List`, the list
+   * renders a `<div>` around it in place of the `<ul>`.
    */
   href?: string;
 };
 type ListItemProps<C extends ElementType = 'li'> = PolymorphicComponentProps<C, ListItemOwnProps<C>>;
 type ListItemComponent = (<C extends ElementType = 'li'>(props: ListItemProps<C> & {
-  ref?: PolymorphicRef<C>;
+  ref?: PolymorphicRefWithFallback<C, HTMLAnchorElement | HTMLLIElement>;
 }) => ReactElement | null) & {
   displayName?: string;
 };
@@ -5777,13 +5779,15 @@ type StepperItemOwnProps<C extends ElementType> = {
    */
   component?: C;
   /**
-   * The `href` attribute for an interactive step rendered as a link.
+   * The `href` attribute for an interactive step rendered as a link. Renders an `<a>` in place of
+   * the `<li>`, unless `component` or `asChild` chose the element. Inside a `Stepper`, the stepper
+   * renders a `<div>` around it in place of the `<ol>`.
    */
   href?: string;
 };
 type StepperItemProps<C extends ElementType = 'li'> = PolymorphicComponentProps<C, StepperItemOwnProps<C>>;
 type StepperItemComponent = (<C extends ElementType = 'li'>(props: StepperItemProps<C> & {
-  ref?: PolymorphicRef<C>;
+  ref?: PolymorphicRefWithFallback<C, HTMLAnchorElement | HTMLLIElement>;
 }) => ReactElement | null) & {
   displayName?: string;
 };

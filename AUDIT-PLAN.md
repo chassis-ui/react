@@ -283,6 +283,9 @@ The docs' SSR page doesn't mention composition limits for these.
   link. It needs `component="a"` as well.
 - `<MenuItem>` with no `href` renders `<a role="menuitem">` without `href`.
 
+Corrected in B5: `StepperItem` doesn't switch on `href` (`<StepperItem href>` renders `<li href>`,
+as `ListItem` does), and more components write `href` onto a non-link. See B5.
+
 ### F5 — Server HTML differs from the settled client state (confirmed unless marked)
 
 No hydration error, but the first paint is wrong or incomplete:
@@ -343,7 +346,7 @@ A8 ran html-validate and the Nu Html Checker over the built docs site. The docs 
 
 - `Nav` renders `role="navigation"` on its `<ul>`, a role `ul` doesn't allow, and which removes the
   list's semantics. An item without `href` spreads `active` and `disabled` onto its `<li>` as
-  attributes. (vnu filter "Bad value “navigation”".)
+  attributes. (vnu filter "Bad value “navigation”".) Fixed in B5.
 - react-aria's `useSlotId` writes description and error-message ids into the `aria-describedby`
   of every field on the server, and drops them only in a layout effect after hydration. The docs
   site's server HTML has 823 references to ids that don't exist. The library renders its own
@@ -733,19 +736,54 @@ Changeset: patch. Exit: no import of the package remains; visual regression pass
 
 ### B5 — One rule for `href` (F4)
 
+Done. The rule is in `CONVENTIONS.md`, and in `linkElement` and `hrefProps`
+(`src/utils/elementKind.ts`), which every component that takes `href` calls. Reading the code
+before changing it found more than F4 lists:
+
+- **`StepperItem` was broken like `ListItem`**, not one of the nine that work: `<li href>`.
+- **`href` on a non-link**: `Button`, `Chip`, `Avatar`, `NavbarBrand` and `Link` wrote it onto any
+  `component` (`component="div" href` rendered `<div href>`). It is now dropped with a
+  development warning.
+- **The other way round**: `PaginationItem` and `CloseButton` dropped `href` for a router link
+  passed as `component`, so `<PaginationItem component={NextLink} href="/p/2">` had no target.
+- **Parents didn't see an item's `href`.** `List` and `Stepper` choose a `<div>` root around a
+  linked item through `resolveKindFromProps`, which now counts `href`. Their clone step also forced
+  `component="div"` onto any item without a `component`, which would have undone the fix.
+- **`NavItem` without `href`** spread everything onto its `<li>`, `component` and `asChild`
+  included. It now renders its `NavLink` for `href`, `component` or `asChild`, and otherwise a bare
+  `<li>` without the link's props.
+- **`MenuToggle`** told react-aria its `Button` was a `<button>` even when `href` made it an `<a>`,
+  and passed `href` to any `component`. `Avatar` wrote `disabled=""` onto its `<span>`.
+
+The server-rendered markup of every story was compared before and after: the only change is
+`role="navigation"` leaving `Nav`'s `<ul>`. No visual baseline moved.
+
+Not changed: a component reference with `href` (`<ListItem component={NextLink} href>`) counts as a
+`component`, not an anchor, so it gets no `list-action` or anchor handling, while the same router
+link as the `asChild` element does (B2's `resolveSlottedKind`). Treating both alike would change
+`Button`'s disabled handling for router links too; it is left for a decision.
+
 Model: **Opus**. Nine components already implement the rule; this extracts and extends it.
 
-- [ ] Check the markup chassis-css documents for list items and menu items: which elements carry
+- [x] Check the markup chassis-css documents for list items and menu items: which elements carry
       `.list-item` and `.menu-item`, and whether `<button class="menu-item">` is styled. The rule
-      below follows that answer.
-- [ ] Write the rule in `CONVENTIONS.md`: a component that accepts `href` renders `<a>` when it is
+      below follows that answer. Both `<a>` and `<button type="button">` for each; the menu docs
+      say so in as many words.
+- [x] Write the rule in `CONVENTIONS.md`: a component that accepts `href` renders `<a>` when it is
       set, unless `component` or `asChild` says otherwise.
-- [ ] Apply to `ListItem` (confirmed broken). Then check the other components that declare an
+- [x] Apply to `ListItem` (confirmed broken). Then check the other components that declare an
       `href` prop and weren't probed: `CloseButton`, `MenuToggle`, `AvatarStack`, `Nav`.
-- [ ] `Nav` (F10): no `role` on the `<ul>`, and a `NavItem` without `href` passes no `active` or
-      `disabled` attribute to its `<li>`. Delete the matching vnu filter.
-- [ ] `MenuItem` without `href`: render `<button type="button">`, if chassis-css styles it.
-- [ ] Extract the rule into one helper shared with the nine components that already do it.
+      `CloseButton` and `MenuToggle` fixed, `AvatarStack` follows through `Avatar`. `CardLink`,
+      found from the generated prop tables, follows through `Link`.
+- [x] `Nav` (F10): no `role` on the `<ul>`, and a `NavItem` without `href` passes no `active` or
+      `disabled` attribute to its `<li>`. Delete the matching vnu filter. Also the `navigation`
+      exclusion of html-validate's `prefer-native-element`, which was there for the same role.
+- [x] `MenuItem` without `href`: render `<button type="button">`, if chassis-css styles it.
+- [x] Extract the rule into one helper shared with the nine components that already do it.
+- [x] Tests: `test/utils/href.matrix.spec.tsx` covers every component whose generated prop table
+      lists `href`, and `test/ssr/render.spec.tsx` fails any story with `href` on a non-link. Two
+      stories use `href` alone (`List` `LinksByHref`, `Stepper` `Linked`); without the fix the
+      sweep fails on both.
 
 Changeset: minor (rendered elements change). Exit: no component renders `href` on a non-anchor.
 

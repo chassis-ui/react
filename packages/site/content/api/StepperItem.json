@@ -103,7 +103,7 @@
     },
     "href": {
       "defaultValue": null,
-      "description": "The `href` attribute for an interactive step rendered as a link.",
+      "description": "The `href` attribute for an interactive step rendered as a link. Renders an `<a>` in place of\nthe `<li>`, unless `component` or `asChild` chose the element. Inside a `Stepper`, the stepper\nrenders a `<div>` around it in place of the `<ol>`.",
       "name": "href",
       "declarations": [
         {

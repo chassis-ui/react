@@ -118,7 +118,7 @@
     },
     "href": {
       "defaultValue": null,
-      "description": "The href attribute specifies the URL of the page the link goes to. Only applicable when\n`component` is `\"a\"`.",
+      "description": "The href attribute specifies the URL of the page the link goes to. Renders an `<a>` in place\nof the `<li>`, unless `component` or `asChild` chose the element. Inside a `List`, the list\nrenders a `<div>` around it in place of the `<ul>`.",
       "name": "href",
       "declarations": [
         {

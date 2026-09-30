@@ -1,5 +1,6 @@
 import { ElementType, isValidElement, ReactElement, ReactNode } from 'react'
 
+import { devWarning } from './devWarning'
 import { resolveLazy } from './lazyElement'
 
 // What a polymorphic component ends up rendering, as far as its own semantics care:
@@ -57,10 +58,47 @@ export function resolveKindFromProps(props: {
   asChild?: boolean
   children?: ReactNode
   component?: ElementType
+  href?: string
 }): ElementKind | undefined {
   const child = props.asChild ? resolveLazy(props.children) : undefined
   if (isValidElement<Record<string, unknown>>(child)) return resolveSlottedKind(child)
-  return props.component === undefined ? undefined : resolveElementKind(props.component)
+  if (props.component !== undefined) return resolveElementKind(props.component)
+  return hasHref(props.href) ? 'anchor' : undefined
+}
+
+// One rule for `href`, followed by every component that accepts one:
+//
+// - The element is `component`, or the `asChild` element, when one is given. Otherwise `href` makes
+//   it an `<a>`, and without `href` the component renders its own default (`linkElement`).
+// - `href` reaches the rendered element only when that element can take it: an `<a>`, or a
+//   component reference, which is trusted to take it (a router link does). A `<button>`, an `<li>`
+//   or any other tag never gets one, and in development the component says so (`hrefProps`).
+//
+// An empty string is set: `href=""` is a link to the current document.
+export const hasHref = (href: string | null | undefined): href is string => href != null
+
+export function linkElement(
+  component: ElementType | undefined,
+  href: string | undefined,
+  fallback: ElementType
+): ElementType {
+  return component ?? (hasHref(href) ? 'a' : fallback)
+}
+
+export function hrefProps(
+  kind: ElementKind,
+  href: string | undefined,
+  displayName: string
+): { href?: string } {
+  if (!hasHref(href)) return {}
+  if (kind === 'anchor' || kind === 'component') return { href }
+  devWarning(
+    true,
+    `${displayName}: \`href\` was ignored, because the element it renders isn't a link. Leave ` +
+      `out \`component\` to render an <a>, or pass a link as \`component\` or as the \`asChild\` ` +
+      `element.`
+  )
+  return {}
 }
 
 export const isInteractiveKind = (kind: ElementKind | undefined): boolean =>

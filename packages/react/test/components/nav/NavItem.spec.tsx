@@ -53,6 +53,44 @@ describe('NavItem', () => {
     })
   })
 
+  describe('link', () => {
+    test('renders a NavLink for a component without href', () => {
+      render(
+        <NavItem component="button" active>
+          Action
+        </NavItem>
+      )
+      const button = screen.getByRole('button', { name: 'Action' })
+      expect(button).toHaveClass('nav-link', 'active')
+      expect(screen.getByRole('listitem')).not.toHaveAttribute('component')
+    })
+
+    test('renders a NavLink for its asChild element', () => {
+      render(
+        <NavItem asChild>
+          <a href="/a">Link</a>
+        </NavItem>
+      )
+      expect(screen.getByRole('link', { name: 'Link' })).toHaveClass('nav-link')
+      expect(screen.getByRole('listitem')).not.toHaveAttribute('aschild')
+    })
+
+    // F10 of AUDIT-PLAN.md: they were written onto the `<li>` as attributes.
+    test('without a link, keeps active and disabled off the li, and says so', () => {
+      const consoleWarn = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
+      render(
+        <NavItem active disabled>
+          Test
+        </NavItem>
+      )
+      const item = screen.getByRole('listitem')
+      expect(item).not.toHaveAttribute('active')
+      expect(item).not.toHaveAttribute('disabled')
+      expect(consoleWarn).toHaveBeenCalledWith(expect.stringContaining('NavItem'))
+      consoleWarn.mockRestore()
+    })
+  })
+
   describe('ref forwarding', () => {
     test('forwards a ref to the underlying li', () => {
       const ref = React.createRef<HTMLLIElement>()

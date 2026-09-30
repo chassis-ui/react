@@ -4,15 +4,11 @@ export const Example = () => {
   return (
     <nav aria-label="Progress">
       <Stepper>
-        <StepperItem component="a" href="#">
-          Account
-        </StepperItem>
-        <StepperItem component="a" href="#" active>
+        <StepperItem href="#">Account</StepperItem>
+        <StepperItem href="#" active>
           <span className="visually-hidden">Current step: </span>Shipping
         </StepperItem>
-        <StepperItem component="a" href="#">
-          Payment
-        </StepperItem>
+        <StepperItem href="#">Payment</StepperItem>
       </Stepper>
     </nav>
   )

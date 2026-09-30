@@ -2,7 +2,12 @@ import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'reac
 import classNames from 'classnames'
 
 import { ContextColor, ExtendedSizing } from '../../types'
-import { isInteractiveKind, resolveElementKind } from '../../utils/elementKind'
+import {
+  hrefProps,
+  isInteractiveKind,
+  linkElement,
+  resolveElementKind
+} from '../../utils/elementKind'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -93,7 +98,9 @@ function AvatarRender<C extends ElementType = 'span'>(
   }: AvatarProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const tag = component ?? (href ? 'a' : 'span')
+  // `href` makes it an `<a>`, unless `component` or `asChild` chose the element (see
+  // `linkElement`).
+  const tag = linkElement(component, href, 'span')
   // The kind rather than the tag: under `asChild`, `tag` is a `Slot` standing in for the caller's
   // element, and a slotted `<a>` is as interactive as `component="a"`.
   const kind = resolveElementKind(tag)
@@ -114,13 +121,10 @@ function AvatarRender<C extends ElementType = 'span'>(
     <Component
       className={_className}
       {...(isInteractive && { component: tag })}
-      // `disabled`/`href` used to only reach `Component` when `tag` was the native `'a'`/`'button'`
-      // string (routed through `Link`, which already forwards them itself) — a custom `component`
-      // (e.g. a router `Link`) fell through this `isInteractive` check and silently never received
-      // either prop. Passing them unconditionally fixes that; they're harmless no-ops on a plain,
-      // non-interactive `'span'`.
-      disabled={disabled}
-      href={href}
+      // `Link` handles `disabled` on an `<a>` or `<button>`, and a component reference (a router
+      // link) is trusted to. A plain tag has no `disabled` attribute and gets the class alone.
+      {...((isInteractive || kind === 'component') && { disabled })}
+      {...hrefProps(kind, href, 'Avatar')}
       {...(kind === 'button' && { type: 'button' })}
       {...rest}
       ref={ref}

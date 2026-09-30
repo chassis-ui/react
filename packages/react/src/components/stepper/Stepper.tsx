@@ -8,7 +8,12 @@ import React, {
 import classNames from 'classnames'
 
 import { ContextColor } from '../../types'
-import { isInteractiveKind, resolveElementTag, resolveKindFromProps } from '../../utils/elementKind'
+import {
+  hasHref,
+  isInteractiveKind,
+  resolveElementTag,
+  resolveKindFromProps
+} from '../../utils/elementKind'
 import { isElementOfType } from '../../utils/lazyElement'
 import {
   createPolymorphicComponent,
@@ -80,7 +85,12 @@ type StepperOwnProps<C extends ElementType> = {
 }
 
 // What `Stepper` reads off a `<StepperItem>` child to decide its own tag.
-type StepperItemChildProps = { asChild?: boolean; children?: ReactNode; component?: ElementType }
+type StepperItemChildProps = {
+  asChild?: boolean
+  children?: ReactNode
+  component?: ElementType
+  href?: string
+}
 
 export type StepperProps<C extends ElementType = 'ol'> = PolymorphicComponentProps<
   C,
@@ -112,7 +122,7 @@ function StepperRender<C extends ElementType = 'ol'>(
   // chose their own `component`) — matching the `<Stepper component="div">` pattern already
   // documented for composed interactive usage.
   const hasInteractiveItem = items
-    ? items.some((item) => !!item.href)
+    ? items.some((item) => hasHref(item.href))
     : Children.toArray(children).some(
         (child) =>
           isElementOfType<StepperItemChildProps>(child, StepperItem) &&
@@ -140,7 +150,8 @@ function StepperRender<C extends ElementType = 'ol'>(
           key={idx}
           active={item.active}
           color={item.color}
-          component={item.href ? 'a' : isListSemantic ? 'li' : 'div'}
+          // Left out with `href`, so the step renders its `<a>`.
+          component={hasHref(item.href) || isListSemantic ? undefined : 'div'}
           href={item.href}
         >
           {item.label}
@@ -151,15 +162,17 @@ function StepperRender<C extends ElementType = 'ol'>(
   // When the root switched to `div` because of an interactive step, every plain `<StepperItem>`
   // sibling defaulting to `<li>` would be just as invalid (only valid inside `<ul>`/`<ol>`/
   // `<menu>`) — so give each `StepperItem` child the same `div` treatment the auto-generated
-  // steps above already get, unless it set its own `component` or renders its `asChild` element.
-  // Other child types are left untouched — this is only meaningful for `Stepper`'s own steps.
+  // steps above already get, unless it chose its own element: `component`, `href` or its `asChild`
+  // element. Other child types are left untouched — this is only meaningful for `Stepper`'s own
+  // steps.
   const renderedChildren =
     autoContent ??
     (isListSemantic
       ? children
       : Children.map(children, (child) =>
-          isElementOfType<StepperItemChildProps>(child, StepperItem) && !child.props.asChild
-            ? React.cloneElement(child, { component: child.props.component ?? 'div' })
+          isElementOfType<StepperItemChildProps>(child, StepperItem) &&
+          resolveKindFromProps(child.props) === undefined
+            ? React.cloneElement(child, { component: 'div' })
             : child
         ))
 

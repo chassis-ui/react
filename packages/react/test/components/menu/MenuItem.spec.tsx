@@ -74,6 +74,25 @@ describe('MenuItem', () => {
     })
   })
 
+  describe('without href', () => {
+    // chassis-css styles `<button class="menu-item">` as well as `<a>`. An `<a>` without `href`
+    // isn't focusable.
+    test('renders a button of type button', () => {
+      render(<MenuItem>Copy</MenuItem>)
+      const item = screen.getByRole('menuitem', { name: 'Copy' })
+      expect(item.tagName).toBe('BUTTON')
+      expect(item).toHaveAttribute('type', 'button')
+      expect(item).toHaveClass('menu-item')
+    })
+
+    test('is disabled natively when disabled', () => {
+      render(<MenuItem disabled>Copy</MenuItem>)
+      const item = screen.getByRole('menuitem', { name: 'Copy' })
+      expect(item).toBeDisabled()
+      expect(item).toHaveClass('disabled')
+    })
+  })
+
   describe('interaction', () => {
     test('prevents default navigation for placeholder href="#" so the page does not jump to top', () => {
       const handleClick = vi.fn()

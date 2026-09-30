@@ -2,11 +2,13 @@
 import * as React from 'react'
 import { renderToString } from 'react-dom/server'
 
+import { misplacedHrefs } from '../utils/misplacedHrefs'
 import { loadStories } from './stories'
 
 // Server render sweep: every story rendered with `renderToString` in a real Node environment, with
 // no `window` or `document`, as a framework's server does. A story fails if rendering throws or
-// logs a `console.error` (a `useLayoutEffect` on the server, an invalid prop, a missing key).
+// logs a `console.error` (a `useLayoutEffect` on the server, an invalid prop, a missing key), or if
+// its markup has an `href` on anything but a link (see `test/utils/href.matrix.spec.tsx`).
 //
 // No story fails today. A known failure would go in an allowlist keyed by story id, as in
 // `hydrate.spec.tsx`.
@@ -23,11 +25,13 @@ describe('server render of every story', () => {
     const consoleError = vi.spyOn(console, 'error').mockImplementation((...args) => {
       errors.push(args[0])
     })
+    let html = ''
     try {
-      expect(() => renderToString(<Story />)).not.toThrow()
+      expect(() => (html = renderToString(<Story />))).not.toThrow()
     } finally {
       consoleError.mockRestore()
     }
     expect(errors).toEqual([])
+    expect(misplacedHrefs(html)).toEqual([])
   })
 })

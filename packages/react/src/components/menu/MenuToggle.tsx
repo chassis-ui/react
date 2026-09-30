@@ -17,6 +17,7 @@ import {
   PolymorphicRef
 } from '../../utils/polymorphic'
 import { useForkedRef } from '../../hooks'
+import { hasHref, hrefProps, resolveElementKind } from '../../utils/elementKind'
 
 type MenuToggleOwnProps<C extends ElementType> = {
   /**
@@ -71,19 +72,25 @@ type MenuToggleComponent = (<C extends ElementType = typeof Button>(
 ) => ReactElement | null) & { displayName?: string }
 
 function MenuToggleRender<C extends ElementType = typeof Button>(
-  { children, className, component, onClick, onKeyDown, ...rest }: MenuToggleProps<C>,
+  { children, className, component, href, onClick, onKeyDown, ...rest }: MenuToggleProps<C>,
   ref: PolymorphicRef<C>
 ) {
   const { hide, menuTriggerProps, reference, targetRef, toggleNodeRef, visible } =
     useContext(MenuContext)
   const Component = component ?? Button
   const buttonRef = useRef<HTMLButtonElement | null>(null)
+  // What the root renders. The default `Button` renders a `<button>`, or an `<a>` given `href`.
+  // Anything else is asked, like every polymorphic component asks: `NavLink` is a component
+  // reference, and `component="button"` a real `<button>`.
+  const kind =
+    Component === Button ? (hasHref(href) ? 'anchor' : 'button') : resolveElementKind(Component)
+  const rendersButton = kind === 'button'
+  // `Button` applies the `href` rule itself; anything else gets `href` only if it can take one.
+  const linkProps = Component === Button ? { href } : hrefProps(kind, href, 'MenuToggle')
   // `elementType` tells react-aria whether the rendered root already has native button
-  // semantics (`Button`, defaulting to `<button>`) or needs them emulated (`role="button"`,
-  // keyboard activation) — anything else swapped in via `component` (e.g. `NavLink`, which
-  // defaults to `<a>`) falls into the latter case.
+  // semantics or needs them emulated (`role="button"`, keyboard activation).
   const { buttonProps } = useButton(
-    { ...menuTriggerProps, elementType: Component === Button ? 'button' : 'a' },
+    { ...menuTriggerProps, elementType: rendersButton ? 'button' : 'a' },
     buttonRef
   )
   const wasOpenRef = useRef(false)
@@ -119,10 +126,9 @@ function MenuToggleRender<C extends ElementType = typeof Button>(
 
   return (
     <Component
-      // Only the default `Button` root needs an explicit `type` to avoid an implicit form
-      // submit — other roots (e.g. `NavLink`, a raw `'button'` string) either don't render a
-      // `<button>` at all or already accept `type` as one of their own passthrough props.
-      {...(Component === Button ? { type: 'button' } : {})}
+      // A `<button>` root needs an explicit `type` to avoid an implicit form submit; other roots
+      // (e.g. `NavLink`) don't render a `<button>` at all.
+      {...(rendersButton ? { type: 'button' } : {})}
       // The `.caret` utility (rather than styling off `[data-cx-toggle="menu"]`, as the vanilla
       // CSS docs show) keeps this element from also matching Chassis CSS's own vanilla menu.js
       // selectors on a page that happens to load both — this component reimplements all of that
@@ -135,6 +141,9 @@ function MenuToggleRender<C extends ElementType = typeof Button>(
         onClick: handleClick,
         onKeyDown
       }) as Record<string, unknown>)}
+      // After `buttonProps`: for an `<a>`, react-aria returns an `href` of its own, the one it was
+      // given, which is none.
+      {...linkProps}
       ref={forkedRef}
     >
       {children}

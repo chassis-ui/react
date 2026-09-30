@@ -12,10 +12,7 @@
     "no-missing-references": "off",
     "no-redundant-role": "off",
     "prefer-button": "off",
-    "prefer-native-element": [
-      "error",
-      { "exclude": ["button", "navigation", "progressbar", "region"] }
-    ],
+    "prefer-native-element": ["error", { "exclude": ["button", "progressbar", "region"] }],
     "unique-landmark": "off",
     "valid-id": ["error", { "relaxed": true }],
     "wcag/h32": "off",

@@ -158,6 +158,30 @@ that reads a child's props (`List` reading its `ListItem`s) uses `resolveKindFro
 `src/components`, and on any component whose `asChild` output differs from its `component="a"`
 output.
 
+## `href`: one rule for every component that takes it
+
+A component that accepts `href` renders an `<a>` when it is set, unless `component` or `asChild`
+chose the element. Without `href` it renders its own default: `<button>` for `Button`,
+`CloseButton`, `PaginationItem` and `MenuItem`, `<li>` for `ListItem` and `StepperItem`, `<span>` for
+`Chip`, `Avatar` and `NavbarBrand`. `href` then reaches the rendered element only if that element
+can take it: an `<a>`, or a component reference, which is trusted to (a router link takes `href`
+itself). A `<button>`, an `<li>` or any other tag never carries `href`; the component drops it and
+warns in development. An empty string is set, since `href=""` is a link to the current document.
+
+A render function doesn't write this itself. It calls `linkElement(component, href, fallback)` for
+the element and spreads `hrefProps(kind, href, displayName)` for the attribute
+(`src/utils/elementKind.ts`). A parent that picks its own element from its children (`List`,
+`Stepper`) reads an item's `href` through `resolveKindFromProps`, which counts it as an anchor.
+
+`MenuItem` follows chassis-css, which styles `<a class="menu-item">` and
+`<button class="menu-item" type="button">` alike. A `NavItem` renders its `NavLink` for `href`,
+`component` or `asChild`, and otherwise a bare `<li>` that takes none of the link's props.
+
+`test/utils/href.matrix.spec.tsx` renders every component whose props include `href` (read from
+the generated prop tables) with `href` alone, with a router link, and with a `<div>` and a
+`<button>` as `component`. `test/ssr/render.spec.tsx` fails any story whose markup has `href` on
+anything but a link.
+
 ## Reading children: resolve them first
 
 A component that inspects its children before rendering them never writes

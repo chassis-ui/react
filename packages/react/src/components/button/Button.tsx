@@ -10,7 +10,7 @@ import { mergeProps } from 'react-aria'
 
 import { ContextColor, ContextStyle, Shapes } from '../../types'
 import { useButtonSemantics, useDisabledAnchorGuard } from '../../hooks'
-import { resolveElementKind } from '../../utils/elementKind'
+import { hrefProps, linkElement, resolveElementKind } from '../../utils/elementKind'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -100,13 +100,14 @@ function ButtonRender<C extends ElementType = 'button'>(
   }: ButtonProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  // Only defaults to `a` when `component` wasn't explicitly passed — an explicit `component`
-  // (even alongside `href`, e.g. a router Link component that accepts `href` itself) always wins.
-  const Component = (component ?? (href ? 'a' : 'button')) as ElementType
+  // `href` makes it an `<a>`, unless `component` or `asChild` chose the element (see
+  // `linkElement`).
+  const Component = linkElement(component, href, 'button')
   // The kind rather than the tag: under `asChild`, `Component` is a `Slot` standing in for the
   // caller's element, and a slotted `<a>` needs what `component="a"` gets.
   const kind = resolveElementKind(Component)
   const isAnchor = kind === 'anchor'
+  const linkProps = hrefProps(kind, href, 'Button')
 
   // A component reference (e.g. a router `Link`) has its own visual identity and is trusted to
   // handle its own keyboard/role semantics, same as `CloseButton`'s `isComponentReference` escape
@@ -207,7 +208,7 @@ function ButtonRender<C extends ElementType = 'button'>(
       <Anchor
         {...(rest as Record<string, unknown>)}
         {...sharedProps}
-        href={href}
+        {...linkProps}
         {...(disabled && { 'aria-disabled': true, tabIndex: -1 })}
         ref={ref as Ref<HTMLAnchorElement>}
       >
@@ -223,10 +224,7 @@ function ButtonRender<C extends ElementType = 'button'>(
         : (mergeProps(rest, buttonProps) as Record<string, unknown>))}
       className={_className}
       aria-pressed={pressed}
-      // `href` was only ever forwarded when it also forced `Component` to `'a'` — now that an
-      // explicit `component` wins over that default (see above), it needs to keep reaching a
-      // custom `component`/HTML tag directly, same as `Avatar`'s equivalent fix.
-      {...(href && { href })}
+      {...linkProps}
       ref={isComponentReference ? ref : forkedRef}
     >
       {children}

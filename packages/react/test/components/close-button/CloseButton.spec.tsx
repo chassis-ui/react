@@ -146,6 +146,15 @@ describe('CloseButton', () => {
     })
   })
 
+  describe('href', () => {
+    test('renders a link for href alone, keeping its label', () => {
+      render(<CloseButton href="/back" />)
+      const link = screen.getByRole('link', { name: 'Close' })
+      expect(link).toHaveClass('close-button')
+      expect(link).toHaveAttribute('href', '/back')
+    })
+  })
+
   describe('accessibility', () => {
     test('has no axe violations', async () => {
       const { container } = render(<CloseButton />)

@@ -2,10 +2,12 @@ import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'reac
 import classNames from 'classnames'
 
 import { ContextColor } from '../../types'
+import { hrefProps, linkElement, resolveElementKind } from '../../utils/elementKind'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
-  PolymorphicRef
+  PolymorphicRef,
+  PolymorphicRefWithFallback
 } from '../../utils/polymorphic'
 
 type StepperItemOwnProps<C extends ElementType> = {
@@ -26,7 +28,9 @@ type StepperItemOwnProps<C extends ElementType> = {
    */
   component?: C
   /**
-   * The `href` attribute for an interactive step rendered as a link.
+   * The `href` attribute for an interactive step rendered as a link. Renders an `<a>` in place of
+   * the `<li>`, unless `component` or `asChild` chose the element. Inside a `Stepper`, the stepper
+   * renders a `<div>` around it in place of the `<ol>`.
    */
   href?: string
 }
@@ -37,18 +41,22 @@ export type StepperItemProps<C extends ElementType = 'li'> = PolymorphicComponen
 >
 
 type StepperItemComponent = (<C extends ElementType = 'li'>(
-  props: StepperItemProps<C> & { ref?: PolymorphicRef<C> }
+  props: StepperItemProps<C> & {
+    ref?: PolymorphicRefWithFallback<C, HTMLLIElement | HTMLAnchorElement>
+  }
 ) => ReactElement | null) & { displayName?: string }
 
 function StepperItemRender<C extends ElementType = 'li'>(
   { active, children, className, color, component, href, ...rest }: StepperItemProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = (component ?? 'li') as ElementType
+  // `href` makes it an `<a>`, unless `component` or `asChild` chose the element (see
+  // `linkElement`). It used to stay an `<li>` and carry `href` as an attribute.
+  const Component = linkElement(component, href, 'li')
   const _className = classNames('stepper-item', color && 'context', color, { active }, className)
 
   const mergedProps = {
-    ...(href ? { href } : {}),
+    ...hrefProps(resolveElementKind(Component), href, 'StepperItem'),
     ...(active ? { 'aria-current': 'step' } : {}),
     ...rest
   }

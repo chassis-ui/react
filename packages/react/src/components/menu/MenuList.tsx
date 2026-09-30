@@ -60,7 +60,6 @@ const renderMenuItemDef = (def: MenuItemsDef[number]): ReactNode => {
   return (
     <MenuItem
       key={def.id}
-      component={def.href ? 'a' : 'button'}
       href={def.href}
       disabled={def.disabled}
       selected={def.selected}

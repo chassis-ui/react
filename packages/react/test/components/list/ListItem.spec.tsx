@@ -80,6 +80,27 @@ describe('ListItem', () => {
     })
   })
 
+  describe('href', () => {
+    test('renders an interactive link for href alone', () => {
+      render(<ListItem href="/a">Link</ListItem>)
+      const link = screen.getByRole('link', { name: 'Link' })
+      expect(link).toHaveClass('list-item', 'list-action')
+      expect(link).toHaveAttribute('href', '/a')
+    })
+
+    test('keeps href off a button given as component', () => {
+      const consoleWarn = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
+      render(
+        <ListItem component="button" href="/a">
+          Action
+        </ListItem>
+      )
+      expect(screen.getByRole('button', { name: 'Action' })).not.toHaveAttribute('href')
+      expect(consoleWarn).toHaveBeenCalledWith(expect.stringContaining('`href` was ignored'))
+      consoleWarn.mockRestore()
+    })
+  })
+
   describe('ref forwarding', () => {
     test('forwards a ref for the default li element', () => {
       const ref = React.createRef<HTMLLIElement>()

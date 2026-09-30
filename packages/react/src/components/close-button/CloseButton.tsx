@@ -10,11 +10,12 @@ import { mergeProps } from 'react-aria'
 
 import { ContextColor, ContextStyle } from '../../types'
 import { useButtonSemantics, useDisabledAnchorGuard } from '../../hooks'
-import { resolveElementKind } from '../../utils/elementKind'
+import { hrefProps, linkElement, resolveElementKind } from '../../utils/elementKind'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
-  PolymorphicRef
+  PolymorphicRef,
+  PolymorphicRefWithFallback
 } from '../../utils/polymorphic'
 
 type CloseButtonOwnProps<C extends ElementType> = {
@@ -40,8 +41,8 @@ type CloseButtonOwnProps<C extends ElementType> = {
    */
   disabled?: boolean
   /**
-   * The href attribute specifies the URL of the page the link goes to. Only meaningful when
-   * `component` is `'a'`.
+   * The href attribute specifies the URL of the page the link goes to. Renders an `<a>` in place
+   * of the `<button>`, unless `component` or `asChild` chose the element.
    */
   href?: string
   /**
@@ -77,7 +78,9 @@ export type CloseButtonProps<C extends ElementType = 'button'> = PolymorphicComp
 >
 
 type CloseButtonComponent = (<C extends ElementType = 'button'>(
-  props: CloseButtonProps<C> & { ref?: PolymorphicRef<C> }
+  props: CloseButtonProps<C> & {
+    ref?: PolymorphicRefWithFallback<C, HTMLButtonElement | HTMLAnchorElement>
+  }
 ) => ReactElement | null) & { displayName?: string }
 
 function CloseButtonRender<C extends ElementType = 'button'>(
@@ -97,10 +100,13 @@ function CloseButtonRender<C extends ElementType = 'button'>(
   }: CloseButtonProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const component_ = component ?? 'button'
+  // `href` makes it an `<a>`, unless `component` or `asChild` chose the element (see
+  // `linkElement`). It used to be dropped unless `component="a"` was passed as well.
+  const component_ = linkElement(component, href, 'button')
   // The kind rather than the tag: under `asChild`, `component_` is a `Slot` standing in for the
   // caller's element, and a slotted `<a>` needs what `component="a"` gets.
   const kind = resolveElementKind(component_)
+  const linkProps = hrefProps(kind, href, 'CloseButton')
 
   // A component reference (e.g. `Button`) has its own visual identity and its own
   // `color`/`size`/`variant` semantics — CloseButton's icon styling (the `close-button`
@@ -176,7 +182,7 @@ function CloseButtonRender<C extends ElementType = 'button'>(
         className={_className}
         aria-label={_label}
         {...(rest as Record<string, unknown>)}
-        href={href}
+        {...linkProps}
         onClick={handleClick}
         {...(disabled && { 'aria-disabled': true, tabIndex: -1 })}
         ref={ref as Ref<HTMLAnchorElement>}
@@ -199,6 +205,7 @@ function CloseButtonRender<C extends ElementType = 'button'>(
       {...(isComponentReference
         ? ({ color, size, variant, disabled, onClick, ...rest } as Record<string, unknown>)
         : (mergeProps(rest, buttonProps) as Record<string, unknown>))}
+      {...linkProps}
       ref={isComponentReference ? ref : forkedRef}
     >
       {children}

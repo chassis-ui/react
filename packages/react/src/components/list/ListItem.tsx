@@ -2,11 +2,17 @@ import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'reac
 import classNames from 'classnames'
 
 import { ContextColor } from '../../types'
-import { isInteractiveKind, resolveElementKind } from '../../utils/elementKind'
+import {
+  hrefProps,
+  isInteractiveKind,
+  linkElement,
+  resolveElementKind
+} from '../../utils/elementKind'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
-  PolymorphicRef
+  PolymorphicRef,
+  PolymorphicRefWithFallback
 } from '../../utils/polymorphic'
 import { Link } from '../link/Link'
 
@@ -32,8 +38,9 @@ type ListItemOwnProps<C extends ElementType> = {
    */
   component?: C
   /**
-   * The href attribute specifies the URL of the page the link goes to. Only applicable when
-   * `component` is `"a"`.
+   * The href attribute specifies the URL of the page the link goes to. Renders an `<a>` in place
+   * of the `<li>`, unless `component` or `asChild` chose the element. Inside a `List`, the list
+   * renders a `<div>` around it in place of the `<ul>`.
    */
   href?: string
 }
@@ -44,17 +51,23 @@ export type ListItemProps<C extends ElementType = 'li'> = PolymorphicComponentPr
 >
 
 type ListItemComponent = (<C extends ElementType = 'li'>(
-  props: ListItemProps<C> & { ref?: PolymorphicRef<C> }
+  props: ListItemProps<C> & {
+    ref?: PolymorphicRefWithFallback<C, HTMLLIElement | HTMLAnchorElement>
+  }
 ) => ReactElement | null) & { displayName?: string }
 
 function ListItemRender<C extends ElementType = 'li'>(
-  { children, active, className, disabled, color, component, ...rest }: ListItemProps<C>,
+  { children, active, className, disabled, color, component, href, ...rest }: ListItemProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const tag = component ?? 'li'
+  // `href` makes it an `<a>`, unless `component` or `asChild` chose the element (see
+  // `linkElement`). It used to stay an `<li>` and carry `href` as an attribute.
+  const tag = linkElement(component, href, 'li')
   // The kind rather than the tag: under `asChild`, `tag` is a `Slot` standing in for the caller's
   // element, and a slotted `<a>` is as interactive as `component="a"`.
-  const isInteractive = isInteractiveKind(resolveElementKind(tag))
+  const kind = resolveElementKind(tag)
+  const isInteractive = isInteractiveKind(kind)
+  const linkProps = hrefProps(kind, href, 'ListItem')
 
   const _className = classNames(
     'list-item',
@@ -73,10 +86,11 @@ function ListItemRender<C extends ElementType = 'li'>(
   const Component = (isInteractive ? Link : tag) as ElementType
 
   const finalRest = isInteractive
-    ? { active, disabled, component: tag, ...rest }
+    ? { active, disabled, component: tag, ...linkProps, ...rest }
     : {
         ...(active && { 'aria-current': 'page' }),
         ...(disabled && { 'aria-disabled': true }),
+        ...linkProps,
         ...rest
       }
 

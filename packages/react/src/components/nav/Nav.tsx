@@ -84,8 +84,11 @@ function NavRender<C extends ElementType = 'ul'>(
       ))
     : null
 
+  // No `role`: `navigation` on the `<ul>` took away its list semantics, and `ul` doesn't allow
+  // that role. A landmark is the caller's `<nav>` around it, or `component="nav"` holding
+  // `NavLink`s without items.
   return (
-    <Component className={_className} role="navigation" {...rest} ref={ref}>
+    <Component className={_className} {...rest} ref={ref}>
       {autoContent ?? children}
     </Component>
   )

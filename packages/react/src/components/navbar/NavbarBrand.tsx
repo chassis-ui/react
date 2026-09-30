@@ -1,6 +1,8 @@
 import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
+import { hrefProps, linkElement, resolveElementKind } from '../../utils/elementKind'
+
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -40,13 +42,18 @@ function NavbarBrandRender<C extends ElementType = 'span'>(
   { children, component, className, href, ...rest }: NavbarBrandProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  // Only defaults to `a` when `component` wasn't explicitly passed — an explicit `component`
-  // (even alongside `href`) always wins.
-  const Component = (component ?? (href ? 'a' : 'span')) as ElementType
+  // `href` makes it an `<a>`, unless `component` or `asChild` chose the element (see
+  // `linkElement`).
+  const Component = linkElement(component, href, 'span')
   const _className = classNames('navbar-brand', className)
 
   return (
-    <Component className={_className} href={href} {...rest} ref={ref}>
+    <Component
+      className={_className}
+      {...hrefProps(resolveElementKind(Component), href, 'NavbarBrand')}
+      {...rest}
+      ref={ref}
+    >
       {children}
     </Component>
   )

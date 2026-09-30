@@ -22,7 +22,6 @@ Discarding unrecognized token “meter” from value of attribute “role”.*
 An “aria-disabled” attribute whose value is “true” should not be specified on an “a” element that has an “href” attribute\.
 
 # Library markup that AUDIT-PLAN.md finding F10 fixes. Delete each line with its fix.
-Bad value “navigation” for attribute “role” on element “ul”\.
 Bad value “” for attribute “aria-describedby” on element “(table|div)”.*
 CSS: “height”: “-40px” negative values are not allowed\.
 Attribute “aria-multiselectable” not allowed on element “div” at this point\.

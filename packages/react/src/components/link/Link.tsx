@@ -10,7 +10,12 @@ import { mergeProps } from 'react-aria'
 
 import { ContextColor } from '../../types'
 import { useButtonSemantics, useDisabledAnchorGuard } from '../../hooks'
-import { isInteractiveKind, resolveElementKind } from '../../utils/elementKind'
+import {
+  hrefProps,
+  isInteractiveKind,
+  linkElement,
+  resolveElementKind
+} from '../../utils/elementKind'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -40,10 +45,11 @@ type LinkOwnProps<C extends ElementType> = {
    */
   disabled?: boolean
   /**
-   * The href attribute specifies the URL of the page the link goes to. Only meaningful when
-   * `component` resolves to (or accepts) `'a'`. Declared explicitly here — rather than left to
-   * flow through generically from whatever `C` is — so consumers that wrap `Link` (`MenuItem`,
-   * `ListItem`, `NavLink`) can read it with a concrete type regardless of `component`.
+   * The href attribute specifies the URL of the page the link goes to. Reaches an `<a>` or a
+   * component reference (a router link); dropped, with a warning in development, when
+   * `component` is another element. Declared explicitly here — rather than left to flow through
+   * generically from whatever `C` is — so consumers that wrap `Link` (`MenuItem`, `ListItem`,
+   * `NavLink`) can read it with a concrete type regardless of `component`.
    */
   href?: string
   /**
@@ -88,6 +94,7 @@ function LinkRender<C extends ElementType = 'a'>(
     color,
     component,
     disabled,
+    href,
     iconLink,
     onClick,
     reset,
@@ -97,7 +104,7 @@ function LinkRender<C extends ElementType = 'a'>(
   }: LinkProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  const Component = (component ?? 'a') as ElementType
+  const Component = linkElement(component, href, 'a')
   // The kind rather than the tag: under `asChild`, `Component` is a `Slot` standing in for the
   // caller's element, and a slotted `<a>` needs what `component="a"` gets.
   const kind = resolveElementKind(Component)
@@ -135,6 +142,7 @@ function LinkRender<C extends ElementType = 'a'>(
     <Component
       {...(mergeProps(rest, needsButtonSemantics ? buttonProps : {}) as Record<string, unknown>)}
       className={_className}
+      {...hrefProps(kind, href, 'Link')}
       {...(active && { 'aria-current': 'page' })}
       {...(kind === 'anchor' && disabled && { 'aria-disabled': true, tabIndex: -1 })}
       {...(!needsButtonSemantics && { onClick: handleClick })}

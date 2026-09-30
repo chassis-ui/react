@@ -40,6 +40,19 @@ export const Links: Story = {
   )
 }
 
+// `href` alone makes an item a link, and `List` renders a `<div>` around it in place of the `<ul>`.
+export const LinksByHref: Story = {
+  render: () => (
+    <List>
+      <ListItem href="#" active>
+        Cras justo odio
+      </ListItem>
+      <ListItem href="#">Dapibus ac facilisis in</ListItem>
+      <ListItem>Morbi leo risus</ListItem>
+    </List>
+  )
+}
+
 export const DataDriven: Story = {
   args: {
     items: [

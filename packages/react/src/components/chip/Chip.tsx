@@ -10,7 +10,7 @@ import { mergeProps } from 'react-aria'
 
 import { ContextColor, ContextStyle } from '../../types'
 import { useButtonSemantics, useDisabledAnchorGuard } from '../../hooks'
-import { resolveElementKind } from '../../utils/elementKind'
+import { hrefProps, linkElement, resolveElementKind } from '../../utils/elementKind'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -93,12 +93,13 @@ function ChipRender<C extends ElementType = 'span'>(
   }: ChipProps<C>,
   ref: PolymorphicRef<C>
 ) {
-  // Only defaults to `a` when `component` wasn't explicitly passed — an explicit `component`
-  // (even alongside `href`) always wins.
-  const Component = (component ?? (href ? 'a' : 'span')) as ElementType
+  // `href` makes it an `<a>`, unless `component` or `asChild` chose the element (see
+  // `linkElement`).
+  const Component = linkElement(component, href, 'span')
   // The kind rather than the tag: under `asChild`, `Component` is a `Slot` standing in for the
   // caller's element, and a slotted `<a>` needs what `component="a"` gets.
   const kind = resolveElementKind(Component)
+  const linkProps = hrefProps(kind, href, 'Chip')
   const isButton = kind === 'button'
   const isAnchor = kind === 'anchor'
 
@@ -156,7 +157,7 @@ function ChipRender<C extends ElementType = 'span'>(
         {...(rest as Record<string, unknown>)}
         aria-pressed={pressed}
         className={_className}
-        href={href}
+        {...linkProps}
         onClick={handleClick as MouseEventHandler<HTMLAnchorElement>}
         {...(disabled && { 'aria-disabled': true, tabIndex: -1 })}
         ref={ref as Ref<HTMLAnchorElement>}
@@ -173,10 +174,7 @@ function ChipRender<C extends ElementType = 'span'>(
       className={_className}
       {...(!needsButtonSemantics && { onClick: handleClick })}
       {...(disabled && { 'aria-disabled': true })}
-      // `href` was only ever forwarded when it also forced `Component` to `'a'` — now that an
-      // explicit `component` wins over that default (see above), it needs to keep reaching a
-      // custom `component`/HTML tag directly, same as `Avatar`'s equivalent fix.
-      {...(href && { href })}
+      {...linkProps}
       ref={needsButtonSemantics ? forkedRef : ref}
     >
       {children}

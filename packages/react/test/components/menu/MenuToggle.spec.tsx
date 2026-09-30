@@ -71,6 +71,39 @@ describe('MenuToggle', () => {
     })
   })
 
+  describe('href', () => {
+    // `Button` renders an `<a>` for `href`, so react-aria gives it the button role a link trigger
+    // needs, and no `type`, which an `<a>` doesn't take.
+    test('renders a link trigger with the button role', () => {
+      render(
+        <Menu>
+          <MenuToggle href="/files">Files</MenuToggle>
+          <MenuList>
+            <MenuItem>A</MenuItem>
+          </MenuList>
+        </Menu>
+      )
+      const toggle = screen.getByRole('button', { name: 'Files' })
+      expect(toggle.tagName).toBe('A')
+      expect(toggle).toHaveAttribute('href', '/files')
+      expect(toggle).not.toHaveAttribute('type')
+    })
+
+    test('keeps a native button given as component free of a redundant role', () => {
+      render(
+        <Menu>
+          <MenuToggle component="button">Files</MenuToggle>
+          <MenuList>
+            <MenuItem>A</MenuItem>
+          </MenuList>
+        </Menu>
+      )
+      const toggle = screen.getByRole('button', { name: 'Files' })
+      expect(toggle).not.toHaveAttribute('role')
+      expect(toggle).toHaveAttribute('type', 'button')
+    })
+  })
+
   describe('click behavior', () => {
     test('suppresses the focus ring on a real pointer click, restoring it on blur', async () => {
       const user = userEvent.setup()

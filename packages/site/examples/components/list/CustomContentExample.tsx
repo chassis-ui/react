@@ -3,7 +3,7 @@ import { List, ListItem } from '@chassis-ui/react'
 export const Example = () => {
   return (
     <List>
-      <ListItem component="a" href="#" active>
+      <ListItem href="#" active>
         <div className="d-flex w-100 justify-content-between">
           <h5 className="mb-1">List item heading</h5>
           <small>3 days ago</small>
@@ -14,7 +14,7 @@ export const Example = () => {
         </p>
         <small>Donec id elit non mi porta.</small>
       </ListItem>
-      <ListItem component="a" href="#">
+      <ListItem href="#">
         <div className="d-flex w-100 justify-content-between">
           <h5 className="mb-1">List item heading</h5>
           <small className="md:text-emphasis">3 days ago</small>
@@ -25,7 +25,7 @@ export const Example = () => {
         </p>
         <small className="md:text-emphasis">Donec id elit non mi porta.</small>
       </ListItem>
-      <ListItem component="a" href="#">
+      <ListItem href="#">
         <div className="d-flex w-100 justify-content-between">
           <h5 className="mb-1">List item heading</h5>
           <small className="md:text-emphasis">3 days ago</small>

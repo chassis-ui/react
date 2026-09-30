@@ -7,7 +7,12 @@ import React, {
 } from 'react'
 import classNames from 'classnames'
 
-import { createPolymorphicComponent, PolymorphicRef } from '../../utils/polymorphic'
+import { linkElement } from '../../utils/elementKind'
+import {
+  createPolymorphicComponent,
+  PolymorphicRef,
+  PolymorphicRefWithFallback
+} from '../../utils/polymorphic'
 import { renderMenuItemContent } from '../../utils/renderMenuItemContent'
 import { LinkProps, Link } from '../link/Link'
 
@@ -36,7 +41,9 @@ type MenuItemOwnProps = {
 export type MenuItemProps<C extends ElementType = 'a'> = LinkProps<C> & MenuItemOwnProps
 
 type MenuItemComponent = (<C extends ElementType = 'a'>(
-  props: MenuItemProps<C> & { ref?: PolymorphicRef<C> }
+  props: MenuItemProps<C> & {
+    ref?: PolymorphicRefWithFallback<C, HTMLAnchorElement | HTMLButtonElement>
+  }
 ) => ReactElement | null) & { displayName?: string }
 
 function MenuItemRender<C extends ElementType = 'a'>(
@@ -64,10 +71,14 @@ function MenuItemRender<C extends ElementType = 'a'>(
     onClick?.(event)
   }
 
+  // An item with `href` is an `<a>`, one without is a `<button type="button">`, unless `component`
+  // or `asChild` chose the element (see `linkElement`). chassis-css styles both as `.menu-item`.
+  // An item without `href` used to be an `<a>` with no `href`, which isn't focusable, so keyboard
+  // users couldn't reach it outside the menu's own arrow-key handling.
   return (
     <Link
       role="menuitem"
-      component={component as ElementType}
+      component={linkElement(component as ElementType | undefined, href, 'button')}
       href={href}
       onClick={handleClick}
       {...(rest as Record<string, unknown>)}

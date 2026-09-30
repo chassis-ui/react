@@ -51,6 +51,21 @@ export const Context: Story = {
   }
 }
 
+// Past steps link back with `href`, and `Stepper` renders a `<div>` in place of the `<ol>`.
+export const Linked: Story = {
+  args: {
+    layout: 'horizontal',
+    children: (
+      <>
+        <StepperItem href="#">First Step</StepperItem>
+        <StepperItem href="#">Past Step</StepperItem>
+        <StepperItem active>Current Step</StepperItem>
+        <StepperItem>Next Step</StepperItem>
+      </>
+    )
+  }
+}
+
 export const DataDriven: Story = {
   args: {
     layout: 'horizontal',

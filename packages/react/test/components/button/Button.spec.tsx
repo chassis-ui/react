@@ -29,7 +29,8 @@ describe('Button', () => {
       expect(link).toHaveAttribute('href', '/bazinga')
     })
 
-    test('an explicit component wins over href, instead of href forcing an anchor', () => {
+    test('an explicit component wins over href, which a <span> does not take', () => {
+      const consoleWarn = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
       render(
         <Button href="/bazinga" component="span">
           Go
@@ -37,7 +38,9 @@ describe('Button', () => {
       )
       const button = screen.getByRole('button', { name: 'Go' })
       expect(button.tagName).toBe('SPAN')
-      expect(button).toHaveAttribute('href', '/bazinga')
+      expect(button).not.toHaveAttribute('href')
+      expect(consoleWarn).toHaveBeenCalledWith(expect.stringContaining('`href` was ignored'))
+      consoleWarn.mockRestore()
     })
 
     test('renders as an input and keeps its type', () => {

@@ -158,7 +158,8 @@ item to an otherwise flat navigation.
 
 When using `<Nav>` to provide a navigation bar, add `role="navigation"` to the most logical parent
 container, or wrap a `<nav>` element around the whole navigation — not the `<ul>` itself, since that
-would prevent it from being announced as an actual list by assistive technology.
+would prevent it from being announced as an actual list by assistive technology. `<Nav>` renders a
+plain list and sets no role of its own.
 
 A navigation bar, even one visually styled as tabs via `variant="tabs"`, shouldn't be given
 `role="tablist"`, `role="tab"`, or `role="tabpanel"` attributes. Those are only appropriate for

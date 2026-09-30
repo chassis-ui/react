@@ -5,9 +5,12 @@ import {
   Avatar,
   Button,
   Chip,
+  CloseButton,
   DataGridBody,
   DataGridCell,
   DataGridRow,
+  ListItem,
+  MenuItem,
   PaginationItem,
   SkeletonLoader,
   usePagination
@@ -61,6 +64,19 @@ expectTypeOf(
   <PaginationItem href="/x" ref={React.createRef<HTMLButtonElement | HTMLAnchorElement>()}>
     1
   </PaginationItem>
+).toBeObject()
+// Phase B5 of AUDIT-PLAN.md gave these the same rule: `href` renders an `<a>` in place of the
+// default, and `MenuItem` without `href` renders a `<button>`.
+expectTypeOf(
+  <CloseButton href="/x" ref={React.createRef<HTMLButtonElement | HTMLAnchorElement>()} />
+).toBeObject()
+expectTypeOf(
+  <ListItem href="/x" ref={React.createRef<HTMLLIElement | HTMLAnchorElement>()}>
+    Item
+  </ListItem>
+).toBeObject()
+expectTypeOf(
+  <MenuItem ref={React.createRef<HTMLAnchorElement | HTMLButtonElement>()}>Copy</MenuItem>
 ).toBeObject()
 
 // A ref for an element the component can never render is still rejected.

@@ -61,13 +61,23 @@ describe('Avatar', () => {
       expect(link).toHaveAttribute('href', '/profile')
     })
 
-    test('an explicit component overrides the href-implied "a"', () => {
+    test('an explicit component overrides the href-implied "a", and keeps href off it', () => {
+      const consoleWarn = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
       render(
         <Avatar href="/profile" component="button">
           CX
         </Avatar>
       )
-      expect(screen.getByRole('button', { name: 'CX' })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'CX' })).not.toHaveAttribute('href')
+      expect(consoleWarn).toHaveBeenCalledWith(expect.stringContaining('`href` was ignored'))
+      consoleWarn.mockRestore()
+    })
+
+    test('writes no disabled attribute on the default span, which has none', () => {
+      render(<Avatar disabled>CX</Avatar>)
+      const avatar = screen.getByText('CX')
+      expect(avatar).toHaveClass('avatar', 'disabled')
+      expect(avatar).not.toHaveAttribute('disabled')
     })
 
     test('forwards href to a custom component reference, not just the native "a"/"button" strings', () => {

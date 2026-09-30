@@ -10,7 +10,7 @@ import classNames from 'classnames'
 import { mergeProps } from 'react-aria'
 
 import { useButtonSemantics } from '../../hooks'
-import { resolveElementKind } from '../../utils/elementKind'
+import { hrefProps, linkElement, resolveElementKind } from '../../utils/elementKind'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -78,11 +78,13 @@ function PaginationItemRender<C extends ElementType = 'button'>(
   // so `useButtonSemantics` gave it `role="button"` and `tabIndex={0}` — a synthetic button,
   // strictly worse than the real one it replaced. Styling is unaffected either way: chassis-css
   // matches `.pagination-link { &.active, .active > & }`, and `active` still lands on the `<li>`.
-  const Component = (component ?? (href ? 'a' : 'button')) as ElementType
+  const Component = linkElement(component, href, 'button')
   // The kind rather than the tag: under `asChild`, `Component` is a `Slot` standing in for the
   // caller's element, and a slotted `<a>` needs what `component="a"` gets. Each branch below
   // renders `Component` typed as its tag, which is the tag itself or that `Slot`.
   const kind = resolveElementKind(Component)
+  // A router link as `component` takes `href` too; it used to get none.
+  const linkProps = hrefProps(kind, href, 'PaginationItem')
   const NativeButton = Component as 'button'
   const Anchor = Component as 'a'
 
@@ -127,7 +129,7 @@ function PaginationItemRender<C extends ElementType = 'button'>(
         <Anchor
           {...(rest as Record<string, unknown>)}
           className="pagination-link"
-          href={href}
+          {...linkProps}
           onClick={handleClick}
           {...(disabled && { 'aria-disabled': true, tabIndex: -1 })}
           {...currentProps}
@@ -143,6 +145,7 @@ function PaginationItemRender<C extends ElementType = 'button'>(
             unknown
           >)}
           {...(!needsButtonSemantics && { onClick: handleClick })}
+          {...linkProps}
           {...currentProps}
           ref={needsButtonSemantics ? forkedRef : ref}
         >

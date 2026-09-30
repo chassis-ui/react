@@ -6,11 +6,14 @@ import { Nav, NavItem, NavLink } from '../../../src/index'
 
 describe('Nav', () => {
   describe('rendering', () => {
-    test('renders a ul with the base class and navigation role by default', () => {
+    // A `navigation` role on the `<ul>` took away its list semantics (F10 of AUDIT-PLAN.md). The
+    // landmark is the caller's `<nav>` around it.
+    test('renders a ul with the base class and no role of its own', () => {
       render(<Nav>Test</Nav>)
-      const nav = screen.getByRole('navigation')
+      const nav = screen.getByRole('list')
       expect(nav).toHaveClass('nav')
       expect(nav.tagName).toBe('UL')
+      expect(nav).not.toHaveAttribute('role')
     })
 
     test('renders a plain NavLink with the nav-link class', () => {
@@ -29,15 +32,15 @@ describe('Nav', () => {
       expect(screen.getByRole('link', { name: 'Link' })).toHaveClass('nav-link')
     })
 
-    test('renders as a custom component keeping the navigation role', () => {
+    test('renders as a custom component', () => {
       render(
-        <Nav className="bazinga" component="h3" layout="justified" variant="pills">
+        <Nav className="bazinga" component="nav" layout="justified" variant="pills">
           Test
         </Nav>
       )
       const nav = screen.getByRole('navigation')
       expect(nav).toHaveClass('nav', 'nav-justified', 'nav-pills', 'bazinga')
-      expect(nav.tagName).toBe('H3')
+      expect(nav.tagName).toBe('NAV')
     })
   })
 
@@ -101,12 +104,21 @@ describe('Nav', () => {
   })
 
   describe('accessibility', () => {
-    // The default `ul` root keeps the hardcoded `role="navigation"` from the component, which
-    // axe flags as an invalid landmark-on-list role (aria-allowed-role) — a pre-existing issue,
-    // not something to paper over here. `<li>` children also require a `<ul>/<ol>` ancestor to
-    // carry a valid listitem role, so this check renders as `nav` with non-list content to
-    // validate Nav's own contributed markup without tripping over that known default-mode gap.
-    test('has no axe violations', async () => {
+    test('has no axe violations as a list inside a nav landmark', async () => {
+      const { container } = render(
+        <nav aria-label="Sections">
+          <Nav>
+            <NavItem href="#" active>
+              Active
+            </NavItem>
+            <NavItem href="#">Link</NavItem>
+          </Nav>
+        </nav>
+      )
+      expect(await axe(container)).toHaveNoViolations()
+    })
+
+    test('has no axe violations as a nav of links', async () => {
       const { container } = render(
         <Nav component="nav">
           <NavLink href="#" active>
