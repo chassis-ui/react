@@ -285,10 +285,10 @@ pnpm test:visual:update   # same, plus --update-snapshots to regenerate baseline
 
 ## Conventions
 
-- New component checklist lives in
-  [`FORMS.md`](FORMS.md#adding-a-new-form-component) for form
-  components specifically; for non-form components, follow the same folder/test/index.ts-export
-  shape without the render-helper-engine decision.
+- Start a new component with `pnpm new:component <kebab-name>` from the repo root: it writes the
+  folder, barrel, `src/index.ts` entries, spec, story, docs page and sidebar entry in this
+  package's shape. A form component then follows the checklist in
+  [`FORMS.md`](FORMS.md#adding-a-new-form-component) for its render-helper engine.
 - Never compare a polymorphic component's `component` to a tag name (`Component === 'a'`,
   `typeof Component !== 'string'`): under `asChild` it is a `Slot`, not the tag. Ask
   `resolveElementKind`/`resolveElementTag` (`src/utils/elementKind.ts`) and render `Component`

@@ -6,7 +6,7 @@ rather than duplicates — those docs are kept up to date as the source of truth
 
 ## Dev setup
 
-See the root [`README.md`](../README.md#running-documentation-locally)'s "Running documentation
+See the root [`README.md`](../README.md#running-the-docs-site-locally)'s "Running the docs site
 locally" section for the actual setup steps (`pnpm install`, `pnpm start`, open
 `http://localhost:4327/react/`). This repo is a pnpm workspace with two packages:
 
@@ -16,6 +16,19 @@ locally" section for the actual setup steps (`pnpm install`, `pnpm start`, open
 
 Read the relevant package's `AGENTS.md` before making changes — both are kept current and cover
 the day-to-day rules (layout, build, tests) this doc doesn't repeat.
+
+## Your first pull request
+
+1. Fork the repository and branch from `develop`. Every change lands there first; `main` only
+   moves when a release is cut.
+2. `pnpm install`, then `pnpm start` to watch the library and the docs site together.
+3. Make the change. For a new component, `pnpm new:component <kebab-name>` writes the files every
+   component needs and prints what's left to do.
+4. Before you push: `pnpm lint`, `pnpm react:check:types` and `pnpm test`. A pre-commit hook
+   already runs ESLint and Prettier on the files you staged.
+5. Add a changeset (`pnpm changeset`) if someone using `@chassis-ui/react` could notice the change.
+6. Open the pull request against `develop`, not `main`. CI runs the full gate, and the pull
+   request template lists what a reviewer checks.
 
 ## Branch and commit conventions
 
@@ -33,9 +46,10 @@ Branch names aren't templated — name yours descriptively (e.g. `fix/tooltip-pl
 
 ## Adding or changing a component
 
-There's no scaffolding command for a new component folder. Follow 
-[`packages/react/CONVENTIONS.md`](../packages/react/CONVENTIONS.md) for naming, file
-layout, and the flat-export compound-API shape, and
+`pnpm new:component <kebab-name> [--group <sidebar group>]` creates a new component: the folder,
+its barrel, both entries in `src/index.ts`, a spec, a story, a docs page with an example, and the
+sidebar entry. Follow [`packages/react/CONVENTIONS.md`](../packages/react/CONVENTIONS.md) for naming,
+file layout, and the flat-export compound-API shape, and
 [`packages/react/AGENTS.md`](../packages/react/AGENTS.md) for where things live and how the build/
 test/docs pipeline fits together. If you're touching any form-related component (text inputs,
 select, checkbox/radio, combobox, datepicker, chip-input, otp-input, or the shared `form`/

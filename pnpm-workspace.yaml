@@ -24,6 +24,9 @@ auditConfig:
 minimumReleaseAgeExclude:
   - '@chassis-ui/*'
 
+# simple-git-hooks installs the pre-commit hook from the root `prepare` script instead.
+ignoredBuiltDependencies:
+  - simple-git-hooks
 onlyBuiltDependencies:
   - '@parcel/watcher'
   - esbuild

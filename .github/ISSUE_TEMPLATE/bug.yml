@@ -1,0 +1,65 @@
+name: Bug report
+description: A component of @chassis-ui/react renders or behaves wrong, or a build fails
+labels: [bug, needs-triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This repository holds `@chassis-ui/react` and its docs at chassis-ui.com/react/. The components render Chassis CSS's markup and class names: a problem with how a class looks, with the same markup in plain HTML, belongs in [chassis-ui/css](https://github.com/chassis-ui/css).
+  - type: input
+    id: component
+    attributes:
+      label: Component
+      placeholder: Popover
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What the component did. Include the exact error message or console output if there was one.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: How to reproduce it
+      description: The smallest example that still shows the problem. A StackBlitz or CodeSandbox link is ideal; fifteen self-contained lines are fine. A whole application is much slower to work through.
+      render: tsx
+    validations:
+      required: true
+  - type: dropdown
+    id: rendering
+    attributes:
+      label: Where it renders
+      options:
+        - In the browser only (a client-side app)
+        - Server-rendered, then hydrated (Next.js, Remix, Astro, ...)
+        - From a React Server Component
+        - I don't know
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      description: '`@chassis-ui/react`, `@chassis-ui/css`, `react`, and your framework or bundler.'
+      placeholder: '@chassis-ui/react 0.2.0, @chassis-ui/css 0.5.2, react 19.2.0, Next.js 16.3'
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and OS
+      placeholder: Safari 18 on iOS
+  - type: textarea
+    id: more
+    attributes:
+      label: Anything else
+      description: For a styling problem, say whether you import `@chassis-ui/css` and `@chassis-ui/react/style.css`. For an accessibility problem, say which assistive technology.

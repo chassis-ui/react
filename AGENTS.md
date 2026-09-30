@@ -53,6 +53,7 @@ pnpm lint:html    # html-validate over the built _site/
 pnpm lint:vnu     # the Nu Html Checker over the built _site/ (needs Java)
 pnpm smoke:build  # react:build, then build every app under smoke-tests/*
 pnpm smoke:test   # smoke:build, then load the apps' routes in Chromium with Playwright
+pnpm new:component <kebab-name> [--group <sidebar group>]  # scaffold a component across both packages
 ```
 
 `pnpm react:lint`/`pnpm site:lint` delegate to each package's own `lint` script (eslint + stylelint
@@ -65,6 +66,16 @@ pnpm smoke:test   # smoke:build, then load the apps' routes in Chromium with Pla
   Storybook interaction tests reached `main`). `pnpm lint:html`/`pnpm lint:vnu` delegate to the
   site's own scripts too, since the site owns the validators and their exceptions, though the
   `_site/` they check is at the root.
+
+`pnpm new:component` (`build/new-component.ts`) writes a polymorphic component with its barrel,
+both `src/index.ts` entries, a spec, a story, a docs page with one example and the sidebar entry,
+then prints what's left (chassis-css's markup, `react:build`, `react:generate`,
+`react:check:api:update`, a changeset). It writes into both packages, so it lives at the root.
+
+A pre-commit hook (simple-git-hooks, installed by `pnpm install`'s `prepare`) runs lint-staged:
+ESLint and Prettier on staged files under `packages/`, Prettier on staged JSON, Markdown and YAML.
+Styles are left to `pnpm lint`'s stylelint, since Prettier and stylelint disagree on them. Skip the
+hook once with `SKIP_SIMPLE_GIT_HOOKS=1`.
 
 `pnpm react:generate` (`build/generate-api.ts`) walks `packages/react/src/components`, extracts
 prop tables with `react-docgen-typescript`, and writes JSON into `packages/site/content/api/` —

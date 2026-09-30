@@ -1,0 +1,30 @@
+name: Feature request
+description: Suggest a component, prop or behavior for @chassis-ui/react
+labels: [enhancement, needs-triage]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What are you trying to build, and where does the library get in the way today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you'd like
+      description: The API you have in mind, if you have one. A rough sketch is fine.
+      render: tsx
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you've tried
+      description: Including workarounds that do work. Knowing what's already possible shows whether this needs new API or better docs.
+  - type: input
+    id: chassis-css
+    attributes:
+      label: Chassis CSS equivalent
+      description: Optional. If Chassis CSS already has a pattern for this, a link to its docs page makes the request easier to scope.
+      placeholder: https://chassis-ui.com/css/docs/components/...

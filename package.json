@@ -7,6 +7,7 @@
     "node": ">=22.12.0"
   },
   "scripts": {
+    "prepare": "simple-git-hooks",
     "build": "pnpm site:build",
     "clean": "pnpm react:clean && pnpm site:clean",
     "setup": "pnpm vendor && pnpm react:build",
@@ -20,6 +21,7 @@
     "react:build": "pnpm --filter @chassis-ui/react build",
     "react:dev": "pnpm --filter @chassis-ui/react dev",
     "react:generate": "ts-node --project build/tsconfig.json build/generate-api.ts",
+    "new:component": "ts-node --project build/tsconfig.json build/new-component.ts",
     "react:check:api-docs": "pnpm react:generate && git diff --exit-code HEAD -- packages/site/content/api",
     "react:lint": "pnpm --filter @chassis-ui/react lint",
     "react:check:api": "pnpm --filter @chassis-ui/react check:api",
@@ -54,6 +56,16 @@
     "sync-submodules": "pnpm --filter chassis-react-site exec chassis-docs sync-submodules",
     "vendor": "pnpm --filter chassis-react-site exec chassis-docs vendor"
   },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm exec lint-staged"
+  },
+  "lint-staged": {
+    "packages/**/*.{js,mjs,ts,tsx,astro}": [
+      "eslint --no-warn-ignored --cache --cache-location .cache/staged.eslintcache --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,mdx,yml,yaml}": "prettier --write"
+  },
   "devDependencies": {
     "@changesets/cli": "^3.0.3",
     "@eslint/js": "^10.0.1",
@@ -72,10 +84,12 @@
     "eslint-plugin-testing-library": "^7.16.2",
     "eslint-plugin-unicorn": "^76.0.0",
     "globals": "^17.12.0",
+    "lint-staged": "^17.6.0",
     "pagefind": "^1.5.2",
     "prettier": "^3.9.9",
     "prettier-plugin-astro": "^1.1.0",
     "react-docgen-typescript": "^2.4.0",
+    "simple-git-hooks": "^2.14.0",
     "stylelint": "^16.26.1",
     "stylelint-config-twbs-bootstrap": "^16.1.0",
     "ts-node": "^10.9.2",

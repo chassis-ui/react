@@ -1,8 +1,11 @@
-blank_issues_enabled: true
+blank_issues_enabled: false
 contact_links:
-  - name: Documentation
-    url: https://chassis-ui.com/react/getting-started/introduction/
-    about: Component catalog, props, and examples.
+  - name: Question or idea
+    url: https://github.com/chassis-ui/react/discussions
+    about: Ask a question or talk an idea through before it becomes an issue.
   - name: Chassis CSS (the styling layer)
-    url: https://github.com/chassis-ui/chassis
-    about: Report styling and visual issues against the CSS framework this library renders markup for.
+    url: https://github.com/chassis-ui/css
+    about: A problem with how a class looks, with the same markup in plain HTML, belongs in the CSS framework.
+  - name: Security vulnerability
+    url: https://github.com/chassis-ui/react/security/advisories/new
+    about: Report it privately, not as a public issue.

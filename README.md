@@ -16,9 +16,9 @@ of live examples and API tables generated from the library's own TypeScript sour
 ## Features
 
 - **Accessible by default**: components are built on [React Aria](https://react-spectrum.adobe.com/react-aria/) and [React Stately](https://react-spectrum.adobe.com/react-stately/), covering keyboard interaction, focus management, and ARIA out of the box.
-- **Token-driven styling**: components style themselves through Chassis CSS and design tokens rather than component-scoped CSS, so brand and theme changes apply without touching component code.
+- **Token-driven styling**: components render Chassis CSS markup and style themselves through its design tokens, so brand and theme changes apply without touching component code. The few components Chassis CSS doesn't style yet (the calendars, date pickers, `Table`'s sort and selection UI, `DataGrid`) ship their own CSS in `@chassis-ui/react/style.css`, built on the same tokens.
 - **Fully typed**: written in strict TypeScript, with prop tables for the docs site generated directly from source via `react-docgen-typescript`.
-- **Tested and covered**: a Vitest suite with coverage thresholds, plus Storybook + Playwright visual regression for the calendar/datepicker family.
+- **Tested and covered**: a Vitest suite with coverage thresholds, server-render and hydration checks for every story, interaction tests in Chromium, Firefox and WebKit, and Storybook + Playwright visual regression for the families where pixels matter most (overlays, dates, carousel, tables and more; the rest are tracked in [issue #45](https://github.com/chassis-ui/react/issues/45)).
 
 ## Getting Started
 
@@ -79,33 +79,34 @@ Open `http://localhost:4327/react/` in your browser.
 
 ### Available scripts
 
-| Script | Description |
-| --- | --- |
-| `pnpm start` | Build the assets submodule, build the library, then watch the library and Astro site together |
-| `pnpm setup` | Build the assets submodule at its pinned commit and build the library once — the part of `start` worth running on its own |
-| `pnpm dev` | Watch the library and Astro site without rebuilding the submodule |
-| `pnpm site:dev` | Start only the Astro dev server |
-| `pnpm site:setup` | Build the assets submodule and the library, and generate API data |
-| `pnpm site:build` | Build the static docs site and its search index |
-| `pnpm sync-submodules` | Move the assets submodule to its latest commit; commit the new pointer on its own |
-| `pnpm site:preview` | Preview the built docs site locally |
-| `pnpm react:generate` | Re-generate prop table JSON from TypeScript source |
-| `pnpm test` | Run component tests with coverage |
-| `pnpm react:build` | Build the component library |
+| Script                            | Description                                                                                                               |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `pnpm start`                      | Build the assets submodule, build the library, then watch the library and Astro site together                             |
+| `pnpm setup`                      | Build the assets submodule at its pinned commit and build the library once — the part of `start` worth running on its own |
+| `pnpm dev`                        | Watch the library and Astro site without rebuilding the submodule                                                         |
+| `pnpm site:dev`                   | Start only the Astro dev server                                                                                           |
+| `pnpm site:setup`                 | Build the assets submodule and the library, and generate API data                                                         |
+| `pnpm site:build`                 | Build the static docs site and its search index                                                                           |
+| `pnpm sync-submodules`            | Move the assets submodule to its latest commit; commit the new pointer on its own                                         |
+| `pnpm site:preview`               | Preview the built docs site locally                                                                                       |
+| `pnpm react:generate`             | Re-generate prop table JSON from TypeScript source                                                                        |
+| `pnpm new:component <kebab-name>` | Scaffold a new component: source, barrel, exports, spec, story, docs page and sidebar entry                               |
+| `pnpm test`                       | Run component tests with coverage                                                                                         |
+| `pnpm react:build`                | Build the component library                                                                                               |
 
 ## Chassis Ecosystem
 
 This project is part of the Chassis Design System's multi-repository architecture:
 
-| Project | Description |
-| --- | --- |
+| Project                                                  | Description                                   |
+| -------------------------------------------------------- | --------------------------------------------- |
 | [chassis-website](https://github.com/chassis-ui/website) | Main website and shared documentation package |
-| [chassis-css](https://github.com/chassis-ui/css) | CSS framework and component library |
-| **chassis-react** | **React component library (this repository)** |
-| [chassis-tokens](https://github.com/chassis-ui/tokens) | Design token generation and management |
-| [chassis-icons](https://github.com/chassis-ui/icons) | Icon library and build toolkit |
-| [chassis-assets](https://github.com/chassis-ui/assets) | Multi-platform asset management |
-| [chassis-figma](https://github.com/chassis-ui/figma) | Figma component documentation |
+| [chassis-css](https://github.com/chassis-ui/css)         | CSS framework and component library           |
+| **chassis-react**                                        | **React component library (this repository)** |
+| [chassis-tokens](https://github.com/chassis-ui/tokens)   | Design token generation and management        |
+| [chassis-icons](https://github.com/chassis-ui/icons)     | Icon library and build toolkit                |
+| [chassis-assets](https://github.com/chassis-ui/assets)   | Multi-platform asset management               |
+| [chassis-figma](https://github.com/chassis-ui/figma)     | Figma component documentation                 |
 
 All documentation sites share the `@chassis-ui/docs` package for consistent layouts, components,
 and styling.
@@ -113,12 +114,12 @@ and styling.
 ## Contributing
 
 1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/my-feature`
+2. Create a feature branch from `develop`: `git checkout -b feature/my-feature develop`
 3. Make your changes
 4. Test the build: `pnpm react:build && pnpm test`
 5. Commit your changes: `git commit -m "feat: add my feature"`
 6. Push to the branch: `git push origin feature/my-feature`
-7. Open a Pull Request
+7. Open a pull request against `develop`
 
 Please read through our [contributing guidelines](.github/CONTRIBUTING.md) for coding standards
 and development notes. Everyone participating in this project is expected to follow our

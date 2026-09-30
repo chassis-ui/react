@@ -511,26 +511,33 @@ Exit: `packages/react/AGENTS.md` states rules only; every moved paragraph has a 
 Model: **Opus** for the scaffold, which has to reproduce ten conventions exactly. **Sonnet** for
 the rest.
 
-- [ ] Add `pnpm new:component <kebab-name>`: creates the folder, the barrel with `'use client'` and
+- [x] Add `pnpm new:component <kebab-name>`: creates the folder, the barrel with `'use client'` and
       the focus-ring import, both `src/index.ts` entries, a spec with a jest-axe assertion, a
       story, a docs page, and the sidebar entry. It prints the commands still to run
-      (`react:generate`, `check:api:update`, `changeset`).
-- [ ] `CONTRIBUTING.md`: add a "Your first pull request" section of under 20 lines that names
+      (`react:generate`, `check:api:update`, `changeset`). `build/new-component.ts`, with
+      `--group` for the sidebar group (default Data Display). It writes a polymorphic component.
+      The asChild matrix's exact count of polymorphic components became a floor, or every new
+      one failed it; `react:build` adds the subpath to `package.json`'s `exports`.
+- [x] `CONTRIBUTING.md`: add a "Your first pull request" section of under 20 lines that names
       `develop` as the branch to target; fix the `#running-documentation-locally` anchor.
-- [ ] Replace the Markdown issue templates with forms, copied from chassis-website and adjusted:
+- [x] Replace the Markdown issue templates with forms, copied from chassis-website and adjusted:
       `bug.yml`, `feature.yml`, `docs.yml`, and a `config.yml` with blank issues off. Fix the
       `chassis-ui/chassis` link in it; the repository is `chassis-ui/css`.
-- [ ] Add the labels the forms set: `needs-triage`, `needs-info`, `confirmed`.
-- [ ] Correct the root README's visual-regression sentence.
-- [ ] Add a pre-commit hook with simple-git-hooks and lint-staged, as chassis-website has: eslint
-      and Prettier on staged files only.
-- [ ] **(You)** Discussions: enable it here, or point the issue chooser at chassis-website's. Only
-      chassis-website has it on today.
-- [ ] **(You)** Set the homepage to `https://chassis-ui.com/react/`; add topics; turn on "delete
-      branch on merge".
+- [x] Add the labels the forms set: `needs-triage`, `needs-info`, `confirmed`. Colours and
+      descriptions as chassis-website's.
+- [x] Correct the root README's visual-regression sentence. Also its claim that no component
+      ships its own CSS.
+- [x] Add a pre-commit hook with simple-git-hooks and lint-staged, as chassis-website has: eslint
+      and Prettier on staged files only. Scoped to `packages/`, which is what CI lints; no
+      Prettier on styles.
+- [x] **(You)** Discussions: enable it here, or point the issue chooser at chassis-website's. Only
+      chassis-website has it on today. Decided: here. It was already on; the chooser links to it.
+- [x] **(You)** Set the homepage to `https://chassis-ui.com/react/`; add topics; turn on "delete
+      branch on merge". Applied with `gh repo edit` at the maintainer's request.
 
 Exit: `pnpm new:component demo-thing` followed by `pnpm react:check:types && pnpm test` passes,
-then the generated files are removed.
+then the generated files are removed. Done; the generated docs page also passed `site:check` and
+rendered in the dev server with its sidebar entry.
 
 ### A7 — Firefox/WebKit tests, React 18 job (P7, P9)
 

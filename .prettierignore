@@ -5,3 +5,4 @@ packages/site/config.yml
 packages/site/src/assets
 packages/site/content/api/**/*.json
 /source
+pnpm-lock.yaml

@@ -111,8 +111,10 @@ const cases = POLYMORPHIC.flatMap((name) =>
 )
 
 describe('a link as the asChild element or as component renders what component="a" renders', () => {
+  // A floor, not an exact count: it catches the source pattern above silently matching fewer
+  // components, while a new component (`pnpm new:component`) is picked up without editing this.
   test('finds every polymorphic component', () => {
-    expect(POLYMORPHIC).toHaveLength(70)
+    expect(POLYMORPHIC.length).toBeGreaterThanOrEqual(70)
     for (const name of POLYMORPHIC) expect(library).toHaveProperty(name)
   })
 
