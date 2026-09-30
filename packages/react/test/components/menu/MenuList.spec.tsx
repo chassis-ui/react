@@ -2,7 +2,7 @@ import * as React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Menu, MenuList, MenuItem } from '../../../src/index'
+import { Menu, MenuList, MenuItem, MenuToggle } from '../../../src/index'
 
 describe('MenuList', () => {
   describe('rendering', () => {
@@ -20,6 +20,38 @@ describe('MenuList', () => {
       expect(menu).toHaveClass('bazinga')
       expect(menu).not.toHaveClass('show')
       expect(menu).not.toHaveAttribute('aria-hidden')
+    })
+
+    test('is labelled by the toggle, unless it is given an `aria-label`, and not at all outside a Menu', () => {
+      const { rerender } = render(
+        <Menu visible>
+          <MenuToggle>Toggle</MenuToggle>
+          <MenuList>
+            <MenuItem>A</MenuItem>
+          </MenuList>
+        </Menu>
+      )
+      expect(screen.getByRole('menu')).toHaveAttribute(
+        'aria-labelledby',
+        screen.getByRole('button', { name: 'Toggle' }).id
+      )
+
+      rerender(
+        <Menu visible>
+          <MenuToggle>Toggle</MenuToggle>
+          <MenuList aria-label="Actions">
+            <MenuItem>A</MenuItem>
+          </MenuList>
+        </Menu>
+      )
+      expect(screen.getByRole('menu', { name: 'Actions' })).not.toHaveAttribute('aria-labelledby')
+
+      rerender(
+        <MenuList>
+          <MenuItem>A</MenuItem>
+        </MenuList>
+      )
+      expect(screen.getByRole('menu')).not.toHaveAttribute('aria-labelledby')
     })
 
     test('reflects the menu visibility', () => {

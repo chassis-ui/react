@@ -143,6 +143,7 @@ import { Divider } from './components/divider'
 import { NumberField } from './components/number-field'
 import { TimeField } from './components/time-field'
 import { SearchField } from './components/search-field'
+import { ContextMenu } from './components/context-menu'
 
 export {
   Chip,
@@ -330,7 +331,8 @@ export {
   Divider,
   NumberField,
   TimeField,
-  SearchField
+  SearchField,
+  ContextMenu
 }
 
 // Type-only public surface. Kept as `export type ... from` re-exports (the same shape
@@ -543,6 +545,7 @@ export type { DividerProps } from './components/divider'
 export type { NumberFieldProps } from './components/number-field'
 export type { TimeFieldProps } from './components/time-field'
 export type { SearchFieldProps } from './components/search-field'
+export type { ContextMenuProps } from './components/context-menu'
 export type {
   AlertBodyProps,
   AlertCancelProps,

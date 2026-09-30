@@ -1,0 +1,180 @@
+{
+  "tags": {},
+  "filePath": "packages/react/src/components/context-menu/ContextMenu.tsx",
+  "description": "",
+  "displayName": "ContextMenu",
+  "methods": [],
+  "props": {
+    "autoClose": {
+      "defaultValue": null,
+      "description": "Controls which presses close the menu. `true` closes on a click on an item and on a press\noutside the menu. `false` leaves closing to the Escape key and `visible`. `'inside'` closes\nonly on a click on an item. `'outside'` closes only on a press outside the menu.",
+      "name": "autoClose",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/context-menu/ContextMenu.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "MenuAutoClose"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/context-menu/ContextMenu.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "component": {
+      "defaultValue": {
+        "value": "'div'"
+      },
+      "description": "Component used for the root node, the region the menu opens from. Either a string to use an\nHTML element or a component.",
+      "name": "component",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/context-menu/ContextMenu.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ElementType"
+      }
+    },
+    "defaultVisible": {
+      "defaultValue": null,
+      "description": "Whether the menu is open when it first renders. Use it instead of `visible` when nothing\noutside needs to control the menu. Opened this way, the menu sits under the region's start\nedge, since no pointer has asked for it anywhere.",
+      "name": "defaultVisible",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/context-menu/ContextMenu.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "disabled": {
+      "defaultValue": null,
+      "description": "Leaves the region to the browser: a right-click shows the browser's own menu, a long press\nand the keys do nothing.",
+      "name": "disabled",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/context-menu/ContextMenu.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "onHide": {
+      "defaultValue": null,
+      "description": "Callback fired when the menu hides.",
+      "name": "onHide",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/context-menu/ContextMenu.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "onShow": {
+      "defaultValue": null,
+      "description": "Callback fired when the menu shows.",
+      "name": "onShow",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/context-menu/ContextMenu.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "onVisibleChange": {
+      "defaultValue": null,
+      "description": "Callback fired when the menu asks to show or hide: a right-click, a long press or Shift+F10\nin the region, a click on an item, a press outside, the Escape key, or the closing of the\ndialog it is in. Receives the state it asks for. With `visible` set, the menu changes only\nwhen `visible` does.",
+      "name": "onVisibleChange",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/context-menu/ContextMenu.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((visible: boolean) => void)"
+      }
+    },
+    "visible": {
+      "defaultValue": null,
+      "description": "Whether the menu is open. Setting it makes the menu controlled: it shows and hides only when\nthis changes, so pair it with `onVisibleChange`. Leave it unset, or use `defaultVisible`, for\na menu that opens and closes itself.",
+      "name": "visible",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/context-menu/ContextMenu.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "asChild": {
+      "defaultValue": null,
+      "description": "Render the single child element in place of this component's own element, with this\ncomponent's classes, props and ref merged onto it: `<Button asChild><Link href=\"/login\">Log\nin</Link></Button>`. The alternative to `component` for React Server Components — an element\ncan be passed from the server to this package's client components, a component reference\n(`component={Link}`) can't.",
+      "name": "asChild",
+      "parent": {
+        "fileName": "packages/react/src/utils/polymorphic.ts",
+        "name": "AsChildProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/utils/polymorphic.ts",
+          "name": "AsChildProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/context-menu/ContextMenu.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "any"
+      }
+    }
+  }
+}

@@ -7,6 +7,7 @@ import {
   AlertCancel,
   AlertTitle,
   Button,
+  ContextMenu,
   DatePicker,
   DateRangePicker,
   Drawer,
@@ -99,6 +100,22 @@ const SUBJECTS: Subject[] = [
     ),
     isShown: () => expanded('Toggle'),
     askToShow: () => fireEvent.click(screen.getByRole('button', { name: 'Toggle' })),
+    askToHide: () => fireEvent.keyDown(window, { key: 'Escape' }),
+    warnsWhenDropped: true
+  },
+  {
+    name: 'ContextMenu',
+    element: (props) => (
+      <ContextMenu {...props}>
+        Region
+        <MenuList>
+          <MenuItem>Item</MenuItem>
+        </MenuList>
+      </ContextMenu>
+    ),
+    isShown: () => screen.getByRole('menu', { hidden: true }).classList.contains('show'),
+    askToShow: () =>
+      fireEvent.contextMenu(screen.getByText('Region'), { clientX: 10, clientY: 10 }),
     askToHide: () => fireEvent.keyDown(window, { key: 'Escape' }),
     warnsWhenDropped: true
   },

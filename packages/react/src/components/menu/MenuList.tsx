@@ -113,11 +113,17 @@ function MenuListRender<C extends ElementType = 'div'>(
     onKeyDown?.(event as React.KeyboardEvent<HTMLDivElement>)
   }
 
+  // Labelled by the trigger, unless the caller names the list itself: `aria-labelledby` would
+  // outrank that `aria-label`. Left out when there is no trigger to point at (a `ContextMenu`'s
+  // region with no id of its own has one; a list rendered with no `Menu` around it has none).
+  const ariaLabel = (rest as { 'aria-label'?: string })['aria-label']
+  const labelledBy = ariaLabel ? undefined : triggerId || undefined
+
   const content = (
     <Component
       role="menu"
       id={menuId}
-      aria-labelledby={triggerId}
+      aria-labelledby={labelledBy}
       className={classNames('menu', { show: shown }, className)}
       style={menuStyle}
       data-cx-placement={placementAttr}

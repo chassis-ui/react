@@ -47,6 +47,7 @@
     "./collapse": "./dist/collapse.js",
     "./color-input": "./dist/color-input.js",
     "./combobox": "./dist/combobox.js",
+    "./context-menu": "./dist/context-menu.js",
     "./datagrid": "./dist/datagrid.js",
     "./datepicker": "./dist/datepicker.js",
     "./divider": "./dist/divider.js",

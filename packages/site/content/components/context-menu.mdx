@@ -1,0 +1,112 @@
+---
+title: Context Menu
+description: A menu opened at the pointer by a right-click, a long press or Shift+F10, with Menu's items, headers, dividers and submenus.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/context-menu/BasicExample.tsx'
+import { Example as RichItemsExample } from '../../examples/components/context-menu/RichItemsExample.tsx'
+import { Example as RowsExample } from '../../examples/components/context-menu/RowsExample.tsx'
+import { Example as ControlledExample } from '../../examples/components/context-menu/ControlledExample.tsx'
+
+## Overview
+
+`ContextMenu` is the region a context menu belongs to: a right-click, a long press or Shift+F10
+anywhere in it opens the menu at that point, in place of the browser's own. The menu is a
+[`Menu`]([[docsref:/components/menu]])'s list, `MenuList`, with the same items, headers,
+dividers and submenus, so everything on that page about menu content applies here; only the trigger
+and the position are different. The list is portaled out of the region and positioned with
+[React Aria](https://react-spectrum.adobe.com/react-aria/)'s `useOverlayPosition`, its start corner
+at the pointer, and flipped above the pointer when there is no room below.
+
+## Basic usage
+
+Render the region's own content and a `MenuList` as the children of `ContextMenu`. The region is a
+`div` by default; `component` and `asChild` change that, and `className`, `style` and the other
+attributes go to it.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## Opening the menu
+
+The menu opens on:
+
+- **A right-click**, or Ctrl+click on macOS: the `contextmenu` event, whose default the region
+  prevents so the browser's menu stays closed.
+- **A long press** by a finger or a pen, after half a second without moving.
+- **Shift+F10 or the context menu key** on an element inside the region, or on the region itself.
+  The menu opens under that element. Nothing focusable, nothing to press the key on: give a
+  region of plain content `tabIndex={0}`, as the examples on this page do.
+
+The first item takes focus when the menu opens, so the arrow keys, Home and End move through the
+items at once. A second right-click while the menu is open moves it to the new point.
+
+Set `disabled` to leave the region to the browser: a right-click shows the browser's own menu, and
+a long press and the keys do nothing.
+
+## Items
+
+Everything `Menu` renders in its list renders here: `MenuItem` with `icon` and `description`,
+`MenuHeader`, `MenuDivider`, `MenuText`, `MenuSubmenu`, and the `items` prop of `MenuList` for a
+data-driven list.
+
+<Example>
+  <RichItemsExample client:load />
+</Example>
+
+## One menu per row
+
+A list of rows with a menu each is a `ContextMenu` per row. The example renders each as the
+`<li>` of a `.list` with `component`; `asChild` fits an existing row component the same way. Name
+each list after its row with `aria-label` on the `MenuList` (see Accessibility below).
+
+<Example>
+  <RowsExample client:load />
+</Example>
+
+## Closing the menu
+
+By default a click on an item and a press outside the menu close it; both are requests to
+`onVisibleChange`. A press rather than a click outside, as a native menu closes, so the release
+after a long press doesn't close what the press opened. The Escape key closes the menu whatever
+`autoClose` says, and so does the closing of a `Modal` or `Drawer` around the region.
+
+`autoClose` narrows this as it does on `Menu`: `'inside'` closes only on an item, `'outside'` only
+on a press outside, and `false` on neither. A form control inside the list (`MenuText` with an
+input) is used in place and never closes the menu.
+
+## Controlled
+
+`visible` and `onVisibleChange` make the menu controlled, as on every component that opens: the
+menu shows and hides only when `visible` changes, and reports each request to open or close.
+`defaultVisible` opens an uncontrolled menu at first, under the region's start edge, since no
+pointer has asked for it anywhere yet.
+
+<Example>
+  <ControlledExample client:load />
+</Example>
+
+## Accessibility
+
+- The list has `role="menu"` and is labelled by the region, the way a `Menu`'s list is labelled by
+  its toggle, so a screen reader announces the region's text as the menu's name. When the region
+  holds more than a name, give the `MenuList` an `aria-label` of its own instead, which replaces
+  that label: `aria-label="Actions for Report.pdf"`.
+- The region carries no `aria-haspopup` or `aria-expanded`: both are invalid on an element with no
+  widget role, and a region is any element. A control inside the region that always opens the
+  menu, such as a "more" button, is better served by a [`Menu`]([[docsref:/components/menu]]).
+- Escape, and a click on an item, return focus to the element that had it when the menu opened. A
+  press outside leaves focus where the press puts it.
+- The keyboard needs something to focus inside the region: a row that is a link or a button, or
+  `tabIndex={0}` on the region itself.
+
+## API
+
+### ContextMenu
+
+<PropTable component="ContextMenu" />
+
+The list and its content take `MenuList`, `MenuItem`, `MenuHeader`, `MenuDivider`, `MenuText` and
+`MenuSubmenu`, documented on the [`Menu`]([[docsref:/components/menu]]) page.

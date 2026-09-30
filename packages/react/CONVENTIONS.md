@@ -197,8 +197,8 @@ A component that shows and hides takes its state under these three names, and no
 - `onVisibleChange(visible)` receives the state the component asks for, controlled or not. It
   takes a state setter as it is: `visible={open} onVisibleChange={setOpen}`.
 
-`Popover`, `Tooltip`, `Menu`, `Modal`, `Alert`, `Drawer`, `Toast`, `Notification`, `DatePicker`
-and `DateRangePicker` take all three. A component that cannot change its own state takes `visible`
+`Popover`, `Tooltip`, `Menu`, `ContextMenu`, `Modal`, `Alert`, `Drawer`, `Toast`, `Notification`,
+`DatePicker` and `DateRangePicker` take all three. A component that cannot change its own state takes `visible`
 only: `Collapse` has no trigger, timer or close button, so a default could never differ from the
 prop and the callback would never fire.
 

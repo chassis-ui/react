@@ -7478,5 +7478,65 @@ interface SearchFieldProps extends Omit<InputHTMLAttributes<HTMLInputElement>, '
 }
 export declare const SearchField: React.ForwardRefExoticComponent<SearchFieldProps & React.RefAttributes<HTMLInputElement>>;
 //#endregion
-export { type AccordionBodyProps, type AccordionHeaderProps, type AccordionItemDef, type AccordionItemProps, type AccordionProps, type AlertBodyProps, type AlertCancelProps, type AlertCodeProps, type AlertFooterProps, type AlertIconProps, type AlertProps, type AlertTextProps, type AlertTitleProps, type AutocompleteGroupProps, type AutocompleteItemProps, type AutocompleteProps, type AvatarImageProps, type AvatarProps, type AvatarStackItemDef, type AvatarStackProps, type BadgeProps, type BreadcrumbItemDef, type BreadcrumbItemProps, type BreadcrumbProps, type Breakpoint, type ButtonGroupProps, type ButtonObject, type ButtonProps, type ButtonToolbarProps, type CalendarLabels, type CalendarMultipleProps, type CalendarProps, type CalendarSingleProps, type CardBodyProps, type CardFooterProps, type CardGroupProps, type CardHeaderProps, type CardImageOverlayProps, type CardImageProps, type CardLinkProps, type CardProps, type CardSubtitleProps, type CardTextProps, type CardTitleProps, type CarouselControlNextProps, type CarouselControlPrevProps, type CarouselEnds, type CarouselIndicatorsProps, type CarouselInnerProps, type CarouselItemProps, type CarouselOverlayProps, type CarouselPlayPauseProps, type CarouselProps, type CarouselSlideDetail, type CarouselTransition, type CheckboxGroupProps, type CheckboxProps, type ChipInputProps, type ChipProps, type CloseButtonProps, type ColProps, type CollapseProps, type ColorInputProps, type ComboboxGroupProps, type ComboboxItemProps, type ComboboxProps, type ContainerProps, type ContextColor, type ContextStyle, type DataGridBodyProps, type DataGridCellProps, type DataGridColumnProps, type DataGridHeaderProps, type DataGridProps, type DataGridRowProps, type DataGridSelectionCellProps, type DatePickerMultipleProps, type DatePickerProps, type DatePickerSingleProps, type DateRangePickerProps, type DateRangePreset, type DividerProps, type DrawerBodyProps, type DrawerFooterProps, type DrawerHeaderProps, type DrawerProps, type DrawerTitleProps, type ExtendedSizing, type FileInputProps, type FlexProps, type FloatingInputProps, type FormFeedbackProps, type FormFieldProps, type FormHelpProps, type FormLabelProps, type FormProps, type GridItemLayout, type GridItemProps, type GridProps, I18nProvider, type IconComponentProps, type IconKey, type IconProps, type IconProviderProps, type IconValue, type InputAdornProps, type InputGroupAddonProps, type InputGroupProps, type LinkProps, type ListItemDef, type ListItemProps, type ListProps, type MenuAutoClose, type MenuDividerDef, type MenuDividerProps, type MenuFocusStrategy, type MenuHeaderDef, type MenuHeaderProps, type MenuItemDef, type MenuItemProps, type MenuItemsDef, type MenuListProps, type MenuProps, type MenuSubmenuBackProps, type MenuSubmenuProps, type MenuTextProps, type MenuToggleProps, type ModalBodyProps, type ModalFooterProps, type ModalHeaderProps, type ModalProps, type ModalTitleProps, type NavItemDef, type NavItemProps, type NavLinkProps, type NavOverflowDetail, type NavOverflowProps, type NavProps, type NavTitleProps, type NavbarBrandProps, type NavbarNavProps, type NavbarProps, type NavbarTextProps, type NavbarTogglerProps, type NotificationContent, type NotificationIconProps, type NotificationProps, type NotificationStackProps, type NotificationTextProps, type NotificationTitleProps, type NumberFieldProps, type OtpInputProps, type PaginationItemProps, type PaginationProps, type PasswordStrengthProps, type PlaceholderProps, type Placement, type PopoverProps, type PortalProps, type ProgressBarProps, type ProgressProps, type RadioGroupProps, type RadioProps, type RangeCalendarProps, type RangeInputProps, type RowProps, type ScrollspyProps, type SearchFieldProps, type SelectOptionDef, type SelectProps, type Shapes, type Sizing, type SkeletonLoaderProps, type SkeletonProps, type Spacing, type SpinnerProps, type StackProps, type StaticTableProps, type StepperItemDef, type StepperItemProps, type StepperProps, type SwitchProps, type TabListProps, type TabPanelProps, type TabProps, type TableBodyProps, type TableCellProps, type TableColumnProps, type TableHeaderProps, type TableProps, type TableRowProps, type TabsProps, type TextInputProps, type TextareaProps, type TimeFieldProps, type ToastBodyProps, type ToastContent, type ToastFooterProps, type ToastHeaderProps, type ToastIconProps, type ToastProps, type ToasterProps, type TooltipProps, type UseDrawerResult, type UseModalResult, type UseNotificationResult, type UsePaginationResult, type UseScrollspyOptions, type UseToastResult, type VisuallyHiddenProps };
+//#region src/components/context-menu/ContextMenu.d.ts
+type ContextMenuOwnProps<C extends ElementType> = {
+  /**
+   * Controls which presses close the menu. `true` closes on a click on an item and on a press
+   * outside the menu. `false` leaves closing to the Escape key and `visible`. `'inside'` closes
+   * only on a click on an item. `'outside'` closes only on a press outside the menu.
+   */
+  autoClose?: MenuAutoClose;
+  /**
+   * A string of all className you want applied to the component.
+   */
+  className?: string;
+  /**
+   * Component used for the root node, the region the menu opens from. Either a string to use an
+   * HTML element or a component.
+   *
+   * @default 'div'
+   */
+  component?: C;
+  /**
+   * Whether the menu is open when it first renders. Use it instead of `visible` when nothing
+   * outside needs to control the menu. Opened this way, the menu sits under the region's start
+   * edge, since no pointer has asked for it anywhere.
+   */
+  defaultVisible?: boolean;
+  /**
+   * Leaves the region to the browser: a right-click shows the browser's own menu, a long press
+   * and the keys do nothing.
+   */
+  disabled?: boolean;
+  /**
+   * Callback fired when the menu hides.
+   */
+  onHide?: () => void;
+  /**
+   * Callback fired when the menu shows.
+   */
+  onShow?: () => void;
+  /**
+   * Callback fired when the menu asks to show or hide: a right-click, a long press or Shift+F10
+   * in the region, a click on an item, a press outside, the Escape key, or the closing of the
+   * dialog it is in. Receives the state it asks for. With `visible` set, the menu changes only
+   * when `visible` does.
+   */
+  onVisibleChange?: (visible: boolean) => void;
+  /**
+   * Whether the menu is open. Setting it makes the menu controlled: it shows and hides only when
+   * this changes, so pair it with `onVisibleChange`. Leave it unset, or use `defaultVisible`, for
+   * a menu that opens and closes itself.
+   */
+  visible?: boolean;
+};
+type ContextMenuProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, ContextMenuOwnProps<C>>;
+type ContextMenuComponent = (<C extends ElementType = 'div'>(props: ContextMenuProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+export declare const ContextMenu: ContextMenuComponent;
+//#endregion
+export { type AccordionBodyProps, type AccordionHeaderProps, type AccordionItemDef, type AccordionItemProps, type AccordionProps, type AlertBodyProps, type AlertCancelProps, type AlertCodeProps, type AlertFooterProps, type AlertIconProps, type AlertProps, type AlertTextProps, type AlertTitleProps, type AutocompleteGroupProps, type AutocompleteItemProps, type AutocompleteProps, type AvatarImageProps, type AvatarProps, type AvatarStackItemDef, type AvatarStackProps, type BadgeProps, type BreadcrumbItemDef, type BreadcrumbItemProps, type BreadcrumbProps, type Breakpoint, type ButtonGroupProps, type ButtonObject, type ButtonProps, type ButtonToolbarProps, type CalendarLabels, type CalendarMultipleProps, type CalendarProps, type CalendarSingleProps, type CardBodyProps, type CardFooterProps, type CardGroupProps, type CardHeaderProps, type CardImageOverlayProps, type CardImageProps, type CardLinkProps, type CardProps, type CardSubtitleProps, type CardTextProps, type CardTitleProps, type CarouselControlNextProps, type CarouselControlPrevProps, type CarouselEnds, type CarouselIndicatorsProps, type CarouselInnerProps, type CarouselItemProps, type CarouselOverlayProps, type CarouselPlayPauseProps, type CarouselProps, type CarouselSlideDetail, type CarouselTransition, type CheckboxGroupProps, type CheckboxProps, type ChipInputProps, type ChipProps, type CloseButtonProps, type ColProps, type CollapseProps, type ColorInputProps, type ComboboxGroupProps, type ComboboxItemProps, type ComboboxProps, type ContainerProps, type ContextColor, type ContextMenuProps, type ContextStyle, type DataGridBodyProps, type DataGridCellProps, type DataGridColumnProps, type DataGridHeaderProps, type DataGridProps, type DataGridRowProps, type DataGridSelectionCellProps, type DatePickerMultipleProps, type DatePickerProps, type DatePickerSingleProps, type DateRangePickerProps, type DateRangePreset, type DividerProps, type DrawerBodyProps, type DrawerFooterProps, type DrawerHeaderProps, type DrawerProps, type DrawerTitleProps, type ExtendedSizing, type FileInputProps, type FlexProps, type FloatingInputProps, type FormFeedbackProps, type FormFieldProps, type FormHelpProps, type FormLabelProps, type FormProps, type GridItemLayout, type GridItemProps, type GridProps, I18nProvider, type IconComponentProps, type IconKey, type IconProps, type IconProviderProps, type IconValue, type InputAdornProps, type InputGroupAddonProps, type InputGroupProps, type LinkProps, type ListItemDef, type ListItemProps, type ListProps, type MenuAutoClose, type MenuDividerDef, type MenuDividerProps, type MenuFocusStrategy, type MenuHeaderDef, type MenuHeaderProps, type MenuItemDef, type MenuItemProps, type MenuItemsDef, type MenuListProps, type MenuProps, type MenuSubmenuBackProps, type MenuSubmenuProps, type MenuTextProps, type MenuToggleProps, type ModalBodyProps, type ModalFooterProps, type ModalHeaderProps, type ModalProps, type ModalTitleProps, type NavItemDef, type NavItemProps, type NavLinkProps, type NavOverflowDetail, type NavOverflowProps, type NavProps, type NavTitleProps, type NavbarBrandProps, type NavbarNavProps, type NavbarProps, type NavbarTextProps, type NavbarTogglerProps, type NotificationContent, type NotificationIconProps, type NotificationProps, type NotificationStackProps, type NotificationTextProps, type NotificationTitleProps, type NumberFieldProps, type OtpInputProps, type PaginationItemProps, type PaginationProps, type PasswordStrengthProps, type PlaceholderProps, type Placement, type PopoverProps, type PortalProps, type ProgressBarProps, type ProgressProps, type RadioGroupProps, type RadioProps, type RangeCalendarProps, type RangeInputProps, type RowProps, type ScrollspyProps, type SearchFieldProps, type SelectOptionDef, type SelectProps, type Shapes, type Sizing, type SkeletonLoaderProps, type SkeletonProps, type Spacing, type SpinnerProps, type StackProps, type StaticTableProps, type StepperItemDef, type StepperItemProps, type StepperProps, type SwitchProps, type TabListProps, type TabPanelProps, type TabProps, type TableBodyProps, type TableCellProps, type TableColumnProps, type TableHeaderProps, type TableProps, type TableRowProps, type TabsProps, type TextInputProps, type TextareaProps, type TimeFieldProps, type ToastBodyProps, type ToastContent, type ToastFooterProps, type ToastHeaderProps, type ToastIconProps, type ToastProps, type ToasterProps, type TooltipProps, type UseDrawerResult, type UseModalResult, type UseNotificationResult, type UsePaginationResult, type UseScrollspyOptions, type UseToastResult, type VisuallyHiddenProps };
 ```

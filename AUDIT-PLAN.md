@@ -1342,11 +1342,43 @@ Found on the way: the toggle-button examples' `autoComplete="off"` failed both H
 Model: **Fable**: a menu opened at a pointer position, and by long press and the keyboard, is a
 new interaction model.
 
-- [ ] Reuse `Menu`'s list, items and `.menu` styles; only the trigger and positioning are new.
+- [x] Reuse `Menu`'s list, items and `.menu` styles; only the trigger and positioning are new.
       Open on `contextmenu`, long press on touch, and Shift+F10 or the context menu key.
-- [ ] Position at the pointer through `useOverlayPosition` with a virtual target; `Portal`.
+      `ContextMenu` is the region the menu belongs to: a polymorphic element (`div`, `component`,
+      `asChild`) whose children hold a `MenuList`. It provides `Menu`'s context itself, so
+      `MenuList`, `MenuItem`, `MenuHeader`, `MenuDivider`, `MenuSubmenu` and `items` render,
+      portal and navigate as under a `Menu`; nothing in `menu/` changed for it except that
+      `MenuList` now drops `aria-labelledby` under an `aria-label` of its own, and writes none
+      with no trigger to point at. A right-click (`contextmenu`, so Ctrl+click on macOS too), a
+      long press by a finger or pen (500 ms, 10 px of travel, written here rather than with
+      react-aria's `useLongPress`, whose `usePress` prevents the default of key and pointer events
+      on the region and would break the buttons inside it), and Shift+F10 or the context menu key
+      on a focused element in the region. The first item takes focus on open, so the arrow keys
+      work at once; Escape and an item return focus to the element that had it; a press outside,
+      rather than a click, closes it, as a native menu, so the click after a long press's release
+      finds nothing to close. Props: `visible`/`defaultVisible`/`onVisibleChange`, `onShow`/
+      `onHide`, `autoClose` as `Menu`'s, `disabled` (the browser's own menu). The region gets no
+      `aria-haspopup` or `aria-expanded`, which are invalid on an element with no widget role.
+- [x] Position at the pointer through `useOverlayPosition` with a virtual target; `Portal`.
+      react-aria 3.52's `getTargetRect` replaces the region's rectangle with a zero-size one at
+      the pointer, or the focused element's for the keyboard, and `updatePosition` moves an open
+      menu on a second right-click. `bottom-start` (`bottom-end` under RTL), flipped above the
+      pointer when there is no room below. `MenuList` portals through the context's `container`:
+      `document.body`, or the open `<dialog>` around the region (`useFloatingOverlay`).
 
-Changeset: minor.
+Changeset: minor. No styles of its own, so no visual regression spec; the `Default` story's play
+function checks the position and focus in the three browsers, by right-click, Shift+F10 and a
+finger held down.
+
+An independent review of the diff found six defects before the commit, each now with a test: the
+list's events reach the region's handlers through the portal (React bubbles them), so a
+right-click, Shift+F10 or a long press on an item moved the menu under the item; Chromium fires the
+context menu key's `contextmenu` on key up, which the key down's `preventDefault` didn't stop; the
+click iOS emits when a long press's finger lifts landed on the item that had just opened under it;
+under `asChild` the child's own `id` won the merge while the list pointed at the generated one;
+`disabled` with `visible` asked to close on mount; and a slotted child's `style` replaced the
+`-webkit-touch-callout`, which is now set on the element. The region also selects no text while a
+finger is down, since iOS starts selecting at about the time a press becomes long.
 
 ### B19 — `Tree`, with its styles (F9)
 
