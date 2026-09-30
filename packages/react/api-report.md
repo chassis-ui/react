@@ -2072,7 +2072,7 @@ export declare const Carousel: React.ForwardRefExoticComponent<CarouselProps & R
  * The icons this library's own components draw, by purpose rather than by icon name — so a
  * consumer can map each one onto any icon set (see `IconProvider`'s `icons`).
  */
-type IconKey = 'check' | 'decrement' | 'increment' | 'menu' | 'more' | 'next' | 'pause' | 'play' | 'previous';
+type IconKey = 'check' | 'clear' | 'decrement' | 'increment' | 'menu' | 'more' | 'next' | 'pause' | 'play' | 'previous' | 'search';
 /**
  * An icon given to `IconProvider`'s `icons` or to a component's icon prop: a string is an icon
  * name, rendered by `IconProvider`'s `component` (or the built-in `Icon`); an element is rendered
@@ -2121,7 +2121,8 @@ interface IconConfig {
   /**
    * The icon to render for each of the library's own icons, by purpose. Unset ones keep their
    * defaults (`check-solid`, `chevron-left-outline`, `chevron-right-outline`, `bars-outline`,
-   * `ellipsis-h-solid`, `play-solid`, `pause-solid`, `chevron-up-outline`, `chevron-down-outline`).
+   * `ellipsis-h-solid`, `play-solid`, `pause-solid`, `chevron-up-outline`, `chevron-down-outline`,
+   * `search-outline`, `xmark-outline`).
    */
   icons?: Partial<Record<IconKey, IconValue>>;
   /**
@@ -7397,5 +7398,85 @@ interface TimeFieldProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaultVa
 }
 export declare const TimeField: React.ForwardRefExoticComponent<TimeFieldProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
-export { type AccordionBodyProps, type AccordionHeaderProps, type AccordionItemDef, type AccordionItemProps, type AccordionProps, type AlertBodyProps, type AlertCancelProps, type AlertCodeProps, type AlertFooterProps, type AlertIconProps, type AlertProps, type AlertTextProps, type AlertTitleProps, type AutocompleteGroupProps, type AutocompleteItemProps, type AutocompleteProps, type AvatarImageProps, type AvatarProps, type AvatarStackItemDef, type AvatarStackProps, type BadgeProps, type BreadcrumbItemDef, type BreadcrumbItemProps, type BreadcrumbProps, type Breakpoint, type ButtonGroupProps, type ButtonObject, type ButtonProps, type ButtonToolbarProps, type CalendarLabels, type CalendarMultipleProps, type CalendarProps, type CalendarSingleProps, type CardBodyProps, type CardFooterProps, type CardGroupProps, type CardHeaderProps, type CardImageOverlayProps, type CardImageProps, type CardLinkProps, type CardProps, type CardSubtitleProps, type CardTextProps, type CardTitleProps, type CarouselControlNextProps, type CarouselControlPrevProps, type CarouselEnds, type CarouselIndicatorsProps, type CarouselInnerProps, type CarouselItemProps, type CarouselOverlayProps, type CarouselPlayPauseProps, type CarouselProps, type CarouselSlideDetail, type CarouselTransition, type CheckboxGroupProps, type CheckboxProps, type ChipInputProps, type ChipProps, type CloseButtonProps, type ColProps, type CollapseProps, type ColorInputProps, type ComboboxGroupProps, type ComboboxItemProps, type ComboboxProps, type ContainerProps, type ContextColor, type ContextStyle, type DataGridBodyProps, type DataGridCellProps, type DataGridColumnProps, type DataGridHeaderProps, type DataGridProps, type DataGridRowProps, type DataGridSelectionCellProps, type DatePickerMultipleProps, type DatePickerProps, type DatePickerSingleProps, type DateRangePickerProps, type DateRangePreset, type DividerProps, type DrawerBodyProps, type DrawerFooterProps, type DrawerHeaderProps, type DrawerProps, type DrawerTitleProps, type ExtendedSizing, type FileInputProps, type FlexProps, type FloatingInputProps, type FormFeedbackProps, type FormFieldProps, type FormHelpProps, type FormLabelProps, type FormProps, type GridItemLayout, type GridItemProps, type GridProps, I18nProvider, type IconComponentProps, type IconKey, type IconProps, type IconProviderProps, type IconValue, type InputAdornProps, type InputGroupAddonProps, type InputGroupProps, type LinkProps, type ListItemDef, type ListItemProps, type ListProps, type MenuAutoClose, type MenuDividerDef, type MenuDividerProps, type MenuFocusStrategy, type MenuHeaderDef, type MenuHeaderProps, type MenuItemDef, type MenuItemProps, type MenuItemsDef, type MenuListProps, type MenuProps, type MenuSubmenuBackProps, type MenuSubmenuProps, type MenuTextProps, type MenuToggleProps, type ModalBodyProps, type ModalFooterProps, type ModalHeaderProps, type ModalProps, type ModalTitleProps, type NavItemDef, type NavItemProps, type NavLinkProps, type NavOverflowDetail, type NavOverflowProps, type NavProps, type NavTitleProps, type NavbarBrandProps, type NavbarNavProps, type NavbarProps, type NavbarTextProps, type NavbarTogglerProps, type NotificationContent, type NotificationIconProps, type NotificationProps, type NotificationStackProps, type NotificationTextProps, type NotificationTitleProps, type NumberFieldProps, type OtpInputProps, type PaginationItemProps, type PaginationProps, type PasswordStrengthProps, type PlaceholderProps, type Placement, type PopoverProps, type PortalProps, type ProgressBarProps, type ProgressProps, type RadioGroupProps, type RadioProps, type RangeCalendarProps, type RangeInputProps, type RowProps, type ScrollspyProps, type SelectOptionDef, type SelectProps, type Shapes, type Sizing, type SkeletonLoaderProps, type SkeletonProps, type Spacing, type SpinnerProps, type StackProps, type StaticTableProps, type StepperItemDef, type StepperItemProps, type StepperProps, type SwitchProps, type TabListProps, type TabPanelProps, type TabProps, type TableBodyProps, type TableCellProps, type TableColumnProps, type TableHeaderProps, type TableProps, type TableRowProps, type TabsProps, type TextInputProps, type TextareaProps, type TimeFieldProps, type ToastBodyProps, type ToastContent, type ToastFooterProps, type ToastHeaderProps, type ToastIconProps, type ToastProps, type ToasterProps, type TooltipProps, type UseDrawerResult, type UseModalResult, type UseNotificationResult, type UsePaginationResult, type UseScrollspyOptions, type UseToastResult, type VisuallyHiddenProps };
+//#region src/components/search-field/SearchField.d.ts
+interface SearchFieldProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'defaultValue' | 'onChange' | 'onSubmit' | 'size' | 'type' | 'value'> {
+  /**
+   * The accessible name of the clear button. Defaults to react-aria's, in the locale's language
+   * ("Clear search").
+   */
+  clearAriaLabel?: string;
+  /**
+   * The icon of the clear button, in place of `IconProvider`'s `clear` icon.
+   */
+  clearIcon?: IconValue;
+  /**
+   * A string of all className you want applied to the component.
+   */
+  className?: string;
+  /**
+   * The value of the field, uncontrolled.
+   */
+  defaultValue?: string;
+  /**
+   * Toggle the disabled state for the component.
+   */
+  disabled?: boolean;
+  /**
+   * A description for the field, rendered below it.
+   */
+  help?: ReactNode;
+  /**
+   * Set component validation state to invalid.
+   */
+  invalid?: boolean;
+  /**
+   * An error message for the field, rendered below it when `invalid` is set.
+   */
+  invalidFeedback?: ReactNode;
+  /**
+   * The field's caption, rendered as a `FormLabel` associated with the input.
+   */
+  label?: ReactNode;
+  /**
+   * Handler that is called when the value changes.
+   */
+  onChange?: (value: string) => void;
+  /**
+   * Handler that is called when the field is cleared, by the clear button or the Escape key.
+   */
+  onClear?: () => void;
+  /**
+   * Handler that is called when the Enter key is pressed, with the value. When set, Enter, with
+   * or without a modifier key, no longer submits the input's form.
+   */
+  onSubmit?: (value: string) => void;
+  /**
+   * Toggle the readonly state for the component.
+   */
+  readOnly?: boolean;
+  /**
+   * The icon at the field's start, in place of `IconProvider`'s `search` icon. `false` leaves it
+   * out.
+   */
+  searchIcon?: IconValue | false;
+  /**
+   * Size the component sm or lg.
+   */
+  size?: 'lg' | 'sm';
+  /**
+   * Set component validation state to valid.
+   */
+  valid?: boolean;
+  /**
+   * A success message for the field, rendered below it when `valid` is set.
+   */
+  validFeedback?: ReactNode;
+  /**
+   * The value of the field, controlled.
+   */
+  value?: string;
+}
+export declare const SearchField: React.ForwardRefExoticComponent<SearchFieldProps & React.RefAttributes<HTMLInputElement>>;
+//#endregion
+export { type AccordionBodyProps, type AccordionHeaderProps, type AccordionItemDef, type AccordionItemProps, type AccordionProps, type AlertBodyProps, type AlertCancelProps, type AlertCodeProps, type AlertFooterProps, type AlertIconProps, type AlertProps, type AlertTextProps, type AlertTitleProps, type AutocompleteGroupProps, type AutocompleteItemProps, type AutocompleteProps, type AvatarImageProps, type AvatarProps, type AvatarStackItemDef, type AvatarStackProps, type BadgeProps, type BreadcrumbItemDef, type BreadcrumbItemProps, type BreadcrumbProps, type Breakpoint, type ButtonGroupProps, type ButtonObject, type ButtonProps, type ButtonToolbarProps, type CalendarLabels, type CalendarMultipleProps, type CalendarProps, type CalendarSingleProps, type CardBodyProps, type CardFooterProps, type CardGroupProps, type CardHeaderProps, type CardImageOverlayProps, type CardImageProps, type CardLinkProps, type CardProps, type CardSubtitleProps, type CardTextProps, type CardTitleProps, type CarouselControlNextProps, type CarouselControlPrevProps, type CarouselEnds, type CarouselIndicatorsProps, type CarouselInnerProps, type CarouselItemProps, type CarouselOverlayProps, type CarouselPlayPauseProps, type CarouselProps, type CarouselSlideDetail, type CarouselTransition, type CheckboxGroupProps, type CheckboxProps, type ChipInputProps, type ChipProps, type CloseButtonProps, type ColProps, type CollapseProps, type ColorInputProps, type ComboboxGroupProps, type ComboboxItemProps, type ComboboxProps, type ContainerProps, type ContextColor, type ContextStyle, type DataGridBodyProps, type DataGridCellProps, type DataGridColumnProps, type DataGridHeaderProps, type DataGridProps, type DataGridRowProps, type DataGridSelectionCellProps, type DatePickerMultipleProps, type DatePickerProps, type DatePickerSingleProps, type DateRangePickerProps, type DateRangePreset, type DividerProps, type DrawerBodyProps, type DrawerFooterProps, type DrawerHeaderProps, type DrawerProps, type DrawerTitleProps, type ExtendedSizing, type FileInputProps, type FlexProps, type FloatingInputProps, type FormFeedbackProps, type FormFieldProps, type FormHelpProps, type FormLabelProps, type FormProps, type GridItemLayout, type GridItemProps, type GridProps, I18nProvider, type IconComponentProps, type IconKey, type IconProps, type IconProviderProps, type IconValue, type InputAdornProps, type InputGroupAddonProps, type InputGroupProps, type LinkProps, type ListItemDef, type ListItemProps, type ListProps, type MenuAutoClose, type MenuDividerDef, type MenuDividerProps, type MenuFocusStrategy, type MenuHeaderDef, type MenuHeaderProps, type MenuItemDef, type MenuItemProps, type MenuItemsDef, type MenuListProps, type MenuProps, type MenuSubmenuBackProps, type MenuSubmenuProps, type MenuTextProps, type MenuToggleProps, type ModalBodyProps, type ModalFooterProps, type ModalHeaderProps, type ModalProps, type ModalTitleProps, type NavItemDef, type NavItemProps, type NavLinkProps, type NavOverflowDetail, type NavOverflowProps, type NavProps, type NavTitleProps, type NavbarBrandProps, type NavbarNavProps, type NavbarProps, type NavbarTextProps, type NavbarTogglerProps, type NotificationContent, type NotificationIconProps, type NotificationProps, type NotificationStackProps, type NotificationTextProps, type NotificationTitleProps, type NumberFieldProps, type OtpInputProps, type PaginationItemProps, type PaginationProps, type PasswordStrengthProps, type PlaceholderProps, type Placement, type PopoverProps, type PortalProps, type ProgressBarProps, type ProgressProps, type RadioGroupProps, type RadioProps, type RangeCalendarProps, type RangeInputProps, type RowProps, type ScrollspyProps, type SearchFieldProps, type SelectOptionDef, type SelectProps, type Shapes, type Sizing, type SkeletonLoaderProps, type SkeletonProps, type Spacing, type SpinnerProps, type StackProps, type StaticTableProps, type StepperItemDef, type StepperItemProps, type StepperProps, type SwitchProps, type TabListProps, type TabPanelProps, type TabProps, type TableBodyProps, type TableCellProps, type TableColumnProps, type TableHeaderProps, type TableProps, type TableRowProps, type TabsProps, type TextInputProps, type TextareaProps, type TimeFieldProps, type ToastBodyProps, type ToastContent, type ToastFooterProps, type ToastHeaderProps, type ToastIconProps, type ToastProps, type ToasterProps, type TooltipProps, type UseDrawerResult, type UseModalResult, type UseNotificationResult, type UsePaginationResult, type UseScrollspyOptions, type UseToastResult, type VisuallyHiddenProps };
 ```

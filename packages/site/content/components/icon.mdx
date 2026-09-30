@@ -106,8 +106,8 @@ export default function RootLayout({ children }) {
 ## Replacing the library's icons
 
 Components that draw an icon of their own ask for it by purpose: `check`, `previous`, `next`,
-`menu`, `more`, `play`, `pause`, `increment`, and `decrement`. Map any of them in `IconProvider`'s `icons`, either to another icon
-name or to an element from any icon set:
+`menu`, `more`, `play`, `pause`, `increment`, `decrement`, `search`, and `clear`. Map any of them
+in `IconProvider`'s `icons`, either to another icon name or to an element from any icon set:
 
 <Example>
   <LibraryIconsExample client:load />
@@ -146,8 +146,8 @@ directly from a Server Component.
 
 A single instance can also override its icon: `Pagination` takes `previousIcon` and `nextIcon`,
 `CarouselControlPrev`/`CarouselControlNext` take `icon`, `CarouselPlayPause` takes `playIcon` and
-`pauseIcon`, `NavbarToggler` takes `icon`, and `NumberField` takes `incrementIcon` and
-`decrementIcon`.
+`pauseIcon`, `NavbarToggler` takes `icon`, `NumberField` takes `incrementIcon` and
+`decrementIcon`, and `SearchField` takes `searchIcon` and `clearIcon`.
 
 Icons drawn by chassis-css itself (the close button, carets, the datepicker arrows, and checkbox
 marks) are CSS masks. Restyle those through their custom properties, such as

@@ -45,6 +45,7 @@
         - title: Chip Input
         - title: OTP Input
         - title: Password Strength
+        - title: Search Field
     - group: Form Layout
       pages:
         - title: Form

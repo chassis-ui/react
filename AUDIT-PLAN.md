@@ -1255,8 +1255,11 @@ input now leaves the copies out.
 `style.css`'s gzip ceiling in `.bundlewatch.config.json` went from 2 kB to 3 kB: the styles B14 and
 B15 add took it to 2.18 kB, and B16–B19 add more, by the decision to write them here.
 
-Left open: `TextInput`'s family drops `title`, `tabIndex`, `dir`, `lang` and `onClick` (react-aria's
-`filterDOMProps`), and `NumberField` with it, apart from `style`.
+Left open, then closed in `45bff89e`: `TextInput`'s family dropped `title`, `tabIndex`, `dir`, `lang`
+and `onClick` (react-aria's `filterDOMProps`), and `NumberField` with it, apart from `style`. Eight
+components now merge the props their hook doesn't read after its own (`mergeUnhandledProps`,
+FORMS.md gotcha 8). The toggle-button examples' `autoComplete="off"` then reached the page and
+failed both HTML validators; `b4ac327f` took it out of the examples.
 
 ### B16 — `TimeField`, with its styles (F9)
 
@@ -1298,12 +1301,41 @@ said their styles were injected on import, with no stylesheet to add; they are i
 
 Model: **Opus**. A form component: read `FORMS.md` first.
 
-- [ ] `useSearchField`: a native `<input type="search">` with `.form-input`, a clear button
-      (`CloseButton` or `IconSlot`), Escape clears, `onSubmit`.
-- [ ] Styles for the clear button and a search icon, built on `.form-input` and
-      `.input-group`.
+- [x] `useSearchField`: a native `<input type="search">` with `.form-input`, a clear button
+      (`CloseButton` or `IconSlot`), Escape clears, `onSubmit`. The markup is chassis-css's input
+      adorn docs': a `.form-input.search-field` around a `.ghost-input`, the search icon as a
+      `span.input-adorn` and the clear button as an actionable adorn,
+      `button.button.icon-only.input-adorn`, both through `IconSlot` with two new icon purposes,
+      `search` (`search-outline`) and `clear` (`xmark-outline`). The clear button renders only
+      while there is a value and the field is neither disabled nor read-only, out of the tab order
+      (react-aria's), named "Clear search" in the locale's language. Props as the other form
+      fields', plus `onSubmit(value)`, `onClear`, `searchIcon` (`false` leaves it out),
+      `clearIcon`, `clearAriaLabel`; the ref is the input's, `style` the wrapper's. Decided here:
+      no adorns of its own, and `onSubmit` also takes Enter with a modifier and in a read-only
+      field, which react-aria's shortcut doesn't, so a set `onSubmit` always keeps the form from
+      submitting.
+- [x] Styles for the clear button and a search icon, built on `.form-input` and
+      `.input-group`. chassis-css's input adorn rules already size and color the icon by the
+      field's state; `SearchField.scss` lays the wrapper out without waiting for `:has()`, hides
+      WebKit's own cancel button, gives the clear button the field's `--cx-icon-color` (a
+      `.button` sets its own) and the close button's idle and hover opacity, and hides it in a
+      `<fieldset disabled>`.
 
-Changeset: minor.
+Changeset: minor. Visual regression spec `search-field.visual.spec.ts`, with Linux baselines. The
+stories embed the four icon symbols they draw, since Storybook has no sprite, and the spec waits
+for `Default`'s play function to finish typing before its screenshot.
+
+An independent review of the diff found four defects before the commit, each now with a test or a
+browser check: with `onSubmit`, Shift+Enter still submitted the form, and so did Enter in a
+read-only field (react-aria 3.52's shortcut matches Enter alone and none when read-only); the clear
+button's hover and pressed color depended on stylesheet order (a specificity tie with
+`.button:not(.button-check):active`); and a field disabled by its `<fieldset>` kept an inert clear
+button. The docs page also says now that an `onKeyDown` stops Escape from reaching a dialog around
+the field, as react-aria's handlers do. The review also found the Linux baselines missing, which
+were due after it.
+
+Found on the way: the toggle-button examples' `autoComplete="off"` failed both HTML validators once
+`45bff89e` let it through (`b4ac327f`).
 
 ### B18 — `ContextMenu` (F9)
 

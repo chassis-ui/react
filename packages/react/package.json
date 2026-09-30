@@ -79,6 +79,7 @@
     "./radio": "./dist/radio.js",
     "./range-input": "./dist/range-input.js",
     "./scrollspy": "./dist/scrollspy.js",
+    "./search-field": "./dist/search-field.js",
     "./select": "./dist/select.js",
     "./skeleton": "./dist/skeleton.js",
     "./spinner": "./dist/spinner.js",

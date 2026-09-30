@@ -1,0 +1,360 @@
+{
+  "tags": {},
+  "filePath": "packages/react/src/components/search-field/SearchField.tsx",
+  "description": "",
+  "displayName": "SearchField",
+  "methods": [],
+  "props": {
+    "clearAriaLabel": {
+      "defaultValue": null,
+      "description": "The accessible name of the clear button. Defaults to react-aria's, in the locale's language\n(\"Clear search\").",
+      "name": "clearAriaLabel",
+      "parent": {
+        "fileName": "packages/react/src/components/search-field/SearchField.tsx",
+        "name": "SearchFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/search-field/SearchField.tsx",
+          "name": "SearchFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "clearIcon": {
+      "defaultValue": null,
+      "description": "The icon of the clear button, in place of `IconProvider`'s `clear` icon.",
+      "name": "clearIcon",
+      "parent": {
+        "fileName": "packages/react/src/components/search-field/SearchField.tsx",
+        "name": "SearchFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/search-field/SearchField.tsx",
+          "name": "SearchFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "IconValue"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "packages/react/src/components/search-field/SearchField.tsx",
+        "name": "SearchFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/search-field/SearchField.tsx",
+          "name": "SearchFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "defaultValue": {
+      "defaultValue": null,
+      "description": "The value of the field, uncontrolled.",
+      "name": "defaultValue",
+      "parent": {
+        "fileName": "packages/react/src/components/search-field/SearchField.tsx",
+        "name": "SearchFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/search-field/SearchField.tsx",
+          "name": "SearchFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "disabled": {
+      "defaultValue": null,
+      "description": "Toggle the disabled state for the component.",
+      "name": "disabled",
+      "parent": {
+        "fileName": "packages/react/src/components/search-field/SearchField.tsx",
+        "name": "SearchFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/search-field/SearchField.tsx",
+          "name": "SearchFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "help": {
+      "defaultValue": null,
+      "description": "A description for the field, rendered below it.",
+      "name": "help",
+      "parent": {
+        "fileName": "packages/react/src/components/search-field/SearchField.tsx",
+        "name": "SearchFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/search-field/SearchField.tsx",
+          "name": "SearchFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "invalid": {
+      "defaultValue": null,
+      "description": "Set component validation state to invalid.",
+      "name": "invalid",
+      "parent": {
+        "fileName": "packages/react/src/components/search-field/SearchField.tsx",
+        "name": "SearchFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/search-field/SearchField.tsx",
+          "name": "SearchFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "invalidFeedback": {
+      "defaultValue": null,
+      "description": "An error message for the field, rendered below it when `invalid` is set.",
+      "name": "invalidFeedback",
+      "parent": {
+        "fileName": "packages/react/src/components/search-field/SearchField.tsx",
+        "name": "SearchFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/search-field/SearchField.tsx",
+          "name": "SearchFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "label": {
+      "defaultValue": null,
+      "description": "The field's caption, rendered as a `FormLabel` associated with the input.",
+      "name": "label",
+      "parent": {
+        "fileName": "packages/react/src/components/search-field/SearchField.tsx",
+        "name": "SearchFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/search-field/SearchField.tsx",
+          "name": "SearchFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "onChange": {
+      "defaultValue": null,
+      "description": "Handler that is called when the value changes.",
+      "name": "onChange",
+      "parent": {
+        "fileName": "packages/react/src/components/search-field/SearchField.tsx",
+        "name": "SearchFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/search-field/SearchField.tsx",
+          "name": "SearchFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((value: string) => void)"
+      }
+    },
+    "onClear": {
+      "defaultValue": null,
+      "description": "Handler that is called when the field is cleared, by the clear button or the Escape key.",
+      "name": "onClear",
+      "parent": {
+        "fileName": "packages/react/src/components/search-field/SearchField.tsx",
+        "name": "SearchFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/search-field/SearchField.tsx",
+          "name": "SearchFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "onSubmit": {
+      "defaultValue": null,
+      "description": "Handler that is called when the Enter key is pressed, with the value. When set, Enter, with\nor without a modifier key, no longer submits the input's form.",
+      "name": "onSubmit",
+      "parent": {
+        "fileName": "packages/react/src/components/search-field/SearchField.tsx",
+        "name": "SearchFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/search-field/SearchField.tsx",
+          "name": "SearchFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((value: string) => void)"
+      }
+    },
+    "readOnly": {
+      "defaultValue": null,
+      "description": "Toggle the readonly state for the component.",
+      "name": "readOnly",
+      "parent": {
+        "fileName": "packages/react/src/components/search-field/SearchField.tsx",
+        "name": "SearchFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/search-field/SearchField.tsx",
+          "name": "SearchFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "searchIcon": {
+      "defaultValue": null,
+      "description": "The icon at the field's start, in place of `IconProvider`'s `search` icon. `false` leaves it\nout.",
+      "name": "searchIcon",
+      "parent": {
+        "fileName": "packages/react/src/components/search-field/SearchField.tsx",
+        "name": "SearchFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/search-field/SearchField.tsx",
+          "name": "SearchFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "false | IconValue"
+      }
+    },
+    "size": {
+      "defaultValue": null,
+      "description": "Size the component sm or lg.",
+      "name": "size",
+      "parent": {
+        "fileName": "packages/react/src/components/search-field/SearchField.tsx",
+        "name": "SearchFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/search-field/SearchField.tsx",
+          "name": "SearchFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"sm\" | \"lg\"",
+        "value": [
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"lg\""
+          }
+        ]
+      }
+    },
+    "valid": {
+      "defaultValue": null,
+      "description": "Set component validation state to valid.",
+      "name": "valid",
+      "parent": {
+        "fileName": "packages/react/src/components/search-field/SearchField.tsx",
+        "name": "SearchFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/search-field/SearchField.tsx",
+          "name": "SearchFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "validFeedback": {
+      "defaultValue": null,
+      "description": "A success message for the field, rendered below it when `valid` is set.",
+      "name": "validFeedback",
+      "parent": {
+        "fileName": "packages/react/src/components/search-field/SearchField.tsx",
+        "name": "SearchFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/search-field/SearchField.tsx",
+          "name": "SearchFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "value": {
+      "defaultValue": null,
+      "description": "The value of the field, controlled.",
+      "name": "value",
+      "parent": {
+        "fileName": "packages/react/src/components/search-field/SearchField.tsx",
+        "name": "SearchFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/search-field/SearchField.tsx",
+          "name": "SearchFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    }
+  }
+}

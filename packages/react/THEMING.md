@@ -76,8 +76,10 @@ The calendar/datepicker family (`Calendar`, `RangeCalendar`, `DatePicker`, `Date
 `Table` (its sort indicator and selection-checkbox column — see `Table.css`'s own header comment),
 `Notification` (its `.showing` mid-transition opacity state — see `Notification.scss`'s own header
 comment), `DataGrid` (see below), `Divider` (its label, and the line on elements other than
-`<hr>` — see `Divider.scss`'s own header comment) and `NumberField` (its step buttons — see
-`NumberField.scss`'s own header comment) are the only places in this package with
+`<hr>` — see `Divider.scss`'s own header comment), `NumberField` (its step buttons — see
+`NumberField.scss`'s own header comment) and `SearchField` (its clear button, which reads the
+close button's `--cx-close-button-idle-opacity`/`--cx-close-button-hover-opacity` — see
+`SearchField.scss`'s own header comment) are the only places in this package with
 component-scoped CSS/Sass — chassis-css has no visual equivalent for a calendar grid/segmented date
 field, those two `Table` pieces, `Notification`'s Toast-parity fade-in/out, `DataGrid`'s
 non-`<table>` markup, a divider with a label, or a number field's step buttons, so there was

@@ -8,6 +8,7 @@ import {
   NumberField,
   Radio,
   RadioGroup,
+  SearchField,
   Switch,
   Tab,
   TabList,
@@ -55,6 +56,12 @@ const subjects: Subject[] = [
     element: (props) => <NumberField label="Field" {...props} />,
     control: () => screen.getByRole('textbox', { name: 'Field' }),
     outermost: () => getByClass('number-field')
+  },
+  {
+    name: 'SearchField',
+    element: (props) => <SearchField label="Field" {...props} />,
+    control: () => screen.getByRole('searchbox', { name: 'Field' }),
+    outermost: () => getByClass('search-field')
   },
   {
     name: 'Checkbox',
@@ -157,22 +164,25 @@ describe.each(subjects.filter(({ name }) => name !== 'Radio'))('$name', ({ contr
   })
 })
 
-describe.each(['TextInput', 'TextInput with an adorn', 'Textarea', 'NumberField'])('%s', (name) => {
-  const { element } = subjects.find((subject) => subject.name === name)!
+describe.each(['TextInput', 'TextInput with an adorn', 'Textarea', 'NumberField', 'SearchField'])(
+  '%s',
+  (name) => {
+    const { element } = subjects.find((subject) => subject.name === name)!
 
-  test('keeps its own label and help next to the ones it is given', () => {
-    render(
-      <>
-        <span id="unit">in metres</span>
-        <span id="note">Measured at noon</span>
-        {element({ 'aria-describedby': 'note', 'aria-labelledby': 'unit', help: 'Rounded' })}
-      </>
-    )
-    const field = screen.getByRole('textbox')
-    expect(field).toHaveAccessibleName('Field in metres')
-    expect(field).toHaveAccessibleDescription('Rounded Measured at noon')
-  })
-})
+    test('keeps its own label and help next to the ones it is given', () => {
+      render(
+        <>
+          <span id="unit">in metres</span>
+          <span id="note">Measured at noon</span>
+          {element({ 'aria-describedby': 'note', 'aria-labelledby': 'unit', help: 'Rounded' })}
+        </>
+      )
+      const field = screen.getByRole(name === 'SearchField' ? 'searchbox' : 'textbox')
+      expect(field).toHaveAccessibleName('Field in metres')
+      expect(field).toHaveAccessibleDescription('Rounded Measured at noon')
+    })
+  }
+)
 
 describe('TextInput', () => {
   test('takes the autoComplete it is given', () => {

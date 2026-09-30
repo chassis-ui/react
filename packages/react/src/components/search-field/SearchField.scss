@@ -1,0 +1,44 @@
+@use "@chassis-ui/css/scss/config" as *;
+
+// chassis-css has no search field. `SearchField` renders its input adorn shape, a `.form-input`
+// around a `.ghost-input`, with a search icon and a clear button as `.input-adorn`s, as the input
+// adorn docs show them. The class names follow chassis-css's (`.search-field`, `.search-field-*`),
+// so this can move there unchanged.
+@layer components {
+  // chassis-css lays out `.form-input:has(.input-adorn)`; this doesn't wait for `:has()`, and is
+  // more specific than `.form-input`, whose `display: block` is in the same layer.
+  .form-input.search-field {
+    display: flex;
+    gap: var(--gap);
+
+    > .ghost-input {
+      flex: 1;
+      min-width: 0;
+
+      // Chrome and Safari draw a clear button of their own in a search input.
+      &::-webkit-search-cancel-button {
+        appearance: none;
+      }
+    }
+  }
+
+  // A dismiss control, so it reads the close button's emphasis: its idle and hover opacity. Its
+  // icon takes the field's color, as the search icon does, where `.button` would set its own:
+  // chassis-css colors a field's icons by its state (focus, disabled). More specific than
+  // `.button`'s own states (`.button:not(.button-check):active`), which are in the same layer.
+  .form-input.search-field .search-field-clear {
+    --icon-color: inherit;
+    opacity: var(--close-button-idle-opacity, #{$close-button-idle-opacity});
+
+    &:is(:hover, :active) {
+      --icon-color: inherit;
+      opacity: var(--close-button-hover-opacity, #{$close-button-hover-opacity});
+    }
+  }
+
+  // An input disabled by a `<fieldset disabled>` around it: the component knows only its own
+  // `disabled` and leaves the button out for that.
+  .search-field .ghost-input:disabled ~ .search-field-clear {
+    display: none;
+  }
+}

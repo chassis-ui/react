@@ -4,12 +4,12 @@
 
 `TextInput`, `Textarea`, `NumberField`, `Checkbox`, `Radio`, `Switch`, `RadioGroup` and `TabList`
 render the attributes and event handlers their props accept. They are built on react-aria hooks,
-which return only the props they know, so `title`, `dir`, `lang`, `accessKey`, `data-*` on a
-checkbox, most `aria-*` attributes, `onClick`, `onMouseEnter` and the other pointer handlers never
-reached the element, `tabIndex` was always `0`, `required` was dropped, and `NumberField` ignored
-`autoComplete` for `"off"`. A handler the hook runs itself, such as `onFocus` or `onKeyDown`, still
-runs once. `Radio` keeps its group's `name` and its roving `tabIndex`. A `Checkbox` or `Radio`
-given `autoComplete`, which HTML doesn't allow on a checkbox or radio, now renders it; the docs'
+which return only the props they know, so `title`, `dir`, `lang`, `accessKey`, most `aria-*`
+attributes, `onClick`, `onMouseEnter` and the other pointer handlers never reached the element,
+`tabIndex` was always `0`, `required` was dropped, and `NumberField` ignored `autoComplete` for
+`"off"`. A handler the hook runs itself, such as `onFocus` or `onKeyDown`, still runs once.
+`Radio` keeps its group's `name` and its roving `tabIndex`. A `Checkbox` or `Radio` given
+`autoComplete`, which HTML doesn't allow on a checkbox or radio, now renders it; the docs'
 toggle-button examples, which passed `autoComplete="off"`, no longer do.
 
 `style` goes on the outermost element, as `className` does: the `.form-input` wrapper of a

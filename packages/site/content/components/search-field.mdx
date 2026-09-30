@@ -1,0 +1,99 @@
+---
+title: Search Field
+description: A search input with a search icon and a clear button, which clears with Escape and reports Enter.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/search-field/BasicExample.tsx'
+import { Example as FilterExample } from '../../examples/components/search-field/FilterExample.tsx'
+import { Example as SubmitExample } from '../../examples/components/search-field/SubmitExample.tsx'
+import { Example as FormExample } from '../../examples/components/search-field/FormExample.tsx'
+import { Example as IconsExample } from '../../examples/components/search-field/IconsExample.tsx'
+import { Example as SizingExample } from '../../examples/components/search-field/SizingExample.tsx'
+import { Example as StatesExample } from '../../examples/components/search-field/StatesExample.tsx'
+
+## Overview
+
+`SearchField` is a native `<input type="search">`, built on React Aria's `useSearchField`. It
+renders chassis-css's [input adorn](https://chassis-ui.com/css/docs/forms/input-adorn) shape: a
+`.form-input` around the input, with a search icon at its start and, while there is a value, a
+button that clears it.
+Like the other form fields, it takes `label`, `help` and the validation props, and renders a
+`FormLabel`, `FormHelp` and `FormFeedback` wired to it.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+The field takes chassis-css's sizes and states. Its own styles, which hide the browser's clear
+button and color the clear button by the field's state, are in `@chassis-ui/react/style.css` (see
+[Theming]([[docsref:/getting-started/theming]])).
+
+## Value
+
+Pass `value` and `onChange` to control the value, or `defaultValue` to let the component manage
+it. The clear button and the Escape key empty the field, keep focus on the input and call
+`onClear`; Escape in an empty field does nothing, so it reaches a dialog or menu around the field.
+An `onKeyDown` given to the field stops every key there, as in React Aria, unless it calls
+`event.continuePropagation()`.
+
+<Example>
+  <FilterExample client:load />
+</Example>
+
+## Submitting
+
+`onSubmit` receives the value when Enter is pressed, with or without a modifier key and in a
+read-only field too. With it, Enter no longer submits the input's form: use it for a search that
+runs in place.
+
+<Example>
+  <SubmitExample client:load />
+</Example>
+
+## In a form
+
+Without `onSubmit`, Enter submits the form as in any text input, and with `name` the value is
+submitted under that name. Resetting the form restores `defaultValue`.
+
+<Example>
+  <FormExample client:load />
+</Example>
+
+## Icons
+
+`searchIcon` and `clearIcon` replace the two icons, by name or as an element; `searchIcon={false}`
+leaves the search icon out. To replace them everywhere, map `search` and `clear` in
+[`IconProvider`]([[docsref:/components/icon]])'s `icons`.
+
+<Example class="vstack gap-md">
+  <IconsExample client:load />
+</Example>
+
+## Sizing
+
+<Example class="vstack gap-md">
+  <SizingExample client:load />
+</Example>
+
+## States
+
+`disabled` and `readOnly` keep the value from changing, and leave the clear button out. `invalid`
+and `valid` color the field and show `invalidFeedback` or `validFeedback`.
+
+<Example class="vstack gap-md">
+  <StatesExample client:load />
+</Example>
+
+## Accessibility
+
+The input has the `searchbox` role and is named by its label; give it an `aria-label` when there is
+no visible one. The search icon is hidden from assistive technology. The clear button is named
+"Clear search" in the locale's language, or by `clearAriaLabel`, and is left out of the tab order,
+since Escape does the same from the input.
+
+## API
+
+### SearchField
+
+<PropTable component="SearchField" />

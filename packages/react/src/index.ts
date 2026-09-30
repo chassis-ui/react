@@ -142,6 +142,7 @@ import { Scrollspy, useScrollspy } from './components/scrollspy'
 import { Divider } from './components/divider'
 import { NumberField } from './components/number-field'
 import { TimeField } from './components/time-field'
+import { SearchField } from './components/search-field'
 
 export {
   Chip,
@@ -328,7 +329,8 @@ export {
   useScrollspy,
   Divider,
   NumberField,
-  TimeField
+  TimeField,
+  SearchField
 }
 
 // Type-only public surface. Kept as `export type ... from` re-exports (the same shape
@@ -540,6 +542,7 @@ export type { ScrollspyProps, UseScrollspyOptions } from './components/scrollspy
 export type { DividerProps } from './components/divider'
 export type { NumberFieldProps } from './components/number-field'
 export type { TimeFieldProps } from './components/time-field'
+export type { SearchFieldProps } from './components/search-field'
 export type {
   AlertBodyProps,
   AlertCancelProps,

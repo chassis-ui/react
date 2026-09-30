@@ -62,7 +62,7 @@ re-exports; the actual code lives in shared, content-hashed `dist/chunks/*.js`, 
 subpath resolve to the same module instances. Declarations are split the same way (tsdown bundles
 types directly — no intermediate `tsc` declaration-output pass, unlike the prior Rollup setup). It
 also emits `dist/style.css` (tsdown's own CSS pipeline, compiling the
-`Calendar`/`RangeCalendar`/`DatePicker`/`DateRangePicker`/`TimeField`/`Table`/`Notification`/`DataGrid`/`Divider`/`NumberField` Sass/CSS
+`Calendar`/`RangeCalendar`/`DatePicker`/`DateRangePicker`/`TimeField`/`Table`/`Notification`/`DataGrid`/`Divider`/`NumberField`/`SearchField` Sass/CSS
 side-effect imports into one file rather than injecting them via JS, opened with chassis-css's `@layer` order so the import order doesn't matter — see `THEMING.md`). No CJS output — this package is ESM-only, with no
 consumers to preserve dual-format compatibility for. `exports: true` auto-generates
 `package.json`'s `exports` map on every build; `publint: true`/`attw: true` run non-blockingly as
@@ -205,7 +205,7 @@ pnpm test:update  # same, plus -u to update snapshots
 
 Storybook (`.storybook/`, config framework `@storybook/react-vite`) plus Playwright screenshot
 tests (`test/visual/`) catch pixel-level regressions that `vitest`'s DOM snapshots can't — e.g. a
-CSS change that doesn't alter markup at all. Coverage today spans twelve batches, each its own spec
+CSS change that doesn't alter markup at all. Coverage today spans thirteen batches, each its own spec
 file: `calendar-datepicker.visual.spec.ts` (calendar, datepicker — this family has component-scoped
 CSS, see `THEMING.md`, so it needs pixel coverage the other families don't),
 `menu-popover-tooltip.visual.spec.ts`
@@ -215,11 +215,11 @@ state),
 `carousel.visual.spec.ts` (CSS-scroll-snap-driven), `datagrid.visual.spec.ts` (virtualizer-driven
 — row/column position and size are computed at runtime by react-aria-components' `Virtualizer`, not
 CSS alone), `combobox-autocomplete.visual.spec.ts`, `overlays.visual.spec.ts` (modal, drawer) and
-`table.visual.spec.ts`, `divider.visual.spec.ts`, `number-field.visual.spec.ts` and `time-field.visual.spec.ts`
-(component-scoped CSS, like the calendar family's). That is 19 of the 64 story folders; the rest are tracked in issue
+`table.visual.spec.ts`, `divider.visual.spec.ts`, `number-field.visual.spec.ts`, `time-field.visual.spec.ts` and `search-field.visual.spec.ts`
+(component-scoped CSS, like the calendar family's). That is 20 of the 65 story folders; the rest are tracked in issue
 #45. A
 future family gets its own `test/visual/<family>.visual.spec.ts` with its own
-story-title filter, not a widened version of an existing one. All twelve call the shared
+story-title filter, not a widened version of an existing one. All thirteen call the shared
 `runVisualRegressionSuite` helper (`test/visual/visualSuite.ts`) rather than each re-reading and
 filtering Storybook's build manifest themselves — a spec file is just its title-prefix list plus,
 for the two families that need it, a `waitFor`: toast/notification (see below) and DataGrid (its
