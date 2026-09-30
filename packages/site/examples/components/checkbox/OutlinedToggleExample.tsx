@@ -7,7 +7,6 @@ export const Example = () => {
         <Checkbox
           button={{ color: 'primary', variant: 'outline' }}
           id="button-check-outlined"
-          autoComplete="off"
           label="Single toggle"
         />
       </div>
@@ -15,7 +14,6 @@ export const Example = () => {
         <Checkbox
           button={{ color: 'secondary', variant: 'outline' }}
           id="button-check-2-outlined"
-          autoComplete="off"
           label="Checked"
           defaultSelected
         />

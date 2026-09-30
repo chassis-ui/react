@@ -7,19 +7,16 @@ export const Example = () => {
         <Radio
           button={{ color: 'danger', variant: 'outline' }}
           value="vbtnradio1"
-          autoComplete="off"
           label="Radio 1"
         />
         <Radio
           button={{ color: 'danger', variant: 'outline' }}
           value="vbtnradio2"
-          autoComplete="off"
           label="Radio 2"
         />
         <Radio
           button={{ color: 'danger', variant: 'outline' }}
           value="vbtnradio3"
-          autoComplete="off"
           label="Radio 3"
         />
       </ButtonGroup>

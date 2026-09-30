@@ -31,15 +31,9 @@ export const Default: Story = {
 export const ToggleButtons: Story = {
   render: () => (
     <RadioGroup aria-label="Radio toggle buttons" defaultValue="checked" orientation="horizontal">
-      <Radio button={{ color: 'secondary' }} value="checked" autoComplete="off" label="Checked" />
-      <Radio button={{ color: 'secondary' }} value="radio" autoComplete="off" label="Radio" />
-      <Radio
-        button={{ color: 'secondary' }}
-        value="disabled"
-        autoComplete="off"
-        label="Radio"
-        disabled
-      />
+      <Radio button={{ color: 'secondary' }} value="checked" label="Checked" />
+      <Radio button={{ color: 'secondary' }} value="radio" label="Radio" />
+      <Radio button={{ color: 'secondary' }} value="disabled" label="Radio" disabled />
     </RadioGroup>
   )
 }
