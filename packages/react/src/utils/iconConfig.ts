@@ -4,7 +4,7 @@ import { ComponentType, createContext, ReactElement } from 'react'
  * The icons this library's own components draw, by purpose rather than by icon name — so a
  * consumer can map each one onto any icon set (see `IconProvider`'s `icons`).
  */
-export type IconKey = 'check' | 'previous' | 'next' | 'menu' | 'play' | 'pause'
+export type IconKey = 'check' | 'previous' | 'next' | 'menu' | 'more' | 'play' | 'pause'
 
 /**
  * An icon given to `IconProvider`'s `icons` or to a component's icon prop: a string is an icon
@@ -56,7 +56,7 @@ export interface IconConfig {
   /**
    * The icon to render for each of the library's own icons, by purpose. Unset ones keep their
    * defaults (`check-solid`, `chevron-left-outline`, `chevron-right-outline`, `bars-outline`,
-   * `play-solid`, `pause-solid`).
+   * `ellipsis-h-solid`, `play-solid`, `pause-solid`).
    */
   icons?: Partial<Record<IconKey, IconValue>>
   /**
@@ -77,6 +77,7 @@ export const DEFAULT_ICONS: Record<IconKey, string> = {
   previous: 'chevron-left-outline',
   next: 'chevron-right-outline',
   menu: 'bars-outline',
+  more: 'ellipsis-h-solid',
   play: 'play-solid',
   pause: 'pause-solid'
 }

@@ -173,3 +173,33 @@ test('Collapse renders open', async ({ page }) => {
   await expect(page.getByText('Collapse content')).toHaveClass('collapse show')
   expect(problems).toEqual([])
 })
+
+test('NavOverflow collapses a Nav of router links and a TabList', async ({ page }) => {
+  // The server can't know what fits: every item is in its HTML, and none is hidden.
+  const server = await serverMarkup(page, '/rsc/nav-overflow')
+  expect(server).toContain('href="/rsc/nav-overflow?page=settings"')
+  expect(server).toMatch(/role="tab"[^>]*>Attachments</)
+  expect(server).not.toContain('data-cx-nav-overflow')
+
+  const problems = await open(page, '/rsc/nav-overflow')
+  const nav = page.getByRole('navigation', { name: 'Pages' })
+  await expect(nav.getByRole('link', { name: 'Home' })).toBeVisible()
+  await expect(nav.getByRole('link', { name: 'Settings' })).toBeHidden()
+  await nav.getByRole('button', { name: 'More' }).click()
+  const settings = nav.getByRole('menuitem', { name: 'Settings' })
+  await expect(settings).toBeVisible()
+  await expect(settings).toHaveAttribute('href', '/rsc/nav-overflow?page=settings')
+  await page.keyboard.press('Escape')
+
+  const tablist = page.getByRole('tablist', { name: 'Sections' })
+  await expect(tablist.getByRole('tab', { name: 'Overview' })).toBeVisible()
+  await expect(tablist.getByRole('tab', { name: 'Attachments' })).toBeHidden()
+  await tablist.getByRole('tab', { name: 'More' }).click()
+  await page.getByRole('menuitem', { name: 'Attachments' }).click()
+  const attachments = tablist.getByRole('tab', { name: 'Attachments' })
+  await expect(attachments).toBeVisible()
+  await expect(attachments).toHaveAttribute('aria-selected', 'true')
+  await expect(attachments).toBeFocused()
+  await expect(page.getByRole('tabpanel')).toContainText('Attachments panel')
+  expect(problems).toEqual([])
+})

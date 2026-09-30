@@ -64,6 +64,7 @@
     "./menu": "./dist/menu.js",
     "./modal": "./dist/modal.js",
     "./nav": "./dist/nav.js",
+    "./nav-overflow": "./dist/nav-overflow.js",
     "./navbar": "./dist/navbar.js",
     "./notification": "./dist/notification.js",
     "./otp-input": "./dist/otp-input.js",

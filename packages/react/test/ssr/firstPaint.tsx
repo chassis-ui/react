@@ -27,6 +27,9 @@ export async function loadFirstPaintCases(): Promise<Record<string, () => ReactE
     MenuItem,
     MenuList,
     MenuToggle,
+    Nav,
+    NavItem,
+    NavOverflow,
     Notification,
     OtpInput,
     Popover,
@@ -173,6 +176,29 @@ export async function loadFirstPaintCases(): Promise<Record<string, () => ReactE
       <Popover content="Details" defaultVisible>
         <button type="button">More</button>
       </Popover>
+    ),
+    'NavOverflow around a Nav': () => (
+      <NavOverflow data-testid="wrapper">
+        <Nav>
+          <NavItem href="/" active>
+            Home
+          </NavItem>
+          <NavItem href="/docs">Docs</NavItem>
+          <NavItem href="/blog">Blog</NavItem>
+        </Nav>
+      </NavOverflow>
+    ),
+    'NavOverflow around a TabList': () => (
+      <Tabs>
+        <NavOverflow>
+          <TabList aria-label="Tabs">
+            <Tab id="one">One</Tab>
+            <Tab id="two">Two</Tab>
+          </TabList>
+        </NavOverflow>
+        <TabPanel id="one">Panel one</TabPanel>
+        <TabPanel id="two">Panel two</TabPanel>
+      </Tabs>
     ),
     'Tooltip open': () => (
       <Tooltip content="Hint" defaultVisible>

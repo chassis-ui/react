@@ -249,6 +249,21 @@
         "name": "boolean"
       }
     },
+    "keepVisible": {
+      "defaultValue": null,
+      "description": "Keeps the item in the list inside a `NavOverflow`, whatever the width.",
+      "name": "keepVisible",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/nav/NavItem.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
     "ref": {
       "defaultValue": null,
       "description": "",

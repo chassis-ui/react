@@ -20,6 +20,23 @@
         "name": "boolean"
       }
     },
+    "caret": {
+      "defaultValue": {
+        "value": "true"
+      },
+      "description": "Draws the caret after the toggle's content. Set it to `false` for a toggle that shows what it\nis another way, such as an icon-only \"more\" button.",
+      "name": "caret",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/menu/MenuToggle.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
     "className": {
       "defaultValue": null,
       "description": "A string of all className you want applied to the base component.",

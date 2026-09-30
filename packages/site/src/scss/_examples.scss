@@ -20,6 +20,19 @@
 
     }
   }
+  // The box of `<Example resizable>`. `resize` needs `overflow` set, which clips a menu that
+  // opens past the box's edge, so the box is tall enough for the menus the examples open.
+  .cxd-resizable-container {
+    max-width: 100%;
+    min-height: 18rem;
+    padding: 1rem;
+    overflow: hidden;
+    resize: horizontal;
+    background-color: var(--cx-bg-main);
+    border: 1px dashed var(--cx-border-subtle);
+    @include border-radius(var(--radius-medium));
+  }
+
   //
   // Grid examples
   //

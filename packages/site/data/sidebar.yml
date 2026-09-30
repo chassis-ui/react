@@ -54,6 +54,7 @@
         - title: Navbar
         - title: Navs & Tabs
         - title: Tabs
+        - title: Nav Overflow
         - title: Breadcrumb
         - title: Pagination
     - group: Overlays

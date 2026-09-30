@@ -8,12 +8,21 @@ import React, {
 } from 'react'
 import classNames from 'classnames'
 
+import { useForkedRef } from '../../hooks'
 import { devWarning } from '../../utils/devWarning'
 import { hasHref } from '../../utils/elementKind'
+import { NavOverflowItemScope, useNavOverflowItem } from '../../utils/navOverflow'
 import { NavLink, NavLinkProps } from './NavLink'
 
+export type NavItemProps<C extends ElementType = 'a'> = NavLinkProps<C> & {
+  /**
+   * Keeps the item in the list inside a `NavOverflow`, whatever the width.
+   */
+  keepVisible?: boolean
+}
+
 type NavItemComponent = (<C extends ElementType = 'a'>(
-  props: NavLinkProps<C> & { ref?: Ref<HTMLLIElement> }
+  props: NavItemProps<C> & { ref?: Ref<HTMLLIElement> }
 ) => ReactElement | null) & { displayName?: string }
 
 const LINK_ONLY_PROPS = new Set([
@@ -32,20 +41,27 @@ const LINK_ONLY_PROPS = new Set([
 // the other `NavLink` props style a link, and on the `<li>` they were written out as invalid
 // attributes (`disabled=""`, `component="button"`).
 function NavItemRender<C extends ElementType = 'a'>(
-  { children, className, ...rest }: NavLinkProps<C>,
+  { children, className, keepVisible, ...rest }: NavItemProps<C>,
   ref: Ref<HTMLLIElement>
 ) {
-  const _className = classNames('nav-item', className)
+  const _className = classNames('nav-item', { 'nav-overflow-keep': keepVisible }, className)
   const { asChild, component, href } = rest as {
     asChild?: boolean
     component?: ElementType
     href?: string
   }
+  // Inside a `NavOverflow`: the `<li>` is what it measures, and hides when the item is in the
+  // menu. chassis-css hides it by this attribute.
+  const overflow = useNavOverflowItem()
+  const forkedRef = useForkedRef(ref, overflow.ref)
+  const overflowProps = overflow.hidden ? { 'data-cx-nav-overflow': 'true' } : undefined
 
   if (hasHref(href) || component !== undefined || asChild) {
     return (
-      <li className={_className} ref={ref}>
-        <NavLink {...(rest as Record<string, unknown>)}>{children as ReactNode}</NavLink>
+      <li className={_className} {...overflowProps} ref={forkedRef}>
+        <NavOverflowItemScope value={overflow.scope}>
+          <NavLink {...(rest as Record<string, unknown>)}>{children as ReactNode}</NavLink>
+        </NavOverflowItemScope>
       </li>
     )
   }
@@ -60,14 +76,14 @@ function NavItemRender<C extends ElementType = 'a'>(
       '`asChild` it renders none. Put them on the link inside it.'
   )
   return (
-    <li className={_className} {...itemProps} ref={ref}>
-      {children}
+    <li className={_className} {...itemProps} {...overflowProps} ref={forkedRef}>
+      <NavOverflowItemScope value={overflow.scope}>{children}</NavOverflowItemScope>
     </li>
   )
 }
 
 export const NavItem = forwardRef(
-  NavItemRender as ForwardRefRenderFunction<HTMLLIElement, NavLinkProps<ElementType>>
+  NavItemRender as ForwardRefRenderFunction<HTMLLIElement, NavItemProps<ElementType>>
 ) as NavItemComponent
 
 NavItem.displayName = 'NavItem'

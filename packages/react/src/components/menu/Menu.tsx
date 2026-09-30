@@ -19,6 +19,7 @@ import {
   resolveMenuOverlayPositioning,
   toAriaPlacement
 } from '../../utils/overlayPlacement'
+import { NavOverflowBoundary } from '../../utils/navOverflow'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -409,10 +410,14 @@ function MenuRender<C extends ElementType = typeof Fragment>(
     ]
   )
 
+  // Inside a `NavOverflow`, a menu in a nav item is that item's content, not its link: a toggle
+  // rendered as a `NavLink` has nothing to show in the overflow menu.
+  const content = <NavOverflowBoundary>{children}</NavOverflowBoundary>
+
   return (
     <MenuContext.Provider value={contextValue}>
       {Component === Fragment ? (
-        children
+        content
       ) : (
         // `show` mirrors vanilla menu.js's `this._parent.classList.add('show')` — needed for
         // e.g. `.nav-item.show .nav-link` to put a `NavLink`-rooted `MenuToggle` into its
@@ -422,7 +427,7 @@ function MenuRender<C extends ElementType = typeof Fragment>(
           {...rest}
           ref={forkedRef}
         >
-          {children}
+          {content}
         </Component>
       )}
     </MenuContext.Provider>

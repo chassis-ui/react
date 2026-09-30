@@ -154,6 +154,13 @@ item to an otherwise flat navigation.
   <PillsWithMenuExample client:load />
 </Example>
 
+## Overflow
+
+A nav wraps onto further lines when its items don't fit. To keep it on one line and move the items
+that don't fit into a "More" menu instead, wrap it in a
+[`<NavOverflow>`]([[docsref:/components/nav-overflow]]). Set `keepVisible` on a `<NavItem>` that
+should never move.
+
 ## Accessibility
 
 When using `<Nav>` to provide a navigation bar, add `role="navigation"` to the most logical parent

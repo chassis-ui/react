@@ -61,6 +61,25 @@
       "type": {
         "name": "Key"
       }
+    },
+    "keepVisible": {
+      "defaultValue": null,
+      "description": "Keeps the tab in the list inside a `NavOverflow`, whatever the width.",
+      "name": "keepVisible",
+      "parent": {
+        "fileName": "packages/react/src/components/tabs/Tab.tsx",
+        "name": "TabProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tabs/Tab.tsx",
+          "name": "TabProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
     }
   }
 }

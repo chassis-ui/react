@@ -15,6 +15,10 @@ export interface TabProps {
    * Identifies this tab and pairs it with the `TabPanel` of the same `id`.
    */
   id: Key
+  /**
+   * Keeps the tab in the list inside a `NavOverflow`, whatever the width.
+   */
+  keepVisible?: boolean
 }
 
 // `Tab` is never actually mounted — it's read as data by `Tabs`, which builds react-aria's tab

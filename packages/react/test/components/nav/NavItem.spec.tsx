@@ -53,6 +53,27 @@ describe('NavItem', () => {
     })
   })
 
+  describe('keepVisible', () => {
+    test("marks the li with chassis-css's class, for a NavOverflow around the list", () => {
+      render(
+        <NavItem href="/home" keepVisible>
+          Home
+        </NavItem>
+      )
+      expect(screen.getByRole('listitem')).toHaveClass('nav-item', 'nav-overflow-keep')
+      const link = screen.getByRole('link', { name: 'Home' })
+      expect(link).not.toHaveClass('nav-overflow-keep')
+      expect(link).not.toHaveAttribute('keepvisible')
+    })
+
+    test('stays off the li of an item without a link', () => {
+      render(<NavItem keepVisible>Plain</NavItem>)
+      const item = screen.getByText('Plain')
+      expect(item).toHaveClass('nav-overflow-keep')
+      expect(item).not.toHaveAttribute('keepvisible')
+    })
+  })
+
   describe('link', () => {
     test('renders a NavLink for a component without href', () => {
       render(

@@ -34,6 +34,10 @@ Add `disabled` to a `Tab` to remove it from keyboard navigation and prevent it f
   <DisabledExample client:load />
 </Example>
 
+## Overflow
+
+Wrap the `TabList` in a [`NavOverflow`]([[docsref:/components/nav-overflow#tabs]]), inside the `Tabs`, to move the tabs that don't fit on one line into a "More" menu. Set `keepVisible` on a `Tab` that should never move.
+
 ## Controlled selection
 
 Pass `selectedKey`/`onSelectionChange` to `Tabs` to control which tab is selected externally, e.g. to sync it with the URL. Omit them (use `defaultSelectedKey` instead) to let `Tabs` manage selection internally.

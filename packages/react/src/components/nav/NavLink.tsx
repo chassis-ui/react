@@ -1,6 +1,7 @@
 import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
+import { NavOverflowLink, useIsNavOverflowLink } from '../../utils/navOverflow'
 import { createPolymorphicComponent, PolymorphicRef } from '../../utils/polymorphic'
 import { LinkProps, Link } from '../link/Link'
 
@@ -30,15 +31,21 @@ function NavLinkRender<C extends ElementType = 'a'>(
   ref: PolymorphicRef<C>
 ) {
   const _className = classNames('nav-link', className)
+  // Inside a `NavOverflow`, the link of an item that doesn't fit is shown in the menu instead, as
+  // a `MenuItem` with these props.
+  const isOverflowLink = useIsNavOverflowLink()
 
   return (
-    <Link
-      className={_className}
-      {...(rest as Record<string, unknown>)}
-      ref={ref as PolymorphicRef<ElementType>}
-    >
-      {children}
-    </Link>
+    <>
+      <Link
+        className={_className}
+        {...(rest as Record<string, unknown>)}
+        ref={ref as PolymorphicRef<ElementType>}
+      >
+        {children}
+      </Link>
+      {isOverflowLink && <NavOverflowLink props={{ ...rest, children }} />}
+    </>
   )
 }
 

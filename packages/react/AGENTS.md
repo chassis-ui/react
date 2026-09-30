@@ -312,6 +312,11 @@ pnpm test:visual:update   # same, plus --update-snapshots to regenerate baseline
 - Text for screen readers only is a `VisuallyHidden` (`src/components/visually-hidden/`), not a
   hand-written `<span className="visually-hidden">`; a skip link is `VisuallyHidden` with
   `focusable`.
+- A list that a `NavOverflow` can collapse (`Nav`, `NavbarNav`, `TabList`) renders its items
+  inside `NavOverflowItems`, an item registers its `<li>` with `useNavOverflowItem`, and its link
+  registers the props the menu renders (`src/utils/navOverflow.tsx`). Nothing is cloned or moved
+  in the DOM, and the list imports a context only: the toggle and its `Menu` stay in
+  `nav-overflow`'s chunk. See `CONVENTIONS.md`, "Measured layout".
 - A component that draws an icon of its own never renders `<Icon>` directly — it renders
   `IconSlot` (`src/utils/iconSlot.tsx`) with a purpose key (`check`, `previous`, `next`, ...) plus
   the class chassis-css positions that icon by, so consumers can swap it via `IconProvider` or

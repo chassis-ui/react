@@ -2072,7 +2072,7 @@ export declare const Carousel: React.ForwardRefExoticComponent<CarouselProps & R
  * The icons this library's own components draw, by purpose rather than by icon name — so a
  * consumer can map each one onto any icon set (see `IconProvider`'s `icons`).
  */
-type IconKey = 'check' | 'menu' | 'next' | 'pause' | 'play' | 'previous';
+type IconKey = 'check' | 'menu' | 'more' | 'next' | 'pause' | 'play' | 'previous';
 /**
  * An icon given to `IconProvider`'s `icons` or to a component's icon prop: a string is an icon
  * name, rendered by `IconProvider`'s `component` (or the built-in `Icon`); an element is rendered
@@ -2121,7 +2121,7 @@ interface IconConfig {
   /**
    * The icon to render for each of the library's own icons, by purpose. Unset ones keep their
    * defaults (`check-solid`, `chevron-left-outline`, `chevron-right-outline`, `bars-outline`,
-   * `play-solid`, `pause-solid`).
+   * `ellipsis-h-solid`, `play-solid`, `pause-solid`).
    */
   icons?: Partial<Record<IconKey, IconValue>>;
   /**
@@ -3378,6 +3378,13 @@ type MenuToggleOwnProps<C extends ElementType> = {
    * Toggle the active state for the component.
    */
   active?: boolean;
+  /**
+   * Draws the caret after the toggle's content. Set it to `false` for a toggle that shows what it
+   * is another way, such as an icon-only "more" button.
+   *
+   * @default true
+   */
+  caret?: boolean;
   /**
    * A string of all className you want applied to the base component.
    */
@@ -4998,7 +5005,13 @@ type NavLinkComponent = (<C extends ElementType = 'a'>(props: NavLinkProps<C> & 
 export declare const NavLink: NavLinkComponent;
 //#endregion
 //#region src/components/nav/NavItem.d.ts
-type NavItemComponent = (<C extends ElementType = 'a'>(props: NavLinkProps<C> & {
+type NavItemProps<C extends ElementType = 'a'> = NavLinkProps<C> & {
+  /**
+   * Keeps the item in the list inside a `NavOverflow`, whatever the width.
+   */
+  keepVisible?: boolean;
+};
+type NavItemComponent = (<C extends ElementType = 'a'>(props: NavItemProps<C> & {
   ref?: Ref<HTMLLIElement>;
 }) => ReactElement | null) & {
   displayName?: string;
@@ -6197,6 +6210,10 @@ interface TabProps {
    * Identifies this tab and pairs it with the `TabPanel` of the same `id`.
    */
   id: Key$1;
+  /**
+   * Keeps the tab in the list inside a `NavOverflow`, whatever the width.
+   */
+  keepVisible?: boolean;
 }
 export declare const Tab: {
   (_props: TabProps): null;
@@ -6971,5 +6988,92 @@ type AlertTitleComponent = (<C extends ElementType = 'h2'>(props: AlertTitleProp
 };
 export declare const AlertTitle: AlertTitleComponent;
 //#endregion
-export { type AccordionBodyProps, type AccordionHeaderProps, type AccordionItemDef, type AccordionItemProps, type AccordionProps, type AlertBodyProps, type AlertCancelProps, type AlertCodeProps, type AlertFooterProps, type AlertIconProps, type AlertProps, type AlertTextProps, type AlertTitleProps, type AutocompleteGroupProps, type AutocompleteItemProps, type AutocompleteProps, type AvatarImageProps, type AvatarProps, type AvatarStackItemDef, type AvatarStackProps, type BadgeProps, type BreadcrumbItemDef, type BreadcrumbItemProps, type BreadcrumbProps, type Breakpoint, type ButtonGroupProps, type ButtonObject, type ButtonProps, type ButtonToolbarProps, type CalendarLabels, type CalendarMultipleProps, type CalendarProps, type CalendarSingleProps, type CardBodyProps, type CardFooterProps, type CardGroupProps, type CardHeaderProps, type CardImageOverlayProps, type CardImageProps, type CardLinkProps, type CardProps, type CardSubtitleProps, type CardTextProps, type CardTitleProps, type CarouselControlNextProps, type CarouselControlPrevProps, type CarouselEnds, type CarouselIndicatorsProps, type CarouselInnerProps, type CarouselItemProps, type CarouselOverlayProps, type CarouselPlayPauseProps, type CarouselProps, type CarouselSlideDetail, type CarouselTransition, type CheckboxGroupProps, type CheckboxProps, type ChipInputProps, type ChipProps, type CloseButtonProps, type ColProps, type CollapseProps, type ColorInputProps, type ComboboxGroupProps, type ComboboxItemProps, type ComboboxProps, type ContainerProps, type ContextColor, type ContextStyle, type DataGridBodyProps, type DataGridCellProps, type DataGridColumnProps, type DataGridHeaderProps, type DataGridProps, type DataGridRowProps, type DataGridSelectionCellProps, type DatePickerMultipleProps, type DatePickerProps, type DatePickerSingleProps, type DateRangePickerProps, type DateRangePreset, type DrawerBodyProps, type DrawerFooterProps, type DrawerHeaderProps, type DrawerProps, type DrawerTitleProps, type ExtendedSizing, type FileInputProps, type FlexProps, type FloatingInputProps, type FormFeedbackProps, type FormFieldProps, type FormHelpProps, type FormLabelProps, type FormProps, type GridItemLayout, type GridItemProps, type GridProps, I18nProvider, type IconComponentProps, type IconKey, type IconProps, type IconProviderProps, type IconValue, type InputAdornProps, type InputGroupAddonProps, type InputGroupProps, type LinkProps, type ListItemDef, type ListItemProps, type ListProps, type MenuAutoClose, type MenuDividerDef, type MenuDividerProps, type MenuFocusStrategy, type MenuHeaderDef, type MenuHeaderProps, type MenuItemDef, type MenuItemProps, type MenuItemsDef, type MenuListProps, type MenuProps, type MenuSubmenuBackProps, type MenuSubmenuProps, type MenuTextProps, type MenuToggleProps, type ModalBodyProps, type ModalFooterProps, type ModalHeaderProps, type ModalProps, type ModalTitleProps, type NavItemDef, type NavLinkProps, type NavProps, type NavTitleProps, type NavbarBrandProps, type NavbarNavProps, type NavbarProps, type NavbarTextProps, type NavbarTogglerProps, type NotificationContent, type NotificationIconProps, type NotificationProps, type NotificationStackProps, type NotificationTextProps, type NotificationTitleProps, type OtpInputProps, type PaginationItemProps, type PaginationProps, type PasswordStrengthProps, type PlaceholderProps, type Placement, type PopoverProps, type PortalProps, type ProgressBarProps, type ProgressProps, type RadioGroupProps, type RadioProps, type RangeCalendarProps, type RangeInputProps, type RowProps, type SelectOptionDef, type SelectProps, type Shapes, type Sizing, type SkeletonLoaderProps, type SkeletonProps, type Spacing, type SpinnerProps, type StackProps, type StaticTableProps, type StepperItemDef, type StepperItemProps, type StepperProps, type SwitchProps, type TabListProps, type TabPanelProps, type TabProps, type TableBodyProps, type TableCellProps, type TableColumnProps, type TableHeaderProps, type TableProps, type TableRowProps, type TabsProps, type TextInputProps, type TextareaProps, type ToastBodyProps, type ToastContent, type ToastFooterProps, type ToastHeaderProps, type ToastIconProps, type ToastProps, type ToasterProps, type TooltipProps, type UseDrawerResult, type UseModalResult, type UseNotificationResult, type UsePaginationResult, type UseToastResult, type VisuallyHiddenProps };
+//#region src/components/nav-overflow/NavOverflow.d.ts
+interface NavOverflowDetail {
+  /**
+   * How many items are in the menu.
+   */
+  overflowCount: number;
+  /**
+   * How many items are left in the list.
+   */
+  visibleCount: number;
+}
+type NavOverflowOwnProps<C extends ElementType> = {
+  /**
+   * The list to collapse: a `Nav`, a `NavbarNav` or a `TabList`.
+   */
+  children?: ReactNode;
+  /**
+   * A string of all className you want applied to the component.
+   */
+  className?: string;
+  /**
+   * Moves every item into the menu while the component is narrower than this: a width in pixels,
+   * or the name of a breakpoint, read from `--cx-breakpoint-{name}`.
+   */
+  collapseBelow?: Breakpoint | number;
+  /**
+   * Component used for the root node. Either a string to use an HTML element or a component.
+   *
+   * @default 'div'
+   */
+  component?: C;
+  /**
+   * Which side of the toggle's text its icon is on.
+   *
+   * @default 'start'
+   */
+  iconPlacement?: 'end' | 'start';
+  /**
+   * Renders the menu in a container element instead of inside the toggle's item, where an
+   * ancestor with `overflow` set would clip it: an element, or `true` for `document.body`. The
+   * menu of a `TabList` is always rendered outside it.
+   */
+  menuContainer?: Element | boolean;
+  /**
+   * Where the menu opens, relative to the toggle. It flips to stay in view.
+   *
+   * @default 'bottom-end'
+   * @type 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end' | 'right' | 'right-start' | 'right-end'
+   */
+  menuPlacement?: Placement;
+  /**
+   * The toggle's icon: an icon name, or an element of your own icon set. Defaults to
+   * `IconProvider`'s `more` icon.
+   */
+  moreIcon?: IconValue;
+  /**
+   * The accessible name of a toggle without text (`moreText={false}`).
+   *
+   * @default 'More'
+   */
+  moreLabel?: string;
+  /**
+   * The toggle's text. `false` leaves the icon alone, named by `moreLabel`.
+   *
+   * @default 'More'
+   */
+  moreText?: ReactNode | false;
+  /**
+   * Callback fired when items move into the menu or back out of it, with the number of items in
+   * the menu and in the list.
+   */
+  onOverflow?: (detail: NavOverflowDetail) => void;
+  /**
+   * The fewest items to leave in the list. They stay even when they don't fit.
+   *
+   * @default 0
+   */
+  threshold?: number;
+};
+type NavOverflowProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, NavOverflowOwnProps<C>>;
+type NavOverflowComponent = (<C extends ElementType = 'div'>(props: NavOverflowProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+export declare const NavOverflow: NavOverflowComponent;
+//#endregion
+export { type AccordionBodyProps, type AccordionHeaderProps, type AccordionItemDef, type AccordionItemProps, type AccordionProps, type AlertBodyProps, type AlertCancelProps, type AlertCodeProps, type AlertFooterProps, type AlertIconProps, type AlertProps, type AlertTextProps, type AlertTitleProps, type AutocompleteGroupProps, type AutocompleteItemProps, type AutocompleteProps, type AvatarImageProps, type AvatarProps, type AvatarStackItemDef, type AvatarStackProps, type BadgeProps, type BreadcrumbItemDef, type BreadcrumbItemProps, type BreadcrumbProps, type Breakpoint, type ButtonGroupProps, type ButtonObject, type ButtonProps, type ButtonToolbarProps, type CalendarLabels, type CalendarMultipleProps, type CalendarProps, type CalendarSingleProps, type CardBodyProps, type CardFooterProps, type CardGroupProps, type CardHeaderProps, type CardImageOverlayProps, type CardImageProps, type CardLinkProps, type CardProps, type CardSubtitleProps, type CardTextProps, type CardTitleProps, type CarouselControlNextProps, type CarouselControlPrevProps, type CarouselEnds, type CarouselIndicatorsProps, type CarouselInnerProps, type CarouselItemProps, type CarouselOverlayProps, type CarouselPlayPauseProps, type CarouselProps, type CarouselSlideDetail, type CarouselTransition, type CheckboxGroupProps, type CheckboxProps, type ChipInputProps, type ChipProps, type CloseButtonProps, type ColProps, type CollapseProps, type ColorInputProps, type ComboboxGroupProps, type ComboboxItemProps, type ComboboxProps, type ContainerProps, type ContextColor, type ContextStyle, type DataGridBodyProps, type DataGridCellProps, type DataGridColumnProps, type DataGridHeaderProps, type DataGridProps, type DataGridRowProps, type DataGridSelectionCellProps, type DatePickerMultipleProps, type DatePickerProps, type DatePickerSingleProps, type DateRangePickerProps, type DateRangePreset, type DrawerBodyProps, type DrawerFooterProps, type DrawerHeaderProps, type DrawerProps, type DrawerTitleProps, type ExtendedSizing, type FileInputProps, type FlexProps, type FloatingInputProps, type FormFeedbackProps, type FormFieldProps, type FormHelpProps, type FormLabelProps, type FormProps, type GridItemLayout, type GridItemProps, type GridProps, I18nProvider, type IconComponentProps, type IconKey, type IconProps, type IconProviderProps, type IconValue, type InputAdornProps, type InputGroupAddonProps, type InputGroupProps, type LinkProps, type ListItemDef, type ListItemProps, type ListProps, type MenuAutoClose, type MenuDividerDef, type MenuDividerProps, type MenuFocusStrategy, type MenuHeaderDef, type MenuHeaderProps, type MenuItemDef, type MenuItemProps, type MenuItemsDef, type MenuListProps, type MenuProps, type MenuSubmenuBackProps, type MenuSubmenuProps, type MenuTextProps, type MenuToggleProps, type ModalBodyProps, type ModalFooterProps, type ModalHeaderProps, type ModalProps, type ModalTitleProps, type NavItemDef, type NavItemProps, type NavLinkProps, type NavOverflowDetail, type NavOverflowProps, type NavProps, type NavTitleProps, type NavbarBrandProps, type NavbarNavProps, type NavbarProps, type NavbarTextProps, type NavbarTogglerProps, type NotificationContent, type NotificationIconProps, type NotificationProps, type NotificationStackProps, type NotificationTextProps, type NotificationTitleProps, type OtpInputProps, type PaginationItemProps, type PaginationProps, type PasswordStrengthProps, type PlaceholderProps, type Placement, type PopoverProps, type PortalProps, type ProgressBarProps, type ProgressProps, type RadioGroupProps, type RadioProps, type RangeCalendarProps, type RangeInputProps, type RowProps, type SelectOptionDef, type SelectProps, type Shapes, type Sizing, type SkeletonLoaderProps, type SkeletonProps, type Spacing, type SpinnerProps, type StackProps, type StaticTableProps, type StepperItemDef, type StepperItemProps, type StepperProps, type SwitchProps, type TabListProps, type TabPanelProps, type TabProps, type TableBodyProps, type TableCellProps, type TableColumnProps, type TableHeaderProps, type TableProps, type TableRowProps, type TabsProps, type TextInputProps, type TextareaProps, type ToastBodyProps, type ToastContent, type ToastFooterProps, type ToastHeaderProps, type ToastIconProps, type ToastProps, type ToasterProps, type TooltipProps, type UseDrawerResult, type UseModalResult, type UseNotificationResult, type UsePaginationResult, type UseToastResult, type VisuallyHiddenProps };
 ```

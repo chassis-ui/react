@@ -131,6 +131,11 @@ page has hydrated:
   near the turn of a month. Give a server-rendered calendar a `value` or `defaultValue` to fix the
   month.
 
+- **What fits in a `NavOverflow`.** Which items fit depends on a width the server doesn't have, so
+  it renders every item, with the toggle hidden. Until the page has hydrated, the items that don't
+  fit are clipped at the wrapper's edge and the row scrolls, so every link can still be reached.
+  The first render in the browser then measures and moves them into the menu before it paints.
+
 A slide rendered by a component of your own, rather than a `CarouselItem` written directly inside
 `CarouselInner`, is found after hydration too: the carousel counts its slides from the page then.
 

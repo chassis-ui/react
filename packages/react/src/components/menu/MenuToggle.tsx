@@ -25,6 +25,13 @@ type MenuToggleOwnProps<C extends ElementType> = {
    */
   active?: boolean
   /**
+   * Draws the caret after the toggle's content. Set it to `false` for a toggle that shows what it
+   * is another way, such as an icon-only "more" button.
+   *
+   * @default true
+   */
+  caret?: boolean
+  /**
    * A string of all className you want applied to the base component.
    */
   className?: string
@@ -73,7 +80,17 @@ type MenuToggleComponent = (<C extends ElementType = typeof Button>(
 ) => ReactElement | null) & { displayName?: string }
 
 function MenuToggleRender<C extends ElementType = typeof Button>(
-  { children, className, component, href, onClick, onKeyDown, ...rest }: MenuToggleProps<C>,
+  {
+    children,
+    caret = true,
+    className,
+    component,
+    href,
+    onClick,
+    onKeyDown,
+    tabIndex,
+    ...rest
+  }: MenuToggleProps<C>,
   ref: PolymorphicRef<C>
 ) {
   const { hide, menuTriggerProps, reference, targetRef, toggleNodeRef, visible } =
@@ -141,10 +158,12 @@ function MenuToggleRender<C extends ElementType = typeof Button>(
       // `show` mirrors `MenuList`'s own `{ show: visible }` and vanilla menu.js's
       // `this._element.classList.add('show')` — it's what puts the trigger itself into a
       // pressed look while its menu is open (`.button.show`/`.nav-item.show .nav-link`).
-      className={classNames('caret', { show: visible }, className)}
+      className={classNames({ caret, show: visible }, className)}
       {...(mergeProps({ onPointerDown: handlePointerDown }, rest, buttonProps, {
         onClick: handleClick,
-        onKeyDown
+        onKeyDown,
+        // The caller's, when it gives one: react-aria's own `tabIndex` would replace it.
+        ...(tabIndex !== undefined && { tabIndex })
       }) as Record<string, unknown>)}
       // After `buttonProps`: for an `<a>`, react-aria returns an `href` of its own, the one it was
       // given, which is none.

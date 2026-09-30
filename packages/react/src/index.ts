@@ -137,6 +137,7 @@ import {
   AlertText,
   AlertTitle
 } from './components/alert'
+import { NavOverflow } from './components/nav-overflow'
 
 export {
   Chip,
@@ -317,7 +318,8 @@ export {
   AlertFooter,
   AlertIcon,
   AlertText,
-  AlertTitle
+  AlertTitle,
+  NavOverflow
 }
 
 // Type-only public surface. Kept as `export type ... from` re-exports (the same shape
@@ -464,7 +466,13 @@ export type {
   ModalProps,
   ModalTitleProps
 } from './components/modal'
-export type { NavItemDef, NavLinkProps, NavProps, NavTitleProps } from './components/nav'
+export type {
+  NavItemDef,
+  NavItemProps,
+  NavLinkProps,
+  NavProps,
+  NavTitleProps
+} from './components/nav'
 export type {
   NavbarBrandProps,
   NavbarNavProps,
@@ -518,6 +526,7 @@ export type {
 export type { TooltipProps } from './components/tooltip'
 export type { PortalProps } from './components/portal'
 export type { VisuallyHiddenProps } from './components/visually-hidden'
+export type { NavOverflowDetail, NavOverflowProps } from './components/nav-overflow'
 export type {
   AlertBodyProps,
   AlertCancelProps,

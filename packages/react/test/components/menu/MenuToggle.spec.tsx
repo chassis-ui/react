@@ -68,6 +68,35 @@ describe('MenuToggle', () => {
       expect(toggle).toHaveClass('show')
     })
 
+    test('leaves the caret out with caret={false}', () => {
+      render(
+        <Menu>
+          <MenuToggle caret={false} aria-label="More">
+            …
+          </MenuToggle>
+          <MenuList>
+            <MenuItem>A</MenuItem>
+          </MenuList>
+        </Menu>
+      )
+      const toggle = screen.getByRole('button', { name: 'More' })
+      expect(toggle).toHaveClass('button')
+      expect(toggle).not.toHaveClass('caret')
+    })
+
+    // react-aria writes a `tabIndex` of its own, which used to replace the caller's.
+    test("keeps the caller's tabIndex", () => {
+      render(
+        <Menu>
+          <MenuToggle tabIndex={-1}>Test</MenuToggle>
+          <MenuList>
+            <MenuItem>A</MenuItem>
+          </MenuList>
+        </Menu>
+      )
+      expect(screen.getByRole('button', { name: 'Test' })).toHaveAttribute('tabindex', '-1')
+    })
+
     test('renders as a NavLink when component is overridden', () => {
       render(
         <Menu>

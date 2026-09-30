@@ -1,6 +1,8 @@
 import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
+import { resolveElementTag } from '../../utils/elementKind'
+import { NavOverflowItems } from '../../utils/navOverflow'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -89,7 +91,10 @@ function NavRender<C extends ElementType = 'ul'>(
   // `NavLink`s without items.
   return (
     <Component className={_className} {...rest} ref={ref}>
-      {autoContent ?? children}
+      {/* Inside a `NavOverflow`, the items it collapses and its toggle item. */}
+      <NavOverflowItems tag={resolveElementTag(Component)}>
+        {autoContent ?? children}
+      </NavOverflowItems>
     </Component>
   )
 }

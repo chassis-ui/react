@@ -25,9 +25,14 @@ interface Props {
    * @default 'jsx'
    */
   lang?: string
+  /**
+   * Renders the preview in a box the reader can resize by its corner, for a component that
+   * follows the width of its container.
+   */
+  resizable?: boolean
 }
 
-const { class: className, id, code, customMarkup, lang = 'jsx' } = Astro.props
+const { class: className, id, code, customMarkup, lang = 'jsx', resizable } = Astro.props
 const markup = customMarkup ?? code
 
 // const sourceMarkup = replacePlaceholdersInHtml(markup).replace(' client:load', '')
@@ -45,7 +50,13 @@ const simplifiedMarkup = markup
 
 <div class="cxd-example-snippet cxd-code-snippet" data-pagefind-ignore>
   <div id={id} class:list={['cxd-example m-0 border-0 context', className]}>
-    <slot />
+    {resizable ? (
+      <div class="cxd-resizable-container">
+        <slot />
+      </div>
+    ) : (
+      <slot />
+    )}
   </div>
   {simplifiedMarkup && <Code code={simplifiedMarkup} lang={lang} nestedInExample hasPreview />}
 </div>

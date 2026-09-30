@@ -1091,15 +1091,60 @@ before closing still loses focus: the chain loops, and gives up.
 Model: **Fable**: measuring layout during render and moving items without a flash is a new model
 here.
 
-- [ ] Read `nav-overflow.js` and `components/nav-overflow.mdx` of chassis-css: options (minimum
-      visible items, collapse all, toggle text and icon, kept items), methods, events.
-- [ ] A component around `Nav` (and `Tabs`' list, and inside a `Navbar`) that measures with a
+- [x] Read `nav-overflow.js` and `components/nav-overflow.mdx` of chassis-css: options (minimum
+      visible items, collapse all, toggle text and icon, kept items), methods, events. Kept by
+      name: `threshold`, `collapseBelow`, `moreText`, `moreIcon`, `iconPlacement`,
+      `menuPlacement`; `.nav-overflow-keep` is `keepVisible` on `NavItem` and `Tab`; the
+      `overflow` event is `onOverflow`. Added: `moreLabel` (the name of an icon-only toggle, which
+      the plugin fixes at "More") and `menuContainer`. No `update` method: nothing needs it.
+- [x] A component around `Nav` (and `Tabs`' list, and inside a `Navbar`) that measures with a
       `ResizeObserver` and moves the items that don't fit into a `Menu` ("More"). The server
       renders every item visible; decide what the first paint shows and document it in the SSR
-      page.
-- [ ] Keyboard and screen reader order stay the item order; the active item is never hidden.
+      page. Nothing is cloned, as the plugin clones links: a list renders `NavOverflowItems`, an
+      item registers its `<li>` and its link the props a `MenuItem` is rendered from
+      (`src/utils/navOverflow.tsx`), so `onClick` and a router link given with `asChild` work
+      from the menu. The toggle and its `Menu` reach the list through context, and stay out of
+      `nav`'s and `tabs`' chunks. `Tabs` now finds its `TabList` one level down, inside the
+      element that holds it. First paint, decided here: every item, with the row clipped at the
+      wrapper's edge and scrollable until the page has hydrated, rather than running over what is
+      beside it as under the plugin. The first render in the browser measures in a layout effect,
+      and a resize commits with `flushSync` from the observer, so no frame shows the old layout
+      (measured frame by frame in Chromium, Firefox and WebKit on the docs page).
+- [x] Keyboard and screen reader order stay the item order; the active item is never hidden.
+      Neither is the item that has focus. In a `TabList` the toggle is a `tab` with
+      `aria-haspopup`, reached with the arrow keys among the tabs that are shown; a tab chosen
+      in the menu is selected, shown and focused; the menu is portaled, since a `tablist` owns
+      tabs only.
 
-Changeset: minor.
+Changeset: minor. Rule in CONVENTIONS.md, "Measured layout". No visual regression spec: the
+styles are chassis-css's.
+
+An independent review of the diff found seven defects before the commit, each now with a test: a
+tab list in manual activation could hide the tab holding its Tab stop (that tab is now kept); an
+`asChild` element's own `ref` and `id` went to the copy in the menu; handlers a `Tooltip` around a
+link adds were replayed on the menu item (it gets `onClick` only); `Tabs` read the children of a
+`TabPanel` written before the list, waiting for content that isn't shown, and missed a list under
+`<NavOverflow asChild>`; an observer leaked when the wrapper became another element; a caller's
+ref that is a new function each render made the list's measure find no wrapper; and focus fell to
+the page when a resize hid the focused toggle or removed the focused menu item. From its notes:
+the toggle is now the list's only Tab stop while it has focus, so Shift+Tab leaves the list.
+
+Left open: a link chosen in the menu loses focus when the menu closes, as any `Menu` item does.
+A `Nav` of bare `NavLink`s (`component="nav"`) doesn't collapse, as under the plugin, which also
+needs `.nav-item`s. A vertical `Tabs` isn't supported: the wrapper keeps the list on one line.
+
+Found on the way, in chassis-css (not filed; the maintainer's):
+
+- `collapseBelow` with a breakpoint name reads `--cx-breakpoint-{name}` with `parseFloat`. The
+  tokens are in `rem` since 0.5.0 (`48rem`), so the plugin compares the width with 48, not 768.
+  The component converts `rem`.
+- The plugin reserves the toggle's width before it knows anything overflows, so a list that fits
+  exactly loses its last item. The component checks the fit without the toggle first.
+- 0.5.2's `.nav-link` has no `gap`, so the toggle's icon touches its text, here as under the
+  plugin. The unreleased `_nav.scss` adds one.
+
+Also changed: `MenuToggle` takes `caret={false}` and keeps a `tabIndex` it is given;
+`IconProvider`'s `icons` has `more`; the docs' `<Example>` takes `resizable`.
 
 ### B13 — `Scrollspy` (F9)
 

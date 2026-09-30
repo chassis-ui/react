@@ -57,6 +57,16 @@ Add `icon`/`description` to a `MenuItem` for a leading icon and a secondary line
   <RichContentExample client:load />
 </Example>
 
+### Toggle without a caret
+
+`MenuToggle` draws a caret after its content. Set `caret={false}` for a toggle that shows what it is another way, such as an icon-only button, and give it an `aria-label`.
+
+```tsx
+<MenuToggle caret={false} aria-label="More actions">
+  <Icon name="ellipsis-h-solid" />
+</MenuToggle>
+```
+
 ## Menu content
 
 ### Headers

@@ -16,6 +16,7 @@ import {
 } from '../../utils/polymorphic'
 import { TabProps } from './Tab'
 import { TabList } from './TabList'
+import { TabPanel } from './TabPanel'
 import { TabsContext } from './context'
 
 type TabsOwnProps<C extends ElementType> = {
@@ -89,10 +90,11 @@ function TabsRender<C extends ElementType = 'div'>(
   // `isElementOfType` rather than `child.type === TabList`: written in a Server Component, the
   // children's types are lazy wrappers (see `utils/lazyElement`).
   const childArray = React.Children.toArray(children)
-  const tabListChild = childArray.find((child) =>
-    isElementOfType<{ children?: ReactNode }>(child, TabList)
-  )
-  const panelChildren = childArray.filter((child) => child !== tabListChild)
+  // The `TabList`, or the element that holds it: a `NavOverflow` around the list is found inside
+  // it, and rendered where the list would be.
+  const tabListHolder = childArray.find((child) => findTabList(child) !== undefined)
+  const tabListChild = findTabList(tabListHolder)
+  const panelChildren = childArray.filter((child) => child !== tabListHolder)
   const tabs = (tabListChild ? React.Children.toArray(tabListChild.props.children) : []).filter(
     (child): child is ReactElement<TabProps> => React.isValidElement(child)
   )
@@ -145,11 +147,30 @@ function TabsRender<C extends ElementType = 'div'>(
   return (
     <TabsContext.Provider value={{ keyboardActivation, orientation, state, isInitialSelectionRef }}>
       <Component className={className} {...rest} ref={ref}>
-        {tabListChild}
+        {tabListHolder}
         <div className="tab-content">{panelChildren}</div>
       </Component>
     </TabsContext.Provider>
   )
+}
+
+type TabListElement = ReactElement<{ children?: ReactNode }>
+
+const isTabList = (child: unknown): child is TabListElement =>
+  isElementOfType<{ children?: ReactNode }>(child, TabList)
+
+// `child` when it is the `TabList`, or the `TabList` inside it: one level down, or two, which is
+// where `<NavOverflow asChild>` around an element of the caller's puts it. Never inside a
+// `TabPanel`: reading a panel's children would wait for content that isn't shown.
+function findTabList(child: unknown, depth = 2): TabListElement | undefined {
+  if (isTabList(child)) return child
+  if (depth === 0 || isElementOfType(child, TabPanel)) return undefined
+  if (!React.isValidElement<{ children?: ReactNode }>(child)) return undefined
+  for (const inner of React.Children.toArray(child.props.children)) {
+    const found = findTabList(inner, depth - 1)
+    if (found) return found
+  }
+  return undefined
 }
 
 function firstEnabledKey(tabs: ReactElement<TabProps>[], disabled: Set<Key>): Key | undefined {

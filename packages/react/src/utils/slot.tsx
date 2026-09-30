@@ -39,6 +39,10 @@ const SlotContext = createContext<SlotElement | null>(null)
 
 export const SlotProvider = SlotContext.Provider
 
+// The element `asChild` handed to the nearest polymorphic component, for a component rendered
+// beside its `Slot`. A render function can't read it: it runs above the provider.
+export const useSlotElement = (): SlotElement | null => useContext(SlotContext)
+
 // The ref the caller put on an element. React 19 made `ref` an ordinary prop, and warns on
 // reading `element.ref`.
 export function getElementRef<T = unknown>(element: ReactElement): Ref<T> | undefined {

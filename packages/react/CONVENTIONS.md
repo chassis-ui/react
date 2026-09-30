@@ -287,6 +287,38 @@ value instead.
 the first paint of each case in `test/ssr/firstPaint.tsx`, which `hydrate.spec.tsx` hydrates too. A
 component whose markup changes after it mounts gets a case there.
 
+## Measured layout: read in a layout effect, commit before the paint
+
+`NavOverflow` is the one component whose markup depends on a width. How it does that without a
+frame of the wrong markup, for anything that comes to need the same:
+
+- **The server renders what needs no measuring**, and says so in the SSR guide: every item, with
+  the toggle item in the list and hidden. `useHydrated` holds a style for the time before the
+  first measurement (the row clipped and scrollable), so nothing a server can't know is in its
+  HTML.
+- **Measure in a layout effect, set state there.** React renders that update before the browser
+  paints. The list measures again after each of its commits.
+- **From an observer, commit with `flushSync`.** A `ResizeObserver` callback runs before the
+  paint too, but a plain state update from it renders a task later, which is one frame of items
+  running past the edge. A `MutationObserver` covers what resizes nothing, such as a router link
+  that becomes the current one.
+- **Measuring may change the DOM, and must put it back before it returns.** Widths are read with
+  every item shown, outside React, in one synchronous block. React never sees the difference, and
+  a forced layout after restoring keeps other observers from being told sizes that were never
+  painted.
+- **Don't feed the result back in.** Observe the element whose width is an input (the wrapper),
+  never one whose width the result changes (the list). Changing a size from inside the callback
+  that reported a size above it is a `ResizeObserver` loop error: an item's own resize waits a
+  frame, and the wrapper is observed again from the next frame after a pass that moved anything.
+- **What is measured registers itself.** An item registers its element and its link's props
+  through context (`src/utils/navOverflow.tsx`), under an id of its own, so a wrapper component,
+  a fragment, or a Server Component's lazy element makes no difference. The menu renders
+  `MenuItem`s from those props. Nothing is cloned, so handlers and router links keep working.
+
+jsdom lays nothing out: `test/components/nav-overflow/NavOverflow.spec.tsx` gives the widths and
+a `ResizeObserver` itself, and the stories' `play` functions check the same in three real
+browsers.
+
 ## `component` polymorphism: `Row`/`Col` deliberately don't have it
 
 Most components in this library take a `component` prop (`PolymorphicComponentProps<C, OwnProps<C>>`

@@ -1,6 +1,8 @@
-import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
+import React, { ElementType, ForwardRefRenderFunction, ReactElement, useContext } from 'react'
 import classNames from 'classnames'
 
+import { resolveElementTag } from '../../utils/elementKind'
+import { NavOverflowContext, NavOverflowItems } from '../../utils/navOverflow'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -32,11 +34,14 @@ function NavbarNavRender<C extends ElementType = 'ul'>(
   ref: PolymorphicRef<C>
 ) {
   const Component = component ?? 'ul'
-  const _className = classNames('navbar-nav', className)
+  // Inside a `NavOverflow` the list is also a `.nav`, which is what chassis-css keeps on one line
+  // there (`.nav-overflow > .nav`).
+  const overflows = useContext(NavOverflowContext) !== null
+  const _className = classNames({ nav: overflows }, 'navbar-nav', className)
 
   return (
     <Component className={_className} {...rest} ref={ref}>
-      {children}
+      <NavOverflowItems tag={resolveElementTag(Component)}>{children}</NavOverflowItems>
     </Component>
   )
 }

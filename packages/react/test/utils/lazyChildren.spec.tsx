@@ -13,7 +13,10 @@ import {
   IconProvider,
   List,
   ListItem,
+  Nav,
   NavbarToggler,
+  NavItem,
+  NavOverflow,
   Popover,
   Stepper,
   StepperItem,
@@ -52,6 +55,36 @@ const CASES: Record<string, (wrap: Wrap) => React.ReactElement> = {
       {wrap(<TabPanel id="a">Panel A</TabPanel>)}
       {wrap(<TabPanel id="b">Panel B</TabPanel>)}
     </Tabs>
+  ),
+  // `Tabs` looks for its `TabList` inside the element that holds it.
+  'Tabs with its list in a NavOverflow': (wrap) => (
+    <Tabs defaultSelectedKey="a">
+      {wrap(
+        <NavOverflow>
+          {wrap(
+            <TabList aria-label="Sections">
+              {wrap(<Tab id="a">A</Tab>)}
+              {wrap(<Tab id="b">B</Tab>)}
+            </TabList>
+          )}
+        </NavOverflow>
+      )}
+      {wrap(<TabPanel id="a">Panel A</TabPanel>)}
+    </Tabs>
+  ),
+  NavOverflow: (wrap) => (
+    <NavOverflow>
+      {wrap(
+        <Nav>
+          {wrap(<NavItem href="/a">A</NavItem>)}
+          {wrap(
+            <NavItem asChild>
+              <a href="/b">B</a>
+            </NavItem>
+          )}
+        </Nav>
+      )}
+    </NavOverflow>
   ),
   List: (wrap) => (
     <List>

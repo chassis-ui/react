@@ -177,4 +177,34 @@ describe('first paint on the server', () => {
     const page = within(firstPaint('Tooltip open'))
     expect(page.getByRole('button', { name: 'Help' })).not.toHaveAttribute('aria-describedby')
   })
+
+  // A server can't know what fits: it renders every item, and the toggle item hidden. Until the
+  // page has hydrated the wrapper clips the row and lets it scroll.
+  test('a NavOverflow renders every item, clipped, until its width is known', () => {
+    const page = within(firstPaint('NavOverflow around a Nav'))
+    expect(page.getByTestId('wrapper')).toHaveAttribute(
+      'style',
+      expect.stringContaining('overflow-x:auto')
+    )
+    expect(page.getAllByRole('link')).toHaveLength(3)
+    const listItems = page.getAllByRole('listitem')
+    expect(listItems).toHaveLength(4)
+    for (const listItem of listItems) {
+      expect(listItem).not.toHaveAttribute('data-cx-nav-overflow')
+    }
+    // The toggle item, the last one: there, hidden, with nothing in its menu.
+    expect(listItems[3]).toHaveClass('nav-overflow-item', 'd-none')
+    expect(page.getByRole('menu')).toBeEmptyDOMElement()
+  })
+
+  test('a NavOverflow around a TabList renders every tab, and its menu after hydration', () => {
+    const page = within(firstPaint('NavOverflow around a TabList'))
+    const tabs = page.getAllByRole('tab')
+    expect(tabs.map((tab) => tab.textContent)).toEqual(['One', 'Two', 'More'])
+    expect(tabs[0]).toHaveAttribute('aria-selected', 'true')
+    expect(page.getAllByRole('presentation')[2]).toHaveClass('nav-overflow-item', 'd-none')
+    // The menu of a tab list is portaled, and a portal has no server equivalent.
+    expect(page.queryByRole('menu')).not.toBeInTheDocument()
+    expect(page.getByRole('tabpanel')).toHaveTextContent('Panel one')
+  })
 })

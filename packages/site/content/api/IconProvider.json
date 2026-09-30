@@ -104,7 +104,7 @@
     },
     "icons": {
       "defaultValue": null,
-      "description": "The icon to render for each of the library's own icons, by purpose. Unset ones keep their\ndefaults (`check-solid`, `chevron-left-outline`, `chevron-right-outline`, `bars-outline`,\n`play-solid`, `pause-solid`).",
+      "description": "The icon to render for each of the library's own icons, by purpose. Unset ones keep their\ndefaults (`check-solid`, `chevron-left-outline`, `chevron-right-outline`, `bars-outline`,\n`ellipsis-h-solid`, `play-solid`, `pause-solid`).",
       "name": "icons",
       "parent": {
         "fileName": "packages/react/src/utils/iconConfig.ts",

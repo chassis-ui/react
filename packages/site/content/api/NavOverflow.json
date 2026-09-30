@@ -1,0 +1,244 @@
+{
+  "tags": {},
+  "filePath": "packages/react/src/components/nav-overflow/NavOverflow.tsx",
+  "description": "",
+  "displayName": "NavOverflow",
+  "methods": [],
+  "props": {
+    "children": {
+      "defaultValue": null,
+      "description": "The list to collapse: a `Nav`, a `NavbarNav` or a `TabList`.",
+      "name": "children",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/nav-overflow/NavOverflow.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/nav-overflow/NavOverflow.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "collapseBelow": {
+      "defaultValue": null,
+      "description": "Moves every item into the menu while the component is narrower than this: a width in pixels,\nor the name of a breakpoint, read from `--cx-breakpoint-{name}`.",
+      "name": "collapseBelow",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/nav-overflow/NavOverflow.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number | Breakpoint"
+      }
+    },
+    "component": {
+      "defaultValue": {
+        "value": "'div'"
+      },
+      "description": "Component used for the root node. Either a string to use an HTML element or a component.",
+      "name": "component",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/nav-overflow/NavOverflow.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ElementType"
+      }
+    },
+    "iconPlacement": {
+      "defaultValue": {
+        "value": "'start'"
+      },
+      "description": "Which side of the toggle's text its icon is on.",
+      "name": "iconPlacement",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/nav-overflow/NavOverflow.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"start\" | \"end\"",
+        "value": [
+          {
+            "value": "\"start\""
+          },
+          {
+            "value": "\"end\""
+          }
+        ]
+      }
+    },
+    "menuContainer": {
+      "defaultValue": null,
+      "description": "Renders the menu in a container element instead of inside the toggle's item, where an\nancestor with `overflow` set would clip it: an element, or `true` for `document.body`. The\nmenu of a `TabList` is always rendered outside it.",
+      "name": "menuContainer",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/nav-overflow/NavOverflow.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean | Element"
+      }
+    },
+    "menuPlacement": {
+      "defaultValue": {
+        "value": "'bottom-end'"
+      },
+      "description": "Where the menu opens, relative to the toggle. It flips to stay in view.",
+      "name": "menuPlacement",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/nav-overflow/NavOverflow.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end' | 'right' | 'right-start' | 'right-end'"
+      }
+    },
+    "moreIcon": {
+      "defaultValue": null,
+      "description": "The toggle's icon: an icon name, or an element of your own icon set. Defaults to\n`IconProvider`'s `more` icon.",
+      "name": "moreIcon",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/nav-overflow/NavOverflow.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "IconValue"
+      }
+    },
+    "moreLabel": {
+      "defaultValue": {
+        "value": "'More'"
+      },
+      "description": "The accessible name of a toggle without text (`moreText={false}`).",
+      "name": "moreLabel",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/nav-overflow/NavOverflow.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "moreText": {
+      "defaultValue": {
+        "value": "'More'"
+      },
+      "description": "The toggle's text. `false` leaves the icon alone, named by `moreLabel`.",
+      "name": "moreText",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/nav-overflow/NavOverflow.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "onOverflow": {
+      "defaultValue": null,
+      "description": "Callback fired when items move into the menu or back out of it, with the number of items in\nthe menu and in the list.",
+      "name": "onOverflow",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/nav-overflow/NavOverflow.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((detail: NavOverflowDetail) => void)"
+      }
+    },
+    "threshold": {
+      "defaultValue": {
+        "value": "0"
+      },
+      "description": "The fewest items to leave in the list. They stay even when they don't fit.",
+      "name": "threshold",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/nav-overflow/NavOverflow.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number"
+      }
+    },
+    "asChild": {
+      "defaultValue": null,
+      "description": "Render the single child element in place of this component's own element, with this\ncomponent's classes, props and ref merged onto it: `<Button asChild><Link href=\"/login\">Log\nin</Link></Button>`. The alternative to `component` for React Server Components — an element\ncan be passed from the server to this package's client components, a component reference\n(`component={Link}`) can't.",
+      "name": "asChild",
+      "parent": {
+        "fileName": "packages/react/src/utils/polymorphic.ts",
+        "name": "AsChildProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/utils/polymorphic.ts",
+          "name": "AsChildProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/nav-overflow/NavOverflow.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "any"
+      }
+    }
+  }
+}

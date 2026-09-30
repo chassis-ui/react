@@ -1,0 +1,188 @@
+---
+title: Nav Overflow
+description: Collapse the items of a Nav, a TabList or a NavbarNav that don't fit their container into a "More" menu, the Priority+ pattern.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/nav-overflow/BasicExample.tsx'
+import { Example as TabsVariantExample } from '../../examples/components/nav-overflow/TabsVariantExample.tsx'
+import { Example as TabListExample } from '../../examples/components/nav-overflow/TabListExample.tsx'
+import { Example as KeepVisibleExample } from '../../examples/components/nav-overflow/KeepVisibleExample.tsx'
+import { Example as DisabledExample } from '../../examples/components/nav-overflow/DisabledExample.tsx'
+import { Example as NavbarExample } from '../../examples/components/nav-overflow/NavbarExample.tsx'
+import { Example as ToggleExample } from '../../examples/components/nav-overflow/ToggleExample.tsx'
+import { Example as ThresholdExample } from '../../examples/components/nav-overflow/ThresholdExample.tsx'
+import { Example as CollapseBelowExample } from '../../examples/components/nav-overflow/CollapseBelowExample.tsx'
+
+## Overview
+
+`<NavOverflow>` wraps a list of links and keeps it on one line. It measures its own width, and
+moves the items that don't fit into a menu behind a "More" toggle at the end of the list. It
+follows the width of its container, not of the viewport, so it works in a sidebar, a card or a
+resizable panel as it does across a page.
+
+It wraps a [`Nav`]([[docsref:/components/navs-tabs]]), the `TabList` of a
+[`Tabs`]([[docsref:/components/tabs]]), or a `NavbarNav` in a
+[`Navbar`]([[docsref:/components/navbar]]), and renders chassis-css's
+[nav overflow](https://chassis-ui.com/css/docs/components/nav-overflow) markup: a `.nav-overflow`
+wrapper, the list, and a toggle item with a `.menu`.
+
+A few rules hold at every width:
+
+- Items keep their order, in the list and in the menu.
+- The active item stays in the list. So does the item that has keyboard focus, and in a tab list
+  the tab that is its Tab stop.
+- An item moves only if it is a link: a `NavItem` with `href`, `component` or `asChild`, or one
+  that holds a `NavLink`. An item with anything else inside, such as a
+  [menu]([[docsref:/components/menu]]), stays in the list.
+
+## Basic usage
+
+Wrap the `Nav` in `<NavOverflow>`. Each example on this page sits in a box that resizes from its
+bottom right corner: drag it narrower to move items into the menu.
+
+<Example resizable>
+  <BasicExample client:load />
+</Example>
+
+An item in the menu is a [`MenuItem`]([[docsref:/components/menu]]) rendered with the props of
+its link: `href`, `onClick`, `disabled`, and the element given with `asChild`. A router link keeps
+working from the menu:
+
+```tsx
+import Link from 'next/link'
+import { Nav, NavItem, NavOverflow } from '@chassis-ui/react'
+
+<NavOverflow component="nav" aria-label="Main">
+  <Nav>
+    <NavItem asChild active={pathname === '/'}>
+      <Link href="/">Home</Link>
+    </NavItem>
+    <NavItem asChild active={pathname === '/pricing'}>
+      <Link href="/pricing">Pricing</Link>
+    </NavItem>
+  </Nav>
+</NavOverflow>
+```
+
+## Tabs
+
+The pattern works with every `Nav` variant. With `variant="tabs"`:
+
+<Example resizable>
+  <TabsVariantExample client:load />
+</Example>
+
+For tabs that switch panels, wrap the `TabList` of a `Tabs`, inside the `Tabs`. A tab in the menu
+selects itself when chosen, which brings it back into the list: the selected tab is never in the
+menu.
+
+<Example resizable>
+  <TabListExample client:load />
+</Example>
+
+## Keeping items visible
+
+Set `keepVisible` on a `NavItem` or a `Tab` that should never move into the menu, such as a
+contact link. It renders chassis-css's `.nav-overflow-keep`.
+
+<Example resizable>
+  <KeepVisibleExample client:load />
+</Example>
+
+## Disabled items
+
+A disabled link is disabled in the menu too.
+
+<Example resizable>
+  <DisabledExample client:load />
+</Example>
+
+## In a navbar
+
+Inside a `Navbar`, wrap the `NavbarNav`. The wrapper takes the space the brand leaves.
+
+<Example resizable>
+  <NavbarExample client:load />
+</Example>
+
+## The toggle
+
+`moreText` sets the toggle's text and `iconPlacement` the side its icon is on. With
+`moreText={false}` the toggle is the icon alone, and `moreLabel` gives it its accessible name.
+`moreIcon` takes an icon name or an element; the default is
+[`IconProvider`]([[docsref:/components/icon#replacing-the-librarys-icons]])'s `more` icon.
+
+<Example resizable>
+  <ToggleExample client:load />
+</Example>
+
+The menu opens at `menuPlacement`, `bottom-end` by default. It is rendered inside the toggle's
+item, so an ancestor with `overflow` set clips it. `menuContainer` renders it in `document.body`,
+or in an element, instead.
+
+## Minimum visible items
+
+`threshold` is the fewest items to leave in the list. They stay even when they don't fit.
+
+<Example resizable>
+  <ThresholdExample client:load />
+</Example>
+
+## Collapsing every item
+
+Below `collapseBelow` every item moves into the menu at once, apart from the active one and those
+marked `keepVisible`. It takes a width in pixels, or the name of a breakpoint, read from
+chassis-css's `--cx-breakpoint-{name}`. It compares the width of the component, not of the
+viewport.
+
+`onOverflow` fires when items move into the menu or back, with the number in the menu and the
+number left in the list.
+
+<Example resizable>
+  <CollapseBelowExample client:load />
+</Example>
+
+## Server rendering
+
+A server can't know what fits, so it renders every item and no toggle. Until the page has hydrated,
+the items that don't fit are clipped at the wrapper's edge, and the row scrolls. The first render
+in the browser measures and collapses before anything is painted. See
+[what the server renders]([[docsref:/getting-started/ssr#what-the-server-renders]]).
+
+## Accessibility
+
+The toggle is a menu button: Enter, Space or the down arrow opens the menu, the arrow keys move
+through it, and Escape closes it and returns focus to the toggle. An item in the menu is hidden in
+the list, so it is reached and announced once. It carries the link's `onClick`, and none of its
+other handlers or its `id`: those belong to the link in the list.
+
+When a resize takes away what has focus, focus moves rather than falling to the page: to the last
+item in the list when the toggle goes, and to the toggle when a focused menu item returns to the
+list.
+
+In a `TabList` the toggle is one of the tabs, with `aria-haspopup`. It is not a Tab stop of its
+own: the arrow keys, Home and End move among the tabs that are shown and the toggle, and skip the
+tabs in the menu. Choosing a tab in the menu selects it and moves focus to it in the list. The menu
+of a tab list is always rendered in `document.body`, since a `tablist` may hold only tabs.
+
+## Scope
+
+**One line, left to right or right to left.** The wrapper stops the list from wrapping, so it
+doesn't fit a vertical nav or a vertical `Tabs`.
+
+**A list of items.** The toggle is a list item, so the list has to be a `<ul>` or an `<ol>` of
+`NavItem`s. A `<Nav component="nav">` of bare `NavLink`s stays as it is, with a warning in
+development.
+
+**No `update` method.** chassis-css's plugin has one to measure again. The component measures when
+its width, an item's width, the items or the active item change.
+
+## API
+
+### NavOverflow
+
+<PropTable component="NavOverflow" />
+
+`keepVisible` is a prop of [`NavItem`]([[docsref:/components/navs-tabs#navitem]]) and of
+[`Tab`]([[docsref:/components/tabs#tab]]).

@@ -2,7 +2,8 @@ import * as React from 'react'
 import { act, render, screen, fireEvent } from '@testing-library/react'
 import { axe } from 'jest-axe'
 
-import { Tabs, TabList, Tab, TabPanel } from '../../../src/index'
+import { NavOverflow, Tabs, TabList, Tab, TabPanel } from '../../../src/index'
+import { pendingLazyNode } from '../../utils/lazyNode'
 
 const BasicTabs = (props: Partial<React.ComponentProps<typeof Tabs>> = {}) => (
   <Tabs defaultSelectedKey="home" {...props}>
@@ -40,6 +41,72 @@ describe('Tabs', () => {
       expect(screen.getByText('Home content')).toBeInTheDocument()
       expect(screen.queryByText('Profile content')).not.toBeInTheDocument()
       expect(screen.queryByText('Contact content')).not.toBeInTheDocument()
+    })
+  })
+
+  describe('a TabList inside another element', () => {
+    // What `NavOverflow` needs: the element around the list is rendered where the list would be.
+    test('finds the list one level down and keeps its wrapper out of the panels', () => {
+      render(
+        <Tabs defaultSelectedKey="home">
+          <div data-testid="bar">
+            <TabList aria-label="Sections">
+              <Tab id="home">Home</Tab>
+              <Tab id="profile">Profile</Tab>
+            </TabList>
+            <button type="button">New</button>
+          </div>
+          <TabPanel id="home">Home content</TabPanel>
+          <TabPanel id="profile">Profile content</TabPanel>
+        </Tabs>
+      )
+      const bar = screen.getByTestId('bar')
+      expect(bar).toContainElement(screen.getByRole('tablist'))
+      expect(bar).toContainElement(screen.getByRole('button', { name: 'New' }))
+      expect(screen.getAllByRole('tab')).toHaveLength(2)
+      expect(screen.getByRole('tabpanel')).toHaveTextContent('Home content')
+      expect(bar).not.toContainElement(screen.getByRole('tabpanel'))
+    })
+  })
+
+  describe('finding the TabList', () => {
+    test('finds it two levels down, under an asChild wrapper', () => {
+      render(
+        <Tabs defaultSelectedKey="home">
+          <NavOverflow asChild>
+            <section data-testid="bar">
+              <TabList aria-label="Sections">
+                <Tab id="home">Home</Tab>
+              </TabList>
+            </section>
+          </NavOverflow>
+          <TabPanel id="home">Home content</TabPanel>
+        </Tabs>
+      )
+      expect(screen.getByTestId('bar')).toContainElement(screen.getByRole('tablist'))
+      expect(screen.getByTestId('bar')).toHaveClass('nav-overflow')
+      expect(screen.getByRole('tabpanel')).toHaveTextContent('Home content')
+    })
+
+    // Looking for the list in a panel would read the panel's children, and wait for content
+    // that isn't shown.
+    test('does not wait for the content of a panel written before the list', () => {
+      const pending = pendingLazyNode(<p>Loading content</p>)
+      render(
+        <React.Suspense fallback={<p>Waiting</p>}>
+          <Tabs defaultSelectedKey="b">
+            <TabPanel id="a">{pending.node}</TabPanel>
+            <TabList aria-label="Sections">
+              <Tab id="a">A</Tab>
+              <Tab id="b">B</Tab>
+            </TabList>
+            <TabPanel id="b">Panel B</TabPanel>
+          </Tabs>
+        </React.Suspense>
+      )
+      expect(screen.queryByText('Waiting')).not.toBeInTheDocument()
+      expect(screen.getAllByRole('tab')).toHaveLength(2)
+      expect(screen.getByRole('tabpanel')).toHaveTextContent('Panel B')
     })
   })
 
