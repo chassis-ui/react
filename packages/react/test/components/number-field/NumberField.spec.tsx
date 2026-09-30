@@ -233,6 +233,8 @@ describe('NumberField', () => {
     test('disables the input and both buttons', () => {
       render(<NumberField aria-label="Amount" defaultValue={1} disabled />)
       expect(screen.getByRole('textbox', { name: 'Amount' })).toBeDisabled()
+      // The native attribute alone, without react-aria's `aria-disabled` copy.
+      expect(screen.getByRole('textbox', { name: 'Amount' })).not.toHaveAttribute('aria-disabled')
       expect(screen.getByRole('button', { name: 'Increase Amount' })).toBeDisabled()
       expect(screen.getByRole('button', { name: 'Decrease Amount' })).toBeDisabled()
     })
@@ -242,6 +244,7 @@ describe('NumberField', () => {
       render(<NumberField aria-label="Amount" defaultValue={1} max={9} readOnly />)
       const input = screen.getByRole('textbox', { name: 'Amount' })
       expect(input).toHaveAttribute('readonly')
+      expect(input).not.toHaveAttribute('aria-readonly')
       expect(screen.getByRole('button', { name: 'Increase Amount' })).toBeDisabled()
       await user.click(input)
       await user.keyboard('{ArrowUp}{End}')

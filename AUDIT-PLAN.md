@@ -1247,6 +1247,10 @@ input takes `form` too); `style` was dropped (it goes to the outermost element);
 were 9px, not 12px, as an `em` was counted twice. Plus docs: the locale is the browser's, when
 `onChange` fires, touch focus, and AGENTS.md's visual-regression count.
 
+Found after the commit: the Nu Html Checker failed on the docs page, since react-aria's spin
+button props repeat the native `disabled`/`readOnly` as `aria-disabled`/`aria-readonly`; the
+input now leaves the copies out.
+
 `style.css`'s gzip ceiling in `.bundlewatch.config.json` went from 2 kB to 3 kB: the styles B14 and
 B15 add took it to 2.18 kB, and B16–B19 add more, by the decision to write them here.
 

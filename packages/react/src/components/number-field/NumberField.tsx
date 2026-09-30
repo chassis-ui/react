@@ -257,6 +257,10 @@ export const NumberField = forwardRef<HTMLInputElement, NumberFieldProps>(
       <input
         {...(hasWrapper ? inputProps : mergeProps(inputProps, focusWithin))}
         aria-describedby={describedBy}
+        // react-aria's spin button props repeat the native `disabled` and `readOnly` the text
+        // field sets; the Nu Html Checker flags the copies.
+        aria-disabled={undefined}
+        aria-readonly={undefined}
         aria-roledescription={hydrated ? inputProps['aria-roledescription'] : undefined}
         className={classNames(
           hasWrapper ? 'ghost-input' : 'form-input',
