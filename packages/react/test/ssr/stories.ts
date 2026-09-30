@@ -12,6 +12,13 @@ export type LoadedStory = { id: string; Story: ComponentType }
 // the stories afresh, the way a browser bundle would after the server rendered the HTML. See
 // `hydrate.spec.tsx`.
 export async function loadStories(): Promise<LoadedStory[]> {
+  // Vitest sets `NODE_ENV` to `test`, and react-stately's Virtualizer then turns windowing off:
+  // `DataGrid`'s 500-row stories rendered every row, on the server and again when hydrating, and
+  // took over a second each. A production server and browser window the rows. `VIRT_ON` switches
+  // windowing back on; the Virtualizer reads it on every layout. `test/processPolyfill.ts` does
+  // the same for the storybook project.
+  process.env.VIRT_ON = '1'
+
   const { composeStories, setProjectAnnotations } = await import('@storybook/react-vite')
   const preview = (await import('../../.storybook/preview')).default
   setProjectAnnotations(preview)
