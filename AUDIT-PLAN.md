@@ -867,9 +867,6 @@ release later.
 - [x] `Popover`, `Tooltip`: accept `className`, `style`, `id` and `data-*` for the panel, and
       forward a ref to it.
 - [x] Fix #38 and #39 here, since both are type-surface fixes in the same families.
-- [ ] **(You)** Move the consuming app to the new props when it takes this release:
-      `onVisibleChange` in place of `onShow`/`onHide` at the four call sites, and drop the local
-      `ToastContent` widening from #39.
 
 Changeset: minor. Exit: `api-report.md` diff reviewed; type tests added to `types.test-d.tsx`.
 
