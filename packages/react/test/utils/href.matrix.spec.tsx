@@ -153,6 +153,23 @@ describe('one rule for href', () => {
     )
   })
 
+  test.for([
+    ['List', 'ListItem'],
+    ['Stepper', 'StepperItem']
+  ])('%s holds a %s rendered by a router link in a <div>', ([parent, item]) => {
+    const Parent = Library[parent!]!
+    const Item = Library[item!]!
+    const markup = toStaticMarkup(
+      <Parent>
+        <Item component={RouterLink} href="/target">
+          Linked
+        </Item>
+        <Item>Plain</Item>
+      </Parent>
+    )
+    expect(markup).toMatch(/^<div class="(list|stepper)"><a data-router=""/)
+  })
+
   test('misplacedHrefs finds href on anything but a link', () => {
     expect(
       misplacedHrefs('<li href="/a"></li><a href="/b"></a><svg><use href="#i"></use></svg>')

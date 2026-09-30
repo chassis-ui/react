@@ -10,7 +10,7 @@ import { mergeProps } from 'react-aria'
 
 import { ContextColor, ContextStyle } from '../../types'
 import { useButtonSemantics, useDisabledAnchorGuard } from '../../hooks'
-import { hrefProps, linkElement, resolveElementKind } from '../../utils/elementKind'
+import { hrefProps, linkElement, resolveLinkKind } from '../../utils/elementKind'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -103,9 +103,9 @@ function CloseButtonRender<C extends ElementType = 'button'>(
   // `href` makes it an `<a>`, unless `component` or `asChild` chose the element (see
   // `linkElement`). It used to be dropped unless `component="a"` was passed as well.
   const component_ = linkElement(component, href, 'button')
-  // The kind rather than the tag: under `asChild`, `component_` is a `Slot` standing in for the
+  // The kind rather than the tag, counting a router link with `href` or `to` as an anchor: under `asChild`, `component_` is a `Slot` standing in for the
   // caller's element, and a slotted `<a>` needs what `component="a"` gets.
-  const kind = resolveElementKind(component_)
+  const kind = resolveLinkKind(component_, href, rest)
   const linkProps = hrefProps(kind, href, 'CloseButton')
 
   // A component reference (e.g. `Button`) has its own visual identity and its own

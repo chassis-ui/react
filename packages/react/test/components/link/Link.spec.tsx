@@ -167,7 +167,8 @@ describe('Link', () => {
     })
   })
 
-  describe('component reference (trusted to handle its own semantics)', () => {
+  describe('router link as component (a link, given href)', () => {
+    // Stands in for `next/link`: a component that renders an `<a>` and forwards its props.
     const CustomLink = React.forwardRef<
       HTMLAnchorElement,
       React.AnchorHTMLAttributes<HTMLAnchorElement>

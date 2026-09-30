@@ -10,7 +10,8 @@ import { STILL_FAILS } from '../ssr/stories'
 // same semantics (role, disabled handling, aria state). This runs every polymorphic component
 // through both, with and without `disabled`, and compares the attributes that carry them. The
 // child is a plain `<a>`, and then a router link: a component element that renders an `<a>`, which
-// is what a consumer hands to `asChild` in practice.
+// is what a consumer hands to `asChild` in practice. The router link passed as `component` with
+// `href` must render the same too: it counts as an anchor either way (`resolveLinkKind`).
 //
 // The list is every `createPolymorphicComponent` call under `src/components`, read from source, so
 // a new polymorphic component is covered without editing this file.
@@ -72,6 +73,12 @@ RouterLink.displayName = 'RouterLink'
 
 const CHILDREN: Record<string, React.ElementType> = { '<a>': 'a', 'router link': RouterLink }
 
+// Each way of rendering a link that must match `component="a"`.
+const FORMS = [
+  ...Object.keys(CHILDREN).map((child) => ({ form: `asChild ${child}`, child })),
+  { form: 'component={router link}', child: undefined }
+]
+
 type Attributes = Record<string, string | null> | null
 
 function attributesOf(element: React.ReactElement): Attributes {
@@ -97,13 +104,13 @@ function attributesOf(element: React.ReactElement): Attributes {
 }
 
 const cases = POLYMORPHIC.flatMap((name) =>
-  Object.keys(CHILDREN).flatMap((child) => [
-    { name, child, disabled: false, key: `${name}, ${child}` },
-    { name, child, disabled: true, key: `${name} disabled, ${child}` }
+  FORMS.flatMap(({ form, child }) => [
+    { name, child, disabled: false, key: `${name}, ${form}` },
+    { name, child, disabled: true, key: `${name} disabled, ${form}` }
   ])
 )
 
-describe('asChild with an <a> child renders what component="a" renders', () => {
+describe('a link as the asChild element or as component renders what component="a" renders', () => {
   test('finds every polymorphic component', () => {
     expect(POLYMORPHIC).toHaveLength(70)
     for (const name of POLYMORPHIC) expect(library).toHaveProperty(name)
@@ -127,7 +134,6 @@ describe('asChild with an <a> child renders what component="a" renders', () => {
   test.for(cases)('$key', ({ name, child, disabled, key }) => {
     const Component = (library as unknown as Record<string, React.ElementType>)[name]!
     const Parent = PARENTS[name] ?? React.Fragment
-    const Child = CHILDREN[child]!
     const extra = disabled ? { disabled: true } : {}
 
     const expected = attributesOf(
@@ -143,13 +149,26 @@ describe('asChild with an <a> child renders what component="a" renders', () => {
         </Component>
       </Parent>
     )
+    const Child = child === undefined ? undefined : CHILDREN[child]!
     const actual = attributesOf(
       <Parent>
-        <Component asChild {...extra}>
-          <Child href="/target" data-testid="subject">
+        {Child ? (
+          <Component asChild {...extra}>
+            <Child href="/target" data-testid="subject">
+              Content
+            </Child>
+          </Component>
+        ) : (
+          <Component
+            component={RouterLink}
+            href="/target"
+            data-testid="subject"
+            {...COMPONENT_PROPS[name]}
+            {...extra}
+          >
             Content
-          </Child>
-        </Component>
+          </Component>
+        )}
       </Parent>
     )
 

@@ -42,14 +42,26 @@ export function resolveElementTag(component: ElementType): string | undefined {
   return typeof component === 'string' ? component : (component as SlotLike).slotTag
 }
 
-// The kind of the element a caller handed to `asChild`. A component element with a link target
-// (`<Link href="/login">` of Next.js, `<Link to="/login">` of React Router) counts as an anchor:
-// router links render an `<a>` and forward what they're given to it, so they need the anchor's
-// disabled handling, not a `disabled` attribute passed through.
-export function resolveSlottedKind(element: ReactElement<Record<string, unknown>>): ElementKind {
-  const kind = resolveElementKind(element.type as ElementType)
+// The kind of what a component renders, given the props it renders it with. A component reference
+// with a link target (`<Link href="/login">` of Next.js, `<Link to="/login">` of React Router)
+// counts as an anchor: router links render an `<a>` and forward what they're given to it, so they
+// need the anchor's disabled handling (`aria-disabled`, `tabindex="-1"`, a blocked click), not a
+// `disabled` attribute passed through. This holds for the link passed as `component` and for the
+// one handed to `asChild` alike. `props` is where `to` is found: a component's remaining props.
+export function resolveLinkKind(
+  component: ElementType,
+  href: unknown,
+  props?: Record<string, unknown> | object
+): ElementKind {
+  const kind = resolveElementKind(component)
   if (kind !== 'component') return kind
-  return element.props.href !== undefined || element.props.to !== undefined ? 'anchor' : kind
+  const to = (props as { to?: unknown } | undefined)?.to
+  return href != null || to != null ? 'anchor' : kind
+}
+
+// The kind of the element a caller handed to `asChild`.
+export function resolveSlottedKind(element: ReactElement<Record<string, unknown>>): ElementKind {
+  return resolveLinkKind(element.type as ElementType, element.props.href, element.props)
 }
 
 // The same question asked from outside, by a parent reading a child's props (`List` deciding its
@@ -59,10 +71,11 @@ export function resolveKindFromProps(props: {
   children?: ReactNode
   component?: ElementType
   href?: string
+  to?: unknown
 }): ElementKind | undefined {
   const child = props.asChild ? resolveLazy(props.children) : undefined
   if (isValidElement<Record<string, unknown>>(child)) return resolveSlottedKind(child)
-  if (props.component !== undefined) return resolveElementKind(props.component)
+  if (props.component !== undefined) return resolveLinkKind(props.component, props.href, props)
   return hasHref(props.href) ? 'anchor' : undefined
 }
 
@@ -73,6 +86,8 @@ export function resolveKindFromProps(props: {
 // - `href` reaches the rendered element only when that element can take it: an `<a>`, or a
 //   component reference, which is trusted to take it (a router link does). A `<button>`, an `<li>`
 //   or any other tag never gets one, and in development the component says so (`hrefProps`).
+// - A component reference given `href` or `to` is a link, and is handled as an anchor
+//   (`resolveLinkKind`).
 //
 // An empty string is set: `href=""` is a link to the current document.
 export const hasHref = (href: string | null | undefined): href is string => href != null

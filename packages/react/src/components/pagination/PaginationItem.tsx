@@ -10,7 +10,7 @@ import classNames from 'classnames'
 import { mergeProps } from 'react-aria'
 
 import { useButtonSemantics } from '../../hooks'
-import { hrefProps, linkElement, resolveElementKind } from '../../utils/elementKind'
+import { hrefProps, linkElement, resolveLinkKind } from '../../utils/elementKind'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -79,10 +79,10 @@ function PaginationItemRender<C extends ElementType = 'button'>(
   // strictly worse than the real one it replaced. Styling is unaffected either way: chassis-css
   // matches `.pagination-link { &.active, .active > & }`, and `active` still lands on the `<li>`.
   const Component = linkElement(component, href, 'button')
-  // The kind rather than the tag: under `asChild`, `Component` is a `Slot` standing in for the
+  // The kind rather than the tag, counting a router link with `href` or `to` as an anchor: under `asChild`, `Component` is a `Slot` standing in for the
   // caller's element, and a slotted `<a>` needs what `component="a"` gets. Each branch below
   // renders `Component` typed as its tag, which is the tag itself or that `Slot`.
-  const kind = resolveElementKind(Component)
+  const kind = resolveLinkKind(Component, href, rest)
   // A router link as `component` takes `href` too; it used to get none.
   const linkProps = hrefProps(kind, href, 'PaginationItem')
   const NativeButton = Component as 'button'

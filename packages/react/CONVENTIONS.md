@@ -165,7 +165,10 @@ chose the element. Without `href` it renders its own default: `<button>` for `Bu
 `CloseButton`, `PaginationItem` and `MenuItem`, `<li>` for `ListItem` and `StepperItem`, `<span>` for
 `Chip`, `Avatar` and `NavbarBrand`. `href` then reaches the rendered element only if that element
 can take it: an `<a>`, or a component reference, which is trusted to (a router link takes `href`
-itself). A `<button>`, an `<li>` or any other tag never carries `href`; the component drops it and
+itself). A component reference given `href` or `to` is a link, and gets everything an `<a>` gets:
+`aria-disabled`, `tabindex="-1"` and a blocked click when disabled, and the component's link
+classes. That is the same whether the router link is `component` or the `asChild` element
+(`resolveLinkKind`). A `<button>`, an `<li>` or any other tag never carries `href`; the component drops it and
 warns in development. An empty string is set, since `href=""` is a link to the current document.
 
 A render function doesn't write this itself. It calls `linkElement(component, href, fallback)` for

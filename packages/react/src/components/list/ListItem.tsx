@@ -2,12 +2,7 @@ import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'reac
 import classNames from 'classnames'
 
 import { ContextColor } from '../../types'
-import {
-  hrefProps,
-  isInteractiveKind,
-  linkElement,
-  resolveElementKind
-} from '../../utils/elementKind'
+import { hrefProps, isInteractiveKind, linkElement, resolveLinkKind } from '../../utils/elementKind'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -63,9 +58,9 @@ function ListItemRender<C extends ElementType = 'li'>(
   // `href` makes it an `<a>`, unless `component` or `asChild` chose the element (see
   // `linkElement`). It used to stay an `<li>` and carry `href` as an attribute.
   const tag = linkElement(component, href, 'li')
-  // The kind rather than the tag: under `asChild`, `tag` is a `Slot` standing in for the caller's
+  // The kind rather than the tag, counting a router link with `href` or `to` as an anchor: under `asChild`, `tag` is a `Slot` standing in for the caller's
   // element, and a slotted `<a>` is as interactive as `component="a"`.
-  const kind = resolveElementKind(tag)
+  const kind = resolveLinkKind(tag, href, rest)
   const isInteractive = isInteractiveKind(kind)
   const linkProps = hrefProps(kind, href, 'ListItem')
 

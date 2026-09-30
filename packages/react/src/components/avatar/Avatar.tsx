@@ -2,12 +2,7 @@ import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'reac
 import classNames from 'classnames'
 
 import { ContextColor, ExtendedSizing } from '../../types'
-import {
-  hrefProps,
-  isInteractiveKind,
-  linkElement,
-  resolveElementKind
-} from '../../utils/elementKind'
+import { hrefProps, isInteractiveKind, linkElement, resolveLinkKind } from '../../utils/elementKind'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -101,9 +96,9 @@ function AvatarRender<C extends ElementType = 'span'>(
   // `href` makes it an `<a>`, unless `component` or `asChild` chose the element (see
   // `linkElement`).
   const tag = linkElement(component, href, 'span')
-  // The kind rather than the tag: under `asChild`, `tag` is a `Slot` standing in for the caller's
+  // The kind rather than the tag, counting a router link with `href` or `to` as an anchor: under `asChild`, `tag` is a `Slot` standing in for the caller's
   // element, and a slotted `<a>` is as interactive as `component="a"`.
-  const kind = resolveElementKind(tag)
+  const kind = resolveLinkKind(tag, href, rest)
   const isInteractive = isInteractiveKind(kind)
 
   const _className = classNames(
@@ -121,8 +116,9 @@ function AvatarRender<C extends ElementType = 'span'>(
     <Component
       className={_className}
       {...(isInteractive && { component: tag })}
-      // `Link` handles `disabled` on an `<a>` or `<button>`, and a component reference (a router
-      // link) is trusted to. A plain tag has no `disabled` attribute and gets the class alone.
+      // `Link` handles `disabled` on an `<a>` or `<button>`, a router link included; any other
+      // component reference is trusted to. A plain tag has no `disabled` attribute and gets the
+      // class alone.
       {...((isInteractive || kind === 'component') && { disabled })}
       {...hrefProps(kind, href, 'Avatar')}
       {...(kind === 'button' && { type: 'button' })}

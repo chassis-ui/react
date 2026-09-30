@@ -1,7 +1,7 @@
 import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { hrefProps, linkElement, resolveElementKind } from '../../utils/elementKind'
+import { hrefProps, linkElement, resolveLinkKind } from '../../utils/elementKind'
 
 import {
   createPolymorphicComponent,
@@ -50,7 +50,7 @@ function NavbarBrandRender<C extends ElementType = 'span'>(
   return (
     <Component
       className={_className}
-      {...hrefProps(resolveElementKind(Component), href, 'NavbarBrand')}
+      {...hrefProps(resolveLinkKind(Component, href, rest), href, 'NavbarBrand')}
       {...rest}
       ref={ref}
     >

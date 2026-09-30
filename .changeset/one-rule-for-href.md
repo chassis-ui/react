@@ -14,6 +14,11 @@ Every component that takes `href` follows one rule: it renders an `<a>` when `hr
   `.menu-item` too. It used to render an `<a>` with no `href`, which can't take focus.
 - A router link passed as `component` gets `href` from `PaginationItem` and `CloseButton`. They used
   to drop it.
+- A router link passed as `component` with `href` (or `to`) is handled as a link, as it already was
+  as the `asChild` element. When disabled, it gets `aria-disabled` and `tabindex="-1"` and its click
+  is blocked; it used to stay focusable and navigate, and `Button`, `Avatar` and `CloseButton` wrote
+  an invalid `disabled` attribute onto the `<a>`. `ListItem` gets `list-action`, `CloseButton` its
+  classes, and `List` and `Stepper` render a `<div>` around such an item.
 - `href` is no longer written onto an element that can't take one: `component="div"` or
   `component="button"` on `Button`, `Chip`, `Avatar`, `NavbarBrand`, `Link` and the components built
   on it. The component warns in development instead.

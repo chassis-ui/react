@@ -758,10 +758,13 @@ before changing it found more than F4 lists:
 The server-rendered markup of every story was compared before and after: the only change is
 `role="navigation"` leaving `Nav`'s `<ul>`. No visual baseline moved.
 
-Not changed: a component reference with `href` (`<ListItem component={NextLink} href>`) counts as a
-`component`, not an anchor, so it gets no `list-action` or anchor handling, while the same router
-link as the `asChild` element does (B2's `resolveSlottedKind`). Treating both alike would change
-`Button`'s disabled handling for router links too; it is left for a decision.
+Follow-up, decided by the maintainer: a router link passed as `component` with `href` or `to`
+counted as an opaque component, while the same link as the `asChild` element counted as an anchor
+(B2's `resolveSlottedKind`). Compared with `component="a"`, it lost `list-action` on `ListItem` and
+all its classes on `CloseButton`, and when disabled, in 10 of 12 components, it stayed focusable,
+had no `aria-disabled` (except `Chip`, `ListItem`), and its click navigated. `Button`, `Avatar` and
+`CloseButton` wrote an invalid `disabled` attribute onto the `<a>`. `resolveLinkKind` now answers for
+both. A component reference without a link target is still trusted with `disabled` itself.
 
 Model: **Opus**. Nine components already implement the rule; this extracts and extends it.
 
@@ -784,6 +787,10 @@ Model: **Opus**. Nine components already implement the rule; this extracts and e
       lists `href`, and `test/ssr/render.spec.tsx` fails any story with `href` on a non-link. Two
       stories use `href` alone (`List` `LinksByHref`, `Stepper` `Linked`); without the fix the
       sweep fails on both.
+- [x] **(You)** A router link as `component` with `href` or `to` is a link, as it is under
+      `asChild`: decided yes. `resolveLinkKind` (`src/utils/elementKind.ts`). The `asChild` matrix
+      also renders every polymorphic component with `component={router link}` and `href`, and
+      compares it with `component="a"`; on the code before this, 12 cases fail.
 
 Changeset: minor (rendered elements change). Exit: no component renders `href` on a non-anchor.
 

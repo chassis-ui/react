@@ -2,7 +2,7 @@ import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'reac
 import classNames from 'classnames'
 
 import { ContextColor } from '../../types'
-import { hrefProps, linkElement, resolveElementKind } from '../../utils/elementKind'
+import { hrefProps, linkElement, resolveLinkKind } from '../../utils/elementKind'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -56,7 +56,7 @@ function StepperItemRender<C extends ElementType = 'li'>(
   const _className = classNames('stepper-item', color && 'context', color, { active }, className)
 
   const mergedProps = {
-    ...hrefProps(resolveElementKind(Component), href, 'StepperItem'),
+    ...hrefProps(resolveLinkKind(Component, href, rest), href, 'StepperItem'),
     ...(active ? { 'aria-current': 'step' } : {}),
     ...rest
   }

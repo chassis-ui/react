@@ -10,12 +10,7 @@ import { mergeProps } from 'react-aria'
 
 import { ContextColor } from '../../types'
 import { useButtonSemantics, useDisabledAnchorGuard } from '../../hooks'
-import {
-  hrefProps,
-  isInteractiveKind,
-  linkElement,
-  resolveElementKind
-} from '../../utils/elementKind'
+import { hrefProps, isInteractiveKind, linkElement, resolveLinkKind } from '../../utils/elementKind'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -105,9 +100,9 @@ function LinkRender<C extends ElementType = 'a'>(
   ref: PolymorphicRef<C>
 ) {
   const Component = linkElement(component, href, 'a')
-  // The kind rather than the tag: under `asChild`, `Component` is a `Slot` standing in for the
+  // The kind rather than the tag, counting a router link with `href` or `to` as an anchor: under `asChild`, `Component` is a `Slot` standing in for the
   // caller's element, and a slotted `<a>` needs what `component="a"` gets.
-  const kind = resolveElementKind(Component)
+  const kind = resolveLinkKind(Component, href, rest)
 
   const _className = classNames(
     color && `link-${color}`,
@@ -117,7 +112,8 @@ function LinkRender<C extends ElementType = 'a'>(
   )
 
   const isInteractive = isInteractiveKind(kind)
-  // A component reference (e.g. a router `Link`) has its own visual identity and is trusted to
+  // A component reference without a link target (a router link with `href` or `to` is an anchor,
+  // see `resolveLinkKind`) has its own visual identity and is trusted to
   // handle its own keyboard/role semantics, same as `CloseButton`'s `isComponentReference` escape
   // hatch — synthesizing `role="button"` and Enter/Space handling on top of it would stamp the
   // wrong ARIA role onto whatever it actually renders (e.g. an `<a>`) and can double-fire a click

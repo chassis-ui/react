@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { act, render, screen } from '@testing-library/react'
+import { act, fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 
@@ -184,7 +184,8 @@ describe('Button', () => {
     })
   })
 
-  describe('component reference (trusted to handle its own semantics)', () => {
+  describe('router link as component (a link, given href)', () => {
+    // Stands in for `next/link`: a component that renders an `<a>` and forwards its props.
     const CustomLink = React.forwardRef<
       HTMLAnchorElement,
       React.AnchorHTMLAttributes<HTMLAnchorElement>
@@ -215,18 +216,43 @@ describe('Button', () => {
       expect(onClick).toHaveBeenCalledTimes(1)
     })
 
-    test('forwards disabled raw instead of intercepting it, trusting the referenced component', () => {
+    // With `href` it is a link, handled as `component="a"` is (`resolveLinkKind`). It used to
+    // count as an opaque component: it got a `disabled` attribute, stayed focusable, and its click
+    // navigated.
+    test('is disabled as an anchor is, and does not navigate', () => {
+      const onClick = vi.fn()
       render(
-        <Button component={CustomLink} href="/bazinga" disabled>
+        <Button component={CustomLink} href="/bazinga" disabled onClick={onClick}>
           Go
         </Button>
       )
       const link = screen.getByRole('link', { name: 'Go' })
-      // Visual styling still applies, but the synthesized aria-disabled/click-block a bare HTML
-      // tag would get doesn't - a bare <a> (standing in for `CustomLink`) has no native `disabled`
-      // handling of its own, so this is the accepted tradeoff of trusting a component reference.
       expect(link).toHaveClass('disabled')
-      expect(link).not.toHaveAttribute('aria-disabled')
+      expect(link).toHaveAttribute('aria-disabled', 'true')
+      expect(link).toHaveAttribute('tabindex', '-1')
+      expect(link).not.toHaveAttribute('disabled')
+      expect(fireEvent.click(link)).toBe(false)
+      expect(onClick).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('component reference without a link target', () => {
+    // No `href` or `to`, so it isn't a link: it is trusted with `disabled` itself.
+    const CustomButton = React.forwardRef<
+      HTMLButtonElement,
+      React.ButtonHTMLAttributes<HTMLButtonElement>
+    >((props, ref) => <button ref={ref} type="button" {...props} />)
+    CustomButton.displayName = 'CustomButton'
+
+    test('gets disabled passed through', () => {
+      render(
+        <Button component={CustomButton} disabled>
+          Save
+        </Button>
+      )
+      const button = screen.getByRole('button', { name: 'Save' })
+      expect(button).toBeDisabled()
+      expect(button).not.toHaveAttribute('aria-disabled')
     })
   })
 

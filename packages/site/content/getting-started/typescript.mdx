@@ -78,7 +78,8 @@ disabled>` renders. What that is depends on the child:
 A router link such as `<Link href="/login">` of Next.js or `<Link to="/login">` of React Router
 counts as a link because of its `href` or `to`: it renders an `<a>` and forwards what it's given,
 so it needs the link's handling rather than a `disabled` attribute. When a link is disabled, the
-child's own `onClick` doesn't run either.
+child's own `onClick` doesn't run either. The same holds for a router link passed as `component`:
+`<Button component={Link} href="/login" disabled>` is treated as a link too.
 
 By family:
 

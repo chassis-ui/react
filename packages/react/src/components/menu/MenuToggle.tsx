@@ -17,7 +17,7 @@ import {
   PolymorphicRef
 } from '../../utils/polymorphic'
 import { useForkedRef } from '../../hooks'
-import { hasHref, hrefProps, resolveElementKind } from '../../utils/elementKind'
+import { hasHref, hrefProps, resolveLinkKind } from '../../utils/elementKind'
 
 type MenuToggleOwnProps<C extends ElementType> = {
   /**
@@ -83,7 +83,11 @@ function MenuToggleRender<C extends ElementType = typeof Button>(
   // Anything else is asked, like every polymorphic component asks: `NavLink` is a component
   // reference, and `component="button"` a real `<button>`.
   const kind =
-    Component === Button ? (hasHref(href) ? 'anchor' : 'button') : resolveElementKind(Component)
+    Component === Button
+      ? hasHref(href)
+        ? 'anchor'
+        : 'button'
+      : resolveLinkKind(Component, href, rest)
   const rendersButton = kind === 'button'
   // `Button` applies the `href` rule itself; anything else gets `href` only if it can take one.
   const linkProps = Component === Button ? { href } : hrefProps(kind, href, 'MenuToggle')

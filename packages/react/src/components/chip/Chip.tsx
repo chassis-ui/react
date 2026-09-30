@@ -10,7 +10,7 @@ import { mergeProps } from 'react-aria'
 
 import { ContextColor, ContextStyle } from '../../types'
 import { useButtonSemantics, useDisabledAnchorGuard } from '../../hooks'
-import { hrefProps, linkElement, resolveElementKind } from '../../utils/elementKind'
+import { hrefProps, linkElement, resolveLinkKind } from '../../utils/elementKind'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -96,9 +96,9 @@ function ChipRender<C extends ElementType = 'span'>(
   // `href` makes it an `<a>`, unless `component` or `asChild` chose the element (see
   // `linkElement`).
   const Component = linkElement(component, href, 'span')
-  // The kind rather than the tag: under `asChild`, `Component` is a `Slot` standing in for the
+  // The kind rather than the tag, counting a router link with `href` or `to` as an anchor: under `asChild`, `Component` is a `Slot` standing in for the
   // caller's element, and a slotted `<a>` needs what `component="a"` gets.
-  const kind = resolveElementKind(Component)
+  const kind = resolveLinkKind(Component, href, rest)
   const linkProps = hrefProps(kind, href, 'Chip')
   const isButton = kind === 'button'
   const isAnchor = kind === 'anchor'
