@@ -304,7 +304,7 @@ pnpm test:visual:update   # same, plus --update-snapshots to regenerate baseline
 - A component that animates showing and hiding takes its phase from `useTransitionState`
   (`src/hooks/useTransitionState.ts`) and maps it to chassis-css's classes itself. No duration
   lives in JavaScript: a phase ends with the element's own CSS transition, so a themed duration
-  and `prefers-reduced-motion` are followed. `Modal`, `Drawer` and `Menu` wait on the same
+  and `prefers-reduced-motion` are followed. `Modal`, `Alert`, `Drawer` and `Menu` wait on the same
   `executeAfterTransition`.
 - Never call `createPortal` directly: render `Portal` (`src/components/portal/Portal.tsx`). It renders
   nothing (or its `fallback`) on the server and during hydration, then portals, so portaled

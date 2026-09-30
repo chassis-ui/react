@@ -3,6 +3,9 @@ import { act, fireEvent, render, screen } from '@testing-library/react'
 import type { MockInstance } from 'vitest'
 
 import {
+  Alert,
+  AlertCancel,
+  AlertTitle,
   Button,
   DatePicker,
   DateRangePicker,
@@ -98,6 +101,18 @@ const SUBJECTS: Subject[] = [
     askToShow: () => fireEvent.click(screen.getByRole('button', { name: 'Toggle' })),
     askToHide: () => fireEvent.keyDown(window, { key: 'Escape' }),
     warnsWhenDropped: true
+  },
+  {
+    name: 'Alert',
+    element: (props) => (
+      <Alert {...props}>
+        <AlertTitle>Alert</AlertTitle>
+        <AlertCancel>Cancel</AlertCancel>
+      </Alert>
+    ),
+    isShown: () => screen.queryByRole('alertdialog') !== null,
+    askToHide: () => fireEvent.click(screen.getByRole('button', { name: 'Cancel' })),
+    warnsWhenDropped: false
   },
   {
     name: 'Modal',

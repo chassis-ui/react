@@ -262,6 +262,25 @@ describe('Modal', () => {
   })
 
   describe('focus management', () => {
+    // React writes no `autofocus` attribute in a client render: it calls `focus()` on mount, which
+    // a closed dialog ignores. `data-autofocus` is what the dialog can find when it opens.
+    test('focuses the element with data-autofocus when it opens', () => {
+      const Probe = ({ visible }: { visible: boolean }) => (
+        <Modal instant visible={visible}>
+          <ModalTitle>Title</ModalTitle>
+          <ModalBody>
+            <button type="button">First</button>
+            <button data-autofocus="" type="button">
+              Second
+            </button>
+          </ModalBody>
+        </Modal>
+      )
+      const { rerender } = render(<Probe visible={false} />)
+      rerender(<Probe visible />)
+      expect(screen.getByRole('button', { name: 'Second' })).toHaveFocus()
+    })
+
     test('restores focus to the trigger element after closing', () => {
       vi.useFakeTimers()
       function Wrapper() {

@@ -67,6 +67,26 @@ export interface UseDialogElementOptions {
   visible?: boolean
 }
 
+// The element each open dialog returns focus to when it closes.
+const restoreTargets = new WeakMap<HTMLDialogElement, HTMLElement | null>()
+
+// The element a closing dialog returns focus to. A dialog opened from another dialog that has
+// closed since (the second alert of a chain) can't return focus to its trigger, which is hidden,
+// so it follows that dialog's own target, and so on. A loop (going back and forth between two
+// dialogs) gives up.
+function resolveRestoreTarget(trigger: HTMLElement | null): HTMLElement | null {
+  const seen = new Set<HTMLDialogElement>()
+  let target = trigger
+  let owner = target?.closest('dialog') ?? null
+  while (target && owner && !owner.open) {
+    if (seen.has(owner)) return null
+    seen.add(owner)
+    target = restoreTargets.get(owner) ?? null
+    owner = target?.closest('dialog') ?? null
+  }
+  return target
+}
+
 // Shared open/close machinery for a native `<dialog>`-based component — `Modal` and `Drawer`
 // otherwise duplicated this near-verbatim: forked ref, the show/begin-hide effect (showModal()
 // vs. show(), initial focus, scroll lock), the finish-hide effect (waits out the exit
@@ -149,6 +169,8 @@ export const useDialogElement = ({
       triggerRef.current =
         document.activeElement instanceof HTMLElement ? document.activeElement : null
 
+      restoreTargets.set(dialog, triggerRef.current)
+
       openedAsModalRef.current = isModal
       if (isModal) {
         dialog.showModal()
@@ -157,7 +179,16 @@ export const useDialogElement = ({
         dialog.show()
       }
 
-      const autofocusEl = dialog.querySelector<HTMLElement>('[autofocus]')
+      // `data-autofocus` too: React doesn't write the `autofocus` attribute in a client render (it
+      // calls `focus()` on mount, which a closed dialog ignores), so `autoFocus` alone only works
+      // in server-rendered HTML.
+      // Only this dialog's own: one inside a nested dialog (an `Alert` in a `Modal`) is hidden
+      // while that dialog is closed, and focusing it would fail silently.
+      const autofocusEl = [
+        ...dialog.querySelectorAll<HTMLElement>(
+          '[autofocus], [data-autofocus]:not([data-autofocus="false"])'
+        )
+      ].find((element) => element.closest('dialog') === dialog)
       if (autofocusEl) {
         autofocusEl.focus()
       } else {
@@ -184,6 +215,10 @@ export const useDialogElement = ({
     return executeAfterTransition(
       dialog,
       () => {
+        // Focus goes back only if this dialog still has it, or nothing does: another dialog
+        // opened from this one (the next alert of a chain) keeps its own. Mirrors `Popover`.
+        const active = document.activeElement
+        const ownsFocus = !active || active === document.body || dialog.contains(active)
         if (dialog.open) {
           dialog.close()
         }
@@ -192,7 +227,7 @@ export const useDialogElement = ({
         }
         setHiding(false)
         onHidden?.()
-        const trigger = triggerRef.current
+        const trigger = ownsFocus ? resolveRestoreTarget(triggerRef.current) : null
         if (trigger && document.contains(trigger)) {
           trigger.focus()
         }

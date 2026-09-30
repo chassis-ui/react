@@ -30,6 +30,7 @@
   "exports": {
     ".": "./dist/index.js",
     "./accordion": "./dist/accordion.js",
+    "./alert": "./dist/alert.js",
     "./autocomplete": "./dist/autocomplete.js",
     "./avatar": "./dist/avatar.js",
     "./badge": "./dist/badge.js",

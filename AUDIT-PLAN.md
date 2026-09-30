@@ -1054,17 +1054,37 @@ hydrates `Portal` and `useHydrated` themselves.
 
 Model: **Opus**. Built on the dialog machinery `Modal` already uses.
 
-- [ ] Markup of chassis-css's `components/alert.mdx`: a `<dialog>` with the classes `alert dialog`
+- [x] Markup of chassis-css's `components/alert.mdx`: a `<dialog>` with the classes `alert dialog`
       and `role="alertdialog"`, holding `.alert-icon`, `.alert-body`, `.alert-title`,
       `.alert-footer` and an optional `.close-button`. Parts as flat exports (`AlertTitle`,
-      `AlertBody`, `AlertFooter`), `aria-labelledby`/`aria-describedby` wired to title and body.
-- [ ] Open state as `Modal`'s. A static backdrop and no Escape by default, as the docs advise for
-      alert dialogs; props to allow both. Focus goes to the least destructive action.
-- [ ] The error-code and multi-step layouts of the docs page as examples.
+      `AlertBody`, `AlertFooter`), `aria-labelledby`/`aria-describedby` wired to title and body. Also `AlertIcon`,
+      `AlertCode` and `AlertText` (the message `<p>`). The description is the rendered
+      `AlertCode` and `AlertText`, which register from a layout effect, so the server's HTML
+      names none.
+- [x] Open state as `Modal`'s. A static backdrop and no Escape by default, as the docs advise for
+      alert dialogs; props to allow both. Focus goes to the least destructive action. `AlertCancel` closes the alert and
+      carries `data-autofocus`. Found on the way: React writes no `autofocus` attribute in a
+      client render, so `Modal`'s and `Drawer`'s documented `autofocus` never worked;
+      `useDialogElement` now also looks for `data-autofocus`.
+- [x] The error-code and multi-step layouts of the docs page as examples. Plus the close
+      button and the footer layout; every example opens from a button.
 - [ ] **(You)** Fix the header comment of `_alert.scss` in chassis-css, which still describes
       inline status messages. The maintainer does this; B11 doesn't wait for it.
 
 Changeset: minor.
+
+An independent review of the diff found four defects before the commit, each now with a test:
+under `asChild` or with a caller's `id`, the title, code and text were registered under ids that
+never reached the DOM (they now register the element and read its id); descriptions were listed
+in mount order, not document order; a closed `Alert` nested in a `Modal` took the modal's initial
+focus (`useDialogElement` now only takes its own dialog's `data-autofocus`, and skips
+`data-autofocus="false"`); and after a chain of alerts focus was lost (a closing dialog now
+restores focus only if it still holds it, and follows the chain of closed dialogs back to the
+first trigger).
+
+Left open: chassis-css's Dialog plugin swaps one alert for the next without dropping the backdrop
+(`swap-in`); here the second opens as the first closes. Going back and forth between two alerts
+before closing still loses focus: the chain loops, and gives up.
 
 ### B12 — `NavOverflow` (F9)
 

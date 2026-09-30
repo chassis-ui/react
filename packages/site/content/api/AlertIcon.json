@@ -1,0 +1,135 @@
+{
+  "tags": {},
+  "filePath": "packages/react/src/components/alert/AlertIcon.tsx",
+  "description": "",
+  "displayName": "AlertIcon",
+  "methods": [],
+  "props": {
+    "name": {
+      "defaultValue": null,
+      "description": "Icon name, e.g. `folder-tree`. Matches an id in the SVG sprite, or a `cx-{name}` font glyph\nclass in `font` mode (see `IconProvider`'s `fontPrefix`).",
+      "name": "name",
+      "parent": {
+        "fileName": "packages/react/src/components/icon/Icon.tsx",
+        "name": "IconOwnProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/icon/Icon.tsx",
+          "name": "IconOwnProps"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "string"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "packages/react/src/components/icon/Icon.tsx",
+        "name": "IconOwnProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/icon/Icon.tsx",
+          "name": "IconOwnProps"
+        },
+        {
+          "fileName": "packages/react/src/components/alert/AlertIcon.tsx",
+          "name": "TypeLiteral"
+        },
+        {
+          "fileName": "packages/react/src/components/icon/Icon.tsx",
+          "name": "IconOwnProps"
+        },
+        {
+          "fileName": "packages/react/src/components/alert/AlertIcon.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "size": {
+      "defaultValue": null,
+      "description": "Icon size: a number of pixels, or any CSS length (`'1.25rem'`, `'1em'`). Sets chassis-css's\n`--cx-icon-size` on the icon, so it applies in `font` mode too. Leave unset to keep the size\nchassis-css gives icons in context (inside a button, an input, a navbar toggler, ...).",
+      "name": "size",
+      "parent": {
+        "fileName": "packages/react/src/components/icon/Icon.tsx",
+        "name": "IconOwnProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/icon/Icon.tsx",
+          "name": "IconOwnProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | number"
+      }
+    },
+    "title": {
+      "defaultValue": null,
+      "description": "Accessible name. When set, the icon is exposed to assistive tech instead of hidden.",
+      "name": "title",
+      "parent": {
+        "fileName": "packages/react/src/components/icon/Icon.tsx",
+        "name": "IconOwnProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/icon/Icon.tsx",
+          "name": "IconOwnProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "sprite": {
+      "defaultValue": null,
+      "description": "URL of the SVG sprite file. Defaults to `IconProvider`'s `sprite`, or to none — a sprite\nembedded in the page, referenced as `#name`. Ignored in `font` mode.",
+      "name": "sprite",
+      "parent": {
+        "fileName": "packages/react/src/components/icon/Icon.tsx",
+        "name": "IconOwnProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/icon/Icon.tsx",
+          "name": "IconOwnProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "font": {
+      "defaultValue": null,
+      "description": "",
+      "name": "font",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/icon/Icon.tsx",
+          "name": "TypeLiteral"
+        },
+        {
+          "fileName": "packages/react/src/components/icon/Icon.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    }
+  }
+}

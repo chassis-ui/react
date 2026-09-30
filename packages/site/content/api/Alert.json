@@ -1,0 +1,279 @@
+{
+  "tags": {},
+  "filePath": "packages/react/src/components/alert/Alert.tsx",
+  "description": "",
+  "displayName": "Alert",
+  "methods": [],
+  "props": {
+    "backdrop": {
+      "defaultValue": {
+        "value": "static"
+      },
+      "description": "Whether a click on the backdrop closes the alert. By default it doesn't (`'static'`): the\nalert bounces, since an alert dialog waits for an explicit choice. Set `true` to let it close.",
+      "name": "backdrop",
+      "parent": {
+        "fileName": "packages/react/src/components/alert/Alert.tsx",
+        "name": "AlertProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/alert/Alert.tsx",
+          "name": "AlertProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "true | \"static\""
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the base component.",
+      "name": "className",
+      "parent": {
+        "fileName": "packages/react/src/components/alert/Alert.tsx",
+        "name": "AlertProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/alert/Alert.tsx",
+          "name": "AlertProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "closeButton": {
+      "defaultValue": null,
+      "description": "Adds a close button in the corner, for an alert that needs a way out besides its actions.",
+      "name": "closeButton",
+      "parent": {
+        "fileName": "packages/react/src/components/alert/Alert.tsx",
+        "name": "AlertProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/alert/Alert.tsx",
+          "name": "AlertProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "closeLabel": {
+      "defaultValue": null,
+      "description": "The close button's accessible name. Defaults to `'Close'`; set it for non-English UIs.",
+      "name": "closeLabel",
+      "parent": {
+        "fileName": "packages/react/src/components/alert/Alert.tsx",
+        "name": "AlertProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/alert/Alert.tsx",
+          "name": "AlertProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "defaultVisible": {
+      "defaultValue": null,
+      "description": "Whether the alert is open when it first renders. Such an alert is uncontrolled: it closes\nitself on a close request. Use `visible` to open and close it from outside.",
+      "name": "defaultVisible",
+      "parent": {
+        "fileName": "packages/react/src/components/alert/Alert.tsx",
+        "name": "AlertProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/alert/Alert.tsx",
+          "name": "AlertProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "instant": {
+      "defaultValue": null,
+      "description": "Disable the open/close transition entirely.",
+      "name": "instant",
+      "parent": {
+        "fileName": "packages/react/src/components/alert/Alert.tsx",
+        "name": "AlertProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/alert/Alert.tsx",
+          "name": "AlertProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "keyboard": {
+      "defaultValue": {
+        "value": false
+      },
+      "description": "Whether the Escape key closes the alert. By default it doesn't: the alert bounces instead.",
+      "name": "keyboard",
+      "parent": {
+        "fileName": "packages/react/src/components/alert/Alert.tsx",
+        "name": "AlertProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/alert/Alert.tsx",
+          "name": "AlertProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "onClose": {
+      "defaultValue": null,
+      "description": "Callback fired when the alert asks to be closed: `AlertCancel`, the close button, and, when\nallowed, Escape or a backdrop click.",
+      "name": "onClose",
+      "parent": {
+        "fileName": "packages/react/src/components/alert/Alert.tsx",
+        "name": "AlertProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/alert/Alert.tsx",
+          "name": "AlertProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "onClosePrevented": {
+      "defaultValue": null,
+      "description": "Callback fired when a close attempt is blocked: a click on a static backdrop, or Escape\nwhile `keyboard` is off.",
+      "name": "onClosePrevented",
+      "parent": {
+        "fileName": "packages/react/src/components/alert/Alert.tsx",
+        "name": "AlertProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/alert/Alert.tsx",
+          "name": "AlertProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "onHidden": {
+      "defaultValue": null,
+      "description": "Callback fired after the exit transition completes and the alert is fully hidden.",
+      "name": "onHidden",
+      "parent": {
+        "fileName": "packages/react/src/components/alert/Alert.tsx",
+        "name": "AlertProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/alert/Alert.tsx",
+          "name": "AlertProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "onShow": {
+      "defaultValue": null,
+      "description": "Callback fired when the alert starts to open.",
+      "name": "onShow",
+      "parent": {
+        "fileName": "packages/react/src/components/alert/Alert.tsx",
+        "name": "AlertProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/alert/Alert.tsx",
+          "name": "AlertProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "onShown": {
+      "defaultValue": null,
+      "description": "Callback fired after the entry transition completes and the alert is fully visible.",
+      "name": "onShown",
+      "parent": {
+        "fileName": "packages/react/src/components/alert/Alert.tsx",
+        "name": "AlertProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/alert/Alert.tsx",
+          "name": "AlertProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(() => void)"
+      }
+    },
+    "onVisibleChange": {
+      "defaultValue": null,
+      "description": "Callback fired with `false` when the alert asks to be closed, at the same moments as\n`onClose`. It makes `visible` and `onVisibleChange` a pair that takes a state setter.",
+      "name": "onVisibleChange",
+      "parent": {
+        "fileName": "packages/react/src/components/alert/Alert.tsx",
+        "name": "AlertProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/alert/Alert.tsx",
+          "name": "AlertProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((visible: boolean) => void)"
+      }
+    },
+    "visible": {
+      "defaultValue": null,
+      "description": "Whether the alert is open. The alert is then controlled: a close request only fires `onClose`\nand `onVisibleChange`, and the alert closes when this becomes `false`.",
+      "name": "visible",
+      "parent": {
+        "fileName": "packages/react/src/components/alert/Alert.tsx",
+        "name": "AlertProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/alert/Alert.tsx",
+          "name": "AlertProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    }
+  }
+}

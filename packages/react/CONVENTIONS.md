@@ -197,13 +197,13 @@ A component that shows and hides takes its state under these three names, and no
 - `onVisibleChange(visible)` receives the state the component asks for, controlled or not. It
   takes a state setter as it is: `visible={open} onVisibleChange={setOpen}`.
 
-`Popover`, `Tooltip`, `Menu`, `Modal`, `Drawer`, `Toast`, `Notification`, `DatePicker` and
-`DateRangePicker` take all three. A component that cannot change its own state takes `visible`
+`Popover`, `Tooltip`, `Menu`, `Modal`, `Alert`, `Drawer`, `Toast`, `Notification`, `DatePicker`
+and `DateRangePicker` take all three. A component that cannot change its own state takes `visible`
 only: `Collapse` has no trigger, timer or close button, so a default could never differ from the
 prop and the callback would never fire.
 
 The event callbacks are separate and keep their meaning. `onShow`/`onHide` (and `onShown`/
-`onHidden`) report what happened to the element; `onClose` on `Modal` and `Drawer` is the close
+`onHidden`) report what happened to the element; `onClose` on `Modal`, `Alert` and `Drawer` is the close
 request, fired beside `onVisibleChange(false)`; `onClose` on `Toast` and `Notification` fires
 after the exit transition. None of them carries the state, so don't build a controlled component
 from `onShow` and `onHide`: under `visible` a request that isn't followed never shows anything.
@@ -215,11 +215,11 @@ In the code:
   `useOpenStateProps(props, displayName)` (`src/hooks/useOpenStateProps.ts`). Those states are
   controlled by `isOpen` already.
 - Anything else holds the state with `useControllableState`, given the three props:
-  `useDialogElement` for `Modal` and `Drawer`, `useDismissibleTransition` for `Toast` and
+  `useDialogElement` for `Modal`, `Alert` and `Drawer`, `useDismissibleTransition` for `Toast` and
   `Notification`.
 - A request that is dropped because `visible` is set and there is no `onVisibleChange` warns once
-  in development (`warnDroppedVisibleRequest`). `Modal` and `Drawer` don't warn: `visible` with
-  `onClose` is complete for them.
+  in development (`warnDroppedVisibleRequest`). `Modal`, `Alert` and `Drawer` don't warn:
+  `visible` with `onClose` is complete for them.
 - Never copy `visible` into state and sync it in an effect. That is what these components did
   before, and it is why a parent could not hold one closed.
 

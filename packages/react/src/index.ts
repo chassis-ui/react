@@ -127,6 +127,16 @@ import { Flex } from './components/flex'
 import { Stack } from './components/stack'
 import { Portal, useHydrated } from './components/portal'
 import { VisuallyHidden } from './components/visually-hidden'
+import {
+  Alert,
+  AlertBody,
+  AlertCancel,
+  AlertCode,
+  AlertFooter,
+  AlertIcon,
+  AlertText,
+  AlertTitle
+} from './components/alert'
 
 export {
   Chip,
@@ -299,7 +309,15 @@ export {
   Tooltip,
   Portal,
   useHydrated,
-  VisuallyHidden
+  VisuallyHidden,
+  Alert,
+  AlertBody,
+  AlertCancel,
+  AlertCode,
+  AlertFooter,
+  AlertIcon,
+  AlertText,
+  AlertTitle
 }
 
 // Type-only public surface. Kept as `export type ... from` re-exports (the same shape
@@ -500,6 +518,16 @@ export type {
 export type { TooltipProps } from './components/tooltip'
 export type { PortalProps } from './components/portal'
 export type { VisuallyHiddenProps } from './components/visually-hidden'
+export type {
+  AlertBodyProps,
+  AlertCancelProps,
+  AlertCodeProps,
+  AlertFooterProps,
+  AlertIconProps,
+  AlertProps,
+  AlertTextProps,
+  AlertTitleProps
+} from './components/alert'
 
 // Cross-cutting types that aren't owned by any one component folder: the scales and vocabularies
 // the prop types above are built from. `types.ts`'s `FontFamily`/`FontWeight`/`FontSize`/

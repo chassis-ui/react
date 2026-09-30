@@ -6759,5 +6759,199 @@ type VisuallyHiddenComponent = (<C extends ElementType = 'span'>(props: Visually
 };
 export declare const VisuallyHidden: VisuallyHiddenComponent;
 //#endregion
-export { type AccordionBodyProps, type AccordionHeaderProps, type AccordionItemDef, type AccordionItemProps, type AccordionProps, type AutocompleteGroupProps, type AutocompleteItemProps, type AutocompleteProps, type AvatarImageProps, type AvatarProps, type AvatarStackItemDef, type AvatarStackProps, type BadgeProps, type BreadcrumbItemDef, type BreadcrumbItemProps, type BreadcrumbProps, type Breakpoint, type ButtonGroupProps, type ButtonObject, type ButtonProps, type ButtonToolbarProps, type CalendarLabels, type CalendarMultipleProps, type CalendarProps, type CalendarSingleProps, type CardBodyProps, type CardFooterProps, type CardGroupProps, type CardHeaderProps, type CardImageOverlayProps, type CardImageProps, type CardLinkProps, type CardProps, type CardSubtitleProps, type CardTextProps, type CardTitleProps, type CarouselControlNextProps, type CarouselControlPrevProps, type CarouselEnds, type CarouselIndicatorsProps, type CarouselInnerProps, type CarouselItemProps, type CarouselOverlayProps, type CarouselPlayPauseProps, type CarouselProps, type CarouselSlideDetail, type CarouselTransition, type CheckboxGroupProps, type CheckboxProps, type ChipInputProps, type ChipProps, type CloseButtonProps, type ColProps, type CollapseProps, type ColorInputProps, type ComboboxGroupProps, type ComboboxItemProps, type ComboboxProps, type ContainerProps, type ContextColor, type ContextStyle, type DataGridBodyProps, type DataGridCellProps, type DataGridColumnProps, type DataGridHeaderProps, type DataGridProps, type DataGridRowProps, type DataGridSelectionCellProps, type DatePickerMultipleProps, type DatePickerProps, type DatePickerSingleProps, type DateRangePickerProps, type DateRangePreset, type DrawerBodyProps, type DrawerFooterProps, type DrawerHeaderProps, type DrawerProps, type DrawerTitleProps, type ExtendedSizing, type FileInputProps, type FlexProps, type FloatingInputProps, type FormFeedbackProps, type FormFieldProps, type FormHelpProps, type FormLabelProps, type FormProps, type GridItemLayout, type GridItemProps, type GridProps, I18nProvider, type IconComponentProps, type IconKey, type IconProps, type IconProviderProps, type IconValue, type InputAdornProps, type InputGroupAddonProps, type InputGroupProps, type LinkProps, type ListItemDef, type ListItemProps, type ListProps, type MenuAutoClose, type MenuDividerDef, type MenuDividerProps, type MenuFocusStrategy, type MenuHeaderDef, type MenuHeaderProps, type MenuItemDef, type MenuItemProps, type MenuItemsDef, type MenuListProps, type MenuProps, type MenuSubmenuBackProps, type MenuSubmenuProps, type MenuTextProps, type MenuToggleProps, type ModalBodyProps, type ModalFooterProps, type ModalHeaderProps, type ModalProps, type ModalTitleProps, type NavItemDef, type NavLinkProps, type NavProps, type NavTitleProps, type NavbarBrandProps, type NavbarNavProps, type NavbarProps, type NavbarTextProps, type NavbarTogglerProps, type NotificationContent, type NotificationIconProps, type NotificationProps, type NotificationStackProps, type NotificationTextProps, type NotificationTitleProps, type OtpInputProps, type PaginationItemProps, type PaginationProps, type PasswordStrengthProps, type PlaceholderProps, type Placement, type PopoverProps, type PortalProps, type ProgressBarProps, type ProgressProps, type RadioGroupProps, type RadioProps, type RangeCalendarProps, type RangeInputProps, type RowProps, type SelectOptionDef, type SelectProps, type Shapes, type Sizing, type SkeletonLoaderProps, type SkeletonProps, type Spacing, type SpinnerProps, type StackProps, type StaticTableProps, type StepperItemDef, type StepperItemProps, type StepperProps, type SwitchProps, type TabListProps, type TabPanelProps, type TabProps, type TableBodyProps, type TableCellProps, type TableColumnProps, type TableHeaderProps, type TableProps, type TableRowProps, type TabsProps, type TextInputProps, type TextareaProps, type ToastBodyProps, type ToastContent, type ToastFooterProps, type ToastHeaderProps, type ToastIconProps, type ToastProps, type ToasterProps, type TooltipProps, type UseDrawerResult, type UseModalResult, type UseNotificationResult, type UsePaginationResult, type UseToastResult, type VisuallyHiddenProps };
+//#region src/components/alert/Alert.d.ts
+interface AlertProps extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'onCancel' | 'onClose'> {
+  /**
+   * Whether a click on the backdrop closes the alert. By default it doesn't (`'static'`): the
+   * alert bounces, since an alert dialog waits for an explicit choice. Set `true` to let it close.
+   */
+  backdrop?: 'static' | true;
+  /**
+   * A string of all className you want applied to the base component.
+   */
+  className?: string;
+  /**
+   * Adds a close button in the corner, for an alert that needs a way out besides its actions.
+   */
+  closeButton?: boolean;
+  /**
+   * The close button's accessible name. Defaults to `'Close'`; set it for non-English UIs.
+   */
+  closeLabel?: string;
+  /**
+   * Whether the alert is open when it first renders. Such an alert is uncontrolled: it closes
+   * itself on a close request. Use `visible` to open and close it from outside.
+   */
+  defaultVisible?: boolean;
+  /**
+   * Disable the open/close transition entirely.
+   */
+  instant?: boolean;
+  /**
+   * Whether the Escape key closes the alert. By default it doesn't: the alert bounces instead.
+   */
+  keyboard?: boolean;
+  /**
+   * Callback fired when the alert asks to be closed: `AlertCancel`, the close button, and, when
+   * allowed, Escape or a backdrop click.
+   */
+  onClose?: () => void;
+  /**
+   * Callback fired when a close attempt is blocked: a click on a static backdrop, or Escape
+   * while `keyboard` is off.
+   */
+  onClosePrevented?: () => void;
+  /**
+   * Callback fired after the exit transition completes and the alert is fully hidden.
+   */
+  onHidden?: () => void;
+  /**
+   * Callback fired when the alert starts to open.
+   */
+  onShow?: () => void;
+  /**
+   * Callback fired after the entry transition completes and the alert is fully visible.
+   */
+  onShown?: () => void;
+  /**
+   * Callback fired with `false` when the alert asks to be closed, at the same moments as
+   * `onClose`. It makes `visible` and `onVisibleChange` a pair that takes a state setter.
+   */
+  onVisibleChange?: (visible: boolean) => void;
+  /**
+   * Whether the alert is open. The alert is then controlled: a close request only fires `onClose`
+   * and `onVisibleChange`, and the alert closes when this becomes `false`.
+   */
+  visible?: boolean;
+}
+export declare const Alert: React.ForwardRefExoticComponent<AlertProps & React.RefAttributes<HTMLDialogElement>>;
+//#endregion
+//#region src/components/alert/AlertBody.d.ts
+type AlertBodyOwnProps<C extends ElementType> = {
+  /**
+   * A string of all className you want applied to the component.
+   */
+  className?: string;
+  /**
+   * Component used for the root node. Either a string to use an HTML element or a component.
+   *
+   * @default 'div'
+   */
+  component?: C;
+};
+type AlertBodyProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, AlertBodyOwnProps<C>>;
+type AlertBodyComponent = (<C extends ElementType = 'div'>(props: AlertBodyProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+export declare const AlertBody: AlertBodyComponent;
+//#endregion
+//#region src/components/alert/AlertCancel.d.ts
+type AlertCancelProps = Omit<ButtonProps<'button'>, 'asChild' | 'component' | 'href'>;
+export declare const AlertCancel: React.ForwardRefExoticComponent<AlertCancelProps & React.RefAttributes<HTMLButtonElement>>;
+//#endregion
+//#region src/components/alert/AlertCode.d.ts
+type AlertCodeOwnProps<C extends ElementType> = {
+  /**
+   * A string of all className you want applied to the component.
+   */
+  className?: string;
+  /**
+   * Component used for the root node. Either a string to use an HTML element or a component.
+   *
+   * @default 'code'
+   */
+  component?: C;
+};
+type AlertCodeProps<C extends ElementType = 'code'> = PolymorphicComponentProps<C, AlertCodeOwnProps<C>>;
+type AlertCodeComponent = (<C extends ElementType = 'code'>(props: AlertCodeProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+export declare const AlertCode: AlertCodeComponent;
+//#endregion
+//#region src/components/alert/AlertFooter.d.ts
+type AlertFooterOwnProps<C extends ElementType> = {
+  /**
+   * A string of all className you want applied to the component.
+   */
+  className?: string;
+  /**
+   * Component used for the root node. Either a string to use an HTML element or a component.
+   *
+   * @default 'div'
+   */
+  component?: C;
+  /**
+   * Stacks the actions as full-width rows on small screens, instead of sharing one row.
+   */
+  stacked?: boolean;
+};
+type AlertFooterProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, AlertFooterOwnProps<C>>;
+type AlertFooterComponent = (<C extends ElementType = 'div'>(props: AlertFooterProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+export declare const AlertFooter: AlertFooterComponent;
+//#endregion
+//#region src/components/alert/AlertIcon.d.ts
+type AlertIconProps = IconProps & {
+  /**
+   * A string of all className you want applied to the component.
+   */
+  className?: string;
+  /**
+   * Colors the icon with one of Chassis context colors, such as `danger` for a destructive
+   * confirmation.
+   */
+  color?: ContextColor;
+};
+export declare const AlertIcon: React.ForwardRefExoticComponent<AlertIconProps & React.RefAttributes<HTMLSpanElement | SVGSVGElement>>;
+//#endregion
+//#region src/components/alert/AlertText.d.ts
+type AlertTextOwnProps<C extends ElementType> = {
+  /**
+   * A string of all className you want applied to the component.
+   */
+  className?: string;
+  /**
+   * Component used for the root node. Either a string to use an HTML element or a component.
+   *
+   * @default 'p'
+   */
+  component?: C;
+};
+type AlertTextProps<C extends ElementType = 'p'> = PolymorphicComponentProps<C, AlertTextOwnProps<C>>;
+type AlertTextComponent = (<C extends ElementType = 'p'>(props: AlertTextProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+export declare const AlertText: AlertTextComponent;
+//#endregion
+//#region src/components/alert/AlertTitle.d.ts
+type AlertTitleOwnProps<C extends ElementType> = {
+  /**
+   * A string of all className you want applied to the component.
+   */
+  className?: string;
+  /**
+   * Component used for the root node. Either a string to use an HTML element or a component.
+   *
+   * @default 'h2'
+   */
+  component?: C;
+};
+type AlertTitleProps<C extends ElementType = 'h2'> = PolymorphicComponentProps<C, AlertTitleOwnProps<C>>;
+type AlertTitleComponent = (<C extends ElementType = 'h2'>(props: AlertTitleProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
+  displayName?: string;
+};
+export declare const AlertTitle: AlertTitleComponent;
+//#endregion
+export { type AccordionBodyProps, type AccordionHeaderProps, type AccordionItemDef, type AccordionItemProps, type AccordionProps, type AlertBodyProps, type AlertCancelProps, type AlertCodeProps, type AlertFooterProps, type AlertIconProps, type AlertProps, type AlertTextProps, type AlertTitleProps, type AutocompleteGroupProps, type AutocompleteItemProps, type AutocompleteProps, type AvatarImageProps, type AvatarProps, type AvatarStackItemDef, type AvatarStackProps, type BadgeProps, type BreadcrumbItemDef, type BreadcrumbItemProps, type BreadcrumbProps, type Breakpoint, type ButtonGroupProps, type ButtonObject, type ButtonProps, type ButtonToolbarProps, type CalendarLabels, type CalendarMultipleProps, type CalendarProps, type CalendarSingleProps, type CardBodyProps, type CardFooterProps, type CardGroupProps, type CardHeaderProps, type CardImageOverlayProps, type CardImageProps, type CardLinkProps, type CardProps, type CardSubtitleProps, type CardTextProps, type CardTitleProps, type CarouselControlNextProps, type CarouselControlPrevProps, type CarouselEnds, type CarouselIndicatorsProps, type CarouselInnerProps, type CarouselItemProps, type CarouselOverlayProps, type CarouselPlayPauseProps, type CarouselProps, type CarouselSlideDetail, type CarouselTransition, type CheckboxGroupProps, type CheckboxProps, type ChipInputProps, type ChipProps, type CloseButtonProps, type ColProps, type CollapseProps, type ColorInputProps, type ComboboxGroupProps, type ComboboxItemProps, type ComboboxProps, type ContainerProps, type ContextColor, type ContextStyle, type DataGridBodyProps, type DataGridCellProps, type DataGridColumnProps, type DataGridHeaderProps, type DataGridProps, type DataGridRowProps, type DataGridSelectionCellProps, type DatePickerMultipleProps, type DatePickerProps, type DatePickerSingleProps, type DateRangePickerProps, type DateRangePreset, type DrawerBodyProps, type DrawerFooterProps, type DrawerHeaderProps, type DrawerProps, type DrawerTitleProps, type ExtendedSizing, type FileInputProps, type FlexProps, type FloatingInputProps, type FormFeedbackProps, type FormFieldProps, type FormHelpProps, type FormLabelProps, type FormProps, type GridItemLayout, type GridItemProps, type GridProps, I18nProvider, type IconComponentProps, type IconKey, type IconProps, type IconProviderProps, type IconValue, type InputAdornProps, type InputGroupAddonProps, type InputGroupProps, type LinkProps, type ListItemDef, type ListItemProps, type ListProps, type MenuAutoClose, type MenuDividerDef, type MenuDividerProps, type MenuFocusStrategy, type MenuHeaderDef, type MenuHeaderProps, type MenuItemDef, type MenuItemProps, type MenuItemsDef, type MenuListProps, type MenuProps, type MenuSubmenuBackProps, type MenuSubmenuProps, type MenuTextProps, type MenuToggleProps, type ModalBodyProps, type ModalFooterProps, type ModalHeaderProps, type ModalProps, type ModalTitleProps, type NavItemDef, type NavLinkProps, type NavProps, type NavTitleProps, type NavbarBrandProps, type NavbarNavProps, type NavbarProps, type NavbarTextProps, type NavbarTogglerProps, type NotificationContent, type NotificationIconProps, type NotificationProps, type NotificationStackProps, type NotificationTextProps, type NotificationTitleProps, type OtpInputProps, type PaginationItemProps, type PaginationProps, type PasswordStrengthProps, type PlaceholderProps, type Placement, type PopoverProps, type PortalProps, type ProgressBarProps, type ProgressProps, type RadioGroupProps, type RadioProps, type RangeCalendarProps, type RangeInputProps, type RowProps, type SelectOptionDef, type SelectProps, type Shapes, type Sizing, type SkeletonLoaderProps, type SkeletonProps, type Spacing, type SpinnerProps, type StackProps, type StaticTableProps, type StepperItemDef, type StepperItemProps, type StepperProps, type SwitchProps, type TabListProps, type TabPanelProps, type TabProps, type TableBodyProps, type TableCellProps, type TableColumnProps, type TableHeaderProps, type TableProps, type TableRowProps, type TabsProps, type TextInputProps, type TextareaProps, type ToastBodyProps, type ToastContent, type ToastFooterProps, type ToastHeaderProps, type ToastIconProps, type ToastProps, type ToasterProps, type TooltipProps, type UseDrawerResult, type UseModalResult, type UseNotificationResult, type UsePaginationResult, type UseToastResult, type VisuallyHiddenProps };
 ```

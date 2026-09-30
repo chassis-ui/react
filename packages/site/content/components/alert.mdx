@@ -1,0 +1,128 @@
+---
+title: Alert
+description: An alert dialog that interrupts the current flow until the user makes an explicit choice, such as confirming a destructive action.
+toc: true
+---
+
+import { Example as ConfirmExample } from '../../examples/components/alert/ConfirmExample.tsx'
+import { Example as ErrorCodeExample } from '../../examples/components/alert/ErrorCodeExample.tsx'
+import { Example as CloseButtonExample } from '../../examples/components/alert/CloseButtonExample.tsx'
+import { Example as FooterLayoutExample } from '../../examples/components/alert/FooterLayoutExample.tsx'
+import { Example as SequentialExample } from '../../examples/components/alert/SequentialExample.tsx'
+
+<Callout type="info">
+  **Looking for a status banner?** Chassis calls inline status messages
+  [Notifications]([[docsref:/components/notification]]). An `Alert` is chassis-css's
+  [alert dialog](https://chassis-ui.com/css/docs/components/alert): it blocks the page until the
+  user answers.
+</Callout>
+
+## Overview
+
+`<Alert>` renders a `<dialog>` with `role="alertdialog"` and opens it as a modal dialog, the way
+[`Modal`]([[docsref:/components/modal]]) does. Use it for a decision the flow can't continue
+without: confirming a destructive action, acknowledging an error. For an overlay that doesn't
+demand a decision, use `Modal`; for a message that doesn't interrupt, use `Notification`.
+
+An alert waits for an explicit choice, so by default neither a click on the backdrop nor the
+Escape key closes it; the alert bounces instead. Set `backdrop` and `keyboard` to allow them.
+
+## Basic usage
+
+Compose an `<AlertIcon>` (optional), an `<AlertBody>` with an `<AlertTitle>` and an `<AlertText>`,
+and an `<AlertFooter>` with the actions. The footer lays the actions out right to left, so write
+the primary action first. `<AlertCancel>` is the least destructive action: it closes the alert, and
+it has focus when the alert opens.
+
+<Example>
+  <ConfirmExample client:load />
+</Example>
+
+## Error codes
+
+`<AlertCode>` shows a machine-readable reference under the title, in subdued type.
+
+<Example>
+  <ErrorCodeExample client:load />
+</Example>
+
+## Close button
+
+An alert's actions are usually its only way out. When it needs one without an action of its own,
+`closeButton` adds a close button in the corner.
+
+<Example>
+  <CloseButtonExample client:load />
+</Example>
+
+## Footer layout
+
+On small screens the actions share one row. `stacked` stacks them as full-width rows instead. Push
+a separate action, such as a destructive one, to the other end with `className="sm:me-auto"`.
+
+<Example>
+  <FooterLayoutExample client:load />
+</Example>
+
+## Sequential alerts
+
+One alert can lead to another: open the next from an action of the current one. The second alert
+below asks for a typed confirmation, and its field has focus when it opens, because it carries
+`data-autofocus`.
+
+<Example>
+  <SequentialExample client:load />
+</Example>
+
+## Accessibility
+
+`<Alert>` names itself with its `<AlertTitle>` (`aria-labelledby`) and describes itself with its
+`<AlertCode>` and `<AlertText>` (`aria-describedby`), the two an `alertdialog` needs. Each part is
+listed under the id it has on the page (your own `id`, or the child's under `asChild`), in page
+order, and only while it is rendered. So both attributes are added once the alert has mounted,
+never in the server's HTML. Set your own `aria-labelledby` or `aria-describedby` to point
+elsewhere.
+
+When the alert opens, focus moves to its first element with `data-autofocus`: `<AlertCancel>` has
+it, so the least destructive action is focused, as the
+[WAI-ARIA pattern](https://www.w3.org/WAI/ARIA/apg/patterns/alertdialog/) recommends. Give an
+earlier element `data-autofocus` to focus it instead, or opt `<AlertCancel>` out with
+`data-autofocus="false"`. React's `autoFocus` isn't enough: in a page rendered in the browser,
+React writes no `autofocus` attribute for the dialog to find.
+
+When the alert closes, focus returns to the element that had it when the alert opened. After a
+chain of alerts, that is the element that opened the first one.
+
+## API
+
+### Alert
+
+<PropTable component="Alert" />
+
+### AlertIcon
+
+<PropTable component="AlertIcon" />
+
+### AlertBody
+
+<PropTable component="AlertBody" />
+
+### AlertTitle
+
+<PropTable component="AlertTitle" />
+
+### AlertCode
+
+<PropTable component="AlertCode" />
+
+### AlertText
+
+<PropTable component="AlertText" />
+
+### AlertFooter
+
+<PropTable component="AlertFooter" />
+
+### AlertCancel
+
+<PropTable component="AlertCancel" />
