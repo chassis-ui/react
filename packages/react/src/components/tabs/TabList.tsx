@@ -15,6 +15,7 @@ import { Key, Node } from 'react-stately'
 
 import { useForkedRef, useIsomorphicLayoutEffect } from '../../hooks'
 import { NavOverflowContext, NavOverflowItems, useNavOverflowItem } from '../../utils/navOverflow'
+import { mergeUnhandledProps } from '../../utils/unhandledProps'
 import { TabProps } from './Tab'
 import { useTabsContext } from './context'
 
@@ -85,7 +86,7 @@ export const TabList = forwardRef<HTMLUListElement, TabListProps>(
     return (
       <ul
         className={_className}
-        {...tabListProps}
+        {...mergeUnhandledProps(tabListProps, rest, ['children'])}
         onKeyDownCapture={handleKeyDownCapture}
         {...(overflows && {
           onBlurCapture: () => setToggleFocused(false),

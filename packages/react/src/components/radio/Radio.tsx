@@ -6,6 +6,7 @@ import { useForkedRef } from '../../hooks'
 import { ContextColor } from '../../types'
 import { validationClassName } from '../../utils/validationClassName'
 import { joinIds } from '../../utils/idRefs'
+import { mergeUnhandledProps, TOGGLE_PROPS } from '../../utils/unhandledProps'
 
 import { RadioGroupContext } from './context'
 import { ButtonObject, renderFormCheck } from '../form/renderFormCheck'
@@ -49,11 +50,14 @@ export interface RadioProps extends Omit<
   value: string
 }
 
+// The group owns its radios' `name`, `form` and required state, and which one is the tab stop.
+const RADIO_PROPS = [...TOGGLE_PROPS, 'form', 'name', 'required', 'tabIndex']
+
 // `<Radio>` must be rendered inside a `<RadioGroup>` — react-aria has no standalone
 // radio hook, only useRadio(props, RadioGroupState, ref), because a lone radio with no group is
 // not a meaningful accessible control (see https://chassis-ui.com/css/docs/forms/checkbox-radio).
 export const Radio = forwardRef<HTMLInputElement, RadioProps>(
-  ({ button, children, className, color, disabled, id, label, size, ...rest }, ref) => {
+  ({ button, children, className, color, disabled, id, label, size, style, ...rest }, ref) => {
     const group = useContext(RadioGroupContext)
 
     if (!group) {
@@ -91,7 +95,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
       // by those the group renders (FORMS.md, gotcha 6).
       input: (
         <input
-          {...inputProps}
+          {...mergeUnhandledProps(inputProps, rest, RADIO_PROPS)}
           aria-describedby={joinIds(rest['aria-describedby'], groupDescribedBy)}
           className={inputClassName}
           id={id}
@@ -101,6 +105,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
       invalid,
       label: resolvedLabel,
       size,
+      style,
       valid
     })
   }

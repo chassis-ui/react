@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React, { CSSProperties, ReactNode } from 'react'
 import classNames from 'classnames'
 
 import { ContextColor, Shapes } from '../../types'
@@ -33,13 +33,14 @@ export interface RenderFormCheckOptions {
   invalid?: boolean
   label?: ReactNode
   size?: 'sm' | 'lg'
+  style?: CSSProperties
   valid?: boolean
 }
 
 // Shared nested, modern `.form-check`/`.check-input` markup for Checkbox and Radio —
 // see https://chassis-ui.com/css/docs/forms/checkbox-radio/#modern-inputs. Everything renders
 // nested inside a single <label> (or a bare <span class="check-input"> when there's no label);
-// there is no sibling/`for`-linked layout.
+// there is no sibling/`for`-linked layout. `style` goes on the outermost element.
 export const renderFormCheck = ({
   button,
   className,
@@ -48,6 +49,7 @@ export const renderFormCheck = ({
   invalid,
   label,
   size,
+  style,
   valid
 }: RenderFormCheckOptions) => {
   if (button) {
@@ -62,7 +64,7 @@ export const renderFormCheck = ({
       className
     )
     return (
-      <FormLabel customClassName={_className}>
+      <FormLabel customClassName={_className} style={style}>
         {input}
         {label}
       </FormLabel>
@@ -72,13 +74,17 @@ export const renderFormCheck = ({
   const checkInputClassName = classNames('check-input', color, validationClassName(invalid, valid))
 
   if (!label) {
-    return <span className={checkInputClassName}>{input}</span>
+    return (
+      <span className={checkInputClassName} style={style}>
+        {input}
+      </span>
+    )
   }
 
   const _className = classNames('form-check', size, validationClassName(invalid, valid), className)
 
   return (
-    <FormLabel customClassName={_className}>
+    <FormLabel customClassName={_className} style={style}>
       <span className={checkInputClassName}>{input}</span>
       {label}
     </FormLabel>

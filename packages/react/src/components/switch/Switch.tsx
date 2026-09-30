@@ -1,10 +1,11 @@
-import React, { forwardRef, InputHTMLAttributes, ReactNode, useRef } from 'react'
+import React, { CSSProperties, forwardRef, InputHTMLAttributes, ReactNode, useRef } from 'react'
 import classNames from 'classnames'
 import { AriaSwitchProps, useSwitch } from 'react-aria'
 import { useToggleState } from 'react-stately'
 
 import { useForkedRef } from '../../hooks'
 import { ContextColor } from '../../types'
+import { mergeUnhandledProps, TOGGLE_PROPS } from '../../utils/unhandledProps'
 import { validationClassName } from '../../utils/validationClassName'
 
 import { FormLabel } from '../form/FormLabel'
@@ -71,17 +72,28 @@ interface RenderSwitchOptions {
   className: string
   input: ReactNode
   label?: ReactNode
+  style?: CSSProperties
 }
 
 // Mirrors renderFormCheck's nested-label/bare-span shape — Switch inlines its own markup (see
 // FORMS.md) rather than sharing that helper directly, since `role="switch"` placement didn't fit
 // it cleanly. Keep this in sync with renderFormCheck by eye if either changes.
-const renderSwitch = ({ checkInputClassName, className, input, label }: RenderSwitchOptions) => {
+const renderSwitch = ({
+  checkInputClassName,
+  className,
+  input,
+  label,
+  style
+}: RenderSwitchOptions) => {
   if (!label) {
-    return <span className={checkInputClassName}>{input}</span>
+    return (
+      <span className={checkInputClassName} style={style}>
+        {input}
+      </span>
+    )
   }
   return (
-    <FormLabel customClassName={className}>
+    <FormLabel customClassName={className} style={style}>
       <span className={checkInputClassName}>{input}</span>
       {label}
     </FormLabel>
@@ -97,12 +109,13 @@ interface RenderSwitchInputOptions {
   invalid?: boolean
   label?: ReactNode
   size?: 'sm' | 'lg'
+  style?: CSSProperties
   valid?: boolean
 }
 
 // Shared className-building/markup for `SwitchCheckbox`/`SwitchRadio` — the two variants only
 // differ in how `inputProps` gets built (a react-aria hook vs. a hand-wired radio), everything
-// after that is identical.
+// after that is identical. `style` goes on the outermost element, as `className` does.
 const renderSwitchInput = ({
   className,
   color,
@@ -112,6 +125,7 @@ const renderSwitchInput = ({
   invalid,
   label,
   size,
+  style,
   valid
 }: RenderSwitchInputOptions) => {
   const inputClassName = classNames(validationClassName(invalid, valid))
@@ -127,7 +141,8 @@ const renderSwitchInput = ({
     checkInputClassName,
     className: _className,
     input: <input {...inputProps} className={inputClassName} id={id} ref={forkedRef} />,
-    label
+    label,
+    style
   })
 }
 
@@ -150,6 +165,7 @@ const SwitchCheckbox = forwardRef<HTMLInputElement, SwitchVariantProps>(
       label,
       onChange,
       size,
+      style,
       valid,
       ...rest
     },
@@ -187,10 +203,14 @@ const SwitchCheckbox = forwardRef<HTMLInputElement, SwitchVariantProps>(
       id,
       // `aria-describedby` over react-aria's own, which adds ids it never renders (FORMS.md,
       // gotcha 6).
-      inputProps: { ...switchProps, 'aria-describedby': rest['aria-describedby'] },
+      inputProps: {
+        ...mergeUnhandledProps(switchProps, rest, TOGGLE_PROPS),
+        'aria-describedby': rest['aria-describedby']
+      },
       invalid,
       label: resolvedLabel,
       size,
+      style,
       valid
     })
   }
@@ -214,6 +234,7 @@ const SwitchRadio = forwardRef<HTMLInputElement, SwitchVariantProps>(
       label,
       onChange,
       size,
+      style,
       valid,
       ...rest
     },
@@ -247,6 +268,7 @@ const SwitchRadio = forwardRef<HTMLInputElement, SwitchVariantProps>(
       invalid,
       label: resolvedLabel,
       size,
+      style,
       valid
     })
   }

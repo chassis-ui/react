@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import { AriaTextFieldProps, useTextField } from 'react-aria'
 
 import { useForkedRef, useFormField } from '../../hooks'
+import { mergeUnhandledProps, TEXT_FIELD_PROPS } from '../../utils/unhandledProps'
 import { validationClassName } from '../../utils/validationClassName'
 import { renderFormField } from '../form-field/renderFormField'
 
@@ -111,6 +112,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       plainText,
       readOnly,
       size,
+      style,
       type = 'text',
       valid,
       validFeedback,
@@ -161,18 +163,22 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     )
 
     // `aria-describedby` after the spread: react-aria's own adds ids it never renders (FORMS.md,
-    // gotcha 6).
+    // gotcha 6). `style` goes where `className` does, on the outermost element.
     const input = (
       <input
-        {...inputProps}
+        {...mergeUnhandledProps(inputProps, rest, TEXT_FIELD_PROPS)}
         aria-describedby={describedBy}
         className={inputClassName}
         ref={forkedRef}
+        style={hasAdorn ? undefined : style}
       />
     )
 
     const children = hasAdorn ? (
-      <div className={classNames('form-input', plainText && 'plaintext', size, className)}>
+      <div
+        className={classNames('form-input', plainText && 'plaintext', size, className)}
+        style={style}
+      >
         {adornStart}
         {input}
         {adornEnd}

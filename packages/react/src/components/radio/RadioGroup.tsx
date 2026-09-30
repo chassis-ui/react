@@ -5,6 +5,7 @@ import { RadioGroupProps as StatelyRadioGroupProps, useRadioGroupState } from 'r
 
 import { validationClassName } from '../../utils/validationClassName'
 import { joinIds } from '../../utils/idRefs'
+import { mergeUnhandledProps } from '../../utils/unhandledProps'
 
 import { RadioGroupContext } from './context'
 import { FormFeedback } from '../form/FormFeedback'
@@ -132,8 +133,7 @@ export const RadioGroup = forwardRef<HTMLFieldSetElement, RadioGroupProps>(
 
     return (
       <fieldset
-        {...rest}
-        {...radioGroupProps}
+        {...mergeUnhandledProps(radioGroupProps, rest, ['onBlur', 'onFocus'])}
         aria-describedby={joinIds(describedBy, rest['aria-describedby'])}
         className={_className}
         ref={ref}

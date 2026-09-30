@@ -23,6 +23,7 @@ import { CheckboxGroupContext } from './context'
 import { ButtonObject, renderFormCheck } from '../form/renderFormCheck'
 import { devError, devWarning } from '../../utils/devWarning'
 import { joinIds } from '../../utils/idRefs'
+import { mergeUnhandledProps, TOGGLE_PROPS } from '../../utils/unhandledProps'
 
 export type { ButtonObject } from '../form/renderFormCheck'
 
@@ -109,6 +110,7 @@ const CheckboxStandalone = forwardRef<HTMLInputElement, CheckboxProps>(
       label,
       onChange,
       size,
+      style,
       valid,
       ...rest
     },
@@ -151,7 +153,7 @@ const CheckboxStandalone = forwardRef<HTMLInputElement, CheckboxProps>(
       // gotcha 6).
       input: (
         <input
-          {...inputProps}
+          {...mergeUnhandledProps(inputProps, rest, TOGGLE_PROPS)}
           aria-describedby={rest['aria-describedby']}
           className={inputClassName}
           id={id}
@@ -161,6 +163,7 @@ const CheckboxStandalone = forwardRef<HTMLInputElement, CheckboxProps>(
       invalid,
       label: resolvedLabel,
       size,
+      style,
       valid
     })
   }
@@ -192,6 +195,7 @@ const CheckboxGroupItem = forwardRef<HTMLInputElement, CheckboxGroupItemProps>(
       label,
       onChange: _onChange,
       size,
+      style,
       valid: itemValid,
       ...rest
     },
@@ -247,7 +251,7 @@ const CheckboxGroupItem = forwardRef<HTMLInputElement, CheckboxGroupItemProps>(
       // by those the group renders (FORMS.md, gotcha 6).
       input: (
         <input
-          {...inputProps}
+          {...mergeUnhandledProps(inputProps, rest, TOGGLE_PROPS)}
           aria-describedby={joinIds(rest['aria-describedby'], groupDescribedBy)}
           className={inputClassName}
           id={id}
@@ -257,6 +261,7 @@ const CheckboxGroupItem = forwardRef<HTMLInputElement, CheckboxGroupItemProps>(
       invalid,
       label: resolvedLabel,
       size,
+      style,
       valid
     })
   }

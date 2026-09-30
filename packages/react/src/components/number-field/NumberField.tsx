@@ -14,6 +14,7 @@ import './NumberField.scss'
 import { useForkedRef, useFormField } from '../../hooks'
 import { IconValue } from '../../utils/iconConfig'
 import { IconSlot } from '../../utils/iconSlot'
+import { mergeUnhandledProps, TEXT_FIELD_PROPS } from '../../utils/unhandledProps'
 import { validationClassName } from '../../utils/validationClassName'
 import { useHydrated } from '../portal/Portal'
 import { renderFormField } from '../form-field/renderFormField'
@@ -255,7 +256,11 @@ export const NumberField = forwardRef<HTMLInputElement, NumberFieldProps>(
     // the reset of the input's own form, and a form linked by id is the input's form only then.
     const input = (
       <input
-        {...(hasWrapper ? inputProps : mergeProps(inputProps, focusWithin))}
+        {...mergeUnhandledProps(
+          hasWrapper ? inputProps : mergeProps(inputProps, focusWithin),
+          rest,
+          TEXT_FIELD_PROPS
+        )}
         aria-describedby={describedBy}
         // react-aria's spin button props repeat the native `disabled` and `readOnly` the text
         // field sets; the Nu Html Checker flags the copies.

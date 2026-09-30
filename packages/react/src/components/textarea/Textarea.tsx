@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import { AriaTextFieldOptions, useTextField } from 'react-aria'
 
 import { useForkedRef, useFormField } from '../../hooks'
+import { mergeUnhandledProps, TEXT_FIELD_PROPS } from '../../utils/unhandledProps'
 import { validationClassName } from '../../utils/validationClassName'
 import { renderFormField } from '../form-field/renderFormField'
 
@@ -133,7 +134,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       // `aria-describedby` after the spread: see `TextInput`.
       children: (
         <textarea
-          {...inputProps}
+          {...mergeUnhandledProps(inputProps, rest, TEXT_FIELD_PROPS)}
           aria-describedby={describedBy}
           rows={rows}
           className={_className}
