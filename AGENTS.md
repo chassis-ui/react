@@ -124,7 +124,7 @@ finding F10 of `AUDIT-PLAN.md`; delete each one when its fix lands. Fix a new fi
 example or the component; add an exception only for markup that is correct.
 
 A separate `visual-regression` job runs `pnpm test:visual` (Storybook + Playwright screenshot
-tests scoped to the calendar/datepicker family today — see
+tests, for the families listed there — see
 [`packages/react/AGENTS.md`](packages/react/AGENTS.md#visual-regression)) inside the official
 Playwright Docker image, so the rendered pixels match the checked-in Linux baseline screenshots.
 That image tag has to stay in lockstep with the `@playwright/test` devDependency version in

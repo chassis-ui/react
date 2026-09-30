@@ -7,8 +7,7 @@ import React, {
   ReactElement,
   ReactNode,
   Ref,
-  useContext,
-  version
+  useContext
 } from 'react'
 import { mergeProps } from 'react-aria'
 
@@ -39,14 +38,9 @@ const SlotContext = createContext<SlotElement | null>(null)
 
 export const SlotProvider = SlotContext.Provider
 
-// React 19 moved `ref` onto `props` (and warns on reading `element.ref`); React 18 only has
-// `element.ref`. The package supports both (`peerDependencies.react: ^18.0.0 || ^19.0.0`).
-const REACT_19 = parseInt(version, 10) >= 19
-
+// React 19 made `ref` an ordinary prop, and warns on reading `element.ref`.
 function getElementRef(element: SlotElement): Ref<unknown> | undefined {
-  return REACT_19
-    ? (element.props as { ref?: Ref<unknown> }).ref
-    : (element as unknown as { ref?: Ref<unknown> }).ref
+  return (element.props as { ref?: Ref<unknown> }).ref
 }
 
 // `Record` rather than a declared prop list: `Slot` forwards whatever the render function hands it.

@@ -127,10 +127,12 @@ pnpm test:update  # same, plus -u to update snapshots
 
 - Test files matched by `test/**/*.spec.tsx` only (see `vitest.config.ts`); environment is jsdom.
 - `vitest.config.ts` defines **two projects**: the default jsdom one (`test/**/*.spec.tsx`) and
-  `storybook`, which runs every story's `play` function in real Chromium via
-  `@vitest/browser-playwright`. `pnpm test` runs both, so it needs a Chromium binary on disk — CI
-  installs one explicitly (`playwright install --with-deps chromium`). Filter to one with
-  `--project=storybook` / `--project='!storybook'`.
+  `storybook`, which runs every story's `play` function in real Chromium, Firefox and WebKit via
+  `@vitest/browser-playwright` — one instance per engine in `browserslist`. `pnpm test` runs
+  both, so it needs the three browser binaries on disk. Locally, from this package:
+  `pnpm exec playwright install chromium firefox webkit`; CI adds `--with-deps`. Filter with
+  `--project=storybook` / `--project='!storybook'`, or to one browser with
+  `--project='storybook (webkit)'`.
 - `test/types.test-d.tsx` holds type-level assertions (`expectTypeOf`, plus `@ts-expect-error`
   cases that must keep erroring). It's deliberately **not** a `.spec.tsx`, so vitest never collects
   or executes it — it's checked entirely by `pnpm check:types`. Add to it when changing a generic
@@ -198,17 +200,19 @@ pnpm test:update  # same, plus -u to update snapshots
 
 Storybook (`.storybook/`, config framework `@storybook/react-vite`) plus Playwright screenshot
 tests (`test/visual/`) catch pixel-level regressions that `vitest`'s DOM snapshots can't — e.g. a
-CSS change that doesn't alter markup at all. Coverage today spans six batches, each its own spec
+CSS change that doesn't alter markup at all. Coverage today spans nine batches, each its own spec
 file: `calendar-datepicker.visual.spec.ts` (calendar, datepicker — this family has component-scoped
 CSS, see `THEMING.md`, so it needs pixel coverage the other families don't),
 `menu-popover-tooltip.visual.spec.ts`
 (positioning-heavy, portal-based), `toast-notification.visual.spec.ts` (transition-heavy),
 `accordion-collapse.visual.spec.ts` (native `<details>` / `useTransitionState`-driven open-close
 state),
-`carousel.visual.spec.ts` (CSS-scroll-snap-driven), and `datagrid.visual.spec.ts` (virtualizer-driven
+`carousel.visual.spec.ts` (CSS-scroll-snap-driven), `datagrid.visual.spec.ts` (virtualizer-driven
 — row/column position and size are computed at runtime by react-aria-components' `Virtualizer`, not
-CSS alone). A future family gets its own `test/visual/<family>.visual.spec.ts` with its own
-story-title filter, not a widened version of an existing one. All six call the shared
+CSS alone), `combobox-autocomplete.visual.spec.ts`, `overlays.visual.spec.ts` (modal, drawer) and
+`table.visual.spec.ts`. That is 16 of the 57 story folders; the rest are tracked in issue #45. A
+future family gets its own `test/visual/<family>.visual.spec.ts` with its own
+story-title filter, not a widened version of an existing one. All nine call the shared
 `runVisualRegressionSuite` helper (`test/visual/visualSuite.ts`) rather than each re-reading and
 filtering Storybook's build manifest themselves — a spec file is just its title-prefix list plus,
 for the two families that need it, a `waitFor`: toast/notification (see below) and DataGrid (its

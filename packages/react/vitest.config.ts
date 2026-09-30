@@ -99,11 +99,8 @@ export default defineConfig({
             headless: true,
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             provider: playwright({}) as any,
-            instances: [
-              {
-                browser: 'chromium'
-              }
-            ]
+            // One per engine in package.json's `browserslist`. CI installs the same three.
+            instances: [{ browser: 'chromium' }, { browser: 'firefox' }, { browser: 'webkit' }]
           }
         }
       }

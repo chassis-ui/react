@@ -1,4 +1,4 @@
-import { HTMLAttributes, ReactElement, Ref, version as reactVersion } from 'react'
+import { HTMLAttributes, ReactElement, Ref } from 'react'
 
 import { resolveLazy } from './lazyElement'
 
@@ -20,11 +20,6 @@ export type TriggerElement = ReactElement<TriggerElementProps>
 export const asTriggerElement = (element: ReactElement): TriggerElement =>
   resolveLazy(element) as TriggerElement
 
-// React 19 turned `ref` into an ordinary prop; before that it lived on the element itself and was
-// stripped out of `props`. React 19's development build installs a warning getter on
-// `element.ref`, so this reads only the location that's correct for the React actually running
-// rather than probing both and tripping that warning on every trigger that has no ref at all.
-const REF_LIVES_IN_PROPS = parseInt(reactVersion, 10) >= 19
-
+// React 19 made `ref` an ordinary prop, and its development build warns on reading `element.ref`.
 export const getTriggerRef = (element: TriggerElement): Ref<HTMLElement> | undefined =>
-  REF_LIVES_IN_PROPS ? element.props.ref : (element as { ref?: Ref<HTMLElement> }).ref
+  element.props.ref

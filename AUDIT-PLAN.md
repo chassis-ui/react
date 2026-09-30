@@ -426,6 +426,7 @@ the `sideEffects` globs.
       css 0.6 is likely next: the Dependabot pull request that takes it must widen this range and
       carry a changeset. Add that to the `chassis-ui` group's comment in `dependabot.yml`.
 - [x] Change `react`/`react-dom` to `^18.0.0 || ^19.0.0`, or `^19.0.0` if A7 drops React 18.
+      A7 dropped it: `^19.0.0`.
 - [x] Turn on `sourcemap` in `tsdown.config.ts`. If the maps embed `sourcesContent`, remove `src/`
       from `files`; if not, keep it. Check that `.bundlewatch.config.json`'s globs don't match
       `.map` files and that `check:rsc` still passes. Record the tarball size before and after in
@@ -504,15 +505,29 @@ then the generated files are removed.
 
 ### A7 — Firefox/WebKit tests, React 18 job (P7, P9)
 
+Done: ci commit "A7 — story tests in Firefox and WebKit, peer range to React 19". Nothing failed
+in the new browsers: all 305 stories pass in each of the three, on macOS and in CI's Playwright
+image (three runs of the `storybook` project, two of the full `pnpm test`). Open: the exit check,
+on the first CI run after the push.
+
+React 18 was measured before the decision, in a container with `react`, `react-dom` and their
+types at 18.3: 18 of 2,825 jsdom tests failed in 4 files (the lazy-children cases, hydration of
+the two `DataGrid` pinned-column stories, the `Combobox` portal test, one hydration-warning
+control) and `check:types` reported 3 errors. The peer range is now `^19.0.0`, and the two
+branches that read `element.ref` for React 18 (`slot.tsx`, `triggerElement.ts`) are removed.
+
+Visual regression covers nine spec files, not six: 16 of the 57 story folders. The rest is #45.
+
 Model: **Opus**. New browsers usually surface real failures that need diagnosing, not just config.
 
-- [ ] Add `firefox` and `webkit` instances to the `storybook` project in `vitest.config.ts`;
+- [x] Add `firefox` and `webkit` instances to the `storybook` project in `vitest.config.ts`;
       install them in CI. Triage what fails.
-- [ ] **(You)** Decide: support React 18, or narrow the peer range to 19.
-- [ ] If supporting it: add a CI job that runs the jsdom project with `react`, `react-dom` and
-      `@types/react` overridden to 18.
-- [ ] **(You)** Approve filing one issue: extending visual regression beyond six families. Then
-      file it.
+- [x] **(You)** Decide: support React 18, or narrow the peer range to 19. Decided 2026-09-30:
+      narrow to 19.
+- [x] If supporting it: add a CI job that runs the jsdom project with `react`, `react-dom` and
+      `@types/react` overridden to 18. Not needed: React 18 is not supported.
+- [x] **(You)** Approve filing one issue: extending visual regression beyond six families. Then
+      file it. Filed as #45.
 
 Exit: CI runs three browsers; the peer range matches what CI tests.
 

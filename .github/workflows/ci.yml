@@ -73,13 +73,14 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      # `pnpm test` runs the `storybook` vitest project in real Chromium via
+      # `pnpm test` runs the `storybook` vitest project in real browsers via
       # @vitest/browser-playwright (see packages/react/vitest.config.ts) — unlike the jsdom
-      # project, this needs an actual browser binary on disk, which `pnpm install` alone doesn't
-      # provide. Scoped to @chassis-ui/react (the only workspace package with this dependency) and
-      # to chromium only, matching the single browser instance configured in vitest.config.ts.
-      # `--with-deps` also installs the OS-level libraries Chromium needs on a bare Ubuntu runner.
-      - run: pnpm --filter @chassis-ui/react exec playwright install --with-deps chromium
+      # project, this needs the browser binaries on disk, which `pnpm install` alone doesn't
+      # provide. Scoped to @chassis-ui/react (the only workspace package with this dependency).
+      # The three browsers are the `instances` in vitest.config.ts, one per engine in the
+      # package's `browserslist`; keep the two lists the same. `--with-deps` also installs the
+      # OS-level libraries they need on a bare Ubuntu runner.
+      - run: pnpm --filter @chassis-ui/react exec playwright install --with-deps chromium firefox webkit
 
       - run: pnpm test
 
