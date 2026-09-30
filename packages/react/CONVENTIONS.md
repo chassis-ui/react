@@ -247,6 +247,27 @@ need `isElementOfType`.
 child-reading component with lazy nodes and with lazy types. A new component that reads its
 children gets a case there and a route in `smoke-tests/nextjs-app-router/app/rsc/`.
 
+## Refs: to the element the other attributes go to
+
+Every exported component forwards a ref, to the element its other attributes (`className`,
+`...rest`) go to: `Autocomplete`'s and `Combobox`'s go to the `.combobox` element, `Tooltip`'s and
+`Popover`'s to the panel. A component with no element of its own at a given moment leaves the ref
+`null` then: `FormField` while it renders its children bare, `SkeletonLoader` once the content has
+loaded (while loading, the ref is the first generated skeleton). Collection parts (`Tab`,
+`TableRow`, `ComboboxItem`, ...) and providers render no element and take no ref.
+
+A component that decorates an element it doesn't own, such as the trigger of a `Tooltip`, doesn't
+`cloneElement` it by hand. It takes the element with `getTriggerChild` and renders it with
+`renderSlotted` (`src/utils/slot.tsx`), the path `asChild` uses: the element's own props win,
+classNames concatenate, handlers chain (the component's first), `aria-describedby` adds up, and the
+component's ref is forked with the one the caller put on the element (`getElementRef`). Attributes
+that state the component's own condition, such as a `Popover` trigger's `aria-expanded` and
+`aria-controls`, are passed as `owned` and win over the element's. Every element renders through
+the same `Slot`, so a trigger isn't remounted when its `href` comes or goes.
+
+`test/utils/refForwarding.spec.tsx` fails on an exported component that isn't a `forwardRef`,
+unless its allowlist names it.
+
 ## Server HTML: what the page settles to
 
 A component's server HTML is what it settles to once hydrated, because that HTML is the page until

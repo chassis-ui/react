@@ -1,4 +1,5 @@
 import React, {
+  forwardRef,
   HTMLAttributes,
   InputHTMLAttributes,
   ReactNode,
@@ -10,7 +11,7 @@ import classNames from 'classnames'
 import { mergeProps, useButton, useComboBox, useFilter, useOverlayPosition } from 'react-aria'
 import { Key, useComboBoxState } from 'react-stately'
 
-import { useFloatingOverlay, useFormField } from '../../hooks'
+import { useFloatingOverlay, useForkedRef, useFormField } from '../../hooks'
 import {
   buildEntriesFromChildren,
   buildEntriesFromItemsDef,
@@ -174,29 +175,33 @@ export interface AutocompleteProps extends Omit<
 // `useComboBox`'s own `buttonProps` also sets `excludeFromTabOrder: true` by default — correct
 // for its usual "auxiliary button beside an always-visible input" composition, wrong here since
 // the toggle is the *only* focusable surface before opening; overridden back to reachable below.
-export const Autocomplete = ({
-  children,
-  className,
-  defaultValue,
-  disabled,
-  help,
-  id,
-  invalid,
-  invalidFeedback,
-  items,
-  label,
-  multiple = false,
-  name,
-  noResultsText = 'No results found',
-  onChange,
-  placeholder,
-  searchPlaceholder,
-  size,
-  valid,
-  validFeedback,
-  value,
-  ...rest
-}: AutocompleteProps): ReactNode => {
+// The ref goes to the toggle, the `.combobox` element, as `Combobox`'s goes to its own.
+export const Autocomplete = forwardRef<HTMLDivElement, AutocompleteProps>(function Autocomplete(
+  {
+    children,
+    className,
+    defaultValue,
+    disabled,
+    help,
+    id,
+    invalid,
+    invalidFeedback,
+    items,
+    label,
+    multiple = false,
+    name,
+    noResultsText = 'No results found',
+    onChange,
+    placeholder,
+    searchPlaceholder,
+    size,
+    valid,
+    validFeedback,
+    value,
+    ...rest
+  },
+  ref
+) {
   // `entries`/`disabledKeys` only need to change when the data driving them does — without this,
   // both re-derive from scratch on every render, including every keystroke while typing.
   const entries = useMemo(
@@ -234,6 +239,7 @@ export const Autocomplete = ({
   })
 
   const triggerRef = useRef<HTMLDivElement>(null)
+  const forkedTriggerRef = useForkedRef(ref, triggerRef)
   const inputRef = useRef<HTMLInputElement>(null)
   const listBoxRef = useRef<HTMLElement>(null)
   const popoverRef = useRef<HTMLDivElement>(null)
@@ -400,7 +406,7 @@ export const Autocomplete = ({
           aria-labelledby={labelledBy}
           aria-describedby={describedBy}
           aria-invalid={invalid || undefined}
-          ref={triggerRef}
+          ref={forkedTriggerRef}
         >
           <span className={classNames('combobox-value', { 'combobox-placeholder': !hasSelection })}>
             {triggerText}
@@ -456,6 +462,6 @@ export const Autocomplete = ({
     valid,
     validFeedback
   })
-}
+})
 
 Autocomplete.displayName = 'Autocomplete'

@@ -117,6 +117,21 @@
       "type": {
         "name": "{ 'auto' | number | string | boolean | Array<'auto' | number | string | boolean> }"
       }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/skeleton/SkeletonLoader.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "any"
+      }
     }
   }
 }

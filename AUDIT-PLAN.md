@@ -931,11 +931,36 @@ cases are in `test/ssr/firstPaint.tsx`, asserted in `render.spec.tsx` and hydrat
 
 Model: **Sonnet** for the first two boxes (the pattern exists in 61 files). **Opus** for the third.
 
-- [ ] Forward refs from `Autocomplete`, `PasswordStrength`, `FormField`, `SkeletonLoader`.
-- [ ] Merge `getElementRef` and `getTriggerRef` into one helper.
-- [ ] Rebuild the `Tooltip`/`Popover` trigger on `Slot`.
+- [x] Forward refs from `Autocomplete`, `PasswordStrength`, `FormField`, `SkeletonLoader`. Each
+      goes to the element the other attributes go to (`Autocomplete`: the `.combobox` toggle, as
+      `Combobox`). `FormField`'s is `null` while it renders its children bare; `SkeletonLoader`'s
+      is the first generated skeleton while loading, `null` after. `PasswordStrength` already
+      reached its meter at runtime through `...rest` (React 19 passes `ref` as a prop), but its
+      type had no `ref`.
+- [x] Merge `getElementRef` and `getTriggerRef` into one helper. `getElementRef` in `slot.tsx`;
+      `triggerElement.ts` is deleted.
+- [x] Rebuild the `Tooltip`/`Popover` trigger on `Slot`: `getTriggerChild` and `renderSlotted`
+      (`slot.tsx`). A trigger that isn't one element renders as it is, with a development warning,
+      instead of throwing. The trigger's handlers now run after the component's, as under
+      `asChild`. `Slot` now joins `aria-describedby` instead of letting the child's win: before,
+      a `Tooltip` trigger's own description was replaced by the tooltip's while it showed.
 
-Changeset: minor (new `ref` support). Exit: a ref test per component.
+An independent review of the diff found three regressions before the commit, each now with a
+test: a trigger whose `href` came or went remounted (`getSlot` picks a `Slot` by kind; triggers
+now share one), `Slot` wrote `aria-describedby` as `undefined` and so wiped a description the
+child's own component writes, and a trigger's own `aria-expanded`/`aria-controls` beat the
+popover's state (now passed as `owned`, which wins). The first one still applies under `asChild`,
+where the kind is meant to change what the component renders: `<Button asChild>` around a router
+link whose `href` comes and goes remounts the link. Left open.
+
+Found beyond F7: the six `DataGrid*` parts render react-aria-components elements but take no ref.
+They have closed prop lists over the collection builder and virtualized rows, so they stay open,
+listed in the new guard's allowlist. The other components without a ref render no element
+(collection parts, providers).
+
+Changeset: minor (new `ref` support). Exit: a ref test per component. Done, plus
+`test/utils/refForwarding.spec.tsx`, which fails on an exported component that isn't a
+`forwardRef` unless its allowlist names it. Rule in CONVENTIONS.md, "Refs".
 
 ### B9 — Public primitives and new components (F9)
 

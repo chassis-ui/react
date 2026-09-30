@@ -153,6 +153,9 @@ pnpm test:update  # same, plus -u to update snapshots
   whose types are lazy wrappers. It also fails on a `child.type === Component` comparison in
   `src/`. The same cases run in a real app: `pnpm smoke:test`, see
   `smoke-tests/nextjs-app-router/README.md`.
+- `test/utils/refForwarding.spec.tsx` fails on an exported component that isn't a `forwardRef`,
+  unless its allowlist names it; an allowlisted one that gains a ref fails until its entry is
+  deleted. See `CONVENTIONS.md`, "Refs".
 - Coverage provider is **istanbul**, not v8 — kept intentionally to match the branch/statement
   counting the existing thresholds were tuned against. Current thresholds: statements 96%,
   branches 91%, functions 97%, lines 97% (`vitest.config.ts`). A change that drops coverage below

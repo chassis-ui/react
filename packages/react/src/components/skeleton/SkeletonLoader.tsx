@@ -1,12 +1,16 @@
 import React, {
   ComponentPropsWithoutRef,
   ElementType,
+  ForwardedRef,
+  forwardRef,
+  ForwardRefRenderFunction,
   Fragment,
   ReactElement,
   ReactNode
 } from 'react'
 
 import { Span } from '../../utils/breakpoints'
+import { PolymorphicRef } from '../../utils/polymorphic'
 import { ContextColor } from '../../types'
 import { Skeleton, SkeletonProps } from './Skeleton'
 
@@ -51,22 +55,21 @@ export type SkeletonLoaderProps<C extends ElementType = 'span'> = SkeletonLoader
   Omit<ComponentPropsWithoutRef<C>, keyof SkeletonLoaderOwnProps<C> | 'asChild'>
 
 type SkeletonLoaderComponent = (<C extends ElementType = 'span'>(
-  props: SkeletonLoaderProps<C>
+  props: SkeletonLoaderProps<C> & { ref?: PolymorphicRef<C> }
 ) => ReactElement | null) & { displayName?: string }
 
 /**
  * A pure content swap: no wrapping element of its own, so `.skeleton-glow`/`.skeleton-wave`
  * won't reach the lines it generates unless applied to a container already in the tree — see
  * `Skeleton`'s own docs for why the animation classes need a `.skeleton` descendant to animate.
+ *
+ * The ref goes to the first generated skeleton while `loading`, and is `null` once the real
+ * content shows: that content is the caller's, with refs of its own.
  */
-function SkeletonLoaderRender<C extends ElementType = 'span'>({
-  children,
-  color,
-  component,
-  loading,
-  spans,
-  ...rest
-}: SkeletonLoaderProps<C>) {
+function SkeletonLoaderRender<C extends ElementType = 'span'>(
+  { children, color, component, loading, spans, ...rest }: SkeletonLoaderProps<C>,
+  ref: ForwardedRef<Element>
+) {
   if (!loading) return <>{children}</>
 
   const spanList = spans === undefined ? [undefined] : Array.isArray(spans) ? spans : [spans]
@@ -86,6 +89,7 @@ function SkeletonLoaderRender<C extends ElementType = 'span'>({
             span={span}
             color={color}
             {...(rest as unknown as SkeletonProps<C>)}
+            ref={index === 0 ? ref : undefined}
           />
         </Fragment>
       ))}
@@ -93,6 +97,11 @@ function SkeletonLoaderRender<C extends ElementType = 'span'>({
   )
 }
 
-export const SkeletonLoader = SkeletonLoaderRender as SkeletonLoaderComponent
+// `forwardRef` takes a render function that isn't generic, so the generic type is cast back on,
+// as `createPolymorphicComponent` does.
+export const SkeletonLoader = forwardRef(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  SkeletonLoaderRender as ForwardRefRenderFunction<Element, any>
+) as unknown as SkeletonLoaderComponent
 
 SkeletonLoader.displayName = 'SkeletonLoader'

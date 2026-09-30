@@ -3,7 +3,6 @@ import React, {
   HTMLAttributes,
   ReactElement,
   ReactNode,
-  useCallback,
   useEffect,
   useRef
 } from 'react'
@@ -21,7 +20,7 @@ import {
 } from '../../hooks'
 import { Placement, resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
 import { Portal, useHydrated } from '../../utils/portal'
-import { asTriggerElement, getTriggerRef } from '../../utils/triggerElement'
+import { getTriggerChild, renderSlotted } from '../../utils/slot'
 
 export type { Placement }
 
@@ -100,17 +99,10 @@ export const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(function Tooltip
   const floatingRef = useRef<HTMLDivElement>(null)
   const forkedFloatingRef = useForkedRef(ref, floatingRef)
 
-  // `cloneElement`'s config replaces the child's own `ref` outright rather than merging with it,
-  // so capturing the trigger node has to be forked with whatever ref the caller already put on
-  // that child — otherwise `<Tooltip><Button ref={mine} /></Tooltip>` silently never populates
-  // `mine`. Same reasoning for merging (rather than overwriting) the child's own props below:
-  // `triggerProps` carries the focus/hover handlers this component needs, and spreading them raw
-  // would drop a handler the caller put on their own trigger.
-  const setTriggerRef = useCallback((node: HTMLElement | null) => {
-    triggerRef.current = node
-  }, [])
-  const triggerElement = asTriggerElement(children)
-  const forkedTriggerRef = useForkedRef<HTMLElement>(setTriggerRef, getTriggerRef(triggerElement))
+  // The trigger is rendered as `asChild` renders a child (`renderSlotted`): `triggerProps` merge
+  // into the child's own props, so its handlers chain and its `aria-describedby` adds up, and
+  // `triggerRef` is forked with the ref the caller put on the child.
+  const triggerElement = getTriggerChild(children, 'Tooltip')
 
   // react-stately defaults to a 1500ms warmup delay (and 500ms cooldown) before a first tooltip
   // shows, spectrum-style — chassis-css's own JS plugin defaults to instant (`delay: 0`), so
@@ -190,14 +182,18 @@ export const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(function Tooltip
 
   return (
     <>
-      {React.cloneElement(triggerElement, {
-        ...mergeProps(
-          triggerElement.props,
-          hydrated ? triggerProps : { ...triggerProps, 'aria-describedby': undefined },
-          hydrated && isHeld && state.isOpen ? { 'aria-describedby': tooltipTriggerProps.id } : {}
-        ),
-        ref: forkedTriggerRef
-      })}
+      {triggerElement
+        ? renderSlotted(
+            triggerElement,
+            mergeProps(
+              hydrated ? triggerProps : { ...triggerProps, 'aria-describedby': undefined },
+              hydrated && isHeld && state.isOpen
+                ? { 'aria-describedby': tooltipTriggerProps.id }
+                : {}
+            ),
+            triggerRef
+          )
+        : children}
       <Portal container={portalContainer}>
         {isMounted && (
           <div

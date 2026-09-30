@@ -105,6 +105,37 @@ describe('SkeletonLoader', () => {
     /* eslint-enable testing-library/no-node-access, testing-library/no-container */
   })
 
+  describe('ref forwarding', () => {
+    // The generated lines are decorative, with no text/role - there's no accessible query for them.
+    /* eslint-disable testing-library/no-node-access, testing-library/no-container */
+    test('forwards a ref to the first generated skeleton while loading', () => {
+      const ref = React.createRef<HTMLSpanElement>()
+      const { container } = render(
+        <SkeletonLoader loading ref={ref} spans={[12, 6]}>
+          Real content
+        </SkeletonLoader>
+      )
+      expect(ref.current).toBe(container.querySelector('.skeleton'))
+    })
+    /* eslint-enable testing-library/no-node-access, testing-library/no-container */
+
+    test('leaves the ref empty once the content has loaded', () => {
+      const ref = React.createRef<HTMLSpanElement>()
+      const { rerender } = render(
+        <SkeletonLoader loading ref={ref}>
+          Real content
+        </SkeletonLoader>
+      )
+      expect(ref.current).toBeInstanceOf(HTMLSpanElement)
+      rerender(
+        <SkeletonLoader loading={false} ref={ref}>
+          Real content
+        </SkeletonLoader>
+      )
+      expect(ref.current).toBeNull()
+    })
+  })
+
   describe('accessibility', () => {
     test('has no axe violations while loading', async () => {
       const { container } = render(

@@ -162,6 +162,41 @@ describe('asChild', () => {
     warn.mockRestore()
   })
 
+  test("adds the component's description to the child's own", () => {
+    render(
+      <>
+        <p id="theirs">Signs you out</p>
+        <p id="own">Opens in a new tab</p>
+        <Button aria-describedby="theirs" asChild>
+          <a aria-describedby="own" href="/logout">
+            Log out
+          </a>
+        </Button>
+      </>
+    )
+
+    expect(screen.getByRole('link', { name: 'Log out' })).toHaveAttribute(
+      'aria-describedby',
+      'theirs own'
+    )
+  })
+
+  test('keeps a description the child component writes for itself', () => {
+    const DescribedLink = (props: React.ComponentProps<'a'>) => (
+      <a aria-describedby="own" {...props} />
+    )
+    render(
+      <>
+        <p id="own">Opens in a new tab</p>
+        <Button asChild>
+          <DescribedLink href="/logout">Log out</DescribedLink>
+        </Button>
+      </>
+    )
+
+    expect(screen.getByRole('link', { name: 'Log out' })).toHaveAttribute('aria-describedby', 'own')
+  })
+
   test('renders unchanged without asChild', () => {
     render(<Button asChild={false}>Save</Button>)
 

@@ -378,10 +378,7 @@ interface AutocompleteProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defaul
    */
   value?: Key$1 | Key$1[] | null;
 }
-export declare const Autocomplete: {
-  ({ children, className, defaultValue, disabled, help, id, invalid, invalidFeedback, items, label, multiple, name, noResultsText, onChange, placeholder, searchPlaceholder, size, valid, validFeedback, value, ...rest }: AutocompleteProps): ReactNode;
-  displayName: string;
-};
+export declare const Autocomplete: React.ForwardRefExoticComponent<AutocompleteProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
 //#region src/components/combobox/ComboboxGroup.d.ts
 interface ComboboxGroupProps {
@@ -3174,10 +3171,7 @@ interface PasswordStrengthProps extends Omit<HTMLAttributes<HTMLDivElement>, 'on
    */
   weights?: Partial<StrengthWeights>;
 }
-export declare const PasswordStrength: {
-  ({ "aria-label": ariaLabel, className, id, maxScore, messages, minLength, onStrengthChange, scorer, showText, thresholds, value, variant, weights, ...rest }: PasswordStrengthProps): React.JSX.Element;
-  displayName: string;
-};
+export declare const PasswordStrength: React.ForwardRefExoticComponent<PasswordStrengthProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
 //#region src/utils/overlayPlacement.d.ts
 type Placement = 'bottom' | 'bottom-end' | 'bottom-start' | 'left' | 'left-end' | 'left-start' | 'right' | 'right-end' | 'right-start' | 'top' | 'top-end' | 'top-start';
@@ -4006,10 +4000,7 @@ interface FormFieldProps {
    */
   validFeedback?: ReactNode;
 }
-export declare const FormField: {
-  ({ children, className, help, ids, invalid, invalidFeedback, label, valid, validFeedback }: FormFieldProps): ReactNode;
-  displayName: string;
-};
+export declare const FormField: import("react").ForwardRefExoticComponent<FormFieldProps & import("react").RefAttributes<HTMLDivElement>>;
 //#endregion
 //#region src/components/input-group/InputGroup.d.ts
 type InputGroupOwnProps<C extends ElementType> = {
@@ -5699,7 +5690,9 @@ type SkeletonLoaderOwnProps<C extends ElementType> = {
   spans?: Span | Span[];
 };
 type SkeletonLoaderProps<C extends ElementType = 'span'> = SkeletonLoaderOwnProps<C> & Omit<ComponentPropsWithoutRef<C>, 'asChild' | keyof SkeletonLoaderOwnProps<C>>;
-type SkeletonLoaderComponent = (<C extends ElementType = 'span'>(props: SkeletonLoaderProps<C>) => ReactElement | null) & {
+type SkeletonLoaderComponent = (<C extends ElementType = 'span'>(props: SkeletonLoaderProps<C> & {
+  ref?: PolymorphicRef<C>;
+}) => ReactElement | null) & {
   displayName?: string;
 };
 export declare const SkeletonLoader: SkeletonLoaderComponent;

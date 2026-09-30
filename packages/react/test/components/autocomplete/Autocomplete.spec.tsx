@@ -312,6 +312,16 @@ describe('Autocomplete', () => {
     })
   })
 
+  describe('ref forwarding', () => {
+    test('forwards a ref to the toggle, which keeps opening the list', () => {
+      const ref = React.createRef<HTMLDivElement>()
+      render(<BasicAutocomplete ref={ref} />)
+      expect(ref.current).toBe(screen.getByRole('button', { name: 'Fruit' }))
+      openMenu()
+      expect(getListboxWrapper()).not.toHaveAttribute('hidden')
+    })
+  })
+
   describe('accessibility', () => {
     test('has no axe violations with the listbox open', async () => {
       const { container } = render(<BasicAutocomplete />)

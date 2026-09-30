@@ -253,6 +253,61 @@ describe('Popover', () => {
       )
       expect(ref.current).toBe(screen.getByRole('button', { name: 'Test' }))
     })
+
+    test("states its own condition over the trigger's aria-expanded and aria-controls", () => {
+      vi.useFakeTimers()
+      render(
+        <Popover content="content" title="title">
+          <button aria-controls="elsewhere" aria-expanded={false} type="button">
+            Test
+          </button>
+        </Popover>
+      )
+      openPopover()
+      act(() => vi.runAllTimers())
+
+      const trigger = screen.getByRole('button', { name: 'Test' })
+      expect(trigger).toHaveAttribute('aria-expanded', 'true')
+      expect(trigger).toHaveAttribute('aria-controls', screen.getByRole('dialog').id)
+      vi.useRealTimers()
+    })
+
+    test('keeps a description the trigger component writes for itself', () => {
+      const Described = (props: React.ComponentProps<'button'>) => (
+        <button aria-describedby="hint" type="button" {...props} />
+      )
+      render(
+        <>
+          <p id="hint">Opens the details</p>
+          <Popover content="content">
+            <Described>Test</Described>
+          </Popover>
+        </>
+      )
+
+      expect(screen.getByRole('button', { name: 'Test' })).toHaveAttribute(
+        'aria-describedby',
+        'hint'
+      )
+    })
+
+    test('renders a trigger that is not one element as it is, with a dev warning', () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      render(
+        <Popover content="content">
+          <>
+            <Button>One</Button>
+            <Button>Two</Button>
+          </>
+        </Popover>
+      )
+
+      expect(screen.getByRole('button', { name: 'One' })).not.toHaveAttribute('aria-expanded')
+      expect(warn).toHaveBeenCalledWith(
+        expect.stringContaining('Popover: expects exactly one React element as its trigger')
+      )
+      warn.mockRestore()
+    })
   })
 
   describe('focus management', () => {

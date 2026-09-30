@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { forwardRef, ReactNode } from 'react'
 
 import { FormFieldIds, renderFormField } from './renderFormField'
 import { devWarning } from '../../utils/devWarning'
@@ -49,17 +49,13 @@ export interface FormFieldProps {
 // call `renderFormField` directly and expose label/help/validFeedback/invalidFeedback as their
 // own props (see FORMS.md). Wrapping any of those 10 components in `FormField` produces a
 // nested, empty `.form-field` div — see FORMS.md's Gotchas section.
-export const FormField = ({
-  children,
-  className,
-  help,
-  ids,
-  invalid,
-  invalidFeedback,
-  label,
-  valid,
-  validFeedback
-}: FormFieldProps): ReactNode => {
+//
+// The ref goes to the `.form-field` element. It stays `null` while the field renders its children
+// bare, with no `label`, `help`, feedback or `className` to need the element.
+export const FormField = forwardRef<HTMLDivElement, FormFieldProps>(function FormField(
+  { children, className, help, ids, invalid, invalidFeedback, label, valid, validFeedback },
+  ref
+) {
   devWarning(
     !!label && !ids?.input && !ids?.label,
     'FormField: `label` is set but `ids.input`/`ids.label` are not — the rendered label ' +
@@ -76,9 +72,10 @@ export const FormField = ({
     invalid,
     invalidFeedback,
     label,
+    ref,
     valid,
     validFeedback
   })
-}
+})
 
 FormField.displayName = 'FormField'

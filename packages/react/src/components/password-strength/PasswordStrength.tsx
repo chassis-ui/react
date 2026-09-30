@@ -1,4 +1,4 @@
-import React, { Fragment, HTMLAttributes, useEffect, useMemo, useRef } from 'react'
+import React, { forwardRef, Fragment, HTMLAttributes, useEffect, useMemo, useRef } from 'react'
 import classNames from 'classnames'
 import { useMeter } from 'react-aria'
 
@@ -76,80 +76,91 @@ export interface PasswordStrengthProps extends Omit<HTMLAttributes<HTMLDivElemen
   weights?: Partial<StrengthWeights>
 }
 
-export const PasswordStrength = ({
-  'aria-label': ariaLabel = 'Password strength',
-  className,
-  id,
-  maxScore,
-  messages,
-  minLength = 8,
-  onStrengthChange,
-  scorer,
-  showText = true,
-  thresholds = defaultThresholds,
-  value,
-  variant = 'segmented',
-  weights,
-  ...rest
-}: PasswordStrengthProps) => {
-  const mergedWeights = useMemo(() => ({ ...defaultWeights, ...weights }), [weights])
-  const mergedMessages = useMemo(() => ({ ...defaultMessages, ...messages }), [messages])
+// The ref goes to the meter, the element the other attributes go to.
+export const PasswordStrength = forwardRef<HTMLDivElement, PasswordStrengthProps>(
+  function PasswordStrength(
+    {
+      'aria-label': ariaLabel = 'Password strength',
+      className,
+      id,
+      maxScore,
+      messages,
+      minLength = 8,
+      onStrengthChange,
+      scorer,
+      showText = true,
+      thresholds = defaultThresholds,
+      value,
+      variant = 'segmented',
+      weights,
+      ...rest
+    },
+    ref
+  ) {
+    const mergedWeights = useMemo(() => ({ ...defaultWeights, ...weights }), [weights])
+    const mergedMessages = useMemo(() => ({ ...defaultMessages, ...messages }), [messages])
 
-  const score = useMemo(
-    () => calculateScore(value, { minLength, scorer, weights: mergedWeights }),
-    [value, minLength, scorer, mergedWeights]
-  )
-  const strength = useMemo(() => scoreToStrength(score, thresholds), [score, thresholds])
-  const resolvedMaxScore = useMemo(
-    () => maxScore ?? Object.values(mergedWeights).reduce((total, weight) => total + weight, 0),
-    [maxScore, mergedWeights]
-  )
+    const score = useMemo(
+      () => calculateScore(value, { minLength, scorer, weights: mergedWeights }),
+      [value, minLength, scorer, mergedWeights]
+    )
+    const strength = useMemo(() => scoreToStrength(score, thresholds), [score, thresholds])
+    const resolvedMaxScore = useMemo(
+      () => maxScore ?? Object.values(mergedWeights).reduce((total, weight) => total + weight, 0),
+      [maxScore, mergedWeights]
+    )
 
-  // Deliberately not initialized to `strength` — that would make the effect below skip firing
-  // for the mount-time value, and a consumer using this to gate e.g. a submit button needs the
-  // real initial state, not just subsequent changes.
-  const previousStrength = useRef<StrengthLevel | null | undefined>(undefined)
-  useEffect(() => {
-    if (previousStrength.current !== strength) {
-      previousStrength.current = strength
-      onStrengthChange?.({ score, strength })
-    }
-  }, [strength, score, onStrengthChange])
+    // Deliberately not initialized to `strength` — that would make the effect below skip firing
+    // for the mount-time value, and a consumer using this to gate e.g. a submit button needs the
+    // real initial state, not just subsequent changes.
+    const previousStrength = useRef<StrengthLevel | null | undefined>(undefined)
+    useEffect(() => {
+      if (previousStrength.current !== strength) {
+        previousStrength.current = strength
+        onStrengthChange?.({ score, strength })
+      }
+    }, [strength, score, onStrengthChange])
 
-  const { meterProps } = useMeter({
-    'aria-label': ariaLabel,
-    maxValue: resolvedMaxScore,
-    minValue: 0,
-    value: score,
-    valueLabel: strength ? mergedMessages[strength] : undefined
-  })
+    const { meterProps } = useMeter({
+      'aria-label': ariaLabel,
+      maxValue: resolvedMaxScore,
+      minValue: 0,
+      value: score,
+      valueLabel: strength ? mergedMessages[strength] : undefined
+    })
 
-  const strengthIndex = strength ? STRENGTH_LEVELS.indexOf(strength) : -1
+    const strengthIndex = strength ? STRENGTH_LEVELS.indexOf(strength) : -1
 
-  return (
-    <Fragment>
-      <div
-        {...meterProps}
-        className={classNames(variant === 'bar' ? 'strength-bar' : 'strength', className)}
-        data-cx-strength={strength ?? undefined}
-        id={id}
-        {...rest}
-      >
-        {variant === 'segmented' &&
-          STRENGTH_LEVELS.map((level, index) => (
-            <div
-              className={classNames('strength-segment', { active: index <= strengthIndex })}
-              key={level}
-            />
-          ))}
-      </div>
-      {showText && (
-        <span aria-live="polite" className="strength-text" data-cx-strength={strength ?? undefined}>
-          {strength ? mergedMessages[strength] : ''}
-        </span>
-      )}
-    </Fragment>
-  )
-}
+    return (
+      <Fragment>
+        <div
+          {...meterProps}
+          className={classNames(variant === 'bar' ? 'strength-bar' : 'strength', className)}
+          data-cx-strength={strength ?? undefined}
+          id={id}
+          {...rest}
+          ref={ref}
+        >
+          {variant === 'segmented' &&
+            STRENGTH_LEVELS.map((level, index) => (
+              <div
+                className={classNames('strength-segment', { active: index <= strengthIndex })}
+                key={level}
+              />
+            ))}
+        </div>
+        {showText && (
+          <span
+            aria-live="polite"
+            className="strength-text"
+            data-cx-strength={strength ?? undefined}
+          >
+            {strength ? mergedMessages[strength] : ''}
+          </span>
+        )}
+      </Fragment>
+    )
+  }
+)
 
 PasswordStrength.displayName = 'PasswordStrength'

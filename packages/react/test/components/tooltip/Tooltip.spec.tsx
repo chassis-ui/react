@@ -129,6 +129,63 @@ describe('Tooltip', () => {
       act(() => screen.getByRole('link', { name: 'Test' }).focus())
       expect(onFocus).toHaveBeenCalled()
     })
+
+    test("adds its description to the trigger child's own", () => {
+      vi.useFakeTimers()
+      render(
+        <>
+          <p id="own">Opens in a new tab</p>
+          <Tooltip content="content" defaultVisible id="hint">
+            <Link aria-describedby="own" href="#">
+              Test
+            </Link>
+          </Tooltip>
+        </>
+      )
+      act(() => vi.runAllTimers())
+
+      expect(screen.getByRole('link', { name: 'Test' })).toHaveAttribute(
+        'aria-describedby',
+        'hint own'
+      )
+      vi.useRealTimers()
+    })
+
+    test('keeps the trigger mounted when its `href` comes and goes', () => {
+      const Counter = (props: { href?: string }) => {
+        const [count, setCount] = React.useState(0)
+        return (
+          <button data-href={props.href} onClick={() => setCount((n) => n + 1)} type="button">
+            Count {count}
+          </button>
+        )
+      }
+      const { rerender } = render(
+        <Tooltip content="content">
+          <Counter />
+        </Tooltip>
+      )
+      fireEvent.click(screen.getByRole('button', { name: 'Count 0' }))
+      const trigger = screen.getByRole('button', { name: 'Count 1' })
+
+      rerender(
+        <Tooltip content="content">
+          <Counter href="/next" />
+        </Tooltip>
+      )
+      expect(screen.getByRole('button', { name: 'Count 1' })).toBe(trigger)
+    })
+
+    test('renders a trigger that is not one element as it is, with a dev warning', () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      render(<Tooltip content="content">{'Just text' as unknown as React.ReactElement}</Tooltip>)
+
+      expect(screen.getByText('Just text')).toBeInTheDocument()
+      expect(warn).toHaveBeenCalledWith(
+        expect.stringContaining('Tooltip: expects exactly one React element as its trigger')
+      )
+      warn.mockRestore()
+    })
   })
 
   describe('show/hide callbacks', () => {

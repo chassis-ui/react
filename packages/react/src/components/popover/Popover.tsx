@@ -4,7 +4,6 @@ import React, {
   ReactElement,
   ReactNode,
   Ref,
-  useCallback,
   useEffect,
   useRef
 } from 'react'
@@ -22,7 +21,7 @@ import {
 } from '../../hooks'
 import { Placement, resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
 import { Portal, useHydrated } from '../../utils/portal'
-import { asTriggerElement, getTriggerRef } from '../../utils/triggerElement'
+import { getTriggerChild, renderSlotted } from '../../utils/slot'
 
 interface PopoverPanelProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'content'> {
   arrowProps: HTMLAttributes<HTMLDivElement>
@@ -140,15 +139,11 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(function Popover
   const floatingRef = useRef<HTMLDivElement>(null)
   const forkedFloatingRef = useForkedRef(ref, floatingRef)
 
-  // `cloneElement`'s config replaces the child's own `ref` outright rather than merging with it,
-  // so capturing the trigger node has to be forked with whatever ref the caller already put on
-  // that child — otherwise `<Popover><Button ref={mine} /></Popover>` silently never populates
-  // `mine`.
-  const setTriggerRef = useCallback((node: HTMLElement | null) => {
-    triggerRef.current = node
-  }, [])
-  const triggerElement = asTriggerElement(children)
-  const forkedTriggerRef = useForkedRef<HTMLElement>(setTriggerRef, getTriggerRef(triggerElement))
+  // The trigger is rendered as `asChild` renders a child (`renderSlotted`): the child's own
+  // `onClick` chains after this one, and `triggerRef` is forked with the ref the caller put on
+  // the child. `triggerProps` state the popover's condition (`aria-expanded`, `aria-controls`),
+  // so they win over the child's own.
+  const triggerElement = getTriggerChild(children, 'Popover')
 
   const state = useOverlayTriggerState(
     useOpenStateProps({ defaultVisible, onVisibleChange, visible }, 'Popover')
@@ -267,17 +262,14 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(function Popover
 
   return (
     <>
-      {/* `mergeProps` chains the child's own `onClick` ahead of this one, so this no longer
-          calls `children.props.onClick` itself the way it did when it spread `triggerProps`
-          raw — doing both would fire the caller's handler twice per click. */}
-      {React.cloneElement(triggerElement, {
-        ...mergeProps(
-          triggerElement.props,
-          hydrated ? triggerProps : { ...triggerProps, 'aria-controls': undefined },
-          { onClick: () => state.toggle() }
-        ),
-        ref: forkedTriggerRef
-      })}
+      {triggerElement
+        ? renderSlotted(
+            triggerElement,
+            { onClick: () => state.toggle() },
+            triggerRef,
+            hydrated ? triggerProps : { ...triggerProps, 'aria-controls': undefined }
+          )
+        : children}
       <Portal container={portalContainer}>
         {isMounted && (
           <PopoverPanel

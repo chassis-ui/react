@@ -134,6 +134,14 @@ describe('PasswordStrength', () => {
     })
   })
 
+  describe('ref forwarding', () => {
+    test('forwards a ref to the meter', () => {
+      const ref = React.createRef<HTMLDivElement>()
+      render(<PasswordStrength ref={ref} value="abc" />)
+      expect(ref.current).toBe(screen.getByRole('meter'))
+    })
+  })
+
   describe('accessibility', () => {
     test('has no axe violations', async () => {
       const { container } = render(<PasswordStrength value="abcdefgh" />)

@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, Ref } from 'react'
 import classNames from 'classnames'
 
 import { FormFeedback } from '../form/FormFeedback'
@@ -24,6 +24,7 @@ export interface RenderFormFieldOptions {
   invalid?: boolean
   invalidFeedback?: ReactNode
   label?: ReactNode
+  ref?: Ref<HTMLDivElement>
   valid?: boolean
   validFeedback?: ReactNode
 }
@@ -40,6 +41,7 @@ export const renderFormField = ({
   invalid,
   invalidFeedback,
   label,
+  ref,
   valid,
   validFeedback
 }: RenderFormFieldOptions): ReactNode => {
@@ -62,7 +64,7 @@ export const renderFormField = ({
   }
 
   return (
-    <div className={classNames('form-field', className)}>
+    <div className={classNames('form-field', className)} ref={ref}>
       {label && (
         <FormLabel htmlFor={ids.input} id={ids.label}>
           {label}

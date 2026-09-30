@@ -118,6 +118,29 @@ describe('FormField', () => {
     })
   })
 
+  describe('ref forwarding', () => {
+    test('forwards a ref to the .form-field element', () => {
+      const ref = React.createRef<HTMLDivElement>()
+      render(
+        <FormField label="Name" ids={{ input: 'name-ref' }} ref={ref}>
+          <input id="name-ref" />
+        </FormField>
+      )
+      expect(ref.current).toHaveClass('form-field')
+      expect(ref.current).toContainElement(screen.getByRole('textbox', { name: 'Name' }))
+    })
+
+    test('leaves the ref empty while the children render bare', () => {
+      const ref = React.createRef<HTMLDivElement>()
+      render(
+        <FormField ref={ref}>
+          <input aria-label="Name" />
+        </FormField>
+      )
+      expect(ref.current).toBeNull()
+    })
+  })
+
   describe('accessibility', () => {
     test('has no axe violations', async () => {
       const { container } = render(

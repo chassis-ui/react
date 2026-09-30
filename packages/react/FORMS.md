@@ -67,7 +67,7 @@ Getting this backwards is silent at runtime (no error, no test failure unless yo
 
 ### `FormField` (`form-field/FormField.tsx`) — the escape hatch, not the default
 
-`FormField` is a **thin function wrapper around `renderFormField`** for the one case none of the 10 components above can serve: wrapping a control that has no field props of its own, or grouping more than one element under one label (e.g. an input plus a `PasswordStrength` meter as siblings). It has no `forwardRef`, no id generation of its own — the consumer supplies `ids` explicitly and is responsible for wiring `aria-describedby`/`aria-labelledby` onto their own child, because `FormField` never clones or introspects its children.
+`FormField` is a **thin function wrapper around `renderFormField`** for the one case none of the 10 components above can serve: wrapping a control that has no field props of its own, or grouping more than one element under one label (e.g. an input plus a `PasswordStrength` meter as siblings). Its ref goes to the `.form-field` element, and stays `null` while it renders its children bare. It has no id generation of its own — the consumer supplies `ids` explicitly and is responsible for wiring `aria-describedby`/`aria-labelledby` onto their own child, because `FormField` never clones or introspects its children.
 
 **Do not reach for `FormField` to wrap `TextInput`/`Select`/`Textarea`/`RangeInput`/`FileInput`/`ColorInput`/`Combobox`/`DatePicker`/`ChipInput`/`OtpInput`.** All 10 already do this internally — wrapping one in `FormField` produces a nested (and empty, since the inner one gets no `label`/`help` props) `.form-field` div. Pass `label`/`help`/`invalid`/`invalidFeedback`/`valid`/`validFeedback` straight onto the component.
 
