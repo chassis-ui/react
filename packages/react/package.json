@@ -68,6 +68,7 @@
     "./nav-overflow": "./dist/nav-overflow.js",
     "./navbar": "./dist/navbar.js",
     "./notification": "./dist/notification.js",
+    "./number-field": "./dist/number-field.js",
     "./otp-input": "./dist/otp-input.js",
     "./pagination": "./dist/pagination.js",
     "./password-strength": "./dist/password-strength.js",

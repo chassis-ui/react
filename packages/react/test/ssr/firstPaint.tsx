@@ -31,6 +31,7 @@ export async function loadFirstPaintCases(): Promise<Record<string, () => ReactE
     NavItem,
     NavOverflow,
     Notification,
+    NumberField,
     OtpInput,
     Popover,
     RangeCalendar,
@@ -215,6 +216,7 @@ export async function loadFirstPaintCases(): Promise<Record<string, () => ReactE
         <section id="two">Two</section>
       </>
     ),
+    'NumberField with a label': () => <NumberField defaultValue={2} label="Quantity" />,
     'Tooltip open': () => (
       <Tooltip content="Hint" defaultVisible>
         <button type="button">Help</button>

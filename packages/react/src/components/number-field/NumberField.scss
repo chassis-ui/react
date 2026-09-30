@@ -1,0 +1,65 @@
+@use "@chassis-ui/css/scss/config" as *;
+@use "@chassis-ui/css/scss/mixins" as *;
+
+// chassis-css has no number field, and the native `<input type="number">` spinner can't be styled
+// or labelled across browsers. `NumberField` renders chassis-css's input adorn shape, a
+// `.form-input` around a `.ghost-input`, plus a column of two step buttons at its end. The column
+// sits over the field's padding, flush with its border, as chassis-css's file input places its
+// button (`::file-selector-button`), and reads the field's own custom properties: its padding,
+// border and radius, its background (so a disabled or focused field colors its buttons too), and the
+// file button's hover color, so a field re-themed through those gets matching buttons. The class names follow
+// chassis-css's (`.number-field`, `.number-field-*`), so this can move there unchanged.
+@layer components {
+  // More specific than `.form-input`, whose `display: block` is in the same layer: otherwise the
+  // stylesheet loaded last would win, and this one may load before chassis-css's.
+  .form-input.number-field {
+    display: flex;
+    gap: var(--gap);
+    align-items: stretch;
+
+    > .ghost-input {
+      flex: 1;
+      min-width: 0;
+    }
+  }
+
+  .number-field-buttons {
+    display: flex;
+    flex-shrink: 0;
+    flex-direction: column;
+    margin-block: calc(var(--border-width) - var(--padding-y));
+    margin-inline-end: calc(var(--border-width) - var(--padding-x));
+    overflow: hidden;
+    border-inline-start: var(--border-width) solid var(--border-color);
+    @include border-end-radius(calc(var(--border-radius) - var(--border-width)));
+  }
+
+  .number-field-increment,
+  .number-field-decrement {
+    // From the field's icon size, as chassis-css's input group sizes its icons, since an `em` here
+    // would be counted twice: chassis-css's `.icon` sets its font size from this too.
+    --icon-size: calc(var(--input-icon-size, #{$form-md-icon-size}) * 3 / 5);
+    display: flex;
+    flex: 1 1 0;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+    padding: 0 calc(var(--padding-x) / 2);
+    color: inherit;
+    background-color: transparent;
+    border: 0;
+
+    &:hover:not(:disabled),
+    &:active:not(:disabled) {
+      background-color: var(--file-button-bg-hover);
+    }
+
+    &:disabled {
+      --icon-color: var(--form-disabled-fg-active);
+    }
+  }
+
+  .number-field-increment {
+    border-block-end: var(--border-width) solid var(--border-color);
+  }
+}

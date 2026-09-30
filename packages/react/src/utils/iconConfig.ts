@@ -4,7 +4,8 @@ import { ComponentType, createContext, ReactElement } from 'react'
  * The icons this library's own components draw, by purpose rather than by icon name — so a
  * consumer can map each one onto any icon set (see `IconProvider`'s `icons`).
  */
-export type IconKey = 'check' | 'previous' | 'next' | 'menu' | 'more' | 'play' | 'pause'
+export type IconKey =
+  'check' | 'previous' | 'next' | 'menu' | 'more' | 'play' | 'pause' | 'increment' | 'decrement'
 
 /**
  * An icon given to `IconProvider`'s `icons` or to a component's icon prop: a string is an icon
@@ -56,7 +57,7 @@ export interface IconConfig {
   /**
    * The icon to render for each of the library's own icons, by purpose. Unset ones keep their
    * defaults (`check-solid`, `chevron-left-outline`, `chevron-right-outline`, `bars-outline`,
-   * `ellipsis-h-solid`, `play-solid`, `pause-solid`).
+   * `ellipsis-h-solid`, `play-solid`, `pause-solid`, `chevron-up-outline`, `chevron-down-outline`).
    */
   icons?: Partial<Record<IconKey, IconValue>>
   /**
@@ -79,7 +80,9 @@ export const DEFAULT_ICONS: Record<IconKey, string> = {
   menu: 'bars-outline',
   more: 'ellipsis-h-solid',
   play: 'play-solid',
-  pause: 'pause-solid'
+  pause: 'pause-solid',
+  increment: 'chevron-up-outline',
+  decrement: 'chevron-down-outline'
 }
 
 export const DEFAULT_FONT_PREFIX = 'cx-'

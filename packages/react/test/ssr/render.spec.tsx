@@ -206,6 +206,16 @@ describe('first paint on the server', () => {
     expect(page.getByRole('link', { name: 'Two' })).toHaveAttribute('aria-current', 'page')
   })
 
+  // react-aria chooses both by platform (iPhone, Android, iOS), which the server doesn't know.
+  test("a NumberField renders a desktop's keyboard and no role description", () => {
+    const input = within(firstPaint('NumberField with a label')).getByRole('textbox', {
+      name: 'Quantity'
+    })
+    expect(input).toHaveValue('2')
+    expect(input).toHaveAttribute('inputmode', 'numeric')
+    expect(input).not.toHaveAttribute('aria-roledescription')
+  })
+
   test('a NavOverflow around a TabList renders every tab, and its menu after hydration', () => {
     const page = within(firstPaint('NavOverflow around a TabList'))
     const tabs = page.getAllByRole('tab')

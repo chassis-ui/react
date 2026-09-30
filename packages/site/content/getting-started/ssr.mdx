@@ -138,6 +138,9 @@ page has hydrated:
 - **The section a `Scrollspy` marks.** Which section is being read depends on a scroll position the
   server doesn't have, so no link is marked in its HTML. The first observation after hydration
   marks the active one.
+- **A `NumberField`'s keyboard on a phone.** Which keyboard has a minus sign or a decimal separator
+  depends on the phone, so the server's HTML asks for the numeric one. After hydration the field
+  picks the keyboard that has the keys it needs.
 
 A slide rendered by a component of your own, rather than a `CarouselItem` written directly inside
 `CarouselInner`, is found after hydration too: the carousel counts its slides from the page then.

@@ -140,6 +140,7 @@ import {
 import { NavOverflow } from './components/nav-overflow'
 import { Scrollspy, useScrollspy } from './components/scrollspy'
 import { Divider } from './components/divider'
+import { NumberField } from './components/number-field'
 
 export {
   Chip,
@@ -324,7 +325,8 @@ export {
   NavOverflow,
   Scrollspy,
   useScrollspy,
-  Divider
+  Divider,
+  NumberField
 }
 
 // Type-only public surface. Kept as `export type ... from` re-exports (the same shape
@@ -534,6 +536,7 @@ export type { VisuallyHiddenProps } from './components/visually-hidden'
 export type { NavOverflowDetail, NavOverflowProps } from './components/nav-overflow'
 export type { ScrollspyProps, UseScrollspyOptions } from './components/scrollspy'
 export type { DividerProps } from './components/divider'
+export type { NumberFieldProps } from './components/number-field'
 export type {
   AlertBodyProps,
   AlertCancelProps,

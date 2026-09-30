@@ -31,6 +31,7 @@
       pages:
         - title: Text Input
         - title: Textarea
+        - title: Number Field
         - title: Select
         - title: Checkbox
         - title: Radio

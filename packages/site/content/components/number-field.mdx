@@ -1,0 +1,127 @@
+---
+title: Number Field
+description: A text input for numbers, with increment and decrement buttons, the arrow keys, a range and a step, and values formatted for the locale.
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/number-field/BasicExample.tsx'
+import { Example as MinMaxStepExample } from '../../examples/components/number-field/MinMaxStepExample.tsx'
+import { Example as FormatExample } from '../../examples/components/number-field/FormatExample.tsx'
+import { Example as ControlledValueExample } from '../../examples/components/number-field/ControlledValueExample.tsx'
+import { Example as FormExample } from '../../examples/components/number-field/FormExample.tsx'
+import { Example as SizingExample } from '../../examples/components/number-field/SizingExample.tsx'
+import { Example as StatesExample } from '../../examples/components/number-field/StatesExample.tsx'
+import { Example as AdornsExample } from '../../examples/components/number-field/AdornsExample.tsx'
+
+## Overview
+
+`NumberField` is a text input for a number, built on React Aria's `useNumberField`. The buttons at
+its end add or take away one step, and so do the Up and Down arrow keys and Page Up and Page Down;
+Home and End go to `min` and `max`. Typed text is parsed in the locale's own format, and the value is shown
+formatted once the field loses focus. Like [Text Input]([[docsref:/components/text-input]]), it
+takes `label`, `help` and the validation props, and renders a `FormLabel`, `FormHelp` and
+`FormFeedback` wired to the input.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+The input is a `.form-input` wrapper around a `.ghost-input`, chassis-css's
+[input adorn](https://chassis-ui.com/css/docs/forms/input-adorn) shape, with the two buttons in a
+`.number-field-buttons` column at its end. chassis-css has no number field, so the column's styles
+are in this package's own stylesheet, `@chassis-ui/react/style.css` (see
+[Theming]([[docsref:/getting-started/theming]])). They read the field's padding, border and colors,
+so every size, state and theme of `.form-input` applies to the buttons too.
+
+## Range and step
+
+`min` and `max` bound the value: a button is disabled at its end of the range, and a value typed
+past it is brought back inside when the field loses focus. `step` sets how much a button or an
+arrow key changes the value, and a typed value snaps to it, counted from `min`.
+
+<Example>
+  <MinMaxStepExample client:load />
+</Example>
+
+## Formatting
+
+`formatOptions` takes the options of `Intl.NumberFormat`: decimals, a percent, a currency or a unit,
+with the locale's separators and symbols. The value stays a plain number: `0.15` for 15%. The
+locale is the browser's, or the one an
+[`I18nProvider`]([[docsref:/getting-started/internationalization]]) sets.
+
+<Example class="vstack gap-md">
+  <FormatExample client:load />
+</Example>
+
+## Controlled value
+
+Pass `value` and `onChange` to control the value. `onChange` receives the number when it is
+committed: on a step (a button, an arrow key, Home, End, the mouse wheel while the field has
+focus), on Enter or when the field loses focus after typing, on a paste that replaces the whole
+text, and on a form reset. An empty field is `NaN`. Omit them
+(optionally passing `defaultValue` instead) to let the component manage its own value.
+
+<Example>
+  <ControlledValueExample client:load />
+</Example>
+
+## In a form
+
+With `name`, the field submits the number, not the text it shows: a hidden input carries the
+value. With `form`, the field belongs to a form elsewhere on the page, which submits and resets
+it.
+
+<Example>
+  <FormExample client:load />
+</Example>
+
+## Sizing
+
+<Example class="vstack gap-md">
+  <SizingExample client:load />
+</Example>
+
+## States
+
+`disabled` disables the input and both buttons. `readOnly` keeps the value from changing, by typing
+or by a step. `invalid` and `valid` color the field and its buttons, and show `invalidFeedback` or
+`validFeedback`.
+
+<Example class="vstack gap-md">
+  <StatesExample client:load />
+</Example>
+
+## Adorns and no buttons
+
+`adornStart` and `adornEnd` render content at the input's edges, as on `TextInput`, with
+`adornEnd` before the buttons. `stepButtons={false}` leaves the buttons out; the arrow keys still
+step the value.
+
+<Example class="vstack gap-md">
+  <AdornsExample client:load />
+</Example>
+
+The buttons draw the `increment` and `decrement` icons, which `IconProvider`'s `icons` replaces for
+the whole page, and `incrementIcon` and `decrementIcon` for one field (see
+[Icon]([[docsref:/components/icon]])).
+
+## Accessibility
+
+The input keeps the text role, with the role description "number field", rather than a spin
+button, which some screen readers can't focus. The buttons are out of the tab order, since the
+arrow keys do what they do, and they are named from the field's label: "Increase Quantity",
+"Decrease Quantity", in the locale's language. `incrementAriaLabel` and `decrementAriaLabel`
+replace those names. A mouse click on a button leaves focus in the input; a tap focuses the
+button, so that no software keyboard opens.
+
+On a phone, the keyboard is the one that has the keys the field needs: a minus sign when it takes
+negative numbers, a decimal separator when it takes decimals. The server can't tell which phone
+it renders for, so its HTML asks for the numeric keyboard, and the choice is made once the page
+has hydrated (see [Server rendering]([[docsref:/getting-started/ssr]])).
+
+## API
+
+### NumberField
+
+<PropTable component="NumberField" />

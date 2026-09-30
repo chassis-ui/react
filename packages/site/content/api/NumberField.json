@@ -1,0 +1,497 @@
+{
+  "tags": {},
+  "filePath": "packages/react/src/components/number-field/NumberField.tsx",
+  "description": "",
+  "displayName": "NumberField",
+  "methods": [],
+  "props": {
+    "adornEnd": {
+      "defaultValue": null,
+      "description": "Content rendered at the input's trailing edge, before the step buttons, e.g. a unit as an\n`InputAdorn`.",
+      "name": "adornEnd",
+      "parent": {
+        "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+        "name": "NumberFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+          "name": "NumberFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "adornStart": {
+      "defaultValue": null,
+      "description": "Content rendered at the input's leading edge, e.g. an `InputAdorn` icon or text.",
+      "name": "adornStart",
+      "parent": {
+        "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+        "name": "NumberFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+          "name": "NumberFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "parent": {
+        "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+        "name": "NumberFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+          "name": "NumberFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "decrementAriaLabel": {
+      "defaultValue": null,
+      "description": "The name of the decrement button for screen readers. Defaults to \"Decrease\" and the field's\nlabel, in the locale's language.",
+      "name": "decrementAriaLabel",
+      "parent": {
+        "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+        "name": "NumberFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+          "name": "NumberFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "decrementIcon": {
+      "defaultValue": null,
+      "description": "The decrement button's icon, in place of `IconProvider`'s `decrement`.",
+      "name": "decrementIcon",
+      "parent": {
+        "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+        "name": "NumberFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+          "name": "NumberFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "IconValue"
+      }
+    },
+    "defaultValue": {
+      "defaultValue": null,
+      "description": "The value of the field, uncontrolled.",
+      "name": "defaultValue",
+      "parent": {
+        "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+        "name": "NumberFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+          "name": "NumberFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number"
+      }
+    },
+    "disabled": {
+      "defaultValue": null,
+      "description": "Toggle the disabled state for the component.",
+      "name": "disabled",
+      "parent": {
+        "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+        "name": "NumberFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+          "name": "NumberFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "formatOptions": {
+      "defaultValue": null,
+      "description": "How the value is shown and typed: decimals, a percent, a currency or a unit, with the\nlocale's separators. `Intl.NumberFormat`'s options.",
+      "name": "formatOptions",
+      "parent": {
+        "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+        "name": "NumberFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+          "name": "NumberFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "NumberFormatOptions"
+      }
+    },
+    "help": {
+      "defaultValue": null,
+      "description": "A description for the field, rendered below the input.",
+      "name": "help",
+      "parent": {
+        "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+        "name": "NumberFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+          "name": "NumberFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "incrementAriaLabel": {
+      "defaultValue": null,
+      "description": "The name of the increment button for screen readers. Defaults to \"Increase\" and the field's\nlabel, in the locale's language.",
+      "name": "incrementAriaLabel",
+      "parent": {
+        "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+        "name": "NumberFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+          "name": "NumberFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "incrementIcon": {
+      "defaultValue": null,
+      "description": "The increment button's icon, in place of `IconProvider`'s `increment`.",
+      "name": "incrementIcon",
+      "parent": {
+        "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+        "name": "NumberFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+          "name": "NumberFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "IconValue"
+      }
+    },
+    "invalid": {
+      "defaultValue": null,
+      "description": "Set component validation state to invalid.",
+      "name": "invalid",
+      "parent": {
+        "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+        "name": "NumberFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+          "name": "NumberFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "invalidFeedback": {
+      "defaultValue": null,
+      "description": "An error message for the field, rendered below the input when `invalid` is set.",
+      "name": "invalidFeedback",
+      "parent": {
+        "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+        "name": "NumberFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+          "name": "NumberFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "label": {
+      "defaultValue": null,
+      "description": "The field's caption, rendered as a `FormLabel` associated with this input.",
+      "name": "label",
+      "parent": {
+        "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+        "name": "NumberFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+          "name": "NumberFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "max": {
+      "defaultValue": null,
+      "description": "The largest value. A larger one typed in is clamped to it when the field loses focus.",
+      "name": "max",
+      "parent": {
+        "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+        "name": "NumberFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+          "name": "NumberFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number"
+      }
+    },
+    "min": {
+      "defaultValue": null,
+      "description": "The smallest value. A smaller one typed in is clamped to it when the field loses focus.",
+      "name": "min",
+      "parent": {
+        "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+        "name": "NumberFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+          "name": "NumberFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number"
+      }
+    },
+    "onChange": {
+      "defaultValue": null,
+      "description": "Handler that is called when the value is committed: on a step (a button, an arrow key, Home,\nEnd, the mouse wheel), on Enter or when the field loses focus after typing, on a paste that\nreplaces the whole text, and on a form reset. `NaN` when the field is empty.",
+      "name": "onChange",
+      "parent": {
+        "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+        "name": "NumberFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+          "name": "NumberFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((value: number) => void)"
+      }
+    },
+    "readOnly": {
+      "defaultValue": null,
+      "description": "Toggle the readonly state for the component.",
+      "name": "readOnly",
+      "parent": {
+        "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+        "name": "NumberFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+          "name": "NumberFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "required": {
+      "defaultValue": null,
+      "description": "Toggle the required state for the component.",
+      "name": "required",
+      "parent": {
+        "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+        "name": "NumberFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+          "name": "NumberFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "size": {
+      "defaultValue": null,
+      "description": "Size the component sm or lg.",
+      "name": "size",
+      "parent": {
+        "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+        "name": "NumberFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+          "name": "NumberFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"sm\" | \"lg\"",
+        "value": [
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"lg\""
+          }
+        ]
+      }
+    },
+    "step": {
+      "defaultValue": {
+        "value": "1"
+      },
+      "description": "The amount the buttons and the arrow keys add or take away. A typed value snaps to it,\ncounted from `min`.",
+      "name": "step",
+      "parent": {
+        "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+        "name": "NumberFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+          "name": "NumberFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number"
+      }
+    },
+    "stepButtons": {
+      "defaultValue": {
+        "value": true
+      },
+      "description": "Show the increment and decrement buttons. Without them the arrow keys still step the value.",
+      "name": "stepButtons",
+      "parent": {
+        "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+        "name": "NumberFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+          "name": "NumberFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "valid": {
+      "defaultValue": null,
+      "description": "Set component validation state to valid.",
+      "name": "valid",
+      "parent": {
+        "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+        "name": "NumberFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+          "name": "NumberFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "validFeedback": {
+      "defaultValue": null,
+      "description": "A success message for the field, rendered below the input when `valid` is set.",
+      "name": "validFeedback",
+      "parent": {
+        "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+        "name": "NumberFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+          "name": "NumberFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "value": {
+      "defaultValue": null,
+      "description": "The value of the field, controlled. `NaN` for an empty field.",
+      "name": "value",
+      "parent": {
+        "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+        "name": "NumberFieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/number-field/NumberField.tsx",
+          "name": "NumberFieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number"
+      }
+    }
+  }
+}

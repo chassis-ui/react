@@ -10,7 +10,7 @@
     },
     {
       "path": "./dist/style.css",
-      "maxSize": "2 kB"
+      "maxSize": "3 kB"
     }
   ],
   "ci": {

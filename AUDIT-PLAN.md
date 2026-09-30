@@ -1217,13 +1217,41 @@ Also: `scrollend` (B13) added to `.cspell.json`, which failed `pnpm spellcheck` 
 
 Model: **Opus**. A form component: read `FORMS.md` first.
 
-- [ ] `useNumberField`: a native `<input>` with `.form-input`, increment and decrement buttons
+- [x] `useNumberField`: a native `<input>` with `.form-input`, increment and decrement buttons
       through `IconSlot`, `Intl` formatting, min, max, step. Field props through
-      `renderFormField`.
-- [ ] Styles for the stepper buttons, built on `.form-input` and `.input-group`'s custom
-      properties.
+      `renderFormField`. The input is a `.ghost-input` in a `.form-input.number-field` wrapper
+      (TextInput's adorn shape, `adornStart`/`adornEnd` too), the buttons in a
+      `.number-field-buttons` column: as direct children, a button disabled at `max` would have
+      made chassis-css style the whole field disabled (`:has(> :disabled)`). New icon purposes
+      `increment`/`decrement`; `incrementIcon`/`decrementIcon`. `name` goes to a hidden input
+      holding the number, as in react-aria-components. `stepButtons={false}` leaves the buttons
+      out (a bare `input.form-input` then). Decided here: `min`/`max`/`step` as on `RangeInput`,
+      `onChange(number)` with `NaN` for empty; no `plainText`.
+- [x] Styles for the stepper buttons, built on `.form-input` and `.input-group`'s custom
+      properties. The column sits over the field's padding, flush with its border, as chassis-css
+      places the file input's button, and reads the field's padding, border, radius, background,
+      the file button's hover color and the input group's icon size.
 
-Changeset: minor.
+Changeset: minor. Visual regression spec `number-field.visual.spec.ts`, with Linux baselines.
+
+Found on the way: react-aria's `useNumberField` picks `inputMode` by iPhone/Android and drops
+`aria-roledescription` on iOS, which the server can't know; a hydrating render doesn't patch an
+attribute, so an iPhone would have kept the server's keyboard. Both wait for `useHydrated`
+(FORMS.md, gotcha 7); a spec hydrates server HTML on a simulated iPhone.
+
+An independent review of the diff found five defects before the commit, each now with a test or a
+browser check: `.number-field`'s `display: flex` tied with `.form-input`'s `display: block`, so with
+`style.css` loaded first the buttons collapsed (now `.form-input.number-field`); the mouse wheel
+stepped only a field with a wrapper; a form linked by `form=` didn't reset the field (the visible
+input takes `form` too); `style` was dropped (it goes to the outermost element); the step icons
+were 9px, not 12px, as an `em` was counted twice. Plus docs: the locale is the browser's, when
+`onChange` fires, touch focus, and AGENTS.md's visual-regression count.
+
+`style.css`'s gzip ceiling in `.bundlewatch.config.json` went from 2 kB to 3 kB: the styles B14 and
+B15 add took it to 2.18 kB, and B16–B19 add more, by the decision to write them here.
+
+Left open: `TextInput`'s family drops `title`, `tabIndex`, `dir`, `lang` and `onClick` (react-aria's
+`filterDOMProps`), and `NumberField` with it, apart from `style`.
 
 ### B16 — `TimeField`, with its styles (F9)
 
