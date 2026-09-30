@@ -89,6 +89,16 @@ attempt at the same fix, move it up one tier instead of retrying.
 | B7    | Correct first paint on the server                          | Opus               | patch        |
 | B8    | Ref forwarding and shared helpers                          | Sonnet, Opus       | minor        |
 | B9    | Public primitives and new components                       | You, then per item | per decision |
+| B10   | Public `Portal`, `useHydrated`, `VisuallyHidden`           | Sonnet             | minor        |
+| B11   | `Alert`, the alert dialog                                  | Opus               | minor        |
+| B12   | `NavOverflow`                                              | Fable              | minor        |
+| B13   | `Scrollspy`                                                | Opus               | minor        |
+| B14   | `Divider`, with its styles                                 | Sonnet             | minor        |
+| B15   | `NumberField`, with its styles                             | Opus               | minor        |
+| B16   | `TimeField`, with its styles                               | Opus               | minor        |
+| B17   | `SearchField`, with its styles                             | Opus               | minor        |
+| B18   | `ContextMenu`                                              | Fable              | minor        |
+| B19   | `Tree`, with its styles                                    | Fable              | minor        |
 
 ### Recommended order
 
@@ -100,6 +110,8 @@ attempt at the same fix, move it up one tier instead of retrying.
 6. **B6, B7, B8** — API work, one minor release.
 7. **A5, A6** — any time; they don't block or depend on anything above.
 8. **B9** — last; it is decisions.
+9. **A6** before **B10–B19**: the new components follow its scaffold. Then B10 (the new
+   components use `VisuallyHidden`), then the rest in any order.
 
 ## How the findings were produced
 
@@ -346,6 +358,10 @@ Stale, as B4 found: the error no longer occurs on Next.js 16.3.6. B4 removed the
   - Scrollspy — a JS plugin (`scrollspy.js`).
 - Common components with no equivalent here or in chassis-css: number input, time field, search
   field, context menu, tree, divider. These need chassis-css styles first.
+
+Decided in B9 (2026-09-30), see there. `.alert` is a dialog: chassis-css's own docs page
+(`components/alert.mdx`) documents `<dialog class="alert dialog" role="alertdialog">`, and banners
+are `.notification`. Only the header comment of `_alert.scss` is stale.
 
 ### F10 — Markup the HTML validators found (confirmed, A8)
 
@@ -967,11 +983,165 @@ Changeset: minor (new `ref` support). Exit: a ref test per component. Done, plus
 Model: **You**, then per item. A new component follows the A6 scaffold; **Opus** for one built on
 react-aria hooks, **Fable** for one with a new interaction model (tree, context menu).
 
-- [ ] **(You)** Decide whether to export `Slot`, `Portal` and a `VisuallyHidden` component.
-- [ ] **(You)** Decide on `Alert`, `NavOverflow` and `Scrollspy`, which chassis-css already ships.
+- [x] **(You)** Decide whether to export `Slot`, `Portal` and a `VisuallyHidden` component.
+      Decided: export `Portal` (with `useHydrated`) and a new `VisuallyHidden`; `Slot` stays
+      internal, since consumers reach it through `asChild` and its shape (context, one `Slot` per
+      element kind) should stay free to change. B10.
+- [x] **(You)** Decide on `Alert`, `NavOverflow` and `Scrollspy`, which chassis-css already ships.
       For `Alert`, first settle with chassis-css whether `.alert` is a dialog or a banner.
-- [ ] **(You)** Decide on the components chassis-css doesn't style yet. Each one starts as a
-      chassis-css task, not here.
-- [ ] Each accepted component gets its own plan entry.
+      Settled by chassis-css's docs: a dialog (F9). Decided: all three. B11, B12, B13. Owed to
+      chassis-css: the header comment of `_alert.scss` still describes inline status messages.
+- [x] **(You)** Decide on the components chassis-css doesn't style yet. Each one starts as a
+      chassis-css task, not here. Decided otherwise: all six (number, time and search fields,
+      context menu, tree, divider), **with their styles written here**, as component-scoped Sass
+      the way the calendar, table and data grid have theirs (`THEMING.md`, "Component-scoped
+      CSS"). B14–B19.
+- [x] Each accepted component gets its own plan entry. B10–B19.
 
-Changeset: per decision.
+Changeset: none; the entries carry their own.
+
+### Rules for B11–B19
+
+Every new component phase does all of these, besides its own boxes:
+
+- The A6 scaffold: folder, barrel with `'use client'` and the focus-ring import, both entries in
+  `src/index.ts`, spec, stories, docs page with examples, `packages/site/data/sidebar.yml`.
+- Markup from chassis-css where it has any (its docs page and partial). Where it has none, class
+  names in chassis-css's vocabulary (`.<component>`, `.<component>-<part>`, context and size
+  modifiers as its siblings take them), so the styles can move to chassis-css later unchanged.
+- Styles written here build on the public `--cx-*` tokens and read an existing component's
+  custom properties where one fits (as `DataGrid.scss` reads `--table-*`), never a new token
+  namespace. They go in `dist/style.css`; list the file in `THEMING.md`'s component-scoped CSS
+  section and in `AGENTS.md`'s build paragraph.
+- The library's rules: a ref (`test/utils/refForwarding.spec.tsx`), `visible`/`defaultVisible`/
+  `onVisibleChange` for anything that opens, `Portal` for anything portaled, `IconSlot` for its
+  own icons, server HTML that equals the settled state (the story sweeps pick new stories up),
+  and `asChild` if it is polymorphic.
+- A visual regression spec for a component with styles of its own, with Linux baselines.
+- An axe assertion in a realistic state, `pnpm react:generate`, `api-report.md`, a changeset
+  (minor), and an independent review of the diff before the commit.
+
+### B10 — Public `Portal`, `useHydrated` and `VisuallyHidden` (F9)
+
+Model: **Sonnet**. The code exists except `VisuallyHidden`.
+
+- [ ] Export `Portal` and `useHydrated` (`src/utils/portal.tsx`) from `src/index.ts`, with a docs
+      page (SSR use: render in a portal without a hydration mismatch). Decide the subpath: its own
+      barrel, `@chassis-ui/react/portal`.
+- [ ] `VisuallyHidden`: polymorphic (`span` by default, `asChild`), renders `.visually-hidden`,
+      with a `focusable` prop for `.visually-hidden-focusable` (a skip link). Check both classes
+      in chassis-css's helpers first.
+- [ ] Replace the nine hand-written `<span className="visually-hidden">` in `src/components`
+      with it.
+
+Changeset: minor. Exit: both exported, a spec each, `refForwarding` passes.
+
+### B11 — `Alert`, the alert dialog (F9)
+
+Model: **Opus**. Built on the dialog machinery `Modal` already uses.
+
+- [ ] Markup of chassis-css's `components/alert.mdx`: a `<dialog>` with the classes `alert dialog`
+      and `role="alertdialog"`, holding `.alert-icon`, `.alert-body`, `.alert-title`,
+      `.alert-footer` and an optional `.close-button`. Parts as flat exports (`AlertTitle`,
+      `AlertBody`, `AlertFooter`), `aria-labelledby`/`aria-describedby` wired to title and body.
+- [ ] Open state as `Modal`'s. A static backdrop and no Escape by default, as the docs advise for
+      alert dialogs; props to allow both. Focus goes to the least destructive action.
+- [ ] The error-code and multi-step layouts of the docs page as examples.
+- [ ] **(You)** File the `_alert.scss` header comment fix in chassis-css, or say where it goes.
+
+Changeset: minor.
+
+### B12 — `NavOverflow` (F9)
+
+Model: **Fable**: measuring layout during render and moving items without a flash is a new model
+here.
+
+- [ ] Read `nav-overflow.js` and `components/nav-overflow.mdx` of chassis-css: options (minimum
+      visible items, collapse all, toggle text and icon, kept items), methods, events.
+- [ ] A component around `Nav` (and `Tabs`' list, and inside a `Navbar`) that measures with a
+      `ResizeObserver` and moves the items that don't fit into a `Menu` ("More"). The server
+      renders every item visible; decide what the first paint shows and document it in the SSR
+      page.
+- [ ] Keyboard and screen reader order stay the item order; the active item is never hidden.
+
+Changeset: minor.
+
+### B13 — `Scrollspy` (F9)
+
+Model: **Opus**.
+
+- [ ] Read `scrollspy.js` and `components/scrollspy.mdx` of chassis-css: options (root margin,
+      threshold, smooth scroll), nested navigation, list integration, events.
+- [ ] A `useScrollspy(ids, options)` hook on `IntersectionObserver` returning the active id, and a
+      component that marks the matching `NavLink`/`ListItem` active with `aria-current`.
+- [ ] Nothing active on the server; the first active id after hydration. Document it.
+
+Changeset: minor.
+
+### B14 — `Divider`, with its styles (F9)
+
+Model: **Sonnet**.
+
+- [ ] `useSeparator` from react-aria; horizontal and vertical, `<hr>` by default, polymorphic.
+      Check chassis-css's `hr` reboot and `.vr` helper first; build on them.
+- [ ] Styles here only for what chassis-css lacks (a labelled divider, spacing variants).
+
+Changeset: minor.
+
+### B15 — `NumberField`, with its styles (F9)
+
+Model: **Opus**. A form component: read `FORMS.md` first.
+
+- [ ] `useNumberField`: a native `<input>` with `.form-input`, increment and decrement buttons
+      through `IconSlot`, `Intl` formatting, min, max, step. Field props through
+      `renderFormField`.
+- [ ] Styles for the stepper buttons, built on `.form-input` and `.input-group`'s custom
+      properties.
+
+Changeset: minor.
+
+### B16 — `TimeField`, with its styles (F9)
+
+Model: **Opus**. A form component: read `FORMS.md` first.
+
+- [ ] `useTimeField` with the segment markup `DateField` already renders for the date pickers;
+      reuse its styles (`DatePicker.scss`) rather than copy them.
+- [ ] Granularity, 12/24 hour from the locale, `minValue`/`maxValue`. Decide whether
+      `DatePicker` gains a time part here or in its own entry.
+
+Changeset: minor.
+
+### B17 — `SearchField`, with its styles (F9)
+
+Model: **Opus**. A form component: read `FORMS.md` first.
+
+- [ ] `useSearchField`: a native `<input type="search">` with `.form-input`, a clear button
+      (`CloseButton` or `IconSlot`), Escape clears, `onSubmit`.
+- [ ] Styles for the clear button and a search icon, built on `.form-input` and
+      `.input-group`.
+
+Changeset: minor.
+
+### B18 — `ContextMenu` (F9)
+
+Model: **Fable**: a menu opened at a pointer position, and by long press and the keyboard, is a
+new interaction model.
+
+- [ ] Reuse `Menu`'s list, items and `.menu` styles; only the trigger and positioning are new.
+      Open on `contextmenu`, long press on touch, and Shift+F10 or the context menu key.
+- [ ] Position at the pointer through `useOverlayPosition` with a virtual target; `Portal`.
+
+Changeset: minor.
+
+### B19 — `Tree`, with its styles (F9)
+
+Model: **Fable**.
+
+- [ ] react-aria-components' `Tree`: expand and collapse, single and multiple selection,
+      keyboard navigation, `aria-level`. Server HTML equals the settled state (expanded keys from
+      props).
+- [ ] Styles here: indentation per level, the expand chevron through `IconSlot`, states read from
+      `.list` or `.menu` custom properties where they fit.
+- [ ] Decide static children versus `items` data, as `DataGrid` does.
+
+Changeset: minor.
