@@ -137,6 +137,32 @@ describe('first paint on the server', () => {
     }
   )
 
+  // react-aria writes "Today, …" into the cell's label during render; until hydration the label is
+  // react-aria's for a day that isn't today (`useCellToday`).
+  test.for([
+    'Calendar showing today',
+    'RangeCalendar showing today',
+    'DatePicker open on today',
+    'DateRangePicker open on today'
+  ])("%s calls no day today in its labels, and still labels today's cell as selected", (name) => {
+    const page = within(firstPaint(name))
+    const labels = page
+      .getAllByRole('gridcell')
+      .map((cell) => within(cell).getByRole('button').getAttribute('aria-label') ?? '')
+    expect(labels.filter((label) => label.startsWith('Today'))).toEqual([])
+    const date = new Intl.DateTimeFormat('en-US', {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    }).format(new Date())
+    // A range's first and last day also carry its description, here one day's.
+    const expected = name.includes('Range')
+      ? `Selected Date: ${date}, ${date} selected`
+      : `${date} selected`
+    expect(labels).toContain(expected)
+  })
+
   test('a field is described by its own help only', () => {
     const page = within(firstPaint('TextInput with help'))
     expect(page.getByRole('textbox', { name: 'Name' })).toHaveAccessibleDescription('Your name')

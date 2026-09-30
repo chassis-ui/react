@@ -1,6 +1,7 @@
 // @vitest-environment node
 import * as React from 'react'
 import { renderToString } from 'react-dom/server'
+import { within } from '@testing-library/react'
 
 import { installClientEnvironment } from './clientEnvironment'
 import { loadFirstPaintCases } from './firstPaint'
@@ -64,7 +65,8 @@ beforeAll(async () => {
   }
 }, 60_000)
 
-async function hydrate(id: string): Promise<string[]> {
+// `inspect` sees the hydrated page, before it's unmounted.
+async function hydrate(id: string, inspect?: (host: HTMLElement) => void): Promise<string[]> {
   const { React: ClientReact, hydrateRoot } = client
   const Story = client.stories.get(id)!
   const errors: string[] = []
@@ -85,6 +87,7 @@ async function hydrate(id: string): Promise<string[]> {
         }
       })
     })
+    inspect?.(host)
     await ClientReact.act(async () => root?.unmount())
   } finally {
     consoleError.mockRestore()
@@ -105,5 +108,28 @@ describe('hydration of every story', () => {
     } else {
       expect(errors).toEqual([])
     }
+  })
+})
+
+// The server marks no day as today, in the class or react-aria's label (`useCellToday`); the
+// hydrated page marks the viewer's, in both.
+describe("hydration marks the viewer's today", () => {
+  test.for([
+    'Calendar showing today',
+    'RangeCalendar showing today',
+    'DatePicker open on today',
+    'DateRangePicker open on today'
+  ])('%s', async (name) => {
+    let labels: string[] = []
+    let todayCells: HTMLElement[] = []
+    const errors = await hydrate(`first paint: ${name}`, (host) => {
+      const page = within(host)
+      labels = page.getAllByRole('button').map((button) => button.getAttribute('aria-label') ?? '')
+      todayCells = page.queryAllByRole('gridcell', { current: 'date' })
+    })
+    expect(errors).toEqual([])
+    expect(labels.filter((label) => label.startsWith('Today'))).toHaveLength(1)
+    expect(todayCells).toHaveLength(1)
+    expect(todayCells[0]).toHaveClass('datepicker-date-today')
   })
 })

@@ -20,6 +20,8 @@ export async function loadFirstPaintCases(): Promise<Record<string, () => ReactE
     DataGridColumn,
     DataGridHeader,
     DataGridRow,
+    DatePicker,
+    DateRangePicker,
     Modal,
     ModalBody,
     ModalTitle,
@@ -141,6 +143,16 @@ export async function loadFirstPaintCases(): Promise<Record<string, () => ReactE
       <RangeCalendar
         aria-label="Dates"
         defaultValue={{ start: today(getLocalTimeZone()), end: today(getLocalTimeZone()) }}
+      />
+    ),
+    'DatePicker open on today': () => (
+      <DatePicker aria-label="Date" defaultValue={today(getLocalTimeZone())} defaultVisible />
+    ),
+    'DateRangePicker open on today': () => (
+      <DateRangePicker
+        aria-label="Dates"
+        defaultValue={{ start: today(getLocalTimeZone()), end: today(getLocalTimeZone()) }}
+        defaultVisible
       />
     ),
     'TextInput with help': () => <TextInput help="Your name" label="Name" />,

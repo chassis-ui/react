@@ -6,7 +6,6 @@ import {
   CalendarDate,
   createCalendar,
   getLocalTimeZone,
-  isToday,
   isWeekend,
   today
 } from '@internationalized/date'
@@ -17,9 +16,9 @@ import { CalendarMonthYearPicker } from './CalendarMonthYearPicker'
 import { CalendarNavButton } from './CalendarNavButton'
 import { CalendarWeekGrid } from './CalendarWeekGrid'
 import { mergeIsDateUnavailable } from '../../utils/mergeIsDateUnavailable'
-import { useHydrated } from '../portal/Portal'
 import './Calendar.scss'
 import { CalendarLabels, CalendarLabelsProvider } from './labels'
+import { useCellToday } from './todayLabel'
 
 interface CalendarBaseProps extends Omit<
   HTMLAttributes<HTMLDivElement>,
@@ -323,12 +322,8 @@ const CalendarCell = ({ date, locale, state }: CalendarCellProps) => {
     isUnavailable,
     formattedDate
   } = useCalendarCell({ date }, state, ref)
-  // "Today" depends on the time zone, and a server's is rarely the viewer's: marked once hydration
-  // has finished, so the server's HTML never marks the wrong day. The zone is the calendar's, as
-  // react-aria's "Today" in the cell's label: a `ZonedDateTime` value's own, otherwise the
-  // browser's.
-  const hydrated = useHydrated()
-  const isCurrentDate = hydrated && isToday(date, state.timeZone)
+  // Today only once hydrated, in the class, `aria-current` and the label alike: see `useCellToday`.
+  const { isCurrentDate, label } = useCellToday(date, state, isSelected, buttonProps['aria-label'])
 
   return (
     <div
@@ -343,7 +338,13 @@ const CalendarCell = ({ date, locale, state }: CalendarCellProps) => {
         'datepicker-date-weekend': isWeekend(date, locale)
       })}
     >
-      <button {...buttonProps} type="button" className="datepicker-date-btn" ref={ref}>
+      <button
+        {...buttonProps}
+        aria-label={label}
+        type="button"
+        className="datepicker-date-btn"
+        ref={ref}
+      >
         {formattedDate}
       </button>
     </div>

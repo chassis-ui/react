@@ -9,24 +9,18 @@ import {
   useRangeCalendar
 } from 'react-aria'
 import { DateValue, RangeCalendarState, useRangeCalendarState } from 'react-stately'
-import {
-  CalendarDate,
-  createCalendar,
-  isSameDay,
-  isToday,
-  isWeekend
-} from '@internationalized/date'
+import { CalendarDate, createCalendar, isSameDay, isWeekend } from '@internationalized/date'
 
 import { useForkedRef } from '../../hooks'
 import { CalendarMonthBlock } from './CalendarMonthBlock'
 import { CalendarNavButton } from './CalendarNavButton'
 import { DateRangePreset } from '../../utils/dateRangePresets'
 import { mergeIsDateUnavailable } from '../../utils/mergeIsDateUnavailable'
-import { useHydrated } from '../portal/Portal'
 import { suppressFocusRing } from '../../utils/suppressFocusRingGlobally'
 import './Calendar.scss'
 import './RangeCalendar.scss'
 import { CalendarLabels, CalendarLabelsProvider } from './labels'
+import { useCellToday } from './todayLabel'
 
 export interface RangeCalendarProps extends Omit<
   HTMLAttributes<HTMLDivElement>,
@@ -304,12 +298,8 @@ const CalendarCell = ({ date, isFirstInRow, isLastInRow, locale, state }: Calend
   const { highlightedRange } = state
   const isRangeStart = Boolean(highlightedRange && isSameDay(date, highlightedRange.start))
   const isRangeEnd = Boolean(highlightedRange && isSameDay(date, highlightedRange.end))
-  // "Today" depends on the time zone, and a server's is rarely the viewer's: marked once hydration
-  // has finished, so the server's HTML never marks the wrong day. The zone is the calendar's, as
-  // react-aria's "Today" in the cell's label: a `ZonedDateTime` value's own, otherwise the
-  // browser's.
-  const hydrated = useHydrated()
-  const isCurrentDate = hydrated && isToday(date, state.timeZone)
+  // Today only once hydrated, in the class, `aria-current` and the label alike: see `useCellToday`.
+  const { isCurrentDate, label } = useCellToday(date, state, isSelected, buttonProps['aria-label'])
 
   return (
     <div
@@ -328,6 +318,7 @@ const CalendarCell = ({ date, isFirstInRow, isLastInRow, locale, state }: Calend
     >
       <button
         {...mergeProps(buttonProps, {
+          'aria-label': label,
           // Hovering to preview a range's end date moves real DOM focus via `element.focus()`
           // (`useCalendarCell`'s `onPointerEnter` -> `state.highlightDate`), which browsers can
           // paint as a visible focus ring even though the input modality is a pointer, not a

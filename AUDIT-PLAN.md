@@ -1503,7 +1503,16 @@ both corrected, each now with a test: a controlled zoned `value`, once cleared, 
 (narrowed to the literal between the date and the time), and a docs example opening its calendar
 in January 2026.
 
-Found on the way, not fixed: react-aria's cell label says "Today, …" in the server's HTML
-(`useCalendarCell`, with the server's zone and date), which hydration doesn't patch, while
+Found on the way, fixed after the phase: react-aria's cell label said "Today, …" in the server's
+HTML (`useCalendarCell`, with the server's zone and date), which hydration doesn't patch, while
 `datepicker-date-today` waits for hydration (B7). On the statically built docs site a calendar
-example's label names the build day until the cell re-renders.
+example's label named the build day until the cell re-rendered. `useCellToday`
+(`src/components/calendar/todayLabel.ts`) now holds the class, `aria-current` and the label back
+together: until hydration the label is react-aria's for a day that isn't today, its "Today" wrapper
+taken off and its "selected" wrapper put on, from react-aria's own strings (a
+`LocalizedStringProvider`'s, else a copy in `todayLabelStrings.ts`, about 2 kB gzip in the
+calendar chunk). A range's description and the first/last available date note stay react-aria's.
+`test/components/calendar/todayLabel.spec.tsx` checks the server label in all 34 of react-aria's
+locales against `react-aria/i18n`, so a react-aria update that changes the strings fails there;
+`render.spec`/`hydrate.spec` cover `Calendar`, `RangeCalendar` and both pickers open on today.
+Changeset: patch.
