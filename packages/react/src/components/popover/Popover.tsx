@@ -11,13 +11,13 @@ import React, {
 import classNames from 'classnames'
 import { mergeProps, useDialog, useOverlayPosition, useOverlayTrigger } from 'react-aria'
 import { useOverlayTriggerState } from 'react-stately'
-import { Transition } from 'react-transition-group'
 
 import {
   getOverlayArrowStyle,
   getOverlayTransitionClass,
   useFloatingOverlay,
-  useForkedRef
+  useForkedRef,
+  useTransitionState
 } from '../../hooks'
 import { Placement, resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
 import { Portal } from '../../utils/portal'
@@ -31,11 +31,10 @@ interface PopoverPanelProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'
   title?: ReactNode | string
 }
 
-// A distinct component (rather than inline JSX from the `Transition` render prop) so
-// `useDialog`'s own mount-focus effect — which only fires on this component's mount, not on
-// `overlayRef.current` merely becoming non-null — actually runs each time the popover opens.
-// `Transition`'s `unmountOnExit` genuinely unmounts and remounts this component on every
-// open, giving `useDialog` a fresh mount each time.
+// A distinct component (rather than inline JSX in `Popover`) so `useDialog`'s own mount-focus
+// effect — which only fires on this component's mount, not on `overlayRef.current` merely
+// becoming non-null — actually runs each time the popover opens. `Popover` unmounts this once
+// it has exited and mounts it again on every open, giving `useDialog` a fresh mount each time.
 const PopoverPanel = ({
   arrowProps,
   content,
@@ -204,6 +203,31 @@ export const Popover: FC<PopoverProps> = ({
   }
   const placementAttr = resolveDataPlacement(placement, resolvedPlacement)
 
+  const { isMounted, phase } = useTransitionState({
+    in: state.isOpen,
+    mountOnEnter: true,
+    nodeRef: floatingRef,
+    onExited: () => {
+      const trigger = triggerRef.current
+      if (!trigger || !document.contains(trigger)) return
+      // Only reclaim focus when the popover still owns it, or when nothing does.
+      // `useDialog` moves focus into the panel on open, so the panel still holds it here
+      // for an Escape/inside close (`onExited` runs before the panel is taken out of the DOM,
+      // so this reads the pre-removal state); an outside click on plain page
+      // content instead leaves focus loose on `<body>`. Both are worth restoring. Any
+      // other active element means the user deliberately put focus there — dismissing by
+      // clicking another control, or the app closing the popover via `visible` while
+      // they were typing somewhere else — and this used to steal it straight back off
+      // them. Mirrors react-aria's own `shouldRestoreFocus` condition.
+      const active = document.activeElement
+      const focusIsLoose = !active || active === document.body
+      const focusIsInPanel = !!active && !!floatingRef.current?.contains(active)
+      if (!focusIsLoose && !focusIsInPanel) return
+      trigger.focus()
+    },
+    unmountOnExit: true
+  })
+
   return (
     <>
       {/* `mergeProps` chains the child's own `onClick` ahead of this one, so this no longer
@@ -214,51 +238,19 @@ export const Popover: FC<PopoverProps> = ({
         ref: forkedTriggerRef
       })}
       <Portal container={portalContainer}>
-        <Transition
-          in={state.isOpen}
-          mountOnEnter
-          nodeRef={floatingRef}
-          onExited={() => {
-            const trigger = triggerRef.current
-            if (!trigger || !document.contains(trigger)) return
-            // Only reclaim focus when the popover still owns it, or when nothing does.
-            // `useDialog` moves focus into the panel on open, so the panel still holds it here
-            // for an Escape/inside close (`onExited` runs before `unmountOnExit` detaches the
-            // node, so this reads the pre-removal state); an outside click on plain page
-            // content instead leaves focus loose on `<body>`. Both are worth restoring. Any
-            // other active element means the user deliberately put focus there — dismissing by
-            // clicking another control, or the app closing the popover via `visible` while
-            // they were typing somewhere else — and this used to steal it straight back off
-            // them. Mirrors react-aria's own `shouldRestoreFocus` condition.
-            const active = document.activeElement
-            const focusIsLoose = !active || active === document.body
-            const focusIsInPanel = !!active && !!floatingRef.current?.contains(active)
-            if (!focusIsLoose && !focusIsInPanel) return
-            trigger.focus()
-          }}
-          timeout={{
-            enter: 0,
-            exit: 200
-          }}
-          unmountOnExit
-        >
-          {(transitionState) => {
-            const transitionClass = getOverlayTransitionClass(transitionState)
-            return (
-              <PopoverPanel
-                className={classNames('popover cx-popover-auto', transitionClass)}
-                data-cx-placement={placementAttr}
-                style={floatingStyle}
-                overlayTriggerProps={overlayTriggerProps}
-                overlayRef={floatingRef}
-                arrowProps={arrowProps}
-                title={title}
-                content={content}
-                {...rest}
-              />
-            )
-          }}
-        </Transition>
+        {isMounted && (
+          <PopoverPanel
+            className={classNames('popover cx-popover-auto', getOverlayTransitionClass(phase))}
+            data-cx-placement={placementAttr}
+            style={floatingStyle}
+            overlayTriggerProps={overlayTriggerProps}
+            overlayRef={floatingRef}
+            arrowProps={arrowProps}
+            title={title}
+            content={content}
+            {...rest}
+          />
+        )}
       </Portal>
     </>
   )

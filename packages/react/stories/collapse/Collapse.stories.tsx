@@ -20,13 +20,10 @@ const cardContent = (
   </div>
 )
 
-// Unlike Toast (whose internal `visible` state starts `false` and only syncs to the story's arg
-// in a post-mount effect, forcing a real animated entrance — see
-// toast-notification.visual.spec.ts), Collapse's `visible` prop feeds CSSTransition's `in` prop
-// directly, and react-transition-group's own documented behavior is that a `CSSTransition`
-// without `appear` starts in the already-settled `entered` state when `in` is `true` on first
-// mount — no enter transition plays. So an `Open` story here is settled on first paint, same as
-// Notification's stories, not the "wait for the settled class" treatment Toast needed.
+// Unlike Toast and Notification (which play their entrance on mount, see
+// toast-notification.visual.spec.ts), Collapse doesn't ask `useTransitionState` for `appear`, so
+// mounted with `visible` it starts settled, in `entered`, and no enter transition plays. An
+// `Open` story here is settled on first paint and needs no "wait for the settled class".
 export const Closed: Story = {
   args: {
     visible: false,

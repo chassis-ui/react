@@ -1,7 +1,6 @@
 import React, { ElementType, forwardRef, HTMLAttributes, ReactNode } from 'react'
 import classNames from 'classnames'
 import { mergeProps } from 'react-aria'
-import { Transition } from 'react-transition-group'
 
 import { ContextColor } from '../../types'
 import { CloseButton } from '../close-button/CloseButton'
@@ -117,10 +116,10 @@ export const Notification = forwardRef<HTMLDivElement, NotificationProps>(
       close,
       entered,
       forkedRef,
-      getTransitionClass,
+      isMounted,
       textId,
       titleId,
-      transitionProps,
+      transitionClass,
       visible: _visible
     } = useDismissibleTransition({ onClose, onShow, ref, visible })
 
@@ -144,43 +143,38 @@ export const Notification = forwardRef<HTMLDivElement, NotificationProps>(
       className
     )
 
+    if (!isMounted) return null
+
     return (
-      <Transition {...transitionProps} mountOnEnter timeout={150}>
-        {(state) => {
-          const transitionClass = getTransitionClass(state)
-          return (
-            <NotificationContext.Provider value={{ visible: _visible, close }}>
-              <div
-                className={classNames(_className, transitionClass)}
-                role={role}
-                aria-labelledby={title ? titleId : undefined}
-                aria-describedby={title && text ? textId : undefined}
-                {...mergeProps(rest, autoDismissProps)}
-                ref={forkedRef}
-              >
-                {icon &&
-                  (typeof icon === 'string' ? (
-                    <ResolvedIcon
-                      value={icon}
-                      className={classNames('notification-icon', { 'align-self-start': !!title })}
-                    />
-                  ) : (
-                    icon
-                  ))}
-                {title && (
-                  <NotificationTitle id={titleId} component={titleComponent}>
-                    {title}
-                  </NotificationTitle>
-                )}
-                {text && <NotificationText id={textId}>{text}</NotificationText>}
-                {children}
-                {actions}
-                {dismissible && <CloseButton label={closeLabel} onClick={close} />}
-              </div>
-            </NotificationContext.Provider>
-          )
-        }}
-      </Transition>
+      <NotificationContext.Provider value={{ visible: _visible, close }}>
+        <div
+          className={classNames(_className, transitionClass)}
+          role={role}
+          aria-labelledby={title ? titleId : undefined}
+          aria-describedby={title && text ? textId : undefined}
+          {...mergeProps(rest, autoDismissProps)}
+          ref={forkedRef}
+        >
+          {icon &&
+            (typeof icon === 'string' ? (
+              <ResolvedIcon
+                value={icon}
+                className={classNames('notification-icon', { 'align-self-start': !!title })}
+              />
+            ) : (
+              icon
+            ))}
+          {title && (
+            <NotificationTitle id={titleId} component={titleComponent}>
+              {title}
+            </NotificationTitle>
+          )}
+          {text && <NotificationText id={textId}>{text}</NotificationText>}
+          {children}
+          {actions}
+          {dismissible && <CloseButton label={closeLabel} onClick={close} />}
+        </div>
+      </NotificationContext.Provider>
     )
   }
 )

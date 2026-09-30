@@ -2,13 +2,13 @@ import React, { FC, ReactElement, ReactNode, useCallback, useRef } from 'react'
 import classNames from 'classnames'
 import { mergeProps, useOverlayPosition, useTooltip, useTooltipTrigger } from 'react-aria'
 import { useTooltipTriggerState } from 'react-stately'
-import { Transition } from 'react-transition-group'
 
 import {
   getOverlayArrowStyle,
   getOverlayTransitionClass,
   useFloatingOverlay,
-  useForkedRef
+  useForkedRef,
+  useTransitionState
 } from '../../hooks'
 import { Placement, resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
 import { Portal } from '../../utils/portal'
@@ -123,6 +123,13 @@ export const Tooltip: FC<TooltipProps> = ({
   }
   const placementAttr = resolveDataPlacement(placement, resolvedPlacement)
 
+  const { isMounted, phase } = useTransitionState({
+    in: state.isOpen,
+    mountOnEnter: true,
+    nodeRef: floatingRef,
+    unmountOnExit: true
+  })
+
   return (
     <>
       {React.cloneElement(triggerElement, {
@@ -130,37 +137,23 @@ export const Tooltip: FC<TooltipProps> = ({
         ref: forkedTriggerRef
       })}
       <Portal container={portalContainer}>
-        <Transition
-          in={state.isOpen}
-          mountOnEnter
-          nodeRef={floatingRef}
-          timeout={{
-            enter: 0,
-            exit: 200
-          }}
-          unmountOnExit
-        >
-          {(transitionState) => {
-            const transitionClass = getOverlayTransitionClass(transitionState)
-            return (
-              <div
-                className={classNames('tooltip cx-tooltip-auto', transitionClass)}
-                data-cx-placement={placementAttr}
-                ref={floatingRef}
-                style={floatingStyle}
-                {...mergeProps(tooltipTriggerProps, tooltipProps)}
-                {...rest}
-              >
-                <div
-                  className="tooltip-arrow"
-                  {...arrowProps}
-                  style={getOverlayArrowStyle(arrowProps)}
-                ></div>
-                <div className="tooltip-inner">{content}</div>
-              </div>
-            )
-          }}
-        </Transition>
+        {isMounted && (
+          <div
+            className={classNames('tooltip cx-tooltip-auto', getOverlayTransitionClass(phase))}
+            data-cx-placement={placementAttr}
+            ref={floatingRef}
+            style={floatingStyle}
+            {...mergeProps(tooltipTriggerProps, tooltipProps)}
+            {...rest}
+          >
+            <div
+              className="tooltip-arrow"
+              {...arrowProps}
+              style={getOverlayArrowStyle(arrowProps)}
+            ></div>
+            <div className="tooltip-inner">{content}</div>
+          </div>
+        )}
       </Portal>
     </>
   )

@@ -321,6 +321,8 @@ No hydration error, but the first paint is wrong or incomplete:
 Turbopack, because of how that package is published. Production builds work. Six components import
 it: `TabPanel`, `Tooltip`, `Notification`, `Collapse`, `Popover`, `Toast`.
 
+Stale, as B4 found: the error no longer occurs on Next.js 16.3.6. B4 removed the package anyway.
+
 ### F9 — Gaps to decide on, not defects
 
 - `Slot`, a portal primitive and a visually-hidden helper are internal only.
@@ -680,25 +682,52 @@ Changeset: patch. Exit: lazy probes render the same HTML as their plain equivale
 
 ### B4 — Remove `react-transition-group` (F8, #40)
 
-Check F8 before starting. B3's Playwright check loads `Tooltip`, `Popover` and `Tabs` under
-`next dev` with Turbopack on Next.js 16.3.6, and all three render and work. The "Element type is
-invalid" error F8 describes did not occur for them. `Toast`, `Notification` and `Collapse` weren't
-loaded. The comment at the top of `smoke-tests/nextjs-app-router/app/page.tsx` still describes the
-error.
+Done. F8 was checked first and is stale: with `react-transition-group` still in place, all six
+components rendered and worked under `next dev` with Turbopack on Next.js 16.3.6, from routes added
+to the smoke app for that check. The removal went ahead for what is left of its case: one
+dependency less, durations that follow the CSS, and #40.
+
+Where the work differs from the boxes below:
+
+- **No duration lives in JavaScript.** `useTransitionState` ends a phase on the element's
+  `transitionend`, or after its computed transition duration when that event never comes. That is
+  `executeAfterTransition`, which `Modal`, `Drawer` and `Menu` already used, and what chassis-css's
+  own plugins do. Reduced motion needs no code of its own: chassis-css sets `transition: none`
+  under `prefers-reduced-motion`, and a phase then ends after 50 ms.
+- **`Tooltip`, `Popover` and `TabPanel` get `show` as soon as the hidden styles are computed.**
+  They used to get it one timer later, which for `TabPanel` was 150 ms spent at full
+  transparency before the fade began. The classes and their order are the same.
+- **#40 is fixed by reporting the close on unmount**, the first of the two fixes the issue
+  suggests. The close is owed from the `close()` call, not from the start of the exit, because
+  the unmount can land in the same commit.
+- **`Collapse` follows chassis-css's collapse plugin**: it pins the measured size inline before
+  it lets go of it, with a reflow between the two. It also merges a `style` passed to it, which
+  used to replace the size and stop the transition.
+- **No baseline moved.** The Linux baselines of the toast/notification, menu/popover/tooltip and
+  accordion/collapse families were run in the CI image and are unchanged. On macOS three
+  baselines fail, none from this phase: `Notification — With Actions` (its story text changed on
+  2026-09-15), `DataGrid — Variable Row Height` and `Modal — Sizes`. They are not regenerated
+  here.
+
+Measured in Chromium on the docs site, frame by frame, with and without reduced motion: each of
+the six goes through its classes in order, the size or opacity animates between them, and
+`Popover` returns focus to its trigger.
 
 Model: **Fable**. Transition timing, focus return and unmount ordering are easy to get subtly
 wrong, and visual baselines will move.
 
-- [ ] Write `useTransitionState` (enter/exit phases, `unmountOnExit`, reduced-motion aware),
-      building on `useDismissibleTransition`.
-- [ ] Migrate `Collapse`, `TabPanel`, `Toast`, `Notification`, `Tooltip`, `Popover`. Keep the class
+- [x] Write `useTransitionState` (enter/exit phases, `unmountOnExit`, reduced-motion aware),
+      building on `useDismissibleTransition`. The other way round: `useDismissibleTransition` is
+      built on it.
+- [x] Migrate `Collapse`, `TabPanel`, `Toast`, `Notification`, `Tooltip`, `Popover`. Keep the class
       names and their order of application: `fade`, `show`, `showing` and `collapsing` are
       chassis-css's, and its transitions are written against them. While in
       `useDismissibleTransition`, fix #40.
-- [ ] Remove the dependency and `@types/react-transition-group`.
-- [ ] Add the six components to the smoke app and re-enable them under `next dev`.
-- [ ] Regenerate the Linux visual baselines for the toast/notification and
-      menu/popover/tooltip families only.
+- [x] Remove the dependency and `@types/react-transition-group`.
+- [x] Add the six components to the smoke app and re-enable them under `next dev`. `Tooltip`,
+      `Popover` and `Tabs` had routes from B3; `Toast`, `Notification` and `Collapse` are new.
+- [x] Regenerate the Linux visual baselines for the toast/notification and
+      menu/popover/tooltip families only. Run, and nothing changed.
 
 Changeset: patch. Exit: no import of the package remains; visual regression passes.
 

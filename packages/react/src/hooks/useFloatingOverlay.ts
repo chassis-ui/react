@@ -1,5 +1,7 @@
 import { CSSProperties, HTMLAttributes, RefObject, useEffect, useRef, useState } from 'react'
 
+import { TransitionPhase } from './useTransitionState'
+
 export interface UseFloatingOverlayOptions {
   /**
    * Imperatively closes the overlay — called when `visible` syncs to `false` and when the
@@ -114,12 +116,8 @@ export function getOverlayArrowStyle(arrowProps: HTMLAttributes<HTMLDivElement>)
   }
 }
 
-export function getOverlayTransitionClass(transitionState: string): string {
-  return transitionState === 'entering'
-    ? 'fade'
-    : transitionState === 'entered'
-      ? 'fade show'
-      : transitionState === 'exiting'
-        ? 'fade'
-        : 'fade'
+// Mounted without `show`, shown once those styles are computed, and without it again for as
+// long as the exit lasts: chassis-css's `.fade` transitions the opacity between the two.
+export function getOverlayTransitionClass(phase: TransitionPhase): string {
+  return phase === 'entering' || phase === 'entered' ? 'fade show' : 'fade'
 }

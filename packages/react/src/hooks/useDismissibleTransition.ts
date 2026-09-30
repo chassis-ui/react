@@ -1,10 +1,12 @@
-import { ForwardedRef, RefObject, useCallback, useEffect, useId, useRef, useState } from 'react'
+import { ForwardedRef, useCallback, useEffect, useId, useRef, useState } from 'react'
 
 import { useForkedRef } from './useForkedRef'
+import { useTransitionState } from './useTransitionState'
 
 export interface UseDismissibleTransitionOptions {
   /**
-   * Callback fired once the exit transition completes and the component is fully hidden.
+   * Callback fired once the exit transition completes and the component is fully hidden, or
+   * when the component unmounts before its exit could complete.
    */
   onClose?: () => void
   /**
@@ -16,17 +18,6 @@ export interface UseDismissibleTransitionOptions {
    * Toggle the visibility of the component.
    */
   visible?: boolean
-}
-
-export interface UseDismissibleTransitionTransitionProps {
-  appear: true
-  in: boolean
-  nodeRef: RefObject<HTMLDivElement | null>
-  onEnter: () => void
-  onEntered: () => void
-  onExit: () => void
-  onExited: () => void
-  unmountOnExit: true
 }
 
 export interface UseDismissibleTransitionResult {
@@ -44,14 +35,17 @@ export interface UseDismissibleTransitionResult {
    */
   entered: boolean
   forkedRef: ReturnType<typeof useForkedRef<HTMLDivElement>>
-  getTransitionClass: (state: string) => string | undefined
+  /**
+   * `false` before the component first shows and after it has exited: render nothing.
+   */
+  isMounted: boolean
   textId: string
   titleId: string
   /**
-   * Spread directly onto `<Transition>`. Each caller still supplies its own `timeout` (and any
-   * extra props, e.g. `mountOnEnter`) on top of this.
+   * chassis-css's classes for the current phase: `show showing` while entering or exiting,
+   * `show` once settled, none while hidden.
    */
-  transitionProps: UseDismissibleTransitionTransitionProps
+  transitionClass: string | undefined
   /**
    * The internal, transition-driving visible state — distinct from the `visible` prop, since a
    * `close()` call (or the exit transition itself) needs to flip this independently of whatever
@@ -61,8 +55,8 @@ export interface UseDismissibleTransitionResult {
 }
 
 // Shared dismiss/transition machinery for `Toast` and `Notification` — both otherwise duplicated
-// this near-verbatim: visible-state + prop-sync effect, a forked ref, `getTransitionClass`,
-// `titleId`/`textId` via `useId()`, and the `Transition` entry/exit callback wiring.
+// this near-verbatim: visible-state + prop-sync effect, a forked ref, the phase-to-class mapping,
+// `titleId`/`textId` via `useId()`, and the enter/exit callback wiring of `useTransitionState`.
 //
 // `close` is memoized once here with `useCallback` (empty deps — it only ever calls
 // `setVisible(false)`, whose setter identity is itself stable) specifically so it has a stable
@@ -78,6 +72,13 @@ export interface UseDismissibleTransitionResult {
 // `Toast` already had this (gating on `visible` alone would start the autohide timer the instant
 // `visible` flips true, while still fading/sliding in); `Notification` didn't, so this extraction
 // gives it the same fix for free.
+//
+// `onClose` normally fires when the exit transition has finished. A component that unmounts
+// before that (a `Toaster` remounted by a navigation 50 ms after its toast's action was clicked,
+// issue #40) would never report the close it was asked for, and a queued toast would come back
+// with the next `Toaster`. So an unmount with a close still owed reports it then. It is owed from
+// the `close()` call itself, not from the start of the exit, because the unmount can land in the
+// same commit as the state change `close()` asked for.
 export function useDismissibleTransition({
   onClose,
   onShow,
@@ -85,42 +86,63 @@ export function useDismissibleTransition({
   visible = false
 }: UseDismissibleTransitionOptions): UseDismissibleTransitionResult {
   const [_visible, setVisible] = useState(visible)
-  const [entered, setEntered] = useState(false)
   const nodeRef = useRef<HTMLDivElement>(null)
   const forkedRef = useForkedRef(ref, nodeRef)
   const titleId = useId()
   const textId = useId()
 
+  const closeOwedRef = useRef(false)
+  const visibleRef = useRef(_visible)
+  visibleRef.current = _visible
+  const onCloseRef = useRef(onClose)
+  onCloseRef.current = onClose
+
+  const reportClose = useCallback(() => {
+    if (!closeOwedRef.current) return
+    closeOwedRef.current = false
+    onCloseRef.current?.()
+  }, [])
+
   useEffect(() => {
     setVisible(visible)
   }, [visible])
 
-  const close = useCallback(() => setVisible(false), [])
+  const close = useCallback(() => {
+    // Closing what is already hidden asks for nothing, so it owes no `onClose`.
+    if (visibleRef.current) closeOwedRef.current = true
+    setVisible(false)
+  }, [])
 
-  const getTransitionClass = (state: string) =>
-    state === 'entering' || state === 'exiting'
-      ? 'show showing'
-      : state === 'entered'
-        ? 'show'
-        : undefined
+  const { isMounted, phase } = useTransitionState({
+    appear: true,
+    in: _visible,
+    nodeRef,
+    onEnter: () => {
+      closeOwedRef.current = false
+      onShow?.()
+    },
+    onExit: () => {
+      closeOwedRef.current = true
+    },
+    onExited: reportClose,
+    unmountOnExit: true
+  })
+
+  useEffect(() => reportClose, [reportClose])
 
   return {
     close,
-    entered,
+    entered: phase === 'entered',
     forkedRef,
-    getTransitionClass,
+    isMounted,
     textId,
     titleId,
-    transitionProps: {
-      appear: true,
-      in: _visible,
-      nodeRef,
-      onEnter: () => onShow?.(),
-      onEntered: () => setEntered(true),
-      onExit: () => setEntered(false),
-      onExited: () => onClose?.(),
-      unmountOnExit: true
-    },
+    transitionClass:
+      phase === 'entering' || phase === 'exiting'
+        ? 'show showing'
+        : phase === 'entered'
+          ? 'show'
+          : undefined,
     visible: _visible
   }
 }

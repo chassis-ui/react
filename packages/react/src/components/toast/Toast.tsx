@@ -1,6 +1,5 @@
 import React, { forwardRef, HTMLAttributes, ReactNode } from 'react'
 import { mergeProps } from 'react-aria'
-import { Transition } from 'react-transition-group'
 import classNames from 'classnames'
 
 import { ContextColor } from '../../types'
@@ -131,10 +130,10 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
       close,
       entered,
       forkedRef,
-      getTransitionClass,
+      isMounted,
       textId,
       titleId,
-      transitionProps,
+      transitionClass,
       visible: _visible
     } = useDismissibleTransition({ onClose, onShow, ref, visible })
 
@@ -170,49 +169,44 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
     const bodyGetsCloseButton = closeButton && !hasHeaderShorthand && message != null
     const hasHeaderContent = hasHeaderShorthand || headerGetsCloseButton
 
+    if (!isMounted) return null
+
     return (
-      <Transition {...transitionProps} timeout={250}>
-        {(state) => {
-          const transitionClass = getTransitionClass(state)
-          return (
-            <ToastContext.Provider value={contextValues}>
-              <div
-                className={classNames(_className, transitionClass)}
-                role={role}
-                aria-labelledby={title != null ? titleId : undefined}
-                aria-describedby={title != null && message != null ? textId : undefined}
-                {...mergeProps(rest, autoDismissProps)}
-                ref={forkedRef}
-              >
-                {hasHeaderContent && (
-                  <ToastHeader
-                    icon={icon}
-                    time={time}
-                    titleId={title != null ? titleId : undefined}
-                    closeButton={headerGetsCloseButton}
-                    closeLabel={closeLabel}
-                  >
-                    {title}
-                  </ToastHeader>
-                )}
-                {message != null && (
-                  <ToastBody
-                    id={title != null && message != null ? textId : undefined}
-                    closeButton={bodyGetsCloseButton}
-                    closeLabel={closeLabel}
-                  >
-                    {message}
-                  </ToastBody>
-                )}
-                {children}
-                {footer != null && (
-                  <ToastFooter>{typeof footer === 'function' ? footer(close) : footer}</ToastFooter>
-                )}
-              </div>
-            </ToastContext.Provider>
-          )
-        }}
-      </Transition>
+      <ToastContext.Provider value={contextValues}>
+        <div
+          className={classNames(_className, transitionClass)}
+          role={role}
+          aria-labelledby={title != null ? titleId : undefined}
+          aria-describedby={title != null && message != null ? textId : undefined}
+          {...mergeProps(rest, autoDismissProps)}
+          ref={forkedRef}
+        >
+          {hasHeaderContent && (
+            <ToastHeader
+              icon={icon}
+              time={time}
+              titleId={title != null ? titleId : undefined}
+              closeButton={headerGetsCloseButton}
+              closeLabel={closeLabel}
+            >
+              {title}
+            </ToastHeader>
+          )}
+          {message != null && (
+            <ToastBody
+              id={title != null && message != null ? textId : undefined}
+              closeButton={bodyGetsCloseButton}
+              closeLabel={closeLabel}
+            >
+              {message}
+            </ToastBody>
+          )}
+          {children}
+          {footer != null && (
+            <ToastFooter>{typeof footer === 'function' ? footer(close) : footer}</ToastFooter>
+          )}
+        </div>
+      </ToastContext.Provider>
     )
   }
 )

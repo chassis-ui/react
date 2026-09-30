@@ -38,6 +38,7 @@
     "subpaths",
     "textareas",
     "toggleable",
+    "transitionend",
     "Turbopack",
     "undeduplicated",
     "unlinted",

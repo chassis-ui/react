@@ -2,9 +2,8 @@ import React, { forwardRef, HTMLAttributes, ReactNode, useRef } from 'react'
 import classNames from 'classnames'
 import { useTabPanel } from 'react-aria'
 import { Key } from 'react-stately'
-import { Transition } from 'react-transition-group'
 
-import { useForkedRef } from '../../hooks'
+import { useForkedRef, useTransitionState } from '../../hooks'
 import { useTabsContext } from './context'
 
 export interface TabPanelProps extends Omit<HTMLAttributes<HTMLDivElement>, 'id'> {
@@ -28,11 +27,11 @@ export interface TabPanelProps extends Omit<HTMLAttributes<HTMLDivElement>, 'id'
 // one visible block-level panel at a time — there's no overlap/positioning support for a second
 // panel to occupy the same space while it exits, so staggering the *outgoing* panel's removal
 // would leave two full-height panels stacked in flow simultaneously and visibly shove the layout
-// around. Only the *incoming* panel gets a transition: `Transition`'s `appear` flag makes its
-// mount start a render frame without the `show` class — `fade` alone means `opacity: 0` —
-// before adding it a tick later, so the panel fades in instead of popping straight to full
-// opacity. `appear` is gated on `isInitialSelectionRef` so only an actual tab *switch* animates,
-// not whichever panel happens to be selected on first paint.
+// around. Only the *incoming* panel gets a transition: it mounts without the `show` class —
+// `fade` alone means `opacity: 0` — and gets it once those styles are computed, so the panel
+// fades in instead of popping straight to full opacity. `appear` is gated on
+// `isInitialSelectionRef` so only an actual tab *switch* animates, not whichever panel happens to
+// be selected on first paint.
 export const TabPanel = forwardRef<HTMLDivElement, TabPanelProps>(
   ({ children, className, id, ...rest }, ref) => {
     const { state, isInitialSelectionRef } = useTabsContext()
@@ -40,27 +39,33 @@ export const TabPanel = forwardRef<HTMLDivElement, TabPanelProps>(
     const forkedRef = useForkedRef(ref, panelRef)
     const { tabPanelProps } = useTabPanel({ id }, state, panelRef)
 
-    if (state.selectedKey !== id) return null
+    const isSelected = state.selectedKey === id
+    const { phase } = useTransitionState({
+      appear: !isInitialSelectionRef.current,
+      in: isSelected,
+      nodeRef: panelRef,
+      unmountOnExit: true
+    })
+
+    // Not `isMounted`: that stays `true` through an exit, and this panel has none. With no
+    // element left to wait on, the exit the hook starts ends at once.
+    if (!isSelected) return null
 
     return (
-      <Transition in appear={!isInitialSelectionRef.current} nodeRef={panelRef} timeout={150}>
-        {(transitionState) => (
-          <div
-            className={classNames(
-              'tab-pane',
-              'fade',
-              'active',
-              { show: transitionState === 'entered' },
-              className
-            )}
-            {...tabPanelProps}
-            {...rest}
-            ref={forkedRef}
-          >
-            {children}
-          </div>
+      <div
+        className={classNames(
+          'tab-pane',
+          'fade',
+          'active',
+          { show: phase === 'entering' || phase === 'entered' },
+          className
         )}
-      </Transition>
+        {...tabPanelProps}
+        {...rest}
+        ref={forkedRef}
+      >
+        {children}
+      </div>
     )
   }
 )

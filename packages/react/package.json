@@ -130,8 +130,7 @@
     "classnames": "^2.3.1",
     "react-aria": "^3.52.1",
     "react-aria-components": "^1.20.0",
-    "react-stately": "^3.50.0",
-    "react-transition-group": "^4.4.2"
+    "react-stately": "^3.50.0"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.5",
@@ -150,7 +149,6 @@
     "@tsdown/css": "^0.23.0",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
-    "@types/react-transition-group": "^4.4.11",
     "@vitejs/plugin-react": "^6.1.1",
     "@vitest/browser-playwright": "4.1.11",
     "@vitest/coverage-istanbul": "^4.1.11",

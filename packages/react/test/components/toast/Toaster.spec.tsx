@@ -109,6 +109,41 @@ describe('Toaster', () => {
       expect(screen.queryAllByRole('status')).toHaveLength(0)
       vi.useRealTimers()
     })
+
+    // Issue #40: a toast's action that navigates remounts the toaster about 50 ms after the
+    // click, well inside the exit transition.
+    test('a toast closed by its own close does not come back when the toaster remounts mid-exit', () => {
+      vi.useFakeTimers()
+      const { unmount } = render(<Toaster />)
+      act(() => {
+        addToast(<ToastHeader closeButton>Dismiss me</ToastHeader>, { autohide: false })
+      })
+      act(() => vi.runAllTimers())
+
+      fireEvent.click(screen.getByRole('button', { name: 'Close' }))
+      expect(screen.getByRole('status')).toHaveClass('show', 'showing')
+      unmount()
+
+      render(<Toaster />)
+      act(() => vi.runAllTimers())
+      expect(screen.queryAllByRole('status')).toHaveLength(0)
+      vi.useRealTimers()
+    })
+
+    test('a toast nobody closed is still there when the toaster remounts', () => {
+      vi.useFakeTimers()
+      const { unmount } = render(<Toaster />)
+      act(() => {
+        addToast('Saved!', { autohide: false })
+      })
+      act(() => vi.runAllTimers())
+      unmount()
+
+      render(<Toaster />)
+      act(() => vi.runAllTimers())
+      expect(screen.getAllByRole('status')).toHaveLength(1)
+      vi.useRealTimers()
+    })
   })
 
   describe('accessibility', () => {

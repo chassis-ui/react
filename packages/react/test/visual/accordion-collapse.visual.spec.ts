@@ -1,7 +1,7 @@
 import { runVisualRegressionSuite } from './visualSuite'
 
 // Scoped to accordion/collapse (see the enterprise migration plan's Phase 10 — the third
-// candidate group: native <details>/CSSTransition-driven open-close state, no DOM markup change
+// candidate group: native <details>/`useTransitionState`-driven open-close state, no DOM markup change
 // to catch a regression via a vitest snapshot). A future family gets its own
 // *.visual.spec.ts with its own title-prefix filter, rather than widening this one.
 //

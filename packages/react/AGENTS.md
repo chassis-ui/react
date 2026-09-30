@@ -203,7 +203,8 @@ file: `calendar-datepicker.visual.spec.ts` (calendar, datepicker — this family
 CSS, see `THEMING.md`, so it needs pixel coverage the other families don't),
 `menu-popover-tooltip.visual.spec.ts`
 (positioning-heavy, portal-based), `toast-notification.visual.spec.ts` (transition-heavy),
-`accordion-collapse.visual.spec.ts` (native `<details>` / `CSSTransition`-driven open-close state),
+`accordion-collapse.visual.spec.ts` (native `<details>` / `useTransitionState`-driven open-close
+state),
 `carousel.visual.spec.ts` (CSS-scroll-snap-driven), and `datagrid.visual.spec.ts` (virtualizer-driven
 — row/column position and size are computed at runtime by react-aria-components' `Virtualizer`, not
 CSS alone). A future family gets its own `test/visual/<family>.visual.spec.ts` with its own
@@ -286,6 +287,11 @@ pnpm test:visual:update   # same, plus --update-snapshots to regenerate baseline
 - Never compare a child's `type` to a component or read the `props` of an unresolved child: use
   `isElementOfType` and `resolveLazy` (`src/utils/lazyElement.ts`). Children written in a Server
   Component have lazy types and can be lazy nodes. See `CONVENTIONS.md` and `RSC.md`.
+- A component that animates showing and hiding takes its phase from `useTransitionState`
+  (`src/hooks/useTransitionState.ts`) and maps it to chassis-css's classes itself. No duration
+  lives in JavaScript: a phase ends with the element's own CSS transition, so a themed duration
+  and `prefers-reduced-motion` are followed. `Modal`, `Drawer` and `Menu` wait on the same
+  `executeAfterTransition`.
 - Never call `createPortal` directly: render `Portal` (`src/utils/portal.tsx`). It renders
   nothing (or its `fallback`) on the server and during hydration, then portals, so portaled
   content can't break hydration. `test/ssr/portal.spec.tsx` checks the overlays still appear.

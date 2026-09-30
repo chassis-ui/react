@@ -76,6 +76,109 @@ describe('Collapse', () => {
     })
   })
 
+  describe('size during the transition', () => {
+    // jsdom lays nothing out, so every size it reports is 0.
+    beforeEach(() => {
+      vi.useFakeTimers()
+      vi.spyOn(HTMLElement.prototype, 'scrollHeight', 'get').mockReturnValue(120)
+      vi.spyOn(HTMLElement.prototype, 'scrollWidth', 'get').mockReturnValue(300)
+      vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({
+        height: 120,
+        width: 300
+      } as DOMRect)
+    })
+
+    afterEach(() => {
+      vi.restoreAllMocks()
+      vi.useRealTimers()
+    })
+
+    test('grows to the content’s height, then lets go of it', () => {
+      const { rerender } = render(<Collapse visible={false}>Test</Collapse>)
+      rerender(<Collapse visible>Test</Collapse>)
+      expect(screen.getByText('Test')).toHaveClass('collapsing')
+      expect(screen.getByText('Test')).toHaveStyle({ height: '120px' })
+
+      act(() => vi.runAllTimers())
+      expect(screen.getByText('Test')).toHaveClass('collapse', 'show')
+      expect(screen.getByText('Test')).not.toHaveStyle({ height: '120px' })
+    })
+
+    test('shrinks from the height it has, pinned before it is let go', () => {
+      const { rerender } = render(<Collapse visible>Test</Collapse>)
+      const collapse = screen.getByText('Test')
+      const observer = new MutationObserver(() => undefined)
+      observer.observe(collapse, { attributeFilter: ['style'], attributeOldValue: true })
+
+      rerender(<Collapse visible={false}>Test</Collapse>)
+      expect(collapse).toHaveClass('collapsing')
+      expect(collapse).not.toHaveStyle({ height: '120px' })
+      const pinned = observer.takeRecords().map((record) => record.oldValue)
+      observer.disconnect()
+      expect(pinned).toContain('height: 120px;')
+
+      act(() => vi.runAllTimers())
+      expect(collapse).toHaveClass('collapse')
+      expect(collapse).not.toHaveClass('show')
+    })
+
+    test('animates the width when horizontal', () => {
+      const { rerender } = render(
+        <Collapse horizontal visible={false}>
+          Test
+        </Collapse>
+      )
+      rerender(
+        <Collapse horizontal visible>
+          Test
+        </Collapse>
+      )
+      expect(screen.getByText('Test')).toHaveStyle({ width: '300px' })
+      expect(screen.getByText('Test')).not.toHaveStyle({ height: '120px' })
+    })
+
+    test('keeps the caller’s own style next to the size', () => {
+      const { rerender } = render(
+        <Collapse visible={false} style={{ color: 'red' }}>
+          Test
+        </Collapse>
+      )
+      rerender(
+        <Collapse visible style={{ color: 'red' }}>
+          Test
+        </Collapse>
+      )
+      expect(screen.getByText('Test')).toHaveStyle({ color: 'rgb(255, 0, 0)', height: '120px' })
+    })
+
+    test('reverses from where it is when toggled mid-transition', () => {
+      const onShow = vi.fn()
+      const onHide = vi.fn()
+      const { rerender } = render(
+        <Collapse visible={false} onShow={onShow} onHide={onHide}>
+          Test
+        </Collapse>
+      )
+      rerender(
+        <Collapse visible onShow={onShow} onHide={onHide}>
+          Test
+        </Collapse>
+      )
+      rerender(
+        <Collapse visible={false} onShow={onShow} onHide={onHide}>
+          Test
+        </Collapse>
+      )
+      expect(screen.getByText('Test')).toHaveClass('collapsing')
+      expect(onShow).toHaveBeenCalledTimes(1)
+      expect(onHide).toHaveBeenCalledTimes(1)
+
+      act(() => vi.runAllTimers())
+      expect(screen.getByText('Test')).toHaveClass('collapse')
+      expect(screen.getByText('Test')).not.toHaveClass('show')
+    })
+  })
+
   describe('ref forwarding', () => {
     test('forwards a ref to the underlying div', () => {
       const ref = React.createRef<HTMLDivElement>()

@@ -140,3 +140,36 @@ test('DataGrid renders its static columns and rows', async ({ page }) => {
   await expect(page.getByRole('gridcell')).toContainText('Engineer')
   expect(problems).toEqual([])
 })
+
+test('Toast shows, settles and closes', async ({ page }) => {
+  const problems = await open(page, '/rsc/toast')
+  const toast = page.getByRole('status')
+  await expect(toast).toContainText('Toast message')
+  await expect(toast).toHaveClass(/\bshow\b/)
+  await expect(toast).not.toHaveClass(/\bshowing\b/)
+  await toast.getByRole('button', { name: 'Close' }).click()
+  await expect(page.getByRole('status')).toHaveCount(0)
+  expect(problems).toEqual([])
+})
+
+test('Notification shows, settles and closes', async ({ page }) => {
+  const problems = await open(page, '/rsc/notification')
+  const notification = page.getByRole('status')
+  await expect(notification).toContainText('Notification text')
+  await expect(notification).toHaveClass(/\bshow\b/)
+  await expect(notification).not.toHaveClass(/\bshowing\b/)
+  await notification.getByRole('button', { name: 'Close' }).click()
+  await expect(page.getByRole('status')).toHaveCount(0)
+  expect(problems).toEqual([])
+})
+
+test('Collapse renders open', async ({ page }) => {
+  const server = await serverMarkup(page, '/rsc/collapse')
+  expect(server).toContain('class="collapse show"')
+  expect(server).toContain('Collapse content')
+
+  const problems = await open(page, '/rsc/collapse')
+  await expect(page.getByText('Collapse content')).toBeVisible()
+  await expect(page.getByText('Collapse content')).toHaveClass('collapse show')
+  expect(problems).toEqual([])
+})

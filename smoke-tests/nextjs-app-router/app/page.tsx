@@ -15,16 +15,9 @@
 // rendered as a `next/link` via `asChild` -- passing `component={Link}` from a Server Component
 // fails the build ("Functions cannot be passed directly to Client Components"), an element doesn't.
 // Not exhaustive, just enough surface area to catch a real "doesn't build against this
-// framework" regression. Deliberately skips Tooltip/Popover/Toast/Notification/Collapse/Tabs --
-// anything built on react-transition-group -- it throws "Element type is invalid" under `next
-// dev` here. Root-caused: it's a Turbopack DEV-ONLY bug, not a build or production issue -- a
-// `next build` + `next start` of this same app renders Tooltip correctly with zero errors, so
-// `next build` (what CI runs) can't catch it either way. react-transition-group ships a legacy
-// dual-package shape (separate `main`/`module` fields, no `exports` map); Turbopack's dev bundler
-// has documented bugs resolving that shape to two different module instances within one render
-// graph (vercel/next.js#91411) and around workspace-symlinked deps generally (#77562, #91896) --
-// this hits both. Not fixable from this package; consumers running `next dev` on Turbopack would
-// hit the same wall with Tooltip/Popover/Toast/Notification/Collapse/Tabs today.
+// framework" regression. Tooltip, Popover, Toast, Notification, Collapse and Tabs each have a
+// route of their own under app/rsc/, loaded by tests/rsc.spec.ts under `next start` and
+// `next dev`.
 import Link from 'next/link'
 import { Avatar, Badge, Button, Card, CardBody, CardHeader, CardTitle, Flex, Switch } from '@chassis-ui/react'
 import { Spinner } from '@chassis-ui/react/spinner'

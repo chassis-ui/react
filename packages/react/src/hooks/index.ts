@@ -19,6 +19,7 @@ import { useOverlayPlacement } from './useOverlayPlacement'
 import { usePagination } from './usePagination'
 import { useToast } from './useToast'
 import { useToastRegionQueue } from './useToastRegionQueue'
+import { useTransitionState } from './useTransitionState'
 
 export {
   getOverlayArrowStyle,
@@ -39,7 +40,8 @@ export {
   useOverlayPlacement,
   usePagination,
   useToast,
-  useToastRegionQueue
+  useToastRegionQueue,
+  useTransitionState
 }
 export type { UseAutoDismissOptions, UseAutoDismissResult } from './useAutoDismiss'
 export type { UseDialogElementOptions } from './useDialogElement'
@@ -55,3 +57,8 @@ export type { UseNotificationResult } from './useNotification'
 export type { UsePaginationResult } from './usePagination'
 export type { UseToastResult } from './useToast'
 export type { UseToastRegionQueueResult } from './useToastRegionQueue'
+export type {
+  TransitionPhase,
+  UseTransitionStateOptions,
+  UseTransitionStateResult
+} from './useTransitionState'
