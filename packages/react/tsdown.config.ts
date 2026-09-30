@@ -16,8 +16,30 @@ const componentEntries = Object.fromEntries(
     .map((dirent) => [dirent.name, `src/components/${dirent.name}/index.ts`])
 )
 
+// `dist/style.css` puts its rules in chassis-css's `components` layer, and the first statement
+// that names a layer fixes where it goes in the cascade. Loaded before chassis-css, the file would
+// name `components` first, below `reboot`, and the reboot's `hr` would beat `.divider`. So the file
+// opens with chassis-css's own layer order, read from its compiled CSS so it can't drift.
+const chassisLayerOrder = fs
+  .readFileSync('node_modules/@chassis-ui/css/dist/css/chassis.css', 'utf8')
+  .match(/@layer [\w\s,-]+;/)?.[0]
+if (!chassisLayerOrder) throw new Error("tsdown.config.ts: no layer order in chassis-css's CSS")
+
 export default defineConfig({
   entry: { index: 'src/index.ts', ...componentEntries },
+  plugins: [
+    {
+      name: 'chassis-layer-order',
+      generateBundle: {
+        order: 'post',
+        handler(_options, bundle) {
+          const style = bundle['style.css']
+          if (style?.type !== 'asset') throw new Error('chassis-layer-order: no style.css')
+          style.source = `${chassisLayerOrder}${style.source.toString()}`
+        }
+      }
+    }
+  ],
   format: 'esm',
   dts: true,
   platform: 'neutral',

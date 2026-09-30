@@ -49,6 +49,7 @@
     "./combobox": "./dist/combobox.js",
     "./datagrid": "./dist/datagrid.js",
     "./datepicker": "./dist/datepicker.js",
+    "./divider": "./dist/divider.js",
     "./drawer": "./dist/drawer.js",
     "./file-input": "./dist/file-input.js",
     "./flex": "./dist/flex.js",

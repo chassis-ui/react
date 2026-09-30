@@ -62,8 +62,8 @@ re-exports; the actual code lives in shared, content-hashed `dist/chunks/*.js`, 
 subpath resolve to the same module instances. Declarations are split the same way (tsdown bundles
 types directly — no intermediate `tsc` declaration-output pass, unlike the prior Rollup setup). It
 also emits `dist/style.css` (tsdown's own CSS pipeline, compiling the
-`Calendar`/`RangeCalendar`/`DatePicker`/`DateRangePicker`/`Table`/`Notification` Sass/CSS
-side-effect imports into one file rather than injecting them via JS). No CJS output — this package is ESM-only, with no
+`Calendar`/`RangeCalendar`/`DatePicker`/`DateRangePicker`/`Table`/`Notification`/`DataGrid`/`Divider` Sass/CSS
+side-effect imports into one file rather than injecting them via JS, opened with chassis-css's `@layer` order so the import order doesn't matter — see `THEMING.md`). No CJS output — this package is ESM-only, with no
 consumers to preserve dual-format compatibility for. `exports: true` auto-generates
 `package.json`'s `exports` map on every build; `publint: true`/`attw: true` run non-blockingly as
 part of the same build for fast local feedback (the actual CI gate is this package's own

@@ -71,6 +71,11 @@ function createSlot(slotKind: ElementKind, slotTag: string | undefined) {
     )
     if (describedBy) props['aria-describedby'] = describedBy
     else delete props['aria-describedby']
+    // The child's own name wins too. `aria-labelledby` outranks `aria-label` when an element is
+    // named, so the component's (a `Divider`'s label) would replace the name the child was given.
+    if (element.props['aria-label'] != null && element.props['aria-labelledby'] == null) {
+      delete props['aria-labelledby']
+    }
     // A component marks an element that has no `disabled` attribute (an `<a>`, a `<div>`) with
     // `aria-disabled`, and blocks its click itself. The child's own `onClick` would still run
     // from the chain, so the component's handler replaces it: a disabled element doesn't act on

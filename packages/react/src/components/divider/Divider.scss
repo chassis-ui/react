@@ -1,0 +1,86 @@
+@use "@chassis-ui/css/scss/config" as *;
+@use "@chassis-ui/css/scss/mixins" as *;
+
+// chassis-css draws a line with its reboot's `hr` and its `.vr` helper, both from the `$hr-*` and
+// `$vr-*` Sass variables, and has no divider with a label. `.divider` restates those two lines from
+// the same variables, so a divider looks the same whatever element renders it (a `div` when vertical
+// or labelled, an `li` under `asChild`), and adds only what chassis-css lacks: the label, and custom
+// properties to re-theme the line. The overrides are named as `.menu`'s and `.breadcrumb`'s own
+// `--divider-*`, so a divider inside a menu takes the menu's divider color and margin. The class
+// names follow chassis-css's (`.divider`, `.divider-label`, modifiers), so this can move there
+// unchanged. Spacing needs nothing here: the margin utilities (`my-lg`, `mx-md`) set it.
+@layer components {
+  .divider {
+    // scss-docs-start divider-css-vars
+    --line-color: var(--divider-color, #{$hr-color});
+    --line-size: var(--divider-size, #{$hr-size});
+    --line-opacity: var(--divider-opacity, #{$hr-opacity});
+    --gap: var(--divider-gap, var(--space-sm));
+    --label-fg-color: var(--divider-label-fg-color, var(--fg-subtle));
+    --label-font-size: var(--divider-label-font-size, #{$font-size-sm});
+    // scss-docs-end divider-css-vars
+    display: block;
+    margin: var(--divider-margin, #{$hr-margin} 0);
+    border: 0;
+    border-block-start: var(--line-size) solid var(--line-color);
+    opacity: var(--line-opacity);
+  }
+
+  // `.vr`, with the same custom properties.
+  .divider-vertical {
+    --line-color: var(--divider-color, #{$vr-color});
+    --line-size: var(--divider-size, #{$vr-size});
+    --line-opacity: var(--divider-opacity, #{$vr-opacity});
+    display: inline-block;
+    align-self: stretch;
+    width: var(--line-size);
+    min-height: 1em;
+    margin: 0;
+    background-color: var(--line-color);
+    border: 0;
+  }
+
+  // The line is drawn on both sides of the label, so the label keeps full opacity.
+  .divider-labelled {
+    display: flex;
+    gap: var(--gap);
+    align-items: center;
+    @include font-size(var(--label-font-size));
+    color: var(--label-fg-color);
+    border: 0;
+    opacity: 1;
+
+    &::before,
+    &::after {
+      flex: 1 1 0;
+      content: "";
+      border-block-start: var(--line-size) solid var(--line-color);
+      opacity: var(--line-opacity);
+    }
+  }
+
+  .divider-vertical.divider-labelled {
+    display: inline-flex;
+    flex-direction: column;
+    width: auto;
+    background-color: transparent;
+
+    // As long as `.vr`'s `min-height` on each side, so a row the label fills still shows a line:
+    // the row grows instead.
+    &::before,
+    &::after {
+      min-height: 1em;
+      border-block-start: 0;
+      border-inline-start: var(--line-size) solid var(--line-color);
+    }
+  }
+
+  .divider-start::before,
+  .divider-end::after {
+    display: none;
+  }
+
+  .divider-label {
+    text-align: center;
+  }
+}

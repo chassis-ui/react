@@ -1186,11 +1186,32 @@ Left open: after a smooth-scroll click, focus stays on the link, as under the pl
 
 Model: **Sonnet**.
 
-- [ ] `useSeparator` from react-aria; horizontal and vertical, `<hr>` by default, polymorphic.
-      Check chassis-css's `hr` reboot and `.vr` helper first; build on them.
-- [ ] Styles here only for what chassis-css lacks (a labelled divider, spacing variants).
+- [x] `useSeparator` from react-aria; horizontal and vertical, `<hr>` by default, polymorphic.
+      Check chassis-css's `hr` reboot and `.vr` helper first; build on them. `<hr class="divider">`
+      by default; a `<div role="separator">` when vertical (as react-aria-components' `Separator`)
+      or labelled, since an `<hr>` is void. Children are the label (`.divider-label`), which names
+      the separator through `aria-labelledby`; `labelPlacement` `start`/`center`/`end`. Under
+      `asChild` the child's own children are the label.
+- [x] Styles here only for what chassis-css lacks (a labelled divider, spacing variants).
+      `Divider.scss` restates the reboot `hr` and `.vr` from the same `$hr-*`/`$vr-*` variables,
+      so any element draws the same line (a story compares them in three browsers), and adds the
+      label. Custom properties `--cx-divider-*`, named as `.menu`'s and `.breadcrumb`'s own, so a
+      divider in a menu takes the menu's color and margin. Decided here: no spacing variants, since
+      the margin utilities already set the space (`my-xl`).
 
-Changeset: minor.
+Changeset: minor. Visual regression spec `divider.visual.spec.ts`, with Linux baselines.
+
+An independent review of the diff found seven defects before the commit, each now with a test or a
+browser check: `dist/style.css` loaded before chassis-css's stylesheet put `components` below
+`reboot`, so the reboot's `hr` beat `.divider` (the build now opens the file with chassis-css's
+`@layer` order, read from its compiled CSS); the ref was typed for an `<hr>` element for a vertical or
+labelled divider, which renders a `<div>`; a divider on an inline element drew nothing; a labelled
+vertical divider in a row the label fills showed no line (each line is now at least `1em`); under
+`asChild` the component's `aria-labelledby` outranked the child's own `aria-label` (a `Slot` rule
+now, for every component); the introduction page didn't list the stylesheet's components; and
+children that render nothing (`[]`, `true`) made an empty label.
+
+Also: `scrollend` (B13) added to `.cspell.json`, which failed `pnpm spellcheck` on `develop`.
 
 ### B15 — `NumberField`, with its styles (F9)
 

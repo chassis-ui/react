@@ -1,6 +1,6 @@
 ---
 title: Theming
-description: The supported override surface for re-theming @chassis-ui/react — custom properties, light/dark mode, and the one component family with its own stylesheet.
+description: The supported override surface for re-theming @chassis-ui/react — custom properties, light/dark mode, and the few components with a stylesheet of their own.
 
 toc: true
 ---
@@ -8,8 +8,8 @@ toc: true
 `@chassis-ui/react` owns almost no visual styling of its own — every component applies
 `@chassis-ui/css` class names, the same classes a hand-written page using chassis-css directly
 would use. Re-theming this library, for nearly every component, means re-theming
-`@chassis-ui/css`/`@chassis-ui/tokens` instead. The one exception is the calendar/datepicker
-family, covered under [Component-scoped styles](#component-scoped-styles) below.
+`@chassis-ui/css`/`@chassis-ui/tokens` instead. The exceptions are the few components covered
+under [Component-scoped styles](#component-scoped-styles) below.
 
 ## Custom properties
 
@@ -48,9 +48,9 @@ entirely in application code.
 
 ## Component-scoped styles
 
-`Calendar`, `RangeCalendar`, `DatePicker`, `DateRangePicker`, and `Table`'s sort/selection UI have
-no chassis-css visual equivalent, so `@chassis-ui/react` ships its own compiled stylesheet for
-just those pieces — see
+`Calendar`, `RangeCalendar`, `DatePicker`, `DateRangePicker`, `DataGrid`, `Divider`'s label,
+`Notification`'s fade and `Table`'s sort/selection UI have no chassis-css visual equivalent, so
+`@chassis-ui/react` ships its own compiled stylesheet for just those pieces — see
 [Component-specific styles]([[docsref:/getting-started/introduction#component-specific-styles]])
 for the import. That stylesheet already builds on the `--cx-*` token surface above wherever
 chassis-css has one, so overriding those tokens re-themes these components too.

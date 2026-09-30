@@ -74,10 +74,11 @@ packages:
 The calendar/datepicker family (`Calendar`, `RangeCalendar`, `DatePicker`, `DateRangePicker`),
 `Table` (its sort indicator and selection-checkbox column — see `Table.css`'s own header comment),
 `Notification` (its `.showing` mid-transition opacity state — see `Notification.scss`'s own header
-comment) and `DataGrid` (see below) are the only places in this package with component-scoped
-CSS/Sass — chassis-css has no visual equivalent for a calendar grid/segmented date field, those two
-`Table` pieces, `Notification`'s Toast-parity fade-in/out, or `DataGrid`'s non-`<table>` markup, so
-there was nothing to reuse. These files already build on the supported `--cx-*` token surface above
+comment), `DataGrid` (see below) and `Divider` (its label, and the line on elements other than
+`<hr>` — see `Divider.scss`'s own header comment) are the only places in this package with
+component-scoped CSS/Sass — chassis-css has no visual equivalent for a calendar grid/segmented date
+field, those two `Table` pieces, `Notification`'s Toast-parity fade-in/out, `DataGrid`'s
+non-`<table>` markup, or a divider with a label, so there was nothing to reuse. These files already build on the supported `--cx-*` token surface above
 wherever chassis-css has one (documented in each file's own header comment, which also names the
 four exceptions above) — treat that as the reference implementation for what "component-scoped CSS
 built on the token system" looks like if a
@@ -106,8 +107,9 @@ those goes entirely through the `--cx-*` surface described above.
 
 ### Consuming this package's own emitted stylesheet
 
-Each of these seven files' CSS/Sass side-effect imports (`import './Calendar.scss'`, `import
-'./Table.css'`, `import './Notification.scss'`, `import './DataGrid.scss'`, ...) is compiled by
+Each of these eight files' CSS/Sass side-effect imports (`import './Calendar.scss'`, `import
+'./Table.css'`, `import './Notification.scss'`, `import './DataGrid.scss'`, `import
+'./Divider.scss'`, ...) is compiled by
 tsdown's build into a single real `dist/style.css` file, rather than injected into the page via a
 JS-created `<style>` tag at import time. A consuming app must import it explicitly — it isn't
 bundled into `dist/index.js` and won't reach the page for free:
@@ -116,12 +118,19 @@ bundled into `dist/index.js` and won't reach the page for free:
 import '@chassis-ui/react/style.css'
 ```
 
+The file opens with chassis-css's own `@layer` order statement, which the build reads from
+chassis-css's compiled CSS (`tsdown.config.ts`). Its rules sit in chassis-css's `components` layer,
+and the first statement that names a layer fixes its place in the cascade: without it, a consumer
+who imports this file before chassis-css's would put `components` below `reboot`, and the reboot's
+`hr` would beat `.divider`. With it, the import order doesn't matter.
+
 Import it once, anywhere in the app's own global/root stylesheet entry point (alongside the
 `@chassis-ui/css` stylesheet import — see `packages/site/content/getting-started/introduction.mdx`
 for the pattern this repo's own docs site follows). Skipping this import doesn't error —
 `Calendar`, `DatePicker`, and `Table`'s sort/selection UI will simply render unstyled for those
-specific pieces, and `Notification` will snap in/out at full opacity instead of fading, since every
-other component's chassis-css-only styling is unaffected. `DataGrid` is the one component that
+specific pieces, `Notification` will snap in/out at full opacity instead of fading, and a
+`Divider` keeps only the line chassis-css's reboot gives an `<hr>` (a vertical or labelled one
+shows no line), since every other component's chassis-css-only styling is unaffected. `DataGrid` is the one component that
 degrades further than "unstyled": its stylesheet is also what gives the grid its bounded height and
 `overflow: auto`, without which the virtualizer has no scroll viewport to window rows against and
 lays out every row at once.

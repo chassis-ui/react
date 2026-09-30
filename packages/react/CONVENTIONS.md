@@ -259,7 +259,8 @@ loaded (while loading, the ref is the first generated skeleton). Collection part
 A component that decorates an element it doesn't own, such as the trigger of a `Tooltip`, doesn't
 `cloneElement` it by hand. It takes the element with `getTriggerChild` and renders it with
 `renderSlotted` (`src/utils/slot.tsx`), the path `asChild` uses: the element's own props win,
-classNames concatenate, handlers chain (the component's first), `aria-describedby` adds up, and the
+classNames concatenate, handlers chain (the component's first), `aria-describedby` adds up, an
+element's own `aria-label` drops the component's `aria-labelledby` (which would outrank it), and the
 component's ref is forked with the one the caller put on the element (`getElementRef`). Attributes
 that state the component's own condition, such as a `Popover` trigger's `aria-expanded` and
 `aria-controls`, are passed as `owned` and win over the element's. Every element renders through

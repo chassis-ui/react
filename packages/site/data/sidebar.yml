@@ -99,6 +99,7 @@
         - title: Grid
         - title: Row
         - title: Stack
+        - title: Divider
     - group: Utilities
       pages:
         - title: Portal

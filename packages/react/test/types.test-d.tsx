@@ -12,6 +12,7 @@ import {
   DataGridCell,
   DataGridRow,
   DatePicker,
+  Divider,
   Drawer,
   ListItem,
   Menu,
@@ -89,6 +90,15 @@ expectTypeOf(
 ).toBeObject()
 expectTypeOf(
   <MenuItem ref={React.createRef<HTMLAnchorElement | HTMLButtonElement>()}>Copy</MenuItem>
+).toBeObject()
+
+// `Divider` renders a `<div>` when vertical or labelled, with `component` left at `'hr'`.
+expectTypeOf(<Divider ref={React.createRef<HTMLHRElement>()} />).toBeObject()
+expectTypeOf(
+  <Divider orientation="vertical" ref={React.createRef<HTMLHRElement | HTMLDivElement>()} />
+).toBeObject()
+expectTypeOf(
+  <Divider ref={React.createRef<HTMLHRElement | HTMLDivElement>()}>or</Divider>
 ).toBeObject()
 
 // A ref for an element the component can never render is still rejected.

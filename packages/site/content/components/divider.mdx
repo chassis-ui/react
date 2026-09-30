@@ -1,0 +1,95 @@
+---
+title: Divider
+description: A line between sections of content, horizontal or vertical, with an optional label such as "or".
+toc: true
+---
+
+import { Example as BasicExample } from '../../examples/components/divider/BasicExample.tsx'
+import { Example as LabelExample } from '../../examples/components/divider/LabelExample.tsx'
+import { Example as LabelPlacementExample } from '../../examples/components/divider/LabelPlacementExample.tsx'
+import { Example as VerticalExample } from '../../examples/components/divider/VerticalExample.tsx'
+import { Example as VerticalLabelExample } from '../../examples/components/divider/VerticalLabelExample.tsx'
+import { Example as CustomExample } from '../../examples/components/divider/CustomExample.tsx'
+
+## Basic usage
+
+`<Divider>` renders an `<hr>`, the line chassis-css's
+[reboot](https://chassis-ui.com/css/docs/content/reboot#horizontal-rules) draws, with the class
+`.divider`. An `<hr>` is a separator to assistive technology on its own.
+
+<Example>
+  <BasicExample client:load />
+</Example>
+
+## Label
+
+Children become a label in the middle of the line, such as "or" between two ways to sign in. A
+divider with a label renders a `<div>` with `role="separator"`, since an `<hr>` can't hold content,
+and the label names the separator through `aria-labelledby`. An `aria-label` given to the divider
+names it instead.
+
+<Example>
+  <LabelExample client:load />
+</Example>
+
+`labelPlacement` moves the label to the `start` or the `end` of the line, which then runs on one
+side only.
+
+<Example>
+  <LabelPlacementExample client:load />
+</Example>
+
+## Vertical
+
+`orientation="vertical"` renders a `<div>` with `role="separator"` and
+`aria-orientation="vertical"`, drawn as chassis-css's
+[vertical rule](https://chassis-ui.com/css/docs/helpers/vertical-rule): it stretches to the height
+of a flex row, and is `1em` high elsewhere.
+
+<Example>
+  <VerticalExample client:load />
+</Example>
+
+A vertical divider takes a label too. The line on each side of it is at least `1em` long, so a row
+the label would fill grows instead.
+
+<Example>
+  <VerticalLabelExample client:load />
+</Example>
+
+## Spacing, color and thickness
+
+The margin utilities set the space around the line (`className="my-xl"`), as they do for any
+element. The line's color, thickness and opacity, and the label's color, size and distance from the
+line, are CSS custom properties. Their defaults are the values chassis-css gives `<hr>` and `.vr`.
+
+| Property                       | Default                       |
+| ------------------------------ | ----------------------------- |
+| `--cx-divider-color`           | `var(--cx-border-subtle)`     |
+| `--cx-divider-size`            | `var(--cx-border-width-md)`   |
+| `--cx-divider-opacity`         | `var(--cx-opacity-solid)`     |
+| `--cx-divider-margin`          | `var(--cx-space-md) 0`        |
+| `--cx-divider-gap`             | `var(--cx-space-sm)`          |
+| `--cx-divider-label-fg-color`  | `var(--cx-fg-subtle)`         |
+| `--cx-divider-label-font-size` | `var(--cx-font-size-text-sm)` |
+
+A menu sets `--cx-divider-color` and `--cx-divider-margin` for its own dividers, so a `<Divider>`
+inside one matches them. These styles are in this package's own stylesheet,
+`@chassis-ui/react/style.css` (see [Theming](../getting-started/theming)).
+
+<Example>
+  <CustomExample client:load />
+</Example>
+
+## Other elements
+
+`component` renders another element, which gets `role="separator"`, and `asChild` makes the single
+child element the separator, with that element's own children as the label:
+`<Divider asChild><div>or</div></Divider>`. Inside a `<Menu>`, use
+[`<MenuDivider>`](./menu#dividers), which fits the menu's list markup.
+
+## API
+
+### Divider
+
+<PropTable component="Divider" />

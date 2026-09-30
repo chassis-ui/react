@@ -1,0 +1,143 @@
+{
+  "tags": {},
+  "filePath": "packages/react/src/components/divider/Divider.tsx",
+  "description": "",
+  "displayName": "Divider",
+  "methods": [],
+  "props": {
+    "children": {
+      "defaultValue": null,
+      "description": "A label shown in the line, such as \"or\" between two ways to sign in. It names the separator\nfor screen readers. Not possible on an `<hr>`, which can't hold content.",
+      "name": "children",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/divider/Divider.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      }
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "A string of all className you want applied to the component.",
+      "name": "className",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/divider/Divider.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
+      }
+    },
+    "component": {
+      "defaultValue": null,
+      "description": "Component used for the root node. Either a string to use an HTML element or a component.\nDefaults to `hr`, or `div` for a vertical divider or one with a label.",
+      "name": "component",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/divider/Divider.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ElementType"
+      }
+    },
+    "labelPlacement": {
+      "defaultValue": {
+        "value": "'center'"
+      },
+      "description": "Where the label sits along the line. `start` and `end` draw the line on one side only.",
+      "name": "labelPlacement",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/divider/Divider.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"center\" | \"start\" | \"end\"",
+        "value": [
+          {
+            "value": "\"center\""
+          },
+          {
+            "value": "\"start\""
+          },
+          {
+            "value": "\"end\""
+          }
+        ]
+      }
+    },
+    "orientation": {
+      "defaultValue": {
+        "value": "'horizontal'"
+      },
+      "description": "The direction of the line. A vertical divider stretches to the height of its flex row.",
+      "name": "orientation",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/divider/Divider.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"horizontal\" | \"vertical\"",
+        "value": [
+          {
+            "value": "\"horizontal\""
+          },
+          {
+            "value": "\"vertical\""
+          }
+        ]
+      }
+    },
+    "asChild": {
+      "defaultValue": null,
+      "description": "Render the single child element in place of this component's own element, with this\ncomponent's classes, props and ref merged onto it: `<Button asChild><Link href=\"/login\">Log\nin</Link></Button>`. The alternative to `component` for React Server Components — an element\ncan be passed from the server to this package's client components, a component reference\n(`component={Link}`) can't.",
+      "name": "asChild",
+      "parent": {
+        "fileName": "packages/react/src/utils/polymorphic.ts",
+        "name": "AsChildProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/utils/polymorphic.ts",
+          "name": "AsChildProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/divider/Divider.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "any"
+      }
+    }
+  }
+}
