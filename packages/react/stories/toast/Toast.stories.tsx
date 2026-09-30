@@ -28,7 +28,7 @@ const logo = (
   </svg>
 )
 
-// `visible` renders the toast open on mount (synced by an effect, see Toast.tsx). `autohide` is
+// `visible` renders the toast shown. `autohide` is
 // `true` by default with a 5s `delay` — left on, a story would visibly disappear mid-test-run.
 // `autohide={false}` is the same pattern the docs site's own StackingExample uses for a toast
 // that's meant to stay put for a static render.

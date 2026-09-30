@@ -4,7 +4,7 @@ export const Example = () => {
   return (
     <Toast
       autohide={false}
-      visible={true}
+      defaultVisible
       footer={(close) => (
         <>
           <Button type="button" color="primary" size="sm">

@@ -21,7 +21,7 @@ import { Example as DismissibleExample } from '../../examples/components/notific
 
 Things to know when using `Notification`:
 
-- It works standalone — render `<Notification>` directly and control it with `visible`/`onClose`, same as any other component.
+- It works standalone — render `<Notification>` directly. It is shown and dismisses itself; pass `visible` with `onVisibleChange` to control it, same as any other component.
 - Or push it into a stack — call `addNotification()` from anywhere to queue one, and render a `<NotificationStack>` wherever it should appear. See [Stacking](#stacking).
 - `role="status"` (the default) suits routine confirmations and informational updates. Reserve `role="alert"` for errors and messages requiring immediate attention. See [Accessibility](#accessibility).
 - The `icon`/`title`/`text`/`actions` props are shorthand for the manual `NotificationIcon`/`NotificationTitle`/`NotificationText` composition — reach for manual composition only when a notification needs more than one block of body content. See [Shorthand props](#shorthand-props).

@@ -21,6 +21,11 @@ export interface ModalProps extends Omit<
    */
   className?: string
   /**
+   * Whether the modal is open when it first renders. Such a modal is uncontrolled: it closes
+   * itself on a close request. Use `visible` to open and close it from outside.
+   */
+  defaultVisible?: boolean
+  /**
    * Set modal to cover the entire user viewport. A breakpoint value goes fullscreen only
    * below that breakpoint.
    */
@@ -59,6 +64,11 @@ export interface ModalProps extends Omit<
    */
   onShown?: () => void
   /**
+   * Callback fired with `false` when the modal requests to be closed, at the same moments as
+   * `onClose`. It makes `visible` and `onVisibleChange` a pair that takes a state setter.
+   */
+  onVisibleChange?: (visible: boolean) => void
+  /**
    * Create a scrollable modal — the header and footer stay fixed while the body scrolls.
    */
   scrollable?: boolean
@@ -67,7 +77,8 @@ export interface ModalProps extends Omit<
    */
   size?: 'sm' | 'lg' | 'xl'
   /**
-   * Toggle the visibility of modal component.
+   * Whether the modal is open. The modal is then controlled: a close request only fires
+   * `onClose` and `onVisibleChange`, and the modal closes when this becomes `false`.
    */
   visible?: boolean
 }
@@ -93,6 +104,7 @@ export const Modal = forwardRef<HTMLDialogElement, ModalProps>(
       children,
       backdrop = true,
       className,
+      defaultVisible,
       fullscreen,
       instant,
       keyboard = true,
@@ -103,6 +115,7 @@ export const Modal = forwardRef<HTMLDialogElement, ModalProps>(
       onHidden,
       onShow,
       onShown,
+      onVisibleChange,
       scrollable,
       size,
       visible,
@@ -113,6 +126,7 @@ export const Modal = forwardRef<HTMLDialogElement, ModalProps>(
     const { close, forkedRef, handleBackdropClick, handleCancel, hiding, staticBounce } =
       useDialogElement({
         backdrop,
+        defaultVisible,
         instant,
         isModal: modal,
         keyboard,
@@ -122,6 +136,7 @@ export const Modal = forwardRef<HTMLDialogElement, ModalProps>(
         onHidden,
         onShow,
         onShown,
+        onVisibleChange,
         ref,
         visible
       })

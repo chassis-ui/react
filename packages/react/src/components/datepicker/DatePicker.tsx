@@ -8,7 +8,7 @@ import {
 } from 'react-stately'
 import { getLocalTimeZone } from '@internationalized/date'
 
-import { useForkedRef, useFormField, useOverlayPlacement } from '../../hooks'
+import { useForkedRef, useFormField, useOpenStateProps, useOverlayPlacement } from '../../hooks'
 import { mergeIsDateUnavailable } from '../../utils/mergeIsDateUnavailable'
 import { renderFormField } from '../form-field/renderFormField'
 import { Calendar } from '../calendar/Calendar'
@@ -38,9 +38,16 @@ interface DatePickerBaseProps extends Omit<
   /**
    * Whether the calendar popover is open by default (uncontrolled).
    *
-   * @default false
+   * @deprecated Use `defaultVisible`.
    */
   defaultOpen?: boolean
+  /**
+   * Whether the calendar popover is open when the date picker first renders. Use it instead of
+   * `visible` when nothing outside needs to control the popover.
+   *
+   * @default false
+   */
+  defaultVisible?: boolean
   /**
    * Prevents the date picker from being focused or interacted with.
    */
@@ -83,6 +90,8 @@ interface DatePickerBaseProps extends Omit<
   labels?: Partial<CalendarLabels>
   /**
    * Whether the calendar popover is open (controlled).
+   *
+   * @deprecated Use `visible`.
    */
   isOpen?: boolean
   /**
@@ -106,8 +115,16 @@ interface DatePickerBaseProps extends Omit<
   name?: string
   /**
    * Callback fired when the calendar popover's open state changes.
+   *
+   * @deprecated Use `onVisibleChange`.
    */
   onOpenChange?: (isOpen: boolean) => void
+  /**
+   * Callback fired when the calendar popover asks to open or close: the calendar button, a
+   * completed selection, the Escape key or a click outside. Receives the state it asks for.
+   * With `visible` set, the popover changes only when `visible` does.
+   */
+  onVisibleChange?: (visible: boolean) => void
   /**
    * Size the component sm or lg.
    */
@@ -127,6 +144,11 @@ interface DatePickerBaseProps extends Omit<
    * A success message for the field, rendered below the date picker when `valid` is set.
    */
   validFeedback?: ReactNode
+  /**
+   * Whether the calendar popover is open. Setting it makes the popover controlled: it opens and
+   * closes only when this changes, so pair it with `onVisibleChange`.
+   */
+  visible?: boolean
   /**
    * Number of months to display side by side in the calendar overlay.
    *
@@ -202,6 +224,7 @@ const DatePickerSingle = forwardRef<HTMLDivElement, DatePickerSingleProps>(
       className,
       defaultOpen,
       defaultValue,
+      defaultVisible,
       disabled,
       firstDayOfWeek,
       help,
@@ -217,12 +240,14 @@ const DatePickerSingle = forwardRef<HTMLDivElement, DatePickerSingleProps>(
       name,
       onChange,
       onOpenChange,
+      onVisibleChange,
       selectionMode: _selectionMode,
       size,
       unavailableDates,
       valid,
       validFeedback,
       value,
+      visible,
       visibleMonths,
       ...rest
     }: DatePickerSingleProps,
@@ -234,15 +259,16 @@ const DatePickerSingle = forwardRef<HTMLDivElement, DatePickerSingleProps>(
     )
 
     const state = useDatePickerState({
-      defaultOpen,
+      ...useOpenStateProps(
+        { defaultOpen, defaultVisible, isOpen, onOpenChange, onVisibleChange, visible },
+        'DatePicker'
+      ),
       defaultValue,
       isDateUnavailable: combinedIsDateUnavailable,
       isDisabled: disabled,
-      isOpen,
       maxValue,
       minValue,
       onChange,
-      onOpenChange,
       value
     })
 
@@ -398,6 +424,7 @@ const DatePickerMultiple = forwardRef<HTMLDivElement, DatePickerMultipleProps>(
       className,
       defaultOpen,
       defaultValue,
+      defaultVisible,
       disabled,
       firstDayOfWeek,
       help,
@@ -413,12 +440,14 @@ const DatePickerMultiple = forwardRef<HTMLDivElement, DatePickerMultipleProps>(
       name,
       onChange,
       onOpenChange,
+      onVisibleChange,
       selectionMode: _selectionMode,
       size,
       unavailableDates,
       valid,
       validFeedback,
       value,
+      visible,
       visibleMonths,
       ...rest
     }: DatePickerMultipleProps,
@@ -438,7 +467,12 @@ const DatePickerMultiple = forwardRef<HTMLDivElement, DatePickerMultipleProps>(
       onChange?.(next)
     }
 
-    const state: OverlayTriggerState = useOverlayTriggerState({ defaultOpen, isOpen, onOpenChange })
+    const state: OverlayTriggerState = useOverlayTriggerState(
+      useOpenStateProps(
+        { defaultOpen, defaultVisible, isOpen, onOpenChange, onVisibleChange, visible },
+        'DatePicker'
+      )
+    )
 
     const groupRef = useRef<HTMLDivElement>(null)
     const forkedGroupRef = useForkedRef(ref, groupRef)

@@ -1,9 +1,9 @@
 import React, {
-  FC,
+  forwardRef,
   HTMLAttributes,
   ReactElement,
   ReactNode,
-  RefObject,
+  Ref,
   useCallback,
   useEffect,
   useRef
@@ -17,6 +17,7 @@ import {
   getOverlayTransitionClass,
   useFloatingOverlay,
   useForkedRef,
+  useOpenStateProps,
   useTransitionState
 } from '../../hooks'
 import { Placement, resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
@@ -26,7 +27,7 @@ import { asTriggerElement, getTriggerRef } from '../../utils/triggerElement'
 interface PopoverPanelProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'content'> {
   arrowProps: HTMLAttributes<HTMLDivElement>
   content: ReactNode | string
-  overlayRef: RefObject<HTMLDivElement | null>
+  overlayRef: Ref<HTMLDivElement>
   overlayTriggerProps: HTMLAttributes<HTMLDivElement>
   title?: ReactNode | string
 }
@@ -43,10 +44,14 @@ const PopoverPanel = ({
   title,
   ...rest
 }: PopoverPanelProps) => {
-  const { dialogProps, titleProps } = useDialog({}, overlayRef)
+  // `useDialog` focuses the panel through a ref object; the caller's ref is forked onto the same
+  // node.
+  const panelRef = useRef<HTMLDivElement>(null)
+  const forkedRef = useForkedRef(overlayRef, panelRef)
+  const { dialogProps, titleProps } = useDialog({}, panelRef)
 
   return (
-    <div {...mergeProps(overlayTriggerProps, dialogProps, rest)} ref={overlayRef}>
+    <div {...mergeProps(overlayTriggerProps, dialogProps, rest)} ref={forkedRef}>
       <div className="popover-arrow" {...arrowProps} style={getOverlayArrowStyle(arrowProps)}></div>
       {title && (
         <div className="popover-header" {...titleProps}>
@@ -58,27 +63,43 @@ const PopoverPanel = ({
   )
 }
 
-export interface PopoverProps extends Pick<
+// Every attribute besides the component's own props goes to the panel, the `.popover` element:
+// `className`, `style`, `id`, `data-*`, ARIA attributes and event handlers. So does the ref.
+export interface PopoverProps extends Omit<
   HTMLAttributes<HTMLDivElement>,
-  'aria-label' | 'aria-labelledby'
+  'children' | 'content' | 'title'
 > {
+  /**
+   * The trigger: a single element, which opens the popover on click.
+   */
   children: ReactElement
   /**
    * Content node for your component.
    */
   content: ReactNode | string
   /**
+   * Whether the popover is open when it first renders. Use it instead of `visible` when nothing
+   * outside needs to control the popover.
+   */
+  defaultVisible?: boolean
+  /**
    * Offset of the popover relative to its target, as `[crossAxis, mainAxis]`.
    */
   offset?: [number, number]
   /**
-   * Callback fired when the component requests to be hidden.
+   * Callback fired when the popover hides.
    */
   onHide?: () => void
   /**
-   * Callback fired when the component requests to be shown.
+   * Callback fired when the popover shows.
    */
   onShow?: () => void
+  /**
+   * Callback fired when the popover asks to show or hide: a click on the trigger, a click
+   * outside, the Escape key, or the closing of the dialog it is in. Receives the state it asks
+   * for. With `visible` set, the popover changes only when `visible` does.
+   */
+  onVisibleChange?: (visible: boolean) => void
   /**
    * Title node for your component.
    */
@@ -89,25 +110,35 @@ export interface PopoverProps extends Pick<
    */
   placement?: Placement
   /**
-   * Toggle the visibility of popover component.
+   * Whether the popover is open. Setting it makes the popover controlled: it shows and hides
+   * only when this changes, so pair it with `onVisibleChange`. Leave it unset, or use
+   * `defaultVisible`, for a popover that opens and closes itself.
    */
   visible?: boolean
 }
 
-export const Popover: FC<PopoverProps> = ({
-  children,
-  content,
-  placement = 'right',
-  offset: offsetProp = [0, 8],
-  onHide,
-  onShow,
-  title,
-  visible,
-  ...rest
-}) => {
+export const Popover = forwardRef<HTMLDivElement, PopoverProps>(function Popover(
+  {
+    children,
+    className,
+    content,
+    defaultVisible,
+    placement = 'right',
+    offset: offsetProp = [0, 8],
+    onHide,
+    onShow,
+    onVisibleChange,
+    style,
+    title,
+    visible,
+    ...rest
+  },
+  ref
+) {
   const arrowRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLElement | null>(null)
   const floatingRef = useRef<HTMLDivElement>(null)
+  const forkedFloatingRef = useForkedRef(ref, floatingRef)
 
   // `cloneElement`'s config replaces the child's own `ref` outright rather than merging with it,
   // so capturing the trigger node has to be forked with whatever ref the caller already put on
@@ -119,7 +150,9 @@ export const Popover: FC<PopoverProps> = ({
   const triggerElement = asTriggerElement(children)
   const forkedTriggerRef = useForkedRef<HTMLElement>(setTriggerRef, getTriggerRef(triggerElement))
 
-  const state = useOverlayTriggerState({ defaultOpen: !!visible })
+  const state = useOverlayTriggerState(
+    useOpenStateProps({ defaultVisible, onVisibleChange, visible }, 'Popover')
+  )
   const {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     triggerProps: { onPress: _onPress, ...triggerProps },
@@ -129,11 +162,9 @@ export const Popover: FC<PopoverProps> = ({
   const portalContainer = useFloatingOverlay({
     close: state.close,
     isOpen: state.isOpen,
-    open: state.open,
     onHide,
     onShow,
-    triggerRef,
-    visible
+    triggerRef
   })
 
   // Escape should always close the popover, regardless of where focus currently is — a
@@ -196,7 +227,9 @@ export const Popover: FC<PopoverProps> = ({
     onClose: null
   })
 
+  // The caller's `style` first: the position is the component's to set.
   const floatingStyle: React.CSSProperties = {
+    ...style,
     position: overlayProps.style?.position as React.CSSProperties['position'],
     top: overlayProps.style?.top,
     left: overlayProps.style?.left
@@ -240,11 +273,15 @@ export const Popover: FC<PopoverProps> = ({
       <Portal container={portalContainer}>
         {isMounted && (
           <PopoverPanel
-            className={classNames('popover cx-popover-auto', getOverlayTransitionClass(phase))}
+            className={classNames(
+              'popover cx-popover-auto',
+              getOverlayTransitionClass(phase),
+              className
+            )}
             data-cx-placement={placementAttr}
             style={floatingStyle}
             overlayTriggerProps={overlayTriggerProps}
-            overlayRef={floatingRef}
+            overlayRef={forkedFloatingRef}
             arrowProps={arrowProps}
             title={title}
             content={content}
@@ -254,6 +291,6 @@ export const Popover: FC<PopoverProps> = ({
       </Portal>
     </>
   )
-}
+})
 
 Popover.displayName = 'Popover'

@@ -9,6 +9,7 @@ import {
 } from 'react'
 import { usePreventScroll } from 'react-aria'
 
+import { useControllableState } from './useControllableState'
 import { useForkedRef } from './useForkedRef'
 import { useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect'
 import { executeAfterTransition } from '../utils/dialogTransition'
@@ -19,6 +20,10 @@ export interface UseDialogElementOptions {
    * distinguish `'static'` from everything else for the backdrop-click/Escape bounce.
    */
   backdrop?: boolean | 'static'
+  /**
+   * Initial open state of an uncontrolled dialog.
+   */
+  defaultVisible?: boolean
   /**
    * Disables the open/close transition entirely.
    */
@@ -51,7 +56,14 @@ export interface UseDialogElementOptions {
   onHidden?: () => void
   onShow?: () => void
   onShown?: () => void
+  /**
+   * Fired with `false` for each close request, beside `onClose`.
+   */
+  onVisibleChange?: (visible: boolean) => void
   ref: ForwardedRef<HTMLDialogElement>
+  /**
+   * Controlled open state; `undefined` means uncontrolled.
+   */
   visible?: boolean
 }
 
@@ -64,8 +76,14 @@ export interface UseDialogElementOptions {
 // what's genuinely component-specific: `Modal`/`Drawer`'s own `_className` building, and
 // `Drawer`'s cross-instance "auto-close every other open drawer" registry (wired in via
 // `onBeforeShow`, since it needs to run at one precise point inside the show effect).
+//
+// A dialog has no trigger of its own, so the only change it asks for is a close: Escape, a
+// backdrop click, a close button. That request fires `onClose` and `onVisibleChange(false)`.
+// Controlled by `visible`, the dialog stays open until the caller sets it to `false`; with
+// `defaultVisible` it closes itself.
 export const useDialogElement = ({
   backdrop,
+  defaultVisible = false,
   instant,
   isModal,
   keyboard = true,
@@ -76,13 +94,14 @@ export const useDialogElement = ({
   onHidden,
   onShow,
   onShown,
+  onVisibleChange,
   ref,
   visible
 }: UseDialogElementOptions) => {
   const dialogRef = useRef<HTMLDialogElement>(null)
   const forkedRef = useForkedRef(ref, dialogRef)
 
-  const [_visible, setVisible] = useState(visible)
+  const [_visible, setVisible] = useControllableState(visible, defaultVisible, onVisibleChange)
   const [hiding, setHiding] = useState(false)
   const [staticBounce, setStaticBounce] = useState(false)
   const [scrollLocked, setScrollLocked] = useState(false)
@@ -93,12 +112,11 @@ export const useDialogElement = ({
   // below) — usePreventScroll releases it automatically on unmount too, even mid-transition.
   usePreventScroll({ isDisabled: !scrollLocked })
 
-  useEffect(() => {
-    setVisible(visible)
-  }, [visible])
-
   const close = () => {
     onClose?.()
+    // Several things can ask an open dialog to close while it is closing; only the first is a
+    // change.
+    if (_visible) setVisible(false)
   }
 
   const triggerStaticBounce = () => {

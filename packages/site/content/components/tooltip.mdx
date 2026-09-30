@@ -29,6 +29,30 @@ Chassis renders in RTL.
   <DirectionsExample client:load />
 </Example>
 
+## Controlling the tooltip
+
+A tooltip shows and hides itself. Pass `visible` with `onVisibleChange` to hold the state
+yourself: hover, focus and the Escape key are then reported to `onVisibleChange` with the state
+they ask for, and the tooltip changes only when `visible` does.
+
+```tsx
+const [visible, setVisible] = useState(false)
+
+<Tooltip content="Copy link" visible={visible && !menuOpen} onVisibleChange={setVisible}>
+  <Button onClick={copy}>Copy</Button>
+</Tooltip>
+```
+
+`visible` alone holds the tooltip shown or hidden whatever the pointer does. In development the
+first request it drops is logged, since a missing `onVisibleChange` is more often a mistake than a
+choice. `defaultVisible` shows the tooltip on first render and leaves it uncontrolled.
+
+## The panel
+
+Every other attribute goes to the panel, the `.tooltip` element: `className`, `style`, `id`,
+`data-*` attributes. A `ref` on `<Tooltip>` points to the panel too, and is `null` while the
+tooltip is hidden. The trigger keeps its own props and ref.
+
 ## API
 
 ### Tooltip

@@ -338,7 +338,6 @@ export const Autocomplete = ({
   const portalContainer = useFloatingOverlay({
     close: state.close,
     isOpen: state.isOpen,
-    open: state.open,
     triggerRef
   })
 

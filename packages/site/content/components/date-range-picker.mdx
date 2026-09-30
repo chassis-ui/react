@@ -66,7 +66,7 @@ Pass `presets` — an array of `{ label, range }` entries (see [`DateRangePreset
 
 ## Controlling the popover
 
-The popover manages its own open state by default. Pass `isOpen` (with `onOpenChange`) to drive it from outside instead — e.g. to open the calendar from a button elsewhere on the page. `defaultOpen` sets the initial open state for the uncontrolled case, the same as `isOpen` without also taking over control.
+The popover manages its own open state by default. Pass `visible` (with `onVisibleChange`) to drive it from outside instead — e.g. to open the calendar from a button elsewhere on the page. `defaultVisible` sets the initial open state for the uncontrolled case, without taking over control. The earlier names `isOpen`, `onOpenChange` and `defaultOpen` still work and are deprecated.
 
 <Example>
   <ControlledOpenExample client:load />

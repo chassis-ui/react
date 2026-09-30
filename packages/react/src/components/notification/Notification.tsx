@@ -36,6 +36,14 @@ export interface NotificationProps extends Omit<HTMLAttributes<HTMLDivElement>, 
    */
   color?: ContextColor
   /**
+   * Whether the notification is shown when it first renders. Such a notification is
+   * uncontrolled: its close button and the `autohide` timer hide it. Use `visible` to show and
+   * hide it from outside.
+   *
+   * @default true
+   */
+  defaultVisible?: boolean
+  /**
    * Delay in ms before an `autohide` notification dismisses itself.
    */
   delay?: number
@@ -69,13 +77,19 @@ export interface NotificationProps extends Omit<HTMLAttributes<HTMLDivElement>, 
    */
   titleComponent?: ElementType
   /**
-   * Callback fired when the component requests to be closed.
+   * Callback fired once the notification has hidden: after its exit transition.
    */
   onClose?: () => void
   /**
-   * Callback fired when the component requests to be shown.
+   * Callback fired when the notification starts to show.
    */
   onShow?: () => void
+  /**
+   * Callback fired with `false` when the notification asks to hide: its close button, `close`
+   * from `useNotification`, or the `autohide` timer. With `visible` set, the notification hides
+   * only when `visible` becomes `false`.
+   */
+  onVisibleChange?: (visible: boolean) => void
   /**
    * ARIA live-region role. Use `status` (the default) for confirmation, progress, and
    * informational messages, which announce politely. Use `alert` for messages that need
@@ -83,7 +97,9 @@ export interface NotificationProps extends Omit<HTMLAttributes<HTMLDivElement>, 
    */
   role?: 'status' | 'alert'
   /**
-   * Toggle the visibility of component.
+   * Whether the notification is shown. Setting it makes the notification controlled: it hides
+   * only when this becomes `false`, so pair it with `onVisibleChange`. Left unset, the
+   * notification is shown and hides itself (see `defaultVisible`).
    */
   visible?: boolean
 }
@@ -97,6 +113,7 @@ export const Notification = forwardRef<HTMLDivElement, NotificationProps>(
       className,
       closeLabel = 'Close',
       color = 'primary',
+      defaultVisible = true,
       delay = 5000,
       dismissible,
       icon,
@@ -105,9 +122,10 @@ export const Notification = forwardRef<HTMLDivElement, NotificationProps>(
       title,
       titleComponent = 'h4',
       role = 'status',
-      visible = true,
+      visible,
       onClose,
       onShow,
+      onVisibleChange,
       ...rest
     },
     ref
@@ -121,7 +139,15 @@ export const Notification = forwardRef<HTMLDivElement, NotificationProps>(
       titleId,
       transitionClass,
       visible: _visible
-    } = useDismissibleTransition({ onClose, onShow, ref, visible })
+    } = useDismissibleTransition({
+      defaultVisible,
+      displayName: 'Notification',
+      onClose,
+      onShow,
+      onVisibleChange,
+      ref,
+      visible
+    })
 
     // Gated on `entered`, not just `_visible` (see `Toast`'s identical comment) — the entrance
     // transition finishing is what `autohide`'s JSDoc means by "the timer starts once the

@@ -47,7 +47,7 @@ export const Default: Story = {
 
 // `menuTrigger: 'focus'` (see `Combobox.tsx`) opens the portal-rendered listbox as soon as the
 // input is focused, with no selection made — this is the only reachable "menu open" state to
-// screenshot for visual regression, since `Combobox` has no `defaultOpen`/`visible`-style prop
+// screenshot for visual regression, since `Combobox` has no `defaultVisible`/`visible`-style prop
 // (unlike `DatePicker`/`Menu`) to force it open declaratively.
 export const OpenMenu: Story = {
   args: {

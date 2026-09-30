@@ -208,7 +208,7 @@
     },
     "variant": {
       "defaultValue": null,
-      "description": "Sets the context style of the component. Only applies to the default `Button` root.",
+      "description": "Sets the style variant of the component, as `Button`'s own `variant` does. Only applies to\nthe default `Button` root.",
       "name": "variant",
       "declarations": [
         {
@@ -219,13 +219,13 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "ContextStyle",
+        "raw": "\"link\" | \"basic\" | \"outline\" | \"smooth\"",
         "value": [
           {
-            "value": "\"basic\""
+            "value": "\"link\""
           },
           {
-            "value": "\"solid\""
+            "value": "\"basic\""
           },
           {
             "value": "\"outline\""

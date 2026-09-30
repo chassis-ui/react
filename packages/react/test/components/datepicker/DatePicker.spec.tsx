@@ -117,21 +117,21 @@ describe('DatePicker', () => {
       expect(dialog).not.toHaveAttribute('hidden')
     })
 
-    test('defaultOpen renders the calendar already open', () => {
-      render(<DatePicker aria-label="Event date" defaultOpen />)
+    test('defaultVisible renders the calendar already open', () => {
+      render(<DatePicker aria-label="Event date" defaultVisible />)
       expect(getCalendarWrapper()).not.toHaveAttribute('hidden')
     })
 
-    test('isOpen controls the calendar and onOpenChange reports toggle attempts without opening it', () => {
-      const onOpenChange = vi.fn()
+    test('visible controls the calendar and onVisibleChange reports toggle attempts without opening it', () => {
+      const onVisibleChange = vi.fn()
       const { rerender } = render(
-        <DatePicker aria-label="Event date" isOpen={false} onOpenChange={onOpenChange} />
+        <DatePicker aria-label="Event date" visible={false} onVisibleChange={onVisibleChange} />
       )
       fireEvent.click(screen.getByRole('button', { name: /calendar/i }))
-      expect(onOpenChange).toHaveBeenCalledWith(true)
+      expect(onVisibleChange).toHaveBeenCalledWith(true)
       expect(getCalendarWrapper()).toHaveAttribute('hidden')
 
-      rerender(<DatePicker aria-label="Event date" isOpen onOpenChange={onOpenChange} />)
+      rerender(<DatePicker aria-label="Event date" visible onVisibleChange={onVisibleChange} />)
       expect(getCalendarWrapper()).not.toHaveAttribute('hidden')
     })
   })

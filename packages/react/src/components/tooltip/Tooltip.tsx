@@ -1,4 +1,12 @@
-import React, { FC, ReactElement, ReactNode, useCallback, useRef } from 'react'
+import React, {
+  forwardRef,
+  HTMLAttributes,
+  ReactElement,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useRef
+} from 'react'
 import classNames from 'classnames'
 import { mergeProps, useOverlayPosition, useTooltip, useTooltipTrigger } from 'react-aria'
 import { useTooltipTriggerState } from 'react-stately'
@@ -8,6 +16,7 @@ import {
   getOverlayTransitionClass,
   useFloatingOverlay,
   useForkedRef,
+  useOpenStateProps,
   useTransitionState
 } from '../../hooks'
 import { Placement, resolveDataPlacement, toAriaPlacement } from '../../utils/overlayPlacement'
@@ -16,24 +25,40 @@ import { asTriggerElement, getTriggerRef } from '../../utils/triggerElement'
 
 export type { Placement }
 
-export interface TooltipProps {
+// Every attribute besides the component's own props goes to the panel, the `.tooltip` element:
+// `className`, `style`, `id`, `data-*`, ARIA attributes and event handlers. So does the ref.
+export interface TooltipProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children' | 'content'> {
+  /**
+   * The trigger: a single element, which shows the tooltip on hover and focus.
+   */
   children: ReactElement
   /**
    * Content node for your component.
    */
   content: ReactNode | string
   /**
+   * Whether the tooltip is shown when it first renders. Use it instead of `visible` when nothing
+   * outside needs to control the tooltip.
+   */
+  defaultVisible?: boolean
+  /**
    * Offset of the tooltip relative to its target, as `[crossAxis, mainAxis]`.
    */
   offset?: [number, number]
   /**
-   * Callback fired when the component requests to be hidden.
+   * Callback fired when the tooltip hides.
    */
   onHide?: () => void
   /**
-   * Callback fired when the component requests to be shown.
+   * Callback fired when the tooltip shows.
    */
   onShow?: () => void
+  /**
+   * Callback fired when the tooltip asks to show or hide: hover, focus, blur, the Escape key, or
+   * the closing of the dialog it is in. Receives the state it asks for. With `visible` set, the
+   * tooltip changes only when `visible` does.
+   */
+  onVisibleChange?: (visible: boolean) => void
   /**
    * Describes the preferred placement of your component. Chassis will flip it to keep it in
    * view.
@@ -45,25 +70,35 @@ export interface TooltipProps {
    */
   trigger?: 'hover' | 'focus'
   /**
-   * Toggle the visibility of the tooltip component.
+   * Whether the tooltip is shown. Setting it makes the tooltip controlled: it shows and hides
+   * only when this changes, so pair it with `onVisibleChange`. Leave it unset, or use
+   * `defaultVisible`, for a tooltip that shows and hides itself.
    */
   visible?: boolean
 }
 
-export const Tooltip: FC<TooltipProps> = ({
-  children,
-  content,
-  placement = 'top',
-  offset: offsetProp = [0, 6],
-  onHide,
-  onShow,
-  trigger,
-  visible,
-  ...rest
-}) => {
+export const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(function Tooltip(
+  {
+    children,
+    className,
+    content,
+    defaultVisible,
+    placement = 'top',
+    offset: offsetProp = [0, 6],
+    onHide,
+    onShow,
+    onVisibleChange,
+    style,
+    trigger,
+    visible,
+    ...rest
+  },
+  ref
+) {
   const arrowRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLElement | null>(null)
   const floatingRef = useRef<HTMLDivElement>(null)
+  const forkedFloatingRef = useForkedRef(ref, floatingRef)
 
   // `cloneElement`'s config replaces the child's own `ref` outright rather than merging with it,
   // so capturing the trigger node has to be forked with whatever ref the caller already put on
@@ -80,25 +115,42 @@ export const Tooltip: FC<TooltipProps> = ({
   // react-stately defaults to a 1500ms warmup delay (and 500ms cooldown) before a first tooltip
   // shows, spectrum-style — chassis-css's own JS plugin defaults to instant (`delay: 0`), so
   // match that here rather than leaving new adopters to wonder why the first hover lags.
-  const state = useTooltipTriggerState({ trigger, delay: 0, closeDelay: 0 })
+  const state = useTooltipTriggerState({
+    ...useOpenStateProps({ defaultVisible, onVisibleChange, visible }, 'Tooltip'),
+    trigger,
+    delay: 0,
+    closeDelay: 0
+  })
+  // While a tooltip is open, react-aria stops every Escape at the document and closes the
+  // tooltip with it. One held open by `visible` with no `onVisibleChange` never closes, so it
+  // would swallow Escape for the whole page: a popover, a menu or a dialog beside it could no
+  // longer be closed by it. Such a tooltip is passed as closed, which is all the hook reads the
+  // state for besides `aria-describedby`, set below.
+  const isHeld = visible !== undefined && !onVisibleChange
   const { triggerProps, tooltipProps: tooltipTriggerProps } = useTooltipTrigger(
     { trigger },
-    state,
+    isHeld ? { ...state, isOpen: false } : state,
     triggerRef
   )
   const { tooltipProps } = useTooltip({}, state)
 
-  // Bypasses the hook's hover-warmup delay (`open`/`close`'s `immediate` argument) since a
-  // programmatic `visible` change, an `onShow`/`onHide` sync, or a containing dialog closing
-  // should all apply right away, same as before.
+  // react-stately shows one tooltip at a time, but counts only a tooltip it opened through
+  // `open()`. One shown by `visible` or `defaultVisible` joins here, so the next tooltip to open
+  // asks it to hide, and it closes the ones already open.
+  const registerOpen = state.open
+  useEffect(() => {
+    if (state.isOpen) registerOpen(true)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.isOpen])
+
+  // Bypasses the hook's hover-warmup delay (`close`'s `immediate` argument): a containing dialog
+  // closing applies right away.
   const portalContainer = useFloatingOverlay({
     close: () => state.close(true),
     isOpen: state.isOpen,
-    open: () => state.open(true),
     onHide,
     onShow,
-    triggerRef,
-    visible
+    triggerRef
   })
 
   const {
@@ -116,7 +168,9 @@ export const Tooltip: FC<TooltipProps> = ({
     isOpen: state.isOpen
   })
 
+  // The caller's `style` first: the position is the component's to set.
   const floatingStyle: React.CSSProperties = {
+    ...style,
     position: overlayProps.style?.position as React.CSSProperties['position'],
     top: overlayProps.style?.top,
     left: overlayProps.style?.left
@@ -133,18 +187,25 @@ export const Tooltip: FC<TooltipProps> = ({
   return (
     <>
       {React.cloneElement(triggerElement, {
-        ...mergeProps(triggerElement.props, triggerProps),
+        ...mergeProps(
+          triggerElement.props,
+          triggerProps,
+          isHeld && state.isOpen ? { 'aria-describedby': tooltipTriggerProps.id } : {}
+        ),
         ref: forkedTriggerRef
       })}
       <Portal container={portalContainer}>
         {isMounted && (
           <div
-            className={classNames('tooltip cx-tooltip-auto', getOverlayTransitionClass(phase))}
+            {...mergeProps(tooltipTriggerProps, tooltipProps, rest)}
+            className={classNames(
+              'tooltip cx-tooltip-auto',
+              getOverlayTransitionClass(phase),
+              className
+            )}
             data-cx-placement={placementAttr}
-            ref={floatingRef}
+            ref={forkedFloatingRef}
             style={floatingStyle}
-            {...mergeProps(tooltipTriggerProps, tooltipProps)}
-            {...rest}
           >
             <div
               className="tooltip-arrow"
@@ -157,6 +218,6 @@ export const Tooltip: FC<TooltipProps> = ({
       </Portal>
     </>
   )
-}
+})
 
 Tooltip.displayName = 'Tooltip'

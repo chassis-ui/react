@@ -2,7 +2,7 @@ import React, { forwardRef, HTMLAttributes, ReactNode, useMemo, useRef } from 'r
 import { mergeProps, RangeValue, useDateRangePicker, useDialog } from 'react-aria'
 import { DateValue, useDateRangePickerState } from 'react-stately'
 
-import { useForkedRef, useFormField, useOverlayPlacement } from '../../hooks'
+import { useForkedRef, useFormField, useOpenStateProps, useOverlayPlacement } from '../../hooks'
 import { DateRangePreset } from '../../utils/dateRangePresets'
 import { mergeIsDateUnavailable } from '../../utils/mergeIsDateUnavailable'
 import { renderFormField } from '../form-field/renderFormField'
@@ -34,13 +34,20 @@ export interface DateRangePickerProps extends Omit<
   /**
    * Whether the calendar popover is open by default (uncontrolled).
    *
-   * @default false
+   * @deprecated Use `defaultVisible`.
    */
   defaultOpen?: boolean
   /**
    * The initial selected date range (uncontrolled).
    */
   defaultValue?: RangeValue<DateValue> | null
+  /**
+   * Whether the calendar popover is open when the date range picker first renders. Use it
+   * instead of `visible` when nothing outside needs to control the popover.
+   *
+   * @default false
+   */
+  defaultVisible?: boolean
   /**
    * Prevents the date range picker from being focused or interacted with.
    */
@@ -83,6 +90,8 @@ export interface DateRangePickerProps extends Omit<
   labels?: Partial<CalendarLabels>
   /**
    * Whether the calendar popover is open (controlled).
+   *
+   * @deprecated Use `visible`.
    */
   isOpen?: boolean
   /**
@@ -109,8 +118,16 @@ export interface DateRangePickerProps extends Omit<
   onChange?: (value: RangeValue<DateValue> | null) => void
   /**
    * Callback fired when the calendar popover's open state changes.
+   *
+   * @deprecated Use `onVisibleChange`.
    */
   onOpenChange?: (isOpen: boolean) => void
+  /**
+   * Callback fired when the calendar popover asks to open or close: the calendar button, a
+   * completed selection, the Escape key or a click outside. Receives the state it asks for.
+   * With `visible` set, the popover changes only when `visible` does.
+   */
+  onVisibleChange?: (visible: boolean) => void
   /**
    * A list of quick-select range presets shown in the overlay next to the calendar. Selecting a
    * preset commits its range immediately, the same as picking a start and end date from the
@@ -142,6 +159,11 @@ export interface DateRangePickerProps extends Omit<
    */
   value?: RangeValue<DateValue> | null
   /**
+   * Whether the calendar popover is open. Setting it makes the popover controlled: it opens and
+   * closes only when this changes, so pair it with `onVisibleChange`.
+   */
+  visible?: boolean
+  /**
    * Number of months to display side by side in the calendar overlay.
    *
    * @default 1
@@ -162,6 +184,7 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
       className,
       defaultOpen,
       defaultValue,
+      defaultVisible,
       disabled,
       firstDayOfWeek,
       help,
@@ -177,12 +200,14 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
       name,
       onChange,
       onOpenChange,
+      onVisibleChange,
       presets,
       size,
       unavailableDates,
       valid,
       validFeedback,
       value,
+      visible,
       visibleMonths,
       ...rest
     }: DateRangePickerProps,
@@ -194,15 +219,16 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
     )
 
     const state = useDateRangePickerState({
-      defaultOpen,
+      ...useOpenStateProps(
+        { defaultOpen, defaultVisible, isOpen, onOpenChange, onVisibleChange, visible },
+        'DateRangePicker'
+      ),
       defaultValue,
       isDateUnavailable: combinedIsDateUnavailable,
       isDisabled: disabled,
-      isOpen,
       maxValue,
       minValue,
       onChange,
-      onOpenChange,
       value
     })
 

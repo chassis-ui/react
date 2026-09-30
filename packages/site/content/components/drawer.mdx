@@ -21,6 +21,8 @@ import { Example as FooterExample } from '../../examples/components/drawer/Foote
 
 The button below opens a drawer anchored to the viewport's start edge.
 
+`visible` opens and closes the drawer. A close request (the Escape key, a backdrop click, a close button) fires `onClose`, and `onVisibleChange(false)` beside it, so `visible={open} onVisibleChange={setOpen}` works as well as `onClose={() => setOpen(false)}`. With `defaultVisible` instead, the drawer is open at first and closes itself.
+
 <Example>
   <LiveDemoExample client:load />
 </Example>

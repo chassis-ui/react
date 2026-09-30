@@ -38,6 +38,8 @@ This static example disables the backdrop and keyboard dismissal so the modal st
 
 Toggling the button below opens a working modal that slides down and fades in from the top of the page.
 
+`visible` opens and closes the modal. A close request (the Escape key, a backdrop click, a close button) fires `onClose`, and `onVisibleChange(false)` beside it, so `visible={open} onVisibleChange={setOpen}` works as well as `onClose={() => setOpen(false)}`. With `defaultVisible` instead, the modal is open at first and closes itself.
+
 <Example>
   <LiveDemoExample client:load />
 </Example>

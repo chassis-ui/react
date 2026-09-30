@@ -110,6 +110,35 @@ describe('Toaster', () => {
       vi.useRealTimers()
     })
 
+    // Issue #39: `ToastContent` listed seven of the props `Toaster` spreads onto the toast.
+    test('a queued toast takes the shorthand props and a role, with no children', () => {
+      vi.useFakeTimers()
+      render(<Toaster />)
+      act(() => {
+        addToast(null, {
+          autohide: false,
+          closeButton: true,
+          closeLabel: 'Dismiss',
+          footer: (close) => <Button onClick={close}>Undo</Button>,
+          message: 'Nothing was changed.',
+          role: 'alert',
+          title: 'Failed'
+        })
+      })
+      act(() => vi.runAllTimers())
+
+      const toast = screen.getByRole('alert')
+      expect(toast).toHaveTextContent('Failed')
+      expect(toast).toHaveTextContent('Nothing was changed.')
+      expect(screen.getByRole('button', { name: 'Dismiss' })).toBeInTheDocument()
+
+      // `footer` as a function receives the toast's own `close`.
+      fireEvent.click(screen.getByRole('button', { name: 'Undo' }))
+      act(() => vi.runAllTimers())
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      vi.useRealTimers()
+    })
+
     // Issue #40: a toast's action that navigates remounts the toaster about 50 ms after the
     // click, well inside the exit transition.
     test('a toast closed by its own close does not come back when the toaster remounts mid-exit', () => {

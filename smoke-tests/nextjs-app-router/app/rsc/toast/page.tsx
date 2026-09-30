@@ -4,7 +4,13 @@ import { ClientMark } from '../ClientMark'
 export default function Page() {
   return (
     <main>
-      <Toast visible autohide={false} closeButton title="Toast title" message="Toast message">
+      <Toast
+        defaultVisible
+        autohide={false}
+        closeButton
+        title="Toast title"
+        message="Toast message"
+      >
         <ClientMark />
       </Toast>
     </main>

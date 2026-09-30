@@ -12,7 +12,7 @@ import classNames from 'classnames'
 import { AriaButtonProps, useMenuTrigger, useOverlayPosition } from 'react-aria'
 import { useMenuTriggerState } from 'react-stately'
 
-import { useForkedRef, useIsomorphicLayoutEffect } from '../../hooks'
+import { useForkedRef, useIsomorphicLayoutEffect, useOpenStateProps } from '../../hooks'
 import { executeAfterTransition } from '../../utils/dialogTransition'
 import {
   Placement,
@@ -33,8 +33,8 @@ export type MenuAutoClose = boolean | 'inside' | 'outside'
 type MenuOwnProps<C extends ElementType> = {
   /**
    * Controls which clicks close the menu. `true` closes on any click inside or outside.
-   * `false` requires a programmatic `visible` change. `'inside'` closes only on click inside
-   * the menu. `'outside'` closes only on click outside the menu.
+   * `false` leaves closing to the toggle, the Escape key and `visible`. `'inside'` closes only
+   * on click inside the menu. `'outside'` closes only on click outside the menu.
    */
   autoClose?: MenuAutoClose
   /**
@@ -60,11 +60,16 @@ type MenuOwnProps<C extends ElementType> = {
    */
   container?: boolean | Element
   /**
+   * Whether the menu is open when it first renders. Use it instead of `visible` when nothing
+   * outside needs to control the menu.
+   */
+  defaultVisible?: boolean
+  /**
    * Distance between the menu and its reference element, as `[skidding, distance]` in pixels.
    */
   offset?: [number, number]
   /**
-   * Callback fired when the menu requests to be hidden.
+   * Callback fired when the menu starts to hide.
    */
   onHide?: () => void
   /**
@@ -72,13 +77,19 @@ type MenuOwnProps<C extends ElementType> = {
    */
   onHidden?: () => void
   /**
-   * Callback fired when the menu requests to be shown.
+   * Callback fired when the menu starts to show.
    */
   onShow?: () => void
   /**
    * Callback fired after the menu finishes showing.
    */
   onShown?: () => void
+  /**
+   * Callback fired when the menu asks to show or hide: the toggle, a click that `autoClose`
+   * counts, or the Escape or Tab key. Receives the state it asks for. With `visible` set, the
+   * menu changes only when `visible` does.
+   */
+  onVisibleChange?: (visible: boolean) => void
   /**
    * Initial placement. Chassis will flip it to keep the menu in view.
    *
@@ -91,7 +102,9 @@ type MenuOwnProps<C extends ElementType> = {
    */
   reference?: 'toggle' | 'parent'
   /**
-   * Toggle the visibility of the menu component.
+   * Whether the menu is open. Setting it makes the menu controlled: it opens and closes only
+   * when this changes, so pair it with `onVisibleChange`. Leave it unset, or use
+   * `defaultVisible`, for a menu that opens and closes itself.
    */
   visible?: boolean
 }
@@ -166,11 +179,13 @@ function MenuRender<C extends ElementType = typeof Fragment>(
     className,
     component,
     container,
+    defaultVisible,
     offset: offsetProp = [0, 2],
     onHide,
     onHidden,
     onShow,
     onShown,
+    onVisibleChange,
     placement = 'bottom-start',
     reference = 'toggle',
     visible,
@@ -193,19 +208,12 @@ function MenuRender<C extends ElementType = typeof Fragment>(
     else submenuOverlaysRef.current.delete(id)
   }
 
-  const state = useMenuTriggerState({ defaultOpen: !!visible })
+  // Controlled by `visible` when it is set: `show`/`hide`/`toggle` (from `MenuToggle`, autoClose
+  // dismissal, an item) then only report to `onVisibleChange`.
+  const state = useMenuTriggerState(
+    useOpenStateProps({ defaultVisible, onVisibleChange, visible }, 'Menu')
+  )
   const { menuTriggerProps, menuProps } = useMenuTrigger<unknown>({}, state, toggleNodeRef)
-
-  // Sync-on-change, not strictly controlled — matches `Modal`'s `visible` semantics.
-  // Internal `show`/`hide`/`toggle` calls (from `MenuToggle`, autoClose dismissal, etc.)
-  // still work freely between prop changes; `visible` only re-asserts the open state when
-  // its own value actually changes.
-  useEffect(() => {
-    if (visible === undefined) return
-    if (visible) state.open()
-    else state.close()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [visible])
 
   useIsomorphicLayoutEffect(() => {
     if (reference === 'parent') {
@@ -272,13 +280,32 @@ function MenuRender<C extends ElementType = typeof Fragment>(
     resolvedPlacement
   )
 
+  // Escape closes the menu and returns focus to the toggle. Controlled, the close is a request:
+  // focus returns when `visible` follows it, in the effect below, and stays where it is when
+  // nothing can follow it or the caller declines. Read through a ref because the context value
+  // these functions travel in is memoized.
+  const followsRequestsRef = useRef(true)
+  followsRequestsRef.current = visible === undefined || !!onVisibleChange
+  const isControlledRef = useRef(false)
+  isControlledRef.current = visible !== undefined
+  const focusReturnOwedRef = useRef(false)
+
   const show = (focusStrategy?: MenuFocusStrategy | null) => state.open(focusStrategy)
-  const hide = () => state.close()
+  const hide = () => {
+    focusReturnOwedRef.current = false
+    state.close()
+  }
   const toggleVisible = (focusStrategy?: MenuFocusStrategy | null) => state.toggle(focusStrategy)
   const close = () => {
     state.close()
-    toggleNodeRef.current?.focus()
+    if (!isControlledRef.current) toggleNodeRef.current?.focus()
+    else focusReturnOwedRef.current = followsRequestsRef.current
   }
+
+  useEffect(() => {
+    if (!state.isOpen && focusReturnOwedRef.current) toggleNodeRef.current?.focus()
+    focusReturnOwedRef.current = false
+  }, [state.isOpen])
 
   // Deferred so the click that opened the menu doesn't immediately close it, and scoped
   // to match menu.js's `clearMenus`: skip the toggle itself, honor `inside`/`outside`

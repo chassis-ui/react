@@ -45,6 +45,25 @@
         "name": "string"
       }
     },
+    "defaultVisible": {
+      "defaultValue": null,
+      "description": "Whether the modal is open when it first renders. Such a modal is uncontrolled: it closes\nitself on a close request. Use `visible` to open and close it from outside.",
+      "name": "defaultVisible",
+      "parent": {
+        "fileName": "packages/react/src/components/modal/Modal.tsx",
+        "name": "ModalProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/modal/Modal.tsx",
+          "name": "ModalProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
     "fullscreen": {
       "defaultValue": null,
       "description": "Set modal to cover the entire user viewport. A breakpoint value goes fullscreen only\nbelow that breakpoint.",
@@ -220,6 +239,25 @@
         "name": "(() => void)"
       }
     },
+    "onVisibleChange": {
+      "defaultValue": null,
+      "description": "Callback fired with `false` when the modal requests to be closed, at the same moments as\n`onClose`. It makes `visible` and `onVisibleChange` a pair that takes a state setter.",
+      "name": "onVisibleChange",
+      "parent": {
+        "fileName": "packages/react/src/components/modal/Modal.tsx",
+        "name": "ModalProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/modal/Modal.tsx",
+          "name": "ModalProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((visible: boolean) => void)"
+      }
+    },
     "scrollable": {
       "defaultValue": null,
       "description": "Create a scrollable modal — the header and footer stay fixed while the body scrolls.",
@@ -272,7 +310,7 @@
     },
     "visible": {
       "defaultValue": null,
-      "description": "Toggle the visibility of modal component.",
+      "description": "Whether the modal is open. The modal is then controlled: a close request only fires\n`onClose` and `onVisibleChange`, and the modal closes when this becomes `false`.",
       "name": "visible",
       "parent": {
         "fileName": "packages/react/src/components/modal/Modal.tsx",

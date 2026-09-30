@@ -12,7 +12,7 @@ import { Example as BasicExample } from '../../examples/hooks/use-toast/BasicExa
 `useToast()` reads a close handler from React context, provided by the nearest enclosing
 [`<Toast>`]([[docsref:/components/toast]]). Call it from any component composed inside that
 `<Toast>` — a link inside `ToastBody`, a custom icon in `ToastHeader` — instead of threading a
-close callback down through props from wherever `visible`/`onClose` are managed.
+close callback down through props from wherever `visible`/`onVisibleChange` are managed.
 
 `<Toast>`'s own `footer` prop already hands `close` directly to a function passed there, which
 covers the common case of a footer action closing the toast. Reach for `useToast()` instead when

@@ -235,7 +235,6 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
     const portalContainer = useFloatingOverlay({
       close: state.close,
       isOpen: state.isOpen,
-      open: state.open,
       triggerRef: wrapperRef
     })
 

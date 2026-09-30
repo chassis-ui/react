@@ -66,7 +66,7 @@ export const Toaster = forwardRef<HTMLDivElement, ToasterProps>(
             return (
               <Toast
                 key={queued.key}
-                visible
+                defaultVisible
                 {...toastProps}
                 onClose={() => state.close(queued.key)}
               >

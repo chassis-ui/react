@@ -32,13 +32,13 @@ export const Closed: Story = {
   }
 }
 
-// `visible` renders the menu panel open on mount (synced by an effect, see Menu.tsx) — the only
+// `defaultVisible` renders the menu panel open on mount — the only
 // way to screenshot its content without driving a real click from the test. The menu panel
 // portals to `document.body` (outside Storybook's `#storybook-root`), so the Playwright spec
 // screenshots the whole iframe page for these stories rather than a specific element.
 export const Open: Story = {
   args: {
-    visible: true,
+    defaultVisible: true,
     children: (
       <>
         <MenuToggle color="secondary">Toggle menu</MenuToggle>
@@ -55,7 +55,7 @@ export const Open: Story = {
 
 export const OpenWithHeader: Story = {
   args: {
-    visible: true,
+    defaultVisible: true,
     children: (
       <>
         <MenuToggle color="secondary">Toggle menu</MenuToggle>
@@ -72,7 +72,7 @@ export const OpenWithHeader: Story = {
 
 export const OpenSelectedItem: Story = {
   args: {
-    visible: true,
+    defaultVisible: true,
     children: (
       <>
         <MenuToggle color="secondary">Sort by</MenuToggle>

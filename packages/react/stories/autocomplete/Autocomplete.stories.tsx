@@ -46,7 +46,7 @@ export const Default: Story = {
 }
 
 // The toggle opens the panel on click with no selection made — this is the only reachable "menu
-// open" state to screenshot for visual regression, since `Autocomplete` has no `defaultOpen`/
+// open" state to screenshot for visual regression, since `Autocomplete` has no `defaultVisible`/
 // `visible`-style prop (unlike `DatePicker`/`Menu`) to force it open declaratively.
 export const OpenMenu: Story = {
   args: {

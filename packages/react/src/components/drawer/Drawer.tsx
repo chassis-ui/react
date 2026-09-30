@@ -24,6 +24,11 @@ export interface DrawerProps extends Omit<
    */
   className?: string
   /**
+   * Whether the drawer is open when it first renders. Such a drawer is uncontrolled: it closes
+   * itself on a close request. Use `visible` to open and close it from outside.
+   */
+  defaultVisible?: boolean
+  /**
    * Size the height to the drawer's content instead of `--drawer-height`. Meaningful for
    * `placement="bottom"`.
    */
@@ -62,6 +67,11 @@ export interface DrawerProps extends Omit<
    */
   onShown?: () => void
   /**
+   * Callback fired with `false` when the drawer requests to be closed, at the same moments as
+   * `onClose`. It makes `visible` and `onVisibleChange` a pair that takes a state setter.
+   */
+  onVisibleChange?: (visible: boolean) => void
+  /**
    * Which viewport edge the panel slides in from. Always required — there is no default
    * off-screen transform without one.
    */
@@ -84,7 +94,8 @@ export interface DrawerProps extends Omit<
    */
   translucent?: boolean
   /**
-   * Toggle the visibility of the drawer component.
+   * Whether the drawer is open. The drawer is then controlled: a close request only fires
+   * `onClose` and `onVisibleChange`, and the drawer closes when this becomes `false`.
    */
   visible?: boolean
 }
@@ -114,6 +125,7 @@ export const Drawer = forwardRef<HTMLDialogElement, DrawerProps>(
       children,
       backdrop = true,
       className,
+      defaultVisible,
       fitContent,
       fullscreen,
       instant,
@@ -124,6 +136,7 @@ export const Drawer = forwardRef<HTMLDialogElement, DrawerProps>(
       onHidden,
       onShow,
       onShown,
+      onVisibleChange,
       placement,
       responsive,
       scroll = false,
@@ -137,6 +150,7 @@ export const Drawer = forwardRef<HTMLDialogElement, DrawerProps>(
     const { close, dialogRef, forkedRef, handleBackdropClick, handleCancel, hiding, staticBounce } =
       useDialogElement({
         backdrop,
+        defaultVisible,
         instant,
         isModal: Boolean(backdrop) || !scroll,
         keyboard,
@@ -151,6 +165,7 @@ export const Drawer = forwardRef<HTMLDialogElement, DrawerProps>(
         onHidden,
         onShow,
         onShown,
+        onVisibleChange,
         ref,
         visible
       })

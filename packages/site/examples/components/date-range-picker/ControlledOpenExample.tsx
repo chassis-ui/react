@@ -2,17 +2,17 @@ import { useState } from 'react'
 import { Button, DateRangePicker } from '@chassis-ui/react'
 
 export const Example = () => {
-  const [isOpen, setIsOpen] = useState(false)
+  const [visible, setVisible] = useState(false)
 
   return (
     <div className="vstack gap-sm">
       <div className="d-flex align-items-center gap-2">
-        <DateRangePicker aria-label="Trip dates" isOpen={isOpen} onOpenChange={setIsOpen} />
-        <Button color="secondary" onClick={() => setIsOpen(true)} type="button">
+        <DateRangePicker aria-label="Trip dates" visible={visible} onVisibleChange={setVisible} />
+        <Button color="secondary" onClick={() => setVisible(true)} type="button">
           Open calendar
         </Button>
       </div>
-      <div className="form-text">Popover is {isOpen ? 'open' : 'closed'}.</div>
+      <div className="form-text">Popover is {visible ? 'open' : 'closed'}.</div>
     </div>
   )
 }

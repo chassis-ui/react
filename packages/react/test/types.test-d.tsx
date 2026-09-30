@@ -2,19 +2,31 @@ import React from 'react'
 import { expectTypeOf } from 'vitest'
 
 import {
+  addToast,
   Avatar,
   Button,
   Chip,
   CloseButton,
+  Collapse,
   DataGridBody,
   DataGridCell,
   DataGridRow,
+  DatePicker,
+  Drawer,
   ListItem,
+  Menu,
   MenuItem,
+  MenuToggle,
+  Modal,
+  Notification,
   PaginationItem,
+  Popover,
   SkeletonLoader,
+  Toast,
+  Tooltip,
   usePagination
 } from '../src/index'
+import type { ToastContent } from '../src/index'
 
 // Type-level assertions for the public API's generic surface.
 //
@@ -182,3 +194,107 @@ expectTypeOf(
     x
   </SkeletonLoader>
 ).toBeObject()
+
+// --- Open state: `visible`, `defaultVisible`, `onVisibleChange` (audit 3 phase B6) ---
+
+// `onVisibleChange` takes a state setter as it is.
+declare const setVisible: React.Dispatch<React.SetStateAction<boolean>>
+
+expectTypeOf(
+  <Popover content="Body" defaultVisible onVisibleChange={setVisible} visible={false}>
+    <button type="button">Open</button>
+  </Popover>
+).toBeObject()
+expectTypeOf(
+  <Tooltip content="Tip" defaultVisible onVisibleChange={setVisible} visible={false}>
+    <button type="button">Hover</button>
+  </Tooltip>
+).toBeObject()
+expectTypeOf(
+  <Menu defaultVisible onVisibleChange={setVisible} visible={false}>
+    <MenuToggle>Toggle</MenuToggle>
+  </Menu>
+).toBeObject()
+expectTypeOf(<Modal defaultVisible onVisibleChange={setVisible} visible={false} />).toBeObject()
+expectTypeOf(
+  <Drawer defaultVisible onVisibleChange={setVisible} placement="start" visible={false} />
+).toBeObject()
+expectTypeOf(<Toast defaultVisible onVisibleChange={setVisible} visible={false} />).toBeObject()
+expectTypeOf(
+  <Notification defaultVisible onVisibleChange={setVisible} visible={false} />
+).toBeObject()
+expectTypeOf(
+  <DatePicker defaultVisible onVisibleChange={setVisible} visible={false} />
+).toBeObject()
+
+// The callback receives the state the component asks for.
+expectTypeOf(
+  <Menu onVisibleChange={(visible) => expectTypeOf(visible).toEqualTypeOf<boolean>()}>
+    <MenuToggle>Toggle</MenuToggle>
+  </Menu>
+).toBeObject()
+
+// The date pickers still take the deprecated names.
+expectTypeOf(<DatePicker defaultOpen isOpen={false} onOpenChange={setVisible} />).toBeObject()
+
+// `Collapse` cannot change its own state, so it takes `visible` and nothing else.
+expectTypeOf(<Collapse visible />).toBeObject()
+// @ts-expect-error there is nothing for a default to differ from.
+expectTypeOf(<Collapse defaultVisible />).toBeObject()
+
+// --- `Popover`/`Tooltip`: the panel's attributes and ref ---
+
+expectTypeOf(
+  <Popover
+    className="wide"
+    content="Body"
+    data-testid="panel"
+    id="details"
+    ref={React.createRef<HTMLDivElement>()}
+    style={{ maxWidth: 320 }}
+  >
+    <button type="button">Open</button>
+  </Popover>
+).toBeObject()
+expectTypeOf(
+  <Tooltip
+    className="wide"
+    content="Tip"
+    data-testid="panel"
+    id="hint"
+    ref={React.createRef<HTMLDivElement>()}
+    style={{ maxWidth: 320 }}
+  >
+    <button type="button">Hover</button>
+  </Tooltip>
+).toBeObject()
+
+// `title` and `content` stay the component's own props, not the attributes of the same name.
+expectTypeOf(
+  <Popover content={<em>Body</em>} title={<strong>Title</strong>}>
+    <button type="button">Open</button>
+  </Popover>
+).toBeObject()
+
+// --- `MenuToggle`'s `variant` is `Button`'s (issue #38) ---
+
+expectTypeOf(<MenuToggle variant="link">Account</MenuToggle>).toBeObject()
+// @ts-expect-error `Button` has no `solid` variant: it is the look with no variant at all.
+expectTypeOf(<MenuToggle variant="solid">Account</MenuToggle>).toBeObject()
+
+// --- `ToastContent` covers what `Toaster` passes on (issue #39) ---
+
+expectTypeOf(
+  addToast(null, {
+    closeButton: true,
+    closeLabel: 'Dismiss',
+    footer: (close) => <button onClick={close}>Undo</button>,
+    message: 'Nothing was changed.',
+    role: 'alert',
+    title: 'Failed'
+  })
+).toBeString()
+expectTypeOf<ToastContent>().toHaveProperty('time')
+expectTypeOf<ToastContent>().toHaveProperty('icon')
+// @ts-expect-error the queue owns whether a queued toast is shown.
+expectTypeOf(addToast('Saved', { visible: false })).toBeString()

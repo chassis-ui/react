@@ -19,11 +19,15 @@ same margin and flexbox utility classes as the rest of Chassis.
 
 ## Overview
 
-`<Toast>` renders a single notification; visibility and lifecycle are controlled explicitly rather
-than managed by the component itself.
+`<Toast>` renders a single notification. Nothing shows until you ask for it.
 
-- Toasts are opt-in — nothing renders until `visible` is set to `true` directly, or `addToast()`
+- Toasts are opt-in — nothing renders until `visible` or `defaultVisible` is set, or `addToast()`
   pushes one into a `Toaster`'s queue.
+- `defaultVisible` shows a toast that then hides itself: by its close button, `autohide`, or
+  `close`. `visible` makes it controlled: those become requests, reported to
+  `onVisibleChange(false)`, and the toast hides when you set `visible` to `false`. A state setter
+  fits as it is: `visible={open} onVisibleChange={setOpen}`. `onClose` fires after the toast has
+  hidden.
 - A toast automatically hides after `delay` milliseconds unless `autohide` is set to `false`. The
   countdown pauses while the pointer is over the toast or focus is within it, and only resumes
   once both leave.

@@ -15,6 +15,7 @@ import { Example as TextExample } from '../../examples/components/menu/TextExamp
 import { Example as FormsExample } from '../../examples/components/menu/FormsExample.tsx'
 import { Example as PlacementExample } from '../../examples/components/menu/PlacementExample.tsx'
 import { Example as AutoCloseExample } from '../../examples/components/menu/AutoCloseExample.tsx'
+import { Example as ControlledExample } from '../../examples/components/menu/ControlledExample.tsx'
 import { Example as SubmenuExample } from '../../examples/components/menu/SubmenuExample.tsx'
 import { Example as StackedSubmenuExample } from '../../examples/components/menu/StackedSubmenuExample.tsx'
 import { Example as DarkModeExample } from '../../examples/components/menu/DarkModeExample.tsx'
@@ -108,11 +109,21 @@ Pass a `placement` prop to control which side of the toggle the menu opens on. I
 
 ## Close behavior
 
-The `autoClose` prop controls which clicks close the menu. The default (`true`) closes on any click inside or outside. Use `'inside'` or `'outside'` to restrict to one side, or `false` to require a programmatic `visible` change.
+The `autoClose` prop controls which clicks close the menu. The default (`true`) closes on any click inside or outside. Use `'inside'` or `'outside'` to restrict to one side, or `false` to leave closing to the toggle, the Escape key and `visible`.
 
 <Example>
   <AutoCloseExample client:load />
 </Example>
+
+## Controlling the menu
+
+Pass `visible` with `onVisibleChange` to hold the open state yourself. The menu then opens and closes only when `visible` changes: the toggle, the clicks `autoClose` counts and the Escape key are reported to `onVisibleChange` with the state they ask for. A state setter fits as it is.
+
+<Example>
+  <ControlledExample client:load />
+</Example>
+
+`defaultVisible` opens the menu on first render and leaves it uncontrolled. `onShow`, `onShown`, `onHide` and `onHidden` report what the menu did; they don't carry the state.
 
 ## Submenus
 

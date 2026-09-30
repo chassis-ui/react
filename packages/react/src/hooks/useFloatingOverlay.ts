@@ -4,10 +4,9 @@ import { TransitionPhase } from './useTransitionState'
 
 export interface UseFloatingOverlayOptions {
   /**
-   * Imperatively closes the overlay — called when `visible` syncs to `false` and when the
-   * containing `<dialog>` fires its native `close` event. Pass a stable callback (e.g. the
-   * trigger state's own `close`) where possible; an inline arrow is fine too, since only its
-   * latest value is ever invoked.
+   * Imperatively closes the overlay — called when the containing `<dialog>` fires its native
+   * `close` event. Pass a stable callback (e.g. the trigger state's own `close`) where possible;
+   * an inline arrow is fine too, since only its latest value is ever invoked.
    */
   close: () => void
   /**
@@ -15,10 +14,6 @@ export interface UseFloatingOverlayOptions {
    * resolution.
    */
   isOpen: boolean
-  /**
-   * Imperatively opens the overlay — called when `visible` syncs to `true`.
-   */
-  open: () => void
   onHide?: () => void
   onShow?: () => void
   /**
@@ -26,41 +21,27 @@ export interface UseFloatingOverlayOptions {
    * lives inside.
    */
   triggerRef: RefObject<HTMLElement | null>
-  /**
-   * Controlled visibility prop from the consuming component; `undefined` means uncontrolled.
-   */
-  visible?: boolean
 }
 
 /**
  * Shared portal-container/visibility wiring for `Popover` and `Tooltip`: resolves the `<dialog>`
- * a trigger lives inside (if any), syncs an uncontrolled-by-default `visible` prop to the
- * trigger state, fires `onShow`/`onHide`, and resets on the containing dialog's native `close`
- * event. Positioning-specific concerns (placement, arrow, escape/outside-click dismissal) stay
- * in each component — only this ~80% overlap is shared.
+ * a trigger lives inside (if any), fires `onShow`/`onHide`, and resets on the containing dialog's
+ * native `close` event. The open state itself is the trigger state's, which each component builds
+ * from `visible`/`defaultVisible`/`onVisibleChange` (`toOpenStateProps`). Positioning-specific
+ * concerns (placement, arrow, escape/outside-click dismissal) stay in each component.
  */
 export function useFloatingOverlay({
   close,
   isOpen,
-  open,
   onHide,
   onShow,
-  triggerRef,
-  visible
+  triggerRef
 }: UseFloatingOverlayOptions) {
   const [portalContainer, setPortalContainer] = useState<Element | null>(null)
 
   // Overlays inside an open `<dialog>` are appended to that dialog instead of `document.body`,
   // so they render in its top layer and close with it automatically.
   const resolvePortalContainer = () => triggerRef.current?.closest('dialog[open]') ?? document.body
-
-  // Sync-on-change, not strictly controlled — matches `Menu`'s `visible` semantics.
-  useEffect(() => {
-    if (visible === undefined) return
-    setPortalContainer(resolvePortalContainer())
-    if (visible) open()
-    else close()
-  }, [visible])
 
   // `onShow`/`onHide` report *transitions*, so neither fires for the initial commit — mounting
   // closed is not a hide. Without this guard the `else` branch ran on mount and every

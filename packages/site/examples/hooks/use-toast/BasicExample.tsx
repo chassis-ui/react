@@ -16,7 +16,7 @@ const Body = () => {
 export const Example = () => {
   const [visible, setVisible] = useState(true)
   return (
-    <Toast visible={visible} onClose={() => setVisible(false)} autohide={false}>
+    <Toast visible={visible} onVisibleChange={setVisible} autohide={false}>
       <ToastHeader closeButton>Chassis</ToastHeader>
       <Body />
     </Toast>

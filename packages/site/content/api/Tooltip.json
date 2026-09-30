@@ -5,6 +5,25 @@
   "displayName": "Tooltip",
   "methods": [],
   "props": {
+    "children": {
+      "defaultValue": null,
+      "description": "The trigger: a single element, which shows the tooltip on hover and focus.",
+      "name": "children",
+      "parent": {
+        "fileName": "packages/react/src/components/tooltip/Tooltip.tsx",
+        "name": "TooltipProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tooltip/Tooltip.tsx",
+          "name": "TooltipProps"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "ReactElement<unknown, string | JSXElementConstructor<any>>"
+      }
+    },
     "content": {
       "defaultValue": null,
       "description": "Content node for your component.",
@@ -22,6 +41,25 @@
       "required": true,
       "type": {
         "name": "ReactNode"
+      }
+    },
+    "defaultVisible": {
+      "defaultValue": null,
+      "description": "Whether the tooltip is shown when it first renders. Use it instead of `visible` when nothing\noutside needs to control the tooltip.",
+      "name": "defaultVisible",
+      "parent": {
+        "fileName": "packages/react/src/components/tooltip/Tooltip.tsx",
+        "name": "TooltipProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tooltip/Tooltip.tsx",
+          "name": "TooltipProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
       }
     },
     "offset": {
@@ -47,7 +85,7 @@
     },
     "onHide": {
       "defaultValue": null,
-      "description": "Callback fired when the component requests to be hidden.",
+      "description": "Callback fired when the tooltip hides.",
       "name": "onHide",
       "parent": {
         "fileName": "packages/react/src/components/tooltip/Tooltip.tsx",
@@ -66,7 +104,7 @@
     },
     "onShow": {
       "defaultValue": null,
-      "description": "Callback fired when the component requests to be shown.",
+      "description": "Callback fired when the tooltip shows.",
       "name": "onShow",
       "parent": {
         "fileName": "packages/react/src/components/tooltip/Tooltip.tsx",
@@ -81,6 +119,25 @@
       "required": false,
       "type": {
         "name": "(() => void)"
+      }
+    },
+    "onVisibleChange": {
+      "defaultValue": null,
+      "description": "Callback fired when the tooltip asks to show or hide: hover, focus, blur, the Escape key, or\nthe closing of the dialog it is in. Receives the state it asks for. With `visible` set, the\ntooltip changes only when `visible` does.",
+      "name": "onVisibleChange",
+      "parent": {
+        "fileName": "packages/react/src/components/tooltip/Tooltip.tsx",
+        "name": "TooltipProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tooltip/Tooltip.tsx",
+          "name": "TooltipProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((visible: boolean) => void)"
       }
     },
     "placement": {
@@ -173,7 +230,7 @@
     },
     "visible": {
       "defaultValue": null,
-      "description": "Toggle the visibility of the tooltip component.",
+      "description": "Whether the tooltip is shown. Setting it makes the tooltip controlled: it shows and hides\nonly when this changes, so pair it with `onVisibleChange`. Leave it unset, or use\n`defaultVisible`, for a tooltip that shows and hides itself.",
       "name": "visible",
       "parent": {
         "fileName": "packages/react/src/components/tooltip/Tooltip.tsx",

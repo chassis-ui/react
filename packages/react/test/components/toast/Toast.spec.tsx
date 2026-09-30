@@ -53,7 +53,7 @@ describe('Toast', () => {
           autohide={false}
           color="warning"
           delay={100}
-          visible={true}
+          defaultVisible
           onClose={onClose}
         >
           <ToastHeader
@@ -104,7 +104,7 @@ describe('Toast', () => {
         )
       }
       render(
-        <Toast autohide={false} delay={100} visible={true} onClose={onClose}>
+        <Toast autohide={false} delay={100} defaultVisible onClose={onClose}>
           <ToastBody>Hello, world! This is a toast message.</ToastBody>
           <Footer />
         </Toast>
@@ -127,7 +127,7 @@ describe('Toast', () => {
         <Toast
           autohide={false}
           delay={100}
-          visible={true}
+          defaultVisible
           onClose={onClose}
           footer={(close) => (
             <button type="button" onClick={close}>
@@ -153,7 +153,7 @@ describe('Toast', () => {
   describe('autohide behavior', () => {
     test('hides itself automatically after the delay', async () => {
       const { container } = render(
-        <Toast autohide={true} delay={1000} visible={true}>
+        <Toast autohide={true} delay={1000} defaultVisible>
           Test
         </Toast>
       )
@@ -174,7 +174,7 @@ describe('Toast', () => {
 
     test('pauses autohide while focused', async () => {
       const { container } = render(
-        <Toast autohide={true} delay={1000} visible={true}>
+        <Toast autohide={true} delay={1000} defaultVisible>
           <button type="button">Action</button>
         </Toast>
       )
@@ -206,7 +206,7 @@ describe('Toast', () => {
 
     test('turning autohide off mid-display cancels the pending hide, instead of hiding on the original schedule', async () => {
       const { rerender, container } = render(
-        <Toast autohide delay={500} visible={true}>
+        <Toast autohide delay={500} defaultVisible>
           Test
         </Toast>
       )
@@ -215,7 +215,7 @@ describe('Toast', () => {
       })
 
       rerender(
-        <Toast autohide={false} delay={500} visible={true}>
+        <Toast autohide={false} delay={500} defaultVisible>
           Test
         </Toast>
       )
@@ -241,11 +241,11 @@ describe('Toast', () => {
         const [showB, setShowB] = React.useState(false)
         return (
           <>
-            <Toast autohide delay={1000} visible onClose={onCloseA}>
+            <Toast autohide delay={1000} defaultVisible onClose={onCloseA}>
               A
             </Toast>
             {showB && (
-              <Toast autohide={false} visible>
+              <Toast autohide={false} defaultVisible>
                 B
               </Toast>
             )}
@@ -272,7 +272,7 @@ describe('Toast', () => {
 
     test('a delay change mid-display reschedules the hide against the new delay', async () => {
       const { rerender, container } = render(
-        <Toast autohide delay={5000} visible={true}>
+        <Toast autohide delay={5000} defaultVisible>
           Test
         </Toast>
       )
@@ -281,7 +281,7 @@ describe('Toast', () => {
       })
 
       rerender(
-        <Toast autohide delay={500} visible={true}>
+        <Toast autohide delay={500} defaultVisible>
           Test
         </Toast>
       )

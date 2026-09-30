@@ -8,9 +8,9 @@ import React, {
 import classNames from 'classnames'
 import { mergeProps, useButton } from 'react-aria'
 
-import { Button } from '../button/Button'
+import { Button, ButtonProps } from '../button/Button'
 import { MenuContext } from './Menu'
-import { ContextColor, ContextStyle, Shapes } from '../../types'
+import { ContextColor, Shapes } from '../../types'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -57,9 +57,10 @@ type MenuToggleOwnProps<C extends ElementType> = {
    */
   size?: 'sm' | 'lg'
   /**
-   * Sets the context style of the component. Only applies to the default `Button` root.
+   * Sets the style variant of the component, as `Button`'s own `variant` does. Only applies to
+   * the default `Button` root.
    */
-  variant?: ContextStyle
+  variant?: ButtonProps['variant']
 }
 
 export type MenuToggleProps<C extends ElementType = typeof Button> = PolymorphicComponentProps<

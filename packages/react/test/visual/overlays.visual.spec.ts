@@ -6,7 +6,7 @@ import { runVisualRegressionSuite } from './visualSuite'
 // its own title-prefix filter, rather than widening this one.
 //
 // Every story that renders open does so via the `visible: true` arg, which `useDialogElement`
-// resolves synchronously on the very first render (`useState(visible)`, no mount-then-effect
+// resolves synchronously on the very first render (its state is the prop, no mount-then-effect
 // flip like Toast/Notification) — so, same as calendar/datepicker's static "Open" stories, there
 // is no post-mount timer to wait out here and `animations: 'disabled'` alone is enough.
 runVisualRegressionSuite('modal/drawer visual regression', ['modal/', 'drawer/'])

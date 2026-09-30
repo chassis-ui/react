@@ -37,6 +37,21 @@ describe('MenuToggle', () => {
       expect(toggle).toHaveClass('secondary', 'bazinga')
     })
 
+    // Issue #38: the prop was typed as `ContextStyle`, which has no `link`.
+    test('takes every `Button` variant, `link` included', () => {
+      render(
+        <Menu>
+          <MenuToggle color="default" variant="link">
+            Account
+          </MenuToggle>
+          <MenuList>
+            <MenuItem>A</MenuItem>
+          </MenuList>
+        </Menu>
+      )
+      expect(screen.getByRole('button', { name: 'Account' })).toHaveClass('button', 'link', 'caret')
+    })
+
     test('gets the show class while its menu is open, for a pressed look', () => {
       render(
         <Menu>

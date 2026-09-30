@@ -291,6 +291,11 @@ pnpm test:visual:update   # same, plus --update-snapshots to regenerate baseline
 - Never compare a child's `type` to a component or read the `props` of an unresolved child: use
   `isElementOfType` and `resolveLazy` (`src/utils/lazyElement.ts`). Children written in a Server
   Component have lazy types and can be lazy nodes. See `CONVENTIONS.md` and `RSC.md`.
+- A component that shows and hides takes `visible` (controlled), `defaultVisible` and
+  `onVisibleChange`, never a copy of `visible` synced into state. `useOpenStateProps` maps the
+  three onto a react-stately trigger state; `useControllableState` holds them otherwise. See
+  `CONVENTIONS.md`; `test/utils/visibleState.spec.tsx` runs every such component through the
+  same cases.
 - A component that animates showing and hiding takes its phase from `useTransitionState`
   (`src/hooks/useTransitionState.ts`) and maps it to chassis-css's classes itself. No duration
   lives in JavaScript: a phase ends with the element's own CSS transition, so a themed duration

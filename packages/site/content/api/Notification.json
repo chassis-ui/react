@@ -142,6 +142,27 @@
         ]
       }
     },
+    "defaultVisible": {
+      "defaultValue": {
+        "value": true
+      },
+      "description": "Whether the notification is shown when it first renders. Such a notification is\nuncontrolled: its close button and the `autohide` timer hide it. Use `visible` to show and\nhide it from outside.",
+      "name": "defaultVisible",
+      "parent": {
+        "fileName": "packages/react/src/components/notification/Notification.tsx",
+        "name": "NotificationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/notification/Notification.tsx",
+          "name": "NotificationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
     "delay": {
       "defaultValue": {
         "value": 5000
@@ -281,7 +302,7 @@
     },
     "onClose": {
       "defaultValue": null,
-      "description": "Callback fired when the component requests to be closed.",
+      "description": "Callback fired once the notification has hidden: after its exit transition.",
       "name": "onClose",
       "parent": {
         "fileName": "packages/react/src/components/notification/Notification.tsx",
@@ -300,7 +321,7 @@
     },
     "onShow": {
       "defaultValue": null,
-      "description": "Callback fired when the component requests to be shown.",
+      "description": "Callback fired when the notification starts to show.",
       "name": "onShow",
       "parent": {
         "fileName": "packages/react/src/components/notification/Notification.tsx",
@@ -315,6 +336,25 @@
       "required": false,
       "type": {
         "name": "(() => void)"
+      }
+    },
+    "onVisibleChange": {
+      "defaultValue": null,
+      "description": "Callback fired with `false` when the notification asks to hide: its close button, `close`\nfrom `useNotification`, or the `autohide` timer. With `visible` set, the notification hides\nonly when `visible` becomes `false`.",
+      "name": "onVisibleChange",
+      "parent": {
+        "fileName": "packages/react/src/components/notification/Notification.tsx",
+        "name": "NotificationProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/notification/Notification.tsx",
+          "name": "NotificationProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((visible: boolean) => void)"
       }
     },
     "role": {
@@ -348,10 +388,8 @@
       }
     },
     "visible": {
-      "defaultValue": {
-        "value": true
-      },
-      "description": "Toggle the visibility of component.",
+      "defaultValue": null,
+      "description": "Whether the notification is shown. Setting it makes the notification controlled: it hides\nonly when this becomes `false`, so pair it with `onVisibleChange`. Left unset, the\nnotification is shown and hides itself (see `defaultVisible`).",
       "name": "visible",
       "parent": {
         "fileName": "packages/react/src/components/notification/Notification.tsx",

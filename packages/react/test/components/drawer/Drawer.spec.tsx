@@ -327,6 +327,39 @@ describe('Drawer', () => {
       })
       vi.useRealTimers()
     })
+
+    test('an uncontrolled drawer closes itself when another drawer opens', () => {
+      vi.useFakeTimers()
+      function Wrapper() {
+        const [visibleB, setVisibleB] = React.useState(false)
+        return (
+          <>
+            <Drawer aria-label="A" defaultVisible placement="start">
+              A
+            </Drawer>
+            <Drawer aria-label="B" placement="end" visible={visibleB}>
+              B
+            </Drawer>
+            <button type="button" onClick={() => setVisibleB(true)}>
+              open b
+            </button>
+          </>
+        )
+      }
+      render(<Wrapper />)
+      act(() => {
+        vi.runAllTimers()
+      })
+      expect(screen.getByRole('dialog', { name: 'A' })).toBeInTheDocument()
+
+      fireEvent.click(screen.getByRole('button', { name: 'open b', hidden: true }))
+      act(() => {
+        vi.runAllTimers()
+      })
+      expect(screen.queryByRole('dialog', { name: 'A' })).not.toBeInTheDocument()
+      expect(screen.getByRole('dialog', { name: 'B' })).toBeInTheDocument()
+      vi.useRealTimers()
+    })
   })
 
   describe('focus management', () => {

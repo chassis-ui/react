@@ -6,7 +6,7 @@ export const Example = () => {
     <Toast
       animation={false}
       autohide={false}
-      visible={true}
+      defaultVisible
       icon={icon}
       title="Chassis"
       time="7 min ago"

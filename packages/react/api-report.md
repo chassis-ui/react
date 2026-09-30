@@ -11,7 +11,7 @@ renamed export, ...) and review the diff like any other code change. `pnpm react
 -->
 
 ```ts
-import React, { AriaAttributes, ButtonHTMLAttributes, ChangeEventHandler, ComponentPropsWithRef, ComponentPropsWithoutRef, ComponentType, DetailsHTMLAttributes, DialogHTMLAttributes, ElementType, FC, FormHTMLAttributes, Fragment, HTMLAttributes, ImgHTMLAttributes, InputHTMLAttributes, Key, LabelHTMLAttributes, MouseEvent, MouseEventHandler, ReactElement, ReactNode, Ref, RefObject, SVGAttributes, TableHTMLAttributes, TextareaHTMLAttributes } from "react";
+import React, { AriaAttributes, ButtonHTMLAttributes, ChangeEventHandler, ComponentPropsWithRef, ComponentPropsWithoutRef, ComponentType, DetailsHTMLAttributes, DialogHTMLAttributes, ElementType, FormHTMLAttributes, Fragment, HTMLAttributes, ImgHTMLAttributes, InputHTMLAttributes, Key, LabelHTMLAttributes, MouseEvent, MouseEventHandler, ReactElement, ReactNode, Ref, RefObject, SVGAttributes, TableHTMLAttributes, TextareaHTMLAttributes } from "react";
 import { ColumnSize, ColumnStaticSize, DateValue, Key as Key$1, Selection, SortDescriptor, TableBodyProps as TableBodyProps$1, TableHeaderProps as TableHeaderProps$1, ToastQueue } from "react-stately";
 import { DateValue as DateValue$1, I18nProvider, Key as Key$2, RangeValue } from "react-aria";
 import { Key as Key$3, Selection as Selection$1, SortDescriptor as SortDescriptor$1, TableBodyRenderProps } from "react-aria-components";
@@ -637,6 +637,14 @@ interface NotificationProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'
    */
   color?: ContextColor;
   /**
+   * Whether the notification is shown when it first renders. Such a notification is
+   * uncontrolled: its close button and the `autohide` timer hide it. Use `visible` to show and
+   * hide it from outside.
+   *
+   * @default true
+   */
+  defaultVisible?: boolean;
+  /**
    * Delay in ms before an `autohide` notification dismisses itself.
    */
   delay?: number;
@@ -670,13 +678,19 @@ interface NotificationProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'
    */
   titleComponent?: ElementType;
   /**
-   * Callback fired when the component requests to be closed.
+   * Callback fired once the notification has hidden: after its exit transition.
    */
   onClose?: () => void;
   /**
-   * Callback fired when the component requests to be shown.
+   * Callback fired when the notification starts to show.
    */
   onShow?: () => void;
+  /**
+   * Callback fired with `false` when the notification asks to hide: its close button, `close`
+   * from `useNotification`, or the `autohide` timer. With `visible` set, the notification hides
+   * only when `visible` becomes `false`.
+   */
+  onVisibleChange?: (visible: boolean) => void;
   /**
    * ARIA live-region role. Use `status` (the default) for confirmation, progress, and
    * informational messages, which announce politely. Use `alert` for messages that need
@@ -684,7 +698,9 @@ interface NotificationProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'
    */
   role?: 'alert' | 'status';
   /**
-   * Toggle the visibility of component.
+   * Whether the notification is shown. Setting it makes the notification controlled: it hides
+   * only when this becomes `false`, so pair it with `onVisibleChange`. Left unset, the
+   * notification is shown and hides itself (see `defaultVisible`).
    */
   visible?: boolean;
 }
@@ -2655,9 +2671,16 @@ interface DatePickerBaseProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defa
   /**
    * Whether the calendar popover is open by default (uncontrolled).
    *
-   * @default false
+   * @deprecated Use `defaultVisible`.
    */
   defaultOpen?: boolean;
+  /**
+   * Whether the calendar popover is open when the date picker first renders. Use it instead of
+   * `visible` when nothing outside needs to control the popover.
+   *
+   * @default false
+   */
+  defaultVisible?: boolean;
   /**
    * Prevents the date picker from being focused or interacted with.
    */
@@ -2700,6 +2723,8 @@ interface DatePickerBaseProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defa
   labels?: Partial<CalendarLabels>;
   /**
    * Whether the calendar popover is open (controlled).
+   *
+   * @deprecated Use `visible`.
    */
   isOpen?: boolean;
   /**
@@ -2723,8 +2748,16 @@ interface DatePickerBaseProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defa
   name?: string;
   /**
    * Callback fired when the calendar popover's open state changes.
+   *
+   * @deprecated Use `onVisibleChange`.
    */
   onOpenChange?: (isOpen: boolean) => void;
+  /**
+   * Callback fired when the calendar popover asks to open or close: the calendar button, a
+   * completed selection, the Escape key or a click outside. Receives the state it asks for.
+   * With `visible` set, the popover changes only when `visible` does.
+   */
+  onVisibleChange?: (visible: boolean) => void;
   /**
    * Size the component sm or lg.
    */
@@ -2744,6 +2777,11 @@ interface DatePickerBaseProps extends Omit<HTMLAttributes<HTMLDivElement>, 'defa
    * A success message for the field, rendered below the date picker when `valid` is set.
    */
   validFeedback?: ReactNode;
+  /**
+   * Whether the calendar popover is open. Setting it makes the popover controlled: it opens and
+   * closes only when this changes, so pair it with `onVisibleChange`.
+   */
+  visible?: boolean;
   /**
    * Number of months to display side by side in the calendar overlay.
    *
@@ -2817,13 +2855,20 @@ interface DateRangePickerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'def
   /**
    * Whether the calendar popover is open by default (uncontrolled).
    *
-   * @default false
+   * @deprecated Use `defaultVisible`.
    */
   defaultOpen?: boolean;
   /**
    * The initial selected date range (uncontrolled).
    */
   defaultValue?: RangeValue<DateValue> | null;
+  /**
+   * Whether the calendar popover is open when the date range picker first renders. Use it
+   * instead of `visible` when nothing outside needs to control the popover.
+   *
+   * @default false
+   */
+  defaultVisible?: boolean;
   /**
    * Prevents the date range picker from being focused or interacted with.
    */
@@ -2866,6 +2911,8 @@ interface DateRangePickerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'def
   labels?: Partial<CalendarLabels>;
   /**
    * Whether the calendar popover is open (controlled).
+   *
+   * @deprecated Use `visible`.
    */
   isOpen?: boolean;
   /**
@@ -2892,8 +2939,16 @@ interface DateRangePickerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'def
   onChange?: (value: RangeValue<DateValue> | null) => void;
   /**
    * Callback fired when the calendar popover's open state changes.
+   *
+   * @deprecated Use `onVisibleChange`.
    */
   onOpenChange?: (isOpen: boolean) => void;
+  /**
+   * Callback fired when the calendar popover asks to open or close: the calendar button, a
+   * completed selection, the Escape key or a click outside. Receives the state it asks for.
+   * With `visible` set, the popover changes only when `visible` does.
+   */
+  onVisibleChange?: (visible: boolean) => void;
   /**
    * A list of quick-select range presets shown in the overlay next to the calendar. Selecting a
    * preset commits its range immediately, the same as picking a start and end date from the
@@ -2924,6 +2979,11 @@ interface DateRangePickerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'def
    * The selected date range (controlled).
    */
   value?: RangeValue<DateValue> | null;
+  /**
+   * Whether the calendar popover is open. Setting it makes the popover controlled: it opens and
+   * closes only when this changes, so pair it with `onVisibleChange`.
+   */
+  visible?: boolean;
   /**
    * Number of months to display side by side in the calendar overlay.
    *
@@ -3128,8 +3188,8 @@ type MenuAutoClose = 'inside' | 'outside' | boolean;
 type MenuOwnProps<C extends ElementType> = {
   /**
    * Controls which clicks close the menu. `true` closes on any click inside or outside.
-   * `false` requires a programmatic `visible` change. `'inside'` closes only on click inside
-   * the menu. `'outside'` closes only on click outside the menu.
+   * `false` leaves closing to the toggle, the Escape key and `visible`. `'inside'` closes only
+   * on click inside the menu. `'outside'` closes only on click outside the menu.
    */
   autoClose?: MenuAutoClose;
   /**
@@ -3155,11 +3215,16 @@ type MenuOwnProps<C extends ElementType> = {
    */
   container?: Element | boolean;
   /**
+   * Whether the menu is open when it first renders. Use it instead of `visible` when nothing
+   * outside needs to control the menu.
+   */
+  defaultVisible?: boolean;
+  /**
    * Distance between the menu and its reference element, as `[skidding, distance]` in pixels.
    */
   offset?: [number, number];
   /**
-   * Callback fired when the menu requests to be hidden.
+   * Callback fired when the menu starts to hide.
    */
   onHide?: () => void;
   /**
@@ -3167,13 +3232,19 @@ type MenuOwnProps<C extends ElementType> = {
    */
   onHidden?: () => void;
   /**
-   * Callback fired when the menu requests to be shown.
+   * Callback fired when the menu starts to show.
    */
   onShow?: () => void;
   /**
    * Callback fired after the menu finishes showing.
    */
   onShown?: () => void;
+  /**
+   * Callback fired when the menu asks to show or hide: the toggle, a click that `autoClose`
+   * counts, or the Escape or Tab key. Receives the state it asks for. With `visible` set, the
+   * menu changes only when `visible` does.
+   */
+  onVisibleChange?: (visible: boolean) => void;
   /**
    * Initial placement. Chassis will flip it to keep the menu in view.
    *
@@ -3186,7 +3257,9 @@ type MenuOwnProps<C extends ElementType> = {
    */
   reference?: 'parent' | 'toggle';
   /**
-   * Toggle the visibility of the menu component.
+   * Whether the menu is open. Setting it makes the menu controlled: it opens and closes only
+   * when this changes, so pair it with `onVisibleChange`. Leave it unset, or use
+   * `defaultVisible`, for a menu that opens and closes itself.
    */
   visible?: boolean;
 };
@@ -3344,9 +3417,10 @@ type MenuToggleOwnProps<C extends ElementType> = {
    */
   size?: 'lg' | 'sm';
   /**
-   * Sets the context style of the component. Only applies to the default `Button` root.
+   * Sets the style variant of the component, as `Button`'s own `variant` does. Only applies to
+   * the default `Button` root.
    */
-  variant?: ContextStyle;
+  variant?: ButtonProps['variant'];
 };
 type MenuToggleProps<C extends ElementType = typeof Button> = PolymorphicComponentProps<C, MenuToggleOwnProps<C>>;
 type MenuToggleComponent = (<C extends ElementType = typeof Button>(props: MenuToggleProps<C> & {
@@ -4686,6 +4760,11 @@ interface ModalProps extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'onCa
    */
   className?: string;
   /**
+   * Whether the modal is open when it first renders. Such a modal is uncontrolled: it closes
+   * itself on a close request. Use `visible` to open and close it from outside.
+   */
+  defaultVisible?: boolean;
+  /**
    * Set modal to cover the entire user viewport. A breakpoint value goes fullscreen only
    * below that breakpoint.
    */
@@ -4724,6 +4803,11 @@ interface ModalProps extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'onCa
    */
   onShown?: () => void;
   /**
+   * Callback fired with `false` when the modal requests to be closed, at the same moments as
+   * `onClose`. It makes `visible` and `onVisibleChange` a pair that takes a state setter.
+   */
+  onVisibleChange?: (visible: boolean) => void;
+  /**
    * Create a scrollable modal — the header and footer stay fixed while the body scrolls.
    */
   scrollable?: boolean;
@@ -4732,7 +4816,8 @@ interface ModalProps extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'onCa
    */
   size?: 'lg' | 'sm' | 'xl';
   /**
-   * Toggle the visibility of modal component.
+   * Whether the modal is open. The modal is then controlled: a close request only fires
+   * `onClose` and `onVisibleChange`, and the modal closes when this becomes `false`.
    */
   visible?: boolean;
 }
@@ -5197,24 +5282,38 @@ interface UsePaginationResult<T extends HTMLElement = HTMLButtonElement> {
 export declare function usePagination<T extends HTMLElement = HTMLButtonElement>({ prevDisabled, nextDisabled, onPrev, onNext }: UsePaginationOptions): UsePaginationResult<T>;
 //#endregion
 //#region src/components/popover/Popover.d.ts
-interface PopoverProps extends Pick<HTMLAttributes<HTMLDivElement>, 'aria-label' | 'aria-labelledby'> {
+interface PopoverProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children' | 'content' | 'title'> {
+  /**
+   * The trigger: a single element, which opens the popover on click.
+   */
   children: ReactElement;
   /**
    * Content node for your component.
    */
   content: ReactNode | string;
   /**
+   * Whether the popover is open when it first renders. Use it instead of `visible` when nothing
+   * outside needs to control the popover.
+   */
+  defaultVisible?: boolean;
+  /**
    * Offset of the popover relative to its target, as `[crossAxis, mainAxis]`.
    */
   offset?: [number, number];
   /**
-   * Callback fired when the component requests to be hidden.
+   * Callback fired when the popover hides.
    */
   onHide?: () => void;
   /**
-   * Callback fired when the component requests to be shown.
+   * Callback fired when the popover shows.
    */
   onShow?: () => void;
+  /**
+   * Callback fired when the popover asks to show or hide: a click on the trigger, a click
+   * outside, the Escape key, or the closing of the dialog it is in. Receives the state it asks
+   * for. With `visible` set, the popover changes only when `visible` does.
+   */
+  onVisibleChange?: (visible: boolean) => void;
   /**
    * Title node for your component.
    */
@@ -5225,11 +5324,13 @@ interface PopoverProps extends Pick<HTMLAttributes<HTMLDivElement>, 'aria-label'
    */
   placement?: Placement;
   /**
-   * Toggle the visibility of popover component.
+   * Whether the popover is open. Setting it makes the popover controlled: it shows and hides
+   * only when this changes, so pair it with `onVisibleChange`. Leave it unset, or use
+   * `defaultVisible`, for a popover that opens and closes itself.
    */
   visible?: boolean;
 }
-export declare const Popover: FC<PopoverProps>;
+export declare const Popover: React.ForwardRefExoticComponent<PopoverProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
 //#region src/components/progress/Progress.d.ts
 type ProgressOwnProps<C extends ElementType> = {
@@ -5334,6 +5435,11 @@ interface DrawerProps extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'onC
    */
   className?: string;
   /**
+   * Whether the drawer is open when it first renders. Such a drawer is uncontrolled: it closes
+   * itself on a close request. Use `visible` to open and close it from outside.
+   */
+  defaultVisible?: boolean;
+  /**
    * Size the height to the drawer's content instead of `--drawer-height`. Meaningful for
    * `placement="bottom"`.
    */
@@ -5372,6 +5478,11 @@ interface DrawerProps extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'onC
    */
   onShown?: () => void;
   /**
+   * Callback fired with `false` when the drawer requests to be closed, at the same moments as
+   * `onClose`. It makes `visible` and `onVisibleChange` a pair that takes a state setter.
+   */
+  onVisibleChange?: (visible: boolean) => void;
+  /**
    * Which viewport edge the panel slides in from. Always required — there is no default
    * off-screen transform without one.
    */
@@ -5394,7 +5505,8 @@ interface DrawerProps extends Omit<DialogHTMLAttributes<HTMLDialogElement>, 'onC
    */
   translucent?: boolean;
   /**
-   * Toggle the visibility of the drawer component.
+   * Whether the drawer is open. The drawer is then controlled: a close request only fires
+   * `onClose` and `onVisibleChange`, and the drawer closes when this becomes `false`.
    */
   visible?: boolean;
 }
@@ -6153,6 +6265,11 @@ interface ToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
    */
   color?: ContextColor;
   /**
+   * Whether the toast is shown when it first renders. Such a toast is uncontrolled: its close
+   * button and the `autohide` timer hide it. Use `visible` to show and hide it from outside.
+   */
+  defaultVisible?: boolean;
+  /**
    * Delay hiding the toast (ms).
    */
   delay?: number;
@@ -6186,13 +6303,19 @@ interface ToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
    */
   title?: ReactNode;
   /**
-   * Callback fired when the component requests to be closed.
+   * Callback fired once the toast has hidden: after its exit transition.
    */
   onClose?: () => void;
   /**
-   * Callback fired when the component requests to be shown.
+   * Callback fired when the toast starts to show.
    */
   onShow?: () => void;
+  /**
+   * Callback fired with `false` when the toast asks to hide: its close button, `close` from
+   * `useToast` or `footer`, or the `autohide` timer. With `visible` set, the toast hides only
+   * when `visible` becomes `false`.
+   */
+  onVisibleChange?: (visible: boolean) => void;
   /**
    * ARIA live-region role. Use `status` (the default) for confirmation, progress, and
    * informational messages, which announce politely. Use `alert` for messages that need
@@ -6208,7 +6331,9 @@ interface ToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
    */
   translucent?: boolean;
   /**
-   * Toggle the visibility of component.
+   * Whether the toast is shown. Setting it makes the toast controlled: it hides only when this
+   * becomes `false`, so pair it with `onVisibleChange`. Without either `visible` or
+   * `defaultVisible` a toast renders nothing.
    */
   visible?: boolean;
 }
@@ -6343,39 +6468,16 @@ interface ToasterProps extends HTMLAttributes<HTMLDivElement> {
 export declare const Toaster: React.ForwardRefExoticComponent<ToasterProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
 //#region src/components/toast/toastQueue.d.ts
-interface ToastContent {
+interface ToastContent extends Pick<ToastProps, 'animation' | 'autohide' | 'closeButton' | 'closeLabel' | 'color' | 'delay' | 'footer' | 'icon' | 'message' | 'role' | 'solid' | 'time' | 'title' | 'translucent'> {
   /**
-   * Apply a CSS fade transition to the toast.
+   * Content of the toast. Compose manually (typically a `ToastHeader`/`ToastBody`/
+   * `ToastFooter`), or leave empty and use the `title`/`message`/`footer` shorthand options
+   * instead.
    */
-  animation?: boolean;
-  /**
-   * Auto hide the toast. The timer starts once the show transition completes and pauses
-   * while the pointer is over the toast or focus is within it.
-   */
-  autohide?: boolean;
-  /**
-   * Content of the toast — typically a `Toast.Header`/`Toast.Body`/`Toast.Footer`.
-   */
-  children: ReactNode;
-  /**
-   * Sets the color of the component to one of Chassis context colors.
-   */
-  color?: ContextColor;
-  /**
-   * Delay hiding the toast (ms).
-   */
-  delay?: number;
-  /**
-   * Apply a full-color background with inverted text. Only meaningful alongside `color`.
-   */
-  solid?: boolean;
-  /**
-   * Apply a semi-transparent background.
-   */
-  translucent?: boolean;
+  children?: ReactNode;
 }
 export declare const toastQueue: ToastQueue<ToastContent>;
-export declare function addToast(children: ReactNode, options?: Omit<ToastContent, 'children'>): string;
+export declare function addToast(children?: ReactNode, options?: Omit<ToastContent, 'children'>): string;
 export declare function closeToast(key: string): void;
 //#endregion
 //#region src/components/toast/context.d.ts
@@ -6395,24 +6497,38 @@ type UseToastResult = ToastContextProps;
 export declare const useToast: () => UseToastResult;
 //#endregion
 //#region src/components/tooltip/Tooltip.d.ts
-interface TooltipProps {
+interface TooltipProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children' | 'content'> {
+  /**
+   * The trigger: a single element, which shows the tooltip on hover and focus.
+   */
   children: ReactElement;
   /**
    * Content node for your component.
    */
   content: ReactNode | string;
   /**
+   * Whether the tooltip is shown when it first renders. Use it instead of `visible` when nothing
+   * outside needs to control the tooltip.
+   */
+  defaultVisible?: boolean;
+  /**
    * Offset of the tooltip relative to its target, as `[crossAxis, mainAxis]`.
    */
   offset?: [number, number];
   /**
-   * Callback fired when the component requests to be hidden.
+   * Callback fired when the tooltip hides.
    */
   onHide?: () => void;
   /**
-   * Callback fired when the component requests to be shown.
+   * Callback fired when the tooltip shows.
    */
   onShow?: () => void;
+  /**
+   * Callback fired when the tooltip asks to show or hide: hover, focus, blur, the Escape key, or
+   * the closing of the dialog it is in. Receives the state it asks for. With `visible` set, the
+   * tooltip changes only when `visible` does.
+   */
+  onVisibleChange?: (visible: boolean) => void;
   /**
    * Describes the preferred placement of your component. Chassis will flip it to keep it in
    * view.
@@ -6424,11 +6540,13 @@ interface TooltipProps {
    */
   trigger?: 'focus' | 'hover';
   /**
-   * Toggle the visibility of the tooltip component.
+   * Whether the tooltip is shown. Setting it makes the tooltip controlled: it shows and hides
+   * only when this changes, so pair it with `onVisibleChange`. Leave it unset, or use
+   * `defaultVisible`, for a tooltip that shows and hides itself.
    */
   visible?: boolean;
 }
-export declare const Tooltip: FC<TooltipProps>;
+export declare const Tooltip: React.ForwardRefExoticComponent<TooltipProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
 //#region src/components/chip/Chip.d.ts
 type ChipOwnProps<C extends ElementType> = {

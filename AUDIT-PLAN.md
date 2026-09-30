@@ -310,12 +310,18 @@ No hydration error, but the first paint is wrong or incomplete:
   Collapse), `isOpen` (DatePicker family), `open` (Accordion).
 - `useControllableState` exists but has three users (`OtpInput`, `ChipInput`, `Carousel`).
 
+Corrected in B6: `visible` was already controlled on `Modal`, `Drawer` and `Collapse`, and the
+`DatePicker` family had the full controlled triplet under other names. See B6.
+
 ### F7 — Ref forwarding and duplicated helpers (by reading)
 
 - Public components with no ref: `Autocomplete`, `PasswordStrength`, `FormField`, `Popover`,
   `Tooltip`, `SkeletonLoader`.
 - `getElementRef` (`slot.tsx`) and `getTriggerRef` (`triggerElement.ts`) are the same React 18/19
   ref lookup written twice. `Tooltip`/`Popover` clone their trigger by hand instead of using `Slot`.
+
+`Popover` and `Tooltip` forward a ref to their panel since B6. A7 removed the React 18 branch from
+both lookups.
 
 ### F8 — `react-transition-group` (from the smoke test's own notes)
 
@@ -811,18 +817,59 @@ Changeset: minor (rendered elements change). Exit: no component renders `href` o
 
 ### B6 — Overlay and state API (F6, #38, #39)
 
+Done. The rule is in `CONVENTIONS.md` ("Open state"), and `test/utils/visibleState.spec.tsx` runs
+the same cases against every component that follows it. Reading the code before changing it
+corrected F6:
+
+- **Three models, not one.** `Modal` and `Drawer` were already controlled by `visible`: a close
+  request only fired `onClose`. `Collapse` too. `Popover`, `Tooltip` and `Menu` copied `visible`
+  into a react-stately trigger state in an effect; `Toast` and `Notification` copied it into their
+  own state. Only those five changed behaviour.
+- **The consumer pattern that breaks.** The app that reported #38 and #39 controls `Popover` and
+  `Menu` with `visible={open}` plus `onShow`/`onHide` setting `open` (four call sites), and the
+  docs recommended it. Under a controlled `visible` the component never shows, so `onShow` never fires.
+  The pattern is now `onVisibleChange={setOpen}`. The smoke app's `Toast` route and the docs'
+  `useToast` example broke the same way and were moved.
+- **`DatePicker` and `DateRangePicker` already had the triplet**, under react-aria's names. They
+  take the `visible` names now; `isOpen`, `defaultOpen` and `onOpenChange` are deprecated.
+
+Decided by the maintainer on 2026-09-30: `visible` is strictly controlled in this release, not
+after a deprecation cycle, and `Collapse` keeps `visible` only, since it cannot change its own
+state. A request that is dropped because `visible` is set with no `onVisibleChange` warns once in
+development; `Modal` and `Drawer` don't warn, because `visible` with `onClose` is complete there.
+
+Differs from the box below in one place: `Popover`, `Tooltip`, `Menu` and the date pickers don't
+go through `useControllableState`. Their react-stately states are controlled by `isOpen` already,
+so `useOpenStateProps` maps the three props onto them. Its `onOpenChange` keeps one identity: a new
+one per render rebuilt the state's `close`, which re-subscribed `Popover`'s outside-click listener
+on every render and lost clicks.
+
+A second read of the diff, by a reviewer that had not written it, found what a controlled state
+changes around it, and each is fixed and tested: a `Tooltip` held open by `visible` swallowed
+every Escape on the page (react-aria stops it at the document while a tooltip is open); a `Menu`
+whose close request was declined still moved focus to its toggle; and a tooltip shown by
+`visible` or `defaultVisible` was not counted by react-stately's one-tooltip-at-a-time registry.
+One change stays and is in the changeset: `Tooltip` no longer fires `onShow` for a tooltip shown
+at mount, as `Popover` and `Menu` never did.
+
+No visual baseline moved. `Accordion` keeps `open`, the native `<details>` attribute.
+
 Model: **Fable**. Public API design with a deprecation path; a wrong choice costs a breaking
 release later.
 
-- [ ] **(You)** Confirm the convention. Recommendation: keep `visible`, add `defaultVisible` and
+- [x] **(You)** Confirm the convention. Recommendation: keep `visible`, add `defaultVisible` and
       `onVisibleChange`, make `visible` strictly controlled. Record it in `CONVENTIONS.md`.
-- [ ] Apply to `Popover`, `Tooltip`, `Menu`, `Modal`, `Drawer`, `Collapse`, `Toast`,
-      `Notification` through `useControllableState`. Keep `onShow`/`onHide`.
-- [ ] `DatePicker`/`DateRangePicker`: accept `visible` alongside `isOpen`; deprecate `isOpen` per
+- [x] Apply to `Popover`, `Tooltip`, `Menu`, `Modal`, `Drawer`, `Collapse`, `Toast`,
+      `Notification` through `useControllableState`. Keep `onShow`/`onHide`. `Collapse` left as it
+      is, by decision.
+- [x] `DatePicker`/`DateRangePicker`: accept `visible` alongside `isOpen`; deprecate `isOpen` per
       `VERSIONING.md` (TSDoc `@deprecated` plus `devWarning`).
-- [ ] `Popover`, `Tooltip`: accept `className`, `style`, `id` and `data-*` for the panel, and
+- [x] `Popover`, `Tooltip`: accept `className`, `style`, `id` and `data-*` for the panel, and
       forward a ref to it.
-- [ ] Fix #38 and #39 here, since both are type-surface fixes in the same families.
+- [x] Fix #38 and #39 here, since both are type-surface fixes in the same families.
+- [ ] **(You)** Move the consuming app to the new props when it takes this release:
+      `onVisibleChange` in place of `onShow`/`onHide` at the four call sites, and drop the local
+      `ToastContent` widening from #39.
 
 Changeset: minor. Exit: `api-report.md` diff reviewed; type tests added to `types.test-d.tsx`.
 

@@ -6,10 +6,11 @@ toc: true
 
 import { Example as BasicExample } from '../../examples/components/popover/BasicExample.tsx'
 import { Example as DirectionsExample } from '../../examples/components/popover/DirectionsExample.tsx'
+import { Example as ControlledExample } from '../../examples/components/popover/ControlledExample.tsx'
 
 ## Examples
 
-`<Popover>` wraps a trigger element as `children` and shows `content` (and an optional `title`) anchored to it on click — pass `visible` alongside `onShow`/`onHide` to control it externally instead.
+`<Popover>` wraps a trigger element as `children` and shows `content` (and an optional `title`) anchored to it on click. It opens and closes itself; see [Controlling the popover](#controlling-the-popover) to drive it from outside.
 
 <Example>
   <BasicExample client:load />
@@ -22,6 +23,20 @@ Four options are available: top, right, bottom, and left aligned. Directions are
 <Example>
   <DirectionsExample client:load />
 </Example>
+
+## Controlling the popover
+
+Pass `visible` with `onVisibleChange` to hold the open state yourself. The popover then shows and hides only when `visible` changes: a click on the trigger, a click outside and the Escape key are reported to `onVisibleChange` with the state they ask for, and nothing happens until you set it. A state setter fits as it is.
+
+<Example>
+  <ControlledExample client:load />
+</Example>
+
+`defaultVisible` opens the popover on first render and leaves it uncontrolled. `onShow` and `onHide` report that the popover has shown or hidden; they don't carry the state, so use `onVisibleChange` to control it.
+
+## The panel
+
+Every other attribute goes to the panel, the `.popover` element: `className`, `style`, `id`, `data-*` attributes and event handlers. A `ref` on `<Popover>` points to the panel too, and is `null` while the popover is closed. The trigger keeps its own props and ref.
 
 ## API
 

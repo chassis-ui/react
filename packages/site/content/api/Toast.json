@@ -159,6 +159,27 @@
         ]
       }
     },
+    "defaultVisible": {
+      "defaultValue": {
+        "value": false
+      },
+      "description": "Whether the toast is shown when it first renders. Such a toast is uncontrolled: its close\nbutton and the `autohide` timer hide it. Use `visible` to show and hide it from outside.",
+      "name": "defaultVisible",
+      "parent": {
+        "fileName": "packages/react/src/components/toast/Toast.tsx",
+        "name": "ToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/toast/Toast.tsx",
+          "name": "ToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
     "delay": {
       "defaultValue": {
         "value": 5000
@@ -277,7 +298,7 @@
     },
     "onClose": {
       "defaultValue": null,
-      "description": "Callback fired when the component requests to be closed.",
+      "description": "Callback fired once the toast has hidden: after its exit transition.",
       "name": "onClose",
       "parent": {
         "fileName": "packages/react/src/components/toast/Toast.tsx",
@@ -296,7 +317,7 @@
     },
     "onShow": {
       "defaultValue": null,
-      "description": "Callback fired when the component requests to be shown.",
+      "description": "Callback fired when the toast starts to show.",
       "name": "onShow",
       "parent": {
         "fileName": "packages/react/src/components/toast/Toast.tsx",
@@ -311,6 +332,25 @@
       "required": false,
       "type": {
         "name": "(() => void)"
+      }
+    },
+    "onVisibleChange": {
+      "defaultValue": null,
+      "description": "Callback fired with `false` when the toast asks to hide: its close button, `close` from\n`useToast` or `footer`, or the `autohide` timer. With `visible` set, the toast hides only\nwhen `visible` becomes `false`.",
+      "name": "onVisibleChange",
+      "parent": {
+        "fileName": "packages/react/src/components/toast/Toast.tsx",
+        "name": "ToastProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/toast/Toast.tsx",
+          "name": "ToastProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((visible: boolean) => void)"
       }
     },
     "role": {
@@ -382,10 +422,8 @@
       }
     },
     "visible": {
-      "defaultValue": {
-        "value": false
-      },
-      "description": "Toggle the visibility of component.",
+      "defaultValue": null,
+      "description": "Whether the toast is shown. Setting it makes the toast controlled: it hides only when this\nbecomes `false`, so pair it with `onVisibleChange`. Without either `visible` or\n`defaultVisible` a toast renders nothing.",
       "name": "visible",
       "parent": {
         "fileName": "packages/react/src/components/toast/Toast.tsx",

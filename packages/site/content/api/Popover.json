@@ -5,6 +5,25 @@
   "displayName": "Popover",
   "methods": [],
   "props": {
+    "children": {
+      "defaultValue": null,
+      "description": "The trigger: a single element, which opens the popover on click.",
+      "name": "children",
+      "parent": {
+        "fileName": "packages/react/src/components/popover/Popover.tsx",
+        "name": "PopoverProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/popover/Popover.tsx",
+          "name": "PopoverProps"
+        }
+      ],
+      "required": true,
+      "type": {
+        "name": "ReactElement<unknown, string | JSXElementConstructor<any>>"
+      }
+    },
     "content": {
       "defaultValue": null,
       "description": "Content node for your component.",
@@ -22,6 +41,25 @@
       "required": true,
       "type": {
         "name": "ReactNode"
+      }
+    },
+    "defaultVisible": {
+      "defaultValue": null,
+      "description": "Whether the popover is open when it first renders. Use it instead of `visible` when nothing\noutside needs to control the popover.",
+      "name": "defaultVisible",
+      "parent": {
+        "fileName": "packages/react/src/components/popover/Popover.tsx",
+        "name": "PopoverProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/popover/Popover.tsx",
+          "name": "PopoverProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
       }
     },
     "offset": {
@@ -47,7 +85,7 @@
     },
     "onHide": {
       "defaultValue": null,
-      "description": "Callback fired when the component requests to be hidden.",
+      "description": "Callback fired when the popover hides.",
       "name": "onHide",
       "parent": {
         "fileName": "packages/react/src/components/popover/Popover.tsx",
@@ -66,7 +104,7 @@
     },
     "onShow": {
       "defaultValue": null,
-      "description": "Callback fired when the component requests to be shown.",
+      "description": "Callback fired when the popover shows.",
       "name": "onShow",
       "parent": {
         "fileName": "packages/react/src/components/popover/Popover.tsx",
@@ -81,6 +119,25 @@
       "required": false,
       "type": {
         "name": "(() => void)"
+      }
+    },
+    "onVisibleChange": {
+      "defaultValue": null,
+      "description": "Callback fired when the popover asks to show or hide: a click on the trigger, a click\noutside, the Escape key, or the closing of the dialog it is in. Receives the state it asks\nfor. With `visible` set, the popover changes only when `visible` does.",
+      "name": "onVisibleChange",
+      "parent": {
+        "fileName": "packages/react/src/components/popover/Popover.tsx",
+        "name": "PopoverProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/popover/Popover.tsx",
+          "name": "PopoverProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((visible: boolean) => void)"
       }
     },
     "title": {
@@ -164,7 +221,7 @@
     },
     "visible": {
       "defaultValue": null,
-      "description": "Toggle the visibility of popover component.",
+      "description": "Whether the popover is open. Setting it makes the popover controlled: it shows and hides\nonly when this changes, so pair it with `onVisibleChange`. Leave it unset, or use\n`defaultVisible`, for a popover that opens and closes itself.",
       "name": "visible",
       "parent": {
         "fileName": "packages/react/src/components/popover/Popover.tsx",

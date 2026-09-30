@@ -147,6 +147,23 @@ describe('Tooltip', () => {
       expect(onShow).not.toHaveBeenCalled()
     })
 
+    // As `Popover` and `Menu`: a tooltip that mounts shown has not changed.
+    test('neither callback fires for a tooltip that mounts shown', () => {
+      vi.useFakeTimers()
+      const onShow = vi.fn()
+      const onHide = vi.fn()
+      render(
+        <Tooltip content="content" defaultVisible onShow={onShow} onHide={onHide}>
+          <Link href="#">Test</Link>
+        </Tooltip>
+      )
+      act(() => vi.runAllTimers())
+      expect(screen.getByRole('tooltip')).toBeInTheDocument()
+      expect(onShow).not.toHaveBeenCalled()
+      expect(onHide).not.toHaveBeenCalled()
+      vi.useRealTimers()
+    })
+
     test('onShow fires once shown and onHide once hidden again', () => {
       vi.useFakeTimers()
       const onShow = vi.fn()
@@ -173,6 +190,174 @@ describe('Tooltip', () => {
       )
       act(() => vi.runAllTimers())
       expect(onHide).toHaveBeenCalledTimes(1)
+      vi.useRealTimers()
+    })
+  })
+
+  describe('beside other overlays', () => {
+    // react-aria stops every Escape at the document while a tooltip is open, and closes the
+    // tooltip with it. A tooltip that `visible` holds open never closes, so it would swallow
+    // Escape for the whole page.
+    test('a tooltip held open by `visible` lets Escape through, and still describes its trigger', () => {
+      vi.useFakeTimers()
+      const onEscape = vi.fn()
+      window.addEventListener('keydown', onEscape)
+      render(
+        <Tooltip content="content" visible>
+          <Link href="#">Test</Link>
+        </Tooltip>
+      )
+      act(() => vi.runAllTimers())
+
+      const tooltip = screen.getByRole('tooltip')
+      expect(screen.getByRole('link', { name: 'Test' })).toHaveAttribute(
+        'aria-describedby',
+        tooltip.getAttribute('id')
+      )
+
+      fireEvent.keyDown(document.body, { key: 'Escape' })
+      fireEvent.keyDown(document.body, { key: 'Escape' })
+      expect(onEscape).toHaveBeenCalledTimes(2)
+      expect(screen.getByRole('tooltip')).toBeInTheDocument()
+
+      window.removeEventListener('keydown', onEscape)
+      vi.useRealTimers()
+    })
+
+    test('a tooltip that can close takes the first Escape for itself', () => {
+      vi.useFakeTimers()
+      const onEscape = vi.fn()
+      window.addEventListener('keydown', onEscape)
+      render(
+        <Tooltip content="content" defaultVisible>
+          <Link href="#">Test</Link>
+        </Tooltip>
+      )
+      act(() => vi.runAllTimers())
+
+      fireEvent.keyDown(document.body, { key: 'Escape' })
+      act(() => vi.runAllTimers())
+      expect(screen.queryByRole('tooltip')).not.toBeInTheDocument()
+      expect(onEscape).not.toHaveBeenCalled()
+
+      fireEvent.keyDown(document.body, { key: 'Escape' })
+      expect(onEscape).toHaveBeenCalledTimes(1)
+
+      window.removeEventListener('keydown', onEscape)
+      vi.useRealTimers()
+    })
+
+    // react-stately shows one tooltip at a time, but only counts one it opened itself.
+    test('a tooltip shown by `defaultVisible` hides when another tooltip opens', () => {
+      vi.useFakeTimers()
+      render(
+        <>
+          <Tooltip content="first" defaultVisible>
+            <Link href="#">A</Link>
+          </Tooltip>
+          <Tooltip content="second">
+            <Link href="#">B</Link>
+          </Tooltip>
+        </>
+      )
+      act(() => vi.runAllTimers())
+      expect(screen.getByRole('tooltip')).toHaveTextContent('first')
+
+      hoverOver(screen.getByRole('link', { name: 'B' }))
+      act(() => vi.runAllTimers())
+      act(() => vi.runAllTimers())
+      expect(screen.getByRole('tooltip')).toHaveTextContent('second')
+      vi.useRealTimers()
+    })
+
+    test('a tooltip shown by `visible` is asked to hide when another tooltip opens', () => {
+      vi.useFakeTimers()
+      const onVisibleChange = vi.fn()
+      render(
+        <>
+          <Tooltip content="first" visible onVisibleChange={onVisibleChange}>
+            <Link href="#">A</Link>
+          </Tooltip>
+          <Tooltip content="second">
+            <Link href="#">B</Link>
+          </Tooltip>
+        </>
+      )
+      act(() => vi.runAllTimers())
+
+      hoverOver(screen.getByRole('link', { name: 'B' }))
+      act(() => vi.runAllTimers())
+      expect(onVisibleChange).toHaveBeenCalledWith(false)
+      // It is the caller's to follow: both show until `visible` changes.
+      expect(screen.getAllByRole('tooltip')).toHaveLength(2)
+      vi.useRealTimers()
+    })
+  })
+
+  describe('panel attributes', () => {
+    test('className, style and data attributes go to the panel, beside its own', () => {
+      vi.useFakeTimers()
+      render(
+        <Tooltip
+          className="bazinga"
+          content="content"
+          data-testid="panel"
+          defaultVisible
+          style={{ maxWidth: 320, top: 999 }}
+        >
+          <Link href="#">Test</Link>
+        </Tooltip>
+      )
+      act(() => vi.runAllTimers())
+
+      const panel = screen.getByRole('tooltip')
+      expect(panel).toBe(screen.getByTestId('panel'))
+      expect(panel).toHaveClass('tooltip', 'cx-tooltip-auto', 'fade', 'show', 'bazinga')
+      expect(panel).toHaveStyle({ maxWidth: '320px' })
+      // The position stays the component's.
+      expect(panel.style.top).not.toBe('999px')
+      vi.useRealTimers()
+    })
+
+    test('a caller `id` names the panel, and the trigger is still described by it', () => {
+      vi.useFakeTimers()
+      render(
+        <Tooltip content="content" defaultVisible id="hint">
+          <Link href="#">Test</Link>
+        </Tooltip>
+      )
+      act(() => vi.runAllTimers())
+
+      expect(screen.getByRole('tooltip')).toHaveAttribute('id', 'hint')
+      expect(screen.getByRole('link', { name: 'Test' })).toHaveAttribute('aria-describedby', 'hint')
+      vi.useRealTimers()
+    })
+
+    test('forwards its ref to the panel, for as long as the panel is mounted', () => {
+      vi.useFakeTimers()
+      const ref = React.createRef<HTMLDivElement>()
+      const { rerender } = render(
+        <Tooltip content="content" ref={ref} visible={false}>
+          <Link href="#">Test</Link>
+        </Tooltip>
+      )
+      expect(ref.current).toBeNull()
+
+      rerender(
+        <Tooltip content="content" ref={ref} visible>
+          <Link href="#">Test</Link>
+        </Tooltip>
+      )
+      act(() => vi.runAllTimers())
+      expect(ref.current).toBe(screen.getByRole('tooltip'))
+
+      rerender(
+        <Tooltip content="content" ref={ref} visible={false}>
+          <Link href="#">Test</Link>
+        </Tooltip>
+      )
+      act(() => vi.runAllTimers())
+      expect(ref.current).toBeNull()
       vi.useRealTimers()
     })
   })

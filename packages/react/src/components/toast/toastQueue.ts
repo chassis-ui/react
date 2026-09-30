@@ -1,38 +1,33 @@
 import { ReactNode } from 'react'
 import { ToastQueue } from 'react-stately'
 
-import { ContextColor } from '../../types'
+import { ToastProps } from './Toast'
 
-export interface ToastContent {
+// What `Toaster` spreads onto the `<Toast>` it renders for a queued toast: every `Toast` prop
+// that describes the toast itself. The queue owns whether it is shown.
+export interface ToastContent extends Pick<
+  ToastProps,
+  | 'animation'
+  | 'autohide'
+  | 'closeButton'
+  | 'closeLabel'
+  | 'color'
+  | 'delay'
+  | 'footer'
+  | 'icon'
+  | 'message'
+  | 'role'
+  | 'solid'
+  | 'time'
+  | 'title'
+  | 'translucent'
+> {
   /**
-   * Apply a CSS fade transition to the toast.
+   * Content of the toast. Compose manually (typically a `ToastHeader`/`ToastBody`/
+   * `ToastFooter`), or leave empty and use the `title`/`message`/`footer` shorthand options
+   * instead.
    */
-  animation?: boolean
-  /**
-   * Auto hide the toast. The timer starts once the show transition completes and pauses
-   * while the pointer is over the toast or focus is within it.
-   */
-  autohide?: boolean
-  /**
-   * Content of the toast — typically a `Toast.Header`/`Toast.Body`/`Toast.Footer`.
-   */
-  children: ReactNode
-  /**
-   * Sets the color of the component to one of Chassis context colors.
-   */
-  color?: ContextColor
-  /**
-   * Delay hiding the toast (ms).
-   */
-  delay?: number
-  /**
-   * Apply a full-color background with inverted text. Only meaningful alongside `color`.
-   */
-  solid?: boolean
-  /**
-   * Apply a semi-transparent background.
-   */
-  translucent?: boolean
+  children?: ReactNode
 }
 
 // The queue backing `Toaster` — a module-level singleton so `addToast()` is callable from
@@ -42,9 +37,10 @@ export interface ToastContent {
 export const toastQueue = new ToastQueue<ToastContent>()
 
 // Adds a toast to the queue. Returns the toast's key, which can be passed to `closeToast` to
-// dismiss it programmatically.
+// dismiss it programmatically. `children` is optional — omit it for a toast composed entirely
+// from the `title`/`message`/`footer` shorthand options.
 export function addToast(
-  children: ReactNode,
+  children?: ReactNode,
   options: Omit<ToastContent, 'children'> = {}
 ): string {
   return toastQueue.add({ children, ...options })

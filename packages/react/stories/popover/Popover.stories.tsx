@@ -33,7 +33,7 @@ export const Closed: Story = {
   }
 }
 
-// `visible` renders the popover open on mount (synced by an effect, see Popover.tsx) — the only
+// `defaultVisible` renders the popover open on mount — the only
 // way to screenshot its content without driving a real click from the test. The popover portals
 // to `document.body` (outside Storybook's `#storybook-root`), so the Playwright spec screenshots
 // the whole iframe page for these stories rather than a specific element.
@@ -42,7 +42,7 @@ export const Open: Story = {
     content: "And here's some amazing content. It's very engaging. Right?",
     title: 'Popover title',
     placement: 'right',
-    visible: true,
+    defaultVisible: true,
     children: <Button color="danger">Trigger</Button>
   }
 }
@@ -54,7 +54,7 @@ export const OpenNoTitle: Story = {
     // at, `aria-label` is the only way to give it one.
     'aria-label': 'Content with no title.',
     placement: 'top',
-    visible: true,
+    defaultVisible: true,
     children: <Button color="secondary">Trigger</Button>
   }
 }
@@ -64,7 +64,7 @@ export const OpenPlacementLeft: Story = {
     content: "And here's some amazing content. It's very engaging. Right?",
     title: 'Popover title',
     placement: 'left',
-    visible: true,
+    defaultVisible: true,
     children: <Button color="danger">Trigger</Button>
   }
 }

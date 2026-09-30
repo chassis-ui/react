@@ -5,7 +5,7 @@ import { runVisualRegressionSuite } from './visualSuite'
 // no-DOM-markup-change risk profile as the existing menu/popover/tooltip family — kept as its own
 // spec file rather than widening that one, per this repo's own convention.
 //
-// Unlike Menu/Popover/DatePicker, neither component has a `visible`/`defaultOpen`-style prop to
+// Unlike Menu/Popover/DatePicker, neither component has a `visible`/`defaultVisible`-style prop to
 // force its listbox open declaratively, so the `OpenMenu` story in each drives a real click in its
 // `play` function instead (see the comment on each). Every other story here never opens its
 // listbox at all. `waitFor` below tolerates both: it looks for an open listbox for up to 2s and

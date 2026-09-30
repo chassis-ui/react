@@ -185,6 +185,51 @@ the generated prop tables) with `href` alone, with a router link, and with a `<d
 `<button>` as `component`. `test/ssr/render.spec.tsx` fails any story whose markup has `href` on
 anything but a link.
 
+## Open state: `visible`, `defaultVisible`, `onVisibleChange`
+
+A component that shows and hides takes its state under these three names, and no others:
+
+- `visible` is controlled. When it is set, the component shows and hides only when it changes.
+  What the component would have done itself (a trigger click, Escape, a click outside, a close
+  button, the `autohide` timer) becomes a request, reported to `onVisibleChange` and nothing more.
+- `defaultVisible` is the initial state of an uncontrolled component, which then shows and hides
+  itself.
+- `onVisibleChange(visible)` receives the state the component asks for, controlled or not. It
+  takes a state setter as it is: `visible={open} onVisibleChange={setOpen}`.
+
+`Popover`, `Tooltip`, `Menu`, `Modal`, `Drawer`, `Toast`, `Notification`, `DatePicker` and
+`DateRangePicker` take all three. A component that cannot change its own state takes `visible`
+only: `Collapse` has no trigger, timer or close button, so a default could never differ from the
+prop and the callback would never fire.
+
+The event callbacks are separate and keep their meaning. `onShow`/`onHide` (and `onShown`/
+`onHidden`) report what happened to the element; `onClose` on `Modal` and `Drawer` is the close
+request, fired beside `onVisibleChange(false)`; `onClose` on `Toast` and `Notification` fires
+after the exit transition. None of them carries the state, so don't build a controlled component
+from `onShow` and `onHide`: under `visible` a request that isn't followed never shows anything.
+
+In the code:
+
+- A component built on a react-stately trigger state (`useOverlayTriggerState`,
+  `useTooltipTriggerState`, `useMenuTriggerState`, the date picker states) passes it
+  `useOpenStateProps(props, displayName)` (`src/hooks/useOpenStateProps.ts`). Those states are
+  controlled by `isOpen` already.
+- Anything else holds the state with `useControllableState`, given the three props:
+  `useDialogElement` for `Modal` and `Drawer`, `useDismissibleTransition` for `Toast` and
+  `Notification`.
+- A request that is dropped because `visible` is set and there is no `onVisibleChange` warns once
+  in development (`warnDroppedVisibleRequest`). `Modal` and `Drawer` don't warn: `visible` with
+  `onClose` is complete for them.
+- Never copy `visible` into state and sync it in an effect. That is what these components did
+  before, and it is why a parent could not hold one closed.
+
+Two exceptions in naming. `Accordion` and `AccordionItem` take `open`, the attribute of the
+native `<details>` they render. `DatePicker` and `DateRangePicker` also still accept react-aria's
+`isOpen`/`defaultOpen`/`onOpenChange`, deprecated.
+
+`test/utils/visibleState.spec.tsx` runs the same cases against every component in the list. A new
+component that shows and hides gets an entry there.
+
 ## Reading children: resolve them first
 
 A component that inspects its children before rendering them never writes

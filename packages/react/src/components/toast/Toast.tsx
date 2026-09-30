@@ -40,6 +40,11 @@ export interface ToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'
    */
   color?: ContextColor
   /**
+   * Whether the toast is shown when it first renders. Such a toast is uncontrolled: its close
+   * button and the `autohide` timer hide it. Use `visible` to show and hide it from outside.
+   */
+  defaultVisible?: boolean
+  /**
    * Delay hiding the toast (ms).
    */
   delay?: number
@@ -73,13 +78,19 @@ export interface ToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'
    */
   title?: ReactNode
   /**
-   * Callback fired when the component requests to be closed.
+   * Callback fired once the toast has hidden: after its exit transition.
    */
   onClose?: () => void
   /**
-   * Callback fired when the component requests to be shown.
+   * Callback fired when the toast starts to show.
    */
   onShow?: () => void
+  /**
+   * Callback fired with `false` when the toast asks to hide: its close button, `close` from
+   * `useToast` or `footer`, or the `autohide` timer. With `visible` set, the toast hides only
+   * when `visible` becomes `false`.
+   */
+  onVisibleChange?: (visible: boolean) => void
   /**
    * ARIA live-region role. Use `status` (the default) for confirmation, progress, and
    * informational messages, which announce politely. Use `alert` for messages that need
@@ -95,7 +106,9 @@ export interface ToastProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'
    */
   translucent?: boolean
   /**
-   * Toggle the visibility of component.
+   * Whether the toast is shown. Setting it makes the toast controlled: it hides only when this
+   * becomes `false`, so pair it with `onVisibleChange`. Without either `visible` or
+   * `defaultVisible` a toast renders nothing.
    */
   visible?: boolean
 }
@@ -110,6 +123,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
       closeButton,
       closeLabel,
       color,
+      defaultVisible = false,
       delay = 5000,
       footer,
       icon,
@@ -119,9 +133,10 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
       time,
       title,
       translucent,
-      visible = false,
+      visible,
       onClose,
       onShow,
+      onVisibleChange,
       ...rest
     },
     ref
@@ -135,11 +150,19 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
       titleId,
       transitionClass,
       visible: _visible
-    } = useDismissibleTransition({ onClose, onShow, ref, visible })
+    } = useDismissibleTransition({
+      defaultVisible,
+      displayName: 'Toast',
+      onClose,
+      onShow,
+      onVisibleChange,
+      ref,
+      visible
+    })
 
     // The autohide timer is only meaningful once the show transition has actually finished (see
-    // `autohide`'s JSDoc) — gating on `_visible` alone would start it the instant `visible` flips
-    // true, while the toast is still fading/sliding in.
+    // `autohide`'s JSDoc) — gating on `_visible` alone would start it the instant the toast is
+    // asked to show, while it is still fading/sliding in.
     const autoDismissProps = useAutoDismiss({
       enabled: autohide,
       delay,

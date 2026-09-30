@@ -295,6 +295,75 @@ describe('Popover', () => {
     })
   })
 
+  describe('panel attributes', () => {
+    test('className, style, data attributes and handlers go to the panel, beside its own', () => {
+      vi.useFakeTimers()
+      const onMouseEnter = vi.fn()
+      render(
+        <Popover
+          className="bazinga"
+          content="content"
+          data-testid="panel"
+          defaultVisible
+          onMouseEnter={onMouseEnter}
+          style={{ maxWidth: 320, top: 999 }}
+          title="title"
+        >
+          <Button>Test</Button>
+        </Popover>
+      )
+      act(() => vi.runAllTimers())
+
+      const panel = screen.getByRole('dialog')
+      expect(panel).toBe(screen.getByTestId('panel'))
+      expect(panel).toHaveClass('popover', 'cx-popover-auto', 'fade', 'show', 'bazinga')
+      expect(panel).toHaveStyle({ maxWidth: '320px' })
+      // The position stays the component's.
+      expect(panel.style.top).not.toBe('999px')
+
+      fireEvent.mouseEnter(panel)
+      expect(onMouseEnter).toHaveBeenCalledTimes(1)
+      vi.useRealTimers()
+    })
+
+    test('a caller `id` names the panel, and the trigger still points at it', () => {
+      vi.useFakeTimers()
+      render(
+        <Popover content="content" defaultVisible id="details" title="title">
+          <Button>Test</Button>
+        </Popover>
+      )
+      act(() => vi.runAllTimers())
+
+      expect(screen.getByRole('dialog')).toHaveAttribute('id', 'details')
+      expect(screen.getByRole('button', { name: 'Test' })).toHaveAttribute(
+        'aria-controls',
+        'details'
+      )
+      vi.useRealTimers()
+    })
+
+    test('forwards its ref to the panel, for as long as the panel is mounted', () => {
+      vi.useFakeTimers()
+      const ref = React.createRef<HTMLDivElement>()
+      render(
+        <Popover content="content" ref={ref} title="title">
+          <Button>Test</Button>
+        </Popover>
+      )
+      expect(ref.current).toBeNull()
+
+      openPopover()
+      act(() => vi.runAllTimers())
+      expect(ref.current).toBe(screen.getByRole('dialog'))
+
+      fireEvent.keyDown(window, { key: 'Escape' })
+      act(() => vi.runAllTimers())
+      expect(ref.current).toBeNull()
+      vi.useRealTimers()
+    })
+  })
+
   describe('accessibility', () => {
     test('has no axe violations when open', async () => {
       vi.useFakeTimers()

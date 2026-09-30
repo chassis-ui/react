@@ -45,6 +45,25 @@
         "name": "string"
       }
     },
+    "defaultVisible": {
+      "defaultValue": null,
+      "description": "Whether the drawer is open when it first renders. Such a drawer is uncontrolled: it closes\nitself on a close request. Use `visible` to open and close it from outside.",
+      "name": "defaultVisible",
+      "parent": {
+        "fileName": "packages/react/src/components/drawer/Drawer.tsx",
+        "name": "DrawerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/drawer/Drawer.tsx",
+          "name": "DrawerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
     "fitContent": {
       "defaultValue": null,
       "description": "Size the height to the drawer's content instead of `--drawer-height`. Meaningful for\n`placement=\"bottom\"`.",
@@ -218,6 +237,25 @@
         "name": "(() => void)"
       }
     },
+    "onVisibleChange": {
+      "defaultValue": null,
+      "description": "Callback fired with `false` when the drawer requests to be closed, at the same moments as\n`onClose`. It makes `visible` and `onVisibleChange` a pair that takes a state setter.",
+      "name": "onVisibleChange",
+      "parent": {
+        "fileName": "packages/react/src/components/drawer/Drawer.tsx",
+        "name": "DrawerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/drawer/Drawer.tsx",
+          "name": "DrawerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((visible: boolean) => void)"
+      }
+    },
     "placement": {
       "defaultValue": null,
       "description": "Which viewport edge the panel slides in from. Always required — there is no default\noff-screen transform without one.",
@@ -350,7 +388,7 @@
     },
     "visible": {
       "defaultValue": null,
-      "description": "Toggle the visibility of the drawer component.",
+      "description": "Whether the drawer is open. The drawer is then controlled: a close request only fires\n`onClose` and `onVisibleChange`, and the drawer closes when this becomes `false`.",
       "name": "visible",
       "parent": {
         "fileName": "packages/react/src/components/drawer/Drawer.tsx",

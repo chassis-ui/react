@@ -30,7 +30,7 @@ export const Closed: Story = {
   }
 }
 
-// `visible` renders the tooltip open on mount (synced by an effect, see Tooltip.tsx) — the only
+// `defaultVisible` renders the tooltip open on mount — the only
 // way to screenshot its content without driving real hover/focus interaction from the test. The
 // tooltip portals to `document.body` (outside Storybook's `#storybook-root`), so the Playwright
 // spec screenshots the whole iframe page for these stories rather than a specific element.
@@ -38,7 +38,7 @@ export const Top: Story = {
   args: {
     content: 'Tooltip on top',
     placement: 'top',
-    visible: true,
+    defaultVisible: true,
     children: <Button color="secondary">Trigger</Button>
   }
 }
@@ -47,7 +47,7 @@ export const Right: Story = {
   args: {
     content: 'Tooltip on right',
     placement: 'right',
-    visible: true,
+    defaultVisible: true,
     children: <Button color="secondary">Trigger</Button>
   }
 }
@@ -56,7 +56,7 @@ export const Bottom: Story = {
   args: {
     content: 'Tooltip on bottom',
     placement: 'bottom',
-    visible: true,
+    defaultVisible: true,
     children: <Button color="secondary">Trigger</Button>
   }
 }
@@ -65,7 +65,7 @@ export const Left: Story = {
   args: {
     content: 'Tooltip on left',
     placement: 'left',
-    visible: true,
+    defaultVisible: true,
     children: <Button color="secondary">Trigger</Button>
   }
 }

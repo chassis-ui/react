@@ -15,6 +15,7 @@ import { useFormField } from './useFormField'
 import { useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect'
 import { useModal } from './useModal'
 import { useNotification } from './useNotification'
+import { useOpenStateProps } from './useOpenStateProps'
 import { useOverlayPlacement } from './useOverlayPlacement'
 import { usePagination } from './usePagination'
 import { useToast } from './useToast'
@@ -37,6 +38,7 @@ export {
   useIsomorphicLayoutEffect,
   useModal,
   useNotification,
+  useOpenStateProps,
   useOverlayPlacement,
   usePagination,
   useToast,

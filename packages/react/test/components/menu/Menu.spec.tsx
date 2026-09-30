@@ -102,6 +102,42 @@ describe('Menu', () => {
       expect(screen.getByRole('menu', { hidden: true })).not.toHaveClass('show')
     })
 
+    // Escape returns focus to the toggle because it closes the menu. Controlled, it only asks.
+    test('Escape on a controlled menu moves focus to the toggle only when the menu closes', () => {
+      function Fixture({ follow }: { follow: boolean }) {
+        const [visible, setVisible] = React.useState(true)
+        return (
+          <>
+            <input aria-label="Search" />
+            <Menu visible={visible} onVisibleChange={follow ? setVisible : () => {}}>
+              <MenuToggle>Toggle</MenuToggle>
+              <MenuList>
+                <MenuItem>A</MenuItem>
+              </MenuList>
+            </Menu>
+          </>
+        )
+      }
+
+      const { unmount } = render(<Fixture follow={false} />)
+      const search = screen.getByRole('textbox', { name: 'Search' })
+      search.focus()
+      fireEvent.keyDown(window, { key: 'Escape' })
+      expect(screen.getByRole('button', { name: 'Toggle' })).toHaveAttribute(
+        'aria-expanded',
+        'true'
+      )
+      expect(search).toHaveFocus()
+      unmount()
+
+      render(<Fixture follow />)
+      screen.getByRole('textbox', { name: 'Search' }).focus()
+      fireEvent.keyDown(window, { key: 'Escape' })
+      const toggle = screen.getByRole('button', { name: 'Toggle' })
+      expect(toggle).toHaveAttribute('aria-expanded', 'false')
+      expect(toggle).toHaveFocus()
+    })
+
     test('clicking the toggle again while open closes the menu', async () => {
       const user = userEvent.setup()
       render(

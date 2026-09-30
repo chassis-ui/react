@@ -100,21 +100,27 @@ describe('DateRangePicker', () => {
       expect(dialog).not.toHaveAttribute('hidden')
     })
 
-    test('defaultOpen renders the calendar already open', () => {
-      render(<DateRangePicker aria-label="Trip dates" defaultOpen />)
+    test('defaultVisible renders the calendar already open', () => {
+      render(<DateRangePicker aria-label="Trip dates" defaultVisible />)
       expect(getCalendarWrapper()).not.toHaveAttribute('hidden')
     })
 
-    test('isOpen controls the calendar and onOpenChange reports toggle attempts without opening it', () => {
-      const onOpenChange = vi.fn()
+    test('visible controls the calendar and onVisibleChange reports toggle attempts without opening it', () => {
+      const onVisibleChange = vi.fn()
       const { rerender } = render(
-        <DateRangePicker aria-label="Trip dates" isOpen={false} onOpenChange={onOpenChange} />
+        <DateRangePicker
+          aria-label="Trip dates"
+          visible={false}
+          onVisibleChange={onVisibleChange}
+        />
       )
       fireEvent.click(screen.getByRole('button', { name: /calendar/i }))
-      expect(onOpenChange).toHaveBeenCalledWith(true)
+      expect(onVisibleChange).toHaveBeenCalledWith(true)
       expect(getCalendarWrapper()).toHaveAttribute('hidden')
 
-      rerender(<DateRangePicker aria-label="Trip dates" isOpen onOpenChange={onOpenChange} />)
+      rerender(
+        <DateRangePicker aria-label="Trip dates" visible onVisibleChange={onVisibleChange} />
+      )
       expect(getCalendarWrapper()).not.toHaveAttribute('hidden')
     })
   })

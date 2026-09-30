@@ -7,7 +7,7 @@
   "props": {
     "autoClose": {
       "defaultValue": null,
-      "description": "Controls which clicks close the menu. `true` closes on any click inside or outside.\n`false` requires a programmatic `visible` change. `'inside'` closes only on click inside\nthe menu. `'outside'` closes only on click outside the menu.",
+      "description": "Controls which clicks close the menu. `true` closes on any click inside or outside.\n`false` leaves closing to the toggle, the Escape key and `visible`. `'inside'` closes only\non click inside the menu. `'outside'` closes only on click outside the menu.",
       "name": "autoClose",
       "declarations": [
         {
@@ -65,6 +65,21 @@
         "name": "boolean | Element"
       }
     },
+    "defaultVisible": {
+      "defaultValue": null,
+      "description": "Whether the menu is open when it first renders. Use it instead of `visible` when nothing\noutside needs to control the menu.",
+      "name": "defaultVisible",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/menu/Menu.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
+      }
+    },
     "offset": {
       "defaultValue": null,
       "description": "Distance between the menu and its reference element, as `[skidding, distance]` in pixels.",
@@ -82,7 +97,7 @@
     },
     "onHide": {
       "defaultValue": null,
-      "description": "Callback fired when the menu requests to be hidden.",
+      "description": "Callback fired when the menu starts to hide.",
       "name": "onHide",
       "declarations": [
         {
@@ -112,7 +127,7 @@
     },
     "onShow": {
       "defaultValue": null,
-      "description": "Callback fired when the menu requests to be shown.",
+      "description": "Callback fired when the menu starts to show.",
       "name": "onShow",
       "declarations": [
         {
@@ -138,6 +153,21 @@
       "required": false,
       "type": {
         "name": "(() => void)"
+      }
+    },
+    "onVisibleChange": {
+      "defaultValue": null,
+      "description": "Callback fired when the menu asks to show or hide: the toggle, a click that `autoClose`\ncounts, or the Escape or Tab key. Receives the state it asks for. With `visible` set, the\nmenu changes only when `visible` does.",
+      "name": "onVisibleChange",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/menu/Menu.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((visible: boolean) => void)"
       }
     },
     "placement": {
@@ -181,7 +211,7 @@
     },
     "visible": {
       "defaultValue": null,
-      "description": "Toggle the visibility of the menu component.",
+      "description": "Whether the menu is open. Setting it makes the menu controlled: it opens and closes only\nwhen this changes, so pair it with `onVisibleChange`. Leave it unset, or use\n`defaultVisible`, for a menu that opens and closes itself.",
       "name": "visible",
       "declarations": [
         {

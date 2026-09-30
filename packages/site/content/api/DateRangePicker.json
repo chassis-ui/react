@@ -63,10 +63,8 @@
       }
     },
     "defaultOpen": {
-      "defaultValue": {
-        "value": "false"
-      },
-      "description": "Whether the calendar popover is open by default (uncontrolled).",
+      "defaultValue": null,
+      "description": "Whether the calendar popover is open by default (uncontrolled).\n@deprecated Use `defaultVisible`.",
       "name": "defaultOpen",
       "parent": {
         "fileName": "packages/react/src/components/datepicker/DateRangePicker.tsx",
@@ -100,6 +98,27 @@
       "required": false,
       "type": {
         "name": "RangeValue<DateValue> | null"
+      }
+    },
+    "defaultVisible": {
+      "defaultValue": {
+        "value": "false"
+      },
+      "description": "Whether the calendar popover is open when the date range picker first renders. Use it\ninstead of `visible` when nothing outside needs to control the popover.",
+      "name": "defaultVisible",
+      "parent": {
+        "fileName": "packages/react/src/components/datepicker/DateRangePicker.tsx",
+        "name": "DateRangePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/datepicker/DateRangePicker.tsx",
+          "name": "DateRangePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
       }
     },
     "disabled": {
@@ -282,7 +301,7 @@
     },
     "isOpen": {
       "defaultValue": null,
-      "description": "Whether the calendar popover is open (controlled).",
+      "description": "Whether the calendar popover is open (controlled).\n@deprecated Use `visible`.",
       "name": "isOpen",
       "parent": {
         "fileName": "packages/react/src/components/datepicker/DateRangePicker.tsx",
@@ -396,7 +415,7 @@
     },
     "onOpenChange": {
       "defaultValue": null,
-      "description": "Callback fired when the calendar popover's open state changes.",
+      "description": "Callback fired when the calendar popover's open state changes.\n@deprecated Use `onVisibleChange`.",
       "name": "onOpenChange",
       "parent": {
         "fileName": "packages/react/src/components/datepicker/DateRangePicker.tsx",
@@ -411,6 +430,25 @@
       "required": false,
       "type": {
         "name": "((isOpen: boolean) => void)"
+      }
+    },
+    "onVisibleChange": {
+      "defaultValue": null,
+      "description": "Callback fired when the calendar popover asks to open or close: the calendar button, a\ncompleted selection, the Escape key or a click outside. Receives the state it asks for.\nWith `visible` set, the popover changes only when `visible` does.",
+      "name": "onVisibleChange",
+      "parent": {
+        "fileName": "packages/react/src/components/datepicker/DateRangePicker.tsx",
+        "name": "DateRangePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/datepicker/DateRangePicker.tsx",
+          "name": "DateRangePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((visible: boolean) => void)"
       }
     },
     "presets": {
@@ -534,6 +572,25 @@
       "required": false,
       "type": {
         "name": "RangeValue<DateValue> | null"
+      }
+    },
+    "visible": {
+      "defaultValue": null,
+      "description": "Whether the calendar popover is open. Setting it makes the popover controlled: it opens and\ncloses only when this changes, so pair it with `onVisibleChange`.",
+      "name": "visible",
+      "parent": {
+        "fileName": "packages/react/src/components/datepicker/DateRangePicker.tsx",
+        "name": "DateRangePickerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/datepicker/DateRangePicker.tsx",
+          "name": "DateRangePickerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
       }
     },
     "visibleMonths": {
