@@ -2,6 +2,7 @@ title:                  "Chassis React - React UI Component Library"
 baseURL:                "https://chassis-ui.com/react"
 
 docsPath:               "/react/docs"
+staticPath:             "/react/static"
 sitePath:               "packages/site"
 
 subtitle:               "React UI Components for the Chassis Design System"
