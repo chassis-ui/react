@@ -11,7 +11,6 @@
       "dependabot/**": false
     }
   },
-  "rewrites": [{ "source": "/react/static/(.*)", "destination": "/static/$1" }],
   "headers": [
     {
       "source": "/(.*)",

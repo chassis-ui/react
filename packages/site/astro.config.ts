@@ -12,11 +12,6 @@ const config = loadConfig({ root })
 // https://astro.build/config
 export default defineConfig({
   outDir: '../../_site',
-  build: {
-    // The site is served under /react of chassis-ui.com, where /static belongs to the main
-    // site. With `staticPath` of config.yml, every static file is requested under /react/static.
-    assetsPrefix: '/react'
-  },
   integrations: [
     chassisDocs({
       config,

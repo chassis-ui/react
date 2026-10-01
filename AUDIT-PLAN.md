@@ -601,8 +601,9 @@ about which findings are real.
 - [x] Run both validators as checks of the Build job in `ci.yml`.
 - [ ] **(You)** In chassis-website, run `pnpm site:lint:links https://chassis-ui.com` and pass on
       what it lists for `/react` (sibling task A23). Then fix those links here.
-- [ ] Serve static files under `/react/static` (sibling task A6) once `SIBLING_TASKS.md` no longer
-      marks it blocked. Still blocked on 2026-09-30.
+- [x] Serve static files from the shared `/static` (sibling task A6). chassis-website reversed D6 on
+      2026-10-01: every Chassis site loads the same URLs under chassis-ui.com/static/, routed by the
+      referring page, so this site keeps the default path and needs no prefix, rewrite or middleware.
 - [ ] Optional: call chassis-website's reusable workflows for lint, type check and build, pinned to
       a commit (sibling task A14). The required check names change to `Lint / Lint` and so on.
       Blocked on 2026-09-30 until roadmap session 5.2 is pushed.
