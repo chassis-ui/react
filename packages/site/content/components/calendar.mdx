@@ -17,7 +17,7 @@ import { Calendar } from '@chassis-ui/react'
 
 ## Overview
 
-`Calendar` is a date grid with keyboard-navigable cells, usable on its own wherever an inline calendar is needed — no popover, no text field. [`DatePicker`](/forms/datepicker) renders this same component inside its popover, so the two always look and behave identically.
+`Calendar` is a date grid with keyboard-navigable cells, usable on its own wherever an inline calendar is needed — no popover, no text field. [`DatePicker`]([[docsref:/components/datepicker]]) renders this same component inside its popover, so the two always look and behave identically.
 
 <Example>
   <BasicExample client:load />
@@ -65,7 +65,7 @@ The week starts on Monday by default, regardless of the active locale. Pass `fir
 
 ## Multiple dates
 
-Pass `selectionMode="multiple"` to select any number of independent dates instead of one — clicking a date toggles it on or off, and `value`/`defaultValue`/`onChange` switch from a single date to an array of dates. Unlike [`RangeCalendar`](/forms/range-calendar), the selected dates don't need to be contiguous.
+Pass `selectionMode="multiple"` to select any number of independent dates instead of one — clicking a date toggles it on or off, and `value`/`defaultValue`/`onChange` switch from a single date to an array of dates. Unlike [`RangeCalendar`]([[docsref:/components/range-calendar]]), the selected dates don't need to be contiguous.
 
 <Example>
   <MultiSelectExample client:load />
@@ -89,7 +89,7 @@ Like `DatePicker`, `Calendar` isn't styled by `@chassis-ui/css` — chassis-css'
 
 ## Scope
 
-- **Contiguous ranges** — `Calendar` selects independent dates or none at all; for a start/end range, see [`RangeCalendar`](/forms/range-calendar).
+- **Contiguous ranges** — `Calendar` selects independent dates or none at all; for a start/end range, see [`RangeCalendar`]([[docsref:/components/range-calendar]]).
 
 ## API
 

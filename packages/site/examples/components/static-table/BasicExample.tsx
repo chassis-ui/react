@@ -17,7 +17,7 @@ export const Example = () => (
     </thead>
     <tbody>
       {users.map((user) => (
-        <tr key={user.id}>
+        <tr key={user.id} id={user.username}>
           <td>{user.name}</td>
           <td>
             <a href={`#${user.username}`}>@{user.username}</a>
