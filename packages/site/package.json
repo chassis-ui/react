@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@chassis-ui/css": "^0.5.2",
-    "@chassis-ui/docs": "^0.6.1",
+    "@chassis-ui/docs": "^0.6.2",
     "@chassis-ui/icons": "^0.3.1",
     "@chassis-ui/react": "workspace:*",
     "@chassis-ui/tokens": "^0.6.0",
