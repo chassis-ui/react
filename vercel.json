@@ -3,6 +3,14 @@
   "outputDirectory": "_site",
   "installCommand": "pnpm install",
   "framework": null,
+  "git": {
+    "deploymentEnabled": {
+      "main": true,
+      "staging": true,
+      "develop": false,
+      "dependabot/**": false
+    }
+  },
   "headers": [
     {
       "source": "/(.*)",
