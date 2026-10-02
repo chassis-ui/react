@@ -2,8 +2,8 @@ name: Release
 
 # On a push to main, publishes the version in packages/react/package.json when npm does not have
 # it yet, then creates its GitHub release from its CHANGELOG entry. The version and the CHANGELOG
-# are made on develop with `pnpm changeset:version`, and the same commit is pushed to staging and
-# main. See packages/react/VERSIONING.md.
+# are made on develop with `pnpm changeset:version`, and the same commit is pushed to main. See
+# packages/react/VERSIONING.md.
 #
 # The checks of ci.yml ran on this commit when it was pushed to develop, and the ruleset of main
 # requires them before the commit can reach main. This workflow does not run them again. It reads
@@ -28,6 +28,8 @@ concurrency:
 jobs:
   detect:
     name: Detect Version
+    # A manual run on another branch stops here
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     outputs:
@@ -37,7 +39,8 @@ jobs:
       publish: ${{ steps.npm.outputs.publish }}
 
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
@@ -66,6 +69,8 @@ jobs:
           } >> "$GITHUB_OUTPUT"
           echo "Version $VERSION, dist-tag $DIST_TAG"
 
+      # Compared with npm, not with the git history: a push can hold several commits, and
+      # the version bump is not always in the last one
       - name: Check whether npm has the version
         id: npm
         env:
@@ -89,6 +94,10 @@ jobs:
       checks: read
 
     steps:
+      # The seven checks the ruleset of main requires, and Audit, which the ruleset does not
+      # require: a vulnerable runtime dependency stops the release, not the push. Changeset is
+      # left out: it is a check of a change, not of the commit. Dependency Review runs on pull
+      # requests only.
       - name: Read the results of CI on this commit
         env:
           GH_TOKEN: ${{ github.token }}
@@ -97,9 +106,10 @@ jobs:
             Type Check
             Test
             Build
-            site-build
-            visual-regression
-            smoke-test-nextjs
+            Site
+            Visual Regression
+            Smoke Test
+            Audit
         run: |
           RESULTS=$(gh api "repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/check-runs?per_page=100" \
             --jq '.check_runs[] | select(.conclusion == "success") | .name')
@@ -128,47 +138,60 @@ jobs:
       id-token: write # for npm trusted publishing and provenance
 
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
-      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+      - name: Setup pnpm
+        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
 
       # Node 24 by name, not .nvmrc: it ships npm 11, which trusted publishing needs (11.5.1 or
-      # later). `changeset publish` runs `pnpm publish`, which hands the upload to that npm.
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+      # later).
+      - name: Setup Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24
           cache: pnpm
           registry-url: 'https://registry.npmjs.org'
 
-      - run: pnpm install --frozen-lockfile
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       # Before publishing, so a version without a CHANGELOG entry is not published
       - name: Release notes
         env:
           VERSION: ${{ needs.detect.outputs.version }}
-        run: |
-          awk -v v="$VERSION" '/^## /{p = ($2 == v)} p' packages/react/CHANGELOG.md > "$RUNNER_TEMP/release-notes.md"
-          test -s "$RUNNER_TEMP/release-notes.md" || { echo "::error::No CHANGELOG entry for $VERSION"; exit 1; }
+        run: node build/release-notes.js "$VERSION" > "$RUNNER_TEMP/release-notes.md"
 
-      # dist/ is gitignored, so `changeset:publish` builds it first, then publishes what npm lacks
+      # dist/ is gitignored, and `files` in packages/react/package.json publishes nothing else
+      - name: Build
+        run: pnpm react:build
+
+      # npm itself, from the package directory: the manifest has no `workspace:` range for pnpm
+      # to rewrite. The dist-tag is the one the Detect Version job read from the version.
       - name: Publish to npm
+        working-directory: packages/react
         env:
-          NPM_CONFIG_PROVENANCE: true
-        run: pnpm changeset:publish
+          DIST_TAG: ${{ needs.detect.outputs.dist-tag }}
+        run: npm publish --provenance --access public --tag "$DIST_TAG"
 
-      # Runs only when the publish step succeeded
+      # Runs only when the publish step succeeded. The tag is `v<version>`: the repository
+      # releases one package. Releases up to 0.2.0 are tagged `@chassis-ui/react@<version>`.
       - name: Create the GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
           VERSION: ${{ needs.detect.outputs.version }}
           PRERELEASE: ${{ needs.detect.outputs.prerelease }}
         run: |
-          FLAGS=""
-          [ "$PRERELEASE" = true ] && FLAGS="--prerelease"
-          gh release create "@chassis-ui/react@$VERSION" \
+          if [ "$PRERELEASE" = true ]; then
+            FLAGS=(--prerelease --latest=false)
+          else
+            FLAGS=(--latest)
+          fi
+
+          gh release create "v$VERSION" \
             --target "$GITHUB_SHA" \
             --title "@chassis-ui/react v$VERSION" \
             --notes-file "$RUNNER_TEMP/release-notes.md" \
-            $FLAGS
+            "${FLAGS[@]}"

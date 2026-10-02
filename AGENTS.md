@@ -91,9 +91,12 @@ pointer on its own.
 ## CI
 
 `.github/workflows/ci.yml` runs on push to `develop` and on pull requests against `develop`,
-`staging` and `main`. Every job starts with `pnpm install --frozen-lockfile`. The ruleset requires
-the first four by name. [`ref/DECISIONS.md`](ref/DECISIONS.md) holds the history behind the RD
-numbers below.
+`staging` and `main`. A push of the same commit to `staging` or `main` runs none of it. Every job
+and every step has a `name`, in the vocabulary the Chassis repositories share (RD18). The ruleset
+of `main` requires Lint, Type Check, Test, Build, Site, Visual Regression and Smoke Test by name.
+`release.yml` reads those and Audit, which the ruleset doesn't require. Rename a job in all three
+places. Every job but Audit starts with `pnpm install --frozen-lockfile`.
+[`ref/DECISIONS.md`](ref/DECISIONS.md) holds the history behind the RD numbers below.
 
 - **Lint**: `pnpm lint`, which is ESLint, stylelint and Prettier in both packages, then cspell.
   ESLint warnings don't fail it; errors and any Prettier, stylelint or cspell finding do.
@@ -111,19 +114,28 @@ numbers below.
   - `site:check`: Astro and MDX type-checking, which needs neither the submodule nor Sass;
   - `react:check:bundle`: the gzip ceilings in `packages/react/.bundlewatch.config.json`, per
     entry, per shared chunk and for `dist/style.css`. A dependency bundled instead of
-    externalized breaks one (RD5);
-  - `pnpm audit --prod`, which blocks, and `pnpm audit`, which doesn't (RD17).
-- **site-build**: `pnpm site:setup && pnpm site:build` (`astro build` and pagefind), then
+    externalized breaks one (RD5).
+- **Site**: `pnpm site:setup && pnpm site:build` (`astro build` and pagefind), then
   `pnpm lint:html` and `pnpm lint:vnu` over the built `_site/` (RD9). It is its own job because
   only it needs the `vendor/assets` submodule: `packages/site/public/` is gitignored and filled
   from it by `pnpm vendor`.
-- **visual-regression**: `pnpm test:visual` (see
+- **Visual Regression**: `pnpm test:visual` (see
   [`packages/react/AGENTS.md`](packages/react/AGENTS.md#visual-regression)) inside the official
   Playwright Docker image, so the rendered pixels match the checked-in Linux baselines. The image
   tag stays in lockstep with the `@playwright/test` devDependency in `packages/react/package.json`;
   bumping one alone brings font and rendering drift that looks like a regression (RD15).
-- **smoke-test-nextjs**: `pnpm smoke:build`, then the Next.js app's Server Component routes in
+- **Smoke Test**: `pnpm smoke:build`, then the Next.js app's Server Component routes in
   Chromium under `next start` and `next dev` (RD16). See `smoke-tests/nextjs-app-router/README.md`.
+- **Audit**: `pnpm check:pnpm`, which is `pnpm audit --prod --audit-level moderate` and blocks,
+  then `pnpm audit`, which reports and doesn't (RD17). It installs nothing: the audit reads the
+  lockfile. The ruleset doesn't require it, so it doesn't stop a push to `main`; `release.yml`
+  reads it, so it stops a release.
+- **Changeset**: a pull request, or a push to `develop`, that changes `packages/react/src/` or
+  `tsdown.config.ts` (`changedFilePatterns` in `.changeset/config.json`) needs a changeset;
+  `pnpm changeset --empty` adds one that releases nothing. The push of the version commit is
+  skipped. Not required by the ruleset or the release.
+- **Dependency Review**: on pull requests only, blocks one that adds a dependency with a known
+  vulnerability of moderate severity or higher.
 
 `pnpm lint:html`/`pnpm lint:vnu` are not in `pnpm lint`, because they need a built `_site/`.
 They run the `chassis-docs html-validate` and `chassis-docs vnu` commands with this site's
@@ -133,10 +145,12 @@ are markup React and react-aria write on purpose, such as `spellCheck` in camelC
 add an exception only for markup that is correct (RD10).
 
 `.github/workflows/release.yml` publishes to npm on a push to `main` when npm lacks the version in
-`packages/react/package.json`, after checking that the CI jobs passed on that commit. Versions are
-made on `develop` with `pnpm changeset:version` and pushed as the same commit to `staging` and
-`main`. See [`packages/react/VERSIONING.md`](packages/react/VERSIONING.md). `dependency-review.yml`
-blocks pull requests that add a vulnerable dependency.
+`packages/react/package.json`, after checking that the seven required CI jobs and Audit passed on that commit: Detect
+Version, Checks Passed, Publish. It builds, runs `npm publish --provenance` from `packages/react`,
+and creates the GitHub release `v<version>` with the notes `build/release-notes.js` reads from the
+CHANGELOG. Versions are made on `develop` with `pnpm changeset:version` and pushed as the same
+commit to `main`; `staging` is a preview deployment that no workflow reads. See
+[`packages/react/VERSIONING.md`](packages/react/VERSIONING.md).
 
 ## Where things live
 

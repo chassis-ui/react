@@ -6,6 +6,7 @@
   "linked": [],
   "access": "public",
   "baseBranch": "develop",
+  "changedFilePatterns": ["src/**", "tsdown.config.ts"],
   "updateInternalDependencies": "patch",
   "ignore": ["chassis-react-site", "smoke-test-nextjs-app-router"]
 }

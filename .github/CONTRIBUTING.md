@@ -27,6 +27,7 @@ the day-to-day rules (layout, build, tests) this doc doesn't repeat.
 4. Before you push: `pnpm lint`, `pnpm react:check:types` and `pnpm test`. A pre-commit hook
    already runs ESLint and Prettier on the files you staged.
 5. Add a changeset (`pnpm changeset`) if someone using `@chassis-ui/react` could notice the change.
+   CI's Changeset job asks for one whenever `packages/react/src/` changed.
 6. Open the pull request against `develop`, not `main`. CI runs the full gate, and the pull
    request template lists what a reviewer checks.
 
@@ -65,20 +66,37 @@ pnpm react:generate
 
 ## What a PR needs before merge
 
-- **Passing CI**: lint, tests (with coverage gates), a clean library build, `pnpm react:check:api`
-  (fails if the public props/types surface drifted from the checked-in
-  `packages/react/api-report.md`), `astro check`, and `pnpm react:check:bundle` (bundle-size
-  regression guard). See the root [`AGENTS.md`](../AGENTS.md#ci) for the exact gate list.
+- **Passing CI**: the jobs of `.github/workflows/ci.yml`. Lint, Type Check, Test (with coverage
+  gates), Build (a clean library build, `pnpm react:check:api`, which fails if the public
+  props/types surface drifted from the checked-in `packages/react/api-report.md`, `astro check`,
+  and `pnpm react:check:bundle`, the bundle-size regression guard), Site, Visual Regression, Smoke
+  Test and Audit. On a pull request, Dependency Review also fails when the change adds a dependency
+  with a known vulnerability of moderate severity or higher. See the root
+  [`AGENTS.md`](../AGENTS.md#ci) for the exact gate list.
 - **A changeset**, for anything touching `packages/react`'s published behavior (a new/changed/
   removed export, prop, or observable DOM/class output):
+
   ```bash
   pnpm changeset
   ```
+
   Answer the prompts and commit the generated `.changeset/<name>.md` file alongside your code
   change. See [`packages/react/VERSIONING.md`](../packages/react/VERSIONING.md) for the full
   semver policy (what counts as patch/minor/major) and the deprecation policy for anything you're
   renaming or removing. A PR that only touches `packages/site`, docs, or internal tooling doesn't
   need a changeset — `chassis-react-site` is never versioned or published independently.
+
+  The Changeset job of CI fails when `packages/react/src/` or `packages/react/tsdown.config.ts`
+  changed and the pull request adds no changeset. If the change is one no consumer can notice,
+  `pnpm changeset --empty` adds a changeset that releases nothing.
+
+## Releases
+
+A maintainer makes the version on `develop` with `pnpm changeset:version`, commits it, and pushes
+that commit to `develop` and, once CI passed on it, to `main`. The push to `main` runs
+`.github/workflows/release.yml`, which publishes the version to npm with provenance and creates the
+GitHub release `v<version>` from its `CHANGELOG.md` entry. Nothing is published by hand. See
+[`packages/react/VERSIONING.md`](../packages/react/VERSIONING.md#release-mechanics-changesets).
 
 ## Using the issue tracker
 

@@ -1,10 +1,12 @@
 version: 2
+
 updates:
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: npm
+    directory: /
     target-branch: develop
     schedule:
-      interval: "weekly"
+      interval: weekly
+      day: monday
     open-pull-requests-limit: 10
     # Dependabot waits 3 days after a release by default, and passes that on to pnpm as its
     # minimum release age when it re-resolves the lockfile, so a Chassis package that develop
@@ -14,33 +16,32 @@ updates:
     cooldown:
       default-days: 3
       exclude:
-        - "@chassis-ui/*"
+        - '@chassis-ui/*'
+    commit-message:
+      prefix: 'chore(deps)'
     groups:
       # A release of a Chassis package opens one pull request of its own, apart from the routine
       # updates: a 0.x minor of these is breaking, and it can change the compiled CSS.
       # packages/react/package.json pins @chassis-ui/css as a peer to one minor
       # (`>=0.5.0 <0.6.0`). The pull request that takes a new css minor must widen that range and
       # add a changeset for it.
-      chassis-ui:
-        patterns:
-          - "@chassis-ui/*"
+      chassis:
+        patterns: ['@chassis-ui/*']
       minor-and-patch:
-        update-types:
-          - "minor"
-          - "patch"
+        update-types: [minor, patch]
         exclude-patterns:
-          - "@chassis-ui/*"
+          - '@chassis-ui/*'
     ignore:
       # Major bumps for these are deliberate, coordinated changes (peer deps, build tooling
       # tied to CI's pinned versions) rather than routine updates — see AGENTS.md.
-      - dependency-name: "react"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "react-dom"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "@playwright/test"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "playwright"
-        update-types: ["version-update:semver-major"]
+      - dependency-name: 'react'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'react-dom'
+        update-types: ['version-update:semver-major']
+      - dependency-name: '@playwright/test'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'playwright'
+        update-types: ['version-update:semver-major']
       # vitest majors are gated on Storybook, not on vitest itself: `@storybook/addon-vitest`
       # (which wires the stories into vitest's browser project — see packages/react/AGENTS.md)
       # peer-requires `vitest: ^3.0.0 || ^4.0.0` as of its current stable 10.6.0, and
@@ -49,19 +50,21 @@ updates:
       # major is a coordinated Storybook upgrade, not a routine bump, and the three packages
       # have to move together anyway (`@vitest/coverage-istanbul` and
       # `@vitest/browser-playwright` both peer-require the *exact* matching vitest version).
-      - dependency-name: "vitest"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "@vitest/coverage-istanbul"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "@vitest/browser-playwright"
-        update-types: ["version-update:semver-major"]
+      - dependency-name: 'vitest'
+        update-types: ['version-update:semver-major']
+      - dependency-name: '@vitest/coverage-istanbul'
+        update-types: ['version-update:semver-major']
+      - dependency-name: '@vitest/browser-playwright'
+        update-types: ['version-update:semver-major']
 
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: github-actions
+    directory: /
     target-branch: develop
     schedule:
-      interval: "weekly"
+      interval: weekly
+      day: monday
+    commit-message:
+      prefix: 'ci'
     groups:
-      github-actions:
-        patterns:
-          - "*"
+      actions:
+        patterns: ['*']

@@ -13,12 +13,13 @@ after the fact:
 ```bash
 pnpm changeset            # add a changeset describing this PR's change and its bump type
 
+pnpm changeset --empty    # add one that releases nothing, for a change no consumer can notice
+
 pnpm changeset:version    # consume pending changesets: bump packages/react/package.json,
                           # write packages/react/CHANGELOG.md, sync README.md/site config
-
-pnpm changeset:publish    # build, then `changeset publish` (npm publish for any bumped,
-                          # non-private workspace package — only @chassis-ui/react today)
 ```
+
+Nothing is published from a contributor's machine: `release.yml` publishes, see below.
 
 Every PR that changes `packages/react`'s published behavior needs a changeset (`pnpm changeset`,
 answer the prompts, commit the generated `.changeset/<name>.md` file alongside the code change).
@@ -26,18 +27,54 @@ A PR that only touches `packages/site`, docs, or internal tooling doesn't need o
 `chassis-react-site` is `private` and listed in `.changeset/config.json`'s `ignore`, so Changesets
 never versions or publishes it.
 
+The Changeset job of `ci.yml` checks this. A pull request, or a push to `develop`, that changes
+`packages/react/src/` or `packages/react/tsdown.config.ts` (`changedFilePatterns` in
+`.changeset/config.json`) fails without a changeset. A pull request is compared with its base
+branch, and a push with the tip of `develop` it replaced. When the change to `src/` is one no
+consumer can notice, such as a comment or an internal rename, `pnpm changeset --empty` adds a
+changeset that releases nothing. The push of the version commit consumes the changesets, so the job
+recognises it by the version change and skips it. The job is not a required check: it reports, and
+doesn't block a push or a release.
+
 `pnpm changeset:version` runs `build/sync-version-refs.js` right after `changeset version` itself,
 which propagates the freshly-bumped `packages/react/package.json` version into
 `packages/site/config.yml`'s `currentVersion`, which displays it but sits outside the pnpm
 workspace's own dependency graph. It follows `packages/react`'s version, never bumped
 independently.
 
-Versions are made on `develop`: run `pnpm changeset:version`, commit the result, and push that same
-commit to `staging` and `main`. A push to `main` runs `.github/workflows/release.yml`, which checks
-that the CI jobs passed on the commit, then publishes the version in `packages/react/package.json`
-when npm doesn't have it yet, and creates its GitHub release from the `CHANGELOG.md` entry. A push
-without a new version publishes nothing. It publishes with npm trusted publishing, so no npm token
-is involved (see "npm authentication" below).
+Versions are made on `develop`: run `pnpm changeset:version`, commit the result, push the commit to
+`develop`, wait for CI to pass on it, and push that same commit to `main`. CI runs on pushes to
+`develop` and on pull requests only, so the checks of a commit run once; pushing it to `main` runs
+nothing but the release. `staging` is a preview deployment: push `develop` to it when a preview is
+wanted. No workflow reads it.
+
+A push to `main` runs `.github/workflows/release.yml`, in three jobs:
+
+1. **Detect Version** reads the version in `packages/react/package.json` and asks npm whether it has
+   it. When it does, the run ends there: a push without a new version publishes nothing.
+2. **Checks Passed** reads the check-runs of the commit and stops unless Lint, Type Check, Test,
+   Build, Site, Visual Regression, Smoke Test and Audit each passed on it. The ruleset of `main`
+   requires the first seven before the commit can be pushed there. It doesn't require Audit, so
+   a failed audit stops the release and not the push.
+3. **Publish** reads the release notes with `node build/release-notes.js <version>`, which fails
+   when `CHANGELOG.md` has no entry for the version, so such a version isn't published. It then
+   builds `dist/`, runs `npm publish --provenance --access public --tag <dist-tag>` from
+   `packages/react`, and creates the GitHub release with `gh release create`.
+
+The dist-tag comes from the version. A version without a prerelease part goes to `latest`. A
+prerelease goes to the first identifier of its prerelease part when that is a word (`0.3.0-beta.1`
+to `beta`), and to `next` when it is a number (`0.3.0-0`), and its GitHub release is marked as a
+prerelease and not as the latest.
+
+The tag of a release is `v<version>`, as in the other Chassis repositories that release one
+package. The releases up to 0.2.0 are tagged `@chassis-ui/react@<version>`; those tags stay.
+
+A manual run of `release.yml` (`workflow_dispatch`) does the same on `main` and stops at once on
+any other branch. It is for a release whose run failed after the gate, for example on a registry
+error: npm still lacks the version, so the run publishes it.
+
+It publishes with npm trusted publishing, so no npm token is involved (see "npm authentication"
+below).
 
 ## Semver policy
 
@@ -111,4 +148,5 @@ every version gets provenance.
 - Renaming or moving `release.yml` breaks publishing until the trusted publisher on npmjs.com is
   updated to the new file name.
 - The job runs Node 24 by name, not `.nvmrc`: its npm 11 is what trusted publishing needs (11.5.1
-  or later). `changeset publish` runs `pnpm publish`, which hands the upload to that npm.
+  or later). The upload is `npm publish` itself, not `changeset publish` or `pnpm publish`: the
+  manifest has no `workspace:` range that pnpm would have to rewrite.

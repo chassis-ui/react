@@ -51,7 +51,7 @@
     "smoke:test": "pnpm smoke:build && pnpm --filter './smoke-tests/*' test",
     "changeset": "changeset",
     "changeset:version": "changeset version && node build/sync-version-refs.js",
-    "changeset:publish": "pnpm react:build && changeset publish",
+    "check:pnpm": "pnpm audit --prod --audit-level moderate",
     "spellcheck": "cspell --no-progress --no-must-find-files",
     "sync-submodules": "pnpm --filter chassis-react-site exec chassis-docs sync-submodules",
     "vendor": "pnpm --filter chassis-react-site exec chassis-docs vendor"
