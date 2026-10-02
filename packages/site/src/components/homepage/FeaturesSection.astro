@@ -1,0 +1,77 @@
+---
+import FeatureCard from '@chassis-ui/docs/components/FeatureCard.astro'
+---
+
+<section class="home-section py-3xl md:py-6xl">
+  <div class="container 2xl section-content">
+    <div class="row mb-3xl md:mb-6xl">
+      <header class="section-header col lg:col-10 xl:col-8 text-center mx-auto">
+        <h2 class="section-title font-3xl md:font-4xl lg:font-5xl mb-xs md:mb-sm lg:mb-md">
+          <span class="font-normal d-block">Production-Ready</span> Features
+        </h2>
+        <p class="section-body md:font-lg lg:font-xl m-0">
+          A complete component library for large applications: forms, overlays, navigation, data
+          display, dates and layout, with the bundle size and rendering model modern React stacks
+          expect.
+        </p>
+      </header>
+    </div>
+
+    <div class="section-features row row-cols-1 md:row-cols-2 g-md md:g-xl">
+      <div class="col">
+        <FeatureCard icon="cx-rectangles-mixed">
+          <Fragment slot="title">70+ Components</Fragment>
+          <Fragment slot="body">
+            Buttons, form controls, overlays, navigation, feedback, data display, date pickers and
+            layout primitives, each documented with live examples and a props table.
+          </Fragment>
+        </FeatureCard>
+      </div>
+      <div class="col">
+        <FeatureCard icon="cx-shapes">
+          <Fragment slot="title">Polymorphic &amp; Composable</Fragment>
+          <Fragment slot="body">
+            Every component takes a <code>component</code> prop or <code>asChild</code>, so a Button
+            can be a router link and a Card a semantic article without wrapper elements.
+          </Fragment>
+        </FeatureCard>
+      </div>
+      <div class="col">
+        <FeatureCard icon="cx-folder-tree">
+          <Fragment slot="title">Tree-Shakeable</Fragment>
+          <Fragment slot="body">
+            Each component family is its own entry point. Import from
+            <code>@chassis-ui/react/button</code> and ship only what the page uses.
+          </Fragment>
+        </FeatureCard>
+      </div>
+      <div class="col">
+        <FeatureCard icon="cx-laptop-code">
+          <Fragment slot="title">Server Components Ready</Fragment>
+          <Fragment slot="body">
+            One client boundary per entry and a smoke-tested Next.js App Router setup. Render on the
+            server and hydrate only the interactive parts.
+          </Fragment>
+        </FeatureCard>
+      </div>
+      <div class="col">
+        <FeatureCard icon="cx-solar-system">
+          <Fragment slot="title">International by Design</Fragment>
+          <Fragment slot="body">
+            Dates, numbers and text direction follow the user's locale through React Aria's i18n
+            provider, with right-to-left layouts handled by Chassis CSS.
+          </Fragment>
+        </FeatureCard>
+      </div>
+      <div class="col">
+        <FeatureCard icon="cx-swatchbook">
+          <Fragment slot="title">Token-Driven Theming</Fragment>
+          <Fragment slot="body">
+            Brands, dark mode and spacing scales come from Chassis Tokens through CSS custom
+            properties. Change a token and every component follows.
+          </Fragment>
+        </FeatureCard>
+      </div>
+    </div>
+  </div>
+</section>

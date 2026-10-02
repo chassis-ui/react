@@ -1,0 +1,103 @@
+---
+import FeatureCard from '@chassis-ui/docs/components/FeatureCard.astro'
+import { getConfig, getDocsPath } from '@chassis-ui/docs/site'
+---
+
+<section class="home-section py-3xl md:py-6xl">
+  <div class="container 2xl section-content">
+    <div class="row mb-3xl md:mb-6xl">
+      <header class="section-header col lg:col-10 xl:col-8 text-center mx-auto">
+        <h2 class="section-title font-3xl md:font-4xl lg:font-5xl mb-xs md:mb-sm lg:mb-md">
+          <span class="font-normal d-block">How to</span> Get Started?
+        </h2>
+        <p class="section-body md:font-lg lg:font-xl m-0">
+          The documentation covers installation, theming, accessibility, TypeScript and server
+          rendering, then every component, hook and pattern with live examples.
+        </p>
+      </header>
+    </div>
+
+    <div class="section-features row row-cols-1 md:row-cols-3 g-md md:g-xl">
+      <div class="col">
+        <FeatureCard icon="cx-rocket">
+          <Fragment slot="title">Quick Start</Fragment>
+          <Fragment slot="body">
+            Install the package, wire up the stylesheets and learn how theming, accessibility and
+            TypeScript work across the library.
+          </Fragment>
+          <ul class="list-unstyled d-flex flex-column gap-xs">
+            <li>
+              <a href={getDocsPath('/getting-started/introduction/')}>Introduction</a>
+            </li>
+            <li>
+              <a href={getDocsPath('/getting-started/theming/')}>Theming</a>
+            </li>
+            <li>
+              <a href={getDocsPath('/getting-started/accessibility/')}>Accessibility</a>
+            </li>
+            <li>
+              <a href={getDocsPath('/getting-started/typescript/')}>TypeScript</a>
+            </li>
+          </ul>
+        </FeatureCard>
+      </div>
+      <div class="col">
+        <FeatureCard icon="cx-rectangles-mixed">
+          <Fragment slot="title">Components</Fragment>
+          <Fragment slot="body">
+            Browse the component library with live examples, source snippets and a generated props
+            table for every exported component.
+          </Fragment>
+          <ul class="list-unstyled d-flex flex-column gap-xs">
+            <li>
+              <a href={getDocsPath('/components/button/')}>Button</a>
+            </li>
+            <li>
+              <a href={getDocsPath('/components/modal/')}>Modal</a>
+            </li>
+            <li>
+              <a href={getDocsPath('/components/table/')}>Table</a>
+            </li>
+            <li>
+              <a href={getDocsPath('/components/datepicker/')}>Datepicker</a>
+            </li>
+          </ul>
+        </FeatureCard>
+      </div>
+      <div class="col">
+        <FeatureCard icon="cx-book">
+          <Fragment slot="title">Resources</Fragment>
+          <Fragment slot="body">
+            Go deeper with the hooks behind the overlays, composed patterns for real screens, and
+            the server rendering guide.
+          </Fragment>
+          <ul class="list-unstyled d-flex flex-column gap-xs">
+            <li>
+              <a href={getDocsPath('/hooks/usemodal/')}>Hooks</a>
+            </li>
+            <li>
+              <a href={getDocsPath('/patterns/responsive-grid/')}>Patterns</a>
+            </li>
+            <li>
+              <a href={getDocsPath('/getting-started/ssr/')}>Server-Side Rendering</a>
+            </li>
+            <li>
+              <a href={getConfig().repo} target="_blank" rel="noopener">
+                GitHub Repository
+              </a>
+            </li>
+          </ul>
+        </FeatureCard>
+      </div>
+    </div>
+
+    <div class="d-flex gap-md justify-content-center mt-3xl md:mt-6xl">
+      <a href={getDocsPath('/getting-started/introduction/')} class="button primary lg">
+        Get Started
+      </a>
+      <a href={getDocsPath('/')} class="button default lg">
+        View Documentation
+      </a>
+    </div>
+  </div>
+</section>

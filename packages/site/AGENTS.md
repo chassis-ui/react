@@ -63,6 +63,18 @@ are already listed there.
 - `src/libs/astro.ts` — this site's own integrations: copies the static files into `public/`,
   adds `mdx()` and `sitemap()`, and reloads the dev server on library or example changes.
 
+## Pages (`src/pages/`)
+
+- `index.astro` redirects to `/react`, the same as the sibling sites redirect to `/css` and
+  `/tokens`; `react/index.astro` is the home page, assembled from the sections in
+  `src/components/homepage/` (`HeroSection`, `IntroSection`, `FeaturesSection`, `HowSection`,
+  `TechSection`, `DocsSection`), the same files the chassis-css and chassis-tokens sites have. Its
+  `FeatureCard` icons come from the `cx-sprite.svg` the page inlines, not the `chassis-icons.svg`
+  sprite the `Icon` examples use. `react/docs/index.astro` redirects to the Introduction page.
+- `config.yml`'s `title` is short (`Chassis - React`, like `Chassis - CSS`) because the shared
+  `Head` appends it to every page's own title and html-validate caps a `<title>` at 70
+  characters; the descriptive title lives on the home page's `<BaseLayout title>`.
+
 ## Scripts
 
 ```bash

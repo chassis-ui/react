@@ -1,0 +1,51 @@
+---
+import FeatureCard from '@chassis-ui/docs/components/FeatureCard.astro'
+---
+
+<section class="home-section py-3xl md:py-6xl">
+  <div class="container 2xl section-content py-3xl md:py-6xl">
+    <div class="row mb-3xl md:mb-6xl">
+      <header class="section-header col lg:col-10 xl:col-8 text-center mx-auto">
+        <h2 class="section-title font-3xl md:font-4xl lg:font-5xl mb-xs md:mb-sm lg:mb-md">
+          <span class="font-normal d-block">The Chassis design system,</span> as React components.
+        </h2>
+        <p class="section-body md:font-lg lg:font-xl m-0">
+          Chassis React gives your team the interactive layer of Chassis UI: components that look
+          exactly like the CSS framework and the Figma library, behave accessibly out of the box,
+          and type-check against the design system.
+        </p>
+      </header>
+    </div>
+
+    <div class="section-features row row-cols-1 md:row-cols-3 g-md md:g-xl">
+      <div class="col">
+        <FeatureCard icon="cx-css3">
+          <Fragment slot="title">Styled by Chassis CSS</Fragment>
+          <Fragment slot="body">
+            Every component renders the markup and class names of Chassis CSS, so the React output
+            matches what the CSS docs and Figma show, and it re-themes with the same tokens.
+          </Fragment>
+        </FeatureCard>
+      </div>
+      <div class="col">
+        <FeatureCard icon="cx-universal-access">
+          <Fragment slot="title">Accessible by Default</Fragment>
+          <Fragment slot="body">
+            Built on React Aria and React Stately. Keyboard navigation, focus management, ARIA
+            semantics and screen reader announcements come with every component, not as an
+            afterthought.
+          </Fragment>
+        </FeatureCard>
+      </div>
+      <div class="col">
+        <FeatureCard icon="cx-brackets-curly">
+          <Fragment slot="title">TypeScript First</Fragment>
+          <Fragment slot="body">
+            Written in strict TypeScript with typed props, polymorphic elements and generic
+            collections. Autocomplete carries the design system into the editor.
+          </Fragment>
+        </FeatureCard>
+      </div>
+    </div>
+  </div>
+</section>
