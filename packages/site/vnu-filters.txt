@@ -8,6 +8,10 @@ The “role” attribute must not be used on a “(td|tr|th)” element which ha
 # Astro writes the style of its islands into the first island of a page. vnu matches this
 # message in another form than it prints, so the pattern stops before the element names.
 Element .?style.? not allowed as child of.*
+# vnu 26.9.27 allows a “style” in “body” only when it cannot restyle earlier content, and reports
+# Astro's island style in these two forms instead.
+A “style” element in “body” must be the first child of its parent\.
+The selector “astro-island” matches, or might match, an element that comes before the parent of this “style” element\..*
 
 # An example's own headings sit under the page's headings, whatever level they start at.
 The heading “h[1-6]” \(with computed level [1-6]\) follows the heading “h[1-6]”.*
