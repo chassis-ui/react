@@ -75,6 +75,15 @@ are already listed there.
   `Head` appends it to every page's own title and html-validate caps a `<title>` at 70
   characters; the descriptive title lives on the home page's `<BaseLayout title>`.
 
+## Static paths
+
+The shared CSS, fonts, icons and images stay on `/static/`, which chassis-ui.com routes by the
+`Referer` header so that the browser keeps one copy across the Chassis sites. The files Astro
+builds do not: a script that another script imports has that script as its `Referer`, which names
+no site. `astro.config.ts` writes them to `static/astro/` with `build.assetsPrefix: '/react'`, so
+pages request `/react/static/astro/…`, and the root `vercel.json` rewrites that path to
+`/static/astro/`. Keep the three in step (task A6 of chassis-website's `ref/SIBLING_TASKS.md`).
+
 ## Scripts
 
 ```bash
