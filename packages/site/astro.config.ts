@@ -13,12 +13,11 @@ const config = loadConfig({ root })
 export default defineConfig({
   outDir: '../../_site',
   build: {
-    assets: 'static/astro',
-    // The scripts and styles of the build are requested as /react/static/astro/…, which
-    // chassis-ui.com routes to this site by path. Under /static it routes by the `Referer`
-    // header, and that of a script another script imports names no site. A rewrite of
-    // vercel.json serves them from /static/astro/. The shared files stay on /static.
-    assetsPrefix: '/react'
+    // The files of the build are written to _site/react/static/astro/ and requested as
+    // /react/static/astro/…, which chassis-ui.com routes to this site by path. Under /static it
+    // routes by the `Referer` header, and that of a script another script imports names no
+    // site. The shared files stay on /static. Keep this folder in every name pattern below.
+    assets: 'react/static/astro'
   },
   integrations: [
     chassisDocs({
@@ -46,8 +45,8 @@ export default defineConfig({
         build: {
           rolldownOptions: {
             output: {
-              entryFileNames: `static/astro/docs.[hash].js`,
-              chunkFileNames: `static/astro/docs.[hash].js`
+              entryFileNames: `react/static/astro/docs.[hash].js`,
+              chunkFileNames: `react/static/astro/docs.[hash].js`
             }
           }
         }
@@ -58,9 +57,9 @@ export default defineConfig({
         output: {
           assetFileNames: (assetInfo: { name?: string }) => {
             if (assetInfo.name?.endsWith('.css')) {
-              return 'static/astro/docs.[hash].css'
+              return 'react/static/astro/docs.[hash].css'
             }
-            return 'static/astro/[name].[hash][extname]'
+            return 'react/static/astro/[name].[hash][extname]'
           }
         }
       }

@@ -80,9 +80,11 @@ are already listed there.
 The shared CSS, fonts, icons and images stay on `/static/`, which chassis-ui.com routes by the
 `Referer` header so that the browser keeps one copy across the Chassis sites. The files Astro
 builds do not: a script that another script imports has that script as its `Referer`, which names
-no site. `astro.config.ts` writes them to `static/astro/` with `build.assetsPrefix: '/react'`, so
-pages request `/react/static/astro/…`, and the root `vercel.json` rewrites that path to
-`/static/astro/`. Keep the three in step (task A6 of chassis-website's `ref/SIBLING_TASKS.md`).
+no site. `build.assets` of `astro.config.ts` is `react/static/astro`, in every name pattern of its
+Rolldown output too, so they are written to `_site/react/static/astro/` and requested as
+`/react/static/astro/…`, a path of this site that chassis-ui.com routes by path, with no prefix
+option and no rewrite: the deployment and `astro preview` find them at the path of the URL (task
+A6 of chassis-website's `ref/SIBLING_TASKS.md`).
 
 ## Scripts
 

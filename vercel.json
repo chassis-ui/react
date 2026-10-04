@@ -11,7 +11,6 @@
       "dependabot/**": false
     }
   },
-  "rewrites": [{ "source": "/react/static/astro/(.*)", "destination": "/static/astro/$1" }],
   "headers": [
     {
       "source": "/(.*)",
