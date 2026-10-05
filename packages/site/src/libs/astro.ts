@@ -97,8 +97,63 @@ export function chassis({
     mdx() as AstroIntegration,
     sitemap({
       filter: (page) => !sitemapExcludedUrls.includes(page)
-    })
+    }),
+    {
+      name: 'chassis-sitemap-postprocess',
+      hooks: {
+        'astro:build:done': ({ dir }) => {
+          const builtDir = fileURLToPath(dir)
+
+          removeRedirectsFromSitemap(builtDir)
+          rebaseSitemapIndex(builtDir, config.baseURL)
+        }
+      }
+    }
   ]
+}
+
+/**
+ * Removes the redirect pages from the sitemap: `/`, which `src/pages/index.astro` builds outside
+ * the `/react` base, and the pages of `aliases` in the frontmatter. `@astrojs/sitemap` lists every
+ * page that was built, and a redirect is not a page to index. `/` is the home page of the main
+ * site on chassis-ui.com.
+ */
+function removeRedirectsFromSitemap(builtDir: string) {
+  const sitemaps = fs.readdirSync(builtDir).filter((file) => /^sitemap-\d+\.xml$/.test(file))
+
+  for (const file of sitemaps) {
+    const sitemapPath = path.join(builtDir, file)
+    const content = fs.readFileSync(sitemapPath, 'utf8')
+
+    const updated = content.replace(/<url><loc>([^<]+)<\/loc>.*?<\/url>/g, (entry, loc: string) => {
+      const page = path.join(builtDir, decodeURIComponent(new URL(loc).pathname), 'index.html')
+      const isRedirect =
+        fs.existsSync(page) && fs.readFileSync(page, 'utf8').includes('<meta http-equiv="refresh"')
+
+      return isRedirect ? '' : entry
+    })
+
+    fs.writeFileSync(sitemapPath, updated)
+  }
+}
+
+/**
+ * Rewrites the sitemaps listed in `sitemap-index.xml` to the URLs they are served from.
+ * `@astrojs/sitemap` lists them at the origin, `https://chassis-ui.com/sitemap-0.xml`, which is
+ * the sitemap of the main site. This site is proxied under the path of `baseURL`, so its own
+ * sitemap is `https://chassis-ui.com/react/sitemap-0.xml`.
+ */
+function rebaseSitemapIndex(builtDir: string, baseURL: string) {
+  const sitemapIndexPath = path.join(builtDir, 'sitemap-index.xml')
+  if (!fs.existsSync(sitemapIndexPath)) return
+
+  const origin = new URL(baseURL).origin
+  const content = fs.readFileSync(sitemapIndexPath, 'utf8')
+
+  fs.writeFileSync(
+    sitemapIndexPath,
+    content.replaceAll(`<loc>${origin}/sitemap-`, `<loc>${baseURL}/sitemap-`)
+  )
 }
 
 /**
