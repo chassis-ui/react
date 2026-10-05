@@ -6,7 +6,7 @@ import {
   useDatePickerState,
   useOverlayTriggerState
 } from 'react-stately'
-import { getLocalTimeZone } from '@internationalized/date'
+import { toCalendarDate } from '@internationalized/date'
 
 import { useForkedRef, useFormField, useOpenStateProps, useOverlayPlacement } from '../../hooks'
 import { mergeIsDateUnavailable } from '../../utils/mergeIsDateUnavailable'
@@ -386,6 +386,11 @@ const DatePickerSingle = forwardRef<HTMLDivElement, DatePickerSingleProps>(
     // `Calendar` merges onto its root.
     const { dialogProps: domDialogProps } = useDialog(dialogProps, calendarRef)
 
+    // react-aria names the trigger in the active locale; `labels.calendar` replaces that name.
+    const triggerProps = labels?.calendar
+      ? { ...buttonProps, 'aria-label': labels.calendar }
+      : buttonProps
+
     return (
       <CalendarLabelsProvider labels={labels}>
         {renderFormField({
@@ -442,7 +447,7 @@ const DatePickerSingle = forwardRef<HTMLDivElement, DatePickerSingleProps>(
                 size,
                 toggleButton: (
                   <CalendarToggleButton
-                    buttonProps={withoutSlotIds(buttonProps, descriptionProps, errorMessageProps)}
+                    buttonProps={withoutSlotIds(triggerProps, descriptionProps, errorMessageProps)}
                     ref={toggleButtonRef}
                     state={state}
                   />
@@ -678,16 +683,13 @@ interface MultiDateFieldProps {
   values: DateValue[]
 }
 
-// `ZonedDateTime` carries its own time zone (`toDate()` takes no argument); `CalendarDate`/
-// `CalendarDateTime` don't, so they need the viewer's local one supplied explicitly.
-const toJsDate = (date: DateValue): Date =>
-  'timeZone' in date ? date.toDate() : date.toDate(getLocalTimeZone())
-
 // Read-only stand-in for `DateField`'s editable segments — a segmented day/month/year field can
 // only ever represent one date, so multiple selection instead shows every selected date, formatted
-// per the active locale and joined with commas.
+// per the active locale and joined with commas. Each is formatted as its own calendar day, in UTC
+// on both sides: a `ZonedDateTime`'s instant, formatted in the viewer's time zone, is another day
+// for a viewer far enough from the value's zone.
 const MultiDateField = ({ values }: MultiDateFieldProps) => {
-  const formatter = useDateFormatter({ dateStyle: 'medium' })
+  const formatter = useDateFormatter({ dateStyle: 'medium', timeZone: 'UTC' })
 
   return (
     <div className="datepicker-field">
@@ -696,7 +698,7 @@ const MultiDateField = ({ values }: MultiDateFieldProps) => {
           {values
             .slice()
             .sort((a, b) => a.compare(b))
-            .map((date) => formatter.format(toJsDate(date)))
+            .map((date) => formatter.format(toCalendarDate(date).toDate('UTC')))
             .join(', ')}
         </>
       )}

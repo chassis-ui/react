@@ -262,6 +262,30 @@ describe('DateRangePicker', () => {
     })
   })
 
+  describe('unavailableDates', () => {
+    // The dates' own `toString()` carries their time, which no `YYYY-MM-DD` entry matched.
+    test('a range with times that starts on a listed date marks the field invalid', () => {
+      render(
+        <DateRangePicker
+          aria-label="Trip dates"
+          defaultValue={{
+            start: new CalendarDateTime(2026, 7, 15, 9, 30),
+            end: new CalendarDateTime(2026, 7, 17, 17)
+          }}
+          unavailableDates={['2026-07-15']}
+        />
+      )
+      expect(screen.getByRole('group', { name: 'Trip dates' })).toHaveClass('is-invalid')
+    })
+  })
+
+  describe('labels', () => {
+    test("calendar names the trigger in place of the locale's own name", () => {
+      render(<DateRangePicker aria-label="Dates du séjour" labels={{ calendar: 'Calendrier' }} />)
+      expect(screen.getByRole('button', { name: /^Calendrier/ })).toBeInTheDocument()
+    })
+  })
+
   describe('edge cases', () => {
     test('picking only a start date does not fire onChange or close the calendar', () => {
       const onChange = vi.fn()

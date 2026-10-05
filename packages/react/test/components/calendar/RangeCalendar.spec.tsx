@@ -239,6 +239,25 @@ describe('RangeCalendar', () => {
       expect(middle).not.toHaveClass('datepicker-date-range-end')
       expect(getDateCell(middle)).toHaveClass('datepicker-date-in-range')
     })
+
+    // A range given as a value can hold a day that can't be selected. The band stopped square on
+    // both sides of it, as if cut off.
+    test('caps the band on both sides of an unavailable day', () => {
+      render(
+        <RangeCalendar
+          aria-label="Trip dates"
+          unavailableDates={['2026-07-08']}
+          value={{ start: new CalendarDate(2026, 7, 6), end: new CalendarDate(2026, 7, 10) }}
+        />
+      )
+      const cell = (day: number) =>
+        getDateCell(screen.getByRole('button', { name: new RegExp(`July ${day}, 2026`) }))
+
+      expect(cell(7)).toHaveClass('datepicker-date-in-range', 'datepicker-date-range-end')
+      expect(cell(8)).not.toHaveClass('datepicker-date-in-range')
+      expect(cell(9)).toHaveClass('datepicker-date-in-range', 'datepicker-date-range-start')
+      expect(cell(9)).not.toHaveClass('datepicker-date-range-end')
+    })
   })
 
   describe('navigation', () => {
@@ -500,6 +519,62 @@ describe('RangeCalendar', () => {
       })
     })
 
+    // May 2024 ends on a Friday and June starts on a Saturday, so each month's grid has a week
+    // holding days of the other, which drew the band a second time.
+    test("a range over a month boundary is drawn once, in each day's own month", () => {
+      render(
+        <RangeCalendar
+          aria-label="Trip dates"
+          defaultValue={{ start: new CalendarDate(2024, 5, 30), end: new CalendarDate(2024, 6, 2) }}
+          visibleMonths={2}
+        />
+      )
+
+      const [may, june] = screen.getAllByRole('grid')
+      expect(getDateCell(within(may!).getByRole('button', { name: /May 31, 2024/ }))).toHaveClass(
+        'datepicker-date-in-range'
+      )
+      const copy = getDateCell(within(june!).getByRole('button', { name: /May 31, 2024/ }))
+      expect(copy).toHaveClass('datepicker-date-outside')
+      expect(copy).not.toHaveClass('datepicker-date-in-range')
+      expect(
+        getDateCell(within(may!).getByRole('button', { name: /June 1, 2024/ }))
+      ).not.toHaveClass('datepicker-date-in-range')
+
+      // The band is capped where each grid stops drawing it, beside the other month's days.
+      expect(getDateCell(within(may!).getByRole('button', { name: /May 31, 2024/ }))).toHaveClass(
+        'datepicker-date-range-end'
+      )
+      expect(getDateCell(within(june!).getByRole('button', { name: /June 1, 2024/ }))).toHaveClass(
+        'datepicker-date-range-start'
+      )
+    })
+
+    // The copy of an endpoint in the other month's grid is greyed out like any day there. Its
+    // button still took the endpoint's highlight.
+    test("an endpoint is highlighted in its own month's grid only", () => {
+      render(
+        <RangeCalendar
+          aria-label="Trip dates"
+          defaultValue={{
+            start: new CalendarDate(2024, 5, 28),
+            end: new CalendarDate(2024, 5, 31)
+          }}
+          visibleMonths={2}
+        />
+      )
+
+      // The label of the start day names the whole range, the end with it.
+      const endOfMay = /Friday, May 31, 2024( selected)?$/
+      const [may, june] = screen.getAllByRole('grid')
+      expect(within(may!).getByRole('button', { name: endOfMay })).toHaveClass(
+        'datepicker-date-range-end'
+      )
+      expect(within(june!).getByRole('button', { name: endOfMay })).not.toHaveClass(
+        'datepicker-date-range-end'
+      )
+    })
+
     // Regression coverage: the global prev/next overlay (`.datepicker-controls`, absolutely
     // positioned across the very top of the calendar) and `CalendarYearGrid`'s own prev/next pager
     // both render in that same spot — visible together, they'd sit on top of one another. The
@@ -593,6 +668,82 @@ describe('RangeCalendar', () => {
         start: new CalendarDate(2026, 7, 1),
         end: new CalendarDate(2026, 7, 10)
       })
+    })
+
+    test('a disabled calendar disables its presets', () => {
+      const onChange = vi.fn()
+      render(
+        <RangeCalendar
+          aria-label="Trip dates"
+          disabled
+          onChange={onChange}
+          presets={[
+            {
+              label: 'Custom Range',
+              range: { start: new CalendarDate(2026, 7, 1), end: new CalendarDate(2026, 7, 10) }
+            }
+          ]}
+        />
+      )
+      const preset = screen.getByRole('button', { name: 'Custom Range' })
+      expect(preset).toBeDisabled()
+
+      fireEvent.click(preset)
+      expect(onChange).not.toHaveBeenCalled()
+    })
+
+    // The start picked in the grid stayed pending under the preset's range: the grid went on
+    // showing it, and the next day pressed finished that selection.
+    test('selecting a preset drops a selection begun in the grid', () => {
+      const onChange = vi.fn()
+      render(
+        <RangeCalendar
+          aria-label="Trip dates"
+          defaultFocusedValue={new CalendarDate(2026, 7, 15)}
+          onChange={onChange}
+          presets={[
+            {
+              label: 'Custom Range',
+              range: { start: new CalendarDate(2026, 7, 1), end: new CalendarDate(2026, 7, 10) }
+            }
+          ]}
+        />
+      )
+      fireEvent.click(screen.getByRole('button', { name: /July 20, 2026/ }))
+      fireEvent.click(screen.getByRole('button', { name: 'Custom Range' }))
+
+      expect(getDateCell(screen.getByRole('button', { name: /July 5, 2026/ }))).toHaveClass(
+        'datepicker-date-in-range'
+      )
+      expect(getDateCell(screen.getByRole('button', { name: /July 20, 2026/ }))).not.toHaveClass(
+        'datepicker-date-in-range'
+      )
+
+      fireEvent.click(screen.getByRole('button', { name: /July 25, 2026/ }))
+      expect(onChange).toHaveBeenCalledTimes(1)
+    })
+
+    test('selecting a preset outside the visible months moves the calendar to its start', () => {
+      render(
+        <RangeCalendar
+          aria-label="Trip dates"
+          defaultFocusedValue={new CalendarDate(2026, 7, 15)}
+          presets={[
+            {
+              label: 'Custom Range',
+              range: { start: new CalendarDate(2025, 11, 20), end: new CalendarDate(2025, 12, 5) }
+            }
+          ]}
+          visibleMonths={2}
+        />
+      )
+      fireEvent.click(screen.getByRole('button', { name: 'Custom Range' }))
+
+      const monthButtons = screen.getAllByRole('button', { name: /^Month:/ })
+      expect(monthButtons.map((button) => button.textContent)).toEqual(['November', 'December'])
+      expect(getDateCell(screen.getByRole('button', { name: /November 20, 2025/ }))).toHaveClass(
+        'datepicker-date-in-range'
+      )
     })
 
     test('selecting a preset reflects in the grid selection for a controlled value', () => {

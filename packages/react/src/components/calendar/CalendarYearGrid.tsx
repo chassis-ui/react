@@ -39,21 +39,26 @@ export const CalendarYearGrid = ({
     timeZone: state.timeZone,
     year: 'numeric'
   })
-  // Lazy initializer only — this view unmounts on every exit, so there's no case where `monthStart`
-  // changes while it's still mounted that this would need to react to.
-  const [pageStart, setPageStart] = useState(() => monthStart.year)
+  // The first year of the page, counted in years from `monthStart`'s own. This view unmounts on
+  // every exit, so there's no case where `monthStart` changes while it's still mounted that this
+  // would need to react to.
+  const [pageOffset, setPageOffset] = useState(0)
 
   // `date` preserves `monthStart`'s own month/day, changing only the year — picking a year should
   // land on the same month it started from, not reset to January (`yearStart`/`yearEnd` are the
   // Jan 1–Dec 31 bounds used only for the disabled-range check below, kept separate so the actual
-  // selection target isn't affected by them).
+  // selection target isn't affected by them). The year is reached with `add`, not `set({ year })`:
+  // a year number counts within its era, so `set` clamped one before the era's first year to that
+  // year, and paging back in the Japanese calendar showed the era's first year fifteen times.
   const years = [...new Array(YEARS_PER_PAGE).keys()].map((i) => {
-    const date = monthStart.set({ year: pageStart + i })
+    const offset = pageOffset + i
+    const date = monthStart.add({ years: offset })
     const yearStart = date.set({ day: 1, month: 1 })
     const yearEnd = yearStart.add({ years: 1 }).subtract({ days: 1 })
     return {
       date,
       formatted: yearFormatter.format(date.toDate(state.timeZone)),
+      offset,
       yearEnd,
       yearStart
     }
@@ -82,7 +87,7 @@ export const CalendarYearGrid = ({
           aria-label={labels.previousYears}
           className="datepicker-arrow datepicker-arrow-prev"
           disabled={isPrevDisabled}
-          onClick={() => setPageStart((start) => start - YEARS_PER_PAGE)}
+          onClick={() => setPageOffset((offset) => offset - YEARS_PER_PAGE)}
           type="button"
         />
         <div className="datepicker-header-content">
@@ -94,7 +99,7 @@ export const CalendarYearGrid = ({
           aria-label={labels.nextYears}
           className="datepicker-arrow datepicker-arrow-next"
           disabled={isNextDisabled}
-          onClick={() => setPageStart((start) => start + YEARS_PER_PAGE)}
+          onClick={() => setPageOffset((offset) => offset + YEARS_PER_PAGE)}
           type="button"
         />
       </div>
@@ -104,7 +109,7 @@ export const CalendarYearGrid = ({
       <div className="datepicker-content">
         <div aria-label={rangeLabel} className="datepicker-years" role="group">
           {years.map((year) => {
-            const isSelected = year.date.year === monthStart.year
+            const isSelected = year.offset === 0
             const isDisabled = isWholeUnitDisabled(state, year.yearStart, year.yearEnd)
 
             return (
@@ -112,7 +117,7 @@ export const CalendarYearGrid = ({
                 aria-current={isSelected ? 'true' : undefined}
                 className={classNames('datepicker-years-year', { selected: isSelected })}
                 disabled={isDisabled}
-                key={year.date.year}
+                key={year.offset}
                 onClick={() => onSelect(year.date)}
                 type="button"
               >

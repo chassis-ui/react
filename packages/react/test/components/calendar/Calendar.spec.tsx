@@ -1,9 +1,11 @@
 import * as React from 'react'
 import { act, render, screen, fireEvent, within } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { CalendarDate, parseZonedDateTime } from '@internationalized/date'
 import { axe } from 'jest-axe'
 
 import { Calendar, I18nProvider } from '../../../src/index'
+import { actUserEvent } from '../../actUserEvent'
 
 // State classes (`selected`, `weekend`, `unavailable`, etc.) live on the `.datepicker-date`
 // wrapper, not the `.datepicker-date-btn` button itself — matching chassis-css's own
@@ -224,6 +226,58 @@ describe('Calendar', () => {
       // eslint-disable-next-line testing-library/no-node-access
       expect(screen.getByRole('grid')).toContainElement(document.activeElement as HTMLElement)
     })
+
+    // react-aria leaves `tabindex` off a day that can't be focused. On a `<button>` that is a tab
+    // stop: Tab from the focused day stopped on every day outside the month or the range.
+    test('Tab leaves the grid from the focused day, past the days that are disabled', async () => {
+      const user = userEvent.setup()
+      render(
+        <>
+          <Calendar
+            aria-label="Event date"
+            maxValue={new CalendarDate(2026, 7, 26)}
+            value={new CalendarDate(2026, 7, 24)}
+          />
+          <button type="button">After</button>
+        </>
+      )
+
+      await actUserEvent(() => user.click(screen.getByRole('button', { name: /July 24, 2026/ })))
+      await actUserEvent(() => user.tab())
+
+      expect(screen.getByRole('button', { name: 'After' })).toHaveFocus()
+    })
+
+    // StrictMode runs a mount's effects twice. The second run was taken for a return to the day
+    // grid, so the calendar focused its own day as soon as it rendered.
+    test('does not take focus when it mounts under StrictMode', () => {
+      render(
+        <React.StrictMode>
+          <Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />
+        </React.StrictMode>
+      )
+      expect(document.body).toHaveFocus()
+    })
+
+    // A year counts within its era: paging back from Reiwa 8 has to reach Heisei, where setting
+    // the year number alone stopped at Reiwa 1 and repeated it for every earlier year.
+    test('the year grid pages back across an era of the Japanese calendar', () => {
+      render(
+        <I18nProvider locale="ja-JP-u-ca-japanese">
+          <Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />
+        </I18nProvider>
+      )
+
+      fireEvent.click(screen.getByRole('button', { name: /^Year:/ }))
+      fireEvent.click(screen.getByRole('button', { name: /previous years/i }))
+
+      const years = within(screen.getByRole('group')).getAllByRole('button')
+      const labels = years.map((year) => year.textContent)
+      expect(labels).toHaveLength(15)
+      expect(new Set(labels).size).toBe(15)
+      expect(labels[0]).toBe('平成23年')
+      expect(labels[14]).toBe('令和7年')
+    })
   })
 
   describe('firstDayOfWeek', () => {
@@ -420,6 +474,74 @@ describe('Calendar', () => {
       fireEvent.click(within(grids[1]!).getByRole('button', { name: /August 3, 2026/ }))
 
       expect(onChange).toHaveBeenCalledWith(new CalendarDate(2026, 8, 3))
+    })
+
+    // May 2024 ends on a Friday and June starts on a Saturday, so each month's grid has a week
+    // holding days of the other. Both are inside the visible range: without telling react-aria
+    // which month a cell belongs to, the day rendered twice, selected and focusable in both.
+    test('a day in the weeks of two visible months is selectable in its own month only', () => {
+      const onChange = vi.fn()
+      render(
+        <Calendar
+          aria-label="Event date"
+          defaultValue={new CalendarDate(2024, 5, 31)}
+          onChange={onChange}
+          visibleMonths={2}
+        />
+      )
+
+      const [may, june] = screen.getAllByRole('grid')
+      const own = within(may!).getByRole('button', { name: /May 31, 2024/ })
+      const copy = within(june!).getByRole('button', { name: /May 31, 2024/ })
+
+      expect(getDateCell(own)).toHaveClass('datepicker-date-selected')
+      expect(own).toHaveAttribute('tabindex', '0')
+      expect(getDateCell(copy)).toHaveClass('datepicker-date-outside')
+      expect(getDateCell(copy)).not.toHaveClass('datepicker-date-selected')
+      expect(copy).toHaveAttribute('aria-disabled', 'true')
+      expect(copy).toHaveAttribute('tabindex', '-1')
+
+      fireEvent.click(within(may!).getByRole('button', { name: /June 1, 2024/ }))
+      expect(onChange).not.toHaveBeenCalled()
+      fireEvent.click(within(june!).getByRole('button', { name: /June 1, 2024/ }))
+      expect(onChange).toHaveBeenCalledWith(new CalendarDate(2024, 6, 1))
+    })
+
+    // The focused day lands in the first visible month after a pick from the second, so the
+    // second block has no day to focus when its day grid returns: focus fell to the body.
+    test('picking a month from the second block keeps focus in that block', () => {
+      render(
+        <Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} visibleMonths={2} />
+      )
+      const [, secondMonthButton] = screen.getAllByRole('button', { name: /^Month:/ })
+      fireEvent.click(secondMonthButton!)
+      fireEvent.click(screen.getByRole('button', { name: 'Dec' }))
+
+      expect(screen.getByRole('button', { name: 'Month: December' })).toHaveFocus()
+    })
+
+    test('backing out of the year grid of the second block returns focus to its year button', () => {
+      render(
+        <Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} visibleMonths={2} />
+      )
+      const [, secondYearButton] = screen.getAllByRole('button', { name: /^Year:/ })
+      fireEvent.click(secondYearButton!)
+      fireEvent.click(screen.getByRole('button', { name: /2026 – 2040/ }))
+
+      expect(screen.getAllByRole('button', { name: /^Year:/ })[1]).toHaveFocus()
+    })
+
+    test('the global prev/next pair returns when a block in its year grid is removed', () => {
+      const { rerender } = render(
+        <Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} visibleMonths={3} />
+      )
+      fireEvent.click(screen.getAllByRole('button', { name: /^Year:/ })[2]!)
+      expect(screen.queryByRole('button', { name: /^next$/i })).not.toBeInTheDocument()
+
+      rerender(
+        <Calendar aria-label="Event date" value={new CalendarDate(2026, 7, 24)} visibleMonths={2} />
+      )
+      expect(screen.getByRole('button', { name: /^next$/i })).toBeInTheDocument()
     })
 
     // Regression coverage: the global prev/next overlay and `CalendarYearGrid`'s own prev/next

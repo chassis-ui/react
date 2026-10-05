@@ -25,6 +25,20 @@
     background-color: var(--primary);
   }
 
+  /* chassis-css takes pointer events off a day that can't be selected, so a press on one lands on
+     the cell around it. react-aria's range calendar takes a release anywhere but on a button for
+     a press outside the grid, and commits the range being selected: pressing a greyed-out day
+     ended the selection at the last day hovered. The button takes the press again, and does
+     nothing with it. Extra `.datepicker-date` qualifier to win over chassis-css's own rule. */
+  .datepicker-date > .datepicker-date-btn[aria-disabled="true"] {
+    pointer-events: auto;
+    cursor: default;
+  }
+
+  .datepicker-date:where(:not(.datepicker-date-selected)) > .datepicker-date-btn[aria-disabled="true"] {
+    --day-hover-bg-color: transparent;
+  }
+
   /* Leading/trailing days from the adjacent month */
   .datepicker-date-outside > .datepicker-date-btn {
     color: var(--day-disabled-fg-color);

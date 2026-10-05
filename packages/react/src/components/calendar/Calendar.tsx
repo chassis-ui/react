@@ -264,7 +264,14 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>((props, forwar
           >
             <CalendarWeekGrid
               firstDayOfWeek={firstDayOfWeek}
-              renderCell={(date) => <CalendarCell date={date} locale={locale} state={state} />}
+              renderCell={(date, _index, _week, isOutsideMonth) => (
+                <CalendarCell
+                  date={date}
+                  isOutsideMonth={isOutsideMonth}
+                  locale={locale}
+                  state={state}
+                />
+              )}
               state={state}
             />
           </CalendarMonthYearPicker>
@@ -289,7 +296,14 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>((props, forwar
                   onViewChange={(view) =>
                     setMonthViews((prev) => ({ ...prev, [monthIndex]: view }))
                   }
-                  renderCell={(date) => <CalendarCell date={date} locale={locale} state={state} />}
+                  renderCell={(date, _index, _week, isOutsideMonth) => (
+                    <CalendarCell
+                      date={date}
+                      isOutsideMonth={isOutsideMonth}
+                      locale={locale}
+                      state={state}
+                    />
+                  )}
                   state={state}
                 />
               ))}
@@ -307,11 +321,13 @@ type CalendarState = StatelyCalendarState<'single' | 'multiple'>
 
 interface CalendarCellProps {
   date: CalendarDate
+  // A day of the month before or after the one this grid shows: see `CalendarWeekGrid`.
+  isOutsideMonth: boolean
   locale: string
   state: CalendarState
 }
 
-const CalendarCell = ({ date, locale, state }: CalendarCellProps) => {
+const CalendarCell = ({ date, isOutsideMonth, locale, state }: CalendarCellProps) => {
   const ref = useRef<HTMLButtonElement>(null)
   const {
     cellProps,
@@ -321,7 +337,7 @@ const CalendarCell = ({ date, locale, state }: CalendarCellProps) => {
     isDisabled,
     isUnavailable,
     formattedDate
-  } = useCalendarCell({ date }, state, ref)
+  } = useCalendarCell({ date, isOutsideMonth }, state, ref)
   // Today only once hydrated, in the class, `aria-current` and the label alike: see `useCellToday`.
   const { isCurrentDate, label } = useCellToday(date, state, isSelected, buttonProps['aria-label'])
 
@@ -332,7 +348,7 @@ const CalendarCell = ({ date, locale, state }: CalendarCellProps) => {
       className={classNames('datepicker-date', {
         'datepicker-date-selected': isSelected,
         'datepicker-date-today': isCurrentDate,
-        'datepicker-date-outside': isOutsideVisibleRange,
+        'datepicker-date-outside': isOutsideVisibleRange || isOutsideMonth,
         'datepicker-date-disabled': isDisabled,
         'datepicker-date-unavailable': isUnavailable,
         'datepicker-date-weekend': isWeekend(date, locale)
@@ -344,6 +360,9 @@ const CalendarCell = ({ date, locale, state }: CalendarCellProps) => {
         type="button"
         className="datepicker-date-btn"
         ref={ref}
+        // react-aria leaves `tabIndex` off a day that can't be focused, which keeps its own `<div>`
+        // out of the tab order but not a `<button>`.
+        tabIndex={buttonProps.tabIndex ?? -1}
       >
         {formattedDate}
       </button>

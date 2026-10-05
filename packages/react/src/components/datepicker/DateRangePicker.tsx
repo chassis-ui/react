@@ -102,10 +102,10 @@ export interface DateRangePickerProps extends Omit<
   isDateUnavailable?: (date: DateValue) => boolean
   /**
    * Overrides for the strings this component and its calendar render themselves rather than
-   * getting from the active locale — the clear adornment and the calendar's own year-view
-   * arrows/announcements. Date segment order, month and weekday names all follow `I18nProvider`'s
-   * locale via react-aria and need no override. Merged over the English defaults, so passing one
-   * key leaves the rest alone.
+   * getting from the active locale — the calendar trigger, the clear adornment and the calendar's
+   * own year-view arrows/announcements. Date segment order, month and weekday names all follow
+   * `I18nProvider`'s locale via react-aria and need no override. Merged over the English defaults,
+   * so passing one key leaves the rest alone.
    */
   labels?: Partial<CalendarLabels>
   /**
@@ -343,6 +343,11 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
 
     const { dialogProps: domDialogProps } = useDialog(dialogProps, calendarRef)
 
+    // react-aria names the trigger in the active locale; `labels.calendar` replaces that name.
+    const triggerProps = labels?.calendar
+      ? { ...buttonProps, 'aria-label': labels.calendar }
+      : buttonProps
+
     return (
       <CalendarLabelsProvider labels={labels}>
         {renderFormField({
@@ -418,7 +423,7 @@ export const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
                 size,
                 toggleButton: (
                   <CalendarToggleButton
-                    buttonProps={withoutSlotIds(buttonProps, descriptionProps, errorMessageProps)}
+                    buttonProps={withoutSlotIds(triggerProps, descriptionProps, errorMessageProps)}
                     ref={toggleButtonRef}
                     state={state}
                   />

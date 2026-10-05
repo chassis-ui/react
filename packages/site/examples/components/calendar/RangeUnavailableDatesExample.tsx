@@ -10,7 +10,7 @@ export const Example = () => {
   return (
     <RangeCalendar
       aria-label="Trip dates"
-      defaultValue={{ start: now, end: now.add({ days: 7 }) }}
+      defaultValue={{ start: now.add({ days: 3 }), end: now.add({ days: 4 }) }}
       unavailableDates={unavailableDates}
     />
   )

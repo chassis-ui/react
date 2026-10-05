@@ -16,7 +16,12 @@ interface CalendarMonthBlockProps {
   // The individual cell differs between `Calendar` and `RangeCalendar` (range selection needs
   // start/end/in-between pill state a single-date cell has no equivalent for), so cell rendering
   // is left to the caller — same shape `CalendarWeekGrid` itself already expects.
-  renderCell: (date: CalendarDate, index: number, week: (CalendarDate | null)[]) => ReactNode
+  renderCell: (
+    date: CalendarDate,
+    index: number,
+    week: (CalendarDate | null)[],
+    isOutsideMonth: boolean
+  ) => ReactNode
   state: CalendarState<'single' | 'multiple'> | RangeCalendarState
 }
 

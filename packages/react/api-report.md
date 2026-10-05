@@ -2965,10 +2965,10 @@ interface DateRangePickerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'def
   isDateUnavailable?: (date: DateValue) => boolean;
   /**
    * Overrides for the strings this component and its calendar render themselves rather than
-   * getting from the active locale — the clear adornment and the calendar's own year-view
-   * arrows/announcements. Date segment order, month and weekday names all follow `I18nProvider`'s
-   * locale via react-aria and need no override. Merged over the English defaults, so passing one
-   * key leaves the rest alone.
+   * getting from the active locale — the calendar trigger, the clear adornment and the calendar's
+   * own year-view arrows/announcements. Date segment order, month and weekday names all follow
+   * `I18nProvider`'s locale via react-aria and need no override. Merged over the English defaults,
+   * so passing one key leaves the rest alone.
    */
   labels?: Partial<CalendarLabels>;
   /**

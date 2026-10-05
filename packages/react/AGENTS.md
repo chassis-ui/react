@@ -82,7 +82,7 @@ widen that range and carry a changeset.
 
 ```bash
 pnpm build             # one-shot build (also run via `pnpm react:build` from the repo root)
-pnpm dev               # tsdown --watch, for local development against packages/site
+pnpm dev               # tsdown --watch --no-clean, for local development against packages/site
 pnpm lint              # eslint + stylelint + prettier, scoped to this package
 pnpm format            # prettier --write, scoped to this package
 pnpm check:types       # tsc --noEmit over src/, test/, types/ and .storybook/
@@ -90,6 +90,13 @@ pnpm check:api         # diff a flattened .d.ts of src/index.ts against api-repo
 pnpm check:api:update  # regenerate api-report.md
 pnpm check:rsc         # assert every dist/*.js entry has exactly one 'use client' (see RSC.md)
 ```
+
+`dev` passes `--no-clean`: a tsdown build starts by deleting `dist/`, and takes about ten seconds
+to write it back. `pnpm dev` at the root starts the docs site at the same moment, so the site
+failed with "Cannot find module '@chassis-ui/react/style.css'" on any page asked for in that time.
+The watcher writes over the last build instead, and the chunks it replaces stay in `dist/chunks`
+until the next `pnpm build`, which does clean. For the same reason, don't run `pnpm build` while
+`pnpm dev` is running: restart `pnpm dev` after it.
 
 `check:types` is the only thing that type-checks this package's own source: tsdown bundles
 declarations without running a full `tsc`, so it never sees an error inside a function body, and

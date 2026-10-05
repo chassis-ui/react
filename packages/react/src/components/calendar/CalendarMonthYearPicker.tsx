@@ -54,14 +54,23 @@ export const CalendarMonthYearPicker = ({
   const labels = useCalendarLabels()
   const [view, setView] = useState<'days' | 'months' | 'years'>('days')
   const containerRef = useRef<HTMLDivElement>(null)
-  // Skipped on mount — there's no prior view to restore focus from yet, and stealing focus
-  // as soon as the calendar renders would fight `autoFocus`/the caller's own focus management.
-  const isFirstRender = useRef(true)
+  // The view focus was last moved for. Nothing moves on mount — there's no prior view to restore
+  // focus from yet, and stealing focus as soon as the calendar renders would fight `autoFocus`/the
+  // caller's own focus management. Compared to `view` rather than a "first render" flag: StrictMode
+  // runs a mount's effects twice, and the second run took the calendar's focused day for a return
+  // to the day grid, so every calendar on a page focused itself on load.
+  const focusedView = useRef(view)
 
   const changeView = (next: 'days' | 'months' | 'years') => {
     setView(next)
     onViewChange?.(next)
   }
+
+  // A block that unmounts in its month or year view (`visibleMonths` lowered) has left it as far
+  // as the parent can tell: without this the parent's global prev/next pair stayed hidden.
+  const onViewChangeRef = useRef(onViewChange)
+  onViewChangeRef.current = onViewChange
+  useEffect(() => () => onViewChangeRef.current?.('days'), [])
 
   // Switching `view` swaps in a whole new subtree, unmounting whatever was focused (the month/
   // year trigger button, or the month/year grid button just picked) — React has no reason to move
@@ -69,19 +78,23 @@ export const CalendarMonthYearPicker = ({
   // `FocusScope`'s containment in `DatePicker`/`DateRangePicker`'s popover entirely. Lands
   // focus on the selected month/year button when entering the month/year view (falling back to
   // the first option if nothing is selected on the currently visible page), or back onto the
-  // day grid's own roving-tabindex cell when returning to 'days'.
+  // day grid's own roving-tabindex cell when returning to 'days'. With several months visible that
+  // cell is often in another block (a pick focuses the first or last visible month, and backing
+  // out moves nothing), so this block's header button for the view just left takes focus instead.
   useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false
-      return
-    }
+    const previousView = focusedView.current
+    if (previousView === view) return
+    focusedView.current = view
 
     const container = containerRef.current
     if (!container) return
 
     const target =
       view === 'days'
-        ? container.querySelector<HTMLElement>('.datepicker-date-btn[tabindex="0"]')
+        ? (container.querySelector<HTMLElement>('.datepicker-date-btn[tabindex="0"]') ??
+          container.querySelector<HTMLElement>(
+            previousView === 'years' ? '.datepicker-year' : '.datepicker-month'
+          ))
         : (container.querySelector<HTMLElement>(
             '.datepicker-months-month.selected, .datepicker-years-year.selected'
           ) ??

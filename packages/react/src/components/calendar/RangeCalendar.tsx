@@ -9,13 +9,23 @@ import {
   useRangeCalendar
 } from 'react-aria'
 import { DateValue, RangeCalendarState, useRangeCalendarState } from 'react-stately'
-import { CalendarDate, createCalendar, isSameDay, isWeekend } from '@internationalized/date'
+import {
+  CalendarDate,
+  createCalendar,
+  isSameDay,
+  isSameMonth,
+  isWeekend,
+  startOfMonth,
+  toCalendar,
+  toCalendarDate
+} from '@internationalized/date'
 
 import { useForkedRef } from '../../hooks'
 import { CalendarMonthBlock } from './CalendarMonthBlock'
 import { CalendarNavButton } from './CalendarNavButton'
 import { DateRangePreset } from '../../utils/dateRangePresets'
 import { mergeIsDateUnavailable } from '../../utils/mergeIsDateUnavailable'
+import { setVisibleRangeStart } from '../../utils/setVisibleRangeStart'
 import { suppressFocusRing } from '../../utils/suppressFocusRingGlobally'
 import './Calendar.scss'
 import './RangeCalendar.scss'
@@ -213,8 +223,23 @@ export const RangeCalendar = forwardRef<HTMLDivElement, RangeCalendarProps>(
     // uncontrolled — including `DateRangePicker`, which relies on this to auto-close its popover
     // the same way completing a range in the grid already does.
     const handlePresetSelect = (range: RangeValue<DateValue>) => {
+      // A range that starts outside the visible months would be selected out of sight, so the
+      // calendar moves to its first month.
+      const start = toCalendar(toCalendarDate(range.start), state.focusedDate.calendar)
+      const { end: visibleEnd, start: visibleStart } = state.visibleRange
+      if (start.compare(visibleStart) < 0 || start.compare(visibleEnd) > 0) {
+        setVisibleRangeStart(state, startOfMonth(start))
+      }
+      // A selection begun in the grid would otherwise stay pending over the preset's range: the
+      // grid kept showing it, and the next day pressed finished it.
+      state.setAnchorDate(null)
       state.setValue(range)
     }
+
+    // Whether the grid of the month starting at `monthStart` draws `date` inside the range's band.
+    // A day of another month, a disabled one and an unavailable one are not, whatever the range.
+    const isInBand = (date: CalendarDate | null | undefined, monthStart: CalendarDate) =>
+      Boolean(date && isSameMonth(date, monthStart) && state.isSelected(date))
 
     return (
       <CalendarLabelsProvider labels={labels}>
@@ -227,6 +252,7 @@ export const RangeCalendar = forwardRef<HTMLDivElement, RangeCalendarProps>(
           <div className="datepicker-grid">
             {resolvedPresets && (
               <DateRangePresets
+                disabled={state.isDisabled}
                 onSelect={handlePresetSelect}
                 presets={resolvedPresets}
                 value={state.value}
@@ -240,27 +266,32 @@ export const RangeCalendar = forwardRef<HTMLDivElement, RangeCalendarProps>(
                 </div>
               )}
               <div className="datepicker-grid">
-                {[...new Array(visibleMonths).keys()].map((monthIndex) => (
-                  <CalendarMonthBlock
-                    arrows={monthIndex === 0 ? singleMonthArrows : null}
-                    firstDayOfWeek={firstDayOfWeek}
-                    key={monthIndex}
-                    monthIndex={monthIndex}
-                    onViewChange={(view) =>
-                      setMonthViews((prev) => ({ ...prev, [monthIndex]: view }))
-                    }
-                    renderCell={(date, i, week) => (
-                      <CalendarCell
-                        date={date}
-                        isFirstInRow={i === 0}
-                        isLastInRow={i === week.length - 1}
-                        locale={locale}
-                        state={state}
-                      />
-                    )}
-                    state={state}
-                  />
-                ))}
+                {[...new Array(visibleMonths).keys()].map((monthIndex) => {
+                  const monthStart = state.visibleRange.start.add({ months: monthIndex })
+
+                  return (
+                    <CalendarMonthBlock
+                      arrows={monthIndex === 0 ? singleMonthArrows : null}
+                      firstDayOfWeek={firstDayOfWeek}
+                      key={monthIndex}
+                      monthIndex={monthIndex}
+                      onViewChange={(view) =>
+                        setMonthViews((prev) => ({ ...prev, [monthIndex]: view }))
+                      }
+                      renderCell={(date, i, week, isOutsideMonth) => (
+                        <CalendarCell
+                          date={date}
+                          isBandEnd={!isInBand(week[i + 1], monthStart)}
+                          isBandStart={!isInBand(week[i - 1], monthStart)}
+                          isOutsideMonth={isOutsideMonth}
+                          locale={locale}
+                          state={state}
+                        />
+                      )}
+                      state={state}
+                    />
+                  )
+                })}
               </div>
             </div>
           </div>
@@ -274,13 +305,25 @@ RangeCalendar.displayName = 'RangeCalendar'
 
 interface CalendarCellProps {
   date: CalendarDate
-  isFirstInRow: boolean
-  isLastInRow: boolean
+  // Whether the band stops after this day and starts at it: the day next to it in the row is
+  // not drawn in the range, or there is none. That is a row's last and first day, and also a day
+  // beside an unavailable or disabled one, or beside another month's.
+  isBandEnd: boolean
+  isBandStart: boolean
+  // A day of the month before or after the one this grid shows: see `CalendarWeekGrid`.
+  isOutsideMonth: boolean
   locale: string
   state: RangeCalendarState
 }
 
-const CalendarCell = ({ date, isFirstInRow, isLastInRow, locale, state }: CalendarCellProps) => {
+const CalendarCell = ({
+  date,
+  isBandEnd,
+  isBandStart,
+  isOutsideMonth,
+  locale,
+  state
+}: CalendarCellProps) => {
   const ref = useRef<HTMLButtonElement>(null)
   const {
     cellProps,
@@ -290,11 +333,13 @@ const CalendarCell = ({ date, isFirstInRow, isLastInRow, locale, state }: Calend
     isDisabled,
     isUnavailable,
     formattedDate
-  } = useCalendarCell({ date }, state, ref)
+  } = useCalendarCell({ date, isOutsideMonth }, state, ref)
 
   // `isSelected` is true for every day in the range, not just its endpoints — the pill's rounded
-  // caps belong only at the true start/end (or wherever a row wraps mid-range, so the band still
-  // reads as continuous week to week); everything else in between is a flush, square-edged band.
+  // caps belong only at the true start/end (or wherever the band breaks: a row wrapping mid-range,
+  // so it still reads as continuous week to week, and a day the range can't hold, where it used
+  // to stop square); everything else in between is a flush, square-edged band. An endpoint that
+  // isn't drawn as selected, the copy of a day in the next month's grid, isn't drawn as one.
   const { highlightedRange } = state
   const isRangeStart = Boolean(highlightedRange && isSameDay(date, highlightedRange.start))
   const isRangeEnd = Boolean(highlightedRange && isSameDay(date, highlightedRange.end))
@@ -308,9 +353,9 @@ const CalendarCell = ({ date, isFirstInRow, isLastInRow, locale, state }: Calend
       className={classNames('datepicker-date', {
         'datepicker-date-today': isCurrentDate,
         'datepicker-date-in-range': isSelected,
-        'datepicker-date-range-start': isSelected && (isRangeStart || isFirstInRow),
-        'datepicker-date-range-end': isSelected && (isRangeEnd || isLastInRow),
-        'datepicker-date-outside': isOutsideVisibleRange,
+        'datepicker-date-range-start': isSelected && (isRangeStart || isBandStart),
+        'datepicker-date-range-end': isSelected && (isRangeEnd || isBandEnd),
+        'datepicker-date-outside': isOutsideVisibleRange || isOutsideMonth,
         'datepicker-date-disabled': isDisabled,
         'datepicker-date-unavailable': isUnavailable,
         'datepicker-date-weekend': isWeekend(date, locale)
@@ -325,12 +370,15 @@ const CalendarCell = ({ date, isFirstInRow, isLastInRow, locale, state }: Calend
           // keyboard — suppress it the same way a mouse press does elsewhere in the library.
           onPointerEnter: () => {
             if (state.anchorDate && ref.current) suppressFocusRing(ref.current)
-          }
+          },
+          // react-aria leaves `tabIndex` off a day that can't be focused, which keeps its own
+          // `<div>` out of the tab order but not a `<button>`.
+          tabIndex: buttonProps.tabIndex ?? -1
         })}
         type="button"
         className={classNames('datepicker-date-btn', {
-          'datepicker-date-range-start': isRangeStart,
-          'datepicker-date-range-end': isRangeEnd
+          'datepicker-date-range-start': isSelected && isRangeStart,
+          'datepicker-date-range-end': isSelected && isRangeEnd
         })}
         ref={ref}
       >
@@ -341,6 +389,7 @@ const CalendarCell = ({ date, isFirstInRow, isLastInRow, locale, state }: Calend
 }
 
 interface DateRangePresetsProps {
+  disabled: boolean
   onSelect: (range: RangeValue<DateValue>) => void
   presets: DateRangePreset[]
   value: RangeValue<DateValue> | null
@@ -355,7 +404,7 @@ const isSameRange = (a: RangeValue<DateValue>, b: RangeValue<DateValue>) =>
 // Plain buttons in a list, not a listbox — a group of independent actions (each one commits
 // immediately) rather than a single-selection widget, so native Tab/Enter/Space is the right
 // interaction model without extra roving-tabindex/arrow-key wiring.
-const DateRangePresets = ({ onSelect, presets, value }: DateRangePresetsProps) => (
+const DateRangePresets = ({ disabled, onSelect, presets, value }: DateRangePresetsProps) => (
   <ul className="datepicker-presets">
     {presets.map((preset) => {
       const isSelected = Boolean(value && isSameRange(value, preset.range))
@@ -365,6 +414,7 @@ const DateRangePresets = ({ onSelect, presets, value }: DateRangePresetsProps) =
           <button
             aria-current={isSelected ? 'true' : undefined}
             className={classNames('datepicker-preset', { selected: isSelected })}
+            disabled={disabled}
             onClick={() => onSelect(preset.range)}
             type="button"
           >

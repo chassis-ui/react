@@ -317,6 +317,54 @@ describe('DatePicker', () => {
     })
   })
 
+  describe('unavailableDates', () => {
+    test('a value on a listed date marks the field invalid', () => {
+      render(
+        <DatePicker
+          aria-label="Event date"
+          defaultValue={new CalendarDate(2026, 7, 15)}
+          unavailableDates={['2026-07-15']}
+        />
+      )
+      expect(screen.getByRole('group', { name: 'Event date' })).toHaveClass('is-invalid')
+    })
+
+    // The value's own `toString()` carries its time, which no `YYYY-MM-DD` entry matched.
+    test('a value with a time on a listed date marks the field invalid too', () => {
+      render(
+        <DatePicker
+          aria-label="Event date"
+          defaultValue={new CalendarDateTime(2026, 7, 15, 9, 30)}
+          unavailableDates={['2026-07-15']}
+        />
+      )
+      expect(screen.getByRole('group', { name: 'Event date' })).toHaveClass('is-invalid')
+    })
+  })
+
+  describe('labels', () => {
+    test("calendar names the trigger in place of the locale's own name", () => {
+      render(
+        <DatePicker
+          aria-label="Date de départ"
+          defaultValue={new CalendarDate(2026, 7, 15)}
+          labels={{ calendar: 'Calendrier', clear: 'Effacer' }}
+        />
+      )
+      expect(screen.getByRole('button', { name: /^Calendrier/ })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'Effacer' })).toBeInTheDocument()
+    })
+
+    test('the trigger keeps the name of the locale without one', () => {
+      render(
+        <I18nProvider locale="fr-FR">
+          <DatePicker aria-label="Date de départ" />
+        </I18nProvider>
+      )
+      expect(screen.getByRole('button', { name: /^Calendrier/ })).toBeInTheDocument()
+    })
+  })
+
   describe('firstDayOfWeek', () => {
     test('is forwarded to the calendar popover, defaulting to Monday', () => {
       render(<DatePicker aria-label="Event date" value={new CalendarDate(2026, 7, 24)} />)
@@ -412,6 +460,24 @@ describe('DatePicker', () => {
         />
       )
       expect(screen.getByText('Jul 5, 2026')).toBeInTheDocument()
+    })
+
+    // Each value is far enough from UTC that its instant falls on another day in any one viewer's
+    // time zone: the field shows the day the value itself is on.
+    test('shows a ZonedDateTime on its own day, whatever the time zone of the viewer', () => {
+      render(
+        <DatePicker
+          aria-label="Event dates"
+          selectionMode="multiple"
+          value={[
+            parseZonedDateTime('2026-07-15T00:30[Pacific/Kiritimati]'),
+            parseZonedDateTime('2026-07-17T23:30[Pacific/Pago_Pago]')
+          ]}
+        />
+      )
+      expect(screen.getByRole('group', { name: 'Event dates' })).toHaveTextContent(
+        'Jul 15, 2026, Jul 17, 2026'
+      )
     })
 
     test('creates one hidden input per selected date when name is provided', () => {

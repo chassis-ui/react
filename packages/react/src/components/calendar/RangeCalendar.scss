@@ -78,6 +78,12 @@
     background-color: var(--bg-hover);
   }
 
+  .datepicker-preset:disabled {
+    color: var(--day-disabled-fg-color);
+    cursor: default;
+    background-color: transparent;
+  }
+
   .datepicker-preset:focus-visible {
     outline: var(--border-width-xl) solid var(--primary);
     outline-offset: -1px;
