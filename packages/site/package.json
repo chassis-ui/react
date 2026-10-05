@@ -38,10 +38,10 @@
     "@astrojs/sitemap": "^3.7.4",
     "@chassis-ui/docs": "^0.6.3",
     "@pagefind/component-ui": "^1.5.2",
-    "@shikijs/transformers": "^4.4.3",
+    "@shikijs/transformers": "^4.5.0",
     "@types/hast": "^3.0.5",
     "@types/mdast": "^4.0.4",
-    "@types/node": "^26.6.3",
+    "@types/node": "^26.6.4",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "astro": "^7.3.5",
@@ -56,11 +56,11 @@
     "react-stately": "^3.50.0",
     "rehype-autolink-headings": "^7.1.0",
     "rimraf": "^6.0.1",
-    "sass": "^1.105.0",
-    "shiki": "^4.4.3",
+    "sass": "^1.105.1",
+    "shiki": "^4.5.0",
     "typescript": "^6.0.3",
     "unified": "^11.0.5",
     "unist-util-visit": "^5.1.0",
-    "vnu-jar": "^26.9.27"
+    "vnu-jar": "^26.10.2"
   }
 }
