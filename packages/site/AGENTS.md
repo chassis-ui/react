@@ -73,7 +73,9 @@ are already listed there.
   sprite the `Icon` examples use. `react/docs/index.astro` redirects to the Introduction page.
 - `config.yml`'s `title` is short (`Chassis - React`, like `Chassis - CSS`) because the shared
   `Head` appends it to every page's own title and html-validate caps a `<title>` at 70
-  characters; the descriptive title lives on the home page's `<BaseLayout title>`.
+  characters. The home page is titled `title · subtitle` of `config.yml` since
+  `@chassis-ui/docs` 0.6.3, so the two together stay within 70 as well; the `title` of its
+  `<BaseLayout>` is used for the social tags only.
 
 ## Static paths
 
