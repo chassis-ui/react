@@ -44,7 +44,7 @@ export const Default: Story = {
   decorators: [narrow(900)],
   render: (args) => (
     <NavOverflow {...args}>
-      <Nav variant="pills">{items()}</Nav>
+      <Nav variant="segments">{items()}</Nav>
     </NavOverflow>
   ),
   play: async function ({ canvas }) {
@@ -93,7 +93,7 @@ export const KeepVisible: Story = {
   decorators: [narrow(360)],
   render: (args) => (
     <NavOverflow {...args}>
-      <Nav variant="pills">
+      <Nav variant="segments">
         {LABELS.map((label, index) => (
           <NavItem key={label} href="#" active={index === 0} keepVisible={label === 'Settings'}>
             {label}

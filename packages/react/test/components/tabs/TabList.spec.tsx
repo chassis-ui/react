@@ -18,7 +18,7 @@ describe('TabList', () => {
       expect(screen.getByRole('tablist', { name: 'Example tabs' })).toBeInTheDocument()
     })
 
-    test('applies nav-tabs by default and nav-pills with variant="pills"', () => {
+    test('applies nav-tabs by default and nav-segments with variant="segments"', () => {
       const { rerender } = render(
         <Tabs defaultSelectedKey="home">
           <TabList aria-label="Example tabs">
@@ -31,13 +31,59 @@ describe('TabList', () => {
 
       rerender(
         <Tabs defaultSelectedKey="home">
+          <TabList aria-label="Example tabs" variant="segments">
+            <Tab id="home">Home</Tab>
+          </TabList>
+          <TabPanel id="home">Home content</TabPanel>
+        </Tabs>
+      )
+      expect(screen.getByRole('tablist')).toHaveClass('nav', 'nav-segments')
+    })
+
+    test('applies nav-underline and a size modifier', () => {
+      render(
+        <Tabs defaultSelectedKey="home">
+          <TabList aria-label="Example tabs" size="sm" variant="underline">
+            <Tab id="home">Home</Tab>
+          </TabList>
+          <TabPanel id="home">Home content</TabPanel>
+        </Tabs>
+      )
+      const list = screen.getByRole('tablist')
+      expect(list.className).toBe('nav sm nav-underline')
+      // `size` is the list's look, not an attribute of the element.
+      expect(list).not.toHaveAttribute('size')
+    })
+
+    test('adds no size class by default', () => {
+      render(
+        <Tabs defaultSelectedKey="home">
+          <TabList aria-label="Example tabs">
+            <Tab id="home">Home</Tab>
+          </TabList>
+          <TabPanel id="home">Home content</TabPanel>
+        </Tabs>
+      )
+      expect(screen.getByRole('tablist').className).toBe('nav nav-tabs')
+    })
+
+    test('renders the deprecated "pills" as nav-segments and warns', () => {
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      render(
+        <Tabs defaultSelectedKey="home">
           <TabList aria-label="Example tabs" variant="pills">
             <Tab id="home">Home</Tab>
           </TabList>
           <TabPanel id="home">Home content</TabPanel>
         </Tabs>
       )
-      expect(screen.getByRole('tablist')).toHaveClass('nav', 'nav-pills')
+      const list = screen.getByRole('tablist')
+      expect(list).toHaveClass('nav', 'nav-segments')
+      expect(list).not.toHaveClass('nav-pills')
+      expect(warnSpy).toHaveBeenCalledWith(
+        expect.stringContaining('TabList: variant="pills" is deprecated, use variant="segments"')
+      )
+      warnSpy.mockRestore()
     })
 
     test('applies a custom className alongside the base classes', () => {

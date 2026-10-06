@@ -3,6 +3,7 @@ import classNames from 'classnames'
 
 import { resolveElementTag } from '../../utils/elementKind'
 import { NavOverflowItems } from '../../utils/navOverflow'
+import { NavVariant, navVariantClassName } from '../../utils/navVariant'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -47,9 +48,17 @@ type NavOwnProps<C extends ElementType> = {
    */
   layout?: 'fill' | 'justified'
   /**
-   * Set the nav variant to tabs or pills.
+   * Size the component sm or lg.
    */
-  variant?: 'tabs' | 'pills'
+  size?: 'sm' | 'lg'
+  /**
+   * Set the nav variant to tabs, to segments (a segmented control) or to underline, which
+   * underlines the active link. `'pills'` is the former name of `'segments'`: deprecated, it
+   * renders the same.
+   *
+   * @type { 'tabs' | 'segments' | 'underline' | 'pills' }
+   */
+  variant?: NavVariant
 }
 
 export type NavProps<C extends ElementType = 'ul'> = PolymorphicComponentProps<C, NavOwnProps<C>>
@@ -59,16 +68,15 @@ type NavComponent = (<C extends ElementType = 'ul'>(
 ) => ReactElement | null) & { displayName?: string }
 
 function NavRender<C extends ElementType = 'ul'>(
-  { children, className, component, items, layout, variant, ...rest }: NavProps<C>,
+  { children, className, component, items, layout, size, variant, ...rest }: NavProps<C>,
   ref: PolymorphicRef<C>
 ) {
   const Component = component ?? 'ul'
   const _className = classNames(
     'nav',
-    {
-      [`nav-${layout}`]: layout,
-      [`nav-${variant}`]: variant
-    },
+    size,
+    { [`nav-${layout}`]: layout },
+    navVariantClassName(variant, 'Nav'),
     className
   )
 

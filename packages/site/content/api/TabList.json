@@ -43,12 +43,10 @@
         "name": "string"
       }
     },
-    "variant": {
-      "defaultValue": {
-        "value": "tabs"
-      },
-      "description": "Set the tab list variant to tabs or pills.",
-      "name": "variant",
+    "size": {
+      "defaultValue": null,
+      "description": "Size the component sm or lg.",
+      "name": "size",
       "parent": {
         "fileName": "packages/react/src/components/tabs/TabList.tsx",
         "name": "TabListProps"
@@ -62,15 +60,36 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"tabs\" | \"pills\"",
+        "raw": "\"sm\" | \"lg\"",
         "value": [
           {
-            "value": "\"tabs\""
+            "value": "\"sm\""
           },
           {
-            "value": "\"pills\""
+            "value": "\"lg\""
           }
         ]
+      }
+    },
+    "variant": {
+      "defaultValue": {
+        "value": "tabs"
+      },
+      "description": "Set the tab list variant to tabs, to segments (a segmented control) or to underline, which\nunderlines the selected tab. `'pills'` is the former name of `'segments'`: deprecated, it\nrenders the same.",
+      "name": "variant",
+      "parent": {
+        "fileName": "packages/react/src/components/tabs/TabList.tsx",
+        "name": "TabListProps"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/tabs/TabList.tsx",
+          "name": "TabListProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "{ 'tabs' | 'segments' | 'underline' | 'pills' }"
       }
     }
   }

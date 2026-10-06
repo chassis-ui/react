@@ -74,10 +74,10 @@
         ]
       }
     },
-    "variant": {
+    "size": {
       "defaultValue": null,
-      "description": "Set the nav variant to tabs or pills.",
-      "name": "variant",
+      "description": "Size the component sm or lg.",
+      "name": "size",
       "declarations": [
         {
           "fileName": "packages/react/src/components/nav/Nav.tsx",
@@ -87,15 +87,30 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"tabs\" | \"pills\"",
+        "raw": "\"sm\" | \"lg\"",
         "value": [
           {
-            "value": "\"tabs\""
+            "value": "\"sm\""
           },
           {
-            "value": "\"pills\""
+            "value": "\"lg\""
           }
         ]
+      }
+    },
+    "variant": {
+      "defaultValue": null,
+      "description": "Set the nav variant to tabs, to segments (a segmented control) or to underline, which\nunderlines the active link. `'pills'` is the former name of `'segments'`: deprecated, it\nrenders the same.",
+      "name": "variant",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/nav/Nav.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "{ 'tabs' | 'segments' | 'underline' | 'pills' }"
       }
     },
     "asChild": {

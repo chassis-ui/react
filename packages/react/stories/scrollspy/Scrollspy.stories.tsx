@@ -71,7 +71,7 @@ function NavExample(props: Omit<ScrollspyProps, 'root'>) {
   return (
     <div className="d-flex gap-md">
       <Scrollspy root={box} {...props}>
-        <Nav variant="pills" className="flex-column" style={{ minWidth: 140 }}>
+        <Nav variant="segments" className="flex-column" style={{ minWidth: 140 }}>
           <NavItem href="#first">First</NavItem>
           <NavItem href="#second">Second</NavItem>
           <NavItem href="#third">Third</NavItem>
@@ -135,9 +135,9 @@ function NestedExample() {
   return (
     <div className="d-flex gap-md">
       <Scrollspy root={box}>
-        <Nav component="nav" variant="pills" className="flex-column" aria-label="Sections">
+        <Nav component="nav" variant="segments" className="flex-column" aria-label="Sections">
           <NavLink href="#item-1">Item 1</NavLink>
-          <Nav component="nav" variant="pills" className="flex-column" aria-label="Item 1">
+          <Nav component="nav" variant="segments" className="flex-column" aria-label="Item 1">
             <NavLink href="#item-1-1" className="ms-md">
               Item 1-1
             </NavLink>
@@ -182,7 +182,7 @@ function MenuExample() {
   return (
     <>
       <Scrollspy root={box}>
-        <Nav variant="pills" className="mb-md">
+        <Nav variant="segments" className="mb-md">
           <NavItem href="#first">First</NavItem>
           <NavItem href="#second">Second</NavItem>
           <Menu component="li" className="nav-item">

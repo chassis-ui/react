@@ -15,6 +15,7 @@ import { Key, Node } from 'react-stately'
 
 import { useForkedRef, useIsomorphicLayoutEffect } from '../../hooks'
 import { NavOverflowContext, NavOverflowItems, useNavOverflowItem } from '../../utils/navOverflow'
+import { NavVariant, navVariantClassName } from '../../utils/navVariant'
 import { mergeUnhandledProps } from '../../utils/unhandledProps'
 import { TabProps } from './Tab'
 import { useTabsContext } from './context'
@@ -30,16 +31,24 @@ export interface TabListProps extends AriaAttributes {
    */
   className?: string
   /**
-   * Set the tab list variant to tabs or pills.
+   * Size the component sm or lg.
    */
-  variant?: 'tabs' | 'pills'
+  size?: 'sm' | 'lg'
+  /**
+   * Set the tab list variant to tabs, to segments (a segmented control) or to underline, which
+   * underlines the selected tab. `'pills'` is the former name of `'segments'`: deprecated, it
+   * renders the same.
+   *
+   * @type { 'tabs' | 'segments' | 'underline' | 'pills' }
+   */
+  variant?: NavVariant
 }
 
 // Renders the actual, focusable tabs from `state.collection` — built by the ancestor `Tabs`
 // from this component's own `children` (see the comment there). This component's own `children`
 // prop is intentionally unused for rendering.
 export const TabList = forwardRef<HTMLUListElement, TabListProps>(
-  ({ className, variant = 'tabs', ...rest }, ref) => {
+  ({ className, size, variant = 'tabs', ...rest }, ref) => {
     const { keyboardActivation, orientation, state } = useTabsContext()
     const listRef = useRef<HTMLUListElement>(null)
     const forkedRef = useForkedRef(ref, listRef)
@@ -55,7 +64,7 @@ export const TabList = forwardRef<HTMLUListElement, TabListProps>(
     // and Shift+Tab then leave the list from it, instead of stopping at a tab on the way.
     const [toggleFocused, setToggleFocused] = useState(false)
 
-    const _className = classNames('nav', `nav-${variant}`, className)
+    const _className = classNames('nav', size, navVariantClassName(variant, 'TabList'), className)
 
     // Inside a `NavOverflow` some tabs are in its menu, hidden here, and its toggle is one more
     // stop among the tabs. react-aria's own arrow keys walk the whole collection, so they would

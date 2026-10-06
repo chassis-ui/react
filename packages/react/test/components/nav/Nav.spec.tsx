@@ -34,13 +34,60 @@ describe('Nav', () => {
 
     test('renders as a custom component', () => {
       render(
-        <Nav className="bazinga" component="nav" layout="justified" variant="pills">
+        <Nav className="bazinga" component="nav" layout="justified" variant="segments">
           Test
         </Nav>
       )
       const nav = screen.getByRole('navigation')
-      expect(nav).toHaveClass('nav', 'nav-justified', 'nav-pills', 'bazinga')
+      expect(nav).toHaveClass('nav', 'nav-justified', 'nav-segments', 'bazinga')
       expect(nav.tagName).toBe('NAV')
+    })
+  })
+
+  describe('size', () => {
+    test.each(['sm', 'lg'] as const)('applies the %s modifier after the base class', (size) => {
+      render(
+        <Nav className="bazinga" layout="fill" size={size} variant="segments">
+          Test
+        </Nav>
+      )
+      expect(screen.getByRole('list').className).toBe(`nav ${size} nav-fill nav-segments bazinga`)
+    })
+
+    test('adds no size class by default', () => {
+      render(<Nav>Test</Nav>)
+      expect(screen.getByRole('list')).not.toHaveClass('sm', 'md', 'lg')
+    })
+  })
+
+  describe('variant', () => {
+    test('adds no variant class by default', () => {
+      render(<Nav aria-label="Plain">Test</Nav>)
+      expect(screen.getByRole('list').className).toBe('nav')
+    })
+
+    test.each(['tabs', 'segments', 'underline'] as const)('applies nav-%s', (variant) => {
+      render(<Nav variant={variant}>Test</Nav>)
+      expect(screen.getByRole('list').className).toBe(`nav nav-${variant}`)
+    })
+
+    test('renders the deprecated "pills" as nav-segments and warns', () => {
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      render(<Nav variant="pills">Test</Nav>)
+      const nav = screen.getByRole('list')
+      expect(nav).toHaveClass('nav', 'nav-segments')
+      expect(nav).not.toHaveClass('nav-pills')
+      expect(warnSpy).toHaveBeenCalledWith(
+        expect.stringContaining('Nav: variant="pills" is deprecated, use variant="segments"')
+      )
+      warnSpy.mockRestore()
+    })
+
+    test('does not warn for the other variants', () => {
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      render(<Nav variant="segments">Test</Nav>)
+      expect(warnSpy).not.toHaveBeenCalled()
+      warnSpy.mockRestore()
     })
   })
 

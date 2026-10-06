@@ -48,9 +48,9 @@ export const DataDriven: Story = {
   }
 }
 
-export const Pills: Story = {
+export const Segments: Story = {
   render: () => (
-    <Nav variant="pills">
+    <Nav variant="segments">
       <NavItem>
         <NavLink href="#" active>
           Active
@@ -60,6 +60,47 @@ export const Pills: Story = {
         <NavLink href="#">Link</NavLink>
       </NavItem>
     </Nav>
+  )
+}
+
+export const Underline: Story = {
+  render: () => (
+    <Nav variant="underline">
+      <NavItem>
+        <NavLink href="#" active>
+          Active
+        </NavLink>
+      </NavItem>
+      <NavItem>
+        <NavLink href="#">Link</NavLink>
+      </NavItem>
+      <NavItem>
+        <NavLink href="#" disabled>
+          Disabled
+        </NavLink>
+      </NavItem>
+    </Nav>
+  )
+}
+
+export const Sizes: Story = {
+  render: () => (
+    <div className="vstack gap-md align-items-start">
+      {(['sm', undefined, 'lg'] as const).map((size) =>
+        (['tabs', 'segments', 'underline'] as const).map((variant) => (
+          <Nav key={`${variant}-${size}`} size={size} variant={variant}>
+            <NavItem>
+              <NavLink href="#" active>
+                Active
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink href="#">Link</NavLink>
+            </NavItem>
+          </Nav>
+        ))
+      )}
+    </div>
   )
 }
 
@@ -83,7 +124,7 @@ export const Vertical: Story = {
 
 export const Fill: Story = {
   render: () => (
-    <Nav variant="pills" layout="fill">
+    <Nav variant="segments" layout="fill">
       <NavItem>
         <NavLink href="#" active>
           Active

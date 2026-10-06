@@ -49,13 +49,31 @@ export const Default: Story = {
   }
 }
 
-export const Pills: Story = {
+export const Segments: Story = {
   args: {
     defaultSelectedKey: 'home'
   },
   render: (args) => (
     <Tabs {...args}>
-      <TabList aria-label="Pills example" variant="pills">
+      <TabList aria-label="Segments example" variant="segments">
+        <Tab id="home">Home</Tab>
+        <Tab id="profile">Profile</Tab>
+        <Tab id="contact">Contact</Tab>
+      </TabList>
+      <TabPanel id="home">Raw denim you probably haven&apos;t heard of them jean shorts.</TabPanel>
+      <TabPanel id="profile">Food truck fixie locavore, accusamus mcsweeney&apos;s.</TabPanel>
+      <TabPanel id="contact">Etsy mixtape wayfarers, ethical wes anderson tofu.</TabPanel>
+    </Tabs>
+  )
+}
+
+export const Underline: Story = {
+  args: {
+    defaultSelectedKey: 'home'
+  },
+  render: (args) => (
+    <Tabs {...args}>
+      <TabList aria-label="Underline example" variant="underline" size="sm">
         <Tab id="home">Home</Tab>
         <Tab id="profile">Profile</Tab>
         <Tab id="contact">Contact</Tab>

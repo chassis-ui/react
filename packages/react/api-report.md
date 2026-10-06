@@ -5075,6 +5075,9 @@ export declare const ModalTitle: ModalTitleComponent;
 type UseModalResult = ModalContextProps;
 export declare const useModal: () => UseModalResult;
 //#endregion
+//#region src/utils/navVariant.d.ts
+type NavVariant = 'pills' | 'segments' | 'tabs' | 'underline';
+//#endregion
 //#region src/components/nav/Nav.d.ts
 interface NavItemDef {
   /**
@@ -5112,9 +5115,17 @@ type NavOwnProps<C extends ElementType> = {
    */
   layout?: 'fill' | 'justified';
   /**
-   * Set the nav variant to tabs or pills.
+   * Size the component sm or lg.
    */
-  variant?: 'pills' | 'tabs';
+  size?: 'lg' | 'sm';
+  /**
+   * Set the nav variant to tabs, to segments (a segmented control) or to underline, which
+   * underlines the active link. `'pills'` is the former name of `'segments'`: deprecated, it
+   * renders the same.
+   *
+   * @type { 'tabs' | 'segments' | 'underline' | 'pills' }
+   */
+  variant?: NavVariant;
 };
 type NavProps<C extends ElementType = 'ul'> = PolymorphicComponentProps<C, NavOwnProps<C>>;
 type NavComponent = (<C extends ElementType = 'ul'>(props: NavProps<C> & {
@@ -6377,9 +6388,17 @@ interface TabListProps extends AriaAttributes {
    */
   className?: string;
   /**
-   * Set the tab list variant to tabs or pills.
+   * Size the component sm or lg.
    */
-  variant?: 'pills' | 'tabs';
+  size?: 'lg' | 'sm';
+  /**
+   * Set the tab list variant to tabs, to segments (a segmented control) or to underline, which
+   * underlines the selected tab. `'pills'` is the former name of `'segments'`: deprecated, it
+   * renders the same.
+   *
+   * @type { 'tabs' | 'segments' | 'underline' | 'pills' }
+   */
+  variant?: NavVariant;
 }
 export declare const TabList: React.ForwardRefExoticComponent<TabListProps & React.RefAttributes<HTMLUListElement>>;
 //#endregion

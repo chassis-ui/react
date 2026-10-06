@@ -167,19 +167,19 @@ describe('Tabs', () => {
   })
 
   describe('styling props', () => {
-    test('renders nav-tabs classes by default and nav-pills when requested', async () => {
+    test('renders nav-tabs classes by default and nav-segments when requested', async () => {
       const { rerender } = render(<BasicTabs />)
       expect(screen.getByRole('tablist')).toHaveClass('nav', 'nav-tabs')
 
       rerender(
         <Tabs defaultSelectedKey="home">
-          <TabList aria-label="Pills" variant="pills">
+          <TabList aria-label="Segments" variant="segments">
             <Tab id="home">Home</Tab>
           </TabList>
           <TabPanel id="home">Home content</TabPanel>
         </Tabs>
       )
-      expect(screen.getByRole('tablist')).toHaveClass('nav', 'nav-pills')
+      expect(screen.getByRole('tablist')).toHaveClass('nav', 'nav-segments')
     })
   })
 
