@@ -48,8 +48,11 @@ function Box({
   )
 }
 
+// Taller than the box whatever the text wraps to. Left to the text, a section was 152px at the
+// width of the browser tests, 2px past the activation line (75% of the box, 150px), and which side
+// of the line the next section's top fell on depended on the engine's font metrics.
 const section = (id: string, title: string, Heading: 'h4' | 'h5' = 'h4') => (
-  <div key={id} id={id}>
+  <div key={id} id={id} style={{ minHeight: 240 }}>
     <Heading>{title}</Heading>
     <p>{TEXT}</p>
     <p>{TEXT}</p>
