@@ -69,12 +69,9 @@ const current = (canvasElement: HTMLElement) =>
   [...canvasElement.querySelectorAll('[aria-current="true"]')].map((element) => element.textContent)
 
 // The mark follows a scroll with the next frame the browser renders, which is when it reports
-// the scroll and the intersections. WebKit on a CI runner has taken 1.5s to render that frame,
-// with the scroll done and timers running, so the default second of `waitFor` isn't enough.
-const NEXT_FRAME = { timeout: 5000 }
-
+// the scroll and the intersections.
 const waitForCurrent = (canvasElement: HTMLElement, texts: string[]) =>
-  waitFor(() => expect(current(canvasElement)).toEqual(texts), NEXT_FRAME)
+  waitFor(() => expect(current(canvasElement)).toEqual(texts))
 
 function NavExample(props: Omit<ScrollspyProps, 'root'>) {
   const box = useRef<HTMLDivElement>(null)
@@ -130,12 +127,10 @@ export const SmoothScroll: Story = {
     await userEvent.click(canvas.getByRole('link', { name: 'Third' }))
     await waitForCurrent(canvasElement, ['Third'])
     const third = canvasElement.querySelector('#third') as HTMLElement
-    await waitFor(
-      () =>
-        expect(
-          Math.abs(third.getBoundingClientRect().top - box.getBoundingClientRect().top)
-        ).toBeLessThan(2),
-      NEXT_FRAME
+    await waitFor(() =>
+      expect(
+        Math.abs(third.getBoundingClientRect().top - box.getBoundingClientRect().top)
+      ).toBeLessThan(2)
     )
     // The address didn't change.
     await expect(window.location.hash).not.toBe('#third')

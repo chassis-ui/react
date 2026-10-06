@@ -138,6 +138,10 @@ pnpm test:update  # same, plus -u to update snapshots
   `pnpm exec playwright install chromium firefox webkit`; CI adds `--with-deps`. Filter with
   `--project=storybook` / `--project='!storybook'`, or to one browser with
   `--project='storybook (webkit)'`.
+- A story's `waitFor` and `findBy*` wait up to five seconds, not testing-library's one:
+  `test/storyWaits.ts`, a setup file of the `storybook` project. What a story waits for comes with
+  the browser's next frame, and a CI runner has taken 1.5s to render one. Don't pass a shorter
+  `timeout` to a wait that follows a scroll, a transition or an overlay opening.
 - `test/types.test-d.tsx` holds type-level assertions (`expectTypeOf`, plus `@ts-expect-error`
   cases that must keep erroring). It's deliberately **not** a `.spec.tsx`, so vitest never collects
   or executes it — it's checked entirely by `pnpm check:types`. Add to it when changing a generic

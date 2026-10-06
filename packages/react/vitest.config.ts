@@ -93,7 +93,7 @@ export default defineConfig({
           // Also switches react-stately's Virtualizer back on — it renders every row unwindowed
           // under `NODE_ENV === 'test'` otherwise, which crashed this project's DataGrid stories.
           // See the file's own comment; it can't be a Vite `define`, which leaks across projects.
-          setupFiles: ['./test/processPolyfill.ts'],
+          setupFiles: ['./test/processPolyfill.ts', './test/storyWaits.ts'],
           browser: {
             enabled: true,
             headless: true,
