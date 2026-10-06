@@ -8,7 +8,7 @@ import {
 } from '../../utils/polymorphic'
 import { buildResponsiveClassNames } from '../../utils/breakpoints'
 import { Breakpoint, Spacing } from '../../types'
-import { resolveGap } from './gap'
+import { gapClassName, gapValue } from './gap'
 
 type GridItemStyle = CSSProperties & {
   '--cx-grid-rows'?: number
@@ -18,13 +18,30 @@ type GridItemStyle = CSSProperties & {
 export interface GridItemLayout {
   /**
    * Number of grid column tracks (of the parent `<Grid>`'s `columns`) this item spans, mapped to
-   * the `g-col-{n}` class.
+   * the `col-span-{n}` class, or `'full'` for every track of the row (`col-span-full`). An item
+   * with no `span` is one track wide.
+   *
+   * @type { number | 'full' }
    */
-  span?: number
+  span?: number | 'full'
   /**
-   * Grid column line to start this item at, mapped to the `g-start-{n}` class.
+   * Grid column line to start this item at, mapped to the `col-start-{n}` class. `'auto'`
+   * (`col-start-auto`) returns the item to the flow, to undo a start line at a wider breakpoint.
+   *
+   * @type { number | 'auto' }
    */
-  start?: number
+  start?: number | 'auto'
+  /**
+   * Number of grid row tracks this item spans, mapped to the `row-span-{n}` class.
+   */
+  rowSpan?: number
+  /**
+   * Grid row line to start this item at, mapped to the `row-start-{n}` class, or `'auto'`
+   * (`row-start-auto`) to return it to the flow.
+   *
+   * @type { number | 'auto' }
+   */
+  rowStart?: number | 'auto'
 }
 
 type GridItemOwnProps<C extends ElementType> = GridItemLayout & {
@@ -37,14 +54,14 @@ type GridItemOwnProps<C extends ElementType> = GridItemLayout & {
    */
   component?: C
   /**
-   * Overrides `span`/`start` at a breakpoint and up.
+   * Overrides `span`/`start`/`rowSpan`/`rowStart` at a breakpoint and up.
    *
-   * @type { Partial<Record<'sm' | 'md' | 'lg' | 'xl' | '2xl', { span?: number, start?: number }>> }
+   * @type { Partial<Record<'sm' | 'md' | 'lg' | 'xl' | '2xl', { span?: number | 'full', start?: number | 'auto', rowSpan?: number, rowStart?: number | 'auto' }>> }
    */
   responsive?: Partial<Record<Breakpoint, GridItemLayout>>
   /**
    * Turns this item into a nested subgrid: adds `.grid`/`.grid-cols-subgrid` alongside its
-   * `g-col-{n}`/`g-start-{n}` placement classes, so its own children inherit the parent
+   * `col-span-{n}`/`col-start-{n}` placement classes, so its own children inherit the parent
    * `<Grid>`'s column tracks instead of defining new ones. Combine with `span` — a subgrid
    * item must itself be a grid item of the parent for `grid-template-columns: subgrid` to take
    * effect, which is why `subgrid` lives on `<GridItem>` (the element actually placed as a grid
@@ -58,8 +75,10 @@ type GridItemOwnProps<C extends ElementType> = GridItemLayout & {
    */
   rows?: number
   /**
-   * Gap between the subgrid's children, set via the `--cx-grid-gap` custom property. Only
-   * relevant when `subgrid` is set — a subgrid doesn't inherit its parent's gap.
+   * Gap between the subgrid's children: a `Spacing` token (mapped to the `gap-{token}` class) or
+   * any raw CSS `gap` value (set via the `--cx-grid-gap` custom property). Only relevant when
+   * `subgrid` is set. A subgrid has the gap of its own: when the parent `<Grid>` takes a `gap`
+   * token, give the subgrid the same one, or its children are narrower than the parent's tracks.
    *
    * @type { Spacing | string }
    */
@@ -75,9 +94,11 @@ type GridItemComponent = (<C extends ElementType = 'div'>(
   props: GridItemProps<C> & { ref?: PolymorphicRef<C> }
 ) => ReactElement | null) & { displayName?: string }
 
-const layoutClassNames = ({ span, start }: GridItemLayout, prefix: string) => [
-  typeof span === 'number' ? `${prefix}g-col-${span}` : null,
-  typeof start === 'number' ? `${prefix}g-start-${start}` : null
+const layoutClassNames = ({ span, start, rowSpan, rowStart }: GridItemLayout, prefix: string) => [
+  span === undefined ? null : `${prefix}col-span-${span}`,
+  start === undefined ? null : `${prefix}col-start-${start}`,
+  rowSpan === undefined ? null : `${prefix}row-span-${rowSpan}`,
+  rowStart === undefined ? null : `${prefix}row-start-${rowStart}`
 ]
 
 function GridItemRender<C extends ElementType = 'div'>(
@@ -87,6 +108,8 @@ function GridItemRender<C extends ElementType = 'div'>(
     component,
     span,
     start,
+    rowSpan,
+    rowStart,
     responsive,
     subgrid,
     rows,
@@ -98,8 +121,9 @@ function GridItemRender<C extends ElementType = 'div'>(
 ) {
   const Component = component ?? 'div'
   const _className = classNames(
-    buildResponsiveClassNames(layoutClassNames, { span, start }, responsive),
+    buildResponsiveClassNames(layoutClassNames, { span, start, rowSpan, rowStart }, responsive),
     subgrid && 'grid grid-cols-subgrid',
+    subgrid && gapClassName(gap),
     className
   )
 
@@ -107,7 +131,8 @@ function GridItemRender<C extends ElementType = 'div'>(
 
   if (subgrid) {
     if (rows !== undefined) _style['--cx-grid-rows'] = rows
-    if (gap !== undefined) _style['--cx-grid-gap'] = resolveGap(gap)
+    const _gap = gapValue(gap)
+    if (_gap !== undefined) _style['--cx-grid-gap'] = _gap
   }
 
   return (

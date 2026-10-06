@@ -20,20 +20,34 @@ describe('GridItem', () => {
         </GridItem>
       )
       const el = screen.getByText('Test')
-      expect(el).toHaveClass('g-col-4', 'bazinga')
+      expect(el).toHaveClass('col-span-4', 'bazinga')
       expect(el.tagName).toBe('SECTION')
     })
   })
 
   describe('span/start', () => {
-    test('applies the g-col-{n} class from span', () => {
+    test('applies the col-span-{n} class from span', () => {
       render(<GridItem span={6}>Test</GridItem>)
-      expect(screen.getByText('Test')).toHaveClass('g-col-6')
+      const el = screen.getByText('Test')
+      expect(el).toHaveClass('col-span-6')
+      expect(el).not.toHaveClass('g-col-6')
     })
 
-    test('applies the g-start-{n} class from start', () => {
+    test('applies col-span-full for a full-width item', () => {
+      render(<GridItem span="full">Test</GridItem>)
+      expect(screen.getByText('Test')).toHaveClass('col-span-full')
+    })
+
+    test('applies the col-start-{n} class from start', () => {
       render(<GridItem start={2}>Test</GridItem>)
-      expect(screen.getByText('Test')).toHaveClass('g-start-2')
+      const el = screen.getByText('Test')
+      expect(el).toHaveClass('col-start-2')
+      expect(el).not.toHaveClass('g-start-2')
+    })
+
+    test('applies col-start-auto to return the item to the flow', () => {
+      render(<GridItem start="auto">Test</GridItem>)
+      expect(screen.getByText('Test')).toHaveClass('col-start-auto')
     })
 
     test('applies both span and start together', () => {
@@ -42,7 +56,38 @@ describe('GridItem', () => {
           Test
         </GridItem>
       )
-      expect(screen.getByText('Test')).toHaveClass('g-col-4', 'g-start-3')
+      expect(screen.getByText('Test')).toHaveClass('col-span-4', 'col-start-3')
+    })
+  })
+
+  describe('rowSpan/rowStart', () => {
+    test('applies the row-span-{n} class from rowSpan', () => {
+      render(<GridItem rowSpan={2}>Test</GridItem>)
+      expect(screen.getByText('Test')).toHaveClass('row-span-2')
+    })
+
+    test('applies the row-start-{n} class from rowStart', () => {
+      render(<GridItem rowStart={3}>Test</GridItem>)
+      expect(screen.getByText('Test')).toHaveClass('row-start-3')
+    })
+
+    test('applies row-start-auto to return the item to the flow', () => {
+      render(<GridItem rowStart="auto">Test</GridItem>)
+      expect(screen.getByText('Test')).toHaveClass('row-start-auto')
+    })
+
+    test('places an item on both axes', () => {
+      render(
+        <GridItem span={4} start={2} rowSpan={2} rowStart={1}>
+          Test
+        </GridItem>
+      )
+      expect(screen.getByText('Test')).toHaveClass(
+        'col-span-4',
+        'col-start-2',
+        'row-span-2',
+        'row-start-1'
+      )
     })
   })
 
@@ -63,25 +108,62 @@ describe('GridItem', () => {
         </GridItem>
       )
       expect(screen.getByText('Test')).toHaveClass(
-        'g-col-12',
-        'sm:g-col-6',
-        'md:g-col-4',
-        'md:g-start-2',
-        'lg:g-col-3',
-        'xl:g-col-2',
-        '2xl:g-col-1'
+        'col-span-12',
+        'sm:col-span-6',
+        'md:col-span-4',
+        'md:col-start-2',
+        'lg:col-span-3',
+        'xl:col-span-2',
+        '2xl:col-span-1'
+      )
+    })
+
+    test('stacks below a breakpoint with span="full" and resets a start line with "auto"', () => {
+      render(
+        <GridItem
+          span="full"
+          start={1}
+          responsive={{ md: { span: 6, start: 4 }, xl: { span: 'full', start: 'auto' } }}
+        >
+          Test
+        </GridItem>
+      )
+      expect(screen.getByText('Test')).toHaveClass(
+        'col-span-full',
+        'col-start-1',
+        'md:col-span-6',
+        'md:col-start-4',
+        'xl:col-span-full',
+        'xl:col-start-auto'
+      )
+    })
+
+    test('applies rowSpan/rowStart classes per breakpoint', () => {
+      render(
+        <GridItem
+          rowSpan={1}
+          responsive={{ md: { rowSpan: 2, rowStart: 2 }, lg: { rowStart: 'auto' } }}
+        >
+          Test
+        </GridItem>
+      )
+      expect(screen.getByText('Test')).toHaveClass(
+        'row-span-1',
+        'md:row-span-2',
+        'md:row-start-2',
+        'lg:row-start-auto'
       )
     })
   })
 
   describe('subgrid', () => {
-    test('adds grid-cols-subgrid alongside grid, combined with the g-col-{n} class', () => {
+    test('adds grid-cols-subgrid alongside grid, combined with the col-span-{n} class', () => {
       render(
         <GridItem span={8} subgrid>
           Test
         </GridItem>
       )
-      expect(screen.getByText('Test')).toHaveClass('g-col-8', 'grid', 'grid-cols-subgrid')
+      expect(screen.getByText('Test')).toHaveClass('col-span-8', 'grid', 'grid-cols-subgrid')
     })
 
     test('sets --cx-grid-rows from the rows prop', () => {
@@ -102,13 +184,15 @@ describe('GridItem', () => {
       expect(screen.getByText('Test')).toHaveStyle({ '--cx-grid-gap': '1rem' })
     })
 
-    test('resolves a Spacing token to the matching --cx-space-* custom property', () => {
+    test('maps a Spacing token to the gap-{token} class, not a custom property', () => {
       render(
         <GridItem subgrid gap="md">
           Test
         </GridItem>
       )
-      expect(screen.getByText('Test')).toHaveStyle({ '--cx-grid-gap': 'var(--cx-space-md)' })
+      const el = screen.getByText('Test')
+      expect(el).toHaveClass('gap-md')
+      expect(el.style.getPropertyValue('--cx-grid-gap')).toBe('')
     })
 
     test('ignores rows/gap when subgrid is not set', () => {
@@ -121,6 +205,11 @@ describe('GridItem', () => {
       expect(el).not.toHaveClass('grid', 'grid-cols-subgrid')
       expect(el.style.getPropertyValue('--cx-grid-rows')).toBe('')
       expect(el.style.getPropertyValue('--cx-grid-gap')).toBe('')
+    })
+
+    test('adds no gap class when subgrid is not set', () => {
+      render(<GridItem gap="md">Test</GridItem>)
+      expect(screen.getByText('Test')).not.toHaveClass('gap-md')
     })
 
     test('preserves a caller-supplied style alongside the custom properties', () => {

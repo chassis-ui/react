@@ -37,7 +37,7 @@
     },
     "columns": {
       "defaultValue": null,
-      "description": "Number of columns in the grid template, set via the `--cx-grid-columns` custom property\n(defaults to `12` in CSS when omitted). Has no effect when `fill` is set.",
+      "description": "Number of columns in the grid template (the column count of `@chassis-ui/css` when omitted,\n`12` by default). A count from 1 to 12 is mapped to the `grid-cols-{n}` class, which applies\nto this grid alone. Any other count has no class and is set via the `--cx-grid-columns`\ncustom property, which a grid nested in this one inherits: give that grid `columns` of its\nown. Has no effect when `fill` is set.",
       "name": "columns",
       "declarations": [
         {
@@ -67,7 +67,7 @@
     },
     "gap": {
       "defaultValue": null,
-      "description": "Gap between grid items, set via the `--cx-grid-gap` custom property (or `--cx-gap` when\n`fill` is set). Accepts a `Spacing` token (mapped to the matching `--cx-space-*` custom\nproperty) or any raw CSS `gap` value, including a `\"{row} {column}\"` pair.",
+      "description": "Gap between grid items: a `Spacing` token (mapped to the `gap-{token}` class) or any raw CSS\n`gap` value, including a `\"{row} {column}\"` pair (set via the `--cx-grid-gap` custom\nproperty). The gutter of the current breakpoint when omitted.",
       "name": "gap",
       "declarations": [
         {
@@ -78,6 +78,21 @@
       "required": false,
       "type": {
         "name": "{ Spacing | string }"
+      }
+    },
+    "responsive": {
+      "defaultValue": null,
+      "description": "Overrides `columns`/`gap` at a breakpoint and up, with the `grid-cols-{n}` and `gap-{token}`\nclasses.",
+      "name": "responsive",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/grid/Grid.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "{ Partial<Record<'sm' | 'md' | 'lg' | 'xl' | '2xl', { columns?: number, gap?: Spacing }>> }"
       }
     },
     "fill": {
@@ -93,6 +108,21 @@
       "required": false,
       "type": {
         "name": "boolean"
+      }
+    },
+    "min": {
+      "defaultValue": null,
+      "description": "Minimum column width of a `fill` grid, set via the `--cx-grid-min` custom property: any CSS\nlength, e.g. `\"12rem\"`. Children wrap to a new row when they would get narrower. Only\nrelevant when `fill` is set.",
+      "name": "min",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/grid/Grid.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string"
       }
     },
     "asChild": {

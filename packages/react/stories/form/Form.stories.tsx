@@ -4,8 +4,7 @@ import { expect, fn } from 'storybook/test'
 
 import { Button } from '../../src/components/button/Button'
 import { Checkbox } from '../../src/components/checkbox/Checkbox'
-import { Col } from '../../src/components/grid/Col'
-import { Row } from '../../src/components/grid/Row'
+import { Flex } from '../../src/components/flex/Flex'
 import { Form } from '../../src/components/form/Form'
 import { FormHelp } from '../../src/components/form/FormHelp'
 import { FormLabel } from '../../src/components/form/FormLabel'
@@ -66,21 +65,21 @@ export const BlockHelp: Story = {
 
 export const InlineHelp: Story = {
   render: () => (
-    <Row className="g-3 align-items-center">
-      <Col span="auto">
+    <Flex wrap="wrap" gap="md" align="center">
+      <div>
         <FormLabel htmlFor="inputPassword6" className="col-form-label">
           Password
         </FormLabel>
-      </Col>
-      <Col span="auto">
+      </div>
+      <div>
         <TextInput type="password" id="inputPassword6" aria-describedby="passwordHelpInline" />
-      </Col>
-      <Col span="auto">
+      </div>
+      <div>
         <FormHelp component="span" id="passwordHelpInline">
           Must be 8-20 characters long.
         </FormHelp>
-      </Col>
-    </Row>
+      </div>
+    </Flex>
   )
 }
 

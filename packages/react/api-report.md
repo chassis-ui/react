@@ -1626,6 +1626,7 @@ export declare const DataGridSelectAllCell: ({ className }: DataGridSelectionCel
 //#endregion
 //#region src/utils/breakpoints.d.ts
 type Span = 'auto' | boolean | number | string;
+type WidthSpan = 'auto' | boolean | number | string;
 type FlexDirection = 'column' | 'row';
 //#endregion
 //#region src/components/card/Card.d.ts
@@ -3582,6 +3583,9 @@ interface ColLayout {
    */
   order?: 'first' | 'last' | number | string;
 }
+/**
+ * @deprecated Use `GridItemProps`: `Col` is deprecated with the flexbox grid of `@chassis-ui/css`.
+ */
 interface ColProps extends HTMLAttributes<HTMLDivElement>, ColLayout {
   /**
    * A string of all className you want applied to the base component.
@@ -3594,6 +3598,11 @@ interface ColProps extends HTMLAttributes<HTMLDivElement>, ColLayout {
    */
   responsive?: Partial<Record<Breakpoint, ColLayout>>;
 }
+/**
+ * @deprecated Use `GridItem` in a `Grid`, with `start` for `offset`. A column as wide as its
+ * content (`span="auto"`) has no grid equivalent: use `Flex`. `@chassis-ui/css` deprecates its
+ * flexbox grid (`.row`, `.col-*`) in 0.6 and removes it in 0.7, and `Col` goes with it.
+ */
 export declare const Col: React.ForwardRefExoticComponent<ColProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
 //#region src/components/grid/Container.d.ts
@@ -3627,6 +3636,17 @@ type ContainerComponent = (<C extends ElementType = 'div'>(props: ContainerProps
 export declare const Container: ContainerComponent;
 //#endregion
 //#region src/components/grid/Grid.d.ts
+interface GridLayout {
+  /**
+   * Number of columns in the grid template from this breakpoint up, mapped to the
+   * `grid-cols-{n}` class (1 to 12). Has no effect when `fill` is set.
+   */
+  columns?: number;
+  /**
+   * Gap between grid items from this breakpoint up, mapped to the `gap-{token}` class.
+   */
+  gap?: Spacing;
+}
 type GridOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
@@ -3637,8 +3657,11 @@ type GridOwnProps<C extends ElementType> = {
    */
   component?: C;
   /**
-   * Number of columns in the grid template, set via the `--cx-grid-columns` custom property
-   * (defaults to `12` in CSS when omitted). Has no effect when `fill` is set.
+   * Number of columns in the grid template (the column count of `@chassis-ui/css` when omitted,
+   * `12` by default). A count from 1 to 12 is mapped to the `grid-cols-{n}` class, which applies
+   * to this grid alone. Any other count has no class and is set via the `--cx-grid-columns`
+   * custom property, which a grid nested in this one inherits: give that grid `columns` of its
+   * own. Has no effect when `fill` is set.
    */
   columns?: number;
   /**
@@ -3647,18 +3670,31 @@ type GridOwnProps<C extends ElementType> = {
    */
   rows?: number;
   /**
-   * Gap between grid items, set via the `--cx-grid-gap` custom property (or `--cx-gap` when
-   * `fill` is set). Accepts a `Spacing` token (mapped to the matching `--cx-space-*` custom
-   * property) or any raw CSS `gap` value, including a `"{row} {column}"` pair.
+   * Gap between grid items: a `Spacing` token (mapped to the `gap-{token}` class) or any raw CSS
+   * `gap` value, including a `"{row} {column}"` pair (set via the `--cx-grid-gap` custom
+   * property). The gutter of the current breakpoint when omitted.
    *
    * @type { Spacing | string }
    */
   gap?: (string & {}) | Spacing;
   /**
+   * Overrides `columns`/`gap` at a breakpoint and up, with the `grid-cols-{n}` and `gap-{token}`
+   * classes.
+   *
+   * @type { Partial<Record<'sm' | 'md' | 'lg' | 'xl' | '2xl', { columns?: number, gap?: Spacing }>> }
+   */
+  responsive?: Partial<Record<Breakpoint, GridLayout>>;
+  /**
    * Renders `.grid-fill` instead of `.grid` — columns expand equally to fill the available
    * width, with the column count determined by the number of children rather than `columns`.
    */
   fill?: boolean;
+  /**
+   * Minimum column width of a `fill` grid, set via the `--cx-grid-min` custom property: any CSS
+   * length, e.g. `"12rem"`. Children wrap to a new row when they would get narrower. Only
+   * relevant when `fill` is set.
+   */
+  min?: string;
 };
 type GridProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, GridOwnProps<C>>;
 type GridComponent = (<C extends ElementType = 'div'>(props: GridProps<C> & {
@@ -3672,13 +3708,30 @@ export declare const Grid: GridComponent;
 interface GridItemLayout {
   /**
    * Number of grid column tracks (of the parent `<Grid>`'s `columns`) this item spans, mapped to
-   * the `g-col-{n}` class.
+   * the `col-span-{n}` class, or `'full'` for every track of the row (`col-span-full`). An item
+   * with no `span` is one track wide.
+   *
+   * @type { number | 'full' }
    */
-  span?: number;
+  span?: 'full' | number;
   /**
-   * Grid column line to start this item at, mapped to the `g-start-{n}` class.
+   * Grid column line to start this item at, mapped to the `col-start-{n}` class. `'auto'`
+   * (`col-start-auto`) returns the item to the flow, to undo a start line at a wider breakpoint.
+   *
+   * @type { number | 'auto' }
    */
-  start?: number;
+  start?: 'auto' | number;
+  /**
+   * Number of grid row tracks this item spans, mapped to the `row-span-{n}` class.
+   */
+  rowSpan?: number;
+  /**
+   * Grid row line to start this item at, mapped to the `row-start-{n}` class, or `'auto'`
+   * (`row-start-auto`) to return it to the flow.
+   *
+   * @type { number | 'auto' }
+   */
+  rowStart?: 'auto' | number;
 }
 type GridItemOwnProps<C extends ElementType> = GridItemLayout & {
   /**
@@ -3690,14 +3743,14 @@ type GridItemOwnProps<C extends ElementType> = GridItemLayout & {
    */
   component?: C;
   /**
-   * Overrides `span`/`start` at a breakpoint and up.
+   * Overrides `span`/`start`/`rowSpan`/`rowStart` at a breakpoint and up.
    *
-   * @type { Partial<Record<'sm' | 'md' | 'lg' | 'xl' | '2xl', { span?: number, start?: number }>> }
+   * @type { Partial<Record<'sm' | 'md' | 'lg' | 'xl' | '2xl', { span?: number | 'full', start?: number | 'auto', rowSpan?: number, rowStart?: number | 'auto' }>> }
    */
   responsive?: Partial<Record<Breakpoint, GridItemLayout>>;
   /**
    * Turns this item into a nested subgrid: adds `.grid`/`.grid-cols-subgrid` alongside its
-   * `g-col-{n}`/`g-start-{n}` placement classes, so its own children inherit the parent
+   * `col-span-{n}`/`col-start-{n}` placement classes, so its own children inherit the parent
    * `<Grid>`'s column tracks instead of defining new ones. Combine with `span` — a subgrid
    * item must itself be a grid item of the parent for `grid-template-columns: subgrid` to take
    * effect, which is why `subgrid` lives on `<GridItem>` (the element actually placed as a grid
@@ -3711,8 +3764,10 @@ type GridItemOwnProps<C extends ElementType> = GridItemLayout & {
    */
   rows?: number;
   /**
-   * Gap between the subgrid's children, set via the `--cx-grid-gap` custom property. Only
-   * relevant when `subgrid` is set — a subgrid doesn't inherit its parent's gap.
+   * Gap between the subgrid's children: a `Spacing` token (mapped to the `gap-{token}` class) or
+   * any raw CSS `gap` value (set via the `--cx-grid-gap` custom property). Only relevant when
+   * `subgrid` is set. A subgrid has the gap of its own: when the parent `<Grid>` takes a `gap`
+   * token, give the subgrid the same one, or its children are narrower than the parent's tracks.
    *
    * @type { Spacing | string }
    */
@@ -3753,6 +3808,9 @@ interface RowLayout {
    */
   gutterY?: 0 | Spacing;
 }
+/**
+ * @deprecated Use `GridProps`: `Row` is deprecated with the flexbox grid of `@chassis-ui/css`.
+ */
 interface RowProps extends HTMLAttributes<HTMLDivElement>, RowLayout {
   /**
    * A string of all className you want applied to the base component.
@@ -3765,6 +3823,11 @@ interface RowProps extends HTMLAttributes<HTMLDivElement>, RowLayout {
    */
   responsive?: Partial<Record<Breakpoint, RowLayout>>;
 }
+/**
+ * @deprecated Use `Grid`, with `columns` for `cols` and `gap` for `gutter`. `@chassis-ui/css`
+ * deprecates its flexbox grid (`.row`, `.col-*`) in 0.6 and removes it in 0.7, and `Row` goes
+ * with it.
+ */
 export declare const Row: React.ForwardRefExoticComponent<RowProps & React.RefAttributes<HTMLDivElement>>;
 //#endregion
 //#region src/components/form/renderFormCheck.d.ts
@@ -5738,20 +5801,22 @@ type SkeletonOwnProps<C extends ElementType> = {
    */
   component?: C;
   /**
-   * Width of the skeleton, expressed as a column span (of 12), or `'auto'`/`true` for a
-   * natural-width skeleton. Unset by default, so the rendered element's own intrinsic width
-   * applies — set it explicitly (e.g. `span={12}`) for a full-width text line; leave it unset
-   * when `component` is something that sizes itself, like `Avatar` or `Button`.
+   * Width of the skeleton in twelfths of its parent (`span={6}` is half, mapped to the
+   * `w-{n}/12` class; `span={12}` is `w-100`), `'auto'` for its natural width (`w-auto`), or
+   * `true` to fill the rest of a flex row (`flex-fill`). Unset by default, so the rendered
+   * element's own intrinsic width applies — set it explicitly (e.g. `span={12}`) for a
+   * full-width text line; leave it unset when `component` is something that sizes itself, like
+   * `Avatar` or `Button`.
    *
    * @type { 'auto' | number | string | boolean }
    */
-  span?: Span;
+  span?: WidthSpan;
   /**
    * Overrides `span` at a breakpoint and up.
    *
    * @type { Partial<Record<'sm' | 'md' | 'lg' | 'xl' | '2xl', 'auto' | number | string | boolean>> }
    */
-  responsive?: Partial<Record<Breakpoint, Span>>;
+  responsive?: Partial<Record<Breakpoint, WidthSpan>>;
 };
 type SkeletonProps<C extends ElementType = 'span'> = PolymorphicComponentProps<C, SkeletonOwnProps<C>>;
 type SkeletonComponent = (<C extends ElementType = 'span'>(props: SkeletonProps<C> & {
@@ -5792,7 +5857,7 @@ type SkeletonLoaderOwnProps<C extends ElementType> = {
    *
    * @type { 'auto' | number | string | boolean | Array<'auto' | number | string | boolean> }
    */
-  spans?: Span | Span[];
+  spans?: WidthSpan | WidthSpan[];
 };
 type SkeletonLoaderProps<C extends ElementType = 'span'> = SkeletonLoaderOwnProps<C> & Omit<ComponentPropsWithoutRef<C>, 'asChild' | keyof SkeletonLoaderOwnProps<C>>;
 type SkeletonLoaderComponent = (<C extends ElementType = 'span'>(props: SkeletonLoaderProps<C> & {
@@ -7793,5 +7858,5 @@ export declare const TreeItem: <T extends object = object>(props: TreeItemProps<
   ref?: Ref<HTMLDivElement>;
 }) => ReactElement;
 //#endregion
-export { type AccordionBodyProps, type AccordionHeaderProps, type AccordionItemDef, type AccordionItemProps, type AccordionProps, type AlertBodyProps, type AlertCancelProps, type AlertCodeProps, type AlertFooterProps, type AlertIconProps, type AlertProps, type AlertTextProps, type AlertTitleProps, type AutocompleteGroupProps, type AutocompleteItemProps, type AutocompleteProps, type AvatarImageProps, type AvatarProps, type AvatarStackItemDef, type AvatarStackProps, type BadgeProps, type BreadcrumbItemDef, type BreadcrumbItemProps, type BreadcrumbProps, type Breakpoint, type ButtonGroupProps, type ButtonObject, type ButtonProps, type ButtonToolbarProps, type CalendarLabels, type CalendarMultipleProps, type CalendarProps, type CalendarSingleProps, type CardBodyProps, type CardFooterProps, type CardGroupProps, type CardHeaderProps, type CardImageOverlayProps, type CardImageProps, type CardLinkProps, type CardProps, type CardSubtitleProps, type CardTextProps, type CardTitleProps, type CarouselControlNextProps, type CarouselControlPrevProps, type CarouselEnds, type CarouselIndicatorsProps, type CarouselInnerProps, type CarouselItemProps, type CarouselOverlayProps, type CarouselPlayPauseProps, type CarouselProps, type CarouselSlideDetail, type CarouselTransition, type CheckboxGroupProps, type CheckboxProps, type ChipInputProps, type ChipProps, type CloseButtonProps, type ColProps, type CollapseProps, type ColorInputProps, type ComboboxGroupProps, type ComboboxItemProps, type ComboboxProps, type ContainerProps, type ContextColor, type ContextMenuProps, type ContextStyle, type DataGridBodyProps, type DataGridCellProps, type DataGridColumnProps, type DataGridHeaderProps, type DataGridProps, type DataGridRowProps, type DataGridSelectionCellProps, type DatePickerMultipleProps, type DatePickerProps, type DatePickerSingleProps, type DateRangePickerProps, type DateRangePreset, type DividerProps, type DrawerBodyProps, type DrawerFooterProps, type DrawerHeaderProps, type DrawerProps, type DrawerTitleProps, type ExtendedSizing, type FileInputProps, type FlexProps, type FloatingInputProps, type FormFeedbackProps, type FormFieldProps, type FormHelpProps, type FormLabelProps, type FormProps, type GridItemLayout, type GridItemProps, type GridProps, I18nProvider, type IconComponentProps, type IconKey, type IconProps, type IconProviderProps, type IconValue, type InputAdornProps, type InputGroupAddonProps, type InputGroupProps, type LinkProps, type ListItemDef, type ListItemProps, type ListProps, type MenuAutoClose, type MenuDividerDef, type MenuDividerProps, type MenuFocusStrategy, type MenuHeaderDef, type MenuHeaderProps, type MenuItemDef, type MenuItemProps, type MenuItemsDef, type MenuListProps, type MenuProps, type MenuSubmenuBackProps, type MenuSubmenuProps, type MenuTextProps, type MenuToggleProps, type ModalBodyProps, type ModalFooterProps, type ModalHeaderProps, type ModalProps, type ModalTitleProps, type NavItemDef, type NavItemProps, type NavLinkProps, type NavOverflowDetail, type NavOverflowProps, type NavProps, type NavTitleProps, type NavbarBrandProps, type NavbarNavProps, type NavbarProps, type NavbarTextProps, type NavbarTogglerProps, type NotificationContent, type NotificationIconProps, type NotificationProps, type NotificationStackProps, type NotificationTextProps, type NotificationTitleProps, type NumberFieldProps, type OtpInputProps, type PaginationItemProps, type PaginationProps, type PasswordStrengthProps, type PlaceholderProps, type Placement, type PopoverProps, type PortalProps, type ProgressBarProps, type ProgressProps, type RadioGroupProps, type RadioProps, type RangeCalendarProps, type RangeInputProps, type RowProps, type ScrollspyProps, type SearchFieldProps, type SelectOptionDef, type SelectProps, type Shapes, type Sizing, type SkeletonLoaderProps, type SkeletonProps, type Spacing, type SpinnerProps, type StackProps, type StaticTableProps, type StepperItemDef, type StepperItemProps, type StepperProps, type SwitchProps, type TabListProps, type TabPanelProps, type TabProps, type TableBodyProps, type TableCellProps, type TableColumnProps, type TableHeaderProps, type TableProps, type TableRowProps, type TabsProps, type TextInputProps, type TextareaProps, type TimeFieldProps, type ToastBodyProps, type ToastContent, type ToastFooterProps, type ToastHeaderProps, type ToastIconProps, type ToastProps, type ToasterProps, type TooltipProps, type TreeItemProps, type TreeProps, type UseDrawerResult, type UseModalResult, type UseNotificationResult, type UsePaginationResult, type UseScrollspyOptions, type UseToastResult, type VisuallyHiddenProps };
+export { type AccordionBodyProps, type AccordionHeaderProps, type AccordionItemDef, type AccordionItemProps, type AccordionProps, type AlertBodyProps, type AlertCancelProps, type AlertCodeProps, type AlertFooterProps, type AlertIconProps, type AlertProps, type AlertTextProps, type AlertTitleProps, type AutocompleteGroupProps, type AutocompleteItemProps, type AutocompleteProps, type AvatarImageProps, type AvatarProps, type AvatarStackItemDef, type AvatarStackProps, type BadgeProps, type BreadcrumbItemDef, type BreadcrumbItemProps, type BreadcrumbProps, type Breakpoint, type ButtonGroupProps, type ButtonObject, type ButtonProps, type ButtonToolbarProps, type CalendarLabels, type CalendarMultipleProps, type CalendarProps, type CalendarSingleProps, type CardBodyProps, type CardFooterProps, type CardGroupProps, type CardHeaderProps, type CardImageOverlayProps, type CardImageProps, type CardLinkProps, type CardProps, type CardSubtitleProps, type CardTextProps, type CardTitleProps, type CarouselControlNextProps, type CarouselControlPrevProps, type CarouselEnds, type CarouselIndicatorsProps, type CarouselInnerProps, type CarouselItemProps, type CarouselOverlayProps, type CarouselPlayPauseProps, type CarouselProps, type CarouselSlideDetail, type CarouselTransition, type CheckboxGroupProps, type CheckboxProps, type ChipInputProps, type ChipProps, type CloseButtonProps, type ColProps, type CollapseProps, type ColorInputProps, type ComboboxGroupProps, type ComboboxItemProps, type ComboboxProps, type ContainerProps, type ContextColor, type ContextMenuProps, type ContextStyle, type DataGridBodyProps, type DataGridCellProps, type DataGridColumnProps, type DataGridHeaderProps, type DataGridProps, type DataGridRowProps, type DataGridSelectionCellProps, type DatePickerMultipleProps, type DatePickerProps, type DatePickerSingleProps, type DateRangePickerProps, type DateRangePreset, type DividerProps, type DrawerBodyProps, type DrawerFooterProps, type DrawerHeaderProps, type DrawerProps, type DrawerTitleProps, type ExtendedSizing, type FileInputProps, type FlexProps, type FloatingInputProps, type FormFeedbackProps, type FormFieldProps, type FormHelpProps, type FormLabelProps, type FormProps, type GridItemLayout, type GridItemProps, type GridLayout, type GridProps, I18nProvider, type IconComponentProps, type IconKey, type IconProps, type IconProviderProps, type IconValue, type InputAdornProps, type InputGroupAddonProps, type InputGroupProps, type LinkProps, type ListItemDef, type ListItemProps, type ListProps, type MenuAutoClose, type MenuDividerDef, type MenuDividerProps, type MenuFocusStrategy, type MenuHeaderDef, type MenuHeaderProps, type MenuItemDef, type MenuItemProps, type MenuItemsDef, type MenuListProps, type MenuProps, type MenuSubmenuBackProps, type MenuSubmenuProps, type MenuTextProps, type MenuToggleProps, type ModalBodyProps, type ModalFooterProps, type ModalHeaderProps, type ModalProps, type ModalTitleProps, type NavItemDef, type NavItemProps, type NavLinkProps, type NavOverflowDetail, type NavOverflowProps, type NavProps, type NavTitleProps, type NavbarBrandProps, type NavbarNavProps, type NavbarProps, type NavbarTextProps, type NavbarTogglerProps, type NotificationContent, type NotificationIconProps, type NotificationProps, type NotificationStackProps, type NotificationTextProps, type NotificationTitleProps, type NumberFieldProps, type OtpInputProps, type PaginationItemProps, type PaginationProps, type PasswordStrengthProps, type PlaceholderProps, type Placement, type PopoverProps, type PortalProps, type ProgressBarProps, type ProgressProps, type RadioGroupProps, type RadioProps, type RangeCalendarProps, type RangeInputProps, type RowProps, type ScrollspyProps, type SearchFieldProps, type SelectOptionDef, type SelectProps, type Shapes, type Sizing, type SkeletonLoaderProps, type SkeletonProps, type Spacing, type SpinnerProps, type StackProps, type StaticTableProps, type StepperItemDef, type StepperItemProps, type StepperProps, type SwitchProps, type TabListProps, type TabPanelProps, type TabProps, type TableBodyProps, type TableCellProps, type TableColumnProps, type TableHeaderProps, type TableProps, type TableRowProps, type TabsProps, type TextInputProps, type TextareaProps, type TimeFieldProps, type ToastBodyProps, type ToastContent, type ToastFooterProps, type ToastHeaderProps, type ToastIconProps, type ToastProps, type ToasterProps, type TooltipProps, type TreeItemProps, type TreeProps, type UseDrawerResult, type UseModalResult, type UseNotificationResult, type UsePaginationResult, type UseScrollspyOptions, type UseToastResult, type VisuallyHiddenProps };
 ```

@@ -2,6 +2,7 @@ import React, { forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
 import { buildResponsiveClassNames } from '../../utils/breakpoints'
+import { devWarning } from '../../utils/devWarning'
 import { spacingClassName } from '../../utils/spacingClassName'
 import { Breakpoint, Spacing } from '../../types'
 
@@ -32,6 +33,9 @@ export interface RowLayout {
   gutterY?: Spacing | 0
 }
 
+/**
+ * @deprecated Use `GridProps`: `Row` is deprecated with the flexbox grid of `@chassis-ui/css`.
+ */
 export interface RowProps extends HTMLAttributes<HTMLDivElement>, RowLayout {
   /**
    * A string of all className you want applied to the base component.
@@ -52,8 +56,19 @@ const layoutClassNames = ({ cols, gutter, gutterX, gutterY }: RowLayout, prefix:
   spacingClassName('gy', gutterY, prefix)
 ]
 
+/**
+ * @deprecated Use `Grid`, with `columns` for `cols` and `gap` for `gutter`. `@chassis-ui/css`
+ * deprecates its flexbox grid (`.row`, `.col-*`) in 0.6 and removes it in 0.7, and `Row` goes
+ * with it.
+ */
 export const Row = forwardRef<HTMLDivElement, RowProps>(
   ({ children, className, cols, gutter, gutterX, gutterY, responsive, ...rest }, ref) => {
+    devWarning(
+      true,
+      'Row: Row and Col are deprecated with the flexbox grid of @chassis-ui/css, use Grid and ' +
+        'GridItem instead. They will be removed in a future major version.'
+    )
+
     const _className = classNames(
       'row',
       buildResponsiveClassNames(layoutClassNames, { cols, gutter, gutterX, gutterY }, responsive),

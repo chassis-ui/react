@@ -1,5 +1,7 @@
 {
-  "tags": {},
+  "tags": {
+    "deprecated": "Use `Grid`, with `columns` for `cols` and `gap` for `gutter`. `@chassis-ui/css`\ndeprecates its flexbox grid (`.row`, `.col-*`) in 0.6 and removes it in 0.7, and `Row` goes\nwith it."
+  },
   "filePath": "packages/react/src/components/grid/Row.tsx",
   "description": "",
   "displayName": "Row",

@@ -25,8 +25,8 @@ describe('SkeletonLoader', () => {
       )
       const lines = container.querySelectorAll('.skeleton')
       expect(lines).toHaveLength(2)
-      expect(lines[0]).toHaveClass('col-12')
-      expect(lines[1]).toHaveClass('col-6')
+      expect(lines[0]).toHaveClass('w-100')
+      expect(lines[1]).toHaveClass('w-6/12')
       expect(container).not.toHaveTextContent('Real content')
     })
 
@@ -58,7 +58,7 @@ describe('SkeletonLoader', () => {
       )
       const lines = container.querySelectorAll('.skeleton')
       expect(lines).toHaveLength(1)
-      expect(lines[0]).toHaveClass('col-4')
+      expect(lines[0]).toHaveClass('w-4/12')
     })
     /* eslint-enable testing-library/no-node-access, testing-library/no-container */
 
@@ -99,7 +99,7 @@ describe('SkeletonLoader', () => {
         </SkeletonLoader>
       )
       const line = container.querySelector('.skeleton')
-      expect(line).not.toHaveClass('w-100', 'col')
+      expect(line?.className).toBe('skeleton')
       expect(container.querySelectorAll('.skeleton')).toHaveLength(1)
     })
     /* eslint-enable testing-library/no-node-access, testing-library/no-container */

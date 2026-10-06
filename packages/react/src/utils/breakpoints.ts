@@ -4,10 +4,15 @@ import { Breakpoint } from '../types'
 // `Skeleton`'s `responsive`) keys its overrides by these literal chassis-css breakpoint names.
 export const BREAKPOINTS: Breakpoint[] = ['sm', 'md', 'lg', 'xl', '2xl']
 
-// A column/width span: a track count, `'auto'` for a natural-width track, or `true` for the bare
-// (no explicit width) case. Shared by `Col` and `Skeleton`, both of which map it to the same
-// `col-{n}` / `col` chassis-css classes.
+// A column span: a track count, `'auto'` for a natural-width track, or `true` for the bare (no
+// explicit width) case. `Col` maps it to the `col-{n}` / `col` classes of chassis-css's flexbox
+// grid, and the type goes when `Col` does.
 export type Span = 'auto' | number | string | boolean
+
+// A width in twelfths of the parent: a count, `'auto'` for the natural width, or `true` to fill
+// the rest of a flex row. `Skeleton` maps it to chassis-css's width utilities. The same values as
+// `Span`, kept apart so the skeleton doesn't depend on a type of the flexbox grid.
+export type WidthSpan = 'auto' | number | string | boolean
 
 /**
  * Builds the class list for a component's base layout plus per-breakpoint overrides supplied via

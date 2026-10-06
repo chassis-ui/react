@@ -9,7 +9,7 @@ import React, {
   ReactNode
 } from 'react'
 
-import { Span } from '../../utils/breakpoints'
+import { WidthSpan } from '../../utils/breakpoints'
 import { PolymorphicRef } from '../../utils/polymorphic'
 import { ContextColor } from '../../types'
 import { Skeleton, SkeletonProps } from './Skeleton'
@@ -44,7 +44,7 @@ type SkeletonLoaderOwnProps<C extends ElementType> = {
    *
    * @type { 'auto' | number | string | boolean | Array<'auto' | number | string | boolean> }
    */
-  spans?: Span | Span[]
+  spans?: WidthSpan | WidthSpan[]
 }
 
 // Spelled out rather than `PolymorphicComponentProps`, which adds `asChild`: `SkeletonLoader`

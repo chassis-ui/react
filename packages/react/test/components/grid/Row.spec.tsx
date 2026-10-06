@@ -1,10 +1,22 @@
 import * as React from 'react'
 import { render, screen } from '@testing-library/react'
 import { axe } from 'jest-axe'
+import type { MockInstance } from 'vitest'
 
 import { Row } from '../../../src/index'
 
 describe('Row', () => {
+  // Every render reports the deprecation; `dev warnings` below asserts on it.
+  let warnSpy: MockInstance<typeof console.warn>
+
+  beforeEach(() => {
+    warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+  })
+
+  afterEach(() => {
+    warnSpy.mockRestore()
+  })
+
   describe('rendering', () => {
     test('renders a div with the base class', () => {
       render(<Row>Test</Row>)
@@ -74,6 +86,26 @@ describe('Row', () => {
         </Row>
       )
       expect(screen.getByText('Test')).toHaveClass('g-0', 'sm:gx-0', 'md:gy-0')
+    })
+  })
+
+  describe('dev warnings', () => {
+    test('warns that it is deprecated, naming its replacement', () => {
+      render(<Row>Test</Row>)
+      expect(warnSpy).toHaveBeenCalledWith(
+        expect.stringContaining('Row: Row and Col are deprecated')
+      )
+      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('Grid'))
+    })
+
+    test('warns once, however many render', () => {
+      render(
+        <>
+          <Row>One</Row>
+          <Row>Two</Row>
+        </>
+      )
+      expect(warnSpy).toHaveBeenCalledTimes(1)
     })
   })
 

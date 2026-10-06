@@ -331,3 +331,7 @@ way `Flex`/`Stack` aren't — there's no established use case (unlike `Card`'s s
 both of which _were_ migrated to the polymorphic pattern in that same audit pass) pulling for a
 `Row`/`Col` consumer to need a different root element. Revisit only if a concrete need surfaces,
 not as a consistency sweep on its own — don't "fix" this as an accidental gap.
+
+Both are deprecated since 0.3.0, with the flexbox grid of `@chassis-ui/css` 0.6, and go when css
+0.7 removes it. `Grid` and `GridItem`, which are polymorphic, replace them: add nothing to
+`Row`/`Col`.

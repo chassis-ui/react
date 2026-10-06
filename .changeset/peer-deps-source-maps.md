@@ -2,7 +2,7 @@
 '@chassis-ui/react': minor
 ---
 
-Declare `@chassis-ui/css` as a peer dependency (`>=0.5.0 <0.6.0`), so a mismatched version warns
+Declare `@chassis-ui/css` as a peer dependency (`>=0.6.0 <0.7.0`), so a mismatched version warns
 at install instead of silently collapsing spacing after a token rename.
 
 Breaking: `react` and `react-dom` narrow from `>=18` to `^19.0.0`. React 19 is the version the

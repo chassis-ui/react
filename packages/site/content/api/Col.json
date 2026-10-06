@@ -1,5 +1,7 @@
 {
-  "tags": {},
+  "tags": {
+    "deprecated": "Use `GridItem` in a `Grid`, with `start` for `offset`. A column as wide as its\ncontent (`span=\"auto\"`) has no grid equivalent: use `Flex`. `@chassis-ui/css` deprecates its\nflexbox grid (`.row`, `.col-*`) in 0.6 and removes it in 0.7, and `Col` goes with it."
+  },
   "filePath": "packages/react/src/components/grid/Col.tsx",
   "description": "",
   "displayName": "Col",

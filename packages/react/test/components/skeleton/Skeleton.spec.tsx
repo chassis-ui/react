@@ -25,17 +25,59 @@ describe('Skeleton', () => {
       const { container } = render(
         <Skeleton className="bazinga" color="secondary" responsive={{ sm: 7 }} />
       )
-      expect(container.firstChild).toHaveClass('skeleton', 'bg-secondary', 'sm:col-7', 'bazinga')
+      expect(container.firstChild).toHaveClass('skeleton', 'bg-secondary', 'sm:w-7/12', 'bazinga')
     })
 
     test('adds no width class when span is unset, leaving intrinsic sizing to the element', () => {
       const { container } = render(<Skeleton />)
-      expect(container.firstChild).not.toHaveClass('w-100', 'col')
+      expect((container.firstChild as HTMLElement).className).toBe('skeleton')
     })
 
-    test('adds a column class when span is set to a number', () => {
+    test('adds a twelfths width class when span is set to a number', () => {
       const { container } = render(<Skeleton span={4} />)
-      expect(container.firstChild).toHaveClass('col-4')
+      expect(container.firstChild).toHaveClass('w-4/12')
+      expect(container.firstChild).not.toHaveClass('col-4')
+    })
+
+    test('reads a numeric string as the same count', () => {
+      const { container } = render(<Skeleton span="6" />)
+      expect(container.firstChild).toHaveClass('w-6/12')
+    })
+
+    test('maps twelve twelfths to w-100, which has no fraction class', () => {
+      const { container } = render(<Skeleton span={12} />)
+      expect(container.firstChild).toHaveClass('w-100')
+      expect(container.firstChild).not.toHaveClass('w-12/12')
+    })
+
+    test('maps "auto" to w-auto', () => {
+      const { container } = render(<Skeleton span="auto" />)
+      expect(container.firstChild).toHaveClass('w-auto')
+      expect(container.firstChild).not.toHaveClass('col-auto')
+    })
+
+    test('maps true to flex-fill', () => {
+      const { container } = render(<Skeleton span />)
+      expect(container.firstChild).toHaveClass('flex-fill')
+      expect(container.firstChild).not.toHaveClass('col')
+    })
+
+    test('adds no width class when span is false', () => {
+      const { container } = render(<Skeleton span={false} />)
+      expect((container.firstChild as HTMLElement).className).toBe('skeleton')
+    })
+
+    test('applies the width classes per breakpoint', () => {
+      const { container } = render(
+        <Skeleton span={12} responsive={{ sm: 8, md: 'auto', lg: true, xl: 12 }} />
+      )
+      expect(container.firstChild).toHaveClass(
+        'w-100',
+        'sm:w-8/12',
+        'md:w-auto',
+        'lg:flex-fill',
+        'xl:w-100'
+      )
     })
 
     test('renders the glow animation class alongside the base class', () => {

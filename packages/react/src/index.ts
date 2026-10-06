@@ -444,6 +444,7 @@ export type {
   ContainerProps,
   GridItemLayout,
   GridItemProps,
+  GridLayout,
   GridProps,
   RowProps
 } from './components/grid'

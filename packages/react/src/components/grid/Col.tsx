@@ -2,6 +2,7 @@ import React, { forwardRef, HTMLAttributes } from 'react'
 import classNames from 'classnames'
 
 import { Span, buildResponsiveClassNames } from '../../utils/breakpoints'
+import { devWarning } from '../../utils/devWarning'
 import { Breakpoint } from '../../types'
 
 export interface ColLayout {
@@ -23,6 +24,9 @@ export interface ColLayout {
   order?: 'first' | 'last' | number | string
 }
 
+/**
+ * @deprecated Use `GridItemProps`: `Col` is deprecated with the flexbox grid of `@chassis-ui/css`.
+ */
 export interface ColProps extends HTMLAttributes<HTMLDivElement>, ColLayout {
   /**
    * A string of all className you want applied to the base component.
@@ -43,8 +47,19 @@ const layoutClassNames = ({ span, offset, order }: ColLayout, prefix: string) =>
   typeof order === 'number' || typeof order === 'string' ? `${prefix}order-${order}` : null
 ]
 
+/**
+ * @deprecated Use `GridItem` in a `Grid`, with `start` for `offset`. A column as wide as its
+ * content (`span="auto"`) has no grid equivalent: use `Flex`. `@chassis-ui/css` deprecates its
+ * flexbox grid (`.row`, `.col-*`) in 0.6 and removes it in 0.7, and `Col` goes with it.
+ */
 export const Col = forwardRef<HTMLDivElement, ColProps>(
   ({ children, className, span, offset, order, responsive, ...rest }, ref) => {
+    devWarning(
+      true,
+      'Col: Row and Col are deprecated with the flexbox grid of @chassis-ui/css, use Grid and ' +
+        'GridItem instead. They will be removed in a future major version.'
+    )
+
     const layoutClassList = buildResponsiveClassNames(
       layoutClassNames,
       { span, offset, order },

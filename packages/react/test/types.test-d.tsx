@@ -14,6 +14,8 @@ import {
   DatePicker,
   Divider,
   Drawer,
+  Grid,
+  GridItem,
   ListItem,
   Menu,
   MenuItem,
@@ -308,3 +310,19 @@ expectTypeOf<ToastContent>().toHaveProperty('time')
 expectTypeOf<ToastContent>().toHaveProperty('icon')
 // @ts-expect-error the queue owns whether a queued toast is shown.
 expectTypeOf(addToast('Saved', { visible: false })).toBeString()
+
+// --- `GridItem` placement and `Grid`'s breakpoint layout take the values chassis-css has ---
+
+expectTypeOf(
+  <GridItem span="full" start="auto" rowSpan={2} rowStart="auto" responsive={{ md: { span: 6 } }} />
+).toBeObject()
+// @ts-expect-error a span is a track count or `'full'`: `'auto'` is a start line.
+expectTypeOf(<GridItem span="auto" />).toBeObject()
+// @ts-expect-error a row span is a track count: there is no `row-span-full` class.
+expectTypeOf(<GridItem rowSpan="full" />).toBeObject()
+
+expectTypeOf(
+  <Grid columns={1} gap="1rem" responsive={{ md: { columns: 3, gap: 'lg' } }} />
+).toBeObject()
+// @ts-expect-error a breakpoint's gap is a class, so a `Spacing` token: a raw value has none.
+expectTypeOf(<Grid responsive={{ md: { gap: '1rem' } }} />).toBeObject()

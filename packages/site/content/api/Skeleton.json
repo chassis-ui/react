@@ -114,7 +114,7 @@
     },
     "span": {
       "defaultValue": null,
-      "description": "Width of the skeleton, expressed as a column span (of 12), or `'auto'`/`true` for a\nnatural-width skeleton. Unset by default, so the rendered element's own intrinsic width\napplies — set it explicitly (e.g. `span={12}`) for a full-width text line; leave it unset\nwhen `component` is something that sizes itself, like `Avatar` or `Button`.",
+      "description": "Width of the skeleton in twelfths of its parent (`span={6}` is half, mapped to the\n`w-{n}/12` class; `span={12}` is `w-100`), `'auto'` for its natural width (`w-auto`), or\n`true` to fill the rest of a flex row (`flex-fill`). Unset by default, so the rendered\nelement's own intrinsic width applies — set it explicitly (e.g. `span={12}`) for a\nfull-width text line; leave it unset when `component` is something that sizes itself, like\n`Avatar` or `Button`.",
       "name": "span",
       "declarations": [
         {

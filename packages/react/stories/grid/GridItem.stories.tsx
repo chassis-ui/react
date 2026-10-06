@@ -43,6 +43,51 @@ export const Start: Story = {
   )
 }
 
+export const Full: Story = {
+  render: () => (
+    <Grid>
+      <GridItem span="full" className={boxClass}>
+        span=full
+      </GridItem>
+      <GridItem span="full" responsive={{ md: { span: 6 } }} className={boxClass}>
+        span=full md:span=6
+      </GridItem>
+      <GridItem span="full" responsive={{ md: { span: 6 } }} className={boxClass}>
+        span=full md:span=6
+      </GridItem>
+    </Grid>
+  )
+}
+
+export const StartReset: Story = {
+  render: () => (
+    <Grid>
+      <GridItem span={6} start={4} responsive={{ md: { start: 'auto' } }} className={boxClass}>
+        span=6 start=4 md:start=auto
+      </GridItem>
+      <GridItem span={6} className={boxClass}>
+        span=6
+      </GridItem>
+    </Grid>
+  )
+}
+
+export const Rows: Story = {
+  render: () => (
+    <Grid rows={2}>
+      <GridItem span={4} rowSpan={2} className={boxClass}>
+        span=4 rowSpan=2
+      </GridItem>
+      <GridItem span={8} className={boxClass}>
+        span=8
+      </GridItem>
+      <GridItem span={8} start={5} rowStart={2} className={boxClass}>
+        span=8 start=5 rowStart=2
+      </GridItem>
+    </Grid>
+  )
+}
+
 export const Responsive: Story = {
   render: () => (
     <Grid>
