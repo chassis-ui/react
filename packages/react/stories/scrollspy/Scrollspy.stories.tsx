@@ -49,8 +49,7 @@ function Box({
 }
 
 // Taller than the box whatever the text wraps to. Left to the text, a section was 152px at the
-// width of the browser tests, 2px past the activation line (75% of the box, 150px), and which side
-// of the line the next section's top fell on depended on the engine's font metrics.
+// width of the browser tests, 2px past the activation line (75% of the box, 150px).
 const section = (id: string, title: string, Heading: 'h4' | 'h5' = 'h4') => (
   <div key={id} id={id} style={{ minHeight: 240 }}>
     <Heading>{title}</Heading>
@@ -68,6 +67,14 @@ function scrollToSection(box: HTMLElement, id: string) {
 
 const current = (canvasElement: HTMLElement) =>
   [...canvasElement.querySelectorAll('[aria-current="true"]')].map((element) => element.textContent)
+
+// The mark follows a scroll with the next frame the browser renders, which is when it reports
+// the scroll and the intersections. WebKit on a CI runner has taken 1.5s to render that frame,
+// with the scroll done and timers running, so the default second of `waitFor` isn't enough.
+const NEXT_FRAME = { timeout: 5000 }
+
+const waitForCurrent = (canvasElement: HTMLElement, texts: string[]) =>
+  waitFor(() => expect(current(canvasElement)).toEqual(texts), NEXT_FRAME)
 
 function NavExample(props: Omit<ScrollspyProps, 'root'>) {
   const box = useRef<HTMLDivElement>(null)
@@ -95,22 +102,22 @@ export const Default: Story = {
   render: (args) => <NavExample {...args} />,
   play: async function ({ canvas, canvasElement }) {
     const box = canvas.getByTestId('box')
-    await waitFor(() => expect(current(canvasElement)).toEqual(['First']))
+    await waitForCurrent(canvasElement, ['First'])
 
     scrollToSection(box, 'third')
-    await waitFor(() => expect(current(canvasElement)).toEqual(['Third']))
+    await waitForCurrent(canvasElement, ['Third'])
     await expect(canvas.getByRole('link', { name: 'Third' })).toHaveClass('active')
     await expect(canvas.getByRole('link', { name: 'First' })).not.toHaveClass('active')
 
     // Back up, with the third section's top below the line again.
     scrollToSection(box, 'second')
-    await waitFor(() => expect(current(canvasElement)).toEqual(['Second']))
+    await waitForCurrent(canvasElement, ['Second'])
 
     // A jump straight to the end, past two sections.
     box.scrollTop = 0
-    await waitFor(() => expect(current(canvasElement)).toEqual(['First']))
+    await waitForCurrent(canvasElement, ['First'])
     box.scrollTop = box.scrollHeight
-    await waitFor(() => expect(current(canvasElement)).toEqual(['Fourth']))
+    await waitForCurrent(canvasElement, ['Fourth'])
   }
 }
 
@@ -118,15 +125,17 @@ export const SmoothScroll: Story = {
   render: (args) => <NavExample {...args} smoothScroll />,
   play: async function ({ canvas, canvasElement, userEvent }) {
     const box = canvas.getByTestId('box')
-    await waitFor(() => expect(current(canvasElement)).toEqual(['First']))
+    await waitForCurrent(canvasElement, ['First'])
 
     await userEvent.click(canvas.getByRole('link', { name: 'Third' }))
-    await waitFor(() => expect(current(canvasElement)).toEqual(['Third']), { timeout: 3000 })
+    await waitForCurrent(canvasElement, ['Third'])
     const third = canvasElement.querySelector('#third') as HTMLElement
-    await waitFor(() =>
-      expect(
-        Math.abs(third.getBoundingClientRect().top - box.getBoundingClientRect().top)
-      ).toBeLessThan(2)
+    await waitFor(
+      () =>
+        expect(
+          Math.abs(third.getBoundingClientRect().top - box.getBoundingClientRect().top)
+        ).toBeLessThan(2),
+      NEXT_FRAME
     )
     // The address didn't change.
     await expect(window.location.hash).not.toBe('#third')
@@ -165,17 +174,17 @@ export const Nested: Story = {
   render: () => <NestedExample />,
   play: async function ({ canvas, canvasElement }) {
     const box = canvas.getByTestId('box')
-    await waitFor(() => expect(current(canvasElement)).toEqual(['Item 1']))
+    await waitForCurrent(canvasElement, ['Item 1'])
 
     scrollToSection(box, 'item-1-2')
-    await waitFor(() => expect(current(canvasElement)).toEqual(['Item 1-2']))
+    await waitForCurrent(canvasElement, ['Item 1-2'])
     // The link the nested nav follows looks active, and isn't the current one.
     const parent = canvas.getByRole('link', { name: 'Item 1' })
     await expect(parent).toHaveClass('active')
     await expect(parent).not.toHaveAttribute('aria-current')
 
     scrollToSection(box, 'item-2')
-    await waitFor(() => expect(current(canvasElement)).toEqual(['Item 2']))
+    await waitForCurrent(canvasElement, ['Item 2'])
     await expect(parent).not.toHaveClass('active')
   }
 }
@@ -212,11 +221,11 @@ export const WithMenu: Story = {
   play: async function ({ canvas, canvasElement }) {
     const box = canvas.getByTestId('box')
     const toggle = canvas.getByRole('button', { name: 'More' })
-    await waitFor(() => expect(current(canvasElement)).toEqual(['First']))
+    await waitForCurrent(canvasElement, ['First'])
     await expect(toggle).not.toHaveClass('active')
 
     scrollToSection(box, 'fourth')
-    await waitFor(() => expect(current(canvasElement)).toEqual(['Fourth']))
+    await waitForCurrent(canvasElement, ['Fourth'])
     // The item is in the closed menu; its toggle looks active.
     await expect(toggle).toHaveClass('active')
   }
@@ -252,11 +261,11 @@ export const WithList: Story = {
   render: () => <ListExample />,
   play: async function ({ canvas, canvasElement }) {
     const box = canvas.getByTestId('box')
-    await waitFor(() => expect(current(canvasElement)).toEqual(['Item 1']))
+    await waitForCurrent(canvasElement, ['Item 1'])
     await expect(canvas.getByTestId('reported')).toHaveTextContent('list-item-1')
 
     scrollToSection(box, 'list-item-2')
-    await waitFor(() => expect(current(canvasElement)).toEqual(['Item 2']))
+    await waitForCurrent(canvasElement, ['Item 2'])
     await expect(canvas.getByRole('link', { name: 'Item 2' })).toHaveClass('list-item', 'active')
     await expect(canvas.getByTestId('reported')).toHaveTextContent('list-item-2')
   }
