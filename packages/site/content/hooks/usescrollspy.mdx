@@ -38,10 +38,12 @@ interface UseScrollspyOptions {
 }
 ```
 
+<CxTable>
 | Option       | Type                                            | Default          | Description                                                                                                                    |
 | ------------ | ----------------------------------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------ |
 | `root`       | `Element \| RefObject<Element \| null> \| null` | the viewport     | The element that scrolls, or a ref to it. Only sections inside it are observed.                                                |
 | `rootMargin` | `string`                                        | `'0px 0px -25%'` | The margin around `root`, as `IntersectionObserver` takes it. Its bottom edge is the line a section's top passes to be active. |
+</CxTable>
 
 A new array with the same ids doesn't observe again. Sections added, removed or renamed later are
 picked up; an id with no element is ignored.

@@ -6,7 +6,7 @@ export const Example = () => {
 
   return (
     <div className="vstack gap-sm">
-      <div className="d-flex align-items-center gap-2">
+      <div className="d-flex flex-wrap align-items-center gap-sm">
         <DateRangePicker aria-label="Trip dates" visible={visible} onVisibleChange={setVisible} />
         <Button color="secondary" onClick={() => setVisible(true)} type="button">
           Open calendar

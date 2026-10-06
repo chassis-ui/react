@@ -41,7 +41,7 @@ Restrict the selectable range with `minValue`/`maxValue`. Dates outside the rang
 
 Pass `granularity` as `'hour'`, `'minute'` or `'second'` to add a time to both fields, as on [`DatePicker`]([[docsref:/components/datepicker#time]]): the range's dates become `CalendarDateTime`s, or `ZonedDateTime`s from a zoned `value`, `defaultValue` or `placeholderValue`. The calendar picks the days and the fields' segments edit the times. Picking a range keeps both times already set; in an empty field both take the time and zone of `placeholderValue`, else midnight with no zone. A zoned range therefore needs a zoned `placeholderValue` to stay zoned after it is cleared. Here the placeholder starts both at 3 PM.
 
-<Example>
+<Example class="overflow-x-auto">
   <TimeExample client:load />
 </Example>
 
