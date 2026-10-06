@@ -1,18 +1,18 @@
-import { Col, Container, Row } from '@chassis-ui/react'
+import { Grid, GridItem } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
-    <Container>
-      <Row>
-        <Col>col</Col>
-        <Col>col</Col>
-        <Col>col</Col>
-        <Col>col</Col>
-      </Row>
-      <Row>
-        <Col span={8}>col-8</Col>
-        <Col span={4}>col-4</Col>
-      </Row>
-    </Container>
+    <>
+      <Grid>
+        <GridItem span={3}>span=3</GridItem>
+        <GridItem span={3}>span=3</GridItem>
+        <GridItem span={3}>span=3</GridItem>
+        <GridItem span={3}>span=3</GridItem>
+      </Grid>
+      <Grid>
+        <GridItem span={8}>span=8</GridItem>
+        <GridItem span={4}>span=4</GridItem>
+      </Grid>
+    </>
   )
 }

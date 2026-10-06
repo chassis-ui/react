@@ -1,9 +1,9 @@
-import { Card, CardBody, CardImage, CardText, CardTitle, Col, Row } from '@chassis-ui/react'
+import { Card, CardBody, CardImage, CardText, CardTitle, Grid } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
-    <Row cols={1} responsive={{ md: { cols: 3 } }} className="g-4">
-      <Col span>
+    <Grid columns={1} gap="md" responsive={{ md: { columns: 3 } }}>
+      <div>
         <Card className="h-100">
           <CardImage orientation="top" src="https://placehold.co/800x400" alt="" />
           <CardBody>
@@ -14,8 +14,8 @@ export const Example = () => {
             </CardText>
           </CardBody>
         </Card>
-      </Col>
-      <Col span>
+      </div>
+      <div>
         <Card className="h-100">
           <CardImage orientation="top" src="https://placehold.co/800x400" alt="" />
           <CardBody>
@@ -25,8 +25,8 @@ export const Example = () => {
             </CardText>
           </CardBody>
         </Card>
-      </Col>
-      <Col span>
+      </div>
+      <div>
         <Card className="h-100">
           <CardImage orientation="top" src="https://placehold.co/800x400" alt="" />
           <CardBody>
@@ -38,8 +38,8 @@ export const Example = () => {
             </CardText>
           </CardBody>
         </Card>
-      </Col>
-      <Col span>
+      </div>
+      <div>
         <Card className="h-100">
           <CardImage orientation="top" src="https://placehold.co/800x400" alt="" />
           <CardBody>
@@ -50,7 +50,7 @@ export const Example = () => {
             </CardText>
           </CardBody>
         </Card>
-      </Col>
-    </Row>
+      </div>
+    </Grid>
   )
 }

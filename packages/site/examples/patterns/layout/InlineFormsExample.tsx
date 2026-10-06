@@ -1,7 +1,7 @@
 import {
   Button,
   Checkbox,
-  Col,
+  Flex,
   Form,
   FormLabel,
   InputGroup,
@@ -12,8 +12,13 @@ import {
 
 export const Example = () => {
   return (
-    <Form className="row lg:row-cols-auto g-3 align-items-center">
-      <Col span={12}>
+    <Flex
+      component={Form}
+      direction="column"
+      gap="md"
+      responsive={{ lg: { direction: 'row', align: 'center' } }}
+    >
+      <div>
         <FormLabel className="visually-hidden" htmlFor="inlineFormInputGroupUsername">
           Username
         </FormLabel>
@@ -21,8 +26,8 @@ export const Example = () => {
           <InputGroupAddon>@</InputGroupAddon>
           <TextInput id="inlineFormInputGroupUsername" placeholder="Username" />
         </InputGroup>
-      </Col>
-      <Col span={12}>
+      </div>
+      <div>
         <FormLabel className="visually-hidden" htmlFor="inlineFormSelectPref">
           Preference
         </FormLabel>
@@ -32,13 +37,13 @@ export const Example = () => {
           <option value="2">Two</option>
           <option value="3">Three</option>
         </Select>
-      </Col>
-      <Col span={12}>
+      </div>
+      <div>
         <Checkbox id="inlineFormCheck" label="Remember me" />
-      </Col>
-      <Col span={12}>
+      </div>
+      <div>
         <Button type="submit">Submit</Button>
-      </Col>
-    </Form>
+      </div>
+    </Flex>
   )
 }

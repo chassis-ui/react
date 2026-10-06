@@ -6,7 +6,7 @@ export const Example = () => {
   return (
     <>
       <NavOverflow collapseBelow="sm" onOverflow={setCounts}>
-        <Nav variant="pills">
+        <Nav variant="segments">
           <NavItem href="#" active>
             Home
           </NavItem>

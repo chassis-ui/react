@@ -2,7 +2,7 @@ import { Nav, NavItem, NavLink, Menu, MenuToggle, MenuList, MenuItem } from '@ch
 
 export const Example = () => {
   return (
-    <Nav variant="pills">
+    <Nav variant="segments">
       <NavItem>
         <NavLink href="#" active>
           Active

@@ -1,26 +1,26 @@
-import { Col, FormHelp, FormLabel, Row, TextInput } from '@chassis-ui/react'
+import { Flex, FormHelp, FormLabel, TextInput } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
-    <Row className="g-3 align-items-center">
-      <Col span="auto">
+    <Flex wrap="wrap" gap="md" align="center">
+      <div>
         <FormLabel htmlFor="inputPassword6" className="col-form-label">
           Password
         </FormLabel>
-      </Col>
-      <Col span="auto">
+      </div>
+      <div>
         <TextInput
           autoComplete="new-password"
           type="password"
           id="inputPassword6"
           aria-describedby="passwordHelpInline"
         />
-      </Col>
-      <Col span="auto">
+      </div>
+      <div>
         <FormHelp component="span" id="passwordHelpInline">
           Must be 8-20 characters long.
         </FormHelp>
-      </Col>
-    </Row>
+      </div>
+    </Flex>
   )
 }

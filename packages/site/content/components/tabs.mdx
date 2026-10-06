@@ -5,7 +5,8 @@ toc: true
 ---
 
 import { Example as BasicExample } from '../../examples/components/tabs/BasicExample.tsx'
-import { Example as PillsExample } from '../../examples/components/tabs/PillsExample.tsx'
+import { Example as SegmentsExample } from '../../examples/components/tabs/SegmentsExample.tsx'
+import { Example as UnderlineExample } from '../../examples/components/tabs/UnderlineExample.tsx'
 import { Example as DisabledExample } from '../../examples/components/tabs/DisabledExample.tsx'
 
 ## Overview
@@ -18,12 +19,18 @@ Compose a `TabList` of `Tab`s, followed by one `TabPanel` per tab. A tab and its
   <BasicExample client:load />
 </Example>
 
-## Pills
+## Variants and sizes
 
-Pass `variant="pills"` to `TabList` for a pill-styled tab list instead of the default underlined tabs.
+Pass `variant="segments"` to `TabList` for a segmented control instead of the default tabs. The variant was called `pills` before `@chassis-ui/css` 0.6: `variant="pills"` still renders it, and is deprecated.
 
 <Example>
-  <PillsExample client:load />
+  <SegmentsExample client:load />
+</Example>
+
+Pass `variant="underline"` to mark the selected tab with a line under it, and `size="sm"` or `size="lg"` to scale the tabs of any variant.
+
+<Example>
+  <UnderlineExample client:load />
 </Example>
 
 ## Disabled tabs

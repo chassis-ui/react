@@ -16,7 +16,15 @@ import { Example as ResponsiveExample } from '../../examples/components/column/R
 import { Example as RevertToEqualWidthExample } from '../../examples/components/column/RevertToEqualWidthExample.tsx'
 import { Example as StandaloneExample } from '../../examples/components/column/StandaloneExample.tsx'
 
-`<Col>` sizes, offsets, and reorders an individual column inside a [`<Row>`]([[docsref:/components/row]]) — width via `span`, position via `offset`, and stacking order via `order`. Each of the three accepts a `responsive` override for per-breakpoint control. See [the flexbox grid pattern]([[docsref:/patterns/responsive-grid]]) for how `<Container>`, `<Row>`, and `<Col>` compose.
+<Callout type="warning">
+  **Deprecated.** `<Col>` and `<Row>` render the flexbox grid, which `@chassis-ui/css` deprecates in
+  0.6 and removes in 0.7. Use [`<GridItem>`]([[docsref:/components/grid#item-placement]]) in a
+  [`<Grid>`]([[docsref:/components/grid]]), with `start` for `offset` — see
+  [Migrating from Row/Col]([[docsref:/components/grid#migrating-from-rowcol]]). `<Col>` renders as
+  before until then, and warns once in development.
+</Callout>
+
+`<Col>` sizes, offsets, and reorders an individual column inside a [`<Row>`]([[docsref:/components/row]]) — width via `span`, position via `offset`, and stacking order via `order`. Each of the three accepts a `responsive` override for per-breakpoint control.
 
 Without an explicit `span`, sibling `<Col>`s split a `<Row>`'s width evenly between them.
 

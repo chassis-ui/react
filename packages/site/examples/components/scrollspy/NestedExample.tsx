@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { Col, Nav, NavLink, Row, Scrollspy } from '@chassis-ui/react'
+import { Grid, GridItem, Nav, NavLink, Scrollspy } from '@chassis-ui/react'
 
 const text =
   'This is some placeholder content for the scrollspy example. As the box scrolls, the link to ' +
@@ -19,12 +19,17 @@ const Section = ({ id, title, level }: { id: string; title: string; level: 4 | 5
 export const Example = () => {
   const box = useRef<HTMLDivElement>(null)
   return (
-    <Row>
-      <Col span={4}>
+    <Grid gap="md">
+      <GridItem span={4}>
         <Scrollspy root={box} smoothScroll>
-          <Nav component="nav" variant="pills" className="flex-column" aria-label="Nested sections">
+          <Nav
+            component="nav"
+            variant="segments"
+            className="flex-column"
+            aria-label="Nested sections"
+          >
             <NavLink href="#nested-1">Item 1</NavLink>
-            <Nav component="nav" variant="pills" className="flex-column" aria-label="Item 1">
+            <Nav component="nav" variant="segments" className="flex-column" aria-label="Item 1">
               <NavLink href="#nested-1-1" className="ms-md my-2xs">
                 Item 1-1
               </NavLink>
@@ -34,7 +39,7 @@ export const Example = () => {
             </Nav>
             <NavLink href="#nested-2">Item 2</NavLink>
             <NavLink href="#nested-3">Item 3</NavLink>
-            <Nav component="nav" variant="pills" className="flex-column" aria-label="Item 3">
+            <Nav component="nav" variant="segments" className="flex-column" aria-label="Item 3">
               <NavLink href="#nested-3-1" className="ms-md my-2xs">
                 Item 3-1
               </NavLink>
@@ -44,8 +49,8 @@ export const Example = () => {
             </Nav>
           </Nav>
         </Scrollspy>
-      </Col>
-      <Col span={8}>
+      </GridItem>
+      <GridItem span={8}>
         <div
           ref={box}
           role="region"
@@ -61,7 +66,7 @@ export const Example = () => {
           <Section id="nested-3-1" title="Item 3-1" level={5} />
           <Section id="nested-3-2" title="Item 3-2" level={5} />
         </div>
-      </Col>
-    </Row>
+      </GridItem>
+    </Grid>
   )
 }

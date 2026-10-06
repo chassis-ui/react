@@ -1,7 +1,7 @@
 import {
   Button,
   Checkbox,
-  Col,
+  Flex,
   Form,
   FormLabel,
   InputGroup,
@@ -12,14 +12,14 @@ import {
 
 export const Example = () => {
   return (
-    <Form className="row gx-3 gy-2 align-items-center">
-      <Col responsive={{ sm: { span: 3 } }}>
+    <Flex component={Form} wrap="wrap" align="center" columnGap="md" rowGap="xs">
+      <div className="w-100 sm:w-3/12">
         <FormLabel className="visually-hidden" htmlFor="specificSizeInputName">
           Name
         </FormLabel>
         <TextInput id="specificSizeInputName" placeholder="Jane Doe" />
-      </Col>
-      <Col responsive={{ sm: { span: 3 } }}>
+      </div>
+      <div className="w-100 sm:w-3/12">
         <FormLabel className="visually-hidden" htmlFor="specificSizeInputGroupUsername">
           Username
         </FormLabel>
@@ -27,8 +27,8 @@ export const Example = () => {
           <InputGroupAddon>@</InputGroupAddon>
           <TextInput id="specificSizeInputGroupUsername" placeholder="Username" />
         </InputGroup>
-      </Col>
-      <Col responsive={{ sm: { span: 3 } }}>
+      </div>
+      <div className="w-100 sm:w-3/12">
         <FormLabel className="visually-hidden" htmlFor="specificSizeSelect">
           Preference
         </FormLabel>
@@ -38,13 +38,13 @@ export const Example = () => {
           <option value="2">Two</option>
           <option value="3">Three</option>
         </Select>
-      </Col>
-      <Col span="auto">
+      </div>
+      <div>
         <Checkbox id="autoSizingCheck2" label="Remember me" />
-      </Col>
-      <Col span="auto">
+      </div>
+      <div>
         <Button type="submit">Submit</Button>
-      </Col>
-    </Form>
+      </div>
+    </Flex>
   )
 }

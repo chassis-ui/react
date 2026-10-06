@@ -2,13 +2,13 @@ import { Grid, GridItem } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
-    <Grid rows={3} columns={3}>
-      <GridItem>Auto-column</GridItem>
-      <GridItem start={2} style={{ gridRow: 2 }}>
-        Auto-column
+    <Grid rows={2}>
+      <GridItem span={4} rowSpan={2}>
+        span=4 rowSpan=2
       </GridItem>
-      <GridItem start={3} style={{ gridRow: 3 }}>
-        Auto-column
+      <GridItem span={8}>span=8</GridItem>
+      <GridItem span={8} start={5} rowStart={2}>
+        span=8 start=5 rowStart=2
       </GridItem>
     </Grid>
   )

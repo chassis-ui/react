@@ -2,9 +2,10 @@ import React from 'react'
 import {
   Button,
   Checkbox,
-  Col,
   Form,
   FormLabel,
+  Grid,
+  GridItem,
   InputGroup,
   InputGroupAddon,
   Select,
@@ -12,24 +13,24 @@ import {
 } from '@chassis-ui/react'
 
 export const Example = () => (
-  <Form className="row g-3">
-    <Col responsive={{ md: { span: 4 } }}>
+  <Grid component={Form} gap="md">
+    <GridItem span="full" responsive={{ md: { span: 4 } }}>
       <TextInput label="First name" defaultValue="Mark" required />
-    </Col>
-    <Col responsive={{ md: { span: 4 } }}>
+    </GridItem>
+    <GridItem span="full" responsive={{ md: { span: 4 } }}>
       <TextInput label="Last name" defaultValue="Otto" required />
-    </Col>
-    <Col responsive={{ md: { span: 4 } }}>
+    </GridItem>
+    <GridItem span="full" responsive={{ md: { span: 4 } }}>
       <FormLabel htmlFor="validationDefaultUsername">Username</FormLabel>
       <InputGroup>
         <InputGroupAddon>@</InputGroupAddon>
         <TextInput id="validationDefaultUsername" required />
       </InputGroup>
-    </Col>
-    <Col responsive={{ md: { span: 6 } }}>
+    </GridItem>
+    <GridItem span="full" responsive={{ md: { span: 6 } }}>
       <TextInput label="City" required />
-    </Col>
-    <Col responsive={{ md: { span: 3 } }}>
+    </GridItem>
+    <GridItem span="full" responsive={{ md: { span: 3 } }}>
       <Select label="State" required>
         <option disabled value="">
           Choose...
@@ -37,17 +38,17 @@ export const Example = () => (
         <option>California</option>
         <option>New York</option>
       </Select>
-    </Col>
-    <Col responsive={{ md: { span: 3 } }}>
+    </GridItem>
+    <GridItem span="full" responsive={{ md: { span: 3 } }}>
       <TextInput label="Zip" required />
-    </Col>
-    <Col span={12}>
+    </GridItem>
+    <GridItem span="full">
       <Checkbox label="Agree to terms and conditions" required />
-    </Col>
-    <Col span={12}>
+    </GridItem>
+    <GridItem span="full">
       <Button color="primary" type="submit">
         Submit form
       </Button>
-    </Col>
-  </Form>
+    </GridItem>
+  </Grid>
 )

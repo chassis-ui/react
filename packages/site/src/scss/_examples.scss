@@ -1,10 +1,18 @@
 // Chassis CSS variables and mixins
+@use "sass:map";
+@use "@chassis-ui/css/scss/config" as *;
 @use "@chassis-ui/css/scss/functions" as *;
 @use "@chassis-ui/css/scss/maps" as *;
 @use "@chassis-ui/css/scss/mixins" as *;
 
 @layer custom {
   .cxd-example {
+    // The content column is narrower than the viewport the gutter follows, so
+    // the grids of the examples stop at the gutter of the `sm` breakpoint.
+    @include media-breakpoint-up(md) {
+      --grid-gutter: #{map.get($grid-gutters, sm)};
+    }
+
     // Navbars
     // stylelint-disable declaration-no-important
     .fixed-top,
@@ -38,29 +46,28 @@
   //
 
 
+  // `.cxd-example-row` and `.cxd-example-cols` are for the pages of the deprecated `Row` and `Col`.
   .cxd-example-container .container,
   .cxd-example-row [class^="col"],
   .cxd-example-row [class*="\:col"],
   .cxd-example-cols [class^="col"] > *,
   .cxd-example-cols [class*="\:col"] > *,
-  .cxd-example-grid [class*="grid"] > * {
+  .cxd-example-grid :is(.grid, .grid-fill) > * {
     padding-block: .75rem;
     background-color: #{to-opacity(var(--cxd-subtle), .2)};
     border: 1px solid #{to-opacity(var(--cxd-subtle), .4)};
   }
-  .cxd-example-grid [class*="grid"] {
+
+  // A subgrid item is a grid too: its own items carry the box.
+  .cxd-example-grid :is(.grid, .grid-fill) > .grid {
     padding: 0;
+    background-color: transparent;
+    border: 0;
   }
 
-  // .cxd-example-row .row + .row,
-  // .cxd-example-grid .grid + .grid {
-  //   margin-block-start: 1rem;
-  // }
-
-  // .cxd-example-row-flex-cols .row {
-  //   min-height: 10rem;
-  //   background-color: #{to-opacity(var(--cxd-subtle), .2)};
-  // }
+  .cxd-example-grid :is(.grid, .grid-fill, .container) + :is(.grid, .grid-fill, .container) {
+    margin-block-start: 1rem;
+  }
 
   .cxd-example-flex div:not(.vr) {
     background-color: #{to-opacity(var(--cxd-subtle), .2)};

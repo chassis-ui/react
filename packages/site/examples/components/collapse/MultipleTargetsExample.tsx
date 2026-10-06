@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Card, CardBody, Button, Col, Collapse, Row } from '@chassis-ui/react'
+import { Button, Card, CardBody, Collapse, Grid } from '@chassis-ui/react'
 
 export const Example = () => {
   const [visibleA, setVisibleA] = useState(false)
@@ -16,8 +16,8 @@ export const Example = () => {
       >
         Toggle both elements
       </Button>
-      <Row>
-        <Col span={6}>
+      <Grid columns={2} gap="md">
+        <div>
           <Collapse visible={visibleA}>
             <Card className="mt-3">
               <CardBody>
@@ -27,8 +27,8 @@ export const Example = () => {
               </CardBody>
             </Card>
           </Collapse>
-        </Col>
-        <Col span={6}>
+        </div>
+        <div>
           <Collapse visible={visibleB}>
             <Card className="mt-3">
               <CardBody>
@@ -38,8 +38,8 @@ export const Example = () => {
               </CardBody>
             </Card>
           </Collapse>
-        </Col>
-      </Row>
+        </div>
+      </Grid>
     </>
   )
 }

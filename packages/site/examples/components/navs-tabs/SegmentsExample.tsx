@@ -2,7 +2,7 @@ import { Nav, NavItem, NavLink } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
-    <Nav variant="segments" layout="justified">
+    <Nav variant="segments">
       <NavItem>
         <NavLink href="#" active>
           Active

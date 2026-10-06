@@ -1,9 +1,9 @@
-import { Card, CardBody, CardImage, CardText, CardTitle, Col } from '@chassis-ui/react'
+import { Card, CardBody, CardImage, CardText, CardTitle } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
     <Card responsive={{ lg: 'row' }}>
-      <Col responsive={{ lg: { span: 4 } }}>
+      <div className="lg:w-4/12">
         <CardImage
           orientation="top"
           responsive={{ lg: 'start' }}
@@ -11,8 +11,8 @@ export const Example = () => {
           alt=""
           style={{ height: '100%', objectFit: 'cover' }}
         />
-      </Col>
-      <Col responsive={{ lg: { span: 8 } }}>
+      </div>
+      <div className="lg:w-8/12">
         <CardBody>
           <CardTitle>Card title</CardTitle>
           <CardText>
@@ -23,7 +23,7 @@ export const Example = () => {
             <small className="fg-subtle">Last updated 3 mins ago</small>
           </CardText>
         </CardBody>
-      </Col>
+      </div>
     </Card>
   )
 }

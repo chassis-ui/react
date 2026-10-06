@@ -1,17 +1,17 @@
-import { Col, Row, TextInput } from '@chassis-ui/react'
+import { Grid, GridItem, TextInput } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
-    <Row className="g-3">
-      <Col responsive={{ sm: { span: 7 } }}>
+    <Grid gap="md">
+      <GridItem span="full" responsive={{ sm: { span: 6 } }}>
         <TextInput placeholder="City" aria-label="City" />
-      </Col>
-      <Col responsive={{ sm: { span: true } }}>
+      </GridItem>
+      <GridItem span="full" responsive={{ sm: { span: 3 } }}>
         <TextInput placeholder="State" aria-label="State" />
-      </Col>
-      <Col responsive={{ sm: { span: true } }}>
+      </GridItem>
+      <GridItem span="full" responsive={{ sm: { span: 3 } }}>
         <TextInput placeholder="Zip" aria-label="Zip" />
-      </Col>
-    </Row>
+      </GridItem>
+    </Grid>
   )
 }

@@ -3,7 +3,7 @@ import { Tabs, TabList, Tab, TabPanel } from '@chassis-ui/react'
 export const Example = () => {
   return (
     <Tabs defaultSelectedKey="home">
-      <TabList aria-label="Pills example" variant="pills">
+      <TabList aria-label="Underline example" variant="underline" size="sm">
         <Tab id="home">Home</Tab>
         <Tab id="profile">Profile</Tab>
         <Tab id="contact">Contact</Tab>

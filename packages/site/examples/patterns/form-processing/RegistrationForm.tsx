@@ -2,13 +2,12 @@ import { useState } from 'react'
 import {
   Button,
   Form,
-  TextInput,
-  FormLabel,
-  Select,
   FormFeedback,
+  FormLabel,
+  Grid,
   Notification,
-  Row,
-  Col
+  Select,
+  TextInput
 } from '@chassis-ui/react'
 
 export const Example = () => {
@@ -49,8 +48,8 @@ export const Example = () => {
         </Notification>
       )}
       <Form onSubmit={handleSubmit} onReset={handleReset} validated={false}>
-        <Row className="mb-3">
-          <Col>
+        <Grid columns={2} gap="md" className="mb-md">
+          <div>
             <FormLabel htmlFor="reg-name">Full name</FormLabel>
             <TextInput
               id="reg-name"
@@ -63,8 +62,8 @@ export const Example = () => {
             <FormFeedback invalid>
               Please enter your full name (at least 2 characters).
             </FormFeedback>
-          </Col>
-          <Col>
+          </div>
+          <div>
             <FormLabel htmlFor="reg-email">Email address</FormLabel>
             <TextInput
               id="reg-email"
@@ -76,10 +75,10 @@ export const Example = () => {
               invalid={submitted && !validEmail}
             />
             <FormFeedback invalid>Please enter a valid email address.</FormFeedback>
-          </Col>
-        </Row>
-        <Row className="mb-3">
-          <Col>
+          </div>
+        </Grid>
+        <Grid columns={2} gap="md" className="mb-md">
+          <div>
             <FormLabel htmlFor="reg-role">Role</FormLabel>
             <Select
               id="reg-role"
@@ -91,8 +90,8 @@ export const Example = () => {
               options={roleOptions}
             />
             <FormFeedback invalid>Please select a role.</FormFeedback>
-          </Col>
-          <Col>
+          </div>
+          <div>
             <FormLabel htmlFor="reg-pw">Password</FormLabel>
             <TextInput
               autoComplete="new-password"
@@ -105,8 +104,8 @@ export const Example = () => {
               invalid={submitted && !validPassword}
             />
             <FormFeedback invalid>Password must be at least 8 characters.</FormFeedback>
-          </Col>
-        </Row>
+          </div>
+        </Grid>
         <div className="d-flex gap-2">
           <Button type="submit" color="primary">
             Create account

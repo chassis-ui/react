@@ -11,10 +11,10 @@ const items = pages.map((page, index) => (
 export const Example = () => (
   <div className="vstack gap-md">
     <NavOverflow moreText="See all" iconPlacement="end">
-      <Nav variant="pills">{items}</Nav>
+      <Nav variant="segments">{items}</Nav>
     </NavOverflow>
     <NavOverflow moreText={false} moreLabel="More pages" moreIcon="bars-outline">
-      <Nav variant="pills">{items}</Nav>
+      <Nav variant="segments">{items}</Nav>
     </NavOverflow>
   </div>
 )

@@ -1,25 +1,29 @@
 ---
 title: Grid
-description: A native CSS Grid layout primitive with runtime-configurable columns, rows, and gap, plus auto-fill and subgrid variants.
+description: The layout grid, on native CSS Grid — twelve columns, a gutter per breakpoint, responsive spans and column counts, auto-fill, and subgrid.
 
 toc: true
 ---
 
 import { Example as BasicExample } from '../../examples/components/grid/BasicExample.tsx'
 import { Example as ResponsiveExample } from '../../examples/components/grid/ResponsiveExample.tsx'
+import { Example as FullWidthExample } from '../../examples/components/grid/FullWidthExample.tsx'
 import { Example as StartExample } from '../../examples/components/grid/StartExample.tsx'
-import { Example as ColumnsGapExample } from '../../examples/components/grid/ColumnsGapExample.tsx'
 import { Example as RowsExample } from '../../examples/components/grid/RowsExample.tsx'
+import { Example as ColumnsGapExample } from '../../examples/components/grid/ColumnsGapExample.tsx'
+import { Example as ResponsiveColumnsExample } from '../../examples/components/grid/ResponsiveColumnsExample.tsx'
 import { Example as FillExample } from '../../examples/components/grid/FillExample.tsx'
+import { Example as FillMinExample } from '../../examples/components/grid/FillMinExample.tsx'
+import { Example as NestedExample } from '../../examples/components/grid/NestedExample.tsx'
 import { Example as SubgridExample } from '../../examples/components/grid/SubgridExample.tsx'
 
 ## Overview
 
-`<Grid>` wraps chassis-css's native CSS Grid system — a twelve-column `display: grid` layout, distinct from the [flexbox grid]([[docsref:/patterns/responsive-grid]]) built by [`<Row>`]([[docsref:/components/row]])/[`<Col>`]([[docsref:/components/column]]). Column placement is applied to children via [`<GridItem>`](#item-placement) — `<Grid>` itself only manages the container. For a simple one-dimensional row or column, [`<Stack>`]([[docsref:/components/stack]]) is a lighter fit.
+`<Grid>` renders the `.grid` of `@chassis-ui/css`: a `display: grid` container with twelve columns and, between its items, the gutter of the current breakpoint. [`<GridItem>`](#item-placement) places a child on the columns and rows. `<Grid>` replaces [`<Row>`]([[docsref:/components/row]]) and [`<Col>`]([[docsref:/components/column]]), which are deprecated with the flexbox grid they render — see [Migrating from Row/Col](#migrating-from-rowcol). The [Responsive Grid]([[docsref:/patterns/responsive-grid]]) guide builds page layouts from the pieces documented here. For a single row or column of items, [`<Stack>`]([[docsref:/components/stack]]) and [`<Flex>`]([[docsref:/components/flex]]) are a lighter fit.
 
 ## Basic usage
 
-Three equal-width columns in a 12-column grid each span 4 tracks (3 × 4 = 12):
+Three equal-width columns in a twelve-column grid each span four tracks:
 
 <Example class="cxd-example-grid text-center">
   <BasicExample client:load />
@@ -27,62 +31,124 @@ Three equal-width columns in a 12-column grid each span 4 tracks (3 × 4 = 12):
 
 ## Item placement
 
-`<GridItem>` places a child within a `<Grid>`. Set `span` to a number from `1` to `12` to size an item to that many column tracks, and `start` to a number from `1` to `11` to position it at a specific column line, independent of DOM order. Unlike `<Grid>`'s `columns`, these aren't runtime-configurable — `g-col-{n}`/`g-start-{n}` are chassis-css utility classes generated up to `12` at build time, so `span`/`start` can't address tracks past `12` even if `<Grid columns={16}>` defines more. Both props accept a `responsive` prop, keyed the same way as [`<Col>`]([[docsref:/components/column]])'s, to change span/start at a breakpoint and up. Below, three `span={6}` items narrow to `span={4}` at the `md` breakpoint and above:
+`<GridItem>` places a child within a `<Grid>`. An item with no placement props is one track wide and takes the next free cell.
+
+### Span
+
+Set `span` to a number from `1` to `12` to size an item to that many column tracks, rendered as the `.col-span-{n}` class. `responsive` changes the span from a breakpoint up. Three `span={6}` items narrow to `span={4}` from the `md` breakpoint:
 
 <Example class="cxd-example-grid text-center">
   <ResponsiveExample client:load />
 </Example>
 
-`start` positions an item at a specific column line, independent of source order:
+`span="full"` spans every track of the row (`.col-span-full`), whatever the column count. An item that stacks below a breakpoint needs it: without a base `span`, the item is one track wide there, not full width.
+
+<Example class="cxd-example-grid text-center">
+  <FullWidthExample client:load />
+</Example>
+
+### Start
+
+Set `start` to a column line from `1` to `13` to position an item, independent of the items before it (`.col-start-{n}`). An offset in the flexbox grid was relative to the previous column; a start line is absolute.
 
 <Example class="cxd-example-grid text-center">
   <StartExample client:load />
 </Example>
 
-## Compared to Row/Col
+`start="auto"` returns an item to the flow, to undo a start line from a breakpoint up:
 
-`<Grid>` differs from `<Row>`/`<Col>` in a few important ways:
+```jsx
+<GridItem span={6} start={4} responsive={{ md: { start: 'auto' } }} />
+```
 
-- **No negative margins.** `<Grid>` uses the CSS `gap` property instead of padding-and-negative-margin gutters, so there's no row-edge bleed and no `.overflow-hidden` wrapper is required.
-- **Gap applies to both axes.** `gap` sets horizontal and vertical spacing simultaneously. Use an inline `style` with `rowGap`/`columnGap` to control axes independently.
-- **Flex utilities have no effect** on `<Grid>`'s children — `align-items`, `justify-content`, and similar flex properties don't apply to CSS Grid items.
-- **`columns`/`rows`/`gap` are runtime-configurable properties**, not modifier props per breakpoint — unlike `<Row>`'s `responsive` prop, `<Grid>` has a single, fixed column/row/gap configuration. Chassis-css itself has no breakpoint-scoped equivalent for the grid _container_ (only for item placement, via [`<GridItem>`](#item-placement)'s `responsive` prop), so a responsive `<Grid>` container isn't offered — [`<Row>`/`<Col>`]([[docsref:/patterns/responsive-grid]]) is the better fit for layouts that need responsive column counts.
+### Rows
 
-## Columns and gap
-
-`columns` and `gap` set the underlying `--cx-grid-columns`/`--cx-grid-gap` custom properties directly. `gap` accepts any CSS `gap` value — a single value, a `"{row} {column}"` pair for asymmetric spacing, or a `Spacing` token (the same named scale `<Row>`'s `gutter`/`<Stack>`'s `gap`/`<Flex>`'s `gap` use) resolved to the matching `--cx-space-*` custom property:
-
-<Example class="cxd-example-grid text-center d-flex flex-column gap-md">
-  <ColumnsGapExample client:load />
-</Example>
-
-## Adding rows
-
-`rows` sets the `--cx-grid-rows` custom property, extending the grid template. Assign a `<GridItem>` to a specific row with an inline `style={{ gridRow: n }}`:
+Set `rows` on `<Grid>` for the number of rows in its template, then place an item on them with `rowSpan` (`.row-span-{n}`, 1 to 6) and `rowStart` (`.row-start-{n}`, 1 to 7, or `'auto'`). `responsive` takes both.
 
 <Example class="cxd-example-grid text-center">
   <RowsExample client:load />
 </Example>
 
+## Columns and gap
+
+`columns` sets the number of columns and `gap` the space between items. A column count from 1 to 12 renders the `.grid-cols-{n}` class, and a `Spacing` token in `gap` (the scale `<Flex>` and `<Stack>` use) renders the `.gap-{token}` class. Any other `gap` is a raw CSS value — a length, or a `"{row} {column}"` pair — set through the `--cx-grid-gap` custom property. With no `gap`, the grid has the gutter of the breakpoint, from 0.5rem on a phone to 3rem on the widest screens.
+
+<Example class="cxd-example-grid text-center">
+  <ColumnsGapExample client:load />
+</Example>
+
+`responsive` changes `columns` and `gap` from a breakpoint up, with the same classes. Only a token fits a breakpoint's `gap`, since a raw value has no class.
+
+<Example class="cxd-example-grid text-center">
+  <ResponsiveColumnsExample client:load />
+</Example>
+
+The `.row-gap-{token}` and `.column-gap-{token}` utilities set one axis, passed through `className`.
+
 ## Auto-fill layout
 
-Set `fill` to switch the grid to auto-fit columns that expand equally to fill the available width, with the column count determined by the number of children rather than `columns`. `gap` on a `fill` grid sets the `--cx-gap` custom property instead of `--cx-grid-gap`:
+Set `fill` to render `.grid-fill`: equal columns, as many as there are children, with no `columns` to count.
 
 <Example class="cxd-example-grid text-center">
   <FillExample client:load />
 </Example>
 
-## Subgrid
+`min` sets the narrowest a column of a `fill` grid can get. Children that would be narrower wrap to a new row, so the column count follows the available width with no breakpoint.
 
-Set `subgrid` on a `<GridItem>` to make it inherit its parent `<Grid>`'s column tracks instead of defining its own, aligning its children to the outer grid regardless of how many tracks the item itself spans. `subgrid` lives on `<GridItem>` rather than `<Grid>` because CSS subgrid only takes effect on an element that is itself a grid item of the parent — nesting a separate `<Grid subgrid>` inside a `<GridItem>` puts the subgrid on the wrong element (a plain child of the item, not the item itself) and it silently falls back to an ordinary grid. Combine `subgrid` with `span`/`start` as usual, and `rows`/`gap` to size the nested grid's own row template and spacing — a subgrid only inherits its parent's column tracks, not its rows or gap:
+<Example class="cxd-example-grid text-center">
+  <FillMinExample client:load />
+</Example>
+
+## Nesting
+
+A `<Grid>` inside a `<GridItem>` is a grid of its own, with twelve tracks across the width of the item. It is narrower than the viewport that the gutter follows, so give it a `gap`, and `columns` in place of twelve tracks.
+
+<Example class="cxd-example-grid text-center">
+  <NestedExample client:load />
+</Example>
+
+A nested grid inherits what the outer grid sets through a custom property: `rows`, a raw `gap`, `min`, and a `columns` above 12. It does not inherit what is rendered as a class: `columns` from 1 to 12 and a token `gap`.
+
+### Subgrid
+
+Set `subgrid` on a `<GridItem>` to give it the column tracks it spans in the parent `<Grid>` instead of tracks of its own, so its children align to the outer columns. `subgrid` is a prop of `<GridItem>` because CSS subgrid only takes effect on an element that is itself a grid item of the parent. A subgrid has a gap and rows of its own: pass it the `gap` of the parent, or its children are narrower than the parent's tracks.
 
 <Example class="cxd-example-grid text-center">
   <SubgridExample client:load />
 </Example>
 
+## Migrating from Row/Col
+
+`<Row>` and `<Col>` render the flexbox grid, which `@chassis-ui/css` deprecates in 0.6 and removes in 0.7. Each of their props has a counterpart on `<Grid>` and `<GridItem>`:
+
+<CxTable>
+| Row and Col                                        | Grid and GridItem                                               |
+| -------------------------------------------------- | --------------------------------------------------------------- |
+| `<Row>`                                            | `<Grid>`, with no `<Container>` needed around it                |
+| `<Col span={4}>`                                   | `<GridItem span={4}>`                                           |
+| `<Col span={12}>`                                  | `<GridItem span="full">`                                        |
+| `<Col span={12} responsive={{ md: { span: 6 } }}>` | `<GridItem span="full" responsive={{ md: { span: 6 } }}>`       |
+| `<Col span={4} offset={2}>`                        | `<GridItem span={4} start={3}>`                                 |
+| `<Col order="first">`                              | `<GridItem className="order-first">`                            |
+| `<Row>` with bare `<Col>`s                         | `<Grid fill>` with plain children                               |
+| `<Row cols={3}>` with bare `<Col>`s                | `<Grid columns={3}>` with plain children                        |
+| `<Row cols={1} responsive={{ md: { cols: 3 } }}>`  | `<Grid columns={1} responsive={{ md: { columns: 3 } }}>`        |
+| `<Row gutter="md">`                                | `<Grid gap="md">`                                               |
+| `gutterX`, `gutterY`                               | `className="column-gap-{token}"`, `className="row-gap-{token}"` |
+| `<Col span="auto">`                                | [`<Flex gap="md">`]([[docsref:/components/flex]]) with plain children |
+</CxTable>
+
+Three differences change how a layout behaves:
+
+- **An item with no `span` is one track wide.** A bare `<Col>` shared the row with its siblings, and a `<Col>` with only a responsive span was as wide as the row below that breakpoint. Give such an item `span="full"`, or use a `fill` grid.
+- **The gap applies to both axes.** A `<Row>` with no gutter prop had 1.5rem between columns and nothing between rows. A `<Grid>` has the gutter of the breakpoint between both; `className="row-gap-zero"` removes it between rows.
+- **A start line is absolute.** `offset` pushed a column away from the one before it, so `start` is the offset plus one only for the first item of a row.
+
 ## Scope
 
-**No row-placement prop.** `<GridItem>` only exposes column-axis placement (`span`/`start`) — chassis-css has no equivalent utility for the row axis, so assigning an item to a specific row needs a raw inline `style={{ gridRow: n }}` or `className`, as in [Adding rows](#adding-rows).
+**No content-width tracks.** A grid sizes its tracks from the container, not from the content, so `<Col span="auto">` has no grid counterpart: a row of items as wide as their content is a [`<Flex>`]([[docsref:/components/flex]]).
+
+**Placement classes stop at twelve columns and six rows.** `span` and `start` render classes that `@chassis-ui/css` generates up to 12 columns, and `rowSpan` and `rowStart` up to 6 rows. In a grid with more, an item past those needs an inline `style={{ gridColumn: '…' }}`.
 
 ## API
 

@@ -1,46 +1,48 @@
 import {
   Button,
-  Col,
-  Form,
   Checkbox,
-  TextInput,
+  Form,
   FormLabel,
+  Grid,
+  GridItem,
   Radio,
   RadioGroup,
-  Row
+  TextInput
 } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
     <Form>
-      <Row className="mb-md">
-        <FormLabel htmlFor="inputEmail3" className="sm:col-2 col-form-label">
+      <Grid className="row-gap-zero mb-md">
+        <FormLabel htmlFor="inputEmail3" className="col-span-full sm:col-span-2 col-form-label">
           Email
         </FormLabel>
-        <Col responsive={{ sm: { span: 10 } }}>
+        <GridItem span="full" responsive={{ sm: { span: 10 } }}>
           <TextInput type="email" id="inputEmail3" />
-        </Col>
-      </Row>
-      <Row className="mb-md">
-        <FormLabel htmlFor="inputPassword3" className="sm:col-2 col-form-label">
+        </GridItem>
+      </Grid>
+      <Grid className="row-gap-zero mb-md">
+        <FormLabel htmlFor="inputPassword3" className="col-span-full sm:col-span-2 col-form-label">
           Password
         </FormLabel>
-        <Col responsive={{ sm: { span: 10 } }}>
+        <GridItem span="full" responsive={{ sm: { span: 10 } }}>
           <TextInput autoComplete="current-password" type="password" id="inputPassword3" />
-        </Col>
-      </Row>
-      <RadioGroup className="row mb-md" label="Radios" defaultValue="option1">
-        <Col responsive={{ sm: { span: 10 } }}>
-          <Radio value="option1" label="First radio" />
-          <Radio value="option2" label="Second radio" />
-          <Radio value="option3" label="Third disabled radio" disabled />
-        </Col>
-      </RadioGroup>
-      <Row className="mb-md">
-        <div className="sm:col-10 sm:offset-2">
+        </GridItem>
+      </Grid>
+      <Grid className="row-gap-zero mb-md">
+        <GridItem span="full" responsive={{ sm: { span: 10, start: 3 } }}>
+          <RadioGroup label="Radios" defaultValue="option1">
+            <Radio value="option1" label="First radio" />
+            <Radio value="option2" label="Second radio" />
+            <Radio value="option3" label="Third disabled radio" disabled />
+          </RadioGroup>
+        </GridItem>
+      </Grid>
+      <Grid className="row-gap-zero mb-md">
+        <GridItem span="full" responsive={{ sm: { span: 10, start: 3 } }}>
           <Checkbox id="gridCheck1" label="Example checkbox" />
-        </div>
-      </Row>
+        </GridItem>
+      </Grid>
       <Button type="submit">Sign in</Button>
     </Form>
   )

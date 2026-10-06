@@ -52,7 +52,7 @@ export const Example = () => {
       >
         <TableHeader columns={columns}>
           {(column) => (
-            <TableColumn className={`col-${column.width}`} key={column.key}>
+            <TableColumn className={`w-${column.width}/12`} key={column.key}>
               {column.label}
             </TableColumn>
           )}

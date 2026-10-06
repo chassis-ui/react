@@ -1,67 +1,72 @@
 ---
 title: Responsive Grid
-description: Build responsive layouts with the mobile-first flexbox grid — a twelve-column system, six breakpoints, and configurable gutters.
+description: Build responsive layouts with the mobile-first CSS grid — twelve columns, six breakpoints, a gutter per breakpoint, and responsive spans and column counts.
 
 toc: true
 ---
 
 import { Example as ThreeColumnsExample } from '../../examples/patterns/responsive-grid/ThreeColumnsExample.tsx'
 import { Example as EqualWidthExample } from '../../examples/patterns/responsive-grid/EqualWidthExample.tsx'
-import { Example as SetColumnWidthExample } from '../../examples/patterns/responsive-grid/SetColumnWidthExample.tsx'
 import { Example as VariableWidthExample } from '../../examples/patterns/responsive-grid/VariableWidthExample.tsx'
 import { Example as AllBreakpointsExample } from '../../examples/patterns/responsive-grid/AllBreakpointsExample.tsx'
 import { Example as StackedToHorizontalExample } from '../../examples/patterns/responsive-grid/StackedToHorizontalExample.tsx'
 import { Example as MixAndMatchExample } from '../../examples/patterns/responsive-grid/MixAndMatchExample.tsx'
-import { Example as HorizontalGutterExample } from '../../examples/patterns/responsive-grid/HorizontalGutterExample.tsx'
-import { Example as HorizontalGutterOverflowExample } from '../../examples/patterns/responsive-grid/HorizontalGutterOverflowExample.tsx'
-import { Example as VerticalGutterExample } from '../../examples/patterns/responsive-grid/VerticalGutterExample.tsx'
-import { Example as HorizontalVerticalGutterExample } from '../../examples/patterns/responsive-grid/HorizontalVerticalGutterExample.tsx'
-import { Example as RowColumnsGutterExample } from '../../examples/patterns/responsive-grid/RowColumnsGutterExample.tsx'
-import { Example as NoGuttersExample } from '../../examples/patterns/responsive-grid/NoGuttersExample.tsx'
+import { Example as ColumnCountsExample } from '../../examples/patterns/responsive-grid/ColumnCountsExample.tsx'
+import { Example as StartExample } from '../../examples/patterns/responsive-grid/StartExample.tsx'
+import { Example as GapExample } from '../../examples/patterns/responsive-grid/GapExample.tsx'
+import { Example as AxisGapExample } from '../../examples/patterns/responsive-grid/AxisGapExample.tsx'
+import { Example as NoGapExample } from '../../examples/patterns/responsive-grid/NoGapExample.tsx'
+import { Example as NestedExample } from '../../examples/patterns/responsive-grid/NestedExample.tsx'
 
 ## Overview
 
-The grid system uses a series of containers, rows, and columns to lay out and align content. It's
-built with [flexbox](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Basic_Concepts_of_Flexbox)
-and is fully responsive.
+The grid system lays content out on twelve columns with [`<Grid>`]([[docsref:/components/grid]])
+and `<GridItem>`. It is built on
+[CSS Grid](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout) and follows the
+viewport through six breakpoints.
 
-<Example class="docs-example-row">
+<Example class="cxd-example-grid text-center">
   <ThreeColumnsExample client:load />
 </Example>
 
-This produces three equal-width columns across every device and viewport, using the predefined
-grid classes; the parent `<Container>` centers them in the page.
+Three items of four tracks each make three equal columns at every viewport width. The
+[`<Container>`]([[docsref:/components/container]]) around them centers the grid in the page; a grid
+doesn't need one to work.
+
+<Callout type="info">
+  This guide used to describe the flexbox grid of `<Row>` and `<Col>`, which is deprecated. See
+  [Migrating from Row/Col]([[docsref:/components/grid#migrating-from-rowcol]]) to move a layout
+  over.
+</Callout>
 
 ## Layout primitives
 
-This flexbox grid isn't the only layout system available — two others cover cases it isn't the best fit for:
+The grid isn't the only layout tool, and two others cover what it isn't the best fit for:
 
-- **[`<Stack>`]([[docsref:/components/stack]])** for simple one-dimensional arrangements (a single row or column of items, like a button toolbar or a form's field list) — no `<Container>`/`<Row>`/`<Col>` nesting required.
-- **[`<Grid>`]([[docsref:/components/grid]])** (native CSS Grid) for two-dimensional layouts needing explicit row _and_ column placement, or gutters without the negative-margin technique this flexbox grid relies on.
+- **[`<Stack>`]([[docsref:/components/stack]])** for a single row or column of items, like a button toolbar or the fields of a form.
+- **[`<Flex>`]([[docsref:/components/flex]])** for items as wide as their content, and for wrapping, justification, and alignment along one axis.
 
-Reach for `<Row>`/`<Col>`/`<Container>` when you need this system's responsive column-span props, offsets, and ordering — most existing layouts and forms already use it.
+Reach for `<Grid>` when items share column tracks: page layouts, card grids, and forms whose fields line up across rows.
 
 ## How it works
 
-The grid system combines breakpoints, containers, rows, and columns into one responsive layout model:
+The grid system combines breakpoints, containers, a grid, and its items into one layout model:
 
-- **The grid supports [six responsive breakpoints](https://chassis-ui.com/css/docs/layout/breakpoints).** Breakpoints are based on `min-width` media queries, meaning they affect that breakpoint and all those above it (e.g., `responsive={{ sm: { span: 4 } }}` applies to `sm` and every breakpoint above it). This means you can control container and column sizing and behavior by each breakpoint.
+- **The grid follows [six breakpoints](https://chassis-ui.com/css/docs/layout/breakpoints).** Breakpoints are `min-width` media queries, so a value set for one applies to it and to every wider one: `responsive={{ sm: { span: 4 } }}` holds from `sm` up, until another key overrides it.
 
-- **Containers center and horizontally pad your content.** Use `<Container>` for a responsive pixel width, `<Container fluid>` for `width: 100%` across all viewports and devices, or a responsive container (e.g., `<Container fluidUntil="md">`) for a combination of fluid and pixel widths.
+- **Containers center the page and pad its sides.** Use `<Container>` for a width per breakpoint, `<Container fluid>` for the full width, or `<Container fluidUntil="md">` for a mix. The padding of a container is the page margin, separate from the gutter of the grid.
 
-- **Rows are wrappers for columns.** Each column has horizontal `padding` (called a gutter) for controlling the space between them. This `padding` is then counteracted on the rows with negative margins to ensure the content in your columns is visually aligned down the left side. [`<Row>`]([[docsref:/components/row]]) also supports [uniformly sizing its columns]([[docsref:/components/row#row-columns]]) and [gutter overrides](#gutters) to change the spacing of your content.
+- **A grid has twelve columns.** `<Grid>` divides its width into equal tracks. `columns` changes the count, for the whole grid or from a breakpoint up.
 
-- **Columns are incredibly flexible.** There are 12 template columns available per row, allowing you to create different combinations of elements that span any number of columns. The `span` prop indicates the number of template columns to span (e.g., `<Col span={4}>` spans four). `width`s are set in percentages so you always have the same relative sizing.
+- **Items span tracks.** `<GridItem span={4}>` takes four of the twelve. An item with no `span` is one track wide, so an item that should fill the row takes `span="full"`.
 
-- **Gutters are also responsive and customizable.** [Gutter classes are available](#gutters) across all breakpoints, with the same sizes as the margin and padding spacing scale. Change horizontal gutters with the `gutterX` prop, vertical gutters with `gutterY`, or all gutters with `gutter` — each also available inside `responsive={{ {breakpoint}: { ... } }}` for breakpoint-specific overrides. `gutter={0}` is also available to remove gutters.
-
-Be aware of the limitations and [bugs around flexbox](https://github.com/philipwalton/flexbugs), like the [inability to use some HTML elements as flex containers](https://github.com/philipwalton/flexbugs#flexbug-9).
+- **The gutter follows the breakpoint.** With no `gap`, the space between items is the gutter of the current breakpoint, from 0.5rem on a phone to 3rem on the widest screens, in both directions. `gap` sets another, for the whole grid or from a breakpoint up.
 
 ## Grid options
 
-Chassis's grid system adapts across six breakpoints, each mapped to a `responsive` prop key — see
-[Breakpoints](https://chassis-ui.com/css/docs/layout/breakpoints) on the CSS site for the current
-pixel threshold each one represents.
+The grid adapts across six breakpoints, each a key of the `responsive` prop. See
+[Grid options](https://chassis-ui.com/css/docs/layout/grid#grid-options) on the CSS site for the
+width, gutter, and page margin of each.
 
 <table className="table mb-4">
   <thead>
@@ -72,9 +77,9 @@ pixel threshold each one represents.
   </thead>
   <tbody>
     <tr>
-      <th scope="row">Extra sm</th>
+      <th scope="row">Extra small</th>
       <td>
-        unprefixed <code>span</code>, applies to every size
+        none: the props outside <code>responsive</code> apply to every width
       </td>
     </tr>
     <tr>
@@ -96,13 +101,13 @@ pixel threshold each one represents.
       </td>
     </tr>
     <tr>
-      <th scope="row">Extra lg</th>
+      <th scope="row">Extra large</th>
       <td>
         <code>xl</code>
       </td>
     </tr>
     <tr>
-      <th scope="row">Extra extra lg</th>
+      <th scope="row">Extra extra large</th>
       <td>
         <code>2xl</code>
       </td>
@@ -110,150 +115,135 @@ pixel threshold each one represents.
   </tbody>
 </table>
 
-Every breakpoint provides twelve template columns and a customizable gutter — see
-[Gutters](#gutters) below — and columns can be reordered independently of DOM order, covered on the
-[Column]([[docsref:/components/column]]) page.
+## Equal columns
 
-## Auto-layout columns
+Columns of the same width need no span on each item: the grid counts them for you, or you give it
+the count.
 
-Breakpoint-specific column props size columns without an explicit numbered span, like
-`<Col responsive={{ sm: { span: 6 } }}>`.
+### As many as children
 
-### Equal-width
+`<Grid fill>` gives every child a column of the same width, however many there are. Add `min` to
+wrap the children once a column would get narrower than that.
 
-Adding a `<Col>` for each column needed, with no numbered span, makes every column in a row the
-same width across every device and viewport, from `xs` to `xxl`.
-
-<Example class="docs-example-row">
+<Example class="cxd-example-grid text-center">
   <EqualWidthExample client:load />
 </Example>
 
-### Setting one column width
+### A count per breakpoint
 
-Setting the width of one column — with `span`, a grid mixin, or an inline width — lets the sibling
-columns automatically resize around it, regardless of the center column's width.
+`columns` sets how many equal columns a grid has, and `responsive` changes the count as the
+viewport widens. Further children wrap to the next row. This is what `<Row cols>` did.
 
-<Example class="docs-example-row">
-  <SetColumnWidthExample client:load />
+<Example class="cxd-example-grid text-center">
+  <ColumnCountsExample client:load />
 </Example>
 
-### Variable width content
+## Spans
 
-Use `span="auto"` (or `responsive={{ {breakpoint}: { span: 'auto' } }}`) to size columns based on the natural width of their content.
-
-<Example class="docs-example-row">
-  <VariableWidthExample client:load />
-</Example>
-
-## Responsive classes
-
-The grid system includes six tiers of predefined classes for building complex responsive layouts.
-Customize column sizing per device — extra sm, sm, md, lg, or extra lg.
+On the twelve default columns, `span` gives each item its own width.
 
 ### All breakpoints
 
-For grids that are the same from the smallest of devices to the largest, use `<Col>` and
-`<Col span={*}>`. Specify a numbered span when a particularly sized column is needed; otherwise use
-plain `<Col>`.
+A `span` outside `responsive` holds from the narrowest viewport to the widest.
 
-<Example class="docs-example-row">
+<Example class="cxd-example-grid text-center">
   <AllBreakpointsExample client:load />
 </Example>
 
 ### Stacked to horizontal
 
-Using a single `responsive={{ sm: { span: * } }}` override, you can create a basic grid system that starts out stacked and becomes horizontal at the `sm` breakpoint.
+Give the items `span="full"` and a narrower span from a breakpoint up, and they start out stacked
+and sit side by side from that breakpoint. A column count does the same for equal columns:
+`columns={1}` below the breakpoint, more from it.
 
-<Example class="docs-example-row">
+<Example class="cxd-example-grid text-center">
   <StackedToHorizontalExample client:load />
 </Example>
 
 ### Mix and match
 
-Combine `span` and `responsive` on the same `<Col>` to prevent columns from stacking at every tier.
+Combine a base `span` with `responsive` so that items share a row at every width, in different
+proportions.
 
-<Example class="docs-example-row">
+<Example class="cxd-example-grid text-center">
   <MixAndMatchExample client:load />
 </Example>
 
-### Row columns
+## Start lines
 
-Beyond sizing individual `<Col>`s, [`<Row>`'s `cols` prop]([[docsref:/components/row#row-columns]]) uniformly sets the number of columns per row — see the [Row]([[docsref:/components/row]]) page for the full set of examples.
+`start` puts an item at a column line and leaves the tracks before it empty, which is how you
+indent or center an item. Unlike the `offset` of `<Col>`, a start line counts from the edge of the
+grid, not from the item before. Don't center a grid item with an auto margin: it shrinks the item to
+its content.
 
-## Gutters
-
-Gutters are the padding between columns, used to responsively space and align content in the grid
-system.
-
-- **Gutters are the gaps between column content, created by horizontal `padding`.** `padding-right` and `padding-left` are set on each column, with a negative `margin` offsetting that at the start and end of each row to keep content aligned.
-- **Gutters start at `1.5rem` (`24px`) wide.** This matches the grid to the padding and margin spacers scale.
-- **Gutters can be responsively adjusted.** Use breakpoint-specific gutter props to modify horizontal gutters, vertical gutters, and all gutters.
-
-### Horizontal
-
-`gutterX` (and `responsive={{ {breakpoint}: { gutterX: * } }}` for overrides) controls the
-horizontal gutter widths. A larger gutter may need a matching padding utility on the parent
-`<Container>` or `<Container fluid>` to avoid unwanted overflow — the example below increases
-padding with `.px-xl`.
-
-<Example>
-  <HorizontalGutterExample client:load />
+<Example class="cxd-example-grid text-center">
+  <StartExample client:load />
 </Example>
 
-An alternative solution is to add a wrapper around the `<Row>` with the `.overflow-hidden` class:
+## Gaps
 
-<Example>
-  <HorizontalGutterOverflowExample client:load />
+The gap is the space between items, set on the grid and not on the items. There are no negative
+margins, so a grid never overflows its container the way a row with wide gutters did.
+
+### Both axes
+
+`gap` takes a token of the spacing scale and applies it between columns and between rows.
+`responsive` changes it from a breakpoint up.
+
+<Example class="cxd-example-grid text-center">
+  <GapExample client:load />
 </Example>
 
-### Vertical
+### One axis
 
-`gutterY` (and `responsive={{ {breakpoint}: { gutterY: * } }}` for overrides) controls the vertical gutter widths. Like the horizontal gutters, the vertical gutters can cause some overflow below the `<Row>` at the end of a page. If this occurs, add a wrapper around `<Row>` with the `.overflow-hidden` class:
+The `.column-gap-{token}` and `.row-gap-{token}` utilities set one axis each, in place of the
+`gutterX` and `gutterY` of `<Row>`. `row-gap-zero` suits items that carry a bottom margin of their
+own.
 
-<Example>
-  <VerticalGutterExample client:load />
+<Example class="cxd-example-grid text-center">
+  <AxisGapExample client:load />
 </Example>
 
-### Horizontal and vertical
+### No gap
 
-`gutter` (and `responsive={{ {breakpoint}: { gutter: * } }}` for overrides) controls both
-horizontal and vertical gutter widths at once. A smaller gutter value avoids the overflow that
-would otherwise need an `.overflow-hidden` wrapper, as in the example below.
+`gap="zero"` removes the space on both axes, for items that should touch.
 
-<Example>
-  <HorizontalVerticalGutterExample client:load />
+<Example class="cxd-example-grid text-center">
+  <NoGapExample client:load />
 </Example>
 
-### With row columns
+## Content-width columns
 
-Gutter props can also be added to [row columns]([[docsref:/components/row#row-columns]]),
-combined with responsive `cols` overrides for per-breakpoint column counts and spacing.
+A grid sizes its tracks from the container, not from the content. For items as wide as their
+content beside items that take the rest of the row, use a [`<Flex>`]([[docsref:/components/flex]])
+with a `gap`, and `.flex-fill` on the items that grow.
 
-<Example>
-  <RowColumnsGutterExample client:load />
+<Example class="cxd-example-flex text-center">
+  <VariableWidthExample client:load />
 </Example>
 
-### No gutters
+## Nested grids
 
-The gutters between columns in the predefined grid props can be removed with `gutter={0}`. This removes the negative `margin`s from `<Row>` and the horizontal `padding` from all immediate children columns.
+A `<Grid>` inside an item is a grid of its own, with twelve tracks across the width of the item.
+The default gutter follows the viewport, not the width of the grid, so in a nested grid — or one in
+a sidebar or a card — it is too wide for twelve tracks. Give such a grid a `gap` and a column count
+that fits.
 
-**Need an edge-to-edge design?** Drop the parent `<Container>` or `<Container fluid>`.
-
-This works alongside all other predefined grid props too, including column widths, responsive
-tiers, and reorders.
-
-<Example>
-  <NoGuttersExample client:load />
+<Example class="cxd-example-grid text-center">
+  <NestedExample client:load />
 </Example>
+
+To align nested items with the outer columns instead, make the item a
+[subgrid]([[docsref:/components/grid#subgrid]]).
 
 ## API
 
 ### Container
 
 <PropTable component="Container" />
-### Row
+### Grid
 
-<PropTable component="Row" />
-### Col
+<PropTable component="Grid" />
+### GridItem
 
-<PropTable component="Col" />
+<PropTable component="GridItem" />

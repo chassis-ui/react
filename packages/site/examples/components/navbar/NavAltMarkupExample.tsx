@@ -34,7 +34,7 @@ export const Example = () => {
             <DrawerTitle>Menu</DrawerTitle>
           </DrawerHeader>
           <DrawerBody>
-            <NavbarNav component="div" className="nav-pills">
+            <NavbarNav component="div" className="nav-segments">
               <NavLink href="#" active>
                 Home
               </NavLink>

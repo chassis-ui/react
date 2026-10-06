@@ -1,36 +1,36 @@
-import { Col, List, ListItem, Row } from '@chassis-ui/react'
+import { Grid, List, ListItem } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
-    <Row className="md:row-cols-2 g-lg">
-      <Col>
+    <Grid columns={1} gap="lg" responsive={{ md: { columns: 2 } }}>
+      <div>
         <List color="primary">
           <ListItem>Cras justo odio</ListItem>
           <ListItem>Dapibus ac facilisis in</ListItem>
           <ListItem>Vestibulum at eros</ListItem>
         </List>
-      </Col>
-      <Col>
+      </div>
+      <div>
         <List color="primary" variant="solid" flush className="rounded">
           <ListItem>Cras justo odio</ListItem>
           <ListItem>Dapibus ac facilisis in</ListItem>
           <ListItem>Vestibulum at eros</ListItem>
         </List>
-      </Col>
-      <Col>
+      </div>
+      <div>
         <List color="primary" variant="smooth" flush className="rounded">
           <ListItem>Cras justo odio</ListItem>
           <ListItem>Dapibus ac facilisis in</ListItem>
           <ListItem>Vestibulum at eros</ListItem>
         </List>
-      </Col>
-      <Col>
+      </div>
+      <div>
         <List color="primary" variant="outline">
           <ListItem>Cras justo odio</ListItem>
           <ListItem>Dapibus ac facilisis in</ListItem>
           <ListItem>Vestibulum at eros</ListItem>
         </List>
-      </Col>
-    </Row>
+      </div>
+    </Grid>
   )
 }

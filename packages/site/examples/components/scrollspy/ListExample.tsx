@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { Col, List, ListItem, Row, Scrollspy } from '@chassis-ui/react'
+import { Grid, GridItem, List, ListItem, Scrollspy } from '@chassis-ui/react'
 
 const text =
   'This is some placeholder content for the scrollspy example. As the box scrolls, the item ' +
@@ -11,8 +11,8 @@ const items = [1, 2, 3, 4]
 export const Example = () => {
   const box = useRef<HTMLDivElement>(null)
   return (
-    <Row>
-      <Col span={4}>
+    <Grid gap="md">
+      <GridItem span={4}>
         <Scrollspy root={box} smoothScroll>
           <List>
             {items.map((item) => (
@@ -22,8 +22,8 @@ export const Example = () => {
             ))}
           </List>
         </Scrollspy>
-      </Col>
-      <Col span={8}>
+      </GridItem>
+      <GridItem span={8}>
         <div
           ref={box}
           role="region"
@@ -38,7 +38,7 @@ export const Example = () => {
             </div>
           ))}
         </div>
-      </Col>
-    </Row>
+      </GridItem>
+    </Grid>
   )
 }

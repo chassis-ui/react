@@ -3,7 +3,7 @@ import { Nav } from '@chassis-ui/react'
 export const Example = () => {
   return (
     <Nav
-      variant="pills"
+      variant="segments"
       items={[
         { label: 'Active', href: '#', active: true },
         { label: 'Link', href: '#' },

@@ -1,6 +1,6 @@
 ---
 title: Form Grid
-description: Structure a form's layout with margin utilities, grid classes, and gutter modifiers — from a simple two-column row to a full horizontal form.
+description: Structure a form's layout with margin utilities, the grid, and gaps — from a simple two-column row to a full horizontal form.
 
 toc: true
 ---
@@ -27,24 +27,27 @@ form for consistent spacing.
 
 ## Form grid
 
-Build more complex forms with the grid classes for layouts that need multiple columns, varied
-widths, or additional alignment options.
+Build more complex forms with [`<Grid>`]([[docsref:/components/grid]]) for layouts that need
+multiple columns, varied widths, or additional alignment options. `columns` gives a row of equal
+fields.
 
 <Example>
   <FormGridExample client:load />
 </Example>
 
-## Gutters
+## Gaps
 
-Add gutter modifier classes to control the gutter width in the inline and block directions
-independently.
+Set `gap` to a token of the spacing scale to change the space between fields. Without it, a grid
+has the gutter of the breakpoint. The `.column-gap-{token}` and `.row-gap-{token}` utilities set
+the inline and block directions independently.
 
 <Example>
   <GuttersExample client:load />
 </Example>
 
-The grid system also composes into more complex layouts, like a full address form spanning
-several breakpoints.
+The grid also composes into more complex layouts, like a full address form. A `<Grid>` renders
+the `<Form>` itself with `component={Form}`, and each field is a `<GridItem>` that fills the row
+with `span="full"` and narrows from a breakpoint up.
 
 <Example>
   <ComplexGridExample client:load />
@@ -52,11 +55,11 @@ several breakpoints.
 
 ## Horizontal form
 
-Create horizontal forms with the grid by adding the `.row` class to form groups and using the
-`.col-*-*` classes to specify the width of labels and controls. Add `.col-form-label` to a
-`<FormLabel>` as well, so it's vertically centered with its associated form control.
-
-Margin or padding utilities may still be needed to fine-tune alignment.
+Create horizontal forms with a `<Grid>` per form group: the label takes the `.col-span-*`
+classes and the control sits in a `<GridItem>`, both with `span="full"` below the breakpoint so
+that they stack. Add `.col-form-label` to a `<FormLabel>` as well, so it's vertically centered with
+its associated form control. `.row-gap-zero` keeps a stacked label close to its control, and a
+control with no label starts at the control column with `start`.
 
 <Example>
   <HorizontalFormExample client:load />
@@ -73,9 +76,9 @@ the size of a `.sm` or `.lg` control.
 
 ## Column sizing
 
-Any number of `<Col>`s can go inside a `<Row>`, splitting the available width equally between
-them by default. Assign a numbered `span` — like `<Col responsive={{ sm: { span: 7 } }}>` — to
-a subset of columns, and the remaining `<Col>`s split what's left equally.
+Give each field a `span` of the twelve columns to size it against the others — like
+`<GridItem span="full" responsive={{ sm: { span: 6 } }}>` for a field that takes half the row from
+the `sm` breakpoint.
 
 <Example>
   <ColumnSizingExample client:load />
@@ -83,14 +86,15 @@ a subset of columns, and the remaining `<Col>`s split what's left equally.
 
 ## Auto-sizing
 
-Add a flexbox utility to vertically center a row's contents, and change `<Col>` to
-`<Col span="auto">` so a column takes up only as much space as its content needs.
+A grid sizes its columns from the container, so fields as wide as their content go in a
+[`<Flex>`]([[docsref:/components/flex]]) instead: `wrap` lets them move to the next line, `align`
+centers them vertically, and each takes only the space its content needs.
 
 <Example>
   <AutoSizingExample client:load />
 </Example>
 
-Combine `span="auto"` with size-specific column classes on the remaining columns for more control.
+Combine content-width fields with sized ones through the [fraction width utilities](https://chassis-ui.com/css/docs/utilities/sizing#fractions): `.w-100 sm:w-3/12` is a full-width field that takes a quarter of the row from `sm`. The fields that don't fit beside them wrap to the next line.
 
 <Example>
   <AutoSizingSizedExample client:load />
@@ -98,9 +102,9 @@ Combine `span="auto"` with size-specific column classes on the remaining columns
 
 ## Inline forms
 
-Use `<Col span="auto">` to build horizontal layouts. Gutter modifier classes add spacing in both
-horizontal and vertical directions, and `.align-items-center` vertically centers the form
-elements so the `<Checkbox>` aligns properly.
+Use a `<Flex>` that is a column below a breakpoint and a row from it. `gap` adds the spacing in
+both directions, and `align: 'center'` vertically centers the form elements so the `<Checkbox>`
+aligns properly.
 
 <Example>
   <InlineFormsExample client:load />

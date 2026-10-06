@@ -1,32 +1,38 @@
-import { Col, FormLabel, Row, TextInput } from '@chassis-ui/react'
+import { FormLabel, Grid, GridItem, TextInput } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
     <>
-      <Row className="mb-md">
-        <FormLabel htmlFor="colFormLabelSm" className="sm:col-2 col-form-label col-form-label-sm">
+      <Grid className="row-gap-zero mb-md">
+        <FormLabel
+          htmlFor="colFormLabelSm"
+          className="col-span-full sm:col-span-2 col-form-label col-form-label-sm"
+        >
           Email
         </FormLabel>
-        <Col responsive={{ sm: { span: 10 } }}>
+        <GridItem span="full" responsive={{ sm: { span: 10 } }}>
           <TextInput type="email" size="sm" id="colFormLabelSm" placeholder="col-form-label-sm" />
-        </Col>
-      </Row>
-      <Row className="mb-md">
-        <FormLabel htmlFor="colFormLabel" className="sm:col-2 col-form-label">
+        </GridItem>
+      </Grid>
+      <Grid className="row-gap-zero mb-md">
+        <FormLabel htmlFor="colFormLabel" className="col-span-full sm:col-span-2 col-form-label">
           Email
         </FormLabel>
-        <Col responsive={{ sm: { span: 10 } }}>
+        <GridItem span="full" responsive={{ sm: { span: 10 } }}>
           <TextInput type="email" id="colFormLabel" placeholder="col-form-label" />
-        </Col>
-      </Row>
-      <Row>
-        <FormLabel htmlFor="colFormLabelLg" className="sm:col-2 col-form-label col-form-label-lg">
+        </GridItem>
+      </Grid>
+      <Grid className="row-gap-zero">
+        <FormLabel
+          htmlFor="colFormLabelLg"
+          className="col-span-full sm:col-span-2 col-form-label col-form-label-lg"
+        >
           Email
         </FormLabel>
-        <Col responsive={{ sm: { span: 10 } }}>
+        <GridItem span="full" responsive={{ sm: { span: 10 } }}>
           <TextInput type="email" size="lg" id="colFormLabelLg" placeholder="col-form-label-lg" />
-        </Col>
-      </Row>
+        </GridItem>
+      </Grid>
     </>
   )
 }

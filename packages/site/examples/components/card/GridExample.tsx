@@ -1,9 +1,9 @@
-import { Button, Card, CardBody, CardText, CardTitle, Col, Row } from '@chassis-ui/react'
+import { Button, Card, CardBody, CardText, CardTitle, Grid, GridItem } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
-    <Row>
-      <Col responsive={{ sm: { span: 6 } }}>
+    <Grid gap="md">
+      <GridItem span="full" responsive={{ sm: { span: 6 } }}>
         <Card>
           <CardBody>
             <CardTitle>Special title treatment</CardTitle>
@@ -13,8 +13,8 @@ export const Example = () => {
             <Button href="#">Go somewhere</Button>
           </CardBody>
         </Card>
-      </Col>
-      <Col responsive={{ sm: { span: 6 } }}>
+      </GridItem>
+      <GridItem span="full" responsive={{ sm: { span: 6 } }}>
         <Card>
           <CardBody>
             <CardTitle>Special title treatment</CardTitle>
@@ -24,7 +24,7 @@ export const Example = () => {
             <Button href="#">Go somewhere</Button>
           </CardBody>
         </Card>
-      </Col>
-    </Row>
+      </GridItem>
+    </Grid>
   )
 }

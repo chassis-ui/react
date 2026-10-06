@@ -22,7 +22,7 @@ import { Example as UtilitiesSizingExample } from '../../examples/components/car
 import { Example as CustomCssSizingExample } from '../../examples/components/card/CustomCssSizingExample.tsx'
 import { Example as TextAlignExample } from '../../examples/components/card/TextAlignExample.tsx'
 import { Example as NavTabsExample } from '../../examples/components/card/NavTabsExample.tsx'
-import { Example as NavPillsExample } from '../../examples/components/card/NavPillsExample.tsx'
+import { Example as NavSegmentsExample } from '../../examples/components/card/NavSegmentsExample.tsx'
 import { Example as ImageCapsExample } from '../../examples/components/card/ImageCapsExample.tsx'
 import { Example as ImageOverlayExample } from '../../examples/components/card/ImageOverlayExample.tsx'
 import { Example as HorizontalExample } from '../../examples/components/card/HorizontalExample.tsx'
@@ -169,11 +169,11 @@ rendered element.
 ## Sizing
 
 A card has no specific `width` set by default, so it renders at 100% width unless otherwise
-stated. Custom CSS, grid classes, and grid Sass mixins all adjust this as needed.
+stated. The grid, sizing utilities, and custom CSS all adjust this as needed.
 
 ### Using grid markup
 
-The grid wraps cards in columns and rows.
+A [`<Grid>`]([[docsref:/components/grid]]) sizes cards by the columns its items span.
 
 <Example>
   <GridExample client:load />
@@ -212,7 +212,7 @@ A `<Nav>` composed inside `<CardHeader>` adds navigation to a card.
 </Example>
 
 <Example>
-  <NavPillsExample client:load />
+  <NavSegmentsExample client:load />
 </Example>
 
 ## Images
@@ -241,8 +241,9 @@ additional styles or utilities may be needed for legibility.
 ## Horizontal
 
 Set `direction="row"` (or `responsive` for a breakpoint-gated switch) on `<Card>` to lay it out
-side-by-side instead of stacked. Wrap the image and body in `<Col>` to control each side's width,
-and pair `orientation="top"` with a `responsive` override on `<CardImage>` so the image's rounded
+side-by-side instead of stacked. Wrap the image and body in elements with a fraction width
+(`.lg:w-4/12`, `.lg:w-8/12`) to control each side's width, and pair `orientation="top"` with a
+`responsive` override on `<CardImage>` so the image's rounded
 corners switch from the top edge to the start edge at the same breakpoint the card switches to a
 row.
 
@@ -325,16 +326,16 @@ Card footers line up automatically within a card group.
 
 ### Grid cards
 
-The `Row` component's `cols` prop (with `responsive` for breakpoint overrides) controls how many
-grid columns wrap around a set of cards per row. `cols={1}` lays the cards out on one column, and
-`responsive={{ md: { cols: 2 } }}` splits four cards into two per row from the md
+The `columns` prop of [`<Grid>`]([[docsref:/components/grid]]) (with `responsive` for breakpoint
+overrides) controls how many cards share a row. `columns={1}` lays the cards out on one column, and
+`responsive={{ md: { columns: 2 } }}` splits four cards into two per row from the md
 breakpoint up.
 
 <Example>
   <GridCardsExample client:load />
 </Example>
 
-Changing `responsive={{ md: { cols: 3 } }}` wraps the fourth card onto a second row.
+Changing `responsive={{ md: { columns: 3 } }}` wraps the fourth card onto a second row.
 
 <Example>
   <GridCardsThreeColExample client:load />

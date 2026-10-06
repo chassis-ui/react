@@ -2,7 +2,7 @@ import { Nav, NavItem, NavOverflow } from '@chassis-ui/react'
 
 export const Example = () => (
   <NavOverflow>
-    <Nav variant="pills">
+    <Nav variant="segments">
       <NavItem href="#" active>
         Home
       </NavItem>

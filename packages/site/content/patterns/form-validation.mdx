@@ -103,7 +103,7 @@ passing it `tooltip` instead of relying on a control's own `invalidFeedback`/`va
 — that shorthand always renders the block style, so a tooltip needs `FormFeedback` composed
 manually alongside a bare control, the same way the username field on this page composes
 `InputGroup`. The tooltip positions itself against the nearest ancestor with `position: relative`
-— the grid's `Col` already provides this, but a custom layout may need to add it explicitly.
+— add `.position-relative` to the element around the control, as each `<GridItem>` does here.
 
 <Example>
   <TooltipsExample client:load />

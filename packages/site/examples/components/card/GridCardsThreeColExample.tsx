@@ -1,18 +1,9 @@
-import {
-  Card,
-  CardBody,
-  CardFooter,
-  CardImage,
-  CardText,
-  CardTitle,
-  Col,
-  Row
-} from '@chassis-ui/react'
+import { Card, CardBody, CardFooter, CardImage, CardText, CardTitle, Grid } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
-    <Row cols={1} gutter="md" responsive={{ md: { cols: 3 } }}>
-      <Col span>
+    <Grid columns={1} gap="md" responsive={{ md: { columns: 3 } }}>
+      <div>
         <Card>
           <CardImage orientation="top" src="https://placehold.co/800x400" alt="" />
           <CardBody>
@@ -26,8 +17,8 @@ export const Example = () => {
             <small className="md:text-emphasis">Last updated 3 mins ago</small>
           </CardFooter>
         </Card>
-      </Col>
-      <Col span>
+      </div>
+      <div>
         <Card>
           <CardImage orientation="top" src="https://placehold.co/800x400" alt="" />
           <CardBody>
@@ -41,8 +32,8 @@ export const Example = () => {
             <small className="md:text-emphasis">Last updated 3 mins ago</small>
           </CardFooter>
         </Card>
-      </Col>
-      <Col span>
+      </div>
+      <div>
         <Card>
           <CardImage orientation="top" src="https://placehold.co/800x400" alt="" />
           <CardBody>
@@ -56,8 +47,8 @@ export const Example = () => {
             <small className="md:text-emphasis">Last updated 3 mins ago</small>
           </CardFooter>
         </Card>
-      </Col>
-      <Col span>
+      </div>
+      <div>
         <Card>
           <CardImage orientation="top" src="https://placehold.co/800x400" alt="" />
           <CardBody>
@@ -71,7 +62,7 @@ export const Example = () => {
             <small className="md:text-emphasis">Last updated 3 mins ago</small>
           </CardFooter>
         </Card>
-      </Col>
-    </Row>
+      </div>
+    </Grid>
   )
 }

@@ -1,6 +1,6 @@
 ---
 title: Nav
-description: Build tab and pill navigation with Nav, NavItem, and NavLink, or from a data array, with alignment, stacking, and fill/justify layout options.
+description: Build tab, segment, and underline navigation with Nav, NavItem, and NavLink, or from a data array, with sizes, alignment, stacking, and fill layouts.
 toc: true
 ---
 
@@ -8,9 +8,11 @@ import { Example as BaseNavExample } from '../../examples/components/navs-tabs/B
 import { Example as NavElementExample } from '../../examples/components/navs-tabs/NavElementExample.tsx'
 import { Example as DataDrivenExample } from '../../examples/components/navs-tabs/DataDrivenExample.tsx'
 import { Example as DataDrivenTabsExample } from '../../examples/components/navs-tabs/DataDrivenTabsExample.tsx'
-import { Example as DataDrivenPillsExample } from '../../examples/components/navs-tabs/DataDrivenPillsExample.tsx'
+import { Example as DataDrivenSegmentsExample } from '../../examples/components/navs-tabs/DataDrivenSegmentsExample.tsx'
 import { Example as TabsExample } from '../../examples/components/navs-tabs/TabsExample.tsx'
-import { Example as PillsExample } from '../../examples/components/navs-tabs/PillsExample.tsx'
+import { Example as SegmentsExample } from '../../examples/components/navs-tabs/SegmentsExample.tsx'
+import { Example as UnderlineExample } from '../../examples/components/navs-tabs/UnderlineExample.tsx'
+import { Example as SizesExample } from '../../examples/components/navs-tabs/SizesExample.tsx'
 import { Example as CenteredExample } from '../../examples/components/navs-tabs/CenteredExample.tsx'
 import { Example as RightAlignedExample } from '../../examples/components/navs-tabs/RightAlignedExample.tsx'
 import { Example as VerticalExample } from '../../examples/components/navs-tabs/VerticalExample.tsx'
@@ -18,12 +20,12 @@ import { Example as FillExample } from '../../examples/components/navs-tabs/Fill
 import { Example as JustifiedExample } from '../../examples/components/navs-tabs/JustifiedExample.tsx'
 import { Example as FlexUtilitiesExample } from '../../examples/components/navs-tabs/FlexUtilitiesExample.tsx'
 import { Example as TabsWithMenuExample } from '../../examples/components/navs-tabs/TabsWithMenuExample.tsx'
-import { Example as PillsWithMenuExample } from '../../examples/components/navs-tabs/PillsWithMenuExample.tsx'
+import { Example as SegmentsWithMenuExample } from '../../examples/components/navs-tabs/SegmentsWithMenuExample.tsx'
 
 ## Overview
 
 `<Nav>` shares its base markup and styling — the `.nav` class, active and disabled states — across
-plain, tabbed, and pilled navigation. Swap the `variant` prop to switch between styles without
+plain, tabbed, segmented, and underlined navigation. Swap the `variant` prop to switch between styles without
 changing the surrounding markup.
 
 ## Basic usage
@@ -54,14 +56,14 @@ item accepts `label`, `href`, `active`, and `disabled`.
   <DataDrivenExample client:load />
 </Example>
 
-The same `items` array works with the `tabs` and `pills` variants below.
+The same `items` array works with the `tabs` and `segments` variants below.
 
 <Example>
   <DataDrivenTabsExample client:load />
 </Example>
 
 <Example>
-  <DataDrivenPillsExample client:load />
+  <DataDrivenSegmentsExample client:load />
 </Example>
 
 ## Style variants
@@ -74,12 +76,30 @@ Set `variant="tabs"` on the base nav from above to generate a tabbed interface.
   <TabsExample client:load />
 </Example>
 
-### Pills
+### Segments
 
-Set `variant="pills"` instead for a pill-style interface, using the same markup.
+Set `variant="segments"` instead for a segmented control, using the same markup. The variant was
+called `pills` before `@chassis-ui/css` 0.6: `variant="pills"` still renders it, and is deprecated.
 
 <Example>
-  <PillsExample client:load />
+  <SegmentsExample client:load />
+</Example>
+
+### Underline
+
+Set `variant="underline"` to mark the active link with a line under it.
+
+<Example>
+  <UnderlineExample client:load />
+</Example>
+
+## Sizes
+
+Set `size="sm"` or `size="lg"` to scale the padding, gap, and font of the links. Every variant
+takes both; with no `size`, the nav has the medium size.
+
+<Example>
+  <SizesExample client:load />
 </Example>
 
 ## Alignment and layout
@@ -148,10 +168,10 @@ item to an otherwise flat navigation.
   <TabsWithMenuExample client:load />
 </Example>
 
-### Pills with menus
+### Segments with menus
 
 <Example>
-  <PillsWithMenuExample client:load />
+  <SegmentsWithMenuExample client:load />
 </Example>
 
 ## Overflow
@@ -172,7 +192,7 @@ A navigation bar, even one visually styled as tabs via `variant="tabs"`, shouldn
 `role="tablist"`, `role="tab"`, or `role="tabpanel"` attributes. Those are only appropriate for
 dynamic tabbed interfaces, as described in the
 [<abbr title="Web Accessibility Initiative">WAI</abbr> <abbr title="Accessible Rich Internet Applications">ARIA</abbr> Authoring Practices](https://www.w3.org/TR/wai-aria-practices/#tabpanel).
-`<Nav>` itself only renders the `nav`/`nav-tabs`/`nav-pills` styling and has no notion of a selected
+`<Nav>` itself only renders the `nav`/`nav-tabs`/`nav-segments` styling and has no notion of a selected
 panel to wire up — reach for [`Tabs`]([[docsref:/components/tabs]]) instead, which handles the full
 `role="tablist"`/`role="tab"`/`role="tabpanel"` + `aria-selected`/`aria-controls`/`aria-labelledby`
 pattern, keyboard navigation, and animated panel switching.

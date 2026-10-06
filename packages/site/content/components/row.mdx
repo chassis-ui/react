@@ -11,9 +11,16 @@ import { Example as ResponsiveColsExample } from '../../examples/components/row/
 import { Example as GutterExample } from '../../examples/components/row/GutterExample.tsx'
 import { Example as NoGutterExample } from '../../examples/components/row/NoGutterExample.tsx'
 
+<Callout type="warning">
+  **Deprecated.** `<Row>` and `<Col>` render the flexbox grid, which `@chassis-ui/css` deprecates in
+  0.6 and removes in 0.7. Use [`<Grid>`]([[docsref:/components/grid]]) with `columns` for `cols` and
+  `gap` for `gutter` — see [Migrating from Row/Col]([[docsref:/components/grid#migrating-from-rowcol]]).
+  `<Row>` renders as before until then, and warns once in development.
+</Callout>
+
 ## Examples
 
-`<Row>` wraps [`<Col>`]([[docsref:/components/column]]) children in the flexbox context the [flexbox grid]([[docsref:/patterns/responsive-grid]]) relies on — negative margins that offset each column's gutter padding, keeping content aligned down the left side. Every `<Row>` needs a [`<Container>`]([[docsref:/components/container]]) (or `<Container fluid>`) ancestor when used as part of the grid system.
+`<Row>` wraps [`<Col>`]([[docsref:/components/column]]) children in the flex context of the flexbox grid — negative margins that offset each column's gutter padding, keeping content aligned down the left side. Every `<Row>` needs a [`<Container>`]([[docsref:/components/container]]) (or `<Container fluid>`) ancestor when used as part of the grid system.
 
 <Example class="cxd-example-row text-center">
   <BasicExample client:load />

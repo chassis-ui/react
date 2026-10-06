@@ -1,45 +1,54 @@
-import { Button, Checkbox, Col, Form, FormLabel, Select, TextInput } from '@chassis-ui/react'
+import {
+  Button,
+  Checkbox,
+  Form,
+  FormLabel,
+  Grid,
+  GridItem,
+  Select,
+  TextInput
+} from '@chassis-ui/react'
 
 export const Example = () => {
   return (
-    <Form className="row g-3">
-      <Col responsive={{ md: { span: 6 } }}>
+    <Grid component={Form} gap="md">
+      <GridItem span="full" responsive={{ md: { span: 6 } }}>
         <FormLabel htmlFor="inputEmail4">Email</FormLabel>
         <TextInput type="email" id="inputEmail4" />
-      </Col>
-      <Col responsive={{ md: { span: 6 } }}>
+      </GridItem>
+      <GridItem span="full" responsive={{ md: { span: 6 } }}>
         <FormLabel htmlFor="inputPassword4">Password</FormLabel>
         <TextInput autoComplete="current-password" type="password" id="inputPassword4" />
-      </Col>
-      <Col span={12}>
+      </GridItem>
+      <GridItem span="full">
         <FormLabel htmlFor="inputAddress">Address</FormLabel>
         <TextInput id="inputAddress" placeholder="1234 Main St" />
-      </Col>
-      <Col span={12}>
+      </GridItem>
+      <GridItem span="full">
         <FormLabel htmlFor="inputAddress2">Address 2</FormLabel>
         <TextInput id="inputAddress2" placeholder="Apartment, studio, or floor" />
-      </Col>
-      <Col responsive={{ md: { span: 6 } }}>
+      </GridItem>
+      <GridItem span="full" responsive={{ md: { span: 6 } }}>
         <FormLabel htmlFor="inputCity">City</FormLabel>
         <TextInput id="inputCity" />
-      </Col>
-      <Col responsive={{ md: { span: 4 } }}>
+      </GridItem>
+      <GridItem span="full" responsive={{ md: { span: 4 } }}>
         <FormLabel htmlFor="inputState">State</FormLabel>
         <Select id="inputState">
           <option>Choose...</option>
           <option>...</option>
         </Select>
-      </Col>
-      <Col responsive={{ md: { span: 2 } }}>
+      </GridItem>
+      <GridItem span="full" responsive={{ md: { span: 2 } }}>
         <FormLabel htmlFor="inputZip">Zip</FormLabel>
         <TextInput id="inputZip" />
-      </Col>
-      <Col span={12}>
+      </GridItem>
+      <GridItem span="full">
         <Checkbox id="gridCheck" label="Check me out" />
-      </Col>
-      <Col span={12}>
+      </GridItem>
+      <GridItem span="full">
         <Button type="submit">Sign in</Button>
-      </Col>
-    </Form>
+      </GridItem>
+    </Grid>
   )
 }

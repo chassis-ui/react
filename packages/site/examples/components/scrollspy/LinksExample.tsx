@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { Col, Link, Row, Scrollspy } from '@chassis-ui/react'
+import { Grid, GridItem, Link, Scrollspy } from '@chassis-ui/react'
 
 const text =
   'This is some placeholder content for the scrollspy example. As the box scrolls, the link to ' +
@@ -11,8 +11,8 @@ const items = [1, 2, 3, 4, 5]
 export const Example = () => {
   const box = useRef<HTMLDivElement>(null)
   return (
-    <Row>
-      <Col span={4}>
+    <Grid gap="md">
+      <GridItem span={4}>
         <Scrollspy root={box} smoothScroll>
           <nav aria-label="Sections" className="d-flex flex-column gap-xs text-center">
             {items.map((item) => (
@@ -22,8 +22,8 @@ export const Example = () => {
             ))}
           </nav>
         </Scrollspy>
-      </Col>
-      <Col span={8}>
+      </GridItem>
+      <GridItem span={8}>
         <div
           ref={box}
           role="region"
@@ -38,7 +38,7 @@ export const Example = () => {
             </div>
           ))}
         </div>
-      </Col>
-    </Row>
+      </GridItem>
+    </Grid>
   )
 }

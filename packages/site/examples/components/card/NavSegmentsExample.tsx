@@ -14,7 +14,7 @@ export const Example = () => {
   return (
     <Card className="text-center">
       <CardHeader>
-        <Nav variant="pills" className="card-header-pills">
+        <Nav variant="segments" className="card-header-segments">
           <NavItem>
             <NavLink href="#" active>
               Active

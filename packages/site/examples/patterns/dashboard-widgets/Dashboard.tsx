@@ -1,17 +1,16 @@
 import {
+  Badge,
   Card,
   CardBody,
-  Badge,
+  Grid,
   List,
   Progress,
   Table,
-  Row,
-  Col,
-  TableHeader,
-  TableColumn,
   TableBody,
-  TableRow,
-  TableCell
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow
 } from '@chassis-ui/react'
 
 export const Example = () => {
@@ -54,9 +53,9 @@ export const Example = () => {
   ]
   return (
     <div>
-      <Row className="mb-xl">
+      <Grid fill min="12rem" gap="md" className="mb-xl">
         {stats.map((stat) => (
-          <Col key={stat.label}>
+          <div key={stat.label}>
             <Card>
               <CardBody>
                 <div className="d-flex justify-content-between align-items-start">
@@ -68,48 +67,46 @@ export const Example = () => {
                 </div>
               </CardBody>
             </Card>
-          </Col>
+          </div>
         ))}
-      </Row>
-      <Row className="mb-xl">
-        <Col>
-          <Card>
-            <CardBody>
-              <h5 className="mb-md">Recent Orders</h5>
-              <Table aria-label="Recent orders" hover>
-                <TableHeader columns={orderColumns}>
-                  {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
-                </TableHeader>
-                <TableBody items={orders}>
-                  {(row) => (
-                    <TableRow key={row.id}>
-                      {(columnKey) => {
-                        const column = orderColumns.find((c) => c.key === columnKey)
-                        const value = row[columnKey as keyof typeof row]
-                        return (
-                          <TableCell>
-                            {column?.render ? column.render(String(value)) : value}
-                          </TableCell>
-                        )
-                      }}
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
+      </Grid>
+      <div className="mb-xl">
+        <Card>
+          <CardBody>
+            <h5 className="mb-md">Recent Orders</h5>
+            <Table aria-label="Recent orders" hover>
+              <TableHeader columns={orderColumns}>
+                {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
+              </TableHeader>
+              <TableBody items={orders}>
+                {(row) => (
+                  <TableRow key={row.id}>
+                    {(columnKey) => {
+                      const column = orderColumns.find((c) => c.key === columnKey)
+                      const value = row[columnKey as keyof typeof row]
+                      return (
+                        <TableCell>
+                          {column?.render ? column.render(String(value)) : value}
+                        </TableCell>
+                      )
+                    }}
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </CardBody>
+        </Card>
+      </div>
+      <Grid columns={1} gap="md" responsive={{ md: { columns: 2 } }}>
+        <div>
           <Card>
             <CardBody>
               <h5 className="mb-md">Recent Activity</h5>
               <List plain items={activity} />
             </CardBody>
           </Card>
-        </Col>
-        <Col>
+        </div>
+        <div>
           <Card>
             <CardBody>
               <h5 className="mb-md">Traffic Sources</h5>
@@ -124,8 +121,8 @@ export const Example = () => {
               ))}
             </CardBody>
           </Card>
-        </Col>
-      </Row>
+        </div>
+      </Grid>
     </div>
   )
 }
