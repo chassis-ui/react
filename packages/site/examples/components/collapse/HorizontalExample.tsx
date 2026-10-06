@@ -6,7 +6,7 @@ export const Example = () => {
   return (
     <>
       <Button
-        className="mb-3"
+        className="mb-md"
         onClick={() => setVisible(!visible)}
         aria-expanded={visible}
         aria-controls="collapseWidthExample"

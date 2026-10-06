@@ -11,7 +11,7 @@ import {
 export const Example = () => {
   return (
     <>
-      <InputGroup className="mb-3">
+      <InputGroup className="mb-md">
         <Menu>
           <MenuToggle color="secondary" variant="outline">
             Menu
@@ -27,7 +27,7 @@ export const Example = () => {
         <TextInput aria-label="Text input with menu button" />
       </InputGroup>
 
-      <InputGroup className="mb-3">
+      <InputGroup className="mb-md">
         <TextInput aria-label="Text input with menu button" />
         <Menu placement="bottom-end">
           <MenuToggle color="secondary" variant="outline">

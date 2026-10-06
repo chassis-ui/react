@@ -19,7 +19,7 @@ export const Example = () => {
       >
         <Button color="secondary">Filters</Button>
       </Popover>
-      <span className="form-text">Popover is {visible ? 'open' : 'closed'}.</span>
+      <span className="form-help">Popover is {visible ? 'open' : 'closed'}.</span>
     </div>
   )
 }

@@ -19,7 +19,7 @@ export const Example = () => {
       <Grid columns={2} gap="md">
         <div>
           <Collapse visible={visibleA}>
-            <Card className="mt-3">
+            <Card className="mt-md">
               <CardBody>
                 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
                 richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson
@@ -30,7 +30,7 @@ export const Example = () => {
         </div>
         <div>
           <Collapse visible={visibleB}>
-            <Card className="mt-3">
+            <Card className="mt-md">
               <CardBody>
                 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
                 richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson

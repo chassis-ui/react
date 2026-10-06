@@ -7,7 +7,7 @@ export const Example = () => {
   return (
     <div className="vstack gap-sm">
       <ChipInput aria-label="Skills" onChange={setValues} placeholder="Add skill…" value={values} />
-      <div className="form-text">Current values: {values.join(', ') || '(none)'}</div>
+      <div className="form-help">Current values: {values.join(', ') || '(none)'}</div>
     </div>
   )
 }

@@ -35,7 +35,7 @@ export const Example = () => {
       </GridItem>
       <GridItem span="full" responsive={{ md: { span: 4 } }}>
         <FormLabel htmlFor="validationCustomUsername">Username</FormLabel>
-        <InputGroup className="has-validation">
+        <InputGroup>
           <InputGroupAddon id="inputGroupPrepend">@</InputGroupAddon>
           <TextInput
             id="validationCustomUsername"

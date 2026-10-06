@@ -5,10 +5,10 @@ export const Example = () => {
     <List>
       <ListItem href="#" active>
         <div className="d-flex w-100 justify-content-between">
-          <h5 className="mb-1">List item heading</h5>
+          <h5 className="mb-xs">List item heading</h5>
           <small>3 days ago</small>
         </div>
-        <p className="mb-1">
+        <p className="mb-xs">
           Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius
           blandit.
         </p>
@@ -16,25 +16,25 @@ export const Example = () => {
       </ListItem>
       <ListItem href="#">
         <div className="d-flex w-100 justify-content-between">
-          <h5 className="mb-1">List item heading</h5>
-          <small className="md:text-emphasis">3 days ago</small>
+          <h5 className="mb-xs">List item heading</h5>
+          <small className="fg-subtle">3 days ago</small>
         </div>
-        <p className="mb-1">
+        <p className="mb-xs">
           Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius
           blandit.
         </p>
-        <small className="md:text-emphasis">Donec id elit non mi porta.</small>
+        <small className="fg-subtle">Donec id elit non mi porta.</small>
       </ListItem>
       <ListItem href="#">
         <div className="d-flex w-100 justify-content-between">
-          <h5 className="mb-1">List item heading</h5>
-          <small className="md:text-emphasis">3 days ago</small>
+          <h5 className="mb-xs">List item heading</h5>
+          <small className="fg-subtle">3 days ago</small>
         </div>
-        <p className="mb-1">
+        <p className="mb-xs">
           Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius
           blandit.
         </p>
-        <small className="md:text-emphasis">Donec id elit non mi porta.</small>
+        <small className="fg-subtle">Donec id elit non mi porta.</small>
       </ListItem>
     </List>
   )

@@ -32,7 +32,7 @@ export const Example = () => (
         />
       </CarouselItem>
     </CarouselInner>
-    <div className="d-flex justify-content-between align-items-center mt-3">
+    <div className="d-flex justify-content-between align-items-center mt-md">
       <CarouselPlayPause />
       <CarouselIndicators />
     </div>

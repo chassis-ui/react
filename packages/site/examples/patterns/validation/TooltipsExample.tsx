@@ -42,7 +42,7 @@ export const Example = () => {
       </GridItem>
       <GridItem span="full" responsive={{ md: { span: 4 } }} className="position-relative">
         <FormLabel htmlFor="validationTooltipUsername">Username</FormLabel>
-        <InputGroup className="has-validation">
+        <InputGroup>
           <InputGroupAddon id="inputGroupPrependTooltip">@</InputGroupAddon>
           <TextInput
             id="validationTooltipUsername"

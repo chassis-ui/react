@@ -14,7 +14,7 @@ export const Example = () => {
         onComplete={setComplete}
         value={value}
       />
-      <div className="form-text">
+      <div className="form-help">
         Current value: {value || '(empty)'}
         {complete && <> — complete: {complete}</>}
       </div>

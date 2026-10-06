@@ -42,7 +42,7 @@ export const Example = () => {
           <CarouselControlNext />
         </div>
       </Carousel>
-      <div className="form-text">Active slide: {activeIndex + 1}</div>
+      <div className="form-help">Active slide: {activeIndex + 1}</div>
     </div>
   )
 }

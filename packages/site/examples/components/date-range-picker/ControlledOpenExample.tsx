@@ -12,7 +12,7 @@ export const Example = () => {
           Open calendar
         </Button>
       </div>
-      <div className="form-text">Popover is {visible ? 'open' : 'closed'}.</div>
+      <div className="form-help">Popover is {visible ? 'open' : 'closed'}.</div>
     </div>
   )
 }

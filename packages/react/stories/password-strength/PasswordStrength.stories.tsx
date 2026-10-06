@@ -70,7 +70,7 @@ export const Levels: Story = {
       <div className="vstack gap-md">
         {samples.map(({ label, password }) => (
           <div key={label}>
-            <div className="fg-md">{label}</div>
+            <div className="fg-subtle">{label}</div>
             <PasswordStrength aria-label={`${label} example`} value={password} />
           </div>
         ))}

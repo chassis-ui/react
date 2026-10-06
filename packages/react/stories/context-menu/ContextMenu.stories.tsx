@@ -149,7 +149,7 @@ export const Controlled: Story = {
           Right-click in this area.
           {items}
         </ContextMenu>
-        <p className="form-text">The menu is {visible ? 'open' : 'closed'}.</p>
+        <p className="form-help">The menu is {visible ? 'open' : 'closed'}.</p>
       </>
     )
   }

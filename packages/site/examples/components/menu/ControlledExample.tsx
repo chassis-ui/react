@@ -17,7 +17,7 @@ export const Example = () => {
       <Button variant="outline" onClick={() => setVisible(true)}>
         Open from here
       </Button>
-      <span className="form-text">Menu is {visible ? 'open' : 'closed'}.</span>
+      <span className="form-help">Menu is {visible ? 'open' : 'closed'}.</span>
     </div>
   )
 }

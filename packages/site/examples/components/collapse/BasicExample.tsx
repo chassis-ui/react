@@ -16,7 +16,7 @@ export const Example = () => {
       </Button>
       <Button onClick={() => setVisible(!visible)}>Button</Button>
       <Collapse visible={visible}>
-        <Card className="mt-3">
+        <Card className="mt-md">
           <CardBody>
             Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
             squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt

@@ -27,7 +27,7 @@ export const Example = () => {
           <span className="fg-main">Toggleable via the navbar toggler.</span>
         </DrawerBody>
       </Drawer>
-      <Navbar className="bg-body" data-cx-theme="dark">
+      <Navbar className="bg-main" data-cx-theme="dark">
         <Container fluid>
           <NavbarToggler
             aria-controls="navbarToggleExternalContent"

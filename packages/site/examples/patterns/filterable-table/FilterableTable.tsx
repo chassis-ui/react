@@ -62,7 +62,7 @@ export const Example = () => {
 
   return (
     <div>
-      <div className="d-flex flex-wrap gap-3 mb-3">
+      <div className="d-flex flex-wrap gap-md mb-md">
         <TextInput
           type="search"
           label="Name"
@@ -120,9 +120,7 @@ export const Example = () => {
           )}
         </TableBody>
       </Table>
-      {rows.length === 0 && (
-        <p className="text-secondary mt-3 mb-0">No users match these filters.</p>
-      )}
+      {rows.length === 0 && <p className="fg-subtle mt-md mb-0">No users match these filters.</p>}
     </div>
   )
 }

@@ -17,7 +17,7 @@ export const Example = () => {
         <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
         <Button href="#">Go somewhere</Button>
       </CardBody>
-      <CardFooter className="md:text-emphasis">2 days ago</CardFooter>
+      <CardFooter className="fg-subtle">2 days ago</CardFooter>
     </Card>
   )
 }

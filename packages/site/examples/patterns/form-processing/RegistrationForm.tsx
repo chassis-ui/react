@@ -43,7 +43,7 @@ export const Example = () => {
   return (
     <div>
       {success && (
-        <Notification color="success" dismissible onClose={handleReset} className="mb-4">
+        <Notification color="success" dismissible onClose={handleReset} className="mb-lg">
           <strong>Account created!</strong> Welcome aboard, {name}.
         </Notification>
       )}
@@ -106,7 +106,7 @@ export const Example = () => {
             <FormFeedback invalid>Password must be at least 8 characters.</FormFeedback>
           </div>
         </Grid>
-        <div className="d-flex gap-2">
+        <div className="d-flex gap-sm">
           <Button type="submit" color="primary">
             Create account
           </Button>

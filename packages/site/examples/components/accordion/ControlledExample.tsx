@@ -24,7 +24,7 @@ export const Example = () => {
 
   return (
     <>
-      <ButtonGroup className="mb-3">
+      <ButtonGroup className="mb-md">
         <Button size="sm" onClick={() => setExpandedKeys(items.map((item) => item.id))}>
           Expand all
         </Button>

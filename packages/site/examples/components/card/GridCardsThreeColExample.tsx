@@ -14,7 +14,7 @@ export const Example = () => {
             </CardText>
           </CardBody>
           <CardFooter>
-            <small className="md:text-emphasis">Last updated 3 mins ago</small>
+            <small className="fg-subtle">Last updated 3 mins ago</small>
           </CardFooter>
         </Card>
       </div>
@@ -29,7 +29,7 @@ export const Example = () => {
             </CardText>
           </CardBody>
           <CardFooter>
-            <small className="md:text-emphasis">Last updated 3 mins ago</small>
+            <small className="fg-subtle">Last updated 3 mins ago</small>
           </CardFooter>
         </Card>
       </div>
@@ -44,7 +44,7 @@ export const Example = () => {
             </CardText>
           </CardBody>
           <CardFooter>
-            <small className="md:text-emphasis">Last updated 3 mins ago</small>
+            <small className="fg-subtle">Last updated 3 mins ago</small>
           </CardFooter>
         </Card>
       </div>
@@ -59,7 +59,7 @@ export const Example = () => {
             </CardText>
           </CardBody>
           <CardFooter>
-            <small className="md:text-emphasis">Last updated 3 mins ago</small>
+            <small className="fg-subtle">Last updated 3 mins ago</small>
           </CardFooter>
         </Card>
       </div>

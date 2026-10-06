@@ -24,7 +24,7 @@ export const Example = () => {
   }
 
   return (
-    <div className="d-flex align-items-center justify-content-between gap-3">
+    <div className="d-flex align-items-center justify-content-between gap-md">
       <div className="d-flex flex-fill gap-xs">
         <label htmlFor="compact-pg-size" className="mb-0">
           Items per page:

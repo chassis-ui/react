@@ -12,7 +12,7 @@ import {
 export const Example = () => {
   return (
     <>
-      <InputGroup className="mb-3">
+      <InputGroup className="mb-md">
         <Button type="button" color="secondary" variant="outline">
           Action
         </Button>
