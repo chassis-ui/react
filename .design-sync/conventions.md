@@ -1,7 +1,7 @@
 ## Building with Chassis
 
 Chassis is a **CSS-framework-backed** design system: `@chassis-ui/react` supplies the
-components, and `@chassis-ui/css` supplies a full utility-class layer plus ~1330 `--cx-*`
+components, and `@chassis-ui/css` supplies a full utility-class layer plus ~1350 `--cx-*`
 custom properties. Use library components for controls, and Chassis utility classes for
 your own layout and spacing. Do not invent class names, and do not write ad-hoc CSS when
 a utility exists.
@@ -23,50 +23,93 @@ real Chassis app does. `color-scheme` inherits, so one attribute themes the whol
 
 ### The utility vocabulary
 
-Scales are **named, not numeric** — `p-3`, `gap-2`, `m-4` do not exist. The scale is
-`3xsmall 2xsmall xsmall small medium large xlarge 2xlarge 3xlarge …` (plus `zero`/`0`,
-and `auto` for margins).
+Scales are **named, not numeric**, and the names are **short**: `p-3`, `gap-2` and `m-4`
+do not exist, and neither do the long forms `p-large` or `gap-medium`. The scale is
+`4xs 3xs 2xs xs sm md lg xl 2xl 3xl 4xl 5xl 6xl` (plus `zero`/`0`, and `auto` for margins).
 
-| Concern | Classes |
-|---|---|
-| Spacing | `p-* px-* py-* pt-* pb-* ps-* pe-*`, same for `m-*`, `gap-* row-gap-* column-gap-*` — e.g. `p-large`, `gap-medium`, `mb-small` |
-| Colour | `bg-*` / `fg-* ` / `border-*` / `text-*` over `default alternate primary secondary neutral success warning danger info black white`, plus `-contrast` pairs — e.g. `bg-primary fg-primary-contrast` |
-| Type | `font-*` size (`font-small` … `font-5xlarge`), weight (`font-normal font-strong font-mass font-elegant`), family (`font-text font-display font-code`), `text-center text-bold text-break` |
-| Box | `rounded`, `rounded-small … rounded-3xlarge`, `rounded-full`, `rounded-circle`; `shadow`, `shadow-05 … shadow-95`; `border`, `border-0` |
-| Layout | `d-flex d-grid d-block d-none`, `flex-column flex-wrap`, `align-items-center`, `justify-content-between`, `hstack` / `vstack`, `w-100` |
-| Grid | `container`, `row` + `col col-6 row-cols-3` (flex grid), or `grid` + `g-col-4 g-start-3` (CSS grid) |
+| Concern           | Classes                                                                                                                                                                                                                                                                                                                                                                                       |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Spacing           | `p-* px-* py-* pt-* pb-* ps-* pe-*`, same for `m-*`, `gap-* row-gap-* column-gap-*` — e.g. `p-lg`, `gap-md`, `mb-sm`                                                                                                                                                                                                                                                                          |
+| Colour            | `bg-*` / `fg-*` / `border-*` over `default alternate primary secondary neutral success warning danger info black white`; `bg-*` and `fg-*` also have `-contrast` pairs — e.g. `bg-primary fg-primary-contrast`. Neutral surfaces and text: `bg-main bg-even bg-evident`, `fg-main fg-subtle fg-slight`, `border-main border-subtle`. `text-*` is **not** a colour: there is no `text-primary` |
+| Type              | size `font-2xs font-xs font-sm font-md font-lg font-xl font-2xl … font-5xl`; role `font-body font-label font-title font-heading font-lead font-hero`; weight `font-normal font-strong font-mass font-elegant`; family `font-text font-display font-code`; `text-center text-start text-end`, `text-bold text-italic text-uppercase`, `text-truncate text-nowrap text-break`                   |
+| Box               | `rounded`, `rounded-xs … rounded-3xl`, `rounded-zero`, `rounded-full`, `rounded-circle`; `shadow`, `shadow-sm`, `shadow-lg`, `shadow-none`, `shadow-05 … shadow-95`; `border`, `border-top` (and `-end -bottom -start`), `border-0`                                                                                                                                                           |
+| Layout            | `d-flex d-grid d-block d-none`, `flex-column flex-row flex-wrap flex-fill`, `align-items-center`, `justify-content-between`, `hstack` / `vstack`, `w-25 w-50 w-75 w-100 w-auto`, `h-100`                                                                                                                                                                                                      |
+| Width in twelfths | `w-1/12 … w-11/12` — e.g. `w-6/12` is half, `w-4/12` a third                                                                                                                                                                                                                                                                                                                                  |
+| Grid              | `container` (page width and margin), `grid` + `col-span-4 col-span-full col-start-3 row-span-2 row-start-2`, `grid-cols-3` for equal columns, `grid-fill` for as many columns as children                                                                                                                                                                                                     |
 
 **Responsive** utilities are prefixed with a breakpoint and a colon:
-`medium:g-col-4`, `large:col-6`, `medium:gap-large`. Breakpoints are
-`small medium large xlarge 2xlarge`. Layout components take the same names as a
-`responsive` prop, e.g. `<Col span={6} responsive={{ medium: { span: 4 } }} />`.
+`md:col-span-4`, `lg:grid-cols-3`, `md:gap-lg`, `sm:w-6/12`. Breakpoints are
+`sm md lg xl 2xl`; an unprefixed class applies from the narrowest screen up. Layout
+components take the same names as a `responsive` prop, e.g.
+`<GridItem span="full" responsive={{ md: { span: 4 } }} />`.
 
 Reach for `var(--cx-*)` only for values utilities don't cover — `--cx-primary`,
-`--cx-fg-color`, `--cx-bg-color`, `--cx-border-radius`, `--cx-gap`,
-`--cx-font-family-text`. Component-scoped tokens (`--cx-card-*`, `--cx-accordion-*`) are
-the supported way to restyle one component instance.
+`--cx-fg-color`, `--cx-bg-color`, `--cx-border-radius`, `--cx-space-md`,
+`--cx-grid-gutter`, `--cx-font-family-text`. Component-scoped tokens (`--cx-card-*`,
+`--cx-button-*`, `--cx-nav-*`) are the supported way to restyle one component instance.
+
+### Layout: the grid is CSS Grid
+
+`.grid` is a twelve-column CSS grid whose gap is the gutter of the breakpoint (0.5rem on a
+phone, up to 3rem on the widest screens). Use the components, or the classes they render:
+
+```jsx
+<Grid columns={1} gap="md" responsive={{ md: { columns: 3 } }}>{/* equal columns */}</Grid>
+
+<Grid gap="lg">
+  <GridItem span="full" responsive={{ lg: { span: 8 } }}>{/* main */}</GridItem>
+  <GridItem span="full" responsive={{ lg: { span: 4 } }}>{/* aside */}</GridItem>
+</Grid>
+```
+
+- An item with no `span` is **one track wide**, not full width. An item that stacks on
+  small screens needs `span="full"` (`col-span-full`) plus the narrower span from a
+  breakpoint up.
+- `gap` takes a spacing token (`gap="md"` renders `gap-md`). A grid inside a card or a
+  sidebar is narrower than the viewport the default gutter follows: give it a `gap` and a
+  `columns` count that fits.
+- `<Grid fill min="12rem">` lays children out in equal columns that wrap when they would
+  get narrower than `min`: use it for card walls and stat rows.
+- A grid sizes its tracks from the container. For items as wide as their content, use
+  `<Flex gap="md">` or `d-flex gap-md`, with `flex-fill` on the items that grow.
+- **Do not use `Row`, `Col`, or the `row` / `col-*` / `offset-*` / `g-*` classes.** The
+  flexbox grid is deprecated and is removed in the next release of the framework.
 
 ### Icons — read this before using `Icon`
 
-`Icon` and `NotificationIcon` default to **SVG-sprite mode**, fetching
-`/static/icons/chassis-icons.svg`. That path is the docs site's, and it does **not**
-exist here — default-mode icons render empty. Use font mode instead, which ships with
-this bundle:
+`Icon`, and the icons components draw themselves (close buttons, carets, checks), default
+to **SVG-sprite mode**: they reference a sprite embedded in the page, and no sprite is
+embedded here, so they render empty. The icon font ships with this bundle. Switch the
+whole tree to it once, at the root:
 
 ```jsx
-<Icon font name="check-solid" />          // renders (cx-* glyph class + webfont)
-<Icon name="check-solid" />               // EMPTY here — sprite is not served
+const { ChassisThemeRoot, IconProvider, Icon } = window.ChassisReact;
+
+<ChassisThemeRoot theme="light">
+  <IconProvider font>
+    <Icon name="check-solid" />           {/* renders: cx-* glyph class + webfont */}
+  </IconProvider>
+</ChassisThemeRoot>
 ```
 
-Pass `sprite="<url>"` explicitly only if you are serving your own sprite.
+`<Icon font name="check-solid" />` does the same for one icon. Pass `sprite="<url>"` only
+if you are serving your own sprite from the same origin.
 
 ### Shared component props
 
 Most components take `color` (the `ContextColor` set above: `default alternate primary
-secondary neutral success danger warning info black white`) and many take `variant`
-(`link basic outline smooth`; `solid` is the unmodified default). Layout components are
+secondary neutral success danger warning info black white`). Many take `variant`:
+`basic solid outline smooth` on `Card`, `Badge` and `Chip`; `basic outline smooth link` on
+`Button`, where the solid look is the default with no `variant`. Sizes are `size="sm"` and
+`size="lg"`; the medium size is the default with no prop. Layout components are
 polymorphic via `component` — `<Stack component="section">`. Check `<Name>.d.ts` for the
 exact set; do not assume a prop exists across components.
+
+- `Nav` and `TabList` take `variant="tabs" | "segments" | "underline"`. `segments` is a
+  segmented control; it was called `pills`, which is deprecated.
+- A component that shows and hides (`Modal`, `Drawer`, `Popover`, `Tooltip`, `Menu`,
+  `Toast`) takes `visible` (controlled), `defaultVisible` and `onVisibleChange`.
+- `Skeleton` takes `span` in twelfths of its parent: `<Skeleton span={6} />` is half.
 
 ### Where the truth is
 
@@ -79,22 +122,25 @@ exact set; do not assume a prop exists across components.
 ### Idiomatic example
 
 ```jsx
-const { ChassisThemeRoot, Card, CardBody, CardTitle, CardText, Button } = window.ChassisReact;
+const { ChassisThemeRoot, IconProvider, Grid, Card, CardBody, CardTitle, CardText, Button } =
+  window.ChassisReact;
 
 <ChassisThemeRoot theme="light">
-  <div className="container p-large">
-    <div className="grid gap-medium">
-      <Card className="g-col-12 medium:g-col-4">
-        <CardBody>
-          <CardTitle>Weekly report</CardTitle>
-          <CardText className="fg-neutral font-small">Updated 5 minutes ago.</CardText>
-          <div className="d-flex gap-small align-items-center">
-            <Button>Open</Button>
-            <Button color="neutral" variant="outline">Dismiss</Button>
-          </div>
-        </CardBody>
-      </Card>
+  <IconProvider font>
+    <div className="container py-lg">
+      <Grid columns={1} gap="md" responsive={{ md: { columns: 3 } }}>
+        <Card>
+          <CardBody>
+            <CardTitle>Weekly report</CardTitle>
+            <CardText className="fg-subtle font-sm">Updated 5 minutes ago.</CardText>
+            <div className="d-flex gap-sm align-items-center">
+              <Button>Open</Button>
+              <Button color="neutral" variant="outline">Dismiss</Button>
+            </div>
+          </CardBody>
+        </Card>
+      </Grid>
     </div>
-  </div>
+  </IconProvider>
 </ChassisThemeRoot>
 ```
