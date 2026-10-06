@@ -992,7 +992,10 @@ type ButtonGroupOwnProps<C extends ElementType> = {
    */
   size?: 'lg' | 'sm';
   /**
-   * Create a set of buttons that appear vertically stacked rather than horizontally. Split button dropdowns are not supported here.
+   * Create a set of buttons that appear vertically stacked rather than horizontally, with the
+   * `.button-group-vertical` class in place of `.button-group`. Split button dropdowns are not
+   * supported here, and `size` has no effect: chassis-css sizes the buttons of a horizontal group
+   * only, so size the buttons of a vertical one themselves.
    */
   vertical?: boolean;
 };

@@ -26,23 +26,34 @@ describe('ButtonGroup', () => {
       expect(button).toHaveAttribute('type', 'button')
     })
 
-    test('applies size and vertical classes with className', () => {
+    // The group wrapper has no default role (only when a caller passes one explicitly, as the
+    // accessibility test below does), so its only queryable ancestor is the button's parent
+    // element.
+    /* eslint-disable testing-library/no-node-access */
+    test('applies the size class with className', () => {
       render(
-        <ButtonGroup className="bazinga" size="lg" vertical>
+        <ButtonGroup className="bazinga" size="lg">
           <Button>A</Button>
         </ButtonGroup>
       )
-      // The group wrapper has no default role (only when a caller passes one explicitly, as
-      // the accessibility test below does), so its only queryable ancestor is the button's
-      // parent element.
-      // eslint-disable-next-line testing-library/no-node-access
-      expect(screen.getByRole('button', { name: 'A' }).parentElement).toHaveClass(
-        'button-group',
-        'lg',
-        'vertical',
-        'bazinga'
+      expect(screen.getByRole('button', { name: 'A' }).parentElement?.className).toBe(
+        'button-group lg bazinga'
       )
     })
+
+    // chassis-css has no `.button-group.vertical`: a vertical group is `.button-group-vertical`,
+    // without `.button-group`, whose rules for a row (overlapping borders, corners) would apply.
+    test('renders button-group-vertical in place of button-group when vertical', () => {
+      render(
+        <ButtonGroup className="bazinga" vertical>
+          <Button>A</Button>
+        </ButtonGroup>
+      )
+      const group = screen.getByRole('button', { name: 'A' }).parentElement
+      expect(group?.className).toBe('button-group-vertical bazinga')
+      expect(group).not.toHaveClass('button-group', 'vertical')
+    })
+    /* eslint-enable testing-library/no-node-access */
   })
 
   describe('ref forwarding', () => {

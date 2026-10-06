@@ -143,7 +143,13 @@ export const RadioGroup = forwardRef<HTMLFieldSetElement, RadioGroupProps>(
             {label}
           </legend>
         )}
-        {orientation === 'horizontal' ? <Flex gap="md">{items}</Flex> : items}
+        {orientation === 'horizontal' ? (
+          <Flex wrap="wrap" gap="md">
+            {items}
+          </Flex>
+        ) : (
+          items
+        )}
         {description && <FormHelp {...descriptionProps}>{description}</FormHelp>}
         {invalid && errorMessage && (
           <FormFeedback invalid {...errorMessageProps}>

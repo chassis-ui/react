@@ -61,7 +61,7 @@
     },
     "vertical": {
       "defaultValue": null,
-      "description": "Create a set of buttons that appear vertically stacked rather than horizontally. Split button dropdowns are not supported here.",
+      "description": "Create a set of buttons that appear vertically stacked rather than horizontally, with the\n`.button-group-vertical` class in place of `.button-group`. Split button dropdowns are not\nsupported here, and `size` has no effect: chassis-css sizes the buttons of a horizontal group\nonly, so size the buttons of a vertical one themselves.",
       "name": "vertical",
       "declarations": [
         {

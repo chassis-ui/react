@@ -21,7 +21,10 @@ type ButtonGroupOwnProps<C extends ElementType> = {
    */
   size?: 'sm' | 'lg'
   /**
-   * Create a set of buttons that appear vertically stacked rather than horizontally. Split button dropdowns are not supported here.
+   * Create a set of buttons that appear vertically stacked rather than horizontally, with the
+   * `.button-group-vertical` class in place of `.button-group`. Split button dropdowns are not
+   * supported here, and `size` has no effect: chassis-css sizes the buttons of a horizontal group
+   * only, so size the buttons of a vertical one themselves.
    */
   vertical?: boolean
 }
@@ -40,7 +43,14 @@ function ButtonGroupRender<C extends ElementType = 'div'>(
   ref: PolymorphicRef<C>
 ) {
   const Component = component ?? 'div'
-  const _className = classNames('button-group', { vertical }, size, className)
+  // chassis-css stacks a group with `.button-group-vertical` in place of `.button-group`: the two
+  // share the base rules, and the horizontal ones (the overlap of the borders, the corners) hang
+  // on `.button-group` alone.
+  const _className = classNames(
+    vertical ? 'button-group-vertical' : 'button-group',
+    size,
+    className
+  )
 
   return (
     <Component className={_className} {...rest} ref={ref}>
