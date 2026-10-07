@@ -14,31 +14,33 @@ export function sassVars(str: string): Record<string, string | undefined> {
       }
     case 'space':
       return {
-        '4xs': variables.space4xs,
-        '3xs': variables.space3xs,
-        '2xs': variables.space2xs,
-        xs: variables.spaceXsm,
+        zero: variables.spaceZero,
+        '4xs': variables.space4xsmall,
+        '3xs': variables.space3xsmall,
+        '2xs': variables.space2xsmall,
+        xs: variables.spaceXsmall,
+        sm: variables.spaceSmall,
         md: variables.spaceMedium,
         lg: variables.spaceLarge,
-        xl: variables.spaceXlg,
-        '2xl': variables.space2xl,
-        '3xl': variables.space3xl,
-        '4xl': variables.space4xl,
-        '5xl': variables.space5xl,
-        '6xl': variables.space6xl
+        xl: variables.spaceXlarge,
+        '2xl': variables.space2xlarge,
+        '3xl': variables.space3xlarge,
+        '4xl': variables.space4xlarge,
+        '5xl': variables.space5xlarge,
+        '6xl': variables.space6xlarge
       }
     case 'breakpoint':
       return {
-        '2xl': variables.breakpoint2xl,
-        xl: variables.breakpointXlg,
+        '2xl': variables.breakpoint2xlarge,
+        xl: variables.breakpointXlarge,
         lg: variables.breakpointLarge,
         md: variables.breakpointMedium,
         sm: variables.breakpointSmall
       }
     case 'container':
       return {
-        '2xl': variables.container2xl,
-        xl: variables.containerXlg,
+        '2xl': variables.container2xlarge,
+        xl: variables.containerXlarge,
         lg: variables.containerLarge,
         md: variables.containerMedium,
         sm: variables.containerSmall
@@ -48,7 +50,7 @@ export function sassVars(str: string): Record<string, string | undefined> {
         sm: variables.modalSmall,
         md: variables.modalMedium,
         lg: variables.modalLarge,
-        xl: variables.modalXlg
+        xl: variables.modalXlarge
       }
     case 'setting':
       return {
