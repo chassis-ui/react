@@ -121,3 +121,51 @@ export const Subgrid: Story = {
     </Grid>
   )
 }
+
+export const End: Story = {
+  render: () => (
+    <Grid>
+      <GridItem span={3} className={boxClass}>
+        span=3
+      </GridItem>
+      <GridItem span={3} end={13} className={boxClass}>
+        span=3 end=13
+      </GridItem>
+    </Grid>
+  )
+}
+
+// The items follow the width of the box, a query container, not the viewport: stacked in the
+// 24rem box, three across where the box is as wide as the page.
+export const ContainerBreakpoints: Story = {
+  render: () => (
+    <>
+      <div className="contains-inline mb-lg" style={{ width: '24rem' }}>
+        <Grid contained>
+          <GridItem span="full" responsive={{ '@md': { span: 4 } }} className={boxClass}>
+            span=full @md:span=4
+          </GridItem>
+          <GridItem span="full" responsive={{ '@md': { span: 4 } }} className={boxClass}>
+            span=full @md:span=4
+          </GridItem>
+          <GridItem span="full" responsive={{ '@md': { span: 4 } }} className={boxClass}>
+            span=full @md:span=4
+          </GridItem>
+        </Grid>
+      </div>
+      <div className="contains-inline">
+        <Grid contained>
+          <GridItem span="full" responsive={{ '@md': { span: 4 } }} className={boxClass}>
+            span=full @md:span=4
+          </GridItem>
+          <GridItem span="full" responsive={{ '@md': { span: 4 } }} className={boxClass}>
+            span=full @md:span=4
+          </GridItem>
+          <GridItem span="full" responsive={{ '@md': { span: 4 } }} className={boxClass}>
+            span=full @md:span=4
+          </GridItem>
+        </Grid>
+      </div>
+    </>
+  )
+}

@@ -4,6 +4,12 @@
 export type Breakpoint = 'sm' | 'md' | 'lg' | 'xl' | '2xl'
 
 /**
+ * Container breakpoints: the same widths, measured on the nearest query container instead of the
+ * viewport. chassis-css's `@md:` classes.
+ */
+export type ContainerBreakpoint = '@sm' | '@md' | '@lg' | '@xl' | '@2xl'
+
+/**
  * Context colors
  */
 export type ContextColor =

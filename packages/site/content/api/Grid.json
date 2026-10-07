@@ -52,7 +52,7 @@
     },
     "rows": {
       "defaultValue": null,
-      "description": "Number of rows in the grid template, set via the `--cx-grid-rows` custom property (defaults\nto `1` in CSS when omitted). Has no effect when `fill` is set.",
+      "description": "Number of equal rows in the grid template. A grid has none when omitted: its rows are as\ntall as their content. A count from 1 to 6 is mapped to the `grid-rows-{n}` class; any other\ncount has no class and is set inline, as the `grid-template-rows` the class declares. Has no\neffect when `fill` is set.",
       "name": "rows",
       "declarations": [
         {
@@ -67,7 +67,7 @@
     },
     "gap": {
       "defaultValue": null,
-      "description": "Gap between grid items: a `Spacing` token (mapped to the `gap-{token}` class) or any raw CSS\n`gap` value, including a `\"{row} {column}\"` pair (set via the `--cx-grid-gap` custom\nproperty). The gutter of the current breakpoint when omitted.",
+      "description": "Gap between grid items: a `Spacing` token (mapped to the `gap-{token}` class) or any raw CSS\n`gap` value, including a `\"{row} {column}\"` pair (set via the `--cx-grid-gap` custom\nproperty). The gutter of the current breakpoint when omitted, or of the query container when\n`contained` is set.",
       "name": "gap",
       "declarations": [
         {
@@ -80,9 +80,42 @@
         "name": "{ Spacing | string }"
       }
     },
+    "flow": {
+      "defaultValue": null,
+      "description": "The direction items are placed in, mapped to the `grid-flow-*` classes: by `'row'` (the CSS\ndefault) or by `'column'`, which fills the `rows` of one column before it starts the next.\n`'dense'`, `'row-dense'` and `'column-dense'` also move later items into gaps that earlier,\nwider ones left.",
+      "name": "flow",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/grid/Grid.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "GridFlow",
+        "value": [
+          {
+            "value": "\"row\""
+          },
+          {
+            "value": "\"column\""
+          },
+          {
+            "value": "\"dense\""
+          },
+          {
+            "value": "\"row-dense\""
+          },
+          {
+            "value": "\"column-dense\""
+          }
+        ]
+      }
+    },
     "responsive": {
       "defaultValue": null,
-      "description": "Overrides `columns`/`gap` at a breakpoint and up, with the `grid-cols-{n}` and `gap-{token}`\nclasses.",
+      "description": "Overrides `columns`/`rows`/`gap`/`flow` from a width up, with the `grid-cols-{n}`,\n`grid-rows-{n}`, `gap-{token}` and `grid-flow-*` classes. A breakpoint key (`md`) is a width\nof the viewport. A container key (`'@md'`) is the same width of the nearest query container\n(an ancestor with the `contains-inline` class), and wins over a breakpoint key where both\napply. Without a query container above the grid, a container key never applies.",
       "name": "responsive",
       "declarations": [
         {
@@ -92,7 +125,22 @@
       ],
       "required": false,
       "type": {
-        "name": "{ Partial<Record<'sm' | 'md' | 'lg' | 'xl' | '2xl', { columns?: number, gap?: Spacing }>> }"
+        "name": "{ Partial<Record<'sm' | 'md' | 'lg' | 'xl' | '2xl' | '@sm' | '@md' | '@lg' | '@xl' | '@2xl', { columns?: number, rows?: number, gap?: Spacing, flow?: GridFlow }>> }"
+      }
+    },
+    "contained": {
+      "defaultValue": null,
+      "description": "Adds the `contained` class: the default gutter and column count follow the width of the\nnearest query container instead of the viewport, so a grid in a narrow column of a wide page\nhas the gutter of a narrow page. Without a query container above it the grid keeps the\nvalues of the viewport. `columns` and `gap` still override them.",
+      "name": "contained",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/grid/Grid.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean"
       }
     },
     "fill": {
@@ -112,7 +160,7 @@
     },
     "min": {
       "defaultValue": null,
-      "description": "Minimum column width of a `fill` grid, set via the `--cx-grid-min` custom property: any CSS\nlength, e.g. `\"12rem\"`. Children wrap to a new row when they would get narrower. Only\nrelevant when `fill` is set.",
+      "description": "Minimum column width of a `fill` grid, set via the `--cx-grid-min` custom property: any CSS\nlength, e.g. `\"16rem\"`. Children wrap to a new row when they would get narrower. `12rem` in\n`@chassis-ui/css` when omitted. Only relevant when `fill` is set.",
       "name": "min",
       "declarations": [
         {

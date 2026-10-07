@@ -34,9 +34,9 @@ Three items of four tracks each make three equal columns at every viewport width
 doesn't need one to work.
 
 <Callout type="info">
-  This guide used to describe the flexbox grid of `<Row>` and `<Col>`, which is deprecated. See
-  [Migrating from Row/Col]([[docsref:/components/grid#migrating-from-rowcol]]) to move a layout
-  over.
+  This guide used to describe the flexbox grid of `<Row>` and `<Col>`, which `@chassis-ui/react`
+  0.4 removes. See [Migrating from Row/Col]([[docsref:/components/grid#migrating-from-rowcol]]) to
+  move a layout over.
 </Callout>
 
 ## Layout primitives
@@ -60,7 +60,7 @@ The grid system combines breakpoints, containers, a grid, and its items into one
 
 - **Items span tracks.** `<GridItem span={4}>` takes four of the twelve. An item with no `span` is one track wide, so an item that should fill the row takes `span="full"`.
 
-- **The gutter follows the breakpoint.** With no `gap`, the space between items is the gutter of the current breakpoint, from 0.5rem on a phone to 3rem on the widest screens, in both directions. `gap` sets another, for the whole grid or from a breakpoint up.
+- **The gutter follows the breakpoint.** With no `gap`, the space between items is the gutter of the current breakpoint, 1rem below `md` and 1.5rem from it, in both directions. `gap` sets another, for the whole grid or from a breakpoint up.
 
 ## Grid options
 
@@ -226,8 +226,9 @@ with a `gap`, and `.flex-fill` on the items that grow.
 
 A `<Grid>` inside an item is a grid of its own, with twelve tracks across the width of the item.
 The default gutter follows the viewport, not the width of the grid, so in a nested grid — or one in
-a sidebar or a card — it is too wide for twelve tracks. Give such a grid a `gap` and a column count
-that fits.
+a sidebar or a card — it can be too wide for twelve tracks. Give such a grid a `gap` and a column
+count that fits, or let it follow the width of its
+[query container]([[docsref:/components/grid#container-queries]]) with `contained`.
 
 <Example class="cxd-example-grid text-center">
   <NestedExample client:load />

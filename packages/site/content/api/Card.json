@@ -88,7 +88,7 @@
     },
     "direction": {
       "defaultValue": null,
-      "description": "Switches the card from its default stacked (column) layout to a side-by-side (row) layout.\nWrap the image and body in `Col` to control each side's width.",
+      "description": "Switches the card from its default stacked (column) layout to a side-by-side (row) layout.\nGive the image and the body a width utility (`w-4/12`, `w-8/12`) to control each side's\nwidth.",
       "name": "direction",
       "declarations": [
         {

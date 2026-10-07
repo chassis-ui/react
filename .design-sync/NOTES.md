@@ -20,7 +20,7 @@ bottom for what can silently go stale.
 ## Fixes this sync had to make
 
 - **[GENERAL] 0 components discovered on the first build.** `packages/react/package.json`
-  declares no `types` / `typings` / `publishConfig.types`. That is *correct* for
+  declares no `types` / `typings` / `publishConfig.types`. That is _correct_ for
   this package — tsdown emits `dist/index.d.ts` beside `dist/index.js` and TS
   resolves it adjacently (`pnpm react:check:package` → publint "All good!",
   `attw --profile esm-only` green on bundler + node16-ESM). But `lib/dts.mjs`'s
@@ -32,7 +32,7 @@ bottom for what can silently go stale.
   guess. The fork is a ~15-line insert marked `---- FORK (chassis-react) ----`;
   everything else is upstream verbatim, so re-forking on a skill update is a
   copy + re-apply of that one hunk.
-  *Alternative that would retire the fork:* add `"types": "./dist/index.d.ts"`
+  _Alternative that would retire the fork:_ add `"types": "./dist/index.d.ts"`
   to `packages/react/package.json`. Deliberately NOT done — it changes the
   published package manifest, and the sync must not alter the product.
 - **[GENERAL] Framework CSS can't be referenced from `node_modules`.**
@@ -57,7 +57,7 @@ bottom for what can silently go stale.
   (`--cx-font-family-code`) but ships **no `@font-face` rules** — a consuming
   app is expected to provide them, and the reference storybook doesn't either.
   Both compare panels would therefore fall back to the same system font and
-  *look* like a match while every claude.ai/design user got the wrong type.
+  _look_ like a match while every claude.ai/design user got the wrong type.
 - The woff2 files live in the `vendor/assets` submodule under
   `dist/web/docs/chassis/fonts/`, named by **role + weight** (`text-normal`,
   `display-strong`, `code-normal`, …) rather than by family, and nothing in the
@@ -81,7 +81,7 @@ bottom for what can silently go stale.
   `icons/chassis-icons.css` — the `cx-*` generation. Do NOT use
   `vendor/assets/.../icons/icons/chassis-icons.css`: that is an older build
   using `.icon-*` class names, which `Icon` never emits.
-  It is wired through `cfg.extraFonts`, so the `@font-face` *and* the glyph
+  It is wired through `cfg.extraFonts`, so the `@font-face` _and_ the glyph
   classes ship inside `styles.css`'s import closure.
 
 ## Coverage
@@ -95,7 +95,7 @@ bottom for what can silently go stale.
 ## Theme root (`cfg.provider`)
 
 - `.storybook/preview.tsx` wraps every story in `withThemeByDataAttribute({ attributeName:
-  'data-cx-theme', defaultTheme: 'light' })`. The converter stubs all `@storybook/*`
+'data-cx-theme', defaultTheme: 'light' })`. The converter stubs all `@storybook/*`
   imports, and the stub does not materialise `withThemeByDataAttribute` as an own
   property, so esbuild's CJS interop resolved it to `undefined` and **all 22 previews
   threw** `withThemeByDataAttribute is not a function`.
@@ -119,7 +119,7 @@ bottom for what can silently go stale.
 
 ## Card presentation
 
-- `cfg.overrides`: `Col`, `GridItem`, `Popover` use `cardMode: "column"` (their stories are
+- `cfg.overrides`: `GridItem`, `Popover` use `cardMode: "column"` (their stories are
   wider than a grid cell); `Toast` uses `cardMode: "single"` + `primaryStory: "Basic"`
   (fixed-position stories escape their cell). These are presentation-only keys — editing
   them takes a targeted `preview-rebuild.mjs` and does NOT re-grade.
@@ -132,7 +132,7 @@ bottom for what can silently go stale.
 - `[DOCS_UNMAPPED] GridItem` — there is no `grid-item.mdx` in
   `packages/site/content/components`. Its `.prompt.md` is synthesized from the `.d.ts`.
   Add a doc upstream to fix it properly.
-- `[REFERENCE_STALE?]` on the driver run — expected here: the *bundle* changed (config,
+- `[REFERENCE_STALE?]` on the driver run — expected here: the _bundle_ changed (config,
   provider, staged CSS) while the DS source did not, so `.design-sync/sb-reference` is
   still valid. Only rebuild the reference when `packages/react/src` or `stories/` change.
 

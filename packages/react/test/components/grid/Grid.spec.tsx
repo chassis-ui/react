@@ -34,11 +34,6 @@ describe('Grid', () => {
       expect(el).not.toHaveClass('grid-cols-16')
     })
 
-    test('sets --cx-grid-rows from the rows prop', () => {
-      render(<Grid rows={3}>Test</Grid>)
-      expect(screen.getByText('Test')).toHaveStyle({ '--cx-grid-rows': '3' })
-    })
-
     test('sets --cx-grid-gap from the gap prop', () => {
       render(<Grid gap="1rem">Test</Grid>)
       expect(screen.getByText('Test')).toHaveStyle({ '--cx-grid-gap': '1rem' })
@@ -56,12 +51,12 @@ describe('Grid', () => {
 
     test('preserves a caller-supplied style alongside the custom properties', () => {
       render(
-        <Grid rows={2} style={{ color: 'red' }}>
+        <Grid gap="1rem" style={{ color: 'red' }}>
           Test
         </Grid>
       )
       expect(screen.getByText('Test')).toHaveStyle({
-        '--cx-grid-rows': '2',
+        '--cx-grid-gap': '1rem',
         color: 'rgb(255, 0, 0)'
       })
     })
@@ -100,6 +95,66 @@ describe('Grid', () => {
         expect(el.style.getPropertyValue('--cx-grid-columns')).toBe(String(columns))
       }
     )
+  })
+
+  describe('rows', () => {
+    test('maps a count from 1 to 6 to the grid-rows-{n} class, not a style', () => {
+      render(<Grid rows={3}>Test</Grid>)
+      const el = screen.getByText('Test')
+      expect(el).toHaveClass('grid', 'grid-rows-3')
+      expect(el).not.toHaveAttribute('style')
+    })
+
+    test.each([1, 6])('has a class for %i rows, the ends of the range', (rows) => {
+      render(<Grid rows={rows}>Test</Grid>)
+      expect(screen.getByText('Test')).toHaveClass(`grid-rows-${rows}`)
+    })
+
+    // chassis-css 0.7 removed --cx-grid-rows: a count with no class is the class's declaration.
+    test.each([7, 12])('sets grid-template-rows inline for %i, which has no class', (rows) => {
+      render(<Grid rows={rows}>Test</Grid>)
+      const el = screen.getByText('Test')
+      expect(el.className).toBe('grid')
+      expect(el.style.gridTemplateRows).toBe(`repeat(${rows}, minmax(0, 1fr))`)
+      expect(el.style.getPropertyValue('--cx-grid-rows')).toBe('')
+    })
+
+    test('keeps the rows of a grid from a grid nested in it', () => {
+      render(
+        <Grid rows={8} data-testid="outer">
+          <Grid>Inner</Grid>
+        </Grid>
+      )
+      expect(screen.getByText('Inner')).not.toHaveAttribute('style')
+      expect(screen.getByText('Inner').className).toBe('grid')
+    })
+  })
+
+  describe('flow', () => {
+    test.each([
+      ['row', 'grid-flow-row'],
+      ['column', 'grid-flow-col'],
+      ['dense', 'grid-flow-dense'],
+      ['row-dense', 'grid-flow-row-dense'],
+      ['column-dense', 'grid-flow-col-dense']
+    ] as const)('maps flow="%s" to %s', (flow, className) => {
+      render(<Grid flow={flow}>Test</Grid>)
+      expect(screen.getByText('Test').className).toBe(`grid ${className}`)
+    })
+
+    test('adds no flow class when flow is omitted', () => {
+      render(<Grid>Test</Grid>)
+      expect(screen.getByText('Test').className).toBe('grid')
+    })
+
+    test('applies to a fill grid too', () => {
+      render(
+        <Grid fill flow="dense">
+          Test
+        </Grid>
+      )
+      expect(screen.getByText('Test').className).toBe('grid-fill grid-flow-dense')
+    })
   })
 
   describe('gap tokens', () => {
@@ -163,6 +218,66 @@ describe('Grid', () => {
       render(<Grid responsive={{ md: { columns: 2, gap: 'lg' } }}>Test</Grid>)
       expect(screen.getByText('Test')).toHaveClass('md:grid-cols-2', 'md:gap-lg')
     })
+
+    test('applies grid-rows-{n} and grid-flow-* classes per breakpoint', () => {
+      render(
+        <Grid rows={3} flow="column" responsive={{ md: { rows: 2 }, lg: { flow: 'row-dense' } }}>
+          Test
+        </Grid>
+      )
+      expect(screen.getByText('Test').className).toBe(
+        'grid grid-rows-3 grid-flow-col md:grid-rows-2 lg:grid-flow-row-dense'
+      )
+    })
+  })
+
+  describe('container breakpoints', () => {
+    test('maps an @ key of responsive to the container-query classes', () => {
+      render(
+        <Grid
+          columns={1}
+          responsive={{
+            '@sm': { columns: 2 },
+            '@md': { columns: 3, gap: 'lg' },
+            '@lg': { rows: 2 },
+            '@xl': { flow: 'column' },
+            '@2xl': { columns: 6 }
+          }}
+        >
+          Test
+        </Grid>
+      )
+      expect(screen.getByText('Test').className).toBe(
+        'grid grid-cols-1 @sm:grid-cols-2 @md:grid-cols-3 @md:gap-lg @lg:grid-rows-2 ' +
+          '@xl:grid-flow-col @2xl:grid-cols-6'
+      )
+    })
+
+    // chassis-css writes the container rules last, so the class list reads in cascade order.
+    test('puts the container classes after the breakpoint classes, whatever the key order', () => {
+      render(
+        <Grid responsive={{ '@md': { columns: 3 }, '2xl': { columns: 6 }, sm: { columns: 2 } }}>
+          Test
+        </Grid>
+      )
+      expect(screen.getByText('Test').className).toBe(
+        'grid sm:grid-cols-2 2xl:grid-cols-6 @md:grid-cols-3'
+      )
+    })
+
+    test('adds the contained class from the contained prop', () => {
+      render(<Grid contained>Test</Grid>)
+      expect(screen.getByText('Test').className).toBe('grid contained')
+    })
+
+    test('adds contained to a fill grid too', () => {
+      render(
+        <Grid fill contained>
+          Test
+        </Grid>
+      )
+      expect(screen.getByText('Test').className).toBe('grid-fill contained')
+    })
   })
 
   describe('fill', () => {
@@ -212,13 +327,21 @@ describe('Grid', () => {
       )
       const el = screen.getByText('Test')
       expect(el.className).toBe('grid-fill')
-      expect(el.style.getPropertyValue('--cx-grid-columns')).toBe('')
-      expect(el.style.getPropertyValue('--cx-grid-rows')).toBe('')
+      expect(el).not.toHaveAttribute('style')
     })
 
-    test('ignores the columns of a breakpoint when fill is set', () => {
+    test('ignores a row count with no class when fill is set', () => {
       render(
-        <Grid fill responsive={{ md: { columns: 3 } }}>
+        <Grid fill rows={8}>
+          Test
+        </Grid>
+      )
+      expect(screen.getByText('Test')).not.toHaveAttribute('style')
+    })
+
+    test('ignores the columns and rows of a breakpoint when fill is set', () => {
+      render(
+        <Grid fill responsive={{ md: { columns: 3, rows: 2 }, '@lg': { columns: 4 } }}>
           Test
         </Grid>
       )

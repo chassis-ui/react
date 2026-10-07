@@ -99,10 +99,8 @@
     - group: Layout
       pages:
         - title: Container
-        - title: Column
         - title: Flex
         - title: Grid
-        - title: Row
         - title: Stack
         - title: Divider
     - group: Utilities

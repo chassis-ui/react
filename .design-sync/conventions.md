@@ -72,8 +72,14 @@ phone, up to 3rem on the widest screens). Use the components, or the classes the
   get narrower than `min`: use it for card walls and stat rows.
 - A grid sizes its tracks from the container. For items as wide as their content, use
   `<Flex gap="md">` or `d-flex gap-md`, with `flex-fill` on the items that grow.
-- **Do not use `Row`, `Col`, or the `row` / `col-*` / `offset-*` / `g-*` classes.** The
-  flexbox grid is deprecated and is removed in the next release of the framework.
+- A grid in a narrow box can follow the box instead of the viewport: put `contains-inline`
+  on an ancestor, set `contained` on the `Grid`, and key `responsive` by `'@md'` in place
+  of `md` (`responsive={{ '@md': { columns: 3 } }}` renders `@md:grid-cols-3`).
+- `rows` (1 to 6) sets equal rows, `flow="column"` fills them column by column, and
+  `GridItem` takes `end` / `rowEnd` beside `start` / `rowStart` (`span={3} end={13}` sits
+  against the end edge).
+- **There is no `Row` or `Col`, and no `row` / `col-{n}` / `offset-*` / `g-*` class.** The
+  flexbox grid is gone; `col-auto` exists with another meaning (`grid-column: auto`).
 
 ### Icons — read this before using `Icon`
 

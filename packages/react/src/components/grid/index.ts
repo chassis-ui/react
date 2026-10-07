@@ -2,13 +2,9 @@
 
 import '../../utils/suppressFocusRingGlobally'
 
-export { Col } from './Col'
-export type { ColProps } from './Col'
 export { Container } from './Container'
 export type { ContainerProps } from './Container'
 export { Grid } from './Grid'
-export type { GridProps, GridLayout } from './Grid'
+export type { GridProps, GridLayout, GridFlow } from './Grid'
 export { GridItem } from './GridItem'
 export type { GridItemProps, GridItemLayout } from './GridItem'
-export { Row } from './Row'
-export type { RowProps } from './Row'

@@ -82,7 +82,7 @@ Notes:
   barrel to tell whether it's a root+parts family or a standalone component; there's no separate
   inventory tracking this.
 - Not every family with a shared name prefix is compound — these don't have a "root+parts"
-  relationship, so this pattern doesn't apply to them: `Grid` (`Container`/`Row`/`Col` — no
+  relationship, so this pattern doesn't apply to them: `Grid` (`Container`/`Grid`/`GridItem` — no
   natural root), `Form` (`Form`/`FormLabel`/`FormHelp`/`FormFeedback` — `Form` is each component's
   own identity, not a namespace marker for shared pieces), `CheckboxGroup`/`RadioGroup`, `Toast`'s
   `Toaster`, `ButtonGroup`'s `ButtonToolbar`.
@@ -122,22 +122,23 @@ chassis-css base class first, then size, then `is-invalid`/`is-valid`, then the 
 `className` last (so caller overrides win) — existing snapshot tests across the library assume
 this order. Match it in any new component.
 
-## Layout-primitive naming divergence (`Flex`/`Stack`/`Row`)
+## Layout-primitive naming divergence (`Flex`/`Stack`/`Grid`)
 
-`Flex`, `Stack` and `Row` each name their axis/direction and spacing props differently —
-`Flex.direction` is `'row' | 'column' | 'row-reverse' | 'column-reverse'` (mirrors CSS
-`flex-direction` directly), `Stack.direction` is `'horizontal' | 'vertical'` (mirrors chassis-css's
-own `.hstack`/`.vstack` classes), and `Row` has no direction prop at all (a grid row is always
-horizontal). Spacing follows the same split: `Flex`/`Stack` take `gap`/`rowGap`/`columnGap` (CSS
-`gap` semantics, mapped to chassis-css's `gap-*`/`row-gap-*`/`column-gap-*` utilities), while `Row`
-takes `gutter`/`gutterX`/`gutterY` (Bootstrap-style grid gutters, mapped to `g-*`/`gx-*`/`gy-*`).
+`Flex`, `Stack` and `Grid` each name their axis/direction props differently — `Flex.direction` is
+`'row' | 'column' | 'row-reverse' | 'column-reverse'` (mirrors CSS `flex-direction` directly),
+`Stack.direction` is `'horizontal' | 'vertical'` (mirrors chassis-css's own `.hstack`/`.vstack`
+classes), and `Grid.flow` is `'row' | 'column' | 'dense' | 'row-dense' | 'column-dense'` (mirrors
+CSS `grid-auto-flow`; chassis-css's classes abbreviate `column` to `col`, the prop doesn't). All
+three take `gap` as a `Spacing` token mapped to chassis-css's `gap-*` utilities; `Flex`/`Stack`
+add `rowGap`/`columnGap`, and `Grid.gap` also accepts a raw CSS value.
 
-This is intentional, not an oversight: `Flex`/`Stack` are thin wrappers over real CSS flexbox
-layout, so their prop names mirror the CSS/chassis-css primitives they map to 1:1; `Row` is a
-12-column grid primitive with its own Bootstrap-derived vocabulary (`gutter`, not `gap`) that
-predates and is conceptually distinct from CSS `gap`. Reconciling the three into one shared
-vocabulary would be a breaking public-API rename with no functional benefit, since the underlying
-mechanisms genuinely differ — don't unify them without an explicit user decision to do so.
+This is intentional, not an oversight: each prop mirrors the CSS property or chassis-css class it
+maps to 1:1. Reconciling the three into one shared vocabulary would be a breaking public-API
+rename with no functional benefit — don't unify them without an explicit user decision to do so.
+
+Only `Grid` and `GridItem` take the container keys (`'@sm'` to `'@2xl'`) in `responsive`.
+chassis-css has the `@md:` variants of the flex utilities too, so `Flex`, `Stack` and `Skeleton`
+could take them; that is a decision not yet made, not an oversight.
 
 ## `component` polymorphism: ask for the element's kind, don't compare tags
 
@@ -319,19 +320,3 @@ frame of the wrong markup, for anything that comes to need the same:
 jsdom lays nothing out: `test/components/nav-overflow/NavOverflow.spec.tsx` gives the widths and
 a `ResizeObserver` itself, and the stories' `play` functions check the same in three real
 browsers.
-
-## `component` polymorphism: `Row`/`Col` deliberately don't have it
-
-Most components in this library take a `component` prop (`PolymorphicComponentProps<C, OwnProps<C>>`
-from `utils/polymorphic.ts`) letting the caller swap the rendered root element. `grid/Row.tsx` and
-`grid/Col.tsx` don't — confirmed deliberate (commit `48ed25b`, "Row/Col are out of scope,
-unchanged"), reaffirmed during the 2026-08-27 audit rather than picked up opportunistically. A grid
-row/column is conceptually tied to being a `<div>` in this library's 12-column grid model the same
-way `Flex`/`Stack` aren't — there's no established use case (unlike `Card`'s sub-parts, or `Nav`,
-both of which _were_ migrated to the polymorphic pattern in that same audit pass) pulling for a
-`Row`/`Col` consumer to need a different root element. Revisit only if a concrete need surfaces,
-not as a consistency sweep on its own — don't "fix" this as an accidental gap.
-
-Both are deprecated since 0.3.0, with the flexbox grid of `@chassis-ui/css` 0.6, and go when css
-0.7 removes it. `Grid` and `GridItem`, which are polymorphic, replace them: add nothing to
-`Row`/`Col`.

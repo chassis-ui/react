@@ -87,3 +87,63 @@ export const FillMin: Story = {
     </Grid>
   )
 }
+
+export const Rows: Story = {
+  render: () => (
+    <Grid columns={3} rows={3} style={{ height: '18rem' }}>
+      <div className={boxClass}>1</div>
+      <div className={boxClass}>2</div>
+      <div className={boxClass}>3</div>
+      <div className={boxClass}>4</div>
+      <div className={boxClass}>5</div>
+      <div className={boxClass}>6</div>
+    </Grid>
+  )
+}
+
+export const FlowColumn: Story = {
+  render: () => (
+    <Grid columns={2} rows={3} flow="column" gap="md">
+      <div className={boxClass}>1</div>
+      <div className={boxClass}>2</div>
+      <div className={boxClass}>3</div>
+      <div className={boxClass}>4</div>
+      <div className={boxClass}>5</div>
+      <div className={boxClass}>6</div>
+    </Grid>
+  )
+}
+
+export const FlowDense: Story = {
+  render: () => (
+    <Grid columns={3} flow="dense" gap="md">
+      <div className={`col-span-2 ${boxClass}`}>1, two tracks</div>
+      <div className={`col-span-2 ${boxClass}`}>2, two tracks</div>
+      <div className={boxClass}>3, moves up beside 1</div>
+      <div className={boxClass}>4, moves up beside 2</div>
+    </Grid>
+  )
+}
+
+// The 24rem box is a query container below `@md` (48rem) whatever the viewport: the grid in it
+// has one column and the narrow gutter, and the same grid in the page below it has three.
+export const Contained: Story = {
+  render: () => (
+    <>
+      <div className="contains-inline mb-lg" style={{ width: '24rem' }}>
+        <Grid columns={1} contained responsive={{ '@md': { columns: 3 } }}>
+          <div className={boxClass}>Column</div>
+          <div className={boxClass}>Column</div>
+          <div className={boxClass}>Column</div>
+        </Grid>
+      </div>
+      <div className="contains-inline">
+        <Grid columns={1} contained responsive={{ '@md': { columns: 3 } }}>
+          <div className={boxClass}>Column</div>
+          <div className={boxClass}>Column</div>
+          <div className={boxClass}>Column</div>
+        </Grid>
+      </div>
+    </>
+  )
+}

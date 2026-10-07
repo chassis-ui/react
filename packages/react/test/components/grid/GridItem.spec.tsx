@@ -60,6 +60,47 @@ describe('GridItem', () => {
     })
   })
 
+  describe('end/rowEnd', () => {
+    test('applies the col-end-{n} class from end', () => {
+      render(
+        <GridItem span={3} end={13}>
+          Test
+        </GridItem>
+      )
+      expect(screen.getByText('Test').className).toBe('col-span-3 col-end-13')
+    })
+
+    test('applies col-end-auto to undo an end line', () => {
+      render(<GridItem end="auto">Test</GridItem>)
+      expect(screen.getByText('Test')).toHaveClass('col-end-auto')
+    })
+
+    test('applies the row-end-{n} class from rowEnd', () => {
+      render(
+        <GridItem rowStart={2} rowEnd={4}>
+          Test
+        </GridItem>
+      )
+      expect(screen.getByText('Test').className).toBe('row-start-2 row-end-4')
+    })
+
+    test('applies row-end-auto to undo an end line', () => {
+      render(<GridItem rowEnd="auto">Test</GridItem>)
+      expect(screen.getByText('Test')).toHaveClass('row-end-auto')
+    })
+
+    test('applies end/rowEnd classes per breakpoint', () => {
+      render(
+        <GridItem span={3} end={13} responsive={{ md: { end: 'auto', rowEnd: 3 } }}>
+          Test
+        </GridItem>
+      )
+      expect(screen.getByText('Test').className).toBe(
+        'col-span-3 col-end-13 md:col-end-auto md:row-end-3'
+      )
+    })
+  })
+
   describe('rowSpan/rowStart', () => {
     test('applies the row-span-{n} class from rowSpan', () => {
       render(<GridItem rowSpan={2}>Test</GridItem>)
@@ -156,6 +197,38 @@ describe('GridItem', () => {
     })
   })
 
+  describe('container breakpoints', () => {
+    test('maps an @ key of responsive to the container-query classes', () => {
+      render(
+        <GridItem
+          span="full"
+          responsive={{
+            '@sm': { span: 6 },
+            '@md': { span: 4, start: 2 },
+            '@lg': { end: 13 },
+            '@xl': { rowSpan: 2, rowStart: 1 },
+            '@2xl': { rowEnd: 'auto' }
+          }}
+        >
+          Test
+        </GridItem>
+      )
+      expect(screen.getByText('Test').className).toBe(
+        'col-span-full @sm:col-span-6 @md:col-span-4 @md:col-start-2 @lg:col-end-13 ' +
+          '@xl:row-span-2 @xl:row-start-1 @2xl:row-end-auto'
+      )
+    })
+
+    test('mixes breakpoint and container keys, container classes last', () => {
+      render(
+        <GridItem span="full" responsive={{ '@lg': { span: 4 }, md: { span: 6 } }}>
+          Test
+        </GridItem>
+      )
+      expect(screen.getByText('Test').className).toBe('col-span-full md:col-span-6 @lg:col-span-4')
+    })
+  })
+
   describe('subgrid', () => {
     test('adds grid-cols-subgrid alongside grid, combined with the col-span-{n} class', () => {
       render(
@@ -166,13 +239,26 @@ describe('GridItem', () => {
       expect(screen.getByText('Test')).toHaveClass('col-span-8', 'grid', 'grid-cols-subgrid')
     })
 
-    test('sets --cx-grid-rows from the rows prop', () => {
+    test('maps rows from 1 to 6 to the grid-rows-{n} class', () => {
       render(
         <GridItem subgrid rows={2}>
           Test
         </GridItem>
       )
-      expect(screen.getByText('Test')).toHaveStyle({ '--cx-grid-rows': '2' })
+      const el = screen.getByText('Test')
+      expect(el.className).toBe('grid grid-cols-subgrid grid-rows-2')
+      expect(el).not.toHaveAttribute('style')
+    })
+
+    test('sets grid-template-rows inline for a row count with no class', () => {
+      render(
+        <GridItem subgrid rows={8}>
+          Test
+        </GridItem>
+      )
+      const el = screen.getByText('Test')
+      expect(el.className).toBe('grid grid-cols-subgrid')
+      expect(el.style.gridTemplateRows).toBe('repeat(8, minmax(0, 1fr))')
     })
 
     test('sets --cx-grid-gap from the gap prop', () => {
@@ -202,9 +288,13 @@ describe('GridItem', () => {
         </GridItem>
       )
       const el = screen.getByText('Test')
-      expect(el).not.toHaveClass('grid', 'grid-cols-subgrid')
-      expect(el.style.getPropertyValue('--cx-grid-rows')).toBe('')
-      expect(el.style.getPropertyValue('--cx-grid-gap')).toBe('')
+      expect(el.className).toBe('')
+      expect(el).not.toHaveAttribute('style')
+    })
+
+    test('ignores a row count with no class when subgrid is not set', () => {
+      render(<GridItem rows={8}>Test</GridItem>)
+      expect(screen.getByText('Test')).not.toHaveAttribute('style')
     })
 
     test('adds no gap class when subgrid is not set', () => {

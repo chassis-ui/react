@@ -25,9 +25,9 @@ type CardBodyOwnProps<C extends ElementType> = {
   component?: C
   /**
    * Switches the body from its default stacked (column) layout to a side-by-side (row) layout —
-   * for placing an image beside text within a single padded region. Wrap the image and text in
-   * `Col` to control each side's width, and nest another `CardBody` (with `.p-0`) for the text
-   * side so it doesn't receive double padding.
+   * for placing an image beside text within a single padded region. Give the image and the text
+   * a width utility (`w-4/12`, `w-8/12`) to control each side's width, and nest another
+   * `CardBody` (with `.p-0`) for the text side so it doesn't receive double padding.
    */
   direction?: FlexDirection
   /**

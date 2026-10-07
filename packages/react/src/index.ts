@@ -79,7 +79,7 @@ import {
   MenuSubmenu,
   MenuSubmenuBack
 } from './components/menu'
-import { Col, Container, Grid, GridItem, Row } from './components/grid'
+import { Container, Grid, GridItem } from './components/grid'
 import { Checkbox, CheckboxGroup } from './components/checkbox'
 import { Form, FormFeedback, FormHelp, FormLabel } from './components/form'
 import { FloatingInput } from './components/floating-input'
@@ -232,11 +232,9 @@ export {
   MenuToggle,
   MenuSubmenu,
   MenuSubmenuBack,
-  Col,
   Container,
   Grid,
   GridItem,
-  Row,
   Checkbox,
   CheckboxGroup,
   FloatingInput,
@@ -440,13 +438,12 @@ export type { FloatingInputProps } from './components/floating-input'
 export type { FormFeedbackProps, FormHelpProps, FormLabelProps, FormProps } from './components/form'
 export type { FormFieldProps } from './components/form-field'
 export type {
-  ColProps,
   ContainerProps,
+  GridFlow,
   GridItemLayout,
   GridItemProps,
   GridLayout,
-  GridProps,
-  RowProps
+  GridProps
 } from './components/grid'
 export type {
   IconComponentProps,
@@ -569,6 +566,7 @@ export type {
 // actually use.
 export type {
   Breakpoint,
+  ContainerBreakpoint,
   ContextColor,
   ContextStyle,
   ExtendedSizing,

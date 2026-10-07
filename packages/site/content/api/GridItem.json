@@ -26,8 +26,27 @@
     },
     "start": {
       "defaultValue": null,
-      "description": "Grid column line to start this item at, mapped to the `col-start-{n}` class. `'auto'`\n(`col-start-auto`) returns the item to the flow, to undo a start line at a wider breakpoint.",
+      "description": "Grid column line to start this item at, mapped to the `col-start-{n}` class (1 to 12).\n`'auto'` (`col-start-auto`) returns the item to the flow, to undo a start line at a wider\nbreakpoint.",
       "name": "start",
+      "parent": {
+        "fileName": "packages/react/src/components/grid/GridItem.tsx",
+        "name": "GridItemLayout"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/grid/GridItem.tsx",
+          "name": "GridItemLayout"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "{ number | 'auto' }"
+      }
+    },
+    "end": {
+      "defaultValue": null,
+      "description": "Grid column line to end this item at, mapped to the `col-end-{n}` class (1 to 13, the line\nafter the last of 12 columns). With `span`, it places the item against the end edge of the\ngrid: `span={3} end={13}`. `'auto'` (`col-end-auto`) undoes an end line at a wider\nbreakpoint.",
+      "name": "end",
       "parent": {
         "fileName": "packages/react/src/components/grid/GridItem.tsx",
         "name": "GridItemLayout"
@@ -64,8 +83,27 @@
     },
     "rowStart": {
       "defaultValue": null,
-      "description": "Grid row line to start this item at, mapped to the `row-start-{n}` class, or `'auto'`\n(`row-start-auto`) to return it to the flow.",
+      "description": "Grid row line to start this item at, mapped to the `row-start-{n}` class (1 to 6), or\n`'auto'` (`row-start-auto`) to return it to the flow.",
       "name": "rowStart",
+      "parent": {
+        "fileName": "packages/react/src/components/grid/GridItem.tsx",
+        "name": "GridItemLayout"
+      },
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/grid/GridItem.tsx",
+          "name": "GridItemLayout"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "{ number | 'auto' }"
+      }
+    },
+    "rowEnd": {
+      "defaultValue": null,
+      "description": "Grid row line to end this item at, mapped to the `row-end-{n}` class (1 to 7, the line after\nthe last of 6 rows), or `'auto'` (`row-end-auto`) to undo an end line at a wider breakpoint.",
+      "name": "rowEnd",
       "parent": {
         "fileName": "packages/react/src/components/grid/GridItem.tsx",
         "name": "GridItemLayout"
@@ -113,7 +151,7 @@
     },
     "responsive": {
       "defaultValue": null,
-      "description": "Overrides `span`/`start`/`rowSpan`/`rowStart` at a breakpoint and up.",
+      "description": "Overrides `span`/`start`/`end`/`rowSpan`/`rowStart`/`rowEnd` from a width up. A breakpoint\nkey (`md`) is a width of the viewport. A container key (`'@md'`) is the same width of the\nnearest query container (an ancestor with the `contains-inline` class), and wins over a\nbreakpoint key where both apply. Without a query container above the grid, a container key\nnever applies.",
       "name": "responsive",
       "declarations": [
         {
@@ -123,7 +161,7 @@
       ],
       "required": false,
       "type": {
-        "name": "{ Partial<Record<'sm' | 'md' | 'lg' | 'xl' | '2xl', { span?: number | 'full', start?: number | 'auto', rowSpan?: number, rowStart?: number | 'auto' }>> }"
+        "name": "{ Partial<Record<'sm' | 'md' | 'lg' | 'xl' | '2xl' | '@sm' | '@md' | '@lg' | '@xl' | '@2xl', { span?: number | 'full', start?: number | 'auto', end?: number | 'auto', rowSpan?: number, rowStart?: number | 'auto', rowEnd?: number | 'auto' }>> }"
       }
     },
     "subgrid": {
@@ -143,7 +181,7 @@
     },
     "rows": {
       "defaultValue": null,
-      "description": "Number of rows in the subgrid's own row template, set via the `--cx-grid-rows` custom\nproperty (defaults to `1` in CSS when omitted). Only relevant when `subgrid` is set —\nsubgrid only inherits the parent's column tracks, not its rows.",
+      "description": "Number of equal rows in the subgrid's own row template: the `grid-rows-{n}` class for a\ncount from 1 to 6, the same `grid-template-rows` set inline for any other. Only relevant\nwhen `subgrid` is set — subgrid only inherits the parent's column tracks, not its rows.",
       "name": "rows",
       "declarations": [
         {

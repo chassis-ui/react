@@ -1,6 +1,6 @@
 ---
 title: Grid
-description: The layout grid, on native CSS Grid — twelve columns, a gutter per breakpoint, responsive spans and column counts, auto-fill, and subgrid.
+description: The layout grid, on native CSS Grid — twelve columns, a gutter per breakpoint, spans and column counts per breakpoint or container width, auto-fill, and subgrid.
 
 toc: true
 ---
@@ -9,17 +9,21 @@ import { Example as BasicExample } from '../../examples/components/grid/BasicExa
 import { Example as ResponsiveExample } from '../../examples/components/grid/ResponsiveExample.tsx'
 import { Example as FullWidthExample } from '../../examples/components/grid/FullWidthExample.tsx'
 import { Example as StartExample } from '../../examples/components/grid/StartExample.tsx'
+import { Example as EndExample } from '../../examples/components/grid/EndExample.tsx'
 import { Example as RowsExample } from '../../examples/components/grid/RowsExample.tsx'
 import { Example as ColumnsGapExample } from '../../examples/components/grid/ColumnsGapExample.tsx'
 import { Example as ResponsiveColumnsExample } from '../../examples/components/grid/ResponsiveColumnsExample.tsx'
+import { Example as FlowExample } from '../../examples/components/grid/FlowExample.tsx'
+import { Example as FlowDenseExample } from '../../examples/components/grid/FlowDenseExample.tsx'
 import { Example as FillExample } from '../../examples/components/grid/FillExample.tsx'
 import { Example as FillMinExample } from '../../examples/components/grid/FillMinExample.tsx'
+import { Example as ContainerExample } from '../../examples/components/grid/ContainerExample.tsx'
 import { Example as NestedExample } from '../../examples/components/grid/NestedExample.tsx'
 import { Example as SubgridExample } from '../../examples/components/grid/SubgridExample.tsx'
 
 ## Overview
 
-`<Grid>` renders the `.grid` of `@chassis-ui/css`: a `display: grid` container with twelve columns and, between its items, the gutter of the current breakpoint. [`<GridItem>`](#item-placement) places a child on the columns and rows. `<Grid>` replaces [`<Row>`]([[docsref:/components/row]]) and [`<Col>`]([[docsref:/components/column]]), which are deprecated with the flexbox grid they render — see [Migrating from Row/Col](#migrating-from-rowcol). The [Responsive Grid]([[docsref:/patterns/responsive-grid]]) guide builds page layouts from the pieces documented here. For a single row or column of items, [`<Stack>`]([[docsref:/components/stack]]) and [`<Flex>`]([[docsref:/components/flex]]) are a lighter fit.
+`<Grid>` renders the `.grid` of `@chassis-ui/css`: a `display: grid` container with twelve columns and, between its items, the gutter of the current breakpoint. [`<GridItem>`](#item-placement) places a child on the columns and rows. `<Grid>` replaces `<Row>` and `<Col>`, which version 0.4 removes with the flexbox grid they rendered — see [Migrating from Row/Col](#migrating-from-rowcol). The [Responsive Grid]([[docsref:/patterns/responsive-grid]]) guide builds page layouts from the pieces documented here. For a single row or column of items, [`<Stack>`]([[docsref:/components/stack]]) and [`<Flex>`]([[docsref:/components/flex]]) are a lighter fit.
 
 ## Basic usage
 
@@ -49,7 +53,7 @@ Set `span` to a number from `1` to `12` to size an item to that many column trac
 
 ### Start
 
-Set `start` to a column line from `1` to `13` to position an item, independent of the items before it (`.col-start-{n}`). An offset in the flexbox grid was relative to the previous column; a start line is absolute.
+Set `start` to a column line from `1` to `12` to position an item, independent of the items before it (`.col-start-{n}`). An offset in the flexbox grid was relative to the previous column; a start line is absolute.
 
 <Example class="cxd-example-grid text-center">
   <StartExample client:load />
@@ -61,9 +65,19 @@ Set `start` to a column line from `1` to `13` to position an item, independent o
 <GridItem span={6} start={4} responsive={{ md: { start: 'auto' } }} />
 ```
 
+### End
+
+Set `end` to the column line an item ends at, from `1` to `13` (`.col-end-{n}`): line 13 is the end edge of twelve columns. With `span`, it places an item against that edge, whatever comes before it.
+
+<Example class="cxd-example-grid text-center">
+  <EndExample client:load />
+</Example>
+
+`end="auto"` undoes an end line from a breakpoint up, as `start="auto"` does a start line.
+
 ### Rows
 
-Set `rows` on `<Grid>` for the number of rows in its template, then place an item on them with `rowSpan` (`.row-span-{n}`, 1 to 6) and `rowStart` (`.row-start-{n}`, 1 to 7, or `'auto'`). `responsive` takes both.
+Set `rows` on `<Grid>` for the number of equal rows in its template: a count from 1 to 6 renders the `.grid-rows-{n}` class. A grid with no `rows` has no template rows, and each row is as tall as its content. Place an item on the rows with `rowSpan` (`.row-span-{n}`, 1 to 6), `rowStart` (`.row-start-{n}`, 1 to 6, or `'auto'`) and `rowEnd` (`.row-end-{n}`, 1 to 7, or `'auto'`). `responsive` takes all three on an item, and `rows` on the grid.
 
 <Example class="cxd-example-grid text-center">
   <RowsExample client:load />
@@ -71,7 +85,7 @@ Set `rows` on `<Grid>` for the number of rows in its template, then place an ite
 
 ## Columns and gap
 
-`columns` sets the number of columns and `gap` the space between items. A column count from 1 to 12 renders the `.grid-cols-{n}` class, and a `Spacing` token in `gap` (the scale `<Flex>` and `<Stack>` use) renders the `.gap-{token}` class. Any other `gap` is a raw CSS value — a length, or a `"{row} {column}"` pair — set through the `--cx-grid-gap` custom property. With no `gap`, the grid has the gutter of the breakpoint, from 0.5rem on a phone to 3rem on the widest screens.
+`columns` sets the number of columns and `gap` the space between items. A column count from 1 to 12 renders the `.grid-cols-{n}` class, and a `Spacing` token in `gap` (the scale `<Flex>` and `<Stack>` use) renders the `.gap-{token}` class. Any other `gap` is a raw CSS value — a length, or a `"{row} {column}"` pair — set through the `--cx-grid-gap` custom property. With no `gap`, the grid has the gutter of the breakpoint: 1rem below `md` and 1.5rem from it.
 
 <Example class="cxd-example-grid text-center">
   <ColumnsGapExample client:load />
@@ -84,6 +98,25 @@ Set `rows` on `<Grid>` for the number of rows in its template, then place an ite
 </Example>
 
 The `.row-gap-{token}` and `.column-gap-{token}` utilities set one axis, passed through `className`.
+
+## Flow
+
+`flow` sets the direction a grid places its items in, rendered as the `.grid-flow-*` classes. A grid fills a row before it starts the next. `flow="column"` fills the `rows` of a column before it moves to the next column, so it goes with `rows`. `responsive` changes the flow from a breakpoint up.
+
+<Example class="cxd-example-grid text-center">
+  <FlowExample client:load />
+</Example>
+
+`flow="dense"` moves a later item into a gap that an earlier, wider one left; `'row-dense'` and `'column-dense'` name the direction too. Below, the third item fits beside the first, where the second did not.
+
+<Example class="cxd-example-grid text-center">
+  <FlowDenseExample client:load />
+</Example>
+
+<Callout type="warning">
+  Dense placement changes where items appear, not their order in the document, which the keyboard
+  and screen readers follow. Use it for items that read in any order, such as a gallery.
+</Callout>
 
 ## Auto-fill layout
 
@@ -99,15 +132,27 @@ Set `fill` to render `.grid-fill`: equal columns, as many as there are children,
   <FillMinExample client:load />
 </Example>
 
+## Container queries
+
+A breakpoint key of `responsive` is a width of the viewport. A grid in a sidebar, a panel or a narrow column has less room than the viewport, and a container key follows the room it has: `'@sm'` to `'@2xl'` are the widths of `sm` to `2xl`, measured on the nearest query container. `<Grid>` and `<GridItem>` take them beside the breakpoint keys and render the container classes of `@chassis-ui/css`, such as `.@md:grid-cols-3` and `.@md:col-span-4`. Where a breakpoint key and a container key both apply, the container key wins.
+
+A query container is an ancestor with the `.contains-inline` class. Set `contained` on the grid for its default gutter and column count to follow that container too. Both boxes below hold the same grid, at any viewport width: the first is 18rem wide, under the `@sm` width, so its items stack, and the second is 40rem wide, so they sit side by side.
+
+<Example class="cxd-example-grid text-center overflow-x-auto">
+  <ContainerExample client:load />
+</Example>
+
+Without a query container above the grid, a container key never applies and `contained` leaves the gutter of the viewport.
+
 ## Nesting
 
-A `<Grid>` inside a `<GridItem>` is a grid of its own, with twelve tracks across the width of the item. It is narrower than the viewport that the gutter follows, so give it a `gap`, and `columns` in place of twelve tracks.
+A `<Grid>` inside a `<GridItem>` is a grid of its own, with twelve tracks across the width of the item. It is narrower than the viewport that the gutter follows, so give it a `gap`, and `columns` in place of twelve tracks, or lay it out by its [container](#container-queries).
 
 <Example class="cxd-example-grid text-center">
   <NestedExample client:load />
 </Example>
 
-A nested grid inherits what the outer grid sets through a custom property: `rows`, a raw `gap`, `min`, and a `columns` above 12. It does not inherit what is rendered as a class: `columns` from 1 to 12 and a token `gap`.
+A nested grid inherits what the outer grid sets through a custom property: a raw `gap`, `min`, and a `columns` above 12. It does not inherit the rest: `columns` from 1 to 12, `rows`, `flow` and a token `gap`.
 
 ### Subgrid
 
@@ -119,7 +164,7 @@ Set `subgrid` on a `<GridItem>` to give it the column tracks it spans in the par
 
 ## Migrating from Row/Col
 
-`<Row>` and `<Col>` render the flexbox grid, which `@chassis-ui/css` deprecates in 0.6 and removes in 0.7. Each of their props has a counterpart on `<Grid>` and `<GridItem>`:
+`<Row>` and `<Col>` rendered the flexbox grid, which `@chassis-ui/css` removed in 0.7. `@chassis-ui/react` deprecated them in 0.3 and removes them in 0.4. Each of their props has a counterpart on `<Grid>` and `<GridItem>`:
 
 <CxTable>
 | Row and Col                                        | Grid and GridItem                                               |
@@ -148,7 +193,9 @@ Three differences change how a layout behaves:
 
 **No content-width tracks.** A grid sizes its tracks from the container, not from the content, so `<Col span="auto">` has no grid counterpart: a row of items as wide as their content is a [`<Flex>`]([[docsref:/components/flex]]).
 
-**Placement classes stop at twelve columns and six rows.** `span` and `start` render classes that `@chassis-ui/css` generates up to 12 columns, and `rowSpan` and `rowStart` up to 6 rows. In a grid with more, an item past those needs an inline `style={{ gridColumn: '…' }}`.
+**Placement classes stop at twelve columns and six rows.** `span`, `start` and `end` render classes that `@chassis-ui/css` generates up to 12 columns, and `rowSpan`, `rowStart` and `rowEnd` up to 6 rows. In a grid with more, an item past those needs an inline `style={{ gridColumn: '…' }}`.
+
+**No query container of its own.** `<Grid>` makes neither itself nor its parent a query container. The container keys and `contained` read one from an ancestor, which the layout around the grid provides.
 
 ## API
 

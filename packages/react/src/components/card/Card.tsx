@@ -34,7 +34,8 @@ type CardOwnProps<C extends ElementType> = {
   color?: ContextColor
   /**
    * Switches the card from its default stacked (column) layout to a side-by-side (row) layout.
-   * Wrap the image and body in `Col` to control each side's width.
+   * Give the image and the body a width utility (`w-4/12`, `w-8/12`) to control each side's
+   * width.
    */
   direction?: FlexDirection
   /**

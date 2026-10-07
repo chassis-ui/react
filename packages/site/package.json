@@ -24,10 +24,10 @@
     "clean": "rimraf ../../_site .astro"
   },
   "dependencies": {
-    "@chassis-ui/css": "^0.6.0",
+    "@chassis-ui/css": "^0.7.0",
     "@chassis-ui/icons": "^0.3.1",
     "@chassis-ui/react": "workspace:*",
-    "@chassis-ui/tokens": "^0.6.0",
+    "@chassis-ui/tokens": "^0.7.0",
     "@internationalized/date": "^3.12.4"
   },
   "devDependencies": {

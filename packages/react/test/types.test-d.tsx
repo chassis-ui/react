@@ -14,6 +14,7 @@ import {
   DatePicker,
   Divider,
   Drawer,
+  Flex,
   Grid,
   GridItem,
   ListItem,
@@ -326,3 +327,29 @@ expectTypeOf(
 ).toBeObject()
 // @ts-expect-error a breakpoint's gap is a class, so a `Spacing` token: a raw value has none.
 expectTypeOf(<Grid responsive={{ md: { gap: '1rem' } }} />).toBeObject()
+
+// --- `Grid` and `GridItem` take the container breakpoints; the other layout components don't ---
+
+expectTypeOf(
+  <Grid
+    contained
+    rows={2}
+    flow="column-dense"
+    responsive={{ md: { rows: 3, flow: 'row' }, '@md': { columns: 3, gap: 'lg' } }}
+  />
+).toBeObject()
+expectTypeOf(
+  <GridItem
+    span={3}
+    end={13}
+    rowEnd="auto"
+    responsive={{ md: { end: 'auto' }, '@lg': { span: 4 } }}
+  />
+).toBeObject()
+// @ts-expect-error the flow values are CSS's: `'col'` is the class suffix, not the prop value.
+expectTypeOf(<Grid flow="col" />).toBeObject()
+// @ts-expect-error there is no container width below `@sm`: the unprefixed props are that layout.
+expectTypeOf(<Grid responsive={{ '@xs': { columns: 2 } }} />).toBeObject()
+expectTypeOf(<Flex responsive={{ md: { direction: 'row' } }} />).toBeObject()
+// @ts-expect-error `Flex` reads the viewport breakpoints only.
+expectTypeOf(<Flex responsive={{ '@md': { direction: 'row' } }} />).toBeObject()

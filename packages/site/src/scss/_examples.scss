@@ -46,12 +46,7 @@
   //
 
 
-  // `.cxd-example-row` and `.cxd-example-cols` are for the pages of the deprecated `Row` and `Col`.
   .cxd-example-container .container,
-  .cxd-example-row [class^="col"],
-  .cxd-example-row [class*="\:col"],
-  .cxd-example-cols [class^="col"] > *,
-  .cxd-example-cols [class*="\:col"] > *,
   .cxd-example-grid :is(.grid, .grid-fill) > * {
     padding-block: .75rem;
     background-color: #{to-opacity(var(--cxd-subtle), .2)};
