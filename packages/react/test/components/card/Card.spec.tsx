@@ -40,12 +40,8 @@ describe('Card', () => {
       expect(screen.getByText('Test')).toHaveClass('card', 'lg')
     })
 
-    test('applies direction and responsive as classes', () => {
-      render(
-        <Card direction="row" responsive={{ lg: 'column' }}>
-          Test
-        </Card>
-      )
+    test('applies a direction per breakpoint as classes', () => {
+      render(<Card direction={{ base: 'row', lg: 'column' }}>Test</Card>)
       expect(screen.getByText('Test')).toHaveClass('card', 'flex-row', 'lg:flex-column')
     })
   })

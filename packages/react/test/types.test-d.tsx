@@ -315,41 +315,37 @@ expectTypeOf(addToast('Saved', { visible: false })).toBeString()
 // --- `GridItem` placement and `Grid`'s breakpoint layout take the values chassis-css has ---
 
 expectTypeOf(
-  <GridItem span="full" start="auto" rowSpan={2} rowStart="auto" responsive={{ md: { span: 6 } }} />
+  <GridItem span={{ base: 'full', md: 6 }} start="auto" rowSpan={2} rowStart="auto" />
 ).toBeObject()
 // @ts-expect-error a span is a track count or `'full'`: `'auto'` is a start line.
 expectTypeOf(<GridItem span="auto" />).toBeObject()
 // @ts-expect-error a row span is a track count: there is no `row-span-full` class.
 expectTypeOf(<GridItem rowSpan="full" />).toBeObject()
 
-expectTypeOf(
-  <Grid columns={1} gap="1rem" responsive={{ md: { columns: 3, gap: 'lg' } }} />
-).toBeObject()
+expectTypeOf(<Grid columns={{ base: 1, md: 3 }} gap={{ base: '1rem', md: 'lg' }} />).toBeObject()
 // @ts-expect-error a breakpoint's gap is a class, so a `Spacing` token: a raw value has none.
-expectTypeOf(<Grid responsive={{ md: { gap: '1rem' } }} />).toBeObject()
+expectTypeOf(<Grid gap={{ md: '1rem' }} />).toBeObject()
+// @ts-expect-error a value per breakpoint is keyed by `base` and the breakpoint names only.
+expectTypeOf(<GridItem span={{ initial: 12, md: 6 }} />).toBeObject()
 
 // --- `Grid` and `GridItem` take the container breakpoints; the other layout components don't ---
 
 expectTypeOf(
   <Grid
     contained
-    rows={2}
-    flow="column-dense"
-    responsive={{ md: { rows: 3, flow: 'row' }, '@md': { columns: 3, gap: 'lg' } }}
+    rows={{ base: 2, md: 3 }}
+    flow={{ base: 'column-dense', md: 'row' }}
+    columns={{ '@md': 3 }}
+    gap={{ '@md': 'lg' }}
   />
 ).toBeObject()
 expectTypeOf(
-  <GridItem
-    span={3}
-    end={13}
-    rowEnd="auto"
-    responsive={{ md: { end: 'auto' }, '@lg': { span: 4 } }}
-  />
+  <GridItem span={{ base: 3, '@lg': 4 }} end={{ base: 13, md: 'auto' }} rowEnd="auto" />
 ).toBeObject()
 // @ts-expect-error the flow values are CSS's: `'col'` is the class suffix, not the prop value.
 expectTypeOf(<Grid flow="col" />).toBeObject()
-// @ts-expect-error there is no container width below `@sm`: the unprefixed props are that layout.
-expectTypeOf(<Grid responsive={{ '@xs': { columns: 2 } }} />).toBeObject()
-expectTypeOf(<Flex responsive={{ md: { direction: 'row' } }} />).toBeObject()
+// @ts-expect-error there is no container width below `@sm`: `base` is that layout.
+expectTypeOf(<Grid columns={{ '@xs': 2 }} />).toBeObject()
+expectTypeOf(<Flex direction={{ md: 'row' }} />).toBeObject()
 // @ts-expect-error `Flex` reads the viewport breakpoints only.
-expectTypeOf(<Flex responsive={{ '@md': { direction: 'row' } }} />).toBeObject()
+expectTypeOf(<Flex direction={{ '@md': 'row' }} />).toBeObject()

@@ -456,6 +456,15 @@ type Breakpoint = '2xl' | 'lg' | 'md' | 'sm' | 'xl';
  */
 type ContainerBreakpoint = '@2xl' | '@lg' | '@md' | '@sm' | '@xl';
 /**
+ * A prop value that can change with the width. A plain value applies at every width. An object
+ * holds one value per width: `base` from the narrowest, each breakpoint key from that breakpoint
+ * up, as in `{ base: 'column', md: 'row' }`. `K` is the keys the prop reads: the viewport
+ * breakpoints unless the component also takes the container ones.
+ */
+type Responsive<T, K extends string = Breakpoint> = ({
+  base?: T;
+} & Partial<Record<K, T>>) | T;
+/**
  * Context colors
  */
 type ContextColor = 'alternate' | 'black' | 'danger' | 'default' | 'info' | 'neutral' | 'primary' | 'secondary' | 'success' | 'warning' | 'white';
@@ -1653,9 +1662,10 @@ type CardOwnProps<C extends ElementType> = {
   /**
    * Switches the card from its default stacked (column) layout to a side-by-side (row) layout.
    * Give the image and the body a width utility (`w-4/12`, `w-8/12`) to control each side's
-   * width.
+   * width. An object sets the direction from a breakpoint up — e.g. `{ lg: 'row' }` to lay the
+   * card out horizontally from `lg` up while stacking below it.
    */
-  direction?: FlexDirection;
+  direction?: Responsive<FlexDirection>;
   /**
    * Shorthand for a `CardFooter`, rendered after the image/title/subtitle/text/`children` block.
    */
@@ -1677,11 +1687,6 @@ type CardOwnProps<C extends ElementType> = {
    * Orientates `image` to the top (default) or bottom of the card.
    */
   imageOrientation?: 'bottom' | 'top';
-  /**
-   * Overrides `direction` at one or more breakpoints — e.g. `{ lg: 'row' }` to lay the card
-   * out horizontally from `lg` up while stacking below it.
-   */
-  responsive?: Partial<Record<Breakpoint, FlexDirection>>;
   /**
    * Sets the size of the component to one of Chassis component sizes.
    */
@@ -1731,18 +1736,17 @@ type CardBodyOwnProps<C extends ElementType> = {
    * Switches the body from its default stacked (column) layout to a side-by-side (row) layout —
    * for placing an image beside text within a single padded region. Give the image and the text
    * a width utility (`w-4/12`, `w-8/12`) to control each side's width, and nest another
-   * `CardBody` (with `.p-0`) for the text side so it doesn't receive double padding.
+   * `CardBody` (with `.p-0`) for the text side so it doesn't receive double padding. An object
+   * sets the direction from a breakpoint up: `{ md: 'row' }`.
    */
-  direction?: FlexDirection;
+  direction?: Responsive<FlexDirection>;
   /**
    * Spacing between children, mapped to the `gap-*` utility classes. Overrides the card's default
    * gap between body children.
+   *
+   * @type { Spacing | 0 }
    */
   gap?: 0 | Spacing;
-  /**
-   * Overrides `direction` at one or more breakpoints.
-   */
-  responsive?: Partial<Record<Breakpoint, FlexDirection>>;
 };
 type CardBodyProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, CardBodyOwnProps<C>>;
 type CardBodyComponent = (<C extends ElementType = 'div'>(props: CardBodyProps<C> & {
@@ -1824,14 +1828,11 @@ type CardImageOwnProps<C extends ElementType> = {
   component?: C;
   /**
    * Orientates the image to the top or bottom of the card as an "image cap", or to the start/end
-   * for a horizontal layout. Omit to round all four corners for use inside `CardBody`.
-   */
-  orientation?: CardImageOrientation;
-  /**
-   * Overrides `orientation` at one or more breakpoints — e.g. `{ lg: 'start' }` to switch an
+   * for a horizontal layout. Omit to round all four corners for use inside `CardBody`. An object
+   * sets the orientation from a breakpoint up — e.g. `{ base: 'top', lg: 'start' }` to switch an
    * image cap from `top` to `start` once the card lays out horizontally.
    */
-  responsive?: Partial<Record<Breakpoint, CardImageOrientation>>;
+  orientation?: Responsive<CardImageOrientation>;
 };
 type CardImageProps<C extends ElementType = 'img'> = PolymorphicComponentProps<C, CardImageOwnProps<C>>;
 type CardImageComponent = (<C extends ElementType = 'img'>(props: CardImageProps<C> & {
@@ -3608,26 +3609,7 @@ export declare const Container: ContainerComponent;
  * values of CSS `grid-auto-flow`.
  */
 type GridFlow = 'column' | 'column-dense' | 'dense' | 'row' | 'row-dense';
-interface GridLayout {
-  /**
-   * Number of columns in the grid template from this breakpoint up, mapped to the
-   * `grid-cols-{n}` class (1 to 12). Has no effect when `fill` is set.
-   */
-  columns?: number;
-  /**
-   * Number of rows in the grid template from this breakpoint up, mapped to the `grid-rows-{n}`
-   * class (1 to 6). Has no effect when `fill` is set.
-   */
-  rows?: number;
-  /**
-   * Gap between grid items from this breakpoint up, mapped to the `gap-{token}` class.
-   */
-  gap?: Spacing;
-  /**
-   * Placement direction from this breakpoint up, mapped to the `grid-flow-*` classes.
-   */
-  flow?: GridFlow;
-}
+type GridGap = (string & {}) | Spacing;
 type GridOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
@@ -3643,41 +3625,42 @@ type GridOwnProps<C extends ElementType> = {
    * to this grid alone. Any other count has no class and is set via the `--cx-grid-columns`
    * custom property, which a grid nested in this one inherits: give that grid `columns` of its
    * own. Has no effect when `fill` is set.
+   *
+   * An object sets the count from a width up, as in `{ base: 1, md: 3 }`, here and on `rows`,
+   * `gap` and `flow`. A breakpoint key (`md`) is a width of the viewport. A container key
+   * (`'@md'`) is the same width of the nearest query container (an ancestor with the
+   * `contains-inline` class), and wins over a breakpoint key where both apply. Without a query
+   * container above the grid, a container key never applies. The count of a key is a class, so
+   * a count from 1 to 12.
    */
-  columns?: number;
+  columns?: Responsive<number, Breakpoint | ContainerBreakpoint>;
   /**
    * Number of equal rows in the grid template. A grid has none when omitted: its rows are as
    * tall as their content. A count from 1 to 6 is mapped to the `grid-rows-{n}` class; any other
    * count has no class and is set inline, as the `grid-template-rows` the class declares. Has no
-   * effect when `fill` is set.
+   * effect when `fill` is set. An object sets the count from a width up, where it is a class, so
+   * a count from 1 to 6.
    */
-  rows?: number;
+  rows?: Responsive<number, Breakpoint | ContainerBreakpoint>;
   /**
    * Gap between grid items: a `Spacing` token (mapped to the `gap-{token}` class) or any raw CSS
    * `gap` value, including a `"{row} {column}"` pair (set via the `--cx-grid-gap` custom
    * property). The gutter of the current breakpoint when omitted, or of the query container when
-   * `contained` is set.
+   * `contained` is set. An object sets the gap from a width up: only a token fits a key other
+   * than `base`, since a raw value has no class.
    *
-   * @type { Spacing | string }
+   * @type { Spacing | string | { base?: Spacing | string } & Partial<Record<Breakpoint | ContainerBreakpoint, Spacing>> }
    */
-  gap?: (string & {}) | Spacing;
+  gap?: ({
+    base?: GridGap;
+  } & Partial<Record<Breakpoint | ContainerBreakpoint, Spacing>>) | GridGap;
   /**
    * The direction items are placed in, mapped to the `grid-flow-*` classes: by `'row'` (the CSS
    * default) or by `'column'`, which fills the `rows` of one column before it starts the next.
    * `'dense'`, `'row-dense'` and `'column-dense'` also move later items into gaps that earlier,
-   * wider ones left.
+   * wider ones left. An object sets the flow from a width up.
    */
-  flow?: GridFlow;
-  /**
-   * Overrides `columns`/`rows`/`gap`/`flow` from a width up, with the `grid-cols-{n}`,
-   * `grid-rows-{n}`, `gap-{token}` and `grid-flow-*` classes. A breakpoint key (`md`) is a width
-   * of the viewport. A container key (`'@md'`) is the same width of the nearest query container
-   * (an ancestor with the `contains-inline` class), and wins over a breakpoint key where both
-   * apply. Without a query container above the grid, a container key never applies.
-   *
-   * @type { Partial<Record<'sm' | 'md' | 'lg' | 'xl' | '2xl' | '@sm' | '@md' | '@lg' | '@xl' | '@2xl', { columns?: number, rows?: number, gap?: Spacing, flow?: GridFlow }>> }
-   */
-  responsive?: Partial<Record<Breakpoint | ContainerBreakpoint, GridLayout>>;
+  flow?: Responsive<GridFlow, Breakpoint | ContainerBreakpoint>;
   /**
    * Adds the `contained` class: the default gutter and column count follow the width of the
    * nearest query container instead of the viewport, so a grid in a narrow column of a wide page
@@ -3706,52 +3689,7 @@ type GridComponent = (<C extends ElementType = 'div'>(props: GridProps<C> & {
 export declare const Grid: GridComponent;
 //#endregion
 //#region src/components/grid/GridItem.d.ts
-interface GridItemLayout {
-  /**
-   * Number of grid column tracks (of the parent `<Grid>`'s `columns`) this item spans, mapped to
-   * the `col-span-{n}` class, or `'full'` for every track of the row (`col-span-full`). An item
-   * with no `span` is one track wide.
-   *
-   * @type { number | 'full' }
-   */
-  span?: 'full' | number;
-  /**
-   * Grid column line to start this item at, mapped to the `col-start-{n}` class (1 to 12).
-   * `'auto'` (`col-start-auto`) returns the item to the flow, to undo a start line at a wider
-   * breakpoint.
-   *
-   * @type { number | 'auto' }
-   */
-  start?: 'auto' | number;
-  /**
-   * Grid column line to end this item at, mapped to the `col-end-{n}` class (1 to 13, the line
-   * after the last of 12 columns). With `span`, it places the item against the end edge of the
-   * grid: `span={3} end={13}`. `'auto'` (`col-end-auto`) undoes an end line at a wider
-   * breakpoint.
-   *
-   * @type { number | 'auto' }
-   */
-  end?: 'auto' | number;
-  /**
-   * Number of grid row tracks this item spans, mapped to the `row-span-{n}` class.
-   */
-  rowSpan?: number;
-  /**
-   * Grid row line to start this item at, mapped to the `row-start-{n}` class (1 to 6), or
-   * `'auto'` (`row-start-auto`) to return it to the flow.
-   *
-   * @type { number | 'auto' }
-   */
-  rowStart?: 'auto' | number;
-  /**
-   * Grid row line to end this item at, mapped to the `row-end-{n}` class (1 to 7, the line after
-   * the last of 6 rows), or `'auto'` (`row-end-auto`) to undo an end line at a wider breakpoint.
-   *
-   * @type { number | 'auto' }
-   */
-  rowEnd?: 'auto' | number;
-}
-type GridItemOwnProps<C extends ElementType> = GridItemLayout & {
+type GridItemOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the base component.
    */
@@ -3761,15 +3699,57 @@ type GridItemOwnProps<C extends ElementType> = GridItemLayout & {
    */
   component?: C;
   /**
-   * Overrides `span`/`start`/`end`/`rowSpan`/`rowStart`/`rowEnd` from a width up. A breakpoint
-   * key (`md`) is a width of the viewport. A container key (`'@md'`) is the same width of the
-   * nearest query container (an ancestor with the `contains-inline` class), and wins over a
-   * breakpoint key where both apply. Without a query container above the grid, a container key
-   * never applies.
+   * Number of grid column tracks (of the parent `<Grid>`'s `columns`) this item spans, mapped to
+   * the `col-span-{n}` class, or `'full'` for every track of the row (`col-span-full`). An item
+   * with no `span` is one track wide.
    *
-   * @type { Partial<Record<'sm' | 'md' | 'lg' | 'xl' | '2xl' | '@sm' | '@md' | '@lg' | '@xl' | '@2xl', { span?: number | 'full', start?: number | 'auto', end?: number | 'auto', rowSpan?: number, rowStart?: number | 'auto', rowEnd?: number | 'auto' }>> }
+   * An object sets the span from a width up, as in `{ base: 'full', md: 6 }`, here and on
+   * `start`, `end`, `rowSpan`, `rowStart` and `rowEnd`. A breakpoint key (`md`) is a width of
+   * the viewport. A container key (`'@md'`) is the same width of the nearest query container
+   * (an ancestor with the `contains-inline` class), and wins over a breakpoint key where both
+   * apply. Without a query container above the grid, a container key never applies.
+   *
+   * @type { Responsive<number | 'full', Breakpoint | ContainerBreakpoint> }
    */
-  responsive?: Partial<Record<Breakpoint | ContainerBreakpoint, GridItemLayout>>;
+  span?: Responsive<'full' | number, Breakpoint | ContainerBreakpoint>;
+  /**
+   * Grid column line to start this item at, mapped to the `col-start-{n}` class (1 to 12).
+   * `'auto'` (`col-start-auto`) returns the item to the flow, to undo a start line at a wider
+   * breakpoint: `{ base: 4, md: 'auto' }`.
+   *
+   * @type { Responsive<number | 'auto', Breakpoint | ContainerBreakpoint> }
+   */
+  start?: Responsive<'auto' | number, Breakpoint | ContainerBreakpoint>;
+  /**
+   * Grid column line to end this item at, mapped to the `col-end-{n}` class (1 to 13, the line
+   * after the last of 12 columns). With `span`, it places the item against the end edge of the
+   * grid: `span={3} end={13}`. `'auto'` (`col-end-auto`) undoes an end line at a wider
+   * breakpoint: `{ base: 13, md: 'auto' }`.
+   *
+   * @type { Responsive<number | 'auto', Breakpoint | ContainerBreakpoint> }
+   */
+  end?: Responsive<'auto' | number, Breakpoint | ContainerBreakpoint>;
+  /**
+   * Number of grid row tracks this item spans, mapped to the `row-span-{n}` class. Takes an
+   * object per width, as `span` does.
+   */
+  rowSpan?: Responsive<number, Breakpoint | ContainerBreakpoint>;
+  /**
+   * Grid row line to start this item at, mapped to the `row-start-{n}` class (1 to 6), or
+   * `'auto'` (`row-start-auto`) to return it to the flow. Takes an object per width, as `span`
+   * does.
+   *
+   * @type { Responsive<number | 'auto', Breakpoint | ContainerBreakpoint> }
+   */
+  rowStart?: Responsive<'auto' | number, Breakpoint | ContainerBreakpoint>;
+  /**
+   * Grid row line to end this item at, mapped to the `row-end-{n}` class (1 to 7, the line after
+   * the last of 6 rows), or `'auto'` (`row-end-auto`) to undo an end line at a wider breakpoint.
+   * Takes an object per width, as `span` does.
+   *
+   * @type { Responsive<number | 'auto', Breakpoint | ContainerBreakpoint> }
+   */
+  rowEnd?: Responsive<'auto' | number, Breakpoint | ContainerBreakpoint>;
   /**
    * Turns this item into a nested subgrid: adds `.grid`/`.grid-cols-subgrid` alongside its
    * `col-span-{n}`/`col-start-{n}` placement classes, so its own children inherit the parent
@@ -5790,17 +5770,11 @@ type SkeletonOwnProps<C extends ElementType> = {
    * `true` to fill the rest of a flex row (`flex-fill`). Unset by default, so the rendered
    * element's own intrinsic width applies — set it explicitly (e.g. `span={12}`) for a
    * full-width text line; leave it unset when `component` is something that sizes itself, like
-   * `Avatar` or `Button`.
+   * `Avatar` or `Button`. An object sets the width from a breakpoint up: `{ base: 12, md: 6 }`.
    *
-   * @type { 'auto' | number | string | boolean }
+   * @type { Responsive<'auto' | number | string | boolean> }
    */
-  span?: WidthSpan;
-  /**
-   * Overrides `span` at a breakpoint and up.
-   *
-   * @type { Partial<Record<'sm' | 'md' | 'lg' | 'xl' | '2xl', 'auto' | number | string | boolean>> }
-   */
-  responsive?: Partial<Record<Breakpoint, WidthSpan>>;
+  span?: Responsive<WidthSpan>;
 };
 type SkeletonProps<C extends ElementType = 'span'> = PolymorphicComponentProps<C, SkeletonOwnProps<C>>;
 type SkeletonComponent = (<C extends ElementType = 'span'>(props: SkeletonProps<C> & {
@@ -6765,45 +6739,7 @@ type ChipComponent = (<C extends ElementType = 'span'>(props: ChipProps<C> & {
 export declare const Chip: ChipComponent;
 //#endregion
 //#region src/components/flex/Flex.d.ts
-interface FlexLayout {
-  /**
-   * Sets `flex-direction`. Omit for the browser default (`row`).
-   */
-  direction?: 'column' | 'column-reverse' | 'row' | 'row-reverse';
-  /**
-   * Sets `flex-wrap`. Omit for the browser default (`nowrap`).
-   */
-  wrap?: 'nowrap' | 'wrap' | 'wrap-reverse';
-  /**
-   * Sets `justify-content`, aligning items along the main axis.
-   */
-  justify?: 'around' | 'between' | 'center' | 'end' | 'evenly' | 'start';
-  /**
-   * Sets `align-items`, aligning items along the cross axis.
-   */
-  align?: 'baseline' | 'center' | 'end' | 'start' | 'stretch';
-  /**
-   * Sets `align-content`, distributing wrapped lines along the cross axis. Has no effect on
-   * single-line (non-wrapping) containers.
-   */
-  alignContent?: 'around' | 'between' | 'center' | 'end' | 'start' | 'stretch';
-  /**
-   * Spacing between children on both axes, mapped to the `gap-*` utility classes. Overridden per
-   * axis by `rowGap`/`columnGap` where set.
-   */
-  gap?: 0 | Spacing;
-  /**
-   * Spacing between rows (the cross axis when wrapped), mapped to the `row-gap-*` utility
-   * classes. Independent of `gap`/`columnGap`.
-   */
-  rowGap?: 0 | Spacing;
-  /**
-   * Spacing between columns (the main axis), mapped to the `column-gap-*` utility classes.
-   * Independent of `gap`/`rowGap`.
-   */
-  columnGap?: 0 | Spacing;
-}
-type FlexOwnProps<C extends ElementType> = FlexLayout & {
+type FlexOwnProps<C extends ElementType> = {
   /**
    * A string of all className you want applied to the component.
    */
@@ -6818,11 +6754,54 @@ type FlexOwnProps<C extends ElementType> = FlexLayout & {
    */
   inline?: boolean;
   /**
-   * Overrides any of `direction`/`wrap`/`justify`/`align`/`alignContent`/`gap`/`rowGap`/
-   * `columnGap` at one or more breakpoints, via regular viewport media queries (unlike `Stack`'s
-   * `responsive` prop, this doesn't require a `.contains-inline` ancestor).
+   * Sets `flex-direction`. Omit for the browser default (`row`). An object sets it per
+   * breakpoint, `base` being the narrowest width: `{ base: 'column', md: 'row' }`. The
+   * breakpoints are widths of the viewport, so unlike `Stack`'s `direction` they need no
+   * `.contains-inline` ancestor.
    */
-  responsive?: Partial<Record<Breakpoint, FlexLayout>>;
+  direction?: Responsive<'column' | 'column-reverse' | 'row' | 'row-reverse'>;
+  /**
+   * Sets `flex-wrap`. Omit for the browser default (`nowrap`). Takes an object per breakpoint,
+   * as `direction` does.
+   */
+  wrap?: Responsive<'nowrap' | 'wrap' | 'wrap-reverse'>;
+  /**
+   * Sets `justify-content`, aligning items along the main axis. Takes an object per breakpoint,
+   * as `direction` does.
+   */
+  justify?: Responsive<'around' | 'between' | 'center' | 'end' | 'evenly' | 'start'>;
+  /**
+   * Sets `align-items`, aligning items along the cross axis. Takes an object per breakpoint, as
+   * `direction` does.
+   */
+  align?: Responsive<'baseline' | 'center' | 'end' | 'start' | 'stretch'>;
+  /**
+   * Sets `align-content`, distributing wrapped lines along the cross axis. Has no effect on
+   * single-line (non-wrapping) containers. Takes an object per breakpoint, as `direction` does.
+   */
+  alignContent?: Responsive<'around' | 'between' | 'center' | 'end' | 'start' | 'stretch'>;
+  /**
+   * Spacing between children on both axes, mapped to the `gap-*` utility classes. Overridden per
+   * axis by `rowGap`/`columnGap` where set. Takes an object per breakpoint, as `direction` does.
+   *
+   * @type { Responsive<Spacing | 0> }
+   */
+  gap?: Responsive<0 | Spacing>;
+  /**
+   * Spacing between rows (the cross axis when wrapped), mapped to the `row-gap-*` utility
+   * classes. Independent of `gap`/`columnGap`. Takes an object per breakpoint, as `direction`
+   * does.
+   *
+   * @type { Responsive<Spacing | 0> }
+   */
+  rowGap?: Responsive<0 | Spacing>;
+  /**
+   * Spacing between columns (the main axis), mapped to the `column-gap-*` utility classes.
+   * Independent of `gap`/`rowGap`. Takes an object per breakpoint, as `direction` does.
+   *
+   * @type { Responsive<Spacing | 0> }
+   */
+  columnGap?: Responsive<0 | Spacing>;
 };
 type FlexProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, FlexOwnProps<C>>;
 type FlexComponent = (<C extends ElementType = 'div'>(props: FlexProps<C> & {
@@ -6844,19 +6823,18 @@ type StackOwnProps<C extends ElementType> = {
   component?: C;
   /**
    * Lays children out in a row (`horizontal`, the default, maps to `.hstack`) or a column
-   * (`vertical`, maps to `.vstack`).
+   * (`vertical`, maps to `.vstack`). An object switches the direction from a breakpoint up:
+   * `{ base: 'vertical', md: 'horizontal' }`. The breakpoints are container queries, so they
+   * require a `.contains-inline` ancestor (not applied by `Stack` itself — see the docs) to
+   * establish the container context they evaluate against.
    */
-  direction?: 'horizontal' | 'vertical';
+  direction?: Responsive<'horizontal' | 'vertical'>;
   /**
    * Spacing between children, mapped to the `gap-*` utility classes.
+   *
+   * @type { Spacing | 0 }
    */
   gap?: 0 | Spacing;
-  /**
-   * Switches `direction` at one or more breakpoints via container queries. Requires a
-   * `.contains-inline` ancestor (not applied by `Stack` itself — see the docs) to establish the
-   * container context these queries evaluate against.
-   */
-  responsive?: Partial<Record<Breakpoint, 'horizontal' | 'vertical'>>;
 };
 type StackProps<C extends ElementType = 'div'> = PolymorphicComponentProps<C, StackOwnProps<C>>;
 type StackComponent = (<C extends ElementType = 'div'>(props: StackProps<C> & {
@@ -7850,5 +7828,5 @@ export declare const TreeItem: <T extends object = object>(props: TreeItemProps<
   ref?: Ref<HTMLDivElement>;
 }) => ReactElement;
 //#endregion
-export { type AccordionBodyProps, type AccordionHeaderProps, type AccordionItemDef, type AccordionItemProps, type AccordionProps, type AlertBodyProps, type AlertCancelProps, type AlertCodeProps, type AlertFooterProps, type AlertIconProps, type AlertProps, type AlertTextProps, type AlertTitleProps, type AutocompleteGroupProps, type AutocompleteItemProps, type AutocompleteProps, type AvatarImageProps, type AvatarProps, type AvatarStackItemDef, type AvatarStackProps, type BadgeProps, type BreadcrumbItemDef, type BreadcrumbItemProps, type BreadcrumbProps, type Breakpoint, type ButtonGroupProps, type ButtonObject, type ButtonProps, type ButtonToolbarProps, type CalendarLabels, type CalendarMultipleProps, type CalendarProps, type CalendarSingleProps, type CardBodyProps, type CardFooterProps, type CardGroupProps, type CardHeaderProps, type CardImageOverlayProps, type CardImageProps, type CardLinkProps, type CardProps, type CardSubtitleProps, type CardTextProps, type CardTitleProps, type CarouselControlNextProps, type CarouselControlPrevProps, type CarouselEnds, type CarouselIndicatorsProps, type CarouselInnerProps, type CarouselItemProps, type CarouselOverlayProps, type CarouselPlayPauseProps, type CarouselProps, type CarouselSlideDetail, type CarouselTransition, type CheckboxGroupProps, type CheckboxProps, type ChipInputProps, type ChipProps, type CloseButtonProps, type CollapseProps, type ColorInputProps, type ComboboxGroupProps, type ComboboxItemProps, type ComboboxProps, type ContainerBreakpoint, type ContainerProps, type ContextColor, type ContextMenuProps, type ContextStyle, type DataGridBodyProps, type DataGridCellProps, type DataGridColumnProps, type DataGridHeaderProps, type DataGridProps, type DataGridRowProps, type DataGridSelectionCellProps, type DatePickerMultipleProps, type DatePickerProps, type DatePickerSingleProps, type DateRangePickerProps, type DateRangePreset, type DividerProps, type DrawerBodyProps, type DrawerFooterProps, type DrawerHeaderProps, type DrawerProps, type DrawerTitleProps, type ExtendedSizing, type FileInputProps, type FlexProps, type FloatingInputProps, type FormFeedbackProps, type FormFieldProps, type FormHelpProps, type FormLabelProps, type FormProps, type GridFlow, type GridItemLayout, type GridItemProps, type GridLayout, type GridProps, I18nProvider, type IconComponentProps, type IconKey, type IconProps, type IconProviderProps, type IconValue, type InputAdornProps, type InputGroupAddonProps, type InputGroupProps, type LinkProps, type ListItemDef, type ListItemProps, type ListProps, type MenuAutoClose, type MenuDividerDef, type MenuDividerProps, type MenuFocusStrategy, type MenuHeaderDef, type MenuHeaderProps, type MenuItemDef, type MenuItemProps, type MenuItemsDef, type MenuListProps, type MenuProps, type MenuSubmenuBackProps, type MenuSubmenuProps, type MenuTextProps, type MenuToggleProps, type ModalBodyProps, type ModalFooterProps, type ModalHeaderProps, type ModalProps, type ModalTitleProps, type NavItemDef, type NavItemProps, type NavLinkProps, type NavOverflowDetail, type NavOverflowProps, type NavProps, type NavTitleProps, type NavbarBrandProps, type NavbarNavProps, type NavbarProps, type NavbarTextProps, type NavbarTogglerProps, type NotificationContent, type NotificationIconProps, type NotificationProps, type NotificationStackProps, type NotificationTextProps, type NotificationTitleProps, type NumberFieldProps, type OtpInputProps, type PaginationItemProps, type PaginationProps, type PasswordStrengthProps, type PlaceholderProps, type Placement, type PopoverProps, type PortalProps, type ProgressBarProps, type ProgressProps, type RadioGroupProps, type RadioProps, type RangeCalendarProps, type RangeInputProps, type ScrollspyProps, type SearchFieldProps, type SelectOptionDef, type SelectProps, type Shapes, type Sizing, type SkeletonLoaderProps, type SkeletonProps, type Spacing, type SpinnerProps, type StackProps, type StaticTableProps, type StepperItemDef, type StepperItemProps, type StepperProps, type SwitchProps, type TabListProps, type TabPanelProps, type TabProps, type TableBodyProps, type TableCellProps, type TableColumnProps, type TableHeaderProps, type TableProps, type TableRowProps, type TabsProps, type TextInputProps, type TextareaProps, type TimeFieldProps, type ToastBodyProps, type ToastContent, type ToastFooterProps, type ToastHeaderProps, type ToastIconProps, type ToastProps, type ToasterProps, type TooltipProps, type TreeItemProps, type TreeProps, type UseDrawerResult, type UseModalResult, type UseNotificationResult, type UsePaginationResult, type UseScrollspyOptions, type UseToastResult, type VisuallyHiddenProps };
+export { type AccordionBodyProps, type AccordionHeaderProps, type AccordionItemDef, type AccordionItemProps, type AccordionProps, type AlertBodyProps, type AlertCancelProps, type AlertCodeProps, type AlertFooterProps, type AlertIconProps, type AlertProps, type AlertTextProps, type AlertTitleProps, type AutocompleteGroupProps, type AutocompleteItemProps, type AutocompleteProps, type AvatarImageProps, type AvatarProps, type AvatarStackItemDef, type AvatarStackProps, type BadgeProps, type BreadcrumbItemDef, type BreadcrumbItemProps, type BreadcrumbProps, type Breakpoint, type ButtonGroupProps, type ButtonObject, type ButtonProps, type ButtonToolbarProps, type CalendarLabels, type CalendarMultipleProps, type CalendarProps, type CalendarSingleProps, type CardBodyProps, type CardFooterProps, type CardGroupProps, type CardHeaderProps, type CardImageOverlayProps, type CardImageProps, type CardLinkProps, type CardProps, type CardSubtitleProps, type CardTextProps, type CardTitleProps, type CarouselControlNextProps, type CarouselControlPrevProps, type CarouselEnds, type CarouselIndicatorsProps, type CarouselInnerProps, type CarouselItemProps, type CarouselOverlayProps, type CarouselPlayPauseProps, type CarouselProps, type CarouselSlideDetail, type CarouselTransition, type CheckboxGroupProps, type CheckboxProps, type ChipInputProps, type ChipProps, type CloseButtonProps, type CollapseProps, type ColorInputProps, type ComboboxGroupProps, type ComboboxItemProps, type ComboboxProps, type ContainerBreakpoint, type ContainerProps, type ContextColor, type ContextMenuProps, type ContextStyle, type DataGridBodyProps, type DataGridCellProps, type DataGridColumnProps, type DataGridHeaderProps, type DataGridProps, type DataGridRowProps, type DataGridSelectionCellProps, type DatePickerMultipleProps, type DatePickerProps, type DatePickerSingleProps, type DateRangePickerProps, type DateRangePreset, type DividerProps, type DrawerBodyProps, type DrawerFooterProps, type DrawerHeaderProps, type DrawerProps, type DrawerTitleProps, type ExtendedSizing, type FileInputProps, type FlexProps, type FloatingInputProps, type FormFeedbackProps, type FormFieldProps, type FormHelpProps, type FormLabelProps, type FormProps, type GridFlow, type GridItemProps, type GridProps, I18nProvider, type IconComponentProps, type IconKey, type IconProps, type IconProviderProps, type IconValue, type InputAdornProps, type InputGroupAddonProps, type InputGroupProps, type LinkProps, type ListItemDef, type ListItemProps, type ListProps, type MenuAutoClose, type MenuDividerDef, type MenuDividerProps, type MenuFocusStrategy, type MenuHeaderDef, type MenuHeaderProps, type MenuItemDef, type MenuItemProps, type MenuItemsDef, type MenuListProps, type MenuProps, type MenuSubmenuBackProps, type MenuSubmenuProps, type MenuTextProps, type MenuToggleProps, type ModalBodyProps, type ModalFooterProps, type ModalHeaderProps, type ModalProps, type ModalTitleProps, type NavItemDef, type NavItemProps, type NavLinkProps, type NavOverflowDetail, type NavOverflowProps, type NavProps, type NavTitleProps, type NavbarBrandProps, type NavbarNavProps, type NavbarProps, type NavbarTextProps, type NavbarTogglerProps, type NotificationContent, type NotificationIconProps, type NotificationProps, type NotificationStackProps, type NotificationTextProps, type NotificationTitleProps, type NumberFieldProps, type OtpInputProps, type PaginationItemProps, type PaginationProps, type PasswordStrengthProps, type PlaceholderProps, type Placement, type PopoverProps, type PortalProps, type ProgressBarProps, type ProgressProps, type RadioGroupProps, type RadioProps, type RangeCalendarProps, type RangeInputProps, type Responsive, type ScrollspyProps, type SearchFieldProps, type SelectOptionDef, type SelectProps, type Shapes, type Sizing, type SkeletonLoaderProps, type SkeletonProps, type Spacing, type SpinnerProps, type StackProps, type StaticTableProps, type StepperItemDef, type StepperItemProps, type StepperProps, type SwitchProps, type TabListProps, type TabPanelProps, type TabProps, type TableBodyProps, type TableCellProps, type TableColumnProps, type TableHeaderProps, type TableProps, type TableRowProps, type TabsProps, type TextInputProps, type TextareaProps, type TimeFieldProps, type ToastBodyProps, type ToastContent, type ToastFooterProps, type ToastHeaderProps, type ToastIconProps, type ToastProps, type ToasterProps, type TooltipProps, type TreeItemProps, type TreeProps, type UseDrawerResult, type UseModalResult, type UseNotificationResult, type UsePaginationResult, type UseScrollspyOptions, type UseToastResult, type VisuallyHiddenProps };
 ```

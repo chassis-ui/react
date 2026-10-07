@@ -37,7 +37,7 @@
     },
     "direction": {
       "defaultValue": null,
-      "description": "Switches the body from its default stacked (column) layout to a side-by-side (row) layout —\nfor placing an image beside text within a single padded region. Give the image and the text\na width utility (`w-4/12`, `w-8/12`) to control each side's width, and nest another\n`CardBody` (with `.p-0`) for the text side so it doesn't receive double padding.",
+      "description": "Switches the body from its default stacked (column) layout to a side-by-side (row) layout —\nfor placing an image beside text within a single padded region. Give the image and the text\na width utility (`w-4/12`, `w-8/12`) to control each side's width, and nest another\n`CardBody` (with `.p-0`) for the text side so it doesn't receive double padding. An object\nsets the direction from a breakpoint up: `{ md: 'row' }`.",
       "name": "direction",
       "declarations": [
         {
@@ -47,16 +47,7 @@
       ],
       "required": false,
       "type": {
-        "name": "enum",
-        "raw": "FlexDirection",
-        "value": [
-          {
-            "value": "\"row\""
-          },
-          {
-            "value": "\"column\""
-          }
-        ]
+        "name": "Responsive<FlexDirection>"
       }
     },
     "gap": {
@@ -71,70 +62,7 @@
       ],
       "required": false,
       "type": {
-        "name": "enum",
-        "raw": "0 | \"zero\" | \"4xs\" | \"3xs\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"3xl\" | \"4xl\" | \"5xl\" | \"6xl\"",
-        "value": [
-          {
-            "value": "0"
-          },
-          {
-            "value": "\"zero\""
-          },
-          {
-            "value": "\"4xs\""
-          },
-          {
-            "value": "\"3xs\""
-          },
-          {
-            "value": "\"2xs\""
-          },
-          {
-            "value": "\"xs\""
-          },
-          {
-            "value": "\"sm\""
-          },
-          {
-            "value": "\"md\""
-          },
-          {
-            "value": "\"lg\""
-          },
-          {
-            "value": "\"xl\""
-          },
-          {
-            "value": "\"2xl\""
-          },
-          {
-            "value": "\"3xl\""
-          },
-          {
-            "value": "\"4xl\""
-          },
-          {
-            "value": "\"5xl\""
-          },
-          {
-            "value": "\"6xl\""
-          }
-        ]
-      }
-    },
-    "responsive": {
-      "defaultValue": null,
-      "description": "Overrides `direction` at one or more breakpoints.",
-      "name": "responsive",
-      "declarations": [
-        {
-          "fileName": "packages/react/src/components/card/CardBody.tsx",
-          "name": "TypeLiteral"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "Partial<Record<Breakpoint, FlexDirection>>"
+        "name": "{ Spacing | 0 }"
       }
     },
     "asChild": {

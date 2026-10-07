@@ -23,7 +23,7 @@ describe('Skeleton', () => {
   describe('styling props', () => {
     test('applies color, breakpoint and className together', () => {
       const { container } = render(
-        <Skeleton className="bazinga" color="secondary" responsive={{ sm: 7 }} />
+        <Skeleton className="bazinga" color="secondary" span={{ sm: 7 }} />
       )
       expect(container.firstChild).toHaveClass('skeleton', 'bg-secondary', 'sm:w-7/12', 'bazinga')
     })
@@ -69,7 +69,7 @@ describe('Skeleton', () => {
 
     test('applies the width classes per breakpoint', () => {
       const { container } = render(
-        <Skeleton span={12} responsive={{ sm: 8, md: 'auto', lg: true, xl: 12 }} />
+        <Skeleton span={{ base: 12, sm: 8, md: 'auto', lg: true, xl: 12 }} />
       )
       expect(container.firstChild).toHaveClass(
         'w-100',

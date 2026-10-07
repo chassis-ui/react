@@ -5,120 +5,6 @@
   "displayName": "GridItem",
   "methods": [],
   "props": {
-    "span": {
-      "defaultValue": null,
-      "description": "Number of grid column tracks (of the parent `<Grid>`'s `columns`) this item spans, mapped to\nthe `col-span-{n}` class, or `'full'` for every track of the row (`col-span-full`). An item\nwith no `span` is one track wide.",
-      "name": "span",
-      "parent": {
-        "fileName": "packages/react/src/components/grid/GridItem.tsx",
-        "name": "GridItemLayout"
-      },
-      "declarations": [
-        {
-          "fileName": "packages/react/src/components/grid/GridItem.tsx",
-          "name": "GridItemLayout"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "{ number | 'full' }"
-      }
-    },
-    "start": {
-      "defaultValue": null,
-      "description": "Grid column line to start this item at, mapped to the `col-start-{n}` class (1 to 12).\n`'auto'` (`col-start-auto`) returns the item to the flow, to undo a start line at a wider\nbreakpoint.",
-      "name": "start",
-      "parent": {
-        "fileName": "packages/react/src/components/grid/GridItem.tsx",
-        "name": "GridItemLayout"
-      },
-      "declarations": [
-        {
-          "fileName": "packages/react/src/components/grid/GridItem.tsx",
-          "name": "GridItemLayout"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "{ number | 'auto' }"
-      }
-    },
-    "end": {
-      "defaultValue": null,
-      "description": "Grid column line to end this item at, mapped to the `col-end-{n}` class (1 to 13, the line\nafter the last of 12 columns). With `span`, it places the item against the end edge of the\ngrid: `span={3} end={13}`. `'auto'` (`col-end-auto`) undoes an end line at a wider\nbreakpoint.",
-      "name": "end",
-      "parent": {
-        "fileName": "packages/react/src/components/grid/GridItem.tsx",
-        "name": "GridItemLayout"
-      },
-      "declarations": [
-        {
-          "fileName": "packages/react/src/components/grid/GridItem.tsx",
-          "name": "GridItemLayout"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "{ number | 'auto' }"
-      }
-    },
-    "rowSpan": {
-      "defaultValue": null,
-      "description": "Number of grid row tracks this item spans, mapped to the `row-span-{n}` class.",
-      "name": "rowSpan",
-      "parent": {
-        "fileName": "packages/react/src/components/grid/GridItem.tsx",
-        "name": "GridItemLayout"
-      },
-      "declarations": [
-        {
-          "fileName": "packages/react/src/components/grid/GridItem.tsx",
-          "name": "GridItemLayout"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "number"
-      }
-    },
-    "rowStart": {
-      "defaultValue": null,
-      "description": "Grid row line to start this item at, mapped to the `row-start-{n}` class (1 to 6), or\n`'auto'` (`row-start-auto`) to return it to the flow.",
-      "name": "rowStart",
-      "parent": {
-        "fileName": "packages/react/src/components/grid/GridItem.tsx",
-        "name": "GridItemLayout"
-      },
-      "declarations": [
-        {
-          "fileName": "packages/react/src/components/grid/GridItem.tsx",
-          "name": "GridItemLayout"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "{ number | 'auto' }"
-      }
-    },
-    "rowEnd": {
-      "defaultValue": null,
-      "description": "Grid row line to end this item at, mapped to the `row-end-{n}` class (1 to 7, the line after\nthe last of 6 rows), or `'auto'` (`row-end-auto`) to undo an end line at a wider breakpoint.",
-      "name": "rowEnd",
-      "parent": {
-        "fileName": "packages/react/src/components/grid/GridItem.tsx",
-        "name": "GridItemLayout"
-      },
-      "declarations": [
-        {
-          "fileName": "packages/react/src/components/grid/GridItem.tsx",
-          "name": "GridItemLayout"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "{ number | 'auto' }"
-      }
-    },
     "className": {
       "defaultValue": null,
       "description": "A string of all className you want applied to the base component.",
@@ -149,10 +35,10 @@
         "name": "ElementType"
       }
     },
-    "responsive": {
+    "span": {
       "defaultValue": null,
-      "description": "Overrides `span`/`start`/`end`/`rowSpan`/`rowStart`/`rowEnd` from a width up. A breakpoint\nkey (`md`) is a width of the viewport. A container key (`'@md'`) is the same width of the\nnearest query container (an ancestor with the `contains-inline` class), and wins over a\nbreakpoint key where both apply. Without a query container above the grid, a container key\nnever applies.",
-      "name": "responsive",
+      "description": "Number of grid column tracks (of the parent `<Grid>`'s `columns`) this item spans, mapped to\nthe `col-span-{n}` class, or `'full'` for every track of the row (`col-span-full`). An item\nwith no `span` is one track wide.\n\nAn object sets the span from a width up, as in `{ base: 'full', md: 6 }`, here and on\n`start`, `end`, `rowSpan`, `rowStart` and `rowEnd`. A breakpoint key (`md`) is a width of\nthe viewport. A container key (`'@md'`) is the same width of the nearest query container\n(an ancestor with the `contains-inline` class), and wins over a breakpoint key where both\napply. Without a query container above the grid, a container key never applies.",
+      "name": "span",
       "declarations": [
         {
           "fileName": "packages/react/src/components/grid/GridItem.tsx",
@@ -161,7 +47,82 @@
       ],
       "required": false,
       "type": {
-        "name": "{ Partial<Record<'sm' | 'md' | 'lg' | 'xl' | '2xl' | '@sm' | '@md' | '@lg' | '@xl' | '@2xl', { span?: number | 'full', start?: number | 'auto', end?: number | 'auto', rowSpan?: number, rowStart?: number | 'auto', rowEnd?: number | 'auto' }>> }"
+        "name": "{ Responsive<number | 'full', Breakpoint | ContainerBreakpoint> }"
+      }
+    },
+    "start": {
+      "defaultValue": null,
+      "description": "Grid column line to start this item at, mapped to the `col-start-{n}` class (1 to 12).\n`'auto'` (`col-start-auto`) returns the item to the flow, to undo a start line at a wider\nbreakpoint: `{ base: 4, md: 'auto' }`.",
+      "name": "start",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/grid/GridItem.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "{ Responsive<number | 'auto', Breakpoint | ContainerBreakpoint> }"
+      }
+    },
+    "end": {
+      "defaultValue": null,
+      "description": "Grid column line to end this item at, mapped to the `col-end-{n}` class (1 to 13, the line\nafter the last of 12 columns). With `span`, it places the item against the end edge of the\ngrid: `span={3} end={13}`. `'auto'` (`col-end-auto`) undoes an end line at a wider\nbreakpoint: `{ base: 13, md: 'auto' }`.",
+      "name": "end",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/grid/GridItem.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "{ Responsive<number | 'auto', Breakpoint | ContainerBreakpoint> }"
+      }
+    },
+    "rowSpan": {
+      "defaultValue": null,
+      "description": "Number of grid row tracks this item spans, mapped to the `row-span-{n}` class. Takes an\nobject per width, as `span` does.",
+      "name": "rowSpan",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/grid/GridItem.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Responsive<number, Breakpoint | ContainerBreakpoint>"
+      }
+    },
+    "rowStart": {
+      "defaultValue": null,
+      "description": "Grid row line to start this item at, mapped to the `row-start-{n}` class (1 to 6), or\n`'auto'` (`row-start-auto`) to return it to the flow. Takes an object per width, as `span`\ndoes.",
+      "name": "rowStart",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/grid/GridItem.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "{ Responsive<number | 'auto', Breakpoint | ContainerBreakpoint> }"
+      }
+    },
+    "rowEnd": {
+      "defaultValue": null,
+      "description": "Grid row line to end this item at, mapped to the `row-end-{n}` class (1 to 7, the line after\nthe last of 6 rows), or `'auto'` (`row-end-auto`) to undo an end line at a wider breakpoint.\nTakes an object per width, as `span` does.",
+      "name": "rowEnd",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/grid/GridItem.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "{ Responsive<number | 'auto', Breakpoint | ContainerBreakpoint> }"
       }
     },
     "subgrid": {

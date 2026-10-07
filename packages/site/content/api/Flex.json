@@ -5,389 +5,6 @@
   "displayName": "Flex",
   "methods": [],
   "props": {
-    "direction": {
-      "defaultValue": null,
-      "description": "Sets `flex-direction`. Omit for the browser default (`row`).",
-      "name": "direction",
-      "parent": {
-        "fileName": "packages/react/src/components/flex/Flex.tsx",
-        "name": "FlexLayout"
-      },
-      "declarations": [
-        {
-          "fileName": "packages/react/src/components/flex/Flex.tsx",
-          "name": "FlexLayout"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"row\" | \"column\" | \"row-reverse\" | \"column-reverse\"",
-        "value": [
-          {
-            "value": "\"row\""
-          },
-          {
-            "value": "\"column\""
-          },
-          {
-            "value": "\"row-reverse\""
-          },
-          {
-            "value": "\"column-reverse\""
-          }
-        ]
-      }
-    },
-    "wrap": {
-      "defaultValue": null,
-      "description": "Sets `flex-wrap`. Omit for the browser default (`nowrap`).",
-      "name": "wrap",
-      "parent": {
-        "fileName": "packages/react/src/components/flex/Flex.tsx",
-        "name": "FlexLayout"
-      },
-      "declarations": [
-        {
-          "fileName": "packages/react/src/components/flex/Flex.tsx",
-          "name": "FlexLayout"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"wrap\" | \"nowrap\" | \"wrap-reverse\"",
-        "value": [
-          {
-            "value": "\"wrap\""
-          },
-          {
-            "value": "\"nowrap\""
-          },
-          {
-            "value": "\"wrap-reverse\""
-          }
-        ]
-      }
-    },
-    "justify": {
-      "defaultValue": null,
-      "description": "Sets `justify-content`, aligning items along the main axis.",
-      "name": "justify",
-      "parent": {
-        "fileName": "packages/react/src/components/flex/Flex.tsx",
-        "name": "FlexLayout"
-      },
-      "declarations": [
-        {
-          "fileName": "packages/react/src/components/flex/Flex.tsx",
-          "name": "FlexLayout"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"center\" | \"start\" | \"end\" | \"between\" | \"around\" | \"evenly\"",
-        "value": [
-          {
-            "value": "\"center\""
-          },
-          {
-            "value": "\"start\""
-          },
-          {
-            "value": "\"end\""
-          },
-          {
-            "value": "\"between\""
-          },
-          {
-            "value": "\"around\""
-          },
-          {
-            "value": "\"evenly\""
-          }
-        ]
-      }
-    },
-    "align": {
-      "defaultValue": null,
-      "description": "Sets `align-items`, aligning items along the cross axis.",
-      "name": "align",
-      "parent": {
-        "fileName": "packages/react/src/components/flex/Flex.tsx",
-        "name": "FlexLayout"
-      },
-      "declarations": [
-        {
-          "fileName": "packages/react/src/components/flex/Flex.tsx",
-          "name": "FlexLayout"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"center\" | \"start\" | \"end\" | \"baseline\" | \"stretch\"",
-        "value": [
-          {
-            "value": "\"center\""
-          },
-          {
-            "value": "\"start\""
-          },
-          {
-            "value": "\"end\""
-          },
-          {
-            "value": "\"baseline\""
-          },
-          {
-            "value": "\"stretch\""
-          }
-        ]
-      }
-    },
-    "alignContent": {
-      "defaultValue": null,
-      "description": "Sets `align-content`, distributing wrapped lines along the cross axis. Has no effect on\nsingle-line (non-wrapping) containers.",
-      "name": "alignContent",
-      "parent": {
-        "fileName": "packages/react/src/components/flex/Flex.tsx",
-        "name": "FlexLayout"
-      },
-      "declarations": [
-        {
-          "fileName": "packages/react/src/components/flex/Flex.tsx",
-          "name": "FlexLayout"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"center\" | \"start\" | \"end\" | \"between\" | \"around\" | \"stretch\"",
-        "value": [
-          {
-            "value": "\"center\""
-          },
-          {
-            "value": "\"start\""
-          },
-          {
-            "value": "\"end\""
-          },
-          {
-            "value": "\"between\""
-          },
-          {
-            "value": "\"around\""
-          },
-          {
-            "value": "\"stretch\""
-          }
-        ]
-      }
-    },
-    "gap": {
-      "defaultValue": null,
-      "description": "Spacing between children on both axes, mapped to the `gap-*` utility classes. Overridden per\naxis by `rowGap`/`columnGap` where set.",
-      "name": "gap",
-      "parent": {
-        "fileName": "packages/react/src/components/flex/Flex.tsx",
-        "name": "FlexLayout"
-      },
-      "declarations": [
-        {
-          "fileName": "packages/react/src/components/flex/Flex.tsx",
-          "name": "FlexLayout"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "0 | \"zero\" | \"4xs\" | \"3xs\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"3xl\" | \"4xl\" | \"5xl\" | \"6xl\"",
-        "value": [
-          {
-            "value": "0"
-          },
-          {
-            "value": "\"zero\""
-          },
-          {
-            "value": "\"4xs\""
-          },
-          {
-            "value": "\"3xs\""
-          },
-          {
-            "value": "\"2xs\""
-          },
-          {
-            "value": "\"xs\""
-          },
-          {
-            "value": "\"sm\""
-          },
-          {
-            "value": "\"md\""
-          },
-          {
-            "value": "\"lg\""
-          },
-          {
-            "value": "\"xl\""
-          },
-          {
-            "value": "\"2xl\""
-          },
-          {
-            "value": "\"3xl\""
-          },
-          {
-            "value": "\"4xl\""
-          },
-          {
-            "value": "\"5xl\""
-          },
-          {
-            "value": "\"6xl\""
-          }
-        ]
-      }
-    },
-    "rowGap": {
-      "defaultValue": null,
-      "description": "Spacing between rows (the cross axis when wrapped), mapped to the `row-gap-*` utility\nclasses. Independent of `gap`/`columnGap`.",
-      "name": "rowGap",
-      "parent": {
-        "fileName": "packages/react/src/components/flex/Flex.tsx",
-        "name": "FlexLayout"
-      },
-      "declarations": [
-        {
-          "fileName": "packages/react/src/components/flex/Flex.tsx",
-          "name": "FlexLayout"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "0 | \"zero\" | \"4xs\" | \"3xs\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"3xl\" | \"4xl\" | \"5xl\" | \"6xl\"",
-        "value": [
-          {
-            "value": "0"
-          },
-          {
-            "value": "\"zero\""
-          },
-          {
-            "value": "\"4xs\""
-          },
-          {
-            "value": "\"3xs\""
-          },
-          {
-            "value": "\"2xs\""
-          },
-          {
-            "value": "\"xs\""
-          },
-          {
-            "value": "\"sm\""
-          },
-          {
-            "value": "\"md\""
-          },
-          {
-            "value": "\"lg\""
-          },
-          {
-            "value": "\"xl\""
-          },
-          {
-            "value": "\"2xl\""
-          },
-          {
-            "value": "\"3xl\""
-          },
-          {
-            "value": "\"4xl\""
-          },
-          {
-            "value": "\"5xl\""
-          },
-          {
-            "value": "\"6xl\""
-          }
-        ]
-      }
-    },
-    "columnGap": {
-      "defaultValue": null,
-      "description": "Spacing between columns (the main axis), mapped to the `column-gap-*` utility classes.\nIndependent of `gap`/`rowGap`.",
-      "name": "columnGap",
-      "parent": {
-        "fileName": "packages/react/src/components/flex/Flex.tsx",
-        "name": "FlexLayout"
-      },
-      "declarations": [
-        {
-          "fileName": "packages/react/src/components/flex/Flex.tsx",
-          "name": "FlexLayout"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "0 | \"zero\" | \"4xs\" | \"3xs\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"3xl\" | \"4xl\" | \"5xl\" | \"6xl\"",
-        "value": [
-          {
-            "value": "0"
-          },
-          {
-            "value": "\"zero\""
-          },
-          {
-            "value": "\"4xs\""
-          },
-          {
-            "value": "\"3xs\""
-          },
-          {
-            "value": "\"2xs\""
-          },
-          {
-            "value": "\"xs\""
-          },
-          {
-            "value": "\"sm\""
-          },
-          {
-            "value": "\"md\""
-          },
-          {
-            "value": "\"lg\""
-          },
-          {
-            "value": "\"xl\""
-          },
-          {
-            "value": "\"2xl\""
-          },
-          {
-            "value": "\"3xl\""
-          },
-          {
-            "value": "\"4xl\""
-          },
-          {
-            "value": "\"5xl\""
-          },
-          {
-            "value": "\"6xl\""
-          }
-        ]
-      }
-    },
     "className": {
       "defaultValue": null,
       "description": "A string of all className you want applied to the component.",
@@ -433,10 +50,10 @@
         "name": "boolean"
       }
     },
-    "responsive": {
+    "direction": {
       "defaultValue": null,
-      "description": "Overrides any of `direction`/`wrap`/`justify`/`align`/`alignContent`/`gap`/`rowGap`/\n`columnGap` at one or more breakpoints, via regular viewport media queries (unlike `Stack`'s\n`responsive` prop, this doesn't require a `.contains-inline` ancestor).",
-      "name": "responsive",
+      "description": "Sets `flex-direction`. Omit for the browser default (`row`). An object sets it per\nbreakpoint, `base` being the narrowest width: `{ base: 'column', md: 'row' }`. The\nbreakpoints are widths of the viewport, so unlike `Stack`'s `direction` they need no\n`.contains-inline` ancestor.",
+      "name": "direction",
       "declarations": [
         {
           "fileName": "packages/react/src/components/flex/Flex.tsx",
@@ -445,7 +62,112 @@
       ],
       "required": false,
       "type": {
-        "name": "Partial<Record<Breakpoint, FlexLayout>>"
+        "name": "Responsive<\"row\" | \"column\" | \"row-reverse\" | \"column-reverse\">"
+      }
+    },
+    "wrap": {
+      "defaultValue": null,
+      "description": "Sets `flex-wrap`. Omit for the browser default (`nowrap`). Takes an object per breakpoint,\nas `direction` does.",
+      "name": "wrap",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/flex/Flex.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Responsive<\"wrap\" | \"nowrap\" | \"wrap-reverse\">"
+      }
+    },
+    "justify": {
+      "defaultValue": null,
+      "description": "Sets `justify-content`, aligning items along the main axis. Takes an object per breakpoint,\nas `direction` does.",
+      "name": "justify",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/flex/Flex.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Responsive<\"center\" | \"start\" | \"end\" | \"between\" | \"around\" | \"evenly\">"
+      }
+    },
+    "align": {
+      "defaultValue": null,
+      "description": "Sets `align-items`, aligning items along the cross axis. Takes an object per breakpoint, as\n`direction` does.",
+      "name": "align",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/flex/Flex.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Responsive<\"center\" | \"start\" | \"end\" | \"baseline\" | \"stretch\">"
+      }
+    },
+    "alignContent": {
+      "defaultValue": null,
+      "description": "Sets `align-content`, distributing wrapped lines along the cross axis. Has no effect on\nsingle-line (non-wrapping) containers. Takes an object per breakpoint, as `direction` does.",
+      "name": "alignContent",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/flex/Flex.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Responsive<\"center\" | \"start\" | \"end\" | \"between\" | \"around\" | \"stretch\">"
+      }
+    },
+    "gap": {
+      "defaultValue": null,
+      "description": "Spacing between children on both axes, mapped to the `gap-*` utility classes. Overridden per\naxis by `rowGap`/`columnGap` where set. Takes an object per breakpoint, as `direction` does.",
+      "name": "gap",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/flex/Flex.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "{ Responsive<Spacing | 0> }"
+      }
+    },
+    "rowGap": {
+      "defaultValue": null,
+      "description": "Spacing between rows (the cross axis when wrapped), mapped to the `row-gap-*` utility\nclasses. Independent of `gap`/`columnGap`. Takes an object per breakpoint, as `direction`\ndoes.",
+      "name": "rowGap",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/flex/Flex.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "{ Responsive<Spacing | 0> }"
+      }
+    },
+    "columnGap": {
+      "defaultValue": null,
+      "description": "Spacing between columns (the main axis), mapped to the `column-gap-*` utility classes.\nIndependent of `gap`/`rowGap`. Takes an object per breakpoint, as `direction` does.",
+      "name": "columnGap",
+      "declarations": [
+        {
+          "fileName": "packages/react/src/components/flex/Flex.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "{ Responsive<Spacing | 0> }"
       }
     },
     "asChild": {

@@ -77,8 +77,8 @@ the size of a `.sm` or `.lg` control.
 ## Column sizing
 
 Give each field a `span` of the twelve columns to size it against the others — like
-`<GridItem span="full" responsive={{ sm: { span: 6 } }}>` for a field that takes half the row from
-the `sm` breakpoint.
+`<GridItem span={{ base: 'full', sm: 6 }}>` for a field that takes half the row from the `sm`
+breakpoint.
 
 <Example>
   <ColumnSizingExample client:load />

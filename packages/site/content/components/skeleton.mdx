@@ -19,8 +19,8 @@ skeleton for its real content once data arrives is left to application state, no
 component itself. It renders a `<span>` by default, and every other prop is optional: width,
 color, and animation are opt-in on top of the bare shape.
 
-- `span` and `responsive` size a skeleton in twelfths of its parent, with the width utilities of
-  `@chassis-ui/css`.
+- `span` sizes a skeleton in twelfths of its parent, at every width or per breakpoint, with the
+  width utilities of `@chassis-ui/css`.
 - `color` overrides the default `currentColor` background with one of the context colors.
 - `animation` adds `skeleton-glow` or `skeleton-wave` alongside the base `skeleton` class on the
   element it's set on, so that element animates itself — nesting plain `<Skeleton>` children
@@ -51,8 +51,8 @@ content) so assistive technology users learn when the data has finished loading.
 
 Set `span` to a width in twelfths of the parent: `span={6}` is half (`.w-6/12`) and `span={12}`
 the full width (`.w-100`). `span="auto"` is the natural width of the content, and `span` alone
-fills the rest of a flex row. `responsive` changes the width from a breakpoint up, with the same
-values. Reach for `className` or an inline `style` for any other width.
+fills the rest of a flex row. An object changes the width from a breakpoint up, with the same
+values: `span={{ base: 12, md: 6 }}`. Reach for `className` or an inline `style` for any other width.
 
 <Example>
   <WidthExample client:load />

@@ -3,9 +3,9 @@ import { Flex } from '@chassis-ui/react'
 export const Example = () => {
   return (
     <Flex
-      direction="column"
-      gap="sm"
-      responsive={{ md: { direction: 'row', gap: 'md', justify: 'between' } }}
+      direction={{ base: 'column', md: 'row' }}
+      gap={{ base: 'sm', md: 'md' }}
+      justify={{ md: 'between' }}
     >
       <div>First item</div>
       <div>Second item</div>

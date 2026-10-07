@@ -15,9 +15,9 @@ describe('CardBody', () => {
   })
 
   describe('layout props', () => {
-    test('applies direction, responsive and gap as classes', () => {
+    test('applies a direction per breakpoint and gap as classes', () => {
       render(
-        <CardBody direction="row" responsive={{ lg: 'column' }} gap="md">
+        <CardBody direction={{ base: 'row', lg: 'column' }} gap="md">
           Test
         </CardBody>
       )

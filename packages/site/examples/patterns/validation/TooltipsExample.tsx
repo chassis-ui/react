@@ -26,21 +26,21 @@ export const Example = () => {
 
   return (
     <Grid component={Form} gap="md" noValidate validated={validated} onSubmit={handleSubmit}>
-      <GridItem span="full" responsive={{ md: { span: 4 } }} className="position-relative">
+      <GridItem span={{ base: 'full', md: 4 }} className="position-relative">
         <FormLabel htmlFor="validationTooltip01">First name</FormLabel>
         <TextInput id="validationTooltip01" defaultValue="Mark" required />
         <FormFeedback tooltip valid>
           Looks good!
         </FormFeedback>
       </GridItem>
-      <GridItem span="full" responsive={{ md: { span: 4 } }} className="position-relative">
+      <GridItem span={{ base: 'full', md: 4 }} className="position-relative">
         <FormLabel htmlFor="validationTooltip02">Last name</FormLabel>
         <TextInput id="validationTooltip02" defaultValue="Otto" required />
         <FormFeedback tooltip valid>
           Looks good!
         </FormFeedback>
       </GridItem>
-      <GridItem span="full" responsive={{ md: { span: 4 } }} className="position-relative">
+      <GridItem span={{ base: 'full', md: 4 }} className="position-relative">
         <FormLabel htmlFor="validationTooltipUsername">Username</FormLabel>
         <InputGroup>
           <InputGroupAddon id="inputGroupPrependTooltip">@</InputGroupAddon>
@@ -54,14 +54,14 @@ export const Example = () => {
           Please choose a username.
         </FormFeedback>
       </GridItem>
-      <GridItem span="full" responsive={{ md: { span: 6 } }} className="position-relative">
+      <GridItem span={{ base: 'full', md: 6 }} className="position-relative">
         <FormLabel htmlFor="validationTooltip03">City</FormLabel>
         <TextInput id="validationTooltip03" required />
         <FormFeedback tooltip invalid>
           Please provide a valid city.
         </FormFeedback>
       </GridItem>
-      <GridItem span="full" responsive={{ md: { span: 3 } }} className="position-relative">
+      <GridItem span={{ base: 'full', md: 3 }} className="position-relative">
         <FormLabel htmlFor="validationTooltip04">State</FormLabel>
         <Select id="validationTooltip04" required>
           <option disabled value="">
@@ -74,7 +74,7 @@ export const Example = () => {
           Please select a valid state.
         </FormFeedback>
       </GridItem>
-      <GridItem span="full" responsive={{ md: { span: 3 } }} className="position-relative">
+      <GridItem span={{ base: 'full', md: 3 }} className="position-relative">
         <FormLabel htmlFor="validationTooltip05">Zip</FormLabel>
         <TextInput id="validationTooltip05" required />
         <FormFeedback tooltip invalid>

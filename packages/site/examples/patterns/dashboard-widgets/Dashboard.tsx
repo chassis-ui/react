@@ -97,7 +97,7 @@ export const Example = () => {
           </CardBody>
         </Card>
       </div>
-      <Grid columns={1} gap="md" responsive={{ md: { columns: 2 } }}>
+      <Grid columns={{ base: 1, md: 2 }} gap="md">
         <div>
           <Card>
             <CardBody>

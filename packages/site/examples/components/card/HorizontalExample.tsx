@@ -2,11 +2,10 @@ import { Card, CardBody, CardImage, CardText, CardTitle } from '@chassis-ui/reac
 
 export const Example = () => {
   return (
-    <Card responsive={{ lg: 'row' }}>
+    <Card direction={{ lg: 'row' }}>
       <div className="lg:w-4/12">
         <CardImage
-          orientation="top"
-          responsive={{ lg: 'start' }}
+          orientation={{ base: 'top', lg: 'start' }}
           src="https://placehold.co/800x400"
           alt=""
           style={{ height: '100%', objectFit: 'cover' }}

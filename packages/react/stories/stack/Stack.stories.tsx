@@ -44,12 +44,12 @@ export const Vertical: Story = {
   }
 }
 
-// `responsive` requires a `.contains-inline` ancestor to establish the container-query context —
+// A `direction` per breakpoint requires a `.contains-inline` ancestor to establish the container-query context —
 // resize the Storybook canvas/panel to preview the direction switch at the `md` breakpoint.
 export const Responsive: Story = {
   render: () => (
     <div className="contains-inline">
-      <Stack direction="vertical" gap="md" responsive={{ md: 'horizontal' }}>
+      <Stack direction={{ base: 'vertical', md: 'horizontal' }} gap="md">
         {items}
       </Stack>
     </div>

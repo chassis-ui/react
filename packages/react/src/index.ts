@@ -437,14 +437,7 @@ export type { FlexProps } from './components/flex'
 export type { FloatingInputProps } from './components/floating-input'
 export type { FormFeedbackProps, FormHelpProps, FormLabelProps, FormProps } from './components/form'
 export type { FormFieldProps } from './components/form-field'
-export type {
-  ContainerProps,
-  GridFlow,
-  GridItemLayout,
-  GridItemProps,
-  GridLayout,
-  GridProps
-} from './components/grid'
+export type { ContainerProps, GridFlow, GridItemProps, GridProps } from './components/grid'
 export type {
   IconComponentProps,
   IconKey,
@@ -570,6 +563,7 @@ export type {
   ContextColor,
   ContextStyle,
   ExtendedSizing,
+  Responsive,
   Shapes,
   Sizing,
   Spacing

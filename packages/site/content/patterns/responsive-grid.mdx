@@ -52,7 +52,7 @@ Reach for `<Grid>` when items share column tracks: page layouts, card grids, and
 
 The grid system combines breakpoints, containers, a grid, and its items into one layout model:
 
-- **The grid follows [six breakpoints](https://chassis-ui.com/css/docs/layout/breakpoints).** Breakpoints are `min-width` media queries, so a value set for one applies to it and to every wider one: `responsive={{ sm: { span: 4 } }}` holds from `sm` up, until another key overrides it.
+- **The grid follows [six breakpoints](https://chassis-ui.com/css/docs/layout/breakpoints).** Breakpoints are `min-width` media queries, so a value set for one applies to it and to every wider one: `span={{ base: 'full', sm: 4 }}` is four tracks from `sm` up, until another key overrides it.
 
 - **Containers center the page and pad its sides.** Use `<Container>` for a width per breakpoint, `<Container fluid>` for the full width, or `<Container fluidUntil="md">` for a mix. The padding of a container is the page margin, separate from the gutter of the grid.
 
@@ -64,7 +64,8 @@ The grid system combines breakpoints, containers, a grid, and its items into one
 
 ## Grid options
 
-The grid adapts across six breakpoints, each a key of the `responsive` prop. See
+The grid adapts across six breakpoints. A layout prop takes one value for every width, or an
+object with a value per breakpoint, each a key of that object. See
 [Grid options](https://chassis-ui.com/css/docs/layout/grid#grid-options) on the CSS site for the
 width, gutter, and page margin of each.
 
@@ -72,14 +73,14 @@ width, gutter, and page margin of each.
   <thead>
     <tr>
       <th scope="col">Breakpoint</th>
-      <th scope="col">responsive key</th>
+      <th scope="col">Key</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th scope="row">Extra small</th>
       <td>
-        none: the props outside <code>responsive</code> apply to every width
+        <code>base</code>: the value from the narrowest width up
       </td>
     </tr>
     <tr>
@@ -131,8 +132,8 @@ wrap the children once a column would get narrower than that.
 
 ### A count per breakpoint
 
-`columns` sets how many equal columns a grid has, and `responsive` changes the count as the
-viewport widens. Further children wrap to the next row. This is what `<Row cols>` did.
+`columns` sets how many equal columns a grid has, and an object changes the count as the
+viewport widens: `columns={{ base: 1, sm: 2, lg: 4 }}`. Further children wrap to the next row. This is what `<Row cols>` did.
 
 <Example class="cxd-example-grid text-center">
   <ColumnCountsExample client:load />
@@ -144,7 +145,7 @@ On the twelve default columns, `span` gives each item its own width.
 
 ### All breakpoints
 
-A `span` outside `responsive` holds from the narrowest viewport to the widest.
+A `span` with one value holds from the narrowest viewport to the widest.
 
 <Example class="cxd-example-grid text-center">
   <AllBreakpointsExample client:load />
@@ -152,9 +153,10 @@ A `span` outside `responsive` holds from the narrowest viewport to the widest.
 
 ### Stacked to horizontal
 
-Give the items `span="full"` and a narrower span from a breakpoint up, and they start out stacked
-and sit side by side from that breakpoint. A column count does the same for equal columns:
-`columns={1}` below the breakpoint, more from it.
+Give the items `'full'` as the `base` of their `span` and a narrower span from a breakpoint up,
+as in `span={{ base: 'full', md: 4 }}`, and they start out stacked and sit side by side from that
+breakpoint. A column count does the same for equal columns: `1` as the `base`, more from the
+breakpoint.
 
 <Example class="cxd-example-grid text-center">
   <StackedToHorizontalExample client:load />
@@ -162,8 +164,8 @@ and sit side by side from that breakpoint. A column count does the same for equa
 
 ### Mix and match
 
-Combine a base `span` with `responsive` so that items share a row at every width, in different
-proportions.
+Give a `span` a `base` narrower than the row and other spans from a breakpoint up, so that items
+share a row at every width, in different proportions.
 
 <Example class="cxd-example-grid text-center">
   <MixAndMatchExample client:load />
@@ -187,8 +189,8 @@ margins, so a grid never overflows its container the way a row with wide gutters
 
 ### Both axes
 
-`gap` takes a token of the spacing scale and applies it between columns and between rows.
-`responsive` changes it from a breakpoint up.
+`gap` takes a token of the spacing scale and applies it between columns and between rows. An
+object changes it from a breakpoint up: `gap={{ base: 'sm', lg: 'xl' }}`.
 
 <Example class="cxd-example-grid text-center">
   <GapExample client:load />

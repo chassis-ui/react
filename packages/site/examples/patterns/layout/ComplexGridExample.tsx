@@ -12,11 +12,11 @@ import {
 export const Example = () => {
   return (
     <Grid component={Form} gap="md">
-      <GridItem span="full" responsive={{ md: { span: 6 } }}>
+      <GridItem span={{ base: 'full', md: 6 }}>
         <FormLabel htmlFor="inputEmail4">Email</FormLabel>
         <TextInput type="email" id="inputEmail4" />
       </GridItem>
-      <GridItem span="full" responsive={{ md: { span: 6 } }}>
+      <GridItem span={{ base: 'full', md: 6 }}>
         <FormLabel htmlFor="inputPassword4">Password</FormLabel>
         <TextInput autoComplete="current-password" type="password" id="inputPassword4" />
       </GridItem>
@@ -28,18 +28,18 @@ export const Example = () => {
         <FormLabel htmlFor="inputAddress2">Address 2</FormLabel>
         <TextInput id="inputAddress2" placeholder="Apartment, studio, or floor" />
       </GridItem>
-      <GridItem span="full" responsive={{ md: { span: 6 } }}>
+      <GridItem span={{ base: 'full', md: 6 }}>
         <FormLabel htmlFor="inputCity">City</FormLabel>
         <TextInput id="inputCity" />
       </GridItem>
-      <GridItem span="full" responsive={{ md: { span: 4 } }}>
+      <GridItem span={{ base: 'full', md: 4 }}>
         <FormLabel htmlFor="inputState">State</FormLabel>
         <Select id="inputState">
           <option>Choose...</option>
           <option>...</option>
         </Select>
       </GridItem>
-      <GridItem span="full" responsive={{ md: { span: 2 } }}>
+      <GridItem span={{ base: 'full', md: 2 }}>
         <FormLabel htmlFor="inputZip">Zip</FormLabel>
         <TextInput id="inputZip" />
       </GridItem>

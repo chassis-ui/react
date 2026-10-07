@@ -49,10 +49,10 @@ export const Full: Story = {
       <GridItem span="full" className={boxClass}>
         span=full
       </GridItem>
-      <GridItem span="full" responsive={{ md: { span: 6 } }} className={boxClass}>
+      <GridItem span={{ base: 'full', md: 6 }} className={boxClass}>
         span=full md:span=6
       </GridItem>
-      <GridItem span="full" responsive={{ md: { span: 6 } }} className={boxClass}>
+      <GridItem span={{ base: 'full', md: 6 }} className={boxClass}>
         span=full md:span=6
       </GridItem>
     </Grid>
@@ -62,7 +62,7 @@ export const Full: Story = {
 export const StartReset: Story = {
   render: () => (
     <Grid>
-      <GridItem span={6} start={4} responsive={{ md: { start: 'auto' } }} className={boxClass}>
+      <GridItem span={6} start={{ base: 4, md: 'auto' }} className={boxClass}>
         span=6 start=4 md:start=auto
       </GridItem>
       <GridItem span={6} className={boxClass}>
@@ -91,13 +91,13 @@ export const Rows: Story = {
 export const Responsive: Story = {
   render: () => (
     <Grid>
-      <GridItem span={6} responsive={{ md: { span: 4 } }} className={boxClass}>
+      <GridItem span={{ base: 6, md: 4 }} className={boxClass}>
         span=6 md:span=4
       </GridItem>
-      <GridItem span={6} responsive={{ md: { span: 4 } }} className={boxClass}>
+      <GridItem span={{ base: 6, md: 4 }} className={boxClass}>
         span=6 md:span=4
       </GridItem>
-      <GridItem span={6} responsive={{ md: { span: 4 } }} className={boxClass}>
+      <GridItem span={{ base: 6, md: 4 }} className={boxClass}>
         span=6 md:span=4
       </GridItem>
     </Grid>
@@ -142,26 +142,26 @@ export const ContainerBreakpoints: Story = {
     <>
       <div className="contains-inline mb-lg" style={{ width: '24rem' }}>
         <Grid contained>
-          <GridItem span="full" responsive={{ '@md': { span: 4 } }} className={boxClass}>
+          <GridItem span={{ base: 'full', '@md': 4 }} className={boxClass}>
             span=full @md:span=4
           </GridItem>
-          <GridItem span="full" responsive={{ '@md': { span: 4 } }} className={boxClass}>
+          <GridItem span={{ base: 'full', '@md': 4 }} className={boxClass}>
             span=full @md:span=4
           </GridItem>
-          <GridItem span="full" responsive={{ '@md': { span: 4 } }} className={boxClass}>
+          <GridItem span={{ base: 'full', '@md': 4 }} className={boxClass}>
             span=full @md:span=4
           </GridItem>
         </Grid>
       </div>
       <div className="contains-inline">
         <Grid contained>
-          <GridItem span="full" responsive={{ '@md': { span: 4 } }} className={boxClass}>
+          <GridItem span={{ base: 'full', '@md': 4 }} className={boxClass}>
             span=full @md:span=4
           </GridItem>
-          <GridItem span="full" responsive={{ '@md': { span: 4 } }} className={boxClass}>
+          <GridItem span={{ base: 'full', '@md': 4 }} className={boxClass}>
             span=full @md:span=4
           </GridItem>
-          <GridItem span="full" responsive={{ '@md': { span: 4 } }} className={boxClass}>
+          <GridItem span={{ base: 'full', '@md': 4 }} className={boxClass}>
             span=full @md:span=4
           </GridItem>
         </Grid>

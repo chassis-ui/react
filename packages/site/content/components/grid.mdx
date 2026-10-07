@@ -39,13 +39,13 @@ Three equal-width columns in a twelve-column grid each span four tracks:
 
 ### Span
 
-Set `span` to a number from `1` to `12` to size an item to that many column tracks, rendered as the `.col-span-{n}` class. `responsive` changes the span from a breakpoint up. Three `span={6}` items narrow to `span={4}` from the `md` breakpoint:
+Set `span` to a number from `1` to `12` to size an item to that many column tracks, rendered as the `.col-span-{n}` class. An object in place of the number sets the span per breakpoint: `base` is the span from the narrowest viewport, and a key named after a breakpoint (`sm`/`md`/`lg`/`xl`/`2xl`) is the span from that breakpoint up. Every placement prop of `<GridItem>` takes such an object, as do `columns`, `rows`, `gap` and `flow` of `<Grid>`. Three `span={{ base: 6, md: 4 }}` items span six tracks, and four from the `md` breakpoint:
 
 <Example class="cxd-example-grid text-center">
   <ResponsiveExample client:load />
 </Example>
 
-`span="full"` spans every track of the row (`.col-span-full`), whatever the column count. An item that stacks below a breakpoint needs it: without a base `span`, the item is one track wide there, not full width.
+`span="full"` spans every track of the row (`.col-span-full`), whatever the column count. An item that stacks below a breakpoint needs it as the `base`: with a span at `md` only, the item is one track wide below `md`, not full width.
 
 <Example class="cxd-example-grid text-center">
   <FullWidthExample client:load />
@@ -62,7 +62,7 @@ Set `start` to a column line from `1` to `12` to position an item, independent o
 `start="auto"` returns an item to the flow, to undo a start line from a breakpoint up:
 
 ```jsx
-<GridItem span={6} start={4} responsive={{ md: { start: 'auto' } }} />
+<GridItem span={6} start={{ base: 4, md: 'auto' }} />
 ```
 
 ### End
@@ -77,7 +77,7 @@ Set `end` to the column line an item ends at, from `1` to `13` (`.col-end-{n}`):
 
 ### Rows
 
-Set `rows` on `<Grid>` for the number of equal rows in its template: a count from 1 to 6 renders the `.grid-rows-{n}` class. A grid with no `rows` has no template rows, and each row is as tall as its content. Place an item on the rows with `rowSpan` (`.row-span-{n}`, 1 to 6), `rowStart` (`.row-start-{n}`, 1 to 6, or `'auto'`) and `rowEnd` (`.row-end-{n}`, 1 to 7, or `'auto'`). `responsive` takes all three on an item, and `rows` on the grid.
+Set `rows` on `<Grid>` for the number of equal rows in its template: a count from 1 to 6 renders the `.grid-rows-{n}` class. A grid with no `rows` has no template rows, and each row is as tall as its content. Place an item on the rows with `rowSpan` (`.row-span-{n}`, 1 to 6), `rowStart` (`.row-start-{n}`, 1 to 6, or `'auto'`) and `rowEnd` (`.row-end-{n}`, 1 to 7, or `'auto'`). All three take a value per breakpoint on an item, as `rows` does on the grid.
 
 <Example class="cxd-example-grid text-center">
   <RowsExample client:load />
@@ -91,7 +91,7 @@ Set `rows` on `<Grid>` for the number of equal rows in its template: a count fro
   <ColumnsGapExample client:load />
 </Example>
 
-`responsive` changes `columns` and `gap` from a breakpoint up, with the same classes. Only a token fits a breakpoint's `gap`, since a raw value has no class.
+An object changes `columns` and `gap` from a breakpoint up, with the same classes. Only a token fits a breakpoint's `gap`, since a raw value has no class; `base` takes either. A breakpoint's `columns` is a count from 1 to 12 for the same reason.
 
 <Example class="cxd-example-grid text-center">
   <ResponsiveColumnsExample client:load />
@@ -101,7 +101,7 @@ The `.row-gap-{token}` and `.column-gap-{token}` utilities set one axis, passed 
 
 ## Flow
 
-`flow` sets the direction a grid places its items in, rendered as the `.grid-flow-*` classes. A grid fills a row before it starts the next. `flow="column"` fills the `rows` of a column before it moves to the next column, so it goes with `rows`. `responsive` changes the flow from a breakpoint up.
+`flow` sets the direction a grid places its items in, rendered as the `.grid-flow-*` classes. A grid fills a row before it starts the next. `flow="column"` fills the `rows` of a column before it moves to the next column, so it goes with `rows`. An object changes the flow from a breakpoint up.
 
 <Example class="cxd-example-grid text-center">
   <FlowExample client:load />
@@ -134,7 +134,7 @@ Set `fill` to render `.grid-fill`: equal columns, as many as there are children,
 
 ## Container queries
 
-A breakpoint key of `responsive` is a width of the viewport. A grid in a sidebar, a panel or a narrow column has less room than the viewport, and a container key follows the room it has: `'@sm'` to `'@2xl'` are the widths of `sm` to `2xl`, measured on the nearest query container. `<Grid>` and `<GridItem>` take them beside the breakpoint keys and render the container classes of `@chassis-ui/css`, such as `.@md:grid-cols-3` and `.@md:col-span-4`. Where a breakpoint key and a container key both apply, the container key wins.
+A breakpoint key of a prop, such as `md` in `span={{ base: 'full', md: 6 }}`, is a width of the viewport. A grid in a sidebar, a panel or a narrow column has less room than the viewport, and a container key follows the room it has: `'@sm'` to `'@2xl'` are the widths of `sm` to `2xl`, measured on the nearest query container. `<Grid>` and `<GridItem>` take them beside the breakpoint keys and render the container classes of `@chassis-ui/css`: `columns={{ '@md': 3 }}` is `.@md:grid-cols-3`, and `span={{ '@md': 4 }}` is `.@md:col-span-4`. Where a breakpoint key and a container key both apply, the container key wins.
 
 A query container is an ancestor with the `.contains-inline` class. Set `contained` on the grid for its default gutter and column count to follow that container too. Both boxes below hold the same grid, at any viewport width: the first is 18rem wide, under the `@sm` width, so its items stack, and the second is 40rem wide, so they sit side by side.
 
@@ -172,12 +172,12 @@ Set `subgrid` on a `<GridItem>` to give it the column tracks it spans in the par
 | `<Row>`                                            | `<Grid>`, with no `<Container>` needed around it                |
 | `<Col span={4}>`                                   | `<GridItem span={4}>`                                           |
 | `<Col span={12}>`                                  | `<GridItem span="full">`                                        |
-| `<Col span={12} responsive={{ md: { span: 6 } }}>` | `<GridItem span="full" responsive={{ md: { span: 6 } }}>`       |
+| `<Col span={12} responsive={{ md: { span: 6 } }}>` | `<GridItem span={{ base: 'full', md: 6 }}>`                     |
 | `<Col span={4} offset={2}>`                        | `<GridItem span={4} start={3}>`                                 |
 | `<Col order="first">`                              | `<GridItem className="order-first">`                            |
 | `<Row>` with bare `<Col>`s                         | `<Grid fill>` with plain children                               |
 | `<Row cols={3}>` with bare `<Col>`s                | `<Grid columns={3}>` with plain children                        |
-| `<Row cols={1} responsive={{ md: { cols: 3 } }}>`  | `<Grid columns={1} responsive={{ md: { columns: 3 } }}>`        |
+| `<Row cols={1} responsive={{ md: { cols: 3 } }}>`  | `<Grid columns={{ base: 1, md: 3 }}>`                           |
 | `<Row gutter="md">`                                | `<Grid gap="md">`                                               |
 | `gutterX`, `gutterY`                               | `className="column-gap-{token}"`, `className="row-gap-{token}"` |
 | `<Col span="auto">`                                | [`<Flex gap="md">`]([[docsref:/components/flex]]) with plain children |
@@ -185,7 +185,8 @@ Set `subgrid` on a `<GridItem>` to give it the column tracks it spans in the par
 
 Three differences change how a layout behaves:
 
-- **An item with no `span` is one track wide.** A bare `<Col>` shared the row with its siblings, and a `<Col>` with only a responsive span was as wide as the row below that breakpoint. Give such an item `span="full"`, or use a `fill` grid.
+- **An item with no `span` is one track wide.** A bare `<Col>` shared the row with its siblings, and a `<Col>` with only a responsive span was as wide as the row below that breakpoint. Give such an item `span="full"`, as the value or the `base`, or use a `fill` grid.
+- **Each prop holds its own breakpoints.** `<Row>` and `<Col>` took one `responsive` object, keyed by breakpoint, with the props inside. `<Grid>` and `<GridItem>` have no `responsive` prop: each prop takes an object keyed by breakpoint, with the value below the first one as `base`. `<Grid>` and `<GridItem>` of version 0.3 took the `responsive` prop too, and their props move the same way.
 - **The gap applies to both axes.** A `<Row>` with no gutter prop had 1.5rem between columns and nothing between rows. A `<Grid>` has the gutter of the breakpoint between both; `className="row-gap-zero"` removes it between rows.
 - **A start line is absolute.** `offset` pushed a column away from the one before it, so `start` is the offset plus one only for the first item of a row.
 

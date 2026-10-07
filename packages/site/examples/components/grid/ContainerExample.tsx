@@ -2,15 +2,9 @@ import { Grid, GridItem } from '@chassis-ui/react'
 
 const Items = () => (
   <Grid contained>
-    <GridItem span="full" responsive={{ '@sm': { span: 4 } }}>
-      Item
-    </GridItem>
-    <GridItem span="full" responsive={{ '@sm': { span: 4 } }}>
-      Item
-    </GridItem>
-    <GridItem span="full" responsive={{ '@sm': { span: 4 } }}>
-      Item
-    </GridItem>
+    <GridItem span={{ base: 'full', '@sm': 4 }}>Item</GridItem>
+    <GridItem span={{ base: 'full', '@sm': 4 }}>Item</GridItem>
+    <GridItem span={{ base: 'full', '@sm': 4 }}>Item</GridItem>
   </Grid>
 )
 

@@ -40,8 +40,8 @@ do not exist, and neither do the long forms `p-large` or `gap-medium`. The scale
 **Responsive** utilities are prefixed with a breakpoint and a colon:
 `md:col-span-4`, `lg:grid-cols-3`, `md:gap-lg`, `sm:w-6/12`. Breakpoints are
 `sm md lg xl 2xl`; an unprefixed class applies from the narrowest screen up. Layout
-components take the same names as a `responsive` prop, e.g.
-`<GridItem span="full" responsive={{ md: { span: 4 } }} />`.
+components take the same names as the keys of a prop, after `base`, e.g.
+`<GridItem span={{ base: 'full', md: 4 }} />`.
 
 Reach for `var(--cx-*)` only for values utilities don't cover — `--cx-primary`,
 `--cx-fg-color`, `--cx-bg-color`, `--cx-border-radius`, `--cx-space-md`,
@@ -54,17 +54,17 @@ Reach for `var(--cx-*)` only for values utilities don't cover — `--cx-primary`
 phone, up to 3rem on the widest screens). Use the components, or the classes they render:
 
 ```jsx
-<Grid columns={1} gap="md" responsive={{ md: { columns: 3 } }}>{/* equal columns */}</Grid>
+<Grid columns={{ base: 1, md: 3 }} gap="md">{/* equal columns */}</Grid>
 
 <Grid gap="lg">
-  <GridItem span="full" responsive={{ lg: { span: 8 } }}>{/* main */}</GridItem>
-  <GridItem span="full" responsive={{ lg: { span: 4 } }}>{/* aside */}</GridItem>
+  <GridItem span={{ base: 'full', lg: 8 }}>{/* main */}</GridItem>
+  <GridItem span={{ base: 'full', lg: 4 }}>{/* aside */}</GridItem>
 </Grid>
 ```
 
 - An item with no `span` is **one track wide**, not full width. An item that stacks on
-  small screens needs `span="full"` (`col-span-full`) plus the narrower span from a
-  breakpoint up.
+  small screens needs `'full'` as the `base` of its `span` (`col-span-full`) plus the
+  narrower span from a breakpoint up.
 - `gap` takes a spacing token (`gap="md"` renders `gap-md`). A grid inside a card or a
   sidebar is narrower than the viewport the default gutter follows: give it a `gap` and a
   `columns` count that fits.
@@ -73,8 +73,8 @@ phone, up to 3rem on the widest screens). Use the components, or the classes the
 - A grid sizes its tracks from the container. For items as wide as their content, use
   `<Flex gap="md">` or `d-flex gap-md`, with `flex-fill` on the items that grow.
 - A grid in a narrow box can follow the box instead of the viewport: put `contains-inline`
-  on an ancestor, set `contained` on the `Grid`, and key `responsive` by `'@md'` in place
-  of `md` (`responsive={{ '@md': { columns: 3 } }}` renders `@md:grid-cols-3`).
+  on an ancestor, set `contained` on the `Grid`, and key the prop by `'@md'` in place of
+  `md` (`columns={{ '@md': 3 }}` renders `@md:grid-cols-3`).
 - `rows` (1 to 6) sets equal rows, `flow="column"` fills them column by column, and
   `GridItem` takes `end` / `rowEnd` beside `start` / `rowStart` (`span={3} end={13}` sits
   against the end edge).
@@ -134,7 +134,7 @@ const { ChassisThemeRoot, IconProvider, Grid, Card, CardBody, CardTitle, CardTex
 <ChassisThemeRoot theme="light">
   <IconProvider font>
     <div className="container py-lg">
-      <Grid columns={1} gap="md" responsive={{ md: { columns: 3 } }}>
+      <Grid columns={{ base: 1, md: 3 }} gap="md">
         <Card>
           <CardBody>
             <CardTitle>Weekly report</CardTitle>

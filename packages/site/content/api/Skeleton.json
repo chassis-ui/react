@@ -114,7 +114,7 @@
     },
     "span": {
       "defaultValue": null,
-      "description": "Width of the skeleton in twelfths of its parent (`span={6}` is half, mapped to the\n`w-{n}/12` class; `span={12}` is `w-100`), `'auto'` for its natural width (`w-auto`), or\n`true` to fill the rest of a flex row (`flex-fill`). Unset by default, so the rendered\nelement's own intrinsic width applies — set it explicitly (e.g. `span={12}`) for a\nfull-width text line; leave it unset when `component` is something that sizes itself, like\n`Avatar` or `Button`.",
+      "description": "Width of the skeleton in twelfths of its parent (`span={6}` is half, mapped to the\n`w-{n}/12` class; `span={12}` is `w-100`), `'auto'` for its natural width (`w-auto`), or\n`true` to fill the rest of a flex row (`flex-fill`). Unset by default, so the rendered\nelement's own intrinsic width applies — set it explicitly (e.g. `span={12}`) for a\nfull-width text line; leave it unset when `component` is something that sizes itself, like\n`Avatar` or `Button`. An object sets the width from a breakpoint up: `{ base: 12, md: 6 }`.",
       "name": "span",
       "declarations": [
         {
@@ -124,22 +124,7 @@
       ],
       "required": false,
       "type": {
-        "name": "{ 'auto' | number | string | boolean }"
-      }
-    },
-    "responsive": {
-      "defaultValue": null,
-      "description": "Overrides `span` at a breakpoint and up.",
-      "name": "responsive",
-      "declarations": [
-        {
-          "fileName": "packages/react/src/components/skeleton/Skeleton.tsx",
-          "name": "TypeLiteral"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "{ Partial<Record<'sm' | 'md' | 'lg' | 'xl' | '2xl', 'auto' | number | string | boolean>> }"
+        "name": "{ Responsive<'auto' | number | string | boolean> }"
       }
     },
     "asChild": {

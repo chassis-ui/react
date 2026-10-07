@@ -88,7 +88,7 @@
     },
     "direction": {
       "defaultValue": null,
-      "description": "Switches the card from its default stacked (column) layout to a side-by-side (row) layout.\nGive the image and the body a width utility (`w-4/12`, `w-8/12`) to control each side's\nwidth.",
+      "description": "Switches the card from its default stacked (column) layout to a side-by-side (row) layout.\nGive the image and the body a width utility (`w-4/12`, `w-8/12`) to control each side's\nwidth. An object sets the direction from a breakpoint up — e.g. `{ lg: 'row' }` to lay the\ncard out horizontally from `lg` up while stacking below it.",
       "name": "direction",
       "declarations": [
         {
@@ -98,16 +98,7 @@
       ],
       "required": false,
       "type": {
-        "name": "enum",
-        "raw": "FlexDirection",
-        "value": [
-          {
-            "value": "\"row\""
-          },
-          {
-            "value": "\"column\""
-          }
-        ]
+        "name": "Responsive<FlexDirection>"
       }
     },
     "footer": {
@@ -177,21 +168,6 @@
             "value": "\"bottom\""
           }
         ]
-      }
-    },
-    "responsive": {
-      "defaultValue": null,
-      "description": "Overrides `direction` at one or more breakpoints — e.g. `{ lg: 'row' }` to lay the card\nout horizontally from `lg` up while stacking below it.",
-      "name": "responsive",
-      "declarations": [
-        {
-          "fileName": "packages/react/src/components/card/Card.tsx",
-          "name": "TypeLiteral"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "Partial<Record<Breakpoint, FlexDirection>>"
       }
     },
     "size": {

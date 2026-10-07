@@ -1,8 +1,8 @@
 import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { WidthSpan, buildResponsiveClassNames } from '../../utils/breakpoints'
-import { Breakpoint, ContextColor } from '../../types'
+import { WidthSpan, responsiveClassNames, responsiveProp } from '../../utils/breakpoints'
+import { ContextColor, Responsive } from '../../types'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -38,17 +38,11 @@ type SkeletonOwnProps<C extends ElementType> = {
    * `true` to fill the rest of a flex row (`flex-fill`). Unset by default, so the rendered
    * element's own intrinsic width applies — set it explicitly (e.g. `span={12}`) for a
    * full-width text line; leave it unset when `component` is something that sizes itself, like
-   * `Avatar` or `Button`.
+   * `Avatar` or `Button`. An object sets the width from a breakpoint up: `{ base: 12, md: 6 }`.
    *
-   * @type { 'auto' | number | string | boolean }
+   * @type { Responsive<'auto' | number | string | boolean> }
    */
-  span?: WidthSpan
-  /**
-   * Overrides `span` at a breakpoint and up.
-   *
-   * @type { Partial<Record<'sm' | 'md' | 'lg' | 'xl' | '2xl', 'auto' | number | string | boolean>> }
-   */
-  responsive?: Partial<Record<Breakpoint, WidthSpan>>
+  span?: Responsive<WidthSpan>
 }
 
 export type SkeletonProps<C extends ElementType = 'span'> = PolymorphicComponentProps<
@@ -61,7 +55,7 @@ type SkeletonComponent = (<C extends ElementType = 'span'>(
 ) => ReactElement | null) & { displayName?: string }
 
 // chassis-css has the fractions `w-1/12` to `w-11/12`; twelve twelfths is `w-100`.
-const spanClassName = (span: WidthSpan | undefined, prefix: string) => {
+const spanClassName = (span: WidthSpan, prefix: string) => {
   if (span === true) return `${prefix}flex-fill`
   if (span === 'auto') return `${prefix}w-auto`
   if (typeof span === 'number' || typeof span === 'string') {
@@ -70,12 +64,8 @@ const spanClassName = (span: WidthSpan | undefined, prefix: string) => {
   return null
 }
 
-const spanClassNames = (span: WidthSpan | undefined, prefix: string) => [
-  spanClassName(span, prefix)
-]
-
 function SkeletonRender<C extends ElementType = 'span'>(
-  { children, animation, className, color, component, span, responsive, ...rest }: SkeletonProps<C>,
+  { children, animation, className, color, component, span, ...rest }: SkeletonProps<C>,
   ref: PolymorphicRef<C>
 ) {
   const Component = component ?? 'span'
@@ -83,7 +73,7 @@ function SkeletonRender<C extends ElementType = 'span'>(
     'skeleton',
     animation && `skeleton-${animation}`,
     { [`bg-${color}`]: color },
-    buildResponsiveClassNames(spanClassNames, span, responsive),
+    responsiveClassNames([responsiveProp(span, spanClassName)]),
     className
   )
 

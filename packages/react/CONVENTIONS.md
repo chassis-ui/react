@@ -136,7 +136,16 @@ This is intentional, not an oversight: each prop mirrors the CSS property or cha
 maps to 1:1. Reconciling the three into one shared vocabulary would be a breaking public-API
 rename with no functional benefit — don't unify them without an explicit user decision to do so.
 
-Only `Grid` and `GridItem` take the container keys (`'@sm'` to `'@2xl'`) in `responsive`.
+A layout prop that changes with the width takes the breakpoints itself, as a `Responsive<T>`
+value (`src/types.ts`): the plain value, or an object keyed by `base` and the breakpoint names,
+`span={{ base: 'full', md: 6 }}`. There is no `responsive` prop that holds the props of a
+breakpoint (RD19); `responsive` is the max-breakpoint switch of `Table`, `StaticTable` and
+`Drawer` only. A component builds the classes with `responsiveProp` and `responsiveClassNames`
+(`src/utils/breakpoints.ts`), which put the base class of every prop before the classes of a
+breakpoint. Only the base of a prop can fall back to an inline style or a default class, which
+`baseValue` reads.
+
+Only `Grid` and `GridItem` take the container keys (`'@sm'` to `'@2xl'`) in those objects.
 chassis-css has the `@md:` variants of the flex utilities too, so `Flex`, `Stack` and `Skeleton`
 could take them; that is a decision not yet made, not an oversight.
 

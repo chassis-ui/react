@@ -46,10 +46,12 @@ cross axis. Items take only their natural width; `gap` controls the spacing betw
 
 ## Responsive direction
 
-The `responsive` prop switches `direction` at one or more breakpoints, using
+`direction` takes an object in place of a value to switch the direction at one or more
+breakpoints: `base` is the direction from the narrowest width (`'horizontal'` when omitted), and
+a key named after a breakpoint (`sm`/`md`/`lg`/`xl`/`2xl`) is the direction from that breakpoint
+up, as in `direction={{ base: 'vertical', md: 'horizontal' }}`. The breakpoints are
 [container queries](https://chassis-ui.com/css/docs/layout/breakpoints) rather than viewport
-media queries — it accepts an object keyed by the full breakpoint names
-(`sm`/`md`/`lg`/`xl`/`2xl`), each mapped to `'horizontal'` or `'vertical'`.
+media queries.
 
 Responsive direction switching requires a `.contains-inline` ancestor to establish the container
 query context — `<Stack>` doesn't apply this itself, since the containment has to live on a

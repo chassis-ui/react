@@ -91,7 +91,7 @@ describe('GridItem', () => {
 
     test('applies end/rowEnd classes per breakpoint', () => {
       render(
-        <GridItem span={3} end={13} responsive={{ md: { end: 'auto', rowEnd: 3 } }}>
+        <GridItem span={3} end={{ base: 13, md: 'auto' }} rowEnd={{ md: 3 }}>
           Test
         </GridItem>
       )
@@ -135,16 +135,7 @@ describe('GridItem', () => {
   describe('breakpoint props', () => {
     test('applies span/start classes per breakpoint', () => {
       render(
-        <GridItem
-          span={12}
-          responsive={{
-            sm: { span: 6 },
-            md: { span: 4, start: 2 },
-            lg: { span: 3 },
-            xl: { span: 2 },
-            '2xl': { span: 1 }
-          }}
-        >
+        <GridItem span={{ base: 12, sm: 6, md: 4, lg: 3, xl: 2, '2xl': 1 }} start={{ md: 2 }}>
           Test
         </GridItem>
       )
@@ -161,11 +152,7 @@ describe('GridItem', () => {
 
     test('stacks below a breakpoint with span="full" and resets a start line with "auto"', () => {
       render(
-        <GridItem
-          span="full"
-          start={1}
-          responsive={{ md: { span: 6, start: 4 }, xl: { span: 'full', start: 'auto' } }}
-        >
+        <GridItem span={{ base: 'full', md: 6, xl: 'full' }} start={{ base: 1, md: 4, xl: 'auto' }}>
           Test
         </GridItem>
       )
@@ -181,10 +168,7 @@ describe('GridItem', () => {
 
     test('applies rowSpan/rowStart classes per breakpoint', () => {
       render(
-        <GridItem
-          rowSpan={1}
-          responsive={{ md: { rowSpan: 2, rowStart: 2 }, lg: { rowStart: 'auto' } }}
-        >
+        <GridItem rowSpan={{ base: 1, md: 2 }} rowStart={{ md: 2, lg: 'auto' }}>
           Test
         </GridItem>
       )
@@ -198,17 +182,15 @@ describe('GridItem', () => {
   })
 
   describe('container breakpoints', () => {
-    test('maps an @ key of responsive to the container-query classes', () => {
+    test('maps an @ key of a prop to the container-query classes', () => {
       render(
         <GridItem
-          span="full"
-          responsive={{
-            '@sm': { span: 6 },
-            '@md': { span: 4, start: 2 },
-            '@lg': { end: 13 },
-            '@xl': { rowSpan: 2, rowStart: 1 },
-            '@2xl': { rowEnd: 'auto' }
-          }}
+          span={{ base: 'full', '@sm': 6, '@md': 4 }}
+          start={{ '@md': 2 }}
+          end={{ '@lg': 13 }}
+          rowSpan={{ '@xl': 2 }}
+          rowStart={{ '@xl': 1 }}
+          rowEnd={{ '@2xl': 'auto' }}
         >
           Test
         </GridItem>
@@ -220,11 +202,7 @@ describe('GridItem', () => {
     })
 
     test('mixes breakpoint and container keys, container classes last', () => {
-      render(
-        <GridItem span="full" responsive={{ '@lg': { span: 4 }, md: { span: 6 } }}>
-          Test
-        </GridItem>
-      )
+      render(<GridItem span={{ base: 'full', md: 6, '@lg': 4 }}>Test</GridItem>)
       expect(screen.getByText('Test').className).toBe('col-span-full md:col-span-6 @lg:col-span-4')
     })
   })

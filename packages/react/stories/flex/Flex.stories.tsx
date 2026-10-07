@@ -122,14 +122,12 @@ export const RowAndColumnGap: Story = {
 }
 
 // Resize the Storybook canvas to preview the breakpoint-driven layout switch — these are regular
-// viewport media queries, unlike Stack's responsive prop, so no .contains-inline wrapper needed.
+// viewport media queries, unlike Stack's direction, so no .contains-inline wrapper needed.
 export const Responsive: Story = {
   args: {
-    direction: 'column',
-    gap: 'sm',
-    responsive: {
-      md: { direction: 'row', gap: 'md', justify: 'between' }
-    },
+    direction: { base: 'column', md: 'row' },
+    gap: { base: 'sm', md: 'md' },
+    justify: { md: 'between' },
     children: items
   }
 }

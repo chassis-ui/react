@@ -3,7 +3,7 @@ import { Card, CardBody, CardImage, CardText, CardTitle } from '@chassis-ui/reac
 export const Example = () => {
   return (
     <Card>
-      <CardBody responsive={{ lg: 'row' }} gap="md">
+      <CardBody direction={{ lg: 'row' }} gap="md">
         <div className="lg:w-4/12">
           <CardImage src="https://placehold.co/800x400" alt="" />
         </div>

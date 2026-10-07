@@ -23,9 +23,14 @@ describe('CardImage', () => {
       expect(screen.getByRole('img')).toHaveClass('card-image-start')
     })
 
-    test('applies responsive orientation overrides alongside the base orientation', () => {
-      render(<CardImage alt="test" orientation="top" responsive={{ lg: 'start' }} />)
+    test('applies an orientation per breakpoint alongside the base orientation', () => {
+      render(<CardImage alt="test" orientation={{ base: 'top', lg: 'start' }} />)
       expect(screen.getByRole('img')).toHaveClass('card-image-top', 'lg:card-image-start')
+    })
+
+    test('keeps the plain card-image class when no orientation is set at the base', () => {
+      render(<CardImage alt="test" orientation={{ lg: 'start' }} />)
+      expect(screen.getByRole('img').className).toBe('card-image lg:card-image-start')
     })
 
     test('applies a bottom orientation class and renders as a custom component', () => {

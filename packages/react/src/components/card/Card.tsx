@@ -1,11 +1,12 @@
 import React, { ElementType, ForwardRefRenderFunction, ReactElement, ReactNode } from 'react'
 import classNames from 'classnames'
 
-import { Breakpoint, ContextColor, ContextStyle, Sizing } from '../../types'
+import { ContextColor, ContextStyle, Responsive, Sizing } from '../../types'
 import {
-  buildResponsiveClassNames,
-  flexDirectionClassNames,
-  FlexDirection
+  flexDirectionClassName,
+  FlexDirection,
+  responsiveClassNames,
+  responsiveProp
 } from '../../utils/breakpoints'
 import {
   createPolymorphicComponent,
@@ -35,9 +36,10 @@ type CardOwnProps<C extends ElementType> = {
   /**
    * Switches the card from its default stacked (column) layout to a side-by-side (row) layout.
    * Give the image and the body a width utility (`w-4/12`, `w-8/12`) to control each side's
-   * width.
+   * width. An object sets the direction from a breakpoint up — e.g. `{ lg: 'row' }` to lay the
+   * card out horizontally from `lg` up while stacking below it.
    */
-  direction?: FlexDirection
+  direction?: Responsive<FlexDirection>
   /**
    * Shorthand for a `CardFooter`, rendered after the image/title/subtitle/text/`children` block.
    */
@@ -59,11 +61,6 @@ type CardOwnProps<C extends ElementType> = {
    * Orientates `image` to the top (default) or bottom of the card.
    */
   imageOrientation?: 'top' | 'bottom'
-  /**
-   * Overrides `direction` at one or more breakpoints — e.g. `{ lg: 'row' }` to lay the card
-   * out horizontally from `lg` up while stacking below it.
-   */
-  responsive?: Partial<Record<Breakpoint, FlexDirection>>
   /**
    * Sets the size of the component to one of Chassis component sizes.
    */
@@ -109,7 +106,6 @@ function CardRender<C extends ElementType = 'div'>(
     image,
     imageAlt,
     imageOrientation = 'top',
-    responsive,
     size,
     subtitle,
     text,
@@ -131,7 +127,7 @@ function CardRender<C extends ElementType = 'div'>(
       sm: size === 'sm',
       lg: size === 'lg'
     },
-    buildResponsiveClassNames(flexDirectionClassNames, direction, responsive),
+    responsiveClassNames([responsiveProp(direction, flexDirectionClassName)]),
     className
   )
 

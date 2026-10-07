@@ -3,7 +3,7 @@ import { Button, Card, CardBody, CardText, CardTitle, Grid, GridItem } from '@ch
 export const Example = () => {
   return (
     <Grid gap="md">
-      <GridItem span="full" responsive={{ sm: { span: 6 } }}>
+      <GridItem span={{ base: 'full', sm: 6 }}>
         <Card>
           <CardBody>
             <CardTitle>Special title treatment</CardTitle>
@@ -14,7 +14,7 @@ export const Example = () => {
           </CardBody>
         </Card>
       </GridItem>
-      <GridItem span="full" responsive={{ sm: { span: 6 } }}>
+      <GridItem span={{ base: 'full', sm: 6 }}>
         <Card>
           <CardBody>
             <CardTitle>Special title treatment</CardTitle>

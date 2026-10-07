@@ -21,6 +21,25 @@ function SubmitButton(props: ButtonProps) {
 }
 ```
 
+## Responsive values
+
+A layout prop that can change with the width, such as `direction` of `Flex` or `span` of
+`GridItem`, is typed `Responsive<T>`: the value itself, or an object with a value per breakpoint,
+where `base` is the value from the narrowest width. Import the type to pass such a prop through a
+component of your own:
+
+```tsx
+import { GridItem, Responsive } from '@chassis-ui/react'
+
+function Field({ span = { base: 'full', md: 6 } }: { span?: Responsive<number | 'full'> }) {
+  return <GridItem span={span} />
+}
+```
+
+The second type argument is the keys the object reads, the viewport breakpoints by default. `Grid`
+and `GridItem` also read the container keys, so their props are
+`Responsive<T, Breakpoint | ContainerBreakpoint>`.
+
 ## The component prop
 
 A handful of components — `Placeholder`, `CardImage`, `Skeleton`, `SkeletonLoader`, and

@@ -17,7 +17,7 @@ export const Example = () => {
         <FormLabel htmlFor="inputEmail3" className="col-span-full sm:col-span-2 col-form-label">
           Email
         </FormLabel>
-        <GridItem span="full" responsive={{ sm: { span: 10 } }}>
+        <GridItem span={{ base: 'full', sm: 10 }}>
           <TextInput type="email" id="inputEmail3" />
         </GridItem>
       </Grid>
@@ -25,12 +25,12 @@ export const Example = () => {
         <FormLabel htmlFor="inputPassword3" className="col-span-full sm:col-span-2 col-form-label">
           Password
         </FormLabel>
-        <GridItem span="full" responsive={{ sm: { span: 10 } }}>
+        <GridItem span={{ base: 'full', sm: 10 }}>
           <TextInput autoComplete="current-password" type="password" id="inputPassword3" />
         </GridItem>
       </Grid>
       <Grid className="row-gap-zero mb-md">
-        <GridItem span="full" responsive={{ sm: { span: 10, start: 3 } }}>
+        <GridItem span={{ base: 'full', sm: 10 }} start={{ sm: 3 }}>
           <RadioGroup label="Radios" defaultValue="option1">
             <Radio value="option1" label="First radio" />
             <Radio value="option2" label="Second radio" />
@@ -39,7 +39,7 @@ export const Example = () => {
         </GridItem>
       </Grid>
       <Grid className="row-gap-zero mb-md">
-        <GridItem span="full" responsive={{ sm: { span: 10, start: 3 } }}>
+        <GridItem span={{ base: 'full', sm: 10 }} start={{ sm: 3 }}>
           <Checkbox id="gridCheck1" label="Example checkbox" />
         </GridItem>
       </Grid>

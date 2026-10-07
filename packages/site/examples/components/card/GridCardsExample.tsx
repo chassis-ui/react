@@ -2,7 +2,7 @@ import { Card, CardBody, CardFooter, CardImage, CardText, CardTitle, Grid } from
 
 export const Example = () => {
   return (
-    <Grid columns={1} gap="md" responsive={{ md: { columns: 2 } }}>
+    <Grid columns={{ base: 1, md: 2 }} gap="md">
       <div>
         <Card>
           <CardImage orientation="top" src="https://placehold.co/800x400" alt="" />

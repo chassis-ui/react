@@ -2,7 +2,7 @@ import { Card, CardBody, CardImage, CardText, CardTitle, Grid } from '@chassis-u
 
 export const Example = () => {
   return (
-    <Grid columns={1} gap="md" responsive={{ md: { columns: 3 } }}>
+    <Grid columns={{ base: 1, md: 3 }} gap="md">
       <div>
         <Card className="h-100">
           <CardImage orientation="top" src="https://placehold.co/800x400" alt="" />

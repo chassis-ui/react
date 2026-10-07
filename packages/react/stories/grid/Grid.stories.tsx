@@ -44,7 +44,7 @@ export const CustomColumns: Story = {
 
 export const ResponsiveColumns: Story = {
   render: () => (
-    <Grid columns={1} gap="md" responsive={{ sm: { columns: 2 }, lg: { columns: 4, gap: 'xl' } }}>
+    <Grid columns={{ base: 1, sm: 2, lg: 4 }} gap={{ base: 'md', lg: 'xl' }}>
       <div className={boxClass}>Column</div>
       <div className={boxClass}>Column</div>
       <div className={boxClass}>Column</div>
@@ -131,14 +131,14 @@ export const Contained: Story = {
   render: () => (
     <>
       <div className="contains-inline mb-lg" style={{ width: '24rem' }}>
-        <Grid columns={1} contained responsive={{ '@md': { columns: 3 } }}>
+        <Grid columns={{ base: 1, '@md': 3 }} contained>
           <div className={boxClass}>Column</div>
           <div className={boxClass}>Column</div>
           <div className={boxClass}>Column</div>
         </Grid>
       </div>
       <div className="contains-inline">
-        <Grid columns={1} contained responsive={{ '@md': { columns: 3 } }}>
+        <Grid columns={{ base: 1, '@md': 3 }} contained>
           <div className={boxClass}>Column</div>
           <div className={boxClass}>Column</div>
           <div className={boxClass}>Column</div>

@@ -14,9 +14,9 @@ export const Example = () => {
   return (
     <Flex
       component={Form}
-      direction="column"
+      direction={{ base: 'column', lg: 'row' }}
       gap="md"
-      responsive={{ lg: { direction: 'row', align: 'center' } }}
+      align={{ lg: 'center' }}
     >
       <div>
         <FormLabel className="visually-hidden" htmlFor="inlineFormInputGroupUsername">

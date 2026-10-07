@@ -1,11 +1,12 @@
 import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { Breakpoint, Spacing } from '../../types'
+import { Responsive, Spacing } from '../../types'
 import {
-  buildResponsiveClassNames,
-  flexDirectionClassNames,
-  FlexDirection
+  flexDirectionClassName,
+  FlexDirection,
+  responsiveClassNames,
+  responsiveProp
 } from '../../utils/breakpoints'
 import {
   createPolymorphicComponent,
@@ -27,18 +28,17 @@ type CardBodyOwnProps<C extends ElementType> = {
    * Switches the body from its default stacked (column) layout to a side-by-side (row) layout —
    * for placing an image beside text within a single padded region. Give the image and the text
    * a width utility (`w-4/12`, `w-8/12`) to control each side's width, and nest another
-   * `CardBody` (with `.p-0`) for the text side so it doesn't receive double padding.
+   * `CardBody` (with `.p-0`) for the text side so it doesn't receive double padding. An object
+   * sets the direction from a breakpoint up: `{ md: 'row' }`.
    */
-  direction?: FlexDirection
+  direction?: Responsive<FlexDirection>
   /**
    * Spacing between children, mapped to the `gap-*` utility classes. Overrides the card's default
    * gap between body children.
+   *
+   * @type { Spacing | 0 }
    */
   gap?: Spacing | 0
-  /**
-   * Overrides `direction` at one or more breakpoints.
-   */
-  responsive?: Partial<Record<Breakpoint, FlexDirection>>
 }
 
 export type CardBodyProps<C extends ElementType = 'div'> = PolymorphicComponentProps<
@@ -51,13 +51,13 @@ type CardBodyComponent = (<C extends ElementType = 'div'>(
 ) => ReactElement | null) & { displayName?: string }
 
 function CardBodyRender<C extends ElementType = 'div'>(
-  { children, className, component, direction, gap, responsive, ...rest }: CardBodyProps<C>,
+  { children, className, component, direction, gap, ...rest }: CardBodyProps<C>,
   ref: PolymorphicRef<C>
 ) {
   const Component = component ?? 'div'
   const _className = classNames(
     'card-body',
-    buildResponsiveClassNames(flexDirectionClassNames, direction, responsive),
+    responsiveClassNames([responsiveProp(direction, flexDirectionClassName)]),
     spacingClassName('gap', gap),
     className
   )

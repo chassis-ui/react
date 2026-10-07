@@ -27,13 +27,13 @@ export const Example = () => {
 
   return (
     <Grid component={Form} gap="md" noValidate validated={validated} onSubmit={handleSubmit}>
-      <GridItem span="full" responsive={{ md: { span: 4 } }}>
+      <GridItem span={{ base: 'full', md: 4 }}>
         <TextInput label="First name" defaultValue="Mark" validFeedback="Looks good!" required />
       </GridItem>
-      <GridItem span="full" responsive={{ md: { span: 4 } }}>
+      <GridItem span={{ base: 'full', md: 4 }}>
         <TextInput label="Last name" defaultValue="Otto" validFeedback="Looks good!" required />
       </GridItem>
-      <GridItem span="full" responsive={{ md: { span: 4 } }}>
+      <GridItem span={{ base: 'full', md: 4 }}>
         <FormLabel htmlFor="validationCustomUsername">Username</FormLabel>
         <InputGroup>
           <InputGroupAddon id="inputGroupPrepend">@</InputGroupAddon>
@@ -47,10 +47,10 @@ export const Example = () => {
           Please choose a username.
         </FormFeedback>
       </GridItem>
-      <GridItem span="full" responsive={{ md: { span: 6 } }}>
+      <GridItem span={{ base: 'full', md: 6 }}>
         <TextInput label="City" invalidFeedback="Please provide a valid city." required />
       </GridItem>
-      <GridItem span="full" responsive={{ md: { span: 3 } }}>
+      <GridItem span={{ base: 'full', md: 3 }}>
         <Select label="State" invalidFeedback="Please select a valid state." required>
           <option disabled value="">
             Choose...
@@ -59,7 +59,7 @@ export const Example = () => {
           <option>New York</option>
         </Select>
       </GridItem>
-      <GridItem span="full" responsive={{ md: { span: 3 } }}>
+      <GridItem span={{ base: 'full', md: 3 }}>
         <TextInput label="Zip" invalidFeedback="Please provide a valid zip." required />
       </GridItem>
       <GridItem span="full">

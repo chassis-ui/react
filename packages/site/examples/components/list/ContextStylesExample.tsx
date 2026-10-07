@@ -2,7 +2,7 @@ import { Grid, List, ListItem } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
-    <Grid columns={1} gap="lg" responsive={{ md: { columns: 2 } }}>
+    <Grid columns={{ base: 1, md: 2 }} gap="lg">
       <div>
         <List color="primary">
           <ListItem>Cras justo odio</ListItem>

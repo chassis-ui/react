@@ -112,18 +112,18 @@ describe('Flex', () => {
     })
   })
 
-  describe('responsive', () => {
+  describe('breakpoint values', () => {
     test('applies {breakpoint}:{class} per breakpoint, in ascending order, for every layout property', () => {
       render(
         <Flex
-          direction="column"
-          responsive={{
-            sm: { direction: 'row', justify: 'center' },
-            md: { wrap: 'wrap' },
-            lg: { align: 'center' },
-            xl: { alignContent: 'stretch' },
-            '2xl': { gap: 'lg', rowGap: 'sm', columnGap: 'md' }
-          }}
+          direction={{ base: 'column', sm: 'row' }}
+          justify={{ sm: 'center' }}
+          wrap={{ md: 'wrap' }}
+          align={{ lg: 'center' }}
+          alignContent={{ xl: 'stretch' }}
+          gap={{ '2xl': 'lg' }}
+          rowGap={{ '2xl': 'sm' }}
+          columnGap={{ '2xl': 'md' }}
         >
           Test
         </Flex>
@@ -152,16 +152,27 @@ describe('Flex', () => {
       )
     })
 
-    test('only applies classes for breakpoints present in the responsive prop', () => {
-      render(<Flex responsive={{ md: { direction: 'column' } }}>Test</Flex>)
+    test('only applies classes for the breakpoints a prop has a value for', () => {
+      render(<Flex direction={{ md: 'column' }}>Test</Flex>)
       const el = screen.getByText('Test')
       expect(el).toHaveClass('md:flex-column')
       expect(el.className).not.toMatch(/sm:|lg:|xl:|2xl:/)
     })
 
-    test('applies no responsive classes when responsive is omitted', () => {
+    test('applies no layout classes when no layout prop is set', () => {
       render(<Flex>Test</Flex>)
       expect(screen.getByText('Test').className).toBe('d-flex')
+    })
+
+    test('puts the base class of every prop before the classes of a breakpoint', () => {
+      render(
+        <Flex direction={{ base: 'column', md: 'row' }} gap={{ base: 0, md: 'md' }}>
+          Test
+        </Flex>
+      )
+      expect(screen.getByText('Test').className).toBe(
+        'd-flex flex-column gap-0 md:flex-row md:gap-md'
+      )
     })
   })
 

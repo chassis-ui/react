@@ -37,7 +37,7 @@
     },
     "orientation": {
       "defaultValue": null,
-      "description": "Orientates the image to the top or bottom of the card as an \"image cap\", or to the start/end\nfor a horizontal layout. Omit to round all four corners for use inside `CardBody`.",
+      "description": "Orientates the image to the top or bottom of the card as an \"image cap\", or to the start/end\nfor a horizontal layout. Omit to round all four corners for use inside `CardBody`. An object\nsets the orientation from a breakpoint up — e.g. `{ base: 'top', lg: 'start' }` to switch an\nimage cap from `top` to `start` once the card lays out horizontally.",
       "name": "orientation",
       "declarations": [
         {
@@ -47,37 +47,7 @@
       ],
       "required": false,
       "type": {
-        "name": "enum",
-        "raw": "CardImageOrientation",
-        "value": [
-          {
-            "value": "\"top\""
-          },
-          {
-            "value": "\"bottom\""
-          },
-          {
-            "value": "\"start\""
-          },
-          {
-            "value": "\"end\""
-          }
-        ]
-      }
-    },
-    "responsive": {
-      "defaultValue": null,
-      "description": "Overrides `orientation` at one or more breakpoints — e.g. `{ lg: 'start' }` to switch an\nimage cap from `top` to `start` once the card lays out horizontally.",
-      "name": "responsive",
-      "declarations": [
-        {
-          "fileName": "packages/react/src/components/card/CardImage.tsx",
-          "name": "TypeLiteral"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "Partial<Record<Breakpoint, CardImageOrientation>>"
+        "name": "Responsive<CardImageOrientation>"
       }
     },
     "asChild": {

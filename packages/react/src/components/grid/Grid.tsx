@@ -6,8 +6,13 @@ import {
   PolymorphicComponentProps,
   PolymorphicRef
 } from '../../utils/polymorphic'
-import { buildResponsiveClassNames, GRID_BREAKPOINTS } from '../../utils/breakpoints'
-import { Breakpoint, ContainerBreakpoint, Spacing } from '../../types'
+import {
+  baseValue,
+  GRID_BREAKPOINTS,
+  responsiveClassNames,
+  responsiveProp
+} from '../../utils/breakpoints'
+import { Breakpoint, ContainerBreakpoint, Responsive, Spacing } from '../../types'
 import { gapClassName, gapValue } from './gap'
 import { hasRowsClass, rowsTemplate } from './rows'
 
@@ -23,26 +28,9 @@ type GridStyle = CSSProperties & {
  */
 export type GridFlow = 'row' | 'column' | 'dense' | 'row-dense' | 'column-dense'
 
-export interface GridLayout {
-  /**
-   * Number of columns in the grid template from this breakpoint up, mapped to the
-   * `grid-cols-{n}` class (1 to 12). Has no effect when `fill` is set.
-   */
-  columns?: number
-  /**
-   * Number of rows in the grid template from this breakpoint up, mapped to the `grid-rows-{n}`
-   * class (1 to 6). Has no effect when `fill` is set.
-   */
-  rows?: number
-  /**
-   * Gap between grid items from this breakpoint up, mapped to the `gap-{token}` class.
-   */
-  gap?: Spacing
-  /**
-   * Placement direction from this breakpoint up, mapped to the `grid-flow-*` classes.
-   */
-  flow?: GridFlow
-}
+// A token is a class at any width. A raw CSS value is a custom property, which only the base
+// can be: an inline style holds no media query.
+type GridGap = Spacing | (string & {})
 
 type GridOwnProps<C extends ElementType> = {
   /**
@@ -59,41 +47,40 @@ type GridOwnProps<C extends ElementType> = {
    * to this grid alone. Any other count has no class and is set via the `--cx-grid-columns`
    * custom property, which a grid nested in this one inherits: give that grid `columns` of its
    * own. Has no effect when `fill` is set.
+   *
+   * An object sets the count from a width up, as in `{ base: 1, md: 3 }`, here and on `rows`,
+   * `gap` and `flow`. A breakpoint key (`md`) is a width of the viewport. A container key
+   * (`'@md'`) is the same width of the nearest query container (an ancestor with the
+   * `contains-inline` class), and wins over a breakpoint key where both apply. Without a query
+   * container above the grid, a container key never applies. The count of a key is a class, so
+   * a count from 1 to 12.
    */
-  columns?: number
+  columns?: Responsive<number, Breakpoint | ContainerBreakpoint>
   /**
    * Number of equal rows in the grid template. A grid has none when omitted: its rows are as
    * tall as their content. A count from 1 to 6 is mapped to the `grid-rows-{n}` class; any other
    * count has no class and is set inline, as the `grid-template-rows` the class declares. Has no
-   * effect when `fill` is set.
+   * effect when `fill` is set. An object sets the count from a width up, where it is a class, so
+   * a count from 1 to 6.
    */
-  rows?: number
+  rows?: Responsive<number, Breakpoint | ContainerBreakpoint>
   /**
    * Gap between grid items: a `Spacing` token (mapped to the `gap-{token}` class) or any raw CSS
    * `gap` value, including a `"{row} {column}"` pair (set via the `--cx-grid-gap` custom
    * property). The gutter of the current breakpoint when omitted, or of the query container when
-   * `contained` is set.
+   * `contained` is set. An object sets the gap from a width up: only a token fits a key other
+   * than `base`, since a raw value has no class.
    *
-   * @type { Spacing | string }
+   * @type { Spacing | string | { base?: Spacing | string } & Partial<Record<Breakpoint | ContainerBreakpoint, Spacing>> }
    */
-  gap?: Spacing | (string & {})
+  gap?: GridGap | ({ base?: GridGap } & Partial<Record<Breakpoint | ContainerBreakpoint, Spacing>>)
   /**
    * The direction items are placed in, mapped to the `grid-flow-*` classes: by `'row'` (the CSS
    * default) or by `'column'`, which fills the `rows` of one column before it starts the next.
    * `'dense'`, `'row-dense'` and `'column-dense'` also move later items into gaps that earlier,
-   * wider ones left.
+   * wider ones left. An object sets the flow from a width up.
    */
-  flow?: GridFlow
-  /**
-   * Overrides `columns`/`rows`/`gap`/`flow` from a width up, with the `grid-cols-{n}`,
-   * `grid-rows-{n}`, `gap-{token}` and `grid-flow-*` classes. A breakpoint key (`md`) is a width
-   * of the viewport. A container key (`'@md'`) is the same width of the nearest query container
-   * (an ancestor with the `contains-inline` class), and wins over a breakpoint key where both
-   * apply. Without a query container above the grid, a container key never applies.
-   *
-   * @type { Partial<Record<'sm' | 'md' | 'lg' | 'xl' | '2xl' | '@sm' | '@md' | '@lg' | '@xl' | '@2xl', { columns?: number, rows?: number, gap?: Spacing, flow?: GridFlow }>> }
-   */
-  responsive?: Partial<Record<Breakpoint | ContainerBreakpoint, GridLayout>>
+  flow?: Responsive<GridFlow, Breakpoint | ContainerBreakpoint>
   /**
    * Adds the `contained` class: the default gutter and column count follow the width of the
    * nearest query container instead of the viewport, so a grid in a narrow column of a wide page
@@ -137,7 +124,6 @@ function GridRender<C extends ElementType = 'div'>(
     rows,
     gap,
     flow,
-    responsive,
     contained,
     fill,
     min,
@@ -153,51 +139,45 @@ function GridRender<C extends ElementType = 'div'>(
   // count with no class falls back to the property; a breakpoint's can't, since an inline style
   // holds no media query. `.grid-fill` counts its own columns. A base row count with no class is
   // set inline too, as a declaration: see `rowsTemplate`.
-  const columnsClass = hasColumnsClass(columns)
-  const rowsClass = hasRowsClass(rows)
-
-  const layoutClassNames = (
-    {
-      columns,
-      rows,
-      gap,
-      flow
-    }: { columns?: number; rows?: number; gap?: string; flow?: GridFlow },
-    prefix: string
-  ) => [
-    !fill && columns !== undefined && `${prefix}grid-cols-${columns}`,
-    !fill && rows !== undefined && `${prefix}grid-rows-${rows}`,
-    gapClassName(gap, prefix),
-    flow && flowClassName(flow, prefix)
-  ]
+  const baseColumns = baseValue(columns)
+  const baseRows = baseValue(rows)
+  const baseGap = baseValue<string>(gap)
 
   const _className = classNames(
     fill ? 'grid-fill' : 'grid',
     contained && 'contained',
-    buildResponsiveClassNames(
-      layoutClassNames,
-      {
-        columns: columnsClass ? columns : undefined,
-        rows: rowsClass ? rows : undefined,
-        gap,
-        flow
-      },
-      responsive,
+    responsiveClassNames(
+      [
+        responsiveProp(
+          columns,
+          (value, prefix) =>
+            !fill && (prefix !== '' || hasColumnsClass(value)) && `${prefix}grid-cols-${value}`
+        ),
+        responsiveProp(
+          rows,
+          (value, prefix) =>
+            !fill && (prefix !== '' || hasRowsClass(value)) && `${prefix}grid-rows-${value}`
+        ),
+        responsiveProp<string>(gap, gapClassName),
+        responsiveProp(flow, flowClassName)
+      ],
       GRID_BREAKPOINTS
     ),
     className
   )
 
   const _style: GridStyle = { ...style }
-  const _gap = gapValue(gap)
+  const _gap = gapValue(baseGap)
 
   if (_gap !== undefined) _style['--cx-grid-gap'] = _gap
 
   if (fill) {
     if (min !== undefined) _style['--cx-grid-min'] = min
   } else {
-    if (columns !== undefined && !columnsClass) _style['--cx-grid-columns'] = columns
-    const _rows = rowsTemplate(rows)
+    if (baseColumns !== undefined && !hasColumnsClass(baseColumns)) {
+      _style['--cx-grid-columns'] = baseColumns
+    }
+    const _rows = rowsTemplate(baseRows)
     if (_rows !== undefined) _style.gridTemplateRows = _rows
   }
 

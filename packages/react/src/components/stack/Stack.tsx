@@ -6,13 +6,12 @@ import {
   PolymorphicComponentProps,
   PolymorphicRef
 } from '../../utils/polymorphic'
-import { buildResponsiveClassNames } from '../../utils/breakpoints'
+import { baseValue, responsiveClassNames, responsiveProp } from '../../utils/breakpoints'
 import { spacingClassName } from '../../utils/spacingClassName'
-import { Breakpoint, Spacing } from '../../types'
+import { Responsive, Spacing } from '../../types'
 
-const directionClassName = (direction: 'horizontal' | 'vertical', prefix: string) => [
+const directionClassName = (direction: 'horizontal' | 'vertical', prefix: string) =>
   `${prefix}${direction === 'vertical' ? 'vstack' : 'hstack'}`
-]
 
 type StackOwnProps<C extends ElementType> = {
   /**
@@ -25,19 +24,18 @@ type StackOwnProps<C extends ElementType> = {
   component?: C
   /**
    * Lays children out in a row (`horizontal`, the default, maps to `.hstack`) or a column
-   * (`vertical`, maps to `.vstack`).
+   * (`vertical`, maps to `.vstack`). An object switches the direction from a breakpoint up:
+   * `{ base: 'vertical', md: 'horizontal' }`. The breakpoints are container queries, so they
+   * require a `.contains-inline` ancestor (not applied by `Stack` itself — see the docs) to
+   * establish the container context they evaluate against.
    */
-  direction?: 'horizontal' | 'vertical'
+  direction?: Responsive<'horizontal' | 'vertical'>
   /**
    * Spacing between children, mapped to the `gap-*` utility classes.
+   *
+   * @type { Spacing | 0 }
    */
   gap?: Spacing | 0
-  /**
-   * Switches `direction` at one or more breakpoints via container queries. Requires a
-   * `.contains-inline` ancestor (not applied by `Stack` itself — see the docs) to establish the
-   * container context these queries evaluate against.
-   */
-  responsive?: Partial<Record<Breakpoint, 'horizontal' | 'vertical'>>
 }
 
 export type StackProps<C extends ElementType = 'div'> = PolymorphicComponentProps<
@@ -50,20 +48,14 @@ type StackComponent = (<C extends ElementType = 'div'>(
 ) => ReactElement | null) & { displayName?: string }
 
 function StackRender<C extends ElementType = 'div'>(
-  {
-    children,
-    className,
-    component,
-    direction = 'horizontal',
-    gap,
-    responsive,
-    ...rest
-  }: StackProps<C>,
+  { children, className, component, direction = 'horizontal', gap, ...rest }: StackProps<C>,
   ref: PolymorphicRef<C>
 ) {
   const Component = component ?? 'div'
   const _className = classNames(
-    buildResponsiveClassNames(directionClassName, direction, responsive),
+    // An object with no `base` still starts from the default direction.
+    baseValue(direction) === undefined && 'hstack',
+    responsiveClassNames([responsiveProp(direction, directionClassName)]),
     spacingClassName('gap', gap),
     className
   )

@@ -10,7 +10,7 @@ export const Example = () => {
         </GridItem>
       </Grid>
       <Grid>
-        <GridItem span="full" responsive={{ md: { span: 6, start: 4 } }}>
+        <GridItem span={{ base: 'full', md: 6 }} start={{ md: 4 }}>
           span=full md:span=6 md:start=4
         </GridItem>
       </Grid>

@@ -240,19 +240,18 @@ additional styles or utilities may be needed for legibility.
 
 ## Horizontal
 
-Set `direction="row"` (or `responsive` for a breakpoint-gated switch) on `<Card>` to lay it out
-side-by-side instead of stacked. Wrap the image and body in elements with a fraction width
-(`.lg:w-4/12`, `.lg:w-8/12`) to control each side's width, and pair `orientation="top"` with a
-`responsive` override on `<CardImage>` so the image's rounded
-corners switch from the top edge to the start edge at the same breakpoint the card switches to a
-row.
+Set `direction="row"` on `<Card>` to lay it out side-by-side instead of stacked, or an object
+such as `direction={{ lg: 'row' }}` for a breakpoint-gated switch. Wrap the image and body in
+elements with a fraction width (`.lg:w-4/12`, `.lg:w-8/12`) to control each side's width, and give
+`<CardImage>` `orientation={{ base: 'top', lg: 'start' }}` so the image's rounded corners switch
+from the top edge to the start edge at the same breakpoint the card switches to a row.
 
 <Example>
   <HorizontalExample client:load />
 </Example>
 
 To place the image inside a padded body region instead of flush against the card edge, apply
-`direction`/`responsive` to `<CardBody>` itself and nest a second `<CardBody className="p-0">` for
+`direction` to `<CardBody>` itself and nest a second `<CardBody className="p-0">` for
 the text side so it doesn't get double padding.
 
 <Example>
@@ -326,16 +325,15 @@ Card footers line up automatically within a card group.
 
 ### Grid cards
 
-The `columns` prop of [`<Grid>`]([[docsref:/components/grid]]) (with `responsive` for breakpoint
-overrides) controls how many cards share a row. `columns={1}` lays the cards out on one column, and
-`responsive={{ md: { columns: 2 } }}` splits four cards into two per row from the md
-breakpoint up.
+The `columns` prop of [`<Grid>`]([[docsref:/components/grid]]) controls how many cards share a
+row, at every width or per breakpoint. `columns={{ base: 1, md: 2 }}` lays the cards out on one
+column, and splits four cards into two per row from the md breakpoint up.
 
 <Example>
   <GridCardsExample client:load />
 </Example>
 
-Changing `responsive={{ md: { columns: 3 } }}` wraps the fourth card onto a second row.
+Changing it to `columns={{ base: 1, md: 3 }}` wraps the fourth card onto a second row.
 
 <Example>
   <GridCardsThreeColExample client:load />

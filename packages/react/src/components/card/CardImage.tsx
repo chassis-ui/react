@@ -1,8 +1,8 @@
 import React, { ElementType, ForwardRefRenderFunction, ReactElement } from 'react'
 import classNames from 'classnames'
 
-import { Breakpoint } from '../../types'
-import { buildResponsiveClassNames } from '../../utils/breakpoints'
+import { Responsive } from '../../types'
+import { baseValue, responsiveClassNames, responsiveProp } from '../../utils/breakpoints'
 import {
   createPolymorphicComponent,
   PolymorphicComponentProps,
@@ -24,14 +24,11 @@ type CardImageOwnProps<C extends ElementType> = {
   component?: C
   /**
    * Orientates the image to the top or bottom of the card as an "image cap", or to the start/end
-   * for a horizontal layout. Omit to round all four corners for use inside `CardBody`.
-   */
-  orientation?: CardImageOrientation
-  /**
-   * Overrides `orientation` at one or more breakpoints — e.g. `{ lg: 'start' }` to switch an
+   * for a horizontal layout. Omit to round all four corners for use inside `CardBody`. An object
+   * sets the orientation from a breakpoint up — e.g. `{ base: 'top', lg: 'start' }` to switch an
    * image cap from `top` to `start` once the card lays out horizontally.
    */
-  responsive?: Partial<Record<Breakpoint, CardImageOrientation>>
+  orientation?: Responsive<CardImageOrientation>
 }
 
 export type CardImageProps<C extends ElementType = 'img'> = PolymorphicComponentProps<
@@ -43,17 +40,18 @@ type CardImageComponent = (<C extends ElementType = 'img'>(
   props: CardImageProps<C> & { ref?: PolymorphicRef<C> }
 ) => ReactElement | null) & { displayName?: string }
 
-const layoutClassNames = (orientation: CardImageOrientation | undefined, prefix: string) => [
-  orientation ? `${prefix}card-image-${orientation}` : prefix === '' ? 'card-image' : null
-]
+const orientationClassName = (orientation: CardImageOrientation, prefix: string) =>
+  `${prefix}card-image-${orientation}`
 
 function CardImageRender<C extends ElementType = 'img'>(
-  { children, className, component, orientation, responsive, ...rest }: CardImageProps<C>,
+  { children, className, component, orientation, ...rest }: CardImageProps<C>,
   ref: PolymorphicRef<C>
 ) {
   const Component = component ?? 'img'
   const _className = classNames(
-    buildResponsiveClassNames(layoutClassNames, orientation, responsive),
+    // With no orientation at the base, the image is the plain one of `CardBody`.
+    baseValue(orientation) === undefined && 'card-image',
+    responsiveClassNames([responsiveProp(orientation, orientationClassName)]),
     className
   )
 

@@ -52,12 +52,12 @@ describe('Stack', () => {
     })
   })
 
-  describe('responsive', () => {
+  describe('breakpoint values', () => {
     test('applies a {breakpoint}:hstack/vstack class per breakpoint, in ascending order', () => {
       render(
         <Stack
-          direction="vertical"
-          responsive={{
+          direction={{
+            base: 'vertical',
             sm: 'horizontal',
             md: 'vertical',
             lg: 'horizontal',
@@ -87,8 +87,8 @@ describe('Stack', () => {
       ])
     })
 
-    test('only applies classes for breakpoints present in the responsive prop', () => {
-      render(<Stack responsive={{ md: 'vertical' }}>Test</Stack>)
+    test('starts from the default direction when the object has no base', () => {
+      render(<Stack direction={{ md: 'vertical' }}>Test</Stack>)
       const el = screen.getByText('Test')
       expect(el).toHaveClass('hstack', 'md:vstack')
       expect(el).not.toHaveClass('sm:hstack', 'sm:vstack', 'lg:hstack', 'lg:vstack')

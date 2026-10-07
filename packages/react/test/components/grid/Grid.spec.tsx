@@ -178,20 +178,7 @@ describe('Grid', () => {
 
   describe('breakpoint props', () => {
     test('applies grid-cols-{n} classes per breakpoint', () => {
-      render(
-        <Grid
-          columns={1}
-          responsive={{
-            sm: { columns: 2 },
-            md: { columns: 3 },
-            lg: { columns: 4 },
-            xl: { columns: 6 },
-            '2xl': { columns: 12 }
-          }}
-        >
-          Test
-        </Grid>
-      )
+      render(<Grid columns={{ base: 1, sm: 2, md: 3, lg: 4, xl: 6, '2xl': 12 }}>Test</Grid>)
       const el = screen.getByText('Test')
       expect(el).toHaveClass(
         'grid',
@@ -206,22 +193,39 @@ describe('Grid', () => {
     })
 
     test('applies gap-{token} classes per breakpoint', () => {
-      render(
-        <Grid gap="md" responsive={{ lg: { gap: '3xl' } }}>
-          Test
-        </Grid>
-      )
+      render(<Grid gap={{ base: 'md', lg: '3xl' }}>Test</Grid>)
       expect(screen.getByText('Test')).toHaveClass('gap-md', 'lg:gap-3xl')
     })
 
+    // An inline style holds no media query, so only the base of an object can fall back to one.
+    test('sets the base of an object inline where it has no class, as a plain value does', () => {
+      render(
+        <Grid
+          columns={{ base: 16, md: 3 }}
+          rows={{ base: 8, md: 2 }}
+          gap={{ base: '1rem', md: 'lg' }}
+        >
+          Test
+        </Grid>
+      )
+      const el = screen.getByText('Test')
+      expect(el.className).toBe('grid md:grid-cols-3 md:grid-rows-2 md:gap-lg')
+      expect(el).toHaveStyle({ '--cx-grid-columns': '16', '--cx-grid-gap': '1rem' })
+      expect(el.style.gridTemplateRows).toBe('repeat(8, minmax(0, 1fr))')
+    })
+
     test('applies columns and gap of one breakpoint together', () => {
-      render(<Grid responsive={{ md: { columns: 2, gap: 'lg' } }}>Test</Grid>)
+      render(
+        <Grid columns={{ md: 2 }} gap={{ md: 'lg' }}>
+          Test
+        </Grid>
+      )
       expect(screen.getByText('Test')).toHaveClass('md:grid-cols-2', 'md:gap-lg')
     })
 
     test('applies grid-rows-{n} and grid-flow-* classes per breakpoint', () => {
       render(
-        <Grid rows={3} flow="column" responsive={{ md: { rows: 2 }, lg: { flow: 'row-dense' } }}>
+        <Grid rows={{ base: 3, md: 2 }} flow={{ base: 'column', lg: 'row-dense' }}>
           Test
         </Grid>
       )
@@ -232,17 +236,13 @@ describe('Grid', () => {
   })
 
   describe('container breakpoints', () => {
-    test('maps an @ key of responsive to the container-query classes', () => {
+    test('maps an @ key of a prop to the container-query classes', () => {
       render(
         <Grid
-          columns={1}
-          responsive={{
-            '@sm': { columns: 2 },
-            '@md': { columns: 3, gap: 'lg' },
-            '@lg': { rows: 2 },
-            '@xl': { flow: 'column' },
-            '@2xl': { columns: 6 }
-          }}
+          columns={{ base: 1, '@sm': 2, '@md': 3, '@2xl': 6 }}
+          gap={{ '@md': 'lg' }}
+          rows={{ '@lg': 2 }}
+          flow={{ '@xl': 'column' }}
         >
           Test
         </Grid>
@@ -255,11 +255,7 @@ describe('Grid', () => {
 
     // chassis-css writes the container rules last, so the class list reads in cascade order.
     test('puts the container classes after the breakpoint classes, whatever the key order', () => {
-      render(
-        <Grid responsive={{ '@md': { columns: 3 }, '2xl': { columns: 6 }, sm: { columns: 2 } }}>
-          Test
-        </Grid>
-      )
+      render(<Grid columns={{ sm: 2, '2xl': 6, '@md': 3 }}>Test</Grid>)
       expect(screen.getByText('Test').className).toBe(
         'grid sm:grid-cols-2 2xl:grid-cols-6 @md:grid-cols-3'
       )
@@ -301,7 +297,7 @@ describe('Grid', () => {
 
     test('maps a Spacing token to the gap-{token} class too', () => {
       render(
-        <Grid fill gap="sm" responsive={{ md: { gap: 'lg' } }}>
+        <Grid fill gap={{ base: 'sm', md: 'lg' }}>
           Test
         </Grid>
       )
@@ -341,7 +337,7 @@ describe('Grid', () => {
 
     test('ignores the columns and rows of a breakpoint when fill is set', () => {
       render(
-        <Grid fill responsive={{ md: { columns: 3, rows: 2 }, '@lg': { columns: 4 } }}>
+        <Grid fill columns={{ md: 3, '@lg': 4 }} rows={{ md: 2 }}>
           Test
         </Grid>
       )

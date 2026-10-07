@@ -10,7 +10,7 @@ export const Example = () => {
         >
           Email
         </FormLabel>
-        <GridItem span="full" responsive={{ sm: { span: 10 } }}>
+        <GridItem span={{ base: 'full', sm: 10 }}>
           <TextInput type="email" size="sm" id="colFormLabelSm" placeholder="col-form-label sm" />
         </GridItem>
       </Grid>
@@ -18,7 +18,7 @@ export const Example = () => {
         <FormLabel htmlFor="colFormLabel" className="col-span-full sm:col-span-2 col-form-label">
           Email
         </FormLabel>
-        <GridItem span="full" responsive={{ sm: { span: 10 } }}>
+        <GridItem span={{ base: 'full', sm: 10 }}>
           <TextInput type="email" id="colFormLabel" placeholder="col-form-label" />
         </GridItem>
       </Grid>
@@ -29,7 +29,7 @@ export const Example = () => {
         >
           Email
         </FormLabel>
-        <GridItem span="full" responsive={{ sm: { span: 10 } }}>
+        <GridItem span={{ base: 'full', sm: 10 }}>
           <TextInput type="email" size="lg" id="colFormLabelLg" placeholder="col-form-label lg" />
         </GridItem>
       </Grid>

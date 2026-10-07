@@ -10,6 +10,15 @@ export type Breakpoint = 'sm' | 'md' | 'lg' | 'xl' | '2xl'
 export type ContainerBreakpoint = '@sm' | '@md' | '@lg' | '@xl' | '@2xl'
 
 /**
+ * A prop value that can change with the width. A plain value applies at every width. An object
+ * holds one value per width: `base` from the narrowest, each breakpoint key from that breakpoint
+ * up, as in `{ base: 'column', md: 'row' }`. `K` is the keys the prop reads: the viewport
+ * breakpoints unless the component also takes the container ones.
+ */
+export type Responsive<T, K extends string = Breakpoint> =
+  T | ({ base?: T } & Partial<Record<K, T>>)
+
+/**
  * Context colors
  */
 export type ContextColor =

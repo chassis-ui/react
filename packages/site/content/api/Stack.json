@@ -37,7 +37,7 @@
     },
     "direction": {
       "defaultValue": null,
-      "description": "Lays children out in a row (`horizontal`, the default, maps to `.hstack`) or a column\n(`vertical`, maps to `.vstack`).",
+      "description": "Lays children out in a row (`horizontal`, the default, maps to `.hstack`) or a column\n(`vertical`, maps to `.vstack`). An object switches the direction from a breakpoint up:\n`{ base: 'vertical', md: 'horizontal' }`. The breakpoints are container queries, so they\nrequire a `.contains-inline` ancestor (not applied by `Stack` itself — see the docs) to\nestablish the container context they evaluate against.",
       "name": "direction",
       "declarations": [
         {
@@ -47,16 +47,7 @@
       ],
       "required": false,
       "type": {
-        "name": "enum",
-        "raw": "\"horizontal\" | \"vertical\"",
-        "value": [
-          {
-            "value": "\"horizontal\""
-          },
-          {
-            "value": "\"vertical\""
-          }
-        ]
+        "name": "Responsive<\"horizontal\" | \"vertical\">"
       }
     },
     "gap": {
@@ -71,70 +62,7 @@
       ],
       "required": false,
       "type": {
-        "name": "enum",
-        "raw": "0 | \"zero\" | \"4xs\" | \"3xs\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"3xl\" | \"4xl\" | \"5xl\" | \"6xl\"",
-        "value": [
-          {
-            "value": "0"
-          },
-          {
-            "value": "\"zero\""
-          },
-          {
-            "value": "\"4xs\""
-          },
-          {
-            "value": "\"3xs\""
-          },
-          {
-            "value": "\"2xs\""
-          },
-          {
-            "value": "\"xs\""
-          },
-          {
-            "value": "\"sm\""
-          },
-          {
-            "value": "\"md\""
-          },
-          {
-            "value": "\"lg\""
-          },
-          {
-            "value": "\"xl\""
-          },
-          {
-            "value": "\"2xl\""
-          },
-          {
-            "value": "\"3xl\""
-          },
-          {
-            "value": "\"4xl\""
-          },
-          {
-            "value": "\"5xl\""
-          },
-          {
-            "value": "\"6xl\""
-          }
-        ]
-      }
-    },
-    "responsive": {
-      "defaultValue": null,
-      "description": "Switches `direction` at one or more breakpoints via container queries. Requires a\n`.contains-inline` ancestor (not applied by `Stack` itself — see the docs) to establish the\ncontainer context these queries evaluate against.",
-      "name": "responsive",
-      "declarations": [
-        {
-          "fileName": "packages/react/src/components/stack/Stack.tsx",
-          "name": "TypeLiteral"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "Partial<Record<Breakpoint, \"horizontal\" | \"vertical\">>"
+        "name": "{ Spacing | 0 }"
       }
     },
     "asChild": {

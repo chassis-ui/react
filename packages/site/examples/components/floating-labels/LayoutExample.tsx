@@ -2,7 +2,7 @@ import { FloatingInput, Grid, Select, TextInput } from '@chassis-ui/react'
 
 export const Example = () => {
   return (
-    <Grid columns={1} gap="sm" responsive={{ md: { columns: 2 } }}>
+    <Grid columns={{ base: 1, md: 2 }} gap="sm">
       <div>
         <FloatingInput label="Email address" ids={{ input: 'floatingInputGrid' }}>
           <TextInput
